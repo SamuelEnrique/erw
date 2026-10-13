@@ -43,12 +43,13 @@ const near = (a, b, tol = 1e-9) => a !== null && b !== null && Math.abs(a - b) <
 
 // the defaults: the page's two cited ones, and the five the page does not otherwise hold
 const dNow = F.defaultsOf({ run: 0, gpu: 1.3, pue: 1.56 });
-check(JSON.stringify(dNow) === JSON.stringify({ run: 0, gpu: 1.3, pue: 1.56, adder: 0, growth: 0, upfront: 0, life: 20, hurdle: 9.6 }), "the defaults (session 196: a hurdle rate of 9.6, cited to Lazard)", JSON.stringify(dNow));
+check(JSON.stringify(dNow) === JSON.stringify({ run: 0, gpu: 1.3, pue: 1.56, adder: 0, growth: 0, upfront: 0, life: 20, hurdle: 9.6, cshare: 0, cprice: 0 }), "the defaults (session 196: a hurdle rate of 9.6, cited to Lazard; session 213: no contract)", JSON.stringify(dNow));
 // the hand cases below were worked at session 194's default hurdle rate of 8, and stay on it
 const d = { ...dNow, hurdle: 8 };
 check(F.defaultsOf({ run: 1, gpu: 1, pue: 1.2 }).run === 1 && F.defaultsOf({ run: 1, gpu: 1, pue: 1.2 }).gpu === 1 && F.defaultsOf({ run: 1, gpu: 1, pue: 1.2 }).pue === 1.2, "the way of running, the power per GPU and the overhead ratio default to \"Your load\"");
-check(F.KEYS.length === 8 && new Set(F.KEYS.map((k) => F.SPECS[k].letter)).size === 8, "eight assumptions, eight different letters");
-check(JSON.stringify(F.KEYS) === JSON.stringify(["run", "gpu", "pue", "adder", "growth", "upfront", "life", "hurdle"]), "in the page's order");
+check(F.KEYS.length === 10 && new Set(F.KEYS.map((k) => F.SPECS[k].letter)).size === 10, "ten assumptions, ten different letters (session 213: the contract's share and price)");
+check(JSON.stringify(F.KEYS) === JSON.stringify(["run", "gpu", "pue", "adder", "growth", "upfront", "life", "hurdle", "cshare", "cprice"]) && JSON.stringify(F.FINANCE_KEYS) === JSON.stringify(F.KEYS.slice(0, 8)), "in the page's order, the contract's two last");
+check(/fully merchant/.test(F.SPECS.cshare.source) && /fully merchant/.test(F.SPECS.cprice.source), "the contract's two defaults say the default is fully merchant");
 check(F.KEYS.every((k) => k === "gpu" || k === "pue" || F.SPECS[k].source.length > 20), "every default the library holds states where it comes from");
 check(/No cited/.test(F.SPECS.life.source) && /No cited/.test(F.SPECS.growth.source) && /No cited/.test(F.SPECS.upfront.source), "the three defaults with no source say so");
 check(/Lazard/.test(F.SPECS.hurdle.source) && /40% equity at a 12% cost/.test(F.SPECS.hurdle.source) && F.HURDLE === 9.6, "the hurdle rate cites Lazard's financing, and is its weighted cost (session 196)");
@@ -124,7 +125,7 @@ check(JSON.stringify(F.scenarioQuery(s, d)) === JSON.stringify([["aw", "1"], ["a
 check(F.scenarioQuery(F.parseScenarios({}, d), d).length === 0, "no parameter means the defaults, and the defaults write none");
 check(F.parseScenarios({ aw: "1", bw: "1" }, d, [true, false]).a.run === 0 && F.parseScenarios({ aw: "0" }, F.defaultsOf({ run: 1, gpu: 1.3, pue: 1.56 }), [false, true]).a.run === 1, "a way of running that is not held falls back to the default");
 check(JSON.stringify(F.held([flat, null])) === "[true,false]" && JSON.stringify(F.held(ways)) === "[true,true]", "which ways are held");
-check(["aw", "bg", "ap", "bd", "ae", "bu", "al", "bh", "v"].every(F.isScenarioParam) && ["view", "grid", "region", "mw", "run", "n", "pct", "shift", "buy", "gpu", "pue", "ac", "bt", "a", "b"].every((k) => !F.isScenarioParam(k)), "the scenarios' parameters are told from the page's own");
+check(["aw", "bg", "ap", "bd", "ae", "bu", "al", "bh", "an", "bc", "v"].every(F.isScenarioParam) && ["view", "grid", "region", "mw", "run", "n", "pct", "shift", "buy", "gpu", "pue", "ak", "bt", "a", "b"].every((k) => !F.isScenarioParam(k)), "the scenarios' parameters are told from the page's own (session 213: n and c are the contract's)");
 check(F.carry("grid=ercot&aw=1&bh=10&v=b&mw=50&buy=rt") === "&aw=1&bh=10&v=b" && F.carry("grid=ercot&mw=50") === "", "the page's other addresses carry the scenarios");
 check(F.differenceWords(d, d) === "A and B hold the same assumptions." && F.differenceWords(d, { ...d, run: 1, hurdle: 10 }) === "B: runs flexible against flat; hurdle rate 10 percent against 8.", "the row in words", F.differenceWords(d, { ...d, run: 1, hurdle: 10 }));
 check(F.bound("pue", 0.5, d) === 1 && F.bound("life", 99, d) === 40 && F.bound("growth", -50, d) === -20 && F.bound("run", 7, d) === 1 && F.bound("gpu", NaN, d) === 1.3, "each value is brought inside its bounds");
@@ -156,6 +157,31 @@ for (const grid of Object.keys(W.INDEX.grids)) {
     check(fx.per === f.s12.per && fx.down === f.s12.down && o !== null && near(o.perMwh * o.mwh, fx.flatCost - fx.cost) && fx.cost < w.cost && fx.flatCost === w.cost,
       `${grid}: the flexible way is the flexible page's own; its hours off, the energy not bought and what it would have cost add up`, `off in ${fx.down} hours, USD ${L.two(o.perMwh)} per MWh not bought`);
   } else check(!p.region.da || !L.lastTwelve(L.monthsRuled(p.files, p.x.region, p.x.buy, W.ALT, "forecast").months), `${grid}: no flexible way, because the rule cannot decide here`);
+}
+
+// session 213: the contract as two scenario assumptions (the battery page's form, session 208)
+{
+  const w = { per: 40, cost: 350400, energy: 8760, held: 8760, flatCost: 350400, down: 0, bad: null, of: 36 };   // a flat MW at USD 40 every hour
+  const c = { ...dNow, cshare: 50, cprice: 30 };
+  check(near(F.contractShare(c), 0.5) && near(F.merchantShare(c), 0.5) && near(F.contractShare({ ...dNow }), 0) && near(F.merchantShare({ run: 0 }), 1), "the contracted share and the rest; 0 and 1 without the key");
+  check(near(F.contractYear(c, w), 0.5 * 8760 * 30) && near(F.marketYear(c, w), 0.5 * 350400) && near(F.contractYear(dNow, w), 0), "the contract's cost is share x energy x price; the market's the rest; none at a share of 0");
+  check(near(F.price(c, w), 0.5 * 40 + 0.5 * 30) && near(F.bill(c, w), 0.5 * 350400 + 0.5 * 8760 * 30), "the price and the year's cost read the contract");
+  check(near(F.price(dNow, w), 40) && near(F.bill(dNow, w), 350400) && F.price({ ...dNow, cprice: 30 }, w) === F.price(dNow, w), "at a share of 0 they are the market's; a price with no share moves nothing");
+  const g = { ...c, growth: 10, adder: 2 };
+  check(near(F.costInYear(g, w, 2), (0.5 * 350400 + 2 * 8760) * 1.1 + 0.5 * 8760 * 30) && near(F.costInYear({ ...g, cshare: 0 }, w, 2), (350400 + 2 * 8760) * 1.1), "the market's cost and the other charges change by the rate; the contract's cost does not; at a share of 0 the old expression");
+  check(JSON.stringify(F.resultOf({ ...dNow, growth: 3, adder: 5, upfront: 100 }, w)) === JSON.stringify(F.resultOf({ ...dNow, growth: 3, adder: 5, upfront: 100, cprice: 30 }, w)), "a price with no share moves no result, with other charges, growth and an upfront cost");
+  const old = { ...c }; delete old.cshare; delete old.cprice;
+  check(JSON.stringify(F.resultOf(old, w)) === JSON.stringify(F.resultOf({ ...c, cshare: 0, cprice: 0 }, w)), "an older set of assumptions, without the two contract keys, is read as no contract");
+  check(near(F.levelPrice(c, w), F.levelPrice({ ...c, cshare: 0 }, w)), "the fixed price with the same present value is the market's breakeven and does not read the contract");
+  const ways = [w, null];
+  const bars = F.sensitivity(c, ways);
+  check(bars.length === 10 && bars.some((b) => b.key === "cshare") && bars.some((b) => b.key === "cprice"), "with a contract, ten bars, the contract's two among them");
+  check(F.sensitivity(dNow, ways).length === 8 && !F.sensitivity({ ...dNow, cprice: 30 }, ways).some((b) => b.key === "cprice"), "at a share of 0 the contract's rows are not drawn at all (as session 211 on the battery)");
+  const sh = bars.find((b) => b.key === "cshare");
+  check(sh.down.value === 40 && sh.up.value === 60 && near(sh.up.v, F.levelGpuHour({ ...c, cshare: 60 }, w)), "the share's row moves 10 points each way");
+  const sc = F.parseScenarios({ an: "50", ac: "30", bn: "200" }, dNow);
+  check(sc.a.cshare === 50 && sc.a.cprice === 30 && sc.b.cshare === 100, "the address carries the contract, bounded");
+  check(F.differenceWords(dNow, c) === "B: contract share 50 percent against 0; contract price USD 30 per MWh against 0.", "the row in words names the contract", F.differenceWords(dNow, c));
 }
 
 console.log(failed ? `\n${failed} FAILED` : "\nall passed");

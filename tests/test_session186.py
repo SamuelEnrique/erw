@@ -281,15 +281,20 @@ class ThePage(unittest.TestCase):
         cls.block = src("site", "app", "cost-of-power", "seller", "SellerScenarios.tsx")
         cls.shared = src("site", "components", "decisions", "ScenarioBlock.tsx")   # session 195: the block the three pages share
         cls.lib = src("site", "lib", "seller", "finance.ts")
-        cls.page = src("site", "app", "cost-of-power", "seller", "page.tsx")
+        cls.page = src("site", "app", "cost-of-power", "seller", "page.tsx") + src("site", "app", "cost-of-power", "seller", "model.ts")   # session 212: the page's reads are model.ts
 
     def test_eight_assumptions_and_no_others(self):
+        # session 212: ten, the contract's share and price last (0 by default: fully merchant); the eight of this session are FINANCE_KEYS
         hit = re.search(r"export const KEYS: Key\[\] = \[(.*?)\];", self.lib)
+        self.assertEqual(re.findall(r'"(\w+)"', hit.group(1)), KEYS + ["cshare", "cprice"])
+        hit = re.search(r"export const FINANCE_KEYS: Key\[\] = \[(.*?)\];", self.lib)
         self.assertEqual(re.findall(r'"(\w+)"', hit.group(1)), KEYS)
-        for k in KEYS:
+        for k in KEYS + ["cshare", "cprice"]:
             self.assertEqual(self.lib.count(f'  {k}: {{ key: "{k}", letter: "'), 1, k)
-        self.assertEqual(self.lib.count('{ key: "'), 8)
-        self.assertEqual(self.lib.count(", source: "), 8)
+        self.assertEqual(self.lib.count('{ key: "'), 10)
+        self.assertEqual(self.lib.count(", source: "), 10)
+        self.assertIn('cshare: { key: "cshare", letter: "n", label: "Contract share", unit: "percent", min: 0, max: 100, whole: false, swing: 10,', self.lib)
+        self.assertIn('cprice: { key: "cprice", letter: "p", label: "Contract price", unit: "USD", min: 0, max: 1000, whole: false, swing: 1,', self.lib)
         for k in KEYS:                                                                  # the steps and bounds the mirror uses are the library's
             line = next(x for x in self.lib.splitlines() if x.startswith(f'  {k}: {{ key: "{k}"'))
             self.assertIn(f"min: {BOUNDS[k][0]}, max: {BOUNDS[k][1]},", line, k)
@@ -297,7 +302,7 @@ class ThePage(unittest.TestCase):
 
     def test_the_defaults_and_what_they_cite(self):
         # session 196 (the owner's ruling of 11 October 2026): the hurdle rate is Lazard's weighted cost; a battery's degradation is Lazard's
-        self.assertIn("return { capex: costs.capex, share: 60, rate: 8, term: costs.life, fom: costs.fom, deg: costs.deg ?? 0, life: costs.life, hurdle: HURDLE };", self.lib)
+        self.assertIn("return { capex: costs.capex, share: 60, rate: 8, term: costs.life, fom: costs.fom, deg: costs.deg ?? 0, life: costs.life, hurdle: HURDLE, cshare: 0, cprice: 0 };", self.lib)   # session 212
         self.assertIn("export const HURDLE = 12;", self.lib)        # session 208: Lazard's cost of equity (the owner's ruling of 12 October 2026)
         self.assertIn("export const BATTERY_DEG = 2.6;", self.lib)
         merchant = src("site", "lib", "merchant.ts")
@@ -323,7 +328,8 @@ class ThePage(unittest.TestCase):
 
     def test_the_eight_rows_in_order_and_the_last_in_words(self):
         keys = re.findall(r'\n    row\("(\w+)", ', self.block)
-        self.assertEqual(keys, ["revenue", "capture", "month", "coverage", "npv", "irr", "contract", "battery"])
+        # session 235: a ninth row, the breakeven PPA price, after the contract price at which coverage reaches 1.25
+        self.assertEqual(keys, ["revenue", "capture", "month", "coverage", "npv", "irr", "contract", "ppa", "battery"])
         self.assertLess(self.shared.index('data-row={r.key}'), self.shared.index('data-row="differs"'))
         self.assertIn("differenceWords(s.a, s.b)", self.block)
         self.assertIn('row("month", "The worst month"', self.block)
@@ -350,9 +356,13 @@ class ThePage(unittest.TestCase):
         self.assertIn("--color-fuel-coal: #eb6834;", tokens)
 
     def test_the_page_draws_the_block_once_after_the_contract(self):
+        # session 212: the block answers the page's second question, the chart its third; the contract is two of the block's assumptions
         self.assertEqual(self.page.count("<SellerScenarios "), 1)
-        self.assertLess(self.page.index("<ContractResult "), self.page.index("<SellerScenarios "))
-        self.assertLess(self.page.index("<SellerScenarios "), self.page.index('<ToolSection title="With a battery beside it"'))
+        self.assertEqual(self.page.count("<SellerSensitivity "), 1)
+        self.assertNotIn("<ContractResult ", self.page)
+        self.assertLess(self.page.index('<ToolSection title="Is it worth building?"'), self.page.index("<SellerScenarios "))
+        self.assertLess(self.page.index("<SellerScenarios "), self.page.index('<ToolSection title="What matters most"'))
+        self.assertLess(self.page.index('<ToolSection title="What matters most"'), self.page.index("<SellerSensitivity "))
         self.assertIn('"/cost-of-power/seller": "review",', src("site", "lib", "release.ts"))
 
     def test_the_form_carries_the_scenarios(self):

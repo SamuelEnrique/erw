@@ -109,23 +109,40 @@ for (const [q, grid, hubId, asset] of [
   check(JSON.stringify(got) === JSON.stringify(want) && plain(face(h)).includes(`${C.MARKETS[market].toLowerCase()}, ${C.monthName(c.from)} to ${C.monthName(c.to)}`),
     `${grid} ${hubId}, ${asset}, ${C.MARKETS[market].toLowerCase()}: USD ${want.cap_price} per MWh received, ${want.cap_premium} (${want.cap_pct} percent) against a flat ${want.cap_flat}${want.l12_kw ? `; the model's USD ${want.l12_kw} per kW` : "; the model holds no twelve months"}${JSON.stringify(got) === JSON.stringify(want) ? "" : ` (the page says ${JSON.stringify(got)})`}`);
 }
-for (const [grid, q] of [["ercot", "/cost-of-power/seller"], ["caiso", "/cost-of-power/seller?iso=caiso"], ["spp", "/cost-of-power/seller?iso=spp&asset=wind"]]) {
+// Session 235: the capture table is back on the page as one table (model.ts, capView): a row a hub or zone, the plant's
+// own fuel, each hub in the market the page shows it in, the last twelve months' capture price, hub average and capture
+// rate, then the capture rate of each year, every figure under its check key (cap|<grid>|<hub>|<market>|<fuel>|<span>|<stat>).
+// Until session 212 it was two fuels and two markets under data-cap; that table is the download's capture_last_twelve.
+const whole12 = (hub, m) => C.FUELS.some((f) => C.twelve(hub[m]?.[f], FILE.near) !== null);
+const holds = (hub, m) => C.FUELS.some((f) => Object.keys(hub[m]?.[f] ?? {}).length > 0);
+const marketOf = (hub) => (whole12(hub, "rt") ? "rt" : whole12(hub, "da") ? "da" : holds(hub, "rt") || !holds(hub, "da") ? "rt" : "da");
+for (const [grid, q, fuel] of [["ercot", "/cost-of-power/seller", "solar"], ["caiso", "/cost-of-power/seller?iso=caiso", "solar"], ["spp", "/cost-of-power/seller?iso=spp&asset=wind", "wind"]]) {
   const h = face((await get(q)).html);
-  let cells = 0, wrong = 0, blank = 0;
-  for (const hub of FILE.grids[grid].hubs) for (const m of ["rt", "da"]) for (const fuel of C.FUELS) {
+  let cells = 0, wrong = 0, blank = 0, years = 0;
+  const keyed = (key) => new RegExp(`data-check="${esc(key)}" data-raw="[^"]*"[^>]*>([^<]*)<`).exec(h)?.[1] ?? null;
+  const all = [...new Set(FILE.grids[grid].hubs.flatMap((hub) => C.FUELS.flatMap((f) => ["rt", "da"].flatMap((m) => Object.keys(hub[m]?.[f] ?? {}).map((k) => k.slice(0, 4))))))].sort();
+  for (const hub of FILE.grids[grid].hubs) {
+    const m = marketOf(hub), pre = `cap|${grid}|${hub.id}|${m}|${fuel}`;
     const c = C.twelve(hub[m]?.[fuel], FILE.near);
-    const cellOf = (what) => new RegExp(`data-cap="${esc(`${hub.id}|${m}|${fuel}|${what}`)}"[^>]*>([^]*?)</span>`).exec(h)?.[1].replace(/<!-- -->/g, "") ?? null;
-    const shown = cellOf("price"), prem = cellOf("premium");
-    if (!c) { if (shown !== null || prem !== null) wrong += 1; else blank += 1; continue; }
-    cells += 1;
-    if (shown !== C.two(c.price) || prem !== `${C.signed(c.premium)} (${C.signed(c.pct, 1)} percent)`) wrong += 1;
+    const got = ["price", "flat", "rate"].map((what) => keyed(`${pre}|l12|${what}`));
+    if (!c) { if (got.some((v) => v !== null)) wrong += 1; else blank += 1; }
+    else { cells += 3; if (got[0] !== C.two(c.price) || got[1] !== C.two(c.flat) || got[2] !== Math.round((100 * c.price) / c.flat).toLocaleString("en-US")) wrong += 1; }
+    for (const y of all) {
+      const yc = C.yearCell(hub[m]?.[fuel], y, FILE.near), shown = keyed(`${pre}|${y}|rate`);
+      if (!yc || !(yc.flat > 0)) { if (shown !== null) wrong += 1; continue; }
+      years += 1;
+      if (shown !== Math.round((100 * yc.price) / yc.flat).toLocaleString("en-US")) wrong += 1;
+    }
+    const other = fuel === "solar" ? "wind" : "solar";
+    if (h.includes(`data-check="cap|${grid}|${hub.id}|${m}|${other}|`) || h.includes(`data-check="cap|${grid}|${hub.id}|${m === "rt" ? "da" : "rt"}|`)) wrong += 1;
   }
-  check(cells > 0 && wrong === 0, `${grid}: each of the ${cells} figures of the capture table equals the file's, and the ${blank} series without twelve months show no number`);
+  check(cells > 0 && years > 0 && wrong === 0, `${grid}, ${fuel}: each of the ${cells} last-twelve-month figures and the ${years} yearly capture rates of the capture table equals the file's, and the ${blank} hubs without twelve months show no number`);
 }
 {
   const ny = face((await get("/cost-of-power/seller?iso=nyiso&asset=solar")).html);
-  check(/data-seller2-none="1"/.test(ny) && !/data-stat="cap_price"/.test(ny) && !/data-cap="N\.Y\.C\.\|(rt|da)\|solar/.test(ny) && /title="[^"]*EIA-930 itemizes no solar generation for New York[^"]*"/.test(ny) && /data-cap="N\.Y\.C\.\|da\|wind\|price"/.test(ny),
-    "New York's solar is a placeholder with its reason on hover and no number; its wind, day-ahead, is shown");
+  const nyWind = face((await get("/cost-of-power/seller?iso=nyiso&asset=wind")).html);
+  check(/data-seller2-none="1"/.test(ny) && !/data-stat="cap_price"/.test(ny) && !/data-check="cap\|nyiso\|[^"]*\|solar\|/.test(ny) && /title="[^"]*EIA-930 itemizes no solar generation for New York[^"]*"/.test(ny) && nyWind.includes(`data-check="cap|nyiso|N.Y.C.|${marketOf(C.hubOf(FILE, "nyiso", "N.Y.C."))}|wind|l12|price"`),
+    "New York's solar is a placeholder with its reason on hover and no number; its wind is shown on the wind page, in the market the page shows that zone in");
   check(/data-hybrid="none"[\s\S]{0,400}?not modeled for this grid/.test(ny) && /title="[^"]*in review[^"]*"/.test(ny), 'a grid the battery model does not cover reads "not modeled for this grid", with the reason on hover');
   const m = face((await get("/cost-of-power/seller?iso=miso&asset=wind")).html);
   check(/<input[^>]*checked=""[^>]*value="ercot"|value="ercot"[^>]*checked=""/.test(m) && /data-check="mr\|iso=ercot&amp;asset=wind/.test(m), "an address that names MISO opens the default grid, ERCOT");

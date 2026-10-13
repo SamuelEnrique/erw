@@ -107,7 +107,15 @@ class TheComponents(unittest.TestCase):
         """Every check prefix a page outside cost-of-power writes for a held table is in Num's map or a series form."""
         # the keys of public tables need no map: storage (storage_capacity), awe (caiso_reliability_daily), the build-out's five
         known = {"deals", "event", "es", "griddc", "datacenters", "bill", "cop", "mr", "projects", "gridnews", "latest_prices", "catalogue", "storage",
-                 "state_mw", "year_mw", "mw", "mwh", "iso_mw", "bs", "bsa", "awe"}
+                 "state_mw", "year_mw", "mw", "mwh", "iso_mw", "bs", "bsa", "awe",
+                 # session 236: the datacenter page's answers (dc, session 228: the page's own price files and the public
+                 # tables carbon_intensity_monthly, carbon_intensity_hourly, ercot_large_load_status and
+                 # caiso_grid_emergencies) and its delivery charges (dcd: the site's own file of public tariff filings)
+                 "dc", "dcd",
+                 # session 235: the generator page's capture price and rate (cap: the site's own file data/seller/capture.json,
+                 # recomputed by check-values from that file; whether the hubs of a grid whose price table is "license
+                 # needed" from 20 October are held on this page too is listed for the owner's ruling in session 235's report)
+                 "cap"}
         found = set()
         for dirpath, _, files in os.walk(os.path.join(ROOT, "site", "app")):
             if "_retired" in dirpath:

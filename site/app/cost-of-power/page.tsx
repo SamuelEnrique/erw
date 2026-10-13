@@ -1,33 +1,22 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { Brand } from "@/components/Brand";
+import { Num } from "@/components/Num";
 import { SiteLink as Link } from "@/components/SiteLink";
-import { ChartFrame, Fold, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
-import demandJson from "@/data/demand_growth.json";
-import loadJson from "@/data/large_load_status.json";
-import nyLoadJson from "@/data/nyiso_load_queue.json";
-import queuesJson from "@/data/queues.json";
-import * as clean from "@/lib/clean";
-import {
-  ASSUMED, BUYS, DEFAULTS, badMonth, cleanShare, expandSeries, hh, hrefOf, inputsOf, last36, lastTwelve, loadWords, monthName, monthsOf, monthsRuled, monthsWords,
-  ruleWords, shortMonth, span, two, usdShort, whenOf, whole, years, type Inputs, type Month, type Ruled, type Span,
-} from "@/lib/datacenter";
-import { FLAT, FLEX, held as heldWays, isOldParam, isScenarioParam, type Way, type Ways } from "@/lib/datacenter/finance";
-import { DELIVERY, INDEX, yearFiles, type MatrixRow } from "@/lib/datacenterdata";
-import type { DemandFile } from "@/lib/demandgrowth";
-import { SLUGS } from "@/lib/demandgrowth";
-import { waitsGrid } from "@/lib/howsoon";
-import { dayWords, span as loadSpan, type LoadFile } from "@/lib/largeload";
-import { CLEAN, STRESS, type Slug } from "@/lib/mixdata";
-import { viewOf, type QueueFile } from "@/lib/queues";
-import * as stress from "@/lib/stress";
+import { ChartFrame, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
+import { ASSUMED, hrefOf, loadWords, monthName, two, usdShort, whole, type Inputs } from "@/lib/datacenter";
+import { KINDS, KIND_LABELS, deliveryStat, slugOf, type UtilityDelivery } from "@/lib/datacenter/delivery";
+import { held as heldWays } from "@/lib/datacenter/finance";
+import { DELIVERY, INDEX, type MatrixRow } from "@/lib/datacenterdata";
+import { shown } from "@/lib/format";
 import { GridsView } from "./GridsView";
 import { YearCost } from "./LoadCharts";
-import { ContractInputs, ContractProvider, ContractResult } from "./LoadContract";
 import { LoadForm } from "./LoadForm";
+import { HowClean, HowSoon, PowerThere } from "./LoadAnswers";
 import { GpuHourOfA, LoadHeadline } from "./LoadHeadline";
-import { LoadDecisions, LoadScenarios, type Bad, type Facts } from "./LoadScenarios";
-import { LoadWaits, WaitsWord } from "./LoadWaits";
-import { RulesInMotion } from "./RulesInMotion";
+import { LoadDecisions, LoadScenarios, LoadSensitivity } from "./LoadScenarios";
+import { LoadSiteB } from "./LoadSiteB";
+import { FORESEEN, FORESEEN_WHY, NY_SHOWN, NYLOAD, day, inputsFrom, loadModel } from "./model";
 import { CostTabs } from "./Tabs";
 
 // Session 138: "What a datacenter pays", the mirror of /cost-of-power/battery for a buyer. A load the reader describes
@@ -39,6 +28,31 @@ import { CostTabs } from "./Tabs";
 // before session 138 is the view "Grid by grid" (GridsView.tsx). The page face carries no method: a figure that is
 // missing is a short placeholder with its reason on hover, and the rest is in the Method note
 // (docs/methods/datacenter_cost.md).
+//
+// Session 213 (the owner's chain prompt of 12 October 2026): the battery page's layout, one page on three questions,
+// nothing folded. (1) "What will it pay?": the summary sentence, the three headline numbers, the cost chart by year
+// and the cost table "What will it cost" (its rows as they were, the delivery rows among them), one sentence of what
+// the model cannot see, the links to the grid's own tools, and the two CSV downloads. (2) "Which option is better?":
+// scenarios A and B, with the contract's share of the energy and its price as two of their assumptions (0 by default,
+// so the default is fully merchant) and the results table with B set against A. (3) "What matters most": the
+// sensitivity chart with one line on how to read it. Gone from the page, into the CSV downloads: the three grid
+// questions "Will the power be there", "How clean" and "How soon" with the waits by stage and the rules in motion, the
+// folds (every year, every month, the transmission matrix, every region) and New York's load in line. Gone outright:
+// the standalone contract panel and "With your contract" (LoadContract.tsx stays on disk, undrawn). What the page
+// computes is model.ts, shared with the downloads; the three cells the grid questions drew are grid-cells.tsx, undrawn.
+// The defaults stay (hurdle rate 9.6). At a contract share of 0 every number is what it was.
+//
+// Session 228: the page's four questions are four sections again, each computed for the load: what will it pay, will
+// the power be there, how clean, how soon (LoadAnswers.tsx), before the two of the decisions.
+//
+// Session 236 (the owner's chain prompt of 12 October 2026): the page takes the brand (components/Brand.tsx; every rule
+// in app/tokens.css; no color, font or spacing of its own: the legend and the view switch name tokens, the chart reads
+// them at its box). It serves a buyer of power: the four questions stay, in their order, and scenarios A and B compare
+// two sites or two contracts (B may stand at a site of its own, `bsite` in the address; the contract's share and price
+// are two of each scenario's assumptions). The scarcity level stays USD 1,000 per MWh for every grid, stated beside
+// the count, with each grid's own signal as a second count where a table is held. Texas's delivery charges are one
+// row a component in USD per MWh, with their total (lib/datacenter/delivery.ts); the tariff's own lines are in
+// tables.csv. No default and no number at the default changed.
 export const metadata: Metadata = { title: "What a datacenter pays" };
 export const dynamic = "force-dynamic";
 
@@ -52,45 +66,26 @@ const ALGORITHM = "/data/methods/datacenter_pays_algorithm";
 // against A, and a sensitivity chart, all computed in the browser from the two ways of running this function hands over
 // (the load run flat, and run flexible, over the same last twelve months). No number above it changed.
 const HOURLY_CSV = "/datacenter/erw_2026_datacenter_hourly.csv", DO_FILE = "/datacenter/erw_2026_datacenter_replication.do", MIRROR = "/datacenter/erw_2026_datacenter_replication.py";
-const DEMAND = demandJson as unknown as DemandFile;
-const QUEUES = queuesJson as unknown as QueueFile;
-const LOADS = loadJson as unknown as LoadFile;
-// Session 140: NYISO's load interconnection requests, the one grid that publishes load in line by place
-// (warehouse/connectors/nyiso_load_queue.py; the sheet "Load Projects" of its interconnection queue workbook).
-type NyRow = { queue_position: string; name: string; zone: string; zone_name: string; county: string; mw: number | null; request_date: string; request_date_printed: string;
-  proposed_in_service_printed: string; status: string; end_use_words: string; utility: string; in_line: boolean; group: string; sheet: string; sheet_row: number };
-type NyZone = { zone: string; zone_name: string; requests: number; mw: number; by_status: { status: string; requests: number; mw: number }[] };
-type NyFile = { built: string; source: { name: string; url: string; report_page: string; retrieved: string; workbook_last_modified: string }; rule: { in_line: string };
-  zones: NyZone[]; total: { requests: number; mw: number }; rows: NyRow[];
-  // session 149: the file as the connector writes it while the rows are held internal (shown false): no request, no
-  // zone, no megawatt; the placeholder's words and its reason on hover
-  shown?: boolean; words?: string; why?: string };
-const NYLOAD = nyLoadJson as unknown as NyFile;
-// Session 149 (the owner's ruling of 7 October 2026: the rows are shown only if NYISO's terms allow it; by their words
-// they do not, docs/methods/datacenter_cost.md). The switch is the connector's (SHOWN in nyiso_load_queue.py): the
-// page shows the megawatts in line and the fold of requests only when the file holds them.
-const NY_SHOWN = NYLOAD.shown !== false && Array.isArray(NYLOAD.rows) && Array.isArray(NYLOAD.zones);
-const NY_HELD_WORDS = NYLOAD.words ?? "NYISO's terms do not allow it";
-const NY_HELD_WHY = NYLOAD.why ?? "NYISO's legal notice confers no license in the content of its site and reserves its rights in their entirety. The load requests are held and not shown.";
+const MONTHS_CSV = "/cost-of-power/months.csv", TABLES_CSV = "/cost-of-power/tables.csv";
 
 /** A short placeholder with its reason on hover. */
 function Missing({ why, words = "not held yet" }: { why: string; words?: string }) {
   return <span className="cursor-help border-b border-dotted border-muted italic text-muted" title={why} data-missing="1">{words}</span>;
 }
-const NOWHERE = "not published anywhere yet";
-const FORESEEN = "if perfectly foreseen";
-const FORESEEN_WHY = "The same load with its hours chosen knowing every price of the year in advance: the most it could have saved. No operator knows them in advance; the figure beside it is what a rule decided before each hour would have paid.";
 /** A figure or a label with its explanation on hover. */
 function Hover({ why, children }: { why: string; children: ReactNode }) {
   return <span className="cursor-help border-b border-dotted border-muted" title={why}>{children}</span>;
 }
 const usd = (v: number | null, why: string) => (v === null ? <Missing why={why} /> : <>USD {usdShort(v)}</>);
 const perMwh = (v: number | null, why: string) => (v === null ? <Missing why={why} /> : <>{two(v)}</>);
-const day = (iso: string) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+/** Session 213: a heading inside one of the three questions (the cost table's). */
+function Sub({ children }: { children: ReactNode }) {
+  return <h3 className="mb-3 mt-2 border-t border-rule pt-3 font-serif text-lg">{children}</h3>;
+}
 
 function ViewNav({ x }: { x: Inputs }) {
   const item = (view: "load" | "grids", label: string) => (
-    <Link href={hrefOf(x, { view })} scroll={false} aria-current={x.view === view ? "page" : undefined} data-view={view} style={{ color: x.view === view ? "#fff" : "var(--color-ink)" }}
+    <Link href={hrefOf(x, { view })} scroll={false} aria-current={x.view === view ? "page" : undefined} data-view={view} style={{ color: x.view === view ? "var(--color-surface)" : "var(--color-ink)" }}
       className={`border px-2 py-1 no-underline ${x.view === view ? "border-accent bg-accent" : "border-rule bg-white hover:border-accent"}`}>{label}</Link>
   );
   return <nav aria-label="Views" className="mb-6 flex flex-wrap gap-1 text-xs" data-views="1">{item("load", "Your load")}{item("grids", "Grid by grid")}</nav>;
@@ -98,170 +93,43 @@ function ViewNav({ x }: { x: Inputs }) {
 
 export default async function CostOfPower({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const sp = await searchParams;
-  // session 195: "Your load" no longer holds a power per GPU and an overhead ratio. Scenario A does (LoadScenarios.tsx),
-  // so the page's inputs carry the cited defaults and no link of the page writes the two old names.
-  const x = { ...inputsOf(Object.fromEntries(Object.entries(sp).map(([k, v]) => [k, typeof v === "string" ? v : undefined])), INDEX), gpu: DEFAULTS.gpu, pue: DEFAULTS.pue };
+  const q = Object.fromEntries(Object.entries(sp).map(([k, v]) => [k, typeof v === "string" ? v : undefined]));
+  const x = inputsFrom(q);
   return (
+    <Brand noUsage>
     <ToolPage>
       <ToolHeader
         title="What a datacenter pays"
         crumb={<CostTabs active="buy" />}
-        lead={<>What a large load pays for power, whether the power is there when it is needed, how clean it is and how soon it can be had, for a load you describe. <Link href={METHOD}>Method note</Link>. <Link href={ALGORITHM}>Every number, step by step</Link>.</>}
+        lead={<>What a buyer of power pays at a site, whether the power is there when it is needed, how clean it is and how soon it can be had, each computed for a load you describe; then two sites or two contracts side by side, and what moves the figure most. <Link href={METHOD}>Method note</Link>. <Link href={ALGORITHM}>Every number, step by step</Link>.</>}
       />
       <ViewNav x={x} />
-      {x.view === "grids" ? <GridsView /> : <LoadView x={x} buyGiven={typeof sp.buy === "string"} gridAsked={typeof sp.grid === "string" ? sp.grid : undefined}
-        q={Object.fromEntries(Object.entries(sp).map(([k, v]) => [k, typeof v === "string" ? v : undefined]))} />}
+      {x.view === "grids" ? <GridsView /> : <LoadView asked={x} buyGiven={typeof sp.buy === "string"} gridAsked={typeof sp.grid === "string" ? sp.grid : undefined} q={q} />}
     </ToolPage>
+    </Brand>
   );
 }
 
-/** A flat load over the same months: each month's cost is the sum of its prices and its energy the hours held. */
-const flatMonths = (ms: Month[]): Month[] => ms.map((r) => ({ ...r, cost: r.flat, energy: r.held, down: 0, tightDown: 0 }));
-/** One way of running for the scenarios: its last twelve months and the bad month of its 36, per MW. Null when no
- * twelve complete months in a row are held. */
-function wayOf(ms: Month[]): Way | null {
-  const l = lastTwelve(ms);
-  if (!l) return null;
-  const s = span(l), w = last36(ms), b = badMonth(w?.months ?? []);
-  if (s.per === null) return null;
-  return { per: s.per, cost: s.cost, energy: s.energy, held: s.held, flatCost: s.flatCost, down: s.down, bad: b ? { m: b.m, per: b.cost / b.energy, cost: b.cost } : null, of: w?.months.length ?? 0 };
-}
-/** The bad month of one way of running, with the window it was ranked in: the headline's second number (session 195:
- * the headline is scenario A's, so both ways are handed over). Held wherever a month is, as the headline always was. */
-function badOf(ms: Month[] | null): Bad | null {
-  const w = ms ? last36(ms) : null, b = badMonth(w?.months ?? []);
-  return w && b ? { m: b.m, per: b.cost / b.energy, of: w.months.length, first: w.months[0].m, to: w.to } : null;
-}
-
-function LoadView({ x: asked, buyGiven, gridAsked, q }: { x: Inputs; buyGiven: boolean; gridAsked?: string; q: Record<string, string | undefined> }) {
-  let x = asked;
-  const g = INDEX.grids[x.grid];
-  let files: ReturnType<typeof yearFiles> = [], failed: string | null = null;
-  try { files = yearFiles(x.grid); } catch (e) { failed = (e as Error).message; }
-  const region = g?.regions.find((r) => r.id === x.region);
-  let side = region?.[x.buy];
-  const flex = x.run !== "flat", off = x.run === "hours" || x.run === "share";
-  // session 140: a flexible load is judged on a rule it could follow (decided from day-ahead prices and the prior 30
-  // days, lib/datacenter.ts ruleWeights): that is the page's figure. The same load with its hours chosen knowing the
-  // year's prices stands beside it, labelled "if perfectly foreseen".
-  const none: Ruled = { months: [], weights: new Map(), prices: new Map(), decided: 0, undecided: 0, da: false };
-  let fore: Ruled = failed || !side ? none : monthsRuled(files, x.region, x.buy, x, "forecast");
-  let ms: Month[] = fore.months;
-  let l12 = lastTwelve(ms);
-  // the address named no market and real time holds no twelve complete months here: day-ahead is shown when it does
-  if (!buyGiven && x.buy === "rt" && !l12 && !failed && region?.da) {
-    const da = monthsRuled(files, x.region, "da", x, "forecast");
-    if (lastTwelve(da.months)) { x = { ...x, buy: "da" }; side = region.da; fore = da; ms = da.months; l12 = lastTwelve(ms); }
-  }
-  const noRule = flex && !!side && !failed && !fore.da;  // no day-ahead price is held here, so the rule cannot decide
-  const hind: Ruled = !flex || failed || !side ? fore : monthsRuled(files, x.region, x.buy, x, "hindsight");
-  const h12 = lastTwelve(hind.months), sh12: Span | null = h12 ? span(h12) : null;
-  const ysH = years(hind.months), msH = new Map(hind.months.map((r) => [r.m, r]));
-  const rule = ruleWords(x);
-  const s12: Span | null = l12 ? span(l12) : null;
-  const bad = badMonth(last36(ms)?.months ?? []);
-  const badPer = bad ? bad.cost / bad.energy : null;
-  const ys = years(ms);
-  const place = `${x.region} in ${g?.name ?? x.grid}`;
-  const market = BUYS[x.buy].toLowerCase();
-  const heldFrom = side ? day(side.first) : "";
-  const noYear = noRule
-    ? `No day-ahead price is held for ${x.region}, and a flexible load decides from day-ahead prices. Its ${market} price is held from ${heldFrom || "no date"}.`
-    : `Twelve complete months of ${market} prices are not held for ${x.region}: it is held from ${heldFrom || "no date"}. A month counts when at least 95 percent of its hours are held.`;
-  const savedH = sh12 && sh12.flat !== null && sh12.per !== null ? sh12.flat - sh12.per : null;
-  // the trading hub beside a load zone: a flat load there over the zone's own twelve months
-  const refId = region?.ref && g?.regions.find((r) => r.id === region.ref)?.[x.buy] ? region.ref : null;
-  const refFrom = l12 ? l12[0].m : "", refTo = l12 ? l12[11].m : "";
-  const refMonths = refId && l12 ? monthsOf(files, refId, x.buy, { run: "flat", n: 0, pct: 0, shift: 0 }).filter((r) => r.m >= refFrom && r.m <= refTo && r.complete) : [];
-  const ref12 = refMonths.length === 12 ? span(refMonths) : null;
-  const l12Span = l12 ? `${shortMonth(l12[0].m)} to ${shortMonth(l12[11].m)}` : null;
-  const saved = s12 && s12.flat !== null && s12.per !== null ? s12.flat - s12.per : null;
-  const size = `${x.mw.toLocaleString("en-US")} MW`;
-
-  // session 194: the two ways of running the scenarios compare, over the same twelve months. The way under "Your load"
-  // is the page's own (`ms`); the other is a flat load over the same months, or, when "Your load" is flat, a load off in
-  // the form's default number of hours a year under the same rule (it needs the region's day-ahead prices).
-  const altFlex = { run: "hours" as const, n: DEFAULTS.n, pct: 0, shift: 0 };
-  const flexWords = (y: Pick<Inputs, "run" | "n" | "pct" | "shift">) => (y.run === "hours" ? `off in the ${y.n.toLocaleString("en-US")} most expensive hours of each year` : y.run === "share" ? `off in the most expensive ${y.pct} percent of hours`
-    : `${y.shift} percent of each day's energy moved to the day's cheapest hours`);
-  let sets: [Month[] | null, Month[] | null] = [null, null];
-  if (!failed && side) {
-    if (flex) sets = [ms.length ? flatMonths(ms) : monthsOf(files, x.region, x.buy, { run: "flat", n: 0, pct: 0, shift: 0 }), ms];
-    else sets = [ms, region?.da ? monthsRuled(files, x.region, x.buy, altFlex, "forecast").months : null];
-  }
-  const ways: Ways = [sets[0] ? wayOf(sets[0]) : null, sets[1] ? wayOf(sets[1]) : null];
-  const noDa = `No day-ahead price is held for ${x.region}, and a flexible load decides from day-ahead prices.`;
-  // session 195: the power per GPU and the overhead ratio are scenario A's; their defaults are the two the page cites
-  const facts: Facts = { mw: x.mw, size, place: `${place}, ${market}`, span: l12Span, load: { run: flex ? FLEX : FLAT, gpu: DEFAULTS.gpu, pue: DEFAULTS.pue }, gpuSource: ASSUMED.gpu.source, pueSource: ASSUMED.pue.source, ways,
-    words: ["the same in every hour", flexWords(flex ? x : altFlex)], why: [noYear, flex ? noYear : region?.da ? noYear : noDa], bads: [badOf(sets[0]), badOf(sets[1])] };
-  const scenarioParams = Object.fromEntries(Object.entries(q).filter(([n, v]) => (isScenarioParam(n) || isOldParam(n)) && v !== undefined).sort(([a], [b]) => a.localeCompare(b))) as Record<string, string>;
-
-  // the form's lists: every grid held, each region with what is held of it
-  const grids = Object.fromEntries(Object.entries(INDEX.grids).map(([id, v]) => [id, { name: v.name,
-    regions: v.regions.map((r) => { const s = r.rt ?? r.da!; return { id: r.id, held: `from ${shortMonth(s.first.slice(0, 7))}`, kind: r.kind ?? null, name: r.name ?? null }; }) }]));
-
-  // every region of the grid over its own last twelve months, flat (the fold)
-  const regionRows = (g?.regions ?? []).map((r) => {
-    const s = r[x.buy];
-    const name = r.name ?? (r.kind === "hub" ? "trading hub" : null);
-    if (!s || failed) return { id: r.id, name, per: null as number | null, from: s?.first ?? null, hours: s?.hours ?? 0, sp: null as string | null };
-    const m = monthsOf(files, r.id, x.buy, { run: "flat", n: 0, pct: 0, shift: 0 });
-    const t = lastTwelve(m);
-    return { id: r.id, name, per: t ? span(t).flat : null, from: s.first, hours: s.hours, sp: t ? `${shortMonth(t[0].m)} to ${shortMonth(t[11].m)}` : null };
-  });
-
-  // will the power be there: the grid's own figures from the mix, demand and (session 138) operator demand files
-  const slug = x.grid as Slug;
-  const sf = STRESS[slug], sy = sf ? stress.defaultYear(sf) : null;
-  const peak = sf && sy ? stress.get(sf, sy, "peak_demand_mw") : null, peakAt = sf && sy ? stress.at(sf, sy, "peak_demand_mw") : null;
-  const fuels = sf && sy ? stress.fuelRows(sf, sy).filter((f) => f.capacity !== null) : [];
-  const ba = SLUGS[x.grid], area = ba ? DEMAND.areas[ba] : undefined;
-  const growth = area?.years[String(DEMAND.last_year)];
-  const tightYears = Object.entries(g?.demand ?? {}).filter(([, d]) => d.tight_hours !== undefined).sort(([a], [b]) => a.localeCompare(b));
-  const tightRows = tightYears.map(([y, d]) => {
-    const f = files.find((k) => k.year === Number(y));
-    const when = f?.tight ? whenOf(Number(y), f.tight) : null;
-    let down: number | null = null;
-    const p = fore.prices.get(Number(y)), w = fore.weights.get(Number(y));
-    if (f?.tight && flex && side && x.run !== "shift" && p && w) down = f.tight.filter((i) => p[i] !== null && w[i] === 0).length;
-    return { y, d, when, down };
-  });
-  const lastTight = [...tightRows].reverse().find((r) => r.d.whole) ?? tightRows.at(-1);
-  const zones = g?.zones ?? {};
-  // a demand table held internally (its publisher's terms restrict republishing) is named, and nothing of it is shown
-  const withheld = !!g?.demand_source?.startsWith("withheld:");
-  const noDemand = withheld
-    ? <Missing words="licensed source needed" why={`${g?.name} publishes its hourly demand by zone, and its legal notice restricts duplication of its content. The table is held internally and nothing of it is shown here.`} />
-    : <Missing why={`The operator's own hourly demand is not held for ${g?.name ?? x.grid}, so its tight hours are not counted.`} />;
-
-  // how clean: the grid's figures from the tables behind /mix?view=clean
-  const cf = CLEAN[slug], cy = cf ? clean.defaultYear(cf) : null, cv = cf && cy ? clean.yearView(cf, cy) : null;
-  // session 140: this load's own hours. The grid's carbon-free share in each hour, weighted by the load in that hour
-  // (under the rule above), over the hours of the year where the price and the share are both held.
-  const cFile = cy ? files.find((k) => k.year === Number(cy)) : undefined;
-  const cP = cy ? fore.prices.get(Number(cy)) : undefined, cW = cy ? fore.weights.get(Number(cy)) : undefined;
-  const own = cFile?.clean && cP && cW ? cleanShare(expandSeries(cFile.clean, cFile.hours), cP, cW) : null;
-
-  // how soon: the interconnection queue, and ERCOT's large-load status
-  const qv = viewOf(QUEUES, x.grid, "all")?.whole ?? null;
-  const ll = x.grid === "ercot" ? loadSpan(LOADS) : null;
-
-  // the names of the seven grids an address can name, for the two blocks that follow the address (sessions 154 and 163)
-  const gridNames: Record<string, string> = { ...Object.fromEntries(Object.entries(INDEX.blank).map(([id, v]) => [id, v.name])), ...Object.fromEntries(Object.entries(INDEX.grids).map(([id, v]) => [id, v.name])) };
-  const delivery = x.grid === "ercot" ? DELIVERY.rows : [];
-  const matrix = x.grid === "ercot" ? DELIVERY.matrix ?? [] : [];
-  const utilities = [...new Set(delivery.map((r) => r.utility))];
+async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyGiven: boolean; gridAsked?: string; q: Record<string, string | undefined> }) {
+  const M = await loadModel(asked, buyGiven, gridAsked, q);
+  const { x, g, failed, side, flex, off, s12, sh12, ysH, rule, bad, badPer, ys, place, market, noYear, savedH, saved, ref12, l12Span, size, facts, scenarioParams, matrix, utilities, deliveryParts } = M;
+  const region = M.region;
+  // session 236: the three answers at scenario B's own site, when it has one
+  const siteB = M.bSite && M.answerFactsB ? { a: M.answersB?.ok ? M.answersB.data : null, f: M.answerFactsB, reason: M.answersB && !M.answersB.ok ? M.answersB.reason : null } : null;
+  // the two downloads take the page's own parameters and the scenarios', as this request has them
+  const query = new URLSearchParams();
+  for (const [n, v] of Object.entries(q)) if (v !== undefined && n !== "view") query.set(n, v);
+  const suffix = query.size ? `?${query.toString()}` : "";
 
   return (
-    <ContractProvider>
-     <LoadDecisions key={`${hrefOf(x)}|${JSON.stringify(scenarioParams)}`} load={facts.load} open={heldWays(ways)} initial={scenarioParams}>
-      <div className="grid gap-8 lg:grid-cols-[290px_minmax(0,1fr)]">
+     <LoadDecisions key={`${hrefOf(x)}|${JSON.stringify(scenarioParams)}`} load={facts.load} open={heldWays(facts.ways)} initial={scenarioParams}>
+      {/* data-no-usage: no usage count on this tool page (the owner's ruling of 11 October 2026; components/Usage.tsx). Until
+          session 213 the contract panel's promise "sent or stored" silenced the counter; the mark says it outright, as the
+          battery page's does since session 208 */}
+      <div className="grid gap-8 lg:grid-cols-[290px_minmax(0,1fr)]" data-no-usage="1">
         <aside>
           <InputPanel title="Your load">
-            <LoadForm key={hrefOf(x)} x={x} grids={grids} blank={INDEX.blank} />
-          </InputPanel>
-          <InputPanel title="Your contract (optional)">
-            <ContractInputs />
+            <LoadForm key={hrefOf(x)} x={x} grids={M.grids} blank={INDEX.blank} />
           </InputPanel>
         </aside>
 
@@ -272,221 +140,141 @@ function LoadView({ x: asked, buyGiven, gridAsked, q }: { x: Inputs; buyGiven: b
             <p className="mb-6 border border-rule bg-paper px-3 py-2 text-sm" role="status">{x.region}: <Missing why={`No ${market} price is held for ${place}.`} /></p>
           ) : (
             <>
-              <p className="mb-6 max-w-3xl font-serif text-xl leading-snug" data-summary="1">
-                {s12 && s12.per !== null ? (
-                  <>{loadWords(x)} at {place}, buying {market}, paid USD <span data-stat="l12_per">{two(s12.per)}</span> per MWh over the last twelve months,
-                    USD <span data-stat="l12_cost">{usdShort(s12.cost * x.mw)}</span> in all{flex && saved !== null ? <>, USD <span data-stat="l12_saved">{two(saved)}</span> per MWh less than a flat load{savedH !== null ? <> (<Hover why={FORESEEN_WHY}>USD <span data-stat="l12_saved_foreseen">{two(savedH)}</span> {FORESEEN}</Hover>)</> : null}</> : null}: USD <span data-stat="gpu_hour"><GpuHourOfA per={s12.per} /></span> per GPU-hour for power alone.</>
-                ) : (
-                  <>{loadWords(x)} at {place}, buying {market}: last twelve months <Missing why={noYear} />.</>
-                )}
-              </p>
+              <div data-question="1">
+              <ToolSection title="What will it pay?" id="pays">
+                <p className="mb-6 max-w-3xl font-serif text-xl leading-snug" data-summary="1">
+                  {s12 && s12.per !== null ? (
+                    <>{loadWords(x)} at {place}, buying {market}, paid USD <span data-stat="l12_per">{two(s12.per)}</span> per MWh over the last twelve months,
+                      USD <span data-stat="l12_cost">{usdShort(s12.cost * x.mw)}</span> in all{flex && saved !== null ? <>, USD <span data-stat="l12_saved">{two(saved)}</span> per MWh less than a flat load{savedH !== null ? <> (<Hover why={FORESEEN_WHY}>USD <span data-stat="l12_saved_foreseen">{two(savedH)}</span> {FORESEEN}</Hover>)</> : null}</> : null}: USD <span data-stat="gpu_hour"><GpuHourOfA per={s12.per} /></span> per GPU-hour for power alone.</>
+                  ) : (
+                    <>{loadWords(x)} at {place}, buying {market}: last twelve months <Missing why={noYear} />.</>
+                  )}
+                </p>
 
-              {/* session 195: the three headline numbers are scenario A's rows (LoadScenarios.tsx) */}
-              <LoadHeadline facts={facts} missing={<Missing why={noYear} />}
-                foreseen={flex && sh12?.per != null ? <> <Hover why={FORESEEN_WHY}><span data-stat="l12_per_foreseen">USD {two(sh12.per)}</span> {FORESEEN}</Hover>.</> : null} />
+                {/* session 195: the three headline numbers are scenario A's rows (LoadScenarios.tsx) */}
+                <LoadHeadline facts={facts} missing={<Missing why={noYear} />}
+                  foreseen={flex && sh12?.per != null ? <> <Hover why={FORESEEN_WHY}><span data-stat="l12_per_foreseen">USD {two(sh12.per)}</span> {FORESEEN}</Hover>.</> : null} />
 
-              <ChartFrame title={`Cost by year, USD per MWh, ${x.region}, ${market}`}
-                legend={flex ? [{ label: "Flat load", color: "#6B665E" }, { label: "This load", color: "#8C1515" }, { label: "If perfectly foreseen", color: "#2E2D29" }, { label: "Incomplete year", color: "#8C1515", hatch: true }] : [{ label: "Flat load", color: "#8C1515" }, { label: "Incomplete year", color: "#8C1515", hatch: true }]}>
-                <YearCost rows={ys.map((r) => ({ y: r.y, flat: r.flat, per: r.per, complete: r.complete, months: r.months, down: r.down, foreseen: flex ? ysH.find((h) => h.y === r.y)?.per ?? null : null }))} flex={flex} off={off}
-                  label={`Cost of power by year at ${place}, ${market}, USD per MWh${flex ? ": a flat load and this load" : ""}`} />
-              </ChartFrame>
+                <ChartFrame title={`Cost by year, USD per MWh, ${x.region}, ${market}`}
+                  legend={flex ? [{ label: "Flat load", color: "var(--color-muted)" }, { label: "This load", color: "var(--color-accent)" }, { label: "If perfectly foreseen", color: "var(--color-ink)" }, { label: "Incomplete year", color: "var(--color-accent)", hatch: true }] : [{ label: "Flat load", color: "var(--color-accent)" }, { label: "Incomplete year", color: "var(--color-accent)", hatch: true }]}>
+                  <YearCost rows={ys.map((r) => ({ y: r.y, flat: r.flat, per: r.per, complete: r.complete, months: r.months, down: r.down, foreseen: flex ? ysH.find((h) => h.y === r.y)?.per ?? null : null }))} flex={flex} off={off}
+                    label={`Cost of power by year at ${place}, ${market}, USD per MWh${flex ? ": a flat load and this load" : ""}`} />
+                </ChartFrame>
 
-              <ToolSection title="What will it cost" id="cost">
+                <Sub>What will it cost</Sub>
                 <ToolTable caption="What will it cost" minWidth={620} head={["", "USD per MWh", `USD, ${size}`, ""]}
                   rows={[
-                    { key: "flat", cells: ["Market energy, a flat load, last twelve months", perMwh(s12?.flat ?? null, noYear), usd(s12 ? s12.flatCost * x.mw : null, noYear), <span key="n" className="text-xs text-muted">{l12Span ?? ""}</span>] },
+                    { key: "flat", cells: ["Market energy, a flat load, last twelve months", perMwh(s12?.flat ?? null, noYear), usd(s12 ? s12.flatCost * x.mw : null, noYear), <div key="n" className="text-xs text-muted">{l12Span ?? ""}</div>] },
                     ...(flex ? [
-                      { key: "load", highlight: true, cells: [<Hover key="h" why={rule}>Market energy, this load, last twelve months</Hover>, perMwh(s12?.per ?? null, noYear), usd(s12 ? s12.cost * x.mw : null, noYear), <span key="n" className="text-xs text-muted">{s12 ? `${whole(s12.energy * x.mw)} MWh` : ""}</span>] },
+                      { key: "load", highlight: true, cells: [<Hover key="h" why={rule}>Market energy, this load, last twelve months</Hover>, perMwh(s12?.per ?? null, noYear), usd(s12 ? s12.cost * x.mw : null, noYear), <div key="n" className="text-xs text-muted">{s12 ? `${whole(s12.energy * x.mw)} MWh` : ""}</div>] },
                       { key: "saved", cells: [<Hover key="h" why={rule}>What the flexibility saves</Hover>, perMwh(saved, noYear), usd(s12 ? (s12.flatCost - s12.cost) * x.mw : null, noYear),
-                        <span key="n" className="text-xs text-muted">{s12 ? (x.run === "shift" ? "the same energy, moved within each day" : `off in ${whole(s12.down)} hours; ${whole((s12.held - s12.energy) * x.mw)} MWh not bought`) : ""}</span>] },
+                        <div key="n" className="text-xs text-muted">{s12 ? (x.run === "shift" ? "the same energy, moved within each day" : `off in ${whole(s12.down)} hours; ${whole((s12.held - s12.energy) * x.mw)} MWh not bought`) : ""}</div>] },
                       { key: "foreseen", cells: [<Hover key="h" why={FORESEEN_WHY}>This load, {FORESEEN}</Hover>, <span key="p" data-foreseen="per">{perMwh(sh12?.per ?? null, noYear)}</span>, usd(sh12 ? sh12.cost * x.mw : null, noYear),
-                        <span key="n" className="text-xs text-muted">{savedH !== null ? `would have saved ${two(savedH)} per MWh${saved !== null && savedH > 0 ? `; the rule kept ${whole((100 * saved) / savedH)} percent of it` : ""}` : ""}</span>] },
+                        <div key="n" className="text-xs text-muted">{savedH !== null ? `would have saved ${two(savedH)} per MWh${saved !== null && savedH > 0 ? `; the rule kept ${whole((100 * saved) / savedH)} percent of it` : ""}` : ""}</div>] },
                     ] : []),
                     ...(region?.ref ? [{ key: "ref", cells: [<>The hub beside it, {region.ref}, a flat load</>, <span key="p" data-ref-hub="1">{perMwh(ref12?.flat ?? null, `Twelve complete months of ${market} prices are not held for ${region.ref} over the same months.`)}</span>, usd(ref12 ? ref12.flatCost * x.mw : null, noYear),
-                      <span key="n" className="text-xs text-muted">{ref12?.flat != null && s12?.flat != null ? `the load zone is ${two(Math.abs(s12.flat - ref12.flat))} per MWh ${s12.flat >= ref12.flat ? "above" : "below"} its hub` : ""}</span>] }] : []),
-                    { key: "bad", cells: ["A bad month", perMwh(badPer, noYear), usd(bad ? bad.cost * x.mw : null, noYear), <span key="n" className="text-xs text-muted">{bad ? monthName(bad.m) : ""}</span>] },
-                    { key: "gpu", cells: ["Power per GPU-hour", s12?.per != null ? <GpuHourOfA key="g" per={s12.per} /> : <Missing key="m" why={noYear} />, "", <span key="n" className="text-xs text-muted">USD per GPU-hour, not per MWh</span>] },
+                      <div key="n" className="text-xs text-muted">{ref12?.flat != null && s12?.flat != null ? `the load zone is ${two(Math.abs(s12.flat - ref12.flat))} per MWh ${s12.flat >= ref12.flat ? "above" : "below"} its hub` : ""}</div>] }] : []),
+                    { key: "bad", cells: ["A bad month", perMwh(badPer, noYear), usd(bad ? bad.cost * x.mw : null, noYear), <div key="n" className="text-xs text-muted">{bad ? monthName(bad.m) : ""}</div>] },
+                    { key: "gpu", cells: ["Power per GPU-hour", s12?.per != null ? <GpuHourOfA key="g" per={s12.per} /> : <Missing key="m" why={noYear} />, "", <div key="n" className="text-xs text-muted">USD per GPU-hour, not per MWh</div>] },
                     ...(x.grid === "ercot"
                       ? (utilities.length || DELIVERY.withheld.length
-                        ? [...utilities.map((u) => ({ key: `d-${u}`, cells: [<>Delivery and transmission, {u}</>], wide: <DeliveryCell rows={delivery.filter((r) => r.utility === u)} /> })),
-                          ...DELIVERY.withheld.map((w) => ({ key: `d-${w.utility}`, cells: [<>Delivery and transmission, {w.utility}</>], wide: <Missing words={w.words} why={w.why} /> })),
+                        ? [...DELIVERY.withheld.map((w) => ({ key: `d-${w.utility}`, cells: [<>Delivery and transmission, {w.utility}</>], wide: <Missing words={w.words} why={w.why} /> })),
                           { key: "matrix", cells: ["Wholesale transmission, all of ERCOT"], wide: matrix.length ? <MatrixCell rows={matrix} /> : <Missing why="The Commission's transmission charge matrices are not in this page's files yet." /> }]
                         : [{ key: "delivery", cells: ["Delivery and transmission charges"], wide: <Missing why="The four large Texas wires utilities' tariff charges are not in this page's files yet." /> }])
                       : [{ key: "delivery", cells: ["Delivery charges"], wide: <Missing why={`The delivery and transmission tariffs of ${g.name}'s utilities are not in the warehouse. Texas's four large wires utilities are.`} /> }]),
                   ]} />
+                {/* session 236: Texas's delivery charges, one row a component in USD per MWh, and the total; the tariff's own
+                    lines (the schedule names, the rates as filed) are in the download */}
+                {x.grid === "ercot" && deliveryParts.length ? <DeliveryTable parts={deliveryParts} mw={x.mw} size={size} href={`${TABLES_CSV}${suffix}`} /> : null}
+                {/* session 213: one sentence of what the model cannot see; the rest is in the methods note */}
+                <p className="mt-2 max-w-3xl text-xs text-muted" data-income-note="1">
+                  Market energy at {x.region}&apos;s {market} price, for {size}: no delivery, transmission, capacity or ancillary charge is added to it (Texas&apos;s delivery charges stand in their own table above, never added), the load buys every hour at the hour&apos;s price with no hedge, and a flexible load follows a rule decided before each hour, not the year&apos;s prices.
+                  {" "}<Link href={`${ALGORITHM}#cannot-see`}>What else the model cannot see</Link>.
+                </p>
+                <p className="mt-2 max-w-3xl text-xs text-muted" data-grid-links="1">
+                  The grid&apos;s own figures, on their pages: <Link href={`/demand?area=${x.grid}`}>demand growth</Link>, <Link href={`/mix?view=stress&grid=${x.grid}`}>how hard the grid works</Link>, <Link href={`/mix?view=clean&grid=${x.grid}`}>how clean, and when</Link>, <Link href={`/queues?grid=${x.grid}&tech=all`}>interconnection queues</Link>, <Link href="/datacenters">the datacenter tracker</Link>.
+                </p>
+                <p className="mt-2 max-w-3xl text-xs text-muted" data-months-csv="1">
+                  <a href={`${MONTHS_CSV}${suffix}`} download>Every month, CSV</a>: a flat load&apos;s price, this load&apos;s, the foreseen price, the hours off and the cost for {size}, each month and each year held, and the hours at or above the scarcity level and the grid&apos;s carbon intensity in each.
+                  {" "}<a href={`${TABLES_CSV}${suffix}`} download>The other tables, CSV</a>: the three answers below (the scarce hours by month and clock hour, the carbon by way and by year, the large load reports), the grid&apos;s own figures as the page drew them until session 213 (the queue, the large load, how long a large load waits by stage, the rules in motion), every region of {g.name} over its own last twelve months, {x.grid === "ercot" ? "Texas's delivery tariffs line by line as filed, " : ""}the Commission&apos;s transmission charge matrix{x.grid === "nyiso" && NY_SHOWN ? `, and New York's load in line, request by request (${whole(NYLOAD.total.requests)})` : ""}.
+                </p>
               </ToolSection>
+              </div>
 
-              <ToolSection title="With your contract">
-                <ContractResult l12={s12 ? { cost: s12.cost, energy: s12.energy } : null} mw={x.mw} bad={badPer} span={l12Span} />
+              {/* session 228: the three answers beside "What will it pay?", computed for this load from the live set and the
+                  page's own files (lib/datacenter/answers.ts); each number carries its check key */}
+              <div data-question="power">
+              <ToolSection title="Will the power be there?" id="there">
+                {M.answers?.ok ? <PowerThere a={M.answers.data} f={M.answerFacts} b={siteB} /> : <p className="max-w-3xl text-sm" role="status" data-answer="power" data-answer-none="1">{M.answers ? `The live set could not be read, so no figure is shown: ${M.answers.reason}` : `Twelve complete months are not held for ${x.region}, so the hours short in them cannot be counted.`}</p>}
               </ToolSection>
+              </div>
+              <div data-question="clean">
+              <ToolSection title="How clean?" id="clean">
+                {M.answers?.ok ? <HowClean a={M.answers.data} f={M.answerFacts} b={siteB} /> : <p className="max-w-3xl text-sm" role="status" data-answer="clean" data-answer-none="1">{M.answers ? `The live set could not be read, so no figure is shown: ${M.answers.reason}` : `Twelve complete months are not held for ${x.region}, so the load's carbon over them cannot be counted.`}</p>}
+              </ToolSection>
+              </div>
+              <div data-question="soon">
+              <ToolSection title="How soon?" id="soon">
+                {M.answers?.ok ? <HowSoon a={M.answers.data} f={M.answerFacts} rules={M.rules} b={siteB} /> : <p className="max-w-3xl text-sm" role="status" data-answer="soon" data-answer-none="1">{M.answers ? `The live set could not be read, so no figure is shown: ${M.answers.reason}` : M.rules.words}</p>}
+              </ToolSection>
+              </div>
 
-              <ToolSection title="Scenarios A and B" id="scenarios">
+              <div data-question="2">
+              <ToolSection title="Which option is better?" id="scenarios">
+                {/* session 236: what A and B are for, in the block's own title and one line; B's site is set here */}
+                <Sub>Scenarios A and B: two sites, or two contracts</Sub>
+                <p className="mb-3 max-w-3xl text-sm" data-how-to-compare="1">
+                  Scenario A is the load under &quot;Your load&quot;, and it sets the headline. To compare two sites, give scenario B a site of its own here: another zone or hub, or another grid. To compare two contracts, give A and B a different contract share and price below. The table then sets B against A.
+                </p>
+                <LoadSiteB sites={M.sitesB} current={M.bSite ? `${M.bSite.grid}:${M.bSite.region}` : ""} asked={typeof q.bsite === "string" ? q.bsite : ""} aPlace={place} keep={Object.entries(q).filter(([n, v]) => v !== undefined && n !== "bsite") as [string, string][]} />
                 <LoadScenarios facts={facts} />
               </ToolSection>
+              </div>
+
+              <div data-question="3">
+              <ToolSection title="What matters most" id="matters">
+                <LoadSensitivity facts={facts} />
+              </ToolSection>
+              </div>
             </>
           )}
-
-          <ToolSection title="Will the power be there" id="there">
-            <ToolTable caption="Will the power be there" words minWidth={620} head={["", g?.name ?? x.grid, ""]}
-              rows={[
-                { key: "growth", cells: [`Demand growth, 2019 to ${DEMAND.last_year}`,
-                  growth?.avg_demand_growth_since_2019_pct !== undefined ? <>average {growth.avg_demand_growth_since_2019_pct > 0 ? "+" : ""}{two(growth.avg_demand_growth_since_2019_pct)} percent; highest hour {growth.peak_demand_growth_since_2019_pct > 0 ? "+" : ""}{two(growth.peak_demand_growth_since_2019_pct)} percent</> : <Missing why={`No whole year of ${DEMAND.last_year} or of 2019 is held for this grid in the demand table.`} />,
-                  <Link key="l" href={`/demand?area=${x.grid}`}>Demand growth</Link>] },
-                { key: "peak", cells: [`Highest hour of demand${sy ? `, ${sy}` : ""}`,
-                  peak !== null ? <>{whole(peak)} MW{peakAt ? `, ${stress.when(peakAt, sf.tz)}` : ""}</> : <Missing why="The year's highest hour is not in the grid stress table for this grid." />,
-                  <Link key="l" href={`/mix?view=stress&grid=${x.grid}`}>How hard the grid works</Link>] },
-                { key: "cap", cells: [`Installed capacity by fuel${sy ? `, ${sy}` : ""}`,
-                  fuels.length ? <span className="block">{fuels.map((f, i) => <span key={f.fuel} className="mr-3 inline-block whitespace-nowrap" title={peak ? `${f.name}: ${whole(f.capacity!)} MW installed, ${two((100 * f.capacity!) / peak)} percent of the year's highest hour of demand` : undefined}>{f.name} {whole(f.capacity!)} MW{i < fuels.length - 1 ? ";" : ""}</span>)}</span> : <Missing why="No installed capacity is held for this grid and year." />,
-                  ""] },
-                { key: "tight", cells: [`Hours the grid was tight${lastTight ? `, ${lastTight.y}` : ""}`,
-                  lastTight ? <>{whole(lastTight.d.tight_hours!)} hours{lastTight.when ? <>, in {monthsWords(lastTight.when.months)}, between {hh(lastTight.when.from)} and {hh(lastTight.when.to + 1)}</> : null}</>
-                    : noDemand,
-                  <span key="n" className="cursor-help border-b border-dotted border-muted text-xs text-muted" title={`An hour is counted tight when the grid's demand was at or above ${INDEX.tight * 100} percent of that year's highest hour. Hours are in ${g?.std_name ?? "standard time"}.`}>tight: within {Math.round((1 - INDEX.tight) * 100)} percent of the year&apos;s peak</span>] },
-                { key: "down", cells: ["Of those hours, this load was off in",
-                  !lastTight ? noDemand
-                    : x.run === "flat" ? <>none: a flat load runs in every hour</>
-                    : x.run === "shift" ? <Missing why="A load that shifts energy within the day is never off for a whole hour by rule, so its tight hours are not counted here." words="not counted for a shifting load" />
-                    : lastTight.down === null ? <Missing why="No price is held for this region in that year." />
-                    : <>{whole(lastTight.down)} of {whole(lastTight.d.tight_hours!)}</>,
-                  ""] },
-                { key: "zones", cells: ["Demand by region",
-                  Object.keys(zones).length ? <ZoneCell zones={zones} own={x.region} /> : withheld ? noDemand : <Missing why={`Hourly demand by region is not held for ${g?.name ?? x.grid}.`} />,
-                  ""] },
-              ]} />
-          </ToolSection>
-
-          <ToolSection title="How clean" id="clean">
-            <ToolTable caption="How clean" words minWidth={620} head={["", `${g?.name ?? x.grid}${cy ? `, ${cy}` : ""}`, ""]}
-              rows={[
-                { key: "annual", cells: ["Carbon-free share of the grid's generation, over the year", cv?.share != null ? <>{two(cv.share)} percent</> : <Missing why="The year's carbon-free share is not in the clean energy table for this grid." />, <Link key="l" href={`/mix?view=clean&grid=${x.grid}`}>How clean, and when</Link>] },
-                { key: "flat", cells: ["What a flat load meets, hour by hour", cv?.flat != null ? <>{two(cv.flat)} percent</> : <Missing why="Not in the clean energy table for this grid and year." />, ""] },
-                { key: "match", cells: ["Buying carbon-free energy equal to the load's whole year, shaped like the grid's own",
-                  cv?.match.mix?.[100]?.energy != null ? <>{two(cv.match.mix[100].energy!)} percent of the energy matched hour by hour, against 100 percent on the annual count; {two(cv.match.mix[100].hours!)} percent of hours fully covered</> : <Missing why="Not in the clean energy table for this grid and year." />, ""] },
-                { key: "carbon", cells: ["Carbon per MWh, a flat load", cv?.carbon.flat != null ? <>{two(cv.carbon.flat)} kg CO2 per MWh</> : <Missing why="Not in the clean energy table for this grid and year." />, ""] },
-                { key: "own", cells: [<Hover key="h" why={`The grid's carbon-free share in each hour, weighted by this load in that hour, over the hours of ${cy ?? "the year"} in which the price and the share are both held.${rule ? ` ${rule}` : ""}`}>This load&apos;s own hours</Hover>,
-                  own?.load != null ? <><span data-stat="own_clean">{two(own.load)}</span> percent{flex && own.flat !== null ? <>, against {two(own.flat)} for a flat load over the same {whole(own.hours)} hours</> : <> over {whole(own.hours)} hours</>}</>
-                    : <Missing key="m" why={cy ? `The carbon-free share by hour is not held for ${g?.name ?? x.grid} in ${cy} at the hours this region's price is held.` : "No year of the clean energy table is held for this grid."} />, ""] },
-              ]} />
-          </ToolSection>
-
-          <ToolSection title="How soon" id="soon">
-            <ToolTable caption="How soon" words minWidth={620} head={["", g?.name ?? x.grid, ""]}
-              rows={[
-                { key: "q", cells: ["Generation waiting to connect", qv ? <>{whole(qv.total_active_mw)} MW in {whole(qv.total_active_requests)} active requests</> : <Missing why="The interconnection queue summary holds no row for this grid." />, <Link key="l" href={`/queues?grid=${x.grid}&tech=all`}>Interconnection queues</Link>] },
-                { key: "wait", cells: ["From request to operation, the median", qv?.median_years_to_operation !== undefined ? <>{two(qv.median_years_to_operation)} years, over {whole(qv.years_to_operation_n)} projects</> : <Missing why="Too few dated projects to state a median for this grid." />, ""] },
-                { key: "done", cells: [`Of the requests entered ${QUEUES.past[0]} to ${QUEUES.past[1]}`, qv?.past_operating_share_pct !== undefined ? <>{two(qv.past_operating_share_pct)} percent operating, {two(qv.past_withdrawn_share_pct!)} percent withdrawn</> : <Missing why="Not in the queue summary for this grid." />, ""] },
-                { key: "ll", cells: ["Large load approved to energize",
-                  ll ? <>{whole(ll.last.approved!)} MW, of which {whole(ll.last.nonsimultaneous!)} MW observed running (ERCOT, {dayWords(ll.last.day)})</>
-                    : x.grid === "ercot" ? <Missing why="ERCOT's large load status table holds no report with these figures." /> : <Missing why={`${g?.name ?? x.grid} publishes no figure of large load approved or running that the warehouse holds.`} />,
-                  <Link key="l" href="/datacenters">Datacenter tracker</Link>] },
-                { key: "line", cells: ["Large load in line, by region",
-                  x.grid === "nyiso" ? (NY_SHOWN ? <NyLoadCell key="ny" own={x.region} /> : <span key="ny" data-nyload-held="1"><Missing words={NY_HELD_WORDS} why={NY_HELD_WHY} /></span>)
-                    : x.grid === "ercot" ? <Missing key="m" words={NOWHERE} why="ERCOT publishes the large load seeking interconnection as system totals in slide decks, with no table by zone or county. A search on 7 October 2026 found no public list by place." />
-                    : <Missing key="m" words={NOWHERE} why={`A search on 7 October 2026 found no public list of the large load waiting for power in ${g?.name ?? x.grid} by place. The pieces sit in utility planning filings, rate cases and operator reports.`} />, ""] },
-                { key: "waitload", cells: ["How long a new large load waits", <WaitsWord key="m" grid={x.grid} name={g?.name ?? x.grid} />, ""] },
-              ]} />
-            {/* session 163: how long a large load waits, for the grid the address names: the durations measured by stage with their
-                counts, the lower bounds marked, the entity's own stated figures beside them; one site file of aggregates */}
-            <LoadWaits grid={waitsGrid(gridAsked, x.grid)} name={gridNames[waitsGrid(gridAsked, x.grid)] ?? waitsGrid(gridAsked, x.grid).toUpperCase()} />
-            {/* session 154: the regulatory actions in motion for the grid the address names (MISO and PJM too); one site file */}
-            <RulesInMotion x={x} asked={gridAsked} names={gridNames} />
-          </ToolSection>
-
-          {x.grid === "nyiso" && NY_SHOWN ? (
-            <div className="mb-8 border-t border-rule">
-              <Fold title={`New York's load in line, request by request (${whole(NYLOAD.total.requests)})`}>
-                <ToolTable caption="New York's load interconnection requests in line" words minWidth={760} head={["Queue", "Request", "Zone", "County", "MW", "Requested", "Proposed in service", "Status, in NYISO's words"]}
-                  rows={NYLOAD.rows.filter((r) => r.in_line).sort((a, b) => (b.mw ?? 0) - (a.mw ?? 0)).map((r) => ({ key: `${r.queue_position}-${r.sheet_row}`, highlight: r.zone_name === x.region,
-                    cells: [<a key="q" href={NYLOAD.source.url} title={`${NYLOAD.source.name}, sheet "${r.sheet}", row ${r.sheet_row}; the workbook as NYISO last changed it on ${NYLOAD.source.workbook_last_modified}, read ${day(NYLOAD.source.retrieved)}.`} className="cursor-help no-underline hover:underline">{r.queue_position}</a>,
-                      <span key="n" title={[r.end_use_words, r.utility ? `utility: ${r.utility}` : ""].filter(Boolean).join("; ") || undefined}>{r.name}</span>, `${r.zone} ${r.zone_name}`, r.county,
-                      r.mw === null ? <Missing key="m" why="NYISO's sheet prints no megawatts for this request." words="not printed" /> : r.mw.toLocaleString("en-US"), r.request_date_printed, r.proposed_in_service_printed, r.status] }))} />
-              </Fold>
-            </div>
-          ) : null}
-
-          {!failed && side ? (
-            <div className="mb-8 border-t border-rule">
-              <Fold title="Every year">
-                <ToolTable caption="Every year" minWidth={620} head={["Year", "Flat load, USD/MWh", ...(flex ? ["This load, USD/MWh", "If perfectly foreseen"] : []), ...(off ? ["Hours off"] : []), `USD, ${size}`, "Months held"]}
-                  rows={[...ys].reverse().map((r) => { const h = ysH.find((k) => k.y === r.y); return { key: r.y, muted: !r.complete, cells: [r.y, r.flat === null ? "" : two(r.flat), ...(flex ? [r.per === null ? "" : two(r.per), h?.per != null ? two(h.per) : ""] : []), ...(off ? [whole(r.down)] : []), usdShort(r.cost * x.mw), `${r.months} of 12`] }; })} />
-              </Fold>
-              <Fold title="Every month">
-                <ToolTable caption="Every month" minWidth={620} head={["Month", "Flat load, USD/MWh", ...(flex ? ["This load, USD/MWh", "If perfectly foreseen"] : []), ...(off ? ["Hours off"] : []), `USD, ${size}`, "Hours held"]}
-                  rows={[...ms].reverse().map((r) => { const h = msH.get(r.m); return { key: r.m, muted: !r.complete, cells: [r.m, two(r.flat / r.held), ...(flex ? [r.energy ? two(r.cost / r.energy) : "", h?.energy ? two(h.cost / h.energy) : ""] : []), ...(off ? [whole(r.down)] : []), usdShort(r.cost * x.mw), `${whole(r.held)} of ${whole(r.due)}`] }; })} />
-              </Fold>
-              {matrix.length ? <Fold title="The Commission's transmission charge matrix, ERCOT and the four utilities"><MatrixTable rows={matrix} /></Fold> : null}
-              <Fold title={`Every region of ${g.name}, a flat load, ${market}`}>
-                <ToolTable caption="Every region" words minWidth={560} head={["Region", "Last twelve months, USD/MWh", "Held from"]}
-                  rows={regionRows.map((r) => ({ key: r.id, highlight: r.id === x.region, cells: [<span key="l"><Link href={hrefOf(x, { region: r.id })} scroll={false}>{r.id}</Link>{r.name ? <span className="ml-2 text-xs text-muted">{r.name}</span> : null}</span>,
-                    r.per !== null ? <>{two(r.per)} <span className="text-xs text-muted">{r.sp}</span></> : <Missing key="m" why={r.from ? `Held from ${day(r.from)}: ${whole(r.hours)} hours, not yet twelve complete months.` : `No ${market} price is held for this region.`} />,
-                    r.from ? day(r.from) : ""] }))} />
-              </Fold>
-            </div>
-          ) : null}
         </div>
       </div>
-      <SourceLine tables={[...INDEX.tables, "clean_energy_summary", "grid_stress_yearly", "eia930_demand_growth", "interconnection_queue_summary", ...(x.grid === "ercot" ? ["ercot_large_load_status"] : []), ...(g?.demand_source && !withheld ? [g.demand_source.split(" ")[0]] : []), ...(DELIVERY.table && x.grid === "ercot" ? [DELIVERY.table, ...(DELIVERY.matrix_table ? [DELIVERY.matrix_table] : [])] : []), ...(x.grid === "nyiso" ? ["nyiso_load_queue"] : []), ...(cFile?.clean ? ["clean_energy_hourly"] : [])]}
+      <SourceLine tables={[...INDEX.tables, "carbon_intensity_monthly", "carbon_intensity_hourly", ...(x.grid === "caiso" || M.bSite?.grid === "caiso" ? ["caiso_grid_emergencies"] : []), ...(x.grid === "ercot" ? ["ercot_large_load_status"] : []), "large_load_rules", "clean_energy_summary", "grid_stress_yearly", "eia930_demand_growth", "interconnection_queue_summary", ...(x.grid === "ercot" ? ["ercot_large_load_status"] : []), ...(g?.demand_source && !M.withheld ? [g.demand_source.split(" ")[0]] : []), ...(DELIVERY.table && x.grid === "ercot" ? [DELIVERY.table, ...(DELIVERY.matrix_table ? [DELIVERY.matrix_table] : [])] : []), ...(x.grid === "nyiso" ? ["nyiso_load_queue"] : []), ...(M.cFile?.clean ? ["clean_energy_hourly"] : [])]}
         note={<>The price files were built {day(INDEX.built)}. Defaults: <span className="cursor-help border-b border-dotted border-muted" title={ASSUMED.gpu.source}>power per GPU</span>, <span className="cursor-help border-b border-dotted border-muted" title={ASSUMED.pue.source}>overhead ratio</span>. The default case hour by hour: <a href={HOURLY_CSV} download data-download="csv">CSV</a>, <a href={DO_FILE} download data-download="do">Stata do-file</a>, <a href={MIRROR} download data-download="py">Python mirror</a>. <Link href={METHOD}>Method note</Link>. <span data-checked-against="6">Checked against: 6 published figures (EIA). <Link href="/data/methods/datacenter_pays_algorithm#cross-checks">Each comparison, with its gap and the reason</Link>.</span></>} />
      </LoadDecisions>
-    </ContractProvider>
   );
 }
 
-/** New York's load in line by zone: megawatts and requests as NYISO's sheet "Load Projects" lists them, the reader's
- * zone first; each zone's requests by status, and the source, on hover. Sums within NYISO's one list, by its statuses. */
-function NyLoadCell({ own }: { own: string }): ReactNode {
-  const mine = NYLOAD.zones.find((z) => z.zone_name === own);
-  const src = `${NYLOAD.source.name}, sheet "Load Projects" (${NYLOAD.source.url}), as NYISO last changed it on ${NYLOAD.source.workbook_last_modified}. ${NYLOAD.rule.in_line}`;
-  const tip = (z: NyZone) => `${z.zone} ${z.zone_name}: ${z.by_status.map((b) => `${b.status}: ${b.requests} requests, ${b.mw.toLocaleString("en-US")} MW`).join("; ") || "no request in line"}. ${src}`;
+/** Session 236: Texas's delivery charges, one row a component (transmission, distribution, other riders) and the total,
+ * a column a wires utility, in USD per MWh for a flat load of the reader's size served at transmission voltage. Each
+ * figure is lib/datacenter/delivery.ts's sum of that utility's tariff lines of that kind and carries its check key
+ * (dcd|<mw>|<utility>:<component>), which scripts/check-values.mjs recomputes from the site's file. Its own table: never
+ * added to the market cost. The tariff's own lines are in the download (tables.csv, the table "delivery"). */
+function DeliveryTable({ parts, mw, size, href }: { parts: UtilityDelivery[]; mw: number; size: string; href: string }): ReactNode {
+  const fig = (u: string, what: string) => {
+    const v = deliveryStat(DELIVERY.rows, mw, `${slugOf(u)}:${what}`);
+    return v === undefined ? <Missing why="No line of this kind is in the utility's tariff as the page's file holds it." /> : <Num check={`dcd|${mw}|${slugOf(u)}:${what}`} raw={v}>{shown(v)}</Num>;
+  };
+  const left = parts.reduce((a, d) => a + d.conditional, 0), unread = parts.reduce((a, d) => a + d.unread, 0), lines = parts.reduce((a, d) => a + d.lines, 0);
   return (
-    <span className="block" data-nyload="1">
-      {mine ? <span className="mb-1 block"><span className="cursor-help border-b border-dotted border-muted" title={tip(mine)} data-nyload-own="1">{mine.mw.toLocaleString("en-US")} MW in {whole(mine.requests)} requests in {mine.zone_name}</span>; <span className="cursor-help border-b border-dotted border-muted" title={src} data-nyload-total="1">{NYLOAD.total.mw.toLocaleString("en-US")} MW in {whole(NYLOAD.total.requests)} requests in New York</span></span> : null}
-      {NYLOAD.zones.map((z) => (
-        <span key={z.zone} className={`mr-3 inline-block cursor-help whitespace-nowrap text-xs ${z.zone_name === own ? "font-semibold" : ""}`} data-nyload-zone={z.zone_name} title={tip(z)}>{z.zone_name} {z.mw.toLocaleString("en-US")} MW</span>
-      ))}
-    </span>
-  );
-}
-
-/** One utility's delivery charges for a load at transmission voltage, transmission and distribution apart, each as the
- * tariff prints it, with its document, page, date and the line it was read from on hover; and, for a transmission
- * factor billed per kW of four-coincident-peak demand, what it comes to per MWh for a flat load. Its own row: never
- * added to the market cost. */
-function DeliveryCell({ rows }: { rows: typeof DELIVERY.rows }): ReactNode {
-  const tcrf = rows.find((r) => (r.kind ?? "transmission") === "transmission" && /4CP\s*kW/i.test(r.unit) && r.value > 0);
-  const groups: [string, string, typeof rows][] = [
-    ["transmission", "Transmission", rows.filter((r) => (r.kind ?? "transmission") === "transmission")],
-    ["distribution", "Distribution", rows.filter((r) => r.kind === "distribution")],
-    ["other", "Other riders", rows.filter((r) => r.kind === "other")],
-  ];
-  return (
-    <span className="block text-ink" data-delivery="1">
-      {tcrf ? (
-        <span className="mb-1 block">
-          <span className="cursor-help border-b border-dotted border-muted" data-delivery-per-mwh="1"
-            title={`${tcrf.value_as_written} ${tcrf.unit} is billed each month on the load's demand in the grid's four summer peak intervals. For a flat load that demand is its size, so a year costs ${tcrf.value} x 12 per kW, over 8,760 hours: USD ${two((tcrf.value * 12000) / 8760)} per MWh. Not added to the market cost above.`}>
-            The transmission factor alone, a flat load: USD {two((tcrf.value * 12000) / 8760)} per MWh
-          </span>
-        </span>
-      ) : null}
-      {groups.filter(([, , g]) => g.length).map(([kind, label, g]) => (
-        <span key={kind} className="mb-0.5 block text-xs" data-delivery-kind={kind}>
-          <span className="mr-2 font-semibold">{label}</span>
-          {g.map((r, i) => (
-            <span key={i} className="mr-3 inline-block">
-              <a href={r.url} title={`${r.document}${r.page ? `, page ${r.page}` : ""}${r.effective ? `, effective ${r.effective}` : ""}. Read from the line: "${r.sentence}"${r.column ? ` (its column ${r.column})` : ""}.${r.why ? ` ${r.why}.` : ""}${r.applies ? ` Applies: ${r.applies}.` : ""} ${r.terms}.`} className="cursor-help no-underline hover:underline">
-                {r.charge}: {r.value_as_written.replace(/^\$\s*/, "").replace(/^\(\s*\$?\s*/, "(")} {r.unit.replace(/^\$\//, "USD per ").replace(/^\//, "USD per ").replace(/^per /i, "USD per ")}
-              </a>{i < g.length - 1 ? ";" : ""}
-            </span>
-          ))}
-        </span>
-      ))}
-    </span>
+    <div data-delivery="1">
+      <Sub>Delivery charges in Texas, USD per MWh</Sub>
+      <ToolTable caption="Delivery charges in Texas by component, USD per MWh for a flat load" minWidth={560} head={["Component", ...parts.map((d) => d.utility)]}
+        rows={[
+          ...KINDS.map((k) => ({ key: k, cells: [KIND_LABELS[k], ...parts.map((d) => <span key={d.utility} data-delivery-kind={k}>{fig(d.utility, k)}</span>)] })),
+          { key: "total", highlight: true, cells: ["Total delivery", ...parts.map((d) => <span key={d.utility} data-delivery-total={slugOf(d.utility)}>{fig(d.utility, "total")}</span>)] },
+        ]} />
+      <p className="mt-2 max-w-3xl text-xs text-muted" data-delivery-note="1">
+        For a flat {size} load served at transmission voltage, in the area of each of Texas&apos;s four large wires utilities. A component is the sum of that utility&apos;s tariff lines of that kind ({lines} lines in all): a rate per kW a month is counted on the load&apos;s size (a kVA as a kW), a rate per account a month is spread over the year&apos;s energy, a rate per kWh stands as it is.
+        {left ? ` ${left} lines that apply only to some loads (a municipal fee or credit, a charge of one former service area) are left out of the sums.` : ""}{unread ? ` ${unread} lines whose unit names no basis are left out too.` : ""} Each figure is rounded to the cent, so a total can differ from the sum of its rows by a cent. These charges are never added to the market cost above; to count one in a scenario, type its total as that scenario&apos;s delivery and other charges.
+        {" "}<a href={href} download>The tariff lines as filed, CSV</a>: each schedule&apos;s name, its rate and unit as printed, its page, its date and its document (the table &quot;delivery&quot;).
+      </p>
+    </div>
   );
 }
 
 const matrixTip = (r: MatrixRow) => `${r.document}, filed ${r.filed}, page ${r.page ?? "not printed"} of the attachment${r.scan_page ? ` (page ${r.scan_page} of the filed scan)` : ""}. Column "${r.header}". Read from the line: "${r.sentence}".${r.digits_spaced ? " The text of the file prints this figure with its digits spaced." : ""} ${r.docket_status}.`;
-const matrixName = (r: MatrixRow) => `${r.year}${r.matrix ? `, matrix ${r.matrix}` : ""}`;
 /** The Commission's wholesale transmission rate for all of ERCOT (the postage stamp rate), each year as printed, with
  * what it comes to per MWh for a flat load. Its own row: never added to the market cost. */
 function MatrixCell({ rows }: { rows: MatrixRow[] }): ReactNode {
@@ -495,43 +283,11 @@ function MatrixCell({ rows }: { rows: MatrixRow[] }): ReactNode {
     <span className="block text-ink" data-matrix="1">
       {rates.map((r) => (
         <span key={`${r.year}${r.matrix}`} className="mr-4 inline-block">
-          <a href={r.scan_url || r.url} className="cursor-help no-underline hover:underline" title={matrixTip(r)} data-matrix-rate={r.year}>{r.year}: USD {r.value.toFixed(6)} per kW of four-peak demand a year</a>
-          {" "}<span className="cursor-help border-b border-dotted border-muted text-xs" title={`A flat load's demand in the four summer peak intervals is its size, so ${r.value.toFixed(6)} per kW a year over 8,760 hours is USD ${two((r.value * 1000) / 8760)} per MWh. This is the rate distribution providers pay for the whole grid's transmission; a retail customer pays it through its utility's transmission factor above. Not added to the market cost.`}>USD {two((r.value * 1000) / 8760)} per MWh, a flat load</span>
+          <a href={r.scan_url || r.url} className="cursor-help no-underline hover:underline" title={`USD ${r.value.toFixed(6)} per kW of four-peak demand a year, as printed. ${matrixTip(r)}`} data-matrix-rate={r.year}>{r.year}</a>:
+          {" "}<span className="cursor-help border-b border-dotted border-muted" title={`A flat load's demand in the four summer peak intervals is its size, so ${r.value.toFixed(6)} per kW a year over 8,760 hours is USD ${two((r.value * 1000) / 8760)} per MWh. This is the rate distribution providers pay for the whole grid's transmission; a retail customer pays it through its utility's transmission factor above. Not added to the market cost.`}>USD {two((r.value * 1000) / 8760)} per MWh, a flat load</span>
           <span className="ml-1 text-xs text-muted">{r.status === "approved" ? "approved" : "filed, not approved"}</span>
         </span>
       ))}
-    </span>
-  );
-}
-/** The matrix, row by row: all of ERCOT and the four utilities as transmission providers, each figure as printed. */
-function MatrixTable({ rows }: { rows: MatrixRow[] }): ReactNode {
-  const keys = [...new Set(rows.map((r) => `${r.year}|${r.matrix}|${r.scope}`))];
-  const pick = (k: string, q: string[]) => rows.find((r) => `${r.year}|${r.matrix}|${r.scope}` === k && q.includes(r.quantity));
-  const cell = (r: MatrixRow | undefined, digits: number) => r ? <a href={r.scan_url || r.url} title={matrixTip(r)} className="cursor-help no-underline hover:underline">{r.value.toLocaleString("en-US", { minimumFractionDigits: digits, maximumFractionDigits: digits })}</a> : <Missing why="The matrix prints no such figure in this row." words="not printed" />;
-  return (
-    <ToolTable caption="The Commission's transmission charge matrix" words minWidth={680} head={["", "Transmission cost of service, USD a year", "Rate, USD per kW a year", "Four-peak demand, kW", ""]}
-      rows={keys.map((k) => { const [, , scope] = k.split("|"); const any = rows.find((r) => `${r.year}|${r.matrix}|${r.scope}` === k)!;
-        return { key: k, cells: [`${scope}, ${matrixName(any)}`, cell(pick(k, ["total_transmission_cost_of_service", "transmission_cost_of_service"]), 0), cell(pick(k, ["postage_stamp_rate", "access_fee"]), 6),
-          cell(pick(k, ["total_average_4cp", "average_4cp"]), 0), <span key="s" className="text-xs text-muted">{any.status === "approved" ? "approved" : "filed, not approved"}</span>] }; })} />
-  );
-}
-
-/** Demand by region: each zone's average demand in the newest whole year against the first whole year held. */
-function ZoneCell({ zones, own }: { zones: NonNullable<(typeof INDEX.grids)[string]["zones"]>; own: string }): ReactNode {
-  const rows = Object.entries(zones).map(([z, ys]) => {
-    const wholeYears = Object.keys(ys).filter((y) => ys[y].hours_held >= 0.95 * ys[y].hours_due && ys[y].hours_due >= 8760).sort();
-    const a = wholeYears[0], b = wholeYears.at(-1);
-    return { z, a, b, from: a ? ys[a].mean_mw : null, to: b ? ys[b].mean_mw : null, peak: b ? ys[b].peak_mw : null };
-  }).filter((r) => r.a && r.b && r.a !== r.b);
-  if (!rows.length) return <Missing why="No region holds two whole years of hourly demand." />;
-  return (
-    <span className="block" data-zones="1">
-      {rows.map((r) => (
-        <span key={r.z} className={`mr-3 inline-block cursor-help whitespace-nowrap ${r.z === own ? "font-semibold" : ""}`} data-zone={r.z} title={`${r.z}: average demand ${whole(r.from!)} MW in ${r.a}, ${whole(r.to!)} MW in ${r.b}; highest hour of ${r.b}: ${whole(r.peak!)} MW`}>
-          {r.z} {r.to! >= r.from! ? "+" : ""}{two((100 * (r.to! - r.from!)) / r.from!)}%
-        </span>
-      ))}
-      <span className="block text-xs text-muted">average demand, {rows[0].a} to {rows[0].b}</span>
     </span>
   );
 }

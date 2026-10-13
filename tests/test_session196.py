@@ -51,7 +51,7 @@ class TheDefaults(unittest.TestCase):
         self.assertIn('"80% equity at a 12% cost" in its storage cases', battery)
         self.assertIn('"60% debt at an 8% interest rate and 40% equity at a 12% cost". The default is that cost of equity', seller)
         self.assertIn("hurdle: HURDLE, cshare: 0, cprice: 0 };", battery)
-        self.assertIn("hurdle: HURDLE };", seller)
+        self.assertIn("hurdle: HURDLE, cshare: 0, cprice: 0 };", seller)   # session 212
         dc = src("site/lib/datacenter/finance.ts")
         self.assertIn("export const LIFE = 20, HURDLE = 9.6;", dc)
         self.assertIn('"60% debt at an 8% interest rate and 40% equity at a 12% cost". The default is that weighted cost, 0.6 x 8 + 0.4 x 12 = 9.6 percent', dc)
@@ -66,7 +66,7 @@ class TheDefaults(unittest.TestCase):
         self.assertIn("export const BATTERY_DEG = 2.6;", seller)
         self.assertIn("deg: costs.deg ?? 0,", seller)
         self.assertIn("The model has no loss of output with age. No cited rate is held, so the default is none", seller)   # solar, wind, a peaker
-        page = src("site/app/cost-of-power/seller/page.tsx")
+        page = src("site/app/cost-of-power/seller/model.ts")   # session 212: what the page computes is model.ts
         self.assertIn('...(asked.asset === "battery" ? { deg: BATTERY_DEG, degSource: BATTERY_DEG_SOURCE } : {})', page)
 
 

@@ -50,7 +50,7 @@ COLUMNS = ["hour_utc", "std_month", "rt_usd_mwh", "da_usd_mwh", "hub_rt_usd_mwh"
 TEXT_COLUMNS = ["hour_utc", "std_month"]
 PRICE_COLUMNS = ["rt_usd_mwh", "da_usd_mwh", "hub_rt_usd_mwh"]
 HEADER_LINES, SENTINEL = 15, -99999
-DOUBLES = ["rt_usd_per_mw", "da_usd_per_mw", "hub_usd_per_mw", "rt_usd_mwh_month", "year_usd_per_mw", "year_hours"]
+DOUBLES = ["rt_usd_per_mw", "da_usd_per_mw", "hub_usd_per_mw", "rt_usd_mwh_month", "year_usd_per_mw", "year_hours", "kg_hours"]   # session 236: kg_hours, of session 228's part
 FILES = ["warehouse/derived/datacenter_hourly_export.py", f"site/public/datacenter/{DO_NAME}", f"site/public/datacenter/{MIRROR_NAME}",
          f"site/public/datacenter/{CSV_NAME}", "tests/test_session190_replication.py", "site/scripts/check-datacenter-face.mjs"]
 MW, GPU_KW, PUE = 100, 1.3, 1.56
@@ -154,6 +154,10 @@ class DoFileRules(unittest.TestCase):
         cls.lines = cls.text.split("\n")
         cls.comments, cls.columns, _ = csv_text()
         cls.numeric = [c for c in cls.columns if c not in TEXT_COLUMNS]
+        # session 236: session 228 added a second part to the do-file (the scarce hours and the carbon), which re-reads the
+        # hourly file and reads the carbon file. Session 190's rules are held on the part before it, as they were, and
+        # the part after it is held to the same rules with its own lists
+        cls.first, cls.second = cls.text.split("* Session 228,", 1)
 
     def test_no_continuation_operator_and_no_delimiter_change(self):
         self.assertNotIn("///", self.text)
@@ -188,25 +192,36 @@ class DoFileRules(unittest.TestCase):
                 loops += 1
         self.assertEqual(depth, 0)
         self.assertGreater(seen, 80)
-        self.assertEqual(loops, 2)                                       # so the rule for the inside of a loop is exercised
+        self.assertEqual(loops, 3)                                       # so the rule for the inside of a loop is exercised (session 236: two, and the third of session 228's part, the carbon by year)
+        self.assertEqual(len(re.findall(r"(?m)^\S.*\{$", self.first)), 2)
         self.assertFalse(lines[-1].strip() == "", "the file ends with two empty lines")
 
     def test_every_numeric_column_is_destrung_with_force_one_command_each(self):
-        got = re.findall(r"^destring (\w+), replace force$", self.text, flags=re.M)
+        got = re.findall(r"^destring (\w+), replace force$", self.first, flags=re.M)
         self.assertEqual(got, self.numeric)
-        self.assertEqual(len(re.findall(r"^\s*destring\b", self.text, flags=re.M)), len(self.numeric), "a destring without replace force")
+        # session 236: session 228's part reads the hourly file again for two of its columns, and the carbon file's one numeric column
+        again = re.findall(r"^destring (\w+), replace force$", self.second, flags=re.M)
+        self.assertEqual(again, ["rt_usd_mwh", "in_last_twelve", "kg_co2_per_mwh"])
+        self.assertEqual(len(re.findall(r"^\s*destring\b", self.text, flags=re.M)), len(self.numeric) + len(again), "a destring without replace force")
         self.assertEqual(self.numeric, PRICE_COLUMNS + ["in_last_twelve"])
         for c in TEXT_COLUMNS:                                            # the two text columns are read as text and never destrung
             self.assertNotRegex(self.text, rf"destring {c}\b")
 
     def test_the_sentinel_is_recoded_per_variable_before_any_loop_or_collapse(self):
-        got = re.findall(r"^replace (\w+) = \. if (\w+) == (-\d+)$", self.text, flags=re.M)
+        got = re.findall(r"^replace (\w+) = \. if (\w+) == (-\d+)$", self.first, flags=re.M)
         self.assertEqual(got, [(c, c, str(SENTINEL)) for c in PRICE_COLUMNS])      # one command a variable, each naming itself
-        last_recode = max(m.start() for m in re.finditer(r"^replace \w+ = \. if ", self.text, flags=re.M))
-        first_recode = min(m.start() for m in re.finditer(r"^replace \w+ = \. if ", self.text, flags=re.M))
-        last_destring = max(m.start() for m in re.finditer(r"^destring ", self.text, flags=re.M))
-        first_loop = min(m.start() for m in re.finditer(r"^(foreach|forvalues|while|reshape|collapse)\b", self.text, flags=re.M))
-        first_use = min(m.start() for m in re.finditer(r"^(gen|egen|quietly|display)\b", self.text, flags=re.M))
+        last_recode = max(m.start() for m in re.finditer(r"^replace \w+ = \. if ", self.first, flags=re.M))
+        first_recode = min(m.start() for m in re.finditer(r"^replace \w+ = \. if ", self.first, flags=re.M))
+        last_destring = max(m.start() for m in re.finditer(r"^destring ", self.first, flags=re.M))
+        first_loop = min(m.start() for m in re.finditer(r"^(foreach|forvalues|while|reshape|collapse)\b", self.first, flags=re.M))
+        first_use = min(m.start() for m in re.finditer(r"^(gen|egen|quietly|display)\b", self.first, flags=re.M))
+        # session 236: session 228's part re-reads the hourly file; the one price column it uses is recoded again, after
+        # its destring and before anything is made from it
+        again = re.findall(r"^replace (\w+) = \. if (\w+) == (-\d+)$", self.second, flags=re.M)
+        self.assertEqual(again, [("rt_usd_mwh", "rt_usd_mwh", str(SENTINEL))])
+        at = self.second.index("replace rt_usd_mwh = . if rt_usd_mwh == ")
+        self.assertLess(self.second.index("destring rt_usd_mwh, replace force"), at)
+        self.assertLess(at, min(m.start() for m in re.finditer(r"^(gen|egen|quietly|display|collapse)\b", self.second, flags=re.M)))
         self.assertLess(last_destring, first_recode)
         self.assertLess(last_recode, first_loop)
         self.assertLess(last_recode, first_use)
@@ -234,7 +249,11 @@ class DoFileRules(unittest.TestCase):
             self.assertRegex(self.text, rf"(?m)^e?gen double {v} = ", v)
         made = re.findall(r"(?m)^e?gen (?:double )?(\w+) = ", self.text)
         whole = [v for v in made if v not in DOUBLES]
-        self.assertEqual(whole, ["ym", "rt_hour", "da_hour", "hub_hour", "hours_due", "rt_counted", "da_counted", "hub_counted", "calendar_year", "year_months"])
+        # session 236: and the whole-valued variables of session 228's part (a flag, a clock hour, a count, a month label, a
+        # year); its one real-valued variable, kg_hours, was made a float until this session and is a double now
+        self.assertEqual(whole, ["ym", "rt_hour", "da_hour", "hub_hour", "hours_due", "rt_counted", "da_counted", "hub_counted", "calendar_year", "year_months",
+                                 "scarce", "clock_std", "hours", "ym_s", "year"])
+        self.assertIn("\ngen double kg_hours = kg_co2_per_mwh * hours if kind == \"month\" & hours != .\n", self.second)
         self.assertIn("collapse (sum) rt_usd_per_mw da_usd_per_mw hub_usd_per_mw rt_hours = rt_hour da_hours = da_hour hub_hours = hub_hour "
                       "(max) in_last_twelve, by(ym)", self.text)
 
@@ -262,8 +281,16 @@ class DoFileRules(unittest.TestCase):
         mirror, n = mirror_numbers()
         shown = [re.match(r'\s*display "([^"`:]*)', line).group(1) for line in self.lines if line.strip().startswith("display")]
         out = mirror.report(n)
-        self.assertEqual(len(shown), 19)                                  # 18 lines and the loop's one, which prints one a year
-        self.assertEqual(len(out), 18 + len(n["years"]))
+        self.assertEqual(sum(1 for line in self.first.split("\n") if line.strip().startswith("display")), 19)   # 18 lines and the loop's one, which prints one a year
+        # session 236: and the ten of session 228's part: four of the scarce hours, five of the carbon and its loop's one a
+        # year. The mirror prints the carbon's lines when it has read the carbon file beside the hourly one
+        self.assertEqual(len(shown), 29)
+        self.assertEqual(len(out), 18 + len(n["years"]) + 4)
+        full = dict(n)
+        full["rows"] = mirror.read(CSV_PATH)                              # as the mirror's own main does before the carbon step
+        full.update(mirror.carbon(os.path.join(os.path.dirname(CSV_PATH), mirror.CARBON_NAME), full))
+        out = mirror.report(full)
+        self.assertEqual(len(out), 18 + len(n["years"]) + 4 + 5 + len(full["co2_years"]))
         at = 0
         for words in shown:                                               # the same lines in the same order
             found = next((i for i in range(at, len(out)) if out[i].startswith(words.strip())), None)
@@ -510,10 +537,12 @@ class TheMirrorAndThePage(unittest.TestCase):
                      "year 2015: months that count 12, a flat load, USD per MWh: 24.04", "year 2021: months that count 12, a flat load, USD per MWh: 150.61",
                      "year 2025: months that count 12, a flat load, USD per MWh: 32.66", "year 2026: months that count 9, a flat load, USD per MWh: 34.02",
                      "months that count of the 36: 36, 2023-10 to 2026-09", "a bad month, nearest rank 4: 2026-08, USD per MWh: 37.88",
-                     "the bad month's cost for 100 MW, USD: 2,818,474"):
+                     "the bad month's cost for 100 MW, USD: 2,818,474",
+                     # session 236: the four lines of session 228's scarce hours follow (without the carbon file's)
+                     "hours of the last twelve months at or above USD 1000 per MWh: 4", "what a flat load of 100 MW paid in them, USD: 446,175"):
             shape = "".join(number if re.fullmatch(number, part) else re.escape(part) for part in re.split(f"({number})", line))
             self.assertTrue(any(re.fullmatch(shape, got) for got in out), line)
-        self.assertEqual(len(out), 30)
+        self.assertEqual(len(out), 34)                                    # session 236: 30, and session 228's four
 
     def test_the_mirror_reads_nothing_but_the_csv_and_the_standard_library(self):
         text = src("site", "public", "datacenter", MIRROR_NAME)

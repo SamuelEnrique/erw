@@ -54,6 +54,8 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/events/covid-2020",
   // session 37: the cost-of-power model (session 138: what the tab showed until then is the page's view "Grid by grid")
   "/cost-of-power?view=grids",
+  // session 228: "Your load", the page's own view, with the three answers' keys (dc|...), flat and off in 100 hours
+  "/cost-of-power", "/cost-of-power?run=hours",
   // session 51: the seller's tab, its defaults and three other assets
   "/cost-of-power/seller", "/cost-of-power/seller?asset=battery", "/cost-of-power/seller?asset=peaker", "/cost-of-power/seller?iso=spp&asset=wind",  // session 145: MISO is blank on the page, so the fourth view is SPP's wind
   // session 38: today's level's price range
@@ -128,8 +130,11 @@ async function all(table, params) {
   }
 }
 
+const dcAnswers = new Map();   // session 228: the answers of one address of /cost-of-power, read once
+let R_statOf = null;
 /** The value Supabase holds for one data-check key. */
 async function truth(check) {
+  if (R_statOf === null) R_statOf = (await import("../lib/datacenter/answers.ts")).statOf;
   const p = check.split("|");
   if (p[0] === "catalogue") {
     // session 149: the home page counts the tables a visitor may see: public, and not held for a page in review
@@ -429,8 +434,43 @@ async function truth(check) {
   }
   // session 48: the shape premium report's period statistics, shape|<entity>|<market>|<stat>|<start>|<end>, by
   // lib/shapepremium.ts from every cost_of_power_monthly row of the hub
+  // session 228: the three answers of "What a datacenter pays", dc|<address>|<stat>: the address names the load (grid,
+  // region, market, how it runs, size); the figure is recomputed by lib/datacenter/answers.ts from this script's own
+  // read of carbon_intensity_monthly, carbon_intensity_hourly, ercot_large_load_status and caiso_grid_emergencies in
+  // Supabase, and from the page's own price files (scripts/datacenter-ways.mjs), as the page computes it
+  if (p[0] === "dc") {
+    const key = p[1];
+    if (!dcAnswers.has(key)) {
+      const W = await import("./datacenter-ways.mjs");
+      const R = await import("../lib/datacenter/answers.ts");
+      const q = Object.fromEntries(new URLSearchParams(key));
+      const page = W.pageOf(q);
+      const x = page.x, g = W.INDEX.grids[x.grid];
+      const l12 = (page.l12 ?? []).map((r) => r.m);
+      dcAnswers.set(key, R.readAnswers({ grid: x.grid, mw: x.mw, l12, behind: g.std_hours_behind_utc, ruled: await W.ruledWays(page), rows: (t, params) => all(t, params) }));
+    }
+    const a = await dcAnswers.get(key);
+    return R_statOf(a, p.slice(2).join("|"));
+  }
+  // session 236: Texas's delivery charges by component on "What a datacenter pays", dcd|<mw>|<utility>:<component or
+  // total>: recomputed by lib/datacenter/delivery.ts from the site's own file of tariff lines
+  // (data/datacenter/texas_delivery.json, not Supabase), as the page computes it
+  if (p[0] === "dcd") {
+    const D = await import("../lib/datacenter/delivery.ts");
+    const file = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "datacenter", "texas_delivery.json"), "utf-8"));
+    return D.deliveryStat(file.rows, Number(p[1]), p.slice(2).join("|"));
+  }
   // session 51: the seller's tab: recomputed from the snapshot the page reads (data/merchant_snapshot.json, not Supabase),
   // with lib/merchant.ts; tests/test_session51.py checks the snapshot against the warehouse table and by hand
+  // session 235: the capture table of /cost-of-power/seller, cap|<grid>|<hub>|<market>|<fuel>|<span>|<stat>: recomputed
+  // from the file the page reads (data/seller/capture.json, not Supabase; warehouse/derived/capture_price.py builds it
+  // and tests/test_session145.py holds it against the warehouse) with lib/capture.ts. <span> is l12 or a year; <stat>
+  // is price, flat or rate (the capture rate in whole percent, as the table writes it)
+  if (p[0] === "cap") {
+    const C = await import("../lib/capture.ts");
+    const file = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "seller", "capture.json"), "utf-8"));
+    return C.stat(file, p[1], p[2], p[3], p[4], p[5], p[6]);
+  }
   if (p[0] === "mr") {
     const M = await import("../lib/merchant.ts");
     const snap = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "merchant_snapshot.json"), "utf-8"));

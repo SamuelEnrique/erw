@@ -175,7 +175,7 @@ class Rule(unittest.TestCase):
             self.assertEqual(out.count(line), 2, line)   # in the calm year and in the year of Winter Storm Uri
 
     def test_the_rule_is_the_pages_figure_and_foresight_stands_beside_it(self):
-        page = src("site", "app", "cost-of-power", "page.tsx")
+        page = src("site", "app", "cost-of-power", "page.tsx") + src("site", "app", "cost-of-power", "model.ts")   # session 213
         self.assertIn('monthsRuled(files, x.region, x.buy, x, "forecast")', page)
         self.assertIn('monthsRuled(files, x.region, x.buy, x, "hindsight")', page)
         self.assertIn('const FORESEEN = "if perfectly foreseen"', page)
@@ -190,7 +190,7 @@ class Rule(unittest.TestCase):
     def test_the_rule_is_stated_on_hover_and_not_on_the_face(self):
         page = src("site", "app", "cost-of-power", "page.tsx")
         # the rule's words come from the library and are passed to a hover; the page's own text holds none of them
-        self.assertIn("const rule = ruleWords(x)", page)
+        self.assertIn("const rule = ruleWords(x)", src("site", "app", "cost-of-power", "model.ts"))   # session 213
         self.assertIn("<Hover key=\"h\" why={rule}>", page)
         for words in ("prior 30 days", "dearest hourly day-ahead price", "upper bound", "with hindsight"):
             self.assertNotIn(words, re.sub(r'title=\{`[^`]*`\}|title="[^"]*"|const FORESEEN_WHY = "[^"]*"|//[^\n]*', "", page), words)
@@ -209,17 +209,22 @@ class Page(unittest.TestCase):
         for gone in ("rows", "zones", "total", "not_in_line", "nyiso_summary", "checks", "all_requests_on_sheet"):
             self.assertNotIn(gone, q, gone)
         self.assertNotIn("MW", json.dumps({k: v for k, v in q.items() if k != "source"}))
+        # session 213: the page's reads are model.ts; the requests, behind the switch, are the download (tables.csv), and the
+        # cell the page drew is grid-cells.tsx, undrawn
         page = src("site", "app", "cost-of-power", "page.tsx")
-        self.assertIn('import nyLoadJson from "@/data/nyiso_load_queue.json"', page)
-        self.assertIn("NYLOAD.rows.filter((r) => r.in_line)", page)   # kept, behind the switch
-        self.assertIn('x.grid === "nyiso" && NY_SHOWN ?', page)
-        self.assertIn("NY_SHOWN ? <NyLoadCell", page)
-        self.assertNotIn("developer", page.lower())   # no request's developer is shown
+        model = src("site", "app", "cost-of-power", "model.ts")
+        tables = src("site", "app", "cost-of-power", "tables.csv", "route.ts")
+        self.assertIn('import nyLoadJson from "@/data/nyiso_load_queue.json"', model)
+        self.assertIn("NYLOAD.rows.filter((k) => k.in_line)", tables)   # kept, behind the switch
+        self.assertIn('if (x.grid === "nyiso" && NY_SHOWN) {', tables)
+        self.assertIn("export function NyLoadCell", src("site", "app", "cost-of-power", "grid-cells.tsx"))
+        self.assertNotIn("<NyLoadCell", page)
+        self.assertNotIn("developer", (page + tables).lower())   # no request's developer is shown
 
     def test_the_loads_own_hours_against_clean_generation(self):
-        page = src("site", "app", "cost-of-power", "page.tsx")
+        page = src("site", "app", "cost-of-power", "model.ts")   # session 213: the page's reads are model.ts
         self.assertIn("cleanShare(expandSeries(cFile.clean, cFile.hours), cP, cW)", page)
-        self.assertIn('data-stat="own_clean"', page)
+        self.assertIn("this_loads_own_hours", src("site", "app", "cost-of-power", "tables.csv", "route.ts"))   # the figure is the download's
         self.assertNotIn("This load's own hours are not matched against them yet", page)
 
     def test_the_page_is_locked_and_the_three_live_pages_are_untouched(self):

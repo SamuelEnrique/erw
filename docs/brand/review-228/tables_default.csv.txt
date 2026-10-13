@@ -1,0 +1,397 @@
+200
+# Energy Research Warehouse (ERW): the tables of "What a datacenter pays" beside the page, 100 MW at LZ_NORTH in ERCOT, buying real time
+# long form: one row a cell (table, row, column, value, note); a value not held is blank with its reason in note
+# sources: the demand, mix and queue tools' own files (eia930_demand_growth, grid_stress_yearly, clean_energy_summary, clean_energy_hourly, interconnection_queue_summary, ercot_large_load_status), the operator's hourly demand where held, the page's price files (data/datacenter, built 2026-10-12), data/datacenter/how_soon.json and data/datacenter/rules.json (aggregates; no request's name is in them), NYISO's load interconnection requests where its terms allow; read at 2026-10-13T03:10:03Z
+# method: /data/methods/datacenter_pays_algorithm (sections 4.7 to 4.9 and 4.11 as the page drew them until session 213; the waits and the rules: /data/methods/datacenter_cost); the page: /cost-of-power
+table,row,column,value,note
+scarce_hours,last_twelve_months,hours,4,at or above USD 1000 per MWh at LZ_NORTH in ERCOT; 2025-10 to 2026-09; check key dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|scarce:hours
+scarce_hours,last_twelve_months,flat_load_usd,446175,what a flat load of 100 MW paid in them; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|scarce:flat_usd
+scarce_hours,way_flat,words,the same in every hour,
+scarce_hours,way_flat,hours_off,0,dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|scarce:off:flat
+scarce_hours,way_flat,paid_usd,446175,
+scarce_hours,way_flat,avoided_usd,0,dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|scarce:avoided_usd:flat
+scarce_hours,way_flex,words,off in the 100 most expensive hours of each year,
+scarce_hours,way_flex,hours_off,3,dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|scarce:off:flex
+scarce_hours,way_flex,paid_usd,139233,
+scarce_hours,way_flex,avoided_usd,306942,dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|scarce:avoided_usd:flex
+scarce_hours,way_shift,words,20 percent of each day's energy moved to the day's cheapest hours,
+scarce_hours,way_shift,hours_off,3,dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|scarce:off:shift
+scarce_hours,way_shift,paid_usd,104774,
+scarce_hours,way_shift,avoided_usd,341401,dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|scarce:avoided_usd:shift
+scarce_hours,month_2026-01,hours,4,
+scarce_hours,month_2026-01,flat_load_usd,446175,
+scarce_hours,clock_07,hours,1,"US Central standard time, the hour starting 07:00"
+scarce_hours,clock_18,hours,1,"US Central standard time, the hour starting 18:00"
+scarce_hours,clock_20,hours,1,"US Central standard time, the hour starting 20:00"
+scarce_hours,clock_21,hours,1,"US Central standard time, the hour starting 21:00"
+carbon,last_twelve_months_flat,kg_co2_per_mwh,303.14,"the same in every hour; the grid's monthly intensity of consumed electricity weighted by the load's energy in each month, over the 11 of 12 months with an intensity; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:l12:kg:flat"
+carbon,last_twelve_months_flat,tonnes_co2_a_year,265548,for 100 MW; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:l12:tonnes:flat
+carbon,hourly_window_flat,kg_co2_per_mwh,346.71,"the same in every hour; the load's own hours over 776 hours, 2026-09-07T16:00:00Z to 2026-10-09T23:00:00Z; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:window:flat"
+carbon,last_twelve_months_flex,kg_co2_per_mwh,303.22,"off in the 100 most expensive hours of each year; the grid's monthly intensity of consumed electricity weighted by the load's energy in each month, over the 11 of 12 months with an intensity; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:l12:kg:flex"
+carbon,last_twelve_months_flex,tonnes_co2_a_year,262590,for 100 MW; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:l12:tonnes:flex
+carbon,hourly_window_flex,kg_co2_per_mwh,346.71,"off in the 100 most expensive hours of each year; the load's own hours over 776 hours, 2026-09-07T16:00:00Z to 2026-10-09T23:00:00Z; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:window:flex"
+carbon,last_twelve_months_shift,kg_co2_per_mwh,303.14,"20 percent of each day's energy moved to the day's cheapest hours; the grid's monthly intensity of consumed electricity weighted by the load's energy in each month, over the 11 of 12 months with an intensity; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:l12:kg:shift"
+carbon,last_twelve_months_shift,tonnes_co2_a_year,265548,for 100 MW; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:l12:tonnes:shift
+carbon,hourly_window_shift,kg_co2_per_mwh,334.82,"20 percent of each day's energy moved to the day's cheapest hours; the load's own hours over 776 hours, 2026-09-07T16:00:00Z to 2026-10-09T23:00:00Z; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:window:shift"
+carbon,hourly_window_grid,kg_co2_per_mwh,346.71,the grid's mean over the same 776 hours; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:window:grid
+carbon,year_2018,kg_co2_per_mwh,468.57,the mean of 3 months held; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:year:2018
+carbon,year_2019,kg_co2_per_mwh,414.04,the mean of 10 months held; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:year:2019
+carbon,year_2020,kg_co2_per_mwh,375.45,the mean of 12 months held; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:year:2020
+carbon,year_2021,kg_co2_per_mwh,363.44,the mean of 10 months held; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:year:2021
+carbon,year_2022,kg_co2_per_mwh,353.76,the mean of 12 months held; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:year:2022
+carbon,year_2023,kg_co2_per_mwh,339.46,the mean of 9 months held; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:year:2023
+carbon,year_2024,kg_co2_per_mwh,325.72,the mean of 11 months held; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:year:2024
+carbon,year_2025,kg_co2_per_mwh,314.26,the mean of 11 months held; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:year:2025
+carbon,year_2026,kg_co2_per_mwh,300.95,the mean of 9 months held; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:year:2026
+carbon,month_2018-08,kg_co2_per_mwh,459.10,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2018-09,kg_co2_per_mwh,480.63,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2018-10,kg_co2_per_mwh,466.00,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2019-01,kg_co2_per_mwh,417.21,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2019-02,kg_co2_per_mwh,405.85,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2019-03,kg_co2_per_mwh,400.51,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2019-05,kg_co2_per_mwh,409.70,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2019-06,kg_co2_per_mwh,425.77,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2019-07,kg_co2_per_mwh,429.57,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2019-08,kg_co2_per_mwh,423.98,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2019-09,kg_co2_per_mwh,427.70,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2019-10,kg_co2_per_mwh,407.91,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2019-11,kg_co2_per_mwh,392.19,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2020-01,kg_co2_per_mwh,335.15,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2020-02,kg_co2_per_mwh,345.38,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2020-03,kg_co2_per_mwh,346.12,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2020-04,kg_co2_per_mwh,369.94,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2020-05,kg_co2_per_mwh,359.77,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2020-06,kg_co2_per_mwh,369.50,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2020-07,kg_co2_per_mwh,400.08,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2020-08,kg_co2_per_mwh,417.96,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2020-09,kg_co2_per_mwh,427.06,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2020-10,kg_co2_per_mwh,389.11,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2020-11,kg_co2_per_mwh,369.52,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2020-12,kg_co2_per_mwh,375.79,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2021-01,kg_co2_per_mwh,390.62,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2021-02,kg_co2_per_mwh,396.94,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2021-03,kg_co2_per_mwh,284.14,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2021-04,kg_co2_per_mwh,335.27,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2021-05,kg_co2_per_mwh,349.17,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2021-06,kg_co2_per_mwh,416.60,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2021-09,kg_co2_per_mwh,397.74,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2021-10,kg_co2_per_mwh,380.08,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2021-11,kg_co2_per_mwh,347.96,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2021-12,kg_co2_per_mwh,335.87,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2022-01,kg_co2_per_mwh,372.94,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2022-02,kg_co2_per_mwh,364.06,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2022-03,kg_co2_per_mwh,300.62,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2022-04,kg_co2_per_mwh,299.55,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2022-05,kg_co2_per_mwh,307.43,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2022-06,kg_co2_per_mwh,359.28,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2022-07,kg_co2_per_mwh,375.20,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2022-08,kg_co2_per_mwh,397.64,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2022-09,kg_co2_per_mwh,395.64,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2022-10,kg_co2_per_mwh,367.81,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2022-11,kg_co2_per_mwh,349.92,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2022-12,kg_co2_per_mwh,354.99,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2023-01,kg_co2_per_mwh,290.10,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2023-02,kg_co2_per_mwh,294.28,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2023-03,kg_co2_per_mwh,281.02,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2023-05,kg_co2_per_mwh,361.76,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2023-06,kg_co2_per_mwh,368.60,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2023-07,kg_co2_per_mwh,369.40,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2023-08,kg_co2_per_mwh,383.52,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2023-09,kg_co2_per_mwh,380.57,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2023-12,kg_co2_per_mwh,325.89,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2024-01,kg_co2_per_mwh,371.49,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2024-02,kg_co2_per_mwh,256.63,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2024-04,kg_co2_per_mwh,268.56,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2024-05,kg_co2_per_mwh,311.67,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2024-06,kg_co2_per_mwh,318.41,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2024-07,kg_co2_per_mwh,352.87,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2024-08,kg_co2_per_mwh,360.57,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2024-09,kg_co2_per_mwh,370.52,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2024-10,kg_co2_per_mwh,327.61,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2024-11,kg_co2_per_mwh,310.41,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2024-12,kg_co2_per_mwh,334.19,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2025-01,kg_co2_per_mwh,356.74,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2025-02,kg_co2_per_mwh,321.40,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2025-03,kg_co2_per_mwh,252.35,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2025-04,kg_co2_per_mwh,260.55,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2025-05,kg_co2_per_mwh,303.46,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2025-06,kg_co2_per_mwh,306.47,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2025-07,kg_co2_per_mwh,329.98,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2025-08,kg_co2_per_mwh,351.69,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2025-09,kg_co2_per_mwh,350.02,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2025-10,kg_co2_per_mwh,330.10,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2025-11,kg_co2_per_mwh,294.05,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2026-01,kg_co2_per_mwh,325.05,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2026-02,kg_co2_per_mwh,283.33,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2026-03,kg_co2_per_mwh,235.58,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2026-04,kg_co2_per_mwh,281.55,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2026-05,kg_co2_per_mwh,287.31,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2026-06,kg_co2_per_mwh,299.80,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2026-07,kg_co2_per_mwh,328.09,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2026-08,kg_co2_per_mwh,327.17,"carbon_intensity_monthly, intensity_demand"
+carbon,month_2026-09,kg_co2_per_mwh,340.69,"carbon_intensity_monthly, intensity_demand"
+large_load,report_2025-05-28,approved_to_energize_mw,6874,ercot_large_load_status; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2025-05-28:approved
+large_load,report_2025-05-28,observed_nonsimultaneous_peak_mw,3489,
+large_load,report_2025-05-28,observed_simultaneous_peak_mw,3441,
+large_load,report_2025-07-30,approved_to_energize_mw,7150,ercot_large_load_status; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2025-07-30:approved
+large_load,report_2025-07-30,observed_nonsimultaneous_peak_mw,3820,
+large_load,report_2025-07-30,observed_simultaneous_peak_mw,3632,
+large_load,report_2025-08-27,approved_to_energize_mw,7502,ercot_large_load_status; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2025-08-27:approved
+large_load,report_2025-08-27,observed_nonsimultaneous_peak_mw,3694,
+large_load,report_2025-08-27,observed_simultaneous_peak_mw,3733,
+large_load,report_2025-10-17,approved_to_energize_mw,7502,ercot_large_load_status; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2025-10-17:approved
+large_load,report_2025-10-17,observed_nonsimultaneous_peak_mw,4126,
+large_load,report_2025-10-17,observed_simultaneous_peak_mw,3800,
+large_load,report_2025-11-19,approved_to_energize_mw,7502,ercot_large_load_status; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2025-11-19:approved
+large_load,report_2025-11-19,observed_nonsimultaneous_peak_mw,4185,
+large_load,report_2025-11-19,observed_simultaneous_peak_mw,3795,
+large_load,report_2026-01-21,approved_to_energize_mw,8786,ercot_large_load_status; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2026-01-21:approved
+large_load,report_2026-01-21,observed_nonsimultaneous_peak_mw,3977,
+large_load,report_2026-01-21,observed_simultaneous_peak_mw,3765,
+large_load,report_2026-02-25,approved_to_energize_mw,8876,ercot_large_load_status; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2026-02-25:approved
+large_load,report_2026-02-25,observed_nonsimultaneous_peak_mw,3998,
+large_load,report_2026-02-25,observed_simultaneous_peak_mw,3846,
+large_load,report_2026-03-13,approved_to_energize_mw,9042,ercot_large_load_status; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2026-03-13:approved
+large_load,report_2026-03-13,observed_nonsimultaneous_peak_mw,3883,
+large_load,report_2026-03-13,observed_simultaneous_peak_mw,3801,
+large_load,report_2026-03-13,new_submissions_count,137,
+large_load,report_2026-03-13,new_submissions_mw,140000,
+large_load,report_2026-03-26,approved_to_energize_mw,9042,ercot_large_load_status; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2026-03-26:approved
+large_load,report_2026-03-26,observed_nonsimultaneous_peak_mw,4004,
+large_load,report_2026-03-26,observed_simultaneous_peak_mw,3522,
+large_load,report_2026-04-24,approved_to_energize_mw,9042,ercot_large_load_status; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2026-04-24:approved
+large_load,report_2026-04-24,observed_nonsimultaneous_peak_mw,4008,
+large_load,report_2026-04-24,observed_simultaneous_peak_mw,3701,
+large_load,report_2026-05-21,approved_to_energize_mw,9062,ercot_large_load_status; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2026-05-21:approved
+large_load,report_2026-05-21,observed_nonsimultaneous_peak_mw,3900,
+large_load,report_2026-05-21,observed_simultaneous_peak_mw,3701,
+large_load,report_2026-06-19,approved_to_energize_mw,8927,ercot_large_load_status; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2026-06-19:approved
+large_load,report_2026-06-19,observed_nonsimultaneous_peak_mw,3900,
+large_load,report_2026-06-19,observed_simultaneous_peak_mw,3675,
+large_load,change,approved_to_energize_mw,2053,2025-05-28 to 2026-06-19; dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:approved_change (the absolute change)
+large_load,rules_in_motion,count,8,"8 proceedings and orders on large loads are in motion for ERCOT in the public dockets held, the newest Public Utility Commission of Texas, 58481 (2026-09-18); each is in the download, with its document."
+power_there,demand_growth_2019_to_2025,average_pct,27.22,/demand
+power_there,demand_growth_2019_to_2025,highest_hour_pct,12.16,
+power_there,highest_hour_of_demand_2025,mw,83597,/mix?view=stress
+power_there,highest_hour_of_demand_2025,when,"18 August 2025, 17:00",
+power_there,installed_capacity_2025,Natural gas,68008,81.35 percent of the year's highest hour of demand
+power_there,installed_capacity_2025,Coal,14330,17.14 percent of the year's highest hour of demand
+power_there,installed_capacity_2025,Nuclear,5139,6.15 percent of the year's highest hour of demand
+power_there,installed_capacity_2025,Wind,39514,47.27 percent of the year's highest hour of demand
+power_there,installed_capacity_2025,Solar,25939,31.03 percent of the year's highest hour of demand
+power_there,installed_capacity_2025,Hydro and storage together,11185,13.38 percent of the year's highest hour of demand
+power_there,hours_tight_2025,hours,140,"in Feb, Jul, Aug, Sep, between 07:00 and 19:00; tight: at or above 95 percent of the year's highest hour"
+power_there,hours_tight_2025,this_load_off_in,0,a flat load runs in every hour
+power_there,demand_by_region_COAST,average_mw_2015,11378,
+power_there,demand_by_region_COAST,average_mw_2025,14746,
+power_there,demand_by_region_COAST,change_pct,29.60,
+power_there,demand_by_region_COAST,highest_hour_mw_2025,23007,
+power_there,demand_by_region_EAST,average_mw_2015,1404,
+power_there,demand_by_region_EAST,average_mw_2025,1818,
+power_there,demand_by_region_EAST,change_pct,29.51,
+power_there,demand_by_region_EAST,highest_hour_mw_2025,3697,
+power_there,demand_by_region_FWEST,average_mw_2015,2070,
+power_there,demand_by_region_FWEST,average_mw_2025,7478,
+power_there,demand_by_region_FWEST,change_pct,261.21,
+power_there,demand_by_region_FWEST,highest_hour_mw_2025,8773,
+power_there,demand_by_region_NCENT,average_mw_2015,13065,
+power_there,demand_by_region_NCENT,average_mw_2025,15307,
+power_there,demand_by_region_NCENT,change_pct,17.16,
+power_there,demand_by_region_NCENT,highest_hour_mw_2025,27532,
+power_there,demand_by_region_NORTH,average_mw_2015,835,
+power_there,demand_by_region_NORTH,average_mw_2025,1690,
+power_there,demand_by_region_NORTH,change_pct,102.29,
+power_there,demand_by_region_NORTH,highest_hour_mw_2025,2732,
+power_there,demand_by_region_SCENT,average_mw_2015,6516,
+power_there,demand_by_region_SCENT,average_mw_2025,8877,
+power_there,demand_by_region_SCENT,change_pct,36.24,
+power_there,demand_by_region_SCENT,highest_hour_mw_2025,14799,
+power_there,demand_by_region_SOUTH,average_mw_2015,3266,
+power_there,demand_by_region_SOUTH,average_mw_2025,4435,
+power_there,demand_by_region_SOUTH,change_pct,35.77,
+power_there,demand_by_region_SOUTH,highest_hour_mw_2025,7156,
+power_there,demand_by_region_WEST,average_mw_2015,1134,
+power_there,demand_by_region_WEST,average_mw_2025,1385,
+power_there,demand_by_region_WEST,change_pct,22.06,
+power_there,demand_by_region_WEST,highest_hour_mw_2025,2117,
+how_clean,carbon_free_share_of_generation_2024,pct,42.85,/mix?view=clean
+how_clean,a_flat_load_meets_hour_by_hour_2024,pct,43.61,
+how_clean,matched_hour_by_hour_buying_the_whole_year_2024,energy_pct,85.79,"carbon-free energy equal to the load's whole year, shaped like the grid's own, against 100 percent on the annual count"
+how_clean,matched_hour_by_hour_buying_the_whole_year_2024,hours_fully_covered_pct,53.55,
+how_clean,carbon_per_mwh_a_flat_load_2024,kg_co2_per_mwh,321.55,
+how_clean,this_loads_own_hours_2024,pct,43.61,"the grid's carbon-free share in each hour, weighted by this load in that hour, over 8,784 hours"
+how_soon,generation_waiting_to_connect,mw,408108,/queues
+how_soon,generation_waiting_to_connect,active_requests,1796,
+how_soon,request_to_operation_median,years,3.70,over 470 projects
+how_soon,requests_entered_2000_to_2020,operating_pct,29.56,
+how_soon,requests_entered_2000_to_2020,withdrawn_pct,51.19,
+how_soon,large_load_approved_to_energize,mw,9042,"ERCOT, 2026-03-26; /datacenters"
+how_soon,large_load_approved_to_energize,observed_running_mw,4004,
+how_soon,large_load_in_line,mw,,"not published anywhere yet: ERCOT publishes the large load seeking interconnection as system totals in slide decks, with no table by zone or county. A search on 7 October 2026 found no public list by place."
+waits,sentence,words,"Texas: no wait is measured here (0 requests named in 32 of ERCOT's reports); measured by the entities themselves: ERCOT approximately 220 days (average), Oncor Electric Delivery 825 days (average) and 687 days (median).",for Texas
+waits,state,words,not measured here,"32 large load status reports of ERCOT were read (26 April 2022 to 19 June 2026); 0 name a request. Each report gives totals by stage for the whole system and names no request, so no request can be followed from copy to copy and no wait is measured from them."
+waits_stated,stated_1,whose,"measured by ERCOT itself, average",ERCOT
+waits_stated,stated_1,figure,approximately 220 days,"approximately 220 days: measured by ERCOT itself, average. Covers: in-service (delay against the in-service date). The entity's own measurement, not one made here. Document: ERCOT, Update on ERCOT's Adjusted Load Forecast and Request for Good Cause Exception for 2025 Regional Transmission Plan (Public Utility Commission of Texas, Project No. 55999, item 121), 1 May 2025, page 8."
+waits_stated,stated_1,covers,in-service (delay against the in-service date),
+waits_stated,stated_1,document,"ERCOT, Update on ERCOT's Adjusted Load Forecast and Request for Good Cause Exception for 2025 Regional Transmission Plan (Public Utility Commission of Texas, Project No. 55999, item 121), 1 May 2025, page 8",https://interchange.puc.texas.gov/Documents/55999_121_1495046.PDF
+waits_stated,stated_2,whose,"measured by Oncor Electric Delivery itself, average",Oncor Electric Delivery
+waits_stated,stated_2,figure,825 days,"825 days: measured by Oncor Electric Delivery itself, average. Covers: retail transmission interconnections placed in service (from initial submission to energizing the interconnection). The entity's own measurement, not one made here. Document: Response of Oncor Electric Delivery Company LLC to Google LLC's First Request for Information, PUC Docket No. 58306 (Oncor's rate case), item 210, first file (questions 1-01 to 1-12), 25 August 2025, page 64."
+waits_stated,stated_2,covers,retail transmission interconnections placed in service (from initial submission to energizing the interconnection),
+waits_stated,stated_2,document,"Response of Oncor Electric Delivery Company LLC to Google LLC's First Request for Information, PUC Docket No. 58306 (Oncor's rate case), item 210, first file (questions 1-01 to 1-12), 25 August 2025, page 64",https://interchange.puc.texas.gov/Documents/58306_210_1533872.PDF
+waits_stated,stated_3,whose,"measured by Oncor Electric Delivery itself, median",Oncor Electric Delivery
+waits_stated,stated_3,figure,687 days,"687 days: measured by Oncor Electric Delivery itself, median. Covers: retail transmission interconnections placed in service (from initial submission to energizing the interconnection). The entity's own measurement, not one made here. Document: Response of Oncor Electric Delivery Company LLC to Google LLC's First Request for Information, PUC Docket No. 58306 (Oncor's rate case), item 210, first file (questions 1-01 to 1-12), 25 August 2025, page 64."
+waits_stated,stated_3,covers,retail transmission interconnections placed in service (from initial submission to energizing the interconnection),
+waits_stated,stated_3,document,"Response of Oncor Electric Delivery Company LLC to Google LLC's First Request for Information, PUC Docket No. 58306 (Oncor's rate case), item 210, first file (questions 1-01 to 1-12), 25 August 2025, page 64",https://interchange.puc.texas.gov/Documents/58306_210_1533872.PDF
+waits_stated,stated_4,whose,expected by ERCOT,ERCOT
+waits_stated,stated_4,figure,ten Business Days,"ten Business Days: expected by ERCOT. Covers: review of the preliminary study report. Document: ERCOT, Questions and Answers About the Large Load Interconnection Process (Rev. 12.15.25), 15 December 2025, page 9."
+waits_stated,stated_4,covers,review of the preliminary study report,
+waits_stated,stated_4,document,"ERCOT, Questions and Answers About the Large Load Interconnection Process (Rev. 12.15.25), 15 December 2025, page 9",https://www.ercot.com/files/docs/2025/12/24/Large-Load-Interconnection-Process-Q-A.pdf
+waits_stated,stated_5,whose,expected by ERCOT,ERCOT
+waits_stated,stated_5,figure,13 weeks,"13 weeks: expected by ERCOT. Covers: Batch Zero study, step 1: Case Build. ERCOT wrote each step and not their sum: the steps are not added here. Document: ERCOT Large Load Batch Study Update, letter and presentation to the Public Utility Commission of Texas (Project No. 59142, item 32), 5 May 2026, page 18."
+waits_stated,stated_5,covers,"Batch Zero study, step 1: Case Build",
+waits_stated,stated_5,document,"ERCOT Large Load Batch Study Update, letter and presentation to the Public Utility Commission of Texas (Project No. 59142, item 32), 5 May 2026, page 18",https://interchange.puc.texas.gov/Documents/59142_32_1638268.PDF
+waits_stated,stated_6,whose,expected by ERCOT,ERCOT
+waits_stated,stated_6,figure,15 weeks,"15 weeks: expected by ERCOT. Covers: Batch Zero study, step 2: Steady State Analysis. ERCOT wrote each step and not their sum: the steps are not added here. Document: ERCOT Large Load Batch Study Update, letter and presentation to the Public Utility Commission of Texas (Project No. 59142, item 32), 5 May 2026, page 18."
+waits_stated,stated_6,covers,"Batch Zero study, step 2: Steady State Analysis",
+waits_stated,stated_6,document,"ERCOT Large Load Batch Study Update, letter and presentation to the Public Utility Commission of Texas (Project No. 59142, item 32), 5 May 2026, page 18",https://interchange.puc.texas.gov/Documents/59142_32_1638268.PDF
+waits_stated,stated_7,whose,expected by ERCOT,ERCOT
+waits_stated,stated_7,figure,16 weeks,"16 weeks: expected by ERCOT. Covers: Batch Zero study, step 3: Stability Screening Study and Final Report. ERCOT wrote each step and not their sum: the steps are not added here. Document: ERCOT Large Load Batch Study Update, letter and presentation to the Public Utility Commission of Texas (Project No. 59142, item 32), 5 May 2026, page 18."
+waits_stated,stated_7,covers,"Batch Zero study, step 3: Stability Screening Study and Final Report",
+waits_stated,stated_7,document,"ERCOT Large Load Batch Study Update, letter and presentation to the Public Utility Commission of Texas (Project No. 59142, item 32), 5 May 2026, page 18",https://interchange.puc.texas.gov/Documents/59142_32_1638268.PDF
+waits_stated,stated_8,whose,expected by ERCOT,ERCOT
+waits_stated,stated_8,figure,14 weeks,"14 weeks: expected by ERCOT. Covers: Batch Zero study, step 4: FAC-002 Stability and Batch Refinement Study (after the developer commitment deadline). ERCOT wrote each step and not their sum: the steps are not added here. Document: ERCOT Large Load Batch Study Update, letter and presentation to the Public Utility Commission of Texas (Project No. 59142, item 32), 5 May 2026, page 18."
+waits_stated,stated_8,covers,"Batch Zero study, step 4: FAC-002 Stability and Batch Refinement Study (after the developer commitment deadline)",
+waits_stated,stated_8,document,"ERCOT Large Load Batch Study Update, letter and presentation to the Public Utility Commission of Texas (Project No. 59142, item 32), 5 May 2026, page 18",https://interchange.puc.texas.gov/Documents/59142_32_1638268.PDF
+waits_stated,stated_9,whose,expected by ERCOT,ERCOT
+waits_stated,stated_9,figure,several months,"several months: expected by ERCOT. Covers: Batch Zero study process (classification paused for the verification and audit). Document: ERCOT's Requests for Good Cause Exceptions Relating to Batch Zero Deadlines and Status Update on Additional Matters Including the Long-Term Load Forecast (Public Utility Commission of Texas, Project No. 59142, item 42), 10 August 2026, page 2."
+waits_stated,stated_9,covers,Batch Zero study process (classification paused for the verification and audit),
+waits_stated,stated_9,document,"ERCOT's Requests for Good Cause Exceptions Relating to Batch Zero Deadlines and Status Update on Additional Matters Including the Long-Term Load Forecast (Public Utility Commission of Texas, Project No. 59142, item 42), 10 August 2026, page 2",https://interchange.puc.texas.gov/Documents/59142_42_1672561.PDF
+waits_stated,stated_10,whose,stated by ERCOT,ERCOT
+waits_stated,stated_10,figure,a few days to many weeks,"a few days to many weeks: stated by ERCOT. Covers: Under ERCOT Review. Document: ERCOT, Questions and Answers About the Large Load Interconnection Process (Rev. 12.15.25), 15 December 2025, page 5."
+waits_stated,stated_10,covers,Under ERCOT Review,
+waits_stated,stated_10,document,"ERCOT, Questions and Answers About the Large Load Interconnection Process (Rev. 12.15.25), 15 December 2025, page 5",https://www.ercot.com/files/docs/2025/12/24/Large-Load-Interconnection-Process-Q-A.pdf
+rules,ERCOT_txpuc:58481:order:b546692f11,date,18 Sep 2026,
+rules,ERCOT_txpuc:58481:order:b546692f11,status,decided,The class of the row's status. The regulator's own words are not copied here. The row is an order.
+rules,ERCOT_txpuc:58481:order:b546692f11,regulator_and_docket,"Public Utility Commission of Texas, 58481",The Public Utility Commission of Texas's terms ask permission to copy its text; open the document. Page 2 of the document. Topic: large-load interconnection; large-load tariff. https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF
+rules,ERCOT_txpuc:58481:order:b546692f11,topic,large-load interconnection; large-load tariff,A statewide rule; the document's own words name ERCOT.
+rules,ERCOT_txpuc:58481:order:b546692f11,model_read,"A large load customer must sign an intermediate agreement, make disclosures and post financial security of $50,000 per megawatt (MW) before ERCOT can include it in an interconnection study, then sign a standard agreement and pay CIAC.","a model's read of the document, not the regulator's words"
+rules,ERCOT_txpuc:59142:order:306a57435e,date,20 Aug 2026,
+rules,ERCOT_txpuc:59142:order:306a57435e,status,decided,The class of the row's status. The regulator's own words are not copied here. The row is an order.
+rules,ERCOT_txpuc:59142:order:306a57435e,regulator_and_docket,"Public Utility Commission of Texas, 59142",The Public Utility Commission of Texas's terms ask permission to copy its text; open the document. Page 3 of the document. Topic: large-load interconnection; interconnection reform. https://interchange.puc.texas.gov/Documents/59142_53_1675960.PDF
+rules,ERCOT_txpuc:59142:order:306a57435e,topic,large-load interconnection; interconnection reform,A statewide rule; the document's own words name ERCOT.
+rules,ERCOT_txpuc:59142:order:306a57435e,model_read,"ERCOT may delay classifying Large Loads for the Batch Zero study, and may include eligible but unclassified base load submissions in the August and November 2026 stability assessments, so some large loads keep moving.","a model's read of the document, not the regulator's words"
+rules,ERCOT_txpuc:58482:proceeding:378c9b5cba,date,30 Jul 2026,
+rules,ERCOT_txpuc:58482:proceeding:378c9b5cba,status,open,The class of the row's status. The regulator's own words are not copied here. The row is a proceeding.
+rules,ERCOT_txpuc:58482:proceeding:378c9b5cba,regulator_and_docket,"Public Utility Commission of Texas, 58482",The Public Utility Commission of Texas's terms ask permission to copy its text; open the document. Page 2 of the document. Topic: large-load tariff. https://interchange.puc.texas.gov/Documents/58482_30_1669532.PDF
+rules,ERCOT_txpuc:58482:proceeding:378c9b5cba,topic,large-load tariff,A statewide rule; the document's own words name ERCOT.
+rules,ERCOT_txpuc:58482:proceeding:378c9b5cba,model_read,"A proposed Texas rule would require ERCOT to ensure utilities have protocols to curtail transmission-voltage customers during firm load shed, and to develop a service that competitively procures demand reductions from large loads.","a model's read of the document, not the regulator's words"
+rules,ERCOT_txpuc:58000:proceeding:c0b1587c3e,date,9 Jul 2026,
+rules,ERCOT_txpuc:58000:proceeding:c0b1587c3e,status,open,The class of the row's status. The regulator's own words are not copied here. The row is a proceeding.
+rules,ERCOT_txpuc:58000:proceeding:c0b1587c3e,regulator_and_docket,"Public Utility Commission of Texas, 58000",The Public Utility Commission of Texas's terms ask permission to copy its text; open the document. Page 2 of the document. Topic: transmission cost allocation; large-load tariff. https://interchange.puc.texas.gov/Documents/58000_8_1664102.PDF
+rules,ERCOT_txpuc:58000:proceeding:c0b1587c3e,topic,transmission cost allocation; large-load tariff,A statewide rule; the document's own words name ERCOT.
+rules,ERCOT_txpuc:58000:proceeding:c0b1587c3e,model_read,"A proposed Texas rule would switch transmission cost assignment from four to 12 coincident peaks and bill large loads for available service from the day it is offered, even if not energized or fully used.","a model's read of the document, not the regulator's words"
+rules,ERCOT_txpuc:58479:order:b93d54d6af,date,26 Mar 2026,
+rules,ERCOT_txpuc:58479:order:b93d54d6af,status,decided,The class of the row's status. The regulator's own words are not copied here. The row is an order.
+rules,ERCOT_txpuc:58479:order:b93d54d6af,regulator_and_docket,"Public Utility Commission of Texas, 58479",The Public Utility Commission of Texas's terms ask permission to copy its text; open the document. Page 2 of the document. Topic: large-load interconnection. https://interchange.puc.texas.gov/Documents/58479_66_1611465.PDF
+rules,ERCOT_txpuc:58479:order:b93d54d6af,topic,large-load interconnection,A statewide rule; the document's own words name ERCOT.
+rules,ERCOT_txpuc:58479:order:b93d54d6af,model_read,"A new Texas commission rule sets how ERCOT studies, within 120 days, and the commission approves, conditions or denies, within 60 days, a net metering arrangement pairing a large load customer with an existing generation resource.","a model's read of the document, not the regulator's words"
+rules,ERCOT_txpuc:58480:order:a24826c925,date,6 Feb 2026,
+rules,ERCOT_txpuc:58480:order:a24826c925,status,decided,The class of the row's status. The regulator's own words are not copied here. The row is an order.
+rules,ERCOT_txpuc:58480:order:a24826c925,regulator_and_docket,"Public Utility Commission of Texas, 58480",The Public Utility Commission of Texas's terms ask permission to copy its text; open the document. Page 2 of the document. Topic: large-load interconnection. https://interchange.puc.texas.gov/Documents/58480_58_1583002.PDF
+rules,ERCOT_txpuc:58480:order:a24826c925,topic,large-load interconnection,A statewide rule; the document's own words name ERCOT.
+rules,ERCOT_txpuc:58480:order:a24826c925,model_read,A new Texas rule sets the tests a datacenter or other large load must pass to be counted in the demand data utilities send ERCOT for grid planning and resource adequacy studies.,"a model's read of the document, not the regulator's words"
+rules,ERCOT_txpuc:59142:proceeding:9cc7d70767,date,17 Dec 2025,
+rules,ERCOT_txpuc:59142:proceeding:9cc7d70767,status,open,The class of the row's status. The regulator's own words are not copied here. The row is a proceeding.
+rules,ERCOT_txpuc:59142:proceeding:9cc7d70767,regulator_and_docket,"Public Utility Commission of Texas, 59142",The Public Utility Commission of Texas's terms ask permission to copy its text; open the document. Page 2 of the document. Topic: large-load interconnection; interconnection reform. https://interchange.puc.texas.gov/Documents/59142_1_1567371.PDF
+rules,ERCOT_txpuc:59142:proceeding:9cc7d70767,topic,large-load interconnection; interconnection reform,A statewide rule; the document's own words name ERCOT.
+rules,ERCOT_txpuc:59142:proceeding:9cc7d70767,model_read,A new Texas commission staff project would review how ERCOT connects large loads to the grid and may recommend ways to make the process more efficient while keeping the system reliable.,"a model's read of the document, not the regulator's words"
+rules,ERCOT_txpuc:58317:proceeding:c7ce57a0a7,date,1 Aug 2025,
+rules,ERCOT_txpuc:58317:proceeding:c7ce57a0a7,status,open,The class of the row's status. The regulator's own words are not copied here. The row is a proceeding.
+rules,ERCOT_txpuc:58317:proceeding:c7ce57a0a7,regulator_and_docket,"Public Utility Commission of Texas, 58317",The Public Utility Commission of Texas's terms ask permission to copy its text; open the document. Page 2 of the document. Topic: large-load interconnection; transmission cost allocation. https://interchange.puc.texas.gov/Documents/58317_5_1526835.PDF
+rules,ERCOT_txpuc:58317:proceeding:c7ce57a0a7,topic,large-load interconnection; transmission cost allocation,A statewide rule; the document's own words name ERCOT.
+rules,ERCOT_txpuc:58317:proceeding:c7ce57a0a7,model_read,"Commission staff's roadmap sets preliminary timelines for five projects implementing SB 6, including rules on large loads co-located with existing generation, so the terms for such loads will be set through later rulemakings.","a model's read of the document, not the regulator's words"
+rules,federal_ferc:RM26-4-000:proceeding:c69bb23097,date,14 Aug 2026,
+rules,federal_ferc:RM26-4-000:proceeding:c69bb23097,status,open,The class of the row's status. The regulator's own words are not copied here. The row is a proceeding.
+rules,federal_ferc:RM26-4-000:proceeding:c69bb23097,regulator_and_docket,"Federal Energy Regulatory Commission, RM26-4-000",The Federal Energy Regulatory Commission's terms on copying its text were not read; open the document. Page 4 of the document. Topic: large-load interconnection. https://www.govinfo.gov/content/pkg/FR-2026-08-14/pdf/2026-16616.pdf
+rules,federal_ferc:RM26-4-000:proceeding:c69bb23097,topic,large-load interconnection,A federal action that names no grid operator: it is under every grid.
+rules,federal_ferc:RM26-4-000:proceeding:c69bb23097,model_read,"FERC's agenda lists an open rulemaking, with no final action scheduled yet, that may standardize how large loads, including those sharing a connection point with generation, apply for and sign grid interconnection agreements.","a model's read of the document, not the regulator's words"
+rules,federal_federalregister:2026-11539,date,9 Jun 2026,
+rules,federal_federalregister:2026-11539,status,not stated,The document states no status. The row is a federal action.
+rules,federal_federalregister:2026-11539,regulator_and_docket,"Federal Energy Regulatory Commission, RM21-17-000","""Building for the Future Through Electric Regional Transmission Planning and Cost Allocation; Notice of Motion for Extension of Time To Comply"" Sentence from: the action's title. Topic: transmission cost. Tags: transmission_cost. https://www.federalregister.gov/documents/2026/06/09/2026-11539/building-for-the-future-through-electric-regional-transmission-planning-and-cost-allocation-notice"
+rules,federal_federalregister:2026-11539,title,Building for the Future Through Electric Regional Transmission Planning and Cost Allocation; Notice of Motion for Extension of Time To Comply,A federal action that names no grid operator: it is under every grid.
+rules,federal_federalregister:2026-11539,model_read,,No line is shown that a model did not write from the document.
+rules,federal_federalregister:2026-05701,date,24 Mar 2026,
+rules,federal_federalregister:2026-05701,status,not stated,The document states no status. The row is a federal action.
+rules,federal_federalregister:2026-05701,regulator_and_docket,"Federal Energy Regulatory Commission, AD26-5-000","""Transmission Formula Rate Processes; Notice of Staff-Led Workshop"" Sentence from: the action's title. Topic: transmission cost. Tags: transmission_cost. https://www.federalregister.gov/documents/2026/03/24/2026-05701/transmission-formula-rate-processes-notice-of-staff-led-workshop"
+rules,federal_federalregister:2026-05701,title,Transmission Formula Rate Processes; Notice of Staff-Led Workshop,A federal action that names no grid operator: it is under every grid.
+rules,federal_federalregister:2026-05701,model_read,,No line is shown that a model did not write from the document.
+rules,federal_federalregister:2026-03321,date,20 Feb 2026,
+rules,federal_federalregister:2026-03321,status,not stated,The document states no status. The row is a federal action.
+rules,federal_federalregister:2026-03321,regulator_and_docket,"Federal Energy Regulatory Commission, FR Doc. 2026-03321","""Notice of Staff Attendance at North American Electric Reliability Corporation Emerging Large Loads Technical Conference"" Sentence from: the action's title. Topic: large loads. Tags: large_load. https://www.federalregister.gov/documents/2026/02/20/2026-03321/notice-of-staff-attendance-at-north-american-electric-reliability-corporation-emerging-large-loads"
+rules,federal_federalregister:2026-03321,title,Notice of Staff Attendance at North American Electric Reliability Corporation Emerging Large Loads Technical Conference,A federal action that names no grid operator: it is under every grid.
+rules,federal_federalregister:2026-03321,model_read,,No line is shown that a model did not write from the document.
+rules,federal_federalregister:2026-01329,date,26 Jan 2026,
+rules,federal_federalregister:2026-01329,status,Notice of rate order concerning transmission service formula rates.,The regulator's own words. Class: not stated. The row is a federal action.
+rules,federal_federalregister:2026-01329,regulator_and_docket,"Department of Energy, FR Doc. 2026-01329","""Pacific Alternating Current Intertie Point-to-Point Transmission Service-Rate Order No. WAPA-211"" Sentence from: the action's title. Topic: transmission cost. Tags: transmission_cost. https://www.federalregister.gov/documents/2026/01/26/2026-01329/pacific-alternating-current-intertie-point-to-point-transmission-service-rate-order-no-wapa-211"
+rules,federal_federalregister:2026-01329,title,Pacific Alternating Current Intertie Point-to-Point Transmission Service-Rate Order No. WAPA-211,A federal action that names no grid operator: it is under every grid.
+rules,federal_federalregister:2026-01329,model_read,"Interim formula rates for Sierra Nevada region PACI point-to-point transmission service are approved with no changes to existing rates, so transmission customers, including any large load buyers using this service, see no rate change.","a model's read of the document, not the regulator's words"
+rules,file,built,2026-10-08,"It holds proceedings that are open, and orders and rules dated in the 12 months before it."
+regions,LZ_NORTH,flat_usd_per_mwh,33.73,Oct 2025 to Sep 2026; North load zone; the load's own region
+regions,HB_BUSAVG,flat_usd_per_mwh,32.38,Oct 2025 to Sep 2026; trading hub
+regions,HB_HOUSTON,flat_usd_per_mwh,32.90,Oct 2025 to Sep 2026; trading hub
+regions,HB_HUBAVG,flat_usd_per_mwh,32.20,Oct 2025 to Sep 2026; trading hub
+regions,HB_NORTH,flat_usd_per_mwh,32.51,Oct 2025 to Sep 2026; trading hub
+regions,HB_SOUTH,flat_usd_per_mwh,32.74,Oct 2025 to Sep 2026; trading hub
+regions,HB_WEST,flat_usd_per_mwh,30.66,Oct 2025 to Sep 2026; trading hub
+regions,LZ_AEN,flat_usd_per_mwh,,No real time price is held for this region.
+regions,LZ_CPS,flat_usd_per_mwh,,No real time price is held for this region.
+regions,LZ_HOUSTON,flat_usd_per_mwh,33.43,Oct 2025 to Sep 2026; Houston load zone
+regions,LZ_LCRA,flat_usd_per_mwh,,No real time price is held for this region.
+regions,LZ_RAYBN,flat_usd_per_mwh,,No real time price is held for this region.
+regions,LZ_SOUTH,flat_usd_per_mwh,33.75,Oct 2025 to Sep 2026; South load zone
+regions,LZ_WEST,flat_usd_per_mwh,35.27,Oct 2025 to Sep 2026; West load zone
+matrix,2025_ERCOT,postage_stamp_rate,68.547301,"approved; Docket No. 57491, Commission Staff's Petition to Set 2025 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 51: Commission Staff's Final Transmission Charge Matrix, Attachments A to F, filed 2025-03-20; column ""Total ERCOT Postage Stamp Rate $/KW""; https://interchange.puc.texas.gov/Documents/57491_51_1481446.PDF"
+matrix,2025_ERCOT,total_transmission_cost_of_service,5446864795,"approved; Docket No. 57491, Commission Staff's Petition to Set 2025 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 51: Commission Staff's Final Transmission Charge Matrix, Attachments A to F, filed 2025-03-20; column ""TCOS""; https://interchange.puc.texas.gov/Documents/57491_51_1481446.PDF"
+matrix,2025_ERCOT,total_average_4cp,81042657,"approved; Docket No. 57491, Commission Staff's Petition to Set 2025 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 51: Commission Staff's Final Transmission Charge Matrix, Attachments A to F, filed 2025-03-20; column ""Average 4CP (KW)""; https://interchange.puc.texas.gov/Documents/57491_51_1481446.PDF"
+matrix,2025_Oncor,transmission_cost_of_service,1488366495,"approved; Docket No. 57491, Commission Staff's Petition to Set 2025 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 51: Commission Staff's Final Transmission Charge Matrix, Attachments A to F, filed 2025-03-20; column ""TCOS""; https://interchange.puc.texas.gov/Documents/57491_51_1481446.PDF"
+matrix,2025_Oncor,access_fee,19.401534,"approved; Docket No. 57491, Commission Staff's Petition to Set 2025 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 51: Commission Staff's Final Transmission Charge Matrix, Attachments A to F, filed 2025-03-20; column ""Access Fee ($/KW) *""; https://interchange.puc.texas.gov/Documents/57491_51_1481446.PDF"
+matrix,2025_Oncor,average_4cp,28908860.87,"approved; Docket No. 57491, Commission Staff's Petition to Set 2025 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 51: Commission Staff's Final Transmission Charge Matrix, Attachments A to F, filed 2025-03-20; column ""Average 4CP (KW)""; https://interchange.puc.texas.gov/Documents/57491_51_1481446.PDF"
+matrix,2025_CenterPoint_Energy_Houston_Electric,transmission_cost_of_service,663417287,"approved; Docket No. 57491, Commission Staff's Petition to Set 2025 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 51: Commission Staff's Final Transmission Charge Matrix, Attachments A to F, filed 2025-03-20; column ""TCOS""; https://interchange.puc.texas.gov/Documents/57491_51_1481446.PDF"
+matrix,2025_CenterPoint_Energy_Houston_Electric,access_fee,7.92753,"approved; Docket No. 57491, Commission Staff's Petition to Set 2025 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 51: Commission Staff's Final Transmission Charge Matrix, Attachments A to F, filed 2025-03-20; column ""Access Fee ($/KW) *""; https://interchange.puc.texas.gov/Documents/57491_51_1481446.PDF"
+matrix,2025_CenterPoint_Energy_Houston_Electric,average_4cp,20022624.006,"approved; Docket No. 57491, Commission Staff's Petition to Set 2025 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 51: Commission Staff's Final Transmission Charge Matrix, Attachments A to F, filed 2025-03-20; column ""Average 4CP (KW)""; https://interchange.puc.texas.gov/Documents/57491_51_1481446.PDF"
+matrix,2025_AEP_Texas,transmission_cost_of_service,759516345,"approved; Docket No. 57491, Commission Staff's Petition to Set 2025 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 51: Commission Staff's Final Transmission Charge Matrix, Attachments A to F, filed 2025-03-20; column ""TCOS""; https://interchange.puc.texas.gov/Documents/57491_51_1481446.PDF"
+matrix,2025_AEP_Texas,access_fee,9.07587,"approved; Docket No. 57491, Commission Staff's Petition to Set 2025 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 51: Commission Staff's Final Transmission Charge Matrix, Attachments A to F, filed 2025-03-20; column ""Access Fee ($/KW) *""; https://interchange.puc.texas.gov/Documents/57491_51_1481446.PDF"
+matrix,2025_AEP_Texas,average_4cp,6600061.406,"approved; Docket No. 57491, Commission Staff's Petition to Set 2025 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 51: Commission Staff's Final Transmission Charge Matrix, Attachments A to F, filed 2025-03-20; column ""Average 4CP (KW)""; https://interchange.puc.texas.gov/Documents/57491_51_1481446.PDF"
+matrix,2025_Texas_New_Mexico_Power,transmission_cost_of_service,163541527,"approved; Docket No. 57491, Commission Staff's Petition to Set 2025 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 51: Commission Staff's Final Transmission Charge Matrix, Attachments A to F, filed 2025-03-20; column ""TCOS""; https://interchange.puc.texas.gov/Documents/57491_51_1481446.PDF"
+matrix,2025_Texas_New_Mexico_Power,access_fee,1.954246,"approved; Docket No. 57491, Commission Staff's Petition to Set 2025 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 51: Commission Staff's Final Transmission Charge Matrix, Attachments A to F, filed 2025-03-20; column ""Access Fee ($/KW) *""; https://interchange.puc.texas.gov/Documents/57491_51_1481446.PDF"
+matrix,2025_Texas_New_Mexico_Power,average_4cp,2388443.561,"approved; Docket No. 57491, Commission Staff's Petition to Set 2025 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 51: Commission Staff's Final Transmission Charge Matrix, Attachments A to F, filed 2025-03-20; column ""Average 4CP (KW)""; https://interchange.puc.texas.gov/Documents/57491_51_1481446.PDF"
+matrix,2026_matrix_A_ERCOT,postage_stamp_rate,75.52727,"filed, not approved; Docket No. 59080, Commission Staff's Petition to Set 2026 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 50: Commission Staff's Final Transmission Charge Matrices, Attachment A - 2026 Final Matrix A, filed 2026-03-16; column ""Total ERCOT Postage Stamp Rate $/KW""; https://interchange.puc.texas.gov/Documents/59080_50_1603608.PDF"
+matrix,2026_matrix_A_ERCOT,total_transmission_cost_of_service,6055595815,"filed, not approved; Docket No. 59080, Commission Staff's Petition to Set 2026 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 50: Commission Staff's Final Transmission Charge Matrices, Attachment A - 2026 Final Matrix A, filed 2026-03-16; column ""TCOS""; https://interchange.puc.texas.gov/Documents/59080_50_1603608.PDF"
+matrix,2026_matrix_A_ERCOT,total_average_4cp,80859771,"filed, not approved; Docket No. 59080, Commission Staff's Petition to Set 2026 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 50: Commission Staff's Final Transmission Charge Matrices, Attachment A - 2026 Final Matrix A, filed 2026-03-16; column ""Average 4CP (KW)""; https://interchange.puc.texas.gov/Documents/59080_50_1603608.PDF"
+matrix,2026_matrix_A_Oncor,transmission_cost_of_service,1737120067,"filed, not approved; Docket No. 59080, Commission Staff's Petition to Set 2026 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 50: Commission Staff's Final Transmission Charge Matrices, Attachment A - 2026 Final Matrix A, filed 2026-03-16; column ""TCOS""; https://interchange.puc.texas.gov/Documents/59080_50_1603608.PDF"
+matrix,2026_matrix_A_Oncor,access_fee,21.434639,"filed, not approved; Docket No. 59080, Commission Staff's Petition to Set 2026 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 50: Commission Staff's Final Transmission Charge Matrices, Attachment A - 2026 Final Matrix A, filed 2026-03-16; column ""Access Fee ($/KW) *""; https://interchange.puc.texas.gov/Documents/59080_50_1603608.PDF"
+matrix,2026_matrix_A_Oncor,average_4cp,28677216.785,"filed, not approved; Docket No. 59080, Commission Staff's Petition to Set 2026 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 50: Commission Staff's Final Transmission Charge Matrices, Attachment A - 2026 Final Matrix A, filed 2026-03-16; column ""Average 4CP (KW)""; https://interchange.puc.texas.gov/Documents/59080_50_1603608.PDF"
+matrix,2026_matrix_A_CenterPoint_Energy_Houston_Electric,transmission_cost_of_service,744217216,"filed, not approved; Docket No. 59080, Commission Staff's Petition to Set 2026 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 50: Commission Staff's Final Transmission Charge Matrices, Attachment A - 2026 Final Matrix A, filed 2026-03-16; column ""TCOS""; https://interchange.puc.texas.gov/Documents/59080_50_1603608.PDF"
+matrix,2026_matrix_A_CenterPoint_Energy_Houston_Electric,access_fee,9.183031,"filed, not approved; Docket No. 59080, Commission Staff's Petition to Set 2026 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 50: Commission Staff's Final Transmission Charge Matrices, Attachment A - 2026 Final Matrix A, filed 2026-03-16; column ""Access Fee ($/KW) *""; https://interchange.puc.texas.gov/Documents/59080_50_1603608.PDF"
+matrix,2026_matrix_A_CenterPoint_Energy_Houston_Electric,average_4cp,20180083.207,"filed, not approved; Docket No. 59080, Commission Staff's Petition to Set 2026 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 50: Commission Staff's Final Transmission Charge Matrices, Attachment A - 2026 Final Matrix A, filed 2026-03-16; column ""Average 4CP (KW)""; https://interchange.puc.texas.gov/Documents/59080_50_1603608.PDF"
+matrix,2026_matrix_A_AEP_Texas,transmission_cost_of_service,865011644,"filed, not approved; Docket No. 59080, Commission Staff's Petition to Set 2026 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 50: Commission Staff's Final Transmission Charge Matrices, Attachment A - 2026 Final Matrix A, filed 2026-03-16; column ""TCOS""; https://interchange.puc.texas.gov/Documents/59080_50_1603608.PDF"
+matrix,2026_matrix_A_AEP_Texas,access_fee,10.673535,"filed, not approved; Docket No. 59080, Commission Staff's Petition to Set 2026 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 50: Commission Staff's Final Transmission Charge Matrices, Attachment A - 2026 Final Matrix A, filed 2026-03-16; column ""Access Fee ($/KW) *""; https://interchange.puc.texas.gov/Documents/59080_50_1603608.PDF"
+matrix,2026_matrix_A_AEP_Texas,average_4cp,6505254.059,"filed, not approved; Docket No. 59080, Commission Staff's Petition to Set 2026 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 50: Commission Staff's Final Transmission Charge Matrices, Attachment A - 2026 Final Matrix A, filed 2026-03-16; column ""Average 4CP (KW)""; https://interchange.puc.texas.gov/Documents/59080_50_1603608.PDF"
+matrix,2026_matrix_A_Texas_New_Mexico_Power,transmission_cost_of_service,187335996,"filed, not approved; Docket No. 59080, Commission Staff's Petition to Set 2026 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 50: Commission Staff's Final Transmission Charge Matrices, Attachment A - 2026 Final Matrix A, filed 2026-03-16; column ""TCOS""; https://interchange.puc.texas.gov/Documents/59080_50_1603608.PDF"
+matrix,2026_matrix_A_Texas_New_Mexico_Power,access_fee,2.311573,"filed, not approved; Docket No. 59080, Commission Staff's Petition to Set 2026 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 50: Commission Staff's Final Transmission Charge Matrices, Attachment A - 2026 Final Matrix A, filed 2026-03-16; column ""Access Fee ($/KW) *""; https://interchange.puc.texas.gov/Documents/59080_50_1603608.PDF"
+matrix,2026_matrix_A_Texas_New_Mexico_Power,average_4cp,2422649.107,"filed, not approved; Docket No. 59080, Commission Staff's Petition to Set 2026 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 50: Commission Staff's Final Transmission Charge Matrices, Attachment A - 2026 Final Matrix A, filed 2026-03-16; column ""Average 4CP (KW)""; https://interchange.puc.texas.gov/Documents/59080_50_1603608.PDF"
+matrix,2026_matrix_B_ERCOT,postage_stamp_rate,75.52727,"filed, not approved; Docket No. 59080, Commission Staff's Petition to Set 2026 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 50: Commission Staff's Final Transmission Charge Matrices, Attachment B - 2026 Final Matrix B, filed 2026-03-16; column ""Total ERCOT Postage Stamp Rate $/KW""; https://interchange.puc.texas.gov/Documents/59080_50_1603608.PDF"
+matrix,2026_matrix_B_ERCOT,total_transmission_cost_of_service,6055595815,"filed, not approved; Docket No. 59080, Commission Staff's Petition to Set 2026 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 50: Commission Staff's Final Transmission Charge Matrices, Attachment B - 2026 Final Matrix B, filed 2026-03-16; column ""TCOS""; https://interchange.puc.texas.gov/Documents/59080_50_1603608.PDF"
+matrix,2026_matrix_B_ERCOT,total_average_4cp,80874021,"filed, not approved; Docket No. 59080, Commission Staff's Petition to Set 2026 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 50: Commission Staff's Final Transmission Charge Matrices, Attachment B - 2026 Final Matrix B, filed 2026-03-16; column ""Average 4CP (KW)""; https://interchange.puc.texas.gov/Documents/59080_50_1603608.PDF"
+matrix,2026_matrix_B_Oncor,transmission_cost_of_service,1737120067,"filed, not approved; Docket No. 59080, Commission Staff's Petition to Set 2026 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 50: Commission Staff's Final Transmission Charge Matrices, Attachment B - 2026 Final Matrix B, filed 2026-03-16; column ""TCOS""; https://interchange.puc.texas.gov/Documents/59080_50_1603608.PDF"
+matrix,2026_matrix_B_Oncor,access_fee,21.434639,"filed, not approved; Docket No. 59080, Commission Staff's Petition to Set 2026 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 50: Commission Staff's Final Transmission Charge Matrices, Attachment B - 2026 Final Matrix B, filed 2026-03-16; column ""Access Fee ($/KW) *""; https://interchange.puc.texas.gov/Documents/59080_50_1603608.PDF"
+matrix,2026_matrix_B_Oncor,average_4cp,28677216.785,"filed, not approved; Docket No. 59080, Commission Staff's Petition to Set 2026 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 50: Commission Staff's Final Transmission Charge Matrices, Attachment B - 2026 Final Matrix B, filed 2026-03-16; column ""Average 4CP (KW)""; https://interchange.puc.texas.gov/Documents/59080_50_1603608.PDF"
+matrix,2026_matrix_B_CenterPoint_Energy_Houston_Electric,transmission_cost_of_service,744217216,"filed, not approved; Docket No. 59080, Commission Staff's Petition to Set 2026 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 50: Commission Staff's Final Transmission Charge Matrices, Attachment B - 2026 Final Matrix B, filed 2026-03-16; column ""TCOS""; https://interchange.puc.texas.gov/Documents/59080_50_1603608.PDF"
+matrix,2026_matrix_B_CenterPoint_Energy_Houston_Electric,access_fee,9.183031,"filed, not approved; Docket No. 59080, Commission Staff's Petition to Set 2026 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 50: Commission Staff's Final Transmission Charge Matrices, Attachment B - 2026 Final Matrix B, filed 2026-03-16; column ""Access Fee ($/KW) *""; https://interchange.puc.texas.gov/Documents/59080_50_1603608.PDF"
+matrix,2026_matrix_B_CenterPoint_Energy_Houston_Electric,average_4cp,20180083.207,"filed, not approved; Docket No. 59080, Commission Staff's Petition to Set 2026 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 50: Commission Staff's Final Transmission Charge Matrices, Attachment B - 2026 Final Matrix B, filed 2026-03-16; column ""Average 4CP (KW)""; https://interchange.puc.texas.gov/Documents/59080_50_1603608.PDF"
+matrix,2026_matrix_B_AEP_Texas,transmission_cost_of_service,865011644,"filed, not approved; Docket No. 59080, Commission Staff's Petition to Set 2026 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 50: Commission Staff's Final Transmission Charge Matrices, Attachment B - 2026 Final Matrix B, filed 2026-03-16; column ""TCOS""; https://interchange.puc.texas.gov/Documents/59080_50_1603608.PDF"
+matrix,2026_matrix_B_AEP_Texas,access_fee,10.673535,"filed, not approved; Docket No. 59080, Commission Staff's Petition to Set 2026 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 50: Commission Staff's Final Transmission Charge Matrices, Attachment B - 2026 Final Matrix B, filed 2026-03-16; column ""Access Fee ($/KW) *""; https://interchange.puc.texas.gov/Documents/59080_50_1603608.PDF"
+matrix,2026_matrix_B_AEP_Texas,average_4cp,6505254.059,"filed, not approved; Docket No. 59080, Commission Staff's Petition to Set 2026 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 50: Commission Staff's Final Transmission Charge Matrices, Attachment B - 2026 Final Matrix B, filed 2026-03-16; column ""Average 4CP (KW)""; https://interchange.puc.texas.gov/Documents/59080_50_1603608.PDF"
+matrix,2026_matrix_B_Texas_New_Mexico_Power,transmission_cost_of_service,187335996,"filed, not approved; Docket No. 59080, Commission Staff's Petition to Set 2026 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 50: Commission Staff's Final Transmission Charge Matrices, Attachment B - 2026 Final Matrix B, filed 2026-03-16; column ""TCOS""; https://interchange.puc.texas.gov/Documents/59080_50_1603608.PDF"
+matrix,2026_matrix_B_Texas_New_Mexico_Power,access_fee,2.311573,"filed, not approved; Docket No. 59080, Commission Staff's Petition to Set 2026 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 50: Commission Staff's Final Transmission Charge Matrices, Attachment B - 2026 Final Matrix B, filed 2026-03-16; column ""Access Fee ($/KW) *""; https://interchange.puc.texas.gov/Documents/59080_50_1603608.PDF"
+matrix,2026_matrix_B_Texas_New_Mexico_Power,average_4cp,2422649.107,"filed, not approved; Docket No. 59080, Commission Staff's Petition to Set 2026 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 50: Commission Staff's Final Transmission Charge Matrices, Attachment B - 2026 Final Matrix B, filed 2026-03-16; column ""Average 4CP (KW)""; https://interchange.puc.texas.gov/Documents/59080_50_1603608.PDF"

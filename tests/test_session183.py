@@ -124,7 +124,8 @@ class TheHubFiles(unittest.TestCase):
 class ThePage(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.page = src("site", "app", "cost-of-power", "seller", "page.tsx")
+        # session 212: what the page computes is model.ts, shared with its CSV downloads; the page draws
+        cls.page = src("site", "app", "cost-of-power", "seller", "page.tsx") + src("site", "app", "cost-of-power", "seller", "model.ts")
 
     def test_everything_the_model_shows_is_priced_at_the_hub_chosen(self):
         p = self.page
@@ -135,7 +136,8 @@ class ThePage(unittest.TestCase):
         self.assertIn("const ms1Main = atHub ? months(snap, perMw) : ms1;", p)
         self.assertIn("ms1Main.find((p) => p.m === r.m)", p)
         self.assertNotIn("stress(snap", p)
-        self.assertIn('data-hybrid-at="1"', p)
+        # session 212: the pair with a battery is the download, which says where it is priced
+        self.assertIn("priced at ${g.at}, ${g.name}'s main hub, whatever hub is chosen", src("site", "app", "cost-of-power", "seller", "tables.csv", "route.ts"))
 
     def test_a_figure_never_stands_under_a_hub_it_was_not_priced_at(self):
         p = self.page

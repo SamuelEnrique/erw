@@ -241,3 +241,20 @@ export function hubYears(file: CaptureFile): HubYears {
   const blank = ORDER.filter((id) => file.blank[id]).map((id) => ({ id, name: file.blank[id].name, words: file.blank[id].words }));
   return { years, rows, blank, workbooks };
 }
+
+/** Session 235: one figure of the capture table of /cost-of-power/seller by its check key
+ *  (cap|<grid>|<hub>|<market>|<fuel>|<span>|<stat>), for scripts/check-values.mjs to recompute from the file the page
+ *  reads. `span` is "l12" (the last twelve months) or a calendar year; `what` is "price" (the capture price, USD per
+ *  MWh), "flat" (the hub's average over the same hours) or "rate" (the capture rate, the first over the second, in
+ *  whole percent, as the table writes it). Null when the figure is not held. */
+export function stat(file: CaptureFile, grid: string, hubId: string, market: string, fuel: string, span: string, what: string): number | null {
+  const h = file.grids[grid]?.hubs.find((x) => x.id === hubId);
+  if (!h || (market !== "rt" && market !== "da") || (fuel !== "solar" && fuel !== "wind")) return null;
+  const months = h[market]?.[fuel];
+  const f = span === "l12" ? twelve(months, file.near) : yearCell(months, span, file.near);
+  if (!f) return null;
+  if (what === "price") return f.price;
+  if (what === "flat") return f.flat;
+  if (what === "rate") return f.flat > 0 ? Math.round((100 * f.price) / f.flat) : null;
+  return null;
+}

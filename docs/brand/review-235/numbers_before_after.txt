@@ -1,0 +1,176 @@
+Session 235: the numbers of /cost-of-power/seller before and after (ERCOT, solar, 100 MW, the hub average; the internal view; a local production build).
+Before: the captures session 212 took of the same page (runs/session212/shots; the page's code and data did not change between commit 4b76718b and a4c54722: git diff is empty for site/app/cost-of-power/seller, site/lib/seller, lib/capture.ts, lib/merchant.ts, lib/seller2.ts, data/seller and data/merchant_snapshot.json).
+After: this session's captures of commit HEAD (runs/session235/gen_shots), 13 October 2026.
+
+1. Checked numbers kept (data-check: key = raw = text), before:
+mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|ttm_last = 0.668933604133713 = 0.67
+mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|ds = 7078769 = 7.08 million
+
+   after, the same keys:
+mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|ttm_last = 0.668933604133713 = 0.67
+mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|ds = 7078769 = 7.08 million
+   diff of the kept keys, 1280 px: 0 lines; 390 px: 0 lines
+
+2. The results table and the chart's bars (data-cell: key = raw = text), diff of after against before:
+15,16d14
+< a|ppa = 58.359138950395035 = USD 58.36on 100 percent of the energy for the debt's 35 years, the scenario holding no contract
+< b|ppa = 58.359138950395035 = USD 58.36on 100 percent of the energy for the debt's 35 years, the scenario holding no contract
+   (the two lines above are the new row, the breakeven PPA price; every other cell, the sentence and the eight bars are identical)
+
+3. New checked numbers: 154 keys of the capture table (cap|<grid>|<hub>|<market>|<fuel>|<span>|<stat>), each recomputed by scripts/check-values.mjs from data/seller/capture.json:
+cap|ercot|HB_HUBAVG|rt|solar|l12|price = 23.27094202790795 = 23.27
+cap|ercot|HB_HUBAVG|rt|solar|l12|flat = 32.17396634615385 = 32.17
+cap|ercot|HB_HUBAVG|rt|solar|l12|rate = 72 = 72
+cap|ercot|HB_HUBAVG|rt|solar|2019|rate = 177 = 177
+cap|ercot|HB_HUBAVG|rt|solar|2020|rate = 130 = 130
+cap|ercot|HB_HUBAVG|rt|solar|2021|rate = 55 = 55
+cap|ercot|HB_HUBAVG|rt|solar|2022|rate = 131 = 131
+cap|ercot|HB_HUBAVG|rt|solar|2023|rate = 146 = 146
+cap|ercot|HB_HUBAVG|rt|solar|2024|rate = 85 = 85
+cap|ercot|HB_HUBAVG|rt|solar|2025|rate = 76 = 76
+cap|ercot|HB_HUBAVG|rt|solar|2026|rate = 73 = 73
+cap|ercot|HB_BUSAVG|rt|solar|l12|price = 23.37142924999156 = 23.37
+cap|ercot|HB_BUSAVG|rt|solar|l12|flat = 32.35880837912088 = 32.36
+cap|ercot|HB_BUSAVG|rt|solar|l12|rate = 72 = 72
+cap|ercot|HB_BUSAVG|rt|solar|2019|rate = 177 = 177
+cap|ercot|HB_BUSAVG|rt|solar|2020|rate = 130 = 130
+cap|ercot|HB_BUSAVG|rt|solar|2021|rate = 56 = 56
+cap|ercot|HB_BUSAVG|rt|solar|2022|rate = 130 = 130
+cap|ercot|HB_BUSAVG|rt|solar|2023|rate = 147 = 147
+cap|ercot|HB_BUSAVG|rt|solar|2024|rate = 86 = 86
+cap|ercot|HB_BUSAVG|rt|solar|2025|rate = 76 = 76
+cap|ercot|HB_BUSAVG|rt|solar|2026|rate = 73 = 73
+cap|ercot|HB_HOUSTON|rt|solar|l12|price = 27.2625699116584 = 27.26
+cap|ercot|HB_HOUSTON|rt|solar|l12|flat = 32.87793154761904 = 32.88
+cap|ercot|HB_HOUSTON|rt|solar|l12|rate = 83 = 83
+cap|ercot|HB_HOUSTON|rt|solar|2019|rate = 177 = 177
+cap|ercot|HB_HOUSTON|rt|solar|2020|rate = 130 = 130
+cap|ercot|HB_HOUSTON|rt|solar|2021|rate = 57 = 57
+cap|ercot|HB_HOUSTON|rt|solar|2022|rate = 137 = 137
+cap|ercot|HB_HOUSTON|rt|solar|2023|rate = 152 = 152
+cap|ercot|HB_HOUSTON|rt|solar|2024|rate = 90 = 90
+cap|ercot|HB_HOUSTON|rt|solar|2025|rate = 86 = 86
+cap|ercot|HB_HOUSTON|rt|solar|2026|rate = 84 = 84
+cap|ercot|HB_NORTH|rt|solar|l12|price = 23.09598778965176 = 23.10
+cap|ercot|HB_NORTH|rt|solar|l12|flat = 32.493654990842494 = 32.49
+cap|ercot|HB_NORTH|rt|solar|l12|rate = 71 = 71
+cap|ercot|HB_NORTH|rt|solar|2019|rate = 177 = 177
+cap|ercot|HB_NORTH|rt|solar|2020|rate = 129 = 129
+cap|ercot|HB_NORTH|rt|solar|2021|rate = 56 = 56
+cap|ercot|HB_NORTH|rt|solar|2022|rate = 129 = 129
+cap|ercot|HB_NORTH|rt|solar|2023|rate = 149 = 149
+cap|ercot|HB_NORTH|rt|solar|2024|rate = 86 = 86
+cap|ercot|HB_NORTH|rt|solar|2025|rate = 75 = 75
+cap|ercot|HB_NORTH|rt|solar|2026|rate = 71 = 71
+cap|ercot|HB_SOUTH|rt|solar|l12|price = 24.258745256244683 = 24.26
+cap|ercot|HB_SOUTH|rt|solar|l12|flat = 32.69695054945055 = 32.70
+cap|ercot|HB_SOUTH|rt|solar|l12|rate = 74 = 74
+cap|ercot|HB_SOUTH|rt|solar|2019|rate = 174 = 174
+cap|ercot|HB_SOUTH|rt|solar|2020|rate = 129 = 129
+cap|ercot|HB_SOUTH|rt|solar|2021|rate = 56 = 56
+cap|ercot|HB_SOUTH|rt|solar|2022|rate = 129 = 129
+cap|ercot|HB_SOUTH|rt|solar|2023|rate = 144 = 144
+cap|ercot|HB_SOUTH|rt|solar|2024|rate = 90 = 90
+cap|ercot|HB_SOUTH|rt|solar|2025|rate = 78 = 78
+cap|ercot|HB_SOUTH|rt|solar|2026|rate = 74 = 74
+cap|ercot|HB_WEST|rt|solar|l12|price = 18.46648254446499 = 18.47
+cap|ercot|HB_WEST|rt|solar|l12|flat = 30.627194368131867 = 30.63
+cap|ercot|HB_WEST|rt|solar|l12|rate = 60 = 60
+cap|ercot|HB_WEST|rt|solar|2019|rate = 180 = 180
+cap|ercot|HB_WEST|rt|solar|2020|rate = 133 = 133
+cap|ercot|HB_WEST|rt|solar|2021|rate = 53 = 53
+cap|ercot|HB_WEST|rt|solar|2022|rate = 127 = 127
+cap|ercot|HB_WEST|rt|solar|2023|rate = 139 = 139
+cap|ercot|HB_WEST|rt|solar|2024|rate = 75 = 75
+cap|ercot|HB_WEST|rt|solar|2025|rate = 66 = 66
+cap|ercot|HB_WEST|rt|solar|2026|rate = 61 = 61
+cap|ercot|LZ_AEN|da|solar|l12|price = 31.061198421789904 = 31.06
+cap|ercot|LZ_AEN|da|solar|l12|flat = 38.723351648351645 = 38.72
+cap|ercot|LZ_AEN|da|solar|l12|rate = 80 = 80
+cap|ercot|LZ_AEN|da|solar|2019|rate = 189 = 189
+cap|ercot|LZ_AEN|da|solar|2020|rate = 139 = 139
+cap|ercot|LZ_AEN|da|solar|2021|rate = 65 = 65
+cap|ercot|LZ_AEN|da|solar|2022|rate = 137 = 137
+cap|ercot|LZ_AEN|da|solar|2023|rate = 162 = 162
+cap|ercot|LZ_AEN|da|solar|2024|rate = 99 = 99
+cap|ercot|LZ_AEN|da|solar|2025|rate = 90 = 90
+cap|ercot|LZ_AEN|da|solar|2026|rate = 79 = 79
+cap|ercot|LZ_CPS|da|solar|l12|price = 28.692621216711323 = 28.69
+cap|ercot|LZ_CPS|da|solar|l12|flat = 38.79399152930403 = 38.79
+cap|ercot|LZ_CPS|da|solar|l12|rate = 74 = 74
+cap|ercot|LZ_CPS|da|solar|2019|rate = 185 = 185
+cap|ercot|LZ_CPS|da|solar|2020|rate = 139 = 139
+cap|ercot|LZ_CPS|da|solar|2021|rate = 65 = 65
+cap|ercot|LZ_CPS|da|solar|2022|rate = 136 = 136
+cap|ercot|LZ_CPS|da|solar|2023|rate = 157 = 157
+cap|ercot|LZ_CPS|da|solar|2024|rate = 94 = 94
+cap|ercot|LZ_CPS|da|solar|2025|rate = 85 = 85
+cap|ercot|LZ_CPS|da|solar|2026|rate = 73 = 73
+cap|ercot|LZ_HOUSTON|rt|solar|l12|price = 28.228607360121018 = 28.23
+cap|ercot|LZ_HOUSTON|rt|solar|l12|flat = 33.41334134615384 = 33.41
+cap|ercot|LZ_HOUSTON|rt|solar|l12|rate = 84 = 84
+cap|ercot|LZ_HOUSTON|rt|solar|2019|rate = 177 = 177
+cap|ercot|LZ_HOUSTON|rt|solar|2020|rate = 131 = 131
+cap|ercot|LZ_HOUSTON|rt|solar|2021|rate = 57 = 57
+cap|ercot|LZ_HOUSTON|rt|solar|2022|rate = 137 = 137
+cap|ercot|LZ_HOUSTON|rt|solar|2023|rate = 152 = 152
+cap|ercot|LZ_HOUSTON|rt|solar|2024|rate = 91 = 91
+cap|ercot|LZ_HOUSTON|rt|solar|2025|rate = 86 = 86
+cap|ercot|LZ_HOUSTON|rt|solar|2026|rate = 85 = 85
+cap|ercot|LZ_LCRA|da|solar|l12|price = 31.615318116515986 = 31.62
+cap|ercot|LZ_LCRA|da|solar|l12|flat = 38.68886332417583 = 38.69
+cap|ercot|LZ_LCRA|da|solar|l12|rate = 82 = 82
+cap|ercot|LZ_LCRA|da|solar|2019|rate = 188 = 188
+cap|ercot|LZ_LCRA|da|solar|2020|rate = 141 = 141
+cap|ercot|LZ_LCRA|da|solar|2021|rate = 66 = 66
+cap|ercot|LZ_LCRA|da|solar|2022|rate = 137 = 137
+cap|ercot|LZ_LCRA|da|solar|2023|rate = 161 = 161
+cap|ercot|LZ_LCRA|da|solar|2024|rate = 101 = 101
+cap|ercot|LZ_LCRA|da|solar|2025|rate = 90 = 90
+cap|ercot|LZ_LCRA|da|solar|2026|rate = 80 = 80
+cap|ercot|LZ_NORTH|rt|solar|l12|price = 25.011007020263015 = 25.01
+cap|ercot|LZ_NORTH|rt|solar|l12|flat = 33.71937843406593 = 33.72
+cap|ercot|LZ_NORTH|rt|solar|l12|rate = 74 = 74
+cap|ercot|LZ_NORTH|rt|solar|2019|rate = 177 = 177
+cap|ercot|LZ_NORTH|rt|solar|2020|rate = 129 = 129
+cap|ercot|LZ_NORTH|rt|solar|2021|rate = 56 = 56
+cap|ercot|LZ_NORTH|rt|solar|2022|rate = 128 = 128
+cap|ercot|LZ_NORTH|rt|solar|2023|rate = 150 = 150
+cap|ercot|LZ_NORTH|rt|solar|2024|rate = 88 = 88
+cap|ercot|LZ_NORTH|rt|solar|2025|rate = 76 = 76
+cap|ercot|LZ_NORTH|rt|solar|2026|rate = 74 = 74
+cap|ercot|LZ_RAYBN|da|solar|l12|price = 25.913957167198816 = 25.91
+cap|ercot|LZ_RAYBN|da|solar|l12|flat = 35.556014194139195 = 35.56
+cap|ercot|LZ_RAYBN|da|solar|l12|rate = 73 = 73
+cap|ercot|LZ_RAYBN|da|solar|2019|rate = 188 = 188
+cap|ercot|LZ_RAYBN|da|solar|2020|rate = 140 = 140
+cap|ercot|LZ_RAYBN|da|solar|2021|rate = 66 = 66
+cap|ercot|LZ_RAYBN|da|solar|2022|rate = 134 = 134
+cap|ercot|LZ_RAYBN|da|solar|2023|rate = 160 = 160
+cap|ercot|LZ_RAYBN|da|solar|2024|rate = 93 = 93
+cap|ercot|LZ_RAYBN|da|solar|2025|rate = 82 = 82
+cap|ercot|LZ_RAYBN|da|solar|2026|rate = 72 = 72
+cap|ercot|LZ_SOUTH|rt|solar|l12|price = 27.578941089771416 = 27.58
+cap|ercot|LZ_SOUTH|rt|solar|l12|flat = 33.7163266941392 = 33.72
+cap|ercot|LZ_SOUTH|rt|solar|l12|rate = 82 = 82
+cap|ercot|LZ_SOUTH|rt|solar|2019|rate = 173 = 173
+cap|ercot|LZ_SOUTH|rt|solar|2020|rate = 154 = 154
+cap|ercot|LZ_SOUTH|rt|solar|2021|rate = 57 = 57
+cap|ercot|LZ_SOUTH|rt|solar|2022|rate = 128 = 128
+cap|ercot|LZ_SOUTH|rt|solar|2023|rate = 147 = 147
+cap|ercot|LZ_SOUTH|rt|solar|2024|rate = 103 = 103
+cap|ercot|LZ_SOUTH|rt|solar|2025|rate = 80 = 80
+cap|ercot|LZ_SOUTH|rt|solar|2026|rate = 83 = 83
+cap|ercot|LZ_WEST|rt|solar|l12|price = 19.980758986623513 = 19.98
+cap|ercot|LZ_WEST|rt|solar|l12|flat = 35.2376510989011 = 35.24
+cap|ercot|LZ_WEST|rt|solar|l12|rate = 57 = 57
+cap|ercot|LZ_WEST|rt|solar|2019|rate = 142 = 142
+cap|ercot|LZ_WEST|rt|solar|2020|rate = 90 = 90
+cap|ercot|LZ_WEST|rt|solar|2021|rate = 55 = 55
+cap|ercot|LZ_WEST|rt|solar|2022|rate = 122 = 122
+cap|ercot|LZ_WEST|rt|solar|2023|rate = 121 = 121
+cap|ercot|LZ_WEST|rt|solar|2024|rate = 62 = 62
+cap|ercot|LZ_WEST|rt|solar|2025|rate = 55 = 55
+cap|ercot|LZ_WEST|rt|solar|2026|rate = 59 = 59
+
+4. The battery page, to prove the brand's file did not move it: diff of its checked numbers against runs/session211/shots/after_nums.txt: 0 lines; of its visible text: 0 lines; its facts: {"scrollW":1265,"clientW":1265,"h":5016,"h2":[

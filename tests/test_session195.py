@@ -153,11 +153,11 @@ class ScenarioASetsTheHeadline(unittest.TestCase):
     def test_each_page_takes_its_costs_from_scenario_a(self):
         battery, seller, dc = (src(PAGES[k]) for k in ("battery", "seller", "datacenter"))
         self.assertIn("const x: Inputs = { ...asked, fom: A.fom, ds: debtUsd(A, asked.mw) };", battery)
-        self.assertIn("const x: Inputs = { ...asked, fom: A.fom, ds: debtUsd(A, asked.mw) };", seller)
-        self.assertIn("gpu: DEFAULTS.gpu, pue: DEFAULTS.pue };", dc)                       # the page's inputs carry the cited defaults; A holds the reader's
+        self.assertIn("const x: Inputs = { ...asked, fom: A.fom, ds: debtUsd(A, asked.mw) };", src("site/app/cost-of-power/seller/model.ts"))   # session 212: the page's reads are model.ts
+        self.assertIn("gpu: DEFAULTS.gpu, pue: DEFAULTS.pue };", src("site/app/cost-of-power/model.ts"))   # the page's inputs carry the cited defaults; A holds the reader's (session 213: model.ts)
         for words in ("<BatteryDecisions ", "<BatteryHeadline ", "<Scenarios ", "<BatterySensitivity "):   # session 208: no contract section; the chart in its own section
             self.assertEqual(battery.count(words), 1, words)
-        for words in ("<SellerDecisions ", "<CoverHeadline ", "<MonthsOfA ", "<CoverageOfA ", "<DscrOfA "):
+        for words in ("<SellerDecisions ", "<CoverHeadline ", "<SellerScenarios ", "<SellerSensitivity "):   # session 212: the months and "Debt coverage" are the CSV
             self.assertEqual(seller.count(words), 1, words)
         for words in ("<LoadDecisions ", "<LoadHeadline "):
             self.assertEqual(dc.count(words), 1, words)

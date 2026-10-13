@@ -119,7 +119,9 @@ class Demand(unittest.TestCase):
         for y in i["years"]:
             f = json.loads(src("site", "data", "datacenter", f"isone_{y}.json"))
             self.assertFalse({"tight", "peak_mw", "demand_mean_mw"} & set(f))
-        self.assertIn('withheld ? noDemand', src("site", "app", "cost-of-power", "page.tsx"))
+        tables = src("site", "app", "cost-of-power", "tables.csv", "route.ts")   # session 213: the grid questions are the download
+        self.assertIn("const noDemand = withheld ?", tables)
+        self.assertIn("withheld ? noDemand", tables)
         self.assertIsNone(self.index["grids"]["spp"]["demand_source"])
 
 
@@ -162,12 +164,18 @@ class Delivery(unittest.TestCase):
         self.assertTrue(tcrf["sentence"].endswith("6.260839"))   # the last column of its row: Transmission Service
 
     def test_delivery_is_never_mixed_into_the_market_cost(self):
+        # session 236 (the owner's chain prompt of 12 October 2026: one row a component in USD per MWh, and the total; the
+        # tariff lines in the CSV): the cell of tariff lines became the table DeliveryTable, and its arithmetic moved, the
+        # same expression, into lib/datacenter/delivery.ts (a rate per kW a month times 12,000 over 8,760 hours)
         page = src("site", "app", "cost-of-power", "page.tsx")
-        cell = page.split("function DeliveryCell", 1)[1].split("function ZoneCell", 1)[0]
-        self.assertIn("(tcrf.value * 12000) / 8760", cell)
+        lib = src("site", "lib", "datacenter", "delivery.ts")
+        cell = page.split("function DeliveryTable", 1)[1].split("const matrixTip", 1)[0]
+        self.assertIn("export const YEAR_HOURS = 8760;", lib)
+        self.assertIn("return (r.value * 12000) / YEAR_HOURS;", lib)
         self.assertNotIn("s12", cell)
-        self.assertNotRegex(page, r"s12[^;\n]*tcrf|tcrf[^;\n]*s12")
-        self.assertIn("Not added to the market cost above", cell)
+        self.assertNotIn("s12", lib)
+        self.assertNotRegex(page, r"s12[^;\n]*DeliveryTable|DeliveryTable[^;\n]*s12")
+        self.assertIn("These charges are never added to the market cost above", cell)
 
 
 class Arithmetic(unittest.TestCase):
@@ -196,7 +204,7 @@ class Page(unittest.TestCase):
 
     def test_one_page_one_address_and_no_version_in_it(self):
         d = os.path.join(ROOT, "site", "app", "cost-of-power")
-        self.assertEqual(sorted(x for x in os.listdir(d) if os.path.isdir(os.path.join(d, x))), ["battery", "seller"])
+        self.assertEqual(sorted(x for x in os.listdir(d) if os.path.isdir(os.path.join(d, x))), ["battery", "months.csv", "seller", "tables.csv"])   # session 213: the two downloads
         self.assertIn('action="/cost-of-power"', self.form)
         self.assertNotRegex(self.lib + self.page, r"/cost-of-power/(v\d|datacenter|load)")
 
@@ -233,7 +241,7 @@ class Page(unittest.TestCase):
             self.assertNotIn(name, self.form)
         self.assertIn("scenario A gives the headline", self.form)
         page = src("site", "app", "cost-of-power", "page.tsx")
-        self.assertIn("gpuSource: ASSUMED.gpu.source, pueSource: ASSUMED.pue.source", page)
+        self.assertIn("gpuSource: ASSUMED.gpu.source, pueSource: ASSUMED.pue.source", src("site", "app", "cost-of-power", "model.ts"))   # session 213: the page's reads are model.ts
         for run in ("flat:", "hours:", "share:", "shift:"):
             self.assertIn(run, self.lib)
         self.assertIn("title={ASSUMED.gpu.source}", page)                          # the source line's two defaults, on hover
@@ -251,17 +259,21 @@ class Page(unittest.TestCase):
         self.assertIn('"/cost-of-power"', src("site", "components", "SiteLink.tsx"))  # the shared links do not prefetch here
 
     def test_the_four_questions_and_their_placeholders(self):
-        for title in ('title="What will it cost"', 'title="Will the power be there"', 'title="How clean"', 'title="How soon"'):
+        # session 213 (the owner's chain prompt of 12 October 2026): the page asks the battery page's three questions; the three
+        # grid questions are its download, tables.csv, written from the same files, with their placeholders' words in `note`
+        for title in ('title="What will it pay?"', 'title="Which option is better?"', 'title="What matters most"'):
             self.assertIn(title, self.page)
-        self.assertIn('const NOWHERE = "not published anywhere yet"', self.page)
-        # how long a new large load waits: every grid. Load in line by region: every grid but NYISO, which publishes it
-        # (its queue workbook's load sheets), so there the truth is "not held yet"
-        # session 163: how long a load waits is now measured for New York and reads "not measured here" or "not measured
-        # yet" elsewhere (LoadWaits.tsx), so the words stand twice, both for the load in line by region
-        self.assertEqual(self.page.count("words={NOWHERE}"), 2)
-        # session 140: New York's load queue is held and shown; session 149 (the owner's ruling of 7 October 2026): held
-        # internal, and a placeholder stands where the megawatts stood unless the connector's switch puts them back
-        self.assertIn('x.grid === "nyiso" ? (NY_SHOWN ? <NyLoadCell key="ny" own={x.region} /> : <span key="ny" data-nyload-held="1"><Missing words={NY_HELD_WORDS} why={NY_HELD_WHY} /></span>)', self.page)
+        self.assertIn(">What will it cost</Sub>", self.page)
+        model = src("site", "app", "cost-of-power", "model.ts")
+        tables = src("site", "app", "cost-of-power", "tables.csv", "route.ts")
+        self.assertIn('export const NOWHERE = "not published anywhere yet"', model)
+        self.assertEqual(tables.count("${NOWHERE}"), 2)                               # the load in line by region, ERCOT and the rest
+        for table in ('"power_there"', '"how_clean"', '"how_soon"', '"waits"', '"rules"', '"regions"', '"matrix"', '"ny_load"'):
+            self.assertIn(table, tables, table)
+        # session 149 (the owner's ruling of 7 October 2026): New York's load in line is written only when the connector's switch
+        # puts it back; until then its placeholder's words and reason
+        self.assertIn('if (NY_SHOWN) {', tables)
+        self.assertIn('`${NY_HELD_WORDS}: ${NY_HELD_WHY}`', tables)
         self.assertIn('words = "not held yet"', self.page)
         self.assertIn('"Delivery charges"', self.page)
         for link in ("/mix?view=clean&grid=", "/mix?view=stress&grid=", "/demand?area=", "/queues?grid=", "/datacenters"):
@@ -269,6 +281,10 @@ class Page(unittest.TestCase):
 
     def test_no_method_on_the_face_and_no_em_dash(self):
         face = self.page + self.form + self.contract + self.grids
+        # session 213 (the owner's chain prompt of 12 October 2026, as session 208 on the battery): one sentence of what the model
+        # cannot see stands under the cost table with a link to the note; it is the one paragraph of method on the face
+        face = re.sub(r'<p className="mt-2 max-w-3xl text-xs text-muted" data-income-note="1">.*?</p>', "", face, flags=re.S)
+        face = re.sub(r"\{/\*.*?\*/\}", "", face, flags=re.S)
         for word in ("upper bound", "price taker", "cannot see", "limitation", "caveat", "Wholesale energy only", "does not include"):
             self.assertNotIn(word, re.sub(r"//.*", "", face), word)
         self.assertIn("/data/methods/datacenter_cost", self.page)
