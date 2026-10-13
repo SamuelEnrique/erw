@@ -19,7 +19,7 @@ export function FindingCard({ card, render = false, roundup = true, found, files
       <header>
         <div className="finding-title text-xs font-semibold tracking-[0.18em] text-muted" data-finding-title={card.id}>{card.title}</div>
         {found ? <p className="mt-1 text-xs font-semibold text-accent" data-found-by-scanner={card.card_id}>Found by the scanner, {found}</p> : null}
-        {card.draft && !found ? <p className="mt-1 text-xs font-semibold text-accent" data-draft-mark={card.card_id}>Draft: raised by the scanner, not reviewed</p> : null}
+        {card.draft && !found ? <p className="mt-1 text-xs font-semibold text-accent" data-draft-mark={card.card_id}>{card.hunt ? "Draft: raised by the weekly hunt, not reviewed" : "Draft: raised by the scanner, not reviewed"}</p> : null}
         <p className="finding-subtitle mt-1 break-words text-lg italic" data-finding-subtitle="1">{card.subtitle}</p>
         <p className="text-xs text-muted">{Object.entries(card.inputs_words).map(([k, v]) => `${k.replace(/_/g, " ")}: ${v}`).join(" | ")}</p>
       </header>

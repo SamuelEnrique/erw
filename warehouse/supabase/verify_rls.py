@@ -85,7 +85,9 @@ INTERNAL_BY_NAME = (("events", "api_cost_ledger"), ("events", "ferc_eqr_contract
 # read functions behind the internal token: a wrong token must be refused (none of these writes)
 TOKEN_FUNCTIONS = (("internal_costs", {}), ("internal_ask_spend", {}), ("internal_eqr_summary", {}),
                    ("thesis_list", {}), ("analysis_requests_list", {}), ("internal_usage", {}),
-                   ("scanner_drafts_list", {}), ("analysis_request_card", {"p_id": "verify-rls-0000"}))
+                   ("scanner_drafts_list", {}), ("analysis_request_card", {"p_id": "verify-rls-0000"}),
+                   # migration 031 (session 233): one file of a draft of the weekly hunt
+                   ("scanner_draft_file", {"p_id": "scan-hunt-000000000000", "p_name": "scan-hunt-000000000000.csv"}))
 PROOF_TABLE = "site_api_calls"
 WRONG_TOKEN = "verify-rls-wrong-token-0000000000000000"
 

@@ -19,6 +19,7 @@ export function DraftReview({ id, state: first, history: firstHistory, requestId
   const [history, setHistory] = useState<Change[]>(firstHistory);
   const [note, setNote] = useState(requestId ? `request ${requestId}` : "");
   const [busy, setBusy] = useState(false);
+  const [chosen, setChosen] = useState("");
   const rule = async (to: State) => {
     setBusy(true);
     try {
@@ -34,6 +35,19 @@ export function DraftReview({ id, state: first, history: firstHistory, requestId
     }
     setBusy(false);
   };
+  // session 233: an approved draft can be chosen for the Sunday Roundup, as a finding's card is on /analysis: the same
+  // request (POST /api/analysis, kind roundup); warehouse/analysis/findings/roundup_pick.py reads the approved draft's card
+  const roundup = async () => {
+    setBusy(true);
+    try {
+      const r = await fetch("/api/analysis", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ kind: "roundup", card_id: id }) });
+      const j = (await r.json()) as { ok: boolean; week?: string; reason?: string };
+      setChosen(j.ok ? `Chosen for the Roundup of ${j.week}.` : `Not chosen: ${j.reason ?? "no answer"}`);
+    } catch (e) {
+      setChosen(`Not chosen: ${(e as Error).message}`);
+    }
+    setBusy(false);
+  };
   return (
     <div className="mt-3 border-t border-rule pt-3 text-sm" data-draft-review={id} data-draft-state={state}>
       <div className="flex flex-wrap items-center gap-2">
@@ -45,6 +59,15 @@ export function DraftReview({ id, state: first, history: firstHistory, requestId
           </button>
         ))}
       </div>
+      {state === "approved" ? (
+        <p className="mt-2 flex flex-wrap items-center gap-2 text-xs" data-draft-roundup={id}>
+          <button type="button" disabled={busy} onClick={roundup} data-draft-button="roundup"
+            className="border border-rule bg-panel px-3 py-1 text-sm text-ink hover:border-ink disabled:opacity-50">
+            Use in Roundup
+          </button>
+          <span className="text-muted">{chosen || "An approved draft can be this week's chosen finding in the Sunday Roundup."}</span>
+        </p>
+      ) : null}
       <p className="mt-1 text-xs text-muted">Ask for a full card: {fullCard}</p>
       {note ? <p className="mt-1 text-xs text-muted" data-draft-note="1">{note}</p> : null}
       {history.length ? (

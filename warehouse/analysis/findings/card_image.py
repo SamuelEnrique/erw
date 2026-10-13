@@ -101,6 +101,8 @@ def _flag_line(ax, ch, pt, sans):
         span = (dates[-1] - dates[0]).days if len(dates) > 1 else 0
         ax.xaxis.set_major_locator(mdates.AutoDateLocator(minticks=4, maxticks=8))
         ax.xaxis.set_major_formatter(mdates.DateFormatter("%b %d" if span < 150 else ("%b %Y" if span < 2200 else "%Y")))
+    else:
+        _category_ticks(ax, [str(v) for v in x])        # years, or any other names: the points sit at 0, 1, 2 ...
     return len(ch["series"]) > 1
 
 
@@ -232,9 +234,10 @@ def render(card, path, size="digest", fact=None, kicker=None):
     left, right = 0.045 * w, 0.045 * w
     mark = 52 * scale
 
-    def block(text, size_pt, width_px, family, color, y, lh=1.24, weight="normal", max_lines=None):
-        """Wrapped text from y (pixels from the top) down; returns the y below it."""
-        chars = max(18, int(width_px / (px(size_pt) * (0.50 if family == serif else 0.53))))
+    def block(text, size_pt, width_px, family, color, y, lh=1.24, weight="normal", max_lines=None, wide=None):
+        """Wrapped text from y (pixels from the top) down; returns the y below it. wide: a letter's mean width in ems
+        (bold capitals are wider than running text)."""
+        chars = max(18, int(width_px / (px(size_pt) * (wide or (0.50 if family == serif else 0.53)))))
         lines = textwrap.wrap(str(text), chars)
         if max_lines and len(lines) > max_lines:
             lines = lines[:max_lines]
@@ -247,8 +250,8 @@ def render(card, path, size="digest", fact=None, kicker=None):
     y = 0.04 * h
     if kicker:
         y = block(kicker, 10.5, w - left - right - mark - 80, sans, style.MUTED, y) + 2
-    y = block(card["title"], 22, w - left - right - mark - 90 * scale, serif, style.ACCENT, y, 1.18, "bold", 2)
-    y = block(fact or card.get("subtitle", ""), 13.5, w - left - right - (mark + 60 * scale if y < 0.04 * h + mark else 0), serif, style.INK, y + 5, 1.3, max_lines=4)
+    y = block(card["title"], 22, w - left - right - mark - 120 * scale, serif, style.ACCENT, y, 1.18, "bold", 3, wide=0.70)
+    y = block(fact or card.get("subtitle", ""), 13.5, w - left - right - (mark + 120 * scale if y < 0.04 * h + mark else 0), serif, style.INK, y + 5, 1.3, max_lines=4)
     style._mark(fig, 1 - right / w, 1 - 0.04, mark / h)
 
     # from the bottom up: the source line, then the callouts
