@@ -3,55 +3,83 @@
 //   npm run build && npx next start -p 3127
 //   node --import ./scripts/alias-loader.mjs scripts/check-board-v4.mjs [base-url]      (default http://localhost:3127)
 //
-// The page is drawn on the server, so it is read as HTML, in the internal view (it is in review):
-//   numbers   every number the page marks (data-n) equals the site's copy of price_board_stats (data/board_v4.json):
-//             each line's latest value, its four moves and the two ends of its range
-//   lines     a row for each of the copy's lines, and a range mark for each line that holds a range
-//   formulas  each spread's formula is printed under its table
-//   not held  the seven prices no free source gives, greyed, each with a source; PJM licensed and MISO paused in words
-//   visitor   without the cookie the page is the in-review page and carries no number
+// Session 241 (batch C): rewritten for where version 4 is today. /board/v4 was retired by session 132 and redirects to
+// the one price board, /board. Until this session the script read /board/v4 as a page and looked for its keys
+// (ercot:HB_HUBAVG|da|last, from data/board_v4.json) and marks (data-formula, data-withheld), none of which /board
+// writes: 4 of 10 passed on every build since session 132. Each thing it checked is checked on /board, read as HTML in
+// the internal view through the old address:
+//   redirect  /board/v4 answers a permanent redirect to /board, a query carried
+//   numbers   every number the page marks (data-n) for a row shown equals the site's file (data/board.json): its
+//             latest value, its moves and the two ends of its one-year range
+//   lines     a row for each row of the file under the default filters, and a range mark for each that holds a range
+//   formulas  each row that is computed carries its formula where the board prints it now, on hover of its name
+//             (the page face carries no method words since session 132)
+//   spark     the spark spread is labeled indicative, and its formula says why
+//   not held  the rows no free source gives are on the page, blank, each with the source that would supply it; PJM
+//             reads "licensed source needed" and MISO "paused while terms are reviewed", and neither has a figure
+//   visitor   without the cookie the old address ends on the in-review page and carries no number
+// Gone, and so not checked: version 4's own file (data/board_v4.json is read by no page), its sentence of how many
+// prices and spreads are held (sum|prices, sum|spreads), and the formulas printed under each table.
+// The board's own check, with its top block, its folds and its workbench in a browser, is check-board.mjs.
 // Exit 1 on a failure.
 import fs from "node:fs";
 import { env } from "./browser.mjs";
-import * as g from "../lib/board4.ts";
+import * as b from "../lib/board.ts";
 
 const base = (process.argv[2] ?? "http://localhost:3127").replace(/\/$/, "");
 let bad = 0, n = 0;
 const check = (ok, what) => { n += 1; if (!ok) { bad += 1; console.log(`FAIL ${what}`); } else console.log(`ok   ${what}`); };
-const file = JSON.parse(fs.readFileSync(new URL("../data/board_v4.json", import.meta.url), "utf-8"));
+const file = JSON.parse(fs.readFileSync(new URL("../data/board.json", import.meta.url), "utf-8"));
 const unlock = await fetch(`${base}/internal/unlock?token=${encodeURIComponent(env("INTERNAL_COSTS_TOKEN") ?? "")}`, { redirect: "manual" });
 const cookie = (unlock.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ");
 if (!cookie) { console.log(`FAILED: ${base}/internal/unlock gave no cookie (INTERNAL_COSTS_TOKEN missing or not the server's)`); process.exitCode = 1; }
 else {
-  const get = async (path, withCookie = true) => { const r = await fetch(base + path, { headers: withCookie ? { Cookie: cookie } : {} }); return { status: r.status, html: await r.text() }; };
-  const text = (html) => html.replace(/<script[\s\S]*?<\/script>/gi, " ").replace(/<style[\s\S]*?<\/style>/gi, " ").replace(/<!--.*?-->/g, "").replace(/<[^>]+>/g, " ").replace(/&#x27;/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, "&").replace(/\s+/g, " ");
-  const marked = (html) => Object.fromEntries([...html.matchAll(/<span data-n="([^"]+)">([^<]*)<\/span>/g)].map((x) => [x[1].replace(/&amp;/g, "&"), x[2]]));
-  const { status, html } = await get("/board/v4");
-  check(status === 200 && !html.includes('data-in-review="1"'), "/board/v4 opens in the internal view");
-  const got = marked(html), wrong = [];
-  const want = (k, val) => { if (got[k] !== val) wrong.push(`${k}: page ${got[k]}, copy ${val}`); };
-  let ranges = 0;
-  for (const l of file.lines) {
-    if (!l.last) continue;
-    want(`${l.key}|last`, g.value(l.last.v, l.unit));
-    for (const [k] of g.MOVES) { const m = l.moves?.[k]; if (m) want(`${l.key}|${k}`, g.signed(m.change, l.unit)); else if (`${l.key}|${k}` in got) wrong.push(`${l.key}|${k}: on the page, not in the copy`); }
-    if (l.range && l.range.position !== null) { ranges += 1; want(`${l.key}|low`, g.value(l.range.low, l.unit)); want(`${l.key}|high`, g.value(l.range.high, l.unit)); }
+  const get = async (path, withCookie = true, redirect = "follow") => { const r = await fetch(base + path, { redirect, headers: withCookie ? { Cookie: cookie } : {} }); return { status: r.status, html: await r.text(), location: (r.headers.get("location") ?? "").replace(/^https?:\/\/[^/]+/, ""), url: r.url.replace(base, "") }; };
+  const decode = (s) => s.replace(/&#x27;/g, "'").replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+  const text = (html) => decode(html.replace(/<script[\s\S]*?<\/script>/gi, " ").replace(/<style[\s\S]*?<\/style>/gi, " ").replace(/<!--.*?-->/g, "").replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ");
+  const marked = (html) => Object.fromEntries([...html.matchAll(/<span[^>]*data-n="([^"]+)"[^>]*>([^<]*)</g)].map((x) => [x[1].replace(/&amp;/g, "&"), x[2]]));
+  for (const [path, to] of [["/board/v4", "/board"], ["/board/v4?row=henry-hub", "/board?row=henry-hub"]]) {
+    const r = await get(path, true, "manual");
+    check((r.status === 308 || r.status === 301) && r.location === to, `${path} answers a permanent redirect to ${to} (${r.status} ${r.location})`);
   }
-  const h = g.held(file);
-  want("sum|prices", String(h.prices)); want("sum|spreads", String(h.spreads));
-  check(wrong.length === 0, `every marked number is the copy's (${Object.keys(got).length} on the page, ${file.lines.length} lines)${wrong.length ? `: ${wrong.slice(0, 5).join("; ")}` : ""}`);
-  const drawn = [...html.matchAll(/data-range="([^"]+)"/g)].length;
-  check(drawn === ranges, `${drawn} range marks drawn, ${ranges} lines hold a range`);
-  const t = text(html);
-  const spreads = g.GROUPS.filter((x) => x.spread);
-  check(spreads.every((x) => html.includes(`data-formula="${x.id}"`) && t.includes(`Formula: ${g.groupLines(file, x.id)[0].formula}.`)), `the formula of each of the ${spreads.length} spreads is printed`);
-  check(t.includes("indicative") && t.includes("it is not the gas a plant in any of these grids burns"), "the spark spread is labeled indicative, and why");
-  check(g.NOT_HELD.every((x) => t.includes(x.name) && t.includes(x.source)) && (t.match(/licensed source needed/g) ?? []).length === g.NOT_HELD.length, `${g.NOT_HELD.length} prices not held, each greyed with its source`);
-  check(html.includes('data-withheld="PJM"') && html.includes('data-withheld="MISO"') && /MISO power prices\s+Paused/.test(t) && /PJM power prices\s+Licensed/.test(t), "PJM licensed and MISO paused, in words");
-  check(!/miso:|pjm:/i.test(Object.keys(got).join(" ")), "no figure of MISO's or PJM's prices");
+  const { status, html, url } = await get("/board/v4");
+  check(status === 200 && url === "/board" && html.includes('data-board="1"') && !html.includes('data-in-review="1"'), "/board/v4 ends on /board, open in the internal view");
+  const got = marked(html), wrong = [];
+  const want = (k, val) => { if (got[k] !== val) wrong.push(`${k}: page ${got[k]}, file ${val}`); };
+  let shown = 0, ranges = 0, noRow = 0;
+  const formulas = [];
+  for (const g of file.groups) {
+    for (const r of b.rowsOf(file, g, {})) {
+      if (r.group !== g.id) continue;          // a row listed in a second group is checked in its own
+      if (!html.includes(`data-row="${r.id}"`)) { noRow += 1; wrong.push(`${r.id}: no row`); continue; }
+      if (r.formula) formulas.push(r);
+      if (r.status !== "ok") continue;
+      shown += 1;
+      want(`${r.id}|last`, b.fmt(r.last.v, r.unit));
+      for (const [k] of b.MOVES) { const mv = r.moves[k]; if (mv) want(`${r.id}|${k}`, b.signed(mv.ch, r.unit)); else if (`${r.id}|${k}` in got) wrong.push(`${r.id}|${k}: on the page, not in the file`); }
+      if (r.range && r.range.pos !== null) { ranges += 1; want(`${r.id}|lo`, b.fmt(r.range.lo, r.unit)); want(`${r.id}|hi`, b.fmt(r.range.hi, r.unit)); }
+    }
+  }
+  check(shown > 30 && wrong.length === 0, `every marked number of the ${shown} rows shown is the file's: latest value, moves and the ends of the range (${Object.keys(got).length} marked)${wrong.length ? `: ${wrong.slice(0, 5).join("; ")}` : ""}`);
+  const drawn = [...html.matchAll(/data-range="/g)].length;
+  check(noRow === 0 && drawn >= ranges && ranges > 0, `a row for each row of the file's default view, and ${drawn} range marks drawn for the ${ranges} rows that hold a range`);
+  const plain = decode(html), t = text(html);
+  const unprinted = formulas.filter((r) => !plain.includes(`Formula: ${r.formula}`));
+  check(formulas.length >= 3 && unprinted.length === 0, `the formula of each of the ${formulas.length} computed rows is printed on hover of its name${unprinted.length ? ` (not printed: ${unprinted.slice(0, 3).map((r) => r.id).join(", ")})` : ""}`);
+  const spark = file.rows.filter((r) => r.group === "spark" && /spark/.test(r.id) && r.status === "ok" && html.includes(`data-row="${r.id}"`));   // MISO's and PJM's are blank rows, with no formula
+  check(spark.length > 0 && t.includes("spark spread, indicative") && spark.every((r) => /Indicative: Henry Hub is in Louisiana, not the gas a plant in this grid burns/.test(r.formula ?? "") && plain.includes(`Formula: ${r.formula}`)),
+    `the spark spread is labeled indicative, and its formula says why (${spark.length} rows)`);
+  const blankRow = (id) => { const x = html.match(new RegExp(`<tr[^>]*data-row="${id}"[\\s\\S]*?</tr>`)); return x ? x[0] : ""; };
+  const greyed = file.rows.filter((r) => r.status === "licensed" && !/^(miso|pjm)-/.test(r.id));
+  const onPage = greyed.filter((r) => html.includes(`data-row="${r.id}"`));
+  check(greyed.length >= 7 && greyed.every((r) => r.note && /supply|Source|permission/.test(r.note)) && onPage.length > 0 && onPage.every((r) => blankRow(r.id).includes("licensed source needed") && !/data-n=/.test(blankRow(r.id))),
+    `${greyed.length} prices no free source gives, each naming the source that would supply it; the ${onPage.length} on the default view are blank with "licensed source needed"`);
+  const miso = blankRow("miso-indiana-hub-da"), pjm = blankRow("pjm-western-hub-da");
+  check(miso.includes("paused while terms are reviewed") && !/data-n=/.test(miso) && pjm.includes("licensed source needed") && !/data-n=/.test(pjm) && t.includes("MISO Indiana hub") && t.includes("PJM Western hub"), "PJM licensed and MISO paused, in words, their rows blank");
+  check(!Object.keys(got).some((k) => /^(top\|)?(miso|pjm)-/.test(k)) && !file.rows.some((r) => /^(miso|pjm)-/.test(r.id) && (r.last || r.spark)), "no figure of MISO's or PJM's prices, on the page or in the file");
   check(!/\bundefined\b|NaN/.test(t), 'no "undefined" and no NaN in the text');
   const v = await get("/board/v4", false);
-  check(v.status === 200 && v.html.includes('data-in-review="1"') && !v.html.includes("data-n="), "as a visitor: the in-review page, and no number of the board");
+  check(v.status === 200 && v.url === "/board" && v.html.includes('data-in-review="1"') && !v.html.includes("data-n="), "as a visitor: the old address ends on the in-review page, and no number of the board");
   console.log(`${n - bad} of ${n} checks pass`);
   process.exitCode = bad ? 1 : 0;
 }
