@@ -32,6 +32,13 @@ export function BillCalc({ rules, wholesale }: { rules: any; wholesale: Record<s
     else if (key === "SCE" || key === "SDGE") setTou({ ...tou, [key]: { ...tou[key], kwh: v } });
     else setTx({ ...tx, [key]: { ...tx[key], kwh: v } });
   };
+  // session 261: one press puts the chosen bill's inputs back to its defaults (docs/brand.md, section 7); the other
+  // four bills keep what the reader typed
+  const reset = () => {
+    if (key === "CA") setCa(defaultsCA(rules));
+    else if (key === "SCE" || key === "SDGE") setTou({ ...tou, [key]: defaultsTOU(rules, key) });
+    else setTx({ ...tx, [key]: key === "TX" ? defaultsTX(rules) : defaultsTDSP(rules, key) });
+  };
   const t = key === "SCE" || key === "SDGE" ? tou[key] : null;
   const setT = (x: Partial<TOUInput>) => { if (key === "SCE" || key === "SDGE") setTou({ ...tou, [key]: { ...tou[key], ...x } }); };
 
@@ -105,6 +112,7 @@ export function BillCalc({ rules, wholesale }: { rules: any; wholesale: Record<s
               <span className="mt-1 text-xs text-muted">Default: {b.energy_default.derivation}.</span>
             </label>
           )}
+          <button type="button" onClick={reset} className="border border-rule px-3 py-1">Reset this bill to its defaults</button>
         </div>
 
         <div className="text-sm">

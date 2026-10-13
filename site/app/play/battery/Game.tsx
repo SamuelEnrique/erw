@@ -397,12 +397,12 @@ function EarlyEnd({ mine, at }: { mine: Result; at: string }) {
 
 /** The price now, as a big number. Session 66: a spiked price carries its label and the real price beside it, on the
  * number itself (the text is lib/battery.ts's shownPrices). */
-function PriceNow({ s, big }: { s: ShownPrice; big: boolean }) {
+function PriceNow({ s, big, ended = false }: { s: ShownPrice; big: boolean; ended?: boolean }) {
   const cut = s.text.indexOf(" ");
   return (
     <div className="mb-1 text-center">
       <span className={`tabular-nums ${big ? "text-3xl" : "text-xl"} ${s.spike ? "text-accent" : ""}`}>{s.text.slice(0, cut)}</span>{" "}
-      <span className={`text-sm ${s.spike ? "text-accent" : "text-muted"}`}>{s.text.slice(cut + 1)}{s.spike ? "" : " now"}</span>
+      <span className={`text-sm ${s.spike ? "text-accent" : "text-muted"}`}>{s.text.slice(cut + 1)}{s.spike ? "" : ended ? " when the play ended" : " now"}</span>
     </div>
   );
 }
@@ -670,7 +670,10 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
   };
 
   useEffect(() => () => cancelAnimationFrame(raf.current), []);
-  useEffect(() => { if (phase !== "play") draw(0); }, [phase, draw]);
+  // session 261: when a play ends the chart keeps the day's last six hours, the moves under it and the price at the
+  // end (until then it was drawn again from the day's first interval: an empty chart, the first price at the now line
+  // and the moves out of place). An early end stops where the play stopped.
+  useEffect(() => { if (phase === "done") draw(Math.max(0, Math.min(n, g.current.idx) - 0.001)); }, [phase, draw, n]);
   useEffect(() => {
     if (phase !== "play") return;
     const key = (down: boolean) => (e: KeyboardEvent) => {
@@ -727,7 +730,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
         <div>
           <p className="mb-3 text-base">Buy power into your battery when it is cheap and sell it when it is dear: you start with $5, and the game ends if you go below $0.</p>
           <label className="mb-3 block text-sm">The day:{" "}
-            <select value={pick} onChange={(e) => setPick(Number(e.target.value))} className="border border-rule bg-panel px-2 py-1">
+            <select value={pick} onChange={(e) => setPick(Number(e.target.value))} className="max-w-full border border-rule bg-panel px-2 py-1">
               {levels.map((l, i) => <option key={l.slug} value={i}>{l.title}, {l.date}</option>)}
             </select>
           </label>
@@ -789,10 +792,10 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
             <div className="mb-1 border border-accent px-2 py-1 text-sm text-accent" role="status">Fleet call in 15 minutes: the grid&apos;s dearest hour of the day. Keep charge to sell then.</div>
           ) : inVpp ? (
             <div className="mb-1 border border-accent bg-panel px-2 py-1 text-sm text-accent" role="status">
-              Fleet call: discharge now to earn the bonus (a game rule modeled on ERCOT&apos;s ADER pilot; see the rules below).
+              Fleet call: discharge now to earn the bonus (a game rule modeled on ERCOT&apos;s ADER pilot; {simple ? "the rules are under More, below" : "see the rules below"}).
             </div>
           ) : null}
-          {simple || playing ? <PriceNow s={labeled[Math.min(n - 1, hud.idx)]} big={simple} /> : null}
+          {simple || playing ? <PriceNow s={labeled[Math.min(n - 1, hud.idx)]} big={simple} ended={!playing} /> : null}
           <canvas ref={canvas} className={`block w-full touch-none ${simple ? "h-[140px]" : "h-[220px] sm:h-[260px]"}`} aria-label="The day's price so far; the future is hidden except Easy's forecast band" />
           <div className="mt-2 grid grid-cols-1 items-center gap-2 sm:grid-cols-[auto_1fr]">
             <HouseFlow flow={playing ? hud.control : 0} soc={hud.soc} kwh={rules.kwh} reserveKwh={rules.reserveKwh} blocked={blocked} />

@@ -40,7 +40,7 @@ async function wholesaleOf(entity: string): Promise<{ row: SeriesRow; partial: b
 }
 
 const GLOSSARY: [string, string, string][] = [
-  ["Kilowatt-hour (kWh)", "The unit a bill counts: a thousand watts used for an hour. Both tariffs charge by it.", "PG&E E-TOU-C; Oncor Tariff for Retail Delivery Service"],
+  ["Kilowatt-hour (kWh)", "The unit a bill counts: a thousand watts used for an hour. All five tariffs charge by it.", "PG&E E-TOU-C; Oncor Tariff for Retail Delivery Service"],
   ["Time of use", "A rate that costs more in some hours. On E-TOU-C the peak is 4 to 9 p.m. every day.", "PG&E E-TOU-C, Sheet 5"],
   ["Baseline allowance", "A daily amount of use, set by climate zone and season, that earns a credit; use above it pays more.", "PG&E E-TOU-C, Sheets 2 and 5"],
   ["Base services charge", "PG&E's fixed daily charge, set by household income, whose revenue lowers the per-kWh rates.", "PG&E E-TOU-C, Sheets 1 and 2"],

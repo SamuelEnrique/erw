@@ -9,7 +9,9 @@ export const STOPS: { href: string; title: string; minutes: string; line: string
   {
     href: "/grid/ercot", title: "One grid: ERCOT", minutes: "about 40 seconds",
     line: "Each of the seven ISO grids has a page with what it is and what it is doing today: demand, generation, prices, batteries and its queue.",
-    look: "Read \"Who runs this grid\", then \"Right now: demand\" and \"Where the power comes from\".",
+    // session 261: the three headings as the page a reader lands on has them, in its order ("Where the power comes
+    // from" is on the grid's Mix view, not on this one)
+    look: "Read \"The mix in that hour\", then \"Right now: demand\" and \"Who runs this grid\".",
   },
   {
     href: "/board", title: "The price board", minutes: "about 30 seconds",
@@ -24,6 +26,7 @@ export const STOPS: { href: string; title: string; minutes: string; line: string
   {
     href: "/cost-of-power/seller", title: "What a generator earns", minutes: "about 40 seconds",
     line: "The other side of every price: what a solar farm, a battery or a gas peaker earns month by month, and whether that covers its debt.",
-    look: "Look at the worst three months and the coverage line, then switch the asset to a battery.",
+    // session 261: the two headings as the page has them now ("The worst month", "Debt coverage")
+    look: "Look at \"The worst month\" and \"Debt coverage\", then switch the asset to a battery.",
   },
 ];
