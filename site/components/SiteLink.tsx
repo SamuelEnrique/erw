@@ -17,7 +17,9 @@ import { gated } from "@/lib/release";
 // caught the footer's links prefetching when the result made the page taller; on that page too the shared links do not.
 // Session 138: /cost-of-power makes the same promise for its contract inputs (the rule below is by prefix, so the
 // two tabs beside it are covered too).
-export const NO_PREFETCH = ["/severance/lease", "/cost-of-power/battery", "/battery/customer", "/cost-of-power"];
+// Session 239: the lease tool is a tab of /severance (/severance?tab=lease), so the rule names /severance: by prefix
+// it still covers /severance/lease (which redirects to the tab) and /severance/lease/real.
+export const NO_PREFETCH = ["/severance", "/severance/lease", "/cost-of-power/battery", "/battery/customer", "/cost-of-power"];
 
 export function noPrefetch(path: string | null): boolean {
   return !!path && NO_PREFETCH.some((p) => path === p || path.startsWith(p + "/"));

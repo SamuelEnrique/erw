@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 import { Related } from "@/components/Related";
 import { Term } from "@/components/Term";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
@@ -9,6 +10,10 @@ import { Section } from "@/components/Section";
 import { MARKETS, daysAgo, latestPrices, renderTime, series, type SeriesRow } from "@/lib/data";
 import { node, price, utc } from "@/lib/format";
 import { attempt } from "@/lib/supabase";
+import { Tabs } from "@/components/tool/Tabs";
+import { ToolPage } from "@/components/tool/ToolPage";
+import { one, tabOf } from "@/lib/tabs";
+import { PeakPremiumView } from "../explorer/ercot-peak-premium/view";
 
 export const revalidate = 900;
 export const metadata: Metadata = { title: "Prices" };
@@ -22,7 +27,27 @@ function daNow(rows: SeriesRow[], now: number): SeriesRow | null {
   return null;
 }
 
-export default async function Prices() {
+// Session 239: one page, two tabs (lib/tabs.ts): every hub and zone (what this page drew, below) and ERCOT, the peak
+// premium explorer (what /explorer/ercot-peak-premium drew; it redirects to its tab). The tab is in the address,
+// ?tab=ercot.
+export default async function Prices({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  const sp = one(await searchParams);
+  const tab = tabOf("/prices", sp.tab);
+  return (
+    <Brand>
+      <ToolPage>
+        <div data-prices={tab}>
+          <Tabs page="/prices" active={tab} />
+          {tab === "ercot" ? <PeakPremiumView /> : <NowView />}
+          <Related href="/prices" />
+        </div>
+      </ToolPage>
+    </Brand>
+  );
+}
+
+/** The first tab: the newest price at every hub and zone (what /prices drew before session 239). */
+async function NowView() {
   const now = renderTime();
   const latest = await attempt(latestPrices);
   const since = daysAgo(1, now);
@@ -104,7 +129,6 @@ export default async function Prices() {
           </Section>
         );
       })}
-      <Related href="/prices" />
     </>
   );
 }

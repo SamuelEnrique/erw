@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
+import { Brand } from "@/components/Brand";
 import { Cite } from "@/components/Cite";
 import { Section } from "@/components/Section";
 import rulesJson from "@/data/severance_rules.json";
 import { series } from "@/lib/data";
 import type { Rules } from "@/lib/severance";
 import { attempt } from "@/lib/supabase";
+import { Tabs } from "@/components/tool/Tabs";
+import { ToolPage } from "@/components/tool/ToolPage";
+import { one, tabOf } from "@/lib/tabs";
 import { Calculator } from "./Calculator";
+import { LeaseView } from "./lease/view";
 
 // Session 40: severance tax engine v0 (Texas, Louisiana, New Mexico). The rules live in data/severance_rules.json, each
 // citing the statute or agency page whose text states it (docs/methods/severance.md); the default prices are the
@@ -31,7 +36,27 @@ async function monthMean(entity: string): Promise<{ value: number; month: string
   return { value: Math.round((xs.reduce((a, b) => a + b, 0) / xs.length) * 100) / 100, month: m, n: xs.length };
 }
 
-export default async function Severance() {
+// Session 239: one page, two tabs (lib/tabs.ts): the calculator (what this page drew, below) and the lease tool (what
+// /severance/lease drew; it redirects to its tab). The tab is in the address, ?tab=lease. Both tabs promise that
+// nothing typed or loaded is sent: the page carries data-no-usage (components/Brand.tsx), /severance is a quiet path
+// (lib/usage.ts) and no link on it prefetches (components/SiteLink.tsx).
+export default async function Severance({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  const sp = one(await searchParams);
+  const tab = tabOf("/severance", sp.tab);
+  return (
+    <Brand noUsage>
+      <ToolPage>
+        <div data-severance={tab}>
+          <Tabs page="/severance" active={tab} />
+          {tab === "lease" ? <LeaseView /> : <CalculatorView />}
+        </div>
+      </ToolPage>
+    </Brand>
+  );
+}
+
+/** The first tab: the calculator and every rule with its source (what /severance drew before session 239). */
+async function CalculatorView() {
   const [wti, hh] = await Promise.all([attempt(() => monthMean("eia:wti_cushing")), attempt(() => monthMean("eia:henry_hub"))]);
   const w = wti.ok ? wti.data : null, h = hh.ok ? hh.data : null;
   const prices = {
@@ -56,7 +81,7 @@ export default async function Severance() {
           federal royalties are not here. <Link href="/data/methods/severance">Method</Link>.
         </p>
         <p className="mt-2">
-          <strong>A whole lease?</strong> <Link href="/severance/lease">The lease tool</Link> takes a CSV of every well&apos;s monthly production, computes
+          <strong>A whole lease?</strong> <Link href="/severance?tab=lease" prefetch={false}>The lease tool</Link> takes a CSV of every well&apos;s monthly production, computes
           each well and month, and flags the reduced rates each well&apos;s numbers may qualify for. Your file is read in your browser and never sent.
         </p>
       </div>

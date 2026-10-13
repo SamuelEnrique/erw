@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { Cite } from "@/components/Cite";
 import { Section } from "@/components/Section";
@@ -14,13 +13,15 @@ import { LeaseTool } from "./LeaseTool";
 // the warehouse's EIA daily spot prices, the default prices. An estimate for education and planning, not tax advice.
 // Session 46: every link on this page is prefetch={false}, and the shared ones (components/SiteLink) turn prefetch off
 // here, so no request fires after a file is loaded.
-export const metadata: Metadata = { title: "Severance tax: the lease tool" };
-export const revalidate = 3600;
+// Session 239: the lease tab of /severance (lib/tabs.ts). What /severance/lease drew is drawn here, block for block, with
+// its promise; the page (app/severance/page.tsx) carries the brand, the sheet and the tabs, and /severance/lease
+// redirects to the tab. No link prefetches on /severance (components/SiteLink.tsx, NO_PREFETCH), and the tabs are
+// plain anchors, so no request follows a file being loaded.
 
 const rules = rulesJson as unknown as Rules;
 const T = "eia_fuel_spot_prices";
 
-export default async function LeasePage() {
+export async function LeaseView() {
   const [wti, hh] = await Promise.all([
     attempt(() => monthMeans("eia:wti_cushing", "WTI Cushing", "per barrel", "")),
     attempt(() => monthMeans("eia:henry_hub", "Henry Hub", "per MMBtu", ", applied per Mcf as if one Mcf held one MMBtu")),
