@@ -104,7 +104,7 @@ export async function ConsumptionView() {
       <Section title="Where industrial and commercial load is growing fastest" id="fastest">
         <div className="grid gap-8 lg:grid-cols-2">
           {["IND", "COM"].map((sec) => (
-            <div key={sec}>
+            <div key={sec} className="min-w-0">{/* session 241: a grid item is as wide as its widest content unless told otherwise, and the frame below then never scrolls */}
               <h3 className="mb-2 text-base">{sec === "IND" ? "Industrial" : "Commercial"}</h3>
               <div className="overflow-x-auto">{/* session 241: a table wider than a phone scrolls inside its own frame */}
               <table className="w-full border-collapse text-sm">
