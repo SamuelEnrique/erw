@@ -72,7 +72,8 @@ The whole suite was not run on this machine: a background run was killed for mem
 
 - Freeze: `python scripts/freeze.py status` exit 0, no freeze. `origin/main` fetched before the push.
 - Before snapshot `s207-before`, 00:56:34 UTC: 25 pages read as a visitor, 0 failed (every page in review, the review menu and 57 lines of text each, 0 checked numbers).
-- Push: `git push origin task/207-licenses-tools`; the code-branch workflow runs the suite and merges on success. The run id, the merge commit, the after snapshot `s207-after` and its comparison with `s207-before` (0 differences expected) are in the chain's closing message and the report-only branch `task/207-report`.
+- Push, 01:02 UTC (`2da986c0`): the check run 38330183731 passed and the workflow merged the branch into `main` as `04e22cf8` at 01:11 UTC (session 209's `task/209-roadmap` merged just before it, `c180ace0`).
+- **The result (added by the branch `task/207-report`):** after snapshot `s207-after` at 01:12:11 UTC, 25 pages, 0 failed; `compare s207-before s207-after`: 0 differences in all, as expected. The report-only landing that adds these lines uses `s207-after` as its before snapshot and `s207r-after` as its after; its comparison is in the chain's closing message.
 
 ## Decisions made without you
 
