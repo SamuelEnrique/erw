@@ -181,4 +181,8 @@ Its browser half (lines 175 to 215) was not looked at.
 
 ## The landing
 
-filled by the orchestrator
+- Landed in one push with session 242's final pass, on `task/242-final`: `main` as of 11:36 UTC, batch C (`wip/241c-leftovers`), the final pass (`wip/242-final`), the reports of sessions 241 and 242. `tokens.css` is our file plus batch C's own block (what stood before the block in its branch was identical to the base, checked).
+- The whole suite in a clean worktree at `87534c41`: exit 0, 3,937 tests OK, 237 skipped.
+- `npm run build`: exit 0, no "statement timeout" line. `check-values` on every page: a first run 4,635 of 4,637 (two interchange figures of MISO at the Grid tool's Exchange view: the run crossed 12:00 UTC and met the network snapshot's revision, as session 237's report said it can); a second run on the same build 4,637 of 4,637, exit 0. `check-routes`: exit 0, 204 pages as a visitor, 0 failed. Exit 0 each: `check-no-request`, `check-datacenters` (15 of 15), `check-board` (36 of 36), `check-demand` (102 of 102), `check-mix` (36 of 36), `check-network-v3` (33 of 33), `check-datacenter-scenarios` (119 of 119).
+- On the same build the 18 addresses batch C changed were shot again for `docs/brand/review-final/` (12:18 UTC) and the folder's README rewritten from the measurements: `/demand?view=consumption` no longer scrolls sideways at 390; `/deals` (534 px) and `/deals?tab=companies` (611 px) still do; `/datacenters/v2` ends on `/datacenters`.
+- `python scripts/freeze.py status`, the before snapshot (its own command), the push, GitHub's check, the merge, the after snapshot and the comparison: in the chain's closing message and, if a further push follows, in a line added here. Expected: 0 differences on the 25 pages (every page is in review; the menu does not change; `/datacenters/v2` is not one of the 25).
