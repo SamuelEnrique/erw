@@ -1,13 +1,13 @@
 # Session 209 report: the roadmap in the planner's format, and session 201's patches
 
-13 October 2026, from 00:08 UTC, unattended, on the old laptop (`samueloldlaptop`, a code machine). Branch `wip/209-roadmap` from `origin/main` (meant to be `task/209-roadmap`; see "The landing") (session 208's work stays on `wip/203-brand-battery`, not landed). Model spend USD 0. Pulls: none. No warehouse table written. No em dash in anything written.
+13 October 2026, from 00:08 UTC, unattended, on the old laptop (`samueloldlaptop`, a code machine). Branch `wip/209-roadmap` from `origin/main`, then `task/209-roadmap` for the landing (see "The landing") (session 208's work stays on `wip/203-brand-battery`, not landed). Model spend USD 0. Pulls: none. No warehouse table written. No em dash in anything written.
 
 ## Read these first
 
 - **`docs/roadmap.md` is version 2.1.** The Status lines read in the planner's format (`scripts/planner.py check` now names no Status problem: only "planner: off", which is Samuel's to turn on). Every one of the ten items has `machine:`, `where:` and `done:` lines, drafted for Samuel's review on Wednesday, under his own bullets, which are unchanged. A Backlog section holds the battery stress slider. Three dated rulings of the chain prompt of 12 October are added. Nothing of Samuel's words was removed.
 - **Two of the owner's lines could not be written as he said them and still be read by the planner.** "budget: no limit; stop at the weekly Claude limit" is written as `budget: 99 sessions a day per machine: no limit; ...` (the planner reads a number). "deploy cutoffs: 14:00 to 16:15 UTC daily; Sundays 22:30 to 23:45 UTC" is written as two spans the planner holds every day, with a `cutoff note` line saying the second is Sunday's. Decisions 1 and 2.
 - **Both patches of session 201 are applied**, with the venv form: the `CLAUDE.md` bullet on the design and browser tools (extended by one sentence: `docs/brand.md` is the one design document, no `PRODUCT.md` or `DESIGN.md`), and twelve allow rules in `.claude/settings.json` (`python` and `.venv\Scripts\python.exe` forms of `precheck.py`, `chain_queue.py` and `duty.py`, for Bash and PowerShell).
-- **Not landed.** The clean-copy suite, the gate before a `task/` push, was stopped by Claude Code for low memory on the laptop, and an unattended session may not restart it. The work is on `wip/209-roadmap`; the exact commands to land it are under "To finish". Nothing deployed.
+- **Landed on `main` as `c180ace0` at 01:07 UTC**, after a first try in the chain was stopped: the clean-copy suite was killed by Claude Code for low memory, and the work waited on `wip/209-roadmap` until Samuel had the "To finish" commands run. Suite 3,528 tests OK; the snapshot comparison 0 differences on the 25 pages. See "The landing".
 
 ## What to review
 
@@ -31,32 +31,20 @@
 | `scripts/planner.py check` | 0 | "planner: off" is the only refusal; the Status problems of before ("does not state the budget", "a deploy cutoff cannot be read", "no open item for samueloldlaptop") are gone |
 | `python -m unittest` on the seven modules that read the roadmap, `CLAUDE.md` or the settings (`runs/session208/tests209.out`) | 1 | 158 tests, 1 failure: the roadmap's seventh heading, Backlog, which `planner.SECTIONS` did not list; fixed (the planner, its fixture, its test, `docs/machines.md`) |
 | `python -m unittest tests.test_planner` after the fix (`tests_planner.out`) | 0 | OK |
-| Whole suite, clean copy of `5c713091` | stopped | killed by Claude Code for low memory at about 00:25 UTC; not restarted unattended. See "The landing" |
+| Whole suite, clean copy of `5c713091` | stopped | killed by Claude Code for low memory at about 00:25 UTC; not restarted unattended |
+| Whole suite, clean copy of `1fcd2ee6` (the landing, 00:55 UTC) | 0 | 3,528 tests, 237 skipped |
 | `scripts/freeze.py status` | 0 | no freeze (nothing deployed) |
 
-## The landing: not made. The work is on `wip/209-roadmap`
+## The landing (made on 13 October 2026 at Samuel's instruction, after the chain)
 
-- The whole suite in a clean worktree of `5c713091` (the workflow's own command, `python -m unittest discover -s tests`) was stopped by Claude Code at about 00:25 UTC because the laptop ran low on memory while the suite ran, and an unattended session may not start it again. Without that gate no `task/` branch is pushed (the standing rule: the clean-copy suite before a task push). The branch was renamed `wip/209-roadmap` and pushed; nothing deployed, no snapshot needed.
-- What did pass before the stop: the seven test modules that read the three files (`runs/session208/tests209.out`: 158 tests, 1 failure, the Backlog heading, fixed in the same commit by the planner's seventh heading; `tests_planner.out`: OK after it) and `scripts/planner.py check`.
-- The commit holds everything of this session; its tree is `origin/main` plus the eight files.
-
-## To finish (the exact commands, on the old laptop, from the main copy)
-
-```
-git fetch origin
-git switch -c task/209-roadmap origin/wip/209-roadmap
-git merge --no-edit origin/main
-git worktree add ../erw-clean-209 HEAD
-cd ../erw-clean-209 && ../erw/.venv/Scripts/python.exe -m unittest discover -s tests > ../erw/runs/session209/suite_clean.out 2>&1; echo "exit=$?"
-cd ../erw && .venv/Scripts/python.exe scripts/freeze.py status
-node site/scripts/snapshot-live.mjs take s209-before
-git push origin task/209-roadmap
-.venv/Scripts/python.exe runs/session208/wait_check.py <sha> task/209-roadmap 40
-node site/scripts/snapshot-live.mjs take s209-after
-node site/scripts/snapshot-live.mjs compare s209-before s209-after
-```
-
-Expected: the suite exit 0; the comparison 0 differences on the 25 pages (no site file in the change). Then the comparison's lines go into this report on a `task/209-report` branch, and the worktree is removed.
+- The first try, in the chain: the whole suite in a clean worktree of `5c713091` was stopped by Claude Code at about 00:25 UTC because the laptop ran low on memory (a `next start` server from session 208 was still running), and an unattended session may not restart it. The work waited on `wip/209-roadmap`.
+- Samuel then had the "To finish" commands run as written (plugged in, other apps closed), from 00:54 UTC: precheck exit 0; `task/209-roadmap` from `origin/wip/209-roadmap`, `origin/main` merged (session 206's landing among it) as `1fcd2ee6`.
+- Whole suite, clean worktree of `1fcd2ee6`, `python -m unittest discover -s tests` (the workflow's own command): exit 0, 3,528 tests, 237 skipped, 327 seconds (`runs/session209/suite_clean.out`).
+- `scripts/freeze.py status`: exit 0, no freeze. 01:00 UTC, outside both cutoffs.
+- `take s209-before`: exit 0, 25 pages, 0 failed, 01:00:59 UTC. `git push origin task/209-roadmap`: exit 0.
+- GitHub's check ("code branch", run 38330100112): success at 01:07 UTC; merged into `main` as `c180ace0` (`runs/session208/wait_check.py`, by the commit's sha).
+- `take s209-after`: exit 0, 25 pages, 0 failed, 01:10:35 UTC, three minutes after the merge. `compare s209-before s209-after`: exit 0, **0 differences in all on the 25 pages**, expected: no site file is in the change. Every line of the comparison reads "0 differences" (`runs/session209/compare.out`).
+- The clean worktree was removed. This landing section is added by the branch `task/209-report`; its own before and after snapshots and their comparison are in the chain's closing message.
 
 ## Decisions made without you
 
