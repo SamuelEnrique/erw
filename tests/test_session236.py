@@ -127,14 +127,14 @@ class Scarcity(unittest.TestCase):
     def test_ercots_own_signal_is_one_line_that_it_is_coming_and_no_number(self):
         face = src("site", "app", "cost-of-power", "LoadAnswers.tsx")
         self.assertIn('ERCOT: { name: "its reserve adders, the price adders of its operating reserve demand curve", coming: true },', face)
-        line = face.split('<span data-own-signal="coming">', 1)[1].split("</span>", 1)[0]
+        line = face.split('<span key="w" data-own-signal="coming">', 1)[1].split("</span>", 1)[0]
         self.assertIn("is coming: the warehouse holds no table of them yet, so no second count is stated.", line)
         self.assertNotIn("<N ", line)
         self.assertNotRegex(line, r"\d")
         # no table of the adders is held: the registry of what the warehouse holds names none
         tables = [r.split(",")[0] for r in src("warehouse", "metadata", "coverage.csv").splitlines()[1:]]
         self.assertEqual([t for t in tables if re.search(r"ordc|adder", t)], [])
-        self.assertIn('<span data-own-signal="none">', face)                                   # any other grid: "not held"
+        self.assertEqual(face.count('<span key="n" data-own-signal="none">not held</span>'), 2)                                  # any other grid: "not held"
 
 
 def basis(unit):

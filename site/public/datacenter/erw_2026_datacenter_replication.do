@@ -234,7 +234,7 @@ merge m:1 ym_s using `l12hours', keep(match master) nogenerate
 
 gen year = real(substr(ts_utc, 1, 4))
 
-gen kg_hours = kg_co2_per_mwh * hours if kind == "month" & hours != .
+gen double kg_hours = kg_co2_per_mwh * hours if kind == "month" & hours != .
 
 quietly summarize kg_hours if kind == "month" & hours != .
 
@@ -272,4 +272,3 @@ foreach y of local years {
     quietly summarize months_held if year == `y' & kind == "month"
     display "year `y': months held " r(mean) ", kg CO2 per MWh: " `kg'
 }
-

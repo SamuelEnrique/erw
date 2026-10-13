@@ -53,7 +53,9 @@ const OWN_SIGNAL: Record<string, { name: string; coming: boolean }> = {
   NYISO: { name: "its reserve shortage pricing", coming: false }, "ISO-NE": { name: "its reserve shortage pricing", coming: false },
   SPP: { name: "its reserve shortage pricing", coming: false },
 };
-const typeWords = (byType: Record<string, number>) => Object.entries(byType).sort((x, y) => y[1] - x[1]).map(([t, n]) => `${t.replace(/_/g, " ")} ${n}`).join(", ");
+/** A notice's type in words, as the table names its types (caiso_grid_emergencies, event_type). */
+const TYPE_WORDS: Record<string, string> = { rmo: "restricted maintenance operations", flex_alert: "flex alerts", transmission_emergency: "transmission emergencies" };
+const typeWords = (byType: Record<string, number>) => Object.entries(byType).sort((x, y) => y[1] - x[1]).map(([t, n]) => `${TYPE_WORDS[t] ?? t.replace(/_/g, " ").replace(/\beea\b/, "EEA")} ${n}`).join(", ");
 
 /** Will the power be there: the hours at or above the scarcity level. */
 export function PowerThere({ a, f, b }: { a: Answers; f: AnswerFacts; b?: SiteB }) {
@@ -69,7 +71,7 @@ export function PowerThere({ a, f, b }: { a: Answers; f: AnswerFacts; b?: SiteB 
       <p className="mb-6 max-w-3xl font-serif text-xl leading-snug" data-answer="power">
         Over the last twelve months{f.span ? `, ${f.span},` : ""} the price at {f.place} was at or above USD {s.level.toLocaleString("en-US")} per MWh in <N pre={f.pre} stat="scarce:hours" a={a} /> hours
         {s.hours ? <>: {when}. A flat {f.size} load paid USD <N pre={f.pre} stat="scarce:flat_usd" a={a} usd /> in them.{wayLine(w.a, "Scenario A")}{w.differ ? wayLine(w.b, "Scenario B") : null}</> : <>. Nothing was short at this level.</>}
-        {b ? <span data-answer-b-site="power"> Scenario B&apos;s site, {b.f.place}{b.f.span ? `, ${b.f.span}` : ""}: {b.a ? <><N pre={b.f.pre} stat="scarce:hours" a={b.a} /> hours at or above the same level, in which a flat {f.size} load paid USD <N pre={b.f.pre} stat="scarce:flat_usd" a={b.a} usd />.</> : <span className="text-muted">not held ({b.reason ?? "twelve complete months are not held there"}).</span>}</span> : null}
+        {b ? <span data-answer-b-site="power"> Scenario B&apos;s site, {b.f.place}{b.f.span ? `, ${b.f.span}` : ""}: {b.a ? <><N pre={b.f.pre} stat="scarce:hours" a={b.a} /> {b.a.scarcity.hours === 1 ? "hour" : "hours"} at or above the same level, in which a flat {f.size} load paid USD <N pre={b.f.pre} stat="scarce:flat_usd" a={b.a} usd />.</> : <span className="text-muted">not held ({b.reason ?? "twelve complete months are not held there"}).</span>}</span> : null}
       </p>
       <HeadlineRow>
         <HeadlineNumber label={`Hours at or above USD ${s.level.toLocaleString("en-US")}, last twelve months`} value={<N pre={f.pre} stat="scarce:hours" a={a} />} unit="hours"
@@ -82,6 +84,7 @@ export function PowerThere({ a, f, b }: { a: Answers; f: AnswerFacts; b?: SiteB 
             : w.a === "flat" ? <>a flat load runs in every hour.{w.differ ? <span data-answer-b="power"> Scenario B ({f.words[w.b]}): {a.held[w.b] ? <>off in <N pre={f.pre} stat={`scarce:off:${w.b}`} a={a} /> of them, avoided USD <N pre={f.pre} stat={`scarce:avoided_usd:${w.b}`} a={a} usd /></> : "not held here"}.</span> : null}</> : <>this way of running needs the region&apos;s day-ahead prices, which are not held.</>} />
       </HeadlineRow>
       {/* session 236: the level, stated where the count stands, and the grid's own signal as a second count */}
+      <div className="mb-6" data-two-counts="1">
       <ToolTable caption="The two counts: the price level, and the grid's own signal" minWidth={520} words head={["The count, last twelve months", "", "What it is"]}
         rows={[
           { key: "level", cells: [`Hours at or above USD ${s.level.toLocaleString("en-US")} per MWh`, <N key="h" pre={f.pre} stat="scarce:hours" a={a} />, <span key="w" data-level-words="1">{LEVEL_WORDS}</span>] },
@@ -91,11 +94,14 @@ export function PowerThere({ a, f, b }: { a: Answers; f: AnswerFacts; b?: SiteB 
                   <span key="w">Flex alerts, restricted maintenance operations and transmission or energy emergencies, as {f.gridName} posted them (caiso_grid_emergencies){a.notices.count ? `: ${typeWords(a.notices.byType)}` : ""}. The table runs to {a.notices.last}{a.notices.count === 0 && a.notices.last !== null && a.notices.last.slice(0, 7) < s.months[0] ? ", before these twelve months began, so this is not a count of none" : ""}.</span>] },
                 ...(a.notices.own ? [{ key: "own12", cells: [`${f.gridName}'s notices in the last twelve months its table covers, ${monthName(a.notices.own.first)} to ${monthName(a.notices.own.last)}`,
                   <span key="n" data-own-signal="table"><N pre={f.pre} stat="notices:own:count" a={a} /></span>, <span key="w">{a.notices.own.count ? `${typeWords(a.notices.own.byType)}.` : "None."} Not the months of the price count above.</span>] }] : [])]
-              : [{ key: "own", cells: [`${f.gridName}'s own signal: its notices`], wide: <span data-own-signal="none">not held</span> }]
-            : [{ key: "own", cells: [`${f.gridName}'s own signal`], wide: OWN_SIGNAL[f.gridName]?.coming
-                ? <span data-own-signal="coming">{f.gridName}&apos;s own signal, {OWN_SIGNAL[f.gridName].name}, is coming: the warehouse holds no table of them yet, so no second count is stated.</span>
-                : <span data-own-signal="none">{OWN_SIGNAL[f.gridName] ? `${OWN_SIGNAL[f.gridName].name[0].toUpperCase()}${OWN_SIGNAL[f.gridName].name.slice(1)}: ` : ""}not held</span> }]),
+              : [{ key: "own", cells: [`${f.gridName}'s own signal: its notices`, <span key="n" data-own-signal="none">not held</span>, <span key="w">No notice of {f.gridName}&apos;s is in the table.</span>] }]
+            : OWN_SIGNAL[f.gridName]?.coming
+              ? [{ key: "own", cells: [`${f.gridName}'s own signal`, <span key="n" className="text-muted">coming</span>,
+                  <span key="w" data-own-signal="coming">{f.gridName}&apos;s own signal, {OWN_SIGNAL[f.gridName].name}, is coming: the warehouse holds no table of them yet, so no second count is stated.</span>] }]
+              : [{ key: "own", cells: [`${f.gridName}'s own signal`, <span key="n" data-own-signal="none">not held</span>,
+                  <span key="w">{OWN_SIGNAL[f.gridName] ? `${OWN_SIGNAL[f.gridName].name[0].toUpperCase()}${OWN_SIGNAL[f.gridName].name.slice(1)}: no table of those hours is held.` : "No table of it is held."}</span>] }]),
         ]} />
+      </div>
       {s.hours ? (
         <ToolTable caption="The hours at or above the scarcity level, by month" minWidth={520} head={["Month", "Hours", `A flat load paid, USD, ${f.size}`, "USD per MWh in them"]}
           rows={s.byMonth.map((m) => ({ key: m.m, cells: [monthName(m.m), <N key="h" pre={f.pre} stat={`scarce:month:${m.m}:hours`} a={a} />, <N key="u" pre={f.pre} stat={`scarce:month:${m.m}:usd`} a={a} usd />, two(m.usd / m.hours)] }))} />

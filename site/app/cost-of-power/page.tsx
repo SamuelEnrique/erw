@@ -164,18 +164,18 @@ async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyG
                 <Sub>What will it cost</Sub>
                 <ToolTable caption="What will it cost" minWidth={620} head={["", "USD per MWh", `USD, ${size}`, ""]}
                   rows={[
-                    { key: "flat", cells: ["Market energy, a flat load, last twelve months", perMwh(s12?.flat ?? null, noYear), usd(s12 ? s12.flatCost * x.mw : null, noYear), <span key="n" className="text-xs text-muted">{l12Span ?? ""}</span>] },
+                    { key: "flat", cells: ["Market energy, a flat load, last twelve months", perMwh(s12?.flat ?? null, noYear), usd(s12 ? s12.flatCost * x.mw : null, noYear), <div key="n" className="text-xs text-muted">{l12Span ?? ""}</div>] },
                     ...(flex ? [
-                      { key: "load", highlight: true, cells: [<Hover key="h" why={rule}>Market energy, this load, last twelve months</Hover>, perMwh(s12?.per ?? null, noYear), usd(s12 ? s12.cost * x.mw : null, noYear), <span key="n" className="text-xs text-muted">{s12 ? `${whole(s12.energy * x.mw)} MWh` : ""}</span>] },
+                      { key: "load", highlight: true, cells: [<Hover key="h" why={rule}>Market energy, this load, last twelve months</Hover>, perMwh(s12?.per ?? null, noYear), usd(s12 ? s12.cost * x.mw : null, noYear), <div key="n" className="text-xs text-muted">{s12 ? `${whole(s12.energy * x.mw)} MWh` : ""}</div>] },
                       { key: "saved", cells: [<Hover key="h" why={rule}>What the flexibility saves</Hover>, perMwh(saved, noYear), usd(s12 ? (s12.flatCost - s12.cost) * x.mw : null, noYear),
-                        <span key="n" className="text-xs text-muted">{s12 ? (x.run === "shift" ? "the same energy, moved within each day" : `off in ${whole(s12.down)} hours; ${whole((s12.held - s12.energy) * x.mw)} MWh not bought`) : ""}</span>] },
+                        <div key="n" className="text-xs text-muted">{s12 ? (x.run === "shift" ? "the same energy, moved within each day" : `off in ${whole(s12.down)} hours; ${whole((s12.held - s12.energy) * x.mw)} MWh not bought`) : ""}</div>] },
                       { key: "foreseen", cells: [<Hover key="h" why={FORESEEN_WHY}>This load, {FORESEEN}</Hover>, <span key="p" data-foreseen="per">{perMwh(sh12?.per ?? null, noYear)}</span>, usd(sh12 ? sh12.cost * x.mw : null, noYear),
-                        <span key="n" className="text-xs text-muted">{savedH !== null ? `would have saved ${two(savedH)} per MWh${saved !== null && savedH > 0 ? `; the rule kept ${whole((100 * saved) / savedH)} percent of it` : ""}` : ""}</span>] },
+                        <div key="n" className="text-xs text-muted">{savedH !== null ? `would have saved ${two(savedH)} per MWh${saved !== null && savedH > 0 ? `; the rule kept ${whole((100 * saved) / savedH)} percent of it` : ""}` : ""}</div>] },
                     ] : []),
                     ...(region?.ref ? [{ key: "ref", cells: [<>The hub beside it, {region.ref}, a flat load</>, <span key="p" data-ref-hub="1">{perMwh(ref12?.flat ?? null, `Twelve complete months of ${market} prices are not held for ${region.ref} over the same months.`)}</span>, usd(ref12 ? ref12.flatCost * x.mw : null, noYear),
-                      <span key="n" className="text-xs text-muted">{ref12?.flat != null && s12?.flat != null ? `the load zone is ${two(Math.abs(s12.flat - ref12.flat))} per MWh ${s12.flat >= ref12.flat ? "above" : "below"} its hub` : ""}</span>] }] : []),
-                    { key: "bad", cells: ["A bad month", perMwh(badPer, noYear), usd(bad ? bad.cost * x.mw : null, noYear), <span key="n" className="text-xs text-muted">{bad ? monthName(bad.m) : ""}</span>] },
-                    { key: "gpu", cells: ["Power per GPU-hour", s12?.per != null ? <GpuHourOfA key="g" per={s12.per} /> : <Missing key="m" why={noYear} />, "", <span key="n" className="text-xs text-muted">USD per GPU-hour, not per MWh</span>] },
+                      <div key="n" className="text-xs text-muted">{ref12?.flat != null && s12?.flat != null ? `the load zone is ${two(Math.abs(s12.flat - ref12.flat))} per MWh ${s12.flat >= ref12.flat ? "above" : "below"} its hub` : ""}</div>] }] : []),
+                    { key: "bad", cells: ["A bad month", perMwh(badPer, noYear), usd(bad ? bad.cost * x.mw : null, noYear), <div key="n" className="text-xs text-muted">{bad ? monthName(bad.m) : ""}</div>] },
+                    { key: "gpu", cells: ["Power per GPU-hour", s12?.per != null ? <GpuHourOfA key="g" per={s12.per} /> : <Missing key="m" why={noYear} />, "", <div key="n" className="text-xs text-muted">USD per GPU-hour, not per MWh</div>] },
                     ...(x.grid === "ercot"
                       ? (utilities.length || DELIVERY.withheld.length
                         ? [...DELIVERY.withheld.map((w) => ({ key: `d-${w.utility}`, cells: [<>Delivery and transmission, {w.utility}</>], wide: <Missing words={w.words} why={w.why} /> })),
@@ -188,7 +188,7 @@ async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyG
                 {x.grid === "ercot" && deliveryParts.length ? <DeliveryTable parts={deliveryParts} mw={x.mw} size={size} href={`${TABLES_CSV}${suffix}`} /> : null}
                 {/* session 213: one sentence of what the model cannot see; the rest is in the methods note */}
                 <p className="mt-2 max-w-3xl text-xs text-muted" data-income-note="1">
-                  Market energy at {x.region}&apos;s {market} price, for {size}: no delivery, transmission, capacity or ancillary charge is added to it (Texas&apos;s delivery charges stand in their own table below, never added), the load buys every hour at the hour&apos;s price with no hedge, and a flexible load follows a rule decided before each hour, not the year&apos;s prices.
+                  Market energy at {x.region}&apos;s {market} price, for {size}: no delivery, transmission, capacity or ancillary charge is added to it (Texas&apos;s delivery charges stand in their own table above, never added), the load buys every hour at the hour&apos;s price with no hedge, and a flexible load follows a rule decided before each hour, not the year&apos;s prices.
                   {" "}<Link href={`${ALGORITHM}#cannot-see`}>What else the model cannot see</Link>.
                 </p>
                 <p className="mt-2 max-w-3xl text-xs text-muted" data-grid-links="1">
