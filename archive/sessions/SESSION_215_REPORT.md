@@ -59,6 +59,7 @@ Each reads `site/lib/license.ts` the same way; what each needs, for the session 
 ## The landing
 
 - Freeze: `python scripts/freeze.py status` exit 0, no freeze. The branch was fast-forwarded to `origin/main` (session 214's merge, `8727104a`) before the push.
+- **The first push (`d27ad208`, 02:32 UTC) failed its check run (38337382617) in "Tests (tests/)".** Reproduced here with the whole suite as the runner runs it (`GITHUB_ACTIONS=true`, 3,577 tests, 439 s, `runs/session214/suite_215.out`): 4 failures, three of them this machine's tables (`test_session125`, `165`, `51`, which skip on GitHub) and one this session's: `test_session133.ThePage.test_the_page_face_carries_no_method`, which holds the mix page's face to its own placeholders and found `NoData` imported into `components/mix/views.tsx`. The clean view now draws the words with the page's own `Missing` placeholder (the words, the publishers on hover), and the second push carries the fix. The home page's and the curtailment page's `NoData` are those pages' own idiom.
 - Before snapshot `s215-before`; after the deploy `s215-after`; the comparison in this report's closing lines and the chain's closing message. 0 differences expected: today is before 20 October, so every hold is off.
 
 ## Decisions made without you

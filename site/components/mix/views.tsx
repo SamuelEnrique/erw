@@ -11,9 +11,8 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { Bars, Heat, HourStack, Lines, type Series } from "@/components/mix/Charts";
 import { Missing } from "@/components/mix/Now";
-import { NoData } from "@/components/NoData";
 import * as clean from "@/lib/clean";
-import { licenseHeldRow, licenseReason } from "@/lib/license";  // session 215
+import { LICENSE_NEEDED, licenseHeldRow, licenseTitle } from "@/lib/license";  // session 215
 import * as mix from "@/lib/mix2";
 import { CLEAN, FORECAST, HISTORY, MIX, PLUS, STRESS, type Hourly, type Slug } from "@/lib/mixdata";
 import { DASHES, FUEL_COLOR, FUEL_WORDS, GRID_COLORS, HOURS, SEASON_NAMES, hrefOf, n0, n1, n2, ofPeak, peakOf, yearShade, type Choice } from "@/lib/mixpage";
@@ -222,10 +221,11 @@ export function CleanView({ c }: { c: Choice }) {
   const years = [...new Set(c.grids.flatMap((g) => clean.yearsOf(CLEAN[g])))].sort();
   const notWritten = (g: Slug) => `${nameOf(g)}'s ${year} is not written: a year needs at most one month missing, and a month 90 percent of its days.`;
   // session 215: the clean files are the site's copy of clean_energy_summary, held by grid from 20 October 2026
-  // (lib/license.ts): a held grid's cells and blocks read "license needed", as a number of it would on the catalogue
+  // (lib/license.ts): a held grid's cells and blocks read "license needed", as a number of it would on the catalogue,
+  // in the page's own placeholder (Missing: the words, the reason on hover; this page's face carries no block of prose)
   const CLEAN_TABLE = "clean_energy_summary";
   const held = (g: Slug) => licenseHeldRow(CLEAN_TABLE, `iso:${g}`);
-  const LW = () => <NoData reason={licenseReason(CLEAN_TABLE)} />;
+  const LW = () => <NH why={licenseTitle(CLEAN_TABLE)} words={LICENSE_NEEDED} />;
   return (
     <>
       <Block title="Carbon-free share of generation, by year" id="clean">
