@@ -309,8 +309,26 @@ class Board:
         self.rows.append(dict(id=slug(key), group=group, label=label, at=at, code=code, unit=unit, freq="", tags=tags or {}, status=status, note=note))
 
 
+ABSENT = []  # session 247: the tables a build did not find on its machine, in the order it asked for them
+
+
+def here(name):
+    """Whether a table is on this machine. Session 247: the builder crashed on a table the runner did not hold on 9,
+    10, 11 and 12 October 2026 (ercot_as_prices, then carb_lcfs_credit_prices; sessions 166 and 202 made it skip
+    those two). Any table can be missing there on the day its own pull fails, so every table is asked for here first:
+    one that is absent is noted, its rows are not built, and page_keep.py keeps the held rows as they were."""
+    if os.path.exists(os.path.join(ip.OUT_DIR, name + ".csv")):
+        return True
+    if name not in ABSENT:
+        ABSENT.append(name)
+    return False
+
+
 def table_daily(name, since=None):
-    """{(entity, variable): {date: value}} of a daily, weekly or monthly table, with each pair's unit and node."""
+    """{(entity, variable): {date: value}} of a daily, weekly or monthly table, with each pair's unit and node. A table
+    that is not on this machine gives two empty maps (here(), above): nothing is built from it."""
+    if not here(name):
+        return {}, {}
     t = pb.read_table(name, since=since)
     out, meta = {}, {}
     for (entity, variable), g in t.groupby(["entity", "variable"]):
@@ -547,7 +565,12 @@ def build_spreads(b, daily, fuels, us_coal):
 
 
 def build_week(log):
-    """The week's table and spikes the markets page showed, from iso_trader_daily and iso_rt_top_intervals (no MISO)."""
+    """The week's table and spikes the markets page showed, from iso_trader_daily and iso_rt_top_intervals (no MISO).
+    Session 247: without either table on this machine no week is built (two empty lists), and page_keep.py keeps the
+    held week and spikes."""
+    if not (here("iso_trader_daily") and here("iso_rt_top_intervals")):
+        log("  the week: iso_trader_daily or iso_rt_top_intervals is not on this machine; no week built (page_keep.py keeps the held one)")
+        return [], []
     t = pb.read_table("iso_trader_daily")
     t = t[t["market"].isin(ISO)]
     means = ["da_mean_usd", "da_onpeak_mean_usd", "da_offpeak_mean_usd", "da_rt_spread_mean_usd", "implied_heat_rate"]
@@ -681,10 +704,14 @@ def main(argv=None):
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     log = ip.Log(os.path.join(ip.LOG_DIR, f"board_page_{run_id}.log"))
+    del ABSENT[:]
     b, week, spikes = build(log)
     board = write_site(b, week, spikes, args.site_dir, ip.utc_iso(pd.Timestamp.now(tz="UTC")), log)
     held = sum(1 for r in board["rows"] if r["status"] == "ok")
-    print(f"board: {len(board['rows'])} rows ({held} with values), {len(b.series)} series files, {len(b.hourly)} hourly files")
+    for t in ABSENT:
+        log(f"  {t}: not on this machine; its rows are not built (page_keep.py keeps the held ones)")
+    print(f"board: {len(board['rows'])} rows ({held} with values), {len(b.series)} series files, {len(b.hourly)} hourly files"
+          + (f"; not on this machine, their rows not built: {', '.join(ABSENT)}" if ABSENT else ""))
     log.close()
     return 0
 

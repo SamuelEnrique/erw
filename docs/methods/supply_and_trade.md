@@ -93,6 +93,23 @@ Held since session 136 for the five operators that publish it openly, each from 
 - **A comparison that cannot be made is a placeholder.** ERCOT has one whole week so far, so its change on the week and on the year are blank until the table has grown; no row has five years.
 - **What each run asks for.** ERCOT: the files of the last 8 days, about 23,000 rows each (one row a settlement point and hour) to make 24 hours; a file already kept is not asked for again. CAISO: this month and the last, by half month. NYISO: this month's and last month's files. ISO-NE: the last 14 days, fifteen days a request. SPP: one small file a day, read from the files the reserve-quantity connector already keeps where it has them.
 
+### The table whose five-year columns are all "not held" (session 247)
+
+On the page's file of 10 October 2026 this is the one table of the nine in which a whole column is empty: "The five-year average" and "Change against the five-year average change" read "not held yet" in all eight rows, and "A year ago" in five. Every other table holds every column for most of its rows (`runs/session247/supply_cells.out` on the data machine). Each row, and what would fill it:
+
+| Row | A year ago | The five years | What the publisher offers | Filled tonight? |
+|---|---|---|---|---|
+| ERCOT | not held (from 23 September 2026) | not held | ERCOT lists 31 days of this report and no more; it publishes no yearly history of it | No: there is nothing older to ask for. The row fills by itself: a year in September 2027, five years in 2031 |
+| CAISO | held (from September 2025) | not held | CAISO's system serves about 39 months back | No: a pull would reach mid 2023, three years, and the five-year columns need all five. About 26 requests would lengthen the chart and fill neither column |
+| NYISO | held | not held | not looked at tonight: this chain may not ask NYISO | No. Whether its archive reaches five years back is for the session that may ask |
+| ISO-NE | not held (from September 2026) | not held | its page puts a CAPTCHA on past dates (above); the table is internal | No: this chain may not ask ISO-NE, and its connector never walks back |
+| SPP, SPP West | SPP held; SPP West not held (the area exists in the file from 1 April 2026) | not held | not looked at tonight: this chain may not ask SPP | No. SPP West cannot have a year before April 2027 |
+| MISO | not held | not held | paused: its terms forbid automated access | No |
+| PJM | not held | not held | licensed | No |
+
+- **So nothing was pulled for this table.** For the two operators the chain may ask, the publisher's own window is shorter than the column needs.
+- **The other rows that read "not held" somewhere,** as the page's file states them: five LNG points of exit without all five years in EIA's table (Plaquemines, Freeport, Calcasieu Pass, Golden Pass, Altamira; Golden Pass also has no year before); four fuel-burn rows whose fuel EIA's hourly file leaves blank in the latest weeks (coal in ISO-NE; oil in CAISO, ISO-NE and MISO); PJM's three fuel-burn rows and the seven grids' gas total, which hold a year and not all five; weekly gas production (EIA publishes none of its own) and ICE's Brent positioning (licensed). None was pulled for: the first three kinds are what the publisher's file holds, and the last two are another publisher's, under a license.
+
 ### The operators' terms, as read on 6 October 2026
 
 - **ERCOT**, terms of use, item 5: "Notwithstanding the foregoing, raw data provided in public portions of this website may be used, reproduced, and redistributed in compilations, charts, and analyses without maintaining such notices." Item 6: "Use of this website in a manner that negatively affects the performance of this website or other ERCOT systems is prohibited." (https://www.ercot.com/help/terms). Public.
