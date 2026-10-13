@@ -93,7 +93,7 @@ function SeasonChart({ p, freq, name, unit }: { p: Point[]; freq: "D" | "W" | "M
     const labels = Array.from({ length: SLOTS[freq] }, (_, i) => slotLabel(i, freq));
     const newest = s.years[s.years.length - 1];
     const shown = s.years.slice(-6);
-    const greys = ["#B8B2A7", "#A39C90", "#8E877B", "#797266", "#645E53"];
+    const greys = [1, 2, 3, 4, 5].map((i) => token(`season-${i}`));   // session 241: the five greys of the earlier years are tokens (app/tokens.css, --color-season-1 to 5)
     const band = s.bandYears.length ? `${s.bandYears[0]} to ${s.bandYears[s.bandYears.length - 1]} range` : "";
     chart.setOption({
       textStyle: st.textStyle, animation: false,

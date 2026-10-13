@@ -16,6 +16,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore
 import { feature, mesh } from "topojson-client";
 import type { GeometryCollection, Topology } from "topojson-specification";
 import statesTopo from "us-atlas/states-10m.json";
+import { token } from "@/components/echarts";
 import { COLOR } from "@/lib/map2";
 import * as R from "@/lib/resources";
 
@@ -67,7 +68,8 @@ const whole = (v: number) => Math.round(v).toLocaleString("en-US");
 const one = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 /** Point size in pixels: area grows with MW, clamped for legibility (the project map's rule). */
 const sizeOf = (mw: number) => Math.min(18, Math.max(3, 2 + Math.sqrt(Math.max(mw, 0)) * 0.2));
-const cssVar = (name: string) => getComputedStyle(document.documentElement).getPropertyValue(name).trim() || "#888888";
+// session 241: no color is written here; a token that the page does not carry reads as the shared reader's own fallback (components/echarts.ts)
+const cssVar = (name: string) => token(name);
 const never = () => () => {};
 /** A field of the source on a hover, as the file writes it: a number with its own decimals (no more than four). */
 const fieldText = (v: unknown) => (typeof v === "number" ? v.toLocaleString("en-US", { maximumFractionDigits: 4 }) : String(v));
@@ -207,7 +209,7 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
     kept: null as Kept | null, heavy: false,
   });
   const live = useRef({ on, fuel, touched: false, ready: false, dragging: false, moving: false });
-  const pal = useRef<{ ink: R.Rgb; land: string; sea: string; panel: string; ramp: Record<string, R.Rgb[]>; fuel: Record<string, string> } | null>(null);
+  const pal = useRef<{ ink: R.Rgb; none: R.Rgb; land: string; sea: string; panel: string; ramp: Record<string, R.Rgb[]>; fuel: Record<string, string> } | null>(null);
   const base = useRef<{ nation: Path2D; states: Path2D } | null>(null);
   const settleRef = useRef<() => void>(() => {}), readRef = useRef<((x: number, y: number) => Hover) | null>(null);
   // the reader of grid files, off this thread (grid.worker.ts); null where the browser gives none, and the page reads them itself
@@ -493,7 +495,7 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
               const val = typeof props.value === "number" ? props.value : null;
               const ci = classes && val !== null ? classes.findIndex((c) => c.value === val) : -1;
               const tone = ci >= 0 ? tones[ci] : lg && val !== null ? R.positionOn(knots, val) : undefined;
-              const fill = tone === undefined ? kc.fill : tone === null ? "rgba(184,178,167,0.6)" : R.css(R.along(ramp, tone), 0.82);
+              const fill = tone === undefined ? kc.fill : tone === null ? R.css(p.none, 0.6) : R.css(R.along(ramp, tone), 0.82);
               const stroke = tone === undefined ? kc.stroke : lg && !classes ? R.css(p.ink, 0.22) : fill;
               set.feats.push({ path, box: bx, geometry: f.geometry, props, line: isLine(f.geometry), fill, stroke });
               bw = Math.min(bw, bx[0]); bs = Math.min(bs, bx[1]); be = Math.max(be, bx[2]); bn = Math.max(bn, bx[3]);
@@ -592,7 +594,7 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
     for (const g of R.GROUPS) ramp[g.id] = R.rampOf(R.rgbOf(cssVar(g.color)), ink);
     const fuelColors: Record<string, string> = {};
     for (const [slug, name] of Object.entries(COLOR)) fuelColors[slug] = cssVar(name);
-    pal.current = { ink, land: cssVar("--color-paper"), sea: cssVar("--color-surface"), panel: cssVar("--color-panel"), ramp, fuel: fuelColors };
+    pal.current = { ink, none: R.rgbOf(cssVar("--color-not-reported")), land: cssVar("--color-paper"), sea: cssVar("--color-surface"), panel: cssVar("--color-panel"), ramp, fuel: fuelColors };
     const topo = statesTopo as unknown as Topology<{ states: GeometryCollection; nation: GeometryCollection }>;
     const nation = new Path2D(), states = new Path2D();
     for (const f of feature(topo, topo.objects.nation).features) trace(nation, f.geometry as R.Geometry);

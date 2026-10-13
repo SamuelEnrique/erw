@@ -88,6 +88,7 @@ export const RELEASE: Record<string, Status> = {
   "/resources": "review",  // session 146: where the resources are (the natural resource layers on one map, with the plants, the queue and the datacenters over them); its layer files are read through /resources/layer and /resources/overlay, which take this line's status
   "/map/v2": "review",  // session 105: the project map, version 2 (EIA-860M's operating and planned units, with the queue beside it); since session 167 it redirects to /map
   "/datacenters": "review",
+  // session 241: /datacenters/v2 is retired and redirects to /datacenters, which draws its blocks (next.config.ts); its line stays so that an address typed by hand never reads as a page with no status
   "/datacenters/v2": "review",  // session 106: the tracker, version 2 (ERCOT's large-load status beside the facilities held)
   "/companies": "review",
   "/thesis": "review",  // session 135: Thesis Builder (a niche typed, a run queued, the report in tabs, the PitchBook stage); internal, and the page checks the internal cookie itself

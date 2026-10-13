@@ -7,6 +7,7 @@ import { ToolHeader, ToolPage } from "@/components/tool/ToolPage";
 import { datacenters } from "@/lib/data";
 import { attempt } from "@/lib/supabase";
 import { Body, toFacility } from "./Body";
+import { LargeLoad, LargeLoadSource } from "./LargeLoad";
 
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "Datacenter tracker" };  // session 203: renamed (the roadmap's ruling of 12 October 2026); "Datacenters" is the cost-of-power page's name in the menu now
@@ -14,6 +15,9 @@ export const metadata: Metadata = { title: "Datacenter tracker" };  // session 2
 // Session 240: on the brand (components/Brand.tsx, app/tokens.css), with a top block under the title (the facilities
 // held, the megawatts stated with what the sum counts, and what changed this week) and the list grouped by operator.
 // The words about scope and method, which stood above the numbers, now stand between the top block and the list.
+// Session 241: the one tracker. What /datacenters/v2 showed (session 106: ERCOT's large-load status, and the Texas sites
+// beside it) is drawn here, between the top block and the words about the list (./LargeLoad.tsx); /datacenters/v2
+// redirects to this page (next.config.ts). The section is drawn whether or not the facilities table could be read.
 export default async function DatacentersPage() {
   const res = await attempt(datacenters);
   const today = new Date().toISOString().slice(0, 10);   // the UTC day the page was drawn on: "this week" is the seven days to it
@@ -44,12 +48,13 @@ export default async function DatacentersPage() {
           </>}
         />
         {!res.ok ? (
-          <><NoData what="datacenters" reason={res.reason} />{words}</>
+          <><NoData what="datacenters" reason={res.reason} /><LargeLoad read={res} />{words}</>
         ) : res.data.length === 0 ? (
-          <><NoData what="datacenters" reason="datacenter_facilities has no rows in the live set yet" />{words}</>
+          <><NoData what="datacenters" reason="datacenter_facilities has no rows in the live set yet" /><LargeLoad read={res} />{words}</>
         ) : (
-          <Body rows={res.data.map(toFacility)} today={today}>{words}</Body>
+          <Body rows={res.data.map(toFacility)} today={today}><LargeLoad read={res} />{words}</Body>
         )}
+        <LargeLoadSource />
         <Related href="/datacenters" />
       </ToolPage>
     </Brand>

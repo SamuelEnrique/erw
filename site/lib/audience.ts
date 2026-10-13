@@ -27,7 +27,8 @@ export const AUDIENCES: Audience[] = [
       { href: "/storage?tab=buildout", label: "Storage build-out", question: "How much storage has each grid built, of what duration, and what is planned?" },
       { href: "/storage?tab=owners", label: "Who owns the batteries", question: "Which companies report the battery fleet of each grid?" },
       { href: "/contracts", label: "Power contracts", question: "Where are power contracts being struck, and who are the largest buyers?" },
-      { href: "/datacenters/v2", label: "The datacenter tracker", question: "How much large load has Texas approved, and how much is running?" },
+      // session 241: version 2 is folded into /datacenters and its address redirects there
+      { href: "/datacenters", label: "The datacenter tracker", question: "How much large load has Texas approved, and how much is running?" },
       { href: "/deals", label: "Deals", question: "Which energy deals were announced, by whom and for how much?" },
     ],
   },
