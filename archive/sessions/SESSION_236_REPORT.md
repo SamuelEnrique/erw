@@ -109,6 +109,44 @@ Tests whose pins moved, each with a note "session 236":
 - Not verified here: the whole suite in a clean copy, and the do-file in Stata.
 - The landing: merge `wip/236-datacenter` with session 235's branch (`site/components/echarts.ts` if both touched it), the whole suite in a clean worktree, `npm run build`, the before snapshot as its own command, the push, the after snapshot and the comparison (every page is in review: 0 differences expected on the 25 pages).
 
+## After the hand-back: ERCOT's adders
+
+13 October 2026, 08:45 UTC on, at the orchestrator's follow-up. Worktree `erw-142`, branch `wip/236b-adders`, from `805d88bb` (this session's branch as merged for the landing, with `patch5` and the orchestrator's interim line). Not pushed.
+
+- **The ruling's first branch holds: session 244 landed `ercot_rtm_price_adders` at about 07:05 UTC**, so the line "is coming" is gone and ERCOT's own signal is a second count on "Will the power be there?".
+- **The definition, said on the page:** the hours in which the adder of ERCOT's operating reserve demand curve (the on-line adder, `rtorpa_mean`, the hour's mean) was at least USD 100 per MWh. A bare "above zero" would mislead: session 244 found it mostly fractions of a cent.
+- **What it covers, said beside the count:** ERCOT published that adder until 4 December 2025 and no longer. Of the page's twelve months (October 2025 to September 2026) the table holds 1,558 hours of it, 1 October to 4 December 2025: the count is of those hours, "not a count of the twelve months". **Default case: 0 hours.**
+- **A second row, as for CAISO's notices:** the same count over the last year the adder was published, 5 December 2024 to 4 December 2025: **1 hour** (the hour from 14:00 Central standard time on 30 June 2025, mean USD 412.74).
+- **Nothing is spliced.** The reliability deployment adder, which ERCOT's file carries alone since 5 December 2025, is not read, not counted, and the page says so.
+- **`review_hold` and the public key.** `review_hold` (`warehouse/supabase/live_set.yaml`) loads a table into Supabase and keeps it out of the catalogue counts a visitor sees (`in_live_set` reads "review"); row-level security lets the public key read it, as every page in review reads such a table (this page already reads `ercot_large_load_status` that way). The page reads the adders through `lib/supabase.ts`'s `rest`, nothing else. Asked with the public key: 200 (`runs/session236/probe3.out`).
+- **One thing found: an unbounded read of the table times out.** "The newest hour of `rtorpa_mean`" (a sort with no bound in time) was cancelled by the database's statement timeout, twice. The page's two reads are bounded in time (the hours since the first of the page's months; the hours at or above the level since fourteen months before it), 3 requests in all.
+- **Check keys:** `dc|<address>|adders:hours`, `adders:held`, `adders:own:hours`, recomputed by `check-values.mjs` from its own read through the same `readAnswers`.
+- **Session 228's sentence, tested with the table** (the method note, 4.15): the default case's four hours at or above USD 1,000 are in January 2026, after the ORDC adder ended, so no ORDC adder made them; the only adder the table holds for that month (reliability deployment) reached an hourly mean of USD 100 in one hour (USD 156.99 on 28 January). The sentence is corrected in the note for the page's months, flagged for the ORDC years (not tested: it needs the hourly prices against the adder), and the comment in `answers.ts` no longer states it.
+- **When the count goes:** from December 2026 the page's twelve months hold no hour of the ORDC adder; the row then reads "not held" with the day it ended.
+
+Checks of this change, none piped (`runs/session236/b_cycle.out`, `b0_*` before and `b1_*` after, one hold of the build mutex, 09:20 to 09:30 UTC; the mutex was waited for from 08:49):
+
+| Command | Exit | Result |
+|---|---|---|
+| `npx tsc --noEmit` | 0 | |
+| `npm run build`, before (the four site files stashed) and after | 0, 0 | **one "statement timeout" line in each log**, during the static pages (a static page's read of `series`; `/cost-of-power` is not static). It is in the before build too, so it is not this change's. **Not rebuilt:** a second hold for the rebuild was waited for from 09:30 to 09:35 UTC and the mutex was another session's (`b2_cycle.out`). The landing's build log must be searched for the line; which static page's read it is was not found (the log names only the table `series`) |
+| `check-values`, restricted to `/cost-of-power`, twice | 0, 0 | 654 of 654, with the three new keys |
+| `check-datacenter-scenarios.mjs` | 0 | 119 of 119 (its ERCOT assertion now holds the two rows and the day the adder ends) |
+| `check-datacenter-face.mjs` | 0 | 23 of 23 |
+| `test-datacenter-finance.mjs` | 0 | |
+| `python -m unittest`, 18 modules that pin the page, one process each | 0 for each | `test_session236` is 23 tests: the adders' test replaces the line's, and one by hand (through node) is new |
+| before against after, same hold | | default page: 73 of 73 checked numbers identical, 3 new (`adders:hours` 0, `adders:held` 1,558, `adders:own:hours` 1); CAISO 20 of 20; the 25 results cells and bars identical for the flat load and for off in 100 hours. `docs/brand/review-236/numbers_adders_before_after.txt` |
+
+- Not replicated: the Stata do-file and its Python mirror do not rebuild this count (they read the hourly price file and the carbon file only).
+- Changed beside the count: the page's source line names `ercot_rtm_price_adders` for ERCOT, and the download `tables.csv` holds the three figures (`scarce_hours`, row `operator_reserve_adder`).
+- The live set as the page now shows it, unchanged by this session: the hourly carbon window is 10,144 hours (9 August 2025 to 9 October 2026), and CAISO's notices in the page's months are 2 where the first hand-back saw 0 (its table was refreshed).
+
+For Samuel's ruling, added:
+
+9. The adder's level. At USD 100 the count is 0 in the covered part of the months and 1 in the adder's last year. Over the same 1,558 hours the hourly mean was at least USD 1 in 8 hours and at least USD 10 in 3. One level, or two rows.
+10. Whether a signal that ended in December 2025 should stay on the page past the months it covers, or whether ERCOT's real-time ancillary service prices (the report that replaced it, not held) should be pulled for the count.
+11. `warehouse/supabase/live_set.yaml` still says "no page yet" beside `ercot_rtm_price_adders` (two comments): a page in review reads it now. Not edited here (a warehouse file).
+
 ## The landing
 
 - Landed together with session 235 on `task/235-generator-earns` (`71e4b084`): this session's branch, session 235's, and `origin/main` merged twice on the way (the data machine landed sessions 243 to 247 between 06:40 and 09:00 UTC; none touched a file of the site).
