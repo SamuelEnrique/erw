@@ -94,6 +94,18 @@ git pull origin main
 3. The words of the new line: "Source: ERCOT's rows of the ERW table ercot_all_hub_prices_history; computed by the finding peak_hour_grids (warehouse/analysis/findings/). Found by the weekly hunt." (singular "table" when there is one; ", with the ERW table eia_fuel_spot_prices" for the gas pattern).
 4. Session 252's ruling 7 (EIA's own sentence in the scanner's source line) is untouched.
 
+## The landing of session 259
+
+- Freeze: `python scripts/freeze.py status` exit 0, no freeze. Main fetched: it had not moved (`34b468fa`).
+- The whole suite on a clean copy of `e4623795`: exit 0, 3,942 tests, OK, 237 skipped.
+- Before snapshot `s259-before`: 18:19:35 UTC, 25 pages, 0 failed. Pushed 18:19:48 UTC (`task/259-tidy`, `998371a8`).
+- Check run 38445845515: success. It merged the branch as `e01f397d` at 18:28:48 UTC.
+- After snapshot `s259-after`: 18:32:26 UTC, 25 pages, 0 failed, taken 3 minutes 38 seconds after the merge. The landing changes no file the site is built from, so the style sheet's name could not show the new deployment: the wait is by the clock (three minutes), and GitHub's deployment record was not read.
+- `compare s259-before s259-after`: exit 0, **0 differences in all**, on each of the 25 pages. Expected.
+- The remote branch `wip/259-tidy` was deleted after the merge (all of it is on main); GitHub's workflow had deleted `task/259-tidy`.
+
 ## The landing
 
-filled by the orchestrator
+- Session 258 lands alone, as `task/258-source-lines`: main (with session 259) merged into the branch as `8528f5ce`, no conflict.
+- Freeze: exit 0, no freeze. Nothing under `site/` changed, so no build is owed. The whole suite on a clean copy of the pushed commit, the before and after snapshots, the check run, the merge and the comparison are in session 257's report, under "The landing of session 258". Expected: 0 differences on the 25 pages (the findings' builder, a method note's bullet, a test and this report; no page, no table, no load).
+- Not done by the orchestrator: the data machine's command under "To finish" was not put on the task queue. Its first real run rewrites the eight drafts' stored cards and pictures, `/internal/findings` is on tonight's demo path, and the command has only been run against a made-up list: it waits for you (the reversible choice).
