@@ -4,8 +4,8 @@ One document a tool, written on 2026-10-13 (session 249) for the person who show
 
 | Tool | Address | Document | Written from |
 |---|---|---|---|
-| What a battery earns | `/cost-of-power/battery` | [battery.md](battery.md) | `main` (the page landed in session 234, commit `80aa2362`); checked again against `main` at `34b468fa` |
-| What a generator earns | `/cost-of-power/seller` | [generator.md](generator.md) | the branch `origin/wip/235-generator` at `c7ce17de`, landed as `aa3addbc`; checked again against `main` at `34b468fa` |
+| What a battery earns | `/cost-of-power/battery` | [battery.md](battery.md) | `main` (the page landed in session 234, commit `80aa2362`); checked again against `main` at `34b468fa`, with California as session 257 added it (`9e0bbfe8`) |
+| What a generator earns | `/cost-of-power/seller` | [generator.md](generator.md) | the branch `origin/wip/235-generator` at `c7ce17de`, landed as `aa3addbc`; checked again against `main` at `34b468fa`, with the 20 published figures of session 257 (`9e0bbfe8`) |
 | What a datacenter pays | `/cost-of-power` | [datacenter.md](datacenter.md) | the branch `origin/wip/236-datacenter` at `d4eaec68`, landed as `aa3addbc`; checked again against `main` at `34b468fa`, where ERCOT's reserve adder is counted on the page |
 | The Grid tool | `/grid` | [grid.md](grid.md) | rewritten by session 260 from `main` at `34b468fa` (the tool landed as `01161064`) |
 | Research | `/research` | [research.md](research.md) | rewritten by session 260 from `main` at `34b468fa` (the page landed as `01161064`) |

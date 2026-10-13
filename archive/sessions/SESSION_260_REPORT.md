@@ -1,12 +1,12 @@
 # Session 260 report: how it works, refreshed
 
-13 October 2026, 18:09 to about 18:50 UTC, unattended, on the old laptop, in the worktree `erw-188` on branch `wip/260-howitworks` (from `34b468fa`). A documents session: nothing under `site/` changed, no build was needed, no model was called (spend USD 0), no table was written, no publisher was asked. Not pushed: the landing is the orchestrator's.
+13 October 2026, 18:09 to about 18:50 UTC, unattended, on the old laptop, in the worktree `erw-188` on branch `wip/260-howitworks` (from `34b468fa`; since 18:40 UTC it also holds session 257's branch, merged at the orchestrator's instruction). A documents session: this session changed nothing under `site/` (what the branch holds there is session 257's), no build was needed, no model was called (spend USD 0), no table was written, no publisher was asked. Not pushed: the landing is the orchestrator's.
 
 ## Read these first
 
 - **Done:** `docs/howitworks/grid.md` and `docs/howitworks/research.md` are rewritten from the pages as they stand on `main` (both landed this morning as `01161064`). Same seven parts as the other three, each number with the file it was read in, each assumption with its source and, for a constant, its file and line.
 - **Done:** `battery.md`, `generator.md` and `datacenter.md` read against today's pages. What was stale is corrected (the list is below). The largest: the datacenter note said the page did not yet count ERCOT's reserve adder. It does since 10:57 UTC.
-- **California:** see "California, and what depends on session 257" below. Those sentences describe a branch that had not landed when this was written, and are listed one by one.
+- **California:** the battery and generator notes say what session 257 put on the pages, and no more. The sentences are listed one by one under "California, and what depends on session 257".
 - **No demo path was clicked through in a browser.** Each was read against the page's code: every label a path names was looked up in the source, and every address is held by a test to be a route of the site.
 - **The site does not render these notes.** No file under `site/` reads `docs/howitworks/`. (The internal waits page lists each session report's lines for your ruling, this report's among them at the next build, as for every session.)
 
@@ -40,43 +40,47 @@ For the demo at 23:00 UTC, section 7 of each is the path. Open the internal view
 
 ## California, and what depends on session 257
 
-- **Written from session 257's branch, not from `main`.** `wip/257-california` held two commits when this section was finished: `9e0bbfe8` (18:24 UTC, the pages, the method notes and its tests) and `8ab14916` (18:39 UTC, its report and four screenshots). Both were read with `git show` only; nothing was run in that worktree.
-- **What that commit does, as its diff reads:** on the battery page CAISO gets one line under its income table (the model's 2025 energy and regulation income for a 4-hour battery on the day-ahead schedule, computed from the table, beside the market monitor's real fleet, 35 and 9, a cited constant), and the sentence with the downloads names the stress days of the grid shown (CAISO's by their days). On the generator page the source line counts 20 published figures where it counted 10. Not done there, and said so in its own comment: the peaker's carbon cost and the sentence beside CAISO's wind (each a ruling), CAISO's stress days on the generator page (the snapshot holds none).
-- **The sentences that are true only once session 257 is on `main`.** Each carries the words "session 257" in the note:
+- **This branch now holds session 257.** At the orchestrator's instruction (18:40 UTC) its last commit, `8ab14916`, was merged into `wip/260-howitworks` (`21043a0f`, no conflict; `generator.md` took its two lines and this session's edits side by side). The California passages were first written from its two commits read with `git show`, then read again against the merged pages and its report, `archive/sessions/SESSION_257_REPORT.md`.
+- **What the notes say of it, each passage marked "(session 257)":**
   1. `battery.md`, the opening: the bullet "California (session 257)".
-  2. `battery.md`, section 3: the row "California's line beside its market monitor (session 257)" (`FLEET_BESIDE` is not in `site/lib/batterystack.ts` on `main` today).
+  2. `battery.md`, section 3: the row "California's line beside its market monitor (session 257)" (`FLEET_BESIDE` in `site/lib/batterystack.ts`).
   3. `battery.md`, question 7: "The page prints that comparison in one line under CAISO's income table, as it prints the awards line for ERCOT (session 257)."
-  4. `battery.md`, section 7, minute 2 to 3, step 4: the whole step, with the line's words, 42.31 and 42.25, and the stress days named "the days of CAISO's system-wide notices".
-  5. `battery.md`, the last table: the row "California's line: its words, 35 and 9 ..." (it names a heading of the method note, "For CAISO, since session 257", and `STRESS_BY`, which exist on that branch only).
-  6. `generator.md`, section 4: "The page counts 20 published figures where it counted 10: the ten more are the rows of that section that hold a gap, five of them below (session 257 ...)".
-  7. `generator.md`, section 5, item 14: "Session 257 left the rule as it is: adding the allowance waits for a ruling."
-  8. `generator.md`, question 10: "Twenty published figures stand beside it, ten of them California's (session 257)".
-  - Two more lines of `generator.md` say 20 and are session 257's own edits, not this session's: the sentence over the cross-checks table, and step 4 of minute 4 to 5. On this branch alone they still say 10.
-- **To check at the landing:** the CAISO line and the stress days on the built page. Session 257 saw both on a local build of its branch (its report: `check-values` 459 of 459, the two new keys 42.31 and 42.25; four events, "4 to 9 September 2024, 20 and 21 January 2025, 9 and 10 September 2026, 5 to 8 October 2026"). The page computes the two model figures and reads the events from the table, so both can move with the next day of data.
-- **The two branches merge without a conflict:** `git merge-tree --write-tree` of this branch with `8ab14916` exits 0 (no working copy or branch was touched). On the merged notes the form tests pass (20 tests) and session 257's two pins on `generator.md` hold (no "10 published figures"; the sentence of 20). `runs/session260/sim_merge.py`.
-- **If session 257 does not land:** `git checkout db9ffdb9 -- docs/howitworks/battery.md docs/howitworks/generator.md` gives the two notes as they were before these passages, true of `main` without it (the generator block then says its rows are "not among the ten the page counts").
-- **California without session 257, true of `main` today:** the generator note's block of seven rows (the method note's section 12, session 253), its blind spots 14 and 15, and "California, if asked" in its demo; everything the battery note already said of CAISO (the cross-checks of session 246).
+  4. `battery.md`, section 7, minute 2 to 3, step 4: the line's words with 42.31 and 42.25 beside about 35 and 9; that it is always the 4-hour battery on the day-ahead schedule; the four stress events by their days (4 to 9 September 2024, 20 and 21 January 2025, 9 and 10 September 2026, 5 to 8 October 2026).
+  5. `battery.md`, the last table: the row "California's line: its words, 35 and 9 ...".
+  6. `generator.md`, the header: "Session 257 then changed one sentence of the page: its source line counts 20 published figures where it counted 10".
+  7. `generator.md`, section 4: "The page counts 20 published figures where it counted 10: the ten more are the rows of that section that hold a gap, five of them below (session 257 ...)".
+  8. `generator.md`, section 5, item 14: "Session 257 left the rule as it is: adding the allowance waits for a ruling."
+  9. `generator.md`, question 10: "Twenty published figures stand beside it, ten of them California's (session 257)".
+  - Two more lines of `generator.md` say 20 and are session 257's own edits: the sentence over the cross-checks table, and step 4 of minute 4 to 5.
+  - `README.md`: the two rows of the battery and the generator name session 257.
+- **These nine are true only with session 257's pages.** This branch cannot land without them now, since it holds them. If the landing is made of the two branches apart, session 257's must go first or with it.
+- **To check at the landing:** the CAISO line and the stress days on the built page (`/cost-of-power/battery?grid=caiso&dur=4&strat=dayahead`). Session 257 saw both on a local build (its report: `check-values` 459 of 459, the two new keys 42.31 and 42.25). The page computes the two model figures and reads the events from the table, so both can move with the next day of data; the note says so.
+- **Not claimed, because session 257 did not do them:** CAISO's stress days on the generator page (the note says the snapshot holds ERCOT's alone), the peaker's carbon cost (the note says a ruling is awaited, and gives 30.05 against 6.95 and 0.78), a sentence on the page about SunZia (the note lists California's wind since May 2026 as a blind spot, not as something the page says), CAISO's history before September 2024.
+- **California from `main` without session 257:** the generator note's block of seven rows (the method note's section 12, session 253), its blind spots 14 and 15, and "California, if asked" in its demo; everything the battery note already said of CAISO (the cross-checks of session 246).
 
 ## Checks, with exit codes
 
 | Check | Result | Exit |
 |---|---|---|
-| `python -m unittest tests.test_session249 tests.test_session253 tests.test_session260` | 32 tests OK | 0 |
+| `python -m unittest tests.test_session249 tests.test_session253 tests.test_session260`, on the merged branch | 33 tests OK | 0 |
+| `python -m unittest tests.test_session257 tests.test_session196`, on the merged branch (session 257's pins on `generator.md`) | 24 tests OK | 0 |
+| `git merge --no-edit 8ab14916` in this worktree | no conflict (`21043a0f`) | 0 |
 | Em dash in the six files of `docs/howitworks/`, the test and this report | none (held by the test) | 0 |
 | `grep` of `tests/` and `site/` for `howitworks` | `tests/test_session249.py`, `tests/test_session253.py`, the new test; no file of the site's source | |
 
-- Not run: the whole suite, a build, any browser check. Nothing under `site/` changed.
+- Not run: the whole suite, a build, any browser check. This session changed nothing under `site/`; session 257's changes there were built and checked by session 257 (its report).
 - Pins moved: none. `tests/test_session249.py` and `tests/test_session253.py` pass as they stand.
-- New: `tests/test_session260.py`, 11 tests. It sets nothing in the environment and reads no table.
+- New: `tests/test_session260.py`, 12 tests. It sets nothing in the environment and reads no table.
 
 ## Decisions made without you
 
 1. **The notes keep their seven parts.** The five parts you named are five of the seven; `tests/test_session249.py` holds all seven in order, and the other two (the cross-checks, what it cannot see) are what a hard question is answered from.
 2. **A line number is given for a constant, and no test holds it.** A line moves with the next edit of its file; the note says which commit the numbers are of.
 3. **The three finished notes were corrected in place, not rewritten.** Each change is a sentence or a row; the diff is short enough to read.
-4. **Two lines of `generator.md` were left as they are on `main`** (the sentence over the cross-checks table and the last step of minute 4 to 5): session 257 edits both, and two edits of one line would not merge.
+4. **Two lines of `generator.md` were left to session 257** (the sentence over the cross-checks table and the last step of minute 4 to 5): it edits both, and two edits of one line would not merge. The merge then took them without a conflict.
 5. **Counts that move are dated, not frozen:** the drafts waiting (16 at 10:49 UTC), the pair-days the day rule leaves out, the snapshot's build time. Where the screen can differ the note says to read the screen.
 6. **The new test checks routes and files, not numbers:** an address in a demo path must be a page or a route handler under `site/app`; a cited path must exist. `warehouse/output/` and `runs/` are not in git and are not checked.
+7. **The California passages were written before 19:05 UTC,** the time the brief named: session 257 had committed its pages at 18:24 and its report at 18:39, and the orchestrator said not to wait.
 
 ## For Samuel's ruling
 

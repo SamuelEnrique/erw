@@ -3,7 +3,7 @@
 - **Address:** `/cost-of-power/battery` (production: `https://erw-flame.vercel.app/cost-of-power/battery`).
 - **Status:** in review, like every page of the site (`site/lib/release.ts`). A visitor sees the in-review page; a demo needs the internal view (section 7).
 - **Written from:** `main` at commit `9700198f`, which holds the page as merged in `80aa2362` (session 234, the brand restyle). Checked again by session 260 against `main` at `34b468fa`: since `9700198f` the page's code changed only in where its fonts and wrapper come from (`site/components/Brand.tsx`, session 235); no label, default or number moved.
-- **California (session 257):** four passages below carry the mark "(session 257)". They describe the page as that session committed it on its branch (`9e0bbfe8`, with its report in `8ab14916`, 18:39 UTC on 2026-10-13): CAISO's line beside its market monitor, and CAISO's stress days. They hold from the moment that branch is on `main`.
+- **California (session 257):** four passages below carry the mark "(session 257)". They describe what session 257 added to the page on 2026-10-13 (commit `9e0bbfe8`; its report is `archive/sessions/SESSION_257_REPORT.md`): CAISO's line beside its market monitor, and CAISO's stress days. This note and that work land together.
 - **Date:** 2026-10-13. A number marked **[c]** is printed in no method or report: it was computed for this document with the page's own library from the table built on 2026-10-13 at 08:10 UTC (`docs/howitworks/computed/`, the script and its output); every other number is quoted from the file named in the last section.
 
 ## 1. What it is for, and for whom
@@ -259,7 +259,7 @@ This path was written from the page's code and its check scripts on 2026-10-13. 
 | The 2025 ladder 87.4, 78.7, 46.2, 36.7, 28.5; 1.50 and 1.23 hours; 821 MW; 2,841.6; 10.0 percent | `docs/methods/battery_early_years.md` | "The ladder"; "What each step takes"; "February 2021" |
 | 7.17, 4.17, 3.00, 18.81; 28.27, 44.29, 227 of 291 | `docs/methods/ercot_storage_realtime.md` | "As built on 5 October 2026" |
 | 30.14; 6.53; 23.61; 9.70; -0.62; 14.53 | `docs/methods/ercot_storage_dam_offers.md` | "The gap in three parts" |
-| California's line: its words, 35 and 9, the report's section and tables; the stress days named by their days (session 257) | `docs/methods/battery_earns_algorithm.md`, `docs/methods/battery_stack.md`; `site/lib/batterystack.ts` | "For CAISO, since session 257"; "CAISO beside its market monitor"; `FLEET_BESIDE`, `STRESS_BY` (each as on session 257's branch at `9e0bbfe8`); the four events and 42.31 and 42.25 as its local build showed them: session 257's report, "Read these first" and "What to review" |
+| California's line: its words, 35 and 9, the report's section and tables; the stress days named by their days (session 257) | `docs/methods/battery_earns_algorithm.md`, `docs/methods/battery_stack.md`; `site/lib/batterystack.ts` | "For CAISO, since session 257"; "CAISO beside its market monitor"; `FLEET_BESIDE`, `STRESS_BY`; the four events and 42.31 and 42.25 as session 257's local build showed them: `archive/sessions/SESSION_257_REPORT.md`, "Read these first" and "What to review" |
 | ORDC adders end 2025-12-04; the table's date | `docs/methods/ercot_rt_price_adders.md` | "What it is" |
 | 83.57 (1.5 cycles) | `site/scripts/test-battery-finance.mjs` | line 97 |
 | 254 of 254 | `archive/sessions/SESSION_208_REPORT.md`, `SESSION_211_REPORT.md` | "Checks" |

@@ -8,7 +8,8 @@ What is held here: each of the five notes has the five parts the owner named (wh
 assumption with its source, the five-minute demo path, the ten hardest questions); the Grid tool's and Research's
 questions are ten, numbered, each a question with an answer under it; those two notes say they were written from main
 and name no branch; every address a demo path names is a route that exists under site/app; every file a note cites
-exists; no em dash. No number of a note is held here: the notes' numbers are the methods' and the pages', which move.
+exists; California is in the battery and generator notes as session 257 put it on the pages; no em dash. No number of
+a note is held here: the notes' numbers are the methods' and the pages', which move.
 Nothing here sets the environment, reads a table or makes a request.
 """
 
@@ -203,6 +204,30 @@ class WhatTheNotesPointAt(unittest.TestCase):
             for p in cited(note(name)):
                 if p.startswith("docs/howitworks/computed/"):
                     self.assertTrue(os.path.exists(os.path.join(ROOT, *p.rstrip("/").split("/"))), p)
+
+    def test_california_is_in_the_two_notes_as_the_pages_have_it(self):
+        # session 257 (merged into this session's branch): the battery page's line for CAISO beside its market monitor,
+        # its stress days by their days, and the generator page's count of published figures
+        def src(*parts):
+            with open(os.path.join(ROOT, *parts), encoding="utf-8") as f:
+                return f.read()
+        lib, page = src("site", "lib", "batterystack.ts"), src("site", "app", "cost-of-power", "battery", "page.tsx")
+        battery, generator = note("battery"), note("generator")
+        self.assertIn("FLEET_BESIDE", lib)
+        self.assertIn("for a {fleet.dur}-hour battery on the day-ahead schedule, this model takes USD", page)
+        self.assertIn("for a 4-hour battery on the day-ahead schedule, this model takes USD", battery)
+        self.assertNotIn("there is no awards line for CAISO", battery)
+        self.assertNotIn("does not yet print that line for CAISO", battery)
+        words = "the days of CAISO's system-wide notices"
+        self.assertIn(words, lib)
+        self.assertIn(words, battery)
+        seller = src("site", "app", "cost-of-power", "seller", "page.tsx")
+        count = re.search(r'data-checked-against="(\d+)"', seller).group(1)
+        self.assertIn(f"Checked against: {count} published figures", generator)
+        self.assertNotIn("not among the ten the page counts", generator)
+        # what session 257 did not do is not claimed: the peaker's rule is as it was, and the note says a ruling is awaited
+        self.assertIn("const c = g * hr + vom;", src("site", "lib", "merchant.ts"))
+        self.assertIn("adding the allowance waits for a ruling", generator)
 
     def test_no_em_dash_in_what_the_session_wrote(self):
         files = sorted(glob.glob(os.path.join(DIR, "*.md")))
