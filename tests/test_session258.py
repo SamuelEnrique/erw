@@ -132,6 +132,9 @@ class AnErcotDraftNamesOnlyErcotsTables(unittest.TestCase):
         gas = next(p for p in hunt.PATTERNS if p["name"] == "gas_sets_price")
         self.assertEqual(gas["measure_tables"], ["eia_fuel_spot_prices"])
         for p in hunt.PATTERNS:
+            if p.get("fn"):                              # session 251: a measure of hunt_measures.py has no finding module and names its own tables
+                self.assertNotIn("measure_tables", p, p["name"])
+                continue
             self.assertLessEqual(set(p.get("measure_tables", [])), set(run_finding.load(p["module"]).TABLES), p["name"])
         reads = [{"table": "ercot_all_hub_prices_history", "rows": 2, "groups": {("ercot_rtm", "HB_HUBAVG"): {"2019-06-01T00:00:00Z", "2025-06-01T00:00:00Z"}}},
                  {"table": "iso_rtm_hub_prices", "rows": 1, "groups": {("caiso_rtm", "TH_SP15_GEN-APND"): {"2025-06-01T00:00:00Z"}}},
@@ -215,10 +218,19 @@ class TheHuntsDraft(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d, tempfile.TemporaryDirectory() as out:
             tables(d)
             _, series, claim, _, _ = hunted(d, out)
-            row = hunt.build_draft(NEG, "ercot_north", "ERCOT North", series, claim, "new", {}, ["ercot_all_hub_prices_history", "nyiso_rtm_zone_prices"], out)
-            self.assertEqual(row["card"]["tables"], ["ercot_all_hub_prices_history"])
-            row = hunt.build_draft(NEG, "ercot_north", "ERCOT North", series, claim, "new", {}, list(npw.TABLES), out, {"tables": []})
-            self.assertEqual(row["card"]["tables"], list(npw.TABLES))            # no reads known: never an empty line
+            with mock.patch.dict(hunt.OWN_TABLES, {}, clear=True):               # a module without a list: the tables by their names
+                row = hunt.build_draft(NEG, "ercot_north", "ERCOT North", series, claim, "new", {}, ["ercot_all_hub_prices_history", "nyiso_rtm_zone_prices"], out)
+                self.assertEqual(row["card"]["tables"], ["ercot_all_hub_prices_history"])
+                row = hunt.build_draft(NEG, "ercot_north", "ERCOT North", series, claim, "new", {}, list(npw.TABLES), out, {"tables": []})
+                self.assertEqual(row["card"]["tables"], list(npw.TABLES))        # no reads known: never an empty line
+            # session 251 landed while this session ran: without the reads, a finding's draft names its module's own tables
+            # for the grid (hunt.OWN_TABLES), whatever list it is handed. With the reads, tables_used decides (the test above)
+            own = hunt.OWN_TABLES["negative_prices_west"]["ercot"]
+            row = hunt.build_draft(NEG, "ercot_north", "ERCOT North", series, claim, "new", {}, list(npw.TABLES), out)
+            self.assertEqual(row["card"]["tables"], list(own))
+            self.assertIn("ercot_all_hub_prices_history", own)
+            for t in ("iso_hub_prices_history", "iso_zone_prices_history"):
+                self.assertNotIn(t, row["card"]["source_line"])
 
     def test_the_hunt_takes_a_pattern_run_with_or_without_the_reads(self):
         with open(os.path.join(FIND, "hunt.py"), encoding="utf-8") as f:
@@ -236,7 +248,8 @@ def stored(row):
 class TheStoredDraftsAreRewritten(unittest.TestCase):
     def old_row(self, d, out):
         _, series, claim, used, module_tables = hunted(d, out)
-        old = hunt.build_draft(NEG, "ercot_north", "ERCOT North", series, claim, "new: this pattern had not been drafted for this region", {}, module_tables, out)
+        with mock.patch.dict(hunt.OWN_TABLES, {}, clear=True):   # as the builder stood when the eight drafts were raised, before session 251's list
+            old = hunt.build_draft(NEG, "ercot_north", "ERCOT North", series, claim, "new: this pattern had not been drafted for this region", {}, module_tables, out)
         self.assertIn("ercot_all_hub_prices_history, iso_rtm_hub_prices, iso_hub_prices_history;", old["card"]["source_line"])   # the fault
         return stored(old), used
 
@@ -319,6 +332,31 @@ class TheStoredDraftsAreRewritten(unittest.TestCase):
             for t in SHARED:
                 self.assertNotIn(t, sent[0][2]["card"]["source_line"])
 
+    def test_a_draft_of_a_measure_of_session_251_is_left_as_it_is(self):
+        """Session 251 landed while this session ran: its twelve drafts are measures of hunt_measures.py, each built from
+        its own region's tables. The command runs no finding for them, changes nothing and sends nothing."""
+        sys.path.insert(0, os.path.join(ROOT, "warehouse"))
+        import lock
+        fam = next(p for p in hunt.PATTERNS if p.get("fn"))
+        row = {"id": "scan-hunt-000000000000", "state": "draft", "table_name": "t", "flag": {}, "files": {},
+               "card": {"source_line": "Source: the rows for CAISO of the ERW tables t; computed by the hunt's measure. Found by the weekly hunt.",
+                        "hunt": {"pattern": fam["name"], "region": "caiso"}}}
+
+        class Reply:
+            def raise_for_status(self):
+                return None
+
+            def json(self):
+                return [row]
+
+        sent, runs = [], []
+        with tempfile.TemporaryDirectory() as out, mock.patch.object(lock, "env", create=True, new=lambda k: {
+                "SUPABASE_URL": "https://example.invalid/rest/v1/", "SUPABASE_SERVICE_KEY": "not-a-key"}.get(k)):
+            got = hunt.fix_source_lines(out, dry_run=False, log=lambda m: None, get=lambda *a, **k: Reply(), patch=lambda *a, **k: sent.append(a),
+                                        compute=lambda *a: runs.append(a), out_dir=os.path.join(out, "p"))
+        self.assertEqual([(o["id"], o["changed"], o["written"], o["old"] == o["new"]) for o in got], [(row["id"], False, False, True)])
+        self.assertEqual((sent, runs), ([], []))
+
     def test_the_command_is_on_the_command_line(self):
         r = subprocess.run([sys.executable, os.path.join(FIND, "hunt.py"), "--help"], capture_output=True, text=True)
         self.assertEqual(r.returncode, 0)
@@ -373,7 +411,9 @@ class EveryCardFileInGit(unittest.TestCase):
         if r.returncode not in (0, 1):
             self.skipTest("not a git checkout")
         files = {ln.strip() for ln in r.stdout.splitlines() if ln.strip()}
-        allowed = ("warehouse/analysis/findings/hunt.py", "tests/", "docs/reviews/findings-verified-2026-10-13/verify_hunt.py", "archive/sessions/", "docs/methods/")
+        # session 251's verification of its twelve drafts (measures of hunt_measures.py, each built from its own region's tables)
+        allowed = ("warehouse/analysis/findings/hunt.py", "tests/", "docs/reviews/findings-verified-2026-10-13/verify_hunt.py", "archive/sessions/", "docs/methods/",
+                   "docs/reviews/findings-verified-2026-10-13-session251/")
         self.assertEqual({f for f in files if not f.startswith(allowed)}, set())
 
 

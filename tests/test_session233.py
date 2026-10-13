@@ -128,6 +128,8 @@ class TheLibrary(unittest.TestCase):
     def test_every_pattern_reads_a_finding_and_columns_that_finding_writes(self):
         self.assertEqual(len({p["name"] for p in hunt.PATTERNS}), len(hunt.PATTERNS))
         for p in hunt.PATTERNS:
+            if p.get("fn"):                              # session 251: a measure of hunt_measures.py, held by tests/test_session251.py
+                continue
             self.assertIn(p["module"], run_finding.FINDINGS, p["name"])
             card = json.loads(src("site", "data", "findings", p["module"] + ".json"))
             with open(os.path.join(ROOT, "site", "public", "findings", card["downloads"]["csv"]), encoding="utf-8") as f:

@@ -44,6 +44,13 @@ A draft's source line (session 258): it names the tables that brought its region
 from what the finding read on this run (tables_used), and no table the finding read for another grid.
 
 Exit 0 ran (whatever it found), 1 failed, 2 bad input.
+
+Session 251, 13 October 2026: from 7 patterns to 20. Thirteen pattern families are measures the hunt computes itself
+(hunt_measures.py: a pattern with "fn"), each for every public grid and region it applies to, some with a second
+number of the same region and year printed beside the claim ("context": stated, never tested). Session 252's two
+lessons: a pattern whose measure is one interval of a year ("one_interval") is computed and kept in the run's file and
+never drafted; and a draft's source line names only the tables its own region's rows come from (OWN_TABLES for a
+finding's pattern, the measure's own list for a family).
 """
 
 import argparse
@@ -64,9 +71,10 @@ ROOT = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 sys.path.insert(0, HERE)
 import daily_chart  # noqa: E402
 import findings_common as common  # noqa: E402
+import hunt_measures  # noqa: E402
 import run_finding  # noqa: E402
 
-VERSION = "1.0.0"
+VERSION = "1.1.0"                  # 1.1.0, session 251: thirteen measure families; session 252's two lessons
 OUT = os.path.join(ROOT, "runs", "hunt")
 STATE = os.path.join(OUT, "state.json")
 MAX_DRAFTS = 12                    # the strongest claims of a hunt; the rest are kept in the run's file, not drafted
@@ -82,10 +90,10 @@ LICENSE_GRIDS = {"ISO-NE": "isone", "MISO": "miso", "NYISO": "nyiso", "SPP": "sp
 # change must move, in the measure's unit, before a claim drafted before is drafted again.
 PATTERNS = [
     dict(name="spikes_against_median", module="batteries_lunch", sweep="hub", region_col=None, year_col="period", filter={"kind": "year"},
-         measure="worst_interval_multiple", n_col="n_intervals", n_floor=30000, unit="times the median", decimals=1, change_threshold=10.0,
+         measure="worst_interval_multiple", n_col="n_intervals", n_floor=30000, unit="times the median", decimals=1, change_threshold=10.0, one_interval=True,
          title="THE WORST PRICE SPIKE AGAINST THE MEDIAN", label="the year's dearest interval as a multiple of the year's median real-time price"),
     dict(name="spikes_against_median_grids", module="batteries_lunch_grids", sweep=None, region_col="grid", year_col="period", filter={"kind": "year"},
-         measure="worst_interval_multiple", n_col="n_intervals", n_floor=8000, unit="times the median", decimals=1, change_threshold=10.0,
+         measure="worst_interval_multiple", n_col="n_intervals", n_floor=8000, unit="times the median", decimals=1, change_threshold=10.0, one_interval=True,
          title="THE WORST PRICE SPIKE AGAINST THE MEDIAN", label="the year's dearest interval as a multiple of the year's median real-time price"),
     dict(name="hours_above_1000", module="batteries_lunch_grids", sweep=None, region_col="grid", year_col="period", filter={"kind": "year"},
          measure="hours_ge_1000", n_col="n_intervals", n_floor=8000, unit="hours", decimals=1, change_threshold=5.0,
@@ -104,6 +112,59 @@ PATTERNS = [
          measure="share_midday_pct", n_col="n_days", n_floor=330, unit="percent of days", decimals=1, change_threshold=5.0,
          title="THE DAY'S DEAREST HOUR FALLS AT MIDDAY", label="share of the year's days whose highest real-time price fell at midday"),
 ]
+
+
+def family(name, fn, unit, decimals, n_floor, change_threshold, title, label, context=None):
+    """A pattern of session 251: a measure by region and year that hunt_measures.<fn> computes from warehouse tables.
+    context: {"label", "unit", "decimals"} of the second number printed beside the claim, when the family has one."""
+    return dict(name=name, module="hunt_measures", fn=fn, sweep=None, region_col="region", year_col="year", filter=None, words_col="words",
+                measure="value", n_col="n", n_floor=n_floor, unit=unit, decimals=decimals, change_threshold=change_threshold, title=title, label=label,
+                context=context)
+
+
+PATTERNS += [
+    family("solar_capture_rate", "solar_capture_rate", "percent of the average price", 1, 8000, 5.0, "SOLAR'S CAPTURE RATE",
+           "what a solar plant earned per MWh as a percent of the year's time-weighted average price at the grid's hub",
+           context={"label": "solar's share of the grid's generation", "unit": "percent", "decimals": 1}),
+    family("evening_ramp", "evening_ramp", "MW per hour", 0, 8000, 200.0, "THE EVENING RAMP",
+           "the median day's largest one-hour rise of net load between 2 PM and 10 PM local"),
+    family("battery_evening_discharge", "battery_evening_discharge", "percent of discharge", 1, 8000, 5.0, "BATTERY DISCHARGE IN THE EVENING",
+           "share of the year's battery discharge delivered from 5 PM to 10 PM local, the hours in which the day's dearest price most often falls"),
+    family("implied_heat_rate", "implied_heat_rate", "MMBtu per MWh", 2, 200, 1.0, "THE IMPLIED HEAT RATE",
+           "the median day's mean real-time price divided by that day's Henry Hub spot price"),
+    family("negative_hours_zones", "negative_hours_zones", "percent of hours", 2, 8000, 1.0, "HOURS WITH A PRICE BELOW ZERO, BY ZONE",
+           "share of the year's hours with a mean real-time price below zero"),
+    family("da_rt_spread", "da_rt_spread", "USD per MWh", 2, 1000, 1.0, "DAY-AHEAD AGAINST REAL-TIME, BY PART OF THE DAY",
+           "the median hour's day-ahead price minus its real-time price"),
+    family("scarcity_hours", "scarcity_hours", "percent of hours", 1, 8000, 3.0, "HOURS WITH A RESERVE ADDER ABOVE ZERO",
+           "share of the year's hours with ERCOT's on-line reserve price adder (RTORPA) above zero",
+           context={"label": "the year's mean demand", "unit": "MW", "decimals": 0}),
+    family("curtailment_share", "curtailment_share", "percent of output", 2, 8000, 0.5, "WIND AND SOLAR CURTAILED",
+           "share of the year's wind and solar output that was curtailed",
+           context={"label": "operating batteries at the year's end", "unit": "MW", "decimals": 0}),
+    family("stress_day_imports", "stress_day_imports", "percent of demand", 1, 330, 3.0, "NET IMPORTS ON STRESS DAYS",
+           "net imports as a percent of demand on the year's stress days, its 5 percent of days with the highest demand"),
+    family("demand_growth_weather_adjusted", "demand_growth_weather_adjusted", "percent above the 2019 to 2021 base", 1, 8000, 2.0,
+           "DEMAND GROWTH THAT WEATHER DOES NOT EXPLAIN", "the year's energy above the 2019 to 2021 base that temperature does not explain"),
+    family("peak_hour_carbon", "peak_hour_carbon", "percent above the all-hours mean", 1, 8000, 2.0, "THE CARBON OF THE EVENING PEAK",
+           "carbon intensity of the electricity used from 5 PM to 10 PM local against the year's all-hours mean"),
+    family("wind_night_share", "wind_night_share", "percent of generation", 1, 330, 2.0, "WIND'S SHARE OF THE NIGHT",
+           "wind's share of the grid's generation from midnight to 6 AM local",
+           context={"label": "the median night hour's real-time price minus the median hour's", "unit": "USD per MWh", "decimals": 2}),
+    family("record_days", "record_days", "days", 0, 330, 2.0, "RECORD-SETTING DAYS",
+           "days of the year with demand above the highest day of every earlier year held"),
+]
+# Session 252's second lesson, for the patterns that read a finding: the tables a grid's own rows of the measure come
+# from. A finding's TABLES names every table it reads for every grid and for its regressors; a draft names these.
+PRICES_ERCOT = ["ercot_all_hub_prices_history", "iso_rtm_hub_prices"]
+PRICES_CAISO = ["iso_hub_prices_history", "iso_rtm_hub_prices"]
+OWN_TABLES = {
+    "batteries_lunch": {"ercot": PRICES_ERCOT},
+    "batteries_lunch_grids": {"ercot": PRICES_ERCOT, "caiso": PRICES_CAISO},
+    "gas_sets_price": {"ercot": PRICES_ERCOT + ["eia_fuel_spot_prices"], "caiso": ["iso_rtm_hub_prices", "eia_fuel_spot_prices"]},
+    "negative_prices_west": {"ercot": PRICES_ERCOT},
+    "peak_hour_grids": {"ercot": PRICES_ERCOT, "caiso": PRICES_CAISO},
+}
 # The findings of this folder that are not patterns yet, each with the reason. A pattern here must be a measure by
 # region and by year; these are another kind of claim, and their three tests have to be written for that kind first.
 NOT_YET = {
@@ -247,17 +308,31 @@ def val(v, P):
     return f"{common.fmt(v, P['decimals'])} {P['unit']}"
 
 
-def fact_of(P, words, c):
+def fact_of(P, words, c, beside=""):
     return (f"{words}: {P['label']}, {val(c['last'], P)} in {c['last_year']}, {c['direction']} from {val(c['first'], P)} in {c['first_year']}. "
-            f"The direction holds in {c['years_held']} of the {c['years_after']} full years after {c['first_year']}.")
+            f"The direction holds in {c['years_held']} of the {c['years_after']} full years after {c['first_year']}.{beside}")
 
 
-def region_tables(tables, region):
-    """The module's tables without those that are another grid's by name: a draft names what its own rows rest on.
-    Since session 258 this is only the rule of a draft built without the record of what its finding read (a test, a
-    caller with its own compute): a table shared by several grids passes it, so tables_used below decides instead
-    wherever the reads are known."""
+def beside_of(P, c, context):
+    """The family's second number in the claim's two years, as a sentence, or "" when it is not held in both."""
+    X = P.get("context")
+    if not X or not context:
+        return ""
+    a, b = context.get(str(c["first_year"])), context.get(str(c["last_year"]))
+    if a is None or b is None:
+        return ""
+    return (f" Beside it, {X['label']}: {common.fmt(a, X['decimals'])} {X['unit']} in {c['first_year']}, "
+            f"{common.fmt(b, X['decimals'])} {X['unit']} in {c['last_year']}.")
+
+
+def region_tables(tables, region, module=None):
+    """The tables a draft names: those its own region's rows rest on. A finding's pattern has them in OWN_TABLES by
+    grid (session 252); without an entry, the module's tables without those that are another grid's by name.
+    Since session 258 this is the rule of a finding's draft built without the record of what its finding read (a test,
+    a caller with its own compute): wherever the reads are known, tables_used below decides instead, from the rows."""
     mine = grid_of(region)
+    if module in OWN_TABLES and mine in OWN_TABLES[module]:
+        return list(OWN_TABLES[module][mine])
     return [t for t in tables if not any(t.startswith(g + "_") for g in GRID_WORDS if g != mine)]
 
 
@@ -312,12 +387,13 @@ def sources_comment(region, tables, helpers=(), other_years=()):
     return f"# Sources: {', '.join(list(tables) + list(helpers))}{more}\n"
 
 
-def caption_of(P, words, c, source_line):
+def caption_of(P, words, c, source_line, beside=""):
     """The LinkedIn caption, computed from the claim's numbers. A draft for a person to edit: it states and does not explain."""
     t = {x["name"]: x["words"] for x in c["tests"]}
     return "\n".join([
         f"{words}: {P['label']}.",
         f"{c['first_year']}: {val(c['first'], P)}. {c['last_year']}: {val(c['last'], P)}. A change of {'+' if c['change'] > 0 else '-'}{val(abs(c['change']), P)}.",
+        *([beside.strip()] if beside else []),
         "",
         "Checked three ways before it was drafted:",
         f"1. More than one year: {t['holds in more than one year']}.",
@@ -329,15 +405,19 @@ def caption_of(P, words, c, source_line):
     ])
 
 
-def csv_text(P, region, words, series, c, module, tables, helpers=(), other_years=()):
+def csv_text(P, region, words, series, c, module, tables, context=None, helpers=(), other_years=()):
     buf = io.StringIO()
+    X = P.get("context") if context else None
+    by = f"{module}.{P['fn']}" if P.get("fn") else f"{module}.compute"
     buf.write(f"# Energy Research Warehouse (ERW): the weekly hunt, pattern {P['name']}, region {region} ({words})\n")
-    buf.write(f"# Computed {common.now_iso()} by warehouse/analysis/findings/hunt.py from {module}.compute; method https://github.com/SamuelEnrique/erw/blob/main/{METHOD}\n")
-    buf.write(f"# Rows: one per year held: {P['label']} ({P['unit']}), the observations it rests on, and whether the year is full\n")
-    buf.write(sources_comment(region, tables, helpers, other_years))
-    buf.write("region,year,value,n_observations,full_year\n")
+    buf.write(f"# Computed {common.now_iso()} by warehouse/analysis/findings/hunt.py from {by}; method https://github.com/SamuelEnrique/erw/blob/main/{METHOD}\n")
+    buf.write(f"# Rows: one per year held: {P['label']} ({P['unit']}), the observations it rests on, and whether the year is full"
+              + (f"; context_value: {X['label']} ({X['unit']}), blank where not held" if X else "") + "\n")
+    buf.write(sources_comment(region, tables, helpers, other_years))   # session 258: the year under way's tables said apart
+    buf.write("region,year,value,n_observations,full_year" + (",context_value" if X else "") + "\n")
     for y, (v, n) in series.items():
-        buf.write(f"{region},{y},{v!r},{n!r},{1 if y in c['years'] else 0}\n")
+        extra = ("," + ("" if context.get(y) is None else repr(context[y]))) if X else ""
+        buf.write(f"{region},{y},{v!r},{n!r},{1 if y in c['years'] else 0}{extra}\n")
     return buf.getvalue()
 
 
@@ -417,14 +497,23 @@ def build_draft(P, region, words, series, c, why, module_card, tables, out_dir, 
     that are another grid's by name."""
     import card_image
     did = draft_id(P, region, c)
-    fact = fact_of(P, words, c)
+    context = (module_card or {}).get("context") if P.get("context") else None
+    beside = beside_of(P, c, context)
+    fact = fact_of(P, words, c, beside)
     # the module's own source line names every grid it read; this draft rests on one region's rows
     helpers, other_years = [], []
-    if used and used.get("tables"):
-        tables, helpers, other_years = list(used["tables"]), list(used.get("helpers", [])), list(used.get("other_years", []))
+    if P.get("fn"):
+        tables = list(tables)                            # the measure's own list for this region
+        source_line = (f"Source: the rows for {words} of the ERW tables {', '.join(tables)}; "
+                       f"computed by the hunt's measure {P['fn']} (warehouse/analysis/findings/hunt_measures.py).")
+        read_words = f"computed by year by the hunt's measure {P['fn']} (hunt_measures.py) on this run's tables"
     else:
-        tables = region_tables(tables, region)
-    source_line = source_line_of(P, region, tables, helpers)
+        if used and used.get("tables"):                  # session 258: decided from the rows the finding read
+            tables, helpers, other_years = list(used["tables"]), list(used.get("helpers", [])), list(used.get("other_years", []))
+        else:                                            # no record of the reads: session 251's list by grid, then the names
+            tables = region_tables(tables, region, P["module"])
+        source_line = source_line_of(P, region, tables, helpers)
+        read_words = f"read by year from the rows of the finding {P['module']} computed on this run's tables"
     shown = list(c["years"])                             # the full years the claim rests on; the CSV holds every year
     tests_words = " ".join(f"{t['name'].capitalize()}: {t['words']} ({'passed' if t['passed'] else 'failed'})." for t in c["tests"])
     files = [f"{did}.csv", f"{did}.do", f"{did}.py", f"{did}_1200x627.png", f"{did}_1080x1080.png", f"{did}_caption.txt"]
@@ -439,20 +528,23 @@ def build_draft(P, region, words, series, c, why, module_card, tables, out_dir, 
                          common.callout("The three tests", "years on its side", f"{c['years_held']} of {c['years_after']}",
                                         "tests passed", f"{sum(1 for t in c['tests'] if t['passed'])} of 3")],
             "why": "", "footnote": (f"A draft raised by the weekly hunt, version {VERSION}, on {common.now_iso()[:10]}; not reviewed. Pattern {P['name']}: {P['label']}, "
-                                    f"read by year from the rows of the finding {P['module']} computed on this run's tables. Region: {words} ({region}). {tests_words} "
+                                    f"{read_words}. Region: {words} ({region}). {tests_words}{beside}{' That second number is stated, not tested.' if beside else ''} "
                                     f"Why it was drafted: {why}. A full year is not the year under way and holds at least {int(FULL_SHARE * 100)} percent of the fullest "
                                     f"year's observations. The claim states a change; it does not say what caused it. Method: {METHOD}."),
             "numbers": {"first": c["first"], "last": c["last"], "change": c["change"], "first_year": int(c["first_year"]), "last_year": int(c["last_year"]),
                         "years_held": c["years_held"], "years_after": c["years_after"], "n_first": c["n_first"], "n_last": c["n_last"],
-                        "typical_move": c["typical_move"], "strength": c["strength"], "full_years": len(c["years"])},
+                        "typical_move": c["typical_move"], "strength": c["strength"], "full_years": len(c["years"]),
+                        **({"context_first": context.get(str(c["first_year"])), "context_last": context.get(str(c["last_year"]))} if beside else {})},
             "source_line": source_line + " Found by the weekly hunt.", "tables": tables + helpers, "computed_at": common.now_iso(),
             "method": "https://github.com/SamuelEnrique/erw/blob/main/" + METHOD,
             "scanner": {"version": VERSION, "rule": "hunt", "date": f"{c['last_year']}-12-31", "flag_id": did, "strength": c["strength"], "full_card": None},
-            "hunt": {"pattern": P["name"], "module": P["module"], "region": str(region), "region_words": words, "why": why, "tests": c["tests"], "files": files}}
-    caption = caption_of(P, words, c, source_line)
+            "hunt": {"pattern": P["name"], "module": P["module"], "region": str(region), "region_words": words, "why": why, "tests": c["tests"], "files": files,
+                     **({"measure": P["fn"]} if P.get("fn") else {}), **({"context": dict(P["context"], values=context)} if beside else {})}}
+    caption = caption_of(P, words, c, source_line, beside)
     card["hunt"]["caption"] = caption
     csv_name = files[0]
-    texts = {files[0]: csv_text(P, region, words, series, c, P["module"], tables, helpers, other_years), files[1]: do_text(P, region, csv_name, c),
+    texts = {files[0]: csv_text(P, region, words, series, c, P["module"], tables, context if beside else None, helpers, other_years),
+             files[1]: do_text(P, region, csv_name, c),
              files[2]: PY_MIRROR.format(py_name=files[2], csv_name=csv_name, name=P["name"], region=region, n_floor=P["n_floor"], full_share=FULL_SHARE),
              files[5]: caption + "\n"}
     stored = {}
@@ -490,6 +582,8 @@ def read_state(path=None):
 
 def run_pattern(P, in_dir, this_year, blocked, log=print, compute=None):
     """Every region's claim for one pattern: [(region, words, series, claim or None, reason not drafted or None, card, tables)]."""
+    if P.get("fn"):
+        return run_family(P, in_dir, this_year, blocked, log, compute)
     mod = run_finding.load(P["module"])
     sweeps = [None] if not P.get("sweep") else list(mod.INPUTS[P["sweep"]]["choices"])
     out = []
@@ -515,6 +609,33 @@ def run_pattern(P, in_dir, this_year, blocked, log=print, compute=None):
                 reason = "failed: " + "; ".join(t["name"] for t in claim["tests"] if not t["passed"])
             used = tables_used(reads, region, claim["years"], list(series), P) if claim is not None and reads else None
             out.append((region, words, series, claim, reason, card, list(mod.TABLES), used))
+    return out
+
+
+def run_family(P, in_dir, this_year, blocked, log=print, compute=None):
+    """run_pattern for a measure of hunt_measures.py: the same seven fields a region. The sixth holds the family's
+    second number by year ({"context": {year: value}}); the seventh the tables that region's own rows come from."""
+    t0 = time.time()
+    got = (compute or hunt_measures.run)(P["fn"], in_dir)
+    rows = got["rows"]
+    regions = sorted({str(r["region"]) for r in rows})
+    log(f"  {P['name']}: {len(rows)} rows, {len(regions)} region(s), {round(time.time() - t0, 1)} s")
+    out = []
+    for region in regions:
+        words = region_words(P, region, rows)
+        tables = list(got["tables"].get(region, []))
+        if grid_of(region) in blocked:
+            out.append((region, words, {}, None, f"{GRID_WORDS.get(grid_of(region), grid_of(region))} needs a license or is held: never drafted", {}, tables))
+            continue
+        series = yearly(rows, P, region)
+        context = {str(r["year"]): r["context"] for r in rows if str(r["region"]) == region and r.get("context") is not None}
+        claim = test_claim(series, P, this_year)
+        reason = None
+        if claim is None:
+            reason = "no claim: fewer than two full years, or no change"
+        elif not claim["passed"]:
+            reason = "failed: " + "; ".join(t["name"] for t in claim["tests"] if not t["passed"])
+        out.append((region, words, series, claim, reason, {"context": context}, tables))
     return out
 
 
@@ -546,7 +667,10 @@ def hunt(in_dir=None, only=None, dry_run=False, log=print, now=None, state_path=
             if claim is not None:
                 row.update({k: claim[k] for k in ("first_year", "last_year", "first", "last", "change", "direction", "strength", "passed", "years_held", "years_after")})
                 row["tests"] = claim["tests"]
-            if claim is not None and claim["passed"]:
+            if claim is not None and claim["passed"] and P.get("one_interval"):
+                # session 252: the measure is one interval of a year, and most of each spike claim was one year's fall
+                row["reason"] = "passes its tests; the measure is one interval of a year, so it is kept here and never drafted (session 252)"
+            elif claim is not None and claim["passed"]:
                 why = news(key, claim, P, state)
                 if why is None:
                     row["reason"] = "passes its tests; not new and not changed past its threshold since the last hunt"
@@ -556,7 +680,7 @@ def hunt(in_dir=None, only=None, dry_run=False, log=print, now=None, state_path=
     drafts.sort(key=lambda d: (-d[0], d[9]["key"]))
     built, per_pattern, seen = [], {}, {}
     for _, P, region, words, series, claim, why, card, tables, row, used in drafts:
-        same = (P["measure"], claim["first_year"], claim["last_year"], round(claim["first"], 6), round(claim["last"], 6))
+        same = (P.get("fn") or P["measure"], claim["first_year"], claim["last_year"], round(claim["first"], 6), round(claim["last"], 6))
         if same in seen:                                 # two patterns that read one number (a grid's hub average, twice)
             row["reason"] = f"passes its tests and is news; the same numbers as {seen[same]}, drafted once"
             continue
@@ -697,6 +821,11 @@ def fix_source_lines(in_dir=None, dry_run=False, log=print, get=None, patch=None
         if P is None:
             raise ValueError(f"{row['id']}: pattern {hunt_part['pattern']} is not in the library")
         region = hunt_part["region"]
+        if P.get("fn"):                                  # session 251: a measure's draft was built from its own region's tables
+            line = row["card"].get("source_line", "")
+            log(f"{row['id']} ({row.get('state')}, {P['name']}, {region}): left as it is, a measure of hunt_measures.py names its own region's tables")
+            out.append({"id": row["id"], "state": row.get("state"), "old": line, "new": line, "changed": False, "written": False})
+            continue
         mod = run_finding.load(P["module"])
         choice = region if P.get("sweep") else None
         if (P["module"], choice) not in reads_of:        # one run of a finding serves every draft that rests on it
@@ -733,7 +862,8 @@ def main(argv=None):
     a = ap.parse_args(argv)
     if a.list:
         for P in PATTERNS:
-            print(f"{P['name']}: {P['label']} ({P['unit']}); finding {P['module']}" + (f", once per {P['sweep']}" if P.get("sweep") else f", by {P['region_col']}"))
+            print(f"{P['name']}: {P['label']} ({P['unit']}); " + (f"measure hunt_measures.{P['fn']}" if P.get("fn") else f"finding {P['module']}")
+                  + (f", once per {P['sweep']}" if P.get("sweep") else f", by {P['region_col']}") + (", never drafted: one interval a year" if P.get("one_interval") else ""))
         for name, why in NOT_YET.items():
             print(f"not yet, {name}: {why}")
         return 0
