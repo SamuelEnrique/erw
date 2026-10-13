@@ -514,9 +514,12 @@ body:has(.brand-a) header :focus-visible {
   color: var(--color-muted);
   vertical-align: bottom;
 }
-.brand-a .prose-erw td[align="right"],
-.brand-a .prose-erw td[style*="right"] {
-  font-family: var(--font-mono);             /* a column of figures: mono, on one line */
+.brand-a .prose-erw th[align="right"],
+.brand-a .prose-erw td[align="right"] {
+  text-align: right;                         /* a column the document sets to the right is a column of figures */
+}
+.brand-a .prose-erw td[align="right"] {
+  font-family: var(--font-mono);             /* mono, on one line */
   white-space: nowrap;
 }
 .brand-a .prose-erw code {
