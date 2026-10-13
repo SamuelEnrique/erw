@@ -111,7 +111,14 @@ Tests whose pins moved, each with a note "session 236":
 
 ## The landing
 
-Filled by the orchestrator.
+- Landed together with session 235 on `task/235-generator-earns` (`71e4b084`): this session's branch, session 235's, and `origin/main` merged twice on the way (the data machine landed sessions 243 to 247 between 06:40 and 09:00 UTC; none touched a file of the site).
+- The whole suite in a clean worktree at `805d88bb`: exit 0, 3,728 tests OK, 237 skipped. (A first run at `bba5d091` had one failure, `test_session215`'s list of check prefixes, which did not know this landing's new `cap` key: the list was extended, with a note.) After the last merge of main the modules it changed were run again: exit 0.
+- `npm run build` on the merged tree: exit 0 on the third build with no "statement timeout" line (the first two each cached a timed-out read: the database was busy with four sessions' builds and the data machine's loads). `check-values` on every page: exit 0, 4,249 of 4,249. `check-routes`: exit 0, 160 pages as a visitor, 0 failed. `check-seller-scenarios`, `check-datacenter-scenarios` (119 of 119), `check-datacenter-face` (23 of 23), `check-battery-scenarios`: exit 0 each.
+- `python scripts/freeze.py status`: exit 0, no freeze. Before snapshot `s235-before` (09:05:26 UTC, its own command: 25 pages, 0 failed), then the push.
+- Check run 38373856458: success at 09:14 UTC; merged into `main` as `aa3addbc`.
+- Production served the new build from 09:17:17 UTC (the home page's style sheet changed name). After snapshot `s235-after2` (09:17:38 UTC, 25 pages, 0 failed); `compare s235-before s235-after2`: exit 0, "0 differences in all". Expected: every page is in review. (A first after snapshot, `s235-after`, was taken at 09:14:20, before the deploy had finished: my probe asked for an address the gate already answered. It also showed 0 differences and proves nothing; the later one counts.)
+- The remote branches `wip/212-generator-layout`, `wip/213-datacenter-layout`, `wip/235-generator` and `wip/236-datacenter` are deleted: all of each is on `main`.
+- **ERCOT's reserve adders arrived during the landing.** Session 244 (the data machine) landed `ercot_rtm_price_adders` at about 07:05 UTC, after this page was built with "is coming: the warehouse holds no table of them yet". Before the push the line was reworded to say the table is now held and its count is not on the page yet (the page, the note and the test), and the count itself is a follow-up of this session on `wip/236b-adders`, landed with the next push (its section is below or in the next landing's report).
 
 ## The prompt
 
