@@ -472,6 +472,8 @@ body:has(.brand-a) header :focus-visible {
   color: var(--color-panel);
   background: var(--color-ink);
   border-color: var(--color-ink);
+}
+
 /* ---- session 238 (/research): generic pieces the brand did not yet have. Each is written for a kind of markup, not
    for a page, and none touches a rule above (the battery page carries none of these classes). */
 /* a row of links to the places of a long page */
