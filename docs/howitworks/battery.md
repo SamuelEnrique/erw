@@ -2,7 +2,7 @@
 
 - **Address:** `/cost-of-power/battery` (production: `https://erw-flame.vercel.app/cost-of-power/battery`).
 - **Status:** in review, like every page of the site (`site/lib/release.ts`). A visitor sees the in-review page; a demo needs the internal view (section 7).
-- **Written from:** `main` at commit `9700198f`, which holds the page as merged in `80aa2362` (session 234, the brand restyle).
+- **Written from:** `main` at commit `9700198f`, which holds the page as merged in `80aa2362` (session 234, the brand restyle). Checked again by session 260 against `main` at `34b468fa`: since `9700198f` the page's code changed only in where its fonts and wrapper come from (`site/components/Brand.tsx`, session 235); no label, default or number moved.
 - **Date:** 2026-10-13. A number marked **[c]** is printed in no method or report: it was computed for this document with the page's own library from the table built on 2026-10-13 at 08:10 UTC (`docs/howitworks/computed/`, the script and its output); every other number is quoted from the file named in the last section.
 
 ## 1. What it is for, and for whom
@@ -85,7 +85,7 @@
 | Tax, tax credit, augmentation, residual value, inflation | none | fixed | ERW's choice: none is modeled |
 | Breakeven toll | the price at which coverage is 1.25 | fixed | ERW's choice; the code cites no source for 1.25 |
 | IRR search | between -99 and 1,000 percent a year | fixed | ERW's choice; outside it the page says "none" |
-| Steps of efficiency and cycles | the model's own runs, nothing interpolated; the file was built on 2026-10-10 and is withdrawn when a month of the table differs from it by more than half a cent per MW | fixed | `site/data/battery_scenario_steps.json` |
+| Steps of efficiency and cycles | the model's own runs, nothing interpolated; the file is rebuilt by the data machine's daily run (on `main`: built 2026-10-13T17:42:40Z) and is withdrawn when a month of the table differs from it by more than half a cent per MW | fixed | `site/data/battery_scenario_steps.json` |
 | The awards line | the months both tables hold whole (January to July 2026); the fleet's kW is the sum of each resource's highest limit (HSL) in the month | fixed | `site/data/battery_awards_beside.json`, built 2026-10-10 |
 | Rounding | the table to four decimals; US dollars to a whole dollar for the size; USD per kW to two decimals | fixed | the code |
 | Sensitivity steps | capital cost USD 100 per kW; debt share 10 points; interest 1 point; term 5 years; fixed O&M USD 5; efficiency 3 points; cycles 0.5; degradation 1 point; life 5 years; hurdle rate 1 point; contract share 10 points; contract price USD 1 | fixed | ERW's choice |
@@ -240,7 +240,7 @@ This path was written from the page's code and its check scripts on 2026-10-13. 
 - **"The table could not be read, so no number is shown".** The live set did not answer. Reload.
 - **"Duration" acts at once.** "2 hours", "4 hours" and "8 hours" are links, not part of "Show", and a change of duration drops a typed capital cost and fixed O&M.
 - **The numbers above hold until October 2026 is complete in the table**, about the first days of November. The twelve months then become November 2025 to October 2026 and every headline number moves.
-- **Only 86 and 1 are offered under efficiency and cycles.** The file of steps was built on 2026-10-10 and is withdrawn when the table's months move past it. The line under the assumptions says which happened.
+- **Only 86 and 1 are offered under efficiency and cycles.** The file of steps is withdrawn when the table's months move past it, until the data machine's daily run rebuilds it. The line under the assumptions says which happened.
 
 ## Where the numbers in this document come from
 
