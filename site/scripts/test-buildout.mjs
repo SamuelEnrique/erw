@@ -80,14 +80,15 @@ for (const grid of GRIDS) {
 check(OUTSIDE.entity === "us:outside_isos" && BUCKETS.map((b) => b.key).join() === "lt2h,2to4h,4to6h,ge6h", "the buckets run shortest first");
 
 // the production code path holds no fixture: the page, its reader, its pieces and the model read no file and name no test path
-for (const f of ["app/storage/buildout/page.tsx", "app/storage/buildout/read.ts", "app/storage/buildout/parts.tsx", "lib/buildout.ts"]) {
+for (const f of ["app/storage/buildout/view.tsx",   // session 239: the page file is the view of /storage's build-out tab
+   "app/storage/buildout/read.ts", "app/storage/buildout/parts.tsx", "lib/buildout.ts"]) {
   const src = fs.readFileSync(path.join(here, "..", f), "utf-8");
   check(!/node:fs|from "fs"|readFileSync|fixtures\/|\.csv|buildout-stub|\.json/.test(src), `${f} reads no file and no fixture`);
   check(!src.includes("—"), `${f} has no em dash`);
 }
 const read = fs.readFileSync(path.join(here, "..", "app/storage/buildout/read.ts"), "utf-8");
 check(read.includes('import "server-only"') && read.includes('from "@/lib/supabase"') && (read.match(/rest</g) ?? []).length === 2, "the reader is two reads through lib/supabase.ts");
-const page = fs.readFileSync(path.join(here, "..", "app/storage/buildout/page.tsx"), "utf-8");
+const page = fs.readFileSync(path.join(here, "..", "app/storage/buildout/view.tsx"), "utf-8");
 check(page.includes("attempt(buildoutRows)"), "the page reads through its reader");
 
 console.log(bad ? `${bad} of ${n} checks FAILED` : `storage build-out model: ${n} checks pass`);

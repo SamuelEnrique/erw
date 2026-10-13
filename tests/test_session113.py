@@ -374,8 +374,8 @@ class DealsLibrary(unittest.TestCase):
 
     def test_an_address_the_page_does_not_offer_shows_every_deal(self):
         got = self.sel({"type": "nonsense", "grid": "Mars", "year": "1999"})
-        self.assertEqual((got["href"], got["counts"]["deals"]), ("/deals/v2", len(self.d)))
-        self.assertEqual(self.sel({"view": "ai", "type": "ppa", "year": "2026"})["href"], "/deals/v2?view=ai&type=ppa&year=2026")
+        self.assertEqual((got["href"], got["counts"]["deals"]), ("/deals?tab=tracker", len(self.d)))   # session 239: the tracker is a tab of /deals; /deals/v2 redirects to it
+        self.assertEqual(self.sel({"view": "ai", "type": "ppa", "year": "2026"})["href"], "/deals?tab=tracker&view=ai&type=ppa&year=2026")
 
     def test_the_sentence_is_the_counts(self):
         for sp in SELECTIONS:
@@ -388,7 +388,7 @@ class DealsLibrary(unittest.TestCase):
             if c["deals"] > 1:
                 self.assertIn(f"{c['mw']:,.0f} MW in all" if c["withMw"] else "None of them states a size", s)
                 self.assertIn("none states a price" if c["withPrice"] == 0 else f"{c['withPrice']:,}", s)
-            if got["href"] != "/deals/v2":
+            if got["href"] != "/deals?tab=tracker":
                 self.assertTrue(s.startswith(f"{c['deals']:,} of the {len(self.d):,} deals held"), s)
         self.assertEqual(self.got["empty"], "No deal is held.")
 
@@ -412,7 +412,7 @@ class DealsLibrary(unittest.TestCase):
 
 class DealsPage(unittest.TestCase):
     def test_the_page_says_what_it_is(self):
-        page = src("site", "app", "deals", "v2", "page.tsx")
+        page = src("site", "app", "deals", "v2", "view.tsx")   # session 239: the page file is the view of the tracker tab
         for said in ("not a complete record of the market", "state a size in MW", "state a price in US dollars per MWh", "Nothing is estimated",
                      "Storage only", "AI power", "Deals by month", 'method="get"', "data-deals-summary"):
             self.assertIn(said, page)
@@ -439,7 +439,7 @@ class DealsPage(unittest.TestCase):
             self.assertEqual(int((d["event_date"].str[:7] == m).sum()), 0, m)
 
     def test_no_em_dash(self):
-        for parts in (("site", "app", "deals", "v2", "page.tsx"), ("site", "lib", "deals2.ts"), ("warehouse", "deals", "duplicates.py"),
+        for parts in (("site", "app", "deals", "v2", "view.tsx"), ("site", "lib", "deals2.ts"), ("warehouse", "deals", "duplicates.py"),
                       ("warehouse", "deals", "duplicates.csv"), ("site", "data", "deal_duplicates.json"), ("tests", "test_session113.py"),
                       ("warehouse", "connectors", "ercot_as_prices.py")):
             self.assertNotIn(chr(0x2014), src(*parts), parts)

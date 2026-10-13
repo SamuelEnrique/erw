@@ -18,9 +18,11 @@ export function monthStarts(y: number): number[] {
 }
 
 /** The scarcity level: an hour whose price is at or above it is counted short. USD 1,000 per MWh is the cap on an
- * incremental energy offer in every FERC market (Order 831, 2016; CAISO's soft cap, NYISO's, ISO-NE's and SPP's); in
- * ERCOT, outside FERC, a price above it comes from its scarcity pricing (the operating reserve demand curve adders) on
- * top of offers. One level for every grid, so the count means the same thing everywhere. */
+ * incremental energy offer in every FERC market (Order 831, 2016; CAISO's soft cap, NYISO's, ISO-NE's and SPP's).
+ * ERCOT is outside FERC and its own cap is higher. One level for every grid, so the count means the same thing
+ * everywhere. (Until session 236 this comment said that in ERCOT a price above the level comes from the operating
+ * reserve demand curve adders. The adders' table, held since session 244, does not bear that out for the page's
+ * months: docs/methods/datacenter_pays_algorithm.md, 4.15.) */
 export const SCARCITY_USD = 1000;
 /** The grids' balancing authorities in EIA-930, as the carbon tables name them. */
 export const BA: Record<string, string> = { ercot: "ERCO", caiso: "CISO", nyiso: "NYIS", isone: "ISNE", spp: "SWPP", miso: "MISO", pjm: "PJM" };
@@ -199,7 +201,33 @@ export function elevenBefore(m: string): string {
   const t = y * 12 + k;
   return `${Math.floor(t / 12)}-${String((t % 12) + 1).padStart(2, "0")}`;
 }
-export type Answers = { scarcity: Scarcity; carbon: Carbon; largeLoad: LargeLoad | null; notices: Notices; mw: number; held: Record<Way, boolean> };
+/** Session 236, after session 244 landed ercot_rtm_price_adders: ERCOT's own scarcity signal, the adder of its
+ * operating reserve demand curve (the on-line reserve price adder, variable rtorpa_mean: the hour's mean, USD per MWh,
+ * system-wide). An hour is counted when that mean is at or above ADDER_USD. "Above zero" is not the count: it is mostly
+ * fractions of a cent (session 244's report). ERCOT published the adder from 1 June 2014 to 4 December 2025 and no
+ * longer: the count over the page's twelve months covers only the hours of them the table holds, and says so (`held`
+ * hours, from `first` to `last`, days in the grid's standard time); `own` is the same count over the last 8,760 hours
+ * the adder was published, the year to its last hour held. The reliability deployment adder, which ERCOT's file carries
+ * alone from 5 December 2025, is another thing and is not counted or spliced in. Null when the table holds no hour of
+ * the adder in the page's months. */
+export const ADDER_USD = 100;
+export const ADDER_TABLE = "ercot_rtm_price_adders", ADDER_VARIABLE = "rtorpa_mean", ADDER_ENTITY = "ercot:system";
+export type Adders = { level: number; hours: number; held: number; first: string; last: string; own: { from: string; to: string; hours: number } } | null;
+/** The count, from the hours of the adder held since the first of the page's months (`heldTs`, each hour's start) and
+ * the hours at or above the level since fourteen months before it (`highTs`). */
+export function adders(heldTs: string[], highTs: string[], l12: string[], behind: number, level = ADDER_USD): Adders {
+  const inL12 = new Set(l12);
+  const std = (ts: string) => new Date(Date.parse(ts) - behind * 3600_000).toISOString();
+  const mine = heldTs.filter((ts) => inL12.has(std(ts).slice(0, 7))).sort();
+  if (!mine.length) return null;
+  const lastMs = Math.max(...heldTs.map((ts) => Date.parse(ts)));
+  const fromMs = lastMs - 8759 * 3600_000;
+  const high = highTs.map((ts) => Date.parse(ts));
+  const mineSet = new Set(mine.map((ts) => Date.parse(ts)));
+  return { level, hours: high.filter((ms) => mineSet.has(ms)).length, held: mine.length, first: std(mine[0]).slice(0, 10), last: std(mine[mine.length - 1]).slice(0, 10),
+    own: { from: std(new Date(fromMs).toISOString()).slice(0, 10), to: std(new Date(lastMs).toISOString()).slice(0, 10), hours: high.filter((ms) => ms >= fromMs && ms <= lastMs).length } };
+}
+export type Answers = { scarcity: Scarcity; carbon: Carbon; largeLoad: LargeLoad | null; notices: Notices; adders: Adders; mw: number; held: Record<Way, boolean> };
 
 /** One number of the answers by its name, for the reader's size: the page writes it, check-values recomputes it. */
 export function statOf(a: Answers, stat: string): number | null | undefined {
@@ -232,6 +260,11 @@ export function statOf(a: Answers, stat: string): number | null | undefined {
     if (p[1] === "report") { const r = l.reports.find((x) => x.day === p[2]); return r ? (r[p[3] as keyof Report] as number | null) : undefined; }
     if (p[1] === "latest") return l.latest ? (l.latest[p[2] as keyof Report] as number | null) : undefined;
     return undefined;
+  }
+  if (p[0] === "adders") {
+    if (!a.adders) return undefined;
+    if (p[1] === "own") return a.adders.own.hours;
+    return p[1] === "held" ? a.adders.held : a.adders.hours;
   }
   if (p[0] === "notices") {
     if (!a.notices) return undefined;
@@ -315,5 +348,20 @@ export async function readAnswers(args: AnswerArgs): Promise<Answers> {
     }
     notices = { held: noticesRaw.length > 0, last: newest, count: inWindow.length, byType, own };
   }
-  return { scarcity: sc, carbon, largeLoad: grid === "ercot" && status.length ? largeLoad(status) : null, notices, mw, held };
+  // session 236: ERCOT's own signal. Two reads of ercot_rtm_price_adders, each bounded in time (a read of the whole
+  // variable is 100,878 rows and an unbounded sort of it timed out): the hours held since the first of the page's
+  // months, and the hours at or above the level since fourteen months before it (so that the year to the adder's last
+  // hour is inside)
+  let addersOf: Adders = null;
+  if (grid === "ercot" && l12.length) {
+    const y = Number(l12[0].slice(0, 4)), m = Number(l12[0].slice(5, 7)) - 1;
+    const iso = (ms: number) => new Date(ms).toISOString().replace(/\.\d{3}Z$/, "Z");
+    const base = { table_name: `eq.${ADDER_TABLE}`, entity: `eq.${ADDER_ENTITY}`, variable: `eq.${ADDER_VARIABLE}`, order: "ts_utc" };
+    const [heldRaw, highRaw] = await Promise.all([
+      rows("series", { select: "ts_utc", ...base, ts_utc: `gte.${iso(Date.UTC(y, m, 1) + behind * 3600_000)}` }),
+      rows("series", { select: "ts_utc,value", ...base, value: `gte.${ADDER_USD}`, ts_utc: `gte.${iso(Date.UTC(y, m - 14, 1))}` }),
+    ]);
+    addersOf = adders(heldRaw.map((r) => String(r.ts_utc)), highRaw.filter((r) => num(r.value) >= ADDER_USD).map((r) => String(r.ts_utc)), l12, behind);
+  }
+  return { scarcity: sc, carbon, largeLoad: grid === "ercot" && status.length ? largeLoad(status) : null, notices, adders: addersOf, mw, held };
 }

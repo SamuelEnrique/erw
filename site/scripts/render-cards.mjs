@@ -5,7 +5,7 @@
 //   node scripts/render-cards.mjs [base-url] [--only card_id,card_id] [--out dir]     (default http://localhost:3170,
 //                                                                                     out public/findings)
 //
-// Each card is photographed at /analysis/card/<id>?render=1, the frame app/analysis/card/render.css draws in the two
+// Each card is photographed at /research/card/<id>?render=1, the frame app/research/card/render.css draws in the two
 // bundled fonts. The renderer fails on any font fallback: before the shot it asks the page whether "Source Serif 4"
 // and "Inter" are loaded faces (document.fonts, status "loaded", from the files under public/fonts/), and whether the
 // title and the subtitle were laid out in them; a face that did not load, a missing file or a fallback is exit 1 for
@@ -64,7 +64,7 @@ export async function render(base, ids, outDir, log = console.log) {
     for (const id of ids) {
       for (const [w, h] of SIZES) {
         await send("Emulation.setDeviceMetricsOverride", { width: w, height: h, deviceScaleFactor: 1, mobile: false });
-        await go(`${base}/analysis/card/${id}?render=1`);
+        await go(`${base}/research/card/${id}?render=1`);
         await wait('!!document.querySelector("[data-render=\\"1\\"] canvas")', 30000, "the card's chart");
         await sleep(800);
         const r = await send("Runtime.evaluate", { expression: FONT_CHECK, awaitPromise: true, returnByValue: true });

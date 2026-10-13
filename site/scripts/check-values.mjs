@@ -42,9 +42,9 @@ const base = process.argv[2] ?? "http://localhost:3000";
 // gate of a landing is the full run, with the variable unset.
 const ONLY = (process.env.CHECK_VALUES_PAGES ?? "").split(",").map((v) => v.trim()).filter(Boolean);
 const wanted = (page) => !ONLY.length || ONLY.some((pre) => page.startsWith(pre));
-const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/ercot%3AHB_HUBAVG", "/data", "/explorer/ercot-peak-premium", "/deals", "/grid", "/map", "/datacenters", "/roundup",
+const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/ercot%3AHB_HUBAVG", "/data", "/prices?tab=ercot", "/deals", "/deals?tab=tracker", "/deals?tab=companies", "/grid", "/map", "/datacenters", "/roundup",
   // session 18
-  "/mix", "/mix?ba=erco&state=TX", "/curtailment", "/consumption",
+  "/mix", "/mix?ba=erco&state=TX", "/curtailment", "/demand?view=consumption",
   // session 19
   // session 35: the seven grid pages
   "/grid/ercot", "/grid/caiso", "/grid/pjm", "/grid/nyiso", "/grid/isone", "/grid/miso", "/grid/spp",
@@ -75,14 +75,23 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   // session 49: the network's default node card (ERCOT)
   "/network",
   // session 72 (session 69's finish): the storage build-out
-  "/storage/buildout", "/storage/buildout?grid=ercot&measure=mwh", "/storage/buildout?grid=caiso",
+  // session 239: the merged pages are read at the tabs they became (lib/tabs.ts): /prices?tab=ercot was
+  // /explorer/ercot-peak-premium, /demand?view=consumption was /consumption, the three below were /storage/buildout;
+  // the tracker, the companies, the owners, the lease tool and the resource map are read too (they were not before)
+  "/storage?tab=buildout", "/storage?tab=buildout&grid=ercot&measure=mwh", "/storage?tab=buildout&grid=caiso",
+  "/storage?tab=owners", "/severance", "/severance?tab=lease", "/map?tab=resources",
   "/shoulder", "/shoulder?grid=caiso&month=2025-07",  // session 75
   // session 67: what a battery earns: both grids, the three durations, both strategies, another size
   "/cost-of-power/battery", "/cost-of-power/battery?grid=ercot&dur=2&strat=foresight", "/cost-of-power/battery?grid=ercot&dur=8&strat=dayahead",
   "/cost-of-power/battery?grid=ercot&dur=4&strat=dayahead", "/cost-of-power/battery?grid=caiso&dur=4&strat=foresight", "/cost-of-power/battery?grid=caiso&dur=2&strat=dayahead",
   "/cost-of-power/battery?grid=caiso&dur=8&strat=foresight&mw=250",
   // session 60: the Flex Alert scorecard
-  "/grid/caiso/alerts"];  // (the line ended "// session 46: set D" before session 60)
+  "/grid/caiso/alerts",
+  // session 237: the Grid tool, one page. Now, Clean and Exchange for each of the eight choices, the Mix and the Network
+  // for ERCOT and the Lower 48. The addresses above that redirect into it (/emissions, /grid/<iso>, /mix, /network) stay
+  // in the list: each is read through its redirect, as a visitor's old link is
+  ...["ercot", "caiso", "pjm", "miso", "nyiso", "isone", "spp", "us48"].flatMap((g) => [`/grid?grid=${g}`, `/grid?grid=${g}&view=clean`, `/grid?grid=${g}&view=exchange`]),
+  "/grid?grid=ercot&view=mix", "/grid?grid=us48&view=mix", "/grid?grid=pjm&view=mix&mix=stress", "/grid?grid=ercot&view=network", "/grid?grid=us48&view=network"];  // (the line ended "// session 46: set D" before session 60)
 // session 48: the draft report behind the internal token (INTERNAL_COSTS_TOKEN, in .env.local or the environment); left
 // out, and said so, where the token is not set (the page answers 404 without it)
 const INTERNAL = ["/reports/draft/shape-premium", "/reports/draft/ai-gigawatts"];  // session 62: the AI gigawatts draft
@@ -338,7 +347,7 @@ async function truth(check) {
     // own (lib/largeload.ts); the rows are read here, from Supabase, as before.
     const [, what, key] = p;
     const { cancelled, countryOf } = await import("../lib/largeload.ts");
-    const rows = (await all("entities", { select: "operator,status,mw:capacity_mw,state:extra->>state,country:extra->>country", table_name: "eq.datacenter_facilities", order: "entity_id" }))
+    const rows = (await all("entities", { select: "operator,status,mw:capacity_mw,state:extra->>state,country:extra->>country,first:extra->>first_story_at", table_name: "eq.datacenter_facilities", order: "entity_id" }))
       .map((r) => ({ ...r, us: countryOf(r.country, r.state) === "US" }));
     const inTotals = rows.filter((r) => r.us && !cancelled(r.status));
     const withMw = inTotals.filter((r) => r.mw !== null);
@@ -350,6 +359,13 @@ async function truth(check) {
     if (what === "mw_total") return withMw.reduce((a, r) => a + Number(r.mw), 0);
     if (what === "state_mw") return withMw.filter((r) => (r.state ?? "") === key).reduce((a, r) => a + Number(r.mw), 0);
     if (what === "operator_mw") return withMw.filter((r) => (r.operator ?? "") === key).reduce((a, r) => a + Number(r.mw), 0);
+    // session 240: the top block and the list grouped by operator. The megawatts by status (a blank status is its own
+    // line), the facilities whose first story is dated on or after the day in the key (the page's "this week"), the
+    // facilities that carry a first story at all, and an operator's rows in the table (all of them, as the list shows)
+    if (what === "status_mw") return withMw.filter((r) => (r.status ?? "") === (key ?? "")).reduce((a, r) => a + Number(r.mw), 0);
+    if (what === "first_week") return rows.filter((r) => r.first && r.first.slice(0, 10) >= key).length;
+    if (what === "n_first_story") return rows.filter((r) => r.first).length;
+    if (what === "operator_count") return rows.filter((r) => (r.operator ?? "") === (key ?? "")).length;
   }
   // session 31: /storage, sums of storage_capacity's nameplate MW (rounded to 0.1 MW, as the page rounds them);
   // session 34: and of its energy capacity, MWh (storage|mwh|<status>, storage|n_mwh|<status>)
@@ -775,7 +791,7 @@ async function main() {
     const same = isTime ? new Date(t).getTime() === new Date(raw).getTime() : Math.abs(Number(t) - Number(raw)) < 1e-9 * Math.max(1, Math.abs(Number(t)));
     // session 16: MW sums are written as whole MW (lib/format.ts count)
     // session 90: /storage/buildout writes its MW and MWh whole too (lib/buildout.ts WHOLE; the ratios keep two decimals)
-    const whole = /(^projects\|mw\|)|(^datacenters\|(mw_total|state_mw|operator_mw))|(^series\|storage_buildout_monthly\|[^|]+\|(battery|solar)_(operating|planned)_(mw|mwh)(?!_per_)(_|\|))/.test(check);
+    const whole = /(^projects\|mw\|)|(^datacenters\|(mw_total|state_mw|operator_mw|status_mw))|(^series\|storage_buildout_monthly\|[^|]+\|(battery|solar)_(operating|planned)_(mw|mwh)(?!_per_)(_|\|))/.test(check);
     // session 76: an hour of the day (a variable named ..._hour, a whole number 0 to 23) may be written "09:00" (/shoulder):
     // "16:00" passed the rule below by accident, "09:00" could not
     const hourText = /\|[a-z0-9_]*_hour\|/.test(check) && /^\d{1,2}$/.test(raw) && text.startsWith(`${raw.padStart(2, "0")}:00`);

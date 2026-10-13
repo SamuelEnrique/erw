@@ -280,3 +280,36 @@ export function rangeExtremes(file: BoardFile) {
     .sort((a, b) => b.range!.pos! - a.range!.pos!);
   return rows.length ? { top: rows[0], bottom: rows[rows.length - 1] } : null;
 }
+
+// Session 240: the top block. The twelve numbers a trader checks first, by the id of their row on the wall, in the
+// order they are drawn. THE ONE LIST: change a line here and the top block follows; the tile reads the same row of
+// data/board.json by the same code as the wall below (fmt, signed, sparkOf), so the two cannot disagree.
+// Chosen from what the board holds: power where a price is set most days and stays public after 20 October 2026
+// (ERCOT, CAISO and SPP; ISO-NE's, NYISO's and MISO's rows are "license needed" from that day, PJM's already are, and
+// MISO is paused), the gas that sets the power price and the spread between the two, the two crudes, the two products
+// a refiner sells most of with the margin between crude and products, and one macro line. All twelve are daily.
+export const TOP_TWELVE: string[] = [
+  "ercot-hb-hubavg-da",                      // power: ERCOT Hub average, day-ahead
+  "ercot-hb-hubavg-rt",                      // power: ERCOT Hub average, real time
+  "caiso-th-sp15-gen-apnd-da",               // power: CAISO Southern California (SP15), day-ahead
+  "spp-sppnorth-hub-da",                     // power: SPP North hub, day-ahead
+  "eia-henry-hub-spot",                      // gas: Henry Hub, spot
+  "ercot-hb-hubavg-spark",                   // power against gas: ERCOT spark spread, indicative
+  "eia-wti-cushing-spot",                    // crude: WTI, Cushing, spot
+  "eia-brent-spot",                          // crude: Brent, spot
+  "eia-eer-epmru-pf4-y35ny-dpg-spot",        // products: gasoline, New York Harbor, spot
+  "eia-eer-epd2dxl0-pf4-y35ny-dpg-spot",     // products: diesel, New York Harbor, spot
+  "erw-crack-321-gulf-coast",                // products against crude: 3-2-1 crack spread, Gulf Coast
+  "fred-dgs10",                              // macro: US Treasury yield, 10-year
+];
+/** The grids whose own prices show "license needed" from 20 October 2026, are licensed already or are paused: a row of
+ *  theirs is never among the twelve (scripts/test-board.mjs holds the list to this). */
+export const TOP_NEVER = /^(isone|nyiso|miso|pjm)-/;
+/** The rows of the top block, in the list's order. An id the file does not hold is left out, never filled. */
+export function topRows(file: BoardFile, ids: string[] = TOP_TWELVE): Row[] {
+  return ids.flatMap((id) => { const r = file.rows.find((x) => x.id === id); return r ? [r] : []; });
+}
+/** A group's first row that holds a value, under its default filters: the number a closed group keeps in view. */
+export function leadRow(file: BoardFile, group: Group): Row | null {
+  return rowsOf(file, group, {}).find((r) => r.status === "ok" && !!r.last) ?? null;
+}

@@ -46,7 +46,7 @@ const code = await withBrowser(async ({ go, wait, unlock, send, sleep, errors })
       const c = card(id);
       const param = c.chart.param;
       const t = `${id} ${tag}:`;
-      await go(`${base}/analysis/card/${id}`);
+      await go(`${base}/research/card/${id}`);
       await wait('!!document.querySelector("[data-finding-chart=\\"multiples\\"] canvas")', 30000, "the small multiples");
       await sleep(600);
       check((await js('document.querySelectorAll("[data-finding-chart=\\"multiples\\"] canvas").length')) === 1, `${t} the small multiples are drawn`);
@@ -74,7 +74,7 @@ const code = await withBrowser(async ({ go, wait, unlock, send, sleep, errors })
         check((await sideways()) <= 0, `${t} ${p.grid} large: no sideways scroll`);
         if (p.grid === "ercot" || p.grid === "nyiso") await shot(`${id}_${tag}_${p.grid}`);
       }
-      await go(`${base}/analysis/card/${id}?${param}=ercot`);
+      await go(`${base}/research/card/${id}?${param}=ercot`);
       await wait('!!document.querySelector("[data-multi-grid=\\"ercot\\"] canvas")', 20000, "ERCOT from the address");
       check(true, `${t} ?${param}=ercot opens ERCOT large`);
       if (id === "batteries_lunch_grids") {
@@ -93,7 +93,7 @@ const code = await withBrowser(async ({ go, wait, unlock, send, sleep, errors })
       }
     }
     const id = "batteries_curtailment_hourly";
-    await go(`${base}/analysis/card/${id}`);
+    await go(`${base}/research/card/${id}`);
     await wait(`!!document.querySelector('[data-card="${id}"] canvas')`, 30000, "the hourly card's chart");
     await sleep(500);
     check((await js('document.querySelectorAll("[data-effect-table] tbody tr").length')) === card(id).effect_table.rows.length, `${id} ${tag}: the effect table`);
@@ -104,7 +104,7 @@ const code = await withBrowser(async ({ go, wait, unlock, send, sleep, errors })
   for (const id of ["batteries_lunch_grids", "peak_hour_grids", "batteries_curtailment_hourly", "batteries_curtailment"]) {
     for (const [w, h] of [[1080, 1350], [1600, 900]]) {
       await send("Emulation.setDeviceMetricsOverride", { width: w, height: h, deviceScaleFactor: 1, mobile: false });
-      await go(`${base}/analysis/card/${id}?render=1`);
+      await go(`${base}/research/card/${id}?render=1`);
       await wait('!!document.querySelector("[data-render=\\"1\\"] canvas")', 30000, "the render frame's chart");
       await sleep(500);
       const m = await js("({ h: document.documentElement.scrollHeight, w: document.documentElement.scrollWidth, foot: Math.round(document.querySelector('.finding-render-foot').getBoundingClientRect().bottom), controls: [...document.querySelectorAll('.multi-controls')].filter((e) => e.offsetParent !== null).length })");

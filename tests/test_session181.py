@@ -37,7 +37,7 @@ OWN = [("warehouse", "analysis", "findings", "findings_scanner.py"), ("warehouse
        ("docs", "methods", "automated_analysis_scanner.md"), ("docs", "methods", "automated_analysis_findings.md"), ("archive", "sessions", "SESSION_181_REPORT.md"),
        ("site", "app", "internal", "findings", "page.tsx"), ("site", "app", "internal", "findings", "state", "route.ts"), ("site", "app", "internal", "findings", "approved", "route.ts"),
        ("site", "components", "analysis", "DraftReview.tsx"), ("site", "components", "analysis", "ImpactForm.tsx"), ("site", "components", "analysis", "ScannerFound.tsx"),
-       ("site", "components", "analysis", "FindingCard.tsx"), ("site", "lib", "scanner.ts"), ("site", "lib", "discoverychart.ts"), ("site", "app", "analysis", "page.tsx"),
+       ("site", "components", "analysis", "FindingCard.tsx"), ("site", "lib", "scanner.ts"), ("site", "lib", "discoverychart.ts"), ("site", "app", "research", "page.tsx"),
        ("site", "components", "analysis", "RequestCard.tsx"), ("site", "components", "analysis", "RequestForm.tsx"), ("site", "app", "api", "analysis", "route.ts"),
        ("site", "scripts", "findings-stub.mjs"), ("site", "scripts", "check-internal-findings.mjs"), ("tests", "test_session181.py"),
        ("site", "data", "findings", "impact_study.json"), ("site", "public", "findings", "impact_study.do"), ("tests", "fixtures", "session181", "drafts.json")]
@@ -775,8 +775,9 @@ class TheSite(unittest.TestCase):
         self.assertIn('"scanner_draft_set_state"', lib)
 
     def test_approved_drafts_and_the_impact_form_are_on_analysis(self):
-        page = src("site", "app", "analysis", "page.tsx")
-        self.assertIn('<Section title="Found by the scanner">', page)
+        page = src("site", "app", "research", "page.tsx")  # session 238: the page moved to site/app/research (Research, /research)
+        # session 238: the scanner's group closes the findings library, under its own title
+        self.assertIn('<h3 className="sub-title">Found by the scanner</h3>', page)
         self.assertIn("<ScannerFound />", page)
         self.assertIn("<ImpactForm entry={impact} />", page)
         self.assertIn("export const revalidate = 3600;", page)                 # the page is the static page it was

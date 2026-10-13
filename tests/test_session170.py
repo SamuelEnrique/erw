@@ -238,7 +238,7 @@ class TheRoundup(unittest.TestCase):
         L = roundup_pick.lines(c, "2026-W41")
         self.assertIn("chosen for this Roundup", L[0])
         self.assertIn(c["why"], L)
-        self.assertTrue(any("/analysis/card/queue_divorce" in ln for ln in L))
+        self.assertTrue(any("/research/card/queue_divorce" in ln for ln in L))  # session 238: the card's address is under /research
 
     def test_no_choice_without_credentials_falls_back(self):
         import roundup_pick
@@ -276,15 +276,19 @@ class TheRoundup(unittest.TestCase):
 
 class ThePageAndTheRoute(unittest.TestCase):
     def test_the_page_is_built_around_the_cards_and_the_w40_chart_is_not_drawn(self):
-        p = src("site", "app", "analysis", "page.tsx")
+        p = src("site", "app", "research", "page.tsx")  # session 238: the page moved to site/app/research (Research, /research)
         self.assertIn("FindingCard", p)
         self.assertIn("RequestForm", p)
-        self.assertNotIn("ChartOfWeekView", p)
+        # session 238 (the owner's task of 12 October 2026): the page draws this week's chart again, the newest Roundup's.
+        # The W40 chart stays off it: the week drawn is the newest one held, and site/scripts/check-analysis.mjs proves
+        # on the built page that it is later than W40
+        self.assertIn("const week = newestChartWeek();", p)
+        self.assertIn('weekShown > "2026-W40"', src("site", "scripts", "check-analysis.mjs"))
         self.assertNotIn("robust z = |value minus the median", p)  # the old rule's footnote
         self.assertIn("ranked among the same measure", p)
 
     def test_the_week_page_keeps_the_chart_of_the_week(self):
-        self.assertIn("ChartOfWeekView", src("site", "app", "analysis", "[week]", "page.tsx"))
+        self.assertIn("ChartOfWeekView", src("site", "app", "research", "[week]", "page.tsx"))  # session 238: the page moved to site/app/research (Research, /research)
 
     def test_the_card_has_no_model_name_or_cost(self):
         f = src("site", "components", "analysis", "FindingCard.tsx")

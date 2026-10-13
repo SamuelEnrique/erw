@@ -53,7 +53,7 @@ const shown = (v: number | null) => (v === null ? "not held" : Number.isInteger(
 
 /** Where a cited source is on this site: the grid's written page, a page built from the tables, or the table's entry. */
 export function sourceHref(table: string): { href: string; what: string } {
-  if (table.startsWith("docs/grids/")) return { href: `/grid/${table.slice(11, -3)}`, what: "Written page" };
+  if (table.startsWith("docs/grids/")) return { href: `/grid?grid=${table.slice(11, -3)}`, what: "Written page" };
   if (table === "site/data/board.json") return { href: "/board", what: "Price board" };
   if (table === "site/data/supply.json") return { href: "/supply", what: "Supply and trade" };
   if (PAGE_FILE_HREF[table]) return PAGE_FILE_HREF[table];   // session 153: a page's own file, read by the tool page_file

@@ -58,7 +58,10 @@ class TheThreeWaysIn(unittest.TestCase):
             self.assertEqual(len(a["written"]), len(set(a["written"])), a["id"])
             for href, q in zip(a["written"], a["questions"]):
                 path = href.split("?")[0].strip("/")
-                self.assertTrue(os.path.exists(os.path.join(ROOT, "site", "app", *path.split("/"), "page.tsx")), href)
+                # session 237: a tool folded into the Grid tool (/network, /mix, a grid's page) has no page of its own:
+                # its address redirects into the tool (site/next.config.ts), and that is its page
+                redirected = f'source: "/{path}", ' in src("site", "next.config.ts")
+                self.assertTrue(redirected or os.path.exists(os.path.join(ROOT, "site", "app", *path.split("/"), "page.tsx")), href)
                 self.assertGreater(len(q), 20, href)
 
     def test_every_live_tool_of_the_site_is_listed_under_some_audience(self):

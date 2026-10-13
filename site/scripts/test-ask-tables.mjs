@@ -102,7 +102,7 @@ await test("the tool page_file is offered beside the others, and each of its vie
   ]) assert.ok(guide.includes(words), `the guide lacks: ${words}`);
   assert.ok(!guide.includes(DASH) && !JSON.stringify(pf.PAGE_FILE_TOOL).includes(DASH));
   // each "is not" stands in a Method note: the sentence the guide rests on is there, word for word
-  const notes = { cost: read("../../docs/methods/datacenter_cost.md"), seller: read("../../docs/methods/cost_of_power.md"), curtailment: read("../../docs/methods/curtailment.md"), page: read("../app/resources/page.tsx") };
+  const notes = { cost: read("../../docs/methods/datacenter_cost.md"), seller: read("../../docs/methods/cost_of_power.md"), curtailment: read("../../docs/methods/curtailment.md"), page: read("../app/resources/view.tsx") };
   const flat = (s) => s.replace(/\s+/g, " ");
   for (const [note, words] of [["cost", "**The 2026 matrices are not approved**"], ["cost", "**A hub is not a site.**"], ["cost", "**Wholesale energy only.**"], ["seller", "**It is the fleet's shape, not a site's:**"],
     ["seller", "**Combined** is the two revenues added, and nothing else"], ["curtailment", "So the months of 2026 rest on Today's Outlook"], ["curtailment", "ERCOT publishes no curtailment figure"],

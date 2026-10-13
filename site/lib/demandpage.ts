@@ -7,15 +7,19 @@
 // ?figure and ?year to the second. /demand/weather redirects to the second view (next.config.ts). Pure functions; the
 // page, its checks (scripts/check-demand.mjs, scripts/check-demand-weather.mjs) and tests/test_session152.py share them.
 
-export const VIEWS = [["metered", "As metered"], ["weather", "With the weather taken out"]] as const;
+// Session 239: a third view, consumption: what /consumption showed (electricity sold by state and sector, EIA-861M, and
+// the energy the industrial and commercial sectors use), at ?view=consumption. /consumption redirects to it
+// (next.config.ts). The three are the tabs of the page (lib/tabs.ts, components/tool/Tabs.tsx).
+export const VIEWS = [["metered", "As metered"], ["weather", "With the weather taken out"], ["consumption", "Consumption"]] as const;
 export type View = (typeof VIEWS)[number][0];
 
-/** The view an address asks for: anything but "weather" is the page as metered. */
-export const viewOf = (q: Record<string, string | undefined>): View => (q.view === "weather" ? "weather" : "metered");
+/** The view an address asks for: anything but "weather" or "consumption" is the page as metered. */
+export const viewOf = (q: Record<string, string | undefined>): View => (q.view === "weather" ? "weather" : q.view === "consumption" ? "consumption" : "metered");
 /** The address of a view with nothing else chosen. */
-export const viewHref = (view: View) => (view === "weather" ? "/demand?view=weather" : "/demand");
+export const viewHref = (view: View) => (view === "metered" ? "/demand" : `/demand?view=${view}`);
 /** The Method note of each view. */
-export const METHODS: Record<View, { href: string; name: string }> = {
+// (the consumption view has no method note of its own: its two tables are EIA's, as published)
+export const METHODS: Record<Exclude<View, "consumption">, { href: string; name: string }> = {
   metered: { href: "/data/methods/demand_growth", name: "demand growth" },
   weather: { href: "/data/methods/demand_weather", name: "demand growth with the weather taken out" },
 };

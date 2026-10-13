@@ -24,11 +24,14 @@ NODE = shutil.which("node")
 EM = chr(0x2014)
 
 # the 52 addresses of the menu as it stood before the session (site/lib/pages.ts at 5f944708)
-BEFORE = """/about /analysis /ask /battery/customer /board /companies /consumption /contracts /cost-of-power /cost-of-power/battery
-/cost-of-power/seller /curtailment /data /datacenters /deals /demand /digest /emissions /events /explorer/ercot-peak-premium /grid
+# session 239 (the owner's instruction of 12 October 2026): seven pages became tabs of another page and left the menu, each
+# address redirecting to its tab (tests/test_session239.py): /companies, /consumption, /explorer/ercot-peak-premium,
+# /resources, /severance/lease, /storage/buildout and /storage/owners. The list below is the menu without them.
+BEFORE = """/about /analysis /ask /battery/customer /board /contracts /cost-of-power /cost-of-power/battery
+/cost-of-power/seller /curtailment /data /datacenters /deals /demand /digest /emissions /events /grid
 /grid/caiso /grid/ercot /grid/isone /grid/miso /grid/nyiso /grid/pjm /grid/spp /learn/bill /learn/problems/know-your-grid
 /learn/problems/networks-and-money /learn/problems/prices-and-your-bill /learn/problems/when-the-grid-broke /map /mix /network
-/play/battery /policy /prices /resources /roundup /severance /severance/lease /shoulder /storage /storage/buildout /storage/owners
+/play/battery /policy /prices /roundup /severance /shoulder /storage
 /subscribe /supply /terms /thesis /tour""".split()
 
 
@@ -69,10 +72,13 @@ class TheMenu(unittest.TestCase):
         self.assertEqual([p[1] for p in self.by["About"]["pages"]], ["Data and methods", "About", "Terms"])
         self.assertIsNone(self.by["About"]["sub"])
 
-    def test_the_seven_grid_pages_are_the_grid_menus_line_of_short_links(self):
-        sub = self.by["Grid"]["sub"]
-        self.assertEqual((sub["label"], sub["inline"]), ("Your grid", True))
-        self.assertEqual([p[1] for p in sub["pages"]], ["ERCOT", "CAISO", "PJM", "NYISO", "ISO-NE", "MISO", "SPP"])
+    def test_the_grid_menu_shows_the_one_grid_tool(self):
+        # session 237 (the roadmap's item 2): the Grid tool is one page. Until then this test held the seven grid pages
+        # as the Grid menu's line of short links ("Your grid": ERCOT, CAISO, PJM, NYISO, ISO-NE, MISO, SPP); they are
+        # the tool's picker now, and the menu shows the tool in place of the pages that redirect into it
+        self.assertIsNone(self.by["Grid"]["sub"])
+        self.assertEqual([p[0] for p in self.by["Grid"]["pages"]], ["/grid", "/demand", "/curtailment"])   # session 239: Consumption is a view of /demand
+        self.assertEqual(self.by["Grid"]["pages"][0][1], "The grid")
 
     def test_the_datacenter_page_is_renamed_and_the_two_names_do_not_meet(self):
         infra = {p[0]: p[1] for p in self.by["Infrastructure"]["pages"]}
@@ -83,7 +89,18 @@ class TheMenu(unittest.TestCase):
 
     def test_every_page_kept_its_address_and_none_was_added(self):
         now = sorted(p["href"] for p in self.all)
-        self.assertEqual(now, sorted(BEFORE))
+        # session 237: the ten pages folded into the Grid tool (/grid) left the menu; each address redirects into the
+        # tool (site/next.config.ts). Every other page is where session 203 left it, and none was added
+        folded = ["/network", "/mix", "/emissions", "/grid/ercot", "/grid/caiso", "/grid/pjm", "/grid/nyiso", "/grid/isone", "/grid/miso", "/grid/spp"]
+        cfg = src("site", "next.config.ts")
+        for h in folded:
+            self.assertIn(f'source: "{h}", ', cfg, h)
+        # session 238 (the owner's task of 12 October 2026): Automated Analysis is Research, at /research; the old
+        # address is not dropped, it redirects (next.config.ts). Every other page keeps its address.
+        moved = {"/analysis": "/research"}
+        for old, new in moved.items():
+            self.assertIn('{ source: "%s", destination: "%s", permanent: true }' % (old, new), src("site", "next.config.ts"))
+        self.assertEqual(now, sorted(moved.get(h, h) for h in BEFORE if h not in folded))   # sessions 237 and 238 together
         self.assertEqual(len(now), len(set(now)))                                           # each page once
         for p in self.all:
             self.assertTrue(p["line"], p["href"])

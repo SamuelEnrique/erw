@@ -35,6 +35,8 @@
   --color-duration-3: #A63A3A;
   --color-duration-4: #6B0F0F;
   --color-not-reported: #B8B2A7;
+  /* Session 237 (the grid network): a balancing authority whose carbon intensity is not held, the grey it has always had */
+  --color-not-held: #9a958c;
   --color-surface: #FFFFFF;
 
   --font-serif: Georgia, "Times New Roman", serif;                 /* headings */
@@ -180,12 +182,16 @@ body:has(.brand-a) > footer {
   scroll-margin-top: 16px;
 }
 
-/* the three tabs: the page in view is ink over a cardinal rule, the others captions grey */
-.brand-a nav[aria-label="Cost of power"] a {
+/* the tabs: the page in view is ink over a cardinal rule, the others captions grey. Session 239: the same rule for
+   the tabs of every merged page (components/tool/Tabs.tsx, nav[data-tabs]) as for the three cost-of-power tabs */
+.brand-a nav[aria-label="Cost of power"] a,
+.brand-a nav[data-tabs] a {
   color: var(--color-muted);
 }
 .brand-a nav[aria-label="Cost of power"] a:hover,
-.brand-a nav[aria-label="Cost of power"] a[aria-current="page"] {
+.brand-a nav[aria-label="Cost of power"] a[aria-current="page"],
+.brand-a nav[data-tabs] a:hover,
+.brand-a nav[data-tabs] a[aria-current="page"] {
   color: var(--color-ink);
 }
 
@@ -418,4 +424,298 @@ body:has(.brand-a) header :focus-visible {
 .brand-a figcaption,
 .brand-a [data-default] {
   text-wrap: pretty;
+}
+
+/* ---- session 240: a group that folds (components/tool/ToolPage.tsx, GroupFold): a plus before its title when it is
+   closed, a minus when it is open; and a dense table (a wall of prices, marked data-dense): its figures at the caption
+   size, 12, so a dozen columns fit a screen, the row's first figure at 14. Written for the components and the mark,
+   for any page; nothing here matches the battery page */
+.brand-a details[data-group-fold] > summary {
+  list-style: none;
+}
+.brand-a details[data-group-fold] > summary::-webkit-details-marker {
+  display: none;
+}
+.brand-a details[data-group-fold] > summary::before {
+  content: "+";
+  font-family: var(--font-mono);
+  color: var(--color-muted);
+  width: 1ch;
+}
+.brand-a details[data-group-fold][open] > summary::before {
+  content: "\2212";
+}
+.brand-a table[data-dense] tbody td.text-right,
+.brand-a table[data-dense] tbody td.text-right span,
+.brand-a table[data-dense] tbody td span {
+  font-size: 12px;
+}
+.brand-a table[data-dense] tbody td.font-semibold > span:first-child {
+  font-size: 14px;
+}
+/* ---- session 237: links that choose a view of one page (components/tool/Choose.tsx). Tabs: the view shown is ink over
+   a cardinal rule, the others captions grey. Segments (a picker): ink on white with a captions edge, the one shown
+   white on ink. A link that chooses is never the running text's cardinal; it is told by its rule or its edge. */
+.brand-a nav[data-tabs] a {
+  color: var(--color-muted);
+}
+.brand-a nav[data-tabs] a:hover,
+.brand-a nav[data-tabs] a[aria-current="page"] {
+  color: var(--color-ink);
+}
+.brand-a nav[data-segments] a {
+  color: var(--color-ink);
+  border-color: var(--color-muted);
+  min-height: 24px;
+}
+.brand-a nav[data-segments] a[aria-current="page"] {
+  color: var(--color-panel);
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+}
+
+/* ---- session 238 (/research): generic pieces the brand did not yet have. Each is written for a kind of markup, not
+   for a page, and none touches a rule above (the battery page carries none of these classes). */
+/* a row of links to the places of a long page */
+.brand-a .page-index {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 24px;
+  margin-bottom: 32px;
+  font-size: 14px;
+}
+.brand-a .page-index a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+/* a note that opens a section, before its content */
+.brand-a .sub-note {
+  margin-bottom: 16px;
+}
+/* a title inside a section: the third size, with air above it */
+.brand-a .sub-title {
+  margin-top: 32px;
+  margin-bottom: 12px;
+}
+/* a chart with its words beside it: the chart or picture at the left, its date, title, one fact and source at the right;
+   one column on a narrow screen */
+.brand-a .lead-chart {
+  display: grid;
+  gap: 16px 32px;
+  align-items: start;
+}
+@media (min-width: 1024px) {
+  .brand-a .lead-chart {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  }
+}
+.brand-a .lead-chart img {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--color-rule);
+}
+.brand-a .lead-chart .lead-date,
+.brand-a .card-filed,
+.brand-a .index-title,
+.brand-a .filter-label {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--color-muted);
+}
+.brand-a .lead-chart .lead-fact {
+  margin-top: 8px;
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 68ch;
+}
+.brand-a .lead-chart .lead-numbers {
+  margin-top: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.brand-a .lead-chart .lead-numbers li {
+  border-top: 1px solid var(--color-rule);
+  padding: 6px 0;
+}
+.brand-a .lead-chart .lead-source {
+  margin-top: 12px;
+}
+/* a row of filter buttons: the one chosen is ink, the others ink on white with a captions edge (the rule for a
+   button above gives the colors of the others) */
+.brand-a .filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.brand-a .filter-row .filter-label {
+  min-width: 64px;
+}
+.brand-a .filter-row button {
+  border: 1px solid var(--color-muted);
+  background: #FFFFFF;
+  padding: 4px 10px;
+  min-height: 32px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.brand-a .filter-row button[aria-pressed="true"] {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+  color: #FFFFFF;
+}
+.brand-a .filter-row .filter-count {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  opacity: 0.75;
+}
+/* a long list of cards with its index: the index beside the cards on a wide screen, where it stays in view while the
+   cards scroll; above them on a narrow one */
+.brand-a .with-index {
+  display: grid;
+  gap: 24px 40px;
+}
+@media (min-width: 1024px) {
+  .brand-a .with-index {
+    grid-template-columns: 232px minmax(0, 1fr);
+    align-items: start;
+  }
+  .brand-a .with-index > .index-side {
+    position: sticky;
+    top: 16px;
+    max-height: calc(100vh - 32px);
+    overflow-y: auto;
+  }
+}
+.brand-a .index-list {
+  margin-top: 4px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.brand-a .index-list a {
+  display: block;
+  padding: 6px 0 6px 10px;
+  border-left: 2px solid var(--color-rule);
+  color: var(--color-muted);
+  text-decoration: none;
+}
+.brand-a .index-list a:hover {
+  color: var(--color-ink);
+}
+.brand-a .index-list a[aria-current="true"] {
+  border-left-color: var(--color-accent);
+  color: var(--color-ink);
+  font-weight: 600;
+}
+.brand-a .index-none {
+  margin-top: 8px;
+  font-size: 14px;
+}
+/* a card that fills a screen: at least the height of the window, a light rule above it, and where it lands when the
+   index is clicked */
+.brand-a .screen-card {
+  min-height: calc(100vh - 32px);
+  min-height: calc(100svh - 32px);
+  border-top: 1px solid var(--color-rule);
+  padding: 16px 0 32px;
+}
+.brand-a .screen-card[hidden] {
+  display: none;
+}
+.brand-a .screen-card .finding-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.25;
+  letter-spacing: 0;
+  color: var(--color-ink);
+}
+.brand-a .screen-card .finding-subtitle {
+  font-style: normal;
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 68ch;
+}
+/* on a wide screen a screen card keeps its chart across the card; under it the why, the files and the source stand at
+   the left and the numbers at the right, one above another; a fold (and whatever else the card holds) runs across the foot */
+@media (min-width: 1024px) {
+  .brand-a .screen-card .finding-card {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    grid-auto-flow: row dense;
+    column-gap: 40px;
+    align-items: start;
+  }
+  .brand-a .screen-card .finding-card > * {
+    grid-column: 1;
+  }
+  .brand-a .screen-card .finding-card > header,
+  .brand-a .screen-card .finding-card > [data-form] {
+    grid-column: 1 / -1;
+  }
+  .brand-a .screen-card .finding-card > header {
+    grid-row: 1;
+  }
+  .brand-a .screen-card .finding-card > [data-form] {
+    grid-row: 2;
+  }
+  .brand-a .screen-card .finding-card > .finding-callouts {
+    grid-column: 2;
+    grid-row: 3 / span 6;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .brand-a .screen-card .finding-card > [data-effect-table],
+  .brand-a .screen-card .finding-card > [data-more-chart],
+  .brand-a .screen-card .finding-card > .finding-footnote,
+  .brand-a .screen-card .finding-card > .fold-more {
+    grid-column: 1 / -1;
+  }
+}
+/* a fold inside a card: its title reads as a control, underlined in cardinal; closed until it is opened */
+.brand-a .fold-more {
+  margin-top: 12px;
+  border-top: 1px solid var(--color-rule);
+  padding-top: 8px;
+}
+.brand-a .fold-more > summary {
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+.brand-a .screen-card .finding-footnote {
+  max-width: none;
+  font-size: 12px;
+  line-height: 1.5;
+}
+/* a compact archive: a small grid of dated entries, each a date, a title and one line */
+.brand-a .chart-archive {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 0 32px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.brand-a .chart-archive li {
+  border-top: 1px solid var(--color-rule);
+  padding: 8px 0;
+}
+.brand-a .chart-archive .archive-date {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--color-muted);
+}
+.brand-a .chart-archive .archive-fact {
+  display: block;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--color-muted);
 }

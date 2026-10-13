@@ -120,4 +120,25 @@ test("the headline: lowest and highest grid on the day every priced main hub hol
   assert.ok(rx.top.range.pos >= rx.bottom.range.pos);
   assert.ok(!["plantfuel", "as", "retailpower"].includes(rx.top.group) && !["plantfuel", "as", "retailpower"].includes(rx.bottom.group));
 });
+// session 240: the top block's one list (lib/board.ts, TOP_TWELVE)
+test("the twelve of the top block: rows of the wall, each shown, daily, with its day and week moves and a trend, none stale, none of a held grid", () => {
+  assert.equal(b.TOP_TWELVE.length, 12);
+  assert.equal(new Set(b.TOP_TWELVE).size, 12);
+  const rows = b.topRows(file);
+  assert.deepEqual(rows.map((r) => r.id), b.TOP_TWELVE);                       // every id is a row of the file, in the list's order
+  const built = Date.parse(file.built);
+  for (const r of rows) {
+    assert.ok(!b.TOP_NEVER.test(r.id), r.id);                                    // not ISO-NE's, NYISO's, MISO's or PJM's
+    assert.equal(r.status, "ok", r.id);
+    assert.equal(r.freq, "D", r.id);
+    assert.ok(r.moves.d && r.moves.w, r.id);
+    assert.ok(b.sparkOf(r).length >= 2, r.id);
+    assert.ok(built - Date.parse(r.last.t + "T00:00:00Z") <= 7 * b.DAY, r.id + " is stale: " + r.last.t);   // within a week of the build
+    assert.ok(file.groups.some((g) => b.rowsOf(file, g, {}).some((x) => x.id === r.id)), r.id + " is on the wall as it opens");
+  }
+  const groups = new Set(rows.map((r) => r.group));
+  for (const g of ["power", "gas", "crude", "products", "rates"]) assert.ok(groups.has(g), g);
+  assert.deepEqual(b.topRows(file, ["no-such-row", "eia-brent-spot"]).map((r) => r.id), ["eia-brent-spot"]);   // an id not held is left out, never filled
+  for (const g of file.groups) { const lead = b.leadRow(file, g); if (lead) assert.ok(lead.status === "ok" && b.rowsOf(file, g, {}).includes(lead), g.id); }
+});
 console.log(`${n} tests pass`);

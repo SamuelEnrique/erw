@@ -244,12 +244,12 @@ class Page(unittest.TestCase):
         self.assertIn("caisoJoinDay()", shown)
         # session 168: version 3 is the network page; the page that showed the sentence is kept in app/_retired/network-original,
         # and the sentence is in the Method note (docs/methods/grid_network.md), off the page face
-        for page, kind in (("app/_retired/network-original/page.tsx", "<CaisoBreakNote "), ("app/emissions/page.tsx", "<CaisoBreakNote />"),
+        for page, kind in (("app/_retired/network-original/page.tsx", "<CaisoBreakNote "), ("components/grid/Emissions.tsx", "<CaisoBreakNote />"),  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
                            ("app/cost-of-power/GridsView.tsx", "<CaisoBreakNote />"), ("app/_retired/mix-original/page.tsx", '<CaisoBreakNote kind="mix" />'),
                            # session 118: the two grid pages no longer draw EIA's California mix, so the sentence that said the
                            # mix "here is EIA-930's" is gone from them: the overview says why in the card itself
                            # (CaisoMixWithheld), and the California grid page keeps the carbon sentence alone
-                           ("app/grid/page.tsx", "<CaisoMixWithheld "), ("app/grid/[iso]/page.tsx", '<CaisoBreakNote kind="carbon" />'),
+                           ("components/grid/Conditions.tsx", "<CaisoMixWithheld "), ("components/grid/YourGrid.tsx", '<CaisoBreakNote kind="carbon" />'),  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
                            ("app/reports/draft/ai-gigawatts/page.tsx", '<CaisoBreakNote kind="imports" />')):
             with open(os.path.join(ROOT, "site", *page.split("/")), encoding="utf-8") as f:
                 self.assertIn(kind, f.read(), page)

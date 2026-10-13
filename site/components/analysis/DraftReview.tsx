@@ -1,5 +1,5 @@
 "use client";
-// Session 181: the three rulings on a scanner draft at /internal/findings: Approve (the card appears on /analysis,
+// Session 181: the three rulings on a scanner draft at /internal/findings: Approve (the card appears on /research,
 // marked as the scanner's), Dismiss (it never appears), Ask for a full card (an analysis is queued for the data
 // machine where the flag's series is one the impact study knows; otherwise the draft waits, marked, for a session to
 // write the card). Each change is a POST to /internal/findings/state, which checks the internal cookie; the database
@@ -35,7 +35,7 @@ export function DraftReview({ id, state: first, history: firstHistory, requestId
     }
     setBusy(false);
   };
-  // session 233: an approved draft can be chosen for the Sunday Roundup, as a finding's card is on /analysis: the same
+  // session 233: an approved draft can be chosen for the Sunday Roundup, as a finding's card is on /research: the same
   // request (POST /api/analysis, kind roundup); warehouse/analysis/findings/roundup_pick.py reads the approved draft's card
   const roundup = async () => {
     setBusy(true);

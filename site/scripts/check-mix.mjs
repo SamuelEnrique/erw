@@ -84,10 +84,11 @@ check(Object.keys(VIEWS).every((v) => pages.now.includes(`data-view="${v}"`)), "
   const four = await get("/mix?view=day&grids=ercot,caiso,pjm,miso,spp");
   check((four.html.match(/data-chart="stack"/g) ?? []).length === 4 && four.html.includes("Up to 4 grids at once"), "five grids asked: four stacks drawn side by side, and the fifth is not offered");
 }
-for (const [old, want] of [["/mix/v2?grid=caiso&vs=ercot&period=2026-04", ["view=day", "grid=caiso", "vs=ercot", "period=2026-04"]], ["/mix/clean?grid=nyiso&year=2024", ["view=clean", "grid=nyiso", "year=2024"]], ["/mix/stress", ["view=stress"]]]) {
+// session 237, the finishing pass: each goes to its view of the Grid tool (/grid) in one step; it went to /mix first
+for (const [old, want] of [["/mix/v2?grid=caiso&vs=ercot&period=2026-04", ["view=mix", "mix=day", "grid=caiso", "vs=ercot", "period=2026-04"]], ["/mix/clean?grid=nyiso&year=2024", ["view=clean", "grid=nyiso", "year=2024"]], ["/mix/stress", ["view=mix", "mix=stress"]]]) {
   const r = await get(old, true, "manual");
   const [path, query = ""] = (r.location ?? "").split("?");
-  check((r.status === 308 || r.status === 301) && path === "/mix" && want.every((w) => query.split("&").includes(w)), `${old} redirects to its view and carries its query over (${r.status} ${r.location})`);
+  check((r.status === 308 || r.status === 301) && path === "/grid" && want.every((w) => query.split("&").includes(w)), `${old} redirects to its view of /grid in one step and carries its query over (${r.status} ${r.location})`);
 }
 const v = await get("/mix?view=day", false);
 check(v.status === 200 && v.html.includes('data-in-review="1"') && !v.html.includes('data-chart='), "as a visitor: the in-review page, and nothing of the mix");

@@ -137,6 +137,9 @@ export function CompaniesTable({ rows }: { rows: Company[] }) {
                         <dd>
                           {r.confidence} of 100: {r.confidence_note}
                         </dd>
+                        {/* session 239: the deals that name the company, by the counterparty filter of the tracker */}
+                        <dt className="text-muted">Deals</dt>
+                        <dd><a href={`/deals?tab=tracker&party=${encodeURIComponent(r.name)}`} data-company-deals="1">The deals that name it</a>, on the tracker (a match on the name as a story writes it; a company found only by a Thesis Builder run may be in none)</dd>
                         <dt className="text-muted">Sources</dt>
                         <dd className="break-all">
                           {srcs.length

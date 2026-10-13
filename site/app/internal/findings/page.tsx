@@ -13,7 +13,7 @@ import { internalOk } from "@/lib/thesis/server";
 // token in its address. It answers 404 unless the browser holds the internal cookie (set by the form at
 // /internal/open), and the database answers nothing unless the server's token equals the secret (scanner_drafts_list,
 // migration 029). Each draft is a flag the scanner raised and the card computed for it by code: nothing here was
-// written by a model, and nothing here is on /analysis until it is approved.
+// written by a model, and nothing here is on /research until it is approved.
 export const metadata: Metadata = { title: "Scanner drafts (internal)", robots: { index: false, follow: false } };
 export const dynamic = "force-dynamic";
 
@@ -92,7 +92,7 @@ export default async function FindingsReviewPage() {
       <h1 className="mb-1 text-3xl">Scanner drafts (internal)</h1>
       <p className="mb-5 max-w-3xl text-sm text-muted">
         What the daily scanner flagged, newest and strongest first. Each draft is a chart, callouts and a method footnote computed by code from the
-        flag: no paragraph, no model. Approve puts the card on /analysis, marked as the scanner&apos;s; Dismiss keeps it off for good; Ask for a
+        flag: no paragraph, no model. Approve puts the card on /research, marked as the scanner&apos;s; Dismiss keeps it off for good; Ask for a
         full card queues an analysis or marks the draft for a session. Every ruling is kept with its time.
       </p>
       <div className="mb-8 grid grid-cols-2 gap-px border border-rule bg-rule sm:grid-cols-4">
