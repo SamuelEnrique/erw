@@ -25,14 +25,45 @@ function fullCardWords(d: Draft): string {
     : "this series is not one the impact study knows, so the draft is marked and waits for a session to write the card";
 }
 
+// Session 233: what the weekly hunt prepared with a draft: its three tests, its files (the CSV, the Stata do-file, the
+// Python mirror, the two LinkedIn pictures) and the caption computed from its numbers. Nothing here is posted anywhere:
+// the files are downloaded by the person who rules on the draft, from /internal/findings/file (internal view only).
+function HuntFiles({ id, hunt }: { id: string; hunt: NonNullable<Draft["card"]["hunt"]> }) {
+  const href = (name: string, show = false) => `/internal/findings/file?id=${encodeURIComponent(id)}&name=${encodeURIComponent(name)}${show ? "&show=1" : ""}`;
+  const label = (name: string) => name.endsWith(".csv") ? "data (CSV)" : name.endsWith(".do") ? "Stata do-file" : name.endsWith(".py") ? "Python mirror"
+    : name.endsWith("_1200x627.png") ? "LinkedIn picture, 1200 x 627" : name.endsWith("_1080x1080.png") ? "LinkedIn picture, 1080 x 1080" : name.endsWith("_caption.txt") ? "caption (text)" : name;
+  const pictures = hunt.files.filter((f) => f.endsWith(".png"));
+  return (
+    <div className="mt-3 border-t border-rule pt-3 text-sm" data-hunt-files={id}>
+      <p className="text-xs text-muted">Pattern <span className="font-mono">{hunt.pattern}</span>, region {hunt.region_words}. Why it was drafted: {hunt.why}.</p>
+      <ul className="mt-1 list-disc pl-5 text-xs" data-hunt-tests={hunt.tests.length}>
+        {hunt.tests.map((t) => <li key={t.name}>{t.passed ? "Passed" : "Failed"}: {t.name}. {t.words}.</li>)}
+      </ul>
+      <p className="mt-2 flex flex-wrap items-center gap-3 text-xs" data-hunt-downloads={hunt.files.length}>
+        <span className="text-muted">Files:</span>
+        {hunt.files.map((f) => <a key={f} href={href(f)} download={f} data-hunt-file={f}>{label(f)}</a>)}
+      </p>
+      <div className="mt-2 flex flex-wrap gap-3">
+        {pictures.map((f) => (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img key={f} src={href(f, true)} alt={label(f)} loading="lazy" className="max-h-56 w-auto border border-rule" data-hunt-picture={f} />
+        ))}
+      </div>
+      <p className="mt-2 text-xs text-muted">Caption draft, computed from the numbers; nothing is posted by this page:</p>
+      <pre className="mt-1 whitespace-pre-wrap border border-rule bg-panel p-2 text-xs" data-hunt-caption={id}>{hunt.caption}</pre>
+    </div>
+  );
+}
+
 function DraftBlock({ d }: { d: Draft }) {
   return (
     <div className="border border-rule p-3" data-draft-id={d.id} data-draft-rule={d.rule} data-draft-strength={d.strength}>
       <p className="mb-2 text-xs text-muted">
-        Raised {day(d.raised_at)} by scanner {d.scanner_version}; rule {d.rule}; strength {d.strength.toLocaleString("en-US", { maximumFractionDigits: 2 })}; table{" "}
+        Raised {day(d.raised_at)} by {d.rule === "hunt" ? "the weekly hunt" : "scanner"} {d.scanner_version}; rule {d.rule}; strength {d.strength.toLocaleString("en-US", { maximumFractionDigits: 2 })}; table{" "}
         <span className="font-mono">{d.table_name}</span>; flagged {d.flag_date}
       </p>
       <FindingCard card={d.card} roundup={false} />
+      {d.card.hunt ? <HuntFiles id={d.id} hunt={d.card.hunt} /> : null}
       <DraftReview id={d.id} state={d.state} history={d.state_history ?? []} requestId={d.request_id} fullCard={fullCardWords(d)} />
     </div>
   );
