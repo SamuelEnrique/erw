@@ -8,11 +8,24 @@
 // Eight assumptions, all arithmetic after the model: capital cost, debt share, interest rate, term, fixed O&M,
 // degradation, project life, hurdle rate. None is inside the model, so the revenue of the last twelve months, the
 // capture price and the worst month are the page's own in both scenarios.
+//
+// Session 212 (the owner's chain prompt of 12 October 2026, as session 208 did for the battery): the contract is two
+// more scenario assumptions, its share and its price, both 0 by default, so the default is fully merchant and every
+// figure at a share of 0 is what it was. For solar and wind the contract is a share of the energy at a price per MWh;
+// for a battery and a gas peaker, whose energy depends on the price, it is a toll on a share of the capacity, USD per
+// kW-month (the battery page's form). The page says which (Contract.kind). The standalone contract panel is gone.
 
-export type Key = "capex" | "share" | "rate" | "term" | "fom" | "deg" | "life" | "hurdle";
+export type Key = "capex" | "share" | "rate" | "term" | "fom" | "deg" | "life" | "hurdle" | "cshare" | "cprice";
 export type Assumptions = Record<Key, number>;
-/** The eight, in the order the page lists them. */
-export const KEYS: Key[] = ["capex", "share", "rate", "term", "fom", "deg", "life", "hurdle"];
+/** The ten, in the order the page lists them (session 212: the contract's share and price last). */
+export const KEYS: Key[] = ["capex", "share", "rate", "term", "fom", "deg", "life", "hurdle", "cshare", "cprice"];
+/** The eight of session 186: the ones every asset's arithmetic reads the same way. */
+export const FINANCE_KEYS: Key[] = ["capex", "share", "rate", "term", "fom", "deg", "life", "hurdle"];
+/** What the contract is for the asset: a share of the energy at a price per MWh (solar, wind), or a toll on a share of
+ * the capacity, USD per kW-month (a battery, a gas peaker). `energyKw` is the last twelve months' energy, MWh per kW
+ * of nameplate, which an energy contract is priced on. */
+export type Contract = { kind: "energy" | "toll"; energyKw: number };
+export const NO_CONTRACT: Contract = { kind: "toll", energyKw: 0 };
 
 export type Spec = {
   key: Key; letter: string; label: string; unit: string; min: number; max: number; whole: boolean;
@@ -53,12 +66,23 @@ export const SPECS: Record<Key, Spec> = {
     short: (v) => `life ${n(v)} years`, words: (v) => `project life ${n(v)} years`, plain: n, source: `${LAZARD}: the life of this asset` },
   hurdle: { key: "hurdle", letter: "h", label: "Hurdle rate", unit: "percent a year", min: 0, max: 40, whole: false, swing: 1, swingWords: "1 point",
     short: (v) => `hurdle ${n(v)}%`, words: (v) => `hurdle rate ${n(v)} percent`, plain: n, source: `${LAZARD}: "60% debt at an 8% interest rate and 40% equity at a 12% cost". The default is that cost of equity, ${HURDLE} percent: the NPV is to equity, after the debt payments` },
+  // session 212: the contract. The unit's words depend on the asset (the page sets them from Contract.kind)
+  cshare: { key: "cshare", letter: "n", label: "Contract share", unit: "percent", min: 0, max: 100, whole: false, swing: 10, swingWords: "10 points",
+    short: (v) => `contract ${n(v)}%`, words: (v) => `contract share ${n(v)} percent`, plain: n, source: "No contract: the default is fully merchant. A contracted share is paid the contract price every month of the debt's years and earns nothing from the market" },
+  cprice: { key: "cprice", letter: "p", label: "Contract price", unit: "USD", min: 0, max: 1000, whole: false, swing: 1, swingWords: "USD 1",
+    short: (v) => `contract USD ${n(v)}`, words: (v) => `contract price USD ${n(v)}`, plain: n, source: "No contract: the default is fully merchant. The price is the reader's own term; no published price is held" },
 };
+/** The contract's unit and the chart's words for an asset (session 212). */
+export function contractUnits(kind: Contract["kind"]): { shareUnit: string; priceUnit: string; priceStep: string } {
+  return kind === "energy"
+    ? { shareUnit: "percent of the energy", priceUnit: "USD per MWh", priceStep: "USD 1 per MWh" }
+    : { shareUnit: "percent of the capacity", priceUnit: "USD per kW-month", priceStep: "USD 1 per kW-month" };
+}
 
 /** The defaults for an asset: its Lazard capital cost, fixed O&M and life (lib/merchant.ts, DEFAULTS), Lazard's
  * financing (60 percent debt at 8 percent, repaid over the life), and the two that no source in the repository gives. */
 export function defaultsOf(costs: { capex: number; fom: number; life: number; deg?: number }): Assumptions {
-  return { capex: costs.capex, share: 60, rate: 8, term: costs.life, fom: costs.fom, deg: costs.deg ?? 0, life: costs.life, hurdle: HURDLE };
+  return { capex: costs.capex, share: 60, rate: 8, term: costs.life, fom: costs.fom, deg: costs.deg ?? 0, life: costs.life, hurdle: HURDLE, cshare: 0, cprice: 0 };
 }
 
 /** One value brought inside its bounds, or to the default when it cannot be read. */
@@ -104,7 +128,7 @@ export function scenarioQuery(s: Scenarios, d: Assumptions): [string, string][] 
   return out;
 }
 /** Whether a parameter name is one of the scenarios' (so that the page's other links can carry or drop it). */
-export const isScenarioParam = (name: string) => name === "v" || /^[ab][csrtfdlh]$/.test(name);
+export const isScenarioParam = (name: string) => name === "v" || /^[ab][csrtfdlhnp]$/.test(name);
 /** The scenarios' parameters of a query string, to append to another address of the page. A change of asset (or of a
  * battery's duration) drops the capital cost, the fixed O&M, the term and the life, whose defaults are the asset's. */
 export function carry(search: string, sameAsset: boolean): string {
@@ -138,15 +162,26 @@ export const debtService = (a: Assumptions) => a.capex * (a.share / 100) * crf(a
  * carry. The order of the multiplication is the page's own (lib/merchant.ts, debtPerMw, times the megawatts), so the
  * defaults give the figure the page showed before session 195 to the last dollar. */
 export const debtUsd = (a: Assumptions, mw: number) => Math.round(a.capex * 1000 * (a.share / 100) * crf(a.rate / 100, debtYears(a)) * mw);
-/** Revenue in year t (1 is the first), USD per kW: the last twelve months' revenue, falling by the degradation rate
- * each year after the first. */
+/** Market revenue in year t (1 is the first), USD per kW: the last twelve months' revenue, falling by the degradation
+ * rate each year after the first. */
 export const revenueInYear = (a: Assumptions, revKw: number, t: number) => revKw * (1 - a.deg / 100) ** (t - 1);
+/** Session 212: the contract's income a year, USD per kW of nameplate: for an energy contract the contracted share of
+ * the last twelve months' energy at the contract price; for a toll the contracted share of the capacity at the price,
+ * twelve months. 0 with no contract (an older set of assumptions, without the two keys, is read as none). */
+export const contractYear = (a: Assumptions, c: Contract = NO_CONTRACT) =>
+  ((a.cshare ?? 0) / 100) * (a.cprice ?? 0) * (c.kind === "energy" ? c.energyKw : 12);
+/** The uncontracted share of the plant, a fraction: 1 with no contract. */
+export const merchantShare = (a: Assumptions) => 1 - (a.cshare ?? 0) / 100;
+/** Income in year t, USD per kW: for the debt's years the contract plus the uncontracted share of the market revenue;
+ * after them the whole plant in the market. At a contract share of 0 this is the market revenue in every year. */
+export const incomeInYear = (a: Assumptions, revKw: number, t: number, c: Contract = NO_CONTRACT) =>
+  t <= debtYears(a) ? contractYear(a, c) + merchantShare(a) * revenueInYear(a, revKw, t) : revenueInYear(a, revKw, t);
 /** The cash flows to equity, USD per kW, years 0 to the project life: the equity paid in at year 0, then each year's
- * revenue less fixed O&M less the debt payment while the debt lasts. */
-export function flows(a: Assumptions, revKw: number): number[] {
+ * income less fixed O&M less the debt payment while the debt lasts. */
+export function flows(a: Assumptions, revKw: number, c: Contract = NO_CONTRACT): number[] {
   const ds = debtService(a), dy = debtYears(a);
   const out = [-a.capex * (1 - a.share / 100)];
-  for (let t = 1; t <= a.life; t++) out.push(revenueInYear(a, revKw, t) - a.fom - (t <= dy ? ds : 0));
+  for (let t = 1; t <= a.life; t++) out.push(incomeInYear(a, revKw, t, c) - a.fom - (t <= dy ? ds : 0));
   return out;
 }
 /** Net present value of yearly cash flows at `ratePct` percent: the sum of flow t over (1 + rate)^t. */
@@ -176,10 +211,12 @@ export function irr(fl: number[]): number | null {
   }
   return (lo + hi) / 2;
 }
-/** Debt coverage on a year's revenue: revenue less fixed O&M, over the debt payments. Null with no debt. */
-export function coverage(a: Assumptions, revKw: number): number | null {
+/** Debt coverage on a year's revenue: the contract plus the uncontracted share of the revenue, less fixed O&M, over
+ * the debt payments (session 212; at a contract share of 0, revenue less fixed O&M over the debt payments, as
+ * before). Null with no debt. */
+export function coverage(a: Assumptions, revKw: number, c: Contract = NO_CONTRACT): number | null {
   const ds = debtService(a);
-  return ds > 0 ? (revKw - a.fom) / ds : null;
+  return ds > 0 ? (contractYear(a, c) + merchantShare(a) * revKw - a.fom) / ds : null;
 }
 /** Debt coverage in one month: the month's revenue per kW less a twelfth of the fixed O&M, over a twelfth of the debt
  * payments (the page's own monthly coverage, lib/merchant.ts). Null with no debt. */
@@ -206,9 +243,9 @@ export function breakevenToll(a: Assumptions, target = TARGET): number | null {
 export type Result = { debt: number; coverage: number | null; npv: number; irr: number | null };
 /** Everything a scenario's column shows that depends on its finance and on revenue, from the last twelve months'
  * revenue per kW. */
-export function resultOf(a: Assumptions, revKw: number): Result {
-  const fl = flows(a, revKw);
-  return { debt: debtService(a), coverage: coverage(a, revKw), npv: npv(a.hurdle, fl), irr: irr(fl) };
+export function resultOf(a: Assumptions, revKw: number, c: Contract = NO_CONTRACT): Result {
+  const fl = flows(a, revKw, c);
+  return { debt: debtService(a), coverage: coverage(a, revKw, c), npv: npv(a.hurdle, fl), irr: irr(fl) };
 }
 
 export type Side = { value: number; npv: number };
@@ -216,10 +253,12 @@ export type Bar = { key: Key; label: string; step: string; base: number; down: S
 /** The sensitivity of the net present value: each assumption moved by its stated step down and up, the others held. A
  * side is null when the moved value leaves the assumption's bounds. Sorted by the larger of the two moves, largest
  * first; ties keep the page's order. */
-export function sensitivity(a: Assumptions, revKw: number): Bar[] {
-  const at = (x: Assumptions) => npv(x.hurdle, flows(x, revKw));
+export function sensitivity(a: Assumptions, revKw: number, c: Contract = NO_CONTRACT): Bar[] {
+  const at = (x: Assumptions) => npv(x.hurdle, flows(x, revKw, c));
   const base = at(a);
-  const bars = KEYS.map((k): Bar => {
+  // session 212 (as session 211 on the battery): the contract's two rows only when the scenario holds a contract
+  const keys = (a.cshare ?? 0) > 0 ? KEYS : FINANCE_KEYS;
+  const bars = keys.map((k): Bar => {
     const s = SPECS[k];
     const side = (dir: -1 | 1): Side | null => {
       const v = Math.round((a[k] + dir * s.swing) * 1e6) / 1e6;

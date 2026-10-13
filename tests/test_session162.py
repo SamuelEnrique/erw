@@ -249,14 +249,22 @@ class TheFiles(unittest.TestCase):
 
 class ThePage(unittest.TestCase):
     def test_the_three_new_blocks_and_everything_kept(self):
+        # session 212 (the owner's chain prompt of 12 October 2026, the battery page's layout): the capture price by hub and year
+        # and the pair with a battery are the page's CSV download (tables.csv), computed in model.ts as the page computed them;
+        # the pasted profile stays on the page, under "What did it earn?"; the pair's figure stays a row of the results table
         page = src("site", "app", "cost-of-power", "seller", "page.tsx")
-        for part in ('id="hub-years"', 'id="profile"', 'id="hybrid"', "<SellerHubYears", "<SellerProfile", 'data-hybrid2="pair"', 'data-hybrid2="plant"', 'data-hybrid2="battery"', 'data-hybrid2="added"',
-                     "Added, not co-optimized: upper bound", "an upper bound for a schedule made the day before",
-                     # what session 145 showed, still here
-                     'id="capture"', 'id="capture-years"', 'id="spans"', 'id="contract"', 'id="months"', 'id="coverage"', 'data-hybrid="plant"', 'data-hybrid="battery"', 'data-hybrid="combined"',
-                     "combined(plantTotal", "not modeled for this grid", "<PremiumYears", "<RevenueYears", "<MonthlyRevenue", "<CoverageLine", "<ContractResult", "freeEnergyHref(iso, hub.id)"):
-            # session 195: the months' chart and the coverage line follow scenario A, so they are drawn by SellerScenarios.tsx
-            self.assertIn(part, page + (src("site", "app", "cost-of-power", "seller", "SellerScenarios.tsx") if part in ("<MonthlyRevenue", "<CoverageLine") else ""), part)
+        model = src("site", "app", "cost-of-power", "seller", "model.ts")
+        tables = src("site", "app", "cost-of-power", "seller", "tables.csv", "route.ts")
+        for part in ("<SellerProfile", "<RevenueYears", "freeEnergyHref(iso, hub.id)", 'id="earned"', 'id="scenarios"', 'id="matters"', "tables.csv"):
+            self.assertIn(part, page, part)
+        for part in ("combined(plantTotal", "an upper bound for a schedule made the day before", "pairOf(iso, fuel, x.mw, bmw, dur)", "hubYearsTable", "const KEPT ="):
+            self.assertIn(part, model, part)
+        for part in ("capture_hub_year", "co_optimized_pair_usd", "plant_alone_usd", "battery_alone_usd", "added_not_co_optimized_usd", "M.DA_PAIR", "M.DA_ADDED", "M.KEPT"):
+            self.assertIn(part, tables, part)
+        for part in ("<MonthlyRevenue", "<CoverageLine"):                                      # kept on disk for a page that draws the months
+            self.assertIn(part, src("site", "app", "cost-of-power", "seller", "SellerScenarios.tsx"), part)
+        self.assertIn("export function ContractResult", src("site", "app", "cost-of-power", "seller", "SellerContract.tsx"))   # on disk, undrawn
+        self.assertNotIn("<ContractResult", page)
         rel = src("site", "lib", "release.ts")
         self.assertRegex(rel, r'"/cost-of-power/seller":\s*"review"')
         # session 166 (the owner's instruction of 8 October 2026): the battery page is in review too; no page is live

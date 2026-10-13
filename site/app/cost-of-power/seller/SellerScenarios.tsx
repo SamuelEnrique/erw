@@ -14,14 +14,23 @@
 // here from A's fixed O&M and A's debt payments (CoverHeadline, MonthsOfA, CoverageOfA, DscrOfA). "Your plant" no
 // longer holds those two fields; their names in an older link are read as scenario A's (lib/seller/finance.ts,
 // parseScenarios). No usage count is sent from here: the owner's ruling of 11 October 2026.
+//
+// Session 212 (the owner's chain prompt of 12 October 2026, the battery page's layout): the page asks three questions.
+// The block answers the second, "Is it worth building?", with ten assumptions now: the contract's share and price are
+// scenario assumptions, 0 by default, so the default is fully merchant and every figure at a share of 0 is what it
+// was (for solar and wind a share of the energy at a price per MWh; for a battery and a peaker a toll on a share of
+// the capacity, USD per kW-month). The standalone contract panel and "With your contract" are gone; the headline's
+// coverage reads A's contract. The sensitivity chart answers the third question, "What matters most", in a section of
+// its own (SellerSensitivity), so the block is handed no chart. MonthsOfA, CoverageOfA and DscrOfA stay for a page
+// that draws the months; this page's months are its CSV (months.csv/route.ts).
 import { useCallback, useMemo, type ReactNode } from "react";
-import { ScenarioBlock, ScenarioState, useScenarios, type Bar as ChartBar, type Cell, type Field, type Row, type Side, type Values, type View } from "@/components/decisions/ScenarioBlock";
+import { ScenarioBlock, ScenarioState, Sensitivity, useScenarios, type Bar as ChartBar, type Cell, type Chart, type Field, type Row, type Side, type Values, type View } from "@/components/decisions/ScenarioBlock";
 import { HeadlineNumber } from "@/components/tool/ToolPage";
 import { usdShort } from "@/lib/batterystack";
 import { ttm, type Month } from "@/lib/merchant";
 import {
-  KEYS, SPECS, TARGET, bound, breakevenToll, contractPrice, debtUsd, defaultsOf, differenceWords, differing, isOldParam, isScenarioParam, monthCoverage, parseScenarios, resultOf, scenarioQuery, sensitivity,
-  type Assumptions, type Key, type Scenarios as Both,
+  KEYS, SPECS, TARGET, bound, breakevenToll, contractPrice, contractUnits, coverage as coverageOf, debtUsd, defaultsOf, differenceWords, differing, isOldParam, isScenarioParam, monthCoverage, parseScenarios, resultOf, scenarioQuery, sensitivity,
+  type Assumptions, type Contract, type Key, type Scenarios as Both,
 } from "@/lib/seller/finance";
 import { CoverageLine, MonthlyRevenue } from "./SellerCharts";
 import { Hint, Missing, U, V, count, longMonth } from "./nums";
@@ -44,11 +53,13 @@ export type Facts = {
   capture: { price: number; flat: number; ratio: number; words: string } | null; captureLabel: string; captureWhy: string;
   /** the lowest month of every month held, USD for the reader's size */
   lowest: { month: string; usd: number; months: number } | null;
-  /** the contract row's unit: a price for the whole of the energy, or a toll on the whole asset */
+  /** the contract's form: a price for a share of the energy (solar, wind), or a toll on a share of the capacity */
   contract: "energy" | "toll";
   /** the co-optimized pair and the plant alone at day-ahead prices, USD for the reader's sizes */
   battery: { withIt: number; without: number; words: string } | null; batteryWhy: string;
 };
+/** The contract the arithmetic reads: the page's form of it and the last twelve months' energy (session 212). */
+const contractOf = (f: Pick<Facts, "contract" | "twelve">): Contract => ({ kind: f.contract, energyKw: f.twelve?.energyKw ?? 0 });
 
 /** The parameters of the address the scenarios replace: their own, and the two old names read as scenario A's. */
 const drop = (name: string) => isScenarioParam(name) || isOldParam(name);
@@ -71,18 +82,26 @@ function useA(mw: number, keyAsOpened: string, rows: MonthRevenue[] = []) {
   const key = keyAsOpened.replace(/(^|&)ds=[^&]*/, `$1ds=${ds}`).replace(/(^|&)fom=[^&]*/, `$1fom=${fom}`);
   const dsMonth = ds / 12;
   const ms = rows.map((r) => { const cfads = r.revenue - (fom * 1000 * mw) / 12; return { ...r, cfads, dscr: dsMonth > 0 ? cfads / dsMonth : null }; });
-  return { fom, ds, key, dsMonth, ms, t: ttm(ms as unknown as Month[], ds) };
+  return { a: s.a, fom, ds, key, dsMonth, ms, t: ttm(ms as unknown as Month[], ds) };
 }
 
-/** The third headline number: debt coverage over the last twelve months, at scenario A's fixed O&M and debt payments. */
-export function CoverHeadline({ rows, mw, pre }: { rows: MonthRevenue[]; mw: number; pre: string }) {
-  const { ds, key, t } = useA(mw, pre, rows);
+/** The third headline number: debt coverage over the last twelve months, at scenario A's fixed O&M and debt payments.
+ * Session 212: with a contract in A the coverage is A's own, the contract plus the uncontracted share of the market,
+ * and carries no check key (the table holds no contract); at a share of 0 it is the page's trailing-twelve-month
+ * figure with its key, as before. */
+export function CoverHeadline({ rows, mw, pre, facts }: { rows: MonthRevenue[]; mw: number; pre: string; facts?: Pick<Facts, "contract" | "twelve"> }) {
+  const { a, ds, key, t } = useA(mw, pre, rows);
   const last = t.at(-1);
+  const contracted = (a.cshare ?? 0) > 0 && !!facts?.twelve;
+  const u = facts ? contractUnits(facts.contract) : null;
+  const own = contracted ? coverageOf(a, facts!.twelve!.revenueKw, contractOf(facts!)) : null;
   return (
     <HeadlineNumber label="Debt coverage, last twelve months"
-      value={!last ? <Missing why="No twelve consecutive months are held, so there is no twelve-month coverage." /> : ds > 0 ? <span data-stat="cover"><V pre={key} stat="ttm_last" v={last.dscr} /></span> : <span data-stat="cover">no debt</span>}
+      value={!last ? <Missing why="No twelve consecutive months are held, so there is no twelve-month coverage." /> : ds > 0
+        ? contracted ? <span data-stat="cover" data-headline-contract="1">{own === null ? "no debt" : num(own)}</span> : <span data-stat="cover"><V pre={key} stat="ttm_last" v={last.dscr} /></span>
+        : <span data-stat="cover">no debt</span>}
       unit={last && ds > 0 ? "times" : undefined}
-      note={last ? <>The twelve months to {longMonth(last.m)}: revenue less fixed O&amp;M, over debt payments of USD <U pre={key} stat="ds" v={ds} /> a year.</> : null} />
+      note={last ? <>The twelve months to {longMonth(last.m)}: {contracted ? <span data-headline-contract="2">scenario A&apos;s contract ({plain(a.cshare)} {u!.shareUnit} at {u!.priceUnit.replace("USD", `USD ${plain(a.cprice)}`)}) plus the market on the rest, </span> : "revenue "}less fixed O&amp;M, over debt payments of USD <U pre={key} stat="ds" v={ds} /> a year.</> : null} />
   );
 }
 
@@ -131,26 +150,45 @@ export function DscrOfA({ m, revenue, mw, pre }: { m: string; revenue: number; m
   return dsMonth > 0 ? <V pre={key} stat={`dscr:${m}`} v={(revenue - (fom * 1000 * mw) / 12) / dsMonth} /> : null;
 }
 
-export function SellerScenarios({ facts: f }: { facts: Facts }) {
+/** What the block and the chart both read: the scenarios, the defaults, the two columns and the bars of the scenario
+ * in view (session 212, as the battery's Scenarios.tsx holds them). */
+function useBlock(f: Facts) {
   const { s } = useScenarios<Assumptions>();
   const d = useMemo(() => defaultsOf(f.costs), [f.costs]);
   const a = s[s.view];
   const scale = 1000 * f.mw;
-  const col = (p: View) => ({ p, y: s[p], r: f.twelve ? resultOf(s[p], f.twelve.revenueKw) : null });
+  const c = contractOf(f);
+  const col = (p: View) => ({ p, y: s[p], r: f.twelve ? resultOf(s[p], f.twelve.revenueKw, c) : null });
   const cols = { a: col("a"), b: col("b") };
-  type Col = ReturnType<typeof col>;
-  const bars = f.twelve ? sensitivity(a, f.twelve.revenueKw) : [];
+  const bars = f.twelve ? sensitivity(a, f.twelve.revenueKw, c) : [];
+  const side = (t: Side | null) => (t ? `${usd(t.v)} at ${plain(t.value)}` : "no step inside its bounds");
+  const chartBars: ChartBar[] = bars.map((b) => ({ key: b.key, label: b.label, step: b.key === "cprice" ? contractUnits(f.contract).priceStep : b.step, base: b.base * scale, size: b.size * scale,
+    down: b.down ? { value: b.down.value, v: b.down.npv * scale } : null, up: b.up ? { value: b.up.value, v: b.up.npv * scale } : null }));
+  const chart: Chart | null = chartBars.length ? { bars: chartBars, moves: "NPV", axis: "NPV", fmt: usd, pad: 1,
+    says: (b) => `${b.label}, moved by ${b.step}: NPV is ${side(b.down)} and ${side(b.up)}; ${usd(b.base)} at ${plain(a[b.key as Key])}.`,
+    sizeWords: (b) => usd(b.size), stepWords: (b) => `by ${b.step}`,
+    heads: ["NPV, lowered", "NPV, raised"], side: (_, t) => side(t) } : null;
+  return { s, d, a, scale, c, cols, chart };
+}
+
+export function SellerScenarios({ facts: f }: { facts: Facts }) {
+  const { s, d, scale, cols } = useBlock(f);
+  type Col = (typeof cols)["a"];
+  const u = contractUnits(f.contract);
   const sourceOf = (k: Key) => (k === "capex" ? `${SPECS[k].source}, ${f.costs.capexNote}` : k === "fom" ? `${SPECS[k].source}, ${f.costs.fomNote}` : k === "life" || k === "term" ? `${SPECS[k].source}, ${f.costs.lifeNote}` : k === "deg" && f.costs.degSource ? f.costs.degSource : SPECS[k].source);
 
   const fields: Field[] = KEYS.map((k) => {
     const sp = SPECS[k];
-    return { key: k, label: sp.label, unit: sp.unit, min: sp.min, max: sp.max, whole: sp.whole, note: <>Default {plain(d[k])}. {sourceOf(k)}.</> };
+    // session 212: the contract's units are the asset's (a share of the energy at a price per MWh; a toll on the capacity)
+    const unit = k === "cshare" ? u.shareUnit : k === "cprice" ? u.priceUnit : sp.unit;
+    return { key: k, label: sp.label, unit, min: sp.min, max: sp.max, whole: sp.whole, note: <>Default {plain(d[k])}. {sourceOf(k)}.</> };
   });
   const none = (why: string, v = "not held"): Cell => ({ v, raw: null, why });
   const noDebt: Cell = { v: "no debt", raw: null };
   const row = (key: string, label: string, note: string, cell: (c: Col) => Cell): Row => ({ key, label, note, cell: (p) => cell(cols[p]) });
+  const contractNote = (c: Col) => (c.y.cshare > 0 ? `contract ${plain(c.y.cshare)} percent at USD ${plain(c.y.cprice)} ${u.priceUnit.replace("USD ", "")}; ` : "");
   const rows: Row[] = [
-    row("revenue", `${f.money}, last twelve months`, "USD per kW",
+    row("revenue", `${f.money}, last twelve months`, "USD per kW, the market's",
       () => (f.twelve ? { v: `USD ${num(f.twelve.revenueKw)}`, raw: f.twelve.revenueKw, note: `${f.twelve.span}, priced at ${f.twelve.at}` } : none(f.twelveWhy))),
     row("capture", f.captureLabel, "USD per MWh, and its ratio to the flat average of every hour",
       () => (f.capture ? { v: `USD ${num(f.capture.price)}`, raw: f.capture.price, note: `${num(f.capture.ratio, 1)} percent of USD ${num(f.capture.flat)}; ${f.capture.words}` } : none(f.captureWhy))),
@@ -158,10 +196,10 @@ export function SellerScenarios({ facts: f }: { facts: Facts }) {
       (c) => {
         if (!f.lowest) return none(f.twelveWhy);
         const cover = monthCoverage(c.y, f.lowest.usd / scale);
-        return { v: usd(f.lowest.usd), raw: f.lowest.usd, note: `${f.lowest.month}, of ${f.lowest.months} months; ${cover === null ? "no debt" : `coverage that month ${num(cover)} times`}` };
+        return { v: usd(f.lowest.usd), raw: f.lowest.usd, note: `${f.lowest.month}, of ${f.lowest.months} months; ${cover === null ? "no debt" : `coverage that month ${num(cover)} times, in the market`}` };
       }),
-    row("coverage", "Debt coverage", "last twelve months: revenue less fixed O&M, over debt payments",
-      (c) => (c.r ? (c.r.coverage === null ? noDebt : { v: `${num(c.r.coverage)} times`, raw: c.r.coverage, note: `debt payments ${usd(c.r.debt * scale)} a year` }) : none(f.twelveWhy))),
+    row("coverage", "Debt coverage", "last twelve months: the contract plus the market on the rest, less fixed O&M, over debt payments",
+      (c) => (c.r ? (c.r.coverage === null ? noDebt : { v: `${num(c.r.coverage)} times`, raw: c.r.coverage, note: `${contractNote(c)}debt payments ${usd(c.r.debt * scale)} a year` }) : none(f.twelveWhy))),
     row("npv", "NPV at the hurdle rate", `to equity, for ${f.size}`,
       (c) => (c.r ? { v: usd(c.r.npv * scale), raw: c.r.npv, note: `USD ${num(c.r.npv)} per kW at ${plain(c.y.hurdle)} percent` } : none(f.twelveWhy))),
     row("irr", "IRR", "to equity, percent a year",
@@ -178,10 +216,6 @@ export function SellerScenarios({ facts: f }: { facts: Facts }) {
       () => (f.battery ? { v: `${usd(f.battery.withIt)} with`, raw: f.battery.withIt, note: `${usd(f.battery.without)} without; ${f.battery.words}` } : none(f.batteryWhy, "not modeled"))),
   ];
 
-  const side = (t: Side | null) => (t ? `${usd(t.v)} at ${plain(t.value)}` : "no step inside its bounds");
-  const chartBars: ChartBar[] = bars.map((b) => ({ key: b.key, label: b.label, step: b.step, base: b.base * scale, size: b.size * scale,
-    down: b.down ? { value: b.down.value, v: b.down.npv * scale } : null, up: b.up ? { value: b.up.value, v: b.up.npv * scale } : null }));
-
   return (
     <ScenarioBlock
       fields={fields} defaults={d} bound={(k, v) => bound(k as Key, v, d)} head={`For ${f.size}`} rows={rows}
@@ -191,10 +225,23 @@ export function SellerScenarios({ facts: f }: { facts: Facts }) {
           Scenario A, {f.size}: at a hurdle rate of {plain(s.a.hurdle)} percent, NPV is {usd(cols.a.r.npv * scale)}.
         </p>
       ) : null}
-      chart={chartBars.length ? { bars: chartBars, moves: "NPV", axis: "NPV", fmt: usd, pad: 1,
-        says: (b) => `${b.label}, moved by ${b.step}: NPV is ${side(b.down)} and ${side(b.up)}; ${usd(b.base)} at ${plain(a[b.key as Key])}.`,
-        sizeWords: (b) => usd(b.size), stepWords: (b) => `by ${b.step}`,
-        heads: ["NPV, lowered", "NPV, raised"], side: (_, t) => side(t) } : null}
+      chart={null}
     />
+  );
+}
+
+/** Session 212: the sensitivity chart of the scenario in view, in the page's third section, with one line on how to
+ * read it (the battery page's BatterySensitivity). Drawn only when the scenario has a result. */
+export function SellerSensitivity({ facts: f }: { facts: Facts }) {
+  const { s, chart } = useBlock(f);
+  if (!chart) return <p className="max-w-3xl text-sm text-muted" data-sensitivity-none="1">No twelve consecutive months are held, so there is no NPV to move.</p>;
+  return (
+    <>
+      <p className="mb-2 max-w-3xl text-sm" data-how-to-read="1">
+        Each row moves one assumption of scenario {s.view.toUpperCase()} down and up by the step named, holds the other nine, and draws where NPV lands from the
+        scenario&apos;s own NPV (the line); the longest bars are the assumptions that matter most.
+      </p>
+      <Sensitivity c={chart} view={s.view} />
+    </>
   );
 }

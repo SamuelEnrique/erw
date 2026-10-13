@@ -157,8 +157,10 @@ class ThePage(unittest.TestCase):
         self.assertEqual(page.count("Long-run average, a year"), 2)                # both averages are labeled as long-run averages
         self.assertIn("Incomplete year", page)
         one = src("site", "app", "cost-of-power", "seller", "page.tsx")   # session 145: the one page holds the same pieces
-        for piece in ("ToolPage", "ToolHeader", "InputPanel", "HeadlineRow", "ChartFrame", "ToolSection", "ToolTable", "Fold", "SourceLine"):
+        # session 212 (the battery page's layout): no Fold on the page; what the folds held is the page's CSV downloads
+        for piece in ("ToolPage", "ToolHeader", "InputPanel", "HeadlineRow", "ChartFrame", "ToolSection", "ToolTable", "SourceLine"):
             self.assertIn(f"<{piece}", one)
+        self.assertNotIn("<Fold", one)
         self.assertEqual(one.count("Long-run average, a year"), 2)
         self.assertIn("Incomplete year", one)
         self.assertIn('{ source: "/cost-of-power/seller/v2", destination: "/cost-of-power/seller", permanent: true }', src("site", "next.config.ts"))

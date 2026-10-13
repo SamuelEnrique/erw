@@ -1,0 +1,73 @@
+Session 212: every checked number (data-check) of /cost-of-power/seller, ERCOT, solar, 100 MW, the hub average, in the internal view, at the defaults (hurdle rate 12 since session 208; no contract).
+before: the page as the branch held it before this session (session 208's hurdle rate of 12 already in its library; the layout of sessions 145 to 195).
+after: the page on the three questions.
+
+checked numbers: 430 before; 2 after (1280 px); at 390 px 426 before, 2 after
+after: 2 of 2 keys are in the page before with the same key, raw value and shown text; 0 differ; 0 are new
+keys on the page before and not after: 425 (every one in the two CSV downloads, months.csv and tables.csv, or implied by a results-table row):
+  month:<month>: 100
+  capture:<month>: 100
+  rate:<month>: 100
+  dscr:<month>: 100
+  n: 2
+  median: 1
+  p10: 1
+  annual_mean: 1
+  worst:0: 1
+  worst:1: 1
+  worst:2: 1
+  under1: 1
+  under125: 1
+  ttm_min: 1
+  ttm_under1: 1
+  ttm_under125: 1
+  stress_mean:uri_2021: 1
+  stress_total:uri_2021: 1
+  stress_week:uri_2021: 1
+  stress_best:uri_2021: 1
+  stress_mean:elliott_2022: 1
+  stress_total:elliott_2022: 1
+  stress_week:elliott_2022: 1
+  stress_best:elliott_2022: 1
+  stress_mean:ercot_heat_2023: 1
+  stress_total:ercot_heat_2023: 1
+  stress_week:ercot_heat_2023: 1
+  stress_best:ercot_heat_2023: 1
+
+The kept keys, before and after:
+  mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|ttm_last: before 0.668933604133713 = 0.67 | after 0.668933604133713 = 0.67
+  mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|ds: before 7078769 = 7.08 million | after 7078769 = 7.08 million
+
+The results table at the default hurdle rate of 12 (after) against 9.6 (the same page opened with ?ah=9.6): what the hurdle rate moves. Every other cell is identical.
+
+  a|revenue: unchanged: 59.852264600000005 = USD 59.85Oct 2025 to Sep 2026, priced at the hub average
+  b|revenue: unchanged: 59.852264600000005 = USD 59.85Oct 2025 to Sep 2026, priced at the hub average
+  a|capture: unchanged: 23.27094202790795 = USD 23.2772.3 percent of USD 32.17; real time, Oct 2025 to Sep 2026
+  b|capture: unchanged: 23.27094202790795 = USD 23.2772.3 percent of USD 32.17; real time, Oct 2025 to Sep 2026
+  a|month: unchanged: 139298.97 = USD 139,299February 2024, of 99 months; coverage that month 0.06 times, in the market
+  b|month: unchanged: 139298.97 = USD 139,299February 2024, of 99 months; coverage that month 0.06 times, in the market
+  a|coverage: unchanged: 0.6689335733029786 = 0.67 timesdebt payments USD 7.08 million a year
+  b|coverage: unchanged: 0.6689335733029786 = 0.67 timesdebt payments USD 7.08 million a year
+  a|npv: at 9.6: -784.2509773881837 = USD -78.43 millionUSD -784.25 per kW at 9.6 percent | at 12: -741.5964387418799 = USD -74.16 millionUSD -741.60 per kW at 12 percent
+  b|npv: unchanged: -741.5964387418799 = USD -74.16 millionUSD -741.60 per kW at 12 percent
+  a|irr: unchanged:  = noneno rate from -99 to 1,000 percent sets NPV to zero
+  b|irr: unchanged:  = noneno rate from -99 to 1,000 percent sets NPV to zero
+  a|contract: unchanged: 39.14255770083028 = USD 39.14on 2,580 MWh a year per MW, Oct 2025 to Sep 2026
+  b|contract: unchanged: 39.14255770083028 = USD 39.14on 2,580 MWh a year per MW, Oct 2025 to Sep 2026
+  a|battery: unchanged: 11637889 = USD 11.64 million withUSD 6.33 million without; Oct 2025 to Sep 2026, a 100 MW, 4-hour battery, priced at the hub average
+  b|battery: unchanged: 11637889 = USD 11.64 million withUSD 6.33 million without; Oct 2025 to Sep 2026, a 100 MW, 4-hour battery, priced at the hub average
+  sentence: at 9.6: Scenario A, 100 MW of solar: at a hurdle rate of 9.6 percent, NPV is USD -78.43 million. | at 12: Scenario A, 100 MW of solar: at a hurdle rate of 12 percent, NPV is USD -74.16 million.
+  capex: at 9.6: 9145926.41999659 = -69279171.31882182 = -87571024.15881497 | at 12: 8208909.551166028 = -65950734.323021956 = -82368553.42535393
+  rate: at 9.6: 7283660.417754152 = -71358537.67712349 = -85708758.15657252 | at 12: 5957385.589620458 = -68379827.04237722 = -80117029.46380845
+  share: at 9.6: 1957251.9541744895 = -80382349.69299287 = -76467845.7846439 | at 12: 4104582.278578005 = -78264226.15276588 = -70055061.59560998
+  fom: at 9.6: 4997795.874807525 = -73427301.86401089 = -83422893.6136259 | at 12: 4087751.956676698 = -70071891.91751128 = -78247395.83086467
+  deg: at 9.6: 4967078.837161546 =  = -83392176.57597992 | at 12: 3505431.012189183 =  = -77665074.88637717
+  life: at 9.6: 1858986.5668650419 = -80284084.30568342 = -77692016.0020159 | at 12: 1727744.540036872 = -75887388.41422486 = -73836356.85447475
+  hurdle: at 9.6: 2307195.1843404802 = -80732292.92315885 = -76458559.26857783 | at 12: 1592990.1089675922 = -75752633.98315558 = -72777112.30936812
+  term: at 9.6: 699661.647924745 = -79124759.38674311 = -78425097.73881838 | at 12: 1158002.3495587283 = -75317646.22374672 = -74159643.87418799
+
+(a bar line is key = size = NPV lowered = NPV raised, USD for 100 MW; the bars' sizes and NPVs move with the hurdle rate because every NPV is discounted at it)
+
+The 1280 px keys, after:
+  mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|ttm_last = 0.668933604133713 = 0.67
+  mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|ds = 7078769 = 7.08 million

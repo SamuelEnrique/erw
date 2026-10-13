@@ -97,6 +97,19 @@ A month's battery figures are the sums of its solved days; its `hours` field is 
 
 ## 4. Every number on the page, in the order the page shows it
 
+**Session 212 (the owner's chain prompt of 12 October 2026): the page asks the battery page's three questions**, and this section's order is the page's order until then. What the page draws now: (1) "What did it earn?": the summary sentence (4.2), the three headline numbers (4.3), the revenue chart by year (4.8), the income table (4.9, under the heading "The last twelve months beside the long-run averages"), one sentence of what the model cannot see (below, "What the model cannot see"), the two CSV downloads, and the reader's own year (4.12). (2) "Is it worth building?": scenarios A and B (section 11), with the contract's share and price as two of their assumptions (11.1; 4.10 is how the contract was computed until this session). (3) "What matters most": the sensitivity chart (11.5) with one line on how to read it. Into the CSV downloads, computed as this section says: `/cost-of-power/seller/months.csv` holds every month (4.13, 4.15: revenue, energy, the capture price and rate, and each month's coverage at scenario A's costs); `/cost-of-power/seller/tables.csv` holds, in long form (table, row, column, value, note), the capture price at every hub (4.5), by year at the hub (4.6, both markets), every public hub by year (4.7), the plant with a battery beside it (4.11, both rows), the stress days (4.16) and the fleet's hours as EIA reports them (4.17). Gone outright: the premium chart (4.4; its figures are in the download and in the headline) and "Debt coverage" (4.14; the headline's coverage and the results table's row stay, and each month's coverage is in the download). The input panel's note (4.1) and the source line (4.18) are as they were. What the page computes is `site/app/cost-of-power/seller/model.ts`, shared with the two downloads, so a download is the page's own read and arithmetic. Each download takes the page's status: in review, a visitor is answered 404.
+
+<a id="cannot-see"></a>
+
+**What the model cannot see** (the one sentence under the income table says the first of these; the page's hover reasons and `cost_of_power.md` say the rest):
+
+- The plant is the grid's whole fleet by the hour, scaled to the reader's size, not one site (3.2); it is paid the hub's price, not its own node's, and no basis is modeled.
+- Nothing is curtailed, no clipped energy is recovered, and no negative-price clause applies: in an hour priced below zero the fleet still sells (3.1, 3.2).
+- No capacity payment, no ancillary service, no renewable energy certificate, no tax credit: energy at the hub price alone (a battery's ancillary revenue is on What a battery earns).
+- The peaker has no start cost, no minimum run and no outage; it runs in every hour the price is above fuel plus variable O&M (3.4).
+- A contract (11.1) is a share of the energy at a fixed price (or a toll on a share of the capacity): no shape, no settlement point, no credit.
+- The scenarios repeat one year of revenue over the project's life (11.6): not a forecast and not a valuation.
+
 "The months" below are the model's months for the asset at the hub the page is priced at (the main hub by default; section 5), `m.revenue` and so on being per MW, and `MW` the reader's size.
 
 ### 4.1 The input panel's note
@@ -166,6 +179,8 @@ Three spans (the last twelve months, the last three full years, every full year 
 The capture price here is the model's: the fleet's output per MW of nameplate, at the hub the page is priced at. It differs a little from the headline's price received (23.20 against 23.27): section 9, item 1.
 
 ### 4.10 With your contract (computed in the browser, never sent)
+
+**Session 212: this panel and section are gone.** The contract is two assumptions of a scenario (11.1, the battery page's form since session 208): a share and a price, both 0 by default, in the address with the other assumptions, read by the scenario's coverage, NPV, IRR and sensitivity chart and by the headline's coverage. `SellerContract.tsx` stays on disk, undrawn. What follows is how the panel computed until then.
 
 For solar and wind. The reader types a share of the energy (percent) and a price (USD per MWh).
 
@@ -425,6 +440,13 @@ The section "Scenarios A and B" of the page, after "With your contract": eight a
 
 ### 11.1 The eight assumptions and their defaults
 
+**Session 212: ten.** The contract's share and price are the ninth and tenth, both 0 by default, so the default is fully merchant and every figure at a share of 0 is what it was. For solar and wind the contract is a share of the energy at a price per MWh; for a battery and a gas peaker, whose energy depends on the price, a toll on a share of the capacity in USD per kW-month (the battery page's form). The contract runs for the debt's years and pays its price flat: income in year t is `contract + (1 - cshare) x R_t` while `t <= n`, and `R_t` after, where `contract = cshare x E x cprice` for an energy contract and `cshare x cprice x 12` for a toll (`E` the last twelve months' energy, MWh per kW, 11.2). Coverage is `(contract + (1 - cshare) x R - fom) / debt`. The breakeven contract price row (11.3) does not read the contract: it is the price for the whole of the energy. The sensitivity chart draws the two contract rows only when the scenario holds a contract (as session 211 on the battery). `site/lib/seller/finance.ts` (`Contract`, `contractYear`, `merchantShare`, `incomeInYear`); `site/scripts/test-seller-finance.mjs`, the session 212 block.
+
+| Assumption | Default | Source of the default | Bounds | Address (A, B) |
+|---|---|---|---|---|
+| Contract share, percent of the energy (a battery, a peaker: of the capacity) | 0 | no contract: fully merchant | 0 to 100 | `an`, `bn` |
+| Contract price, USD per MWh (a battery, a peaker: USD per kW-month) | 0 | the reader's own term; no published price is held | 0 to 1,000 | `ap`, `bp` |
+
 | Assumption | Default | Source of the default | Bounds | Address (A, B) |
 |---|---|---|---|---|
 | Capital cost, USD per kW | solar 1,375; wind 2,100; battery 610 (2 hours) and 1,110 (4 hours); peaker 1,300 | Lazard, Levelized Cost of Energy+, June 2025, the midpoint of each range (section 7) | 0 to 10,000 | `ac`, `bc` |
@@ -439,7 +461,7 @@ The section "Scenarios A and B" of the page, after "With your contract": eight a
 - **The hurdle rate and a battery's degradation have a cited default since session 196** (the owner's ruling of 11 October 2026), as on the battery page (`battery_earns_algorithm.md`, section 11.1). Until then both had none and were to be confirmed by Samuel (sessions 179 and 186). The hurdle rate's default is Lazard's weighted cost, 9.6 percent, from "60% debt at an 8% interest rate and 40% equity at a 12% cost". A battery's degradation default is Lazard's 2.6 percent a year. **Solar, wind and a gas peaker still have no cited degradation rate, and the page says so**: their default stays none. What moved at the defaults: NPV only (solar USD -82.31 million to -78.43 million; wind -152.23 to -143.09; a 4-hour battery -75.13 to -79.57; a gas peaker -91.00 to -85.78). No headline number moved.
 - **The address.** Each scenario's assumptions are two-letter parameters, the scenario's letter then the assumption's (`c` capital cost, `s` debt share, `r` interest rate, `t` term, `f` fixed O&M, `d` degradation, `l` life, `h` hurdle rate); `v=b` puts B in view. A parameter is written only when its value differs from the default, so no parameter means the defaults. The page's own parameters (section 2) work as before, but for `ds` and `fom`, which since session 195 are old names of scenario A's. A value outside its bounds is clipped; one that cannot be read takes the default. The address is rewritten in place (`history.replaceState`): a change sends no request. Show, the grid, the asset and "Reset the costs" carry the scenarios; a change of asset, or of a battery's duration, drops a typed capital cost, fixed O&M, term and life, whose defaults are the asset's. The links of the capture table open a hub afresh, as before, without the scenarios.
 - **Scenario A sets the headline (session 195).** Until session 195 the scenarios did not read the "Your plant" panel's fixed O&M and annual debt payments, which set the headline coverage and the months' coverage: one idea in two places. Those two fields are gone. A scenario's fixed O&M is its own, and its debt payment is computed from its capital cost, debt share, interest rate and term; the page's coverage figures are scenario A's (0.67 times in the default case, before and after).
-- **The scenarios do not read the contract typed in "Your contract".** Its terms stay on the reader's device and are never in the address, so a shared link could not carry them.
+- **The scenarios do not read the contract typed in "Your contract".** Its terms stay on the reader's device and are never in the address, so a shared link could not carry them. (Until session 212; the contract is two of the scenarios' own assumptions since, in the address with the rest.)
 
 ### 11.2 What a scenario reads from the page
 

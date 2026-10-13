@@ -255,14 +255,28 @@ class OnePage(unittest.TestCase):
         self.assertEqual(re.findall(r'"(/[^"]*)":\s*"live"', rel), [])
 
     def test_the_page_has_every_part(self):
+        # session 212 (the owner's chain prompt of 12 October 2026): the page asks the battery page's three questions. What it
+        # computes is model.ts (shared with its two CSV downloads); the capture tables, the pair with a battery, the months, the
+        # coverage section and the folds are the downloads; the contract is two scenario assumptions (SellerContract.tsx stays
+        # on disk, undrawn); the premium chart is gone (its figures are in the download and the headline)
         page = src("site", "app", "cost-of-power", "seller", "page.tsx")
-        for piece in ("ToolPage", "ToolHeader", "InputPanel", "HeadlineRow", "ChartFrame", "ToolSection", "ToolTable", "Fold", "SourceLine", "ContractProvider", "ContractInputs", "ContractResult",
-                      "PremiumYears", "RevenueYears", "MonthlyRevenue", "CoverageLine", "SellerForm", "CostTabs"):
-            # session 195: the months' chart and the coverage line follow scenario A, so they are drawn by SellerScenarios.tsx
-            self.assertIn(f"<{piece}", page + (src("site", "app", "cost-of-power", "seller", "SellerScenarios.tsx") if piece in ("MonthlyRevenue", "CoverageLine") else ""), piece)
-        for part in ('id="capture"', 'id="capture-years"', 'id="spans"', 'id="contract"', 'id="hybrid"', 'id="months"', 'id="coverage"', "freeEnergyHref(iso, hub.id)", "B.stat(read.data, [], bx, \"l12:total\")",
-                     "combined(plantTotal", "stress_total", "ttm_under125", "over_nameplate", "data-seller2={`twelve|${id}`}"):
-            self.assertIn(part, page + (src("site", "app", "cost-of-power", "seller", "SellerScenarios.tsx") if part == "ttm_under125" else ""), part)   # session 195: "Debt coverage" follows scenario A
+        model = src("site", "app", "cost-of-power", "seller", "model.ts")
+        tables = src("site", "app", "cost-of-power", "seller", "tables.csv", "route.ts")
+        scenarios = src("site", "app", "cost-of-power", "seller", "SellerScenarios.tsx")
+        for piece in ("ToolPage", "ToolHeader", "InputPanel", "HeadlineRow", "ChartFrame", "ToolSection", "ToolTable", "SourceLine", "RevenueYears", "SellerForm", "CostTabs", "SellerProfile",
+                      "SellerDecisions", "CoverHeadline", "SellerScenarios", "SellerSensitivity"):
+            self.assertIn(f"<{piece}", page, piece)
+        for piece in ("Fold", "ContractProvider", "ContractInputs", "ContractResult", "PremiumYears", "SellerHubYears", "MonthsOfA", "CoverageOfA"):
+            self.assertNotIn(f"<{piece}", page, piece)
+        for piece in ("MonthlyRevenue", "CoverageLine"):                                       # kept on disk for a page that draws the months
+            self.assertIn(f"<{piece}", scenarios, piece)
+        for part in ('id="earned"', 'id="scenarios"', 'id="matters"', 'data-question="1"', 'data-question="2"', 'data-question="3"', "freeEnergyHref(iso, hub.id)", "data-seller2={`twelve|${id}`}",
+                     'data-income-note="1"', 'data-months-csv="1"', "/cost-of-power/seller/months.csv", "/cost-of-power/seller/tables.csv"):
+            self.assertIn(part, page, part)
+        for part in ("B.stat(read.data, [], bx, \"l12:total\")", "combined(plantTotal", "pairOf(iso, fuel, x.mw, bmw, dur)", "const ms = months(priced, x);", "const st = stress(priced, x);"):
+            self.assertIn(part, model, part)
+        for part in ("capture_last_twelve", "capture_by_year", "capture_hub_year", "battery_beside", "co_optimized_pair_usd", "stress_days", "eia_hours", "over_nameplate"):
+            self.assertIn(part, tables, part)
         charts = src("site", "app", "cost-of-power", "seller", "SellerCharts.tsx")
         self.assertEqual(charts.count("tooltip: {"), 4)                 # each of the four charts answers the mouse
         self.assertNotIn("<svg", page)                                   # no static drawing is left on the page
@@ -280,6 +294,10 @@ class OnePage(unittest.TestCase):
             # session 162: the owner's words of 9 October 2026 keep the added figure "as a labeled upper bound", so that one
             # label stands on the face; every other use of the words is still method prose
             body = body.replace("Added, not co-optimized: upper bound", "")
+            # session 212 (the owner's chain prompt of 12 October 2026, as session 208 on the battery): one sentence of what the model
+            # cannot see stands under the income table, with a link to the note; it is the one paragraph of method on the face
+            body = re.sub(r'<p className="mt-2 max-w-3xl text-xs text-muted" data-income-note="1">.*?</p>', "", body, flags=re.S)
+            body = re.sub(r"\{/\*.*?\*/\}", "", body, flags=re.S)                 # a JSX comment is not the face
             self.assertNotRegex(body, r"(?i)upper bound|merchant only|does not tell|how it is measured|how a lender should read|not a site|limitation|cannot see")
         note = src("docs", "methods", "cost_of_power.md")
         for words in ("Merchant only.", "How a lender should read the page", "The battery is an upper bound", "The hub, not your node", "Gas is Henry Hub", "It is the fleet's shape, not a site's",
