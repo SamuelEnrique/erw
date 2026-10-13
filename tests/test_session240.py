@@ -163,7 +163,7 @@ class Datacenters(unittest.TestCase):
         c = src("site", "scripts", "check-values.mjs")
         for what in ("status_mw", "first_week", "n_first_story", "operator_count"):
             self.assertIn('if (what === "%s")' % what, c, what)
-        self.assertIn("(mw_total|state_mw|operator_mw|status_mw)", c)
+        self.assertIn("(mw_total|state_mw|operator_mw|status_mw|sites_mw|texas_mw)", c)   # session 241: two more sums written whole (the megawatts of every site held, and of the Texas sites, from the block /datacenters/v2 drew)
         self.assertIn("first:extra->>first_story_at", c)
 
 

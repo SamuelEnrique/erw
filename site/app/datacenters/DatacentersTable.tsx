@@ -104,7 +104,7 @@ export function DatacentersTable({ rows }: { rows: Facility[] }) {
   const allOpen = groups.every(isOpen);
   const blank = <span className="text-muted">not stated</span>;
   return (
-    <section aria-label="Facilities">
+    <section aria-label="Facilities" id="every-site">
       <div className="mb-2 flex flex-wrap items-end gap-3">
         <Select name="Country" value={country} set={setCountry} options={uniq(rows.map(countryKey))} />
         <Select name="State" value={state} set={setState} options={uniq(rows.map((f) => f.state))} />

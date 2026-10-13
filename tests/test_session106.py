@@ -154,9 +154,20 @@ class TheTableAndTheCopy(unittest.TestCase):
 
 class ThePage(unittest.TestCase):
     def test_two_sections_never_added_and_a_request_is_not_a_facility(self):
-        page = src("site", "app", "datacenters", "v2", "page.tsx")
-        for piece in ("ToolPage", "ToolHeader", "HeadlineRow", "ToolSection", "ChartFrame", "ToolTable", "Fold", "SourceLine"):
+        # session 241: version 2 is folded into the one tracker. Its blocks are drawn by site/app/datacenters/LargeLoad.tsx on
+        # /datacenters (the page and its header are that page's), /datacenters/v2 redirects there, and the page as it was
+        # stands in site/app/_retired/datacenters-v2. Every string pinned below is pinned in the file that draws it now
+        page = src("site", "app", "datacenters", "LargeLoad.tsx")
+        host = src("site", "app", "datacenters", "page.tsx")
+        for piece in ("ToolPage", "ToolHeader"):
+            self.assertIn(f"<{piece}", host)
+        self.assertIn("<LargeLoad read={res} />", host)
+        self.assertIn("<LargeLoadSource />", host)
+        for piece in ("HeadlineRow", "ToolSection", "ChartFrame", "ToolTable", "Fold", "SourceLine"):
             self.assertIn(f"<{piece}", page)
+        self.assertIn('{ source: "/datacenters/v2", destination: "/datacenters", permanent: true }', src("site", "next.config.ts"))
+        self.assertTrue(os.path.exists(os.path.join(ROOT, "site", "app", "_retired", "datacenters-v2", "page.tsx")))
+        self.assertFalse(os.path.exists(os.path.join(ROOT, "site", "app", "datacenters", "v2", "page.tsx")))
         self.assertIn("A request is not a built facility", page)
         self.assertIn("Load requested is not held", page)
         self.assertIn("does not read a number off a picture", page)
@@ -177,7 +188,7 @@ class ThePage(unittest.TestCase):
 
     def test_no_em_dash(self):
         for rel in ("warehouse/connectors/ercot_large_load_status.py", "warehouse/derived/large_load_snapshot.py", "site/lib/largeload.ts",
-                    "site/app/datacenters/v2/page.tsx", "docs/methods/ercot_large_load_status.md"):
+                    "site/app/datacenters/LargeLoad.tsx", "site/app/_retired/datacenters-v2/page.tsx", "docs/methods/ercot_large_load_status.md"):   # session 241: the page's blocks moved to LargeLoad.tsx; the page as it was is in _retired
             self.assertNotIn(chr(0x2014), src(*rel.split("/")), rel)
 
 
