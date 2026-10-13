@@ -1,0 +1,81 @@
+{
+ "date": "2026-10-06",
+ "source": "scanner",
+ "key": "scan-record-483f592bf064",
+ "fact": "Net generation from natural gas in Wyoming: 1,028,747 MWh in July 2026, the highest monthly value held since January 2001. The record until now was 765,381 MWh, in July 2024.",
+ "table": "eia_state_generation_monthly",
+ "series_key": "entity=eia:generation:WY:NG|variable=net_generation|market=|node=|freq=P1M",
+ "why": "the strongest of the scanner's 19 flag(s) of the day that no Digest has shown (rank 1; rule record, strength 9.865)",
+ "candidates_from": "given",
+ "title": "RECORD HIGH",
+ "numbers": {
+  "value": 1028747.26,
+  "threshold": 765381.4,
+  "history_points": 304,
+  "history_years": 25.25,
+  "strength": 9.865,
+  "old_record": 765381.4,
+  "stood_points": 24,
+  "margin": 263365.86,
+  "margin_sigmas": 9.865,
+  "sigma": 26697.02252699999
+ },
+ "image": "2026-10-06.png",
+ "rendered_at": "2026-10-13T04:50:17Z",
+ "method": "docs/methods/automated_analysis_scanner.md",
+ "flag": {
+  "id": "scan-record-483f592bf064",
+  "flag_key": "record|eia_state_generation_monthly|entity=eia:generation:WY:NG|variable=net_generation|market=|node=|freq=P1M",
+  "rule": "record",
+  "table": "eia_state_generation_monthly",
+  "series": {
+   "entity": "eia:generation:WY:NG",
+   "variable": "net_generation",
+   "market": "",
+   "node": "",
+   "freq": "P1M"
+  },
+  "series_key": "entity=eia:generation:WY:NG|variable=net_generation|market=|node=|freq=P1M",
+  "label": "eia:generation:WY:NG net_generation",
+  "date": "2026-07-01",
+  "value": 1028747.26,
+  "unit": "MWh",
+  "geo": "US-WY",
+  "statistic": "monthly value",
+  "direction": "high",
+  "threshold": {
+   "name": "record high",
+   "value": 765381.4,
+   "statistic": "the highest monthly value of the held history",
+   "config": {
+    "record_min_points": 60,
+    "record_stood_points": 24,
+    "record_min_margin_sigmas": 0.5
+   }
+  },
+  "compared": {
+   "old_record": 765381.4,
+   "old_record_date": "2024-07-01",
+   "stood_points": 24,
+   "margin": 263365.86,
+   "margin_sigmas": 9.865,
+   "sigma": 26697.02252699999
+  },
+  "history": {
+   "first": "2001-01-01",
+   "last": "2026-04-01",
+   "points": 304,
+   "years": 25.25
+  },
+  "strength": 9.865,
+  "source": "eia:electricity/electric-power-operational-data",
+  "note": "",
+  "scanner_version": "1.1.0",
+  "scan_date": "2026-10-06",
+  "window": [
+   "2026-07-01",
+   "2026-07-01"
+  ]
+ },
+ "proof": true
+}

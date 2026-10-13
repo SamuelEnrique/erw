@@ -1,0 +1,81 @@
+{
+ "date": "2026-10-13",
+ "source": "scanner",
+ "key": "scan-record-483f592bf064",
+ "fact": "Net generation from natural gas in Wyoming: 1,028,747 MWh in July 2026, the highest monthly value held since January 2001. The record until now was 765,381 MWh, in July 2024.",
+ "table": "eia_state_generation_monthly",
+ "series_key": "entity=eia:generation:WY:NG|variable=net_generation|market=|node=|freq=P1M",
+ "why": "the strongest of the scanner's 15 flag(s) of the day that no Digest has shown (rank 1; rule record, strength 9.8644)",
+ "candidates_from": "given",
+ "title": "RECORD HIGH",
+ "numbers": {
+  "sigma": 26698.67562599999,
+  "value": 1028747.26,
+  "margin": 263365.86,
+  "strength": 9.8644,
+  "threshold": 765381.4,
+  "old_record": 765381.4,
+  "stood_points": 24,
+  "history_years": 25.33,
+  "margin_sigmas": 9.8644,
+  "history_points": 305
+ },
+ "image": "2026-10-13.png",
+ "rendered_at": "2026-10-13T04:50:19Z",
+ "method": "docs/methods/automated_analysis_scanner.md",
+ "flag": {
+  "id": "scan-record-483f592bf064",
+  "geo": "US-WY",
+  "date": "2026-07-01",
+  "note": "",
+  "rule": "record",
+  "unit": "MWh",
+  "label": "eia:generation:WY:NG net_generation",
+  "table": "eia_state_generation_monthly",
+  "value": 1028747.26,
+  "series": {
+   "freq": "P1M",
+   "node": "",
+   "entity": "eia:generation:WY:NG",
+   "market": "",
+   "variable": "net_generation"
+  },
+  "source": "eia:electricity/electric-power-operational-data",
+  "window": [
+   "2026-07-01",
+   "2026-07-01"
+  ],
+  "history": {
+   "last": "2026-05-01",
+   "first": "2001-01-01",
+   "years": 25.33,
+   "points": 305
+  },
+  "compared": {
+   "sigma": 26698.67562599999,
+   "margin": 263365.86,
+   "old_record": 765381.4,
+   "stood_points": 24,
+   "margin_sigmas": 9.8644,
+   "old_record_date": "2024-07-01"
+  },
+  "flag_key": "record|eia_state_generation_monthly|entity=eia:generation:WY:NG|variable=net_generation|market=|node=|freq=P1M",
+  "strength": 9.8644,
+  "direction": "high",
+  "scan_date": "2026-10-13",
+  "statistic": "monthly value",
+  "threshold": {
+   "name": "record high",
+   "value": 765381.4,
+   "config": {
+    "record_min_points": 60,
+    "record_stood_points": 24,
+    "record_min_margin_sigmas": 0.5
+   },
+   "statistic": "the highest monthly value of the held history"
+  },
+  "series_key": "entity=eia:generation:WY:NG|variable=net_generation|market=|node=|freq=P1M",
+  "scanner_version": "1.1.0"
+ },
+ "proof": true
+}

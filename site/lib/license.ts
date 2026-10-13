@@ -31,3 +31,77 @@ export function licensePublishers(table: string): string[] {
 export function licenseNeededTables(now: Date = new Date()): string[] {
   return Object.keys(TABLES).filter((t) => licenseNeeded(t, now)).sort();
 }
+
+// Session 215 (the owner's ruling of 12 October 2026 on session 207's question 4): every page that reads one of these
+// tables shows the catalogue's words, "license needed", in the place a number would have been, from the day in the
+// file. The hold reaches a page through lib/supabase.ts (a read of a held table throws LicenseNeeded, which attempt and
+// required turn into a reason that components/NoData.tsx draws as the words) and through components/Num.tsx (a number
+// whose check key names a held table is drawn as the words). The words and the title are the catalogue's (app/data/page.tsx).
+
+/** The words beside the status on the catalogue, in the hover: the publishers whose sentence decides the table. */
+export const LICENSE_TITLE_SUFFIX = "the publisher's own page asks for permission; none is recorded yet";
+export function licenseTitle(table: string): string {
+  const who = licensePublishers(table);
+  return `${who.length ? who.join("; ") : table}: ${LICENSE_TITLE_SUFFIX}`;
+}
+
+/** A reason attempt() or required() gives for a held read. NoData reads the prefix and draws the words. */
+export const LICENSE_REASON = `${LICENSE_NEEDED}: `;
+export const licenseReason = (table: string) => `${LICENSE_REASON}${licenseTitle(table)}`;
+export const isLicenseReason = (reason: string) => reason.startsWith(LICENSE_REASON);
+
+/** The grid operators among the publishers, by the prefix their entities carry ("isone:.H.INTERNAL_HUB", "iso:isone").
+ *  A consolidated table (iso_dam_hub_prices holds CAISO, ERCOT, MISO and SPP) is flagged whole in the status file for
+ *  the grids that ask for permission; the price board (session 207) holds those grids' rows and keeps the others', in
+ *  PJM's manner, and the pages do the same: a table every deciding publisher of which is a grid operator is held row by
+ *  row, for the rows of those grids; a table decided by anyone else (a news outlet, an operator's site) is held whole. */
+const GRID_PREFIX: Record<string, string> = { "ISO-NE": "isone", MISO: "miso", NYISO: "nyiso", PJM: "pjm", SPP: "spp", CAISO: "caiso", ERCOT: "ercot" };
+const GRID_NAME: Record<string, string> = Object.fromEntries(Object.entries(GRID_PREFIX).map(([k, v]) => [v, k]));
+
+/** True when every publisher deciding the table is a grid operator: the hold is by grid, not whole. */
+export function licenseByGrid(table: string): boolean {
+  const who = licensePublishers(table);
+  return who.length > 0 && who.every((p) => p in GRID_PREFIX);
+}
+
+/** The grid prefixes ("isone", "miso", "nyiso") whose prices are held on the day: a grid that decides any held table. */
+export function licenseHeldGrids(now: Date = new Date()): string[] {
+  const out = new Set<string>();
+  for (const t of licenseNeededTables(now)) for (const p of licensePublishers(t)) if (p in GRID_PREFIX) out.add(GRID_PREFIX[p]);
+  return [...out].sort();
+}
+
+/** The grid an entity belongs to, by its prefix: "isone:.H.INTERNAL_HUB" and "iso:isone" are ISO-NE's; "" when none. */
+export function gridOfEntity(entity: string | undefined | null): string {
+  if (!entity) return "";
+  const m = /^([a-z0-9_-]+):(.*)$/i.exec(entity);
+  if (!m) return "";
+  const head = m[1].toLowerCase();
+  if (head in GRID_NAME) return head;
+  if (head === "iso" && m[2].toLowerCase() in GRID_NAME) return m[2].toLowerCase();
+  return "";
+}
+
+/** The hold on one row of a table: a held table decided by grids holds the rows of the grids that decide it (and a row
+ *  of no grid, such as a national total, is kept); any other held table holds every row. `entity` undefined asks about
+ *  the table whole. */
+export function licenseHeldRow(table: string, entity?: string | null, now: Date = new Date()): boolean {
+  if (!licenseNeeded(table, now)) return false;
+  if (!licenseByGrid(table)) return true;
+  if (entity === undefined || entity === null) return true;
+  const g = gridOfEntity(entity);
+  return !!g && licensePublishers(table).some((p) => GRID_PREFIX[p] === g);
+}
+
+/** Whether a grid's own rows are held on the day, wherever they are read (latest_prices holds every grid's newest
+ *  interval and is not a coverage table): true for a grid that decides any held table. */
+export function licenseHeldGrid(grid: string, now: Date = new Date()): boolean {
+  const g = (GRID_PREFIX[grid] ?? grid).toLowerCase();
+  return licenseHeldGrids(now).includes(g);
+}
+
+/** The title for a held grid's row where no one table is named (the latest prices). */
+export function licenseGridTitle(grid: string): string {
+  const g = (GRID_PREFIX[grid] ?? grid).toLowerCase();
+  return `${GRID_NAME[g] ?? grid}: ${LICENSE_TITLE_SUFFIX}`;
+}

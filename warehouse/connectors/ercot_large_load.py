@@ -147,6 +147,21 @@ def main():
                                 report=title, report_url=url, document_list=PAGE, license="public",
                                 tables=[NAME])])
         status["detail"] = f"{len(t)} requests from {url}"
+    except ip.SourceGap as gap:
+        # Session 216 (the owner's ruling of 12 October 2026, on session 206's question 4): ERCOT publishes no such list,
+        # a known gap by design (warehouse/metadata/known_gaps.csv, since session 17). On GitHub's runner the watch is
+        # recorded as skipped with the reason, as the other known gaps are since session 206, not as a failed step every
+        # Monday. Anywhere else the failure stands, so a person running the connector by hand sees it.
+        g = ip.known_gap(NAME) if ip.on_runner() else None
+        if g:
+            reason = f"a known gap on the GitHub runner since {g['since']} ({g['decided']}): {str(gap)[:200]}"
+            log(f"SKIPPED: {reason}")
+            print(f"ercot_large_load {NAME} SKIPPED: {reason}")
+            status.update(status="skipped", detail=reason[:300])
+        else:
+            log(f"FAILED, no output file written:\n{ip.redact(traceback.format_exc())}")
+            print(f"ercot_large_load {NAME} FAILED, no output file written: iso_prices.SourceGap: {gap}", file=sys.stderr)
+            status.update(status="failed", detail=f"iso_prices.SourceGap: {str(gap)[:280]}")
     except Exception:
         tb = ip.redact(traceback.format_exc())
         last = tb.strip().splitlines()[-1]
@@ -156,6 +171,8 @@ def main():
     ip.write_status("ercot_large_load", run_id, [status])
     log.close()
     print(f"ercot_large_load run log: {os.path.relpath(log.path, ip.ROOT)}")
+    if status["status"] == "skipped":
+        return ip.skip_exit()
     return 1 if status["status"] == "failed" else 0
 
 

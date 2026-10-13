@@ -145,7 +145,9 @@ class TheTableAndTheCopy(unittest.TestCase):
         self.assertIn(f"{round(last['nonsimultaneous']):,} MW of it running", out["s"])
         self.assertIsNone(out["none"])
         self.assertEqual(out["odd"], ["2025-08-27"])                 # the one report whose two peaks cannot both be right
-        self.assertEqual(out["wrong"], ["2026-01-21", "2026-02-25", "2026-03-13"])   # months written as 2025 in reports of 2026
+        # months written as 2025 in reports of 2026; session 217: the report of 24 April 2026 names its month as March 2026
+        # (its data "is current as of April 22"), so it is flagged too
+        self.assertEqual(out["wrong"], ["2026-01-21", "2026-02-25", "2026-03-13", "2026-04-24"])
         # session 166 (the owner's instruction of 8 October 2026, part F): the counts say how many rows are US and how many state no country
         self.assertEqual(out["fac"], {"all": 2, "us": 1, "noCountry": 1, "texas": 1, "withMw": 1, "mw": 300, "texasWithMw": 1, "texasMw": 300, "byKind": {"news": 1, "operator": 1}})
 

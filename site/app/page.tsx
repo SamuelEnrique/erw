@@ -17,6 +17,7 @@ import { count, day, node, price, shown, utc } from "@/lib/format";
 import { DOCS, render, topItems, digestTitle } from "@/lib/markdown";
 import { HOURLY, required, rest } from "@/lib/supabase";
 import { statusOf } from "@/lib/release";
+import { isLicenseReason } from "@/lib/license";  // session 215
 import markets from "@/data/markets.json";
 
 // the latest-price board refreshes every 15 minutes; the rest of the page reads hourly data
@@ -259,6 +260,14 @@ async function liveNumbers() {
   if (dc.ok) {
     out.dc = <Num check="datacenters|count" raw={dc.data.length}>{n0(dc.data.length)}</Num>;
     out.dcLabel = "datacenter facilities tracked";
+  }
+  // session 215: a tile whose table is "license needed" today (lib/license.ts) shows the catalogue's words in the
+  // number's place, not "not held": the read was refused, not failed (lib/supabase.ts LicenseNeeded)
+  for (const [k, r, label] of [["deals", deal, "deals this month"], ["dc", dc, "datacenter facilities tracked"], ["cop", cop, "USD/MWh, what ERCOT's load paid at the hub, load-weighted"], ["uri", uri, "USD/MWh, ERCOT's hub average during Winter Storm Uri"]] as const) {
+    if (!r.ok && isLicenseReason(r.reason) && !out[k]) {
+      out[k] = <NoData what={k} reason={r.reason} />;
+      out[`${k}Label`] = label;
+    }
   }
   if (cat.ok) {
     out.tables = <Num check="catalogue|count" raw={cat.data.length}>{n0(cat.data.length)}</Num>;

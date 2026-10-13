@@ -170,7 +170,7 @@ Hourly demand and generation between July 2018 and August 2026 are not held as a
 | ERCOT | Ancillary quantities | `ercot_as_quantities` | 2026-09-03 | 2026-10-05 | public |
 | ERCOT | Capacity prices | none | | | no table (`iso_all_capacity_prices` holds ISO-NE, MISO, NYISO and PJM only) |
 | ERCOT | Interconnection queue | `ercot_interconnection_queue` | snapshot 2026-10-05 | | public; 1,758 positions |
-| ERCOT | Large loads, status reports | `ercot_large_load_status` | 2025-05-28 | 2026-03-26 | public; 29 rows from 9 reports. No request-level list exists (`known_gaps.csv`) |
+| ERCOT | Large loads, status reports | `ercot_large_load_status` | 2025-05-28 | 2026-06-19 | public; 38 rows from 12 reports (session 217: 29 rows from 9 reports until 13 October 2026). No request-level list exists (`known_gaps.csv`) |
 | ERCOT | Curtailment | `ercot_wind_solar_hsl_daily` | 2026-09-19 | 2026-10-05 | public; output below the High Sustained Limit, "the ERW's estimate" (`docs/platform-tools.md`, tool 22) |
 | ERCOT | Wind and solar forecast | `ercot_wind_solar_forecast` | 2026-09-27 | 2026-10-13 | public |
 | ERCOT | Day-ahead energy cleared | `ercot_dam_cleared_energy` | 2026-09-23 | 2026-10-08 | public |
@@ -413,7 +413,7 @@ Chosen from the session reports of sessions 60 to 137 in this working tree, the 
 12. ERCOT's average demand rose from 43,798 MW in 2019 to 55,717 in 2025, "+27.22" percent; NYISO's fell "-2.73" (`eia930_demand_growth`; `SESSION_97_REPORT.md` lines 56 and 62; weather not removed; "0 values differ" after the shared rule, `SESSION_103_REPORT.md` line 65).
 13. "Of 22,344 requests that entered from 2000 to 2020, 18.78 percent reached operation and 70.89 percent were withdrawn"; the median wait "rose from 3.15 years in 2015 to 5.44 in 2025" (`interconnection_queue_summary`; `SESSION_95_REPORT.md` line 56).
 14. "Nine months of 2026 hold more curtailment than all of 2025, and four fifths of it is for local congestion" in California: 4,790,395 MWh of solar to September 2026 (`caiso_curtailment_profile`; `SESSION_98_REPORT.md` lines 80 and 82).
-15. "By ERCOT's report of 26 March 2026, 9,042 MW of large load had its approval to energize and ERCOT had observed 4,004 MW of it running, 44 percent" (`ercot_large_load_status`; `SESSION_106_REPORT.md` line 8; the series stops in March 2026).
+15. "By ERCOT's report of 19 June 2026, 8,927 MW of large load had its approval to energize and ERCOT had observed 3,900 MW of it running, 44 percent" (`ercot_large_load_status`; `SESSION_217_REPORT.md`; the series runs to June 2026, pulled on 13 October 2026). History: by the report of 26 March 2026 the figures were 9,042 MW approved and 4,004 MW observed running, 44 percent (`SESSION_106_REPORT.md` line 8); by the report of 21 May 2026, 9,062 MW and 3,900 MW, 43 percent.
 16. EIA's workbook gives PJM's demand as "2,147,480,000 MW" in an hour of 19 October 2021, which made `carbon_intensity_monthly` say "4.47 kg CO2 per MWh" for that month "between months of 316 to 411" (`SESSION_118_REPORT.md` lines 7 and 8; the fix is held for approval).
 17. Of the 2,732 pair-days of interchange the screening rule leaves out, "in **1,911 the two reports agree within 5 percent**" (`eia930_daily_interchange`; `SESSION_124_REPORT.md` line 13).
 18. Day-ahead averages over twelve months to September 2026: CAISO SP15 28.92 USD per MWh with 12.82 percent of hours below zero; ISO-NE's internal hub 74.19 (`hub_price_comparison`; `SESSION_96_REPORT.md` lines 57 and 67; eleven hubs only, no PJM, MISO held and not shown).
