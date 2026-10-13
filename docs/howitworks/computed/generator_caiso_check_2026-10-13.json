@@ -1,0 +1,2006 @@
+{
+ "built": "2026-10-13T11:09:38Z",
+ "eia860m": [
+  "2026-08"
+ ],
+ "workbook": "20261010T212714.959260Z_00002_CISO.xlsx",
+ "tables": [
+  "iso_hub_prices_history",
+  "ercot_all_hub_prices_history",
+  "ercot_zone_prices_history",
+  "iso_zone_prices_history",
+  "iso_dam_hub_prices",
+  "iso_rtm_hub_prices",
+  "isone_dam_zone_prices",
+  "isone_rtm_zone_prices",
+  "isone_rtm_zone_prices_hourly",
+  "nyiso_dam_zone_prices",
+  "nyiso_rtm_zone_prices"
+ ],
+ "henry_hub": "1997-01-07 to 2026-10-06",
+ "ghg_adder_usd_per_mmbtu": 1.58910185,
+ "hubs": {
+  "SP15": {
+   "rt": {
+    "market": "rt",
+    "basis": "PT15M",
+    "tables": [
+     "iso_hub_prices_history"
+    ],
+    "first": "2024-09-01 07:00:00+00:00",
+    "last": "2026-10-12 06:00:00+00:00",
+    "assets": {
+     "solar": {
+      "2025": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 29.66124314665696,
+       "energy_mwh_per_mw": 2074.5195494236405,
+       "capture_price": 14.29788557784268,
+       "flat_price": 31.188884497366615,
+       "capture_rate_pct": 45.84288860683651,
+       "hours": 8734,
+       "finance": {
+        "debt_payment_per_kw": 70.78769326256084,
+        "coverage": 0.2424325805193801,
+        "price_for_coverage_1_25": 48.67855624993141,
+        "npv_per_kw": -988.4232527818209,
+        "breakeven_ppa": 72.5767245412813,
+        "unit": "USD/MWh"
+       }
+      },
+      "last12": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 28.449111967805038,
+       "energy_mwh_per_mw": 2057.2481186643545,
+       "capture_price": 13.828721829759314,
+       "flat_price": 28.584082648271128,
+       "capture_rate_pct": 48.379099654596494,
+       "hours": 8734,
+       "first": "2025-10",
+       "last": "2026-09",
+       "finance": {
+        "debt_payment_per_kw": 70.78769326256084,
+        "coverage": 0.2253091071727354,
+        "price_for_coverage_1_25": 49.08723243541678,
+        "npv_per_kw": -998.3330359780223,
+        "breakeven_ppa": 73.18603552388866,
+        "unit": "USD/MWh"
+       }
+      }
+     },
+     "wind": {
+      "2025": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 94.67625981380259,
+       "energy_mwh_per_mw": 3125.1947055573755,
+       "capture_price": 30.294515617041267,
+       "flat_price": 31.188884497366615,
+       "capture_rate_pct": 97.13241145126283,
+       "hours": 8734,
+       "finance": {
+        "debt_payment_per_kw": 111.92256606796306,
+        "coverage": 0.5577629427822027,
+        "price_for_coverage_1_25": 55.085594276357405,
+        "npv_per_kw": -1238.7018525972671,
+        "breakeven_ppa": 79.50008297716093,
+        "unit": "USD/MWh"
+       }
+      },
+      "last12": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 64.03944800641302,
+       "energy_mwh_per_mw": 2476.7605877092255,
+       "capture_price": 25.856131724723376,
+       "flat_price": 28.584082648271128,
+       "capture_rate_pct": 90.45639855889253,
+       "hours": 8734,
+       "first": "2025-10",
+       "last": "2026-09",
+       "finance": {
+        "debt_payment_per_kw": 111.92256606796306,
+        "coverage": 0.28403072877286806,
+        "price_for_coverage_1_25": 69.50740755455078,
+        "npv_per_kw": -1485.4870078885929,
+        "breakeven_ppa": 100.31378876284191,
+        "unit": "USD/MWh"
+       }
+      }
+     },
+     "peaker": {
+      "2025": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 30.05066850000001,
+       "energy_mwh_per_mw": 2969.0,
+       "capture_price": 49.64397659144493,
+       "flat_price": 31.187102927876364,
+       "capture_rate_pct": 159.18110991666055,
+       "hours": 8735,
+       "finance": {
+        "debt_payment_per_kw": 69.28539804207237,
+        "coverage": 0.2388767181499037,
+        "price_for_coverage_1_25": 8.342228962715872,
+        "npv_per_kw": -944.7879479465753,
+        "breakeven_ppa": 12.278341664090242,
+        "unit": "USD/kW-month"
+       }
+      },
+      "last12": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 43.215005225,
+       "energy_mwh_per_mw": 2294.0,
+       "capture_price": 55.508352103312994,
+       "flat_price": 28.58259928162564,
+       "capture_rate_pct": 194.20330375270177,
+       "hours": 8735,
+       "first": "2025-10",
+       "last": "2026-09",
+       "finance": {
+        "debt_payment_per_kw": 69.28539804207237,
+        "coverage": 0.42887832161916817,
+        "price_for_coverage_1_25": 8.342228962715872,
+        "npv_per_kw": -838.7467938143809,
+        "breakeven_ppa": 12.278341664090242,
+        "unit": "USD/kW-month"
+       }
+      }
+     }
+    },
+    "peaker_as_dmm_2025": {
+     "margin_per_kw": 11.265282496244998,
+     "revenue_per_kw": 57.3505521,
+     "costs_per_kw": 46.085269603755,
+     "hours_run": 911,
+     "hours": 8735,
+     "capacity_factor_pct": 10.429307384087007,
+     "henry_hub_mean": 3.5390509444762452
+    },
+    "peaker_page_rule_2025": {
+     "margin_per_kw": 30.0506685,
+     "revenue_per_kw": 147.3929665,
+     "costs_per_kw": 117.34229800000001,
+     "hours_run": 2969,
+     "hours": 8735,
+     "capacity_factor_pct": 33.98969662278191,
+     "henry_hub_mean": 3.5390509444762452
+    },
+    "peaker_page_rule_with_ghg_2025": {
+     "margin_per_kw": 6.95133397866,
+     "revenue_per_kw": 33.253460425,
+     "costs_per_kw": 26.30212644634,
+     "hours_run": 464,
+     "hours": 8735,
+     "capacity_factor_pct": 5.311963365769891,
+     "henry_hub_mean": 3.5390509444762452
+    },
+    "over_nameplate": {
+     "solar": 0,
+     "wind": 0
+    },
+    "negative": {
+     "solar": 7938,
+     "wind": 0
+    }
+   },
+   "da": {
+    "market": "da",
+    "basis": "PT1H",
+    "tables": [
+     "iso_hub_prices_history"
+    ],
+    "first": "2024-09-01 07:00:00+00:00",
+    "last": "2026-10-13 06:00:00+00:00",
+    "assets": {
+     "solar": {
+      "2025": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 29.32977795748041,
+       "energy_mwh_per_mw": 2074.5195494236405,
+       "capture_price": 14.138106322318842,
+       "flat_price": 32.214025881612095,
+       "capture_rate_pct": 43.8880454565877,
+       "hours": 8734,
+       "finance": {
+        "debt_payment_per_kw": 70.78769326256084,
+        "coverage": 0.23775005487262535,
+        "price_for_coverage_1_25": 48.67855624993141,
+        "npv_per_kw": -991.1331477330742,
+        "breakeven_ppa": 72.5767245412813,
+        "unit": "USD/MWh"
+       }
+      },
+      "last12": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 29.65619533679629,
+       "energy_mwh_per_mw": 2057.2481186643545,
+       "capture_price": 14.415468444346056,
+       "flat_price": 28.922932584153884,
+       "capture_rate_pct": 49.84096409450511,
+       "hours": 8734,
+       "first": "2025-10",
+       "last": "2026-09",
+       "finance": {
+        "debt_payment_per_kw": 70.78769326256084,
+        "coverage": 0.24236127137469662,
+        "price_for_coverage_1_25": 49.08723243541678,
+        "npv_per_kw": -988.4645211710908,
+        "breakeven_ppa": 73.18603552388866,
+        "unit": "USD/MWh"
+       }
+      }
+     },
+     "wind": {
+      "2025": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 98.65387597482187,
+       "energy_mwh_per_mw": 3125.1947055573755,
+       "capture_price": 31.567273488397596,
+       "flat_price": 32.214025881612095,
+       "capture_rate_pct": 97.99232671013756,
+       "hours": 8734,
+       "finance": {
+        "debt_payment_per_kw": 111.92256606796306,
+        "coverage": 0.5933019435463913,
+        "price_for_coverage_1_25": 55.085594276357405,
+        "npv_per_kw": -1206.66142266749,
+        "breakeven_ppa": 79.50008297716093,
+        "unit": "USD/MWh"
+       }
+      },
+      "last12": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 66.91302848971542,
+       "energy_mwh_per_mw": 2476.7605877092255,
+       "capture_price": 27.01634902532254,
+       "flat_price": 28.922932584153884,
+       "capture_rate_pct": 93.40805586264821,
+       "hours": 8734,
+       "first": "2025-10",
+       "last": "2026-09",
+       "finance": {
+        "debt_payment_per_kw": 111.92256606796306,
+        "coverage": 0.30970544821735846,
+        "price_for_coverage_1_25": 69.50740755455078,
+        "npv_per_kw": -1462.3397884496942,
+        "breakeven_ppa": 100.31378876284191,
+        "unit": "USD/MWh"
+       }
+      }
+     },
+     "peaker": {
+      "2025": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 30.02185503,
+       "energy_mwh_per_mw": 3507.0,
+       "capture_price": 48.08644376390077,
+       "flat_price": 32.21422412478535,
+       "capture_rate_pct": 149.27084252481953,
+       "hours": 8735,
+       "finance": {
+        "debt_payment_per_kw": 69.28539804207237,
+        "coverage": 0.23846085173628342,
+        "price_for_coverage_1_25": 8.342228962715872,
+        "npv_per_kw": -945.0200457481723,
+        "breakeven_ppa": 12.278341664090242,
+        "unit": "USD/kW-month"
+       }
+      },
+      "last12": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 31.996937820000003,
+       "energy_mwh_per_mw": 2428.0,
+       "capture_price": 49.91688862026359,
+       "flat_price": 28.923507598168293,
+       "capture_rate_pct": 172.5824174362061,
+       "hours": 8735,
+       "first": "2025-10",
+       "last": "2026-09",
+       "finance": {
+        "debt_payment_per_kw": 69.28539804207237,
+        "coverage": 0.26696733139597545,
+        "price_for_coverage_1_25": 8.342228962715872,
+        "npv_per_kw": -929.1103905233485,
+        "breakeven_ppa": 12.278341664090242,
+        "unit": "USD/kW-month"
+       }
+      }
+     }
+    },
+    "peaker_as_dmm_2025": {
+     "margin_per_kw": 6.894464628229999,
+     "revenue_per_kw": 56.24723495,
+     "costs_per_kw": 49.35277032177,
+     "hours_run": 994,
+     "hours": 8735,
+     "capacity_factor_pct": 11.379507727532912,
+     "henry_hub_mean": 3.5390509444762452
+    },
+    "peaker_page_rule_2025": {
+     "margin_per_kw": 30.021855029999998,
+     "revenue_per_kw": 168.63915827999998,
+     "costs_per_kw": 138.61730325,
+     "hours_run": 3507,
+     "hours": 8735,
+     "capacity_factor_pct": 40.14882655981683,
+     "henry_hub_mean": 3.5390509444762452
+    },
+    "peaker_page_rule_with_ghg_2025": {
+     "margin_per_kw": 2.9749287836187506,
+     "revenue_per_kw": 24.096511210000003,
+     "costs_per_kw": 21.12158242638125,
+     "hours_run": 385,
+     "hours": 8735,
+     "capacity_factor_pct": 4.4075558099599315,
+     "henry_hub_mean": 3.5390509444762452
+    },
+    "over_nameplate": {
+     "solar": 0,
+     "wind": 0
+    },
+    "negative": {
+     "solar": 7938,
+     "wind": 0
+    }
+   }
+  },
+  "ZP26": {
+   "rt": {
+    "market": "rt",
+    "basis": "PT15M",
+    "tables": [
+     "iso_rtm_hub_prices",
+     "iso_zone_prices_history"
+    ],
+    "first": "2024-09-01 07:00:00+00:00",
+    "last": "2026-10-12 06:00:00+00:00",
+    "assets": {
+     "solar": {
+      "2025": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 30.104874707198366,
+       "energy_mwh_per_mw": 2079.7793149925483,
+       "capture_price": 14.475033235584531,
+       "flat_price": 31.72044363797237,
+       "capture_rate_pct": 45.63313615909378,
+       "hours": 8759,
+       "finance": {
+        "debt_payment_per_kw": 70.78769326256084,
+        "coverage": 0.24869965238024605,
+        "price_for_coverage_1_25": 48.55544809501236,
+        "npv_per_kw": -984.7963412225274,
+        "breakeven_ppa": 72.39317787645274,
+        "unit": "USD/MWh"
+       }
+      },
+      "last12": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 28.45624179805384,
+       "energy_mwh_per_mw": 2062.5078842332623,
+       "capture_price": 13.796912979381144,
+       "flat_price": 27.890044068957643,
+       "capture_rate_pct": 49.46895367131196,
+       "hours": 8759,
+       "first": "2025-10",
+       "last": "2026-09",
+       "finance": {
+        "debt_payment_per_kw": 70.78769326256084,
+        "coverage": 0.2254098284975899,
+        "price_for_coverage_1_25": 48.96205117574234,
+        "npv_per_kw": -998.2747460229218,
+        "breakeven_ppa": 72.99939798775311,
+        "unit": "USD/MWh"
+       }
+      }
+     },
+     "wind": {
+      "2025": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 96.85448329994857,
+       "energy_mwh_per_mw": 3128.233105254718,
+       "capture_price": 30.961402184912348,
+       "flat_price": 31.72044363797237,
+       "capture_rate_pct": 97.60709067715756,
+       "hours": 8759,
+       "finance": {
+        "debt_payment_per_kw": 111.92256606796306,
+        "coverage": 0.5772248222107292,
+        "price_for_coverage_1_25": 55.032090573997095,
+        "npv_per_kw": -1221.1558616936672,
+        "breakeven_ppa": 79.42286589648667,
+        "unit": "USD/MWh"
+       }
+      },
+      "last12": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 63.66649843950407,
+       "energy_mwh_per_mw": 2479.798987406568,
+       "capture_price": 25.67405614843322,
+       "flat_price": 27.890044068957643,
+       "capture_rate_pct": 92.05455568644699,
+       "hours": 8759,
+       "first": "2025-10",
+       "last": "2026-09",
+       "finance": {
+        "debt_payment_per_kw": 111.92256606796306,
+        "coverage": 0.28069851812034885,
+        "price_for_coverage_1_25": 69.42224287501452,
+        "npv_per_kw": -1488.4911852607067,
+        "breakeven_ppa": 100.19087824188276,
+        "unit": "USD/MWh"
+       }
+      }
+     },
+     "peaker": {
+      "2025": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 30.882938199999998,
+       "energy_mwh_per_mw": 3163.0,
+       "capture_price": 49.320763183686374,
+       "flat_price": 31.719852497146118,
+       "capture_rate_pct": 155.48862715589183,
+       "hours": 8760,
+       "finance": {
+        "debt_payment_per_kw": 69.28539804207237,
+        "coverage": 0.25088891297765953,
+        "price_for_coverage_1_25": 8.342228962715872,
+        "npv_per_kw": -938.0838624023602,
+        "breakeven_ppa": 12.278341664090242,
+        "unit": "USD/kW-month"
+       }
+      },
+      "last12": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 29.353983749999994,
+       "energy_mwh_per_mw": 2381.0,
+       "capture_price": 49.39237715245695,
+       "flat_price": 27.889890188356166,
+       "capture_rate_pct": 177.0977828126334,
+       "hours": 8760,
+       "first": "2025-10",
+       "last": "2026-09",
+       "finance": {
+        "debt_payment_per_kw": 69.28539804207237,
+        "coverage": 0.2288214284396971,
+        "price_for_coverage_1_25": 8.342228962715872,
+        "npv_per_kw": -950.3998717752938,
+        "breakeven_ppa": 12.278341664090242,
+        "unit": "USD/kW-month"
+       }
+      }
+     }
+    },
+    "peaker_as_dmm_2025": {
+     "margin_per_kw": 10.773400388634998,
+     "revenue_per_kw": 58.932753175,
+     "costs_per_kw": 48.159352786365,
+     "hours_run": 953,
+     "hours": 8760,
+     "capacity_factor_pct": 10.878995433789955,
+     "henry_hub_mean": 3.539139269406393
+    },
+    "peaker_page_rule_2025": {
+     "margin_per_kw": 30.882938200000005,
+     "revenue_per_kw": 156.00157395000002,
+     "costs_per_kw": 125.11863575,
+     "hours_run": 3163,
+     "hours": 8760,
+     "capacity_factor_pct": 36.10730593607306,
+     "henry_hub_mean": 3.539139269406393
+    },
+    "peaker_page_rule_with_ghg_2025": {
+     "margin_per_kw": 6.441234796873751,
+     "revenue_per_kw": 31.194724325,
+     "costs_per_kw": 24.753489528126252,
+     "hours_run": 437,
+     "hours": 8760,
+     "capacity_factor_pct": 4.988584474885845,
+     "henry_hub_mean": 3.539139269406393
+    },
+    "over_nameplate": {
+     "solar": 0,
+     "wind": 0
+    },
+    "negative": {
+     "solar": 7961,
+     "wind": 0
+    }
+   },
+   "da": {
+    "market": "da",
+    "basis": "PT1H",
+    "tables": [
+     "iso_dam_hub_prices",
+     "iso_zone_prices_history"
+    ],
+    "first": "2023-06-26 07:00:00+00:00",
+    "last": "2026-10-13 06:00:00+00:00",
+    "assets": {
+     "solar": {
+      "2025": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 28.590186167022782,
+       "energy_mwh_per_mw": 2079.7793149925483,
+       "capture_price": 13.746740320438862,
+       "flat_price": 32.50023210069642,
+       "capture_rate_pct": 42.29736045529439,
+       "hours": 8759,
+       "finance": {
+        "debt_payment_per_kw": 70.78769326256084,
+        "coverage": 0.22730202702526514,
+        "price_for_coverage_1_25": 48.55544809501236,
+        "npv_per_kw": -997.1796833102444,
+        "breakeven_ppa": 72.39317787645274,
+        "unit": "USD/MWh"
+       }
+      },
+      "last12": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 29.319834076340747,
+       "energy_mwh_per_mw": 2062.5078842332623,
+       "capture_price": 14.215622786450778,
+       "flat_price": 29.002533654526776,
+       "capture_rate_pct": 49.01510659649549,
+       "hours": 8759,
+       "first": "2025-10",
+       "last": "2026-09",
+       "finance": {
+        "debt_payment_per_kw": 70.78769326256084,
+        "coverage": 0.23760958015616893,
+        "price_for_coverage_1_25": 48.96205117574234,
+        "npv_per_kw": -991.2144439722455,
+        "breakeven_ppa": 72.99939798775311,
+        "unit": "USD/MWh"
+       }
+      }
+     },
+     "wind": {
+      "2025": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 100.07717048013906,
+       "energy_mwh_per_mw": 3128.233105254718,
+       "capture_price": 31.991596250302525,
+       "flat_price": 32.50023210069642,
+       "capture_rate_pct": 98.43497779087245,
+       "hours": 8759,
+       "finance": {
+        "debt_payment_per_kw": 111.92256606796306,
+        "coverage": 0.6060187222561728,
+        "price_for_coverage_1_25": 55.032090573997095,
+        "npv_per_kw": -1195.1965235869895,
+        "breakeven_ppa": 79.42286589648667,
+        "unit": "USD/MWh"
+       }
+      },
+      "last12": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 67.73261629409896,
+       "energy_mwh_per_mw": 2479.798987406568,
+       "capture_price": 27.313752702566962,
+       "flat_price": 29.002533654526776,
+       "capture_rate_pct": 94.17712613637042,
+       "hours": 8759,
+       "first": "2025-10",
+       "last": "2026-09",
+       "finance": {
+        "debt_payment_per_kw": 111.92256606796306,
+        "coverage": 0.31702825927483425,
+        "price_for_coverage_1_25": 69.42224287501452,
+        "npv_per_kw": -1455.7378579077279,
+        "breakeven_ppa": 100.19087824188276,
+        "unit": "USD/MWh"
+       }
+      }
+     },
+     "peaker": {
+      "2025": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 30.546697920000003,
+       "energy_mwh_per_mw": 3612.0,
+       "capture_price": 48.106273787375414,
+       "flat_price": 32.50021684703196,
+       "capture_rate_pct": 148.01831635092202,
+       "hours": 8760,
+       "finance": {
+        "debt_payment_per_kw": 69.28539804207237,
+        "coverage": 0.246035938332182,
+        "price_for_coverage_1_25": 8.342228962715872,
+        "npv_per_kw": -940.7923397151001,
+        "breakeven_ppa": 12.278341664090242,
+        "unit": "USD/kW-month"
+       }
+      },
+      "last12": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 27.727280399999994,
+       "energy_mwh_per_mw": 2463.0,
+       "capture_price": 48.36956796589525,
+       "flat_price": 29.002917681506847,
+       "capture_rate_pct": 166.77483450824388,
+       "hours": 8760,
+       "first": "2025-10",
+       "last": "2026-09",
+       "finance": {
+        "debt_payment_per_kw": 69.28539804207237,
+        "coverage": 0.20534312859631293,
+        "price_for_coverage_1_25": 8.342228962715872,
+        "npv_per_kw": -963.5032665203646,
+        "breakeven_ppa": 12.278341664090242,
+        "unit": "USD/kW-month"
+       }
+      }
+     }
+    },
+    "peaker_as_dmm_2025": {
+     "margin_per_kw": 6.4204300143149995,
+     "revenue_per_kw": 58.91613111,
+     "costs_per_kw": 52.495701095685,
+     "hours_run": 1057,
+     "hours": 8760,
+     "capacity_factor_pct": 12.0662100456621,
+     "henry_hub_mean": 3.539139269406393
+    },
+    "peaker_page_rule_2025": {
+     "margin_per_kw": 30.546697920000007,
+     "revenue_per_kw": 173.75986092,
+     "costs_per_kw": 143.213163,
+     "hours_run": 3612,
+     "hours": 8760,
+     "capacity_factor_pct": 41.23287671232877,
+     "henry_hub_mean": 3.539139269406393
+    },
+    "peaker_page_rule_with_ghg_2025": {
+     "margin_per_kw": 2.3324265591737503,
+     "revenue_per_kw": 21.97867345,
+     "costs_per_kw": 19.646246890826248,
+     "hours_run": 357,
+     "hours": 8760,
+     "capacity_factor_pct": 4.075342465753424,
+     "henry_hub_mean": 3.539139269406393
+    },
+    "over_nameplate": {
+     "solar": 0,
+     "wind": 0
+    },
+    "negative": {
+     "solar": 11172,
+     "wind": 0
+    }
+   }
+  },
+  "NP15": {
+   "rt": {
+    "market": "rt",
+    "basis": "PT15M",
+    "tables": [
+     "iso_hub_prices_history"
+    ],
+    "first": "2024-09-01 07:00:00+00:00",
+    "last": "2026-10-12 06:00:00+00:00",
+    "assets": {
+     "solar": {
+      "2025": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 55.4444985801289,
+       "energy_mwh_per_mw": 2074.5195494236405,
+       "capture_price": 26.726428582238682,
+       "flat_price": 37.27390375257614,
+       "capture_rate_pct": 71.70278906027254,
+       "hours": 8734,
+       "finance": {
+        "debt_payment_per_kw": 70.78769326256084,
+        "coverage": 0.6066661675334175,
+        "price_for_coverage_1_25": 48.67855624993141,
+        "npv_per_kw": -777.6321470864816,
+        "breakeven_ppa": 72.5767245412813,
+        "unit": "USD/MWh"
+       }
+      },
+      "last12": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 49.43351221323458,
+       "energy_mwh_per_mw": 2057.2481186643545,
+       "capture_price": 24.028950015678586,
+       "flat_price": 32.66407106709411,
+       "capture_rate_pct": 73.56385542488432,
+       "hours": 8734,
+       "first": "2025-10",
+       "last": "2026-09",
+       "finance": {
+        "debt_payment_per_kw": 70.78769326256084,
+        "coverage": 0.5217504697637673,
+        "price_for_coverage_1_25": 49.08723243541678,
+        "npv_per_kw": -826.7749896521399,
+        "breakeven_ppa": 73.18603552388866,
+        "unit": "USD/MWh"
+       }
+      }
+     },
+     "wind": {
+      "2025": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 111.03509578066549,
+       "energy_mwh_per_mw": 3125.1947055573755,
+       "capture_price": 35.529016986755224,
+       "flat_price": 37.27390375257614,
+       "capture_rate_pct": 95.31874424153837,
+       "hours": 8734,
+       "finance": {
+        "debt_payment_per_kw": 111.92256606796306,
+        "coverage": 0.7039250309256185,
+        "price_for_coverage_1_25": 55.085594276357405,
+        "npv_per_kw": -1106.9284193872923,
+        "breakeven_ppa": 79.50008297716093,
+        "unit": "USD/MWh"
+       }
+      },
+      "last12": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 74.35159762506484,
+       "energy_mwh_per_mw": 2476.7605877092255,
+       "capture_price": 30.019695078333424,
+       "flat_price": 32.66407106709411,
+       "capture_rate_pct": 91.904328204133,
+       "hours": 8734,
+       "first": "2025-10",
+       "last": "2026-09",
+       "finance": {
+        "debt_payment_per_kw": 111.92256606796306,
+        "coverage": 0.3761671940178656,
+        "price_for_coverage_1_25": 69.50740755455078,
+        "npv_per_kw": -1402.4207456082424,
+        "breakeven_ppa": 100.31378876284191,
+        "unit": "USD/MWh"
+       }
+      }
+     },
+     "peaker": {
+      "2025": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 41.4747723,
+       "energy_mwh_per_mw": 3667.0,
+       "capture_price": 51.05060568584674,
+       "flat_price": 37.27472004006868,
+       "capture_rate_pct": 136.95771727049754,
+       "hours": 8735,
+       "finance": {
+        "debt_payment_per_kw": 69.28539804207237,
+        "coverage": 0.4037614431111848,
+        "price_for_coverage_1_25": 8.342228962715872,
+        "npv_per_kw": -852.7646901718477,
+        "breakeven_ppa": 12.278341664090242,
+        "unit": "USD/kW-month"
+       }
+      },
+      "last12": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 39.96947074999999,
+       "energy_mwh_per_mw": 2997.0,
+       "capture_price": 50.8416515682349,
+       "flat_price": 32.665415097309676,
+       "capture_rate_pct": 155.64367211247293,
+       "hours": 8735,
+       "first": "2025-10",
+       "last": "2026-09",
+       "finance": {
+        "debt_payment_per_kw": 69.28539804207237,
+        "coverage": 0.38203534219326934,
+        "price_for_coverage_1_25": 8.342228962715872,
+        "npv_per_kw": -864.8901710839126,
+        "breakeven_ppa": 12.278341664090242,
+        "unit": "USD/kW-month"
+       }
+      }
+     }
+    },
+    "peaker_as_dmm_2025": {
+     "margin_per_kw": 16.315293317349997,
+     "revenue_per_kw": 83.84610010000002,
+     "costs_per_kw": 67.53080678265,
+     "hours_run": 1330,
+     "hours": 8735,
+     "capacity_factor_pct": 15.22610188895249,
+     "henry_hub_mean": 3.5390509444762452
+    },
+    "peaker_page_rule_2025": {
+     "margin_per_kw": 41.474772300000005,
+     "revenue_per_kw": 187.20257105000002,
+     "costs_per_kw": 145.72779875,
+     "hours_run": 3667,
+     "hours": 8735,
+     "capacity_factor_pct": 41.98053806525473,
+     "henry_hub_mean": 3.5390509444762452
+    },
+    "peaker_page_rule_with_ghg_2025": {
+     "margin_per_kw": 10.10916338743375,
+     "revenue_per_kw": 47.670376950000005,
+     "costs_per_kw": 37.56121356256625,
+     "hours_run": 661,
+     "hours": 8735,
+     "capacity_factor_pct": 7.567258156840298,
+     "henry_hub_mean": 3.5390509444762452
+    },
+    "over_nameplate": {
+     "solar": 0,
+     "wind": 0
+    },
+    "negative": {
+     "solar": 7938,
+     "wind": 0
+    }
+   },
+   "da": {
+    "market": "da",
+    "basis": "PT1H",
+    "tables": [
+     "iso_hub_prices_history"
+    ],
+    "first": "2024-09-01 07:00:00+00:00",
+    "last": "2026-10-13 06:00:00+00:00",
+    "assets": {
+     "solar": {
+      "2025": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 55.648926154395944,
+       "energy_mwh_per_mw": 2074.5195494236405,
+       "capture_price": 26.824970711824225,
+       "flat_price": 38.21573479161895,
+       "capture_rate_pct": 70.19352331727815,
+       "hours": 8734,
+       "finance": {
+        "debt_payment_per_kw": 70.78769326256084,
+        "coverage": 0.6095540646359378,
+        "price_for_coverage_1_25": 48.67855624993141,
+        "npv_per_kw": -775.9608486530641,
+        "breakeven_ppa": 72.5767245412813,
+        "unit": "USD/MWh"
+       }
+      },
+      "last12": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 49.23000325754398,
+       "energy_mwh_per_mw": 2057.2481186643545,
+       "capture_price": 23.930027112872516,
+       "flat_price": 33.406961767803985,
+       "capture_rate_pct": 71.63185709373643,
+       "hours": 8734,
+       "first": "2025-10",
+       "last": "2026-09",
+       "finance": {
+        "debt_payment_per_kw": 70.78769326256084,
+        "coverage": 0.5188755497556274,
+        "price_for_coverage_1_25": 49.08723243541678,
+        "npv_per_kw": -828.4387779157908,
+        "breakeven_ppa": 73.18603552388866,
+        "unit": "USD/MWh"
+       }
+      }
+     },
+     "wind": {
+      "2025": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 114.81010701892913,
+       "energy_mwh_per_mw": 3125.1947055573755,
+       "capture_price": 36.73694532208446,
+       "flat_price": 38.21573479161895,
+       "capture_rate_pct": 96.1304172807406,
+       "hours": 8734,
+       "finance": {
+        "debt_payment_per_kw": 111.92256606796306,
+        "coverage": 0.7376538076226372,
+        "price_for_coverage_1_25": 55.085594276357405,
+        "npv_per_kw": -1076.5200093830674,
+        "breakeven_ppa": 79.50008297716093,
+        "unit": "USD/MWh"
+       }
+      },
+      "last12": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 77.79414059329265,
+       "energy_mwh_per_mw": 2476.7605877092255,
+       "capture_price": 31.40963279993285,
+       "flat_price": 33.406961767803985,
+       "capture_rate_pct": 94.02121934417855,
+       "hours": 8734,
+       "first": "2025-10",
+       "last": "2026-09",
+       "finance": {
+        "debt_payment_per_kw": 111.92256606796306,
+        "coverage": 0.4069254502763701,
+        "price_for_coverage_1_25": 69.50740755455078,
+        "npv_per_kw": -1374.6904286825677,
+        "breakeven_ppa": 100.31378876284191,
+        "unit": "USD/MWh"
+       }
+      }
+     },
+     "peaker": {
+      "2025": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 37.07834828000001,
+       "energy_mwh_per_mw": 4030.0,
+       "capture_price": 49.12869237717122,
+       "flat_price": 38.21795876702919,
+       "capture_rate_pct": 128.54870841389564,
+       "hours": 8735,
+       "finance": {
+        "debt_payment_per_kw": 69.28539804207237,
+        "coverage": 0.34030761092954187,
+        "price_for_coverage_1_25": 8.342228962715872,
+        "npv_per_kw": -888.1786944528193,
+        "breakeven_ppa": 12.278341664090242,
+        "unit": "USD/kW-month"
+       }
+      },
+      "last12": {
+       "months_counted": 12,
+       "months": 12,
+       "revenue_per_kw": 33.99467496,
+       "energy_mwh_per_mw": 3004.0,
+       "capture_price": 48.85620562916112,
+       "flat_price": 33.40973626101889,
+       "capture_rate_pct": 146.23343700609973,
+       "hours": 8735,
+       "first": "2025-10",
+       "last": "2026-09",
+       "finance": {
+        "debt_payment_per_kw": 69.28539804207237,
+        "coverage": 0.29580078254807685,
+        "price_for_coverage_1_25": 8.342228962715872,
+        "npv_per_kw": -913.018250341607,
+        "breakeven_ppa": 12.278341664090242,
+        "unit": "USD/kW-month"
+       }
+      }
+     }
+    },
+    "peaker_as_dmm_2025": {
+     "margin_per_kw": 9.64348544648,
+     "revenue_per_kw": 76.89588029000001,
+     "costs_per_kw": 67.25239484352001,
+     "hours_run": 1344,
+     "hours": 8735,
+     "capacity_factor_pct": 15.386376645678308,
+     "henry_hub_mean": 3.5390509444762452
+    },
+    "peaker_page_rule_2025": {
+     "margin_per_kw": 37.07834828000001,
+     "revenue_per_kw": 197.98863028,
+     "costs_per_kw": 160.910282,
+     "hours_run": 4030,
+     "hours": 8735,
+     "capacity_factor_pct": 46.136233543216946,
+     "henry_hub_mean": 3.5390509444762452
+    },
+    "peaker_page_rule_with_ghg_2025": {
+     "margin_per_kw": 4.009310845725,
+     "revenue_per_kw": 33.95727546,
+     "costs_per_kw": 29.947964614274998,
+     "hours_run": 540,
+     "hours": 8735,
+     "capacity_factor_pct": 6.18202633085289,
+     "henry_hub_mean": 3.5390509444762452
+    },
+    "over_nameplate": {
+     "solar": 0,
+     "wind": 0
+    },
+    "negative": {
+     "solar": 7938,
+     "wind": 0
+    }
+   }
+  }
+ },
+ "capture_file": [
+  {
+   "hub": "SP15",
+   "market": "rt",
+   "fuel": "solar",
+   "span": "last12",
+   "first": "2025-10",
+   "last": "2026-09",
+   "capture_price": 13.863895268657359,
+   "flat_price": 28.527318480895765,
+   "capture_rate_pct": 48.59866263960898,
+   "hours": 8663,
+   "fleet_mwh": 57549110.4
+  },
+  {
+   "hub": "SP15",
+   "market": "rt",
+   "fuel": "solar",
+   "span": "2025",
+   "first": "2025-01",
+   "last": "2025-12",
+   "capture_price": 14.510888890017409,
+   "flat_price": 31.188884817952825,
+   "capture_rate_pct": 46.52583436283912,
+   "hours": 8734,
+   "fleet_mwh": 49819493.0
+  },
+  {
+   "hub": "SP15",
+   "market": "rt",
+   "fuel": "wind",
+   "span": "last12",
+   "first": "2025-10",
+   "last": "2026-09",
+   "capture_price": 25.878331529249202,
+   "flat_price": 28.527318480895765,
+   "capture_rate_pct": 90.71420977257101,
+   "hours": 8663,
+   "fleet_mwh": 24355201.9
+  },
+  {
+   "hub": "SP15",
+   "market": "rt",
+   "fuel": "wind",
+   "span": "2025",
+   "first": "2025-01",
+   "last": "2025-12",
+   "capture_price": 30.202303513692616,
+   "flat_price": 31.188884817952825,
+   "capture_rate_pct": 96.83675351004433,
+   "hours": 8734,
+   "fleet_mwh": 20120818.1
+  },
+  {
+   "hub": "SP15",
+   "market": "da",
+   "fuel": "solar",
+   "span": "last12",
+   "first": "2025-10",
+   "last": "2026-09",
+   "capture_price": 14.535724722514564,
+   "flat_price": 28.888535149486323,
+   "capture_rate_pct": 50.31658631113744,
+   "hours": 8663,
+   "fleet_mwh": 57549110.4
+  },
+  {
+   "hub": "SP15",
+   "market": "da",
+   "fuel": "solar",
+   "span": "2025",
+   "first": "2025-01",
+   "last": "2025-12",
+   "capture_price": 14.377016199863775,
+   "flat_price": 32.214025646897184,
+   "capture_rate_pct": 44.629678877928605,
+   "hours": 8734,
+   "fleet_mwh": 49819493.0
+  },
+  {
+   "hub": "SP15",
+   "market": "da",
+   "fuel": "wind",
+   "span": "last12",
+   "first": "2025-10",
+   "last": "2026-09",
+   "capture_price": 27.117835820938115,
+   "flat_price": 28.888535149486323,
+   "capture_rate_pct": 93.87058111674557,
+   "hours": 8663,
+   "fleet_mwh": 24355201.9
+  },
+  {
+   "hub": "SP15",
+   "market": "da",
+   "fuel": "wind",
+   "span": "2025",
+   "first": "2025-01",
+   "last": "2025-12",
+   "capture_price": 31.53772354216551,
+   "flat_price": 32.214025646897184,
+   "capture_rate_pct": 97.90059736046427,
+   "hours": 8734,
+   "fleet_mwh": 20120818.1
+  },
+  {
+   "hub": "ZP26",
+   "market": "rt",
+   "fuel": "solar",
+   "span": "last12",
+   "first": "2025-10",
+   "last": "2026-09",
+   "capture_price": 13.821940573186135,
+   "flat_price": 27.903276933701658,
+   "capture_rate_pct": 49.53518759114617,
+   "hours": 8688,
+   "fleet_mwh": 57677815.4
+  },
+  {
+   "hub": "ZP26",
+   "market": "rt",
+   "fuel": "solar",
+   "span": "2025",
+   "first": "2025-01",
+   "last": "2025-12",
+   "capture_price": 14.69004467007999,
+   "flat_price": 31.720445256307798,
+   "capture_rate_pct": 46.31096616513852,
+   "hours": 8759,
+   "fleet_mwh": 49948198.0
+  },
+  {
+   "hub": "ZP26",
+   "market": "rt",
+   "fuel": "wind",
+   "span": "last12",
+   "first": "2025-10",
+   "last": "2026-09",
+   "capture_price": 25.545585445158828,
+   "flat_price": 27.903276933701658,
+   "capture_rate_pct": 91.5504852919436,
+   "hours": 8688,
+   "fleet_mwh": 24374476.9
+  },
+  {
+   "hub": "ZP26",
+   "market": "rt",
+   "fuel": "wind",
+   "span": "2025",
+   "first": "2025-01",
+   "last": "2025-12",
+   "capture_price": 30.888828181732684,
+   "flat_price": 31.720445256307798,
+   "capture_rate_pct": 97.3782931864434,
+   "hours": 8759,
+   "fleet_mwh": 20140093.1
+  },
+  {
+   "hub": "ZP26",
+   "market": "da",
+   "fuel": "solar",
+   "span": "last12",
+   "first": "2025-10",
+   "last": "2026-09",
+   "capture_price": 14.320926968222171,
+   "flat_price": 28.996431860036832,
+   "capture_rate_pct": 49.388583524165995,
+   "hours": 8688,
+   "fleet_mwh": 57677815.4
+  },
+  {
+   "hub": "ZP26",
+   "market": "da",
+   "fuel": "solar",
+   "span": "2025",
+   "first": "2025-01",
+   "last": "2025-12",
+   "capture_price": 13.986078458726379,
+   "flat_price": 32.50023290329946,
+   "capture_rate_pct": 43.033779174260914,
+   "hours": 8759,
+   "fleet_mwh": 49948198.0
+  },
+  {
+   "hub": "ZP26",
+   "market": "da",
+   "fuel": "wind",
+   "span": "last12",
+   "first": "2025-10",
+   "last": "2026-09",
+   "capture_price": 27.2641016940142,
+   "flat_price": 28.996431860036832,
+   "capture_rate_pct": 94.02571263118016,
+   "hours": 8688,
+   "fleet_mwh": 24374476.9
+  },
+  {
+   "hub": "ZP26",
+   "market": "da",
+   "fuel": "wind",
+   "span": "2025",
+   "first": "2025-01",
+   "last": "2025-12",
+   "capture_price": 31.970978535844008,
+   "flat_price": 32.50023290329946,
+   "capture_rate_pct": 98.3715366931979,
+   "hours": 8759,
+   "fleet_mwh": 20140093.1
+  },
+  {
+   "hub": "NP15",
+   "market": "rt",
+   "fuel": "solar",
+   "span": "last12",
+   "first": "2025-10",
+   "last": "2026-09",
+   "capture_price": 23.869439824737935,
+   "flat_price": 32.696104120974255,
+   "capture_rate_pct": 73.00392651192318,
+   "hours": 8663,
+   "fleet_mwh": 57549110.4
+  },
+  {
+   "hub": "NP15",
+   "market": "rt",
+   "fuel": "solar",
+   "span": "2025",
+   "first": "2025-01",
+   "last": "2025-12",
+   "capture_price": 26.862401669563358,
+   "flat_price": 37.27390313716511,
+   "capture_rate_pct": 72.06758457978437,
+   "hours": 8734,
+   "fleet_mwh": 49819493.0
+  },
+  {
+   "hub": "NP15",
+   "market": "rt",
+   "fuel": "wind",
+   "span": "last12",
+   "first": "2025-10",
+   "last": "2026-09",
+   "capture_price": 29.653107522791675,
+   "flat_price": 32.696104120974255,
+   "capture_rate_pct": 90.69309118014912,
+   "hours": 8663,
+   "fleet_mwh": 24355201.9
+  },
+  {
+   "hub": "NP15",
+   "market": "rt",
+   "fuel": "wind",
+   "span": "2025",
+   "first": "2025-01",
+   "last": "2025-12",
+   "capture_price": 35.395278972279954,
+   "flat_price": 37.27390313716511,
+   "capture_rate_pct": 94.9599478273795,
+   "hours": 8734,
+   "fleet_mwh": 20120818.1
+  },
+  {
+   "hub": "NP15",
+   "market": "da",
+   "fuel": "solar",
+   "span": "last12",
+   "first": "2025-10",
+   "last": "2026-09",
+   "capture_price": 23.73151140577839,
+   "flat_price": 33.407480087729425,
+   "capture_rate_pct": 71.03652039441005,
+   "hours": 8663,
+   "fleet_mwh": 57549110.4
+  },
+  {
+   "hub": "NP15",
+   "market": "da",
+   "fuel": "solar",
+   "span": "2025",
+   "first": "2025-01",
+   "last": "2025-12",
+   "capture_price": 26.98309956947976,
+   "flat_price": 38.21573391344172,
+   "capture_rate_pct": 70.60730439089886,
+   "hours": 8734,
+   "fleet_mwh": 49819493.0
+  },
+  {
+   "hub": "NP15",
+   "market": "da",
+   "fuel": "wind",
+   "span": "last12",
+   "first": "2025-10",
+   "last": "2026-09",
+   "capture_price": 30.99193794529784,
+   "flat_price": 33.407480087729425,
+   "capture_rate_pct": 92.76945721111478,
+   "hours": 8663,
+   "fleet_mwh": 24355201.9
+  },
+  {
+   "hub": "NP15",
+   "market": "da",
+   "fuel": "wind",
+   "span": "2025",
+   "first": "2025-01",
+   "last": "2025-12",
+   "capture_price": 36.66272967449569,
+   "flat_price": 38.21573391344172,
+   "capture_rate_pct": 95.93621767813339,
+   "hours": 8734,
+   "fleet_mwh": 20120818.1
+  }
+ ],
+ "installed_mw": {
+  "2025-01": {
+   "solar": 23125.8,
+   "wind": 6305.599999999999
+  },
+  "2025-02": {
+   "solar": 23428.8,
+   "wind": 6305.599999999999
+  },
+  "2025-03": {
+   "solar": 23439.5,
+   "wind": 6332.599999999999
+  },
+  "2025-04": {
+   "solar": 23679.300000000003,
+   "wind": 6332.599999999999
+  },
+  "2025-05": {
+   "solar": 23683.6,
+   "wind": 6332.599999999999
+  },
+  "2025-06": {
+   "solar": 23689.199999999997,
+   "wind": 6332.599999999999
+  },
+  "2025-07": {
+   "solar": 23846.0,
+   "wind": 6343.8
+  },
+  "2025-08": {
+   "solar": 24189.6,
+   "wind": 6343.8
+  },
+  "2025-09": {
+   "solar": 24195.899999999998,
+   "wind": 6343.8
+  },
+  "2025-10": {
+   "solar": 24211.0,
+   "wind": 6343.8
+  },
+  "2025-11": {
+   "solar": 24373.9,
+   "wind": 6343.8
+  },
+  "2025-12": {
+   "solar": 24946.3,
+   "wind": 6343.8
+  },
+  "2026-01": {
+   "solar": 24955.1,
+   "wind": 6343.8
+  },
+  "2026-02": {
+   "solar": 24962.9,
+   "wind": 6343.8
+  },
+  "2026-03": {
+   "solar": 24968.1,
+   "wind": 6343.8
+  },
+  "2026-04": {
+   "solar": 24968.1,
+   "wind": 6343.8
+  },
+  "2026-05": {
+   "solar": 25137.2,
+   "wind": 9994.0
+  },
+  "2026-06": {
+   "solar": 25159.4,
+   "wind": 9994.0
+  },
+  "2026-07": {
+   "solar": 25798.6,
+   "wind": 9994.0
+  },
+  "2026-08": {
+   "solar": 25812.8,
+   "wind": 9994.0
+  },
+  "2026-09": {
+   "solar": 25812.8,
+   "wind": 9994.0
+  }
+ },
+ "wind_added_2026": [
+  {
+   "name": "SunZia Wind North",
+   "state": "NM",
+   "nameplate_mw": 1089.0,
+   "first_month": "2026-05"
+  },
+  {
+   "name": "SunZia Wind South",
+   "state": "NM",
+   "nameplate_mw": 2561.2,
+   "first_month": "2026-05"
+  }
+ ],
+ "sp15_rt_months": {
+  "2024-09": {
+   "solar": {
+    "energy_per_mw": 204.12494186233923,
+    "revenue_per_mw": 3994.965822299074,
+    "hours": 720
+   },
+   "wind": {
+    "energy_per_mw": 235.8545709237357,
+    "revenue_per_mw": 7353.868262093887,
+    "hours": 720
+   },
+   "peaker": {
+    "energy_per_mw": 470.0,
+    "revenue_per_mw": 6116.208299999998,
+    "hours": 720
+   }
+  },
+  "2024-10": {
+   "solar": {
+    "energy_per_mw": 168.64071418786244,
+    "revenue_per_mw": 3468.015823680305,
+    "hours": 744
+   },
+   "wind": {
+    "energy_per_mw": 209.9100619219688,
+    "revenue_per_mw": 7489.822328361536,
+    "hours": 744
+   },
+   "peaker": {
+    "energy_per_mw": 533.0,
+    "revenue_per_mw": 8480.855425000003,
+    "hours": 744
+   }
+  },
+  "2024-11": {
+   "solar": {
+    "energy_per_mw": 116.87342297741861,
+    "revenue_per_mw": 1112.0358839995802,
+    "hours": 672
+   },
+   "wind": {
+    "energy_per_mw": 187.05388860695257,
+    "revenue_per_mw": 5972.078693704802,
+    "hours": 672
+   },
+   "peaker": {
+    "energy_per_mw": 495.0,
+    "revenue_per_mw": 9036.087574999998,
+    "hours": 696
+   }
+  },
+  "2024-12": {
+   "solar": {
+    "energy_per_mw": 103.5863829050956,
+    "revenue_per_mw": 2679.984773721775,
+    "hours": 744
+   },
+   "wind": {
+    "energy_per_mw": 182.2614818573966,
+    "revenue_per_mw": 6823.675850529689,
+    "hours": 744
+   },
+   "peaker": {
+    "energy_per_mw": 481.0,
+    "revenue_per_mw": 5508.7762,
+    "hours": 744
+   }
+  },
+  "2025-01": {
+   "solar": {
+    "energy_per_mw": 125.86868346176132,
+    "revenue_per_mw": 2265.916749524341,
+    "hours": 744
+   },
+   "wind": {
+    "energy_per_mw": 200.9715173813753,
+    "revenue_per_mw": 7957.568963952677,
+    "hours": 744
+   },
+   "peaker": {
+    "energy_per_mw": 329.0,
+    "revenue_per_mw": 3624.2110500000017,
+    "hours": 744
+   }
+  },
+  "2025-02": {
+   "solar": {
+    "energy_per_mw": 118.83527965580824,
+    "revenue_per_mw": -285.4510041028563,
+    "hours": 672
+   },
+   "wind": {
+    "energy_per_mw": 222.5028546054301,
+    "revenue_per_mw": 6443.240714178668,
+    "hours": 672
+   },
+   "peaker": {
+    "energy_per_mw": 171.0,
+    "revenue_per_mw": 1547.9860000000008,
+    "hours": 672
+   }
+  },
+  "2025-03": {
+   "solar": {
+    "energy_per_mw": 145.22165575204247,
+    "revenue_per_mw": -651.4877570841956,
+    "hours": 743
+   },
+   "wind": {
+    "energy_per_mw": 324.71859899567323,
+    "revenue_per_mw": 8166.525229814768,
+    "hours": 743
+   },
+   "peaker": {
+    "energy_per_mw": 171.0,
+    "revenue_per_mw": 2862.883675000001,
+    "hours": 743
+   }
+  },
+  "2025-04": {
+   "solar": {
+    "energy_per_mw": 189.55053569995732,
+    "revenue_per_mw": -1083.9483819337986,
+    "hours": 720
+   },
+   "wind": {
+    "energy_per_mw": 315.27697943972464,
+    "revenue_per_mw": 6627.676933088305,
+    "hours": 720
+   },
+   "peaker": {
+    "energy_per_mw": 83.0,
+    "revenue_per_mw": 1160.4267250000007,
+    "hours": 720
+   }
+  },
+  "2025-05": {
+   "solar": {
+    "energy_per_mw": 228.54637808441285,
+    "revenue_per_mw": 1508.0489453503692,
+    "hours": 744
+   },
+   "wind": {
+    "energy_per_mw": 357.6090389413511,
+    "revenue_per_mw": 7891.831964970945,
+    "hours": 744
+   },
+   "peaker": {
+    "energy_per_mw": 179.0,
+    "revenue_per_mw": 1750.3385500000004,
+    "hours": 744
+   }
+  },
+  "2025-06": {
+   "solar": {
+    "energy_per_mw": 242.8025851442852,
+    "revenue_per_mw": 3874.0120621559618,
+    "hours": 720
+   },
+   "wind": {
+    "energy_per_mw": 355.5607491393741,
+    "revenue_per_mw": 10298.539521349841,
+    "hours": 720
+   },
+   "peaker": {
+    "energy_per_mw": 239.0,
+    "revenue_per_mw": 1585.9959750000016,
+    "hours": 720
+   }
+  },
+  "2025-07": {
+   "solar": {
+    "energy_per_mw": 250.5220162710727,
+    "revenue_per_mw": 6058.004023229263,
+    "hours": 744
+   },
+   "wind": {
+    "energy_per_mw": 348.37589457422996,
+    "revenue_per_mw": 12057.220235182382,
+    "hours": 744
+   },
+   "peaker": {
+    "energy_per_mw": 275.0,
+    "revenue_per_mw": 1871.2433249999995,
+    "hours": 744
+   }
+  },
+  "2025-08": {
+   "solar": {
+    "energy_per_mw": 220.58554089360717,
+    "revenue_per_mw": 6982.318076816071,
+    "hours": 744
+   },
+   "wind": {
+    "energy_per_mw": 302.7360572527507,
+    "revenue_per_mw": 11786.939829624987,
+    "hours": 744
+   },
+   "peaker": {
+    "energy_per_mw": 439.0,
+    "revenue_per_mw": 6021.704825000001,
+    "hours": 744
+   }
+  },
+  "2025-09": {
+   "solar": {
+    "energy_per_mw": 188.57963539277318,
+    "revenue_per_mw": 4376.53996790262,
+    "hours": 720
+   },
+   "wind": {
+    "energy_per_mw": 203.01885305337493,
+    "revenue_per_mw": 7309.211925218323,
+    "hours": 720
+   },
+   "peaker": {
+    "energy_per_mw": 420.0,
+    "revenue_per_mw": 4582.819074999999,
+    "hours": 720
+   }
+  },
+  "2025-10": {
+   "solar": {
+    "energy_per_mw": 168.94882491429516,
+    "revenue_per_mw": 1791.2792333773905,
+    "hours": 744
+   },
+   "wind": {
+    "energy_per_mw": 198.98310161102177,
+    "revenue_per_mw": 5889.310597157855,
+    "hours": 744
+   },
+   "peaker": {
+    "energy_per_mw": 358.0,
+    "revenue_per_mw": 3181.000525000003,
+    "hours": 744
+   }
+  },
+  "2025-11": {
+   "solar": {
+    "energy_per_mw": 102.6445090855382,
+    "revenue_per_mw": 2497.396351139949,
+    "hours": 696
+   },
+   "wind": {
+    "energy_per_mw": 147.34811942368927,
+    "revenue_per_mw": 5815.447064291118,
+    "hours": 696
+   },
+   "peaker": {
+    "energy_per_mw": 284.0,
+    "revenue_per_mw": 1753.602425000001,
+    "hours": 696
+   }
+  },
+  "2025-12": {
+   "solar": {
+    "energy_per_mw": 92.41390506808625,
+    "revenue_per_mw": 2328.6148802818457,
+    "hours": 743
+   },
+   "wind": {
+    "energy_per_mw": 148.09294113938017,
+    "revenue_per_mw": 4432.74683497273,
+    "hours": 743
+   },
+   "peaker": {
+    "energy_per_mw": 21.0,
+    "revenue_per_mw": 108.45635000000016,
+    "hours": 744
+   }
+  },
+  "2026-01": {
+   "solar": {
+    "energy_per_mw": 112.86586709730676,
+    "revenue_per_mw": 2177.9328998671613,
+    "hours": 744
+   },
+   "wind": {
+    "energy_per_mw": 94.05955421041017,
+    "revenue_per_mw": 2827.7696176108957,
+    "hours": 744
+   },
+   "peaker": {
+    "energy_per_mw": 42.0,
+    "revenue_per_mw": 317.1108500000005,
+    "hours": 744
+   }
+  },
+  "2026-02": {
+   "solar": {
+    "energy_per_mw": 125.30551338185866,
+    "revenue_per_mw": 950.2265402206875,
+    "hours": 672
+   },
+   "wind": {
+    "energy_per_mw": 119.75361770547622,
+    "revenue_per_mw": 2719.5801257290577,
+    "hours": 672
+   },
+   "peaker": {
+    "energy_per_mw": 29.0,
+    "revenue_per_mw": 212.24452500000007,
+    "hours": 672
+   }
+  },
+  "2026-03": {
+   "solar": {
+    "energy_per_mw": 177.47161377918223,
+    "revenue_per_mw": 269.49094331767344,
+    "hours": 743
+   },
+   "wind": {
+    "energy_per_mw": 234.84283867713359,
+    "revenue_per_mw": 4640.8024744711365,
+    "hours": 743
+   },
+   "peaker": {
+    "energy_per_mw": 88.0,
+    "revenue_per_mw": 4274.31205,
+    "hours": 743
+   }
+  },
+  "2026-04": {
+   "solar": {
+    "energy_per_mw": 170.881604927888,
+    "revenue_per_mw": -1329.7743488030728,
+    "hours": 720
+   },
+   "wind": {
+    "energy_per_mw": 358.5554399571235,
+    "revenue_per_mw": 2299.3027454246667,
+    "hours": 720
+   },
+   "peaker": {
+    "energy_per_mw": 18.0,
+    "revenue_per_mw": 148.76982500000008,
+    "hours": 720
+   }
+  },
+  "2026-05": {
+   "solar": {
+    "energy_per_mw": 206.95359865060544,
+    "revenue_per_mw": -1175.976507634104,
+    "hours": 744
+   },
+   "wind": {
+    "energy_per_mw": 276.60496297778667,
+    "revenue_per_mw": 2620.253125245147,
+    "hours": 744
+   },
+   "peaker": {
+    "energy_per_mw": 54.0,
+    "revenue_per_mw": 964.7983249999995,
+    "hours": 744
+   }
+  },
+  "2026-06": {
+   "solar": {
+    "energy_per_mw": 242.0811704571651,
+    "revenue_per_mw": 628.3084284164167,
+    "hours": 720
+   },
+   "wind": {
+    "energy_per_mw": 264.35941564938963,
+    "revenue_per_mw": 3919.2265593080847,
+    "hours": 720
+   },
+   "peaker": {
+    "energy_per_mw": 23.0,
+    "revenue_per_mw": 207.52154999999993,
+    "hours": 720
+   }
+  },
+  "2026-07": {
+   "solar": {
+    "energy_per_mw": 235.0926019241354,
+    "revenue_per_mw": 6655.422368581047,
+    "hours": 744
+   },
+   "wind": {
+    "energy_per_mw": 229.99279567740643,
+    "revenue_per_mw": 9471.446733552631,
+    "hours": 744
+   },
+   "peaker": {
+    "energy_per_mw": 373.0,
+    "revenue_per_mw": 8290.729649999997,
+    "hours": 744
+   }
+  },
+  "2026-08": {
+   "solar": {
+    "energy_per_mw": 225.66211337011094,
+    "revenue_per_mw": 8952.622264702008,
+    "hours": 744
+   },
+   "wind": {
+    "energy_per_mw": 209.83059835901543,
+    "revenue_per_mw": 12168.053672073243,
+    "hours": 744
+   },
+   "peaker": {
+    "energy_per_mw": 580.0,
+    "revenue_per_mw": 17428.132775,
+    "hours": 744
+   }
+  },
+  "2026-09": {
+   "solar": {
+    "energy_per_mw": 196.926796008182,
+    "revenue_per_mw": 4703.568914338041,
+    "hours": 720
+   },
+   "wind": {
+    "energy_per_mw": 194.33720232139282,
+    "revenue_per_mw": 7235.5084565764455,
+    "hours": 720
+   },
+   "peaker": {
+    "energy_per_mw": 424.0,
+    "revenue_per_mw": 6328.326375000001,
+    "hours": 720
+   }
+  },
+  "2026-10": {
+   "solar": {
+    "energy_per_mw": 58.26295481311598,
+    "revenue_per_mw": 2101.2795434861773,
+    "hours": 216
+   },
+   "wind": {
+    "energy_per_mw": 28.755753452071243,
+    "revenue_per_mw": 1283.702384958475,
+    "hours": 216
+   },
+   "peaker": {
+    "energy_per_mw": 201.0,
+    "revenue_per_mw": 3177.8013500000006,
+    "hours": 264
+   }
+  }
+ },
+ "page_files": [
+  {
+   "hub": "SP15",
+   "market": "rt",
+   "asset": "solar",
+   "file": "merchant_snapshot.json, built 2026-10-04T02:26:32Z",
+   "months_compared": 26,
+   "months_differ": 1,
+   "largest_usd_per_mw": 1794.3183434861774,
+   "largest_at": "2026-10",
+   "months_that_differ": [
+    "2026-10"
+   ]
+  },
+  {
+   "hub": "SP15",
+   "market": "rt",
+   "asset": "wind",
+   "file": "merchant_snapshot.json, built 2026-10-04T02:26:32Z",
+   "months_compared": 26,
+   "months_differ": 1,
+   "largest_usd_per_mw": 951.801484958475,
+   "largest_at": "2026-10",
+   "months_that_differ": [
+    "2026-10"
+   ]
+  },
+  {
+   "hub": "SP15",
+   "market": "rt",
+   "asset": "peaker",
+   "file": "merchant_snapshot.json, built 2026-10-04T02:26:32Z",
+   "months_compared": 26,
+   "months_differ": 2,
+   "largest_usd_per_mw": 2841.144050000001,
+   "largest_at": "2026-10",
+   "months_that_differ": [
+    "2026-09",
+    "2026-10"
+   ]
+  },
+  {
+   "hub": "ZP26",
+   "market": "rt",
+   "asset": "solar",
+   "file": "hubs/caiso/th_zp26_gen_apnd.json, built 2026-10-10T20:17:02Z",
+   "months_compared": 26,
+   "months_differ": 1,
+   "largest_usd_per_mw": 1743.179559589622,
+   "largest_at": "2026-10",
+   "months_that_differ": [
+    "2026-10"
+   ]
+  },
+  {
+   "hub": "ZP26",
+   "market": "rt",
+   "asset": "wind",
+   "file": "hubs/caiso/th_zp26_gen_apnd.json, built 2026-10-10T20:17:02Z",
+   "months_compared": 26,
+   "months_differ": 1,
+   "largest_usd_per_mw": 931.6444061436862,
+   "largest_at": "2026-10",
+   "months_that_differ": [
+    "2026-10"
+   ]
+  },
+  {
+   "hub": "ZP26",
+   "market": "rt",
+   "asset": "peaker",
+   "file": "hubs/caiso/th_zp26_gen_apnd.json, built 2026-10-10T20:17:02Z",
+   "months_compared": 26,
+   "months_differ": 1,
+   "largest_usd_per_mw": 411.0150749999998,
+   "largest_at": "2026-10",
+   "months_that_differ": [
+    "2026-10"
+   ]
+  },
+  {
+   "hub": "NP15",
+   "market": "rt",
+   "asset": "solar",
+   "file": "hubs/caiso/th_np15_gen_apnd.json, built 2026-10-10T20:17:02Z",
+   "months_compared": 26,
+   "months_differ": 1,
+   "largest_usd_per_mw": 1808.5414556628882,
+   "largest_at": "2026-10",
+   "months_that_differ": [
+    "2026-10"
+   ]
+  },
+  {
+   "hub": "NP15",
+   "market": "rt",
+   "asset": "wind",
+   "file": "hubs/caiso/th_np15_gen_apnd.json, built 2026-10-10T20:17:02Z",
+   "months_compared": 26,
+   "months_differ": 1,
+   "largest_usd_per_mw": 915.2007942290373,
+   "largest_at": "2026-10",
+   "months_that_differ": [
+    "2026-10"
+   ]
+  },
+  {
+   "hub": "NP15",
+   "market": "rt",
+   "asset": "peaker",
+   "file": "hubs/caiso/th_np15_gen_apnd.json, built 2026-10-10T20:17:02Z",
+   "months_compared": 26,
+   "months_differ": 1,
+   "largest_usd_per_mw": 583.7127499999965,
+   "largest_at": "2026-10",
+   "months_that_differ": [
+    "2026-10"
+   ]
+  }
+ ]
+}

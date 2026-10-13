@@ -528,6 +528,123 @@ Session 235: `site/scripts/test-seller-finance.mjs`, the session 235 block (the 
 
 `site/scripts/test-seller-finance.mjs` (hand cases, and the battery page's library on 400 seeded cases); `tests/test_session186.py` (a Python mirror of every formula above against the library to 1e-6, and the page's source); `site/scripts/check-seller-scenarios.mjs` (the page in a browser: the eight inputs and their Resets, the eight rows against the page's own figures, the address round trip, no request on a change, the chart's bars and hover, the four assets, 390 px).
 
+
+
+<a id="caiso-depth"></a>
+
+## 12. CAISO at ERCOT's depth (session 253)
+
+13 October 2026, on the data machine. The page already holds CAISO: three hubs and zones (SP15, NP15, ZP26), from September 2024. This section sets CAISO's tables out as section 4 does for ERCOT, rebuilds them from the tables on the data machine, and puts them beside what CAISO's market monitor and Lawrence Berkeley National Laboratory publish. `python warehouse/analysis/generator_caiso_check.py` runs it again (no request; about a minute once EIA's workbook is read). The results of the run of 2026-10-13T11:09:38Z are kept in `docs/howitworks/computed/generator_caiso_check_2026-10-13.json` and `.csv`. No page file, table or default was changed.
+
+### 12.1 What is held, and what the page's files say against a rebuild
+
+- **Prices:** `iso_dam_hub_prices`, `iso_hub_prices_history`, `iso_rtm_hub_prices`, `iso_zone_prices_history`: CAISO's rows of them, its own public prices (OASIS). Real time from 2024-09-01; day-ahead from the same day (ZP26 from 2023-06-26). One whole calendar year is held: 2025. CAISO's other prices (the three utilities' load aggregation points, any node) are not held.
+- **Shape:** EIA-930 (`20261010T212714.959260Z_00002_CISO.xlsx`) over EIA-860M's installed nameplate in CAISO's balancing authority (vintage 2026-08), as for ERCOT. Gas: Henry Hub (1997-01-07 to 2026-10-06).
+- **The page's files equal a rebuild from today's tables in every whole month.** Revenue per MW, month by month, to the cent:
+
+| Hub | Market | The page's file | Months compared | Solar: months that differ | Wind | Gas peaker |
+|---|---|---|---|---|---|---|
+| SP15 | real time | `merchant_snapshot.json, built 2026-10-04T02:26:32Z` | 26 | 1 (2026-10) | 1 (2026-10) | 2 (2026-09, 2026-10) |
+| NP15 | real time | `hubs/caiso/th_np15_gen_apnd.json, built 2026-10-10T20:17:02Z` | 26 | 1 (2026-10) | 1 (2026-10) | 1 (2026-10) |
+| ZP26 | real time | `hubs/caiso/th_zp26_gen_apnd.json, built 2026-10-10T20:17:02Z` | 26 | 1 (2026-10) | 1 (2026-10) | 1 (2026-10) |
+
+- October 2026 is the month under way (the page's files hold its first days; it is counted in no figure). The peaker's September 2026 at SP15 differs by Henry Hub prices that arrived after the snapshot of 4 October, as section 5.1 says of ERCOT.
+
+### 12.2 Capture price and capture rate by hub and zone
+
+The page's table of the price received (the capture file: the fleet's generation as weights; a month counts at 95 percent of its hours). USD per MWh; the rate is the capture price over the flat average of the same hours.
+
+| Hub | Market | Fuel | 2025: capture price | Flat | Rate | Last twelve months (Oct 2025 to Sep 2026): capture price | Flat | Rate |
+|---|---|---|---|---|---|---|---|---|
+| SP15 | real time | solar | 14.51 | 31.19 | 46.5% | 13.86 | 28.53 | 48.6% |
+| SP15 | real time | wind | 30.20 | 31.19 | 96.8% | 25.88 | 28.53 | 90.7% |
+| SP15 | day-ahead | solar | 14.38 | 32.21 | 44.6% | 14.54 | 28.89 | 50.3% |
+| SP15 | day-ahead | wind | 31.54 | 32.21 | 97.9% | 27.12 | 28.89 | 93.9% |
+| NP15 | real time | solar | 26.86 | 37.27 | 72.1% | 23.87 | 32.70 | 73.0% |
+| NP15 | real time | wind | 35.40 | 37.27 | 95.0% | 29.65 | 32.70 | 90.7% |
+| NP15 | day-ahead | solar | 26.98 | 38.22 | 70.6% | 23.73 | 33.41 | 71.0% |
+| NP15 | day-ahead | wind | 36.66 | 38.22 | 95.9% | 30.99 | 33.41 | 92.8% |
+| ZP26 | real time | solar | 14.69 | 31.72 | 46.3% | 13.82 | 27.90 | 49.5% |
+| ZP26 | real time | wind | 30.89 | 31.72 | 97.4% | 25.55 | 27.90 | 91.6% |
+| ZP26 | day-ahead | solar | 13.99 | 32.50 | 43.0% | 14.32 | 29.00 | 49.4% |
+| ZP26 | day-ahead | wind | 31.97 | 32.50 | 98.4% | 27.26 | 29.00 | 94.0% |
+
+- **Solar is paid under half the average in the south and about seven tenths in the north.** 2025, real time: USD 14.51 against 31.19 at SP15 (46.5 percent); 26.86 against 37.27 at NP15 (72.1 percent). It is one fleet shape for the whole of CAISO at each hub's price: the two differ by their prices only.
+- **Wind is paid within a tenth of the average at every hub.**
+- ERCOT's solar over the same twelve months: 72 percent at the hub average (section 4.19).
+
+### 12.3 Revenue, energy and the gas peaker, by the model
+
+The model of section 3 (per MW installed; a month counts at 90 percent of its hours), real-time prices, 2025 and the last twelve months. A gas peaker by the page's rule: Henry Hub times 10.725 plus USD 4.25.
+
+| Hub | Asset | 2025: revenue, USD per kW | Energy, MWh per MW | Capture price | Rate | Last twelve months: revenue | Energy | Capture price | Rate |
+|---|---|---|---|---|---|---|---|---|---|
+| SP15 | solar | 29.66 | 2,075 | 14.30 | 45.8% | 28.45 | 2,057 | 13.83 | 48.4% |
+| SP15 | wind | 94.68 | 3,125 | 30.29 | 97.1% | 64.04 | 2,477 | 25.86 | 90.5% |
+| SP15 | gas peaker | 30.05 | 2,969 | 49.64 | 159.2% | 43.22 | 2,294 | 55.51 | 194.2% |
+| NP15 | solar | 55.44 | 2,075 | 26.73 | 71.7% | 49.43 | 2,057 | 24.03 | 73.6% |
+| NP15 | wind | 111.04 | 3,125 | 35.53 | 95.3% | 74.35 | 2,477 | 30.02 | 91.9% |
+| NP15 | gas peaker | 41.47 | 3,667 | 51.05 | 137.0% | 39.97 | 2,997 | 50.84 | 155.6% |
+| ZP26 | solar | 30.10 | 2,080 | 14.48 | 45.6% | 28.46 | 2,063 | 13.80 | 49.5% |
+| ZP26 | wind | 96.85 | 3,128 | 30.96 | 97.6% | 63.67 | 2,480 | 25.67 | 92.1% |
+| ZP26 | gas peaker | 30.88 | 3,163 | 49.32 | 155.5% | 29.35 | 2,381 | 49.39 | 177.1% |
+
+- **Wind's last twelve months hold 21 percent less energy per MW than 2025** (2,477 against 3,125 MWh). Two things are in it, and they are not separated. The denominator: EIA-860M lists SunZia Wind North and SunZia Wind South (3,650 MW, NM) in CAISO's balancing authority from 2026-05, so the installed wind nameplate goes from 6,344 MW in April 2026 to 9,994 MW in May; from May to September the fleet made 1,175 MWh per MW against 1,567 in the same months of 2025. And a weak winter before that plant was listed: 214 MWh per MW in January and February 2026 against 423 a year earlier. Whether EIA-930's wind for CAISO holds that plant's output from May was not checked. 2025 is the cleaner year for wind.
+- Hours with solar output above nameplate, and below zero, over the 26 months held: 0 and 7,938 (night hours, as EIA reports them; section 3.2).
+
+### 12.4 The inputs of the breakeven PPA price
+
+Section 11.3's formulas with the page's defaults (60 percent debt at 8 percent over the asset's life; hurdle rate 12 percent; no degradation, tax or tax credit). With the debt's term equal to the life, a contract on the whole plant replaces the market in every year, so the two contract prices depend on costs and on the energy sold alone, not on the hub: one row a fuel and span. Coverage and NPV are merchant, at SP15 in real time.
+
+| Asset | Span | Energy, MWh per MW a year | Capital cost, USD per kW | Fixed O&M | Debt payment, USD per kW a year | Merchant revenue at SP15 | Coverage | Contract price for coverage of 1.25 | Breakeven PPA price | NPV, merchant, USD per kW |
+|---|---|---|---|---|---|---|---|---|---|---|
+| solar | 2025 | 2,075 | 1,375 | 12.50 | 70.79 | 29.66 | 0.24 | USD 48.68 per MWh | USD 72.58 per MWh | -988.42 |
+| solar | last twelve months | 2,057 | 1,375 | 12.50 | 70.79 | 28.45 | 0.23 | USD 49.09 per MWh | USD 73.19 per MWh | -998.33 |
+| wind | 2025 | 3,125 | 2,100 | 32.25 | 111.92 | 94.68 | 0.56 | USD 55.09 per MWh | USD 79.50 per MWh | -1,238.70 |
+| wind | last twelve months | 2,477 | 2,100 | 32.25 | 111.92 | 64.04 | 0.28 | USD 69.51 per MWh | USD 100.31 per MWh | -1,485.49 |
+| gas peaker | 2025 | a toll: no energy term | 1,300 | 13.50 | 69.29 | 30.05 | 0.24 | USD 8.34 per kW-month | USD 12.28 per kW-month | -944.79 |
+| gas peaker | last twelve months | a toll: no energy term | 1,300 | 13.50 | 69.29 | 43.22 | 0.43 | USD 8.34 per kW-month | USD 12.28 per kW-month | -838.75 |
+
+- CAISO's solar fleet sold 2,075 MWh per MW in 2025 (ERCOT's: 2,580 over its last twelve months), so the same costs need a higher price: USD 72.58 per MWh for an NPV of zero against ERCOT's 58.36.
+- NP15 and ZP26 differ from SP15 in revenue, coverage and NPV only (12.3); ZP26's energy differs by a few MWh because the months' hours with a price differ.
+
+### 12.5 Beside published figures
+
+Ours is 2025 at real-time prices unless the row says otherwise. Gap is ours less theirs. Their figures were read on 13 October 2026 from the documents themselves: the market monitor's report as session 246 fetched it; the two LBNL workbooks from `eta-publications.lbl.gov` (its robots file read first; `emp.lbl.gov` answered HTTP 403 to the ERW's reader and was not asked again). No file of theirs is copied into the repository.
+
+| What | Ours | Theirs | Gap | Reason |
+|---|---|---|---|---|
+| A gas peaker at NP15, 2025, margin over fuel, USD per kW: the page's rule | 41.47, running 42.0 percent of the hours | 3.52 net, running 3.43 percent (a new combustion turbine, 15-minute prices and default energy bids; 4.41 and 3.65 in its two other scenarios) | +37.95 | The page's rule has no cost of carbon. California's allowance on the fuel (0.053165 tonnes per MMBtu at USD 29.89, USD 1.59 per MMBtu) alone takes the page's figure to 10.11 (7.6 percent of the hours). The rest is below |
+| The same, run their way as far as the model can (heat rate 9.3, variable O&M USD 4.80, the allowance; gas still Henry Hub) | 16.32; revenue 83.85, costs 67.53; 15.2 percent | 3.52; revenue 23.25, costs 19.73; 3.43 percent | +12.80 | Their unit pays to start (50 MMBtu of gas and 1.5 MWh each time), runs at least an hour and at no less than half load (where its heat rate is 9,700), and is dispatched on a default energy bid with a 10 percent adder; ours runs any single hour priced a cent above its fuel. Their costs come to USD 65.7 per MWh run, ours to 50.8. Gas is not the reason on average: Henry Hub averaged USD 3.54 per MMBtu over our hours, their PG&E Citygate 3.40 and SoCal Citygate 3.60. Not separated further |
+| A gas peaker at SP15, 2025, margin over fuel, USD per kW: the page's rule | 30.05, running 34.0 percent of the hours | 0.78 net, running 1.32 percent (a new combustion turbine, 15-minute prices and default energy bids; 1.17 and 0.84 in its two other scenarios) | +29.27 | The page's rule has no cost of carbon. California's allowance on the fuel (0.053165 tonnes per MMBtu at USD 29.89, USD 1.59 per MMBtu) alone takes the page's figure to 6.95 (5.3 percent of the hours). The rest is below |
+| The same, run their way as far as the model can (heat rate 9.3, variable O&M USD 4.80, the allowance; gas still Henry Hub) | 11.27; revenue 57.35, costs 46.09; 10.4 percent | 0.78; revenue 8.99, costs 8.21; 1.32 percent | +10.49 | Their unit pays to start (50 MMBtu of gas and 1.5 MWh each time), runs at least an hour and at no less than half load (where its heat rate is 9,700), and is dispatched on a default energy bid with a 10 percent adder; ours runs any single hour priced a cent above its fuel. Their costs come to USD 71.0 per MWh run, ours to 50.6. Gas is not the reason on average: Henry Hub averaged USD 3.54 per MMBtu over our hours, their PG&E Citygate 3.40 and SoCal Citygate 3.60. Not separated further |
+| Henry Hub, the 2025 average, USD per MMBtu (the peaker's fuel) | 3.54, the mean over the 8,735 hours of 2025 held at SP15 | 3.54 | -0.001 (3.539 against their two decimals) | The same series by two routes: EIA's daily spot price in `eia_fuel_spot_prices`, carried to each hour, and the market monitor's yearly average in its table of western hubs |
+| Wind, 2025, the flat average price, USD per MWh | 31.19 at SP15, 37.27 at NP15, 31.72 at ZP26; the plain mean of SP15 and NP15 is 34.23 | 34.21: a flat profile at all power plants, CAISO, 2025 | 0.02 for the mean of the two hubs | Two hubs against every plant's node; the equal weight on the two hubs is ours, not theirs. Their dollars are 2025's, as ours |
+| Wind, 2025, the price the fleet's shape received (energy only) | 30.29 at SP15, 35.53 at NP15, 30.96 at ZP26; mean of SP15 and NP15 32.91 | 32.97: the wind profile at all power plants; 31.21 at the wind plants' own nodes; 30.82 after curtailment | -0.06 against the profile at all plants; SP15 is -0.92 against the wind plants' nodes | The model prices the fleet at a hub: it sees their first step (the profile) and not the second and third (the plants' own nodes, curtailment), which take a further 2.15 off in their figures |
+| Wind, 2025, capture rate | 97.1 percent at SP15, 95.3 at NP15 | 96.4 percent for the profile alone (32.97 over 34.21); 90.1 at the plants' nodes after curtailment | -0.1 points for the mean of the two hubs against the profile alone | The same. Their published value factor, 0.9551, also counts capacity value (USD 26.40 per MWh), which this page does not |
+| Solar, the price the fleet's shape received (energy only) | 2025: 14.30 at SP15, 26.73 at NP15, against flat averages of 31.19 and 37.27 | 2024: 8.62 for the solar profile at solar plants' nodes, against 34.35 for a flat block at all nodes and 29.67 at solar nodes (2024 dollars) | not computed: no year is held by both | Their newest solar year is 2024; the ERW's CAISO prices begin in September 2024. A solar update for 2025 was not found on 13 October 2026. What their 2024 figures do show is the order of the steps: of the fall from 34.35 to 8.62, 4.68 is the solar plants' nodes against all nodes, 1.56 curtailment and 19.49 the profile. The page has the profile only, at a hub |
+| Solar, capture rate | 2025: 45.8 percent at SP15, 71.7 at NP15 | 2024: 25.1 percent, energy only (8.62 over 34.35); their value factor with capacity value, 0.2931 | not computed: another year | The same. Their rate was 39.5 percent in 2023 and 29.3 in 2024 with capacity value: it falls by the year, so a 2025 figure of theirs would be the one to set beside ours |
+| Solar, the breakeven PPA price (NPV zero at 12 percent) and the price for coverage of 1.25 | USD 72.58 and 48.68 per MWh, on 2,075 MWh per MW | USD 47.06: LevelTen's CAISO solar index, 2024; USD 27.45: LBNL's sample, West, contracts signed in 2024 (4 plants, 1,153 MW; 2024 dollars, levelized) | +25.52 and +1.62 against the index | Ours has no tax credit and returns 12 percent to equity on the whole fleet's output, old plants and new; a contract is priced with the credit on a new plant's output. Their two figures are themselves USD 19.61 apart: an index of offers against a sample of signed contracts |
+| Wind, the breakeven PPA price and the price for coverage of 1.25 | USD 79.50 and 55.09 per MWh on 2025's 3,125 MWh per MW (100.31 on the last twelve months' 2,477) | USD 78.2: LevelTen's CAISO wind index, 2025 (2025 dollars) | +1.30 (2025); +22.11 (last twelve months) | As for solar: no tax credit, 12 percent to equity, a fleet's output. The gap on the last twelve months is the energy term of 12.3, not a price |
+
+- Sources: CAISO Department of Market Monitoring, 2025 Annual Report on Market Issues and Performance, June 2026, section 1.3.2, Tables 1.5 and 1.6, pages 115 and 116, and its 2025 averages of the allowance price (section 1.2.7, page 96) and of gas (section 1.2.6, page 94) ([the report](https://www.caiso.com/documents/2025-annual-report-on-market-issues-and-performance.pdf)); Lawrence Berkeley National Laboratory, Land-Based Wind Energy Technology Update: 2026 Edition, August 2026, public data file, sheets "Value Relative to Flat Profile" and "LevelTen & Trio 2025 PPA Index" ([the workbook](https://eta-publications.lbl.gov/sites/default/files/2026-08/data_file_land-based_wind_energy_technology_update_2026_edition_public_0.xlsx)); Lawrence Berkeley National Laboratory, U.S. Utility-Scale Solar, 2025 Data Update, October 2025, public data file, sheets "Value Difference vs. Flat Block", "Annual Average PPA Price" and "LevelTen & Trio 2024 PPA Index" ([the workbook](https://eta-publications.lbl.gov/sites/default/files/2025-10/2025_utility-scale_solar_data_update.xlsx)).
+- These 12 rows are not in the table of "Cross-checks" below, which the page counts (10): the page was not edited. 10 of them hold a gap; the two solar rows of another year hold none. 12.6 says what changes when they are moved.
+- Not compared: a real California plant's settlement; the market monitor's combined cycle unit (the page has no combined cycle); LBNL's capacity value (the page counts none).
+
+### 12.6 For the code machine: what CAISO lacks on the page beside ERCOT, and what to flip
+
+| On the page for ERCOT | For CAISO today | What makes it equal | Where |
+|---|---|---|---|
+| "Checked against: 10 published figures (Lazard, the Annual Technology Baseline, EIA)": two of the ten are CAISO's (the ICE peak blocks at SP15 and NP15) | No figure of CAISO's market monitor or of LBNL is counted | Move the 10 rows of 12.5 that hold a gap into the table of "Cross-checks" (its five columns: the "What" and "Ours" cells join into "Our figure", and "Source and date" takes the links under the table; the two solar rows wait for a year held by both), then flip the count from 10 to 20 in three places | `site/app/cost-of-power/seller/page.tsx` line 299: `data-checked-against="10"` and "Checked against: 10 published figures (Lazard, the Annual Technology Baseline, EIA)" become 20 and "(Lazard, the Annual Technology Baseline, EIA, CAISO's market monitor, Berkeley Lab)"; `tests/test_session196.py`, `NOTES`, the generator's count; `site/scripts/check-cross-checks.mjs` reads the attribute and needs no edit |
+| A gas peaker's cost is its fuel and variable O&M | The same rule, so California's carbon allowance is missing: USD 30.05 per kW at SP15 in 2025 where the rule with the allowance gives 6.95 and the market monitor's unit earned 0.78 | After a ruling (it moves every CAISO peaker figure): the allowance on the fuel for CAISO alone, `c = (g + allowance) * hr + vom` | `site/lib/merchant.ts`, `peakerOver`, the line `const c = g * hr + vom;`; the same line of the builder, `warehouse/derived/merchant_revenue.py`, `cost = x["hh"] * HEAT_RATE + VOM`, which is the data machine's. The allowance price by quarter is held in `carb_auction_allowance_prices` (license internal: the page may not read it until that is ruled) |
+| The stress days in `tables.csv` (Uri, Elliott, the 2023 heat) | None: the snapshot holds `stress` for ERCOT alone, and `EVENTS` names ERCOT's three | The data machine writes CAISO's notice days (session 246's rule; `battery_stack_stress_daily` holds them) into the snapshot's `stress`; the page then needs their labels | `site/lib/merchant.ts`, `EVENTS` (two ids to add: `caiso_notices_20240904`, `caiso_notices_20250120`); the comment and section 4.16 say "ERCOT only". Nothing to flip until the snapshot holds them |
+| 14 hubs and zones; July 2018 on; seven whole years | 3; September 2024 on; one whole year | Not the page's to fix: a pull of CAISO's earlier prices and of its load aggregation points, for a ruling (the battery page waits on the same pull, session 246) | |
+| Wind's shape over a steady fleet | From May 2026 the denominator holds 3,650 MW in New Mexico, and the last twelve months' energy is 2,477 MWh per MW against 2025's 3,125 | For a ruling: say it on the page, or hold the plant out of the denominator until EIA-930 is shown to count it | A sentence beside the wind figures when `x.iso === "caiso"`; the denominator is `merchant_revenue.capacity`, the data machine's |
+
+- **No flag flips today.** The generator page has no "ready" flag by grid: CAISO's capture table, revenue, coverage and scenarios are drawn by the code that draws ERCOT's, from files that equal a rebuild (12.1). The one flip that needs no ruling is the first row, and it is three edits.
+
+<!-- end of the session 253 section -->
+
 ## Checks
 
 - Session 186: section 11.7.
