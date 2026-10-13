@@ -315,7 +315,7 @@ class TheQueueStep(Folder):
         self.edit("- planner: on", "- planner: off")
         code, said, calls = self.take()
         self.assertEqual(code, chain_queue.IDLE_EXIT)
-        self.assertEqual((calls["rec"], calls["send"], calls["off"], calls["git"]), (1, 1, 1, []))
+        self.assertEqual((calls["rec"], calls["send"], calls["off"], calls["git"]), (1, 0, 1, []))   # session 243: idle emails nothing here
         self.assertEqual(os.listdir(os.path.join(self.root, "queue", "next")), [])
 
     def test_with_no_roadmap_at_all_it_idles_as_before(self):
@@ -344,7 +344,7 @@ class TheQueueStep(Folder):
         code, said, calls = self.take()
         self.assertEqual(code, chain_queue.IDLE_EXIT)
         self.assertIn("the budget is reached", "\n".join(str(s) for s in said))
-        self.assertEqual((calls["rec"], calls["send"], calls["off"], calls["git"]), (1, 1, 1, []))
+        self.assertEqual((calls["rec"], calls["send"], calls["off"], calls["git"]), (1, 0, 1, []))   # session 243: idle emails nothing here
 
     def test_a_planner_that_breaks_does_not_break_the_queue(self):
         def broken(*a):

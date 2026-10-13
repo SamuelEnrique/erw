@@ -258,6 +258,7 @@ SECTOR_RULES = [
     (r"^grid_stress_yearly$", "power"),  # session 123: evening ramp, lowest net load, fuels in the tightest hours, dark and calm stretches, by grid and year (derived)
     (r"^clean_energy_(hourly|summary)$", "power;carbon"),  # session 122: the carbon-free share of each grid's generation by hour, month and year (derived)
     (r"^ercot_as_prices_(daily|monthly)$", "power"),  # session 148: ERCOT reserve prices by day and by month (derived), for Ask ERCOT
+    (r"^ercot_rtm_price_adders$", "power"),  # session 244: ERCOT's real-time reserve price adders by hour (the ORDC's scarcity signal), from June 2014
 ]
 
 
@@ -290,8 +291,8 @@ def iso_of(table):
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP"
     if table == "battery_stack_review_monthly":  # session 86: the two grids in review
         return "NYISO;SPP"
-    if table in ("battery_stack_monthly", "battery_stack_stress_daily"):  # session 67: ERCOT and CAISO (the stress days: ERCOT)
-        return "CAISO;ERCOT" if table == "battery_stack_monthly" else "ERCOT"
+    if table in ("battery_stack_monthly", "battery_stack_stress_daily"):  # session 67: ERCOT and CAISO (session 246: the stress days too; ERCOT alone until then)
+        return "CAISO;ERCOT"
     if table == "iso_all_capacity_prices":  # session 65: the markets with a capacity auction (ERCOT and CAISO have none)
         return "ISO-NE;MISO;NYISO;PJM"
     if table == "iso_hub_prices_history":  # session 49: the five ISOs' main hubs (ERCOT's history is its own table)

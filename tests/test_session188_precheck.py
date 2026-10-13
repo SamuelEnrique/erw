@@ -28,6 +28,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 import duty  # noqa: E402
 import precheck  # noqa: E402
+alert = precheck.alert  # session 243: the mark an idle row's reason begins with
 
 UTC = dt.timezone.utc
 EM = chr(0x2014)
@@ -222,7 +223,7 @@ class ThePrecheck(unittest.TestCase):
         with open(os.path.join(self.state, "machine.json"), "w", encoding="utf-8") as f:
             json.dump({"name": "Test Laptop", "role": "code"}, f)
         self.reports = os.path.join(self.dir.name, "runs", "precheck")
-        self.sent, self.marked, self.printed = [], [], []
+        self.sent, self.marked, self.printed, self.rows = [], [], [], []
 
     def tearDown(self):
         self.dir.cleanup()
@@ -231,6 +232,11 @@ class ThePrecheck(unittest.TestCase):
         def send(subject, line, dry_run=False):
             self.sent.append((subject, line, dry_run))
             return 2
+
+        def record(reason, workflow):   # session 243: a failed precheck is one idle row, and no email of its own
+            self.rows.append((reason, workflow))
+            return True
+        kw.setdefault("record", record)
 
         def on_duty(name, what, hours, state=None):
             self.marked.append((name, what, hours, state))
@@ -241,7 +247,7 @@ class ThePrecheck(unittest.TestCase):
 
     def test_a_pass_puts_the_machine_on_duty_and_sends_nothing(self):
         code, results, path = self.run_it(passing())
-        self.assertEqual((code, path, self.sent), (0, None, []))
+        self.assertEqual((code, path, self.sent, self.rows), (0, None, [], []))
         self.assertEqual([r[0] for r in results], list(precheck.CHECKS))
         self.assertEqual(self.marked, [("test-laptop", "session 900", duty.HOURS, self.state)])
         self.assertEqual(len(self.printed), 7)
@@ -272,9 +278,14 @@ class ThePrecheck(unittest.TestCase):
         code, results, path = self.run_it(self.failing())
         self.assertEqual(code, 1)
         self.assertEqual(self.marked, [], "a machine that failed its precheck is not on duty")
-        self.assertEqual(len(self.sent), 1)
-        subject, line, dry = self.sent[0]
-        self.assertEqual((subject, dry), ("ERW: precheck failed on test-laptop", False))
+        # session 243, the email rule: no line is sent by the precheck. The machine is recorded as idle with the line
+        # as the reason, and its one email, 15 minutes later, says it is ready for review and why
+        self.assertEqual(self.sent, [])
+        self.assertEqual(len(self.rows), 1)
+        reason, workflow = self.rows[0]
+        self.assertEqual(workflow, "local:test-laptop")
+        self.assertTrue(reason.startswith(alert.READY_MARK), reason)
+        line = reason[len(alert.READY_MARK):]
         self.assertLessEqual(len(line), 300)
         self.assertNotIn("\n", line)
         self.assertNotIn(EM, line)
@@ -285,7 +296,7 @@ class ThePrecheck(unittest.TestCase):
         report = read(path)
         self.assertIn("# Precheck on test-laptop, 2026-10-11 07:05 UTC: failed", report)
         self.assertIn("- Checks: 4 of 6 passed", report)
-        self.assertIn("- The line by email: sent to 2 fixed recipients", report)
+        self.assertIn("- The line: recorded as idle in erw_health; the machine's one email follows 15 minutes later (python scripts/alert.py ready)", report)
         for name in precheck.CHECKS:
             self.assertIn(f"| `{name}` |", report)
         self.assertEqual(report.count("**fail**"), 2)
@@ -296,16 +307,20 @@ class ThePrecheck(unittest.TestCase):
     def test_a_failed_dry_run_prints_the_line_and_sends_nothing(self):
         code, _, path = self.run_it(self.failing(), dry_run=True)
         self.assertEqual(code, 1)
-        self.assertEqual([s[2] for s in self.sent], [True], "the sender is asked to print, not to send")
-        self.assertIn("printed, not sent (dry run)", read(path))
+        self.assertEqual((self.sent, self.rows), ([], []), "a dry run sends nothing and records nothing")
+        self.assertTrue(any(p.startswith("Precheck failed on test-laptop at 07:05 UTC") for p in self.printed), "the line is printed")
+        self.assertIn("printed, not recorded (dry run)", read(path))
 
     def test_a_line_that_cannot_be_sent_is_said_and_nothing_waits(self):
-        def no_key(subject, line, dry_run=False):
-            raise RuntimeError("not sent: RESEND_API_KEY not set")
-        code, _, path = self.run_it(self.failing(), send=no_key)
+        # session 243: what can fail now is the idle row; without it no email follows, and the report says so
+        def no_table(reason, workflow):
+            raise RuntimeError("erw_health: HTTP 503")
+        code, _, path = self.run_it(self.failing(), record=no_table)
         self.assertEqual(code, 1)
-        self.assertIn("NOT sent (RuntimeError: not sent: RESEND_API_KEY not set)", read(path))
-        self.assertIn("NOT sent", self.printed[-1])
+        self.assertIn("NOT recorded in erw_health: no email will follow (RuntimeError: erw_health: HTTP 503)", read(path))
+        self.assertIn("NOT recorded", self.printed[-1])
+        code, _, path = self.run_it(self.failing(), record=lambda reason, workflow: False)
+        self.assertIn("NOT recorded in erw_health: no email will follow", read(path))
 
     def test_a_check_that_raises_has_failed(self):
         checks = passing()
@@ -319,7 +334,7 @@ class ThePrecheck(unittest.TestCase):
         long = "a reason that goes on " * 30
         checks = [(n, (lambda: (False, long))) for n in precheck.CHECKS]
         self.run_it(checks)
-        line = self.sent[0][1]
+        line = self.rows[0][0][len(alert.READY_MARK):]
         self.assertLessEqual(len(line), 300)
         for n in precheck.CHECKS:
             self.assertIn(n + ":", line)

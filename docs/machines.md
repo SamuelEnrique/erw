@@ -603,7 +603,56 @@ Three limits, from the reference, to keep in mind:
 
 The rules reduce how often a session asks. They do not choose the mode a chain runs in (`defaultMode` is not set here).
 
+### The email rule (session 243)
+
+The owner's ruling of 12 October 2026. It replaces the table of "One alert policy" below, and every sentence above
+and below that says a line is sent by email: those lines are now recorded, not emailed. The digest and the Roundup are the product,
+not alerts, and are not touched by this.
+
+**A person gets two emails from the machinery, and no other.**
+
+| What happens | What is sent | When | By what |
+|---|---|---|---|
+| A machine went idle: its chain's last step found nothing waiting (`python scripts/chain_queue.py next`), or its precheck failed | one email for that machine: "The machine lab-desktop is ready for review. Idle since 07:40 UTC: ..." | 15 minutes after it went idle, at the first check after that; not at all when the machine is on duty again by then | `python scripts/alert.py ready`, a step of `.github/workflows/chain-watch.yml` |
+| The daily run is red: a step of the workflow `daily prices`, or a `dm_` step of a data machine's daily run, newly failed; or by 18:00 UTC the workflow recorded no step that day | one email: "The daily run is red on 2026-10-13 UTC: ..." | once a UTC day, at the first check that sees it | `python scripts/alert.py failures`, the same workflow |
+
+**Everything else still runs and still records, and emails nothing.**
+
+| What happens | Where it is recorded |
+|---|---|
+| A machine on duty has run nothing for 30 minutes, or its mark lapsed | once in `erw_health` (workflow `alerts`, step `idle alarm`) and in the log of the chain watch's run: "recorded, not emailed" |
+| A marked chain has saved nothing for 30 minutes, or its mark lapsed | the same, step `chain watch` |
+| A step of any other scheduled job failed (the hourly network, the latest prices, the Roundup, the vacuum) | its own row of `erw_health`, which `/internal/health` and the day's summary in `queue/summary/` show; and a line of the chain watch's log |
+| A step of the daily run failed after the day's email went, or failed again as it did at its run before | the same: one email a day, and no repeat for a failure that is still there |
+| The daily model cap skipped steps | their rows of `erw_health`, and a line of the chain watch's log, once a day |
+| A session waits for a permission or for input | one row of `erw_health`, workflow `local:<machine>`, step `session waits`, at most one per session and kind every 10 minutes |
+| A precheck failed | its report in `runs/precheck/`, and the idle row that the machine's one email is read from |
+| A session finished or could not finish | its report; `scripts/notify.py` sends nothing, with or without `--failed` |
+| A Roundup's run failed | its rows of `erw_health` and the last step of its own log (`warehouse/health.py alert` prints the line) |
+| Every morning | the morning summary is written into the log of the chain watch's run at 07:00 Pacific, once a day |
+
+- **The sender itself holds the rule.** `deliver()` in `scripts/alert.py` is the one function that reaches the sender,
+  and it sends only a line of the kind `ready` or `daily red`. A caller that hands it any other kind, or none, gets 0
+  and nothing goes out. In the workflow only the two steps above are given the key that sends (`RESEND_API_KEY`).
+- **How a machine goes idle.** `python scripts/chain_queue.py next` with nothing waiting writes one row of
+  `erw_health` (step `idle`, workflow `local:<machine>`) whose reason begins "ready for review: ", and takes the
+  machine off duty. It emails nothing. A failed precheck writes the same row with its line as the reason. The check
+  reads the newest such row of each machine from the last six hours.
+- **Why 15 minutes.** A machine that takes its next chain, or whose next session passes its precheck, is on duty again
+  and is not ready for review: nothing is sent. The check runs every 15 minutes on GitHub, so the email arrives 15 to
+  30 minutes after the row, later when GitHub's schedule runs late.
+- **At most one.** What was sent is remembered as before (rows of `erw_health`, workflow `alerts`: `ready|<machine>|<the
+  minute it went idle>`, `daily red|<day>`). A machine that asks the queue again while off duty writes a row that does
+  not begin with the mark, so asking twice is one email. When the memory cannot be read, only the check in the quarter
+  of an hour after the 15 minutes sends.
+- **To see what would be sent now:** `python scripts/alert.py ready --dry-run`, `python scripts/alert.py failures
+  --dry-run`. Every other check has a dry run that says "would record, not email".
+- **What GitHub itself sends is outside this,** as before: a failed "code branch" check emails the pusher from GitHub.
+
 ### One alert policy (session 202)
+
+Replaced by "The email rule (session 243)" above: the table below is what was sent until 13 October 2026, kept as
+the record. What it says of the memory, the morning summary's lines and the green streak still holds.
 
 Every email the machinery sends to a person follows these rules. They are implemented in `scripts/alert.py`,
 `scripts/duty.py`, `scripts/notify.py` and `.github/workflows/chain-watch.yml`. The digest and the Roundup are the
@@ -679,9 +728,10 @@ Every session runs it before anything else, and every chain file names it as its
 
 - **All pass:** exit 0, and the machine is on duty (below).
 - **Any fails:** exit 1. The precheck writes a short report to `runs/precheck/<time>-<machine>.md` (every check with
-  its reason), sends one line to the fixed recipients through `scripts/alert.py`'s sender (the same-day address:
-  `DIGEST_RECIPIENTS`, never printed), and ends. It does not wait for a person, and the session starts no work. A line
-  that could not be sent (the key is one of the things missing) is said in the report and on the screen.
+  its reason), records the machine as idle in `erw_health` with its one line as the reason, and ends. It does not wait
+  for a person, and the session starts no work. It sends no email itself (session 243, "The email rule"): the
+  machine's one email follows 15 minutes later and carries that line, unless a later precheck has passed by then. A
+  row that could not be written is said in the report and on the screen.
 - It makes no model call and writes nothing to the warehouse. Its one write is the duty mark, and only on a pass.
 
 ### The chain queue: what a machine runs next
@@ -703,8 +753,9 @@ python scripts/chain_queue.py next [--dry-run]
   is the last line printed (exit 0). The session reads that file and runs it. The commit is on the branch the session
   is on and is not pushed by the command: a push to main deploys, and rule 8 of `CLAUDE.md` governs it.
 - **Nothing waits:** one row of `erw_health` through `warehouse/health.py`'s own writer (step `idle`, status `ok`,
-  workflow `local:<machine>`: the table's statuses are ok, skipped, retried and failed, so idle is the step), one line
-  by email to the fixed recipients, the machine off duty, and exit 3.
+  workflow `local:<machine>`: the table's statuses are ok, skipped, retried and failed, so idle is the step), the
+  machine off duty, and exit 3. No email is sent by the command (session 243, "The email rule"): the row is what the
+  chain watch reads, and the machine's one email, "ready for review", follows 15 minutes later.
 - A name that is not `NNN-<slug>.md`, and a name of the task queue below (`NNN-code-`, `NNN-data-`), is left where it
   is and never run.
 - This is not the task queue of "The queue and the worker" above: that one hands single tasks to whichever worker

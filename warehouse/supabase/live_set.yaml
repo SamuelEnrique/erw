@@ -62,6 +62,11 @@ full:
   - '^storage_(daily_cycle|capacity|buildout_monthly)$'
   # session 32: /emissions (the daily intensity whole; the hourly tables below, last 90 days)
   - '^carbon_intensity_(daily|monthly)$'          # session 34: the monthly table too, whole (about 1,600 rows)
+  # session 245 (the owner's ruling of 12 October 2026): the hourly intensity for at least 13 months, hour by hour, for
+  # the seven ISOs and the US48. It was in the recent window of 35 days below. Its own window is under "select":
+  # 430 days, which is 13 whole calendar months and the month under way whatever the day of the month and EIA's lag of
+  # a few days. About 165,000 rows of its 1.1 million (16 an hour: two variables, eight balancing authorities)
+  - '^carbon_intensity_hourly$'
   # session 34: CAISO's own battery series for /storage, beside EIA-930's (Total batteries only, its own window below)
   - '^caiso_battery_storage$'
   # session 36B: the Historical Event Analyzer's daily table (556 rows); never an hourly history
@@ -127,6 +132,11 @@ full:
   # that no question reads a year of hourly rows. Under review_hold. The hourly table above stays as it is: the live
   # battery page reads it, and nothing it reads changes
   - '^ercot_as_prices_(daily|monthly)$'
+  # session 244: ERCOT's real-time reserve price adders by hour, from June 2014 (the operating reserve demand curve's
+  # scarcity signal; about 601,000 rows, eight variables), whole. No page reads it yet: it is under review_hold, and its
+  # one source under sources_hold. Built on the data machine (the yearly workbooks are there); a machine that does not
+  # hold the table does not load it, and the rows in Supabase stay
+  - '^ercot_rtm_price_adders$'
 
 # Only rows whose time is within the last `days` days (series: ts_utc). Older rows
 # of these tables are deleted from Supabase on each load, so the window rolls.
@@ -141,7 +151,8 @@ recent:
     - '^eia930_(?!daily_)[a-z0-9]+_(demand|generation)$'     # session 29: eia930_all_demand and eia930_all_generation (ba); session 109: not the daily history eia930_daily_demand
     - '^iso_(dam|rtm)_hub_prices$'                 # session 29: the CAISO, ERCOT, MISO and SPP hub prices (market)
     - '^eia930_all_storage$'                       # session 31: EIA-930 battery storage (ba), the recent window
-    - '^(eia930_all_emissions|carbon_intensity_hourly)$'   # session 32: CO2 estimates and hourly intensity, the recent window
+    - '^eia930_all_emissions$'                     # session 32: EIA's CO2 estimates, the recent window (session 245: the
+      # hourly intensity built from them has its own window of 430 days: under "full" above and "select" below)
 
 # Session 16: for a table named here, only these extra columns (beyond the shape's standard
 # columns) and only rows not excluded go to Supabase. energy_projects repeats the rows of the
@@ -176,6 +187,9 @@ select:
   # session 36A: all eight CO2 variables again (the by-fuel and trade six for /ask and the grid pages' chat), the table's
   # recent window (90 days in session 36A at 376.3 MB; 35 days since session 36C)
   carbon_intensity_daily: {days: 100}
+  # session 245: at least 13 months of the hourly intensity (see "full" above). Every row of the window: no hour, no
+  # balancing authority and neither variable is left out
+  carbon_intensity_hourly: {days: 430}
   # session 68: /network's panel reads the last twelve complete months of ba_supply_monthly
   ba_supply_monthly: {days: 430}
   # session 83: /contracts lists contracts by the quarter they were signed; the last 1,000 days of execution dates
@@ -317,6 +331,7 @@ review_hold:
   - grid_stress_yearly                 # session 123, /mix/stress
   - ercot_as_prices_daily              # session 148, /ask/ercot
   - ercot_as_prices_monthly            # session 148, /ask/ercot
+  - ercot_rtm_price_adders             # session 244, no page yet (ERCOT's real-time reserve price adders by hour)
 
 # Session 102: sources that serve only tables whose pages are in review, held off /terms (a live page that lists the
 # registry and counts it) until one of those pages opens. Read by the site's build (site/scripts/build-content.mjs);
@@ -415,6 +430,7 @@ sources_hold:
   - noaa:lcd_v2                        # session 126, the same page (NOAA's Local Climatological Data from August 2025)
   - erw:demand_weather                 # session 126, the same page
   - census:popest_cbsa                 # session 129, the same page (the stations' weights)
+  - ercot:NP6-792-ER                   # session 244, ercot_rtm_price_adders (no page yet; this source row serves only that table)
 
 # Session 206 (the owner's ruling of 12 October 2026): tables loaded as a union by their key, not as a replacement. Each
 # machine appends to its own copy of the cost ledger (GitHub's runner, the data machine, a session's laptop), so no one

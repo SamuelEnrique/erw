@@ -13,6 +13,11 @@ Session 202, the one alert policy (docs/machines.md, "One alert policy"): succes
 finished is a success, and the morning summary lists its landing; so this script sends only with --failed, for a
 session that could not finish, and otherwise prints why it did not send and exits 0.
 
+Session 243, the email rule (the owner's ruling of 12 October 2026; docs/machines.md, "The email rule"): this script
+sends nothing at all now, with or without --failed. It prints why and exits 0; --dry-run still prints the message a
+session would have sent. A person hears of a chain once, 15 minutes after its machine went idle
+(python scripts/alert.py ready).
+
 The message is the one line and the report's address on GitHub, nothing else: no number that is not in the line, no
 attachment. Exit 0 when every fixed recipient was sent to; 1 when nothing could be sent (no key, no recipient, or
 Resend refused), with the reason on stderr; 2 on bad input. It makes no model call and writes no file.
@@ -75,9 +80,11 @@ def main(argv=None):
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--failed", action="store_true", help="the session could not finish: the only case that is sent (session 202)")
     a = ap.parse_args(argv)
-    if not a.failed and not a.dry_run:
-        print(f"notify: session {a.session}: not sent. Successes send nothing (docs/machines.md, \"One alert policy\"); "
-              "the morning summary lists the landing. For a session that could not finish: --failed")
+    if not a.dry_run:
+        # session 243, the email rule: a session, finished or failed, sends nothing; --failed is kept so a chain that names it still runs
+        print(f"notify: session {a.session}: not sent ({'it could not finish' if a.failed else 'it finished'}). A session sends no email "
+              "(docs/machines.md, \"The email rule\", session 243): its report says what happened, and the machine's one email "
+              "follows 15 minutes after the chain ends.")
         return 0
     try:
         n = send(a.session, a.branch, a.line, a.dry_run)

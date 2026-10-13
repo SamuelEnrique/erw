@@ -5,6 +5,7 @@ start asks first); the weekly chart's chooser (a real change, ranked among the m
 week), its watch list over the public tables and the caption that states the finding. No network, no model.
 tests/fixtures/session119/ holds real rows of four public tables, every column, unaltered.
 """
+import io
 import json
 import os
 import re
@@ -13,6 +14,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from contextlib import redirect_stdout
 
 import pandas as pd
 import yaml
@@ -544,7 +546,12 @@ class TheFailureAlert(unittest.TestCase):
         self.health.alert("2026-10-04", "37207629600", rows=many, send=lambda subject, line, dry: sent.append((subject, line, dry)))
         self.assertEqual(sent[0][0], "ERW: 9 scheduled steps failed")
         self.assertLessEqual(len(sent[0][1]), 300)
-        self.assertIn("import alert as alert_mail", src("warehouse", "health.py"))
+        # session 243, the email rule: by itself the command prints the line and emails nothing (no sender is imported)
+        self.assertNotIn("import alert as alert_mail", src("warehouse", "health.py"))
+        out = io.StringIO()
+        with redirect_stdout(out):
+            self.assertGreater(self.health.alert("2026-10-04", "37207629600", rows=many), 0)
+        self.assertIn("health alert: recorded, not emailed (the email rule, session 243): 9 steps of daily prices failed", out.getvalue())
 
     def test_it_cannot_fail_the_job_it_reports_on(self):
         saved = self.health.fetch
