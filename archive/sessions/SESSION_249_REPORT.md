@@ -4,6 +4,7 @@
 
 ## Read these first
 
+- **Added by session 250: this session's own push failed its check and it lands with session 250.** Run 38376287516, step "Site build and check-routes", failed at 09:35 UTC. The cause was not in these files: the emissions page's read of the hourly carbon table was being cancelled since session 245's load (`archive/sessions/SESSION_250_REPORT.md`, "Read these first"). Nothing below was changed.
 - **`docs/howitworks/` holds five documents, one a tool, each with the seven parts asked for and a last part that names the file every number was read in.** `battery.md`, `generator.md`, `datacenter.md`, `grid.md`, `research.md`; `README.md` is the index. 1,414 lines in all.
 - **Sessions 235 and 236 landed while I wrote: `aa3addbc`, 09:14:02 UTC (the generator and the datacenter pages, together). Sessions 237 and 238 had not.** When the session began none of the four was on `main`, so four documents were written from the branches. The generator's page files as landed are the same as the branch's; the datacenter's landed with two sentences reworded, and its document gives both wordings. The Grid tool and Research are written from `origin/wip/237-grid` (`13dfe385`) and `origin/wip/238-research` (`f95bb129`), and say so in their first lines.
 - **No demo path was clicked through in a browser.** Each was written from the page's code, its check scripts and its data, and says so in one line. Every page is in review, so each path starts by opening the internal view. A person, or a browser session on the code machine, owes each path one run.
