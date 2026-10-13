@@ -84,7 +84,7 @@ export function ProjectMap({ file: f, statesGeo }: { file: MapFace; statesGeo: u
         data: byKind[ki].map((i) => {
           const c = color[f.t[i]];
           if (ki === KIND.datacenter) return { value: [xy.x[i], xy.y[i], i], symbol: "diamond", symbolSize: 9, itemStyle: { color: panel, borderColor: ink, borderWidth: 1.2, opacity: 0.95 } };
-          if (ki === KIND.queue) return { value: [xy.x[i], xy.y[i], i], symbol: "triangle", symbolSize: size(f.mw[i]) + 2, itemStyle: { color: "rgba(0,0,0,0)", borderColor: c, borderWidth: 1, opacity: 0.85 } };
+          if (ki === KIND.queue) return { value: [xy.x[i], xy.y[i], i], symbol: "triangle", symbolSize: size(f.mw[i]) + 2, itemStyle: { color: "transparent", borderColor: c, borderWidth: 1, opacity: 0.85 } };
           if (ki === KIND.planned) return { value: [xy.x[i], xy.y[i], i], symbol: "emptyCircle", symbolSize: size(f.mw[i]), itemStyle: { color: c, borderColor: c, borderWidth: HEAVY.has(f.statuses[f.st[i]].slug) ? 1.6 : 1, opacity: 0.9 } };
           return { value: [xy.x[i], xy.y[i], i], symbol: "circle", symbolSize: size(f.mw[i]), itemStyle: { color: c, borderColor: panel, borderWidth: 0.4, opacity: 0.78 } };
         }),

@@ -36,9 +36,9 @@ function Bars({ rows }: { rows: OwnerRow[] }) {
         const w = ((r.operating_mw ?? 0) / max) * (W - L - R);
         return (
           <g key={r.entity}>
-            <text x={L - 8} y={i * rowH + 15} textAnchor="end" fontSize="11" fill="#2E2D29">{r.name.length > 38 ? `${r.name.slice(0, 37)}...` : r.name}</text>
+            <text x={L - 8} y={i * rowH + 15} textAnchor="end" fontSize="11" fill="var(--color-ink)">{r.name.length > 38 ? `${r.name.slice(0, 37)}...` : r.name}</text>
             <rect x={L} y={i * rowH + 4} width={Math.max(1, w)} height={rowH - 8} fill={BAR} />
-            <text x={L + w + 6} y={i * rowH + 15} fontSize="11" fill="#2E2D29">{shown(r.operating_mw)}</text>
+            <text x={L + w + 6} y={i * rowH + 15} fontSize="11" fill="var(--color-ink)">{shown(r.operating_mw)}</text>
             <title>{`${r.name}: ${shown(r.operating_mw, 1)} MW operating`}</title>
           </g>
         );

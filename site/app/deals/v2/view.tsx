@@ -37,17 +37,17 @@ function MonthBars({ ms }: { ms: { month: string; n: number }[] }) {
     <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label="Deals by month, the number of deals dated in each month">
       {ticks.map((t) => (
         <g key={t}>
-          <line x1={L} x2={W - R} y1={y(t)} y2={y(t)} stroke={t === 0 ? "#2E2D29" : "#D9D2C3"} strokeWidth={t === 0 ? 1 : 0.75} />
-          <text x={L - 6} y={y(t) + 4} textAnchor="end" fontSize="11" fill="#6B665E">{t}</text>
+          <line x1={L} x2={W - R} y1={y(t)} y2={y(t)} stroke={t === 0 ? "var(--color-ink)" : "var(--color-rule)"} strokeWidth={t === 0 ? 1 : 0.75} />
+          <text x={L - 6} y={y(t) + 4} textAnchor="end" fontSize="11" fill="var(--color-muted)">{t}</text>
         </g>
       ))}
       {ms.map((m, i) => {
         const x0 = L + i * bw + bw * 0.15, w = bw * 0.7;
         return (
           <g key={m.month} data-deals-month={m.month} data-deals-n={m.n}>
-            {m.n ? <rect x={x0} width={w} y={y(m.n)} height={Math.max(0.5, y(0) - y(m.n))} fill="#8C1515" /> : null}
-            <text x={x0 + w / 2} y={y(m.n) - 5} textAnchor="middle" fontSize="10" fill={m.n ? "#2E2D29" : "#6B665E"}>{m.n}</text>
-            {m.month.endsWith("-01") || i === 0 || i % 3 === 0 ? <text x={x0 + w / 2} y={H - bot + 15} textAnchor="middle" fontSize="10" fill="#2E2D29">{shortMonth(m.month)}</text> : null}
+            {m.n ? <rect x={x0} width={w} y={y(m.n)} height={Math.max(0.5, y(0) - y(m.n))} fill="var(--color-accent)" /> : null}
+            <text x={x0 + w / 2} y={y(m.n) - 5} textAnchor="middle" fontSize="10" fill={m.n ? "var(--color-ink)" : "var(--color-muted)"}>{m.n}</text>
+            {m.month.endsWith("-01") || i === 0 || i % 3 === 0 ? <text x={x0 + w / 2} y={H - bot + 15} textAnchor="middle" fontSize="10" fill="var(--color-ink)">{shortMonth(m.month)}</text> : null}
             <title>{`${monthWords(m.month)}: ${m.n} ${m.n === 1 ? "deal" : "deals"}`}</title>
           </g>
         );
@@ -95,7 +95,7 @@ function Choices({ x, all }: { x: Inputs; all: Deal[] }) {
         <div className="grid grid-cols-3 border border-accent" role="group" aria-labelledby="view-label">
           {views.map((v, i) => (
             <Link key={v.id || "all"} href={hrefOf(x, { view: v.id })} scroll={false} aria-current={x.view === v.id ? "true" : undefined} data-view={v.id || "all"}
-              style={x.view === v.id ? { color: "#fff" } : undefined}
+              style={x.view === v.id ? { color: "var(--color-surface)" } : undefined}
               className={`px-1 py-1.5 text-center no-underline ${i ? "border-l border-accent" : ""} ${x.view === v.id ? "bg-accent font-semibold" : "bg-white text-accent"}`}>
               {v.label}
             </Link>

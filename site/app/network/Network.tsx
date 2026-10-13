@@ -92,12 +92,13 @@ type View = {
 const priceOf = (view: View, v3on: boolean, id: string, h: number) => (v3on && PAUSED_PRICE[id] ? null : view.price(id, h));
 
 /** Session 237: the canvas takes its colors from the token file (app/tokens.css), read where the canvas stands, so a
- * page under the brand draws the brand's. A canvas cannot read a CSS variable itself; the values below are the tokens'
- * own, used only until the page is in a browser. */
+ * page under the brand draws the brand's. A canvas cannot read a CSS variable itself, so readPalette puts the tokens'
+ * values here before a scene is built. Session 241: until then each entry is the token itself (the map, an SVG, reads
+ * a var() as it stands); no color is written in this file. */
 type Palette = { ink: string; ground: string; muted: string; accent: string; rule: string; low: string; high: string; none: string };
 const TOKENS: Record<keyof Palette, string> = { ink: "--color-ink", ground: "--color-panel", muted: "--color-muted", accent: "--color-accent", rule: "--color-rule",
   low: "--color-down", high: "--color-up", none: "--color-not-held" };
-let PAL: Palette = { ink: "#2E2D29", ground: "#FBF8F2", muted: "#6B665E", accent: "#8C1515", rule: "#D9D2C3", low: "#175E54", high: "#8C1515", none: "#9a958c" };
+let PAL: Palette = Object.fromEntries((Object.keys(TOKENS) as (keyof Palette)[]).map((k) => [k, `var(${TOKENS[k]})`])) as Palette;
 function readPalette(el: Element | null) {
   if (!el || typeof window === "undefined") return;
   const css = window.getComputedStyle(el);
