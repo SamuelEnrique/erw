@@ -143,6 +143,8 @@ isone_rtm_zone_prices_hourly,ISO-NE,isone_rtm,9,PT1H,2026-08-26T04:00:00Z,2026-1
 isone_zone_load_hourly,ISO-NE,isone_load,9,PT1H,2025-01-01T05:00:00Z,2026-09-01T03:00:00Z,131319,isone:smd_hourly,2026-10-10T15:02:38Z,pass,internal,power,no,source
 isone_zone_prices_history,ISO-NE,isone_dam;isone_rtm,8,PT1H,2019-01-01T05:00:00Z,2026-09-01T03:00:00Z,1075024,isone:smd_hourly_lmp,2026-10-07T11:53:48Z,pass,internal,power,no,source
 known_data_faults,none,,1,event,2018-07-20T00:00:00Z,2026-10-05T00:00:00Z,28,1 outlets,2026-10-05T07:57:29Z,pass,public,platform,no,derived
+large_load_document_verdicts,none,,1,event,2026-10-13T00:00:00Z,2026-10-13T00:00:00Z,427,1 outlets,2026-10-13T19:18:20Z,pass,internal,power;datacenters,no,derived
+large_load_public,none,,1,event,2024-05-01T00:00:00Z,2026-09-30T00:00:00Z,341,1 outlets,2026-10-13T19:18:20Z,pass,internal,power;datacenters,no,model_extracted
 large_load_rule_reads,none,,1,event,2024-01-25T00:00:00Z,2026-10-07T00:00:00Z,87,1 outlets,2026-10-08T05:01:16Z,pass,public,power;datacenters,no,model_extracted
 large_load_rules,none,,5,event,2024-01-25T00:00:00Z,2026-09-22T00:00:00Z,43,5 outlets,2026-10-08T05:09:36Z,pass,public,power;datacenters,no,model_extracted
 large_load_rules_internal,none,,6,event,2024-05-13T00:00:00Z,2026-10-07T00:00:00Z,73,6 outlets,2026-10-08T05:09:36Z,pass,internal,power;datacenters,no,model_extracted

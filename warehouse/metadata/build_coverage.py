@@ -105,6 +105,10 @@ TIER_RULES = [
     ("model_extracted", r"^large_load_rule_reads$"),
     # session 155: durations the ERW's code computes between dated copies of public queues (no model reads anything)
     ("derived", r"^large_load_waits$"),
+    # session 255: the statements whose source document is public, as facts with a link (the figures are the research
+    # agent's, each proved by code in large_load_statements), and the license verdict the ERW's code gives each document
+    ("model_extracted", r"^large_load_public$"),
+    ("derived", r"^large_load_document_verdicts$"),
 ]
 # erw.filter(sector=...) vocabulary (session 7)
 SECTORS = ["power", "gas", "oil", "products", "lng", "coal", "uranium", "carbon", "capacity",
@@ -160,6 +164,7 @@ SECTOR_RULES = [
     (r"^large_load_statements$", "power"),
     (r"^large_load_rule(s|s_internal|_reads)$", "power;datacenters"),  # session 154: rules in motion for large loads
     (r"^large_load_waits$", "power;datacenters"),  # session 155: measured waits of large loads, from dated copies of queues (internal)
+    (r"^large_load_(public|document_verdicts)$", "power;datacenters"),  # session 255: the statements whose document is public, and each document's license verdict (internal until ruled)
     (r"^policy_action_tags$", "news"),  # session 154: tags of the policy actions held, by a written rule
     (r"^news_", "news"),
     # session 8
