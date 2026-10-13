@@ -122,6 +122,7 @@ if [ "$CHECK" = "1" ]; then
   echo "  (session 204) first of all after the sync, ERCOT's node prices (scheduled.py ercot_rtm_node_prices, 500,000 rows a day at most) and its stores when it moved;"
   echo "  (session 206) then the runner's known gaps: carbon_auctions.py --table carb, carb_lcfs.py, policy_monitor_refresh.py --only orpuc, each table's stores when it moved;"
   echo "  (session 244) then ERCOT's reserve price adders: ercot_rt_adders.py (the list, and a year's workbook when ERCOT posted it again), its stores when the table moved;"
+  echo "  (session 247) then the tables no other schedule refreshes (bash warehouse/run_data_machine_tables.sh --list): six steps a day, three once a month, their stores, and the live-set load of the tables only this machine builds;"
   echo "  (session 204) after the page files: battery_dispatch_export, battery_scenario_steps and seller_hybrid, each through scheduled.py, then each group's tests;"
   echo "  (session 204) switched off, GENERATOR=${GENERATOR:-0} (1 runs them): merchant_revenue (and its table's stores), merchant_hubs, generator_hourly_export;"
   echo "  then a commit to main of: ${PAGE_PATHS[*]} ${META_PATHS[*]}"
@@ -206,6 +207,15 @@ echo "== ERCOT's reserve price adders: the list, and a year's workbook when ERCO
 was="$(sha_of "$ADDERS")"
 soft_step dm_ercot_rt_adders "$PYTHON" warehouse/connectors/ercot_rt_adders.py
 table_stores dm_rt_adders_stores "$ADDERS" "$was"
+
+# ---- 1e. the public tables no other schedule refreshed (session 247) ---------------------------------------------------
+# Session 218 listed, for each stale public table, the line its schedule needs; the owner's chain prompt of 12 October
+# 2026 asked for them. They are one file, sourced here so that its steps use this run's soft_step, table_stores, status
+# file and data lock: six steps a day (EIA's daily total interchange, CAISO's and ERCOT's wind and solar forecasts, the
+# NRC's reactor status, CAISO's notices, CAISO's evenings), three once a month (CAISO's curtailment reports not yet
+# saved, who owns the batteries, the shoulder hours), each table's stores when it moved, and the live-set load of the
+# tables only this machine builds. bash warehouse/run_data_machine_tables.sh --list names every step and its command.
+. warehouse/run_data_machine_tables.sh
 
 # ---- 2. ERCOT's load zones --------------------------------------------------------------------------------------------
 echo "== ERCOT's load zone prices: the daily refresh (the count against the ceiling is in runs/daily_dm_ercot_zone_prices.out)"

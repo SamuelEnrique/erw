@@ -94,6 +94,22 @@ For this reason the hourly run pulls interchange for the 48 hours ending at the 
 - the Lower 48's power system "is made up of three main interconnections, which operate largely independently from each other with limited transfers of power between them";
 - in ERCOT "the balancing authority, interconnection, and the regional transmission organization are all the same entity and physical system".
 
+## How far behind the newest hour is, and why (session 247)
+
+Measured on 13 October 2026 at 07:57 UTC, with three reads of EIA (`runs/session247/probe_interchange.out` and `network_dry.out` on the data machine):
+
+| What | Newest hour that is complete | Behind the clock |
+|---|---|---|
+| The page's file in Storage (built 07:05 UTC that day by the hourly job) | the hour beginning 2026-10-11 03:00 UTC | 53 hours |
+| EIA's API route for interchange (`electricity/rto/interchange-data`) | the same hour: 340 reports an hour up to the period ending 2026-10-11T04, then 256, 181, 161, and 19 an hour after 07 | 53 hours |
+| EIA's own bulk file (`EIA930_INTERCHANGE_2026_Jul_Dec.csv`, last modified 12 October 14:38 GMT) | the same hour: 297 pairs an hour up to the hour ending 04:00, then 220, 156, 135, and nothing after 07:00 | 53 hours |
+
+- **The lag is EIA's, and both of its public routes have it.** The page's file was current to the publisher within the hour. There is no fresher public copy of EIA-930 interchange to read.
+- **Why two days.** The hours after 04:00 UTC on 11 October are the first hours of that day in Eastern time, then Central, Mountain and Pacific. On the morning of 12 October EIA published each balancing authority's interchange through the end of its local day of 10 October, and not 11 October. So a local day's interchange is public on the second morning after it: between about 35 hours behind (just after EIA's morning update, about 14:30 UTC) and about 59 hours behind (just before the next).
+- **What the builder adds to that: nothing but the partial hours.** It shows the newest hour in which at least 90 percent as many pairs reported as in the window's median hour. The three hours after it had 129, 97 and 88 of 157 pairs; showing them would draw a network with a third of its lines missing.
+- **Demand is not behind.** EIA publishes demand one to two hours after the hour, and the page shows each grid's demand at its own newest hour.
+- **What would close it:** another source of interchange (each operator's own real-time tie flows), which is seven connectors and, for four of the grids, a license or a ruling. Not built.
+
 ## Who supplies a grid (session 68)
 
 Table `ba_supply_monthly` (derived, public; `warehouse/derived/ba_supply.py`), from `eia930_daily_interchange` (session 62: every pair, daily, from 2019) and `eia930_daily_total_interchange` (session 68: EIA-930's own total interchange of every balancing authority, type TI, daily, from 2019; 210,911 rows of a 300,000-row ceiling). A month's days are EIA's Eastern days, the day boundary of both tables. **Positive means the neighbour supplied the grid** (a net import): EIA's own sign is the opposite and is flipped once, in the builder.
