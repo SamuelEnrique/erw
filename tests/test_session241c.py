@@ -62,7 +62,7 @@ class OneTracker(unittest.TestCase):
             self.assertIn(f"<strong>{strong}</strong>", new, strong)
         for words in ("of the load ERCOT has approved to energize, less than half has been observed running", "The ERW does not read a number off a picture",
                       "new LLI submissions&quot; and that &quot;preliminary review indicates these total approximately", "the first cannot be the larger. Both are shown as written.",
-                      "No status update has been found on its meeting pages since March 2026.", "The two are not added.", "sites outside the US among them",
+                      "No status update has been found on its meeting pages since ", "The two are not added.", "sites outside the US among them",
                       "By where each came from:", "No other operator&apos;s large-load report is in the warehouse.", "so no number is shown",
                       "ERCOT&apos;s terms let raw data in public portions of its website be used and redistributed", "built {f.built.slice(0, 10)}",
                       'data-load-summary="1"', 'data-facilities-summary="1"', "data-load-row={`${r.day}|approved`}"):
@@ -71,6 +71,18 @@ class OneTracker(unittest.TestCase):
         for k in ("approved", "nonsimultaneous", "simultaneous"):
             self.assertIn(f'data-load="{k}"', new)
             self.assertIn(f'{{ label: "{ {"approved": "Approved to energize", "nonsimultaneous": "Observed running", "simultaneous": "Served at one moment"}[k] }", color:', new)   # the chart's three lines
+
+    def test_the_month_of_the_newest_report_is_read_from_the_table(self):
+        """The old page wrote "since March 2026" as fixed words. The table grew (its newest report is later), so the
+        words stood beside a table that contradicted them; the month is the newest report's own now."""
+        new = src("site", "app", "datacenters", "LargeLoad.tsx")
+        self.assertIn("const newest = f.reports[f.reports.length - 1];", new)
+        self.assertIn('since <span data-last-report={newest.day}>{dayWords(newest.day).split(" ").slice(1).join(" ")}</span>.', new)
+        self.assertNotIn("since March 2026", code(new))                                  # (a comment says what stood there)
+        self.assertIn("since March 2026", src("site", "app", "_retired", "datacenters-v2", "page.tsx"))   # the page as it was, kept
+        import json
+        reports = json.loads(src("site", "data", "large_load_status.json"))["reports"]
+        self.assertEqual(reports, sorted(reports, key=lambda r: r["day"]))                # the last is the newest
 
     def test_every_figure_carries_a_check_key(self):
         new = src("site", "app", "datacenters", "LargeLoad.tsx")

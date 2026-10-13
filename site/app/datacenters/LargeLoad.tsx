@@ -36,6 +36,9 @@ export function LargeLoad({ read }: { read: Read }) {
   const sentence = summary(f);
   const odd = impossible(f);
   const submissions = f.reports.filter((r) => r.new_count !== undefined);
+  // The newest report held. The old page wrote "since March 2026" as fixed words; the table has grown since (three
+  // more reports), and the words stood beside a table whose first row was later. The month is read from the table now.
+  const newest = f.reports[f.reports.length - 1];
   const facilities: Facility[] = read.ok ? read.data.map((r) => ({ name: r.name, operator: r.operator, status: r.status, capacity_mw: r.capacity_mw, state: r.extra?.state ?? "", kind: r.extra?.kind ?? "", country: countryOf(r.extra?.country, r.extra?.state) })) : [];
   const c = facilityCounts(facilities);
   const vintage = read.ok ? read.data.map((r) => r.vintage ?? "").sort().at(-1) ?? "" : "";
@@ -83,7 +86,7 @@ export function LargeLoad({ read }: { read: Read }) {
           {odd.map((r) => (
             <li key={r.day}><strong>One report contradicts itself.</strong> On {dayWords(r.day)} ERCOT stated <Mw f={f} r={r} k="simultaneous" /> MW served at one moment and <Mw f={f} r={r} k="nonsimultaneous" /> MW as the sum of each load&apos;s own peak; the first cannot be the larger. Both are shown as written.</li>
           ))}
-          <li><strong>On 3 August 2026 ERCOT paused approvals to energize</strong> datacenters and virtual currency mining facilities of 75 MW or more, and paused its Batch Zero study, in its words to TAC on 26 August 2026. No status update has been found on its meeting pages since March 2026.</li>
+          <li><strong>On 3 August 2026 ERCOT paused approvals to energize</strong> datacenters and virtual currency mining facilities of 75 MW or more, and paused its Batch Zero study, in its words to TAC on 26 August 2026. No status update has been found on its meeting pages since <span data-last-report={newest.day}>{dayWords(newest.day).split(" ").slice(1).join(" ")}</span>.</li>
         </ul>
       </ToolSection>
 
