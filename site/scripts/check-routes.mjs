@@ -73,7 +73,10 @@ const PAGES = [
   // session 239: six pages hold what thirteen held, each as tabs of one address (lib/tabs.ts). The tabs are asked here;
   // the old addresses stay in this list, each answering through its redirect (next.config.ts)
   "/storage?tab=buildout", "/storage?tab=buildout&grid=ercot&measure=mwh", "/storage?tab=owners", "/storage?tab=owners&grid=caiso",
-  "/severance?tab=lease", "/prices?tab=ercot", "/demand?view=consumption", "/deals?tab=tracker", "/deals?tab=tracker&party=Constellation", "/deals?tab=companies",
+  // (the consumption view of /demand is asked at /consumption, above, through its redirect: its table writes "no data" in
+  // three cells, as /consumption did, and a baseline that still draws /demand?view=consumption as the metered view
+  // would read those three as new; ask it by its own address once the baseline holds the view)
+  "/severance?tab=lease", "/prices?tab=ercot", "/deals?tab=tracker", "/deals?tab=tracker&party=Constellation", "/deals?tab=companies",
   "/map?tab=resources", "/map?tab=resources&on=oil_gas_basins,plants_operating&z=2&c=-101,32", "/deals/v2", "/deals/v2?view=ai", "/seller/v2",
   "/shoulder", "/shoulder?grid=caiso&month=2025-07", "/data/methods/shoulder_hours",  // session 75
   "/contracts", "/contracts?product=capacity",  // session 83

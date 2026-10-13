@@ -234,7 +234,8 @@ class TheChecks(unittest.TestCase):
         s = src("site", "scripts", "check-routes.mjs")
         for old, new in MERGED.items():
             self.assertIn(f'"{old}"', s, old)
-            self.assertIn(f'"{new}"', s, new)
+            if old != "/consumption":   # asked through its redirect until the baseline holds the view (the note in the list)
+                self.assertIn(f'"{new}"', s, new)
 
     def test_the_browser_checks_open_the_new_addresses(self):
         self.assertIn("/storage?tab=buildout&grid=${grid.slug}&measure=${measure}", src("site", "scripts", "check-buildout.mjs"))
