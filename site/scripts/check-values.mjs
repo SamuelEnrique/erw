@@ -431,6 +431,15 @@ async function truth(check) {
   // lib/shapepremium.ts from every cost_of_power_monthly row of the hub
   // session 51: the seller's tab: recomputed from the snapshot the page reads (data/merchant_snapshot.json, not Supabase),
   // with lib/merchant.ts; tests/test_session51.py checks the snapshot against the warehouse table and by hand
+  // session 235: the capture table of /cost-of-power/seller, cap|<grid>|<hub>|<market>|<fuel>|<span>|<stat>: recomputed
+  // from the file the page reads (data/seller/capture.json, not Supabase; warehouse/derived/capture_price.py builds it
+  // and tests/test_session145.py holds it against the warehouse) with lib/capture.ts. <span> is l12 or a year; <stat>
+  // is price, flat or rate (the capture rate in whole percent, as the table writes it)
+  if (p[0] === "cap") {
+    const C = await import("../lib/capture.ts");
+    const file = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "seller", "capture.json"), "utf-8"));
+    return C.stat(file, p[1], p[2], p[3], p[4], p[5], p[6]);
+  }
   if (p[0] === "mr") {
     const M = await import("../lib/merchant.ts");
     const snap = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "merchant_snapshot.json"), "utf-8"));

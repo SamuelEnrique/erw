@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { AskErcotLink } from "@/components/AskErcotLink";
+import { Brand } from "@/components/Brand";
+import { Num } from "@/components/Num";
 import { SiteLink as Link } from "@/components/SiteLink";
+import { GroupedBars } from "@/components/tool/GroupedBars";
 import { ChartFrame, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import * as B from "@/lib/batterystack";
 import { caisoJoinDay } from "@/lib/caisoJoin";  // session 78: the join's date is written in one place
@@ -10,11 +13,10 @@ import { ASSET_NAMES } from "@/lib/merchant";
 import { isOldParam, isScenarioParam } from "@/lib/seller/finance";
 import { usd, whole, type Span } from "@/lib/seller2";
 import { CostTabs } from "../Tabs";
-import { RevenueYears } from "./SellerCharts";
 import { SellerForm } from "./SellerForm";
 import { SellerProfile } from "./SellerProfile";
 import { CoverHeadline, SellerDecisions, SellerScenarios, SellerSensitivity } from "./SellerScenarios";
-import { BATTERY_GRIDS, CAPTURE, HUBS, HYBRID, STANDARD, ZONES, modelOf } from "./model";
+import { BATTERY_GRIDS, CAPTURE, HUBS, HYBRID, STANDARD, ZONES, modelOf, type CapRow } from "./model";
 import { Missing } from "./nums";
 
 // Session 145: "What a generator earns", one page at one address. It holds what the seller's tab (session 51) and its
@@ -69,6 +71,20 @@ import { Missing } from "./nums";
 // panel and "With your contract" (SellerContract.tsx stays on disk, undrawn). What the page computes is model.ts,
 // shared with the downloads. The defaults: hurdle rate 12 percent (lib/seller/finance.ts, session 208). At a contract
 // share of 0 every number that stays is what it was.
+//
+// Session 235 (the owner's task of 12 October 2026, the brand approved that day): (1) the page is on the brand, as the
+// battery page is: it wraps what it draws in <Brand> (components/Brand.tsx) and writes no color, font or spacing of its
+// own; the revenue chart by year is the brand's bar chart (components/tool/GroupedBars.tsx, plain SVG, its series named
+// on the chart) where it was the chart library's with a legend box. (2) The capture price is back on the page, inside
+// "What did it earn?", as one chart and one table (session 212 had moved it to a download: wrong): the chart, by year
+// and over the last twelve months at the hub chosen, the price the plant received per MWh against the hub's average,
+// the capture rate written above each pair; the table, one row a hub or zone of the grid, the last twelve months'
+// capture price, hub average and capture rate, and the capture rate of each year. Both are model.ts's capView, the
+// functions the download's capture tables are written from, so the page and the download agree; each of a solar or a
+// wind plant's figures carries a check key (cap|<grid>|<hub>|<market>|<fuel>|<span>|<stat>) that
+// scripts/check-values.mjs recomputes from the capture file. A battery's and a gas peaker's are this page's model at
+// each hub. (3) "Is it worth building?": one click makes scenario B a PPA, and the results show the breakeven PPA
+// price (SellerScenarios.tsx, lib/seller/finance.ts). No default and no other number moved. The downloads stay.
 export const metadata: Metadata = { title: "What a generator earns" };
 export const dynamic = "force-dynamic";
 
@@ -86,7 +102,7 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
   const sp = await searchParams;
   const q = Object.fromEntries(Object.entries(sp).map(([k, v]) => [k, typeof v === "string" ? v : undefined]));
   const M = await modelOf(q);
-  const { snap, iso, x, scenarioParams, g, a, cg, hub, mainHub, atHub, at, key, k, sizeLabel, fuel, peaker, money, bmw, dur, strat, held, monthRows, s, ys, line, mk, why, mine, batt, battWhy, hf, pair, facts } = M;
+  const { snap, iso, x, scenarioParams, g, a, cg, hub, mainHub, atHub, at, key, k, sizeLabel, fuel, peaker, money, bmw, dur, strat, held, monthRows, s, ys, line, mk, why, mine, batt, battWhy, hf, pair, facts, capView } = M;
   const scenarioKey = `${iso}|${hub.id}|${k}|${x.mw}|${JSON.stringify(scenarioParams)}`;
   const costs = M.costsOf(k);
 
@@ -106,7 +122,21 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
   for (const [n, v] of Object.entries(q)) if (v !== undefined && (["iso", "hub", "asset", "mw", "mwh", "hr", "vom", "bmw", "dur", "strat"].includes(n) || isScenarioParam(n) || isOldParam(n))) query.set(n, v);
   const suffix = query.size ? `?${query.toString()}` : "";
 
+  // session 235: the capture chart and table (model.ts, capView)
+  const capName = fuel ? "Capture price" : peaker ? "Price while running" : "Price while selling";
+  const capAt = fuel ? `${hubAt(hub.id)}, ${MARKETS[mk].toLowerCase()} prices` : at;
+  const hubHref = (id: string) => { const u = new URLSearchParams(query); u.set("iso", iso); u.set("hub", id); return `/cost-of-power/seller?${u.toString()}#capture`; };
+  /** One figure of the capture table: a solar or a wind plant's carries its check key; a rate is written in whole percent. */
+  const capNum = (r: CapRow, span: string, what: "price" | "flat" | "rate", v: number) => {
+    const raw = what === "rate" ? Math.round(v) : v, text = what === "rate" ? whole(v) : two(v);
+    return capView.fuel
+      ? <Num check={`cap|${iso}|${r.id}|${r.market}|${capView.fuel}|${span}|${what}`} raw={raw}>{text}</Num>
+      : <span data-model-cap={`${r.id}|${span}|${what}`} data-raw={raw}>{text}</span>;
+  };
+  const capHead = (top: string, under: string) => <span key={top}>{top}<span className="mt-0.5 block text-xs opacity-80">{under}</span></span>;
+
   return (
+    <Brand noUsage>
     <ToolPage>
       <ToolHeader
         title="What a generator earns"
@@ -162,9 +192,12 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
 
               {held.length ? (
                 <>
-                  <ChartFrame title={`${money} by year, USD per kW`} legend={[{ label: "A full year", color: "#8C1515" }, { label: "Incomplete year", color: "#8C1515", hatch: true }]}
-                    note={<>Per kW of nameplate, priced at {at}. {atHub ? hubName(hub.id) : g.name} is held from {shortMonth(held[0].m)}.</>}>
-                    <RevenueYears rows={ys.map((y) => ({ y: y.y, complete: y.complete, v: y.revenue / 1000, months: y.months }))} money={money} label={`${a.name} in ${g.name}: ${money.toLowerCase()} by year, USD per kW`} />
+                  {/* session 235: the brand's bar chart, the series named on it (components/tool/GroupedBars.tsx) */}
+                  <ChartFrame title={`${money} by year, USD per kW`}
+                    note={<>Per kW of nameplate, priced at {at}. {atHub ? hubName(hub.id) : g.name} is held from {shortMonth(held[0].m)}.{ys.some((y) => !y.complete) ? " A hatched year holds fewer than twelve months and is not a full year." : ""}</>}>
+                    <GroupedBars id="revenue" unit="USD per kW" label={`${a.name} in ${g.name}: ${money.toLowerCase()} by year, USD per kW`} series={[{ name: money, tone: "accent" }]}
+                      groups={ys.map((y) => ({ label: y.y, sub: y.complete ? undefined : `${y.months} months`, partial: !y.complete, values: [y.revenue / 1000],
+                        title: `${y.y}: ${money.toLowerCase()} ${usd(y.revenue / 1000)} USD per kW${y.complete ? "" : ` (${y.months} of 12 months held, not a full year)`}` }))} />
                   </ChartFrame>
 
                   <Sub>The last twelve months beside the long-run averages</Sub>
@@ -185,6 +218,54 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
                 {" "}<Link href={`${ALGORITHM}#cannot-see`}>What else the model cannot see</Link>.
                 {fuel ? <> <span data-free-energy="1">Hours when power here was free or cost less than nothing: <Link href={freeEnergyHref(iso, hub.id)}>where free energy is, for {hubAt(hub.id)}</Link>.</span></> : null}
               </p>
+
+              {/* session 235: the capture price, one chart and one table (model.ts, capView; the download's own functions) */}
+              {held.length || capView.chart.length ? (
+                <div id="capture" data-capture={capView.fuel ?? "model"}>
+                  <Sub>What it earned per MWh against the hub average</Sub>
+                  {capView.chart.length ? (
+                    <ChartFrame title={`${capName} against the hub average, by year, USD per MWh`}
+                      note={<>At {capAt}. {fuel ? `${capName}: what ${g.name}'s whole ${fuel} fleet was paid for each MWh, the hub's price weighted by the fleet's generation hour by hour.` : `${capName}: what the ${peaker ? "peaker" : "battery"} was paid for each MWh it sold.`} Hub average: the plain average of the price over the same hours. The percent above each pair is the capture rate, the first over the second.{capView.chart.some((c) => c.partial) ? " A hatched year holds fewer than twelve months." : ""}</>}>
+                      <GroupedBars id="capture" unit="USD per MWh" label={`${a.name} at ${capAt}: ${capName.toLowerCase()} against the hub average by year, USD per MWh`}
+                        series={[{ name: capName, tone: "accent" }, { name: "Hub average", tone: "ink" }]}
+                        groups={capView.chart.map((c) => ({ label: c.label, sub: c.partial ? `${c.months} months` : undefined, partial: c.partial, values: [c.price, c.flat],
+                          over: c.rate === null ? undefined : `${whole(c.rate)}%`,
+                          title: `${c.label}: ${capName.toLowerCase()} ${two(c.price)} USD per MWh against a hub average of ${two(c.flat)}${c.rate === null ? "" : `, a capture rate of ${whole(c.rate)} percent`}${c.partial ? ` (${c.months} of 12 months counted, a partial year)` : ""}` }))} />
+                    </ChartFrame>
+                  ) : (
+                    <p className="mb-6 text-sm" data-capture-chart="none"><Missing why={fuel ? why(hub, fuel, mk) : M.twelveWhy} words={`No year is held at ${hubAt(hub.id)}`} /></p>
+                  )}
+                  <p className="mb-2 max-w-3xl text-sm" data-capture-lead="1">Every hub and zone of {g.name}: the last twelve months in the first three columns, then the capture rate of each year, in percent.</p>
+                  <ToolTable caption={`${capName}, hub average and capture rate at every hub and zone of ${g.name}: the last twelve months, and the capture rate by year`}
+                    minWidth={300 + 50 * capView.years.length}
+                    head={["Hub or zone", capHead(capName, "USD per MWh"), capHead("Hub average", "USD per MWh"), capHead("Capture rate", "percent"), ...capView.years]}
+                    rows={capView.rows.map((r) => ({ key: r.id, cells: [
+                      <span key="n" data-cap-row={r.id} data-cap-chosen={r.chosen ? "1" : undefined}>
+                        <span className="sm:whitespace-nowrap">{r.chosen ? <strong>{r.name}</strong> : <Link href={hubHref(r.id)} scroll={false}>{r.name}</Link>}</span>
+                        <span className="block text-xs text-muted">{r.chosen ? "the hub chosen, " : ""}{MARKETS[r.market].toLowerCase()}</span>
+                      </span>,
+                      ...(["price", "flat", "rate"] as const).map((what) => {
+                        const t = r.twelve, v = t ? (what === "rate" ? t.rate : t[what]) : null;
+                        return t && v !== null
+                          ? <span key={what} title={`${r.name}, ${shortMonth(t.from)} to ${shortMonth(t.to)}, ${MARKETS[r.market].toLowerCase()} prices`}>{capNum(r, "l12", what, v)}</span>
+                          : <Missing key={what} why={t ? "The hub's average is not above zero, so there is no rate." : r.whyTwelve} words="not held" />;
+                      }),
+                      ...r.years.map((c, i) => (c && c.rate !== null
+                        ? <span key={capView.years[i]} className={c.partial ? "text-muted" : undefined}
+                            title={`${r.name}, ${capView.years[i]}: ${capName.toLowerCase()} ${two(c.price)} USD per MWh against a hub average of ${two(c.flat)}${c.partial ? `; ${c.months} of 12 months counted, a partial year` : ""}`}>{capNum(r, capView.years[i], "rate", c.rate)}</span>
+                        : <Missing key={capView.years[i]} why={c ? "The hub's average is not above zero, so there is no rate." : r.whyYears[i]} words="none" />)),
+                    ] }))} />
+                  <p className="mt-2 max-w-3xl text-xs text-muted" data-capture-note="1">
+                    One row a hub or zone of {g.name}, each at the prices it is held in. {fuel
+                      ? `Capture price: the hub's price weighted by ${g.name}'s ${fuel} generation hour by hour, the whole fleet and not one site. `
+                      : `${capName}: this page's model of the ${peaker ? "peaker" : "battery"}, solved at each hub's own price. `}
+                    Hub average: the plain average of the price over the same hours. Capture rate: the first as a percent of the second, in whole percent; under 100 the plant
+                    was paid less for a MWh than the hub&apos;s average. A year in grey holds fewer than twelve months. A hub&apos;s name opens the page at that hub.
+                    {fuel ? <> Both fuels, both markets and each year&apos;s capture price at every hub: <a href={`${TABLES_CSV}${suffix}`} download>the other tables, CSV</a>.</> : null}
+                  </p>
+                </div>
+              ) : null}
+
               <p className="mt-2 max-w-3xl text-xs text-muted" data-months-csv="1">
                 <a href={`${MONTHS_CSV}${suffix}`} download>Every month, CSV</a>: revenue, energy, the capture price and rate, and each month&apos;s coverage at scenario A&apos;s costs, for {sizeLabel} at {at}.
                 {" "}<a href={`${TABLES_CSV}${suffix}`} download>The other tables, CSV</a>: the capture price at every hub and zone of {g.name} over the last twelve months and by year, every public hub by year, the plant with a battery beside it, the stress days, and the fleet&apos;s hours as EIA reports them.
@@ -217,5 +298,6 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
       <SourceLine tables={["merchant_revenue_monthly", "eia_fuel_spot_prices", "eia860m_operating_generators", ...new Set(cg.hubs.flatMap((h) => [...(h.rt?.tables ?? []), ...(h.da?.tables ?? [])])), ...(batt ? [B.TABLE] : [])]}
         note={<>Derived by the ERW from {g.name}&apos;s public prices and EIA-930&apos;s hourly generation by source ({cg.workbook}){cg.generation.includes("caiso") ? `, California from ${caisoJoinDay()} from CAISO's own supply by fuel` : ""}. The model&apos;s snapshot was built {snap.built.slice(0, 10)}, the capture prices {CAPTURE.built.slice(0, 10)}{atHub ? `, the model at ${hubAt(hub.id)} ${HUBS.built.slice(0, 10)}` : ""}{pair && hf ? `, the pair with a battery ${HYBRID.built.slice(0, 10)}` : ""}. The default case hour by hour: <a href={HOURLY_CSV} download data-download="csv">CSV</a>, <a href={DO_FILE} download data-download="do">Stata do-file</a>, <a href={MIRROR} download data-download="py">Python mirror</a>. Cost defaults: Lazard, Levelized Cost of Energy+, June 2025. The buyer&apos;s side is <Link href="/cost-of-power">What a datacenter pays</Link>. <span data-checked-against="10">Checked against: 10 published figures (Lazard, the Annual Technology Baseline, EIA). <Link href="/data/methods/generator_earns_algorithm#cross-checks">Each comparison, with its gap and the reason</Link>.</span></>} />
     </ToolPage>
+    </Brand>
   );
 }

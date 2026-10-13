@@ -252,7 +252,7 @@ try {
   check(s.fields.filter((f) => /Lazard, Levelized Cost of Energy\+, June 2025/.test(f.source)).length === 7, "seven defaults cite Lazard's June 2025 report (session 196: the hurdle rate among them)", s.fields.filter((f) => !/Lazard/.test(f.source)).map((f) => f.key).join(", "));
   check(/1,150 to 1,600 for solar/.test(s.fields[0].source) && /35 years for solar/.test(s.fields.find((f) => f.key === "life").source), "the capital cost and the life cite the asset's own range and life", s.fields[0].source);
   check(s.resetAll === "Reset all of A" && s.copy === "Copy A to B", "one Reset for all, and Copy A to B", `${s.resetAll}; ${s.copy}`);
-  check(JSON.stringify(s.rows) === JSON.stringify(["revenue", "capture", "month", "coverage", "npv", "irr", "contract", "battery", "differs"]), "eight rows in order, then the row in words", s.rows.join(", "));
+  check(JSON.stringify(s.rows) === JSON.stringify(["revenue", "capture", "month", "coverage", "npv", "irr", "contract", "ppa", "battery", "differs"]), "nine rows in order (session 235: the breakeven PPA price), then the row in words", s.rows.join(", "));
   check(s.headA.length === 0 && s.headB.length === 0 && s.words === "A and B hold the same assumptions.", "equal scenarios: nothing in the headers", s.words);
   check(s.cells["a|revenue"].raw.toFixed(2) === num(s.l12).toFixed(2) && s.cells["b|revenue"].raw === s.cells["a|revenue"].raw, "revenue is the page's last twelve months per kW", `${s.cells["a|revenue"].text} against the headline ${s.l12}`);
   check(s.cells["a|capture"].raw.toFixed(2) === num(s.cap).toFixed(2) && s.cells["a|capture"].text.includes(`of USD ${s.capFlat}`), "the capture price is the page's price received, with its ratio to the flat average", s.cells["a|capture"].text);
@@ -464,12 +464,50 @@ try {
   s = await ev(STATE);
   check(!!s && !s.bad && s.cells["a|revenue"].raw === null && s.cells["a|npv"].raw === null && s.bars.length === 0 && s.sentence === null && s.fields.length === 10, "a zone with no twelve months: the rows say not held, with no chart and no sentence (nothing is filled)", s ? s.cells["a|revenue"].text : "no block");
 
+  // 10b (session 235): the breakeven PPA price, "Make B a PPA", and the capture chart and table inside the first question
+  await go("/cost-of-power/seller");
+  s = await ev(STATE);
+  {
+    const d5 = F.defaultsOf(M.DEFAULTS.solar), t5 = twelveOf("ercot", "solar"), c5 = { kind: "energy", energyKw: t5.energyKw };
+    const want = F.breakevenPpa(d5, t5.revenueKw, c5), b5 = F.asPpa(d5, t5.revenueKw, c5);
+    check(near(s.cells["a|ppa"].raw, want, 1e-6) && near(s.cells["b|ppa"].raw, want, 1e-6) && /Breakeven PPA price/.test(s.labels.ppa) && /on 100 percent of the energy/.test(s.cells["a|ppa"].text)
+      && Math.abs(F.npv(d5.hurdle, F.flows({ ...d5, cshare: 100, cprice: want }, t5.revenueKw, c5))) < 1e-6,
+      "the breakeven PPA price is the contract price at which NPV is zero, for the whole of the energy when the scenario holds no contract", s.cells["a|ppa"].text);
+    check(s.fields.every((f) => Number(f.value) === d5[f.key]) && s.search === "", "both scenarios still open as merchant, at the defaults");
+    const npvA = s.cells["a|npv"].raw, covA = s.cells["a|coverage"].raw;
+    const offer = await ev(`document.querySelector("[data-ppa]")?.textContent ?? ""`);
+    check(/Make B a PPA/.test(offer) && /100 percent of the energy/.test(offer) && offer.includes(`USD ${b5.cprice.toFixed(2)} per MWh`) && /no published price is held/.test(offer), "the offer under the assumptions says what one click sets, and that the price is no published one", offer);
+    await click("[data-make-ppa]");
+    s = await ev(STATE);
+    const val = (k) => Number(s.fields.find((f) => f.key === k).value);
+    check(s.view === "b" && val("cshare") === 100 && val("cprice") === b5.cprice && s.search === `?bn=100&bp=${b5.cprice}&v=b`, "one click: B in view, its share 100 percent and its price the breakeven rounded up to the cent, kept in the address", s.search);
+    check(s.cells["a|npv"].raw === npvA && s.cells["a|coverage"].raw === covA && s.cells["b|npv"].raw >= 0 && s.cells["b|npv"].raw < 1 && near(s.cells["b|ppa"].raw, want, 1e-6) && s.bars.length === 10,
+      "A does not move; B's NPV is zero or just above (under USD 1 per kW); the breakeven row still reads the breakeven; the chart of B draws the contract's rows", `${s.cells["b|npv"].text} | ${s.cells["b|ppa"].text}`);
+    await go("/cost-of-power/seller");
+    const capT = await ev(`(() => {
+      const root = document.querySelector("[data-capture]");
+      if (!root) return null;
+      const row = root.querySelector("[data-cap-chosen]")?.closest("tr");
+      return { kind: root.getAttribute("data-capture"), inFirst: !!document.querySelector('[data-question="1"] [data-capture]'), charts: root.querySelectorAll('svg[data-bars="capture"]').length, tables: root.querySelectorAll("table").length,
+        rows: root.querySelectorAll("tbody tr").length, keys: root.querySelectorAll('[data-check^="cap|"]').length, chosen: row?.querySelector("strong")?.textContent ?? null,
+        l12: row?.querySelector('[data-check$="|l12|price"]')?.textContent ?? null, flat: row?.querySelector('[data-check$="|l12|flat"]')?.textContent ?? null,
+        groups: [...root.querySelectorAll('svg[data-bars="capture"] [data-group]')].map((g) => g.getAttribute("data-group")), names: root.querySelector('svg[data-bars="capture"] [data-direct-labels]')?.textContent ?? "",
+        cap: document.querySelector('[data-stat="cap_price"]')?.textContent ?? null, capFlat: document.querySelector('[data-stat="cap_flat"]')?.textContent ?? null,
+        brand: !!document.querySelector('.brand-a[data-brand="a"][data-no-usage="1"] [data-capture]'), canvases: document.querySelectorAll("[data-chart] canvas").length };
+    })()`);
+    check(!!capT && capT.kind === "solar" && capT.inFirst && capT.charts === 1 && capT.tables === 1 && capT.rows === 14 && capT.keys >= 3 * 14,
+      "the capture price is inside What did it earn?: one chart and one table, a row a hub or zone of ERCOT, its figures keyed", JSON.stringify(capT));
+    check(!!capT && capT.chosen === "Hub average" && capT.l12 === capT.cap && capT.flat === capT.capFlat && capT.groups.at(-1) === "Last 12 months" && capT.groups.length >= 3 && /Capture price/.test(capT.names) && /Hub average/.test(capT.names),
+      "the chosen hub's row reads the headline's capture price and hub average; the chart runs by year to the last twelve months, its two series named on it", JSON.stringify(capT));
+    check(!!capT && capT.brand && capT.canvases === 0, "the page is on the brand (the wrapper, no usage count) and draws no chart of the chart library");
+  }
+
   // 11: phone width
   for (const q of ["", "?ac=1500&bt=10&bd=0.5&bh=10&v=b"]) {
     await go(`/cost-of-power/seller${q}`, 390);
     s = await ev(STATE);
     check(s.clientW === 390 && s.scrollW <= s.clientW + 1, `390 px${q ? ", two scenarios" : ""}: the page does not scroll sideways`, `scroll width ${s.scrollW}, width ${s.clientW}`);
-    check(s.bars.length === 8 && s.rows.length === 9, `390 px${q ? ", two scenarios" : ""}: the table and the chart are drawn`);
+    check(s.bars.length === 8 && s.rows.length === 10, `390 px${q ? ", two scenarios" : ""}: the table and the chart are drawn`);
     await shot(q ? "seller-scenarios-compared-phone" : "seller-scenarios-default-phone", 390);
   }
 } catch (e) {

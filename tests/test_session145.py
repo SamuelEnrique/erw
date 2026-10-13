@@ -263,7 +263,9 @@ class OnePage(unittest.TestCase):
         model = src("site", "app", "cost-of-power", "seller", "model.ts")
         tables = src("site", "app", "cost-of-power", "seller", "tables.csv", "route.ts")
         scenarios = src("site", "app", "cost-of-power", "seller", "SellerScenarios.tsx")
-        for piece in ("ToolPage", "ToolHeader", "InputPanel", "HeadlineRow", "ChartFrame", "ToolSection", "ToolTable", "SourceLine", "RevenueYears", "SellerForm", "CostTabs", "SellerProfile",
+        # session 235 (the brand approved, 12 October 2026): the revenue chart is the brand's bar chart (GroupedBars), where it
+        # was the chart library's RevenueYears; the capture price is back on the page as one chart and one table
+        for piece in ("ToolPage", "ToolHeader", "InputPanel", "HeadlineRow", "ChartFrame", "ToolSection", "ToolTable", "SourceLine", "GroupedBars", "SellerForm", "CostTabs", "SellerProfile",
                       "SellerDecisions", "CoverHeadline", "SellerScenarios", "SellerSensitivity"):
             self.assertIn(f"<{piece}", page, piece)
         for piece in ("Fold", "ContractProvider", "ContractInputs", "ContractResult", "PremiumYears", "SellerHubYears", "MonthsOfA", "CoverageOfA"):

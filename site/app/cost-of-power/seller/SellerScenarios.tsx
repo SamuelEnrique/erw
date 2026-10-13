@@ -23,13 +23,20 @@
 // coverage reads A's contract. The sensitivity chart answers the third question, "What matters most", in a section of
 // its own (SellerSensitivity), so the block is handed no chart. MonthsOfA, CoverageOfA and DscrOfA stay for a page
 // that draws the months; this page's months are its CSV (months.csv/route.ts).
+//
+// Session 235 (the owner's task of 12 October 2026): scenario B can be a PPA. One button under the assumptions, "Make B
+// a PPA" (for a battery and a peaker, a toll), sets B's contract share to 100 percent and its contract price to B's own
+// breakeven PPA price, rounded up to the cent, and puts B in view; both scenarios still open as merchant and no
+// default moves. The results table has one more row, "Breakeven PPA price": the contract price at which NPV at the
+// hurdle rate is zero, on the scenario's contract share, or on the whole plant when the scenario holds no contract
+// (lib/seller/finance.ts, breakevenPpa). The row that was there, the price at which coverage reaches 1.25 times, stays.
 import { useCallback, useMemo, type ReactNode } from "react";
 import { ScenarioBlock, ScenarioState, Sensitivity, useScenarios, type Bar as ChartBar, type Cell, type Chart, type Field, type Row, type Side, type Values, type View } from "@/components/decisions/ScenarioBlock";
 import { HeadlineNumber } from "@/components/tool/ToolPage";
 import { usdShort } from "@/lib/batterystack";
 import { ttm, type Month } from "@/lib/merchant";
 import {
-  KEYS, SPECS, TARGET, bound, breakevenToll, contractPrice, contractUnits, coverage as coverageOf, debtUsd, defaultsOf, differenceWords, differing, isOldParam, isScenarioParam, monthCoverage, parseScenarios, resultOf, scenarioQuery, sensitivity,
+  KEYS, SPECS, TARGET, asPpa, bound, breakevenPpa, breakevenToll, contractPrice, contractUnits, coverage as coverageOf, debtUsd, debtYears, defaultsOf, ppaShare, differenceWords, differing, isOldParam, isScenarioParam, monthCoverage, parseScenarios, resultOf, scenarioQuery, sensitivity,
   type Assumptions, type Contract, type Key, type Scenarios as Both,
 } from "@/lib/seller/finance";
 import { CoverageLine, MonthlyRevenue } from "./SellerCharts";
@@ -173,6 +180,9 @@ function useBlock(f: Facts) {
 
 export function SellerScenarios({ facts: f }: { facts: Facts }) {
   const { s, d, scale, cols } = useBlock(f);
+  const { update } = useScenarios<Assumptions>();
+  // session 235: scenario B as a PPA (a toll for a battery and a peaker): the whole plant at B's own breakeven price
+  const ppa = f.twelve ? asPpa(s.b, f.twelve.revenueKw, contractOf(f)) : null;
   type Col = (typeof cols)["a"];
   const u = contractUnits(f.contract);
   const sourceOf = (k: Key) => (k === "capex" ? `${SPECS[k].source}, ${f.costs.capexNote}` : k === "fom" ? `${SPECS[k].source}, ${f.costs.fomNote}` : k === "life" || k === "term" ? `${SPECS[k].source}, ${f.costs.lifeNote}` : k === "deg" && f.costs.degSource ? f.costs.degSource : SPECS[k].source);
@@ -212,6 +222,17 @@ export function SellerScenarios({ facts: f }: { facts: Facts }) {
         const p = contractPrice(c.y, f.twelve.energyKw);
         return p === null ? noDebt : { v: `USD ${num(p)}`, raw: p, note: `on ${Math.round(f.twelve.energyKw * 1000).toLocaleString("en-US")} MWh a year per MW, ${f.twelve.span}` };
       }),
+    // session 235: the breakeven PPA price, the contract price at which NPV is zero (lib/seller/finance.ts, breakevenPpa)
+    row("ppa", f.contract === "energy" ? "Breakeven PPA price" : "Breakeven toll, NPV at zero",
+      `the contract price at which NPV at the hurdle rate is zero, ${u.priceUnit}`,
+      (c) => {
+        if (!f.twelve) return none(f.twelveWhy);
+        const share = ppaShare(c.y), p = breakevenPpa(c.y, f.twelve.revenueKw, contractOf(f));
+        if (p === null) return none("The last twelve months hold no energy to price a contract on.", "none");
+        const on = `on ${plain(share)} ${u.shareUnit} for the debt's ${plain(debtYears(c.y))} years${c.y.cshare > 0 ? "" : ", the scenario holding no contract"}`;
+        if (p <= 0) return { v: "none needed", raw: p, note: `NPV is at or above zero with the contracted share paid nothing; ${on}` };
+        return { v: `USD ${num(p)}`, raw: p, note: `${on}${c.y.cshare > 0 ? `; the scenario's own price is USD ${plain(c.y.cprice)}` : ""}` };
+      }),
     row("battery", "Revenue with and without the battery beside it", "the co-optimized pair and the plant alone, energy at day-ahead prices",
       () => (f.battery ? { v: `${usd(f.battery.withIt)} with`, raw: f.battery.withIt, note: `${usd(f.battery.without)} without; ${f.battery.words}` } : none(f.batteryWhy, "not modeled"))),
   ];
@@ -226,6 +247,15 @@ export function SellerScenarios({ facts: f }: { facts: Facts }) {
         </p>
       ) : null}
       chart={null}
+      foot={(
+        <p className="mt-4 border-t border-rule pt-3 text-xs text-muted" data-ppa="1">
+          <button type="button" data-make-ppa="1" disabled={!ppa} className="mr-2 border border-accent bg-white px-3 py-1 text-accent disabled:text-muted"
+            onClick={() => { if (ppa) update({ ...s, b: ppa, view: "b" }); }}>Make B a {f.contract === "energy" ? "PPA" : "toll"}</button>
+          {ppa
+            ? <>Sets scenario B&apos;s contract share to 100 {u.shareUnit} and its contract price to <span data-ppa-price={ppa.cprice}>USD {num(ppa.cprice)}</span> {u.priceUnit.replace("USD ", "")}: B&apos;s breakeven {f.contract === "energy" ? "PPA price" : "toll"}, the price at which its NPV is zero with its other assumptions as they are, rounded up to the cent. A starting point to move to an offer in hand; no published price is held. A and every default stay as they are.</>
+            : <>Scenario B cannot be made a contract here: {f.twelve ? "the last twelve months hold no energy to price one on" : f.twelveWhy}</>}
+        </p>
+      )}
     />
   );
 }

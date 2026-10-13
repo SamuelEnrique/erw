@@ -164,6 +164,7 @@ body:has(.brand-a) > footer {
 .brand-a p a,
 .brand-a li a,
 .brand-a td a,
+.brand-a th[scope="row"] a,
 .brand-a summary.text-accent {
   text-decoration: underline;
   text-decoration-thickness: 1px;

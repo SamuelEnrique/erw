@@ -255,7 +255,8 @@ class ThePage(unittest.TestCase):
         page = src("site", "app", "cost-of-power", "seller", "page.tsx")
         model = src("site", "app", "cost-of-power", "seller", "model.ts")
         tables = src("site", "app", "cost-of-power", "seller", "tables.csv", "route.ts")
-        for part in ("<SellerProfile", "<RevenueYears", "freeEnergyHref(iso, hub.id)", 'id="earned"', 'id="scenarios"', 'id="matters"', "tables.csv"):
+        # session 235: the revenue chart is the brand's bar chart (GroupedBars), where it was RevenueYears
+        for part in ("<SellerProfile", "<GroupedBars", "freeEnergyHref(iso, hub.id)", 'id="earned"', 'id="scenarios"', 'id="matters"', "tables.csv"):
             self.assertIn(part, page, part)
         for part in ("combined(plantTotal", "an upper bound for a schedule made the day before", "pairOf(iso, fuel, x.mw, bmw, dur)", "hubYearsTable", "const KEPT ="):
             self.assertIn(part, model, part)
