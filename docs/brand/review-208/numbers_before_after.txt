@@ -1,0 +1,82 @@
+Session 208: every checked number (data-check) of /cost-of-power/battery, ERCOT, 4-hour, perfect foresight, 100 MW, in the internal view.
+before: the page as session 203 left it, at its defaults (60 percent debt, hurdle rate 9.6).
+after, at the old defaults: the restructured page opened with ?as=60&ah=9.6 (scenario A at the defaults of sessions 196 to 207).
+after, at the new defaults: the restructured page at its bare address (20 percent debt, hurdle rate 12, no contract).
+
+checked numbers: 381 before; 51 after at the old defaults; 51 after at the new defaults
+after at the old defaults: 51 of 51 keys are in the page before with the same key, raw value and shown text, in the same order; 0 differ; 0 are new
+keys on the page before and not after: 330:
+  month:<month>:energy: 106
+  month:<month>:ancillary: 106
+  month:<month>:total: 106
+  stress:uri_2021:energy: 1
+  stress:uri_2021:ancillary: 1
+  stress:uri_2021:total: 1
+  stress:uri_2021:best: 1
+  stress:elliott_2022:energy: 1
+  stress:elliott_2022:ancillary: 1
+  stress:elliott_2022:total: 1
+  stress:elliott_2022:best: 1
+  stress:ercot_heat_2023:energy: 1
+  stress:ercot_heat_2023:ancillary: 1
+  stress:ercot_heat_2023:total: 1
+  stress:ercot_heat_2023:best: 1
+  (the fold 'Every month', 106 months by three streams, is the CSV /cost-of-power/battery/months.csv; the fold 'Stress days' is the public table battery_stack_stress_daily)
+
+after at the new defaults, against before (the debt payments in the key normalised): every key the same except
+  cover: before ('0.8757048995062474', '0.88') -> after ('2.627114698518742', '2.63')
+  cover: before ('0.8757048995062474', '0.88') -> after ('2.627114698518742', '2.63')
+  ds: before ('6783357', '6.78 million') -> after ('2261119', '2.26 million')
+
+the 51 kept keys, after at the old defaults (key = raw value = text shown):
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|l12_kw:total = 81.4021896 = 81.40
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|l12_share:ancillary = 33 = 33
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|cover = 0.8757048995062474 = 0.88
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|l12_kw:total = 81.4021896 = 81.40
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|l12:total = 8140219 = 8.14 million
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|p10_36 = 475477 = 475,477
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|n36 = 36 = 36
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|cover = 0.8757048995062474 = 0.88
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|ds = 6783357 = 6.78 million
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|year:2021:total = 3430.556558 = 3,430.56
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|l12:energy = 5459858 = 5.46 million
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|y3:energy = 9069506 = 9.07 million
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|avg:energy = 7381415 = 7.38 million
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|avg_without:energy = 7682915 = 7.68 million
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|l12:ancillary = 2680361 = 2.68 million
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|y3:ancillary = 16438868 = 16.44 million
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|avg:ancillary = 54076175 = 54.08 million
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|avg_without:ancillary = 19285555 = 19.29 million
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|l12:regup = 664224 = 664,224
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|y3:regup = 2265492 = 2.27 million
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|avg:regup = 3284349 = 3.28 million
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|avg_without:regup = 2583539 = 2.58 million
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|l12:regdn = 998971 = 998,971
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|y3:regdn = 5086577 = 5.09 million
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|avg:regdn = 13412016 = 13.41 million
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|avg_without:regdn = 5566687 = 5.57 million
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|l12:rrs = 402471 = 402,471
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|y3:rrs = 1178036 = 1.18 million
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|avg:rrs = 32946964 = 32.95 million
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|avg_without:rrs = 6691284 = 6.69 million
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|l12:ecrs = 194068 = 194,068
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|y3:ecrs = 7331684 = 7.33 million
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|avg:ecrs = 2479209 = 2.48 million
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|avg_without:ecrs = 2480063 = 2.48 million
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|l12:nspin = 420627 = 420,627
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|y3:nspin = 577079 = 577,079
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|avg:nspin = 1953637 = 1.95 million
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|avg_without:nspin = 1963983 = 1.96 million
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|l12:total = 8140219 = 8.14 million
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|y3:total = 25508373 = 25.51 million
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|avg:total = 61457590 = 61.46 million
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|avg_without:total = 26968469 = 26.97 million
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|l12_kw:total = 81.4021896 = 81.40
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|y3_kw:total = 255.0837339 = 255.08
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|avg_kw:total = 614.5759019805554 = 614.58
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|avg_without_kw:total = 269.6846941152778 = 269.68
+  bsa|foresight_4h|model = 2.245 = 2.25
+  bsa|foresight_4h|fleet = 0.3965 = 0.40
+  bsa|foresight_4h|ratio = 5.6614 = 5.66
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|top_share = 57 = 57
+  bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357|out = 0 = 0

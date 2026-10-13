@@ -298,7 +298,7 @@ class ThePage(unittest.TestCase):
     def test_the_defaults_and_what_they_cite(self):
         # session 196 (the owner's ruling of 11 October 2026): the hurdle rate is Lazard's weighted cost; a battery's degradation is Lazard's
         self.assertIn("return { capex: costs.capex, share: 60, rate: 8, term: costs.life, fom: costs.fom, deg: costs.deg ?? 0, life: costs.life, hurdle: HURDLE };", self.lib)
-        self.assertIn("export const HURDLE = 9.6;", self.lib)
+        self.assertIn("export const HURDLE = 12;", self.lib)        # session 208: Lazard's cost of equity (the owner's ruling of 12 October 2026)
         self.assertIn("export const BATTERY_DEG = 2.6;", self.lib)
         merchant = src("site", "lib", "merchant.ts")
         self.assertIn("export const DEBT = { share: 0.6, rate: 0.08 };", merchant)       # the page's own, cited to Lazard
@@ -310,7 +310,7 @@ class ThePage(unittest.TestCase):
         self.assertIn('"60% debt at an 8% interest rate"', note)
         self.assertIn('"Economic life sets debt amortization schedule"', note)
         # the two defaults no source in the repository gives say so on the page, and are not dressed as cited
-        self.assertIn('"60% debt at an 8% interest rate and 40% equity at a 12% cost". The default is that weighted cost, 0.6 x 8 + 0.4 x 12 = ${HURDLE} percent', self.lib)
+        self.assertIn('"60% debt at an 8% interest rate and 40% equity at a 12% cost". The default is that cost of equity, ${HURDLE} percent', self.lib)   # session 208
         self.assertIn("No cited rate is held, so the default is none", self.lib)
 
     def test_a_reset_each_one_for_all_and_copy_a_to_b(self):

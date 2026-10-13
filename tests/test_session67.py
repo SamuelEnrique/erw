@@ -319,10 +319,10 @@ class Site(unittest.TestCase):
         self.assertFalse("capacity_prices" in read("site", "lib", "batterystack.ts"), "lib/batterystack.ts names a capacity table")
         self.assertEqual({m["as_table"] for m in bs.MARKETS.values()}, {"ercot_as_prices", "caiso_as_prices"})
         self.assertNotIn('read_table("iso_all_capacity_prices"', read("warehouse", "derived", "battery_stack.py"))
-        page = read("site", "app", "cost-of-power", "battery", "page.tsx")
-        for words in ("Held, not shown: publishing requires a license from the market operator", "Held: license under review", "No capacity market",
-                      "not yet in the warehouse", "not held, licensed"):
-            self.assertIn(words, page)
+        # session 208: the "Other grids" table is one line under the grid picker (BatteryForm.tsx), in words only
+        form = read("site", "app", "cost-of-power", "battery", "BatteryForm.tsx")
+        for words in ("The other five grids, in words only", "licensed and not held", "held, not shown", "(license needed)", "No number from a licensed table is shown on this site"):
+            self.assertIn(words, form)
         lib = read("site", "lib", "batterystack.ts")
         self.assertIn("None: an energy-only market", lib)
         self.assertIn("Not held: California's resource adequacy prices are contract statistics, not yet in the warehouse", lib)

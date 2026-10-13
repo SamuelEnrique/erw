@@ -30,11 +30,14 @@ function check(ok, what, detail = "") {
 const near = (a, b, tol = 1e-9) => a !== null && b !== null && Math.abs(a - b) <= tol;
 
 const now4 = F.defaultsOf({ capex: 1110, fom: 22 });
-check(JSON.stringify(now4) === JSON.stringify({ capex: 1110, share: 60, rate: 8, term: 20, fom: 22, rte: 86, cycles: 1, deg: 2.6, life: 20, hurdle: 9.6 }), "the defaults of a 4-hour battery (session 196: degradation 2.6 and a hurdle rate of 9.6, both cited to Lazard)", JSON.stringify(now4));
-check(/Lazard/.test(F.SPECS.hurdle.source) && /40% equity at a 12% cost/.test(F.SPECS.hurdle.source) && /Lazard/.test(F.SPECS.deg.source) && /2\.6 percent a year/.test(F.SPECS.deg.source) && Math.abs(F.HURDLE - (0.6 * 8 + 0.4 * 12)) < 1e-12 && F.DEG === 2.6, "both defaults state their source, and the hurdle rate is the weighted cost 0.6 x 8 + 0.4 x 12");
-// the hand cases below were worked at session 179's defaults, degradation 0 and a hurdle rate of 8, and stay on them
-const d4 = { ...now4, deg: 0, hurdle: 8 };
-check(F.KEYS.length === 10 && new Set(F.KEYS.map((k) => F.SPECS[k].letter)).size === 10, "ten assumptions, ten different letters");
+// session 208 (the owner's rulings of 12 October 2026): the debt share is Lazard's storage structure, 20 percent; the hurdle rate
+// is Lazard's cost of equity, 12 percent; the contract's share and price are assumptions, 0 by default (fully merchant)
+check(JSON.stringify(now4) === JSON.stringify({ capex: 1110, share: 20, rate: 8, term: 20, fom: 22, rte: 86, cycles: 1, deg: 2.6, life: 20, hurdle: 12, cshare: 0, cprice: 0 }), "the defaults of a 4-hour battery (session 208: debt share 20, hurdle rate 12, no contract)", JSON.stringify(now4));
+check(/Lazard/.test(F.SPECS.hurdle.source) && /80% equity at a 12% cost/.test(F.SPECS.hurdle.source) && /Lazard/.test(F.SPECS.share.source) && /20% debt at an 8% interest rate/.test(F.SPECS.share.source) && /Lazard/.test(F.SPECS.deg.source) && /2\.6 percent a year/.test(F.SPECS.deg.source) && F.HURDLE === 12 && F.SHARE === 20 && F.DEG === 2.6, "the defaults state their source: the hurdle rate is the cost of equity, the debt share the storage cases'");
+check(/fully merchant/.test(F.SPECS.cshare.source) && /fully merchant/.test(F.SPECS.cprice.source), "the contract's two defaults say the default is fully merchant");
+// the hand cases below were worked at session 179's defaults, 60 percent debt, degradation 0 and a hurdle rate of 8, and stay on them
+const d4 = { ...now4, share: 60, deg: 0, hurdle: 8 };
+check(F.KEYS.length === 12 && new Set(F.KEYS.map((k) => F.SPECS[k].letter)).size === 12, "twelve assumptions, twelve different letters");
 
 // the capital recovery factor and the debt payment: 0.08 / (1 - 1.08^-20) = 0.101852209; 1,110 x 0.6 x that = 67.8336 a kW
 check(near(F.crf(0.08, 20), 0.10185220882315059, 1e-12), "crf(8 percent, 20 years) = 0.101852209", String(F.crf(0.08, 20)));
@@ -93,7 +96,10 @@ check(["grid", "dur", "strat", "mw", "fom", "ds"].every((k) => !F.isScenarioPara
 // the sensitivity
 const rev = (rte, cycles) => ({ "86|1": 81.4, "89|1": 83.06, "86|0.5": 64.08, "86|1.5": 83.57 })[`${rte}|${cycles}`] ?? null;
 const bars = F.sensitivity(d4, rev, steps);
-check(bars.length === 10 && bars.every((b, i) => i === 0 || bars[i - 1].size >= b.size), "ten bars, sorted by size");
+check(bars.length === 10 && bars.every((b, i) => i === 0 || bars[i - 1].size >= b.size) && !bars.some((b) => b.key === "cshare" || b.key === "cprice"), "ten bars at the default, sorted by size (session 211: no contract, no contract rows)", bars.map((b) => b.key).join(", "));
+const withContract = F.sensitivity({ ...d4, cshare: 50, cprice: 10 }, rev, steps);
+check(withContract.length === 12 && withContract.some((b) => b.key === "cshare") && withContract.some((b) => b.key === "cprice"), "with a contract in the scenario, twelve bars: the contract's share and price among them");
+check(F.sensitivity({ ...d4, cprice: 10 }, rev, steps).length === 10, "a price with no share draws no contract row");
 const by = Object.fromEntries(bars.map((b) => [b.key, b]));
 check(near(by.capex.down.npv, F.npv(8, F.flows({ ...d4, capex: 1010 }, 81.4))) && by.capex.down.value === 1010 && by.capex.up.value === 1210, "capital cost moves by USD 100 per kW each way");
 check(by.deg.down === null && by.deg.up.value === 1, "degradation at 0 has no lower step");
@@ -114,5 +120,28 @@ check(F.stepState(null, live, ["2026-01"]).why === "none", "no case in the file:
 check(F.stepsOffered({ rte_steps: [86, 89, 92], cycle_steps: [0.5, 1, 1.5, 2] }, { ok: false, why: "months", fileLast: null, liveLast: null }).rte.length === 1, "withdrawn steps leave the default alone");
 check(F.cellTotals(c, 92, 2).get("2026-02") === 24 && F.cellTotals(c, 89, 1) === null, "a cell's totals by month; null for a cell not held");
 
-console.log(failed ? `\n${failed} FAILED` : "\nall passed");
+
+// session 208: the contract. At a share of 0 nothing moves; at 50 percent and USD 10 per kW-month the contracted half earns
+// 60 a year and the merchant half earns half the market, for the debt's years; after them the whole battery is merchant.
+{
+  const c = { ...d4, term: 10, life: 12, fom: 10, cshare: 50, cprice: 10 };
+  const rev = 100;
+  check(near(F.contractYear(c), 60), "the contract's income a year: 0.5 x 10 x 12 = 60 per kW of the whole battery", String(F.contractYear(c)));
+  check(near(F.incomeInYear(c, rev, 1), 60 + 50) && near(F.incomeInYear(c, rev, 10), 110) && near(F.incomeInYear(c, rev, 11), 100), "income: 110 in the debt's years, the market's 100 after them");
+  check(near(F.coverage(c, rev), (110 - 10) / F.debtService(c)), "coverage with the contract: (60 + 50 - 10) / debt", String(F.coverage(c, rev)));
+  const f = F.flows(c, rev), f0 = F.flows({ ...c, cshare: 0 }, rev);
+  check(f.length === 13 && near(f[1], 110 - 10 - F.debtService(c)) && near(f[11], 100 - 10) && near(f0[1], 100 - 10 - F.debtService(c)), "the flows read the contract while the debt lasts, and the market after");
+  check(JSON.stringify(F.resultOf({ ...c, cshare: 0, cprice: 10 }, rev)) === JSON.stringify(F.resultOf({ ...c, cshare: 0, cprice: 0 }, rev)), "a price with no share moves nothing");
+  const old = { ...d4 };
+  delete old.cshare; delete old.cprice;
+  check(JSON.stringify(F.resultOf(old, rev)) === JSON.stringify(F.resultOf(d4, rev)), "an older set of assumptions, without the two contract keys, is read as no contract");
+  check(near(F.breakevenToll(c), F.breakevenToll({ ...c, cshare: 0, cprice: 0 })) && near(F.merchantTail(c, rev).pv, F.merchantTail({ ...c, cshare: 0, cprice: 0 }, rev).pv), "the breakeven toll and the merchant tail do not read the contract");
+  const bars = F.sensitivity(c, () => rev, F.ONLY_DEFAULT);
+  check(bars.length === 12 && bars.some((b) => b.key === "cshare") && bars.some((b) => b.key === "cprice"), "twelve bars, the contract's two among them");
+  check(F.sensitivity(d4, () => rev, F.ONLY_DEFAULT).find((b) => b.key === "cshare") === undefined, "at a share of 0 the contract's rows are not drawn at all (session 211)");
+  const at50 = bars.find((b) => b.key === "cshare");
+  check(at50.down !== null && at50.down.value === 40 && at50.up !== null && at50.up.value === 60, "at a share of 50 the share's row moves 10 points each way", JSON.stringify(at50));
+}
+
+console.log(failed ? `${failed} FAILED` : "all passed");
 process.exit(failed ? 1 : 0);

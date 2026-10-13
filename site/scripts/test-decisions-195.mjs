@@ -28,7 +28,7 @@ const SIZES = [1, 7.5, 33, 50, 100, 137, 200, 250.5, 1000, 5000];
     if (a !== b) off.push(`${dur} h, ${mw} MW: ${a} against ${b}`);
   }
   check(off.length === 0, "battery: scenario A's default debt payment is the page's own, to the dollar, at 3 durations and 10 sizes", off.join("; "));
-  check(BF.debtUsd(BF.defaultsOf(B.COSTS[4]), 100) === 6783357, "battery, 4 hours, 100 MW: USD 6,783,357, the figure of the Method note");
+  check(BF.debtUsd(BF.defaultsOf(B.COSTS[4]), 100) === 2261119, "battery, 4 hours, 100 MW: USD 2,261,119, the figure of the Method note (session 208: 20 percent debt)");
   const offS = [];
   for (const k of Object.keys(M.DEFAULTS)) for (const mw of SIZES) {
     const a = SF.debtUsd(SF.defaultsOf(M.DEFAULTS[k]), mw), b = Math.round(M.debtPerMw(k) * mw);
@@ -44,7 +44,7 @@ const SIZES = [1, 7.5, 33, 50, 100, 137, 200, 250.5, 1000, 5000];
 {
   const d = BF.defaultsOf(B.COSTS[4]), steps = BF.ONLY_DEFAULT;
   let s = BF.parseScenarios({ fom: "30", ds: "4000000" }, d, steps, 100);
-  check(s.a.fom === 30 && BF.debtUsd(s.a, 100) === 4000000 && s.a.share === 60 && s.a.rate === 8 && s.a.term === 20, "battery: fom is A's fixed O&M, and ds gives a capital cost at which A pays exactly USD 4,000,000", `capex ${s.a.capex}`);
+  check(s.a.fom === 30 && BF.debtUsd(s.a, 100) === 4000000 && s.a.share === 20 && s.a.rate === 8 && s.a.term === 20, "battery: fom is A's fixed O&M, and ds gives a capital cost at which A pays exactly USD 4,000,000", `capex ${s.a.capex}`);
   check(JSON.stringify(s.b) === JSON.stringify(d), "battery: scenario B is left at the defaults, as it was");
   const q = BF.scenarioQuery(s, d);
   check(q.every(([k]) => !BF.isOldParam(k) && BF.isScenarioParam(k)) && q.some(([k]) => k === "af") && q.some(([k]) => k === "ac") && BF.isOldParam("fom") && BF.isOldParam("ds") && !BF.isOldParam("mw"),

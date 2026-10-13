@@ -155,7 +155,7 @@ class ScenarioASetsTheHeadline(unittest.TestCase):
         self.assertIn("const x: Inputs = { ...asked, fom: A.fom, ds: debtUsd(A, asked.mw) };", battery)
         self.assertIn("const x: Inputs = { ...asked, fom: A.fom, ds: debtUsd(A, asked.mw) };", seller)
         self.assertIn("gpu: DEFAULTS.gpu, pue: DEFAULTS.pue };", dc)                       # the page's inputs carry the cited defaults; A holds the reader's
-        for words in ("<BatteryDecisions ", "<BatteryHeadline ", "<ContractOfA ", "<CoverOfA "):
+        for words in ("<BatteryDecisions ", "<BatteryHeadline ", "<Scenarios ", "<BatterySensitivity "):   # session 208: no contract section; the chart in its own section
             self.assertEqual(battery.count(words), 1, words)
         for words in ("<SellerDecisions ", "<CoverHeadline ", "<MonthsOfA ", "<CoverageOfA ", "<DscrOfA "):
             self.assertEqual(seller.count(words), 1, words)

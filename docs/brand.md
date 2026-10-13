@@ -2,7 +2,7 @@
 
 Energy Research Warehouse (ERW), session 203 (12 October 2026). Direction A of the roadmap's ruling of 12 October 2026 (`docs/roadmap.md`, "This week", item 3): a white page with fog panels, Source Serif 4 for display, IBM Plex Sans for text, IBM Plex Mono for numbers in tables, cardinal as the only accent, charts in the manner of the Financial Times.
 
-**Status: a proposal for review.** Nothing here is applied to a page on `main`. The battery page restyled with these rules is on the branch `wip/203-brand-battery`, with screenshots before and after. Samuel approves the battery, Grid and price board mockups before any other page changes. Until then the site's tokens are the ones in `site/app/tokens.css`, and that file governs.
+**Status: approved 12 October 2026; the battery page is the reference.** Samuel approved the battery page restyled with these rules on the night of 12 October 2026, and session 234 landed it on `main` (`/cost-of-power/battery`, sessions 203 to 211). Every other page is brought to it through `site/app/tokens.css` and the shared components, so that a change of brand is one file to change. (Until session 234 this line read "a proposal for review".)
 
 What each rule is for is written beside it. Where a rule answers something a tool measured on the battery page in session 201, the measurement is given (`archive/sessions/SESSION_201_REPORT.md`).
 

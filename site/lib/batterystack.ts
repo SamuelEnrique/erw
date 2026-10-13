@@ -81,9 +81,11 @@ export const COSTS: Record<Duration, { capex: number; fom: number; note: string 
   4: { capex: 1110, fom: 22, note: "Lazard's 100 MW / 400 MWh case, midpoint of 620 to 1,600 USD/kW and of 3.0 to 8.0 USD/kWh-yr" },
   8: { capex: 2110, fom: 43.6, note: "no Lazard case: the straight line through its 2-hour and 4-hour midpoints, an extrapolation" },
 };
-export const DEBT = { share: 0.6, rate: 0.08, life: 20 };  // Lazard: 60 percent debt at 8 percent, over a 20-year life
+// Session 208 (the owner's ruling of 12 October 2026): Lazard's storage cases, "20% debt at an 8% interest rate", over a
+// 20-year life. From session 67 to 207 the share was 0.6, the structure of Lazard's generation cases.
+export const DEBT = { share: 0.2, rate: 0.08, life: 20 };
 export const crf = (rate: number, n: number) => rate / (1 - (1 + rate) ** -n);
-/** The default annual debt payment per MW: the capital cost, 60 percent debt at 8 percent, level over 20 years. */
+/** The default annual debt payment per MW: the capital cost, 20 percent debt at 8 percent, level over 20 years. */
 export const debtPerMw = (d: Duration) => COSTS[d].capex * 1000 * DEBT.share * crf(DEBT.rate, DEBT.life);
 
 /** The inputs from a query (strings), each defaulted and bounded. */

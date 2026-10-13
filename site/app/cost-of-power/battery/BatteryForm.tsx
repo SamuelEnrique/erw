@@ -45,6 +45,11 @@ export function BatteryForm({ x, internal = false }: { x: Inputs; internal?: boo
             );
           })}
         </ul>
+        {/* session 208: the "Other grids" table is this one line */}
+        <p className="mt-2 text-xs leading-snug text-muted" data-other-grids="1">
+          The other five grids, in words only: PJM&apos;s prices are licensed and not held; NYISO and SPP are built and in review; ISO-NE&apos;s and MISO&apos;s reserve prices are held, not shown
+          (license needed). Their energy prices are on <Link href="/cost-of-power/seller?asset=battery">the seller tab</Link>. No number from a licensed table is shown on this site.
+        </p>
       </fieldset>
 
       <div>
@@ -79,7 +84,7 @@ export function BatteryForm({ x, internal = false }: { x: Inputs; internal?: boo
       </div>
       <p className="text-xs leading-snug text-muted" data-costs-in-a="1">
         Defaults for {x.dur} hours: capital {COSTS[x.dur].capex.toLocaleString("en-US")} USD/kW and fixed O&amp;M {COSTS[x.dur].fom} USD/kW a year ({COSTS[x.dur].note}).
-        The costs and the debt are set under <a href="#scenarios">Scenarios A and B</a>: scenario A gives the headline.
+        The costs, the debt and a contract are set under <a href="#scenarios">Scenarios A and B</a>: scenario A gives the headline.
       </p>
     </form>
   );
