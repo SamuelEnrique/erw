@@ -134,7 +134,13 @@ None piped; outputs under `runs/session202/`.
 - Freeze status before the push: exit 0, no freeze. `main` merged into the branch first.
 - Before snapshot `s202-before`, its own command, then `git push origin task/202-reliability`.
 - Expected: 0 differences on the 25 pages. The branch adds one page (`/internal/health`, not among the 25, 404 for a visitor) and one data file only that page reads.
-- **The result (GitHub's check, the merge, Vercel's answer, the after snapshot and the comparison) is written into this report by session 203's branch**, under this heading.
+- **The result, added by session 203's branches:**
+  - `take s202-before`: exit 0, 25 pages, 0 failed, 18:12:36 UTC. Push of `f1806159`: exit 0.
+  - GitHub's check ("code branch", run 38289389277): success. Merged into `main` as `5f944708`. The workflow removed the remote branch.
+  - At 18:55 UTC GitHub showed no deployment record for the merge, and I read that as Vercel deploying an hour late. **That reading was wrong** (added by `task/203-report`). GitHub's record of a deployment is not a sign of when the site changes. On 12 October the records appeared 45 to 60 minutes after a merge, the newest of them under the commit before the one the site was already serving, while the site itself (erw-flame.vercel.app) served session 203's merge 2.5 minutes after it (19:07 UTC: the new menu and a new file both answered). Whether the records are a second Vercel project or a late report, no session could establish: there is no Vercel sign-in on either machine.
+  - **The after snapshot of this landing is `s203-before`**: 25 pages, 0 failed, 18:57:53 UTC, 36 minutes after the merge (18:21:14 UTC) and before session 203 was pushed. `compare s202-before s203-before`: exit 0, **0 differences in all**. Expected: 0. Nothing to mark.
+  - I did not probe at 18:57 which commit the site was serving. The page this landing adds, `/internal/health`, answers 404 to a visitor before and after, so the snapshot cannot show it; in the internal view it is checked on a local build (19 checks) and, on production, by the first click of "What to review".
+  - A snapshot named `s202-after` was taken at 19:06:46 UTC, when the record for this merge appeared. By then the site already served session 203's menu: against `s202-before` it shows session 203's 800 differences, and against `s203-after` 0. It is not this landing's comparison.
 
 ## Decisions made without you
 
