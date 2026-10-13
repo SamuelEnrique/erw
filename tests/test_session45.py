@@ -92,12 +92,12 @@ class Lease(unittest.TestCase):
         self.assertIn("makes no network call", r.stdout)
 
     def test_the_page_says_the_file_stays_in_the_browser(self):
-        page = open(os.path.join(SITE, "app", "severance", "lease", "page.tsx"), encoding="utf-8").read()
+        page = open(os.path.join(SITE, "app", "severance", "lease", "view.tsx"), encoding="utf-8").read()   # session 239: the view of the Lease tab of /severance
         self.assertIn("Your file stays on your computer.", page)
         self.assertIn("/severance/lease", open(os.path.join(SITE, "app", "severance", "page.tsx"), encoding="utf-8").read())
 
     def test_no_em_dash_in_the_new_files(self):
-        for f in ("site/lib/lease.ts", "site/app/severance/lease/page.tsx", "site/app/severance/lease/LeaseTool.tsx",
+        for f in ("site/lib/lease.ts", "site/app/severance/lease/view.tsx", "site/app/severance/lease/LeaseTool.tsx",
                   "site/scripts/test-lease.mjs", "tests/test_session45.py"):
             self.assertNotIn(chr(0x2014), open(os.path.join(ROOT, f), encoding="utf-8").read(), f)
 

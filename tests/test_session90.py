@@ -354,7 +354,7 @@ class BuildoutWritesWholeMegawatts(unittest.TestCase):
         parts = src("site", "app", "storage", "buildout", "parts.tsx")
         self.assertIn("{written(row.variable, row.value)}", parts)
         self.assertIn("${whole(p.value)} ${unit}", parts)
-        self.assertNotRegex(src("site", "app", "storage", "buildout", "page.tsx"), r"\bshown\(|toFixed\(")
+        self.assertNotRegex(src("site", "app", "storage", "buildout", "view.tsx"), r"\bshown\(|toFixed\(")
 
     def test_the_model_on_its_fixture(self):
         exe = shutil.which("node")
