@@ -1,0 +1,17 @@
+16 rows in scanner_drafts
+scan-spike-4c52d4239fe9  spike      draft            raised 2026-10-10T18:01:40  strength 26.9948  table caiso_as_prices  key entity=caiso:AS_CAISO_EXP|variable=as_price_dam_nr|market=caiso_dam|node=AS_CAISO_EXP|freq=PT1H  files 0
+scan-record-483f592bf064  record     draft            raised 2026-10-10T18:01:40  strength 9.8644  table eia_state_generation_monthly  key entity=eia:generation:WY:NG|variable=net_generation|market=|node=|freq=P1M  files 0
+scan-record-6e1d1cff0ae4  record     draft            raised 2026-10-10T18:01:40  strength 1.8426  table eia_retail_electricity_prices  key entity=eia:retail_price:DC:IND|variable=retail_price|market=|node=|freq=P1M  files 0
+scan-weekly-33b8c62e9e29  weekly     draft            raised 2026-10-10T18:01:40  strength 1.5307  table eia_regional_retail_fuel_prices  key entity=eia:EMM_EPMR_PTE_YCLE_DPG|variable=retail_price|market=|node=CLEVELAND|freq=P1W  files 0
+scan-record-90427afd38ee  record     draft            raised 2026-10-10T18:01:40  strength 1.0112  table eia_retail_sales_monthly  key entity=eia:retail_sales:UT:RES|variable=retail_sales|market=|node=|freq=P1M  files 0
+scan-weekly-4be2976922ee  weekly     draft            raised 2026-10-10T18:01:40  strength 0.812  table cftc_cot_positions  key entity=cftc:023651|variable=managed_money_long|market=nymex|node=NAT GAS NYME - NEW YORK MERCANTILE EXCHANGE|freq=P1W  files 0
+scan-record-7abe48d6b46b  record     draft            raised 2026-10-10T18:01:40  strength 0.8016  table eia_retail_electricity_prices  key entity=eia:retail_price:IA:IND|variable=retail_price|market=|node=|freq=P1M  files 0
+scan-record-34aae7580df2  record     draft            raised 2026-10-10T18:01:40  strength 0.787  table eia_retail_sales_monthly  key entity=eia:retail_sales:IN:COM|variable=retail_sales|market=|node=|freq=P1M  files 0
+scan-hunt-e5fe5b80e074  hunt       draft            raised 2026-10-13T05:08:12  strength 3.3503  table ercot_all_hub_prices_history  key pattern=peak_hour_evening|region=ercot  files 6
+scan-hunt-f5c8f78e8cf0  hunt       draft            raised 2026-10-13T05:08:12  strength 3.3095  table ercot_all_hub_prices_history  key pattern=negative_prices|region=ercot_south  files 6
+scan-hunt-bbb2fe2a3844  hunt       draft            raised 2026-10-13T05:08:12  strength 3.1043  table ercot_all_hub_prices_history  key pattern=peak_hour_midday|region=ercot  files 6
+scan-hunt-9868ad33205b  hunt       draft            raised 2026-10-13T05:08:12  strength 2.5932  table ercot_all_hub_prices_history  key pattern=negative_prices|region=ercot_north  files 6
+scan-hunt-4bee49d6e8c5  hunt       draft            raised 2026-10-13T05:08:13  strength 0.5098  table ercot_all_hub_prices_history  key pattern=spikes_against_median|region=HB_WEST  files 6
+scan-hunt-8c67230bc8b7  hunt       draft            raised 2026-10-13T05:08:13  strength 0.4974  table ercot_all_hub_prices_history  key pattern=spikes_against_median|region=HB_SOUTH  files 6
+scan-hunt-346d3337bb15  hunt       draft            raised 2026-10-13T05:08:13  strength 0.4926  table ercot_all_hub_prices_history  key pattern=spikes_against_median_grids|region=ercot  files 6
+scan-hunt-f732d699c6b7  hunt       draft            raised 2026-10-13T05:08:13  strength 0.4317  table ercot_all_hub_prices_history  key pattern=hours_above_1000|region=ercot  files 6
