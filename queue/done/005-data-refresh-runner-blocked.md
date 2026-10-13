@@ -27,3 +27,7 @@ Do this, under the data lock the worker already holds (do not take or release it
 4. Commit after each unit of work with a clear message. If a table is newer than its issue's latest failure, add one line to the final report saying issue #3 or #4 can be closed (do not close it yourself).
 
 Ceiling: two downloads per source. No model calls besides this session. Real data only; no em dashes in any file.
+
+## Report (session 216, 13 October 2026)
+
+Moved to done without a run (the owner's ruling of 12 October 2026, session 216, point 4): session 206 did what this task asks for CARB. Its pull of CARB's auction summary (336 rows, newest auction 1 August 2026) and LCFS credit workbook (1,124 rows, newest 14 September 2026) from the data machine, each with its validator, coverage row, archive and Redivis draft, is in `archive/sessions/SESSION_206_REPORT.md` (step 6), and `warehouse/run_data_machine.sh` now asks CARB every day (`dm_carb_auction`, `dm_carb_lcfs`). NYISO's queue workbook is not pulled: NYISO's terms ask for written permission (`docs/licenses.md`; `nyiso_interconnection_queue` is "license needed" from 20 October 2026 in `warehouse/metadata/license_status.csv`), so it stays held until its license is answered. Issue #3 (CARB) can be closed by a person; issue #4 (NYISO) stays open.

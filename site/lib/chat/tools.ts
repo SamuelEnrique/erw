@@ -8,6 +8,7 @@
 // Differences from the Python tools are named where they occur.
 import "server-only";
 import { DataError, HOURLY, rest, restCount } from "@/lib/supabase";
+import { LICENSE_NEEDED, licenseByGrid, licenseNeeded, licenseTitle } from "@/lib/license";  // session 215
 import spec from "./spec.json";
 import { DOCS, type GridConfig } from "@/lib/markdown";
 import { LIFE_MS, keep, within, type Summary } from "./summaries";
@@ -100,6 +101,9 @@ async function tableInfo(name: string, scope: Scope = null) {
   if (scope && !scope.tables.includes(name)) throw new ToolError(`${name} does not carry ${scope.iso}; this chat reads only ${scope.iso}'s tables (list_tables)`);
   // session 102: "review" is a table loaded for a page in review (live_set.yaml, review_hold); Ask is in review too
   if (c.in_live_set !== "yes" && c.in_live_set !== "review") throw new ToolError(`table ${name} is not in this site's live set; its full history is on Redivis`);
+  // session 215: a table held under its publisher's terms (lib/license.ts) is refused by name, as PJM's and MISO's are;
+  // a table held by grid is read, and lib/supabase.ts leaves the held grids' rows out (or refuses a read that names one)
+  if (licenseNeeded(name) && !licenseByGrid(name)) throw new ToolError(`table ${name} is ${LICENSE_NEEDED}: ${licenseTitle(name)}. State no figure of it: answer with not_in_warehouse true and say that it is "${LICENSE_NEEDED}"`);
   const columns: string[] = c.columns ? JSON.parse(c.columns) : [];
   const shape: Shape = columns[0] === "entity_id" ? "entities" : columns[0] === "event_id" ? "events" : "series";
   return { c, columns, shape };

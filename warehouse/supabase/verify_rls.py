@@ -74,6 +74,8 @@ EXPECTED = {
     "site_usage_salt": "blocked",
     # migration 029 (session 181): the scanner's review list, read only through scanner_drafts_list with the token
     "scanner_drafts": "blocked",
+    # migration 030 (session 232): the Digest's daily chart candidates, written and read with the service role only
+    "daily_chart_candidates": "blocked",
 }
 NEW_IN_028 = ("site_rate_counts", "site_usage_events", "site_usage_daily", "site_usage_salt")
 LICENSED = ("series", "entities", "events", "latest_prices", "catalogue", "sources", "headers")
@@ -83,7 +85,9 @@ INTERNAL_BY_NAME = (("events", "api_cost_ledger"), ("events", "ferc_eqr_contract
 # read functions behind the internal token: a wrong token must be refused (none of these writes)
 TOKEN_FUNCTIONS = (("internal_costs", {}), ("internal_ask_spend", {}), ("internal_eqr_summary", {}),
                    ("thesis_list", {}), ("analysis_requests_list", {}), ("internal_usage", {}),
-                   ("scanner_drafts_list", {}), ("analysis_request_card", {"p_id": "verify-rls-0000"}))
+                   ("scanner_drafts_list", {}), ("analysis_request_card", {"p_id": "verify-rls-0000"}),
+                   # migration 031 (session 233): one file of a draft of the weekly hunt
+                   ("scanner_draft_file", {"p_id": "scan-hunt-000000000000", "p_name": "scan-hunt-000000000000.csv"}))
 PROOF_TABLE = "site_api_calls"
 WRONG_TOKEN = "verify-rls-wrong-token-0000000000000000"
 

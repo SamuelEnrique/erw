@@ -15,7 +15,7 @@ What goes here, one line each: `planner: on` or `planner: off` (absent means off
 - deploy cutoffs: 14:00 to 16:15 UTC; 22:30 to 23:45 UTC
 - cutoff note: the first span is the daily run's (14:00 to 16:15 UTC daily); the second is the Sunday Roundup's (Sundays 22:30 to 23:45 UTC). The planner reads no weekday, so it holds the second span every day; a person's chain may name Sundays alone
 - reviews: Sunday, Wednesday and Friday evenings
-- public day: Monday 20 October 2026, gated by licenses and seven green days of every scheduled job
+- public day: 21 October 2026, gated by licenses and seven green days of every scheduled job (Samuel's ruling of 12 October 2026, night: moved from 20 October, the gate unchanged; the ruling says "Monday 21 October" and 21 October 2026 is a Wednesday, see session 232's report)
 
 ## This week
 
@@ -108,6 +108,9 @@ What goes here: what Samuel has decided, one dated line each. The planner pastes
 - 12 October 2026 (the chain prompt of sessions 208 and 209): the battery page is one page, three questions, nothing collapsed: "What did it earn?" (headline, three numbers, revenue chart, income table), "Is it worth building?" (scenarios A and B with contract share and contract price as scenario assumptions, default 0, and the results table), "What matters most" (the NPV sensitivity chart with one line on how to read it). The standalone contract section and panel, the "Other grids" table (one line under the grid picker instead) and the folds "Every month" (into the CSV download), "Stress days" and "What this model cannot see" (one sentence under the income table; the rest in the methods doc) go. At contract share 0 every number is identical to before.
 - 12 October 2026 (the same prompt): docs/brand.md is the one design document; no PRODUCT.md or DESIGN.md.
 - 12 October 2026 (the same prompt): no landing between 14:00 and 16:15 UTC, or Sunday 22:30 to 23:45 UTC; budget: no limit, stop at the weekly Claude limit.
+- 12 October 2026, night (the chain prompt of sessions 231 to 233): the public launch moves to 21 October 2026; the gate is unchanged, seven green days.
+- 12 October 2026, night (the same prompt): the daily chart in the Digest is fully automatic: a fact and its chart, chosen and drawn by code, no approval.
+- 12 October 2026, night (the same prompt): deeper findings are hunted automatically and published only after Samuel approves them at /internal/findings (he runs the Stata first). Nothing posts to LinkedIn: the tool prepares the image and the caption for him.
 
 ## Holds
 

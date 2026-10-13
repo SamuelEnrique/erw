@@ -7,11 +7,15 @@ reads them). The card itself comes from the chosen request's row when the worker
 committed card file site/data/findings/<card_id>.json. No choice, no credentials or no card: None, and the Roundup
 falls back to the rule's chart of the week and says so.
 
+Session 231: a draft approved at /internal/findings can be chosen too. It has no committed file (its card is in its
+row of public.scanner_drafts), so its card is read from there, and only while its state is approved.
+
     python warehouse/analysis/findings/roundup_pick.py 2026-W41      # print the choice, if any
 """
 
 import json
 import os
+import re
 import sys
 import urllib.parse
 
@@ -19,6 +23,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 CARD_DIR = os.path.join(ROOT, "site", "data", "findings")
 RENDER_DIR = os.path.join(ROOT, "docs", "analysis", "findings")
+DRAFT_ID = re.compile(r"^scan-[a-z]+-[0-9a-f]{12}$")   # a draft of the review list (migration 029's id rule)
 
 
 def chosen_card_id(label, log=print):
@@ -53,12 +58,42 @@ def chosen_card_id(label, log=print):
     return p.get("card_id") if isinstance(p, dict) else None
 
 
-def load_card(card_id):
+def approved_draft(card_id, log=print, get=None):
+    """Session 231: the card of a draft a person approved at /internal/findings (public.scanner_drafts, state approved;
+    the scanner's daily drafts and the weekly hunt's), read with the service role. A draft holds its card in its row
+    and has no committed file, so until now one chosen for the Roundup was never found. A draft that is not approved
+    (not ruled on, dismissed, set back) answers None: nothing unapproved reaches the Roundup."""
+    sys.path.insert(0, os.path.join(ROOT, "warehouse"))
+    try:
+        import lock
+        import requests
+    except ImportError:
+        return None
+    url, key = lock.env("SUPABASE_URL"), lock.env("SUPABASE_SERVICE_KEY")
+    if not url or not key:
+        return None
+    u = urllib.parse.urlparse(url)
+    try:
+        r = (get or requests.get)(f"{u.scheme}://{u.netloc}/rest/v1/scanner_drafts",
+                                  params={"id": f"eq.{card_id}", "state": "eq.approved", "select": "id,card", "limit": "1"},
+                                  headers={"apikey": key, "Authorization": f"Bearer {key}"}, timeout=30)
+        if r.status_code != 200:
+            log(f"  roundup pick: the review list answered HTTP {r.status_code} for {card_id}")
+            return None
+        rows = r.json()
+    except Exception as exc:
+        log(f"  roundup pick: {type(exc).__name__}: {str(exc)[:120]} reading the review list")
+        return None
+    card = rows[0].get("card") if rows else None
+    return card if isinstance(card, dict) and card.get("card_id") == card_id else None
+
+
+def load_card(card_id, log=print):
     if not card_id or not all(ch.isalnum() or ch in "_.-" for ch in card_id):
         return None
     f = os.path.join(CARD_DIR, card_id + ".json")
     if not os.path.exists(f):
-        return None
+        return approved_draft(card_id, log) if DRAFT_ID.match(card_id) else None
     with open(f, encoding="utf-8") as fh:
         return json.load(fh)
 
@@ -74,6 +109,12 @@ def lines(card, label):
     for c in card.get("callouts", []):
         L.append(f"- {c['label']}: {c['before']['text']} ({c['before']['period']}), {c['after']['text']} ({c['after']['period']})"
                  + (f" {c['unit']}" if c.get("unit") else ""))
+    if DRAFT_ID.match(cid):
+        # session 231: an approved draft has no paragraph and no page of its own: its footnote says how it was found,
+        # and it is shown on /analysis in the scanner's group
+        foot = card.get("footnote", "").replace("A draft raised by", "Raised by").replace("; not reviewed.", "; approved by a person at the review list.")
+        L += ["", foot, "", f"{card['source_line']} Shown on [/analysis](/analysis)."]
+        return L
     L += ["", card["why"], "", f"{card['source_line']} The card, its data, Python and Stata do-file are on [/analysis/card/{cid}](/analysis/card/{cid})."]
     return L
 
@@ -83,9 +124,10 @@ def chosen(label, log=print):
     cid = chosen_card_id(label, log)
     if not cid:
         return None
-    card = load_card(cid)
+    card = load_card(cid, log)
     if card is None:
-        log(f"  roundup pick: {cid} was chosen but no card file is committed for it; the rule's chart stands")
+        log(f"  roundup pick: {cid} was chosen but no card file is committed for it"
+            + (" and no approved draft of that id is in the review list" if DRAFT_ID.match(cid) else "") + "; the rule's chart stands")
         return None
     log(f"  roundup pick: {cid} chosen for {label}")
     return card, lines(card, label)

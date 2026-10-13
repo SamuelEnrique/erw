@@ -739,8 +739,10 @@ def drop_lineage_repeats(flags, in_dir):
     return kept, repeats
 
 
-def scan(in_dir, cfg, scan_date=None, meta_dir=None, tables=None, log=print):
-    """Scan every public time table. Returns (flags, suppressed, drafts, summary)."""
+def scan(in_dir, cfg, scan_date=None, meta_dir=None, tables=None, log=print, extras=None):
+    """Scan every public time table. Returns (flags, suppressed, drafts, summary). extras (session 232): a dict that
+    receives "daily_chart", the day's flags as the Digest's chart candidates, ranked, each with its card
+    (daily_chart.from_flags); the four values returned are as they were."""
     t0 = time.time()
     scan_date = scan_date or dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d")
     meta_dir = meta_dir or META_DIR
@@ -794,6 +796,9 @@ def scan(in_dir, cfg, scan_date=None, meta_dir=None, tables=None, log=print):
         else:
             raised.append(fl)
     raised.sort(key=lambda f: -f["strength"])
+    if extras is not None:
+        import daily_chart
+        extras["daily_chart"] = daily_chart.from_flags(raised, lambda fl: flag_card(fl, cards_src[fl["id"]], cfg), meta_dir)
     chosen = cap_drafts(raised, cfg)
     chosen_ids = {f["id"] for f in chosen}
     drafts = []
@@ -880,9 +885,17 @@ def daily_request(params, in_dir=None, log=print):
     runs/scanner/<date>/, the drafts added to the review list. Returns {flags, drafts, loaded, note}."""
     cfg = load_config()
     date = str((params or {}).get("date") or dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d"))
-    flags, suppressed, drafts, summary = scan(in_dir or common.DEFAULT_IN_DIR, cfg, date, log=lambda m: None)
+    extras = {}
+    flags, suppressed, drafts, summary = scan(in_dir or common.DEFAULT_IN_DIR, cfg, date, log=lambda m: None, extras=extras)
     write_run(os.path.join(ROOT, "runs", "scanner", date), flags, suppressed, drafts, summary)
     loaded = load_drafts(drafts, log=log)
+    try:
+        # session 232: the day's flags and the watch list's changes, ranked, for the Digest's daily chart. A scan is
+        # never failed by them: publish_day says what went wrong and the Digest falls back by its own rule.
+        import daily_chart
+        daily_chart.publish_day(date, extras.get("daily_chart", []), os.path.join(ROOT, "runs", "scanner", date), str(cfg["version"]), log)
+    except Exception as exc:
+        log(f"daily chart: the candidates of {date} were not computed ({type(exc).__name__}: {str(exc)[:160]})")
     note = (f"scan of {date}: {summary['tables_scanned']} tables, {summary['series_scanned']} series, {len(flags)} flags, "
             f"{len(suppressed)} suppressed by known faults, {len(drafts)} drafts, {loaded} added, {summary['seconds']} s")
     return {"flags": len(flags), "drafts": len(drafts), "loaded": loaded, "note": note}

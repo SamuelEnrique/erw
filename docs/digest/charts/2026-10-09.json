@@ -1,0 +1,81 @@
+{
+ "date": "2026-10-09",
+ "source": "scanner",
+ "key": "scan-record-90427afd38ee",
+ "fact": "Retail electricity sales in Utah, residential: 1,658,263 MWh in July 2026, the highest monthly value held since January 2001. The record until now was 1,484,757 MWh, in July 2024.",
+ "table": "eia_retail_sales_monthly",
+ "series_key": "entity=eia:retail_sales:UT:RES|variable=retail_sales|market=|node=|freq=P1M",
+ "why": "the strongest of the scanner's 15 flag(s) of the day that no Digest has shown (rank 3; rule record, strength 1.0112)",
+ "candidates_from": "given",
+ "title": "RECORD HIGH",
+ "numbers": {
+  "value": 1658262.63,
+  "threshold": 1484756.88,
+  "history_points": 305,
+  "history_years": 25.33,
+  "strength": 1.0112,
+  "old_record": 1484756.88,
+  "stood_points": 24,
+  "margin": 173505.75,
+  "margin_sigmas": 1.0112,
+  "sigma": 171583.6108559999
+ },
+ "image": "2026-10-09.png",
+ "rendered_at": "2026-10-13T04:50:17Z",
+ "method": "docs/methods/automated_analysis_scanner.md",
+ "flag": {
+  "id": "scan-record-90427afd38ee",
+  "flag_key": "record|eia_retail_sales_monthly|entity=eia:retail_sales:UT:RES|variable=retail_sales|market=|node=|freq=P1M",
+  "rule": "record",
+  "table": "eia_retail_sales_monthly",
+  "series": {
+   "entity": "eia:retail_sales:UT:RES",
+   "variable": "retail_sales",
+   "market": "",
+   "node": "",
+   "freq": "P1M"
+  },
+  "series_key": "entity=eia:retail_sales:UT:RES|variable=retail_sales|market=|node=|freq=P1M",
+  "label": "eia:retail_sales:UT:RES retail_sales",
+  "date": "2026-07-01",
+  "value": 1658262.63,
+  "unit": "MWh",
+  "geo": "US-UT",
+  "statistic": "monthly value",
+  "direction": "high",
+  "threshold": {
+   "name": "record high",
+   "value": 1484756.88,
+   "statistic": "the highest monthly value of the held history",
+   "config": {
+    "record_min_points": 60,
+    "record_stood_points": 24,
+    "record_min_margin_sigmas": 0.5
+   }
+  },
+  "compared": {
+   "old_record": 1484756.88,
+   "old_record_date": "2024-07-01",
+   "stood_points": 24,
+   "margin": 173505.75,
+   "margin_sigmas": 1.0112,
+   "sigma": 171583.6108559999
+  },
+  "history": {
+   "first": "2001-01-01",
+   "last": "2026-05-01",
+   "points": 305,
+   "years": 25.33
+  },
+  "strength": 1.0112,
+  "source": "eia:electricity/retail-sales",
+  "note": "",
+  "scanner_version": "1.1.0",
+  "scan_date": "2026-10-09",
+  "window": [
+   "2026-07-01",
+   "2026-07-01"
+  ]
+ },
+ "proof": true
+}

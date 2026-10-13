@@ -540,7 +540,11 @@ def lcd_cached(wban):
     import glob
     import hashlib
     want = f"stations={ghcn_id(wban)}&startDate={LCD_FROM}T"
-    for manifest in sorted(glob.glob(os.path.join(ip.RAW_DIR, NAME, "*", "manifest.csv")), reverse=True):
+    # session 218: newest run first by the manifest's own time, not by the folder's name: a run folder named for the
+    # day (pull_2026-10-05, session 126's) sorts after every timestamped one (20261013T030152Z), so a later fetch's
+    # files were passed over and the tables were rebuilt from the older answers
+    manifests = sorted(glob.glob(os.path.join(ip.RAW_DIR, NAME, "*", "manifest.csv")), key=os.path.getmtime, reverse=True)
+    for manifest in manifests:
         with open(manifest, encoding="utf-8", newline="") as f:
             rows = [r for r in csv.DictReader(f) if want in r["url"] and r["status"] == "200"]
         for r in reversed(rows):
