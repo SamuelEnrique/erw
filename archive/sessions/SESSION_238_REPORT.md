@@ -98,6 +98,16 @@ Test pins moved, each with a note "session 238": `test_session170.py` (the page'
 - Rebuild until the build log holds no "statement timeout" line, then `node scripts/check-routes.mjs http://localhost:<port>` (expected: 0 failed).
 - Nothing else is open on this branch.
 
+## The finishing pass
+
+13 October 2026, 08:45 to 10:10 UTC, on the merged branch `task/237-238-grid-research` (this session with 237 and main). The full account is in `SESSION_237_REPORT.md`, "The finishing pass"; what concerns Research:
+
+- **Said plainly: the merged tree was never built in this pass**, so `check-analysis.mjs`, `check-analysis-flow.mjs`, `check-findings-grids.mjs`, the whole `check-values` and `check-routes` were NOT run on it. The merge failed to build on a brace lost from `site/app/tokens.css` between session 237's block and this session's (fixed, commit `451080dd`; this session's block is untouched), a second build was served the same failure from `site/.next/cache/turbopack`, and the orchestrator then asked for the hand-back. "To finish" above still stands, on the landing's own build.
+- **Run, with exit codes:** `test-analysis-flow.mjs` 0 (all passed). `test-digest-chart.mjs` 0. The python tests in one process, 95 modules with `test_session170`, `173`, `181`, `182`, `182_flow`, `203`, `231` and `238` among them: 1,749 tests, OK, 130 skipped, exit 0.
+- **The documents this report named as still saying the old name:** tool 26's row of `docs/platform-tools.md` says Research at `/research`; `package/llms.txt` says `/research`, and the chat's exported spec (`site/lib/chat/spec.json`) follows it. `docs/release-gate.md` was not touched.
+- **No link inside Research's components names `/analysis`:** what remains is `/analysis-files/` and `/api/analysis`, which keep their names.
+- **The exit 127 of `check-values`:** it is the failing path only (`process.exit(1)` after the lines, then a libuv assertion in Windows-only code). A run that passes ends without `process.exit`. GitHub's runner does not run `check-values`. Read from the script and the workflow, not run.
+
 ## The landing
 
 filled by the orchestrator

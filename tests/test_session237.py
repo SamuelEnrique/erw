@@ -209,6 +209,17 @@ class ThePage(unittest.TestCase):
         self.assertIn("data-tabs={label}", choose)
         self.assertIn("data-segments={label}", choose)
 
+    def test_every_rule_of_the_tokens_is_closed(self):
+        # the finishing pass of sessions 237 and 238: the merge of the two sessions' blocks lost the closing brace of this
+        # session's last rule, and the build failed on it (CssSyntaxError). No test read the file as a whole
+        css = re.sub(r"/[*].*?[*]/", "", src("site", "app", "tokens.css"), flags=re.S)
+        self.assertEqual(css.count("{"), css.count("}"))
+        depth = 0
+        for ch in css:
+            depth += 1 if ch == "{" else -1 if ch == "}" else 0
+            self.assertGreaterEqual(depth, 0)
+            self.assertLessEqual(depth, 3)          # a rule inside a media query inside a layer at most: an unclosed rule nests the next
+
     def test_the_networks_canvas_reads_its_colors_from_the_tokens(self):
         net = src("site", "app", "network", "Network.tsx")
         self.assertIn('ink: "--color-ink", ground: "--color-panel", muted: "--color-muted", accent: "--color-accent", rule: "--color-rule"', net)
