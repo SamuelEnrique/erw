@@ -44,6 +44,12 @@ class CaisosStressDays(unittest.TestCase):
         got = bs.caiso_stress_windows(HELD, "2024-09-01", "2026-10-11")
         self.assertEqual(got, {"caiso_notices_20240904": ("2024-09-04", "2024-09-09", ["rmo"]),
                                "caiso_notices_20250120": ("2025-01-20", "2025-01-21", ["rmo"])})
+        # session 247: CAISO's report read again the same day holds six more notices, and the same rule makes two more events
+        newer = pd.concat([HELD, notices(("2026-09-09", "rmo"), ("2026-09-10", "rmo"), ("2026-10-05", "rmo"), ("2026-10-06", "rmo"), ("2026-10-07", "rmo"),
+                                         ("2026-10-08", "rmo"))], ignore_index=True)
+        got = bs.caiso_stress_windows(newer, "2024-09-01", "2026-10-11")
+        self.assertEqual(list(got), ["caiso_notices_20240904", "caiso_notices_20250120", "caiso_notices_20260909", "caiso_notices_20261005"])
+        self.assertEqual(got["caiso_notices_20261005"], ("2026-10-05", "2026-10-08", ["rmo"]))
 
     def test_a_transmission_emergency_makes_no_stress_day(self):
         only = HELD[HELD["event_type"] == "transmission_emergency"]
@@ -162,7 +168,9 @@ class TheWords(unittest.TestCase):
         doc = src("docs", "methods", "battery_stack.md")
         part = doc.split("## CAISO's stress days (session 246)", 1)[1].split("\n## ", 1)[0]
         for words in ("Restricted Maintenance Operations", "a Transmission Emergency", "at most three days apart", "caiso_notices_<YYYYMMDD>", "`caiso_notices_20240904`",
-                      "`caiso_notices_20250120`", "3,670 | 4,101 | 4,464 | 3,938", "475 | 638 | 854 | 731", "held to 30 April 2025"):
+                      "`caiso_notices_20250120`", "3,670 | 4,101 | 4,464 | 3,938", "475 | 638 | 854 | 731", "held to 30 April 2025",
+                      # session 247 read CAISO's report again: two more events, by the same rule
+                      "`caiso_notices_20260909`", "`caiso_notices_20261005`", "957 | 979 | 983 | 915", "1,976 | 2,135 | 2,314 | 1,930", "read every day since session 247"):
             self.assertIn(words, part, words)
         self.assertIn("## The daily run", doc)                                                       # the section the new ones were put before is still there
 

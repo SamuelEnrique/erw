@@ -441,6 +441,33 @@ machine that holds the price histories.
   generator's CSV (4 MB) and the record of the day (67 KB) would then move every day, beside the datacenter files that
   already do. Today the hybrid's file and its yearly price files (1.3 MB together) are what this session added.
 
+### The data machine's daily run since session 247
+
+Session 218 found 33 public tables behind their cadence and listed the line each needed. The owner's chain prompt of 12 October 2026 asked for them. They are one block, `warehouse/run_data_machine_tables.sh`, which the daily run sources after ERCOT's reserve price adders (session 244's step, `dm_ercot_rt_adders`). Every step is a soft step, and a table a step moved gets its stores through `warehouse/table_stores.py`.
+
+| Step | Table | When | What it asks |
+|---|---|---|---|
+| `dm_eia930_total_interchange` | `eia930_daily_total_interchange` | every day | EIA's API; it resumes by month from its checkpoints |
+| `dm_caiso_ws_forecast` | `caiso_wind_solar_forecast` | every day | CAISO, the last ten days: two requests |
+| `dm_ercot_ws_forecast` | `ercot_wind_solar_forecast` | every day | ERCOT's week of hourly postings; ERCOT keeps a week, so a day not pulled is a day of forecasts lost |
+| `dm_nrc_reactor_status` | `nrc_reactor_status` | every day | the NRC's file of the last 365 days: one request |
+| `dm_caiso_emergencies` | `caiso_grid_emergencies` | every day | CAISO's Grid Emergencies History Report: one document. California's battery stress days are made from it |
+| `dm_caiso_reliability` | `caiso_reliability_daily` | every day | nothing: derived |
+| `dm_caiso_curtailment` | `caiso_curtailment_intervals` | once a month | `--new-only`: the library's index, a page a month of the year, and the daily reports no earlier run saved (about 11 requests and a month's days; it was about 290 before the option) |
+| `dm_storage_owners` | `storage_owners_monthly` | once a month | nothing: derived |
+| `dm_shoulder_hours` | `shoulder_hours_monthly` | once a month | nothing: derived |
+| `dm_live_set` | the five of these tables and of session 244's that the live set holds | every day | nothing of a publisher: `load.py --no-vacuum --only` for the tables only this machine builds, so the site's copy follows |
+
+- **"Once a month"** is the first daily run on or after the third (the stamp `runs/dm_monthly_<YYYY-MM>.done`), or any run with `MONTHLY=1`. `MONTHLY_PULLS=0` leaves the month's pull out of a forced run.
+- **By itself:** `bash warehouse/run_data_machine_tables.sh` under the data lock (it refuses on the runner and on a machine whose role is not data); `--list` names every step and its command and runs nothing.
+- **Not in the block, each for its reason:**
+  - **NOAA's weather** (three tables): the pull's approved ceiling is 3,000,000 rows, counted over every file kept, and session 218's refresh reached 2,777,645. The next refresh passes it and the connector stops. A new ceiling is the owner's to give.
+  - **The page files of `/mix` and `/storage/owners`:** the block refreshes tables. A page file joins a scheduled commit only with its own tests, as the files of this run do.
+  - **`price_board_stats`:** its page was retired in session 132; retire the table or schedule its builder is a ruling. Session 247 gave the table its stores (session 218 had rebuilt it and not stored it).
+  - **ERCOT's 15-minute hub history:** the live table (`iso_rtm_hub_prices`) has kept every interval since the history ends, and no run trims it; the two meet at 26 August 2026 and stay met.
+  - **The event tables** (`event_window_daily`, the Flex Alert scorecard, the alert-day prices): they move when there is a new event or alert day, by a person's run.
+  - **The tables of NYISO, ISO-NE and SPP:** another chain's to ask.
+
 ## Code work: branches, checks, merge
 
 A code task works on its own branch, `task/<NNN>-<slug>`. A push to `task/**` runs `.github/workflows/code-branch.yml`:

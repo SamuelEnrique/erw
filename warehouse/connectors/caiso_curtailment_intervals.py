@@ -173,6 +173,12 @@ def js_array(html, name):
     return out
 
 
+def saved_reports(parent):
+    """{day: path} of every daily report an earlier run saved (parent/<run>/drr_<day>.html). The run folders are named
+    by their time, so sorted they are oldest first and the newest run's copy of a day is the one kept (session 247)."""
+    return {os.path.basename(f)[4:14]: f for f in sorted(glob.glob(os.path.join(parent, "*", "drr_*.html")))}
+
+
 def report_days(log, since, until):
     index = get(DRR_PAGE, log, "CAISO daily renewable reports index").text
     out = {}
@@ -226,7 +232,12 @@ def main(argv=None):
     ap.add_argument("--out-dir", help="a trial run: the table and its log under this directory; nothing in warehouse/output")
     ap.add_argument("--no-reports", action="store_true", help="the workbooks only (no request for the daily reports of 2026)")
     ap.add_argument("--reports-dir", help="read the daily reports saved in this directory by an earlier run (drr_<day>.html) instead of requesting them")
+    ap.add_argument("--new-only", action="store_true", help="session 247, for a schedule: no workbook is requested (the rows the table holds are kept by the merge), "
+                    "and a daily report an earlier run saved (warehouse/raw/caiso_curtailment_intervals/<run>/drr_<day>.html) is read from its file; only the "
+                    "days not saved are requested")
     a = ap.parse_args(argv)
+    if a.new_only and (a.from_dir or a.reports_dir or a.no_reports):
+        ap.error("--new-only reads the saved reports of every earlier run by itself; it goes with none of --from-dir, --reports-dir or --no-reports")
     if ip.paused("caiso"):
         print(ip.pause_line("caiso"))
         return 0
@@ -239,7 +250,11 @@ def main(argv=None):
     log = ip.Log(os.path.join(log_dir, f"caiso_curtailment_intervals_{run_id}.log"))
     raw_dir = os.path.join(ip.RAW_DIR if hasattr(ip, "RAW_DIR") else os.path.join(os.path.dirname(ip.OUT_DIR), "raw"), NAME, run_id)
     os.makedirs(raw_dir, exist_ok=True)
-    books = workbooks(a.from_dir, raw_dir, log)
+    if a.new_only:
+        books = []
+        log("  --new-only: no workbook requested; the rows of 2019 to 2025 the table holds are kept by the merge")
+    else:
+        books = workbooks(a.from_dir, raw_dir, log)
     five, days = legacy_rows(books, log)
     rows = []
 
@@ -264,6 +279,12 @@ def main(argv=None):
             saved = {os.path.basename(f)[4:14]: f for f in sorted(glob.glob(os.path.join(a.reports_dir, "drr_*.html")))}
             urls = {d: CAISO + "/documents/daily-renewable-report-" + pd.Timestamp(d).strftime("%b-%d-%Y").lower() + ".html" for d in saved}
             log(f"  daily renewable reports read from {a.reports_dir}: {len(urls)} (requested by an earlier run of this session; no second request)")
+        elif a.new_only:
+            # every day an earlier run saved, the newest run's copy of a day last (the run folders sort by their time)
+            saved = saved_reports(os.path.dirname(raw_dir))
+            urls = report_days(log, DRR_FROM, until)
+            log(f"  daily renewable reports {DRR_FROM} to {until}: {len(urls)} listed; {sum(1 for d in urls if d in saved)} read from the files of earlier runs, "
+                f"{sum(1 for d in urls if d not in saved)} to request")
         else:
             saved = {}
             urls = report_days(log, DRR_FROM, until)

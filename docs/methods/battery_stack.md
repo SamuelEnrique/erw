@@ -210,17 +210,19 @@ ERCOT's stress days are three named events. California's are made by a rule, fro
 - **Days at most three days apart are one event,** named for its first day: `caiso_notices_<YYYYMMDD>`.
 - **Only days the model solved count.** CAISO's prices are held from 1 September 2024, so the heat waves of 2020 and 2022 are not in the table.
 
-The two events inside the held prices, as built on 13 October 2026 (USD per MW of power, the window's days added up):
+The four events inside the held prices, as built on 13 October 2026 (USD per MW of power, the window's days added up). Session 246 built the first two from the notices then held (to 30 April 2025); session 247 read CAISO's report again the same day (its notices now reach 8 October 2026), and the rule wrote the other two without a line of code changing:
 
 | Event | Days | CAISO's notices | 2 hours, day-ahead | 4 hours, day-ahead | 8 hours, day-ahead | 4 hours, perfect foresight | Best day, 4 hours, day-ahead |
 |---|---|---|---|---|---|---|---|
 | `caiso_notices_20240904` | 4 to 9 September 2024 (6 days) | Restricted Maintenance Operations on 4, 5, 6 and 9 September | 3,670 | 4,101 | 4,464 | 3,938 | 5 September: 1,726 |
 | `caiso_notices_20250120` | 20 and 21 January 2025 (2 days) | Restricted Maintenance Operations on both days | 475 | 638 | 854 | 731 | 20 January: 353 |
+| `caiso_notices_20260909` | 9 and 10 September 2026 (2 days) | Restricted Maintenance Operations on both days | 957 | 979 | 983 | 915 | 9 September: 646 |
+| `caiso_notices_20261005` | 5 to 8 October 2026 (4 days) | Restricted Maintenance Operations on each day | 1,976 | 2,135 | 2,314 | 1,930 | 5 October: 676 |
 
-- **The first is California's dearest stretch in the held prices:** the three dearest day-ahead days at SP15 since September 2024 are 5, 6 and 4 September 2024 (the dearest hour USD 614, 310 and 283 per MWh).
+- **The first is California's dearest stretch in the held prices:** the three dearest day-ahead days at SP15 since September 2024 are 5, 6 and 4 September 2024 (the dearest hour USD 614, 310 and 283 per MWh). The fourth holds the next two dearest (5 and 6 October 2026: USD 229 and 209) and the third the one after (9 September 2026: USD 200).
 - **The second is an ordinary pair of days by price.** The rule writes it because CAISO issued the notice; the table does not judge it.
-- **CAISO's notices are held to 30 April 2025.** The report has no schedule (session 218 listed it). Until it is read again, a notice after that date makes no event; when it is, the next run writes it.
-- **These are small beside ERCOT's:** Winter Storm Uri paid the same battery more in a day than either California event in its whole window. That is what the prices and the notices say: no Flex Alert and no emergency stage is among the notices held for September 2024 to April 2025.
+- **CAISO's notices are read every day since session 247** (the data machine's daily run, one document), so a notice makes its event at the next build. They were held to 30 April 2025 until then.
+- **These are small beside ERCOT's:** Winter Storm Uri paid the same battery more in a day than any California event in its whole window. That is what the prices and the notices say: every notice in the held prices is a Restricted Maintenance Operations notice; no Flex Alert and no emergency stage is among them.
 
 ## CAISO beside its market monitor (session 246)
 
@@ -252,7 +254,7 @@ The page was not edited. `site/lib/batterystack.ts` lists CAISO as ready (`ready
 
 | On the page for ERCOT | For CAISO today | What makes it equal | Where |
 |---|---|---|---|
-| The stress days: events, their revenue, the best day, and the table's download | Nothing: `EVENTS` holds ERCOT's three ids, so `stress()` passes over CAISO's rows, and the sentence with the download is drawn only when `x.grid === "ercot"` | The data is in the table now (144 rows, entity `caiso:TH_SP15_GEN-APND`, events `caiso_notices_20240904` and `caiso_notices_20250120`). The page needs: the events read from the rows of the grid shown (an id that begins `caiso_notices_` is a CAISO event; its label is its days, "4 to 9 September 2024"), not from a fixed list; and the sentence for both grids | `site/lib/batterystack.ts` (`EVENTS`, `stress`, the `stress` case of `stat`), `site/app/cost-of-power/battery/page.tsx` (the line that begins `{x.grid === "ercot" ? <> The stress days`), `site/scripts/check-values.mjs` and `check-battery-production.mjs` (they read the stress rows with the grid's filter already) |
+| The stress days: events, their revenue, the best day, and the table's download | Nothing: `EVENTS` holds ERCOT's three ids, so `stress()` passes over CAISO's rows, and the sentence with the download is drawn only when `x.grid === "ercot"` | The data is in the table now (252 rows, entity `caiso:TH_SP15_GEN-APND`, four events: `caiso_notices_20240904`, `caiso_notices_20250120`, `caiso_notices_20260909` and `caiso_notices_20261005`; more will come as CAISO issues notices). The page needs: the events read from the rows of the grid shown (an id that begins `caiso_notices_` is a CAISO event; its label is its days, "4 to 9 September 2024"), not from a fixed list; and the sentence for both grids | `site/lib/batterystack.ts` (`EVENTS`, `stress`, the `stress` case of `stat`), `site/app/cost-of-power/battery/page.tsx` (the line that begins `{x.grid === "ercot" ? <> The stress days`), `site/scripts/check-values.mjs` and `check-battery-production.mjs` (they read the stress rows with the grid's filter already) |
 | One line beside the model's ancillary income: what ERCOT's storage resources were really awarded (`battery_awards_beside.json`) | Nothing: `awardsBeside` returns null unless the grid is ERCOT | The market monitor's figures above play the same part: the real fleet's USD 35 of energy and 9 of regulation per kW in 2025, against the model's 42.31 and 42.25. They are a published report's, not a table's: the line cites the report, as the note's cross-checks do | `site/lib/batterystack.ts` (`awardsBeside`), the page's "Income by stream" |
 | History from 2018: nine years, the scarcity years among them | From September 2024: 25 months. "A bad month" rests on 25 of 36 months and the page says so | Not the page's to fix. CAISO's price history before September 2024 is not held; CAISO's system serves about 39 months back. A pull, for a ruling | `warehouse/connectors` (the hub price history and `caiso_as_prices`) |
 | The link to Ask ERCOT | None | Not needed for the battery page | |
