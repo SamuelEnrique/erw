@@ -110,6 +110,7 @@ export async function EventStudy({ event, grids, primary, price }: { event: stri
       <h3 className="mb-1 text-sm">{name}: the effect of each event day on daily demand served, MWh, with its 95 percent interval</h3>
       <Plot r={lead} label={name} />
       <p className="mb-3 text-xs text-muted">Filled: the day&apos;s interval excludes zero. Open: it includes zero.</p>
+      <div className="overflow-x-auto">
       <table className="mb-2 w-full text-left text-sm">
         <thead><tr className="border-b border-rule text-xs text-muted"><th className="py-1">Grid</th><th>Outcome</th><th className="text-right">Pooled effect</th><th className="text-right">95 percent interval</th><th className="text-right">Percent of expected</th><th className="text-right">Days</th><th className="text-right">Controlling for temperature</th></tr></thead>
         <tbody>
@@ -126,6 +127,7 @@ export async function EventStudy({ event, grids, primary, price }: { event: stri
           ))}
         </tbody>
       </table>
+      </div>
       <details className="text-sm">
         <summary className="cursor-pointer text-muted">Each event day&apos;s estimate, {name}, demand served (MWh)</summary>
         <table className="mt-1 text-left text-xs">

@@ -9,7 +9,7 @@ it says, so nothing here holds a number: the numbers are held by the tests that 
   TheWrapper       every page of the batch draws inside <Brand> (components/Brand.tsx), each of its returns
   NoLookOfItsOwn   no color literal, no rounded corner, no shadow and no font in a page's own files
   ChartsReadTokens the two chart files of the batch read the tokens at the chart's own box, so the brand's are read
-  TheOneRule       the block this session added to app/tokens.css: last, scoped to the wrapper, named for no page
+  TheOneRule       the block this session added to app/tokens.css: scoped to the wrapper, named for no page
   NoDash           no em dash in anything the session wrote
 """
 import os
@@ -32,7 +32,7 @@ PAGES = {
     "/queues": ["app/queues/page.tsx"],
     "/cost-of-power/battery/awards": ["app/cost-of-power/battery/awards/page.tsx", "app/cost-of-power/battery/awards/Offers.tsx", "app/cost-of-power/battery/awards/RealTime.tsx"],
     "/grid/caiso/alerts": ["app/grid/caiso/alerts/page.tsx"],
-    "/events": ["app/events/page.tsx", "app/events/EventWindow.tsx"],
+    "/events": ["app/events/page.tsx", "app/events/EventWindow.tsx", "components/EventStudy.tsx"],
     "/policy": ["app/policy/page.tsx", "app/policy/PolicyTable.tsx", "app/policy/WeekView.tsx"],
 }
 for _e in EVENTS:
@@ -185,8 +185,15 @@ class TheOneRule(unittest.TestCase):
         self.assertIn(".brand-a a.rounded", rules)
         for page in ("supply", "contracts", "bill", "customer", "shoulder", "curtailment", "queues", "awards", "alerts", "events", "policy"):
             self.assertNotIn(page, rules)
-        # it writes no color and no size: a corner and a shadow only
-        self.assertEqual(sorted(set(re.findall(r"([a-z-]+):", rules))), ["border-radius", "box-shadow"])
+        self.assertIn(".brand-a tbody td.text-right.text-xs", rules)
+        # it writes no color: a corner, a shadow, and the scale's small size for a cell the page set small
+        self.assertEqual(sorted(set(re.findall(r"([a-z-]+):", rules))), ["border-radius", "box-shadow", "font-size"])
+        self.assertEqual(re.findall(r"font-size: ([^;]+);", rules), ["12px"])
+
+    def test_the_event_study_tables_scroll_inside_their_frame(self):
+        e = src("components", "EventStudy.tsx")
+        self.assertIn('<div className="overflow-x-auto">' + chr(10) + '      <table className="mb-2 w-full text-left text-sm">', e.replace(chr(13), ""))
+        self.assertEqual(e.count('className="overflow-x-auto"'), 1)
 
     def test_the_rules_before_it_are_as_they_were(self):
         css, start, _ = self.block()

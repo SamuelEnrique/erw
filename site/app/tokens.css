@@ -428,3 +428,9 @@ body:has(.brand-a) header :focus-visible {
   border-radius: 0;
   box-shadow: none;
 }
+/* a cell of figures that the page set small keeps the scale's small size (12): a dense table then stays inside its
+   frame at a desk's width, where at 14 its last columns scrolled out of view */
+.brand-a tbody td.text-right.text-xs,
+.brand-a tbody td.text-right.text-xs span {
+  font-size: 12px;
+}
