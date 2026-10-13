@@ -446,15 +446,60 @@ def monthly_rows(iso, days, left, base):
     return rows
 
 
-def stress_rows(iso, days, base):
-    """The stress table's rows: each held local day inside a stress event's window, per strategy and duration."""
+def ercot_stress_windows():
+    """ERCOT's stress events and their windows: the three of warehouse/derived/event_window.py named in STRESS."""
+    return {w["event"]: (w["start"], w["end"]) for w in ew.EVENTS + ew.MULTI if w["event"] in STRESS}
+
+
+# Session 246: CAISO's stress days, by rule and not by a list. A stress event is a run of local days on which CAISO
+# itself issued a system-wide notice (caiso_grid_emergencies, CAISO's Grid Emergencies History Report): days at most
+# CAISO_NOTICE_GAP days apart are one event, named for its first day. A Transmission Emergency is a local event (a
+# line or a fire) and a voluntary load reduction is a programme, so neither makes a stress day. The windows follow the
+# table: when the notices table gains a day inside the held prices, the next run writes its event.
+CAISO_NOTICES = ("flex_alert", "rmo", "eea_watch", "eea1", "eea2", "eea3", "stage1", "stage2", "stage3", "warning", "alert",
+                 "load_interruption")
+CAISO_NOTICE_GAP = 3
+NOTICES_TABLE = "caiso_grid_emergencies"
+
+
+def caiso_stress_windows(notices, first, last, gap=CAISO_NOTICE_GAP):
+    """{event: (start, end, the notice types)} from CAISO's notices. `notices` is a frame with event_date (YYYY-MM-DD)
+    and event_type; only days from `first` to `last` (the local days the model solved) count."""
+    if notices is None or notices.empty:
+        return {}
+    n = notices[notices["event_type"].isin(CAISO_NOTICES) & (notices["event_date"] >= first) & (notices["event_date"] <= last)]
+    days = sorted(set(n["event_date"]))
+    runs = []
+    for d in days:
+        if runs and (pd.Timestamp(d) - pd.Timestamp(runs[-1][-1])).days <= gap:
+            runs[-1].append(d)
+        else:
+            runs.append([d])
+    out = {}
+    for r in runs:
+        kinds = sorted(set(n[n["event_date"].isin(r)]["event_type"]))
+        out[f"caiso_notices_{r[0].replace('-', '')}"] = (r[0], r[-1], kinds)
+    return out
+
+
+def read_notices(in_dir):
+    """CAISO's notices as a frame (event_date, event_type), or None when the table is not on this machine."""
+    path = os.path.join(in_dir, NOTICES_TABLE + ".csv")
+    if not os.path.exists(path):
+        return None
+    return pd.read_csv(path, skiprows=ip.header_rows(path), dtype=str, keep_default_na=False, usecols=["event_date", "event_type"])
+
+
+def stress_rows(iso, days, base, wins=None):
+    """The stress table's rows: each held local day inside a stress event's window, per strategy and duration.
+    `wins` is {event: (start, end, ...)}; ERCOT's three events when it is not given."""
     m = MARKETS[iso]
     keys = [p["key"] for p in m["products"]]
-    wins = {w["event"]: (w["start"], w["end"]) for w in ew.EVENTS + ew.MULTI if w["event"] in STRESS}
+    wins = ercot_stress_windows() if wins is None else wins
     rows = []
     for (strat, dur), by_day in sorted(days.items()):
-        for event in STRESS:
-            a, b = wins[event]
+        for event in wins:
+            a, b = wins[event][0], wins[event][1]
             for day in sorted(d for d in by_day if a <= d <= b):
                 v = by_day[day]
                 pre = f"{strat}_{dur}h_"
@@ -705,6 +750,7 @@ def main(argv=None):
     try:
         retrieved = ip.utc_iso(pd.Timestamp.now(tz="UTC"))
         rows, srows, used, counts = [], [], [], []
+        stress_said = ["ERCOT (event_window.py): " + "; ".join(f"{e} {w[0]} to {w[1]}" for e, w in ercot_stress_windows().items())]
         for iso, m in MARKETS.items():
             energy = {}
             for mk in ("rtm", "dam"):
@@ -717,7 +763,21 @@ def main(argv=None):
             base = dict(entity=f"{iso}:{hub}", freq="P1M", geo=m["geo"], market=iso, node=hub, source=SOURCE,
                         source_url=METHOD_URL, retrieved_at=retrieved, vintage="")
             rows += monthly_rows(iso, days, left, base)
-            srows += stress_rows(iso, days, base)
+            if iso == "caiso":
+                # session 246: CAISO's stress days are the days of its own system-wide notices inside the days solved
+                solved = sorted(set().union(*(set(d) for d in days.values())))
+                notices = read_notices(in_dir)
+                wins = caiso_stress_windows(notices, solved[0], solved[-1]) if solved else {}
+                if notices is None:
+                    stress_said.append(f"CAISO: {NOTICES_TABLE} is not on this machine; no CAISO stress day is built by this run (earlier rows are kept)")
+                else:
+                    stress_said.append(f"CAISO ({NOTICES_TABLE}, CAISO's own system-wide notices, which this machine holds to {notices['event_date'].max()}; "
+                                       f"days at most {CAISO_NOTICE_GAP} days apart are one event; a Transmission Emergency is local and makes none): "
+                                       + ("; ".join(f"{e} {w[0]} to {w[1]} ({', '.join(w[2])})" for e, w in wins.items()) or "no notice day inside the days solved"))
+                log(f"  caiso stress events: {wins}")
+                srows += stress_rows(iso, days, base, wins)
+            else:
+                srows += stress_rows(iso, days, base)
             for strat in STRATEGIES:
                 n = len(days[(strat, DURATIONS[0])])
                 counts.append(f"{m['label']} {strat}: {n} days held, {len(left[strat])} left out"
@@ -749,7 +809,8 @@ def main(argv=None):
             f"Source: {SOURCE} ERW derived table, the battery revenue stack (docs/methods/battery_stack.md), {METHOD_URL}",
             "Derived from: ercot_all_hub_prices_history; iso_hub_prices_history; iso_rtm_hub_prices; iso_dam_hub_prices; "
             "ercot_as_prices; caiso_as_prices",
-            "The stress events' windows are those of warehouse/derived/event_window.py (the code, not a table).",
+            "The stress events and their windows (CAISO's are the days of its own notices in caiso_grid_emergencies; no "
+            "number of that table is in these rows). " + " | ".join(stress_said),
             "Inputs: " + "; ".join(used),
             "License: public. A derived table inherits the most restrictive license of its inputs (Decision 23); every "
             "input is public. No capacity price is in it: iso_all_capacity_prices is internal and is not read.",
@@ -765,12 +826,14 @@ def main(argv=None):
             "revenue row.",
         ] + common + [f"Kept from the earlier file (it rests on more days than this machine's inputs give): {kept} rows."], log)
         n2 = write_table(STRESS_NAME, sout, scols, [
-            "Energy Research Warehouse (ERW): the battery revenue stack on ERCOT's stress days, per MW and local day "
-            "(Winter Storm Uri 2021, Winter Storm Elliott 2022, the summer 2023 heat), by duration and strategy (derived, session 67)",
+            "Energy Research Warehouse (ERW): the battery revenue stack on stress days, per MW and local day: ERCOT's "
+            "(Winter Storm Uri 2021, Winter Storm Elliott 2022, the summer 2023 heat) and, since session 246, CAISO's (the "
+            "days of CAISO's own system-wide notices inside the held prices), by duration and strategy (derived, session 67)",
             "Shape: series (docs/datastandard.md v0), partition column market; freq P1D, ts_utc the local day at 00:00:00Z. "
             "Variables <strategy>_<N>h_<metric>: revenue_energy_usd_per_mw, revenue_ancillary_usd_per_mw, "
             "revenue_total_usd_per_mw (USD/MW); event the event whose window holds the day "
-            "(event_window.py: " + "; ".join(f"{w['event']} {w['start']} to {w['end']}" for w in ew.EVENTS + ew.MULTI if w["event"] in STRESS) + ").",
+            "(event_window.py: " + "; ".join(f"{e} {w[0]} to {w[1]}" for e, w in ercot_stress_windows().items())
+            + "; a CAISO event is caiso_notices_<its first day>).",
         ] + common + [f"Kept from the earlier file: {skept} rows."], log)
         ip.update_sources([{"source": SOURCE, "publisher": "Energy Research Warehouse (ERW), derived",
                             "report": "The battery revenue stack: energy and ancillary services co-optimized, per MW "
