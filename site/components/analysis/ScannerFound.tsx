@@ -1,5 +1,5 @@
 "use client";
-// Session 181: the scanner's approved drafts on /analysis, in their own group, each marked "Found by the scanner" with
+// Session 181: the scanner's approved drafts on /research, in their own group, each marked "Found by the scanner" with
 // the date it flagged and the day it was approved. Read from /internal/findings/approved, which answers only the
 // internal view: a draft appears here after a person approved it at /internal/findings, never before, and a
 // dismissed draft never does. The cards are the scanner's own (chart, callouts, footnote computed by code; no paragraph).

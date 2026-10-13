@@ -159,6 +159,24 @@ if (fs.existsSync(digestCharts)) {
     if (/^\d{4}-\d{2}-\d{2}\.png$/.test(f)) fs.copyFileSync(path.join(digestCharts, f), path.join(publicDigestCharts, f));
   }
 }
+// Session 238: each day's record beside its picture (docs/digest/charts/<date>.json), for /research: the one fact, the
+// table and the source it was read from, as the warehouse wrote them. A day with a picture and no record is not listed.
+const digestChartRecords = {};
+if (fs.existsSync(digestCharts)) {
+  for (const f of fs.readdirSync(digestCharts).sort()) {
+    const m = f.match(/^(\d{4}-\d{2}-\d{2})\.json$/);
+    if (!m || !fs.existsSync(path.join(digestCharts, `${m[1]}.png`))) continue;
+    const r = JSON.parse(read(path.join(digestCharts, f)));
+    digestChartRecords[m[1]] = { date: r.date ?? m[1], title: r.title ?? "", fact: r.fact ?? "", table: r.table ?? "", source: r.flag?.source ?? "", unit: r.flag?.unit ?? "",
+      rule: r.flag?.rule ?? "", rendered_at: r.rendered_at ?? "", image: `${m[1]}.png`, proof: r.proof === true };
+  }
+}
+
+// Session 238: the downloads the finding cards may link (site/public/findings/: each card's CSV, Python file and Stata
+// do-file), by name, so that /research names a file "not held" instead of linking one that is not there. Listed here,
+// at build, because a page drawn again later is drawn by a server function, which does not hold the public folder.
+const findingsPublic = path.join(here, "..", "public", "findings");
+const findingsFiles = fs.existsSync(findingsPublic) ? fs.readdirSync(findingsPublic).filter((f) => /\.(csv|py|do)$/.test(f)).sort() : [];
 
 // Session 24: the platform's tool counts by status, from docs/platform-tools.md (for /about)
 const platform = { total: 0, yes: 0, partial: 0, no: 0, planned: 0 };
@@ -182,6 +200,8 @@ const out = {
   grids,
   platform,
   analysis,
+  digest_charts: digestChartRecords,
+  findings_files: findingsFiles,
   sources: sources(),
   run_status_eia930: runStatus(),
   digests,

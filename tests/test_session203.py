@@ -92,7 +92,12 @@ class TheMenu(unittest.TestCase):
         cfg = src("site", "next.config.ts")
         for h in folded:
             self.assertIn(f'source: "{h}", ', cfg, h)
-        self.assertEqual(now, sorted(h for h in BEFORE if h not in folded))
+        # session 238 (the owner's task of 12 October 2026): Automated Analysis is Research, at /research; the old
+        # address is not dropped, it redirects (next.config.ts). Every other page keeps its address.
+        moved = {"/analysis": "/research"}
+        for old, new in moved.items():
+            self.assertIn('{ source: "%s", destination: "%s", permanent: true }' % (old, new), src("site", "next.config.ts"))
+        self.assertEqual(now, sorted(moved.get(h, h) for h in BEFORE if h not in folded))   # sessions 237 and 238 together
         self.assertEqual(len(now), len(set(now)))                                           # each page once
         for p in self.all:
             self.assertTrue(p["line"], p["href"])

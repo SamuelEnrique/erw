@@ -143,7 +143,7 @@ def chart_of_the_week(label, log):
     if m.get("note"):
         L += [m["note"], ""]
     L.append(f"{m['source_line']} Template `{m['template']}`; every template's latest run is on "
-             "[/analysis](/analysis).")
+             "[/research](/research).")
     return L
 
 

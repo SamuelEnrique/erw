@@ -12,7 +12,7 @@
 //              paragraph, and three buttons; the page is noindex and no-store
 //   rulings    Approve, Dismiss and Ask for a full card are POSTs that change the state, each kept with its time; a bad
 //              id, a bad state, a body that is not JSON and a request from another origin are refused
-//   /analysis  the approved draft is in the scanner's group, marked "Found by the scanner" with its date; the
+//   /research  the approved draft is in the scanner's group, marked "Found by the scanner" with its date; the
 //              dismissed one and the ones not ruled on are not (the list the page reads, and the page in a real browser)
 //   a request  a done request's card is read from its queue row (GET /api/analysis?id=): drawn under the list in a
 //              browser, with its numbers, its second chart and three downloads; the CSV the page makes holds the rows
@@ -121,18 +121,18 @@ try {
     && new RegExp(`data-draft-review="${c.id}" data-draft-state="full_card_asked"`).test(after.html), "the page shows the three rulings");
   check(after.html.includes('data-n="approved">1<') && after.html.includes('data-n="dismissed">1<') && after.html.includes(`data-n="full_card_asked">${withFull ? 2 : 1}<`), "the counts by state follow");
 
-  // /analysis
+  // /research
   const ap = await fetch(`${base}/internal/findings/approved`, { headers: { Cookie: cookie } });
   const apj = await ap.json();
   check(ap.status === 200 && apj.drafts.length === 1 && apj.drafts[0].id === a.id && apj.drafts[0].card.draft === true, "the approved list holds the approved draft alone", `(${apj.drafts.map((d) => d.id).join(", ")})`);
   check(/no-store/.test(ap.headers.get("cache-control") ?? ""), "the approved list is no-store");
-  const an = await fetch(`${base}/analysis`, { headers: { Cookie: cookie } });
+  const an = await fetch(`${base}/research`, { headers: { Cookie: cookie } });
   const anHtml = await an.text();
-  check(an.status === 200 && text(anHtml).includes("Found by the scanner") && anHtml.includes("data-scanner-cards="), "/analysis has the scanner's group");
+  check(an.status === 200 && text(anHtml).includes("Found by the scanner") && anHtml.includes("data-scanner-cards="), "/research has the scanner's group");
   check(anHtml.includes('data-impact-form="1"') && anHtml.includes('data-impact-input="series"') && anHtml.includes('data-impact-input="control"') && anHtml.includes('data-impact-input="event"')
-    && anHtml.includes('data-impact-input="window"') && anHtml.includes('data-impact-reset="1"'), "/analysis has the impact study's inputs with a Reset");
-  check(!anHtml.includes(b.id), "the dismissed draft is nowhere in /analysis's HTML");
-  const visitor = await fetch(`${base}/analysis`);
+    && anHtml.includes('data-impact-input="window"') && anHtml.includes('data-impact-reset="1"'), "/research has the impact study's inputs with a Reset");
+  check(!anHtml.includes(b.id), "the dismissed draft is nowhere in /research's HTML");
+  const visitor = await fetch(`${base}/research`);
   check((await visitor.text()).includes('data-in-review="1"'), "a visitor still sees the in-review page");
 
   // a request's card, read from its queue row (the stand-in holds one done request: the committed impact card)
@@ -149,7 +149,7 @@ try {
 
   const seen = await withBrowser(async ({ go, wait, evaluate, unlock: open, send, errors }) => {
     await open(base);
-    await go(`${base}/analysis`);
+    await go(`${base}/research`);
     await wait(`!!document.querySelector('[data-request-show="${DONE_ID}"]')`, 20000, "the done request in the list");
     await evaluate(`document.querySelector('[data-request-show="${DONE_ID}"]').click()`);
     await wait(`!!document.querySelector('[data-request-card="done"] [data-more-chart] canvas')`, 20000, "the request's card with its second chart");
@@ -174,13 +174,13 @@ try {
     const s = await evaluate(`({ found: [...document.querySelectorAll("[data-found-by-scanner]")].map((e) => e.dataset.foundByScanner + "|" + e.textContent),
       cards: [...document.querySelectorAll("[data-scanner-cards] [data-card]")].map((e) => e.dataset.card), chart: !!document.querySelector("[data-scanner-cards] [data-finding-chart] canvas"),
       draftMarks: document.querySelectorAll("[data-scanner-cards] [data-draft-mark]").length })`);
-    check(s.cards.length === 1 && s.cards[0] === a.id, "in a browser, /analysis draws the approved draft and no other", `(${s.cards.join(", ")})`);
+    check(s.cards.length === 1 && s.cards[0] === a.id, "in a browser, /research draws the approved draft and no other", `(${s.cards.join(", ")})`);
     check(s.found.length === 1 && s.found[0].startsWith(`${a.id}|Found by the scanner, flagged ${a.flag_date}`), "it is marked Found by the scanner with its date", `(${s.found[0]})`);
     check(s.chart, "its chart is drawn (a canvas that answers the mouse)");
     await send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 2, mobile: true });
-    for (const p of ["/internal/findings", "/analysis"]) {
+    for (const p of ["/internal/findings", "/research"]) {
       await go(`${base}${p}`);
-      await wait(p === "/analysis" ? `!!document.querySelector('[data-impact-form]')` : `!!document.querySelector('[data-drafts]')`, 20000, `${p} at 390 px`);
+      await wait(p === "/research" ? `!!document.querySelector('[data-impact-form]')` : `!!document.querySelector('[data-drafts]')`, 20000, `${p} at 390 px`);
       const w = await evaluate(`({ scroll: document.documentElement.scrollWidth, client: document.documentElement.clientWidth,
         form: (() => { const f = document.querySelector('[data-impact-form]'); return f ? Math.round(f.getBoundingClientRect().right) : null; })() })`);
       check(w.client === 390 && w.scroll <= w.client + 1, `${p} at 390 px does not scroll sideways`, `(scroll width ${w.scroll}, width ${w.client}${w.form !== null ? `, the form ends at ${w.form}` : ""})`);
@@ -188,7 +188,7 @@ try {
     check(errors.length === 0, "no exception in the pages", errors.slice(0, 2).join(" | "));
     return 0;
   });
-  if (seen === null) console.log("note no browser on this machine: the browser checks of /analysis and of 390 px are not proven here");
+  if (seen === null) console.log("note no browser on this machine: the browser checks of /research and of 390 px are not proven here");
   code = bad ? 1 : 0;
 } catch (e) {
   console.log(`FAILED: ${e.message}`);

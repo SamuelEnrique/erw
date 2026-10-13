@@ -6,13 +6,28 @@ import { CardChart } from "./CardChart";
 import { FormChart } from "./FormChart";   // session 182, part 4: the card's chart in a chosen form (the default: as before)
 import { RoundupButton } from "./RoundupButton";
 import type { Card } from "@/lib/findings";
+import type { ReactNode } from "react";
+
+// Session 238 (/research, one card a screen): with `fold` the card's method footnote, its table of estimates and its
+// further charts stand under one fold, closed until it is opened, so that the claim, the chart, the numbers, the why,
+// the files and the source fill about one window. Nothing is dropped: the fold holds the same markup. Without `fold`
+// (a card's own page, the review list, the renderer's frame) the card is as it was.
+function Unfolded({ children }: { children: ReactNode }) { return <>{children}</>; }
+function Folded({ children, title }: { children: ReactNode; title?: string }) {
+  return <details className="fold-more" data-finding-more="1"><summary>{title}</summary>{children}</details>;
+}
 
 const fmtP = (p: number) => (p < 0.001 ? "< 0.001" : p.toFixed(3));
 const fmtN = (v: number, nd = 2) => v.toLocaleString("en-US", { maximumFractionDigits: nd, minimumFractionDigits: nd });
 
 // Session 182, part 4: `formKey` names where the chosen chart form is kept in the address ("form" on a card's own page;
 // by default form.<card id>, so that several cards on one page keep their own). The renderer's frame draws the default.
-export function FindingCard({ card, render = false, roundup = true, found, files = true, formKey }: { card: Card; render?: boolean; roundup?: boolean; found?: string; files?: boolean; formKey?: string }) {
+// Session 238 (/research, the findings library): `held` says which of the card's three files the site holds
+// (lib/research.ts, filesHeld). A file that is not held is named "not held" and is never a link; without `held` the
+// row is as it was.
+export function FindingCard({ card, render = false, roundup = true, found, files = true, formKey, held, fold = false }: { card: Card; render?: boolean; roundup?: boolean; found?: string; files?: boolean; formKey?: string; held?: { csv: boolean; python: boolean; stata: boolean }; fold?: boolean }) {
+  const More = fold && !render ? Folded : Unfolded;
+  const moreTitle = `Method${card.effect_table ? ", the table of estimates" : ""}${card.more_charts?.length ? ", a further chart" : ""}`;
   const dl = card.downloads ? `/findings/${card.downloads.csv}` : "";
   return (
     <article className={`finding-card ${render ? "finding-card-render" : ""}`} data-finding={card.id} data-card={card.card_id}>
@@ -50,6 +65,7 @@ export function FindingCard({ card, render = false, roundup = true, found, files
         ))}
       </div>
       {card.why ? <p className="finding-why mt-3 max-w-3xl text-sm" data-finding-why="1">{card.why}</p> : null}
+      <More title={moreTitle}>
       {card.effect_table ? (
         <div className="mt-3 overflow-x-auto" data-effect-table="1">
           <table className="w-full max-w-3xl text-xs">
@@ -79,18 +95,20 @@ export function FindingCard({ card, render = false, roundup = true, found, files
         </figure>
       ))}
       <p className="finding-footnote mt-3 max-w-3xl break-words text-[11px] leading-snug text-muted" data-finding-footnote="1">{card.footnote}</p>
+      </More>
       {!render && card.downloads && files ? (
         <p className="mt-2 flex flex-wrap items-center gap-3 text-xs">
           <span className="text-muted">Downloads:</span>
-          <a href={dl} download data-download="csv">data (CSV)</a>
-          <a href={`/findings/${card.downloads.python}`} download data-download="python">Python</a>
-          <a href={`/findings/${card.downloads.stata}`} download data-download="stata">Stata do-file</a>
+          {held && !held.csv ? <span className="text-muted" data-not-held="csv">data (CSV): not held</span> : <a href={dl} download data-download="csv">data (CSV)</a>}
+          {held && !held.python ? <span className="text-muted" data-not-held="python">Python: not held</span> : <a href={`/findings/${card.downloads.python}`} download data-download="python">Python</a>}
+          {held && !held.stata ? <span className="text-muted" data-not-held="stata">Stata do-file: not held</span> : <a href={`/findings/${card.downloads.stata}`} download data-download="stata">Stata do-file</a>}
           <span className="text-muted">Renders:</span>
           <a href={`/findings/${card.card_id}_1080x1350.png`} data-download="png-linkedin">1080 x 1350</a>
           <a href={`/findings/${card.card_id}_1600x900.png`} data-download="png-x">1600 x 900</a>
           {roundup ? <RoundupButton cardId={card.card_id} /> : null}
         </p>
       ) : null}
+      {!render && held && !card.downloads && files ? <p className="mt-2 text-xs text-muted" data-not-held="all">Downloads: data (CSV), Python and Stata do-file: not held.</p> : null}
       <p className="mt-1 break-words text-[11px] text-muted">{card.source_line} Computed {card.computed_at.replace("T", " ").replace("Z", " UTC")}.</p>
     </article>
   );

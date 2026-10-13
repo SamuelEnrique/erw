@@ -1,7 +1,7 @@
 import { EChartOption } from "@/components/EChartOption";
 import type { ChartOfWeek } from "@/lib/markdown";
 
-// Session 23: the chart of the week, as on /analysis and /analysis/<week>
+// Session 23: the chart of the week, as on /research and /research/<week>
 export function ChartOfWeekView({ c }: { c: ChartOfWeek }) {
   const base = `/analysis-files/${c.week}`;
   return (

@@ -82,7 +82,7 @@ The plan of record is `docs/platform-tools.md` (31 tools, some planned). This li
 |---|---|---|---|---|
 | ERW's Energy Digest | `/digest`, `/digest/<date>` | What happened in energy today? | everyone | `news_index`, `docs/digest/` |
 | ERW's Roundup | `/roundup`, `/roundup/<week>` | What happened this week, and what was the chart of the week? | everyone | `news_index`, `energy_deals`, `datacenter_projects`, `docs/roundup/` |
-| Automated Analysis | `/analysis`, `/analysis/<week>` | What do the house chart templates show this week? | researchers | the price, EIA-930, curtailment, battery, trader view, deal and datacenter tables |
+| Research (Automated Analysis until session 238; `/analysis` redirects) | `/research`, `/research/<week>`, `/research/card/<id>` | What do the house chart templates show this week? | researchers | the price, EIA-930, curtailment, battery, trader view, deal and datacenter tables |
 | Email | `/subscribe` | How do I get the digest and the Roundup by email? | everyone | Supabase subscribers (insert only) |
 
 ## Data and research

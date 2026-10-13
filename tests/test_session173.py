@@ -55,7 +55,7 @@ class TheFonts(unittest.TestCase):
             self.assertIn(word, r, word)
 
     def test_the_render_frame_hides_the_site_header_and_fits_the_wide_frame(self):
-        css = src("site", "app", "analysis", "card", "render.css")
+        css = src("site", "app", "research", "card", "render.css")  # session 238: the page moved to site/app/research (Research, /research)
         self.assertIn("body:has(.finding-render) > header", css)
         self.assertIn("body:has(.finding-render) > footer", css)
         self.assertIn("@media (min-aspect-ratio: 3/2)", css)
@@ -72,7 +72,7 @@ class TheFonts(unittest.TestCase):
             self.assertTrue(os.path.exists(os.path.join(ROOT, "docs", "analysis", "findings", f"{name}_1600x900.png")), name)
 
     def test_the_render_frame_and_the_renderer_name_these_files(self):
-        css = src("site", "app", "analysis", "card", "render.css")
+        css = src("site", "app", "research", "card", "render.css")  # session 238: the page moved to site/app/research (Research, /research)
         mjs = src("site", "scripts", "render-cards.mjs")
         for name in ("SourceSerif4-Variable.ttf", "SourceSerif4-Italic-Variable.ttf", "Inter-Variable.ttf"):
             self.assertIn(name, css, name)

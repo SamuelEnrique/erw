@@ -1,4 +1,4 @@
-// Energy Research Warehouse (ERW) site, session 181: the scanner's approved drafts, for /analysis.
+// Energy Research Warehouse (ERW) site, session 181: the scanner's approved drafts, for /research.
 //   GET /internal/findings/approved     answers { drafts: [{ id, flag_date, approved_at, card }] }
 // Only a browser in the internal view is answered (the cookie /internal/open sets); anything else gets 404 with an
 // empty body, as /api/analysis does. The list holds approved drafts and nothing else: a draft not yet ruled on, a

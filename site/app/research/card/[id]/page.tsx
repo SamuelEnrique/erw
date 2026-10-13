@@ -4,10 +4,13 @@ import { SiteLink as Link } from "@/components/SiteLink";
 import { FindingCard } from "@/components/analysis/FindingCard";
 import { loadCard, loadCards } from "@/lib/findings";
 import "../render.css";
+import { Brand } from "@/components/Brand";   // session 238: the card on its own page takes the brand; the frame of the renderer does not
+import { ToolPage } from "@/components/tool/ToolPage";
+import { filesHeld } from "@/lib/research";
 
 // Session 170: one finding card on its own address, and the frame the renderer photographs (scripts/render-cards.mjs)
 // at 1080 x 1350 and 1600 x 900 with ?render=1: the card alone in the bundled fonts (Source Serif 4 for the title and
-// subtitle, Inter for the rest), nothing else on the page. In review like /analysis.
+// subtitle, Inter for the rest), nothing else on the page. In review like /research.
 export const dynamicParams = false;
 
 export function generateStaticParams() {
@@ -18,7 +21,7 @@ type Props = { params: Promise<{ id: string }>; searchParams: Promise<Record<str
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const c = loadCard((await params).id);
-  return { title: c ? `${c.title}: Automated Analysis` : "Automated Analysis" };
+  return { title: c ? `${c.title}: Research` : "Research" };
 }
 
 export default async function CardPage({ params, searchParams }: Props) {
@@ -31,14 +34,20 @@ export default async function CardPage({ params, searchParams }: Props) {
     return (
       <div className="finding-render" data-render="1">
         <FindingCard card={c} render />
-        <p className="finding-render-foot">Energy Research Warehouse, erw-flame.vercel.app/analysis</p>
+        <p className="finding-render-foot">Energy Research Warehouse, erw-flame.vercel.app/research</p>
       </div>
     );
   }
   return (
-    <>
-      <p className="mb-4 text-sm"><Link href="/analysis">Automated Analysis</Link></p>
-      <FindingCard card={c} formKey="form" />
-    </>
+    <Brand>
+      <ToolPage>
+        <div data-chart-tokens="1">
+          <p className="mb-4 text-sm"><Link href="/research">Research</Link></p>
+          {/* session 238: a file the site does not hold is named "not held" under the card; the row of the card is as it was */}
+          <FindingCard card={c} formKey="form" />
+          {(() => { const h = filesHeld(c); const none = [!h.csv && "data (CSV)", !h.stata && "Stata do-file", !h.python && "Python file"].filter(Boolean); return none.length ? <p className="text-xs text-muted" data-not-held="page">Not held: {none.join(", ")}.</p> : null; })()}
+        </div>
+      </ToolPage>
+    </Brand>
   );
 }

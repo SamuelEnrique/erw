@@ -1,6 +1,6 @@
 // Energy Research Warehouse (ERW) site, session 170: Automated Analysis findings. The cards are JSON files the engine
 // wrote (warehouse/analysis/findings/run_finding.py) into data/findings/, read here at build; the downloads sit in
-// public/findings/. The catalogue (data/findings/catalogue.json) says what a person may ask for on /analysis.
+// public/findings/. The catalogue (data/findings/catalogue.json) says what a person may ask for on /research.
 import fs from "node:fs";
 import path from "node:path";
 import type { ChartSpec } from "./findingchart";
