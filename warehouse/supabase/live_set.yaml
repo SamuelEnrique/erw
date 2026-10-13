@@ -18,7 +18,8 @@ full:
                                                  # planned generators reach Supabase through energy_projects
   - '^(?!lbnl_)[a-z]+_interconnection_queue$'   # entities tables (session 62: not Berkeley Lab's national history)
   - '^eia_fuel_spot_prices$'
-  - '^fred_daily_spot_prices$'
+  # session 207: fred_daily_spot_prices is retired (warehouse/metadata/retired_tables.csv); its rows in Supabase stay
+  # until a person runs load.py --prune
   - '^energy_deals$'                            # session 15: the deal tracker (public; the evidence table is internal)
   - '^caiso_grid_emergencies$'                  # session 58: CAISO's Flex Alerts and emergencies, 1998 on (events)
   - '^caiso_reliability_daily$'                 # session 58: how tight was it, CAISO's evenings day by day (derived)
@@ -220,7 +221,7 @@ catalogue_hold:
   - eia_regional_retail_fuel_prices
   - eia_crude_stream_prices
   - eia_power_plant_fuel_costs
-  - fred_treasury_yields
+  - frb_treasury_yields      # session 207: was fred_treasury_yields
   - imf_commodity_prices
   - carb_lcfs_credit_prices
   # session 134: supply and trade (about 46,000 rows in five tables). The review page /supply reads the site's own file
@@ -350,7 +351,7 @@ sources_hold:
   - eia:petroleum/pri/imc2
   - eia:petroleum/pri/rac2
   - eia:electricity/electric-power-operational-data:cost
-  - fred:h15_treasury_yields
+  - frb:h15_treasury_yields  # session 207: was fred:h15_treasury_yields
   - imf:pcps
   - carb:lcfs_weekly_credit_price
   - eia:nymex_futures_petroleum        # session 127, EIA's NYMEX futures to 5 April 2024 (internal; no page shows them)
@@ -414,6 +415,15 @@ sources_hold:
   - noaa:lcd_v2                        # session 126, the same page (NOAA's Local Climatological Data from August 2025)
   - erw:demand_weather                 # session 126, the same page
   - census:popest_cbsa                 # session 129, the same page (the stations' weights)
+
+# Session 206 (the owner's ruling of 12 October 2026): tables loaded as a union by their key, not as a replacement. Each
+# machine appends to its own copy of the cost ledger (GitHub's runner, the data machine, a session's laptop), so no one
+# copy holds every row, and from 9 to 12 October 2026 the daily run's load refused the ledger every day as "older than
+# the live copy". For a table here the loader adds the rows the file holds and Supabase lacks (by event_id), rewrites a
+# row whose body changed, removes none, and the older-than-live guard does not apply. Supabase may then hold more rows
+# than the file: that is the union, and it is a match.
+union_by_key:
+  - '^api_cost_ledger$'
 
 # The catalogue (coverage.csv) and the source registry are loaded whole.
 catalogue: warehouse/metadata/coverage.csv

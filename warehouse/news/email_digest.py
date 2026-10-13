@@ -368,6 +368,30 @@ def send_day(kind, now=None):
     return (now - dt.timedelta(hours=3 if kind == "roundup" else 0)).date().isoformat()
 
 
+def issue_of(path):
+    """The issue's label from the file's title line, as render() reads it: "ERW's Energy Digest, 2026-10-12" gives
+    2026-10-12. "" when the file is not there or has no title."""
+    if not os.path.exists(path):
+        return ""
+    with open(path, encoding="utf-8") as f:
+        first = f.readline()
+    title = first.lstrip("# ").strip()
+    return title.split(", ")[-1] if title else ""
+
+
+def not_todays_issue(path=None, now=None):
+    """Session 206 (the owner's ruling of 12 October 2026): with --auto the digest is sent only when the newest issue
+    is today's (UTC). The reason it is not, or None. When the day's brief was not written, docs/digest/latest.md is
+    still the last issue written, and until this check the step sent it again under today's claim (Friday's issue
+    went out again on Monday 5 October 2026)."""
+    today = (now or dt.datetime.now(dt.timezone.utc)).date().isoformat()
+    issue = issue_of(path or DIGEST)
+    if issue == today:
+        return None
+    return (f"the newest digest is the issue of {issue or 'no date'}, not today's ({today} UTC): today's brief was not "
+            "written, so nothing is sent (session 206: a day without a brief sends no email)")
+
+
 def already_sent(kind, now=None):
     """Session 119: the earlier send of this kind for today's send day, or None. Read only: it asks the guard's table
     (digest_sends) and claims nothing. A row counts once something went out (status sent or partial); a claim still open
@@ -521,6 +545,13 @@ def main(argv=None):
         log(msg)
         print(f"news_email SKIPPED: {msg}")
         ip.write_status("news_email", run_id, [dict(table="email", market="daily", status="skipped", detail=msg)])
+        log.close()
+        return 0
+    if args.auto and not_todays_issue():  # session 206: no brief today, no email today
+        msg = not_todays_issue()
+        log(msg)
+        print(f"news_email SKIPPED: {msg}")
+        ip.write_status("news_email", run_id, [dict(table="email", market="daily", status="skipped", detail=msg[:300])])
         log.close()
         return 0
     results = []

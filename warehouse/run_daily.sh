@@ -106,7 +106,7 @@ model_step() {
   # session 28: model_step <name> <command...>: a step that calls the Claude API. With MODEL_STEPS=0 (a local test
   # run that must spend nothing) it is skipped and recorded as skipped; CI never sets it
   # Session 176: before each one, warehouse/health.py budget asks whether the day's spend of all scheduled model steps
-  # has reached DAILY_MODEL_USD (default 1.00). At the cap the step is not run: a skipped row of erw_health, a warning
+  # has reached DAILY_MODEL_USD (1.50 since session 206, set in the workflows; 1.00 before). At the cap the step is not run: a skipped row of erw_health, a warning
   # and the same-day email say so (exit 75). A step named with NO_MODEL_FLAG (the digest) runs with that flag instead
   # and publishes without its model-written parts. A budget that cannot be read never switches a step off.
   if [ "${MODEL_STEPS:-1}" = "0" ]; then
@@ -136,6 +136,11 @@ run_other() {
   if [ "$rc" -eq 0 ] && grep -q "^${name} SKIPPED" "$out"; then
     # session 10 ruling 3: a derived script without its inputs in CI skips with a warning
     echo "$name skipped: $(grep -m1 "^${name} SKIPPED" "$out" | sed "s/^${name} SKIPPED: //")" >> "$status"
+  elif [ "$rc" -eq 75 ]; then
+    # session 206 (the owner's ruling of 12 October 2026): a connector whose every table is a known gap on this runner
+    # (warehouse/metadata/known_gaps.csv; iso_prices.gap_skip) exits 75, the skip exit warehouse/health.py uses, with a
+    # SKIPPED line naming the gap: recorded as skipped, not failed
+    echo "$name skipped: $(grep -m1 "SKIPPED" "$out" | sed -E "s/^[a-z0-9_]+ ([a-z0-9_]+ )?SKIPPED: //" | cut -c1-300)" >> "$status"
   elif [ "$rc" -eq 0 ]; then
     echo "$name ok" >> "$status"
   else
@@ -191,10 +196,11 @@ run_other eia_series "$PYTHON" warehouse/connectors/eia_series.py
 run_other generation_mix "$PYTHON" warehouse/derived/generation_mix.py
 
 # Session 7 price board: PJM RPM capacity prices (internal), CARB and RGGI carbon
-# auctions (internal), FRED series without a key (public domain daily; IMF monthly internal)
+# auctions (internal). Session 207 (the owner's ruling of 12 October 2026): the FRED series are no longer pulled or
+# stored (fred_series.py; warehouse/metadata/retired_tables.csv): the spot prices are EIA's own (eia_fuels.py, above),
+# the Treasury yields the Board's own (frb_treasury.py, in warehouse/refresh_board.sh)
 run_other capacity_prices "$PYTHON" warehouse/connectors/capacity_prices.py
 run_other carbon_auctions "$PYTHON" warehouse/connectors/carbon_auctions.py
-run_other fred_series "$PYTHON" warehouse/connectors/fred_series.py
 # IMF PortWatch daily chokepoint transits (session 8; internal until terms are confirmed)
 run_other portwatch "$PYTHON" warehouse/connectors/portwatch.py
 # Session 18: the curtailment tracker (tool 22): CAISO and SPP curtailment, ERCOT output below HSL,

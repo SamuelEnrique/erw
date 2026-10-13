@@ -224,7 +224,6 @@ questions:
   text: []
   tables:
   - eia_fuel_spot_prices
-  - fred_daily_spot_prices
   refuse: false
   internal: false
   note: ''
@@ -252,7 +251,6 @@ questions:
   - '2026'
   tables:
   - eia_fuel_spot_prices
-  - fred_daily_spot_prices
   refuse: false
   internal: false
   note: on 2026-01-23
@@ -319,7 +317,6 @@ questions:
   text: []
   tables:
   - eia_fuel_spot_prices
-  - fred_daily_spot_prices
   refuse: false
   internal: false
   note: ''

@@ -33,9 +33,9 @@ export const GROUPS: { id: string; title: string; note: string; spread?: boolean
 /** Named by the master plan and not on the board, each with the reason and the source that would supply it. */
 export const NOT_HELD: { name: string; why: string; source: string }[] = [
   { name: "Regional natural gas hubs (Waha, SoCal Citygate, Algonquin, Transco Zone 6, Chicago and others)", why: "not held: licensed source needed", source: "S&P Global Commodity Insights (Platts) or Natural Gas Intelligence, daily indices" },
-  { name: "TTF, the Dutch gas benchmark", why: "not held: licensed source needed", source: "ICE Endex or LSEG. A monthly average of European gas from the IMF is in fred_imf_commodity_prices; it is not a daily price" },
-  { name: "JKM, the Japan-Korea LNG marker", why: "not held: licensed source needed", source: "S&P Global Commodity Insights (Platts). A monthly average of Japan's LNG import price from the IMF is in fred_imf_commodity_prices" },
-  { name: "Uranium", why: "not held: licensed source needed", source: "UxC or TradeTech, weekly spot. A monthly average from the IMF is in fred_imf_commodity_prices" },
+  { name: "TTF, the Dutch gas benchmark", why: "not held: licensed source needed", source: "ICE Endex or LSEG. A monthly average of European gas from the IMF is in imf_commodity_prices; it is not a daily price" },
+  { name: "JKM, the Japan-Korea LNG marker", why: "not held: licensed source needed", source: "S&P Global Commodity Insights (Platts). A monthly average of Japan's LNG import price from the IMF is in imf_commodity_prices" },
+  { name: "Uranium", why: "not held: licensed source needed", source: "UxC or TradeTech, weekly spot. A monthly average from the IMF is in imf_commodity_prices" },
   { name: "Carbon allowances by the day (California, RGGI, the European Union)", why: "not held: licensed source needed", source: "ICE. The quarterly auction results of California and RGGI are held and not shown: their license is under review" },
   { name: "Lithium", why: "not held: licensed source needed", source: "Fastmarkets or Benchmark Mineral Intelligence" },
   { name: "NYMEX futures (crude oil, gasoline, heating oil, natural gas)", why: "not held after 5 April 2024: licensed source needed", source: "CME Group. EIA published contracts 1 to 4 until that day and then stopped; the history from 2019 is held and not shown" },

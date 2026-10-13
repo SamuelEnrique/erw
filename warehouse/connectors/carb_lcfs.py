@@ -135,13 +135,22 @@ def main(argv=None):
         print(f"{NAME}: {len(table):,} values, newest {table['ts_utc'].max()[:10]}; {note}")
     except Exception:
         tb = ip.redact(traceback.format_exc())
-        log(f"FAILED:\n{tb}")
-        print(f"{CONNECTOR} FAILED: {tb.strip().splitlines()[-1]}", file=sys.stderr)
-        results.append(dict(table=NAME, market="all", status="failed", detail=tb.strip().splitlines()[-1][:300]))
+        last = tb.strip().splitlines()[-1]
+        why = ip.gap_skip(NAME, last)  # session 206: a known gap on the runner is a skip, not a failure
+        if why:
+            log(f"SKIPPED: {why}\n{tb}")
+            print(f"{CONNECTOR} SKIPPED: {why}")
+            results.append(dict(table=NAME, market="all", status="skipped", detail=why[:300]))
+        else:
+            log(f"FAILED:\n{tb}")
+            print(f"{CONNECTOR} FAILED: {last}", file=sys.stderr)
+            results.append(dict(table=NAME, market="all", status="failed", detail=last[:300]))
     if not args.out_dir:
         ip.write_status(CONNECTOR, run_id, results)
     log.close()
-    return 0 if all(r["status"] == "ok" for r in results) else 1
+    if any(r["status"] == "failed" for r in results):
+        return 1
+    return ip.skip_exit() if any(r["status"] == "skipped" for r in results) else 0
 
 
 if __name__ == "__main__":

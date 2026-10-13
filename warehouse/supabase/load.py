@@ -515,9 +515,15 @@ def older_than_live(client, name, df, shape, conn=None):
     return None
 
 
-def sync_table(client, name, df, shape, license_, loaded_at, days, now, conn=None):
+def union_table(name):
+    """Session 206: a table loaded as a union by its key (live_set.yaml, union_by_key): rows added and rewritten, none
+    removed, and the older-than-live guard not applied. The cost ledger, which every machine appends to."""
+    return any(re.search(p, name) for p in LIVE.get("union_by_key") or [])
+
+
+def sync_table(client, name, df, shape, license_, loaded_at, days, now, conn=None, union=False):
     """Make Supabase hold exactly the selected rows of one table, writing only the
-    difference. Returns (written, deleted)."""
+    difference. Returns (written, deleted). union (session 206): add and rewrite, remove nothing."""
     cols, key = SHAPES[shape]
     recs = records(name, df, shape, license_, loaded_at)
     want = {}
@@ -529,7 +535,7 @@ def sync_table(client, name, df, shape, license_, loaded_at, days, now, conn=Non
         k, body = canon(r, shape)
         have[k] = body
     write = [r for k, (body, r) in want.items() if have.get(k) != body]
-    gone = [k for k in have if k not in want]
+    gone = [] if union else [k for k in have if k not in want]
     for i in range(0, len(write), BATCH):
         client.table(shape).upsert(write[i:i + BATCH], on_conflict=",".join(key)).execute()
     deleted = 0
@@ -698,16 +704,20 @@ def main(argv=None):
                 raise RuntimeError("not in coverage.csv")
             digest = rows_sha256(df, lic[name])
             unchanged = prev.get(name) == digest
-            stale = None if unchanged or name in args.allow_older else older_than_live(client, name, df, shape, conn)
+            union = union_table(name)  # session 206: the ledger is added to, never replaced, so no copy is "older"
+            stale = None if unchanged or union or name in args.allow_older else older_than_live(client, name, df, shape, conn)
             if stale:
                 raise RuntimeError(f"refused, older than the live copy: {stale}. Sync this machine from the cloud first "
                                    f"(python scripts/sync.py --refresh), or pass --allow-older {name} to roll it back on purpose")
             if unchanged:
                 written = deleted = 0
             else:
-                written, deleted = sync_table(client, name, df, shape, lic[name], loaded_at, days, now, conn)
+                written, deleted = sync_table(client, name, df, shape, lic[name], loaded_at, days, now, conn, union=union)
             n = live_count(client, shape, name, conn)
-            ok = n == len(df)
+            ok = n >= len(df) if union else n == len(df)  # a union holds every row of the file, and may hold more
+            if union:
+                print(f"         {name}: loaded as a union by key (live_set.yaml, union_by_key): {written:,} rows added or "
+                      f"rewritten, none removed; the file holds {len(df):,}, Supabase {n:,}")
             if ok and name == EQR:  # session 90: the page's summary, from the rows just reconciled (migration 021)
                 stored = client.rpc("eqr_summary_store", {"p_summary": eqr_summary(df)}).execute().data
                 print(f"         {name}: the summary of {stored['rows']:,} rows stored for /contracts ({stored['computed_at']})")

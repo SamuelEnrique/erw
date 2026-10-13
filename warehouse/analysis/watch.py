@@ -134,7 +134,7 @@ SHOWN = {"week": 104, "month": 60}   # how many periods the chart draws
 NOT_WATCHED = {
     "an input of a table that is read: its rows reach the chooser through that table": [
         "ercot_dam_esr_awards", "caiso_curtailment_intervals", "eia930_all_storage", "iso_hub_prices_history", "isone_rtm_zone_prices_hourly",
-        "ercot_storage_dam_offers_daily", "fred_daily_spot_prices", "ercot_as_quantities", "spp_as_quantities"],
+        "ercot_storage_dam_offers_daily", "ercot_as_quantities", "spp_as_quantities"],  # session 207: fred_daily_spot_prices retired
     "a study of past events or a fitted model: it does not change from one week to the next": [
         "event_study_estimates", "flex_alert_effects", "flex_alert_model", "eia930_event_hourly_interchange", "caiso_dam_alert_day_hub_prices",
         "battery_stack_stress_daily", "noaa_isd_hourly", "eia930_all_history"],

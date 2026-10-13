@@ -45,6 +45,8 @@ sys.path.insert(0, os.path.join(ROOT, "warehouse", "connectors"))
 sys.path.insert(0, HERE)
 import iso_prices as ip  # noqa: E402
 import price_board as pb  # noqa: E402  (read_table, is_peak, nerc_holidays)
+sys.path.insert(0, os.path.join(ROOT, "warehouse", "metadata"))
+import license_status as ls  # noqa: E402  session 207: the grids whose prices are "license needed" from 20 October 2026
 import price_board_v4 as v4  # noqa: E402  (the fuels' names, spark, crack_321)
 
 SITE = os.path.join(ROOT, "site")
@@ -330,8 +332,16 @@ def build_power(b, store, holidays, log):
         if iso not in ISO:
             continue
         daily[(entity, kind)] = daily_of(h, ISO[iso][1], iso, holidays)
+    held = ls.held_grids()  # session 207: from 20 October 2026, a grid whose terms ask for permission is shown as PJM is
     for iso, (grid, tz) in ISO.items():
         nodes = sorted({e.split(":", 1)[1] for (e, k) in daily if e.startswith(iso + ":")}, key=lambda n: (n != MAIN[iso], HUB_WORDS.get(n, n)))
+        if grid in held:
+            for node in nodes or [MAIN[iso]]:
+                for kind, name in (("da", "day-ahead"), ("rt", "real time")):
+                    b.grey("power", f"{iso}:{node}|{kind}", f"{grid} {HUB_WORDS.get(node, node)}", "licensed", ls.note(grid), at=name, code=node,
+                           unit="USD/MWh", tags=dict(grid=grid, market=kind, scope="main" if node == MAIN[iso] else "all"))
+            log(f"  {grid}: {len(nodes)} hubs and zones held, license needed (warehouse/metadata/license_status.csv)")
+            continue
         for node in nodes:
             entity, words = f"{iso}:{node}", HUB_WORDS.get(node, node)
             scope = "main" if node == MAIN[iso] else "all"
@@ -369,8 +379,13 @@ def build_power(b, store, holidays, log):
 
 
 def build_as(b, holidays, log):
+    held = ls.held_grids()  # session 207
     for iso, table in (("ercot", "ercot_as_prices"), ("caiso", "caiso_as_prices"), ("nyiso", "nyiso_as_prices"), ("spp", "spp_as_prices")):
         grid, tz = ISO[iso]
+        if grid in held:
+            b.grey("as", f"{iso}|as", f"{grid} reserves and regulation", "licensed", ls.note(grid), tags=dict(grid=grid), unit="USD/MW-hour")
+            log(f"  {grid} ancillary services: held, license needed (warehouse/metadata/license_status.csv)")
+            continue
         if not os.path.exists(os.path.join(ip.OUT_DIR, table + ".csv")):
             # session 166: on the runner NYISO's and SPP's tables are held out of the restore, and ERCOT's is written
             # later in the run; the rows of a table not on the machine are left to page_keep.py, which keeps the
@@ -496,10 +511,12 @@ def build_fuels(b, log):
     b.grey("metals", "uranium|daily", "Uranium, daily spot", "licensed", "Source that would supply it: UxC or TradeTech.", unit="USD/lb")
     b.grey("metals", "lithium|daily", "Lithium, daily", "licensed", "Source that would supply it: Fastmarkets or Benchmark Mineral Intelligence.", unit="USD/t")
     # rates
-    s, meta = table_daily("fred_treasury_yields")
-    for sid, words in (("DGS2", "2-year"), ("DGS10", "10-year"), ("DGS30", "30-year")):
-        b.add("rates", f"fred:{sid}", f"US Treasury yield, {words}", "percent", "D", s.get((f"fred:{sid}", "yield"), {}), at="constant maturity", code=sid,
-              source="Board of Governors of the Federal Reserve System, release H.15, through FRED (fred_treasury_yields)")
+    # session 207: from the Board's own H.15 download (frb_treasury_yields), no longer through FRED. The row ids keep
+    # FRED's series codes (DGS2, DGS10, DGS30), so the page's bookmarks and checked numbers keep their names
+    s, meta = table_daily("frb_treasury_yields")
+    for sid, entity, words in (("DGS2", "frb:tcm_2y", "2-year"), ("DGS10", "frb:tcm_10y", "10-year"), ("DGS30", "frb:tcm_30y", "30-year")):
+        b.add("rates", f"fred:{sid}", f"US Treasury yield, {words}", "percent", "D", s.get((entity, "yield"), {}), at="constant maturity", code=sid,
+              source="Board of Governors of the Federal Reserve System, release H.15, the Board's Data Download Program (frb_treasury_yields)")
     # carbon and credits
     build_lcfs(b, log)
     b.grey("carbon", "cca|auction", "California carbon allowance, quarterly auction", "not_held", "The auction results are held internal while the publisher's terms are reviewed; not shown.", unit="USD/t CO2e")

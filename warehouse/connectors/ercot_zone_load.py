@@ -66,7 +66,9 @@ NAME = "ercot_zone_load_hourly"
 CONNECTOR = "ercot_zone_load"
 SOURCE = "ercot:load_hist"
 PAGE = "https://www.ercot.com/gridinfo/load/load_hist"
-LINK = re.compile(r'href="(https://www\.ercot\.com/files/docs/\d{4}/\d{2}/\d{2}/native_load_(\d{4})\.(?:zip|xlsx|xls))"', re.I)
+# session 202: ERCOT renamed the current year's file to Native_Load_2026-1-.zip (seen 9 October 2026); anything may now
+# stand between the year and the extension, and a year listed twice is taken once by the reader (zone_load.py)
+LINK = re.compile(r'href="(https://www\.ercot\.com/files/docs/\d{4}/\d{2}/\d{2}/native_load_(\d{4})[^"/]*\.(?:zip|xlsx|xls))"', re.I)
 TZ = "America/Chicago"
 ZONES = ["COAST", "EAST", "FWEST", "NORTH", "NCENT", "SOUTH", "SCENT", "WEST"]
 TOTAL = "ERCOT"

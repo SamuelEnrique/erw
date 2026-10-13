@@ -1,6 +1,6 @@
 table,iso,market,n_nodes,interval,ts_min,ts_max,n_rows,source_report,last_run,validator_status,license,sector,derived,tier
 ai_power_regions,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,,2018-07-01T00:00:00Z,2026-09-30T00:00:00Z,187,erw:ai_power_regions,2026-10-02T09:57:58Z,pass,public,power;carbon,yes,derived
-api_cost_ledger,none,,1,event,2026-09-29T10:08:33Z,2026-10-12T14:59:58Z,2494,1 outlets,2026-10-12T14:54:11Z,pass,internal,platform,no,derived
+api_cost_ledger,none,,1,event,2026-09-29T10:08:33Z,2026-10-12T14:59:58Z,3519,1 outlets,2026-10-12T23:40:47Z,pass,internal,platform,no,derived
 ba_supply_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,473,P1M,2019-01-01T00:00:00Z,2026-09-01T00:00:00Z,158503,erw:ba_supply,2026-10-02T23:03:48Z,pass,public,power,yes,derived
 battery_stack_monthly,CAISO;ERCOT,caiso;ercot,2,P1M,2018-01-01T00:00:00Z,2026-10-01T00:00:00Z,10542,erw:battery_stack,2026-10-12T15:03:07Z,pass,public,power,yes,derived
 battery_stack_review_monthly,NYISO;SPP,nyiso;spp,2,P1M,2024-09-01T00:00:00Z,2026-10-01T00:00:00Z,3744,erw:battery_stack,2026-10-04T17:20:21Z,pass,public,power,yes,derived
@@ -19,8 +19,8 @@ caiso_grid_emergencies,none,,1,event,1998-05-30T00:00:00Z,2025-04-30T00:00:00Z,1
 caiso_interconnection_queue,CAISO,,2278,snapshot,2026-10-12T14:47:45Z,2026-10-12T14:47:45Z,2278,caiso:interconnection_queue,2026-10-12T14:47:44Z,pass,public,power,no,source
 caiso_reliability_daily,CAISO,,2,P1D,1998-05-30T00:00:00Z,2026-09-28T00:00:00Z,20464,erw:caiso_reliability,2026-10-02T01:18:56Z,pass,public,power,yes,derived
 caiso_wind_solar_forecast,CAISO,,3,PT1H,2023-06-01T07:00:00Z,2026-10-06T06:00:00Z,339721,caiso:SLD_REN_FCST,2026-10-06T09:34:31Z,pass,public,power,no,source
-carb_auction_allowance_prices,none,,56,P3M,2012-11-01T00:00:00Z,2026-08-01T00:00:00Z,336,carb:auction-results-summary,2026-09-29T01:08:31Z,pass,internal,carbon,no,source
-carb_lcfs_credit_prices,none,,1,P1W,2019-01-07T00:00:00Z,2026-09-14T00:00:00Z,1124,carb:lcfs_weekly_credit_price,2026-10-06T08:18:45Z,pass,public,carbon,no,source
+carb_auction_allowance_prices,none,,56,P3M,2012-11-01T00:00:00Z,2026-08-01T00:00:00Z,336,carb:auction-results-summary,2026-10-12T23:44:51Z,pass,internal,carbon,no,source
+carb_lcfs_credit_prices,none,,1,P1W,2019-01-07T00:00:00Z,2026-09-14T00:00:00Z,1124,carb:lcfs_weekly_credit_price,2026-10-12T23:44:54Z,pass,public,carbon,no,source
 carbon_intensity_daily,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,8,P1D,2018-07-02T00:00:00Z,2026-10-09T00:00:00Z,46810,erw:carbon_intensity;erw:carbon_intensity_caiso,2026-10-12T14:32:53Z,pass,public,power;carbon,yes,derived
 carbon_intensity_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,8,PT1H,2018-07-02T00:00:00Z,2026-10-09T23:00:00Z,1123797,erw:carbon_intensity;erw:carbon_intensity_caiso,2026-10-12T14:32:53Z,pass,public,power;carbon,yes,derived
 carbon_intensity_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,8,P1M,2018-08-01T00:00:00Z,2026-09-01T00:00:00Z,1275,erw:carbon_intensity;erw:carbon_intensity_caiso,2026-10-12T14:32:53Z,pass,public,power;carbon,yes,derived
@@ -115,9 +115,7 @@ ferc_eqr_party_totals,ferc,,12290,snapshot,2026-10-04T17:29:30Z,2026-10-04T17:29
 ferc_eqr_quarter_changes,ferc,,4,P3M,2025-07-01T00:00:00Z,2026-04-01T00:00:00Z,68,erw:eqr_terms,2026-10-05T16:59:01Z,pass,internal,power,yes,derived
 flex_alert_effects,flex,,1,P1D;P1Y;PT1H,2018-01-01T00:00:00Z,2024-07-25T06:00:00Z,2973,erw:flex_alert_scorecard,2026-10-02T05:12:48Z,pass,public,power,yes,derived
 flex_alert_model,flex,,1,;P1D,2018-07-01T00:00:00Z,2025-08-24T00:00:00Z,881,erw:flex_alert_scorecard,2026-10-02T05:12:48Z,pass,public,power,yes,derived
-fred_daily_spot_prices,none,,3,P1D,1986-01-02T00:00:00Z,2026-10-06T00:00:00Z,24321,fred:DCOILBRENTEU;fred:DCOILWTICO;fred:DHHNGSP,2026-10-12T14:43:29Z,pass,public,oil;gas,no,source
-fred_imf_commodity_prices,none,,5,P1M,1992-01-01T00:00:00Z,2026-07-01T00:00:00Z,2075,fred:PCOALAUUSDM;fred:PNGASEUUSDM;fred:PNGASJPUSDM;fred:PNICKUSDM;fred:PURANUSDM,2026-10-12T14:43:29Z,pass,internal,gas;lng;coal;uranium;metals,no,source
-fred_treasury_yields,none,,3,P1D,2019-01-02T00:00:00Z,2026-10-08T00:00:00Z,5832,fred:h15_treasury_yields,2026-10-12T15:04:28Z,pass,public,equities,no,source
+frb_treasury_yields,frb,,3,P1D,2019-01-02T00:00:00Z,2026-10-08T00:00:00Z,5832,frb:h15_treasury_yields,2026-10-13T00:31:25Z,pass,public,equities,no,source
 generation_mix_hourly_profile,generation,,7,P1M,2019-01-01T00:00:00Z,2026-09-01T00:00:00Z,165760,erw:generation_mix_hourly;erw:generation_mix_hourly_caiso,2026-10-06T09:46:36Z,pass,public,power;carbon,yes,derived
 generation_mix_records,generation,,7,PT1H,2019-01-14T05:00:00Z,2026-09-27T17:00:00Z,306,erw:generation_mix_hourly;erw:generation_mix_hourly_caiso,2026-10-06T09:46:36Z,pass,public,power;carbon,yes,derived
 grid_network_links,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,157,PT1H,2026-10-04T00:00:00Z,2026-10-10T23:00:00Z,26208,erw:grid_network,2026-10-12T14:33:43Z,pass,public,power,yes,derived

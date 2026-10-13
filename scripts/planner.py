@@ -74,7 +74,8 @@ ITEM_LINE = "Roadmap item: "
 EM = chr(0x2014)
 NAME_RE = re.compile(r"^(\d{3,})-([a-z0-9][a-z0-9-]*)\.md$")     # scripts/chain_queue.py's own rule
 TASK_RE = re.compile(r"^\d{3,}-(code|data)-")
-SECTIONS = ("Status", "This week", "Rulings", "Holds", "Input from Ben and Khalid", "Review log")
+# session 209: "Backlog" (what is wanted and not yet this week's) sits between "This week" and "Rulings"; the planner reads nothing from it
+SECTIONS = ("Status", "This week", "Backlog", "Rulings", "Holds", "Input from Ben and Khalid", "Review log")
 
 # What a planned chain never names. An item whose words match is refused: a person writes that prompt.
 NEVER = (

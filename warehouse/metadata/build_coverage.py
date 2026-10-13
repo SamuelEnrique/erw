@@ -129,13 +129,12 @@ SECTOR_RULES = [
     (r"^eia_petroleum_(trade|stocks)_weekly$", "oil;products"),
     (r"^eia_lng_exports_monthly$", "lng"),
     (r"^(carb|rggi)_auction_allowance_prices$", "carbon"),
-    (r"^fred_daily_spot_prices$", "oil;gas"),
-    (r"^fred_imf_commodity_prices$", "gas;lng;coal;uranium;metals"),
+    # session 207: the FRED tables are retired (warehouse/metadata/retired_tables.csv); their rules are gone with them
     # session 132: the price board's added series
     (r"^eia_regional_retail_fuel_prices$", "products"),   # weekly retail gasoline and diesel by region, state and city
     (r"^eia_crude_stream_prices$", "oil"),                 # monthly crude prices by stream and area
     (r"^eia_power_plant_fuel_costs$", "coal;gas;power"),   # monthly cost of coal and gas delivered to power plants (EIA-923)
-    (r"^fred_treasury_yields$", "equities"),               # US Treasury yields at 2, 10 and 30 years: the vocabulary has no sector for interest rates, and financial markets is the nearest
+    (r"^frb_treasury_yields$", "equities"),                # US Treasury yields at 2, 10 and 30 years (session 207: from the Board's own H.15 download, was fred_treasury_yields): the vocabulary has no sector for interest rates, and financial markets is the nearest
     (r"^imf_commodity_prices$", "uranium;metals"),         # IMF monthly prices: uranium, lithium, cobalt, nickel, copper
     (r"^carb_lcfs_credit_prices$", "carbon"),              # California's Low Carbon Fuel Standard credit price, weekly
     # session 134: supply and trade
@@ -628,14 +627,27 @@ def apply_tiers(rows):
     return rows
 
 
+RETIRED_FILE = os.path.join(ROOT, "warehouse", "metadata", "retired_tables.csv")
+
+
+def retired_tables():
+    """Session 207: tables the ERW no longer stores (retired_tables.csv: FRED's copies, on the owner's ruling of 12
+    October 2026). A retired table's row leaves coverage for good and is not carried over; its file, if a machine
+    still has one, is not a table of the warehouse."""
+    if not os.path.exists(RETIRED_FILE):
+        return set()
+    return set(pd.read_csv(RETIRED_FILE, dtype=str, keep_default_na=False)["table"])
+
+
 def carried_over(present):
     """Rows of the previous coverage for tables not in warehouse/output on this machine:
     (CSV rows, {table: its line in docs/coverage.md})."""
     if not os.path.exists(CSV):
         return [], {}
     prev = pd.read_csv(CSV, dtype=str, keep_default_na=False)
-    # session 29: a table consolidated into another is gone for good, not carried over (table_migrations.csv)
-    gone = prev[~prev["table"].isin(present) & ~prev["table"].isin(set(MIGRATED))].to_dict("records")
+    # session 29: a table consolidated into another is gone for good, not carried over (table_migrations.csv);
+    # session 207: so is a retired table (retired_tables.csv)
+    gone = prev[~prev["table"].isin(present) & ~prev["table"].isin(set(MIGRATED) | retired_tables())].to_dict("records")
     md = {}
     if os.path.exists(DOC):
         with open(DOC, encoding="utf-8") as f:
@@ -672,6 +684,10 @@ def main():
         print(f"validator reports reused for {len(REPORTS)} unchanged tables ({args.reports})")
     licenses = load_licenses()
     files = sorted(glob.glob(os.path.join(OUT, "*.csv")))
+    retired = [p for p in files if os.path.basename(p)[:-4] in retired_tables()]
+    if retired:  # session 207: a retired table's file still on a machine is left out, and said
+        print(f"retired tables left out of coverage (warehouse/metadata/retired_tables.csv): {', '.join(os.path.basename(p)[:-4] for p in retired)}")
+        files = [p for p in files if p not in retired]
     if args.only:
         files = [p for p in files if re.search(args.only, os.path.basename(p)[:-4])]
         if not files:
@@ -697,6 +713,7 @@ def main():
         name_of = lambda ln: (re.match(r"^\| `([a-z0-9_]+)` \|", ln) or [None, None])[1]  # noqa: E731
         todo = {r["table"]: md_line(r) for r in rows}
         out_doc = []
+        gone_for_good = set(MIGRATED) | retired_tables()
         for ln in doc:
             n = name_of(ln)
             if n is not None:
@@ -704,6 +721,8 @@ def main():
                     out_doc.append(todo.pop(new))
                 if n in todo:
                     ln = todo.pop(n)
+                elif n in gone_for_good and n not in {r["table"] for r in carried}:  # session 207: a retired table's line goes with its row
+                    continue
             out_doc.append(ln)
         if todo:
             raise ValueError(f"--only: no place in {os.path.relpath(DOC, ROOT)} for {sorted(todo)}")

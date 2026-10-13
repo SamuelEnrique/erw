@@ -28,6 +28,7 @@ rules. A verdict is a session's reading of a sentence, not legal advice.
 
 import argparse
 import csv
+import datetime as dt
 import os
 import re
 import sys
@@ -48,7 +49,9 @@ CANON = [
     (r"Energy Information Administration|^EIA ", "EIA"), (r"Electric Reliability Council|^ercot\.com$", "ERCOT"), (r"ISO New England|^ISO-NE", "ISO-NE"),
     (r"Southwest Power Pool", "SPP"), (r"Midcontinent|misoenergy\.org|^MISO", "MISO"), (r"^PJM", "PJM"),
     (r"National Centers for Environmental", "NOAA NCEI"), (r"National Weather Service", "NWS"), (r"Air Resources Board", "CARB"),
-    (r"St\. Louis|FRED", "FRED"), (r"PortWatch", "IMF PortWatch"), (r"International Monetary Fund", "IMF"), (r"Berkeley", "Berkeley Lab"), (r"Nuclear Regulatory", "NRC"),
+    (r"St\. Louis|FRED", "FRED"),  # a name "through FRED" is FRED's: this rule goes before the Board's
+    (r"Board of Governors|Federal Reserve System", "FRB"),  # session 207: the Board's own H.15 download (frb_treasury_yields)
+    (r"PortWatch", "IMF PortWatch"), (r"International Monetary Fund", "IMF"), (r"Berkeley", "Berkeley Lab"), (r"Nuclear Regulatory", "NRC"),
     (r"Census", "Census Bureau"), (r"Commodity Futures", "CFTC"), (r"Regional Greenhouse", "RGGI"), (r"Railroad Commission", "RRC"),
     (r"Federal Energy Regulatory|^FERC$", "FERC"), (r"Energy Research Warehouse|^ERW$", "ERW"),
     (r"(?i)bloomberg", "Bloomberg"), (r"(?i)^ft\.com$|\.ft\.com$|^FT Channels$|Financial Times", "Financial Times"), (r"(?i)hart ?energy", "Hart Energy"),
@@ -352,6 +355,65 @@ def write(doc=None):
     return lines
 
 
+# Session 207 (the owner's ruling of 12 October 2026): a license status for the tables flagged public whose publisher's
+# sentence asks for permission or a license. From STATUS_FROM such a table shows "license needed" (as PJM's prices do)
+# unless a permission is recorded in its row (the columns permission and permission_ref, filled by a person; the
+# sentence of the permission, its date, who gave it). Nothing on the site changes before STATUS_FROM. The site reads
+# site/data/license_status.json (site/lib/license.ts); the builders read the CSV (warehouse/metadata/license_status.py).
+STATUS = os.path.join(META, "license_status.csv")
+SITE_STATUS = os.path.join(ROOT, "site", "data", "license_status.json")
+STATUS_FROM = "2026-10-20"
+STATUS_COLS = ["table", "status", "from", "publishers", "verdict", "permission", "permission_ref", "note"]
+NEEDED, RECORDED = "license needed", "permission recorded"
+
+
+def status_lines():
+    """(table, verdict, deciding publishers) for every table flagged public whose verdict asks for permission or a
+    license: the "flag is looser" lines of write(), by the same judge."""
+    verdicts = {r["key"]: r for r in rows(VERDICTS)}
+    tables = {r["table"]: r for r in rows(TABLES)}
+    out = []
+    for r in rows(COVERAGE):
+        pubs = [p for p in tables[r["table"]]["publishers"].split("; ") if p] if r["table"] in tables else []
+        if not pubs or set(pubs) <= OWN:
+            continue
+        v, why, _ = judge(pubs, verdicts)
+        if r["license"] == "public" and v != PUBLIC:
+            out.append((r["table"], v, why))
+    return out
+
+
+def write_status(today=None):
+    """warehouse/metadata/license_status.csv and site/data/license_status.json from the verdicts, keeping every permission
+    a person recorded (a row is never dropped while it holds one). Returns the rows written."""
+    import json
+    kept = {r["table"]: r for r in rows(STATUS)} if os.path.exists(STATUS) else {}
+    out = {}
+    for table, v, why in status_lines():
+        prev = kept.get(table, {})
+        permission, ref = prev.get("permission", ""), prev.get("permission_ref", "")
+        out[table] = {"table": table, "status": RECORDED if permission else NEEDED, "from": prev.get("from") or STATUS_FROM,
+                      "publishers": "; ".join(why), "verdict": v, "permission": permission, "permission_ref": ref,
+                      "note": prev.get("note") or f"flagged public; the publisher's sentence read in session 205 asks for it (docs/licenses.md)"}
+    for t, r in kept.items():  # a recorded permission is kept even when the verdict no longer asks for one
+        if r.get("permission") and t not in out:
+            out[t] = {c: r.get(c, "") for c in STATUS_COLS}
+    with open(STATUS, "w", encoding="utf-8", newline="") as f:
+        wr = csv.DictWriter(f, fieldnames=STATUS_COLS, lineterminator="\n")
+        wr.writeheader()
+        for t in sorted(out):
+            wr.writerow(out[t])
+    site = {"from": STATUS_FROM, "written": (today or dt.datetime.now(dt.timezone.utc).date().isoformat()),
+            "what": f"Tables flagged public whose publisher's own page asks for permission or a license (docs/licenses.md). From {STATUS_FROM} "
+                    f"a table with status '{NEEDED}' shows 'license needed' on the site unless a permission is recorded (warehouse/metadata/license_status.csv).",
+            "tables": {t: {"status": r["status"], "from": r["from"], "publishers": [p for p in r["publishers"].split("; ") if p]} for t, r in sorted(out.items())}}
+    os.makedirs(os.path.dirname(SITE_STATUS), exist_ok=True)
+    with open(SITE_STATUS, "w", encoding="utf-8", newline="\n") as f:
+        json.dump(site, f, indent=1)
+        f.write("\n")
+    return list(out.values())
+
+
 def check():
     cov = {r["table"] for r in rows(COVERAGE)}
     tables = {r["table"]: r for r in rows(TABLES)}
@@ -376,9 +438,15 @@ def check():
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description="docs/licenses.md: what each publisher's own page allows (session 205)")
-    ap.add_argument("what", choices=["tables", "write", "check"])
+    ap.add_argument("what", choices=["tables", "write", "check", "status"])
     ap.add_argument("--headers", help="tables: the folder of the tables themselves (warehouse/output of a data machine)")
     a = ap.parse_args(argv)
+    if a.what == "status":  # session 207
+        out = write_status()
+        n = sum(1 for r in out if r["status"] == NEEDED)
+        print(f"{os.path.relpath(STATUS, ROOT)} and {os.path.relpath(SITE_STATUS, ROOT)}: {len(out)} tables, {n} '{NEEDED}' from {STATUS_FROM}, "
+              f"{len(out) - n} with a permission recorded")
+        return 0
     if a.what == "tables":
         if not a.headers or not os.path.isdir(a.headers):
             ap.error("tables needs --headers, the folder that holds the tables")
