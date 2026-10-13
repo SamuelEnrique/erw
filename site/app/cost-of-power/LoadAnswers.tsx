@@ -69,12 +69,12 @@ export function PowerThere({ a, f, b }: { a: Answers; f: AnswerFacts; b?: SiteB 
   return (
     <>
       <p className="mb-6 max-w-3xl font-serif text-xl leading-snug" data-answer="power">
-        Over the last twelve months{f.span ? `, ${f.span},` : ""} the price at {f.place} was at or above USD {s.level.toLocaleString("en-US")} per MWh in <N pre={f.pre} stat="scarce:hours" a={a} /> hours
-        {s.hours ? <>: {when}. A flat {f.size} load paid USD <N pre={f.pre} stat="scarce:flat_usd" a={a} usd /> in them.{wayLine(w.a, "Scenario A")}{w.differ ? wayLine(w.b, "Scenario B") : null}</> : <>. Nothing was short at this level.</>}
+        Over the last twelve months{f.span ? `, ${f.span},` : ""} the price at {f.place} was at or above USD {s.level.toLocaleString("en-US")} per MWh in <N pre={f.pre} stat="scarce:hours" a={a} /> {s.hours === 1 ? "hour" : "hours"}
+        {s.hours ? <>: {when}. A flat {f.size} load paid USD <N pre={f.pre} stat="scarce:flat_usd" a={a} usd /> in {s.hours === 1 ? "it" : "them"}.{wayLine(w.a, "Scenario A")}{w.differ ? wayLine(w.b, "Scenario B") : null}</> : <>. Nothing was short at this level.</>}
         {b ? <span data-answer-b-site="power"> Scenario B&apos;s site, {b.f.place}{b.f.span ? `, ${b.f.span}` : ""}: {b.a ? <><N pre={b.f.pre} stat="scarce:hours" a={b.a} /> {b.a.scarcity.hours === 1 ? "hour" : "hours"} at or above the same level, in which a flat {f.size} load paid USD <N pre={b.f.pre} stat="scarce:flat_usd" a={b.a} usd />.</> : <span className="text-muted">not held ({b.reason ?? "twelve complete months are not held there"}).</span>}</span> : null}
       </p>
       <HeadlineRow>
-        <HeadlineNumber label={`Hours at or above USD ${s.level.toLocaleString("en-US")}, last twelve months`} value={<N pre={f.pre} stat="scarce:hours" a={a} />} unit="hours"
+        <HeadlineNumber label={`Hours at or above USD ${s.level.toLocaleString("en-US")}, last twelve months`} value={<N pre={f.pre} stat="scarce:hours" a={a} />} unit={s.hours === 1 ? "hour" : "hours"}
           note={<>of the hours held at {f.place}. The level is the same for every grid.</>} />
         <HeadlineNumber label="What a flat load paid in them" value={<>USD <N pre={f.pre} stat="scarce:flat_usd" a={a} usd /></>}
           note={<>for {f.size}; {s.hours ? <>USD {two(s.flatUsd / s.hours)} per MWh on average in those hours</> : "none"}.</>} />
@@ -142,7 +142,7 @@ export function HowClean({ a, f, b }: { a: Answers; f: AnswerFacts; b?: SiteB })
       <ToolTable caption={`${f.gridName}'s carbon intensity of consumed electricity by year`} minWidth={520} head={["Year", "kg CO2 per MWh, the mean of its months", "Months held"]}
         rows={c.years.map((r) => ({ key: String(r.y), muted: r.months < 12, cells: [String(r.y), <N key="k" pre={f.pre} stat={`co2:year:${r.y}`} a={a} />, `${r.months} of 12`] }))} />
       <p className="mt-2 max-w-3xl text-xs text-muted" data-answer-note="clean">
-        The intensity is the ERW&apos;s from EIA-930&apos;s hourly CO2 estimates (carbon_intensity_monthly and carbon_intensity_hourly, the balancing authority&apos;s consumed electricity: generation plus imports less exports); the hourly table holds the last 35 days. A year&apos;s figure is the mean of its months held; {year(new Date().getUTCFullYear())?.months ?? 0} months of {new Date().getUTCFullYear()} are held.
+        The intensity is the ERW&apos;s from EIA-930&apos;s hourly CO2 estimates (carbon_intensity_monthly and carbon_intensity_hourly, the balancing authority&apos;s consumed electricity: generation plus imports less exports); the hours counted hour by hour are the ones the live set holds of the hourly table, named above. A year&apos;s figure is the mean of its months held; {year(new Date().getUTCFullYear())?.months ?? 0} months of {new Date().getUTCFullYear()} are held.
       </p>
     </>
   );
