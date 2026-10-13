@@ -1,0 +1,87 @@
+# Session 258 report: a finding's source line names only the tables whose rows it uses
+
+13 October 2026, 18:09 to 18:55 UTC, unattended, on the old laptop (a code machine), one session of the chain of sessions 257 to 260. Branch `wip/258-source-lines` in the worktree `erw-143`. Model spend USD 0: no model call. Pulls: none. Writes: none to the warehouse, to Supabase, to the archive or to Redivis. Nothing under `site/` changed.
+
+## Read these first
+
+- **The fault is fixed in the builder, and the eight drafts on the review list still carry the old line until the data machine runs one command** (under "To finish"). A code machine writes no data, and the site prints the stored line as it is: it cannot be put right on the page from the stored fields without guessing which table brought which grid's rows.
+- **The rule is now decided from what the finding read, not from a list.** The hunt records every read of its finding (`findings_common.record_reads`: the rows kept and, for a table of prices by market, the timestamps kept for each market and node), and `hunt.tables_used` names a table only when it brought rows of the draft's grid in the claim's years that no earlier read had brought.
+- **On this machine's real tables (read only), the whole hunt as a dry run raises the same eight drafts as the review list holds, by id, and each now names one table: `ercot_all_hub_prices_history`.** No draft names `iso_rtm_hub_prices`, `iso_hub_prices_history` or `iso_zone_prices_history` in its card, its caption or its pictures. ERCOT's history holds HB_NORTH to 2026-08-26 04:45 UTC and the live table's ERCOT rows begin at 05:00 that day: the live table brings rows to 2026 only, the year under way, which is in the CSV (`full_year` 0) and not in the claim.
+- **A true source is not dropped: the CSV says it apart.** Its fourth line reads `# Sources: ercot_all_hub_prices_history; the rows with full_year 0 also read ERCOT's rows of iso_rtm_hub_prices`. If the history ever ends inside a claim year, the live table is named in the card too (a test holds this).
+- **Cards kept as files in git: 11 full cards (`site/data/findings/`), 0 corrected, because none names a table without rows in it.** Checked by reading each finding's code, not by a run on tables. The one card of ERCOT alone, `batteries_lunch`, names `iso_rtm_hub_prices` truly: its months run to 2026-10-08, past the history's end, and those are ERCOT's rows of that table. No hunt draft is kept as a file in git.
+- **Found and not fixed: the chart-of-the-week cards (`docs/analysis/`, another builder) name the right table and the wrong publishers.** An ERCOT chart from `iso_rtm_hub_prices` says "Source: CAISO, ERCOT, MISO, SPP via the Energy Research Warehouse (ERW), table iso_rtm_hub_prices". 104 stored lines of 5 forms name four grids' publishers for a table; the ones I read are charts of one grid. It is ruling 1 below.
+
+## What changed
+
+- `warehouse/analysis/findings/findings_common.py`: `record_reads`, the note `read_table` takes while it is open (nothing a finding computes changes: a test compares the rows with and without it), and `only_tables_read` for a full card.
+- `warehouse/analysis/findings/hunt.py`: `tables_used`, `source_line_of`, `sources_comment`; `run_pattern` records the reads and hands each region's tables on; `build_draft` uses them (without them it keeps session 233's rule, by name); the gas pattern says the one table its measure needs beside prices (`measure_tables`: Henry Hub's); `rewrite_draft` and `fix_source_lines`, with the flag `--fix-source-lines`.
+- `warehouse/analysis/findings/run_finding.py`: a full card leaves out a table its finding asked for and kept no row of. A table that brought rows always stays; a table read by another reader is left as it is.
+- `docs/methods/automated_analysis_findings.md`: one bullet under "The weekly hunt".
+- `tests/test_session258.py`: 22 tests.
+
+## The line, before and after (the eight drafts, from the dry run on this machine)
+
+- Before, evening and midday: `Source: ERCOT's rows of the ERW tables ercot_all_hub_prices_history, iso_rtm_hub_prices, iso_hub_prices_history, iso_zone_prices_history, eia860m_operating_generators, eia860m_retired_generators_all; computed by the finding peak_hour_grids (warehouse/analysis/findings/).`
+- After, all eight: `Source: ERCOT's rows of the ERW table ercot_all_hub_prices_history; computed by the finding <its module> (warehouse/analysis/findings/). Found by the weekly hunt.`
+- The eight ids of the dry run equal the eight of `docs/reviews/findings-verified-2026-10-13.md`: `346d3337bb15`, `4bee49d6e8c5`, `8c67230bc8b7`, `9868ad33205b`, `bbb2fe2a3844`, `e5fe5b80e074`, `f5c8f78e8cf0`, `f732d699c6b7`. An id is made of the pattern, the region, the last year and the change to three decimals: the claims are the same.
+- Tables no longer named that are not "license needed": the battery fleet, ERCOT's load, EIA's daily demand and Henry Hub for the spike drafts, the two EIA-860M tables for the peak-hour drafts. The finding's module reads them for other columns of its full card; a draft's measure is made of prices alone. Decision 2.
+
+## What to review
+
+- Nothing on the site changed. https://erw-flame.vercel.app/internal/findings (after https://erw-flame.vercel.app/internal/open) shows the eight drafts with their old line until "To finish" is done; afterwards each draft's line, caption, CSV and two pictures carry the new one.
+- The rule, in the method: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md (the bullet "A draft's source line names only the tables whose rows it uses").
+- On this machine, not in git: `runs/session258/` (`dry_hunt.out`: the eight drafts and their lines; `real_reads.out`: what the reads of ERCOT North and SPP North kept; `hunt/2026-10-13/`: the drafts' files; `notes.md`).
+
+## To finish (the data machine, after this branch is on main)
+
+```
+git pull origin main
+.venv\Scripts\python.exe warehouse\analysis\findings\hunt.py --fix-source-lines --dry-run
+.venv\Scripts\python.exe warehouse\analysis\findings\hunt.py --fix-source-lines
+```
+
+- The first command prints, for each of the eight drafts, the line as it is and as it would be, and writes nothing. Expected: 8 hunt drafts, 8 with a line to rewrite, each naming `ercot_all_hub_prices_history` alone. Read it before the second.
+- The second rewrites, in `public.scanner_drafts`, each draft's `card` (the line, the tables, the caption), `files` (the caption, the CSV's sources line, the two pictures, drawn again from the stored card) and `table_name`. It refuses a draft in which anything else would change, or whose line a person has edited. A second run says "already right" eight times.
+- It needs the tables and the service key, so it is the data machine's. It runs each finding once (about two minutes in all) and calls no model. `scanner_drafts` is read by `/internal/findings` and `/analysis`, both in review: no live page reads it.
+- Not run by me against the real list: the command was tested with a made-up list and a stand-in for the two requests. Its first real run is the dry run above.
+
+## Checks, with exit codes
+
+| What | Exit | Notes |
+|---|---|---|
+| `python -m unittest tests.test_session258 tests.test_session233 tests.test_session252` | 0 | 62 tests |
+| `tests.test_session170 tests.test_session173 tests.test_session174` | 0 | 47 tests, 2 skipped |
+| `tests.test_session181 tests.test_session182 tests.test_session238` | 0 | 112 tests, 1 skipped |
+| `tests.test_session177 tests.test_session181_worker tests.test_session182_flow` | 0 | 76 tests |
+| `tests.test_session183_replication tests.test_session190_replication tests.test_session231` | 0 | 86 tests, 2 skipped |
+| `tests.test_session232 tests.test_session241b tests.test_session191` | 0 | 64 tests |
+| `tests.test_session194 tests.test_session164 tests.test_session176` | 0 | 75 tests, 2 skipped |
+| `tests.test_session192 tests.test_session245 tests.test_session247` | 0 | 25 tests |
+| `runs/session258/real_reads.py` (read only, under the mutex) | 0 | ERCOT North and SPP North as the finding reads them, 8 s |
+| `runs/session258/dry_hunt.py` (the whole hunt, dry run, read only, under the mutex) | 0 | 7 patterns, 36 claims, 13 pass, 8 drafts, none loaded, no pattern failed |
+| The old code's dry run and the diff of the two runs | not run yet | waiting for the build mutex at 18:31 UTC; if it does not come, the equality of the eight ids and the rewrite's own refusal stand in its place |
+| Em dash in the files written | 0 found | also a test |
+
+- Not run: the whole suite (the orchestrator runs it on a clean copy at the landing); the site's checks (nothing under `site/` changed); a Stata do-file (no Stata here).
+- Pins moved: none. `tests/test_session233.py` still passes as it stood (`region_tables` is kept as the rule of a draft built without the reads).
+
+## Decisions made without you
+
+1. **The card names the claim's tables; the CSV names every table a row of the file rests on.** The live table brings ERCOT's rows only to the year under way, which is in the file and not in the claim. Naming it in the card would say more than the card shows; leaving it out of the file would drop a true source.
+2. **A draft of a price measure does not name the tables its module reads for other columns** (the fleet, the load, the solar fleet). A table without a market column cannot be given to a grid by its rows, so the pattern names what its measure needs (`measure_tables`): only the gas pattern has one, Henry Hub's prices. This is the one hand-kept part, and a test holds it inside the module's own tables.
+3. **By grid, not by node.** A table is named for a draft when it brought rows of the draft's grid; two hubs of one grid come from the same tables. If one hub's history had a gap the live table filled, the other hubs' drafts would name the live table too: more, never less.
+4. **1 January's first twelve UTC hours count for both years,** since every grid here is behind UTC. More, never less.
+5. **The site was not changed.** It prints the stored line. To correct it on the page I would have to know which stored table held which grid's rows in which years, which the stored fields do not say.
+6. **The rewrite command sits in `hunt.py`** as a flag, with `--dry-run`, and writes its pictures under `runs/hunt/source_lines/`. It rewrites a draft in any state (an approved draft is shown on `/analysis` with its line).
+7. **The full cards' builder got the same record, with a narrow rule:** it leaves a table out only when the finding asked for it through `read_table` and kept no row. By their code it should change none of today's eleven cards; that was read, not run on tables.
+
+## For Samuel's ruling
+
+1. The chart-of-the-week cards (`warehouse/analysis/templates/common.py`, shown on `/research`): the publishers named are every publisher of the table, not the grid charted. An ERCOT chart names CAISO, MISO and SPP. Change it to the charted grid's publisher ("Source: ERCOT's rows of ... table iso_rtm_hub_prices")? It changes 104 stored lines under `docs/analysis/` and the source line burned into those charts' pictures, so it is a data-machine regeneration and a page change.
+2. `batteries_lunch` (ERCOT alone) names `iso_rtm_hub_prices`, truly: ERCOT's rows after 26 August 2026 come from it, and the table is "license needed" from 21 October for MISO's rows. Should a full card of one grid say "ERCOT's rows of" before such a table, as the drafts do?
+3. The words of the new line: "Source: ERCOT's rows of the ERW table ercot_all_hub_prices_history; computed by the finding peak_hour_grids (warehouse/analysis/findings/). Found by the weekly hunt." (singular "table" when there is one; ", with the ERW table eia_fuel_spot_prices" for the gas pattern).
+4. Session 252's ruling 7 (EIA's own sentence in the scanner's source line) is untouched.
+
+## The landing
+
+filled by the orchestrator
