@@ -12,6 +12,8 @@
 // comparison can be shared as a link. No sentence here judges: each states a number. The block is described once, in
 // docs/methods/battery_earns_algorithm.md, section 11.1 ("The block the three pages share"); the generator's and the
 // datacenter's notes point to it.
+// Session 211: a field's Reset is named for its field (aria-label "Reset <label>", docs/brand.md section 7), so that
+// the twelve Resets of a panel are not twelve controls called "Reset"; what is drawn is unchanged.
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 
 export type View = "a" | "b";
@@ -209,7 +211,7 @@ export function ScenarioBlock({ fields, defaults: d, bound, head, rows, differin
                   ) : (
                     <NumberField f={f} value={a[k]} onValue={(v) => set(k, v)} read={(v) => bound(k, v)} />
                   )}
-                  <button type="button" data-reset={k} disabled={a[k] === d[k]} className="whitespace-nowrap border border-rule bg-white px-2 py-1 text-xs text-accent disabled:text-muted" onClick={() => set(k, d[k])}>Reset</button>
+                  <button type="button" data-reset={k} aria-label={`Reset ${f.label}`} disabled={a[k] === d[k]} className="whitespace-nowrap border border-rule bg-white px-2 py-1 text-xs text-accent disabled:text-muted" onClick={() => set(k, d[k])}>Reset</button>
                 </div>
                 <p className="mt-1 text-xs leading-snug text-muted" data-default={d[k]}>{f.note}</p>
               </div>

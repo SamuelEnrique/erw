@@ -350,3 +350,31 @@ body:has(.brand-a) header :focus-visible {
 .brand-a [data-bar] {
   min-height: 32px;
 }
+
+/* ---- session 211, from the TasteSkill audit (runs/session211/taste_audit.md); nothing here moves a number */
+/* the three headline numbers sit on the same lines: the label row, the number row and the note row are shared across
+   the three columns (a subgrid), so a label that wraps no longer pushes its number below its neighbours' */
+.brand-a .sm\:grid-cols-3:has(> .border-t-2) {
+  grid-auto-rows: auto;
+}
+.brand-a .sm\:grid-cols-3 > .border-t-2 {
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: span 3;
+}
+/* corners are square (docs/brand.md, section 3): the sensitivity chart's bars lose their rounded ends */
+.brand-a [data-sensitivity] [data-bar] span[style*="border-radius"] {
+  border-radius: 0 !important;
+}
+/* no word left alone on a last line: titles are balanced, paragraphs and notes are set "pretty" */
+.brand-a h1,
+.brand-a h2,
+.brand-a h3,
+.brand-a figcaption > .font-serif {
+  text-wrap: balance;
+}
+.brand-a p,
+.brand-a figcaption,
+.brand-a [data-default] {
+  text-wrap: pretty;
+}
