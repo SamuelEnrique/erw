@@ -145,7 +145,7 @@ class Datacenters(unittest.TestCase):
     def test_the_list_is_grouped_by_operator_and_keeps_its_rows_and_filters(self):
         t = src("site", "app", "datacenters", "DatacentersTable.tsx")
         self.assertIn("export function byOperator(rows: Facility[]): OperatorGroup[]", t)
-        self.assertIn("b.mw - a.mw || b.rows.length - a.rows.length || a.operator.localeCompare(b.operator)", t)      # the largest first
+        self.assertIn("Number(!a.operator) - Number(!b.operator) || b.mw - a.mw || b.rows.length - a.rows.length || a.operator.localeCompare(b.operator)", t)      # the largest first, the rows with no operator stated last
         self.assertIn("<FoldRows ", t)
         self.assertIn("check={`datacenters|operator_count|${g.operator}`}", t)
         self.assertIn("check={`datacenters|operator_mw|${g.operator}`}", t)

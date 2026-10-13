@@ -136,9 +136,9 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open }) => {
   await go(`${base}/board`);
   await wait(`!!document.querySelector('[data-board][data-ready="1"] [data-spark="eia-henry-hub-spot"] svg')`, 15000, "a trend line");
   // session 240: the wall is folded by group and Henry Hub's row is in a closed one (natural gas): its group is opened first, by its title
-  check(await evaluate(`!document.querySelector('[data-group="gas"] details').open && document.querySelector('[data-group="power"] details').open && document.querySelector('[data-spark="eia-henry-hub-spot"] svg').getBoundingClientRect().height === 0`), "as the page opens the first group is open and the others are closed");
+  check(await evaluate(`!document.querySelector('[data-group="gas"] details').open && document.querySelector('[data-group="power"] details').open && !document.querySelector('[data-spark="eia-henry-hub-spot"] svg').checkVisibility()`), "as the page opens the first group is open and the others are closed");
   await evaluate(`document.querySelector('[data-group="gas"] summary').click()`);
-  await wait(`document.querySelector('[data-group="gas"] details').open && document.querySelector('[data-spark="eia-henry-hub-spot"] svg').getBoundingClientRect().height > 0`, 5000, "the natural gas group, opened");
+  await wait(`document.querySelector('[data-group="gas"] details').open && document.querySelector('[data-spark="eia-henry-hub-spot"] svg').checkVisibility()`, 5000, "the natural gas group, opened");
   check(true, "a click on a group's title opens it");
   const tile = await evaluate(`(() => { const t = document.querySelector('[data-number-tile="eia-henry-hub-spot"]'); return t ? t.innerText.replace(/\\s+/g, ' ') : ''; })()`);
   check(/Henry Hub/.test(tile) && /USD\/MMBtu/.test(tile) && /Day/.test(tile) && /Week/.test(tile) && /20\d\d/.test(tile), `a tile of the top block reads its series, value, unit, date and its day and week moves ("${tile}")`);

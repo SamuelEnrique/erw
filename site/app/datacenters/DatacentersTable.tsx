@@ -48,7 +48,8 @@ const whole = (v: number) => Math.round(v).toLocaleString("en-US");
 
 export type OperatorGroup = { operator: string; rows: Facility[]; mw: number; nMw: number };
 /** The rows by operator, the largest first: by the megawatts the page's sums count (a named US state, not cancelled,
- *  MW stated), then by the number of facilities, then by name. The rows keep the order they come in. */
+ *  MW stated), then by the number of facilities, then by name; the rows with no operator stated are the last group.
+ *  The rows keep the order they come in. */
 export function byOperator(rows: Facility[]): OperatorGroup[] {
   const m = new Map<string, OperatorGroup>();
   for (const f of rows) {
@@ -57,7 +58,8 @@ export function byOperator(rows: Facility[]): OperatorGroup[] {
     if (f.country === "US" && !cancelled(f.status) && f.mw !== null) { g.mw += f.mw; g.nMw += 1; }
     m.set(f.operator, g);
   }
-  return [...m.values()].sort((a, b) => b.mw - a.mw || b.rows.length - a.rows.length || a.operator.localeCompare(b.operator));
+  // the rows no source names an operator for are not an operator: their group comes last, whatever its megawatts
+  return [...m.values()].sort((a, b) => Number(!a.operator) - Number(!b.operator) || b.mw - a.mw || b.rows.length - a.rows.length || a.operator.localeCompare(b.operator));
 }
 
 function Select({ name, value, set, options }: { name: string; value: string; set: (v: string) => void; options: string[] }) {
