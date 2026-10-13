@@ -307,7 +307,7 @@ class TheLivePageIsAsItWas(unittest.TestCase):
     def test_the_new_page_says_which_hour_and_that_miso_is_paused(self):
         # session 168: the page stands at /network; its folded sections are in the Method note, off the page face, and
         # MISO's panel reads the site's fixed words with the reason on hover
-        page = src("site", "app", "network", "page.tsx")
+        page = src("site", "components", "grid", "NetworkView.tsx")  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
         for words in ("Newest hour complete for every reporting pair", "data-silent-pairs", "v3={{ index, complete }}"):
             self.assertIn(words, page)
         note = src("docs", "methods", "grid_network.md")
@@ -318,7 +318,7 @@ class TheLivePageIsAsItWas(unittest.TestCase):
         self.assertIn("miso", src("warehouse", "metadata", "paused_sources.csv").lower())
 
     def test_no_em_dash_in_what_the_session_wrote(self):
-        for parts in (("site", "lib", "networkV3.ts"), ("site", "app", "network", "Network.tsx"), ("site", "app", "network", "page.tsx"), ("warehouse", "derived", "network_daily.py"),
+        for parts in (("site", "lib", "networkV3.ts"), ("site", "app", "network", "Network.tsx"), ("site", "components", "grid", "NetworkView.tsx"), ("warehouse", "derived", "network_daily.py"),  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
                       ("docs", "methods", "grid_network_v3.md"), ("tests", "test_session124.py")):
             self.assertNotIn(chr(0x2014), src(*parts), parts[-1])
 

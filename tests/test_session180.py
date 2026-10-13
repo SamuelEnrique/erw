@@ -251,7 +251,7 @@ class WhatTheSiteHolds(unittest.TestCase):
         for words in ("## The map (session 180)", "The boundary file is not yet held", "Matching is exact", "Overlaps are real", "What is simplified", "What the colors are not",
                       "Crawl-delay: 60", "numberMatched"):
             self.assertIn(words, note)
-        page = src("site", "app", "network", "page.tsx")
+        page = src("site", "components", "grid", "NetworkView.tsx")  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
         self.assertNotIn("What the colors are not", page)
 
     def test_the_page_stays_in_review(self):

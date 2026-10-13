@@ -29,6 +29,7 @@ import { shown } from "@/lib/format";
 import { HEADLINE, MEASURES, SPREAD, type Measure, type Supply } from "@/lib/basupply";
 import { clampDay, dayFrame, easternHours, parseShared, priceWeight, sharedQuery, trace as tracePower, type Daily, type DailyIndex, type ViewKey, PAUSED_PRICE, PAUSED_WORDS, monthSpan, type Complete } from "@/lib/networkV3";
 import { parseShape, withShape, type Shape } from "@/lib/networkMap";
+import { netFromPage, netToPage } from "@/lib/gridtool";
 
 // session 180: the map is loaded when it is first shown, so the network's own load is what it was
 const NetworkMap = dynamic(() => import("./NetworkMap").then((m) => m.NetworkMap), { ssr: false });
@@ -90,7 +91,19 @@ type View = {
 /** Session 124 (v3 only): a hub price a new page does not show (MISO, paused) reads as not held; without v3 the price is the view's own. */
 const priceOf = (view: View, v3on: boolean, id: string, h: number) => (v3on && PAUSED_PRICE[id] ? null : view.price(id, h));
 
-export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Record<string, Supply>; live: LiveExtras; v3?: { index: DailyIndex; complete?: Complete } }) {
+/** Session 237: a color of the brand, read from the token file where the canvas is (app/tokens.css); the literal is
+ * the token's own value, used only where no document is there to ask. */
+function token(el: Element | null, name: string, fallback: string): string {
+  if (!el || typeof window === "undefined") return fallback;
+  return window.getComputedStyle(el).getPropertyValue(name).trim() || fallback;
+}
+
+export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supply: Record<string, Supply>; live: LiveExtras; v3?: { index: DailyIndex; complete?: Complete };
+  /** session 237: the component is a view of the Grid tool (/grid). `keep` is the page's own query, which stays at the
+   *  head of the address; the component's "view" and "grid" are written as "net" and "node" after it (lib/gridtool.ts).
+   *  `node`: the balancing authority whose panel opens when the address names none (the grid chosen on the page). */
+  page?: { keep: string; node: string | null } }) {
+  const ownSearch = useCallback((search: string) => (page ? netFromPage(search, page.node) : search), [page]);
   const box = useRef<HTMLDivElement>(null);
   const graph = useRef<any>(null); // eslint-disable-line @typescript-eslint/no-explicit-any
   const three = useRef<any>(null); // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -403,7 +416,7 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
     if (!v3) return;
     let alive = true;
     (async () => {
-      const want = parseShared(window.location.search);
+      const want = parseShared(ownSearch(window.location.search));
       let frames: string[] = snap.hours;
       if (want.view === "day" && want.t) { const f = await watchDay(want.t, false); frames = f ? f.days.map(dayFrame) : frames; }
       else if (want.view === "uri_2021" || want.view === "east_heat_2025") { const s = await watchStory(want.view, false); frames = s ? s.hours : frames; }
@@ -425,8 +438,8 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
     grid: pick?.id ?? null, batteries: batteriesOn, prices: pricesOn, trace: traceOn }) : "";
   useEffect(() => {
     if (!v3 || !restored || playing) return;  // while it plays the address would change five times a second
-    window.history.replaceState(null, "", `${window.location.pathname}${withShape(shared, shape)}`);
-  }, [v3, restored, playing, shared, shape]);
+    window.history.replaceState(null, "", `${window.location.pathname}${page ? netToPage(page.keep, withShape(shared, shape)) : withShape(shared, shape)}`);
+  }, [v3, restored, playing, shared, shape, page]);
   // session 180: what the map draws, from the same view, hour and selection as the network
   const mapFlows = useMemo(() => (shape === "map" ? linksAt(hour) : []), [shape, linksAt, hour]);
   const mapNeighbours = useMemo(() => new Set(pick && shape === "map" ? view.links.filter((l) => l.a === pick.id || l.b === pick.id).map((l) => (l.a === pick.id ? l.b : l.a)) : []), [pick, view, shape]);

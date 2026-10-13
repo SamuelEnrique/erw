@@ -94,6 +94,14 @@ const PAGES = [
   "/mix/clean", "/mix/clean?grid=caiso&year=2026", "/mix/clean?grid=nyiso&year=2024", "/data/methods/clean_energy",  // session 122: how clean, and when (in review)
   "/resources", "/resources?on=oil_gas_basins,plants_operating&z=2&c=-101,32",  // session 146: where the resources are (in review; scripts/check-resources.mjs opens it in a real browser)
   "/mix/stress", "/mix/stress?grid=caiso&year=2026", "/mix/stress?grid=nyiso&year=2025", "/data/methods/grid_stress",  // session 123: how hard the system works (in review)
+  // session 237: the Grid tool, one page (in review): the eight choices, the six views, a view's own state, and old
+  // addresses whose words the tool reads (the network's grid=ERCO, the mix's ba). The addresses above that redirect into
+  // it (/network, /mix, /emissions, /mix/clean, /mix/stress, /grid/<iso>) stay in this list and are followed
+  "/grid?grid=ercot", "/grid?grid=caiso", "/grid?grid=pjm", "/grid?grid=miso", "/grid?grid=nyiso", "/grid?grid=isone", "/grid?grid=spp", "/grid?grid=us48",
+  "/grid?grid=ercot&view=network", "/grid?grid=ercot&view=mix", "/grid?grid=ercot&view=clean", "/grid?grid=ercot&view=exchange", "/grid?grid=ercot&view=ask",
+  "/grid?grid=us48&view=network", "/grid?grid=us48&view=mix", "/grid?grid=us48&view=clean", "/grid?grid=us48&view=exchange", "/grid?grid=us48&view=ask", "/grid?grid=nyiso&view=ask&q=What+was+the+highest+demand+this+week%3F",
+  "/grid?grid=caiso&view=mix&mix=day&period=2026-04", "/grid?grid=pjm&view=mix&mix=stress&year=2025", "/grid?grid=ercot&view=network&net=day&t=2021-02-15&node=ERCO&prices=1&trace=1&shape=map",
+  "/grid?view=network&grid=BPAT", "/grid?view=mix&ba=ciso&state=CA", "/grid?grid=nowhere&view=nothing",
   "/policy?view=week", "/policy?view=week&days=30", "/policy?view=week&days=30&agency=ferc&topic=large_load&grid=pjm&large=1", "/policy?view=week&grid=miso", "/data/methods/policy_monitor",  // session 157: "What changed this week", the second view of the policy monitor (in review; scripts/check-policy.mjs opens it in a real browser)
 ];
 

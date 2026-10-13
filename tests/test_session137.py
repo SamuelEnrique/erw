@@ -82,7 +82,7 @@ class TheComponent(unittest.TestCase):
 
     def test_it_is_used_on_both_pages_and_nothing_else_of_the_grid_page_moved(self):
         self.assertIn('return <AskPanel grid="ercot" initial={initial} context={context} />;', src("site", "app", "ask", "ercot", "AskErcot.tsx"))
-        page = src("site", "app", "grid", "[iso]", "page.tsx")
+        page = src("site", "components", "grid", "YourGrid.tsx")  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
         self.assertEqual(page.count("<AskPanel "), 1)
         self.assertIn('{g.slug === "ercot" ? <div className="mb-8"><AskPanel grid="ercot" inputId="ask-grid" showContext={false}', page)
         self.assertIn('<form action="/ask" method="get"', page)          # the six other grids keep their form

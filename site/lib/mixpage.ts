@@ -25,6 +25,11 @@ export type Choice = {
   /** Session 168: the grids "Select grids" shows on the views that open with every grid ("Now and by state",
    *  "Wind and solar forecasts"): every grid unless the address names some. On the other views it is `grids`. */
   shown: GridSlug[];
+  /** Session 237: the mix as a view of the Grid tool (/grid). `href` is the address the view stands at, with the
+   *  page's own grid and view in it ("/grid?grid=ercot&view=mix"); `viewKey` is the word the mix's own view is written
+   *  under there ("mix"), or null where the view is fixed (the Clean view draws "How clean, and when" and no other).
+   *  Without it the addresses are /mix's own, as they were. */
+  base?: { href: string; viewKey: string | null; grid: string };
 };
 /** Session 168: "Select grids" stands on every view. What each view does with the choice:
  *    compare  draws the grids chosen side by side, four at most (the seven views that always had the control);
@@ -69,7 +74,7 @@ export function choiceOf(q: Query): Choice {
 export function hrefOf(c: Choice, patch: Partial<Choice> = {}): string {
   const n = { ...c, ...patch };
   const q = new URLSearchParams();
-  if (n.view !== "now") q.set("view", n.view);
+  if (n.view !== "now" && (!n.base || n.base.viewKey)) q.set(n.base?.viewKey ?? "view", n.view);
   // session 168: the grids chosen are carried to every view that uses them. Nothing chosen (every grid on the two
   // views that open with every grid, ERCOT alone on the others) writes nothing, so the opening addresses are as they were
   const every = n.shown.length === ALL_GRIDS.length;
@@ -85,6 +90,7 @@ export function hrefOf(c: Choice, patch: Partial<Choice> = {}): string {
   if (["day", "duck"].includes(n.view) && n.factor !== "none") q.set("factor", n.factor);
   if (n.view === "forecast" && n.src !== "wind") q.set("src", n.src);
   const s = q.toString();
+  if (n.base) return s ? `${n.base.href}&${s}` : n.base.href;
   return s ? `/mix?${s}` : "/mix";
 }
 /** A grid added to or taken from the selection (at most four; the last one stays). */

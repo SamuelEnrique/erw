@@ -495,8 +495,8 @@ class PagesReadTogether(unittest.TestCase):
         for words in ("data.storageUnits()", 'data.series("storage_daily_cycle", { since: data.daysAgo(45) })', "await net.liveExtras({ hours: committed.hours });",
                       "for (const ba of Object.values(net.ISO_BA)) await net.supplyRows(ba);", "sb.restPaged(r.table, r.query, 0, MAX, 1)", "sb.restPaged(r.table, r.query, 0, MAX, together)"):
             self.assertIn(words, c, words)
-        self.assertIn("liveExtras(snap)", src("site", "app", "network", "page.tsx"))
-        self.assertIn("supplyRows(ba)", src("site", "app", "network", "page.tsx"))
+        self.assertIn("liveExtras(snap)", src("site", "components", "grid", "NetworkView.tsx"))  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
+        self.assertIn("supplyRows(ba)", src("site", "components", "grid", "NetworkView.tsx"))  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
         release = src("site", "lib", "release.ts")
         # session 166 (the owner's instruction of 8 October 2026): the three pages the comparison reads for are in review
         # now; the comparison still reads what they read

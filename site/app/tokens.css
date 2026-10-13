@@ -418,3 +418,24 @@ body:has(.brand-a) header :focus-visible {
 .brand-a [data-default] {
   text-wrap: pretty;
 }
+
+/* ---- session 237: links that choose a view of one page (components/tool/Choose.tsx). Tabs: the view shown is ink over
+   a cardinal rule, the others captions grey. Segments (a picker): ink on white with a captions edge, the one shown
+   white on ink. A link that chooses is never the running text's cardinal; it is told by its rule or its edge. */
+.brand-a nav[data-tabs] a {
+  color: var(--color-muted);
+}
+.brand-a nav[data-tabs] a:hover,
+.brand-a nav[data-tabs] a[aria-current="page"] {
+  color: var(--color-ink);
+}
+.brand-a nav[data-segments] a {
+  color: var(--color-ink);
+  border-color: var(--color-muted);
+  min-height: 24px;
+}
+.brand-a nav[data-segments] a[aria-current="page"] {
+  color: var(--color-panel);
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+}

@@ -155,7 +155,7 @@ class Fallback(unittest.TestCase):
         self.assertEqual(self.pick(s), ["storage", later(end, 2)])
 
     def test_page_reads_storage_with_revalidation_and_catches(self):
-        page = src("site", "app", "network", "page.tsx")
+        page = src("site", "components", "grid", "NetworkView.tsx")  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
         self.assertIn("export const revalidate = 3600", page)
         # session 55: the fetch moved to lib/network.ts (fetchHourly), shared with problem set E
         lib = src("site", "lib", "network.ts")
@@ -197,7 +197,7 @@ class Workflow(unittest.TestCase):
 
     def test_no_em_dashes(self):
         for p in (("warehouse", "derived", "network_hourly.py"), (".github", "workflows", "hourly-network.yml"), ("site", "lib", "network.ts"),
-                  ("site", "app", "network", "page.tsx"), ("site", "app", "network", "Network.tsx"), ("tests", "test_session54.py")):
+                  ("site", "components", "grid", "NetworkView.tsx"), ("site", "app", "network", "Network.tsx"), ("tests", "test_session54.py")):  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
             self.assertNotIn(chr(0x2014), src(*p), p)
 
 

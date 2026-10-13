@@ -64,6 +64,19 @@ const nextConfig: NextConfig = {
   // session 23: Energy Week became the Energy Roundup; the old addresses keep working
   async redirects() {
     return [
+      // session 237 (the roadmap's item 2): one tool, one page, one address. The Grid tool is /grid; the network, the
+      // energy mix, the emissions page and the seven grid pages are views of that page now, and their addresses redirect
+      // to the view each became. A query is carried over; where an old page's own word is one of the tool's two (view,
+      // grid), it is read by the tool (lib/gridtool.ts): the network's view is written as net, the mix's as mix, and a
+      // grid named by its EIA-930 code (grid=ERCO) chooses that grid. /network/v3 and /mix/v2 (below) arrive here in
+      // two steps, through the page each redirected to before.
+      { source: "/network", has: [{ type: "query", key: "view", value: "(?<net>[a-z0-9_]+)" }], destination: "/grid?view=network&net=:net", permanent: true },
+      { source: "/network", destination: "/grid?view=network", permanent: true },
+      { source: "/mix", has: [{ type: "query", key: "view", value: "clean" }], destination: "/grid?view=clean", permanent: true },
+      { source: "/mix", has: [{ type: "query", key: "view", value: "(?<mix>[a-z]+)" }], destination: "/grid?view=mix&mix=:mix", permanent: true },
+      { source: "/mix", destination: "/grid?view=mix", permanent: true },
+      { source: "/emissions", destination: "/grid?view=clean", permanent: true },
+      { source: "/grid/:iso(ercot|caiso|pjm|nyiso|isone|miso|spp)", destination: "/grid?grid=:iso", permanent: true },
       // session 145: one tool, one page, one address. What a generator earns is /cost-of-power/seller; its second version
       // is folded into it and its address redirects there (a query is carried over)
       { source: "/cost-of-power/seller/v2", destination: "/cost-of-power/seller", permanent: true },

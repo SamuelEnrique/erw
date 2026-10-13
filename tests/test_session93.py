@@ -181,7 +181,7 @@ class TheLivePageIsAsItWas(unittest.TestCase):
         self.assertIn("<Network snap={snap} supply={supply} live={extras} />", page)
         self.assertNotIn("v3=", page)
         self.assertIn("pickSnapshot(await fetchHourly(HOURLY), committed)", page)
-        v3 = src("site", "app", "network", "page.tsx")
+        v3 = src("site", "components", "grid", "NetworkView.tsx")  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
         self.assertIn("<Network snap={snap} supply={supply} live={extras} v3={{ index, complete }} />", v3)   # session 124
         self.assertFalse(os.path.exists(os.path.join(SITE, "app", "network", "v3", "page.tsx")))
         self.assertIn('{ source: "/network/v3", destination: "/network", permanent: true }', src("site", "next.config.ts"))
@@ -211,7 +211,7 @@ class TheLivePageIsAsItWas(unittest.TestCase):
         data = src("site", "app", "network", "data.ts")
         for fn in ("export async function liveExtras(snap: Snapshot): Promise<LiveExtras>", "export async function supplyRows(ba: string): Promise<SupplyRow[]>", "export const ISO_BA"):
             self.assertIn(fn, data)
-        self.assertIn('import { ISO_BA, liveExtras, supplyRows } from "./data";', src("site", "app", "network", "page.tsx"))
+        self.assertIn('import { ISO_BA, liveExtras, supplyRows } from "./data";', src("site", "components", "grid", "NetworkView.tsx"))  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
 
     def test_in_a_real_browser_where_a_built_site_is_served(self):
         base = os.environ.get("ERW_SITE_URL")
@@ -223,7 +223,7 @@ class TheLivePageIsAsItWas(unittest.TestCase):
         self.assertNotIn("NOT PROVEN", r.stdout)
 
     def test_no_em_dash_in_what_the_session_wrote(self):
-        for rel in ("tests/test_session93.py", "warehouse/derived/network_daily.py", "site/lib/networkV3.ts", "site/app/network/page.tsx", "site/app/network/data.ts",
+        for rel in ("tests/test_session93.py", "warehouse/derived/network_daily.py", "site/lib/networkV3.ts", "site/components/grid/NetworkView.tsx", "site/app/network/data.ts",  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
                     "site/app/network/Network.tsx", "site/scripts/check-network-v3.mjs", "site/scripts/browser.mjs", "site/public/network/daily_index.json"):
             self.assertNotIn(chr(0x2014), src(*rel.split("/")), rel)
 
