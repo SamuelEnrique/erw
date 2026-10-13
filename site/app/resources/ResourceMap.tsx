@@ -19,6 +19,9 @@ import statesTopo from "us-atlas/states-10m.json";
 import { COLOR } from "@/lib/map2";
 import * as R from "@/lib/resources";
 
+// Session 239: the map is the resources tab of /map (/map?tab=resources): the address it writes keeps the tab first
+const TAB = "?tab=resources&";
+
 type GridImg = { grid: R.Grid; canvas: HTMLCanvasElement; cell: number; decimals: number };
 type Feat = { path: Path2D; box: [number, number, number, number]; geometry: R.Geometry; props: Record<string, unknown>; fill: string; stroke: string; line: boolean };
 type Dot = { lon: number; lat: number; props: Record<string, unknown> };
@@ -569,7 +572,7 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
       }
       const lp = lastPointer.current;
       if (lp && !L.dragging && readRef.current) setHover(readRef.current(lp.x, lp.y));
-      if (L.ready && L.touched) window.history.replaceState(null, "", `${window.location.pathname}${R.shownQuery({ on: L.on, view: v, fuel: L.fuel })}`);
+      if (L.ready && L.touched) window.history.replaceState(null, "", `${window.location.pathname}${R.shownQuery({ on: L.on, view: v, fuel: L.fuel }).replace("?", TAB)}`);
     }, 160);
   }, [draw, load, pyramids, redraw]);
 
@@ -616,7 +619,7 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
     const shown = R.parseShown(window.location.search, layers);
     view.current = shown.view;
     live.current.on = shown.on; live.current.fuel = shown.fuel; live.current.ready = true;
-    live.current.touched = window.location.search.length > 1;
+    live.current.touched = [...new URLSearchParams(window.location.search).keys()].some((k) => k !== "tab");   // session 239: the tab alone is not a choice
 
     const el = box.current, cv = canvas.current;
     if (!el || !cv) return;

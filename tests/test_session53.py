@@ -34,6 +34,10 @@ def src(*p):
 
 def route_exists(href):
     """A page.tsx under site/app for the path, static segments first, then a dynamic [segment]."""
+    # session 239: an address folded into a tab of another page answers through its redirect (next.config.ts)
+    with open(os.path.join(SITE, "next.config.ts"), encoding="utf-8") as f:
+        if 'source: "%s"' % href.split("#")[0].split("?")[0] in f.read():
+            return True
     parts = [p for p in href.split("#")[0].split("?")[0].strip("/").split("/") if p]
     d = os.path.join(SITE, "app")
     for p in parts:
@@ -69,7 +73,7 @@ class Nav(unittest.TestCase):
         with open(os.path.join(SITE, "next.config.ts"), encoding="utf-8") as f:
             cfg = f.read()
         self.assertEqual([h for h in BEFORE if h not in now and f'source: "{h}"' not in cfg], [])
-        for h in ("/tour", "/cost-of-power/seller", "/severance/lease"):
+        for h in ("/tour", "/cost-of-power/seller", "/severance"):   # session 239: the lease tool is a tab of /severance
             self.assertIn(h, now)
 
     def test_every_nav_page_in_the_inventory(self):

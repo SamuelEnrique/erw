@@ -24,11 +24,14 @@ NODE = shutil.which("node")
 EM = chr(0x2014)
 
 # the 52 addresses of the menu as it stood before the session (site/lib/pages.ts at 5f944708)
-BEFORE = """/about /analysis /ask /battery/customer /board /companies /consumption /contracts /cost-of-power /cost-of-power/battery
-/cost-of-power/seller /curtailment /data /datacenters /deals /demand /digest /emissions /events /explorer/ercot-peak-premium /grid
+# session 239 (the owner's instruction of 12 October 2026): seven pages became tabs of another page and left the menu, each
+# address redirecting to its tab (tests/test_session239.py): /companies, /consumption, /explorer/ercot-peak-premium,
+# /resources, /severance/lease, /storage/buildout and /storage/owners. The list below is the menu without them.
+BEFORE = """/about /analysis /ask /battery/customer /board /contracts /cost-of-power /cost-of-power/battery
+/cost-of-power/seller /curtailment /data /datacenters /deals /demand /digest /emissions /events /grid
 /grid/caiso /grid/ercot /grid/isone /grid/miso /grid/nyiso /grid/pjm /grid/spp /learn/bill /learn/problems/know-your-grid
 /learn/problems/networks-and-money /learn/problems/prices-and-your-bill /learn/problems/when-the-grid-broke /map /mix /network
-/play/battery /policy /prices /resources /roundup /severance /severance/lease /shoulder /storage /storage/buildout /storage/owners
+/play/battery /policy /prices /roundup /severance /shoulder /storage
 /subscribe /supply /terms /thesis /tour""".split()
 
 

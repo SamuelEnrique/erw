@@ -1,8 +1,7 @@
-import type { Metadata } from "next";
 import { AskErcotLink } from "@/components/AskErcotLink";
 import Link from "next/link";
 import { SiteLink } from "@/components/SiteLink";
-import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
+import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import data from "@/data/storage_owners.json";
 import { GRIDS, SHOWN, TABLE, choices, monthName, rowKey, shown, view, type OwnerRow, type Snapshot } from "@/lib/storageowners";
 
@@ -13,7 +12,8 @@ import { GRIDS, SHOWN, TABLE, choices, monthName, rowKey, shown, view, type Owne
 // Supabase. lib/storageowners.ts picks and sorts the values; the page does no arithmetic. Laid out as the battery page
 // is (components/tool/ToolPage.tsx). In review (lib/release.ts). The panel's links point at this same page: plain
 // next/link, as on the build-out page.
-export const metadata: Metadata = { title: "Who owns the batteries", robots: { index: false, follow: false } };
+// Session 239: the owners tab of /storage (lib/tabs.ts). What /storage/owners drew is drawn here, block for block; the
+// page (app/storage/page.tsx) carries the brand, the sheet and the tabs, and /storage/owners redirects to the tab.
 
 const METHOD = "/data/methods/storage_owners";
 const BAR = "var(--color-accent)";
@@ -47,9 +47,8 @@ function Bars({ rows }: { rows: OwnerRow[] }) {
   );
 }
 
-export default async function Owners({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
-  const sp = await searchParams;
-  const { grid } = choices(Object.fromEntries(Object.entries(sp).map(([k, v]) => [k, typeof v === "string" ? v : undefined])));
+export async function OwnersView({ sp }: { sp: Record<string, string | undefined> }) {
+  const { grid } = choices(sp);
   const snap = data as unknown as Snapshot;
   const v = view(snap, grid);
   const g = v.grid;
@@ -57,10 +56,10 @@ export default async function Owners({ searchParams }: { searchParams: Promise<R
   const item = (on: boolean) => `block border-l-2 px-2 py-1 no-underline ${on ? "border-accent font-semibold text-accent" : "border-transparent text-ink hover:text-accent"}`;
   const first = v.operating[0];
   return (
-    <ToolPage>
+    <>
       <ToolHeader title="Who owns the batteries"
         lead={<>Operating and planned battery storage by the company that reports each plant, on each US grid, from the monthly generator inventory of the US Energy
-          Information Administration. How much has been built is on <SiteLink href="/storage/buildout">Storage build-out</SiteLink>; what a battery earns is
+          Information Administration. How much has been built is on <SiteLink href="/storage?tab=buildout">the build-out</SiteLink>; what a battery earns is
           on <SiteLink href="/cost-of-power/battery">What a battery earns</SiteLink>. <SiteLink href={METHOD}>Method</SiteLink>.</>} />
       {grid.slug === "ercot" ? <AskErcotLink context={{ view: "/storage/owners", title: "Who owns the batteries", settings: { grid: "ERCOT" } }} /> : null}
       <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
@@ -70,7 +69,7 @@ export default async function Owners({ searchParams }: { searchParams: Promise<R
               <div className="mb-1 text-xs uppercase tracking-wide text-muted">Grid</div>
               <ul className="text-sm">
                 {GRIDS.map((x) => (
-                  <li key={x.slug}><Link href={`/storage/owners?grid=${x.slug}`} aria-current={x.slug === grid.slug ? "true" : undefined} className={item(x.slug === grid.slug)}>{x.label}</Link></li>
+                  <li key={x.slug}><Link href={`/storage?tab=owners&grid=${x.slug}`} aria-current={x.slug === grid.slug ? "true" : undefined} className={item(x.slug === grid.slug)}>{x.label}</Link></li>
                 ))}
               </ul>
             </nav>
@@ -167,6 +166,6 @@ export default async function Owners({ searchParams }: { searchParams: Promise<R
       <SourceLine tables={[TABLE]}
         note={<>Derived by the ERW from EIA-860M, the Monthly Electric Generator Inventory, of {monthName(m)} (public domain). Hover a number for the row it is. Read from the page&apos;s
           own copy of the table, built {snap.built.slice(0, 4)}-{snap.built.slice(4, 6)}-{snap.built.slice(6, 8)}.</>} />
-    </ToolPage>
+    </>
   );
 }

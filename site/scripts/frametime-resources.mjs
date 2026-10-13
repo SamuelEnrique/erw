@@ -83,7 +83,7 @@ try {
   if (probe !== "frames run") throw new Error("the window draws no frames (the screen is locked or the window is hidden); run again with the screen on, or with --headless");
 
   for (const ids of scenarios) {
-    await send("Page.navigate", { url: `${base}/resources?on=${ids.join(",")}&z=1&c=-95.75,37.25` });
+    await send("Page.navigate", { url: `${base}/map?tab=resources&on=${ids.join(",")}&z=1&c=-95.75,37.25` });
     let ok = false;
     for (let i = 0; i < 240 && !ok; i++) {
       await sleep(250);

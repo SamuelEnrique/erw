@@ -216,7 +216,7 @@ check(R.levelFor([], 10) === null && R.levelFor([{ file: "a", cell_deg: 0.1 }], 
 
 // no em dash in the page's own files
 {
-  const files = ["lib/resources.ts", "lib/resourcesdata.ts", "app/resources/page.tsx", "app/resources/ResourceMap.tsx", "app/resources/layer/[name]/route.ts", "app/resources/overlay/plants/route.ts",
+  const files = ["lib/resources.ts", "lib/resourcesdata.ts", "app/resources/view.tsx", "app/resources/ResourceMap.tsx", "app/resources/layer/[name]/route.ts", "app/resources/overlay/plants/route.ts",
     "app/resources/overlay/queue/route.ts", "app/resources/overlay/datacenters/route.ts", "scripts/test-resources.mjs", "scripts/check-resources.mjs", "scripts/frametime-resources.mjs"];
   const dash = files.filter((f) => fs.existsSync(path.join(here, "..", f)) && fs.readFileSync(path.join(here, "..", f), "utf-8").includes(String.fromCharCode(0x2014)));
   check(dash.length === 0, `no em dash in the page's files${dash.length ? ` (${dash.join(", ")})` : ""}`);

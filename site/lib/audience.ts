@@ -23,8 +23,9 @@ export const AUDIENCES: Audience[] = [
       { href: "/board", label: "The price board", question: "Where do power, gas and oil prices stand, and how did they move on the day and the week?" },
       { href: "/prices/compare", label: "Where power is cheap", question: "Which hubs and zones were cheapest over the last twelve months?" },
       { href: "/shoulder", label: "The shoulder hours", question: "How long is the evening stretch batteries are built for, and how much of it does the fleet cover?" },
-      { href: "/storage/buildout", label: "Storage build-out", question: "How much storage has each grid built, of what duration, and what is planned?" },
-      { href: "/storage/owners", label: "Who owns the batteries", question: "Which companies report the battery fleet of each grid?" },
+      // session 239: the build-out and the owners are tabs of /storage (lib/tabs.ts); their old addresses redirect to these
+      { href: "/storage?tab=buildout", label: "Storage build-out", question: "How much storage has each grid built, of what duration, and what is planned?" },
+      { href: "/storage?tab=owners", label: "Who owns the batteries", question: "Which companies report the battery fleet of each grid?" },
       { href: "/contracts", label: "Power contracts", question: "Where are power contracts being struck, and who are the largest buyers?" },
       { href: "/datacenters/v2", label: "The datacenter tracker", question: "How much large load has Texas approved, and how much is running?" },
       { href: "/deals", label: "Deals", question: "Which energy deals were announced, by whom and for how much?" },

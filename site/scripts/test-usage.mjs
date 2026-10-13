@@ -162,7 +162,7 @@ await test("cleanPath: a page of this site, without its query; anything else is 
 
 await test("toolOf: the menu's own names, by the nearest parent", () => {
   assert.equal(up.toolOf("/storage"), "Storage");
-  assert.equal(up.toolOf("/storage/buildout"), "Storage build-out");
+  assert.equal(up.toolOf("/storage/buildout"), "Storage");   // session 239: the build-out is a tab of /storage (it was "Storage build-out", a menu entry of its own)
   assert.equal(up.toolOf("/cost-of-power/battery"), "What a battery earns");
   assert.equal(up.toolOf("/cost-of-power/battery/awards"), "What a battery earns");
   assert.equal(up.toolOf("/grid/ercot"), "ERCOT");

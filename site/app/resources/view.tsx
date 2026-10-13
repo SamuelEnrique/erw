@@ -1,5 +1,4 @@
-import type { Metadata } from "next";
-import { ToolHeader, ToolPage } from "@/components/tool/ToolPage";
+import { ToolHeader } from "@/components/tool/ToolPage";
 import { DOCS, render } from "@/lib/markdown";
 import { filesOf, pyramidsOf, toggleGroups, KX, MIN_CELL_PX, QUEUE_GRIDS, type Layer } from "@/lib/resources";
 import { readManifest } from "@/lib/resourcesdata";
@@ -17,7 +16,12 @@ import { ResourceMap } from "./ResourceMap";
 // capacity factor is a greyed toggle whose hover says why it is not fetched; the Method note states the queue grid by
 // grid: each grid that is not shown reads its operator's own words, which are written once, in lib/resources.ts.
 
-export const metadata: Metadata = { title: "Where the resources are", robots: { index: false, follow: false } };
+// Session 239: the resources tab of /map (lib/tabs.ts). What /resources drew is drawn here, block for block; the page
+// (app/map/page.tsx) carries the brand, the sheet and the tabs, and /resources redirects to the tab with its query
+// (the layers switched on, the zoom and the centre). The two maps are two components (ProjectMap draws units on an
+// SVG of the states, ResourceMap draws grids and shapes on a canvas with its own plane), so the resources are a second
+// view of the one page, not layers of the one map. The layer and overlay files keep their addresses
+// (/resources/layer, /resources/overlay).
 
 const day = (s: string | undefined) => (s ? s.slice(0, 10) : "not stated");
 
@@ -50,7 +54,7 @@ function LayerNote({ l }: { l: Layer }) {
   );
 }
 
-export default function Resources() {
+export function ResourcesView() {
   const { manifest, reason } = readManifest();
   const groups = toggleGroups(manifest);
   // what the map needs of each layer; the words of method stay on the server, in the note below
@@ -63,7 +67,7 @@ export default function Resources() {
   const doc = DOCS.methods?.resources;
   const missing = groups.flatMap((g) => g.items.flatMap((it) => (it.held ? [] : [{ group: g.label, label: it.label, reason: it.reason }])));
   return (
-    <ToolPage>
+    <>
       <ToolHeader title="Where the resources are"
         lead={<>The project map shows what is built; this shows the natural resource itself: switch a layer on and point at the map for the value there.</>} />
       <ResourceMap layers={layers} groups={groups} manifestReason={reason} />
@@ -112,6 +116,6 @@ export default function Resources() {
           <p className="mt-4 text-xs text-muted">List of layers built {day(manifest.built_at_utc)}.</p>
         </div>
       </details>
-    </ToolPage>
+    </>
   );
 }

@@ -1,6 +1,4 @@
-import type { Metadata } from "next";
 import { AskErcotLink } from "@/components/AskErcotLink";
-import { Related } from "@/components/Related";
 import { Term } from "@/components/Term";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { Cite } from "@/components/Cite";
@@ -9,14 +7,15 @@ import { headers, series, seriesVariables } from "@/lib/data";
 import { attempt } from "@/lib/supabase";
 import { Explorer, type Row } from "./Explorer";
 
-export const revalidate = 3600;
-export const metadata: Metadata = { title: "ERCOT peak premium" };
+// Session 239: the ERCOT tab of /prices (lib/tabs.ts). What /explorer/ercot-peak-premium drew is drawn here, block for
+// block; the page (app/prices/page.tsx) carries the brand, the sheet, the tabs and the Related line, and
+// /explorer/ercot-peak-premium redirects to the tab.
 
 const ANNUAL = "ercot_peak_premium_annual";
 const MONTHLY = "ercot_peak_premium_monthly";
 const MONTHLY_VARS = ["peak_median", "midday_median", "overnight_median", "peak_iqr"];
 
-export default async function PeakPremium() {
+export async function PeakPremiumView() {
   const [annual, monthly, hdr] = await Promise.all([
     attempt(() => series(ANNUAL, {})),
     attempt(() => seriesVariables(MONTHLY, MONTHLY_VARS)),
@@ -53,7 +52,6 @@ export default async function PeakPremium() {
           citeMonthly={<Cite tables={[MONTHLY]} note="Calendar months in America/Chicago" />}
         />
       )}
-      <Related href="/explorer/ercot-peak-premium" />
     </>
   );
 }

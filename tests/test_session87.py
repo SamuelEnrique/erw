@@ -184,11 +184,15 @@ class Page(unittest.TestCase):
 
     def test_in_review_reads_the_snapshot_and_states_what_an_owner_is(self):
         self.assertRegex(self.src("site", "lib", "release.ts"), r'"/storage/owners":\s*"review"')
-        page = self.src("site", "app", "storage", "owners", "page.tsx")
+        page = self.src("site", "app", "storage", "owners", "view.tsx")   # session 239: the view of the owners tab of /storage
         self.assertIn('import data from "@/data/storage_owners.json"', page)
         self.assertNotIn("@/lib/supabase", page)
-        self.assertIn("robots: { index: false, follow: false }", page)
-        for piece in ("ToolPage", "ToolHeader", "InputPanel", "HeadlineRow", "ChartFrame", "ToolSection", "Fold", "SourceLine"):
+        # session 239: the view has no metadata of its own (the page is /storage, in review: a visitor is answered the
+        # in-review page, which the proxy marks noindex)
+        self.assertRegex(self.src("site", "lib", "release.ts"), r'"/storage": "review"')
+        self.assertIn('res.headers.set("X-Robots-Tag", "noindex");', self.src("site", "proxy.ts"))
+        self.assertIn("<ToolPage>", self.src("site", "app", "storage", "page.tsx"))   # session 239: the sheet is the page's, around the tabs
+        for piece in ("ToolHeader", "InputPanel", "HeadlineRow", "ChartFrame", "ToolSection", "Fold", "SourceLine"):
             self.assertIn(f"<{piece}", page)                                       # the battery page's layout
         flat = " ".join(page.split())
         self.assertIn("often a project company", flat)
@@ -233,7 +237,7 @@ console.log(JSON.stringify({
         self.assertEqual((d["shown"], d["month"]), (["1,234.6", "not held", "3"], "August 2026"))
 
     def test_no_em_dash_in_what_the_session_wrote(self):
-        for rel in ("site/app/storage/owners/page.tsx", "site/lib/storageowners.ts", "warehouse/derived/storage_owners.py",
+        for rel in ("site/app/storage/owners/view.tsx", "site/lib/storageowners.ts", "warehouse/derived/storage_owners.py",
                     "docs/methods/storage_owners.md", "tests/test_session87.py"):
             self.assertNotIn(chr(0x2014), self.src(*rel.split("/")), rel)
 

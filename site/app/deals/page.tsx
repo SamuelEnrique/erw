@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 import { Related } from "@/components/Related";
 import { Cite } from "@/components/Cite";
 import { NoData } from "@/components/NoData";
@@ -7,12 +8,38 @@ import { companies, deals, renderTime } from "@/lib/data";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { count } from "@/lib/format";
 import { attempt } from "@/lib/supabase";
+import { Tabs } from "@/components/tool/Tabs";
+import { ToolPage } from "@/components/tool/ToolPage";
+import { one, tabOf } from "@/lib/tabs";
+import { CompaniesView } from "../companies/view";
 import { DealsTable, type Deal } from "./DealsTable";
+import { TrackerView } from "./v2/view";
 
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "Deals" };
 
-export default async function DealsPage() {
+// Session 239: one page, three tabs (lib/tabs.ts): the deals (what this page drew, below), the tracker (what /deals/v2
+// drew: the same deals by type, technology, grid, counterparty and year) and the companies (what /companies drew).
+// The two old addresses redirect to their tabs. The tab is in the address, ?tab=; a company is a filter of the
+// tracker (?tab=tracker&party=<name>), and each company row links to it.
+export default async function DealsPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  const sp = one(await searchParams);
+  const tab = tabOf("/deals", sp.tab);
+  return (
+    <Brand>
+      <ToolPage>
+        <div data-deals-tab={tab}>
+          <Tabs page="/deals" active={tab} />
+          {tab === "tracker" ? <TrackerView sp={sp} /> : tab === "companies" ? <CompaniesView /> : <DealsView />}
+          <Related href="/deals" />
+        </div>
+      </ToolPage>
+    </Brand>
+  );
+}
+
+/** The first tab: every deal in a sortable table, with the counts of this month (what /deals drew before session 239). */
+async function DealsView() {
   const res = await attempt(deals);
   const cos = await attempt(companies); // session 26: party names that match a company link to /companies
   const month = new Date(renderTime()).toISOString().slice(0, 7);
@@ -26,7 +53,7 @@ export default async function DealsPage() {
         Transactions: power purchase agreements, offtakes, acquisitions, financings, joint ventures, fuel supply,
         nuclear and datacenter power deals. Each deal is extracted from the stories&apos; titles and summaries by a model, and every number was checked
         against the text it came from; a number the stories do not state is left blank. A deal reported by several stories is one row, with every
-        story linked. A party that is in the company table links to its row on <Link href="/companies">/companies</Link>.
+        story linked. A party that is in the company table links to its row on <Link href="/deals?tab=companies">Companies</Link>.
       </p>
       {!res.ok ? (
         <NoData what="deals" reason={res.reason} />
@@ -122,7 +149,6 @@ function Body({ rows, month: current, companies }: { rows: Deal[]; month: string
         tables={["energy_deals"]}
         note="Extracted by warehouse/deals/extract.py from the scored stories of news_stories; the evidence sentences are outlet text and stay in the internal table energy_deals_evidence"
       />
-      <Related href="/deals" />
     </>
   );
 }

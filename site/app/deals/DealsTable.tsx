@@ -77,7 +77,7 @@ function Parties({ text, sep, known }: { text: string; sep: string; known: Set<s
         <Fragment key={`${n}-${i}`}>
           {i ? (sep === ";" ? ", " : " / ") : ""}
           {known.has(companyKey(n)) ? (
-            <a href={`/companies#${companyAnchor(n)}`} onClick={(e) => e.stopPropagation()}>
+            <a href={`/deals?tab=companies#${companyAnchor(n)}`} onClick={(e) => e.stopPropagation()}>
               {n}
             </a>
           ) : (
