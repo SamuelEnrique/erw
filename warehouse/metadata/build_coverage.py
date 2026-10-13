@@ -291,8 +291,8 @@ def iso_of(table):
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP"
     if table == "battery_stack_review_monthly":  # session 86: the two grids in review
         return "NYISO;SPP"
-    if table in ("battery_stack_monthly", "battery_stack_stress_daily"):  # session 67: ERCOT and CAISO (the stress days: ERCOT)
-        return "CAISO;ERCOT" if table == "battery_stack_monthly" else "ERCOT"
+    if table in ("battery_stack_monthly", "battery_stack_stress_daily"):  # session 67: ERCOT and CAISO (session 246: the stress days too; ERCOT alone until then)
+        return "CAISO;ERCOT"
     if table == "iso_all_capacity_prices":  # session 65: the markets with a capacity auction (ERCOT and CAISO have none)
         return "ISO-NE;MISO;NYISO;PJM"
     if table == "iso_hub_prices_history":  # session 49: the five ISOs' main hubs (ERCOT's history is its own table)
