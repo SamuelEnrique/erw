@@ -25,7 +25,7 @@ export function V({ row, className }: { row: Row | undefined; className?: string
 
 /** The left panel: the grid and the measure, each choice a link, so it works without a script. */
 export function Panel({ grid, measure }: { grid: Grid; measure: Measure }) {
-  const href = (g: string, m: string) => `/storage/buildout?grid=${g}&measure=${m}`;
+  const href = (g: string, m: string) => `/storage?tab=buildout&grid=${g}&measure=${m}`;  // session 239: the build-out is a tab of /storage
   const item = (on: boolean) => `block border-l-2 px-2 py-1 no-underline ${on ? "border-accent font-semibold text-accent" : "border-transparent text-ink hover:text-accent"}`;
   return (
     <div aria-label="Choices">
@@ -223,7 +223,7 @@ export function GridTable({ v }: { v: View }) {
             return (
               <tr key={g.slug} className={`border-b border-rule ${on ? "bg-paper" : ""} ${g.slug === "us" ? "font-semibold" : ""}`}>
                 <td className="whitespace-nowrap px-1.5 py-1">
-                  {GRIDS.some((x) => x.slug === g.slug) ? <Link href={`/storage/buildout?grid=${g.slug}&measure=${v.measure}`} className="no-underline">{g.label}</Link> : g.label}
+                  {GRIDS.some((x) => x.slug === g.slug) ? <Link href={`/storage?tab=buildout&grid=${g.slug}&measure=${v.measure}`} className="no-underline">{g.label}</Link> : g.label}
                 </td>
                 <td className={td}><V row={g.mw} /></td>
                 <td className={td}><V row={g.mwh} /></td>

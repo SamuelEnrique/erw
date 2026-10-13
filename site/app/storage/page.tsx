@@ -4,11 +4,16 @@ import { InlineBars, InlineSpark } from "@/components/InlineSpark";
 import { LineChart, type Line } from "@/components/LineChart";
 import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";
+import { Brand } from "@/components/Brand";
+import { Tabs } from "@/components/tool/Tabs";
 import { ChartFrame, HeadlineNumber, HeadlineRow, SourceLine, ToolHeader, ToolPage, ToolSection } from "@/components/tool/ToolPage";
 import { daysAgo, series, storageUnits, type SeriesRow, type StorageUnit } from "@/lib/data";
 import { count, day, shown } from "@/lib/format";
 import { attempt } from "@/lib/supabase";
+import { one, tabOf } from "@/lib/tabs";
 import { TIER_LABEL, TIER_TITLE } from "@/lib/tiers";
+import { BuildoutView } from "./buildout/view";
+import { OwnersView } from "./owners/view";
 
 // Session 31 (Part B3): battery storage. The fleet from storage_capacity (EIA-860M battery units, derived), the daily
 // cycle from storage_daily_cycle (derived), and the hourly charge and discharge from eia930_all_storage (EIA-930,
@@ -259,7 +264,25 @@ function Cycle({ rows }: { rows: SeriesRow[] }) {
   );
 }
 
-export default async function Storage() {
+// Session 239: one page, three tabs (lib/tabs.ts): the fleet (what this page drew, below), the build-out and the owners
+// (what /storage/buildout and /storage/owners drew; each redirects to its tab). The tab is in the address, ?tab=.
+export default async function Storage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  const sp = one(await searchParams);
+  const tab = tabOf("/storage", sp.tab);
+  return (
+    <Brand>
+      <ToolPage>
+        <div data-storage={tab}>
+          <Tabs page="/storage" active={tab} />
+          {tab === "buildout" ? <BuildoutView sp={sp} /> : tab === "owners" ? <OwnersView sp={sp} /> : <FleetView />}
+        </div>
+      </ToolPage>
+    </Brand>
+  );
+}
+
+/** The first tab: the fleet and what it does each hour (what /storage drew before session 239). */
+async function FleetView() {
   const since30 = daysAgo(31);
   const [units, cycle, hourly, caiso] = await Promise.all([
     attempt(storageUnits),
@@ -296,9 +319,9 @@ export default async function Storage() {
   );
   const H2 = "mb-2 border-b border-rule pb-1 font-serif text-xl text-accent";
   return (
-    <ToolPage>
+    <>
       <ToolHeader title="Battery storage"
-        lead={<>The US battery fleet from EIA&apos;s monthly generator inventory, and how the batteries charge and discharge each hour from EIA-930. <Link href={METHOD}>Method</Link>. What a battery earns doing it is on <Link href="/cost-of-power/battery">What a battery earns</Link>.</>} />
+        lead={<>The US battery fleet from EIA&apos;s monthly generator inventory, and how the batteries charge and discharge each hour from EIA-930. <Link href={METHOD}>Method</Link>. What a battery earns doing it is on <Link href="/cost-of-power/battery">What a battery earns</Link>. How much has been built, and of what duration, is on <Link href="/storage?tab=buildout">the build-out</Link>; who reports each plant is on <Link href="/storage?tab=owners">the owners</Link>.</>} />
 
       {units.ok ? (
         <HeadlineRow>
@@ -350,6 +373,6 @@ export default async function Storage() {
 
       <SourceLine tables={["storage_capacity", "storage_daily_cycle", "eia930_all_storage", "caiso_battery_storage"]}
         note="The fleet: EIA-860M, derived by the ERW. The daily cycle: derived from EIA-930 and CAISO's Today's Outlook. The hourly series: EIA-930 and CAISO, as published." />
-    </ToolPage>
+    </>
   );
 }

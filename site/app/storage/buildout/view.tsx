@@ -1,7 +1,6 @@
-import type { Metadata } from "next";
 import { AskErcotLink } from "@/components/AskErcotLink";
 import { SiteLink as Link } from "@/components/SiteLink";
-import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection } from "@/components/tool/ToolPage";
+import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolSection } from "@/components/tool/ToolPage";
 import { attempt } from "@/lib/supabase";
 import { BUCKETS, choices, direction, monthName, MEASURES, NOT_REPORTED, TABLE, view } from "@/lib/buildout";
 import { DurationBars, GREY, GridTable, Panel, RAMP, SolarLine, V, YearTable } from "./parts";
@@ -15,27 +14,26 @@ import { buildoutRows } from "./read";
 // numbers, chart frames, sections, folds and source line are session 67's shared pieces (components/tool/ToolPage.tsx);
 // the two server-drawn charts and the two tables stay in ./parts.tsx, with their colors in app/tokens.css. The page is
 // "review" in lib/release.ts.
-export const metadata: Metadata = { title: "How much storage has been built" };
-export const revalidate = 3600;
+// Session 239: the build-out tab of /storage (lib/tabs.ts). What /storage/buildout drew is drawn here, block for block;
+// the page (app/storage/page.tsx) carries the brand, the sheet and the tabs, and /storage/buildout redirects to the tab.
 
 const METHOD = "/data/methods/storage_buildout";
 
-export default async function Buildout({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
-  const sp = await searchParams;
-  const { grid, measure } = choices(Object.fromEntries(Object.entries(sp).map(([k, v]) => [k, typeof v === "string" ? v : undefined])));
+export async function BuildoutView({ sp }: { sp: Record<string, string | undefined> }) {
+  const { grid, measure } = choices(sp);
   const rows = await attempt(buildoutRows);
   const v = rows.ok ? view(rows.data, grid, measure) : null;
   const outside = v?.table.find((g) => g.slug === "outside");
   const us = v?.table.find((g) => g.slug === "us");
   const notReported = !!v && measure === "mw" && v.years.some((y) => (y.notReported?.value ?? 0) > 0);
   return (
-    <ToolPage>
+    <>
       <ToolHeader
         title="How much storage has been built"
         lead={<>Battery storage operating on each US grid, how long it can run, and how it compares with solar, from the monthly generator inventory of the US
-          Energy Information Administration. What the batteries do hour by hour is on <Link href="/storage">Storage</Link>.</>}
+          Energy Information Administration. What the batteries do hour by hour is on <Link href="/storage">the fleet</Link>; who owns them is on <Link href="/storage?tab=owners">the owners</Link>.</>}
       />
-      {grid.slug === "ercot" ? <AskErcotLink context={{ view: "/storage/buildout", title: "How much storage has been built", settings: { grid: "ERCOT", measure: MEASURES[measure].label, ...(v ? { inventory: v.newest } : {}) } }} /> : null}
+      {grid.slug === "ercot" ? <AskErcotLink context={{ view: "/storage?tab=buildout", title: "How much storage has been built", settings: { grid: "ERCOT", measure: MEASURES[measure].label, ...(v ? { inventory: v.newest } : {}) } }} /> : null}
       <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
         <aside>
           <InputPanel title="Choose" note="Power is how fast the batteries can discharge. Energy is how much they hold. Energy over power is duration, in hours.">
@@ -142,6 +140,6 @@ export default async function Buildout({ searchParams }: { searchParams: Promise
       <SourceLine tables={[TABLE]}
         note={<>Derived by the ERW from the US Energy Information Administration&apos;s Form EIA-860M, Monthly Update to the Annual Electric Generator
           Report{v ? `, inventory of ${monthName(v.newest)}` : ""}. <Link href={METHOD}>Method</Link>.</>} />
-    </ToolPage>
+    </>
   );
 }

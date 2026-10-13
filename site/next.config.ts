@@ -64,6 +64,13 @@ const nextConfig: NextConfig = {
   // session 23: Energy Week became the Energy Roundup; the old addresses keep working
   async redirects() {
     return [
+      // session 239 (the owner's instruction of 12 October 2026; docs/reviews/erw-review-2026-10-12.md, section B): six
+      // pages hold what thirteen held, each as tabs of one address (lib/tabs.ts). Every old address redirects to the tab
+      // it became (a query is carried over, so /storage/buildout?grid=ercot opens the build-out tab on ERCOT). Only the
+      // address itself is redirected: /resources/layer and /resources/overlay (the resource map's files),
+      // /severance/lease/real and /severance/finder answer as before.
+      { source: "/storage/buildout", destination: "/storage?tab=buildout", permanent: true },
+      { source: "/storage/owners", destination: "/storage?tab=owners", permanent: true },
       // session 145: one tool, one page, one address. What a generator earns is /cost-of-power/seller; its second version
       // is folded into it and its address redirects there (a query is carried over)
       { source: "/cost-of-power/seller/v2", destination: "/cost-of-power/seller", permanent: true },

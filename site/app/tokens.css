@@ -180,12 +180,16 @@ body:has(.brand-a) > footer {
   scroll-margin-top: 16px;
 }
 
-/* the three tabs: the page in view is ink over a cardinal rule, the others captions grey */
-.brand-a nav[aria-label="Cost of power"] a {
+/* the tabs: the page in view is ink over a cardinal rule, the others captions grey. Session 239: the same rule for
+   the tabs of every merged page (components/tool/Tabs.tsx, nav[data-tabs]) as for the three cost-of-power tabs */
+.brand-a nav[aria-label="Cost of power"] a,
+.brand-a nav[data-tabs] a {
   color: var(--color-muted);
 }
 .brand-a nav[aria-label="Cost of power"] a:hover,
-.brand-a nav[aria-label="Cost of power"] a[aria-current="page"] {
+.brand-a nav[aria-label="Cost of power"] a[aria-current="page"],
+.brand-a nav[data-tabs] a:hover,
+.brand-a nav[data-tabs] a[aria-current="page"] {
   color: var(--color-ink);
 }
 
