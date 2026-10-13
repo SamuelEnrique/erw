@@ -1,8 +1,8 @@
 {
  "about": "Written by warehouse/health.py from the table erw_health: per UTC day, each scheduled job's steps by outcome, and the failures that count. green_days is the number of days in a row, back from counted_to, without a failed step.",
- "written": "2026-10-12T17:52Z",
+ "written": "2026-10-13T16:20Z",
  "green_days": 0,
- "counted_to": "2026-10-11",
+ "counted_to": "2026-10-12",
  "days": {
   "2026-10-02": {
    "rows": 91,
@@ -657,6 +657,101 @@
      "workflow": "energy roundup",
      "step": "ledger: live set",
      "reason": "FAILED api_cost_ledger: RuntimeError: refused, older than the live copy: it has 2,478 rows here and 3,179 in Supabase (no retrieved_at to compare). Sync this machine from the cloud first (python scrip"
+    }
+   ]
+  },
+  "2026-10-12": {
+   "rows": 419,
+   "failed": 5,
+   "missing": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 236,
+     "skipped": 4,
+     "retried": 0,
+     "failed": 0,
+     "runs": 100
+    },
+    "daily prices": {
+     "ok": 18,
+     "skipped": 9,
+     "retried": 0,
+     "failed": 5,
+     "runs": 2
+    },
+    "energy roundup": {
+     "ok": 1,
+     "skipped": 1,
+     "retried": 0,
+     "failed": 0,
+     "runs": 1
+    },
+    "hourly network": {
+     "ok": 22,
+     "skipped": 5,
+     "retried": 0,
+     "failed": 0,
+     "runs": 27
+    },
+    "latest prices": {
+     "ok": 96,
+     "skipped": 3,
+     "retried": 0,
+     "failed": 0,
+     "runs": 99
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 19,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 19
+    },
+    "local:lab-desktop": {
+     "ok": 2,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 2
+    },
+    "local:samueloldlaptop": {
+     "ok": 2,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 2
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-10-12T15:07",
+     "workflow": "daily prices",
+     "step": "carb_lcfs",
+     "reason": "carb_lcfs FAILED: RuntimeError: https://ww2.arb.ca.gov/resources/documents/weekly-lcfs-credit-transfer-activity-reports failed after 4 attempts: RuntimeError('HTTP 202 for https://ww2.arb.ca.gov/resou"
+    },
+    {
+     "at": "2026-10-12T15:08",
+     "workflow": "daily prices",
+     "step": "board_page",
+     "reason": "FileNotFoundError: [Errno 2] No such file or directory: '/home/runner/work/erw/erw/warehouse/output/carb_lcfs_credit_prices.csv'"
+    },
+    {
+     "at": "2026-10-12T15:14",
+     "workflow": "daily prices",
+     "step": "policy_monitor_refresh",
+     "reason": "policy_monitor_refresh: FAILED for orpuc (recorded; the others ran): orpuc: not asked again today: the request failed: ConnectionError(MaxRetryError('HTTPSConnectionPool(host=\\'apps.puc.state.or.u"
+    },
+    {
+     "at": "2026-10-12T15:35",
+     "workflow": "daily prices",
+     "step": "supabase_load",
+     "reason": "FAILED tables: ['api_cost_ledger']"
+    },
+    {
+     "at": "2026-10-12T16:20",
+     "workflow": "daily prices",
+     "step": "package tests",
+     "reason": "FAILED package/tests/test_erw.py::test_large_table_by_partition[ercot_dam_esr_awards] - assert (False)"
     }
    ]
   }
