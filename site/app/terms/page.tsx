@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { Section } from "@/components/Section";
 import site from "@/data/site.json";
@@ -14,6 +15,7 @@ export default function Terms() {
   const news = DOCS.sources.filter((s) => s.report.startsWith("news stories"));
   const data = DOCS.sources.filter((s) => !s.report.startsWith("news stories")).sort((a, b) => a.publisher.localeCompare(b.publisher) || a.source.localeCompare(b.source));
   return (
+    <Brand>
     <article className="max-w-4xl">
       <h1 className="mb-2 text-3xl">Terms</h1>
       <p className="mb-6 text-sm">
@@ -90,5 +92,6 @@ export default function Terms() {
         Code, data standard and session logs: <a href={site.repository}>{site.repository.replace("https://", "")}</a>.
       </p>
     </article>
+    </Brand>
   );
 }

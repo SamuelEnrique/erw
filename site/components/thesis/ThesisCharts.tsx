@@ -15,9 +15,10 @@ const ORDER = ["fuel-gas", "fuel-coal", "fuel-nuclear", "fuel-wind", "fuel-solar
 
 export function TrendChart({ data, height = 280 }: { data: ChartData; height?: number }) {
   const box = useEChart((chart) => {
-    const st = baseStyle();
+    const el: Element | null = box.current;   // session 241b: the tokens and the text face in force at the chart's own box (the brand's, inside its wrapper)
+    const st = baseStyle(el);
     const many = data.series.length > 1;
-    const color = (i: number) => (many ? token(ORDER[i % ORDER.length]) : token("accent"));
+    const color = (i: number) => (many ? token(ORDER[i % ORDER.length], el) : token("accent", el));
     const unit = data.unit ? ` ${esc(data.unit)}` : "";
     chart.setOption({
       textStyle: st.textStyle, animation: false,
@@ -40,7 +41,8 @@ export function TrendChart({ data, height = 280 }: { data: ChartData; height?: n
 
 export function FunnelChart({ stages }: { stages: { id: string; label: string; n: number }[] }) {
   const box = useEChart((chart) => {
-    const st = baseStyle();
+    const el: Element | null = box.current;
+    const st = baseStyle(el);
     chart.setOption({
       textStyle: st.textStyle, animation: false,
       tooltip: { ...st.tooltip, trigger: "axis", axisPointer: { type: "shadow" }, formatter: (ps: { dataIndex: number }[]) => {
@@ -50,8 +52,8 @@ export function FunnelChart({ stages }: { stages: { id: string; label: string; n
       grid: { left: 8, right: 44, top: 6, bottom: 6, containLabel: true },
       xAxis: { type: "value", minInterval: 1, ...st.axis },
       yAxis: { type: "category", inverse: true, data: stages.map((s) => s.label), ...st.axis, axisLabel: { ...st.axis.axisLabel, width: 190, overflow: "break" }, splitLine: { show: false } },
-      series: [{ name: "Deal funnel", type: "bar", data: stages.map((s) => s.n), barMaxWidth: 22, itemStyle: { color: token("accent"), borderRadius: [0, 3, 3, 0] },
-        label: { show: true, position: "right", color: token("ink"), fontSize: 11, formatter: (p: { value: number }) => num(p.value) } }],
+      series: [{ name: "Deal funnel", type: "bar", data: stages.map((s) => s.n), barMaxWidth: 22, itemStyle: { color: token("accent", el), borderRadius: [0, 3, 3, 0] },
+        label: { show: true, position: "right", color: token("ink", el), fontSize: 11, formatter: (p: { value: number }) => num(p.value) } }],
     }, true);
   }, [stages]);
   return <div ref={box} role="img" aria-label={`Deal funnel: ${stages.map((s) => `${s.label} ${s.n}`).join(", ")}`} style={{ height: Math.max(140, 40 + stages.length * 34) }} className="w-full" data-chart="funnel" />;

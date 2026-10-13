@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { Section } from "@/components/Section";
 
@@ -9,6 +10,7 @@ export const metadata: Metadata = { title: "Privacy" };
 // hash is the method note docs/methods/usage_counts.md.
 export default function Privacy() {
   return (
+    <Brand>
     <article className="max-w-3xl" data-privacy="1">
       <h1 className="mb-2 text-3xl">Privacy</h1>
       <p className="mb-6 text-sm">
@@ -82,5 +84,6 @@ export default function Privacy() {
         </p>
       </Section>
     </article>
+    </Brand>
   );
 }

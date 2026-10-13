@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { DOCS, render, weeklyWeeks } from "@/lib/markdown";
 
@@ -11,14 +12,15 @@ export default function RoundupIndex() {
   const weeks = weeklyWeeks();
   if (weeks.length === 0) {
     return (
-      <>
+      <Brand>
         <h1 className="mb-2 text-3xl">ERW&apos;s Roundup</h1>
         <p className="text-sm text-muted">no data: no Roundup is committed in docs/roundup/ yet.</p>
-      </>
+      </Brand>
     );
   }
   const newest = weeks[0];
   return (
+    <Brand>
     <div className="grid gap-8 lg:grid-cols-[1fr_14rem]">
       <article className="prose-erw min-w-0" dangerouslySetInnerHTML={{ __html: render(DOCS.weeklies[newest], DOCS.weekly_source[newest]) }} />
       <aside className="text-sm lg:border-l lg:border-rule lg:pl-4">
@@ -39,5 +41,6 @@ export default function RoundupIndex() {
         </p>
       </aside>
     </div>
+    </Brand>
   );
 }

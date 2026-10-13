@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { Section } from "@/components/Section";
 import { TOPICS } from "@/lib/topics";
@@ -28,7 +29,7 @@ export default async function SubscribePage({ searchParams }: { searchParams: Pr
   const one = (k: string) => (typeof sp[k] === "string" ? (sp[k] as string) : "");
   const confirm = one("confirm") === "1" && one("e") && /^[0-9a-f]{64}$/.test(one("t"));
   return (
-    <>
+    <Brand>
       <h1 className="mb-1 text-3xl">Email</h1>
       <p className="mb-6 max-w-3xl text-sm text-muted">
         ERW&apos;s Energy Digest and ERW&apos;s Roundup by email, as short plain text with an HTML copy.
@@ -59,7 +60,7 @@ export default async function SubscribePage({ searchParams }: { searchParams: Pr
             <input type="hidden" name="t" value={one("t")} />
             <input type="hidden" name="confirm" value="yes" />
             <span>Stop every ERW email to <strong>{one("e")}</strong>?</span>
-            <button type="submit" className="border border-accent px-3 py-1 text-accent">Unsubscribe</button>
+            <button type="submit" className="border border-accent bg-accent px-4 py-1.5 text-white">Unsubscribe</button>
           </form>
           <p className="mt-2 max-w-xl text-xs text-muted">Nothing changes until you press the button.</p>
         </Section>
@@ -96,7 +97,7 @@ export default async function SubscribePage({ searchParams }: { searchParams: Pr
             Leave empty
             <input name="website" type="text" tabIndex={-1} autoComplete="off" />
           </label>
-          <button type="submit" className="border border-rule bg-panel px-3 py-1 text-sm">
+          <button type="submit" className="border border-accent bg-accent px-4 py-1.5 text-sm text-white">
             Sign up
           </button>
         </form>
@@ -113,6 +114,6 @@ export default async function SubscribePage({ searchParams }: { searchParams: Pr
           </p>
         </div>
       </Section>
-    </>
+    </Brand>
   );
 }

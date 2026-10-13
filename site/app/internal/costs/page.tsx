@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { COOKIE } from "@/lib/release";
@@ -108,7 +109,7 @@ export default async function Costs({ searchParams }: { searchParams: Promise<Re
   const schedProjected = (schedWeek.reduce((a, c) => a + Number(c.usd ?? 0), 0) / 7) * 30;
 
   return (
-    <>
+    <Brand>
       <h1 className="mb-1 text-3xl">API costs (internal)</h1>
       <p className="mb-5 max-w-3xl text-sm text-muted">
         Every Anthropic API call the ERW made in the last 30 days: the scheduled runs, the sessions and the site&apos;s /ask. From the
@@ -142,6 +143,6 @@ export default async function Costs({ searchParams }: { searchParams: Promise<Re
       <Section title="Per model">
         <Table rows={byModel} label="Model" />
       </Section>
-    </>
+    </Brand>
   );
 }

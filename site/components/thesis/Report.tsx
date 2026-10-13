@@ -562,7 +562,7 @@ export function ReportTabs({ run, choice }: { run: Run; choice: Choice }) {
     <section aria-label="Report" data-thesis-report={run.run_id}>
       <nav className="mb-4 flex flex-wrap gap-1 border-b border-accent text-xs" aria-label="The parts of the report" data-thesis-tabs="1">
         {TABS.map((t) => { const on = t.id === choice.tab;
-          return <Link key={t.id} href={hrefOf(choice, { tab: t.id })} scroll={false} aria-current={on ? "page" : undefined} data-tab={t.id} style={{ color: on ? "#fff" : "var(--color-ink)" }} className={`-mb-px border px-2 py-1 no-underline ${on ? "border-accent bg-accent" : "border-rule bg-white hover:border-accent"}`}>{t.label}</Link>; })}
+          return <Link key={t.id} href={hrefOf(choice, { tab: t.id })} scroll={false} aria-current={on ? "page" : undefined} data-tab={t.id} style={{ color: on ? "var(--color-surface)" : "var(--color-ink)" }} className={`-mb-px border px-2 py-1 no-underline ${on ? "border-accent bg-accent" : "border-rule bg-white hover:border-accent"}`}>{t.label}</Link>; })}
       </nav>
       <div data-thesis-tab={choice.tab}>
         <h2 className="mb-3 font-serif text-xl text-accent">{TABS.find((t) => t.id === choice.tab)?.label}</h2>

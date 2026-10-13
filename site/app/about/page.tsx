@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import site from "@/data/site.json";
 import { GLOSSARY, glossaryId } from "@/lib/glossary";
@@ -15,6 +16,7 @@ export const metadata: Metadata = { title: "About" };
 
 export default function About() {
   return (
+    <Brand>
     <article className="max-w-3xl">
       <h1 className="mb-4 text-3xl">About</h1>
       <p className="mb-4 leading-relaxed">
@@ -98,5 +100,6 @@ export default function About() {
         Code, data standard and session logs: <a href={site.repository}>{site.repository.replace("https://", "")}</a>.
       </p>
     </article>
+    </Brand>
   );
 }

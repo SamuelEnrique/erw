@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { DOCS, archiveDays, digestDates, digestTitle, render } from "@/lib/markdown";
 
@@ -9,6 +10,7 @@ export default function DigestIndex() {
   const dates = digestDates();
   const newest = dates[0];
   return (
+    <Brand>
     <div className="grid gap-8 lg:grid-cols-[1fr_14rem]">
       <article className="prose-erw min-w-0" dangerouslySetInnerHTML={{ __html: render(DOCS.digests[newest], `docs/digest/${newest}.md`) }} />
       <aside className="text-sm lg:border-l lg:border-rule lg:pl-4">
@@ -26,5 +28,6 @@ export default function DigestIndex() {
         </p>
       </aside>
     </div>
+    </Brand>
   );
 }
