@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { Cite } from "@/components/Cite";
 import { Section } from "@/components/Section";
@@ -41,7 +42,7 @@ function dates(f: Fault): string {
 export default function Faults() {
   const rows = [...file.rows].sort((a, b) => ORDER.indexOf(a.status) - ORDER.indexOf(b.status) || (b.first || "").localeCompare(a.first || "") || a.id.localeCompare(b.id));
   return (
-    <>
+    <Brand>
       <h1 className="mb-1 text-3xl">Known data faults</h1>
       <p className="mb-3 max-w-3xl text-sm text-muted">
         What the ERW&apos;s sources publish is not always right. This page lists every fault an ERW session has found in a
@@ -154,6 +155,6 @@ export default function Faults() {
         </div>
         <Cite tables={[file.table]} note={`The register as of ${file.built.slice(0, 10)}; a fault is added when a session finds one`} />
       </Section>
-    </>
+    </Brand>
   );
 }

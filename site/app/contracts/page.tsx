@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Brand } from "@/components/Brand";
 import { SiteLink } from "@/components/SiteLink";
 import { Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { attempt } from "@/lib/supabase";
@@ -47,6 +48,7 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
   const href = (qq: string, p: string, b?: string | null) => `/contracts?q=${qq}&product=${p}${b ? `&ba=${encodeURIComponent(b)}` : ""}`;
   const item = (on: boolean) => `no-underline ${on ? "font-semibold text-accent" : "text-ink hover:text-accent"}`;
   return (
+    <Brand>
     <ToolPage>
       <ToolHeader title="Where power contracts are being struck"
         lead={<>Sellers of wholesale power file their contracts with the Federal Energy Regulatory Commission every quarter: who sells to whom, which product,
@@ -157,6 +159,7 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
       <SourceLine tables={[TABLE]}
         note={<>Federal Energy Regulatory Commission, Electric Quarterly Reports, the contract files of one quarter&apos;s filings (eqrreportviewer.ferc.gov). An internal table: this page is read only in the internal view.</>} />
     </ToolPage>
+    </Brand>
   );
 }
 

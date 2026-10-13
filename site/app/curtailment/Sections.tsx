@@ -96,7 +96,7 @@ export function FreeEnergy({ file, c, zones }: { file: FreeFile; c: Choice; zone
                     return (
                       <Link key={l.id} href={link({ ...c, place: l.id, win }, "free-energy")} scroll={false} title={text} data-tile={l.id} data-count={held ? (w as Held).under5 : ""} data-shape={z?.status ?? "tile"} aria-current={l.id === place.id ? "true" : undefined}
                         className={`block border px-2 py-2 text-xs no-underline ${l.id === place.id ? "border-ink ring-1 ring-ink" : "border-rule"} ${held ? "" : "bg-paper text-muted"}`}
-                        style={held ? { background: `rgba(140, 21, 21, ${(0.06 + 0.84 * s).toFixed(3)})`, color: s > 0.5 ? "#fff" : "var(--color-ink)" } : undefined}>
+                        style={held ? { background: `color-mix(in srgb, var(--color-accent) ${(100 * (0.06 + 0.84 * s)).toFixed(1)}%, transparent)`, color: s > 0.5 ? "var(--color-surface)" : "var(--color-ink)" } : undefined}>
                         <span className="block font-semibold">{placeName(l.id)}</span>
                         <span className="block tabular-nums">{held ? `${whole((w as Held).under5)} hours` : "not held yet"}</span>
                       </Link>

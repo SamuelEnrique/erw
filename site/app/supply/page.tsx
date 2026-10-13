@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Brand } from "@/components/Brand";
 import { SiteLink } from "@/components/SiteLink";
 import { Band, Trend } from "@/components/supply/SupplyCharts";
 import fileJson from "@/data/supply.json";
@@ -21,7 +22,7 @@ const moved = (diff: number, row: Row) => /[1-9]/.test(signed(diff, row.unit, ro
 
 function Tag({ r }: { r: "tighter" | "looser" | null }) {
   if (!r) return null;
-  return <span className={`ml-1 rounded-sm border px-1 text-[10px] ${r === "tighter" ? "border-up text-up" : "border-down text-down"}`}>{r}</span>;
+  return <span className={`ml-1 border px-1 text-[10px] ${r === "tighter" ? "border-up text-up" : "border-down text-down"}`}>{r}</span>;
 }
 
 /** One comparison: the difference with its sign, the percent where the series cannot be negative, and the reading. */
@@ -120,6 +121,7 @@ export default async function Supply({ searchParams }: { searchParams: Promise<R
   const eastern = easternNow(new Date());      // the page is rendered when it is asked for: the next releases are as of now
   const bands = shown.filter((g) => g.band).flatMap((g) => rowsOf(file, g.id).filter((r) => r.status === "ok" && r.season && !/salt/.test(r.at) && r.id !== "eia-wcsstus1"));
   return (
+    <Brand>
     <div className="border border-rule bg-white px-3 py-4 text-ink sm:px-5" data-supply="1">
       <header className="mb-3 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-rule pb-2">
         <h1 className="font-serif text-3xl text-accent">Supply and trade</h1>
@@ -176,13 +178,13 @@ export default async function Supply({ searchParams }: { searchParams: Promise<R
 
       <div className="mb-5 flex flex-wrap items-center gap-1 border-y border-rule py-2 text-[11px]" role="group" aria-label="Select" data-controls="1">
         <span className="mr-1 text-muted">Select</span>
-        <Link href={hrefOf(c, { groups: [] })} scroll={false} style={{ color: c.groups.length ? "var(--color-ink)" : "#fff" }} className={`border px-1.5 py-px no-underline ${c.groups.length ? "border-rule bg-white hover:border-accent" : "border-accent bg-accent"}`}>Everything</Link>
+        <Link href={hrefOf(c, { groups: [] })} scroll={false} style={{ color: c.groups.length ? "var(--color-ink)" : "var(--color-surface)" }} className={`border px-1.5 py-px no-underline ${c.groups.length ? "border-rule bg-white hover:border-accent" : "border-accent bg-accent"}`}>Everything</Link>
         {file.groups.map((g) => { const on = c.groups.includes(g.id);
-          return <Link key={g.id} href={hrefOf(c, { groups: toggled(c.groups, g.id) })} scroll={false} data-chip={g.id} style={{ color: on ? "#fff" : "var(--color-ink)" }} className={`border px-1.5 py-px no-underline ${on ? "border-accent bg-accent" : "border-rule bg-white hover:border-accent"}`}>{g.title.replace(/, (weekly|monthly).*$/, "")}</Link>; })}
+          return <Link key={g.id} href={hrefOf(c, { groups: toggled(c.groups, g.id) })} scroll={false} data-chip={g.id} style={{ color: on ? "var(--color-surface)" : "var(--color-ink)" }} className={`border px-1.5 py-px no-underline ${on ? "border-accent bg-accent" : "border-rule bg-white hover:border-accent"}`}>{g.title.replace(/, (weekly|monthly).*$/, "")}</Link>; })}
       </div>
 
       {open ? (
-        <section id="chart" className="mb-6 scroll-mt-4 border border-accent bg-paper/40 p-3" data-open-chart={open.id}>
+        <section id="chart" className="mb-6 scroll-mt-4 border border-rule bg-paper p-3" data-open-chart={open.id}>
           <div className="mb-1 flex flex-wrap items-baseline justify-between gap-2">
             <h2 className="font-serif text-lg text-accent">{open.label}, {open.at}: this year against the five years before</h2>
             <Link href={hrefOf(c, { s: null })} scroll={false} className="border border-rule bg-white px-1.5 py-0.5 text-[11px] text-ink no-underline hover:border-accent">Close</Link>
@@ -202,5 +204,6 @@ export default async function Supply({ searchParams }: { searchParams: Promise<R
 
       {shown.map((g) => <Table key={g.id} group={g} c={c} />)}
     </div>
+    </Brand>
   );
 }

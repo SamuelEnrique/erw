@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { notFound } from "next/navigation";
 import { Cite } from "@/components/Cite";
@@ -180,6 +181,7 @@ export default async function ShapePremium({ searchParams }: { searchParams: Pro
   const ercotDa = rowV(M, find(ERCOT, "da_shape_premium", latest)), ercotRt = rowV(M, find(ERCOT, "rt_shape_premium", latest));
 
   return (
+    <Brand>
     <article className="max-w-3xl">
       <p className="mb-2 text-xs uppercase tracking-wide text-accent">Draft, internal: not for circulation. Not in the nav, not indexed.</p>
       <h1 className="mb-1 text-3xl">What flat load pays: the shape premium across six ISOs</h1>
@@ -355,5 +357,6 @@ export default async function ShapePremium({ searchParams }: { searchParams: Pro
         <Cite tables={[M, P]} note="The cost-of-power model (docs/methods/cost_of_power.md); statistics by site/lib/shapepremium.ts" />
       </Section>
     </article>
+    </Brand>
   );
 }

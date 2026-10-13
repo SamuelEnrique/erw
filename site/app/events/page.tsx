@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { Cite } from "@/components/Cite";
 import { Num } from "@/components/Num";
@@ -50,7 +51,8 @@ async function headline(c: Card): Promise<SeriesRow | undefined> {
 export default async function Events() {
   const heads = await Promise.all(EVENTS.map((c) => attempt(() => headline(c))));
   return (
-    <>
+    <Brand>
+    <div>
       <h1 className="mb-1 text-3xl">Events</h1>
       <p className="mb-5 max-w-3xl text-sm text-muted">
         What happened to a grid during a major event, day by day, set against the same days of earlier years. Every figure is read from the
@@ -83,6 +85,7 @@ export default async function Events() {
           and asks how far demand in the alert hours fell below a weather-and-calendar model, with intervals and a wholesale value (session 60).
         </p>
       </Section>
-    </>
+    </div>
+    </Brand>
   );
 }

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 
 // Session 177: the internal view's door without a token in any address (docs/release-gate.md). A form that POSTs the
 // token in the request's body to /internal/unlock, which sets the same two cookies the link sets. The old link,
@@ -19,6 +20,7 @@ export default async function Open({ searchParams }: { searchParams: Promise<Rec
   const sp = await searchParams;
   const said = typeof sp.state === "string" ? SAID[sp.state] : undefined;
   return (
+    <Brand noUsage>
     <div className="max-w-md" data-internal-open="1" data-no-usage>
       <h1 className="mb-2 text-3xl">Internal view</h1>
       <p className="mb-4 text-sm text-muted">For the people reviewing the site. Paste the token you were given.</p>
@@ -33,9 +35,10 @@ export default async function Open({ searchParams }: { searchParams: Promise<Rec
         <div aria-hidden="true" style={{ position: "absolute", left: "-10000px", width: "1px", height: "1px", overflow: "hidden" }}>
           <label>Website <input name="website" type="text" tabIndex={-1} autoComplete="off" /></label>
         </div>
-        <button type="submit" className="border border-rule bg-panel px-4 py-2">Open the internal view</button>
+        <button type="submit" className="border border-accent bg-accent px-4 py-2 text-white">Open the internal view</button>
       </form>
       <p className="mt-4 text-xs text-muted">Sets two cookies in this browser for 90 days, used only to show the pages in review. <a href="/internal/lock">Lock</a> removes them.</p>
     </div>
+    </Brand>
   );
 }

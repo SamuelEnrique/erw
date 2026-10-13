@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { DraftReview } from "@/components/analysis/DraftReview";
@@ -78,16 +79,19 @@ export default async function FindingsReviewPage() {
     drafts = await listDrafts();
   } catch (e) {
     return (
+      <Brand>
       <div data-drafts="unread">
         <h1 className="mb-2 text-3xl">Scanner drafts (internal)</h1>
         <p className="text-sm">The review list could not be read: {(e as Error).message.slice(0, 160)}. Until migration 029 is applied there is no list.</p>
       </div>
+      </Brand>
     );
   }
   const open = drafts.filter((d) => d.state === "draft" || d.state === "full_card_asked");
   const ruled = drafts.filter((d) => d.state === "approved" || d.state === "dismissed");
   const count = (s: Draft["state"]) => drafts.filter((d) => d.state === s).length;
   return (
+    <Brand>
     <div data-drafts={drafts.length}>
       <h1 className="mb-1 text-3xl">Scanner drafts (internal)</h1>
       <p className="mb-5 max-w-3xl text-sm text-muted">
@@ -111,5 +115,6 @@ export default async function FindingsReviewPage() {
         )}
       </Section>
     </div>
+    </Brand>
   );
 }

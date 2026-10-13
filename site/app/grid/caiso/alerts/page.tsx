@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { Cite } from "@/components/Cite";
 import { Num } from "@/components/Num";
@@ -119,10 +120,12 @@ export default async function FlexAlertScorecard() {
   const [eff, mod, ns] = await Promise.all([attempt(effects), attempt(model), attempt(() => gridNotices("2018-07-01", "2025-10-31"))]);
   if (!eff.ok || !mod.ok) {
     return (
+      <Brand>
       <div className="max-w-3xl">
         <h1 className="mb-3 text-3xl">The Flex Alert scorecard</h1>
         <p className="text-sm text-muted">The scorecard&apos;s tables could not be read: {!eff.ok ? eff.reason : !mod.ok ? mod.reason : ""}</p>
       </div>
+      </Brand>
     );
   }
   const { days, hours, years, model: g, heldout } = shape(eff.data, mod.data);
@@ -142,6 +145,7 @@ export default async function FlexAlertScorecard() {
   const lastAlert = days.at(-1)?.day;
 
   return (
+    <Brand>
     <div>
       <p className="mb-1 text-xs text-muted"><Link href="/grid/caiso">CAISO</Link> / <Link href="/grid/caiso#reliability">Reliability</Link> / Flex Alert scorecard</p>
       <h1 className="mb-2 text-3xl">The Flex Alert scorecard: CAISO, 2018 to 2024</h1>
@@ -315,5 +319,6 @@ export default async function FlexAlertScorecard() {
       </Section>
       <Cite tables={[EFFECTS, MODEL, "caiso_grid_emergencies", "noaa_isd_hourly", "caiso_dam_alert_day_hub_prices"]} note="California ISO, Grid Emergencies History Report and OASIS PRC_LMP (credit the California ISO); EIA-930; NOAA NCEI Integrated Surface Database" />
     </div>
+    </Brand>
   );
 }

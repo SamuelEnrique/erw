@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -135,6 +136,7 @@ export default async function Thesis({ searchParams }: { searchParams: Promise<R
   }
 
   return (
+    <Brand>
     <div className="border border-rule bg-white px-3 py-4 text-ink sm:px-5" data-thesis="1">
       <header className="mb-4 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-rule pb-2">
         <h1 className="font-serif text-3xl text-accent">Thesis Builder</h1>
@@ -154,5 +156,6 @@ export default async function Thesis({ searchParams }: { searchParams: Promise<R
         : choice.run ? <p className="mt-6 text-sm" role="alert" data-thesis-norun="1">{unread ? "This run could not be read." : "No run is held under this address."}</p>
         : null}
     </div>
+    </Brand>
   );
 }

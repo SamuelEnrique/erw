@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import record from "@/data/health_days.json";
@@ -52,6 +53,7 @@ export default async function HealthPage() {
   };
 
   return (
+    <Brand>
     <div data-health="1">
       <h1 className="mb-1 text-3xl">Scheduled jobs (internal)</h1>
       <p className="mb-2 font-serif text-xl" data-green-days={green} data-counted-to={r.counted_to ?? ""}>
@@ -123,5 +125,6 @@ export default async function HealthPage() {
         <p className="text-sm text-muted">No step is recorded as failed in these days.</p>
       )}
     </div>
+    </Brand>
   );
 }

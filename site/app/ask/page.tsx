@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { DOCS } from "@/lib/markdown";
 import { AskForm } from "./AskForm";
@@ -10,7 +11,7 @@ export default async function AskPage({ searchParams }: { searchParams: Promise<
   const sp = await searchParams;
   const g = DOCS.grid_config.find((x) => x.slug === sp.grid) ?? null;
   return (
-    <>
+    <Brand>
       <h1 className="mb-1 text-3xl">{g ? `Ask ${g.iso}` : "Ask the warehouse"}</h1>
       {g ? (
         <p className="mb-2 max-w-3xl text-sm">
@@ -25,6 +26,6 @@ export default async function AskPage({ searchParams }: { searchParams: Promise<
         questions per hour.
       </p>
       <AskForm grid={g?.slug ?? null} initial={sp.q ?? ""} placeholder={g ? `For example: what was ${g.iso}'s highest demand this week?` : undefined} />
-    </>
+    </Brand>
   );
 }
