@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 import { AskErcotLink } from "@/components/AskErcotLink";
 import { EventStudy } from "@/components/EventStudy";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
@@ -29,7 +30,7 @@ const YEARS = [
 
 function Tier() {
   return (
-    <Link href="/data/standard" title={TIER_TITLE.derived} className="ml-1 rounded border border-rule px-1 text-[10px] uppercase tracking-wide text-muted no-underline">
+    <Link href="/data/standard" title={TIER_TITLE.derived} className="ml-1 border border-rule px-1 text-[10px] uppercase tracking-wide text-muted no-underline">
       {TIER_LABEL.derived}
     </Link>
   );
@@ -69,7 +70,8 @@ export default async function Uri() {
   const ciPeak = pick(rows, "intensity_generation", ev, "max");
   const chart = (variable: string, unit: string, aria: string) => <LineChart lines={lines(rows, variable)} unit={unit} height={240} x="minute" ariaLabel={aria} />;
   return (
-    <>
+    <Brand>
+    <div>
       <p className="mb-1 text-xs text-muted"><Link href="/events">Events</Link> / Winter Storm Uri</p>
       <h1 className="mb-1 text-3xl">Winter Storm Uri: ERCOT, February 2021</h1>
       <AskErcotLink context={{ view: "/events/uri-2021", title: "Winter Storm Uri", settings: { grid: "ERCOT", event: "uri_2021", period: "2021-02-07 to 2021-02-24" } }} />
@@ -127,6 +129,7 @@ export default async function Uri() {
       )}
       {/* session 47: the event study */}
       <EventStudy event="uri_2021" grids={["eia930:ERCO"]} primary="eia930:ERCO" price />
-    </>
+    </div>
+    </Brand>
   );
 }

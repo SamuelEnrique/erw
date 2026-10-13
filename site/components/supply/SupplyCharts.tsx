@@ -11,7 +11,8 @@ import { dateWords, fmt, shortDate, type Row } from "@/lib/supply";
 export function Band({ row, height = 300 }: { row: Row; height?: number }) {
   const s = row.season!;
   const box = useEChart((chart) => {
-    const st = baseStyle();
+    const el: Element | null = box.current;  // session 241: the tokens and the text face in force at the chart's own box (the brand's, inside its wrapper)
+    const st = baseStyle(el);
     const x = s.t.map((t) => shortDate(t, row.freq));
     const year = s.t[0].slice(0, 4);
     const n = (v: number | null | undefined) => (v === null || v === undefined ? null : v);
@@ -29,10 +30,10 @@ export function Band({ row, height = 300 }: { row: Row; height?: number }) {
       yAxis: { type: "value", scale: true, name: row.unit, ...st.axis },
       series: [
         { name: "low", type: "line", stack: "band", showSymbol: false, lineStyle: { opacity: 0 }, data: s.lo.map(n), tooltip: { show: false } },
-        { name: "Five-year range", type: "line", stack: "band", showSymbol: false, lineStyle: { opacity: 0 }, areaStyle: { color: token("rule"), opacity: 0.6 }, itemStyle: { color: token("rule") }, data: s.hi.map((h, i) => (h === null || s.lo[i] === null ? null : h - s.lo[i]!)) },
-        { name: "Five-year average", type: "line", showSymbol: false, lineStyle: { width: 1.2, type: "dashed", color: token("muted") }, itemStyle: { color: token("muted") }, data: s.avg.map(n) },
-        { name: String(Number(year) - 1), type: "line", showSymbol: false, lineStyle: { width: 1.2, color: token("fuel-gas") }, itemStyle: { color: token("fuel-gas") }, data: s.last.map(n) },
-        { name: year, type: "line", showSymbol: row.freq === "M", symbolSize: 5, lineStyle: { width: 2.4, color: token("accent") }, itemStyle: { color: token("accent") }, data: s.cur.map(n), z: 5 },
+        { name: "Five-year range", type: "line", stack: "band", showSymbol: false, lineStyle: { opacity: 0 }, areaStyle: { color: token("rule", el), opacity: 0.6 }, itemStyle: { color: token("rule", el) }, data: s.hi.map((h, i) => (h === null || s.lo[i] === null ? null : h - s.lo[i]!)) },
+        { name: "Five-year average", type: "line", showSymbol: false, lineStyle: { width: 1.2, type: "dashed", color: token("muted", el) }, itemStyle: { color: token("muted", el) }, data: s.avg.map(n) },
+        { name: String(Number(year) - 1), type: "line", showSymbol: false, lineStyle: { width: 1.2, color: token("fuel-gas", el) }, itemStyle: { color: token("fuel-gas", el) }, data: s.last.map(n) },
+        { name: year, type: "line", showSymbol: row.freq === "M", symbolSize: 5, lineStyle: { width: 2.4, color: token("accent", el) }, itemStyle: { color: token("accent", el) }, data: s.cur.map(n), z: 5 },
       ],
     }, true);
   }, [row]);
@@ -60,7 +61,7 @@ export function Trend({ row }: { row: Row }) {
         {at !== null ? <line x1={x(at)} x2={x(at)} y1={0} y2={H} stroke="var(--color-muted)" strokeWidth={0.6} /> : null}
       </svg>
       {p ? (
-        <span role="tooltip" className="pointer-events-none absolute bottom-full right-0 z-20 mb-1 whitespace-nowrap border border-rule bg-white px-2 py-1 text-left text-[11px] leading-tight text-ink shadow-sm">
+        <span role="tooltip" className="pointer-events-none absolute bottom-full right-0 z-20 mb-1 whitespace-nowrap border border-rule bg-white px-2 py-1 text-left text-[11px] leading-tight text-ink">
           <span className="block text-muted">{row.label}, {row.at}</span>
           <span className="block"><strong>{fmt(p.v, row.unit)}</strong> {row.unit} on {dateWords(p.t, row.freq)}</span>
         </span>

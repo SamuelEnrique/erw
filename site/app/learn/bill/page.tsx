@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { Cite } from "@/components/Cite";
 import { Num } from "@/components/Num";
@@ -21,7 +22,7 @@ const M = "cost_of_power_monthly";
 
 function Chip() {
   return (
-    <Link href="/data/standard" title="Text written for this site, with its sources named; not data" className="ml-1 rounded border border-rule px-1 text-[10px] uppercase tracking-wide text-muted no-underline">
+    <Link href="/data/standard" title="Text written for this site, with its sources named; not data" className="ml-1 border border-rule px-1 text-[10px] uppercase tracking-wide text-muted no-underline">
       written, cited
     </Link>
   );
@@ -67,7 +68,8 @@ export default async function LearnBill() {
     TXC: `Energy charge $${rules.bills.TXC.energy_default.rate} per kWh (the labelled default).`,
   };
   return (
-    <>
+    <Brand>
+    <div>
       <h1 className="mb-1 text-3xl">What is on an electricity bill</h1>
       <div className="mb-5 max-w-3xl text-sm">
         <p className="mb-2">
@@ -121,6 +123,7 @@ export default async function LearnBill() {
           ))}
         </dl>
       </Section>
-    </>
+    </div>
+    </Brand>
   );
 }

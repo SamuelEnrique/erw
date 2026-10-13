@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { AskErcotLink } from "@/components/AskErcotLink";
+import { Brand } from "@/components/Brand";
 import Link from "next/link";
 import { Num } from "@/components/Num";
 import { SiteLink } from "@/components/SiteLink";
@@ -118,6 +119,7 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
   const item = (on: boolean) => `no-underline ${on ? "font-semibold text-accent" : "text-ink hover:text-accent"}`;
   const years = [...new Set((months[grid.slug] ?? []).map((m) => m.slice(0, 4)))];
   return (
+    <Brand>
     <ToolPage>
       <ToolHeader title="The shoulder hours"
         lead={<>Solar floods the middle of the day and demand peaks in the evening. Between them is a stretch this page calls the evening shoulder (its term,
@@ -261,5 +263,6 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
       <SourceLine tables={[TABLE, "storage_buildout_monthly", "caiso_battery_storage", "caiso_curtailment_daily", "caiso_fuel_supply"]}
         note={<>Derived by the ERW from EIA Form EIA-930 hourly demand and generation by energy source (the per-BA workbooks), CAISO&apos;s supply by fuel and EIA-860M. <SiteLink href={METHOD}>Method</SiteLink>.</>} />
     </ToolPage>
+    </Brand>
   );
 }

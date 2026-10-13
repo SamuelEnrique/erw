@@ -26,7 +26,7 @@ function Missing({ why, words }: { why: string; words: string }) {
 }
 function Chip({ on, onClick, title, children, ...data }: { on: boolean; onClick: () => void; title?: string; children: ReactNode } & Record<`data-${string}`, string>) {
   return (
-    <button type="button" aria-pressed={on} onClick={onClick} title={title} {...data} style={{ color: on ? "#fff" : "var(--color-ink)" }}
+    <button type="button" aria-pressed={on} onClick={onClick} title={title} {...data} style={{ color: on ? "var(--color-surface)" : "var(--color-ink)" }}
       className={`cursor-pointer border px-2 py-0.5 text-xs ${on ? "border-accent bg-accent" : "border-rule bg-white hover:border-accent"}`}>{children}</button>
   );
 }

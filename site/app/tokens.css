@@ -419,3 +419,12 @@ body:has(.brand-a) header :focus-visible {
 .brand-a [data-default] {
   text-wrap: pretty;
 }
+
+/* ---- session 241a: plain markup that came to the brand with a look of its own. Corners are square and nothing casts
+   a shadow (docs/brand.md, section 3): a hover card (role="tooltip") loses its shadow, and a small label drawn as a
+   box around a link (the source line's tier label) its rounded corner. Nothing here moves a number */
+.brand-a [role="tooltip"],
+.brand-a a.rounded {
+  border-radius: 0;
+  box-shadow: none;
+}

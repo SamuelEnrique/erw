@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 import { EventStudy } from "@/components/EventStudy";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { Cite } from "@/components/Cite";
@@ -37,7 +38,7 @@ const GRIDS = [
 
 function Tier() {
   return (
-    <Link href="/data/standard" title={TIER_TITLE.derived} className="ml-1 rounded border border-rule px-1 text-[10px] uppercase tracking-wide text-muted no-underline">
+    <Link href="/data/standard" title={TIER_TITLE.derived} className="ml-1 border border-rule px-1 text-[10px] uppercase tracking-wide text-muted no-underline">
       {TIER_LABEL.derived}
     </Link>
   );
@@ -75,7 +76,8 @@ export default async function Covid() {
   const weekly: Line[] = GRIDS.map((g) => ({ label: g.name, color: g.color, points: points(d.weeks, g.entity, () => true) }));
   const price = (variable: string, keep: (ts: string) => boolean, shift: number) => points(d.prices.filter((r) => r.variable === variable), "ercot:HB_HUBAVG", keep, shift);
   return (
-    <>
+    <Brand>
+    <div>
       <p className="mb-1 text-xs text-muted"><Link href="/events">Events</Link> / COVID-19, spring 2020</p>
       <h1 className="mb-1 text-3xl">COVID-19: demand in the seven ISO grids, spring 2020</h1>
       <div className="mb-5 max-w-3xl text-sm">
@@ -158,6 +160,7 @@ export default async function Covid() {
       )}
       {/* session 47: the event study */}
       <EventStudy event="covid_2020" grids={["eia930:US48", "eia930:CISO", "eia930:ERCO", "eia930:ISNE", "eia930:MISO", "eia930:NYIS", "eia930:PJM", "eia930:SWPP"]} primary="eia930:US48" price />
-    </>
+    </div>
+    </Brand>
   );
 }

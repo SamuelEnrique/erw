@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 import { EventStudy } from "@/components/EventStudy";
 import { EventWindow, N, day, pickOf } from "../EventWindow";
 
@@ -14,7 +15,8 @@ const inWin = (d: string) => d >= "2025-06-20" && d <= "2025-06-28";
 
 export default function EastHeat2025() {
   return (
-    <>
+    <Brand>
+    <div>
     <EventWindow
       event={EV}
       title="The June 2025 heat: four eastern grids"
@@ -64,6 +66,7 @@ export default function EastHeat2025() {
       }}
     />
     <EventStudy event="east_heat_2025" grids={["eia930:PJM", "eia930:NYIS", "eia930:ISNE", "eia930:MISO"]} primary="eia930:PJM" />
-    </>
+    </div>
+    </Brand>
   );
 }
