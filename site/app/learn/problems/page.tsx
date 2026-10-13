@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";  // session 261: the page takes the brand (docs/brand.md), as /learn/bill does
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { Section } from "@/components/Section";
 import { SETS } from "@/lib/problems";
@@ -8,7 +9,8 @@ export const metadata: Metadata = { title: "Problem sets" };
 
 export default function ProblemSets() {
   return (
-    <>
+    <Brand>
+    <div>
       <h1 className="mb-1 text-3xl">Problem sets</h1>
       <p className="mb-5 max-w-3xl text-sm text-muted">
         Questions for an undergraduate class, answered from the warehouse&apos;s own tables. Each question names its tables, and each answer opens to
@@ -24,6 +26,7 @@ export default function ProblemSets() {
           ))}
         </ul>
       </Section>
-    </>
+    </div>
+    </Brand>
   );
 }
