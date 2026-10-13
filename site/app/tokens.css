@@ -419,3 +419,31 @@ body:has(.brand-a) header :focus-visible {
 .brand-a [data-default] {
   text-wrap: pretty;
 }
+
+/* ---- session 240: a group that folds (components/tool/ToolPage.tsx, GroupFold): a plus before its title when it is
+   closed, a minus when it is open; and a dense table (a wall of prices, marked data-dense): its figures at the caption
+   size, 12, so a dozen columns fit a screen, the row's first figure at 14. Written for the components and the mark,
+   for any page; nothing here matches the battery page */
+.brand-a details[data-group-fold] > summary {
+  list-style: none;
+}
+.brand-a details[data-group-fold] > summary::-webkit-details-marker {
+  display: none;
+}
+.brand-a details[data-group-fold] > summary::before {
+  content: "+";
+  font-family: var(--font-mono);
+  color: var(--color-muted);
+  width: 1ch;
+}
+.brand-a details[data-group-fold][open] > summary::before {
+  content: "\2212";
+}
+.brand-a table[data-dense] tbody td.text-right,
+.brand-a table[data-dense] tbody td.text-right span,
+.brand-a table[data-dense] tbody td span {
+  font-size: 12px;
+}
+.brand-a table[data-dense] tbody td.font-semibold > span:first-child {
+  font-size: 14px;
+}
