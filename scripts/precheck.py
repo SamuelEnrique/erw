@@ -31,6 +31,12 @@ declares idle or signs off; --no-duty leaves that out). Any fails: exit 1, a rep
 email, and nothing else: the session stops there and starts no work. Exit 2 is bad input.
 
 Needs only Python's standard library for everything but daily_cap, which imports warehouse/health.py (requests).
+
+Session 243, the email rule (the owner's ruling of 12 October 2026; docs/machines.md, "The email rule"): a failed
+precheck no longer sends its line. It writes the report as before and records the machine as idle in erw_health with
+the line as the reason; the chain watch sends the machine's one email 15 minutes later (python scripts/alert.py
+ready), which says it is ready for review and carries that reason. A precheck that passes in those 15 minutes puts
+the machine on duty, and then nothing is sent.
 """
 
 import argparse
@@ -219,7 +225,7 @@ def report_text(results, machine_name, what, now, sent):
     lines = [f"# Precheck on {machine_name}, {now:%Y-%m-%d %H:%M} UTC: {'failed' if bad else 'passed'}", "",
              f"- For: {what or 'not named'}",
              f"- Checks: {len(results) - len(bad)} of {len(results)} passed",
-             f"- The line by email: {sent}",
+             f"- The line: {sent}",
              "- Written by `python scripts/precheck.py` (docs/machines.md, \"Continuous work\"). No work was started." if bad else
              "- Written by `python scripts/precheck.py` (docs/machines.md, \"Continuous work\").",
              "", "| Check | Result | Reason |", "|---|---|---|"]
@@ -227,10 +233,17 @@ def report_text(results, machine_name, what, now, sent):
     return "\n".join(lines) + "\n"
 
 
-def precheck(what="", dry_run=False, no_duty=False, hours=duty.HOURS, checks=None, send=duty.send, on_duty=duty.start,
-             state=None, report_dir=None, now=None, out=print):
-    """Run the checks, print a line for each, and on a failure write the report and send the line. Returns
-    (exit code, results, the report's path or None)."""
+def record_idle(reason, workflow):
+    """One row of erw_health, step "idle", through scripts/alert.py's own writer (the standard library alone), with the
+    keys as scripts/duty.py finds them. True when it was written."""
+    return alert.write_row(workflow, "idle", "ok", reason, env=duty.env)
+
+
+def precheck(what="", dry_run=False, no_duty=False, hours=duty.HOURS, checks=None, record=record_idle, on_duty=duty.start,
+             state=None, report_dir=None, now=None, out=print, send=None):  # send: accepted, never called (session 243)
+    """Run the checks, print a line for each, and on a failure write the report and record the machine as idle with
+    the line as the reason (session 243, the email rule: nothing is emailed here; the machine's one email, 15 minutes
+    later, says it is ready for review and why). Returns (exit code, results, the report's path or None)."""
     now = now or dt.datetime.now(UTC)
     state = state or duty.state_dir()
     m = duty.machine(state) or {}
@@ -249,12 +262,16 @@ def precheck(what="", dry_run=False, no_duty=False, hours=duty.HOURS, checks=Non
             out(f"precheck passed, but the machine could not be put on duty ({type(exc).__name__}: {alert.one_line(exc, 160)}): the idle alarm does not watch it")
         return 0, results, None
     line = failure_line(results, name, what, now)
-    subject = f"ERW: precheck failed on {name}"
-    try:
-        n = send(subject, line, dry_run)
-        sent = "printed, not sent (dry run)" if dry_run else f"sent to {n} fixed recipient{'s' if n != 1 else ''}"
-    except Exception as exc:
-        sent = f"NOT sent ({type(exc).__name__}: {alert.one_line(exc, 160)})"
+    follows = f"the machine's one email follows {alert.READY_MIN} minutes later (python scripts/alert.py ready)"
+    if dry_run:
+        out(line)
+        sent = "printed, not recorded (dry run)"
+    else:
+        try:
+            sent = (f"recorded as idle in erw_health; {follows}" if record(alert.one_line(alert.READY_MARK + line, 480), f"local:{name}")
+                    else "NOT recorded in erw_health: no email will follow")
+        except Exception as exc:
+            sent = f"NOT recorded in erw_health: no email will follow ({type(exc).__name__}: {alert.one_line(exc, 160)})"
     report_dir = report_dir or os.path.join(ROOT, "runs", "precheck")
     os.makedirs(report_dir, exist_ok=True)
     path = os.path.join(report_dir, f"{now:%Y%m%dT%H%M%SZ}-{name}.md")

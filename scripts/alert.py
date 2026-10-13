@@ -57,6 +57,22 @@ so again every hour). A mark that has lapsed is a chain nobody ended: the check 
 
 Exit codes: 0 done (for check: nothing to say, or the email was sent); 1 could not (no key, the database or GitHub did
 not answer, Resend refused); 2 bad input.
+
+Session 243, the email rule (the owner's ruling of 12 October 2026; docs/machines.md, "The email rule"). It replaces
+what is said above wherever the two differ. A person gets two emails from this machinery and no other:
+
+    ready       one for a machine, 15 minutes after it went idle (scripts/chain_queue.py next with nothing waiting, or
+                a precheck that failed), saying it is ready for review. Not sent when the machine went back on duty
+                in those 15 minutes
+    daily red   one a UTC day, when a step of the daily run newly failed (the workflow "daily prices", or a data
+                machine's dm_ steps), or when by 18:00 UTC the workflow recorded no step that day
+
+    python scripts/alert.py ready [--dry-run]       the scheduled check of the first (chain-watch.yml, every 15 minutes)
+    python scripts/alert.py failures [--dry-run]    the scheduled check of the second
+
+Every other check still runs and still records: a waiting session, a silent chain, a silent machine on duty, a lapsed
+mark, a failed step of any other job, the model cap's skips and the morning summary are rows of erw_health and lines
+of the job's log, and are not emailed. deliver() refuses any kind but the two, whoever calls it.
 """
 
 import argparse
@@ -93,6 +109,14 @@ REFS, COMMITS = 20, 30  # the newest branches read from GitHub, and the newest c
 MAX_LINE = 300
 # the kinds of Notification this alerts on, and how the line names them (Claude Code's notification_type)
 WAITS = {"permission_prompt": "a permission", "idle_prompt": "input", "elicitation_dialog": "an answer", "agent_needs_input": "input"}
+# Session 243, the email rule: the only kinds of line that are emailed. Everything else is recorded and not sent.
+READY, DAILY_RED = "ready", "daily red"
+MAILED = (READY, DAILY_RED)
+READY_MIN = 15          # a machine's one line goes this long after it went idle
+READY_MARK = "ready for review: "   # how an idle row's reason begins when a line is to follow it
+DAILY = "daily prices"  # the scheduled workflow of the daily run, as erw_health names it
+DAILY_DUE_HOUR = 18     # UTC: the daily run starts at 14:00 and is done by about 16:00; no step by this hour is red
+RULE = "the email rule, session 243"
 
 
 def dotenv(path=None):
@@ -134,8 +158,11 @@ def one_line(text, limit=MAX_LINE):
     return s if len(s) <= limit else s[:limit - 3].rstrip() + "..."
 
 
-def deliver(subject, text, html=None, post=http_post, env=env):
-    """One message to each fixed recipient, and to nobody else. Returns the number sent."""
+def deliver(subject, text, html=None, post=http_post, env=env, kind=None):
+    """One message to each fixed recipient, and to nobody else. Returns the number sent. Session 243: only a line of
+    one of the two kinds of MAILED is sent; for any other kind, or none, nothing is sent and 0 is returned."""
+    if kind not in MAILED:
+        return 0
     key = env("RESEND_API_KEY")
     to = [a.strip() for a in env("DIGEST_RECIPIENTS").split(",") if a.strip()]
     if not key or not to:
@@ -153,15 +180,29 @@ def deliver(subject, text, html=None, post=http_post, env=env):
     return sent
 
 
-def send(subject, line, dry_run=False, post=http_post, env=env):
-    """One message to each fixed recipient: the line and nothing else. Returns the number sent."""
+def send(subject, line, dry_run=False, post=http_post, env=env, kind=None):
+    """One message to each fixed recipient: the line and nothing else. Returns the number sent. Session 243: a line
+    whose kind is not one of MAILED is printed as not emailed and is not sent (0)."""
     line = one_line(line)
     if not line:
         raise ValueError("the line is empty")
+    if kind not in MAILED:
+        print(f"not emailed ({RULE}; kind: {kind or 'none'}): {subject}: {line}")
+        return 0
     if dry_run:
         print(f"Subject: {subject}\n\n{line}\n")
         return 0
-    return deliver(subject, line + "\n", post=post, env=env)
+    return deliver(subject, line + "\n", post=post, env=env, kind=kind)
+
+
+def machine_name():
+    """This machine's name from the role file .erw/machine.json (scripts/duty.py reads the same file), else the host's."""
+    try:
+        with open(os.path.join(STATE, "machine.json"), encoding="utf-8") as f:
+            name = json.load(f).get("name")
+    except (OSError, ValueError, AttributeError):
+        name = None
+    return str(name or socket.gethostname())
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -284,12 +325,14 @@ def hook(stdin=None, post=http_post, env=env, state_dir=None, now=None):
         if done:
             return f"quiet: the session said {done[0]} {done[1] / 60:.0f} minutes ago; a wait for input is not said for {DONE_QUIET_S // 60} minutes after"
         if not hook_due(session, kind, now, state_dir):
-            return "sent less than 10 minutes ago for this session and kind"
-        n = send(made[0], made[1], post=post, env=env)
+            return "recorded less than 10 minutes ago for this session and kind"
+        # session 243, the email rule: a wait is one row of erw_health (the machine's own, so /internal/health shows
+        # it) and is not emailed
+        wrote = write_row(f"local:{machine_name()}", "session waits", "ok", made[1], post=post, env=env)
         hook_due(session, kind, now, state_dir, record=True)
-        return f"sent to {n} fixed recipient{'s' if n != 1 else ''}"
+        return f"recorded{'' if wrote else ' on this machine only'}, not emailed ({RULE}): {made[1]}"
     except Exception as exc:  # the hook's failure is the hook's alone
-        return f"not sent: {type(exc).__name__}: {str(exc)[:160]}"
+        return f"not recorded: {type(exc).__name__}: {str(exc)[:160]}"
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -416,7 +459,7 @@ def decide(now, m, push, memory=None):
         return None, f"\"{name}\" has saved nothing for {quiet:.0f} minutes; said once, and not again for this silence"
     return ("ERW: a chain has saved nothing for 30 minutes", one_line(
         f"The chain \"{name}\" ({m['holder']}) has saved nothing for {quiet:.0f} minutes: its last save was {what} at {hm(last)} UTC. "
-        f"Marked as running since {hm(m['acquired'])} UTC. Said once: no further email for this silence."))
+        f"Marked as running since {hm(m['acquired'])} UTC. Recorded once for this silence."))
 
 
 def holder():
@@ -469,10 +512,12 @@ def chain(a):
     if made[0] is None:  # check
         print(f"quiet: {made[1]}")
         return 0
-    n = send(made[0], made[1], dry_run=a.dry_run)
-    if not a.dry_run:
-        say("chain watch", chain_key(now, m, push))
-        print(f"alert: {made[1]} (sent to {n} fixed recipient{'s' if n != 1 else ''})")
+    # session 243, the email rule: the silence is recorded once (the memory, and this line of the job's log), not emailed
+    if a.dry_run:
+        print(f"would record, not email ({RULE}): {made[1]}")
+        return 0
+    say("chain watch", chain_key(now, m, push))
+    print(f"recorded, not emailed ({RULE}): {made[1]}")
     return 0
 
 
@@ -545,18 +590,24 @@ def told(now, get=http_get, env=env):
         return None
 
 
-def say(kind, key, post=http_post, env=env):
-    """Remember that a line was sent: one row of erw_health, workflow "alerts", the key as its reason. Never raises;
-    False when the row was not written (the line may then be said once more by the next check)."""
+def write_row(workflow, step, status, reason, post=http_post, env=env):
+    """One row of erw_health, written with the standard library alone (a hook and the precheck must not need a
+    package). Never raises; False when the row was not written."""
     if in_a_test(post, http_post):
         return False
     try:
         url, headers = health_api(env)
         r = post(url, headers={**headers, "Prefer": "return=minimal"}, timeout=30,
-                 json={"workflow": MEMORY, "run_id": os.environ.get("GITHUB_RUN_ID"), "step": kind, "status": "ok", "reason": str(key)[:500]})
+                 json={"workflow": workflow, "run_id": os.environ.get("GITHUB_RUN_ID"), "step": step, "status": status, "reason": str(reason)[:500]})
         return r.status_code < 300
     except Exception:
         return False
+
+
+def say(kind, key, post=http_post, env=env):
+    """Remember that a line was said: one row of erw_health, workflow "alerts", the key as its reason. Never raises;
+    False when the row was not written (the line may then be said once more by the next check)."""
+    return write_row(MEMORY, kind, "ok", key, post, env)
 
 
 def due(quiet, threshold, key, memory):
@@ -614,49 +665,87 @@ def failure_line(row):
     at = parse(row["at"])
     run = f" (run {row['run_id']})" if row.get("run_id") else ""
     reason = " ".join(str(row.get("reason") or "no reason recorded").split())
-    tail = " Said once: while it keeps failing it is a red line of the morning summary."
+    tail = " Recorded once: while it keeps failing it is a red line of /internal/health."
     head = f"{row['step']} of {row['workflow']} failed at {at:%H:%M} UTC{run}: "
     return (one_line(f"ERW: {row['step']} failed ({row['workflow']})", 120),
             one_line(head + one_line(reason, max(40, MAX_LINE - len(head) - len(tail))).rstrip(".") + "." + tail))
 
 
+def daily_run(row):
+    """Whether a row of erw_health is a step of the daily run (session 243): the scheduled workflow "daily prices", or
+    a data machine's own daily run, whose steps are named dm_<step> (warehouse/run_data_machine.sh)."""
+    wf = str(row.get("workflow") or "")
+    return wf == DAILY or (wf.startswith("local:") and str(row.get("step") or "").startswith("dm_"))
+
+
+def daily_missing(now, get=http_get, env=env):
+    """True when it is DAILY_DUE_HOUR UTC or later and the workflow "daily prices" has recorded no step this UTC day:
+    a daily run that did not start is red too (warehouse/health.py ends the green streak on such a day)."""
+    if now.hour < DAILY_DUE_HOUR:
+        return False
+    return not health_rows([("select", "at"), ("workflow", f"eq.{DAILY}"), ("at", f"gte.{now:%Y-%m-%d}T00:00:00Z"), ("limit", "1")], get, env)
+
+
+def daily_red_line(day, rows, missing=False):
+    """(subject, line) of the one email a day for a red daily run: the steps that newly failed and the first one's
+    reason, or that no step was recorded."""
+    tail = " One email a day: the rest is on /internal/health."
+    if not rows:
+        return "ERW: the daily run is red", one_line(
+            f"The daily run is red on {day} UTC: the workflow \"{DAILY}\" recorded no step by {DAILY_DUE_HOUR:02d}:00 UTC, so it did not start." + tail)
+    names = list(dict.fromkeys(f"{r['step']} ({r['workflow']})" for r in rows))
+    more = f" and {len(names) - 3} more" if len(names) > 3 else ""
+    head = (f"The daily run is red on {day} UTC: {len(names)} step{'s' if len(names) != 1 else ''} newly failed: {', '.join(names[:3])}{more}"
+            + ("; and the workflow recorded no step today" if missing else "") + ". First: ")
+    reason = " ".join(str(rows[0].get("reason") or "no reason recorded").split())
+    return "ERW: the daily run is red", one_line(head + one_line(reason, max(40, MAX_LINE - len(head) - len(tail))).rstrip(".") + "." + tail)
+
+
 def failures(minutes=60, dry_run=False, now=None, get=http_get, post=http_post, env=env, send=None):
-    """The scheduled check: one email for each new failure (more than MANY at once: one for all of them), and one a
-    day for the steps the model cap skipped. Returns 0 when there was nothing to say or a line went out, 1 when every
-    line that was due could not be sent."""
+    """The scheduled check. Session 243, the email rule: every newly failed step of any scheduled job, and the steps
+    the model cap skipped, are recorded once (the memory, and a line of this job's log) and are not emailed. One email
+    a UTC day goes out when the daily run is red: a step of it newly failed, or it recorded no step by 18:00 UTC.
+    Returns 0 when there was nothing to say, everything was recorded, or the email went out; 1 when the email was
+    due and could not be sent (the daily run's failures are then not remembered, so the next check sends it)."""
     now = now or dt.datetime.now(UTC)
-    send = send or (lambda subject, line, dry: globals()["send"](subject, line, dry, post=post, env=env))
+    send = send or (lambda subject, line, dry: globals()["send"](subject, line, dry, post=post, env=env, kind=DAILY_RED))
     memory = told(now, get, env)
     new = new_failures(now, minutes, memory, get, env)
     cap = cap_skips(now, minutes, memory, get, env)
-    if not new and not cap:
+    day = f"{now:%Y-%m-%d}"
+    red_key = f"{DAILY_RED}|{day}"
+    red_said = memory is not None and red_key in memory
+    missing = not red_said and daily_missing(now, get, env)
+    if not new and not cap and not missing:
         print(f"quiet: no step newly failed in the last {minutes if memory is not None else EVERY_MIN} minutes"
               + ("" if memory is not None else " (the memory could not be read: the last quarter of an hour only)"))
         return 0
-    mails = []  # (subject, line, [keys])
-    if len(new) > MANY:
-        names = ", ".join(dict.fromkeys(f"{r['step']} ({r['workflow']})" for _, r in new))
-        mails.append((f"ERW: {len(new)} scheduled steps failed",
-                      one_line(f"{len(new)} steps newly failed since {parse(new[0][1]['at']):%H:%M} UTC: {names}"), [k for k, _ in new]))
-    else:
-        mails += [(*failure_line(r), [k]) for k, r in new]
-    if cap:
-        steps = ", ".join(dict.fromkeys(r["step"] for r in cap[1]))
-        said = str(cap[1][0].get("reason") or "")[len(CAP_MARK):].split(";")[0].strip()
-        mails.append((f"ERW: the daily model cap skipped {len(cap[1])} step{'s' if len(cap[1]) != 1 else ''}",
-                      one_line(f"The {CAP_MARK} {said}: not run today: {steps}."), [cap[0]]))
-    sent = 0
-    for subject, line, keys in mails:
+    red = [(k, r) for k, r in new if daily_run(r)]
+    code = 0
+    held = set()  # the keys of the daily run's failures when their email could not be sent: not remembered
+    if (red or missing) and not red_said:
+        subject, line = daily_red_line(day, [r for _, r in red], missing)
         try:
             n = send(subject, line, dry_run)
             if not dry_run:
-                for k in keys:
-                    say("failure", k, post, env)
+                say(DAILY_RED, red_key, post, env)
                 print(f"alert: {line} (sent to {n} fixed recipient{'s' if n != 1 else ''})")
-            sent += 1
-        except Exception as exc:  # one line must not cost another
+        except Exception as exc:
             print(f"alert: not sent ({type(exc).__name__}: {str(exc)[:160]}): {line}")
-    return 0 if sent else 1
+            held, code = {k for k, _ in red}, 1
+    elif red:
+        print(f"quiet: the daily run's one email of {day} was sent; {len(red)} more failed step{'s' if len(red) != 1 else ''} of it recorded below")
+    for k, r in new:
+        print(f"{'would record, not email' if dry_run else 'recorded, not emailed'} ({RULE}): {failure_line(r)[1]}")
+        if not dry_run and k not in held:
+            say("failure", k, post, env)
+    if cap:
+        steps = ", ".join(dict.fromkeys(r["step"] for r in cap[1]))
+        said = str(cap[1][0].get("reason") or "")[len(CAP_MARK):].split(";")[0].strip()
+        print(f"{'would record, not email' if dry_run else 'recorded, not emailed'} ({RULE}): The {CAP_MARK} {said}: not run today: {steps}.")
+        if not dry_run:
+            say("failure", cap[0], post, env)
+    return code
 
 
 def pacific(now):
@@ -800,7 +889,7 @@ def summary(dry_run=False, html_path=None, force=False, now=None, get=http_get, 
             print("quiet: the memory could not be read, and the first quarter of an hour after 07:00 Pacific has passed")
             return 0
         if memory is not None and key in memory:
-            print(f"quiet: the morning summary of {p:%Y-%m-%d} was sent")
+            print(f"quiet: the morning summary of {p:%Y-%m-%d} was written")
             return 0
     m = morning(now)
     since = (m - dt.timedelta(days=1) if now - m.astimezone(UTC) < dt.timedelta(hours=12) else m).astimezone(UTC)
@@ -810,13 +899,82 @@ def summary(dry_run=False, html_path=None, force=False, now=None, get=http_get, 
         os.makedirs(os.path.dirname(os.path.abspath(html_path)), exist_ok=True)
         with open(html_path, "w", encoding="utf-8", newline="\n") as f:
             f.write(html)
+    print(f"Subject: {subject}\n\n{text}")
     if dry_run:
-        print(f"Subject: {subject}\n\n{text}")
         return 0
-    n = deliver(subject, text, html, post=post, env=env)
+    # session 243, the email rule: the summary is written into the job's log once a day and is not emailed
     say("morning summary", key, post, env)
-    print(f"summary: \"{subject}\" sent to {n} fixed recipient{'s' if n != 1 else ''}")
+    print(f"summary: recorded, not emailed ({RULE})")
     return 0
+
+
+# ---------------------------------------------------------------------------------------------------------------------
+# the email rule (session 243): a machine that went idle is ready for review
+
+def on_duty_since(get=http_get, env=env):
+    """{machine: when its duty mark was taken} for every machine on duty now (scripts/duty.py's rows of erw_locks)."""
+    import duty  # here and not above: scripts/duty.py imports this module
+    return {str(r["name"])[len(duty.PREFIX):]: r["acquired"] for r in duty.rows(get=get, env=env)}
+
+
+def ready_line(name, at, reason):
+    """(subject, line) of a machine's one email: it is ready for review, since when, and what its idle row says."""
+    detail = str(reason or "")
+    detail = detail[len(READY_MARK):] if detail.startswith(READY_MARK) else detail
+    return (f"ERW: {name} is ready for review",
+            one_line(f"The machine {name} is ready for review. Idle since {at:%H:%M} UTC: {' '.join(detail.split()).rstrip('.')}."))
+
+
+def ready(dry_run=False, now=None, get=http_get, post=http_post, env=env, send=None, on_duty=None):
+    """The scheduled check (chain-watch.yml, every 15 minutes): one email for a machine, READY_MIN minutes after it
+    went idle, saying it is ready for review. A machine went idle when it wrote a row of erw_health with the step
+    "idle" whose reason begins with READY_MARK (scripts/chain_queue.py next with nothing waiting, on a machine on
+    duty; scripts/precheck.py when a check failed). Its newest such row is the one judged. Nothing is sent when the
+    machine went on duty again after that row, when the row is under 15 minutes old (the next check sends it), or
+    when its line was sent. Returns 0 when there was nothing to say or a line went out, 1 when every line that was
+    due could not be sent."""
+    now = now or dt.datetime.now(UTC)
+    send = send or (lambda subject, line, dry: globals()["send"](subject, line, dry, post=post, env=env, kind=READY))
+    rows = health_rows([("select", "at,workflow,reason"), ("step", "eq.idle"), ("status", "eq.ok"), ("workflow", "like.local:*"),
+                        ("reason", f"like.{READY_MARK}*"), ("at", f"gte.{iso(now - dt.timedelta(hours=LAPSE_HOURS))}"), ("order", "at")], get, env)
+    newest = {}
+    for r in rows:
+        if str(r.get("workflow") or "").startswith("local:") and str(r.get("reason") or "").startswith(READY_MARK):
+            newest[r["workflow"]] = r
+    if not newest:
+        print(f"quiet: no machine went idle in the last {LAPSE_HOURS} hours")
+        return 0
+    memory = told(now, get, env)
+    try:
+        marks = (on_duty or (lambda: on_duty_since(get, env)))()
+    except Exception as exc:  # the marks cannot be read: the line still goes, since an email too many is not possible here
+        print(f"the duty marks could not be read ({type(exc).__name__}: {str(exc)[:120]}): judged without them")
+        marks = {}
+    due_n = failed = 0
+    for wf, r in sorted(newest.items()):
+        name, at = wf[len("local:"):], parse(r["at"])
+        age = (now - at).total_seconds() / 60
+        key = f"{READY}|{name}|{at:%Y-%m-%dT%H:%M}"
+        if marks.get(name) and marks[name] > at:
+            print(f"quiet: {name} went idle at {at:%H:%M} UTC and is on duty again since {marks[name]:%H:%M} UTC")
+            continue
+        if age < READY_MIN:
+            print(f"quiet: {name} went idle {age:.0f} minutes ago ({at:%H:%M} UTC); its line goes {READY_MIN} minutes after")
+            continue
+        if not due(age, READY_MIN, key, memory):
+            print(f"quiet: {name} went idle at {at:%H:%M} UTC; its one line " + ("was sent" if memory is not None else "is not sent late without the memory"))
+            continue
+        due_n += 1
+        subject, line = ready_line(name, at, r.get("reason"))
+        try:
+            n = send(subject, line, dry_run)
+            if not dry_run:
+                say(READY, key, post, env)
+                print(f"alert: {line} (sent to {n} fixed recipient{'s' if n != 1 else ''})")
+        except Exception as exc:  # one machine's line must not cost another's
+            failed += 1
+            print(f"alert: not sent ({type(exc).__name__}: {str(exc)[:160]}): {line}")
+    return 1 if due_n and failed == due_n else 0
 
 
 def main(argv=None):
@@ -832,7 +990,10 @@ def main(argv=None):
     s.add_argument("--subject", required=True)
     s.add_argument("--line", required=True)
     s.add_argument("--dry-run", action="store_true")
-    f = sub.add_parser("failures", help="one email for each step newly recorded as failed (the scheduled check)")
+    s.add_argument("--kind", choices=MAILED, help="session 243: only a line of one of these kinds is emailed; without it the line is printed, not sent")
+    rd = sub.add_parser("ready", help="session 243: one email for a machine, 15 minutes after it went idle (the scheduled check)")
+    rd.add_argument("--dry-run", action="store_true")
+    f = sub.add_parser("failures", help="records each step newly failed; one email a day when the daily run is red (the scheduled check)")
     f.add_argument("--minutes", type=int, default=60, help="how far back a failed row is looked for (default 60)")
     f.add_argument("--dry-run", action="store_true")
     m = sub.add_parser("summary", help="the morning summary: the runs since the last morning, one line each")
@@ -850,8 +1011,10 @@ def main(argv=None):
             return failures(a.minutes, a.dry_run)
         if a.cmd == "summary":
             return summary(a.dry_run, a.html, a.force)
-        n = send(a.subject, a.line, a.dry_run)
-        if not a.dry_run:
+        if a.cmd == "ready":
+            return ready(a.dry_run)
+        n = send(a.subject, a.line, a.dry_run, kind=a.kind)
+        if not a.dry_run and a.kind:
             print(f"alert: sent to {n} fixed recipient{'s' if n != 1 else ''}")
         return 0
     except ValueError as exc:

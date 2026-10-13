@@ -13,9 +13,12 @@ machine then sits until a person pastes the next prompt. The next prompts are fi
 `next` is the last step of a chain's last session. With a file waiting it moves the first one to queue/done/ in one
 commit of that move alone and prints the file's new path on its last line: the session then reads that file and runs
 it. With nothing waiting it writes one row to the health table erw_health (step "idle", through warehouse/health.py's
-own writer), sends one line to the fixed recipients (scripts/alert.py's sender; no address is printed), and takes the
-machine off duty (scripts/duty.py), so the idle alarm does not also report a machine that has said it is idle.
---dry-run prints what would happen and moves, commits, writes and sends nothing.
+own writer) and takes the machine off duty (scripts/duty.py), so the idle alarm does not also record a machine that
+has said it is idle. --dry-run prints what would happen and moves, commits, writes and sends nothing.
+
+Session 243, the email rule (the owner's ruling of 12 October 2026): `next` sends no email itself. The row it writes
+is what the chain watch reads: 15 minutes after it, the machine's one email says it is ready for review
+(python scripts/alert.py ready), unless the machine has gone on duty again by then.
 
 Session 197, the planner: with nothing waiting and "planner: on" in docs/roadmap.md, `next` first runs
 scripts/planner.py (`draft`). A chain it writes into queue/next/ is committed alone, pushed to a wip/ branch of its
@@ -32,8 +35,8 @@ The move is a commit on the branch the session is on; it is not pushed here (a p
 A file in queue/next/ whose name is not NNN-<slug>.md is left where it is and named in what is printed (and counted
 in the idle line): it is never run.
 
-Exit codes: 0 a file was taken (its path is the last line printed), or list; 3 nothing waits (idle: recorded and
-said); 1 could not (git refused the move, or the idle row, the line or the duty mark failed); 2 bad input.
+Exit codes: 0 a file was taken (its path is the last line printed), or list; 3 nothing waits (idle: recorded); 1
+could not (git refused the move, or the idle row or the duty mark failed); 2 bad input.
 """
 
 import argparse
@@ -133,9 +136,10 @@ def plan(who, root=ROOT, dry_run=False, out=print, git=git, role=None, now=None)
     return name
 
 
-def take(dry_run=False, root=ROOT, who=None, rec=health_row, send=None, off=None, mover=move, now=None, out=print, planner=plan):
-    """The `next` command. Returns the exit code."""
-    send, off = send or duty.send, off or duty.off
+def take(dry_run=False, root=ROOT, who=None, rec=health_row, send=None, off=None, mover=move, now=None, out=print, planner=plan, held=None):
+    """The `next` command. Returns the exit code. `send` is accepted for a caller that still hands one in and is never
+    called (session 243: this command emails nothing)."""
+    off, held = off or duty.off, held or duty.held
     now = now or dt.datetime.now(UTC)
     who = who or duty.clean((duty.machine() or {}).get("name") or os.environ.get("COMPUTERNAME") or os.environ.get("HOSTNAME") or "machine")
     good, odd = waiting(root)
@@ -158,26 +162,31 @@ def take(dry_run=False, root=ROOT, who=None, rec=health_row, send=None, off=None
         out(os.path.join(root, *dst.split("/")))
         return 0
     left = f" ({len(odd)} file{'s' if len(odd) != 1 else ''} there with a name this queue does not take)" if odd else ""
-    why = f"queue/next/ is empty{left}: {who} has nothing left to run"
-    line = alert.one_line(f"The machine {who} is idle since {now:%H:%M} UTC: queue/next/ is empty{left}. "
-                          "Put the next prompt file there (NNN-<slug>.md) and start a session.")
+    # Session 243, the email rule: nothing is emailed here. A machine that was on duty went idle: its row's reason
+    # begins with alert.READY_MARK, and the chain watch sends its one line 15 minutes later (scripts/alert.py ready),
+    # unless it has gone on duty again by then. A machine that was not on duty was idle already: its row says so and
+    # no line follows, so asking twice is one email, not two.
+    try:
+        mark = held()
+    except Exception:
+        mark = None
+    what = alert.one_line((mark or {}).get("what") or "", 120)
+    why = f"queue/next/ is empty{left}: {who} has nothing left to run" + (f" after \"{what}\"" if what else "")
+    why = alert.one_line(alert.READY_MARK + why if mark else why + " (it was not on duty: idle already, no line follows)", 480)
+    follows = (f"the one email follows {alert.READY_MIN} minutes from now, from the chain watch (python scripts/alert.py ready), unless the machine is on duty again by then"
+               if mark else "no email follows: the machine was not on duty")
     if dry_run:
         out(f"would write to erw_health: step idle, status ok, workflow local:{who}, reason: {why}")
-        send("ERW: a machine is idle", line, True)
+        out(f"would send nothing here ({alert.RULE}): {follows}")
         out("would take the machine off duty (python scripts/duty.py off)")
         return IDLE_EXIT
     problems = []
     try:
         if not rec("idle", "ok", why, f"local:{who}"):
-            problems.append("the row of erw_health was not written")
+            problems.append("the row of erw_health was not written" + (": no email will follow" if mark else ""))
     except Exception as exc:
         problems.append(f"the row of erw_health was not written ({type(exc).__name__}: {alert.one_line(exc, 120)})")
-    try:
-        n = send("ERW: a machine is idle", line, False)
-        out(f"idle: {why}; said to {n} fixed recipient{'s' if n != 1 else ''}")
-    except Exception as exc:
-        problems.append(f"the line was not sent ({type(exc).__name__}: {alert.one_line(exc, 120)})")
-        out(f"idle: {why}")
+    out(f"idle: {why}; {follows}")
     try:
         out(off())
     except Exception as exc:

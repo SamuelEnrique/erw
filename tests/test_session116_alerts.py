@@ -146,7 +146,7 @@ class WhatCountsAsASave(unittest.TestCase):
         subject, line = alert.decide(at(5, 20), a_mark(), save)
         self.assertEqual(subject, "ERW: a chain has saved nothing for 30 minutes")
         self.assertEqual(line, "The chain \"session 116\" (oldlaptop/e4b617a1) has saved nothing for 35 minutes: its last save was a push to fix/a-typo at "
-                               "04:45 UTC. Marked as running since 02:00 UTC. Said once: no further email for this silence.")
+                               "04:45 UTC. Marked as running since 02:00 UTC. Recorded once for this silence.")
         self.assertIn("its last save was a commit on main at 04:45 UTC", alert.decide(at(5, 20), a_mark(), (at(4, 45), "main", "Session 116 report"))[1])
         self.assertIn("its last save was the landing of task/x on main at 04:45 UTC",
                       alert.decide(at(5, 20), a_mark(), (at(4, 45), "main", "Merge task/x: checks passed (run 2)"))[1])
@@ -289,17 +289,18 @@ class AfterReportReady(unittest.TestCase):
         self.assertIn("quiet: the session said REPORT READY 5 minutes ago", said)
         self.assertEqual(self.post.calls, [])
         said = self.run_hook(self.a_finished_session("REPORT READY", 11))
-        self.assertIn("sent to 2", said)
-        self.assertEqual(len(self.post.calls), 2)
-        self.assertIn("waits for input", self.post.calls[0][2]["text"])
+        # session 243, the email rule: a wait is recorded and never emailed; what the hook answers carries the line
+        self.assertIn("not emailed", said)
+        self.assertEqual(self.post.calls, [])
+        self.assertIn("waits for input", said)
 
     def test_chain_done_likewise(self):
         self.assertIn("quiet: the session said CHAIN DONE 5 minutes ago", self.run_hook(self.a_finished_session("CHAIN DONE", 5)))
         self.assertEqual(self.post.calls, [])
-        self.assertIn("sent to 2", self.run_hook(self.a_finished_session("CHAIN DONE", 11)))
+        self.assertIn("not emailed", self.run_hook(self.a_finished_session("CHAIN DONE", 11)))
         # the edge: quiet for ten minutes, not ten minutes and a second
         self.assertIn("quiet", self.run_hook(self.a_finished_session("CHAIN DONE", 9.9), session="s2"))
-        self.assertIn("sent to 2", self.run_hook(self.a_finished_session("CHAIN DONE", 10), session="s3"))
+        self.assertIn("not emailed", self.run_hook(self.a_finished_session("CHAIN DONE", 10), session="s3"))
 
     def test_a_background_session_that_needs_input_is_quieted_the_same_way(self):
         self.assertIn("quiet", self.run_hook(self.a_finished_session("REPORT READY", 1), kind="agent_needs_input"))
@@ -307,13 +308,15 @@ class AfterReportReady(unittest.TestCase):
 
     def test_a_permission_prompt_is_not_quieted(self):
         path = self.a_finished_session("REPORT READY", 1)
-        self.assertIn("sent to 2", self.run_hook(path, kind="permission_prompt"))
-        self.assertIn("waits for a permission", self.post.calls[0][2]["text"])
-        self.assertIn("sent to 2", self.run_hook(path, kind="elicitation_dialog", session="s2"))
+        said = self.run_hook(path, kind="permission_prompt")
+        self.assertIn("not emailed", said)
+        self.assertIn("waits for a permission", said)
+        self.assertEqual(self.post.calls, [])
+        self.assertIn("not emailed", self.run_hook(path, kind="elicitation_dialog", session="s2"))
 
     def test_a_session_that_did_not_say_it_is_a_wait(self):
         path = self.transcript(entry("user", 9, "which of the two?"), entry("assistant", 2, "Which table do you mean? I can report when ready."))
-        self.assertIn("sent to 2", self.run_hook(path))
+        self.assertIn("not emailed", self.run_hook(path))
         # the words are the two phrases as a session says them, not any mention of a report
         self.assertIsNone(alert.said_done({"transcript_path": path}, NOW))
 
@@ -322,10 +325,10 @@ class AfterReportReady(unittest.TestCase):
         path = self.transcript(entry("assistant", 3, "REPORT READY"), entry("user", 2, "one more thing"),
                                entry("assistant", 1, blocks=[{"type": "tool_use", "id": "y", "name": "Read", "input": {}}]))
         self.assertIsNone(alert.said_done({"transcript_path": path}, NOW))
-        self.assertIn("sent to 2", self.run_hook(path))
+        self.assertIn("not emailed", self.run_hook(path))
         # and its later words, which are not the phrase, are what counts
         path = self.transcript(entry("assistant", 3, "REPORT READY"), entry("user", 2, "one more thing"), entry("assistant", 1, "Which one?"))
-        self.assertIn("sent to 2", self.run_hook(path, session="s2"))
+        self.assertIn("not emailed", self.run_hook(path, session="s2"))
 
     def test_a_side_chains_words_are_not_the_sessions(self):
         path = self.transcript(entry("assistant", 4, "Shall I go on?"), entry("assistant", 1, "REPORT READY", isSidechain=True))
@@ -342,12 +345,13 @@ class AfterReportReady(unittest.TestCase):
                                              json.dumps({"type": "assistant", "message": {"content": 7}})),
         }
         for i, (what, path) in enumerate(cases.items()):
-            before = len(self.post.calls)
-            self.assertIn("sent to 2", self.run_hook(path, session=f"s{i}"), what)
-            self.assertEqual(len(self.post.calls), before + 2, what)
+            said = self.run_hook(path, session=f"s{i}")
+            self.assertIn("not emailed", said, what)
+            self.assertTrue(said.startswith("recorded"), what)   # a wait, not quieted: recorded (session 243: and not emailed)
+            self.assertEqual(self.post.calls, [], what)
         # no transcript named at all, as an older Claude Code sends the event
         e = {k: v for k, v in EVENT.items()}
-        self.assertIn("sent to 2", alert.hook(json.dumps(e), post=self.post, env=envs(**KEYS), state_dir=os.path.join(self.d.name, "state"), now=NOW + 5000))
+        self.assertIn("not emailed", alert.hook(json.dumps(e), post=self.post, env=envs(**KEYS), state_dir=os.path.join(self.d.name, "state"), now=NOW + 5000))
         self.assertIsNone(alert.said_done({}, NOW))
         self.assertIsNone(alert.said_done({"transcript_path": None}, NOW))
 
@@ -369,7 +373,7 @@ class AfterReportReady(unittest.TestCase):
         # nothing was sent while quiet, so the first real wait afterwards is said at once
         path = self.a_finished_session("REPORT READY", 5)
         self.assertIn("quiet", self.run_hook(path))
-        self.assertIn("sent to 2", self.run_hook(path, now=NOW + 6 * 60))   # eleven minutes after the words
+        self.assertIn("not emailed", self.run_hook(path, now=NOW + 6 * 60))   # eleven minutes after the words
 
     def test_as_a_process_it_prints_nothing_and_exits_0(self):
         path = self.a_finished_session("REPORT READY", 5)
