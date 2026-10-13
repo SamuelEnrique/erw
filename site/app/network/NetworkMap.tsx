@@ -82,15 +82,15 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
       <svg viewBox={`0 0 ${W} ${H}`} className="h-full w-full" role="img" preserveAspectRatio="xMidYMid meet"
         aria-label="A map of the US balancing authorities, each region colored by the carbon intensity of its generation, with the power they exchange; hover a region for its name, click it for its panel">
         <defs>
-          <marker id="erw-flow-head" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0L8,4L0,8Z" fill="#8C1515" /></marker>
-          <marker id="erw-flow-head-dim" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0L8,4L0,8Z" fill="#D9D2C3" /></marker>
+          <marker id="erw-flow-head" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0L8,4L0,8Z" fill="var(--color-accent)" /></marker>
+          <marker id="erw-flow-head-dim" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0L8,4L0,8Z" fill="var(--color-rule)" /></marker>
         </defs>
         <g>
           {regions.map((r) => {
             const dim = pick !== null && pick !== r.id && !neighbours.has(r.id);
             const fill = colorOf(r.id);
             return (
-              <path key={r.id} d={r.d} fillRule="evenodd" fill={fill} fillOpacity={dim ? 0.22 : 0.9} stroke={pick === r.id ? "#2E2D29" : "#FBF8F2"} strokeWidth={pick === r.id ? 1.6 : 0.6}
+              <path key={r.id} d={r.d} fillRule="evenodd" fill={fill} fillOpacity={dim ? 0.22 : 0.9} stroke={pick === r.id ? "var(--color-ink)" : "var(--color-panel)"} strokeWidth={pick === r.id ? 1.6 : 0.6}
                 data-region={r.id} data-fill={fill} data-dim={dim ? "1" : "0"} className="cursor-pointer" tabIndex={0} role="button" aria-label={names.get(r.id)}
                 onClick={() => onPick(r.id)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onPick(r.id); } }}
                 onPointerMove={(e) => { const b = (e.currentTarget.ownerSVGElement as SVGSVGElement).getBoundingClientRect(); setHover({ id: r.id, x: e.clientX - b.left, y: e.clientY - b.top, right: e.clientX - b.left > b.width / 2 }); }}
@@ -105,8 +105,8 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
             const w = flowWidth(f.mw, maxMw);
             return (
               <g key={`${f.a}-${f.b}`} data-flow={`${f.source}>${f.target}`} data-mw={f.mw}>
-                <line x1={s[0]} y1={s[1]} x2={t[0]} y2={t[1]} stroke={dim ? "#D9D2C3" : "#6B665E"} strokeOpacity={pick ? 0.6 : 0.45} strokeWidth={w} markerEnd={`url(#${dim ? "erw-flow-head-dim" : "erw-flow-head"})`} />
-                {dim ? null : <line x1={s[0]} y1={s[1]} x2={t[0]} y2={t[1]} stroke="#8C1515" strokeWidth={Math.max(1, w * 0.5)} strokeDasharray="2 10" strokeLinecap="round"
+                <line x1={s[0]} y1={s[1]} x2={t[0]} y2={t[1]} stroke={dim ? "var(--color-rule)" : "var(--color-muted)"} strokeOpacity={pick ? 0.6 : 0.45} strokeWidth={w} markerEnd={`url(#${dim ? "erw-flow-head-dim" : "erw-flow-head"})`} />
+                {dim ? null : <line x1={s[0]} y1={s[1]} x2={t[0]} y2={t[1]} stroke="var(--color-accent)" strokeWidth={Math.max(1, w * 0.5)} strokeDasharray="2 10" strokeLinecap="round"
                   className="erw-flow-dash" style={{ animationDuration: `${Math.max(0.6, 2.4 - 1.8 * (f.mw / (maxMw || 1)))}s` }} />}
               </g>
             );

@@ -44,7 +44,7 @@ class TheTwelve(unittest.TestCase):
     def test_none_goes_dark_on_20_october_and_none_is_paused(self):
         # ISO-NE's, NYISO's and MISO's own prices are "license needed" from 20 October 2026, PJM's are licensed, MISO is paused
         status = json.loads(src("site", "data", "license_status.json"))
-        self.assertEqual(status["from"], "2026-10-20")
+        self.assertEqual(status["from"], "2026-10-21")   # the launch moved a day (the ruling of 12 October, night); the file on main follows
         held = {"ISO-NE", "MISO", "NYISO"}
         self.assertTrue(held <= set(status["tables"]["price_board_latest"]["publishers"]))
         for i in twelve():
@@ -113,7 +113,7 @@ class TheSharedPieces(unittest.TestCase):
 
     def test_the_brand_has_two_generic_rules_and_they_name_no_page(self):
         css = src("site", "app", "tokens.css")
-        block = css.split("/* ---- session 240:", 1)[1]
+        block = css.split("/* ---- session 240:", 1)[1].split("/* ---- session", 1)[0]   # the block ends where another session's begins
         self.assertIn(".brand-a details[data-group-fold] > summary::before", block)
         self.assertIn(".brand-a table[data-dense] tbody td.text-right", block)
         rules = re.sub(r"/\*.*?\*/", "", "/* ---- session 240:" + block, flags=re.S)

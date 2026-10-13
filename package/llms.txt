@@ -375,7 +375,7 @@ day-ahead tables running into tomorrow:
   (warehouse/analysis/templates/) run every Sunday; a rule (robust z of each
   headline against its own history) picks the chart of the week. Results are
   in docs/analysis/YYYY-Www/ (results.json holds every template's headline and
-  chart) and on the site's /analysis. They are computed from the tables above;
+  chart) and on the site's /research (Research; /analysis redirects there since session 238). They are computed from the tables above;
   cite the tables they name, not the analysis files.
 
 
@@ -616,7 +616,7 @@ the tables the chat reads, give the newest day they hold, and point to /board.
   the hours-weighted mean of rt_simple_mean over the last 12 months held.
   /cost-of-power draws it.
 
-**Grid pages** (session 35): /grid/ercot, /grid/caiso, /grid/pjm, /grid/nyiso,
+**Grid pages** (session 35; since session 237 they, /network, /mix and /emissions are views of one page, the Grid tool, /grid?grid=<grid>&view=<now|network|mix|clean|exchange|ask>, and redirect into it): /grid/ercot, /grid/caiso, /grid/pjm, /grid/nyiso,
 /grid/isone, /grid/miso, /grid/spp, one template for students: demand now,
 generation by fuel, batteries, carbon intensity, hub prices (PJM's are
 internal, not shown), the interconnection queue and datacenters, and the news,

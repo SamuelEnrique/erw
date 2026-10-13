@@ -107,7 +107,7 @@ class WhatTheSecondPullReached(unittest.TestCase):
     def test_the_page_names_no_boundary_source_it_does_not_hold(self):
         if os.path.exists(os.path.join(ROOT, "site", "public", "network", "ba_boundaries.json")):
             self.skipTest("a boundary file is held: tests/test_session180.py holds it to its registry row")
-        page = src("site", "app", "network", "page.tsx")
+        page = src("site", "components", "grid", "NetworkView.tsx")  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
         self.assertNotIn("HIFLD", page)
         self.assertNotIn("Control Areas", page)
         self.assertNotIn("HIFLD", src("warehouse", "metadata", "sources.csv"))

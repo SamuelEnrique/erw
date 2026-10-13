@@ -29,6 +29,7 @@ import { shown } from "@/lib/format";
 import { HEADLINE, MEASURES, SPREAD, type Measure, type Supply } from "@/lib/basupply";
 import { clampDay, dayFrame, easternHours, parseShared, priceWeight, sharedQuery, trace as tracePower, type Daily, type DailyIndex, type ViewKey, PAUSED_PRICE, PAUSED_WORDS, monthSpan, type Complete } from "@/lib/networkV3";
 import { parseShape, withShape, type Shape } from "@/lib/networkMap";
+import { netFromPage, netToPage } from "@/lib/gridtool";
 
 // session 180: the map is loaded when it is first shown, so the network's own load is what it was
 const NetworkMap = dynamic(() => import("./NetworkMap").then((m) => m.NetworkMap), { ssr: false });
@@ -67,9 +68,9 @@ const STORIES: Record<string, { label: string; file: string }> = {
 
 /** Green (low) to cardinal (high) for carbon intensity, kg CO2/MWh, over the held BAs' range; grey where not held. */
 function colorOf(v: number | null, lo: number, hi: number): string {
-  if (v === null) return "#9a958c";
+  if (v === null) return PAL.none;
   const t = Math.max(0, Math.min(1, (v - lo) / (hi - lo || 1)));
-  const a = [0x17, 0x5e, 0x54], b = [0x8c, 0x15, 0x15];
+  const a = rgbOf(PAL.low, [0x17, 0x5e, 0x54]), b = rgbOf(PAL.high, [0x8c, 0x15, 0x15]);
   return `rgb(${a.map((c, i) => Math.round(c + (b[i] - c) * t)).join(",")})`;
 }
 const localTime = (ts: string, tz: string) => new Intl.DateTimeFormat("en-US", { timeZone: tz, weekday: "short", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).format(new Date(ts));
@@ -90,7 +91,32 @@ type View = {
 /** Session 124 (v3 only): a hub price a new page does not show (MISO, paused) reads as not held; without v3 the price is the view's own. */
 const priceOf = (view: View, v3on: boolean, id: string, h: number) => (v3on && PAUSED_PRICE[id] ? null : view.price(id, h));
 
-export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Record<string, Supply>; live: LiveExtras; v3?: { index: DailyIndex; complete?: Complete } }) {
+/** Session 237: the canvas takes its colors from the token file (app/tokens.css), read where the canvas stands, so a
+ * page under the brand draws the brand's. A canvas cannot read a CSS variable itself; the values below are the tokens'
+ * own, used only until the page is in a browser. */
+type Palette = { ink: string; ground: string; muted: string; accent: string; rule: string; low: string; high: string; none: string };
+const TOKENS: Record<keyof Palette, string> = { ink: "--color-ink", ground: "--color-panel", muted: "--color-muted", accent: "--color-accent", rule: "--color-rule",
+  low: "--color-down", high: "--color-up", none: "--color-not-held" };
+let PAL: Palette = { ink: "#2E2D29", ground: "#FBF8F2", muted: "#6B665E", accent: "#8C1515", rule: "#D9D2C3", low: "#175E54", high: "#8C1515", none: "#9a958c" };
+function readPalette(el: Element | null) {
+  if (!el || typeof window === "undefined") return;
+  const css = window.getComputedStyle(el);
+  const next = { ...PAL };
+  for (const k of Object.keys(TOKENS) as (keyof Palette)[]) { const v = css.getPropertyValue(TOKENS[k]).trim(); if (v) next[k] = v; }
+  PAL = next;
+}
+/** A six-digit hex color as its three numbers; the fallback when the token is not one. */
+function rgbOf(hex: string, fallback: number[]): number[] {
+  const m = /^#([0-9a-f]{6})$/i.exec(hex);
+  return m ? [0, 2, 4].map((i) => parseInt(m[1].slice(i, i + 2), 16)) : fallback;
+}
+
+export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supply: Record<string, Supply>; live: LiveExtras; v3?: { index: DailyIndex; complete?: Complete };
+  /** session 237: the component is a view of the Grid tool (/grid). `keep` is the page's own query, which stays at the
+   *  head of the address; the component's "view" and "grid" are written as "net" and "node" after it (lib/gridtool.ts).
+   *  `node`: the balancing authority whose panel opens when the address names none (the grid chosen on the page). */
+  page?: { keep: string; node: string | null } }) {
+  const ownSearch = useCallback((search: string) => (page ? netFromPage(search, page.node) : search), [page]);
   const box = useRef<HTMLDivElement>(null);
   const graph = useRef<any>(null); // eslint-disable-line @typescript-eslint/no-explicit-any
   const three = useRef<any>(null); // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -183,14 +209,14 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
       const f = Math.max(0.02, Math.min(1, 0.5 + 0.5 * (mw / batteryMax[n.id])));  // full: discharging at its most; empty: charging
       const pts = [];
       for (let k = 0; k <= 64 * f; k++) { const t = Math.PI / 2 - (2 * Math.PI * k) / 64; pts.push(new THREE.Vector3(Math.cos(t) * r * 1.45, Math.sin(t) * r * 1.45, 0)); }
-      const ring = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineBasicMaterial({ color: "#2E2D29", transparent: true, opacity: dim ? 0.25 : 0.85 }));
+      const ring = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineBasicMaterial({ color: PAL.ink, transparent: true, opacity: dim ? 0.25 : 0.85 }));
       ring.onBeforeRender = (_r: unknown, _s: unknown, camera: { quaternion: unknown }) => { ring.quaternion.copy(camera.quaternion); };
       g.add(ring);
     }
     // session 93: the price ring, outside the batteries' ring: a full circle whose weight follows the hub price
     const w = pricesOn && n.id !== "PJM" ? priceWeight(priceOf(view, !!v3, n.id, hour), priceMax) : null;
     if (w !== null) {
-      const torus = new THREE.Mesh(new THREE.TorusGeometry(r * 1.8, r * (0.015 + 0.11 * w), 6, 48), new THREE.MeshBasicMaterial({ color: "#2E2D29", transparent: true, opacity: dim ? 0.2 : 0.7 }));
+      const torus = new THREE.Mesh(new THREE.TorusGeometry(r * 1.8, r * (0.015 + 0.11 * w), 6, 48), new THREE.MeshBasicMaterial({ color: PAL.ink, transparent: true, opacity: dim ? 0.2 : 0.7 }));
       torus.userData.priceRing = true;
       torus.onBeforeRender = (_r: unknown, _s: unknown, camera: { quaternion: unknown }) => { torus.quaternion.copy(camera.quaternion); };
       g.add(torus);
@@ -203,6 +229,7 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
     let alive = true;
     const el = box.current;
     // session 180: no scene, and nothing loaded for one, while the map is the shape shown
+    readPalette(box.current);
     if (shape !== "network" || (v3 && (ownShape ?? parseShape(window.location.search)) !== "network")) return;
     if (!el) return;
     const fail = () => { queueMicrotask(() => setNoGl(true)); };  // not synchronously inside the effect
@@ -215,15 +242,15 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
       three.current = THREE;
       const nodes = snap.nodes.map((n) => ({ ...n, fx: n.x, fy: n.y, fz: n.z }));
       const g = new ForceGraph3D(el, { controlType: "orbit" })
-        .width(el.clientWidth).height(el.clientHeight).backgroundColor("#FBF8F2")
+        .width(el.clientWidth).height(el.clientHeight).backgroundColor(PAL.ground)
         .graphData({ nodes, links: linksAt(snap.hours.length - 1) })
         .nodeId("id").nodeLabel((n: object) => (n as NetNode).name)
         .nodeVal((n: object) => size(n as NetNode)).nodeThreeObject((n: object) => nodeObject(n as NetNode))
-        .linkColor(() => "#6B665E").linkOpacity(0.45)
+        .linkColor(() => PAL.muted).linkOpacity(0.45)
         .linkWidth((l: object) => 0.4 + 3 * Math.sqrt((l as { mw: number }).mw / maxMw))
         .linkDirectionalParticles((l: object) => ((l as { mw: number }).mw > 0 ? 2 : 0))
         .linkDirectionalParticleSpeed((l: object) => 0.002 + 0.02 * ((l as { mw: number }).mw / maxMw))
-        .linkDirectionalParticleWidth(1.6).linkDirectionalParticleColor(() => "#8C1515")
+        .linkDirectionalParticleWidth(1.6).linkDirectionalParticleColor(() => PAL.accent)
         .cooldownTicks(0).enableNodeDrag(false)
         .onNodeClick((n: object) => setPick(snap.nodes.find((x) => x.id === (n as NetNode).id) ?? null));
       const ctl = g.controls() as { autoRotate: boolean; autoRotateSpeed: number; addEventListener: (e: string, f: () => void) => void };
@@ -253,7 +280,7 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
     g.graphData({ nodes, links: linksAt(hour) });
     g.nodeThreeObject((n: object) => nodeObject(n as NetNode));
     g.linkOpacity(pick ? 0.6 : 0.45)
-      .linkColor((l: object) => { const x = l as { a: string; b: string }; return pick && x.a !== pick.id && x.b !== pick.id ? "#D9D2C3" : "#6B665E"; })
+      .linkColor((l: object) => { const x = l as { a: string; b: string }; return pick && x.a !== pick.id && x.b !== pick.id ? PAL.rule : PAL.muted; })
       .linkDirectionalParticles((l: object) => { const x = l as { a: string; b: string; mw: number }; return pick && x.a !== pick.id && x.b !== pick.id ? 0 : (x.mw > 0 ? 2 : 0); });
   }, [hour, view, pick, batteriesOn, pricesOn, linksAt, nodeObject, graphAt]);
 
@@ -403,7 +430,7 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
     if (!v3) return;
     let alive = true;
     (async () => {
-      const want = parseShared(window.location.search);
+      const want = parseShared(ownSearch(window.location.search));
       let frames: string[] = snap.hours;
       if (want.view === "day" && want.t) { const f = await watchDay(want.t, false); frames = f ? f.days.map(dayFrame) : frames; }
       else if (want.view === "uri_2021" || want.view === "east_heat_2025") { const s = await watchStory(want.view, false); frames = s ? s.hours : frames; }
@@ -425,8 +452,8 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
     grid: pick?.id ?? null, batteries: batteriesOn, prices: pricesOn, trace: traceOn }) : "";
   useEffect(() => {
     if (!v3 || !restored || playing) return;  // while it plays the address would change five times a second
-    window.history.replaceState(null, "", `${window.location.pathname}${withShape(shared, shape)}`);
-  }, [v3, restored, playing, shared, shape]);
+    window.history.replaceState(null, "", `${window.location.pathname}${page ? netToPage(page.keep, withShape(shared, shape)) : withShape(shared, shape)}`);
+  }, [v3, restored, playing, shared, shape, page]);
   // session 180: what the map draws, from the same view, hour and selection as the network
   const mapFlows = useMemo(() => (shape === "map" ? linksAt(hour) : []), [shape, linksAt, hour]);
   const mapNeighbours = useMemo(() => new Set(pick && shape === "map" ? view.links.filter((l) => l.a === pick.id || l.b === pick.id).map((l) => (l.a === pick.id ? l.b : l.a)) : []), [pick, view, shape]);
@@ -514,7 +541,7 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
             <div className="mb-2 flex items-start justify-between gap-2">
               <div>
                 <div className="font-serif text-lg text-accent">{pick.name}</div>
-                <div className="font-mono text-xs text-muted">{pick.id}{pick.iso ? <> &middot; <Link href={`/grid/${GRID_SLUG[pick.iso]}`}>{pick.iso}&apos;s grid page</Link></> : null}</div>
+                <div className="font-mono text-xs text-muted">{pick.id}{pick.iso ? <> &middot; <Link href={`/grid?grid=${GRID_SLUG[pick.iso]}`}>{pick.iso}&apos;s grid page</Link></> : null}</div>
               </div>
               <button type="button" onClick={() => setPick(null)} className="border border-rule px-2 py-0.5 text-xs" aria-label="Close the panel">Close</button>
             </div>
@@ -611,7 +638,7 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
       <div className="mt-2 flex flex-wrap items-center gap-4 text-xs text-muted">
         <span>{shape === "map" ? "Hover a region for its name, click it for its panel. A tie's dash runs from the exporter to the importer; it is wider as the flow is larger." : "Drag to rotate, scroll to zoom, click a grid; it turns slowly until touched."}</span>
         <span className="flex items-center gap-1">Carbon intensity of generation:
-          <span className="inline-block h-2 w-24" style={{ background: "linear-gradient(90deg, #175E54, #8C1515)" }} /> {fmt(lo)} to {fmt(hi)} kg CO2/MWh; grey: not held.
+          <span className="inline-block h-2 w-24" style={{ background: "linear-gradient(90deg, var(--color-down), var(--color-up))" }} /> {fmt(lo)} to {fmt(hi)} kg CO2/MWh; grey: not held.
           {view.kind === "live" ? <> The color updates daily (latest hour {ciTs.slice(0, 13).replace("T", " ")}:00 UTC); the links and demand, hourly.</> : <> In a story, each day&apos;s own.</>}</span>
         {shape === "map" ? <span data-map-key="1">Region: the balancing authority&apos;s area as the boundary file gives it; the line on the map says what that file is. The batteries&apos; and prices&apos; rings are drawn in the Network view; the panel holds their numbers here.</span>
           : <span>Sphere: demand (the seven ISOs) or interchange volume (the others)</span>}

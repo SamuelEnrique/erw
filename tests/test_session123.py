@@ -281,7 +281,7 @@ class ThePage(unittest.TestCase):
         routes = src("site", "scripts", "check-routes.mjs")
         self.assertIn('"/mix/stress"', routes)
         self.assertIn('"/data/methods/grid_stress"', routes)
-        for f in ("site/app/page.tsx", "site/app/storage/page.tsx", "site/app/network/page.tsx", "site/app/cost-of-power/battery/page.tsx", "site/app/cost-of-power/seller/page.tsx"):
+        for f in ("site/app/page.tsx", "site/app/storage/page.tsx", "site/components/grid/NetworkView.tsx", "site/app/cost-of-power/battery/page.tsx", "site/app/cost-of-power/seller/page.tsx"):  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
             if os.path.exists(os.path.join(ROOT, *f.split("/"))):
                 self.assertNotIn("mix/stress", src(*f.split("/")), f)
 

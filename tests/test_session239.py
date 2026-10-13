@@ -53,7 +53,7 @@ MERGED = {
 }
 # the versioned addresses of the owner's list, each with its one page ("/datacenters/v2" is not redirected yet: see the report)
 VERSIONED = {
-    "/board/v3": "/board", "/board/v4": "/board", "/deals/v2": "/deals?tab=tracker", "/map/v2": "/map", "/network/v3": "/network",
+    "/board/v3": "/board", "/board/v4": "/board", "/deals/v2": "/deals?tab=tracker", "/map/v2": "/map", "/network/v3": "/grid?view=network",
     "/curtailment/v2": "/curtailment", "/cost-of-power/seller/v2": "/cost-of-power/seller", "/seller/v2": "/cost-of-power/seller",
 }
 

@@ -20,7 +20,7 @@ export function CaisoMixWithheld({ what = "California's generation by fuel", cla
       </p>
       {FAULT ? <p className="mt-1 text-xs text-muted">{FAULT.evidence}</p> : null}
       <p className="mt-1 text-xs">
-        California&apos;s mix from CAISO&apos;s own supply by fuel: <Link href="/mix/v2">the energy mix, version 2</Link>.{" "}
+        California&apos;s mix from CAISO&apos;s own supply by fuel: <Link href="/grid?grid=caiso&view=mix&mix=day">the energy mix, version 2</Link>.{" "}
         <Link href="/data/faults#eia930_ciso_generation_break">The fault</Link>; <Link href="/data/methods/eia930_caiso_break">the method note</Link>.
       </p>
     </div>

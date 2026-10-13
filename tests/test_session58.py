@@ -158,7 +158,7 @@ class Wired(unittest.TestCase):
         self.assertIn('"/events/caiso-heat-2022"', src("site", "scripts", "check-values.mjs"))
         self.assertIn('p[0] === "awe"', src("site", "scripts", "check-values.mjs"))
         self.assertIn('href: "/events/caiso-heat-2022"', src("site", "app", "events", "page.tsx"))
-        grid = src("site", "app", "grid", "[iso]", "page.tsx")
+        grid = src("site", "components", "grid", "YourGrid.tsx")  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
         self.assertIn('g.slug === "caiso" ? <Section id="reliability" title="Reliability"', grid)
         live = src("warehouse", "supabase", "live_set.yaml")
         self.assertIn("'^caiso_grid_emergencies$'", live)
@@ -166,7 +166,7 @@ class Wired(unittest.TestCase):
 
     def test_no_em_dashes(self):
         for p in (("warehouse", "connectors", "caiso_emergencies.py"), ("warehouse", "derived", "caiso_reliability.py"), ("site", "lib", "reliability.ts"),
-                  ("site", "app", "grid", "[iso]", "Reliability.tsx"), ("site", "app", "events", "caiso-heat-2022", "page.tsx"),
+                  ("site", "components", "grid", "Reliability.tsx"), ("site", "app", "events", "caiso-heat-2022", "page.tsx"),  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
                   ("docs", "methods", "california_reliability.md"), ("docs", "reviews", "clara-questions.md"), ("docs", "runbook.md"),
                   ("private", "newsletters", "README.md"), ("tests", "test_session58.py")):
             self.assertNotIn(chr(0x2014), src(*p), p)

@@ -108,7 +108,9 @@ export const RELEASE: Record<string, Status> = {
   "/data/standard": "review",
   "/data/methods": "review",
   "/data/faults": "review",  // session 103: known faults in source data
+  // session 238: Automated Analysis is Research, at /research; /analysis and the addresses under it are retired and redirect there (next.config.ts); its line stays so that an address typed by hand never reads as a page with no status
   "/analysis": "review",
+  "/research": "review",
   "/ask": "review",
   "/ask/ercot": "review",  // session 92: Ask ERCOT, the reference version
   "/reports": "review",

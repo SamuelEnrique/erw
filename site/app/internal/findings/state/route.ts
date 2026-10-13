@@ -6,7 +6,7 @@
 // migration 029) and keeps the change with its time. No token is read from the address.
 //
 // "Ask for a full card": where the scanner named an analysis for the flag (card.scanner.full_card: the impact study on
-// the flagged series around the flagged date), that request is queued through the same function /analysis uses
+// the flagged series around the flagged date), that request is queued through the same function /research uses
 // (analysis_request, migration 027) and its id is kept on the draft; the data machine's worker computes it. Where it
 // named none, the draft is only marked: a session writes the card. Nothing here writes a sentence.
 import { NextResponse } from "next/server";
@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
         const q = await rpc<{ ok: boolean; reason?: string; id?: string }>("analysis_request", { p_token: process.env.INTERNAL_COSTS_TOKEN ?? "", p_kind: "run", p_finding: full.finding, p_params: JSON.stringify(params) });
         if (!q || !q.ok || !q.id) return json({ ok: false, reason: q?.reason === "day" ? "Today's analysis requests are used up; ask again tomorrow." : `the analysis could not be queued: ${q?.reason ?? "no answer"}` }, q?.reason === "day" ? 429 : 502);
         requestId = q.id;
-        note = `the impact study is queued for the data machine (request ${q.id}); its card appears on /analysis when the worker has run`;
+        note = `the impact study is queued for the data machine (request ${q.id}); its card appears on /research when the worker has run`;
       } else if (draft.request_id) {
         note = `already asked (request ${draft.request_id})`;
       } else {

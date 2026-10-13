@@ -1,5 +1,5 @@
 "use client";
-// Session 182, part 4: one flow for requests on /analysis, in two steps. It takes the place of "Ask for a finding",
+// Session 182, part 4: one flow for requests on /research, in two steps. It takes the place of "Ask for a finding",
 // of the impact study's own section and of the template gallery, and nothing of the three is lost.
 //
 //   Step one, what to analyze. One list (lib/analysisflow.ts): the findings of the catalogue, each shown once with an
@@ -267,7 +267,7 @@ export function RequestFlow({ catalogue, templates, gallery, computedAt, cards, 
                   <button type="button" onClick={() => { setShown(!shown); setTouched(true); }} className={key} data-flow-show={card.card_id}>
                     {shown ? "Hide the computed card" : `Show the card computed ${card.computed_at.slice(0, 10)}`}
                   </button>
-                  <a className="text-xs" href={`/analysis/card/${card.card_id}${form && form !== def ? `?form=${form}` : ""}`} data-flow-card-link={card.card_id}>The card&apos;s own address, in this form</a>
+                  <a className="text-xs" href={`/research/card/${card.card_id}${form && form !== def ? `?form=${form}` : ""}`} data-flow-card-link={card.card_id}>The card&apos;s own address, in this form</a>
                 </>
               ) : null}
             </div>

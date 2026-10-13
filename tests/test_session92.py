@@ -475,7 +475,7 @@ class TheSite(unittest.TestCase):
         self.assertIn('if (!internal && statusOf("/ask/ercot") !== "live") return null;', link)
         self.assertIn("prefetch={false}", link)   # the battery page promises that nothing typed is sent
         views = ["app/cost-of-power/battery/page.tsx", "app/cost-of-power/seller/page.tsx", "app/shoulder/page.tsx", "app/storage/buildout/view.tsx",   # session 239: three of these pages are views of a tab now (lib/tabs.ts)
-                 "app/storage/owners/view.tsx", "app/grid/[iso]/page.tsx", "app/explorer/ercot-peak-premium/view.tsx", "app/events/uri-2021/page.tsx"]
+                 "app/storage/owners/view.tsx", "components/grid/YourGrid.tsx", "app/explorer/ercot-peak-premium/view.tsx", "app/events/uri-2021/page.tsx"]
         for v in views:
             page = src("site", *v.split("/"))
             self.assertIn("<AskErcotLink context={{", page, v)

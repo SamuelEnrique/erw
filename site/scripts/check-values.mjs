@@ -86,7 +86,12 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/cost-of-power/battery?grid=ercot&dur=4&strat=dayahead", "/cost-of-power/battery?grid=caiso&dur=4&strat=foresight", "/cost-of-power/battery?grid=caiso&dur=2&strat=dayahead",
   "/cost-of-power/battery?grid=caiso&dur=8&strat=foresight&mw=250",
   // session 60: the Flex Alert scorecard
-  "/grid/caiso/alerts"];  // (the line ended "// session 46: set D" before session 60)
+  "/grid/caiso/alerts",
+  // session 237: the Grid tool, one page. Now, Clean and Exchange for each of the eight choices, the Mix and the Network
+  // for ERCOT and the Lower 48. The addresses above that redirect into it (/emissions, /grid/<iso>, /mix, /network) stay
+  // in the list: each is read through its redirect, as a visitor's old link is
+  ...["ercot", "caiso", "pjm", "miso", "nyiso", "isone", "spp", "us48"].flatMap((g) => [`/grid?grid=${g}`, `/grid?grid=${g}&view=clean`, `/grid?grid=${g}&view=exchange`]),
+  "/grid?grid=ercot&view=mix", "/grid?grid=us48&view=mix", "/grid?grid=pjm&view=mix&mix=stress", "/grid?grid=ercot&view=network", "/grid?grid=us48&view=network"];  // (the line ended "// session 46: set D" before session 60)
 // session 48: the draft report behind the internal token (INTERNAL_COSTS_TOKEN, in .env.local or the environment); left
 // out, and said so, where the token is not set (the page answers 404 without it)
 const INTERNAL = ["/reports/draft/shape-premium", "/reports/draft/ai-gigawatts"];  // session 62: the AI gigawatts draft

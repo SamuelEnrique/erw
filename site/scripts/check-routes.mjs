@@ -40,7 +40,7 @@ const PAGES = [
   "/", "/privacy", "/board", "/emissions", "/storage", "/prices", "/prices/ercot%3AHB_HUBAVG", "/prices/caiso%3ATH_SP15_GEN-APND", "/prices/miso%3AINDIANA.HUB",
   "/prices/spp%3ASPPSOUTH_HUB", "/prices/nyiso%3AN.Y.C.", "/board?s=ercot-hb-hubavg-da", "/grid", "/mix", "/mix?ba=erco&state=TX",
   "/mix?ba=ciso&state=CA", "/curtailment", "/consumption", "/data", "/data/standard", "/explorer/ercot-peak-premium",
-  "/deals", "/map", "/datacenters", "/companies", "/policy", "/digest", "/roundup", "/analysis", "/about", "/terms",
+  "/deals", "/map", "/datacenters", "/companies", "/policy", "/digest", "/roundup", "/analysis", "/research", "/research?grid=ERCOT&topic=batteries", "/analysis/card/gas_sets_price", "/analysis/2026-W40", "/about", "/terms",
   "/subscribe", "/ask",
   "/ask/ercot", "/ask/ercot?from=%2Fshoulder&title=The+shoulder+hours&s_grid=ERCOT&s_month=2025-01",  // session 92: Ask ERCOT, the reference version (the page only: the check never asks the model)
   "/mix/v2", "/mix/v2?grid=caiso&period=2026-04&vs=ercot", "/mix/v2?grid=pjm&period=2024", "/data/methods/generation_mix_hourly",  // session 94: the energy mix, version 2, in review
@@ -102,6 +102,14 @@ const PAGES = [
   "/mix/clean", "/mix/clean?grid=caiso&year=2026", "/mix/clean?grid=nyiso&year=2024", "/data/methods/clean_energy",  // session 122: how clean, and when (in review)
   "/resources", "/resources?on=oil_gas_basins,plants_operating&z=2&c=-101,32",  // session 146: where the resources are (in review; scripts/check-resources.mjs opens it in a real browser)
   "/mix/stress", "/mix/stress?grid=caiso&year=2026", "/mix/stress?grid=nyiso&year=2025", "/data/methods/grid_stress",  // session 123: how hard the system works (in review)
+  // session 237: the Grid tool, one page (in review): the eight choices, the six views, a view's own state, and old
+  // addresses whose words the tool reads (the network's grid=ERCO, the mix's ba). The addresses above that redirect into
+  // it (/network, /mix, /emissions, /mix/clean, /mix/stress, /grid/<iso>) stay in this list and are followed
+  "/grid?grid=ercot", "/grid?grid=caiso", "/grid?grid=pjm", "/grid?grid=miso", "/grid?grid=nyiso", "/grid?grid=isone", "/grid?grid=spp", "/grid?grid=us48",
+  "/grid?grid=ercot&view=network", "/grid?grid=ercot&view=mix", "/grid?grid=ercot&view=clean", "/grid?grid=ercot&view=exchange", "/grid?grid=ercot&view=ask",
+  "/grid?grid=us48&view=network", "/grid?grid=us48&view=mix", "/grid?grid=us48&view=clean", "/grid?grid=us48&view=exchange", "/grid?grid=us48&view=ask", "/grid?grid=nyiso&view=ask&q=What+was+the+highest+demand+this+week%3F",
+  "/grid?grid=caiso&view=mix&mix=day&period=2026-04", "/grid?grid=pjm&view=mix&mix=stress&year=2025", "/grid?grid=ercot&view=network&net=day&t=2021-02-15&node=ERCO&prices=1&trace=1&shape=map",
+  "/grid?view=network&grid=BPAT", "/grid?view=mix&ba=ciso&state=CA", "/grid?grid=nowhere&view=nothing",
   "/policy?view=week", "/policy?view=week&days=30", "/policy?view=week&days=30&agency=ferc&topic=large_load&grid=pjm&large=1", "/policy?view=week&grid=miso", "/data/methods/policy_monitor",  // session 157: "What changed this week", the second view of the policy monitor (in review; scripts/check-policy.mjs opens it in a real browser)
 ];
 

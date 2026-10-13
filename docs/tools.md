@@ -28,6 +28,7 @@ The plan of record is `docs/platform-tools.md` (31 tools, some planned). This li
 
 | Tool | Route | The question it answers | Audience | Data |
 |---|---|---|---|---|
+| The grid (session 237: one tool; the network, grid conditions, the seven grid pages, the energy mix and emissions in the rows below are its views, and their addresses redirect into it) | `/grid?grid=<grid>&view=<view>` (eight grids: ercot, caiso, pjm, miso, nyiso, isone, spp, us48; six views: now, network, mix, clean, exchange, ask) | What is this grid doing now, whom does it trade with, what makes its power and how clean is it? | everyone | `eia930_all_demand`, `eia930_all_generation`, `eia930_all_interchange`, `carbon_intensity_hourly`, `ba_supply_monthly` and the tables of the rows below |
 | The network | `/network` (version 3 since session 168; `/network/v3` redirects to it) | Which balancing authorities trade power, and how much, hour by hour and on any day since 2019? | students and teachers | `eia930_all_interchange`, `grid_network_nodes`, `grid_network_links` (snapshot `site/data/grid_network.json`), `eia930_daily_interchange`, `eia930_daily_demand` (the replay, `site/public/network/`) |
 | Grid conditions | `/grid` | What were yesterday's peak demand, forecast error and generation mix in each ISO? | everyone | `eia930_all_demand`, `eia930_all_generation` |
 | Your grid (seven pages) | `/grid/ercot`, `/grid/caiso`, `/grid/pjm`, `/grid/nyiso`, `/grid/isone`, `/grid/miso`, `/grid/spp` | What is this grid, and what is it doing today? | students and teachers | `eia930_all_*`, ISO prices, `storage_capacity`, queues, news |
@@ -82,7 +83,7 @@ The plan of record is `docs/platform-tools.md` (31 tools, some planned). This li
 |---|---|---|---|---|
 | ERW's Energy Digest | `/digest`, `/digest/<date>` | What happened in energy today? | everyone | `news_index`, `docs/digest/` |
 | ERW's Roundup | `/roundup`, `/roundup/<week>` | What happened this week, and what was the chart of the week? | everyone | `news_index`, `energy_deals`, `datacenter_projects`, `docs/roundup/` |
-| Automated Analysis | `/analysis`, `/analysis/<week>` | What do the house chart templates show this week? | researchers | the price, EIA-930, curtailment, battery, trader view, deal and datacenter tables |
+| Research (Automated Analysis until session 238; `/analysis` redirects) | `/research`, `/research/<week>`, `/research/card/<id>` | What do the house chart templates show this week? | researchers | the price, EIA-930, curtailment, battery, trader view, deal and datacenter tables |
 | Email | `/subscribe` | How do I get the digest and the Roundup by email? | everyone | Supabase subscribers (insert only) |
 
 ## Data and research
