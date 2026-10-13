@@ -1,0 +1,7 @@
+checked numbers, default, 1280: 73 keys before, 76 after; 73 identical, 0 moved, 0 gone, 3 new
+  new   dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|adders:hours: ['0 = 0']
+  new   dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|adders:held: ['1558 = 1,558']
+  new   dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|adders:own:hours: ['1 = 1']
+checked numbers, CAISO: 20 keys before, 20 after; 20 identical, 0 moved, 0 gone, 0 new
+results cells and bars, default: 25 keys before, 25 after; 25 identical, 0 moved, 0 gone, 0 new
+results cells and bars, off in 100 hours: 25 keys before, 25 after; 25 identical, 0 moved, 0 gone, 0 new

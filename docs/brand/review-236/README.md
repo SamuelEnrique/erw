@@ -11,6 +11,8 @@ Each is the whole page, quantized to a 48-color palette to keep this folder smal
 | `datacenter_two_sites_1280.png`, `datacenter_two_sites_390.png` | scenario B at a site of its own (`?bsite=caiso:TH_SP15_GEN-APND`): the table's heading, B's column, "What differs", "B against A", and B's site in each of the three answers |
 | `datacenter_caiso_1280.png` | `?grid=caiso`: CAISO's notices as the second count beside the price level; no Texas delivery table |
 
+After the hand-back (ERCOT's adders, 13 October, 09:25 UTC): `datacenter_adders_1280.png` is the default page with ERCOT's own signal counted from `ercot_rtm_price_adders` in the table "the two counts" (two rows where the line "is coming" stood), and `numbers_adders_before_after.txt` sets the checked numbers and the results cells of that build against the build of the branch as it stood. The earlier screenshots show the line "is coming" and the cached hourly carbon window.
+
 What to look at:
 
 1. The look: the battery page's (white page, Source Serif 4 titles, IBM Plex text and figures, a light rule above each

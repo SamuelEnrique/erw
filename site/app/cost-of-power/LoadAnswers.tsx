@@ -47,12 +47,13 @@ export type AnswerFacts = { pre: string; place: string; size: string; span: stri
 export type SiteB = { a: Answers | null; f: AnswerFacts; reason: string | null } | null;
 /** The level, as the page states it wherever the count stands. */
 export const LEVEL_WORDS = "USD 1,000 per MWh is the level for every grid: the cap on an incremental energy offer in the FERC markets (Order 831). ERCOT is outside FERC and its own cap is higher (USD 5,000); the same level is used there, so that the count means the same thing on every grid.";
-/** A grid's own scarcity signal that the warehouse holds no table of: ERCOT's is coming; any other is not held. */
-const OWN_SIGNAL: Record<string, { name: string; coming: boolean }> = {
-  ERCOT: { name: "its reserve adders, the price adders of its operating reserve demand curve", coming: true },
-  NYISO: { name: "its reserve shortage pricing", coming: false }, "ISO-NE": { name: "its reserve shortage pricing", coming: false },
-  SPP: { name: "its reserve shortage pricing", coming: false },
+/** A grid's own scarcity signal that the warehouse holds no table of: it is "not held". (ERCOT's, its reserve adder,
+ * is held since session 244 and is counted below; CAISO's notices are counted too.) */
+const OWN_SIGNAL: Record<string, { name: string }> = {
+  NYISO: { name: "its reserve shortage pricing" }, "ISO-NE": { name: "its reserve shortage pricing" }, SPP: { name: "its reserve shortage pricing" },
 };
+/** A day as the page writes it, from YYYY-MM-DD. */
+const dayWords = (d: string) => `${Number(d.slice(8, 10))} ${monthName(d.slice(0, 7))}`;
 /** A notice's type in words, as the table names its types (caiso_grid_emergencies, event_type). */
 const TYPE_WORDS: Record<string, string> = { rmo: "restricted maintenance operations", flex_alert: "flex alerts", transmission_emergency: "transmission emergencies" };
 const typeWords = (byType: Record<string, number>) => Object.entries(byType).sort((x, y) => y[1] - x[1]).map(([t, n]) => `${TYPE_WORDS[t] ?? t.replace(/_/g, " ").replace(/\beea\b/, "EEA")} ${n}`).join(", ");
@@ -95,9 +96,16 @@ export function PowerThere({ a, f, b }: { a: Answers; f: AnswerFacts; b?: SiteB 
                 ...(a.notices.own ? [{ key: "own12", cells: [`${f.gridName}'s notices in the last twelve months its table covers, ${monthName(a.notices.own.first)} to ${monthName(a.notices.own.last)}`,
                   <span key="n" data-own-signal="table"><N pre={f.pre} stat="notices:own:count" a={a} /></span>, <span key="w">{a.notices.own.count ? `${typeWords(a.notices.own.byType)}.` : "None."} Not the months of the price count above.</span>] }] : [])]
               : [{ key: "own", cells: [`${f.gridName}'s own signal: its notices`, <span key="n" data-own-signal="none">not held</span>, <span key="w">No notice of {f.gridName}&apos;s is in the table.</span>] }]
-            : OWN_SIGNAL[f.gridName]?.coming
-              ? [{ key: "own", cells: [`${f.gridName}'s own signal`, <span key="n" className="text-muted">coming</span>,
-                  <span key="w" data-own-signal="coming">{f.gridName}&apos;s own signal, {OWN_SIGNAL[f.gridName].name}, is coming: the warehouse now holds a table of them and its count is not on this page yet, so no second count is stated.</span>] }]
+            : a.adders
+              // session 236, after session 244: ERCOT's own signal, the adder of its operating reserve demand curve
+              ? [{ key: "own", cells: [`${f.gridName}'s own signal: hours its reserve adder was at least USD ${a.adders.level} per MWh, in the part of these months it was published`,
+                  <span key="n" data-own-signal="count"><N pre={f.pre} stat="adders:hours" a={a} /></span>,
+                  <span key="w" data-adder-words="1">The adder of {f.gridName}&apos;s operating reserve demand curve, the price it added to real-time energy when its reserves ran short (ercot_rtm_price_adders, the hour&apos;s mean of the on-line adder). {f.gridName} published it until {dayWords(a.adders.last)} and no longer: this count covers <N pre={f.pre} stat="adders:held" a={a} /> hours, {dayWords(a.adders.first)} to {dayWords(a.adders.last)}, and no hour of these months after, so it is not a count of the twelve months. The reliability deployment adder, which {f.gridName}&apos;s file carries since, is another thing and is not counted.</span>] },
+                { key: "own12", cells: [`The same adder over the last year it was published, ${dayWords(a.adders.own.from)} to ${dayWords(a.adders.own.to)}`,
+                  <span key="n" data-own-signal="table"><N pre={f.pre} stat="adders:own:hours" a={a} /></span>, <span key="w">Hours at or above the same USD {a.adders.level} per MWh. Not the months of the price count above.</span>] }]
+              : f.gridName === "ERCOT"
+              ? [{ key: "own", cells: [`${f.gridName}'s own signal: its reserve adder`, <span key="n" data-own-signal="none">not held</span>,
+                  <span key="w">{f.gridName} ended the adder of its operating reserve demand curve on 4 December 2025: the table holds no hour of it in these months.</span>] }]
               : [{ key: "own", cells: [`${f.gridName}'s own signal`, <span key="n" data-own-signal="none">not held</span>,
                   <span key="w">{OWN_SIGNAL[f.gridName] ? `${OWN_SIGNAL[f.gridName].name[0].toUpperCase()}${OWN_SIGNAL[f.gridName].name.slice(1)}: no table of those hours is held.` : "No table of it is held."}</span>] }]),
         ]} />
@@ -107,7 +115,7 @@ export function PowerThere({ a, f, b }: { a: Answers; f: AnswerFacts; b?: SiteB 
           rows={s.byMonth.map((m) => ({ key: m.m, cells: [monthName(m.m), <N key="h" pre={f.pre} stat={`scarce:month:${m.m}:hours`} a={a} />, <N key="u" pre={f.pre} stat={`scarce:month:${m.m}:usd`} a={a} usd />, two(m.usd / m.hours)] }))} />
       ) : null}
       <p className="mt-2 max-w-3xl text-xs text-muted" data-answer-note="power">
-        The hours are the page&apos;s own price files at {f.place}, counted in {f.stdName}; a flexible load&apos;s hours off are the rule&apos;s (decided from day-ahead prices before each hour), so what it avoided is what it would have avoided, not a forecast. {a.notices === null ? `${f.gridName}'s own emergency notices are not held as a table, so the price is the measure.` : ""}
+        The hours are the page&apos;s own price files at {f.place}, counted in {f.stdName}; a flexible load&apos;s hours off are the rule&apos;s (decided from day-ahead prices before each hour), so what it avoided is what it would have avoided, not a forecast. {a.notices === null && !a.adders ? `${f.gridName}'s own emergency notices are not held as a table, so the price is the measure.` : ""}
       </p>
     </>
   );

@@ -7,7 +7,7 @@ charges are one row a component in USD per MWh with the total, and the tariff li
 
   TheBrand         the page takes the brand through components/Brand.tsx and writes no color of its own
   TheQuestions     the four questions in their order, then the two of the decisions
-  Scarcity         the level and its words; CAISO's notices as a second count; ERCOT's line that its signal is coming
+  Scarcity         the level and its words; CAISO's notices as a second count; ERCOT's reserve adder as a second count, where it was published
   Delivery         lib/datacenter/delivery.ts against a second computation here, from the site's own file
   TwoSites         scenario B's own site: the address parameter, who reads it, who carries it
   TheNoteAndFiles  the method note's sections, the download's tables, the check key, and no em dash
@@ -124,18 +124,51 @@ class Scarcity(unittest.TestCase):
         self.assertIn("const y = Number(m.slice(0, 4)), k = Number(m.slice(5, 7)) - 1 - 11;", lib)
         self.assertIn('return `${Math.floor(t / 12)}-${String((t % 12) + 1).padStart(2, "0")}`;', lib)
 
-    def test_ercots_own_signal_is_one_line_that_it_is_coming_and_no_number(self):
+    def test_ercots_own_signal_is_its_reserve_adder_counted_where_it_was_published(self):
+        # after the hand-back: session 244 landed ercot_rtm_price_adders the same night (07:05 UTC on 13 October 2026), so
+        # the line "is coming" went and the count stands: the hours the operating reserve demand curve's on-line adder
+        # (the hour's mean) was at or above a stated level, over the part of the page's months the adder was published in
+        lib = src("site", "lib", "datacenter", "answers.ts")
+        self.assertIn("export const ADDER_USD = 100;", lib)
+        self.assertIn('export const ADDER_TABLE = "ercot_rtm_price_adders", ADDER_VARIABLE = "rtorpa_mean", ADDER_ENTITY = "ercot:system";', lib)
+        self.assertNotIn("rtrdpa", code(lib))                                                  # the reliability deployment adder is not read: nothing is spliced
+        # both reads are bounded in time (an unbounded sort of the variable timed out on 13 October)
+        self.assertEqual(lib.count("ts_utc: `gte.${iso("), 2)
         face = src("site", "app", "cost-of-power", "LoadAnswers.tsx")
-        self.assertIn('ERCOT: { name: "its reserve adders, the price adders of its operating reserve demand curve", coming: true },', face)
-        line = face.split('<span key="w" data-own-signal="coming">', 1)[1].split("</span>", 1)[0]
-        self.assertIn("is coming: the warehouse now holds a table of them and its count is not on this page yet, so no second count is stated.", line)
-        self.assertNotIn("<N ", line)
-        self.assertNotRegex(line, r"\d")
-        # session 244 landed the table the same night (ercot_rtm_price_adders, 07:05 UTC on 13 October 2026), after this
-        # page was built: the registry names it, the line says so, and the count from it is the next landing's
+        for words in ('<span key="n" data-own-signal="count"><N pre={f.pre} stat="adders:hours" a={a} /></span>', '<N pre={f.pre} stat="adders:held" a={a} />',
+                      '<span key="n" data-own-signal="table"><N pre={f.pre} stat="adders:own:hours" a={a} /></span>', "at least USD ${a.adders.level} per MWh, in the part of these months it was published",
+                      "published it until {dayWords(a.adders.last)} and no longer", "so it is not a count of the twelve months", "is another thing and is not counted", "Not the months of the price count above."):
+            self.assertIn(words, face, words)
+        self.assertNotIn("is coming", face)
+        self.assertNotIn("coming: true", face)
         tables = [r.split(",")[0] for r in src("warehouse", "metadata", "coverage.csv").splitlines()[1:]]
         self.assertEqual([t for t in tables if re.search(r"ordc|adder", t)], ["ercot_rtm_price_adders"])
-        self.assertEqual(face.count('<span key="n" data-own-signal="none">not held</span>'), 2)                                  # any other grid: "not held"
+        # the table is loaded for pages in review (review_hold): the public key reads it, and no count a visitor sees names it
+        live = src("warehouse", "supabase", "live_set.yaml")
+        self.assertIn("  - '^ercot_rtm_price_adders$'", live)
+        self.assertRegex(live.split("review_hold:", 1)[1], r"(?m)^  - ercot_rtm_price_adders\b")
+        self.assertEqual(face.count('<span key="n" data-own-signal="none">not held</span>'), 3)   # CAISO with no notice, ERCOT with no hour of the adder, any other grid
+
+    def test_the_adders_count_by_hand(self):
+        # twelve months October 2025 to September 2026 in Central standard time (six hours behind UTC)
+        l12 = [f"2025-{m:02d}" for m in (10, 11, 12)] + [f"2026-{m:02d}" for m in range(1, 10)]
+        held = ["2025-10-01T05:00:00+00:00",    # 23:00 on 30 September: before the months
+                "2025-10-01T06:00:00+00:00", "2025-12-05T04:00:00+00:00", "2025-12-05T05:00:00+00:00"]   # the last: 23:00 on 4 December
+        high = ["2024-12-05T05:00:00+00:00",    # one hour before the 8,760 hours to the last hour held
+                "2024-12-05T06:00:00+00:00", "2025-06-30T20:00:00+00:00", "2025-10-01T06:00:00+00:00"]
+        want = {"level": 100, "hours": 1, "held": 3, "first": "2025-10-01", "last": "2025-12-04", "own": {"from": "2024-12-05", "to": "2025-12-04", "hours": 3}}
+        exe = shutil.which("node")
+        if not exe:
+            raise unittest.SkipTest("node is not on this machine")
+        script = ("const R = await import('./lib/datacenter/answers.ts'); "
+                  f"console.log(JSON.stringify([R.adders({json.dumps(held)}, {json.dumps(high)}, {json.dumps(l12)}, 6), R.adders({json.dumps(held[:1])}, {json.dumps(high)}, {json.dumps(l12)}, 6)]));")
+        r = subprocess.run([exe, "--input-type=module", "-e", script], cwd=os.path.join(ROOT, "site"), capture_output=True, text=True, timeout=120, encoding="utf-8")
+        if r.returncode != 0 and ("Unknown file extension" in r.stderr or "ERR_UNKNOWN_FILE_EXTENSION" in r.stderr):
+            raise unittest.SkipTest("this node does not read TypeScript files")
+        self.assertEqual(r.returncode, 0, r.stderr[-2000:])
+        got = json.loads(r.stdout.strip().splitlines()[-1])
+        self.assertEqual(got[0], want)
+        self.assertIsNone(got[1])                                                              # no hour of the adder in the months: no count
 
 
 def basis(unit):
@@ -300,7 +333,7 @@ class TheNoteAndFiles(unittest.TestCase):
         note = src("docs", "methods", "datacenter_pays_algorithm.md")
         for words in ("### 4.18 Delivery charges in Texas, by component (session 236)", "### 4.19 Scenario B at a site of its own (session 236)",
                       "**The ruling, and each grid's own signal (session 236).**", "rate x 12 x 1,000 / 8,760", "a kVA is counted as a kW (a power factor of 1)",
-                      "is coming: the warehouse now holds a table of them", "`notices:own:count`", "`dcd|<MW>|<utility>:<transmission, distribution, other or total>`"):
+                      "**ERCOT: its reserve adder** (session 236, after the hand-back", "`dc|<address>|adders:hours`", "`notices:own:count`", "`dcd|<MW>|<utility>:<transmission, distribution, other or total>`"):
             self.assertIn(words, note, words)
         self.assertLess(note.index("### 4.17 How soon? (session 228)"), note.index("### 4.18 Delivery charges in Texas"))
         self.assertLess(note.index("### 4.19 Scenario B at a site of its own"), note.index("### 4.12 The source line"))

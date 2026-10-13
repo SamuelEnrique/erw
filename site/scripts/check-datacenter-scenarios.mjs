@@ -404,7 +404,7 @@ const code = await withBrowser(async ({ go, evaluate, unlock, send, requests, sl
       return {
         brand: !!brand && !!brand.querySelector("h1") && brand.hasAttribute("data-no-usage"), h1Font: getComputedStyle(q("h1")).fontFamily, bodyBg: getComputedStyle(document.body).backgroundColor,
         level: q("[data-level-words]")?.textContent ?? "", own: all("[data-own-signal]").map((e) => [e.getAttribute("data-own-signal"), e.textContent, e.querySelector("[data-check]")?.getAttribute("data-check") ?? null]),
-        answer: q('[data-answer="power"]')?.textContent ?? "",
+        answer: q('[data-answer="power"]')?.textContent ?? "", adderWords: q("[data-adder-words]")?.textContent ?? "",
         delivery: all("[data-delivery] tbody tr").map((r) => [...r.children].map((c) => c.textContent.trim())), deliveryHead: all("[data-delivery] thead th").map((c) => c.textContent.trim()),
         deliveryKeys: all("[data-delivery] [data-check]").map((e) => [e.getAttribute("data-check"), Number(e.getAttribute("data-raw")), e.textContent.trim()]),
         deliveryNote: q("[data-delivery-note]")?.textContent ?? "", tariffOnFace: /Transmission Cost Recovery Factor|TCRF|Metering Charge|4CP kW/.test((q("main") ?? document.body).innerText),
@@ -417,7 +417,8 @@ const code = await withBrowser(async ({ go, evaluate, unlock, send, requests, sl
     let f = await evaluate(FACE);
     check(f.brand && /Source Serif/i.test(f.h1Font) && f.bodyBg === "rgb(255, 255, 255)", "the page is on the brand: the wrapper holds it, the title is in the brand's serif, the page is white, no usage is counted", `${f.h1Font.slice(0, 40)} | ${f.bodyBg}`);
     check(/USD 1,000 per MWh is the level for every grid/.test(f.level) && /at or above USD 1,000 per MWh/.test(f.answer), "the level, USD 1,000 per MWh for every grid, is stated where the count stands", f.level.slice(0, 80));
-    check(f.own.length === 1 && f.own[0][0] === "coming" && /ERCOT's own signal, its reserve adders.*is coming/.test(f.own[0][1]) && f.own[0][2] === null, "ERCOT: one plain line says its own signal, the reserve adders, is coming, and states no number", f.own.map((o) => o[1]).join(" | "));
+    // session 236, after session 244: ERCOT's reserve adder is counted, two rows each with its check key, and the words say where it ends
+    check(f.own.length === 2 && f.own[0][0] === "count" && /\|adders:hours$/.test(f.own[0][2] ?? "") && f.own[1][0] === "table" && /\|adders:own:hours$/.test(f.own[1][2] ?? "") && /published it until 4 December 2025 and no longer/.test(f.adderWords) && /is not counted/.test(f.adderWords) && !/is coming/.test(f.adderWords), "ERCOT: its reserve adder is a second count beside the price level, with the day it ends, and the year to that day beside it", f.own.map((o) => `${o[0]} ${o[1]}`).join(" | "));
     const utilities = D.utilitiesOf(file.rows);
     check(JSON.stringify(f.deliveryHead) === JSON.stringify(["Component", ...utilities]) && JSON.stringify(f.delivery.map((r) => r[0])) === JSON.stringify(["Transmission", "Distribution", "Other riders", "Total delivery"]),
       "the delivery charges are one row a component and the total, a column a utility", `${f.deliveryHead.join(", ")} | ${f.delivery.map((r) => r[0]).join(", ")}`);
