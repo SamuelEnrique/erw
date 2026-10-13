@@ -147,6 +147,19 @@ if (fs.existsSync(analysisDir)) {
   });
 }
 
+// Session 232: the Digest's chart of the day. warehouse/news/brief.py draws one picture a weekday into
+// docs/digest/charts/<date>.png (warehouse/analysis/findings/daily_chart.py); the pictures are copied to
+// public/digest-charts/ so the digest's page can show them (lib/markdown.ts maps the link). None is not an error.
+const digestCharts = path.join(docs, "digest", "charts");
+const publicDigestCharts = path.join(here, "..", "public", "digest-charts");
+fs.rmSync(publicDigestCharts, { recursive: true, force: true });
+if (fs.existsSync(digestCharts)) {
+  fs.mkdirSync(publicDigestCharts, { recursive: true });
+  for (const f of fs.readdirSync(digestCharts).sort()) {
+    if (/^\d{4}-\d{2}-\d{2}\.png$/.test(f)) fs.copyFileSync(path.join(digestCharts, f), path.join(publicDigestCharts, f));
+  }
+}
+
 // Session 24: the platform's tool counts by status, from docs/platform-tools.md (for /about)
 const platform = { total: 0, yes: 0, partial: 0, no: 0, planned: 0 };
 for (const line of read(path.join(docs, "platform-tools.md")).split("\n")) {

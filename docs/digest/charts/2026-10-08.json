@@ -1,0 +1,81 @@
+{
+ "date": "2026-10-08",
+ "source": "scanner",
+ "key": "scan-record-6e1d1cff0ae4",
+ "fact": "Retail electricity price in the District of Columbia, industrial: USD 321.5 per MWh in July 2026, the highest monthly value held since January 2001. The record until now was USD 272.6 per MWh, in June 2006.",
+ "table": "eia_retail_electricity_prices",
+ "series_key": "entity=eia:retail_price:DC:IND|variable=retail_price|market=|node=|freq=P1M",
+ "why": "the strongest of the scanner's 22 flag(s) of the day that no Digest has shown (rank 3; rule record, strength 1.8375)",
+ "candidates_from": "given",
+ "title": "RECORD HIGH",
+ "numbers": {
+  "value": 321.5,
+  "threshold": 272.6,
+  "history_points": 304,
+  "history_years": 25.25,
+  "strength": 1.8375,
+  "old_record": 272.6,
+  "stood_points": 241,
+  "margin": 48.89999999999998,
+  "margin_sigmas": 1.8375,
+  "sigma": 26.61267
+ },
+ "image": "2026-10-08.png",
+ "rendered_at": "2026-10-13T04:50:17Z",
+ "method": "docs/methods/automated_analysis_scanner.md",
+ "flag": {
+  "id": "scan-record-6e1d1cff0ae4",
+  "flag_key": "record|eia_retail_electricity_prices|entity=eia:retail_price:DC:IND|variable=retail_price|market=|node=|freq=P1M",
+  "rule": "record",
+  "table": "eia_retail_electricity_prices",
+  "series": {
+   "entity": "eia:retail_price:DC:IND",
+   "variable": "retail_price",
+   "market": "",
+   "node": "",
+   "freq": "P1M"
+  },
+  "series_key": "entity=eia:retail_price:DC:IND|variable=retail_price|market=|node=|freq=P1M",
+  "label": "eia:retail_price:DC:IND retail_price",
+  "date": "2026-07-01",
+  "value": 321.5,
+  "unit": "USD/MWh",
+  "geo": "US-DC",
+  "statistic": "monthly value",
+  "direction": "high",
+  "threshold": {
+   "name": "record high",
+   "value": 272.6,
+   "statistic": "the highest monthly value of the held history",
+   "config": {
+    "record_min_points": 60,
+    "record_stood_points": 24,
+    "record_min_margin_sigmas": 0.5
+   }
+  },
+  "compared": {
+   "old_record": 272.6,
+   "old_record_date": "2006-06-01",
+   "stood_points": 241,
+   "margin": 48.89999999999998,
+   "margin_sigmas": 1.8375,
+   "sigma": 26.61267
+  },
+  "history": {
+   "first": "2001-01-01",
+   "last": "2026-04-01",
+   "points": 304,
+   "years": 25.25
+  },
+  "strength": 1.8375,
+  "source": "eia:electricity/retail-sales",
+  "note": "",
+  "scanner_version": "1.1.0",
+  "scan_date": "2026-10-08",
+  "window": [
+   "2026-07-01",
+   "2026-07-01"
+  ]
+ },
+ "proof": true
+}

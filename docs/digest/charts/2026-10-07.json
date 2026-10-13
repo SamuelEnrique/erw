@@ -1,0 +1,81 @@
+{
+ "date": "2026-10-07",
+ "source": "scanner",
+ "key": "scan-record-1843d1bd15af",
+ "fact": "iso:pjm battery_operating_mw_net_added_12m: 223.0 MW in July 2026, the highest monthly value held since January 2016. The record until now was 110.0 MW, in February 2016.",
+ "table": "storage_buildout_monthly",
+ "series_key": "entity=iso:pjm|variable=battery_operating_mw_net_added_12m|market=|node=|freq=P1M",
+ "why": "the strongest of the scanner's 20 flag(s) of the day that no Digest has shown (rank 2; rule record, strength 2.6102)",
+ "candidates_from": "given",
+ "title": "RECORD HIGH",
+ "numbers": {
+  "value": 223.0,
+  "threshold": 110.0,
+  "history_points": 124,
+  "history_years": 10.25,
+  "strength": 2.6102,
+  "old_record": 110.0,
+  "stood_points": 125,
+  "margin": 113.0,
+  "margin_sigmas": 2.6102,
+  "sigma": 43.291920000000005
+ },
+ "image": "2026-10-07.png",
+ "rendered_at": "2026-10-13T04:50:17Z",
+ "method": "docs/methods/automated_analysis_scanner.md",
+ "flag": {
+  "id": "scan-record-1843d1bd15af",
+  "flag_key": "record|storage_buildout_monthly|entity=iso:pjm|variable=battery_operating_mw_net_added_12m|market=|node=|freq=P1M",
+  "rule": "record",
+  "table": "storage_buildout_monthly",
+  "series": {
+   "entity": "iso:pjm",
+   "variable": "battery_operating_mw_net_added_12m",
+   "market": "",
+   "node": "",
+   "freq": "P1M"
+  },
+  "series_key": "entity=iso:pjm|variable=battery_operating_mw_net_added_12m|market=|node=|freq=P1M",
+  "label": "iso:pjm battery_operating_mw_net_added_12m",
+  "date": "2026-07-01",
+  "value": 223.0,
+  "unit": "MW",
+  "geo": "US",
+  "statistic": "monthly value",
+  "direction": "high",
+  "threshold": {
+   "name": "record high",
+   "value": 110.0,
+   "statistic": "the highest monthly value of the held history",
+   "config": {
+    "record_min_points": 60,
+    "record_stood_points": 24,
+    "record_min_margin_sigmas": 0.5
+   }
+  },
+  "compared": {
+   "old_record": 110.0,
+   "old_record_date": "2016-02-01",
+   "stood_points": 125,
+   "margin": 113.0,
+   "margin_sigmas": 2.6102,
+   "sigma": 43.291920000000005
+  },
+  "history": {
+   "first": "2016-01-01",
+   "last": "2026-04-01",
+   "points": 124,
+   "years": 10.25
+  },
+  "strength": 2.6102,
+  "source": "erw:storage_buildout",
+  "note": "",
+  "scanner_version": "1.1.0",
+  "scan_date": "2026-10-07",
+  "window": [
+   "2026-07-01",
+   "2026-07-01"
+  ]
+ },
+ "proof": true
+}

@@ -248,8 +248,9 @@ def render(path, kind, stories=None, note=None, unsubscribe=None):
     h += [H2.format(nh), SMALL.format(num_html)]
     # session 23: the Fun fact (daily) and the Chart of the week (Roundup), as the brief wrote them
     # session 24: policy; session 25: the ERW's names (the old ones still read, for briefs written before)
+    # session 232: the Digest's chart of the day, its picture inline at 600 px (1200 px drawn), before the fun fact
     for heading, old in (("## ERW's Policy of the Week", "## Policy of the week"), ("## ERW's Chart of the Week", "## Chart of the week"),
-                         ("## ERW's Fun Fact", "## Fun fact")):
+                         ("## ERW's Chart of the Day", "## Chart of the day"), ("## ERW's Fun Fact", "## Fun fact")):
         body = [site_links(x, site or SITE_DEFAULT) for x in section(lines, (heading, old))]
         if any(x.strip() for x in body):
             bt, bh = block(body, img_base=f"docs/{rel}")

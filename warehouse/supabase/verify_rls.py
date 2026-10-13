@@ -74,6 +74,8 @@ EXPECTED = {
     "site_usage_salt": "blocked",
     # migration 029 (session 181): the scanner's review list, read only through scanner_drafts_list with the token
     "scanner_drafts": "blocked",
+    # migration 030 (session 232): the Digest's daily chart candidates, written and read with the service role only
+    "daily_chart_candidates": "blocked",
 }
 NEW_IN_028 = ("site_rate_counts", "site_usage_events", "site_usage_daily", "site_usage_salt")
 LICENSED = ("series", "entities", "events", "latest_prices", "catalogue", "sources", "headers")

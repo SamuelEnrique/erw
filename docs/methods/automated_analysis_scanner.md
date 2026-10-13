@@ -150,6 +150,47 @@ whether a threshold of `scanner.yaml` raised it:
   the default control) is queued for the data machine; otherwise the draft is marked and a session writes the card.
   Code never writes a paragraph that stands for analysis.
 - Each ruling is kept with its time (`state_at`, `state_history`).
+- Session 231: a draft approved here can be chosen for the Roundup. `roundup_pick.py` reads its card from the review
+  list, and only while its state is approved.
+
+## The daily chart in the Digest
+
+Session 232, Samuel's ruling of 12 October 2026: every weekday Digest carries one chart, a fact and its picture, chosen
+and drawn by code with no model and no approval (`warehouse/analysis/findings/daily_chart.py`). It is separate from the
+review list: a flag needs no ruling to be the day's chart, and being the day's chart does not approve its draft.
+
+- **The rule.** (1) The day's strongest scanner flag: records and first negative prices first, then by how far past
+  its threshold (the flag's strength, in robust standard deviations of the series' own history), ties by the flag's id.
+  (2) A flag a Digest has already shown is never shown again: a monthly record stays fresh to the scanner for 130 days
+  (`fresh_days`), and without this the Digest would print one chart every day. The memory is
+  `docs/digest/charts/<date>.json`, one file a chart shown. (3) If the scanner flagged nothing that day, or nothing a
+  Digest has not shown: the watch list's largest change of the latest period (`warehouse/analysis/watch.py`), in the
+  same form. "Largest" is the share of the measure's own earlier changes that the newest one exceeds
+  (`warehouse/analysis/run.py`, `change`), ties by the change in robust standard deviations of the earlier ones; the
+  newest period must have ended within 14 days (a week) or 100 days (a month, EIA's lag), and a change already shown is
+  not shown again. (4) If neither: no section, and the reason is in the run's log, as for the fun fact.
+- **Only public-licensed tables.** A table whose license in `coverage.csv` is not public, or that
+  `license_status.csv` marks "license needed", is never a candidate; nor is a table or a series of NYISO or SPP, which the
+  ruling of 12 October 2026 holds until their licenses are answered (`HELD` in `daily_chart.py`; a person lifts it by
+  editing that line). A paused publisher's series is never flagged at all.
+- **Two machines.** The histories are on the data machine and the Digest is written on GitHub's runner. After each
+  daily scan the data machine ranks the day's flags, computes each one's card, adds the watch list's changes, keeps them
+  in `runs/scanner/<date>/daily_chart.json` and writes one row for the day to the internal table
+  `daily_chart_candidates` (migration 030; no page reads it). `brief.py` asks for the day's row, waits up to seven
+  minutes for it (the worker takes the runner's request within a minute and scans for about three), and uses the day
+  before's when it is not there. With no row at all it tries the watch list on the runner's own tables.
+- **The fact** is written by code from the flag's numbers (`fact_from_flag`) or from the watch line's
+  (`run.py`'s `finding`). A series is named in plain words only where its codes are ones the file knows (states, EIA's
+  fuels and sectors, CAISO's reserve products); any other series keeps the name the table gives it. The exact table
+  and series key are printed under the fact, with a link to the table.
+- **The picture** is the flag's finding card drawn by matplotlib in the house style
+  (`warehouse/analysis/findings/card_image.py`): the title, the fact, the series with the flagged point and its record
+  or threshold marked, the card's three callouts and its source line. 1200 by 880 pixels, shown at 600 in the email.
+  The site's Digest shows the same file (`/digest-charts/<date>.png`, copied at build).
+- **What it does not do.** It never writes a sentence that explains the number. It never shows a draft's approval
+  state. A scan as of a past day over today's tables (the proofs of 6 to 12 October 2026 in `docs/digest/charts/`,
+  each marked `"proof": true` and never counted as shown) can differ from what that day would have computed, because
+  publishers revise.
 
 ## What this is not
 
