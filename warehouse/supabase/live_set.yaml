@@ -137,6 +137,11 @@ full:
   # one source under sources_hold. Built on the data machine (the yearly workbooks are there); a machine that does not
   # hold the table does not load it, and the rows in Supabase stay
   - '^ercot_rtm_price_adders$'
+  # session 254: each grid's own scarcity signal beside the USD 1,000 price count, by hour, the 36 whole months before
+  # the month of the run (derived; about 179,000 rows: ERCOT and CAISO, four variables), whole. No page reads it yet:
+  # it is under review_hold, and its one source under sources_hold. Built on the data machine once a month; a machine
+  # that does not hold the table does not load it, and the rows in Supabase stay
+  - '^scarcity_hours_by_grid$'
 
 # Only rows whose time is within the last `days` days (series: ts_utc). Older rows
 # of these tables are deleted from Supabase on each load, so the window rolls.
@@ -332,6 +337,7 @@ review_hold:
   - ercot_as_prices_daily              # session 148, /ask/ercot
   - ercot_as_prices_monthly            # session 148, /ask/ercot
   - ercot_rtm_price_adders             # session 244, no page yet (ERCOT's real-time reserve price adders by hour)
+  - scarcity_hours_by_grid             # session 254, no page yet (each grid's own scarcity signal beside the price count)
 
 # Session 102: sources that serve only tables whose pages are in review, held off /terms (a live page that lists the
 # registry and counts it) until one of those pages opens. Read by the site's build (site/scripts/build-content.mjs);
@@ -431,6 +437,7 @@ sources_hold:
   - erw:demand_weather                 # session 126, the same page
   - census:popest_cbsa                 # session 129, the same page (the stations' weights)
   - ercot:NP6-792-ER                   # session 244, ercot_rtm_price_adders (no page yet; this source row serves only that table)
+  - erw:scarcity_hours_by_grid         # session 254, scarcity_hours_by_grid (no page yet; this source row serves only that table)
 
 # Session 206 (the owner's ruling of 12 October 2026): tables loaded as a union by their key, not as a replacement. Each
 # machine appends to its own copy of the cost ledger (GitHub's runner, the data machine, a session's laptop), so no one
