@@ -76,7 +76,15 @@ const nextConfig: NextConfig = {
       { source: "/mix", has: [{ type: "query", key: "view", value: "(?<mix>[a-z]+)" }], destination: "/grid?view=mix&mix=:mix", permanent: true },
       { source: "/mix", destination: "/grid?view=mix", permanent: true },
       { source: "/emissions", destination: "/grid?view=clean", permanent: true },
-      { source: "/grid/:iso(ercot|caiso|pjm|nyiso|isone|miso|spp)", destination: "/grid?grid=:iso", permanent: true },
+      // the seven grid pages, each by its own line (tests/test_session53.py reads a folded page's line here); a longer
+      // address under one of them (/grid/caiso/alerts, the Flex Alert scorecard) is its own page and is not redirected
+      { source: "/grid/ercot", destination: "/grid?grid=ercot", permanent: true },
+      { source: "/grid/caiso", destination: "/grid?grid=caiso", permanent: true },
+      { source: "/grid/pjm", destination: "/grid?grid=pjm", permanent: true },
+      { source: "/grid/nyiso", destination: "/grid?grid=nyiso", permanent: true },
+      { source: "/grid/isone", destination: "/grid?grid=isone", permanent: true },
+      { source: "/grid/miso", destination: "/grid?grid=miso", permanent: true },
+      { source: "/grid/spp", destination: "/grid?grid=spp", permanent: true },
       // session 145: one tool, one page, one address. What a generator earns is /cost-of-power/seller; its second version
       // is folded into it and its address redirects there (a query is carried over)
       { source: "/cost-of-power/seller/v2", destination: "/cost-of-power/seller", permanent: true },

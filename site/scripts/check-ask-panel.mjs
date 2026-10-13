@@ -28,7 +28,7 @@ check((await visitor.text()).includes("in review"), "a visitor asking for /grid/
 
 const code = await withBrowser(async ({ go, evaluate, wait, unlock, errors }) => {
   await unlock(base);
-  await go(`${base}/grid/ercot`);
+  await go(`${base}/grid?grid=ercot&view=ask`);  // session 237: the panel is the Ask view of the Grid tool (/grid/ercot redirects to the tool's Now view)
   await wait(`!!document.querySelector('[data-ask-panel="ercot"] #ask-grid')`, 30000, "the panel on /grid/ercot");
   check(await evaluate(`document.querySelectorAll('[data-ask-panel]').length === 1 && !document.querySelector('form[action="/ask"]')`), "the page holds one panel, in the place of the box that opened /ask");
   check(await evaluate(`(() => { const p = document.querySelector('[data-ask-panel]'); const h = [...document.querySelectorAll('h2')].map((x) => x.innerText); const prev = h.find((t) => /Who runs this grid/.test(t)), next = h.find((t) => /Right now/.test(t));

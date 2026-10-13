@@ -5,7 +5,6 @@
 // in the address (q) is placed in the box; the page never sends it: a question is sent when the reader presses Ask.
 import { AskForm } from "@/app/ask/AskForm";
 import { AskPanel } from "@/components/ask/AskPanel";
-import { AskErcotLink } from "@/components/AskErcotLink";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { SourceLine } from "@/components/tool/ToolPage";
 import type { GridChoice } from "@/lib/gridtool";
@@ -22,7 +21,6 @@ export function AskView({ grid, question }: { grid: GridChoice; question: string
             Ask ERCOT a question. The answer comes from the ERW&apos;s tables for Texas and appears below the box, with a chart or a table where the question calls for one.
           </p>
           <div className="mb-6"><AskPanel grid="ercot" initial={q} inputId="ask-grid" showContext={false} context={context} /></div>
-          <AskErcotLink context={context} />
         </>
       ) : grid.slug === "us48" ? (
         <>

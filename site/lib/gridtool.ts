@@ -33,6 +33,8 @@ export type GridView = (typeof GRID_VIEWS)[number][0];
 
 /** The grid the page opens with when the address names none. */
 export const DEFAULT_GRID: GridSlug8 = "ercot";
+/** The views that open on the Lower 48 when the address names no grid: the pages that redirect into them showed every grid. */
+export const WHOLE_VIEWS: readonly GridView[] = ["network", "mix", "clean"];
 export const GRID_PATH = "/grid";
 
 type Query = Record<string, string | string[] | undefined>;
@@ -67,7 +69,10 @@ export function gridPick(q: Query): GridPick {
   // an old network address naming a balancing authority that is none of the eight (grid=BPAT): the Lower 48, that panel open
   const other = !byGrid ? code(raw) : null;
   const us48 = GRID_CHOICES.find((g) => g.slug === "us48")!;
-  const grid = byGrid ?? (other ? us48 : null) ?? byBa ?? byGrids ?? byNode ?? GRID_CHOICES.find((g) => g.slug === DEFAULT_GRID)!;
+  // no grid named: ERCOT, the first of the picker; but the Network, Mix and Clean views open on the Lower 48, the whole
+  // picture, as the pages that redirect into them (/network, /mix, /emissions) opened
+  const unnamed = WHOLE_VIEWS.includes(view) ? us48 : GRID_CHOICES.find((g) => g.slug === DEFAULT_GRID)!;
+  const grid = byGrid ?? (other ? us48 : null) ?? byBa ?? byGrids ?? byNode ?? unnamed;
   const node = code(one(q.node)) ?? other ?? (grid.slug === "us48" ? null : grid.ba);
   return { grid, view, node, named: !!(byGrid ?? other ?? byBa ?? byGrids ?? byNode) };
 }

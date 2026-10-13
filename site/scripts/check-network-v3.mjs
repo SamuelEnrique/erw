@@ -20,13 +20,18 @@ import fs from "node:fs";
 import { withBrowser } from "./browser.mjs";
 import { easternHours, trace, PAUSED_PRICE } from "../lib/networkV3.ts";
 
+// Session 237: /network redirects to the Network view of the Grid tool (/grid?grid=<grid>&view=network), where the
+// network's own words are written under the tool's (lib/gridtool.ts: its view as net, its grid as node). The checks
+// below still open the old addresses, so each one also proves its redirect; OWN reads the address back as the
+// network's own query, the form these checks have always compared.
+const OWN = `((s) => { const o = []; for (const [k, v] of new URLSearchParams(s)) { if (k === 'grid' || k === 'view') continue; o.push((k === 'net' ? 'view' : k === 'node' ? 'grid' : k) + '=' + encodeURIComponent(v)); } return o.length ? '?' + o.join('&') : ''; })`;
 const base = (process.argv[2] ?? "http://localhost:3093").replace(/\/$/, "");
 let bad = 0, n = 0;
 const check = (ok, what) => { n += 1; if (!ok) { bad += 1; console.log(`FAIL ${what}`); } else console.log(`ok   ${what}`); };
 const year = (y) => JSON.parse(fs.readFileSync(new URL(`../public/network/daily_${y}.json`, import.meta.url), "utf-8"));
 const STATE = `(() => { const d = document.querySelector('[data-network-view]'); return d ? { view: d.getAttribute('data-network-view'), frame: d.getAttribute('data-frame'), t: d.getAttribute('data-t'),
   playing: d.getAttribute('data-playing'), rings: Number(d.getAttribute('data-price-rings')), frames: Number(d.getAttribute('data-frames')), restored: d.getAttribute('data-restored'),
-  panel: document.querySelector('[data-panel]')?.getAttribute('data-panel') ?? null, search: window.location.search } : null; })()`;
+  panel: document.querySelector('[data-panel]')?.getAttribute('data-panel') ?? null, search: ${OWN}(window.location.search) } : null; })()`;
 const setDate = (v) => `(() => { const el = document.querySelector('#replay-day'); Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(el, '${v}');
   el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true })); return true; })()`;
 const click = (sel) => `(() => { const b = ${sel}; if (!b) return false; b.click(); return true; })()`;
@@ -162,7 +167,7 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, error
   // page face holds the line carried over from the page it replaced and none of the folded sections moved to the note
   await go(`${base}/network/v3?view=uri_2021&t=2021-02-15T12:00:00Z&grid=ERCO&batteries=1`);
   const redirected = await wait(`(() => { const s = ${STATE}; return s && s.restored === '1' && s.view === 'uri_2021' && s.panel === 'ERCO' ? { ...s, path: window.location.pathname } : null; })()`, 30000, "the view shared from /network/v3");
-  check(redirected.path === "/network" && redirected.t === "2021-02-15T12:00:00Z" && new URLSearchParams(redirected.search).get("grid") === "ERCO", `/network/v3 redirects to /network and the shared view opens there (${redirected.path}${redirected.search})`);
+  check(redirected.path === "/grid" && redirected.t === "2021-02-15T12:00:00Z" && new URLSearchParams(redirected.search).get("grid") === "ERCO", `/network/v3 redirects to the Network view of /grid (through /network; session 237) and the shared view opens there (${redirected.path}${redirected.search})`);
   await go(`${base}/network`);
   await wait(`!!document.querySelector('[data-network-view][data-restored="1"]')`, 20000, "the page to be ready");
   const face = await evaluate(`({ line: document.querySelector('[data-newest-hour]')?.innerText ?? '', folds: [...document.querySelectorAll('summary')].map((x) => x.innerText.trim()), source: [...document.querySelectorAll('p')].filter((x) => x.innerText.startsWith('Source: ERW tables')).length,

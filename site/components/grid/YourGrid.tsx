@@ -1,3 +1,4 @@
+import { AskErcotLink } from "@/components/AskErcotLink";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { Cite } from "@/components/Cite";
 import { InlineSpark } from "@/components/InlineSpark";
@@ -400,6 +401,7 @@ export function GridNowParts({ g, d }: { g: GridConfig; d: GridData }) {
   const first = parts[0] ?? "", rest = parts.slice(1).join("\n");
   return (
     <div data-grid-parts="now">
+      {g.slug === "ercot" ? <AskErcotLink context={{ view: "/grid/ercot", title: "Your grid: ERCOT", settings: { grid: "ERCOT" } }} /> : null}
       {g.iso === "CAISO" ? <CaisoBreakNote kind="carbon" /> : null}
       <p className="mb-4 max-w-3xl text-sm text-muted">
         Who runs this grid, where its power comes from, what it costs, how clean it is, what is being built and what makes it different. Numbers come
