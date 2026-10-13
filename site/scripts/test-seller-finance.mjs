@@ -139,5 +139,31 @@ check(term.up.value === 40 && near(term.up.npv, term.base), "a term raised past 
   check(F.carry("?iso=ercot&an=50&ap=30&ac=1500", false) === "&an=50&ap=30", "a change of asset keeps the contract and drops the costs");
 }
 
+// session 235: the breakeven PPA price (the contract price at which NPV is zero) and "Make B a PPA"
+{
+  const energy = { kind: "energy", energyKw: 2.2 };
+  const m = { ...solar, cshare: 0, cprice: 0 };                       // a merchant scenario: the breakeven is for the whole plant
+  const zero = (a, c) => Math.abs(F.npv(a.hurdle, F.flows(a, 60, c))) < 1e-7;
+  const p = F.breakevenPpa(m, 60, energy);
+  check(F.ppaShare(m) === 100 && F.ppaShare({ ...m, cshare: 40 }) === 40 && F.ppaShare({ capex: 1 }) === 100, "the breakeven is at the scenario's own share, or the whole plant when it holds no contract");
+  check(p !== null && p > 0 && zero({ ...m, cshare: 100, cprice: p }, energy), "at the breakeven PPA price for the whole plant, NPV is zero", String(p));
+  const half = { ...solar, term: 10, life: 12, cshare: 50, cprice: 30 };
+  const ph = F.breakevenPpa(half, 60, energy);
+  check(ph !== null && zero({ ...half, cprice: ph }, energy), "at a share of 50 percent and a term shorter than the life, NPV is zero at the breakeven price", String(ph));
+  check(near(ph, F.breakevenPpa({ ...half, cprice: 999 }, 60, energy)), "the breakeven price does not read the scenario's own contract price");
+  const h0 = { ...m, hurdle: 0 };
+  check(zero({ ...h0, cshare: 100, cprice: F.breakevenPpa(h0, 60, energy) }, energy), "at a hurdle rate of zero too");
+  const toll = F.breakevenPpa(m, 60);                                  // a toll: USD per kW-month on the capacity
+  check(toll !== null && zero({ ...m, cshare: 100, cprice: toll }) && near(toll * 12, p * 2.2, 1e-7), "a toll's breakeven sets NPV to zero, and pays the same dollars a year as the energy price does");
+  check(F.breakevenPpa(m, 60, { kind: "energy", energyKw: 0 }) === null, "no breakeven price with no energy to price");
+  const rich = F.breakevenPpa({ ...half, cshare: 10 }, 5000, energy);
+  check(rich !== null && rich < 0, "where the market alone clears the hurdle, the breakeven price is below zero (the page says so in words)");
+  const b = F.asPpa(m, 60, energy);
+  check(b.cshare === 100 && b.cprice >= p && b.cprice - p < 0.01 + 1e-9 && Number.isInteger(Math.round(b.cprice * 1e6) / 1e4) && F.npv(b.hurdle, F.flows(b, 60, energy)) >= 0, "Make B a PPA: the whole plant at the breakeven price rounded up to the cent, so NPV is zero or just above", JSON.stringify(b));
+  check(Object.keys(m).every((k) => k === "cshare" || k === "cprice" || b[k] === m[k]), "and no other assumption moves");
+  check(solarNow.cshare === 0 && solarNow.cprice === 0, "the defaults stay merchant");
+  check(F.asPpa(m, 60, { kind: "energy", energyKw: 0 }) === null, "no PPA to make where there is no energy");
+}
+
 console.log(failed ? `\n${failed} FAILED` : "\nall passed");
 process.exit(failed ? 1 : 0);

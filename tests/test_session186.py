@@ -328,7 +328,8 @@ class ThePage(unittest.TestCase):
 
     def test_the_eight_rows_in_order_and_the_last_in_words(self):
         keys = re.findall(r'\n    row\("(\w+)", ', self.block)
-        self.assertEqual(keys, ["revenue", "capture", "month", "coverage", "npv", "irr", "contract", "battery"])
+        # session 235: a ninth row, the breakeven PPA price, after the contract price at which coverage reaches 1.25
+        self.assertEqual(keys, ["revenue", "capture", "month", "coverage", "npv", "irr", "contract", "ppa", "battery"])
         self.assertLess(self.shared.index('data-row={r.key}'), self.shared.index('data-row="differs"'))
         self.assertIn("differenceWords(s.a, s.b)", self.block)
         self.assertIn('row("month", "The worst month"', self.block)

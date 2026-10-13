@@ -240,6 +240,35 @@ export function breakevenToll(a: Assumptions, target = TARGET): number | null {
   return ds > 0 ? (target * ds + a.fom) / 12 : null;
 }
 
+/** Session 235 (the owner's task of 12 October 2026: "the results show the breakeven PPA price"): the contract price at
+ * which the net present value to equity is zero, the scenario's other assumptions held. For solar and wind it is a
+ * price for power, USD per MWh (a PPA); for a battery and a gas peaker a toll, USD per kW-month. The contract is on
+ * `share` percent of the plant: the scenario's own contract share when it holds one, else the whole plant (100). It
+ * runs for the debt's years, as every contract of this page does, and the uncontracted share earns the market's
+ * revenue. NPV is a straight line in the price, so the price is exact: -NPV at a price of 0, over the present value of
+ * one dollar of price on the contracted share through the debt's years. It does not read the scenario's own contract
+ * price. Null when nothing is contracted or the contract has no energy to price; a value at or below 0 says NPV is
+ * already at or above zero with the contracted share paid nothing. */
+export const ppaShare = (a: Assumptions) => ((a.cshare ?? 0) > 0 ? a.cshare : 100);
+export function breakevenPpa(a: Assumptions, revKw: number, c: Contract = NO_CONTRACT, share = ppaShare(a)): number | null {
+  const unit = c.kind === "energy" ? c.energyKw : 12;
+  if (!(share > 0) || !(unit > 0)) return null;
+  const at0 = npv(a.hurdle, flows({ ...a, cshare: share, cprice: 0 }, revKw, c));
+  const r = a.hurdle / 100, dy = debtYears(a);
+  let perDollar = 0;
+  for (let t = 1; t <= dy; t++) perDollar += ((share / 100) * unit) / (1 + r) ** t;
+  return perDollar > 0 ? -at0 / perDollar : null;
+}
+/** Session 235, "Make B a PPA": the scenario with the whole plant under contract at its breakeven PPA price, rounded up
+ * to the cent (so NPV is zero or a few dollars above) and kept inside the price's bounds. Null where there is no
+ * breakeven price. Nothing else of the scenario changes, and no default moves. */
+export function asPpa(a: Assumptions, revKw: number, c: Contract = NO_CONTRACT): Assumptions | null {
+  const p = breakevenPpa(a, revKw, c, 100);
+  if (p === null || !Number.isFinite(p)) return null;
+  const price = Math.min(SPECS.cprice.max, Math.max(SPECS.cprice.min, Math.ceil(p * 100 - 1e-9) / 100));
+  return { ...a, cshare: 100, cprice: price };
+}
+
 export type Result = { debt: number; coverage: number | null; npv: number; irr: number | null };
 /** Everything a scenario's column shows that depends on its finance and on revenue, from the last twelve months'
  * revenue per kW. */

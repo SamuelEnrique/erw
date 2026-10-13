@@ -11,7 +11,7 @@ import hubsJson from "@/data/seller/hubs/index.json";
 import * as B from "@/lib/batterystack";
 import { caisoJoinDay } from "@/lib/caisoJoin";
 import {
-  FUELS, MARKETS, ORDER, combined, hubAt, hubName, hubOf, hubYears, lastTwelve as captureTwelve, monthName as shortMonth, twelve, whyNot, years as captureYears,
+  FUELS, MARKETS, ORDER, combined, hubAt, hubName, hubOf, hubYears, lastTwelve as captureTwelve, monthName as shortMonth, twelve, whyNoYear, whyNot, yearCell, years as captureYears,
   type CaptureFile, type Fuel, type Hub, type Market,
 } from "@/lib/capture";
 import {
@@ -19,7 +19,7 @@ import {
   type Inputs, type Snapshot,
 } from "@/lib/merchant";
 import { BATTERY_DEG, BATTERY_DEG_SOURCE, debtUsd, defaultsOf, isOldParam, isScenarioParam, parseScenarios } from "@/lib/seller/finance";
-import { ASSETS, GRIDS, PAUSED, sentence, spans, years } from "@/lib/seller2";
+import { ASSETS, GRIDS, PAUSED, sentence, spanOf, spans, years } from "@/lib/seller2";
 import * as H from "@/lib/sellerhybrid";
 import * as HB from "@/lib/sellerhubs";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
@@ -97,6 +97,18 @@ async function batteryRows(entity: string, strat: B.Strategy, dur: B.Duration): 
   return rest<B.Row>("series", { select: "variable,ts_utc,value", table_name: `eq.${B.TABLE}`, entity: `eq.${entity}`, variable: `like.${strat}_${dur}h_*`, order: "variable,ts_utc" }, HOURLY);
 }
 
+/** Session 235: one figure of the capture chart and table: the price received, the hub's average over the same hours,
+ * and the first over the second in percent (null where the average is not above zero). */
+export type CapCell = { price: number; flat: number; rate: number | null; months: number; partial: boolean };
+/** One hub or zone of the grid: the market its figures are in, the last twelve months and each year, or why not. */
+export type CapRow = {
+  id: string; name: string; chosen: boolean; market: Market; twelve: (CapCell & { from: string; to: string }) | null; whyTwelve: string;
+  years: (CapCell | null)[]; whyYears: string[];
+};
+/** The chart's groups (each year at the hub chosen, then the last twelve months) and the table's rows. `fuel` is null
+ * for a battery and a gas peaker, whose figures are this page's model at each hub and carry no key of the capture file. */
+export type CapView = { fuel: Fuel | null; years: string[]; rows: CapRow[]; chart: (CapCell & { label: string })[] };
+
 export type FormGridOf = { id: string; name: string; open: boolean; words?: string; why?: string; hubs: { id: string; label: string }[] };
 
 /** Everything the page computes for one address, in the order page.tsx computed it until session 212. */
@@ -155,7 +167,8 @@ export async function modelOf(q: Record<string, string | undefined>) {
   const cap = (h: Hub, f: Fuel, m: Market) => twelve(h[m]?.[f], NEAR);
   const has = (h: Hub, m: Market) => FUELS.some((f) => Object.keys(h[m]?.[f] ?? {}).length > 0);
   const whole12 = (h: Hub, m: Market) => FUELS.some((f) => cap(h, f, m) !== null);
-  const mk: Market = whole12(hub, "rt") ? "rt" : whole12(hub, "da") ? "da" : has(hub, "rt") || !has(hub, "da") ? "rt" : "da";
+  const marketOf = (h: Hub): Market => (whole12(h, "rt") ? "rt" : whole12(h, "da") ? "da" : has(h, "rt") || !has(h, "da") ? "rt" : "da");
+  const mk: Market = marketOf(hub);
   const other: Market = mk === "rt" ? "da" : "rt";
   const why = (h: Hub, f: Fuel, m: Market) => `${hubName(h.id)}, ${MARKETS[m].toLowerCase()}, ${f}. ${whyNot(h[m], f, NEAR)}${iso === "nyiso" && f === "solar" ? " EIA-930 itemizes no solar generation for New York." : ""}`;
   const mine = fuel ? cap(hub, fuel, mk) : null;
@@ -170,6 +183,54 @@ export async function modelOf(q: Record<string, string | undefined>) {
     if (l12.solar || l12.wind) rows.push({ label: "Last 12 months", partial: false, months: 12, solar: l12.solar, wind: l12.wind });
     return rows;
   };
+
+  // Session 235 (the owner's task of 12 October 2026): the capture price back on the page, one chart and one table.
+  // The chart: by year and over the last twelve months at the hub chosen, the price the plant received per MWh against
+  // the hub's average. The table: one row a hub or zone of the grid, with the last twelve months' capture price, hub
+  // average and capture rate, and each year's capture rate. Solar and wind: the capture file (lib/capture.ts), by the
+  // functions tables.csv writes capture_last_twelve, capture_by_year and capture_hub_year from, each hub in the market
+  // the page shows it in (real time where it holds twelve months, else day-ahead). A battery and a gas peaker choose
+  // their hours, so the file's fleet shapes do not describe them: theirs is this page's model solved at each hub
+  // (lib/sellerhubs.ts), the price while selling or running against the price of every hour.
+  const rateOf = (price: number, flat: number) => (flat > 0 ? (100 * price) / flat : null);
+  const capView = ((): CapView => {
+    if (fuel) {
+      const all = new Set<string>();
+      for (const h of cg.hubs) for (const k of Object.keys(h[marketOf(h)]?.[fuel] ?? {})) if (yearCell(h[marketOf(h)]?.[fuel], k.slice(0, 4), NEAR)) all.add(k.slice(0, 4));
+      const ysOf = [...all].sort();
+      const rows: CapRow[] = cg.hubs.map((h) => {
+        const m = marketOf(h), t = cap(h, fuel, m);
+        const cells = ysOf.map((y) => { const c = yearCell(h[m]?.[fuel], y, NEAR); return c ? { price: c.price, flat: c.flat, rate: rateOf(c.price, c.flat), months: c.months, partial: !c.whole } : null; });
+        return { id: h.id, name: hubName(h.id), chosen: h.id === hub.id, market: m,
+          twelve: t ? { price: t.price, flat: t.flat, rate: rateOf(t.price, t.flat), months: 12, partial: false, from: t.from, to: t.to } : null, whyTwelve: t ? "" : why(h, fuel, m),
+          years: cells, whyYears: ysOf.map((y, i) => (cells[i] ? "" : `${hubName(h.id)}, ${y}, ${fuel}, ${MARKETS[m].toLowerCase()}. ${whyNoYear(h[m], fuel, m, y, NEAR)}`)) };
+      });
+      const chart = yearRows(mk).flatMap((r) => { const f = r[fuel]; return f ? [{ label: r.label, price: f.price, flat: f.flat, rate: rateOf(f.price, f.flat), months: r.months, partial: r.partial }] : []; });
+      return { fuel, years: ysOf, rows, chart };
+    }
+    // a battery, a gas peaker: the model per MW at each hub or zone it is held for
+    const modelAt = (h: Hub): { snap: Snapshot; market: Market } | null => {
+      if (h.id === cg.main) return { snap, market: "rt" };
+      const e = HUBS.grids[iso]?.hubs[h.id];
+      const gf = e ? hubFile<HB.GridFile>(HUBS.grids[iso].file) : null, hm = e ? hubFile<HB.HubFile>(e.file) : null;
+      return e && gf && hm ? { snap: HB.withHub(snap, iso, HB.hubIso(snap.isos[iso], gf, hm)), market: e.market } : null;
+    };
+    const cellOf = (rs: typeof ms1): CapCell | null => { const v = spanOf(rs, 1); return v && v.capture !== null ? { price: v.capture, flat: v.flat, rate: v.rate, months: rs.length, partial: rs.length < 12 } : null; };
+    const at1 = cg.hubs.map((h) => { const md = modelAt(h); return { h, market: md?.market ?? ("rt" as Market), rs: md ? months(md.snap, perMw) : null }; });
+    const ysOf = [...new Set(at1.flatMap((r) => (r.rs ?? []).filter((x) => x.held).map((x) => x.m.slice(0, 4))))].sort();
+    const yearOf = (rs: typeof ms1, y: string) => cellOf(rs.filter((x) => x.held && x.m.slice(0, 4) === y));
+    const rows: CapRow[] = at1.map(({ h, market, rs }) => {
+      const t = rs ? spans(rs).twelve : null;
+      const none = rs ? `The model holds no twelve months in a row at ${hubAt(h.id)}.` : `The model is not held at ${hubAt(h.id)}.`;
+      const cells = ysOf.map((y) => (rs ? yearOf(rs, y) : null));
+      return { id: h.id, name: hubName(h.id), chosen: h.id === hub.id, market,
+        twelve: t && t.capture !== null ? { price: t.capture, flat: t.flat, rate: t.rate, months: 12, partial: false, from: t.from, to: t.to } : null, whyTwelve: t && t.capture !== null ? "" : none,
+        years: cells, whyYears: ysOf.map((y, i) => (cells[i] ? "" : rs ? `No month of ${y} is held at ${hubAt(h.id)}, or the plant sold nothing in it.` : `The model is not held at ${hubAt(h.id)}.`)) };
+    });
+    const mine1 = ysOf.flatMap((y) => { const c = yearOf(ms1, y); return c ? [{ ...c, label: y }] : []; });
+    if (s.twelve && s.twelve.capture !== null) mine1.push({ label: "Last 12 months", price: s.twelve.capture, flat: s.twelve.flat, rate: s.twelve.rate, months: 12, partial: false });
+    return { fuel: null, years: ysOf, rows, chart: mine1 };
+  })();
 
   // (b) the contract's twelve months (session 145; since session 212 the contract is two scenario assumptions, priced
   // on the model's energy of the last twelve months: lib/seller/finance.ts, Contract)
@@ -253,7 +314,7 @@ export async function modelOf(q: Record<string, string | undefined>) {
 
   return {
     q, snap, open, iso, asked, costsOf, A, x, scenarioParams, g, a, cg, hub, mainHub, he, atHub, at, key, k, D, sizeLabel, fuel, peaker, money, bmw, dur, strat,
-    ms, sm, st, held, monthRows, annual, ms1, ms1Main, s, ys, line, cap, mk, other, why, mine, yearRows, plant, hybrid, bg, batt, battWhy, plantTotal, both, COMBINED,
+    ms, sm, st, held, monthRows, annual, ms1, ms1Main, s, ys, line, cap, mk, other, why, mine, yearRows, capView, plant, hybrid, bg, batt, battWhy, plantTotal, both, COMBINED,
     hf, pair, pairSpan, fromPlant, plantName, DA_PLANT, DA_BATTERY, DA_PAIR, DA_ADDED, above, KEPT, grids, defaults, threeWhy, everyWhy, twelveWhy, facts,
   };
 }

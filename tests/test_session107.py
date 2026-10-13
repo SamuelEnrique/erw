@@ -162,7 +162,9 @@ class ThePage(unittest.TestCase):
             self.assertIn(f"<{piece}", one)
         self.assertNotIn("<Fold", one)
         self.assertEqual(one.count("Long-run average, a year"), 2)
-        self.assertIn("Incomplete year", one)
+        # session 235 (the brand): the year chart is the brand's bar chart, which holds the words for a hatched year
+        self.assertIn("<GroupedBars", one)
+        self.assertIn('partialWords = "Incomplete year"', src("site", "components", "tool", "GroupedBars.tsx"))
         self.assertIn('{ source: "/cost-of-power/seller/v2", destination: "/cost-of-power/seller", permanent: true }', src("site", "next.config.ts"))
         r = subprocess.run(["git", "log", "--format=%s", "-1", "--", "site/app/cost-of-power/seller/page.tsx", "site/lib/merchant.ts", "site/data/merchant_snapshot.json"],
                            cwd=ROOT, capture_output=True, text=True)
