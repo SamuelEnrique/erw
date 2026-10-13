@@ -24,7 +24,12 @@ import { daysAgo, series, type SeriesRow } from "@/lib/data";
 import { count, price } from "@/lib/format";
 import { FACE, ranked, type FreeFile } from "@/lib/freeenergy";
 import { attempt } from "@/lib/supabase";
+import { NoData } from "@/components/NoData";
+import { licenseHeldGrid, licenseReason } from "@/lib/license";  // session 215
 import { XY } from "./Charts";
+
+// session 215: the price table whose hold the free-energy and worth sections of a grid take their words from
+const priceTableOf = (grid: string) => (grid === "isone" ? "isone_dam_zone_prices" : grid === "nyiso" ? "nyiso_dam_zone_prices" : "iso_dam_hub_prices");
 import { Blank, FreeEnergy, N, Texas, Worth, freeChoice, type ErcotFile, type WorthFile, type ZoneFile } from "./Sections";
 
 // Session 144: "Curtailment", one tool, one page, one address, in review (lib/release.ts), in the battery page's layout.
@@ -305,8 +310,20 @@ export default async function CurtailmentPage({ searchParams }: { searchParams: 
           {c.grid === "caiso" ? <California c={keep} period={period} r={r} /> : null}
           {c.grid === "ercot" ? <Texas file={ercot} estimate={FACE.ercot.line} /> : null}
 
-          <FreeEnergy file={free} c={keep} zones={zones} />
-          <Worth file={worth} c={{ ...keep, period: c.grid === "caiso" ? period : null }} estimate={FACE.ercot.line} />
+          {/* session 215: the prices behind "Where free energy is" and "What it is worth" are the grid's own hub and zone
+              tables (free_energy.json and worth.json name them); a grid whose tables are "license needed" today
+              (lib/license.ts: ISO-NE's and NYISO's from 20 October 2026) shows the catalogue's words in their place */}
+          {licenseHeldGrid(c.grid) ? (
+            <>
+              <ToolSection title={`Where free energy is, ${g.name}`} id="free-energy"><NoData what="free energy" reason={licenseReason(priceTableOf(c.grid))} /></ToolSection>
+              <ToolSection title={`What the curtailed energy was worth, ${g.name}`} id="worth"><NoData what="worth" reason={licenseReason(priceTableOf(c.grid))} /></ToolSection>
+            </>
+          ) : (
+            <>
+              <FreeEnergy file={free} c={keep} zones={zones} />
+              <Worth file={worth} c={{ ...keep, period: c.grid === "caiso" ? period : null }} estimate={FACE.ercot.line} />
+            </>
+          )}
 
           <ToolSection title="What each grid's number is" id="whose">
             <ToolTable caption="What each grid's number is" words minWidth={560} head={["Grid", "Its number"]}
