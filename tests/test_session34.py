@@ -124,18 +124,21 @@ class Workflows(unittest.TestCase):
         with open(os.path.join(ROOT, p), encoding="utf-8") as f:
             return f.read()
 
-    def test_the_daily_job_sends_the_published_digest_then_the_shadow(self):
+    def test_the_daily_job_sends_the_published_digest_and_the_shadow_is_off(self):
+        # session 206 (the owner's ruling of 12 October 2026): SHADOW_MODEL is no longer set in the workflow, so the
+        # shadow steps of run_daily.sh skip with the kill switch; news scoring itself runs on Haiku
         wf = self.read(".github/workflows/daily-prices.yml")
-        for line in ('SHADOW_MODEL: claude-haiku-4-5', 'EMAIL_SUBSCRIBERS: "1"', "EMAIL_TOKEN_SECRET: ${{ secrets.",
-                     "DIGEST_RECIPIENTS: ${{ secrets."):
+        for line in ('EMAIL_SUBSCRIBERS: "1"', "EMAIL_TOKEN_SECRET: ${{ secrets.", "DIGEST_RECIPIENTS: ${{ secrets."):
             self.assertIn(line, wf)
+        self.assertNotIn("SHADOW_MODEL: claude-haiku-4-5", wf)
         sh = self.read("warehouse/run_daily.sh")
         self.assertLess(sh.index("warehouse/news/email_digest.py --auto"), sh.index("warehouse/news/shadow.py digest"))
         self.assertIn("model_step news_score \"$PYTHON\" warehouse/news/score.py", sh)
 
-    def test_the_roundup_job_sends_the_shadow_roundup(self):
+    def test_the_roundup_job_no_longer_sends_a_shadow_roundup(self):
         wf = self.read(".github/workflows/roundup.yml")
-        self.assertIn("python warehouse/news/shadow.py roundup", wf)
+        self.assertNotIn("python warehouse/news/shadow.py roundup", wf)  # session 206: the step is gone
+        self.assertNotIn("SHADOW_MODEL: claude-haiku-4-5", wf)
         self.assertIn("python warehouse/news/email_digest.py --roundup", wf)
         self.assertEqual(len(re.findall(r'EMAIL_SUBSCRIBERS: "1"', wf)), 1)  # the published Roundup's step only
 

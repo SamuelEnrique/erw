@@ -833,8 +833,9 @@ def run(feeds, table, ask, log, today, only=None, since=None, day=None, again=Fa
             results[key] = {"requests": 0, "new_rows": 0, "status": "not requested", "detail": stopped}
             continue
         if key in day["left"]:
-            results[key] = {"requests": 0, "new_rows": 0, "status": "failed",
-                            "detail": f"not asked again today: {day['left'][key]}"}
+            gap = ip.gap_skip(f"{NAME}:{key}", day["left"][key])  # session 206: a known gap on the runner is a skip
+            results[key] = {"requests": 0, "new_rows": 0, "status": "skipped" if gap else "failed",
+                            "detail": f"not asked again today: {gap or day['left'][key]}"[:300]}
             continue
         if key in day["done"] and not again:
             results[key] = {"requests": 0, "new_rows": 0, "status": "ok", "detail": "its lists were read earlier today: not read twice"}
@@ -854,11 +855,14 @@ def run(feeds, table, ask, log, today, only=None, since=None, day=None, again=Fa
             stopped = str(exc)
             results[key] = {"requests": ask.n - before, "new_rows": 0, "status": "stopped", "detail": stopped}
         except Refused as exc:
-            results[key] = {"requests": ask.n - before, "new_rows": 0, "status": "failed",
-                            "detail": f"{exc}; the regulator's remaining lists were not asked this run"}
+            gap = ip.gap_skip(f"{NAME}:{key}", exc)  # session 206: Oregon's host, a known gap on the runner, is a skip
+            results[key] = {"requests": ask.n - before, "new_rows": 0, "status": "skipped" if gap else "failed",
+                            "detail": f"{gap or exc}; the regulator's remaining lists were not asked this run"[:300]}
             day["left"][key] = str(exc)[:200]
         except Exception as exc:   # a list whose shape changed: recorded, the others go on
-            results[key] = {"requests": ask.n - before, "new_rows": 0, "status": "failed", "detail": ip.redact(repr(exc))[:240]}
+            gap = ip.gap_skip(f"{NAME}:{key}", ip.redact(repr(exc)))
+            results[key] = {"requests": ask.n - before, "new_rows": 0, "status": "skipped" if gap else "failed",
+                            "detail": (gap or ip.redact(repr(exc)))[:240]}
             day["left"][key] = ip.redact(repr(exc))[:200]
         log(f"  {key}: {results[key]}")
     return results, rows, left
@@ -941,11 +945,14 @@ def main(argv=None):
             w.writerow([key, c["docket"], c["date"], c["line"], why])
     for r in rows:
         say(f"  NEW {r['regulator']} | {r['docket_number']} | {r['event_date']} | {r['row_kind']} | {r['sentence'][:140]}")
-    status = [dict(table=llr.NAME, market=k, status="failed" if v["status"] == "failed" else "ok",
+    status = [dict(table=llr.NAME, market=k, status=v["status"] if v["status"] in ("failed", "skipped") else "ok",
                    detail=f"{v['status']}: {v['requests']} requests, {v['new_rows']} new rows; {v['detail']}"[:300]) for k, v in results.items()]
     ip.write_status(NAME, run_id, status + [dict(table=llr.NAME, market="all", status="ok" if code == 0 else "failed", detail=detail)])
     say(f"{NAME}: {detail}; tables written: {wrote or 'none'}")
     failed = [k for k, v in results.items() if v["status"] == "failed"]
+    skipped = [k for k, v in results.items() if v["status"] == "skipped"]
+    if skipped:  # session 206: a known gap on the runner (warehouse/metadata/known_gaps.csv), recorded as skipped, not failed
+        say(f"{NAME}: SKIPPED for {', '.join(skipped)} (a known gap on the runner; the others ran): " + "; ".join(f"{k}: {results[k]['detail'][:160]}" for k in skipped))
     if failed:
         say(f"{NAME}: FAILED for {', '.join(failed)} (recorded; the others ran): " + "; ".join(f"{k}: {results[k]['detail'][:120]}" for k in failed))
     log.close()

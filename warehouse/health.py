@@ -35,7 +35,8 @@ else); SUPABASE_URL and SUPABASE_SERVICE_KEY from the environment or .env.
         above is written the day after: on 4 October 2026 the battery page's refresh failed at 14:45 UTC and a person
         learned of it from a document a session wrote that evening. Never raises and always exits 0.
     python warehouse/health.py budget --step news_score
-        session 176: the daily cap for all scheduled model steps together, DAILY_MODEL_USD (default 1.00). Sums the
+        session 176: the daily cap for all scheduled model steps together, DAILY_MODEL_USD (default 1.50 since
+        session 206; 1.00 before). Sums the
         day's (UTC) spend of the scheduled model steps from the cost ledger (warehouse/output/api_cost_ledger.csv on
         this machine, and Supabase's copy of it for the rows another runner wrote today). Under the cap: exit 0, and
         the step runs. At or over it: the step is not run; a row of erw_health says so (status skipped, its reason
@@ -66,7 +67,7 @@ EXPECTED = {  # runs a day, as migration 015 schedules them (the weekly jobs on 
     "chain watch": 96,  # session 91: every 15 minutes, whether or not a chain is marked (migration 022)
 }
 # Session 176: the daily cap for all scheduled model steps together (docs/methods/api_cost_ledger.md, "The daily cap").
-MODEL_CAP_DEFAULT = 1.00  # USD a UTC day; DAILY_MODEL_USD in the environment replaces it
+MODEL_CAP_DEFAULT = 1.50  # USD a UTC day; DAILY_MODEL_USD in the environment replaces it (session 206: 1.50, was 1.00)
 CAP_MARK = "daily model cap"  # a capped step's reason begins with it: the summary and the same-day email read it
 LEDGER = "api_cost_ledger"
 # The ledger's step names of the model steps that run on a clock (warehouse/run_daily.sh and roundup.yml). A call of

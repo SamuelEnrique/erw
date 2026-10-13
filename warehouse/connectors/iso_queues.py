@@ -263,17 +263,26 @@ def main(argv=None):
         except Exception:
             tb = ip.redact(traceback.format_exc())
             last = tb.strip().splitlines()[-1]
+            why = ip.gap_skip(name, last)  # session 206: a known gap on the runner (NYISO's workbook) is a skip
+            if why:
+                log(f"{name} SKIPPED, no output file written: {why}\n{tb}")
+                print(f"iso_queues {iso} SKIPPED: {why}")
+                results.append(dict(table=name, market="queue", status="skipped", detail=why[:300]))
+                continue
             log(f"{name} FAILED, no output file written:\n{tb}")
             print(f"iso_queues {iso} FAILED, no output file written: {last}", file=sys.stderr)
             results.append(dict(table=name, market="queue", status="failed", detail=last[:300]))
     if reg:
         ip.update_sources(reg)
     ip.write_status("iso_queues", run_id, results)
-    failures = sum(r["status"] != "ok" for r in results)
-    log(f"done, failures={failures}")
+    failures = sum(r["status"] == "failed" for r in results)
+    skipped = sum(r["status"] == "skipped" for r in results)
+    log(f"done, failures={failures}, skipped={skipped}")
     log.close()
     print(f"iso_queues run log: {os.path.relpath(log.path, ip.ROOT)}")
-    return 1 if failures else 0
+    if failures:
+        return 1
+    return ip.skip_exit() if skipped and skipped == len(results) else 0
 
 
 if __name__ == "__main__":

@@ -123,7 +123,7 @@ class GateTest(unittest.TestCase):
 
     def manifest_rows(self, **rows):
         upload.write_manifest(pd.DataFrame(
-            [(t, "x", str(n), "2026-09-28T00:00:00Z", t, upload.PUBLIC, "") for t, n in rows.items()],  # session 29: migrated_to
+            [(t, "x", str(n), "2026-09-28T00:00:00Z", t, upload.PUBLIC, "", "") for t, n in rows.items()],  # session 29: migrated_to; 206: newest_ts_utc
             columns=upload.MANIFEST_COLS))
 
     def local(self, name, n):
@@ -388,7 +388,7 @@ class GateTest(unittest.TestCase):
     def test_a_table_whose_route_changed_is_uploaded_again(self):
         self.local(INT, 3)
         _, data = upload.split_header(os.path.join(self.out, INT + ".csv"))
-        upload.write_manifest(pd.DataFrame([(INT, upload.sha(data), "3", "t", INT, upload.PUBLIC, "")],
+        upload.write_manifest(pd.DataFrame([(INT, upload.sha(data), "3", "t", INT, upload.PUBLIC, "", "")],
                                            columns=upload.MANIFEST_COLS))
         self.assertEqual(upload.changed_tables(), [INT])
 

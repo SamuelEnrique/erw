@@ -890,16 +890,25 @@ def main(argv=None):
     except Exception:
         tb = ip.redact(traceback.format_exc())
         last = tb.strip().splitlines()[-1]
-        log(f"{NAME} FAILED, no output file written:\n{tb}")
-        print(f"{CONNECTOR} {NAME} FAILED, no output file written: {last}", file=sys.stderr)
-        results = [dict(table=NAME, market="queue", status="failed", detail=last[:300])]
+        why = ip.gap_skip(NAME, last)  # session 206: a known gap on the runner is a skip, not a failure
+        if why:
+            log(f"{NAME} SKIPPED, no output file written: {why}\n{tb}")
+            print(f"{CONNECTOR} {NAME} SKIPPED: {why}")
+            results = [dict(table=NAME, market="queue", status="skipped", detail=why[:300])]
+        else:
+            log(f"{NAME} FAILED, no output file written:\n{tb}")
+            print(f"{CONNECTOR} {NAME} FAILED, no output file written: {last}", file=sys.stderr)
+            results = [dict(table=NAME, market="queue", status="failed", detail=last[:300])]
     if results:
         ip.write_status(CONNECTOR, run_id, results)
-    failures = sum(r["status"] != "ok" for r in results)
-    log(f"done, failures={failures}")
+    failures = sum(r["status"] == "failed" for r in results)
+    skipped = sum(r["status"] == "skipped" for r in results)
+    log(f"done, failures={failures}, skipped={skipped}")
     log.close()
     print(f"{CONNECTOR} run log: {rel(log.path)}")
-    return 1 if failures else 0
+    if failures:
+        return 1
+    return ip.skip_exit() if skipped and skipped == len(results) else 0
 
 
 if __name__ == "__main__":

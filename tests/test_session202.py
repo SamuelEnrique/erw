@@ -468,10 +468,13 @@ class TheCausesThatWereCode(unittest.TestCase):
         self.assertFalse(ns["own_first_line"]([note, "source: x"]))
         self.assertFalse(ns["own_first_line"]([]))
 
-    def test_the_connectors_are_as_they_were(self):
-        # the chain's rule: a session does not touch the connectors. Rows 9 and 10 are a patch a person applies.
-        self.assertIn(r'native_load_(\d{4})\.(?:zip|xlsx|xls)', src("warehouse", "connectors", "ercot_zone_load.py"))
-        self.assertNotIn("EmptyDataError", src("warehouse", "connectors", "iso_prices.py").split("def rtm_hourly(day):")[1][:1500])
+    def test_the_connectors_carry_the_patch_the_owner_applied(self):
+        # the chain's rule: a session does not touch the connectors. Rows 9 and 10 were a patch for a person to apply
+        # (docs/state/scheduled_failures_2026-10-12_connectors.patch); session 206 applied it on the owner's ruling of
+        # 12 October 2026 (step 8), so both changes are now in the connectors
+        self.assertIn(r'native_load_(\d{4})[^"/]*\.(?:zip|xlsx|xls)', src("warehouse", "connectors", "ercot_zone_load.py"))
+        self.assertNotIn(r'native_load_(\d{4})\.(?:zip|xlsx|xls)', src("warehouse", "connectors", "ercot_zone_load.py"))
+        self.assertIn("EmptyDataError", src("warehouse", "connectors", "iso_prices.py").split("def rtm_hourly(day):")[1][:1500])
 
 
 class TheRepositorysOwn(unittest.TestCase):

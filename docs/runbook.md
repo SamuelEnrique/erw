@@ -55,7 +55,7 @@ What each step does:
 
 **The Haiku shadow scorer** (`warehouse/news/shadow.py`):
 
-- **Stop it now:** delete the line `SHADOW_MODEL: claude-haiku-4-5` from `.github/workflows/daily-prices.yml` and `roundup.yml`.
+- **Switched off since session 206** (the owner's ruling of 12 October 2026): `SHADOW_MODEL` is no longer set in `.github/workflows/daily-prices.yml`, and the shadow Roundup step is gone from `roundup.yml`; news scoring itself runs on `claude-haiku-4-5` (`NEWS_SCORE_MODEL` in `warehouse/news/score.py`). The shadow steps of `warehouse/run_daily.sh` skip with "SHADOW_MODEL is not set" and spend nothing. To run the shadow again, set `SHADOW_MODEL` in the daily workflow's environment and move the expiry.
 - **It stops by itself** on the `expires` date in `warehouse/config/shadow.yaml`.
 - **Recipients:** `SHADOW_RECIPIENT` (a repository secret, optional), else `DIGEST_RECIPIENTS`. Never subscribers.
 - **Agreement with the published scores:** `python warehouse/news/shadow_agreement.py`.

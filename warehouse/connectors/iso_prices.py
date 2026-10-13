@@ -99,6 +99,53 @@ def paused_rows():
     return pd.read_csv(PAUSED_FILE, dtype=str, keep_default_na=False).to_dict("records")
 
 
+# Session 206 (the owner's ruling of 12 October 2026, docs/state/scheduled_failures_2026-10-12.md rows 13 to 15 and 19):
+# a known gap (warehouse/metadata/known_gaps.csv: a publisher that answers GitHub's runner HTTP 202 with no body, or
+# does not answer it) is still asked from the runner, and when the pull fails there it is recorded as skipped, not
+# failed, and the connector exits skip_exit() (75, the skip exit warehouse/health.py and run_other read). The table is
+# refreshed by the data machine's daily run (warehouse/run_data_machine.sh). On any other machine the failure is a
+# failure, as before: there the gap is not expected.
+KNOWN_GAPS_FILE = os.path.join(ROOT, "warehouse", "metadata", "known_gaps.csv")
+
+
+def known_gap(table):
+    """The row of known_gaps.csv for this table or source (a dict), or None."""
+    if not os.path.exists(KNOWN_GAPS_FILE):
+        return None
+    for r in pd.read_csv(KNOWN_GAPS_FILE, dtype=str, keep_default_na=False).to_dict("records"):
+        if r["table"] == table:
+            return r
+    return None
+
+
+def on_runner():
+    return os.environ.get("GITHUB_ACTIONS") == "true"
+
+
+# What a publisher's refusal looks like in a connector's last error line: an HTTP status, a timeout or a connection that
+# did not open, the retries' own words, an answer that is not the document asked for. A connector's own refusal (a row
+# ceiling, a validator, a parse of a document that did arrive) names none of these and stays a failure on the runner too.
+PUBLISHER_REFUSAL = re.compile(r"HTTP \d{3}|Timeout|Timed out|timed out|ConnectionError|Connection refused|Connection reset|"
+                               r"Max retries|failed after \d+ attempts|is not the workbook|answered no|RemoteDisconnected|"
+                               r"NameResolutionError|SSLError", re.I)
+
+
+def gap_skip(table, error):
+    """Why a failed pull of this table is a skip (session 206), or None: on GitHub's runner, a table of known_gaps.csv
+    whose error is the publisher's answer (PUBLISHER_REFUSAL). Anywhere else, for any other table, and for a connector's
+    own refusal (a ceiling, a parse), None: the failure stands."""
+    g = known_gap(table) if on_runner() else None
+    if not g or not PUBLISHER_REFUSAL.search(str(error)):
+        return None
+    return (f"a known gap on the GitHub runner since {g['since']} ({g['decided']}): {str(error)[:160]}; refreshed by the "
+            "data machine's daily run (warehouse/run_data_machine.sh); warehouse/metadata/known_gaps.csv")
+
+
+def skip_exit():
+    """The exit code for a step that decided it should not run: ERW_SKIP_EXIT (warehouse/health.py sets 75), else 75."""
+    return int(os.environ.get("ERW_SKIP_EXIT") or 75)
+
+
 def paused(scope):
     """The pause of a publisher's pulls, as its row of paused_sources.csv (a dict), or None. scope: "miso"."""
     for r in paused_rows():
@@ -1608,8 +1655,17 @@ def pull_isone(ctx):
         if r.status_code != 200 or "csv" not in r.headers.get("Content-Type", ""):
             raise RuntimeError(f"ISO-NE final hourly LMP for {day.date()}: HTTP {r.status_code}, "
                                f"{r.headers.get('Content-Type')}")
-        data = pd.read_csv(io.StringIO(r.content.decode("utf8")), skiprows=[0, 1, 2, 3, 5],
-                           skipfooter=1, engine="python")
+        try:
+            data = pd.read_csv(io.StringIO(r.content.decode("utf8")), skiprows=[0, 1, 2, 3, 5],
+                               skipfooter=1, engine="python")
+        except pd.errors.EmptyDataError:
+            data = None
+        if data is None or data.empty:
+            # session 202: since 4 October 2026 the final file of a day ISO-NE has not posted yet answers 200 with no
+            # table, where it answered 404. No final yet: the preliminary report, exactly as the 404 above
+            df = i.get_lmp(date=day, market=Markets.REAL_TIME_HOURLY)
+            df["_source"] = "isone:rt_lmp_hourly_prelim"
+            return df
         data = data.rename(columns={"Location Name": "Location", "Locational Marginal Price": "LMP"})
         data = i._create_interval_start_from_hour_start(data)
         data["Interval Start"] = data.groupby("Location")["Interval Start"].transform(
