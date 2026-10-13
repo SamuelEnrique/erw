@@ -35,7 +35,7 @@ export default function RoundupIndex() {
           ERW&apos;s Roundup is written and sent on Sundays at 23:00 UTC (4 PM Pacific) and covers Monday to Sunday, opening with the
           weekend&apos;s stories; it is committed to <code className="font-mono">docs/roundup/</code>. Until session 23 the weekly brief was
           Energy Week, on Mondays (<code className="font-mono">docs/weekly/</code>). The daily digest, Monday to Friday, is at{" "}
-          <Link href="/digest">/digest</Link>; the chart of the week is on <Link href="/analysis">/analysis</Link>.
+          <Link href="/digest">/digest</Link>; the chart of the week is on <Link href="/research">/research</Link>.
         </p>
       </aside>
     </div>

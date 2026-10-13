@@ -1,5 +1,5 @@
 // Energy Research Warehouse (ERW) site, session 170: human labels for a template's parameter names and values on the
-// /analysis gallery ("ERCOT North Hub", not HB_NORTH). Pure: no fs, so the client gallery and the server page share it.
+// /research gallery ("ERCOT North Hub", not HB_NORTH). Pure: no fs, so the client gallery and the server page share it.
 export const PARAM_WORDS: Record<string, string> = {
   HB_HUBAVG: "ERCOT hub average", HB_NORTH: "ERCOT North Hub", HB_SOUTH: "ERCOT South Hub", HB_WEST: "ERCOT West Hub",
   HB_HOUSTON: "ERCOT Houston Hub", HB_BUSAVG: "ERCOT bus average",

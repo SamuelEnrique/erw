@@ -62,7 +62,7 @@ export default function AnalysisPage() {
                 <FindingCard card={c} />
                 {earlier(c.id).map((old) => (
                   <p key={old.card_id} className="mt-1 text-xs text-muted" data-superseded={old.card_id}>
-                    The earlier single-grid card, kept at its own address: <Link href={`/analysis/card/${old.card_id}`}>{old.title}</Link>.
+                    The earlier single-grid card, kept at its own address: <Link href={`/research/card/${old.card_id}`}>{old.title}</Link>.
                   </p>
                 ))}
               </div>
@@ -81,7 +81,7 @@ export default function AnalysisPage() {
         <RequestForm catalogue={catalogue} listOnly />
       </Section>
       {res ? (
-        <Section title={`This week's results, ${week}`} aside={<Link href={`/analysis/${week}`}>This week&apos;s chart</Link>}>
+        <Section title={`This week's results, ${week}`} aside={<Link href={`/research/${week}`}>This week&apos;s chart</Link>}>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
@@ -132,7 +132,7 @@ export default function AnalysisPage() {
           <ul className="text-sm">
             {weeks.map((w) => (
               <li key={w}>
-                <Link href={`/analysis/${w}`}>{w}</Link>: {a.weeks[w].title}
+                <Link href={`/research/${w}`}>{w}</Link>: {a.weeks[w].title}
               </li>
             ))}
           </ul>

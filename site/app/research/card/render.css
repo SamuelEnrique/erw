@@ -1,4 +1,4 @@
-/* Session 170: the finding card's render frame (scripts/render-cards.mjs photographs /analysis/card/<id>?render=1 at
+/* Session 170: the finding card's render frame (scripts/render-cards.mjs photographs /research/card/<id>?render=1 at
    1080 x 1350 and 1600 x 900). The two fonts are bundled under the SIL Open Font License from public/fonts/ (their
    license files sit beside them); font-display: block, and the renderer fails when either face is not loaded from
    these files, so no render ever goes out in a fallback font. */

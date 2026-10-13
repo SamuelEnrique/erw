@@ -3,7 +3,7 @@
 // it: a series, an event the warehouse holds or a date, a window of days before and after, and a control series.
 // Each input has its default (the catalogue's, computed card on the page) and one Reset. The request is queued like
 // any other (POST /api/analysis, kind run, finding impact_study) and computed by the data machine's worker; the card
-// appears at /analysis/card/<id> when it is done. The form compares nothing itself and recommends nothing.
+// appears at /research/card/<id> when it is done. The form compares nothing itself and recommends nothing.
 import { useContext, useState } from "react";
 import type { CatalogueEntry } from "@/lib/findings";
 import { RequestCard } from "./RequestCard";

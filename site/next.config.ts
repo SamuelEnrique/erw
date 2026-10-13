@@ -64,6 +64,11 @@ const nextConfig: NextConfig = {
   // session 23: Energy Week became the Energy Roundup; the old addresses keep working
   async redirects() {
     return [
+      // session 238 (the owner's task of 12 October 2026): Automated Analysis is Research, at /research. The old address and
+      // the addresses under it (a week's chart, a finding's card) redirect to the same place under /research (a query is
+      // carried over, so a card's chart form or a request's link opens as it did)
+      { source: "/analysis", destination: "/research", permanent: true },
+      { source: "/analysis/:path*", destination: "/research/:path*", permanent: true },
       // session 145: one tool, one page, one address. What a generator earns is /cost-of-power/seller; its second version
       // is folded into it and its address redirects there (a query is carried over)
       { source: "/cost-of-power/seller/v2", destination: "/cost-of-power/seller", permanent: true },

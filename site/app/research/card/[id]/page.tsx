@@ -7,7 +7,7 @@ import "../render.css";
 
 // Session 170: one finding card on its own address, and the frame the renderer photographs (scripts/render-cards.mjs)
 // at 1080 x 1350 and 1600 x 900 with ?render=1: the card alone in the bundled fonts (Source Serif 4 for the title and
-// subtitle, Inter for the rest), nothing else on the page. In review like /analysis.
+// subtitle, Inter for the rest), nothing else on the page. In review like /research.
 export const dynamicParams = false;
 
 export function generateStaticParams() {
@@ -31,13 +31,13 @@ export default async function CardPage({ params, searchParams }: Props) {
     return (
       <div className="finding-render" data-render="1">
         <FindingCard card={c} render />
-        <p className="finding-render-foot">Energy Research Warehouse, erw-flame.vercel.app/analysis</p>
+        <p className="finding-render-foot">Energy Research Warehouse, erw-flame.vercel.app/research</p>
       </div>
     );
   }
   return (
     <>
-      <p className="mb-4 text-sm"><Link href="/analysis">Automated Analysis</Link></p>
+      <p className="mb-4 text-sm"><Link href="/research">Automated Analysis</Link></p>
       <FindingCard card={c} formKey="form" />
     </>
   );

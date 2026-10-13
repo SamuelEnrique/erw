@@ -22,6 +22,9 @@ export type Docs = {
   run_status_eia930: { run_id: string; table: string; market: string; status: string; detail: string }[];
   // session 23: Automated Analysis (docs/analysis/): each week's chart of the week and results, the templates, the gallery
   analysis: Analysis;
+  // session 238: the Digest's chart of each day (docs/digest/charts/<date>.json, session 232): its one fact, its table
+  // and source, for /research. Absent in a bundle built before session 238
+  digest_charts?: Record<string, DigestChart>;
   // session 24: the tool counts by status, from docs/platform-tools.md
   platform: { total: number; yes: number; partial: number; no: number; planned: number };
   // session 21: warehouse/metadata/sources.csv, for /terms
@@ -63,6 +66,13 @@ export type Analysis = {
   gallery: { computed_at?: string; templates: { template: string; title: string; default: string; combos: Record<string, { params: Record<string, unknown>; file: string | null; reason?: string }> }[] };
 };
 export const DOCS = docs as unknown as Docs;
+
+/** Session 238: one day's chart of the Digest, as warehouse/analysis/findings/daily_chart.py recorded it. */
+export type DigestChart = { date: string; title: string; fact: string; table: string; source: string; unit: string; rule: string; rendered_at: string; image: string; proof: boolean };
+/** The days with a chart of the Digest, newest first (session 238). */
+export function digestChartDays(): string[] {
+  return Object.keys(DOCS.digest_charts ?? {}).sort().reverse();
+}
 
 /** The weeks with a chart of the week, newest first (session 23). */
 export function analysisWeeks(): string[] {
@@ -115,6 +125,18 @@ export function render(md: string, repoPath: string): string {
       if (token.type !== "link" && token.type !== "image") return;
       const t = token as Tokens.Link;
       if (!safeHref(t.href)) { t.href = "#"; return; }   // session 177: javascript:, data: and the like go nowhere
+      // session 238: Automated Analysis is Research, at /research. A held document's link to the old address (a Roundup
+      // written before the move) opens the new one, and where the link's words were the address they name the new one
+      if (token.type === "link" && /^\/analysis(?=$|[/?#])/.test(t.href)) {
+        const to = t.href.replace(/^\/analysis/, "/research");
+        if (t.text === t.href && t.tokens?.length === 1 && t.tokens[0].type === "text") {
+          (t.tokens[0] as Tokens.Text).text = to;
+          t.tokens[0].raw = to;
+          t.text = to;
+        }
+        t.href = to;
+        return;
+      }
       if (/^([a-z]+:|#|\/)/i.test(t.href)) return;
       t.href = sitePath(path.posix.normalize(path.posix.join(dir, t.href)));
     },
