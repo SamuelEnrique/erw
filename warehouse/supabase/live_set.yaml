@@ -62,6 +62,11 @@ full:
   - '^storage_(daily_cycle|capacity|buildout_monthly)$'
   # session 32: /emissions (the daily intensity whole; the hourly tables below, last 90 days)
   - '^carbon_intensity_(daily|monthly)$'          # session 34: the monthly table too, whole (about 1,600 rows)
+  # session 245 (the owner's ruling of 12 October 2026): the hourly intensity for at least 13 months, hour by hour, for
+  # the seven ISOs and the US48. It was in the recent window of 35 days below. Its own window is under "select":
+  # 430 days, which is 13 whole calendar months and the month under way whatever the day of the month and EIA's lag of
+  # a few days. About 165,000 rows of its 1.1 million (16 an hour: two variables, eight balancing authorities)
+  - '^carbon_intensity_hourly$'
   # session 34: CAISO's own battery series for /storage, beside EIA-930's (Total batteries only, its own window below)
   - '^caiso_battery_storage$'
   # session 36B: the Historical Event Analyzer's daily table (556 rows); never an hourly history
@@ -146,7 +151,8 @@ recent:
     - '^eia930_(?!daily_)[a-z0-9]+_(demand|generation)$'     # session 29: eia930_all_demand and eia930_all_generation (ba); session 109: not the daily history eia930_daily_demand
     - '^iso_(dam|rtm)_hub_prices$'                 # session 29: the CAISO, ERCOT, MISO and SPP hub prices (market)
     - '^eia930_all_storage$'                       # session 31: EIA-930 battery storage (ba), the recent window
-    - '^(eia930_all_emissions|carbon_intensity_hourly)$'   # session 32: CO2 estimates and hourly intensity, the recent window
+    - '^eia930_all_emissions$'                     # session 32: EIA's CO2 estimates, the recent window (session 245: the
+      # hourly intensity built from them has its own window of 430 days: under "full" above and "select" below)
 
 # Session 16: for a table named here, only these extra columns (beyond the shape's standard
 # columns) and only rows not excluded go to Supabase. energy_projects repeats the rows of the
@@ -181,6 +187,9 @@ select:
   # session 36A: all eight CO2 variables again (the by-fuel and trade six for /ask and the grid pages' chat), the table's
   # recent window (90 days in session 36A at 376.3 MB; 35 days since session 36C)
   carbon_intensity_daily: {days: 100}
+  # session 245: at least 13 months of the hourly intensity (see "full" above). Every row of the window: no hour, no
+  # balancing authority and neither variable is left out
+  carbon_intensity_hourly: {days: 430}
   # session 68: /network's panel reads the last twelve complete months of ba_supply_monthly
   ba_supply_monthly: {days: 430}
   # session 83: /contracts lists contracts by the quarter they were signed; the last 1,000 days of execution dates
