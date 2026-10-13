@@ -60,11 +60,11 @@ export function Library({ items, grids, topics }: { items: LibraryItem[]; grids:
     </div>
   );
   return (
-    <div className="with-index" data-library="1" data-library-shown={shown.length} data-finding-cards={items.length}>
-      <div className="index-side">
-        {row("grid", "grid", grids, grid)}
-        {row("topic", "topic", topics, topic)}
-        <nav aria-label="Card index" data-library-index={shown.length}>
+    <div data-library="1" data-library-shown={shown.length} data-finding-cards={items.length}>
+      {row("grid", "grid", grids, grid)}
+      {row("topic", "topic", topics, topic)}
+      <div className="with-index">
+        <nav className="index-side" aria-label="Card index" data-library-index={shown.length}>
           <p className="index-title">Card index, {shown.length} of {items.length}</p>
           <ol className="index-list">
             {shown.map((i) => (
@@ -75,13 +75,13 @@ export function Library({ items, grids, topics }: { items: LibraryItem[]; grids:
           </ol>
           {shown.length === 0 ? <p className="index-none" data-library-none="1">No card is filed under both. Choose All in one of the two rows.</p> : null}
         </nav>
-      </div>
-      <div className="index-main">
+        <div className="index-main">
         {items.map((i) => (
           <section key={i.id} id={`card-${i.id}`} className="screen-card" hidden={!shown.includes(i)} data-library-card={i.id} data-grids={i.grids.join(" ")} data-topics={i.topics.join(" ")}>
             {i.node}
           </section>
         ))}
+        </div>
       </div>
     </div>
   );

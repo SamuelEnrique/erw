@@ -239,7 +239,7 @@ class TheLibrary(unittest.TestCase):
         card = src("site", "components", "analysis", "FindingCard.tsx")
         for kind, words in (("csv", "data (CSV): not held"), ("python", "Python: not held"), ("stata", "Stata do-file: not held")):
             self.assertIn('{held && !held.%s ? <span className="text-muted" data-not-held="%s">%s</span> : <a href=' % (kind, kind, words), card)
-        self.assertIn("<FindingCard card={c} held={filesHeld(c)} />", src("site", "app", "research", "page.tsx"))
+        self.assertIn("<FindingCard card={c} held={filesHeld(c)} fold />", src("site", "app", "research", "page.tsx"))
         rules = src("site", "lib", "research.ts")
         self.assertIn("const held = new Set(DOCS.findings_files ?? []);", rules)       # the list made at build, not a read of the public folder by a server function
         self.assertIn("findings_files: findingsFiles,", src("site", "scripts", "build-content.mjs"))

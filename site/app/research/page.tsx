@@ -80,7 +80,7 @@ export default function ResearchPage() {
         <p className="card-filed" data-card-filed={c.card_id}>
           Grid: {gridsOf(c).map(gridLabel).join(", ")}. Topic: {topicsOf(c).map(topicLabel).join(", ")}.
         </p>
-        <FindingCard card={c} held={filesHeld(c)} />
+        <FindingCard card={c} held={filesHeld(c)} fold />
         {earlier(c.id).map((old) => (
           <p key={old.card_id} className="mt-1 text-xs text-muted" data-superseded={old.card_id}>
             The earlier single-grid card, kept at its own address: <Link href={`/research/card/${old.card_id}`}>{old.title}</Link>.

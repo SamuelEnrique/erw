@@ -131,7 +131,7 @@ try {
     await click("[data-form-next]");
     let p = await picker();
     check(p.chosen === "lines" && p.count.startsWith("2 of 3"), "Next flips to the second form", `(${p.count})`);
-    check(/research=gas_sets_price/.test(await address()) && /[?&]form=lines/.test(await address()), "the choice lands in the address", `(${await address()})`);
+    check(/[?&]analysis=gas_sets_price/.test(await address()) && /[?&]form=lines/.test(await address()), "the choice lands in the address", `(${await address()})`);
     await click("[data-form-prev]");
     p = await picker();
     check(p.chosen === "bars" && !/[?&]form=/.test(await address()), "Previous flips back to the default, which the address does not carry", `(${await address()})`);
