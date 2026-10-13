@@ -480,8 +480,11 @@ class PagesReadTogether(unittest.TestCase):
         # since the fold is gone (the table is public, /api/download), so the script's second query is its own
         page = src("site", "app", "cost-of-power", "battery", "read.ts")
         self.assertIn('return rest<Row>("series", { select: "variable,ts_utc,value", table_name: `eq.${TABLE}`, entity: `eq.${entity}`,', page)
-        self.assertEqual(page.count("variable: `like.${x.strat}_${x.dur}h_*`, order: \"variable,ts_utc\" }, HOURLY);"), 1)
-        self.assertEqual(page.count("rest<"), 1)                                         # and it makes no other
+        # session 257: the stress days are read again, to name the events of the grid shown (stressRowsOf), with the
+        # script's own second query; until then the filter stood once and read.ts made one read
+        self.assertIn('return rest<StressRow>("series", { select: "variable,ts_utc,value,event", table_name: `eq.${STRESS_TABLE}`, entity: `eq.${entity}`,', page)
+        self.assertEqual(page.count("variable: `like.${x.strat}_${x.dur}h_*`, order: \"variable,ts_utc\" }, HOURLY);"), 2)
+        self.assertEqual(page.count("rest<"), 2)                                         # and it makes no other
         self.assertEqual(src("site", "app", "cost-of-power", "battery", "page.tsx").count("rest<"), 0)
         self.assertIn('query: { select: "variable,ts_utc,value", table_name: `eq.${stack.TABLE}`, entity: `eq.${g.entity}`, variable: `like.${strat}_${dur}h_*`, order: "variable,ts_utc" }', c)
         self.assertIn('query: { select: "variable,ts_utc,value,event", table_name: `eq.${stack.STRESS_TABLE}`, entity: `eq.${g.entity}`, variable: `like.${strat}_${dur}h_*`, order: "variable,ts_utc" }', c)
