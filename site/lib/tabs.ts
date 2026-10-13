@@ -5,7 +5,7 @@
 //   /severance  the calculator (what /severance showed), the lease tool (/severance/lease)
 //   /prices     every hub and zone (what /prices showed), ERCOT (/explorer/ercot-peak-premium)
 //   /demand     as metered and with the weather taken out (session 152), consumption (/consumption)
-//   /deals      the tracker (/deals/v2), the table (what /deals showed), the companies (/companies)
+//   /deals      the deals (what /deals showed), the tracker (/deals/v2), the companies (/companies)
 //   /map        the projects (what /map showed), the resources (/resources)
 //
 // The tab in view is in the address, so a tab can be linked: the first tab is the page's own address, every other is
@@ -22,7 +22,7 @@ export const TABBED = {
   "/severance": { param: "tab", name: "Severance tax", tabs: [["calculator", "Calculator"], ["lease", "Lease"]] },
   "/prices": { param: "tab", name: "Prices", tabs: [["now", "Every hub and zone"], ["ercot", "ERCOT"]] },
   "/demand": { param: "view", name: "Demand", tabs: [["metered", "As metered"], ["weather", "With the weather taken out"], ["consumption", "Consumption"]] },
-  "/deals": { param: "tab", name: "Deals", tabs: [["tracker", "Tracker"], ["table", "Table"], ["companies", "Companies"]] },
+  "/deals": { param: "tab", name: "Deals", tabs: [["deals", "Deals"], ["tracker", "Tracker"], ["companies", "Companies"]] },
   "/map": { param: "tab", name: "Project map", tabs: [["projects", "Projects"], ["resources", "Resources"]] },
 } as const satisfies Record<string, Tabbed>;
 export type TabbedPage = keyof typeof TABBED;
@@ -34,7 +34,7 @@ export const MERGED: Record<string, string> = {
   "/severance/lease": "/severance?tab=lease",
   "/explorer/ercot-peak-premium": "/prices?tab=ercot",
   "/consumption": "/demand?view=consumption",
-  "/deals/v2": "/deals",
+  "/deals/v2": "/deals?tab=tracker",
   "/companies": "/deals?tab=companies",
   "/resources": "/map?tab=resources",
 };

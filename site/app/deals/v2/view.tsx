@@ -1,7 +1,6 @@
-import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { SiteLink as Link } from "@/components/SiteLink";
-import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection } from "@/components/tool/ToolPage";
+import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolSection } from "@/components/tool/ToolPage";
 import duplicates from "@/data/deal_duplicates.json";
 import { deals } from "@/lib/data";
 import {
@@ -16,8 +15,8 @@ import { attempt } from "@/lib/supabase";
 // a story does not give is "not stated", never an estimate. Rows the register warehouse/deals/duplicates.csv names as
 // one deal are shown once (data/deal_duplicates.json). The choices live in the address and the form is a plain GET
 // form, so the page works without JavaScript. The older tracker (/deals) is as it was.
-export const metadata: Metadata = { title: "The deals tracker", robots: { index: false, follow: false } };
-export const dynamic = "force-dynamic";
+// Session 239: the tracker tab of /deals (lib/tabs.ts). What /deals/v2 drew is drawn here, block for block; the page
+// (app/deals/page.tsx) carries the brand, the sheet and the tabs, and /deals/v2 redirects to the tab with its query.
 
 const PAIRS = (duplicates as unknown as { pairs: Pair[] }).pairs;
 const field = "w-full border border-rule bg-white px-2 py-1 text-sm";
@@ -89,7 +88,8 @@ function Choices({ x, all }: { x: Inputs; all: Deal[] }) {
   const views: { id: Inputs["view"]; label: string }[] = [{ id: "", label: "All deals" }, { id: "storage", label: "Storage only" }, { id: "ai", label: "AI power" }];
   const n = (f: (d: Deal) => boolean) => all.filter(f).length;
   return (
-    <form method="get" action="/deals/v2" className="space-y-4 text-sm">
+    <form method="get" action="/deals" className="space-y-4 text-sm">
+      <input type="hidden" name="tab" value="tracker" />
       <div>
         <div className="mb-1 font-semibold" id="view-label">One click</div>
         <div className="grid grid-cols-3 border border-accent" role="group" aria-labelledby="view-label">
@@ -133,18 +133,17 @@ function Choices({ x, all }: { x: Inputs; all: Deal[] }) {
       </label>
       <div className="flex items-baseline gap-3">
         <button type="submit" className="border border-accent bg-accent px-4 py-1.5 text-white">Show</button>
-        <Link href="/deals/v2" scroll={false} className="text-xs">Show every deal</Link>
+        <Link href="/deals?tab=tracker" scroll={false} className="text-xs">Show every deal</Link>
       </div>
     </form>
   );
 }
 
-export default async function DealsTwo({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
-  const sp = await searchParams;
+export async function TrackerView({ sp }: { sp: Record<string, string | undefined> }) {
   const read = await attempt(deals);
   const rows = read.ok ? (read.data as unknown as DealRow[]) : [];
   const all = fold(rows.map(toDeal), PAIRS);
-  const x = inputsOf(Object.fromEntries(Object.entries(sp).map(([k, v]) => [k, typeof v === "string" ? v : undefined])), all);
+  const x = inputsOf(sp, all);
   const shown = select(all, x);
   const c = counts(shown), ca = counts(all);
   const words = selectionWords(x);
@@ -155,8 +154,8 @@ export default async function DealsTwo({ searchParams }: { searchParams: Promise
   const cell = "px-3 py-1.5 align-top";
 
   return (
-    <ToolPage>
-      <ToolHeader title="The deals tracker" crumb={<>Version 2, in review. The tracker as it was: <Link href="/deals" className="underline">/deals</Link></>}
+    <>
+      <ToolHeader title="The deals tracker" crumb={<>The deals as a sortable table: <Link href="/deals" className="underline">Deals</Link>. The companies they name: <Link href="/deals?tab=companies" className="underline">Companies</Link></>}
         lead={<>Power purchases, offtakes, financings and acquisitions in energy, as the news reported them: who, what technology, how large and at what price, where a story says so, each with a link to the story. <strong>These are deals reported in the news the ERW reads, not a complete record of the market.</strong></>} />
       <div className="grid gap-8 lg:grid-cols-[290px_minmax(0,1fr)]">
         <aside>
@@ -265,6 +264,6 @@ export default async function DealsTwo({ searchParams }: { searchParams: Promise
         </div>
       </div>
       <SourceLine tables={["energy_deals"]} note={<>Extracted by <code className="font-mono">warehouse/deals/extract.py</code> from the stories of <code className="font-mono">news_stories</code>; the sentence each deal was read from is outlet text and stays in the internal table. Duplicates: <code className="font-mono">warehouse/deals/duplicates.csv</code>. This page is in review.</>} />
-    </ToolPage>
+    </>
   );
 }
