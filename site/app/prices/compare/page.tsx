@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteLink } from "@/components/SiteLink";
+import { Brand } from "@/components/Brand";  // session 242: the page takes the brand (it was built on ToolPage and carried no wrapper)
 import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import fileJson from "@/data/price_compare.json";
 import { MARKETS, MEASURES, TABLE, choices, href, label, lacking, monthName, ordered, periodName, two, valueOf, type CompareFile, type Row } from "@/lib/pricecompare";
@@ -67,6 +68,7 @@ export default async function Compare({ searchParams }: { searchParams: Promise<
   const noCarbon = [...new Set(rows.filter((r) => r.grid_carbon_intensity === undefined).map((r) => r.grid))];
 
   return (
+    <Brand>
     <ToolPage>
       <ToolHeader title="Where power is cheap"
         lead={<>Every public hub and zone price the warehouse holds, side by side: the average price, how often it falls below zero or climbs above USD 200, how far the dearest hours of the day stand above the cheapest, and how clean the grid behind it is.
@@ -162,5 +164,6 @@ export default async function Compare({ searchParams }: { searchParams: Promise<
         </div>
       </div>
     </ToolPage>
+    </Brand>
   );
 }

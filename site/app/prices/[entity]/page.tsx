@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { notFound } from "next/navigation";
+import { Brand } from "@/components/Brand";  // session 242: the page takes the brand (plain markup; it carried no wrapper)
 import { Cite } from "@/components/Cite";
 import { LineChart, type Line } from "@/components/LineChart";
 import { NoData } from "@/components/NoData";
@@ -61,7 +62,7 @@ export default async function EntityPrices({ params }: PageProps<"/prices/[entit
   ];
 
   return (
-    <>
+    <Brand>
       <p className="text-sm">
         <Link href="/prices">Prices</Link> / {m.iso}
       </p>
@@ -127,6 +128,6 @@ export default async function EntityPrices({ params }: PageProps<"/prices/[entit
         </table>
         <p className="mt-1 text-xs text-muted">Min, mean and max of every interval in the window, USD/MWh, computed on this page from the rows charted above.</p>
       </div>
-    </>
+    </Brand>
   );
 }
