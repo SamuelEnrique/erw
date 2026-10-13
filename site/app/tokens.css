@@ -600,3 +600,7 @@ body:has(.brand-a) header :focus-visible {
 .brand-a label:has(> input[type="checkbox"]) {
   min-height: 24px;
 }
+/* a table header that stays in place while its rows scroll under it keeps the page's white behind it */
+.brand-a thead tr.sticky {
+  background: var(--color-panel);
+}
