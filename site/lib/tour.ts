@@ -16,7 +16,9 @@ export const STOPS: { href: string; title: string; minutes: string; line: string
   {
     href: "/board", title: "The price board", minutes: "about 30 seconds",
     line: "What power is selling for at each grid's main hub right now, day-ahead and real-time, beside gas and oil.",
-    look: "Compare the six hubs' real-time prices with each other and with yesterday's.",
+    // session 261: no count of hubs (the board holds a real-time price for five of its seven: MISO is paused and
+    // PJM's needs a licensed source), and "the day before" for the board's own "Day" column
+    look: "Compare the hubs' real-time prices with each other and with the day before.",
   },
   {
     href: "/events/uri-2021", title: "An event study: Winter Storm Uri", minutes: "about 45 seconds",
