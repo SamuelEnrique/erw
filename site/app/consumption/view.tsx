@@ -1,5 +1,3 @@
-import type { Metadata } from "next";
-import { Related } from "@/components/Related";
 import { Term } from "@/components/Term";
 import { Cite } from "@/components/Cite";
 import { NoData } from "@/components/NoData";
@@ -10,8 +8,9 @@ import { count, price } from "@/lib/format";
 import { STATES } from "@/lib/regions";
 import { attempt } from "@/lib/supabase";
 
-export const revalidate = 3600;
-export const metadata: Metadata = { title: "Consumption by sector" };
+// Session 239: the consumption view of /demand (lib/demandpage.ts, lib/tabs.ts). What /consumption drew is drawn here,
+// block for block; the page (app/demand/page.tsx) carries the brand, the sheet, the tabs and the Related line, and
+// /consumption redirects to the view.
 
 const SALES = "eia_retail_sales_monthly";
 const MER = "eia_sector_energy_consumption_monthly";
@@ -48,7 +47,7 @@ function total(rows: SeriesRow[], entity: string, w: Window, n: number) {
   return r.length === n ? r.reduce((a, x) => a + x.value, 0) : null; // every month present, or no total
 }
 
-export default async function ConsumptionPage() {
+export async function ConsumptionView() {
   const [sales, mer] = await Promise.all([attempt(() => series(SALES, { variable: "retail_sales" })), attempt(() => series(MER, {}))]);
   if (!sales.ok) return <NoData what={SALES} reason={sales.reason} />;
   const rows = sales.data;
@@ -233,7 +232,6 @@ export default async function ConsumptionPage() {
           })()
         )}
       </Section>
-      <Related href="/consumption" />
     </>
   );
 }

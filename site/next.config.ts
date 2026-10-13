@@ -72,6 +72,7 @@ const nextConfig: NextConfig = {
       { source: "/storage/buildout", destination: "/storage?tab=buildout", permanent: true },
       { source: "/storage/owners", destination: "/storage?tab=owners", permanent: true },
       { source: "/severance/lease", destination: "/severance?tab=lease", permanent: true },
+      { source: "/consumption", destination: "/demand?view=consumption", permanent: true },
       { source: "/explorer/ercot-peak-premium", destination: "/prices?tab=ercot", permanent: true },
       // session 145: one tool, one page, one address. What a generator earns is /cost-of-power/seller; its second version
       // is folded into it and its address redirects there (a query is carried over)
