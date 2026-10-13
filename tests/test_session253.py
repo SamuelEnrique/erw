@@ -147,13 +147,16 @@ class TheNote(unittest.TestCase):
             self.assertGreater(len(r[4]), 30, r[0][:50])
         gaps = [r for r in rows if not r[3].startswith("not computed")]
         self.assertEqual(len(gaps), 10)
-        self.assertIn("- These 12 rows are not in the table of \"Cross-checks\" below", s)
-        self.assertIn("10 of them hold a gap", s)
+        # session 257: the ten rows that hold a gap are in the table of "Cross-checks" since then, and the bullet says so
+        # (it said "These 12 rows are not in the table of "Cross-checks" below" and "10 of them hold a gap")
+        self.assertIn("- 10 of these 12 rows hold a gap; the two solar rows of another year hold none.", s)
+        self.assertIn("Since session 257 the ten are also the last ten rows of the table of \"Cross-checks\" below, which the page counts (20, where it counted 10)", s)
         self.assertIn("flip the count from 10 to 20 in three places", s)
 
     def test_the_page_was_not_edited(self):
         page = src("site", "app", "cost-of-power", "seller", "page.tsx")
-        self.assertIn('<span data-checked-against="10">Checked against: 10 published figures (Lazard, the Annual Technology Baseline, EIA).', page)
+        # session 257 edited the page's count, as this session's list said (10 to 20); the peaker's rule is as it was
+        self.assertIn('<span data-checked-against="20">Checked against: 20 published figures (Lazard, the Annual Technology Baseline, EIA, CAISO&apos;s market monitor, Berkeley Lab).', page)
         self.assertIn("const c = g * hr + vom;", src("site", "lib", "merchant.ts"))
 
     def test_no_em_dash_in_what_the_session_wrote(self):

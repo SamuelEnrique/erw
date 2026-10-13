@@ -85,6 +85,7 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/cost-of-power/battery", "/cost-of-power/battery?grid=ercot&dur=2&strat=foresight", "/cost-of-power/battery?grid=ercot&dur=8&strat=dayahead",
   "/cost-of-power/battery?grid=ercot&dur=4&strat=dayahead", "/cost-of-power/battery?grid=caiso&dur=4&strat=foresight", "/cost-of-power/battery?grid=caiso&dur=2&strat=dayahead",
   "/cost-of-power/battery?grid=caiso&dur=8&strat=foresight&mw=250",
+  "/cost-of-power/battery?grid=caiso&dur=4&strat=dayahead",  // session 257: the case the market monitor's fleet is set beside, read from the page's own rows
   // session 60: the Flex Alert scorecard
   "/grid/caiso/alerts",
   // session 237: the Grid tool, one page. Now, Clean and Exchange for each of the eight choices, the Mix and the Network

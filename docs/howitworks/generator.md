@@ -101,7 +101,7 @@ Everything is computed per 1 MW of nameplate and multiplied by the reader's MW a
 
 ## 4. The cross-checks
 
-"Gap" is ours less theirs. The first ten rows are the published figures the page's source line counts ("Checked against: 10 published figures"), read on 2026-10-11. None of them is a real plant's revenue.
+"Gap" is ours less theirs. The first ten rows are published figures the page's source line counts, read on 2026-10-11. Since session 257 the line counts 20 ("Checked against: 20 published figures"): the other ten are CAISO's (its market monitor and Berkeley Lab, read on 2026-10-13), written in the methods note's "Cross-checks" and its section 12.5 and not repeated here. None of them is a real plant's revenue.
 
 | What is compared | Ours | Theirs | Gap | Reason | Where it is written |
 |---|---|---|---|---|---|
@@ -244,7 +244,7 @@ Open the internal view first: `https://erw-flame.vercel.app/internal/unlock?toke
    - **Capital cost** by USD 100 per kW: USD 8.21 million. Point at it: NPV is USD -65.95 million at 1,275 and USD -82.37 million at 1,475.
    - Then **Interest rate** 5.96, **Debt share** 4.10, **Fixed O&M** 4.09, **Degradation** 3.51, **Project life** 1.73, **Hurdle rate** 1.59, **Term of the debt** 1.16, all USD million.
 3. Say: no one step of cost or financing brings USD -74.16 million to zero; the largest moves it by USD 8.21 million. A contract price of USD 58.36 does: that is the PPA row.
-4. Close on the source line at the foot: "Checked against: 10 published figures (Lazard, the Annual Technology Baseline, EIA)." The two downloads, **Every month, CSV** and **The other tables, CSV**, hold the months, the stress days and every capture table.
+4. Close on the source line at the foot: "Checked against: 20 published figures (Lazard, the Annual Technology Baseline, EIA, CAISO's market monitor, Berkeley Lab)." The two downloads, **Every month, CSV** and **The other tables, CSV**, hold the months, the stress days and every capture table.
 
 **With a sixth minute.** `/cost-of-power/seller?asset=peaker`: **Margin over fuel, last twelve months** 48.15 USD/kW at the hub average and 59.58 at the West hub; the toll row reads USD 8.34 per kW-month. `/cost-of-power/seller?asset=battery`: 58.53 USD/kW, energy alone, with a link to What a battery earns.
 

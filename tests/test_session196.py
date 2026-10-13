@@ -19,7 +19,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 EM = chr(0x2014)
 NOTES = {
     "battery_earns_algorithm": ("site/app/cost-of-power/battery/page.tsx", 14),
-    "generator_earns_algorithm": ("site/app/cost-of-power/seller/page.tsx", 10),
+    "generator_earns_algorithm": ("site/app/cost-of-power/seller/page.tsx", 20),   # session 257: 10 until then; the ten more are CAISO's (the note's section 12.5)
     "datacenter_pays_algorithm": ("site/app/cost-of-power/page.tsx", 6),
 }
 FILES = [f"docs/methods/{n}.md" for n in NOTES] + [p for p, _ in NOTES.values()] + [
