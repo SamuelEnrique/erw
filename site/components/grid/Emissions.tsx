@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { Cite } from "@/components/Cite";
 import { LineChart, type Line } from "@/components/LineChart";
@@ -16,10 +15,9 @@ import { CaisoBreakNote } from "@/components/CaisoBreakNote";  // session 73
 // eia930_all_emissions, over EIA-930 generation and demand); the page computes nothing.
 // Session 34: one more block, the monthly intensity since 2018-07 per ISO (carbon_intensity_monthly). Since session 34
 // the denominators are the workbooks' own Demand and Net generation, so every table reaches back to 2018.
-export const metadata: Metadata = { title: "Emissions" };
+// Session 237: this file was app/emissions/page.tsx. /emissions redirects to the Clean view of the Grid tool (/grid,
+// next.config.ts), which draws these three blocks as they were, the grid in view marked in the ranking.
 import { carbonLeftOut, carbonLeftOutMonths, monthRuns, CARBON_HYDRO_GAP } from "@/lib/carbonLeftOut";  // session 118
-
-export const revalidate = 3600;
 
 const T = "carbon_intensity_hourly";
 const TM = "carbon_intensity_monthly"; // session 34
@@ -95,7 +93,7 @@ function Monthly({ rows }: { rows: SeriesRow[] }) {
   );
 }
 
-export default async function Emissions() {
+export async function EmissionsParts({ focus = null }: { focus?: string | null }) {
   const [got, monthly] = await Promise.all([
     attempt(() => series(T, { since: daysAgo(LOOK_BACK_DAYS) })),
     attempt(() => series(TM, { variable: "intensity_generation" })),
@@ -119,7 +117,6 @@ export default async function Emissions() {
   }));
   return (
     <>
-      <h1 className="mb-1 text-3xl">Emissions</h1>
       <CaisoBreakNote />
       <p className="mb-5 max-w-3xl text-sm text-muted">
         How much CO2 each ISO&apos;s power carries, from EIA&apos;s hourly CO2 estimates for EIA-930. <Link href={METHOD}>Method</Link>.
@@ -143,7 +140,7 @@ export default async function Emissions() {
               </thead>
               <tbody>
                 {latest.map((x, i) => (
-                  <tr key={x.entity} className="border-b border-rule">
+                  <tr key={x.entity} className={`border-b border-rule ${x.entity === focus ? "bg-paper font-semibold" : ""}`} data-focus={x.entity === focus ? "1" : undefined}>
                     <td className="py-0.5 pr-2">
                       <span className="text-muted">{i + 1}.</span> {x.label}
                     </td>

@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { SiteLink } from "@/components/SiteLink";
 import { AutoSubmitSelect } from "@/components/AutoSubmit";
 import { Legend } from "@/components/StackedArea";
@@ -8,7 +7,8 @@ import { caisoJoinDay } from "@/lib/caisoJoin";
 import { daysAgo, series } from "@/lib/data";
 import { GRIDS, calName, periodOf } from "@/lib/mix2";
 import { CLEAN, HISTORY, MIX, PLUS, STRESS } from "@/lib/mixdata";
-import { ALL_GRIDS, FACTORS, MAX_GRIDS, NO_GRID_CHOICE, SEASON_NAMES, VIEWS, choiceOf, filtered, gridUse, hrefOf, toggled, type Choice } from "@/lib/mixpage";
+import { ALL_GRIDS, FACTORS, MAX_GRIDS, NO_GRID_CHOICE, SEASON_NAMES, VIEWS, filtered, gridUse, hrefOf, toggled, type Choice } from "@/lib/mixpage";
+import { gridHref } from "@/lib/gridtool";
 import { BAS, STATES } from "@/lib/regions";
 import { attempt } from "@/lib/supabase";
 
@@ -20,8 +20,9 @@ import { attempt } from "@/lib/supabase";
 // Session 168: "Select grids" stands on every view (lib/mixpage.ts gridUse). The seven views that had it compare the
 // grids chosen as before; "Now and by state" and "Wind and solar forecasts" open with every grid, as they did, and draw
 // only the grids chosen once some are; "Since 2001" is by state, so its control is greyed and its hover says why.
-export const revalidate = 3600;
-export const metadata: Metadata = { title: "Energy mix", robots: { index: false, follow: false } };
+// Session 237: this file was app/mix/page.tsx. /mix redirects to the Mix view of the Grid tool (/grid, next.config.ts),
+// which draws this page whole (MixView): its nine views, its controls and its numbers as they were, at addresses
+// under the tool's own (lib/mixpage.ts base). "How clean, and when" is the tool's Clean view (MixClean).
 
 const METHOD = "/data/methods/generation_mix_hourly";
 
@@ -102,6 +103,7 @@ async function NowView({ c }: { c: Choice }) {
   return (
     <>
       <form method="get" className="mb-6 flex flex-wrap items-end gap-4" data-now-form="1">
+        {c.base ? <><input type="hidden" name="view" value="mix" />{chosen ? <input type="hidden" name="grid" value={c.base.grid} /> : null}</> : null}
         {chosen ? (
           <>
             <input type="hidden" name="grids" value={c.shown.join(",")} />
@@ -137,17 +139,17 @@ async function NowView({ c }: { c: Choice }) {
   );
 }
 
-export default async function MixPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
-  const c = choiceOf(await searchParams);
+/** Session 237: the energy mix page, whole, as the Mix view of the Grid tool. */
+export function MixView({ c }: { c: Choice }) {
   return (
     <div className="border border-rule bg-white px-3 py-4 text-ink sm:px-5" data-mix={c.view}>
       <header className="mb-3 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-rule pb-2">
-        <h1 className="font-serif text-3xl text-accent">Energy mix</h1>
+        <h2 className="font-serif text-3xl text-accent">Energy mix</h2>
         <p className="text-xs text-muted"><SiteLink href={METHOD}>Method, sources and gaps</SiteLink></p>
       </header>
-      <nav aria-label="Views" className="mb-3 flex flex-wrap gap-1 text-xs" data-views="1">
+      <nav aria-label="Views of the mix" className="mb-3 flex flex-wrap gap-1 text-xs" data-views="1">
         {VIEWS.map(([k, label]) => (
-          <a key={k} href={hrefOf(c, { view: k })} aria-current={c.view === k ? "page" : undefined} data-view={k} style={{ color: c.view === k ? "#fff" : "var(--color-ink)" }}
+          <a key={k} href={k === "clean" && c.base ? gridHref(c.base.grid, "clean") : hrefOf(c, { view: k })} aria-current={c.view === k ? "page" : undefined} data-view={k} style={{ color: c.view === k ? "var(--color-surface)" : "var(--color-ink)" }}
             className={`border px-2 py-1 no-underline ${c.view === k ? "border-accent bg-accent" : "border-rule bg-white hover:border-accent"}`}>{label}</a>
         ))}
       </nav>
@@ -161,6 +163,20 @@ export default async function MixPage({ searchParams }: { searchParams: Promise<
       {c.view === "supply" ? <SupplyView c={c} /> : null}
       {c.view === "forecast" ? <ForecastView c={c} /> : null}
       {c.view === "history" ? <HistoryView c={c} /> : null}
+    </div>
+  );
+}
+
+/** Session 237: "How clean, and when" (the mix page's view, /mix/clean until session 133), as the Clean view draws it. */
+export function MixClean({ c }: { c: Choice }) {
+  return (
+    <div className="border border-rule bg-white px-3 py-4 text-ink sm:px-5" data-mix="clean">
+      <header className="mb-3 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-rule pb-2">
+        <h2 className="font-serif text-3xl text-accent">How clean, and when</h2>
+        <p className="text-xs text-muted"><SiteLink href={METHOD}>Method, sources and gaps</SiteLink></p>
+      </header>
+      <Controls c={c} />
+      <CleanView c={c} />
     </div>
   );
 }

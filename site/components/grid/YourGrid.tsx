@@ -1,8 +1,5 @@
-import type { Metadata } from "next";
 import { AskErcotLink } from "@/components/AskErcotLink";
-import { AskPanel } from "@/components/ask/AskPanel";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
-import { notFound } from "next/navigation";
 import { Cite } from "@/components/Cite";
 import { InlineSpark } from "@/components/InlineSpark";
 import { LineChart, type Line } from "@/components/LineChart";
@@ -13,7 +10,8 @@ import { ShareBar } from "@/components/ShareBar";
 import { StackedArea } from "@/components/StackedArea";
 import type { SeriesRow, StorageUnit } from "@/lib/data";
 import { count, shown } from "@/lib/format";
-import { FUELS, GRIDS, fuelName, fuelOf, gridOf, load, type GridData } from "@/lib/grid";
+import { FUELS, fuelName, fuelOf, type GridData } from "@/lib/grid";
+import { gridHref } from "@/lib/gridtool";
 import { DOCS, render, type GridConfig } from "@/lib/markdown";
 import { TIER_LABEL, TIER_TITLE } from "@/lib/tiers";
 import { Reliability } from "./Reliability";
@@ -26,15 +24,10 @@ import { carbonLeftOut, carbonLeftOutMonths, monthRuns } from "@/lib/carbonLeftO
 // what is different. Each block renders only when the warehouse holds this grid's rows; otherwise it says so in one
 // line and names where EIA (or the ISO) publishes it. Every number is a row of a live-set table or a sum of rows,
 // each with a check key that site/scripts/check-values.mjs recomputes. The written layer is docs/grids/<slug>.md.
-export const revalidate = 3600;
-export const dynamicParams = false;
-export function generateStaticParams() {
-  return GRIDS.map((g) => ({ iso: g.slug }));
-}
-export async function generateMetadata({ params }: { params: Promise<{ iso: string }> }): Promise<Metadata> {
-  const g = gridOf((await params).iso);
-  return { title: g ? `${g.iso}: your grid` : "Your grid" };
-}
+// Session 237: this file was app/grid/[iso]/page.tsx, the seven grid pages. The Grid tool (/grid, lib/gridtool.ts) is the one
+// page now; /grid/<iso> redirects to it (next.config.ts) and its blocks are drawn by the tool's views: GridNowParts in
+// Now, GridMixParts in Mix, GridCleanParts in Clean. The Ask box is the tool's Ask view (components/grid/AskView.tsx).
+// Nothing a grid page showed is dropped; each block is as it was.
 
 const H = 3_600_000;
 const EIA = (g: GridConfig) => `https://www.eia.gov/electricity/gridmonitor/dashboard/electric_overview/balancing_authority/${g.entity.split(":")[1]}`;
@@ -57,7 +50,7 @@ function Chip({ tier }: { tier: "source" | "derived" | "model_extracted" | "writ
 function NotYet({ what, where, href }: { what: string; where: string; href: string }) {
   return (
     <p className="border border-dashed border-rule bg-panel px-3 py-2 text-sm text-muted" role="status">
-      <span className="font-semibold text-ink">Not in the warehouse yet:</span> {what}. {where}: <a href={href}>{href}</a>.
+      <span className="font-semibold text-ink">Not in the warehouse yet:</span> {what}. {where}: <a href={href} className="break-all">{href}</a>.
     </p>
   );
 }
@@ -401,46 +394,26 @@ function Written({ md, slug }: { md: string; slug: string }) {
   return <div className="prose-erw max-w-3xl text-sm" dangerouslySetInnerHTML={{ __html: render(md, `docs/grids/${slug}.md`) }} />;
 }
 
-export default async function GridPage({ params }: { params: Promise<{ iso: string }> }) {
-  const g = gridOf((await params).iso);
-  if (!g) notFound();
-  const d = await load(g);
+/** Session 237: a grid page's blocks that the Now view draws under its sentence and numbers, in the page's own order. */
+export function GridNowParts({ g, d }: { g: GridConfig; d: GridData }) {
   const md = DOCS.grids[g.slug] ?? "";
   const parts = md.split(/\n(?=## )/).slice(1); // the five sections
   const first = parts[0] ?? "", rest = parts.slice(1).join("\n");
   return (
-    <>
-      <p className="mb-1 text-xs text-muted"><Link href="/grid">Grid</Link> / Your grid</p>
-      <h1 className="mb-1 text-3xl">{g.iso}: {g.name}</h1>
+    <div data-grid-parts="now">
       {g.slug === "ercot" ? <AskErcotLink context={{ view: "/grid/ercot", title: "Your grid: ERCOT", settings: { grid: "ERCOT" } }} /> : null}
       {g.iso === "CAISO" ? <CaisoBreakNote kind="carbon" /> : null}
       <p className="mb-4 max-w-3xl text-sm text-muted">
         Who runs this grid, where its power comes from, what it costs, how clean it is, what is being built and what makes it different. Numbers come
         from the warehouse&apos;s tables, each with its source; the text is written for this page and cites its sources. Times are {g.tz_label} unless marked UTC.
-        {" "}How it trades power with its neighbors: <Link href="/network">the grid network</Link>.
+        {" "}How it trades power with its neighbors: <Link href={gridHref(g.slug, "exchange")}>the exchange</Link> and <Link href={gridHref(g.slug, "network")}>the grid network</Link>.
       </p>
-      <nav aria-label="Other grids" className="mb-5 flex flex-wrap gap-x-3 text-sm">
-        {GRIDS.map((x) => (x.slug === g.slug ? <span key={x.slug} className="text-accent">{x.iso}</span> : <Link key={x.slug} href={`/grid/${x.slug}`}>{x.iso}</Link>))}
-      </nav>
 
+      <Section title="Right now: demand" aside={<Chip tier="source" />}><RightNow g={g} d={d} /></Section>
       <Section title="Who runs this grid" aside={<Chip tier="written" />}>
         <Written md={first.replace(/^## [^\n]*\n/, "")} slug={g.slug} />
       </Section>
-
-      {/* session 137: on ERCOT's page the box answers right below itself (components/ask/AskPanel.tsx); the six other grids keep the form that opens /ask */}
-      {g.slug === "ercot" ? <div className="mb-8"><AskPanel grid="ercot" inputId="ask-grid" showContext={false} context={{ view: "/grid/ercot", title: "Your grid: ERCOT", settings: { grid: "ERCOT" } }} /></div> : (
-      <form action="/ask" method="get" className="mb-8 flex max-w-3xl flex-col gap-2 border border-rule p-3 sm:flex-row sm:items-center">
-        <label htmlFor="ask-grid" className="text-sm font-semibold">Ask {g.iso}</label>
-        <input type="hidden" name="grid" value={g.slug} />
-        <input id="ask-grid" name="q" maxLength={500} placeholder={`For example: what was ${g.iso}'s highest demand this week?`} className="flex-1 border border-rule bg-panel px-3 py-1.5 text-sm" />
-        <button type="submit" className="border border-accent px-3 py-1.5 text-sm text-accent">Ask</button>
-      </form>
-      )}
-
-      <Section title="Right now: demand" aside={<Chip tier="source" />}><RightNow g={g} d={d} /></Section>
-      <Section title="Where the power comes from" aside={<Chip tier="source" />}><Power g={g} d={d} /></Section>
       <Section title="Batteries" aside={<><Chip tier="derived" /></>}><Batteries g={g} d={d} /></Section>
-      <Section title="How clean" aside={<Chip tier="derived" />}><Clean g={g} d={d} /></Section>
       <Section title="What it costs" aside={<Chip tier="derived" />}>
         <Cost g={g} d={d} />
         {/* session 37: the cost-of-power model (PJM's prices are internal, so it has no PJM row) */}
@@ -460,6 +433,21 @@ export default async function GridPage({ params }: { params: Promise<{ iso: stri
       {Object.keys(d.errors).length ? (
         <p className="text-[11px] text-muted">Reads that failed: {Object.entries(d.errors).map(([k, v]) => `${k}: ${v}`).join("; ")}</p>
       ) : null}
+    </div>
+  );
+}
+
+/** Session 237: a grid page's "Where the power comes from", drawn by the Mix view. */
+export function GridMixParts({ g, d }: { g: GridConfig; d: GridData }) {
+  return <Section title="Where the power comes from" aside={<Chip tier="source" />}><Power g={g} d={d} /></Section>;
+}
+
+/** Session 237: a grid page's "How clean", drawn by the Clean view. */
+export function GridCleanParts({ g, d }: { g: GridConfig; d: GridData }) {
+  return (
+    <>
+      {g.iso === "CAISO" ? <CaisoBreakNote kind="carbon" /> : null}
+      <Section title="How clean" aside={<Chip tier="derived" />}><Clean g={g} d={d} /></Section>
     </>
   );
 }

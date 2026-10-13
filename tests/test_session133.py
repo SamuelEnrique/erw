@@ -375,7 +375,7 @@ class ThePage(unittest.TestCase):
         cfg = src("site", "next.config.ts")
         for old, view in (("/mix/v2", "day"), ("/mix/clean", "clean"), ("/mix/stress", "stress")):
             self.assertIn(f'{{ source: "{old}", destination: "/mix?view={view}", permanent: true }}', cfg)
-        self.assertTrue(os.path.exists(os.path.join(SITE, "app", "mix", "page.tsx")))
+        self.assertTrue(os.path.exists(os.path.join(SITE, "components", "grid", "MixView.tsx")))  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
         for gone in ("v2", "clean", "stress"):
             self.assertFalse(os.path.exists(os.path.join(SITE, "app", "mix", gone)), gone)
         for kept in ("mix-original", "mix-v2", "mix-clean", "mix-stress"):
@@ -383,7 +383,7 @@ class ThePage(unittest.TestCase):
         self.assertRegex(src("site", "lib", "release.ts"), r'"/mix":\s*"review"')
 
     def test_the_original_view_keeps_its_filters_and_its_three_sections(self):
-        page = src("site", "app", "mix", "page.tsx")
+        page = src("site", "components", "grid", "MixView.tsx")  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
         for words in ('name="ba"', 'name="state"', "today so far", "hourly mix, last 7 days", "monthly mix since 2001", "<Today ", "<Hourly ", "<Monthly "):
             self.assertIn(words, page, words)
         now = src("site", "components", "mix", "Now.tsx")
@@ -391,7 +391,7 @@ class ThePage(unittest.TestCase):
             self.assertIn(words, now, words)
 
     def test_the_page_face_carries_no_method(self):
-        face = src("site", "app", "mix", "page.tsx") + src("site", "components", "mix", "views.tsx") + src("site", "components", "mix", "Now.tsx")
+        face = src("site", "components", "grid", "MixView.tsx") + src("site", "components", "mix", "views.tsx") + src("site", "components", "mix", "Now.tsx")  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
         shown = re.sub(r"(?m)^\s*//.*$", "", face)
         for word in ("methodology", "limitation", "disputed", "<Fold", "SourceLine", "<Cite", "CaisoBreakNote", "CaisoMixWithheld", "NoData"):
             self.assertNotIn(word, shown, word)
@@ -427,7 +427,7 @@ class ThePage(unittest.TestCase):
     def test_no_em_dash_in_what_the_session_wrote(self):
         for p in (("warehouse", "connectors", "caiso_fuel_supply_history.py"), ("warehouse", "connectors", "caiso_wind_solar_forecast.py"), ("warehouse", "connectors", "ercot_wind_solar_forecast.py"),
                   ("warehouse", "connectors", "nrc_reactor_status.py"), ("warehouse", "connectors", "eia860m_retired_all.py"), ("warehouse", "derived", "mix_views.py"),
-                  ("warehouse", "derived", "mix_profile.py"), ("warehouse", "refresh_mix.sh"), ("site", "app", "mix", "page.tsx"), ("site", "lib", "mixpage.ts"), ("site", "lib", "mixdata.ts"),
+                  ("warehouse", "derived", "mix_profile.py"), ("warehouse", "refresh_mix.sh"), ("site", "components", "grid", "MixView.tsx"), ("site", "lib", "mixpage.ts"), ("site", "lib", "mixdata.ts"),
                   ("site", "components", "mix", "views.tsx"), ("site", "components", "mix", "Charts.tsx"), ("site", "components", "mix", "Now.tsx"), ("site", "scripts", "check-mix.mjs"),
                   ("site", "scripts", "test-mix.mjs"), ("docs", "methods", "generation_mix_hourly.md"), ("tests", "test_session133.py")):
             text = src(*p)

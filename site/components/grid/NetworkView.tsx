@@ -1,14 +1,13 @@
-import type { Metadata } from "next";
 import { SiteLink as Link } from "@/components/SiteLink";
-import { SourceLine, ToolHeader, ToolPage } from "@/components/tool/ToolPage";
+import { SourceLine } from "@/components/tool/ToolPage";
 import snapJson from "@/data/grid_network.json";
 import indexJson from "@/public/network/daily_index.json";
 import { TABLE as SUPPLY_TABLE, supplyOf, type Supply } from "@/lib/basupply";
 import { fetchHourly, pickSnapshot } from "@/lib/network";
 import { completeHour, type DailyIndex } from "@/lib/networkV3";
 import { HOURLY, attempt } from "@/lib/supabase";
-import { Network, type Snapshot } from "./Network";
-import { ISO_BA, liveExtras, supplyRows } from "./data";
+import { Network, type Snapshot } from "@/app/network/Network";
+import { ISO_BA, liveExtras, supplyRows } from "@/app/network/data";
 
 // Session 168 (the owner's instruction of 8 October 2026): version 3 is the network page. This file is version 3's page
 // (app/network/v3/page.tsx, sessions 93, 109 and 124), moved to the tool's own address; /network/v3 redirects here
@@ -25,8 +24,9 @@ import { ISO_BA, liveExtras, supplyRows } from "./data";
 // which pairs have stopped reporting (lib/networkV3.ts completeHour); the replay says when a day holds few pairs or none;
 // the trace covers a day, its month or the year, says how many of its days hold a flow, and traces nothing through
 // Mexico; MISO's hub price is not shown: its panel reads "paused while terms are reviewed".
-export const metadata: Metadata = { title: "The grid network" };
-export const revalidate = 3600;
+// Session 237: this file was app/network/page.tsx. /network redirects to the Network view of the Grid tool (/grid,
+// next.config.ts), which draws this page whole: the component (app/network/Network.tsx), its two lines of freshness and
+// its source line. The component keeps its view in the address under the tool's own words (lib/gridtool.ts: net, node).
 
 const committed = snapJson as unknown as Snapshot;
 const index = indexJson as unknown as DailyIndex;
@@ -34,7 +34,7 @@ const ET = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", mont
 const utc = (t: string) => `${t.slice(0, 16).replace("T", " ")} UTC`;
 const both = (t: string) => `${utc(t)} (${ET.format(new Date(t))} Eastern)`;
 
-export default async function NetworkPage() {
+export async function NetworkView({ keep, node }: { /** the page's own query, kept in the address: "?grid=ercot&view=network" */ keep: string; /** the balancing authority whose panel opens when the address names none */ node: string | null }) {
   const { snap, from } = pickSnapshot(await fetchHourly(HOURLY), committed);
   const isos = Object.entries(ISO_BA);
   const [reads, extras] = await Promise.all([Promise.all(isos.map(([, ba]) => attempt(() => supplyRows(ba)))), liveExtras(snap)]);
@@ -47,11 +47,10 @@ export default async function NetworkPage() {
   const demandTs = snap.nodes.filter((n) => n.iso && n.demand_ts).map((n) => n.demand_ts as string).reduce((a, b) => (b > a ? b : a), "");
   const hourName = (t: string) => `${t.slice(0, 13).replace("T", " ")}:00 UTC`;
   return (
-    <ToolPage>
-      <ToolHeader title="The grid network"
-        lead={<>The {snap.nodes.length} balancing authorities that report to EIA-930 and the power they exchange. Watch a story, replay any day since {index.first.slice(0, 4)}, or
-          click a grid to see who supplies it and trace the power two steps back. The address holds what you are looking at: copy it to share the view.</>} />
-      <Network snap={snap} supply={supply} live={extras} v3={{ index, complete }} />
+    <div data-grid-network="1">
+      <p className="mb-4 max-w-3xl text-base leading-relaxed">The {snap.nodes.length} balancing authorities that report to EIA-930 and the power they exchange. Watch a story, replay any day since {index.first.slice(0, 4)}, or
+          click a grid to see who supplies it and trace the power two steps back. The address holds what you are looking at: copy it to share the view.</p>
+      <Network snap={snap} supply={supply} live={extras} v3={{ index, complete }} page={{ keep, node }} />
       <p className="mt-3 max-w-3xl text-xs text-muted" data-network-source={from}>
         The live week: refreshed {utc(snap.built)}. <span data-newest-complete={complete.hour ?? "none"}>{complete.hour
           ? <>Newest hour complete for every reporting pair: {hourName(complete.hour)} ({complete.reporting} of the week&apos;s {complete.pairs} pairs report; the newest hour of all, {hourName(complete.newest)}, holds {complete.newestPairs} of them).</>
@@ -67,6 +66,6 @@ export default async function NetworkPage() {
       <SourceLine tables={["eia930_all_interchange", "eia930_daily_interchange", "eia930_daily_demand", "eia930_all_demand", "carbon_intensity_hourly", "carbon_intensity_daily", SUPPLY_TABLE,
         "eia930_event_hourly_interchange", "eia930_all_storage", "caiso_battery_storage"]}
         note={<>Public domain (EIA) and CAISO; hub prices as each ISO publishes them. <Link href="/data/methods/grid_network">Method</Link>.</>} />
-    </ToolPage>
+    </div>
   );
 }

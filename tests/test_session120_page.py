@@ -31,7 +31,7 @@ PAGE = ("site", "app", "cost-of-power", "battery", "awards", "page.tsx")
 SECTION = ("site", "app", "cost-of-power", "battery", "awards", "RealTime.tsx")
 LIB = ("site", "lib", "storagerealtime.ts")
 LIVE = ["site/app/cost-of-power/battery/page.tsx", "site/app/cost-of-power/battery/BatteryForm.tsx", "site/app/cost-of-power/battery/Contract.tsx",
-        "site/app/page.tsx", "site/app/storage/page.tsx", "site/app/network/page.tsx", "site/app/about/page.tsx", "site/app/cost-of-power/seller/page.tsx"]
+        "site/app/page.tsx", "site/app/storage/page.tsx", "site/components/grid/NetworkView.tsx", "site/app/about/page.tsx", "site/app/cost-of-power/seller/page.tsx"]  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
 SERVICES = ["regup", "regdn", "rrs", "ecrs", "nspin"]
 
 
