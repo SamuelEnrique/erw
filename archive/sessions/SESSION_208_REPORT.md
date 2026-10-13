@@ -56,7 +56,8 @@ None piped; outputs under `runs/session208/`.
 | Impeccable's audit (the playbook, run once; `runs/session208/impeccable_audit.md`) | | 16 of 20: two fixes made (controls 32 px tall; a zero-size bar reads "USD 0"), three P3 left for the ruling |
 | `npx eslint` on the changed files | 1 | one error, pre-existing and not of this session: `react-hooks/immutability` on the memo in `Scenarios.tsx` (session 179's lines, unchanged); the build does not lint |
 | `python -m unittest` on the 29 modules that read the battery page, before the pins were moved | 1 | 17 failures, every one a pin of the old defaults or of a section that left the page |
-| the same ten modules after the pins were moved; then the 29 again after the merge (`tests5.out`) | 0 | see "To finish" if the last run was not read before this report was committed |
+| the same ten modules after the pins were moved (`tests2.out` to `tests4.out`) | 0 | 226 tests, then the two last pins moved |
+| the 29 modules again after the merge of `main` (`tests5.out`) | 1 | 587 tests, 1 failure: `test_planner`'s six-headings test read session 209's roadmap edit, made in the main copy while this run went on; not of this branch (session 209's report). Every battery test passed |
 | `scripts/freeze.py status` | 0 | no freeze (not needed: nothing landed) |
 | Whole suite in a clean copy | not run | no landing in this session; the wip branch carries the changed tests. Run it before the landing |
 
@@ -86,7 +87,6 @@ The CSV was fetched three ways in the internal view (the bare address; ERCOT day
 
 ## To finish
 
-- `runs/session208/tests5.out` (the 29 modules after the merge): read its last line; if it is not `OK`, the failure is new since this report.
 - The landing, when approved: `git switch -c task/20N-battery-three-questions wip/203-brand-battery`, `git merge origin/main`, the whole suite in a clean worktree, `npm run build`, `node site/scripts/snapshot-live.mjs take <before>` as its own command, `git push`, then `take <after>` and `compare`.
 
 ## The prompt
