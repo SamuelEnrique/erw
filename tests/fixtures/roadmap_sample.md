@@ -33,6 +33,10 @@ Energy Research Warehouse (ERW). A filled-in copy of `docs/roadmap.md`, so that 
    - where: /cost-of-power/seller
    - done: check-seller.mjs passes
 
+## Backlog
+
+- A page that says which strategy earned more in each month.
+
 ## Rulings
 
 - 11 October 2026: a page states what the reader can decide with; it recommends nothing.

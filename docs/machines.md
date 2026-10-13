@@ -780,7 +780,7 @@ python scripts/planner.py draft                      # write queue/next/NNN-plan
 python scripts/planner.py draft --dry-run --roadmap tests/fixtures/roadmap_sample.md --machine sample --role code   # a sample, to see one
 ```
 
-- **`docs/roadmap.md` is its only source of what to do.** Six sections: "Status" (`planner: on` or `off`; `budget: N
+- **`docs/roadmap.md` is its only source of what to do.** Seven sections (six until session 209, which added "Backlog", what is wanted and not yet this week's, between "This week" and "Rulings"; the planner reads nothing from it): "Status" (`planner: on` or `off`; `budget: N
   sessions a day per machine`; `earliest start` and `latest start`, in UTC; `deploy cutoffs`), "This week" (numbered
   items, `N. [ ] title` while open, each with `machine:`, `where:`, `done:`, its `rulings:`, and where wanted
   `session:` lines, `cap:` and `lands:`), "Rulings" and "Holds" (pasted into every planned chain as they stand),
