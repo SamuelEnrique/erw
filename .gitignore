@@ -28,6 +28,9 @@ warehouse/output/*.csv
 # Session 9: run logs belong with the tables they describe; they stay out of git from now on
 # (logs committed before session 9 stay tracked).
 warehouse/output/logs/
+# Session 259: no raw file belongs under warehouse/output (raw source files are in warehouse/raw/). A test's
+# made-up source wrote manifests here, and sessions 237 and 238 committed 35 of them by mistake
+warehouse/output/raw/
 # Session 23: Automated Analysis results of internal templates (never published)
 warehouse/output/analysis_internal/
 # Session 25: the Thesis Builder's saved states and chart images (rebuildable; not published)
