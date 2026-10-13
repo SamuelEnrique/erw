@@ -366,7 +366,7 @@ class TheQueueStep(Folder):
 
 class TheRepositorysOwn(unittest.TestCase):
     def test_the_roadmap_keeps_its_six_headings_and_the_planner_can_read_it(self):
-        # Session 201 filled the template of session 197 with Samuel's roadmap. A person turns the planner on and
+        # Session 201 filled the template of session 197 with Samuel's roadmap; session 209 added the seventh heading, Backlog. A person turns the planner on and
         # off and rewrites the items, so neither is pinned here: only what the planner needs to read the file.
         text = src("docs", "roadmap.md")
         self.assertEqual(tuple(planner.sections(text)), planner.SECTIONS)
