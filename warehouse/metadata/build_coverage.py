@@ -259,6 +259,7 @@ SECTOR_RULES = [
     (r"^clean_energy_(hourly|summary)$", "power;carbon"),  # session 122: the carbon-free share of each grid's generation by hour, month and year (derived)
     (r"^ercot_as_prices_(daily|monthly)$", "power"),  # session 148: ERCOT reserve prices by day and by month (derived), for Ask ERCOT
     (r"^ercot_rtm_price_adders$", "power"),  # session 244: ERCOT's real-time reserve price adders by hour (the ORDC's scarcity signal), from June 2014
+    (r"^scarcity_hours_by_grid$", "power"),  # session 254: each grid's own scarcity signal beside the USD 1,000 price count, by hour, 36 months (derived)
 ]
 
 
