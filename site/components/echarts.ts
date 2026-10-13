@@ -46,17 +46,20 @@ export function loadECharts(): Promise<ECLib> {
   return loading;
 }
 
-/** A design token's value: token("accent") reads --color-accent; a full "var(--x)" or "--x" is read too. */
-export function token(name: string): string {
+/** A design token's value: token("accent") reads --color-accent; a full "var(--x)" or "--x" is read too.
+ * Session 236: `from` is the element the token is read at (a chart's own box), so that a chart inside the brand's
+ * wrapper (components/Brand.tsx) takes the brand's tokens, which are scoped to it; without it, the page's root. */
+export function token(name: string, from?: Element | null): string {
   const v = name.startsWith("var(") ? name.slice(4, -1) : name.startsWith("--") ? name : `--color-${name}`;
-  return getComputedStyle(document.documentElement).getPropertyValue(v).trim() || "#6B665E";
+  return getComputedStyle(from ?? document.documentElement).getPropertyValue(v).trim() || "#6B665E";
 }
 
-/** Axis, grid and text styles from the tokens, shared by every chart. */
-export function baseStyle() {
-  const muted = token("muted"), rule = token("rule"), ink = token("ink"), panel = token("panel");
+/** Axis, grid and text styles from the tokens, shared by every chart. Session 236: with `from` (the chart's box), the
+ * tokens and the text face are the ones in force there. */
+export function baseStyle(from?: Element | null) {
+  const muted = token("muted", from), rule = token("rule", from), ink = token("ink", from), panel = token("panel", from);
   return {
-    textStyle: { fontFamily: "system-ui, sans-serif", color: ink },
+    textStyle: { fontFamily: from ? getComputedStyle(from).fontFamily : "system-ui, sans-serif", color: ink },
     axis: {
       axisLine: { lineStyle: { color: rule } },
       axisTick: { lineStyle: { color: rule } },

@@ -424,19 +424,21 @@ class ThePage(unittest.TestCase):
         cls.lib = src("site", "lib", "datacenter", "finance.ts")
         cls.block = src("site", "app", "cost-of-power", "LoadScenarios.tsx")
         cls.shared = src("site", "components", "decisions", "ScenarioBlock.tsx")   # session 195: the block the three pages share
-        cls.page = src("site", "app", "cost-of-power", "page.tsx")
+        cls.page = src("site", "app", "cost-of-power", "page.tsx") + src("site", "app", "cost-of-power", "model.ts")   # session 213: the page's reads are model.ts
         cls.form = src("site", "app", "cost-of-power", "LoadForm.tsx")
 
     def test_eight_assumptions_and_no_others(self):
-        self.assertIn('export const KEYS: Key[] = ["run", "gpu", "pue", "adder", "growth", "upfront", "life", "hurdle"];', self.lib)
-        self.assertEqual(re.findall(r'(?m)^  (\w+): \{ key: "\w+", letter: "(\w)"', self.lib), list(zip(KEYS, "wgpdeulh")))
+        # session 213: ten, the contract's share (n) and price (c) last, 0 by default; the eight of this session are FINANCE_KEYS
+        self.assertIn('export const KEYS: Key[] = ["run", "gpu", "pue", "adder", "growth", "upfront", "life", "hurdle", "cshare", "cprice"];', self.lib)
+        self.assertIn('export const FINANCE_KEYS: Key[] = ["run", "gpu", "pue", "adder", "growth", "upfront", "life", "hurdle"];', self.lib)
+        self.assertEqual(re.findall(r'(?m)^  (\w+): \{ key: "\w+", letter: "(\w)"', self.lib), list(zip(KEYS + ["cshare", "cprice"], "wgpdeulhnc")))
         for k in KEYS:
             lo, hi = BOUNDS[k]
             spec = re.search(rf'(?m)^  {k}: \{{ key: "{k}".*?min: ([\w.-]+), max: ([\w.-]+), whole: (\w+), swing: ([\d.]+),', self.lib)
             self.assertIsNotNone(spec, k)
             lows = {"FLAT": 0, "FLEX": 1}
             self.assertEqual((float(lows.get(spec.group(1), spec.group(1))), float(lows.get(spec.group(2), spec.group(2))), float(spec.group(4))), (lo, hi, SWING[k]), k)
-        self.assertIn("return { run: load.run === FLEX ? FLEX : FLAT, gpu: load.gpu, pue: load.pue, adder: 0, growth: 0, upfront: 0, life: LIFE, hurdle: HURDLE };", self.lib)
+        self.assertIn("return { run: load.run === FLEX ? FLEX : FLAT, gpu: load.gpu, pue: load.pue, adder: 0, growth: 0, upfront: 0, life: LIFE, hurdle: HURDLE, cshare: 0, cprice: 0 };", self.lib)   # session 213
         self.assertIn("export const LIFE = 20, HURDLE = 9.6;", self.lib)                 # session 196: Lazard's weighted cost
 
     def test_each_default_states_its_source_and_the_uncited_say_so(self):
@@ -501,11 +503,15 @@ class ThePage(unittest.TestCase):
 
     def test_one_tool_one_page_one_address(self):
         d = os.path.join(ROOT, "site", "app", "cost-of-power")
-        self.assertEqual(sorted(x for x in os.listdir(d) if os.path.isdir(os.path.join(d, x))), ["battery", "seller"])
+        # session 213: the two downloads beside the two pages; the block answers the second question, the chart the third; the
+        # contract is two of the block's assumptions (LoadContract.tsx on disk, undrawn)
+        self.assertEqual(sorted(x for x in os.listdir(d) if os.path.isdir(os.path.join(d, x))), ["battery", "months.csv", "seller", "tables.csv"])
         self.assertEqual(self.page.count("<LoadScenarios "), 1)
-        self.assertLess(self.page.index("<ContractResult "), self.page.index("<LoadScenarios "))
-        self.assertLess(self.page.index("<LoadScenarios "), self.page.index('<ToolSection title="Will the power be there"'))
-        self.assertIn('<ToolSection title="Scenarios A and B" id="scenarios">', self.page)
+        self.assertEqual(self.page.count("<LoadSensitivity "), 1)
+        self.assertNotIn("<ContractResult ", self.page)
+        self.assertLess(self.page.index('<ToolSection title="Which option is better?" id="scenarios">'), self.page.index("<LoadScenarios "))
+        self.assertLess(self.page.index("<LoadScenarios "), self.page.index('<ToolSection title="What matters most" id="matters">'))
+        self.assertLess(self.page.index('<ToolSection title="What matters most" id="matters">'), self.page.index("<LoadSensitivity "))
         rel = src("site", "lib", "release.ts")
         self.assertIn('"/cost-of-power": "review",', rel)
         self.assertNotIn("scenarios", re.sub(r"(?m)^\s*//.*$", "", rel).lower())           # no new address
@@ -525,9 +531,9 @@ class ThePage(unittest.TestCase):
         self.assertIn('const KEYS = ["grid", "region", "mw", "run", "n", "pct", "shift", "buy"] as const;', self.form)
         self.assertNotIn('name="gpu"', self.form)
         self.assertNotIn('name="pue"', self.form)
-        self.assertIn('name === "v" || /^[ab][wgpdeulh]$/.test(name)', self.lib)
+        self.assertIn('name === "v" || /^[ab][wgpdeulhnc]$/.test(name)', self.lib)         # session 213: n and c are the contract's
         for own in ("view", "grid", "region", "mw", "run", "n", "pct", "shift", "buy", "gpu", "pue"):
-            self.assertIsNone(re.fullmatch(r"v|[ab][wgpdeulh]", own), own)                # none of the page's own parameters is taken for a scenario's
+            self.assertIsNone(re.fullmatch(r"v|[ab][wgpdeulhnc]", own), own)              # none of the page's own parameters is taken for a scenario's
 
     def test_session_190s_additions_stand(self):
         self.assertEqual(self.page.count("download data-download="), 3)

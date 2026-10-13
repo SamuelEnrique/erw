@@ -509,12 +509,16 @@ class NyisoLoadQueueIsHeld(unittest.TestCase):
         self.assertLess(len(json.dumps(doc)), 4000)   # it held 74 requests in 74 kB
 
     def test_the_face_reads_the_placeholder(self):
+        # session 213: the switch is model.ts's; the placeholder's words and reason are written into the download (tables.csv)
+        # where the megawatts stood; the cell the page drew is grid-cells.tsx, undrawn
         page = src("site", "app", "cost-of-power", "page.tsx")
-        self.assertIn("const NY_SHOWN = NYLOAD.shown !== false && Array.isArray(NYLOAD.rows) && Array.isArray(NYLOAD.zones);", page)
-        self.assertIn('<span key="ny" data-nyload-held="1"><Missing words={NY_HELD_WORDS} why={NY_HELD_WHY} /></span>', page)
-        self.assertIn('{x.grid === "nyiso" && NY_SHOWN ? (', page)
-        self.assertEqual(page.count("<NyLoadCell"), 1)          # only behind the switch
-        self.assertIn("NY_SHOWN ? <NyLoadCell", page)
+        model = src("site", "app", "cost-of-power", "model.ts")
+        tables = src("site", "app", "cost-of-power", "tables.csv", "route.ts")
+        self.assertIn("export const NY_SHOWN = NYLOAD.shown !== false && Array.isArray(NYLOAD.rows) && Array.isArray(NYLOAD.zones);", model)
+        self.assertIn('`${NY_HELD_WORDS}: ${NY_HELD_WHY}`', tables)
+        self.assertIn('if (x.grid === "nyiso" && NY_SHOWN) {', tables)
+        self.assertEqual(page.count("<NyLoadCell"), 0)
+        self.assertIn("export function NyLoadCell", src("site", "app", "cost-of-power", "grid-cells.tsx"))
         self.assertIn('"/cost-of-power": "review"', src("site", "lib", "release.ts").replace("\n", " ").replace("  ", " "))
 
     def test_the_registry_says_internal_and_the_live_set_holds_it(self):

@@ -13,11 +13,19 @@
 // server from its own price files and hands them over (`Way`); nothing here models an hour. The other seven are
 // arithmetic after the model: power per GPU, the overhead ratio, delivery and other charges, the yearly change of
 // prices, the upfront cost, the years counted and the hurdle rate.
+//
+// Session 213 (the owner's chain prompt of 12 October 2026, the battery page's layout): the contract is two more
+// scenario assumptions, its share of the energy and its price per MWh, both 0 by default, so the default is fully
+// merchant and every figure at a share of 0 is what it was. The contracted share of the energy is bought at the
+// contract price in every year counted and pays nothing to the market; the rest pays the market, changing by the
+// yearly rate. The standalone contract panel of session 138 is gone (LoadContract.tsx stays on disk, undrawn).
 
-export type Key = "run" | "gpu" | "pue" | "adder" | "growth" | "upfront" | "life" | "hurdle";
+export type Key = "run" | "gpu" | "pue" | "adder" | "growth" | "upfront" | "life" | "hurdle" | "cshare" | "cprice";
 export type Assumptions = Record<Key, number>;
-/** The eight, in the order the page lists them. */
-export const KEYS: Key[] = ["run", "gpu", "pue", "adder", "growth", "upfront", "life", "hurdle"];
+/** The ten, in the order the page lists them (session 213: the contract's share and price last). */
+export const KEYS: Key[] = ["run", "gpu", "pue", "adder", "growth", "upfront", "life", "hurdle", "cshare", "cprice"];
+/** The eight of session 194. */
+export const FINANCE_KEYS: Key[] = ["run", "gpu", "pue", "adder", "growth", "upfront", "life", "hurdle"];
 /** The two ways a load runs: the values of the assumption `run`. */
 export const FLAT = 0, FLEX = 1;
 
@@ -61,6 +69,13 @@ export const SPECS: Record<Key, Spec> = {
   hurdle: { key: "hurdle", letter: "h", label: "Hurdle rate", unit: "percent a year", min: 0, max: 40, whole: false, swing: 1, swingWords: "1 point",
     short: (v) => `hurdle ${n(v)}%`, words: (v) => `hurdle rate ${n(v)} percent`, plain: n,
     source: `${LAZARD}: "60% debt at an 8% interest rate and 40% equity at a 12% cost". The default is that weighted cost, 0.6 x 8 + 0.4 x 12 = 9.6 percent. It is the cost of capital of a power plant's builder, not a datacenter's own, for which no cited rate is held` },
+  // session 213: the contract
+  cshare: { key: "cshare", letter: "n", label: "Contract share", unit: "percent of the energy", min: 0, max: 100, whole: false, swing: 10, swingWords: "10 points",
+    short: (v) => `contract ${n(v)}%`, words: (v) => `contract share ${n(v)} percent`, plain: n,
+    source: "No contract: the default is fully merchant. A contracted share of the energy is bought at the contract price in every year counted and pays nothing to the market" },
+  cprice: { key: "cprice", letter: "c", label: "Contract price", unit: "USD per MWh", min: 0, max: 1000, whole: false, swing: 1, swingWords: "USD 1 per MWh",
+    short: (v) => `contract USD ${n(v)}/MWh`, words: (v) => `contract price USD ${n(v)} per MWh`, plain: n,
+    source: "No contract: the default is fully merchant. The price is the reader's own term; no published price is held" },
 };
 /** Session 196, the owner's ruling of 11 October 2026: the hurdle rate's default is Lazard's weighted cost of capital,
  * "60% debt at an 8% interest rate and 40% equity at a 12% cost" (its June 2025 report, read 11 October 2026):
@@ -71,7 +86,7 @@ export const LIFE = 20, HURDLE = 9.6;
  * them (session 195: "Your load" no longer holds those two; scenario A does, and sets the headline), and the five the
  * page does not otherwise hold. */
 export function defaultsOf(load: { run: number; gpu: number; pue: number }): Assumptions {
-  return { run: load.run === FLEX ? FLEX : FLAT, gpu: load.gpu, pue: load.pue, adder: 0, growth: 0, upfront: 0, life: LIFE, hurdle: HURDLE };
+  return { run: load.run === FLEX ? FLEX : FLAT, gpu: load.gpu, pue: load.pue, adder: 0, growth: 0, upfront: 0, life: LIFE, hurdle: HURDLE, cshare: 0, cprice: 0 };
 }
 
 /** One value brought inside its bounds, or to the default when it cannot be read. */
@@ -118,11 +133,15 @@ export function scenarioQuery(s: Scenarios, d: Assumptions): [string, string][] 
 }
 /** Whether a parameter name is one of the scenarios' (so that the page's other links can carry or drop it). None of
  * the page's own is two letters long or the one letter `v`: view, grid, region, mw, run, n, pct, shift, buy, gpu, pue. */
-export const isScenarioParam = (name: string) => name === "v" || /^[ab][wgpdeulh]$/.test(name);
+export const isScenarioParam = (name: string) => name === "v" || /^[ab][wgpdeulhnc]$/.test(name);
+/** Session 236: scenario B's own site, `bsite=<grid>:<region>` (absent: B is at the site "Your load" names). It is read
+ * by the server, which computes B's two ways of running from that site's prices (app/cost-of-power/model.ts), so it is
+ * not one of the assumptions the browser rewrites (isScenarioParam is false for it) and it is carried like them. */
+export const SITE_B = "bsite";
 /** The scenarios' parameters of a query string, to append to another address of the page. */
 export function carry(search: string): string {
   const out: string[] = [];
-  for (const [k, v] of new URLSearchParams(search)) if (isScenarioParam(k)) out.push(`${k}=${encodeURIComponent(v)}`);
+  for (const [k, v] of new URLSearchParams(search)) if (isScenarioParam(k) || k === SITE_B) out.push(`${k}=${encodeURIComponent(v)}`);
   return out.length ? `&${out.join("&")}` : "";
 }
 /** The assumptions that differ between A and B, in the page's order. */
@@ -139,10 +158,20 @@ export function differenceWords(a: Assumptions, b: Assumptions): string {
 
 /** The way a scenario runs, or null when that way is not held. */
 export const wayOf = (a: Assumptions, ways: Ways): Way | null => ways[a.run === FLEX ? FLEX : FLAT];
-/** USD per MWh consumed: the market energy of the last twelve months, and the other charges typed. */
-export const price = (a: Assumptions, w: Way) => w.cost / w.energy + a.adder;
-/** A year's cost, USD per MW: the last twelve months' market energy, and the other charges on every MWh consumed. */
-export const bill = (a: Assumptions, w: Way) => w.cost + a.adder * w.energy;
+/** Session 213: the contracted share of the energy, a fraction (0 without the key: an older set of assumptions is read
+ * as fully merchant), and the uncontracted rest. */
+export const contractShare = (a: Assumptions) => (a.cshare ?? 0) / 100;
+export const merchantShare = (a: Assumptions) => 1 - contractShare(a);
+/** The contract's cost a year, USD per MW: the contracted share of the energy at the contract price. 0 with no contract. */
+export const contractYear = (a: Assumptions, w: Way) => contractShare(a) * w.energy * (a.cprice ?? 0);
+/** The market's cost a year, USD per MW, on the uncontracted rest of the energy: the whole of it with no contract. */
+export const marketYear = (a: Assumptions, w: Way) => merchantShare(a) * w.cost;
+/** USD per MWh consumed: the market energy of the last twelve months (the contracted share at its price, session 213),
+ * and the other charges typed. */
+export const price = (a: Assumptions, w: Way) => (marketYear(a, w) + contractYear(a, w)) / w.energy + a.adder;
+/** A year's cost, USD per MW: the last twelve months' market energy (the contracted share at its price), and the other
+ * charges on every MWh consumed. */
+export const bill = (a: Assumptions, w: Way) => marketYear(a, w) + contractYear(a, w) + a.adder * w.energy;
 /** USD per GPU-hour for power: the price, times the GPU's power with its share of the facility's overhead. */
 export const gpuHour = (a: Assumptions, w: Way) => (price(a, w) * a.gpu * a.pue) / 1000;
 /** The GPUs one MW powers. */
@@ -162,8 +191,10 @@ export function offOf(a: Assumptions, w: Way): Off | null {
   return { hours: w.down, mwh, perMwh, perGpuHour: (perMwh * a.gpu * a.pue) / 1000 };
 }
 
-/** The cost of year t (1 is the first), USD per MW: the year's cost, changing by the rate each year after the first. */
-export const costInYear = (a: Assumptions, w: Way, t: number) => bill(a, w) * (1 + a.growth / 100) ** (t - 1);
+/** The cost of year t (1 is the first), USD per MW: the market's cost and the other charges changing by the rate each
+ * year after the first (as before session 213); the contract's cost the same every year, its price being fixed. With
+ * no contract this is the year's cost changing by the rate, to the bit. */
+export const costInYear = (a: Assumptions, w: Way, t: number) => (marketYear(a, w) + a.adder * w.energy) * (1 + a.growth / 100) ** (t - 1) + contractYear(a, w);
 /** The costs, USD per MW, years 0 to the years counted: the upfront cost at year 0 (USD per kW, so times 1,000), then
  * each year's cost. All positive: a cost, not a flow to equity. */
 export function flows(a: Assumptions, w: Way): number[] {
@@ -260,7 +291,9 @@ export function sensitivity(a: Assumptions, ways: Ways): Bar[] {
   const at = (x: Assumptions) => { const w = wayOf(x, ways); return w ? levelGpuHour(x, w) : null; };
   const base = at(a);
   if (base === null) return [];
-  const bars = KEYS.map((k): Bar => {
+  // session 213 (as session 211 on the battery): the contract's two rows only when the scenario holds a contract
+  const keys = contractShare(a) > 0 ? KEYS : FINANCE_KEYS;
+  const bars = keys.map((k): Bar => {
     const s = SPECS[k];
     const side = (dir: -1 | 1): Side | null => {
       const v = Math.round((a[k] + dir * s.swing) * 1e6) / 1e6;

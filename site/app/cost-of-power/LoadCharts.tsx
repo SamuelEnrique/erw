@@ -1,6 +1,8 @@
 "use client";
 // Session 138: the chart of "What a datacenter pays" (/cost-of-power). Every value drawn arrives from the server
 // (page.tsx, lib/datacenter.ts); the chart answers the mouse: each bar shows its year, its figures and the months held.
+// Session 236: the page is on the brand (components/Brand.tsx); the chart's colors and its text face are the tokens in
+// force at its own box (components/echarts.ts, token and baseStyle with an element), so no color is written here.
 import { baseStyle, token, useEChart } from "@/components/echarts";
 
 export type YearBar = { y: string; flat: number | null; per: number | null; complete: boolean; months: number; down: number; foreseen?: number | null };
@@ -8,7 +10,8 @@ const two = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 2,
 
 export function YearCost({ rows, flex, off, label }: { rows: YearBar[]; flex: boolean; off: boolean; label: string }) {
   const box = useEChart((chart) => {
-    const s = baseStyle();
+    const el: Element | null = box.current;
+    const s = baseStyle(el);
     const bar = (key: "flat" | "per", color: string) => rows.map((r) => ({ value: r[key] === null ? null : Math.round((r[key] as number) * 100) / 100,
       itemStyle: { color, opacity: r.complete ? 1 : 0.4 } }));
     chart.setOption({
@@ -27,10 +30,10 @@ export function YearCost({ rows, flex, off, label }: { rows: YearBar[]; flex: bo
       xAxis: { type: "category", data: rows.map((r) => r.y), ...s.axis },
       yAxis: { type: "value", name: "USD/MWh", nameLocation: "middle", nameGap: 40, ...s.axis },
       series: [
-        { name: "Flat load", type: "bar", data: bar("flat", flex ? token("muted") : token("accent")), barMaxWidth: 34 },
-        ...(flex ? [{ name: "This load", type: "bar", data: bar("per", token("accent")), barMaxWidth: 34 },
+        { name: "Flat load", type: "bar", data: bar("flat", flex ? token("muted", el) : token("accent", el)), barMaxWidth: 34 },
+        ...(flex ? [{ name: "This load", type: "bar", data: bar("per", token("accent", el)), barMaxWidth: 34 },
           // session 140: the same load with its hours chosen knowing the year's prices, a mark beside the bars
-          { name: "If perfectly foreseen", type: "scatter", symbol: "diamond", symbolSize: 9, itemStyle: { color: token("ink") },
+          { name: "If perfectly foreseen", type: "scatter", symbol: "diamond", symbolSize: 9, itemStyle: { color: token("ink", el) },
             data: rows.map((r) => (r.foreseen == null ? null : Math.round(r.foreseen * 100) / 100)) }] : []),
       ],
     }, true);

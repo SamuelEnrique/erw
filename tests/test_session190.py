@@ -217,7 +217,11 @@ class TheNote(unittest.TestCase):
         for words in ("return g.mean()[g.size() == 4]", 'x = x.sort_values("rank").drop_duplicates(["entity", "side", "freq", "ts"], keep="first")', 'DAM_VARS = {"lmp_dam", "spp_dam"}'):
             self.assertIn(words, reader)
         page = src("site", "app", "cost-of-power", "page.tsx")
-        self.assertIn("two((tcrf.value * 12000) / 8760)", page)
+        # session 236: the transmission factor's figure is the transmission component of the delivery table, the same
+        # expression in lib/datacenter/delivery.ts (a rate per kW a month times 12,000 over the year's 8,760 hours)
+        delivery = src("site", "lib", "datacenter", "delivery.ts")
+        self.assertIn("export const YEAR_HOURS = 8760;", delivery)
+        self.assertIn("return (r.value * 12000) / YEAR_HOURS;", delivery)
         self.assertIn("two((r.value * 1000) / 8760)", page)
         # the finding of section 11: the two budgets of a year held in part are as the note says they are
         self.assertIn("let left = cap ? shedBudget(x, pay[y].length) : Infinity;", lib)

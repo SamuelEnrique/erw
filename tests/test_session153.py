@@ -268,7 +268,7 @@ class TheSources(unittest.TestCase):
         self.assertIn('import captureJson from "@/data/seller/capture.json";', src("site", "app", "cost-of-power", "seller", "model.ts"))   # session 212: the page's reads are model.ts
         for f in ("ercot", "free_energy", "shares", "worth"):
             self.assertIn(f'from "@/data/curtailment/{f}.json";', src("site", "app", "curtailment", "page.tsx"))
-        self.assertIn('import { DELIVERY, INDEX, yearFiles, type MatrixRow } from "@/lib/datacenterdata";', src("site", "app", "cost-of-power", "page.tsx"))
+        self.assertIn('import { DELIVERY, INDEX, yearFiles } from "@/lib/datacenterdata";', src("site", "app", "cost-of-power", "model.ts"))   # session 213: the page's reads are model.ts
         self.assertNotIn("@/lib/supabase", p)                                            # nothing here reads the database
         self.assertNotIn("fetch(", p)
         self.assertNotIn(DASH, p + src("site", "lib", "chat", "pagelinks.ts") + src("site", "scripts", "test-ask-tables.mjs") + src("site", "scripts", "eval-judge.mjs"))
