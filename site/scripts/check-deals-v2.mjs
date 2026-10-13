@@ -42,7 +42,7 @@ const STATE = `(() => {
 const code = await withBrowser(async ({ go, evaluate, wait, unlock, send, errors }) => {
   await send("Emulation.setDeviceMetricsOverride", { width, height, deviceScaleFactor: 1, mobile: phone });
   await unlock(base);
-  await go(`${base}/deals/v2`);
+  await go(`${base}/deals?tab=tracker`);   // session 239: the tracker is a tab of /deals; /deals/v2 redirects to it
   await wait(`!!document.querySelector('[data-deals-summary]')`, 20000, "the summary sentence");
   let s = await evaluate(STATE);
   ok(s.title === "The deals tracker", "the page is the tracker, not the in-review page", s.title);
@@ -72,16 +72,16 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, send, errors
     ok(s.barSum === s.rows, `${label}: the chart follows`, `${s.barSum}`);
   }
   // the form: a deal type and a year on top of the AI view
-  await evaluate(`(() => { const f = document.querySelector('form[action="/deals/v2"]'); f.querySelector('select[name="type"]').value = 'ppa'; f.querySelector('select[name="year"]').value = '2026'; f.requestSubmit(); })()`);
+  await evaluate(`(() => { const f = document.querySelector('form[action="/deals"]'); f.querySelector('select[name="type"]').value = 'ppa'; f.querySelector('select[name="year"]').value = '2026'; f.requestSubmit(); })()`);
   await wait(`location.search.includes('type=ppa') && location.search.includes('year=2026') && !!document.querySelector('[data-deals-summary]')`, 20000, "the form's address");
   s = await evaluate(STATE);
   ok(/view=ai/.test(s.href) && s.rows === num(s.count) && /AI power, power purchase, 2026/.test(s.sentence), "the form keeps the view and adds its choices", `${s.href}: ${s.count} deals`);
   // a counterparty
-  await go(`${base}/deals/v2?party=Constellation`);
+  await go(`${base}/deals?tab=tracker&party=Constellation`);
   s = await evaluate(STATE);
   ok(s.rows === num(s.count) && s.rows > 0 && s.rows === await evaluate(`[...document.querySelectorAll('tr[data-deal]')].filter((r) => /constellation/i.test(r.children[2].textContent)).length`), "a counterparty shows only its deals", `${s.rows}`);
   // tolling: empty, and said why
-  await go(`${base}/deals/v2?type=tolling`);
+  await go(`${base}/deals/v2?type=tolling`);   // the old address, on purpose: it redirects to the tab with its query
   s = await evaluate(STATE);
   ok(s.rows === 0 && /No deal held matches/.test(s.sentence) && /no tolling type/.test(await evaluate(`document.body.textContent`)), "tolling is empty and the page says why");
   ok(errors.length === 0, "no error in the page", errors.slice(0, 2).join(" | "));

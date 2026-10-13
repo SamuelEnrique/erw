@@ -34,7 +34,7 @@ const val = (e, v, m) => truth.get(`series|${TABLE}|${e}|${v}|${m}-01T00:00:00Z`
 
 for (const grid of GRIDS) {
   for (const measure of ["mw", "mwh"]) {
-    const page = `/storage/buildout?grid=${grid.slug}&measure=${measure}`;
+    const page = `/storage?tab=buildout&grid=${grid.slug}&measure=${measure}`;   // session 239: the build-out is a tab of /storage
     const res = await get(base + page);
     const html = await res.text();
     const text = visible(html);
@@ -80,7 +80,7 @@ for (const grid of GRIDS) {
   }
 }
 // a grid or measure the page does not know falls back to the United States in MW
-const fallback = visible(await (await get(`${base}/storage/buildout?grid=nope&measure=x`)).text());
+const fallback = visible(await (await get(`${base}/storage?tab=buildout&grid=nope&measure=x`)).text());
 check(fallback.includes("The United States has "), "an unknown grid shows the United States");
-console.log(bad ? `${bad} of ${n} checks FAILED` : `/storage/buildout as rendered: ${n} checks pass, ${values} numbers equal the fixture's rows (16 pages)`);
+console.log(bad ? `${bad} of ${n} checks FAILED` : `/storage?tab=buildout as rendered: ${n} checks pass, ${values} numbers equal the fixture's rows (16 pages)`);
 process.exit(bad ? 1 : 0);

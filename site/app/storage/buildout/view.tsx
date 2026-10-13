@@ -33,7 +33,7 @@ export async function BuildoutView({ sp }: { sp: Record<string, string | undefin
         lead={<>Battery storage operating on each US grid, how long it can run, and how it compares with solar, from the monthly generator inventory of the US
           Energy Information Administration. What the batteries do hour by hour is on <Link href="/storage">the fleet</Link>; who owns them is on <Link href="/storage?tab=owners">the owners</Link>.</>}
       />
-      {grid.slug === "ercot" ? <AskErcotLink context={{ view: "/storage?tab=buildout", title: "How much storage has been built", settings: { grid: "ERCOT", measure: MEASURES[measure].label, ...(v ? { inventory: v.newest } : {}) } }} /> : null}
+      {grid.slug === "ercot" ? <AskErcotLink context={{ view: "/storage/buildout", title: "How much storage has been built", settings: { grid: "ERCOT", measure: MEASURES[measure].label, ...(v ? { inventory: v.newest } : {}) } }} /> : null}
       <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
         <aside>
           <InputPanel title="Choose" note="Power is how fast the batteries can discharge. Energy is how much they hold. Energy over power is duration, in hours.">

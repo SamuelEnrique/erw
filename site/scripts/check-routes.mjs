@@ -69,7 +69,12 @@ const PAGES = [
   "/data/methods/generator_earns_algorithm", "/cost-of-power/seller?iso=ercot&asset=solar&hub=HB_WEST",  // session 183: the seller page, every number step by step, and the page priced at another hub (in review)
   "/data/methods/datacenter_pays_algorithm",  // session 190: "What a datacenter pays", every number step by step (in review)
   // session 72 (session 69's finish): the storage build-out, in review
-  "/storage/buildout", "/storage/buildout?grid=ercot&measure=mwh", "/data/methods/storage_buildout",
+  "/storage/buildout", "/storage/buildout?grid=ercot&measure=mwh", "/data/methods/storage_buildout",  // since session 239 the two addresses redirect to /storage?tab=buildout
+  // session 239: six pages hold what thirteen held, each as tabs of one address (lib/tabs.ts). The tabs are asked here;
+  // the old addresses stay in this list, each answering through its redirect (next.config.ts)
+  "/storage?tab=buildout", "/storage?tab=buildout&grid=ercot&measure=mwh", "/storage?tab=owners", "/storage?tab=owners&grid=caiso",
+  "/severance?tab=lease", "/prices?tab=ercot", "/demand?view=consumption", "/deals?tab=tracker", "/deals?tab=tracker&party=Constellation", "/deals?tab=companies",
+  "/map?tab=resources", "/map?tab=resources&on=oil_gas_basins,plants_operating&z=2&c=-101,32", "/deals/v2", "/deals/v2?view=ai", "/seller/v2",
   "/shoulder", "/shoulder?grid=caiso&month=2025-07", "/data/methods/shoulder_hours",  // session 75
   "/contracts", "/contracts?product=capacity",  // session 83
   "/storage/owners", "/storage/owners?grid=caiso", "/storage/owners?grid=isone",  // session 87

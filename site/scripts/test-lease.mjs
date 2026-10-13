@@ -264,7 +264,7 @@ check(has(flags([{ state: "LA", well_id: "z", month: "2027-01", oil_bbl: 900, oi
     check(!m, `no network in ${f}: no fetch, XMLHttpRequest, beacon, socket, server action, form or dynamic import`, m ? m[0] : "");
   }
   // the page's server part reads only the warehouse prices; it passes nothing of the reader's back
-  const page = fs.readFileSync(path.join(here, "..", "app/severance/lease/page.tsx"), "utf-8");
+  const page = fs.readFileSync(path.join(here, "..", "app/severance/lease/view.tsx"), "utf-8");   // session 239: the page file is the view of /severance's lease tab
   check(!/"use server"|searchParams|cookies\(|headers\(/.test(page), "the server page takes no request data (no server action, search parameters, cookies or headers)");
   // session 46: no prefetch on this page: its own links say prefetch={false}; the shared ones (header, nav, footer,
   // citations) are components/SiteLink, which turns prefetch off on /severance/lease

@@ -29,7 +29,7 @@ export async function PeakPremiumView() {
     <>
       <p className="text-sm">Explorer</p>
       <h1 className="mb-1 text-3xl">ERCOT peak premium</h1>
-      <AskErcotLink context={{ view: "/prices?tab=ercot", title: "ERCOT peak premium", settings: { grid: "ERCOT", table: "ercot_peak_premium_annual" } }} />
+      <AskErcotLink context={{ view: "/explorer/ercot-peak-premium", title: "ERCOT peak premium", settings: { grid: "ERCOT", table: "ercot_peak_premium_annual" } }} />
       <p className="mb-2 max-w-3xl">
         How <Term t="ERCOT" first /> real-time prices spread across the day, for each hub and each year since 2015, from ERCOT&apos;s settlement point prices.
       </p>

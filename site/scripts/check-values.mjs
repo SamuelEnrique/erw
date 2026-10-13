@@ -42,9 +42,9 @@ const base = process.argv[2] ?? "http://localhost:3000";
 // gate of a landing is the full run, with the variable unset.
 const ONLY = (process.env.CHECK_VALUES_PAGES ?? "").split(",").map((v) => v.trim()).filter(Boolean);
 const wanted = (page) => !ONLY.length || ONLY.some((pre) => page.startsWith(pre));
-const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/ercot%3AHB_HUBAVG", "/data", "/explorer/ercot-peak-premium", "/deals", "/grid", "/map", "/datacenters", "/roundup",
+const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/ercot%3AHB_HUBAVG", "/data", "/prices?tab=ercot", "/deals", "/deals?tab=tracker", "/deals?tab=companies", "/grid", "/map", "/datacenters", "/roundup",
   // session 18
-  "/mix", "/mix?ba=erco&state=TX", "/curtailment", "/consumption",
+  "/mix", "/mix?ba=erco&state=TX", "/curtailment", "/demand?view=consumption",
   // session 19
   // session 35: the seven grid pages
   "/grid/ercot", "/grid/caiso", "/grid/pjm", "/grid/nyiso", "/grid/isone", "/grid/miso", "/grid/spp",
@@ -75,7 +75,11 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   // session 49: the network's default node card (ERCOT)
   "/network",
   // session 72 (session 69's finish): the storage build-out
-  "/storage/buildout", "/storage/buildout?grid=ercot&measure=mwh", "/storage/buildout?grid=caiso",
+  // session 239: the merged pages are read at the tabs they became (lib/tabs.ts): /prices?tab=ercot was
+  // /explorer/ercot-peak-premium, /demand?view=consumption was /consumption, the three below were /storage/buildout;
+  // the tracker, the companies, the owners, the lease tool and the resource map are read too (they were not before)
+  "/storage?tab=buildout", "/storage?tab=buildout&grid=ercot&measure=mwh", "/storage?tab=buildout&grid=caiso",
+  "/storage?tab=owners", "/severance", "/severance?tab=lease", "/map?tab=resources",
   "/shoulder", "/shoulder?grid=caiso&month=2025-07",  // session 75
   // session 67: what a battery earns: both grids, the three durations, both strategies, another size
   "/cost-of-power/battery", "/cost-of-power/battery?grid=ercot&dur=2&strat=foresight", "/cost-of-power/battery?grid=ercot&dur=8&strat=dayahead",
