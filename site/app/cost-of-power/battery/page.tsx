@@ -1,47 +1,42 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, IBM_Plex_Sans, Source_Serif_4 } from "next/font/google";
 import { AskErcotLink } from "@/components/AskErcotLink";
-import { cookies } from "next/headers";
 import type { ReactNode } from "react";
 import { Num } from "@/components/Num";
 import { SiteLink as Link } from "@/components/SiteLink";
-import { ChartFrame, Fold, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
+import { ChartFrame, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import {
-  CAPACITY_WORDS, COSTS, DEBT, DURATION_WORDS, EVENTS, LEFT_OUT, PRODUCTS, REQUIREMENTS, REVIEW_TABLE, RTE, STRATEGIES, STRESS_TABLE, TABLE, awardsBeside, debtPerMw, gridOf, inputsKey,
-  inputsOf, last36, lastThreeYears, lastTwelve, monthName, monthsOf, outlier, stat, stress, usdShort, years, type AwardsSnapshot, type Inputs, type Month, type Row,
-  type StressRow, type Year,
+  CAPACITY_WORDS, COSTS, DEBT, DURATION_WORDS, LEFT_OUT, PRODUCTS, REVIEW_TABLE, STRATEGIES, TABLE, awardsBeside, debtPerMw, gridOf, inputsKey, inputsOf, last36,
+  lastThreeYears, lastTwelve, monthName, monthsOf, outlier, stat, usdShort, years, type AwardsSnapshot, type Inputs, type Month, type Year,
 } from "@/lib/batterystack";
 import awardsData from "@/data/battery_awards_beside.json";
-import reviewData from "@/data/battery_stack_review.json";
 import stepsData from "@/data/battery_scenario_steps.json";
 import { debtUsd, defaultsOf, isOldParam, isScenarioParam, parseScenarios, stepState, stepsOffered, type StepFile } from "@/lib/battery/finance";
-import { COOKIE, digest } from "@/lib/release";
-import { HOURLY, attempt, rest } from "@/lib/supabase";
+import { attempt } from "@/lib/supabase";
 import { CostTabs } from "../Tabs";
 import { BatteryForm } from "./BatteryForm";
-import { ContractInputs, ContractProvider } from "./Contract";
 import { U, V } from "./nums";
-import { BatteryDecisions, BatteryHeadline, ContractOfA, CoverOfA, Scenarios } from "./Scenarios";
+import { internalView, reviewRows, rowsOf } from "./read";
+import { BatteryDecisions, BatteryHeadline, BatterySensitivity, Scenarios } from "./Scenarios";
 import "./brand.css";
 
 // Session 203, branch wip/203-brand-battery (not on main): the page restyled on the brand, version 0 (docs/brand.md,
 // direction A), for Samuel's review. The three families are loaded here, for this page alone, and every rule is in
-// brand.css, scoped to the class brand-a on the page's wrapper. Structure, sections, density and every number are as
-// they were; the year chart names its series on the chart (the legend's own three words) where it had a legend box.
+// brand.css, scoped to the class brand-a on the page's wrapper. The year chart names its series on the chart (the
+// legend's own three words) where it had a legend box.
 const brandSerif = Source_Serif_4({ variable: "--font-brand-serif", subsets: ["latin"], weight: ["600"] });
 const brandSans = IBM_Plex_Sans({ variable: "--font-brand-sans", subsets: ["latin"], weight: ["400", "500", "600"] });
 const brandMono = IBM_Plex_Mono({ variable: "--font-brand-mono", subsets: ["latin"], weight: ["400", "500"] });
 
 // Session 67: "What a battery earns". What a grid battery of the reader's size and duration earned from energy and
-// from ancillary services together, split hour by hour so nothing is counted twice, and whether that covers its debt,
-// with and without a contract. Every number is computed by lib/batterystack.ts from the rows of battery_stack_monthly
-// and battery_stack_stress_daily (warehouse/derived/battery_stack.py), read from Supabase, and carries a check key
-// (bs|<inputs>|<stat>) that scripts/check-values.mjs recomputes from its own read. The contract terms never leave the
-// browser (Contract.tsx). No capacity price is read: the capacity table is internal and is named nowhere in this page.
+// from ancillary services together, split hour by hour so nothing is counted twice, and whether that covers its debt.
+// Every number is computed by lib/batterystack.ts from the rows of battery_stack_monthly (warehouse/derived/
+// battery_stack.py), read from Supabase, and carries a check key (bs|<inputs>|<stat>) that scripts/check-values.mjs
+// recomputes from its own read. No capacity price is read: the capacity table is internal and is named nowhere here.
 // Session 71: the page leads with the last twelve months (the summary sentence, the first headline number, the first
-// column of the income table, the contract's market lines); the average of every year held follows, and beside it the
-// same average without the one month that is more than a quarter of everything held (ERCOT's February 2021), which stays
-// in every other figure and on the chart. Wording, order and layout only: no number changed.
+// column of the income table); the average of every year held follows, and beside it the same average without the one
+// month that is more than a quarter of everything held (ERCOT's February 2021), which stays in every other figure and
+// on the chart. Wording, order and layout only: no number changed.
 // Session 86: NYISO and SPP are built and in review. A visitor sees them greyed, as before; with the internal cookie
 // they open, and their rows come from data/battery_stack_review.json (battery_stack_review_monthly, held out of the
 // live set so no live number moves), not from Supabase. ISO-NE and MISO are not built: their reserve prices are
@@ -50,49 +45,36 @@ const brandMono = IBM_Plex_Mono({ variable: "--font-brand-mono", subsets: ["lati
 // resources were really awarded, from data/battery_awards_beside.json (warehouse/derived/battery_awards_compare.py; no
 // new read of the live set, check keys bsa|<strategy>_<N>h|<stat>). The lead links the step-by-step note
 // (docs/methods/battery_earns_algorithm.md) and the source line offers the default case hour by hour, with its do-file.
-// No existing number changed.
-// Session 179: one section after the contract, "Scenarios A and B" (Scenarios.tsx): ten assumptions with their cited
-// defaults and Resets, two scenarios on the same seven rows, and a sensitivity chart, all computed in the browser from
-// the months above (lib/battery/finance.ts). The two assumptions inside the model, efficiency and cycles a day, take
-// the steps of data/battery_scenario_steps.json (warehouse/derived/battery_scenario_steps.py) and nothing between.
-// Both scenarios live in the address (two-letter parameters, defaults omitted). Nothing else on the page changed.
-// Session 195: scenario A sets the headline. "Your battery" no longer holds a fixed O&M and annual debt payments of
-// its own: the page's inputs take both from scenario A as the address has it (an older link's `fom` and `ds` are read
-// as A's), and the summary sentence, the three headline numbers, each month's coverage and the contract's coverage
-// follow A in the browser as it is changed (Scenarios.tsx: BatteryHeadline, CoverOfA, ContractOfA). At the defaults
-// every number is what it was. The last twelve months now end with the last complete month in the table
-// (lib/batterystack.ts, lastTwelve). The block itself is the one the three decision pages share
-// (components/decisions/ScenarioBlock.tsx).
+// Session 179: "Scenarios A and B" (Scenarios.tsx): assumptions with their cited defaults and Resets, two scenarios on
+// the same seven rows, and a sensitivity chart, all computed in the browser from the months above
+// (lib/battery/finance.ts). The two assumptions inside the model, efficiency and cycles a day, take the steps of
+// data/battery_scenario_steps.json (warehouse/derived/battery_scenario_steps.py) and nothing between. Both scenarios
+// live in the address (two-letter parameters, defaults omitted).
+// Session 195: scenario A sets the headline. "Your battery" holds no fixed O&M and no annual debt payments of its own:
+// the page's inputs take both from scenario A as the address has it (an older link's `fom` and `ds` are read as A's),
+// and the summary sentence, the three headline numbers and each month's coverage follow A in the browser as it is
+// changed. The last twelve months end with the last complete month in the table (lib/batterystack.ts, lastTwelve).
+// Session 208 (the owner's rulings of 12 October 2026): one page, three questions, nothing folded. (1) "What did it
+// earn?": the headline, the three numbers, the year chart and the income table, unchanged, with one sentence under the
+// table (energy at the hub, not the battery's node; reserves paid and never called) and a CSV of every month.
+// (2) "Is it worth building?": scenarios A and B, with the contract's share and price as scenario assumptions (0 by
+// default, so the default is fully merchant) and the results table. (3) "What matters most": the NPV sensitivity chart
+// with one line on how to read it. Gone from the page: the standalone contract panel and "With your contract"
+// (Contract.tsx stays on disk, undrawn), the "Other grids" table (one line under the grid picker), and the folds
+// "Every month" (the CSV), "Stress days" (the table battery_stack_stress_daily is public) and "What this model cannot
+// see" (docs/methods/battery_earns_algorithm.md, section 4.11). The defaults: hurdle rate 12 percent and debt share 20
+// percent, Lazard's storage cases (lib/battery/finance.ts). At a contract share of 0 every number that stays is what
+// it was.
 export const metadata: Metadata = { title: "What a battery earns" };
 export const dynamic = "force-dynamic";
-
-/** Whether this request carries the internal view's cookie (the proxy's own test: lib/release.ts). */
-async function internalView(): Promise<boolean> {
-  const token = process.env.INTERNAL_COSTS_TOKEN;
-  const have = (await cookies()).get(COOKIE)?.value;
-  return !!token && !!have && have === (await digest(token));
-}
-/** The rows of a grid in review, from the committed snapshot, for one strategy and duration. */
-function reviewRows(grid: string, x: Inputs): Row[] {
-  const g = (reviewData as unknown as { grids: Record<string, { rows: [string, string, number][] }> }).grids[grid];
-  const pre = `${x.strat}_${x.dur}h_`;
-  return (g?.rows ?? []).filter((r) => r[0].startsWith(pre)).map(([variable, ts_utc, value]) => ({ variable, ts_utc, value }));
-}
 
 const METHOD = "/data/methods/battery_stack";
 const ALGORITHM = "/data/methods/battery_earns_algorithm";
 const DISPATCH = "/battery/erw_2026_battery_dispatch.csv", DO_FILE = "/battery/erw_2026_battery_replication.do", MIRROR = "/battery/erw_2026_battery_replication.py";
+const MONTHS_CSV = "/cost-of-power/battery/months.csv";
+const STRESS_DOWNLOAD = "/api/download?table=battery_stack_stress_daily";
 const shortMonth = (m: string) => new Date(`${m}-15T12:00:00Z`).toLocaleString("en-US", { month: "short", year: "numeric", timeZone: "UTC" });
 const ENERGY = "#8C1515", ANCILLARY = "#2E2D29";  // cardinal and Stanford black (app/tokens.css: accent and ink)
-
-async function rowsOf(entity: string, x: Inputs): Promise<Row[]> {
-  return rest<Row>("series", { select: "variable,ts_utc,value", table_name: `eq.${TABLE}`, entity: `eq.${entity}`,
-    variable: `like.${x.strat}_${x.dur}h_*`, order: "variable,ts_utc" }, HOURLY);
-}
-async function stressOf(entity: string, x: Inputs): Promise<StressRow[]> {
-  return rest<StressRow>("series", { select: "variable,ts_utc,value,event", table_name: `eq.${STRESS_TABLE}`, entity: `eq.${entity}`,
-    variable: `like.${x.strat}_${x.dur}h_*`, order: "variable,ts_utc" }, HOURLY);
-}
 
 /** Revenue by year, USD per kW, stacked by stream. A year far above the others (2021 in ERCOT) is drawn to the top of
  * the scale with a break mark and its value written, so the other years stay readable; an incomplete year is hatched. */
@@ -158,15 +140,10 @@ function YearBars({ ys }: { ys: Year[] }) {
   );
 }
 
-// Session 86: the four grids' day-ahead reserve prices are in the warehouse now (session 85), so "not yet in the
-// warehouse" is no longer true of them. No number is shown here either way.
-const OTHER: { grid: string; energy: string; ancillary: string; capacity: string }[] = [
-  { grid: "PJM", energy: "not held, licensed", ancillary: "not yet in the warehouse", capacity: "Held, not shown: publishing requires a license from the market operator" },
-  { grid: "NYISO", energy: "see the seller tab", ancillary: "Held: this page's model of it is in review", capacity: "Held: license under review" },
-  { grid: "ISO-NE", energy: "see the seller tab", ancillary: "Held, not shown: license needed", capacity: "Held, not shown: publishing requires a license from the market operator" },
-  { grid: "MISO", energy: "see the seller tab", ancillary: "Held, not shown: license needed", capacity: "Held, not shown: publishing requires a license from the market operator" },
-  { grid: "SPP", energy: "see the seller tab", ancillary: "Held: this page's model of it is in review", capacity: "No capacity market" },
-];
+/** Session 208: a heading inside one of the three questions (the income table's). */
+function Sub({ children }: { children: ReactNode }) {
+  return <h3 className="mb-3 mt-2 border-t border-rule pt-3 font-serif text-lg">{children}</h3>;
+}
 
 export default async function Battery({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const sp = await searchParams;
@@ -174,12 +151,9 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
   const q = Object.fromEntries(Object.entries(sp).map(([k, v]) => [k, typeof v === "string" ? v : undefined]));
   const asked = inputsOf(q, internal);
   const g = gridOf(asked.grid);
-  // a grid in review is read from the committed snapshot, never from Supabase; it has no stress day (the events are ERCOT's)
-  const [read, readStress] = g.review
-    ? [{ ok: true as const, data: reviewRows(asked.grid, asked) }, { ok: true as const, data: [] as StressRow[] }]
-    : await Promise.all([attempt(() => rowsOf(g.entity!, asked)), attempt(() => stressOf(g.entity!, asked))]);
+  // a grid in review is read from the committed snapshot, never from Supabase
+  const read = g.review ? { ok: true as const, data: reviewRows(asked.grid, asked) } : await attempt(() => rowsOf(g.entity!, asked));
   const rows = read.ok ? read.data : [];
-  const stressRows = readStress.ok ? readStress.data : [];
   const ms: Month[] = monthsOf(rows, asked.strat, asked.dur);
   // session 195: scenario A, as the address has it, sets the page's fixed O&M and annual debt payments
   const steps = stepsData as unknown as StepFile;
@@ -189,7 +163,7 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
   const x: Inputs = { ...asked, fom: A.fom, ds: debtUsd(A, asked.mw) };
   const key = inputsKey(x);
   const held = ms.filter((r) => r.held);
-  const st = (s: string) => stat(rows, stressRows, x, s);
+  const st = (s: string) => stat(rows, [], x, s);
   const ys = years(ms);
   const l12 = lastTwelve(ms);
   const top = outlier(ms);
@@ -197,7 +171,6 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
   const fullYears = ys.filter((r) => r.complete);
   const size = `${x.mw.toLocaleString("en-US")} MW, ${x.dur}-hour`;
   const leftOut = ms.reduce((a, r) => a + r.daysOut, 0), leftAnc = ms.reduce((a, r) => a + r.daysOutAncillary, 0);
-  const events = stress(stressRows, x.strat, x.dur);
   const defaultDs = Math.round(debtPerMw(x.dur) * x.mw);
   const products = PRODUCTS[x.grid];
   const scenarioParams = Object.fromEntries(Object.entries(q).filter(([k, v]) => (isScenarioParam(k) || isOldParam(k)) && v !== undefined).sort(([a], [b]) => a.localeCompare(b))) as Record<string, string>;
@@ -209,29 +182,31 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
   const strategyLine = x.strat === "foresight"
     ? "Perfect foresight: energy at the hourly real-time price and ancillary services at day-ahead prices, all known in advance. An upper bound, not a forecast."
     : "Day-ahead schedule: the battery is scheduled against day-ahead energy and ancillary prices and paid those prices, with no real-time trading. It assumes its offers clear at the day-ahead price.";
+  // the CSV of every month takes the page's own four parameters and scenario A's, as this request has them
+  const monthsQuery = new URLSearchParams();
+  for (const [k, v] of Object.entries(q)) if (v !== undefined && (["grid", "dur", "strat", "mw"].includes(k) || isScenarioParam(k) || isOldParam(k))) monthsQuery.set(k, v);
+  const monthsHref = `${MONTHS_CSV}${monthsQuery.size ? `?${monthsQuery.toString()}` : ""}`;
 
+  // data-no-usage: no usage count on this tool page (the owner's ruling of 11 October 2026; components/Usage.tsx). Until
+  // session 208 the contract panel's promise "sent or stored" silenced the counter; the mark says it outright
   return (
-    <div className={`brand-a ${brandSerif.variable} ${brandSans.variable} ${brandMono.variable}`} data-brand="a">
+    <div className={`brand-a ${brandSerif.variable} ${brandSans.variable} ${brandMono.variable}`} data-brand="a" data-no-usage="1">
     {/* the header and the footer are outside this wrapper: they take the text face by its name */}
     <style>{`body:has(.brand-a) > header, body:has(.brand-a) > footer { font-family: ${brandSans.style.fontFamily}, system-ui, sans-serif; }`}</style>
     <ToolPage>
       <ToolHeader
         title="What a battery earns"
         crumb={<CostTabs active="battery" />}
-        lead={<>What a grid battery earned from energy and from ancillary services together, by year and by stream, and whether that covers its debt, with and without a contract. The battery is split hour by hour between the two, so nothing is counted twice. <Link href={METHOD}>Method</Link>. <Link href={ALGORITHM}>Every number, step by step</Link>.</>}
+        lead={<>What a grid battery earned from energy and from ancillary services together, by year and by stream, whether that covers its debt, and whether it is worth building. The battery is split hour by hour between the two, so nothing is counted twice. <Link href={METHOD}>Method</Link>. <Link href={ALGORITHM}>Every number, step by step</Link>.</>}
       />
       {/* session 92: drawn only in the internal view while /ask/ercot is in review (components/AskErcotLink.tsx) */}
       {x.grid === "ercot" ? <AskErcotLink context={{ view: "/cost-of-power/battery", title: "What a battery earns", settings: { grid: "ERCOT", duration: `${x.dur} hours`, strategy: `${STRATEGIES[x.strat]} (${x.strat})`, size: `${x.mw} MW` } }} /> : null}
-      <ContractProvider>
-       <BatteryDecisions key={`${x.grid}|${x.dur}|${x.strat}|${x.mw}|${JSON.stringify(scenarioParams)}`} ms={ms} mw={x.mw} costs={COSTS[x.dur]} stepCase={stepCase}
-         stepMeta={{ built: steps.built, rte_steps: steps.rte_steps, cycle_steps: steps.cycle_steps }} initial={scenarioParams}>
+      <BatteryDecisions key={`${x.grid}|${x.dur}|${x.strat}|${x.mw}|${JSON.stringify(scenarioParams)}`} ms={ms} mw={x.mw} costs={COSTS[x.dur]} stepCase={stepCase}
+        stepMeta={{ built: steps.built, rte_steps: steps.rte_steps, cycle_steps: steps.cycle_steps }} initial={scenarioParams}>
         <div className="grid gap-8 lg:grid-cols-[290px_minmax(0,1fr)]">
           <aside>
-            <InputPanel title="Your battery" note={<>Debt payments default to {DEBT.share * 100} percent of the capital cost borrowed at {DEBT.rate * 100} percent over {DEBT.life} years: USD {usdShort(defaultDs)} a year for {size}. Costs are Lazard&apos;s Levelized Cost of Energy+ (June 2025), as on the seller tab, scaled to the duration.</>}>
+            <InputPanel title="Your battery" note={<>Debt payments default to {DEBT.share * 100} percent of the capital cost borrowed at {DEBT.rate * 100} percent over {DEBT.life} years: USD {usdShort(defaultDs)} a year for {size}. Costs and the capital structure are Lazard&apos;s Levelized Cost of Energy+ (June 2025), its storage cases, scaled to the duration.</>}>
               <BatteryForm key={key} x={x} internal={internal} />
-            </InputPanel>
-            <InputPanel title="Your contract (optional)">
-              <ContractInputs />
             </InputPanel>
           </aside>
 
@@ -247,23 +222,24 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
               <p className="mb-6 border border-rule bg-paper px-3 py-2 text-sm" role="status">No month is held for this battery in {g.name}.</p>
             ) : (
               <>
-                {/* session 195: the summary sentence and the three headline numbers are scenario A's (Scenarios.tsx) */}
-                <BatteryHeadline ms={ms} x={x} gridName={g.name} gridFrom={g.from} />
+                <div data-question="1">
+                <ToolSection title="What did it earn?" id="earned">
+                  {/* session 195: the summary sentence and the three headline numbers are scenario A's (Scenarios.tsx) */}
+                  <BatteryHeadline ms={ms} x={x} gridName={g.name} gridFrom={g.from} />
 
-                <ChartFrame title="Revenue by year, USD per kW"
-                  note={<>
-                    <span className="mb-1.5 block text-sm text-ink" data-upper-bound="1">
-                      {before2024
-                        ? "This is an upper bound: before 2024 it is mostly payment for holding reserves, to a battery longer than any Texas then had, and 2021 is one week of February. Recent years are the ones to read."
-                        : `This is an upper bound: the battery is assumed to sell as much of its power as reserves as it likes at the posted price, and is never called. ${g.name} is held from ${g.from}, so every year here is a recent one.`}
-                    </span>
-                    {strategyLine} Per kW of rated power. A hatched year holds fewer than twelve months and is not a full year&apos;s revenue.
-                    {broken ? <> {broken.y} is off the scale at <V pre={key} s={`year:${broken.y}:total`} v={st(`year:${broken.y}:total`)} /> USD per kW: Winter Storm Uri, when reserve prices stood near the cap for days.</> : null}</>}>
-                  <YearBars ys={ys} />
-                </ChartFrame>
+                  <ChartFrame title="Revenue by year, USD per kW"
+                    note={<>
+                      <span className="mb-1.5 block text-sm text-ink" data-upper-bound="1">
+                        {before2024
+                          ? "This is an upper bound: before 2024 it is mostly payment for holding reserves, to a battery longer than any Texas then had, and 2021 is one week of February. Recent years are the ones to read."
+                          : `This is an upper bound: the battery is assumed to sell as much of its power as reserves as it likes at the posted price, and is never called. ${g.name} is held from ${g.from}, so every year here is a recent one.`}
+                      </span>
+                      {strategyLine} Per kW of rated power. A hatched year holds fewer than twelve months and is not a full year&apos;s revenue.
+                      {broken ? <> {broken.y} is off the scale at <V pre={key} s={`year:${broken.y}:total`} v={st(`year:${broken.y}:total`)} /> USD per kW: Winter Storm Uri, when reserve prices stood near the cap for days.</> : null}</>}>
+                    <YearBars ys={ys} />
+                  </ChartFrame>
 
-                <ToolSection title="Income by stream" note={<>For {size}, in US dollars, one column for each span. The total is split hour by hour by one optimization a day: in any hour the battery&apos;s power is sold as energy or held as a reserve, never both, so the rows add up with no double counting. Reserves are paid for being held and are assumed never called.
-                  {top ? <> {topName} alone is <V pre={key} s="top_share" v={st("top_share")} /> percent of everything this battery earned in the {held.length} months held. It stays on the chart and in the average of every year held; the last column is that same average without this one month.</> : null}</>}>
+                  <Sub>Income by stream</Sub>
                   {(() => {
                     const cols: { head: string; sub: string; cell: (s: string) => ReactNode; kw: ReactNode }[] = [
                       { head: "Last twelve months, USD", sub: l12 ? `${shortMonth(l12[0].m)} to ${shortMonth(l12[11].m)}` : "not held",
@@ -296,83 +272,40 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
                       the model is <Num check={`bsa|${x.strat}_${x.dur}h|ratio`} raw={beside.ratio}>{two(beside.ratio)}</Num> times the awards. <Link href={ALGORITHM}>How this is counted</Link>.
                     </p>
                   ) : null}
+                  {/* session 208 (ruling 2): one sentence of what the model cannot see; the rest is in the methods note */}
+                  <p className="mt-2 max-w-3xl text-xs text-muted" data-income-note="1">
+                    For {size}, in US dollars, one column for each span. Energy is priced at {g.name}&apos;s {g.at ?? `${g.hub} hub`}, not the battery&apos;s own node; reserves are paid for being held and are assumed never called.
+                    {top ? <> {topName} alone is <V pre={key} s="top_share" v={st("top_share")} /> percent of everything this battery earned in the {held.length} months held; the last column is the same average without that one month.</> : null}
+                    {" "}<Link href={`${ALGORITHM}#cannot-see`}>What else the model cannot see</Link>.
+                  </p>
+                  <p className="mt-2 max-w-3xl text-xs text-muted" data-months-csv="1">
+                    <a href={monthsHref} download>Every month, CSV</a>: energy, ancillary and total for {size}, each month&apos;s coverage at scenario A&apos;s costs, days held and days left out
+                    (<V pre={key} s="out" v={st("out")} /> days in all{leftOut ? `, ${leftAnc} of them for a missing ancillary price` : ""}).
+                    {x.grid === "ercot" ? <> The stress days (Uri, Elliott, the 2023 heat): <a href={STRESS_DOWNLOAD} download>the table, CSV</a>.</> : null}
+                  </p>
                 </ToolSection>
+                </div>
 
-                <ToolSection title="With your contract">
-                  <ContractOfA ms={ms} x={x} />
-                </ToolSection>
-
-                <ToolSection title="Scenarios A and B" id="scenarios">
+                <div data-question="2">
+                <ToolSection title="Is it worth building?" id="scenarios">
                   <Scenarios x={x} costs={COSTS[x.dur]} gridName={g.name} stepMeta={{ built: steps.built, rte_steps: steps.rte_steps, cycle_steps: steps.cycle_steps }} />
                 </ToolSection>
+                </div>
+
+                <div data-question="3">
+                <ToolSection title="What matters most" id="matters">
+                  <BatterySensitivity x={x} costs={COSTS[x.dur]} />
+                </ToolSection>
+                </div>
               </>
             )}
-
-            <ToolSection title="Other grids" note="In words only: no number from a licensed table is shown on this site.">
-              <ToolTable caption="Other grids" words head={["Grid", "Energy", "Ancillary services", "Capacity"]} minWidth={620}
-                rows={OTHER.map((o) => ({ key: o.grid, cells: [o.grid, <span key="e" className="block text-left">{o.energy === "see the seller tab" ? <Link href="/cost-of-power/seller?asset=battery">see the seller tab</Link> : o.energy}</span>, <span key="a" className="block text-left">{o.ancillary}</span>, <span key="c" className="block text-left">{o.capacity}</span>] }))} />
-            </ToolSection>
-
-            <div className="mb-8 border-t border-rule">
-              <Fold title="Every month">
-                <ToolTable caption="Every month" minWidth={640} head={["Month", "Energy, USD", "Ancillary, USD", "Total, USD", "Coverage", "Days held", "Days left out"]}
-                  rows={[...ms].reverse().map((r) => ({
-                    key: r.m, muted: !r.held,
-                    cells: [r.m,
-                      r.total === null ? "" : <U key="e" pre={key} s={`month:${r.m}:energy`} v={st(`month:${r.m}:energy`)} />,
-                      r.total === null ? "" : <U key="a" pre={key} s={`month:${r.m}:ancillary`} v={st(`month:${r.m}:ancillary`)} />,
-                      r.total === null ? "no day held" : <U key="t" pre={key} s={`month:${r.m}:total`} v={st(`month:${r.m}:total`)} />,
-                      r.total === null || !r.held ? "" : <CoverOfA key="c" total={r.total} x={x} />,
-                      `${r.daysHeld} of ${r.daysInMonth}`, String(r.daysOut)],
-                  }))} />
-                <p className="mt-2 max-w-3xl text-xs text-muted">
-                  For {size}. Coverage: the month&apos;s revenue less a month of fixed O&amp;M, over a month of debt payments. A grey month holds fewer than 90 percent of its
-                  days and is shown but not counted; its revenue is the held days&apos; only. A day is left out, never estimated, when an hour of its energy price or of
-                  an ancillary price is not held: <V pre={key} s="out" v={st("out")} /> days in all here{leftOut ? `, ${leftAnc} of them for a missing ancillary price` : ""}.
-                </p>
-              </Fold>
-              <Fold title="Stress days: Uri, Elliott and the 2023 heat">
-                {events.length ? (
-                  <>
-                    <ToolTable caption="Stress days" minWidth={620} head={["Event", "Days held", "Energy, USD", "Ancillary, USD", "Total, USD", "Best day, USD"]}
-                      rows={events.map((e) => ({ key: e.event, cells: [<>{EVENTS[e.event]}<div className="text-xs text-muted">{e.first} to {e.last}</div></>, String(e.days),
-                        <U key="e" pre={key} s={`stress:${e.event}:energy`} v={st(`stress:${e.event}:energy`)} />, <U key="a" pre={key} s={`stress:${e.event}:ancillary`} v={st(`stress:${e.event}:ancillary`)} />,
-                        <U key="t" pre={key} s={`stress:${e.event}:total`} v={st(`stress:${e.event}:total`)} />, <><U pre={key} s={`stress:${e.event}:best`} v={st(`stress:${e.event}:best`)} /> <span className="text-xs text-muted">({e.best.day})</span></>] }))} />
-                    <p className="mt-2 max-w-3xl text-xs text-muted">
-                      For {size}, over each event&apos;s days. A battery&apos;s best days are the grid&apos;s worst, and what it earns in a storm depends on being available in it,
-                      which this model assumes: no outage, no frozen equipment, and reserves that are paid and never called. In an event like Uri held
-                      reserves are called: the battery sells energy and runs down. These figures are what the prices offered, not what a battery could have kept.
-                    </p>
-                  </>
-                ) : (
-                  <p className="max-w-3xl text-sm text-muted">{x.grid === "ercot" ? "No stress day is held for this battery." : `The stress days are ERCOT's. ${g.name}'s ancillary prices are held from ${g.from}, after these events.`}</p>
-                )}
-              </Fold>
-              <Fold title="What this model cannot see">
-                <ul className="max-w-3xl list-disc space-y-1.5 pl-5">
-                  <li><strong>One battery does not move prices.</strong> The battery is a price taker. Ancillary markets are small next to the energy market. A large battery, or a fleet of them, pushes those prices down, so large sizes are overstated, ancillary income most of all.</li>
-                  <li><strong>The hub, not your node.</strong> Energy is priced at {g.name}&apos;s {g.at ?? `${g.hub} hub`}. A battery is paid its own node&apos;s price, which can differ in either direction.</li>
-                  <li><strong>Reserves are never called.</strong> An award pays its capacity price and moves no energy. A real battery that is called sells energy at the real-time price, and must recharge.</li>
-                  <li><strong>No degradation beyond the round trip.</strong> Round-trip efficiency is {RTE * 100} percent, at most one full cycle a day, each day from empty. Capacity fade, augmentation, outages and station power are not modeled.</li>
-                  <li><strong>{STRATEGIES[x.strat]}.</strong> {strategyLine}</li>
-                  <li><strong>Hourly.</strong> Ancillary prices are hourly, so the whole model is. A battery trading the 5- and 15-minute real-time prices can earn more from energy than this shows.</li>
-                  <li><strong>No capacity payment.</strong> {CAPACITY_WORDS[x.grid]}.</li>
-                  <li><strong>How long a reserve must be backed.</strong> The battery must hold stored energy to deliver each upward reserve for the product&apos;s required duration:
-                    <ul className="mt-1 list-disc space-y-0.5 pl-5">
-                      {REQUIREMENTS[x.grid].map((r, i) => <li key={i}>{r.product}: {r.rule}{r.assumed ? `. Assumed: ${r.source === "assumed" ? "the operator's own requirement was not verified, so one hour is used" : r.source}` : ` (${r.source})`}.</li>)}
-                    </ul>
-                  </li>
-                </ul>
-              </Fold>
-            </div>
           </div>
         </div>
-       </BatteryDecisions>
-      </ContractProvider>
+      </BatteryDecisions>
       <SourceLine tables={g.review
         ? [REVIEW_TABLE, "iso_hub_prices_history", ...(x.grid === "nyiso" ? ["nyiso_rtm_zone_prices", "nyiso_dam_zone_prices", "nyiso_as_prices"] : ["iso_rtm_hub_prices", "iso_dam_hub_prices", "spp_as_prices"])]
-        : [TABLE, STRESS_TABLE, ...(x.grid === "ercot" ? ["ercot_all_hub_prices_history", "iso_rtm_hub_prices", "iso_dam_hub_prices", "ercot_as_prices"] : ["iso_hub_prices_history", "iso_rtm_hub_prices", "iso_dam_hub_prices", "caiso_as_prices"])]}
-        note={<>Derived by the ERW from {g.name}&apos;s public prices; {g.review ? "the first table is what this page reads, from the site's own copy of it" : "the first two tables are what this page reads"}. Cost defaults: Lazard, Levelized Cost of Energy+, June 2025. Solar, wind and gas peakers are on <Link href="/cost-of-power/seller">the seller tab</Link>. The default case hour by hour: <a href={DISPATCH} download>CSV</a>, with a <a href={DO_FILE} download>Stata do-file</a> and its <a href={MIRROR} download>Python mirror</a> that rebuild the headline numbers from it. <span data-checked-against="9">Checked against: 9 published figures (Lazard, the Annual Technology Baseline, CAISO&apos;s market monitor, ERCOT&apos;s awards, EIA). <Link href="/data/methods/battery_earns_algorithm#cross-checks">Each comparison, with its gap and the reason</Link>.</span></>} />
+        : [TABLE, ...(x.grid === "ercot" ? ["ercot_all_hub_prices_history", "iso_rtm_hub_prices", "iso_dam_hub_prices", "ercot_as_prices"] : ["iso_hub_prices_history", "iso_rtm_hub_prices", "iso_dam_hub_prices", "caiso_as_prices"])]}
+        note={<>Derived by the ERW from {g.name}&apos;s public prices; {g.review ? "the first table is what this page reads, from the site's own copy of it" : "the first table is what this page reads"}. Cost defaults: Lazard, Levelized Cost of Energy+, June 2025. Solar, wind and gas peakers are on <Link href="/cost-of-power/seller">the seller tab</Link>. The default case hour by hour: <a href={DISPATCH} download>CSV</a>, with a <a href={DO_FILE} download>Stata do-file</a> and its <a href={MIRROR} download>Python mirror</a> that rebuild the headline numbers from it. <span data-checked-against="14">Checked against: 14 published figures (Lazard, the Annual Technology Baseline, CAISO&apos;s market monitor, ERCOT&apos;s awards, EIA, and five published ERCOT battery revenues). <Link href="/data/methods/battery_earns_algorithm#cross-checks">Each comparison, with its gap and the reason</Link>.</span></>} />
     </ToolPage>
     </div>
   );

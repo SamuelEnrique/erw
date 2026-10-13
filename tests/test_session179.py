@@ -34,6 +34,9 @@ STEPS = os.path.join(ROOT, "site", "data", "battery_scenario_steps.json")
 TABLES = os.environ.get("ERW_TABLES_DIR") or os.path.join(ROOT, "warehouse", "output")
 EM = chr(0x2014)
 KEYS = ["capex", "share", "rate", "term", "fom", "rte", "cycles", "deg", "life", "hurdle"]
+# session 208: the contract's share and price are assumptions too, 0 by default; the mirror below leaves them out, and the
+# library reads a missing one as 0, so every case here is a merchant case
+PAGE_KEYS = KEYS + ["cshare", "cprice"]
 FILES = ["warehouse/derived/battery_scenario_steps.py", "site/lib/battery/finance.ts", "site/app/cost-of-power/battery/Scenarios.tsx",
          "site/app/cost-of-power/battery/page.tsx", "site/app/cost-of-power/battery/BatteryForm.tsx",
          "site/scripts/test-battery-finance.mjs", "site/scripts/check-battery-scenarios.mjs", "docs/methods/battery_earns_algorithm.md",
@@ -342,27 +345,35 @@ class ThePage(unittest.TestCase):
         cls.page = src("site", "app", "cost-of-power", "battery", "page.tsx")
 
     def test_ten_assumptions_and_no_others(self):
+        # session 208: twelve, the contract's share and price last
         hit = re.search(r"export const KEYS: Key\[\] = \[(.*?)\];", self.lib)
-        self.assertEqual(re.findall(r'"(\w+)"', hit.group(1)), KEYS)
-        for k in KEYS:
+        self.assertEqual(re.findall(r'"(\w+)"', hit.group(1)), PAGE_KEYS)
+        for k in PAGE_KEYS:
             self.assertEqual(self.lib.count(f'  {k}: {{ key: "{k}", letter: "'), 1, k)
-        self.assertEqual(self.lib.count('{ key: "'), 10)
-        self.assertEqual(self.lib.count(", source: "), 10)
+        self.assertEqual(self.lib.count('{ key: "'), 12)
+        self.assertEqual(self.lib.count(", source: "), 12)
+        self.assertIn('export const isScenarioParam = (name: string) => name === "v" || /^[ab][csrtfeydlhnp]$/.test(name);', self.lib)
 
     def test_the_defaults_and_what_they_cite(self):
         # session 196 (the owner's ruling of 11 October 2026): the degradation and the hurdle rate are cited to Lazard
-        self.assertIn("return { capex: costs.capex, share: 60, rate: 8, term: 20, fom: costs.fom, rte: MODEL.rte, cycles: MODEL.cycles, deg: DEG, life: 20, hurdle: HURDLE };", self.lib)
-        self.assertIn("export const HURDLE = 9.6;", self.lib)
+        # session 208 (the owner's rulings of 12 October 2026): the debt share is Lazard's storage structure (20), the hurdle rate
+        # Lazard's cost of equity (12), and the contract's share and price are assumptions, 0 by default
+        self.assertIn("return { capex: costs.capex, share: SHARE, rate: 8, term: 20, fom: costs.fom, rte: MODEL.rte, cycles: MODEL.cycles, deg: DEG, life: 20, hurdle: HURDLE, cshare: 0, cprice: 0 };", self.lib)
+        self.assertIn("export const HURDLE = 12;", self.lib)
+        self.assertIn("export const SHARE = 20;", self.lib)
         self.assertIn("export const DEG = 2.6;", self.lib)
         self.assertIn("export const MODEL = { rte: 86, cycles: 1 };", self.lib)
         stack = src("site", "lib", "batterystack.ts")
-        self.assertIn("export const DEBT = { share: 0.6, rate: 0.08, life: 20 };", stack)   # the page's own, cited to Lazard
+        self.assertIn("export const DEBT = { share: 0.2, rate: 0.08, life: 20 };", stack)   # the page's own, cited to Lazard's storage cases (session 208)
         self.assertIn("export const RTE = 0.86;", stack)
         note = src("docs", "methods", "cost_of_power.md")
         self.assertIn("86 percent, the low end of Lazard's 92 to 86 percent", note)           # the efficiency steps' range
         self.assertIn('"60% debt at an 8% interest rate"', note)
         # the two defaults no source in the repository gives say so on the page, and are not dressed as cited
-        self.assertIn('"60% debt at an 8% interest rate and 40% equity at a 12% cost". The default is that weighted cost, 0.6 x 8 + 0.4 x 12 = ${HURDLE} percent', self.lib)
+        self.assertIn('"80% equity at a 12% cost" in its storage cases. The default is that cost of equity, ${HURDLE} percent', self.lib)
+        self.assertIn('the storage cases: "20% debt at an 8% interest rate and 80% equity at a 12% cost"', self.lib)
+        for k in ("cshare", "cprice"):
+            self.assertIn("No contract: the default is fully merchant", self.lib.split(f'  {k}: {{ key: "{k}"')[1].split("\n")[1])
         self.assertIn("(LCOS v10.0): battery degradation of 2.6 percent a year in its utility-scale cases of 2 and 4 hours. The model itself has no capacity fade", self.lib)
         self.assertNotIn("No cited rate is held", self.lib)
 
@@ -410,9 +421,16 @@ class ThePage(unittest.TestCase):
                 self.assertNotIn(word, code, word)
 
     def test_the_page_draws_the_block_once_after_the_contract(self):
+        # session 208: one page, three questions; the block answers the second, the chart the third; no contract section
         self.assertEqual(self.page.count("<Scenarios "), 1)
-        self.assertLess(self.page.index("<ContractOfA "), self.page.index("<Scenarios "))   # session 195: the contract at scenario A's costs
-        self.assertLess(self.page.index("<Scenarios "), self.page.index('<ToolSection title="Other grids"'))
+        self.assertEqual(self.page.count("<BatterySensitivity "), 1)
+        for a, b in (('title="What did it earn?"', 'title="Is it worth building?"'), ('title="Is it worth building?"', 'title="What matters most"'),
+                     ("<BatteryHeadline ", "<Scenarios "), ("<Scenarios ", "<BatterySensitivity ")):
+            self.assertLess(self.page.index(a), self.page.index(b))
+        for gone in ("<ContractOfA ", '<ToolSection title="Other grids"', "<Fold ", 'title="With your contract"', "ContractProvider", "Your contract (optional)"):
+            self.assertNotIn(gone, self.page)
+        self.assertIn('chart={null}', self.block)                                        # the block is handed no chart
+        self.assertIn("export function Sensitivity(", self.shared)
         self.assertIn('"/cost-of-power/battery": "review",', src("site", "lib", "release.ts"))
 
     def test_the_other_links_carry_the_scenarios(self):

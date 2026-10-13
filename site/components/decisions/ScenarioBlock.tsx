@@ -83,8 +83,10 @@ function NumberField({ f, value, onValue, read }: { f: Field; value: number; onV
   );
 }
 
-/** The sensitivity chart: one row an assumption, two thin bars from the scenario's own figure, sorted by size. */
-function Sensitivity({ c, view }: { c: Chart; view: View }) {
+/** The sensitivity chart: one row an assumption, two thin bars from the scenario's own figure, sorted by size.
+ * Session 208: exported, so that a page can draw it in a section of its own (the battery page's "What matters most")
+ * and hand the block `chart: null`. */
+export function Sensitivity({ c, view }: { c: Chart; view: View }) {
   const [on, setOn] = useState<string | null>(null);
   const { bars } = c;
   const all = bars.flatMap((b) => [b.base, b.down?.v, b.up?.v]).filter((v): v is number => v !== undefined && v !== null);

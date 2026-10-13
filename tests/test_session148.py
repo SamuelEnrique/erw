@@ -476,11 +476,13 @@ class PagesReadTogether(unittest.TestCase):
     def test_the_comparison_reads_what_the_three_live_pages_read(self):
         c = src("site", "scripts", "compare-paged-reads.mjs")
         # the battery page's two reads are written in the script as the page writes them
-        page = src("site", "app", "cost-of-power", "battery", "page.tsx")
+        # session 208: the page's one read is in read.ts (shared with the CSV of every month); the stress days are not read
+        # since the fold is gone (the table is public, /api/download), so the script's second query is its own
+        page = src("site", "app", "cost-of-power", "battery", "read.ts")
         self.assertIn('return rest<Row>("series", { select: "variable,ts_utc,value", table_name: `eq.${TABLE}`, entity: `eq.${entity}`,', page)
-        self.assertIn('return rest<StressRow>("series", { select: "variable,ts_utc,value,event", table_name: `eq.${STRESS_TABLE}`, entity: `eq.${entity}`,', page)
-        self.assertEqual(page.count("variable: `like.${x.strat}_${x.dur}h_*`, order: \"variable,ts_utc\" }, HOURLY);"), 2)
-        self.assertEqual(page.count("rest<"), 2)                                         # and it makes no other
+        self.assertEqual(page.count("variable: `like.${x.strat}_${x.dur}h_*`, order: \"variable,ts_utc\" }, HOURLY);"), 1)
+        self.assertEqual(page.count("rest<"), 1)                                         # and it makes no other
+        self.assertEqual(src("site", "app", "cost-of-power", "battery", "page.tsx").count("rest<"), 0)
         self.assertIn('query: { select: "variable,ts_utc,value", table_name: `eq.${stack.TABLE}`, entity: `eq.${g.entity}`, variable: `like.${strat}_${dur}h_*`, order: "variable,ts_utc" }', c)
         self.assertIn('query: { select: "variable,ts_utc,value,event", table_name: `eq.${stack.STRESS_TABLE}`, entity: `eq.${g.entity}`, variable: `like.${strat}_${dur}h_*`, order: "variable,ts_utc" }', c)
         # the storage page's four reads and the network page's are made by the pages' own functions

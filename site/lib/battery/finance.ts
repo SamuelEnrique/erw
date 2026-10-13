@@ -7,11 +7,18 @@
 // degradation, project life, hurdle rate. Two are inside the model's daily optimization and cannot be recomputed here:
 // round-trip efficiency and cycles a day. For those the page offers only the steps the model itself was run at
 // (data/battery_scenario_steps.json, warehouse/derived/battery_scenario_steps.py) and interpolates nothing.
+//
+// Session 208 (the owner's rulings of 12 October 2026): two more, a contract. The share of the battery's power under
+// contract and the contract's price, USD per kW-month, both 0 by default, so the default scenario is fully merchant and
+// every figure at a share of 0 is what it was. A contracted share is paid the contract price every month of the debt's
+// years and earns nothing from the market; the rest earns what the market paid. After the debt's years the whole
+// battery is merchant (the tail). The standalone contract panel the page held until this session (Contract.tsx) is
+// gone: the contract is a scenario's assumption, in the address like the others.
 
-export type Key = "capex" | "share" | "rate" | "term" | "fom" | "rte" | "cycles" | "deg" | "life" | "hurdle";
+export type Key = "capex" | "share" | "rate" | "term" | "fom" | "rte" | "cycles" | "deg" | "life" | "hurdle" | "cshare" | "cprice";
 export type Assumptions = Record<Key, number>;
-/** The ten, in the order the page lists them. */
-export const KEYS: Key[] = ["capex", "share", "rate", "term", "fom", "rte", "cycles", "deg", "life", "hurdle"];
+/** The twelve, in the order the page lists them: the ten of session 179, then the contract (session 208). */
+export const KEYS: Key[] = ["capex", "share", "rate", "term", "fom", "rte", "cycles", "deg", "life", "hurdle", "cshare", "cprice"];
 
 export type Spec = {
   key: Key; letter: string; label: string; unit: string; min: number; max: number; whole: boolean;
@@ -24,11 +31,16 @@ export type Spec = {
 };
 const n = (v: number) => v.toLocaleString("en-US", { maximumFractionDigits: 2 });
 export const LAZARD = "Lazard, Levelized Cost of Energy+, June 2025";
-/** Session 196, the owner's ruling of 11 October 2026: the hurdle rate's default is Lazard's weighted cost of capital,
- * as Lazard's June 2025 report states its financing: "60% debt at an 8% interest rate and 40% equity at a 12% cost"
- * (read 11 October 2026; docs/methods/battery_earns_algorithm.md, "Cross-checks"). 0.6 x 8 + 0.4 x 12 = 9.6. Until then
- * it was 8, set equal to the interest rate, with no source. */
-export const HURDLE = 9.6;
+/** Session 208, the owner's ruling of 12 October 2026: the hurdle rate's default is Lazard's cost of equity, 12
+ * percent, as Lazard's June 2025 report states its financing: "60% debt at an 8% interest rate and 40% equity at a 12%
+ * cost" for generation, and for storage "20% debt at an 8% interest rate and 80% equity at a 12% cost" (read 11 October
+ * 2026; docs/methods/battery_earns_algorithm.md, "Cross-checks"). The NPV here is to equity, after the debt payments, so
+ * the rate that discounts it is equity's. From session 196 to 207 it was the weighted cost, 0.6 x 8 + 0.4 x 12 = 9.6;
+ * before that 8, equal to the interest rate, with no source. The datacenter page keeps 9.6 (the same ruling). */
+export const HURDLE = 12;
+/** Session 208, the same ruling: the debt share's default is Lazard's storage capital structure, 20 percent, not the
+ * 60 percent of its generation cases that the page carried from session 67 to 207. */
+export const SHARE = 20;
 /** Session 196, the same ruling: the degradation default is a cited one. Lazard's storage cases (LCOS v10.0, "Energy
  * Storage Use Cases, Illustrative Operational Parameters") give "Battery Degradation (per annum)" of 2.6% for the
  * utility-scale standalone battery of 100 MW, at 2 and at 4 hours. Until then it was 0, with no source. */
@@ -37,9 +49,9 @@ export const SPECS: Record<Key, Spec> = {
   capex: { key: "capex", letter: "c", label: "Capital cost", unit: "USD per kW", min: 0, max: 10000, whole: false, swing: 100, swingWords: "USD 100 per kW",
     short: (v) => `capex ${n(v)} USD/kW`, words: (v) => `capex USD ${n(v)} per kW`, plain: n, source: `${LAZARD} (LCOS v10.0)` },
   share: { key: "share", letter: "s", label: "Debt share", unit: "percent of capital cost", min: 0, max: 100, whole: false, swing: 10, swingWords: "10 points",
-    short: (v) => `debt share ${n(v)}%`, words: (v) => `debt share ${n(v)} percent`, plain: n, source: `${LAZARD}: 60% debt at an 8% interest rate` },
+    short: (v) => `debt share ${n(v)}%`, words: (v) => `debt share ${n(v)} percent`, plain: n, source: `${LAZARD}, the storage cases: "20% debt at an 8% interest rate and 80% equity at a 12% cost"` },
   rate: { key: "rate", letter: "r", label: "Interest rate", unit: "percent a year", min: 0, max: 30, whole: false, swing: 1, swingWords: "1 point",
-    short: (v) => `interest ${n(v)}%`, words: (v) => `interest rate ${n(v)} percent`, plain: n, source: `${LAZARD}: 60% debt at an 8% interest rate` },
+    short: (v) => `interest ${n(v)}%`, words: (v) => `interest rate ${n(v)} percent`, plain: n, source: `${LAZARD}, the storage cases: 20% debt at an 8% interest rate` },
   term: { key: "term", letter: "t", label: "Term of the debt", unit: "years", min: 1, max: 40, whole: true, swing: 5, swingWords: "5 years",
     short: (v) => `term ${n(v)} years`, words: (v) => `term ${n(v)} years`, plain: n, source: `${LAZARD}: economic life sets the debt amortization schedule, 20 years for storage` },
   fom: { key: "fom", letter: "f", label: "Fixed O&M", unit: "USD per kW a year", min: 0, max: 500, whole: false, swing: 5, swingWords: "USD 5 per kW a year",
@@ -53,7 +65,11 @@ export const SPECS: Record<Key, Spec> = {
   life: { key: "life", letter: "l", label: "Project life", unit: "years", min: 1, max: 40, whole: true, swing: 5, swingWords: "5 years",
     short: (v) => `life ${n(v)} years`, words: (v) => `project life ${n(v)} years`, plain: n, source: `${LAZARD}: 20 years for storage` },
   hurdle: { key: "hurdle", letter: "h", label: "Hurdle rate", unit: "percent a year", min: 0, max: 40, whole: false, swing: 1, swingWords: "1 point",
-    short: (v) => `hurdle ${n(v)}%`, words: (v) => `hurdle rate ${n(v)} percent`, plain: n, source: `${LAZARD}: "60% debt at an 8% interest rate and 40% equity at a 12% cost". The default is that weighted cost, 0.6 x 8 + 0.4 x 12 = ${HURDLE} percent` },
+    short: (v) => `hurdle ${n(v)}%`, words: (v) => `hurdle rate ${n(v)} percent`, plain: n, source: `${LAZARD}: "80% equity at a 12% cost" in its storage cases. The default is that cost of equity, ${HURDLE} percent: the NPV is to equity, after the debt payments` },
+  cshare: { key: "cshare", letter: "n", label: "Contract share", unit: "percent of the battery's power", min: 0, max: 100, whole: false, swing: 10, swingWords: "10 points",
+    short: (v) => `contract ${n(v)}%`, words: (v) => `contract share ${n(v)} percent`, plain: n, source: "No contract: the default is fully merchant. A contracted share is paid the contract price every month of the debt's years and earns nothing from the market" },
+  cprice: { key: "cprice", letter: "p", label: "Contract price", unit: "USD per kW-month", min: 0, max: 100, whole: false, swing: 1, swingWords: "USD 1 per kW-month",
+    short: (v) => `contract USD ${n(v)}/kW-month`, words: (v) => `contract price USD ${n(v)} per kW-month`, plain: n, source: "No contract: the default is fully merchant. The price is the reader's own term; no published price is held" },
 };
 /** The model's own values of the two assumptions inside it, and the steps offered when no table of steps is held. */
 export const MODEL = { rte: 86, cycles: 1 };
@@ -62,7 +78,7 @@ export const ONLY_DEFAULT: Steps = { rte: [MODEL.rte], cycles: [MODEL.cycles] };
 
 /** The defaults for a duration: its Lazard capital cost and fixed O&M (lib/batterystack.ts, COSTS), and the rest. */
 export function defaultsOf(costs: { capex: number; fom: number }): Assumptions {
-  return { capex: costs.capex, share: 60, rate: 8, term: 20, fom: costs.fom, rte: MODEL.rte, cycles: MODEL.cycles, deg: DEG, life: 20, hurdle: HURDLE };
+  return { capex: costs.capex, share: SHARE, rate: 8, term: 20, fom: costs.fom, rte: MODEL.rte, cycles: MODEL.cycles, deg: DEG, life: 20, hurdle: HURDLE, cshare: 0, cprice: 0 };
 }
 
 /** One value brought inside its bounds, or to the default when it cannot be read; the two stepped assumptions take the
@@ -110,7 +126,7 @@ export function scenarioQuery(s: Scenarios, d: Assumptions): [string, string][] 
   return out;
 }
 /** Whether a parameter name is one of the scenarios' (so that the page's other links can carry or drop it). */
-export const isScenarioParam = (name: string) => name === "v" || /^[ab][csrtfeydlh]$/.test(name);
+export const isScenarioParam = (name: string) => name === "v" || /^[ab][csrtfeydlhnp]$/.test(name);
 /** The scenarios' parameters of a query string, to append to another link of the page. A change of duration drops the
  * capital cost and the fixed O&M (their defaults scale with the duration), as the page drops its own typed costs. */
 export function carry(search: string, sameDuration: boolean): string {
@@ -144,15 +160,24 @@ export const debtService = (a: Assumptions) => a.capex * (a.share / 100) * crf(a
  * check keys carry. The order of the multiplication is the page's own (lib/batterystack.ts, debtPerMw, times the
  * megawatts), so the defaults give the figure the page showed before session 195 to the last dollar. */
 export const debtUsd = (a: Assumptions, mw: number) => Math.round(a.capex * 1000 * (a.share / 100) * crf(a.rate / 100, debtYears(a)) * mw);
-/** Revenue in year t (1 is the first), USD per kW: the last twelve months' revenue, falling by the degradation rate
- * each year after the first. */
+/** Market revenue in year t (1 is the first), USD per kW: the last twelve months' revenue, falling by the degradation
+ * rate each year after the first. */
 export const revenueInYear = (a: Assumptions, revKw: number, t: number) => revKw * (1 - a.deg / 100) ** (t - 1);
+/** Session 208: the contract's income a year, USD per kW of the whole battery: the contracted share at the contract
+ * price, twelve months. 0 with no contract. */
+export const contractYear = (a: Assumptions) => ((a.cshare ?? 0) / 100) * (a.cprice ?? 0) * 12;
+/** The uncontracted share of the battery, a fraction: 1 with no contract (an older set of assumptions, without the two keys, is read as one). */
+export const merchantShare = (a: Assumptions) => 1 - (a.cshare ?? 0) / 100;
+/** Income in year t, USD per kW: for the debt's years the contract plus the uncontracted share of the market revenue;
+ * after them the whole battery in the market. At a contract share of 0 this is the market revenue in every year. */
+export const incomeInYear = (a: Assumptions, revKw: number, t: number) =>
+  t <= debtYears(a) ? contractYear(a) + merchantShare(a) * revenueInYear(a, revKw, t) : revenueInYear(a, revKw, t);
 /** The cash flows to equity, USD per kW, years 0 to the project life: the equity paid in at year 0, then each year's
- * revenue less fixed O&M less the debt payment while the debt lasts. */
+ * income less fixed O&M less the debt payment while the debt lasts. */
 export function flows(a: Assumptions, revKw: number): number[] {
   const ds = debtService(a), dy = debtYears(a);
   const out = [-a.capex * (1 - a.share / 100)];
-  for (let t = 1; t <= a.life; t++) out.push(revenueInYear(a, revKw, t) - a.fom - (t <= dy ? ds : 0));
+  for (let t = 1; t <= a.life; t++) out.push(incomeInYear(a, revKw, t) - a.fom - (t <= dy ? ds : 0));
   return out;
 }
 /** Net present value of yearly cash flows at `ratePct` percent: the sum of flow t over (1 + rate)^t. */
@@ -182,10 +207,12 @@ export function irr(fl: number[]): number | null {
   }
   return (lo + hi) / 2;
 }
-/** Debt coverage on a year's revenue: revenue less fixed O&M, over the debt payments. Null with no debt. */
+/** Debt coverage on a year's revenue: the contract plus the uncontracted share of the revenue, less fixed O&M, over
+ * the debt payments (session 208; at a contract share of 0, revenue less fixed O&M over the debt payments, as before).
+ * Null with no debt. */
 export function coverage(a: Assumptions, revKw: number): number | null {
   const ds = debtService(a);
-  return ds > 0 ? (revKw - a.fom) / ds : null;
+  return ds > 0 ? (contractYear(a) + merchantShare(a) * revKw - a.fom) / ds : null;
 }
 export const TARGET = 1.25;
 /** The breakeven toll, USD per kW-month: the price of a toll on the whole battery at which twelve months of it, less

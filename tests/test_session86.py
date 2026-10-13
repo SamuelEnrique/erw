@@ -214,14 +214,16 @@ console.log(JSON.stringify({
 
     def test_the_page_opens_them_with_the_cookie_only_and_reads_the_snapshot(self):
         page = src("site", "app", "cost-of-power", "battery", "page.tsx")
-        self.assertIn("have === (await digest(token))", page)                # the proxy's own test of the internal cookie
+        self.assertIn("have === (await digest(token))", src("site", "app", "cost-of-power", "battery", "read.ts"))   # the proxy's own test of the internal cookie (session 208: in read.ts, shared with the CSV of every month)
         # session 195: the address is read once into `q`, which scenario A's parameters are read from as well
         self.assertIn("const q = Object.fromEntries(Object.entries(sp).map(([k, v]) => [k, typeof v === \"string\" ? v : undefined]));", page)
         self.assertIn("const asked = inputsOf(q, internal);", page)
-        self.assertIn('import reviewData from "@/data/battery_stack_review.json"', page)
-        branch = page[page.index("const [read, readStress] = g.review"):]
-        branch = branch[:branch.index(";\n")]
-        self.assertLess(branch.index("reviewRows(asked.grid, asked)"), branch.index("rowsOf(g.entity!, asked)"))   # a review grid never asks Supabase
+        self.assertIn('import reviewData from "@/data/battery_stack_review.json"', src("site", "app", "cost-of-power", "battery", "read.ts"))   # session 208: read.ts
+        # session 208: one read (the stress days are not read since the fold is gone); the same test on the CSV's route
+        for text in (page, src("site", "app", "cost-of-power", "battery", "months.csv", "route.ts")):
+            branch = text[text.index("g.review ? "):]
+            branch = branch[:branch.index(";\n")]
+            self.assertLess(branch.index("reviewRows(asked.grid, asked)"), branch.index("rowsOf(g.entity!, asked)"))   # a review grid never asks Supabase
         self.assertIn("is in review and shown in the internal view only", page)
         form = src("site", "app", "cost-of-power", "battery", "BatteryForm.tsx")
         self.assertIn("const open = g.ready || (internal && !!g.review);", form)
