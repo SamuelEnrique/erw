@@ -155,7 +155,7 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, error
   check(q.view === "day" && q.t === "2021-02-15" && q.grid === "CISO" && q.prices === "1" && q.trace === "1" && !("batteries" in q), `the address holds the view, the day, the grid and the switches: ${s.search}`);
   await go(`${base}/network${s.search}`);
   const back = await wait(`(() => { const s = ${STATE}; return s && s.restored === '1' && s.view === 'day' && s.panel === 'CISO' && s.rings > 0 && document.querySelector('[data-trace-supplier]') ? s : null; })()`, 30000, "the shared view to be restored");
-  check(back.t === "2021-02-15" && back.playing === "0" && back.rings === priced.length && back.search === s.search, `the same address opens the same view, not playing (${back.t}, ${back.panel}, ${back.rings} rings)`);
+  check(back.t === "2021-02-15" && back.playing === "0" && back.rings === priced.length && back.search === s.search, `the same address opens the same view, not playing (${back.t}, ${back.panel}, ${back.rings} rings, playing ${back.playing}, ${back.search})`);
   await go(`${base}/network?view=uri_2021&t=2021-02-15T12:00:00Z&grid=ERCO&batteries=1`);
   const story = await wait(`(() => { const s = ${STATE}; return s && s.restored === '1' && s.view === 'uri_2021' && s.panel === 'ERCO' ? s : null; })()`, 30000, "a story's shared view");
   check(story.t === "2021-02-15T12:00:00Z" && story.playing === "0" && (await evaluate(`${button("Batteries: on")} !== undefined`)), `a story's hour, grid and Batteries switch are restored too (${story.t})`);

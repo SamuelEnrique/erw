@@ -83,14 +83,18 @@ class TheComponent(unittest.TestCase):
     def test_it_is_used_on_both_pages_and_nothing_else_of_the_grid_page_moved(self):
         self.assertIn('return <AskPanel grid="ercot" initial={initial} context={context} />;', src("site", "app", "ask", "ercot", "AskErcot.tsx"))
         page = src("site", "components", "grid", "YourGrid.tsx")  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
-        self.assertEqual(page.count("<AskPanel "), 1)
-        self.assertIn('{g.slug === "ercot" ? <div className="mb-8"><AskPanel grid="ercot" inputId="ask-grid" showContext={false}', page)
-        self.assertIn('<form action="/ask" method="get"', page)          # the six other grids keep their form
-        # the page's sections, in the order they were
+        # session 237: the seven grid pages are the Grid tool (/grid). The box that stood between "Who runs this grid" and
+        # "Right now: demand" is the tool's Ask view (components/grid/AskView.tsx): ERCOT's panel there, with the same
+        # id and context, and /ask's own form for the six other grids (it answers in place, where the old form opened /ask)
+        self.assertEqual(page.count("<AskPanel "), 0)
+        ask = src("site", "components", "grid", "AskView.tsx")
+        self.assertEqual(ask.count("<AskPanel "), 1)
+        self.assertIn('<AskPanel grid="ercot" initial={q} inputId="ask-grid" showContext={false} context={context} />', ask)
+        self.assertIn('const context = { view: "/grid/ercot", title: "Your grid: ERCOT", settings: { grid: "ERCOT" } };', ask)
+        self.assertIn("<AskForm grid={grid.slug} initial={q}", ask)
+        # the page's sections, in the Now view (session 237: "Right now: demand" leads, under the tool's sentence and numbers)
         titles = re.findall(r'<Section title="([^"]+)"', page)
-        self.assertEqual(titles[:2], ["Who runs this grid", "Right now: demand"])
-        self.assertLess(page.index('<Section title="Who runs this grid"'), page.index("<AskPanel "))
-        self.assertLess(page.index("<AskPanel "), page.index('<Section title="Right now: demand"'))
+        self.assertEqual(titles[:2], ["Right now: demand", "Who runs this grid"])
         self.assertIn("<AskErcotLink context=", page)
 
     def test_a_chart_is_drawn_only_for_the_forms_that_call_for_one(self):

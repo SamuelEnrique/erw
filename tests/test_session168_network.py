@@ -26,7 +26,10 @@ class OneAddress(unittest.TestCase):
     def test_version_3_stands_at_network_and_the_old_page_is_retired(self):
         page = src("site", "components", "grid", "NetworkView.tsx")  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
         self.assertIn("v3={{ index, complete }}", page)
-        self.assertIn('export const metadata: Metadata = { title: "The grid network" };', page)
+        # session 237: the title "The grid network" was the page's own; the page is the Network view of the Grid tool now,
+        # whose title names the grid in view (site/app/grid/page.tsx generateMetadata)
+        self.assertIn("export async function NetworkView(", page)
+        self.assertIn('{view === "network" ? <NetworkView keep={keep} node={p.node} /> : null}', src("site", "app", "grid", "page.tsx"))
         self.assertFalse(os.path.exists(os.path.join(ROOT, "site", "app", "network", "v3", "page.tsx")))
         old = src("site", "app", "_retired", "network-original", "page.tsx")
         self.assertIn("<Network snap={snap} supply={supply} live={extras} />", old)

@@ -182,7 +182,7 @@ class TheLivePageIsAsItWas(unittest.TestCase):
         self.assertNotIn("v3=", page)
         self.assertIn("pickSnapshot(await fetchHourly(HOURLY), committed)", page)
         v3 = src("site", "components", "grid", "NetworkView.tsx")  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
-        self.assertIn("<Network snap={snap} supply={supply} live={extras} v3={{ index, complete }} />", v3)   # session 124
+        self.assertIn("<Network snap={snap} supply={supply} live={extras} v3={{ index, complete }} page={{ keep, node }} />", v3)   # session 124; session 237: page, the tool's own query kept at the head of the address
         self.assertFalse(os.path.exists(os.path.join(SITE, "app", "network", "v3", "page.tsx")))
         self.assertIn('{ source: "/network/v3", destination: "/network", permanent: true }', src("site", "next.config.ts"))
         d = node("import { statusOf } from './lib/release.ts'; console.log(JSON.stringify([statusOf('/network'), statusOf('/network/v3')]));")
@@ -204,14 +204,14 @@ class TheLivePageIsAsItWas(unittest.TestCase):
         self.assertEqual(c.count("setPricesOn("), 2)   # the switch and the restore from an address, both v3's
         # the words of the live page's panel and controls are the ones they were
         for kept in ("Watch:", "Live now", "California&apos;s evening", "Texas during Uri", "The June 2025 heat", "Batteries: {batteriesOn ? \"on\" : \"off\"}", "Who is supplying it, largest first",
-                     "backgroundColor(\"#FBF8F2\")", "The color updates daily", ".nodeLabel((n: object) => (n as NetNode).name)"):
+                     "backgroundColor(PAL.ground)", "The color updates daily", ".nodeLabel((n: object) => (n as NetNode).name)"):   # session 237: the canvas reads its ground from the tokens (it was the literal #FBF8F2, still the value outside the brand)
             self.assertIn(kept, c)
 
     def test_the_pages_reads_moved_and_did_not_change(self):
         data = src("site", "app", "network", "data.ts")
         for fn in ("export async function liveExtras(snap: Snapshot): Promise<LiveExtras>", "export async function supplyRows(ba: string): Promise<SupplyRow[]>", "export const ISO_BA"):
             self.assertIn(fn, data)
-        self.assertIn('import { ISO_BA, liveExtras, supplyRows } from "./data";', src("site", "components", "grid", "NetworkView.tsx"))  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
+        self.assertIn('import { ISO_BA, liveExtras, supplyRows } from "@/app/network/data";', src("site", "components", "grid", "NetworkView.tsx"))  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
 
     def test_in_a_real_browser_where_a_built_site_is_served(self):
         base = os.environ.get("ERW_SITE_URL")

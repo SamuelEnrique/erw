@@ -35,6 +35,8 @@
   --color-duration-3: #A63A3A;
   --color-duration-4: #6B0F0F;
   --color-not-reported: #B8B2A7;
+  /* Session 237 (the grid network): a balancing authority whose carbon intensity is not held, the grey it has always had */
+  --color-not-held: #9a958c;
   --color-surface: #FFFFFF;
 
   --font-serif: Georgia, "Times New Roman", serif;                 /* headings */

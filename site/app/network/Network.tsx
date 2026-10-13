@@ -96,7 +96,7 @@ const priceOf = (view: View, v3on: boolean, id: string, h: number) => (v3on && P
  * own, used only until the page is in a browser. */
 type Palette = { ink: string; ground: string; muted: string; accent: string; rule: string; low: string; high: string; none: string };
 const TOKENS: Record<keyof Palette, string> = { ink: "--color-ink", ground: "--color-panel", muted: "--color-muted", accent: "--color-accent", rule: "--color-rule",
-  low: "--color-down", high: "--color-up", none: "--color-not-reported" };
+  low: "--color-down", high: "--color-up", none: "--color-not-held" };
 let PAL: Palette = { ink: "#2E2D29", ground: "#FBF8F2", muted: "#6B665E", accent: "#8C1515", rule: "#D9D2C3", low: "#175E54", high: "#8C1515", none: "#9a958c" };
 function readPalette(el: Element | null) {
   if (!el || typeof window === "undefined") return;

@@ -156,7 +156,9 @@ class Fallback(unittest.TestCase):
 
     def test_page_reads_storage_with_revalidation_and_catches(self):
         page = src("site", "components", "grid", "NetworkView.tsx")  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
-        self.assertIn("export const revalidate = 3600", page)
+        # session 237: the revalidation is the page's, and the page is the Grid tool's (site/app/grid/page.tsx); the view reads the snapshot as before
+        self.assertIn("export const revalidate = 3600", src("site", "app", "grid", "page.tsx"))
+        self.assertIn("pickSnapshot(await fetchHourly(HOURLY), committed)", page)
         # session 55: the fetch moved to lib/network.ts (fetchHourly), shared with problem set E
         lib = src("site", "lib", "network.ts")
         self.assertIn("next: { revalidate }", lib)

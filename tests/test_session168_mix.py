@@ -21,7 +21,7 @@ def src(*parts):
 
 class SelectGridsOnEveryView(unittest.TestCase):
     def test_the_control_stands_on_every_view(self):
-        page = src("site", "app", "mix", "page.tsx")
+        page = src("site", "components", "grid", "MixView.tsx")  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
         self.assertIn("      <Controls c={c} />", page)                       # the opening view too
         self.assertNotIn('c.view === "now" ? null : <Controls', page)
         self.assertEqual(page.count('<Chips label="Select grids"'), 3)            # compare, filter, greyed
@@ -40,7 +40,7 @@ class SelectGridsOnEveryView(unittest.TestCase):
         self.assertEqual(r.returncode, 0, (r.stdout + r.stderr)[-2000:])
 
     def test_no_em_dash(self):
-        for parts in (("site", "app", "mix", "page.tsx"), ("site", "lib", "mixpage.ts"), ("site", "components", "mix", "views.tsx"), ("site", "scripts", "test-mix.mjs"),
+        for parts in (("site", "components", "grid", "MixView.tsx"), ("site", "lib", "mixpage.ts"), ("site", "components", "mix", "views.tsx"), ("site", "scripts", "test-mix.mjs"),
                       ("tests", "test_session168_mix.py")):
             self.assertNotIn(chr(0x2014), src(*parts), parts[-1])
 

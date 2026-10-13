@@ -35,6 +35,10 @@ def src(*p):
 def route_exists(href):
     """A page.tsx under site/app for the path, static segments first, then a dynamic [segment]."""
     parts = [p for p in href.split("#")[0].split("?")[0].strip("/").split("/") if p]
+    # session 237: an address folded into the Grid tool (/network, /mix, /grid/<iso>) redirects into it
+    # (site/next.config.ts): it resolves, through its redirect
+    if f'source: "/{"/".join(parts)}", ' in src("site", "next.config.ts"):
+        return True
     d = os.path.join(SITE, "app")
     for p in parts:
         if os.path.isdir(os.path.join(d, p)):

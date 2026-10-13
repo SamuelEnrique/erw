@@ -31,9 +31,10 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, errors }) =>
   await go(`${base}/grid?grid=ercot&view=ask`);  // session 237: the panel is the Ask view of the Grid tool (/grid/ercot redirects to the tool's Now view)
   await wait(`!!document.querySelector('[data-ask-panel="ercot"] #ask-grid')`, 30000, "the panel on /grid/ercot");
   check(await evaluate(`document.querySelectorAll('[data-ask-panel]').length === 1 && !document.querySelector('form[action="/ask"]')`), "the page holds one panel, in the place of the box that opened /ask");
-  check(await evaluate(`(() => { const p = document.querySelector('[data-ask-panel]'); const h = [...document.querySelectorAll('h2')].map((x) => x.innerText); const prev = h.find((t) => /Who runs this grid/.test(t)), next = h.find((t) => /Right now/.test(t));
-    const pos = (el) => el.getBoundingClientRect().top + window.scrollY; const hs = [...document.querySelectorAll('h2')];
-    return !!prev && !!next && pos(hs.find((x) => /Who runs this grid/.test(x.innerText))) < pos(p) && pos(p) < pos(hs.find((x) => /Right now/.test(x.innerText))); })()`), "it sits between \"Who runs this grid\" and \"Right now: demand\", where the box was");
+  // session 237: the box stood between "Who runs this grid" and "Right now: demand" on /grid/ercot; it is the Ask view of the Grid tool now
+  check(await evaluate(`(() => { const p = document.querySelector('[data-ask-panel]'); const tabs = document.querySelector('nav[data-tabs]'); const on = tabs?.querySelector('a[aria-current="page"]');
+    const pos = (el) => el.getBoundingClientRect().top + window.scrollY;
+    return !!tabs && on?.innerText.trim() === 'Ask' && pos(tabs) < pos(p) && document.querySelector('nav[data-segments] a[aria-current="page"]')?.innerText.trim() === 'ERCOT'; })()`), "it is the Ask view of the Grid tool: under the tabs, with Ask and ERCOT in view");
   await evaluate(`(() => { window.__asked = []; window.__replies = ${JSON.stringify(replies)}; const real = window.fetch;
     window.fetch = async (u, o) => String(u).includes('/api/ask') ? (window.__asked.push(JSON.parse(o.body)), new Response(JSON.stringify(window.__replies[window.__asked.length - 1]) + "\\n", { status: 200, headers: { 'Content-Type': 'application/x-ndjson' } })) : real(u, o); return true; })()`);
   const askIt = async (text, turn) => {
