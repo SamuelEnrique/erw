@@ -1,0 +1,70 @@
+﻿eia_retail_sales_monthly columns: ['entity', 'variable', 'ts_utc', 'value', 'unit', 'freq', 'geo', 'market', 'node', 'source', 'source_url', 'retrieved_at', 'vintage']
+variables for DC:IND: ['customers', 'retail_sales'] units: ['MWh', 'count']
+  customers: last 14 months
+    [('2025-06', '1.0'), ('2025-07', '1.0'), ('2025-08', '1.0'), ('2025-09', '1.0'), ('2025-10', '1.0'), ('2025-11', '1.0'), ('2025-12', '1.0'), ('2026-01', '1.0'), ('2026-02', '1.0'), ('2026-03', '1.0'), ('2026-04', '1.0'), ('2026-05', '1.0'), ('2026-06', '1.0'), ('2026-07', '1.0')]
+   all months: n 307, median 1.0, min 0.0, max 1.0
+  retail_sales: last 14 months
+    [('2025-06', '18776.01'), ('2025-07', '15304.32'), ('2025-08', '13765.77'), ('2025-09', '14269.02'), ('2025-10', '15052.26'), ('2025-11', '18137.63'), ('2025-12', '20061.53'), ('2026-01', '15406.78'), ('2026-02', '12703.32'), ('2026-03', '14894.61'), ('2026-04', '13543.79'), ('2026-05', '16662.73'), ('2026-06', '21028.29'), ('2026-07', '16422.8')]
+   all months: n 307, median 18370.59, min 2918.65, max 38608.29
+  UT:RES retail_sales unit ['MWh']: last 4: [('2026-04', '761940.73'), ('2026-05', '863541.67'), ('2026-06', '1153453.09'), ('2026-07', '1658262.63')]
+  IN:COM retail_sales unit ['MWh']: last 4: [('2026-04', '2166081.15'), ('2026-05', '2228584.98'), ('2026-06', '2461277.72'), ('2026-07', '2801230.46')]
+  DC, July 2026, sales by sector: [('eia:retail_sales:DC:ALL', '1008263.14', 'MWh'), ('eia:retail_sales:DC:COM', '684208.95', 'MWh'), ('eia:retail_sales:DC:IND', '16422.8', 'MWh'), ('eia:retail_sales:DC:OTH', '0.0', 'MWh'), ('eia:retail_sales:DC:RES', '270473.86', 'MWh'), ('eia:retail_sales:DC:TRA', '37157.53', 'MWh')]
+eia_retail_electricity_prices columns: ['entity', 'variable', 'ts_utc', 'value', 'unit', 'freq', 'geo', 'market', 'node', 'source', 'source_url', 'retrieved_at', 'vintage']
+variables for DC:IND: ['retail_price'] units: ['USD/MWh']
+  retail_price: last 14 months
+    [('2025-06', '151.8'), ('2025-07', '202.1'), ('2025-08', '78.6'), ('2025-09', '116.5'), ('2025-10', '162.4'), ('2025-11', '187.5'), ('2025-12', '173.1'), ('2026-01', '261.6'), ('2026-02', '227.2'), ('2026-03', '143.8'), ('2026-04', '223.9'), ('2026-05', '146.0'), ('2026-06', '162.1'), ('2026-07', '321.5')]
+   all months: n 307, median 82.4, min 9.6, max 321.5
+  IA:IND price unit ['USD/MWh'] last 4: [('2026-04', '62.6'), ('2026-05', '66.2'), ('2026-06', '84.8'), ('2026-07', '99.9')]
+Cleveland regular gasoline, columns ['entity', 'variable', 'ts_utc', 'value', 'unit', 'freq', 'geo', 'market', 'node', 'source', 'source_url', 'retrieved_at', 'vintage']
+  unit ['USD/gal'] node ['CLEVELAND']
+  last 12 weeks: [('2026-07-20', '3.891'), ('2026-07-27', '3.904'), ('2026-08-03', '4.197'), ('2026-08-10', '4.048'), ('2026-08-17', '4.255'), ('2026-08-24', '4.133'), ('2026-08-31', '3.972'), ('2026-09-07', '3.944'), ('2026-09-14', '4.181'), ('2026-09-21', '4.501'), ('2026-09-28', '4.326'), ('2026-10-05', '3.859')]
+  six largest weekly changes held: [('2026-05-04', 0.915), ('2026-03-09', 0.553), ('2022-03-07', 0.522), ('2026-10-05', -0.467), ('2022-06-06', 0.389), ('2022-09-26', 0.329)]
+  regular gasoline, every place of the table, the same week:
+ts_utc                                               2026-09-28T00:00:00Z  2026-10-05T00:00:00Z  change
+entity                     node                                                                        
+eia:EMM_EPMR_PTE_YCLE_DPG  CLEVELAND                                4.326                 3.859  -0.467
+eia:EMM_EPMR_PTE_SOH_DPG   OHIO                                     4.263                 3.829  -0.434
+eia:EMM_EPMR_PTE_SFL_DPG   FLORIDA                                  4.282                 3.970  -0.312
+eia:EMM_EPMR_PTE_R1Z_DPG   PADD 1C                                  4.195                 3.959  -0.236
+eia:EMM_EPMR_PTE_YMIA_DPG  MIAMI                                    4.301                 4.075  -0.226
+eia:EMM_EPMR_PTE_R20_DPG   PADD 2                                   4.291                 4.109  -0.182
+eia:EMM_EPMR_PTE_R10_DPG   PADD 1                                   4.290                 4.147  -0.143
+eia:EMM_EPMR_PTE_YORD_DPG  CHICAGO                                  4.759                 4.633  -0.126
+eia:EMM_EPMR_PTE_SMN_DPG   MINNESOTA                                4.315                 4.200  -0.115
+eia:EMM_EPMR_PTE_NUS_DPG   U.S.                                     4.465                 4.354  -0.111
+eia:EMM_EPMR_PTE_SCO_DPG   COLORADO                                 4.094                 4.020  -0.074
+eia:EMM_EPMR_PTE_R40_DPG   PADD 4                                   4.486                 4.417  -0.069
+eia:EMM_EPMR_PTE_YDEN_DPG  DENVER                                   4.033                 3.979  -0.054
+eia:EMM_EPMR_PTE_R1Y_DPG   PADD 1B                                  4.411                 4.363  -0.048
+eia:EMM_EPMR_PTE_Y35NY_DPG NEW YORK CITY                            4.378                 4.340  -0.038
+eia:EMM_EPMR_PTE_R5XCA_DPG PADD 5 EXCEPT CALIFORNIA                 5.153                 5.116  -0.037
+eia:EMM_EPMR_PTE_SWA_DPG   WASHINGTON                               5.453                 5.424  -0.029
+eia:EMM_EPMR_PTE_R1X_DPG   PADD 1A                                  4.369                 4.343  -0.026
+eia:EMM_EPMR_PTE_SNY_DPG   NEW YORK                                 4.405                 4.380  -0.025
+eia:EMM_EPMR_PTE_Y48SE_DPG SEATTLE                                  5.677                 5.656  -0.021
+eia:EMM_EPMR_PTE_SMA_DPG   MASSACHUSETTS                            4.316                 4.302  -0.014
+eia:EMM_EPMR_PTE_R30_DPG   PADD 3                                   3.924                 3.911  -0.013
+eia:EMM_EPMR_PTE_Y44HO_DPG HOUSTON                                  3.847                 3.836  -0.011
+eia:EMM_EPMR_PTE_YBOS_DPG  BOSTON                                   4.341                 4.333  -0.008
+eia:EMM_EPMR_PTE_R50_DPG   PADD 5                                   5.724                 5.727   0.003
+eia:EMM_EPMR_PTE_STX_DPG   TEXAS                                    3.841                 3.874   0.033
+eia:EMM_EPMR_PTE_SCA_DPG   CALIFORNIA                               6.189                 6.227   0.038
+eia:EMM_EPMR_PTE_Y05SF_DPG SAN FRANCISCO                            6.267                 6.306   0.039
+eia:EMM_EPMR_PTE_Y05LA_DPG LOS ANGELES                              6.165                 6.209   0.044
+CFTC columns ['entity', 'variable', 'ts_utc', 'value', 'unit', 'freq', 'geo', 'market', 'node', 'source', 'source_url', 'retrieved_at', 'vintage']
+  rows 614 first 2015-01-06 last 2026-10-06 sources: [('cftc:disaggregated_cot_futures', '2015-01-06', '2026-10-06')]
+  nodes: [('NAT GAS NYME - NEW YORK MERCANTILE EXCHANGE', '2022-02-08', '2026-10-06', 244), ('NATURAL GAS - NEW YORK MERCANTILE EXCHANGE', '2015-01-06', '2022-02-01', 370)]
+  last 8 weeks: [('2026-08-18', '265239'), ('2026-08-25', '269125'), ('2026-09-01', '258649'), ('2026-09-08', '262109'), ('2026-09-15', '264362'), ('2026-09-22', '266563'), ('2026-09-29', '220522'), ('2026-10-06', '218758')]
+  managed_money_short, last 4 weeks: [('2026-09-15', '364567'), ('2026-09-22', '332110'), ('2026-09-29', '353321'), ('2026-10-06', '363295')]
+  open_interest, last 4 weeks: [('2026-09-15', '1820003'), ('2026-09-22', '1837146'), ('2026-09-29', '1782129'), ('2026-10-06', '1815990')]
+  variables: ['managed_money_long', 'managed_money_net', 'managed_money_short', 'open_interest']
+CAISO AS: unit ['USD/MW-hour'] columns ['entity', 'variable', 'ts_utc', 'value', 'unit', 'freq', 'geo', 'market', 'node', 'source', 'source_url', 'retrieved_at', 'vintage']
+  the six dearest days held (UTC day mean):
+                 mean        max  count
+day                                    
+2024-09-06  48.318225  459.19588     24
+2024-09-05  20.906127  220.65132     24
+2026-10-06  20.645566  150.26322     24
+2026-09-10  20.634245  107.26611     24
+2026-10-07  20.571235  143.07462     24
+2024-09-07  14.251976  111.62988     24
