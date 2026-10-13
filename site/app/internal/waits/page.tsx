@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { render } from "@/lib/markdown";
@@ -68,14 +69,17 @@ export default async function WaitsPage() {
   const built = `${w.built_at.slice(0, 10)} ${w.built_at.slice(11, 16)} UTC`;
   if (w.unread) {
     return (
+      <Brand noUsage>
       <div data-waits="unread">
         <h1 className="mb-2 text-3xl">Waits for Samuel (internal)</h1>
         <p className="text-sm">The session reports could not be read when the site was built ({built}): {w.unread}. Nothing is listed, and nothing is known to wait or not to wait.</p>
       </div>
+      </Brand>
     );
   }
   const m = w.marker;
   return (
+    <Brand noUsage>
     <div className="max-w-3xl" data-waits="1" data-no-usage>
       <h1 className="mb-1 text-3xl">Waits for Samuel (internal)</h1>
       <p className="mb-3 text-sm text-muted">
@@ -117,5 +121,6 @@ export default async function WaitsPage() {
         worded another way. The report is the record.
       </p>
     </div>
+    </Brand>
   );
 }

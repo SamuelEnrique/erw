@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { contextOf } from "@/lib/askContext";
 import { AskErcot } from "./AskErcot";
@@ -22,7 +23,7 @@ export default async function AskErcotPage({ searchParams }: { searchParams: Pro
   const context = contextOf(sp);
   const q = typeof sp.q === "string" ? sp.q.slice(0, 500) : "";
   return (
-    <>
+    <Brand>
       <h1 className="mb-1 text-3xl">Ask ERCOT</h1>
       <p className="mb-4 max-w-3xl text-sm">
         A question about the Texas grid, answered from the ERCOT tables of the warehouse and the ERCOT page&apos;s own text. For the other grids it answers
@@ -30,6 +31,6 @@ export default async function AskErcotPage({ searchParams }: { searchParams: Pro
         {" "}<Link href="/ask">the general chat</Link> covers the whole warehouse.
       </p>
       <AskErcot initial={q} context={context} />
-    </>
+    </Brand>
   );
 }

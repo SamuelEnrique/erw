@@ -383,7 +383,10 @@ if (!fixture) {
     const gotH = (await evaluate(`document.querySelector('[data-thesis-provider-received="harmonic"]').innerText`)).replace(/\s+/g, " ");
     check(/Harmonic received/.test(gotH) && /Pulled on 7 Oct 2026/.test(gotH) && /2 of 2 companies found/.test(gotH) && /1 more found by Harmonic/.test(gotH) && /3 saved searches/.test(gotH) && /\d+ not mapped/.test(gotH),
       `Harmonic's answer pasted from a chat is accepted: "${gotH.slice(0, 150)}"`);
-    const lines = () => evaluate(`[...document.querySelectorAll('[data-company="Example Storage Inc."] [data-provider-block] [data-provider-figure]')].map((e) => [e.dataset.provider, e.dataset.providerFigure, e.dataset.disagree ?? '', e.innerText.replace(/\\s+/g, ' ').trim()])`);
+    // session 241b: the mark "differs" is written in small letters and was set in capitals by a style; on the brand a
+    // label is in sentence case, as it is written (app/tokens.css, .brand-a .uppercase). The check reads the mark
+    // whichever way the style cases it, and holds the words and the values as before.
+    const lines = () => evaluate(`[...document.querySelectorAll('[data-company="Example Storage Inc."] [data-provider-block] [data-provider-figure]')].map((e) => [e.dataset.provider, e.dataset.providerFigure, e.dataset.disagree ?? '', e.innerText.replace(/\\s+/g, ' ').trim().replace(/^differs /i, 'DIFFERS ')])`);
     let figs = await lines();
     const of = (id) => figs.filter((f) => f[1] === id).map((f) => f[3]);
     check(figs.length >= 20 && figs.every((f) => f[3].endsWith(PROVIDERS[f[0]].label)) && (await evaluate(`[...document.querySelectorAll('[data-provider-figure]')].every((e) => !!e.querySelector('[data-provider-tag]'))`))
@@ -434,7 +437,7 @@ if (!fixture) {
         && JSON.stringify(of("total_raised")) === JSON.stringify(["DIFFERS Total raised: USD 18 million PitchBook", "DIFFERS Total raised: 18,200,000 Harmonic", "DIFFERS Total raised: USD 18 million Crunchbase"]),
         `with three providers each value of a fact they differ on is kept with its label, none averaged or dropped ("${of("founded_year").join('" | "')}"); a count inside another's range is not marked`);
       await go(`${base}/thesis?run=${THREE}&tab=landscape`);
-      const cells3 = await evaluate(`[...document.querySelectorAll('[data-company="Example Storage Inc."] td > [data-provider-figure]')].map((e) => e.innerText.replace(/\\s+/g, ' ').trim())`);
+      const cells3 = await evaluate(`[...document.querySelectorAll('[data-company="Example Storage Inc."] td > [data-provider-figure]')].map((e) => e.innerText.replace(/\\s+/g, ' ').trim().replace(/^differs /i, 'DIFFERS '))`);   // session 241b: as above
       check(cells3.includes("Founders: A. Fixture, C. Fixture PitchBook") && cells3.includes("Founders: A. Fixture, C. Fixture Harmonic") && cells3.includes("Founders: A. Fixture, C. Fixture Crunchbase") && cells3.includes("DIFFERS Headquarters: Austin, Texas, United States Crunchbase")
         && (await evaluate(`[...document.querySelectorAll('[data-pb-figure]')].every((e) => !!e.querySelector('[data-pb-tag]')) && !!document.querySelector('[data-company="Unasked Example LLC"] td') && document.querySelector('[data-company="Unasked Example LLC"]').innerText.includes('USD 2 million') && !document.querySelector('[data-company="Unasked Example LLC"] td:nth-child(4) [data-provider-tag]')`)),
         "in the Company landscape a cell the providers answer holds each provider's figure with its label, and a figure with no provider keeps the label it had");

@@ -1,0 +1,98 @@
+Session 241b: every page of batch B, before (a build of commit 71e4b084) against after (branch wip/241b-brand, cycle after2), 13 October 2026.
+For each address: its checked numbers (data-check), its links, controls and anchors, and its visible text with text-transform switched off on both sides.
+
+== at 1280 px
+about: 0 lines differ (0 nums, 74 marks, 103 text)
+ask: 0 lines differ (0 nums, 4 marks, 4 text)
+ask_ercot: 0 lines differ (0 nums, 6 marks, 5 text)
+data: 0 lines differ (97 nums, 324 marks, 305 text)
+data_faults: 0 lines differ (0 nums, 62 marks, 399 text)
+data_methods_battery_stack: 0 lines differ (0 nums, 5 marks, 173 text)
+data_methods_cost_of_power: 0 lines differ (0 nums, 2 marks, 307 text)
+data_methods_ercot_peak_premium: 0 lines differ (0 nums, 1 marks, 64 text)
+data_methods_grid_network: 0 lines differ (0 nums, 5 marks, 240 text)
+data_methods_impossible_hours: 0 lines differ (0 nums, 1 marks, 87 text)
+data_methods_storage: 0 lines differ (0 nums, 2 marks, 64 text)
+data_standard: 0 lines differ (0 nums, 1 marks, 186 text)
+digest: 0 lines differ (0 nums, 52 marks, 84 text)
+digest_2026-10-10: 0 lines differ (0 nums, 2 marks, 3 text)
+digest_2026-10-12: 0 lines differ (0 nums, 40 marks, 71 text)
+in-review_path_storage: 0 lines differ (0 nums, 1 marks, 4 text)
+internal_ask: 0 lines differ (0 nums, 0 marks, 35 text) (an internal page: its lines are in runs/session241b/, not here)
+internal_costs: 0 lines differ (0 nums, 0 marks, 76 text) (an internal page: its lines are in runs/session241b/, not here)
+internal_findings: 0 lines differ (0 nums, 96 marks, 511 text) (an internal page: its lines are in runs/session241b/, not here)
+internal_health: 0 lines differ (0 nums, 0 marks, 52 text) (an internal page: its lines are in runs/session241b/, not here)
+internal_open: 0 lines differ (0 nums, 5 marks, 6 text) (an internal page: its lines are in runs/session241b/, not here)
+internal_usage: 62 lines differ (0 nums, 0 marks, 153 text) (an internal page: its lines are in runs/session241b/, not here)
+internal_waits: 58 lines differ (0 nums, 541 marks, 1060 text) (an internal page: its lines are in runs/session241b/, not here)
+privacy: 0 lines differ (0 nums, 7 marks, 24 text)
+reports: 0 lines differ (0 nums, 0 marks, 2 text)
+reports_draft_ai-gigawatts: 0 lines differ (240 nums, 8 marks, 174 text)
+reports_draft_shape-premium: 0 lines differ (116 nums, 4 marks, 124 text)
+roundup: 0 lines differ (0 nums, 87 marks, 129 text)
+roundup_2026-W41: 0 lines differ (0 nums, 84 marks, 126 text)
+subscribe: 0 lines differ (0 nums, 19 marks, 27 text)
+terms: 0 lines differ (0 nums, 151 marks, 156 text)
+thesis: 0 lines differ (0 nums, 26 marks, 28 text)
+visitor_about: 0 lines differ (0 nums, 1 marks, 4 text)
+visitor_data_methods_storage: 0 lines differ (0 nums, 1 marks, 4 text)
+visitor_storage: 0 lines differ (0 nums, 1 marks, 4 text)
+visitor_terms: 0 lines differ (0 nums, 1 marks, 4 text)
+
+36 pages before, 36 after; 2 pages differ; 120 lines differ in all
+
+== after at 390 px against before at 1280 px
+about: 0 lines differ (0 nums, 74 marks, 103 text)
+ask: 0 lines differ (0 nums, 4 marks, 4 text)
+ask_ercot: 0 lines differ (0 nums, 6 marks, 5 text)
+data: 0 lines differ (97 nums, 324 marks, 305 text)
+data_faults: 0 lines differ (0 nums, 62 marks, 399 text)
+data_methods_battery_stack: 0 lines differ (0 nums, 5 marks, 173 text)
+data_methods_cost_of_power: 0 lines differ (0 nums, 2 marks, 307 text)
+data_methods_ercot_peak_premium: 0 lines differ (0 nums, 1 marks, 64 text)
+data_methods_grid_network: 0 lines differ (0 nums, 5 marks, 240 text)
+data_methods_impossible_hours: 0 lines differ (0 nums, 1 marks, 87 text)
+data_methods_storage: 0 lines differ (0 nums, 2 marks, 64 text)
+data_standard: 0 lines differ (0 nums, 1 marks, 186 text)
+digest: 0 lines differ (0 nums, 52 marks, 84 text)
+digest_2026-10-10: 0 lines differ (0 nums, 2 marks, 3 text)
+digest_2026-10-12: 0 lines differ (0 nums, 40 marks, 71 text)
+in-review_path_storage: 0 lines differ (0 nums, 1 marks, 4 text)
+internal_ask: 0 lines differ (0 nums, 0 marks, 35 text) (an internal page: its lines are in runs/session241b/, not here)
+internal_costs: 0 lines differ (0 nums, 0 marks, 76 text) (an internal page: its lines are in runs/session241b/, not here)
+internal_findings: 0 lines differ (0 nums, 96 marks, 511 text) (an internal page: its lines are in runs/session241b/, not here)
+internal_health: 0 lines differ (0 nums, 0 marks, 52 text) (an internal page: its lines are in runs/session241b/, not here)
+internal_open: 0 lines differ (0 nums, 5 marks, 6 text) (an internal page: its lines are in runs/session241b/, not here)
+internal_usage: 62 lines differ (0 nums, 0 marks, 153 text) (an internal page: its lines are in runs/session241b/, not here)
+internal_waits: 58 lines differ (0 nums, 541 marks, 1060 text) (an internal page: its lines are in runs/session241b/, not here)
+privacy: 0 lines differ (0 nums, 7 marks, 24 text)
+reports: 0 lines differ (0 nums, 0 marks, 2 text)
+reports_draft_ai-gigawatts: 0 lines differ (240 nums, 8 marks, 174 text)
+reports_draft_shape-premium: 0 lines differ (116 nums, 4 marks, 124 text)
+roundup: 0 lines differ (0 nums, 87 marks, 129 text)
+roundup_2026-W41: 0 lines differ (0 nums, 84 marks, 126 text)
+subscribe: 0 lines differ (0 nums, 19 marks, 27 text)
+terms: 0 lines differ (0 nums, 151 marks, 156 text)
+thesis: 0 lines differ (0 nums, 26 marks, 28 text)
+visitor_about: 0 lines differ (0 nums, 1 marks, 4 text)
+visitor_data_methods_storage: 0 lines differ (0 nums, 1 marks, 4 text)
+visitor_storage: 0 lines differ (0 nums, 1 marks, 4 text)
+visitor_terms: 0 lines differ (0 nums, 1 marks, 4 text)
+
+36 pages before, 36 after; 2 pages differ; 120 lines differ in all
+
+== Thesis Builder against the check's stand-in, at 1280 px
+thesis: 0 lines differ (0 nums, 17 marks, 19 text)
+thesis_run_fixture-done_tab_capital: 0 lines differ (0 nums, 42 marks, 52 text)
+thesis_run_fixture-done_tab_incumbents: 0 lines differ (0 nums, 39 marks, 49 text)
+thesis_run_fixture-done_tab_scope: 0 lines differ (0 nums, 43 marks, 59 text)
+thesis_run_fixture-done_tab_trends: 0 lines differ (0 nums, 47 marks, 71 text)
+thesis_run_fixture-failed: 0 lines differ (0 nums, 17 marks, 23 text)
+thesis_run_fixture-three_tab_capital: 0 lines differ (0 nums, 33 marks, 45 text)
+
+7 pages before, 7 after; 0 pages differ; 0 lines differ in all
+
+== the 25 addresses of the live-page snapshot, as a visitor, by the snapshot's own functions: diff of before and after
+0 lines
+
+== the battery page against session 211: numbers 0 lines, text 0 lines; {"scrollW":1265,"clientW":1265,"h":5016,"h2":["Your battery"

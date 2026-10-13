@@ -734,3 +734,195 @@ body:has(.brand-a) header :focus-visible {
 .brand-a tbody td.text-right.text-xs span {
   font-size: 12px;
 }
+
+/* ---- session 241b: the pages of words on the brand (about, terms, privacy, the data pages, a method note, the data
+   standard, a digest, a Roundup, the email form, Ask). Every rule is written for a kind of markup, for any page, and
+   none matches the battery page: it holds no rendered markdown, no titled block of components/Section.tsx, no
+   article, no list of terms, no preformatted text, no checkbox, no field of words and, when its reads succeed, no
+   status box. */
+/* rendered markdown (the class prose-erw of app/globals.css): the title and the headings are the brand's serif in ink,
+   the text is the text face, a line of text is at most 68 characters while a table or a block of code may take the
+   width there is, a table has one dark rule under its header and no band, code is the mono face on fog */
+.brand-a .prose-erw {
+  max-width: none;
+  line-height: 1.6;
+}
+.brand-a .prose-erw > * {
+  max-width: 68ch;
+}
+.brand-a .prose-erw > table,
+.brand-a .prose-erw > pre {
+  max-width: 100%;
+}
+.brand-a .prose-erw > h1,
+.brand-a .prose-erw > h2 {
+  max-width: none;                           /* a title and its rule span the page, as a table under it does */
+}
+.brand-a .prose-erw h1 {
+  font-size: 24px;
+  line-height: 1.25;
+  margin: 0 0 16px;
+}
+.brand-a .prose-erw h2 {
+  font-size: 20px;
+  line-height: 1.35;
+  margin: 48px 0 12px;
+  border-bottom: 0;
+  border-top: 1px solid var(--color-rule);   /* the light rule above a section title, not under it */
+  padding: 12px 0 0;
+}
+.brand-a .prose-erw h3 {
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 24px 0 8px;
+}
+@media (min-width: 640px) {
+  .brand-a .prose-erw h1 {
+    font-size: 36px;
+    line-height: 1.15;
+  }
+  .brand-a .prose-erw h2 {
+    font-size: 24px;
+    line-height: 1.25;
+  }
+  .brand-a .prose-erw h3 {
+    font-size: 20px;
+    line-height: 1.35;
+  }
+}
+.brand-a .prose-erw h4 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 16px 0 8px;
+}
+.brand-a .prose-erw p,
+.brand-a .prose-erw ul,
+.brand-a .prose-erw ol,
+.brand-a .prose-erw blockquote {
+  margin: 0 0 16px;
+}
+.brand-a .prose-erw li {
+  margin: 4px 0;
+}
+.brand-a .prose-erw li > ul,
+.brand-a .prose-erw li > ol {
+  margin-bottom: 0;
+}
+.brand-a .prose-erw table {
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0 0 16px;
+}
+.brand-a .prose-erw th,
+.brand-a .prose-erw td {
+  border: 0;
+  border-bottom: 1px solid var(--color-rule);
+  padding: 6px 16px 6px 0;
+}
+.brand-a .prose-erw thead tr {
+  border-bottom: 0;                          /* the header's rule is drawn on its cells: the table is a block that scrolls */
+}
+.brand-a .prose-erw th {
+  background: transparent;
+  border-bottom: 1px solid var(--color-ink);
+  font-size: 12px;
+  line-height: 1.4;
+  font-weight: 400;
+  color: var(--color-muted);
+  vertical-align: bottom;
+}
+.brand-a .prose-erw th[align="right"],
+.brand-a .prose-erw td[align="right"] {
+  text-align: right;                         /* a column the document sets to the right is a column of figures */
+}
+.brand-a .prose-erw td[align="right"] {
+  font-family: var(--font-mono);             /* mono, on one line */
+  white-space: nowrap;
+}
+.brand-a .prose-erw code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: var(--color-paper);
+  border: 0;
+  border-radius: 0;
+  padding: 0 4px;
+}
+.brand-a .prose-erw pre {
+  background: var(--color-paper);
+  border: 1px solid var(--color-rule);
+  padding: 12px 16px;
+  margin: 0 0 16px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.brand-a .prose-erw pre code {
+  background: transparent;
+  padding: 0;
+  font-size: inherit;
+}
+.brand-a .prose-erw blockquote {
+  border-left: 1px solid var(--color-muted);
+  padding-left: 12px;
+  color: var(--color-muted);
+}
+.brand-a .prose-erw hr {
+  border: 0;
+  border-top: 1px solid var(--color-rule);
+  margin: 32px 0;
+}
+.brand-a .prose-erw img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* a titled block (components/Section.tsx: a section whose title sits in a ruled row with a note at its right): the
+   light rule above the title, not under it, as a tool page's section */
+.brand-a section > div.border-b:has(> h2) {
+  border-bottom: 0;
+  border-top: 1px solid var(--color-rule);
+  padding-bottom: 0;
+  padding-top: 12px;
+}
+/* a page of words (an article): a line of text is at most 68 characters, whatever the article's own width */
+.brand-a article p,
+.brand-a article li,
+.brand-a article dd {
+  max-width: 68ch;
+}
+/* a link in a list of terms is underlined, as in a paragraph, a list or a cell */
+.brand-a dd a,
+.brand-a dt a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+/* preformatted text outside rendered markdown (a command to copy): fog with a rule-colored edge, the mono face */
+.brand-a pre {
+  background: var(--color-paper);
+  border-color: var(--color-rule);
+  font-family: var(--font-mono);
+}
+/* a status box (a read that failed, a form's answer): a panel is fog with a rule-colored edge, never a dashed one */
+.brand-a [role="status"].border-dashed {
+  border-style: solid;
+  background: var(--color-paper);
+}
+/* a field of words (a question, an address, a name) takes the text face; a field of figures stays in the mono face */
+.brand-a input:is([type="text"], [type="email"], [type="search"], :not([type])):not([inputmode="decimal"]):not([inputmode="numeric"]) {
+  font-family: var(--font-sans);
+}
+/* a checkbox: the brand's accent, 16 px, in a label at least 24 px tall */
+.brand-a input[type="checkbox"] {
+  accent-color: var(--color-accent);
+  width: 16px;
+  height: 16px;
+}
+.brand-a label:has(> input[type="checkbox"]) {
+  min-height: 24px;
+}
+/* a table header that stays in place while its rows scroll under it keeps the page's white behind it */
+.brand-a thead tr.sticky {
+  background: var(--color-panel);
+}

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { Section } from "@/components/Section";
@@ -71,10 +72,12 @@ export default async function UsagePage({ searchParams }: { searchParams: Promis
     u = await rpc<Usage>("internal_usage", { p_token: want });
   } catch (e) {
     return (
+      <Brand>
       <div data-usage="unread">
         <h1 className="mb-2 text-3xl">Usage (internal)</h1>
         <p className="text-sm">The usage counts could not be read: {(e as Error).message.slice(0, 160)}. Until migration 028 is applied the site records nothing.</p>
       </div>
+      </Brand>
     );
   }
   const rows = u.rows ?? [];
@@ -97,6 +100,7 @@ export default async function UsagePage({ searchParams }: { searchParams: Promis
   const today = dayVisitors.get(u.today) ?? 0;
 
   return (
+    <Brand>
     <div data-usage="1">
       <h1 className="mb-1 text-3xl">Usage (internal)</h1>
       <p className="mb-5 max-w-3xl text-sm text-muted">
@@ -114,5 +118,6 @@ export default async function UsagePage({ searchParams }: { searchParams: Promis
       <Section title="By page"><Counts rows={byPage} label="Path" visitors={pageVisitors} /></Section>
       <Section title="By tool"><Counts rows={byTool} label="Tool" visitors={toolVisitors} /></Section>
     </div>
+    </Brand>
   );
 }

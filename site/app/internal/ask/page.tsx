@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { COOKIE } from "@/lib/release";
@@ -43,6 +44,7 @@ export default async function AskSpend({ searchParams }: { searchParams: Promise
   const byDay = [...new Set(s.days.map((r) => r.day))].sort().reverse();
   const closed = !limits || !readSalt();
   return (
+    <Brand>
     <div data-ask-spend="1">
       <h1 className="mb-2 font-serif text-3xl text-accent">Ask: spend by day</h1>
       <p className="mb-6 max-w-3xl text-sm">What the question-answering tools (the general chat and Ask ERCOT) spent on model calls, by UTC day, against their ceilings. When a ceiling is reached the tools answer with a plain message and call no model until the day or the month turns over.</p>
@@ -93,5 +95,6 @@ export default async function AskSpend({ searchParams }: { searchParams: Promise
         <p className="mt-2 max-w-3xl text-xs text-muted">A question&apos;s text is not kept in the database, and neither is who asked it: this table holds its day, its tool, its calls and its cost.</p>
       </Section>
     </div>
+    </Brand>
   );
 }

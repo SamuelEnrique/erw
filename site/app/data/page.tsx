@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { Cite } from "@/components/Cite";
 import { NoData } from "@/components/NoData";
@@ -31,7 +32,7 @@ function dictionary(md: string): string {
 export default async function Data() {
   const cat = await attempt(catalogue);
   return (
-    <>
+    <Brand>
       <h1 className="mb-1 text-3xl">Data</h1>
       <p className="mb-6 max-w-3xl text-sm text-muted">
         Every public table in the ERW. Each table is one of three shapes (series, entities, events), in UTC, with the source report
@@ -192,6 +193,6 @@ export default async function Data() {
           ))}
         </ul>
       </Section>
-    </>
+    </Brand>
   );
 }

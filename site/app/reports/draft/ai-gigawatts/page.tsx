@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { notFound } from "next/navigation";
 import { Cite } from "@/components/Cite";
@@ -112,6 +113,7 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
     .sort((a, b) => b.n - a.n || a.r.name.localeCompare(b.r.name));
 
   return (
+    <Brand>
     <article className="max-w-4xl">
       <p className="mb-1 text-xs text-muted">Draft, internal. Not in the navigation, not published. <Link href="/data/methods/cost_of_power">Cost-of-power method</Link></p>
       <h1 className="mb-2 text-3xl">Where the next gigawatts for AI can come from</h1>
@@ -398,5 +400,6 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
       <Cite tables={[T, "cost_of_power_monthly", "carbon_intensity_daily", "lbnl_interconnection_queue", "eia930_daily_interchange", "event_study_estimates"]}
         note="Lawrence Berkeley National Laboratory and GridTracker, Queued Up (CC BY 4.0); U.S. EIA, Form EIA-930; the ISOs' public price and queue data" />
     </article>
+    </Brand>
   );
 }
