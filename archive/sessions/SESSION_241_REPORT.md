@@ -17,7 +17,7 @@
 |---|---|---|---|
 | A | `/supply`, `/contracts`, `/learn/bill`, `/battery/customer`, `/shoulder`, `/curtailment`, `/queues`, `/cost-of-power/battery/awards`, `/grid/caiso/alerts`, `/events` and its eight pages, `/policy` | `SESSION_241A_REPORT.md` | 11:34 UTC, with B |
 | B | `/about`, `/terms`, `/privacy`, `/data` and its sub-pages, the method notes, `/digest`, `/roundup`, `/subscribe`, `/ask`, `/thesis`, the page in review, the internal pages | `SESSION_241B_REPORT.md` | 11:34 UTC, with A |
-| C | `/datacenters` (with `/datacenters/v2` folded in), the color literals left in the pages of sessions 237 to 240, the consumption view on a phone, two stale checks rewritten | `SESSION_241C_REPORT.md` | with session 242, the chain's last push |
+| C | `/datacenters` (with `/datacenters/v2` folded in), the color literals left in the pages of sessions 237 to 240, the consumption view on a phone, two stale checks rewritten | `SESSION_241C_REPORT.md` | 12:30 UTC, with session 242 |
 
 ## What to review
 
@@ -29,7 +29,7 @@
 ## The landings
 
 - Batches A and B: `task/241-brand` (`c2144c8e`), check run 38389922595, production from 11:35:48 UTC; snapshots `s241-before` and `s241-after`, 0 differences in all (the page a visitor is shown for a page in review was restyled and its words did not change). The lines are in each batch's report.
-- Batch C: in the chain's last push with session 242 (`task/242-final`); its lines are in `SESSION_242_REPORT.md` and the chain's closing message.
+- Batch C: in the chain's last push with session 242, `task/242-final` (`464d6834`), check run 38396628258, merged as `be166fdf`, production from 12:32:53 UTC; snapshots `s242-before` and `s242-after`, 0 differences in all. The lines are in `SESSION_241C_REPORT.md` and `SESSION_242_REPORT.md`.
 
 ## Decisions made without you
 
