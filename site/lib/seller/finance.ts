@@ -25,11 +25,12 @@ export type Spec = {
 };
 const n = (v: number) => v.toLocaleString("en-US", { maximumFractionDigits: 2 });
 export const LAZARD = "Lazard, Levelized Cost of Energy+, June 2025";
-/** Session 196, the owner's ruling of 11 October 2026: the hurdle rate's default is Lazard's weighted cost of capital,
- * as Lazard's June 2025 report states its financing: "60% debt at an 8% interest rate and 40% equity at a 12% cost"
- * (read 11 October 2026; docs/methods/battery_earns_algorithm.md, "Cross-checks"). 0.6 x 8 + 0.4 x 12 = 9.6. Until then
- * it was 8, set equal to the interest rate, with no source. */
-export const HURDLE = 9.6;
+/** Session 208, the owner's ruling of 12 October 2026: the hurdle rate's default is Lazard's cost of equity, 12
+ * percent, as Lazard's June 2025 report states its financing: "60% debt at an 8% interest rate and 40% equity at a 12%
+ * cost" (read 11 October 2026; docs/methods/battery_earns_algorithm.md, "Cross-checks"). The NPV is to equity, after
+ * the debt payments, so equity's cost discounts it. From session 196 to 207 it was the weighted cost, 0.6 x 8 + 0.4 x
+ * 12 = 9.6; before that 8, equal to the interest rate, with no source. The datacenter page keeps 9.6 (the same ruling). */
+export const HURDLE = 12;
 /** Session 196, the same ruling, for the battery among this page's assets: Lazard's storage cases (LCOS v10.0) give a
  * battery degradation of 2.6% a year (lib/battery/finance.ts, DEG). Solar, wind and a gas peaker keep a default of
  * none: the ruling names the battery, and the page says no cited rate is held for them. */
@@ -51,7 +52,7 @@ export const SPECS: Record<Key, Spec> = {
   life: { key: "life", letter: "l", label: "Project life", unit: "years", min: 1, max: 40, whole: true, swing: 5, swingWords: "5 years",
     short: (v) => `life ${n(v)} years`, words: (v) => `project life ${n(v)} years`, plain: n, source: `${LAZARD}: the life of this asset` },
   hurdle: { key: "hurdle", letter: "h", label: "Hurdle rate", unit: "percent a year", min: 0, max: 40, whole: false, swing: 1, swingWords: "1 point",
-    short: (v) => `hurdle ${n(v)}%`, words: (v) => `hurdle rate ${n(v)} percent`, plain: n, source: `${LAZARD}: "60% debt at an 8% interest rate and 40% equity at a 12% cost". The default is that weighted cost, 0.6 x 8 + 0.4 x 12 = ${HURDLE} percent` },
+    short: (v) => `hurdle ${n(v)}%`, words: (v) => `hurdle rate ${n(v)} percent`, plain: n, source: `${LAZARD}: "60% debt at an 8% interest rate and 40% equity at a 12% cost". The default is that cost of equity, ${HURDLE} percent: the NPV is to equity, after the debt payments` },
 };
 
 /** The defaults for an asset: its Lazard capital cost, fixed O&M and life (lib/merchant.ts, DEFAULTS), Lazard's

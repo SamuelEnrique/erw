@@ -2,6 +2,11 @@
 // Session 67: the optional contract of /cost-of-power/battery. The three terms are this component's state and nothing
 // else: never in the URL, never in a request, never in storage or a log. The result is computed in the browser from
 // the monthly table already on the page (lib/batterystack.ts, contractResult).
+//
+// Session 208 (the owner's ruling of 12 October 2026): no longer drawn. The page's contract is a scenario's two
+// assumptions, share and price, in the address like the others (lib/battery/finance.ts, Scenarios.tsx), and the
+// panel "Your contract (optional)" and the section "With your contract" are gone from the page. This file is kept
+// as it was, undrawn and imported by nothing; the arithmetic it used (contractResult) stays in lib/batterystack.ts.
 import { createContext, useContext, useState, type ReactNode } from "react";
 import { contractResult, monthName, usdShort, type Inputs, type Month } from "@/lib/batterystack";
 

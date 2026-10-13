@@ -18,7 +18,7 @@ import unittest
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 EM = chr(0x2014)
 NOTES = {
-    "battery_earns_algorithm": ("site/app/cost-of-power/battery/page.tsx", 9),
+    "battery_earns_algorithm": ("site/app/cost-of-power/battery/page.tsx", 14),
     "generator_earns_algorithm": ("site/app/cost-of-power/seller/page.tsx", 10),
     "datacenter_pays_algorithm": ("site/app/cost-of-power/page.tsx", 6),
 }
@@ -42,11 +42,16 @@ def table(note):
 
 class TheDefaults(unittest.TestCase):
     def test_the_hurdle_rate_is_lazards_weighted_cost_on_the_three_pages(self):
-        for lib in ("battery", "seller"):
-            text = src(f"site/lib/{lib}/finance.ts")
-            self.assertIn("export const HURDLE = 9.6;", text, lib)
-            self.assertIn('"60% debt at an 8% interest rate and 40% equity at a 12% cost". The default is that weighted cost, 0.6 x 8 + 0.4 x 12 = ${HURDLE} percent', text, lib)
-            self.assertIn("hurdle: HURDLE };", text, lib)
+        # session 208 (the owner's ruling of 12 October 2026): the battery and the generator take Lazard's cost of equity, 12 percent;
+        # the datacenter keeps the weighted cost, 9.6
+        battery, seller = src("site/lib/battery/finance.ts"), src("site/lib/seller/finance.ts")
+        for text in (battery, seller):
+            self.assertIn("export const HURDLE = 12;", text)
+            self.assertIn("The default is that cost of equity, ${HURDLE} percent", text)
+        self.assertIn('"80% equity at a 12% cost" in its storage cases', battery)
+        self.assertIn('"60% debt at an 8% interest rate and 40% equity at a 12% cost". The default is that cost of equity', seller)
+        self.assertIn("hurdle: HURDLE, cshare: 0, cprice: 0 };", battery)
+        self.assertIn("hurdle: HURDLE };", seller)
         dc = src("site/lib/datacenter/finance.ts")
         self.assertIn("export const LIFE = 20, HURDLE = 9.6;", dc)
         self.assertIn('"60% debt at an 8% interest rate and 40% equity at a 12% cost". The default is that weighted cost, 0.6 x 8 + 0.4 x 12 = 9.6 percent', dc)
@@ -55,7 +60,7 @@ class TheDefaults(unittest.TestCase):
     def test_a_batterys_degradation_is_lazards_and_no_other_assets(self):
         battery = src("site/lib/battery/finance.ts")
         self.assertIn("export const DEG = 2.6;", battery)
-        self.assertIn("deg: DEG, life: 20, hurdle: HURDLE };", battery)
+        self.assertIn("deg: DEG, life: 20, hurdle: HURDLE, cshare: 0, cprice: 0 };", battery)   # session 208
         self.assertIn("(LCOS v10.0): battery degradation of 2.6 percent a year in its utility-scale cases of 2 and 4 hours", battery)
         seller = src("site/lib/seller/finance.ts")
         self.assertIn("export const BATTERY_DEG = 2.6;", seller)
