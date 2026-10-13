@@ -125,7 +125,7 @@ Everything is computed per 1 MW of nameplate and multiplied by the reader's MW a
 | One solar month by hand, ERCOT 2025-07 | 277.9898 MWh per MW; USD 7,941.5254 per MW | the table | equal | Recomputed from the source files | `tests/test_session51.py` |
 | The pair's solver against a second solver | the page's simplex | scipy's HiGHS | one part in ten billion | Two implementations | `site/scripts/test-hybrid.mjs` |
 
-**California, checked at ERCOT's depth (session 253; in the methods note's section 12, not among the ten the page counts).** Ours is the page's own model for CAISO in 2025 at real-time prices; "theirs" was read on 13 October 2026.
+**California, checked at ERCOT's depth (session 253; the methods note's section 12).** The page counts 20 published figures where it counted 10: the ten more are the rows of that section that hold a gap, five of them below (session 257, as committed on its branch at `9e0bbfe8`; it holds once that branch is on `main`). Ours is the page's own model for CAISO in 2025 at real-time prices; "theirs" was read on 13 October 2026.
 
 | What is compared | Ours | Theirs | Gap | Reason | Where it is written |
 |---|---|---|---|---|---|
@@ -156,7 +156,7 @@ Ranked by the held number where there is one. Where the repository holds no numb
 11. **Real time against day-ahead.** The same 100 MW at the same hub earned USD 6,328,531 at day-ahead prices (364 days) and 5,985,226 in real time. A row priced day-ahead is not comparable with one priced in real time.
 12. **Perfect foresight (battery) and perfect hourly information (peaker).** Both are upper bounds. On the battery page the day-ahead schedule gives 73.00 against 81.40 with foresight. For this page's energy-only battery: no number held.
 13. **The peaker's start costs and delivered gas.** No start cost, no minimum run. Gas is Henry Hub; in New York and New England delivered gas costs more in winter, so the margin there is overstated. Size: no number held.
-14. **California's carbon allowance on a peaker's fuel.** The peaker's rule is fuel plus variable O&M on every grid. In California a gas plant also buys allowances: at SP15 in 2025 the page's rule gives USD 30.05 per kW, the same rule with the allowance 6.95, and the market monitor's own unit earned 0.78. Every CAISO peaker figure on the page is too high by that. Solar and wind are not touched.
+14. **California's carbon allowance on a peaker's fuel.** The peaker's rule is fuel plus variable O&M on every grid. In California a gas plant also buys allowances: at SP15 in 2025 the page's rule gives USD 30.05 per kW, the same rule with the allowance 6.95, and the market monitor's own unit earned 0.78. Every CAISO peaker figure on the page is too high by that. Solar and wind are not touched. Session 257 left the rule as it is: adding the allowance waits for a ruling.
 15. **California's wind since May 2026.** EIA-860M lists 3,650 MW of New Mexico wind in CAISO's balancing authority from May 2026, so the shape's denominator grew: the last twelve months hold 2,477 MWh per MW against 3,125 in 2025. Whether EIA-930's generation counts that plant was not checked. For California's wind, 2025 is the cleaner year.
 16. **Age of the files.** The model's snapshot (`site/data/merchant_snapshot.json`) was built by hand on 2026-10-04 and no schedule rebuilds it; its newest held month is September 2026. The capture file and the file of the battery beside the plant are rebuilt by the data machine's daily run.
 
@@ -248,7 +248,7 @@ Open the internal view first: `https://erw-flame.vercel.app/internal/unlock?toke
 
 **With a sixth minute.** `/cost-of-power/seller?asset=peaker`: **Margin over fuel, last twelve months** 48.15 USD/kW at the hub average and 59.58 at the West hub; the toll row reads USD 8.34 per kW-month. `/cost-of-power/seller?asset=battery`: 58.53 USD/kW, energy alone, with a link to What a battery earns.
 
-**California, if asked.** `/cost-of-power/seller?iso=caiso` opens CAISO solar at SP15, held from September 2024. The methods note's section 12 holds what the page's files give for the last twelve months: revenue USD 28.45 per kW on 2,057 MWh per MW; price received 13.86 against a flat average of 28.53 (48.6 percent); coverage 0.23 times; breakeven PPA price USD 73.19 per MWh. Say: California's solar is paid under half the average price in the south (NP15: 73.0 percent), and one whole year is held, 2025. Read the screen for the figures themselves.
+**California, if asked.** `/cost-of-power/seller?iso=caiso` opens CAISO solar at SP15, held from September 2024. The methods note's section 12 holds what the page's files give for the last twelve months: revenue USD 28.45 per kW on 2,057 MWh per MW; price received 13.86 against a flat average of 28.53 (48.6 percent); coverage 0.23 times; breakeven PPA price USD 73.19 per MWh. Say: California's solar is paid under half the average price in the south (NP15: 73.0 percent), and one whole year is held, 2025. Read the screen for the figures themselves. California's stress days are not in this page's downloads: the model's snapshot holds them for ERCOT alone.
 
 **If something goes wrong.** "In review" instead of the page: the internal view is not open in this browser. Open the unlock address again.
 
