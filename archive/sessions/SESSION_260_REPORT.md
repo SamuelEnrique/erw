@@ -29,7 +29,8 @@ For the demo at 23:00 UTC, section 7 of each is the path. Open the internal view
 - **Research (rewritten).** Written from `main`. Today's chart is no longer a proof: the record of 13 October was drawn from that day's scan and the Digest carries it. Session 252's verification of the 16 waiting drafts is in (16 of 16 reproduce; 4 strong, 7 usable, 5 drop). The demo says twice not to click a real ruling or queue a real request.
 - **Datacenter (corrected).** ERCOT's reserve adder is counted on the page: 0 hours at or above USD 100 in the 1,558 hours of the twelve months it was published; 1 hour in its last year. Question 7, question 9, the demo's minute 2 to 3, one row of section 3, item 10 of section 5.
 - **Generator (corrected).** The capture file is rebuilt daily (the header said 7 October). A block of seven rows, California at ERCOT's depth, from the method note's section 12. Two blind spots added: California's carbon allowance on a peaker's fuel, and California's wind since May 2026. A paragraph "California, if asked" in the demo.
-- **Battery (corrected).** The file of efficiency and cycle steps is rebuilt daily (the note said 10 October). The header says the page's code moved only in where its fonts come from.
+- **Battery (corrected).** The file of efficiency and cycle steps is rebuilt daily (the note said 10 October). The header says the page's code moved only in where its fonts come from. California's line beside its market monitor and its stress days are in, from session 257's commit (below).
+- **Generator, from session 257's commit:** the block's heading and question 10 count 20 published figures (below).
 - **The index** says all five pages are on `main`.
 
 ## Two figures summed again, read only
@@ -39,11 +40,22 @@ For the demo at 23:00 UTC, section 7 of each is the path. Open the internal view
 
 ## California, and what depends on session 257
 
-- **As this stands, session 257 had committed nothing** (`git -C erw-142 log` at 18:24 UTC: its branch `wip/257-california` was at `34b468fa`, main's head). So every California sentence in the notes is true of `main` without session 257, and none depends on it yet.
-- **What the notes say of California today, from `main`:**
-  - Generator: the block of seven rows under section 4 (the method note's section 12, session 253), items 14 and 15 of section 5, and "California, if asked" in section 7. The block's heading says its rows are "not among the ten the page counts": true on `main`, and it becomes false when session 257 lands (the page will count 20).
-  - Battery: question 7 says "The page does not yet print that line for CAISO, as it does for ERCOT", and step 4 of minute 2 to 3 says "there is no awards line for CAISO". Both are true on `main` and become false when session 257 lands.
-- **To finish, if this section still reads so at the landing:** those three sentences are the ones to turn. The words are in "To finish" at the foot of this section's history in `runs/session260/notes.md`.
+- **Written from session 257's branch, not from `main`.** `wip/257-california` held one commit when these were written, `9e0bbfe8` (18:24 UTC), read with `git show` only. No report of session 257 was in its worktree at 18:27 UTC; the branch is read again before the hand-back and the result is the last bullet of this section.
+- **What that commit does, as its diff reads:** on the battery page CAISO gets one line under its income table (the model's 2025 energy and regulation income for a 4-hour battery on the day-ahead schedule, computed from the table, beside the market monitor's real fleet, 35 and 9, a cited constant), and the sentence with the downloads names the stress days of the grid shown (CAISO's by their days). On the generator page the source line counts 20 published figures where it counted 10. Not done there, and said so in its own comment: the peaker's carbon cost and the sentence beside CAISO's wind (each a ruling), CAISO's stress days on the generator page (the snapshot holds none).
+- **The sentences that are true only once session 257 is on `main`.** Each carries the words "session 257" in the note:
+  1. `battery.md`, the opening: the bullet "California (session 257)".
+  2. `battery.md`, section 3: the row "California's line beside its market monitor (session 257)" (`FLEET_BESIDE` is not in `site/lib/batterystack.ts` on `main` today).
+  3. `battery.md`, question 7: "The page prints that comparison in one line under CAISO's income table, as it prints the awards line for ERCOT (session 257)."
+  4. `battery.md`, section 7, minute 2 to 3, step 4: the whole step, with the line's words, 42.31 and 42.25, and the stress days named "the days of CAISO's system-wide notices".
+  5. `battery.md`, the last table: the row "California's line: its words, 35 and 9 ..." (it names a heading of the method note, "For CAISO, since session 257", and `STRESS_BY`, which exist on that branch only).
+  6. `generator.md`, section 4: "The page counts 20 published figures where it counted 10: the ten more are the rows of that section that hold a gap, five of them below (session 257 ...)".
+  7. `generator.md`, section 5, item 14: "Session 257 left the rule as it is: adding the allowance waits for a ruling."
+  8. `generator.md`, question 10: "Twenty published figures stand beside it, ten of them California's (session 257)".
+  - Two more lines of `generator.md` say 20 and are session 257's own edits, not this session's: the sentence over the cross-checks table, and step 4 of minute 4 to 5. On this branch alone they still say 10.
+- **To check at the landing:** that the model's two figures in the CAISO line read 42.31 and 42.25 on the built page (the page computes them; the note quotes the method note of 13 October), and the stress days' words.
+- **The two branches merge without a conflict:** `git merge-tree --write-tree` of this branch with `9e0bbfe8` exits 0. On the merged notes the form tests pass (20 tests) and session 257's two pins on `generator.md` hold (no "10 published figures"; the sentence of 20). `runs/session260/sim_merge.py`.
+- **If session 257 does not land:** `git checkout db9ffdb9 -- docs/howitworks/battery.md docs/howitworks/generator.md` gives the two notes as they were before these passages, true of `main` without it (the generator block then says its rows are "not among the ten the page counts").
+- **California without session 257, true of `main` today:** the generator note's block of seven rows (the method note's section 12, session 253), its blind spots 14 and 15, and "California, if asked" in its demo; everything the battery note already said of CAISO (the cross-checks of session 246).
 
 ## Checks, with exit codes
 
