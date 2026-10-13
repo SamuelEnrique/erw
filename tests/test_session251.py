@@ -205,5 +205,81 @@ class TheMeasures(unittest.TestCase):
         self.assertIn("4 PM to 9 PM", e["words"])
 
 
+class TheVerifiedDrafts(unittest.TestCase):
+    """The section appended to docs/reviews/findings-verified-2026-10-13.md is held to its result file, as session
+    252's part is held to its two (tests/test_session252.py, which still finds its 16 blocks above this section)."""
+    DOC = ("docs", "reviews", "findings-verified-2026-10-13.md")
+    RESULT = ("docs", "reviews", "findings-verified-2026-10-13-session251", "verify_251.json")
+
+    def section(self):
+        with open(os.path.join(ROOT, *self.DOC), encoding="utf-8") as f:
+            text = f.read()
+        self.assertEqual(text.count("## Session 251's twelve drafts, verified"), 1)
+        self.assertLess(text.index("## What the list should learn from this"), text.index("## Session 251's twelve drafts, verified"))
+        return text[text.index("## Session 251's twelve drafts, verified"):]
+
+    def blocks(self):
+        import re
+        body = self.section()
+        body = body[body.index("### The 12 drafts of session 251, strongest first"):body.index("### What the hunt should learn from these twelve")]
+        return re.split(r"\n### \d+\. ", body)[1:]
+
+    def results(self):
+        import json
+        with open(os.path.join(ROOT, *self.RESULT), encoding="utf-8") as f:
+            return json.load(f)
+
+    def test_twelve_blocks_each_with_its_seven_parts_and_no_forbidden_dash(self):
+        bs = self.blocks()
+        self.assertEqual(len(bs), 12)
+        for b in bs:
+            for part in ("- **Draft:**", "- **Claim:**", "- **Number:**", "- **Reproduced:** yes, exactly.", "- **Robust, the hunt's three tests, run again:** 3 of 3 pass.",
+                         "- **Robust, five tests the hunt does not run:**", "- **Robust, the question asked another way:**", "- **License:**", "- **Verdict: "):
+                self.assertIn(part, b, b[:80])
+        self.assertNotIn(EM, self.section())
+        self.assertNotIn(chr(0x2013), self.section())
+
+    def test_the_blocks_are_the_drafts_of_the_result_file_and_every_one_reproduced(self):
+        import re
+        ids = [re.search(r"`(scan-hunt-[0-9a-f]{12})`", b).group(1) for b in self.blocks()]
+        res = self.results()
+        self.assertEqual(sorted(ids), sorted(r["id"] for r in res))
+        self.assertEqual(len(set(ids)), 12)
+        for r in res:
+            self.assertEqual(r["problems"], [], r["id"])
+            self.assertEqual(r["mirror_exit"], 0, r["id"])
+            self.assertTrue(r["reproduced_from_own_csv"] and r["reproduced_from_tables_full_years"] and r["tables_are_the_measures_own"], r["id"])
+            self.assertGreaterEqual(r["numbers_compared"], 45, r["id"])
+            self.assertIn(r["measure"], hm.FAMILIES, r["id"])
+            self.assertEqual(r["source_line"].count("ERW tables " + ", ".join(r["tables"]) + ";"), 1, r["id"])   # session 252: its own tables and no other
+
+    def test_the_strongest_come_first_and_the_counts_said_are_the_counts_of_the_blocks(self):
+        import re
+        verdicts = []
+        for b in self.blocks():
+            m = re.search(r"- \*\*Verdict: (strong|usable|drop)\.\*\* (.+)", b)
+            self.assertIsNotNone(m, b[:80])
+            self.assertGreater(len(m.group(2)), 60, b[:80])
+            verdicts.append(m.group(1))
+        self.assertEqual(verdicts, sorted(verdicts, key={"strong": 0, "usable": 1, "drop": 2}.get))
+        said = re.search(r"\*\*Verdicts of the 12: (\d+) strong, (\d+) usable, (\d+) drop\.\*\*", self.section())
+        self.assertEqual(tuple(int(x) for x in said.groups()), tuple(verdicts.count(v) for v in ("strong", "usable", "drop")))
+
+    def test_a_drop_leans_on_its_first_year_or_has_one_step_in_three_and_a_strong_one_does_neither(self):
+        import re
+        res = {r["id"]: r for r in self.results()}
+        for b in self.blocks():
+            r = res[re.search(r"`(scan-hunt-[0-9a-f]{12})`", b).group(1)]
+            v = re.search(r"- \*\*Verdict: (\w+)\.", b).group(1)
+            m = r["more"]
+            weak = m["share_of_claim_without_first_year"] < 0.5 or m["steps_on_side"] * 3 <= m["steps"]
+            if v == "drop":
+                self.assertTrue(weak, r["id"])
+            if v == "strong":
+                self.assertFalse(weak, r["id"])
+                self.assertGreaterEqual(m["share_of_claim_without_last_year"], 0.5, r["id"])
+                self.assertTrue(all(c.get("same_direction", True) for c in r["cuts"]), r["id"])
+
+
 if __name__ == "__main__":
     unittest.main()
