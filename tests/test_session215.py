@@ -110,7 +110,11 @@ class TheComponents(unittest.TestCase):
                  # session 236: the datacenter page's answers (dc, session 228: the page's own price files and the public
                  # tables carbon_intensity_monthly, carbon_intensity_hourly, ercot_large_load_status and
                  # caiso_grid_emergencies) and its delivery charges (dcd: the site's own file of public tariff filings)
-                 "dc", "dcd"}
+                 "dc", "dcd",
+                 # session 235: the generator page's capture price and rate (cap: the site's own file data/seller/capture.json,
+                 # recomputed by check-values from that file; whether the hubs of a grid whose price table is "license
+                 # needed" from 20 October are held on this page too is listed for the owner's ruling in session 235's report)
+                 "cap"}
         found = set()
         for dirpath, _, files in os.walk(os.path.join(ROOT, "site", "app")):
             if "_retired" in dirpath:
