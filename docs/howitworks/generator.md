@@ -190,7 +190,7 @@ Ranked by the held number where there is one. Where the repository holds no numb
    It is labeled an upper bound, and it is one. The battery page's own cross-check sets its foresight figure of USD 148 per kW in 2024 beside a published fleet average of USD 55 (Modo Energy, quoted in the battery note's cross-checks). On this page the battery is energy only at 60 percent debt; its toll for coverage of 1.25 is USD 8.90 per kW-month (session 186's report). Its NPV at 12 percent: no number held (USD -79.57 million at 9.6, session 196).
 
 10. **"Who has checked this, and how old is it?"**
-    Ten published figures stand beside it, and the default case can be rebuilt from one hourly CSV to the cent. No ERCOT hub price is compared, because no public index holds one. No real plant's settlement is compared. The Stata do-file has never been run. The snapshot is from 2026-10-04, built by hand; nothing rebuilds it on a schedule.
+    Twenty published figures stand beside it, ten of them California's (session 257), and the default case can be rebuilt from one hourly CSV to the cent. No ERCOT hub price is compared, because no public index holds one. No real plant's settlement is compared. The Stata do-file has never been run. The snapshot is from 2026-10-04, built by hand; nothing rebuilds it on a schedule.
 
 ## 7. A five-minute demo, click by click
 
