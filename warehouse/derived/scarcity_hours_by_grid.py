@@ -78,7 +78,7 @@ def read_prices(tables, market, node, start, end, in_dir=None):
         path = os.path.join(in_dir or ip.OUT_DIR, t + ".csv")
         if not os.path.exists(path):
             raise FileNotFoundError(f"{t} is not in {in_dir or ip.OUT_DIR}")
-        for ch in pd.read_csv(path, comment="#", usecols=["ts_utc", "value", "market", "node"], dtype=str, keep_default_na=False, chunksize=400_000):
+        for ch in pd.read_csv(path, skiprows=ip.header_rows(path), usecols=["ts_utc", "value", "market", "node"], dtype=str, keep_default_na=False, chunksize=400_000):
             ch = ch[(ch["market"] == market) & (ch["node"] == node) & (ch["ts_utc"] >= lo) & (ch["ts_utc"] < hi)]
             if len(ch):
                 parts.append(ch[["ts_utc", "value"]])
@@ -105,7 +105,7 @@ def price_rows(rt, da):
 def ercot_signal(start, end, in_dir=None):
     """ERCOT's own signal by hour: RTORPA's hourly mean above zero, for the hours the adder is held."""
     path = os.path.join(in_dir or ip.OUT_DIR, "ercot_rtm_price_adders.csv")
-    d = pd.read_csv(path, comment="#", usecols=["entity", "variable", "ts_utc", "value"], dtype=str, keep_default_na=False)
+    d = pd.read_csv(path, skiprows=ip.header_rows(path), usecols=["entity", "variable", "ts_utc", "value"], dtype=str, keep_default_na=False)
     lo, hi = ip.utc_iso(start), ip.utc_iso(end)
     d = d[(d["entity"] == "ercot:system") & (d["variable"] == "rtorpa_mean") & (d["ts_utc"] >= lo) & (d["ts_utc"] <= hi) & (d["value"] != "")]
     return [("own_signal", ts, int(float(v) > 0), f"rtorpa_mean={v}") for ts, v in zip(d["ts_utc"], d["value"])]
@@ -134,7 +134,7 @@ def caiso_signal(start, end, in_dir=None):
     whole history to its revision date, so every hour to the end of the window that lies before the report's newest
     day is held; an hour with no notice is 0."""
     path = os.path.join(in_dir or ip.OUT_DIR, "caiso_grid_emergencies.csv")
-    n = pd.read_csv(path, comment="#", dtype=str, keep_default_na=False)
+    n = pd.read_csv(path, skiprows=ip.header_rows(path), dtype=str, keep_default_na=False)
     with open(path, encoding="utf-8") as f:
         revised = next((ln.split("revision date ")[1].strip() for ln in f if ln.startswith("#") and "revision date " in ln), "")
     held_to = pd.Timestamp(dt.datetime.strptime(revised, "%m/%d/%Y")).tz_localize("UTC") if revised else pd.Timestamp(n["event_date"].max()).tz_localize("UTC")
@@ -180,7 +180,7 @@ def build(month, in_dir=None, log=print):
 def kept_retrieved(s, path, retrieved):
     """retrieved_at for each row of `s`: the old file's, where the row (entity, variable, hour) holds the same value and
     the same x_detail there; else this run's."""
-    old = pd.read_csv(path, comment="#", usecols=["entity", "variable", "ts_utc", "value", "x_detail", "retrieved_at"], dtype=str, keep_default_na=False)
+    old = pd.read_csv(path, skiprows=ip.header_rows(path), usecols=["entity", "variable", "ts_utc", "value", "x_detail", "retrieved_at"], dtype=str, keep_default_na=False)
     was = {(e, v, t): (float(val), d, r) for e, v, t, val, d, r in zip(old["entity"], old["variable"], old["ts_utc"], old["value"], old["x_detail"], old["retrieved_at"])}
     out = []
     for e, v, t, val, d in zip(s["entity"], s["variable"], s["ts_utc"], s["value"], s["x_detail"]):
