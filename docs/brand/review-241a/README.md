@@ -27,4 +27,4 @@ One block at the end of `site/app/tokens.css`, headed `session 241a`, scoped to 
 1. A hover card (`role="tooltip"`) and a small label drawn as a box around a link (`a.rounded`: the source line's tier label, which is in a shared component): square, no shadow.
 2. A cell of figures that the page set small (`td.text-right.text-xs`) keeps the scale's small size, 12 px, in the mono face. Without it the supply tables grew past the page at 1280 px and their last two columns scrolled out of view; with it the column of changes is in view and the trend is partly so.
 
-Neither moves the battery page: its 47 checked numbers and its height (5,016 px at 1280) are session 211's.
+Neither moves the battery page: its checked numbers (51 lines of the capture) and its height (5,016 px at 1280) are session 211's.
