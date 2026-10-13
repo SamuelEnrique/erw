@@ -26,11 +26,20 @@
 - The eight ids of the dry run equal the eight of `docs/reviews/findings-verified-2026-10-13.md`: `346d3337bb15`, `4bee49d6e8c5`, `8c67230bc8b7`, `9868ad33205b`, `bbb2fe2a3844`, `e5fe5b80e074`, `f5c8f78e8cf0`, `f732d699c6b7`. An id is made of the pattern, the region, the last year and the change to three decimals: the claims are the same.
 - Tables no longer named that are not "license needed": the battery fleet, ERCOT's load, EIA's daily demand and Henry Hub for the spike drafts, the two EIA-860M tables for the peak-hour drafts. The finding's module reads them for other columns of its full card; a draft's measure is made of prices alone. Decision 2.
 
+## The diff: only the source line moves
+
+- The eight drafts were built twice from the same yearly series (each new draft's CSV, where a number is written whole): by the builder of the commit before this session, given every table of the finding's module as the old hunt gave it, and by the new one. Eight ids equal.
+- 56 files (seven a draft). 16 are byte for byte equal: the eight do-files and the eight Python mirrors.
+- The eight cards differ in four keys and no other: `source_line`, `tables`, `hunt.caption` (which carries the line) and `computed_at` (the clock). No key under `numbers`, `chart`, `callouts`, `subtitle`, `footnote` or `scanner` differs.
+- The eight CSVs differ in line 2 (the clock) and line 4 (`# Sources:`); no data row differs. The eight captions differ in line 9, the source line.
+- The 16 pictures differ, as they must: the line is burned into the bottom of each. Their chart is drawn from the card's `chart`, which is equal. I did not compare them pixel by pixel.
+- The old builder's lines name the tables session 252 counted: three shared tables in four drafts, two in two, one in two.
+
 ## What to review
 
 - Nothing on the site changed. https://erw-flame.vercel.app/internal/findings (after https://erw-flame.vercel.app/internal/open) shows the eight drafts with their old line until "To finish" is done; afterwards each draft's line, caption, CSV and two pictures carry the new one.
 - The rule, in the method: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md (the bullet "A draft's source line names only the tables whose rows it uses").
-- On this machine, not in git: `runs/session258/` (`dry_hunt.out`: the eight drafts and their lines; `real_reads.out`: what the reads of ERCOT North and SPP North kept; `hunt/2026-10-13/`: the drafts' files; `notes.md`).
+- On this machine, not in git: `runs/session258/` (`dry_hunt.out`: the eight drafts and their lines; `old_builder.out` and `diff_runs.out`: the diff; `real_reads.out`: what the reads of ERCOT North and SPP North kept; `hunt/2026-10-13/`: the drafts' files; `notes.md`).
 
 ## To finish (the data machine, after this branch is on main)
 
@@ -59,7 +68,8 @@ git pull origin main
 | `tests.test_session192 tests.test_session245 tests.test_session247` | 0 | 25 tests |
 | `runs/session258/real_reads.py` (read only, under the mutex) | 0 | ERCOT North and SPP North as the finding reads them, 8 s |
 | `runs/session258/dry_hunt.py` (the whole hunt, dry run, read only, under the mutex) | 0 | 7 patterns, 36 claims, 13 pass, 8 drafts, none loaded, no pattern failed |
-| The old code's dry run and the diff of the two runs | not run yet | waiting for the build mutex at 18:31 UTC; if it does not come, the equality of the eight ids and the rewrite's own refusal stand in its place |
+| `runs/session258/old_builder.py`, then `diff_runs.py` | 0, 0 | the eight drafts built again by the builder as it stood before this session, from the same yearly series; 56 files compared: see "The diff" |
+| The old code's whole dry run on the tables | 1 | not completed: my copy of the old code lacked `warehouse/analysis/style.py`, and the mutex was then another session's. The old builder on the same series stands in its place |
 | Em dash in the files written | 0 found | also a test |
 
 - Not run: the whole suite (the orchestrator runs it on a clean copy at the landing); the site's checks (nothing under `site/` changed); a Stata do-file (no Stata here).
