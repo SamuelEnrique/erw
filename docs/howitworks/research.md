@@ -4,6 +4,7 @@
 - **Status:** in review, like every page of the site (`site/lib/release.ts`). A visitor sees the in-review page; a demo needs the internal view (section 7).
 - **Written from:** `main` at commit `34b468fa`, on 2026-10-13 (session 260). The page landed that morning as `01161064` (session 238, which renamed Automated Analysis to Research; in one push with sessions 237, 239 and 240). `/analysis` and every address under it answer with a permanent redirect to the same place under `/research` (`site/next.config.ts`). This note replaces the one session 249 wrote from the branch before the landing.
 - **What moved since the landing:** today's chart. The record of 13 October 2026 is the first that is not a proof: it was drawn from the scan of 13 October and the Digest of that day carries it.
+- **What moved after this note was written (added at 19:00 UTC on 13 October 2026):** the data machine's session 251 landed at 18:47 UTC (`archive/sessions/SESSION_251_REPORT.md`). The weekly hunt holds 20 patterns where this note says 7: 13 new measure families computed straight from warehouse tables. It ran at 18:18 UTC: 143 claims, 50 pass the three tests, 12 new drafts. **The review list holds 28 drafts, not 16**, and the 12 new ones are not all ERCOT's. Their verification (3 strong, 7 usable, 2 drop) is the last section of `docs/reviews/findings-verified-2026-10-13.md`. Wherever the sections below say 16 drafts, 8 hunt drafts, 7 patterns or 36 claims, they describe the list and the hunt before that landing: read the screen.
 
 ## 1. What it is for, and for whom
 
@@ -220,6 +221,7 @@ This path was written from the page's code and the committed data on `main` on 2
 - **"This tool is in review" in place of the page:** the internal view is not open in this browser. Open `/internal/open` again.
 - **`/internal/findings` answers "not found":** the same cause; the list answers only the internal view.
 - **A chart is blank for a moment:** the cards' charts are drawn in the browser. Wait, or reload.
+- **Someone reads a hunt draft's source line on the review list and sees other grids' tables named:** the builder is corrected (session 258: a line names only the tables whose rows the finding uses) and the eight stored drafts are not yet. They carry the old line until the data machine runs `hunt.py --fix-source-lines` (`archive/sessions/SESSION_258_REPORT.md`, "To finish"). No row of those tables is in a draft: all eight are ERCOT's, from `ercot_all_hub_prices_history`.
 
 ## Where the numbers in this document come from
 
