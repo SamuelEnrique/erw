@@ -75,6 +75,15 @@ const nextConfig: NextConfig = {
       { source: "/consumption", destination: "/demand?view=consumption", permanent: true },
       { source: "/deals/v2", destination: "/deals?tab=tracker", permanent: true },
       { source: "/companies", destination: "/deals?tab=companies", permanent: true },
+      { source: "/resources", destination: "/map?tab=resources", permanent: true },
+      // session 239: the versioned addresses. /board/v3, /board/v4, /map/v2, /network/v3, /curtailment/v2 and
+      // /cost-of-power/seller/v2 redirect already (below); /deals/v2 is the tracker tab (above). /seller/v2 never was
+      // an address of the site (the page was /cost-of-power/seller/v2); it redirects with it, so a link written short
+      // answers. /datacenters/v2 (session 106: ERCOT's large-load status beside the facilities held) is NOT redirected
+      // yet: /datacenters does not draw its blocks (that page is session 240's in this chain), and a redirect now would
+      // drop what it shows and fail scripts/check-datacenters.mjs. The line to add once /datacenters draws them:
+      //   { source: "/datacenters/v2", destination: "/datacenters", permanent: true },
+      { source: "/seller/v2", destination: "/cost-of-power/seller", permanent: true },
       { source: "/explorer/ercot-peak-premium", destination: "/prices?tab=ercot", permanent: true },
       // session 145: one tool, one page, one address. What a generator earns is /cost-of-power/seller; its second version
       // is folded into it and its address redirects there (a query is carried over)

@@ -227,7 +227,7 @@ export async function TrackerView({ sp }: { sp: Record<string, string | undefine
                   </div>
                 ) : (
                   <p className="border border-rule bg-paper px-3 py-2 text-sm" role="status">
-                    No deal held matches this selection.{x.type === "tolling" ? " The extraction has no tolling type, and no deal held names a tolling agreement, so this choice is empty until one is extracted." : ""} <Link href="/deals/v2" className="underline">Show every deal</Link>.
+                    No deal held matches this selection.{x.type === "tolling" ? " The extraction has no tolling type, and no deal held names a tolling agreement, so this choice is empty until one is extracted." : ""} <Link href="/deals?tab=tracker" className="underline">Show every deal</Link>.
                   </p>
                 )}
               </ToolSection>
