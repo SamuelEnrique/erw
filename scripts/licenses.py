@@ -13,6 +13,8 @@ Energy Research Warehouse (ERW). Three files in git hold what the document is bu
     python scripts/licenses.py tables --headers C:/.../warehouse/output    # a data machine: the tables' own headers are read
     python scripts/licenses.py write                                        # docs/licenses.md, from the three files and coverage.csv
     python scripts/licenses.py check                                        # exit 1 if a table or a publisher is not accounted for
+    python scripts/licenses.py status                                       # session 207: warehouse/metadata/license_status.csv and the site's copy
+    python scripts/licenses.py state                                        # session 248: docs/state/licenses_<the public day>.md (scripts/license_state.py)
 
 A table's publishers: those the source registry names for it (warehouse/metadata/sources.csv). A table the ERW
 derives takes the publishers of the tables its header names under "Derived from", and so on down; of the grid
@@ -362,9 +364,22 @@ def write(doc=None):
 # site/data/license_status.json (site/lib/license.ts); the builders read the CSV (warehouse/metadata/license_status.py).
 STATUS = os.path.join(META, "license_status.csv")
 SITE_STATUS = os.path.join(ROOT, "site", "data", "license_status.json")
-STATUS_FROM = "2026-10-20"
+# Session 248: the public day moved from 20 to 21 October 2026 (Samuel's ruling of 12 October 2026, night;
+# docs/roadmap.md), and this day moves with it. STATUS_WAS is the day the file was first written with.
+STATUS_FROM = "2026-10-21"
+STATUS_WAS = "2026-10-20"
 STATUS_COLS = ["table", "status", "from", "publishers", "verdict", "permission", "permission_ref", "note"]
 NEEDED, RECORDED = "license needed", "permission recorded"
+
+
+def moved_day(prev):
+    """The `from` day of a row on a rebuild (session 248). A row with no day, or with the day the file was first
+    written with and no permission, takes the public day as it now stands. A row a person filled (a permission) keeps
+    its own day, and so does a row whose day someone set to another one."""
+    day = (prev or {}).get("from") or ""
+    if not day or (day == STATUS_WAS and not (prev or {}).get("permission")):
+        return STATUS_FROM
+    return day
 
 
 def status_lines():
@@ -392,7 +407,7 @@ def write_status(today=None):
     for table, v, why in status_lines():
         prev = kept.get(table, {})
         permission, ref = prev.get("permission", ""), prev.get("permission_ref", "")
-        out[table] = {"table": table, "status": RECORDED if permission else NEEDED, "from": prev.get("from") or STATUS_FROM,
+        out[table] = {"table": table, "status": RECORDED if permission else NEEDED, "from": moved_day(prev),
                       "publishers": "; ".join(why), "verdict": v, "permission": permission, "permission_ref": ref,
                       "note": prev.get("note") or f"flagged public; the publisher's sentence read in session 205 asks for it (docs/licenses.md)"}
     for t, r in kept.items():  # a recorded permission is kept even when the verdict no longer asks for one
@@ -438,15 +453,19 @@ def check():
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description="docs/licenses.md: what each publisher's own page allows (session 205)")
-    ap.add_argument("what", choices=["tables", "write", "check", "status"])
+    ap.add_argument("what", choices=["tables", "write", "check", "status", "state"])
     ap.add_argument("--headers", help="tables: the folder of the tables themselves (warehouse/output of a data machine)")
+    ap.add_argument("--branch", default="", help="state: the branch whose page code is read, for the document's first paragraph")
     a = ap.parse_args(argv)
-    if a.what == "status":  # session 207
-        out = write_status()
-        n = sum(1 for r in out if r["status"] == NEEDED)
-        print(f"{os.path.relpath(STATUS, ROOT)} and {os.path.relpath(SITE_STATUS, ROOT)}: {len(out)} tables, {n} '{NEEDED}' from {STATUS_FROM}, "
-              f"{len(out) - n} with a permission recorded")
-        return 0
+    if a.what in ("status", "state"):  # session 207; session 248: the license table for the public day follows
+        import license_state  # scripts/license_state.py: every table's status and the pages it darkens
+        if a.what == "status":
+            out = write_status()
+            n = sum(1 for r in out if r["status"] == NEEDED)
+            print(f"{os.path.relpath(STATUS, ROOT)} and {os.path.relpath(SITE_STATUS, ROOT)}: {len(out)} tables, {n} '{NEEDED}' from {STATUS_FROM}, "
+                  f"{len(out) - n} with a permission recorded")
+        # the status file's rebuild writes the site's file without its two keys "all" and "pages": they are written again here
+        return license_state.write(day=STATUS_FROM, branch=a.branch)
     if a.what == "tables":
         if not a.headers or not os.path.isdir(a.headers):
             ap.error("tables needs --headers, the folder that holds the tables")
