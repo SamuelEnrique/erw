@@ -66,6 +66,8 @@ git pull origin main
 | `tests.test_session232 tests.test_session241b tests.test_session191` | 0 | 64 tests |
 | `tests.test_session194 tests.test_session164 tests.test_session176` | 0 | 75 tests, 2 skipped |
 | `tests.test_session192 tests.test_session245 tests.test_session247` | 0 | 25 tests |
+| `tests.test_session154_audit tests.test_session157_audit tests.test_session188_waits` | 0 | 59 tests, 1 skipped |
+| `tests.test_session89 tests.test_session91 tests.test_session163` | 0 | 69 tests, 6 skipped |
 | `runs/session258/real_reads.py` (read only, under the mutex) | 0 | ERCOT North and SPP North as the finding reads them, 8 s |
 | `runs/session258/dry_hunt.py` (the whole hunt, dry run, read only, under the mutex) | 0 | 7 patterns, 36 claims, 13 pass, 8 drafts, none loaded, no pattern failed |
 | `runs/session258/old_builder.py`, then `diff_runs.py` | 0, 0 | the eight drafts built again by the builder as it stood before this session, from the same yearly series; 56 files compared: see "The diff" |

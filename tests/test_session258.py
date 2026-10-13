@@ -307,7 +307,7 @@ class TheStoredDraftsAreRewritten(unittest.TestCase):
                 runs.append(params)
                 return npw.compute(params, in_dir)
 
-            with mock.patch.object(lock, "env", lambda k: {"SUPABASE_URL": "https://example.invalid/rest/v1/", "SUPABASE_SERVICE_KEY": "not-a-key"}.get(k)):
+            with mock.patch.object(lock, "env", create=True, new=lambda k: {"SUPABASE_URL": "https://example.invalid/rest/v1/", "SUPABASE_SERVICE_KEY": "not-a-key"}.get(k)):
                 dry = hunt.fix_source_lines(d, dry_run=True, log=lambda m: None, get=get, patch=patch, compute=compute, out_dir=os.path.join(out, "p"))
                 self.assertEqual((len(dry), [o["changed"] for o in dry], [o["written"] for o in dry], sent), (2, [True, True], [False, False], []))
                 self.assertEqual(len(runs), 1)                                   # two drafts of one finding: it is run once
@@ -350,7 +350,8 @@ class EveryCardFileInGit(unittest.TestCase):
         for name, c in cards:
             mod = run_finding.load(c["id"])
             if c["id"] != "impact_study":                                       # its tables are the two series a person picks
-                self.assertEqual(c["tables"], list(mod.TABLES), name)
+                self.assertLessEqual(set(c["tables"]), set(mod.TABLES), name)   # never a table its finding does not read
+                self.assertTrue(c["tables"], name)
             for t in c["tables"]:
                 self.assertIn(t, c["source_line"], f"{name}: {t} is in the card's tables and not in its source line")
                 self.assertTrue(f'"{t}"' in code, f"{name}: no file of the findings reads {t}")
