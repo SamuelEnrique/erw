@@ -97,7 +97,7 @@ export function PowerThere({ a, f, b }: { a: Answers; f: AnswerFacts; b?: SiteB 
               : [{ key: "own", cells: [`${f.gridName}'s own signal: its notices`, <span key="n" data-own-signal="none">not held</span>, <span key="w">No notice of {f.gridName}&apos;s is in the table.</span>] }]
             : OWN_SIGNAL[f.gridName]?.coming
               ? [{ key: "own", cells: [`${f.gridName}'s own signal`, <span key="n" className="text-muted">coming</span>,
-                  <span key="w" data-own-signal="coming">{f.gridName}&apos;s own signal, {OWN_SIGNAL[f.gridName].name}, is coming: the warehouse holds no table of them yet, so no second count is stated.</span>] }]
+                  <span key="w" data-own-signal="coming">{f.gridName}&apos;s own signal, {OWN_SIGNAL[f.gridName].name}, is coming: the warehouse now holds a table of them and its count is not on this page yet, so no second count is stated.</span>] }]
               : [{ key: "own", cells: [`${f.gridName}'s own signal`, <span key="n" data-own-signal="none">not held</span>,
                   <span key="w">{OWN_SIGNAL[f.gridName] ? `${OWN_SIGNAL[f.gridName].name[0].toUpperCase()}${OWN_SIGNAL[f.gridName].name.slice(1)}: no table of those hours is held.` : "No table of it is held."}</span>] }]),
         ]} />

@@ -128,12 +128,13 @@ class Scarcity(unittest.TestCase):
         face = src("site", "app", "cost-of-power", "LoadAnswers.tsx")
         self.assertIn('ERCOT: { name: "its reserve adders, the price adders of its operating reserve demand curve", coming: true },', face)
         line = face.split('<span key="w" data-own-signal="coming">', 1)[1].split("</span>", 1)[0]
-        self.assertIn("is coming: the warehouse holds no table of them yet, so no second count is stated.", line)
+        self.assertIn("is coming: the warehouse now holds a table of them and its count is not on this page yet, so no second count is stated.", line)
         self.assertNotIn("<N ", line)
         self.assertNotRegex(line, r"\d")
-        # no table of the adders is held: the registry of what the warehouse holds names none
+        # session 244 landed the table the same night (ercot_rtm_price_adders, 07:05 UTC on 13 October 2026), after this
+        # page was built: the registry names it, the line says so, and the count from it is the next landing's
         tables = [r.split(",")[0] for r in src("warehouse", "metadata", "coverage.csv").splitlines()[1:]]
-        self.assertEqual([t for t in tables if re.search(r"ordc|adder", t)], [])
+        self.assertEqual([t for t in tables if re.search(r"ordc|adder", t)], ["ercot_rtm_price_adders"])
         self.assertEqual(face.count('<span key="n" data-own-signal="none">not held</span>'), 2)                                  # any other grid: "not held"
 
 
@@ -299,7 +300,7 @@ class TheNoteAndFiles(unittest.TestCase):
         note = src("docs", "methods", "datacenter_pays_algorithm.md")
         for words in ("### 4.18 Delivery charges in Texas, by component (session 236)", "### 4.19 Scenario B at a site of its own (session 236)",
                       "**The ruling, and each grid's own signal (session 236).**", "rate x 12 x 1,000 / 8,760", "a kVA is counted as a kW (a power factor of 1)",
-                      "is coming: the warehouse holds no table of them yet", "`notices:own:count`", "`dcd|<MW>|<utility>:<transmission, distribution, other or total>`"):
+                      "is coming: the warehouse now holds a table of them", "`notices:own:count`", "`dcd|<MW>|<utility>:<transmission, distribution, other or total>`"):
             self.assertIn(words, note, words)
         self.assertLess(note.index("### 4.17 How soon? (session 228)"), note.index("### 4.18 Delivery charges in Texas"))
         self.assertLess(note.index("### 4.19 Scenario B at a site of its own"), note.index("### 4.12 The source line"))
