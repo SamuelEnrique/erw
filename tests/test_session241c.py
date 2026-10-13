@@ -111,7 +111,7 @@ class NoColorLiteral(unittest.TestCase):
     FILES = (("site", "components", "board", "Workbench.tsx"), ("site", "lib", "mixpage.ts"), ("site", "app", "storage", "owners", "view.tsx"),
              ("site", "app", "deals", "v2", "view.tsx"), ("site", "app", "map", "ProjectMap.tsx"), ("site", "app", "resources", "ResourceMap.tsx"),
              ("site", "app", "datacenters", "LargeLoad.tsx"), ("site", "app", "datacenters", "page.tsx"), ("site", "app", "datacenters", "Body.tsx"),
-             ("site", "app", "datacenters", "DatacentersTable.tsx"), ("site", "app", "consumption", "view.tsx"))
+             ("site", "app", "datacenters", "DatacentersTable.tsx"), ("site", "app", "consumption", "view.tsx"), ("site", "components", "mix", "Charts.tsx"))
 
     def test_no_hex_and_no_rgb_literal_in_the_files(self):
         for parts in self.FILES:
