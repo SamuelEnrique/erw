@@ -164,12 +164,18 @@ class Delivery(unittest.TestCase):
         self.assertTrue(tcrf["sentence"].endswith("6.260839"))   # the last column of its row: Transmission Service
 
     def test_delivery_is_never_mixed_into_the_market_cost(self):
+        # session 236 (the owner's chain prompt of 12 October 2026: one row a component in USD per MWh, and the total; the
+        # tariff lines in the CSV): the cell of tariff lines became the table DeliveryTable, and its arithmetic moved, the
+        # same expression, into lib/datacenter/delivery.ts (a rate per kW a month times 12,000 over 8,760 hours)
         page = src("site", "app", "cost-of-power", "page.tsx")
-        cell = page.split("function DeliveryCell", 1)[1].split("function ZoneCell", 1)[0]
-        self.assertIn("(tcrf.value * 12000) / 8760", cell)
+        lib = src("site", "lib", "datacenter", "delivery.ts")
+        cell = page.split("function DeliveryTable", 1)[1].split("const matrixTip", 1)[0]
+        self.assertIn("export const YEAR_HOURS = 8760;", lib)
+        self.assertIn("return (r.value * 12000) / YEAR_HOURS;", lib)
         self.assertNotIn("s12", cell)
-        self.assertNotRegex(page, r"s12[^;\n]*tcrf|tcrf[^;\n]*s12")
-        self.assertIn("Not added to the market cost above", cell)
+        self.assertNotIn("s12", lib)
+        self.assertNotRegex(page, r"s12[^;\n]*DeliveryTable|DeliveryTable[^;\n]*s12")
+        self.assertIn("These charges are never added to the market cost above", cell)
 
 
 class Arithmetic(unittest.TestCase):

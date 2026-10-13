@@ -80,7 +80,8 @@ const code = await withBrowser(async ({ go, evaluate, unlock, send, sleep }) => 
     `${want?.mwh} MWh, ${want?.gpus} GPUs, bad month USD ${want?.bad}`);
   const note = d.links.find((a) => a.text === "Every number, step by step");
   check(!!note && note.href === NOTE && /Method note\.\s+Every number, step by step\./.test(d.lead), "the lead links the step-by-step note beside the Method note");
-  const got = d.links.filter((a) => a.download);
+  // session 236: the source line's three files; the page's own CSV downloads (sessions 213 and 236) are other links
+  const got = d.links.filter((a) => a.download && FILES.includes(a.href));
   check(got.length === 3 && got.map((a) => a.href).join() === FILES.join() && got.map((a) => a.text).join() === "CSV,Stata do-file,Python mirror", "the source line offers three downloads: CSV, Stata do-file, Python mirror", got.map((a) => a.href).join(", "));
   check(/The default case hour by hour: CSV, Stata do-file, Python mirror\./.test(d.text), 'the source line reads "The default case hour by hour: CSV, Stata do-file, Python mirror."');
   const cookie = await evaluate("document.cookie");
@@ -103,7 +104,7 @@ const code = await withBrowser(async ({ go, evaluate, unlock, send, sleep }) => 
     const s = await open(`/cost-of-power${q}`, 390);
     const mine = s.links.filter((a) => a.download || a.href === NOTE);
     check(s.clientW === 390 && s.scrollW <= s.clientW + 1 && !s.bad, `/cost-of-power${q} at 390 px: the page does not scroll sideways`, `scroll width ${s.scrollW}, width ${s.clientW}`);
-    check(mine.length === 4 && mine.every((a) => a.shown && a.right <= 390 + 1), `/cost-of-power${q} at 390 px: the note's link and the three downloads are on the page, inside its width`, mine.map((a) => `${a.text} ${Math.round(a.right)}`).join(", "));
+    check(mine.length >= 4 && FILES.every((f) => mine.some((a) => a.href === f)) && mine.every((a) => a.shown && a.right <= 390 + 1), `/cost-of-power${q} at 390 px: the note's link and the three downloads are on the page, inside its width`, mine.map((a) => `${a.text} ${Math.round(a.right)}`).join(", "));
     await shot(name, 390);
   }
   return 0;

@@ -22,6 +22,12 @@
 // share of 0 is what it was. The standalone contract panel and "With your contract" are gone. The sensitivity chart
 // answers the third question, "What matters most", in a section of its own (LoadSensitivity), so the block is handed
 // no chart.
+//
+// Session 236 (the owner's chain prompt of 12 October 2026: "its A and B compare two sites or two contracts"): scenario
+// B may stand at a site of its own (another zone or hub, or another grid: `bsite` in the address, read by the server,
+// which hands B's two ways of running at that site in `facts.b`), and its contract terms are two of its assumptions,
+// as A's are. B's column, the row "B against A" and B's chart then read B's site; the table's first heading and the
+// row "What differs" name both sites. With no site of its own B is at A's, and nothing here differs from session 213.
 import { useCallback, useMemo, type ReactNode } from "react";
 import { ScenarioBlock, ScenarioState, Sensitivity, useScenarios, type Cell, type Chart, type Field, type Row, type Side, type Values, type View } from "@/components/decisions/ScenarioBlock";
 import { monthName, two, usdShort, whole } from "@/lib/datacenter";
@@ -48,7 +54,12 @@ export type Facts = {
   words: [string, string]; why: [string, string];
   /** each way's bad month of its last 36, held even where its last twelve months are not */
   bads: [Bad | null, Bad | null];
+  /** session 236: scenario B's own site, when the address names one: where it is, its own last twelve months, its two
+   * ways of running there and why a way is not held. Null or absent: B is at the site above. */
+  b?: { grid: string; region: string; place: string; span: string | null; ways: Ways; bads: [Bad | null, Bad | null]; why: [string, string] } | null;
 };
+/** The site a scenario stands at: B's own when it has one, else the page's. */
+const siteOf = (f: Facts, p: View) => (p === "b" && f.b ? f.b : f);
 
 /** The parameters of the address the scenarios replace: their own, and the two old names read as the scenarios'. */
 const drop = (name: string) => isScenarioParam(name) || isOldParam(name);
@@ -66,9 +77,9 @@ function useBlock(f: Facts) {
   const { s } = useScenarios<Assumptions>();
   const d = useMemo(() => defaultsOf(f.load), [f.load]);
   const a = s[s.view];
-  const col = (p: View) => { const w = wayOf(s[p], f.ways); return { p, y: s[p], w, r: w ? resultOf(s[p], w) : null }; };
+  const col = (p: View) => { const w = wayOf(s[p], siteOf(f, p).ways); return { p, y: s[p], w, r: w ? resultOf(s[p], w) : null }; };
   const cols = { a: col("a"), b: col("b") };
-  const bars = sensitivity(a, f.ways);
+  const bars = sensitivity(a, siteOf(f, s.view).ways);
   const side = (t: Side | null) => (t ? `${four(t.v)} at ${plain(t.value)}` : "no step inside its bounds");
   const chart: Chart | null = bars.length ? { bars: bars.map((b) => ({ ...b, down: b.down ? { value: b.down.value, v: b.down.v } : null, up: b.up ? { value: b.up.value, v: b.up.v } : null })),
     moves: "all-in power per GPU-hour", axis: "per GPU-hour", fmt: four, pad: 0.0001, wide: true,
@@ -87,8 +98,11 @@ function useBlock(f: Facts) {
 
 export function LoadScenarios({ facts: f }: { facts: Facts }) {
   const { s, d, cols } = useBlock(f);
-  const open = useMemo(() => held(f.ways), [f.ways]);
+  // the ways the scenario in view can run are its own site's
+  const viewWays = siteOf(f, s.view).ways, viewWhy = siteOf(f, s.view).why;
+  const open = useMemo(() => held(viewWays), [viewWays]);
   const diff = differing(s.a, s.b);
+  const twoSites = !!f.b;
   type Col = (typeof cols)["a"];
   const sourceOf = (k: Key) => (k === "gpu" || k === "pue" ? (k === "gpu" ? f.gpuSource : f.pueSource).replace(/\.$/, "") : SPECS[k].source);
   const rising = (g: number) => `${g > 0 ? "rising" : "falling"} ${plain(Math.abs(g))} percent a year`;
@@ -100,9 +114,10 @@ export function LoadScenarios({ facts: f }: { facts: Facts }) {
     const base = { key: k, label: sp.label, unit: sp.unit, min: sp.min, max: sp.max, whole: sp.whole };
     if (k !== "run") return { ...base, note: <>Default {plain(d[k])}. {sourceOf(k)}.</> };
     return { ...base, aria: sp.label, options: [FLAT, FLEX].map((v) => ({ value: v, label: `${wayLabel(v)}${open[v] ? "" : " (not held here)"}`, disabled: !open[v] })),
-      note: <>Default {d.run === FLEX ? "flexible" : "flat"}. {sourceOf(k)}.{open[FLAT] && open[FLEX] ? "" : ` ${f.why[open[FLAT] ? FLEX : FLAT]}`}</> };
+      note: <>Default {d.run === FLEX ? "flexible" : "flat"}. {sourceOf(k)}.{open[FLAT] && open[FLEX] ? "" : ` ${viewWhy[open[FLAT] ? FLEX : FLAT]}`}</> };
   });
-  const none = (c: Col): Cell => ({ v: "not held", raw: null, why: f.why[c.y.run === FLEX ? FLEX : FLAT] });
+  const none = (c: Col): Cell => ({ v: "not held", raw: null, why: siteOf(f, c.p).why[c.y.run === FLEX ? FLEX : FLAT] });
+  const spanOf = (c: Col) => siteOf(f, c.p).span;
   const row = (key: string, label: string, note: string, cell: (c: Col) => Cell): Row => ({ key, label, note, cell: (p) => cell(cols[p]) });
   const rows: Row[] = [
     row("price", "Market energy, last twelve months", "USD per MWh consumed; a contracted share at its price, the rest at the market's",
@@ -110,7 +125,7 @@ export function LoadScenarios({ facts: f }: { facts: Facts }) {
         if (!c.w) return none(c);
         // with a contract the price of the energy consumed; at a share of 0 the market's own figure, to the bit
         const per = c.y.cshare > 0 && c.r ? c.r.price - c.y.adder : c.w.per;
-        return { v: `USD ${two(per)}`, raw: per, note: `${f.span ? `${f.span}; ` : ""}${f.words[c.y.run]}${c.y.cshare > 0 ? `; ${contractNote(c).replace(/; $/, "")}, the rest at the market's USD ${two(c.w.per)}` : ""}` };
+        return { v: `USD ${two(per)}`, raw: per, note: `${spanOf(c) ? `${spanOf(c)}; ` : ""}${f.words[c.y.run]}${c.y.cshare > 0 ? `; ${contractNote(c).replace(/; $/, "")}, the rest at the market's USD ${two(c.w.per)}` : ""}` };
       }),
     row("bill", "A year's energy", `for ${f.size}, the last twelve months`,
       (c) => (c.r && c.w ? { v: usd(c.r.bill * f.mw), raw: c.r.bill, note: `${whole(c.w.energy * f.mw)} MWh${c.y.cshare > 0 ? `, ${contractNote(c).replace(/; $/, "")}` : ""}${c.y.adder > 0 ? `, with USD ${plain(c.y.adder)} per MWh of other charges` : ""}` } : none(c))),
@@ -136,7 +151,7 @@ export function LoadScenarios({ facts: f }: { facts: Facts }) {
   const ca = cols.a, cb = cols.b;
   const versus = (() => {
     if (!ca.w || !cb.w || !ca.r || !cb.r) return "Not held for both scenarios.";
-    if (!diff.length) return "No difference.";
+    if (!diff.length && !twoSites) return "No difference.";
     const g = against(ca.y, ca.w, cb.y, cb.w);
     const side = (v: number, lower: string, higher: string) => (v < 0 ? lower : higher);
     const out: string[] = [];
@@ -155,13 +170,13 @@ export function LoadScenarios({ facts: f }: { facts: Facts }) {
     }
     return out.join(" ");
   })();
-  const versusRate = (() => { if (!ca.w || !cb.w || !diff.length) return ""; const g = against(ca.y, ca.w, cb.y, cb.w); return g.rate === null ? "" : String(g.rate); })();
-  const versusEven = (() => { if (!ca.w || !cb.w || !diff.length) return ""; return String(against(ca.y, ca.w, cb.y, cb.w).evenUpfront); })();
+  const versusRate = (() => { if (!ca.w || !cb.w || (!diff.length && !twoSites)) return ""; const g = against(ca.y, ca.w, cb.y, cb.w); return g.rate === null ? "" : String(g.rate); })();
+  const versusEven = (() => { if (!ca.w || !cb.w || (!diff.length && !twoSites)) return ""; return String(against(ca.y, ca.w, cb.y, cb.w).evenUpfront); })();
 
   return (
     <ScenarioBlock
-      fields={fields} defaults={d} bound={(k, v) => bound(k as Key, v, d)} head={`For ${f.size} at ${f.place}`} rows={rows}
-      differing={diff} short={(k, v) => SPECS[k as Key].short(v)} differs={differenceWords(s.a, s.b)}
+      fields={fields} defaults={d} bound={(k, v) => bound(k as Key, v, d)} head={f.b ? `For ${f.size}: A at ${f.place}; B at ${f.b.place}` : `For ${f.size} at ${f.place}`} rows={rows}
+      differing={diff} short={(k, v) => SPECS[k as Key].short(v)} differs={f.b ? `The site: B is at ${f.b.place}, A at ${f.place}${f.b.span && f.b.span !== f.span ? ` (B's last twelve months are ${f.b.span})` : ""}. ${differenceWords(s.a, s.b)}` : differenceWords(s.a, s.b)}
       against={{ words: versus, rate: versusRate, even: versusEven }}
       sentence={ca.r ? (
         <p className="mt-3 max-w-3xl text-sm" data-pv-sentence="a">

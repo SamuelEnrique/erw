@@ -134,10 +134,14 @@ export function scenarioQuery(s: Scenarios, d: Assumptions): [string, string][] 
 /** Whether a parameter name is one of the scenarios' (so that the page's other links can carry or drop it). None of
  * the page's own is two letters long or the one letter `v`: view, grid, region, mw, run, n, pct, shift, buy, gpu, pue. */
 export const isScenarioParam = (name: string) => name === "v" || /^[ab][wgpdeulhnc]$/.test(name);
+/** Session 236: scenario B's own site, `bsite=<grid>:<region>` (absent: B is at the site "Your load" names). It is read
+ * by the server, which computes B's two ways of running from that site's prices (app/cost-of-power/model.ts), so it is
+ * not one of the assumptions the browser rewrites (isScenarioParam is false for it) and it is carried like them. */
+export const SITE_B = "bsite";
 /** The scenarios' parameters of a query string, to append to another address of the page. */
 export function carry(search: string): string {
   const out: string[] = [];
-  for (const [k, v] of new URLSearchParams(search)) if (isScenarioParam(k)) out.push(`${k}=${encodeURIComponent(v)}`);
+  for (const [k, v] of new URLSearchParams(search)) if (isScenarioParam(k) || k === SITE_B) out.push(`${k}=${encodeURIComponent(v)}`);
   return out.length ? `&${out.join("&")}` : "";
 }
 /** The assumptions that differ between A and B, in the page's order. */

@@ -7,7 +7,13 @@
 // computed on the server (lib/datacenter/reads.ts on lib/datacenter/answers.ts, from the live set and the page's own
 // files) and handed over; this file chooses which way's figure each scenario reads (scenario A's way sets the
 // headline) and writes each number with its check key (dc|<address>|<stat>), which scripts/check-values.mjs recomputes.
-import type { ReactNode } from "react";
+//
+// Session 236 (the owner's ruling of 12 October 2026 on the scarcity level): USD 1,000 per MWh stays the level for every
+// grid and is stated beside the count; each grid's own signal is a second count where the warehouse holds a table of
+// it. CAISO's notices are held (caiso_grid_emergencies): counted in the page's twelve months and in the last twelve
+// months the table itself covers. ERCOT's own signal, its reserve adders, is not held yet: one plain line says it is
+// coming. Any other grid's: "not held". And where scenario B stands at a site of its own, each answer adds that
+// site's figure, computed the same way for that site's address (its own check key).
 import { useScenarios } from "@/components/decisions/ScenarioBlock";
 import { Num } from "@/components/Num";
 import { HeadlineNumber, HeadlineRow, ToolTable } from "@/components/tool/ToolPage";
@@ -35,12 +41,22 @@ function useWays(own: Way, words: Record<Way, string>) {
   const a = of(s.a.run), b = of(s.b.run);
   return { a, b, differ: a !== b, words };
 }
-const Hover = ({ why, children }: { why: string; children: ReactNode }) => <span className="cursor-help border-b border-dotted border-muted" title={why}>{children}</span>;
 
 export type AnswerFacts = { pre: string; place: string; size: string; span: string | null; gridName: string; own: Way; words: Record<Way, string>; stdName: string };
+/** Session 236: the same answers at scenario B's own site, when it has one (null: B is at the site of "Your load"). */
+export type SiteB = { a: Answers | null; f: AnswerFacts; reason: string | null } | null;
+/** The level, as the page states it wherever the count stands. */
+export const LEVEL_WORDS = "USD 1,000 per MWh is the level for every grid: the cap on an incremental energy offer in the FERC markets (Order 831). ERCOT is outside FERC and its own cap is higher (USD 5,000); the same level is used there, so that the count means the same thing on every grid.";
+/** A grid's own scarcity signal that the warehouse holds no table of: ERCOT's is coming; any other is not held. */
+const OWN_SIGNAL: Record<string, { name: string; coming: boolean }> = {
+  ERCOT: { name: "its reserve adders, the price adders of its operating reserve demand curve", coming: true },
+  NYISO: { name: "its reserve shortage pricing", coming: false }, "ISO-NE": { name: "its reserve shortage pricing", coming: false },
+  SPP: { name: "its reserve shortage pricing", coming: false },
+};
+const typeWords = (byType: Record<string, number>) => Object.entries(byType).sort((x, y) => y[1] - x[1]).map(([t, n]) => `${t.replace(/_/g, " ")} ${n}`).join(", ");
 
 /** Will the power be there: the hours at or above the scarcity level. */
-export function PowerThere({ a, f }: { a: Answers; f: AnswerFacts }) {
+export function PowerThere({ a, f, b }: { a: Answers; f: AnswerFacts; b?: SiteB }) {
   const w = useWays(f.own, f.words);
   const s = a.scarcity;
   const flat = s.flatUsd * a.mw;
@@ -53,11 +69,11 @@ export function PowerThere({ a, f }: { a: Answers; f: AnswerFacts }) {
       <p className="mb-6 max-w-3xl font-serif text-xl leading-snug" data-answer="power">
         Over the last twelve months{f.span ? `, ${f.span},` : ""} the price at {f.place} was at or above USD {s.level.toLocaleString("en-US")} per MWh in <N pre={f.pre} stat="scarce:hours" a={a} /> hours
         {s.hours ? <>: {when}. A flat {f.size} load paid USD <N pre={f.pre} stat="scarce:flat_usd" a={a} usd /> in them.{wayLine(w.a, "Scenario A")}{w.differ ? wayLine(w.b, "Scenario B") : null}</> : <>. Nothing was short at this level.</>}
-        {a.notices ? <> {a.notices.held ? <>{f.gridName}&apos;s own notices in these months: <N pre={f.pre} stat="notices:count" a={a} />{a.notices.count ? ` (${Object.entries(a.notices.byType).map(([t, n]) => `${t} ${n}`).join(", ")})` : ""}; the table of notices runs to {a.notices.last}.</> : <>No notice of {f.gridName}&apos;s is held.</>}</> : null}
+        {b ? <span data-answer-b-site="power"> Scenario B&apos;s site, {b.f.place}{b.f.span ? `, ${b.f.span}` : ""}: {b.a ? <><N pre={b.f.pre} stat="scarce:hours" a={b.a} /> hours at or above the same level, in which a flat {f.size} load paid USD <N pre={b.f.pre} stat="scarce:flat_usd" a={b.a} usd />.</> : <span className="text-muted">not held ({b.reason ?? "twelve complete months are not held there"}).</span>}</span> : null}
       </p>
       <HeadlineRow>
         <HeadlineNumber label={`Hours at or above USD ${s.level.toLocaleString("en-US")}, last twelve months`} value={<N pre={f.pre} stat="scarce:hours" a={a} />} unit="hours"
-          note={<>of the hours held at {f.place}. <Hover why="USD 1,000 per MWh is the cap on an incremental energy offer in every FERC market (Order 831); in ERCOT a price above it comes from its scarcity pricing, the operating reserve demand curve adders, on top of offers. One level for every grid, so the count means the same thing everywhere.">Why this level</Hover>.</>} />
+          note={<>of the hours held at {f.place}. The level is the same for every grid.</>} />
         <HeadlineNumber label="What a flat load paid in them" value={<>USD <N pre={f.pre} stat="scarce:flat_usd" a={a} usd /></>}
           note={<>for {f.size}; {s.hours ? <>USD {two(s.flatUsd / s.hours)} per MWh on average in those hours</> : "none"}.</>} />
         <HeadlineNumber label={`Scenario ${w.differ ? "A" : "A and B"}: what its way avoided`}
@@ -65,6 +81,21 @@ export function PowerThere({ a, f }: { a: Answers; f: AnswerFacts }) {
           note={a.held[w.a] && w.a !== "flat" ? <>{f.words[w.a]}: off in <N pre={f.pre} stat={`scarce:off:${w.a}`} a={a} /> of the {s.hours} hours, under the rule decided before each hour.{w.differ ? <span data-answer-b="power"> Scenario B ({f.words[w.b]}): {a.held[w.b] && w.b !== "flat" ? <>off in <N pre={f.pre} stat={`scarce:off:${w.b}`} a={a} />, avoided USD <N pre={f.pre} stat={`scarce:avoided_usd:${w.b}`} a={a} usd /></> : "runs flat, avoided nothing"}.</span> : null}</>
             : w.a === "flat" ? <>a flat load runs in every hour.{w.differ ? <span data-answer-b="power"> Scenario B ({f.words[w.b]}): {a.held[w.b] ? <>off in <N pre={f.pre} stat={`scarce:off:${w.b}`} a={a} /> of them, avoided USD <N pre={f.pre} stat={`scarce:avoided_usd:${w.b}`} a={a} usd /></> : "not held here"}.</span> : null}</> : <>this way of running needs the region&apos;s day-ahead prices, which are not held.</>} />
       </HeadlineRow>
+      {/* session 236: the level, stated where the count stands, and the grid's own signal as a second count */}
+      <ToolTable caption="The two counts: the price level, and the grid's own signal" minWidth={520} words head={["The count, last twelve months", "", "What it is"]}
+        rows={[
+          { key: "level", cells: [`Hours at or above USD ${s.level.toLocaleString("en-US")} per MWh`, <N key="h" pre={f.pre} stat="scarce:hours" a={a} />, <span key="w" data-level-words="1">{LEVEL_WORDS}</span>] },
+          ...(a.notices
+            ? a.notices.held
+              ? [{ key: "own", cells: [`${f.gridName}'s own signal: its notices dated in these months`, <span key="n" data-own-signal="count"><N pre={f.pre} stat="notices:count" a={a} /></span>,
+                  <span key="w">Flex alerts, restricted maintenance operations and transmission or energy emergencies, as {f.gridName} posted them (caiso_grid_emergencies){a.notices.count ? `: ${typeWords(a.notices.byType)}` : ""}. The table runs to {a.notices.last}{a.notices.count === 0 && a.notices.last !== null && a.notices.last.slice(0, 7) < s.months[0] ? ", before these twelve months began, so this is not a count of none" : ""}.</span>] },
+                ...(a.notices.own ? [{ key: "own12", cells: [`${f.gridName}'s notices in the last twelve months its table covers, ${monthName(a.notices.own.first)} to ${monthName(a.notices.own.last)}`,
+                  <span key="n" data-own-signal="table"><N pre={f.pre} stat="notices:own:count" a={a} /></span>, <span key="w">{a.notices.own.count ? `${typeWords(a.notices.own.byType)}.` : "None."} Not the months of the price count above.</span>] }] : [])]
+              : [{ key: "own", cells: [`${f.gridName}'s own signal: its notices`], wide: <span data-own-signal="none">not held</span> }]
+            : [{ key: "own", cells: [`${f.gridName}'s own signal`], wide: OWN_SIGNAL[f.gridName]?.coming
+                ? <span data-own-signal="coming">{f.gridName}&apos;s own signal, {OWN_SIGNAL[f.gridName].name}, is coming: the warehouse holds no table of them yet, so no second count is stated.</span>
+                : <span data-own-signal="none">{OWN_SIGNAL[f.gridName] ? `${OWN_SIGNAL[f.gridName].name[0].toUpperCase()}${OWN_SIGNAL[f.gridName].name.slice(1)}: ` : ""}not held</span> }]),
+        ]} />
       {s.hours ? (
         <ToolTable caption="The hours at or above the scarcity level, by month" minWidth={520} head={["Month", "Hours", `A flat load paid, USD, ${f.size}`, "USD per MWh in them"]}
           rows={s.byMonth.map((m) => ({ key: m.m, cells: [monthName(m.m), <N key="h" pre={f.pre} stat={`scarce:month:${m.m}:hours`} a={a} />, <N key="u" pre={f.pre} stat={`scarce:month:${m.m}:usd`} a={a} usd />, two(m.usd / m.hours)] }))} />
@@ -77,7 +108,7 @@ export function PowerThere({ a, f }: { a: Answers; f: AnswerFacts }) {
 }
 
 /** How clean: the load's carbon from the grid's intensity of consumed electricity. */
-export function HowClean({ a, f }: { a: Answers; f: AnswerFacts }) {
+export function HowClean({ a, f, b }: { a: Answers; f: AnswerFacts; b?: SiteB }) {
   const w = useWays(f.own, f.words);
   const c = a.carbon;
   const l = c.l12[w.a], win = c.window;
@@ -92,6 +123,7 @@ export function HowClean({ a, f }: { a: Answers; f: AnswerFacts }) {
           : <>The grid&apos;s monthly intensity is not held for every one of the last twelve months, so there is no twelve-month figure.</>}
         {win.hours && win.ways[w.a] !== null ? <> Over the <N pre={f.pre} stat="co2:window:hours" a={a} /> hours held hour by hour ({win.from?.slice(0, 10)} to {win.to?.slice(0, 10)}), its own hours carried <N pre={f.pre} stat={`co2:window:${w.a}`} a={a} /> kg per MWh against the grid&apos;s <N pre={f.pre} stat="co2:window:grid" a={a} /> on average.</> : null}
         {first && last && first.y !== last.y ? <> By year, {f.gridName}&apos;s consumed electricity went from <N pre={f.pre} stat={`co2:year:${first.y}`} a={a} /> kg per MWh in {first.y} to <N pre={f.pre} stat={`co2:year:${last.y}`} a={a} /> in {last.y} (the years with at least ten months held).</> : null}
+        {b ? <span data-answer-b-site="clean"> Scenario B&apos;s site, {b.f.place}: {b.a && b.a.carbon.l12[w.b].kgPerMwh !== null ? <><N pre={b.f.pre} stat={`co2:l12:kg:${w.b}`} a={b.a} /> kg of CO2 per MWh at {b.f.gridName}&apos;s monthly average, <N pre={b.f.pre} stat={`co2:l12:tonnes:${w.b}`} a={b.a} /> tonnes a year for {f.size}.</> : <span className="text-muted">not held.</span>}</span> : null}
       </p>
       <HeadlineRow>
         <HeadlineNumber label="This load's carbon, last twelve months" value={<><N pre={f.pre} stat={`co2:l12:kg:${w.a}`} a={a} /><span className="ml-1 font-sans text-sm text-muted">kg CO2 per MWh</span></>}
@@ -111,8 +143,17 @@ export function HowClean({ a, f }: { a: Answers; f: AnswerFacts }) {
 }
 
 /** How soon: the operator's own figures of large load, where a public table holds them. */
-export function HowSoon({ a, f, rules }: { a: Answers; f: AnswerFacts; rules: { count: number; newest: string | null; words: string } }) {
+export function HowSoon({ a, f, rules, b }: { a: Answers; f: AnswerFacts; rules: { count: number; newest: string | null; words: string }; b?: SiteB }) {
   const l = a.largeLoad;
+  // session 236: scenario B's own grid, when it is another grid: its operator's figure, or the line that none is held
+  const dayOf = (d: string) => `${Number(d.slice(8, 10))} ${monthName(d.slice(0, 7))}`;
+  const lb = b && b.f.gridName !== f.gridName ? b.a?.largeLoad?.latest ?? null : null;
+  const siteB = b && b.f.gridName !== f.gridName ? (
+    <p className="mb-4 max-w-3xl text-sm" data-answer-b-site="soon">
+      Scenario B&apos;s site is in {b.f.gridName}: {lb && b.a ? <>by its own report of {dayOf(lb.day)}, <N pre={b.f.pre} stat={`ll:report:${lb.day}:approved`} a={b.a} /> MW of large load was approved to energize.</>
+        : <>{b.f.gridName} publishes no figure of large load waiting or energized that the warehouse holds as a public table, so none is stated, and no wait is estimated.</>}
+    </p>
+  ) : null;
   if (!l || !l.latest) {
     return (
       <>
@@ -120,6 +161,7 @@ export function HowSoon({ a, f, rules }: { a: Answers; f: AnswerFacts; rules: { 
           {f.gridName} publishes no figure of large load waiting or energized that the warehouse holds as a public table, so none is stated here, and no wait is estimated.
         </p>
         <p className="max-w-3xl text-sm" data-answer-rules="1">{rules.words}</p>
+        {siteB}
       </>
     );
   }
@@ -134,6 +176,7 @@ export function HowSoon({ a, f, rules }: { a: Answers; f: AnswerFacts; rules: { 
         {newest && newest.submissions !== null ? <> New submissions by {day(newest.day)}: <N pre={f.pre} stat={`ll:report:${newest.day}:submissions`} a={a} /> requests{newest.submissionsMw !== null ? <>, <N pre={f.pre} stat={`ll:report:${newest.day}:submissionsMw`} a={a} /> MW</> : null}.</> : null}
         {" "}No wait is estimated: {f.gridName} publishes none.
       </p>
+      {siteB}
       <HeadlineRow>
         <HeadlineNumber label={`Approved to energize, ${day(t.day)}`} value={<><N pre={f.pre} stat={`ll:report:${t.day}:approved`} a={a} /><span className="ml-1 font-sans text-sm text-muted">MW</span></>} note={<>{f.gridName}&apos;s large load interconnection status update, as reported.</>} />
         <HeadlineNumber label="Observed running, non-simultaneous peak" value={<><N pre={f.pre} stat={`ll:report:${t.day}:running`} a={a} /><span className="ml-1 font-sans text-sm text-muted">MW</span></>} note={t.simultaneous !== null ? <>simultaneous peak <N pre={f.pre} stat={`ll:report:${t.day}:simultaneous`} a={a} /> MW.</> : null} />

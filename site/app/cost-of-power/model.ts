@@ -11,8 +11,9 @@ import {
   ASSUMED, BUYS, DEFAULTS, badMonth, cleanShare, expandSeries, hrefOf, inputsOf, last36, lastTwelve, monthsOf, monthsRuled, ruleWords, shortMonth, span,
   whenOf, years, type Inputs, type Month, type Ruled, type Span,
 } from "@/lib/datacenter";
-import { FLAT, FLEX, isOldParam, isScenarioParam, type Way, type Ways } from "@/lib/datacenter/finance";
+import { FLAT, FLEX, SITE_B, isOldParam, isScenarioParam, type Way, type Ways } from "@/lib/datacenter/finance";
 import { ownWay, readAnswers, waysOf, type Ruled as AnswerRuled } from "@/lib/datacenter/answers";
+import { deliveryOf, utilitiesOf } from "@/lib/datacenter/delivery";
 import { blockOf as rulesBlockOf, docketWords, rulesGrid } from "@/lib/rules";
 import { rulesFile } from "@/lib/rulesdata";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
@@ -73,6 +74,17 @@ function wayOf(ms: Month[]): Way | null {
 function badOf(ms: Month[] | null): Bad | null {
   const w = ms ? last36(ms) : null, b = badMonth(w?.months ?? []);
   return w && b ? { m: b.m, per: b.cost / b.energy, of: w.months.length, first: w.months[0].m, to: w.to } : null;
+}
+
+/** Session 236: scenario B's own site from the address, `bsite=<grid>:<region>`. Null when the address names none, names
+ * a grid or a region the page's files do not hold, or names the site of "Your load" (B is then at A's site, as before). */
+export function siteBOf(raw: string | undefined, x: Pick<Inputs, "grid" | "region">): { grid: string; region: string } | null {
+  if (!raw) return null;
+  const i = raw.indexOf(":");
+  const grid = i < 0 ? raw : raw.slice(0, i), region = i < 0 ? "" : raw.slice(i + 1);
+  const g = INDEX.grids[grid];
+  if (!g || !g.regions.some((r) => r.id === region) || (grid === x.grid && region === x.region)) return null;
+  return { grid, region };
 }
 
 /** Everything "Your load" computes for one address, in the order page.tsx computed it until session 213. Session 228:
@@ -140,6 +152,36 @@ export async function loadModel(asked: Inputs, buyGiven: boolean, gridAsked: str
     words: ["the same in every hour", flexWords(flex ? x : altFlex)], why: [noYear, flex ? noYear : region?.da ? noYear : noDa], bads: [badOf(sets[0]), badOf(sets[1])] };
   const scenarioParams = Object.fromEntries(Object.entries(q).filter(([n, v]) => (isScenarioParam(n) || isOldParam(n)) && v !== undefined).sort(([a], [b]) => a.localeCompare(b))) as Record<string, string>;
 
+  // session 236 (the owner's chain prompt of 12 October 2026: A and B compare two sites or two contracts): scenario B
+  // may stand at a site of its own, another region of the grid or another grid. Its two ways of running are computed
+  // here exactly as A's are above (the same market, the same way "Your load" runs, the same rule), from that site's
+  // own price files and over that site's own last twelve months. With no site named B is at A's site and `facts.b` is
+  // null: every figure is then what it was.
+  const bSite = !failed && side ? siteBOf(q[SITE_B], x) : null;
+  const gB = bSite ? INDEX.grids[bSite.grid] : undefined, regionB = bSite ? gB?.regions.find((r) => r.id === bSite.region) : undefined;
+  let filesB: ReturnType<typeof yearFiles> = [], failedB: string | null = null;
+  if (bSite) { try { filesB = bSite.grid === x.grid ? files : yearFiles(bSite.grid); } catch (e) { failedB = (e as Error).message; } }
+  const sideB = regionB?.[x.buy];
+  const foreB: Ruled = bSite && sideB && !failedB ? monthsRuled(filesB, bSite.region, x.buy, x, "forecast") : none;
+  const l12B = lastTwelve(foreB.months);
+  const placeB = bSite ? `${bSite.region} in ${gB?.name ?? bSite.grid}` : "";
+  if (bSite) {
+    let setsB: [Month[] | null, Month[] | null] = [null, null];
+    if (sideB && !failedB) {
+      if (flex) setsB = [foreB.months.length ? flatMonths(foreB.months) : monthsOf(filesB, bSite.region, x.buy, { run: "flat", n: 0, pct: 0, shift: 0 }), foreB.months];
+      else setsB = [foreB.months, regionB?.da ? monthsRuled(filesB, bSite.region, x.buy, altFlex, "forecast").months : null];
+    }
+    const noYearB = failedB ? `The price files of ${gB?.name ?? bSite.grid} could not be read: ${failedB}`
+      : !sideB ? `No ${market} price is held for ${placeB}.`
+      : flex && !foreB.da ? `No day-ahead price is held for ${bSite.region}, and a flexible load decides from day-ahead prices. Its ${market} price is held from ${day(sideB.first)}.`
+      : `Twelve complete months of ${market} prices are not held for ${bSite.region}: it is held from ${day(sideB.first)}. A month counts when at least 95 percent of its hours are held.`;
+    facts.b = { grid: bSite.grid, region: bSite.region, place: `${placeB}, ${market}`, span: l12B ? `${shortMonth(l12B[0].m)} to ${shortMonth(l12B[11].m)}` : null,
+      ways: [setsB[0] ? wayOf(setsB[0]) : null, setsB[1] ? wayOf(setsB[1]) : null], bads: [badOf(setsB[0]), badOf(setsB[1])],
+      why: [noYearB, flex ? noYearB : regionB?.da ? noYearB : `No day-ahead price is held for ${bSite.region}, and a flexible load decides from day-ahead prices.`] };
+  }
+  // the sites scenario B can be given: every region of every grid held, by grid (the form's list)
+  const sitesB = Object.entries(INDEX.grids).map(([id, v]) => ({ grid: id, name: v.name, regions: v.regions.filter((r) => r[x.buy]).map((r) => ({ id: r.id, kind: r.kind ?? null })) }));
+
   // the form's lists: every grid held, each region with what is held of it
   const grids = Object.fromEntries(Object.entries(INDEX.grids).map(([id, v]) => [id, { name: v.name,
     regions: v.regions.map((r) => { const s = r.rt ?? r.da!; return { id: r.id, held: `from ${shortMonth(s.first.slice(0, 7))}`, kind: r.kind ?? null, name: r.name ?? null }; }) }]));
@@ -205,6 +247,17 @@ export async function loadModel(asked: Inputs, buyGiven: boolean, gridAsked: str
     rows: (t, p) => rest<Record<string, unknown>>(t, p, HOURLY) })) : null;
   const answerFacts = { pre: answersKey, place: `${x.region} in ${g?.name ?? x.grid}`, size, span: l12Span, gridName: g?.name ?? x.grid, own: ownWay(x),
     words: { flat: "the same in every hour", flex: flexWords(waySpecs.flex), shift: flexWords(waySpecs.shift) } as Record<"flat" | "flex" | "shift", string>, stdName: g?.std_name ?? "standard time" };
+  // session 236: the same three answers at scenario B's own site, when it has one: the same reads and arithmetic for
+  // that site's address (its check key names that site), over that site's own last twelve months
+  const answersKeyB = bSite ? `grid=${bSite.grid}&region=${encodeURIComponent(bSite.region)}&buy=${x.buy}&run=${x.run}&n=${x.n}&pct=${x.pct}&shift=${x.shift}&mw=${x.mw}` : "";
+  const ruledB = {} as Record<"flat" | "flex" | "shift", AnswerRuled>;
+  if (bSite && sideB && !failedB) for (const k of ["flat", "flex", "shift"] as const) ruledB[k] = monthsRuled(filesB, bSite.region, x.buy, waySpecs[k], "forecast");
+  const answersB = bSite && sideB && !failedB && l12B ? await attempt(() => readAnswers({ grid: bSite.grid, mw: x.mw, l12: l12B.map((r) => r.m), behind: gB?.std_hours_behind_utc ?? 0, ruled: ruledB,
+    rows: (t, p) => rest<Record<string, unknown>>(t, p, HOURLY) })) : null;
+  const answerFactsB = bSite ? { ...answerFacts, pre: answersKeyB, place: placeB, span: l12B ? `${shortMonth(l12B[0].m)} to ${shortMonth(l12B[11].m)}` : null, gridName: gB?.name ?? bSite.grid, stdName: gB?.std_name ?? "standard time" } : null;
+  // session 236: Texas's delivery charges by component, USD per MWh for a flat load of the reader's size
+  // (lib/datacenter/delivery.ts); the tariff's own lines are in the download
+  const deliveryParts = x.grid === "ercot" ? utilitiesOf(DELIVERY.rows).map((u) => deliveryOf(DELIVERY.rows, u, x.mw)) : [];
   // the rules in motion for the grid, from the site's own file (lib/rules.ts), counted; the rows are in the download
   const rgrid = rulesGrid(gridAsked, x.grid);
   const rb = rulesBlockOf(rulesFile().file, rgrid);
@@ -215,6 +268,7 @@ export async function loadModel(asked: Inputs, buyGiven: boolean, gridAsked: str
       : `No proceeding or order on large loads is held for ${gridNames[rgrid] ?? rgrid.toUpperCase()} in the public dockets read.` };
 
   return {
+    bSite, sitesB, answersB, answersKeyB, answerFactsB, deliveryParts,
     answers, answersKey, answerFacts, rules,
     x, g, files, failed, region, side, flex, off, fore, ms, l12, noRule, hind, h12, sh12, ysH, msH, rule, s12, bad, badPer, ys, place, market, heldFrom, noYear, savedH, refId, ref12,
     l12Span, saved, size, ways, facts, scenarioParams, grids, regionRows, slug, sf, sy, peak, peakAt, fuels, growth, tightRows, lastTight, zones, withheld, cf, cy, cv, cFile, own, qv, ll,

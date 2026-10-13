@@ -9,8 +9,14 @@
 // (ny_load). The same read and arithmetic as the page (model.ts; lib/howsoon.ts and lib/rules.ts write the words the
 // page's two blocks wrote). A value not held is blank, with its reason in `note`. In review, the address answers a
 // visitor as the page does.
+// Session 236: two more tables. "delivery": Texas's delivery tariffs line by line as filed (the schedule's name, its
+// rate and unit as printed, its page, date and document, the line it was read from), each with what it comes to in USD
+// per MWh for a flat load of the reader's size, and the sums by component and the total the page states
+// (lib/datacenter/delivery.ts). "scenario_b_site": scenario B's own site, when the address names one (`bsite`): its
+// two ways of running over its own last twelve months, and its scarce hours and carbon as the page states them.
 import { hh, monthsWords, two, whole } from "@/lib/datacenter";
-import { INDEX } from "@/lib/datacenterdata";
+import { DELIVERY, INDEX } from "@/lib/datacenterdata";
+import { basisOf, conditional, deliveryOf, kindOf, perMwh, slugOf, utilitiesOf } from "@/lib/datacenter/delivery";
 import { basisWords, blockOf as waitsBlockOf, dayWords as waitsDay, measuredTip, measuredWords, notHereWhy, notYetWhy, sentenceOf, sourceWords, statedTip, waitingTip, waitingWords, NOT_HELD_WHY as WAITS_NOT_HELD, PAUSED_WHY as WAITS_PAUSED } from "@/lib/howsoon";
 import { howSoonFile } from "@/lib/howsoondata";
 import { statusOf } from "@/lib/release";
@@ -81,6 +87,25 @@ export async function GET(req: Request) {
       if (A.largeLoad.approvedChange !== null) put(L, "change", "approved_to_energize_mw", String(A.largeLoad.approvedChange), `${A.largeLoad.yearAgo?.day} to ${A.largeLoad.latest?.day}; dc|${M.answersKey}|ll:approved_change (the absolute change)`);
     } else put(L, "none", "approved_to_energize_mw", "", `${name} publishes no figure of large load waiting or energized that the warehouse holds as a public table.`);
     put(L, "rules_in_motion", "count", String(M.rules.count), M.rules.words);
+  }
+
+  // 0b. session 236: scenario B's own site, when it has one
+  if (M.bSite && M.facts.b) {
+    const B = "scenario_b_site", fb = M.facts.b;
+    put(B, "site", "place", fb.place, fb.span ? `its own last twelve months: ${fb.span}` : "twelve complete months are not held there");
+    (["flat", "flexible"] as const).forEach((label, i) => {
+      const w = fb.ways[i];
+      put(B, `way_${label}`, "usd_per_mwh", f2(w?.per), w ? M.facts.words[i] : fb.why[i]);
+      if (w) { put(B, `way_${label}`, "usd_a_year", String(Math.round(w.cost * x.mw)), `for ${size}`); put(B, `way_${label}`, "mwh_a_year", String(Math.round(w.energy * x.mw))); }
+      const bad = fb.bads[i];
+      if (bad) put(B, `way_${label}`, "bad_month_usd_per_mwh", f2(bad.per), `${bad.m}; one month in ten of the ${bad.of} held cost this or more`);
+    });
+    const AB = M.answersB?.ok ? M.answersB.data : null;
+    if (AB) {
+      put(B, "scarce_hours", "hours", String(AB.scarcity.hours), `at or above USD ${AB.scarcity.level} per MWh; check key dc|${M.answersKeyB}|scarce:hours`);
+      put(B, "scarce_hours", "flat_load_usd", String(Math.round(AB.scarcity.flatUsd * x.mw)), `dc|${M.answersKeyB}|scarce:flat_usd`);
+      for (const k of ["flat", "flex", "shift"] as const) put(B, `carbon_${k}`, "kg_co2_per_mwh", f2(AB.carbon.l12[k].kgPerMwh), AB.carbon.l12[k].kgPerMwh === null ? "not held" : `dc|${M.answersKeyB}|co2:l12:kg:${k}`);
+    } else put(B, "scarce_hours", "hours", "", M.answersB && !M.answersB.ok ? `the live set could not be read: ${M.answersB.reason}` : "twelve complete months are not held there");
   }
 
   // 1. will the power be there
@@ -180,6 +205,26 @@ export async function GET(req: Request) {
 
   // 6. every region of the grid over its own last twelve months, a flat load
   for (const r of regionRows) put("regions", r.id, "flat_usd_per_mwh", f2(r.per), r.per !== null ? `${r.sp}${r.name ? `; ${r.name}` : ""}${r.id === x.region ? "; the load's own region" : ""}` : r.from ? `Held from ${day(r.from)}: ${whole(r.hours)} hours, not yet twelve complete months.` : `No ${market} price is held for this region.`);
+  // 6b. session 236: Texas's delivery tariffs, line by line as filed, and the page's sums by component (ERCOT)
+  if (x.grid === "ercot") {
+    const D = "delivery";
+    for (const u of utilitiesOf(DELIVERY.rows)) {
+      const d = deliveryOf(DELIVERY.rows, u, x.mw), slug = slugOf(u);
+      DELIVERY.rows.filter((r) => r.utility === u).forEach((r, i) => {
+        const row = `${slug}_line_${String(i + 1).padStart(2, "0")}`, v = perMwh(r, x.mw), b = basisOf(r.unit);
+        put(D, row, "schedule", r.charge, `${r.utility}, ${r.rate_class}`);
+        put(D, row, "component", kindOf(r), r.why ?? "");
+        put(D, row, "rate_as_filed", r.value_as_written, `${r.unit}${r.column ? `; column ${r.column}` : ""}`);
+        put(D, row, "rate", String(r.value), r.unit);
+        put(D, row, "usd_per_mwh_flat_load", conditional(r) || v === null ? "" : v.toFixed(4), conditional(r) ? `not added: ${r.applies}` : v === null ? "the unit names no basis, so the line is not converted" : b === "energy" ? "the rate per kWh times 1,000" : b === "customer_month" ? `the rate times 12 over ${x.mw} MW times 8,760 hours (one account, one meter)` : "the rate times 12,000 over 8,760 (the load's size as its demand; a kVA as a kW)");
+        put(D, row, "document", r.document, `${r.page ? `page ${r.page}` : ""}${r.effective ? `; effective ${r.effective}` : ""}; ${r.url}`);
+        put(D, row, "line_read", r.sentence, r.terms);
+      });
+      for (const c of d.components) put(D, `${slug}_sum`, c.kind, c.perMwh.toFixed(2), `${c.lines} lines added${c.conditional ? `, ${c.conditional} conditional left out` : ""}${c.unread ? `, ${c.unread} not converted` : ""}; check key dcd|${x.mw}|${slug}:${c.kind}`);
+      put(D, `${slug}_sum`, "total", d.total.toFixed(2), `USD per MWh for a flat load of ${size}; never added to the market cost; check key dcd|${x.mw}|${slug}:total`);
+    }
+    for (const w of DELIVERY.withheld) put(D, slugOf(w.utility), "total", "", `${w.words}: ${w.why}`);
+  }
   // 7. the Commission's transmission charge matrix, as printed (ERCOT)
   for (const r of matrix) put("matrix", `${r.year}${r.matrix ? `_matrix_${r.matrix}` : ""}_${r.scope.replace(/[^A-Za-z0-9]+/g, "_")}`, r.quantity, String(r.value), `${r.status === "approved" ? "approved" : "filed, not approved"}; ${r.document}, filed ${r.filed}; column "${r.header}"${r.scan_url || r.url ? `; ${r.scan_url || r.url}` : ""}`);
   if (x.grid === "ercot" && !matrix.length) put("matrix", "none", "postage_stamp_rate", "", "The Commission's transmission charge matrices are not in this page's files yet.");

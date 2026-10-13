@@ -452,6 +452,14 @@ async function truth(check) {
     const a = await dcAnswers.get(key);
     return R_statOf(a, p.slice(2).join("|"));
   }
+  // session 236: Texas's delivery charges by component on "What a datacenter pays", dcd|<mw>|<utility>:<component or
+  // total>: recomputed by lib/datacenter/delivery.ts from the site's own file of tariff lines
+  // (data/datacenter/texas_delivery.json, not Supabase), as the page computes it
+  if (p[0] === "dcd") {
+    const D = await import("../lib/datacenter/delivery.ts");
+    const file = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "datacenter", "texas_delivery.json"), "utf-8"));
+    return D.deliveryStat(file.rows, Number(p[1]), p.slice(2).join("|"));
+  }
   // session 51: the seller's tab: recomputed from the snapshot the page reads (data/merchant_snapshot.json, not Supabase),
   // with lib/merchant.ts; tests/test_session51.py checks the snapshot against the warehouse table and by hand
   if (p[0] === "mr") {

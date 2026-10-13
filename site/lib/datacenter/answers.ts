@@ -188,7 +188,17 @@ export function largeLoad(rows: StatusRow[]): LargeLoad {
 // The answers of one address, and each number by its name (the check key's last part)
 // ---------------------------------------------------------------------------------------------------------------------
 
-export type Notices = { held: boolean; last: string | null; count: number; byType: Record<string, number> } | null;
+/** The operator's own notices where a table holds them (CAISO's, caiso_grid_emergencies): those dated in the page's
+ * twelve months, and (session 236) those dated in the last twelve months the table itself covers, `own`, the twelve
+ * calendar months ending with the month of its newest notice, so that a table that ends before the page's months
+ * still gives a count of the operator's own signal, with its months said. */
+export type Notices = { held: boolean; last: string | null; count: number; byType: Record<string, number>; own: { first: string; last: string; count: number; byType: Record<string, number> } | null } | null;
+/** The month eleven months before a month label ("2025-04" gives "2024-05"). */
+export function elevenBefore(m: string): string {
+  const y = Number(m.slice(0, 4)), k = Number(m.slice(5, 7)) - 1 - 11;
+  const t = y * 12 + k;
+  return `${Math.floor(t / 12)}-${String((t % 12) + 1).padStart(2, "0")}`;
+}
 export type Answers = { scarcity: Scarcity; carbon: Carbon; largeLoad: LargeLoad | null; notices: Notices; mw: number; held: Record<Way, boolean> };
 
 /** One number of the answers by its name, for the reader's size: the page writes it, check-values recomputes it. */
@@ -223,7 +233,11 @@ export function statOf(a: Answers, stat: string): number | null | undefined {
     if (p[1] === "latest") return l.latest ? (l.latest[p[2] as keyof Report] as number | null) : undefined;
     return undefined;
   }
-  if (p[0] === "notices") return a.notices ? (p[1] === "count" ? a.notices.count : a.notices.byType[p[1]] ?? 0) : undefined;
+  if (p[0] === "notices") {
+    if (!a.notices) return undefined;
+    if (p[1] === "own") return a.notices.own ? (p[2] === undefined || p[2] === "count" ? a.notices.own.count : a.notices.own.byType[p[2]] ?? 0) : null;
+    return p[1] === "count" ? a.notices.count : a.notices.byType[p[1]] ?? 0;
+  }
   return undefined;
 }
 
@@ -290,7 +304,16 @@ export async function readAnswers(args: AnswerArgs): Promise<Answers> {
     const inWindow = noticesRaw.filter((r) => { const d = String(r.event_date).slice(0, 10); return d >= first && d.slice(0, 7) <= last; });
     const byType: Record<string, number> = {};
     for (const r of inWindow) byType[String(r.event_type)] = (byType[String(r.event_type)] ?? 0) + 1;
-    notices = { held: noticesRaw.length > 0, last: noticesRaw.length ? String(noticesRaw[0].event_date).slice(0, 10) : null, count: inWindow.length, byType };
+    const newest = noticesRaw.length ? String(noticesRaw[0].event_date).slice(0, 10) : null;
+    let own: NonNullable<Notices>["own"] = null;
+    if (newest) {
+      const to = newest.slice(0, 7), from = elevenBefore(to);
+      const rowsOwn = noticesRaw.filter((r) => { const m = String(r.event_date).slice(0, 7); return m >= from && m <= to; });
+      const types: Record<string, number> = {};
+      for (const r of rowsOwn) types[String(r.event_type)] = (types[String(r.event_type)] ?? 0) + 1;
+      own = { first: from, last: to, count: rowsOwn.length, byType: types };
+    }
+    notices = { held: noticesRaw.length > 0, last: newest, count: inWindow.length, byType, own };
   }
   return { scarcity: sc, carbon, largeLoad: grid === "ercot" && status.length ? largeLoad(status) : null, notices, mw, held };
 }

@@ -192,7 +192,7 @@ const code = await withBrowser(async ({ go, evaluate, unlock, send, requests, sl
   check(/^Each row moves one assumption of scenario A down and up by the step named, holds the other nine/.test(s.howToRead), "one line says how to read the chart", s.howToRead);
   const dl = await downloads("");
   check(dl.status[0] === 200 && dl.status[1] === 200 && dl.months > 24 && dl.tables > 40 && /^# Energy Research Warehouse/.test(dl.heads), "the two CSV downloads answer the internal view with their provenance lines", `${dl.status}; ${dl.months} rows, ${dl.tables} cells`);
-  check(dl.tablesOf.every((t) => ["scarce_hours", "carbon", "large_load", "power_there", "how_clean", "how_soon", "waits", "waits_stated", "rules", "regions", "matrix", "ny_load"].includes(t)) && ["scarce_hours", "carbon", "large_load", "power_there", "how_clean", "how_soon", "waits", "rules", "regions", "matrix"].every((t) => dl.tablesOf.includes(t)), "the download holds the three answers (session 228), the grid's three questions, the waits, the rules, every region and the matrix", dl.tablesOf.join(", "));
+  check(dl.tablesOf.every((t) => ["scarce_hours", "carbon", "large_load", "power_there", "how_clean", "how_soon", "waits", "waits_stated", "rules", "regions", "delivery", "scenario_b_site", "matrix", "ny_load"].includes(t)) && ["scarce_hours", "carbon", "large_load", "power_there", "how_clean", "how_soon", "waits", "rules", "regions", "matrix"].every((t) => dl.tablesOf.includes(t)), "the download holds the three answers (session 228), the grid's three questions, the waits, the rules, every region and the matrix", dl.tablesOf.join(", "));
   check(near(dl.flatPrice, flat.per, 1e-4) && dl.yearRows > 0, "the months download's newest twelve complete months give the page's flat price (to the dollar a month)", `${dl.flatPrice} against ${flat.per}`);
   await shot("datacenter-scenarios-default-desktop", 1280);
 
@@ -389,6 +389,86 @@ const code = await withBrowser(async ({ go, evaluate, unlock, send, requests, sl
     check(s.clientW === 390 && s.scrollW <= s.clientW + 1, `390 px${q ? ", two scenarios" : ""}: the page does not scroll sideways`, `scroll width ${s.scrollW}, width ${s.clientW}`);
     check(s.bars.length === 8 && s.rows.length === 10, `390 px${q ? ", two scenarios" : ""}: the table and the chart are drawn`);
     await shot(q ? "datacenter-scenarios-compared-phone" : "datacenter-scenarios-default-phone", 390);
+  }
+
+  // 12 (session 236): the brand; the level stated beside the count and the grid's own signal as a second count; the
+  // delivery charges one row a component with their total; scenario B at a site of its own
+  {
+    const D = await import("../lib/datacenter/delivery.ts");
+    const fs = await import("node:fs");
+    const file = JSON.parse(fs.readFileSync(new URL("../data/datacenter/texas_delivery.json", import.meta.url), "utf-8"));
+    const FACE = `(() => {
+      const q = (sel) => document.querySelector(sel);
+      const all = (sel) => [...document.querySelectorAll(sel)];
+      const brand = q('[data-brand="a"]');
+      return {
+        brand: !!brand && !!brand.querySelector("h1") && brand.hasAttribute("data-no-usage"), h1Font: getComputedStyle(q("h1")).fontFamily, bodyBg: getComputedStyle(document.body).backgroundColor,
+        level: q("[data-level-words]")?.textContent ?? "", own: all("[data-own-signal]").map((e) => [e.getAttribute("data-own-signal"), e.textContent, e.querySelector("[data-check]")?.getAttribute("data-check") ?? null]),
+        answer: q('[data-answer="power"]')?.textContent ?? "",
+        delivery: all("[data-delivery] tbody tr").map((r) => [...r.children].map((c) => c.textContent.trim())), deliveryHead: all("[data-delivery] thead th").map((c) => c.textContent.trim()),
+        deliveryKeys: all("[data-delivery] [data-check]").map((e) => [e.getAttribute("data-check"), Number(e.getAttribute("data-raw")), e.textContent.trim()]),
+        deliveryNote: q("[data-delivery-note]")?.textContent ?? "", tariffOnFace: /Transmission Cost Recovery Factor|TCRF|Metering Charge|4CP kW/.test((q("main") ?? document.body).innerText),
+        how: q("[data-how-to-compare]")?.textContent ?? "", siteB: q("[data-site-b]")?.getAttribute("data-site-b") ?? null, siteOptions: all("[data-site-b] option").length,
+        bSite: all("[data-answer-b-site]").map((e) => [e.getAttribute("data-answer-b-site"), e.textContent, [...e.querySelectorAll("[data-check]")].map((n) => n.getAttribute("data-check"))]),
+        scrollW: document.documentElement.scrollWidth, clientW: document.documentElement.clientWidth,
+      };
+    })()`;
+    s = await open("/cost-of-power");
+    let f = await evaluate(FACE);
+    check(f.brand && /Source Serif/i.test(f.h1Font) && f.bodyBg === "rgb(255, 255, 255)", "the page is on the brand: the wrapper holds it, the title is in the brand's serif, the page is white, no usage is counted", `${f.h1Font.slice(0, 40)} | ${f.bodyBg}`);
+    check(/USD 1,000 per MWh is the level for every grid/.test(f.level) && /at or above USD 1,000 per MWh/.test(f.answer), "the level, USD 1,000 per MWh for every grid, is stated where the count stands", f.level.slice(0, 80));
+    check(f.own.length === 1 && f.own[0][0] === "coming" && /ERCOT's own signal, its reserve adders.*is coming/.test(f.own[0][1]) && f.own[0][2] === null, "ERCOT: one plain line says its own signal, the reserve adders, is coming, and states no number", f.own.map((o) => o[1]).join(" | "));
+    const utilities = D.utilitiesOf(file.rows);
+    check(JSON.stringify(f.deliveryHead) === JSON.stringify(["Component", ...utilities]) && JSON.stringify(f.delivery.map((r) => r[0])) === JSON.stringify(["Transmission", "Distribution", "Other riders", "Total delivery"]),
+      "the delivery charges are one row a component and the total, a column a utility", `${f.deliveryHead.join(", ")} | ${f.delivery.map((r) => r[0]).join(", ")}`);
+    const want = utilities.flatMap((u) => ["transmission", "distribution", "other", "total"].map((k) => [`dcd|100|${D.slugOf(u)}:${k}`, D.deliveryStat(file.rows, 100, `${D.slugOf(u)}:${k}`)]));
+    check(f.deliveryKeys.length === 16 && want.every(([k, v]) => f.deliveryKeys.some((d) => d[0] === k && d[1] === v && Number(d[2]) === v)), "each of the sixteen figures carries its check key and is the library's sum of the tariff lines in the site's file",
+      f.deliveryKeys.filter((d) => /total$/.test(d[0])).map((d) => `${d[0].split("|")[2]} ${d[2]}`).join(", "));
+    const parts = utilities.map((u) => D.deliveryOf(file.rows, u, 100));
+    check(parts.every((d) => Math.abs(d.total - d.components.reduce((a, c) => a + c.perMwh, 0)) < 1e-12) && f.deliveryKeys.filter((d) => /total$/.test(d[0])).every((d) => { const u = d[0].split("|")[2].split(":")[0]; const sum = f.deliveryKeys.filter((x) => x[0].startsWith(`dcd|100|${u}:`) && !/total$/.test(x[0])).reduce((a, x) => a + x[1], 0); return Math.abs(sum - d[1]) <= 0.0201; }),
+      "each total is the sum of its three components (each of the four figures rounded to the cent)");
+    const tcrf = file.rows.find((r) => r.utility === "Oncor" && /TCRF/.test(r.charge));
+    check(f.deliveryKeys.find((d) => d[0] === "dcd|100|oncor:transmission")?.[2] === L.two((tcrf.value * 12000) / 8760), "Oncor's transmission component is the figure the page stated until this session, the transmission factor for a flat load", L.two((tcrf.value * 12000) / 8760));
+    check(!f.tariffOnFace && /The tariff lines as filed, CSV/.test(f.deliveryNote) && /never added to the market cost/.test(f.deliveryNote), "no tariff line is on the page: the schedule names and the rates as filed are in the download; the charges are never added to the market cost");
+    const dl2 = await downloads("");
+    const lines = file.rows.length;
+    check(dl2.tablesOf.includes("delivery") && !dl2.tablesOf.includes("scenario_b_site"), "the download holds the table of tariff lines; with B at A's site it holds no table of B's site", `${lines} tariff lines in the file`);
+    check(/two sites/.test(f.how) && /two contracts/.test(f.how) && f.siteB === "" && f.siteOptions > 10, "one line says how to compare two sites or two contracts, and B's site can be chosen among the regions held", `${f.siteOptions} options`);
+    check(f.bSite.length === 0 && s.headFor === "For 100 MW at LZ_NORTH in ERCOT, real time", "with no site of its own, B is at A's site and the table's heading is as it was", s.headFor);
+    const base0 = s.cells;
+    // B at another site: a hub of another grid, the first CAISO region with a real-time price
+    const other = W.INDEX.grids.caiso.regions.find((r) => r.rt);
+    const PB = W.pageOf({ grid: "caiso", region: other.id, buy: "rt" });
+    s = await open(`/cost-of-power?bsite=${encodeURIComponent(`caiso:${other.id}`)}`);
+    f = await evaluate(FACE);
+    check(Object.keys(base0).filter((k) => k.startsWith("a|")).every((k) => base0[k].raw === s.cells[k].raw && base0[k].text === s.cells[k].text), "B at another site: every cell of A is what it was");
+    check(PB.ways[0] !== null && s.cells["b|price"].raw === PB.ways[0].per && near(s.cells["b|bill"].raw, F.resultOf(F.defaultsOf(PB.load), PB.ways[0]).bill) && s.cells["b|price"].raw !== s.cells["a|price"].raw,
+      `B at ${other.id} in CAISO: its price and its year's energy are the library's on that site's own files`, `${s.cells["b|price"].text} against A ${s.cells["a|price"].text}`);
+    check(s.headFor.includes("A at LZ_NORTH in ERCOT, real time") && s.headFor.includes(`B at ${other.id} in CAISO, real time`) && s.words.startsWith(`The site: B is at ${other.id} in CAISO`) && !/^No difference/.test(s.against) && /A year's energy/.test(s.against),
+      "the table's heading and the row What differs name both sites, and B against A states numbers", s.headFor);
+    check(f.siteB === `caiso:${other.id}` && f.bSite.length === 3 && f.bSite.find((b) => b[0] === "power")[2].some((k) => k.startsWith(`dc|grid=caiso&region=${encodeURIComponent(other.id)}&buy=rt`) && k.endsWith("|scarce:hours")) && /CAISO publishes no figure of large load/.test(f.bSite.find((b) => b[0] === "soon")[1]),
+      "each of the three answers adds B's site, its figures under that site's own check key; CAISO has no figure of large load and the page says so", f.bSite.map((b) => b[1].trim().slice(0, 70)).join(" | "));
+    const dl3 = await downloads(`?bsite=${encodeURIComponent(`caiso:${other.id}`)}`);
+    check(dl3.tablesOf.includes("scenario_b_site"), "the download then holds the table of B's site");
+    await shot("datacenter-scenarios-two-sites-desktop", 1280);
+    // the address names a site that is not held, or A's own: B stays at A's
+    s = await open("/cost-of-power?bsite=caiso:NOWHERE");
+    check(s.headFor === "For 100 MW at LZ_NORTH in ERCOT, real time" && base0["b|price"].raw === s.cells["b|price"].raw, "a site the files do not hold leaves B at A's site");
+    // CAISO: its own signal is its notices, a second count with its check key
+    s = await open("/cost-of-power?grid=caiso");
+    f = await evaluate(FACE);
+    check(f.own.length >= 1 && f.own[0][0] === "count" && /\|notices:count$/.test(f.own[0][2] ?? "") && (f.own.length === 1 || /\|notices:own:count$/.test(f.own[1][2] ?? "")) && /USD 1,000 per MWh is the level for every grid/.test(f.level) && f.delivery.length === 0,
+      "CAISO: its notices are a second count beside the price level, each with its check key; no Texas delivery table", f.own.map((o) => `${o[0]} ${o[1]}`).join(" | "));
+    for (const g of Object.keys(W.INDEX.grids).filter((k) => k !== "ercot" && k !== "caiso")) {
+      await open(`/cost-of-power?grid=${g}`);
+      f = await evaluate(FACE);
+      check(f.own.length === 1 && f.own[0][0] === "none" && /not held$/.test(f.own[0][1]) && f.own[0][2] === null, `${g}: its own signal is "not held", and no number is stated for it`, f.own.map((o) => o[1]).join(" | "));
+    }
+    for (const q of ["", `?bsite=${encodeURIComponent(`caiso:${other.id}`)}`]) {
+      await open(`/cost-of-power${q}`, 390);
+      f = await evaluate(FACE);
+      check(f.clientW === 390 && f.scrollW <= f.clientW + 1, `390 px${q ? ", two sites" : ""}: the page on the brand does not scroll sideways`, `scroll width ${f.scrollW}`);
+    }
   }
   return 0;
 }, { width: 1280, height: 900 }).catch((e) => { failed++; console.log(`FAIL the browser run stopped: ${e.message}`); return 1; });
