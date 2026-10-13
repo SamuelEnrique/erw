@@ -1,6 +1,6 @@
 # Session 260 report: how it works, refreshed
 
-13 October 2026, 18:09 to 19:25 UTC, unattended, on the old laptop, in the worktree `erw-188` on branch `wip/260-howitworks` (from `34b468fa`). A documents session: nothing under `site/` changed, no build was needed, no model was called (spend USD 0), no table was written, no publisher was asked. Not pushed: the landing is the orchestrator's.
+13 October 2026, 18:09 to about 18:50 UTC, unattended, on the old laptop, in the worktree `erw-188` on branch `wip/260-howitworks` (from `34b468fa`). A documents session: nothing under `site/` changed, no build was needed, no model was called (spend USD 0), no table was written, no publisher was asked. Not pushed: the landing is the orchestrator's.
 
 ## Read these first
 
@@ -40,7 +40,7 @@ For the demo at 23:00 UTC, section 7 of each is the path. Open the internal view
 
 ## California, and what depends on session 257
 
-- **Written from session 257's branch, not from `main`.** `wip/257-california` held one commit when these were written, `9e0bbfe8` (18:24 UTC), read with `git show` only. No report of session 257 was in its worktree at 18:27 UTC; the branch is read again before the hand-back and the result is the last bullet of this section.
+- **Written from session 257's branch, not from `main`.** `wip/257-california` held two commits when this section was finished: `9e0bbfe8` (18:24 UTC, the pages, the method notes and its tests) and `8ab14916` (18:39 UTC, its report and four screenshots). Both were read with `git show` only; nothing was run in that worktree.
 - **What that commit does, as its diff reads:** on the battery page CAISO gets one line under its income table (the model's 2025 energy and regulation income for a 4-hour battery on the day-ahead schedule, computed from the table, beside the market monitor's real fleet, 35 and 9, a cited constant), and the sentence with the downloads names the stress days of the grid shown (CAISO's by their days). On the generator page the source line counts 20 published figures where it counted 10. Not done there, and said so in its own comment: the peaker's carbon cost and the sentence beside CAISO's wind (each a ruling), CAISO's stress days on the generator page (the snapshot holds none).
 - **The sentences that are true only once session 257 is on `main`.** Each carries the words "session 257" in the note:
   1. `battery.md`, the opening: the bullet "California (session 257)".
@@ -52,8 +52,8 @@ For the demo at 23:00 UTC, section 7 of each is the path. Open the internal view
   7. `generator.md`, section 5, item 14: "Session 257 left the rule as it is: adding the allowance waits for a ruling."
   8. `generator.md`, question 10: "Twenty published figures stand beside it, ten of them California's (session 257)".
   - Two more lines of `generator.md` say 20 and are session 257's own edits, not this session's: the sentence over the cross-checks table, and step 4 of minute 4 to 5. On this branch alone they still say 10.
-- **To check at the landing:** that the model's two figures in the CAISO line read 42.31 and 42.25 on the built page (the page computes them; the note quotes the method note of 13 October), and the stress days' words.
-- **The two branches merge without a conflict:** `git merge-tree --write-tree` of this branch with `9e0bbfe8` exits 0. On the merged notes the form tests pass (20 tests) and session 257's two pins on `generator.md` hold (no "10 published figures"; the sentence of 20). `runs/session260/sim_merge.py`.
+- **To check at the landing:** the CAISO line and the stress days on the built page. Session 257 saw both on a local build of its branch (its report: `check-values` 459 of 459, the two new keys 42.31 and 42.25; four events, "4 to 9 September 2024, 20 and 21 January 2025, 9 and 10 September 2026, 5 to 8 October 2026"). The page computes the two model figures and reads the events from the table, so both can move with the next day of data.
+- **The two branches merge without a conflict:** `git merge-tree --write-tree` of this branch with `8ab14916` exits 0 (no working copy or branch was touched). On the merged notes the form tests pass (20 tests) and session 257's two pins on `generator.md` hold (no "10 published figures"; the sentence of 20). `runs/session260/sim_merge.py`.
 - **If session 257 does not land:** `git checkout db9ffdb9 -- docs/howitworks/battery.md docs/howitworks/generator.md` gives the two notes as they were before these passages, true of `main` without it (the generator block then says its rows are "not among the ten the page counts").
 - **California without session 257, true of `main` today:** the generator note's block of seven rows (the method note's section 12, session 253), its blind spots 14 and 15, and "California, if asked" in its demo; everything the battery note already said of CAISO (the cross-checks of session 246).
 
