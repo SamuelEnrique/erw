@@ -43,6 +43,19 @@ MONTHLY = ["mix_profile", "price_compare", "demand_growth", "curtailment_profile
 BASH = shutil.which("bash")
 
 
+def redirected(case, tmp):
+    """Session 259: every output of a trial run goes under tmp, and all five paths are put back as they were when the
+    test ends. The cleanup used to be ip.set_out_dir(the old OUT_DIR), which left RAW_DIR, METADATA_DIR and STATUS_DIR
+    under warehouse/output for every later test of the one-process suite: tests/test_session85.py's made-up source
+    then wrote a manifest into warehouse/output/raw/madeup_as_prices/ at each run (35 of them reached git)."""
+    was = (ip.OUT_DIR, ip.LOG_DIR, ip.RAW_DIR, ip.METADATA_DIR, ip.STATUS_DIR)
+
+    def back():
+        ip.OUT_DIR, ip.LOG_DIR, ip.RAW_DIR, ip.METADATA_DIR, ip.STATUS_DIR = was
+    ip.set_out_dir(tmp)
+    case.addCleanup(back)
+
+
 def text(*parts):
     with open(os.path.join(ROOT, *parts), encoding="utf-8") as f:
         return f.read()
@@ -285,9 +298,7 @@ class DaysMerge(unittest.TestCase):
         asked_from = days[1]                                      # EIA is asked again from the second
         answer = rows[rows["ts_utc"].str[:10] >= asked_from]
         today = dt.date.fromisoformat(asked_from) + dt.timedelta(days=5)
-        was = ip.OUT_DIR
-        ip.set_out_dir(tmp)
-        self.addCleanup(ip.set_out_dir, was)
+        redirected(self, tmp)
         log = ip.Log(os.path.join(tmp, "log.txt"))
         self.addCleanup(log.close)
         with mock.patch.object(conn, "month", return_value=self.api(name, answer)) as month, mock.patch.object(ip, "load_key", return_value="none"), \
@@ -325,9 +336,7 @@ class DaysMerge(unittest.TestCase):
             conn = __import__(name)
             tmp = tempfile.mkdtemp()
             self.addCleanup(shutil.rmtree, tmp, True)
-            was = ip.OUT_DIR
-            ip.set_out_dir(tmp)
-            self.addCleanup(ip.set_out_dir, was)
+            redirected(self, tmp)
             with mock.patch.object(conn, "get") as get, mock.patch.dict(os.environ, {"ERW_SKIP_EXIT": "75"}), mock.patch("builtins.print") as said:
                 rc = conn.main(["--days", "5"])
             self.assertEqual(rc, 75)
@@ -338,9 +347,7 @@ class DaysMerge(unittest.TestCase):
     def test_an_empty_answer_writes_nothing(self):
         conn = __import__("eia930_daily_demand")
         tmp, rows, held = self.table("eia930_daily_demand", "2099-01-01")
-        was = ip.OUT_DIR
-        ip.set_out_dir(tmp)
-        self.addCleanup(ip.set_out_dir, was)
+        redirected(self, tmp)
         log = ip.Log(os.path.join(tmp, "log.txt"))
         self.addCleanup(log.close)
         before = open(os.path.join(tmp, "eia930_daily_demand.csv"), encoding="utf-8").read()

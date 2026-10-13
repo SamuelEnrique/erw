@@ -332,6 +332,11 @@ class Run(unittest.TestCase):
     def run_in(self, tmp, spec, argv):
         keep = (ip.OUT_DIR, ip.LOG_DIR, ip.RAW_DIR, ip.METADATA_DIR, ip.STATUS_DIR)
         try:
+            # session 259: the made-up source's raw folder is in the scratch directory too. The runner keeps RAW_DIR
+            # whatever --out-dir says (a real source's documents are kept once), so this test wrote a manifest into
+            # the repository at every run: warehouse/raw/madeup_as_prices/, or warehouse/output/raw/madeup_as_prices/
+            # after a test that left RAW_DIR there
+            ip.RAW_DIR = os.path.join(tmp, "raw")
             with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
                 return common.run(spec, ["--out-dir", tmp] + argv)
         finally:
