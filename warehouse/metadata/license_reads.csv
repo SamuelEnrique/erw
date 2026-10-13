@@ -39,3 +39,4 @@ n,publisher,url,final_url,read_at,http_status,bytes,sha256,content_type,outcome
 38,Oracle,https://www.oracle.com/legal/terms.html,https://www.oracle.com/legal/terms/,2026-10-12T09:55:39Z,200,57078,2abb072b4cd89942cdd9ee8fe945de484472d0de34bc2dac8ae53a9b258e6773,text/html,read
 39,Switch,https://www.switch.com/policies-old/,https://www.switch.com/policies-old/,2026-10-12T09:55:39Z,200,345382,a99dbebb82f01fcce036a48c09341bfd081193f7f3da222e08eb50ef95ebf1a9,text/html,read
 40,Vantage Data Centers,https://vantage-dc.com/terms-of-use/,https://vantage-dc.com/terms-of-use/,2026-10-12T09:55:40Z,200,204083,896509b58ef796b19527a836d9e077a679f564c8c35612dbd385336dd32f28f9,text/html,read
+41,Board of Governors of the Federal Reserve System,https://www.federalreserve.gov/disclaimer.htm,https://www.federalreserve.gov/disclaimer.htm,2026-10-13T00:39:33Z,200,87235,5e894582ba263b154d1f6b88bf86d93efe2ee048d646b5f746d9b42a00c46741,text/html,read

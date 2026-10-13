@@ -1,0 +1,386 @@
+{
+ "from": "2026-10-20",
+ "written": "2026-10-13",
+ "what": "Tables flagged public whose publisher's own page asks for permission or a license (docs/licenses.md). From 2026-10-20 a table with status 'license needed' shows 'license needed' on the site unless a permission is recorded (warehouse/metadata/license_status.csv).",
+ "tables": {
+  "ai_power_regions": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ]
+  },
+  "battery_stack_review_monthly": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "NYISO"
+   ]
+  },
+  "clean_energy_hourly": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ]
+  },
+  "clean_energy_summary": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ]
+  },
+  "cost_of_power_carbon": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ]
+  },
+  "cost_of_power_hourly_profile": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ]
+  },
+  "cost_of_power_monthly": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ]
+  },
+  "datacenter_facilities": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "Amazon Web Services",
+    "Bloomberg",
+    "Data Center Dynamics",
+    "Data Center Frontier",
+    "Data Center Knowledge",
+    "Digital Realty",
+    "Equinix",
+    "Financial Times",
+    "Google",
+    "Hart Energy",
+    "Heatmap News",
+    "ISO-NE",
+    "Latitude Media",
+    "MISO",
+    "Meta",
+    "Microsoft",
+    "NYISO",
+    "Natural Gas Intelligence",
+    "Oracle",
+    "POWER Magazine",
+    "Reuters",
+    "Switch",
+    "Vantage Data Centers",
+    "WSJ"
+   ]
+  },
+  "datacenter_operator_sites": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "Amazon Web Services",
+    "Digital Realty",
+    "Equinix",
+    "Google",
+    "Meta",
+    "Microsoft",
+    "Oracle",
+    "Switch",
+    "Vantage Data Centers"
+   ]
+  },
+  "datacenter_projects": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "Bloomberg",
+    "Data Center Dynamics",
+    "Data Center Frontier",
+    "Data Center Knowledge",
+    "Financial Times",
+    "Hart Energy",
+    "Heatmap News",
+    "Latitude Media",
+    "Natural Gas Intelligence",
+    "POWER Magazine",
+    "Reuters",
+    "WSJ"
+   ]
+  },
+  "datacenter_queue_positions": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ]
+  },
+  "energy_deals": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "Bloomberg",
+    "Data Center Dynamics",
+    "Data Center Frontier",
+    "Financial Times",
+    "Hart Energy",
+    "Latitude Media",
+    "Natural Gas Intelligence",
+    "POWER Magazine",
+    "Reuters",
+    "WSJ"
+   ]
+  },
+  "energy_projects": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "ISO-NE"
+   ]
+  },
+  "event_study_estimates": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ]
+  },
+  "event_window_daily": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ]
+  },
+  "hub_price_comparison": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ]
+  },
+  "iso_dam_hub_prices": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "MISO"
+   ]
+  },
+  "iso_hub_prices_history": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ]
+  },
+  "iso_rt_top_intervals": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "ISO-NE",
+    "NYISO"
+   ]
+  },
+  "iso_rtm_hub_prices": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "MISO"
+   ]
+  },
+  "iso_trader_daily": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ]
+  },
+  "iso_zone_prices_history": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "NYISO"
+   ]
+  },
+  "isone_dam_zone_prices": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "ISO-NE"
+   ]
+  },
+  "isone_interconnection_queue": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "ISO-NE"
+   ]
+  },
+  "isone_rtm_zone_prices": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "ISO-NE"
+   ]
+  },
+  "isone_rtm_zone_prices_hourly": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "ISO-NE"
+   ]
+  },
+  "merchant_revenue_monthly": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ]
+  },
+  "miso_interconnection_queue": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "MISO"
+   ]
+  },
+  "news_index": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "Bloomberg",
+    "Data Center Dynamics",
+    "Data Center Frontier",
+    "Data Center Knowledge",
+    "Financial Times",
+    "Hart Energy",
+    "Heatmap News",
+    "ISO-NE",
+    "Latitude Media",
+    "MISO",
+    "NYISO",
+    "Natural Gas Intelligence",
+    "POWER Magazine",
+    "Reuters",
+    "WSJ"
+   ]
+  },
+  "nyiso_as_prices": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "NYISO"
+   ]
+  },
+  "nyiso_dam_cleared_energy": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "NYISO"
+   ]
+  },
+  "nyiso_dam_zone_prices": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "NYISO"
+   ]
+  },
+  "nyiso_interconnection_queue": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "NYISO"
+   ]
+  },
+  "nyiso_load_queue": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "NYISO"
+   ]
+  },
+  "nyiso_rtm_zone_prices": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "NYISO"
+   ]
+  },
+  "nyiso_zone_load_hourly": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "NYISO"
+   ]
+  },
+  "price_board_latest": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ]
+  },
+  "price_board_peak_offpeak": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ]
+  },
+  "price_board_spreads": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ]
+  },
+  "price_board_stats": {
+   "status": "license needed",
+   "from": "2026-10-20",
+   "publishers": [
+    "ISO-NE",
+    "NYISO"
+   ]
+  }
+ }
+}
