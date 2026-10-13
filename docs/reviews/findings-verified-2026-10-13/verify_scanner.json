@@ -1,0 +1,616 @@
+[
+ {
+  "id": "scan-spike-4c52d4239fe9",
+  "rule": "spike",
+  "state": "draft",
+  "table": "caiso_as_prices",
+  "series_key": "entity=caiso:AS_CAISO_EXP|variable=as_price_dam_nr|market=caiso_dam|node=AS_CAISO_EXP|freq=PT1H",
+  "label": "caiso:AS_CAISO_EXP as_price_dam_nr (caiso_dam)",
+  "unit": "USD/MW-hour",
+  "date": "2026-10-06",
+  "value": 20.645565833333333,
+  "strength": 26.9948,
+  "direction": "high",
+  "scan_date": "2026-10-10",
+  "fact": "caiso:AS_CAISO_EXP as_price_dam_nr (caiso_dam): USD 20.65 per MW-hour on 2026-10-06, 2.6 times the 99th percentile of its prior 3 years",
+  "source": "caiso:PRC_AS",
+  "stored": {
+   "compared": {
+    "median": 0.607460625,
+    "prior_max": 48.31822541666667,
+    "prior_points": 754,
+    "percentile_value": 7.9991760250000565,
+    "multiple_of_percentile": 2.581
+   },
+   "history": {
+    "last": "2026-09-29",
+    "first": "2024-09-02",
+    "years": 2.07,
+    "points": 754
+   },
+   "threshold": {
+    "name": "2 times the 99th percentile of the prior 3 years",
+    "value": 15.998352050000113,
+    "config": {
+     "spike_multiple": 2.0,
+     "spike_min_points": 730,
+     "spike_percentile": 99,
+     "spike_history_years": 3,
+     "spike_max_negative_share": 0.05
+    },
+    "statistic": "the daily mean against the 99th percentile of the series' daily means in the prior 3 years"
+   }
+  },
+  "problems": [],
+  "config_changed": [],
+  "numbers_compared": 29,
+  "reproduced": true,
+  "table_last_point": "2026-10-12",
+  "more": {
+   "value_today": 20.645565833333333,
+   "day_max_interval": 150.26322,
+   "day_min_interval": 0.15,
+   "held_days_before": 760,
+   "history_first_day": "2024-09-02",
+   "years_held_before": 2.09,
+   "p99_1y": 9.501030133333336,
+   "multiple_1y": 2.1729818286651463,
+   "points_1y": 365,
+   "prior_max_1y": 20.634245,
+   "p99_3y": 9.241764491666656,
+   "multiple_3y": 2.2339419979755535,
+   "points_3y": 760,
+   "prior_max_3y": 48.31822541666667,
+   "p99_all": 9.241764491666656,
+   "multiple_all": 2.2339419979755535,
+   "points_all": 760,
+   "prior_max_all": 48.31822541666667,
+   "rank_from_top_all_days": 3,
+   "days_above_line_before": 3,
+   "days_after": 6,
+   "days_after_above_line": 1,
+   "days_after_above_value": 0,
+   "after_max": 20.571234583333332,
+   "after_max_date": "2026-10-07",
+   "around": [
+    [
+     "2026-09-29",
+     0.4983
+    ],
+    [
+     "2026-09-30",
+     0.6246
+    ],
+    [
+     "2026-10-01",
+     0.6483
+    ],
+    [
+     "2026-10-02",
+     0.8059
+    ],
+    [
+     "2026-10-03",
+     3.9088
+    ],
+    [
+     "2026-10-04",
+     8.6108
+    ],
+    [
+     "2026-10-05",
+     10.7345
+    ],
+    [
+     "2026-10-06",
+     20.6456
+    ],
+    [
+     "2026-10-07",
+     20.5712
+    ],
+    [
+     "2026-10-08",
+     13.3788
+    ],
+    [
+     "2026-10-09",
+     7.4689
+    ],
+    [
+     "2026-10-10",
+     1.5985
+    ],
+    [
+     "2026-10-11",
+     0.7251
+    ],
+    [
+     "2026-10-12",
+     0.6134
+    ]
+   ]
+  }
+ },
+ {
+  "id": "scan-record-483f592bf064",
+  "rule": "record",
+  "state": "draft",
+  "table": "eia_state_generation_monthly",
+  "series_key": "entity=eia:generation:WY:NG|variable=net_generation|market=|node=|freq=P1M",
+  "label": "eia:generation:WY:NG net_generation",
+  "unit": "MWh",
+  "date": "2026-07-01",
+  "value": 1028747.26,
+  "strength": 9.8644,
+  "direction": "high",
+  "scan_date": "2026-10-10",
+  "fact": "eia:generation:WY:NG net_generation: 1,028,747 MWh on 2026-07-01, the highest monthly value of 305 held",
+  "source": "eia:electricity/electric-power-operational-data",
+  "stored": {
+   "compared": {
+    "sigma": 26698.67562599999,
+    "margin": 263365.86,
+    "old_record": 765381.4,
+    "stood_points": 24,
+    "margin_sigmas": 9.8644,
+    "old_record_date": "2024-07-01"
+   },
+   "history": {
+    "last": "2026-05-01",
+    "first": "2001-01-01",
+    "years": 25.33,
+    "points": 305
+   },
+   "threshold": {
+    "name": "record high",
+    "value": 765381.4,
+    "config": {
+     "record_min_points": 60,
+     "record_stood_points": 24,
+     "record_min_margin_sigmas": 0.5
+    },
+    "statistic": "the highest monthly value of the held history"
+   }
+  },
+  "problems": [],
+  "config_changed": [],
+  "numbers_compared": 30,
+  "reproduced": true,
+  "table_last_point": "2026-07-01",
+  "more": {
+   "value_today": 1028747.26,
+   "points_after": 0,
+   "after_dates": [],
+   "after_values": [],
+   "still_the_record_today": true,
+   "pct_past_old_record": 34.4097544047974,
+   "margin_plain_sd": 2.1790855544047796,
+   "same_month_points": 25,
+   "same_month_old_record": 765381.4,
+   "record_for_its_month_too": true,
+   "pct_vs_same_month_last_year": 72.39834989160703,
+   "previous_point": 563754.72,
+   "previous_point_date": "2026-06-01",
+   "pct_vs_previous_point": 82.48135643103797,
+   "previous_point_past_old_record": false,
+   "ratio_to_prior_12_mean": 2.577794537233938,
+   "ratio_rank_from_top": 6,
+   "ratio_points": 295
+  }
+ },
+ {
+  "id": "scan-record-6e1d1cff0ae4",
+  "rule": "record",
+  "state": "draft",
+  "table": "eia_retail_electricity_prices",
+  "series_key": "entity=eia:retail_price:DC:IND|variable=retail_price|market=|node=|freq=P1M",
+  "label": "eia:retail_price:DC:IND retail_price",
+  "unit": "USD/MWh",
+  "date": "2026-07-01",
+  "value": 321.5,
+  "strength": 1.8426,
+  "direction": "high",
+  "scan_date": "2026-10-10",
+  "fact": "eia:retail_price:DC:IND retail_price: USD 321.5 per MWh on 2026-07-01, the highest monthly value of 305 held",
+  "source": "eia:electricity/retail-sales",
+  "stored": {
+   "compared": {
+    "sigma": 26.53854000000001,
+    "margin": 48.89999999999998,
+    "old_record": 272.6,
+    "stood_points": 241,
+    "margin_sigmas": 1.8426,
+    "old_record_date": "2006-06-01"
+   },
+   "history": {
+    "last": "2026-05-01",
+    "first": "2001-01-01",
+    "years": 25.33,
+    "points": 305
+   },
+   "threshold": {
+    "name": "record high",
+    "value": 272.6,
+    "config": {
+     "record_min_points": 60,
+     "record_stood_points": 24,
+     "record_min_margin_sigmas": 0.5
+    },
+    "statistic": "the highest monthly value of the held history"
+   }
+  },
+  "problems": [],
+  "config_changed": [],
+  "numbers_compared": 30,
+  "reproduced": true,
+  "table_last_point": "2026-07-01",
+  "more": {
+   "value_today": 321.5,
+   "points_after": 0,
+   "after_dates": [],
+   "after_values": [],
+   "still_the_record_today": true,
+   "pct_past_old_record": 17.938371239911948,
+   "margin_plain_sd": 1.2768402216085406,
+   "same_month_points": 25,
+   "same_month_old_record": 219.1,
+   "record_for_its_month_too": true,
+   "pct_vs_same_month_last_year": 59.079663532904505,
+   "previous_point": 162.1,
+   "previous_point_date": "2026-06-01",
+   "pct_vs_previous_point": 98.33436150524368,
+   "previous_point_past_old_record": false,
+   "ratio_to_prior_12_mean": 1.8505372217958556,
+   "ratio_rank_from_top": 8,
+   "ratio_points": 295
+  }
+ },
+ {
+  "id": "scan-weekly-33b8c62e9e29",
+  "rule": "weekly",
+  "state": "draft",
+  "table": "eia_regional_retail_fuel_prices",
+  "series_key": "entity=eia:EMM_EPMR_PTE_YCLE_DPG|variable=retail_price|market=|node=CLEVELAND|freq=P1W",
+  "label": "eia:EMM_EPMR_PTE_YCLE_DPG retail_price",
+  "unit": "USD/gal",
+  "date": "2026-10-05",
+  "value": -0.46699999999999964,
+  "strength": 1.5307,
+  "direction": "low",
+  "scan_date": "2026-10-10",
+  "fact": "eia:EMM_EPMR_PTE_YCLE_DPG retail_price: a weekly change of USD -0.4670 per gal to 2026-10-05, outside its range since 2021-10-11",
+  "source": "eia:petroleum/pri/gnd:regional",
+  "stored": {
+   "compared": {
+    "change": -0.46699999999999964,
+    "range_low": -0.24800000000000022,
+    "week_mean": 3.859,
+    "range_high": 0.915,
+    "range_first": "2021-10-11",
+    "range_points": 260,
+    "range_low_date": "2022-07-25",
+    "range_high_date": "2026-05-04",
+    "week_before_mean": 4.326
+   },
+   "history": {
+    "last": "2026-09-28",
+    "first": "2021-10-11",
+    "years": 4.96,
+    "points": 260
+   },
+   "threshold": {
+    "name": "the 5-year range of the weekly change",
+    "value": -0.24800000000000022,
+    "config": {
+     "weekly_min_days": 6,
+     "weekly_min_years": 3,
+     "weekly_range_years": 5,
+     "weekly_min_excess_share": 0.1
+    },
+    "statistic": "the newest week minus the week before"
+   }
+  },
+  "problems": [],
+  "config_changed": [],
+  "numbers_compared": 34,
+  "reproduced": true,
+  "table_last_point": "2026-10-05",
+  "more": {
+   "change_today": -0.46699999999999964,
+   "level": 3.859,
+   "level_before": 4.326,
+   "pct_change": -10.795191863153022,
+   "all_history_points": 403,
+   "all_history_first": "2019-01-14",
+   "all_history_low": -0.2809999999999997,
+   "all_history_high": 0.915,
+   "outside_all_history": true,
+   "rank_in_all_history": 1,
+   "z_plain_sd": -3.519173934108671,
+   "weeks_after": 0,
+   "after": [],
+   "change_next_week": null,
+   "level_now_vs_before_the_move": null,
+   "pct_change_rank": 2,
+   "pct_change_points": 403
+  }
+ },
+ {
+  "id": "scan-record-90427afd38ee",
+  "rule": "record",
+  "state": "draft",
+  "table": "eia_retail_sales_monthly",
+  "series_key": "entity=eia:retail_sales:UT:RES|variable=retail_sales|market=|node=|freq=P1M",
+  "label": "eia:retail_sales:UT:RES retail_sales",
+  "unit": "MWh",
+  "date": "2026-07-01",
+  "value": 1658262.63,
+  "strength": 1.0112,
+  "direction": "high",
+  "scan_date": "2026-10-10",
+  "fact": "eia:retail_sales:UT:RES retail_sales: 1,658,263 MWh on 2026-07-01, the highest monthly value of 305 held",
+  "source": "eia:electricity/retail-sales",
+  "stored": {
+   "compared": {
+    "sigma": 171583.6108559999,
+    "margin": 173505.75,
+    "old_record": 1484756.88,
+    "stood_points": 24,
+    "margin_sigmas": 1.0112,
+    "old_record_date": "2024-07-01"
+   },
+   "history": {
+    "last": "2026-05-01",
+    "first": "2001-01-01",
+    "years": 25.33,
+    "points": 305
+   },
+   "threshold": {
+    "name": "record high",
+    "value": 1484756.88,
+    "config": {
+     "record_min_points": 60,
+     "record_stood_points": 24,
+     "record_min_margin_sigmas": 0.5
+    },
+    "statistic": "the highest monthly value of the held history"
+   }
+  },
+  "problems": [],
+  "config_changed": [],
+  "numbers_compared": 30,
+  "reproduced": true,
+  "table_last_point": "2026-07-01",
+  "more": {
+   "value_today": 1658262.63,
+   "points_after": 0,
+   "after_dates": [],
+   "after_values": [],
+   "still_the_record_today": true,
+   "pct_past_old_record": 11.685802055350639,
+   "margin_plain_sd": 0.8530257392937793,
+   "same_month_points": 25,
+   "same_month_old_record": 1484756.88,
+   "record_for_its_month_too": true,
+   "pct_vs_same_month_last_year": 17.805259234279532,
+   "previous_point": 1153453.09,
+   "previous_point_date": "2026-06-01",
+   "pct_vs_previous_point": 43.765068937480564,
+   "previous_point_past_old_record": false,
+   "ratio_to_prior_12_mean": 1.7076718758308895,
+   "ratio_rank_from_top": 1,
+   "ratio_points": 295
+  }
+ },
+ {
+  "id": "scan-weekly-4be2976922ee",
+  "rule": "weekly",
+  "state": "draft",
+  "table": "cftc_cot_positions",
+  "series_key": "entity=cftc:023651|variable=managed_money_long|market=nymex|node=NAT GAS NYME - NEW YORK MERCANTILE EXCHANGE|freq=P1W",
+  "label": "cftc:023651 managed_money_long (nymex)",
+  "unit": "count",
+  "date": "2026-09-29",
+  "value": -46041.0,
+  "strength": 0.812,
+  "direction": "low",
+  "scan_date": "2026-10-10",
+  "fact": "cftc:023651 managed_money_long (nymex): a weekly change of -46,041 count to 2026-09-29, outside its range since 2022-02-15",
+  "source": "cftc:disaggregated_cot_futures",
+  "stored": {
+   "compared": {
+    "change": -46041.0,
+    "range_low": -37814.0,
+    "week_mean": 220522.0,
+    "range_high": 32886.0,
+    "range_first": "2022-02-15",
+    "range_points": 241,
+    "range_low_date": "2024-01-09",
+    "range_high_date": "2023-02-07",
+    "week_before_mean": 266563.0
+   },
+   "history": {
+    "last": "2026-09-22",
+    "first": "2022-02-15",
+    "years": 4.6,
+    "points": 241
+   },
+   "threshold": {
+    "name": "the 5-year range of the weekly change",
+    "value": -37814.0,
+    "config": {
+     "weekly_min_days": 6,
+     "weekly_min_years": 3,
+     "weekly_range_years": 5,
+     "weekly_min_excess_share": 0.1
+    },
+    "statistic": "the newest week minus the week before"
+   }
+  },
+  "problems": [],
+  "config_changed": [],
+  "cut_note": "today's table holds 1 settled point(s) after the flagged one (2026-10-06) that it did not hold at the scan; the rule was run on the series cut after 2026-09-29",
+  "numbers_compared": 34,
+  "reproduced": true,
+  "table_last_point": "2026-10-06",
+  "more": {
+   "change_today": -46041.0,
+   "level": 220522.0,
+   "level_before": 266563.0,
+   "pct_change": -17.272089524802766,
+   "all_history_points": 241,
+   "all_history_first": "2022-02-15",
+   "all_history_low": -37814.0,
+   "all_history_high": 32886.0,
+   "outside_all_history": true,
+   "rank_in_all_history": 1,
+   "z_plain_sd": -4.249323430278574,
+   "weeks_after": 1,
+   "after": [
+    [
+     "2026-10-06",
+     218758.0
+    ]
+   ],
+   "change_next_week": -1764.0,
+   "level_now_vs_before_the_move": -47805.0,
+   "pct_change_rank": 2,
+   "pct_change_points": 241
+  }
+ },
+ {
+  "id": "scan-record-7abe48d6b46b",
+  "rule": "record",
+  "state": "draft",
+  "table": "eia_retail_electricity_prices",
+  "series_key": "entity=eia:retail_price:IA:IND|variable=retail_price|market=|node=|freq=P1M",
+  "label": "eia:retail_price:IA:IND retail_price",
+  "unit": "USD/MWh",
+  "date": "2026-07-01",
+  "value": 99.9,
+  "strength": 0.8016,
+  "direction": "high",
+  "scan_date": "2026-10-10",
+  "fact": "eia:retail_price:IA:IND retail_price: USD 99.90 per MWh on 2026-07-01, the highest monthly value of 305 held",
+  "source": "eia:electricity/retail-sales",
+  "stored": {
+   "compared": {
+    "sigma": 10.229939999999997,
+    "margin": 8.200000000000003,
+    "old_record": 91.7,
+    "stood_points": 48,
+    "margin_sigmas": 0.8016,
+    "old_record_date": "2022-07-01"
+   },
+   "history": {
+    "last": "2026-05-01",
+    "first": "2001-01-01",
+    "years": 25.33,
+    "points": 305
+   },
+   "threshold": {
+    "name": "record high",
+    "value": 91.7,
+    "config": {
+     "record_min_points": 60,
+     "record_stood_points": 24,
+     "record_min_margin_sigmas": 0.5
+    },
+    "statistic": "the highest monthly value of the held history"
+   }
+  },
+  "problems": [],
+  "config_changed": [],
+  "numbers_compared": 30,
+  "reproduced": true,
+  "table_last_point": "2026-07-01",
+  "more": {
+   "value_today": 99.9,
+   "points_after": 0,
+   "after_dates": [],
+   "after_values": [],
+   "still_the_record_today": true,
+   "pct_past_old_record": 8.942202835332608,
+   "margin_plain_sd": 0.6530655254216438,
+   "same_month_points": 25,
+   "same_month_old_record": 91.7,
+   "record_for_its_month_too": true,
+   "pct_vs_same_month_last_year": 10.143329658213895,
+   "previous_point": 84.8,
+   "previous_point_date": "2026-06-01",
+   "pct_vs_previous_point": 17.806603773584918,
+   "previous_point_past_old_record": false,
+   "ratio_to_prior_12_mean": 1.371154066110031,
+   "ratio_rank_from_top": 1,
+   "ratio_points": 295
+  }
+ },
+ {
+  "id": "scan-record-34aae7580df2",
+  "rule": "record",
+  "state": "draft",
+  "table": "eia_retail_sales_monthly",
+  "series_key": "entity=eia:retail_sales:IN:COM|variable=retail_sales|market=|node=|freq=P1M",
+  "label": "eia:retail_sales:IN:COM retail_sales",
+  "unit": "MWh",
+  "date": "2026-07-01",
+  "value": 2801230.46,
+  "strength": 0.787,
+  "direction": "high",
+  "scan_date": "2026-10-10",
+  "fact": "eia:retail_sales:IN:COM retail_sales: 2,801,230 MWh on 2026-07-01, the highest monthly value of 305 held",
+  "source": "eia:electricity/retail-sales",
+  "stored": {
+   "compared": {
+    "sigma": 192206.85854999998,
+    "margin": 151275.41999999993,
+    "old_record": 2649955.04,
+    "stood_points": 298,
+    "margin_sigmas": 0.787,
+    "old_record_date": "2001-09-01"
+   },
+   "history": {
+    "last": "2026-05-01",
+    "first": "2001-01-01",
+    "years": 25.33,
+    "points": 305
+   },
+   "threshold": {
+    "name": "record high",
+    "value": 2649955.04,
+    "config": {
+     "record_min_points": 60,
+     "record_stood_points": 24,
+     "record_min_margin_sigmas": 0.5
+    },
+    "statistic": "the highest monthly value of the held history"
+   }
+  },
+  "problems": [],
+  "config_changed": [],
+  "numbers_compared": 30,
+  "reproduced": true,
+  "table_last_point": "2026-07-01",
+  "more": {
+   "value_today": 2801230.46,
+   "points_after": 0,
+   "after_dates": [],
+   "after_values": [],
+   "still_the_record_today": true,
+   "pct_past_old_record": 5.708603267472792,
+   "margin_plain_sd": 0.7488500994061714,
+   "same_month_points": 25,
+   "same_month_old_record": 2550200.88,
+   "record_for_its_month_too": true,
+   "pct_vs_same_month_last_year": 9.843521816995063,
+   "previous_point": 2461277.72,
+   "previous_point_date": "2026-06-01",
+   "pct_vs_previous_point": 13.812043120432573,
+   "previous_point_past_old_record": false,
+   "ratio_to_prior_12_mean": 1.228602508001385,
+   "ratio_rank_from_top": 7,
+   "ratio_points": 295
+  }
+ }
+]
