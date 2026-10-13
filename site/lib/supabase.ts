@@ -6,9 +6,50 @@
 // it also inserts into subscribers, the one table the anon key may write (migration 005).
 // Both variables are server-side (no NEXT_PUBLIC_ prefix), so neither reaches a browser.
 import "server-only";
+import { gridOfEntity, licenseByGrid, licenseHeldGrid, licenseHeldRow, licenseNeeded, licenseReason } from "./license";
 
 /** A read that failed. Pages show its message as the reason for "no data". */
 export class DataError extends Error {}
+/** Session 215: a read of a table that is "license needed" today (lib/license.ts). Not a failed read: nothing was
+ * asked. attempt() and required() turn it into its reason, whose prefix components/NoData.tsx draws as the catalogue's
+ * words, "license needed", in the place the numbers would have been. */
+export class LicenseNeeded extends DataError {
+  table: string;
+  constructor(table: string) {
+    super(licenseReason(table));
+    this.table = table;
+  }
+}
+
+/** The ERW table a query names (table_name: "eq.<table>"), or "" when it names none (the catalogue, latest_prices). */
+function tableOf(query: Record<string, string>): string {
+  const t = query.table_name ?? "";
+  return t.startsWith("eq.") ? t.slice(3) : "";
+}
+
+/** The grid a query asks for, by its entity or market filter ("entity": "eq.isone:.H.INTERNAL_HUB", "market": "eq.isone_dam"), or "". */
+function gridOfQuery(query: Record<string, string>): string {
+  const e = query.entity ?? "";
+  if (e.startsWith("eq.")) return gridOfEntity(e.slice(3));
+  if (e.startsWith("in.(")) {
+    const grids = new Set(e.slice(4, -1).split(",").map((x) => gridOfEntity(x.trim().replace(/^"|"$/g, ""))));
+    return grids.size === 1 ? [...grids][0] : "";
+  }
+  const m = query.market ?? "";
+  if (m.startsWith("eq.")) return gridOfEntity(`${m.slice(3).split("_")[0]}:x`);
+  return "";
+}
+
+/** Session 215: whether this read is held whole (throw), and, for a table held by grid with no grid named, that the
+ * rows of the held grids are to be left out of what comes back. */
+function licenseHold(query: Record<string, string>): { throw: boolean; filter: boolean } {
+  const t = tableOf(query);
+  if (!t || !licenseNeeded(t)) return { throw: false, filter: false };
+  if (!licenseByGrid(t)) return { throw: true, filter: false };
+  const g = gridOfQuery(query);
+  if (g) return { throw: licenseHeldGrid(g), filter: false };
+  return { throw: false, filter: true };
+}
 /** No database is named on this server: a build without its keys (the workflow's build before the secrets were set, a
  * first checkout). Not a read that failed: nothing was asked. */
 export class NotConfigured extends DataError {}
@@ -139,6 +180,16 @@ export async function restPaged<T>(
   max: number,
   together: number,
 ): Promise<T[]> {
+  // session 215: a held table is not asked for; a table held by grid, read with no grid named, loses the held grids' rows
+  const hold = licenseHold(query);
+  if (hold.throw) throw new LicenseNeeded(tableOf(query));
+  const rows = await restPages<T>(table, query, revalidate, max, together);
+  if (!hold.filter) return rows;
+  const t = tableOf(query);
+  return rows.filter((r) => !licenseHeldRow(t, (r as { entity?: string }).entity ?? ""));
+}
+
+async function restPages<T>(table: string, query: Record<string, string>, revalidate: number, max: number, together: number): Promise<T[]> {
   const { base, key } = config();
   const rows: T[] = [];
   const page = (offset: number) => onePage<T>(base, key, table, query, revalidate, offset, max);
@@ -170,6 +221,7 @@ export async function restPaged<T>(
 
 /** The number of rows matching `query`, without reading them (PostgREST exact count). */
 export async function restCount(table: string, query: Record<string, string>, revalidate: number): Promise<number> {
+  if (licenseHold(query).throw) throw new LicenseNeeded(tableOf(query));  // session 215; a count over a table held by grid is the table's own
   const { base, key } = config();
   const qs = new URLSearchParams({ ...query, limit: "1" });
   const res = await turn(() => fetch(`${base}/rest/v1/${table}?${qs}`, {
@@ -211,6 +263,7 @@ export async function required<T>(f: () => Promise<T>): Promise<{ ok: true; data
   } catch (e) {
     const reason = e instanceof DataError ? e.message : `unexpected error: ${(e as Error).message}`;
     if (e instanceof NotConfigured || standIn()) return { ok: false, reason };
+    if (e instanceof LicenseNeeded) return { ok: false, reason };  // session 215: a held table is not a failed read; the page shows the words
     console.error(`[erw] a required read failed; this render is not cached: ${reason}`);
     throw e instanceof DataError ? e : new DataError(reason);
   }

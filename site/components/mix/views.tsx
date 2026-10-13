@@ -12,6 +12,7 @@ import type { ReactNode } from "react";
 import { Bars, Heat, HourStack, Lines, type Series } from "@/components/mix/Charts";
 import { Missing } from "@/components/mix/Now";
 import * as clean from "@/lib/clean";
+import { LICENSE_NEEDED, licenseHeldRow, licenseTitle } from "@/lib/license";  // session 215
 import * as mix from "@/lib/mix2";
 import { CLEAN, FORECAST, HISTORY, MIX, PLUS, STRESS, type Hourly, type Slug } from "@/lib/mixdata";
 import { DASHES, FUEL_COLOR, FUEL_WORDS, GRID_COLORS, HOURS, SEASON_NAMES, hrefOf, n0, n1, n2, ofPeak, peakOf, yearShade, type Choice } from "@/lib/mixpage";
@@ -219,17 +220,25 @@ export function CleanView({ c }: { c: Choice }) {
   const year = c.year && c.grids.some((g) => CLEAN[g].years[c.year!]) ? c.year : clean.defaultYear(first) ?? clean.yearsOf(first).at(-1)!;
   const years = [...new Set(c.grids.flatMap((g) => clean.yearsOf(CLEAN[g])))].sort();
   const notWritten = (g: Slug) => `${nameOf(g)}'s ${year} is not written: a year needs at most one month missing, and a month 90 percent of its days.`;
+  // session 215: the clean files are the site's copy of clean_energy_summary, held by grid from 20 October 2026
+  // (lib/license.ts): a held grid's cells and blocks read "license needed", as a number of it would on the catalogue,
+  // in the page's own placeholder (Missing: the words, the reason on hover; this page's face carries no block of prose)
+  const CLEAN_TABLE = "clean_energy_summary";
+  const held = (g: Slug) => licenseHeldRow(CLEAN_TABLE, `iso:${g}`);
+  const LW = () => <NH why={licenseTitle(CLEAN_TABLE)} words={LICENSE_NEEDED} />;
   return (
     <>
       <Block title="Carbon-free share of generation, by year" id="clean">
         <Bars x={years} unit="% of generation" name="erw-mix-carbon-free" label="Carbon-free share of generation"
-          series={c.grids.map((g, i) => ({ name: nameOf(g), color: GRID_COLORS[i], values: years.map((y) => clean.get(CLEAN[g].years[y], "carbon_free_share_pct")) }))} />
+          series={c.grids.filter((g) => !held(g)).map((g) => ({ name: nameOf(g), color: GRID_COLORS[c.grids.indexOf(g)], values: years.map((y) => clean.get(CLEAN[g].years[y], "carbon_free_share_pct")) }))} />
         <Table caption="Carbon-free share and hours" head={["Grid", `Carbon-free share, ${year}`, "For a flat load", "Hours at least 50% carbon-free", "At least 75%", "At least 90%", "Months held"]}
-          rows={c.grids.map((g) => { const f = CLEAN[g]; if (!f.years[year]) return { key: g, cells: [nameOf(g), ...Array.from({ length: 6 }, (_, i) => <NH key={i} why={notWritten(g)} />)] };
+          rows={c.grids.map((g) => { const f = CLEAN[g]; if (held(g)) return { key: g, cells: [nameOf(g), ...Array.from({ length: 6 }, (_, i) => <LW key={i} />)] };
+            if (!f.years[year]) return { key: g, cells: [nameOf(g), ...Array.from({ length: 6 }, (_, i) => <NH key={i} why={notWritten(g)} />)] };
             const v = clean.yearView(f, year); return { key: g, cells: [nameOf(g), val(v.share, (x) => `${n1(x)}%`), val(v.flat, (x) => `${n1(x)}%`), ...f.levels.map((l) => val(v.ge[l], (x) => `${n1(x)}%`)), `${v.months ?? 0} of ${v.due ?? 12}`] }; })} />
       </Block>
       {c.grids.map((g) => {
         const f = CLEAN[g];
+        if (held(g)) return <Block key={g} title={`${nameOf(g)}, ${year}`}><LW /></Block>;
         if (!f.years[year]) return <Block key={g} title={`${nameOf(g)}, ${year}`}><NH why={notWritten(g)} /></Block>;
         const v = clean.yearView(f, year), months = clean.monthsOf(f, year);
         return (
