@@ -126,7 +126,8 @@ class TheBrand(unittest.TestCase):
         b = src("docs", "brand.md")
         for words in ("# The ERW brand, version 0", "Source Serif 4", "IBM Plex Sans", "IBM Plex Mono", "`#FFFFFF`", "`#F7F3EA`", "`#E3DED1`", "`#6B675F`",
                       "`#2E2D29`", "`#8C1515`", "`#3C6E9E`", "One dark rule (ink, 1 px) under a table's header", "No legend box",
-                      "default in grey with its source", "editable in place", "**Status: a proposal for review.**"):
+                      "default in grey with its source", "editable in place",
+                      "**Status: approved 12 October 2026; the battery page is the reference.**"):   # session 234: approved
             self.assertIn(words, b, words)
         self.assertNotIn(EM, b)
 

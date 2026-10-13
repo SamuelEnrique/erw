@@ -32,7 +32,8 @@ report's first page.
 `x_month_as_written` keeps the month the sentence names, as ERCOT wrote it; `x_document` the file; `source_url` the
 file's address (a file inside a zip as `<zip address>#<file name>`).
 
-**As pulled on 4 October 2026: 29 rows from 9 reports, 28 May 2025 to 26 March 2026.**
+**As pulled on 13 October 2026 (session 217): 38 rows from 12 reports, 28 May 2025 to 19 June 2026.** (As pulled on
+4 October 2026: 29 rows from 9 reports, to 26 March 2026.)
 
 | Report | Approved to energize, MW | Observed, each load's own peak, MW | Observed together, MW | Month as written |
 |---|---|---|---|---|
@@ -45,6 +46,12 @@ file's address (a file inside a zip as `<zip address>#<file name>`).
 | 2026-02-25 | 8,876 | 3,998 | 3,846 | February 2025 |
 | 2026-03-13 | 9,042 | 3,883 | 3,801 | March 2025 |
 | 2026-03-26 | 9,042 | 4,004 | 3,522 | March 2026 |
+| 2026-04-24 | 9,042 | 4,008 | 3,701 | March 2026 |
+| 2026-05-21 | 9,062 | 3,900 | 3,701 | May 2026 |
+| 2026-06-19 | 8,927 | 3,900 | 3,675 | June 2026 |
+
+The report of 24 April 2026 names its month as March 2026 (its data "is current as of April 22"); the approved figure
+fell between May and June 2026 (9,062 to 8,927 MW), the first fall in the series.
 
 The report of 13 March 2026 also states 137 new submissions totalling approximately 140,000 MW "of new Large Load by
 2036", which "will be reflected in future reports".
@@ -65,10 +72,21 @@ this year and last. On each page: a document whose name says TAC Report, status 
 whose name says large load or LLWG, opened and searched the same way. On 4 October 2026: 4 index pages, 47 meeting
 pages and 22 documents, one request a second; 10 status updates found, one of them twice.
 
-**No status update is on those pages after 26 March 2026.** ERCOT's own slides to TAC of 26 August 2026 say that on
-3 August 2026 it "issued a Market Notice pausing the Batch Zero study process" and "paused approvals to energize data
-centers or virtual currency mining facilities (crypto facilities) that are 75 MW or greater". Whether the monthly
-report has stopped or moved is not known.
+**Where the reports went after March 2026 (session 217, 13 October 2026).** Through March 2026 the Large Load
+Integration team's deck was posted on TAC's meeting page as "<Month> TAC Report" (`March-TAC-Report.pdf`,
+`March-TAC-Report-Updated_03262026.pptx`). From April 2026 it is posted on the LLWG's own meeting page as
+"<Month> <day> LLWG Report" (`April-24-LLWG-Report_042426.pptx`, `May-21-LLWG-Report.pptx`,
+`June-19-LLWG-Report.pptx`), each with the same first page, "Large Load Interconnection Status Update, Large Load
+Integration Team". The connector's document pattern named "TAC Report" and not "LLWG Report", so the pull of 4 October
+2026 read those meeting pages and passed the decks by; the pattern names both since session 217, and the connector
+runs with the monthly job (`warehouse/run_monthly.sh`, the first daily run on or after the third of each month). The
+LLWG's "LLWG Report" zips on TAC's pages hold the working group chair's own update, not the status update, and give no
+row (a deck is read only when its first page says "Large Load Interconnection Status Update"). The LLWG meeting pages
+of 23 July, 21 August and 17 September 2026 carry no status update as of 13 October 2026: ERCOT's own slides to TAC of
+26 August 2026 say that on 3 August 2026 it "issued a Market Notice pausing the Batch Zero study process" and "paused
+approvals to energize data centers or virtual currency mining facilities (crypto facilities) that are 75 MW or
+greater". Whether the monthly report paused with them is not known; the monthly pull will find it where it reappears
+on those pages.
 
 ## What the reports hold that cannot be right
 

@@ -37,6 +37,8 @@ what makes it safe to leave running):
                    (the impact study among them).
     the state      runs/findings_worker.state.json: the heartbeat of each turn, the last request it took, the counts
                    since it started. --status reads it, with the lock, the scheduled task and the queue's length.
+    its code       since session 231 a request never runs code older than the files on disk: when a .py of this folder
+                   changed after it was loaded, the findings and the scanner are imported again first (fresh_code).
 
 Starting it by hand: a PowerShell window, `C:\\Users\\lossa\\Documents\\erw\\.venv\\Scripts\\python.exe
 warehouse\\analysis\\findings\\worker.py --loop 60`.
@@ -309,6 +311,53 @@ class State:
 
 
 # ----------------------------------------------------------------------------------------------------------------------
+# the code it runs
+# ----------------------------------------------------------------------------------------------------------------------
+def code_stamp(folder=None):
+    """The newest change time of the findings' code: every .py of this folder."""
+    folder = folder or HERE
+    newest = 0.0
+    for f in os.listdir(folder):
+        if f.endswith(".py"):
+            try:
+                newest = max(newest, os.path.getmtime(os.path.join(folder, f)))
+            except OSError:
+                pass
+    return newest
+
+
+def load_again():
+    """Forget every module of this folder but the worker itself, and import the two the worker names."""
+    global common, run_finding
+    me = os.path.abspath(__file__)
+    for name, mod in list(sys.modules.items()):
+        f = getattr(mod, "__file__", None)
+        if f and os.path.dirname(os.path.abspath(f)) == HERE and os.path.abspath(f) != me:
+            del sys.modules[name]
+    common = importlib.import_module("findings_common")
+    run_finding = importlib.import_module("run_finding")
+
+
+_LOADED = {"stamp": code_stamp()}
+
+
+def fresh_code(stamp=code_stamp, again=load_again, say=None):
+    """Session 231. A worker left running keeps the code it imported when it started: the one started on 11 October
+    2026 ran the scanner of 10 October (version 1.0.0) for two days after version 1.1.0 was on this machine. Before
+    each request the folder's newest change time is compared with the one seen when the code was loaded; when it
+    moved, the findings and the scanner are imported again, and the log says so. The loop itself (this file) is not
+    replaced: a change to worker.py needs the worker restarted, and the same line says that. True when it loaded."""
+    newest = stamp()
+    if newest == _LOADED["stamp"]:
+        return False
+    again()
+    _LOADED["stamp"] = newest
+    (say or log)("the findings' code changed on disk since it was loaded: the findings and the scanner are loaded again "
+                 "(a change to worker.py itself needs the worker restarted)")
+    return True
+
+
+# ----------------------------------------------------------------------------------------------------------------------
 # a request
 # ----------------------------------------------------------------------------------------------------------------------
 def run_scanner(q, row, params, in_dir):
@@ -329,6 +378,7 @@ def run_one(q, row, machine, in_dir, card_dir, download_dir):
     log(f"request {rid}: {row['finding']} {params} (asked {row.get('asked_at', '?')})")
     q.update(rid, {"status": "running", "started_at": now(), "machine": machine})
     try:
+        fresh_code()                                     # session 231: never an older scanner than the one on disk
         if row["finding"] == SCANNER:
             run_scanner(q, row, params, in_dir)
             return "done"

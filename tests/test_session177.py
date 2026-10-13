@@ -86,7 +86,8 @@ class VerifyRls(unittest.TestCase):
         self.assertIn("set transaction read only", text)
         # the only POSTs are the read functions behind the token, called with a wrong token
         for fn, _ in self.v.TOKEN_FUNCTIONS:
-            self.assertRegex(fn, r"^(internal_|thesis_list|analysis_requests_list|scanner_drafts_list|analysis_request_card)")   # session 181: two more reads
+            # session 181: two more reads; session 233: one more (scanner_draft_file, migration 031: stable, it reads one file of a draft)
+            self.assertRegex(fn, r"^(internal_|thesis_list|analysis_requests_list|scanner_drafts_list|analysis_request_card|scanner_draft_file)")
         self.assertNotIn(self.v.WRONG_TOKEN, src("warehouse", "supabase", "migrations", "028_security_usage.sql"))
 
 

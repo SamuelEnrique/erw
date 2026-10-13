@@ -11,6 +11,9 @@
 #   project_map          /map               site/data/map.json, and site/data/map_v2.json (/resources reads it) (no warehouse table; session 167: /map/v2 redirects to /map)
 #   large_load_snapshot  /datacenters/v2    site/data/large_load_status.json (no warehouse table)
 #
+# Session 217: before the six, one pull: ERCOT's Large Load Interconnection Status Update (ercot_large_load_status, the
+# connector warehouse/connectors/ercot_large_load_status.py), the monthly series the snapshot reads.
+#
 # The daily run starts it with its first run on or after the third day of each month, UTC (EIA-930's lag of a day or
 # two is past, so the month before is whole; warehouse/scheduled.py --monthly-due reads whether the month's job has
 # run), or on any day with MONTHLY=1, after its last connector and before its validator, so the tables
@@ -29,8 +32,8 @@
 #
 # What the GitHub runner cannot rebuild (python warehouse/scheduled.py <step> --check says so on any machine):
 # price_compare needs the ERCOT price history (ercot_all_hub_prices_history, never restored there), so on the runner it
-# is a skip each month and is rebuilt on the data machine. The curtailment profile and the large-load figures are only
-# as new as their tables, which a person pulls (caiso_curtailment_intervals, ercot_large_load_status).
+# is a skip each month and is rebuilt on the data machine. The curtailment profile is only as new as its table, which a
+# person pulls (caiso_curtailment_intervals); the large-load figures are pulled here since session 217.
 
 set -uo pipefail
 
@@ -42,6 +45,12 @@ status="${STATUS_FILE:-runs/monthly_status.txt}"
 . warehouse/soft_step.sh
 
 echo "== ERW monthly builds $(date -u +%FT%TZ) (session 114)"
+# Session 217 (the owner's chain prompt of 12 October 2026, evening): ERCOT's Large Load Interconnection Status Update,
+# a monthly report, pulled on this cadence through its own connector (an approved pull, ceiling 20,000 rows; ERCOT's
+# LLWG and TAC meeting pages of this year and last), before the snapshot that reads its table. Until this line the
+# series was pulled by hand and stopped at the report of 26 March 2026 (session 217's report). A soft step: a month
+# ERCOT posts nothing new leaves the table as it is, and a failure never fails the run.
+soft_step ercot_large_load_status "$PYTHON" warehouse/connectors/ercot_large_load_status.py
 for name in mix_profile price_compare demand_growth curtailment_profile project_map large_load_snapshot; do
   soft_step "$name" "$PYTHON" warehouse/scheduled.py "$name"
 done

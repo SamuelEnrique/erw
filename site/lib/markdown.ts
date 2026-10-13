@@ -83,6 +83,9 @@ function sitePath(repoPath: string): string {
   // session 23: images of the analysis (the chart of the week), copied into public/analysis-files at build
   m = file.match(/^docs\/analysis\/(.+\.(?:png|svg|json))$/);
   if (m) return `/analysis-files/${m[1]}${tail}`;
+  // session 232: the Digest's chart of the day (docs/digest/charts/<date>.png), copied into public/digest-charts at build
+  m = file.match(/^docs\/digest\/charts\/(\d{4}-\d{2}-\d{2}\.png)$/);
+  if (m) return `/digest-charts/${m[1]}${tail}`;
   return `${site.repository}/blob/main/${p}`;
 }
 

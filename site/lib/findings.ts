@@ -20,6 +20,10 @@ export type Card = {
   draft?: boolean; refusal?: string; more_charts?: { title: string; spec: ChartSpec }[];
   rows?: Record<string, string | number | null>[]; csv_name?: string; do_file?: string; csv_header?: string[];
   scanner?: { version: string; rule: string; date: string; flag_id: string; strength: number; full_card?: { finding: string; params: Record<string, string | number> } | null };
+  // session 233: a draft of the weekly hunt (warehouse/analysis/findings/hunt.py): the pattern, the region, the three
+  // tests, the caption computed for LinkedIn and the names of its files (fetched one at a time at /internal/findings/file)
+  hunt?: { pattern: string; module: string; region: string; region_words: string; why: string; caption: string; files: string[];
+    tests: { name: string; passed: boolean; words: string }[] };
 };
 export type CatalogueInput = { label: string; default: string | number; choices: (string | number)[]; words: Record<string, string> };
 export type CatalogueEntry = { id: string; title: string; kind: string; tables: string[]; inputs: Record<string, CatalogueInput> };
