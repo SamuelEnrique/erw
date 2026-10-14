@@ -31,6 +31,21 @@ export function basisOf(unit: string): Basis | null {
 /** Whether a line applies only to some loads by the tariff's own words (a municipal fee or credit, a charge of one
  * former service area): it stands in the download and is not added. */
 export const conditional = (r: Charge) => (r.applies ?? "").trim().toLowerCase().startsWith("conditional");
+/** Session 265 (the owner's list of 14 October 2026: the table states only what the tariffs state, with no added
+ * assumption): the condition a line's figure rests on. "tariff": the tariff applies the line only to some loads (the
+ * line above). "power_factor": the tariff bills it per kVA, and a kVA is a kW only at a power factor of 1, which the
+ * tariff does not state. "meters": the tariff bills it per meter or per ESI ID (a service point), and the count of a
+ * site's meters is not stated. null: the tariff's unit and the reader's load (its size, flat in every hour, one retail
+ * customer) give the figure with nothing added. A line with a condition is labelled so and is left out of the total
+ * without conditions; the last two kinds stand, labelled, in the total with the conditional lines. */
+export type Condition = "tariff" | "power_factor" | "meters" | null;
+export function conditionOf(r: Charge): Condition {
+  if (conditional(r)) return "tariff";
+  const u = r.unit.toLowerCase().replace(/\s+/g, "");
+  if (u.includes("kva")) return "power_factor";
+  if (u.includes("meter") || u.includes("esiid")) return "meters";
+  return null;
+}
 export const kindOf = (r: Charge): Kind => (r.kind === "distribution" ? "distribution" : r.kind === "other" ? "other" : "transmission");
 
 /** One line in USD per MWh for a flat load of `mw` megawatts: its demand in the four peak intervals and its billing
@@ -48,25 +63,29 @@ export function perMwh(r: Charge, mw: number): number | null {
   return (r.value * 12000) / YEAR_HOURS;
 }
 
-export type Component = { kind: Kind; label: string; perMwh: number; lines: number; conditional: number; unread: number };
-export type UtilityDelivery = { utility: string; components: Component[]; total: number; lines: number; conditional: number; unread: number };
+export type Component = { kind: Kind; label: string; perMwh: number; lines: number; conditional: number; unread: number; held: number; assumed: number };
+/** `total` sums every line but the tariff's conditional ones (session 236's figure: a kVA counted as a kW, one meter);
+ * `held` sums only the lines with no condition (session 265) and `assumed` counts the lines that rest on a power factor
+ * of 1 or on one meter. Where `assumed` is 0 the two totals are the same figure. */
+export type UtilityDelivery = { utility: string; components: Component[]; total: number; lines: number; conditional: number; unread: number; held: number; assumed: number };
 /** One utility's charges by component: the sum of its lines that apply to every such load, in USD per MWh, the count of
  * lines added, of lines left out as conditional and of lines whose unit names no basis; and the total of the three. */
 export function deliveryOf(rows: Charge[], utility: string, mw: number): UtilityDelivery {
   const mine = rows.filter((r) => r.utility === utility);
   const components = KINDS.map((kind) => {
-    const c: Component = { kind, label: KIND_LABELS[kind], perMwh: 0, lines: 0, conditional: 0, unread: 0 };
+    const c: Component = { kind, label: KIND_LABELS[kind], perMwh: 0, lines: 0, conditional: 0, unread: 0, held: 0, assumed: 0 };
     for (const r of mine) {
       if (kindOf(r) !== kind) continue;
       if (conditional(r)) { c.conditional++; continue; }
       const v = perMwh(r, mw);
       if (v === null) { c.unread++; continue; }
       c.perMwh += v; c.lines++;
+      if (conditionOf(r) === null) c.held += v; else c.assumed++;
     }
     return c;
   });
   const sum = (f: (c: Component) => number) => components.reduce((a, c) => a + f(c), 0);
-  return { utility, components, total: sum((c) => c.perMwh), lines: sum((c) => c.lines), conditional: sum((c) => c.conditional), unread: sum((c) => c.unread) };
+  return { utility, components, total: sum((c) => c.perMwh), lines: sum((c) => c.lines), conditional: sum((c) => c.conditional), unread: sum((c) => c.unread), held: sum((c) => c.held), assumed: sum((c) => c.assumed) };
 }
 /** The utilities of a file, in its order. */
 export const utilitiesOf = (rows: Charge[]): string[] => [...new Set(rows.map((r) => r.utility))];
@@ -74,12 +93,14 @@ export const utilitiesOf = (rows: Charge[]): string[] => [...new Set(rows.map((r
 export const slugOf = (utility: string) => utility.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "");
 
 /** One figure by its name, for the check key dcd|<mw>|<utility's slug>:<kind or total>: the page writes it, and
- * scripts/check-values.mjs recomputes it from the file. Rounded to the cent, as the page states it. */
+ * scripts/check-values.mjs recomputes it from the file. Rounded to the cent, as the page states it. Session 265: "held"
+ * names the total without conditions (dcd|<mw>|<utility>:held). */
 export function deliveryStat(rows: Charge[], mw: number, stat: string): number | undefined {
   const [slug, what] = stat.split(":");
   const utility = utilitiesOf(rows).find((u) => slugOf(u) === slug);
   if (!utility) return undefined;
   const d = deliveryOf(rows, utility, mw);
-  const v = what === "total" ? d.total : d.components.find((c) => c.kind === what)?.perMwh;
+  // session 265: "held" is the total of the lines with no condition (shown only where no line rests on one)
+  const v = what === "total" ? d.total : what === "held" ? d.held : d.components.find((c) => c.kind === what)?.perMwh;
   return v === undefined ? undefined : Math.round(v * 100) / 100;
 }

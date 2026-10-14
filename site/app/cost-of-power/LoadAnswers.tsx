@@ -141,7 +141,7 @@ export function HowClean({ a, f, b }: { a: Answers; f: AnswerFacts; b?: SiteB })
       </p>
       <HeadlineRow>
         <HeadlineNumber label="This load's carbon, last twelve months" value={<><N pre={f.pre} stat={`co2:l12:kg:${w.a}`} a={a} /><span className="ml-1 font-sans text-sm text-muted">kg CO2 per MWh</span></>}
-          note={<>{f.gridName}&apos;s intensity of consumed electricity, month by month, weighted by this load&apos;s energy in each month{l.months < l.of ? ` (${l.of - l.months} of the twelve months has no intensity in the table and is left out)` : ""}; scenario A runs {wayLabel(w.a)}.</>} />
+          note={<>{f.gridName}&apos;s intensity of consumed electricity, month by month, weighted by this load&apos;s energy in each month{l.months < l.of ? ` (${l.of - l.months} of the twelve months ${l.of - l.months === 1 ? "has" : "have"} no intensity in the table and ${l.of - l.months === 1 ? "is" : "are"} left out)` : ""}; scenario A runs {wayLabel(w.a)}.</>} />
         <HeadlineNumber label="Tonnes of CO2 a year" value={<N pre={f.pre} stat={`co2:l12:tonnes:${w.a}`} a={a} />}
           note={<>for {f.size}: the rate of the {l.months} of {l.of} months with an intensity, on the year&apos;s {whole(l.energy * a.mw)} MWh.{w.differ ? <span data-answer-b="clean"> Scenario B ({wayLabel(w.b)}): {c.l12[w.b].tonnesPerMw === null ? "not held" : <><N pre={f.pre} stat={`co2:l12:tonnes:${w.b}`} a={a} /> tonnes</>}.</span> : null}</>} />
         <HeadlineNumber label="Its own hours against the grid's average" value={win.ways[w.a] !== null && win.grid !== null ? <><N pre={f.pre} stat={`co2:window:${w.a}`} a={a} /><span className="ml-1 font-sans text-sm text-muted">against {whole(win.grid)}</span></> : <span className="text-muted">not held</span>}
