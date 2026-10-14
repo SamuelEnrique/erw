@@ -15,17 +15,45 @@ dict) and hands it here:
     png(spec, path, "social_wide")    1200 x 627 px
     png(spec, path, "social_square")  1080 x 1080 px
 
-The look: the Stanford palette the site uses (cardinal #8C1515 first, then Lagunita, Poppy, Palo Alto,
-Plum, Bay, Sky), titles in Georgia, the ERW mark (the site's icon, a cardinal square with an E, and
-"ERW") at the top right, and the source line burned into the bottom of every PNG, so a chart that
-travels without its page still names its source.
+The look: the brand's chart colors (docs/brand.md, section 2; session 267, the brief of 14 October 2026): up to
+five series in ink, cardinal, blue, grey and light grey, in that order, cardinal being the highlight; more than five
+take Paul Tol's eight (--chart-series-1 to -8 in site/app/tokens.css, session 268), with cardinal kept for the one
+series a chart marks (series_colors). The page is white, a panel fog, rules and captions in the brand's greys. Until
+session 267 it was the Stanford palette (cardinal #8C1515 first, then Lagunita, Poppy, Palo Alto, Plum, Bay, Sky).
+Titles in Georgia, the ERW mark (the site's icon, a cardinal square with an E, and "ERW") at the top right, and the
+source line burned into the bottom of every PNG, so a chart that travels without its page still names its source.
+On the site the option's colors are read from the tokens (components/echarts.ts, LITERAL_TOKENS: each value below is
+replaced there by the CSS variable that holds it).
 """
 
 import math
 import os
 
-PAPER, INK, ACCENT, MUTED, RULE, PANEL = "#F7F3EA", "#2E2D29", "#8C1515", "#6B665E", "#D9D2C3", "#FBF8F2"
-PALETTE = ["#8C1515", "#007C92", "#E98300", "#175E54", "#620059", "#6FA287", "#4298B5", "#B6B1A9", "#8F993E", "#651C32"]
+# docs/brand.md, section 2: page, ink, cardinal, captions, rule, fog (site/app/tokens.css, the .brand-a block)
+PAPER, INK, ACCENT, MUTED, RULE, PANEL = "#FFFFFF", "#2E2D29", "#8C1515", "#6B675F", "#E3DED1", "#F7F3EA"
+BLUE, GREY, LIGHT = "#3C6E9E", "#6B675F", "#8F8A80"      # --chart-blue, --chart-grey, --chart-light
+BRAND_SERIES = [INK, ACCENT, BLUE, GREY, LIGHT]           # "Chart series", in this order
+# "Many series" (session 268): --chart-series-1 to -8, Paul Tol's colorblind-safe set; cardinal is not among them
+MANY_SERIES = ["#4477AA", "#66CCEE", "#228833", "#CCBB44", "#EE6677", "#AA3377", "#BBBBBB", "#EEAA44"]
+PALETTE = BRAND_SERIES   # the name the templates and card_image.py read: the five, in the brand's order
+
+
+def series_colors(n, highlight=None):
+    """The colors of a chart of n series, by the brand (docs/brand.md, section 2). Up to five: ink, cardinal, blue,
+    grey, light grey. More than five: the eight of "Many series" in order, past the eighth again from the first; with
+    `highlight` (a series' index) that series is cardinal and the others take the eight, skipping the sixth (#AA3377,
+    1.54 to 1 against cardinal). A series is never told by its color alone: each is named in the legend."""
+    if n <= 5:
+        return BRAND_SERIES[:n]
+    pool = MANY_SERIES if highlight is None else [c for c in MANY_SERIES if c != "#AA3377"]
+    out, k = [], 0
+    for i in range(n):
+        if i == highlight:
+            out.append(ACCENT)
+        else:
+            out.append(pool[k % len(pool)])
+            k += 1
+    return out
 SIZES = {"email": (1200, 750), "social_wide": (1200, 627), "social_square": (1080, 1080)}
 SERIF = ["Georgia", "Times New Roman", "DejaVu Serif", "serif"]
 SANS = ["Segoe UI", "Helvetica", "Arial", "DejaVu Sans", "sans-serif"]
@@ -60,8 +88,9 @@ def echarts(spec):
         y_axes.append(dict(axis_style, type="value", name=spec.get("y2_label", ""), scale=True,
                            splitLine={"show": False}))
     out = []
+    colors = series_colors(len(series), spec.get("highlight"))
     for i, s in enumerate(series):
-        color = s.get("color") or PALETTE[i % len(PALETTE)]
+        color = s.get("color") or colors[i]
         if kind == "scatter":
             data = [[x, y] for x, y in zip(spec["x"], s["values"]) if x is not None and y is not None]
         elif spec.get("x_time"):
@@ -78,7 +107,7 @@ def echarts(spec):
             e["symbolSize"] = 7
         out.append(e)
     option = {
-        "color": PALETTE, "backgroundColor": "transparent",
+        "color": colors, "backgroundColor": "transparent",
         "textStyle": {"fontFamily": "system-ui, sans-serif", "color": INK},
         "grid": {"left": 56, "right": 56 if has_y2 else 20, "top": 40, "bottom": 70 if spec.get("x_time") else 48,
                  "containLabel": True},
@@ -162,8 +191,9 @@ def png(spec, path, size="email"):
     if spec.get("x_time"):
         x = pd.to_datetime(pd.Series(x), utc=True).dt.tz_localize(None).tolist()
     n = len(series)
+    colors = series_colors(n, spec.get("highlight"))
     for i, s in enumerate(series):
-        color = s.get("color") or PALETTE[i % len(PALETTE)]
+        color = s.get("color") or colors[i]
         a = ax2 if s.get("y2") else ax
         vals = [float("nan") if v is None else v for v in s["values"]]
         if kind == "line":
