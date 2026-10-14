@@ -1,7 +1,7 @@
 # Review pack: Research
 
 - Address: `/research` (production `https://erw-flame.vercel.app/research`), with a week's chart at `/research/<week>`, one card at `/research/card/<id>`, and the review list of drafts at `/internal/findings` (internal view only).
-- Status: in review, like every page but three (`site/lib/release.ts`). A visitor sees the in-review page; the review needs the internal view (`https://erw-flame.vercel.app/internal/open`).
+- Status: in review, like every page (`site/lib/release.ts`: no page is live since session 166). A visitor sees the in-review page; the review needs the internal view (`https://erw-flame.vercel.app/internal/open`).
 - Written from: the branch `wip/267-research-ask` at `412eeef9` (base `ce6ee59b`, session 268's palette), on 2026-10-14, session 267.
 - Replaces: the how-it-works note on Research (session 260, from `main` at `34b468fa`); all of its content is folded in below, its demo kept as the appendix.
 - The page landed as `01161064` (session 238, which renamed Automated Analysis to Research). `/analysis` and every address under it answer with a permanent redirect to the same place under `/research` (`site/next.config.ts`).
