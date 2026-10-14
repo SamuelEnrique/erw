@@ -49,6 +49,7 @@ const HUBS: Record<string, string> = {
   "spp:SPPNORTH_HUB": "SPP North hub",
 };
 const hubName = (e: string) => HUBS[e] ?? e;
+const NEAR_FULL = 0.95;  // set B question 2: the share of a month's hours every hub must hold
 
 /** The UTC instant of a local midnight (America/Chicago is UTC-5 or UTC-6). */
 function localMidnight(d: string, tz: string): number {
@@ -166,17 +167,25 @@ async function setB(): Promise<Question[]> {
     why: "A grid's load uses power most when it is dear, so its average cost per MWh is above the simple average price.",
   };
   // Session 288 (Samuel's rulings 4 and 5a of 14 October 2026): every hub the table holds, named and counted (two are
-  // CAISO's, NP15 and SP15), in the latest month every one of them holds in full. Until then the question said "all six
-  // ISO hubs", listed seven with two named "CAISO", took a month that had only begun, and gave each hub a step of its own.
+  // CAISO's, NP15 and SP15), in the latest month every one of them holds (near) in full. No month is whole at all seven
+  // (ISO-NE's internal hub misses hours in most months: 720 of 744 in August 2026, 576 of 720 in September), so the
+  // month is the latest in which each hub holds at least 95 percent of its hours, and the worked solution names any hub
+  // that is short, with its hours. Until then the question counted six hubs, listed seven with two named
+  // "CAISO", took a month that had only begun, and gave each hub a step of its own.
   const ents = [...new Set(all.map((r) => r.entity))].sort();
-  const common = fullMonths(all, ents[0]).filter((t) => ents.every((e) => fullMonths(all, e).includes(t))).at(-1)!;
+  const held = (e: string, t: string) => ({ h: by(e, "rt_hours").find((r) => r.ts_utc === t), n: by(e, "hours_in_month").find((r) => r.ts_utc === t) });
+  const near = (e: string, t: string) => { const { h, n } = held(e, t); return !!h && !!n && h.value >= NEAR_FULL * n.value; };
+  const common = [...new Set(by(ents[0], "hours_in_month").map((r) => r.ts_utc))].sort().filter((t) => ents.every((e) => near(e, t))).at(-1)!;
+  const short = ents.filter((e) => { const { h, n } = held(e, common); return h!.value < n!.value; });
   const prem = ents.map((e) => by(e, "rt_shape_premium").find((r) => r.ts_utc === common)!);
   const top = pick(prem, "max"), low = pick(prem, "min");
   const q2: Question = {
     id: "b2", tables: [M],
-    q: `The table holds ${ents.length} hubs: ${ents.map(hubName).join(", ")}. In the latest month every one of them holds in full, which had the largest shape premium, and which the smallest?`,
+    q: `The table holds ${ents.length} hubs: ${ents.map(hubName).join(", ")}. In the latest month all ${ents.length} hold at least 95 percent of their hours, which had the largest shape premium, and which the smallest?`,
     answer: [`${common.slice(0, 7)}: largest ${hubName(top.entity)}, `, row(M, top, "USD/MWh"), `; smallest ${hubName(low.entity)}, `, row(M, low, "USD/MWh"), "."],
-    steps: [[`Find the latest month in which every hub's rt_hours equals its hours_in_month (every hour held): ${common.slice(0, 7)}.`],
+    steps: [[`Find the latest month in which every hub's rt_hours is at least 95 percent of its hours_in_month: ${common.slice(0, 7)}. `,
+      ...(short.length ? short.flatMap((e, i) => [`${i ? "; " : ""}${hubName(e)} holds `, row(M, held(e, common).h!, "hours"), " of ", row(M, held(e, common).n!, "hours")] as Part[]) : ["Every hub holds every hour"]),
+      short.length ? `; the other ${ents.length - short.length} hold every hour.` : "."],
       ["Read rt_shape_premium of each hub for that month: ", ...prem.flatMap((r, i) => [`${i ? "; " : ""}${hubName(r.entity)} `, row(M, r, "USD/MWh")] as Part[]), "."], ["Rank them."]],
     why: "Where the premium is large, shifting use out of peak hours saves the most.",
   };

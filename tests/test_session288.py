@@ -69,8 +69,10 @@ class TheProblemSets(unittest.TestCase):
         self.assertNotIn("months may be partial", self.p)
 
     def test_latest_complete_month(self):
-        b2 = self.p[self.p.index('id: "b2"') - 900:self.p.index('id: "b2"')]
-        self.assertIn("fullMonths(all, e)", b2)
+        b2 = self.p[self.p.index('id: "b2"') - 1600:self.p.index('id: "b2"')]
+        # no month is whole at all seven hubs (ISO-NE misses hours): the latest month each holds at least 95 percent of
+        self.assertIn("ents.every((e) => near(e, t))", b2)
+        self.assertIn("const NEAR_FULL = 0.95;", self.p)
         self.assertIn("const pm = latestFull(prof, full);", self.p)                                   # set B, question 5
         self.assertIn('latestFull(prof, fullMonths(await series("cost_of_power_monthly"', self.p)     # set D, question 3
         self.assertIn('hours.get(day(r.ts_utc)) === r.value', self.p)
