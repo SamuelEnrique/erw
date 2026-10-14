@@ -116,7 +116,7 @@ class California(unittest.TestCase):
     def test_page_and_game(self):
         game = src("site", "app", "play", "battery", "Game.tsx")
         self.assertIn('(["ERCOT", "CAISO"] as const).filter((gr) => levels.some((l) => l.grid === gr))', game)
-        self.assertIn("The rule: {l.rule}", game)
+        self.assertIn("{level.rule ? ` The rule: ${level.rule}` : \"\"}", game)   # session 289: the chosen day's line under one list of days
         self.assertIn('href: "/grid/caiso"', game)
         self.assertIn("The grid: {G.name}.", game)
         self.assertIn("<Link href={G.href}>{G.page}</Link>", game)

@@ -84,7 +84,7 @@ const PAGES = [
   "/battery/customer",  // session 88: a static page; scripts/check-no-request.mjs types into it in a real browser
   // session 86: the grids in review on the live battery page (open in the internal view; a visitor gets ERCOT)
   "/cost-of-power/battery?grid=nyiso&dur=4&strat=dayahead", "/cost-of-power/battery?grid=spp&dur=2&strat=foresight",
-  "/play/battery", "/play/battery?more=1",  // session 63: the simple page and the full game
+  "/play/battery", "/play/battery?mode=hard",  // session 63: the simple page and the full game; session 289: one page, three modes (?more=1 redirects)
   "/tour",  // session 53: the guided tour
   "/data/methods/battery_game",  // session 50
   "/severance", "/severance/lease", "/data/methods/severance",

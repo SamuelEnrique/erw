@@ -31,6 +31,13 @@
 // (LIGHTS_OUT.usdPerMwh), not at a multiple of the cap found by search; (2) going dark at any point of the outage
 // charges the unserved energy of the whole outage, not only of what is left of it; (3) the roof is curtailed, earning
 // nothing, when the price is below zero and the battery is not charging (roofSale).
+//
+// Session 289 (game v5, Samuel's rulings of 14 October 2026 and Kelsey's asks of 5 October): (1) the backup reserve
+// defaults to 25 percent (ruling 1a): 3.38 kWh of the default 13.5, more than the 3.16 kWh Hard's outage needs, so
+// selling down to the reserve line keeps the lights on (until then 20 percent, 2.70 kWh, and Hard's first play went dark
+// by following the screen); (2) Easy shows the whole day's real prices ahead of time as its forecast, not the next three
+// hours (Kelsey: "Easy is truly easy"); (3) presets end "-v5", so v5 plays are ranked only against v5 plays. The scorer
+// and the optimum are unchanged.
 
 export type Settings = { kwh: number; kw: number; rte: number; reserve: number; deg: number };
 export type Difficulty = "easy" | "normal" | "hard";
@@ -42,13 +49,13 @@ export const SETTINGS: Record<keyof Settings, { label: string; unit: string; def
   kwh: { label: "Usable energy", unit: "kWh", def: 13.5, min: 5, max: 30, step: 0.5, source: "assumption: one home battery's usable energy, the session 38 game's" },
   kw: { label: "Continuous power", unit: "kW", def: 5, min: 1, max: 11.5, step: 0.5, source: "assumption, the session 38 game's; ERCOT's ADER governing document gives +/-5 kW as its example of a battery's rated dispatchable range" },
   rte: { label: "Round-trip efficiency", unit: "percent", def: 0.9, min: 0.75, max: 0.95, step: 0.01, source: "assumption, inside Lazard's 88 to 91 percent for residential standalone storage (LCOS v10.0, 2025)" },
-  reserve: { label: "Backup reserve", unit: "percent", def: 0.2, min: 0, max: 0.5, step: 0.05, source: "assumption: the share kept back for an outage, 20 percent by default; enforced on Hard" },
+  reserve: { label: "Backup reserve", unit: "percent", def: 0.25, min: 0, max: 0.5, step: 0.05, source: "the share kept back for an outage, enforced on Hard: 25 percent by default (Samuel's ruling of 14 October 2026), so the default battery's reserve carries the house through Hard's outage" },
   deg: { label: "Degradation cost", unit: "USD per kWh discharged", def: 0.11, min: 0, max: 0.3, step: 0.01, source: "Lazard LCOS v10.0 (2025), residential standalone: the low end of its capital cost, USD 721 per kWh x 25 kWh, over its lifetime storage output, 158 MWh, is USD 0.114 per kWh, rounded to 0.11; charged on Hard" },
 };
 export const DEFAULT_SETTINGS: Settings = { kwh: SETTINGS.kwh.def, kw: SETTINGS.kw.def, rte: SETTINGS.rte.def, reserve: SETTINGS.reserve.def, deg: SETTINGS.deg.def };
 
 export const DIFFICULTIES: Record<Difficulty, { label: string; forecastHours: number; reserve: boolean; degradation: boolean; emergency: boolean; addons: boolean; what: string }> = {
-  easy: { label: "Easy", forecastHours: 3, reserve: false, degradation: false, emergency: false, addons: false, what: "the next three hours show as a band: each clock hour's lowest to highest real price" },
+  easy: { label: "Easy", forecastHours: 24, reserve: false, degradation: false, emergency: false, addons: false, what: "the whole day's real prices show ahead of time as a forecast; no reserve, no wear, no emergency" },
   normal: { label: "Normal", forecastHours: 0, reserve: false, degradation: false, emergency: false, addons: false, what: "no forecast, no reserve, no degradation cost" },
   hard: { label: "Hard", forecastHours: 0, reserve: true, degradation: true, emergency: true, addons: true, what: "no forecast; the backup reserve is enforced, each kWh discharged costs the degradation cost, and a grid emergency strikes: the price spikes toward the cap, then a two-hour outage runs the house on the battery" },
 };
@@ -61,7 +68,7 @@ export const START_MONEY = 5;
  * hours) after the spike hour, the grid down: no buying or selling, and the house draws 1.5 kW from the battery (an
  * assumption: a home's evening load with air conditioning; the reserve is for exactly this). */
 export const EMERGENCY = { cap: 5000, ramp: [0.25, 0.5, 0.75, 0.9], outageIntervals: 8, houseKw: 1.5 };
-export const RULES_VERSION = "v4";
+export const RULES_VERSION = "v5";
 /** Session 66: lights out costs money (a game rule). Session 70: the round still ends, and if the lights go out at any
  * point of the outage the house is charged for the unserved energy of the whole outage (EMERGENCY.houseKw for every
  * interval of it, less what a rooftop array makes in each) at Texas's value of lost load.
@@ -193,21 +200,22 @@ export const validDifficulty = (x: unknown): x is Difficulty => x === "easy" || 
 
 /** The leaderboard's preset: the difficulty and the settings that change the score (the reserve and the degradation
  * cost only on Hard), so only plays under the same rules are ranked together. Session 66: then the add-ons that are on,
- * in the order of ADDONS, then the rules' version: hard:13.5-5-90-r20-d0.11-solar-v4. */
+ * in the order of ADDONS, then the rules' version: hard:13.5-5-90-r25-d0.11-solar-v5 (session 289). */
 export function presetOf(s: Settings, d: Difficulty, addons: AddonKey[] = []): string {
   const base = `${d}:${s.kwh}-${s.kw}-${Math.round(s.rte * 100)}`;
   const on = DIFFICULTIES[d].addons ? ADDON_KEYS.filter((k) => addons.includes(k)).map((k) => `-${k}`).join("") : "";
   return `${d === "hard" ? `${base}-r${Math.round(s.reserve * 100)}-d${s.deg}` : base}${on}-${RULES_VERSION}`;
 }
 export const DEFAULT_PRESET = presetOf(DEFAULT_SETTINGS, "normal");
-export type RulesVersion = "v2" | "v3" | "v4";
-const PRESET = /^(easy|normal|hard):(\d+(?:\.\d+)?)-(\d+(?:\.\d+)?)-(\d+)(?:-r(\d+)-d(\d+(?:\.\d+)?))?((?:-[a-z]+)*)(?:-(v3|v4))?$/;
+export type RulesVersion = "v2" | "v3" | "v4" | "v5";
+const PRESET = /^(easy|normal|hard):(\d+(?:\.\d+)?)-(\d+(?:\.\d+)?)-(\d+)(?:-r(\d+)-d(\d+(?:\.\d+)?))?((?:-[a-z]+)*)(?:-(v3|v4|v5))?$/;
 
 /** Session 55: a preset back to its settings and difficulty, or null when it is not a preset presetOf writes: an
  * unknown difficulty, a setting outside its range or off its step, the reserve and degradation on a level other than
  * Hard (or missing on Hard), or any other spelling of the same rules. The read route of the leaderboard refuses the rest.
  * Session 66: a v4 preset ends "-v4" and may name add-ons before it; boards from before stay readable, never written:
- * a v3 preset ends "-v3", a v2 one has no version, and neither has add-ons. */
+ * a v3 preset ends "-v3", a v2 one has no version, and neither has add-ons. Session 289: a v5 preset ends "-v5"; a v4
+ * one stays readable, with its add-ons. */
 export function parsePreset(raw: unknown): { settings: Settings; difficulty: Difficulty; addons: AddonKey[]; version: RulesVersion } | null {
   if (typeof raw !== "string" || raw.length > 64) return null;
   const m = PRESET.exec(raw);
@@ -216,7 +224,7 @@ export function parsePreset(raw: unknown): { settings: Settings; difficulty: Dif
   const version = (m[8] ?? "v2") as RulesVersion;
   if ((difficulty === "hard") !== (m[5] !== undefined)) return null;
   const addons = m[7] ? m[7].slice(1).split("-") : [];
-  if (!validAddons(addons, difficulty) || (addons.length > 0 && version !== RULES_VERSION)) return null;
+  if (!validAddons(addons, difficulty) || (addons.length > 0 && version !== RULES_VERSION && version !== "v4")) return null;
   const settings: Settings = {
     kwh: Number(m[2]), kw: Number(m[3]), rte: Number(m[4]) / 100,
     reserve: m[5] !== undefined ? Number(m[5]) / 100 : DEFAULT_SETTINGS.reserve, deg: m[6] !== undefined ? Number(m[6]) : DEFAULT_SETTINGS.deg,

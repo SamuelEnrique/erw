@@ -6,7 +6,7 @@
 // score must equal the dynamic programme's optimum, whose actions must reproduce it. Prints one line per day; exits 1
 // on any mismatch.
 import {
-  ADDONS, DEFAULT_PRESET, DEFAULT_SETTINGS, EMERGENCY, emergencyOf, eventPageFor, explain, FLEET_MW, FLEET_MWH, isPerfect, LIGHTS_OUT, optimum, outageDraw, parsePreset, perfectShare,
+  ADDONS, DEFAULT_PRESET, DEFAULT_SETTINGS, DIFFICULTIES, EMERGENCY, emergencyOf, eventPageFor, explain, FLEET_MW, FLEET_MWH, isPerfect, LIGHTS_OUT, optimum, outageDraw, parsePreset, perfectShare,
   presetLabel, presetOf, RULES_VERSION, rulesOf, SETTINGS, shownPrices, simulate, SOLAR, solarKwh, SPIKE_LABEL, START_MONEY, validAddons, validSettings, validSolar, vppHour, worstHour,
 } from "../lib/battery.ts";
 import fs from "node:fs";
@@ -133,7 +133,7 @@ for (const [label, s, d, addons, shape] of presets) {
 // preset carries the rules' version
 {
   const a = optimum(days.shape).actions;
-  const ok = Math.abs(simulate(days.shape, a).score - simulate(days.shape, a, rulesOf(DEFAULT_SETTINGS, "normal")).score) < 1e-12 && presetOf(DEFAULT_SETTINGS, "normal") === DEFAULT_PRESET && DEFAULT_PRESET === "normal:13.5-5-90-v4";
+  const ok = Math.abs(simulate(days.shape, a).score - simulate(days.shape, a, rulesOf(DEFAULT_SETTINGS, "normal")).score) < 1e-12 && presetOf(DEFAULT_SETTINGS, "normal") === DEFAULT_PRESET && DEFAULT_PRESET === "normal:13.5-5-90-v5";
   if (!ok) bad++;
   console.log(`${ok ? "ok  " : "FAIL"} Normal with the default battery: its preset is ${DEFAULT_PRESET}`);
 }
@@ -143,34 +143,45 @@ const v2 = [
   ["validSettings: kw 5.25 is off its 0.5 step", validSettings({ ...DEFAULT_SETTINGS, kw: 5.25 }), false],
   ["validSettings: an extra key", validSettings({ ...DEFAULT_SETTINGS, x: 1 }), false],
   ["validSettings: a string", validSettings({ ...DEFAULT_SETTINGS, deg: "0.11" }), false],
-  // session 66: the presets carry v4 and the add-ons; v2 and v3 boards stay readable and say which rules they are
-  ["RULES_VERSION", RULES_VERSION, "v4"],
-  ["presetOf(hard)", presetOf(DEFAULT_SETTINGS, "hard"), "hard:13.5-5-90-r20-d0.11-v4"],
-  ["presetOf(hard, rooftop solar)", presetOf(DEFAULT_SETTINGS, "hard", ["solar"]), "hard:13.5-5-90-r20-d0.11-solar-v4"],
-  ["presetOf(normal) ignores an add-on: Normal has none", presetOf(DEFAULT_SETTINGS, "normal", ["solar"]), "normal:13.5-5-90-v4"],
-  ["presetLabel(default normal, v4)", presetLabel("normal:13.5-5-90-v4"), "Normal, the default battery"],
+  // session 66: the presets carry the version and the add-ons; boards from before stay readable and say which rules they are.
+  // Session 289 (v5): the version is v5 and the default reserve 25 percent; a v4 board, add-ons included, stays readable
+  ["RULES_VERSION", RULES_VERSION, "v5"],
+  ["the default reserve is 25 percent (Samuel's ruling 1a)", DEFAULT_SETTINGS.reserve, 0.25],
+  ["presetOf(easy)", presetOf(DEFAULT_SETTINGS, "easy"), "easy:13.5-5-90-v5"],
+  ["presetOf(hard)", presetOf(DEFAULT_SETTINGS, "hard"), "hard:13.5-5-90-r25-d0.11-v5"],
+  ["presetOf(hard, rooftop solar)", presetOf(DEFAULT_SETTINGS, "hard", ["solar"]), "hard:13.5-5-90-r25-d0.11-solar-v5"],
+  ["presetOf(normal) ignores an add-on: Normal has none", presetOf(DEFAULT_SETTINGS, "normal", ["solar"]), "normal:13.5-5-90-v5"],
+  ["presetLabel(default normal, v5)", presetLabel("normal:13.5-5-90-v5"), "Normal, the default battery"],
+  ["presetLabel(default normal, a v4 board)", presetLabel("normal:13.5-5-90-v4"), "Normal, the default battery (v4 rules)"],
   ["presetLabel(default normal, a v3 board)", presetLabel("normal:13.5-5-90-v3"), "Normal, the default battery (v3 rules)"],
   ["presetLabel(default normal, a v2 board)", presetLabel("normal:13.5-5-90"), "Normal, the default battery (v2 rules)"],
-  ["presetLabel(custom hard)", presetLabel("hard:5-2.5-85-r30-d0.2-v4"), "Hard, 5 kWh, 2.5 kW, 85 percent round trip, reserve 30 percent, wear $0.2 per kWh"],
+  ["presetLabel(custom hard)", presetLabel("hard:5-2.5-85-r30-d0.2-v5"), "Hard, 5 kWh, 2.5 kW, 85 percent round trip, reserve 30 percent, wear $0.2 per kWh"],
   ["presetLabel(custom hard, a v3 board)", presetLabel("hard:5-2.5-85-r30-d0.2-v3"), "Hard, 5 kWh, 2.5 kW, 85 percent round trip, reserve 30 percent, wear $0.2 per kWh (v3 rules)"],
-  ["presetLabel(default hard, rooftop solar)", presetLabel("hard:13.5-5-90-r20-d0.11-solar-v4"), "Hard, the default battery, with rooftop solar"],
-  ["presetLabel(custom hard, rooftop solar)", presetLabel("hard:5-2.5-85-r30-d0.2-solar-v4"), "Hard, 5 kWh, 2.5 kW, 85 percent round trip, reserve 30 percent, wear $0.2 per kWh, with rooftop solar"],
-  ["parsePreset(v4) round trip", JSON.stringify(parsePreset("hard:13.5-5-90-r20-d0.11-v4")), JSON.stringify({ settings: DEFAULT_SETTINGS, difficulty: "hard", addons: [], version: "v4" })],
-  ["parsePreset(v4, rooftop solar) round trip", JSON.stringify(parsePreset("hard:13.5-5-90-r20-d0.11-solar-v4")), JSON.stringify({ settings: DEFAULT_SETTINGS, difficulty: "hard", addons: ["solar"], version: "v4" })],
+  ["presetLabel(default hard, rooftop solar)", presetLabel("hard:13.5-5-90-r25-d0.11-solar-v5"), "Hard, the default battery, with rooftop solar"],
+  ["presetLabel(v4's default hard, rooftop solar: reserve 20)", presetLabel("hard:13.5-5-90-r20-d0.11-solar-v4"), "Hard, 13.5 kWh, 5 kW, 90 percent round trip, reserve 20 percent, wear $0.11 per kWh, with rooftop solar (v4 rules)"],
+  ["presetLabel(custom hard, rooftop solar)", presetLabel("hard:5-2.5-85-r30-d0.2-solar-v5"), "Hard, 5 kWh, 2.5 kW, 85 percent round trip, reserve 30 percent, wear $0.2 per kWh, with rooftop solar"],
+  ["parsePreset(v5) round trip", JSON.stringify(parsePreset("hard:13.5-5-90-r25-d0.11-v5")), JSON.stringify({ settings: DEFAULT_SETTINGS, difficulty: "hard", addons: [], version: "v5" })],
+  ["parsePreset(v5, rooftop solar) round trip", JSON.stringify(parsePreset("hard:13.5-5-90-r25-d0.11-solar-v5")), JSON.stringify({ settings: DEFAULT_SETTINGS, difficulty: "hard", addons: ["solar"], version: "v5" })],
+  ["parsePreset(a v4 board) is readable", JSON.stringify(parsePreset("hard:13.5-5-90-r20-d0.11-v4")), JSON.stringify({ settings: { ...DEFAULT_SETTINGS, reserve: 0.2 }, difficulty: "hard", addons: [], version: "v4" })],
+  ["parsePreset(a v4 board with rooftop solar) is readable", JSON.stringify(parsePreset("hard:13.5-5-90-r20-d0.11-solar-v4")), JSON.stringify({ settings: { ...DEFAULT_SETTINGS, reserve: 0.2 }, difficulty: "hard", addons: ["solar"], version: "v4" })],
   ["parsePreset(a v3 board) is readable", parsePreset("hard:13.5-5-90-r20-d0.11-v3")?.version, "v3"],
   ["parsePreset(a v2 board) is readable", parsePreset("normal:13.5-5-90")?.version, "v2"],
   ["parsePreset(a v2 Hard board) is readable", parsePreset("hard:13.5-5-90-r20-d0.11")?.version, "v2"],
   ["parsePreset: v3 twice is refused", parsePreset("normal:13.5-5-90-v3-v3"), null],
   ["parsePreset: v4 twice is refused", parsePreset("normal:13.5-5-90-v4-v4"), null],
+  ["parsePreset: v5 twice is refused", parsePreset("normal:13.5-5-90-v5-v5"), null],
   ["parsePreset: an add-on on a v3 board is refused (v3 had none)", parsePreset("hard:13.5-5-90-r20-d0.11-solar-v3"), null],
   ["parsePreset: an add-on without a version is refused", parsePreset("hard:13.5-5-90-r20-d0.11-solar"), null],
-  ["parsePreset: an add-on on Normal is refused", parsePreset("normal:13.5-5-90-solar-v4"), null],
-  ["parsePreset: an unknown add-on is refused", parsePreset("hard:13.5-5-90-r20-d0.11-wind-v4"), null],
-  ["parsePreset: an add-on twice is refused", parsePreset("hard:13.5-5-90-r20-d0.11-solar-solar-v4"), null],
+  ["parsePreset: an add-on on Normal is refused", parsePreset("normal:13.5-5-90-solar-v5"), null],
+  ["parsePreset: an unknown add-on is refused", parsePreset("hard:13.5-5-90-r25-d0.11-wind-v5"), null],
+  ["parsePreset: an add-on twice is refused", parsePreset("hard:13.5-5-90-r25-d0.11-solar-solar-v5"), null],
   ["every preset the game writes round trips", [["easy", []], ["normal", []], ["hard", []], ["hard", ["solar"]]].every(([d, a]) => {
     const p = parsePreset(presetOf(DEFAULT_SETTINGS, d, a));
-    return p !== null && presetOf(p.settings, p.difficulty, p.addons) === presetOf(DEFAULT_SETTINGS, d, a) && p.version === "v4";
+    return p !== null && presetOf(p.settings, p.difficulty, p.addons) === presetOf(DEFAULT_SETTINGS, d, a) && p.version === "v5";
   }), true],
+  // session 289 (ruling 1a): with the default battery the reserve carries the house through Hard's outage
+  ["the default reserve covers the outage's need", 13.5 * DEFAULT_SETTINGS.reserve >= (EMERGENCY.houseKw * EMERGENCY.outageIntervals) / 4 / Math.sqrt(DEFAULT_SETTINGS.rte), true],
+  ["Easy shows the whole day ahead (Kelsey's ask 2)", DIFFICULTIES.easy.forecastHours, 24],
   ["validAddons: none, anywhere", validAddons([], "easy"), true],
   ["validAddons: rooftop solar on Hard", validAddons(["solar"], "hard"), true],
   ["validAddons: rooftop solar on Normal", validAddons(["solar"], "normal"), false],

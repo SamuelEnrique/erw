@@ -14,6 +14,11 @@
 // never formats a played price itself: scripts/test-battery.mjs checks it); after a play, three plain lines (EndLines):
 // what you earned, what the perfect battery earned, and the hour you lost the most, from simulate()'s own earnings per
 // interval; and Hard's add-ons, off by default, the first a rooftop solar array that follows the level's real solar shape.
+// Session 289 (v5, Samuel's rulings of 14 October 2026 and Kelsey's asks of 5 October): one page with three modes, Easy
+// first (the simple page and ?more=1 are gone; the old address redirects); Easy shows the whole day ahead; a few seconds
+// of the day at a glance before each play (Preview); on Hard the notice names the emergency and the reserve covers the
+// outage; the fleet of 10,000 homes beside the one battery; less on screen at once (the settings folded, the tutorial on
+// request, one list of days).
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -44,9 +49,9 @@ const GRIDS: Record<GameLevel["grid"], { name: string; hub: string; prices: stri
 const usd = (v: number) => `${v < 0 ? "-" : ""}$${Math.abs(v).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 const css = (name: string) => (typeof window === "undefined" ? "#6B665E" : getComputedStyle(document.documentElement).getPropertyValue(`--color-${name}`).trim() || "#6B665E");
 const TUTORIAL_KEY = "erw.battery.tutorial.v2";
-const SETTINGS_KEY = "erw.battery.settings.v2";
+const SETTINGS_KEY = "erw.battery.settings.v5";  // session 289: v5 (the default reserve changed; the mode is the page's)
 
-type Phase = "pick" | "play" | "done";
+type Phase = "pick" | "preview" | "play" | "done";  // session 289: the day at a glance before the play
 type Control = 1 | 0 | -1;
 
 /** Runs of one action in a list of intervals, as "HH:MM to HH:MM" (the end is the last interval's end). */
@@ -133,7 +138,7 @@ function ShareCard({ level, score, optimal, preset }: { level: GameLevel; score:
 
 /** Session 50: the 30-second first-run tutorial, four cards of about 7.5 seconds; skippable, remembered. */
 const STEPS = [
-  "A real day of wholesale prices, Texas's (ERCOT) or California's (CAISO), scrolls past in about 90 seconds, fifteen minutes at a time. You see the past; on Easy, the next three hours show as a band.",
+  "A real day of wholesale prices, Texas's (ERCOT) or California's (CAISO), scrolls past in about 90 seconds, fifteen minutes at a time. On Normal and Hard you see only the past; on Easy the whole day shows ahead.",
   "Hold Charge to buy power into your battery when it is cheap; hold Sell to discharge it when it is dear. Let go to idle. Keys: C and S, or the arrows.",
   "Once a day the fleet is called for the day's dearest hour, with a 15-minute warning. Energy you deliver in that hour earns a bonus: a game rule, modeled on ERCOT's ADER pilot.",
   "On Hard the battery keeps a backup reserve, every kWh you discharge wears it (a cost), and a grid emergency ends in an outage: keep the house lit, because a dark house costs money. After the day, replay the perfect battery's day beside yours.",
@@ -283,21 +288,15 @@ function Replay({ level, rules, mine, perfect, sun }: { level: GameLevel; rules:
   );
 }
 
-/** Session 50: the battery's settings and the difficulty, each default labelled with its source. */
-function SettingsPanel({ draft, setDraft, difficulty, setDifficulty, addonsOn, setAddonsOn, available, level }: {
-  draft: Record<keyof Settings, string>; setDraft: (d: Record<keyof Settings, string>) => void; difficulty: Difficulty; setDifficulty: (d: Difficulty) => void;
+/** Session 50: the battery's settings, each default labelled with its source. Session 289: the mode is chosen above the
+ * game (Easy, Normal, Hard), so the panel holds Hard's add-ons and the battery only, folded until opened. */
+function SettingsPanel({ draft, setDraft, difficulty, addonsOn, setAddonsOn, available, level }: {
+  draft: Record<keyof Settings, string>; setDraft: (d: Record<keyof Settings, string>) => void; difficulty: Difficulty;
   addonsOn: AddonKey[]; setAddonsOn: (a: AddonKey[]) => void; available: Record<AddonKey, boolean>; level: GameLevel;
 }) {
   const shownAs = (k: keyof Settings) => (k === "rte" || k === "reserve" ? 100 : 1);
   return (
     <div className="mb-3 border border-rule p-3 text-sm">
-      <div className="mb-2 flex flex-wrap gap-2" role="radiogroup" aria-label="Difficulty">
-        {(Object.keys(DIFFICULTIES) as Difficulty[]).map((d) => (
-          <button key={d} role="radio" aria-checked={difficulty === d} onClick={() => setDifficulty(d)}
-            className={`border px-3 py-1 ${difficulty === d ? "border-accent bg-accent text-paper" : "border-rule"}`}>{DIFFICULTIES[d].label}</button>
-        ))}
-        <span className="self-center text-xs text-muted">{DIFFICULTIES[difficulty].what}.</span>
-      </div>
       {/* session 66: Hard's add-ons, optional switches, off by default; one that needs data the level does not hold is
           unavailable for it and says so */}
       {DIFFICULTIES[difficulty].addons ? (
@@ -407,16 +406,70 @@ function PriceNow({ s, big, ended = false }: { s: ShownPrice; big: boolean; ende
   );
 }
 
-export function Game({ levels, top: firstTop, presets: firstPresets, simple = false }: { levels: GameLevel[]; top: ScoreRow[]; presets: PresetCount[]; simple?: boolean }) {
+/** Session 289 (Kelsey's ask 3 of 5 October 2026): before the day starts, a few seconds of it at a glance: its lowest,
+ * average and highest real price, so the player knows what cheap and dear mean on this day. It moves on by itself and
+ * can be skipped. The numbers are the level's own real prices (on Hard the emergency's prices are a game rule, said). */
+const PREVIEW_MS = 5000;
+function Preview({ level, hard, onDone }: { level: GameLevel; hard: boolean; onDone: () => void }) {
+  const p = level.price;
+  const avg = p.reduce((a, v) => a + v, 0) / p.length, lo = Math.min(...p), hi = Math.max(...p);
+  const [left, setLeft] = useState(PREVIEW_MS);
+  const done = useRef(onDone);
+  useEffect(() => { done.current = onDone; }, [onDone]);
+  useEffect(() => {
+    const t0 = performance.now();
+    let raf = 0, fired = false;
+    const tick = (now: number) => {
+      const l = Math.max(0, PREVIEW_MS - Math.max(0, now - t0));
+      setLeft(l);
+      if (l > 0) raf = requestAnimationFrame(tick);
+      else if (!fired) { fired = true; done.current(); }
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+  const f = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const at = (v: number) => `${((v - lo) / (hi - lo || 1)) * 100}%`;
+  return (
+    <div className="border border-rule p-3" role="status" aria-live="polite" data-game-preview>
+      <p className="mb-2 text-sm"><strong>{level.title}, {level.date}</strong>: the day&apos;s real prices at a glance, USD per MWh.</p>
+      <div className="grid grid-cols-3 gap-2 text-center">
+        <div><div className="text-xs text-muted">lowest</div><div className="font-mono text-xl tabular-nums">{f(lo)}</div></div>
+        <div><div className="text-xs text-muted">average</div><div className="font-mono text-xl tabular-nums">{f(avg)}</div></div>
+        <div><div className="text-xs text-muted">highest</div><div className="font-mono text-xl tabular-nums">{f(hi)}</div></div>
+      </div>
+      <div className="relative mx-2 mt-3 h-2 bg-[var(--color-rule)]" aria-hidden="true">
+        <div className="absolute top-[-4px] h-4 w-0.5 bg-[var(--color-ink)]" style={{ left: at(avg) }} />
+      </div>
+      <p className="mt-3 text-sm">On this day, below about {f(avg)} is cheap and above it is dear.{hard ? " On Hard the dearest hour will climb toward the cap: a game rule, not a real price." : ""}</p>
+      <div className="mt-3 flex items-center gap-3">
+        <div className="h-1 flex-1 bg-[var(--color-rule)]"><div className="h-1 bg-accent" style={{ width: `${(1 - left / PREVIEW_MS) * 100}%` }} /></div>
+        <button onClick={() => done.current()} className="border border-accent px-3 py-1 text-accent">Start now</button>
+      </div>
+    </div>
+  );
+}
+
+/** Session 289: the one page's three modes, in a line each (Samuel's ruling 16 of 14 October 2026). */
+const MODE_LINE: Record<Difficulty, string> = {
+  easy: "The whole day's prices show ahead of time. Charge when the line is low, sell when it is high.",
+  normal: "No forecast: the day arrives fifteen minutes at a time. Once, in the dearest hour, the grid calls the fleet.",
+  hard: "No forecast, a backup reserve, wear on every kWh sold, and a grid emergency that ends in a two-hour outage.",
+};
+const MODES = ["easy", "normal", "hard"] as const;
+
+export function Game({ levels, top: firstTop, presets: firstPresets, initialMode = "easy" }: { levels: GameLevel[]; top: ScoreRow[]; presets: PresetCount[]; initialMode?: Difficulty }) {
   const [phase, setPhase] = useState<Phase>("pick");
   const [pick, setPick] = useState(0);
   const level = levels[pick];
   const n = level.price.length;
   const [draft, setDraft] = useState(toDraft(DEFAULT_SETTINGS));
-  const [difficulty, setDifficulty] = useState<Difficulty>("normal");
+  const [difficulty, setDifficulty] = useState<Difficulty>(initialMode);
+  const easy = difficulty === "easy";
   const parsed = fromDraft(draft);
-  const ok = validSettings(parsed);
-  const settings = ok ? parsed : DEFAULT_SETTINGS;
+  // session 289: Easy plays the default battery (no settings on its screen)
+  const ok = easy || validSettings(parsed);
+  const settings = ok && !easy ? parsed : DEFAULT_SETTINGS;
   const settingsKey = JSON.stringify(settings);
   // session 66: Hard's add-ons. One is on when it is switched on, the difficulty has add-ons, and the level holds what it
   // needs (rooftop solar: the day's solar shape); otherwise it is off, and the panel says why
@@ -438,21 +491,20 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
   const perfect = useMemo(() => simulate(level.price, best.actions, rules, sun), [level, best, rules, sun]);
   const [tutorial, setTutorial] = useState(false);
 
-  // the viewer's conveniences, from browser storage after the first render (absent or refused: the defaults)
+  // the viewer's conveniences, from browser storage after the first render (absent or refused: the defaults). Session
+  // 289: the battery's settings and add-ons only (the mode is the page's, from its address), under a new key, since the
+  // default reserve changed; the tutorial opens on request only (Kelsey: less on screen at once)
   useEffect(() => {
-    if (simple) return;  // session 63: the simple page always plays Normal with the default battery, and skips the tutorial
-    const seen = load(TUTORIAL_KEY) === "seen";
-    let saved: { settings?: unknown; difficulty?: unknown; addons?: unknown } | null = null;
+    let saved: { settings?: unknown; addons?: unknown } | null = null;
     try { saved = JSON.parse(load(SETTINGS_KEY) ?? "null"); } catch { saved = null; }
     queueMicrotask(() => {
-      if (!seen) setTutorial(true);
       if (saved && validSettings(saved.settings)) setDraft(toDraft(saved.settings));
-      if (saved && (saved.difficulty === "easy" || saved.difficulty === "normal" || saved.difficulty === "hard")) setDifficulty(saved.difficulty);
       if (saved && validAddons(saved.addons, "hard")) setAddonsOn(saved.addons);
     });
-  }, [simple]);
+  }, []);
   const addonsOnKey = addonsOn.join(",");
-  useEffect(() => { if (ok && !simple) save(SETTINGS_KEY, JSON.stringify({ settings, difficulty, addons: addonsOn })); }, [ok, settingsKey, difficulty, simple, addonsOnKey]); // eslint-disable-line react-hooks/exhaustive-deps
+  const draftKey = JSON.stringify(draft);
+  useEffect(() => { if (ok && !easy) save(SETTINGS_KEY, JSON.stringify({ settings: fromDraft(draft), addons: addonsOn })); }, [ok, easy, draftKey, addonsOnKey]); // eslint-disable-line react-hooks/exhaustive-deps
   const endTutorial = useCallback(() => { save(TUTORIAL_KEY, "seen"); setTutorial(false); }, []);
 
   // mutable game state, read by the animation loop
@@ -464,10 +516,10 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
   } | null>(null);
   const [server, setServer] = useState<string>("");
   const [top, setTop] = useState<ScoreRow[]>(firstTop);
-  const [topFor, setTopFor] = useState<{ date: string; preset: string }>({ date: levels[0].date, preset: firstTop[0]?.preset ?? presetOf(DEFAULT_SETTINGS, "normal") });
+  const [topFor, setTopFor] = useState<{ date: string; preset: string }>({ date: levels[0].date, preset: firstTop[0]?.preset ?? presetOf(DEFAULT_SETTINGS, initialMode) });
   const [boardNote, setBoardNote] = useState("");
-  // session 55: on the pick screen the leaderboard follows the chosen day, difficulty and battery (GET /api/play/top),
-  // so the board shown is the one a play would join; 400 ms after the last change, and only for valid settings
+  // session 55: on the pick screen the leaderboard follows the chosen day, mode and battery (GET /api/play/top), so the
+  // board shown is the one a play would join; 400 ms after the last change, and only for valid settings
   useEffect(() => {
     if (phase !== "pick" || !ok || (topFor.date === level.date && topFor.preset === preset)) return;
     let live = true;
@@ -493,6 +545,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
 
   const setControl = useCallback((c: Control) => { g.current.control = c; setHud((h) => ({ ...h, control: c })); }, []);
   const forecast = DIFFICULTIES[difficulty].forecastHours * 4;
+  const wholeDay = forecast >= n;  // session 289: Easy shows the whole day ahead
 
   const draw = useCallback((pos: number) => {
     const cv = canvas.current;
@@ -504,8 +557,59 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.fillStyle = css("panel"); ctx.fillRect(0, 0, w, h);
     const shown = Math.max(1, Math.min(n, Math.floor(pos) + 1));
+    if (wholeDay) {
+      // Session 289: Easy draws the whole day on one axis. The past is the solid line; the rest of the day, the real
+      // prices shown ahead of time, is the dashed line (the forecast); the now line moves across.
+      const L = 44, R = 10, top = 22, bottom = h - 34;
+      const x = (i: number) => L + (i / n) * (w - L - R);
+      let lo = Math.min(0, ...P), hi = Math.max(10, ...P);
+      const pad = (hi - lo) * 0.1; lo -= pad; hi += pad;
+      const y = (v: number) => bottom - ((v - lo) / (hi - lo)) * (bottom - top);
+      ctx.strokeStyle = css("rule"); ctx.lineWidth = 1; ctx.font = "12px system-ui, sans-serif"; ctx.fillStyle = css("muted");
+      for (let k = 0; k <= 3; k++) {
+        const v = lo + ((hi - lo) * k) / 3, yy = y(v);
+        ctx.beginPath(); ctx.moveTo(L, yy); ctx.lineTo(w - R, yy); ctx.stroke();
+        ctx.fillText(Math.round(v).toLocaleString("en-US"), 2, yy + 4);
+      }
+      if (lo < 0) { ctx.strokeStyle = css("ink"); ctx.beginPath(); ctx.moveTo(L, y(0)); ctx.lineTo(w - R, y(0)); ctx.stroke(); }
+      ctx.fillStyle = "rgba(140, 21, 21, 0.08)";
+      ctx.fillRect(x(vpp.first), top, (vpp.last + 1 - vpp.first) * ((w - L - R) / n), bottom - top);
+      ctx.fillStyle = css("muted");
+      ctx.fillText("fleet call", Math.min(w - R - 60, x(vpp.first) + 2), top - 6);
+      const step = (from: number, to: number) => {
+        ctx.beginPath();
+        for (let i = from; i < to; i++) {
+          if (i === from) ctx.moveTo(x(i), y(P[i])); else ctx.lineTo(x(i), y(P[i]));
+          ctx.lineTo(x(i + 1), y(P[i]));
+        }
+        ctx.stroke();
+      };
+      ctx.strokeStyle = css("muted"); ctx.lineWidth = 1.5; ctx.setLineDash([4, 3]); step(shown - 1, n); ctx.setLineDash([]);
+      ctx.strokeStyle = css("ink"); ctx.lineWidth = 2; step(0, shown);
+      const iLo = P.indexOf(Math.min(...P)), iHi = P.indexOf(Math.max(...P));
+      ctx.fillStyle = css("muted");
+      const label = (t: string, i: number, above: boolean) => {
+        const tw = ctx.measureText(t).width;
+        ctx.fillText(t, Math.max(L, Math.min(w - R - tw, x(i + 0.5) - tw / 2)), above ? Math.max(top + 10, y(P[i]) - 6) : Math.min(bottom - 2, y(P[i]) + 16));
+      };
+      label("highest", iHi, true); label("lowest", iLo, false);
+      const acts = g.current.actions;
+      for (let i = 0; i < acts.length; i++) {
+        if (acts[i] === 0) continue;
+        ctx.fillStyle = acts[i] === 1 ? css("down") : css("accent");
+        ctx.fillRect(x(i), bottom + 6, Math.max(1, x(i + 1) - x(i) - 0.5), 8);
+      }
+      ctx.fillStyle = css("muted");
+      for (let i = 0; i < n; i += 12) ctx.fillText(clock(level.tz, level.ts_utc[i]).slice(0, 2), x(i) - 6, h - 6);
+      ctx.fillText(w < 520 ? "dashed: forecast" : "dashed: the rest of the day, shown ahead (Easy's forecast)", L + 2, 14);
+      const nowX = x(Math.min(n, pos));
+      ctx.strokeStyle = css("accent"); ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(nowX, top - 4); ctx.lineTo(nowX, bottom); ctx.stroke();
+      const now = labeled[Math.max(0, Math.min(n - 1, Math.floor(pos)))];
+      ctx.fillStyle = css("accent"); ctx.beginPath(); ctx.arc(nowX, y(now.value), 4, 0, Math.PI * 2); ctx.fill();
+      return;
+    }
     const seen = P.slice(0, shown);
-    // Easy: the next hours as a band, each clock hour's lowest to highest real price
+    // Easy until session 289: the next hours as a band, each clock hour's lowest to highest real price
     const bands: { i: number; lo: number; hi: number }[] = [];
     if (forecast) {
       for (let i = Math.floor(shown / 4) * 4; i < Math.min(n, shown + forecast); i += 4) {
@@ -522,7 +626,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
     const dx = (nowX - 44) / span;
     const x = (i: number) => nowX - (pos - i) * dx;
     // grid and zero line
-    ctx.strokeStyle = css("rule"); ctx.lineWidth = 1; ctx.font = "11px system-ui, sans-serif"; ctx.fillStyle = css("muted");
+    ctx.strokeStyle = css("rule"); ctx.lineWidth = 1; ctx.font = "12px system-ui, sans-serif"; ctx.fillStyle = css("muted");
     for (let k = 0; k <= 4; k++) {
       const v = lo + ((hi - lo) * k) / 4, yy = y(v);
       ctx.beginPath(); ctx.moveTo(40, yy); ctx.lineTo(w, yy); ctx.stroke();
@@ -538,7 +642,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
     if (em.outage && pos >= em.outage.first) {
       ctx.fillStyle = "rgba(46, 45, 41, 0.10)";
       ctx.fillRect(x(em.outage.first), top, (em.outage.last + 1 - em.outage.first) * dx, bottom - top);
-      ctx.fillStyle = css("muted"); ctx.font = "11px system-ui, sans-serif";
+      ctx.fillStyle = css("muted"); ctx.font = "12px system-ui, sans-serif";
       ctx.fillText("grid down", x(em.outage.first) + 4, top + 12);
     }
     // the forecast band, ahead of the now line
@@ -548,7 +652,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
         const x0 = Math.max(nowX, x(b.i)), x1 = x(b.i + 4);
         if (x1 > x0) ctx.fillRect(x0, y(b.hi), x1 - x0, Math.max(2, y(b.lo) - y(b.hi)));
       }
-      ctx.fillStyle = css("muted"); ctx.font = "11px system-ui, sans-serif";
+      ctx.fillStyle = css("muted"); ctx.font = "12px system-ui, sans-serif";
       ctx.fillText(w < 520 ? `next ${forecast / 4} h: price range` : `next ${forecast / 4} hours: each hour's price range`, nowX + 6, top + 2);
     }
     // actions taken, under the line
@@ -586,12 +690,12 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
     }
     ctx.restore();
     if (anySpike && em.spike && pos >= em.spike.last + 1) {  // while the spike lasts, the label at the now line says it
-      ctx.font = "11px system-ui, sans-serif";
+      ctx.font = "12px system-ui, sans-serif";
       const notes = [SPIKE_LABEL, "dashed: the real price"];
       const nx = Math.max(42, x(em.spike.first) + 4), nw = Math.max(...notes.map((t) => ctx.measureText(t).width));
-      ctx.fillStyle = css("panel"); ctx.fillRect(nx - 3, top + 15, nw + 6, 29);  // a plain ground, so the words do not cross the price line
+      ctx.fillStyle = css("panel"); ctx.fillRect(nx - 3, top + 15, nw + 6, 31);  // a plain ground, so the words do not cross the price line
       ctx.fillStyle = css("accent");
-      notes.forEach((t, k) => ctx.fillText(t, nx, top + 26 + k * 13));
+      notes.forEach((t, k) => ctx.fillText(t, nx, top + 27 + k * 14));
     }
     // the now line and the current price
     ctx.strokeStyle = css("accent"); ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(nowX, top - 8); ctx.lineTo(nowX, bottom); ctx.stroke();
@@ -607,7 +711,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
     const ly = Math.max(top + 10, y(now.value) - 8) + (lines.length > 1 ? 44 : 0);
     if (lines.length > 1) { ctx.fillStyle = css("panel"); ctx.fillRect(lx - 3, ly - 12, lw + 6, lines.length * 14 + 4); }
     lines.forEach((t, k) => { ctx.fillStyle = k === 0 ? css("ink") : css("accent"); ctx.fillText(t, lx, ly + k * 14); });
-  }, [level, n, vpp, forecast, P, em, labeled]);
+  }, [level, n, vpp, forecast, wholeDay, P, em, labeled]);
 
   const finish = useCallback(async () => {
     cancelAnimationFrame(raf.current);
@@ -657,16 +761,25 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
   }, [n, level, draw, finish, rules, em, sun]);
   useEffect(() => { next.current = loop; }, [loop]);
 
+  // session 289: Start shows the day at a glance first (Preview), then the play begins
   const start = () => {
     if (!ok) return;
+    setResult(null); setServer(""); setPosted(""); setTutorial(false);
+    setPhase("preview");
+    requestAnimationFrame(() => board.current?.scrollIntoView({ block: "start", behavior: "auto" }));
+  };
+  const begin = useCallback(() => {
     const t = performance.now();
     g.current = { t0: t, idx: 0, held: [0, 0, 0], last: t, soc: rules.start, money: START_MONEY, wear: 0, solar: 0, vppKwh: 0, actions: [], control: 0, ended: false };
     setHud({ idx: 0, soc: rules.start, money: START_MONEY, wear: 0, solar: 0, vppKwh: 0, control: 0 });
-    setResult(null); setServer(""); setPosted("");
     setPhase("play");
-    requestAnimationFrame(() => board.current?.scrollIntoView({ block: "start", behavior: "auto" }));
-    next.current = loop;
-    raf.current = requestAnimationFrame((t) => next.current(t));
+    raf.current = requestAnimationFrame((tt) => next.current(tt));
+  }, [rules]);
+  // session 289: the mode is the page's; its address says it (?mode=normal, ?mode=hard; Easy needs none)
+  const chooseMode = (d: Difficulty) => {
+    setDifficulty(d);
+    if (phase === "done") setPhase("pick");
+    try { window.history.replaceState(null, "", `${window.location.pathname}${d === "easy" ? "" : `?mode=${d}`}`); } catch { /* the address stays */ }
   };
 
   useEffect(() => () => cancelAnimationFrame(raf.current), []);
@@ -704,6 +817,14 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
   const lit = hud.vppKwh > 0;
   const atReserve = rules.reserveKwh > 0 && hud.soc <= rules.reserveKwh + 1e-9;
   const blocked = playing && hud.control === -1 && atReserve;
+  // session 289 (Samuel's ruling 2a): on Hard the fleet call's notice names the emergency, and both say how much charge
+  // the house will need in the outage against the reserve, so "sell then" and "keep charge" no longer contradict
+  const need = perfect.outageNeedKwh, reserveOk = rules.reserveKwh + 1e-9 >= need;
+  const keepWords = need > 0
+    ? reserveOk
+      ? `The house will need ${need.toFixed(2)} kWh from the battery in the outage; your backup reserve holds ${rules.reserveKwh.toFixed(2)} kWh, enough by itself, so sell down to the reserve line.`
+      : `The house will need ${need.toFixed(2)} kWh from the battery in the outage; your backup reserve holds only ${rules.reserveKwh.toFixed(2)} kWh, so keep at least ${need.toFixed(2)} kWh.`
+    : rules.solarKw > 0 ? "Today the roof carries the house through the outage." : "";
   const post = async () => {
     if (!result) return;
     setPosted("Posting...");
@@ -722,155 +843,145 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
   const charged = runs(best.actions, level.ts_utc, 1, level.tz), discharged = runs(best.actions, level.ts_utc, -1, level.tz);
   const G = GRIDS[level.grid];
   const otherPresets = topFor.date === levels[0].date ? firstPresets.filter((p) => p.preset !== topFor.preset) : [];
+  const ev = level.grid === "ERCOT" ? eventPageFor(level.date) : null;  // session 46: a famous ERCOT day inside an /events window links to it
 
   return (
     <div className="select-none">
+      {/* session 289 (Samuel's ruling 16): one page, three modes, Easy first */}
+      <div className="mb-2 flex flex-wrap gap-2" role="radiogroup" aria-label="Mode">
+        {MODES.map((d) => (
+          <button key={d} role="radio" aria-checked={difficulty === d} disabled={phase === "play" || phase === "preview"} onClick={() => chooseMode(d)}
+            className={`border px-4 py-2 disabled:opacity-50 ${difficulty === d ? "border-accent bg-accent text-paper" : "border-rule"}`}>{DIFFICULTIES[d].label}</button>
+        ))}
+      </div>
+      <p className="mb-4 text-sm text-muted">{MODE_LINE[difficulty]}</p>
       {tutorial && phase === "pick" ? <Tutorial onDone={endTutorial} /> : null}
-      {phase === "pick" && simple ? (
+      {phase === "pick" ? (
         <div>
-          <p className="mb-3 text-base">Buy power into your battery when it is cheap and sell it when it is dear: you start with $5, and the game ends if you go below $0.</p>
-          <label className="mb-3 block text-sm">The day:{" "}
+          {easy ? <p className="mb-3 text-base">Buy power into your battery when it is cheap and sell it when it is dear. You start with $5; the game ends if you go below $0.</p> : null}
+          <label className="mb-1 block text-sm">The day:{" "}
             <select value={pick} onChange={(e) => setPick(Number(e.target.value))} className="max-w-full border border-rule bg-panel px-2 py-1">
-              {levels.map((l, i) => <option key={l.slug} value={i}>{l.title}, {l.date}</option>)}
+              {(["ERCOT", "CAISO"] as const).filter((gr) => levels.some((l) => l.grid === gr)).map((gr) => (
+                <optgroup key={gr} label={`${GRIDS[gr].name}, ${GRIDS[gr].zone} time`}>
+                  {levels.map((l, i) => (l.grid === gr ? <option key={l.slug} value={i}>{l.title}, {l.date}</option> : null))}
+                </optgroup>
+              ))}
             </select>
           </label>
-          <button onClick={start} className="w-full border border-accent bg-accent px-6 py-4 text-xl text-paper sm:w-auto">Start</button>
-        </div>
-      ) : phase === "pick" ? (
-        <div>
-          <SettingsPanel draft={draft} setDraft={setDraft} difficulty={difficulty} setDifficulty={setDifficulty} addonsOn={addonsOn} setAddonsOn={setAddonsOn} available={available} level={level} />
+          <p className="mb-3 max-w-3xl text-xs text-muted">{level.why}{level.rule ? ` The rule: ${level.rule}` : ""}{!easy && ev ? <> <Link href={ev.href}>What happened: {ev.label}</Link></> : null}</p>
+          {difficulty === "hard" && need > 0 ? <p className="mb-3 max-w-3xl text-sm">Hard, on this day: after the dearest hour the grid goes down for two hours. {keepWords}</p> : null}
+          {!easy ? <SettingsPanel draft={draft} setDraft={setDraft} difficulty={difficulty} addonsOn={addonsOn} setAddonsOn={setAddonsOn} available={available} level={level} /> : null}
           {!ok ? <p className="mb-2 text-sm text-accent" role="alert">A setting is outside its range or between its steps; the game will not start until it is within them.</p> : null}
-          <p className="mb-2 text-sm">Pick a day. Everyone plays the same level on the same day; the leaderboard ranks plays with the same difficulty and battery.</p>
-          {/* session 56: the levels grouped by grid; a California day states its selection rule */}
-          {(["ERCOT", "CAISO"] as const).filter((gr) => levels.some((l) => l.grid === gr)).map((gr) => (
-            <div key={gr} className="mb-3">
-              <h3 className="mb-1 text-sm font-semibold">{GRIDS[gr].name}: {GRIDS[gr].zone} time</h3>
-              <div className="grid gap-2 sm:grid-cols-2">
-                {levels.map((l, i) => {
-                  if (l.grid !== gr) return null;
-                  const ev = l.grid === "ERCOT" ? eventPageFor(l.date) : null;  // session 46: a famous ERCOT day inside an /events window links to it
-                  return (
-                    <div key={l.slug} className={`border text-sm ${i === pick ? "border-accent" : "border-rule"}`}>
-                      <button onClick={() => setPick(i)} className="w-full p-2 text-left">
-                        <span className="font-semibold">{l.title}</span> <span className="whitespace-nowrap text-muted">{l.date}</span>
-                        <span className="block text-xs text-muted">{l.why}</span>
-                        {l.rule ? <span className="block text-xs text-muted">The rule: {l.rule}</span> : null}
-                      </button>
-                      {ev ? <Link href={ev.href} className="block px-2 pb-2 text-xs">What happened: {ev.label}</Link> : null}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
           <div className="flex flex-wrap items-center gap-3">
-            <button onClick={start} disabled={!ok} className="border border-accent bg-accent px-4 py-2 text-paper disabled:opacity-50">Play {level.date}, {DIFFICULTIES[difficulty].label}{addons.map((k) => `, with ${ADDONS[k].label.toLowerCase()}`).join("")}</button>
-            {!tutorial ? <button onClick={() => setTutorial(true)} className="text-sm underline">How to play (30 seconds)</button> : null}
+            <button onClick={start} disabled={!ok} className={`border border-accent bg-accent text-paper disabled:opacity-50 ${easy ? "w-full px-6 py-4 text-xl sm:w-auto" : "px-4 py-2"}`}>Start</button>
+            {!easy && !tutorial ? <button onClick={() => setTutorial(true)} className="text-sm underline">How to play (30 seconds)</button> : null}
           </div>
         </div>
       ) : null}
 
       {phase !== "pick" ? (
         <div ref={board} className="scroll-mt-2" data-game-phase={phase} data-game-idx={hud.idx} data-game-level={level.date}>
-          <div className="mb-1 flex flex-wrap items-baseline justify-between gap-2 text-sm">
-            <span><strong>{level.title}</strong>, {level.date} ({GRIDS[level.grid].name}, {GRIDS[level.grid].zone} time), {DIFFICULTIES[difficulty].label}{addons.map((k) => `, with ${ADDONS[k].label.toLowerCase()}`).join("")}</span>
-            <span aria-live="polite">{playing && hud.idx < n ? `${clock(level.tz, level.ts_utc[Math.min(n - 1, hud.idx)])}` : result && result.mine.why ? `ended at ${at(result.mine.end)}` : "end of day"}</span>
-          </div>
-          {inOutage ? (
-            <div className="mb-1 border border-ink bg-panel px-2 py-1 text-sm" role="status">
-              Outage (a game rule): the grid is down. Your house runs on its battery, {EMERGENCY.houseKw} kW{rules.solarKw > 0 ? " (the roof's power first)" : ""}. If the battery runs dry, the lights go out, the round ends,
-              and you pay for the power the house needed in the whole outage ({usd((perfect.outageNeedKwh * rules.eta * LIGHTS_OUT.usdPerMwh) / 1000)}): a dark house in a grid emergency is what the battery is there to prevent.
-            </div>
-          ) : inSpike ? (
-            <div className="mb-1 border border-accent bg-panel px-2 py-1 text-sm text-accent" role="status">
-              Grid emergency (a game rule): the price is climbing toward the {usd(EMERGENCY.cap).replace(".00", "")}/MWh cap. This hour&apos;s price is a {SPIKE_LABEL}. Next the grid goes down for two hours: keep charge for the house.
-              {/* session 111: how much, in numbers. Selling down to the reserve line looked safe and was not: with the default battery the
-                  reserve holds 2.70 kWh and the house needs 3.16 */}
-              {perfect.outageNeedKwh > 0 ? <> It will need <strong>{perfect.outageNeedKwh.toFixed(2)} kWh</strong> from the battery{rules.reserveKwh < perfect.outageNeedKwh ? <>; the backup reserve is {rules.reserveKwh.toFixed(2)} kWh, which is not enough by itself</> : null}.</> : rules.solarKw > 0 ? <> Today the roof carries the house through it.</> : null}
-            </div>
-          ) : notice ? (
-            <div className="mb-1 border border-accent px-2 py-1 text-sm text-accent" role="status">Fleet call in 15 minutes: the grid&apos;s dearest hour of the day. Keep charge to sell then.</div>
-          ) : inVpp ? (
-            <div className="mb-1 border border-accent bg-panel px-2 py-1 text-sm text-accent" role="status">
-              Fleet call: discharge now to earn the bonus (a game rule modeled on ERCOT&apos;s ADER pilot; {simple ? "the rules are under More, below" : "see the rules below"}).
-            </div>
-          ) : null}
-          {simple || playing ? <PriceNow s={labeled[Math.min(n - 1, hud.idx)]} big={simple} ended={!playing} /> : null}
-          <canvas ref={canvas} className={`block w-full touch-none ${simple ? "h-[140px]" : "h-[220px] sm:h-[260px]"}`} aria-label="The day's price so far; the future is hidden except Easy's forecast band" />
-          <div className="mt-2 grid grid-cols-1 items-center gap-2 sm:grid-cols-[auto_1fr]">
-            <HouseFlow flow={playing ? hud.control : 0} soc={hud.soc} kwh={rules.kwh} reserveKwh={rules.reserveKwh} blocked={blocked} />
-            <div className="grid grid-cols-[1fr_auto] items-center gap-3 text-sm">
-              <div>
-                <div className="mb-1 flex justify-between text-xs text-muted"><span>State of charge</span><span>{hud.soc.toFixed(2)} of {rules.kwh} kWh</span></div>
-                <div className="relative h-3 w-full border border-rule bg-panel">
-                  <div className="h-full bg-[var(--color-down)]" style={{ width: `${(hud.soc / rules.kwh) * 100}%` }} />
-                  {rules.reserveKwh > 0 ? <div className="absolute top-[-3px] h-[18px] w-0.5 bg-accent" style={{ left: `${(rules.reserveKwh / rules.kwh) * 100}%` }} title="the backup reserve" /> : null}
+          {phase === "preview" ? <Preview level={level} hard={difficulty === "hard"} onDone={begin} /> : (
+            <>
+              <div className="mb-1 flex flex-wrap items-baseline justify-between gap-2 text-sm">
+                <span><strong>{level.title}</strong>, {level.date} ({GRIDS[level.grid].name}, {GRIDS[level.grid].zone} time), {DIFFICULTIES[difficulty].label}{addons.map((k) => `, with ${ADDONS[k].label.toLowerCase()}`).join("")}</span>
+                <span aria-live="polite">{playing && hud.idx < n ? `${clock(level.tz, level.ts_utc[Math.min(n - 1, hud.idx)])}` : result && result.mine.why ? `ended at ${at(result.mine.end)}` : "end of day"}</span>
+              </div>
+              {inOutage ? (
+                <div className="mb-1 border border-ink bg-panel px-2 py-1 text-sm" role="status">
+                  Outage (a game rule): the grid is down. Your house runs on its battery, {EMERGENCY.houseKw} kW{rules.solarKw > 0 ? " (the roof's power first)" : ""}. If the battery runs dry, the lights go out, the round ends,
+                  and you pay for the power the house needed in the whole outage ({usd((perfect.outageNeedKwh * rules.eta * LIGHTS_OUT.usdPerMwh) / 1000)}): a dark house in a grid emergency is what the battery is there to prevent.
                 </div>
-                {blocked ? <div className="mt-1 text-xs text-accent">Held: the battery is at its backup reserve.</div> : null}
+              ) : inSpike ? (
+                <div className="mb-1 border border-accent bg-panel px-2 py-1 text-sm text-accent" role="status">
+                  Grid emergency and fleet call (game rules): the price is climbing toward the {usd(EMERGENCY.cap).replace(".00", "")}/MWh cap, and each kWh you sell this hour also earns the fleet bonus. This hour&apos;s price is a {SPIKE_LABEL}. Next the grid goes down for two hours. {keepWords}
+                </div>
+              ) : notice && rules.emergency ? (
+                <div className="mb-1 border border-accent px-2 py-1 text-sm text-accent" role="status">
+                  In 15 minutes: the grid emergency and the fleet call. The next hour is the day&apos;s dearest; its price will climb toward the cap, and then the grid goes down for two hours. {keepWords}
+                </div>
+              ) : notice ? (
+                <div className="mb-1 border border-accent px-2 py-1 text-sm text-accent" role="status">Fleet call in 15 minutes: the grid&apos;s dearest hour of the day. Keep charge to sell then.</div>
+              ) : inVpp ? (
+                <div className="mb-1 border border-accent bg-panel px-2 py-1 text-sm text-accent" role="status">
+                  Fleet call: discharge now to earn the bonus (a game rule modeled on ERCOT&apos;s ADER pilot; the rules are below).
+                </div>
+              ) : null}
+              <PriceNow s={labeled[Math.min(n - 1, hud.idx)]} big={easy} ended={!playing} />
+              <canvas ref={canvas} className={`block w-full touch-none ${easy ? "h-[200px] sm:h-[240px]" : "h-[220px] sm:h-[260px]"}`} aria-label={easy ? "The day's prices: the solid line is the day so far, the dashed line the rest of the day, shown ahead" : "The day's price so far; the future is hidden"} />
+              <div className={`mt-2 grid grid-cols-1 items-center gap-2 ${easy ? "" : "sm:grid-cols-[auto_1fr]"}`}>
+                {!easy ? <HouseFlow flow={playing ? hud.control : 0} soc={hud.soc} kwh={rules.kwh} reserveKwh={rules.reserveKwh} blocked={blocked} /> : null}
+                <div className="grid grid-cols-[1fr_auto] items-center gap-3 text-sm">
+                  <div>
+                    <div className="mb-1 flex justify-between text-xs text-muted"><span>State of charge</span><span>{hud.soc.toFixed(2)} of {rules.kwh} kWh</span></div>
+                    <div className="relative h-3 w-full border border-rule bg-panel">
+                      <div className="h-full bg-[var(--color-down)]" style={{ width: `${(hud.soc / rules.kwh) * 100}%` }} />
+                      {rules.reserveKwh > 0 ? <div className="absolute top-[-3px] h-[18px] w-0.5 bg-accent" style={{ left: `${(rules.reserveKwh / rules.kwh) * 100}%` }} title="the backup reserve" /> : null}
+                    </div>
+                    {blocked ? <div className="mt-1 text-xs text-accent">Held: the battery is at its backup reserve.</div> : null}
+                  </div>
+                  <div className="text-right">
+                    <span className="text-xs text-muted">Money</span><div className={`font-mono text-lg ${money < 1 ? "text-accent" : ""}`} aria-live="off">{usd(money)}</div>
+                    <div className="text-xs text-muted">earned {usd(money - START_MONEY)}{rules.deg > 0 ? `, wear ${usd(-hud.wear)}` : ""}</div>
+                    {/* session 289 (Samuel's ruling 3a): one battery earns cents; the fleet of 10,000 such homes is shown beside it */}
+                    <div className="text-xs" data-fleet-now>fleet of {FLEET.toLocaleString("en-US")} homes: <span className="font-mono">{usd((money - START_MONEY) * FLEET)}</span></div>
+                    {rules.solarKw > 0 ? <div className="text-xs text-muted">roof: {(roof[Math.min(n - 1, hud.idx)] * 4).toFixed(1)} of {SOLAR.kw} kW now{playing && !inOutage && labeled[Math.min(n - 1, hud.idx)].value < 0 && hud.control !== 1 ? " (switched off: the price is below zero)" : ""}, {usd(hud.solar)} so far</div> : null}
+                  </div>
+                </div>
               </div>
-              <div className="text-right">
-                <span className="text-xs text-muted">Money</span><div className={`font-mono text-lg ${money < 1 ? "text-accent" : ""}`} aria-live="off">{usd(money)}</div>
-                <div className="text-xs text-muted">earned {usd(money - START_MONEY)}{rules.deg > 0 ? `, wear ${usd(-hud.wear)}` : ""}</div>
-                {rules.solarKw > 0 ? <div className="text-xs text-muted">roof: {(roof[Math.min(n - 1, hud.idx)] * 4).toFixed(1)} of {SOLAR.kw} kW now{playing && !inOutage && labeled[Math.min(n - 1, hud.idx)].value < 0 && hud.control !== 1 ? " (switched off: the price is below zero)" : ""}, {usd(hud.solar)} so far</div> : null}
-              </div>
-            </div>
-          </div>
-          <div className={`mt-2 flex items-center gap-3 ${simple ? "hidden" : ""}`}>
-            <div className="grid grid-cols-10 gap-[3px]" aria-label={lit ? "The fleet map is lit: your battery answered the call" : "The fleet map"} role="img">
-              {Array.from({ length: 50 }, (_, i) => <span key={i} className="block h-2 w-2 rounded-full" style={{ background: lit ? "var(--color-accent)" : "var(--color-rule)" }} />)}
-            </div>
-            <span className="text-xs text-muted">{lit ? `Fleet lit: ${hud.vppKwh.toFixed(2)} kWh delivered in the call hour.` : vppDone ? "The fleet call has passed." : "The fleet map lights when your battery answers the call."}</span>
-          </div>
-          {playing ? (
-            <div className="mt-3 grid grid-cols-2 gap-3">
-              <button {...hold(1)} disabled={inOutage} className={`touch-none border px-3 ${simple ? "py-8 text-xl" : "py-4 text-base"} disabled:opacity-40 ${hud.control === 1 ? "border-[var(--color-down)] bg-[var(--color-down)] text-paper" : "border-[var(--color-down)] text-[var(--color-down)]"}`}>{simple ? "Charge" : "Hold to charge (buy)"}</button>
-              <button {...hold(-1)} disabled={inOutage} className={`touch-none border px-3 ${simple ? "py-8 text-xl" : "py-4 text-base"} disabled:opacity-40 ${hud.control === -1 ? "border-accent bg-accent text-paper" : "border-accent text-accent"}`}>{simple ? "Sell" : "Hold to sell (discharge)"}</button>
-              <p className="col-span-2 text-xs text-muted">{inOutage ? "The grid is down: nothing to buy or sell until it is back." : simple ? "Hold a button down; let go to wait." : <>{/* session 279: no keys on a phone */}<span className="[@media(pointer:coarse)]:hidden">Keys: C or the down arrow to charge, S or the up arrow to sell. Let go to idle.</span><span className="hidden [@media(pointer:coarse)]:inline">Hold a button down; let go to idle.</span></>}</p>
-            </div>
-          ) : null}
+              {!easy ? (
+                <div className="mt-2 flex items-center gap-3">
+                  <div className="grid grid-cols-10 gap-[3px]" aria-label={lit ? "The fleet map is lit: your battery answered the call" : "The fleet map"} role="img">
+                    {Array.from({ length: 50 }, (_, i) => <span key={i} className="block h-2 w-2 rounded-full" style={{ background: lit ? "var(--color-accent)" : "var(--color-rule)" }} />)}
+                  </div>
+                  <span className="text-xs text-muted">{lit ? `Fleet lit: ${hud.vppKwh.toFixed(2)} kWh delivered in the call hour.` : vppDone ? "The fleet call has passed." : "The fleet map lights when your battery answers the call."}</span>
+                </div>
+              ) : null}
+              {playing ? (
+                <div className="mt-3 grid grid-cols-2 gap-3">
+                  <button {...hold(1)} disabled={inOutage} className={`touch-none border px-3 ${easy ? "py-8 text-xl" : "py-4 text-base"} disabled:opacity-40 ${hud.control === 1 ? "border-[var(--color-down)] bg-[var(--color-down)] text-paper" : "border-[var(--color-down)] text-[var(--color-down)]"}`}>{easy ? "Charge" : "Hold to charge (buy)"}</button>
+                  <button {...hold(-1)} disabled={inOutage} className={`touch-none border px-3 ${easy ? "py-8 text-xl" : "py-4 text-base"} disabled:opacity-40 ${hud.control === -1 ? "border-accent bg-accent text-paper" : "border-accent text-accent"}`}>{easy ? "Sell" : "Hold to sell (discharge)"}</button>
+                  <p className="col-span-2 text-xs text-muted">{inOutage ? "The grid is down: nothing to buy or sell until it is back." : <>{/* session 279: no keys on a phone */}<span className="[@media(pointer:coarse)]:hidden">Hold a button down, or the keys: C or the down arrow to charge, S or the up arrow to sell. Let go to wait.</span><span className="hidden [@media(pointer:coarse)]:inline">Hold a button down; let go to wait.</span></>}</p>
+                </div>
+              ) : null}
+            </>
+          )}
         </div>
       ) : null}
 
-      {phase === "done" && result && simple ? (
+      {phase === "done" && result ? (
         <div className="mt-4 border border-rule p-3">
-          <EndLines level={level} rules={result.rules} mine={result.mine} perfect={perfect} big />
-          <EarlyEnd mine={result.mine} at={at(result.mine.end)} />
-          <div className="mt-3 flex flex-wrap gap-3">
-            <button onClick={() => setPhase("pick")} className="border border-accent bg-accent px-5 py-3 text-lg text-paper">Play again</button>
-            <Link href="/play/battery?more=1" className="self-center text-sm">More: the replay, the settings, Hard&apos;s emergency and the leaderboard</Link>
-          </div>
-        </div>
-      ) : phase === "done" && result ? (
-        <div className="mt-4 border border-rule p-3">
-          <EndLines level={level} rules={result.rules} mine={result.mine} perfect={perfect} big={false} />
+          <EndLines level={level} rules={result.rules} mine={result.mine} perfect={perfect} big={easy} />
           <EarlyEnd mine={result.mine} at={at(result.mine.end)} />
           <p className="mt-2 text-sm">
-            In detail: {usd(result.mine.cash)} in the market{result.mine.wear > 0 ? `, less ${usd(result.mine.wear)} of wear` : ""}{result.mine.bonus > 0 ? `, plus the fleet bonus ${usd(result.mine.bonus)}` : ""}{result.rules.solarKw > 0 ? `, plus ${usd(result.mine.solar)} for the roof's power` : ""}{result.mine.penalty > 0 ? `, less the lights-out charge ${usd(result.mine.penalty)}` : ""}.
-            Your fleet of {FLEET.toLocaleString("en-US")} homes: <strong>{usd(result.mine.score * FLEET)}</strong>.
-            The rules: {presetLabel(result.preset)}{perfect.score > 0 ? `; you made ${Math.round((result.mine.score / perfect.score) * 100)} percent of the perfect battery's earnings` : ""}. <span className="text-muted">{server}</span>
+            {!easy ? <>In detail: {usd(result.mine.cash)} in the market{result.mine.wear > 0 ? `, less ${usd(result.mine.wear)} of wear` : ""}{result.mine.bonus > 0 ? `, plus the fleet bonus ${usd(result.mine.bonus)}` : ""}{result.rules.solarKw > 0 ? `, plus ${usd(result.mine.solar)} for the roof's power` : ""}{result.mine.penalty > 0 ? `, less the lights-out charge ${usd(result.mine.penalty)}` : ""}. </> : null}
+            Your fleet of {FLEET.toLocaleString("en-US")} homes: <strong>{usd(result.mine.score * FLEET)}</strong>; the perfect battery&apos;s fleet: {usd(perfect.score * FLEET)}.
+            {!easy ? <> The rules: {presetLabel(result.preset)}.</> : null} <span className="text-muted">{server}</span>
           </p>
-          <p className="mt-2 max-w-3xl text-sm">
-            On {level.date} the real-time price at {G.hub} peaked at {level.price[peak].toLocaleString("en-US", { maximumFractionDigits: 2 })} USD/MWh at {clock(level.tz, level.ts_utc[peak])} {G.zone} time and
-            was lowest, {level.price[low].toLocaleString("en-US", { maximumFractionDigits: 2 })} USD/MWh, at {clock(level.tz, level.ts_utc[low])}. The dearest hour, the fleet call, began at {clock(level.tz, level.ts_utc[vpp.first])}. Knowing every
-            price in advance, this battery would have {charged.length ? `charged ${list(charged)}` : "never charged"} and {discharged.length ? `discharged ${list(discharged)}` : "never discharged"}: buy when power is cheap,
-            sell when it is dear, within {result.rules.kwh} kWh and {result.rules.kw} kW, losing {Math.round((1 - result.rules.eta ** 2) * 100)} percent of the energy on the round trip{result.rules.reserveKwh > 0 ? `, never below its ${result.rules.reserveKwh.toFixed(2)} kWh reserve` : ""}{result.rules.deg > 0 ? `, and paying ${usd(result.rules.deg)} of wear for each kWh it discharges` : ""}.
-            The grid: {G.name}. Real batteries on the grid do this every day: see <Link href="/storage">storage</Link> and <Link href={G.href}>{G.page}</Link>.
-            {level.grid === "ERCOT" && eventPageFor(level.date) ? <> What happened that day on the grid: <Link href={eventPageFor(level.date)!.href}>{eventPageFor(level.date)!.label}</Link>.</> : null}
-          </p>
-          <Replay level={level} rules={result.rules} mine={result.actions} perfect={best.actions} sun={result.sun} />
+          {!easy ? (
+            <p className="mt-2 max-w-3xl text-sm">
+              On {level.date} the real-time price at {G.hub} peaked at {level.price[peak].toLocaleString("en-US", { maximumFractionDigits: 2 })} USD/MWh at {clock(level.tz, level.ts_utc[peak])} {G.zone} time and
+              was lowest, {level.price[low].toLocaleString("en-US", { maximumFractionDigits: 2 })} USD/MWh, at {clock(level.tz, level.ts_utc[low])}. The dearest hour, the fleet call, began at {clock(level.tz, level.ts_utc[vpp.first])}. Knowing every
+              price in advance, this battery would have {charged.length ? `charged ${list(charged)}` : "never charged"} and {discharged.length ? `discharged ${list(discharged)}` : "never discharged"}: buy when power is cheap,
+              sell when it is dear, within {result.rules.kwh} kWh and {result.rules.kw} kW, losing {Math.round((1 - result.rules.eta ** 2) * 100)} percent of the energy on the round trip{result.rules.reserveKwh > 0 ? `, never below its ${result.rules.reserveKwh.toFixed(2)} kWh reserve` : ""}{result.rules.deg > 0 ? `, and paying ${usd(result.rules.deg)} of wear for each kWh it discharges` : ""}.
+              The grid: {G.name}. Real batteries on the grid do this every day: see <Link href="/storage">storage</Link> and <Link href={G.href}>{G.page}</Link>.
+              {ev ? <> What happened that day on the grid: <Link href={ev.href}>{ev.label}</Link>.</> : null}
+            </p>
+          ) : null}
+          {!easy ? <Replay level={level} rules={result.rules} mine={result.actions} perfect={best.actions} sun={result.sun} /> : null}
           <ShareCard level={level} score={result.mine.score} optimal={perfect.score} preset={result.preset} />
           <div className="mt-3 flex flex-wrap items-end gap-2 text-sm">
             <label className="flex flex-col">Nickname (optional, 3 to 16 letters and digits)
               <input value={nick} onChange={(e) => setNick(e.target.value.replace(/[^A-Za-z0-9]/g, "").slice(0, 16))} className="w-48 border border-rule bg-panel px-2 py-1" />
             </label>
             <button onClick={post} disabled={posted === "Posted." || posted === "Posting..."} className="border border-accent px-3 py-1 text-accent">Post to the leaderboard</button>
-            <button onClick={() => setPhase("pick")} className="border border-rule px-3 py-1">Play again</button>
+            <button onClick={() => setPhase("pick")} className={`border border-accent bg-accent text-paper ${easy ? "px-5 py-3 text-lg" : "px-3 py-1"}`}>Play again</button>
             <span className="text-xs text-muted">{posted}</span>
           </div>
         </div>
       ) : null}
 
-      <div className={`mt-6 ${simple ? "hidden" : ""}`}>
+      <div className="mt-6">
         <h3 className="mb-1 text-base">Leaderboard, {topFor.date}: {presetLabel(topFor.preset)}</h3>
         {top.length ? (
           <ol className="list-decimal pl-6 text-sm">
@@ -881,7 +992,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
               </li>
             ))}
           </ol>
-        ) : <p className="text-sm text-muted">No scores yet for this level and preset.</p>}
+        ) : <p className="text-sm text-muted">No scores yet for this day and mode.</p>}
         {top.some((r) => isPerfect(r.score, r.optimal_score)) ? (
           <p className="mt-1 text-xs text-muted">A flagged score reached 100 percent of perfect foresight. The debrief after each game shows the perfect plan, so such a score may replay it; it stands, marked.</p>
         ) : null}
@@ -893,7 +1004,6 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
         {phase === "pick" && ok && (topFor.date !== level.date || topFor.preset !== preset) ? (
           <p className="mt-1 text-xs text-muted" aria-live="polite">{boardNote || `Loading the board for ${level.date}: ${presetLabel(preset)}...`}</p>
         ) : null}
-        <p className="mt-1 text-xs text-muted">Your preset now: {presetLabel(preset)}.</p>
       </div>
     </div>
   );

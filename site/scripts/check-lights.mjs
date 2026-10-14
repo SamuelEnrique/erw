@@ -4,7 +4,7 @@
 //
 //   node scripts/check-lights.mjs [base-url]          (default http://localhost:3000)
 //
-// Reads the levels from the page itself (/play/battery?more=1 hands them to the game), read only: no play is posted.
+// Reads the levels from the page itself (/play/battery hands them to the game; session 289: one page, ?more=1 is gone), read only: no play is posted.
 // For each level, on Hard with the default battery, and with rooftop solar where the level holds a solar shape: if the
 // lights can be kept on (the optimum under a prohibitive penalty stays lit), the perfect battery under this folder's
 // lib/battery.ts must not end in lights out. Prints one line per level; exits 1 on a failure or when no level is read.
@@ -13,12 +13,12 @@ import { DEFAULT_SETTINGS, LIGHTS_OUT, optimum, rulesOf, simulate, validSolar } 
 const base = (process.argv[2] ?? "http://localhost:3000").replace(/\/$/, "");
 // session 76: while /play/battery is in review a visitor is shown the in-review page, which holds no levels; ERW_COOKIE
 // (the Cookie header /internal/unlock sets) lets the check read the page itself. Without it the request is a visitor's.
-const html = await fetch(`${base}/play/battery?more=1`, { headers: process.env.ERW_COOKIE ? { Cookie: process.env.ERW_COOKIE } : {} }).then((r) => r.text());
+const html = await fetch(`${base}/play/battery`, { headers: process.env.ERW_COOKIE ? { Cookie: process.env.ERW_COOKIE } : {} }).then((r) => r.text());
 // the page's data: the strings Next pushes for the client, joined
 let flight = "";
 for (const m of html.matchAll(/self\.__next_f\.push\(\[1,("(?:[^"\\]|\\.)*")\]\)/g)) flight += JSON.parse(m[1]);
 const at = flight.indexOf('"levels":[');
-if (at < 0) { console.log(`FAIL no levels found in ${base}/play/battery?more=1`); process.exit(1); }
+if (at < 0) { console.log(`FAIL no levels found in ${base}/play/battery`); process.exit(1); }
 let depth = 0, end = -1, inStr = false;
 for (let i = at + 9; i < flight.length; i++) {
   const ch = flight[i];

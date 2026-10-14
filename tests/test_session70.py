@@ -58,10 +58,11 @@ class Library(unittest.TestCase):
         self.assertIn("the roof is switched off and earns nothing", self.b)
 
     def test_still_version_4(self):
-        self.assertIn('export const RULES_VERSION = "v4";', self.b)
+        # session 289: version 5 (the reserve and the one page; the lights-out rules of this session are unchanged)
+        self.assertIn('export const RULES_VERSION = "v5";', self.b)
         # session 83: the newest migration of the game, not the newest migration (020 is the contracts page's functions)
         names = sorted(os.path.basename(p) for p in glob.glob(os.path.join(ROOT, "warehouse", "supabase", "migrations", "*_game_*.sql")))
-        self.assertEqual(names[-1], "019_game_v4.sql")
+        self.assertEqual(names[-2:], ["019_game_v4.sql", "033_game_v5.sql"])
 
 
 @unittest.skipUnless(shutil.which("node"), "node is not installed")

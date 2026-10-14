@@ -8,6 +8,7 @@ Energy Research Warehouse (ERW).
 - **Session 63:** v3: money, Hard's grid emergency, the simple page.
 - **Session 66:** v4: lights out costs money, the spiked price is labeled on the number, the end screen's three lines, and Hard's add-ons with rooftop solar.
 - **Session 70:** v4, before its release: the lights-out charge at Texas's value of lost load and for the whole outage; the roof curtailed at negative prices.
+- **Session 289:** v5: one page with three modes (Easy first), the backup reserve at 25 percent, Easy's whole-day forecast, the day at a glance before each play, Hard's notice naming the emergency, the fleet of 10,000 homes beside the one battery.
 
 The page is `/play/battery`. The rules live in `site/lib/battery.ts`, and the server's rescoring in `site/lib/game.ts` and `site/app/api/play/`.
 
@@ -51,7 +52,7 @@ Each setting has a default and a range. The player may change any of them, and t
 | Usable energy | 13.5 kWh | 5 to 30, 0.5 | assumption: one home battery's usable energy, the session 38 game's |
 | Continuous power | 5 kW | 1 to 11.5, 0.5 | assumption, the session 38 game's. ERCOT's ADER governing document gives "+/-5kW maximum discharge/charge" as its example of a battery's rated dispatchable range |
 | Round-trip efficiency | 90 percent | 75 to 95, 1 | assumption, inside the 88 to 91 percent Lazard gives for residential standalone storage (LCOS v10.0, 2025) |
-| Backup reserve | 20 percent of usable energy | 0 to 50, 5 | assumption: the share kept back for an outage (the prompt's default). Enforced on Hard |
+| Backup reserve | 25 percent of usable energy (20 until v5) | 0 to 50, 5 | Samuel's ruling of 14 October 2026: enough, with the default battery, to carry the house through Hard's outage (below). Enforced on Hard |
 | Degradation cost | $0.11 per kWh discharged | 0 to 0.30, 0.01 | Lazard LCOS v10.0 (below). Charged on Hard |
 
 **The fixed rules:**
@@ -75,13 +76,13 @@ The default spreads the low end of the capital cost over the energy Lazard assum
 
 | | Easy | Normal | Hard |
 |---|---|---|---|
-| Prices ahead | the next three hours as a band: each clock hour's lowest to highest real price | none | none |
+| Prices ahead | the whole day, drawn ahead of the now line as a dashed line (since v5; until then the next three hours as a band) | none | none |
 | Backup reserve | not enforced | not enforced | enforced: discharge stops at it |
 | Degradation cost | not charged | not charged | charged per kWh discharged |
 | Settings | usable energy, power and efficiency apply | the same | all five apply |
 
 - **Normal with the default battery is the session 38 game:** the same actions score the same (a test checks this). Every leaderboard row before v2 is of that preset.
-- **Easy's band is real prices, not a forecast model:** it shows the range of each coming hour's real prices. A real forecast is noisier, so Easy is easier than real life.
+- **Easy's forecast is real prices, not a forecast model:** it shows the rest of the day's real prices. A real forecast is noisier, so Easy is easier than real life, on purpose (Kelsey's ask of 5 October 2026: "Easy is truly easy").
 
 ## Version 3 (session 63): money, Hard's grid emergency, the simple page
 
@@ -158,6 +159,20 @@ Every number comes from `simulate` (the play's result and the perfect plan's res
 - A board ranks only plays with the same rules and add-ons. `parsePreset` still reads version 2 and version 3 presets, and their boards are labeled "(v2 rules)" and "(v3 rules)".
 - Migration `warehouse/supabase/migrations/019_game_v4.sql` lets the preset checks of `game_scores` and `game_plays` take `-v4` and the add-on words. Constraints only.
 
+## Version 5 (session 289)
+
+Samuel's rulings of 14 October 2026 (the review pack of `docs/reviews/games-2026-10-14/README.md`, questions 1 to 3 and 16) and Kelsey's asks of 5 October 2026. `RULES_VERSION = "v5"`; the scorer and the optimum are unchanged.
+
+- **One page, three modes (ruling 16).** `/play/battery` holds a mode picker (Easy, Normal, Hard; Easy chosen by default), the play area, and below it the rules, the share card and the leaderboard. The simple page and the full game (`?more=1`) are gone; `?more=1` redirects to `?mode=normal`, and `?mode=normal` and `?mode=hard` open the page in that mode. Easy plays the default battery and shows no settings; Normal and Hard keep the settings (folded), the fleet call, and on Hard the emergency, the outage and the add-ons.
+- **The backup reserve: 25 percent (ruling 1a).** With the default battery that is 3.38 kWh. The house takes `1.5 x 2 / sqrt(0.9) = 3.16` kWh from the battery in Hard's outage, so a play that sells down to the reserve line keeps the lights on. Under v4 the reserve was 20 percent (2.70 kWh), and session 279's first Hard play went dark at 19:30 by following the screen (-$105.95).
+- **Hard's notice names the emergency (ruling 2a).** Fifteen minutes before the dearest hour, Hard's notice says the emergency and the fleet call come together, and states the house's need in the outage against the reserve: "sell down to the reserve line" when the reserve covers it, "keep at least X kWh" when the player set it lower. The emergency's own line says each kWh sold in the hour also earns the fleet bonus. Until v5 the notice said "Keep charge to sell then" and the next line "keep charge for the house".
+- **The fleet of 10,000 homes beside the one battery (ruling 3a).** While playing, under the money: "fleet of 10,000 homes" and what the same play earns across it; at the end, the fleet's total beside the perfect battery's fleet's. One battery earns cents on a calm day; the fleet shows the scale.
+- **Easy's forecast: the whole day (Kelsey's ask 2).** Easy draws the whole day on one axis: the day so far as a solid line, the rest of the day's real prices as a dashed line, the lowest and highest intervals named, and the fleet call's hour shaded.
+- **The day at a glance before each play (Kelsey's ask 3).** After Start, five seconds (skippable with "Start now") show the day's lowest, average and highest real price, USD/MWh, computed from the level's own prices, with "below about the average is cheap, above it is dear". On Hard it adds that the dearest hour will climb toward the cap (a game rule).
+- **Less on screen at once (Kelsey's ask 1).** One list of days (a select, grouped by grid) with the chosen day's line under it, in place of a card per day; the battery's settings folded; the tutorial only on request ("How to play"); on Easy no house drawing and no fleet map.
+- **The leaderboard.** A v5 preset ends `-v5` (`easy:13.5-5-90-v5`, `hard:13.5-5-90-r25-d0.11-v5`). Boards from before stay readable and are labelled "(v4 rules)", "(v3 rules)" or "(v2 rules)". Migration `033_game_v5.sql` allows the suffix (written in session 289, applied by a person before the v5 site is deployed; until then the database refuses a v5 play and the page says it was not stored).
+- **Browser storage:** the settings are remembered under a new key (`erw.battery.settings.v5`), so a reserve saved under v4 does not override the new default; the mode is not remembered (the address carries it).
+
 ## The leaderboard: presets
 
 - **What a preset is:** the difficulty, the usable energy, the power and the round-trip efficiency, plus, on Hard, the reserve and the degradation cost (`presetOf`). For example `normal:13.5-5-90` or `hard:13.5-5-90-r20-d0.11`.
@@ -207,8 +222,8 @@ Every number comes from `simulate` (the play's result and the perfect plan's res
 
 ## The tutorial and the animation
 
-- **The tutorial:** four cards of about 7.5 seconds each (30 seconds), skippable. It is shown on the first visit and remembered in the browser's own storage (`erw.battery.tutorial.v2`), wrapped in try/catch: where storage is blocked it shows again, and nothing else changes.
-- **The last settings and difficulty** are remembered the same way. Nothing is sent anywhere.
+- **The tutorial:** four cards of about 7.5 seconds each (30 seconds), skippable. Since v5 it opens only on request ("How to play", on Normal and Hard).
+- **The last settings** are remembered in the browser's own storage, wrapped in try/catch: where storage is blocked the defaults are used, and nothing else changes. Nothing is sent anywhere.
 - **The house and its battery** (SVG):
   - charge flows in from a pylon along the wire, and discharge flows out;
   - the battery fills with its state of charge, and the reserve line is drawn on Hard;
@@ -232,4 +247,4 @@ Unchanged from session 38:
 - **Public scores:** the level, an optional nickname, the score, the perfect-foresight score and the time.
 - **Session 50 adds** the preset and the difficulty.
 - **The research record of each play** (never shown): the actions, the score, and since session 50 the preset, the difficulty and the settings. No IP, no nickname.
-- **The schema:** migration `warehouse/supabase/migrations/014_game_v2.sql` (columns only); session 63's `018_game_v3_digest_sends.sql` lets a preset end `-v3`; session 66's `019_game_v4.sql` lets it end `-v4` with the add-ons before it. The add-ons of a play are stored in its preset.
+- **The schema:** migration `warehouse/supabase/migrations/014_game_v2.sql` (columns only); session 63's `018_game_v3_digest_sends.sql` lets a preset end `-v3`; session 66's `019_game_v4.sql` lets it end `-v4` with the add-ons before it; session 289's `033_game_v5.sql` lets it end `-v5`. The add-ons of a play are stored in its preset.

@@ -67,7 +67,7 @@ for (const l of levels) {
   refuse({ settings: { ...DEFAULT_SETTINGS, kwh: 99 } }, "settings:", "a setting out of range");
   refuse({ difficulty: "insane" }, "difficulty:", "an unknown difficulty");
   const plain = scoreOn(toy, { level: "toy", actions: toy.price.map(() => 0) });
-  check(typeof plain !== "string" && plain.preset === "normal:13.5-5-90-v4" && plain.addons.length === 0, `a play without settings is Normal with the default battery: ${typeof plain === "string" ? plain : plain.preset}`);
+  check(typeof plain !== "string" && plain.preset === `normal:13.5-5-90-${RULES_VERSION}` && plain.addons.length === 0, `a play without settings is Normal with the default battery: ${typeof plain === "string" ? plain : plain.preset}`);
 }
-console.log(bad ? `${bad} FAILED` : "the server's scorer and lib/battery.ts agree under v4");
+console.log(bad ? `${bad} FAILED` : `the server's scorer and lib/battery.ts agree under ${RULES_VERSION}`);
 process.exit(bad ? 1 : 0);

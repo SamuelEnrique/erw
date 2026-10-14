@@ -60,14 +60,16 @@ class TheGuideAgainstTheModel(unittest.TestCase):
         self.assertIn(m["label"], self.guide)
 
     def test_the_reserve_alone_does_not_carry_the_house_and_the_guide_says_so(self):
+        # session 289 (Samuel's ruling 1a, game v5): the reserve is 25 percent and carries the house; until then 2.70 kWh
+        # was held back against 3.16 needed, and holding Sell to the reserve went dark
         h = self.m["hard"]
-        self.assertLess(h["reserve"], h["need"])                                       # 2.70 kWh held back, 3.16 needed
+        self.assertGreaterEqual(h["reserve"], h["need"])                               # 3.38 kWh held back, 3.16 needed
         self.assertIn(f"the house needs {h['need']:.2f} kWh from the battery", self.guide)
-        self.assertIn(f"the reserve line is at {h['reserve']:.2f} kWh, which is not enough by itself", self.guide)
-        g = h["greedy"]                                                               # hold Sell from 13:00 to the outage: stopped at the reserve, then dark
-        self.assertEqual(g["why"], "lights_out")
+        self.assertIn(f"the reserve line is at {h['reserve']:.2f} kWh, enough by itself", self.guide)
+        g = h["greedy"]                                                               # hold Sell from 13:00 to the outage: stopped at the reserve, lit
+        self.assertEqual(g["why"], "")
         self.assertAlmostEqual(g["at"], h["reserve"], places=6)
-        self.assertIn(f"at a cost of ${g['penalty']:.0f}", self.guide)
+        self.assertIn("the lights stay on through the outage", self.guide)
         self.assertEqual((h["spike"]["first"], h["outage"]["first"], h["outage"]["last"]), (60, 64, 71))   # 15:00; 16:00 to 18:00
 
     def test_it_is_one_page_and_says_how_to_open_the_internal_view(self):
@@ -82,9 +84,10 @@ class TheGuideAgainstTheModel(unittest.TestCase):
 class TheGame(unittest.TestCase):
     def test_the_announcement_says_how_much_the_house_will_need(self):
         game = src("site", "app", "play", "battery", "Game.tsx")
-        self.assertIn("It will need <strong>{perfect.outageNeedKwh.toFixed(2)} kWh</strong> from the battery", game)
-        self.assertIn("rules.reserveKwh < perfect.outageNeedKwh", game)
-        self.assertIn("which is not enough by itself", game)
+        # session 289 (ruling 2a): the notice and the announcement say the need against the reserve, in one sentence
+        self.assertIn("The house will need ${need.toFixed(2)} kWh from the battery in the outage; your backup reserve holds ${rules.reserveKwh.toFixed(2)} kWh, enough by itself", game)
+        self.assertIn("const need = perfect.outageNeedKwh, reserveOk = rules.reserveKwh + 1e-9 >= need;", game)
+        self.assertIn("so keep at least ${need.toFixed(2)} kWh", game)
 
     def test_the_board_carries_the_marks_the_browser_check_reads(self):
         game = src("site", "app", "play", "battery", "Game.tsx")
@@ -102,7 +105,7 @@ class TheGame(unittest.TestCase):
         self.assertIn("const now = labeled[Math.max(0, Math.min(n - 1, Math.floor(pos)))];", game)
         check = src("site", "scripts", "check-battery-game.mjs")
         self.assertIn("return cb(t - 80)", check)                                     # the check forces the case in one play
-        self.assertIn('{ label: "Easy", difficulty: "easy", addons: [], early: true }', check)
+        self.assertIn('{ label: "Normal", difficulty: "normal", addons: [], early: true }', check)   # session 289: Easy has no replay
         self.assertIn("frames stamped before the press of the start button did not stop the game", check)
         # the end screen's replay read its position the same way (RangeError: Invalid time value, on production)
         self.assertIn("from + (Math.max(0, now - t0) / 20_000) * n", game)
@@ -111,8 +114,8 @@ class TheGame(unittest.TestCase):
     def test_with_the_roof_the_announcement_says_the_roof_carries_the_house(self):
         m = node(MODEL)
         self.assertEqual(m["solar"]["need"], 0)                                       # the roof carries the house through this day's outage
-        self.assertIn("(need > 0) === seen.spike.includes(", src("site", "scripts", "check-battery-game.mjs"))
-        self.assertIn("rules.solarKw > 0 ? <> Today the roof carries the house through it.</> : null", src("site", "app", "play", "battery", "Game.tsx"))
+        self.assertIn('"Today the roof carries the house through the outage."', src("site", "scripts", "check-battery-game.mjs"))   # session 289
+        self.assertIn('rules.solarKw > 0 ? "Today the roof carries the house through the outage." : ""', src("site", "app", "play", "battery", "Game.tsx"))
 
     def test_no_em_dash(self):
         for rel in ("site/scripts/check-battery-game.mjs", "tests/test_session111.py"):
