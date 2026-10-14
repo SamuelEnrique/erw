@@ -9,6 +9,7 @@ A question-answering layer over the Energy Research Warehouse (ERW) that never s
 | `eval/expected.py` | Builds `eval/questions.yaml`: 30 questions whose answers are computed with pandas straight from the CSVs, independently of `tools.py`. |
 | `eval/expected_s20.py` | Builds `eval/questions_s20.yaml` (session 20): the 30 recomputed, and 15 on curtailment, the energy mix, retail sales, the trader view, deals and datacenters. |
 | `eval/eval.py` | Runs every question through `ask.py` and scores it; writes `eval/results/<run>.jsonl` and `.md`. |
+| `eval/questions_s267.yaml`, `eval/eval_s267_fixtures.json`, `eval/eval_s267.py` | Session 267: 30 hard questions across every public grid, answers computed from the tables (anon key) before any model call; asked once through the site's `/api/ask` on a local build (27 right); every tool call and result recorded (`ASK_RECORD_TOOLS=1`, a local server only) and replayed without a model by `tests/test_session267.py`. |
 | `../../site/lib/chat/` | The same loop for the public site's `/api/ask` route, in TypeScript, over the Supabase anon key. `spec.json` there is written by `ask.py --export-spec`. |
 
 ## The tools
