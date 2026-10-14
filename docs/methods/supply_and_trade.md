@@ -76,7 +76,7 @@ The CFTC's Disaggregated Commitments of Traders report, futures only: managed mo
 
 ## Day-ahead energy cleared
 
-Held since session 136 for the five operators that publish it openly, each from the operator's own report, by its own connector (`warehouse/connectors/<iso>_dam_cleared.py`). MISO's row reads "paused while terms are reviewed" and PJM's "licensed source needed": neither operator is asked.
+Held since session 136 for the five operators that publish it openly, each from the operator's own report, by its own connector (`warehouse/connectors/<iso>_dam_cleared.py`), in the tables `ercot_dam_cleared_energy`, `caiso_dam_cleared_energy`, `nyiso_dam_cleared_energy`, `isone_dam_cleared_energy` and `spp_dam_cleared_energy`. MISO's row reads "paused while terms are reviewed" and PJM's "licensed source needed": neither operator is asked.
 
 | Row | The operator's figure | Report | Unit as published | History held |
 |---|---|---|---|---|
