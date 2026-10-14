@@ -19,6 +19,11 @@
 // of the day at a glance before each play (Preview); on Hard the notice names the emergency and the reserve covers the
 // outage; the fleet of 10,000 homes beside the one battery; less on screen at once (the settings folded, the tutorial on
 // request, one list of days).
+// Session 291 (Samuel's ruling 15: the game takes the brand, docs/brand.md; the battery page is the reference): the page
+// draws inside <Brand>; every color is a token read from the brand's wrapper, the canvas included (no hex, no rgba); the
+// canvas writes in the brand's faces at 12 px at least; square corners; no motion; cardinal only for a link, a control
+// in its active state and the highlighted series (the spiked price); charging is ink, selling cardinal; no green; the
+// charts name their series where they are drawn (direct labels), with no legend.
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -47,7 +52,34 @@ const GRIDS: Record<GameLevel["grid"], { name: string; hub: string; prices: stri
   CAISO: { name: "CAISO SP15 (Southern California)", hub: "CAISO's SP15 trading hub (TH_SP15_GEN-APND)", prices: "CAISO SP15 real-time (TH_SP15_GEN-APND), 15-minute means of its 5-minute prices", href: "/grid/caiso", page: "CAISO's grid page", zone: "Pacific" },
 };
 const usd = (v: number) => `${v < 0 ? "-" : ""}$${Math.abs(v).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-const css = (name: string) => (typeof window === "undefined" ? "#6B665E" : getComputedStyle(document.documentElement).getPropertyValue(`--color-${name}`).trim() || "#6B665E");
+// session 291: the brand's tokens are scoped to its wrapper (.brand-a, app/tokens.css), so the canvas reads them there
+const brandEl = () => (typeof document === "undefined" ? null : document.querySelector(".brand-a") ?? document.documentElement);
+const css = (name: string) => { const el = brandEl(); return el ? getComputedStyle(el).getPropertyValue(`--color-${name}`).trim() : ""; };
+/** A canvas font in the brand's face: the sans for words, the serif for a headline number; 12 px at the least. */
+const face = (px: number, which: "sans" | "serif" = "sans", weight = 400) => {
+  const el = brandEl();
+  const f = el ? getComputedStyle(el).getPropertyValue(`--font-${which}`).trim() : "";
+  return `${weight} ${Math.max(12, px)}px ${f || "sans-serif"}`;
+};
+/** Session 291: the moves under a chart in two rows, each named at its left in its own color (direct labels): buying
+ * in ink, selling in cardinal. */
+function moves(ctx: CanvasRenderingContext2D, acts: Action[], x: (i: number) => number, bottom: number, wide: (i: number) => number, show: (i: number) => boolean) {
+  ctx.font = face(12);
+  ctx.fillStyle = css("ink"); ctx.fillText("buy", 2, bottom + 15);
+  ctx.fillStyle = css("accent"); ctx.fillText("sell", 2, bottom + 29);
+  for (let i = 0; i < acts.length; i++) {
+    if (acts[i] === 0 || !show(i)) continue;
+    ctx.fillStyle = acts[i] === 1 ? css("ink") : css("accent");
+    ctx.fillRect(x(i), acts[i] === 1 ? bottom + 7 : bottom + 21, wide(i), 8);
+  }
+}
+/** Session 291: an incomplete or unusable stretch of a chart is hatched (docs/brand.md, section 6), in the rule color. */
+function hatch(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number) {
+  ctx.save(); ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
+  ctx.strokeStyle = css("rule"); ctx.lineWidth = 1;
+  for (let k = -h; k < w; k += 8) { ctx.beginPath(); ctx.moveTo(x + k, y + h); ctx.lineTo(x + k + h, y); ctx.stroke(); }
+  ctx.restore();
+}
 const TUTORIAL_KEY = "erw.battery.tutorial.v2";
 const SETTINGS_KEY = "erw.battery.settings.v5";  // session 289: v5 (the default reserve changed; the mode is the page's)
 
@@ -104,18 +136,18 @@ function ShareCard({ level, score, optimal, none, preset }: { level: GameLevel; 
     const cv = document.createElement("canvas");
     cv.width = 1200; cv.height = 630;
     const ctx = cv.getContext("2d")!;
-    ctx.fillStyle = css("paper"); ctx.fillRect(0, 0, 1200, 630);
-    ctx.fillStyle = css("accent"); ctx.fillRect(0, 0, 1200, 14);
-    ctx.fillStyle = css("muted"); ctx.font = "28px system-ui, sans-serif";
+    ctx.fillStyle = css("panel"); ctx.fillRect(0, 0, 1200, 630);
+    ctx.fillStyle = css("ink"); ctx.fillRect(60, 120, 1080, 1);
+    ctx.fillStyle = css("muted"); ctx.font = face(28);
     ctx.fillText("The home battery game, Energy Research Warehouse (ERW)", 60, 90);
-    ctx.fillStyle = css("ink"); ctx.font = "bold 44px system-ui, sans-serif";
+    ctx.fillStyle = css("ink"); ctx.font = face(44, "serif", 600);
     ctx.fillText(lines[0], 60, 170);
-    ctx.fillStyle = css("accent"); ctx.font = "bold 96px system-ui, sans-serif";
+    ctx.fillStyle = css("ink"); ctx.font = face(96, "serif", 600);
     ctx.fillText(usd(score), 60, 300);
-    ctx.fillStyle = css("ink"); ctx.font = "36px system-ui, sans-serif";
+    ctx.fillStyle = css("ink"); ctx.font = face(36);
     ctx.fillText(`${share !== null ? `${Math.round(share)} percent of perfect foresight (${usd(optimal)}); ` : ""}no battery: ${usd(none)}`, 60, 370);
     ctx.fillText(`A fleet of ${FLEET.toLocaleString("en-US")} homes: ${usd(score * FLEET)}`, 60, 425);
-    ctx.fillStyle = css("muted"); ctx.font = "24px system-ui, sans-serif";
+    ctx.fillStyle = css("muted"); ctx.font = face(24);
     ctx.fillText(presetLabel(preset), 60, 480);
     ctx.fillText(`Real prices: ${level.grid === "CAISO" ? "CAISO SP15 real-time" : "ERCOT real-time, hub average (HB_HUBAVG)"}, every 15 minutes of the day.`, 60, 520);
     ctx.fillText(`The battery, home and fleet are fictional. ${window.location.host}/play/battery`, 60, 560);
@@ -125,9 +157,9 @@ function ShareCard({ level, score, optimal, none, preset }: { level: GameLevel; 
   return (
     <div className="mt-3 border-t border-rule pt-2 text-sm">
       <div className="flex flex-wrap items-center gap-2">
-        <button onClick={make} className="border border-rule px-3 py-1">Make a share card</button>
-        <button onClick={() => { navigator.clipboard?.writeText(text()).then(() => setCopied("Copied."), () => setCopied("Could not copy.")); }} className="border border-rule px-3 py-1">Copy the text</button>
-        {png ? <a href={png} download={`erw-battery-${level.date}.png`} className="border border-accent px-3 py-1 text-accent no-underline">Save the card (PNG)</a> : null}
+        <button type="button" onClick={make} className="border px-3 py-1">Make a share card</button>
+        <button type="button" onClick={() => { navigator.clipboard?.writeText(text()).then(() => setCopied("Copied."), () => setCopied("Could not copy.")); }} className="border px-3 py-1">Copy the text</button>
+        {png ? <a href={png} download={`erw-battery-${level.date}.png`} className="border border-ink px-3 py-1">Save the card (PNG)</a> : null}
         <span className="text-xs text-muted">{copied || "Drawn in this page and saved from it; nothing is uploaded."}</span>
       </div>
       {/* a data: URL drawn in this page; next/image would add nothing here */}
@@ -151,15 +183,15 @@ function Tutorial({ onDone }: { onDone: () => void }) {
     return () => clearTimeout(t);
   }, [k, onDone]);
   return (
-    <div className="mb-3 border border-accent bg-panel p-3 text-sm" role="dialog" aria-label="How to play, in 30 seconds">
+    <div className="mb-3 border border-rule bg-paper p-4 text-sm" role="dialog" aria-label="How to play, in 30 seconds">
       <div className="mb-1 flex items-center justify-between text-xs text-muted">
         <span>How to play: {k + 1} of {STEPS.length}</span>
-        <button onClick={onDone} className="border border-rule px-2 py-0.5">Skip</button>
+        <button type="button" onClick={onDone} className="border px-2 py-0.5">Skip</button>
       </div>
       <p className="mb-2 min-h-[3.5rem]">{STEPS[k]}</p>
       <div className="flex items-center gap-2">
-        <div className="h-1 flex-1 bg-[var(--color-rule)]"><div className="h-1 bg-accent" style={{ width: `${((k + 1) / STEPS.length) * 100}%` }} /></div>
-        <button onClick={() => (k + 1 < STEPS.length ? setK(k + 1) : onDone())} className="border border-accent px-2 py-0.5 text-accent">{k + 1 < STEPS.length ? "Next" : "Play"}</button>
+        <div className="h-1 flex-1 bg-[var(--color-rule)]"><div className="h-1 bg-[var(--color-ink)]" style={{ width: `${((k + 1) / STEPS.length) * 100}%` }} /></div>
+        <button type="button" onClick={() => (k + 1 < STEPS.length ? setK(k + 1) : onDone())} className="border px-2 py-0.5">{k + 1 < STEPS.length ? "Next" : "Play"}</button>
       </div>
     </div>
   );
@@ -172,33 +204,26 @@ function HouseFlow({ flow, soc, kwh, reserveKwh, blocked }: { flow: Action; soc:
   const H = 70, top = 22;
   const state = blocked ? "held at the reserve" : flow === 1 ? "charging from the grid" : flow === -1 ? "sending power to the grid" : "idle";
   return (
-    <svg viewBox="0 0 320 110" className="h-[110px] w-full max-w-[420px]" role="img" aria-label={`The battery is ${state}; ${Math.round(fill * 100)} percent charged`}>
-      <style>{`
-        .erw-flow { stroke-dasharray: 6 8; }
-        .erw-in { animation: erw-in 0.6s linear infinite; }
-        .erw-out { animation: erw-out 0.6s linear infinite; }
-        @keyframes erw-in { to { stroke-dashoffset: -14; } }
-        @keyframes erw-out { to { stroke-dashoffset: 14; } }
-        @media (prefers-reduced-motion: reduce) { .erw-in, .erw-out { animation: none; } }
-      `}</style>
+    <svg viewBox="0 0 320 112" className="h-[112px] w-full max-w-[420px]" role="img" aria-label={`The battery is ${state}; ${Math.round(fill * 100)} percent charged`}>
+      {/* session 291: no motion (docs/brand.md, section 3): the wire is drawn in the color of what it carries */}
       {/* the grid: a pylon */}
       <g stroke="var(--color-muted)" strokeWidth="2" fill="none">
         <path d="M28 96 L40 24 L52 96 M33 66 L47 66 M36 46 L44 46 M24 34 L56 34" />
       </g>
-      <text x="40" y="18" textAnchor="middle" fontSize="10" fill="var(--color-muted)">grid</text>
+      <text x="40" y="16" textAnchor="middle" fontSize="12" fill="var(--color-muted)">grid</text>
       {/* the wire, grid to battery */}
       <line x1="56" y1="58" x2="128" y2="58" stroke="var(--color-rule)" strokeWidth="4" />
       {flow !== 0 && !blocked ? (
-        <line x1="56" y1="58" x2="128" y2="58" stroke={flow === 1 ? "var(--color-down)" : "var(--color-accent)"} strokeWidth="4" className={`erw-flow ${flow === 1 ? "erw-in" : "erw-out"}`} />
+        <line x1="56" y1="58" x2="128" y2="58" stroke={flow === 1 ? "var(--color-ink)" : "var(--color-accent)"} strokeWidth="4" strokeDasharray="6 4" />
       ) : null}
       {/* the battery */}
-      <rect x="130" y={top} width="44" height={H} rx="4" fill="var(--color-panel)" stroke="var(--color-ink)" strokeWidth="2" />
+      <rect x="130" y={top} width="44" height={H} fill="var(--color-panel)" stroke="var(--color-ink)" strokeWidth="2" />
       <rect x="144" y={top - 6} width="16" height="6" fill="var(--color-ink)" />
-      <rect x="134" y={top + 4 + (H - 8) * (1 - fill)} width="36" height={(H - 8) * fill} fill="var(--color-down)" />
+      <rect x="134" y={top + 4 + (H - 8) * (1 - fill)} width="36" height={(H - 8) * fill} fill="var(--color-ink)" />
       {reserveKwh > 0 ? (
         <g>
-          <line x1="126" x2="178" y1={top + 4 + (H - 8) * (1 - res)} y2={top + 4 + (H - 8) * (1 - res)} stroke="var(--color-accent)" strokeWidth="2" strokeDasharray="4 3" />
-          <text x="182" y={top + 8 + (H - 8) * (1 - res)} fontSize="9" fill="var(--color-accent)">reserve</text>
+          <line x1="126" x2="178" y1={top + 4 + (H - 8) * (1 - res)} y2={top + 4 + (H - 8) * (1 - res)} stroke="var(--color-muted)" strokeWidth="2" strokeDasharray="4 3" />
+          <text x="182" y={top + 8 + (H - 8) * (1 - res)} fontSize="12" fill="var(--color-muted)">reserve</text>
         </g>
       ) : null}
       {/* the wire, battery to house */}
@@ -206,7 +231,7 @@ function HouseFlow({ flow, soc, kwh, reserveKwh, blocked }: { flow: Action; soc:
       {/* the house */}
       <path d="M236 92 L236 60 L266 38 L296 60 L296 92 Z" fill="var(--color-panel)" stroke="var(--color-ink)" strokeWidth="2" />
       <rect x="258" y="70" width="14" height="22" fill="var(--color-rule)" />
-      <text x="160" y="106" textAnchor="middle" fontSize="10" fill="var(--color-ink)">{state}</text>
+      <text x="160" y="108" textAnchor="middle" fontSize="12" fill="var(--color-ink)">{state}</text>
     </svg>
   );
 }
@@ -250,9 +275,9 @@ function Replay({ level, rules, mine, perfect, sun, earned }: { level: GameLevel
   return (
     <div className="mt-4 border-t border-rule pt-3 text-sm">
       <h3 className="mb-1 text-base">Replay: the perfect battery beside yours</h3>
-      <p className="mb-2 text-xs text-muted">The same battery and rules, with every price known in advance. Its state of charge (accent) and yours (ink), kWh, over the day; the day&apos;s real price is the faint line behind, on its own scale{shown.some((s) => s.spike) ? ` (the emergency's prices are a ${SPIKE_LABEL}, so they are not drawn; the line below names them)` : ""}.</p>
+      <p className="mb-2 text-xs text-muted">The same battery and rules, with every price known in advance: its state of charge and yours, kWh, over the day; the day&apos;s real price is the faint line behind, on its own scale{shown.some((s) => s.spike) ? ` (the emergency's prices are a ${SPIKE_LABEL}, so they are not drawn; the line below names them)` : ""}.</p>
       <div className="mb-2 flex flex-wrap items-center gap-2">
-        <button onClick={() => setPlaying(!playing)} className="border border-accent px-3 py-1 text-accent">{playing ? "Pause" : t >= n ? "Play the replay" : "Resume"}</button>
+        <button type="button" onClick={() => setPlaying(!playing)} className="border px-3 py-1">{playing ? "Pause" : t >= n ? "Play the replay" : "Resume"}</button>
         <input type="range" min={0} max={n} step={1} value={Math.round(t)} onChange={(e) => { setPlaying(false); setT(Number(e.target.value)); }} className="w-56" aria-label="Replay position" />
         <span className="tabular-nums">{clock(level.tz, level.ts_utc[cur])}</span>
       </div>
@@ -260,21 +285,23 @@ function Replay({ level, rules, mine, perfect, sun, earned }: { level: GameLevel
         {[0, 0.5, 1].map((f) => (
           <g key={f}>
             <line x1={L} x2={W - R} y1={y(rules.kwh * f)} y2={y(rules.kwh * f)} stroke="var(--color-rule)" />
-            <text x={L - 4} y={y(rules.kwh * f) + 4} textAnchor="end" fontSize="10" fill="var(--color-muted)">{(rules.kwh * f).toFixed(1)}</text>
+            <text x={L - 4} y={y(rules.kwh * f) + 4} textAnchor="end" fontSize="12" fill="var(--color-muted)">{(rules.kwh * f).toFixed(1)}</text>
           </g>
         ))}
-        {rules.reserveKwh > 0 ? <line x1={L} x2={W - R} y1={y(rules.reserveKwh)} y2={y(rules.reserveKwh)} stroke="var(--color-accent)" strokeDasharray="4 3" /> : null}
+        {rules.reserveKwh > 0 ? <><line x1={L} x2={W - R} y1={y(rules.reserveKwh)} y2={y(rules.reserveKwh)} stroke="var(--color-muted)" strokeDasharray="4 3" /><text x={L + 4} y={y(rules.reserveKwh) - 4} fontSize="12" fill="var(--color-muted)">reserve</text></> : null}
         <path d={price} fill="none" stroke="var(--color-muted)" strokeOpacity="0.35" strokeWidth="1.5" />
         <path d={path(a)} fill="none" stroke="var(--color-ink)" strokeWidth="2" />
         <path d={path(b)} fill="none" stroke="var(--color-accent)" strokeWidth="2" />
+        {/* session 291: each line named where it ends (docs/brand.md, section 6: direct labels, no legend) */}
+        {upto > 0 ? (
+          <>
+            <text x={x(upto) - 4} y={y(b[Math.min(upto, b.length - 1)]) - 6} textAnchor="end" fontSize="12" fill="var(--color-accent)">perfect battery{earned ? `, ${usd(earned.perfect)}` : ""}</text>
+            <text x={x(upto) - 4} y={y(a[Math.min(upto, a.length - 1)]) + 16} textAnchor="end" fontSize="12" fill="var(--color-ink)">yours{earned ? `, ${usd(earned.mine)}` : ""}</text>
+          </>
+        ) : null}
         <line x1={x(upto)} x2={x(upto)} y1={T} y2={H - B} stroke="var(--color-muted)" />
-        {[0, Math.floor(n / 2), n - 1].map((i) => <text key={i} x={x(i)} y={H - 8} fontSize="10" textAnchor="middle" fill="var(--color-muted)">{clock(level.tz, level.ts_utc[i])}</text>)}
+        {[0, Math.floor(n / 2), n - 1].map((i) => <text key={i} x={x(i)} y={H - 8} fontSize="12" textAnchor={i === 0 ? "start" : i === n - 1 ? "end" : "middle"} fill="var(--color-muted)">{clock(level.tz, level.ts_utc[i])}</text>)}
       </svg>
-      <div className="flex flex-wrap gap-4 text-xs">
-        <span><span className="mr-1 inline-block h-0.5 w-5 align-middle bg-accent" />the perfect battery{earned ? `, ${usd(earned.perfect)}` : ""}</span>
-        <span><span className="mr-1 inline-block h-0.5 w-5 align-middle bg-[var(--color-ink)]" />yours{earned ? `, ${usd(earned.mine)}` : ""}</span>
-        {rules.reserveKwh > 0 ? <span className="text-accent">dashed: the reserve</span> : null}
-      </div>
       <p className="mt-2 min-h-[2.5rem]" aria-live="polite">
         <strong>{clock(level.tz, level.ts_utc[cur])}</strong>: the perfect battery {seg ? `is ${verb(seg.a)} (${seg.text})` : ""}; you were {verb(mine[cur] ?? 0)}.{" "}
         <span className={shown[cur].spike ? "text-accent" : "text-muted"}>The price: {shown[cur].text}.</span>
@@ -313,7 +340,7 @@ function SettingsPanel({ draft, setDraft, difficulty, addonsOn, setAddonsOn, ava
                 <span className="min-w-0 break-words">
                   <strong>{ADDONS[k].label}</strong>: {ADDONS[k].what}.
                   {can && level.solar_source ? <span className="block text-xs text-muted">The shape for {level.date}: {level.solar_source}</span> : null}
-                  {can ? null : <span className="block text-xs text-accent">Not available for {level.date}: the warehouse holds no solar shape for this day, and the game never fills one in.</span>}
+                  {can ? null : <span className="block text-xs text-muted">Not available for {level.date}: the warehouse holds no solar shape for this day, and the game never fills one in.</span>}
                 </span>
               </label>
             );
@@ -336,7 +363,7 @@ function SettingsPanel({ draft, setDraft, difficulty, addonsOn, setAddonsOn, ava
             );
           })}
         </div>
-        <button onClick={() => setDraft(toDraft(DEFAULT_SETTINGS))} className="mt-2 border border-rule px-3 py-1">Reset to the defaults</button>
+        <button type="button" onClick={() => setDraft(toDraft(DEFAULT_SETTINGS))} className="mt-2 border px-3 py-1">Reset the battery&apos;s settings</button>
       </details>
     </div>
   );
@@ -418,11 +445,11 @@ function WorstHour({ level, rules, mine, perfect }: { level: GameLevel; rules: R
 /** Why a play ended early, in words. Session 66: lights out costs money, and the note says what and why. */
 function EarlyEnd({ mine, at }: { mine: Result; at: string }) {
   if (mine.why === "bankrupt") {
-    return <p className="mt-1 text-sm text-accent" role="status">Out of money at {at}: below $0 the game ends (a game rule). Buying when power is dear costs more than the battery can earn back.</p>;
+    return <p className="mt-1 text-sm" role="status">Out of money at {at}: below $0 the game ends (a game rule). Buying when power is dear costs more than the battery can earn back.</p>;
   }
   if (mine.why !== "lights_out") return null;
   return (
-    <p className="mt-1 text-sm text-accent" role="status">
+    <p className="mt-1 text-sm" role="status">
       Lights out at {at}: the battery ran dry in the outage, so the round ended there. A dark house costs money (a game rule): if the lights
       go out at any moment of the outage, you pay for the power the house needed in the whole outage, not only the part it missed. That is{" "}
       {mine.unservedKwh.toFixed(2)} kWh at USD {LIGHTS_OUT.usdPerMwh.toLocaleString("en-US")} per MWh, the value Texas&apos;s utility commission puts on power that is not delivered:{" "}
@@ -473,17 +500,18 @@ function Preview({ level, hard, onDone }: { level: GameLevel; hard: boolean; onD
     <div className="border border-rule p-3" role="status" aria-live="polite" data-game-preview>
       <p className="mb-2 text-sm"><strong>{level.title}, {level.date}</strong>: the day&apos;s real prices at a glance, USD per MWh.</p>
       <div className="grid grid-cols-3 gap-2 text-center">
-        <div><div className="text-xs text-muted">lowest</div><div className="font-mono text-xl tabular-nums">{f(lo)}</div></div>
-        <div><div className="text-xs text-muted">average</div><div className="font-mono text-xl tabular-nums">{f(avg)}</div></div>
-        <div><div className="text-xs text-muted">highest</div><div className="font-mono text-xl tabular-nums">{f(hi)}</div></div>
+        <div><div className="text-xs text-muted">lowest</div><div className="font-serif text-2xl">{f(lo)}</div></div>
+        <div><div className="text-xs text-muted">average</div><div className="font-serif text-2xl">{f(avg)}</div></div>
+        <div><div className="text-xs text-muted">highest</div><div className="font-serif text-2xl">{f(hi)}</div></div>
       </div>
-      <div className="relative mx-2 mt-3 h-2 bg-[var(--color-rule)]" aria-hidden="true">
+      <div className="relative mx-6 mb-6 mt-3 h-2 bg-[var(--color-rule)]" aria-hidden="true">
         <div className="absolute top-[-4px] h-4 w-0.5 bg-[var(--color-ink)]" style={{ left: at(avg) }} />
+        <span className="absolute top-3 -translate-x-1/2 text-xs text-muted" style={{ left: at(avg) }}>average</span>
       </div>
       <p className="mt-3 text-sm">On this day, below about {f(avg)} is cheap and above it is dear.{hard ? " On Hard the dearest hour will climb toward the cap: a game rule, not a real price." : ""}</p>
       <div className="mt-3 flex items-center gap-3">
-        <div className="h-1 flex-1 bg-[var(--color-rule)]"><div className="h-1 bg-accent" style={{ width: `${(1 - left / PREVIEW_MS) * 100}%` }} /></div>
-        <button onClick={() => done.current()} className="border border-accent px-3 py-1 text-accent">Start now</button>
+        <div className="h-1 flex-1 bg-[var(--color-rule)]"><div className="h-1 bg-[var(--color-ink)]" style={{ width: `${(1 - left / PREVIEW_MS) * 100}%` }} /></div>
+        <button onClick={() => done.current()} className="border border-accent bg-accent px-3 py-1 text-white">Start now</button>
       </div>
     </div>
   );
@@ -599,19 +627,19 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
     if (wholeDay) {
       // Session 289: Easy draws the whole day on one axis. The past is the solid line; the rest of the day, the real
       // prices shown ahead of time, is the dashed line (the forecast); the now line moves across.
-      const L = 44, R = 10, top = 22, bottom = h - 34;
+      const L = 44, R = 10, top = 22, bottom = h - 46;
       const x = (i: number) => L + (i / n) * (w - L - R);
       let lo = Math.min(0, ...P), hi = Math.max(10, ...P);
       const pad = (hi - lo) * 0.1; lo -= pad; hi += pad;
       const y = (v: number) => bottom - ((v - lo) / (hi - lo)) * (bottom - top);
-      ctx.strokeStyle = css("rule"); ctx.lineWidth = 1; ctx.font = "12px system-ui, sans-serif"; ctx.fillStyle = css("muted");
+      ctx.strokeStyle = css("rule"); ctx.lineWidth = 1; ctx.font = face(12); ctx.fillStyle = css("muted");
       for (let k = 0; k <= 3; k++) {
         const v = lo + ((hi - lo) * k) / 3, yy = y(v);
         ctx.beginPath(); ctx.moveTo(L, yy); ctx.lineTo(w - R, yy); ctx.stroke();
         ctx.fillText(Math.round(v).toLocaleString("en-US"), 2, yy + 4);
       }
       if (lo < 0) { ctx.strokeStyle = css("ink"); ctx.beginPath(); ctx.moveTo(L, y(0)); ctx.lineTo(w - R, y(0)); ctx.stroke(); }
-      ctx.fillStyle = "rgba(140, 21, 21, 0.08)";
+      ctx.fillStyle = css("paper");
       ctx.fillRect(x(vpp.first), top, (vpp.last + 1 - vpp.first) * ((w - L - R) / n), bottom - top);
       ctx.fillStyle = css("muted");
       ctx.fillText("fleet call", Math.min(w - R - 60, x(vpp.first) + 2), bottom - 4);
@@ -632,12 +660,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
         ctx.fillText(t, Math.max(L, Math.min(w - R - tw, x(i + 0.5) - tw / 2)), above ? Math.max(top + 10, y(P[i]) - 6) : Math.min(bottom - 2, y(P[i]) + 16));
       };
       label("highest", iHi, true); label("lowest", iLo, false);
-      const acts = g.current.actions;
-      for (let i = 0; i < acts.length; i++) {
-        if (acts[i] === 0) continue;
-        ctx.fillStyle = acts[i] === 1 ? css("down") : css("accent");
-        ctx.fillRect(x(i), bottom + 6, Math.max(1, x(i + 1) - x(i) - 0.5), 8);
-      }
+      moves(ctx, g.current.actions, x, bottom, (i) => Math.max(1, x(i + 1) - x(i) - 0.5), () => true);
       ctx.fillStyle = css("muted");
       for (let i = 0; i < n; i += 12) ctx.fillText(clock(level.tz, level.ts_utc[i]).slice(0, 2), x(i) - 6, h - 6);
       ctx.fillText(w < 520 ? "dashed: forecast" : "dashed: the rest of the day, shown ahead (Easy's forecast)", L + 2, 14);
@@ -658,14 +681,14 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
     }
     let lo = Math.min(0, ...seen, ...bands.map((b) => b.lo)), hi = Math.max(10, ...seen, ...bands.map((b) => b.hi));
     const pad = (hi - lo) * 0.12; lo -= pad; hi += pad;
-    const top = 18, bottom = h - 34;
+    const top = 18, bottom = h - 46;
     const y = (v: number) => bottom - ((v - lo) / (hi - lo)) * (bottom - top);
     const span = 24; // intervals visible behind the now line (six hours)
     const nowX = w * (forecast ? 0.55 : 0.72);
     const dx = (nowX - 44) / span;
     const x = (i: number) => nowX - (pos - i) * dx;
     // grid and zero line
-    ctx.strokeStyle = css("rule"); ctx.lineWidth = 1; ctx.font = "12px system-ui, sans-serif"; ctx.fillStyle = css("muted");
+    ctx.strokeStyle = css("rule"); ctx.lineWidth = 1; ctx.font = face(12); ctx.fillStyle = css("muted");
     for (let k = 0; k <= 4; k++) {
       const v = lo + ((hi - lo) * k) / 4, yy = y(v);
       ctx.beginPath(); ctx.moveTo(40, yy); ctx.lineTo(w, yy); ctx.stroke();
@@ -674,33 +697,29 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
     if (lo < 0) { ctx.strokeStyle = css("ink"); ctx.beginPath(); ctx.moveTo(40, y(0)); ctx.lineTo(w, y(0)); ctx.stroke(); }
     // the VPP hour, from its notice (one interval before) on
     if (pos >= vpp.first - 1) {
-      ctx.fillStyle = "rgba(140, 21, 21, 0.08)";
+      ctx.fillStyle = css("paper");
       ctx.fillRect(x(vpp.first), top, (vpp.last + 1 - vpp.first) * dx, bottom - top);
+      ctx.fillStyle = css("muted"); ctx.font = face(12);
+      ctx.fillText("fleet call", x(vpp.first) + 4, bottom - 4);
     }
     // session 63: Hard's outage, from its start: the grid is down
     if (em.outage && pos >= em.outage.first) {
-      ctx.fillStyle = "rgba(46, 45, 41, 0.10)";
-      ctx.fillRect(x(em.outage.first), top, (em.outage.last + 1 - em.outage.first) * dx, bottom - top);
-      ctx.fillStyle = css("muted"); ctx.font = "12px system-ui, sans-serif";
+      hatch(ctx, x(em.outage.first), top, (em.outage.last + 1 - em.outage.first) * dx, bottom - top);
+      ctx.fillStyle = css("muted"); ctx.font = face(12);
       ctx.fillText("grid down", x(em.outage.first) + 4, top + 12);
     }
     // the forecast band, ahead of the now line
     if (bands.length) {
-      ctx.fillStyle = "rgba(23, 94, 84, 0.16)";
+      ctx.fillStyle = css("paper");
       for (const b of bands) {
         const x0 = Math.max(nowX, x(b.i)), x1 = x(b.i + 4);
         if (x1 > x0) ctx.fillRect(x0, y(b.hi), x1 - x0, Math.max(2, y(b.lo) - y(b.hi)));
       }
-      ctx.fillStyle = css("muted"); ctx.font = "12px system-ui, sans-serif";
+      ctx.fillStyle = css("muted"); ctx.font = face(12);
       ctx.fillText(w < 520 ? `next ${forecast / 4} h: price range` : `next ${forecast / 4} hours: each hour's price range`, nowX + 6, top + 2);
     }
     // actions taken, under the line
-    const acts = g.current.actions;
-    for (let i = 0; i < acts.length; i++) {
-      if (x(i + 1) < 40 || acts[i] === 0) continue;
-      ctx.fillStyle = acts[i] === 1 ? css("down") : css("accent");
-      ctx.fillRect(x(i), bottom + 6, dx - 1, 8);
-    }
+    moves(ctx, g.current.actions, x, bottom, () => dx - 1, (i) => x(i + 1) >= 40);
     // hour labels
     ctx.fillStyle = css("muted");
     for (let i = 0; i < n; i += 4) {
@@ -729,7 +748,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
     }
     ctx.restore();
     if (anySpike && em.spike && pos >= em.spike.last + 1) {  // while the spike lasts, the label at the now line says it
-      ctx.font = "12px system-ui, sans-serif";
+      ctx.font = face(12);
       const notes = [SPIKE_LABEL, "dashed: the real price"];
       const nx = Math.max(42, x(em.spike.first) + 4), nw = Math.max(...notes.map((t) => ctx.measureText(t).width));
       ctx.fillStyle = css("panel"); ctx.fillRect(nx - 3, top + 15, nw + 6, 31);  // a plain ground, so the words do not cross the price line
@@ -740,7 +759,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
     ctx.strokeStyle = css("accent"); ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(nowX, top - 8); ctx.lineTo(nowX, bottom); ctx.stroke();
     const now = labeled[Math.max(0, Math.min(n - 1, Math.floor(pos)))];
     ctx.fillStyle = css("accent"); ctx.beginPath(); ctx.arc(nowX, y(now.value), 4, 0, Math.PI * 2); ctx.fill();
-    ctx.font = "12px system-ui, sans-serif";
+    ctx.font = face(12);
     // the label right of the now line where it fits, else left of it (narrow screens), never over the line. Session 66:
     // the label is the library's text; a spiked price's label and its real price go on the lines under the number
     const cut = now.text.indexOf(" ("), semi = now.text.indexOf("; ");
@@ -891,10 +910,10 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
   return (
     <div className="select-none">
       {/* session 289 (Samuel's ruling 16): one page, three modes, Easy first */}
-      <div className="mb-2 flex flex-wrap gap-2" role="radiogroup" aria-label="Mode">
+      <div className="mb-2 flex flex-wrap items-center gap-1" role="group" aria-label="Mode" data-modes>
         {MODES.map((d) => (
-          <button key={d} role="radio" aria-checked={difficulty === d} disabled={phase === "play" || phase === "preview"} onClick={() => chooseMode(d)}
-            className={`border px-4 py-2 disabled:opacity-50 ${difficulty === d ? "border-accent bg-accent text-paper" : "border-rule"}`}>{DIFFICULTIES[d].label}</button>
+          <button key={d} type="button" aria-pressed={difficulty === d} disabled={phase === "play" || phase === "preview"} onClick={() => chooseMode(d)}
+            className={`min-h-[44px] border px-4 py-2 ${difficulty === d ? "border-ink bg-ink text-white" : ""}`}>{DIFFICULTIES[d].label}</button>
         ))}
       </div>
       <p className="mb-4 text-sm text-muted">{MODE_LINE[difficulty]}</p>
@@ -914,10 +933,10 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
           <p className="mb-3 max-w-3xl text-xs text-muted">{level.why}{level.rule ? ` The rule: ${level.rule}` : ""}{!easy && ev ? <> <Link href={ev.href}>What happened: {ev.label}</Link></> : null}</p>
           {difficulty === "hard" && need > 0 ? <p className="mb-3 max-w-3xl text-sm">Hard, on this day: after the dearest hour the grid goes down for two hours. {keepWords}</p> : null}
           {!easy ? <SettingsPanel draft={draft} setDraft={setDraft} difficulty={difficulty} addonsOn={addonsOn} setAddonsOn={setAddonsOn} available={available} level={level} /> : null}
-          {!ok ? <p className="mb-2 text-sm text-accent" role="alert">A setting is outside its range or between its steps; the game will not start until it is within them.</p> : null}
+          {!ok ? <p className="mb-2 text-sm" role="alert">A setting is outside its range or between its steps; the game will not start until it is within them.</p> : null}
           <div className="flex flex-wrap items-center gap-3">
-            <button onClick={start} disabled={!ok} className={`border border-accent bg-accent text-paper disabled:opacity-50 ${easy ? "w-full px-6 py-4 text-xl sm:w-auto" : "px-4 py-2"}`}>Start</button>
-            {!easy && !tutorial ? <button onClick={() => setTutorial(true)} className="text-sm underline">How to play (30 seconds)</button> : null}
+            <button onClick={start} disabled={!ok} className={`border border-accent bg-accent text-white ${easy ? "w-full px-6 py-4 text-xl sm:w-auto" : "px-4 py-2"}`}>Start</button>
+            {!easy && !tutorial ? <button type="button" onClick={() => setTutorial(true)} className="border px-3 py-2 text-sm">How to play (30 seconds)</button> : null}
           </div>
         </div>
       ) : null}
@@ -936,17 +955,17 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
                   and you pay for the power the house needed in the whole outage ({usd((perfect.outageNeedKwh * rules.eta * LIGHTS_OUT.usdPerMwh) / 1000)}): a dark house in a grid emergency is what the battery is there to prevent.
                 </div>
               ) : inSpike ? (
-                <div className="mb-1 border border-accent bg-panel px-2 py-1 text-sm text-accent" role="status">
+                <div className="mb-1 border border-ink bg-paper px-2 py-1 text-sm" role="status">
                   Grid emergency and fleet call (game rules): the price is climbing toward the {usd(EMERGENCY.cap).replace(".00", "")}/MWh cap, and each kWh you sell this hour also earns the fleet bonus. This hour&apos;s price is a {SPIKE_LABEL}. Next the grid goes down for two hours. {keepWords}
                 </div>
               ) : notice && rules.emergency ? (
-                <div className="mb-1 border border-accent px-2 py-1 text-sm text-accent" role="status">
+                <div className="mb-1 border border-ink bg-paper px-2 py-1 text-sm" role="status">
                   In 15 minutes: the grid emergency and the fleet call. The next hour is the day&apos;s dearest; its price will climb toward the cap, and then the grid goes down for two hours. {keepWords}
                 </div>
               ) : notice ? (
-                <div className="mb-1 border border-accent px-2 py-1 text-sm text-accent" role="status">Fleet call in 15 minutes: the grid&apos;s dearest hour of the day. Keep charge to sell then.</div>
+                <div className="mb-1 border border-ink bg-paper px-2 py-1 text-sm" role="status">Fleet call in 15 minutes: the grid&apos;s dearest hour of the day. Keep charge to sell then.</div>
               ) : inVpp ? (
-                <div className="mb-1 border border-accent bg-panel px-2 py-1 text-sm text-accent" role="status">
+                <div className="mb-1 border border-ink bg-paper px-2 py-1 text-sm" role="status">
                   Fleet call: discharge now to earn the bonus (a game rule modeled on ERCOT&apos;s ADER pilot; the rules are below).
                 </div>
               ) : null}
@@ -958,13 +977,13 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
                   <div>
                     <div className="mb-1 flex justify-between text-xs text-muted"><span>State of charge</span><span>{hud.soc.toFixed(2)} of {rules.kwh} kWh</span></div>
                     <div className="relative h-3 w-full border border-rule bg-panel">
-                      <div className="h-full bg-[var(--color-down)]" style={{ width: `${(hud.soc / rules.kwh) * 100}%` }} />
-                      {rules.reserveKwh > 0 ? <div className="absolute top-[-3px] h-[18px] w-0.5 bg-accent" style={{ left: `${(rules.reserveKwh / rules.kwh) * 100}%` }} title="the backup reserve" /> : null}
+                      <div className="h-full bg-[var(--color-ink)]" style={{ width: `${(hud.soc / rules.kwh) * 100}%` }} />
+                      {rules.reserveKwh > 0 ? <div className="absolute top-[-3px] h-[18px] w-0.5 bg-[var(--color-muted)]" style={{ left: `${(rules.reserveKwh / rules.kwh) * 100}%` }} title="the backup reserve" /> : null}
                     </div>
-                    {blocked ? <div className="mt-1 text-xs text-accent">Held: the battery is at its backup reserve.</div> : null}
+                    {blocked ? <div className="mt-1 text-xs">Held: the battery is at its backup reserve.</div> : null}
                   </div>
                   <div className="text-right">
-                    <span className="text-xs text-muted">Money</span><div className={`font-mono text-lg ${money < 1 ? "text-accent" : ""}`} aria-live="off">{usd(money)}</div>
+                    <span className="text-xs text-muted">Money</span><div className="font-serif text-2xl" aria-live="off">{usd(money)}</div>
                     <div className="text-xs text-muted">earned {usd(money - START_MONEY)}{rules.deg > 0 ? `, wear ${usd(-hud.wear)}` : ""}</div>
                     {/* session 289 (Samuel's ruling 3a): one battery earns cents; the fleet of 10,000 such homes is shown beside it */}
                     <div className="text-xs" data-fleet-now>fleet of {FLEET.toLocaleString("en-US")} homes: <span className="font-mono">{usd((money - START_MONEY) * FLEET)}</span></div>
@@ -975,15 +994,15 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
               {!easy ? (
                 <div className="mt-2 flex items-center gap-3">
                   <div className="grid grid-cols-10 gap-[3px]" aria-label={lit ? "The fleet map is lit: your battery answered the call" : "The fleet map"} role="img">
-                    {Array.from({ length: 50 }, (_, i) => <span key={i} className="block h-2 w-2 rounded-full" style={{ background: lit ? "var(--color-accent)" : "var(--color-rule)" }} />)}
+                    {Array.from({ length: 50 }, (_, i) => <span key={i} className="block h-2 w-2" style={{ background: lit ? "var(--color-ink)" : "var(--color-rule)" }} />)}
                   </div>
                   <span className="text-xs text-muted">{lit ? `Fleet lit: ${hud.vppKwh.toFixed(2)} kWh delivered in the call hour.` : vppDone ? "The fleet call has passed." : "The fleet map lights when your battery answers the call."}</span>
                 </div>
               ) : null}
               {playing ? (
                 <div className="mt-3 grid grid-cols-2 gap-3">
-                  <button {...hold(1)} disabled={inOutage} className={`touch-none border px-3 ${easy ? "py-8 text-xl" : "py-4 text-base"} disabled:opacity-40 ${hud.control === 1 ? "border-[var(--color-down)] bg-[var(--color-down)] text-paper" : "border-[var(--color-down)] text-[var(--color-down)]"}`}>{easy ? "Charge" : "Hold to charge (buy)"}</button>
-                  <button {...hold(-1)} disabled={inOutage} className={`touch-none border px-3 ${easy ? "py-8 text-xl" : "py-4 text-base"} disabled:opacity-40 ${hud.control === -1 ? "border-accent bg-accent text-paper" : "border-accent text-accent"}`}>{easy ? "Sell" : "Hold to sell (discharge)"}</button>
+                  <button type="button" {...hold(1)} aria-pressed={hud.control === 1} disabled={inOutage} className={`touch-none border px-3 ${easy ? "py-8 text-xl" : "py-4 text-base"} ${hud.control === 1 ? "border-ink bg-ink text-white" : ""}`}>{easy ? "Charge" : "Hold to charge (buy)"}</button>
+                  <button type="button" {...hold(-1)} aria-pressed={hud.control === -1} disabled={inOutage} className={`touch-none border px-3 ${easy ? "py-8 text-xl" : "py-4 text-base"} ${hud.control === -1 ? "border-accent bg-accent text-white" : ""}`}>{easy ? "Sell" : "Hold to sell (discharge)"}</button>
                   <p className="col-span-2 text-xs text-muted">{inOutage ? "The grid is down: nothing to buy or sell until it is back." : <>{/* session 279: no keys on a phone */}<span className="[@media(pointer:coarse)]:hidden">Hold a button down, or the keys: C or the down arrow to charge, S or the up arrow to sell. Let go to wait.</span><span className="hidden [@media(pointer:coarse)]:inline">Hold a button down; let go to wait.</span></>}</p>
                 </div>
               ) : null}
@@ -1018,8 +1037,8 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
             <label className="flex flex-col">Nickname (optional, 3 to 16 letters and digits)
               <input value={nick} onChange={(e) => setNick(e.target.value.replace(/[^A-Za-z0-9]/g, "").slice(0, 16))} className="w-48 border border-rule bg-panel px-2 py-1" />
             </label>
-            <button onClick={post} disabled={posted === "Posted." || posted === "Posting..."} className="border border-accent px-3 py-1 text-accent">Post to the leaderboard</button>
-            <button onClick={() => setPhase("pick")} className={`border border-accent bg-accent text-paper ${easy ? "px-5 py-3 text-lg" : "px-3 py-1"}`}>Play again</button>
+            <button type="button" onClick={post} disabled={posted === "Posted." || posted === "Posting..."} className="border px-3 py-1">Post to the leaderboard</button>
+            <button onClick={() => setPhase("pick")} className={`border border-accent bg-accent text-white ${easy ? "px-5 py-3 text-lg" : "px-3 py-1"}`}>Play again</button>
             <span className="text-xs text-muted">{posted}</span>
           </div>
         </div>
@@ -1032,7 +1051,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
             {top.map((r, i) => (
               <li key={i}>
                 {r.nickname ?? <span className="text-muted">anonymous</span>}: {usd(r.score)}{r.optimal_score > 0 ? <span className="text-muted"> ({Math.round((r.score / r.optimal_score) * 100)} percent of perfect)</span> : null}
-                {isPerfect(r.score, r.optimal_score) ? <span className="ml-1 border border-accent px-1 text-xs text-accent" title="A score at 100 percent of perfect foresight: the debrief shows the perfect plan, and replaying it scores this">flagged: 100 percent of perfect</span> : null}
+                {isPerfect(r.score, r.optimal_score) ? <span className="ml-1 border border-ink px-1 text-xs" title="A score at 100 percent of perfect foresight: the debrief shows the perfect plan, and replaying it scores this">flagged: 100 percent of perfect</span> : null}
               </li>
             ))}
           </ol>

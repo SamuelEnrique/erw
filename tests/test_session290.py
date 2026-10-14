@@ -34,7 +34,7 @@ class TheTable(unittest.TestCase):
         self.assertIn("{ends ? <EndTable mine={ends.mine} perfect={ends.perfect} none={ends.none} rules={result.rules} big={easy} /> : null}", self.game)
         done = self.game[self.game.index('{phase === "done" && result ? ('):]
         self.assertLess(done.index("<EndTable"), done.index("<ShareCard"))   # not behind a mode
-        for col in (">Earned<", ">Bought<", ">Sold<"):
+        for col in (">Earned<", ">Bought, kWh<", ">Sold, kWh<"):   # the unit in the head (the brand's tables)
             self.assertIn(col, self.game)
 
     def test_one_sentence_why(self):

@@ -51,7 +51,7 @@ class OnePage(unittest.TestCase):
 
     def test_the_mode_picker_easy_first(self):
         self.assertIn('const MODES = ["easy", "normal", "hard"] as const;', self.game)
-        self.assertIn('<div className="mb-2 flex flex-wrap gap-2" role="radiogroup" aria-label="Mode">', self.game)
+        self.assertIn('<div className="mb-2 flex flex-wrap items-center gap-1" role="group" aria-label="Mode" data-modes>', self.game)   # session 291: segments, aria-pressed
         self.assertIn('initialMode = "easy"', self.game)
         self.assertIn("window.history.replaceState(null, \"\", `${window.location.pathname}${d === \"easy\" ? \"\" : `?mode=${d}`}`)", self.game)
 

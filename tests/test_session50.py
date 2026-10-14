@@ -83,7 +83,8 @@ class Game(unittest.TestCase):
         g = src("site", "app", "play", "battery", "Game.tsx")
         self.assertRegex(g, r"try \{ return window\.localStorage\.getItem\(key\); \} catch")
         self.assertRegex(g, r"try \{ window\.localStorage\.setItem\(key, v\); \} catch")
-        self.assertIn("prefers-reduced-motion", g)
+        # session 291: no motion at all (docs/brand.md, section 3), so nothing is left for reduced motion to stop
+        self.assertNotIn("animation:", g)
         for part in ("function Tutorial", "function HouseFlow", "function Replay", "function SettingsPanel"):
             self.assertIn(part, g)
 

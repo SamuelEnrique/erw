@@ -97,7 +97,7 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, send, errors
     await wait(`[...document.querySelectorAll('button')].some((b) => b.innerText.trim() === 'Start')`, 30000, `${tag}: the page to be ready`);
     let o = await evaluate(overflow);
     check(o.doc <= o.win + 1 && o.wide.length === 0, `${tag}: nothing is wider than the screen before the play (${o.doc} of ${o.win} px${o.wide.length ? `; ${o.wide.join(" / ")}` : ""})`);
-    check(await evaluate(`[...document.querySelectorAll('button[role=radio]')].find((b) => b.getAttribute('aria-checked') === 'true')?.innerText.trim() === ${JSON.stringify(DIFFICULTIES[p.difficulty].label)}`), `${tag}: the page opens in its mode`);
+    check(await evaluate(`[...document.querySelectorAll('[data-modes] button')].find((b) => b.getAttribute('aria-pressed') === 'true')?.innerText.trim() === ${JSON.stringify(DIFFICULTIES[p.difficulty].label)}`), `${tag}: the page opens in its mode`);
     if (p.difficulty === "easy") {
       const page = await evaluate(`document.querySelector('main').innerText`);
       check(page.includes("Buy power into your battery when it is cheap and sell it when it is dear. You start with $5; the game ends if you go below $0.")

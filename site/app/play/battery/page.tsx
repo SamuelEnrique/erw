@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
+import { Brand } from "@/components/Brand";  // session 291: the game takes the brand (docs/brand.md; Samuel's ruling 15)
 import { Cite } from "@/components/Cite";
 import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";
@@ -76,7 +77,8 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
   const hi = t ? t.price.indexOf(Math.max(...t.price)) : -1, lo = t ? t.price.indexOf(Math.min(...t.price)) : -1;
   const key = (i: number) => `series|${T}|ercot:HB_HUBAVG|spp_rtm|${t!.ts_utc[i]}`;
   return (
-    <>
+    <Brand>
+    <div>
       <h1 className="mb-1 text-3xl">The home battery game</h1>
       <p className="mb-4 max-w-3xl text-sm">
         You own one home battery. A real day of wholesale power prices goes by in about 90 seconds, fifteen minutes at a time: charge when power is
@@ -86,16 +88,16 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
         <Game levels={levels} top={first} presets={presets} initialMode={mode} />
       </Section>
       <Section title="The day and the battery">
-        <div className="max-w-3xl space-y-2 text-sm">
+        <div className="space-y-2 text-sm">
           {t ? (
-            <p>
+            <p className="max-w-3xl">
               Today&apos;s level, the operating day {t.date}: real-time prices from <Num check={key(lo)} raw={t.price[lo]}>{shown(t.price[lo])}</Num> to{" "}
               <Num check={key(hi)} raw={t.price[hi]}>{shown(t.price[hi])}</Num> USD/MWh.
             </p>
           ) : (
             <NoData what="today's level" reason={today.ok ? "no complete ERCOT operating day in the last four days of the live set" : today.reason} />
           )}
-          <p className="text-muted">
+          <p className="max-w-3xl text-muted">
             The prices are real: ERCOT&apos;s real-time settlement point price at the hub average (HB_HUBAVG), every interval of the day; on the California days,
             CAISO&apos;s real-time price at the SP15 trading hub, the 15-minute means of its 5-minute prices. Each California day was chosen by a stated rule, from
             the complete days the warehouse holds since 2025-09-01: the lowest mean price from 10:00 to 15:00 Pacific, and the largest rise from the 12:00 to 15:00
@@ -108,9 +110,9 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
         </div>
       </Section>
       <Section title="The game's rules (version 5)">
-        <div className="max-w-3xl space-y-2 text-sm">
-          <p>Each of these is a game rule, not a market rule. The prices stay real; on Hard, the emergency changes them for one hour, and wherever such a price is shown the number itself says &quot;{SPIKE_LABEL}&quot;, with the real price beside it.</p>
-          <ul className="list-disc space-y-1 pl-5">
+        <div className="space-y-2 text-sm">
+          <p className="max-w-3xl">Each of these is a game rule, not a market rule. The prices stay real; on Hard, the emergency changes them for one hour, and wherever such a price is shown the number itself says &quot;{SPIKE_LABEL}&quot;, with the real price beside it.</p>
+          <ul className="max-w-3xl list-disc space-y-1 pl-5">
             <li><strong>The three modes:</strong> Easy: {DIFFICULTIES.easy.what}. Normal: {DIFFICULTIES.normal.what}. Hard: {DIFFICULTIES.hard.what}. Before each play, a few seconds of the day at a glance: its lowest, average and highest real price.</li>
             <li><strong>Money:</strong> every play starts with ${START_MONEY}. Buying power costs money and selling earns it; if the money falls below $0, the game ends there. The score is what you earned (the money less the ${START_MONEY}).</li>
             <li><strong>Hard&apos;s grid emergency:</strong> in the day&apos;s dearest hour the price climbs toward the cap: each fifteen minutes {EMERGENCY.ramp.map((r) => `${Math.round(r * 100)}`).join(", ")} percent of the way from the real price to USD {EMERGENCY.cap.toLocaleString("en-US")}/MWh (ERCOT&apos;s offer cap since 2023, used for every grid). Then the grid goes down for two hours: nothing can be bought or sold, and the house draws {EMERGENCY.houseKw} kW from the battery, its backup reserve included (that is what the reserve is for).</li>
@@ -124,20 +126,20 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
         </div>
       </Section>
       <Section title="The fleet call: how it mirrors ERCOT's ADER pilot">
-        <div className="max-w-3xl space-y-2 text-sm">
-          <p>
+        <div className="space-y-2 text-sm">
+          <p className="max-w-3xl">
             The real program the call is modeled on is ERCOT&apos;s Aggregate Distributed Energy Resource (ADER) pilot. Its governing document (Phase 3.3, June 2026)
             defines an ADER as &quot;a Resource consisting of multiple Premises or devices connected at the distribution system level that has the ability in
             aggregate to respond to ERCOT Dispatch Instructions&quot;, and settles its energy at &quot;the Load Zone price&quot;. The game keeps that shape and simplifies the rest:
           </p>
-          <ul className="list-disc space-y-1 pl-5">
+          <ul className="max-w-3xl list-disc space-y-1 pl-5">
             <li><strong>When:</strong> the call is the day&apos;s dearest clock hour, with a 15-minute warning. In the pilot, dispatch comes from ERCOT&apos;s Security-Constrained Economic Dispatch (SCED), every five minutes, when prices and the grid call for it; nobody knows the dearest hour in advance. The warning and the hour are the game&apos;s choices.</li>
             <li><strong>How long:</strong> one hour. The pilot&apos;s deployment test lasts &quot;at least one full 15-minute Settlement Interval&quot;; a real call lasts as long as the instruction does.</li>
             <li><strong>What the battery is paid:</strong> every kWh sold, in or out of the call, earns the real-time price, as an ADER&apos;s energy is settled at a market price (the game uses the hub average, not the battery&apos;s Load Zone price). In the call hour, each kWh delivered also earns a bonus of the hour&apos;s mean price (never below zero). The bonus is the game&apos;s stand-in for what an aggregator may pass on to a home: the pilot also lets ADERs earn ancillary-service payments (ECRS and Non-Spin), whose prices the game does not hold, and what a home is paid is set by its retailer or aggregator, not by ERCOT.</li>
             <li><strong>The reserve:</strong> on Hard, the battery never discharges below its backup reserve, even in the call.</li>
             <li><strong>Size:</strong> the game&apos;s fleet of 10,000 homes is 50 MW. The pilot&apos;s Phase 3 limit is 500 MW of ADERs system-wide.</li>
           </ul>
-          <p className="text-xs text-muted">
+          <p className="max-w-3xl text-xs text-muted">
             Source: ERCOT, <a href="https://www.ercot.com/files/docs/2026/03/02/ADER-Pilot-Project-Governing-Document-Phase-3.3.docx">ADER Pilot Project Governing Document, Phase 3.3</a>, from{" "}
             <a href="https://www.ercot.com/mktrules/pilots/ader">ERCOT&apos;s ADER pilot page</a>, read on 2026-10-01. The game is not the program: no telemetry,
             no qualification, no Base Point Deviation, no ancillary-service awards.
@@ -158,6 +160,7 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
       </Section>
       <Cite tables={[T, "ercot_all_hub_prices_history"]} note="Today's level from the live set; the five famous days frozen from the history (site/data/battery_levels.json, warehouse/derived/battery_levels.py)" />
       <p className="mt-2 text-xs text-muted">Real batteries on the grid: <Link href="/storage">storage</Link>; ERCOT: <Link href="/grid/ercot">its grid page</Link>.</p>
-    </>
+    </div>
+    </Brand>
   );
 }
