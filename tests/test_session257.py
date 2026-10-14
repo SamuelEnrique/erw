@@ -183,7 +183,10 @@ console.log(JSON.stringify({ f, x, key: B.inputsKey(x), ercot: B.fleetBeside("er
         self.assertIn("<V pre={fleetKey} s={`year_kw:${fleet.year}:${fleet.regulationStreams}`} v={fleetReg} />", line)
         for words in ('<span data-fleet-published="energy">{fleet.energy}</span>', '<span data-fleet-published="regulation">{fleet.regulation}</span>',
                       "({fleet.publisher}, <a href={fleet.url} rel=\"noopener\">{fleet.report}</a>, {fleet.where})", "<Link href={MONITOR}>How this is counted</Link>",
-                      "on the day-ahead schedule", "with a full year of operation"):
+                      "on the day-ahead schedule", "with a full year of operation",
+                      # session 263: one sentence of why the two differ, the monitor's reason as docs/methods/battery_stack.md quotes it
+                      '<span data-fleet-why="1">The two differ in regulation: this model sells it as if the market had no size, and the monitor writes that',
+                      "&ldquo;there is a large amount of battery capacity competing to provide a relatively low amount of required regulation&rdquo;.</span>"):
             self.assertIn(words, line, words)
         for word in ("should", "recommend", "better", "worse", "only ", "merely", "far "):  # the facts, no commentary, as ERCOT's line
             self.assertNotIn(word, line.lower(), word)
