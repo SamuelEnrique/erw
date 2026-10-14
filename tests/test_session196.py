@@ -51,7 +51,7 @@ class TheDefaults(unittest.TestCase):
         self.assertIn('"80% equity at a 12% cost" in its storage cases', battery)
         self.assertIn('"60% debt at an 8% interest rate and 40% equity at a 12% cost". The default is that cost of equity', seller)
         self.assertIn("hurdle: HURDLE, cshare: 0, cprice: 0 };", battery)
-        self.assertIn("hurdle: HURDLE, cshare: 0, cprice: 0 };", seller)   # session 212
+        self.assertIn("hurdle: HURDLE, cshare: 0, cprice: 0, ppa: costs.life };", seller)   # session 212; session 264: the PPA term, its default the life
         dc = src("site/lib/datacenter/finance.ts")
         self.assertIn("export const LIFE = 20, HURDLE = 9.6;", dc)
         self.assertIn('"60% debt at an 8% interest rate and 40% equity at a 12% cost". The default is that weighted cost, 0.6 x 8 + 0.4 x 12 = 9.6 percent', dc)

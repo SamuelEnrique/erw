@@ -34,6 +34,14 @@ scalar s_debt_rate = 0.08
 
 scalar s_debt_years = 35
 
+* Session 264: scenario A's other defaults on the page (site/lib/seller/finance.ts): the hurdle rate, 12 percent (Lazard's cost of equity, the owner's ruling of 12 October 2026); the project life, 35 years; the PPA term, the eleventh assumption, the asset's life, 35 years; no degradation.
+
+scalar s_hurdle = 0.12
+
+scalar s_life_years = 35
+
+scalar s_ppa_years = 35
+
 scalar s_debt_service = round(s_capex_usd_kw * 1000 * s_debt_share * s_debt_rate / (1 - (1 + s_debt_rate)^(-s_debt_years)) * s_mw)
 
 * The model, hour by hour: output per MW of nameplate is the fleet's generation over the nameplate installed that month; revenue is price times output.
@@ -151,11 +159,39 @@ display "difference, USD per MWh: " %9.2f s_price_received - s_flat_average
 
 display "difference, percent of the flat average: " %9.1f 100 * (s_price_received - s_flat_average) / s_flat_average
 
+* Session 264: the capture rate beside the capture price, the price received over the flat average, in whole percent as the page writes it.
+
+display "capture rate, percent of the flat average: " %9.0f 100 * s_price_received / s_flat_average
+
 * Debt coverage, last twelve months: the third headline number; revenue less fixed O&M, over the annual debt payments.
 
 display "annual debt payments, USD: " %15.0fc s_debt_service
 
 display "debt coverage, last twelve months, times: " %9.2f (s_l12_usd_per_mw * s_mw - s_fom_usd_kw_year * 1000 * s_mw) / s_debt_service
+
+* Session 264: is it worth building, scenario A at the defaults, per kW of nameplate (site/lib/seller/finance.ts). The debt's term, the PPA term and the life are all 35 years and there is no degradation, so each year's flow is the same and a sum over the years is the annuity factor (1 - (1 + r)^-n) / r.
+
+quietly summarize energy_mwh_per_mw if in_last_twelve == 1 & held == 1
+
+scalar s_l12_energy = r(sum)
+
+display "energy sold, last twelve months, MWh per MW: " %9.0fc s_l12_energy
+
+scalar s_debt_kw = s_capex_usd_kw * s_debt_share * s_debt_rate / (1 - (1 + s_debt_rate)^(-s_debt_years))
+
+scalar s_annuity = (1 - (1 + s_hurdle)^(-s_life_years)) / s_hurdle
+
+scalar s_ppa_annuity = (1 - (1 + s_hurdle)^(-s_ppa_years)) / s_hurdle
+
+display "contract price at which coverage reaches 1.25 times, USD per MWh: " %9.2f (1.25 * s_debt_kw + s_fom_usd_kw_year) / (s_l12_energy / 1000)
+
+scalar s_npv_kw = -s_capex_usd_kw * (1 - s_debt_share) + (s_l12_usd_per_mw / 1000 - s_fom_usd_kw_year - s_debt_kw) * s_annuity
+
+display "NPV at the hurdle rate, USD million for 100 MW: " %9.2f s_npv_kw * 1000 * s_mw / 1000000
+
+scalar s_npv0_kw = -s_capex_usd_kw * (1 - s_debt_share) + (-s_fom_usd_kw_year - s_debt_kw) * s_ppa_annuity + (s_l12_usd_per_mw / 1000 - s_fom_usd_kw_year) * (s_annuity - s_ppa_annuity)
+
+display "breakeven PPA price, the whole of the energy for the PPA term, USD per MWh: " %9.2f -s_npv0_kw / (s_l12_energy / 1000 * s_ppa_annuity)
 
 * Trailing twelve months: a window ends at each held month whose eleven months before it are all held.
 
@@ -227,4 +263,4 @@ forvalues i = 1/3 {
     display "worst month `i': " %tmCCYY-NN ym[`i'] ", USD for 100 MW: " %15.2fc revenue_usd[`i']
 }
 
-* Not in this file: the capture price at the other hubs and by year, the other rows of the spans table, the contract, the battery beside the plant and the stress days.
+* Not in this file: the capture price at the other hubs and by year, the other rows of the spans table, the IRR (none at the defaults: every year's flow is below zero), the sensitivity chart, a contract other than the breakeven one, the battery beside the plant and the stress days.

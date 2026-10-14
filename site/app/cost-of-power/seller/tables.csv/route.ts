@@ -8,6 +8,10 @@
 // ERCOT) and the fleet's hours as EIA reports them (eia_hours). The same read and arithmetic as the page (model.ts). A
 // value not held is blank, with its reason in `note`. In review, the address answers a visitor as the page does.
 import { FUELS, MARKETS, hubName, hubYears, type Fuel, type Market } from "@/lib/capture";
+// Session 264: offered where the grid's prices may be redistributed (lib/license.ts, the verdicts of docs/licenses.md,
+// unchanged here): a chosen grid whose prices are "license needed" on the day answers the catalogue's words, and in the
+// table of every public hub the rows of such a grid are blank with those words in `note`.
+import { LICENSE_NEEDED, licenseGridTitle, licenseHeldGrid } from "@/lib/license";
 import { EVENTS } from "@/lib/merchant";
 import { statusOf } from "@/lib/release";
 import { internalView } from "../../battery/read";
@@ -28,6 +32,7 @@ export async function GET(req: Request) {
     return text(`the model could not be read: ${e instanceof Error ? e.message : String(e)}`, 503);
   }
   const { x, g, hub, cg, iso, cap, mk, other, why, yearRows, pair, hf, batt, plantTotal, both, snap, sizeLabel, st, fuel, bmw, dur, pairSpan, plantName } = M;
+  if (licenseHeldGrid(iso)) return text(`${LICENSE_NEEDED}: ${licenseGridTitle(iso)}`, 403);
   const now = new Date().toISOString().replace(/\.\d{3}Z$/, "Z");
   const f = (v: number | null | undefined, d: number) => (v === null || v === undefined || !Number.isFinite(v) ? "" : v.toFixed(d));
   const lines: string[] = [
@@ -73,6 +78,7 @@ export async function GET(req: Request) {
   const hy = hubYears(CAPTURE);
   for (const r of hy.rows) {
     const row = `${r.gridName}: ${r.name}`;
+    if (licenseHeldGrid(r.grid)) { put("capture_hub_year", row, "solar_real_time_price", "", `${LICENSE_NEEDED}: ${licenseGridTitle(r.grid)}`); continue; }
     for (const m of ["rt", "da"] as Market[]) for (const fu of FUELS) {
       const col = `${fu}_${MARKETS[m].toLowerCase().replace(/[ -]/g, "_")}`;
       for (const y of hy.years) {

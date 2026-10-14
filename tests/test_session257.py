@@ -23,7 +23,7 @@ import unittest
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 EM = chr(0x2014)
 WROTE = ["site/lib/batterystack.ts", "site/app/cost-of-power/battery/page.tsx", "site/app/cost-of-power/battery/read.ts", "site/app/cost-of-power/seller/page.tsx",
-         "docs/methods/battery_stack.md", "docs/methods/battery_earns_algorithm.md", "docs/methods/generator_earns_algorithm.md", "docs/howitworks/generator.md", "docs/brand/review-257/README.md",
+         "docs/methods/battery_stack.md", "docs/methods/battery_earns_algorithm.md", "docs/methods/generator_earns_algorithm.md", "docs/reviews/packs/generator.md", "docs/brand/review-257/README.md",   # session 264: the pack replaces the how-it-works note
          "tests/test_session257.py", "archive/sessions/SESSION_257_REPORT.md"]
 
 
@@ -263,7 +263,7 @@ class TheGeneratorsCount(unittest.TestCase):
         self.assertIn('<span data-checked-against="20">Checked against: 20 published figures (Lazard, the Annual Technology Baseline, EIA, CAISO&apos;s market monitor, Berkeley Lab). '
                       '<Link href="/data/methods/generator_earns_algorithm#cross-checks">Each comparison, with its gap and the reason</Link>.</span>', self.page)
         self.assertEqual(self.page.count("data-checked-against="), 1)
-        how = src("docs", "howitworks", "generator.md")
+        how = src("docs", "reviews", "packs", "generator.md")   # session 264: the pack replaces the how-it-works note
         self.assertNotIn("10 published figures", how)
         self.assertIn('"Checked against: 20 published figures (Lazard, the Annual Technology Baseline, EIA, CAISO\'s market monitor, Berkeley Lab)."', how)
 

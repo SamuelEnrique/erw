@@ -5,7 +5,7 @@ One document a tool, written on 2026-10-13 (session 249) for the person who show
 | Tool | Address | Document | Written from |
 |---|---|---|---|
 | What a battery earns | `/cost-of-power/battery` | [the review pack](../reviews/packs/battery.md) (session 263; the note it replaces is removed) | `wip/263-battery-pack` from `afacb21e` (the page as merged in session 234, California as session 257 added it), 2026-10-14 |
-| What a generator earns | `/cost-of-power/seller` | [generator.md](generator.md) | the branch `origin/wip/235-generator` at `c7ce17de`, landed as `aa3addbc`; checked again against `main` at `34b468fa`, with the 20 published figures of session 257 (`9e0bbfe8`) |
+| What a generator earns | `/cost-of-power/seller` | [the review pack](../reviews/packs/generator.md) | session 264, 14 October 2026: the review pack replaces the note (sessions 249 and 260), on `wip/264-generator-pack` at `3f694726` |
 | What a datacenter pays | `/cost-of-power` | [datacenter.md](datacenter.md) | the branch `origin/wip/236-datacenter` at `d4eaec68`, landed as `aa3addbc`; checked again against `main` at `34b468fa`, where ERCOT's reserve adder is counted on the page |
 | The Grid tool | `/grid` | [grid.md](grid.md) | rewritten by session 260 from `main` at `34b468fa` (the tool landed as `01161064`) |
 | Research | `/research` | [research.md](research.md) | rewritten by session 260 from `main` at `34b468fa` (the page landed as `01161064`) |
