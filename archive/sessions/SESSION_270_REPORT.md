@@ -41,4 +41,9 @@
 
 ## The landing
 
-- See the chain's last commit on this branch: the landing of sessions 269 and 270 is recorded in `archive/sessions/SESSION_270_REPORT.md` on the branch `wip/270-landing-record` if it is not below.
+- **Landed with session 269 (batch C):** pushed `23cfeae5` to `task/269-270-index-final` at 12:39:11 UTC; GitHub's run 38565453703 passed; merged into `main` as `11603d39`; production showed the skip link inside the header at 12:48:47 UTC.
+- **Checks on the landing commit:** the whole suite on a clean copy, 4,202 tests, OK (session 277 of the data machine was merged after it: its tests and this batch's, exit 0); `npm run build` exit 0; `check-values` on every page 4,744 of 4,744; `check-routes` 0; `check-analysis` (279) and `check-battery-figures` (32) exit 0.
+- **A first check run failed on data, not code:** the data machine reloaded `battery_stack_monthly` at about 12:07 UTC (CAISO now holds 36 months where it held 25; the table 11,556 rows, was 10,542), after the first build (12:01 UTC). The page read the old rows; a rebuild at 12:29 UTC read the new ones and `check-values` passed.
+- **One check still fails, on data:** `check-battery-scenarios.mjs`, 1 of its checks: "CAISO, 2 hours: the block opens at that duration's defaults, steps held". The file of steps (`site/data/battery_scenario_steps.json`, built 13 October 17:42 UTC) no longer describes CAISO's reloaded months, so the page withdraws the efficiency and cycle steps for CAISO and says so, as designed, until the data machine's daily run builds the file again. This batch does not touch the battery's code.
+- **For Samuel:** CAISO's longer history moves every CAISO figure the battery pack quotes (for example "CAISO is held from 2024-09-01", USD 64.96 per kW on the day-ahead schedule, the bad month over 25 months). The pack's ERCOT figures are unchanged (`check-battery-figures` 32 of 32). The CAISO lines of `docs/reviews/packs/battery.md` are due an edit from the new table.
+- **Snapshots:** `sC-before` 12:38:57 UTC, `sC-after` 12:48:48 UTC: 0 differences.
