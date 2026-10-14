@@ -56,3 +56,17 @@ cd site/public/datacenter && python erw_2026_datacenter_replication.py
 cd site/public/seller     && python erw_2026_generator_replication.py erw_2026_generator_hourly.csv
 cd site/public/grid       && python erw_2026_grid_replication.py erw_2026_grid_replication.csv
 ```
+
+## Addendum, 14 October 2026 evening: what changed on these pages after the packs (session 283)
+
+So that the review is not of a moving target: what sessions 280 to 282 (the code machine's daytime chain) changed on each page under review, one line each. All landed on `main` the same evening, each with 0 differences on the 25 snapshot pages (no page is live).
+
+| Pack | Page | What changed after the pack was written |
+|---|---|---|
+| 1. What a battery earns | `/cost-of-power/battery` | Nothing. (Session 281 gave the shared input panel an optional Reset line; this page passes none, so it draws as before.) |
+| 2. What a datacenter pays | `/cost-of-power` | Session 280: "Will the power be there?" adds a table at the grid's hub from `scarcity_hours_by_grid` (ERCOT and CAISO only): the hours at or above USD 1,000 and the hours the grid's own signal was in force, each beside the hours held; "How soon?" adds a closed panel listing every statement of `large_load_public` for the grid, and for ERCOT, CAISO and NYISO those elsewhere in the state, each with its date and link. The pack's steps 11 and 13 and four rows of part 4 were updated with it; the download carries the hub counts; check-values reads CAISO's address too. Nothing else on the page moved. |
+| 3. What a generator earns | `/cost-of-power/seller` | Nothing. (The same optional Reset line, not passed here.) |
+| 4. The Grid tool | `/grid` | Nothing on the page. Session 281 pointed `/curtailment`'s "the energy mix" link straight at `/grid?view=mix`, where it went through a redirect before. |
+| 5. Research | `/research` | Nothing from sessions 280 to 282. (The data machine's session 286 landed the same evening: a round of findings verification and two motion drafts under `docs/research/motion/`; see its report.) |
+
+Pages outside the packs that sessions 281 and 282 changed, for completeness: Reset links or buttons on `/prices/compare`, `/demand`, `/curtailment`, the build-out and owners tabs of `/storage`, `/datacenters`, `/deals` and its companies tab, `/policy` and the severance calculator; per-point hover on `/storage`'s sparkline; two stale sentences on `/deals`; method links on `/contracts`; seven method notes; and `/api/download` now refuses a table marked "license needed", as `/data` already hides its link (session 282's report, "Look first"). Their rulings are listed in `archive/sessions/SESSION_281_REPORT.md` and `SESSION_282_REPORT.md`.
