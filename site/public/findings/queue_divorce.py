@@ -158,7 +158,7 @@ def stata(params):
     return do_file([
         f"* ERW finding {NAME}: {TITLE}. Reproduces the card's shares from {CSV_NAME}.",
         "clear all",
-        f'import delimited "{CSV_NAME}", varnames(1) stringcols(_all) clear',
+        f'import delimited "{CSV_NAME}", varnames(5) rowrange(6) stringcols(_all) clear',
         *do_destring(V),
         *do_sentinels(V),
         "gen cdc_ratio_pct = cdc_divorce_rate_per_1000 / cdc_marriage_rate_per_1000 * 100",
