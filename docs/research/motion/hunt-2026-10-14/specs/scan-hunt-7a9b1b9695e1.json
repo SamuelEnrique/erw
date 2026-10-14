@@ -1,0 +1,43 @@
+{
+ "id": "scan-hunt-7a9b1b9695e1",
+ "kicker": "ERW Research",
+ "title": "THE EVENING RAMP: PJM",
+ "subtitle": "PJM: the median day's largest one-hour rise of net load between 2 PM and 10 PM local, 3,805 MW per hour in 2025, up from 2,484 MW per hour in 2019. The direction holds in 5 of the 6 full years after 2019.",
+ "source": "Source: the rows for PJM of the ERW tables grid_stress_yearly; computed by the hunt's measure evening_ramp (warehouse/analysis/findings/hunt_measures.py). Found by the weekly hunt.",
+ "width": 1080,
+ "height": 1350,
+ "type": "draw-on",
+ "x": [
+  "2019",
+  "2020",
+  "2021",
+  "2022",
+  "2023",
+  "2024",
+  "2025"
+ ],
+ "xLabel": "full years held; the last one is marked",
+ "yLabel": "MW per hour",
+ "yRightLabel": "",
+ "series": [
+  {
+   "name": "PJM: the median day's largest one-hour rise of net load between 2 PM and 10 PM local",
+   "values": [
+    2484,
+    2286.5,
+    2652,
+    2864,
+    2931,
+    3540.5,
+    3805
+   ],
+   "axis": "left",
+   "unit": "",
+   "bar": false
+  }
+ ],
+ "band": null,
+ "leftOut": [],
+ "decimals": 0,
+ "frames": 450
+}

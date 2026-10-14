@@ -1,0 +1,2294 @@
+[
+ {
+  "id": "scan-hunt-7a9b1b9695e1",
+  "state": "draft",
+  "raised_at": "2026-10-14T18:48:52.731435+00:00",
+  "pattern": "evening_ramp",
+  "measure": "evening_ramp",
+  "region": "pjm",
+  "words": "PJM",
+  "strength": 3.7398,
+  "fact": "PJM: the median day's largest one-hour rise of net load between 2 PM and 10 PM local, 3,805 MW per hour in 2025, up from 2,484 MW per hour in 2019. The direction holds in 5 of the 6 full years after 2019.",
+  "tables": [
+   "grid_stress_yearly"
+  ],
+  "source_line": "Source: the rows for PJM of the ERW tables grid_stress_yearly; computed by the hunt's measure evening_ramp (warehouse/analysis/findings/hunt_measures.py). Found by the weekly hunt.",
+  "problems": [],
+  "mirror_exit": 0,
+  "mirror_out": [
+   "claim: 2484.0 in 2019, 3805.0 in 2025; change 1321.0",
+   "test 1, more than one year: 5 of 6 full years after 2019 on the claim's side: pass",
+   "test 2, another window: from 2020 the change is 1518.5, to 2024 it is 1056.5: pass",
+   "test 3, the sample: 8731.0 and 8757.0 observations, floor 8000: pass"
+  ],
+  "row_value_column": {
+   "stored": 1321,
+   "recomputed": 1321.0,
+   "equal_in_full": true,
+   "equal_at_15_digits": true
+  },
+  "numbers_compared": 45,
+  "claim": {
+   "first_year": "2019",
+   "last_year": "2025",
+   "first": 2484.0,
+   "last": 3805.0,
+   "change": 1321.0,
+   "direction": "up",
+   "years_held": 5,
+   "years_after": 6,
+   "typical_move": 353.22945,
+   "strength": 3.7398,
+   "n_first": 8731.0,
+   "n_last": 8757.0,
+   "passed": true
+  },
+  "tests": [
+   {
+    "name": "holds in more than one year",
+    "passed": true,
+    "words": "5 of the 6 full years after 2019 lie above 2019's value"
+   },
+   {
+    "name": "survives a change of window",
+    "passed": true,
+    "words": "from 2020 to 2025 the change is 1,518, from 2019 to 2024 it is 1,056"
+   },
+   {
+    "name": "sample large enough",
+    "passed": true,
+    "words": "2019 holds 8,731 and 2025 holds 8,757 observations; the floor is 8,000"
+   }
+  ],
+  "unit": "MW per hour",
+  "decimals": 0,
+  "label": "the median day's largest one-hour rise of net load between 2 PM and 10 PM local",
+  "series": {
+   "2019": [
+    2484.0,
+    8731.0
+   ],
+   "2020": [
+    2286.5,
+    8060.0
+   ],
+   "2021": [
+    2652.0,
+    8757.0
+   ],
+   "2022": [
+    2864.0,
+    8716.0
+   ],
+   "2023": [
+    2931.0,
+    8746.0
+   ],
+   "2024": [
+    3540.5,
+    8777.0
+   ],
+   "2025": [
+    3805.0,
+    8757.0
+   ],
+   "2026": [
+    4074.0,
+    6564.0
+   ]
+  },
+  "context": null,
+  "reproduced_from_own_csv": true,
+  "today_diffs": [],
+  "context_diffs": [],
+  "reproduced_from_tables_full_years": true,
+  "tables_are_the_measures_own": true,
+  "more": {
+   "steps_on_side": 5,
+   "steps": 6,
+   "spearman_year": 0.9643,
+   "two_year_ends": 1287.5,
+   "two_year_ends_same_side": true,
+   "change_without_first_year": 1518.5,
+   "share_of_claim_without_first_year": 1.1495079485238455,
+   "change_without_last_year": 1056.5,
+   "share_of_claim_without_last_year": 0.799772899318698,
+   "last_is_extreme": true,
+   "first_is_other_extreme": false,
+   "median_between": 2864.0,
+   "year_under_way": {
+    "year": "2026",
+    "value": 4074.0,
+    "n": 6564.0,
+    "on_side_of_first": true,
+    "beyond_last": true
+   }
+  },
+  "cuts": [
+   {
+    "name": "the median ramp as a percent of the year's peak demand",
+    "by_year": {
+     "2019": 1.6308308439746577,
+     "2020": 1.5722556866628161,
+     "2021": 1.7728457784611271,
+     "2022": 1.9282559517397393,
+     "2023": 1.9857050912909453,
+     "2024": 2.3122236662508735,
+     "2025": 2.3698305929247634,
+     "2026": 2.504795632285672
+    },
+    "first": 1.6308308439746577,
+    "last": 2.3698305929247634,
+    "change": 0.7389997489501057,
+    "same_direction": true
+   },
+   {
+    "name": "the year's largest one-hour ramp as a percent of peak demand (the table's own column; one hour a year)",
+    "by_year": {
+     "2019": 4.862,
+     "2020": 5.541,
+     "2021": 4.706,
+     "2022": 7.127,
+     "2023": 4.214,
+     "2024": 4.852,
+     "2025": 5.934,
+     "2026": 7.088
+    },
+    "first": 4.862,
+    "last": 5.934,
+    "change": 1.072,
+    "same_direction": true
+   },
+   {
+    "name": "the year's largest three-hour ramp as a percent of peak demand (the table's own column; one evening a year)",
+    "by_year": {
+     "2019": 10.804,
+     "2020": 8.908,
+     "2021": 8.543,
+     "2022": 11.628,
+     "2023": 10.171,
+     "2024": 11.241,
+     "2025": 13.503,
+     "2026": 14.463
+    },
+    "first": 10.804,
+    "last": 13.503,
+    "change": 2.699,
+    "same_direction": true
+   }
+  ]
+ },
+ {
+  "id": "scan-hunt-ff565ef92fa1",
+  "state": "draft",
+  "raised_at": "2026-10-14T18:48:53.039712+00:00",
+  "pattern": "scarcity_hours",
+  "measure": "scarcity_hours",
+  "region": "ercot",
+  "words": "ERCOT",
+  "strength": 2.4532,
+  "fact": "ERCOT: share of the year's hours with ERCOT's on-line reserve price adder (RTORPA) above zero, 2.4 percent of hours in 2025, down from 24.2 percent of hours in 2015. The direction holds in 9 of the 10 full years after 2015. Beside it, the year's mean demand: 39,669 MW in 2015, 55,734 MW in 2025.",
+  "tables": [
+   "ercot_rtm_price_adders",
+   "ercot_zone_load_hourly"
+  ],
+  "source_line": "Source: the rows for ERCOT of the ERW tables ercot_rtm_price_adders, ercot_zone_load_hourly; computed by the hunt's measure scarcity_hours (warehouse/analysis/findings/hunt_measures.py). Found by the weekly hunt.",
+  "problems": [],
+  "mirror_exit": 0,
+  "mirror_out": [
+   "claim: 24.23204293707891 in 2015, 2.3803650715342872 in 2025; change -21.851677865544623",
+   "test 1, more than one year: 9 of 10 full years after 2015 on the claim's side: pass",
+   "test 2, another window: from 2016 the change is -15.539434427212578, to 2024 it is -19.335106369489797: pass",
+   "test 3, the sample: 8757.0 and 8108.0 observations, floor 8000: pass"
+  ],
+  "row_value_column": {
+   "stored": -21.8516778655446,
+   "recomputed": -21.851677865544623,
+   "equal_in_full": false,
+   "equal_at_15_digits": true
+  },
+  "numbers_compared": 47,
+  "claim": {
+   "first_year": "2015",
+   "last_year": "2025",
+   "first": 24.23204293707891,
+   "last": 2.3803650715342872,
+   "change": -21.851677865544623,
+   "direction": "down",
+   "years_held": 9,
+   "years_after": 10,
+   "typical_move": 8.907443421832827,
+   "strength": 2.4532,
+   "n_first": 8757.0,
+   "n_last": 8108.0,
+   "passed": true
+  },
+  "tests": [
+   {
+    "name": "holds in more than one year",
+    "passed": true,
+    "words": "9 of the 10 full years after 2015 lie below 2015's value"
+   },
+   {
+    "name": "survives a change of window",
+    "passed": true,
+    "words": "from 2016 to 2025 the change is -15.5, from 2015 to 2024 it is -19.3"
+   },
+   {
+    "name": "sample large enough",
+    "passed": true,
+    "words": "2015 holds 8,757 and 2025 holds 8,108 observations; the floor is 8,000"
+   }
+  ],
+  "unit": "percent of hours",
+  "decimals": 1,
+  "label": "share of the year's hours with ERCOT's on-line reserve price adder (RTORPA) above zero",
+  "series": {
+   "2014": [
+    24.990261005064276,
+    5134.0
+   ],
+   "2015": [
+    24.23204293707891,
+    8757.0
+   ],
+   "2016": [
+    17.919799498746865,
+    8778.0
+   ],
+   "2017": [
+    17.709522722082667,
+    8758.0
+   ],
+   "2018": [
+    18.40091376356368,
+    8755.0
+   ],
+   "2019": [
+    24.13478012564249,
+    8755.0
+   ],
+   "2020": [
+    17.85266993054765,
+    8783.0
+   ],
+   "2021": [
+    15.127970749542962,
+    8752.0
+   ],
+   "2022": [
+    27.60904316053894,
+    8758.0
+   ],
+   "2023": [
+    16.908322867907298,
+    8759.0
+   ],
+   "2024": [
+    4.896936567589113,
+    8781.0
+   ],
+   "2025": [
+    2.3803650715342872,
+    8108.0
+   ]
+  },
+  "context": {
+   "label": "the year's mean demand",
+   "unit": "MW",
+   "decimals": 0,
+   "values": {
+    "2015": 39668.542159989556,
+    "2016": 40005.865174230305,
+    "2017": 40783.10607097708,
+    "2018": 42949.24781764509,
+    "2019": 43817.92797710513,
+    "2020": 43463.069170917915,
+    "2021": 44828.81438730742,
+    "2022": 49073.59178875479,
+    "2023": 50747.59804808413,
+    "2024": 52537.76090328643,
+    "2025": 55734.42677423505
+   },
+   "beside": "Beside it, the year's mean demand: 39,669 MW in 2015, 55,734 MW in 2025."
+  },
+  "reproduced_from_own_csv": true,
+  "today_diffs": [],
+  "context_diffs": [],
+  "reproduced_from_tables_full_years": true,
+  "tables_are_the_measures_own": true,
+  "more": {
+   "steps_on_side": 7,
+   "steps": 10,
+   "spearman_year": -0.6182,
+   "two_year_ends": -17.437270398351185,
+   "two_year_ends_same_side": true,
+   "change_without_first_year": -15.539434427212578,
+   "share_of_claim_without_first_year": 0.7111323223245438,
+   "change_without_last_year": -19.335106369489797,
+   "share_of_claim_without_last_year": 0.8848339467779307,
+   "last_is_extreme": true,
+   "first_is_other_extreme": false,
+   "median_between": 17.85266993054765
+  },
+  "cuts": [
+   {
+    "name": "hours with the adder above USD 1 per MWh, percent",
+    "by_year": {
+     "2014": 2.3178807947019866,
+     "2015": 3.711316660956949,
+     "2016": 1.6404647983595353,
+     "2017": 1.9068280429321762,
+     "2018": 2.8897772701313533,
+     "2019": 5.642490005711022,
+     "2020": 4.007742229306615,
+     "2021": 2.742230347349177,
+     "2022": 8.141128111440969,
+     "2023": 3.3222970658750994,
+     "2024": 0.8882815169115136,
+     "2025": 0.185002466699556
+    },
+    "first": 3.711316660956949,
+    "last": 0.185002466699556,
+    "change": -3.5263141942573926,
+    "same_direction": true
+   },
+   {
+    "name": "hours with the adder above USD 10 per MWh, percent",
+    "by_year": {
+     "2014": 0.4479937670432412,
+     "2015": 0.9592326139088728,
+     "2016": 0.4101161995898838,
+     "2017": 0.30828956382735784,
+     "2018": 1.233580810965163,
+     "2019": 2.809822958309537,
+     "2020": 1.6281452806558123,
+     "2021": 1.5310786106032905,
+     "2022": 3.5967115779858414,
+     "2023": 1.1987669825322524,
+     "2024": 0.30748206354629315,
+     "2025": 0.049333991119881605
+    },
+    "first": 0.9592326139088728,
+    "last": 0.049333991119881605,
+    "change": -0.9098986227889913,
+    "same_direction": true
+   },
+   {
+    "name": "the year's mean adder, USD per MWh",
+    "by_year": {
+     "2014": 0.19750469419555902,
+     "2015": 0.9064396939591184,
+     "2016": 0.20395187969924813,
+     "2017": 0.17340278602420642,
+     "2018": 1.284010793832096,
+     "2019": 6.217734334665904,
+     "2020": 1.8516620858476605,
+     "2021": 7.047069526965267,
+     "2022": 5.176070849509021,
+     "2023": 0.9185587624158009,
+     "2024": 0.20164113426716773,
+     "2025": 0.0651428589047854
+    },
+    "first": 0.9064396939591184,
+    "last": 0.0651428589047854,
+    "change": -0.841296835054333,
+    "same_direction": true
+   }
+  ]
+ },
+ {
+  "id": "scan-hunt-6040ef25cbd6",
+  "state": "draft",
+  "raised_at": "2026-10-14T18:48:53.355287+00:00",
+  "pattern": "da_rt_spread",
+  "measure": "da_rt_spread",
+  "region": "ercot_HB_SOUTH_night",
+  "words": "ERCOT, South hub (HB_SOUTH), midnight to 6 AM",
+  "strength": 2.3824,
+  "fact": "ERCOT, South hub (HB_SOUTH), midnight to 6 AM: the median hour's day-ahead price minus its real-time price, 0.96 USD per MWh in 2025, up from -0.38 USD per MWh in 2015. The direction holds in 10 of the 10 full years after 2015.",
+  "tables": [
+   "ercot_all_hub_prices_history"
+  ],
+  "source_line": "Source: the rows for ERCOT, South hub (HB_SOUTH), midnight to 6 AM of the ERW tables ercot_all_hub_prices_history; computed by the hunt's measure da_rt_spread (warehouse/analysis/findings/hunt_measures.py). Found by the weekly hunt.",
+  "problems": [],
+  "mirror_exit": 0,
+  "mirror_out": [
+   "claim: -0.375 in 2015, 0.9649999999999999 in 2025; change 1.3399999999999999",
+   "test 1, more than one year: 10 of 10 full years after 2015 on the claim's side: pass",
+   "test 2, another window: from 2016 the change is 1.1049999999999995, to 2024 it is 0.06374999999999886: pass",
+   "test 3, the sample: 2190.0 and 2190.0 observations, floor 1000: pass"
+  ],
+  "row_value_column": {
+   "stored": 1.34,
+   "recomputed": 1.3399999999999999,
+   "equal_in_full": false,
+   "equal_at_15_digits": true
+  },
+  "numbers_compared": 45,
+  "claim": {
+   "first_year": "2015",
+   "last_year": "2025",
+   "first": -0.375,
+   "last": 0.9649999999999999,
+   "change": 1.3399999999999999,
+   "direction": "up",
+   "years_held": 10,
+   "years_after": 10,
+   "typical_move": 0.5624613749999987,
+   "strength": 2.3824,
+   "n_first": 2190.0,
+   "n_last": 2190.0,
+   "passed": true
+  },
+  "tests": [
+   {
+    "name": "holds in more than one year",
+    "passed": true,
+    "words": "10 of the 10 full years after 2015 lie above 2015's value"
+   },
+   {
+    "name": "survives a change of window",
+    "passed": true,
+    "words": "from 2016 to 2025 the change is 1.10, from 2015 to 2024 it is 0.06"
+   },
+   {
+    "name": "sample large enough",
+    "passed": true,
+    "words": "2015 holds 2,190 and 2025 holds 2,190 observations; the floor is 1,000"
+   }
+  ],
+  "unit": "USD per MWh",
+  "decimals": 2,
+  "label": "the median hour's day-ahead price minus its real-time price",
+  "series": {
+   "2015": [
+    -0.375,
+    2190.0
+   ],
+   "2016": [
+    -0.13999999999999968,
+    2196.0
+   ],
+   "2017": [
+    0.15874999999999773,
+    2190.0
+   ],
+   "2018": [
+    0.40249999999999986,
+    2190.0
+   ],
+   "2019": [
+    -0.21749999999999936,
+    2190.0
+   ],
+   "2020": [
+    -0.10250000000000004,
+    2196.0
+   ],
+   "2021": [
+    0.16625000000000156,
+    2190.0
+   ],
+   "2022": [
+    0.7874999999999979,
+    2190.0
+   ],
+   "2023": [
+    0.14874999999999972,
+    2190.0
+   ],
+   "2024": [
+    -0.31125000000000114,
+    2196.0
+   ],
+   "2025": [
+    0.9649999999999999,
+    2190.0
+   ],
+   "2026": [
+    0.46750000000000114,
+    1715.0
+   ]
+  },
+  "context": null,
+  "reproduced_from_own_csv": true,
+  "today_diffs": [],
+  "context_diffs": [],
+  "reproduced_from_tables_full_years": true,
+  "tables_are_the_measures_own": true,
+  "more": {
+   "steps_on_side": 7,
+   "steps": 10,
+   "spearman_year": 0.4182,
+   "two_year_ends": 0.5843749999999992,
+   "two_year_ends_same_side": true,
+   "change_without_first_year": 1.1049999999999995,
+   "share_of_claim_without_first_year": 0.8246268656716416,
+   "change_without_last_year": 0.06374999999999886,
+   "share_of_claim_without_last_year": 0.0475746268656708,
+   "last_is_extreme": true,
+   "first_is_other_extreme": true,
+   "median_between": 0.14874999999999972,
+   "year_under_way": {
+    "year": "2026",
+    "value": 0.46750000000000114,
+    "n": 1715.0,
+    "on_side_of_first": true,
+    "beyond_last": false
+   }
+  },
+  "cuts": [
+   {
+    "name": "the mean hour's day-ahead price minus its real-time price, USD per MWh",
+    "by_year": {
+     "2015": -0.3442283105022831,
+     "2016": -0.23652208561020033,
+     "2017": -0.26631050228310515,
+     "2018": 1.0323995433789956,
+     "2019": -0.10634360730593599,
+     "2020": 0.286386612021858,
+     "2021": -15.769227168949767,
+     "2022": 1.6831449771689497,
+     "2023": -0.06511986301369846,
+     "2024": -0.10460154826958107,
+     "2025": -0.23303767123287664,
+     "2026": 3.2041166180758016
+    },
+    "first": -0.3442283105022831,
+    "last": -0.23303767123287664,
+    "change": 0.11119063926940645,
+    "same_direction": true
+   },
+   {
+    "name": "hours with the day-ahead price above the real-time price, percent",
+    "by_year": {
+     "2015": 40.821917808219176,
+     "2016": 46.90346083788707,
+     "2017": 53.97260273972603,
+     "2018": 58.94977168949772,
+     "2019": 46.210045662100455,
+     "2020": 48.451730418943534,
+     "2021": 51.369863013698634,
+     "2022": 54.474885844748854,
+     "2023": 51.27853881278539,
+     "2024": 45.99271402550091,
+     "2025": 59.086757990867575,
+     "2026": 55.91836734693878
+    },
+    "first": 40.821917808219176,
+    "last": 59.086757990867575,
+    "change": 18.2648401826484,
+    "same_direction": true
+   }
+  ]
+ },
+ {
+  "id": "scan-hunt-a1f89315595c",
+  "state": "draft",
+  "raised_at": "2026-10-14T18:48:53.672944+00:00",
+  "pattern": "negative_hours_zones",
+  "measure": "negative_hours_zones",
+  "region": "ercot_LZ_NORTH",
+  "words": "ERCOT, load zone LZ_NORTH",
+  "strength": 2.376,
+  "fact": "ERCOT, load zone LZ_NORTH: share of the year's hours with a mean real-time price below zero, 2.42 percent of hours in 2025, up from 0.88 percent of hours in 2015. The direction holds in 6 of the 10 full years after 2015.",
+  "tables": [
+   "ercot_zone_prices_history"
+  ],
+  "source_line": "Source: the rows for ERCOT, load zone LZ_NORTH of the ERW tables ercot_zone_prices_history; computed by the hunt's measure negative_hours_zones (warehouse/analysis/findings/hunt_measures.py). Found by the weekly hunt.",
+  "problems": [],
+  "mirror_exit": 0,
+  "mirror_out": [
+   "claim: 0.8789954337899543 in 2015, 2.4200913242009134 in 2025; change 1.541095890410959",
+   "test 1, more than one year: 6 of 10 full years after 2015 on the claim's side: pass",
+   "test 2, another window: from 2016 the change is 0.9515120892282358, to 2024 it is 1.2726439104723406: pass",
+   "test 3, the sample: 8760.0 and 8760.0 observations, floor 8000: pass"
+  ],
+  "row_value_column": {
+   "stored": 1.54109589041096,
+   "recomputed": 1.541095890410959,
+   "equal_in_full": false,
+   "equal_at_15_digits": true
+  },
+  "numbers_compared": 45,
+  "claim": {
+   "first_year": "2015",
+   "last_year": "2025",
+   "first": 0.8789954337899543,
+   "last": 2.4200913242009134,
+   "change": 1.541095890410959,
+   "direction": "up",
+   "years_held": 6,
+   "years_after": 10,
+   "typical_move": 0.648616690994835,
+   "strength": 2.376,
+   "n_first": 8760.0,
+   "n_last": 8760.0,
+   "passed": true
+  },
+  "tests": [
+   {
+    "name": "holds in more than one year",
+    "passed": true,
+    "words": "6 of the 10 full years after 2015 lie above 2015's value"
+   },
+   {
+    "name": "survives a change of window",
+    "passed": true,
+    "words": "from 2016 to 2025 the change is 0.95, from 2015 to 2024 it is 1.27"
+   },
+   {
+    "name": "sample large enough",
+    "passed": true,
+    "words": "2015 holds 8,760 and 2025 holds 8,760 observations; the floor is 8,000"
+   }
+  ],
+  "unit": "percent of hours",
+  "decimals": 2,
+  "label": "share of the year's hours with a mean real-time price below zero",
+  "series": {
+   "2015": [
+    0.8789954337899543,
+    8760.0
+   ],
+   "2016": [
+    1.4685792349726776,
+    8784.0
+   ],
+   "2017": [
+    0.6278538812785388,
+    8760.0
+   ],
+   "2018": [
+    0.3424657534246575,
+    8760.0
+   ],
+   "2019": [
+    0.5593607305936072,
+    8760.0
+   ],
+   "2020": [
+    0.8082877959927139,
+    8784.0
+   ],
+   "2021": [
+    1.9977168949771689,
+    8760.0
+   ],
+   "2022": [
+    1.3470319634703196,
+    8760.0
+   ],
+   "2023": [
+    1.5068493150684932,
+    8760.0
+   ],
+   "2024": [
+    2.151639344262295,
+    8784.0
+   ],
+   "2025": [
+    2.4200913242009134,
+    8760.0
+   ],
+   "2026": [
+    3.033426594021499,
+    6791.0
+   ]
+  },
+  "context": null,
+  "reproduced_from_own_csv": true,
+  "today_diffs": [],
+  "context_diffs": [],
+  "reproduced_from_tables_full_years": true,
+  "tables_are_the_measures_own": true,
+  "more": {
+   "steps_on_side": 7,
+   "steps": 10,
+   "spearman_year": 0.6727,
+   "two_year_ends": 1.1120779998502885,
+   "two_year_ends_same_side": true,
+   "change_without_first_year": 0.9515120892282358,
+   "share_of_claim_without_first_year": 0.6174256223436552,
+   "change_without_last_year": 1.2726439104723406,
+   "share_of_claim_without_last_year": 0.8258044930176076,
+   "last_is_extreme": true,
+   "first_is_other_extreme": false,
+   "median_between": 1.3470319634703196,
+   "year_under_way": {
+    "year": "2026",
+    "value": 3.033426594021499,
+    "n": 6791.0,
+    "on_side_of_first": true,
+    "beyond_last": true
+   }
+  },
+  "cuts": [
+   {
+    "name": "15-minute intervals below zero, percent of the year's intervals",
+    "by_year": {
+     "2015": 1.0017123287671232,
+     "2016": 1.6194216757741347,
+     "2017": 0.839041095890411,
+     "2018": 0.3424657534246575,
+     "2019": 0.5736301369863014,
+     "2020": 0.9534380692167577,
+     "2021": 2.134703196347032,
+     "2022": 1.4897260273972601,
+     "2023": 1.5896118721461188,
+     "2024": 2.2540983606557377,
+     "2025": 2.5428082191780823,
+     "2026": 3.2359004564865264
+    },
+    "first": 1.0017123287671232,
+    "last": 2.5428082191780823,
+    "change": 1.541095890410959,
+    "same_direction": true
+   },
+   {
+    "name": "hours with a mean price below minus USD 10, percent of the year's hours",
+    "by_year": {
+     "2015": 0.0,
+     "2016": 0.056921675774134796,
+     "2017": 0.0228310502283105,
+     "2018": 0.0,
+     "2019": 0.01141552511415525,
+     "2020": 0.11384335154826959,
+     "2021": 0.7648401826484018,
+     "2022": 0.2511415525114155,
+     "2023": 0.19406392694063926,
+     "2024": 0.34153005464480873,
+     "2025": 0.2625570776255708,
+     "2026": 0.3534089235753203
+    },
+    "first": 0.0,
+    "last": 0.2625570776255708,
+    "change": 0.2625570776255708,
+    "same_direction": true
+   }
+  ]
+ },
+ {
+  "id": "scan-hunt-e80da58b1903",
+  "state": "draft",
+  "raised_at": "2026-10-14T18:48:53.89797+00:00",
+  "pattern": "negative_prices",
+  "measure": null,
+  "region": "ercot_houston",
+  "words": "ERCOT Houston",
+  "strength": 2.2801,
+  "fact": "ERCOT Houston: share of the year's hours with a real-time price below zero, 1.62 percent of hours in 2025, up from 0.53 percent of hours in 2019. The direction holds in 6 of the 6 full years after 2019.",
+  "tables": [
+   "ercot_all_hub_prices_history"
+  ],
+  "source_line": "Source: ERCOT's rows of the ERW table ercot_all_hub_prices_history; computed by the finding negative_prices_west (warehouse/analysis/findings/). Found by the weekly hunt.",
+  "problems": [],
+  "mirror_exit": 0,
+  "mirror_out": [
+   "claim: 0.5251141552511416 in 2019, 1.6210045662100456 in 2025; change 1.095890410958904",
+   "test 1, more than one year: 6 of 6 full years after 2019 on the claim's side: pass",
+   "test 2, another window: from 2020 the change is 0.7785637647528507, to 2024 it is 1.0117710906504978: pass",
+   "test 3, the sample: 8760.0 and 8760.0 observations, floor 8000: pass"
+  ],
+  "row_value_column": {
+   "stored": 1.0958904109589,
+   "recomputed": 1.095890410958904,
+   "equal_in_full": false,
+   "equal_at_15_digits": true
+  },
+  "numbers_compared": 45,
+  "claim": {
+   "first_year": "2019",
+   "last_year": "2025",
+   "first": 0.5251141552511416,
+   "last": 1.6210045662100456,
+   "change": 1.095890410958904,
+   "direction": "up",
+   "years_held": 6,
+   "years_after": 6,
+   "typical_move": 0.4806417770791227,
+   "strength": 2.2801,
+   "n_first": 8760.0,
+   "n_last": 8760.0,
+   "passed": true
+  },
+  "tests": [
+   {
+    "name": "holds in more than one year",
+    "passed": true,
+    "words": "6 of the 6 full years after 2019 lie above 2019's value"
+   },
+   {
+    "name": "survives a change of window",
+    "passed": true,
+    "words": "from 2020 to 2025 the change is 0.78, from 2019 to 2024 it is 1.01"
+   },
+   {
+    "name": "sample large enough",
+    "passed": true,
+    "words": "2019 holds 8,760 and 2025 holds 8,760 observations; the floor is 8,000"
+   }
+  ],
+  "unit": "percent of hours",
+  "decimals": 2,
+  "label": "share of the year's hours with a real-time price below zero",
+  "series": {
+   "2019": [
+    0.5251141552511416,
+    8760.0
+   ],
+   "2020": [
+    0.8424408014571949,
+    8784.0
+   ],
+   "2021": [
+    1.7123287671232876,
+    8760.0
+   ],
+   "2022": [
+    1.004566210045662,
+    8760.0
+   ],
+   "2023": [
+    1.3356164383561644,
+    8760.0
+   ],
+   "2024": [
+    1.5368852459016393,
+    8784.0
+   ],
+   "2025": [
+    1.6210045662100456,
+    8760.0
+   ],
+   "2026": [
+    1.6610811598426343,
+    6863.0
+   ]
+  },
+  "context": null,
+  "reproduced_from_own_csv": true,
+  "today_diffs": [],
+  "context_diffs": [],
+  "reproduced_from_tables_full_years": true,
+  "tables_are_the_measures_own": true,
+  "more": {
+   "steps_on_side": 5,
+   "steps": 6,
+   "spearman_year": 0.6429,
+   "two_year_ends": 0.8951674277016742,
+   "two_year_ends_same_side": true,
+   "change_without_first_year": 0.7785637647528507,
+   "share_of_claim_without_first_year": 0.7104394353369763,
+   "change_without_last_year": 1.0117710906504978,
+   "share_of_claim_without_last_year": 0.9232411202185793,
+   "last_is_extreme": false,
+   "first_is_other_extreme": true,
+   "median_between": 1.3356164383561644,
+   "year_under_way": {
+    "year": "2026",
+    "value": 1.6610811598426343,
+    "n": 6863.0,
+    "on_side_of_first": true,
+    "beyond_last": true
+   }
+  },
+  "cuts": [
+   {
+    "name": "15-minute intervals below zero, percent of the year's intervals",
+    "by_year": {
+     "2015": 0.6678082191780822,
+     "2016": 1.5795765027322404,
+     "2017": 0.49372146118721466,
+     "2018": 0.3538812785388128,
+     "2019": 0.49657534246575347,
+     "2020": 0.9107468123861567,
+     "2021": 1.7950913242009134,
+     "2022": 1.1472602739726028,
+     "2023": 1.4069634703196348,
+     "2024": 1.539731329690346,
+     "2025": 1.6866438356164384,
+     "2026": 1.6465102724755938
+    },
+    "first": 0.49657534246575347,
+    "last": 1.6866438356164384,
+    "change": 1.1900684931506849,
+    "same_direction": true
+   },
+   {
+    "name": "hours with a mean price below minus USD 10, percent of the year's hours",
+    "by_year": {
+     "2015": 0.0,
+     "2016": 0.056921675774134796,
+     "2017": 0.045662100456621,
+     "2018": 0.01141552511415525,
+     "2019": 0.091324200913242,
+     "2020": 0.12522768670309653,
+     "2021": 0.7648401826484018,
+     "2022": 0.17123287671232876,
+     "2023": 0.2397260273972603,
+     "2024": 0.3301457194899818,
+     "2025": 0.273972602739726,
+     "2026": 0.11656709893632523
+    },
+    "first": 0.091324200913242,
+    "last": 0.273972602739726,
+    "change": 0.182648401826484,
+    "same_direction": true
+   }
+  ]
+ },
+ {
+  "id": "scan-hunt-4aa7db84eaa1",
+  "state": "draft",
+  "raised_at": "2026-10-14T18:48:54.185033+00:00",
+  "pattern": "demand_growth_weather_adjusted",
+  "measure": "demand_growth_weather_adjusted",
+  "region": "ercot",
+  "words": "ERCOT (its datacenter markets: Dallas, Austin and San Antonio)",
+  "strength": 2.0466,
+  "fact": "ERCOT (its datacenter markets: Dallas, Austin and San Antonio): the year's energy above the 2019 to 2021 base that temperature does not explain, 24.2 percent above the 2019 to 2021 base in 2025, up from 7.8 percent above the 2019 to 2021 base in 2022. The direction holds in 3 of the 3 full years after 2022.",
+  "tables": [
+   "eia930_demand_weather"
+  ],
+  "source_line": "Source: the rows for ERCOT (its datacenter markets: Dallas, Austin and San Antonio) of the ERW tables eia930_demand_weather; computed by the hunt's measure demand_growth_weather_adjusted (warehouse/analysis/findings/hunt_measures.py). Found by the weekly hunt.",
+  "problems": [],
+  "mirror_exit": 0,
+  "mirror_out": [
+   "claim: 7.826 in 2022, 24.178 in 2025; change 16.352",
+   "test 1, more than one year: 3 of 3 full years after 2022 on the claim's side: pass",
+   "test 2, another window: from 2023 the change is 10.963000000000001, to 2024 it is 10.137: pass",
+   "test 3, the sample: 8755.0 and 8622.0 observations, floor 8000: pass"
+  ],
+  "row_value_column": {
+   "stored": 16.352,
+   "recomputed": 16.352,
+   "equal_in_full": true,
+   "equal_at_15_digits": true
+  },
+  "numbers_compared": 45,
+  "claim": {
+   "first_year": "2022",
+   "last_year": "2025",
+   "first": 7.826,
+   "last": 24.178,
+   "change": 16.352,
+   "direction": "up",
+   "years_held": 3,
+   "years_after": 3,
+   "typical_move": 7.9897314,
+   "strength": 2.0466,
+   "n_first": 8755.0,
+   "n_last": 8622.0,
+   "passed": true
+  },
+  "tests": [
+   {
+    "name": "holds in more than one year",
+    "passed": true,
+    "words": "3 of the 3 full years after 2022 lie above 2022's value"
+   },
+   {
+    "name": "survives a change of window",
+    "passed": true,
+    "words": "from 2023 to 2025 the change is 11.0, from 2022 to 2024 it is 10.1"
+   },
+   {
+    "name": "sample large enough",
+    "passed": true,
+    "words": "2022 holds 8,755 and 2025 holds 8,622 observations; the floor is 8,000"
+   }
+  ],
+  "unit": "percent above the 2019 to 2021 base",
+  "decimals": 1,
+  "label": "the year's energy above the 2019 to 2021 base that temperature does not explain",
+  "series": {
+   "2022": [
+    7.826,
+    8755.0
+   ],
+   "2023": [
+    13.215,
+    8750.0
+   ],
+   "2024": [
+    17.963,
+    8740.0
+   ],
+   "2025": [
+    24.178,
+    8622.0
+   ]
+  },
+  "context": null,
+  "reproduced_from_own_csv": true,
+  "today_diffs": [],
+  "context_diffs": [],
+  "reproduced_from_tables_full_years": true,
+  "tables_are_the_measures_own": true,
+  "more": {
+   "steps_on_side": 3,
+   "steps": 3,
+   "spearman_year": 1.0,
+   "two_year_ends": 10.550000000000002,
+   "two_year_ends_same_side": true,
+   "change_without_first_year": 10.963000000000001,
+   "share_of_claim_without_first_year": 0.670437866927593,
+   "change_without_last_year": 10.137,
+   "share_of_claim_without_last_year": 0.619924168297456,
+   "last_is_extreme": true,
+   "first_is_other_extreme": true,
+   "median_between": 15.589
+  },
+  "cuts": [
+   {
+    "name": "the year's energy above the base before weather is taken out, percent (energy_growth_pct)",
+    "by_year": {
+     "2022": 11.769,
+     "2023": 15.991,
+     "2024": 20.072,
+     "2025": 26.55
+    },
+    "first": 11.769,
+    "last": 26.55,
+    "change": 14.781,
+    "same_direction": true
+   },
+   {
+    "name": "the part of it weather explains, percent (energy_weather_pct)",
+    "by_year": {
+     "2022": 3.944,
+     "2023": 2.775,
+     "2024": 2.109,
+     "2025": 2.372
+    },
+    "first": 3.944,
+    "last": 2.372,
+    "change": -1.572,
+    "same_direction": false
+   },
+   {
+    "name": "the fit's own uncertainty, percent (energy_uncertainty_pct)",
+    "by_year": {
+     "2022": 4.037,
+     "2023": 4.037,
+     "2024": 4.037,
+     "2025": 4.037
+    },
+    "first": 4.037,
+    "last": 4.037,
+    "change": 0.0,
+    "same_direction": false
+   },
+   {
+    "name": "the same measure in the base years, left out of the fit one at a time (energy_holdout_unexplained_pct)",
+    "by_year": {
+     "2019": -2.456,
+     "2020": -1.351,
+     "2021": 4.037
+    },
+    "first": null,
+    "last": null
+   }
+  ]
+ },
+ {
+  "id": "scan-hunt-0a27000ec580",
+  "state": "draft",
+  "raised_at": "2026-10-14T18:48:54.734011+00:00",
+  "pattern": "demand_growth_weather_adjusted",
+  "measure": "demand_growth_weather_adjusted",
+  "region": "pjm",
+  "words": "PJM (its datacenter markets: northern Virginia, Ohio and Chicago's suburbs)",
+  "strength": 1.954,
+  "fact": "PJM (its datacenter markets: northern Virginia, Ohio and Chicago's suburbs): the year's energy above the 2019 to 2021 base that temperature does not explain, 6.6 percent above the 2019 to 2021 base in 2025, up from 2.1 percent above the 2019 to 2021 base in 2022. The direction holds in 3 of the 3 full years after 2022.",
+  "tables": [
+   "eia930_demand_weather"
+  ],
+  "source_line": "Source: the rows for PJM (its datacenter markets: northern Virginia, Ohio and Chicago's suburbs) of the ERW tables eia930_demand_weather; computed by the hunt's measure demand_growth_weather_adjusted (warehouse/analysis/findings/hunt_measures.py). Found by the weekly hunt.",
+  "problems": [],
+  "mirror_exit": 0,
+  "mirror_out": [
+   "claim: 2.054 in 2022, 6.585 in 2025; change 4.531000000000001",
+   "test 1, more than one year: 3 of 3 full years after 2022 on the claim's side: pass",
+   "test 2, another window: from 2023 the change is 4.277, to 2024 it is 1.818: pass",
+   "test 3, the sample: 8754.0 and 8651.0 observations, floor 8000: pass"
+  ],
+  "row_value_column": {
+   "stored": 4.531,
+   "recomputed": 4.531000000000001,
+   "equal_in_full": false,
+   "equal_at_15_digits": true
+  },
+  "numbers_compared": 45,
+  "claim": {
+   "first_year": "2022",
+   "last_year": "2025",
+   "first": 2.054,
+   "last": 6.585,
+   "change": 4.531000000000001,
+   "direction": "up",
+   "years_held": 3,
+   "years_after": 3,
+   "typical_move": 2.3187864,
+   "strength": 1.954,
+   "n_first": 8754.0,
+   "n_last": 8651.0,
+   "passed": true
+  },
+  "tests": [
+   {
+    "name": "holds in more than one year",
+    "passed": true,
+    "words": "3 of the 3 full years after 2022 lie above 2022's value"
+   },
+   {
+    "name": "survives a change of window",
+    "passed": true,
+    "words": "from 2023 to 2025 the change is 4.3, from 2022 to 2024 it is 1.8"
+   },
+   {
+    "name": "sample large enough",
+    "passed": true,
+    "words": "2022 holds 8,754 and 2025 holds 8,651 observations; the floor is 8,000"
+   }
+  ],
+  "unit": "percent above the 2019 to 2021 base",
+  "decimals": 1,
+  "label": "the year's energy above the 2019 to 2021 base that temperature does not explain",
+  "series": {
+   "2022": [
+    2.054,
+    8754.0
+   ],
+   "2023": [
+    2.308,
+    8759.0
+   ],
+   "2024": [
+    3.872,
+    8739.0
+   ],
+   "2025": [
+    6.585,
+    8651.0
+   ]
+  },
+  "context": null,
+  "reproduced_from_own_csv": true,
+  "today_diffs": [],
+  "context_diffs": [],
+  "reproduced_from_tables_full_years": true,
+  "tables_are_the_measures_own": true,
+  "more": {
+   "steps_on_side": 3,
+   "steps": 3,
+   "spearman_year": 1.0,
+   "two_year_ends": 3.0475000000000003,
+   "two_year_ends_same_side": true,
+   "change_without_first_year": 4.277,
+   "share_of_claim_without_first_year": 0.9439417347163981,
+   "change_without_last_year": 1.818,
+   "share_of_claim_without_last_year": 0.40123593025822113,
+   "last_is_extreme": true,
+   "first_is_other_extreme": true,
+   "median_between": 3.09
+  },
+  "cuts": [
+   {
+    "name": "the year's energy above the base before weather is taken out, percent (energy_growth_pct)",
+    "by_year": {
+     "2022": 2.798,
+     "2023": -0.422,
+     "2024": 3.081,
+     "2025": 7.161
+    },
+    "first": 2.798,
+    "last": 7.161,
+    "change": 4.3629999999999995,
+    "same_direction": true
+   },
+   {
+    "name": "the part of it weather explains, percent (energy_weather_pct)",
+    "by_year": {
+     "2022": 0.744,
+     "2023": -2.73,
+     "2024": -0.791,
+     "2025": 0.576
+    },
+    "first": 0.744,
+    "last": 0.576,
+    "change": -0.16800000000000004,
+    "same_direction": false
+   },
+   {
+    "name": "the fit's own uncertainty, percent (energy_uncertainty_pct)",
+    "by_year": {
+     "2022": 2.544,
+     "2023": 2.544,
+     "2024": 2.544,
+     "2025": 2.544
+    },
+    "first": 2.544,
+    "last": 2.544,
+    "change": 0.0,
+    "same_direction": false
+   },
+   {
+    "name": "the same measure in the base years, left out of the fit one at a time (energy_holdout_unexplained_pct)",
+    "by_year": {
+     "2019": 1.021,
+     "2020": -2.544,
+     "2021": 1.399
+    },
+    "first": null,
+    "last": null
+   }
+  ]
+ },
+ {
+  "id": "scan-hunt-f7df3c239056",
+  "state": "draft",
+  "raised_at": "2026-10-14T18:48:55.002581+00:00",
+  "pattern": "negative_hours_zones",
+  "measure": "negative_hours_zones",
+  "region": "ercot_LZ_HOUSTON",
+  "words": "ERCOT, load zone LZ_HOUSTON",
+  "strength": 1.7058,
+  "fact": "ERCOT, load zone LZ_HOUSTON: share of the year's hours with a mean real-time price below zero, 1.61 percent of hours in 2025, up from 0.62 percent of hours in 2015. The direction holds in 7 of the 10 full years after 2015.",
+  "tables": [
+   "ercot_zone_prices_history"
+  ],
+  "source_line": "Source: the rows for ERCOT, load zone LZ_HOUSTON of the ERW tables ercot_zone_prices_history; computed by the hunt's measure negative_hours_zones (warehouse/analysis/findings/hunt_measures.py). Found by the weekly hunt.",
+  "problems": [],
+  "mirror_exit": 0,
+  "mirror_out": [
+   "claim: 0.6164383561643836 in 2015, 1.6095890410958904 in 2025; change 0.9931506849315068",
+   "test 1, more than one year: 7 of 10 full years after 2015 on the claim's side: pass",
+   "test 2, another window: from 2016 the change is 0.17516281158769376, to 2024 it is 0.8976782194276018: pass",
+   "test 3, the sample: 8760.0 and 8760.0 observations, floor 8000: pass"
+  ],
+  "row_value_column": {
+   "stored": 0.993150684931507,
+   "recomputed": 0.9931506849315068,
+   "equal_in_full": false,
+   "equal_at_15_digits": true
+  },
+  "numbers_compared": 45,
+  "claim": {
+   "first_year": "2015",
+   "last_year": "2025",
+   "first": 0.6164383561643836,
+   "last": 1.6095890410958904,
+   "change": 0.9931506849315068,
+   "direction": "up",
+   "years_held": 7,
+   "years_after": 10,
+   "typical_move": 0.5822359645183023,
+   "strength": 1.7058,
+   "n_first": 8760.0,
+   "n_last": 8760.0,
+   "passed": true
+  },
+  "tests": [
+   {
+    "name": "holds in more than one year",
+    "passed": true,
+    "words": "7 of the 10 full years after 2015 lie above 2015's value"
+   },
+   {
+    "name": "survives a change of window",
+    "passed": true,
+    "words": "from 2016 to 2025 the change is 0.18, from 2015 to 2024 it is 0.90"
+   },
+   {
+    "name": "sample large enough",
+    "passed": true,
+    "words": "2015 holds 8,760 and 2025 holds 8,760 observations; the floor is 8,000"
+   }
+  ],
+  "unit": "percent of hours",
+  "decimals": 2,
+  "label": "share of the year's hours with a mean real-time price below zero",
+  "series": {
+   "2015": [
+    0.6164383561643836,
+    8760.0
+   ],
+   "2016": [
+    1.4344262295081966,
+    8784.0
+   ],
+   "2017": [
+    0.4223744292237443,
+    8760.0
+   ],
+   "2018": [
+    0.3310502283105023,
+    8760.0
+   ],
+   "2019": [
+    0.4452054794520548,
+    8760.0
+   ],
+   "2020": [
+    0.819672131147541,
+    8784.0
+   ],
+   "2021": [
+    1.6666666666666667,
+    8760.0
+   ],
+   "2022": [
+    0.9474885844748858,
+    8760.0
+   ],
+   "2023": [
+    1.3584474885844748,
+    8760.0
+   ],
+   "2024": [
+    1.5141165755919854,
+    8784.0
+   ],
+   "2025": [
+    1.6095890410958904,
+    8760.0
+   ],
+   "2026": [
+    1.5019879251951114,
+    6791.0
+   ]
+  },
+  "context": null,
+  "reproduced_from_own_csv": true,
+  "today_diffs": [],
+  "context_diffs": [],
+  "reproduced_from_tables_full_years": true,
+  "tables_are_the_measures_own": true,
+  "more": {
+   "steps_on_side": 7,
+   "steps": 10,
+   "spearman_year": 0.6091,
+   "two_year_ends": 0.5364205155076478,
+   "two_year_ends_same_side": true,
+   "change_without_first_year": 0.17516281158769376,
+   "share_of_claim_without_first_year": 0.17637083097795372,
+   "change_without_last_year": 0.8976782194276018,
+   "share_of_claim_without_last_year": 0.9038691036995163,
+   "last_is_extreme": false,
+   "first_is_other_extreme": false,
+   "median_between": 0.9474885844748858,
+   "year_under_way": {
+    "year": "2026",
+    "value": 1.5019879251951114,
+    "n": 6791.0,
+    "on_side_of_first": true,
+    "beyond_last": false
+   }
+  },
+  "cuts": [
+   {
+    "name": "15-minute intervals below zero, percent of the year's intervals",
+    "by_year": {
+     "2015": 0.6735159817351598,
+     "2016": 1.5795765027322404,
+     "2017": 0.49657534246575347,
+     "2018": 0.3453196347031963,
+     "2019": 0.47659817351598177,
+     "2020": 0.8908242258652095,
+     "2021": 1.75513698630137,
+     "2022": 1.08162100456621,
+     "2023": 1.41837899543379,
+     "2024": 1.551115664845173,
+     "2025": 1.6666666666666667,
+     "2026": 1.5424826976881167
+    },
+    "first": 0.6735159817351598,
+    "last": 1.6666666666666667,
+    "change": 0.9931506849315069,
+    "same_direction": true
+   },
+   {
+    "name": "hours with a mean price below minus USD 10, percent of the year's hours",
+    "by_year": {
+     "2015": 0.0,
+     "2016": 0.056921675774134796,
+     "2017": 0.03424657534246575,
+     "2018": 0.0,
+     "2019": 0.01141552511415525,
+     "2020": 0.11384335154826959,
+     "2021": 0.7648401826484018,
+     "2022": 0.17123287671232876,
+     "2023": 0.2625570776255708,
+     "2024": 0.3301457194899818,
+     "2025": 0.2511415525114155,
+     "2026": 0.08835223089383007
+    },
+    "first": 0.0,
+    "last": 0.2511415525114155,
+    "change": 0.2511415525114155,
+    "same_direction": true
+   }
+  ]
+ },
+ {
+  "id": "scan-hunt-b8cdd74f952b",
+  "state": "draft",
+  "raised_at": "2026-10-14T18:48:55.27222+00:00",
+  "pattern": "implied_heat_rate",
+  "measure": "implied_heat_rate",
+  "region": "ercot_HB_WEST",
+  "words": "ERCOT, West hub (HB_WEST)",
+  "strength": 1.4878,
+  "fact": "ERCOT, West hub (HB_WEST): the median day's mean real-time price divided by that day's Henry Hub spot price, 9.75 MMBtu per MWh in 2025, up from 8.38 MMBtu per MWh in 2015. The direction holds in 4 of the 10 full years after 2015.",
+  "tables": [
+   "ercot_all_hub_prices_history",
+   "eia_fuel_spot_prices"
+  ],
+  "source_line": "Source: the rows for ERCOT, West hub (HB_WEST) of the ERW tables ercot_all_hub_prices_history, eia_fuel_spot_prices; computed by the hunt's measure implied_heat_rate (warehouse/analysis/findings/hunt_measures.py). Found by the weekly hunt.",
+  "problems": [],
+  "mirror_exit": 0,
+  "mirror_out": [
+   "claim: 8.380588194568077 in 2015, 9.754565329218106 in 2025; change 1.3739771346500298",
+   "test 1, more than one year: 4 of 10 full years after 2015 on the claim's side: pass",
+   "test 2, another window: from 2016 the change is 1.8105549125514395, to 2024 it is 2.6046773494733735: pass",
+   "test 3, the sample: 256.0 and 247.0 observations, floor 200: pass"
+  ],
+  "row_value_column": {
+   "stored": 1.37397713465003,
+   "recomputed": 1.3739771346500298,
+   "equal_in_full": false,
+   "equal_at_15_digits": true
+  },
+  "numbers_compared": 45,
+  "claim": {
+   "first_year": "2015",
+   "last_year": "2025",
+   "first": 8.380588194568077,
+   "last": 9.754565329218106,
+   "change": 1.3739771346500298,
+   "direction": "up",
+   "years_held": 4,
+   "years_after": 10,
+   "typical_move": 0.923513482722572,
+   "strength": 1.4878,
+   "n_first": 256.0,
+   "n_last": 247.0,
+   "passed": true
+  },
+  "tests": [
+   {
+    "name": "holds in more than one year",
+    "passed": true,
+    "words": "4 of the 10 full years after 2015 lie above 2015's value"
+   },
+   {
+    "name": "survives a change of window",
+    "passed": true,
+    "words": "from 2016 to 2025 the change is 1.81, from 2015 to 2024 it is 2.60"
+   },
+   {
+    "name": "sample large enough",
+    "passed": true,
+    "words": "2015 holds 256 and 2025 holds 247 observations; the floor is 200"
+   }
+  ],
+  "unit": "MMBtu per MWh",
+  "decimals": 2,
+  "label": "the median day's mean real-time price divided by that day's Henry Hub spot price",
+  "series": {
+   "2015": [
+    8.380588194568077,
+    256.0
+   ],
+   "2016": [
+    7.944010416666667,
+    261.0
+   ],
+   "2017": [
+    7.127712673611112,
+    259.0
+   ],
+   "2018": [
+    7.936937516406548,
+    248.0
+   ],
+   "2019": [
+    8.269234582811475,
+    256.0
+   ],
+   "2020": [
+    8.599989935587761,
+    251.0
+   ],
+   "2021": [
+    7.619623655913978,
+    251.0
+   ],
+   "2022": [
+    7.644644428582604,
+    250.0
+   ],
+   "2023": [
+    10.973360655737705,
+    249.0
+   ],
+   "2024": [
+    10.98526554404145,
+    251.0
+   ],
+   "2025": [
+    9.754565329218106,
+    247.0
+   ],
+   "2026": [
+    8.81726047238375,
+    190.0
+   ]
+  },
+  "context": null,
+  "reproduced_from_own_csv": true,
+  "today_diffs": [],
+  "context_diffs": [],
+  "reproduced_from_tables_full_years": true,
+  "tables_are_the_measures_own": true,
+  "more": {
+   "steps_on_side": 6,
+   "steps": 10,
+   "spearman_year": 0.5,
+   "two_year_ends": 2.207616131012406,
+   "two_year_ends_same_side": true,
+   "change_without_first_year": 1.8105549125514395,
+   "share_of_claim_without_first_year": 1.3177474842131285,
+   "change_without_last_year": 2.6046773494733735,
+   "share_of_claim_without_last_year": 1.8957210304208005,
+   "last_is_extreme": false,
+   "first_is_other_extreme": false,
+   "median_between": 7.944010416666667,
+   "year_under_way": {
+    "year": "2026",
+    "value": 8.81726047238375,
+    "n": 190.0,
+    "on_side_of_first": true,
+    "beyond_last": false
+   }
+  },
+  "cuts": [
+   {
+    "name": "the mean daily implied heat rate (real time), MMBtu per MWh",
+    "by_year": {
+     "2015": 9.178118466405419,
+     "2016": 8.371918900716256,
+     "2017": 7.4235172457541765,
+     "2018": 9.049389553842127,
+     "2019": 15.78352928127465,
+     "2020": 9.751922269029388,
+     "2021": 20.351885459821528,
+     "2022": 9.260412117060307,
+     "2023": 22.691862574703293,
+     "2024": 13.344965861382473,
+     "2025": 10.239256169628122,
+     "2026": 9.20994884124765
+    },
+    "first": 9.178118466405419,
+    "last": 10.239256169628122,
+    "change": 1.0611377032227036,
+    "same_direction": true
+   },
+   {
+    "name": "the median daily implied heat rate, day-ahead, MMBtu per MWh",
+    "by_year": {
+     "2015": 9.034996892132726,
+     "2016": 8.550992779783394,
+     "2017": 7.536915204678363,
+     "2018": 8.646442837048404,
+     "2019": 8.917447228651813,
+     "2020": 9.84520484171322,
+     "2021": 8.079650673400673,
+     "2022": 8.46079754818594,
+     "2023": 12.123935523114355,
+     "2024": 11.583817829457365,
+     "2025": 10.264282899921197,
+     "2026": 8.778404325286289
+    },
+    "first": 9.034996892132726,
+    "last": 10.264282899921197,
+    "change": 1.2292860077884704,
+    "same_direction": true
+   },
+   {
+    "name": "Henry Hub, the year's mean of the days held, USD per MMBtu",
+    "by_year": {
+     "1997": 2.489839357429719,
+     "1998": 2.0883665338645416,
+     "1999": 2.27412,
+     "2000": 4.311485943775101,
+     "2001": 3.95912,
+     "2002": 3.3756,
+     "2003": 5.47116,
+     "2004": 5.89289156626506,
+     "2005": 8.685892116182574,
+     "2006": 6.731244979919678,
+     "2007": 6.96718253968254,
+     "2008": 8.862529644268776,
+     "2009": 3.94265873015873,
+     "2010": 4.369722222222222,
+     "2011": 3.9963095238095234,
+     "2012": 2.7544841269841265,
+     "2013": 3.731269841269841,
+     "2014": 4.372806324110672,
+     "2015": 2.623984375,
+     "2016": 2.515977011494253,
+     "2017": 2.9880308880308886,
+     "2018": 3.152661290322581,
+     "2019": 2.563125,
+     "2020": 2.03207171314741,
+     "2021": 3.8943027888446213,
+     "2022": 6.4468000000000005,
+     "2023": 2.5335742971887547,
+     "2024": 2.1904780876494025,
+     "2025": 3.518623481781376,
+     "2026": 3.479999999999999
+    },
+    "first": 2.623984375,
+    "last": 3.518623481781376,
+    "change": 0.8946391067813759,
+    "same_direction": true
+   }
+  ]
+ },
+ {
+  "id": "scan-hunt-dc66d4095dfc",
+  "state": "draft",
+  "raised_at": "2026-10-14T18:48:55.558511+00:00",
+  "pattern": "peak_hour_carbon",
+  "measure": "peak_hour_carbon",
+  "region": "pjm",
+  "words": "PJM",
+  "strength": 1.4652,
+  "fact": "PJM: carbon intensity of the electricity used from 5 PM to 10 PM local against the year's all-hours mean, 3.2 percent above the all-hours mean in 2025, up from 0.8 percent above the all-hours mean in 2019. The direction holds in 5 of the 6 full years after 2019.",
+  "tables": [
+   "carbon_intensity_hourly"
+  ],
+  "source_line": "Source: the rows for PJM of the ERW tables carbon_intensity_hourly; computed by the hunt's measure peak_hour_carbon (warehouse/analysis/findings/hunt_measures.py). Found by the weekly hunt.",
+  "problems": [],
+  "mirror_exit": 0,
+  "mirror_out": [
+   "claim: 0.8481986141480213 in 2019, 3.2332251816883373 in 2025; change 2.385026567540316",
+   "test 1, more than one year: 5 of 6 full years after 2019 on the claim's side: pass",
+   "test 2, another window: from 2020 the change is 0.7858789630011964, to 2024 it is 2.1605832289074645: pass",
+   "test 3, the sample: 8688.0 and 8640.0 observations, floor 8000: pass"
+  ],
+  "row_value_column": {
+   "stored": 2.38502656754032,
+   "recomputed": 2.385026567540316,
+   "equal_in_full": false,
+   "equal_at_15_digits": true
+  },
+  "numbers_compared": 45,
+  "claim": {
+   "first_year": "2019",
+   "last_year": "2025",
+   "first": 0.8481986141480213,
+   "last": 3.2332251816883373,
+   "change": 2.385026567540316,
+   "direction": "up",
+   "years_held": 5,
+   "years_after": 6,
+   "typical_move": 1.6278152932691323,
+   "strength": 1.4652,
+   "n_first": 8688.0,
+   "n_last": 8640.0,
+   "passed": true
+  },
+  "tests": [
+   {
+    "name": "holds in more than one year",
+    "passed": true,
+    "words": "5 of the 6 full years after 2019 lie above 2019's value"
+   },
+   {
+    "name": "survives a change of window",
+    "passed": true,
+    "words": "from 2020 to 2025 the change is 0.8, from 2019 to 2024 it is 2.2"
+   },
+   {
+    "name": "sample large enough",
+    "passed": true,
+    "words": "2019 holds 8,688 and 2025 holds 8,640 observations; the floor is 8,000"
+   }
+  ],
+  "unit": "percent above the all-hours mean",
+  "decimals": 1,
+  "label": "carbon intensity of the electricity used from 5 PM to 10 PM local against the year's all-hours mean",
+  "series": {
+   "2018": [
+    -0.5533007561134062,
+    2621.0
+   ],
+   "2019": [
+    0.8481986141480213,
+    8688.0
+   ],
+   "2020": [
+    2.447346218687141,
+    8616.0
+   ],
+   "2021": [
+    0.9004816783283687,
+    8736.0
+   ],
+   "2022": [
+    0.8128890961660584,
+    8640.0
+   ],
+   "2023": [
+    1.9583670539444098,
+    8640.0
+   ],
+   "2024": [
+    3.008781843055486,
+    8664.0
+   ],
+   "2025": [
+    3.2332251816883373,
+    8640.0
+   ],
+   "2026": [
+    3.5959089167327374,
+    6667.0
+   ]
+  },
+  "context": null,
+  "reproduced_from_own_csv": true,
+  "today_diffs": [],
+  "context_diffs": [],
+  "reproduced_from_tables_full_years": true,
+  "tables_are_the_measures_own": true,
+  "more": {
+   "steps_on_side": 4,
+   "steps": 6,
+   "spearman_year": 0.6429,
+   "two_year_ends": 1.4732310959543304,
+   "two_year_ends_same_side": true,
+   "change_without_first_year": 0.7858789630011964,
+   "share_of_claim_without_first_year": 0.3295053286604163,
+   "change_without_last_year": 2.1605832289074645,
+   "share_of_claim_without_last_year": 0.9058948266289878,
+   "last_is_extreme": true,
+   "first_is_other_extreme": false,
+   "median_between": 1.9583670539444098,
+   "year_under_way": {
+    "year": "2026",
+    "value": 3.5959089167327374,
+    "n": 6667.0,
+    "on_side_of_first": true,
+    "beyond_last": true
+   }
+  },
+  "cuts": [
+   {
+    "name": "the same premium on the intensity of generation, percent",
+    "by_year": {
+     "2018": 2.352370920460989,
+     "2019": 3.9471410912032656,
+     "2020": 3.1192615979774185,
+     "2021": 1.0755155593811683,
+     "2022": 0.6500283046384281,
+     "2023": 1.792684190072391,
+     "2024": 2.6961072114007445,
+     "2025": 3.1907749129792995,
+     "2026": 3.58237305650857
+    },
+    "first": 3.9471410912032656,
+    "last": 3.1907749129792995,
+    "change": -0.7563661782239661,
+    "same_direction": false
+   },
+   {
+    "name": "the premium from 4 PM to 9 PM local, percent",
+    "by_year": {
+     "2018": 0.7536163740151203,
+     "2019": 1.8635224207153689,
+     "2020": 3.589297981383588,
+     "2021": 1.4712539596341223,
+     "2022": 1.2047582608399443,
+     "2023": 2.2771312818601563,
+     "2024": 2.794730814536339,
+     "2025": 1.442044751462257,
+     "2026": 1.170201847018859
+    },
+    "first": 1.8635224207153689,
+    "last": 1.442044751462257,
+    "change": -0.4214776692531119,
+    "same_direction": false
+   },
+   {
+    "name": "the evening's own intensity, kg CO2 per MWh",
+    "by_year": {
+     "2018": 395.55915930656937,
+     "2019": 408.50068365543905,
+     "2020": 327.6828332218506,
+     "2021": 355.84581225274724,
+     "2022": 351.75184472222224,
+     "2023": 318.5573863333333,
+     "2024": 323.00856781163435,
+     "2025": 344.0083856746252,
+     "2026": 349.119833741889
+    },
+    "first": 408.50068365543905,
+    "last": 344.0083856746252,
+    "change": -64.49229798081387,
+    "same_direction": false
+   },
+   {
+    "name": "the all-hours intensity, kg CO2 per MWh",
+    "by_year": {
+     "2018": 397.7599682182373,
+     "2019": 405.0649285451197,
+     "2020": 319.85487698467966,
+     "2021": 352.67008277243593,
+     "2022": 348.915548275463,
+     "2023": 312.4386899652778,
+     "2024": 313.5738157779317,
+     "2025": 333.23417443287036,
+     "2026": 337.0015644367781
+    },
+    "first": 405.0649285451197,
+    "last": 333.23417443287036,
+    "change": -71.83075411224934,
+    "same_direction": false
+   }
+  ]
+ },
+ {
+  "id": "scan-hunt-fc2cbd068294",
+  "state": "draft",
+  "raised_at": "2026-10-14T18:48:55.87137+00:00",
+  "pattern": "implied_heat_rate",
+  "measure": "implied_heat_rate",
+  "region": "ercot_HB_HOUSTON",
+  "words": "ERCOT, Houston hub (HB_HOUSTON)",
+  "strength": 1.3526,
+  "fact": "ERCOT, Houston hub (HB_HOUSTON): the median day's mean real-time price divided by that day's Henry Hub spot price, 9.51 MMBtu per MWh in 2025, up from 8.55 MMBtu per MWh in 2015. The direction holds in 5 of the 10 full years after 2015.",
+  "tables": [
+   "ercot_all_hub_prices_history",
+   "eia_fuel_spot_prices"
+  ],
+  "source_line": "Source: the rows for ERCOT, Houston hub (HB_HOUSTON) of the ERW tables ercot_all_hub_prices_history, eia_fuel_spot_prices; computed by the hunt's measure implied_heat_rate (warehouse/analysis/findings/hunt_measures.py). Found by the weekly hunt.",
+  "problems": [],
+  "mirror_exit": 0,
+  "mirror_out": [
+   "claim: 8.553006847993828 in 2015, 9.507079590818364 in 2025; change 0.9540727428245361",
+   "test 1, more than one year: 5 of 10 full years after 2015 on the claim's side: pass",
+   "test 2, another window: from 2016 the change is 1.1039021327847909, to 2024 it is 2.1978234660158353: pass",
+   "test 3, the sample: 256.0 and 247.0 observations, floor 200: pass"
+  ],
+  "row_value_column": {
+   "stored": 0.954072742824536,
+   "recomputed": 0.9540727428245361,
+   "equal_in_full": false,
+   "equal_at_15_digits": true
+  },
+  "numbers_compared": 45,
+  "claim": {
+   "first_year": "2015",
+   "last_year": "2025",
+   "first": 8.553006847993828,
+   "last": 9.507079590818364,
+   "change": 0.9540727428245361,
+   "direction": "up",
+   "years_held": 5,
+   "years_after": 10,
+   "typical_move": 0.7053652819727463,
+   "strength": 1.3526,
+   "n_first": 256.0,
+   "n_last": 247.0,
+   "passed": true
+  },
+  "tests": [
+   {
+    "name": "holds in more than one year",
+    "passed": true,
+    "words": "5 of the 10 full years after 2015 lie above 2015's value"
+   },
+   {
+    "name": "survives a change of window",
+    "passed": true,
+    "words": "from 2016 to 2025 the change is 1.10, from 2015 to 2024 it is 2.20"
+   },
+   {
+    "name": "sample large enough",
+    "passed": true,
+    "words": "2015 holds 256 and 2025 holds 247 observations; the floor is 200"
+   }
+  ],
+  "unit": "MMBtu per MWh",
+  "decimals": 2,
+  "label": "the median day's mean real-time price divided by that day's Henry Hub spot price",
+  "series": {
+   "2015": [
+    8.553006847993828,
+    256.0
+   ],
+   "2016": [
+    8.403177458033573,
+    261.0
+   ],
+   "2017": [
+    8.048549107142858,
+    259.0
+   ],
+   "2018": [
+    8.548454259805126,
+    248.0
+   ],
+   "2019": [
+    9.07976977657005,
+    256.0
+   ],
+   "2020": [
+    9.531389353400222,
+    251.0
+   ],
+   "2021": [
+    8.358173076923078,
+    251.0
+   ],
+   "2022": [
+    8.265773720714932,
+    250.0
+   ],
+   "2023": [
+    10.529198232323234,
+    249.0
+   ],
+   "2024": [
+    10.750830314009663,
+    251.0
+   ],
+   "2025": [
+    9.507079590818364,
+    247.0
+   ],
+   "2026": [
+    10.417766546418619,
+    190.0
+   ]
+  },
+  "context": null,
+  "reproduced_from_own_csv": true,
+  "today_diffs": [],
+  "context_diffs": [],
+  "reproduced_from_tables_full_years": true,
+  "tables_are_the_measures_own": true,
+  "more": {
+   "steps_on_side": 5,
+   "steps": 10,
+   "spearman_year": 0.5,
+   "two_year_ends": 1.6508627994003113,
+   "two_year_ends_same_side": true,
+   "change_without_first_year": 1.1039021327847909,
+   "share_of_claim_without_first_year": 1.1570418933850728,
+   "change_without_last_year": 2.1978234660158353,
+   "share_of_claim_without_last_year": 2.303622530404936,
+   "last_is_extreme": false,
+   "first_is_other_extreme": false,
+   "median_between": 8.548454259805126,
+   "year_under_way": {
+    "year": "2026",
+    "value": 10.417766546418619,
+    "n": 190.0,
+    "on_side_of_first": true,
+    "beyond_last": true
+   }
+  },
+  "cuts": [
+   {
+    "name": "the mean daily implied heat rate (real time), MMBtu per MWh",
+    "by_year": {
+     "2015": 9.478566781504771,
+     "2016": 9.288571176290532,
+     "2017": 9.71810547417695,
+     "2018": 10.157193307971218,
+     "2019": 16.620109707986586,
+     "2020": 11.297120921062865,
+     "2021": 22.345152821447282,
+     "2022": 11.33703948225084,
+     "2023": 23.094229016477126,
+     "2024": 13.301392244316746,
+     "2025": 10.295179306480998,
+     "2026": 11.028476882798168
+    },
+    "first": 9.478566781504771,
+    "last": 10.295179306480998,
+    "change": 0.816612524976227,
+    "same_direction": true
+   },
+   {
+    "name": "the median daily implied heat rate, day-ahead, MMBtu per MWh",
+    "by_year": {
+     "2015": 9.321861310234965,
+     "2016": 9.299163783160322,
+     "2017": 9.478338430173293,
+     "2018": 9.27271607545045,
+     "2019": 9.603177798797876,
+     "2020": 10.73532196969697,
+     "2021": 9.118220338983052,
+     "2022": 9.504325718141509,
+     "2023": 12.093191964285714,
+     "2024": 11.397234678624814,
+     "2025": 10.311387540453074,
+     "2026": 10.338765681003585
+    },
+    "first": 9.321861310234965,
+    "last": 10.311387540453074,
+    "change": 0.9895262302181091,
+    "same_direction": true
+   },
+   {
+    "name": "Henry Hub, the year's mean of the days held, USD per MMBtu",
+    "by_year": {
+     "1997": 2.489839357429719,
+     "1998": 2.0883665338645416,
+     "1999": 2.27412,
+     "2000": 4.311485943775101,
+     "2001": 3.95912,
+     "2002": 3.3756,
+     "2003": 5.47116,
+     "2004": 5.89289156626506,
+     "2005": 8.685892116182574,
+     "2006": 6.731244979919678,
+     "2007": 6.96718253968254,
+     "2008": 8.862529644268776,
+     "2009": 3.94265873015873,
+     "2010": 4.369722222222222,
+     "2011": 3.9963095238095234,
+     "2012": 2.7544841269841265,
+     "2013": 3.731269841269841,
+     "2014": 4.372806324110672,
+     "2015": 2.623984375,
+     "2016": 2.515977011494253,
+     "2017": 2.9880308880308886,
+     "2018": 3.152661290322581,
+     "2019": 2.563125,
+     "2020": 2.03207171314741,
+     "2021": 3.8943027888446213,
+     "2022": 6.4468000000000005,
+     "2023": 2.5335742971887547,
+     "2024": 2.1904780876494025,
+     "2025": 3.518623481781376,
+     "2026": 3.479999999999999
+    },
+    "first": 2.623984375,
+    "last": 3.518623481781376,
+    "change": 0.8946391067813759,
+    "same_direction": true
+   }
+  ]
+ },
+ {
+  "id": "scan-hunt-a97fbd7cc709",
+  "state": "draft",
+  "raised_at": "2026-10-14T18:48:56.333447+00:00",
+  "pattern": "solar_capture_rate",
+  "measure": "solar_capture_rate",
+  "region": "ercot",
+  "words": "ERCOT (HB_HUBAVG)",
+  "strength": 1.239,
+  "fact": "ERCOT (HB_HUBAVG): what a solar plant earned per MWh as a percent of the year's time-weighted average price at the grid's hub, 75.4 percent of the average price in 2025, down from 180.8 percent of the average price in 2019. The direction holds in 6 of the 6 full years after 2019. Beside it, solar's share of the grid's generation: 1.0 percent in 2019, 14.1 percent in 2025.",
+  "tables": [
+   "merchant_revenue_monthly",
+   "generation_mix_hourly_profile"
+  ],
+  "source_line": "Source: the rows for ERCOT (HB_HUBAVG) of the ERW tables merchant_revenue_monthly, generation_mix_hourly_profile; computed by the hunt's measure solar_capture_rate (warehouse/analysis/findings/hunt_measures.py). Found by the weekly hunt.",
+  "problems": [],
+  "mirror_exit": 0,
+  "mirror_out": [
+   "claim: 180.8384473283783 in 2019, 75.36947363867537 in 2025; change -105.46897368970292",
+   "test 1, more than one year: 6 of 6 full years after 2019 on the claim's side: pass",
+   "test 2, another window: from 2020 the change is -51.65731032948847, to 2024 it is -95.7008061643195: pass",
+   "test 3, the sample: 8760.0 and 8736.0 observations, floor 8000: pass"
+  ],
+  "row_value_column": {
+   "stored": -105.468973689703,
+   "recomputed": -105.46897368970292,
+   "equal_in_full": false,
+   "equal_at_15_digits": true
+  },
+  "numbers_compared": 47,
+  "claim": {
+   "first_year": "2019",
+   "last_year": "2025",
+   "first": 180.8384473283783,
+   "last": 75.36947363867537,
+   "change": -105.46897368970292,
+   "direction": "down",
+   "years_held": 6,
+   "years_after": 6,
+   "typical_move": 85.12390595022279,
+   "strength": 1.239,
+   "n_first": 8760.0,
+   "n_last": 8736.0,
+   "passed": true
+  },
+  "tests": [
+   {
+    "name": "holds in more than one year",
+    "passed": true,
+    "words": "6 of the 6 full years after 2019 lie below 2019's value"
+   },
+   {
+    "name": "survives a change of window",
+    "passed": true,
+    "words": "from 2020 to 2025 the change is -51.7, from 2019 to 2024 it is -95.7"
+   },
+   {
+    "name": "sample large enough",
+    "passed": true,
+    "words": "2019 holds 8,760 and 2025 holds 8,736 observations; the floor is 8,000"
+   }
+  ],
+  "unit": "percent of the average price",
+  "decimals": 1,
+  "label": "what a solar plant earned per MWh as a percent of the year's time-weighted average price at the grid's hub",
+  "series": {
+   "2018": [
+    147.46441651584664,
+    4369.0
+   ],
+   "2019": [
+    180.8384473283783,
+    8760.0
+   ],
+   "2020": [
+    127.02678396816384,
+    8784.0
+   ],
+   "2021": [
+    62.016340978403726,
+    8760.0
+   ],
+   "2022": [
+    130.02497688134,
+    8760.0
+   ],
+   "2023": [
+    146.1565537518044,
+    8760.0
+   ],
+   "2024": [
+    85.13764116405879,
+    8784.0
+   ],
+   "2025": [
+    75.36947363867537,
+    8736.0
+   ],
+   "2026": [
+    72.16016124146095,
+    6767.0
+   ]
+  },
+  "context": {
+   "label": "solar's share of the grid's generation",
+   "unit": "percent",
+   "decimals": 1,
+   "values": {
+    "2019": 1.0460041077570503,
+    "2020": 2.1846054280532923,
+    "2021": 3.894723516846551,
+    "2022": 5.516340811123982,
+    "2023": 7.145756104710134,
+    "2024": 10.296833597939493,
+    "2025": 14.094821857939689,
+    "2026": 16.706248103868234
+   },
+   "beside": "Beside it, solar's share of the grid's generation: 1.0 percent in 2019, 14.1 percent in 2025."
+  },
+  "reproduced_from_own_csv": true,
+  "today_diffs": [],
+  "context_diffs": [],
+  "reproduced_from_tables_full_years": true,
+  "tables_are_the_measures_own": true,
+  "more": {
+   "steps_on_side": 4,
+   "steps": 6,
+   "spearman_year": -0.4286,
+   "two_year_ends": -73.67905824690396,
+   "two_year_ends_same_side": true,
+   "change_without_first_year": -51.65731032948847,
+   "share_of_claim_without_first_year": 0.4897867924785907,
+   "change_without_last_year": -95.7008061643195,
+   "share_of_claim_without_last_year": 0.907383496931315,
+   "last_is_extreme": false,
+   "first_is_other_extreme": true,
+   "median_between": 127.02678396816384,
+   "year_under_way": {
+    "year": "2026",
+    "value": 72.16016124146095,
+    "n": 6767.0,
+    "on_side_of_first": true,
+    "beyond_last": true
+   }
+  },
+  "cuts": [
+   {
+    "name": "the price a solar MWh earned, USD per MWh (revenue over energy)",
+    "by_year": {
+     "2018": 49.12158482233682,
+     "2019": 64.68795496905817,
+     "2020": 26.90560530972368,
+     "2021": 91.90116516585024,
+     "2022": 81.00992998549029,
+     "2023": 70.67668252168956,
+     "2024": 22.83885083306829,
+     "2025": 24.469239307435092,
+     "2026": 23.237613368780785
+    },
+    "first": 64.68795496905817,
+    "last": 24.469239307435092,
+    "change": -40.21871566162308,
+    "same_direction": true
+   },
+   {
+    "name": "the time-weighted average price, USD per MWh",
+    "by_year": {
+     "2018": 33.310805401693756,
+     "2019": 35.77112938356164,
+     "2020": 21.1810489640255,
+     "2021": 148.1886285388128,
+     "2022": 62.303360422374425,
+     "2023": 48.356834303652974,
+     "2024": 26.82579705145719,
+     "2025": 32.46571605998168,
+     "2026": 32.20282905275603
+    },
+    "first": 35.77112938356164,
+    "last": 32.46571605998168,
+    "change": -3.3054133235799625,
+    "same_direction": true
+   },
+   {
+    "name": "the capture rate by the unweighted mean of the year's monthly rates, percent",
+    "by_year": {
+     "2018": 135.71876513798875,
+     "2019": 130.59376500243718,
+     "2020": 121.11220153380225,
+     "2021": 109.80015310876003,
+     "2022": 102.50213957260569,
+     "2023": 99.80381415120588,
+     "2024": 78.71637205982961,
+     "2025": 72.51101873253027,
+     "2026": 69.97521755048672
+    },
+    "first": 130.59376500243718,
+    "last": 72.51101873253027,
+    "change": -58.082746269906906,
+    "same_direction": true
+   }
+  ]
+ }
+]

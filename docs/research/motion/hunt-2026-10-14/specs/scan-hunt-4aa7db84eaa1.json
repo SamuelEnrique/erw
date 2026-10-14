@@ -1,0 +1,37 @@
+{
+ "id": "scan-hunt-4aa7db84eaa1",
+ "kicker": "ERW Research",
+ "title": "ERCOT'S DEMAND GROWTH",
+ "subtitle": "Dallas, Austin and San Antonio: the year's energy above the 2019 to 2021 base that temperature does not explain, 24.2 percent in 2025, up from 7.8 percent in 2022.",
+ "source": "Source: the rows for ERCOT (its datacenter markets: Dallas, Austin and San Antonio) of the ERW tables eia930_demand_weather; computed by the hunt's measure demand_growth_weather_adjusted (warehouse/analysis/findings/hunt_measures.py). Found by the weekly hunt.",
+ "width": 1080,
+ "height": 1350,
+ "type": "draw-on",
+ "x": [
+  "2022",
+  "2023",
+  "2024",
+  "2025"
+ ],
+ "xLabel": "full years held; the last one is marked",
+ "yLabel": "percent above base",
+ "yRightLabel": "",
+ "series": [
+  {
+   "name": "ERCOT (its datacenter markets: Dallas, Austin and San Antonio): the year's energy above the 2019 to 2021 base that temperature does not explain",
+   "values": [
+    7.826,
+    13.215,
+    17.963,
+    24.178
+   ],
+   "axis": "left",
+   "unit": "",
+   "bar": false
+  }
+ ],
+ "band": null,
+ "leftOut": [],
+ "decimals": 1,
+ "frames": 450
+}
