@@ -531,6 +531,17 @@ async function truth(check) {
     if (!namesGrid(p[1])) return null;
     return M.stat(snap, M.parseKey(p[1]), p[2]);
   }
+  // session 288 (problem set E, question 5, Samuel's ruling 6a): a stress event's window against as many baseline days,
+  // mrs|<inputs>|<event>|<days|base_mean|base_window>, from lib/merchant.ts's stress() on the snapshot (days: the
+  // window's days held; base_mean: the baseline days' mean; base_window: that mean times the window's days)
+  if (p[0] === "mrs") {
+    const M = await import("../lib/merchant.ts");
+    const snap = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "merchant_snapshot.json"), "utf-8"));
+    if (!namesGrid(p[1])) return null;
+    const e = (M.stress(snap, M.parseKey(p[1])) ?? []).find((x) => x.event === p[2]);
+    if (!e) return undefined;
+    return p[3] === "days" ? e.days : p[3] === "base_mean" ? e.baseMean : p[3] === "base_window" ? e.baseMean * e.days : undefined;
+  }
   // session 264: the seller page's spans, ms|<inputs>|<twelve|three|every>|<revenue|energy|capture|flat|rate>, per MW of
   // nameplate at the main hub: recomputed here from the snapshot's months (lib/merchant.ts) by the rules of
   // lib/seller2.ts (which Node cannot import: it names @/ paths), an independent second reading of the page's own spans

@@ -22,7 +22,7 @@ const M = "cost_of_power_monthly";
 
 function Chip() {
   return (
-    <Link href="/data/standard" title="Text written for this site, with its sources named; not data" className="ml-1 border border-rule px-1 text-[10px] uppercase tracking-wide text-muted no-underline">
+    <Link href="/data/standard" title="Text written for this site, with its sources named; not data" className="ml-1 border border-rule px-1 text-xs uppercase tracking-wide text-muted no-underline">
       written, cited
     </Link>
   );
@@ -61,9 +61,9 @@ export default async function LearnBill() {
   const bills = Object.fromEntries(BILL_KEYS.map((k) => [k, defaultBill(rules, k)])) as Record<BillKey, ReturnType<typeof defaultBill>>;
   const wholesale = Object.fromEntries(BILL_KEYS.map((s) => [s, W[s] ? { price: W[s]!.row.value, month: W[s]!.row.ts_utc.slice(0, 7), partial: W[s]!.partial } : null]));
   const note: Record<BillKey, string> = {
-    CA: "Summer, 20 percent in peak hours, territory T (San Francisco), Income Tier 3, 30 days.",
+    CA: "Winter (the season on 2026-10-01, when the tariffs were read), 20 percent in peak hours, territory T (San Francisco), Income Tier 3, 30 days.",
     SCE: "Winter (the season on 2026-10-01), 20 percent from 4 to 9 p.m., a third in 8 a.m. to 4 p.m., Baseline Region 9, 30 days.",
-    SDGE: "Summer, 20 percent from 4 to 9 p.m., 34.5 percent in super off-peak hours, 30 days; no baseline credit until you enter your allowance.",
+    SDGE: "Winter (the season on 2026-10-01, as the other two), 20 percent from 4 to 9 p.m., 34.5 percent in super off-peak hours, 30 days; no baseline credit until you enter your allowance.",
     TX: `Energy charge $${rules.bills.TX.energy_default.rate} per kWh (the labelled default).`,
     TXC: `Energy charge $${rules.bills.TXC.energy_default.rate} per kWh (the labelled default).`,
   };

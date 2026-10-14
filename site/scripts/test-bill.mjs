@@ -8,7 +8,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { BILL_KEYS, billCA, billTDSP, billTOU, billTX, defaultBill, defaultsCA, defaultsTDSP, defaultsTOU, defaultsTX, totalCA } from "../lib/bill.ts";
+import { BILL_KEYS, billCA, billTDSP, billTOU, billTX, clampShares, defaultBill, defaultsCA, defaultsTDSP, defaultsTOU, defaultsTX, periodShares, totalCA } from "../lib/bill.ts";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const rules = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "bill_rules.json"), "utf-8"));
@@ -16,7 +16,7 @@ const near = (a, b) => Math.abs(a - b) < 1e-4;
 let bad = 0;
 const check = (ok, what) => { if (!ok) bad++; console.log(`${ok ? "ok  " : "FAIL"} ${what}`); };
 
-const ca = defaultsCA(rules);
+const ca = { ...defaultsCA(rules), season: "summer" };  // session 288: the summer cases name their season (the default is winter, ruling 9a)
 // California, summer, territory T (6.5 kWh a day x 30 = 195 kWh baseline), 20% peak, Income Tier 3, 30 days
 // 600 kWh: 120 x $0.52240 + 480 x $0.39940 = $254.40; baseline credit 195 x $0.08140 = $15.873; base services 30 x $0.79343 = $23.8029
 const ca600 = billCA(rules, { ...ca, kwh: 600 });
@@ -58,7 +58,7 @@ check(near(sce1000.total, sceHand(1000)), `SCE winter 1,000 kWh: $${sceHand(1000
   check(near(c.total, hand), `SCE summer 600 kWh: on ${on.toFixed(2)}, mid ${mid.toFixed(2)}, off ${off} kWh; baseline 507 kWh: $${hand.toFixed(4)} | calculator ${c.total.toFixed(4)}`);
 }
 // SDG&E, summer, 20% on-peak, 34.52% super off-peak, total rates; no baseline allowance entered; 30 x $0.79343 = $23.8029
-const sdgeD = defaultsTOU(rules, "SDGE");
+const sdgeD = { ...defaultsTOU(rules, "SDGE"), season: "summer" };  // session 288: named (the default is winter)
 const sdgeHand = (k, allowance = 0) => 0.2 * k * 0.69135 + 0.3452 * k * 0.37433 + (1 - 0.2 - 0.3452) * k * 0.46421 + Math.min(k, allowance * 1.3) * -0.10702 + 30 * 0.79343;
 const sdge600 = billTOU(rules, "SDGE", { ...sdgeD, kwh: 600 }), sdge1000 = billTOU(rules, "SDGE", { ...sdgeD, kwh: 1000 });
 check(near(sdge600.total, sdgeHand(600)), `SDG&E summer 600 kWh: 120 x $0.69135 + 207.12 x $0.37433 + 272.88 x $0.46421 + $23.8029 = $${sdgeHand(600).toFixed(4)} | calculator ${sdge600.total.toFixed(4)}`);
@@ -74,6 +74,25 @@ check(near(cnp.energyRate, 0.0853) && near(cnpPer, 0.065333), `CenterPoint per k
 const cnp600 = billTDSP(rules, "TXC", { ...cnp, kwh: 600 }), cnp1000 = billTDSP(rules, "TXC", { ...cnp, kwh: 1000 });
 check(near(cnp600.total, 600 * 0.0853 + 600 * cnpPer + 4.90), `CenterPoint 600 kWh: $51.18 + $39.1998 + $4.90 = $95.2798 | calculator ${cnp600.total.toFixed(4)}`);
 check(near(cnp1000.total, 1000 * 0.0853 + 1000 * cnpPer + 4.90), `CenterPoint 1,000 kWh: $85.30 + $65.333 + $4.90 = $155.533 | calculator ${cnp1000.total.toFixed(4)}`);
+// session 288 (Samuel's ruling 9a): every California default is in winter, the season of 2026-10-01, when the tariffs were read
+for (const k of ["CA", "SCE", "SDGE"]) check(rules.bills[k].defaults.season === "winter", `${k}: the default season is winter`);
+// SDG&E winter, 600 kWh (the default bill): 120 x $0.61471 + 207.12 x $0.43719 + 272.88 x $0.5306 + $23.8029
+{
+  const d = defaultsTOU(rules, "SDGE"), hand = 0.2 * 600 * 0.61471 + 0.3452 * 600 * 0.43719 + (1 - 0.2 - 0.3452) * 600 * 0.5306 + 30 * 0.79343;
+  check(d.season === "winter" && near(billTOU(rules, "SDGE", d).total, hand), `SDG&E default (winter) 600 kWh: $${hand.toFixed(4)} | calculator ${billTOU(rules, "SDGE", d).total.toFixed(4)}`);
+  const pw = defaultsCA(rules);
+  check(pw.season === "winter" && near(billCA(rules, pw).total, 224.142 - 225 * 0.0814 + 23.8029), `PG&E default (winter) 600 kWh: $229.6299 | calculator ${billCA(rules, pw).total.toFixed(4)}`);
+}
+// session 288 (Samuel's ruling 10b): the two shares are clamped at 100 together, the typed one held to what the other leaves
+{
+  const d = defaultsTOU(rules, "SCE");
+  const a = clampShares({ ...d, superShare: 0.4 }, "peakShare", 0.8);
+  check(near(a.peakShare, 0.6) && near(a.superShare, 0.4), `SCE: 80 percent typed beside 40 is held at 60 | ${a.peakShare}`);
+  const b = clampShares({ ...d, peakShare: 0.2 }, "superShare", 0.5);
+  check(near(b.superShare, 0.5), `SCE: 50 beside 20 is kept | ${b.superShare}`);
+  const c = clampShares({ ...d, peakShare: 1 }, "superShare", 0.3);
+  check(near(c.superShare, 0) && Object.values(periodShares("sce", c)).every((v) => v >= -1e-12), `SCE: no period's share is negative after a clamp | ${JSON.stringify(periodShares("sce", c))}`);
+}
 // the five defaults, as the page draws them
 for (const k of BILL_KEYS) check(defaultBill(rules, k).total > 0, `default bill ${k}: ${defaultBill(rules, k).total.toFixed(4)}`);
 // every line cites a source with a quote, a date and an https URL

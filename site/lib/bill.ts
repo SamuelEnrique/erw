@@ -91,6 +91,14 @@ export type TOUInput = {
   region?: string; baselineKwh?: number; climateCredit?: boolean;
 };
 
+/** Session 288 (Samuel's ruling 10b of 14 October 2026): the share of use from 4 to 9 p.m. and the share in super
+ * off-peak hours together hold at most 100 percent. The share just typed is held to what the other leaves (each also
+ * between 0 and 100); until then a sum past 100 was warned about and billed with a negative off-peak share. */
+export function clampShares(x: TOUInput, typed: "peakShare" | "superShare", v: number): TOUInput {
+  const other = typed === "peakShare" ? x.superShare : x.peakShare;
+  return { ...x, [typed]: Math.min(Math.max(0, v), Math.max(0, 1 - other)) };
+}
+
 /** Each period's share of the month's use, by the utility's own period definitions (bill_rules.json "periods"). */
 export function periodShares(kind: string, x: TOUInput): Record<string, number> {
   const p = x.peakShare, s = x.superShare;

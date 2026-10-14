@@ -32,6 +32,23 @@ const row = (t: string, r: SeriesRow, u?: string, event?: string): V =>
   ({ v: r.value, k: `series|${t}|${r.entity}|${r.variable}|${r.ts_utc}${event ? `|${event}` : ""}`, u: u ?? r.unit });
 const pick = (rows: SeriesRow[], how: "max" | "min") => rows.reduce((a, b) => (how === "max" ? (b.value > a.value ? b : a) : (b.value < a.value ? b : a)));
 const day = (ts: string) => ts.slice(0, 10);
+// session 288: the months of a hub in cost_of_power_monthly whose every hour is held (rt_hours equals hours_in_month),
+// oldest first, and the latest month of a monthly table that is one of them
+const fullMonths = (rows: SeriesRow[], e: string) => {
+  const hours = new Map(rows.filter((r) => r.entity === e && r.variable === "rt_hours").map((r) => [day(r.ts_utc), r.value]));
+  return rows.filter((r) => r.entity === e && r.variable === "hours_in_month" && hours.get(day(r.ts_utc)) === r.value).map((r) => r.ts_utc).sort();
+};
+const latestFull = (rows: SeriesRow[], full: string[]) => {
+  const whole = new Set(full.map(day));
+  return [...new Set(rows.map((r) => r.ts_utc))].filter((t) => whole.has(day(t))).sort().at(-1)!;
+};
+// session 288 (ruling 4): each hub of cost_of_power_monthly by its grid and its own name
+const HUBS: Record<string, string> = {
+  "caiso:TH_NP15_GEN-APND": "CAISO NP15", "caiso:TH_SP15_GEN-APND": "CAISO SP15", "ercot:HB_HUBAVG": "ERCOT hub average",
+  "isone:.H.INTERNAL_HUB": "ISO-NE internal hub", "miso:INDIANA.HUB": "MISO Indiana hub", "nyiso:N.Y.C.": "NYISO New York City",
+  "spp:SPPNORTH_HUB": "SPP North hub",
+};
+const hubName = (e: string) => HUBS[e] ?? e;
 
 /** The UTC instant of a local midnight (America/Chicago is UTC-5 or UTC-6). */
 function localMidnight(d: string, tz: string): number {
@@ -57,7 +74,7 @@ async function setA(): Promise<Question[]> {
   const pE = peak(E), pC = peak(CA);
   const q1: Question = {
     id: "a1", tables: [D],
-    q: "On the latest UTC day both grids report in full, what was the highest hour of demand in ERCOT and in CAISO, and how many times CAISO's was ERCOT's?",
+    q: "On the latest UTC day both grids report in full, what was the highest hour of demand in ERCOT and in CAISO? ERCOT's peak was how many times CAISO's?",
     answer: [`${d0}: ERCOT `, pE, `, CAISO `, pC, `; ERCOT's peak was `, calc("ratio", pE, pC, "times"), ` CAISO's.`],
     steps: [[`Take the 24 hourly demand values of ${d0} (UTC) for each grid (entity eia930:ERCO and eia930:CISO, variable demand_mw).`],
       ["The highest ERCOT hour is ", pE, "; the highest CAISO hour is ", pC, "."], ["Divide: ", pE, " / ", pC, " = ", calc("ratio", pE, pC, "times"), "."]],
@@ -80,7 +97,7 @@ async function setA(): Promise<Question[]> {
   const bE = row(S, st.find((r) => r.entity === E && day(r.ts_utc) === sd)!, "MWh"), bC = row(S, st.find((r) => r.entity === "caiso:ISO" && day(r.ts_utc) === sd)!, "MWh");
   const q3: Question = {
     id: "a3", tables: [S],
-    q: "On the latest day both are held, how many MWh did batteries discharge in ERCOT and in CAISO, and how many times ERCOT's was CAISO's?",
+    q: "On the latest day both are held, how many MWh did batteries discharge in ERCOT and in CAISO? CAISO's discharge was how many times ERCOT's?",
     answer: [`${sd}: ERCOT `, bE, ", CAISO ", bC, "; CAISO's was ", calc("ratio", bC, bE, "times"), " ERCOT's."],
     steps: [[`Read mwh_discharged for ${sd} (each grid's local day): ERCOT (eia930:ERCO, EIA-930) `, bE, ", CAISO (caiso:ISO, CAISO's own data) ", bC, "."],
       ["Divide: ", bC, " / ", bE, " = ", calc("ratio", bC, bE, "times"), "."]],
@@ -148,17 +165,19 @@ async function setB(): Promise<Question[]> {
     steps: [["Load-weighted: each hour's price times ERCOT's demand that hour, over the month's demand: ", lw, "."], ["Simple: the plain mean of the same hours: ", sm, "."], ["Shape premium = load-weighted - simple = ", calc("diff", lw, sm, "USD/MWh"), "."]],
     why: "A grid's load uses power most when it is dear, so its average cost per MWh is above the simple average price.",
   };
-  const ents = [...new Set(all.map((r) => r.entity))];
-  const months = (e: string) => new Set(by(e, "rt_shape_premium").map((r) => r.ts_utc));
-  const common = [...months(ents[0])].filter((t) => ents.every((e) => months(e).has(t))).sort().at(-1)!;
+  // Session 288 (Samuel's rulings 4 and 5a of 14 October 2026): every hub the table holds, named and counted (two are
+  // CAISO's, NP15 and SP15), in the latest month every one of them holds in full. Until then the question said "all six
+  // ISO hubs", listed seven with two named "CAISO", took a month that had only begun, and gave each hub a step of its own.
+  const ents = [...new Set(all.map((r) => r.entity))].sort();
+  const common = fullMonths(all, ents[0]).filter((t) => ents.every((e) => fullMonths(all, e).includes(t))).at(-1)!;
   const prem = ents.map((e) => by(e, "rt_shape_premium").find((r) => r.ts_utc === common)!);
   const top = pick(prem, "max"), low = pick(prem, "min");
-  const name = (e: string) => ({ ercot: "ERCOT", caiso: "CAISO", isone: "ISO-NE", miso: "MISO", nyiso: "NYISO", spp: "SPP" } as Record<string, string>)[e.split(":")[0]] ?? e;
   const q2: Question = {
     id: "b2", tables: [M],
-    q: "In the latest month all six ISO hubs hold, which had the largest shape premium, and which the smallest?",
-    answer: [`${common.slice(0, 7)}: largest ${name(top.entity)}, `, row(M, top, "USD/MWh"), `; smallest ${name(low.entity)}, `, row(M, low, "USD/MWh"), " (months may be partial: see rt_hours)."],
-    steps: [["Read rt_shape_premium of each hub for that month:"], ...prem.map((r) => [`${name(r.entity)}: `, row(M, r, "USD/MWh")] as Part[]), ["Rank them."]],
+    q: `The table holds ${ents.length} hubs: ${ents.map(hubName).join(", ")}. In the latest month every one of them holds in full, which had the largest shape premium, and which the smallest?`,
+    answer: [`${common.slice(0, 7)}: largest ${hubName(top.entity)}, `, row(M, top, "USD/MWh"), `; smallest ${hubName(low.entity)}, `, row(M, low, "USD/MWh"), "."],
+    steps: [[`Find the latest month in which every hub's rt_hours equals its hours_in_month (every hour held): ${common.slice(0, 7)}.`],
+      ["Read rt_shape_premium of each hub for that month: ", ...prem.flatMap((r, i) => [`${i ? "; " : ""}${hubName(r.entity)} `, row(M, r, "USD/MWh")] as Part[]), "."], ["Rank them."]],
     why: "Where the premium is large, shifting use out of peak hours saves the most.",
   };
   const w = async (s: "CA" | "TX") => {
@@ -183,15 +202,16 @@ async function setB(): Promise<Question[]> {
   });
   const q3 = billQ("b3", "CA", ca, "PG&E (California)");
   const q4 = billQ("b4", "TX", tx, "Oncor (Texas)");
+  // session 288 (ruling 5a): the latest complete month, as question 1 takes; until then the latest month, often partial
   const prof = await series(P, { entity: E });
-  const pm = [...new Set(prof.map((r) => r.ts_utc))].sort().at(-1)!;
+  const pm = latestFull(prof, full);
   const cells = prof.filter((r) => r.ts_utc === pm && r.variable.startsWith("rt_mean_h"));
   const lo = pick(cells, "min"), hi = pick(cells, "max");
   const q5: Question = {
-    id: "b5", tables: [P],
-    q: "In the latest month of ERCOT's hour-of-day profile, which hour was cheapest and which dearest on average, and how far apart were they?",
+    id: "b5", tables: [P, M],
+    q: "In the latest complete month of ERCOT's hour-of-day profile, which hour was cheapest and which dearest on average, and how far apart were they?",
     answer: [`${pm.slice(0, 7)}: cheapest ${lo.variable.slice(-2)}:00, `, row(P, lo, "USD/MWh"), `; dearest ${hi.variable.slice(-2)}:00, `, row(P, hi, "USD/MWh"), "; spread ", calc("diff", row(P, hi, "USD/MWh"), row(P, lo, "USD/MWh"), "USD/MWh"), "."],
-    steps: [["Read the 24 values rt_mean_h00 to rt_mean_h23 for that month (Central time)."], ["The lowest is ", row(P, lo, "USD/MWh"), `, at ${lo.variable.slice(-2)}:00; the highest `, row(P, hi, "USD/MWh"), `, at ${hi.variable.slice(-2)}:00.`], ["Spread = ", row(P, hi, "USD/MWh"), " - ", row(P, lo, "USD/MWh"), " = ", calc("diff", row(P, hi, "USD/MWh"), row(P, lo, "USD/MWh"), "USD/MWh"), "."]],
+    steps: [[`The latest month every hour of which is held (cost_of_power_monthly: rt_hours equals hours_in_month): ${pm.slice(0, 7)}. Read the 24 values rt_mean_h00 to rt_mean_h23 for that month (Central time).`], ["The lowest is ", row(P, lo, "USD/MWh"), `, at ${lo.variable.slice(-2)}:00; the highest `, row(P, hi, "USD/MWh"), `, at ${hi.variable.slice(-2)}:00.`], ["Spread = ", row(P, hi, "USD/MWh"), " - ", row(P, lo, "USD/MWh"), " = ", calc("diff", row(P, hi, "USD/MWh"), row(P, lo, "USD/MWh"), "USD/MWh"), "."]],
     why: "The daily price swing is what a battery, or a flexible load, earns by moving use.",
   };
   return [q1, q2, q3, q4, q5];
@@ -207,7 +227,7 @@ async function setC(): Promise<Question[]> {
   const U = r(u21, "uri_2021", "USD/MWh"), UB = r(ubase, "uri_2021", "USD/MWh");
   const q1: Question = {
     id: "c1", tables: [T],
-    q: "Winter Storm Uri (ERCOT, February 2021): how many times the highest 15-minute real-time price on the same days of 2019 and 2020 was the highest price during the storm window?",
+    q: "Winter Storm Uri (ERCOT, February 2021): the highest 15-minute real-time price during the storm window was how many times the highest on the same days of 2019 and 2020?",
     answer: [`${day(u21.ts_utc)}: `, U, ", against ", UB, ` (${day(ubase.ts_utc)}): `, calc("ratio", U, UB, "times"), "."],
     steps: [["Read rt_max (event uri_2021, ercot:HB_HUBAVG) for every day; the highest in 2021 is ", U, "."], ["The highest on the 2019 and 2020 days is ", UB, "."], ["Divide: ", calc("ratio", U, UB, "times"), "."]],
     why: "Scarcity pricing lets the price rise to the cap when supply fails, which is the market's signal and the customer's risk.",
@@ -245,7 +265,7 @@ async function setC(): Promise<Question[]> {
   const U2: V = r(etop, "ercot_heat_2023", "USD/MWh");
   const q5: Question = {
     id: "c5", tables: [T],
-    q: "Compare two ERCOT events: how many times the summer 2023 heat's highest 15-minute real-time price was Winter Storm Uri's?",
+    q: "Compare two ERCOT events: Winter Storm Uri's highest 15-minute real-time price was how many times the summer 2023 heat's?",
     answer: [U, " (Uri) / ", U2, " (2023) = ", calc("ratio", U, U2, "times"), "."],
     steps: [["Uri's highest rt_max: ", U, "."], ["The 2023 heat's highest rt_max: ", U2, "."], ["Divide: ", calc("ratio", U, U2, "times"), "."]],
     why: "Both hit the price cap's neighborhood, but Uri held prices there for days and cut power to millions.",
@@ -303,8 +323,9 @@ async function setD(): Promise<Question[]> {
     steps: [["Read peak_charge_hour and peak_discharge_hour for that day (the hour starting, 0 to 23, local time)."], ["Subtract: ", hd, " - ", hc, " = ", calc("diff", hd, hc, "hours"), "."]],
     why: "Batteries fill when solar floods the grid at midday and empty into the evening peak, when the sun has set and demand is still high.",
   };
+  // session 288 (ruling 5a): the profile's latest complete month (cost_of_power_monthly says which months are whole)
   const prof = await series(P, { entity: "ercot:HB_HUBAVG" });
-  const pm = [...new Set(prof.map((r) => r.ts_utc))].sort().at(-1)!;
+  const pm = latestFull(prof, fullMonths(await series("cost_of_power_monthly", { entity: "ercot:HB_HUBAVG" }), "ercot:HB_HUBAVG"));
   const cells = prof.filter((r) => r.ts_utc === pm && r.variable.startsWith("rt_mean_h"));
   const lo = pick(cells, "min"), hi = pick(cells, "max");
   const LO = row(P, lo, "USD/MWh"), HI = row(P, hi, "USD/MWh");
@@ -313,8 +334,8 @@ async function setD(): Promise<Question[]> {
   const cash: V = { v: fc.usd, k: `battery|cycle|${key}`, u: "USD" }, fleet: V = { v: fc.usd * FLEET, k: `battery|cycle_fleet|${key}`, u: "USD" };
   const bought: V = { v: fc.bought, k: "battery|bought_kwh", u: "kWh" }, delivered: V = { v: fc.delivered, k: "battery|delivered_kwh", u: "kWh" };
   const q3: Question = {
-    id: "d3", tables: [P],
-    q: `The home battery game's battery charges once from empty at ERCOT's cheapest average hour of ${pm.slice(0, 7)} and empties at its dearest. What does that one cycle earn, and what would the game's fictional fleet of homes earn?`,
+    id: "d3", tables: [P, "cost_of_power_monthly"],
+    q: `The home battery game's battery charges once from empty at ERCOT's cheapest average hour of ${pm.slice(0, 7)} (the latest complete month) and empties at its dearest. What does that one cycle earn, and what would the game's fictional fleet of homes earn?`,
     answer: ["One cycle earns ", cash, "; the fleet ", fleet, "."],
     steps: [[`The cheapest hour of the month's profile is ${lo.variable.slice(-2)}:00, `, LO, `; the dearest ${hi.variable.slice(-2)}:00, `, HI, "."],
       ["To store 13.5 kWh at 90 percent round trip (the square root of 0.9 each way) it buys ", bought, " and delivers ", delivered, "."],
@@ -424,15 +445,20 @@ async function setE(): Promise<Question[]> {
   };
   const ev = "uri_2021";
   const st = stress(M, sol)!.find((e) => e.event === ev)!;
+  // Session 288 (Samuel's ruling 6a of 14 October 2026): the storm's days against as many normal days. Until then the
+  // storm's 18 days were set against one normal week (seven days), which made the ratio about 2.6 times too large.
   const tot = mr(sol, `stress_total:${ev}`, "USD"), week = mr(sol, `stress_week:${ev}`, "USD");
+  const mrs = (what: string, v: number, u: string): V => ({ v, k: `mrs|${inputsKey(sol)}|${ev}|${what}`, u });
+  const nDays = mrs("days", st.days, "days"), baseDay = mrs("base_mean", st.baseMean, "USD"), normal = mrs("base_window", st.baseMean * st.days, "USD");
   const q5: Question = {
     id: "e5", tables: ["merchant_revenue_monthly", "event_window_daily"],
-    q: `During ${EVENTS[ev]} (the ${st.days} days from ${st.start} to ${st.end}), what did the same ${sol.mw} MW merchant solar plant at ${ISO_NAMES.ercot}'s hub average earn, against a normal week before the storm?`,
-    answer: ["Over the storm's days it earned ", tot, "; a normal week earned ", week, ": ", calc("ratio", tot, week, "times"), " as much."],
+    q: `During ${EVENTS[ev]} (the ${st.days} days from ${st.start} to ${st.end}), what did the same ${sol.mw} MW merchant solar plant at ${ISO_NAMES.ercot}'s hub average earn, against as many normal days before the storm?`,
+    answer: ["Over the storm's ", nDays, " it earned ", tot, "; as many normal days earned ", normal, ": ", calc("ratio", tot, normal, "times"), " as much."],
     steps: [["Each day's revenue: the plant's hourly output (the fleet's shape that day) times the hour's real-time price, added up."],
-      [`Add the ${st.days} days of the event window: `, tot, "."],
-      ["A normal week: seven times the mean day of the baseline days of the same event: ", week, "."], ["The ratio: ", tot, " / ", week, " = ", calc("ratio", tot, week, "times"), "."]],
-    why: "Scarcity pays whoever can deliver in it. Uri's prices sat at the cap for days, so even a plant whose output fell with the snow and the short days could earn more in the storm than in a normal week.",
+      ["Add the ", nDays, " of the event window: ", tot, "."],
+      ["A normal day: the mean of the baseline days of the same event (the same dates of earlier years): ", baseDay, ". A normal week is seven of them, ", week, "."],
+      ["As many normal days as the storm lasted: ", baseDay, " x ", nDays, " = ", normal, "."], ["The ratio: ", tot, " / ", normal, " = ", calc("ratio", tot, normal, "times"), "."]],
+    why: "Scarcity pays whoever can deliver in it. Uri's prices sat at the cap for days, so even a plant whose output fell with the snow and the short days could earn more in the storm than on as many normal days.",
   };
   return [q1, q2, q3, q4, q5];
 }

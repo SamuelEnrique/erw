@@ -1,5 +1,5 @@
 {
-  "version": "2026-10-01.1",
+  "version": "2026-10-14.1",
   "note": "ERW, session 43: two residential electricity bills for /learn/bill, for education. Every rate cites the tariff page that states it, read as text on 2026-09-30; 'quote' is the passage (checked against the page text, whitespace ignored). An estimate, not a bill. Session 52 adds three bills (SCE TOU-D Option 4-9 PM, SDG&E TOU-DR1, CenterPoint), read as text on 2026-10-01 and checked the same way.",
   "sources": {
     "pge_etouc": {
@@ -418,7 +418,7 @@
       "defaults": {
         "kwh": 600,
         "peak_share": 0.2,
-        "season": "summer",
+        "season": "winter",
         "territory": "T",
         "income_tier": "3",
         "days": 30,
@@ -426,6 +426,7 @@
         "labels": {
           "kwh": "600 kWh a month, an assumption",
           "peak_share": "20 percent in peak hours, the tariff's own example (Sheet 1)",
+          "season": "winter, the season from 1 October 2026, when the tariffs were read (Samuel's ruling of 14 October 2026: every California default in that season); summer until then",
           "days": "a 30-day bill"
         }
       }
@@ -808,13 +809,13 @@
         "kwh": 600,
         "peak_share": 0.2,
         "super_share": 0.3452,
-        "season": "summer",
+        "season": "winter",
         "baseline_kwh": 0,
         "days": 30,
         "labels": {
           "peak_share": "20 percent in 4 to 9 p.m., the same assumption as the PG&E bill",
           "super_share": "34.5 percent in super off-peak hours: use spread evenly over the week's hours (midnight to 6 a.m. on weekdays, midnight to 2 p.m. on weekends; March and April weekday middays ignored): an assumption",
-          "season": "summer: an assumption that 2026-10-01 is still SDG&E's summer; its baseline calculator page says only that a change of season falls in June and October",
+          "season": "winter, as the PG&E and SCE defaults (Samuel's ruling of 14 October 2026: every California default in the season of 1 October 2026, when the tariffs were read). SDG&E's own change of season falls in June and October (its baseline calculator page) and was not read as a date; summer until then",
           "baseline_kwh": "0: enter your baseline allowance from your SDG&E bill; the default bill has no baseline credit"
         }
       }

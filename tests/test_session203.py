@@ -100,7 +100,11 @@ class TheMenu(unittest.TestCase):
         moved = {"/analysis": "/research"}
         for old, new in moved.items():
             self.assertIn('{ source: "%s", destination: "%s", permanent: true }' % (old, new), src("site", "next.config.ts"))
-        self.assertEqual(now, sorted(moved.get(h, h) for h in BEFORE if h not in folded))   # sessions 237 and 238 together
+        # session 288 (Samuel's ruling 14 of 14 October 2026): the four problem sets listed one by one left the menu for
+        # their index, /learn/problems, which lists all five; each set keeps its address and is reached from the index
+        sets = [h for h in BEFORE if h.startswith("/learn/problems/")]
+        self.assertEqual(len(sets), 4)
+        self.assertEqual(now, sorted([moved.get(h, h) for h in BEFORE if h not in folded and h not in sets] + ["/learn/problems"]))   # sessions 237, 238 and 288
         self.assertEqual(len(now), len(set(now)))                                           # each page once
         for p in self.all:
             self.assertTrue(p["line"], p["href"])
