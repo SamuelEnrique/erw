@@ -5,7 +5,10 @@
 // lib/merchant.ts, months), and scenario A's fixed O&M and debt payments as the address has them
 // (lib/seller/finance.ts), so each month's coverage is the page's. Provenance in '#' lines at the top, as in the ERW's
 // own CSVs. The address takes the seller page's status (lib/release.ts): in review, it answers a visitor as the page does.
+// Session 264: offered where the grid's prices may be redistributed (lib/license.ts, the verdicts of docs/licenses.md,
+// unchanged here): for a grid whose prices are "license needed" on the day, the address answers the catalogue's words.
 import { hubAt } from "@/lib/capture";
+import { LICENSE_NEEDED, licenseGridTitle, licenseHeldGrid } from "@/lib/license";
 import { statusOf } from "@/lib/release";
 import { internalView } from "../../battery/read";
 import { cell, csv, text } from "../csv";
@@ -27,6 +30,7 @@ export async function GET(req: Request) {
     return text(`the model could not be read: ${e instanceof Error ? e.message : String(e)}`, 503);
   }
   const { x, g, a, hub, at, ms, snap, atHub, sizeLabel } = M;
+  if (licenseHeldGrid(x.iso)) return text(`${LICENSE_NEEDED}: ${licenseGridTitle(x.iso)}`, 403);
   const now = new Date().toISOString().replace(/\.\d{3}Z$/, "Z");
   const head = [
     `# Energy Research Warehouse (ERW): every month of "What a generator earns", ${a.name.toLowerCase()}, ${sizeLabel}, ${g.name}, priced at ${at}`,

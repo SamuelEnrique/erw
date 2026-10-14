@@ -30,13 +30,17 @@
 // default moves. The results table has one more row, "Breakeven PPA price": the contract price at which NPV at the
 // hurdle rate is zero, on the scenario's contract share, or on the whole plant when the scenario holds no contract
 // (lib/seller/finance.ts, breakevenPpa). The row that was there, the price at which coverage reaches 1.25 times, stays.
+//
+// Session 264 (the owner's list of 14 October 2026): the panel grows by one field, the eleventh assumption "PPA term,
+// years" (lib/seller/finance.ts, SPECS.ppa): the contract and the breakeven PPA price run for it, cut to the project
+// life; its default is the asset's life, so no default figure moves. The capture row's note names the capture rate.
 import { useCallback, useMemo, type ReactNode } from "react";
 import { ScenarioBlock, ScenarioState, Sensitivity, useScenarios, type Bar as ChartBar, type Cell, type Chart, type Field, type Row, type Side, type Values, type View } from "@/components/decisions/ScenarioBlock";
 import { HeadlineNumber } from "@/components/tool/ToolPage";
 import { usdShort } from "@/lib/batterystack";
 import { ttm, type Month } from "@/lib/merchant";
 import {
-  KEYS, SPECS, TARGET, asPpa, bound, breakevenPpa, breakevenToll, contractPrice, contractUnits, coverage as coverageOf, debtUsd, debtYears, defaultsOf, ppaShare, differenceWords, differing, isOldParam, isScenarioParam, monthCoverage, parseScenarios, resultOf, scenarioQuery, sensitivity,
+  KEYS, SPECS, TARGET, asPpa, bound, breakevenPpa, breakevenToll, contractPrice, contractUnits, contractYears, coverage as coverageOf, debtUsd, defaultsOf, ppaShare, differenceWords, differing, isOldParam, isScenarioParam, monthCoverage, parseScenarios, resultOf, scenarioQuery, sensitivity,
   type Assumptions, type Contract, type Key, type Scenarios as Both,
 } from "@/lib/seller/finance";
 import { CoverageLine, MonthlyRevenue } from "./SellerCharts";
@@ -185,7 +189,7 @@ export function SellerScenarios({ facts: f }: { facts: Facts }) {
   const ppa = f.twelve ? asPpa(s.b, f.twelve.revenueKw, contractOf(f)) : null;
   type Col = (typeof cols)["a"];
   const u = contractUnits(f.contract);
-  const sourceOf = (k: Key) => (k === "capex" ? `${SPECS[k].source}, ${f.costs.capexNote}` : k === "fom" ? `${SPECS[k].source}, ${f.costs.fomNote}` : k === "life" || k === "term" ? `${SPECS[k].source}, ${f.costs.lifeNote}` : k === "deg" && f.costs.degSource ? f.costs.degSource : SPECS[k].source);
+  const sourceOf = (k: Key) => (k === "capex" ? `${SPECS[k].source}, ${f.costs.capexNote}` : k === "fom" ? `${SPECS[k].source}, ${f.costs.fomNote}` : k === "life" || k === "term" || k === "ppa" ? `${SPECS[k].source}, ${f.costs.lifeNote}` : k === "deg" && f.costs.degSource ? f.costs.degSource : SPECS[k].source);
 
   const fields: Field[] = KEYS.map((k) => {
     const sp = SPECS[k];
@@ -200,8 +204,8 @@ export function SellerScenarios({ facts: f }: { facts: Facts }) {
   const rows: Row[] = [
     row("revenue", `${f.money}, last twelve months`, "USD per kW, the market's",
       () => (f.twelve ? { v: `USD ${num(f.twelve.revenueKw)}`, raw: f.twelve.revenueKw, note: `${f.twelve.span}, priced at ${f.twelve.at}` } : none(f.twelveWhy))),
-    row("capture", f.captureLabel, "USD per MWh, and its ratio to the flat average of every hour",
-      () => (f.capture ? { v: `USD ${num(f.capture.price)}`, raw: f.capture.price, note: `${num(f.capture.ratio, 1)} percent of USD ${num(f.capture.flat)}; ${f.capture.words}` } : none(f.captureWhy))),
+    row("capture", f.captureLabel, "USD per MWh, and the capture rate: its percent of the flat average of every hour",
+      () => (f.capture ? { v: `USD ${num(f.capture.price)}`, raw: f.capture.price, note: `a capture rate of ${num(f.capture.ratio, 1)} percent of USD ${num(f.capture.flat)}; ${f.capture.words}` } : none(f.captureWhy))),
     row("month", "The worst month", `the lowest of the months held, for ${f.size}`,
       (c) => {
         if (!f.lowest) return none(f.twelveWhy);
@@ -229,7 +233,7 @@ export function SellerScenarios({ facts: f }: { facts: Facts }) {
         if (!f.twelve) return none(f.twelveWhy);
         const share = ppaShare(c.y), p = breakevenPpa(c.y, f.twelve.revenueKw, contractOf(f));
         if (p === null) return none("The last twelve months hold no energy to price a contract on.", "none");
-        const on = `on ${plain(share)} ${u.shareUnit} for the debt's ${plain(debtYears(c.y))} years${c.y.cshare > 0 ? "" : ", the scenario holding no contract"}`;
+        const on = `on ${plain(share)} ${u.shareUnit} for a PPA term of ${plain(contractYears(c.y))} years${c.y.cshare > 0 ? "" : ", the scenario holding no contract"}`;
         if (p <= 0) return { v: "none needed", raw: p, note: `NPV is at or above zero with the contracted share paid nothing; ${on}` };
         return { v: `USD ${num(p)}`, raw: p, note: `${on}${c.y.cshare > 0 ? `; the scenario's own price is USD ${plain(c.y.cprice)}` : ""}` };
       }),
@@ -268,7 +272,7 @@ export function SellerSensitivity({ facts: f }: { facts: Facts }) {
   return (
     <>
       <p className="mb-2 max-w-3xl text-sm" data-how-to-read="1">
-        Each row moves one assumption of scenario {s.view.toUpperCase()} down and up by the step named, holds the other nine, and draws where NPV lands from the
+        Each row moves one assumption of scenario {s.view.toUpperCase()} down and up by the step named, holds the others, and draws where NPV lands from the
         scenario&apos;s own NPV (the line); the longest bars are the assumptions that matter most.
       </p>
       <Sensitivity c={chart} view={s.view} />

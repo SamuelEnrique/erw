@@ -18,7 +18,7 @@ import {
   DEBT, DEFAULT_SIZE, DEFAULTS, durationOf, HEAT_RATE, inputsKey, inputsOf, keyOf, months, stress, summary, VOM,
   type Inputs, type Snapshot,
 } from "@/lib/merchant";
-import { BATTERY_DEG, BATTERY_DEG_SOURCE, debtUsd, defaultsOf, isOldParam, isScenarioParam, parseScenarios } from "@/lib/seller/finance";
+import { BATTERY_DEG, BATTERY_DEG_SOURCE, KEYS as SCENARIO_KEYS, SPECS, debtUsd, defaultsOf, isOldParam, isScenarioParam, parseScenarios } from "@/lib/seller/finance";
 import { ASSETS, GRIDS, PAUSED, sentence, spanOf, spans, years } from "@/lib/seller2";
 import * as H from "@/lib/sellerhybrid";
 import * as HB from "@/lib/sellerhubs";
@@ -303,7 +303,7 @@ export async function modelOf(q: Record<string, string | undefined>) {
     capture: fuel
       ? mine && mine.flat ? { price: mine.price, flat: mine.flat, ratio: (100 * mine.price) / mine.flat, words: `${MARKETS[mk].toLowerCase()}, ${shortMonth(mine.from)} to ${shortMonth(mine.to)}` } : null
       : s.twelve && s.twelve.capture !== null && s.twelve.rate !== null ? { price: s.twelve.capture, flat: s.twelve.flat, ratio: s.twelve.rate, words: `${shortMonth(s.twelve.from)} to ${shortMonth(s.twelve.to)}` } : null,
-    captureLabel: fuel ? "Capture price and ratio" : peaker ? "Price while running, and ratio" : "Price while selling, and ratio",
+    captureLabel: fuel ? "Capture price and rate" : peaker ? "Price while running, and rate" : "Price while selling, and rate",
     captureWhy: fuel ? why(hub, fuel, mk) : twelveWhy,
     lowest: sm.worst[0] ? { month: longMonth(sm.worst[0].m), usd: sm.worst[0].revenue, months: sm.n } : null,
     contract: fuel ? "energy" : "toll",
@@ -312,7 +312,30 @@ export async function modelOf(q: Record<string, string | undefined>) {
       : `No twelve months in a row hold ${g.name}'s day-ahead price and its ${plantName} fleet's output on at least 90 percent of their days.`,
   };
 
+  // session 264: a typed value outside its bounds is held at the bound (lib/merchant.ts inputsOf, lib/seller/finance.ts
+  // bound); the page says so in one line under "Your plant", value by value. A value that is not a number takes the default.
+  const fmt = (v: number) => v.toLocaleString("en-US", { maximumFractionDigits: 3 });
+  const clampedWords: string[] = [];
+  const typed = (name: string, label: string, used: number, lo: number, hi: number, whose = "the page uses") => {
+    const raw = q[name];
+    if (raw === undefined || raw === "") return;
+    const v = Number(raw);
+    if (!Number.isFinite(v)) clampedWords.push(`${label}: "${raw.slice(0, 20)}" is not a number, so ${whose} ${fmt(used)}.`);
+    else if (v < lo) clampedWords.push(`${label}: ${fmt(v)} is below the bound of ${fmt(lo)}, so ${whose} ${fmt(used)}.`);
+    else if (v > hi) clampedWords.push(`${label}: ${fmt(v)} is above the bound of ${fmt(hi)}, so ${whose} ${fmt(used)}.`);
+  };
+  typed("mw", "Size, MW", x.mw, 1, 5000);
+  if (x.asset === "battery") typed("mwh", "Energy, MWh", x.mwh, x.mw, x.mw * 8);
+  if (peaker) { typed("hr", "Heat rate, MMBtu per MWh", x.hr, 6, 16); typed("vom", "Variable O&M, USD per MWh", x.vom, 0, 50); }
+  if (fuel) typed("bmw", "Battery size, MW", bmw, 1, 5000);
+  const both2 = parseScenarios(q, defaultsOf(costsOf(keyOf(asked))), asked.mw);
+  for (const p of ["a", "b"] as const) for (const kk of SCENARIO_KEYS) {
+    const sp = SPECS[kk];
+    typed(p + sp.letter, `Scenario ${p.toUpperCase()}, ${sp.label.toLowerCase().replace("ppa", "PPA").replace("o&m", "O&M")}`, both2[p][kk], sp.min, sp.max, "the scenario uses");
+  }
+
   return {
+    clampedWords,
     q, snap, open, iso, asked, costsOf, A, x, scenarioParams, g, a, cg, hub, mainHub, he, atHub, at, key, k, D, sizeLabel, fuel, peaker, money, bmw, dur, strat,
     ms, sm, st, held, monthRows, annual, ms1, ms1Main, s, ys, line, cap, mk, other, why, mine, yearRows, capView, plant, hybrid, bg, batt, battWhy, plantTotal, both, COMBINED,
     hf, pair, pairSpan, fromPlant, plantName, DA_PLANT, DA_BATTERY, DA_PAIR, DA_ADDED, above, KEPT, grids, defaults, threeWhy, everyWhy, twelveWhy, facts,
