@@ -1,0 +1,45 @@
+{
+ "id": "queue_divorce",
+ "kicker": "ERW Research",
+ "title": "TILL QUEUE DO US PART",
+ "subtitle": "The queue walks away 1.9 times as often as the altar does, on the only comparison the CDC's figures allow",
+ "source": "Source: Berkeley Lab Queued Up (2026 edition), ERW table lbnl_interconnection_queue; CDC/NCHS FastStats (public domain).",
+ "width": 1080,
+ "height": 1350,
+ "type": "roll-call",
+ "measure": "Withdrawn, percent of requested MW",
+ "rows": [
+  {
+   "label": "All technologies",
+   "value": 75.1796387567233
+  },
+  {
+   "label": "Wind",
+   "value": 77.49642774468852
+  },
+  {
+   "label": "Gas",
+   "value": 79.51545371950155
+  },
+  {
+   "label": "Solar",
+   "value": 70.63283641632
+  },
+  {
+   "label": "Other",
+   "value": 84.00875549962674
+  },
+  {
+   "label": "Solar and battery",
+   "value": 51.54616194845809
+  },
+  {
+   "label": "Battery",
+   "value": 63.984693376941216
+  }
+ ],
+ "unit": "%",
+ "decimals": 1,
+ "max": 100,
+ "frames": 425
+}
