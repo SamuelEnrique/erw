@@ -23,6 +23,9 @@
 #                                                                    2026, and the daily reports not yet saved
 #     dm_storage_owners             storage_owners_monthly           derived (EIA-860M); no request
 #     dm_shoulder_hours             shoulder_hours_monthly           derived (EIA-930's workbooks); no request
+#     dm_scarcity_hours             scarcity_hours_by_grid           derived (session 254: the price histories, ERCOT's
+#                                                                    adders, CAISO's notices just read); no request. Its
+#                                                                    window is the 36 whole months before the month
 #   then, every day
 #     dm_live_set                   the tables above that the live set holds, and ercot_rtm_price_adders: loaded from
 #                                   this machine, which is the only one that builds them (the loader writes what changed)
@@ -88,10 +91,11 @@ TABLE_STEPS=(
   "dm_caiso_curtailment|caiso_curtailment_intervals|monthly pull|warehouse/connectors/caiso_curtailment_intervals.py --new-only"
   "dm_storage_owners|storage_owners_monthly|monthly|warehouse/derived/storage_owners.py"
   "dm_shoulder_hours|shoulder_hours_monthly|monthly|warehouse/derived/shoulder_hours.py"
+  "dm_scarcity_hours|scarcity_hours_by_grid|monthly|warehouse/derived/scarcity_hours_by_grid.py"
 )
 # the tables of this block that the live set holds (warehouse/supabase/live_set.yaml gives each its rule; the others
 # are histories, or held out of the catalogue, and are not loaded), and session 244's table, which only this machine builds
-LIVE_ONLY='^(caiso_reliability_daily|caiso_grid_emergencies|storage_owners_monthly|shoulder_hours_monthly|ercot_rtm_price_adders)$'
+LIVE_ONLY='^(caiso_reliability_daily|caiso_grid_emergencies|storage_owners_monthly|shoulder_hours_monthly|ercot_rtm_price_adders|scarcity_hours_by_grid)$'
 MONTHLY_DAY=3
 
 if [ "${1:-}" = "--list" ]; then

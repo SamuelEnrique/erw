@@ -55,7 +55,8 @@ class TheBlock(unittest.TestCase):
             ("dm_caiso_reliability", "caiso_reliability_daily", "daily"),
             ("dm_caiso_curtailment", "caiso_curtailment_intervals", "monthly pull"),
             ("dm_storage_owners", "storage_owners_monthly", "monthly"),
-            ("dm_shoulder_hours", "shoulder_hours_monthly", "monthly")])
+            ("dm_shoulder_hours", "shoulder_hours_monthly", "monthly"),
+            ("dm_scarcity_hours", "scarcity_hours_by_grid", "monthly")])                           # session 254: a tenth step, derived, no request
         for name, table, cadence, cmd in self.steps:
             self.assertTrue(os.path.exists(os.path.join(ROOT, *cmd.split()[0].split("/"))), cmd)     # every command is a file of the repository
             self.assertTrue(name.startswith("dm_"), name)                                           # a step of the data machine's daily run, as erw_health counts it
@@ -95,7 +96,8 @@ class TheBlock(unittest.TestCase):
 
     def test_the_live_set_load_names_only_tables_the_live_set_holds(self):
         only = re.search(r"LIVE_ONLY='\^\(([a-z0-9_|]+)\)\$'", self.text).group(1).split("|")
-        self.assertEqual(only, ["caiso_reliability_daily", "caiso_grid_emergencies", "storage_owners_monthly", "shoulder_hours_monthly", "ercot_rtm_price_adders"])
+        self.assertEqual(only, ["caiso_reliability_daily", "caiso_grid_emergencies", "storage_owners_monthly", "shoulder_hours_monthly", "ercot_rtm_price_adders",
+                                "scarcity_hours_by_grid"])                                          # session 254
         live = yaml.safe_load(src("warehouse", "supabase", "live_set.yaml"))
         for t in only:
             self.assertEqual(load.live_rule(t), ("full", None), t)
@@ -120,7 +122,7 @@ class TheBlock(unittest.TestCase):
         r = run(["--list"])
         self.assertEqual(r.returncode, 0, r.stderr)
         lines = r.stdout.strip().splitlines()
-        self.assertEqual(len(lines), 10)
+        self.assertEqual(len(lines), 11)                                                           # ten steps since session 254, and the load
         self.assertTrue(lines[0].startswith("dm_eia930_total_interchange: eia930_daily_total_interchange (daily): python warehouse/connectors/"), lines[0])
         self.assertTrue(lines[-1].startswith("dm_live_set: python warehouse/supabase/load.py --no-vacuum --only"), lines[-1])
         r = run([], env={"GITHUB_ACTIONS": "true"})
