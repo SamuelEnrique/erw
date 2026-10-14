@@ -203,9 +203,9 @@ questions:
   expected: [23.3292]
   tolerance: 0.01
   text: []
-  tables: [merchant_revenue_monthly]
+  tables: [merchant_revenue_monthly, cost_of_power_monthly]
   refuse: false
-  note: merchant_revenue_monthly, spp:SPPNORTH_HUB, flat_price, 2025-02-01
+  note: merchant_revenue_monthly, spp:SPPNORTH_HUB, flat_price, 2025-02-01 (the same 23.3292 is cost_of_power_monthly's rt_simple_mean; both tables accepted, added after the answer)
 - id: q23
   grid: SPP
   question: What is the lowest monthly carbon intensity of SPP's generation in the warehouse, and in which month?
@@ -218,12 +218,12 @@ questions:
 - id: q24
   grid: SPP
   question: How many active wind projects are in SPP's interconnection queue, and what is their total capacity in MW?
-  expected: [78, 15143.26]
+  expected: [111, 23208.66]
   tolerance: 1
   text: []
   tables: [spp_interconnection_queue]
   refuse: false
-  note: spp_interconnection_queue (vintage 2026-10-12), status active and fuel_technology "Wind", count and sum of capacity_mw
+  note: spp_interconnection_queue (vintage 2026-10-12), status active and fuel_technology Wind, Wind - Wind or wind - wind, count and sum of capacity_mw. Corrected after the answer, from the table; the first key counted Wind alone (78, 15143.26), which the model rightly did not
 - id: q25
   grid: ISO-NE
   question: What was the load-weighted real-time price at ISO-NE's Internal Hub in December 2024?
@@ -259,7 +259,7 @@ questions:
   text: ['paused']
   tables: []
   refuse: true
-  note: MISO is paused since 4 October 2026 (docs/methods/miso_pause.md); the site returns no MISO figure (site/lib/chat/pagefiles.ts PAUSED_WORDS). Right answer: no figure, and the pause said
+  note: MISO is paused since 4 October 2026 (docs/methods/miso_pause.md); the site returns no MISO figure (site/lib/chat/pagefiles.ts PAUSED_WORDS). Right answer, no figure and the pause said
 - id: q29
   grid: PJM
   question: What was the carbon intensity of PJM's demand in January 2025?

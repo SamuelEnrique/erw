@@ -8,6 +8,9 @@ Part A, held here:
      keep_held, choose): a record more than 25 percent past the old one waits a day.
   4. The plain-names file (warehouse/analysis/plain_names.json).
   5. The six do-files that read varnames(1) over a CSV whose first four lines are comments.
+Part B, held here: the 30 questions of warehouse/chat/eval/questions_s267.yaml, their answers through /api/ask as
+fixtures (eval_s267_fixtures.json) replayed without a model (eval_s267.py grades them; ask.py's number check), and the
+fixes of the three wrong answers (MISO held in site/lib/chat/tools.ts; two rows of package/llms.txt).
 No network, no warehouse table, no model. Nothing here sets the environment at import.
 """
 import json
@@ -225,6 +228,138 @@ class TheSixDoFiles(unittest.TestCase):
             self.assertIn("varnames(5) rowrange(6) stringcols(_all) clear", mod.stata({}), name)
             self.assertEqual(src("site", "public", "findings", name + ".py"), src("warehouse", "analysis", "findings", name + ".py"), name)
             self.assertTrue(mod.stata({}).startswith("* ERW "), name)
+
+
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Part B, Ask accuracy (items 7 to 10): the 30 questions, their answers as fixtures replayed without a model, and the
+# fixes of the three wrong answers. The modules of warehouse/chat are loaded under names of their own (no clash with a
+# module of the same name another test loads).
+# ---------------------------------------------------------------------------------------------------------------------
+import importlib.util  # noqa: E402
+
+CHAT = os.path.join(ROOT, "warehouse", "chat")
+EVAL = os.path.join(CHAT, "eval")
+
+
+def _load(name, path):
+    if CHAT not in sys.path:
+        sys.path.insert(0, CHAT)
+    spec = importlib.util.spec_from_file_location(name, path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def fixtures():
+    with open(os.path.join(EVAL, "eval_s267_fixtures.json"), encoding="utf-8") as f:
+        return json.load(f)
+
+
+class TheThirtyQuestions(unittest.TestCase):
+    def test_thirty_across_every_public_grid(self):
+        import yaml
+        with open(os.path.join(EVAL, "questions_s267.yaml"), encoding="utf-8") as f:
+            qs = yaml.safe_load(f)["questions"]
+        self.assertEqual(len(qs), 30)
+        self.assertEqual(len({q["id"] for q in qs}), 30)
+        grids = {q["grid"] for q in qs}
+        for g in ("ERCOT", "CAISO", "NYISO", "SPP", "ISO-NE", "MISO", "PJM", "US48"):
+            self.assertIn(g, grids)
+        for q in qs:
+            self.assertTrue(q["note"], q["id"])
+            self.assertEqual(bool(q["refuse"]), not q["expected"], q["id"])
+        self.assertNotIn(EM, src("warehouse", "chat", "eval", "questions_s267.yaml"))
+
+
+class TheFixtures(unittest.TestCase):
+    """Item 10: every answer as asked through /api/ask, replayed offline."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.fx = fixtures()
+        cls.ev = _load("erw_eval_s267", os.path.join(EVAL, "eval_s267.py"))
+        cls.ask = _load("erw_chat_ask_s267", os.path.join(CHAT, "ask.py"))
+
+    def test_thirty_recorded_with_their_tool_calls(self):
+        qs = self.fx["questions"]
+        self.assertEqual(len(qs), 30)
+        self.assertIn("/api/ask", self.fx["route"])
+        for q in qs:
+            self.assertTrue(q["trace"], q["id"])
+            self.assertGreaterEqual(q["tool_calls"], 1, q["id"])
+            for t in q["trace"]:
+                self.assertIn(t["tool"], ("list_tables", "describe_table", "query", "compare", "grid_notes"), q["id"])
+            self.assertIsNotNone(q["cost_usd"], q["id"])
+
+    def test_the_grades_replay(self):
+        for q in self.fx["questions"]:
+            g = self.ev.grade(q, q)
+            self.assertEqual(g, q["grade"], q["id"])
+            self.assertEqual(g["ok"], q["right"], q["id"])
+        right = [q["id"] for q in self.fx["questions"] if q["right"]]
+        self.assertEqual(len(right), 27)
+        self.assertEqual(sorted(q["id"] for q in self.fx["questions"] if not q["right"]), ["q04", "q10", "q28"])
+
+    def test_a_wrong_answer_names_its_cause_and_its_fix(self):
+        for q in self.fx["questions"]:
+            if not q["right"]:
+                self.assertTrue(q["cause"] and q["fix"], q["id"])
+                self.assertIn("Not verified with a call", q["fix"], q["id"])
+
+    def test_every_number_of_an_answer_is_in_a_tool_result(self):
+        """The number check (warehouse/chat/ask.py unverified, the Python twin of lib/chat/ask.ts's) on the recorded
+        results: every number of every answer is one a tool returned, the question gave, or the day."""
+        for q in self.fx["questions"]:
+            if q["status"] != "answered":
+                continue
+            sources = [q["question"], self.fx.get("today", "2026-10-14")]
+            sources += [json.dumps(t["out"]) for t in q["trace"]] + [json.dumps(t["input"]) for t in q["trace"]]
+            self.assertEqual(self.ask.unverified(q["answer"], sources), [], q["id"])
+
+    def test_a_right_number_came_from_a_tool(self):
+        for q in self.fx["questions"]:
+            if not q["right"] or not q["expected"]:
+                continue
+            pool = self.ev.numbers(" ".join(json.dumps(t["out"]) for t in q["trace"]))
+            for e in q["expected"]:
+                self.assertTrue(self.ev.matches(e, pool, q["tolerance"]), (q["id"], e))
+
+    def test_the_grader_reads_precision_and_separators(self):
+        self.assertTrue(self.ev.matches(106.3204, self.ev.numbers("106.3 kgCO2/MWh"), 0.01))
+        self.assertFalse(self.ev.matches(106.3204, self.ev.numbers("106.4 kgCO2/MWh"), 0.01))
+        self.assertTrue(self.ev.matches(1361345.63, self.ev.numbers("1,361,345.63 MWh"), 1))
+        self.assertTrue(self.ev.matches(3699, self.ev.numbers("3699 intervals"), 0.5))
+        self.assertNotIn(EM, src("warehouse", "chat", "eval", "eval_s267_fixtures.json"))
+
+
+class TheFixes(unittest.TestCase):
+    """Item 9: each wrong answer fixed at its cause."""
+
+    def test_miso_held_in_the_query_tool(self):
+        ts = src("site", "lib", "chat", "tools.ts")
+        self.assertIn("export const MISO_PAUSED", ts)
+        self.assertIn('paused while terms are reviewed', ts)
+        self.assertIn("export const misoOwn = (v: unknown): boolean => typeof v === \"string\" && /^miso[:_]/i.test(v);", ts)
+        self.assertIn("if (misoOwn(a.table) || misoOwn(a.entity) || Object.values(a.where ?? {}).flat().some(misoOwn)) throw new ToolError(MISO_PAUSED);", ts)
+        self.assertIn("const out = rows.filter((r) => !misoOwn(r.entity)); if (rows.length && !out.length) throw new ToolError(MISO_PAUSED);", ts)
+        # EIA's figures for the MISO balancing authority are kept: the rule reads "miso:" and "miso_", never "eia930:MISO"
+        rx = re.compile(r"^miso[:_]", re.I)
+        self.assertTrue(rx.match("miso:INDIANA.HUB") and rx.match("miso_interconnection_queue"))
+        self.assertFalse(rx.match("eia930:MISO") or rx.match("iso:miso"))
+
+    def test_the_briefing_names_the_two_tables(self):
+        llms = src("package", "llms.txt")
+        self.assertIn("| `ercot_hub_prices_daily` (variables rt_ and da_ mean, min, max, offpeak_mean, hours_below_zero, hours_above_200; a year's hours below zero is the sum of the days) |", llms)
+        self.assertIn("| `merchant_revenue_monthly` (energy only; a battery's energy and ancillary services together, by strategy: `battery_stack_monthly`) |", llms)
+        spec = json.loads(src("site", "lib", "chat", "spec.json"))
+        self.assertIn("ercot_hub_prices_daily", spec["system"])
+        self.assertIn("merchant_revenue_monthly", spec["system"])
+
+    def test_the_trace_is_off_unless_asked(self):
+        ts = src("site", "lib", "chat", "ask.ts")
+        self.assertIn('const tracing = process.env.ASK_RECORD_TOOLS === "1";', ts)
+        self.assertIn("...(tracing ? { trace: traced } : {})", ts)
 
 
 if __name__ == "__main__":
