@@ -400,7 +400,7 @@ class ThePage(unittest.TestCase):
         for word in ("methodology", "limitation", "disputed", "What is on this board", "<Fold", "SourceLine"):
             self.assertNotIn(word, shown, word)
         self.assertIn('"/data/methods/price_board"', shown)
-        self.assertIn('href="/explorer/ercot-peak-premium"', shown)
+        self.assertIn('href="/prices?tab=ercot"', shown)  # session 281: the explorer is the ERCOT tab of /prices, linked in one step
         lib = src("site", "lib", "board.ts")
         for words in ("paused while terms are reviewed", "licensed source needed", "not held yet", "working on it"):
             self.assertIn(words, lib)
