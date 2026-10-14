@@ -1,6 +1,6 @@
 # Each grid's own scarcity signal, hour by hour
 
-Energy Research Warehouse (ERW), session 254 (13 October 2026). Table: `scarcity_hours_by_grid` (derived, series, hourly, public). Code: `warehouse/derived/scarcity_hours_by_grid.py`. No page reads it yet; the datacenter page's second question, "Will the power be there?" ([`datacenter_pays_algorithm.md`](datacenter_pays_algorithm.md), 4.15), is the reader it was built for.
+Energy Research Warehouse (ERW), session 254 (13 October 2026). Table: `scarcity_hours_by_grid` (derived, series, hourly, public). Code: `warehouse/derived/scarcity_hours_by_grid.py`. The datacenter page's second question, "Will the power be there?" ([`datacenter_pays_algorithm.md`](datacenter_pays_algorithm.md), 4.15), is the reader it was built for, and since session 280 reads it: `byGrid()` in `site/lib/datacenter/answers.ts` counts `rt_hour_ge_1000` and `own_signal` over the page's twelve months, each beside the hours held, for ERCOT and CAISO (session 254 wrote "No page reads it yet" here).
 
 ## Why
 

@@ -75,7 +75,9 @@ class ThePack(unittest.TestCase):
 
 class TheVerdicts(unittest.TestCase):
     def doc_verdicts(self):
-        doc = read(DOC)
+        # session 286: the verdicts of 13 October only. The document now goes on with those of 14 October (blocks 29 to
+        # 40), which the page cannot yet date ("Verdict of 13 October 2026" is its words), so they are not in the file
+        doc = read(DOC).split("\n## Session 286's twelve drafts, verified", 1)[0]
         out = {}
         for n, body in zip(*[iter(re.split(r"\n### (\d+)\. ", doc)[1:])] * 2):
             m = re.search(r"\*\*Draft:\*\* `(scan-[a-z]+-[0-9a-f]{12})`", body)

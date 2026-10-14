@@ -253,7 +253,7 @@ export async function TrackerView({ sp }: { sp: Record<string, string | undefine
                 <Fold title="What this does not tell you">
                   <ul className="max-w-3xl list-disc space-y-1.5 pl-5">
                     <li><strong>How many deals were struck.</strong> This is what a set of news feeds reported and a model extracted. Most contracts are never announced, and the months before the ERW began scoring the news daily are thin.</li>
-                    <li><strong>What power sells for.</strong> No deal held states a price per MWh. Contract prices as sellers file them with FERC are on <Link href="/contracts" className="underline">the power contracts page</Link>.</li>
+                    <li><strong>What power sells for.</strong> {ca.withPrice ? <>Only {whole(ca.withPrice)} of the deals held state a price per MWh, too few to say what power sells for.</> : <>No deal held states a price per MWh.</>} Contract prices as sellers file them with FERC are on <Link href="/contracts" className="underline">the power contracts page</Link>.</li>
                     <li><strong>A market total.</strong> The megawatts are the sum over the few deals that state a size, of every type together: a purchase of output, a sale of a portfolio and an equipment order are different things, and the table shows which is which.</li>
                     <li><strong>Whether a deal closed.</strong> The status is the one the story states (announced, signed, closed, rumored, cancelled), on the day of the story.</li>
                   </ul>

@@ -1,6 +1,6 @@
 // Session 30 (price board v2): a sparkline as plain inline SVG, no chart library. The values are drawn as given, in
 // order; the last point is marked. A zero line is drawn when the values cross zero. The title carries the first and
-// last point, so a reader can hover for them.
+// last point, so a reader can hover for them; since session 281 each point also carries its own date and value.
 export function InlineSpark({
   values,
   width = 120,
@@ -30,6 +30,12 @@ export function InlineSpark({
       {lo < 0 && hi > 0 ? <line x1={pad} x2={width - pad} y1={y(0)} y2={y(0)} stroke="var(--color-rule)" strokeWidth={1} /> : null}
       <polyline points={pts} fill="none" stroke={color} strokeWidth={1.4} strokeLinejoin="round" strokeLinecap="round" />
       <circle cx={x(values.length - 1)} cy={y(last.v)} r={2} fill={color} />
+      {/* session 281: each point's value on hover, without script: a clear band over each point carries its own title */}
+      {values.map((p, i) => (
+        <rect key={i} x={Math.max(0, x(i) - (width - 2 * pad) / (2 * (values.length - 1)))} width={(width - 2 * pad) / (values.length - 1)} y={0} height={height} fill="transparent">
+          <title>{`${label}: ${p.t.slice(0, 10)} ${p.v.toFixed(2)}`}</title>
+        </rect>
+      ))}
     </svg>
   );
 }

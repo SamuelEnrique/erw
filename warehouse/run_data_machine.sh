@@ -32,7 +32,12 @@
 #        curtailment_shares   site/data/curtailment/shares.json  /curtailment            (session 144)
 #        free_energy          site/data/curtailment/free_energy.json
 #        curtailment_worth    site/data/curtailment/worth.json
-#      and, where node is installed, each file's own test (a file whose test fails is put back as it was);
+#        board_page           site/data/board.json, site/public/board/   /board          (session 284)
+#      and, where node is installed, each file's own test (a file whose test fails is put back as it was); the board's
+#      are its Python tests (tests.test_session132, tests.test_session240), as a group: a board they refuse is put back
+#      whole. Session 284: the runner holds ERCOT's rolling window only, so page_keep.py keeps its older, longer ERCOT
+#      rows, and no run refreshed them: they stood at 7 and 8 October on 14 October. Here the history is held, so they move
+#      every day, a day after the runner's;
 #      then (session 190) the replication CSV of /cost-of-power's default case, written again from the datacenter
 #      files as they now stand (warehouse/derived/datacenter_hourly_export.py: it reads those files and no table, and
 #      leaves the CSV as it was when no hour of the default case moved or when its own check fails);
@@ -89,7 +94,8 @@ PAGE_PATHS=(site/data/datacenter site/data/seller/capture.json site/data/curtail
             site/public/datacenter/erw_2026_datacenter_hourly.csv
             site/public/battery/erw_2026_battery_dispatch.csv site/data/battery_scenario_steps.json
             site/data/merchant_snapshot.json site/data/seller/hubs site/public/seller/erw_2026_generator_hourly.csv
-            site/data/seller/hybrid.json site/public/seller/prices)
+            site/data/seller/hybrid.json site/public/seller/prices
+            site/data/board.json site/public/board)
 # session 204: the generator export's dated record of the capture file's build (docs/methods/figures/<day>/, session
 # 199), committed with the CSV whose header names it, and only when the generator's group was not put back
 RECORD_PATH=docs/methods/figures
@@ -119,6 +125,7 @@ if [ "$CHECK" = "1" ]; then
   echo "run_data_machine: a data machine with the three price histories. It would run, in this order:"
   echo "  sync (scripts/sync.py); ERCOT's load zones (ercot_zone_prices.py --refresh) and, when rows were added, the validator, coverage, the archive and the Redivis draft;"
   echo "  datacenter_page, capture_price, curtailment_shares, free_energy, curtailment_worth, each under warehouse/health.py;"
+  echo "  (session 284) the price board's files (page_keep.py board), then its Python tests as a group;"
   echo "  (session 204) first of all after the sync, ERCOT's node prices (scheduled.py ercot_rtm_node_prices, 500,000 rows a day at most) and its stores when it moved;"
   echo "  (session 206) then the runner's known gaps: carbon_auctions.py --table carb, carb_lcfs.py, policy_monitor_refresh.py --only orpuc, each table's stores when it moved;"
   echo "  (session 244) then ERCOT's reserve price adders: ercot_rt_adders.py (the list, and a year's workbook when ERCOT posted it again), its stores when the table moved;"
@@ -255,6 +262,10 @@ soft_step dm_capture_price "$PYTHON" warehouse/derived/capture_price.py --cache-
 soft_step dm_curtailment_shares "$PYTHON" warehouse/derived/curtailment_shares.py
 soft_step dm_free_energy "$PYTHON" warehouse/derived/free_energy.py
 soft_step dm_curtailment_worth "$PYTHON" warehouse/derived/curtailment_worth.py
+# Session 284: the price board, on the machine that holds ERCOT's history. The runner builds it every day too, and
+# page_keep.py takes a row of either build only where it is no older and no shorter than the held one: so the runner's
+# rows of the fuels and the other grids stand, and ERCOT's are refreshed here (the runner's are a rolling window).
+soft_step dm_board_page "$PYTHON" warehouse/derived/page_keep.py board
 # Session 181, the scanner: after the sync this machine holds the day's tables and the full histories, so the daily
 # scan runs here (about four minutes; it reads tables and writes none). The run is kept under runs/scanner/<date>/ and
 # its drafts are added to the internal review list (public.scanner_drafts); a draft raised before is never raised
@@ -372,6 +383,9 @@ if [ "${GENERATOR:-0}" = "1" ]; then
     site/data/merchant_snapshot.json site/data/seller/hubs site/public/seller/erw_2026_generator_hourly.csv || GENERATOR_OK=0
 fi
 group dm_test_hybrid "dm_seller_hybrid" "tests.test_session162" -- site/data/seller/hybrid.json site/public/seller/prices
+# session 284: the board's Python tests (the node test's newest-week check of the top twelve fails whenever EIA posts its
+# spot prices late, as on 14 October 2026, which would put back an ERCOT refresh that has nothing to do with it)
+group dm_test_board "dm_board_page" "tests.test_session132 tests.test_session240" -- site/data/board.json site/public/board
 
 # ---- 4. the commit ----------------------------------------------------------------------------------------------------
 echo "== status"

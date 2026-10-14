@@ -412,8 +412,11 @@ class EveryCardFileInGit(unittest.TestCase):
             self.skipTest("not a git checkout")
         files = {ln.strip() for ln in r.stdout.splitlines() if ln.strip()}
         # session 251's verification of its twelve drafts (measures of hunt_measures.py, each built from its own region's tables)
+        # session 286: its verification of the hunt of 14 October and the motion proofs of its two strong drafts, each a
+        # record of one day's drafts as they then stood
         allowed = ("warehouse/analysis/findings/hunt.py", "tests/", "docs/reviews/findings-verified-2026-10-13/verify_hunt.py", "archive/sessions/", "docs/methods/",
-                   "docs/reviews/findings-verified-2026-10-13-session251/")
+                   "docs/reviews/findings-verified-2026-10-13-session251/", "docs/reviews/findings-verified-2026-10-14-session286/",
+                   "docs/research/motion/hunt-2026-10-14/")
         self.assertEqual({f for f in files if not f.startswith(allowed)}, set())
 
 

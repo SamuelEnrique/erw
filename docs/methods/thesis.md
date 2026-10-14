@@ -2,7 +2,7 @@
 
 Thesis Builder maps one niche for an investor. You type a niche on `/thesis`, with a stage and a geography if you want them, and press Run. Some minutes later the report is on the page, in tabs. This note says what each tab holds, where its numbers come from and what the placeholders mean.
 
-The tool is internal. Runs and their results are kept in an internal table of the ERW. They are not published, not part of any public dataset, and the page has no download.
+The tool is internal. Runs and their results are kept in an internal table of the ERW, `thesis_runs`. They are not published, not part of any public dataset, and the page has no download.
 
 ## Since 9 October 2026: the market is the ERW's work, the companies come from a connector
 

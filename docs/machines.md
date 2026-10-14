@@ -364,7 +364,7 @@ machine, once a day, after the runner's daily run:
 | sync | `scripts/sync.py`: main fast-forwarded, and every table behind the Redivis draft brought up to it | `dm_sync` |
 | ERCOT's load zones | `ercot_zone_prices.py --refresh`: ERCOT's two lists each day, a workbook only when the list names a document not held (ERCOT posts the current year again on Sundays); the count against the ceiling of 3,000,000 rows in the step's log on every run, the request that would pass it refused before it is made | `dm_ercot_zone_prices` |
 | its stores, when rows were added | the validator (a gate), `build_coverage.py --only`, `archive.py write`, the Redivis draft | `dm_zone_archive`, `dm_zone_redivis` |
-| the page files | `datacenter_page.py`, `capture_price.py`, `curtailment_shares.py`, `free_energy.py`, `curtailment_worth.py` | `dm_datacenter_page`, `dm_capture_price`, `dm_curtailment_shares`, `dm_free_energy`, `dm_curtailment_worth` |
+| the page files | `datacenter_page.py`, `capture_price.py`, `curtailment_shares.py`, `free_energy.py`, `curtailment_worth.py`; since session 284, `page_keep.py board` (the price board: ERCOT's rows need the history) | `dm_datacenter_page`, `dm_capture_price`, `dm_curtailment_shares`, `dm_free_energy`, `dm_curtailment_worth`, `dm_board_page` (its tests: `dm_test_board`) |
 | the files' own tests | `test-capture.mjs`, `test-freeenergy.mjs`, `test-datacenter-rule.mjs`; a file whose builder or test fails is put back as committed | `dm_test_*` |
 | the commit | the page files and the metadata the refresh changed, committed to main and pushed, only on the branch main | `dm_commit` |
 

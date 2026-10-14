@@ -21,7 +21,7 @@ import { monthName, two, usdShort, whole } from "@/lib/datacenter";
 import { statOf, type Answers, type Way } from "@/lib/datacenter/answers";
 import { shown } from "@/lib/format";
 import { FLEX, type Assumptions } from "@/lib/datacenter/finance";
-import { statedStat, stageWords, type Stated, type Statement } from "@/lib/datacenter/statements";
+import { GRID_STATE, leadingNumber, statedStat, stageWords, type Stated, type Statement } from "@/lib/datacenter/statements";
 import type { ReactNode } from "react";
 
 const one = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
@@ -112,6 +112,9 @@ export function PowerThere({ a, f, b }: { a: Answers; f: AnswerFacts; b?: SiteB 
                   <span key="w">{OWN_SIGNAL[f.gridName] ? `${OWN_SIGNAL[f.gridName].name[0].toUpperCase()}${OWN_SIGNAL[f.gridName].name.slice(1)}: no table of those hours is held.` : "No table of it is held."}</span>] }]),
         ]} />
       </div>
+      {/* session 280: the grid's hub, hour by hour (scarcity_hours_by_grid): the USD 1,000 count and the grid's own count
+          side by side, each with the hours the table holds of it; a grid the table does not hold keeps the lines above */}
+      {a.byGrid ? <ByGridCounts a={a} f={f} /> : null}
       {s.hours ? (
         <ToolTable caption="The hours at or above the scarcity level, by month" minWidth={520} head={["Month", "Hours", `A flat load paid, USD, ${f.size}`, "USD per MWh in them"]}
           rows={s.byMonth.map((m) => ({ key: m.m, cells: [monthName(m.m), <N key="h" pre={f.pre} stat={`scarce:month:${m.m}:hours`} a={a} />, <N key="u" pre={f.pre} stat={`scarce:month:${m.m}:usd`} a={a} usd />, two(m.usd / m.hours)] }))} />
@@ -120,6 +123,31 @@ export function PowerThere({ a, f, b }: { a: Answers; f: AnswerFacts; b?: SiteB 
         The hours are the page&apos;s own price files at {f.place}, counted in {f.stdName}; a flexible load&apos;s hours off are the rule&apos;s (decided from day-ahead prices before each hour), so what it avoided is what it would have avoided, not a forecast. {a.notices === null && !a.adders ? `${f.gridName}'s own emergency notices are not held as a table, so the price is the measure.` : ""}
       </p>
     </>
+  );
+}
+
+/** Session 280: the two counts at the grid's hub from scarcity_hours_by_grid, side by side, over the page's twelve
+ * months. The hub's price is not the page's own region's: the count above is the region's, this one the hub's. */
+const OWN_WORDS: Record<string, string> = {
+  ERCOT: "Its reserve adder above zero (ercot_rtm_price_adders, the hour's mean of the on-line adder). Published until 4 December 2025 and no longer, so it is held for part of the months only. Most hours above zero are fractions of a cent, which is why the count above uses USD 100.",
+  CAISO: "An Energy Emergency Alert or a flex alert in force in any part of the hour, in any region (caiso_grid_emergencies). Restricted maintenance operations and transmission emergencies are not counted here.",
+};
+function ByGridCounts({ a, f }: { a: Answers; f: AnswerFacts }) {
+  const g = a.byGrid!;
+  const span = (c: { first: string | null; last: string | null }) => (c.first && c.last ? `${dayWords(c.first)} to ${dayWords(c.last)}` : "none");
+  return (
+    <div className="mb-6" data-by-grid="1">
+      <p className="mb-2 max-w-3xl text-sm">At {f.gridName}&apos;s hub, {g.hub}, hour by hour: the price level and {f.gridName}&apos;s own signal side by side.</p>
+      <ToolTable caption={`At ${f.gridName}'s hub, ${g.hub}, hour by hour: the price level and the grid's own signal side by side`} minWidth={560} words
+        head={["The count, the page's twelve months", "Hours", "Of the hours held", "What it is"]}
+        rows={[
+          { key: "rt", cells: [`Real-time price at or above USD ${g.level.toLocaleString("en-US")} per MWh`, <N key="h" pre={f.pre} stat="sbg:rt:hours" a={a} />, <span key="d"><N pre={f.pre} stat="sbg:rt:held" a={a} />, {span(g.rt)}</span>,
+            <span key="w">The mean of the hour&apos;s 15-minute real-time prices at the hub, at or above the same level as the count above.</span>] },
+          { key: "own", cells: [`${f.gridName}'s own signal in force`, <N key="h" pre={f.pre} stat="sbg:own:hours" a={a} />, <span key="d"><N pre={f.pre} stat="sbg:own:held" a={a} />, {span(g.own)}</span>,
+            <span key="w">{OWN_WORDS[f.gridName] ?? "The grid's own signal, as the table holds it."}</span>] },
+        ]} />
+      <p className="mt-2 max-w-3xl text-xs text-muted">From scarcity_hours_by_grid. An hour the table does not hold is not counted, as a zero or otherwise.</p>
+    </div>
   );
 }
 
@@ -187,7 +215,48 @@ function StatedLine({ stated, gridName }: { stated: StatedProp; gridName: string
   );
 }
 
-export function HowSoon({ a, f, rules, b, stated = null }: { a: Answers; f: AnswerFacts; rules: { count: number; newest: string | null; words: string }; b?: SiteB; stated?: StatedProp }) {
+/** Session 280: every statement for the load's grid and its state, each with its date and its document's link, no
+ * quoted text: the grid's operator's, the grid's other entities' (utilities, regulators, cooperatives), and those of
+ * other grids or of none of the seven in the grid's state. Each figure under the check key dcll|<the row's grid>|row:<id>:mw
+ * or :wait. Nothing is summed. A grid with no row has only StatedLine's plain line. */
+export type ListsProp = { operator: Statement[]; others: Statement[]; state: Statement[]; grid: string } | null;
+function StatedList({ lists, gridName }: { lists: ListsProp; gridName: string }) {
+  if (!lists) return null;
+  const n = lists.operator.length + lists.others.length + lists.state.length;
+  if (!n) return null;
+  const st = GRID_STATE[lists.grid];
+  const dayOf = (d: string) => `${Number(d.slice(8, 10))} ${monthName(d.slice(0, 7))}`;
+  const key = (r: Statement, k: "mw" | "wait") => `dcll|${r.grid ?? lists.grid}|row:${r.statement_id}:${k}`;
+  const figure = (r: Statement) => r.row_kind === "mw" && r.mw !== null && Number.isFinite(Number(r.mw))
+    ? <><Num check={key(r, "mw")} raw={Number(r.mw)}>{shown(Number(r.mw))}</Num> MW</>
+    : r.row_kind === "wait" && (r.duration_as_stated ?? "").trim()
+      // a wait written with words before its number ("within 18 months") stands as written, with no key
+      ? <>{/^\d/.test((r.duration_as_stated ?? "").trim()) && leadingNumber(r.duration_as_stated) !== null ? <Num check={key(r, "wait")} raw={leadingNumber(r.duration_as_stated)!}>{r.duration_as_stated}</Num> : r.duration_as_stated}{r.wait_basis ? `, ${r.wait_basis}` : ""}</>
+      : <span className="text-muted">no figure</span>;
+  const table = (rows: Statement[], caption: string) => (
+    <ToolTable caption={caption} minWidth={640} words head={["Date", "Who", "Figure", "Stage", "Document"]}
+      rows={rows.map((r) => ({ key: r.statement_id ?? `${r.event_date}${r.source_url}`, cells: [
+        <span key="d" className="whitespace-nowrap">{dayOf(r.event_date.slice(0, 10))}</span>,
+        <span key="w">{r.parties}{r.entity_type ? <span className="text-muted">, {r.entity_type}</span> : null}</span>,
+        <span key="f">{figure(r)}</span>,
+        <span key="s">{stageWords(r.stage_class) ?? <span className="text-muted">not classed</span>}</span>,
+        <span key="l"><a href={r.source_url} rel="noopener noreferrer">{r.document_title || "the document"}</a>{r.page ? `, page ${r.page}` : ""}</span>] }))} />
+  );
+  const part = (rows: Statement[], title: string, attr: string) => rows.length ? (
+    <div className="mt-3" data-stated-list={attr}><p className="mb-1 text-sm">{title} ({rows.length})</p>{table(rows, title)}</div>
+  ) : null;
+  return (
+    <details className="mb-4 max-w-5xl text-sm" data-stated-lists="1">
+      <summary className="cursor-pointer">Every public figure on large loads for {gridName}{st && lists.state.length ? ` and elsewhere in ${st.name}` : ""}: {n}, each with its date and document</summary>
+      {part(lists.operator, `${gridName}, the grid's operator`, "operator")}
+      {part(lists.others, `Utilities and others in ${gridName}`, "others")}
+      {st ? part(lists.state, `Elsewhere in ${st.name}, outside ${gridName}'s grid or across several grids`, "state") : null}
+      <p className="mt-2 text-xs text-muted">From large_load_public: facts with a link, no quoted text. The figures are not added: the entities count differently, and a document often states a total and its parts.</p>
+    </details>
+  );
+}
+
+export function HowSoon({ a, f, rules, b, stated = null, lists = null }: { a: Answers; f: AnswerFacts; rules: { count: number; newest: string | null; words: string }; b?: SiteB; stated?: StatedProp; lists?: ListsProp }) {
   const l = a.largeLoad;
   // session 236: scenario B's own grid, when it is another grid: its operator's figure, or the line that none is held
   const dayOf = (d: string) => `${Number(d.slice(8, 10))} ${monthName(d.slice(0, 7))}`;
@@ -205,6 +274,7 @@ export function HowSoon({ a, f, rules, b, stated = null }: { a: Answers; f: Answ
           {f.gridName} publishes no regular report of large load waiting or energized that the warehouse holds, so no operator&apos;s figure is stated here, and no wait is estimated.
         </p>
         <StatedLine stated={stated} gridName={f.gridName} />
+        <StatedList lists={lists} gridName={f.gridName} />
         <p className="max-w-3xl text-sm" data-answer-rules="1">{rules.words}</p>
         {siteB}
       </>
@@ -222,6 +292,7 @@ export function HowSoon({ a, f, rules, b, stated = null }: { a: Answers; f: Answ
         {" "}No wait is estimated: {f.gridName} publishes none.
       </p>
       <StatedLine stated={stated} gridName={f.gridName} />
+        <StatedList lists={lists} gridName={f.gridName} />
       {siteB}
       <HeadlineRow>
         <HeadlineNumber label={`Approved to energize, ${day(t.day)}`} value={<><N pre={f.pre} stat={`ll:report:${t.day}:approved`} a={a} /><span className="ml-1 font-sans text-sm text-muted">MW</span></>} note={<>{f.gridName}&apos;s large load interconnection status update, as reported.</>} />

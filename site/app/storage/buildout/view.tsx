@@ -36,7 +36,7 @@ export async function BuildoutView({ sp }: { sp: Record<string, string | undefin
       {grid.slug === "ercot" ? <AskErcotLink context={{ view: "/storage/buildout", title: "How much storage has been built", settings: { grid: "ERCOT", measure: MEASURES[measure].label, ...(v ? { inventory: v.newest } : {}) } }} /> : null}
       <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
         <aside>
-          <InputPanel title="Choose" note="Power is how fast the batteries can discharge. Energy is how much they hold. Energy over power is duration, in hours.">
+          <InputPanel title="Choose" reset={{ href: "/storage?tab=buildout", defaults: "the United States, in power (MW)." }} note="Power is how fast the batteries can discharge. Energy is how much they hold. Energy over power is duration, in hours.">
             <Panel grid={grid} measure={measure} />
           </InputPanel>
         </aside>

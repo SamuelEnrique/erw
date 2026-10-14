@@ -72,6 +72,9 @@ export function PolicyTable({ rows, tags = [], tag: tagAtOpen = "", missing = []
         <span className="text-xs text-muted" data-policy-shown={shown.length}>
           {shown.length} of {rows.length} actions
         </span>
+        {/* session 282: every filter back to the page's default: all agencies, types, sectors, states and tags, from any
+            date, significance 5 or more (the actions read are those of 5 or more) */}
+        <button type="button" data-reset="1" onClick={() => { setAgency(""); setType(""); setSector(""); setState(""); setTag(""); setMinSig("5"); setFrom(""); }} className="border border-rule px-2 py-1 text-xs" title="All agencies, types, sectors, states and tags, from any date, significance 5 or more">Reset the filters</button>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-sm">

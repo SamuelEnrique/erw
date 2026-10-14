@@ -212,10 +212,10 @@ export default async function CurtailmentPage({ searchParams }: { searchParams: 
     <ToolPage>
       <ToolHeader title="Curtailment"
         lead={<>When there is more wind and sun than the grid can take, the operator turns plants down: curtailment. Wind and solar output that could have been produced and was not, by day, month and hour, at <Term t="CAISO" first /> and <Term t="SPP" first /> since 2014
-          and at <Term t="ERCOT" first /> for the days held; where power is priced near nothing, by hub and zone; and what the curtailed energy was worth. <SiteLink href={METHOD}>Method</SiteLink>. See also <SiteLink href="/mix">the energy mix</SiteLink> and <SiteLink href="/cost-of-power/battery">what a battery earns</SiteLink>.</>} />
+          and at <Term t="ERCOT" first /> for the days held; where power is priced near nothing, by hub and zone; and what the curtailed energy was worth. <SiteLink href={METHOD}>Method</SiteLink>. See also <SiteLink href="/grid?view=mix">the energy mix</SiteLink> and <SiteLink href="/cost-of-power/battery">what a battery earns</SiteLink>.</>} />
       <div className="grid gap-8 lg:grid-cols-[250px_minmax(0,1fr)]">
         <aside>
-          <InputPanel title="Choose">
+          <InputPanel title="Choose" reset={{ href: "/curtailment", defaults: "CAISO, the latest year held, a 4-hour battery." }}>
             <nav aria-label="Grid" className="mb-4 text-sm">
               <div className="mb-1 text-xs uppercase tracking-wide text-muted">Grid</div>
               {GRIDS.map((x) => (x.open
