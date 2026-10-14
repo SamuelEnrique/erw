@@ -144,8 +144,8 @@ class TheBlock(unittest.TestCase):
         self.steps = [tuple(line.strip().strip('"').split("|")) for line in self.text.split("TABLE_STEPS=(", 1)[1].split("\n)", 1)[0].strip().splitlines()]
 
     def test_the_eight_steps_after_the_ten(self):
-        self.assertEqual([s[:3] for s in self.steps[10:]], self.NEW)
-        for name, table, cadence, cmd in self.steps[10:]:
+        self.assertEqual([s[:3] for s in self.steps[10:18]], self.NEW)   # session 277 adds two after them (test_session277.py)
+        for name, table, cadence, cmd in self.steps[10:18]:
             self.assertTrue(os.path.exists(os.path.join(ROOT, *cmd.split()[0].split("/"))), cmd)
             for word in ("nyiso", "isone", "miso", "spp", "pjm", "vascc"):
                 self.assertNotIn(word, cmd.lower(), cmd)
