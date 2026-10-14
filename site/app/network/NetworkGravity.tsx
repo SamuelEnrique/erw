@@ -44,7 +44,7 @@ export function NetworkGravity({ gen, net, names, colorOf, pick, neighbours, onP
   return (
     <div className={`${frame} self-start bg-paper`} data-gravity-state="held" data-gravity-center={lay.center.gen ?? ""}>
       <div className="relative mx-auto" style={style}>
-        <svg viewBox={`0 0 ${SIZE} ${SIZE}`} className="h-full w-full" role="img" preserveAspectRatio="xMidYMid meet"
+        <svg viewBox={`0 0 ${SIZE} ${SIZE}`} className="h-full w-full" role="group" preserveAspectRatio="xMidYMid meet"
           aria-label="The seven ISO grids around the Lower 48: each circle's area is its net generation in the hour shown; a net importer sits nearer the center, a net exporter farther out; hover a circle for its name, click it for its panel">
           {/* the middle ring: no net exchange */}
           <circle cx={c} cy={c} r={D_MID} fill="none" stroke="var(--color-rule)" strokeDasharray="4 6" data-gravity-ring="1" />
@@ -54,7 +54,7 @@ export function NetworkGravity({ gen, net, names, colorOf, pick, neighbours, onP
           ))}
           <g data-gravity-grid="US48" onPointerMove={hoverAt("US48")} onPointerLeave={() => setHover(null)}>
             <circle cx={c} cy={c} r={lay.center.r} fill="var(--color-panel)" stroke="var(--color-ink)" strokeWidth={1.2} strokeDasharray={lay.center.gen === null ? "3 4" : undefined} />
-            <text x={c} y={c + 7} textAnchor="middle" fontSize={22} fill="var(--color-ink)">Lower 48</text>
+            <text x={c} y={c + 9} textAnchor="middle" fontSize={26} fontFamily="var(--font-sans)" fill="var(--color-ink)">Lower 48</text>
           </g>
           {lay.places.map((p) => {
             const dim = pick !== null && pick !== p.id && !neighbours.has(p.id);
@@ -67,7 +67,7 @@ export function NetworkGravity({ gen, net, names, colorOf, pick, neighbours, onP
                 onPointerMove={hoverAt(p.id)} onPointerLeave={() => setHover(null)} onFocus={() => setHover({ id: p.id, x: -1, y: -1, right: false })} onBlur={() => setHover(null)}>
                 <circle cx={p.x} cy={p.y} r={p.r} fill={fill} fillOpacity={dim ? 0.22 : 0.9} stroke={pick === p.id ? "var(--color-ink)" : hollow ? "var(--color-muted)" : "var(--color-panel)"}
                   strokeWidth={pick === p.id ? 2.4 : 1.2} strokeDasharray={hollow ? "3 3" : undefined} />
-                <text x={p.x} y={p.y + p.r + 22} textAnchor="middle" fontSize={22} fill="var(--color-ink)" fillOpacity={dim ? 0.4 : 1}>{p.label}</text>
+                <text x={p.x} y={p.y + p.r + 26} textAnchor="middle" fontSize={26} fontFamily="var(--font-sans)" fill="var(--color-ink)" fillOpacity={dim ? 0.4 : 1}>{p.label}</text>
               </g>
             );
           })}

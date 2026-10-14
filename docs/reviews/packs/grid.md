@@ -124,8 +124,8 @@ EIA's hourly report is EIA-930 itself: the tables are its figures, so the checks
 | Trace, California over 2021 | 56,992,955 MWh from nine suppliers | By hand: 56,993,006 | Every share equal to two decimals | The file holds a day's mean MW to one decimal |
 | Trace, Texas, 12 to 19 February 2021 | SPP 84.6 percent (142,209 MWh), Mexico 15.4 percent (25,957 MWh) | The same sum by hand | A hundredth of a point | Rounding |
 | Two operators, one tie: MISO to SPP, 15 February 2021 | MISO's report: 95,060 MWh | SPP's report: 95,390 MWh | 0.3 percent | Two reports of one flow |
-| The replication file against the page (session 266) | `erw_2026_grid_replication.py` | The page's keyed numbers and the gravity shape's circles | see the session 266 report, "Checks" | `check-grid-replication.mjs`, one line a value |
-| Every keyed number of `/grid` against its table (session 266, local build) | `check-values` restricted to `/grid` | The same values recomputed | see the session 266 report | Run twice |
+| The replication file against the page (session 266, local build, snapshot of 2026-10-14 09:05 UTC) | `erw_2026_grid_replication.py`: 60 values (the lag, the counts, each grid's ties, net imports, generation, share, radius and distance) | The page's keyed numbers in Now and Network and the gravity shape's circles | 0 of 60 different | `check-grid-replication.mjs`, exit 0 (a first run read one count wrong: React's comment markers in the HTML, fixed in the check) |
+| Every keyed number of `/grid` against its table (session 266, local build) | `check-values` restricted to `/grid`: 1,171 values, the new `net|lag` key among them (53) | The same values recomputed from Supabase and the snapshot | 0, twice | Exit 0 both runs |
 | Every keyed number at the tool's landing (session 237) | 4,590 values on every page | Recomputed | 0 | `check-values`, exit 0 |
 | EIA's annual net generation (Electric Power Annual) against the sum of EIA-930's hours | not held | not held | not held | No annual EIA figure of generation by balancing authority is in the repository: for Samuel (part 9, question 5) |
 | The exchange against an operator's own tie flows | not held | not held | not held | No operator's tie-flow connector is built |
@@ -154,7 +154,7 @@ Ranked for the question "what is this grid doing now"; for another question the 
 4. **California's generation.** EIA-930's California total read 1,740 MW below CAISO's own over 888 hours; in the hour shown on 14 October it was 18,499 MW against a demand of 25,557. Now withholds the mix; the gravity shape draws CAISO from EIA-930's total, so CAISO sits nearer the center than CAISO's own figures would put it.
 5. **What a MWh used here emitted at the margin.** Carbon figures are averages. No number held.
 6. **Prices for three grids, and more from 21 October.** PJM's prices are licensed and never shown; MISO's own files are paused since 4 October 2026; from 2026-10-21 the rows of ISO-NE, MISO and NYISO read "license needed".
-7. **The other 62 balancing authorities' generation.** Not in the live set, so the gravity shape draws the seven ISO grids and the Lower 48 only.
+7. **The other 63 balancing authorities' generation.** Not in the live set, so the gravity shape draws the seven ISO grids and the Lower 48 only.
 8. **Minutes.** Every figure is an hourly mean, the replay a daily mean (ERCOT's 2023 record over minutes is 76 MW above the hour).
 9. **Revisions.** EIA calls the data preliminary; one revised hour moved two of MISO's figures between a page's read and a checker's on 13 October 2026.
 10. **Unscreened hours.** The rule for impossible values is applied by day and in the derived tables, not to an hour of interchange.
@@ -183,7 +183,7 @@ No. The source holds totals between balancing authorities. A hub price ring is t
 
 ### 5. What does the gravity shape say, and how could it mislead?
 
-Each of the seven ISO grids is a circle as large as its generation in the hour, nearer the Lower 48 as it imports more of what it generates. In the hour shown on 14 October CAISO sat closest (imports 35.6 percent of EIA-930's generation, a full pull) and NYISO next (18.0 percent); PJM and SPP sat just outside the ring as small net exporters. It misleads where the generation is wrong (CAISO, part 6 item 4) and in that only the bearing is fixed: two grids close on the page are not neighbours by that alone. The 62 others are not drawn.
+Each of the seven ISO grids is a circle as large as its generation in the hour, nearer the Lower 48 as it imports more of what it generates. In the hour shown on 14 October CAISO sat closest (imports 35.6 percent of EIA-930's generation, a full pull) and NYISO next (18.0 percent); PJM and SPP sat just outside the ring as small net exporters. It misleads where the generation is wrong (CAISO, part 6 item 4) and in that only the bearing is fixed: two grids close on the page are not neighbours by that alone. The 63 others are not drawn.
 
 ### 6. Is the carbon number what my load would emit?
 
@@ -199,7 +199,7 @@ PJM's license says "non-members are specifically prohibited from republishing da
 
 ### 9. How do you know the screen matches the publisher?
 
-A script recomputes every keyed number from its table (4,590 of 4,590 on the whole site at the landing). Since session 266 a replication file exports the network's figures from the same reads, and a Python mirror of a Stata do-file rebuilds each one; a check compares them with the page value by value (the session 266 report gives the count). What no check does: compare the exchange with an operator's own figures.
+A script recomputes every keyed number from its table (4,590 of 4,590 on the whole site at the landing). Since session 266 the replication file exports the network's figures from the same reads, and a Python mirror of a Stata do-file rebuilds each one; a check compared 60 of them with the page on 14 October, 0 different. What no check does: compare the exchange with an operator's own figures.
 
 ### 10. Can the Ask panel be wrong?
 
@@ -246,7 +246,7 @@ do erw_2026_grid_replication.do
 3. **How old "now" is.** (a) Keep the age of the exchange's hour against the snapshot's refresh (built: checkable); (b) against the clock when the page is drawn (truer to "now", not checkable by `check-values`); (c) both.
 4. **The grid at `/grid`.** (a) ERCOT (built); (b) the Lower 48; (c) the visitor's last choice. Session 237's ruling 1, still open.
 5. **EIA's annual figures.** (a) Add EIA's Electric Power Annual generation by balancing authority to the repository so the hourly sums can be checked against a published annual figure; (b) leave the cross-checks on EIA-930's own balance and the operators' figures held.
-6. **The other 62 balancing authorities in the gravity shape.** (a) Leave them out (built, said in a line); (b) put their hourly generation into the live set (a data change on the main machine); (c) draw them sized by the week's interchange volume, as the 3D network does.
+6. **The other 63 balancing authorities in the gravity shape.** (a) Leave them out (built, said in a line); (b) put their hourly generation into the live set (a data change on the main machine); (c) draw them sized by the week's interchange volume, as the 3D network does.
 
 ## Appendix: the five-minute demo
 
