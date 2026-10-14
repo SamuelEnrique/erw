@@ -134,6 +134,8 @@ export function DealsTable({ rows, companies = [] }: { rows: Deal[]; companies?:
         <span className="pb-1 text-xs text-muted">
           {shown.length} of {rows.length} deals
         </span>
+        {/* session 282: every filter back to its default, "any" */}
+        <button type="button" data-reset="1" onClick={() => { setType(""); setTech(""); setState(""); setAi(""); setStatus(""); setFrom(""); setTo(""); }} className="border border-rule px-2 py-1 text-xs">Reset the filters</button>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full border-collapse text-sm">

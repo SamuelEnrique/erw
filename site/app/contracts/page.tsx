@@ -157,7 +157,7 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
         </div>
       )}
       <SourceLine tables={[TABLE]}
-        note={<>Federal Energy Regulatory Commission, Electric Quarterly Reports, the contract files of one quarter&apos;s filings (eqrreportviewer.ferc.gov). An internal table: this page is read only in the internal view.</>} />
+        note={<>Federal Energy Regulatory Commission, Electric Quarterly Reports, the contract files of one quarter&apos;s filings (eqrreportviewer.ferc.gov). An internal table: this page is read only in the internal view. Methods: <Link href="/data/methods/ferc_eqr_contracts">the contracts</Link>, <Link href="/data/methods/eqr_buyers">the buyers</Link>, <Link href="/data/methods/eqr_terms">the terms</Link>.</>} />
     </ToolPage>
     </Brand>
   );

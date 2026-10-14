@@ -6,6 +6,7 @@
 // holds; the full history is on Redivis.
 import site from "@/data/site.json";
 import { limited } from "@/lib/guard";
+import { licenseNeeded, licensePublishers } from "@/lib/license";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -45,6 +46,9 @@ const text = (msg: string, status: number) => new Response(msg + "\n", { status,
 export async function GET(req: Request) {
   const table = new URL(req.url).searchParams.get("table") ?? "";
   if (!/^[a-z0-9_]{3,64}$/.test(table)) return text("table must be an ERW table name", 400);
+  // session 282: the download refuses what /data holds back, a table marked "license
+  // needed" on the day (lib/license.ts, the rule of session 207 from 20 October 2026); until now only the link was hidden
+  if (licenseNeeded(table)) return text(`${table} is held: license needed (${licensePublishers(table).join("; ")}). It is not downloaded from this site.`, 403);
   // session 177 (lib/guard.ts): a download reads up to 200,000 rows from the database; sixty an hour a visitor
   const lim = await limited(req, "download", 60, 3600);
   if (!lim.ok) return new Response("limit reached: 60 downloads per hour; try again later\n", { status: 429, headers: { "Content-Type": "text/plain; charset=utf-8", "Retry-After": String(lim.retryAfter) } });
