@@ -71,4 +71,7 @@ The pack's part 9, numbered with options: the CAISO peaker's carbon cost; the Su
 
 ## The landing
 
-filled by the orchestrator
+- **Landed in batch A** with sessions 263, 264, 265 and 268: pushed `b1e2526e` to `task/263-268-packs` at 10:55:36 UTC; GitHub's run 38552975267 passed; merged into `main` as `f49246af`; production showed the batch's words in the internal view at 11:07:59 UTC.
+- **Checks on the landing commit** (the orchestrator's, in the main copy, one heavy process at a time): the whole suite on a clean copy, 4,124 tests, OK (at `8c86c10d`; sessions 274, 275 and 276 of the data machine were merged after it: new files and their own tests only, which were run, exit 0); `npm run build` exit 0, no statement timeout; `check-values` on every page 4,733 of 4,733 (the floor file written by that run); `check-routes` 0; `check-cross-checks`, `check-battery-figures` (32 of 32), `check-battery-scenarios`, `check-seller-scenarios`, `check-datacenter-scenarios` (119), `check-datacenter-face` (23): each exit 0.
+- **Two pins moved at the landing:** `site/components/Num.tsx` maps session 264's `ms|` keys to `merchant_revenue_monthly`, as `mr|` (so a license-held grid's figures are held alike), and `tests/test_session215.py` knows the prefix; `tests/test_session265.py` no longer holds `large_load_public` out of the live set (session 272 of the data machine made it public by the owner's ruling while this batch was checked).
+- **Snapshots:** `sA-before` 10:55:07 UTC, `sA-after` 11:08:14 UTC: 50 differences, all expected: on each of the 25 pages the visible text gains "Skip to content" (session 268's link). No number moved (every page is in review).

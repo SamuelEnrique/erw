@@ -67,4 +67,7 @@ All on the local build of the branch, port 3266, in the internal view; each gate
 
 ## The landing
 
-filled by the orchestrator
+- **Landed in batch B** with sessions 265b, 266 and 267: pushed `433fbfb7` to `task/265b-267-grid-research-ask` at 11:40:23 UTC; GitHub's run 38558234549 passed; merged into `main` as `92024431`; production showed the batch's words in the internal view at 11:50:15 UTC.
+- **Checks on the landing commit:** the whole suite on a clean copy, 4,196 tests, OK; `npm run build` exit 0, no statement timeout; `check-values` on every page 4,741 of 4,741 (the floor of each page met), and again on `/cost-of-power` and `/research` 744 of 744 with the seven `dcll|` keys; `check-routes` 0; `check-network-v3` (33), `check-network-map` (31), `check-datacenter-scenarios` (119), `check-datacenter-face` (23), `check-analysis` (279), `check-findings-grids` (163): each exit 0; `check-grid-replication` 60 of 60 on a CSV written just before (the committed CSV was older than the page's hourly refresh: 8 lag values differed until then, as the script's header says they will).
+- **At the landing:** `site/lib/chat/spec.json` was exported again (`warehouse/chat/ask.py --export-spec`) after sessions 266 and 267 changed `package/llms.txt`; `check_spec.py` exit 0, both sessions' lines in it. `tests/test_session215.py` knows session 265b's `dcll|` prefix (`large_load_public`, public). Session 266's four gravity pictures were shot again on the landing build (labels 19 px at 390).
+- **Snapshots:** `sB-before` 11:40:11 UTC, `sB-after` 11:50:22 UTC: 0 differences.

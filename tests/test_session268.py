@@ -47,7 +47,10 @@ class TheSmallThings(unittest.TestCase):
     def test_the_skip_link_is_first_and_points_at_main(self):
         layout = src("site", "app", "layout.tsx")
         body = layout[layout.index("<body"):]
-        self.assertLess(body.index('href="#content"'), body.index("<header"))
+        # session 270: the first element of the header (the page's chrome), before the wordmark and the menu
+        header = body[body.index("<header"):]
+        self.assertLess(header.index('href="#content"'), header.index("<Wordmark"))
+        self.assertLess(header.index('href="#content"'), header.index("<Nav"))
         self.assertIn(">Skip to content</a>", body)
         self.assertIn('<main id="content" tabIndex={-1}', body)
 
