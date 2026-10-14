@@ -1,0 +1,82 @@
+"use client";
+// Session 266 (the owner's task of 14 October 2026): the network's third shape, "Gravity", beside "Map" and "Network".
+// The Lower 48 at the center; each of the seven ISO grids a circle whose area follows its net generation in the hour
+// shown, pulled toward the center by its net imports over its reporting ties and pushed out by its net exports, as a
+// share of its generation (lib/networkGravity.ts holds the rule; docs/methods/grid_network.md writes it down).
+// Network.tsx owns everything this file draws from: the view, the hour, the selection, the colors and the panel. As on
+// the map, hovering a circle names it and clicking it opens the same panel; no number is drawn here that the panel and
+// the other two shapes do not show. Colors are the brand's tokens (app/tokens.css), never a literal.
+import { useMemo, useState, type PointerEvent } from "react";
+import { GRAVITY, gravityLayout, type GravityLayout } from "@/lib/networkGravity";
+
+export function NetworkGravity({ gen, net, names, colorOf, pick, neighbours, onPick, held }: {
+  /** the hour's net generation, MW, by EIA-930 code (the seven ISO grids and US48) */
+  gen: Record<string, number | null>;
+  /** the hour's net imports over the reporting ties, MW, by code (null: no tie reported) */
+  net: Record<string, number | null>;
+  names: Map<string, string>;
+  /** the color the grid's sphere has for the hour shown (Network.tsx colorOf) */
+  colorOf: (id: string) => string;
+  pick: string | null;
+  neighbours: Set<string>;
+  onPick: (id: string) => void;
+  /** false outside the live week: generation by hour is held for the live week only, so nothing is drawn */
+  held: boolean;
+}) {
+  const [hover, setHover] = useState<{ id: string; x: number; y: number; right: boolean } | null>(null);
+  const lay: GravityLayout = useMemo(() => gravityLayout(gen, net), [gen, net]);
+  const { SIZE, D_MID } = GRAVITY;
+  const frame = "w-full min-w-0 overflow-hidden border border-rule";
+  const style = { aspectRatio: "1 / 1", maxHeight: "min(72vh, 620px)", minHeight: 200 };
+  if (!held) {
+    return (
+      <div className={`${frame} flex items-center justify-center bg-panel p-6`} style={style} data-gravity-state="not-held">
+        <p className="max-w-md text-sm" role="status">The gravity shape is drawn for the live week only: net generation by hour is held for the live week, not for a story or a replayed day, and no circle is sized from a stand-in. Choose &quot;Live now&quot;, or the Network or Map shape.</p>
+      </div>
+    );
+  }
+  const c = SIZE / 2;
+  const nameOf = (id: string) => names.get(id) ?? (id === "US48" ? "The Lower 48 states" : id);
+  const hoverAt = (id: string) => (e: PointerEvent<SVGElement>) => {
+    const b = (e.currentTarget.ownerSVGElement as SVGSVGElement).getBoundingClientRect();
+    setHover({ id, x: e.clientX - b.left, y: e.clientY - b.top, right: e.clientX - b.left > b.width / 2 });
+  };
+  return (
+    <div className={`${frame} self-start bg-paper`} data-gravity-state="held" data-gravity-center={lay.center.gen ?? ""}>
+      <div className="relative mx-auto" style={style}>
+        <svg viewBox={`0 0 ${SIZE} ${SIZE}`} className="h-full w-full" role="group" preserveAspectRatio="xMidYMid meet"
+          aria-label="The seven ISO grids around the Lower 48: each circle's area is its net generation in the hour shown; a net importer sits nearer the center, a net exporter farther out; hover a circle for its name, click it for its panel">
+          {/* the middle ring: no net exchange */}
+          <circle cx={c} cy={c} r={D_MID} fill="none" stroke="var(--color-rule)" strokeDasharray="4 6" data-gravity-ring="1" />
+          {lay.places.map((p) => (
+            <line key={`s-${p.id}`} x1={c} y1={c} x2={p.x} y2={p.y} stroke="var(--color-rule)" strokeWidth={1.2}
+              strokeOpacity={pick !== null && pick !== p.id && !neighbours.has(p.id) ? 0.3 : 0.9} />
+          ))}
+          <g data-gravity-grid="US48" onPointerMove={hoverAt("US48")} onPointerLeave={() => setHover(null)}>
+            <circle cx={c} cy={c} r={lay.center.r} fill="var(--color-panel)" stroke="var(--color-ink)" strokeWidth={1.2} strokeDasharray={lay.center.gen === null ? "3 4" : undefined} />
+            <text x={c} y={c + 9} textAnchor="middle" fontSize={26} fontFamily="var(--font-sans)" fill="var(--color-ink)">Lower 48</text>
+          </g>
+          {lay.places.map((p) => {
+            const dim = pick !== null && pick !== p.id && !neighbours.has(p.id);
+            const hollow = p.state === "no-generation" || p.state === "zero-generation";
+            const fill = hollow ? "none" : colorOf(p.id);
+            return (
+              <g key={p.id} data-gravity-grid={p.id} data-gravity-state={p.state} data-gen={p.gen ?? ""} data-net={p.net ?? ""} data-share={p.share ?? ""}
+                data-d={Math.round(p.d * 10) / 10} data-r={Math.round(p.r * 10) / 10} data-dim={dim ? "1" : "0"} className="cursor-pointer" tabIndex={0} role="button" aria-label={nameOf(p.id)}
+                onClick={() => onPick(p.id)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onPick(p.id); } }}
+                onPointerMove={hoverAt(p.id)} onPointerLeave={() => setHover(null)} onFocus={() => setHover({ id: p.id, x: -1, y: -1, right: false })} onBlur={() => setHover(null)}>
+                <circle cx={p.x} cy={p.y} r={p.r} fill={fill} fillOpacity={dim ? 0.22 : 0.9} stroke={pick === p.id ? "var(--color-ink)" : hollow ? "var(--color-muted)" : "var(--color-panel)"}
+                  strokeWidth={pick === p.id ? 2.4 : 1.2} strokeDasharray={hollow ? "3 3" : undefined} />
+                <text x={p.x} y={p.y + p.r + 26} textAnchor="middle" fontSize={26} fontFamily="var(--font-sans)" fill="var(--color-ink)" fillOpacity={dim ? 0.4 : 1}>{p.label}</text>
+              </g>
+            );
+          })}
+        </svg>
+        {hover ? (
+          <div className="pointer-events-none absolute z-10 border border-rule bg-panel px-2 py-0.5 text-xs shadow-sm" data-gravity-hover={hover.id}
+            style={hover.x < 0 ? { left: 8, top: 8 } : hover.right ? { right: `calc(100% - ${hover.x - 12}px)`, top: hover.y + 12 } : { left: hover.x + 12, top: hover.y + 12 }}>{nameOf(hover.id)}</div>
+        ) : null}
+      </div>
+    </div>
+  );
+}

@@ -34,6 +34,15 @@ export async function liveExtras(snap: Snapshot): Promise<LiveExtras> {
       if (rows.length) out.demand[ba] = align(hourly(rows, 1));
     }
   }
+  // session 266: net generation of the seven ISO grids and the Lower 48 by hour, for the gravity shape's circles
+  const gen = await attempt(() => series("eia930_all_generation", { variable: "net_generation_mw", since }));
+  if (gen.ok) {
+    out.generation = {};
+    for (const ba of [...Object.values(ISO_BA), "US48"]) {
+      const rows = gen.data.filter((r) => r.entity === `eia930:${ba}`);
+      if (rows.length) out.generation[ba] = align(hourly(rows, 1));
+    }
+  }
   const bat = await attempt(() => series("eia930_all_storage", { variable: "net_generation_battery_mw", since }));
   if (bat.ok) {
     for (const ba of ["ERCO", "ISNE", "MISO", "SWPP"]) {

@@ -21,6 +21,9 @@
 // and is drawn exactly as before; the map (NetworkMap.tsx) draws the same grids on the ground from this component's own
 // view, hour, selection and colors, and opens the same panel. The shape is kept in the address (lib/networkMap.ts): an
 // address without it is the network. The 3D scene is built only while the network is the shape shown.
+// Session 266 (the owner's task of 14 October 2026): a third shape, "Gravity" (NetworkGravity.tsx, lib/networkGravity.ts):
+// the Lower 48 at the center, the seven ISO grids around it, each sized by its net generation in the hour shown and
+// pulled in by its net imports; the same hour, selection, colors, hover card and panel as the other two.
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
@@ -30,9 +33,11 @@ import { HEADLINE, MEASURES, SPREAD, type Measure, type Supply } from "@/lib/bas
 import { clampDay, dayFrame, easternHours, parseShared, priceWeight, sharedQuery, trace as tracePower, type Daily, type DailyIndex, type ViewKey, PAUSED_PRICE, PAUSED_WORDS, monthSpan, type Complete } from "@/lib/networkV3";
 import { parseShape, withShape, type Shape } from "@/lib/networkMap";
 import { netFromPage, netToPage } from "@/lib/gridtool";
+import { GRAVITY_CENTER, GRAVITY_GRIDS, netImportAt } from "@/lib/networkGravity";
 
 // session 180: the map is loaded when it is first shown, so the network's own load is what it was
 const NetworkMap = dynamic(() => import("./NetworkMap").then((m) => m.NetworkMap), { ssr: false });
+const NetworkGravity = dynamic(() => import("./NetworkGravity").then((m) => m.NetworkGravity), { ssr: false });
 const never = () => () => {};
 
 export type NetNode = { id: string; name: string; iso: string | null; demand_mw: number | null; demand_ts: string | null;
@@ -50,7 +55,9 @@ export type Story = { event: string; title: string; focus: string; tz: string; w
   missing: { link_hours: number; link_hours_from_other_side: number; demand_hours: number; left_out_bas: string[]; nodes_without_demand: string[]; batteries_reported: string[] } };
 /** Session 68: the live week's extras, read by the page from Supabase and aligned to the snapshot's hours. */
 export type LiveExtras = { batteries: Record<string, (number | null)[]>; batterySource: Record<string, string>; prices: Record<string, (number | null)[]>;
-  priceKind: Record<string, string>; demand: Record<string, (number | null)[]> };
+  priceKind: Record<string, string>; demand: Record<string, (number | null)[]>;
+  /** session 266: net generation of the seven ISO grids and US48 by hour of the week (eia930_all_generation), for the gravity shape */
+  generation?: Record<string, (number | null)[]> };
 
 const ET = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
 const fmt = (v: number) => (Math.round(v) === 0 ? 0 : Math.round(v)).toLocaleString("en-US");  // never "-0"
@@ -457,7 +464,15 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
   }, [v3, restored, playing, shared, shape, page]);
   // session 180: what the map draws, from the same view, hour and selection as the network
   const mapFlows = useMemo(() => (shape === "map" ? linksAt(hour) : []), [shape, linksAt, hour]);
-  const mapNeighbours = useMemo(() => new Set(pick && shape === "map" ? view.links.filter((l) => l.a === pick.id || l.b === pick.id).map((l) => (l.a === pick.id ? l.b : l.a)) : []), [pick, view, shape]);
+  const mapNeighbours = useMemo(() => new Set(pick && shape !== "network" ? view.links.filter((l) => l.a === pick.id || l.b === pick.id).map((l) => (l.a === pick.id ? l.b : l.a)) : []), [pick, view, shape]);
+  // session 266: what the gravity shape draws, from the same view, hour and ties as the panel
+  const gravity = useMemo(() => {
+    if (shape !== "gravity") return null;
+    const gen: Record<string, number | null> = {}, net: Record<string, number | null> = {};
+    for (const id of [...GRAVITY_GRIDS.map((g) => g.id), GRAVITY_CENTER]) gen[id] = view.kind === "live" ? live.generation?.[id]?.[hour] ?? null : null;
+    for (const g of GRAVITY_GRIDS) net[g.id] = netImportAt(view.links, g.id, hour);
+    return { gen, net, held: view.kind === "live" && !isDayView };
+  }, [shape, view, hour, live, isDayView]);
   const choose = (to: Shape) => { if (to !== shape) { toggled.current = true; setOwnShape(to); } };
   const demandNow = pick ? view.demand(pick.id, hour) : null;
   const buttons = "border border-accent px-3 py-1 text-sm text-accent hover:bg-paper";
@@ -473,9 +488,9 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
     <div>
       {v3 ? (
         <div className="mb-3 flex items-center gap-1 text-sm" role="group" aria-label="Show as" data-shape-toggle={shape}>
-          {(["map", "network"] as const).map((k) => (
+          {(["map", "network", "gravity"] as const).map((k) => (
             <button key={k} type="button" onClick={() => choose(k)} aria-pressed={shape === k} data-shape={k}
-              className={`border px-4 py-1.5 ${shape === k ? "border-ink bg-ink text-white" : "border-rule text-ink"}`}>{k === "map" ? "Map" : "Network"}</button>
+              className={`border px-4 py-1.5 ${shape === k ? "border-ink bg-ink text-white" : "border-rule text-ink"}`}>{k === "map" ? "Map" : k === "network" ? "Network" : "Gravity"}</button>
           ))}
         </div>
       ) : null}
@@ -528,6 +543,9 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
         {shape === "map" ? (
           <NetworkMap nodes={snap.nodes} flows={mapFlows} maxMw={maxMw} colorOf={(id) => colorOf(view.intensity(id, hour), lo, hi)} pick={pick?.id ?? null} neighbours={mapNeighbours}
             onPick={(id) => setPick(snap.nodes.find((n) => n.id === id) ?? null)} />
+        ) : shape === "gravity" && gravity ? (
+          <NetworkGravity gen={gravity.gen} net={gravity.net} held={gravity.held} names={new Map(snap.nodes.map((n) => [n.id, n.name]))} colorOf={(id) => colorOf(view.intensity(id, hour), lo, hi)}
+            pick={pick?.id ?? null} neighbours={mapNeighbours} onPick={(id) => setPick(snap.nodes.find((n) => n.id === id) ?? null)} />
         ) : noGl ? (
           <p className="border border-rule bg-panel p-4 text-sm">
             This browser cannot draw 3D (WebGL is not available), so the network is not shown. The table of balancing authorities below, and{" "}
@@ -637,14 +655,15 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
         ) : null}
       </div>
       <div className="mt-2 flex flex-wrap items-center gap-4 text-xs text-muted">
-        <span>{shape === "map" ? "Hover a region for its name, click it for its panel. A tie's dash runs from the exporter to the importer; it is wider as the flow is larger." : "Drag to rotate, scroll to zoom, click a grid; it turns slowly until touched."}</span>
+        <span>{shape === "map" ? "Hover a region for its name, click it for its panel. A tie's dash runs from the exporter to the importer; it is wider as the flow is larger." : shape === "gravity" ? "Hover a circle for its name, click it for its panel." : "Drag to rotate, scroll to zoom, click a grid; it turns slowly until touched."}</span>
         <span className="flex items-center gap-1">Carbon intensity of generation:
           <span className="inline-block h-2 w-24" style={{ background: "linear-gradient(90deg, var(--color-down), var(--color-up))" }} /> {fmt(lo)} to {fmt(hi)} kg CO2/MWh; grey: not held.
           {view.kind === "live" ? <> The color updates daily (latest hour {ciTs.slice(0, 13).replace("T", " ")}:00 UTC); the links and demand, hourly.</> : <> In a story, each day&apos;s own.</>}</span>
-        {shape === "map" ? <span data-map-key="1">Region: the balancing authority&apos;s area as the boundary file gives it; the line on the map says what that file is. The batteries&apos; and prices&apos; rings are drawn in the Network view; the panel holds their numbers here.</span>
+        {shape === "gravity" ? <span data-gravity-key="1">Circle: the grid&apos;s net generation in the hour shown (EIA-930), its area to scale with the Lower 48&apos;s at the center. Nearer the center: a net importer; farther out: a net exporter, by its net imports as a share of its generation (a quarter or more is the full pull); on the dashed ring: neither. The other {snap.nodes.length - GRAVITY_GRIDS.length} balancing authorities are drawn in the Network and Map shapes: their generation is not in the live set. A dashed outline: generation not held for the hour.</span>
+          : shape === "map" ? <span data-map-key="1">Region: the balancing authority&apos;s area as the boundary file gives it; the line on the map says what that file is. The batteries&apos; and prices&apos; rings are drawn in the Network view; the panel holds their numbers here.</span>
           : <span>Sphere: demand (the seven ISOs) or interchange volume (the others)</span>}
-        {batteriesOn && shape !== "map" ? <span>Ring: batteries reported for the hour, fuller as they discharge, emptier as they charge.</span> : null}
-        {pricesOn && shape !== "map" ? <span data-price-legend="1">Outer ring: the hub price, heavier as it is higher, on the grids with a public price held for the {unit} shown ({priceRings}); the heaviest is {priceMax.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD/MWh, the highest of the period shown.</span> : null}
+        {batteriesOn && shape === "network" ? <span>Ring: batteries reported for the hour, fuller as they discharge, emptier as they charge.</span> : null}
+        {pricesOn && shape === "network" ? <span data-price-legend="1">Outer ring: the hub price, heavier as it is higher, on the grids with a public price held for the {unit} shown ({priceRings}); the heaviest is {priceMax.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD/MWh, the highest of the period shown.</span> : null}
       </div>
       <label className="mt-3 block text-sm">Show a balancing authority:{" "}
         <select className="w-full max-w-md border border-rule bg-panel px-2 py-1 text-sm sm:w-auto" value={pick?.id ?? ""} onChange={(e) => setPick(snap.nodes.find((n) => n.id === e.target.value) ?? null)}>
