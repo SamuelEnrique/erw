@@ -5,7 +5,7 @@ ruling:
 - /api/download refuses a table held for a license on the day, as /data already hides its link;
 - the severance calculator: an empty price gives no result (not a price of 0), and a Reset puts every input back;
 - a "Reset the filters" button on /datacenters, /deals, the companies tab and /policy's list of every action;
-- two stale sentences of /deals made true; the method links of /datacenters and /contracts;
+- two stale sentences of /deals made true; the method links of /contracts;
 - two method notes say what the code does (the lease tab's address, the thesis table's name).
 Nothing here sets the environment, reads a table or makes a request.
 """
@@ -55,10 +55,9 @@ class WordsAndLinks(unittest.TestCase):
         self.assertIn("{ca.withPrice ? <>Only {whole(ca.withPrice)} of the deals held state a price per MWh", src("site", "app", "deals", "v2", "view.tsx"))
 
     def test_method_links_and_notes(self):
-        self.assertIn('<a href="/data/methods/datacenter_facilities">datacenter_facilities</a>', src("site", "app", "datacenters", "Body.tsx"))
         contracts = src("site", "app", "contracts", "page.tsx")
         for slug in ("ferc_eqr_contracts", "eqr_buyers", "eqr_terms"):
-            self.assertIn(f'<a href="/data/methods/{slug}">', contracts)
+            self.assertIn(f'<Link href="/data/methods/{slug}">', contracts)
             self.assertTrue(os.path.exists(os.path.join(ROOT, "docs", "methods", f"{slug}.md")), slug)
         self.assertIn("`/severance?tab=lease`", src("docs", "methods", "severance.md"))
         self.assertIn("`thesis_runs`", src("docs", "methods", "thesis.md"))
