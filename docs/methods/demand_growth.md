@@ -100,7 +100,7 @@ the meter (rooftop solar lowers the demand a grid sees at midday); a forecast.
 
 ## On the page
 
-Since session 152 demand growth is one page at one address, `/demand`, in review, with two views kept in the address:
+Since session 152 demand growth is one page at one address, `/demand`, in review, with views kept in the address (two then; since session 239 a third, consumption, what `/consumption` showed, read from `eia_retail_sales_monthly` and `eia_sector_energy_consumption_monthly`):
 
 - **As metered** (`/demand`, with `?area=` and `?rank=`): this table. It is what `/demand` showed before, chart for
   chart and number for number.

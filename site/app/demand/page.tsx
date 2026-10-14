@@ -153,7 +153,7 @@ function MeteredView({ q }: { q: Record<string, string | undefined> }) {
       </p>
       <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
         <aside>
-          <InputPanel title="Choose" note={<>Whole years {first.year} to {last.year}. <Hint words="The year so far" why={`The year so far is January to ${through} of each year, so ${Number(last.year) + 1} is compared with the same months of ${file.base}.`} /></>}>
+          <InputPanel title="Choose" reset={{ href: "/demand", defaults: "ERCOT, ranked by the growth of average demand since 2019." }} note={<>Whole years {first.year} to {last.year}. <Hint words="The year so far" why={`The year so far is January to ${through} of each year, so ${Number(last.year) + 1} is compared with the same months of ${file.base}.`} /></>}>
             <nav aria-label="Area" className="mb-4 text-sm">
               <div className="mb-1 text-xs uppercase tracking-wide text-muted">Grid</div>
               {file.order.map((b) => <div key={b}><Link href={href(slugOf(b), rank.slug)} aria-current={b === ba ? "true" : undefined} className={item(b === ba)}>{file.areas[b].name}</Link></div>)}
@@ -226,7 +226,7 @@ function MeteredView({ q }: { q: Record<string, string | undefined> }) {
               <ToolTable minWidth={520} caption="California's demand in the 28 days before and after the date of the break, by year"
                 head={["Year", "28 days before, MW", "28 days from the date, MW", "The second over the first"]}
                 rows={file.caiso_break.rows.map((r) => ({ key: String(r.year), highlight: r.year === file.caiso_break.rows[0].year, cells: [String(r.year), <N key="b" k={`break|${r.year}|before`}>{whole(r.before_mw)}</N>, <N key="a" k={`break|${r.year}|after`}>{whole(r.after_mw)}</N>, <N key="r" k={`break|${r.year}|ratio`}>{r.ratio.toFixed(4)}</N>] }))} />
-              <p className="mt-3 max-w-3xl text-sm" data-break="1">In {file.caiso_break.rows[0].year} the ratio is {file.caiso_break.rows[0].ratio.toFixed(4)}; in the six earlier years it runs from {Math.min(...file.caiso_break.rows.slice(1).map((r) => r.ratio)).toFixed(4)} to {Math.max(...file.caiso_break.rows.slice(1).map((r) => r.ratio)).toFixed(4)}.{" "}
+              <p className="mt-3 max-w-3xl text-sm" data-break="1">In {file.caiso_break.rows[0].year} the ratio is {file.caiso_break.rows[0].ratio.toFixed(4)}{file.caiso_break.rows.length > 1 ? <>; in the {file.caiso_break.rows.length - 1 === 6 ? "six" : file.caiso_break.rows.length - 1} earlier years it runs from {Math.min(...file.caiso_break.rows.slice(1).map((r) => r.ratio)).toFixed(4)} to {Math.max(...file.caiso_break.rows.slice(1).map((r) => r.ratio)).toFixed(4)}</> : null}.{" "}{/* session 281: no range from no earlier year */}
                 {inside ? <>California&apos;s demand does not step at the break.</> : <>That is outside the earlier years&apos; range.</>}</p>
             </ToolSection>
           ) : null}

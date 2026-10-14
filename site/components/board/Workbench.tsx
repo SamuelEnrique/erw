@@ -321,7 +321,7 @@ export function Workbench({ file, bench, row, set }: { file: BoardFile; bench: B
           {bench.v === "dist" && dist && active ? (
             <div className="mt-3" data-dist="1">
               <div className="mb-1 flex flex-wrap items-center gap-2 text-xs">
-                <label className="flex items-center gap-1 text-muted">Threshold <input type="number" value={Number.isFinite(th) ? th : 0} step="any" onChange={(e) => set({ th: Number(e.target.value) })} className="w-24 border border-rule bg-white px-1 py-0.5 text-ink" /> {active.unit}</label>
+                <label className="flex items-center gap-1 text-muted" title="By default halfway from the window's mean to its high">Threshold <input type="number" value={Number.isFinite(th) ? th : 0} step="any" onChange={(e) => set({ th: Number(e.target.value) })} className="w-24 border border-rule bg-white px-1 py-0.5 text-ink" /> {active.unit}</label>
               </div>
               <div className="grid grid-cols-2 gap-px border border-rule bg-rule sm:grid-cols-4">
                 <Stat label={`${hourly ? "Hours" : "Values"} above ${fmt(th, active.unit)}`} value={`${dist.above.toLocaleString("en-US")} of ${dist.n.toLocaleString("en-US")}`} />

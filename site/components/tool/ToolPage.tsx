@@ -69,12 +69,15 @@ export function ChartFrame({ title, legend, note, children }: { title: string; l
 }
 
 /** The input panel: fog beige, a serif heading, its fields stacked. */
-export function InputPanel({ title, children, note }: { title: string; children: ReactNode; note?: ReactNode }) {
+/** Session 281: `reset`, for a panel whose choices live in the address: the page's plain address, and the defaults it
+ *  opens on in words. A plain link, so it works without script. */
+export function InputPanel({ title, children, note, reset }: { title: string; children: ReactNode; note?: ReactNode; reset?: { href: string; defaults: string } }) {
   return (
     <section className="mb-4 bg-paper px-4 py-4" aria-label={title}>
       <h2 className="mb-3 font-serif text-lg text-accent">{title}</h2>
       {children}
       {note ? <p className="mt-3 text-xs leading-snug text-muted">{note}</p> : null}
+      {reset ? <p className="mt-2 text-xs leading-snug" data-reset="1"><a href={reset.href}>Reset to the defaults</a><span className="text-muted">: {reset.defaults}</span></p> : null}
     </section>
   );
 }
