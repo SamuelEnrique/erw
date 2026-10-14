@@ -11,6 +11,7 @@ is ercot_all_hub_prices_history (session 8).
 
     python warehouse/connectors/hub_history.py backfill [--iso caiso ...]   # the pull, 2025-09-01 to yesterday
     python warehouse/connectors/hub_history.py append                       # the daily run: the live tables' rows
+    python warehouse/connectors/hub_history.py append-ercot                 # session 271: ERCOT's history from the live window
 
 backfill reuses each ISO's own pull in warehouse/connectors/iso_prices.py (the same reports, raw capture, per-row
 source_url and vintage, 5-minute prices as 15-minute means, NYISO's time-weighting), with the node lists narrowed to
@@ -408,6 +409,75 @@ def append():
     return 0 if results[-1]["status"] == "ok" else 1
 
 
+# Session 271 (the owner's ruling of 14 October 2026): ERCOT's 15-minute hub history (ercot_all_hub_prices_history, a
+# consolidated table whose members are ercot_dam_hub_prices_<year> and ercot_rtm_hub_prices_<year>) grows from the live
+# window too. ERCOT's yearly workbooks (NP4-180-ER, NP6-785-ER) end where the live tables begin; the live tables hold
+# every hub interval since. append-ercot splits the history's members, appends to each year's member the live rows of
+# its six hubs AFTER the member's newest interval (a workbook's own row is never replaced from the live window), and
+# builds the history again (warehouse/consolidate.py). A year with no member yet (2027 on 1 January) stops the step
+# loudly: its member needs its row in warehouse/metadata/table_migrations.csv first.
+ERCOT_HISTORY = "ercot_all_hub_prices_history"
+ERCOT_LIVE = {"ercot_dam": ("iso_dam_hub_prices", "ercot_dam_hub_prices"), "ercot_rtm": ("iso_rtm_hub_prices", "ercot_rtm_hub_prices")}
+ERCOT_TZ = "America/Chicago"   # a member is an operating year, ERCOT's local year
+APPEND_MARK = "Session 271: appended from the live window"
+
+
+def append_ercot(run=None):
+    """The daily step: ERCOT's live hub rows after each year's newest interval, into the history. Returns 0 or 1."""
+    import subprocess
+    run = run or (lambda args: subprocess.run([sys.executable, os.path.join(ip.ROOT, "warehouse", "consolidate.py"), *args],
+                                              cwd=ip.ROOT).returncode)
+    run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    os.makedirs(ip.LOG_DIR, exist_ok=True)
+    log = ip.Log(os.path.join(ip.LOG_DIR, f"hub_history_append_ercot_{run_id}.log"))
+    results = []
+    try:
+        if not os.path.exists(os.path.join(ip.OUT_DIR, ERCOT_HISTORY + ".csv")):
+            raise RuntimeError(f"{ERCOT_HISTORY} is not on this machine (the data machine holds it)")
+        if run(["split", "--family", ERCOT_HISTORY]) != 0:
+            raise RuntimeError("consolidate.py split failed: nothing appended")
+        added = 0
+        for market, (live, base) in ERCOT_LIVE.items():
+            p = os.path.join(ip.OUT_DIR, live + ".csv")
+            if not os.path.exists(p):
+                raise RuntimeError(f"{live}: not on this machine")
+            t = ip.read_series(p)
+            t = t[(t["market"] == market) & t["entity"].str.startswith("ercot:HB_")]
+            year = pd.to_datetime(t["ts_utc"], utc=True).dt.tz_convert(ERCOT_TZ).dt.year
+            for y, g in t.groupby(year):
+                name = f"{base}_{y}"
+                mp = os.path.join(ip.OUT_DIR, name + ".csv")
+                if not os.path.exists(mp):
+                    raise RuntimeError(f"{name}: no member of {ERCOT_HISTORY} for {y} (warehouse/metadata/table_migrations.csv); "
+                                       f"{len(g):,} live rows of {market} not appended")
+                held = ip.read_series(mp)
+                newest = held["ts_utc"].max()
+                g = g[g["ts_utc"] > newest]
+                log(f"  {name}: {len(held):,} rows to {newest}; {len(g):,} rows of {live} after it")
+                if not len(g):
+                    continue
+                with open(mp, encoding="utf-8") as f:
+                    hdr = [ln[1:].strip() for ln in f if ln.startswith("#")]
+                hdr = [h for h in hdr if not h.startswith(APPEND_MARK)] + [
+                    f"{APPEND_MARK}: the rows after the workbook's last interval are {live}'s, each row's source, source_url and "
+                    f"retrieved_at its own (ERCOT's daily reports); newest appended run {run_id} (UTC) by "
+                    f"warehouse/connectors/hub_history.py append-ercot. A workbook read later replaces them."]
+                ip.write_csv(g[ip.SERIES_COLS], name, hdr, log)
+                added += len(g)
+        if run(["build", "--family", ERCOT_HISTORY]) != 0:
+            raise RuntimeError("consolidate.py build failed: the members stay in warehouse/output")
+        results.append(dict(table=ERCOT_HISTORY, market="all", status="ok", detail=f"{added} rows appended from the live window"))
+        print(f"hub_history append-ercot: {added:,} rows appended to {ERCOT_HISTORY}")
+    except Exception:
+        last = traceback.format_exc().strip().splitlines()[-1]
+        log(f"FAILED: {last}")
+        print(f"hub_history append-ercot FAILED: {last}", file=sys.stderr)
+        results.append(dict(table=ERCOT_HISTORY, market="all", status="failed", detail=last[:300]))
+    ip.write_status("hub_history_append_ercot", run_id, results)
+    log.close()
+    return 0 if results[-1]["status"] == "ok" else 1
+
+
 def reports_of(isos):
     """Each ISO's report list, as its pull function registers it, without pulling: run_iso is replaced by a no-op."""
     reports = {}
@@ -466,7 +536,7 @@ def merge(src_dirs):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW main-hub price history (session 49)")
-    ap.add_argument("cmd", choices=["backfill", "append", "header", "merge"])
+    ap.add_argument("cmd", choices=["backfill", "append", "append-ercot", "header", "merge"])
     ap.add_argument("--from", dest="src", action="append", default=[], help="merge: a directory holding a history to merge")
     ap.add_argument("--iso", action="append", choices=list(TARGETS))
     ap.add_argument("--until", help="backfill: the first local day not pulled (YYYY-MM-DD); default today")
@@ -480,6 +550,8 @@ def main(argv=None):
         START = args.start
     if args.cmd == "append":
         return append()
+    if args.cmd == "append-ercot":
+        return append_ercot()
     if args.cmd == "header":
         return header_and_sources()
     if args.cmd == "merge":

@@ -46,7 +46,7 @@ class TheBlock(unittest.TestCase):
         self.steps = [tuple(line.strip().strip('"').split("|")) for line in self.text.split("TABLE_STEPS=(", 1)[1].split("\n)", 1)[0].strip().splitlines()]
 
     def test_the_nine_steps_their_tables_and_their_cadence(self):
-        self.assertEqual([(s[0], s[1], s[2]) for s in self.steps], [
+        self.assertEqual([(s[0], s[1], s[2]) for s in self.steps[:10]], [   # session 271 adds eight after them (tests/test_session271.py)
             ("dm_eia930_total_interchange", "eia930_daily_total_interchange", "daily"),
             ("dm_caiso_ws_forecast", "caiso_wind_solar_forecast", "daily"),
             ("dm_ercot_ws_forecast", "ercot_wind_solar_forecast", "daily"),
@@ -66,9 +66,10 @@ class TheBlock(unittest.TestCase):
 
     def test_no_step_asks_a_grid_this_chain_may_not_ask_or_a_paused_publisher(self):
         for name, table, cadence, cmd in self.steps:
-            for word in ("nyiso", "isone", "miso", "spp", "pjm", "vascc", "noaa"):
+            for word in ("nyiso", "isone", "miso", "spp", "pjm", "vascc"):
                 self.assertNotIn(word, cmd.lower(), cmd)
-        self.assertIn("NOAA's weather (its approved ceiling", self.text)                             # and why NOAA is not in it
+        # session 271: NOAA's weather is in the block since the ceiling became 6,000,000 rows a year (the owner's ruling)
+        self.assertEqual([s[0] for s in self.steps if "noaa" in s[3].lower()], ["dm_noaa_weather"])
 
     def test_the_monthly_pull_asks_only_for_what_is_not_saved(self):
         cmd = dict((s[0], s[3]) for s in self.steps)["dm_caiso_curtailment"]
@@ -122,9 +123,10 @@ class TheBlock(unittest.TestCase):
         r = run(["--list"])
         self.assertEqual(r.returncode, 0, r.stderr)
         lines = r.stdout.strip().splitlines()
-        self.assertEqual(len(lines), 11)                                                           # ten steps since session 254, and the load
+        self.assertEqual(len(lines), 20)                                                           # ten steps since session 254, eight more since session 271, and the two loads
         self.assertTrue(lines[0].startswith("dm_eia930_total_interchange: eia930_daily_total_interchange (daily): python warehouse/connectors/"), lines[0])
-        self.assertTrue(lines[-1].startswith("dm_live_set: python warehouse/supabase/load.py --no-vacuum --only"), lines[-1])
+        self.assertTrue(lines[-2].startswith("dm_live_set: python warehouse/supabase/load.py --no-vacuum --only"), lines[-2])
+        self.assertTrue(lines[-1].startswith("dm_live_set_weekly (weekly): python warehouse/supabase/load.py --no-vacuum --only"), lines[-1])
         r = run([], env={"GITHUB_ACTIONS": "true"})
         self.assertEqual(r.returncode, 0)
         self.assertIn("run_data_machine_tables REFUSED: this is the GitHub runner", r.stdout)       # nothing asked, nothing built, no status file written
