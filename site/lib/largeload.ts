@@ -8,6 +8,8 @@
 export type Report = {
   day: string; document: string; url: string; month_as_written: string;
   approved?: number; nonsimultaneous?: number; simultaneous?: number; new_count?: number; new_mw?: number;
+  // session 271: a footnote where the approved figure fell from the report before (warehouse/derived/large_load_snapshot.py)
+  note?: string;
 };
 export type LoadFile = { table: string; built: string; retrieved: string; rows: number; source: string; reports: Report[] };
 

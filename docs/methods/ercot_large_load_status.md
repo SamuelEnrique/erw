@@ -53,6 +53,15 @@ file's address (a file inside a zip as `<zip address>#<file name>`).
 The report of 24 April 2026 names its month as March 2026 (its data "is current as of April 22"); the approved figure
 fell between May and June 2026 (9,062 to 8,927 MW), the first fall in the series.
 
+The footnote (session 271, the owner's ruling of 14 October 2026). Where the approved figure falls from one report to
+the next, the site's copy (`site/data/large_load_status.json`, `warehouse/derived/large_load_snapshot.py`) carries a
+`note` on the later report, computed from the two rows: today one, on the report of 19 June 2026, "Approved to
+energize fell by 135 MW from ERCOT's report of 2026-05-21 (9,062 MW) to this one (8,927 MW)." The note says nothing of
+why: ERCOT's deck does not state a reason. The pages that read the file (`/cost-of-power`, `/datacenters/v2`) show it
+once their code reads the field (`Report.note` in `site/lib/largeload.ts`). The guard (the same session): the connector
+also runs on the data machine's daily run, so a new report is read within a day of ERCOT posting it; the monthly job on
+the runner and the Monday watch of ERCOT's large-load page are kept.
+
 The report of 13 March 2026 also states 137 new submissions totalling approximately 140,000 MW "of new Large Load by
 2036", which "will be reflected in future reports".
 

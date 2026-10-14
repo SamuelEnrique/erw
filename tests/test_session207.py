@@ -92,7 +92,8 @@ class TheBoardsTreasuryYields(unittest.TestCase):
 class RetiredTables(unittest.TestCase):
     def test_the_three_fred_tables_are_retired_with_their_replacements(self):
         rows = {r["table"]: r for r in csv.DictReader(open(os.path.join(ROOT, "warehouse", "metadata", "retired_tables.csv"), encoding="utf-8"))}
-        self.assertEqual(set(rows), {"fred_daily_spot_prices", "fred_treasury_yields", "fred_imf_commodity_prices"})
+        self.assertEqual(set(rows) - {"price_board_stats"}, {"fred_daily_spot_prices", "fred_treasury_yields", "fred_imf_commodity_prices"})   # session 271 retired the board's v4 table
+        rows = {t: r for t, r in rows.items() if t.startswith("fred_")}
         self.assertEqual(rows["fred_daily_spot_prices"]["replaced_by"], "eia_fuel_spot_prices")
         self.assertEqual(rows["fred_treasury_yields"]["replaced_by"], "frb_treasury_yields")
         self.assertEqual(rows["fred_imf_commodity_prices"]["replaced_by"], "imf_commodity_prices")
@@ -102,7 +103,7 @@ class RetiredTables(unittest.TestCase):
     def test_coverage_knows_them_and_holds_none(self):
         sys.path.insert(0, os.path.join(ROOT, "warehouse", "metadata"))
         import build_coverage as bc
-        self.assertEqual(bc.retired_tables(), {"fred_daily_spot_prices", "fred_treasury_yields", "fred_imf_commodity_prices"})
+        self.assertEqual(bc.retired_tables(), {"fred_daily_spot_prices", "fred_treasury_yields", "fred_imf_commodity_prices", "price_board_stats"})   # session 271: and the board's v4 table
         cov = pd.read_csv(os.path.join(ROOT, "warehouse", "metadata", "coverage.csv"), dtype=str, keep_default_na=False)
         self.assertEqual([t for t in cov["table"] if t.startswith("fred_")], [])
         self.assertIn("frb_treasury_yields", set(cov["table"]))
@@ -180,7 +181,7 @@ class LicenseStatus(unittest.TestCase):
 
     def test_the_status_command_keeps_a_recorded_permission(self):
         lines = licenses.status_lines()
-        self.assertEqual(len(lines), 40)
+        self.assertEqual(len(lines), 40)   # session 271: price_board_stats retired, scarcity_hours_by_grid (session 254) in
         self.assertTrue(all(v != licenses.PUBLIC for _, v, _ in lines))
         self.assertIn("iso_hub_prices_history", {t for t, _, _ in lines})
         # write_status against temporary paths: a permission a person recorded survives a rebuild

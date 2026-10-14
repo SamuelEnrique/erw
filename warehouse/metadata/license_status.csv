@@ -38,4 +38,4 @@ nyiso_zone_load_hourly,license needed,2026-10-21,NYISO,needs written permission,
 price_board_latest,license needed,2026-10-21,ISO-NE; MISO; NYISO,needs written permission,,,flagged public; the publisher's sentence read in session 205 asks for it (docs/licenses.md)
 price_board_peak_offpeak,license needed,2026-10-21,ISO-NE; MISO; NYISO,needs written permission,,,flagged public; the publisher's sentence read in session 205 asks for it (docs/licenses.md)
 price_board_spreads,license needed,2026-10-21,ISO-NE; MISO; NYISO,needs written permission,,,flagged public; the publisher's sentence read in session 205 asks for it (docs/licenses.md)
-price_board_stats,license needed,2026-10-21,ISO-NE; NYISO,needs written permission,,,flagged public; the publisher's sentence read in session 205 asks for it (docs/licenses.md)
+scarcity_hours_by_grid,license needed,2026-10-21,ISO-NE; MISO; NYISO,needs written permission,,,flagged public; the publisher's sentence read in session 205 asks for it (docs/licenses.md)

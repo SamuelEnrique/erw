@@ -130,10 +130,31 @@ PUBLISHER_REFUSAL = re.compile(r"HTTP \d{3}|Timeout|Timed out|timed out|Connecti
                                r"NameResolutionError|SSLError", re.I)
 
 
+# Session 271, the CARB rule (the owner's ruling of 14 October 2026): a publisher that has not published within a
+# connector's limit is "stale at source": a skip with that reason, a yellow row of the health record, never a failed
+# step and never a red day. The same for any publisher's lag. A connector's own age check says "<n> days old (limit
+# <m>)"; warehouse/health.py and warehouse/metadata/run_status.py read the same words (each keeps its own copy of the
+# pattern: health.py imports no connector).
+STALE_MARK = "stale at source"
+PUBLISHER_LAG = re.compile(r"\b\d+ days old \(limit \d+|stale at source", re.I)
+
+
+def stale_skip(error):
+    """The reason, beginning "stale at source", when this error is a publisher's lag (session 271), or None."""
+    s = " ".join(str(error).split())
+    if not PUBLISHER_LAG.search(s):
+        return None
+    return s[:300] if s.lower().startswith(STALE_MARK) else f"{STALE_MARK}: {s[:280]}"
+
+
 def gap_skip(table, error):
     """Why a failed pull of this table is a skip (session 206), or None: on GitHub's runner, a table of known_gaps.csv
     whose error is the publisher's answer (PUBLISHER_REFUSAL). Anywhere else, for any other table, and for a connector's
-    own refusal (a ceiling, a parse), None: the failure stands."""
+    own refusal (a ceiling, a parse), None: the failure stands. Session 271: on any machine and for any table, an error
+    that is the publisher's lag is a skip too (stale_skip)."""
+    stale = stale_skip(error)
+    if stale:
+        return stale
     g = known_gap(table) if on_runner() else None
     if not g or not PUBLISHER_REFUSAL.search(str(error)):
         return None

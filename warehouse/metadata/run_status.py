@@ -27,6 +27,7 @@ import argparse
 import glob
 import json
 import os
+import re
 import sys
 
 import pandas as pd
@@ -70,6 +71,9 @@ def record(status_dir=STATUS_DIR, path=CSV):
     return len(new)
 
 
+# warehouse/connectors/iso_prices.py's PUBLISHER_LAG (session 271): a publisher's lag, never a failed run
+PUBLISHER_LAG = r"(?i)\b\d+ days old \(limit \d+|stale at source"
+
 KNOWN_GAPS = os.path.join(ROOT, "warehouse", "metadata", "known_gaps.csv")
 
 
@@ -88,6 +92,9 @@ def streaks(n=3, path=CSV, runner=None):
         hist = hist[hist["runner"] == runner]
     out = []
     hist = hist[hist["status"] != "gap"]  # a gap day is not a failed run of the table
+    # session 271, the CARB rule: a run that failed on the publisher's lag (a connector's "<n> days old (limit <m>)")
+    # is "stale at source", not a failed run of the table, as a gap day is not
+    hist = hist[~((hist["status"] == "failed") & hist["detail"].str.contains(PUBLISHER_LAG, regex=True))]
     for (conn, table), g in hist.groupby(["connector", "table"]):
         last = g.sort_values("run_id").tail(n)
         if len(last) == n and (last["status"] == "failed").all():
