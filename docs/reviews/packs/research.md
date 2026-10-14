@@ -60,8 +60,8 @@ Here the model is the path from a question to a card on the page.
 11. The card is published with its files: the data as CSV, the module as run, and a Stata do-file (`filesHeld()` in `site/lib/research.ts`); a file the site does not hold reads "not held" and is never a link. All 33 are held.
 12. The page files each card under grids and topics read from the card's own fields (`gridsOf()` and `topicsOf()` in `site/lib/researchrules.ts`): a grid is a grid name found in the card's tables, inputs or chart; a topic is the kind of table the card read. Neither is a judgment of the finding.
 13. Today's chart is the newest record of `docs/digest/charts/`, chosen by `choose()` in `warehouse/analysis/findings/daily_chart.py` from the scanner's strongest flag of the day that no Digest has shown, written by `fact_from_flag()` and drawn by `warehouse/analysis/findings/card_image.py`; a record marked `proof` is named a proof on the page.
-14. A1: the daily chart's guard (a record more than 25 percent past the old one waits a day) in `warehouse/analysis/findings/daily_chart.py`.
-15. A1: the chart colors from the brand palette in `warehouse/analysis/style.py` and the research page's chart.
+14. The daily chart's guard (session 267): a scanner record more than 25 percent past the old one (`RECORD_JUMP = 0.25`, measured by `record_jump()`) waits a day: `must_wait()` keeps it off that run, `keep_held()` writes it to `docs/digest/charts/held.json`, and `held_before()` lets it be shown on a later day's run if the scan raises it again (`warehouse/analysis/findings/daily_chart.py`).
+15. The chart colors are the brand's (session 267): up to five series in ink, cardinal, blue, grey and light grey, more than five in the eight `--chart-series-1` to `-8` (`series_colors()` in `warehouse/analysis/style.py`, read by `warehouse/analysis/findings/card_image.py`); on the site each color is read from its CSS variable (`LITERAL_TOKENS` in `site/components/echarts.ts`).
 16. This week's chart is the chart the newest Roundup carried: a finding's card when one was chosen with "Use in Roundup" (`chosen_card_id()` in `warehouse/analysis/findings/roundup_pick.py`), else the weekly rule's pick (`change()` in `warehouse/analysis/run.py`); the week's results by the rule are folded under it (`roundupChart()` in `site/lib/research.ts`).
 17. The page computes nothing: every number on `/research` comes from a committed file (a card's JSON, a chart's record, a Roundup) read at build by `loadCards()` in `site/lib/findings.ts`; no Supabase table is read when the page is drawn (`revalidate = 3600` in `site/app/research/page.tsx`).
 
@@ -99,8 +99,8 @@ Where it is not: the findings engine, the scanner, the weekly hunt, the daily ch
 | Hunt and daily chart: licensed grids | ISO-NE, MISO, NYISO never drafted; NYISO and SPP held | `HELD` in `warehouse/analysis/findings/daily_chart.py`; `warehouse/metadata/license_status.csv` | NYISO and SPP: the ruling "holds until their licenses are answered" (`docs/methods/automated_analysis_scanner.md`) |
 | Daily chart: no approval | the day's strongest unseen flag, drawn by code | `docs/methods/automated_analysis_scanner.md`, "The daily chart in the Digest" | "every weekday Digest carries one chart, a fact and its picture, chosen and drawn by code with no model and no approval" |
 | Daily chart: a monthly record stays fresh | 130 days (`fresh_days`) | `docs/methods/automated_analysis_scanner.md` | none |
-| Daily chart: a record far past the old one | A1: more than 25 percent past the old record waits a day | `warehouse/analysis/findings/daily_chart.py` (session 267's brief) | none |
-| Chart colors | A1: the brand's ink, cardinal as the highlight, blue, grey, light grey; for more than five series the eight `--chart-series-1` to `-8` | `docs/brand.md` section 2; `site/app/tokens.css` (session 268) | none |
+| Daily chart: a record far past the old one | more than 25 percent past the old record waits a day (`RECORD_JUMP`) | `warehouse/analysis/findings/daily_chart.py` (session 267's brief) | none |
+| Chart colors | the brand's ink, cardinal as the highlight, blue, grey, light grey; for more than five series the eight `--chart-series-1` to `-8` | `docs/brand.md` section 2; `site/app/tokens.css` (session 268) | none |
 | Chart of the week: ranking window | the last 104 weekly or 36 monthly changes, at least 8; period ended within 100 days | `WINDOW` in `warehouse/analysis/run.py`; ERW's choice (session 119) | none |
 | Verdict of a draft | strong, usable or drop, by session 252's rule | `docs/reviews/findings-verified-2026-10-13.md`, "How each was checked" | none |
 | Requests | at most 24 run requests a UTC day | `p_per_day`, `warehouse/supabase/migrations/027_analysis_requests.sql` | none |
@@ -162,7 +162,7 @@ The order is the ERW's reading of the sizes below. Where no size is held, the pl
 6. Hub and zone prices, not nodes. Every price card reads a hub or a zone. NYISO's prices are hourly, so its level is not comparable with the 15-minute grids. The size: no number held.
 7. The gas price is one benchmark. Henry Hub stands for every grid. The heat rate moves ERCOT's 2025 share from 35.3 percent at 6.5 to 52.8 percent at 8.0, more than the years do (38.8 percent in 2019, 40.9 in 2025).
 8. A table's own artifacts. The District of Columbia's industrial retail price is one customer's bill; the scanner flagged it as a record and it was the daily chart of 8 October (a proof). A one-customer class is not guarded against. A first-estimate month far past its record (Wyoming's gas, 34.4 percent past it) is what the daily chart's new guard holds for a day.
-9. Replication in Stata is unproven. No report records a run of any of the 11 do-files in Stata (sessions 178, 182, 233, 252 and 258 had none).
+9. Replication in Stata is unproven. No report records a run of any of the 11 do-files in Stata (sessions 178, 182, 233, 252 and 258 had none). Until session 267 six of them read the column names from a comment line.
 10. Freshness. All 11 cards were computed on 2026-10-10 and are not recomputed on a clock; a new request needs the data machine awake.
 
 ## 7. The ten hardest questions
@@ -213,13 +213,13 @@ What this does not prove: that the method is right, or that the table is.
 ### 8. Can a referee reproduce a card in Stata today?
 
 The CSV, the Python and the do-file download with every card; no session report records a run in Stata.
-A1: the do-files whose first line was a comment in a form the test rejects are fixed.
+Six do-files read the column names from line 1 (`varnames(1)`) while line 1 of each CSV is a comment; session 267 made them read `varnames(5) rowrange(6)`, as the other five do.
 What would settle it: one run of each in Stata (section 8).
 
 ### 9. Why did the daily chart of 13 October show Wyoming's gas, and would it today?
 
 It was the flag the rule chose from the scan of 13 October: 1,028,747 MWh in July 2026 against a record of 765,381 MWh, 34.4 percent past it, one first-estimate month.
-A1: under the guard of session 267 a record more than 25 percent past the old one waits a day and is checked again on the next run.
+Under the guard of session 267 it would have waited a day (34.4 percent is past 25) and been checked again on the next run; 7 October's proof was 103 percent past its old record.
 
 ### 10. What do licenses do to the findings on 21 October 2026?
 
@@ -364,6 +364,8 @@ Every file is as it stands on the branch at `412eeef9`.
 | USD 0.0040 and USD 0.0062 | `docs/analysis/2026-W39/chart_of_the_week.json`, `docs/analysis/2026-W40/chart_of_the_week.json` | `note_by` |
 | 45,968 MWh a day, the rule's pick of W41 | `docs/analysis/2026-W41/results.json` | `picked`, its row's `headline` |
 | 1,028,747 and 765,381 MWh; the five proofs | `docs/digest/charts/2026-10-13.json` and the five records beside it | `fact`, `proof` |
+| 103 percent past its old record, the proof of 7 October (223.0 against 110.0) | `docs/digest/charts/2026-10-07.json` | `flag.value`, `flag.compared.old_record` |
+| The guard's 25 percent and its file | `warehouse/analysis/findings/daily_chart.py` | `RECORD_JUMP`, `HELD_FILE` |
 | USD 1.50 a day | `docs/methods/api_cost_ledger.md`; `.github/workflows/daily-prices.yml` | "The daily cap for scheduled model steps" |
 | 24 requests a day | `warehouse/supabase/migrations/027_analysis_requests.sql` | `p_per_day` |
 | 02:55:07 and 02:55:21 UTC | `archive/sessions/SESSION_170_REPORT.md` | the last "Landing state" |
