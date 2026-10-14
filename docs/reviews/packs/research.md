@@ -135,20 +135,20 @@ Theirs is the figure the finding was verified against: for a draft, the same fig
 
 ## 5. The edge cases tested
 
-Tested on a local production build of the branch, in the internal view.
+Tested on a local production build of the branch at `b5997e28` (port 3267, 14 October 2026, 09:30 UTC), in the internal view unless the row says otherwise; the addresses read with curl, the cards and the redirects by the page's own checks.
 
 | Case | What was typed (the address) | What the page does |
 |---|---|---|
-| The page itself | `/research` | to verify |
-| The old address | `/analysis` | to verify (expected: a permanent redirect to `/research`) |
-| A week held | `/research/2026-W41` | to verify (expected: the chart of the week, "The peak hour moved") |
-| A week not held | `/research/2026-W99` | to verify (expected: 404, `notFound()` in `site/app/research/[week]/page.tsx`) |
-| A card held | `/research/card/batteries_lunch_grids` | to verify |
-| A card not held | `/research/card/no_such_card` | to verify (expected: 404) |
+| The page itself | `/research` | 200, the h1 "Research" and the card index of 9 (`data-library-index="9"`); a visitor gets the in-review page (200) |
+| The old address | `/analysis` | 308 to `/research`; `/analysis/<week>` and `/analysis/card/<id>` likewise, the query kept (`check-analysis.mjs`, 279 of 279) |
+| A week held | `/research/2026-W41` | 200, the h1 "ERW's Chart of the Week" with the week's chart |
+| A week not held | `/research/2026-W99` | 404, "No page at this address" (`notFound()` in `site/app/research/[week]/page.tsx`) |
+| A card held | `/research/card/batteries_lunch_grids` | 200; its five grids open large and the address keeps the grid (`?lunch_grid=caiso`), `check-findings-grids.mjs`, 163 of 163 |
+| A card not held | `/research/card/no_such_card` | 404 |
 | A filter of both kinds | `/research?grid=caiso&topic=curtailment` | to verify (expected: "Card index, 2 of 9") |
 | A grid that is not one | `/research?grid=nowhere` | to verify |
-| The review list without the internal view | `/internal/findings` in a fresh browser | to verify (expected: 404) |
-| The review list in the internal view | `/internal/findings` | to verify (expected: 28 drafts, each with "Verdict of 13 October 2026") |
+| The review list without the internal view | `/internal/findings` in a fresh browser | 404 |
+| The review list in the internal view | `/internal/findings` | 200, 28 drafts, each with its verdict: 7 strong, 14 usable, 7 drop (`data-draft-verdict`), none "no verdict" |
 
 ## 6. What the model cannot see, ranked
 
