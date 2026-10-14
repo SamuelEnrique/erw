@@ -300,7 +300,7 @@ function SettingsPanel({ draft, setDraft, difficulty, addonsOn, setAddonsOn, ava
       {/* session 66: Hard's add-ons, optional switches, off by default; one that needs data the level does not hold is
           unavailable for it and says so */}
       {DIFFICULTIES[difficulty].addons ? (
-        <fieldset className="mb-2 border-t border-rule pt-2">
+        <fieldset className="mb-2 min-w-0 border-t border-rule pt-2">  {/* session 289: a fieldset is min-content wide by default; at 390 px the add-on's source line pushed it to 663 */}
           <legend className="float-left mr-2 font-semibold">Add-ons</legend>
           <p className="mb-1 text-xs text-muted">Optional, off by default, on Hard only. Each is a game rule, and a leaderboard ranks only plays with the same add-ons.</p>
           {ADDON_KEYS.map((k) => {
@@ -309,7 +309,7 @@ function SettingsPanel({ draft, setDraft, difficulty, addonsOn, setAddonsOn, ava
               <label key={k} className={`flex items-start gap-2 ${can ? "" : "opacity-70"}`}>
                 <input type="checkbox" role="switch" aria-checked={on} checked={on} disabled={!can} className="mt-1"
                   onChange={(e) => setAddonsOn(e.target.checked ? [...addonsOn.filter((x) => x !== k), k] : addonsOn.filter((x) => x !== k))} />
-                <span>
+                <span className="min-w-0 break-words">
                   <strong>{ADDONS[k].label}</strong>: {ADDONS[k].what}.
                   {can && level.solar_source ? <span className="block text-xs text-muted">The shape for {level.date}: {level.solar_source}</span> : null}
                   {can ? null : <span className="block text-xs text-accent">Not available for {level.date}: the warehouse holds no solar shape for this day, and the game never fills one in.</span>}
@@ -575,7 +575,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
       ctx.fillStyle = "rgba(140, 21, 21, 0.08)";
       ctx.fillRect(x(vpp.first), top, (vpp.last + 1 - vpp.first) * ((w - L - R) / n), bottom - top);
       ctx.fillStyle = css("muted");
-      ctx.fillText("fleet call", Math.min(w - R - 60, x(vpp.first) + 2), top - 6);
+      ctx.fillText("fleet call", Math.min(w - R - 60, x(vpp.first) + 2), bottom - 4);
       const step = (from: number, to: number) => {
         ctx.beginPath();
         for (let i = from; i < to; i++) {
