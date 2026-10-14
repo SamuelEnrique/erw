@@ -7,8 +7,8 @@ One document a tool, written on 2026-10-13 (session 249) for the person who show
 | What a battery earns | `/cost-of-power/battery` | [the review pack](../reviews/packs/battery.md) (session 263; the note it replaces is removed) | `wip/263-battery-pack` from `afacb21e` (the page as merged in session 234, California as session 257 added it), 2026-10-14 |
 | What a generator earns | `/cost-of-power/seller` | [the review pack](../reviews/packs/generator.md) | session 264, 14 October 2026: the review pack replaces the note (sessions 249 and 260), on `wip/264-generator-pack` at `3f694726` |
 | What a datacenter pays | `/cost-of-power` | [the review pack](../reviews/packs/datacenter.md) | session 265 (14 October 2026), from `afacb21e` on `wip/265-datacenter-pack`: the pack replaces this folder's note (sessions 249 and 260), whose content it holds |
-| The Grid tool | `/grid` | [grid.md](grid.md) | rewritten by session 260 from `main` at `34b468fa` (the tool landed as `01161064`) |
-| Research | `/research` | [research.md](research.md) | rewritten by session 260 from `main` at `34b468fa` (the page landed as `01161064`) |
+| The Grid tool | `/grid` | [the review pack](../reviews/packs/grid.md) | session 266, from `main` at `5b515cd0` (replaces the note session 260 wrote from `34b468fa`; the tool landed as `01161064`) |
+| Research | `/research` | [the review pack](../reviews/packs/research.md) | replaced on 2026-10-14 by session 267's review pack, which folds in session 260's note (from `main` at `34b468fa`) |
 
 ## The seven parts
 

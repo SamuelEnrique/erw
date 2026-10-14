@@ -85,11 +85,20 @@ export function baseStyle(from?: Element | null) {
 // the old palettes is replaced by the value of a token of app/tokens.css, read from the element when the chart draws,
 // and the font by the element's own. The brand has five series colors (docs/brand.md, section 2); a sixth series falls
 // to the fifth's, and is told by its name in the legend and the hover card. Outside such an element nothing changes.
+// Session 267: a chart warehouse/analysis/style.py draws with more than five series is written in the eight colors of
+// "Many series" (--chart-series-1 to -8), and each is read here from its token.
 const LITERAL_TOKENS: Record<string, string> = {
   "#1a1a1a": "--chart-ink", "#2e2d29": "--chart-ink", "#6b6b6b": "--color-muted", "#6b665e": "--color-muted", "#e5e5e5": "--color-rule", "#d9d2c3": "--color-rule",
   "#fbf8f2": "--color-panel",
   "#1f5f8b": "--chart-ink", "#c4541c": "--color-accent", "#2e7d4f": "--chart-blue", "#8a6d3b": "--chart-grey", "#6a4c93": "--chart-light", "#9a9a9a": "--chart-light",
   "#8c1515": "--color-accent", "#007c92": "--chart-ink", "#e98300": "--chart-blue", "#175e54": "--chart-grey", "#620059": "--chart-light",
+  // session 267: the old palette's sixth to tenth series take the first five of the eight a chart of many series has
+  "#6fa287": "--chart-series-1", "#4298b5": "--chart-series-2", "#b6b1a9": "--chart-series-3", "#8f993e": "--chart-series-4", "#651c32": "--chart-series-5",
+  // session 267: warehouse/analysis/style.py now writes the brand's own values (docs/brand.md, section 2); each is read
+  // here from the token that holds it, the eight of "Many series" (session 268) among them
+  "#6b675f": "--color-muted", "#e3ded1": "--color-rule", "#f7f3ea": "--color-paper", "#3c6e9e": "--chart-blue", "#8f8a80": "--chart-light",
+  "#4477aa": "--chart-series-1", "#66ccee": "--chart-series-2", "#228833": "--chart-series-3", "#ccbb44": "--chart-series-4",
+  "#ee6677": "--chart-series-5", "#aa3377": "--chart-series-6", "#bbbbbb": "--chart-series-7", "#eeaa44": "--chart-series-8",
 };
 function inTokens(chart: ECInstance, scope: HTMLElement): ECInstance {
   const cs = getComputedStyle(scope);

@@ -5,18 +5,20 @@
 // map draws nothing that is not in that file, and says so when the file is not held).
 // No imports: Node runs this file as it is.
 
-export type Shape = "network" | "map";
+export type Shape = "network" | "map" | "gravity";  // session 266: the gravity shape (lib/networkGravity.ts)
 /** The address's own word for the shape. "network" is never written: an address without it is the page as it always was. */
 export const SHAPE_KEY = "shape";
 
-/** The shape an address names. Anything but "map" is the network. */
+/** The shape an address names. Anything but "map" or (session 266) "gravity" is the network. */
 export function parseShape(search: string): Shape {
   const p = new URLSearchParams(search.startsWith("?") ? search.slice(1) : search);
+  if (p.get(SHAPE_KEY) === "gravity") return "gravity";
   return p.get(SHAPE_KEY) === "map" ? "map" : "network";
 }
 
 /** A view's query (lib/networkV3.ts sharedQuery, unchanged) with the shape after it. The network adds nothing. */
 export function withShape(query: string, shape: Shape): string {
+  if (shape === "gravity") return `${query ? `${query}&` : "?"}${SHAPE_KEY}=gravity`;
   if (shape !== "map") return query;
   return `${query ? `${query}&` : "?"}${SHAPE_KEY}=map`;
 }

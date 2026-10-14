@@ -169,6 +169,14 @@ review list: a flag needs no ruling to be the day's chart, and being the day's c
   (`warehouse/analysis/run.py`, `change`), ties by the change in robust standard deviations of the earlier ones; the
   newest period must have ended within 14 days (a week) or 100 days (a month, EIA's lag), and a change already shown is
   not shown again. (4) If neither: no section, and the reason is in the run's log, as for the fun fact.
+- **A record that jumps waits a day** (session 267, the brief of 14 October 2026). A record more than 25 percent past
+  the old one (`RECORD_JUMP`; `record_jump`, `must_wait` and `choose` in `daily_chart.py`) is not shown on the run that
+  first sees it: it is kept in `docs/digest/charts/held.json` (`keep_held`, with the day it was held, the value, the old
+  record and the jump) and the rule goes on to the next candidate. On a later day's run (`held_before`) it may be shown,
+  if the scan raises it again; if the scan no longer raises it (a revision, a unit, a missing month), it is never shown.
+  A jump that large is as often an error as a record: the Digest of 13 October 2026 showed Wyoming's natural gas
+  generation 34 percent past its old record, and the proof of 7 October one 103 percent past. A proof holds nothing; a
+  check run (`brief.py --out`) reads the real file and writes beside its own output.
 - **Only public-licensed tables.** A table whose license in `coverage.csv` is not public, or that
   `license_status.csv` marks "license needed", is never a candidate; nor is a table or a series of NYISO or SPP, which the
   ruling of 12 October 2026 holds until their licenses are answered (`HELD` in `daily_chart.py`; a person lifts it by

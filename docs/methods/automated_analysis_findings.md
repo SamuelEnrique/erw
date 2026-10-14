@@ -125,7 +125,7 @@ Three cards more, to the same standard. Two ask an existing card's question of e
 
 ### The do-files of session 182
 
-- The CSV downloads begin with four `#` comment lines. The four do-files of this session (findings 8, 9, 10 and the daily card's, corrected) read `import delimited "<csv>", varnames(5) rowrange(6) stringcols(_all) clear`: the names on line 5, the data from line 6. The six older do-files still read `varnames(1)` (session 178's finding); their bytes are pinned and they were not rewritten.
+- The CSV downloads begin with four `#` comment lines. The four do-files of this session (findings 8, 9, 10 and the daily card's, corrected) read `import delimited "<csv>", varnames(5) rowrange(6) stringcols(_all) clear`: the names on line 5, the data from line 6. The six older do-files still read `varnames(1)` (session 178's finding); their bytes are pinned and they were not rewritten. Session 267 rewrote them: `batteries_lunch`, `gas_sets_price`, `negative_prices_west`, `peak_hour_moved`, `queue_divorce` and `who_rescues_whom` now read `varnames(5) rowrange(6)` too (the module's `stata()`, its copy in `site/public/findings/` and the do-file, the one line each; `tests/test_session267.py`). No Stata was run.
 - Where each runs: all three cards need the full histories (`ercot_all_hub_prices_history`, `iso_zone_prices_history`, `caiso_curtailment_intervals`, `caiso_fuel_supply_history`), which are on the data machine; on GitHub's runner they compute only when the Roundup's restore brings those tables.
 
 ## The request flow and the chart forms (session 182, part 4, 10 October 2026)
