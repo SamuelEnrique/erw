@@ -280,7 +280,7 @@ def stata(params):
     return do_file([
         f"* ERW finding {NAME}: {TITLE} ({hub}). Reproduces the card's regression from {CSV_NAME}.",
         "clear all",
-        f'import delimited "{CSV_NAME}", varnames(1) stringcols(_all) clear',
+        f'import delimited "{CSV_NAME}", varnames(5) rowrange(6) stringcols(_all) clear',
         'keep if kind == "month"',
         *do_destring(V),
         *do_sentinels(V),

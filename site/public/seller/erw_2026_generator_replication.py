@@ -24,6 +24,9 @@ CAPTURE_FIRST = "2019-01"    # the do-file: ym >= tm(2019m1)
 CAPTURE_SUMS = ["capture_usd", "capture_mwh", "capture_price_sum", "capture_hours"]
 # The reader's inputs at their defaults (the do-file's scalars)
 MW, FOM_USD_KW_YEAR, CAPEX_USD_KW, DEBT_SHARE, DEBT_RATE, DEBT_YEARS = 100, 12.5, 1375, 0.6, 0.08, 35
+# Session 264: scenario A's other defaults (site/lib/seller/finance.ts): hurdle 12 percent, life 35 years, the PPA term
+# (the eleventh assumption) the asset's life, 35 years, no degradation
+HURDLE, LIFE_YEARS, PPA_YEARS = 0.12, 35, 35
 
 
 def stata_round(v):
@@ -125,8 +128,18 @@ def numbers(rows):
     out["flat_average"] = s["capture_price_sum"] / s["capture_hours"]
     out["difference"] = out["price_received"] - out["flat_average"]
     out["difference_pct"] = 100 * (out["price_received"] - out["flat_average"]) / out["flat_average"]
+    out["capture_rate"] = 100 * out["price_received"] / out["flat_average"]          # session 264: beside the capture price
     # debt coverage, last twelve months
     out["cover"] = (out["l12_usd_per_mw"] * MW - FOM_USD_KW_YEAR * 1000 * MW) / out["debt_service"]
+    # session 264: is it worth building, scenario A at the defaults, per kW (the do-file's annuity factors)
+    out["l12_energy"] = sum(m["energy_mwh_per_mw"] for m in l12)
+    debt_kw = CAPEX_USD_KW * DEBT_SHARE * DEBT_RATE / (1 - (1 + DEBT_RATE) ** (-DEBT_YEARS))
+    annuity = (1 - (1 + HURDLE) ** (-LIFE_YEARS)) / HURDLE
+    ppa_annuity = (1 - (1 + HURDLE) ** (-PPA_YEARS)) / HURDLE
+    out["contract_price"] = (1.25 * debt_kw + FOM_USD_KW_YEAR) / (out["l12_energy"] / 1000)
+    out["npv_million"] = (-CAPEX_USD_KW * (1 - DEBT_SHARE) + (out["l12_kw"] - FOM_USD_KW_YEAR - debt_kw) * annuity) * 1000 * MW / 1e6
+    npv0 = -CAPEX_USD_KW * (1 - DEBT_SHARE) + (-FOM_USD_KW_YEAR - debt_kw) * ppa_annuity + (out["l12_kw"] - FOM_USD_KW_YEAR) * (annuity - ppa_annuity)
+    out["breakeven_ppa"] = -npv0 / (out["l12_energy"] / 1000 * ppa_annuity)
     # trailing twelve months
     cum = 0.0
     for i, m in enumerate(table):
@@ -175,8 +188,13 @@ def report(n):
              f"flat average over the same hours, USD per MWh: {n['flat_average']:.2f}",
              f"difference, USD per MWh: {n['difference']:.2f}",
              f"difference, percent of the flat average: {n['difference_pct']:.1f}",
+             f"capture rate, percent of the flat average: {stata_round(n['capture_rate']):.0f}",
              f"annual debt payments, USD: {n['debt_service']:,}",
              f"debt coverage, last twelve months, times: {n['cover']:.2f}",
+             f"energy sold, last twelve months, MWh per MW: {stata_round(n['l12_energy']):,.0f}",
+             f"contract price at which coverage reaches 1.25 times, USD per MWh: {n['contract_price']:.2f}",
+             f"NPV at the hurdle rate, USD million for 100 MW: {n['npv_million']:.2f}",
+             f"breakeven PPA price, the whole of the energy for the PPA term, USD per MWh: {n['breakeven_ppa']:.2f}",
              f"the newest twelve-month window ends {n['newest_window']}, coverage, times: {n['newest_window_cover']:.2f}",
              f"twelve-month windows: {n['windows']}",
              f"lowest twelve-month coverage, times: {n['ttm_min']:.2f}",

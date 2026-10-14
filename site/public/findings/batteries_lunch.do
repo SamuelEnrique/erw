@@ -2,7 +2,7 @@
 
 clear all
 
-import delimited "erw_2026_ercot_spikes_batteries.csv", varnames(1) stringcols(_all) clear
+import delimited "erw_2026_ercot_spikes_batteries.csv", varnames(5) rowrange(6) stringcols(_all) clear
 
 keep if kind == "month"
 

@@ -161,11 +161,11 @@ class DoFileRules(unittest.TestCase):
     def test_the_reader_inputs_are_the_page_defaults(self):
         lib = src("site", "lib", "batterystack.ts")
         self.assertIn('4: { capex: 1110, fom: 22,', lib)
-        # session 208 (the owner's ruling of 12 October 2026): the page's default debt share is 20 percent; the do-file and its mirror
-        # keep the scalars of the export they were written with (60 percent) until the data machine exports again
+        # session 208 (the owner's ruling of 12 October 2026): the page's default debt share is 20 percent; session 263 moved the
+        # do-file and its mirror to it (they had kept the 60 percent of the export they were written with), with the hurdle rate of 12
         self.assertIn("export const DEBT = { share: 0.2, rate: 0.08, life: 20 };", lib)
-        for line in ("scalar s_mw = 100", "scalar s_fom_usd_kw_year = 22", "scalar s_capex_usd_kw = 1110", "scalar s_debt_share = 0.6",
-                     "scalar s_debt_rate = 0.08", "scalar s_debt_years = 20"):
+        for line in ("scalar s_mw = 100", "scalar s_fom_usd_kw_year = 22", "scalar s_capex_usd_kw = 1110", "scalar s_debt_share = 0.2",
+                     "scalar s_debt_rate = 0.08", "scalar s_debt_years = 20", "scalar s_hurdle_pct = 12"):
             self.assertIn(line + "\n", self.text)
 
 
@@ -245,10 +245,10 @@ class TheExport(unittest.TestCase):
         n = self.n
         self.assertEqual(n["l12_months"], 12)
         self.assertEqual(n["n36"], 36)
-        self.assertEqual(n["debt_service"], 6783357)
+        self.assertEqual(n["debt_service"], 2261119)  # session 263: 20 percent debt, the page's default (6783357 at 60 percent until then)
         self.assertAlmostEqual(n["l12_energy"] + n["l12_ancillary"], n["l12_total"], places=5)
         self.assertAlmostEqual(sum(n[f"l12_{k}"] for k in PRODUCTS), n["l12_ancillary"], places=5)
-        self.assertAlmostEqual(n["cover"], (n["l12_total"] * 100 - 22 * 1000 * 100) / 6783357, places=12)
+        self.assertAlmostEqual(n["cover"], (n["l12_total"] * 100 - 22 * 1000 * 100) / 2261119, places=12)
         self.assertEqual(n["year_2024_months"], 12)
         self.assertEqual(n["year_2025_months"], 12)
 
@@ -288,7 +288,7 @@ const B = await import("./lib/batterystack.ts");
 const lines = fs.readFileSync(%s, "utf-8").split("\\n").filter((l) => !l.startsWith("#"));
 const rows = lines.slice(1).filter(Boolean).map((l) => { const c = l.split(","); return { entity: c[0], variable: c[1], ts_utc: c[2], value: Number(c[3]) }; })
   .filter((r) => r.entity === "ercot:HB_HUBAVG" && r.variable.startsWith("foresight_4h_") && r.ts_utc.slice(0, 7) <= %s);
-const x = B.inputsOf({ ds: "6783357" });  // session 208: the export's own debt payment (60 percent debt), not the page's new default (20 percent)
+const x = B.inputsOf({});  // session 263: the page's default debt payment (20 percent debt), as the do-file and its mirror now take it
 const ms = B.monthsOf(rows, "foresight", 4);
 const out = { key: B.inputsKey(x), bad: B.badMonth(B.last36(ms).months).m, first: B.lastTwelve(ms)[0].m, last: B.lastTwelve(ms)[11].m };
 for (const s of %s) out[s] = B.stat(rows, [], x, s);
@@ -298,7 +298,7 @@ console.log(JSON.stringify(out));
                    "year:2024:energy", "year:2024:ancillary", "year:2025:energy", "year:2025:ancillary"] + [f"l12:{k}" for k in PRODUCTS]))
         page, n = node(js), self.n
         two = lambda v: f"{v:.2f}"  # noqa: E731  (the page prints two decimals)
-        self.assertEqual(page["key"], "grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=6783357")
+        self.assertEqual(page["key"], "grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119")  # session 263: 20 percent debt
         self.assertEqual((page["first"], page["last"], page["bad"]), (n["l12_first"], n["l12_last"], n["bad_month"]))
         self.assertEqual(two(page["l12_kw:total"]), two(n["l12_kw_total"]))
         self.assertEqual(page["l12:total"], n["l12_total_usd"])

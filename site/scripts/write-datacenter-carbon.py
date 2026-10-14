@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Session 228: erw_2026_datacenter_carbon.csv, the second file of the replication of "What a datacenter pays": the
 grid's carbon intensity of consumed electricity by month (carbon_intensity_monthly, every month held) and by hour over
-the window the live set holds (carbon_intensity_hourly, the last 35 days), for the default case's balancing authority
+the window the live set holds (carbon_intensity_hourly, the last 430 days since session 245; 35 until then), for the default case's balancing authority
 (ERCOT, eia930:ERCO), read from the live set with the anon key. The do-file and the Python mirror read it beside
 erw_2026_datacenter_hourly.csv to rebuild the answer "How clean" (docs/methods/datacenter_pays_algorithm.md, 4.16).
 
@@ -64,7 +64,7 @@ def main():
     head = [
         f"# Energy Research Warehouse (ERW): the carbon behind What a datacenter pays; the default case's grid (session 228)",
         f"# Balancing authority: eia930:{a.ba} (ERCOT). Variable intensity_demand: kg CO2 per MWh of consumed electricity (generation plus imports less exports), the ERW's from EIA-930's hourly CO2 estimates (docs/methods/emissions.md)",
-        f"# Rows: kind month, one per month held of carbon_intensity_monthly ({len(monthly)} rows, {monthly[0]['ts_utc'][:7]} to {monthly[-1]['ts_utc'][:7]}); kind hour, one per hour of carbon_intensity_hourly the live set holds ({len(hourly)} rows, {hourly[0]['ts_utc'][:13]} to {hourly[-1]['ts_utc'][:13]} UTC, its rolling window of 35 days). ts_utc is the month's or the hour's start",
+        f"# Rows: kind month, one per month held of carbon_intensity_monthly ({len(monthly)} rows, {monthly[0]['ts_utc'][:7]} to {monthly[-1]['ts_utc'][:7]}); kind hour, one per hour of carbon_intensity_hourly the live set holds ({len(hourly)} rows, {hourly[0]['ts_utc'][:13]} to {hourly[-1]['ts_utc'][:13]} UTC, its rolling window of 430 days (session 245; 35 until then)). ts_utc is the month's or the hour's start",
         "# A month or an hour not in the table is not a row: nothing is filled",
         f"# Source tables (ERW, the live set in Supabase, read with the public key at {now}): carbon_intensity_monthly, carbon_intensity_hourly (warehouse/derived/carbon_intensity.py on eia930_all_emissions)",
         "# The page's arithmetic (docs/methods/datacenter_pays_algorithm.md, 4.16): the load's carbon over the last twelve months is each month's energy times the month's intensity, over the months whose intensity is held; its own hours' intensity over the hourly window is the sum of weight x intensity over the sum of weights, over the hours the price and the intensity are both held",

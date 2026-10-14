@@ -118,6 +118,29 @@ export function parseScenarios(q: Record<string, string | undefined>, d: Assumpt
 }
 /** The two names "Your battery" held until session 195: read once as scenario A's, then dropped from the address. */
 export const isOldParam = (name: string) => name === "fom" || name === "ds";
+/** Session 263: one sentence for each scenario value in the address that `bound` changed, so that a value outside a
+ * field's bounds is not replaced in silence: brought to the nearer bound, or, for the two assumptions inside the model,
+ * to the default when the value is not a step the model was run at. Empty when every value was read as given. */
+export function scenarioNotes(q: Record<string, string | undefined>, d: Assumptions, steps: Steps): string[] {
+  const out: string[] = [];
+  for (const p of ["a", "b"] as View[]) for (const k of KEYS) {
+    const raw = q[p + SPECS[k].letter];
+    if (raw === undefined || raw === "") continue;
+    const v = Number(raw), b = bound(k, v, d, steps), s = SPECS[k], who = `${s.label}, scenario ${p.toUpperCase()}`;
+    if (b === v) continue;
+    if (!Number.isFinite(v)) out.push(`${who}: the value asked for is not a number, so the default ${n(b)} is used.`);
+    else if (k === "rte" || k === "cycles") out.push(`${who}: ${n(v)} is not a step the model was run at, so ${n(b)} is used.`);
+    else if (v >= s.min && v <= s.max) out.push(`${who}: ${n(v)} is not a whole number of ${s.unit}, so ${n(b)} is used.`);
+    else out.push(`${who}: ${n(v)} is outside the field's bounds, ${n(s.min)} to ${n(s.max)} ${s.unit}, so ${n(b)} is used.`);
+  }
+  return out;
+}
+/** The words under a field when the value typed in it was brought inside its bounds (session 263). */
+export function clampWords(key: Key, typed: number, used: number): string {
+  const s = SPECS[key];
+  return typed >= s.min && typed <= s.max ? `${n(typed)} was typed: the field takes whole ${s.unit}, so ${n(used)} is used.`
+    : `${n(typed)} was typed: the field runs from ${n(s.min)} to ${n(s.max)}, so ${n(used)} is used.`;
+}
 /** The address parameters of both scenarios: only what differs from the defaults, so no parameter means the defaults. */
 export function scenarioQuery(s: Scenarios, d: Assumptions): [string, string][] {
   const out: [string, string][] = [];

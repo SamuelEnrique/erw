@@ -1,4 +1,6 @@
-// Session 249: the numbers marked [c] in docs/howitworks/battery.md, computed with the page's own libraries
+// Session 249: the numbers marked [c] in the battery's how-it-works note (removed in session 263: the figures are in
+// docs/reviews/packs/battery.md and docs/methods/battery_earns_algorithm.md, section 11.2, and site/scripts/check-battery-figures.mjs
+// checks them against the live table; this script and its output stay as the record), computed with the page's own libraries
 // (site/lib/batterystack.ts, site/lib/battery/finance.ts) from the table on this machine. Reads only; writes nothing.
 //   node docs/howitworks/computed/battery_headline.mjs > docs/howitworks/computed/battery_headline.txt
 // It needs warehouse/output/battery_stack_monthly.csv (the data machine holds it) and a node that reads TypeScript (22.18 or later).

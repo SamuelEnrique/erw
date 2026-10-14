@@ -168,7 +168,8 @@ class ThePage(unittest.TestCase):
 
     def test_no_em_dash_in_what_this_session_wrote(self):
         for parts in (("site", "app", "cost-of-power", "seller", "page.tsx"), ("site", "lib", "sellerhubs.ts"), ("site", "lib", "seller2.ts"), ("site", "scripts", "test-seller-hubs.mjs"),
-                      ("site", "scripts", "check-seller-face.mjs"), ("warehouse", "derived", "merchant_hubs.py"), ("warehouse", "derived", "merchant_revenue.py"),
+                      ("site", "scripts", "_retired", "check-seller-face.mjs"),   # session 264: retired, kept as a record
+                      ("warehouse", "derived", "merchant_hubs.py"), ("warehouse", "derived", "merchant_revenue.py"),
                       ("docs", "methods", "generator_earns_algorithm.md"), ("tests", "test_session183.py")):
             self.assertNotIn(EM_DASH, src(*parts), "/".join(parts))
 

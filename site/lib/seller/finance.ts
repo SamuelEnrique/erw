@@ -14,11 +14,19 @@
 // figure at a share of 0 is what it was. For solar and wind the contract is a share of the energy at a price per MWh;
 // for a battery and a gas peaker, whose energy depends on the price, it is a toll on a share of the capacity, USD per
 // kW-month (the battery page's form). The page says which (Contract.kind). The standalone contract panel is gone.
+//
+// Session 264 (the owner's list of 14 October 2026 for this tool): the PPA term is the eleventh assumption, "PPA term,
+// years" (`ppa`, letter `y`, 1 to 40, whole). Until now every contract ran for the debt's years; now it runs for its
+// own term, cut to the project life. Its default is the asset's life (Lazard's economic life, the debt's own default
+// term), so at the defaults every figure is what it was. An older link that changed a scenario's debt term and holds a
+// contract now runs that contract for the life, not the shorter term (a shared address must open what the browser
+// showed, so the PPA term is never inferred from the debt's). A set of assumptions without the key (an older caller)
+// runs the contract for the debt's years.
 
-export type Key = "capex" | "share" | "rate" | "term" | "fom" | "deg" | "life" | "hurdle" | "cshare" | "cprice";
+export type Key = "capex" | "share" | "rate" | "term" | "fom" | "deg" | "life" | "hurdle" | "cshare" | "cprice" | "ppa";
 export type Assumptions = Record<Key, number>;
-/** The ten, in the order the page lists them (session 212: the contract's share and price last). */
-export const KEYS: Key[] = ["capex", "share", "rate", "term", "fom", "deg", "life", "hurdle", "cshare", "cprice"];
+/** The eleven, in the order the page lists them (session 212: the contract's share and price; session 264: the PPA term last). */
+export const KEYS: Key[] = ["capex", "share", "rate", "term", "fom", "deg", "life", "hurdle", "cshare", "cprice", "ppa"];
 /** The eight of session 186: the ones every asset's arithmetic reads the same way. */
 export const FINANCE_KEYS: Key[] = ["capex", "share", "rate", "term", "fom", "deg", "life", "hurdle"];
 /** What the contract is for the asset: a share of the energy at a price per MWh (solar, wind), or a toll on a share of
@@ -71,6 +79,9 @@ export const SPECS: Record<Key, Spec> = {
     short: (v) => `contract ${n(v)}%`, words: (v) => `contract share ${n(v)} percent`, plain: n, source: "No contract: the default is fully merchant. A contracted share is paid the contract price every month of the debt's years and earns nothing from the market" },
   cprice: { key: "cprice", letter: "p", label: "Contract price", unit: "USD", min: 0, max: 1000, whole: false, swing: 1, swingWords: "USD 1",
     short: (v) => `contract USD ${n(v)}`, words: (v) => `contract price USD ${n(v)}`, plain: n, source: "No contract: the default is fully merchant. The price is the reader's own term; no published price is held" },
+  // session 264: the contract's length, the eleventh
+  ppa: { key: "ppa", letter: "y", label: "PPA term", unit: "years", min: 1, max: 40, whole: true, swing: 5, swingWords: "5 years",
+    short: (v) => `PPA ${n(v)} ${v === 1 ? "year" : "years"}`, words: (v) => `PPA term ${n(v)} ${v === 1 ? "year" : "years"}`, plain: n, source: `The years the contract pays its price, cut to the project life; after them the whole plant is in the market. No published PPA term is held, so the default is this asset's life (${LAZARD}), the debt's own default term: at the default the contract runs as it did before this field` },
 };
 /** The contract's unit and the chart's words for an asset (session 212). */
 export function contractUnits(kind: Contract["kind"]): { shareUnit: string; priceUnit: string; priceStep: string } {
@@ -82,7 +93,7 @@ export function contractUnits(kind: Contract["kind"]): { shareUnit: string; pric
 /** The defaults for an asset: its Lazard capital cost, fixed O&M and life (lib/merchant.ts, DEFAULTS), Lazard's
  * financing (60 percent debt at 8 percent, repaid over the life), and the two that no source in the repository gives. */
 export function defaultsOf(costs: { capex: number; fom: number; life: number; deg?: number }): Assumptions {
-  return { capex: costs.capex, share: 60, rate: 8, term: costs.life, fom: costs.fom, deg: costs.deg ?? 0, life: costs.life, hurdle: HURDLE, cshare: 0, cprice: 0 };
+  return { capex: costs.capex, share: 60, rate: 8, term: costs.life, fom: costs.fom, deg: costs.deg ?? 0, life: costs.life, hurdle: HURDLE, cshare: 0, cprice: 0, ppa: costs.life };
 }
 
 /** One value brought inside its bounds, or to the default when it cannot be read. */
@@ -128,14 +139,15 @@ export function scenarioQuery(s: Scenarios, d: Assumptions): [string, string][] 
   return out;
 }
 /** Whether a parameter name is one of the scenarios' (so that the page's other links can carry or drop it). */
-export const isScenarioParam = (name: string) => name === "v" || /^[ab][csrtfdlhnp]$/.test(name);
+export const isScenarioParam = (name: string) => name === "v" || /^[ab][csrtfdlhnpy]$/.test(name);
 /** The scenarios' parameters of a query string, to append to another address of the page. A change of asset (or of a
- * battery's duration) drops the capital cost, the fixed O&M, the term and the life, whose defaults are the asset's. */
+ * battery's duration) drops the capital cost, the fixed O&M, the term, the life and (session 264) the PPA term, whose
+ * defaults are the asset's. */
 export function carry(search: string, sameAsset: boolean): string {
   const out: string[] = [];
   for (const [k, v] of new URLSearchParams(search)) {
     if (!isScenarioParam(k)) continue;
-    if (!sameAsset && /^[ab][cftl]$/.test(k)) continue;
+    if (!sameAsset && /^[ab][cftly]$/.test(k)) continue;
     out.push(`${k}=${encodeURIComponent(v)}`);
   }
   return out.length ? `&${out.join("&")}` : "";
@@ -156,6 +168,9 @@ export function differenceWords(a: Assumptions, b: Assumptions): string {
 export const crf = (rate: number, years: number) => (rate === 0 ? 1 / years : rate / (1 - (1 + rate) ** -years));
 /** The years the debt is repaid over: its term, cut to the project life when the term is longer. */
 export const debtYears = (a: Assumptions) => Math.min(a.term, a.life);
+/** Session 264: the years the contract pays its price: the PPA term, cut to the project life; the debt's years for a
+ * set of assumptions that holds no PPA term (an older caller). */
+export const contractYears = (a: Assumptions) => Math.min(a.ppa ?? debtYears(a), a.life);
 /** Annual debt payments, USD per kW: the capital cost times the debt share, level over the debt's years. */
 export const debtService = (a: Assumptions) => a.capex * (a.share / 100) * crf(a.rate / 100, debtYears(a));
 /** Annual debt payments in whole USD for `mw` megawatts: what the page's coverage divides by, and what its check keys
@@ -172,10 +187,11 @@ export const contractYear = (a: Assumptions, c: Contract = NO_CONTRACT) =>
   ((a.cshare ?? 0) / 100) * (a.cprice ?? 0) * (c.kind === "energy" ? c.energyKw : 12);
 /** The uncontracted share of the plant, a fraction: 1 with no contract. */
 export const merchantShare = (a: Assumptions) => 1 - (a.cshare ?? 0) / 100;
-/** Income in year t, USD per kW: for the debt's years the contract plus the uncontracted share of the market revenue;
- * after them the whole plant in the market. At a contract share of 0 this is the market revenue in every year. */
+/** Income in year t, USD per kW: for the contract's years (session 264: the PPA term; the debt's years until then) the
+ * contract plus the uncontracted share of the market revenue; after them the whole plant in the market. At a contract
+ * share of 0 this is the market revenue in every year. */
 export const incomeInYear = (a: Assumptions, revKw: number, t: number, c: Contract = NO_CONTRACT) =>
-  t <= debtYears(a) ? contractYear(a, c) + merchantShare(a) * revenueInYear(a, revKw, t) : revenueInYear(a, revKw, t);
+  t <= contractYears(a) ? contractYear(a, c) + merchantShare(a) * revenueInYear(a, revKw, t) : revenueInYear(a, revKw, t);
 /** The cash flows to equity, USD per kW, years 0 to the project life: the equity paid in at year 0, then each year's
  * income less fixed O&M less the debt payment while the debt lasts. */
 export function flows(a: Assumptions, revKw: number, c: Contract = NO_CONTRACT): number[] {
@@ -244,7 +260,7 @@ export function breakevenToll(a: Assumptions, target = TARGET): number | null {
  * which the net present value to equity is zero, the scenario's other assumptions held. For solar and wind it is a
  * price for power, USD per MWh (a PPA); for a battery and a gas peaker a toll, USD per kW-month. The contract is on
  * `share` percent of the plant: the scenario's own contract share when it holds one, else the whole plant (100). It
- * runs for the debt's years, as every contract of this page does, and the uncontracted share earns the market's
+ * runs for the debt's years (session 264: for the PPA term), as every contract of this page does, and the uncontracted share earns the market's
  * revenue. NPV is a straight line in the price, so the price is exact: -NPV at a price of 0, over the present value of
  * one dollar of price on the contracted share through the debt's years. It does not read the scenario's own contract
  * price. Null when nothing is contracted or the contract has no energy to price; a value at or below 0 says NPV is
@@ -254,7 +270,7 @@ export function breakevenPpa(a: Assumptions, revKw: number, c: Contract = NO_CON
   const unit = c.kind === "energy" ? c.energyKw : 12;
   if (!(share > 0) || !(unit > 0)) return null;
   const at0 = npv(a.hurdle, flows({ ...a, cshare: share, cprice: 0 }, revKw, c));
-  const r = a.hurdle / 100, dy = debtYears(a);
+  const r = a.hurdle / 100, dy = contractYears(a);  // session 264: the PPA term's years
   let perDollar = 0;
   for (let t = 1; t <= dy; t++) perDollar += ((share / 100) * unit) / (1 + r) ** t;
   return perDollar > 0 ? -at0 / perDollar : null;

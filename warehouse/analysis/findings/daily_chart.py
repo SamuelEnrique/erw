@@ -55,6 +55,12 @@ TABLE = "daily_chart_candidates"
 HEADING = "## ERW's Chart of the Day"
 FIRST = ("record", "negative")          # the rules that come first, whatever their strength
 MAX_FLAGS, MAX_WATCH = 25, 12           # the candidates published a day
+# Session 267 (the brief of 14 October 2026): a record more than 25 percent past the old one waits a day. It is not
+# shown on the run that first sees it; it is kept in docs/digest/charts/held.json and checked again on the next run (a
+# later day): if the scan raises it again it may be shown then. A jump that large is as often a unit, a revision or a
+# missing month as a record (13 October 2026 showed one 34 percent past the old record, 7 October's proof one 103).
+RECORD_JUMP = 0.25
+HELD_FILE = "held.json"
 WATCH_MAX_AGE = {"week": 14, "month": 100}   # days since the period ended: older is not "the latest period"
 # Roadmap, Rulings, 12 October 2026: "NYISO and SPP tables stay held until their licenses are answered." Their tables and
 # their series in consolidated tables are never the Digest's chart until a person removes them from this line.
@@ -405,22 +411,84 @@ def used_keys(chart_dir=None, but=None):
     return out
 
 
-def choose(candidates, used, day=None):
+def record_jump(c):
+    """How far a scanner record is past the old record, as a share of the old record's size (0.34 is 34 percent); None
+    for anything that is not a record or does not hold both numbers. A record past an old record of zero is infinite."""
+    fl = c.get("flag") or {}
+    if c.get("source") != "scanner" or fl.get("rule") != "record":
+        return None
+    try:
+        v, old = float(fl["value"]), float((fl.get("compared") or {})["old_record"])
+    except (KeyError, TypeError, ValueError):
+        return None
+    if old == 0:
+        return 0.0 if v == 0 else float("inf")
+    return abs(v - old) / abs(old)
+
+
+def must_wait(c, waited):
+    """The guard (session 267): a record more than RECORD_JUMP past the old one, not held on an earlier run, waits."""
+    j = record_jump(c)
+    return j is not None and j > RECORD_JUMP and c["key"] not in waited
+
+
+def held_before(day, chart_dir=None):
+    """The keys the guard held on a run of a day before `day` (docs/digest/charts/held.json): they may be shown now."""
+    try:
+        with open(os.path.join(chart_dir or CHART_DIR, HELD_FILE), encoding="utf-8") as f:
+            held = json.load(f)
+    except (OSError, ValueError):
+        return set()
+    return {k for k, v in held.items() if isinstance(v, dict) and str(v.get("held_on", "")) < str(day)}
+
+
+def keep_held(day, candidates, used, waited, chart_dir=None):
+    """Writes the records the guard holds on this run to held.json (the first day each was held is kept); their keys."""
+    now = [c for c in candidates if c["key"] not in used and must_wait(c, waited)]
+    if not now:
+        return []
+    path = os.path.join(chart_dir or CHART_DIR, HELD_FILE)
+    try:
+        with open(path, encoding="utf-8") as f:
+            held = json.load(f)
+    except (OSError, ValueError):
+        held = {}
+    for c in now:
+        if c["key"] not in held:
+            j = record_jump(c)
+            held[c["key"]] = {"held_on": day, "table": c.get("table", ""), "series_key": c.get("series_key", ""),
+                              "value": c["flag"]["value"], "old_record": c["flag"]["compared"]["old_record"],
+                              "jump_pct": None if j == float("inf") else round(100 * j, 1), "fact": c.get("fact", "")}
+    os.makedirs(os.path.dirname(os.path.abspath(path)), exist_ok=True)
+    with open(path, "w", encoding="utf-8", newline="\n") as f:
+        json.dump(held, f, indent=1, ensure_ascii=False, sort_keys=True, default=common.round6)
+        f.write("\n")
+    return [c["key"] for c in now]
+
+
+def choose(candidates, used, day=None, waited=None):
     """(candidate, why) by the rule: the strongest scanner flag not shown before; else the watch list's largest change
-    not shown before; else (None, the reason). The same day's own file never blocks its choice (a rerun)."""
+    not shown before; else (None, the reason). The same day's own file never blocks its choice (a rerun).
+    Session 267: a record more than 25 percent past the old one is passed over unless its key is in `waited` (held on
+    an earlier run: held_before); the why says how many were held."""
+    waited = set() if waited is None else set(waited)
     flags = [c for c in candidates if c.get("source") == "scanner"]
     watch_c = [c for c in candidates if c.get("source") == "watch"]
+    held = [c["key"] for c in flags if c["key"] not in used and must_wait(c, waited)]
+    note = (f"; {len(held)} record(s) more than {round(100 * RECORD_JUMP)} percent past the old one held a day by the guard"
+            if held else "")
     for c in flags:
-        if c["key"] not in used:
+        if c["key"] not in used and c["key"] not in held:
             return c, (f"the strongest of the scanner's {len(flags)} flag(s) of the day that no Digest has shown "
-                       f"(rank {c.get('rank', '?')}; rule {c['flag']['rule']}, strength {c['flag']['strength']})")
+                       f"(rank {c.get('rank', '?')}; rule {c['flag']['rule']}, strength {c['flag']['strength']})" + note)
     for c in watch_c:
         if c["key"] not in used:
-            return c, ((f"the scanner flagged nothing" if not flags else f"all {len(flags)} of the scanner's flags were shown before")
+            return c, ((f"the scanner flagged nothing" if not flags else f"all {len(flags)} of the scanner's flags were shown before or held")
                        + f": the watch list's largest change of the latest period not shown before (rank {c.get('rank', '?')}, "
-                       f"larger than {c['score']} percent of its own earlier changes)")
-    return None, ("the scanner flagged nothing and the watch list has no change" if not candidates
-                  else f"every candidate ({len(flags)} flag(s), {len(watch_c)} watch change(s)) was shown in an earlier Digest")
+                       f"larger than {c['score']} percent of its own earlier changes)" + note)
+    return None, (("the scanner flagged nothing and the watch list has no change" if not candidates
+                   else f"every candidate ({len(flags)} flag(s), {len(watch_c)} watch change(s)) was shown in an earlier Digest or held")
+                  + note)
 
 
 def how_words(c):
@@ -441,9 +509,10 @@ def markdown(day, c):
             f"[How the chart is chosen](/data/methods/automated_analysis_scanner)."]
 
 
-def section(day, log=print, chart_dir=None, wait=None, local_watch=True, candidates=None, proof=False, used=None):
+def section(day, log=print, chart_dir=None, wait=None, local_watch=True, candidates=None, proof=False, used=None, waited=None):
     """The Digest's section for `day`: [] when there is nothing to show (the reason is logged). Writes the picture and
-    the record of the choice. candidates: given (a test, a proof) instead of read."""
+    the record of the choice. candidates: given (a test, a proof) instead of read. waited: the keys the guard held on an
+    earlier run (session 267; by default read from chart_dir's held.json); the records it holds now are written there."""
     chart_dir = chart_dir or CHART_DIR
     try:
         why_source = "given"
@@ -457,7 +526,10 @@ def section(day, log=print, chart_dir=None, wait=None, local_watch=True, candida
                 why_source = "the watch list on this machine (no candidates from the data machine)"
         used = (used_keys(chart_dir, but=day) if used is None else set(used))   # a rerun of the day chooses as it did the first time
         own = os.path.join(chart_dir, f"{day}.json")
-        c, why = choose(candidates, used)
+        waited = held_before(day, chart_dir) if waited is None else set(waited)
+        c, why = choose(candidates, used, day, waited)
+        for k in ([] if proof else keep_held(day, candidates, used, waited, chart_dir)):   # a proof holds nothing
+            log(f"  daily chart: {k} held a day (a record more than {round(100 * RECORD_JUMP)} percent past the old one)")
         if c is None:
             log(f"  daily chart: {why} ({why_source}); section omitted")
             return []
