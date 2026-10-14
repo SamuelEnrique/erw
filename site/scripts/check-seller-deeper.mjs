@@ -1,5 +1,5 @@
 // Energy Research Warehouse (ERW) site, session 162: "What a generator earns", deeper (/cost-of-power/seller), on the
-// built site. The page's older checks stay in scripts/check-seller.mjs; this one reads the three new blocks.
+// built site. The page's older checks were in scripts/check-seller.mjs (retired by session 264 to scripts/_retired/); this one reads the three new blocks.
 //
 //   npm run build && npx next start -p 3162
 //   node scripts/check-seller-deeper.mjs [base-url]      (default http://localhost:3162)

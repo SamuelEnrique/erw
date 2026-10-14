@@ -123,7 +123,8 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, error
   const gl = !(await evaluate(`document.body.innerText.includes('This browser cannot draw 3D')`));
   if (gl) await wait(`!!document.querySelector('canvas')`, 30000, "the network's canvas");
   let s = await evaluate(MAP);
-  check(s.buttons === "Map,Network" && s.pressed === "Network" && s.shape === "network", `the toggle is at the top, "Map" and "Network", with Network pressed (${s.buttons}; pressed ${s.pressed})`);
+  // session 266: a third button, "Gravity" (the owner's task of 14 October 2026)
+  check(s.buttons === "Map,Network,Gravity" && s.pressed === "Network" && s.shape === "network", `the toggle is at the top, "Map", "Network" and "Gravity", with Network pressed (${s.buttons}; pressed ${s.pressed})`);
   check(s.search === "" && s.state === null && s.regions === 0 && (s.canvas || !gl), `the page opens as the network: a bare address, ${gl ? "the 3D canvas" : "no 3D in this browser"}, no map in the page`);
   check(await evaluate(`(() => { const t = document.querySelector('[data-shape-toggle]'); const w = document.querySelector('[role="group"][aria-label="Watch"]'); return !!t && !!w && (t.compareDocumentPosition(w) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0; })()`), "the toggle stands above the Watch buttons");
 

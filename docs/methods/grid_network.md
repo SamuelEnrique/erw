@@ -246,6 +246,48 @@ What this map is not:
 
 **What the colors are not.** A region's color is one number for the whole balancing authority: the carbon intensity of what was generated inside it in the period shown. It is not the intensity of the power used at any place inside the boundary (imports are not in it), it does not vary within the region, and a large region is not a large number: area on the map is land, not load or generation. A boundary is a planning footprint as its publisher drew it, not a service-territory survey and not a line any wire follows.
 
+## The gravity shape (session 266)
+
+The owner named it on 14 October 2026: a third shape of the network, "Gravity", beside "Map" and "Network" at the top of
+the Network view (`/grid?view=network&shape=gravity`). It draws the same hour, the same selection, the same colors, the
+same hover card (the grid's name) and the same panel as the other two. Code: `site/lib/networkGravity.ts` (the rule,
+no drawing) and `site/app/network/NetworkGravity.tsx` (the SVG).
+
+- **What is drawn.** The Lower 48 (EIA-930's `US48`) is a circle at the center. Each of the seven ISO grids (CAISO,
+  ERCOT, ISO-NE, MISO, NYISO, PJM, SPP) is a circle around it. The other balancing authorities of the network are not
+  drawn here: their net generation is not in the live set (`eia930_all_generation` holds the seven and `US48` there),
+  and the line under the frame says so.
+- **Size.** A circle's area is proportional to its net generation in the hour shown (`eia930_all_generation`,
+  `net_generation_mw`, read for the live week beside the demand, `site/app/network/data.ts`). The Lower 48's own
+  generation sets the scale: its radius is 80 units of a 640-unit frame, and a grid's radius is 80 times the square
+  root of its generation over the Lower 48's (never under 6 units, so a small grid can still be clicked).
+- **Distance: the rule.** Net imports in the hour are the sum of the grid's reporting ties, signed so that power coming
+  in is positive (the panel's own sum). Divided by the grid's net generation, they give a share. A grid with no net
+  exchange sits on the middle ring (205 units from the center, drawn dashed). A net importer is pulled toward the
+  center by 90 units times its share over 0.25, a net exporter pushed out by the same rule; a share of a quarter or
+  more is the full pull. So **a net importer sits nearer the center, a net exporter farther out**. A circle never
+  overlaps the Lower 48 and never leaves the frame (4 units of gap).
+- **Bearing.** Each grid keeps a fixed bearing that follows the map, in degrees clockwise from north: CAISO 262, SPP
+  318, MISO 8, ISO-NE 40, NYISO 66, PJM 104, ERCOT 196. Only the distance carries data.
+- **What is not drawn from a stand-in.** A grid whose generation is not held for the hour is a dashed outline on the
+  middle ring; a grid with zero generation is a dashed outline too, at the full pull when it imports; a grid with no
+  tie reported in the hour sits on the middle ring. Outside the live week (a story or a replayed day) generation by
+  hour is not held, so the shape draws nothing and says so.
+- **California.** CAISO's circle is EIA-930's net generation, the same source as the other grids. From December 2025
+  EIA-930's California generation reads below CAISO's own (`docs/methods/eia930_caiso_break.md`), so CAISO's circle is
+  smaller and its pull larger than CAISO's own figures would make them. Put to the owner (session 266 report).
+- **Checked.** `site/public/grid/erw_2026_grid_replication.py` rebuilds every circle's generation, net imports, share,
+  radius and distance from `erw_2026_grid_replication.csv`; `site/scripts/check-grid-replication.mjs` compares them
+  with the page, value by value.
+
+## The two-day lag, said under the chart (session 266)
+
+One line under the network says the newest hour shown and how many hours before the snapshot's latest hourly refresh
+it began, computed from the snapshot (the check key `net|lag|<hour>|<refresh>`, `netValue` in `site/lib/network.ts`),
+and why: EIA-930 publishes a balancing authority's interchange for a local day on the second morning after it (the
+section "How far behind the newest hour is, and why" above). The Now view's sentence gives the same lag for the hour
+of its exchange, under the same key.
+
 ## Not here
 
 - The published boundaries of the balancing authorities: not held after three pulls. The Map draws the ERW's own derivation from counties, labeled as derived (see "The map", "The derived map: counties").

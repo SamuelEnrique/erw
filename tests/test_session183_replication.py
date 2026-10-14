@@ -337,8 +337,8 @@ class DoFileRules(unittest.TestCase):
         mirror, n = mirror_numbers()
         shown = [re.match(r'\s*display "([^"`:]*)', line).group(1) for line in self.lines if line.strip().startswith("display")]
         out = mirror.report(n)
-        self.assertEqual(len(shown), 27)                                  # 26 lines and the loop's one, which prints three
-        self.assertEqual(len(out), 29)
+        self.assertEqual(len(shown), 32)                                  # 31 lines and the loop's one, which prints three (session 264: 26 until then; the capture rate, the energy, the contract price, NPV and the breakeven PPA price added)
+        self.assertEqual(len(out), 34)
         at = 0
         for words in shown:                                               # the same lines in the same order
             found = next((i for i in range(at, len(out)) if out[i].startswith(words.strip())), None)

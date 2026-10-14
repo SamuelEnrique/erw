@@ -20,6 +20,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${body.variable} antialiased`}>
       <body className="min-h-screen bg-paper text-ink flex flex-col">
+        {/* session 268: the first stop of the keyboard, hidden until it has the focus (WCAG 2.4.1) */}
+        <a href="#content" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-2 focus:z-50 focus:bg-paper focus:px-3 focus:py-2 focus:text-ink focus:underline">Skip to content</a>
         <header className="border-b border-rule">
           <div className="mx-auto max-w-6xl px-4 py-3 flex flex-wrap items-baseline gap-x-6 gap-y-2">
             <Link href="/" className="self-center no-underline" aria-label="ERW, home">
@@ -28,7 +30,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <Nav />
           </div>
         </header>
-        <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6">{children}</main>
+        <main id="content" tabIndex={-1} className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 focus:outline-none">{children}</main>
         <GateRestore />
         <Usage />
         <footer className="border-t border-rule">

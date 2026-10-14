@@ -67,6 +67,16 @@ body:has(.brand-a) {
   --chart-light: #8F8A80;
   --chart-lowered: var(--chart-ink);   /* the sensitivity chart: neither side is a verdict */
   --chart-raised: var(--chart-blue);
+  /* session 268 (the owner's instruction of 14 October 2026): a chart of more than five series takes these eight, in
+     this order (Paul Tol's colorblind-safe set; docs/brand.md, "Many series"); cardinal stays the highlighted series */
+  --chart-series-1: #4477AA;
+  --chart-series-2: #66CCEE;
+  --chart-series-3: #228833;
+  --chart-series-4: #CCBB44;
+  --chart-series-5: #EE6677;
+  --chart-series-6: #AA3377;
+  --chart-series-7: #BBBBBB;
+  --chart-series-8: #EEAA44;
 }
 .brand-a {
   --font-serif: var(--font-brand-serif), Georgia, "Times New Roman", serif;

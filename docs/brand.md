@@ -69,6 +69,25 @@ In this order: ink `#2E2D29`, cardinal `#8C1515`, blue `#3C6E9E`, grey `#6B675F`
 
 The fuel colors of the generation mix (`site/app/tokens.css`, `--color-fuel-*`) are a subject's own palette and are not replaced by these five.
 
+### Many series (session 268)
+
+The owner's instruction of 14 October 2026: a chart of more than five series takes these eight, in this order (Paul Tol's colorblind-safe set), as `--chart-series-1` to `--chart-series-8` in `site/app/tokens.css`. **Cardinal stays the highlight:** the one series a chart marks is drawn in cardinal and the others take the eight; cardinal is not among them.
+
+| Token | Value | On the page | On fog | Against cardinal |
+|---|---|---|---|---|
+| `--chart-series-1` | `#4477AA` | 4.70 | 4.25 | 2.00 |
+| `--chart-series-2` | `#66CCEE` | 1.84 | 1.66 | 5.12 |
+| `--chart-series-3` | `#228833` | 4.53 | 4.09 | 2.08 |
+| `--chart-series-4` | `#CCBB44` | 1.95 | 1.76 | 4.82 |
+| `--chart-series-5` | `#EE6677` | 3.09 | 2.79 | 3.05 |
+| `--chart-series-6` | `#AA3377` | 6.09 | 5.50 | 1.54 |
+| `--chart-series-7` | `#BBBBBB` | 1.92 | 1.73 | 4.90 |
+| `--chart-series-8` | `#EEAA44` | 2.01 | 1.81 | 4.69 |
+
+- Contrast is WCAG's ratio, computed for this table. Five of the eight are below the 3 to 1 a mark needs on the page: they are fills (bars, areas, wide lines), never text, and every series is named on the chart, in its hover card or in its table, so no series is told by its color alone.
+- `#AA3377` sits 1.54 from cardinal: a chart that highlights in cardinal leaves the sixth slot out, or parts the two with a white line and names both.
+- No page was moved to these colors by session 268: a chart takes them when it is next drawn with more than five series.
+
 ## 3. Space and shape
 
 - Steps: 4, 8, 12, 16, 24, 32, 48 px. Inside a panel 16; between a title and its content 12; between sections 48; between a control and its note 8.

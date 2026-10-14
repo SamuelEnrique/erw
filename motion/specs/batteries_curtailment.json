@@ -1,0 +1,15 @@
+{
+ "id": "batteries_curtailment",
+ "kicker": "ERW Research",
+ "title": "BY HOW MUCH DO BATTERIES CUT CURTAILMENT",
+ "subtitle": "Days with more charging see more curtailment, even with solar and the month held fixed",
+ "source": "Source: CAISO production and curtailment report; CAISO Today's Outlook (storage, fuel source); ERW tables caiso_curtailment_daily, caiso_battery_storage, caiso_fuel_supply.",
+ "width": 1080,
+ "height": 1350,
+ "type": "count-up",
+ "value": 1081.243519233697,
+ "decimals": 0,
+ "unit": "MWh curtailed per GWh charged (charging, solar output and month held fixed)",
+ "sentence": "Each extra GWh a day of charging goes with 1,081 MWh more curtailment, solar output and the month held fixed (standard error 172, p 0.000).",
+ "frames": 330
+}

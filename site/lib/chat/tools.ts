@@ -421,8 +421,17 @@ export function groupSummary(g: string, res: Json[], rows: Row[], agg: string, p
 const nextDay = (day: string) => new Date(Date.parse(`${day}T00:00:00Z`) + 86_400_000).toISOString().slice(0, 10);
 const shiftDay = (day: string, n: number) => new Date(Date.parse(`${day}T00:00:00Z`) + n * 86_400_000).toISOString().slice(0, 10);
 
+// Session 267 (Ask's evaluation, q28): MISO is paused since 4 October 2026 while its terms are reviewed
+// (docs/methods/miso_pause.md). The pages show no figure of MISO's own data ("paused while terms are reviewed",
+// lib/chat/pagefiles.ts PAUSED_WORDS), yet the general chat's query returned one (83.79 USD/MWh, MISO's Indiana hub in
+// September 2026, from cost_of_power_monthly). A MISO table or a MISO entity named is now refused with the words, and
+// MISO's own rows (entities "miso:...") are left out of every read; a read that held only MISO's rows is refused.
+// EIA's figures for the MISO balancing authority (eia930:MISO, iso:miso) are EIA's own, and are kept.
+export const MISO_PAUSED = "MISO is paused while its terms are reviewed (since 4 October 2026): this site shows no figure of MISO's own data. State no MISO figure: answer with not_in_warehouse true and say that MISO is 'paused while terms are reviewed'";
+export const misoOwn = (v: unknown): boolean => typeof v === "string" && /^miso[:_]/i.test(v);
 async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
   if (!AGGREGATIONS.includes(a.aggregation)) throw new ToolError(`aggregation must be one of ${AGGREGATIONS.join(", ")}`);
+  if (misoOwn(a.table) || misoOwn(a.entity) || Object.values(a.where ?? {}).flat().some(misoOwn)) throw new ToolError(MISO_PAUSED);
   const { c, columns, shape } = await tableInfo(a.table, scope);
   const tcol = TIME_COL[shape];
   const vcol = a.value_column ?? DEFAULT_VALUE[shape];
@@ -495,13 +504,15 @@ async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
       const terms = [...(col ? [`${col}.eq.${quote(a.entity!)}`] : []), ...bounds];
       return rest<Json>(shape, { ...q, ...more, ...(terms.length ? { and: `(${terms.join(",")})` } : {}) }, HOURLY, max);
     };
-    if (shape !== "series" || !a.entity) return one(null);
-    if (entityCol) return one(entityCol);
+    // session 267: MISO's own rows are left out (MISO_PAUSED above)
+    const kept = (rows: Json[]) => { const out = rows.filter((r) => !misoOwn(r.entity)); if (rows.length && !out.length) throw new ToolError(MISO_PAUSED); return out; };
+    if (shape !== "series" || !a.entity) return kept(await one(null));
+    if (entityCol) return kept(await one(entityCol));
     const byEntity = await one("entity");
-    if (byEntity.length) { entityCol = "entity"; return byEntity; }
+    if (byEntity.length) { entityCol = "entity"; return kept(byEntity); }
     const byNode = await one("node");
     if (byNode.length) entityCol = "node";
-    return byNode;
+    return kept(byNode);
   };
 
   // session 156: "the newest day held" (lib/chat/forms.ts). One small read, newest first, finds the newest whole day of

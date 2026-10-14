@@ -278,7 +278,10 @@ class Delivery(unittest.TestCase):
         table = page.split("function DeliveryTable", 1)[1].split("const matrixTip", 1)[0]
         self.assertIn('<Num check={`dcd|${mw}|${slugOf(u)}:${what}`} raw={v}>{shown(v)}</Num>', table)
         self.assertIn('head={["Component", ...parts.map((d) => d.utility)]}', table)
-        self.assertIn('{ key: "total", highlight: true, cells: ["Total delivery", ', table)
+        # session 265 (the owner's list of 14 October 2026: no added assumption): the highlighted total is the lines with no
+        # condition; session 236's total stands below it, labelled with its two conditions (a power factor of 1, one meter)
+        self.assertIn('{ key: "held", highlight: true, cells: ["Total delivery, the lines with no condition", ', table)
+        self.assertIn('{ key: "total", cells: [<Hover key="l" ', table)
         self.assertNotIn("function DeliveryCell", page)
         for gone in ("value_as_written", ".charge", ".sentence", ".document"):                 # no tariff line is drawn by the table
             self.assertNotIn(gone, table, gone)

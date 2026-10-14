@@ -18,13 +18,17 @@ import unittest
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 DIR = os.path.join(ROOT, "docs", "howitworks")
 
-TOOLS = {
+ALL_TOOLS = {
     "battery": ("What a battery earns", "/cost-of-power/battery"),
     "generator": ("What a generator earns", "/cost-of-power/seller"),
     "datacenter": ("What a datacenter pays", "/cost-of-power"),
     "grid": ("the Grid tool", "/grid"),
     "research": ("Research", "/research"),
 }
+# session 262: a tool whose review pack is written (docs/reviews/packs/<tool>.md, tests/test_session262.py) no longer
+# has its note here; the parts below are held for the notes that remain
+PACKS = os.path.join(ROOT, "docs", "reviews", "packs")
+TOOLS = {k: v for k, v in ALL_TOOLS.items() if not os.path.exists(os.path.join(PACKS, k + ".md"))}
 
 PARTS = [
     "## 1. What it is for, and for whom",
@@ -52,6 +56,11 @@ def part(text, heading):
 
 
 class TheFiveDocuments(unittest.TestCase):
+    def test_each_tool_has_its_note_or_its_review_pack(self):
+        for tool in ALL_TOOLS:
+            note, pack = os.path.join(DIR, tool + ".md"), os.path.join(PACKS, tool + ".md")
+            self.assertTrue(os.path.exists(note) != os.path.exists(pack), f"{tool}: the note or the pack, one of them")
+
     def test_each_tool_has_its_document_and_the_index_lists_them(self):
         index = doc("README")
         for tool, (name, address) in TOOLS.items():

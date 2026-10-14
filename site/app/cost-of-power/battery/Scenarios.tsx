@@ -21,12 +21,12 @@
 // contract panel and "With your contract" are gone (ContractOfA with them); the headline's coverage reads A's contract.
 // The sensitivity chart answers the third question, "What matters most", in a section of its own (BatterySensitivity),
 // so the block is handed no chart. CoverOfA stays for the CSV of every month, which the page no longer draws.
-import { createContext, useCallback, useContext, useMemo, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useMemo, useRef, type ReactNode } from "react";
 import { ScenarioBlock, ScenarioState, Sensitivity, useScenarios, type Bar as ChartBar, type Cell, type Chart, type Field, type Row, type Side, type Values, type View } from "@/components/decisions/ScenarioBlock";
 import { HeadlineNumber, HeadlineRow } from "@/components/tool/ToolPage";
 import { badMonth, coverage, inputsKey, last36, lastTwelve, monthName, sumOf, usdShort, type Inputs, type Month } from "@/lib/batterystack";
 import {
-  KEYS, MODEL, SPECS, bound, cellTotals, coverage as coverageOf, debtUsd, defaultsOf, differenceWords, differing, isOldParam, isScenarioParam, parseScenarios, resultOf, scenarioQuery,
+  KEYS, MODEL, SPECS, bound, cellTotals, clampWords, coverage as coverageOf, debtUsd, defaultsOf, differenceWords, differing, isOldParam, isScenarioParam, parseScenarios, resultOf, scenarioQuery,
   sensitivity, stepState, stepsOffered, type Assumptions, type Key, type Scenarios as Both, type StepCase, type StepState, type Steps,
 } from "@/lib/battery/finance";
 import { U, V } from "./nums";
@@ -44,6 +44,29 @@ const useBattery = () => useContext(Battery)!;
 /** The parameters of the address the scenarios replace: their own, and the two old names read as scenario A's. */
 const drop = (name: string) => isScenarioParam(name) || isOldParam(name);
 
+/** The revenue the rows read at an efficiency and a cycle limit: the page's own months at the model's values, the
+ * model's run at that step otherwise; null when the step is not held. Session 268: made here, outside the component,
+ * with its own cache (the rules of React's hooks forbid a function made in render that changes a local value). */
+function revenueAt(ms: Month[], need: string[], state: StepState, stepCase: StepCase | null) {
+  const memo = new Map<string, Revenue | null>();
+  return (rte: number, cycles: number): Revenue | null => {
+    const k = `${rte}|${cycles}`;
+    if (memo.has(k)) return memo.get(k)!;
+    let months: Month[] | null = ms;
+    if (rte !== MODEL.rte || cycles !== MODEL.cycles) {
+      const t = state.ok ? cellTotals(stepCase, rte, cycles) : null;
+      months = t ? ms.map((r) => (need.includes(r.m) && t.has(r.m) ? { ...r, total: t.get(r.m)! } : r)) : null;
+    }
+    let out: Revenue | null = null;
+    if (months) {
+      const l12 = lastTwelve(months), w = last36(months);
+      out = { l12: l12 ? sumOf(l12, "total") / 1000 : null, first: l12 ? l12[0].m : null, last: l12 ? l12[11].m : null, bad: badMonth(w?.months ?? []), n36: w?.months.length ?? 0, months };
+    }
+    memo.set(k, out);
+    return out;
+  };
+}
+
 /** The two scenarios of the page, held above its sections: the block edits them, the headline reads scenario A. */
 export function BatteryDecisions({ ms, mw, costs, stepCase, stepMeta, initial, children }: {
   ms: Month[]; mw: number; costs: { capex: number; fom: number }; stepCase: StepCase | null; stepMeta: StepMeta; initial: Record<string, string | undefined>; children: ReactNode;
@@ -53,27 +76,7 @@ export function BatteryDecisions({ ms, mw, costs, stepCase, stepMeta, initial, c
   const need = useMemo(() => (last36(ms)?.months ?? []).map((r) => r.m), [ms]);
   const state = useMemo(() => stepState(stepCase, ms, need), [stepCase, ms, need]);
   const steps = useMemo(() => stepsOffered(stepMeta, state), [stepMeta, state]);
-  /** The revenue the rows read at an efficiency and a cycle limit: the page's own months at the model's values, the
-   * model's run at that step otherwise; null when the step is not held. */
-  const revenue = useMemo(() => {
-    const memo = new Map<string, Revenue | null>();
-    return (rte: number, cycles: number): Revenue | null => {
-      const k = `${rte}|${cycles}`;
-      if (memo.has(k)) return memo.get(k)!;
-      let months: Month[] | null = ms;
-      if (rte !== MODEL.rte || cycles !== MODEL.cycles) {
-        const t = state.ok ? cellTotals(stepCase, rte, cycles) : null;
-        months = t ? ms.map((r) => (need.includes(r.m) && t.has(r.m) ? { ...r, total: t.get(r.m)! } : r)) : null;
-      }
-      let out: Revenue | null = null;
-      if (months) {
-        const l12 = lastTwelve(months), w = last36(months);
-        out = { l12: l12 ? sumOf(l12, "total") / 1000 : null, first: l12 ? l12[0].m : null, last: l12 ? l12[11].m : null, bad: badMonth(w?.months ?? []), n36: w?.months.length ?? 0, months };
-      }
-      memo.set(k, out);
-      return out;
-    };
-  }, [ms, need, state, stepCase]);
+  const revenue = useMemo(() => revenueAt(ms, need, state, stepCase), [ms, need, state, stepCase]);
   const query = useCallback((s: { a: Values; b: Values; view: View }) => scenarioQuery(s as unknown as Both, d), [d]);
   const held = useMemo(() => ({ d, steps, state, revenue }), [d, steps, state, revenue]);
   return (
@@ -112,6 +115,9 @@ export function BatteryHeadline({ ms, x, gridName, gridFrom }: { ms: Month[]; x:
   const kw = total === null ? null : total / 1000;
   const cycles = `${plain(a.cycles)} ${a.cycles === 1 ? "cycle" : "cycles"} a day`;
   const keyed = model && !contracted;
+  // session 263: a capital cost or a debt share of 0 leaves no debt; the sentence and the number say so, where they read
+  // "not held times" until then
+  const noDebt = total !== null && cover === null;
   const contractWords = contracted ? <span data-headline-contract="1"> with {plain(a.cshare)} percent of its power contracted at USD {plain(a.cprice)} per kW-month,</span> : null;
   return (
     <>
@@ -120,10 +126,10 @@ export function BatteryHeadline({ ms, x, gridName, gridFrom }: { ms: Month[]; x:
           <>A {size} battery in {gridName}: no twelve consecutive months are held, so there is no last-twelve-months figure.</>
         ) : model ? (
           <>Over the last twelve months a {size} battery in {gridName} earned USD <V pre={key} s="l12_kw:total" v={kw} /> per kW, <V pre={key} s="l12_share:ancillary" v={share} /> percent
-            of it from ancillary services, and{contractWords} covered its debt <V pre={key} s="cover" v={cover} keyed={keyed} /> times.</>
+            of it from ancillary services, and{contractWords} {noDebt ? <span data-no-debt="1">has no debt to cover.</span> : <>covered its debt <V pre={key} s="cover" v={cover} keyed={keyed} /> times.</>}</>
         ) : (
           <>Over the last twelve months a {size} battery in {gridName} earned USD <V pre={key} s="l12_kw:total" v={kw} keyed={false} /> per kW at a round-trip efficiency
-            of {plain(a.rte)} percent and at most {cycles}, and{contractWords} covered its debt <V pre={key} s="cover" v={cover} keyed={false} /> times.</>
+            of {plain(a.rte)} percent and at most {cycles}, and{contractWords} {noDebt ? <span data-no-debt="1">has no debt to cover.</span> : <>covered its debt <V pre={key} s="cover" v={cover} keyed={false} /> times.</>}</>
         )}
       </p>
 
@@ -133,7 +139,7 @@ export function BatteryHeadline({ ms, x, gridName, gridFrom }: { ms: Month[]; x:
             {model ? null : <span data-scenario-a-steps="1"> Scenario A: round-trip efficiency {plain(a.rte)} percent, at most {cycles}. The sections below are the model&apos;s own run, at {MODEL.rte} percent and one cycle a day.</span>}</> : <>No twelve consecutive months are held.</>} />
         <HeadlineNumber label="A bad month: the 10th percentile, last 36 months" value={<>USD <U pre={key} s="p10_36" v={bad ? Math.round(bad.total! * x.mw) : null} keyed={model} /></>}
           note={bad && w36 ? <>{monthName(bad.m)}. One month in ten of the <V pre={key} s="n36" v={w36.months.length} keyed={model} /> months held from {monthName(w36.months[0].m)} to {monthName(w36.to)} earned this or less{w36.months.length < 36 ? `: ${gridName} is held from ${gridFrom}` : ""}.</> : null} />
-        <HeadlineNumber label="Debt coverage, last twelve months" value={<><V pre={key} s="cover" v={cover} keyed={keyed} /><span className="ml-1 font-sans text-sm text-muted">times</span></>}
+        <HeadlineNumber label="Debt coverage, last twelve months" value={noDebt ? <span data-no-debt="2">No debt</span> : <><V pre={key} s="cover" v={cover} keyed={keyed} /><span className="ml-1 font-sans text-sm text-muted">times</span></>}
           note={l12 ? <>{monthName(l12[0].m)} to {monthName(l12[11].m)}: {contracted ? <span data-headline-contract="2">scenario A&apos;s contract ({plain(a.cshare)} percent at USD {plain(a.cprice)} per kW-month) plus the market on the rest, </span> : "revenue "}less fixed O&amp;M, over debt payments of USD <U pre={key} s="ds" v={y.ds} /> a year.</> : <>No twelve consecutive months are held.</>} />
       </HeadlineRow>
     </>
@@ -175,12 +181,21 @@ export function Scenarios({ x, costs, gridName, stepMeta }: { x: Inputs; costs: 
   const { s, d, steps, state, size, scale, cols } = useBlock(x, costs);
   type Col = (typeof cols)["a"];
   const sourceOf = (k: Key) => (k === "capex" || k === "fom" ? `${SPECS[k].source}: ${costs.note}` : SPECS[k].source);
-
+  // session 263: a value typed outside a field's bounds is brought inside them by `bound`, and the field says so under
+  // it while that value is in force (the typed text stays in the box, so without the line the box and the figures differ)
+  const typed = useRef(new Map<string, number>());
+  const boundTyped = (k: string, v: number) => {
+    const b = bound(k as Key, v, d, steps), id = `${s.view}|${k}`;
+    if (Number.isFinite(v) && b !== v) typed.current.set(id, v); else typed.current.delete(id);
+    return b;
+  };
   const fields: Field[] = KEYS.map((k) => {
     const sp = SPECS[k];
+    const t = typed.current.get(`${s.view}|${k}`);
+    const clamped = t !== undefined && bound(k, t, d, steps) === s[s.view][k] ? <span data-clamped={k}> {clampWords(k, t, s[s.view][k])}</span> : null;
     return { key: k, label: sp.label, unit: sp.unit, min: sp.min, max: sp.max, whole: sp.whole,
       options: k === "rte" || k === "cycles" ? steps[k].map((v) => ({ value: v, label: plain(v) })) : undefined,
-      note: <>Default {plain(d[k])}. {sourceOf(k)}.</> };
+      note: <>Default {plain(d[k])}. {sourceOf(k)}.{clamped}</> };
   });
   const none: Cell = { v: "not held", raw: null };
   const row = (key: string, label: string, note: string, cell: (c: Col) => Cell): Row => ({ key, label, note, cell: (p) => cell(cols[p]) });
@@ -199,12 +214,12 @@ export function Scenarios({ x, costs, gridName, stepMeta }: { x: Inputs; costs: 
     row("toll", "Breakeven toll", "a toll on the whole battery: the price at which coverage reaches 1.25 times, USD per kW-month",
       (c) => (c.r ? (c.r.toll === null ? { v: "no debt", raw: null } : { v: `USD ${num(c.r.toll)}`, raw: c.r.toll }) : none)),
     row("tail", "Merchant tail after the contract", `the years after the debt's term, for ${size}, at the hurdle rate`,
-      (c) => (c.r ? { v: usd(c.r.tail.pv * scale), raw: c.r.tail.pv, note: c.r.tail.years > 0 ? `years ${c.r.tail.from} to ${c.r.tail.to}` : `0 years: the term and the life are both ${plain(c.y.life)} years` } : none)),
+      (c) => (c.r ? { v: usd(c.r.tail.pv * scale), raw: c.r.tail.pv, note: c.r.tail.years > 0 ? `years ${c.r.tail.from} to ${c.r.tail.to}` : c.y.term > c.y.life ? `0 years: the term of ${plain(c.y.term)} years is cut to the life, ${plain(c.y.life)} years` : `0 years: the term and the life are both ${plain(c.y.life)} years` } : none)),
   ];
 
   return (
     <ScenarioBlock
-      fields={fields} defaults={d} bound={(k, v) => bound(k as Key, v, d, steps)} head={`For ${size}`} rows={rows}
+      fields={fields} defaults={d} bound={boundTyped} head={`For ${size}`} rows={rows}
       differing={differing(s.a, s.b)} short={(k, v) => SPECS[k as Key].short(v)} differs={differenceWords(s.a, s.b)}
       sentence={cols.a.r ? (
         <p className="mt-3 max-w-3xl text-sm" data-npv-sentence="a">

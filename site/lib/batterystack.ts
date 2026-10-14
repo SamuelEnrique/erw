@@ -100,6 +100,27 @@ export function inputsOf(q: Record<string, string | undefined>, internal = false
   const mw = num(q.mw, 100, 1, 5000);
   return { grid, dur, strat, mw, fom: num(q.fom, COSTS[dur].fom, 0, 500), ds: Math.round(num(q.ds, debtPerMw(dur) * mw, 0, 1e11)) };
 }
+/** Session 263: what the address asked for that the page does not show as asked, one sentence each, so that nothing
+ * is replaced in silence: a grid the tool does not open, a duration or a strategy the model was not run at, a size
+ * outside 1 to 5,000 MW (brought to the nearer bound) or not a number. Empty when every value was read as given. The
+ * text the reader typed is never repeated, only a number read from it. */
+export function typedNotes(q: Record<string, string | undefined>, x: Pick<Inputs, "grid" | "dur" | "strat" | "mw">): string[] {
+  const out: string[] = [];
+  const given = (k: string) => q[k] !== undefined && q[k] !== "";
+  const n = (v: number) => v.toLocaleString("en-US", { maximumFractionDigits: 2 });
+  if (given("grid") && q.grid !== x.grid) {
+    const g = GRIDS.find((r) => r.id === q.grid);
+    const why = !g ? "is not a grid this tool holds" : g.review ? "is in review and opens in the internal view only" : `is not built for this tool (${g.why})`;
+    out.push(`${g ? g.name : "The grid asked for"} ${why}: ${gridOf(x.grid).name} is shown.`);
+  }
+  if (given("dur") && Number(q.dur) !== x.dur) out.push(`The model is run at 2, 4 and 8 hours: ${x.dur} hours is shown.`);
+  if (given("strat") && q.strat !== x.strat) out.push(`The strategy asked for is not one of the two: ${STRATEGIES[x.strat].toLowerCase()} is shown.`);
+  if (given("mw") && Number(q.mw) !== x.mw) {
+    const v = Number(q.mw);
+    out.push(Number.isFinite(v) ? `${n(v)} MW is outside the size field's bounds, 1 to 5,000 MW: ${n(x.mw)} MW is shown.` : `The size asked for is not a number: ${n(x.mw)} MW is shown.`);
+  }
+  return out;
+}
 /** The inputs as a stable string: the check keys' and the links' form. */
 export const inputsKey = (x: Inputs) => `grid=${x.grid}&dur=${x.dur}&strat=${x.strat}&mw=${x.mw}&fom=${x.fom}&ds=${x.ds}`;
 export function parseKey(k: string, internal = false): Inputs {
