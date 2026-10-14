@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { DraftReview } from "@/components/analysis/DraftReview";
 import { FindingCard } from "@/components/analysis/FindingCard";
 import { Section } from "@/components/Section";
+import { VERDICTS, VERDICT_DOC } from "@/lib/findingverdicts";
 import { COOKIE } from "@/lib/release";
 import { listDrafts, STATE_WORDS, type Draft } from "@/lib/scanner";
 import { internalOk } from "@/lib/thesis/server";
@@ -56,13 +57,27 @@ function HuntFiles({ id, hunt }: { id: string; hunt: NonNullable<Draft["card"]["
   );
 }
 
+// Session 267: the verdict of 13 October 2026 beside each draft, as the verification wrote it (site/lib/findingverdicts.ts).
+// Words only: it rules on nothing, and a draft raised after that evening reads "no verdict".
+function VerdictLine({ id }: { id: string }) {
+  const v = VERDICTS[id];
+  if (!v) return <p className="mb-2 text-xs text-muted" data-draft-verdict="none">Verdict of 13 October 2026: no verdict (raised after the verification).</p>;
+  return (
+    <p className="mb-2 text-xs" data-draft-verdict={v.verdict}>
+      <span className="text-muted">Verdict of 13 October 2026 (session {v.by}{v.by === "251" ? ", by session 252's rule" : ""}; block {v.block} of <span className="font-mono">{VERDICT_DOC}</span>): </span>
+      <strong>{v.verdict}</strong>. {v.reason}
+    </p>
+  );
+}
+
 function DraftBlock({ d }: { d: Draft }) {
   return (
-    <div className="border border-rule p-3" data-draft-id={d.id} data-draft-rule={d.rule} data-draft-strength={d.strength}>
+    <div className="border border-rule p-3" data-draft-id={d.id} data-draft-rule={d.rule} data-draft-strength={d.strength} data-draft-verdict-of={VERDICTS[d.id]?.verdict ?? "none"}>
       <p className="mb-2 text-xs text-muted">
         Raised {day(d.raised_at)} by {d.rule === "hunt" ? "the weekly hunt" : "scanner"} {d.scanner_version}; rule {d.rule}; strength {d.strength.toLocaleString("en-US", { maximumFractionDigits: 2 })}; table{" "}
         <span className="font-mono">{d.table_name}</span>; flagged {d.flag_date}
       </p>
+      <VerdictLine id={d.id} />
       <FindingCard card={d.card} roundup={false} />
       {d.card.hunt ? <HuntFiles id={d.id} hunt={d.card.hunt} /> : null}
       <DraftReview id={d.id} state={d.state} history={d.state_history ?? []} requestId={d.request_id} fullCard={fullCardWords(d)} />

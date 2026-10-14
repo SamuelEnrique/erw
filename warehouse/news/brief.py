@@ -499,7 +499,8 @@ def daily_chart_section(digest_date, log, out=None):
         import daily_chart
         if out:
             return daily_chart.section(digest_date, log, chart_dir=os.path.join(os.path.dirname(os.path.abspath(out)), "charts"), wait=0,
-                                       used=daily_chart.used_keys(but=digest_date))
+                                       used=daily_chart.used_keys(but=digest_date),
+                                       waited=daily_chart.held_before(digest_date))   # session 267: the guard's memory is the real one
         wait = os.environ.get("DAILY_CHART_WAIT", "")
         return daily_chart.section(digest_date, log, wait=int(wait) if wait.isdigit() else None)
     except Exception as exc:

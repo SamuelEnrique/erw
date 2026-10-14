@@ -71,7 +71,7 @@ def _flag_line(ax, ch, pt, sans):
     dates = _dates(x)
     pos = dates if dates else list(range(len(x)))
     for i, s in enumerate(ch["series"]):
-        ax.plot(pos, _vals(s["values"]), color=style.PALETTE[1] if i else style.INK, lw=1.7 if i else 1.9, ls="--" if i else "-",
+        ax.plot(pos, _vals(s["values"]), color=style.BLUE if i else style.INK, lw=1.7 if i else 1.9, ls="--" if i else "-",   # session 267: the comparison in blue, cardinal kept for the flag
                 label=s["name"], zorder=3)
     for r in ch.get("ref_lines") or []:
         ax.axhline(r["value"], color=style.MUTED, lw=1.0, ls=(0, (5, 3)), zorder=2)
@@ -109,8 +109,9 @@ def _flag_line(ax, ch, pt, sans):
 def _lines(ax, ch, pt, sans):
     x = [str(v) for v in ch["x"]]
     pos = list(range(len(x)))
+    colors = style.series_colors(len(ch["series"]))   # session 267: the brand's series colors
     for i, s in enumerate(ch["series"]):
-        ax.plot(pos, _vals(s["values"]), color=s.get("color") or style.PALETTE[i % len(style.PALETTE)], lw=2.0, label=s["name"],
+        ax.plot(pos, _vals(s["values"]), color=s.get("color") or colors[i], lw=2.0, label=s["name"],
                 marker="o" if len(x) <= 30 else None, ms=4, zorder=3)
     _category_ticks(ax, x)
     return len(ch["series"]) > 1
@@ -129,9 +130,10 @@ def _bars(ax, ch, pt, sans, stacked=False):
     series = [s for s in ch["series"] if s.get("type", "bar") != "line"]
     n = max(1, len(series))
     base = [0.0] * len(x)
+    colors = style.series_colors(len(series))   # session 267: the brand's series colors
     for i, s in enumerate(series):
         vals = _vals(s["values"])
-        color = s.get("color") or style.PALETTE[i % len(style.PALETTE)]
+        color = s.get("color") or colors[i]
         if stacked:
             ax.bar(pos, vals, bottom=base, width=0.72, color=color, label=s["name"], zorder=3)
             base = [b + (0 if math.isnan(v) else v) for b, v in zip(base, vals)]
@@ -147,10 +149,10 @@ def _bars(ax, ch, pt, sans, stacked=False):
 def _scatter(ax, ch, pt, sans):
     pts = ch.get("points")
     if pts:
-        ax.scatter([p[0] for p in pts], [p[1] for p in pts], s=16, color=style.PALETTE[1], alpha=0.55, lw=0, zorder=3)
+        ax.scatter([p[0] for p in pts], [p[1] for p in pts], s=16, color=style.BLUE, alpha=0.55, lw=0, zorder=3)   # session 267: points in blue, the fitted line in cardinal
     for i, s in enumerate(ch.get("series") or []):
         if s.get("points"):
-            ax.scatter([p[0] for p in s["points"]], [p[1] for p in s["points"]], s=16, color=style.PALETTE[(i + 1) % len(style.PALETTE)],
+            ax.scatter([p[0] for p in s["points"]], [p[1] for p in s["points"]], s=16, color=[style.BLUE, style.GREY, style.LIGHT, style.INK][i % 4],
                        alpha=0.55, lw=0, label=s.get("name"), zorder=3)
         elif s.get("type") == "line" and s.get("xy"):
             ax.plot([p[0] for p in s["xy"]], [p[1] for p in s["xy"]], color=style.ACCENT, lw=2.0, label=s.get("name"), zorder=4)
@@ -167,12 +169,13 @@ def _fleet(ax, ch, pt, sans):
     pos = dates if dates else list(range(len(x)))
     left = [s for s in ch["series"] if not (s.get("y2") or s.get("axis") == "right" or s.get("type") in ("area", "bar"))]
     right = [s for s in ch["series"] if s not in left]
+    colors = style.series_colors(len(left))   # session 267: the brand's series colors
     for i, s in enumerate(left):
-        ax.plot(pos, _vals(s["values"]), color=s.get("color") or style.PALETTE[i % len(style.PALETTE)], lw=1.9, label=s["name"], zorder=3)
+        ax.plot(pos, _vals(s["values"]), color=s.get("color") or colors[i], lw=1.9, label=s["name"], zorder=3)
     if right:
         ax2 = ax.twinx()
         for s in right:
-            ax2.fill_between(pos, _vals(s["values"]), color=style.PALETTE[7], alpha=0.35, lw=0, label=s["name"], step="mid", zorder=1)
+            ax2.fill_between(pos, _vals(s["values"]), color=style.LIGHT, alpha=0.35, lw=0, label=s["name"], step="mid", zorder=1)
         ax2.set_ylabel(ch.get("y_right_label", ""), color=style.MUTED, fontsize=pt(10), family=sans)
         ax2.tick_params(colors=style.MUTED, labelsize=pt(10))
         for side in ("top", "left", "bottom"):
@@ -250,7 +253,7 @@ def render(card, path, size="digest", fact=None, kicker=None):
     y = 0.04 * h
     if kicker:
         y = block(kicker, 10.5, w - left - right - mark - 80, sans, style.MUTED, y) + 2
-    y = block(card["title"], 22, w - left - right - mark - 120 * scale, serif, style.ACCENT, y, 1.18, "bold", 3, wide=0.70)
+    y = block(card["title"], 22, w - left - right - mark - 120 * scale, serif, style.INK, y, 1.18, "bold", 3, wide=0.70)   # session 267: cardinal is not a title's color (docs/brand.md, section 2)
     y = block(fact or card.get("subtitle", ""), 13.5, w - left - right - (mark + 120 * scale if y < 0.04 * h + mark else 0), serif, style.INK, y + 5, 1.3, max_lines=4)
     style._mark(fig, 1 - right / w, 1 - 0.04, mark / h)
 

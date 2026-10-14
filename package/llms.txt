@@ -419,6 +419,8 @@ day-ahead tables running into tomorrow:
 | CO2 emissions of an ISO's power, and its carbon intensity (kg CO2 per MWh) | `eia930_all_emissions` (since 2018-07), `carbon_intensity_hourly` (hourly, about 14 months in the live set) / `_daily` |
 | Day-ahead against real-time, on-peak prices, heat rates, volatility by hub | `iso_trader_daily` (market), `iso_rt_top_intervals` |
 | A hub's latest daily mean, its move, 7- and 30-day averages, peak and off-peak, spark spread, Brent minus WTI | `price_board_latest`, `price_board_peak_offpeak`, `price_board_spreads` |
+| An ERCOT hub's day since 2015: its mean, min and max, and its hours below zero or above 200 USD/MWh (session 267) | `ercot_hub_prices_daily` (variables rt_ and da_ mean, min, max, offpeak_mean, hours_below_zero, hours_above_200; a year's hours below zero is the sum of the days) |
+| What 1 MW of solar, wind, a peaker or a 2- or 4-hour battery earns from energy alone at a hub, by month: capture price, capture rate, revenue per MW, the flat price (session 267) | `merchant_revenue_monthly` (energy only; a battery's energy and ancillary services together, by strategy: `battery_stack_monthly`) |
 | Wind and solar curtailment | `caiso_curtailment_daily`, `spp_curtailment_daily`, `ercot_wind_solar_hsl_daily` (not curtailment: output below HSL), `iso_curtailment_monthly` |
 | Battery output (CAISO) | `caiso_battery_storage` |
 | Federal rules, notices, agency and PUC news releases; their impact | `policy_actions`, `policy_reads` |

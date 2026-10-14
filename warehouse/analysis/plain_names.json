@@ -1,0 +1,697 @@
+{
+ "about": "Plain English names and units for the series and measures the findings use (the scanner's drafts, the daily chart, the watch list, the hunt's patterns). Session 267, 14 October 2026, drafted from the repository's own labels: status 'label' is a name the code already writes (the file named in 'from'); status 'draft' is a name drafted from the table's codes, for a person to check. Names and units only, no number. Rebuilt by runs/session267/build_plain_names.py (not in git).",
+ "count": 69,
+ "drafts": 7,
+ "names": [
+  {
+   "key": "watch:watch_henry_hub",
+   "table": "eia_fuel_spot_prices",
+   "entity": "eia:henry_hub",
+   "variable": "spot_price",
+   "name": "Henry Hub spot price, weekly mean",
+   "unit": "USD/MMBtu",
+   "from": "warehouse/analysis/watch.py (WATCH, label)",
+   "status": "label"
+  },
+  {
+   "key": "watch:watch_wti",
+   "table": "eia_fuel_spot_prices",
+   "entity": "eia:wti_cushing",
+   "variable": "spot_price",
+   "name": "WTI spot price at Cushing, weekly mean",
+   "unit": "USD/bbl",
+   "from": "warehouse/analysis/watch.py (WATCH, label)",
+   "status": "label"
+  },
+  {
+   "key": "watch:watch_brent",
+   "table": "eia_fuel_spot_prices",
+   "entity": "eia:brent",
+   "variable": "spot_price",
+   "name": "Brent spot price, weekly mean",
+   "unit": "USD/bbl",
+   "from": "warehouse/analysis/watch.py (WATCH, label)",
+   "status": "label"
+  },
+  {
+   "key": "watch:watch_gasoline_retail",
+   "table": "eia_retail_fuel_prices",
+   "entity": "eia:EMM_EPMR_PTE_NUS_DPG",
+   "variable": "retail_price",
+   "name": "US regular gasoline retail price",
+   "unit": "USD/gal",
+   "from": "warehouse/analysis/watch.py (WATCH, label)",
+   "status": "label"
+  },
+  {
+   "key": "watch:watch_diesel_retail",
+   "table": "eia_retail_fuel_prices",
+   "entity": "eia:EMD_EPD2D_PTE_NUS_DPG",
+   "variable": "retail_price",
+   "name": "US on-highway diesel retail price",
+   "unit": "USD/gal",
+   "from": "warehouse/analysis/watch.py (WATCH, label)",
+   "status": "label"
+  },
+  {
+   "key": "watch:watch_crude_stocks",
+   "table": "eia_petroleum_stocks_weekly",
+   "entity": "eia:WCESTUS1",
+   "variable": "stocks",
+   "name": "US commercial crude oil stocks",
+   "unit": "kbbl",
+   "from": "warehouse/analysis/watch.py (WATCH, label)",
+   "status": "label"
+  },
+  {
+   "key": "watch:watch_crude_imports",
+   "table": "eia_crude_imports_by_country",
+   "entity": "eia:MCRIMUS2",
+   "variable": "imports",
+   "name": "US crude oil imports",
+   "unit": "kbbl/d",
+   "from": "warehouse/analysis/watch.py (WATCH, label)",
+   "status": "label"
+  },
+  {
+   "key": "watch:watch_ulsd_ny",
+   "table": "eia_product_spot_prices",
+   "entity": "eia:EER_EPD2F_PF4_Y35NY_DPG",
+   "variable": "spot_price",
+   "name": "New York Harbor ultra-low sulfur diesel spot price, weekly mean",
+   "unit": "USD/gal",
+   "from": "warehouse/analysis/watch.py (WATCH, label)",
+   "status": "label"
+  },
+  {
+   "key": "watch:watch_crude_exports",
+   "table": "eia_petroleum_trade_weekly",
+   "entity": "eia:WCREXUS2",
+   "variable": "flow",
+   "name": "US crude oil exports",
+   "unit": "kbbl/d",
+   "from": "warehouse/analysis/watch.py (WATCH, label)",
+   "status": "label"
+  },
+  {
+   "key": "watch:watch_ercot_da_price",
+   "table": "ercot_hub_prices_daily",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "da_mean",
+   "name": "ERCOT hub average day-ahead price, weekly mean",
+   "unit": "USD/MWh",
+   "from": "warehouse/analysis/watch.py (WATCH, label)",
+   "status": "label"
+  },
+  {
+   "key": "watch:watch_ercot_cost_of_power",
+   "table": "cost_of_power_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "rt_load_weighted",
+   "name": "ERCOT load-weighted real-time price",
+   "unit": "USD/MWh",
+   "from": "warehouse/analysis/watch.py (WATCH, label)",
+   "status": "label"
+  },
+  {
+   "key": "watch:watch_battery_model_ercot",
+   "table": "battery_stack_monthly",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "foresight_2h_revenue_total_usd_per_mw",
+   "name": "modelled revenue of a 2-hour battery at the ERCOT hub average",
+   "unit": "USD/MW",
+   "from": "warehouse/analysis/watch.py (WATCH, label)",
+   "status": "label"
+  },
+  {
+   "key": "watch:watch_dam_awards",
+   "table": "ercot_storage_dam_awards_monthly",
+   "entity": "ercot:esr_fleet",
+   "variable": "revenue_total_usd_per_mw",
+   "name": "day-ahead awards of ERCOT's storage fleet per MW",
+   "unit": "USD/MW",
+   "from": "warehouse/analysis/watch.py (WATCH, label)",
+   "status": "label"
+  },
+  {
+   "key": "watch:watch_retail_price",
+   "table": "eia_retail_electricity_prices",
+   "entity": "eia:retail_price:US:ALL",
+   "variable": "retail_price",
+   "name": "US average retail electricity price",
+   "unit": "USD/MWh",
+   "from": "warehouse/analysis/watch.py (WATCH, label)",
+   "status": "label"
+  },
+  {
+   "key": "watch:watch_ercot_regup",
+   "table": "ercot_as_prices",
+   "entity": "ercot:REGUP",
+   "variable": "mcpc_dam",
+   "name": "ERCOT Regulation Up day-ahead clearing price, weekly mean",
+   "unit": "USD/MW",
+   "from": "warehouse/analysis/watch.py (WATCH, label)",
+   "status": "label"
+  },
+  {
+   "key": "watch:watch_caiso_regup",
+   "table": "caiso_as_prices",
+   "entity": "caiso:AS_CAISO_EXP",
+   "variable": "as_price_dam_ru",
+   "name": "CAISO Regulation Up day-ahead price, weekly mean",
+   "unit": "USD/MW",
+   "from": "warehouse/analysis/watch.py (WATCH, label)",
+   "status": "label"
+  },
+  {
+   "key": "watch:watch_nyiso_reg",
+   "table": "nyiso_as_prices",
+   "entity": "nyiso:NYCA",
+   "variable": "as_price_dam_reg",
+   "name": "NYISO day-ahead regulation price, weekly mean",
+   "unit": "USD/MW",
+   "from": "warehouse/analysis/watch.py (WATCH, label)",
+   "status": "label"
+  },
+  {
+   "key": "watch:watch_spp_regup",
+   "table": "spp_as_prices",
+   "entity": "spp:SPP",
+   "variable": "as_price_dam_regup",
+   "name": "SPP Regulation Up day-ahead price, weekly mean",
+   "unit": "USD/MW",
+   "from": "warehouse/analysis/watch.py (WATCH, label)",
+   "status": "label"
+  },
+  {
+   "key": "watch:watch_large_load_ercot",
+   "table": "ercot_large_load_status",
+   "entity": "ercot:large_load",
+   "variable": "approved_to_energize_mw",
+   "name": "ERCOT large load approved to energize",
+   "unit": "MW",
+   "from": "warehouse/analysis/watch.py (WATCH, label)",
+   "status": "label"
+  },
+  {
+   "key": "watch:watch_retail_sales",
+   "table": "eia_retail_sales_monthly",
+   "entity": "eia:retail_sales:US:ALL",
+   "variable": "retail_sales",
+   "name": "US retail electricity sales",
+   "unit": "MWh",
+   "from": "warehouse/analysis/watch.py (WATCH, label)",
+   "status": "label"
+  },
+  {
+   "key": "watch:watch_storage_buildout",
+   "table": "storage_buildout_monthly",
+   "entity": "us:total",
+   "variable": "battery_operating_mw",
+   "name": "US operating battery storage",
+   "unit": "MW",
+   "from": "warehouse/analysis/watch.py (WATCH, label)",
+   "status": "label"
+  },
+  {
+   "key": "watch:watch_storage_buildout_ercot",
+   "table": "storage_buildout_monthly",
+   "entity": "iso:ercot",
+   "variable": "battery_operating_mw",
+   "name": "ERCOT operating battery storage",
+   "unit": "MW",
+   "from": "warehouse/analysis/watch.py (WATCH, label)",
+   "status": "label"
+  },
+  {
+   "key": "watch:watch_shoulder_caiso",
+   "table": "shoulder_hours_monthly",
+   "entity": "iso:caiso_own",
+   "variable": "shoulder_hours_needed",
+   "name": "California shoulder hours needed",
+   "unit": "hours",
+   "from": "warehouse/analysis/watch.py (WATCH, label)",
+   "status": "label"
+  },
+  {
+   "key": "watch:watch_shoulder_ercot",
+   "table": "shoulder_hours_monthly",
+   "entity": "iso:ercot",
+   "variable": "shoulder_hours_needed",
+   "name": "Texas shoulder hours needed",
+   "unit": "hours",
+   "from": "warehouse/analysis/watch.py (WATCH, label)",
+   "status": "label"
+  },
+  {
+   "key": "watch:watch_battery_discharge_us",
+   "table": "storage_daily_cycle",
+   "entity": "eia930:US48",
+   "variable": "mwh_discharged",
+   "name": "Lower 48 battery discharge, daily mean of the week",
+   "unit": "MWh a day",
+   "from": "warehouse/analysis/watch.py (WATCH, label)",
+   "status": "label"
+  },
+  {
+   "key": "watch:watch_curtailment_caiso",
+   "table": "iso_curtailment_monthly",
+   "entity": "caiso:ISO",
+   "variable": "curtailed_solar_mwh+curtailed_wind_mwh",
+   "name": "California wind and solar curtailed",
+   "unit": "MWh",
+   "from": "warehouse/analysis/watch.py (WATCH, label)",
+   "status": "label"
+  },
+  {
+   "key": "watch:watch_caiso_solar",
+   "table": "caiso_fuel_supply",
+   "entity": "caiso:ISO",
+   "variable": "solar_mw",
+   "name": "California solar output, mean of the week's hours",
+   "unit": "MW",
+   "from": "warehouse/analysis/watch.py (WATCH, label)",
+   "status": "label"
+  },
+  {
+   "key": "watch:watch_ercot_wind_held_back",
+   "table": "ercot_wind_solar_hsl_daily",
+   "entity": "ercot:system",
+   "variable": "wind_below_hsl_mwh",
+   "name": "ERCOT wind output below its high sustained limit",
+   "unit": "MWh",
+   "from": "warehouse/analysis/watch.py (WATCH, label)",
+   "status": "label"
+  },
+  {
+   "key": "watch:watch_curtailment_spp",
+   "table": "spp_curtailment_daily",
+   "entity": "spp:SPP",
+   "variable": "curtailed_wind_mwh",
+   "name": "SPP wind curtailed",
+   "unit": "MWh",
+   "from": "warehouse/analysis/watch.py (WATCH, label)",
+   "status": "label"
+  },
+  {
+   "key": "watch:watch_us_solar_share",
+   "table": "state_generation_mix_monthly",
+   "entity": "eia:US",
+   "variable": "net_generation_solar_mwh over net_generation_coal_mwh+net_generation_hydro_mwh+net_generation_natural_gas_mwh+net_generation_not_itemized_mwh+net_generation_nuclear_mwh+net_generation_oil_and_other_mwh+net_generation_other_renewables_mwh+net_generation_solar_mwh+net_generation_wind_mwh",
+   "name": "utility-scale solar's share of US net generation",
+   "unit": "percent",
+   "from": "warehouse/analysis/watch.py (WATCH, label)",
+   "status": "label"
+  },
+  {
+   "key": "watch:watch_us_gas_share",
+   "table": "state_generation_mix_monthly",
+   "entity": "eia:US",
+   "variable": "net_generation_natural_gas_mwh over net_generation_coal_mwh+net_generation_hydro_mwh+net_generation_natural_gas_mwh+net_generation_not_itemized_mwh+net_generation_nuclear_mwh+net_generation_oil_and_other_mwh+net_generation_other_renewables_mwh+net_generation_solar_mwh+net_generation_wind_mwh",
+   "name": "natural gas's share of US net generation",
+   "unit": "percent",
+   "from": "warehouse/analysis/watch.py (WATCH, label)",
+   "status": "label"
+  },
+  {
+   "key": "hunt:spikes_against_median",
+   "table": "",
+   "entity": "",
+   "variable": "worst_interval_multiple",
+   "name": "The year's dearest interval as a multiple of the year's median real-time price",
+   "unit": "times the median",
+   "from": "warehouse/analysis/findings/hunt.py (PATTERNS, label)",
+   "status": "label"
+  },
+  {
+   "key": "hunt:spikes_against_median_grids",
+   "table": "",
+   "entity": "",
+   "variable": "worst_interval_multiple",
+   "name": "The year's dearest interval as a multiple of the year's median real-time price",
+   "unit": "times the median",
+   "from": "warehouse/analysis/findings/hunt.py (PATTERNS, label)",
+   "status": "label"
+  },
+  {
+   "key": "hunt:hours_above_1000",
+   "table": "",
+   "entity": "",
+   "variable": "hours_ge_1000",
+   "name": "Hours of the year with a real-time price of USD 1,000 per MWh or more",
+   "unit": "hours",
+   "from": "warehouse/analysis/findings/hunt.py (PATTERNS, label)",
+   "status": "label"
+  },
+  {
+   "key": "hunt:gas_sets_price",
+   "table": "",
+   "entity": "",
+   "variable": "share_below_hr7",
+   "name": "Share of the year's hours with the real-time price below a 7.0 heat rate times Henry Hub",
+   "unit": "percent of hours",
+   "from": "warehouse/analysis/findings/hunt.py (PATTERNS, label)",
+   "status": "label"
+  },
+  {
+   "key": "hunt:negative_prices",
+   "table": "",
+   "entity": "",
+   "variable": "share_pct",
+   "name": "Share of the year's hours with a real-time price below zero",
+   "unit": "percent of hours",
+   "from": "warehouse/analysis/findings/hunt.py (PATTERNS, label)",
+   "status": "label"
+  },
+  {
+   "key": "hunt:peak_hour_evening",
+   "table": "",
+   "entity": "",
+   "variable": "share_evening_pct",
+   "name": "Share of the year's days whose highest real-time price fell in the evening",
+   "unit": "percent of days",
+   "from": "warehouse/analysis/findings/hunt.py (PATTERNS, label)",
+   "status": "label"
+  },
+  {
+   "key": "hunt:peak_hour_midday",
+   "table": "",
+   "entity": "",
+   "variable": "share_midday_pct",
+   "name": "Share of the year's days whose highest real-time price fell at midday",
+   "unit": "percent of days",
+   "from": "warehouse/analysis/findings/hunt.py (PATTERNS, label)",
+   "status": "label"
+  },
+  {
+   "key": "hunt:solar_capture_rate",
+   "table": "",
+   "entity": "",
+   "variable": "solar_capture_rate",
+   "name": "What a solar plant earned per MWh as a percent of the year's time-weighted average price at the grid's hub",
+   "unit": "percent of the average price",
+   "from": "warehouse/analysis/findings/hunt.py (PATTERNS, label)",
+   "status": "label"
+  },
+  {
+   "key": "hunt:solar_capture_rate:context",
+   "table": "",
+   "entity": "",
+   "variable": "solar_capture_rate (context)",
+   "name": "Solar's share of the grid's generation",
+   "unit": "percent",
+   "from": "warehouse/analysis/findings/hunt.py (PATTERNS, context label)",
+   "status": "label"
+  },
+  {
+   "key": "hunt:evening_ramp",
+   "table": "",
+   "entity": "",
+   "variable": "evening_ramp",
+   "name": "The median day's largest one-hour rise of net load between 2 PM and 10 PM local",
+   "unit": "MW per hour",
+   "from": "warehouse/analysis/findings/hunt.py (PATTERNS, label)",
+   "status": "label"
+  },
+  {
+   "key": "hunt:battery_evening_discharge",
+   "table": "",
+   "entity": "",
+   "variable": "battery_evening_discharge",
+   "name": "Share of the year's battery discharge delivered from 5 PM to 10 PM local, the hours in which the day's dearest price most often falls",
+   "unit": "percent of discharge",
+   "from": "warehouse/analysis/findings/hunt.py (PATTERNS, label)",
+   "status": "label"
+  },
+  {
+   "key": "hunt:implied_heat_rate",
+   "table": "",
+   "entity": "",
+   "variable": "implied_heat_rate",
+   "name": "The median day's mean real-time price divided by that day's Henry Hub spot price",
+   "unit": "MMBtu per MWh",
+   "from": "warehouse/analysis/findings/hunt.py (PATTERNS, label)",
+   "status": "label"
+  },
+  {
+   "key": "hunt:negative_hours_zones",
+   "table": "",
+   "entity": "",
+   "variable": "negative_hours_zones",
+   "name": "Share of the year's hours with a mean real-time price below zero",
+   "unit": "percent of hours",
+   "from": "warehouse/analysis/findings/hunt.py (PATTERNS, label)",
+   "status": "label"
+  },
+  {
+   "key": "hunt:da_rt_spread",
+   "table": "",
+   "entity": "",
+   "variable": "da_rt_spread",
+   "name": "The median hour's day-ahead price minus its real-time price",
+   "unit": "USD per MWh",
+   "from": "warehouse/analysis/findings/hunt.py (PATTERNS, label)",
+   "status": "label"
+  },
+  {
+   "key": "hunt:scarcity_hours",
+   "table": "",
+   "entity": "",
+   "variable": "scarcity_hours",
+   "name": "Share of the year's hours with ERCOT's on-line reserve price adder (RTORPA) above zero",
+   "unit": "percent of hours",
+   "from": "warehouse/analysis/findings/hunt.py (PATTERNS, label)",
+   "status": "label"
+  },
+  {
+   "key": "hunt:scarcity_hours:context",
+   "table": "",
+   "entity": "",
+   "variable": "scarcity_hours (context)",
+   "name": "The year's mean demand",
+   "unit": "MW",
+   "from": "warehouse/analysis/findings/hunt.py (PATTERNS, context label)",
+   "status": "label"
+  },
+  {
+   "key": "hunt:curtailment_share",
+   "table": "",
+   "entity": "",
+   "variable": "curtailment_share",
+   "name": "Share of the year's wind and solar output that was curtailed",
+   "unit": "percent of output",
+   "from": "warehouse/analysis/findings/hunt.py (PATTERNS, label)",
+   "status": "label"
+  },
+  {
+   "key": "hunt:curtailment_share:context",
+   "table": "",
+   "entity": "",
+   "variable": "curtailment_share (context)",
+   "name": "Operating batteries at the year's end",
+   "unit": "MW",
+   "from": "warehouse/analysis/findings/hunt.py (PATTERNS, context label)",
+   "status": "label"
+  },
+  {
+   "key": "hunt:stress_day_imports",
+   "table": "",
+   "entity": "",
+   "variable": "stress_day_imports",
+   "name": "Net imports as a percent of demand on the year's stress days, its 5 percent of days with the highest demand",
+   "unit": "percent of demand",
+   "from": "warehouse/analysis/findings/hunt.py (PATTERNS, label)",
+   "status": "label"
+  },
+  {
+   "key": "hunt:demand_growth_weather_adjusted",
+   "table": "",
+   "entity": "",
+   "variable": "demand_growth_weather_adjusted",
+   "name": "The year's energy above the 2019 to 2021 base that temperature does not explain",
+   "unit": "percent above the 2019 to 2021 base",
+   "from": "warehouse/analysis/findings/hunt.py (PATTERNS, label)",
+   "status": "label"
+  },
+  {
+   "key": "hunt:peak_hour_carbon",
+   "table": "",
+   "entity": "",
+   "variable": "peak_hour_carbon",
+   "name": "Carbon intensity of the electricity used from 5 PM to 10 PM local against the year's all-hours mean",
+   "unit": "percent above the all-hours mean",
+   "from": "warehouse/analysis/findings/hunt.py (PATTERNS, label)",
+   "status": "label"
+  },
+  {
+   "key": "hunt:wind_night_share",
+   "table": "",
+   "entity": "",
+   "variable": "wind_night_share",
+   "name": "Wind's share of the grid's generation from midnight to 6 AM local",
+   "unit": "percent of generation",
+   "from": "warehouse/analysis/findings/hunt.py (PATTERNS, label)",
+   "status": "label"
+  },
+  {
+   "key": "hunt:wind_night_share:context",
+   "table": "",
+   "entity": "",
+   "variable": "wind_night_share (context)",
+   "name": "The median night hour's real-time price minus the median hour's",
+   "unit": "USD per MWh",
+   "from": "warehouse/analysis/findings/hunt.py (PATTERNS, context label)",
+   "status": "label"
+  },
+  {
+   "key": "hunt:record_days",
+   "table": "",
+   "entity": "",
+   "variable": "record_days",
+   "name": "Days of the year with demand above the highest day of every earlier year held",
+   "unit": "days",
+   "from": "warehouse/analysis/findings/hunt.py (PATTERNS, label)",
+   "status": "label"
+  },
+  {
+   "key": "series:caiso_as_prices|caiso:AS_CAISO_EXP|as_price_dam_nr",
+   "table": "caiso_as_prices",
+   "entity": "caiso:AS_CAISO_EXP",
+   "variable": "as_price_dam_nr",
+   "name": "CAISO day-ahead non-spinning reserve price (AS_CAISO_EXP)",
+   "unit": "USD/MW-hour",
+   "from": "warehouse/analysis/findings/daily_chart.py (plain_name)",
+   "status": "label"
+  },
+  {
+   "key": "series:eia_state_generation_monthly|eia:generation:WY:NG|net_generation",
+   "table": "eia_state_generation_monthly",
+   "entity": "eia:generation:WY:NG",
+   "variable": "net_generation",
+   "name": "Net generation from natural gas in Wyoming",
+   "unit": "MWh",
+   "from": "warehouse/analysis/findings/daily_chart.py (plain_name)",
+   "status": "label"
+  },
+  {
+   "key": "variable:eia_state_generation_monthly|net_generation",
+   "table": "eia_state_generation_monthly",
+   "entity": "",
+   "variable": "net_generation",
+   "name": "Net generation, by state and fuel",
+   "unit": "MWh",
+   "from": "drafted by session 267 from the table's codes",
+   "status": "draft"
+  },
+  {
+   "key": "series:eia_retail_electricity_prices|eia:retail_price:DC:IND|retail_price",
+   "table": "eia_retail_electricity_prices",
+   "entity": "eia:retail_price:DC:IND",
+   "variable": "retail_price",
+   "name": "Retail electricity price in the District of Columbia, industrial",
+   "unit": "USD/MWh",
+   "from": "warehouse/analysis/findings/daily_chart.py (plain_name)",
+   "status": "label"
+  },
+  {
+   "key": "variable:eia_retail_electricity_prices|retail_price",
+   "table": "eia_retail_electricity_prices",
+   "entity": "",
+   "variable": "retail_price",
+   "name": "Retail electricity price, by state and sector",
+   "unit": "USD/MWh",
+   "from": "drafted by session 267 from the table's codes",
+   "status": "draft"
+  },
+  {
+   "key": "series:eia_regional_retail_fuel_prices|eia:EMM_EPMR_PTE_YCLE_DPG|retail_price",
+   "table": "eia_regional_retail_fuel_prices",
+   "entity": "eia:EMM_EPMR_PTE_YCLE_DPG",
+   "variable": "retail_price",
+   "name": "Regular gasoline retail price, Cleveland",
+   "unit": "USD/gal",
+   "from": "warehouse/analysis/findings/daily_chart.py (plain_name)",
+   "status": "label"
+  },
+  {
+   "key": "series:eia_retail_sales_monthly|eia:retail_sales:UT:RES|retail_sales",
+   "table": "eia_retail_sales_monthly",
+   "entity": "eia:retail_sales:UT:RES",
+   "variable": "retail_sales",
+   "name": "Retail electricity sales in Utah, residential",
+   "unit": "MWh",
+   "from": "warehouse/analysis/findings/daily_chart.py (plain_name)",
+   "status": "label"
+  },
+  {
+   "key": "variable:eia_retail_sales_monthly|retail_sales",
+   "table": "eia_retail_sales_monthly",
+   "entity": "",
+   "variable": "retail_sales",
+   "name": "Retail electricity sales, by state and sector",
+   "unit": "MWh",
+   "from": "drafted by session 267 from the table's codes",
+   "status": "draft"
+  },
+  {
+   "key": "series:cftc_cot_positions|cftc:023651|managed_money_long",
+   "table": "cftc_cot_positions",
+   "entity": "cftc:023651",
+   "variable": "managed_money_long",
+   "name": "Managed-money long positions, NYMEX natural gas (CFTC Commitments of Traders)",
+   "unit": "contracts",
+   "from": "drafted by session 267 from the table's codes",
+   "status": "draft"
+  },
+  {
+   "key": "variable:cftc_cot_positions|managed_money_long",
+   "table": "cftc_cot_positions",
+   "entity": "",
+   "variable": "managed_money_long",
+   "name": "Managed-money long positions, NYMEX natural gas (CFTC Commitments of Traders)",
+   "unit": "contracts",
+   "from": "drafted by session 267 from the table's codes",
+   "status": "draft"
+  },
+  {
+   "key": "series:eia_retail_electricity_prices|eia:retail_price:IA:IND|retail_price",
+   "table": "eia_retail_electricity_prices",
+   "entity": "eia:retail_price:IA:IND",
+   "variable": "retail_price",
+   "name": "Retail electricity price in Iowa, industrial",
+   "unit": "USD/MWh",
+   "from": "warehouse/analysis/findings/daily_chart.py (plain_name)",
+   "status": "label"
+  },
+  {
+   "key": "series:eia_retail_sales_monthly|eia:retail_sales:IN:COM|retail_sales",
+   "table": "eia_retail_sales_monthly",
+   "entity": "eia:retail_sales:IN:COM",
+   "variable": "retail_sales",
+   "name": "Retail electricity sales in Indiana, commercial",
+   "unit": "MWh",
+   "from": "warehouse/analysis/findings/daily_chart.py (plain_name)",
+   "status": "label"
+  },
+  {
+   "key": "series:storage_buildout_monthly|iso:pjm|battery_operating_mw_net_added_12m",
+   "table": "storage_buildout_monthly",
+   "entity": "iso:pjm",
+   "variable": "battery_operating_mw_net_added_12m",
+   "name": "PJM: operating battery storage, net MW added over the last 12 months",
+   "unit": "MW",
+   "from": "drafted by session 267 from the table's codes",
+   "status": "draft"
+  },
+  {
+   "key": "variable:storage_buildout_monthly|battery_operating_mw_net_added_12m",
+   "table": "storage_buildout_monthly",
+   "entity": "",
+   "variable": "battery_operating_mw_net_added_12m",
+   "name": "Operating battery storage, net MW added over the last 12 months",
+   "unit": "MW",
+   "from": "drafted by session 267 from the table's codes",
+   "status": "draft"
+  }
+ ]
+}

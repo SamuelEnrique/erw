@@ -177,7 +177,7 @@ def stata(params):
     return do_file([
         f"* ERW finding {NAME}: {TITLE}. Reproduces the card's counts from {CSV_NAME}.",
         "clear all",
-        f'import delimited "{CSV_NAME}", varnames(1) stringcols(_all) clear',
+        f'import delimited "{CSV_NAME}", varnames(5) rowrange(6) stringcols(_all) clear',
         *do_destring(V),
         *do_sentinels(V),
         "sort hub year",

@@ -296,7 +296,11 @@ export async function ask(question: string, today = new Date().toISOString().sli
     return { resp, ms: Date.now() - tCall, note: { model, role, first_text_ms: firstText, words_ms: wordsMs, output_tokens: resp.usage.output_tokens, stop: resp.stop_reason,
       ...(/haiku-4-5/.test(model) ? {} : { effort: effortOf(role, profile ? profile.effort : spec.effort) }) } };
   };
-  const base = () => ({ model: writer, ...(planner ? { planner } : {}), tool_calls: calls, retried, usage, cost_usd: spent });
+  // session 267: the evaluation's record of every tool call and its result (ASK_RECORD_TOOLS=1 on a local server only;
+  // off by default, so a visitor's answer never carries it). The offline fixtures of warehouse/chat/eval are made from it.
+  const traced: { tool: string; input: unknown; out: unknown; isError: boolean }[] = [];
+  const tracing = process.env.ASK_RECORD_TOOLS === "1";
+  const base = () => ({ model: writer, ...(planner ? { planner } : {}), tool_calls: calls, retried, usage, cost_usd: spent, ...(tracing ? { trace: traced } : {}) });
   const textOf = (resp: Anthropic.Message) => resp.content.map((b) => (b.type === "text" ? b.text : "")).join("");
   // The check of a whole draft, as it always was: every number in a tool result, every cited table read, an answer and
   // a citation, and the profile's own reasons.
@@ -348,6 +352,7 @@ export async function ask(question: string, today = new Date().toISOString().sli
       if (k.endsWith("_local") && typeof v === "string") { const at = (o as Record<string, unknown>)[k.slice(0, -6)]; if (typeof at === "string") localWords.set(at, v); }
       else if (v && typeof v === "object") words(v); } };
     if (profile?.zone) words(out);
+    if (tracing) traced.push({ tool: name, input, out, isError });
     if (profile) {
       out = profile.tag(name, input, out, n);
       records.push({ tool: name, input, out, isError });
