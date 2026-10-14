@@ -64,6 +64,7 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/cost-of-power?view=grids",
   // session 228: "Your load", the page's own view, with the three answers' keys (dc|...), flat and off in 100 hours
   "/cost-of-power", "/cost-of-power?run=hours",
+  "/cost-of-power?grid=caiso",  // session 280: CAISO's hub counts (scarcity_hours_by_grid) and its list of statements (large_load_public)
   // session 51: the seller's tab, its defaults and three other assets
   "/cost-of-power/seller", "/cost-of-power/seller?asset=battery", "/cost-of-power/seller?asset=peaker", "/cost-of-power/seller?iso=spp&asset=wind",  // session 145: MISO is blank on the page, so the fourth view is SPP's wind
   // session 38: today's level's price range
@@ -149,6 +150,7 @@ async function all(table, params) {
 }
 
 const dcAnswers = new Map();   // session 228: the answers of one address of /cost-of-power, read once
+const dcllRows = new Map();
 let R_statOf = null;
 /** The value Supabase holds for one data-check key. */
 async function truth(check) {
@@ -497,7 +499,10 @@ async function truth(check) {
   // dcll|<grid>|<stat>: recomputed by lib/datacenter/statements.ts from this script's own read of large_load_public
   if (p[0] === "dcll") {
     const S = await import("../lib/datacenter/statements.ts");
-    const rows = await all("events", { select: "event_date,parties,mw,source_url,row_kind:extra->>row_kind,duration_as_stated:extra->>duration_as_stated,wait_basis:extra->>wait_basis,stage_class:extra->>stage_class,document_title:extra->>document_title,page:extra->>page", table_name: "eq.large_load_public", "extra->>grid": `eq.${p[1]}`, order: "event_date.desc,event_id" });
+    if (!dcllRows.has(p[1])) dcllRows.set(p[1], all("events", { select: "event_date,parties,mw,source_url,row_kind:extra->>row_kind,duration_as_stated:extra->>duration_as_stated,wait_basis:extra->>wait_basis,stage_class:extra->>stage_class,document_title:extra->>document_title,page:extra->>page,statement_id:extra->>statement_id", table_name: "eq.large_load_public", "extra->>grid": `eq.${p[1]}`, order: "event_date.desc,event_id" }));
+    const rows = await dcllRows.get(p[1]);  // session 280: one read a grid, however many of its rows the page lists
+    // session 280: one row's figure, dcll|<the row's grid>|row:<statement_id>:mw or :wait (the list under "How soon?")
+    if (p[2]?.startsWith("row:")) return S.rowStat(rows, p.slice(2).join("|"));
     return S.statedStat(S.statedOf(rows), p.slice(2).join("|"));
   }
   if (p[0] === "dcd") {

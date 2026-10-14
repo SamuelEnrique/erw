@@ -12,14 +12,14 @@ import { shown } from "@/lib/format";
 import { GridsView } from "./GridsView";
 import { YearCost } from "./LoadCharts";
 import { LoadForm } from "./LoadForm";
-import { HowClean, HowSoon, PowerThere } from "./LoadAnswers";
+import { HowClean, HowSoon, PowerThere, type ListsProp } from "./LoadAnswers";
 import { GpuHourOfA, LoadHeadline } from "./LoadHeadline";
 import { LoadDecisions, LoadScenarios, LoadSensitivity } from "./LoadScenarios";
 import { LoadSiteB } from "./LoadSiteB";
 import { FORESEEN, FORESEEN_WHY, NY_SHOWN, NYLOAD, day, inputsFrom, loadModel } from "./model";
 import { CostTabs } from "./Tabs";
 import { largeLoadStatements } from "@/lib/largeloadpublic";
-import { statedOf, type Stated, type Statement } from "@/lib/datacenter/statements";
+import { GRID_STATE, listsOf, statedOf, type Stated, type Statement } from "@/lib/datacenter/statements";
 
 // Session 138: "What a datacenter pays", the mirror of /cost-of-power/battery for a buyer. A load the reader describes
 // (grid, region, size, how it runs, how it buys) and four questions: what it will cost, whether the power is there, how
@@ -146,7 +146,15 @@ async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyG
   // session 265b: the large-load statements on a public document for the load's grid (large_load_public, public by the
   // owner's ruling of 14 October 2026: facts with a link, no quoted text), read once; a failed read says so in its place
   let stated: { s: Stated; grid: string } | { failed: string } | null = null;
-  try { stated = { s: statedOf((await largeLoadStatements(M.x.grid)) as unknown as Statement[]), grid: M.x.grid }; }
+  // session 280: the same rows listed one by one, with those of the grid's state outside it (a second read, of every row,
+  // only for a grid that lies in one state)
+  let lists: ListsProp = null;
+  try {
+    const gridRows = (await largeLoadStatements(M.x.grid)) as unknown as Statement[];
+    stated = { s: statedOf(gridRows), grid: M.x.grid };
+    const allRows = GRID_STATE[M.x.grid] ? (await largeLoadStatements()) as unknown as Statement[] : [];
+    lists = { ...listsOf(gridRows, allRows, M.x.grid), grid: M.x.grid };
+  }
   catch (e) { stated = { failed: e instanceof Error ? e.message : String(e) }; }
   const { x, g, failed, side, flex, off, s12, sh12, ysH, rule, bad, badPer, ys, place, market, noYear, savedH, saved, ref12, l12Span, size, facts, scenarioParams, matrix, utilities, deliveryParts } = M;
   const region = M.region;
@@ -253,7 +261,7 @@ async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyG
               </div>
               <div data-question="soon">
               <ToolSection title="How soon?" id="soon">
-                {M.answers?.ok ? <HowSoon a={M.answers.data} f={M.answerFacts} rules={M.rules} b={siteB} stated={stated} /> : <p className="max-w-3xl text-sm" role="status" data-answer="soon" data-answer-none="1">{M.answers ? `The live set could not be read, so no figure is shown: ${M.answers.reason}` : M.rules.words}</p>}
+                {M.answers?.ok ? <HowSoon a={M.answers.data} f={M.answerFacts} rules={M.rules} b={siteB} stated={stated} lists={lists} /> : <p className="max-w-3xl text-sm" role="status" data-answer="soon" data-answer-none="1">{M.answers ? `The live set could not be read, so no figure is shown: ${M.answers.reason}` : M.rules.words}</p>}
               </ToolSection>
               </div>
 
@@ -278,7 +286,7 @@ async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyG
           )}
         </div>
       </div>
-      <SourceLine tables={[...INDEX.tables, "carbon_intensity_monthly", "carbon_intensity_hourly", ...(x.grid === "caiso" || M.bSite?.grid === "caiso" ? ["caiso_grid_emergencies"] : []), ...(x.grid === "ercot" ? ["ercot_large_load_status", "ercot_rtm_price_adders"] : []), "large_load_rules", "clean_energy_summary", "grid_stress_yearly", "eia930_demand_growth", "interconnection_queue_summary", ...(x.grid === "ercot" ? ["ercot_large_load_status"] : []), ...(g?.demand_source && !M.withheld ? [g.demand_source.split(" ")[0]] : []), ...(DELIVERY.table && x.grid === "ercot" ? [DELIVERY.table, ...(DELIVERY.matrix_table ? [DELIVERY.matrix_table] : [])] : []), ...(x.grid === "nyiso" ? ["nyiso_load_queue"] : []), ...(M.cFile?.clean ? ["clean_energy_hourly"] : [])]}
+      <SourceLine tables={[...INDEX.tables, "carbon_intensity_monthly", "carbon_intensity_hourly", ...(x.grid === "caiso" || M.bSite?.grid === "caiso" ? ["caiso_grid_emergencies"] : []), ...(x.grid === "ercot" ? ["ercot_large_load_status", "ercot_rtm_price_adders"] : []), ...(x.grid === "ercot" || x.grid === "caiso" ? ["scarcity_hours_by_grid"] : []), "large_load_public", "large_load_rules", "clean_energy_summary", "grid_stress_yearly", "eia930_demand_growth", "interconnection_queue_summary", ...(x.grid === "ercot" ? ["ercot_large_load_status"] : []), ...(g?.demand_source && !M.withheld ? [g.demand_source.split(" ")[0]] : []), ...(DELIVERY.table && x.grid === "ercot" ? [DELIVERY.table, ...(DELIVERY.matrix_table ? [DELIVERY.matrix_table] : [])] : []), ...(x.grid === "nyiso" ? ["nyiso_load_queue"] : []), ...(M.cFile?.clean ? ["clean_energy_hourly"] : [])]}
         note={<>The price files were built {day(INDEX.built)}. Defaults: <span className="cursor-help border-b border-dotted border-muted" title={ASSUMED.gpu.source}>power per GPU</span>, <span className="cursor-help border-b border-dotted border-muted" title={ASSUMED.pue.source}>overhead ratio</span>. The default case hour by hour: <a href={HOURLY_CSV} download data-download="csv">CSV</a>, <a href={DO_FILE} download data-download="do">Stata do-file</a>, <a href={MIRROR} download data-download="py">Python mirror</a>. <Link href={METHOD}>Method note</Link>. <span data-checked-against="6">Checked against: 6 published figures (EIA). <Link href="/data/methods/datacenter_pays_algorithm#cross-checks">Each comparison, with its gap and the reason</Link>.</span></>} />
      </LoadDecisions>
   );

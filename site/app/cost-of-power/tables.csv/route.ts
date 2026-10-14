@@ -72,6 +72,14 @@ export async function GET(req: Request) {
       put(S, "operator_reserve_adder", "hours_published_in_the_months", String(A.adders.held), `dc|${M.answersKey}|adders:held`);
       put(S, "operator_reserve_adder", "hours_last_year_published", String(A.adders.own.hours), `the same level over the 8,760 hours to the adder's last hour held, ${A.adders.own.from} to ${A.adders.own.to}; dc|${M.answersKey}|adders:own:hours`);
     }
+    // session 280: the grid's hub, hour by hour (scarcity_hours_by_grid): the USD 1,000 count and the grid's own count
+    if (A.byGrid) {
+      const g = A.byGrid;
+      put(S, "hub_rt_ge_1000", "hours", String(g.rt.hours), `scarcity_hours_by_grid, rt_hour_ge_1000 at ${g.hub}: the hours of the twelve months whose real-time price was at or above USD ${g.level} per MWh; dc|${M.answersKey}|sbg:rt:hours`);
+      put(S, "hub_rt_ge_1000", "hours_held", String(g.rt.held), `${g.rt.first} to ${g.rt.last}; dc|${M.answersKey}|sbg:rt:held`);
+      put(S, "own_signal", "hours", String(g.own.hours), `scarcity_hours_by_grid, own_signal: the hours of the twelve months the grid's own signal was in force; dc|${M.answersKey}|sbg:own:hours`);
+      put(S, "own_signal", "hours_held", String(g.own.held), `${g.own.first ?? ""} to ${g.own.last ?? ""}; dc|${M.answersKey}|sbg:own:held`);
+    }
     const C = "carbon", c = A.carbon;
     for (const k of ["flat", "flex", "shift"] as const) {
       put(C, `last_twelve_months_${k}`, "kg_co2_per_mwh", f2(c.l12[k].kgPerMwh), c.l12[k].kgPerMwh === null ? (A.held[k] ? "no month of the twelve has an intensity" : "not held here") : `${words[k]}; the grid's monthly intensity of consumed electricity weighted by the load's energy in each month, over the ${c.l12[k].months} of ${c.l12[k].of} months with an intensity; dc|${M.answersKey}|co2:l12:kg:${k}`);
