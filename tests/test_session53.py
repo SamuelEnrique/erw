@@ -76,7 +76,9 @@ class Nav(unittest.TestCase):
         # session 132: a page folded into its tool's one page leaves the menu and its address redirects (next.config.ts)
         with open(os.path.join(SITE, "next.config.ts"), encoding="utf-8") as f:
             cfg = f.read()
-        self.assertEqual([h for h in BEFORE if h not in now and f'source: "{h}"' not in cfg], [])
+        # session 288 (Samuel's ruling 14): a problem set left the menu for the index of the five, which is in it
+        indexed = lambda h: h.startswith("/learn/problems/") and "/learn/problems" in now
+        self.assertEqual([h for h in BEFORE if h not in now and f'source: "{h}"' not in cfg and not indexed(h)], [])
         for h in ("/tour", "/cost-of-power/seller", "/severance"):   # session 239: the lease tool is a tab of /severance
             self.assertIn(h, now)
 

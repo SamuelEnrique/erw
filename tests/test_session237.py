@@ -238,7 +238,9 @@ class TheMenuAndTheKeys(unittest.TestCase):
         self.assertEqual(d["pages"], [["/grid", "The grid"], ["/demand", "Demand growth"], ["/curtailment", "Curtailment"]])   # session 239: Consumption is a view of /demand
         self.assertIsNone(d["sub"])
         # nothing else of the menu changed: the other groups hold what they held
-        self.assertEqual(d["groups"], [["Economics", 6], ["Grid", 3], ["Infrastructure", 4], ["Analysis", 5], ["Games", 6], ["About", 3], ["News", 3]])   # session 239: seven pages became tabs and left the menu
+        # session 239: seven pages became tabs and left the menu; session 288 (ruling 14): the bill moved from Economics to
+        # Games, whose four problem sets became one entry, their index
+        self.assertEqual(d["groups"], [["Economics", 5], ["Grid", 3], ["Infrastructure", 4], ["Analysis", 5], ["Games", 4], ["About", 3], ["News", 3]])
         # no Related line points at a page that left the list
         self.assertEqual([h for h in d["related"] if h not in d["hrefs"] and not h.startswith("/learn/problems") and not h.startswith("/explorer")], [])
 

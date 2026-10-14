@@ -4,7 +4,7 @@
 // Session 52: five bills: PG&E (E-TOU-C), SCE (TOU-D-4-9PM), SDG&E (TOU-DR1), Oncor and CenterPoint.
 import { Fragment, useMemo, useState } from "react";
 import {
-  BILL_KEYS, billCA, billTDSP, billTOU, billTX, defaultsCA, defaultsTDSP, defaultsTOU, defaultsTX, type BillKey, type CAInput, type Line, type TOUInput, type TXInput,
+  BILL_KEYS, billCA, billTDSP, billTOU, billTX, clampShares, defaultsCA, defaultsTDSP, defaultsTOU, defaultsTX, type BillKey, type CAInput, type Line, type TOUInput, type TXInput,
 } from "@/lib/bill";
 
 const usd = (v: number) => `${v < 0 ? "-" : ""}$${Math.abs(v).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
@@ -32,8 +32,23 @@ export function BillCalc({ rules, wholesale }: { rules: any; wholesale: Record<s
     else if (key === "SCE" || key === "SDGE") setTou({ ...tou, [key]: { ...tou[key], kwh: v } });
     else setTx({ ...tx, [key]: { ...tx[key], kwh: v } });
   };
+  // session 261: one press puts the chosen bill's inputs back to its defaults (docs/brand.md, section 7); the other
+  // four bills keep what the reader typed
+  const reset = () => {
+    if (key === "CA") setCa(defaultsCA(rules));
+    else if (key === "SCE" || key === "SDGE") { setTou({ ...tou, [key]: defaultsTOU(rules, key) }); setHeld(null); }
+    else setTx({ ...tx, [key]: key === "TX" ? defaultsTX(rules) : defaultsTDSP(rules, key) });
+  };
   const t = key === "SCE" || key === "SDGE" ? tou[key] : null;
   const setT = (x: Partial<TOUInput>) => { if (key === "SCE" || key === "SDGE") setTou({ ...tou, [key]: { ...tou[key], ...x } }); };
+  // session 288 (ruling 10b): the two shares are clamped at 100 together; the line under them says when a share was held
+  const [held, setHeld] = useState<string | null>(null);
+  const setShare = (typed: "peakShare" | "superShare", v: number) => {
+    if (key !== "SCE" && key !== "SDGE") return;
+    const next = clampShares(tou[key], typed, v);
+    setHeld(next[typed] < v ? `Held at ${Math.round(next[typed] * 1000) / 10} percent: the two shares together can be at most 100 percent.` : null);
+    setTou({ ...tou, [key]: next });
+  };
 
   return (
     <div>
@@ -73,12 +88,12 @@ export function BillCalc({ rules, wholesale }: { rules: any; wholesale: Record<s
           ) : t ? (
             <>
               <label className="flex flex-col">Share of use from 4 to 9 p.m., percent ({b.defaults.labels.peak_share})
-                <input type="number" min={0} max={100} step={1} value={Math.round(t.peakShare * 1000) / 10} onChange={(e) => setT({ peakShare: pct(e.target.value) })} className={field} />
+                <input type="number" min={0} max={100} step={1} value={Math.round(t.peakShare * 1000) / 10} onChange={(e) => setShare("peakShare", pct(e.target.value))} className={field} />
               </label>
               <label className="flex flex-col">Share in super off-peak hours, percent ({b.defaults.labels.super_share})
-                <input type="number" min={0} max={100} step={1} value={Math.round(t.superShare * 1000) / 10} onChange={(e) => setT({ superShare: pct(e.target.value) })} className={field} />
+                <input type="number" min={0} max={100} step={1} value={Math.round(t.superShare * 1000) / 10} onChange={(e) => setShare("superShare", pct(e.target.value))} className={field} />
               </label>
-              {t.peakShare + t.superShare > 1 ? <p className="text-xs text-accent">The two shares add to more than 100 percent; the off-peak share is negative.</p> : null}
+              {held ? <p className="text-xs text-muted" role="status">{held}</p> : null}
               <label className="flex flex-col">Season
                 <select value={t.season} onChange={(e) => setT({ season: e.target.value as "summer" | "winter" })} className={field}>
                   {Object.entries(b.seasons).map(([k, s]) => <option key={k} value={k}>{(s as { label: string }).label}</option>)}
@@ -105,6 +120,7 @@ export function BillCalc({ rules, wholesale }: { rules: any; wholesale: Record<s
               <span className="mt-1 text-xs text-muted">Default: {b.energy_default.derivation}.</span>
             </label>
           )}
+          <button type="button" onClick={reset} className="border border-rule px-3 py-1">Reset this bill to its defaults</button>
         </div>
 
         <div className="text-sm">

@@ -48,7 +48,6 @@ export const GROUPS: Group[] = [
       { href: "/contracts", label: "Power contracts", line: "Where bilateral power contracts are being signed: seller, buyer, product, term, price as filed and delivery point, by the quarter of signing, from the contracts sellers file with FERC.", tables: "ferc_eqr_contracts (internal)", related: ["/deals", "/cost-of-power/seller"] },
       // session 239: one page, two tabs (lib/tabs.ts): the calculator and the lease tool (until then its own entry "Lease tool" at /severance/lease, which redirects to the tab)
       { href: "/severance", label: "Severance tax", line: "State production taxes on a month of oil, gas or condensate in Texas, Louisiana and New Mexico: the base rate, the reduced rates and exemptions, and the savings, each rule cited; and, on the Lease tab, the same calculator for every well and month of a lease file, computed in the browser: nothing is sent.", tables: "site/data/severance_rules.json; eia_fuel_spot_prices (default prices)", related: ["/prices", "/cost-of-power"] },
-      { href: "/learn/bill", label: "What is on a bill", line: "Five real electricity bills built line by line from the tariffs (PG&E, SCE and SDG&E in California; Oncor and CenterPoint in Texas), and how much of each is the wholesale price of energy.", tables: "site/data/bill_rules.json; cost_of_power_monthly", related: ["/cost-of-power", "/grid"] },
     ],
     sub: {
       label: "Infrastructure Economics",
@@ -113,18 +112,19 @@ export const GROUPS: Group[] = [
   },
   {
     // session 203: the battery game, the tour and the problem sets. Until then: Learn (session 43)
+    // Session 288 (Samuel's ruling 14 of 14 October 2026): the menu is the battery game, the tour, the bill explainer (from
+    // Economics) and "Problem sets", the index of all five sets (until then four of the five were listed one by one and
+    // the index not at all; each set is reached from the index). The EV game joins it on the games branch (session 294).
     label: "Games",
     pages: [
       // session 53: the battery game joins Learn (it was its own "Play" group)
       { href: "/play/battery", label: "Home battery game", line: "Run a home battery through a real day of ERCOT prices: charge cheap, sell dear, answer the fleet call, and see what perfect foresight would have earned.", tables: "iso_rtm_hub_prices, ercot_all_hub_prices_history", related: ["/storage", "/grid"] },
       // session 53: the guided tour, first
       { href: "/tour", label: "The tour", line: "Five stops for a first visit, about three minutes: the network, a grid page, the price board, an event study and what a generator earns.", tables: "" },
-      // session 44: the problem sets
-      { href: "/learn/problems/know-your-grid", label: "Problems: know your grid", line: "Five questions on ERCOT and CAISO side by side: peak demand, generation mix, batteries and carbon intensity, answered from the latest data.", tables: "eia930_all_demand, eia930_all_generation, storage_daily_cycle, carbon_intensity_daily", related: ["/learn/problems", "/grid"] },
-      { href: "/learn/problems/prices-and-your-bill", label: "Problems: prices and your bill", line: "Five questions on load-weighted prices, the shape premium, the wholesale share of two bills and the daily price swing.", tables: "cost_of_power_monthly, cost_of_power_hourly_profile; site/data/bill_rules.json", related: ["/learn/problems", "/cost-of-power"] },
-      { href: "/learn/problems/when-the-grid-broke", label: "Problems: when the grid broke", line: "Five questions on Uri, CAISO's 2020 heat, Elliott and ERCOT's 2023 heat, answered from the event windows.", tables: "event_window_daily", related: ["/learn/problems", "/events"] },
-      // session 55: set E
-      { href: "/learn/problems/networks-and-money", label: "Problems: networks and money", line: "Five questions on ERCOT's ties and the biggest exporter in the network's newest hour, a solar plant's capture rate, a battery's debt cover and what a plant earned in Uri.", tables: "eia930_all_interchange (the network snapshot), merchant_revenue_monthly", related: ["/learn/problems", "/grid", "/cost-of-power/seller"] },
+      // session 43: the bill explainer (in Economics from session 203 to session 288)
+      { href: "/learn/bill", label: "What is on a bill", line: "Five real electricity bills built line by line from the tariffs (PG&E, SCE and SDG&E in California; Oncor and CenterPoint in Texas), and how much of each is the wholesale price of energy.", tables: "site/data/bill_rules.json; cost_of_power_monthly", related: ["/learn/problems/prices-and-your-bill", "/cost-of-power"] },
+      // session 44: the problem sets; session 288: one entry, the index of the five
+      { href: "/learn/problems", label: "Problem sets", line: "Five sets of five questions for a class: know your grid; prices and your bill; when the grid broke; storage and taxes; networks and money. Each answer is worked from the warehouse's tables.", tables: "eia930_all_demand, eia930_all_generation, storage_daily_cycle, carbon_intensity_daily, cost_of_power_monthly, cost_of_power_hourly_profile, event_window_daily, eia_fuel_spot_prices, eia930_all_interchange, merchant_revenue_monthly; site/data/bill_rules.json, site/data/severance_rules.json", related: ["/learn/bill", "/grid"] },
     ],
   },
   {

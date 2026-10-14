@@ -240,7 +240,7 @@ console.log(JSON.stringify({ mo, cap: M.stat(s, sol, 'capture:' + mo), flat: M.s
         self.assertIn('p[0] === "net"', cv)
         self.assertIn('"/learn/problems/networks-and-money"', cv)
         self.assertIn('"/learn/problems/networks-and-money"', src("site", "scripts", "check-routes.mjs"))
-        self.assertIn('href: "/learn/problems/networks-and-money"', src("site", "lib", "pages.ts"))
+        self.assertIn('href: "/learn/problems"', src("site", "lib", "pages.ts"))   # session 288: the menu lists the index of the five sets
         self.assertIn("`/learn/problems/networks-and-money`", src("docs", "tools.md"))
         self.assertIn('case "flat":', src("site", "lib", "merchant.ts"))
 

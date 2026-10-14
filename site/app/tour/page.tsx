@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";  // session 261: the page takes the brand (docs/brand.md), as /learn/bill does
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { STOPS } from "@/lib/tour";
 
@@ -9,7 +10,8 @@ export const metadata: Metadata = { title: "The tour" };
 
 export default function Tour() {
   return (
-    <>
+    <Brand>
+    <div>
       <h1 className="mb-1 text-3xl">The tour</h1>
       <p className="mb-5 max-w-3xl text-sm text-muted">
         Five stops through the Energy Research Warehouse for a first visit, about three minutes in all. Each stop opens a page of the site; come back here for
@@ -32,6 +34,7 @@ export default function Tour() {
         After the tour: the <Link href="/">home page</Link> lists every tool by who it is for, and <Link href="/data">data and methods</Link> says how every
         number is built.
       </p>
-    </>
+    </div>
+    </Brand>
   );
 }

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";  // session 261: the page takes the brand (docs/brand.md), as /learn/bill does
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { notFound } from "next/navigation";
 import { NoData } from "@/components/NoData";
@@ -37,7 +38,8 @@ export default async function Problems({ params }: { params: Promise<{ slug: str
   const got = await attempt(() => problemSet(slug));
   const meta = SETS.find((s) => s.slug === slug)!;
   return (
-    <>
+    <Brand>
+    <div>
       <p className="mb-1 text-xs text-muted"><Link href="/learn/problems">Problem sets</Link> / {meta.title}</p>
       <h1 className="mb-1 text-3xl">{meta.title}</h1>
       <p className="mb-3 max-w-3xl text-sm">{meta.line} Every answer is computed from the warehouse&apos;s tables when the page is built, so the numbers move as the data updates.</p>
@@ -68,6 +70,7 @@ export default async function Problems({ params }: { params: Promise<{ slug: str
           ))}
         </ol>
       )}
-    </>
+    </div>
+    </Brand>
   );
 }

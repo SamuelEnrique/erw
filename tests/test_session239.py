@@ -199,10 +199,10 @@ class TheMenu(unittest.TestCase):
         group = lambda label: re.search(r'label: "%s",\s*pages: \[(.*?)\n    \],' % label, self.pages, flags=re.S).group(1)
         hrefs = lambda label: re.findall(r'\{ href: "([^"]+)"', code(group(label)))
         self.assertEqual(hrefs("Infrastructure"), ["/map", "/datacenters", "/storage", "/deals"])
-        self.assertEqual(hrefs("Economics"), ["/board", "/prices", "/supply", "/contracts", "/severance", "/learn/bill"])   # Power contracts stays (the owner's ruling)
+        self.assertEqual(hrefs("Economics"), ["/board", "/prices", "/supply", "/contracts", "/severance"])   # Power contracts stays (the owner's ruling); session 288: the bill moved to Games
         self.assertIn("/thesis", hrefs("Analysis"))   # Thesis Builder stays (the owner's ruling)
-        self.assertEqual(hrefs("Games"), ["/play/battery", "/tour", "/learn/problems/know-your-grid", "/learn/problems/prices-and-your-bill", "/learn/problems/when-the-grid-broke",
-                                          "/learn/problems/networks-and-money"])   # untouched
+        # session 288 (Samuel's ruling 14 of 14 October 2026): the battery game, the tour, the bill and the problem sets' index
+        self.assertEqual(hrefs("Games"), ["/play/battery", "/tour", "/learn/bill", "/learn/problems"])
 
 
 class ThePromise(unittest.TestCase):
