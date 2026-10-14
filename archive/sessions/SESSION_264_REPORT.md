@@ -27,7 +27,24 @@ Chain of 14 October 2026, unattended, on the old laptop. Worktree `C:\Users\loss
 
 ## Checks, with exit codes
 
-{CHECKS}
+Every gate run unpiped, its output in `C:/Users/lossa/Documents/erw/runs/session264/` (not in git). The final cycle on the code of `3f694726` plus the pack commits, under the build mutex 09:13 to 09:21 UTC.
+
+| Check | Exit | Result |
+|---|---|---|
+| `npx tsc --noEmit` | 0 | twice (08:46, 09:13) |
+| `npm run build` | 0 | twice; no "statement timeout" line |
+| `check-values`, `CHECK_VALUES_PAGES=/cost-of-power/seller`, run 1 and run 2 | 0, 0 | 234 of 234 both times (179 before: 55 new `ms|` keys and the headline and sentence `cap|` keys) |
+| `check-routes.mjs` | 0 | 1 live page and 203 in review asked as a visitor; 0 failed |
+| `check-seller-scenarios.mjs` | 0 | 106 ok (a first run at 08:50 failed 7: the shared address and the PPA term inferred from the debt's, decision 2; fixed) |
+| `check-seller-deeper.mjs` | 1 | stale since session 212 (session 235's report, item 3): its battery-beside rows read NaN (that section is in the CSV) and it crashes at its line 120. Not retired (not in the brief): pack part 9, question 4 |
+| `node scripts/test-seller-finance.mjs` | 0 | all passed (with a session 264 block of 9 checks) |
+| `runs/session264/edge.mjs` on the local build | 0 | the pack's part 5 |
+| `runs/session264/profile_edges.mjs` | 0 | the capacity factors of part 5 |
+| `python erw_2026_generator_replication.py` | 0 | equals the page: 59.85, 23.27, 32.17, 72, 7,078,769, 0.67, 2,580, 39.14, -74.16, 58.36 |
+| The 33 test modules that read a changed file (`grep -l`), one run | 1, then 0 | 557 tests; one failure (`test_session260`: the pack lacked "adding the allowance waits for a ruling"), fixed; then 260, 262, 264 exit 0 and 249 exit 0 |
+| No em dash in any file changed since `afacb21e` | none found | |
+| The battery page unchanged | not owed | no shared component, `tokens.css` or `batterystack.ts` touched |
+| Screenshots | not owed | the brief asks none |
 
 ## Decisions made without you
 
