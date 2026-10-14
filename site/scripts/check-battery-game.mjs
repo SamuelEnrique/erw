@@ -168,7 +168,7 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, send, errors
       const none = noBattery(level.price, rules, sun);
       check(rows[1][1] === usd(best.score), `${tag}: the perfect battery earned ${usd(best.score)} for this day and these rules: "${rows[1][1]}"`);
       check(rows[2][1] === usd(none), `${tag}: no battery earned ${usd(none)}: "${rows[2][1]}"`);
-      check(rows.slice(0, 2).every((r) => /kWh/.test(r[2]) && /kWh/.test(r[3])), `${tag}: the rows say what was bought and sold`);
+      check(rows.slice(0, 2).every((r) => /^\d+\.\d{2}/.test(r[2]) && /^\d+\.\d{2}/.test(r[3])), `${tag}: the rows say what was bought and sold, kWh`);
       const got = num(rows[0][1]);
       check(best.score > 0 && got >= 0.9 * best.score, `${tag}: following the perfect plan by the ${device === "phone" ? "buttons" : "keys"} earned ${usd(got)} of the perfect ${usd(best.score)} (${Math.round((100 * got) / best.score)} percent): the controls took`);
     }

@@ -355,16 +355,16 @@ const fromDraft = (d: Record<keyof Settings, string>): Settings => ({
  * was three lines (session 66's EndLines); the hour lost the most is now its own line, on Normal and Hard. */
 function EndTable({ mine, perfect, none, rules, big }: { mine: Tally; perfect: Tally; none: number; rules: Rules; big: boolean }) {
   const p = (v: number | null) => (v === null ? "" : v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
-  const kwh = (v: number) => `${v.toFixed(2)} kWh`;
+  const kwh = (v: number) => v.toFixed(2);  // session 290: the unit is in the column's head, so a cell fits 390 px
   const rows: [string, Tally | null, number][] = [["You", mine, mine.score], ["The perfect battery", perfect, perfect.score], ["No battery", null, none]];
-  const cell = "py-1 pl-2 text-right align-top";
+  const cell = "whitespace-nowrap py-1 pl-2 text-right align-top";
   const spread = perfect.buyPrice !== null && perfect.sellPrice !== null ? perfect.sellPrice - perfect.buyPrice : null;
   return (
     <div>
       <table className={`w-full ${big ? "text-base" : "text-sm"}`} aria-label="Your day, the perfect battery's and no battery's" data-end-table>
         <thead>
           <tr className="border-b border-ink text-left text-xs text-muted">
-            <th className="py-1 font-normal"></th><th className={`${cell} font-normal`}>Earned</th><th className={`${cell} font-normal`}>Bought</th><th className={`${cell} font-normal`}>Sold</th>
+            <th className="py-1 font-normal"></th><th className={`${cell} font-normal`}>Earned</th><th className={`${cell} font-normal`}>Bought, kWh</th><th className={`${cell} font-normal`}>Sold, kWh</th>
           </tr>
         </thead>
         <tbody>
@@ -378,7 +378,7 @@ function EndTable({ mine, perfect, none, rules, big }: { mine: Tally; perfect: T
           ))}
         </tbody>
       </table>
-      <p className="mt-1 text-xs text-muted">Average prices in USD per MWh{rules.emergency ? "; on Hard the emergency hour's prices are a game rule" : ""}. {none !== 0 ? "No battery: the roof's power alone, sold as it is made." : "No battery buys or sells nothing and earns nothing."}</p>
+      <p className="mt-1 text-xs text-muted">Under each amount, its average price in USD per MWh{rules.emergency ? "; on Hard the emergency hour's prices are a game rule" : ""}. {none !== 0 ? "No battery: the roof's power alone, sold as it is made." : "With no battery nothing is bought or sold, and nothing is earned."}</p>
       <p className={`mt-2 ${big ? "text-base" : "text-sm"}`} data-end-why>
         {spread !== null
           ? <>A battery earns the spread: the perfect battery bought at an average of {p(perfect.buyPrice)} and sold at {p(perfect.sellPrice)} USD per MWh, {p(spread)} apart, and loses {Math.round((1 - rules.eta ** 2) * 100)} percent of the energy on the round trip{rules.deg > 0 ? `, plus ${usd(rules.deg)} of wear on each kWh it sells` : ""}. It starts half full, so it can sell more than it buys.</>
