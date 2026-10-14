@@ -4,9 +4,9 @@ import { Brand } from "@/components/Brand";
 import { Num } from "@/components/Num";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ChartFrame, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
-import { ASSUMED, hrefOf, loadWords, monthName, two, usdShort, whole, type Inputs } from "@/lib/datacenter";
-import { KINDS, KIND_LABELS, deliveryStat, slugOf, type UtilityDelivery } from "@/lib/datacenter/delivery";
-import { held as heldWays } from "@/lib/datacenter/finance";
+import { ASSUMED, LIMITS, hrefOf, loadWords, monthName, two, usdShort, whole, type Inputs } from "@/lib/datacenter";
+import { KINDS, KIND_LABELS, conditionOf, deliveryStat, kindOf, slugOf, type UtilityDelivery } from "@/lib/datacenter/delivery";
+import { KEYS as SCENARIO_KEYS, SPECS, held as heldWays } from "@/lib/datacenter/finance";
 import { DELIVERY, INDEX, type MatrixRow } from "@/lib/datacenterdata";
 import { shown } from "@/lib/format";
 import { GridsView } from "./GridsView";
@@ -110,6 +110,35 @@ export default async function CostOfPower({ searchParams }: { searchParams: Prom
   );
 }
 
+/** Session 265: each value of the address that lies outside its bounds, in words: the page uses the nearest bound (the
+ * load's size, hours, shares; each scenario's assumptions), and a value that is not a number is the default. The
+ * bounds are LIMITS in lib/datacenter.ts and SPECS in lib/datacenter/finance.ts, which bring the value inside. */
+function outsideOf(q: Record<string, string | undefined>, x: Inputs, gridName: string = x.grid.toUpperCase()): string[] {
+  const out: string[] = [];
+  // a grid or a region the page's files do not hold is the first one held (inputsOf in lib/datacenter.ts)
+  if (q.grid && q.grid !== x.grid) out.push(`Grid: "${q.grid}" is not held here, so ${gridName} is shown.`);
+  else if (q.region && q.region !== x.region) out.push(`Region: "${q.region}" is not held for this grid, so ${x.region} is shown.`);
+  const one = (name: string, label: string, lo: number, hi: number, unit: string) => {
+    const s = q[name];
+    if (s === undefined || s === "") return;
+    const v = Number(s);
+    if (!Number.isFinite(v)) out.push(`${label}: "${s}" is not a number, so the default is used.`);
+    else if (v < lo || v > hi) out.push(`${label}: ${s} is outside ${lo} to ${hi}${unit}, so ${v < lo ? lo : hi} is used.`);
+  };
+  one("mw", "Size", LIMITS.mw[0], LIMITS.mw[1], " MW");
+  one("n", "Hours a year off", LIMITS.n[0], LIMITS.n[1], " hours");
+  one("pct", "Percent of hours off", LIMITS.pct[0], LIMITS.pct[1], " percent");
+  one("shift", "Percent of a day's energy moved", LIMITS.shift[0], LIMITS.shift[1], " percent");
+  for (const side of ["a", "b"] as const) {
+    for (const k of SCENARIO_KEYS) {
+      const f = SPECS[k];
+      if (k === "run") continue;
+      one(`${side}${f.letter}`, `Scenario ${side.toUpperCase()}, ${f.label}`, f.min, f.max, ` ${f.unit}`);
+    }
+  }
+  return out;
+}
+
 async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyGiven: boolean; gridAsked?: string; q: Record<string, string | undefined> }) {
   const M = await loadModel(asked, buyGiven, gridAsked, q);
   const { x, g, failed, side, flex, off, s12, sh12, ysH, rule, bad, badPer, ys, place, market, noYear, savedH, saved, ref12, l12Span, size, facts, scenarioParams, matrix, utilities, deliveryParts } = M;
@@ -130,6 +159,8 @@ async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyG
         <aside>
           <InputPanel title="Your load">
             <LoadForm key={hrefOf(x)} x={x} grids={M.grids} blank={INDEX.blank} />
+            {/* session 265: a typed value outside its bounds is brought inside them, and this line says so */}
+            {outsideOf(q, x, g?.name).length ? <p className="mt-3 text-xs leading-snug" role="status" data-clamped="1">{outsideOf(q, x, g?.name).join(" ")}</p> : null}
           </InputPanel>
         </aside>
 
@@ -179,7 +210,7 @@ async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyG
                     ...(x.grid === "ercot"
                       ? (utilities.length || DELIVERY.withheld.length
                         ? [...DELIVERY.withheld.map((w) => ({ key: `d-${w.utility}`, cells: [<>Delivery and transmission, {w.utility}</>], wide: <Missing words={w.words} why={w.why} /> })),
-                          { key: "matrix", cells: ["Wholesale transmission, all of ERCOT"], wide: matrix.length ? <MatrixCell rows={matrix} /> : <Missing why="The Commission's transmission charge matrices are not in this page's files yet." /> }]
+                          { key: "matrix", cells: ["Wholesale transmission, all of ERCOT: the Commission's rate to the wires utilities, not a line of a retail tariff"], wide: matrix.length ? <MatrixCell rows={matrix} /> : <Missing why="The Commission's transmission charge matrices are not in this page's files yet." /> }]
                         : [{ key: "delivery", cells: ["Delivery and transmission charges"], wide: <Missing why="The four large Texas wires utilities' tariff charges are not in this page's files yet." /> }])
                       : [{ key: "delivery", cells: ["Delivery charges"], wide: <Missing why={`The delivery and transmission tariffs of ${g.name}'s utilities are not in the warehouse. Texas's four large wires utilities are.`} /> }]),
                   ]} />
@@ -250,24 +281,41 @@ async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyG
  * a column a wires utility, in USD per MWh for a flat load of the reader's size served at transmission voltage. Each
  * figure is lib/datacenter/delivery.ts's sum of that utility's tariff lines of that kind and carries its check key
  * (dcd|<mw>|<utility>:<component>), which scripts/check-values.mjs recomputes from the site's file. Its own table: never
- * added to the market cost. The tariff's own lines are in the download (tables.csv, the table "delivery"). */
+ * added to the market cost. The tariff's own lines are in the download (tables.csv, the table "delivery").
+ * Session 265 (the owner's list of 14 October 2026: the table states only what the tariffs state, with no added
+ * assumption): a figure that rests on a line billed per kVA (a power factor of 1) or per meter (one meter) is labelled
+ * "conditional"; the first total sums only the lines with no condition (dcd|<mw>|<utility>:held) and is drawn only where
+ * no line rests on one; the second total, labelled conditional, is session 236's (dcd|<mw>|<utility>:total). A line the
+ * tariff applies only to some loads is in neither total, and the note names it. Each figure's hover names the tariff
+ * lines it sums, with their schedule, page, date and document (linesTip, after the table). */
 function DeliveryTable({ parts, mw, size, href }: { parts: UtilityDelivery[]; mw: number; size: string; href: string }): ReactNode {
   const fig = (u: string, what: string) => {
     const v = deliveryStat(DELIVERY.rows, mw, `${slugOf(u)}:${what}`);
     return v === undefined ? <Missing why="No line of this kind is in the utility's tariff as the page's file holds it." /> : <Num check={`dcd|${mw}|${slugOf(u)}:${what}`} raw={v}>{shown(v)}</Num>;
   };
+  const cond = (why: string) => <span className="ml-1 cursor-help border-b border-dotted border-muted text-xs italic text-muted" title={why} data-delivery-conditional="1">conditional</span>;
+  const part = (d: UtilityDelivery, k: (typeof KINDS)[number]) => {
+    const c = d.components.find((x) => x.kind === k);
+    return (
+      <span title={linesTip(d.utility, k)}>{fig(d.utility, k)}{c && c.assumed ? cond(`${c.assumed} of the ${c.lines} lines summed here are billed per kVA or per meter. The figure counts a kVA as a kW (a power factor of 1) and the site as one meter; the tariff states neither. Left out of the total without conditions.`) : null}</span>
+    );
+  };
   const left = parts.reduce((a, d) => a + d.conditional, 0), unread = parts.reduce((a, d) => a + d.unread, 0), lines = parts.reduce((a, d) => a + d.lines, 0);
+  const named = conditionalLines();
   return (
     <div data-delivery="1">
-      <Sub>Delivery charges in Texas, USD per MWh</Sub>
+      <Sub>Delivery charges in Texas, as the tariffs state them, USD per MWh</Sub>
       <ToolTable caption="Delivery charges in Texas by component, USD per MWh for a flat load" minWidth={560} head={["Component", ...parts.map((d) => d.utility)]}
         rows={[
-          ...KINDS.map((k) => ({ key: k, cells: [KIND_LABELS[k], ...parts.map((d) => <span key={d.utility} data-delivery-kind={k}>{fig(d.utility, k)}</span>)] })),
-          { key: "total", highlight: true, cells: ["Total delivery", ...parts.map((d) => <span key={d.utility} data-delivery-total={slugOf(d.utility)}>{fig(d.utility, "total")}</span>)] },
+          ...KINDS.map((k) => ({ key: k, cells: [KIND_LABELS[k], ...parts.map((d) => <span key={d.utility} data-delivery-kind={k}>{part(d, k)}</span>)] })),
+          { key: "held", highlight: true, cells: ["Total delivery, the lines with no condition", ...parts.map((d) => <span key={d.utility} data-delivery-held={slugOf(d.utility)}>{d.assumed
+            ? <Missing words="conditional" why={`${d.assumed} of ${d.utility}'s ${d.lines} lines are billed per kVA or per meter, and the tariff states neither the power factor nor the number of meters: no total is stated without them. The next row is the total with them.`} />
+            : fig(d.utility, "held")}</span>)] },
+          { key: "total", cells: [<Hover key="l" why="Session 236's total: a kVA counted as a kW and the site as one meter, neither of which the tariff states. Where no line rests on either, it is the total above.">Total with the conditional lines: a power factor of 1, one meter</Hover>, ...parts.map((d) => <span key={d.utility} data-delivery-total={slugOf(d.utility)}>{fig(d.utility, "total")}</span>)] },
         ]} />
       <p className="mt-2 max-w-3xl text-xs text-muted" data-delivery-note="1">
-        For a flat {size} load served at transmission voltage, in the area of each of Texas&apos;s four large wires utilities. A component is the sum of that utility&apos;s tariff lines of that kind ({lines} lines in all): a rate per kW a month is counted on the load&apos;s size (a kVA as a kW), a rate per account a month is spread over the year&apos;s energy, a rate per kWh stands as it is.
-        {left ? ` ${left} lines that apply only to some loads (a municipal fee or credit, a charge of one former service area) are left out of the sums.` : ""}{unread ? ` ${unread} lines whose unit names no basis are left out too.` : ""} Each figure is rounded to the cent, so a total can differ from the sum of its rows by a cent. These charges are never added to the market cost above; to count one in a scenario, type its total as that scenario&apos;s delivery and other charges.
+        For a flat {size} load served at transmission voltage, in the area of each of Texas&apos;s four large wires utilities, as one retail customer. A component is the sum of that utility&apos;s tariff lines of that kind ({lines} lines in all): a rate per kW a month is counted on the load&apos;s size, a rate per retail customer a month is spread over the year&apos;s energy, a rate per kWh stands as it is. Two conversions are not the tariff&apos;s: a rate per kVA needs the load&apos;s power factor and a rate per meter or per ESI ID the site&apos;s count of meters, so a figure resting on either is marked conditional and is left out of the first total; the second total counts them at a power factor of 1 and one meter.
+        {left ? ` In neither total, because the tariff applies them only to some loads: ${named.join("; ")}.` : ""}{unread ? ` ${unread} lines whose unit names no basis are left out too.` : ""} Each figure is rounded to the cent, so a total can differ from the sum of its rows by a cent. These charges are never added to the market cost above; to count one in a scenario, type its total as that scenario&apos;s delivery and other charges.
         {" "}<a href={href} download>The tariff lines as filed, CSV</a>: each schedule&apos;s name, its rate and unit as printed, its page, its date and its document (the table &quot;delivery&quot;).
       </p>
     </div>
@@ -275,6 +323,16 @@ function DeliveryTable({ parts, mw, size, href }: { parts: UtilityDelivery[]; mw
 }
 
 const matrixTip = (r: MatrixRow) => `${r.document}, filed ${r.filed}, page ${r.page ?? "not printed"} of the attachment${r.scan_page ? ` (page ${r.scan_page} of the filed scan)` : ""}. Column "${r.header}". Read from the line: "${r.sentence}".${r.digits_spaced ? " The text of the file prints this figure with its digits spaced." : ""} ${r.docket_status}.`;
+/** Session 265: the tariff lines a delivery figure sums, each with its rate as printed, its schedule's page, its date and
+ * its document, for the figure's hover: every figure names the charges the cited tariffs state. */
+function linesTip(utility: string, kind: string): string {
+  const mine = DELIVERY.rows.filter((r) => r.utility === utility && kindOf(r) === kind && conditionOf(r) !== "tariff");
+  return mine.map((r) => `${r.charge.trim()}:${r.value_as_written} ${r.unit}${conditionOf(r) ? " (conditional)" : ""}; ${r.document}, page ${r.page ?? "not printed"}, effective ${r.effective ?? "not printed"}`).join(". ");
+}
+/** Session 265: the lines a tariff applies only to some loads, by name and condition: in neither total. */
+function conditionalLines(): string[] {
+  return DELIVERY.rows.filter((r) => conditionOf(r) === "tariff").map((r) => `${r.utility}'s ${r.charge.trim()} (${(r.applies ?? "").replace(/^conditional:\s*/i, "")})`);
+}
 /** The Commission's wholesale transmission rate for all of ERCOT (the postage stamp rate), each year as printed, with
  * what it comes to per MWh for a flat load. Its own row: never added to the market cost. */
 function MatrixCell({ rows }: { rows: MatrixRow[] }): ReactNode {
