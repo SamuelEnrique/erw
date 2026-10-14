@@ -46,7 +46,7 @@
 | `lock.py run -- load.py --no-vacuum --only '^battery_stack_(monthly|stress_daily)$'` | 0 | match |
 | `battery_caiso_years.py`, `caiso_southern_nodes.py --pull`, the generator check for 2024 | 0, 0, 0 | above |
 | `python -m unittest` 246, 253, 263, 264, 265, 247, 257; then 273, 246, 253 | 0, 0 | 105 and 30 tests |
-| `python -m unittest discover -s tests` | see the landing | |
+| `python -m unittest discover -s tests` | 1 | 4,212 tests, 524 s, 6 failures: this machine's three standing (51, 125, 165); two this session caused and corrected (179: the battery's scenario steps file, rebuilt with `battery_scenario_steps.py`; 257: this session's new section had split an anchor from its heading); one not this session's (267: an untracked `queue_divorce__first_year-2010.do` left on this machine before tonight, which a clean checkout does not hold). Then 179, 257, 273, 246 and 263: 85 tests OK |
 
 ## Decisions made without you
 
@@ -67,7 +67,7 @@
 ## Files
 
 - New: `warehouse/analysis/caiso_southern_nodes.py`, `warehouse/analysis/battery_caiso_years.py`, `tests/test_session273.py`, this report.
-- Changed: `warehouse/derived/battery_stack.py` (CAISO's start), `site/lib/batterystack.ts` (its words), `site/data/seller/capture.json`, `docs/methods/battery_stack.md`, `docs/methods/generator_earns_algorithm.md`, `tests/test_session257.py`, and the metadata the stores wrote.
+- Changed: `warehouse/derived/battery_stack.py` (CAISO's start), `site/lib/batterystack.ts` (its words), `site/data/seller/capture.json`, `site/data/battery_scenario_steps.json` (rebuilt on the new table), `docs/methods/battery_stack.md`, `docs/methods/generator_earns_algorithm.md`, `tests/test_session257.py`, and the metadata the stores wrote.
 - On this machine, not in git: the tables, `warehouse/output/analysis_internal/` (the years, the southern nodes and their prices), `runs/session273/`.
 
 ## The landings recorded here

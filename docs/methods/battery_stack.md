@@ -224,8 +224,6 @@ The four events inside the held prices, as built on 13 October 2026 (USD per MW 
 - **CAISO's notices are read every day since session 247** (the data machine's daily run, one document), so a notice makes its event at the next build. They were held to 30 April 2025 until then.
 - **These are small beside ERCOT's:** Winter Storm Uri paid the same battery more in a day than any California event in its whole window. That is what the prices and the notices say: every notice in the held prices is a Restricted Maintenance Operations notice; no Flex Alert and no emergency stage is among them.
 
-<a id="caiso-market-monitor"></a>
-
 ### Six more, on the history back to August 2023 (session 273)
 
 Session 273 pulled CAISO's prices back to OASIS's edge (14 July 2023), and the same rule, unchanged, wrote six events before September 2024. Built on 14 October 2026, USD per MW of power, the window's days added up:
@@ -242,6 +240,8 @@ Session 273 pulled CAISO's prices back to OASIS's edge (14 July 2023), and the s
 - **15 to 17 August 2023 is now California's dearest stretch in the held prices,** above 4 to 9 September 2024: USD 7,696 per MW for a 4-hour battery day-ahead in three days, 4,153 of it on 16 August.
 - **Ten events in all, 630 rows for CAISO** (252 before). The four built before are unchanged to the cent, and so is every month before October 2026 in `battery_stack_monthly` (the month in progress gained its new days).
 - **24 and 25 July 2024 is the first event that is not Restricted Maintenance Operations alone:** an Energy Emergency Alert watch.
+
+<a id="caiso-market-monitor"></a>
 
 ## CAISO beside its market monitor (session 246)
 
