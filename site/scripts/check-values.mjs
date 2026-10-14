@@ -493,6 +493,13 @@ async function truth(check) {
   // session 236: Texas's delivery charges by component on "What a datacenter pays", dcd|<mw>|<utility>:<component or
   // total>: recomputed by lib/datacenter/delivery.ts from the site's own file of tariff lines
   // (data/datacenter/texas_delivery.json, not Supabase), as the page computes it
+  // session 265b: the large-load statements on a public document for the load's grid on "What a datacenter pays",
+  // dcll|<grid>|<stat>: recomputed by lib/datacenter/statements.ts from this script's own read of large_load_public
+  if (p[0] === "dcll") {
+    const S = await import("../lib/datacenter/statements.ts");
+    const rows = await all("events", { select: "event_date,parties,mw,source_url,row_kind:extra->>row_kind,duration_as_stated:extra->>duration_as_stated,wait_basis:extra->>wait_basis,stage_class:extra->>stage_class,document_title:extra->>document_title,page:extra->>page", table_name: "eq.large_load_public", "extra->>grid": `eq.${p[1]}`, order: "event_date.desc,event_id" });
+    return S.statedStat(S.statedOf(rows), p.slice(2).join("|"));
+  }
   if (p[0] === "dcd") {
     const D = await import("../lib/datacenter/delivery.ts");
     const file = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "datacenter", "texas_delivery.json"), "utf-8"));

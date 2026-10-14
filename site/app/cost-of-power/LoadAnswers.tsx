@@ -21,6 +21,8 @@ import { monthName, two, usdShort, whole } from "@/lib/datacenter";
 import { statOf, type Answers, type Way } from "@/lib/datacenter/answers";
 import { shown } from "@/lib/format";
 import { FLEX, type Assumptions } from "@/lib/datacenter/finance";
+import { statedStat, stageWords, type Stated, type Statement } from "@/lib/datacenter/statements";
+import type { ReactNode } from "react";
 
 const one = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 const usd = (v: number) => `USD ${usdShort(Math.round(v))}`;
@@ -157,7 +159,35 @@ export function HowClean({ a, f, b }: { a: Answers; f: AnswerFacts; b?: SiteB })
 }
 
 /** How soon: the operator's own figures of large load, where a public table holds them. */
-export function HowSoon({ a, f, rules, b }: { a: Answers; f: AnswerFacts; rules: { count: number; newest: string | null; words: string }; b?: SiteB }) {
+/** Session 265b: the large-load statements on a public document for the load's grid (large_load_public; the owner's
+ * ruling of 14 October 2026: facts with a link, no quoted text). Counts, the newest wait as the table writes it and the
+ * newest megawatt figure, each with its document's link; never a sum across rows. Keys dcll|<grid>|<stat>, recomputed by
+ * scripts/check-values.mjs from its own read of the table (lib/datacenter/statements.ts). */
+type StatedProp = { s: Stated; grid: string } | { failed: string } | null;
+function StatedLine({ stated, gridName }: { stated: StatedProp; gridName: string }) {
+  if (!stated) return null;
+  if ("failed" in stated) return <p className="mb-4 max-w-3xl text-sm" role="status" data-answer-stated="failed">The public documents on large loads could not be read, so none is stated: {stated.failed}</p>;
+  const { s, grid } = stated;
+  const K = ({ stat, children }: { stat: string; children?: ReactNode }) => {
+    const v = statedStat(s, stat);
+    // a wait written in words ("several years") holds no number, so it stands as written, with no key
+    if (v === undefined) return children ? <>{children}</> : <span className="text-muted">not held</span>;
+    return <Num check={`dcll|${grid}|${stat}`} raw={v}>{children ?? whole(v)}</Num>;
+  };
+  const dayOf = (d: string) => `${Number(d.slice(8, 10))} ${monthName(d.slice(0, 7))}`;
+  const doc = (r: Statement) => <><a href={r.source_url} rel="noopener noreferrer">{r.document_title || "the document"}</a>{r.page ? `, page ${r.page}` : ""}</>;
+  if (!s.statements) return <p className="mb-4 max-w-3xl text-sm" data-answer-stated="0">No public document the warehouse holds states a figure on large loads in {gridName}.</p>;
+  return (
+    <p className="mb-4 max-w-3xl text-sm" data-answer-stated="1">
+      Public documents state <K stat="statements" /> figures on large loads in {gridName} (<K stat="mws" /> of megawatts, <K stat="waits" /> of a wait), from <K stat="entities" /> entities in <K stat="documents" /> documents, the newest of {dayOf(s.newest ?? "")}.
+      {s.wait ? <> The newest wait: <K stat="wait:newest">{s.wait.duration_as_stated}</K>{s.wait.wait_basis ? `, ${s.wait.wait_basis}` : ""}, stated by {s.wait.parties} on {dayOf(s.wait.event_date)} in {doc(s.wait)}.</> : null}
+      {s.mw ? <> The newest megawatt figure: <K stat="mw:newest">{whole(Number(s.mw.mw))}</K> MW{stageWords(s.mw.stage_class) ? `, at the stage ${stageWords(s.mw.stage_class)}` : ""}, stated by {s.mw.parties} on {dayOf(s.mw.event_date)} in {doc(s.mw)}.</> : null}
+      {" "}The figures are not added: the entities count differently, and a document often states a total and its parts. Every row, with its link, is in large_load_public.
+    </p>
+  );
+}
+
+export function HowSoon({ a, f, rules, b, stated = null }: { a: Answers; f: AnswerFacts; rules: { count: number; newest: string | null; words: string }; b?: SiteB; stated?: StatedProp }) {
   const l = a.largeLoad;
   // session 236: scenario B's own grid, when it is another grid: its operator's figure, or the line that none is held
   const dayOf = (d: string) => `${Number(d.slice(8, 10))} ${monthName(d.slice(0, 7))}`;
@@ -172,8 +202,9 @@ export function HowSoon({ a, f, rules, b }: { a: Answers; f: AnswerFacts; rules:
     return (
       <>
         <p className="mb-4 max-w-3xl font-serif text-xl leading-snug" data-answer="soon" data-answer-none="1">
-          {f.gridName} publishes no figure of large load waiting or energized that the warehouse holds as a public table, so none is stated here, and no wait is estimated.
+          {f.gridName} publishes no regular report of large load waiting or energized that the warehouse holds, so no operator&apos;s figure is stated here, and no wait is estimated.
         </p>
+        <StatedLine stated={stated} gridName={f.gridName} />
         <p className="max-w-3xl text-sm" data-answer-rules="1">{rules.words}</p>
         {siteB}
       </>
@@ -190,6 +221,7 @@ export function HowSoon({ a, f, rules, b }: { a: Answers; f: AnswerFacts; rules:
         {newest && newest.submissions !== null ? <> New submissions by {day(newest.day)}: <N pre={f.pre} stat={`ll:report:${newest.day}:submissions`} a={a} /> requests{newest.submissionsMw !== null ? <>, <N pre={f.pre} stat={`ll:report:${newest.day}:submissionsMw`} a={a} /> MW</> : null}.</> : null}
         {" "}No wait is estimated: {f.gridName} publishes none.
       </p>
+      <StatedLine stated={stated} gridName={f.gridName} />
       {siteB}
       <HeadlineRow>
         <HeadlineNumber label={`Approved to energize, ${day(t.day)}`} value={<><N pre={f.pre} stat={`ll:report:${t.day}:approved`} a={a} /><span className="ml-1 font-sans text-sm text-muted">MW</span></>} note={<>{f.gridName}&apos;s large load interconnection status update, as reported.</>} />
