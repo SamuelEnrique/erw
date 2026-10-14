@@ -44,6 +44,29 @@ const useBattery = () => useContext(Battery)!;
 /** The parameters of the address the scenarios replace: their own, and the two old names read as scenario A's. */
 const drop = (name: string) => isScenarioParam(name) || isOldParam(name);
 
+/** The revenue the rows read at an efficiency and a cycle limit: the page's own months at the model's values, the
+ * model's run at that step otherwise; null when the step is not held. Session 268: made here, outside the component,
+ * with its own cache (the rules of React's hooks forbid a function made in render that changes a local value). */
+function revenueAt(ms: Month[], need: string[], state: StepState, stepCase: StepCase | null) {
+  const memo = new Map<string, Revenue | null>();
+  return (rte: number, cycles: number): Revenue | null => {
+    const k = `${rte}|${cycles}`;
+    if (memo.has(k)) return memo.get(k)!;
+    let months: Month[] | null = ms;
+    if (rte !== MODEL.rte || cycles !== MODEL.cycles) {
+      const t = state.ok ? cellTotals(stepCase, rte, cycles) : null;
+      months = t ? ms.map((r) => (need.includes(r.m) && t.has(r.m) ? { ...r, total: t.get(r.m)! } : r)) : null;
+    }
+    let out: Revenue | null = null;
+    if (months) {
+      const l12 = lastTwelve(months), w = last36(months);
+      out = { l12: l12 ? sumOf(l12, "total") / 1000 : null, first: l12 ? l12[0].m : null, last: l12 ? l12[11].m : null, bad: badMonth(w?.months ?? []), n36: w?.months.length ?? 0, months };
+    }
+    memo.set(k, out);
+    return out;
+  };
+}
+
 /** The two scenarios of the page, held above its sections: the block edits them, the headline reads scenario A. */
 export function BatteryDecisions({ ms, mw, costs, stepCase, stepMeta, initial, children }: {
   ms: Month[]; mw: number; costs: { capex: number; fom: number }; stepCase: StepCase | null; stepMeta: StepMeta; initial: Record<string, string | undefined>; children: ReactNode;
@@ -53,27 +76,7 @@ export function BatteryDecisions({ ms, mw, costs, stepCase, stepMeta, initial, c
   const need = useMemo(() => (last36(ms)?.months ?? []).map((r) => r.m), [ms]);
   const state = useMemo(() => stepState(stepCase, ms, need), [stepCase, ms, need]);
   const steps = useMemo(() => stepsOffered(stepMeta, state), [stepMeta, state]);
-  /** The revenue the rows read at an efficiency and a cycle limit: the page's own months at the model's values, the
-   * model's run at that step otherwise; null when the step is not held. */
-  const revenue = useMemo(() => {
-    const memo = new Map<string, Revenue | null>();
-    return (rte: number, cycles: number): Revenue | null => {
-      const k = `${rte}|${cycles}`;
-      if (memo.has(k)) return memo.get(k)!;
-      let months: Month[] | null = ms;
-      if (rte !== MODEL.rte || cycles !== MODEL.cycles) {
-        const t = state.ok ? cellTotals(stepCase, rte, cycles) : null;
-        months = t ? ms.map((r) => (need.includes(r.m) && t.has(r.m) ? { ...r, total: t.get(r.m)! } : r)) : null;
-      }
-      let out: Revenue | null = null;
-      if (months) {
-        const l12 = lastTwelve(months), w = last36(months);
-        out = { l12: l12 ? sumOf(l12, "total") / 1000 : null, first: l12 ? l12[0].m : null, last: l12 ? l12[11].m : null, bad: badMonth(w?.months ?? []), n36: w?.months.length ?? 0, months };
-      }
-      memo.set(k, out);
-      return out;
-    };
-  }, [ms, need, state, stepCase]);
+  const revenue = useMemo(() => revenueAt(ms, need, state, stepCase), [ms, need, state, stepCase]);
   const query = useCallback((s: { a: Values; b: Values; view: View }) => scenarioQuery(s as unknown as Both, d), [d]);
   const held = useMemo(() => ({ d, steps, state, revenue }), [d, steps, state, revenue]);
   return (
