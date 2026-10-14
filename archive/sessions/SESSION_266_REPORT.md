@@ -26,8 +26,8 @@ All on the local build of the branch, port 3266, in the internal view; each gate
 
 | Check | Exit | Result |
 |---|---|---|
-| `npx tsc --noEmit` (cycles 1, 2 and 3) | 0 | |
-| `npm run build` (cycles 1, 2 and 3) | 0 | no "statement timeout" in the log |
+| `npx tsc --noEmit` (cycles 1 and 2; not on `1b923c3b`) | 0 | |
+| `npm run build` (cycles 1 and 2; not on `1b923c3b`) | 0 | no "statement timeout" in the log |
 | `check-values`, `CHECK_VALUES_PAGES=/grid`, twice (cycle 2) | 0, 0 | 1,171 of 1,171 values match, both runs; `net|lag|2026-10-12T03:00:00Z|...` among them |
 | `check-grid-replication.mjs` (cycle 2, snapshot of 09:05:21 UTC) | 0 | 60 values compared, 0 different (the lag 54 hours in Now for seven grids and under the chart, the counts, each grid's ties and net imports, and the gravity shape's 36 figures). Cycle 1: 59 of 60, the one a count the check's regex missed (React's comment markers), fixed in the check, not the page |
 | `check-routes.mjs` (cycle 2) | 1 | pass 1: 203 of 204; the one is `/shoulder`, a page not touched here: 1 "no data" block where production has 0 (a table read, not this branch). Pass 2: 0 failed. Cycle 1: exit 0, 204 of 204 |
