@@ -23,8 +23,8 @@ import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ADDON_KEYS, ADDONS, DEFAULT_SETTINGS, DIFFICULTIES, EMERGENCY, emergencyOf, eventPageFor, explain, FLEET, isPerfect, LIGHTS_OUT, optimum, perfectShare, presetLabel, presetOf, rulesOf, SETTINGS,
-  shownPrices, simulate, SOLAR, solarKwh, SPIKE_LABEL, START_MONEY, validAddons, validSettings, validSolar, vppHour, worstHour,
-  type Action, type AddonKey, type Difficulty, type Result, type Rules, type Settings, type ShownPrice,
+  noBattery, shownPrices, simulate, SOLAR, solarKwh, SPIKE_LABEL, START_MONEY, tally, validAddons, validSettings, validSolar, vppHour, worstHour,
+  type Action, type AddonKey, type Difficulty, type Result, type Rules, type Settings, type ShownPrice, type Tally,
 } from "@/lib/battery";
 import type { PresetCount, ScoreRow } from "@/lib/game";
 
@@ -86,13 +86,14 @@ function save(key: string, v: string) {
 }
 
 /** Session 46: a share card drawn on a canvas in this page and saved from it: nothing is uploaded. */
-function ShareCard({ level, score, optimal, preset }: { level: GameLevel; score: number; optimal: number; preset: string }) {
+function ShareCard({ level, score, optimal, none, preset }: { level: GameLevel; score: number; optimal: number; none: number; preset: string }) {
   const [png, setPng] = useState("");
   const [copied, setCopied] = useState("");
   const share = perfectShare(score, optimal);
+  // session 290: the card carries the end table's three rows: mine, the perfect battery's and no battery's
   const lines = [
     `${level.title}, ${level.date}`,
-    `I earned ${usd(score)} with one home battery${share !== null ? `: ${Math.round(share)} percent of perfect foresight (${usd(optimal)})` : ""}.`,
+    `I earned ${usd(score)} with one home battery${share !== null ? `: ${Math.round(share)} percent of perfect foresight (${usd(optimal)})` : ""}. No battery: ${usd(none)}.`,
     `My fleet of ${FLEET.toLocaleString("en-US")} homes: ${usd(score * FLEET)}.`,
   ];
   // session 66: on Hard the dearest hour's price is the game's, and the share says so wherever it says "real prices"
@@ -112,7 +113,7 @@ function ShareCard({ level, score, optimal, preset }: { level: GameLevel; score:
     ctx.fillStyle = css("accent"); ctx.font = "bold 96px system-ui, sans-serif";
     ctx.fillText(usd(score), 60, 300);
     ctx.fillStyle = css("ink"); ctx.font = "36px system-ui, sans-serif";
-    if (share !== null) ctx.fillText(`${Math.round(share)} percent of perfect foresight (${usd(optimal)})`, 60, 370);
+    ctx.fillText(`${share !== null ? `${Math.round(share)} percent of perfect foresight (${usd(optimal)}); ` : ""}no battery: ${usd(none)}`, 60, 370);
     ctx.fillText(`A fleet of ${FLEET.toLocaleString("en-US")} homes: ${usd(score * FLEET)}`, 60, 425);
     ctx.fillStyle = css("muted"); ctx.font = "24px system-ui, sans-serif";
     ctx.fillText(presetLabel(preset), 60, 480);
@@ -213,7 +214,7 @@ function HouseFlow({ flow, soc, kwh, reserveKwh, blocked }: { flow: Action; soc:
 /** Session 50: the replay. The perfect battery's day (perfect foresight, the same rules) plays back beside the
  * player's: both states of charge over the day, a cursor, and at each switch of the perfect plan a reason read from
  * the prices (lib/battery.ts explain). */
-function Replay({ level, rules, mine, perfect, sun }: { level: GameLevel; rules: Rules; mine: Action[]; perfect: Action[]; sun?: number[] }) {
+function Replay({ level, rules, mine, perfect, sun, earned }: { level: GameLevel; rules: Rules; mine: Action[]; perfect: Action[]; sun?: number[]; earned?: { mine: number; perfect: number } }) {
   const n = level.price.length;
   const hours = useMemo(() => level.ts_utc.map((t) => Number(clock(level.tz, t).slice(0, 2))), [level]);
   const segs = useMemo(() => explain(level.price, hours, perfect, rules, (i) => clock(level.tz, level.ts_utc[i]), sun), [level, hours, perfect, rules, sun]);
@@ -270,8 +271,8 @@ function Replay({ level, rules, mine, perfect, sun }: { level: GameLevel; rules:
         {[0, Math.floor(n / 2), n - 1].map((i) => <text key={i} x={x(i)} y={H - 8} fontSize="10" textAnchor="middle" fill="var(--color-muted)">{clock(level.tz, level.ts_utc[i])}</text>)}
       </svg>
       <div className="flex flex-wrap gap-4 text-xs">
-        <span><span className="mr-1 inline-block h-0.5 w-5 align-middle bg-accent" />the perfect battery</span>
-        <span><span className="mr-1 inline-block h-0.5 w-5 align-middle bg-[var(--color-ink)]" />yours</span>
+        <span><span className="mr-1 inline-block h-0.5 w-5 align-middle bg-accent" />the perfect battery{earned ? `, ${usd(earned.perfect)}` : ""}</span>
+        <span><span className="mr-1 inline-block h-0.5 w-5 align-middle bg-[var(--color-ink)]" />yours{earned ? `, ${usd(earned.mine)}` : ""}</span>
         {rules.reserveKwh > 0 ? <span className="text-accent">dashed: the reserve</span> : null}
       </div>
       <p className="mt-2 min-h-[2.5rem]" aria-live="polite">
@@ -347,10 +348,52 @@ const fromDraft = (d: Record<keyof Settings, string>): Settings => ({
   kwh: Number(d.kwh), kw: Number(d.kw), rte: Math.round(Number(d.rte)) / 100, reserve: Math.round(Number(d.reserve)) / 100, deg: Math.round(Number(d.deg) * 100) / 100,
 });
 
-/** Session 66: after a play, three plain lines: what you earned, what the perfect battery earned on the same day under
- * the same rules, and the one hour where you lost the most against it, with what it did then and at what price. Every
- * number is simulate()'s (the play's and the perfect plan's results, and worstHour over their earnings per interval). */
-function EndLines({ level, rules, mine, perfect, big }: { level: GameLevel; rules: Rules; mine: Result; perfect: Result; big: boolean }) {
+/** Session 290 (Kelsey's ask 4 of 5 October 2026): every mode ends with one table of three rows: the player, the perfect
+ * battery (perfect foresight under the same rules: lib/battery.ts's optimum, the exact dynamic program the score is
+ * checked against) and no battery at all; each with what it earned, what it bought and sold, and the average price of
+ * each (tally: simulate()'s own path). One sentence under it says why the battery earns what it does. Until then the end
+ * was three lines (session 66's EndLines); the hour lost the most is now its own line, on Normal and Hard. */
+function EndTable({ mine, perfect, none, rules, big }: { mine: Tally; perfect: Tally; none: number; rules: Rules; big: boolean }) {
+  const p = (v: number | null) => (v === null ? "" : v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+  const kwh = (v: number) => `${v.toFixed(2)} kWh`;
+  const rows: [string, Tally | null, number][] = [["You", mine, mine.score], ["The perfect battery", perfect, perfect.score], ["No battery", null, none]];
+  const cell = "py-1 pl-2 text-right align-top";
+  const spread = perfect.buyPrice !== null && perfect.sellPrice !== null ? perfect.sellPrice - perfect.buyPrice : null;
+  return (
+    <div>
+      <table className={`w-full ${big ? "text-base" : "text-sm"}`} aria-label="Your day, the perfect battery's and no battery's" data-end-table>
+        <thead>
+          <tr className="border-b border-ink text-left text-xs text-muted">
+            <th className="py-1 font-normal"></th><th className={`${cell} font-normal`}>Earned</th><th className={`${cell} font-normal`}>Bought</th><th className={`${cell} font-normal`}>Sold</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map(([name, t, earned]) => (
+            <tr key={name} className="border-b border-rule">
+              <th scope="row" className="py-1 text-left align-top font-normal">{name}</th>
+              <td className={`${cell} font-mono`}>{usd(earned)}</td>
+              <td className={`${cell} font-mono`}>{t ? kwh(t.boughtKwh) : "none"}{t && t.buyPrice !== null ? <span className="block text-xs text-muted">at {p(t.buyPrice)}</span> : null}</td>
+              <td className={`${cell} font-mono`}>{t ? kwh(t.soldKwh) : "none"}{t && t.sellPrice !== null ? <span className="block text-xs text-muted">at {p(t.sellPrice)}</span> : null}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p className="mt-1 text-xs text-muted">Average prices in USD per MWh{rules.emergency ? "; on Hard the emergency hour's prices are a game rule" : ""}. {none !== 0 ? "No battery: the roof's power alone, sold as it is made." : "No battery buys or sells nothing and earns nothing."}</p>
+      <p className={`mt-2 ${big ? "text-base" : "text-sm"}`} data-end-why>
+        {spread !== null
+          ? <>A battery earns the spread: the perfect battery bought at an average of {p(perfect.buyPrice)} and sold at {p(perfect.sellPrice)} USD per MWh, {p(spread)} apart, and loses {Math.round((1 - rules.eta ** 2) * 100)} percent of the energy on the round trip{rules.deg > 0 ? `, plus ${usd(rules.deg)} of wear on each kWh it sells` : ""}. It starts half full, so it can sell more than it buys.</>
+          : perfect.soldKwh > 0
+            ? <>The perfect battery only sold, at an average of {p(perfect.sellPrice)} USD per MWh: no price that day paid for charging again after the round trip&apos;s loss. It starts half full.</>
+            : <>No hour that day paid for the round trip: the perfect battery&apos;s best play was to wait.</>}
+      </p>
+    </div>
+  );
+}
+
+/** Session 66: the one hour where the player lost the most against the perfect battery, with what it did then and at
+ * what price (worstHour over simulate()'s earnings per interval). Session 290: a line under the end table (it was the
+ * third of session 66's three lines). */
+function WorstHour({ level, rules, mine, perfect }: { level: GameLevel; rules: Rules; mine: Result; perfect: Result }) {
   const w = worstHour(level.price, mine, perfect, rules);
   const from = (i: number) => clock(level.tz, level.ts_utc[i]);
   const to = (i: number) => clock(level.tz, new Date(Date.parse(level.ts_utc[i]) + 15 * 60_000).toISOString());
@@ -358,21 +401,17 @@ function EndLines({ level, rules, mine, perfect, big }: { level: GameLevel; rule
   // session 70: in an outage hour the perfect battery can only run the house and no price applies, so none is given
   const dark = w !== null && w.did === 0 && w.outage;
   return (
-    <ol className={`list-decimal space-y-1 pl-6 ${big ? "text-lg" : "text-base"}`} aria-label="Your day in three lines">
-      <li>You {mine.score >= 0 ? "earned" : "lost"} <strong>{usd(Math.abs(mine.score))}</strong>.</li>
-      <li>The perfect battery, which knew every price ahead of time, earned <strong>{usd(perfect.score)}</strong> on the same day with the same rules.</li>
-      <li>
-        {w ? (
-          <>
-            The hour you lost the most was {from(w.first)} to {to(w.last)}.{" "}
-            {dark ? "The grid was down then, so the perfect battery only kept the house running" : (
-              <>The perfect battery {did} then, at an average price of <span className={w.price.spike ? "text-accent" : ""}>{w.price.text}</span>,</>
-            )}{" "}
-            and made {usd(w.perfect)} in that hour; you made {usd(w.mine)}.
-          </>
-        ) : "You matched the perfect battery in every hour."}
-      </li>
-    </ol>
+    <p className="mt-2 text-sm" data-worst-hour>
+      {w ? (
+        <>
+          The hour you lost the most was {from(w.first)} to {to(w.last)}.{" "}
+          {dark ? "The grid was down then, so the perfect battery only kept the house running" : (
+            <>The perfect battery {did} then, at an average price of <span className={w.price.spike ? "text-accent" : ""}>{w.price.text}</span>,</>
+          )}{" "}
+          and made {usd(w.perfect)} in that hour; you made {usd(w.mine)}.
+        </>
+      ) : "You matched the perfect battery in every hour."}
+    </p>
   );
 }
 
@@ -844,6 +883,10 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
   const G = GRIDS[level.grid];
   const otherPresets = topFor.date === levels[0].date ? firstPresets.filter((p) => p.preset !== topFor.preset) : [];
   const ev = level.grid === "ERCOT" ? eventPageFor(level.date) : null;  // session 46: a famous ERCOT day inside an /events window links to it
+  // session 290: the end table's rows, from the finished play's own rules
+  const ends = useMemo(() => (result ? {
+    mine: tally(level.price, result.actions, result.rules, result.sun), perfect: tally(level.price, best.actions, result.rules, result.sun), none: noBattery(level.price, result.rules, result.sun),
+  } : null), [result, level, best]);
 
   return (
     <div className="select-none">
@@ -951,8 +994,9 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
 
       {phase === "done" && result ? (
         <div className="mt-4 border border-rule p-3">
-          <EndLines level={level} rules={result.rules} mine={result.mine} perfect={perfect} big={easy} />
+          {ends ? <EndTable mine={ends.mine} perfect={ends.perfect} none={ends.none} rules={result.rules} big={easy} /> : null}
           <EarlyEnd mine={result.mine} at={at(result.mine.end)} />
+          {!easy ? <WorstHour level={level} rules={result.rules} mine={result.mine} perfect={perfect} /> : null}
           <p className="mt-2 text-sm">
             {!easy ? <>In detail: {usd(result.mine.cash)} in the market{result.mine.wear > 0 ? `, less ${usd(result.mine.wear)} of wear` : ""}{result.mine.bonus > 0 ? `, plus the fleet bonus ${usd(result.mine.bonus)}` : ""}{result.rules.solarKw > 0 ? `, plus ${usd(result.mine.solar)} for the roof's power` : ""}{result.mine.penalty > 0 ? `, less the lights-out charge ${usd(result.mine.penalty)}` : ""}. </> : null}
             Your fleet of {FLEET.toLocaleString("en-US")} homes: <strong>{usd(result.mine.score * FLEET)}</strong>; the perfect battery&apos;s fleet: {usd(perfect.score * FLEET)}.
@@ -968,8 +1012,8 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
               {ev ? <> What happened that day on the grid: <Link href={ev.href}>{ev.label}</Link>.</> : null}
             </p>
           ) : null}
-          {!easy ? <Replay level={level} rules={result.rules} mine={result.actions} perfect={best.actions} sun={result.sun} /> : null}
-          <ShareCard level={level} score={result.mine.score} optimal={perfect.score} preset={result.preset} />
+          {!easy ? <Replay level={level} rules={result.rules} mine={result.actions} perfect={best.actions} sun={result.sun} earned={{ mine: result.mine.score, perfect: perfect.score }} /> : null}
+          <ShareCard level={level} score={result.mine.score} optimal={perfect.score} none={ends?.none ?? 0} preset={result.preset} />
           <div className="mt-3 flex flex-wrap items-end gap-2 text-sm">
             <label className="flex flex-col">Nickname (optional, 3 to 16 letters and digits)
               <input value={nick} onChange={(e) => setNick(e.target.value.replace(/[^A-Za-z0-9]/g, "").slice(0, 16))} className="w-48 border border-rule bg-panel px-2 py-1" />

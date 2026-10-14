@@ -94,7 +94,8 @@ class TheGame(unittest.TestCase):
         self.assertIn("data-game-phase={phase} data-game-idx={hud.idx} data-game-level={level.date}", game)
         check = src("site", "scripts", "check-battery-game.mjs")
         self.assertIn('"x-erw-check": "1"', check)                                    # the plays stay off the leaderboard
-        for word in ("phone", "laptop", "Your day in three lines", "Emulation.setDeviceMetricsOverride", "Input.dispatchTouchEvent", "Input.dispatchKeyEvent"):
+        # session 290: the end table in place of the three lines
+        for word in ("phone", "laptop", "[data-end-table]", "Emulation.setDeviceMetricsOverride", "Input.dispatchTouchEvent", "Input.dispatchKeyEvent"):
             self.assertIn(word, check)
         self.assertRegex(src("site", "lib", "release.ts"), r'"/play/battery":\s*"review"')
 

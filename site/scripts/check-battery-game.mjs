@@ -12,9 +12,9 @@
 //   layout     nothing is wider than the screen, before, during and after the play; the two buttons are on the screen
 //              and large enough to hold with a thumb
 //   controls   following the perfect plan earns at least 90 percent of the perfect battery's score: the controls took
-//   end        the end screen's three lines are there, in order: what you earned, what the perfect battery earned
-//              (equal to lib/battery.ts's optimum for the day and rules), and the hour you lost the most or that you
-//              matched it
+//   end        session 290: the end table's three rows, in order: you, the perfect battery (its earnings equal to
+//              lib/battery.ts's optimum for the day and rules) and no battery (lib/battery.ts's noBattery), each with
+//              what it bought and sold; the sentence under it; on Normal and Hard the hour you lost the most
 //   modes      the page opens in the mode its address names; Easy shows one sentence, a day to pick and Start, and no
 //              settings; every mode shows the day at a glance before the play (session 289) and "Play again" after
 //   Hard       the notice names the emergency (session 289); the emergency is announced while the price climbs, with its
@@ -26,7 +26,7 @@
 // Exit 1 on a failure; "not proven" (exit 0) without a browser.
 import fs from "node:fs";
 import { withBrowser, sleep } from "./browser.mjs";
-import { DEFAULT_SETTINGS, DIFFICULTIES, SPIKE_LABEL, emergencyOf, optimum, rulesOf, simulate } from "../lib/battery.ts";
+import { DEFAULT_SETTINGS, DIFFICULTIES, SPIKE_LABEL, emergencyOf, noBattery, optimum, rulesOf, simulate } from "../lib/battery.ts";
 
 const base = (process.argv[2] ?? "http://localhost:3111").replace(/\/$/, "");
 const device = process.argv[3] === "phone" ? "phone" : "laptop";
@@ -160,16 +160,23 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, send, errors
       check(began && !!replay && replay.early >= 2 && replay.pause && replay.at >= 1 && errors.length === 0, `${tag}: the replay, started with ${replay?.early ?? 0} frames stamped early, runs (at interval ${replay?.at ?? "none"} after 2.5 s)`);
       await evaluate(clickText("button", "Pause"));
     }
-    const lines = await wait(`(() => { const ol = document.querySelector('ol[aria-label="Your day in three lines"]'); return ol ? [...ol.querySelectorAll('li')].map((x) => x.innerText.replace(/\\s+/g, ' ').trim()) : null; })()`, 15000, `${tag}: the end screen`).catch(() => null);
-    check(Array.isArray(lines) && lines.length === 3, `${tag}: the end screen has three lines`);
-    if (Array.isArray(lines) && lines.length === 3) {
-      const mine = lines[0].match(/^You (earned|lost) \$([\d,.]+)\.$/);
-      const perfect = lines[1].match(/^The perfect battery, which knew every price ahead of time, earned (-?\$[\d,.]+) on the same day with the same rules\.$/);
-      check(!!mine, `${tag}: line 1 says what you earned: "${lines[0]}"`);
-      check(!!perfect && perfect[1] === usd(best.score), `${tag}: line 2 is the perfect battery's ${usd(best.score)} for this day and these rules: "${lines[1]}"`);
-      check(/^The hour you lost the most was \d{1,2}:\d{2}.* to \d{1,2}:\d{2}.*you made -?\$[\d,.]+\.$/.test(lines[2]) || lines[2] === "You matched the perfect battery in every hour.", `${tag}: line 3 names the hour lost, or says none was: "${lines[2]}"`);
-      const got = mine ? (mine[1] === "earned" ? 1 : -1) * Number(mine[2].replace(/,/g, "")) : NaN;
+    // session 290: the end table, three rows (you, the perfect battery, no battery), and the sentence under it
+    const rows = await wait(`(() => { const t = document.querySelector('[data-end-table]'); return t ? [...t.querySelectorAll('tbody tr')].map((r) => [...r.children].map((c) => c.innerText.replace(/\\s+/g, ' ').trim())) : null; })()`, 15000, `${tag}: the end table`).catch(() => null);
+    check(Array.isArray(rows) && rows.length === 3 && rows.map((r) => r[0]).join("|") === "You|The perfect battery|No battery", `${tag}: the end table's rows are you, the perfect battery and no battery`);
+    if (Array.isArray(rows) && rows.length === 3) {
+      const num = (t) => Number(t.replace(/[$,]/g, ""));
+      const none = noBattery(level.price, rules, sun);
+      check(rows[1][1] === usd(best.score), `${tag}: the perfect battery earned ${usd(best.score)} for this day and these rules: "${rows[1][1]}"`);
+      check(rows[2][1] === usd(none), `${tag}: no battery earned ${usd(none)}: "${rows[2][1]}"`);
+      check(rows.slice(0, 2).every((r) => /kWh/.test(r[2]) && /kWh/.test(r[3])), `${tag}: the rows say what was bought and sold`);
+      const got = num(rows[0][1]);
       check(best.score > 0 && got >= 0.9 * best.score, `${tag}: following the perfect plan by the ${device === "phone" ? "buttons" : "keys"} earned ${usd(got)} of the perfect ${usd(best.score)} (${Math.round((100 * got) / best.score)} percent): the controls took`);
+    }
+    const why = await evaluate(`document.querySelector('[data-end-why]')?.innerText ?? ""`);
+    check(why.length > 40, `${tag}: one sentence under the table on why the battery earns what it does: "${why.slice(0, 120)}"`);
+    if (p.difficulty !== "easy") {
+      const worst = await evaluate(`document.querySelector('[data-worst-hour]')?.innerText ?? ""`);
+      check(/^The hour you lost the most was \d{1,2}:\d{2}.* to \d{1,2}:\d{2}.*you made -?\$[\d,.]+\.$/.test(worst) || worst === "You matched the perfect battery in every hour.", `${tag}: the hour lost the most, or none: "${worst}"`);
     }
     o = await evaluate(overflow);
     check(o.doc <= o.win + 1 && o.wide.length === 0, `${tag}: nothing is wider than the screen on the end screen (${o.doc} of ${o.win} px${o.wide.length ? `; ${o.wide.join(" / ")}` : ""})`);

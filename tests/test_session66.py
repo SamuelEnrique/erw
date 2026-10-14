@@ -210,8 +210,9 @@ class Words(unittest.TestCase):
         self.assertIn("not one roof&apos;s", page)
         self.assertIn("nothing is filled in", page)
         game = src("site", "app", "play", "battery", "Game.tsx")
-        self.assertIn("function EndLines(", game)
-        self.assertIn("<EndLines level={level} rules={result.rules} mine={result.mine} perfect={perfect} big={easy} />", game)   # session 289: one page, large on Easy
+        # session 290: the three lines became the end table (tests/test_session290.py); the hour lost is its own line
+        self.assertIn("function WorstHour(", game)
+        self.assertIn("<EndTable mine={ends.mine} perfect={ends.perfect} none={ends.none} rules={result.rules} big={easy} />", game)
         self.assertIn("The hour you lost the most was", game)
         self.assertIn("worstHour(level.price, mine, perfect, rules)", game)
         self.assertIn("Add-ons", game)

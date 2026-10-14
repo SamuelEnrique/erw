@@ -173,6 +173,22 @@ Samuel's rulings of 14 October 2026 (the review pack of `docs/reviews/games-2026
 - **The leaderboard.** A v5 preset ends `-v5` (`easy:13.5-5-90-v5`, `hard:13.5-5-90-r25-d0.11-v5`). Boards from before stay readable and are labelled "(v4 rules)", "(v3 rules)" or "(v2 rules)". Migration `033_game_v5.sql` allows the suffix (written in session 289, applied by a person before the v5 site is deployed; until then the database refuses a v5 play and the page says it was not stored).
 - **Browser storage:** the settings are remembered under a new key (`erw.battery.settings.v5`), so a reserve saved under v4 does not override the new default; the mode is not remembered (the address carries it).
 
+## The end table (session 290)
+
+Kelsey's ask 4 (5 October 2026): at the end of every mode, one table of three rows. It replaces session 66's three lines.
+
+| Row | Earned | Bought | Sold |
+|---|---|---|---|
+| You | the play's score (`simulate`) | kWh bought at the meter, and their average price | kWh sold at the meter, and their average price |
+| The perfect battery | the perfect-foresight score under the same rules (`optimum`, the exact dynamic program the score is checked against) | the same, for its plan | the same, for its plan |
+| No battery | nothing bought or sold; with the rooftop add-on, the roof's power sold as it is made (`noBattery`) | none | none |
+
+- **How the rows are counted** (`tally` in `site/lib/battery.ts`): it replays `simulate`'s own path (the state of charge before each interval) through `step` at the prices traded, up to the play's end, outage intervals left out. Sold kWh times their average price, less bought kWh times theirs, over 1,000, is the play's cash: `site/scripts/test-battery.mjs` checks it in 66 plays (toy days and the famous days, three modes, the perfect plan and a plain rule).
+- **Averages are weighted by kWh** and in USD per MWh. On Hard they include the emergency hour's prices, a game rule; the note under the table says so.
+- **One sentence under it** says why the battery earns what it does, from the perfect battery's row: it bought at one average and sold at another, the spread between them is its business, less the round trip's loss (and on Hard the wear). The battery starts half full, so a row can sell more than it bought.
+- **The perfect battery is the game's own optimum, not the battery tool's.** The tool (`/cost-of-power/battery`, `docs/methods/battery_stack.md`) co-optimizes energy and ancillary services on hourly prices for a grid battery; the game's battery trades energy only, on 15-minute prices, with the game's money, reserve, wear and emergency. Both are perfect foresight; only the game's is exact under the game's rules.
+- **Elsewhere:** the hour lost the most is a line under the table on Normal and Hard; the share card carries the three rows' earnings; the replay's legend gives the two batteries' earnings beside their lines.
+
 ## The leaderboard: presets
 
 - **What a preset is:** the difficulty, the usable energy, the power and the round-trip efficiency, plus, on Hard, the reserve and the degradation cost (`presetOf`). For example `normal:13.5-5-90` or `hard:13.5-5-90-r20-d0.11`.

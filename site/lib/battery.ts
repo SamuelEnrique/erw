@@ -346,6 +346,39 @@ export function simulate(prices: number[], actions: Action[], r: Rules = V1, sol
     penalty, unservedKwh, solar: sold, solarKwh: made, gain, curtailedKwh };
 }
 
+/** Session 290 (Kelsey's ask 4 of 5 October 2026: one table at the end of every mode): what a play bought and sold. It
+ * replays simulate()'s own path (the state of charge before each interval) through step() at the prices traded (on Hard
+ * the emergency's), up to the play's end, outage intervals left out: the kWh bought at the meter and their average price,
+ * the kWh sold and theirs. (sold x sell price - bought x buy price) / 1,000 is the result's cash: a test checks it. */
+export type Tally = { score: number; cash: number; boughtKwh: number; soldKwh: number; buyPrice: number | null; sellPrice: number | null };
+export function tally(prices: number[], actions: Action[], r: Rules = V1, solar?: number[] | null): Tally {
+  const res = simulate(prices, actions, r, solar);
+  const em = emergencyOf(prices, r);
+  const P = em.prices;
+  const last = res.end ?? P.length - 1;
+  let bought = 0, cost = 0, sold = 0, revenue = 0;
+  for (let i = 0; i <= last && i < P.length; i++) {
+    if (em.outage && i >= em.outage.first && i <= em.outage.last) continue;
+    const s0 = res.soc[i];
+    const x = step(s0, actions[i] ?? 0, P[i], r);
+    if (x.soc > s0) { const k = (x.soc - s0) / r.eta; bought += k; cost += k * P[i]; }
+    if (x.delivered > 0) { sold += x.delivered; revenue += x.delivered * P[i]; }
+  }
+  return { score: res.score, cash: res.cash, boughtKwh: bought, soldKwh: sold, buyPrice: bought > 0 ? cost / bought : null, sellPrice: sold > 0 ? revenue / sold : null };
+}
+/** Session 290: the same day with no battery at all: nothing bought or sold; with the rooftop add-on the roof's power is
+ * sold as it is made (switched off below zero, and nothing in the outage, when the grid is down), USD. */
+export function noBattery(prices: number[], r: Rules = V1, solar?: number[] | null): number {
+  const em = emergencyOf(prices, r);
+  const sun = solarKwh(prices, r, solar);
+  let usd = 0;
+  for (let i = 0; i < em.prices.length; i++) {
+    if (em.outage && i >= em.outage.first && i <= em.outage.last) continue;
+    usd += roofSale(sun[i], em.prices[i], 0, r).usd;
+  }
+  return usd;
+}
+
 /** The perfect-foresight optimum over the same three actions: dynamic programming over every state of charge the
  * actions can reach (each state is its exact value; two paths meeting at one keep the better). The VPP bonus, the
  * reserve and the degradation cost are part of it, as in simulate(); session 66: so are the lights-out penalty and the

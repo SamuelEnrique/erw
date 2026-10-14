@@ -6,7 +6,7 @@
 // score must equal the dynamic programme's optimum, whose actions must reproduce it. Prints one line per day; exits 1
 // on any mismatch.
 import {
-  ADDONS, DEFAULT_PRESET, DEFAULT_SETTINGS, DIFFICULTIES, EMERGENCY, emergencyOf, eventPageFor, explain, FLEET_MW, FLEET_MWH, isPerfect, LIGHTS_OUT, optimum, outageDraw, parsePreset, perfectShare,
+  ADDONS, DEFAULT_PRESET, DEFAULT_SETTINGS, DIFFICULTIES, EMERGENCY, emergencyOf, noBattery, tally, eventPageFor, explain, FLEET_MW, FLEET_MWH, isPerfect, LIGHTS_OUT, optimum, outageDraw, parsePreset, perfectShare,
   presetLabel, presetOf, RULES_VERSION, rulesOf, SETTINGS, shownPrices, simulate, SOLAR, solarKwh, SPIKE_LABEL, START_MONEY, validAddons, validSettings, validSolar, vppHour, worstHour,
 } from "../lib/battery.ts";
 import fs from "node:fs";
@@ -484,6 +484,29 @@ const need = (EMERGENCY.houseKw * 15) / 60;  // the house's need in one interval
     check(ms < 2000 && Math.abs(simulate(l.price, o.actions, solar, l.solar).score - o.score) < 1e-9, `${l.date} on Hard with rooftop solar: the optimum ${o.score.toFixed(4)} USD in ${ms.toFixed(0)} ms`);
   }
   console.log(`  famous days with a solar shape held: ${levels.filter((v) => validSolar(v.solar, v.price.length)).map((v) => v.date).join(", ") || "none yet (warehouse/derived/battery_solar.py writes them; the add-on is unavailable until then)"}`);
+}
+// session 290: the end table. tally() replays the scorer's own path: what was sold at its average price less what was
+// bought at its average price is the result's cash, on every toy day and famous day, under each mode, for the perfect
+// plan and for a plain rule; no battery is the roof's sales alone (zero without the roof)
+{
+  const fam = JSON.parse(fs.readFileSync(new URL("../data/battery_levels.json", import.meta.url), "utf-8")).levels;
+  let n = 0, worst = 0;
+  for (const prices of [...Object.values(days), ...fam.map((l) => l.price)]) {
+    for (const [d, a] of [["easy", []], ["normal", []], ["hard", []]]) {
+      const r = rulesOf(DEFAULT_SETTINGS, d, a);
+      const plain = prices.map((p, i) => (i % 8 < 3 ? 1 : i % 8 > 5 ? -1 : 0));
+      for (const acts of [optimum(prices, r).actions, plain]) {
+        const t = tally(prices, acts, r);
+        const cash = ((t.sellPrice ?? 0) * t.soldKwh - (t.buyPrice ?? 0) * t.boughtKwh) / 1000;
+        worst = Math.max(worst, Math.abs(cash - t.cash)); n += 1;
+      }
+      if (noBattery(prices, r) !== 0) worst = Infinity;
+    }
+  }
+  check(worst < 1e-9, `tally: sold x price less bought x price is the scorer's cash in ${n} plays (largest gap ${worst})`);
+  const u = fam.find((l) => l.date === "2023-08-10");
+  const rs = rulesOf(DEFAULT_SETTINGS, "hard", ["solar"]);
+  check(Math.abs(noBattery(u.price, rs, u.solar) - simulate(u.price, u.price.map(() => 0), rs, u.solar).solar) < 1e-9, `noBattery with the roof is the roof's sales of an idle battery: ${noBattery(u.price, rs, u.solar).toFixed(2)} USD`);
 }
 console.log(bad ? `${bad} FAILED` : "every toy day: the DP optimum equals brute force");
 process.exit(bad ? 1 : 0);
