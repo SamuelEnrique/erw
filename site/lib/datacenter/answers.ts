@@ -227,7 +227,35 @@ export function adders(heldTs: string[], highTs: string[], l12: string[], behind
   return { level, hours: high.filter((ms) => mineSet.has(ms)).length, held: mine.length, first: std(mine[0]).slice(0, 10), last: std(mine[mine.length - 1]).slice(0, 10),
     own: { from: std(new Date(fromMs).toISOString()).slice(0, 10), to: std(new Date(lastMs).toISOString()).slice(0, 10), hours: high.filter((ms) => ms >= fromMs && ms <= lastMs).length } };
 }
-export type Answers = { scarcity: Scarcity; carbon: Carbon; largeLoad: LargeLoad | null; notices: Notices; adders: Adders; mw: number; held: Record<Way, boolean> };
+/** Session 280: the grid's hub, hour by hour, from scarcity_hours_by_grid (warehouse/derived/scarcity_hours_by_grid.py;
+ * docs/methods/scarcity_hours_by_grid.md): the hours of the page's twelve months whose real-time price at the hub was at
+ * or above USD 1,000 per MWh (rt_hour_ge_1000), and the hours the grid's own signal was in force (own_signal: ERCOT's
+ * reserve adder above zero, held to 4 December 2025; CAISO's Energy Emergency Alerts and flex alerts), each beside the
+ * hours the table holds of it. An hour with no row is not held, not a zero; an hour written twice is counted once. Only
+ * the grids the table holds (SBG_HUBS); null for any other, and when no hour of the twelve months is held. */
+export const SBG_TABLE = "scarcity_hours_by_grid", SBG_LEVEL = 1000;
+export const SBG_HUBS: Record<string, string> = { ercot: "HB_HUBAVG", caiso: "TH_SP15_GEN-APND" };
+export type Count = { hours: number; held: number; first: string | null; last: string | null };
+export type ByGrid = { hub: string; level: number; rt: Count; own: Count } | null;
+/** The two counts from the table's rows (variable, ts_utc, value), over the page's months in the grid's standard time. */
+export function byGrid(rows: { variable: string; ts_utc: string; value: number }[], l12: string[], behind: number, hub: string): ByGrid {
+  const inL12 = new Set(l12);
+  const std = (ts: string) => new Date(Date.parse(ts) - behind * 3600_000).toISOString();
+  const count = (variable: string): Count => {
+    const hours = new Map<number, number>();
+    for (const r of rows) {
+      if (r.variable !== variable || !inL12.has(std(r.ts_utc).slice(0, 7))) continue;
+      const ms = Date.parse(r.ts_utc);
+      hours.set(ms, Math.max(hours.get(ms) ?? 0, Number(r.value) === 1 ? 1 : 0));
+    }
+    const held = [...hours.keys()].sort((x, y) => x - y);
+    const day = (ms: number) => std(new Date(ms).toISOString()).slice(0, 10);
+    return { hours: [...hours.values()].filter((v) => v === 1).length, held: held.length, first: held.length ? day(held[0]) : null, last: held.length ? day(held[held.length - 1]) : null };
+  };
+  const rt = count("rt_hour_ge_1000"), own = count("own_signal");
+  return rt.held || own.held ? { hub, level: SBG_LEVEL, rt, own } : null;
+}
+export type Answers = { scarcity: Scarcity; carbon: Carbon; largeLoad: LargeLoad | null; notices: Notices; adders: Adders; byGrid?: ByGrid; mw: number; held: Record<Way, boolean> };
 
 /** One number of the answers by its name, for the reader's size: the page writes it, check-values recomputes it. */
 export function statOf(a: Answers, stat: string): number | null | undefined {
@@ -265,6 +293,12 @@ export function statOf(a: Answers, stat: string): number | null | undefined {
     if (!a.adders) return undefined;
     if (p[1] === "own") return a.adders.own.hours;
     return p[1] === "held" ? a.adders.held : a.adders.hours;
+  }
+  if (p[0] === "sbg") {
+    // session 280: sbg:rt:hours, sbg:rt:held, sbg:own:hours, sbg:own:held
+    if (!a.byGrid) return undefined;
+    const c = p[1] === "rt" ? a.byGrid.rt : p[1] === "own" ? a.byGrid.own : null;
+    return c ? (p[2] === "held" ? c.held : p[2] === "hours" ? c.hours : undefined) : undefined;
   }
   if (p[0] === "notices") {
     if (!a.notices) return undefined;
@@ -363,5 +397,16 @@ export async function readAnswers(args: AnswerArgs): Promise<Answers> {
     ]);
     addersOf = adders(heldRaw.map((r) => String(r.ts_utc)), highRaw.filter((r) => num(r.value) >= ADDER_USD).map((r) => String(r.ts_utc)), l12, behind);
   }
-  return { scarcity: sc, carbon, largeLoad: grid === "ercot" && status.length ? largeLoad(status) : null, notices, adders: addersOf, mw, held };
+  // session 280: the grid's hub, hour by hour, bounded to the page's twelve months in time (a read of the table by its
+  // name alone is cancelled at the anon key's three seconds; with the hours it answers)
+  let sbg: ByGrid = null;
+  if (SBG_HUBS[grid] && l12.length) {
+    const y = Number(l12[0].slice(0, 4)), m = Number(l12[0].slice(5, 7)) - 1;
+    const ly = Number(l12.at(-1)!.slice(0, 4)), lm = Number(l12.at(-1)!.slice(5, 7));
+    const iso = (ms: number) => new Date(ms).toISOString().replace(/\.\d{3}Z$/, "Z");
+    const raw = await rows("series", { select: "variable,ts_utc,value", table_name: `eq.${SBG_TABLE}`, entity: `eq.iso:${grid}`, variable: "in.(rt_hour_ge_1000,own_signal)",
+      and: `(ts_utc.gte.${iso(Date.UTC(y, m, 1) + behind * 3600_000)},ts_utc.lt.${iso(Date.UTC(ly, lm, 1) + behind * 3600_000)})`, order: "ts_utc,variable" });
+    sbg = byGrid(raw.map((r) => ({ variable: String(r.variable), ts_utc: String(r.ts_utc), value: num(r.value) })), l12, behind, SBG_HUBS[grid]);
+  }
+  return { scarcity: sc, carbon, largeLoad: grid === "ercot" && status.length ? largeLoad(status) : null, notices, adders: addersOf, byGrid: sbg, mw, held };
 }
