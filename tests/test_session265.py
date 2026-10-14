@@ -166,10 +166,11 @@ class OutsideItsBounds(unittest.TestCase):
 
 
 class TodaysReadsKept(unittest.TestCase):
-    def test_the_scarcity_table_is_not_read_by_the_page(self):
-        for parts in (("site", "app", "cost-of-power", "page.tsx"), ("site", "app", "cost-of-power", "LoadAnswers.tsx"),
-                      ("site", "app", "cost-of-power", "model.ts"), ("site", "lib", "datacenter", "answers.ts")):
-            self.assertNotIn("scarcity_hours_by_grid", src(*parts), parts)
+    def test_the_scarcity_table_is_read_by_the_answers_only(self):
+        # session 280: scarcity_hours_by_grid is in the live set (session 278 read it there) and "Will the power be
+        # there?" reads it, through lib/datacenter/answers.ts; the page's model does not read it itself
+        self.assertIn('export const SBG_TABLE = "scarcity_hours_by_grid"', src("site", "lib", "datacenter", "answers.ts"))
+        self.assertNotIn("scarcity_hours_by_grid", src("site", "app", "cost-of-power", "model.ts"))
 
 
 class HowSoonReadsThePublicStatements(unittest.TestCase):
@@ -178,12 +179,14 @@ class HowSoonReadsThePublicStatements(unittest.TestCase):
     def test_the_page_reads_it_through_session_272s_helper(self):
         page = src("site", "app", "cost-of-power", "page.tsx")
         self.assertIn('import { largeLoadStatements } from "@/lib/largeloadpublic";', page)
-        self.assertIn("stated = { s: statedOf((await largeLoadStatements(M.x.grid)) as unknown as Statement[]), grid: M.x.grid };", page)
-        self.assertIn("<HowSoon a={M.answers.data} f={M.answerFacts} rules={M.rules} b={siteB} stated={stated} />", page)
+        # session 280: the grid's rows are read once and both counted and listed
+        self.assertIn("const gridRows = (await largeLoadStatements(M.x.grid)) as unknown as Statement[];", page)
+        self.assertIn("stated = { s: statedOf(gridRows), grid: M.x.grid };", page)
+        self.assertIn("<HowSoon a={M.answers.data} f={M.answerFacts} rules={M.rules} b={siteB} stated={stated} lists={lists} />", page)
 
     def test_facts_with_a_link_and_no_quoted_text(self):
         answers = src("site", "app", "cost-of-power", "LoadAnswers.tsx")
-        line = answers.split("function StatedLine", 1)[1].split("export function HowSoon", 1)[0]
+        line = answers.split("function StatedLine", 1)[1].split("/** Session 280: every statement", 1)[0].split("export function HowSoon", 1)[0]  # session 280: its list follows
         for words in ("<Num check={`dcll|${grid}|${stat}`} raw={v}>", '<a href={r.source_url} rel="noopener noreferrer">',
                       "The figures are not added", 'data-answer-stated="1"', 'data-answer-stated="failed"'):
             self.assertIn(words, line, words)
