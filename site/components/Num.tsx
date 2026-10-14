@@ -12,8 +12,9 @@ import { LICENSE_NEEDED, gridOfEntity, licenseGridTitle, licenseHeldGrid, licens
 // by the grid of its entity, as the price board holds a grid (session 207).
 const KEY_TABLE: Record<string, string> = {
   deals: "energy_deals", event: "", es: "event_window_daily", griddc: "datacenter_facilities", datacenters: "datacenter_facilities",
-  bill: "cost_of_power_monthly", cop: "cost_of_power_monthly", mr: "merchant_revenue_monthly", projects: "energy_projects",
+  bill: "cost_of_power_monthly", cop: "cost_of_power_monthly", mr: "merchant_revenue_monthly", ms: "merchant_revenue_monthly", projects: "energy_projects",
   gridnews: "news_index",
+  // session 264 added ms| (the generator page's month spans of merchant_revenue_monthly); the chain's landing of 14 October maps it as mr|
 };
 
 /** The held table (and the row's entity) a check key names, or null when the key names no table or none that is held. */

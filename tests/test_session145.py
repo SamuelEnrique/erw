@@ -324,7 +324,7 @@ class OnePage(unittest.TestCase):
 
     def test_no_em_dash(self):
         for rel in ("site/lib/capture.ts", "site/app/cost-of-power/seller/page.tsx", "site/app/cost-of-power/seller/SellerForm.tsx", "site/app/cost-of-power/seller/SellerContract.tsx",
-                    "site/app/cost-of-power/seller/SellerCharts.tsx", "site/scripts/test-capture.mjs", "site/scripts/check-seller.mjs", "warehouse/derived/capture_price.py",
+                    "site/app/cost-of-power/seller/SellerCharts.tsx", "site/scripts/test-capture.mjs", "site/scripts/_retired/check-seller.mjs", "warehouse/derived/capture_price.py",   # session 264: retired, kept as a record
                     "docs/methods/cost_of_power.md", "tests/test_session145.py", "site/data/seller/capture.json", "tests/fixtures/session145/prices_week.csv", "tests/fixtures/session145/generation_week.csv"):
             self.assertNotIn(chr(0x2014), src(*rel.split("/")), rel)
 

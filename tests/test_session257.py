@@ -23,7 +23,7 @@ import unittest
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 EM = chr(0x2014)
 WROTE = ["site/lib/batterystack.ts", "site/app/cost-of-power/battery/page.tsx", "site/app/cost-of-power/battery/read.ts", "site/app/cost-of-power/seller/page.tsx",
-         "docs/methods/battery_stack.md", "docs/methods/battery_earns_algorithm.md", "docs/methods/generator_earns_algorithm.md", "docs/howitworks/generator.md", "docs/brand/review-257/README.md",
+         "docs/methods/battery_stack.md", "docs/methods/battery_earns_algorithm.md", "docs/methods/generator_earns_algorithm.md", "docs/reviews/packs/generator.md", "docs/brand/review-257/README.md",   # session 264: the pack replaces the how-it-works note
          "tests/test_session257.py", "archive/sessions/SESSION_257_REPORT.md"]
 
 
@@ -183,7 +183,10 @@ console.log(JSON.stringify({ f, x, key: B.inputsKey(x), ercot: B.fleetBeside("er
         self.assertIn("<V pre={fleetKey} s={`year_kw:${fleet.year}:${fleet.regulationStreams}`} v={fleetReg} />", line)
         for words in ('<span data-fleet-published="energy">{fleet.energy}</span>', '<span data-fleet-published="regulation">{fleet.regulation}</span>',
                       "({fleet.publisher}, <a href={fleet.url} rel=\"noopener\">{fleet.report}</a>, {fleet.where})", "<Link href={MONITOR}>How this is counted</Link>",
-                      "on the day-ahead schedule", "with a full year of operation"):
+                      "on the day-ahead schedule", "with a full year of operation",
+                      # session 263: one sentence of why the two differ, the monitor's reason as docs/methods/battery_stack.md quotes it
+                      '<span data-fleet-why="1">The two differ in regulation: this model sells it as if the market had no size, and the monitor writes that',
+                      "&ldquo;there is a large amount of battery capacity competing to provide a relatively low amount of required regulation&rdquo;.</span>"):
             self.assertIn(words, line, words)
         for word in ("should", "recommend", "better", "worse", "only ", "merely", "far "):  # the facts, no commentary, as ERCOT's line
             self.assertNotIn(word, line.lower(), word)
@@ -260,7 +263,7 @@ class TheGeneratorsCount(unittest.TestCase):
         self.assertIn('<span data-checked-against="20">Checked against: 20 published figures (Lazard, the Annual Technology Baseline, EIA, CAISO&apos;s market monitor, Berkeley Lab). '
                       '<Link href="/data/methods/generator_earns_algorithm#cross-checks">Each comparison, with its gap and the reason</Link>.</span>', self.page)
         self.assertEqual(self.page.count("data-checked-against="), 1)
-        how = src("docs", "howitworks", "generator.md")
+        how = src("docs", "reviews", "packs", "generator.md")   # session 264: the pack replaces the how-it-works note
         self.assertNotIn("10 published figures", how)
         self.assertIn('"Checked against: 20 published figures (Lazard, the Annual Technology Baseline, EIA, CAISO\'s market monitor, Berkeley Lab)."', how)
 

@@ -11,6 +11,12 @@
 //   2. the text on the page equals data-raw rounded as displayed (2 decimals, or a whole count).
 // Prints one line per value and a summary; exits 1 if any value fails or fewer than ten were checked.
 //
+// Session 268, the floor a page (sessions 241a and 241b saw /cost-of-power carry 16 keys on a cold cache where it
+// carries 76, and pass): scripts/check-values-floor.json holds, for each page of a passing full run, the smaller of ten
+// and the keys it carried. A page read with fewer keys than its floor fails, with a line that says so. A page not in
+// the file has no floor. CHECK_VALUES_WRITE_FLOOR=1 writes the file again from a run that passes in full (no
+// CHECK_VALUES_PAGES); a page added to the list gets its floor that way.
+//
 // Session 72: it cannot hang. Every request has a hard timeout (CHECK_VALUES_REQUEST_S, default 60 s) and the whole run
 // one too (CHECK_VALUES_TIMEOUT_MIN, default 15 minutes): past it the run fails, loudly, with exit 1 (session 71's third
 // run hung for 70 minutes on the network). And it does not flake on the latest prices: their key carries the interval
@@ -37,6 +43,8 @@ const LATEST_LAG_MIN = 45;
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const base = process.argv[2] ?? "http://localhost:3000";
+const FLOOR_FILE = path.join(here, "check-values-floor.json");
+const FLOOR = fs.existsSync(FLOOR_FILE) ? JSON.parse(fs.readFileSync(FLOOR_FILE, "utf-8")).floor : {};
 // Session 178: CHECK_VALUES_PAGES=<prefix>[,<prefix>] reads only the pages whose address starts with one of them: one
 // tool's checks on their own (the weekly brief is then not parsed, and the summary says the run was restricted). The
 // gate of a landing is the full run, with the variable unset.
@@ -496,15 +504,52 @@ async function truth(check) {
   // from the file the page reads (data/seller/capture.json, not Supabase; warehouse/derived/capture_price.py builds it
   // and tests/test_session145.py holds it against the warehouse) with lib/capture.ts. <span> is l12 or a year; <stat>
   // is price, flat or rate (the capture rate in whole percent, as the table writes it)
+  // session 264: every generator key names its grid (cap|<grid>|..., mr| and ms| by the inputs' iso=); a key that does
+  // not, or that names a hub's model (&hub=, which the snapshot does not hold), is not recomputed and fails
+  const namesGrid = (inputs) => /(^|&)iso=(ercot|caiso|nyiso|isone|spp|miso)(&|$)/.test(inputs) && !/(^|&)hub=/.test(inputs);
   if (p[0] === "cap") {
     const C = await import("../lib/capture.ts");
     const file = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "seller", "capture.json"), "utf-8"));
+    if (!file.grids[p[1]]) return null;
     return C.stat(file, p[1], p[2], p[3], p[4], p[5], p[6]);
   }
   if (p[0] === "mr") {
     const M = await import("../lib/merchant.ts");
     const snap = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "merchant_snapshot.json"), "utf-8"));
+    if (!namesGrid(p[1])) return null;
     return M.stat(snap, M.parseKey(p[1]), p[2]);
+  }
+  // session 264: the seller page's spans, ms|<inputs>|<twelve|three|every>|<revenue|energy|capture|flat|rate>, per MW of
+  // nameplate at the main hub: recomputed here from the snapshot's months (lib/merchant.ts) by the rules of
+  // lib/seller2.ts (which Node cannot import: it names @/ paths), an independent second reading of the page's own spans
+  if (p[0] === "ms") {
+    const M = await import("../lib/merchant.ts");
+    const snap = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "merchant_snapshot.json"), "utf-8"));
+    if (!namesGrid(p[1])) return null;
+    const x = M.parseKey(p[1]);
+    const ms = M.months(snap, { ...x, mw: 1, mwh: x.asset === "battery" ? x.mwh / x.mw : 0, ds: 0, fom: 0 });
+    const by = new Map(ms.map((r) => [r.m, r]));
+    const back = (m, k) => new Date(Date.UTC(Number(m.slice(0, 4)), Number(m.slice(5, 7)) - 1 - k, 1)).toISOString().slice(0, 7);
+    const yearsHeld = {};
+    for (const r of ms) if (r.held) yearsHeld[r.m.slice(0, 4)] = (yearsHeld[r.m.slice(0, 4)] ?? 0) + 1;
+    const full = Object.keys(yearsHeld).filter((y) => yearsHeld[y] === 12).sort();
+    let rows = null, n = 1;
+    if (p[2] === "twelve") {
+      for (const r of [...ms].reverse()) {
+        if (!r.held) continue;
+        const t = Array.from({ length: 12 }, (_, k) => by.get(back(r.m, k)));
+        if (t.every((v) => v && v.held)) { rows = t.reverse(); break; }
+      }
+    } else if (p[2] === "three" && full.length) {
+      const want = [2, 1, 0].map((k) => String(Number(full.at(-1)) - k));
+      if (want.every((y) => full.includes(y))) { rows = ms.filter((r) => r.held && want.includes(r.m.slice(0, 4))); n = 3; }
+    } else if (p[2] === "every" && full.length) { rows = ms.filter((r) => r.held && full.includes(r.m.slice(0, 4))); n = full.length; }
+    if (!rows || !rows.length) return null;
+    const energy = rows.reduce((a, r) => a + r.energy, 0), sales = rows.reduce((a, r) => a + (r.capture !== null ? r.capture * r.energy : 0), 0);
+    const flat = rows.reduce((a, r) => a + r.flat, 0) / rows.length, capture = energy > 0 ? sales / energy : null;
+    const v = { revenue: rows.reduce((a, r) => a + r.revenue, 0) / n / 1000, energy: Math.round(energy / n), capture, flat,
+      rate: capture !== null && flat ? Math.round((100 * capture) / flat) : null }[p[3]];
+    return v === undefined ? null : v;
   }
   // session 178: the battery page's one line beside ERCOT's real awards, bsa|<strategy>_<N>h|<stat>: from the snapshot the
   // page reads (data/battery_awards_beside.json, not Supabase), with lib/batterystack.ts; tests/test_session178.py checks
@@ -752,6 +797,7 @@ async function checkWeekly(lines) {
 
 async function main() {
   const found = new Map();
+  const perPage = new Map();  // session 268: the keys each page carried, counted before keys shared with a page read earlier are set aside
   const tok = env("INTERNAL_COSTS_TOKEN");
   // session 67, the release gate (lib/release.ts): the pages are read with the internal cookie, so the pages in review
   // are still checked; without it they would answer the in-review page, which carries no number
@@ -774,6 +820,7 @@ async function main() {
     const html = await res.text();
     if (html.includes('data-in-review="1"')) throw new Error(`${page}: the in-review page was served (no internal cookie, or the server's token is not this one)`);
     const re = /<span data-check="([^"]+)" data-raw="([^"]*)"[^>]*>([\s\S]*?)<\/span>/g;
+    perPage.set(page, [...html.matchAll(re)].length);
     for (const m of html.matchAll(re)) {
       const text = decode(m[3].replace(/<!-- -->/g, "").replace(/<[^>]+>/g, "")).trim();
       const check = decode(m[1]);
@@ -814,6 +861,13 @@ async function main() {
     pass ? ok++ : bad++;
     lines.push(`${pass ? "ok  " : "FAIL"} | ${page} | ${check} | page shows "${text}" | page read ${raw} | Supabase ${t}`);
   }
+  for (const [page, count] of perPage) {
+    const floor = FLOOR[page];
+    if (floor !== undefined && count < floor) {
+      bad++;
+      lines.push(`FAIL | ${page} | the floor | the page carries ${count} checked numbers; its floor is ${floor} (scripts/check-values-floor.json): a read failed and the page drew fewer numbers, or a number lost its key`);
+    }
+  }
   const [wok, wbad] = ONLY.length ? [0, 0] : await checkWeekly(lines);
   ok += wok;
   bad += wbad;
@@ -821,6 +875,15 @@ async function main() {
   console.log(lines.join("\n"));
   if (ONLY.length) console.log(`\nRESTRICTED RUN (CHECK_VALUES_PAGES): only the pages starting with ${ONLY.join(", ")}; not the gate of a landing`);
   console.log(`\n${ok} of ${n} values match Supabase${superseded ? `; ${superseded} latest prices superseded by a newer interval within ${LATEST_LAG_MIN} minutes (checked for staleness, not comparable by value)` : ""}${bad ? `; ${bad} FAILED` : ""} (/roundup: ${wok} of ${wok + wbad})`);
+  if (n < 10) console.log(`check-values FAILED: ${n} values checked, fewer than the floor of ten a run`);
+  if (process.env.CHECK_VALUES_WRITE_FLOOR === "1") {
+    if (bad || n < 10 || ONLY.length) console.log("the floor file was not written: the run is restricted or did not pass");
+    else {
+      const floor = Object.fromEntries([...perPage].sort(([a], [b]) => a.localeCompare(b)).map(([page, count]) => [page, Math.min(10, count)]));
+      fs.writeFileSync(FLOOR_FILE, JSON.stringify({ note: "session 268: the smaller of ten and the checked numbers each page carried in a passing full run of check-values.mjs; written with CHECK_VALUES_WRITE_FLOOR=1", written_utc: new Date().toISOString(), base, floor }, null, 2) + "\n");
+      console.log(`the floor file was written: ${perPage.size} pages`);
+    }
+  }
   if (bad || n < 10) process.exit(1);
 }
 

@@ -4,9 +4,9 @@ One document a tool, written on 2026-10-13 (session 249) for the person who show
 
 | Tool | Address | Document | Written from |
 |---|---|---|---|
-| What a battery earns | `/cost-of-power/battery` | [battery.md](battery.md) | `main` (the page landed in session 234, commit `80aa2362`); checked again against `main` at `34b468fa`, with California as session 257 added it (`9e0bbfe8`) |
-| What a generator earns | `/cost-of-power/seller` | [generator.md](generator.md) | the branch `origin/wip/235-generator` at `c7ce17de`, landed as `aa3addbc`; checked again against `main` at `34b468fa`, with the 20 published figures of session 257 (`9e0bbfe8`) |
-| What a datacenter pays | `/cost-of-power` | [datacenter.md](datacenter.md) | the branch `origin/wip/236-datacenter` at `d4eaec68`, landed as `aa3addbc`; checked again against `main` at `34b468fa`, where ERCOT's reserve adder is counted on the page |
+| What a battery earns | `/cost-of-power/battery` | [the review pack](../reviews/packs/battery.md) (session 263; the note it replaces is removed) | `wip/263-battery-pack` from `afacb21e` (the page as merged in session 234, California as session 257 added it), 2026-10-14 |
+| What a generator earns | `/cost-of-power/seller` | [the review pack](../reviews/packs/generator.md) | session 264, 14 October 2026: the review pack replaces the note (sessions 249 and 260), on `wip/264-generator-pack` at `3f694726` |
+| What a datacenter pays | `/cost-of-power` | [the review pack](../reviews/packs/datacenter.md) | session 265 (14 October 2026), from `afacb21e` on `wip/265-datacenter-pack`: the pack replaces this folder's note (sessions 249 and 260), whose content it holds |
 | The Grid tool | `/grid` | [grid.md](grid.md) | rewritten by session 260 from `main` at `34b468fa` (the tool landed as `01161064`) |
 | Research | `/research` | [research.md](research.md) | rewritten by session 260 from `main` at `34b468fa` (the page landed as `01161064`) |
 
@@ -22,7 +22,7 @@ One document a tool, written on 2026-10-13 (session 249) for the person who show
 
 ## How to read them
 
-- **Every number is one the repository already holds:** a methods document, a session report, a check script, a card's own file. The last part of each document names the file and the place. Where the repository holds no number the document says "no number held"; nothing was estimated to fill a line. One exception, marked where it stands: some figures of the battery document carry **[c]**. No method or report prints them; they were computed with the page's own library from the table of 2026-10-13, and the script and its output are in [`computed/`](computed/).
+- **Every number is one the repository already holds:** a methods document, a session report, a check script, a card's own file. The last part of each document names the file and the place. Where the repository holds no number the document says "no number held"; nothing was estimated to fill a line. The battery document's figures once marked **[c]** (computed with the page's own library from the table of 2026-10-13; the script and its output stay in [`computed/`](computed/) as the record) are, since session 263, in `docs/methods/battery_earns_algorithm.md`, section 11.2, and checked against the live table by `site/scripts/check-battery-figures.mjs`: the battery's review pack carries no [c].
 - **All five pages are on `main`.** Session 249 wrote four of the five from a branch, on the night the code machine rebuilt the pages. All four landed on 13 October 2026. Session 260 rewrote the Grid tool's and Research's documents from the landed pages and read the other three against the pages as they stood on `main` that evening.
 - **No demo path was clicked through in a browser.** Each was written from the page's code, its check scripts and its data. Every page is in review (`site/lib/release.ts`), so a demo starts by opening the internal view.
 - **The screen is newer than the page.** Prices and the live set are rebuilt daily. A figure here names its months; when the screen differs, the screen is right and the document is due an edit.

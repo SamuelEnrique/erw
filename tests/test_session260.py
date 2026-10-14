@@ -22,14 +22,18 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 DIR = os.path.join(ROOT, "docs", "howitworks")
 APP = os.path.join(ROOT, "site", "app")
 
-NOTES = {
+ALL_NOTES = {
     "battery": "/cost-of-power/battery",
     "generator": "/cost-of-power/seller",
     "datacenter": "/cost-of-power",
     "grid": "/grid",
     "research": "/research",
 }
-REWRITTEN = ("grid", "research")
+# session 262: a tool whose review pack is written (docs/reviews/packs/<tool>.md, tests/test_session262.py) no longer
+# has its note here; what is held below is held for the notes that remain, and for California in the packs
+PACKS = os.path.join(ROOT, "docs", "reviews", "packs")
+NOTES = {k: v for k, v in ALL_NOTES.items() if not os.path.exists(os.path.join(PACKS, k + ".md"))}
+REWRITTEN = tuple(k for k in ("grid", "research") if k in NOTES)
 
 # the owner's five parts, and the heading of the note that holds each
 FIVE = {
@@ -49,6 +53,15 @@ NOT_IN_GIT = ("warehouse/output/", "site/.next/", "site/node_modules/")
 def note(name):
     with open(os.path.join(DIR, name + ".md"), encoding="utf-8") as f:
         return f.read()
+
+
+def note_or_pack(name):
+    """The tool's note, or its review pack once the pack has replaced it (session 262)."""
+    pack = os.path.join(PACKS, name + ".md")
+    if os.path.exists(pack):
+        with open(pack, encoding="utf-8") as f:
+            return f.read()
+    return note(name)
 
 
 def part(text, heading):
@@ -212,7 +225,7 @@ class WhatTheNotesPointAt(unittest.TestCase):
             with open(os.path.join(ROOT, *parts), encoding="utf-8") as f:
                 return f.read()
         lib, page = src("site", "lib", "batterystack.ts"), src("site", "app", "cost-of-power", "battery", "page.tsx")
-        battery, generator = note("battery"), note("generator")
+        battery, generator = note_or_pack("battery"), note_or_pack("generator")
         self.assertIn("FLEET_BESIDE", lib)
         self.assertIn("for a {fleet.dur}-hour battery on the day-ahead schedule, this model takes USD", page)
         self.assertIn("for a 4-hour battery on the day-ahead schedule, this model takes USD", battery)

@@ -115,7 +115,9 @@ class TheComponents(unittest.TestCase):
                  # session 235: the generator page's capture price and rate (cap: the site's own file data/seller/capture.json,
                  # recomputed by check-values from that file; whether the hubs of a grid whose price table is "license
                  # needed" from 20 October are held on this page too is listed for the owner's ruling in session 235's report)
-                 "cap"}
+                 "cap",
+                 # session 264: the generator page's month spans (ms|iso=<grid>&...), read from merchant_revenue_monthly as mr| is
+                 "ms"}
         found = set()
         for dirpath, _, files in os.walk(os.path.join(ROOT, "site", "app")):
             if "_retired" in dirpath:

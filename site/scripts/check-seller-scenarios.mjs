@@ -242,14 +242,14 @@ try {
   const D = M.DEFAULTS.solar;
   const d = F.defaultsOf(D);
   check(s.search === "", "the bare address stays bare: nothing is written into it", s.search);
-  check(JSON.stringify(s.fields.map((f) => f.key)) === JSON.stringify(F.KEYS), "ten assumptions, in the order asked (session 212: the contract's share and price last)", s.fields.map((f) => f.key).join(", "));
+  check(JSON.stringify(s.fields.map((f) => f.key)) === JSON.stringify(F.KEYS), "eleven assumptions, in the order asked (session 212: the contract's share and price; session 264: the PPA term last)", s.fields.map((f) => f.key).join(", "));
   check(/percent of the energy/.test(s.text) && /USD per MWh/.test(s.fields.find((f) => f.key === "cprice").source + s.text), "for solar the contract is a share of the energy at a price per MWh");
   let dl = await downloads("");
   check(dl.status[0] === 200 && dl.status[1] === 200 && dl.months > 12 && dl.tables > 100 && /^# Energy Research Warehouse/.test(dl.heads), "the two CSV downloads answer the internal view with their provenance lines", `${dl.status}; ${dl.months} months, ${dl.tables} cells`);
   check(s.fields.every((f) => Number(f.value) === d[f.key] && Number(f.def) === d[f.key]), "each field holds its default", s.fields.map((f) => `${f.key} ${f.value}`).join(", "));
   check(s.fields.every((f) => f.reset && f.resetOff === true), "each has a Reset, idle at the default");
   check(s.fields.every((f) => /^Default [\d,.]+\. .{12,}\.$/.test(f.source)), "each states its default and where the default comes from", s.fields.find((f) => !/^Default [\d,.]+\. .{12,}\.$/.test(f.source))?.source ?? "");
-  check(s.fields.filter((f) => /Lazard, Levelized Cost of Energy\+, June 2025/.test(f.source)).length === 7, "seven defaults cite Lazard's June 2025 report (session 196: the hurdle rate among them)", s.fields.filter((f) => !/Lazard/.test(f.source)).map((f) => f.key).join(", "));
+  check(s.fields.filter((f) => /Lazard, Levelized Cost of Energy\+, June 2025/.test(f.source)).length === 8, "eight defaults cite Lazard's June 2025 report (session 196: the hurdle rate among them; session 264: the PPA term, the asset's life)", s.fields.filter((f) => !/Lazard/.test(f.source)).map((f) => f.key).join(", "));
   check(/1,150 to 1,600 for solar/.test(s.fields[0].source) && /35 years for solar/.test(s.fields.find((f) => f.key === "life").source), "the capital cost and the life cite the asset's own range and life", s.fields[0].source);
   check(s.resetAll === "Reset all of A" && s.copy === "Copy A to B", "one Reset for all, and Copy A to B", `${s.resetAll}; ${s.copy}`);
   check(JSON.stringify(s.rows) === JSON.stringify(["revenue", "capture", "month", "coverage", "npv", "irr", "contract", "ppa", "battery", "differs"]), "nine rows in order (session 235: the breakeven PPA price), then the row in words", s.rows.join(", "));
@@ -267,7 +267,7 @@ try {
   check(near((s.cells["a|contract"].raw * tw.energyKw - d.fom) / F.debtService(d), 1.25, 1e-9), "at the contract price, coverage is 1.25", s.cells["a|contract"].text);
   check(/^Scenario A, 100 MW of solar: at a hurdle rate of 12 percent, NPV is USD -?[\d,.]+( million| billion)?\.$/.test(s.sentence ?? ""), "the sentence states the number (session 208: at a hurdle rate of 12)", s.sentence ?? "");
   check(JSON.stringify(s.before) === JSON.stringify(["Your plant", "What did it earn?", "Is it worth building?", "What matters most"]), "the page asks three questions, in the battery page's order, after the panel (session 212)", s.before.join(" | "));
-  check(/^Each row moves one assumption of scenario A down and up by the step named, holds the other nine/.test(s.howToRead), "one line says how to read the chart", s.howToRead);
+  check(/^Each row moves one assumption of scenario A down and up by the step named, holds the others/.test(s.howToRead), "one line says how to read the chart", s.howToRead);
   await shot("seller-scenarios-default-desktop", 1280);
 
   // 3: a change computes in the browser
@@ -415,7 +415,7 @@ try {
   s = await ev(STATE);
   const rc = F.resultOf({ ...d, cshare: 50, cprice: 40 }, tw.revenueKw, en), con = await ev(CONTRACT);
   check(/[?&]an=50&ap=40$/.test(s.search) && near(s.cells["a|coverage"].raw, rc.coverage) && near(s.cells["a|npv"].raw, rc.npv) && rc.coverage !== r00.coverage, "the share goes into the address; A's coverage and NPV read the contract", `${s.search}: ${s.cells["a|coverage"].text}`);
-  check(s.bars.length === 10 && s.bars.some((b) => b.key === "cshare") && s.bars.some((b) => b.key === "cprice"), "with a contract in A the chart draws its share and price as two more rows", s.bars.map((b) => b.key).join(", "));
+  check(s.bars.length === 11 && s.bars.some((b) => b.key === "cshare") && s.bars.some((b) => b.key === "cprice") && s.bars.some((b) => b.key === "ppa"), "with a contract in A the chart draws its share, price and PPA term as three more rows (session 264)", s.bars.map((b) => b.key).join(", "));
   check(/50 percent of the energy at USD 40 per MWh/.test(con.words) && !con.keyed && near(con.cover, Number(rc.coverage.toFixed(2)), 1e-9), "the headline names the contract, reads its coverage and drops the key", `${con.words.trim()} ${con.cover}`);
   check(JSON.stringify(s.headA) === JSON.stringify(["contract 50%", "contract USD 40"]) && s.words === "B: contract share 0 percent against 50; contract price USD 0 against 40.", "the headers and the row in words name the contract", s.words);
   check(/contract 50 percent at USD 40 per MWh; debt payments/.test(s.cells["a|coverage"].text), "the coverage cell says what the contract is", s.cells["a|coverage"].text);
@@ -462,7 +462,7 @@ try {
   check(!s.bad && s.cells["a|revenue"].raw !== null && s.cells["a|battery"].raw === null && (s.cells["a|battery"].missing ?? "").length > 20 && s.bars.length === 8, "New York wind: the scenarios are computed; no pair is modeled, with its reason on hover", s.cells["a|battery"].missing ?? "");
   await go("/cost-of-power/seller?iso=isone&asset=solar&hub=.Z.MAINE");
   s = await ev(STATE);
-  check(!!s && !s.bad && s.cells["a|revenue"].raw === null && s.cells["a|npv"].raw === null && s.bars.length === 0 && s.sentence === null && s.fields.length === 10, "a zone with no twelve months: the rows say not held, with no chart and no sentence (nothing is filled)", s ? s.cells["a|revenue"].text : "no block");
+  check(!!s && !s.bad && s.cells["a|revenue"].raw === null && s.cells["a|npv"].raw === null && s.bars.length === 0 && s.sentence === null && s.fields.length === 11, "a zone with no twelve months: the rows say not held, with no chart and no sentence (nothing is filled)", s ? s.cells["a|revenue"].text : "no block");
 
   // 10b (session 235): the breakeven PPA price, "Make B a PPA", and the capture chart and table inside the first question
   await go("/cost-of-power/seller");
@@ -481,7 +481,7 @@ try {
     s = await ev(STATE);
     const val = (k) => Number(s.fields.find((f) => f.key === k).value);
     check(s.view === "b" && val("cshare") === 100 && val("cprice") === b5.cprice && s.search === `?bn=100&bp=${b5.cprice}&v=b`, "one click: B in view, its share 100 percent and its price the breakeven rounded up to the cent, kept in the address", s.search);
-    check(s.cells["a|npv"].raw === npvA && s.cells["a|coverage"].raw === covA && s.cells["b|npv"].raw >= 0 && s.cells["b|npv"].raw < 1 && near(s.cells["b|ppa"].raw, want, 1e-6) && s.bars.length === 10,
+    check(s.cells["a|npv"].raw === npvA && s.cells["a|coverage"].raw === covA && s.cells["b|npv"].raw >= 0 && s.cells["b|npv"].raw < 1 && near(s.cells["b|ppa"].raw, want, 1e-6) && s.bars.length === 11,   // session 264: the PPA term is the eleventh row
       "A does not move; B's NPV is zero or just above (under USD 1 per kW); the breakeven row still reads the breakeven; the chart of B draws the contract's rows", `${s.cells["b|npv"].text} | ${s.cells["b|ppa"].text}`);
     await go("/cost-of-power/seller");
     const capT = await ev(`(() => {

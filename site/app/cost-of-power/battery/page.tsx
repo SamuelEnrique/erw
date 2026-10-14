@@ -7,11 +7,11 @@ import { SiteLink as Link } from "@/components/SiteLink";
 import { ChartFrame, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import {
   CAPACITY_WORDS, COSTS, DEBT, DURATION_WORDS, LEFT_OUT, PRODUCTS, REVIEW_TABLE, STRATEGIES, STRESS_BY, TABLE, awardsBeside, debtPerMw, fleetBeside, fleetCase, gridOf, inputsKey, inputsOf, last36,
-  lastThreeYears, lastTwelve, monthName, monthsOf, outlier, stat, stress, usdShort, years, type AwardsSnapshot, type Inputs, type Month, type Year,
+  lastThreeYears, lastTwelve, monthName, monthsOf, outlier, stat, stress, typedNotes, usdShort, years, type AwardsSnapshot, type Inputs, type Month, type Year,
 } from "@/lib/batterystack";
 import awardsData from "@/data/battery_awards_beside.json";
 import stepsData from "@/data/battery_scenario_steps.json";
-import { debtUsd, defaultsOf, isOldParam, isScenarioParam, parseScenarios, stepState, stepsOffered, type StepFile } from "@/lib/battery/finance";
+import { debtUsd, defaultsOf, isOldParam, isScenarioParam, parseScenarios, scenarioNotes, stepState, stepsOffered, type StepFile } from "@/lib/battery/finance";
 import { attempt } from "@/lib/supabase";
 import { CostTabs } from "../Tabs";
 import { BatteryForm } from "./BatteryForm";
@@ -164,6 +164,8 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
   const stepCase = steps.cases[`${asked.grid}|${asked.strat}|${asked.dur}`] ?? null;
   const offered = stepsOffered(steps, stepState(stepCase, ms, (last36(ms)?.months ?? []).map((r) => r.m)));
   const A = parseScenarios(q, defaultsOf(COSTS[asked.dur]), offered, asked.mw).a;
+  // session 263: what the address asked for and the page does not show as asked is said, in one line, never replaced in silence
+  const asItWas = [...typedNotes(q, asked), ...scenarioNotes(q, defaultsOf(COSTS[asked.dur]), offered)];
   const x: Inputs = { ...asked, fom: A.fom, ds: debtUsd(A, asked.mw) };
   const key = inputsKey(x);
   const held = ms.filter((r) => r.held);
@@ -225,6 +227,9 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
           </aside>
 
           <div className="min-w-0">
+            {asItWas.length ? (
+              <p className="mb-6 border border-rule bg-paper px-3 py-2 text-sm" role="status" data-typed-notes={asItWas.length}>{asItWas.join(" ")}</p>
+            ) : null}
             {g.review ? (
               <p className="mb-6 border-l-2 border-accent bg-paper px-4 py-3 text-sm" data-in-review-grid={x.grid}>
                 <strong>{g.name} is in review and shown in the internal view only.</strong> Its reserve prices came into the warehouse in session 85. {DURATION_WORDS[x.grid]} {LEFT_OUT[x.grid]}.
@@ -292,7 +297,7 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
                       In {fleet.year}, for a {fleet.dur}-hour battery on the day-ahead schedule, this model takes USD <V pre={fleetKey} s={`year_kw:${fleet.year}:energy`} v={fleetEnergy} /> per
                       kW from energy and USD <V pre={fleetKey} s={`year_kw:${fleet.year}:${fleet.regulationStreams}`} v={fleetReg} /> from regulation; {g.name}&apos;s market monitor reports that real batteries in its area
                       with a full year of operation earned about USD <span data-fleet-published="energy">{fleet.energy}</span> per kW from energy and USD <span data-fleet-published="regulation">{fleet.regulation}</span> from regulation
-                      ({fleet.publisher}, <a href={fleet.url} rel="noopener">{fleet.report}</a>, {fleet.where}). <Link href={MONITOR}>How this is counted</Link>.
+                      ({fleet.publisher}, <a href={fleet.url} rel="noopener">{fleet.report}</a>, {fleet.where}). <span data-fleet-why="1">The two differ in regulation: this model sells it as if the market had no size, and the monitor writes that &ldquo;there is a large amount of battery capacity competing to provide a relatively low amount of required regulation&rdquo;.</span> <Link href={MONITOR}>How this is counted</Link>.
                     </p>
                   ) : null}
                   {/* session 208 (ruling 2): one sentence of what the model cannot see; the rest is in the methods note */}
