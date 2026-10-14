@@ -71,7 +71,7 @@ class TheKeysNameTheGrid(unittest.TestCase):
     def test_check_values_refuses_a_key_without_its_grid(self):
         c = src("site", "scripts", "check-values.mjs")
         self.assertIn("const namesGrid = (inputs) => /(^|&)iso=(ercot|caiso|nyiso|isone|spp|miso)(&|$)/.test(inputs) && !/(^|&)hub=/.test(inputs);", c)
-        self.assertEqual(c.count("if (!namesGrid(p[1])) return null;"), 2)        # mr| and ms|
+        self.assertEqual(c.count("if (!namesGrid(p[1])) return null;"), 3)        # mr|, ms| and (session 288, problem set E) mrs|
         self.assertIn("if (!file.grids[p[1]]) return null;", c)                     # cap|
         self.assertIn("export const inputsKey = (x: Inputs) => `iso=${x.iso}&", src("site", "lib", "merchant.ts"))
         page = src(*SELLER, "page.tsx")
