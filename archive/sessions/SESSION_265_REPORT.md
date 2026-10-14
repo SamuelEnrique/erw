@@ -84,7 +84,8 @@ The coordinator's follow-up, 10:26 UTC: session 272 landed (`d77571ce`, the owne
 - **The pack:** parts 1, 2 (step 13), 3, 6 (item 8), 7 (question 8), 9 (question 6) and the sources.
 - **Tests:** `tests/test_session265.py` gains four tests (the read through the helper; facts with a link and no document's words; the counts and the check key; the figures by node).
 
-CHECKS_B
+- **Checks, 265b:** `npx tsc --noEmit` exit 0 (10:59 UTC, under the mutex). `npm run build` did not finish: the harness stopped the background command for low memory during the build's TypeScript step (the log ends at "Running TypeScript ..."; exit 1 from the stop, not from the code). It was not restarted, as the rules say. So `check-values` (restricted, twice), `check-routes`, `check-datacenter-scenarios` and `check-datacenter-face` were **not run on 265b**. The mutex, taken at 10:59, was released by hand at 10:59. `python -m unittest tests.test_session265 tests.test_session262 tests.test_session236`: exit 0 (49 tests); after the merge of `8c86c10d`, `tests.test_session265`: exit 0 (14 tests). The statements library was run by node against the live table (anon): ERCOT 67, 5, 28, 12, 55, 22,000, 60; CAISO 48; NYISO 5; SPP 19; ISO-NE 0.
+- **To finish (265b):** under the mutex, in `erw-190` on `wip/265b-how-soon`: `bash C:/Users/lossa/Documents/erw/runs/session265/cycle.sh c4 1`, then `bash C:/Users/lossa/Documents/erw/runs/session265/cycle.sh c4 2` (the build; then check-values restricted to `/cost-of-power` twice, check-routes, check-datacenter-face, check-datacenter-scenarios and the edge cases; phase 2 releases the mutex). `check-values` must match the new `dcll` keys.
 
 ## The landing
 
