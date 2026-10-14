@@ -467,7 +467,7 @@ class ThePage(unittest.TestCase):
             self.assertNotIn(word, line.lower())
         self.assertIn('import awardsData from "@/data/battery_awards_beside.json";', self.page)
         self.assertEqual(self.page.count("rest<"), 0)                    # no new read of the live set: the page's one read is read.ts's (session 208; test_session148 holds this too)
-        self.assertEqual(src("site", "app", "cost-of-power", "battery", "read.ts").count("rest<"), 1)
+        self.assertEqual(src("site", "app", "cost-of-power", "battery", "read.ts").count("rest<"), 2)   # session 257: the stress days' read (1 until then); the awards line still reads the snapshot
         check = src("site", "scripts", "check-values.mjs")
         self.assertIn('if (p[0] === "bsa") {', check)
         self.assertIn("return B.awardsStat(snap, p[1], p[2]);", check)
