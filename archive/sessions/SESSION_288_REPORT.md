@@ -74,4 +74,6 @@ The snapshot and the landing are recorded under "Landing" below, written after t
 
 ## Landing
 
-Written after the push; see the addendum on `wip/games-v2` (session 289's first commit) if this section is empty on main.
+- Before `s288-before` 22:32:43 UTC; pushed 22:32:51 (`task/288-games-menu`, `7eabf0ca`); check run 38648395552 success; merged `0137e1f6`; Vercel production success 22:43:19; production serves it (the internal view of set E reads "as many normal days").
+- After `s288-after` 22:45:18; `compare`: **125 differences, all expected**: on each of the 25 pages the menu's four "Problems: ..." entries are gone and "Problem sets" is there (5 lines a page). No checked number moved (none is on a page a visitor sees: every page is in review). Nothing unexpected.
+- This section was written on `wip/games-v2` after the landing; main carries the report as pushed.
