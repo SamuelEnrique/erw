@@ -227,7 +227,7 @@ function HouseFlow({ flow, soc, kwh, reserveKwh, blocked }: { flow: Action; soc:
         </g>
       ) : null}
       {/* the wire, battery to house */}
-      <line x1="176" y1="70" x2="232" y2="70" stroke="var(--color-rule)" strokeWidth="4" />
+      <line x1="176" y1="86" x2="236" y2="86" stroke="var(--color-rule)" strokeWidth="4" />
       {/* the house */}
       <path d="M236 92 L236 60 L266 38 L296 60 L296 92 Z" fill="var(--color-panel)" stroke="var(--color-ink)" strokeWidth="2" />
       <rect x="258" y="70" width="14" height="22" fill="var(--color-rule)" />
@@ -636,7 +636,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
       for (let k = 0; k <= 3; k++) {
         const v = lo + ((hi - lo) * k) / 3, yy = y(v);
         ctx.beginPath(); ctx.moveTo(L, yy); ctx.lineTo(w - R, yy); ctx.stroke();
-        ctx.fillText(Math.round(v).toLocaleString("en-US"), 2, yy + 4);
+        ctx.fillText(Math.round(v).toLocaleString("en-US"), 2, yy - 3);  // session 291: above its line, clear of the moves' names
       }
       if (lo < 0) { ctx.strokeStyle = css("ink"); ctx.beginPath(); ctx.moveTo(L, y(0)); ctx.lineTo(w - R, y(0)); ctx.stroke(); }
       ctx.fillStyle = css("paper");
@@ -692,7 +692,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
     for (let k = 0; k <= 4; k++) {
       const v = lo + ((hi - lo) * k) / 4, yy = y(v);
       ctx.beginPath(); ctx.moveTo(40, yy); ctx.lineTo(w, yy); ctx.stroke();
-      ctx.fillText(Math.round(v).toLocaleString("en-US"), 2, yy + 4);
+      ctx.fillText(Math.round(v).toLocaleString("en-US"), 2, yy - 3);
     }
     if (lo < 0) { ctx.strokeStyle = css("ink"); ctx.beginPath(); ctx.moveTo(40, y(0)); ctx.lineTo(w, y(0)); ctx.stroke(); }
     // the VPP hour, from its notice (one interval before) on
@@ -973,7 +973,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
               <canvas ref={canvas} className={`block w-full touch-none ${easy ? "h-[200px] sm:h-[240px]" : "h-[220px] sm:h-[260px]"}`} aria-label={easy ? "The day's prices: the solid line is the day so far, the dashed line the rest of the day, shown ahead" : "The day's price so far; the future is hidden"} />
               <div className={`mt-2 grid grid-cols-1 items-center gap-2 ${easy ? "" : "sm:grid-cols-[auto_1fr]"}`}>
                 {!easy ? <HouseFlow flow={playing ? hud.control : 0} soc={hud.soc} kwh={rules.kwh} reserveKwh={rules.reserveKwh} blocked={blocked} /> : null}
-                <div className="grid grid-cols-[1fr_auto] items-center gap-3 text-sm">
+                <div className="grid grid-cols-1 items-center gap-3 text-sm sm:grid-cols-[1fr_auto]">
                   <div>
                     <div className="mb-1 flex justify-between text-xs text-muted"><span>State of charge</span><span>{hud.soc.toFixed(2)} of {rules.kwh} kWh</span></div>
                     <div className="relative h-3 w-full border border-rule bg-panel">
@@ -982,7 +982,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
                     </div>
                     {blocked ? <div className="mt-1 text-xs">Held: the battery is at its backup reserve.</div> : null}
                   </div>
-                  <div className="text-right">
+                  <div className="sm:text-right">
                     <span className="text-xs text-muted">Money</span><div className="font-serif text-2xl" aria-live="off">{usd(money)}</div>
                     <div className="text-xs text-muted">earned {usd(money - START_MONEY)}{rules.deg > 0 ? `, wear ${usd(-hud.wear)}` : ""}</div>
                     {/* session 289 (Samuel's ruling 3a): one battery earns cents; the fleet of 10,000 such homes is shown beside it */}
