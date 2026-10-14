@@ -361,7 +361,8 @@ def main(argv=None):
             *common,
             f"Source: {SOURCE_PUBLIC} ERW derived table, docs/methods/large_load_public.md, {METHOD_URL}; each row's source_url is the regulator's, the SEC's or the publisher's own copy of the document",
             "Derived from: large_load_statements",
-            "License: internal until the owner rules (session 255's prompt). Built so that it can be made public: facts with a link, no quotation. Not on the site, not in a public Redivis dataset, not in the live set.",
+            "License: public, by the owner's ruling of 14 October 2026 (session 272): facts with a link, no quoted text, each row resting on a document that is public by the rule of "
+            "session 255 (docs/methods/large_load_public.md). Derived from an internal table, of which it keeps only those rows and those columns.",
         ]
         for name, frame, head, cols in ((VERDICTS, verdicts, head_v, VERDICT_COLS), (PUBLIC, public, head_p, PUBLIC_COLS)):
             path = os.path.join(ip.OUT_DIR, name + ".csv")
@@ -370,7 +371,7 @@ def main(argv=None):
             ip.write_csv(frame, name, head, log, cols=cols, key=["event_id"], time_col="event_date")
         ip.update_sources([
             dict(source=SOURCE_PUBLIC, publisher="Energy Research Warehouse (ERW), derived", report="The large-load statements whose source document is public, as facts with a link (warehouse/derived/large_load_public.py)",
-                 report_url=METHOD_URL, document_list="", license="internal", tables=[PUBLIC]),
+                 report_url=METHOD_URL, document_list="", license="public", tables=[PUBLIC]),  # session 272: the owner's ruling
             dict(source=SOURCE_VERDICTS, publisher="Energy Research Warehouse (ERW), derived", report="A license verdict for each source document of the large-load tables (warehouse/derived/large_load_public.py)",
                  report_url=METHOD_URL, document_list="", license="internal", tables=[VERDICTS])])
         msg = (f"{len(verdicts)} documents with a verdict; {len(public)} of {n['statements']} statements public ({n['public_entities']} entities), "

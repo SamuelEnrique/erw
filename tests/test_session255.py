@@ -146,13 +146,14 @@ class TheWords(unittest.TestCase):
         self.assertNotIn('comment="#"', code)                                                      # session 103's rule: a table is read by its header's line count
 
     def test_neither_table_is_loaded_and_both_sources_are_held(self):
+        # session 272: large_load_public is public by the owner's ruling and loaded; the verdicts stay held
         import yaml
         with open(os.path.join(ROOT, "warehouse", "supabase", "live_set.yaml"), encoding="utf-8") as f:
             live = yaml.safe_load(f)
-        for t in (L.PUBLIC, L.VERDICTS):
-            self.assertIn(t, live["catalogue_hold"])
-        for s in (L.SOURCE_PUBLIC, L.SOURCE_VERDICTS):
-            self.assertIn(s, live["sources_hold"])
+        self.assertIn(L.VERDICTS, live["catalogue_hold"])
+        self.assertIn(L.SOURCE_VERDICTS, live["sources_hold"])
+        self.assertNotIn(L.PUBLIC, live["catalogue_hold"])
+        self.assertNotIn(L.SOURCE_PUBLIC, live["sources_hold"])
 
 
 @unittest.skipUnless(all(os.path.exists(os.path.join(OUT, t + ".csv")) for t in (L.PUBLIC, L.VERDICTS, "large_load_statements")) and not os.environ.get("GITHUB_ACTIONS"),
@@ -163,10 +164,11 @@ class TheTablesOnTheDataMachine(unittest.TestCase):
         cls.p, cls.v, cls.s = L.read(L.PUBLIC), L.read(L.VERDICTS), L.read("large_load_statements")
 
     def test_both_are_flagged_internal(self):
-        for t in (L.PUBLIC, L.VERDICTS):
+        # session 272: large_load_public is public by the owner's ruling of 14 October 2026; the verdicts stay internal
+        for t, lic in ((L.PUBLIC, "public"), (L.VERDICTS, "internal")):
             with open(os.path.join(OUT, t + ".csv"), encoding="utf-8") as f:
                 head = [ln for ln in f if ln.startswith("#")]
-            self.assertTrue(any(ln.startswith("# License: internal") for ln in head), t)
+            self.assertTrue(any(ln.startswith(f"# License: {lic}") for ln in head), t)
 
     def test_every_public_row_is_its_statement_and_carries_none_of_its_words(self):
         m = self.p.merge(self.s, left_on="statement_id", right_on="event_id", suffixes=("", "_s"))
