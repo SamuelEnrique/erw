@@ -774,7 +774,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
         <div ref={board} className="scroll-mt-2" data-game-phase={phase} data-game-idx={hud.idx} data-game-level={level.date}>
           <div className="mb-1 flex flex-wrap items-baseline justify-between gap-2 text-sm">
             <span><strong>{level.title}</strong>, {level.date} ({GRIDS[level.grid].name}, {GRIDS[level.grid].zone} time), {DIFFICULTIES[difficulty].label}{addons.map((k) => `, with ${ADDONS[k].label.toLowerCase()}`).join("")}</span>
-            <span aria-live="polite">{playing && hud.idx < n ? `${clock(level.tz, level.ts_utc[Math.min(n - 1, hud.idx)])}` : "end of day"}</span>
+            <span aria-live="polite">{playing && hud.idx < n ? `${clock(level.tz, level.ts_utc[Math.min(n - 1, hud.idx)])}` : result && result.mine.why ? `ended at ${at(result.mine.end)}` : "end of day"}</span>
           </div>
           {inOutage ? (
             <div className="mb-1 border border-ink bg-panel px-2 py-1 text-sm" role="status">
@@ -825,7 +825,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
             <div className="mt-3 grid grid-cols-2 gap-3">
               <button {...hold(1)} disabled={inOutage} className={`touch-none border px-3 ${simple ? "py-8 text-xl" : "py-4 text-base"} disabled:opacity-40 ${hud.control === 1 ? "border-[var(--color-down)] bg-[var(--color-down)] text-paper" : "border-[var(--color-down)] text-[var(--color-down)]"}`}>{simple ? "Charge" : "Hold to charge (buy)"}</button>
               <button {...hold(-1)} disabled={inOutage} className={`touch-none border px-3 ${simple ? "py-8 text-xl" : "py-4 text-base"} disabled:opacity-40 ${hud.control === -1 ? "border-accent bg-accent text-paper" : "border-accent text-accent"}`}>{simple ? "Sell" : "Hold to sell (discharge)"}</button>
-              <p className="col-span-2 text-xs text-muted">{inOutage ? "The grid is down: nothing to buy or sell until it is back." : simple ? "Hold a button down; let go to wait." : "Keys: C or the down arrow to charge, S or the up arrow to sell. Let go to idle."}</p>
+              <p className="col-span-2 text-xs text-muted">{inOutage ? "The grid is down: nothing to buy or sell until it is back." : simple ? "Hold a button down; let go to wait." : <>{/* session 279: no keys on a phone */}<span className="[@media(pointer:coarse)]:hidden">Keys: C or the down arrow to charge, S or the up arrow to sell. Let go to idle.</span><span className="hidden [@media(pointer:coarse)]:inline">Hold a button down; let go to idle.</span></>}</p>
             </div>
           ) : null}
         </div>
