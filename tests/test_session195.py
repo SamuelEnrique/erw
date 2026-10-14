@@ -43,7 +43,7 @@ FILES = [SHARED, *WRAPPERS.values(), *PAGES.values(), *(f for f, _ in FORMS.valu
          "site/app/cost-of-power/LoadHeadline.tsx", "site/app/cost-of-power/battery/nums.tsx", "site/app/cost-of-power/seller/nums.tsx",
          "site/lib/batterystack.ts", "site/lib/battery/finance.ts", "site/lib/seller/finance.ts", "site/lib/datacenter/finance.ts",
          "site/scripts/check-decisions-face.mjs", "site/scripts/test-decisions-195.mjs", "site/scripts/check-battery-scenarios.mjs",
-         "site/scripts/check-seller-scenarios.mjs", "site/scripts/check-datacenter-scenarios.mjs", "site/scripts/check-seller.mjs",
+         "site/scripts/check-seller-scenarios.mjs", "site/scripts/check-datacenter-scenarios.mjs", "site/scripts/_retired/check-seller.mjs",   # session 264: retired
          "docs/methods/datacenter_cost.md", "tests/test_session195.py", "archive/sessions/SESSION_195_REPORT.md"]
 
 

@@ -66,7 +66,9 @@ export const SPECS: Record<Key, Spec> = {
     source: "What this way of running, or this overhead ratio, costs to build. No cited cost is held, so the default is none" },
   life: { key: "life", letter: "l", label: "Years counted", unit: "years", min: 1, max: 40, whole: true, swing: 5, swingWords: "5 years",
     short: (v) => `${n(v)} years`, words: (v) => `${n(v)} years counted`, plain: n, source: "No cited term is held for a datacenter's power. The default is 20 years" },
-  hurdle: { key: "hurdle", letter: "h", label: "Hurdle rate", unit: "percent a year", min: 0, max: 40, whole: false, swing: 1, swingWords: "1 point",
+  // session 265 (the owner's list of 14 October 2026): the field is labelled for what its default is, a generator's
+  // weighted cost of capital as Lazard states it; the field stays editable, and the sentences still call it the hurdle rate
+  hurdle: { key: "hurdle", letter: "h", label: "Cost of capital: a generator's WACC, Lazard", unit: "percent a year", min: 0, max: 40, whole: false, swing: 1, swingWords: "1 point",
     short: (v) => `hurdle ${n(v)}%`, words: (v) => `hurdle rate ${n(v)} percent`, plain: n,
     source: `${LAZARD}: "60% debt at an 8% interest rate and 40% equity at a 12% cost". The default is that weighted cost, 0.6 x 8 + 0.4 x 12 = 9.6 percent. It is the cost of capital of a power plant's builder, not a datacenter's own, for which no cited rate is held` },
   // session 213: the contract

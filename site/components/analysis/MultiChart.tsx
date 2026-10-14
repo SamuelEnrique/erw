@@ -181,8 +181,10 @@ export function MultiChart({ spec, label }: { spec: MultiSpec; label: string }) 
             ))}
           </div>
           <p className="text-[11px] leading-snug text-muted" data-multi-note="1">
-            <span style={{ color: LINE }}>Line</span>: {(spec.measures.find((x) => x.key === measure) ?? spec.measures[0]).label.toLowerCase()}.{" "}
-            <span style={{ color: FLEET }}>Shaded</span>: {spec.fleet_label}. {spec.axis_note}
+            {/* session 270: the words take the token the chart's line and shade are drawn in (components/echarts.ts swaps
+                LINE for --chart-ink and FLEET for --chart-blue inside the brand); outside it the old values stand */}
+            <span style={{ color: `var(--chart-ink, ${LINE})` }}>Line</span>: {(spec.measures.find((x) => x.key === measure) ?? spec.measures[0]).label.toLowerCase()}.{" "}
+            <span style={{ color: `var(--chart-blue, ${FLEET})` }}>Shaded</span>: {spec.fleet_label}. {spec.axis_note}
           </p>
           <All spec={spec} measure={measure} label={label} height={spec.panels.length * 112 + 40} />
           <ul className="multi-words mt-2 max-w-3xl list-none space-y-1 p-0 text-xs" data-multi-words="1">

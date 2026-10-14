@@ -1,0 +1,27 @@
+{
+ "date": "2026-10-14",
+ "fact_id": "ff_4308d30e4b",
+ "kind": "history",
+ "fact": "Pearl Street Station began generating electricity on September 4, 1882, serving 400 lamps to 82 customers.",
+ "second": "On this day in 1913: Senghenydd colliery disaster, the United Kingdom's worst coal mining accident, claims the lives of 439 miners.",
+ "structure": "on_this_day",
+ "conjecture": "False",
+ "sources": [
+  {
+   "label": "Wikipedia, Pearl Street Station",
+   "url": "https://en.wikipedia.org/wiki/Pearl_Street_Station",
+   "raw": "warehouse/news/facts/raw/wikipedia/pearl_street_station_20260928T083018Z.txt",
+   "retrieved_at": "20260928T083018Z",
+   "part": "fact",
+   "span": "it started generating electricity on September 4, 1882 (1882-09-04), serving an initial load of 400 lamps to 82 customers"
+  },
+  {
+   "part": "second",
+   "label": "Wikipedia, October 14",
+   "url": "https://en.wikipedia.org/wiki/October_14",
+   "raw": "warehouse/news/facts/raw/wikipedia/october_14_20261014T161830Z.txt",
+   "span": "1913 – Senghenydd colliery disaster, the United Kingdom's worst coal mining accident, claims the lives of 439 miners.",
+   "retrieved_at": "20261014T161830Z"
+  }
+ ]
+}

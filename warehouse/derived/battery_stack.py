@@ -107,17 +107,19 @@ MARKETS = {
             dict(key="nspin", label="Non-Spin", up=True, entity="ercot:NSPIN", variable="mcpc_dam", first=None,
                  hours=[("2018-01-01", 1.0, ONE_HOUR), ("2022-12-09", 4.0, NPRR1096)]),
         ]),
+    # session 273: CAISO from August 2023, the first whole month OASIS still served when its history was pulled back
+    # (14 July 2023 on 14 October 2026; it keeps about 39 months). It began in September 2024 until then
     "caiso": dict(
-        label="CAISO", start="2024-09-01", as_table="caiso_as_prices", geo="US-CA",
+        label="CAISO", start="2023-08-01", as_table="caiso_as_prices", geo="US-CA",
         products=[
             dict(key="regup", label="Regulation Up", up=True, entity="caiso:AS_CAISO_EXP", variable="as_price_dam_ru",
-                 first=None, hours=[("2024-09-01", 1.0, CAISO_REG)]),
+                 first=None, hours=[("2023-08-01", 1.0, CAISO_REG)]),
             dict(key="regdn", label="Regulation Down", up=False, entity="caiso:AS_CAISO_EXP", variable="as_price_dam_rd",
-                 first=None, hours=[("2024-09-01", 1.0, CAISO_REG)]),
+                 first=None, hours=[("2023-08-01", 1.0, CAISO_REG)]),
             dict(key="spin", label="Spinning Reserve", up=True, entity="caiso:AS_CAISO_EXP", variable="as_price_dam_sr",
-                 first=None, hours=[("2024-09-01", 0.5, CAISO_RESERVE)]),
+                 first=None, hours=[("2023-08-01", 0.5, CAISO_RESERVE)]),
             dict(key="nonspin", label="Non-Spinning Reserve", up=True, entity="caiso:AS_CAISO_EXP",
-                 variable="as_price_dam_nr", first=None, hours=[("2024-09-01", 0.5, CAISO_RESERVE)]),
+                 variable="as_price_dam_nr", first=None, hours=[("2023-08-01", 0.5, CAISO_RESERVE)]),
         ]),
 }
 PRODUCT_KEYS = sorted({p["key"] for m in MARKETS.values() for p in m["products"]})

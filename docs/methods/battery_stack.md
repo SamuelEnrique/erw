@@ -208,7 +208,7 @@ ERCOT's stress days are three named events. California's are made by a rule, fro
 - **A stress day is a local day on which CAISO issued a system-wide notice:** a Flex Alert, Restricted Maintenance Operations, an Energy Emergency Alert watch or level 1 to 3, a Stage 1 to 3 emergency, a Warning, an Alert or a load interruption, as `caiso_grid_emergencies` holds them (CAISO's Grid Emergencies History Report).
 - **Not a stress day:** a Transmission Emergency (a line or a fire: local, not a shortage on the system) and a voluntary load reduction.
 - **Days at most three days apart are one event,** named for its first day: `caiso_notices_<YYYYMMDD>`.
-- **Only days the model solved count.** CAISO's prices are held from 1 September 2024, so the heat waves of 2020 and 2022 are not in the table.
+- **Only days the model solved count.** CAISO's prices are held from 14 July 2023 (session 273: the oldest day OASIS still served; 1 September 2024 before), and the model runs from August 2023, its first whole month, so the heat waves of 2020 and 2022 are not in the table.
 
 The four events inside the held prices, as built on 13 October 2026 (USD per MW of power, the window's days added up). Session 246 built the first two from the notices then held (to 30 April 2025); session 247 read CAISO's report again the same day (its notices now reach 8 October 2026), and the rule wrote the other two without a line of code changing:
 
@@ -223,6 +223,25 @@ The four events inside the held prices, as built on 13 October 2026 (USD per MW 
 - **The second is an ordinary pair of days by price.** The rule writes it because CAISO issued the notice; the table does not judge it.
 - **CAISO's notices are read every day since session 247** (the data machine's daily run, one document), so a notice makes its event at the next build. They were held to 30 April 2025 until then.
 - **These are small beside ERCOT's:** Winter Storm Uri paid the same battery more in a day than any California event in its whole window. That is what the prices and the notices say: every notice in the held prices is a Restricted Maintenance Operations notice; no Flex Alert and no emergency stage is among them.
+
+### Six more, on the history back to August 2023 (session 273)
+
+Session 273 pulled CAISO's prices back to OASIS's edge (14 July 2023), and the same rule, unchanged, wrote six events before September 2024. Built on 14 October 2026, USD per MW of power, the window's days added up:
+
+| Event | Days | CAISO's notices that make the days | 2 hours, day-ahead | 4 hours, day-ahead | 8 hours, day-ahead | 4 hours, perfect foresight | Best day, 4 hours, day-ahead |
+|---|---|---|---|---|---|---|---|
+| `caiso_notices_20230815` | 15 to 17 August 2023 (3 days) | Restricted Maintenance Operations on each day | 7,205 | 7,696 | 8,242 | 8,225 | 16 August: 4,153 |
+| `caiso_notices_20230828` | 28 to 30 August 2023 (3 days) | Restricted Maintenance Operations on each day | 2,111 | 2,787 | 3,324 | 1,227 | 28 August: 1,184 |
+| `caiso_notices_20240703` | 3 to 11 July 2024 (9 days) | Restricted Maintenance Operations on each day (Transmission Emergencies too, which make no day) | 4,836 | 5,041 | 5,134 | 4,944 | 11 July: 1,344 |
+| `caiso_notices_20240715` | 15 July 2024 (1 day) | Restricted Maintenance Operations | 188 | 200 | 206 | 255 | 15 July: 200 |
+| `caiso_notices_20240724` | 24 and 25 July 2024 (2 days) | an Energy Emergency Alert watch and Restricted Maintenance Operations | 916 | 944 | 956 | 1,212 | 25 July: 510 |
+| `caiso_notices_20240805` | 5 to 7 August 2024 (3 days) | Restricted Maintenance Operations on each day | 1,779 | 2,010 | 2,144 | 1,736 | 5 August: 965 |
+
+- **15 to 17 August 2023 is now California's dearest stretch in the held prices,** above 4 to 9 September 2024: USD 7,696 per MW for a 4-hour battery day-ahead in three days, 4,153 of it on 16 August.
+- **Ten events in all, 630 rows for CAISO** (252 before). The four built before are unchanged to the cent, and so is every month before October 2026 in `battery_stack_monthly` (the month in progress gained its new days).
+- **24 and 25 July 2024 is the first event that is not Restricted Maintenance Operations alone:** an Energy Emergency Alert watch.
+
+<a id="caiso-market-monitor"></a>
 
 ## CAISO beside its market monitor (session 246)
 
@@ -242,11 +261,36 @@ CAISO's Department of Market Monitoring models a battery much as this model does
 | 2025, 4 hours, perfect foresight, the page's model | 91.74 | 77.3 | +14.4 | Ours trades energy at the real-time price with foresight; theirs is a day-ahead figure. An upper bound against a schedule |
 | 2025, the real fleet: energy; regulation | 42.31; 42.25 (the page's model, day-ahead) | "nearly $35/kW-yr in market revenues for energy and $9/kW-yr for regulation", batteries in CAISO's area with a full year of operation | +7.3; +33.3 | **The whole gap is regulation.** On energy the model is about a fifth above what real batteries were paid. On regulation it takes almost five times as much: it sells as if the market had no size, and the real fleet shares a small one. The page should say this where it shows California's ancillary income, as it does for ERCOT's awards |
 | 2025, against the areas in the south: LA Basin; Big Creek/Ventura; San Diego/Imperial Valley | 84.72 (as theirs) | 62.6; 64.2; 66.3 | +22.1; +20.5; +18.4 | Their southern local areas are well below their own system figure (77.3) and the northern ones above it (Greater Fresno 111.7). Our hub figure sits near their system figure, not near the southern areas. Not explained here: SP15 is a trading hub of generator nodes, their areas are local capacity areas, and how their nodes map to it was not checked |
-| 2024, 2023, 2022 | no whole year held (CAISO from September 2024) | the fleet's net market revenue: 53, 78 and 103 per kW-year ([*2024 Special Report on Battery Storage*, 29 May 2025](https://www.caiso.com/documents/2024-special-report-on-battery-storage-may-29-2025.pdf), section 2.9.1) | none to compute | The row of `docs/methods/battery_earns_algorithm.md`, "Cross-checks", stands: no year is held by both |
+| **2024** (session 273: a whole year held now), 4 hours, day-ahead: energy; regulation; the reserves; total | the page's model: 60.75; 47.79; 0.89; 109.43 (as theirs: 59.96; 48.91; 0; 108.87) | the real fleet: 53 in all, "nearly 82 percent" from energy (about 43), [*2024 Special Report on Battery Storage*](https://www.caiso.com/documents/2024-special-report-on-battery-storage-may-29-2025.pdf), section 2.9.1 | +56 | The same shape as 2025, larger: energy about two fifths above the fleet's (a fifth in 2025), regulation about five times. The model sells regulation as if the market had no size, in both years. `python warehouse/analysis/battery_caiso_years.py` |
+| 2023, 2022 | 2023 from August only (not a whole year) | the fleet's net market revenue in 2024, 2023 and 2022: 53, 78 and 103 per kW-year ([*2024 Special Report on Battery Storage*, 29 May 2025](https://www.caiso.com/documents/2024-special-report-on-battery-storage-may-29-2025.pdf), section 2.9.1) | none to compute | The row of `docs/methods/battery_earns_algorithm.md`, "Cross-checks", stands: no year is held by both |
 
 - **What this shows.** Run the market monitor's way, the model lands within 10 percent of the market monitor's own model for the year and tracks it quarter by quarter. The published figure it cannot reach is the real fleet's regulation income, and the market monitor's model cannot reach it either, for the reason both give.
 - **What it does not show.** Nothing here checks a single day or a single node, the reserves' prices themselves, or any year but 2025.
 - The published figures are typed in `warehouse/analysis/battery_caiso_dmm.py` with their table and page; the two PDFs and their text by page are in `runs/session246/dmm/` on the data machine.
+
+### The southern areas, with CAISO's node list (session 273)
+
+Session 246 left one gap unexplained: the model at the SP15 hub, run the market monitor's way, gives USD 84.72 per kW for 2025, near the monitor's "CAISO System" figure (77.3) and far above its southern local capacity areas (LA Basin 62.6, Big Creek/Ventura 64.2, San Diego/Imperial Valley 66.3). Session 273 asked CAISO's list of aggregated pricing nodes (OASIS `ATL_APNODE`, one request: 2,560 nodes on 1 June 2025) for the load aggregation points that stand for those areas, pulled their day-ahead prices for 2025 (87,600 rows, 365 requests, `warehouse/analysis/caiso_southern_nodes.py --pull`), and ran the same model on each, beside the hub. USD per kW, 2025, 4 hours, energy and regulation day-ahead, round trip 0.85:
+
+| Node | Stands for (the ERW's reading of the areas' names) | Energy | Regulation | Total | The market monitor's area |
+|---|---|---|---|---|---|
+| `TH_SP15_GEN-APND` | the SP15 hub, the page's | 41.89 | 42.83 | 84.72 | CAISO System 77.3 |
+| `DLAP_SCE-APND` | SCE, all of it | 41.16 | 42.98 | 84.14 | |
+| `SLAP_SCEC-APND` | SCE Core | 36.84 | 44.23 | 81.08 | LA Basin 62.6 |
+| `SLAP_SCEW-APND` | SCE West | 36.70 | 44.39 | 81.09 | LA Basin 62.6 |
+| `SLAP_SCNW-APND` | SCE Northwest | 38.27 | 43.84 | 82.12 | Big Creek/Ventura 64.2 |
+| `SLAP_SCEN-APND` | SCE North | 37.61 | 44.01 | 81.62 | Big Creek/Ventura 64.2 |
+| `SLAP_SCHD-APND` | SCE High Desert | 39.51 | 43.80 | 83.32 | |
+| `SLAP_SCLD-APND` | SCE Low Desert | 37.94 | 44.03 | 81.96 | |
+| `DLAP_SDGE-APND` | SDG&E, all of it | 41.43 | 43.60 | 85.03 | San Diego/Imperial Valley 66.3 |
+| `SLAP_PGF1-APND` | PG&E Fresno | 54.40 | 40.37 | 94.77 | Greater Fresno 111.7 |
+| `DLAP_PGAE-APND` | PG&E, all of it | 25.45 | 48.67 | 74.12 | |
+
+- **The hub is not the gap.** The SP15 hub stands where SCE's and SDG&E's own load aggregation points stand (84.72 against 84.14 and 85.03). At the LA Basin's two sub-LAPs the model gives 81.1, 3.6 below the hub, against the monitor's 62.6: the node explains about a sixth of the 22.1.
+- **The direction agrees and the spread does not.** The monitor's areas run from 62.6 to 111.7, a spread of 49; the model's, on the same areas' load prices, from 81.1 to 94.8, a spread of 14. Both put the south low and Fresno high.
+- **Where the rest lies, not separated:** the two models' regulation. Ours is paid for an award and moves no energy, so its regulation income barely moves from node to node (40.4 to 44.4: one system price); the monitor's awards deploy energy at the node's own price through CAISO's attenuation factors, which makes regulation worth less where the node's midday price is low and more where it is high. And the monitor's areas average the generation nodes inside them, where the model reads the area's load aggregate.
+- **What it shows:** the 84.72 is the hub's honest figure, and a battery's place inside California moves its energy income by about USD 30 per kW a year (25.45 to 54.40) in the model alone. **What it does not:** which node a real battery sits at, or a year but 2025.
+- Internal, for review: `warehouse/output/analysis_internal/caiso_southern_nodes_2025.csv` and the prices beside it. Not a warehouse table.
 
 ## For the page: what CAISO still lacks beside ERCOT (session 246)
 
@@ -258,6 +302,8 @@ The page was not edited. `site/lib/batterystack.ts` lists CAISO as ready (`ready
 | One line beside the model's ancillary income: what ERCOT's storage resources were really awarded (`battery_awards_beside.json`) | Nothing: `awardsBeside` returns null unless the grid is ERCOT | The market monitor's figures above play the same part: the real fleet's USD 35 of energy and 9 of regulation per kW in 2025, against the model's 42.31 and 42.25. They are a published report's, not a table's: the line cites the report, as the note's cross-checks do | `site/lib/batterystack.ts` (`awardsBeside`), the page's "Income by stream" |
 | History from 2018: nine years, the scarcity years among them | From September 2024: 25 months. "A bad month" rests on 25 of 36 months and the page says so | Not the page's to fix. CAISO's price history before September 2024 is not held; CAISO's system serves about 39 months back. A pull, for a ruling | `warehouse/connectors` (the hub price history and `caiso_as_prices`) |
 | The link to Ask ERCOT | None | Not needed for the battery page | |
+
+- **Session 257 (13 October 2026) did the first two rows.** The page reads the stress table's rows for the grid shown (`site/app/cost-of-power/battery/read.ts`, `stressRowsOf`) and its sentence names the events they hold: ERCOT's three by name, as before, and CAISO's by their days, with the same download. `stress()` reads the events from the rows, so a new CAISO notice needs no line of code. Under "Income by stream" CAISO has one line: the model's 2025 energy and regulation income for a 4-hour battery on the day-ahead schedule, computed from `battery_stack_monthly` with check keys (`year_kw:2025:energy` and `year_kw:2025:regup+regdn`: USD 42.31 and 42.25 per kW as the table stood that day), beside the market monitor's real-fleet figures of the table above (35 and 9), typed in `site/lib/batterystack.ts` (`FLEET_BESIDE`) with the report cited and held to this note by `tests/test_session257.py`. `awardsBeside` stays ERCOT's: it reads ERCOT's awards. The third row still waits for a pull.
 
 ## The daily run
 

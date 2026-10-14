@@ -29,6 +29,12 @@ def candidates():
         return json.load(f)["candidates"]
 
 
+# session 267: the fixture's record is 34 percent past the old one, so the guard (daily_chart.must_wait) holds it on the
+# run that first sees it. These tests pin the rule as session 232 wrote it, on the run after the hold: its key is waited.
+def waited():
+    return {c["key"] for c in candidates() if (daily_chart.record_jump(c) or 0) > daily_chart.RECORD_JUMP}
+
+
 def src(*parts):
     with open(os.path.join(ROOT, *parts), encoding="utf-8") as f:
         return f.read()
@@ -50,10 +56,10 @@ class TheRule(unittest.TestCase):
     def test_the_strongest_flag_not_shown_before_is_chosen(self):
         c = candidates()
         flags = [x for x in c if x["source"] == "scanner"]
-        got, why = daily_chart.choose(c, set())
+        got, why = daily_chart.choose(c, set(), waited=waited())
         self.assertEqual(got["key"], flags[0]["key"])
         self.assertIn("strongest", why)
-        got, _ = daily_chart.choose(c, {flags[0]["key"]})
+        got, _ = daily_chart.choose(c, {flags[0]["key"]}, waited=waited())
         self.assertEqual(got["key"], flags[1]["key"])
 
     def test_with_every_flag_shown_the_watch_list_is_next(self):
@@ -143,7 +149,7 @@ class TheSection(unittest.TestCase):
         c = candidates()
         with tempfile.TemporaryDirectory() as d:
             said = []
-            L = daily_chart.section("2026-10-13", said.append, chart_dir=d, candidates=c)
+            L = daily_chart.section("2026-10-13", said.append, chart_dir=d, candidates=c, waited=waited())
             self.assertEqual(L[1], "## ERW's Chart of the Day")
             self.assertTrue(L[3].startswith("![") and L[3].endswith("](charts/2026-10-13.png)"))
             self.assertEqual(L[5], c[0]["fact"])
@@ -165,9 +171,9 @@ class TheSection(unittest.TestCase):
     def test_the_next_day_shows_the_next_flag_and_a_rerun_shows_the_same(self):
         c = candidates()
         with tempfile.TemporaryDirectory() as d:
-            daily_chart.section("2026-10-13", lambda m: None, chart_dir=d, candidates=c)
-            daily_chart.section("2026-10-14", lambda m: None, chart_dir=d, candidates=c)
-            daily_chart.section("2026-10-13", lambda m: None, chart_dir=d, candidates=c)
+            daily_chart.section("2026-10-13", lambda m: None, chart_dir=d, candidates=c, waited=waited())
+            daily_chart.section("2026-10-14", lambda m: None, chart_dir=d, candidates=c, waited=waited())
+            daily_chart.section("2026-10-13", lambda m: None, chart_dir=d, candidates=c, waited=waited())
             keys = {}
             for day in ("2026-10-13", "2026-10-14"):
                 with open(os.path.join(d, f"{day}.json"), encoding="utf-8") as f:
@@ -178,9 +184,9 @@ class TheSection(unittest.TestCase):
     def test_a_shadow_copy_of_the_day_chooses_what_the_day_chose(self):
         c = candidates()
         with tempfile.TemporaryDirectory() as d, tempfile.TemporaryDirectory() as shadow:
-            daily_chart.section("2026-10-13", lambda m: None, chart_dir=d, candidates=c)
+            daily_chart.section("2026-10-13", lambda m: None, chart_dir=d, candidates=c, waited=waited())
             self.assertEqual(daily_chart.used_keys(d, but="2026-10-13"), set())
-            daily_chart.section("2026-10-13", lambda m: None, chart_dir=shadow, candidates=c, used=daily_chart.used_keys(d, but="2026-10-13"))
+            daily_chart.section("2026-10-13", lambda m: None, chart_dir=shadow, candidates=c, used=daily_chart.used_keys(d, but="2026-10-13"), waited=waited())
             with open(os.path.join(shadow, "2026-10-13.json"), encoding="utf-8") as f:
                 self.assertEqual(json.load(f)["key"], c[0]["key"])
         self.assertIn("used=daily_chart.used_keys(but=digest_date)", src("warehouse", "news", "brief.py"))
@@ -188,9 +194,9 @@ class TheSection(unittest.TestCase):
     def test_a_proof_is_not_counted_as_shown(self):
         c = candidates()
         with tempfile.TemporaryDirectory() as d:
-            daily_chart.section("2026-10-12", lambda m: None, chart_dir=d, candidates=c, proof=True)
+            daily_chart.section("2026-10-12", lambda m: None, chart_dir=d, candidates=c, proof=True, waited=waited())
             self.assertEqual(daily_chart.used_keys(d), set())
-            daily_chart.section("2026-10-13", lambda m: None, chart_dir=d, candidates=c)
+            daily_chart.section("2026-10-13", lambda m: None, chart_dir=d, candidates=c, waited=waited())
             self.assertEqual(daily_chart.used_keys(d), {c[0]["key"]})
 
     def test_nothing_to_show_is_no_section_and_a_logged_reason(self):
@@ -204,7 +210,7 @@ class TheSection(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             said = []
             bad = [dict(candidates()[0], card={"title": "T", "subtitle": "s", "chart": {"kind": "no such kind", "x": [], "series": []}})]
-            self.assertEqual(daily_chart.section("2026-10-13", said.append, chart_dir=d, candidates=bad), [])
+            self.assertEqual(daily_chart.section("2026-10-13", said.append, chart_dir=d, candidates=bad, waited=waited()), [])
             self.assertTrue(any("omitted" in m for m in said))
             self.assertFalse(os.path.exists(os.path.join(d, "2026-10-13.json")))
 

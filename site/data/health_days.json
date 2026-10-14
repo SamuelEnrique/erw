@@ -1,8 +1,8 @@
 {
  "about": "Written by warehouse/health.py from the table erw_health: per UTC day, each scheduled job's steps by outcome, and the failures that count. green_days is the number of days in a row, back from counted_to, without a failed step.",
- "written": "2026-10-13T16:20Z",
- "green_days": 0,
- "counted_to": "2026-10-12",
+ "written": "2026-10-14T17:00Z",
+ "green_days": 1,
+ "counted_to": "2026-10-13",
  "days": {
   "2026-10-02": {
    "rows": 91,
@@ -336,7 +336,8 @@
      "step": "package tests",
      "reason": "FAILED package/tests/test_erw.py::test_large_table_by_partition[ercot_dam_esr_awards] - assert (False)"
     }
-   ]
+   ],
+   "stale": []
   },
   "2026-10-08": {
    "rows": 250,
@@ -403,7 +404,8 @@
      "step": "package tests",
      "reason": "FAILED package/tests/test_erw.py::test_large_table_by_partition[ercot_dam_esr_awards] - assert (False)"
     }
-   ]
+   ],
+   "stale": []
   },
   "2026-10-09": {
    "rows": 252,
@@ -483,7 +485,8 @@
      "step": "package tests",
      "reason": "FAILED package/tests/test_erw.py::test_large_table_by_partition[ercot_dam_esr_awards] - assert (False)"
     }
-   ]
+   ],
+   "stale": []
   },
   "2026-10-10": {
    "rows": 278,
@@ -550,7 +553,8 @@
      "step": "package tests",
      "reason": "FAILED package/tests/test_erw.py::test_large_table_by_partition[ercot_dam_esr_awards] - assert (False)"
     }
-   ]
+   ],
+   "stale": []
   },
   "2026-10-11": {
    "rows": 345,
@@ -658,7 +662,8 @@
      "step": "ledger: live set",
      "reason": "FAILED api_cost_ledger: RuntimeError: refused, older than the live copy: it has 2,478 rows here and 3,179 in Supabase (no retrieved_at to compare). Sync this machine from the cloud first (python scrip"
     }
-   ]
+   ],
+   "stale": []
   },
   "2026-10-12": {
    "rows": 419,
@@ -752,6 +757,72 @@
      "workflow": "daily prices",
      "step": "package tests",
      "reason": "FAILED package/tests/test_erw.py::test_large_table_by_partition[ercot_dam_esr_awards] - assert (False)"
+    }
+   ],
+   "stale": []
+  },
+  "2026-10-13": {
+   "rows": 664,
+   "failed": 0,
+   "missing": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 453,
+     "skipped": 4,
+     "retried": 0,
+     "failed": 0,
+     "runs": 100
+    },
+    "daily prices": {
+     "ok": 22,
+     "skipped": 2,
+     "retried": 0,
+     "failed": 0,
+     "runs": 2
+    },
+    "hourly network": {
+     "ok": 21,
+     "skipped": 6,
+     "retried": 0,
+     "failed": 0,
+     "runs": 27
+    },
+    "latest prices": {
+     "ok": 99,
+     "skipped": 1,
+     "retried": 0,
+     "failed": 0,
+     "runs": 100
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 55,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 1,
+     "runs": 56
+    },
+    "local:lab-desktop": {
+     "ok": 8,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 8
+    },
+    "local:samueloldlaptop": {
+     "ok": 6,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 6
+    }
+   },
+   "failures": [],
+   "stale": [
+    {
+     "at": "2026-10-13T17:26",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_carb_lcfs",
+     "reason": "carb_lcfs FAILED: RuntimeError: the newest week CARB holds is 2026-09-14, 29 days old (limit 28)"
     }
    ]
   }

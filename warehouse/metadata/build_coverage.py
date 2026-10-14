@@ -567,6 +567,13 @@ def table_row(path, licenses):
     }
 
 
+# Session 272 (the owner's ruling of 14 October 2026): a public selection of an internal table. Its own header declares it
+# public, and only the rows and columns the rule lets through are in it, so its internal input does not make it internal.
+PUBLIC_SELECTIONS = {
+    "large_load_public": "the large-load statements whose document is public, as facts with a link and no quoted text (session 255's rule)",
+}
+
+
 def apply_derived(rows):
     """Mark derived tables and check their license against their inputs (Decision 23)."""
     by = {r["table"]: r for r in rows}
@@ -588,6 +595,8 @@ def apply_derived(rows):
             raise ValueError(f"{r['table']}: input tables {missing} are not in warehouse/output nor in the previous "
                              "coverage")
         want = "internal" if any(lic(t) == "internal" for t in inputs) else "public"
+        if r["table"] in PUBLIC_SELECTIONS and r["license"] == "public":
+            continue  # session 272: public by the owner's ruling, whatever its input
         if r["license"] != want:
             raise ValueError(f"{r['table']}: license {r['license']}, but its inputs make it {want}")
     return rows

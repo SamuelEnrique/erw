@@ -19,7 +19,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 EM = chr(0x2014)
 NOTES = {
     "battery_earns_algorithm": ("site/app/cost-of-power/battery/page.tsx", 14),
-    "generator_earns_algorithm": ("site/app/cost-of-power/seller/page.tsx", 10),
+    "generator_earns_algorithm": ("site/app/cost-of-power/seller/page.tsx", 20),   # session 257: 10 until then; the ten more are CAISO's (the note's section 12.5)
     "datacenter_pays_algorithm": ("site/app/cost-of-power/page.tsx", 6),
 }
 FILES = [f"docs/methods/{n}.md" for n in NOTES] + [p for p, _ in NOTES.values()] + [
@@ -51,7 +51,7 @@ class TheDefaults(unittest.TestCase):
         self.assertIn('"80% equity at a 12% cost" in its storage cases', battery)
         self.assertIn('"60% debt at an 8% interest rate and 40% equity at a 12% cost". The default is that cost of equity', seller)
         self.assertIn("hurdle: HURDLE, cshare: 0, cprice: 0 };", battery)
-        self.assertIn("hurdle: HURDLE, cshare: 0, cprice: 0 };", seller)   # session 212
+        self.assertIn("hurdle: HURDLE, cshare: 0, cprice: 0, ppa: costs.life };", seller)   # session 212; session 264: the PPA term, its default the life
         dc = src("site/lib/datacenter/finance.ts")
         self.assertIn("export const LIFE = 20, HURDLE = 9.6;", dc)
         self.assertIn('"60% debt at an 8% interest rate and 40% equity at a 12% cost". The default is that weighted cost, 0.6 x 8 + 0.4 x 12 = 9.6 percent', dc)

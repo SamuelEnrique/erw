@@ -1,0 +1,55 @@
+ERW's Energy Digest, 2026-10-14
+
+Top 5 of the day
+
+1. Google signs 20-year PPA with AEP for 702 MW Wyoming fuel cell project
+   Major datacenter power deal: 702MW fuel cell capacity under long-term contract. 702 MW; $4 billion; parties: Google; AEP; Bloom Energy.
+   Data Center Dynamics: https://www.datacenterdynamics.com/en/news/google-signs-20-year-ppa-with-aep-for-702mw-wyoming-fuel-cell-project/
+2. Taiwan commits up to $4.4 Billion to Alaska LNG, Trump says, with 30% of output
+   Major LNG offtake commitment from Taiwan for 20-year supply agreement $4.4 Billion; parties: Taiwan; Trump; Alaska LNG.
+   OilPrice.com: https://oilprice.com/Latest-Energy-News/World-News/Taiwan-Commits-Up-to-44-Billion-to-Alaska-LNG-Megaproject.html
+3. Brent trades at $106.37 per barrel as Iran threatens more tanker strikes
+   Geopolitical supply risk drives significant crude price move. $106.37; parties: Iran.
+   OilPrice.com: https://oilprice.com/Latest-Energy-News/World-News/Oil-Prices-Climb-Above-106-as-Iran-Threatens-More-Tanker-Attacks.html
+4. IURC approves AES Indiana $1.3bn solar, storage and transmission project for Google data center in Monrovia
+   Major datacenter power deal: Google-funded solar, storage, and transmission infrastructure in Indiana. $1.3bn; parties: AES Indiana; Google; IURC.
+   Data Center Dynamics: https://www.datacenterdynamics.com/en/news/iurc-approves-aes-indiana-plan-for-13bn-solar-storage-and-transmission-project-for-google-data-center-in-monrovia/
+5. AEP to buy mobile power units in deal that may reach $4 Billion
+   Major utility acquisition of flexible generation capacity signals grid reliability investment amid demand pressures. $4 Billion; parties: AEP.
+   Hart Energy: https://news.google.com/rss/articles/CBMimgFBVV95cUxPNmx6MDhqWE11MmRVSTZHMVh5RGx1UkdvSjNfUWRVSjQtOXZHSUl6cnVsTU9RTm5wWE9iNUxUYUNreFZCWTFuNlJYMWNxMURfUzRCd0NHMWotNEUwTG5UUHU1dzk1MjJsdXVzUWI1b29TNmdEY1dPbzI4M3VWYVRFUjJXYi10RlJMVDYxdWhIT2x1MlpWTVozRU93?oc=5
+
+ERW's Numbers Today
+
+Day-ahead power on 2026-10-13 was dearest at NYISO's N.Y.C., 51.42 USD/MWh, and cheapest at CAISO's TH_SP15_GEN-APND, 31.63. The highest real-time price was 1571.36 USD/MWh at SPPNORTH_HUB, in the 15-minute interval starting 2026-10-13 12:45 local. MISO has no day-ahead prices in the warehouse for the day (0 of 24 hours) and PJM has no price table; the latest fuel closes, on 2026-10-06, were 3.03 USD/MMBtu for Henry Hub, 96.24 USD/bbl for WTI and 125.44 USD/bbl for Brent.
+Day-ahead average, yesterday, main hub (mean of the 24 hourly prices of the operating day):
+  ISO: ERCOT; Hub or zone: HB_NORTH; Operating day: 2026-10-13; Average USD/MWh: 41.21; Table: [1]
+  ISO: CAISO; Hub or zone: TH_SP15_GEN-APND; Operating day: 2026-10-13; Average USD/MWh: 31.63; Table: [1]
+  ISO: NYISO; Hub or zone: N.Y.C.; Operating day: 2026-10-13; Average USD/MWh: 51.42; Table: [2]
+  ISO: MISO; Hub or zone: INDIANA.HUB; Operating day: 2026-10-13; Average USD/MWh: not in the warehouse (0 of 24 hours); Table: [1]
+  ISO: SPP; Hub or zone: SPPSOUTH_HUB; Operating day: 2026-10-13; Average USD/MWh: 32.00; Table: [1]
+  ISO: ISO-NE; Hub or zone: .H.INTERNAL_HUB; Operating day: 2026-10-13; Average USD/MWh: 39.60; Table: [3]
+  ISO: PJM; Average USD/MWh: no PJM price table (no API key)
+Highest real-time price, yesterday: 1571.36 USD/MWh at SPPNORTH_HUB (SPP), interval starting 2026-10-13 12:45 local (2026-10-13 17:45 UTC), PT15M lmp_rtm_15m_mean (a 15-minute mean of 5-minute prices) [4].
+Latest fuel spot closes (EIA, trading dates):
+- Henry Hub natural gas: 3.03 USD/MMBtu on 2026-10-06 [5]
+- WTI Cushing crude: 96.24 USD/bbl on 2026-10-06 [5]
+- Brent crude: 125.44 USD/bbl on 2026-10-06 [5]
+Tables: [1] iso_dam_hub_prices (caiso:PRC_LMP, ercot:NP4-190-CD, miso:da_expost_lmp, spp:DA-LMP-SL); [2] nyiso_dam_zone_prices (nyiso:damlbmp); [3] isone_dam_zone_prices (isone:da_lmp_hourly); [4] iso_rtm_hub_prices (caiso:PRC_INTVL_LMP, ercot:NP6-785-ER, ercot:NP6-905-CD, miso:rt_lmp_final, miso:rt_lmp_prelim, spp:RTBM-LMP-SL); real-time tables read: iso_rtm_hub_prices, isone_rtm_zone_prices, isone_rtm_zone_prices_hourly, nyiso_rtm_zone_prices; [5] eia_fuel_spot_prices (eia:natural-gas/pri/fut, eia:petroleum/pri/spt).
+
+ERW's Chart of the Day
+
+[chart: Retail electricity price in the District of Columbia, industrial: USD 321.5 per MWh in July 2026, the highest monthly value held since January 2001. The record until now was USD 272.6 per MWh, in June 2006.] https://raw.githubusercontent.com/SamuelEnrique/erw/main/docs/digest/charts/2026-10-14.png
+Retail electricity price in the District of Columbia, industrial: USD 321.5 per MWh in July 2026, the highest monthly value held since January 2001. The record until now was USD 272.6 per MWh, in June 2006.
+Table eia_retail_electricity_prices, series entity=eia:retail_price:DC:IND, variable=retail_price, freq=P1M: the table and its download (https://erw-flame.vercel.app/data#eia_retail_electricity_prices). Chosen by rule, not by a person or a model: the strongest flag of the day's scan that no Digest has shown (rule: record; 1.84 robust standard deviations past its threshold). How the chart is chosen (https://erw-flame.vercel.app/data/methods/automated_analysis_scanner).
+
+ERW's Fun Fact
+
+Pearl Street Station began generating electricity on September 4, 1882, serving 400 lamps to 82 customers. On this day in 1913: Senghenydd colliery disaster, the United Kingdom's worst coal mining accident, claims the lives of 439 miners.
+Sources: Wikipedia, Pearl Street Station (https://en.wikipedia.org/wiki/Pearl_Street_Station), Wikipedia, October 14 (https://en.wikipedia.org/wiki/October_14).
+
+ERW
+
+All of ERW's Energy Digest: https://erw-flame.vercel.app/digest/2026-10-14
+How this is made: https://erw-flame.vercel.app/about#digest
+ERW, the live, citable record of the US energy system. Every number names the table it came from.
+Stop these emails: Each recipient's email carries its own signed unsubscribe link.

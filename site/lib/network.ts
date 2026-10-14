@@ -80,6 +80,9 @@ export function topExporter(snap: Snapshot, hour: string): { id: string; mw: num
  * net|tie|<BA>|<other>|<hour>, one tie's flow signed from the BA's side (a tie that reports zero is 0, never -0). */
 export function netValue(snap: Snapshot, key: string): number | undefined {
   const p = key.split("|");
+  // session 266: net|lag|<hour>|<time>, how many hours the hour (its start) is before the time (the snapshot's refresh):
+  // the two-day lag of EIA-930's interchange, said under the network and in the Now view's sentence
+  if (p[1] === "lag") return snap.hours.includes(p[2]) && Number.isFinite(Date.parse(p[3])) ? Math.round((Date.parse(p[3]) - Date.parse(p[2])) / 3_600_000) : undefined;
   const hour = p[0] === "net" && p[1] === "topexport" ? p[2] : p[1] === "tie" ? p[4] : p[3];
   if (!snap.hours.includes(hour)) return undefined;
   if (p[1] === "export" || p[1] === "import") { const t = tiesAt(snap, p[2], hour); if (!t.length) return undefined; const sum = t.reduce((a, x) => a + x.mw, 0); return (p[1] === "export" ? sum : -sum) || 0; }

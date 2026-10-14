@@ -34,13 +34,13 @@ const near = (a, b, tol = 1e-9) => a !== null && b !== null && Math.abs(a - b) <
 
 // the defaults: Lazard's solar (1,375 USD per kW, 12.5 USD per kW a year, 35 years), 60 percent debt at 8 percent over the life
 const solarNow = F.defaultsOf({ capex: 1375, fom: 12.5, life: 35 });
-check(JSON.stringify(solarNow) === JSON.stringify({ capex: 1375, share: 60, rate: 8, term: 35, fom: 12.5, deg: 0, life: 35, hurdle: 12, cshare: 0, cprice: 0 }), "the defaults of solar (session 208: a hurdle rate of 12, Lazard's cost of equity; session 212: no contract)", JSON.stringify(solarNow));
+check(JSON.stringify(solarNow) === JSON.stringify({ capex: 1375, share: 60, rate: 8, term: 35, fom: 12.5, deg: 0, life: 35, hurdle: 12, cshare: 0, cprice: 0, ppa: 35 }), "the defaults of solar (session 208: a hurdle rate of 12, Lazard's cost of equity; session 212: no contract; session 264: a PPA term of the life)", JSON.stringify(solarNow));
 check(F.defaultsOf({ capex: 1110, fom: 22, life: 20, deg: F.BATTERY_DEG }).deg === 2.6 && /2\.6 percent a year/.test(F.BATTERY_DEG_SOURCE) && /40% equity at a 12% cost/.test(F.SPECS.hurdle.source) && F.HURDLE === 12,
   "a battery's degradation default is Lazard's 2.6 percent a year, and the hurdle rate is the weighted cost 0.6 x 8 + 0.4 x 12");
 // the hand cases below were worked at session 186's default hurdle rate of 8, and stay on it
 const solar = { ...solarNow, hurdle: 8 };
-check(F.KEYS.length === 10 && new Set(F.KEYS.map((k) => F.SPECS[k].letter)).size === 10, "ten assumptions, ten different letters (session 212: the contract's share and price)");
-check(JSON.stringify(F.KEYS) === JSON.stringify(["capex", "share", "rate", "term", "fom", "deg", "life", "hurdle", "cshare", "cprice"]) && JSON.stringify(F.FINANCE_KEYS) === JSON.stringify(F.KEYS.slice(0, 8)), "in the order asked, the contract's two last");
+check(F.KEYS.length === 11 && new Set(F.KEYS.map((k) => F.SPECS[k].letter)).size === 11, "eleven assumptions, eleven different letters (session 212: the contract's share and price; session 264: the PPA term)");
+check(JSON.stringify(F.KEYS) === JSON.stringify(["capex", "share", "rate", "term", "fom", "deg", "life", "hurdle", "cshare", "cprice", "ppa"]) && JSON.stringify(F.FINANCE_KEYS) === JSON.stringify(F.KEYS.slice(0, 8)), "in the order asked, the contract's three last (session 264: the PPA term eleventh)");
 check(/fully merchant/.test(F.SPECS.cshare.source) && /fully merchant/.test(F.SPECS.cprice.source), "the contract's two defaults say the default is fully merchant");
 check(F.contractUnits("energy").priceUnit === "USD per MWh" && F.contractUnits("toll").priceUnit === "USD per kW-month" && /energy/.test(F.contractUnits("energy").shareUnit) && /capacity/.test(F.contractUnits("toll").shareUnit), "an energy contract is a share of the energy at USD per MWh; a toll a share of the capacity at USD per kW-month");
 
@@ -84,7 +84,7 @@ const s = F.parseScenarios({ ac: "1200", bh: "10", bt: "12.6", al: "99", ad: "x"
 check(s.a.capex === 1200 && s.b.hurdle === 10 && s.b.term === 13 && s.a.life === 40 && s.a.deg === 0 && s.view === "b", "the address: read, bounded, whole where whole, defaulted where unreadable", JSON.stringify(s));
 check(JSON.stringify(F.scenarioQuery(s, d)) === JSON.stringify([["ac", "1200"], ["al", "40"], ["bt", "13"], ["bh", "10"], ["v", "b"]]), "only what differs from the defaults is written", JSON.stringify(F.scenarioQuery(s, d)));
 check(F.scenarioQuery(F.parseScenarios({}, d), d).length === 0, "no parameter means the defaults, and the defaults write none");
-check(["ac", "bs", "ar", "bt", "af", "bd", "al", "bh", "v"].every(F.isScenarioParam) && ["ds", "mw", "hr", "bmw", "dur", "asset", "ae", "ay", "fom", "hub"].every((k) => !F.isScenarioParam(k)), "the scenarios' parameters are told from the page's own");
+check(["ac", "bs", "ar", "bt", "af", "bd", "al", "bh", "v"].every(F.isScenarioParam) && ["ds", "mw", "hr", "bmw", "dur", "asset", "ae", "az", "fom", "hub"].every((k) => !F.isScenarioParam(k)) && ["ay", "by"].every(F.isScenarioParam), "the scenarios' parameters are told from the page's own");
 check(F.carry("iso=ercot&ac=1200&bh=10&at=20&bl=25&bf=9&v=b&mw=50", true) === "&ac=1200&bh=10&at=20&bl=25&bf=9&v=b", "the page's other addresses carry the scenarios");
 check(F.carry("iso=ercot&ac=1200&bh=10&at=20&bl=25&bf=9&v=b&mw=50", false) === "&bh=10&v=b", "a change of asset drops the capital cost, fixed O&M, term and life");
 check(F.differenceWords(d, d) === "A and B hold the same assumptions." && F.differenceWords({ ...d, capex: 1200 }, { ...d, hurdle: 10 }) === "B: capex USD 1,375 per kW against 1,200; hurdle rate 10 percent against 8.", "the last row in words", F.differenceWords({ ...d, capex: 1200 }, { ...d, hurdle: 10 }));
@@ -116,7 +116,7 @@ check(term.up.value === 40 && near(term.up.npv, term.base), "a term raised past 
 
 // session 212: the contract as two scenario assumptions (the battery page's form, session 208)
 {
-  const c = { ...solar, term: 10, life: 12, fom: 10, cshare: 50, cprice: 30 };
+  const c = { ...solar, term: 10, life: 12, fom: 10, cshare: 50, cprice: 30, ppa: 10 };   // session 264: the PPA term is the debt's here, as every contract was until then
   const energy = { kind: "energy", energyKw: 2.2 };   // 2.2 MWh a year per kW: 50 percent of it at USD 30 is 33 a kW
   check(near(F.contractYear(c, energy), 33) && near(F.contractYear({ ...c, cshare: 0 }, energy), 0) && near(F.contractYear(c), 180), "an energy contract pays share x energy x price; a toll pays share x price x 12; none at a share of 0");
   check(near(F.merchantShare(c), 0.5) && near(F.merchantShare({ ...c, cshare: 0 }), 1) && near(F.merchantShare({ capex: 1 }), 1), "the merchant share is the rest; 1 without the key");
@@ -129,7 +129,7 @@ check(term.up.value === 40 && near(term.up.npv, term.base), "a term raised past 
   check(JSON.stringify(F.resultOf(old, 100, energy)) === JSON.stringify(F.resultOf({ ...c, cshare: 0, cprice: 0 }, 100, energy)), "an older set of assumptions, without the two contract keys, is read as no contract");
   check(near(F.contractPrice(c, 2.2), F.contractPrice({ ...c, cshare: 0 }, 2.2)) && near(F.breakevenToll(c), F.breakevenToll({ ...c, cshare: 0 })), "the breakeven contract price and the toll do not read the contract");
   const bars = F.sensitivity(c, 100, energy);
-  check(bars.length === 10 && bars.some((b) => b.key === "cshare") && bars.some((b) => b.key === "cprice"), "with a contract, ten bars, the contract's two among them");
+  check(bars.length === 11 && bars.some((b) => b.key === "cshare") && bars.some((b) => b.key === "cprice") && bars.some((b) => b.key === "ppa"), "with a contract, eleven bars, the contract's three among them (session 264: the PPA term)");
   check(F.sensitivity({ ...c, cshare: 0 }, 100, energy).length === 8 && !F.sensitivity({ ...c, cshare: 0, cprice: 30 }, 100, energy).some((b) => b.key === "cprice"), "at a share of 0 the contract's rows are not drawn at all (as session 211 on the battery)");
   const sh = bars.find((b) => b.key === "cshare");
   check(sh.down.value === 40 && sh.up.value === 60 && near(sh.up.npv, F.npv(c.hurdle, F.flows({ ...c, cshare: 60 }, 100, energy))), "the share's row moves 10 points each way");
@@ -163,6 +163,26 @@ check(term.up.value === 40 && near(term.up.npv, term.base), "a term raised past 
   check(Object.keys(m).every((k) => k === "cshare" || k === "cprice" || b[k] === m[k]), "and no other assumption moves");
   check(solarNow.cshare === 0 && solarNow.cprice === 0, "the defaults stay merchant");
   check(F.asPpa(m, 60, { kind: "energy", energyKw: 0 }) === null, "no PPA to make where there is no energy");
+}
+
+// session 264: the PPA term, the eleventh assumption
+{
+  const energy = { kind: "energy", energyKw: 2.2 };
+  check(solarNow.ppa === 35 && F.defaultsOf({ capex: 2100, fom: 32.25, life: 30 }).ppa === 30 && F.defaultsOf({ capex: 1110, fom: 22, life: 20 }).ppa === 20, "the PPA term's default is the asset's life: 35, 30, 20");
+  check(F.SPECS.ppa.letter === "y" && F.SPECS.ppa.min === 1 && F.SPECS.ppa.max === 40 && F.SPECS.ppa.whole && F.SPECS.ppa.label === "PPA term" && F.SPECS.ppa.unit === "years", "PPA term, years: letter y, 1 to 40, whole");
+  const c = { ...solar, term: 10, life: 20, fom: 10, cshare: 50, cprice: 30, ppa: 15 };
+  const fl = F.flows(c, 100, energy);
+  check(F.contractYears(c) === 15 && near(fl[11], 33 + 50 - 10) && near(fl[15], 33 + 50 - 10) && near(fl[16], 100 - 10) && near(fl[10], 33 + 50 - 10 - F.debtService(c)), "the contract runs for the PPA term (15 years), the debt for its own (10)");
+  check(F.contractYears({ ...c, ppa: 40 }) === 20, "a PPA term longer than the life is cut to the life");
+  const old = { ...c }; delete old.ppa;
+  check(F.contractYears(old) === 10, "a set without the key runs the contract for the debt's years, as before");
+  const at = (y) => F.breakevenPpa({ ...c, ppa: y }, 60, energy);
+  check(at(5) > at(15) && Math.abs(F.npv(c.hurdle, F.flows({ ...c, ppa: 5, cprice: at(5) }, 60, energy))) < 1e-7, "a shorter PPA needs a higher breakeven price, and NPV is zero at it");
+  const dflt = { ...solar, cshare: 0, cprice: 0 };
+  check(near(F.breakevenPpa(dflt, 59.85, energy), F.breakevenPpa({ ...dflt, ppa: undefined }, 59.85, energy)), "at the default the breakeven PPA price is what it was");
+  const s1 = F.parseScenarios({ at: "20" }, solar), s2 = F.parseScenarios({ at: "20", ay: "12" }, solar), s3 = F.parseScenarios({ ay: "99" }, solar);
+  check(s1.a.ppa === 35 && s2.a.ppa === 12 && s3.a.ppa === 40 && s1.b.ppa === 35, "the PPA term is never read from the debt's term (a shared address opens what the browser showed); a typed PPA term is read; a value past 40 is held at 40");
+  check(F.carry("ay=12&by=20&v=b", false) === "&v=b" && F.carry("ay=12", true) === "&ay=12", "a change of asset drops the PPA term, whose default is the asset's");
 }
 
 console.log(failed ? `\n${failed} FAILED` : "\nall passed");

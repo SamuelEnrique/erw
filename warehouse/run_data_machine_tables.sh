@@ -26,18 +26,45 @@
 #     dm_scarcity_hours             scarcity_hours_by_grid           derived (session 254: the price histories, ERCOT's
 #                                                                    adders, CAISO's notices just read); no request. Its
 #                                                                    window is the 36 whole months before the month
+#   session 271 (the owner's rulings of 14 October 2026), every day
+#     dm_ercot_large_load           ercot_large_load_status          ERCOT's meeting pages, about 76 requests: the guard
+#                                                                    (the runner's monthly job and Monday watch are kept)
+#     dm_ercot_hub_append           ercot_all_hub_prices_history     the live window's ERCOT hub rows after the history's
+#                                                                    newest interval (hub_history.py append-ercot); no request
+#   session 271, once a week (the first run of each ISO week, Monday to Sunday, or any run with WEEKLY=1)
+#     dm_ercot_sced_pull            (the reduced days, warehouse/raw) ERCOT's 60-Day SCED Disclosure, the days not yet
+#                                                                    held, within the approved 12 GB of downloads (at the
+#                                                                    ceiling the step is a skip that says so)
+#     dm_ercot_sced_write           ercot_sced_esr_hourly            the table, from the reduced days; no request
+#     dm_ercot_storage_rt           ercot_storage_rt_monthly,        derived (the disclosure, the awards, the hub and node
+#                                   ercot_storage_node_basis         prices); no request
+#     dm_eia930_workbooks           (EIA-930's workbooks, warehouse/raw) eia930_emissions.py --dry-run: the eight
+#                                                                    workbooks fetched, no table written
+#     dm_clean_energy               clean_energy_hourly,             derived from those workbooks (mix_clean.py); the
+#                                   clean_energy_summary             site's copy (site/data/clean/) is not rebuilt here
+#     dm_noaa_weather               noaa_grid_weather_hourly, _daily, NOAA, the days since a week before the newest hour
+#                                   _stations, noaa_station_weather_hourly  held, under 6,000,000 rows a year
+#   session 277, once a week: the zone price history's CAISO part (ZP26), which refresh_supply.sh asked only on the
+#   GitHub runner, where the table is not held, so no run refreshed it (NYISO's and SPP's parts are not this machine's
+#   to ask: a ruling)
+#     dm_zone_history_pull          (the saved files, warehouse/raw) zone_price_history.py --pull --iso caiso --recent 9
+#     dm_zone_history_write         iso_zone_prices_history          --write --iso caiso --recent 9, merged into the table
 #   then, every day
 #     dm_live_set                   the tables above that the live set holds, and ercot_rtm_price_adders: loaded from
 #                                   this machine, which is the only one that builds them (the loader writes what changed)
+#   and once a week (session 271)
+#     dm_live_set_weekly            every table this machine's steps write that a live-set rule names (the loader
+#                                   writes what changed and leaves a table no rule names)
 #
-# Not here, each with its reason in archive/sessions/SESSION_247_REPORT.md: NOAA's weather (its approved ceiling of
-# 3,000,000 rows is reached at the next refresh), the page files of /mix and /storage/owners (a page file is committed
-# only with its own tests, as the files of warehouse/run_data_machine.sh are), the price board's statistics table (its
-# page is retired: a ruling), ERCOT's 15-minute history (the live table already holds every interval after it).
+# Not here, each with its reason in archive/sessions/SESSION_247_REPORT.md: the page files of /mix and /storage/owners
+# (a page file is committed only with its own tests, as the files of warehouse/run_data_machine.sh are). Session 271:
+# NOAA's weather, clean_energy_hourly and ERCOT's 15-minute history are here now; the price board's statistics table
+# is retired (warehouse/metadata/retired_tables.csv).
 #
 #   bash warehouse/run_data_machine.sh                      the daily run, which sources this file
 #   MONTHLY=1 bash warehouse/run_data_machine_tables.sh     by itself, under the data lock: the monthly steps too
 #   MONTHLY=1 MONTHLY_PULLS=0 bash ...                      the monthly steps without CAISO's reports (derived only)
+#   WEEKLY=1 bash warehouse/run_data_machine_tables.sh      by itself: the weekly steps too (session 271)
 #   bash warehouse/run_data_machine_tables.sh --list        the steps and their commands; runs nothing
 #
 # By itself it refuses as the daily run does: on the GitHub runner, or on a machine whose role is not data.
@@ -92,7 +119,21 @@ TABLE_STEPS=(
   "dm_storage_owners|storage_owners_monthly|monthly|warehouse/derived/storage_owners.py"
   "dm_shoulder_hours|shoulder_hours_monthly|monthly|warehouse/derived/shoulder_hours.py"
   "dm_scarcity_hours|scarcity_hours_by_grid|monthly|warehouse/derived/scarcity_hours_by_grid.py"
+  "dm_ercot_large_load|ercot_large_load_status|daily|warehouse/connectors/ercot_large_load_status.py"
+  "dm_ercot_hub_append|ercot_all_hub_prices_history|daily|warehouse/connectors/hub_history.py append-ercot"
+  "dm_ercot_sced_pull|-|weekly|warehouse/connectors/ercot_sced_esr.py --pull --from 2026-02-01"
+  "dm_ercot_sced_write|ercot_sced_esr_hourly|weekly|warehouse/connectors/ercot_sced_esr.py --write"
+  "dm_ercot_storage_rt|ercot_storage_rt_monthly,ercot_storage_node_basis|weekly|warehouse/derived/ercot_storage_realtime.py"
+  "dm_eia930_workbooks|-|weekly|warehouse/connectors/eia930_emissions.py --days 3 --dry-run"
+  "dm_clean_energy|clean_energy_hourly,clean_energy_summary|weekly|warehouse/derived/mix_clean.py"
+  "dm_noaa_weather|noaa_grid_weather_hourly,noaa_grid_weather_daily,noaa_grid_weather_stations,noaa_station_weather_hourly|weekly|warehouse/connectors/noaa_grid_weather.py --refresh"
+  "dm_zone_history_pull|-|weekly|warehouse/connectors/zone_price_history.py --pull --iso caiso --recent 9"
+  "dm_zone_history_write|iso_zone_prices_history|weekly|warehouse/connectors/zone_price_history.py --write --iso caiso --recent 9"
 )
+# session 271: the weekly load of every table this block and warehouse/run_data_machine.sh write (the loader takes
+# only those a live-set rule names, and writes what changed)
+WEEKLY_LIVE='^(iso_zone_prices_history|caiso_reliability_daily|caiso_grid_emergencies|storage_owners_monthly|shoulder_hours_monthly|ercot_rtm_price_adders|scarcity_hours_by_grid|eia930_daily_total_interchange|caiso_wind_solar_forecast|ercot_wind_solar_forecast|nrc_reactor_status|caiso_curtailment_intervals|ercot_large_load_status|ercot_all_hub_prices_history|ercot_sced_esr_hourly|ercot_storage_rt_monthly|ercot_storage_node_basis|clean_energy_hourly|clean_energy_summary|noaa_grid_weather_hourly|noaa_grid_weather_daily|noaa_grid_weather_stations|noaa_station_weather_hourly|ercot_rtm_node_prices|ercot_zone_prices_history|carb_auction_allowance_prices|carb_lcfs_credit_prices|merchant_revenue_monthly)$'
+
 # the tables of this block that the live set holds (warehouse/supabase/live_set.yaml gives each its rule; the others
 # are histories, or held out of the catalogue, and are not loaded), and session 244's table, which only this machine builds
 LIVE_ONLY='^(caiso_reliability_daily|caiso_grid_emergencies|storage_owners_monthly|shoulder_hours_monthly|ercot_rtm_price_adders|scarcity_hours_by_grid)$'
@@ -104,6 +145,7 @@ if [ "${1:-}" = "--list" ]; then
     echo "$name: $table ($cadence): python $cmd"
   done
   echo "dm_live_set: python warehouse/supabase/load.py --no-vacuum --only '$LIVE_ONLY'"
+  echo "dm_live_set_weekly (weekly): python warehouse/supabase/load.py --no-vacuum --only '$WEEKLY_LIVE'"
   exit 0
 fi
 
@@ -115,8 +157,15 @@ if [ "${MONTHLY:-0}" = "1" ]; then
 elif [ ! -f "$stamp" ] && [ "$((10#$(date -u +%d)))" -ge "$MONTHLY_DAY" ]; then
   monthly=1
 fi
+# session 271: the weekly steps, on the first run of an ISO week that falls on a Monday or later (or WEEKLY=1)
+week="$(date -u +%G-W%V)"
+wstamp="runs/dm_weekly_${week}.done"
+weekly=0
+if [ "${WEEKLY:-0}" = "1" ] || [ ! -f "$wstamp" ]; then
+  weekly=1
+fi
 SINCE="$("$PYTHON" -c "import datetime as d; print((d.datetime.now(d.timezone.utc) - d.timedelta(days=10)).date())")"
-echo "== the tables no other schedule refreshes (session 247): the daily steps$([ "$monthly" = "1" ] && echo ", and the monthly ones ($month)")"
+echo "== the tables no other schedule refreshes (session 247): the daily steps$([ "$monthly" = "1" ] && echo ", and the monthly ones ($month)")$([ "$weekly" = "1" ] && echo ", and the weekly ones ($week)")"
 for line in "${TABLE_STEPS[@]}"; do
   IFS='|' read -r name table cadence cmd <<< "$line"
   case "$cadence" in
@@ -129,11 +178,27 @@ for line in "${TABLE_STEPS[@]}"; do
         echo "$name skipped: MONTHLY_PULLS=0, the month's pull is left out of this run" >> "$status"
         continue
       fi ;;
+    weekly)
+      if [ "$weekly" != "1" ]; then
+        echo "$name skipped: weekly, and $week's run is done ($wstamp)" >> "$status"
+        continue
+      fi ;;
   esac
-  was="$(sha_of "$table")"
+  # session 271: a step may write several tables (comma-separated), or none ("-": its files are raw, not a table)
+  tables=()
+  [ "$table" != "-" ] && IFS=',' read -r -a tables <<< "$table"
+  declare -A before=()
+  for t in "${tables[@]}"; do before[$t]="$(sha_of "$t")"; done
   # shellcheck disable=SC2086  # the command is words, split on purpose
   soft_step "$name" "$PYTHON" ${cmd//SINCE/$SINCE}
-  table_stores "${name}_stores" "$table" "$was"
+  i=0
+  for t in "${tables[@]}"; do
+    suffix="_stores"
+    [ "$i" -gt 0 ] && suffix="_stores_${t}"
+    table_stores "${name}${suffix}" "$t" "${before[$t]}"
+    i=$((i + 1))
+  done
+  unset before
 done
 if [ "$monthly" = "1" ]; then
   echo "the monthly steps ran on $(date -u +%FT%TZ)$([ "${MONTHLY_PULLS:-1}" = "0" ] && echo " (MONTHLY_PULLS=0: without CAISO's reports)")" > "$stamp"
@@ -141,3 +206,9 @@ fi
 echo "== the live set, for the tables only this machine builds"
 soft_step dm_live_set "$PYTHON" warehouse/supabase/load.py --no-vacuum --only "$LIVE_ONLY"
 grep -E "^(match|MISMATCH|refused)|pg_database_size:" runs/daily_dm_live_set.out
+if [ "$weekly" = "1" ]; then
+  echo "== the live set, once a week: every table this machine writes that a live-set rule names (session 271)"
+  soft_step dm_live_set_weekly "$PYTHON" warehouse/supabase/load.py --no-vacuum --only "$WEEKLY_LIVE"
+  grep -E "^(match|MISMATCH|refused)|pg_database_size:" runs/daily_dm_live_set_weekly.out
+  echo "the weekly steps ran on $(date -u +%FT%TZ)" > "$wstamp"
+fi

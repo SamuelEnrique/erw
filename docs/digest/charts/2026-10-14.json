@@ -1,0 +1,80 @@
+{
+ "date": "2026-10-14",
+ "source": "scanner",
+ "key": "scan-record-6e1d1cff0ae4",
+ "fact": "Retail electricity price in the District of Columbia, industrial: USD 321.5 per MWh in July 2026, the highest monthly value held since January 2001. The record until now was USD 272.6 per MWh, in June 2006.",
+ "table": "eia_retail_electricity_prices",
+ "series_key": "entity=eia:retail_price:DC:IND|variable=retail_price|market=|node=|freq=P1M",
+ "why": "the strongest of the scanner's 12 flag(s) of the day that no Digest has shown (rank 2; rule record, strength 1.8426); 1 record(s) more than 25 percent past the old one held a day by the guard",
+ "candidates_from": "the scan of 2026-10-14 (computed 2026-10-14T15:54:22+00:00)",
+ "title": "RECORD HIGH",
+ "numbers": {
+  "sigma": 26.53854000000001,
+  "value": 321.5,
+  "margin": 48.89999999999998,
+  "strength": 1.8426,
+  "threshold": 272.6,
+  "old_record": 272.6,
+  "stood_points": 241,
+  "history_years": 25.33,
+  "margin_sigmas": 1.8426,
+  "history_points": 305
+ },
+ "image": "2026-10-14.png",
+ "rendered_at": "2026-10-14T16:18:52Z",
+ "method": "docs/methods/automated_analysis_scanner.md",
+ "flag": {
+  "id": "scan-record-6e1d1cff0ae4",
+  "geo": "US-DC",
+  "date": "2026-07-01",
+  "note": "",
+  "rule": "record",
+  "unit": "USD/MWh",
+  "label": "eia:retail_price:DC:IND retail_price",
+  "table": "eia_retail_electricity_prices",
+  "value": 321.5,
+  "series": {
+   "freq": "P1M",
+   "node": "",
+   "entity": "eia:retail_price:DC:IND",
+   "market": "",
+   "variable": "retail_price"
+  },
+  "source": "eia:electricity/retail-sales",
+  "window": [
+   "2026-07-01",
+   "2026-07-01"
+  ],
+  "history": {
+   "last": "2026-05-01",
+   "first": "2001-01-01",
+   "years": 25.33,
+   "points": 305
+  },
+  "compared": {
+   "sigma": 26.53854000000001,
+   "margin": 48.89999999999998,
+   "old_record": 272.6,
+   "stood_points": 241,
+   "margin_sigmas": 1.8426,
+   "old_record_date": "2006-06-01"
+  },
+  "flag_key": "record|eia_retail_electricity_prices|entity=eia:retail_price:DC:IND|variable=retail_price|market=|node=|freq=P1M",
+  "strength": 1.8426,
+  "direction": "high",
+  "scan_date": "2026-10-14",
+  "statistic": "monthly value",
+  "threshold": {
+   "name": "record high",
+   "value": 272.6,
+   "config": {
+    "record_min_points": 60,
+    "record_stood_points": 24,
+    "record_min_margin_sigmas": 0.5
+   },
+   "statistic": "the highest monthly value of the held history"
+  },
+  "series_key": "entity=eia:retail_price:DC:IND|variable=retail_price|market=|node=|freq=P1M",
+  "scanner_version": "1.1.0"
+ }
+}

@@ -34,7 +34,7 @@ export const STRATEGIES: Record<Strategy, string> = { foresight: "Perfect foresi
  * is not built; it says "held, not shown: license needed". `at` is where energy is priced, when it is not a hub. */
 export const GRIDS: { id: string; name: string; ready: boolean; review?: boolean; why?: string; hub?: string; at?: string; entity?: string; from?: string }[] = [
   { id: "ercot", name: "ERCOT", ready: true, hub: "HB_HUBAVG", entity: "ercot:HB_HUBAVG", from: "2018" },
-  { id: "caiso", name: "CAISO", ready: true, hub: "SP15", entity: "caiso:TH_SP15_GEN-APND", from: "September 2024" },
+  { id: "caiso", name: "CAISO", ready: true, hub: "SP15", entity: "caiso:TH_SP15_GEN-APND", from: "August 2023" },
   { id: "pjm", name: "PJM", ready: false, why: "license needed" },
   { id: "nyiso", name: "NYISO", ready: false, review: true, why: "coming", hub: "N.Y.C.", at: "N.Y.C. zone (New York City)", entity: "nyiso:N.Y.C.", from: "September 2024" },
   { id: "isone", name: "ISO-NE", ready: false, why: "held, not shown: license needed" },
@@ -99,6 +99,27 @@ export function inputsOf(q: Record<string, string | undefined>, internal = false
   const strat = (q.strat === "dayahead" ? "dayahead" : "foresight") as Strategy;
   const mw = num(q.mw, 100, 1, 5000);
   return { grid, dur, strat, mw, fom: num(q.fom, COSTS[dur].fom, 0, 500), ds: Math.round(num(q.ds, debtPerMw(dur) * mw, 0, 1e11)) };
+}
+/** Session 263: what the address asked for that the page does not show as asked, one sentence each, so that nothing
+ * is replaced in silence: a grid the tool does not open, a duration or a strategy the model was not run at, a size
+ * outside 1 to 5,000 MW (brought to the nearer bound) or not a number. Empty when every value was read as given. The
+ * text the reader typed is never repeated, only a number read from it. */
+export function typedNotes(q: Record<string, string | undefined>, x: Pick<Inputs, "grid" | "dur" | "strat" | "mw">): string[] {
+  const out: string[] = [];
+  const given = (k: string) => q[k] !== undefined && q[k] !== "";
+  const n = (v: number) => v.toLocaleString("en-US", { maximumFractionDigits: 2 });
+  if (given("grid") && q.grid !== x.grid) {
+    const g = GRIDS.find((r) => r.id === q.grid);
+    const why = !g ? "is not a grid this tool holds" : g.review ? "is in review and opens in the internal view only" : `is not built for this tool (${g.why})`;
+    out.push(`${g ? g.name : "The grid asked for"} ${why}: ${gridOf(x.grid).name} is shown.`);
+  }
+  if (given("dur") && Number(q.dur) !== x.dur) out.push(`The model is run at 2, 4 and 8 hours: ${x.dur} hours is shown.`);
+  if (given("strat") && q.strat !== x.strat) out.push(`The strategy asked for is not one of the two: ${STRATEGIES[x.strat].toLowerCase()} is shown.`);
+  if (given("mw") && Number(q.mw) !== x.mw) {
+    const v = Number(q.mw);
+    out.push(Number.isFinite(v) ? `${n(v)} MW is outside the size field's bounds, 1 to 5,000 MW: ${n(x.mw)} MW is shown.` : `The size asked for is not a number: ${n(x.mw)} MW is shown.`);
+  }
+  return out;
 }
 /** The inputs as a stable string: the check keys' and the links' form. */
 export const inputsKey = (x: Inputs) => `grid=${x.grid}&dur=${x.dur}&strat=${x.strat}&mw=${x.mw}&fom=${x.fom}&ds=${x.ds}`;
@@ -223,7 +244,7 @@ export function last36(ms: Month[]): { from: string; to: string; months: Month[]
 }
 
 /** Session 71: the last three full calendar years: the newest calendar year with all twelve months held, and the two
- * before it, each also complete. Null when three such years are not held (CAISO, held from September 2024). */
+ * before it, each also complete. Null when three such years are not held (CAISO, held from August 2023 since session 273). */
 export function lastThreeYears(ms: Month[]): string[] | null {
   const full = years(ms).filter((y) => y.complete).map((y) => y.y);
   const newest = full.at(-1);
@@ -250,6 +271,15 @@ export function years(ms: Month[]): Year[] {
     t.months++; t.energy += r.energy!; t.ancillary += r.ancillary!;
   }
   return [...out.values()].map((t) => ({ ...t, complete: t.months === 12 })).sort((a, b) => a.y.localeCompare(b.y));
+}
+
+/** Session 257: one calendar year of one stream, or of several streams added (their names joined by "+"), in USD per kW:
+ * the held months' sum over 1,000. Null unless all twelve months of the year are held, or when no stream is named. */
+export function yearKw(ms: Month[], y: string, streams: string | undefined): number | null {
+  const names = (streams ?? "").split("+").filter(Boolean);
+  const held = ms.filter((r) => r.held && r.m.slice(0, 4) === y);
+  if (!names.length || held.length !== 12) return null;
+  return held.reduce((a, r) => a + names.reduce((s, n) => s + (pick(r, n) ?? 0), 0), 0) / 1000;
 }
 
 /** Debt coverage over the last twelve months: the twelve months' revenue for the reader's size, less a year of fixed
@@ -283,25 +313,52 @@ export function contractResult(ms: Month[], x: Inputs, c: Contract) {
 
 export type StressRow = { variable: string; ts_utc: string; value: number; event: string };
 export const EVENTS: Record<string, string> = { uri_2021: "Winter Storm Uri, February 2021", elliott_2022: "Winter Storm Elliott, December 2022", ercot_heat_2023: "The summer 2023 heat" };
-/** Each stress event's held days for one strategy and duration, per MW: the window's revenue by stream and its best day. */
-export function stress(rows: StressRow[], strat: Strategy, dur: Duration) {
+// Session 257 (session 246's list for the page): the events are read from the rows of the grid shown, not from the list
+// above. ERCOT's three are named events and keep their names. CAISO's are made by a rule from CAISO's own notices
+// (docs/methods/battery_stack.md, "CAISO's stress days"; an id `caiso_notices_<YYYYMMDD>`), so each is labelled by its
+// days, and a notice that makes a new event needs no line here.
+export const EVENT_SHORT: Record<string, string> = { uri_2021: "Uri", elliott_2022: "Elliott", ercot_heat_2023: "the 2023 heat" };
+/** What makes a grid's stress days, where it is a rule and not a list of named events: said in the page's sentence. */
+export const STRESS_BY: Record<string, string> = { caiso: "the days of CAISO's system-wide notices" };
+const dayParts = (d: string) => {
+  const t = new Date(`${d.slice(0, 10)}T12:00:00Z`);
+  return { day: t.getUTCDate(), month: t.toLocaleString("en-US", { month: "long", timeZone: "UTC" }), year: t.getUTCFullYear() };
+};
+/** An event's days in words, from its first and last held day and their count: "4 to 9 September 2024", "20 and 21
+ * January 2025", "30 September to 2 October 2026". */
+export function daysLabel(first: string, last: string, n: number): string {
+  const a = dayParts(first), b = dayParts(last);
+  if (first.slice(0, 10) === last.slice(0, 10)) return `${a.day} ${a.month} ${a.year}`;
+  const join = n === 2 ? "and" : "to";
+  if (a.year !== b.year) return `${a.day} ${a.month} ${a.year} ${join} ${b.day} ${b.month} ${b.year}`;
+  if (a.month !== b.month) return `${a.day} ${a.month} ${join} ${b.day} ${b.month} ${b.year}`;
+  return `${a.day} ${join} ${b.day} ${a.month} ${a.year}`;
+}
+export type StressEvent = { event: string; label: string; short: string; days: number; first: string; last: string; energy: number; ancillary: number; total: number; best: { day: string; v: number } };
+/** Each stress event's held days for one strategy and duration, per MW: the window's revenue by stream and its best day.
+ * The events are the ones the rows hold, in the order of their first day; `label` is a named event's name, else its
+ * days, and `short` is what the page's one sentence calls it. */
+export function stress(rows: StressRow[], strat: Strategy, dur: Duration): StressEvent[] {
   const pre = `${strat}_${dur}h_revenue_`;
-  const out: { event: string; days: number; first: string; last: string; energy: number; ancillary: number; total: number; best: { day: string; v: number } }[] = [];
-  for (const event of Object.keys(EVENTS)) {
-    const days = new Map<string, Record<string, number>>();
-    for (const r of rows) {
-      if (r.event !== event || !r.variable.startsWith(pre)) continue;
-      const d = r.ts_utc.slice(0, 10);
-      if (!days.has(d)) days.set(d, {});
-      days.get(d)![r.variable.slice(pre.length).replace("_usd_per_mw", "")] = Number(r.value);
-    }
-    if (!days.size) continue;
+  const byEvent = new Map<string, Map<string, Record<string, number>>>();
+  for (const r of rows) {
+    if (!r.event || !r.variable.startsWith(pre)) continue;
+    if (!byEvent.has(r.event)) byEvent.set(r.event, new Map());
+    const days = byEvent.get(r.event)!;
+    const d = r.ts_utc.slice(0, 10);
+    if (!days.has(d)) days.set(d, {});
+    days.get(d)![r.variable.slice(pre.length).replace("_usd_per_mw", "")] = Number(r.value);
+  }
+  const out: StressEvent[] = [];
+  for (const [event, days] of byEvent) {
     const list = [...days.entries()].sort((a, b) => a[0].localeCompare(b[0]));
     const sum = (k: string) => list.reduce((a, [, v]) => a + (v[k] ?? 0), 0);
     const best = list.reduce((a, [d, v]) => (v.total > a.v ? { day: d, v: v.total } : a), { day: list[0][0], v: list[0][1].total });
-    out.push({ event, days: list.length, first: list[0][0], last: list.at(-1)![0], energy: sum("energy"), ancillary: sum("ancillary"), total: sum("total"), best });
+    const first = list[0][0], last = list.at(-1)![0];
+    const label = EVENTS[event] ?? daysLabel(first, last, list.length);
+    out.push({ event, label, short: EVENT_SHORT[event] ?? label, days: list.length, first, last, energy: sum("energy"), ancillary: sum("ancillary"), total: sum("total"), best });
   }
-  return out;
+  return out.sort((a, b) => a.first.localeCompare(b.first) || a.event.localeCompare(b.event));
 }
 
 /** One number for a check key's stat (bs|<inputs>|<stat>), for the reader's size: what the page shows and
@@ -333,6 +390,8 @@ export function stat(rows: Row[], stressRows: StressRow[], x: Inputs, what: stri
     case "avg_without_kw": { const v = averageWithout(ms, b); return v === null ? null : v / 1000; }
     case "ds": return x.ds;
     case "year": { const y = years(ms).find((t) => t.y === b); return y ? (c === "energy" ? y.energy : c === "ancillary" ? y.ancillary : y.energy + y.ancillary) / 1000 : null; }
+    // session 257: one calendar year's held months of one stream, or of several added ("regup+regdn"), in USD per kW
+    case "year_kw": return yearKw(ms, b, c);
     case "month": { const r = ms.find((t) => t.m === b); return r ? scaled(pick(r, c)) : null; }
     case "days": { const r = ms.find((t) => t.m === b); return r ? (c === "out" ? r.daysOut : r.daysHeld) : null; }
     case "out": return ms.reduce((s, r) => s + r.daysOut, 0);
@@ -400,6 +459,29 @@ export function awardsBeside(snap: AwardsSnapshot, grid: string, strat: Strategy
   const ok = c && [c.months, c.model, c.fleet, c.ratio].every((v) => typeof v === "number" && Number.isFinite(v)) && c.months > 0 && c.fleet > 0;
   return ok ? c : null;
 }
+// Session 257 (session 246's list for the page): what plays the part of ERCOT's awards line for CAISO. CAISO's storage
+// awards are not held, so the real fleet's figures are a published report's, not a table's: CAISO's Department of Market
+// Monitoring says batteries in CAISO's area with a full year of operation earned "nearly $35/kW-yr in market revenues
+// for energy and $9/kW-yr for regulation" in 2025. The two figures are typed here from docs/methods/battery_stack.md,
+// "CAISO beside its market monitor" (tests/test_session257.py holds them to that note). The model's two figures beside
+// them are not typed: the page computes them from battery_stack_monthly for the case the note compares, a 4-hour
+// battery on the day-ahead schedule over the same year (yearKw; check keys bs|<that case>|year_kw:2025:<streams>).
+export type FleetBeside = { year: string; dur: Duration; strat: Strategy; energy: number; regulation: number; regulationStreams: string; publisher: string; report: string; where: string; url: string };
+export const FLEET_BESIDE: Record<string, FleetBeside> = {
+  caiso: {
+    year: "2025", dur: 4, strat: "dayahead", energy: 35, regulation: 9, regulationStreams: "regup+regdn",
+    publisher: "CAISO Department of Market Monitoring", report: "2025 Annual Report on Market Issues and Performance", where: "June 2026, section 1.3.3, Tables 1.7 and 1.8",
+    url: "https://www.caiso.com/documents/2025-annual-report-on-market-issues-and-performance.pdf",
+  },
+};
+/** The published real-fleet figures to set beside a grid's model, or null when none is held for it (ERCOT has its
+ * awards line, awardsBeside; the grids in review have neither). */
+export const fleetBeside = (grid: string): FleetBeside | null => FLEET_BESIDE[grid] ?? null;
+/** The inputs of the case the published fleet figures are set beside, at the reader's size: its check keys' inputs. */
+export function fleetCase(f: FleetBeside, grid: string, mw: number): Inputs {
+  return inputsOf({ grid, dur: String(f.dur), strat: f.strat, mw: String(mw) });
+}
+
 /** One number of a check key bsa|<strategy>_<N>h|<model, fleet, ratio or months>, from the snapshot. */
 export function awardsStat(snap: AwardsSnapshot, k: string, what: string): number | null {
   const hit = /^(foresight|dayahead)_(2|4|8)h$/.exec(k);

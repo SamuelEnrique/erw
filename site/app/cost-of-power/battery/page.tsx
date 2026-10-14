@@ -6,17 +6,17 @@ import { Num } from "@/components/Num";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ChartFrame, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import {
-  CAPACITY_WORDS, COSTS, DEBT, DURATION_WORDS, LEFT_OUT, PRODUCTS, REVIEW_TABLE, STRATEGIES, TABLE, awardsBeside, debtPerMw, gridOf, inputsKey, inputsOf, last36,
-  lastThreeYears, lastTwelve, monthName, monthsOf, outlier, stat, usdShort, years, type AwardsSnapshot, type Inputs, type Month, type Year,
+  CAPACITY_WORDS, COSTS, DEBT, DURATION_WORDS, LEFT_OUT, PRODUCTS, REVIEW_TABLE, STRATEGIES, STRESS_BY, TABLE, awardsBeside, debtPerMw, fleetBeside, fleetCase, gridOf, inputsKey, inputsOf, last36,
+  lastThreeYears, lastTwelve, monthName, monthsOf, outlier, stat, stress, typedNotes, usdShort, years, type AwardsSnapshot, type Inputs, type Month, type Year,
 } from "@/lib/batterystack";
 import awardsData from "@/data/battery_awards_beside.json";
 import stepsData from "@/data/battery_scenario_steps.json";
-import { debtUsd, defaultsOf, isOldParam, isScenarioParam, parseScenarios, stepState, stepsOffered, type StepFile } from "@/lib/battery/finance";
+import { debtUsd, defaultsOf, isOldParam, isScenarioParam, parseScenarios, scenarioNotes, stepState, stepsOffered, type StepFile } from "@/lib/battery/finance";
 import { attempt } from "@/lib/supabase";
 import { CostTabs } from "../Tabs";
 import { BatteryForm } from "./BatteryForm";
 import { U, V } from "./nums";
-import { internalView, reviewRows, rowsOf } from "./read";
+import { internalView, reviewRows, rowsOf, stressRowsOf } from "./read";
 import { BatteryDecisions, BatteryHeadline, BatterySensitivity, Scenarios } from "./Scenarios";
 
 // Session 203: the page restyled on the brand, version 0 (docs/brand.md, direction A). The year chart names its series
@@ -61,10 +61,18 @@ import { BatteryDecisions, BatteryHeadline, BatterySensitivity, Scenarios } from
 // see" (docs/methods/battery_earns_algorithm.md, section 4.11). The defaults: hurdle rate 12 percent and debt share 20
 // percent, Lazard's storage cases (lib/battery/finance.ts). At a contract share of 0 every number that stays is what
 // it was.
+// Session 257 (the owner's task of 13 October 2026, session 246's list): CAISO at ERCOT's depth on this page. (a) The
+// sentence of the stress days names the events of the grid shown, read from battery_stack_stress_daily (read.ts,
+// stressRowsOf): ERCOT's three by their names, as before, and CAISO's by their days, since a rule makes them from
+// CAISO's own notices. (b) Under the income table CAISO has the line that ERCOT's awards line is for ERCOT: the model's
+// 2025 energy and regulation income for a 4-hour battery on the day-ahead schedule (computed from
+// battery_stack_monthly, check keys bs|<that case>|year_kw:2025:<streams>) beside what CAISO's market monitor says the
+// real fleet earned (a cited constant, lib/batterystack.ts, FLEET_BESIDE). No ERCOT number moved.
 export const metadata: Metadata = { title: "What a battery earns" };
 export const dynamic = "force-dynamic";
 
 const METHOD = "/data/methods/battery_stack";
+const MONITOR = `${METHOD}#caiso-market-monitor`;
 const ALGORITHM = "/data/methods/battery_earns_algorithm";
 const DISPATCH = "/battery/erw_2026_battery_dispatch.csv", DO_FILE = "/battery/erw_2026_battery_replication.do", MIRROR = "/battery/erw_2026_battery_replication.py";
 const MONTHS_CSV = "/cost-of-power/battery/months.csv";
@@ -156,6 +164,8 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
   const stepCase = steps.cases[`${asked.grid}|${asked.strat}|${asked.dur}`] ?? null;
   const offered = stepsOffered(steps, stepState(stepCase, ms, (last36(ms)?.months ?? []).map((r) => r.m)));
   const A = parseScenarios(q, defaultsOf(COSTS[asked.dur]), offered, asked.mw).a;
+  // session 263: what the address asked for and the page does not show as asked is said, in one line, never replaced in silence
+  const asItWas = [...typedNotes(q, asked), ...scenarioNotes(q, defaultsOf(COSTS[asked.dur]), offered)];
   const x: Inputs = { ...asked, fom: A.fom, ds: debtUsd(A, asked.mw) };
   const key = inputsKey(x);
   const held = ms.filter((r) => r.held);
@@ -171,6 +181,18 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
   const products = PRODUCTS[x.grid];
   const scenarioParams = Object.fromEntries(Object.entries(q).filter(([k, v]) => (isScenarioParam(k) || isOldParam(k)) && v !== undefined).sort(([a], [b]) => a.localeCompare(b))) as Record<string, string>;
   const beside = awardsBeside(awardsData as unknown as AwardsSnapshot, x.grid, x.strat, x.dur);
+  // session 257: the events of the grid shown, from the stress table's rows (a grid in review holds none and is not asked)
+  const stressRead = g.review || !read.ok ? null : await attempt(() => stressRowsOf(g.entity!, asked));
+  const events = stressRead?.ok ? stress(stressRead.data, x.strat, x.dur) : [];
+  // session 257: the published real-fleet figures beside the model's own case (CAISO: a 4-hour battery, day-ahead, 2025).
+  // The case's months are the page's own rows when it is the battery shown, else one more read of the same table
+  const fleet = g.review || !read.ok ? null : fleetBeside(x.grid);
+  const fleetX = fleet ? fleetCase(fleet, x.grid, x.mw) : null;
+  const fleetRead = !fleet ? null : fleet.strat === asked.strat && fleet.dur === asked.dur ? { ok: true as const, data: rows } : await attempt(() => rowsOf(g.entity!, fleet));
+  const fleetRows = fleetRead?.ok ? fleetRead.data : [];
+  const fleetKey = fleetX ? inputsKey(fleetX) : "";
+  const fleetStat = (s: string) => (fleetX ? stat(fleetRows, [], fleetX, s) : null);
+  const fleetEnergy = fleet ? fleetStat(`year_kw:${fleet.year}:energy`) : null, fleetReg = fleet ? fleetStat(`year_kw:${fleet.year}:${fleet.regulationStreams}`) : null;
   const two = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const broken = (() => { const t = ys.map((r) => r.energy + r.ancillary).sort((a, b) => b - a); return t.length > 2 && t[0] > 2.5 * t[1] ? ys.find((r) => r.energy + r.ancillary === t[0])! : null; })();
   const before2024 = ys.some((r) => r.y < "2024");
@@ -205,6 +227,9 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
           </aside>
 
           <div className="min-w-0">
+            {asItWas.length ? (
+              <p className="mb-6 border border-rule bg-paper px-3 py-2 text-sm" role="status" data-typed-notes={asItWas.length}>{asItWas.join(" ")}</p>
+            ) : null}
             {g.review ? (
               <p className="mb-6 border-l-2 border-accent bg-paper px-4 py-3 text-sm" data-in-review-grid={x.grid}>
                 <strong>{g.name} is in review and shown in the internal view only.</strong> Its reserve prices came into the warehouse in session 85. {DURATION_WORDS[x.grid]} {LEFT_OUT[x.grid]}.
@@ -266,6 +291,15 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
                       the model is <Num check={`bsa|${x.strat}_${x.dur}h|ratio`} raw={beside.ratio}>{two(beside.ratio)}</Num> times the awards. <Link href={ALGORITHM}>How this is counted</Link>.
                     </p>
                   ) : null}
+                  {/* session 257: for CAISO, the market monitor's real fleet plays the part of ERCOT's awards line */}
+                  {fleet && fleetEnergy !== null && fleetReg !== null ? (
+                    <p className="mt-3 max-w-3xl text-sm" data-fleet-beside={`${x.grid}_${fleet.year}`}>
+                      In {fleet.year}, for a {fleet.dur}-hour battery on the day-ahead schedule, this model takes USD <V pre={fleetKey} s={`year_kw:${fleet.year}:energy`} v={fleetEnergy} /> per
+                      kW from energy and USD <V pre={fleetKey} s={`year_kw:${fleet.year}:${fleet.regulationStreams}`} v={fleetReg} /> from regulation; {g.name}&apos;s market monitor reports that real batteries in its area
+                      with a full year of operation earned about USD <span data-fleet-published="energy">{fleet.energy}</span> per kW from energy and USD <span data-fleet-published="regulation">{fleet.regulation}</span> from regulation
+                      ({fleet.publisher}, <a href={fleet.url} rel="noopener">{fleet.report}</a>, {fleet.where}). <span data-fleet-why="1">The two differ in regulation: this model sells it as if the market had no size, and the monitor writes that &ldquo;there is a large amount of battery capacity competing to provide a relatively low amount of required regulation&rdquo;.</span> <Link href={MONITOR}>How this is counted</Link>.
+                    </p>
+                  ) : null}
                   {/* session 208 (ruling 2): one sentence of what the model cannot see; the rest is in the methods note */}
                   <p className="mt-2 max-w-3xl text-xs text-muted" data-income-note="1">
                     For {size}, in US dollars, one column for each span. Energy is priced at {g.name}&apos;s {g.at ?? `${g.hub} hub`}, not the battery&apos;s own node; reserves are paid for being held and are assumed never called.
@@ -275,7 +309,9 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
                   <p className="mt-2 max-w-3xl text-xs text-muted" data-months-csv="1">
                     <a href={monthsHref} download>Every month, CSV</a>: energy, ancillary and total for {size}, each month&apos;s coverage at scenario A&apos;s costs, days held and days left out
                     (<V pre={key} s="out" v={st("out")} /> days in all{leftOut ? `, ${leftAnc} of them for a missing ancillary price` : ""}).
-                    {x.grid === "ercot" ? <> The stress days (Uri, Elliott, the 2023 heat): <a href={STRESS_DOWNLOAD} download>the table, CSV</a>.</> : null}
+                    {/* session 257: the events of the grid shown, read from the table: ERCOT's by name, CAISO's by their days */}
+                    {events.length ? <span data-stress-days={events.map((e) => e.event).join(" ")}> The stress days{STRESS_BY[x.grid] ? `, ${STRESS_BY[x.grid]}` : ""} ({events.map((e) => e.short).join(", ")}): <a href={STRESS_DOWNLOAD} download>the table, CSV</a>.</span>
+                      : stressRead && !stressRead.ok ? <span data-stress-days=""> The stress days: <a href={STRESS_DOWNLOAD} download>the table, CSV</a>.</span> : null}
                   </p>
                 </ToolSection>
                 </div>

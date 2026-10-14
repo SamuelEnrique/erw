@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# RETIRED (session 271, the owner's ruling of 14 October 2026): price_board_stats is retired with its page
+# (warehouse/metadata/retired_tables.csv); this script is kept as a record and is not to be scheduled.
+#
 # The price board, version 4: its daily refresh (session 127). WRITTEN, NOT SCHEDULED: no workflow and no line of
 # run_daily.sh calls this while the review freeze is on. To switch it on, a person adds the one step below to
 # warehouse/run_daily.sh after "price_board" (the tables it reads are already refreshed by then) and, once /board/v4

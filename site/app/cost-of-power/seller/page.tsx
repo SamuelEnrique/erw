@@ -9,6 +9,7 @@ import { ChartFrame, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHe
 import * as B from "@/lib/batterystack";
 import { caisoJoinDay } from "@/lib/caisoJoin";  // session 78: the join's date is written in one place
 import { MARKETS, freeEnergyHref, hubAt, hubName, monthName as shortMonth, signed, two } from "@/lib/capture";
+import { LICENSE_NEEDED, licenseGridTitle, licenseHeldGrid } from "@/lib/license";
 import { ASSET_NAMES } from "@/lib/merchant";
 import { isOldParam, isScenarioParam } from "@/lib/seller/finance";
 import { usd, whole, type Span } from "@/lib/seller2";
@@ -85,6 +86,22 @@ import { Missing } from "./nums";
 // scripts/check-values.mjs recomputes from the capture file. A battery's and a gas peaker's are this page's model at
 // each hub. (3) "Is it worth building?": one click makes scenario B a PPA, and the results show the breakeven PPA
 // price (SellerScenarios.tsx, lib/seller/finance.ts). No default and no other number moved. The downloads stay.
+//
+// Session 257 (the owner's task of 13 October 2026, session 253's list): the source line counts 20 published figures
+// where it counted 10. The ten more are CAISO's: its market monitor's combustion turbine and Berkeley Lab's market value
+// of wind and its PPA indexes, the rows of docs/methods/generator_earns_algorithm.md, section 12.5, that hold a gap, now
+// in that note's "Cross-checks". No number of the page moved. Not done, each waiting as that list says: the peaker's
+// carbon cost (a ruling), CAISO's stress days (the snapshot holds none), the sentence beside CAISO's wind (a ruling).
+//
+// Session 264 (the owner's list of 14 October 2026 for this tool; no section added, moved or removed): (1) wherever the
+// page states a capture price, the capture rate stands beside it, from the same rows, with a check key: the summary
+// sentence and the headline carry cap|<grid>|<hub>|<market>|<fuel>|l12|price, flat and rate (a solar or a wind plant), and
+// the headline and the income table carry ms|<inputs>|<span>|<stat> at the main hub (a battery's and a peaker's too),
+// which scripts/check-values.mjs recomputes from the model's snapshot. Every check key names its grid: cap| its second
+// field, mr| and ms| the inputs' iso=. (2) A typed value of "Your plant" or of a scenario outside its bounds is held at the
+// bound, and one line under the panel says so. (3) The two CSV downloads are offered where every publisher of the grid's
+// prices allows redistribution (lib/license.ts, the verdicts of docs/licenses.md, unchanged): a grid whose prices are
+// "license needed" on the day (ISO-NE and NYISO from 21 October 2026) gets the catalogue's words in their place.
 export const metadata: Metadata = { title: "What a generator earns" };
 export const dynamic = "force-dynamic";
 
@@ -106,16 +123,21 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
   const scenarioKey = `${iso}|${hub.id}|${k}|${x.mw}|${JSON.stringify(scenarioParams)}`;
   const costs = M.costsOf(k);
 
-  const cell = (v: Span | null, f: (v: Span) => string, whyNone: string) => (v ? f(v) : <Missing why={whyNone} />);
   const spanHead = [
     "",
     <span key="t">Last twelve months<span className="block text-xs font-normal opacity-80">{s.twelve ? `${shortMonth(s.twelve.from)} to ${shortMonth(s.twelve.to)}` : "not held yet"}</span></span>,
     <span key="3">Long-run average, a year<span className="block text-xs font-normal opacity-80">{s.threeYears ? `${s.threeYears[0]} to ${s.threeYears[2]}, the last three full years` : "the last three full years"}</span></span>,
     <span key="e">Long-run average, a year<span className="block text-xs font-normal opacity-80">{s.everyYears.length ? `every full year held, ${s.everyYears[0]} to ${s.everyYears.at(-1)}` : "every full year held"}</span></span>,
   ];
+  // session 264: each figure with its check key at the main hub (ms|<inputs>|<span>|<stat>; spanNum below)
+  const spanCell = (span: "twelve" | "three" | "every", v: Span | null, f: (v: Span) => string, id: string, whyNone: string) => {
+    if (!v) return <Missing why={whyNone} />;
+    const raw = id === "revenue" ? v.revenue_kw : id === "energy" ? v.energy : id === "capture" ? v.capture : id === "flat" ? v.flat : v.rate;
+    return raw === null ? f(v) : spanNum(span, id, raw, f(v));
+  };
   const spanRow = (label: string, f: (v: Span) => string, id: string, highlight = false) => ({
-    key: id, highlight, cells: [label, <span key="t" data-seller2={`twelve|${id}`}>{cell(s.twelve, f, M.twelveWhy)}</span>, <span key="3" data-seller2={`three|${id}`}>{cell(s.three, f, M.threeWhy)}</span>,
-      <span key="e" data-seller2={`every|${id}`}>{cell(s.every, f, M.everyWhy)}</span>],
+    key: id, highlight, cells: [label, <span key="t" data-seller2={`twelve|${id}`}>{spanCell("twelve", s.twelve, f, id, M.twelveWhy)}</span>, <span key="3" data-seller2={`three|${id}`}>{spanCell("three", s.three, f, id, M.threeWhy)}</span>,
+      <span key="e" data-seller2={`every|${id}`}>{spanCell("every", s.every, f, id, M.everyWhy)}</span>],
   });
   // the two downloads take the page's own parameters and scenario A's, as this request has them
   const query = new URLSearchParams();
@@ -135,6 +157,18 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
   };
   const capHead = (top: string, under: string) => <span key={top}>{top}<span className="mt-0.5 block text-xs opacity-80">{under}</span></span>;
 
+  // session 264: the capture price of the hub chosen with its rate beside it, each with its check key (the capture file)
+  const capKey = (what: "price" | "flat" | "rate") => `cap|${iso}|${hub.id}|${mk}|${fuel}|l12|${what}`;
+  const mineRate = mine && mine.flat > 0 ? Math.round((100 * mine.price) / mine.flat) : null;
+  // session 264: the model's spans carry ms|<inputs>|<span>|<stat> at the main hub (the inputs name the grid, iso=)
+  const spanNum = (span: "twelve" | "three" | "every", stat: string, v: number, text: string) =>
+    atHub ? <>{text}</> : <Num check={`ms|${key}|${span}|${stat}`} raw={stat === "energy" || stat === "rate" ? Math.round(v) : v}>{text}</Num>;
+  // session 264: a typed value outside its bounds is held at the bound, and the panel says so in one line
+  const clamped = M.clampedWords;
+  // session 264: the downloads, where the grid's prices may be redistributed (lib/license.ts; no verdict changed here)
+  const pricesHeld = licenseHeldGrid(iso);
+  const heldWords = <span className="cursor-help border-b border-dotted border-muted italic text-muted" title={licenseGridTitle(iso)} data-license-held="downloads">{LICENSE_NEEDED}</span>;
+
   return (
     <Brand noUsage>
     <ToolPage>
@@ -149,6 +183,7 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
           <aside>
             <InputPanel title="Your plant">
               <SellerForm key={`${key}|${hub.id}|${bmw}|${dur}|${strat}`} x={{ iso, hub: hub.id, asset: x.asset, mw: x.mw, mwh: x.mwh, hr: x.hr, vom: x.vom, bmw, dur, strat }} grids={M.grids} hybrid={M.hybrid} defaults={M.defaults} />
+              {clamped.length ? <p className="mt-2 text-xs leading-snug" role="status" data-clamped={clamped.length}>{clamped.join(" ")}</p> : null}
             </InputPanel>
           </aside>
 
@@ -169,22 +204,22 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
               {held.length ? (
                 <p className="mb-6 max-w-3xl font-serif text-xl leading-snug" data-summary="1">
                   {line ?? <>{g.name} holds no twelve months of {a.name.toLowerCase()} in a row, so the last twelve months are not shown.</>}
-                  {mine ? <> At {hubAt(hub.id)} the price it received, weighted by generation, was USD {two(mine.price)} per MWh, USD {two(Math.abs(mine.premium))}{mine.pct === null ? "" : ` (${Math.abs(mine.pct).toFixed(1)} percent)`} {mine.premium < 0 ? "below" : "above"} the flat average of USD {two(mine.flat)}.</> : null}
+                  {mine ? <> At {hubAt(hub.id)} the price it received, weighted by generation, was USD <Num check={capKey("price")} raw={mine.price}>{two(mine.price)}</Num> per MWh, USD {two(Math.abs(mine.premium))}{mine.pct === null ? "" : ` (${Math.abs(mine.pct).toFixed(1)} percent)`} {mine.premium < 0 ? "below" : "above"} the flat average of USD <Num check={capKey("flat")} raw={mine.flat}>{two(mine.flat)}</Num>{mineRate === null ? "" : <>: a capture rate of <Num check={capKey("rate")} raw={mineRate}>{whole(mineRate)}</Num> percent</>}.</> : null}
                 </p>
               ) : null}
 
               <HeadlineRow>
                 <HeadlineNumber label={`${money}, last twelve months`}
-                  value={s.twelve ? <span data-stat="l12_kw">{usd(s.twelve.revenue_kw)}</span> : <Missing why={M.twelveWhy} />} unit={s.twelve ? "USD/kW" : undefined}
+                  value={s.twelve ? <span data-stat="l12_kw">{spanNum("twelve", "revenue", s.twelve.revenue_kw, usd(s.twelve.revenue_kw))}</span> : <Missing why={M.twelveWhy} />} unit={s.twelve ? "USD/kW" : undefined}
                   note={s.twelve ? <>{shortMonth(s.twelve.from)} to {shortMonth(s.twelve.to)}, priced at <span data-stat="priced_at">{at}</span></> : null} />
                 {fuel ? (
                   <HeadlineNumber label={`Price received at ${hubAt(hub.id)}`}
-                    value={mine ? <span data-stat="cap_price">{two(mine.price)}</span> : <Missing why={why(hub, fuel, mk)} />} unit={mine ? "USD/MWh" : undefined}
-                    note={mine ? <><span data-stat="cap_premium">{signed(mine.premium)}</span> USD per MWh{mine.pct === null ? "" : <> (<span data-stat="cap_pct">{signed(mine.pct, 1)}</span> percent)</>} against the flat average of <span data-stat="cap_flat">{two(mine.flat)}</span>; {MARKETS[mk].toLowerCase()}, {shortMonth(mine.from)} to {shortMonth(mine.to)}</> : null} />
+                    value={mine ? <span data-stat="cap_price"><Num check={capKey("price")} raw={mine.price}>{two(mine.price)}</Num></span> : <Missing why={why(hub, fuel, mk)} />} unit={mine ? "USD/MWh" : undefined}
+                    note={mine ? <><span data-stat="cap_premium">{signed(mine.premium)}</span> USD per MWh{mine.pct === null ? "" : <> (<span data-stat="cap_pct">{signed(mine.pct, 1)}</span> percent)</>} against the flat average of <span data-stat="cap_flat"><Num check={capKey("flat")} raw={mine.flat}>{two(mine.flat)}</Num></span>{mineRate === null ? "" : <>, a capture rate of <span data-stat="cap_rate"><Num check={capKey("rate")} raw={mineRate}>{whole(mineRate)}</Num></span> percent</>}; {MARKETS[mk].toLowerCase()}, {shortMonth(mine.from)} to {shortMonth(mine.to)}</> : null} />
                 ) : (
                   <HeadlineNumber label={peaker ? "Price while running" : "Price while selling"}
-                    value={s.twelve && s.twelve.capture !== null ? usd(s.twelve.capture) : <Missing why={M.twelveWhy} />} unit={s.twelve && s.twelve.capture !== null ? "USD/MWh" : undefined}
-                    note={s.twelve ? <>against {usd(s.twelve.flat)} for every hour{s.twelve.rate !== null ? <>: {whole(s.twelve.rate)} percent of it</> : null}</> : null} />
+                    value={s.twelve && s.twelve.capture !== null ? spanNum("twelve", "capture", s.twelve.capture, usd(s.twelve.capture)) : <Missing why={M.twelveWhy} />} unit={s.twelve && s.twelve.capture !== null ? "USD/MWh" : undefined}
+                    note={s.twelve ? <>against {spanNum("twelve", "flat", s.twelve.flat, usd(s.twelve.flat))} for every hour{s.twelve.rate !== null ? <>: a capture rate of {spanNum("twelve", "rate", s.twelve.rate, whole(s.twelve.rate))} percent</> : null}</> : null} />
                 )}
                 {/* session 195: coverage at scenario A's fixed O&M and debt payments; session 212: and A's contract (SellerScenarios.tsx) */}
                 <CoverHeadline rows={monthRows} mw={x.mw} pre={key} facts={facts} />
@@ -261,14 +296,14 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
                       : `${capName}: this page's model of the ${peaker ? "peaker" : "battery"}, solved at each hub's own price. `}
                     Hub average: the plain average of the price over the same hours. Capture rate: the first as a percent of the second, in whole percent; under 100 the plant
                     was paid less for a MWh than the hub&apos;s average. A year in grey holds fewer than twelve months. A hub&apos;s name opens the page at that hub.
-                    {fuel ? <> Both fuels, both markets and each year&apos;s capture price at every hub: <a href={`${TABLES_CSV}${suffix}`} download>the other tables, CSV</a>.</> : null}
+                    {fuel ? <> Both fuels, both markets and each year&apos;s capture price at every hub: {pricesHeld ? heldWords : <a href={`${TABLES_CSV}${suffix}`} download>the other tables, CSV</a>}.</> : null}
                   </p>
                 </div>
               ) : null}
 
               <p className="mt-2 max-w-3xl text-xs text-muted" data-months-csv="1">
-                <a href={`${MONTHS_CSV}${suffix}`} download>Every month, CSV</a>: revenue, energy, the capture price and rate, and each month&apos;s coverage at scenario A&apos;s costs, for {sizeLabel} at {at}.
-                {" "}<a href={`${TABLES_CSV}${suffix}`} download>The other tables, CSV</a>: the capture price at every hub and zone of {g.name} over the last twelve months and by year, every public hub by year, the plant with a battery beside it, the stress days, and the fleet&apos;s hours as EIA reports them.
+                {pricesHeld ? <>Every month, CSV: {heldWords}</> : <a href={`${MONTHS_CSV}${suffix}`} download>Every month, CSV</a>}: revenue, energy, the capture price and rate, and each month&apos;s coverage at scenario A&apos;s costs, for {sizeLabel} at {at}.
+                {" "}{pricesHeld ? <>The other tables, CSV: {heldWords}</> : <a href={`${TABLES_CSV}${suffix}`} download>The other tables, CSV</a>}: the capture price at every hub and zone of {g.name} over the last twelve months and by year, every public hub by year, the plant with a battery beside it, the stress days, and the fleet&apos;s hours as EIA reports them.
               </p>
 
               {fuel ? (
@@ -296,7 +331,7 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
         </div>
       </SellerDecisions>
       <SourceLine tables={["merchant_revenue_monthly", "eia_fuel_spot_prices", "eia860m_operating_generators", ...new Set(cg.hubs.flatMap((h) => [...(h.rt?.tables ?? []), ...(h.da?.tables ?? [])])), ...(batt ? [B.TABLE] : [])]}
-        note={<>Derived by the ERW from {g.name}&apos;s public prices and EIA-930&apos;s hourly generation by source ({cg.workbook}){cg.generation.includes("caiso") ? `, California from ${caisoJoinDay()} from CAISO's own supply by fuel` : ""}. The model&apos;s snapshot was built {snap.built.slice(0, 10)}, the capture prices {CAPTURE.built.slice(0, 10)}{atHub ? `, the model at ${hubAt(hub.id)} ${HUBS.built.slice(0, 10)}` : ""}{pair && hf ? `, the pair with a battery ${HYBRID.built.slice(0, 10)}` : ""}. The default case hour by hour: <a href={HOURLY_CSV} download data-download="csv">CSV</a>, <a href={DO_FILE} download data-download="do">Stata do-file</a>, <a href={MIRROR} download data-download="py">Python mirror</a>. Cost defaults: Lazard, Levelized Cost of Energy+, June 2025. The buyer&apos;s side is <Link href="/cost-of-power">What a datacenter pays</Link>. <span data-checked-against="10">Checked against: 10 published figures (Lazard, the Annual Technology Baseline, EIA). <Link href="/data/methods/generator_earns_algorithm#cross-checks">Each comparison, with its gap and the reason</Link>.</span></>} />
+        note={<>Derived by the ERW from {g.name}&apos;s public prices and EIA-930&apos;s hourly generation by source ({cg.workbook}){cg.generation.includes("caiso") ? `, California from ${caisoJoinDay()} from CAISO's own supply by fuel` : ""}. The model&apos;s snapshot was built {snap.built.slice(0, 10)}, the capture prices {CAPTURE.built.slice(0, 10)}{atHub ? `, the model at ${hubAt(hub.id)} ${HUBS.built.slice(0, 10)}` : ""}{pair && hf ? `, the pair with a battery ${HYBRID.built.slice(0, 10)}` : ""}. The default case hour by hour: <a href={HOURLY_CSV} download data-download="csv">CSV</a>, <a href={DO_FILE} download data-download="do">Stata do-file</a>, <a href={MIRROR} download data-download="py">Python mirror</a>. Cost defaults: Lazard, Levelized Cost of Energy+, June 2025. The buyer&apos;s side is <Link href="/cost-of-power">What a datacenter pays</Link>. <span data-checked-against="20">Checked against: 20 published figures (Lazard, the Annual Technology Baseline, EIA, CAISO&apos;s market monitor, Berkeley Lab). <Link href="/data/methods/generator_earns_algorithm#cross-checks">Each comparison, with its gap and the reason</Link>.</span></>} />
     </ToolPage>
     </Brand>
   );

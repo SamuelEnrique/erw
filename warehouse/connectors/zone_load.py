@@ -139,6 +139,12 @@ def run(spec, pull, argv=None):
         pieces, found = pull(log, first, counter)
         pieces = [p for p in pieces if len(p)]
         if not pieces:
+            # session 277: files were read and none holds an hour of the window asked (ERCOT posts its yearly workbook
+            # about once a month): the publisher's lag, "stale at source", a skip by the CARB rule (session 271), not a
+            # failure. No file read at all is still a failure.
+            if found:
+                raise RuntimeError(f"stale at source: the operator's files hold no hour on or after {first:%Y-%m-%d} "
+                                   f"({'; '.join(str(n) for n in found)[:200]})")
             raise RuntimeError("the operator answered no hour")
         s = pd.concat(pieces, ignore_index=True)
         s = s.drop_duplicates(ip.SERIES_KEY, keep="first")       # two files may hold the same hour (a window's edge); the newer file is read first
@@ -166,10 +172,19 @@ def run(spec, pull, argv=None):
         print(f"{name}: {len(s):,} rows, {s['entity'].nunique()} entities, {s['ts_utc'].min()[:10]} to {s['ts_utc'].max()[:10]}; rows read {counter.read:,}")
     except Exception:
         tb = ip.redact(traceback.format_exc())
-        log(f"FAILED, no output file written:\n{tb}")
-        print(f"{connector} FAILED, no output file written: {tb.strip().splitlines()[-1]}; rows read {counter.read:,}", file=sys.stderr)
-        results.append(dict(table=name, market="all", status="failed", detail=tb.strip().splitlines()[-1][:300]))
+        last = tb.strip().splitlines()[-1]
+        why = ip.stale_skip(str(sys.exc_info()[1]))   # session 277: the publisher's lag is a skip (the CARB rule), on any machine
+        if why:
+            log(f"SKIPPED, no output file written: {why}\n{tb}")
+            print(f"{connector} SKIPPED: {why}; rows read {counter.read:,}")
+            results.append(dict(table=name, market="all", status="skipped", detail=why[:300]))
+        else:
+            log(f"FAILED, no output file written:\n{tb}")
+            print(f"{connector} FAILED, no output file written: {last}; rows read {counter.read:,}", file=sys.stderr)
+            results.append(dict(table=name, market="all", status="failed", detail=last[:300]))
     if not args.out_dir:
         ip.write_status(connector, run_id, results)
     log.close()
-    return 0 if all(r["status"] == "ok" for r in results) else 1
+    if any(r["status"] == "failed" for r in results):
+        return 1
+    return ip.skip_exit() if any(r["status"] == "skipped" for r in results) else 0

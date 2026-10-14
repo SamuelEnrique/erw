@@ -1,7 +1,7 @@
 // Energy Research Warehouse (ERW) site, session 145: the capture price of a solar and a wind plant at every public
 // hub and zone, for "What a generator earns" (/cost-of-power/seller). The file data/seller/capture.json
 // (warehouse/derived/capture_price.py) holds months; every figure the page shows is added up here, by the page, by
-// scripts/check-seller.mjs and by scripts/test-capture.mjs alike. No imports: Node runs this file as it is.
+// scripts/check-seller.mjs (retired by session 264 to scripts/_retired/; scripts/check-values.mjs reads the cap| keys) and by scripts/test-capture.mjs alike. No imports: Node runs this file as it is.
 // docs/methods/cost_of_power.md, "The capture price".
 //
 //   generation-weighted price = sum(price x generation) / sum(generation)

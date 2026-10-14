@@ -53,6 +53,7 @@ import csv
 import datetime as dt
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -82,6 +83,11 @@ SCHEDULED_MODEL_STEPS = ("news_score", "news_score_shadow", "policy_score", "pol
 DAYS_FILE = os.path.join(ROOT, "site", "data", "health_days.json")
 DAYS_KEPT = 120          # days kept in the file, the newest
 MEMORY = "alerts"        # scripts/alert.py's memory of what it said: rows of erw_health that are no job's
+# Session 271, the CARB rule (the owner's ruling of 14 October 2026): a publisher that has not published within a
+# connector's limit, or any publisher's lag, is "stale at source": a skip and a yellow row ("stale" in the record of
+# days), never a failed step and never a red day. The pattern is warehouse/connectors/iso_prices.py's PUBLISHER_LAG.
+STALE_MARK = "stale at source"
+PUBLISHER_LAG = re.compile(r"\b\d+ days old \(limit \d+|stale at source", re.I)
 
 
 def counted(row):
@@ -107,12 +113,16 @@ def day_record(rows):
             runs.setdefault(wf, set()).add(str(r["run_id"]))
     for wf, j in jobs.items():
         j["runs"] = len(runs.get(wf, ())) or sum(j[s] for s in ("ok", "skipped", "retried", "failed"))
-    failures = [{"at": str(r["at"])[:16], "workflow": r["workflow"], "step": r["step"], "reason": " ".join(str(r.get("reason") or "").split())[:200]}
-                for r in rows if r["status"] == "failed" and counted(r)]
+    def line(r):
+        return {"at": str(r["at"])[:16], "workflow": r["workflow"], "step": r["step"], "reason": " ".join(str(r.get("reason") or "").split())[:200]}
+    failures = [line(r) for r in rows if r["status"] == "failed" and counted(r) and not is_stale(r)]
+    # session 271: a publisher's lag is a yellow row of its own, never a failure (a row recorded failed before the rule
+    # whose reason is a connector's age check is read the same way)
+    stale = [line(r) for r in rows if counted(r) and is_stale(r)]
     # a job that runs every day and recorded nothing that day did not run: the day is not green, whatever else passed
     missing = sorted(w for w, n in EXPECTED.items() if n and w not in jobs)
     return {"rows": sum(1 for r in rows if counted(r)), "failed": len(failures), "missing": missing, "jobs": dict(sorted(jobs.items())),
-            "failures": failures}
+            "failures": failures, "stale": stale}
 
 
 def green_streak(days):
@@ -231,11 +241,39 @@ def attempt(cmd):
     return p.wait(), tail, time.time() - t0
 
 
+def stale_reason(lines):
+    """Session 271, the CARB rule: "stale at source: <the line>" when a failed step's every error line is a publisher's
+    lag (a connector's "<n> days old (limit <m>)", or a line already saying "stale at source"), else None. One error
+    line of any other kind and the step's failure stands."""
+    lines = [ln.strip() for ln in lines if ln.strip()]
+    hits = [ln for ln in lines if any(w in ln for w in ("FAILED", "Error", "error", "refused", "Traceback"))]
+    if not hits or not all(PUBLISHER_LAG.search(ln) for ln in hits):
+        return None
+    last = " ".join(hits[-1].split())
+    return last[:400] if STALE_MARK in last.lower() else f"{STALE_MARK}: {last}"[:400]
+
+
+def is_stale(row):
+    """Whether a row of erw_health is a publisher's lag (session 271): a skip whose reason says "stale at source", or a
+    failure recorded before the rule whose reason is a connector's age check. Never a failure that counts."""
+    why = str(row.get("reason") or "")
+    if row.get("status") == "skipped":
+        return STALE_MARK in why.lower()
+    return row.get("status") == "failed" and bool(PUBLISHER_LAG.search(why))
+
+
 def run(step, cmd, retries=1, wait=60, strict=False, attempt=attempt, sleep=time.sleep, rec=record):
-    """Run a scheduled step; returns its outcome (ok, skipped, retried, failed). See the module's docstring."""
+    """Run a scheduled step; returns its outcome (ok, skipped, retried, failed). See the module's docstring. Session
+    271: a failure whose every error line is a publisher's lag is a skip, "stale at source", and is not tried again."""
     code, tail, secs = attempt(cmd)
     first = None
     tries = 0
+    lag = stale_reason(tail) if code not in (0, SKIP) else None
+    if lag:
+        print(f"::notice::{step} skipped: {lag}")
+        rec(step, "skipped", lag, secs)
+        output(status="skipped")
+        return 0, "skipped"
     while code not in (0, SKIP) and tries < retries:
         first = reason_of(tail, True)
         tries += 1
@@ -422,7 +460,7 @@ def render(day, rows):
     by = {}
     for r in rows:
         by.setdefault(r["workflow"], []).append(r)
-    fails = [r for r in rows if r["status"] == "failed"]
+    fails = [r for r in rows if r["status"] == "failed" and not is_stale(r)]
     lines = [f"# Health of the scheduled jobs, {day} (UTC)", "",
              "Written by `warehouse/health.py summary` from the Supabase table erw_health (session 61). A skip is a run that should not have "
              "done anything (the data lock held, the day's work done, nothing new at the source, a duplicate start); a retry failed once "
@@ -443,13 +481,17 @@ def render(day, rows):
     if flags:
         lines += ["", "## Fewer runs than scheduled", ""] + flags
     for status, title in (("failed", "Failures (failed twice)"), ("retried", "Retries (failed once, then passed)")):
-        sel = [r for r in rows if r["status"] == status]
+        sel = [r for r in rows if r["status"] == status and not is_stale(r)]
         if sel:
             lines += ["", f"## {title}", ""]
             lines += [f"- {r['at'][11:16]} UTC, {r['workflow']}, {r['step']} (run {r.get('run_id') or 'local'}): {r.get('reason') or ''}" for r in sel]
+    stale = [r for r in rows if is_stale(r)]
+    if stale:  # session 271, the CARB rule: a publisher's lag, a yellow row, never a failure
+        lines += ["", "## Stale at source (the publisher has not published; not a failure)", ""]
+        lines += [f"- {r['at'][11:16]} UTC, {r['workflow']}, {r['step']}: {r.get('reason') or ''}" for r in stale]
     sk = {}
     for r in rows:
-        if r["status"] == "skipped":
+        if r["status"] == "skipped" and not is_stale(r):
             k = (r["workflow"], r["step"], (r.get("reason") or "")[:160])
             sk[k] = sk.get(k, 0) + 1
     if sk:
