@@ -127,10 +127,13 @@ scalar s_debt_kw = s_capex_usd_kw * s_debt_share * s_crf
 capture program drop erw_npv
 
 program define erw_npv
+
     scalar s_npv = -s_capex_usd_kw * (1 - s_debt_share)
+
     forvalues t = 1/`=s_life_years' {
         scalar s_npv = s_npv + (s_rev_kw * (1 - s_degradation)^(`t' - 1) - s_fom_usd_kw_year - cond(`t' <= s_debt_years_used, s_debt_kw, 0)) / (1 + s_rate_pct / 100)^`t'
     }
+
 end
 
 * Check of the file against itself: revenue is price times megawatts, hour by hour (the largest difference is printed; rounding only).
@@ -223,30 +226,39 @@ scalar s_irr = .
 
 scalar s_done = 0
 
+* The search runs only when the NPV is not zero at either end and changes sign between them (s_go).
+
+scalar s_go = (s_flo != 0) & (s_fhi != 0) & ((s_flo > 0) != (s_fhi > 0))
+
 if s_flo == 0 scalar s_irr = s_lo
-else if s_fhi == 0 scalar s_irr = s_hi
-else if (s_flo > 0) != (s_fhi > 0) {
-    forvalues i = 1/200 {
-        if s_done == 0 & s_hi - s_lo > 1e-10 {
-            scalar s_mid = (s_lo + s_hi) / 2
-            scalar s_rate_pct = s_mid
-            erw_npv
-            if s_npv == 0 {
-                scalar s_irr = s_mid
-                scalar s_done = 1
-            }
-            else if (s_npv > 0) == (s_flo > 0) {
-                scalar s_lo = s_mid
-                scalar s_flo = s_npv
-            }
-            else scalar s_hi = s_mid
+
+if s_flo != 0 & s_fhi == 0 scalar s_irr = s_hi
+
+forvalues i = 1/200 {
+    if s_go == 1 & s_done == 0 & s_hi - s_lo > 1e-10 {
+        scalar s_mid = (s_lo + s_hi) / 2
+        scalar s_rate_pct = s_mid
+        erw_npv
+        scalar s_same = (s_npv > 0) == (s_flo > 0)
+        if s_npv == 0 {
+            scalar s_irr = s_mid
+            scalar s_done = 1
+        }
+        if s_npv != 0 & s_same == 1 {
+            scalar s_lo = s_mid
+            scalar s_flo = s_npv
+        }
+        if s_npv != 0 & s_same == 0 {
+            scalar s_hi = s_mid
         }
     }
-    if s_done == 0 scalar s_irr = (s_lo + s_hi) / 2
 }
 
+if s_go == 1 & s_done == 0 scalar s_irr = (s_lo + s_hi) / 2
+
 if s_irr == . display "scenario A, IRR, percent a year: none"
-else display "scenario A, IRR, percent a year: " %9.1f s_irr
+
+if s_irr != . display "scenario A, IRR, percent a year: " %9.1f s_irr
 
 display "scenario A, breakeven toll, USD per kW-month: " %9.2f (s_toll_target * s_debt_kw + s_fom_usd_kw_year) / 12
 
