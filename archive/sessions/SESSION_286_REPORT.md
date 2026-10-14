@@ -1,6 +1,6 @@
 # Session 286 report: the second round of findings
 
-14 October 2026, 18:46 to about 19:15 UTC, unattended, on lab-desktop (the data machine), the third session of the daytime chain of 14 October (the hunt was started at 18:46, while session 285's checks ran). Branch `task/286-findings-round-two`. Model spend USD 0: no model call. Pulls: none. Writes: 12 rows to the review list (`public.scanner_drafts`, by the hunt itself, state draft); no draft's state changed.
+14 October 2026, 18:46 to about 19:35 UTC, unattended, on lab-desktop (the data machine), the third session of the daytime chain of 14 October (the hunt was started at 18:46, while session 285's checks ran). Branch `task/286-findings-round-two`. Model spend USD 0: no model call. Pulls: none. Writes: 12 rows to the review list (`public.scanner_drafts`, by the hunt itself, state draft); no draft's state changed.
 
 ## Read these first
 
@@ -32,6 +32,13 @@
 | `build_286.py` | 0 | 12 blocks: 2 strong, 6 usable, 4 drop |
 | `node specs.mjs`, `node render.mjs` (three renders) | 0 | four videos, four stills, looked at |
 | `tests.test_session286`; `test_session251`, `252`, `274`, `233` | 0, 0 | 7; 61 |
+| the branch's checks, first push (`3d253b55`, 19:10) | failure | check run 116049437758 at 19:14: two tests of earlier sessions, reproduced here with `GITHUB_ACTIONS=true` (below) |
+| the same two, after the fix, with `GITHUB_ACTIONS=true` | 0 | with 251, 252, 262, 274, 286: 77 tests |
+
+## The first push failed its checks, and why
+
+- **`test_session258`:** no committed file outside a named list may carry a hunt draft's source line ("Found by the weekly hunt"), so that a later fix of the stored drafts' source lines cannot miss a copy. The two motion specs and `verify_286.json` carry it. Both folders are records of one day's drafts as they then stood, like session 251's, which the list names: added to the list, with that reason.
+- **`test_session267_findings`:** `site/lib/findingverdicts.ts` must hold every verdict of the document, and the document now holds 40. The internal page prints each as "Verdict of 13 October 2026", in `site/app`, which this chain may not edit; adding today's twelve would misdate them. The test now reads the 13 October sections only, and today's twelve show "no verdict" on the page until it can date a verdict. A ruling (4).
 
 ## Decisions made without you
 
@@ -46,9 +53,10 @@
 1. The 12 drafts on `/internal/findings`: approve the two strong ones, dismiss the four to drop?
 2. The hunt: fold a draft whose years agree with one already on the list into it (ERCOT's negative hours, seven times now), and stop a pattern whose measure has ended (the reserve adder, ended 4 December 2025)?
 3. The motion frame: fit a long title and a long unit by itself (a smaller size, or the unit beneath only), so a hunt card can be rendered with its own words?
+4. The review list's verdicts: let the page date each verdict (a `day` in `site/lib/findingverdicts.ts`, the words in `site/app/internal/findings/page.tsx`, the code machine's), then add the twelve of 14 October?
 
 ## Files
 
-- Changed: `docs/reviews/findings-verified-2026-10-13.md` (blocks 29 to 40).
+- Changed: `docs/reviews/findings-verified-2026-10-13.md` (blocks 29 to 40), `tests/test_session258.py` (two folders allowed), `tests/test_session267_findings.py` (the 13 October sections only).
 - New: `docs/reviews/findings-verified-2026-10-14-session286/` (three scripts, their outputs, `verify_286.json`), `docs/research/motion/hunt-2026-10-14/` (README, two specs, four videos, four stills), `tests/test_session286.py`, this report.
 - On this machine, not in git: `runs/session286/` (the hunt's and scanner's logs, the drafts as read), `runs/hunt/2026-10-14/`.
