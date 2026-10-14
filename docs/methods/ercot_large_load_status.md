@@ -129,6 +129,25 @@ the table (`site/data/large_load_status.json`, `warehouse/derived/large_load_sna
 `python warehouse/connectors/ercot_large_load_status.py`, then `python warehouse/derived/large_load_snapshot.py`, once
 a month. About 75 requests. It is not in the daily run.
 
+Since session 217 the connector and the snapshot are monthly steps (`warehouse/run_monthly.sh`), and since session 271
+the connector is also a daily step of the data machine (`dm_ercot_large_load`).
+
+## What ERCOT has posted since June 2026 (session 285, read 14 October 2026)
+
+The report of 19 June 2026 is the last that states the three figures in words, and is the table's newest. After it:
+
+- TAC, 29 July and 26 August 2026: the working group chair's summaries (`TAC LLWG July 2026.pptx`, `TAC LLWG Aug 2026.pptx`).
+  The queue is a picture; the words are "ERCOT Peak Demand for 2026 ~ 92GW" and "New loads are mostly AI Data Centers".
+- TAC, 26 August 2026, `Batch_Zero_Update_TAC_08262026.pptx` (in `10.-Large-Load-Issues.zip`): on 3 August 2026, after
+  the Governor's directive of that day, ERCOT "Paused approvals to energize data centers or virtual currency mining
+  facilities (crypto facilities) that are 75 MW or greater" until its Batch Zero eligibility check is done. It states
+  "17 large loads (6,608 MW total peak demand over 5 years)" for data centers and crypto facilities through the end of
+  2026, and "April snapshot had 157 medium data center and crypto loads totaling approximately 8,766 MW".
+- LLWG, 21 August and 17 September 2026: ERCOT's process updates (CTP and Batch 1, QSA results), not status updates.
+
+None of these is a status update, so the connector reads none of them and writes no row: that is right, and the table
+is as current as ERCOT's own words. The pause and the two figures above are in no table.
+
 ## Tests
 
 `tests/test_session106.py`: each sentence on text made for the test; a figure stated twice with two values fails; a
