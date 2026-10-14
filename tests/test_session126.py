@@ -186,14 +186,23 @@ class GridWeather(unittest.TestCase):
         self.assertEqual(list(cut.index), ["2025-03-09"])
 
     def test_the_ceiling_stops_the_pull_before_it_is_passed(self):
-        led = ngw.Ledger(ngw.EXPLORED + 1000, lambda *a: None)
-        led.allow(1000, "x")
-        with self.assertRaises(RuntimeError):
-            led.allow(1001, "x")
-        led.add(900, {"cached": True}, 0)
-        with self.assertRaises(RuntimeError):
-            led.add(200, {}, 0)
-        self.assertEqual(ngw.CEILING, 3_000_000)
+        # session 271: 6,000,000 rows a UTC year, counted as the rows NOAA sends; a file already held is not counted again
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            path = os.path.join(d, "ceiling.json")
+            led = ngw.Ledger(1000, lambda *a: None, path=path, year=2027)
+            led.allow(1000, "x")
+            with self.assertRaises(RuntimeError):
+                led.allow(1001, "x")
+            led.allow(5000, "x", cached=True)
+            led.add(900, {"cached": True}, 0)
+            self.assertEqual(led.year_rows, 0)
+            led.add(900, {}, 0)
+            self.assertEqual(ngw.year_counts(path)["2027"], 900)
+            with self.assertRaises(RuntimeError):
+                led.add(200, {}, 0)
+            self.assertEqual(ngw.year_counts(path)["2026"], ngw.COUNTED_2026)
+        self.assertEqual(ngw.CEILING, 6_000_000)
 
 
 class Fit(unittest.TestCase):

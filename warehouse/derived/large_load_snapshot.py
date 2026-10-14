@@ -38,6 +38,17 @@ def build(out=None):
                 r["month_as_written"] = row["x_month_as_written"]
         reports.append(r)
     reports.sort(key=lambda r: r["day"])
+    # session 271 (the owner's ruling of 14 October 2026): a footnote wherever the approved figure falls from one report
+    # to the next (the first such fall is 135 MW, 21 May to 19 June 2026). Computed from the two rows; it says nothing
+    # of why, which ERCOT's deck does not state (docs/methods/ercot_large_load_status.md)
+    prev = None
+    for r in reports:
+        if "approved" not in r:
+            continue
+        if prev is not None and r["approved"] < prev["approved"]:
+            r["note"] = (f"Approved to energize fell by {prev['approved'] - r['approved']:,.0f} MW from ERCOT's report of "
+                         f"{prev['day']} ({prev['approved']:,.0f} MW) to this one ({r['approved']:,.0f} MW).")
+        prev = r
     return {"table": TABLE, "built": ip.utc_iso(pd.Timestamp.now(tz="UTC")), "retrieved": d["retrieved_at"].max(), "rows": int(len(d)),
             "source": d["source"].iloc[0], "reports": reports}
 

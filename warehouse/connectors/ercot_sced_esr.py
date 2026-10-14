@@ -531,6 +531,11 @@ def main(argv=None):
         ap.error("--list, --pull or --write")
     except Ceiling as e:
         log(f"STOPPED at a ceiling: {e}")
+        # session 271: on the data machine's schedule (warehouse/health.py sets ERW_SKIP_EXIT) the approved ceiling
+        # reached is a skip that says so, not a failure; run by a person, the exit is 3 as before
+        if os.environ.get("ERW_SKIP_EXIT"):
+            print(f"ercot_sced_esr SKIPPED: at the approved ceiling: {e}")
+            return ip.skip_exit()
         return 3
     finally:
         logf.close()

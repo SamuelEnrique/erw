@@ -68,6 +68,13 @@ side of 65 has both. A day's degree days are the sum of its hours' degrees over 
 Ceiling: 3,000,000 rows, counted as the data rows of every file and response read from NOAA, the session's trial reads
 included (EXPLORED). Before each request the rows still allowed are checked against an estimate, and the pull stops
 rather than pass the ceiling.
+
+Session 271 (the owner's ruling of 14 October 2026): the ceiling is 6,000,000 rows a UTC year. The year's count is the
+data rows of every answer NOAA sends in that year (a file this machine already holds is read from warehouse/raw and is
+not asked of NOAA again, so it is not counted again), kept in warehouse/raw/noaa_grid_weather/ceiling.json. 2026 begins
+at 2,777,645: every row counted against the old ceiling, all read in 2026, stays counted. Before each request to NOAA
+the year's rows plus an estimate are checked against the ceiling, and the pull stops rather than pass it. A run's own
+figure of rows read (files reused included) is still logged, as before.
 """
 
 import argparse
@@ -97,7 +104,9 @@ PAGE_LITE = "https://www.ncei.noaa.gov/products/land-based-station/integrated-su
 PAGE_LCD = "https://www.ncei.noaa.gov/products/land-based-station/local-climatological-data"
 METHOD_URL = "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/demand_weather.md"
 UA = {"User-Agent": "ERW energy research warehouse (https://github.com/SamuelEnrique/erw)"}
-CEILING = 3_000_000
+CEILING = 6_000_000     # rows a UTC year (session 271; 3,000,000 over every file kept until then)
+YEAR_FILE = "ceiling.json"
+COUNTED_2026 = 2_777_645   # the rows counted against the old ceiling by session 218, all read in 2026
 # rows read from NOAA by session 126 before this connector existed, to choose the product (runs/session126/noaa_docs):
 # ISD-Lite DFW 2025 (5,715), GHCN-hourly DFW 2025 (12,675) and part of 2026 (1,611), LCD v2 DFW 2026 (9,491), and a
 # two-day trial of the data service (66). They count toward the ceiling.
@@ -382,25 +391,63 @@ def grid_days(h, tz):
     return out[whole]
 
 
+def year_counts(path=None):
+    """{year: rows NOAA sent in that UTC year} (session 271), with 2026's start at COUNTED_2026."""
+    path = path or os.path.join(ip.RAW_DIR, NAME, YEAR_FILE)
+    try:
+        with open(path, encoding="utf-8") as f:
+            got = {str(k): int(v) for k, v in json.load(f).get("rows_by_year", {}).items()}
+    except (OSError, ValueError):
+        got = {}
+    got.setdefault("2026", COUNTED_2026)
+    return got
+
+
 class Ledger:
-    """The rows read from NOAA, against the ceiling."""
+    """The rows read from NOAA, against the ceiling. Session 271: rows (every file read, reused ones included) is the
+    run's own figure; the ceiling holds the year's rows, those of every answer NOAA sent in the UTC year."""
 
-    def __init__(self, ceiling, log):
+    def __init__(self, ceiling, log, path=None, year=None):
         self.rows, self.ceiling, self.log, self.requests, self.reused, self.bytes = EXPLORED, ceiling, log, 0, 0, 0
+        self.path = path or os.path.join(ip.RAW_DIR, NAME, YEAR_FILE)
+        self.year = str(year or dt.datetime.now(dt.timezone.utc).year)
+        self.counts = year_counts(self.path)
+        self.counts.setdefault(self.year, 0)
+        self.fresh = 0
 
-    def allow(self, estimate, what):
-        if self.rows + estimate > self.ceiling:
-            raise RuntimeError(f"{what}: {self.rows:,} rows read, about {estimate:,} more would pass the ceiling of {self.ceiling:,}; stopped")
+    @property
+    def year_rows(self):
+        return self.counts[self.year]
+
+    def allow(self, estimate, what, cached=False):
+        """Before a request: refused when the year's rows and this estimate would pass the ceiling. A file already held
+        (cached) is not asked of NOAA and is always allowed."""
+        if not cached and self.year_rows + estimate > self.ceiling:
+            raise RuntimeError(f"{what}: {self.year_rows:,} rows read from NOAA in {self.year}, about {estimate:,} more would pass "
+                               f"the ceiling of {self.ceiling:,} a year; stopped")
+
+    def counted(self, n):
+        """Rows of an answer NOAA sent: the run's figure and the year's count (written at once, so a stop keeps it)."""
+        self.rows += n
+        self.fresh += n
+        self.counts[self.year] += n
+        os.makedirs(os.path.dirname(self.path), exist_ok=True)
+        with open(self.path, "w", encoding="utf-8", newline="\n") as f:
+            json.dump({"about": "Rows NOAA sent to warehouse/connectors/noaa_grid_weather.py, by UTC year, against the ceiling of "
+                                f"{self.ceiling:,} a year (session 271). 2026 began at {COUNTED_2026:,}, the rows counted before.",
+                       "ceiling_per_year": self.ceiling, "rows_by_year": dict(sorted(self.counts.items()))}, f, indent=1)
+            f.write("\n")
+        if self.year_rows > self.ceiling:
+            raise RuntimeError(f"{self.year_rows:,} rows read from NOAA in {self.year}, over the ceiling of {self.ceiling:,} a year: stopped before writing")
 
     def add(self, n, rec, size):
-        self.rows += n
         self.bytes += size
         if rec.get("cached"):
             self.reused += 1
+            self.rows += n
         else:
             self.requests += 1
-        if self.rows > self.ceiling:
-            raise RuntimeError(f"{self.rows:,} rows read, over the ceiling of {self.ceiling:,}: stopped before writing")
+            self.counted(n)
 
 
 def pull(log, offline=False, end=None, refresh=False, census_dir=None):
@@ -421,7 +468,7 @@ def pull(log, offline=False, end=None, refresh=False, census_dir=None):
         lite, n_lite, urls = [], 0, []
         for y in range(FIRST_YEAR, SEAM.year + 1):
             url = lite_url(usaf, wban, y)
-            led.allow(8_784, f"{code} {y}")
+            led.allow(8_784, f"{code} {y}", cached=offline or ip.raw_cached(NAME, url) is not None)
             b, r = ip.fetch_raw(NAME, url, log, offline=offline, pause=0, headers=UA)
             if not r.get("cached"):
                 time.sleep(PAUSE)
@@ -433,10 +480,14 @@ def pull(log, offline=False, end=None, refresh=False, census_dir=None):
         lite = pd.concat(lite).sort_index()
         url = lcd_url(wban, LCD_FROM, end)
         days = (pd.Timestamp(end) - pd.Timestamp(LCD_FROM)).days + 1
-        led.allow(days * 45, f"{code} Local Climatological Data")
-        hit = None if refresh and not offline else lcd_cached(wban)
+        # session 271: the whole answer from LCD_FROM is asked once; a refresh asks only from a week before the newest
+        # hour held, and every such later answer saved is stitched on in order (lcd_later), so a schedule costs a few
+        # thousand rows a week against the ceiling of a year, not the whole stretch again
+        hit = lcd_cached(wban)
+        led.allow(days * 45, f"{code} Local Climatological Data", cached=hit is not None or offline)
         if hit is None and offline:
             raise RuntimeError(f"offline: no whole Local Climatological Data response for {code} in warehouse/raw/{NAME}/")
+        asked_whole = hit is None
         if hit is None:
             # the service now and then answers 200 with nothing, or with a file that stops months early: such an answer is
             # counted, never used, and asked for again
@@ -445,7 +496,7 @@ def pull(log, offline=False, end=None, refresh=False, census_dir=None):
                 if whole_answer(b, url):
                     break
                 short = max(b.count(b"\n") - 1, 0)
-                led.rows += short
+                led.counted(short)
                 log(f"  {code}: the data service's answer is empty or cut off ({short:,} rows, counted and not used); attempt {attempt} of 4")
                 if attempt == 4:
                     raise RuntimeError(f"{code}: the data service gave no whole answer in 4 attempts")
@@ -457,6 +508,29 @@ def pull(log, offline=False, end=None, refresh=False, census_dir=None):
         text = b.decode("utf-8")
         lcd, n_lcd, marked = parse_lcd(text, lst)
         led.add(n_lcd, r, len(b))
+        for pb, pr in ([] if asked_whole else lcd_later(wban, r["retrieved_at"])):
+            lcd, n_lcd, marked = stitch(lcd, n_lcd, marked, pb, lst)
+            led.add(0, pr, len(pb))   # a saved answer: read from warehouse/raw, not asked of NOAA again
+            url, r = pr["url"], pr
+            log(f"  raw file reused: {url}")
+        if refresh and not offline and not asked_whole:
+            since = (lcd.index.max() - pd.Timedelta(days=7)).tz_convert(None).strftime("%Y-%m-%d")
+            u = lcd_url(wban, since, end)
+            led.allow(((pd.Timestamp(end) - pd.Timestamp(since)).days + 1) * 45, f"{code} Local Climatological Data from {since}")
+            for attempt in (1, 2, 3, 4):
+                pb, pr = ip.fetch_raw(NAME, u, log, fresh=True, pause=PAUSE, timeout=600, headers=UA)
+                if whole_answer(pb, u):
+                    break
+                short = max(pb.count(b"\n") - 1, 0)
+                led.counted(short)
+                log(f"  {code}: the data service's answer is empty or cut off ({short:,} rows, counted and not used); attempt {attempt} of 4")
+                if attempt == 4:
+                    raise RuntimeError(f"{code}: the data service gave no whole answer in 4 attempts")
+                time.sleep(20 * attempt)
+            n_before = n_lcd
+            lcd, n_lcd, marked = stitch(lcd, n_lcd, marked, pb, lst)
+            led.add(n_lcd - n_before, pr, len(pb))
+            url, r = u, pr
         # the seam's check: the hours both products hold, 1 July 2025 to ISD-Lite's last hour
         both = lite.join(lcd, how="inner", lsuffix="_lite", rsuffix="_lcd").dropna(subset=["temp_c_lite", "temp_c_lcd"])
         both = both[both.index >= pd.Timestamp(LCD_FROM, tz="UTC")]
@@ -477,14 +551,15 @@ def pull(log, offline=False, end=None, refresh=False, census_dir=None):
             for y in range(int(a[:4]), int(z[:4]) + 1):
                 s0, s1 = max(a, f"{y}-01-01"), min(z, f"{y}-12-31")
                 u = lcd_url(wban, s0, s1)
-                led.allow(((pd.Timestamp(s1) - pd.Timestamp(s0)).days + 1) * PATCH_PER_DAY, f"{code} {y}, the stretch ISD-Lite is short of")
+                led.allow(((pd.Timestamp(s1) - pd.Timestamp(s0)).days + 1) * PATCH_PER_DAY, f"{code} {y}, the stretch ISD-Lite is short of",
+                          cached=offline or ip.raw_cached(NAME, u) is not None)
                 for attempt in (1, 2, 3, 4):
                     pb, pr = ip.fetch_raw(NAME, u, log, offline=offline, pause=PAUSE, timeout=900, headers=UA)
                     if whole_answer(pb, u):
                         break
                     if pr.get("cached") or attempt == 4:
                         raise RuntimeError(f"{code} {y}: no whole answer of the data service for {s0} to {s1}")
-                    led.rows += max(pb.count(b"\n") - 1, 0)
+                    led.counted(max(pb.count(b"\n") - 1, 0))
                     time.sleep(20 * attempt)
                 f, n, _ = parse_lcd(pb.decode("utf-8"), lst)
                 led.add(n, pr, len(pb))
@@ -531,6 +606,40 @@ def whole_answer(content, url):
     if not m or not last:
         return False
     return pd.Timestamp(last.group(1).decode()) >= pd.Timestamp(m.group(1)) - pd.Timedelta(days=SHORT_DAYS)
+
+
+def stitch(lcd, n, marked, content, lst):
+    """Session 271: a later answer of the data service laid over the hours held: from its own first hour on, its hours
+    replace the held ones. Returns the frame, the rows read and the marked values, each added to."""
+    part, pn, pm = parse_lcd(content.decode("utf-8"), lst)
+    if not len(part):
+        return lcd, n + pn, marked + pm
+    cut = part.index.min()
+    return pd.concat([lcd[lcd.index < cut], part]).sort_index(), n + pn, marked + pm
+
+
+def lcd_later(wban, after):
+    """Session 271: the saved answers for a station that begin after LCD_FROM (a refresh's), whole, retrieved after the
+    whole answer used (`after`, its retrieved_at), oldest first, as [(bytes, record)]."""
+    import csv
+    import glob
+    import hashlib
+    want, whole = f"stations={ghcn_id(wban)}&startDate=", f"stations={ghcn_id(wban)}&startDate={LCD_FROM}T"
+    found = {}
+    for manifest in glob.glob(os.path.join(ip.RAW_DIR, NAME, "*", "manifest.csv")):
+        with open(manifest, encoding="utf-8", newline="") as f:
+            rows = [r for r in csv.DictReader(f) if want in r["url"] and whole not in r["url"] and r["status"] == "200"
+                    and r["retrieved_at"] > after]
+        for r in rows:
+            path = os.path.join(os.path.dirname(manifest), r["file"])
+            if not os.path.exists(path):
+                continue
+            with open(path, "rb") as f:
+                content = f.read()
+            if hashlib.sha256(content).hexdigest() == r["sha256"] and whole_answer(content, r["url"]):
+                found[(r["retrieved_at"], r["url"])] = (content, {"url": r["url"], "retrieved_at": r["retrieved_at"],
+                                                                  "last_modified": r["last_modified"], "file": path, "cached": True})
+    return [found[k] for k in sorted(found)]
 
 
 def lcd_cached(wban):
@@ -700,7 +809,7 @@ def main(argv=None):
     ap.add_argument("--fetch-only", action="store_true", help="the pull, to warehouse/raw; no table is written (no data lock)")
     ap.add_argument("--offline", action="store_true", help="read the raw files only; no request is made")
     ap.add_argument("--out-dir", help="a trial: the tables under this folder, not warehouse/output")
-    ap.add_argument("--refresh", action="store_true", help="ask the data service again for the months since July 2025 (a later day's run)")
+    ap.add_argument("--refresh", action="store_true", help="ask the data service for the days since a week before the newest hour held (a later day's run; session 271: no longer the whole stretch since July 2025)")
     ap.add_argument("--end", help="the last day asked of the data service, YYYY-MM-DD (default today, UTC)")
     ap.add_argument("--from-table", action="store_true", help=f"session 129: the stations' hours from {STATION_HOURS} in warehouse/output, not from NOAA's files (a machine that never held them); the grid tables and the stations table are rebuilt, the station-hours table is left as it is")
     args = ap.parse_args(argv)
@@ -732,8 +841,8 @@ def main(argv=None):
         checks = rule_check(census(in_dir))
         for ln in checks:
             log(f"  the rule, by the retrieved counts: {ln}")
-        log(f"  rows read from NOAA: {led.rows:,} of the {CEILING:,} ceiling ({led.requests} requests sent by this run, {led.reused} files "
-            f"reused, {led.bytes / 1e6:.1f} MB)")
+        log(f"  rows read: {led.rows:,} ({led.requests} requests sent by this run, {led.reused} files reused, {led.bytes / 1e6:.1f} MB); "
+            f"rows NOAA sent in {led.year}: {led.year_rows:,} of the ceiling of {CEILING:,} a year ({led.fresh:,} by this run)")
         for ln in station_lines(facts, counts):
             log(ln)
         held = {}
@@ -749,7 +858,8 @@ def main(argv=None):
             os.makedirs(os.path.join(ip.RAW_DIR, NAME), exist_ok=True)
             with open(os.path.join(ip.RAW_DIR, NAME, "summary.json"), "w", encoding="utf-8") as f:
                 json.dump(summary, f, indent=1)
-        print(f"{NAME}: {led.rows:,} rows read of {CEILING:,} ({led.requests} requests, {led.reused} reused); stations through {summary['through']}")
+        print(f"{NAME}: {led.rows:,} rows read ({led.requests} requests, {led.reused} reused); {led.year_rows:,} rows NOAA sent in {led.year} "
+              f"of {CEILING:,} a year; stations through {summary['through']}")
         if args.fetch_only:
             results.append(dict(table=HOURLY, market="all", status="ok", detail=f"fetch only: {led.rows} rows read"))
         else:
@@ -766,7 +876,7 @@ def main(argv=None):
                 f"  access: {API}?dataset=local-climatological-data-v2 (stations USW000<WBAN>, dataTypes HourlyDryBulbTemperature,HourlyDewPointTemperature), from {LCD_FROM}; used for hours from {ip.utc_iso(SEAM)}. Its times are local standard time, moved to UTC; an hour takes the report from ten minutes before the hour up to the hour, the closest to it (ISD-Lite's rule).",
                 (f"The seam, checked: over the hours both products hold from {LCD_FROM} to ISD-Lite's end, every station agrees to a tenth of a degree C in at least {worst['agree']:.2%} of the hours outside the eight synoptic hours of the day (the least: {[c for c, f in facts.items() if f is worst][0]}). At the synoptic hours (00, 03, ... 21 UTC) ISD-Lite takes the on-the-hour synoptic report where a station files one, and the Local Climatological Data does not carry it for every station: there the agreement runs from {min(f['agree_synoptic'] for f in seam):.2%} to {max(f['agree_synoptic'] for f in seam):.2%} by station, and the mean difference over all shared hours from {min(f['mean_diff_c'] for f in seam):+.3f} to {max(f['mean_diff_c'] for f in seam):+.3f} C (the Stations lines give each)."
                  if worst else f"Built from {STATION_HOURS} (--from-table): the seam between the two products was checked when NOAA's files were read, and that table's header holds the result."),
-                (f"Rows read from NOAA: {led.rows:,} of the {CEILING:,} ceiling, the session's trial reads included." if not args.from_table else "Rows read from NOAA by this run: none."),
+                (f"Rows read: {led.rows:,}, the session's trial reads included; rows NOAA sent in {led.year}: {led.year_rows:,} of the ceiling of {CEILING:,} a year (session 271)." if not args.from_table else "Rows read from NOAA by this run: none."),
                 f"Weights (session 129): each station's metropolitan area over the sum of its grid's five, by the Census Bureau's estimates base of 1 April 2020 ({POPULATION}, vintage 2025), not rounded; New York's area by its part in New York State. "
                 + ("The rule, by the retrieved counts: " + "; ".join(checks) + ". " if checks else "By the retrieved counts the five areas held are the rule's five in every grid. ") + "Method: docs/methods/demand_weather.md",
                 f"Missing hours are counted and never interpolated across more than {MAX_GAP} hours. A grid's hour is written only when all five stations hold a temperature (measured, or interpolated across at most {MAX_GAP} hours: x_interpolated counts them).",

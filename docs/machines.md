@@ -458,13 +458,29 @@ Session 218 found 33 public tables behind their cadence and listed the line each
 | `dm_shoulder_hours` | `shoulder_hours_monthly` | once a month | nothing: derived |
 | `dm_live_set` | the five of these tables and of session 244's that the live set holds | every day | nothing of a publisher: `load.py --no-vacuum --only` for the tables only this machine builds, so the site's copy follows |
 
+Session 271 (the owner's rulings of 14 October 2026) adds eight steps after them and a weekly load:
+
+| Step | Table | When | What it asks |
+|---|---|---|---|
+| `dm_ercot_large_load` | `ercot_large_load_status` | every day | ERCOT's LLWG and TAC meeting pages, about 76 requests: the guard. The runner's monthly step and the Monday watch of ERCOT's large-load page are kept |
+| `dm_ercot_hub_append` | `ercot_all_hub_prices_history` | every day | nothing: `hub_history.py append-ercot` appends the live tables' ERCOT hub rows after each year's newest interval (a workbook's row is never replaced) |
+| `dm_ercot_sced_pull`, `dm_ercot_sced_write` | `ercot_sced_esr_hourly` | once a week | ERCOT's 60-Day SCED Disclosure, the days not yet held, within the approved 12 GB of downloads (10.92 GB on 14 October 2026); at the ceiling the step is a skip that says so |
+| `dm_ercot_storage_rt` | `ercot_storage_rt_monthly`, `ercot_storage_node_basis` | once a week | nothing: derived |
+| `dm_eia930_workbooks` | none (EIA-930's eight workbooks under `warehouse/raw`) | once a week | `eia930_emissions.py --days 3 --dry-run`: the workbooks, no table |
+| `dm_clean_energy` | `clean_energy_hourly`, `clean_energy_summary` | once a week | nothing: derived from those workbooks; the site's copy under `site/data/clean/` is not rebuilt here |
+| `dm_noaa_weather` | the four NOAA weather tables | once a week | NOAA: the days since a week before the newest hour held, under the ceiling of 6,000,000 rows a year (`warehouse/raw/noaa_grid_weather/ceiling.json`) |
+| `dm_live_set_weekly` | every table this machine's steps write that a live-set rule names | once a week | nothing of a publisher |
+
+- **"Once a week"** is the first run of each ISO week (the stamp `runs/dm_weekly_<YYYY-Www>.done`), or any run with `WEEKLY=1`.
+- **The CARB rule (session 271):** a step that fails only because a publisher has not published within the connector's limit ("<n> days old (limit <m>)") is recorded as skipped, "stale at source", is not tried again, and is a yellow row (`stale` in `site/data/health_days.json`), never a failed step or a red day.
+
 - **"Once a month"** is the first daily run on or after the third (the stamp `runs/dm_monthly_<YYYY-MM>.done`), or any run with `MONTHLY=1`. `MONTHLY_PULLS=0` leaves the month's pull out of a forced run.
 - **By itself:** `bash warehouse/run_data_machine_tables.sh` under the data lock (it refuses on the runner and on a machine whose role is not data); `--list` names every step and its command and runs nothing.
 - **Not in the block, each for its reason:**
-  - **NOAA's weather** (three tables): the pull's approved ceiling is 3,000,000 rows, counted over every file kept, and session 218's refresh reached 2,777,645. The next refresh passes it and the connector stops. A new ceiling is the owner's to give.
+  - **NOAA's weather** (three tables): the pull's approved ceiling is 3,000,000 rows, counted over every file kept, and session 218's refresh reached 2,777,645. The next refresh passes it and the connector stops. A new ceiling is the owner's to give. Session 271: the ceiling is 6,000,000 rows a year and the step is in the block.
   - **The page files of `/mix` and `/storage/owners`:** the block refreshes tables. A page file joins a scheduled commit only with its own tests, as the files of this run do.
-  - **`price_board_stats`:** its page was retired in session 132; retire the table or schedule its builder is a ruling. Session 247 gave the table its stores (session 218 had rebuilt it and not stored it).
-  - **ERCOT's 15-minute hub history:** the live table (`iso_rtm_hub_prices`) has kept every interval since the history ends, and no run trims it; the two meet at 26 August 2026 and stay met.
+  - **`price_board_stats`:** its page was retired in session 132; retire the table or schedule its builder is a ruling. Session 247 gave the table its stores (session 218 had rebuilt it and not stored it). Session 271: retired (`warehouse/metadata/retired_tables.csv`).
+  - **ERCOT's 15-minute hub history:** the live table (`iso_rtm_hub_prices`) has kept every interval since the history ends, and no run trims it; the two meet at 26 August 2026 and stay met. Session 271: appended from the live window every day (`dm_ercot_hub_append`).
   - **The event tables** (`event_window_daily`, the Flex Alert scorecard, the alert-day prices): they move when there is a new event or alert day, by a person's run.
   - **The tables of NYISO, ISO-NE and SPP:** another chain's to ask.
 
