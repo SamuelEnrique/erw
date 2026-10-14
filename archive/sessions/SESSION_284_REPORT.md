@@ -1,6 +1,6 @@
 # Session 284 report: the tables behind the price board and Supply and trade
 
-14 October 2026, 18:21 to about 19:10 UTC, unattended, on lab-desktop (the data machine), the first session of the daytime chain of 14 October (started after the 13:45 to 16:15 window had passed). Branch `task/284-board-supply`. Model spend USD 0: no model call. Pulls: EIA's API, two requests of three rows each (Henry Hub and WTI, to read EIA's newest day). Nothing from NYISO, ISO-NE, MISO, SPP, PJM or a paused publisher.
+14 October 2026, 18:21 to 18:50 UTC, unattended, on lab-desktop (the data machine), the first session of the daytime chain of 14 October (started after the 13:45 to 16:15 window had passed). Branch `task/284-board-supply`. Model spend USD 0: no model call. Pulls: EIA's API, two requests of three rows each (Henry Hub and WTI, to read EIA's newest day). Nothing from NYISO, ISO-NE, MISO, SPP, PJM or a paused publisher.
 
 ## Read these first
 
