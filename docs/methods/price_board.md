@@ -246,6 +246,8 @@ The workbook carries no other notice. License: public. The same words would cove
 
 Before it is scheduled, one thing should be ruled: the workbench's files are about 18 MB in the repository and every one is rewritten each day. Git stores the daily change compactly, but the files could instead go to the public storage bucket the network map already uses (`erw-public`), with the page reading them from there.
 
+Since then (6 October 2026) the runner's daily run calls it, and the builder's rows go through `warehouse/derived/page_keep.py`, which takes a row only where it is no older and no shorter than the held one. Session 284 (14 October 2026) found the consequence for ERCOT: the runner holds only ERCOT's rolling window, so its ERCOT rows are always shorter than the held ones and were never taken. They stood at 7 and 8 October. The data machine's daily run (`warehouse/run_data_machine.sh`, step `dm_board_page`, then the group `dm_test_board`) now runs `page_keep.py board` too, on the machine that holds ERCOT's history, so ERCOT's rows move once a day, after the runner's run.
+
 ## Where the workbench opens (session 168, 9 October 2026)
 
 Before any row is clicked, the workbench's place holds a quiet empty panel: the same box the workbench takes (docked on
