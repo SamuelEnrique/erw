@@ -1,6 +1,6 @@
 # Session 267 report: Research, deep, and Ask accuracy
 
-14 October 2026, 09:14 to about 10:45 UTC, unattended, on the old laptop (a code machine), one session of the chain of sessions 263 to 267. Branch `wip/267-research-ask` in the worktree `erw-144`, from `ce6ee59b` (session 268's palette tokens). Part A was done by two agents of this session (A1: items 1, 3, 4, 5; A2: items 2, 6); Part B by the session itself. Pulls: none. Writes: none to the warehouse, the archive or Redivis; the Ask route's own writes, below.
+14 October 2026, 09:14 to 10:35 UTC, unattended, on the old laptop (a code machine), one session of the chain of sessions 263 to 267. Branch `wip/267-research-ask` in the worktree `erw-144`, from `ce6ee59b` (session 268's palette tokens). Part A was done by two agents of this session (A1: items 1, 3, 4, 5; A2: items 2, 6); Part B by the session itself. Pulls: none. Writes: none to the warehouse, the archive or Redivis; the Ask route's own writes, below.
 
 ## Read these first
 
@@ -61,12 +61,13 @@ The route: `POST /api/ask` on a local production build of this branch at `b5997e
 
 ## Checks, with exit codes
 
-- `npx tsc --noEmit`: 0 (after the first build; the first try, before it, failed on a stale `.next/types` file of another branch's page, removed). FINAL-CYCLE
-- `npm run build`: 0, no "statement timeout" line. FINAL-CYCLE
+- `npx tsc --noEmit`: 0 at `b5997e28` and 0 at `2961d3e0` (the first try, before the first build, failed on a stale `.next/types` file of another branch's page; removed).
+- `npm run build`: 0 at `b5997e28` (09:29) and 0 at `2961d3e0` (10:26, the last cycle), no "statement timeout" line in either.
 - `check-values` restricted to `/research,/internal/findings`: exit 127 twice, "0 values checked, fewer than the floor of ten a run". These pages carry no check key: their numbers come from committed files (cards, charts), not from a table read. Not a gate for them; for Samuel's ruling 3.
-- `check-routes`: FINAL-CYCLE
+- `check-routes`: 0 at `2961d3e0` (203 pages in review, 0 failed). At `b5997e28` it exited 1 on `/emissions` and `/shoulder` ("no data" blocks against production), pages this session did not touch; the next build passed them: a read that failed at build time.
+- The research filters in a browser (`runs/session267/filter_check.mjs`, the repository's `scripts/browser.mjs`): 0. `?grid=caiso&topic=curtailment` gives "Card index, 2 of 9"; an unknown grid or topic is ignored (9 of 9). The first run of the script stopped on its own wait expression (a node, not a boolean); fixed, run again; no browser was left running.
 - `check-analysis.mjs`: 0 (279 of 279). `check-findings-grids.mjs`: 0 (163 of 163).
-- The battery page (echarts.ts is shared): `capture.mjs` at 1280, `_nums.txt` against `runs/session211/shots/after_nums.txt`: 0 lines; `h` 5016.
+- The battery page (echarts.ts is shared): `capture.mjs` at 1280, `_nums.txt` against `runs/session211/shots/after_nums.txt`: 0 lines, `h` 5016, at `b5997e28` and again at `2961d3e0`.
 - Python, each module alone: `test_session267` 0 (27 tests), `test_session267_findings` 0, `test_session262` 0, `test_session249` 0, `test_session260` 0; the modules that read the files changed for Ask: `102, 103, 114, 121, 128, 137, 143, 148, 156, 161, 168_ask, 207, 215, 65, 92`: all 0 (seven failed once on a quote mark in `MISO_PAUSED`, fixed, run again); A1's and A2's modules (in their notes): all 0. `warehouse/chat/check_spec.py`: 0.
 - No em dash in any file this session wrote.
 
@@ -88,7 +89,7 @@ The route: `POST /api/ask` on a local production build of this branch at `b5997e
 
 ## To finish
 
-- FINAL-CYCLE-TOFINISH
+- Nothing of the brief. At the landing: export the spec again after session 266's briefing merges (above).
 
 ## The landing
 

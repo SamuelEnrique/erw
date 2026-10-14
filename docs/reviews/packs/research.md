@@ -145,8 +145,8 @@ Tested on a local production build of the branch at `b5997e28` (port 3267, 14 Oc
 | A week not held | `/research/2026-W99` | 404, "No page at this address" (`notFound()` in `site/app/research/[week]/page.tsx`) |
 | A card held | `/research/card/batteries_lunch_grids` | 200; its five grids open large and the address keeps the grid (`?lunch_grid=caiso`), `check-findings-grids.mjs`, 163 of 163 |
 | A card not held | `/research/card/no_such_card` | 404 |
-| A filter of both kinds | `/research?grid=caiso&topic=curtailment` | to verify (expected: "Card index, 2 of 9") |
-| A grid that is not one | `/research?grid=nowhere` | to verify |
+| A filter of both kinds | `/research?grid=caiso&topic=curtailment` | "Card index, 2 of 9", the address kept (in a browser, at `2961d3e0`) |
+| A grid that is not one | `/research?grid=nowhere` | the filter is ignored: "Card index, 9 of 9" (in a browser, at `2961d3e0`); so is a topic that is not one (`?topic=nothing`) |
 | The review list without the internal view | `/internal/findings` in a fresh browser | 404 |
 | The review list in the internal view | `/internal/findings` | 200, 28 drafts, each with its verdict: 7 strong, 14 usable, 7 drop (`data-draft-verdict`), none "no verdict" |
 
