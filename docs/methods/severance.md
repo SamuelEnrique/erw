@@ -171,7 +171,7 @@ Built in session 40 for the severance tax engine v0 (`/severance`): Texas, Louis
 
 ## The lease tool (session 45, v0.2)
 
-`/severance/lease` takes a lease file: one row per well and month, with `state`, `well_id`, `month` and the month's oil (bbl), gas (Mcf) and condensate (bbl), and optional prices and well facts (the template lists each column and the rule that uses it). The file is read with the browser's File API and computed in the page (`site/lib/lease.ts` on `site/lib/severance.ts`); it is never sent to the server, and the results download is made in the page. A sample of clearly fictional wells shows each flag.
+`/severance/lease` (since session 239 the Lease tab of `/severance`, `/severance?tab=lease`; the old address redirects) takes a lease file: one row per well and month, with `state`, `well_id`, `month` and the month's oil (bbl), gas (Mcf) and condensate (bbl), and optional prices and well facts (the template lists each column and the rule that uses it). The file is read with the browser's File API and computed in the page (`site/lib/lease.ts` on `site/lib/severance.ts`); it is never sent to the server, and the results download is made in the page. A sample of clearly fictional wells shows each flag.
 
 **Prices.** A blank price is the month's mean of the warehouse's EIA daily spot prices (`eia_fuel_spot_prices`): WTI Cushing for oil and condensate, Henry Hub for gas (USD per MMBtu, applied per Mcf as if one Mcf held one MMBtu), each labeled with the number of days averaged. A hub price is not the value at the well. A month the warehouse does not hold is not computed until a price is entered.
 

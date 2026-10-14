@@ -54,9 +54,16 @@ export function Calculator({ rules, prices }: { rules: Rules; prices: { oil: num
     credit: credit ? { id: credit, tierPct: tier[credit] ?? 0, period: period[credit] ?? latest(credit) } : undefined,
   };
   const r = useMemo(() => {
+    // session 282: an empty price is no result, not a price of 0 (the line "Enter a volume and a price." then shows)
+    if (price === "") return null;
     try { return compute(rules, x); } catch { return null; }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(x)]);
+  // session 282: every input back to what the page opens on
+  const reset = () => {
+    setState("TX"); setProduct("oil"); setVolume(1000); setPrice(prices.oil ?? ""); setVariant("la_oil_pre2025");
+    setAdval(0); setRoyaltyPct(0); setTrucking(0); setTransport(0); setOption(""); setParam({}); setTier({}); setPeriod({}); setCredit("");
+  };
   const src = (id: string) => rules.sources[id];
   const Cite = ({ id }: { id: string }) => <a href={src(id)?.url} className="text-xs">{src(id)?.publisher === "Louisiana State Legislature" ? "La. R.S. 47:633" : src(id)?.title}</a>;
   const rateOpts = prod.options.filter((o) => o.group === "rate");
@@ -67,6 +74,7 @@ export function Calculator({ rules, prices }: { rules: Rules; prices: { oil: num
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
       <div className="space-y-3 text-sm">
+        <p className="text-xs"><button type="button" onClick={reset} className="underline">Reset to the defaults</button><span className="text-muted">: Texas, oil, a monthly volume of 1,000 at the latest price shown, no deductions.</span></p>
         <div className="grid grid-cols-2 gap-3">
           <label className="flex flex-col">State
             <select value={state} onChange={(e) => pick(e.target.value, product)} className={field}>

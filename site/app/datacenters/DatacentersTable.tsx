@@ -124,6 +124,8 @@ export function DatacentersTable({ rows }: { rows: Facility[] }) {
         <span className="pb-1 text-sm text-muted">
           {shown.length} of {rows.length} facilities, {groups.length} {groups.length === 1 ? "operator" : "operators"}
         </span>
+        {/* session 282: every filter back to its default, "any" */}
+        <button type="button" data-reset="1" onClick={() => { setCountry(""); setState(""); setStatus(""); setOperator(""); setKind(""); setMinMw(""); }} className="border border-rule px-2 py-1 text-sm">Reset the filters</button>
         <button type="button" data-fold-all="1" aria-pressed={allOpen} onClick={() => setToggled(Object.fromEntries(groups.map((g) => [g.operator, !allOpen])))} className="border border-rule px-2 py-1 text-sm">
           {allOpen ? "Close every operator" : "Open every operator"}
         </button>

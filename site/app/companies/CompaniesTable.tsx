@@ -86,6 +86,8 @@ export function CompaniesTable({ rows }: { rows: Company[] }) {
         <span className="text-xs text-muted">
           {shown.length} of {rows.length} companies
         </span>
+        {/* session 282: every filter back to its default, "any" */}
+        <button type="button" data-reset="1" onClick={() => { setSector(""); setNiche(""); setStage(""); setState(""); setMinConf("0"); }} className="border border-rule px-2 py-1 text-xs">Reset the filters</button>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-sm">

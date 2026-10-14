@@ -140,8 +140,8 @@ function Body({ rows, month: current, companies }: { rows: Deal[]; month: string
           <p className="mt-1 text-sm">No deals dated {current} yet, so these are {month}&apos;s, the month before.</p>
         ) : null}
         <p className="mt-1 text-xs text-muted">
-          By the deal&apos;s date: the announced date where a story states it, else the first story&apos;s publish date (UTC). The ERW has scored news since
-          2026-09-23, so the table starts there.
+          By the deal&apos;s date: the announced date where a story states it, else the first story&apos;s publish date (UTC). Deals are extracted only from
+          the stories the ERW has scored; a deal&apos;s date can be earlier than its story&apos;s.
         </p>
       </section>
       <DealsTable rows={rows} companies={companies} />

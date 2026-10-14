@@ -6,6 +6,7 @@
 // Session 240: on the brand. The strip is a top block of three numbers (the facilities held, the megawatts stated with
 // what the sum counts by status, and the facilities first reported this week), then what changed this week with what
 // the table does not hold said in words, the two bars, and the list grouped by operator (DatacentersTable).
+import Link from "next/link";
 import type { ReactNode } from "react";
 import { Cite } from "@/components/Cite";
 import { Num } from "@/components/Num";
@@ -178,7 +179,7 @@ export function Body({ rows, today, children }: { rows: Facility[]; today: strin
       <DatacentersTable rows={rows} />
       <Cite
         tables={["datacenter_facilities"]}
-        note="Built by warehouse/derived/datacenter_facilities.py from datacenter_projects (the news, extracted by warehouse/datacenters/extract.py; the evidence sentences stay in the internal table datacenter_projects_evidence), datacenter_operator_sites (nine operators' public site lists) and the six ISO queues, deduplicated by operator plus location (method: docs/methods/datacenter_facilities.md)"
+        note={<>Built by warehouse/derived/datacenter_facilities.py from datacenter_projects (the news, extracted by warehouse/datacenters/extract.py; the evidence sentences stay in the internal table datacenter_projects_evidence), datacenter_operator_sites (nine operators&apos; public site lists) and the six ISO queues, deduplicated by operator plus location (method: <Link href="/data/methods/datacenter_facilities">datacenter_facilities</Link>)</>}
       />
     </>
   );
