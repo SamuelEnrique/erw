@@ -1,20 +1,20 @@
 # ERW status
 
-Generated 2026-10-13 15:37 UTC by `warehouse/metadata/build_status.py`, which the daily run regenerates after coverage; the daily workflow commits it. Every number below is read from `warehouse/metadata/coverage.csv`, `warehouse/metadata/run_status.csv` or Supabase.
+Generated 2026-10-14 16:18 UTC by `warehouse/metadata/build_status.py`, which the daily run regenerates after coverage; the daily workflow commits it. Every number below is read from `warehouse/metadata/coverage.csv`, `warehouse/metadata/run_status.csv` or Supabase.
 
 ## Tables
 
 | | Tables | Rows |
 |---|---|---|
-| All | 197 | 37,916,677 |
-| Public | 164 | 35,230,415 |
-| Internal (never shown publicly) | 33 | 2,686,262 |
+| All | 199 | 38,445,090 |
+| Public | 165 | 35,757,511 |
+| Internal (never shown publicly) | 34 | 2,687,579 |
 
-Newest table refresh: 2026-10-13 15:12:55 UTC. Validator: 196 of 197 tables pass. Per-table detail: [`docs/coverage.md`](docs/coverage.md).
+Newest table refresh: 2026-10-14 15:48:03 UTC. Validator: 198 of 199 tables pass. Per-table detail: [`docs/coverage.md`](docs/coverage.md).
 
 ## Health gate
 
-**Open.** The latest daily run on GitHub (2026-10-13) has 0 failed tables outside the known-gap list below. While the gate is closed, no session adds a new source or a new tool (`PRIORITIES.md`); fixing the failures, or a human adding one to the list, opens it. `python warehouse/metadata/build_status.py --gate` exits 1 while it is closed.
+**Open.** The latest daily run on GitHub (2026-10-14) has 0 failed tables outside the known-gap list below. While the gate is closed, no session adds a new source or a new tool (`PRIORITIES.md`); fixing the failures, or a human adding one to the list, opens it. `python warehouse/metadata/build_status.py --gate` exits 1 while it is closed.
 
 ### Known gaps
 
@@ -33,9 +33,9 @@ Failures a human has accepted for now (`warehouse/metadata/known_gaps.csv`, edit
 
 | Workflow | Last run (UTC) | Outcome |
 |---|---|---|
-| daily prices, on GitHub | 2026-10-13 15:37 | 167 ok, 1 failed, 20 gap, 9 skipped (table results of that day) |
+| daily prices, on GitHub | 2026-10-14 16:18 | 169 ok, 19 gap, 8 skipped (table results of that day) |
 | daily run, local | 2026-10-05 07:57 | 9 ok (table results of that day) |
-| latest prices, every 15 minutes | 2026-10-13 15:31 | 39 hubs and zones in `latest_prices` (newest retrieval) |
+| latest prices, every 15 minutes | 2026-10-14 16:16 | 39 hubs and zones in `latest_prices` (newest retrieval) |
 
 A table that failed is not written that day; nothing partial is. The reasons are in `warehouse/metadata/run_status.csv`.
 
@@ -51,7 +51,7 @@ A table that failed is not written that day; nothing partial is. The reasons are
 
 ## Open gaps
 
-Days a per-day connector could not write complete, re-checked against the table with the connector's own completeness rule. Recorded gap days: 969; filled since: 121; open: 848.
+Days a per-day connector could not write complete, re-checked against the table with the connector's own completeness rule. Recorded gap days: 978; filled since: 129; open: 849.
 
 | Table | Day | State | First recorded reason |
 |---|---|---|---|
@@ -700,29 +700,30 @@ Days a per-day connector could not write complete, re-checked against the table 
 | `eia930_all_emissions` | 2026-10-08 | still incomplete in the table | 0 of 24 hours with co2_emissions_coal; not written for this day |
 | `eia930_all_emissions` | 2026-10-09 | still incomplete in the table | 10 of 24 hours with co2_emissions_coal; not written for this day |
 | `eia930_all_emissions` | 2026-10-10 | still incomplete in the table | 4 of 24 hours with co2_emissions_oil; not written for this day |
-| `eia930_all_emissions` | 2026-10-11 | still incomplete in the table | 4 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-10-11 | still incomplete in the table | 4 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-10-11 | still incomplete in the table | 4 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-10-11 | still incomplete in the table | 4 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-10-11 | still incomplete in the table | 4 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-10-11 | still incomplete in the table | 4 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-10-11 | still incomplete in the table | 4 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-10-11 | still incomplete in the table | 4 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-10-12 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-10-12 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-10-12 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-10-12 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-10-12 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-10-12 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-10-12 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-10-12 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-10-11 | still incomplete in the table | 0 of 24 hours with co2_emissions_coal; not written for this day |
+| `eia930_all_emissions` | 2026-10-12 | still incomplete in the table | 4 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-10-12 | still incomplete in the table | 4 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-10-12 | still incomplete in the table | 4 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-10-12 | still incomplete in the table | 4 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-10-12 | still incomplete in the table | 4 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-10-12 | still incomplete in the table | 4 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-10-12 | still incomplete in the table | 4 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-10-12 | still incomplete in the table | 4 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-10-13 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-10-13 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-10-13 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-10-13 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-10-13 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-10-13 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-10-13 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-10-13 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
 | `eia930_all_emissions` | ciso 2018-07-20..2026-08-19 | a range recorded by a history build (run_status.csv) | 275 UTC days without 24 hours with co2_emissions_coal, not written (first 2018-07-20, 2019-05-28, 2019-08-25; last 2026-08-19) |
 | `eia930_all_emissions` | ciso 2018-07-20..2026-08-20 | a range recorded by a history build (run_status.csv) | 10 UTC days without 24 hours with co2_emissions_natural_gas, not written (first 2018-07-20, 2019-08-25, 2019-12-19; last 2026-08-20) |
 | `eia930_all_emissions` | ciso 2018-07-20..2026-09-27 | a range recorded by a history build (run_status.csv) | 189 UTC days without 24 hours with co2_emissions_oil, not written (first 2018-07-20, 2019-03-15, 2019-03-16; last 2026-09-27) |
 | `eia930_all_emissions` | isne 2024-07-19..2026-09-27 | a range recorded by a history build (run_status.csv) | 366 UTC days without 24 hours with co2_emissions_coal, not written (first 2024-07-19, 2024-07-20, 2024-07-21; last 2026-09-27) |
 | `eia930_all_emissions` | isne 2024-09-06..2026-09-27 | a range recorded by a history build (run_status.csv) | 318 UTC days without 24 hours with co2_emissions_oil, not written (first 2024-09-06, 2024-09-07, 2024-09-08; last 2026-09-27) |
 | `eia930_all_emissions` | miso 2018-07-02..2026-09-27 | a range recorded by a history build (run_status.csv) | 2982 UTC days without 24 hours with co2_emissions_oil, not written (first 2018-07-02, 2018-07-03, 2018-07-04; last 2026-09-27) |
-| `eia930_all_interchange` | pairs | names no single day (run_status.csv): listed, not re-checked | 346 pair-days with fewer than 24 hours not written: AECI-MISO 2026-10-12 (5 h); AECI-SIKE 2026-10-12 (5 h); AECI-SPA 2026-10-12 (5 h); AECI- |
+| `eia930_all_interchange` | pairs | names no single day (run_status.csv): listed, not re-checked | 383 pair-days with fewer than 24 hours not written: AECI-MISO 2026-10-13 (5 h); AECI-SIKE 2026-10-13 (5 h); AECI-SPA 2026-10-13 (5 h); AECI- |
 | `eia930_all_storage` | 2024-07-15 | still incomplete in the table | net_generation_battery_mw: 19 of 24 hours; day not written |
 | `eia930_all_storage` | 2024-07-16 | still incomplete in the table | net_generation_battery_mw: 5 of 24 hours; day not written |
 | `eia930_all_storage` | 2024-07-17 | still incomplete in the table | net_generation_battery_mw: 0 of 24 hours; day not written |

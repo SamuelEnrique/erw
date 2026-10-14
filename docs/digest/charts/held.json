@@ -1,0 +1,11 @@
+{
+ "scan-record-56b1bf830f57": {
+  "fact": "Net generation from other gases in Indiana: 65,787 MWh in June 2026, the lowest monthly value held since January 2001. The record until now was 88,633 MWh, in May 2009.",
+  "held_on": "2026-10-14",
+  "jump_pct": 25.8,
+  "old_record": 88632.91,
+  "series_key": "entity=eia:generation:IN:OOG|variable=net_generation|market=|node=|freq=P1M",
+  "table": "eia_state_generation_monthly",
+  "value": 65786.94
+ }
+}
