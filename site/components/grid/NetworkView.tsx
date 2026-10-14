@@ -1,4 +1,6 @@
+import { Num } from "@/components/Num";
 import { SiteLink as Link } from "@/components/SiteLink";
+import { shown } from "@/lib/format";
 import { SourceLine } from "@/components/tool/ToolPage";
 import snapJson from "@/data/grid_network.json";
 import indexJson from "@/public/network/daily_index.json";
@@ -51,6 +53,11 @@ export async function NetworkView({ keep, node }: { /** the page's own query, ke
       <p className="mb-4 max-w-3xl text-base leading-relaxed">The {snap.nodes.length} balancing authorities that report to EIA-930 and the power they exchange. Watch a story, replay any day since {index.first.slice(0, 4)}, or
           click a grid to see who supplies it and trace the power two steps back. The address holds what you are looking at: copy it to share the view.</p>
       <Network snap={snap} supply={supply} live={extras} v3={{ index, complete }} page={{ keep, node }} />
+      {/* session 266: the two-day lag, under the chart, computed from the snapshot (net|lag in lib/network.ts) */}
+      {(() => { const shownHour = complete.hour ?? newest; const lag = Math.round((Date.parse(snap.built) - Date.parse(shownHour)) / 3_600_000); return (
+        <p className="mt-3 max-w-3xl text-sm" data-network-lag={lag}>The newest hour shown, {hourName(shownHour)}, began <Num check={`net|lag|${shownHour}|${snap.built}`} raw={lag}>{shown(lag)}</Num> hours before
+          this week&apos;s latest hourly refresh ({utc(snap.built)}): EIA-930 publishes a balancing authority&apos;s interchange for a local day on the second morning after it, so the network runs about two days behind the clock.</p>
+      ); })()}
       <p className="mt-3 max-w-3xl text-xs text-muted" data-network-source={from}>
         The live week: refreshed {utc(snap.built)}. <span data-newest-complete={complete.hour ?? "none"}>{complete.hour
           ? <>Newest hour complete for every reporting pair: {hourName(complete.hour)} ({complete.reporting} of the week&apos;s {complete.pairs} pairs report; the newest hour of all, {hourName(complete.newest)}, holds {complete.newestPairs} of them).</>
