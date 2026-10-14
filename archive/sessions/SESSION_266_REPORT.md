@@ -62,7 +62,7 @@ All on the local build of the branch, port 3266, in the internal view; each gate
 
 ## To finish
 
-- The pictures of the label fix (commit after `d1616759`: the gravity SVG is a group, labels 26 units): run `node runs/session266/shot.mjs http://localhost:<port> docs/brand/review-266` on a build of the branch and commit the four PNGs; tsc and build of that commit were not run while the landing held the mutex.
+- The pictures of the label fix (commit `1b923c3b`: the gravity SVG is a group, labels 26 units): run `node runs/session266/shot.mjs http://localhost:<port> docs/brand/review-266` on a build of the branch and commit the four PNGs; tsc and build of that commit were not run: the landing held the mutex from 09:43 to past 10:33 UTC and the third cycle was stopped unrun. Its change is two attributes and a role in `site/app/network/NetworkGravity.tsx`; the orchestrator's build at the landing is its first.
 - The do-file is unrun (no Stata here): Samuel's run is part 8 of the pack.
 
 ## The landing
