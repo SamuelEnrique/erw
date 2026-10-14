@@ -1,6 +1,6 @@
 # Who owns the batteries: method
 
-Built in session 87 for the review page `/storage/owners` ("Who owns the batteries"). One table:
+Built in session 87 for the review page `/storage/owners` ("Who owns the batteries"), since session 239 the owners tab of `/storage` (`/storage?tab=owners`; the old address redirects). One table:
 
 | Table | Tier | What |
 |---|---|---|
@@ -40,7 +40,7 @@ A company has a metric only where it has a unit: there are no zero rows. MW and 
 
 ## The page and the live set
 
-The table is public (EIA-860M is in the public domain). It is **held out of the live set** (`live_set.yaml`, `catalogue_hold`) while the live site is frozen for its reviewer, because a new public table would move the home page's count of tables and rows. The review page therefore reads `site/data/storage_owners.json`, a copy of the table's newest month written by the builder (`--snapshot`); every number in it is a row of the table, which a test checks.
+The table is public (EIA-860M is in the public domain). It was first held out of the live set (`catalogue_hold`); since session 102 it is loaded under `review_hold` (`warehouse/supabase/live_set.yaml`): in Supabase, read by Ask, and in no count a visitor sees (session 281 corrected this line, which still said it was held out). The review page therefore reads `site/data/storage_owners.json`, a copy of the table's newest month written by the builder (`--snapshot`); every number in it is a row of the table, which a test checks.
 
 ## Checks
 

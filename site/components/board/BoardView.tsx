@@ -401,7 +401,7 @@ export function BoardView({ file }: { file: BoardFile }) {
         <p className="text-xs text-muted">
           <SiteLink href={METHOD}>Method, sources and gaps</SiteLink>
           {" | "}
-          <SiteLink href="/explorer/ercot-peak-premium">ERCOT since 2015: the peak premium explorer</SiteLink>
+          <SiteLink href="/prices?tab=ercot">ERCOT since 2015: the peak premium explorer</SiteLink>
           {" | "}
           <span title={`The board's files were built at ${file.built}.`}>built {dateWords(file.built)}</span>
         </p>

@@ -79,7 +79,7 @@ export default async function Compare({ searchParams }: { searchParams: Promise<
       </p>
       <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
         <aside>
-          <InputPanel title="Choose" note={<>Twelve months of history are held for {file.year.length} hubs; the zones and the other hubs are held since late August 2026, so they are in the month and not in the year.</>}>
+          <InputPanel title="Choose" reset={{ href: "/prices/compare", defaults: "twelve months, day-ahead, ordered by the average price, cheapest first." }} note={<>Twelve months of history are held for {file.year.length} hubs; the zones and the other hubs are held since late August 2026, so they are in the month and not in the year.</>}>
             <nav aria-label="Period" className="mb-4 text-sm">
               <div className="mb-1 text-xs uppercase tracking-wide text-muted">Period</div>
               <div><Link href={href({ ...c, period: "year", sort: c.sort.slug, dir: c.dir })} aria-current={c.period === "year" ? "true" : undefined} className={item(c.period === "year")}>Twelve months to {monthName(file.end_month)}: {file.year.length} hubs</Link></div>

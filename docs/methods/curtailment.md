@@ -132,7 +132,7 @@ The owner asked for ERCOT's hourly wind and solar production reports back to 201
 
 ### Where free energy is
 
-`free_energy.py` writes `free_energy.json` from the public hub and zone prices the ERW holds, for ERCOT, CAISO, NYISO, ISO-NE and SPP. MISO is named and blank (paused while terms are reviewed) and so is PJM (licensed source needed).
+`free_energy.py` writes `free_energy.json` from the public hub and zone prices the ERW holds, for ERCOT, CAISO, NYISO, ISO-NE and SPP. MISO is named and blank (paused while terms are reviewed) and so is PJM (licensed source needed). Since session 215 a grid whose price table needs a license from 20 October 2026 (`licenseHeldGrid()`, from `licenseHeldGrids()` in `site/lib/license.ts`: the grids whose price tables `license_status.csv` marks as needing one, NYISO's and ISO-NE's as the audit of session 281 read it) shows neither free energy nor what the curtailed energy was worth, and says why in their place (`site/app/curtailment/page.tsx`). California's hour-by-hour section reads `caiso_curtailment_profile` (session 98) through the site's own copy, `site/data/curtailment_profile.json` (`site/lib/curtailmentv2.ts`) (session 281 added these two lines).
 
 - **The counts.** For a place and a window: the hours priced below zero, and the hours priced under USD 5 per MWh. The second includes the first, each hour once; the hours from zero to under USD 5 are the difference. A negative-price hour is never counted twice.
 - **The hour.** Real time where the place holds it for 95 percent of the window, otherwise day-ahead; the page says which. An hour of real time is the mean of its four 15-minute prices and counts only when all four are held.

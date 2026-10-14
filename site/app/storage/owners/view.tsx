@@ -64,7 +64,7 @@ export async function OwnersView({ sp }: { sp: Record<string, string | undefined
       {grid.slug === "ercot" ? <AskErcotLink context={{ view: "/storage/owners", title: "Who owns the batteries", settings: { grid: "ERCOT" } }} /> : null}
       <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
         <aside>
-          <InputPanel title="Choose" note={`EIA's inventory of ${monthName(m)}. An owner here is the company that reports the plant to EIA, often a project company; parents are not named.`}>
+          <InputPanel title="Choose" reset={{ href: "/storage?tab=owners", defaults: "the United States." }} note={`EIA's inventory of ${monthName(m)}. An owner here is the company that reports the plant to EIA, often a project company; parents are not named.`}>
             <nav aria-label="Grid">
               <div className="mb-1 text-xs uppercase tracking-wide text-muted">Grid</div>
               <ul className="text-sm">
