@@ -326,6 +326,13 @@
     "NYISO"
    ]
   },
+  "nyiso_load_queue": {
+   "status": "license needed",
+   "from": "2026-10-21",
+   "publishers": [
+    "NYISO"
+   ]
+  },
   "nyiso_rtm_zone_prices": {
    "status": "license needed",
    "from": "2026-10-21",
@@ -1453,6 +1460,16 @@
    ],
    "pages": []
   },
+  "nyiso_load_queue": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "NYISO"
+   ],
+   "pages": [
+    "/cost-of-power"
+   ]
+  },
   "nyiso_rtm_zone_prices": {
    "status": "license needed",
    "hold": "by grid",
@@ -1613,7 +1630,7 @@
    "pages": []
   }
  },
- "internal_tables": 36,
+ "internal_tables": 35,
  "pages": {
   "/": {
    "label": "Home",
@@ -1761,10 +1778,11 @@
     "isone_rtm_zone_prices",
     "isone_rtm_zone_prices_hourly",
     "nyiso_dam_zone_prices",
+    "nyiso_load_queue",
     "nyiso_rtm_zone_prices",
     "nyiso_zone_load_hourly"
    ],
-   "internal": 4,
+   "internal": 3,
    "public": 13
   },
   "/shoulder": {

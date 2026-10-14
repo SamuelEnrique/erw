@@ -10,9 +10,9 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 ## Read these first
 
-- **199 tables.** The flag and the verdict agree on 135; disagree on 41; 22 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
+- **199 tables.** The flag and the verdict agree on 134; disagree on 42; 22 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
 - **41 publishers in the record: 40 requests of the ceiling of 40, 35 pages read, 5 that could not be read, 1 not asked (paused).**
-- **39 tables are flagged public where a publisher's sentence asks for permission or a license.** By the publisher that decides it (a table can be under several): NYISO 28; ISO-NE 25; MISO 22; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Latitude Media 4; Natural Gas Intelligence 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Heatmap News 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2.
+- **40 tables are flagged public where a publisher's sentence asks for permission or a license.** By the publisher that decides it (a table can be under several): NYISO 29; ISO-NE 25; MISO 22; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Latitude Media 4; Natural Gas Intelligence 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Heatmap News 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2.
 - **2 tables are flagged internal where the sentence read allows them:** `carb_auction_allowance_prices`, `rrc_lease_production_monthly`.
 - **8 tables that may be public today would need permission if the ERW sells anything** (SPP 6; IMF 1; RRC 1).
 
@@ -286,7 +286,7 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | `nyiso_dam_cleared_energy` | NYISO | needs written permission | NYISO |  | public | DISAGREES: the flag is looser | needs written permission |
 | `nyiso_dam_zone_prices` | NYISO | needs written permission | NYISO |  | public | DISAGREES: the flag is looser | needs written permission |
 | `nyiso_interconnection_queue` | NYISO | needs written permission | NYISO |  | public | DISAGREES: the flag is looser | needs written permission |
-| `nyiso_load_queue` | NYISO | needs written permission | NYISO |  | internal | agrees | needs written permission |
+| `nyiso_load_queue` | NYISO | needs written permission | NYISO |  | public | DISAGREES: the flag is looser | needs written permission |
 | `nyiso_rtm_zone_prices` | NYISO | needs written permission | NYISO |  | public | DISAGREES: the flag is looser | needs written permission |
 | `nyiso_zone_load_hourly` | NYISO | needs written permission | NYISO |  | public | DISAGREES: the flag is looser | needs written permission |
 | `pjm_rpm_capacity_prices` | PJM | needs a paid license | PJM |  | internal | agrees | needs a paid license |
@@ -357,6 +357,7 @@ None of these was changed. Each is a ruling.
 - `nyiso_dam_cleared_energy`: needs written permission, by NYISO.
 - `nyiso_dam_zone_prices`: needs written permission, by NYISO.
 - `nyiso_interconnection_queue`: needs written permission, by NYISO.
+- `nyiso_load_queue`: needs written permission, by NYISO.
 - `nyiso_rtm_zone_prices`: needs written permission, by NYISO.
 - `nyiso_zone_load_hourly`: needs written permission, by NYISO.
 - `price_board_latest`: needs written permission, by ISO-NE; MISO; NYISO.

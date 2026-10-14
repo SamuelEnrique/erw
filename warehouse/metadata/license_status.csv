@@ -32,6 +32,7 @@ nyiso_as_prices,license needed,2026-10-21,NYISO,needs written permission,,,flagg
 nyiso_dam_cleared_energy,license needed,2026-10-21,NYISO,needs written permission,,,flagged public; the publisher's sentence read in session 205 asks for it (docs/licenses.md)
 nyiso_dam_zone_prices,license needed,2026-10-21,NYISO,needs written permission,,,flagged public; the publisher's sentence read in session 205 asks for it (docs/licenses.md)
 nyiso_interconnection_queue,license needed,2026-10-21,NYISO,needs written permission,,,flagged public; the publisher's sentence read in session 205 asks for it (docs/licenses.md)
+nyiso_load_queue,license needed,2026-10-21,NYISO,needs written permission,,,flagged public; the publisher's sentence read in session 205 asks for it (docs/licenses.md)
 nyiso_rtm_zone_prices,license needed,2026-10-21,NYISO,needs written permission,,,flagged public; the publisher's sentence read in session 205 asks for it (docs/licenses.md)
 nyiso_zone_load_hourly,license needed,2026-10-21,NYISO,needs written permission,,,flagged public; the publisher's sentence read in session 205 asks for it (docs/licenses.md)
 price_board_latest,license needed,2026-10-21,ISO-NE; MISO; NYISO,needs written permission,,,flagged public; the publisher's sentence read in session 205 asks for it (docs/licenses.md)

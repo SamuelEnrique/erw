@@ -165,8 +165,8 @@ time it is rendered; these are here so that a later build can be set against the
 - Session 271 (14 October 2026, the owner's approval of that day, within the same ceilings): the pull went on to the
   newest day ERCOT then listed, 14 August 2026: nine more zips, 0.50 GB, 10.92 GB of the 12 GB ceiling in all.
   `ercot_sced_esr_hourly` holds 1,531,959 resource-hours, 195 operating days; 194 are matched by the day-ahead
-  disclosure (14 August is not yet in it). Over the 194 matched days the fleet discharged 4,859,502 MWh in real time
-  and had sold 1,560,672 MWh day-ahead, 32 percent of it. The six whole months are unchanged. The pull is on the data
+  disclosure (14 August is not yet in it).
+- Over the 194 matched days (session 271) the fleet discharged 4,859,502 MWh in real time and had sold 1,560,672 MWh day-ahead, 32 percent of it. The six whole months are unchanged. The pull is on the data
   machine's schedule now, once a week (`warehouse/run_data_machine_tables.sh`); at the ceiling, about 19 days of zips
   from here, the step is a skip that says so.
 - Day-ahead, the fleet sold at its own nodes for USD 0.02 to 2.49 per MWh above the hub average, by month (August's

@@ -181,7 +181,7 @@ class LicenseStatus(unittest.TestCase):
 
     def test_the_status_command_keeps_a_recorded_permission(self):
         lines = licenses.status_lines()
-        self.assertEqual(len(lines), 39)   # 40 until session 271 retired price_board_stats
+        self.assertEqual(len(lines), 40)   # session 271: price_board_stats retired, scarcity_hours_by_grid (session 254) in
         self.assertTrue(all(v != licenses.PUBLIC for _, v, _ in lines))
         self.assertIn("iso_hub_prices_history", {t for t, _, _ in lines})
         # write_status against temporary paths: a permission a person recorded survives a rebuild
