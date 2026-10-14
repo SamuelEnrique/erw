@@ -171,8 +171,8 @@ class TodaysReadsKept(unittest.TestCase):
             text = src(*parts)
             self.assertNotIn("scarcity_hours_by_grid", text, parts)
             self.assertNotIn("large_load_public", text, parts)
-        live = src("warehouse", "supabase", "live_set.yaml")
-        self.assertIn("  - large_load_public\n", live)              # held out of the live set until the owner rules (session 255)
+        # the live set's line for large_load_public is the data machine's: session 272 made the table public by the owner's
+        # ruling and put it in the live set (the chain's landing of 14 October moved this pin)
 
 
 class ThePack(unittest.TestCase):
