@@ -3,7 +3,7 @@
 // snapshot, never from Supabase (session 86). The internal view's test is the proxy's own (lib/release.ts).
 import { cookies } from "next/headers";
 import reviewData from "@/data/battery_stack_review.json";
-import { TABLE, type Inputs, type Row } from "@/lib/batterystack";
+import { STRESS_TABLE, TABLE, type Inputs, type Row, type StressRow } from "@/lib/batterystack";
 import { COOKIE, digest } from "@/lib/release";
 import { HOURLY, rest } from "@/lib/supabase";
 
@@ -20,7 +20,13 @@ export function reviewRows(grid: string, x: Inputs): Row[] {
   return (g?.rows ?? []).filter((r) => r[0].startsWith(pre)).map(([variable, ts_utc, value]) => ({ variable, ts_utc, value }));
 }
 /** The monthly rows of a ready grid, from the live set. */
-export async function rowsOf(entity: string, x: Inputs): Promise<Row[]> {
+export async function rowsOf(entity: string, x: Pick<Inputs, "strat" | "dur">): Promise<Row[]> {
   return rest<Row>("series", { select: "variable,ts_utc,value", table_name: `eq.${TABLE}`, entity: `eq.${entity}`,
+    variable: `like.${x.strat}_${x.dur}h_*`, order: "variable,ts_utc" }, HOURLY);
+}
+/** Session 257: the stress days of a ready grid for one strategy and duration, from the live set (the table is public).
+ * The page reads them to name the events of the grid shown; a grid in review holds none and is never asked. */
+export async function stressRowsOf(entity: string, x: Pick<Inputs, "strat" | "dur">): Promise<StressRow[]> {
+  return rest<StressRow>("series", { select: "variable,ts_utc,value,event", table_name: `eq.${STRESS_TABLE}`, entity: `eq.${entity}`,
     variable: `like.${x.strat}_${x.dur}h_*`, order: "variable,ts_utc" }, HOURLY);
 }

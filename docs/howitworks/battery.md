@@ -2,7 +2,8 @@
 
 - **Address:** `/cost-of-power/battery` (production: `https://erw-flame.vercel.app/cost-of-power/battery`).
 - **Status:** in review, like every page of the site (`site/lib/release.ts`). A visitor sees the in-review page; a demo needs the internal view (section 7).
-- **Written from:** `main` at commit `9700198f`, which holds the page as merged in `80aa2362` (session 234, the brand restyle).
+- **Written from:** `main` at commit `9700198f`, which holds the page as merged in `80aa2362` (session 234, the brand restyle). Checked again by session 260 against `main` at `34b468fa`: since `9700198f` the page's code changed only in where its fonts and wrapper come from (`site/components/Brand.tsx`, session 235); no label, default or number moved.
+- **California (session 257):** four passages below carry the mark "(session 257)". They describe what session 257 added to the page on 2026-10-13 (commit `9e0bbfe8`; its report is `archive/sessions/SESSION_257_REPORT.md`): CAISO's line beside its market monitor, and CAISO's stress days. This note and that work land together.
 - **Date:** 2026-10-13. A number marked **[c]** is printed in no method or report: it was computed for this document with the page's own library from the table built on 2026-10-13 at 08:10 UTC (`docs/howitworks/computed/`, the script and its output); every other number is quoted from the file named in the last section.
 
 ## 1. What it is for, and for whom
@@ -85,8 +86,9 @@
 | Tax, tax credit, augmentation, residual value, inflation | none | fixed | ERW's choice: none is modeled |
 | Breakeven toll | the price at which coverage is 1.25 | fixed | ERW's choice; the code cites no source for 1.25 |
 | IRR search | between -99 and 1,000 percent a year | fixed | ERW's choice; outside it the page says "none" |
-| Steps of efficiency and cycles | the model's own runs, nothing interpolated; the file was built on 2026-10-10 and is withdrawn when a month of the table differs from it by more than half a cent per MW | fixed | `site/data/battery_scenario_steps.json` |
+| Steps of efficiency and cycles | the model's own runs, nothing interpolated; the file is rebuilt by the data machine's daily run (on `main`: built 2026-10-13T17:42:40Z) and is withdrawn when a month of the table differs from it by more than half a cent per MW | fixed | `site/data/battery_scenario_steps.json` |
 | The awards line | the months both tables hold whole (January to July 2026); the fleet's kW is the sum of each resource's highest limit (HSL) in the month | fixed | `site/data/battery_awards_beside.json`, built 2026-10-10 |
+| California's line beside its market monitor (session 257) | 2025, a 4-hour battery on the day-ahead schedule: the model's energy and regulation income are computed from the table; the real fleet's 35 and 9 are typed from the report | fixed | `FLEET_BESIDE` in `site/lib/batterystack.ts`; CAISO Department of Market Monitoring, 2025 Annual Report on Market Issues and Performance, June 2026, section 1.3.3, Tables 1.7 and 1.8 |
 | Rounding | the table to four decimals; US dollars to a whole dollar for the size; USD per kW to two decimals | fixed | the code |
 | Sensitivity steps | capital cost USD 100 per kW; debt share 10 points; interest 1 point; term 5 years; fixed O&M USD 5; efficiency 3 points; cycles 0.5; degradation 1 point; life 5 years; hurdle rate 1 point; contract share 10 points; contract price USD 1 | fixed | ERW's choice |
 
@@ -173,7 +175,7 @@ Partly. The model applies the new required durations from that day (30 minutes f
 
 ### 7. Can the CAISO result be trusted?
 
-For energy, within about a fifth; for regulation, no. Run the market monitor's way, the model gives USD 84.72 per kW for 2025 against the monitor's own 77.3, and tracks it by quarter. But real batteries were paid about 35 for energy and 9 for regulation; the model takes 42.31 and 42.25. The page does not yet print that line for CAISO, as it does for ERCOT. CAISO is held for 25 months and one full year. Every CAISO notice in those months is a Restricted Maintenance Operations notice: no Flex Alert and no emergency stage. No resource adequacy payment is in the figure.
+For energy, within about a fifth; for regulation, no. Run the market monitor's way, the model gives USD 84.72 per kW for 2025 against the monitor's own 77.3, and tracks it by quarter. But real batteries were paid about 35 for energy and 9 for regulation; the model takes 42.31 and 42.25. The page prints that comparison in one line under CAISO's income table, as it prints the awards line for ERCOT (session 257). CAISO is held for 25 months and one full year. Every CAISO notice in those months is a Restricted Maintenance Operations notice: no Flex Alert and no emergency stage. No resource adequacy payment is in the figure.
 
 ### 8. The chart shows USD 3,431 per kW in 2021. Did anyone earn that?
 
@@ -216,7 +218,7 @@ This path was written from the page's code and its check scripts on 2026-10-13. 
 1. Under "Strategy" choose "Day-ahead schedule" and press "Show". The address becomes `?grid=ercot&dur=4&strat=dayahead&mw=100`. The sentence reads USD 73.00 per kW; 35 percent from ancillary services [c]; debt covered 2.26 times [c].
 2. Under "Grid" choose "CAISO" and press "Show" (`?grid=caiso&dur=4&strat=dayahead&mw=100`). USD 64.96 per kW; 51 percent from ancillary services [c]; 1.90 times [c]. With "Perfect foresight" the same battery reads 79.05.
 3. Point at three things. The bad month's note ends ": CAISO is held from September 2024". The second column reads "not held: CAISO holds one full year (2025)". The row "Capacity" reads "Not held: California's resource adequacy prices are contract statistics, not yet in the warehouse".
-4. Say what the page does not: there is no awards line for CAISO. Its market monitor reports that real batteries were paid about USD 35 per kW for energy and 9 for regulation in 2025; the model takes 42.31 and 42.25.
+4. Read the line under the income table (session 257): "In 2025, for a 4-hour battery on the day-ahead schedule, this model takes USD 42.31 per kW from energy and USD 42.25 from regulation; CAISO's market monitor reports that real batteries in its area with a full year of operation earned about USD 35 per kW from energy and USD 9 from regulation". Say: energy is close, and the whole gap is regulation, a market the model treats as if it had no size. The two model figures are computed from the table and can move; 35 and 9 are the report's. The line is always the 4-hour battery on the day-ahead schedule, whatever battery the panel holds, and says so. Then the small line that begins "Every month, CSV": it ends "The stress days, the days of CAISO's system-wide notices (4 to 9 September 2024, 20 and 21 January 2025, 9 and 10 September 2026, 5 to 8 October 2026): the table, CSV." Four events on 13 October 2026; the page reads them from the table, so a new notice adds one. ERCOT's still reads "Uri, Elliott, the 2023 heat".
 
 ### Minute 3 to 4: is it worth building
 
@@ -240,7 +242,7 @@ This path was written from the page's code and its check scripts on 2026-10-13. 
 - **"The table could not be read, so no number is shown".** The live set did not answer. Reload.
 - **"Duration" acts at once.** "2 hours", "4 hours" and "8 hours" are links, not part of "Show", and a change of duration drops a typed capital cost and fixed O&M.
 - **The numbers above hold until October 2026 is complete in the table**, about the first days of November. The twelve months then become November 2025 to October 2026 and every headline number moves.
-- **Only 86 and 1 are offered under efficiency and cycles.** The file of steps was built on 2026-10-10 and is withdrawn when the table's months move past it. The line under the assumptions says which happened.
+- **Only 86 and 1 are offered under efficiency and cycles.** The file of steps is withdrawn when the table's months move past it, until the data machine's daily run rebuilds it. The line under the assumptions says which happened.
 
 ## Where the numbers in this document come from
 
@@ -257,6 +259,7 @@ This path was written from the page's code and its check scripts on 2026-10-13. 
 | The 2025 ladder 87.4, 78.7, 46.2, 36.7, 28.5; 1.50 and 1.23 hours; 821 MW; 2,841.6; 10.0 percent | `docs/methods/battery_early_years.md` | "The ladder"; "What each step takes"; "February 2021" |
 | 7.17, 4.17, 3.00, 18.81; 28.27, 44.29, 227 of 291 | `docs/methods/ercot_storage_realtime.md` | "As built on 5 October 2026" |
 | 30.14; 6.53; 23.61; 9.70; -0.62; 14.53 | `docs/methods/ercot_storage_dam_offers.md` | "The gap in three parts" |
+| California's line: its words, 35 and 9, the report's section and tables; the stress days named by their days (session 257) | `docs/methods/battery_earns_algorithm.md`, `docs/methods/battery_stack.md`; `site/lib/batterystack.ts` | "For CAISO, since session 257"; "CAISO beside its market monitor"; `FLEET_BESIDE`, `STRESS_BY`; the four events and 42.31 and 42.25 as session 257's local build showed them: `archive/sessions/SESSION_257_REPORT.md`, "Read these first" and "What to review" |
 | ORDC adders end 2025-12-04; the table's date | `docs/methods/ercot_rt_price_adders.md` | "What it is" |
 | 83.57 (1.5 cycles) | `site/scripts/test-battery-finance.mjs` | line 97 |
 | 254 of 254 | `archive/sessions/SESSION_208_REPORT.md`, `SESSION_211_REPORT.md` | "Checks" |

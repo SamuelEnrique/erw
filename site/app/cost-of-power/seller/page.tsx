@@ -85,6 +85,12 @@ import { Missing } from "./nums";
 // scripts/check-values.mjs recomputes from the capture file. A battery's and a gas peaker's are this page's model at
 // each hub. (3) "Is it worth building?": one click makes scenario B a PPA, and the results show the breakeven PPA
 // price (SellerScenarios.tsx, lib/seller/finance.ts). No default and no other number moved. The downloads stay.
+//
+// Session 257 (the owner's task of 13 October 2026, session 253's list): the source line counts 20 published figures
+// where it counted 10. The ten more are CAISO's: its market monitor's combustion turbine and Berkeley Lab's market value
+// of wind and its PPA indexes, the rows of docs/methods/generator_earns_algorithm.md, section 12.5, that hold a gap, now
+// in that note's "Cross-checks". No number of the page moved. Not done, each waiting as that list says: the peaker's
+// carbon cost (a ruling), CAISO's stress days (the snapshot holds none), the sentence beside CAISO's wind (a ruling).
 export const metadata: Metadata = { title: "What a generator earns" };
 export const dynamic = "force-dynamic";
 
@@ -296,7 +302,7 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
         </div>
       </SellerDecisions>
       <SourceLine tables={["merchant_revenue_monthly", "eia_fuel_spot_prices", "eia860m_operating_generators", ...new Set(cg.hubs.flatMap((h) => [...(h.rt?.tables ?? []), ...(h.da?.tables ?? [])])), ...(batt ? [B.TABLE] : [])]}
-        note={<>Derived by the ERW from {g.name}&apos;s public prices and EIA-930&apos;s hourly generation by source ({cg.workbook}){cg.generation.includes("caiso") ? `, California from ${caisoJoinDay()} from CAISO's own supply by fuel` : ""}. The model&apos;s snapshot was built {snap.built.slice(0, 10)}, the capture prices {CAPTURE.built.slice(0, 10)}{atHub ? `, the model at ${hubAt(hub.id)} ${HUBS.built.slice(0, 10)}` : ""}{pair && hf ? `, the pair with a battery ${HYBRID.built.slice(0, 10)}` : ""}. The default case hour by hour: <a href={HOURLY_CSV} download data-download="csv">CSV</a>, <a href={DO_FILE} download data-download="do">Stata do-file</a>, <a href={MIRROR} download data-download="py">Python mirror</a>. Cost defaults: Lazard, Levelized Cost of Energy+, June 2025. The buyer&apos;s side is <Link href="/cost-of-power">What a datacenter pays</Link>. <span data-checked-against="10">Checked against: 10 published figures (Lazard, the Annual Technology Baseline, EIA). <Link href="/data/methods/generator_earns_algorithm#cross-checks">Each comparison, with its gap and the reason</Link>.</span></>} />
+        note={<>Derived by the ERW from {g.name}&apos;s public prices and EIA-930&apos;s hourly generation by source ({cg.workbook}){cg.generation.includes("caiso") ? `, California from ${caisoJoinDay()} from CAISO's own supply by fuel` : ""}. The model&apos;s snapshot was built {snap.built.slice(0, 10)}, the capture prices {CAPTURE.built.slice(0, 10)}{atHub ? `, the model at ${hubAt(hub.id)} ${HUBS.built.slice(0, 10)}` : ""}{pair && hf ? `, the pair with a battery ${HYBRID.built.slice(0, 10)}` : ""}. The default case hour by hour: <a href={HOURLY_CSV} download data-download="csv">CSV</a>, <a href={DO_FILE} download data-download="do">Stata do-file</a>, <a href={MIRROR} download data-download="py">Python mirror</a>. Cost defaults: Lazard, Levelized Cost of Energy+, June 2025. The buyer&apos;s side is <Link href="/cost-of-power">What a datacenter pays</Link>. <span data-checked-against="20">Checked against: 20 published figures (Lazard, the Annual Technology Baseline, EIA, CAISO&apos;s market monitor, Berkeley Lab). <Link href="/data/methods/generator_earns_algorithm#cross-checks">Each comparison, with its gap and the reason</Link>.</span></>} />
     </ToolPage>
     </Brand>
   );

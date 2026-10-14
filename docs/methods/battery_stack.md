@@ -224,6 +224,8 @@ The four events inside the held prices, as built on 13 October 2026 (USD per MW 
 - **CAISO's notices are read every day since session 247** (the data machine's daily run, one document), so a notice makes its event at the next build. They were held to 30 April 2025 until then.
 - **These are small beside ERCOT's:** Winter Storm Uri paid the same battery more in a day than any California event in its whole window. That is what the prices and the notices say: every notice in the held prices is a Restricted Maintenance Operations notice; no Flex Alert and no emergency stage is among them.
 
+<a id="caiso-market-monitor"></a>
+
 ## CAISO beside its market monitor (session 246)
 
 CAISO's Department of Market Monitoring models a battery much as this model does, and publishes what the real fleet was paid beside it. Its [*2025 Annual Report on Market Issues and Performance*, June 2026](https://www.caiso.com/documents/2025-annual-report-on-market-issues-and-performance.pdf), section 1.3.3 (pages 118 to 121 of the report; Tables 1.7 and 1.8), read on 13 October 2026 after the host's robots file (which allows it): a hypothetical 100 MW, 4-hour battery, round trip 0.85, no variable cost, selling energy and regulation (up and down) day-ahead at each of more than 280 pricing nodes, over 2025. 2025 is the first year both hold whole.
@@ -258,6 +260,8 @@ The page was not edited. `site/lib/batterystack.ts` lists CAISO as ready (`ready
 | One line beside the model's ancillary income: what ERCOT's storage resources were really awarded (`battery_awards_beside.json`) | Nothing: `awardsBeside` returns null unless the grid is ERCOT | The market monitor's figures above play the same part: the real fleet's USD 35 of energy and 9 of regulation per kW in 2025, against the model's 42.31 and 42.25. They are a published report's, not a table's: the line cites the report, as the note's cross-checks do | `site/lib/batterystack.ts` (`awardsBeside`), the page's "Income by stream" |
 | History from 2018: nine years, the scarcity years among them | From September 2024: 25 months. "A bad month" rests on 25 of 36 months and the page says so | Not the page's to fix. CAISO's price history before September 2024 is not held; CAISO's system serves about 39 months back. A pull, for a ruling | `warehouse/connectors` (the hub price history and `caiso_as_prices`) |
 | The link to Ask ERCOT | None | Not needed for the battery page | |
+
+- **Session 257 (13 October 2026) did the first two rows.** The page reads the stress table's rows for the grid shown (`site/app/cost-of-power/battery/read.ts`, `stressRowsOf`) and its sentence names the events they hold: ERCOT's three by name, as before, and CAISO's by their days, with the same download. `stress()` reads the events from the rows, so a new CAISO notice needs no line of code. Under "Income by stream" CAISO has one line: the model's 2025 energy and regulation income for a 4-hour battery on the day-ahead schedule, computed from `battery_stack_monthly` with check keys (`year_kw:2025:energy` and `year_kw:2025:regup+regdn`: USD 42.31 and 42.25 per kW as the table stood that day), beside the market monitor's real-fleet figures of the table above (35 and 9), typed in `site/lib/batterystack.ts` (`FLEET_BESIDE`) with the report cited and held to this note by `tests/test_session257.py`. `awardsBeside` stays ERCOT's: it reads ERCOT's awards. The third row still waits for a pull.
 
 ## The daily run
 

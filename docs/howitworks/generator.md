@@ -1,10 +1,8 @@
 # How it works: What a generator earns
 
 Address: `/cost-of-power/seller`, the second of the three cost-of-power tabs. The page is in review (`site/lib/release.ts`): a visitor sees the in-review page, and so does anyone whose browser has not opened the internal view.
-Written on 2026-10-13 from the branch `origin/wip/235-generator`, commit `c7ce17de` (session 235). When the writing began the branch was not landed: no commit of session 212 or 235 was on `origin/main` (head `de22f049`).
-It landed while this was being written: `aa3addbc` (the merge of `task/235-generator-earns`, 09:14:02 UTC on 13 October 2026, checks passed in run 38373856458), sessions 235 and 236 together. The files of this page on main (`site/app/cost-of-power/seller/`, `site/lib/seller/`, the methods note) are the same as at `c7ce17de`: `git diff` between the two is empty for them. So this document describes main's page from that merge on.
-What main held before that merge: the page as it stood before session 212 (three capture tables, a standalone "With your contract" panel, "Month by month", "Debt coverage", eight result rows). It had no "Make B a PPA", no "Breakeven PPA price" row, no `months.csv` or `tables.csv`, and no brand. The hurdle rate of 12 percent was on both.
-Every figure below is for the default case unless it says otherwise: ERCOT, solar, 100 MW, the hub average (`HB_HUBAVG`), real-time prices, October 2025 to September 2026, on the model's snapshot built 2026-10-04 and the capture file built 2026-10-07.
+Written on 2026-10-13 by session 249 from the branch `origin/wip/235-generator`, commit `c7ce17de` (session 235), and checked again the same day by session 260 against `main` at `34b468fa`. The page landed as `aa3addbc` (09:14 UTC on 13 October 2026, sessions 235 and 236 together). Between `c7ce17de` and `34b468fa` no file of the page's code changed (`site/app/cost-of-power/seller/`, `site/lib/seller/`, `site/lib/merchant.ts`: `git diff` is empty). What did change: the methods note gained section 12, CAISO at ERCOT's depth (session 253), and the data machine's daily run rebuilt the capture file and the file of the battery beside the plant. Session 257 then changed one sentence of the page: its source line counts 20 published figures where it counted 10, the ten more being California's (commit `9e0bbfe8`; no number of the page moved).
+Every figure below is for the default case unless it says otherwise: ERCOT, solar, 100 MW, the hub average (`HB_HUBAVG`), real-time prices, October 2025 to September 2026, on the model's snapshot built 2026-10-04. The capture file on `main` was built 2026-10-13T17:38:04Z; session 260 recomputed the default case's price received from it and it is unchanged: 23.27 against 32.17, over 8,736 hours and 80,832,584 MWh.
 
 ## 1. What it is for, and for whom
 
@@ -103,7 +101,7 @@ Everything is computed per 1 MW of nameplate and multiplied by the reader's MW a
 
 ## 4. The cross-checks
 
-"Gap" is ours less theirs. The first ten rows are the published figures the page's source line counts ("Checked against: 10 published figures"), read on 2026-10-11. None of them is a real plant's revenue.
+"Gap" is ours less theirs. The first ten rows are published figures the page's source line counts, read on 2026-10-11. Since session 257 the line counts 20 ("Checked against: 20 published figures"): the other ten are CAISO's (its market monitor and Berkeley Lab, read on 2026-10-13), written in the methods note's "Cross-checks" and its section 12.5 and not repeated here. None of them is a real plant's revenue.
 
 | What is compared | Ours | Theirs | Gap | Reason | Where it is written |
 |---|---|---|---|---|---|
@@ -127,7 +125,19 @@ Everything is computed per 1 MW of nameplate and multiplied by the reader's MW a
 | One solar month by hand, ERCOT 2025-07 | 277.9898 MWh per MW; USD 7,941.5254 per MW | the table | equal | Recomputed from the source files | `tests/test_session51.py` |
 | The pair's solver against a second solver | the page's simplex | scipy's HiGHS | one part in ten billion | Two implementations | `site/scripts/test-hybrid.mjs` |
 
-**The checks on the branch, as session 235 ran them.** `check-values`: 179 of 179 values on this page, 516 of 516 on the three cost-of-power pages. `check-seller-scenarios.mjs`: 106 of 106. The 33 test modules that read the page: 555 tests OK. Not clean: `check-seller.mjs` exits 1 (21 ok, 12 fail), because it still describes the page before session 212; the route check fails on `/emissions`, a page this work did not touch; the whole suite on a clean copy was not run.
+**California, checked at ERCOT's depth (session 253; the methods note's section 12).** The page counts 20 published figures where it counted 10: the ten more are the rows of that section that hold a gap, five of them below (session 257, commit `9e0bbfe8`; this note and that work land together). Ours is the page's own model for CAISO in 2025 at real-time prices; "theirs" was read on 13 October 2026.
+
+| What is compared | Ours | Theirs | Gap | Reason | Where it is written |
+|---|---|---|---|---|---|
+| A gas peaker at SP15, margin over fuel, USD per kW | 30.05, running 34.0 percent of the hours | 0.78 net, running 1.32 percent: the market monitor's new combustion turbine | +29.27 | The page's rule has no cost of carbon: California's allowance on the fuel alone takes ours to 6.95. Their unit also pays to start and runs at least an hour | Methods note, 12.5 |
+| The same at NP15 | 41.47, running 42.0 percent | 3.52 net, running 3.43 percent | +37.95 | The same; with the allowance ours is 10.11 | The same |
+| Wind, the price the fleet's shape received, USD per MWh | 30.29 at SP15, 35.53 at NP15; their mean 32.91 | 32.97: Berkeley Lab's wind profile at all power plants; 30.82 at the wind plants' own nodes after curtailment | -0.06 against the profile | The model sees the profile at a hub, not the plants' nodes or curtailment, which take a further 2.15 in their figures | The same |
+| Solar, capture rate | 45.8 percent at SP15, 71.7 at NP15 (2025) | 25.1 percent (Berkeley Lab, 2024, energy only) | not computed: no year is held by both | CAISO's prices are held from September 2024; their newest solar year is 2024 | The same |
+| Solar, breakeven PPA price | USD 72.58 per MWh on 2,075 MWh per MW | USD 47.06: LevelTen's CAISO solar index, 2024 | +25.52 | Ours has no tax credit and returns 12 percent to equity on a whole fleet's output | The same |
+| Wind, breakeven PPA price | USD 79.50 per MWh on 2025's 3,125 MWh per MW | USD 78.2: LevelTen's CAISO wind index, 2025 | +1.30 | The same | The same |
+| The page's CAISO files against a rebuild from the tables | 26 months at each of SP15, NP15 and ZP26 | the rebuild | equal in every whole month | October 2026 is under way; the peaker's September 2026 at SP15 differs by late Henry Hub prices | Methods note, 12.1 |
+
+**The checks, as the reports state them.** On the branch (session 235): `check-values` 179 of 179 values on this page; `check-seller-scenarios.mjs` 106 of 106. At the landing: the whole suite on a clean copy, 3,728 tests OK; `check-values` on every page, 4,249 of 4,249; `check-seller-scenarios` exit 0. Not clean: `check-seller.mjs` still exits 1 on 12 of 33, because it describes the page before session 212 (session 241c's report, "To finish").
 
 ## 5. What it cannot see, ranked by how much it moves the answer
 
@@ -146,7 +156,9 @@ Ranked by the held number where there is one. Where the repository holds no numb
 11. **Real time against day-ahead.** The same 100 MW at the same hub earned USD 6,328,531 at day-ahead prices (364 days) and 5,985,226 in real time. A row priced day-ahead is not comparable with one priced in real time.
 12. **Perfect foresight (battery) and perfect hourly information (peaker).** Both are upper bounds. On the battery page the day-ahead schedule gives 73.00 against 81.40 with foresight. For this page's energy-only battery: no number held.
 13. **The peaker's start costs and delivered gas.** No start cost, no minimum run. Gas is Henry Hub; in New York and New England delivered gas costs more in winter, so the margin there is overstated. Size: no number held.
-14. **Age of the files.** No builder of this page is scheduled. The snapshot was built by hand on 2026-10-04; its newest held month is September 2026.
+14. **California's carbon allowance on a peaker's fuel.** The peaker's rule is fuel plus variable O&M on every grid. In California a gas plant also buys allowances: at SP15 in 2025 the page's rule gives USD 30.05 per kW, the same rule with the allowance 6.95, and the market monitor's own unit earned 0.78. Every CAISO peaker figure on the page is too high by that. Solar and wind are not touched. Session 257 left the rule as it is: adding the allowance waits for a ruling.
+15. **California's wind since May 2026.** EIA-860M lists 3,650 MW of New Mexico wind in CAISO's balancing authority from May 2026, so the shape's denominator grew: the last twelve months hold 2,477 MWh per MW against 3,125 in 2025. Whether EIA-930's generation counts that plant was not checked. For California's wind, 2025 is the cleaner year.
+16. **Age of the files.** The model's snapshot (`site/data/merchant_snapshot.json`) was built by hand on 2026-10-04 and no schedule rebuilds it; its newest held month is September 2026. The capture file and the file of the battery beside the plant are rebuilt by the data machine's daily run.
 
 ## 6. The ten hardest questions
 
@@ -178,11 +190,11 @@ Ranked by the held number where there is one. Where the repository holds no numb
    It is labeled an upper bound, and it is one. The battery page's own cross-check sets its foresight figure of USD 148 per kW in 2024 beside a published fleet average of USD 55 (Modo Energy, quoted in the battery note's cross-checks). On this page the battery is energy only at 60 percent debt; its toll for coverage of 1.25 is USD 8.90 per kW-month (session 186's report). Its NPV at 12 percent: no number held (USD -79.57 million at 9.6, session 196).
 
 10. **"Who has checked this, and how old is it?"**
-    Ten published figures stand beside it, and the default case can be rebuilt from one hourly CSV to the cent. No ERCOT hub price is compared, because no public index holds one. No real plant's settlement is compared. The Stata do-file has never been run. The snapshot is from 2026-10-04, built by hand; nothing rebuilds it on a schedule.
+    Twenty published figures stand beside it, ten of them California's (session 257), and the default case can be rebuilt from one hourly CSV to the cent. No ERCOT hub price is compared, because no public index holds one. No real plant's settlement is compared. The Stata do-file has never been run. The snapshot is from 2026-10-04, built by hand; nothing rebuilds it on a schedule.
 
 ## 7. A five-minute demo, click by click
 
-This path was written from the page's code and check scripts on the branch, not clicked through in a browser. The page is in review. The branch landed on main at 09:14 UTC on 13 October 2026 (`aa3addbc`), after this path was written; a deployment older than that merge shows the earlier page.
+This path was written from the page's code and check scripts, not clicked through in a browser. The page is in review. Session 260 read the path again against `main` at `34b468fa`: the page's code is the code it was written from.
 
 Open the internal view first: `https://erw-flame.vercel.app/internal/unlock?token=<your internal token>`, or `/internal/open`, paste the token and press **Open the internal view**. Then open `/cost-of-power/seller`.
 
@@ -232,15 +244,17 @@ Open the internal view first: `https://erw-flame.vercel.app/internal/unlock?toke
    - **Capital cost** by USD 100 per kW: USD 8.21 million. Point at it: NPV is USD -65.95 million at 1,275 and USD -82.37 million at 1,475.
    - Then **Interest rate** 5.96, **Debt share** 4.10, **Fixed O&M** 4.09, **Degradation** 3.51, **Project life** 1.73, **Hurdle rate** 1.59, **Term of the debt** 1.16, all USD million.
 3. Say: no one step of cost or financing brings USD -74.16 million to zero; the largest moves it by USD 8.21 million. A contract price of USD 58.36 does: that is the PPA row.
-4. Close on the source line at the foot: "Checked against: 10 published figures (Lazard, the Annual Technology Baseline, EIA)." The two downloads, **Every month, CSV** and **The other tables, CSV**, hold the months, the stress days and every capture table.
+4. Close on the source line at the foot: "Checked against: 20 published figures (Lazard, the Annual Technology Baseline, EIA, CAISO's market monitor, Berkeley Lab)." The two downloads, **Every month, CSV** and **The other tables, CSV**, hold the months, the stress days and every capture table.
 
 **With a sixth minute.** `/cost-of-power/seller?asset=peaker`: **Margin over fuel, last twelve months** 48.15 USD/kW at the hub average and 59.58 at the West hub; the toll row reads USD 8.34 per kW-month. `/cost-of-power/seller?asset=battery`: 58.53 USD/kW, energy alone, with a link to What a battery earns.
 
-**If something goes wrong.** "In review" instead of the page: the internal view is not open in this browser. A page with "With your contract" and no **Make B a PPA**: it is the page before `aa3addbc`: the deployment in the browser is older than the merge. Reload.
+**California, if asked.** `/cost-of-power/seller?iso=caiso` opens CAISO solar at SP15, held from September 2024. The methods note's section 12 holds what the page's files give for the last twelve months: revenue USD 28.45 per kW on 2,057 MWh per MW; price received 13.86 against a flat average of 28.53 (48.6 percent); coverage 0.23 times; breakeven PPA price USD 73.19 per MWh. Say: California's solar is paid under half the average price in the south (NP15: 73.0 percent), and one whole year is held, 2025. Read the screen for the figures themselves. California's stress days are not in this page's downloads: the model's snapshot holds them for ERCOT alone.
+
+**If something goes wrong.** "In review" instead of the page: the internal view is not open in this browser. Open the unlock address again.
 
 ## Where the numbers in this document come from
 
-"Methods note" is `docs/methods/generator_earns_algorithm.md` at `origin/wip/235-generator`. Files without a ref are the same on main and on the branch, except `ercot_rt_price_adders.md`, which is on main only.
+"Methods note" is `docs/methods/generator_earns_algorithm.md`. Since `aa3addbc` the branch's files are on `main`, and "(branch)" below reads "on `main`"; session 260 checked that each file named exists there.
 
 | Number | File | Section or line |
 |---|---|---|
@@ -263,5 +277,8 @@ Open the internal view first: `https://erw-flame.vercel.app/internal/unlock?toke
 | Battery page: 81.40, 33 percent, 73.00, 148 and 55 | `docs/methods/battery_earns_algorithm.md` (branch) | "The default case"; "Cross-checks" |
 | Reserve adders: 7.05, 0.07; hours of at least USD 100 | `docs/methods/ercot_rt_price_adders.md` (main) | "Hours a year with an adder above zero" |
 | Every default, bound, step and label | `site/lib/seller/finance.ts`, `site/lib/merchant.ts`, `site/app/cost-of-power/seller/SellerForm.tsx`, `SellerScenarios.tsx`, `page.tsx`, `site/components/decisions/ScenarioBlock.tsx` (branch) | `SPECS`, `DEFAULTS`, `DEBT`, `HURDLE`, `TARGET` |
-| Check counts (179, 516, 106, 555; 21 ok, 12 fail) | `runs/session249/code_report_235.md` | "Checks, with exit codes" |
+| Check counts (179, 106; 3,728; 4,249; 12 of 33) | `archive/sessions/SESSION_235_REPORT.md`; `archive/sessions/SESSION_241C_REPORT.md` | "Checks, with exit codes"; "The landing"; "Read these first" |
+| California: 30.05, 6.95, 0.78; 41.47, 10.11, 3.52; 30.29, 35.53, 32.91, 32.97, 30.82, 2.15; 45.8, 71.7, 25.1; 72.58, 47.06; 79.50, 78.2; 26 months | Methods note | 12.1; 12.5 |
+| California's default case: 28.45, 2,057, 13.86, 28.53, 48.6 and 73.0 percent, 0.23, 73.19; 2,477 and 3,125; 3,650 MW | Methods note; `docs/howitworks/computed/generator_caiso_check_2026-10-13.json` | 12.2; 12.3; 12.4 |
+| The capture file's date and the default case recomputed from it (23.27, 32.17, 8,736, 80,832,584) | `site/data/seller/capture.json` | `built`; the twelve months of `grids.ercot.hubs`, `HB_HUBAVG`, `rt.solar` |
 | Lazard's wind illustration; the hand check of 2025-07 | `docs/methods/cost_of_power.md` | "Debt service"; "Hand-computed checks" |

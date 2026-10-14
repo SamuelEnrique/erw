@@ -53,6 +53,60 @@ def table_path(name, in_dir=None):
     return p
 
 
+# Session 258: what a finding read, so that a source line can name the tables whose rows it used and no other. None
+# until a caller opens record_reads(); then every read_table call adds {"table", "rows", "groups"}: the rows it kept,
+# and, for a table of prices by market, the timestamps kept for each (market, node). Nothing a finding computes
+# changes: the note is taken after the rows are read, and read_table returns what it returned before.
+READS = None
+
+
+class record_reads:
+    """`with record_reads() as reads:` around a finding's compute(): reads is the list of what each read_table call
+    kept, in the order the finding read. Closed, the recording stops and the list stays with the caller."""
+
+    def __enter__(self):
+        global READS
+        self._before, READS = READS, []
+        return READS
+
+    def __exit__(self, *exc):
+        global READS
+        READS = self._before
+        return False
+
+
+def _note_read(name, df):
+    groups = None
+    if "market" in df.columns and "ts_utc" in df.columns:
+        cols = ["market", "node"] if "node" in df.columns else ["market"]
+        groups = {}
+        for key, g in df.groupby(cols, sort=False):
+            key = key if isinstance(key, tuple) else (key,)
+            groups[(str(key[0]), str(key[1]) if len(key) > 1 else "")] = set(g["ts_utc"])
+    READS.append({"table": name, "rows": int(len(df)), "groups": groups})
+
+
+def only_tables_read(card, reads):
+    """Session 258: a card names only the tables whose rows its finding used. A table the finding asked for and kept
+    no row of leaves the card's tables, its source line and its CSV header; a table that brought rows always stays.
+    When a named table was not read through read_table at all, nothing can be said and the card is returned as it is.
+    Returns (the card, the tables left out)."""
+    tables = list(card.get("tables") or [])
+    asked = {rd["table"] for rd in reads}
+    if not tables or any(t not in asked for t in tables):
+        return card, []
+    kept = [t for t in tables if any(rd["table"] == t and rd["rows"] for rd in reads)]
+    if kept == tables or not kept:
+        return card, []
+    old, new = ", ".join(tables), ", ".join(kept)
+    card = dict(card)
+    card["tables"] = kept
+    card["source_line"] = card["source_line"].replace(old, new)
+    if card.get("csv_header"):
+        card["csv_header"] = [ln.replace(old, new) for ln in card["csv_header"]]
+    return card, [t for t in tables if t not in kept]
+
+
 def read_table(name, in_dir=None, usecols=None, keep=None, dtype=None):
     """A warehouse CSV (its # header skipped), in chunks, keeping the rows `keep(chunk)` selects. The whole ERCOT
     history is 3 million rows and 700 MB: one hub's real-time rows are read without holding the file."""
@@ -63,9 +117,10 @@ def read_table(name, in_dir=None, usecols=None, keep=None, dtype=None):
             ch = ch[keep(ch)]
         if len(ch):
             parts.append(ch)
-    if not parts:
-        return pd.DataFrame(columns=usecols or [])
-    return pd.concat(parts, ignore_index=True)
+    df = pd.concat(parts, ignore_index=True) if parts else pd.DataFrame(columns=usecols or [])
+    if READS is not None:
+        _note_read(name, df)
+    return df
 
 
 def to_utc(s):

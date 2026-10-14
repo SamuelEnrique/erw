@@ -88,8 +88,12 @@ def run(name, params, in_dir=None, card_dir=None, download_dir=None, log=print):
     params = coerce(mod, params or {})
     cid = card_id(name, params, mod)
     log(f"finding {name} {params} -> {cid}")
-    rows, meta = mod.compute(params, in_dir)
+    with common.record_reads() as reads:               # session 258: the source line names only the tables read
+        rows, meta = mod.compute(params, in_dir)
     card = mod.card(rows, params, meta)
+    card, left_out = common.only_tables_read(card, reads)
+    if left_out:
+        log(f"  not named, no row of it was used: {', '.join(left_out)}")
     card["card_id"] = cid
     card["meta"] = meta
     card_dir = card_dir or CARD_DIR
