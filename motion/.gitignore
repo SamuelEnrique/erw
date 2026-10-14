@@ -1,0 +1,3 @@
+# session 274: the packages and Remotion's browser are installed here (npm install), never committed
+node_modules/
+out/

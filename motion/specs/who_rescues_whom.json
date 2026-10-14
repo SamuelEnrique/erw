@@ -1,0 +1,58 @@
+{
+ "id": "who_rescues_whom",
+ "kicker": "ERW Research",
+ "title": "WHO RESCUES WHOM",
+ "subtitle": "6 authorities turned exporter during Winter Storm Uri, February 2021, 5 turned importer",
+ "source": "Source: EIA-930 (Hourly Electric Grid Monitor), daily interchange; ERW tables eia930_daily_interchange, event_window_daily.",
+ "width": 1080,
+ "height": 1350,
+ "type": "reorder",
+ "labels": [
+  "Arizona Public Service",
+  "SPP",
+  "PacifiCorp East",
+  "ERCOT",
+  "Duke Carolinas",
+  "BCHA",
+  "PNM",
+  "CENACE (Mexico)",
+  "WALC",
+  "TEC",
+  "FMPP"
+ ],
+ "before": {
+  "name": "Baseline (same days, 1 and 2 years earlier)",
+  "values": [
+   34505.041666666664,
+   6238.611111111111,
+   -356.7083333333333,
+   512.0833333333334,
+   -6225.513888888889,
+   -2520.472222222222,
+   2365.3611111111113,
+   -4386.472222222223,
+   -1183.263888888889,
+   1469.7083333333333,
+   -1198.8055555555557
+  ]
+ },
+ "after": {
+  "name": "The event, 2021-02-07 to 2021-02-24",
+  "values": [
+   -24611.36111111111,
+   -43416.333333333336,
+   11611.25,
+   -9651.638888888889,
+   2755.4444444444443,
+   4429.666666666667,
+   -3940.3055555555557,
+   337.77777777777777,
+   1820.5555555555557,
+   -443.69444444444446,
+   54.833333333333336
+  ]
+ },
+ "unit": "net exports, MWh a day (below zero: net imports)",
+ "decimals": 0,
+ "frames": 420
+}
