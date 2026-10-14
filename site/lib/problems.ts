@@ -184,7 +184,7 @@ async function setB(): Promise<Question[]> {
     q: `The table holds ${ents.length} hubs: ${ents.map(hubName).join(", ")}. In the latest month all ${ents.length} hold at least 95 percent of their hours, which had the largest shape premium, and which the smallest?`,
     answer: [`${common.slice(0, 7)}: largest ${hubName(top.entity)}, `, row(M, top, "USD/MWh"), `; smallest ${hubName(low.entity)}, `, row(M, low, "USD/MWh"), "."],
     steps: [[`Find the latest month in which every hub's rt_hours is at least 95 percent of its hours_in_month: ${common.slice(0, 7)}. `,
-      ...(short.length ? short.flatMap((e, i) => [`${i ? "; " : ""}${hubName(e)} holds `, row(M, held(e, common).h!, "hours"), " of ", row(M, held(e, common).n!, "hours")] as Part[]) : ["Every hub holds every hour"]),
+      ...(short.length ? short.flatMap((e, i) => [`${i ? "; " : ""}${hubName(e)} holds `, row(M, held(e, common).h!, ""), " of ", row(M, held(e, common).n!, "hours")] as Part[]) : ["Every hub holds every hour"]),
       short.length ? `; the other ${ents.length - short.length} hold every hour.` : "."],
       ["Read rt_shape_premium of each hub for that month: ", ...prem.flatMap((r, i) => [`${i ? "; " : ""}${hubName(r.entity)} `, row(M, r, "USD/MWh")] as Part[]), "."], ["Rank them."]],
     why: "Where the premium is large, shifting use out of peak hours saves the most.",
