@@ -18,6 +18,8 @@ import { LoadDecisions, LoadScenarios, LoadSensitivity } from "./LoadScenarios";
 import { LoadSiteB } from "./LoadSiteB";
 import { FORESEEN, FORESEEN_WHY, NY_SHOWN, NYLOAD, day, inputsFrom, loadModel } from "./model";
 import { CostTabs } from "./Tabs";
+import { largeLoadStatements } from "@/lib/largeloadpublic";
+import { statedOf, type Stated, type Statement } from "@/lib/datacenter/statements";
 
 // Session 138: "What a datacenter pays", the mirror of /cost-of-power/battery for a buyer. A load the reader describes
 // (grid, region, size, how it runs, how it buys) and four questions: what it will cost, whether the power is there, how
@@ -141,6 +143,11 @@ function outsideOf(q: Record<string, string | undefined>, x: Inputs, gridName: s
 
 async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyGiven: boolean; gridAsked?: string; q: Record<string, string | undefined> }) {
   const M = await loadModel(asked, buyGiven, gridAsked, q);
+  // session 265b: the large-load statements on a public document for the load's grid (large_load_public, public by the
+  // owner's ruling of 14 October 2026: facts with a link, no quoted text), read once; a failed read says so in its place
+  let stated: { s: Stated; grid: string } | { failed: string } | null = null;
+  try { stated = { s: statedOf((await largeLoadStatements(M.x.grid)) as unknown as Statement[]), grid: M.x.grid }; }
+  catch (e) { stated = { failed: e instanceof Error ? e.message : String(e) }; }
   const { x, g, failed, side, flex, off, s12, sh12, ysH, rule, bad, badPer, ys, place, market, noYear, savedH, saved, ref12, l12Span, size, facts, scenarioParams, matrix, utilities, deliveryParts } = M;
   const region = M.region;
   // session 236: the three answers at scenario B's own site, when it has one
@@ -246,7 +253,7 @@ async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyG
               </div>
               <div data-question="soon">
               <ToolSection title="How soon?" id="soon">
-                {M.answers?.ok ? <HowSoon a={M.answers.data} f={M.answerFacts} rules={M.rules} b={siteB} /> : <p className="max-w-3xl text-sm" role="status" data-answer="soon" data-answer-none="1">{M.answers ? `The live set could not be read, so no figure is shown: ${M.answers.reason}` : M.rules.words}</p>}
+                {M.answers?.ok ? <HowSoon a={M.answers.data} f={M.answerFacts} rules={M.rules} b={siteB} stated={stated} /> : <p className="max-w-3xl text-sm" role="status" data-answer="soon" data-answer-none="1">{M.answers ? `The live set could not be read, so no figure is shown: ${M.answers.reason}` : M.rules.words}</p>}
               </ToolSection>
               </div>
 

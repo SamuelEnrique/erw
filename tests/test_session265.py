@@ -10,9 +10,10 @@ Energy Research Warehouse (ERW). What is held here:
 - the cost of capital is labelled "a generator's WACC, Lazard" and stays an editable field at 9.6;
 - a value of the address outside its bounds is brought inside them and the panel says so (the size, the hours, the
   shares, each scenario's assumptions; a grid or region not held);
-- "Will the power be there?" and "How soon?" keep today's reads: neither scarcity_hours_by_grid nor large_load_public
-  is read by the page (neither is in the live set on 14 October 2026; large_load_public is internal until the owner
-  rules);
+- "Will the power be there?" keeps today's read: scarcity_hours_by_grid is not in the live set on 14 October 2026;
+- session 265b: "How soon?" reads large_load_public (public by the owner's ruling of 14 October 2026, landed by session
+  272) through lib/largeloadpublic.ts: counts, the newest wait as written and the newest megawatt figure, each with its
+  document's link, never a sum, every number under a check key dcll|<grid>|<stat>;
 - the review pack exists and the old note is gone; the README row points at the pack;
 - the replication files keep the page's defaults; the carbon file's hourly window is the live set's.
 Nothing here sets the environment, reads a table or makes a request.
@@ -165,14 +166,55 @@ class OutsideItsBounds(unittest.TestCase):
 
 
 class TodaysReadsKept(unittest.TestCase):
-    def test_neither_new_table_is_read_by_the_page(self):
+    def test_the_scarcity_table_is_not_read_by_the_page(self):
         for parts in (("site", "app", "cost-of-power", "page.tsx"), ("site", "app", "cost-of-power", "LoadAnswers.tsx"),
                       ("site", "app", "cost-of-power", "model.ts"), ("site", "lib", "datacenter", "answers.ts")):
-            text = src(*parts)
-            self.assertNotIn("scarcity_hours_by_grid", text, parts)
-            self.assertNotIn("large_load_public", text, parts)
-        # the live set's line for large_load_public is the data machine's: session 272 made the table public by the owner's
-        # ruling and put it in the live set (the chain's landing of 14 October moved this pin)
+            self.assertNotIn("scarcity_hours_by_grid", src(*parts), parts)
+
+
+class HowSoonReadsThePublicStatements(unittest.TestCase):
+    """Session 265b: large_load_public, public by the owner's ruling of 14 October 2026 (session 272), on "How soon?"."""
+
+    def test_the_page_reads_it_through_session_272s_helper(self):
+        page = src("site", "app", "cost-of-power", "page.tsx")
+        self.assertIn('import { largeLoadStatements } from "@/lib/largeloadpublic";', page)
+        self.assertIn("stated = { s: statedOf((await largeLoadStatements(M.x.grid)) as unknown as Statement[]), grid: M.x.grid };", page)
+        self.assertIn("<HowSoon a={M.answers.data} f={M.answerFacts} rules={M.rules} b={siteB} stated={stated} />", page)
+
+    def test_facts_with_a_link_and_no_quoted_text(self):
+        answers = src("site", "app", "cost-of-power", "LoadAnswers.tsx")
+        line = answers.split("function StatedLine", 1)[1].split("export function HowSoon", 1)[0]
+        for words in ("<Num check={`dcll|${grid}|${stat}`} raw={v}>", '<a href={r.source_url} rel="noopener noreferrer">',
+                      "The figures are not added", 'data-answer-stated="1"', 'data-answer-stated="failed"'):
+            self.assertIn(words, line, words)
+        for column in ("sentence", "quote", "load_scope"):                              # no document's words
+            self.assertNotIn(column, line, column)
+        self.assertEqual(answers.count("<StatedLine stated={stated} gridName={f.gridName} />"), 2)
+        self.assertIn("publishes no regular report of large load waiting or energized that the warehouse holds", answers)
+
+    def test_the_counts_and_the_check_key(self):
+        lib = src("site", "lib", "datacenter", "statements.ts")
+        for name in ('case "statements"', 'case "entities"', 'case "documents"', 'case "waits"', 'case "mws"', 'case "mw:newest"', 'case "wait:newest"'):
+            self.assertIn(name, lib, name)
+        self.assertNotIn("reduce(", lib)                                                # never a sum across rows
+        check = src("site", "scripts", "check-values.mjs")
+        self.assertIn('if (p[0] === "dcll") {', check)
+        self.assertIn('table_name: "eq.large_load_public", "extra->>grid": `eq.${p[1]}`', check)
+
+    def test_the_figures_by_node(self):
+        exe = shutil.which("node")
+        if not exe:
+            raise unittest.SkipTest("node is not on this machine")
+        script = ("const S = await import('./lib/datacenter/statements.ts'); "
+                  "const rows = [{ event_date: '2026-09-18', parties: 'A', mw: null, source_url: 'u1', row_kind: 'wait', duration_as_stated: '60 days' }, "
+                  "{ event_date: '2026-09-17', parties: 'B', mw: 1400, source_url: 'u2', row_kind: 'mw' }, { event_date: '2026-09-17', parties: 'B', mw: 22000, source_url: 'u2', row_kind: 'mw' }, "
+                  "{ event_date: '2026-01-01', parties: 'C', mw: null, source_url: 'u3', row_kind: 'wait', duration_as_stated: 'several years' }]; "
+                  "const s = S.statedOf(rows); console.log(JSON.stringify(['statements','entities','documents','waits','mws','mw:newest','wait:newest'].map((k) => S.statedStat(s, k) ?? null).concat([S.leadingNumber('18 to 24 months'), S.leadingNumber('several years'), s.newest])));")
+        r = subprocess.run([exe, "--input-type=module", "-e", script], cwd=os.path.join(ROOT, "site"), capture_output=True, text=True, timeout=120, encoding="utf-8")
+        if r.returncode != 0 and ("Unknown file extension" in r.stderr or "ERR_UNKNOWN_FILE_EXTENSION" in r.stderr):
+            raise unittest.SkipTest("this node does not read TypeScript files")
+        self.assertEqual(r.returncode, 0, r.stderr[-2000:])
+        self.assertEqual(json.loads(r.stdout.strip().splitlines()[-1]), [4, 3, 3, 2, 2, 22000, 60, 18, None, "2026-09-18"])
 
 
 class ThePack(unittest.TestCase):

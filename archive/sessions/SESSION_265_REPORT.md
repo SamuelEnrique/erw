@@ -73,6 +73,20 @@ The pack's part 9, in short:
 - New: `docs/reviews/packs/datacenter.md`, `tests/test_session265.py`, this report. Removed: `docs/howitworks/datacenter.md`.
 - Notes, not in git: `C:\Users\lossa\Documents\erw\runs\session265\` (the cycle script, the edge-case reader and the pages it saved, the check outputs).
 
+## Session 265b: "How soon?" reads large_load_public
+
+The coordinator's follow-up, 10:26 UTC: session 272 landed (`d77571ce`, the owner's ruling of 14 October 2026: `large_load_public` public as facts with a link, no quoted text). Branch `wip/265b-how-soon` from `c4a7c83b` (batch A).
+
+- **The live set answers:** anon read at 10:27 UTC, 341 rows; ERCOT 67, CAISO 48, NYISO 5, SPP 19, ISO-NE 0.
+- **What the page says now:** one paragraph under "How soon?" (no new section), for the load's grid: how many figures public documents state (of megawatts, of a wait), from how many entities in how many documents, the newest date; the newest wait as the table writes it, with its basis, its entity, its date and its document's link and page; the newest megawatt figure, with the ERW's stage class, its entity and link. "The figures are not added." ERCOT: 67 figures (55 of megawatts, 12 of a wait) from 5 entities in 28 documents; the newest wait 60 days, expected, the Public Utility Commission of Texas, 18 September 2026; the newest megawatt figure 22,000 MW, ERCOT, 17 September 2026. ISO-NE: one line that no public document held states a figure.
+- **Code:** `site/lib/datacenter/statements.ts` (new, pure: `statedOf`, `statedStat`, `leadingNumber`, `stageWords`); `site/app/cost-of-power/page.tsx` reads `largeLoadStatements()` (session 272's helper) once; `StatedLine` in `site/app/cost-of-power/LoadAnswers.tsx`. Every number under a check key `dcll|<grid>|<stat>`, recomputed by `scripts/check-values.mjs` from its own read of the table (one handler, local to the datacenter). A wait written in words ("several years") holds no number and stands as written, unkeyed. A failed read says so in its place.
+- **Words changed:** for a grid without an operator report, "publishes no figure of large load waiting or energized that the warehouse holds as a public table" became "publishes no regular report of large load waiting or energized that the warehouse holds, so no operator's figure is stated here": the old words are no longer true. Scenario B's own line is unchanged (pack, part 9, question 6).
+- **The pack:** parts 1, 2 (step 13), 3, 6 (item 8), 7 (question 8), 9 (question 6) and the sources.
+- **Tests:** `tests/test_session265.py` gains four tests (the read through the helper; facts with a link and no document's words; the counts and the check key; the figures by node).
+
+- **Checks, 265b:** `npx tsc --noEmit` exit 0 (10:59 UTC, under the mutex). `npm run build` did not finish: the harness stopped the background command for low memory during the build's TypeScript step (the log ends at "Running TypeScript ..."; exit 1 from the stop, not from the code). It was not restarted, as the rules say. So `check-values` (restricted, twice), `check-routes`, `check-datacenter-scenarios` and `check-datacenter-face` were **not run on 265b**. The mutex, taken at 10:59, was released by hand at 10:59. `python -m unittest tests.test_session265 tests.test_session262 tests.test_session236`: exit 0 (49 tests); after the merge of `8c86c10d`, `tests.test_session265`: exit 0 (14 tests). The statements library was run by node against the live table (anon): ERCOT 67, 5, 28, 12, 55, 22,000, 60; CAISO 48; NYISO 5; SPP 19; ISO-NE 0.
+- **To finish (265b):** under the mutex, in `erw-190` on `wip/265b-how-soon`: `bash C:/Users/lossa/Documents/erw/runs/session265/cycle.sh c4 1`, then `bash C:/Users/lossa/Documents/erw/runs/session265/cycle.sh c4 2` (the build; then check-values restricted to `/cost-of-power` twice, check-routes, check-datacenter-face, check-datacenter-scenarios and the edge cases; phase 2 releases the mutex). `check-values` must match the new `dcll` keys.
+
 ## The landing
 
 filled by the orchestrator
