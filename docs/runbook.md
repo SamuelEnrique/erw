@@ -194,3 +194,42 @@ Repeat with the other rows' files, times and bodies. `select * from net._http_re
 ### 4. When the token expires
 
 Generate a new one as in step 1. Replace it in each cron job (or the vault secret), then test one run. Delete the old token on GitHub.
+
+## The sending domain: the DNS records Resend needs (session 276)
+
+Today every email of the ERW goes from `onboarding@resend.dev`, Resend's shared address, which Resend lets an account use only for its owner's own address and Resend's test addresses. So the digest, the Roundup and a visitor's confirmation email cannot reach anyone else: a visitor who subscribes is stored and sees "unsent". Asked on 14 October 2026 (`python scripts/resend_domain.py list`): **0 domains in the Resend account.** The steps below follow `docs/email_domain.md` (session 119); this section adds the records and the commands.
+
+**Use a subdomain of your domain,** for example `mail.<your domain>` (Resend's advice: the sending reputation stays apart from the domain's own mail). Resend writes the DKIM key when the domain is added, so its exact value exists only after step 1.
+
+1. Add the domain and print its records, exactly as Resend returns them:
+   ```bash
+   python scripts/resend_domain.py add mail.<your domain>
+   ```
+2. At the company that hosts your domain's DNS, add these records (the hosts as most DNS hosts want them, relative to your domain; copy the DKIM value from step 1's output, character for character):
+
+   | Type | Host | Value | Priority |
+   |---|---|---|---|
+   | MX | `send.mail` | `feedback-smtp.us-east-1.amazonses.com` | 10 |
+   | TXT | `send.mail` | `v=spf1 include:amazonses.com ~all` | |
+   | TXT | `resend._domainkey.mail` | `p=` followed by the key step 1 printed | |
+   | TXT (advised) | `_dmarc` | `v=DMARC1; p=none;` | |
+
+   The MX and SPF records let Resend handle the bounces of mail sent as the subdomain; the DKIM record proves an email is yours; DMARC tells receivers what to do with mail that fails both. If step 1 prints a value that differs from this table, step 1 is right.
+3. Wait for "verified" (usually within 15 minutes, at most 72 hours), checking with:
+   ```bash
+   python scripts/resend_domain.py verify mail.<your domain>
+   ```
+4. Set the sender to the new domain in three places: `DIGEST_FROM="ERW Energy Digest <digest@mail.<your domain>>"` in `.env` on each machine, the GitHub secret `DIGEST_FROM`, and the Vercel environment variable `DIGEST_FROM` (the site's confirmation email reads it), then redeploy.
+5. Prove it end to end with a test address (Resend's own, delivered to nobody):
+   ```bash
+   python scripts/live_check.py subscribe   # subscribe, confirm, unsubscribe on the live routes; exit 0
+   ```
+
+## The live routes, end to end (session 276)
+
+```bash
+python scripts/live_check.py subscribe   # POST /api/subscribe, the confirm link, the unsubscribe; each step's row in Supabase
+python scripts/live_check.py usage       # POST /api/usage, today's count goes up by one, /internal/usage names the page
+```
+
+Both run against `SITE_URL` as a browser asks (same origin, a browser's user agent) and read the database with the service key; neither prints a secret. The subscribe check uses Resend's test address `delivered+erw276@resend.dev`, which stays in `subscribers` as unsubscribed and in `email_suppressions`.
