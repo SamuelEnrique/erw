@@ -284,7 +284,7 @@ class House(unittest.TestCase):
 
     def test_california_is_ready_on_the_battery_page_and_marked_in_review_nowhere(self):
         lib = src("site", "lib", "batterystack.ts")
-        self.assertIn('{ id: "caiso", name: "CAISO", ready: true, hub: "SP15", entity: "caiso:TH_SP15_GEN-APND", from: "September 2024" },', lib)
+        self.assertIn('{ id: "caiso", name: "CAISO", ready: true, hub: "SP15", entity: "caiso:TH_SP15_GEN-APND", from: "August 2023" },', lib)   # session 273: CAISO's history pulled back to OASIS's edge
         for parts in (("site", "app", "cost-of-power", "battery", "page.tsx"), ("site", "app", "cost-of-power", "battery", "BatteryForm.tsx"),
                       ("site", "app", "cost-of-power", "seller", "page.tsx"), ("site", "app", "cost-of-power", "seller", "SellerForm.tsx"), ("site", "app", "cost-of-power", "page.tsx")):
             for line in src(*parts).split("\n"):

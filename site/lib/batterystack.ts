@@ -34,7 +34,7 @@ export const STRATEGIES: Record<Strategy, string> = { foresight: "Perfect foresi
  * is not built; it says "held, not shown: license needed". `at` is where energy is priced, when it is not a hub. */
 export const GRIDS: { id: string; name: string; ready: boolean; review?: boolean; why?: string; hub?: string; at?: string; entity?: string; from?: string }[] = [
   { id: "ercot", name: "ERCOT", ready: true, hub: "HB_HUBAVG", entity: "ercot:HB_HUBAVG", from: "2018" },
-  { id: "caiso", name: "CAISO", ready: true, hub: "SP15", entity: "caiso:TH_SP15_GEN-APND", from: "September 2024" },
+  { id: "caiso", name: "CAISO", ready: true, hub: "SP15", entity: "caiso:TH_SP15_GEN-APND", from: "August 2023" },
   { id: "pjm", name: "PJM", ready: false, why: "license needed" },
   { id: "nyiso", name: "NYISO", ready: false, review: true, why: "coming", hub: "N.Y.C.", at: "N.Y.C. zone (New York City)", entity: "nyiso:N.Y.C.", from: "September 2024" },
   { id: "isone", name: "ISO-NE", ready: false, why: "held, not shown: license needed" },
@@ -223,7 +223,7 @@ export function last36(ms: Month[]): { from: string; to: string; months: Month[]
 }
 
 /** Session 71: the last three full calendar years: the newest calendar year with all twelve months held, and the two
- * before it, each also complete. Null when three such years are not held (CAISO, held from September 2024). */
+ * before it, each also complete. Null when three such years are not held (CAISO, held from August 2023 since session 273). */
 export function lastThreeYears(ms: Month[]): string[] | null {
   const full = years(ms).filter((y) => y.complete).map((y) => y.y);
   const newest = full.at(-1);
