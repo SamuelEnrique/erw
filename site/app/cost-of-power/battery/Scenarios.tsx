@@ -21,12 +21,12 @@
 // contract panel and "With your contract" are gone (ContractOfA with them); the headline's coverage reads A's contract.
 // The sensitivity chart answers the third question, "What matters most", in a section of its own (BatterySensitivity),
 // so the block is handed no chart. CoverOfA stays for the CSV of every month, which the page no longer draws.
-import { createContext, useCallback, useContext, useMemo, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useMemo, useRef, type ReactNode } from "react";
 import { ScenarioBlock, ScenarioState, Sensitivity, useScenarios, type Bar as ChartBar, type Cell, type Chart, type Field, type Row, type Side, type Values, type View } from "@/components/decisions/ScenarioBlock";
 import { HeadlineNumber, HeadlineRow } from "@/components/tool/ToolPage";
 import { badMonth, coverage, inputsKey, last36, lastTwelve, monthName, sumOf, usdShort, type Inputs, type Month } from "@/lib/batterystack";
 import {
-  KEYS, MODEL, SPECS, bound, cellTotals, coverage as coverageOf, debtUsd, defaultsOf, differenceWords, differing, isOldParam, isScenarioParam, parseScenarios, resultOf, scenarioQuery,
+  KEYS, MODEL, SPECS, bound, cellTotals, clampWords, coverage as coverageOf, debtUsd, defaultsOf, differenceWords, differing, isOldParam, isScenarioParam, parseScenarios, resultOf, scenarioQuery,
   sensitivity, stepState, stepsOffered, type Assumptions, type Key, type Scenarios as Both, type StepCase, type StepState, type Steps,
 } from "@/lib/battery/finance";
 import { U, V } from "./nums";
@@ -175,12 +175,21 @@ export function Scenarios({ x, costs, gridName, stepMeta }: { x: Inputs; costs: 
   const { s, d, steps, state, size, scale, cols } = useBlock(x, costs);
   type Col = (typeof cols)["a"];
   const sourceOf = (k: Key) => (k === "capex" || k === "fom" ? `${SPECS[k].source}: ${costs.note}` : SPECS[k].source);
-
+  // session 263: a value typed outside a field's bounds is brought inside them by `bound`, and the field says so under
+  // it while that value is in force (the typed text stays in the box, so without the line the box and the figures differ)
+  const typed = useRef(new Map<string, number>());
+  const boundTyped = (k: string, v: number) => {
+    const b = bound(k as Key, v, d, steps), id = `${s.view}|${k}`;
+    if (Number.isFinite(v) && b !== v) typed.current.set(id, v); else typed.current.delete(id);
+    return b;
+  };
   const fields: Field[] = KEYS.map((k) => {
     const sp = SPECS[k];
+    const t = typed.current.get(`${s.view}|${k}`);
+    const clamped = t !== undefined && bound(k, t, d, steps) === s[s.view][k] ? <span data-clamped={k}> {clampWords(k, t, s[s.view][k])}</span> : null;
     return { key: k, label: sp.label, unit: sp.unit, min: sp.min, max: sp.max, whole: sp.whole,
       options: k === "rte" || k === "cycles" ? steps[k].map((v) => ({ value: v, label: plain(v) })) : undefined,
-      note: <>Default {plain(d[k])}. {sourceOf(k)}.</> };
+      note: <>Default {plain(d[k])}. {sourceOf(k)}.{clamped}</> };
   });
   const none: Cell = { v: "not held", raw: null };
   const row = (key: string, label: string, note: string, cell: (c: Col) => Cell): Row => ({ key, label, note, cell: (p) => cell(cols[p]) });
@@ -204,7 +213,7 @@ export function Scenarios({ x, costs, gridName, stepMeta }: { x: Inputs; costs: 
 
   return (
     <ScenarioBlock
-      fields={fields} defaults={d} bound={(k, v) => bound(k as Key, v, d, steps)} head={`For ${size}`} rows={rows}
+      fields={fields} defaults={d} bound={boundTyped} head={`For ${size}`} rows={rows}
       differing={differing(s.a, s.b)} short={(k, v) => SPECS[k as Key].short(v)} differs={differenceWords(s.a, s.b)}
       sentence={cols.a.r ? (
         <p className="mt-3 max-w-3xl text-sm" data-npv-sentence="a">
