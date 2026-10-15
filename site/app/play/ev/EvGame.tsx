@@ -27,7 +27,7 @@ function Slider({ k, value, set, fmt }: { k: Key; value: number; set: (v: number
   return (
     <div className="mb-5" data-field={k}>
       <label className="block text-sm" htmlFor={`ev-${k}`}>{d.label}: <strong className="font-mono">{fmt(value)}</strong>{mine ? <span className="ml-2 text-xs text-muted">changed by you</span> : null}</label>
-      <input id={`ev-${k}`} type="range" min={d.min} max={d.max} step={d.step} value={value} onChange={(e) => set(Number(e.target.value))} className="mt-1 w-full max-w-xl" />
+      <input id={`ev-${k}`} type="range" min={d.min} max={d.max} step={d.step} value={value} onChange={(e) => set(Number(e.target.value))} className="mt-1 w-full max-w-xl accent-[var(--color-ink)]" />
       <p className="max-w-3xl text-xs text-muted">Default {fmt(d.value)}. {d.source}.{mine ? <> <button type="button" onClick={() => set(d.value)} className="ml-1 border px-2 py-0.5">Reset {d.label.toLowerCase()}</button></> : null}</p>
     </div>
   );
@@ -145,9 +145,9 @@ export function EvGame({ states, us, built }: { states: StatePrices[]; us: State
           <h3 className="mb-2 mt-6 text-base">What would change the answer</h3>
           <div className="mb-4 max-w-xl">
             <label className="block text-sm" htmlFor="ev-gas">Gasoline, a gallon: <strong className="font-mono">{usd(gas!, 3)}</strong>{gasOver !== null ? <span className="ml-2 text-xs text-muted">changed by you</span> : null}</label>
-            <input id="ev-gas" type="range" min={2} max={8} step={0.01} value={gas!} onChange={(e) => setGasOver(Number(e.target.value))} className="w-full" />
+            <input id="ev-gas" type="range" min={2} max={8} step={0.01} value={gas!} onChange={(e) => setGasOver(Number(e.target.value))} className="w-full accent-[var(--color-ink)]" />
             <label className="mt-3 block text-sm" htmlFor="ev-power">Electricity, a kWh: <strong className="font-mono">{n2(power! / 10)} cents</strong>{powerOver !== null ? <span className="ml-2 text-xs text-muted">changed by you</span> : null}</label>
-            <input id="ev-power" type="range" min={50} max={600} step={1} value={power!} onChange={(e) => setPowerOver(Number(e.target.value))} className="w-full" />
+            <input id="ev-power" type="range" min={50} max={600} step={1} value={power!} onChange={(e) => setPowerOver(Number(e.target.value))} className="w-full accent-[var(--color-ink)]" />
             {gasOver !== null || powerOver !== null ? <button type="button" onClick={() => { setGasOver(null); setPowerOver(null); }} className="mt-2 border px-3 py-1 text-sm">Back to {where}&apos;s real prices</button> : null}
           </div>
           <p className="max-w-3xl text-xs text-muted">Left out: insurance, repairs, charging away from home (it costs more), a home charger, and what the car is worth when you sell it. The game does not tell you what to buy: it shows what each choice costs at these prices.</p>
@@ -160,12 +160,12 @@ export function EvGame({ states, us, built }: { states: StatePrices[]; us: State
           <table className="mb-4 w-full max-w-3xl text-sm" aria-label="Every number used">
             <thead><tr className="text-left text-xs text-muted"><th className="py-1 font-normal">Number</th><th className="py-1 pl-2 text-right font-normal">Value</th><th className="py-1 pl-2 font-normal">Where it comes from</th></tr></thead>
             <tbody>
-              <tr className="border-b border-rule"><th scope="row" className="py-1 text-left font-normal">Electricity</th><td className="py-1 pl-2 text-right font-mono">{n2(power! / 10)} cents/kWh</td><td className="py-1 pl-2 text-xs">{powerOver !== null ? "changed by you" : place.power ? `${place.power.table}, ${place.power.entity}, ${month(place.power.ts)} (EIA)` : ""}</td></tr>
-              <tr className="border-b border-rule"><th scope="row" className="py-1 text-left font-normal">Gasoline</th><td className="py-1 pl-2 text-right font-mono">{usd(gas!, 3)}/gal</td><td className="py-1 pl-2 text-xs">{gasOver !== null ? "changed by you" : place.gas ? `${place.gas.table}, ${place.gas.entity}, the week of ${day(place.gas.ts)} (EIA; ${gasWhere})` : ""}</td></tr>
+              <tr className="border-b border-rule"><th scope="row" className="py-1 text-left font-normal">Electricity</th><td className="py-1 pl-2 text-right font-mono">{n2(power! / 10)} cents/kWh</td><td className="py-1 pl-2 text-xs [overflow-wrap:anywhere]">{powerOver !== null ? "changed by you" : place.power ? `${place.power.table}, ${place.power.entity}, ${month(place.power.ts)} (EIA)` : ""}</td></tr>
+              <tr className="border-b border-rule"><th scope="row" className="py-1 text-left font-normal">Gasoline</th><td className="py-1 pl-2 text-right font-mono">{usd(gas!, 3)}/gal</td><td className="py-1 pl-2 text-xs [overflow-wrap:anywhere]">{gasOver !== null ? "changed by you" : place.gas ? `${place.gas.table}, ${place.gas.entity}, the week of ${day(place.gas.ts)} (EIA; ${gasWhere})` : ""}</td></tr>
               {(["miles", "mpg", "kwhPerMile", "gasCar", "evCar", "years", "rate"] as Key[]).map((k) => (
-                <tr key={k} className="border-b border-rule"><th scope="row" className="py-1 text-left font-normal">{DEFAULTS[k].label}</th><td className="py-1 pl-2 text-right font-mono">{k === "gasCar" || k === "evCar" ? usd(v[k], 0) : k === "kwhPerMile" ? n2(v[k]) : v[k].toLocaleString("en-US")}</td><td className="py-1 pl-2 text-xs">{v[k] === DEFAULTS[k].value ? DEFAULTS[k].source : "changed by you"}</td></tr>
+                <tr key={k} className="border-b border-rule"><th scope="row" className="py-1 text-left font-normal">{DEFAULTS[k].label}</th><td className="py-1 pl-2 text-right font-mono">{k === "gasCar" || k === "evCar" ? usd(v[k], 0) : k === "kwhPerMile" ? n2(v[k]) : v[k].toLocaleString("en-US")}</td><td className="py-1 pl-2 text-xs [overflow-wrap:anywhere]">{v[k] === DEFAULTS[k].value ? DEFAULTS[k].source : "changed by you"}</td></tr>
               ))}
-              <tr className="border-b border-rule"><th scope="row" className="py-1 text-left font-normal">Federal tax credit</th><td className="py-1 pl-2 text-right font-mono">{usd(x.credit, 0)}</td><td className="py-1 pl-2 text-xs">{creditOn ? "your family's assumption; " : ""}{NO_CREDIT_LINE} (irs.gov)</td></tr>
+              <tr className="border-b border-rule"><th scope="row" className="py-1 text-left font-normal">Federal tax credit</th><td className="py-1 pl-2 text-right font-mono">{usd(x.credit, 0)}</td><td className="py-1 pl-2 text-xs [overflow-wrap:anywhere]">{creditOn ? "your family's assumption; " : ""}{NO_CREDIT_LINE} (irs.gov)</td></tr>
             </tbody>
           </table>
           <PrintButton label="Print for my parents" />
