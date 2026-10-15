@@ -202,7 +202,7 @@ class TheMenu(unittest.TestCase):
         self.assertEqual(hrefs("Economics"), ["/board", "/prices", "/supply", "/contracts", "/severance"])   # Power contracts stays (the owner's ruling); session 288: the bill moved to Games
         self.assertIn("/thesis", hrefs("Analysis"))   # Thesis Builder stays (the owner's ruling)
         # session 288 (Samuel's ruling 14 of 14 October 2026): the battery game, the tour, the bill and the problem sets' index
-        self.assertEqual(hrefs("Games"), ["/play/battery", "/tour", "/learn/bill", "/learn/problems"])
+        self.assertEqual(hrefs("Games"), ["/play/battery", "/tour", "/learn/bill", "/learn/problems", "/play/ev"])   # session 294: the EV game
 
 
 class ThePromise(unittest.TestCase):

@@ -126,6 +126,8 @@ export const GROUPS: Group[] = [
       { href: "/learn/bill", label: "What is on a bill", line: "Five real electricity bills built line by line from the tariffs (PG&E, SCE and SDG&E in California; Oncor and CenterPoint in Texas), and how much of each is the wholesale price of energy.", tables: "site/data/bill_rules.json; cost_of_power_monthly", related: ["/learn/problems/prices-and-your-bill", "/cost-of-power"] },
       // session 44: the problem sets; session 288: one entry, the index of the five
       { href: "/learn/problems", label: "Problem sets", line: "Five sets of five questions for a class: know your grid; prices and your bill; when the grid broke; storage and taxes; networks and money. Each answer is worked from the warehouse's tables.", tables: "eia930_all_demand, eia930_all_generation, storage_daily_cycle, carbon_intensity_daily, cost_of_power_monthly, cost_of_power_hourly_profile, event_window_daily, eia_fuel_spot_prices, eia930_all_interchange, merchant_revenue_monthly; site/data/bill_rules.json, site/data/severance_rules.json", related: ["/learn/bill", "/grid"] },
+      // session 294 (Samuel's rulings 14 and 17): the EV game, the menu's fifth entry
+      { href: "/play/ev", label: "Should your family get an EV?", line: "For a middle-schooler and their parents: what driving costs in your state on gasoline and on electricity, payback and net present value, and every number with its source, ready to print.", tables: "eia_retail_electricity_prices, eia_regional_retail_fuel_prices (site/data/ev_prices.json)", related: ["/play/battery", "/learn/bill"], menu: "The EV game" },
     ],
   },
   {
