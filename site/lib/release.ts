@@ -100,6 +100,7 @@ export const RELEASE: Record<string, Status> = {
   "/learn/problems": "review",
   "/learn/bill": "review",
   "/play/battery": "review",
+  "/play/ev": "review",  // session 294: the EV game (in review, as every page)
   "/severance": "review",
   "/severance/lease": "review",
   "/digest": "review",
