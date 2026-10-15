@@ -97,7 +97,7 @@ class Links(unittest.TestCase):
         cards = re.findall(r'\{ href: "([^"]+)", name:', home)
         stops = re.findall(r'href: "([^"]+)", title:', tour)
         self.assertGreaterEqual(len(cards), 15)
-        self.assertEqual(len(stops), 5)
+        self.assertEqual(len(stops), 7)   # session 292 (ruling 11a): seven stops
         for h in cards + stops + ["/tour"]:
             self.assertTrue(route_exists(h), h)
             self.assertIn(f'"{h}"', routes, f"{h} is not in check-routes")
@@ -112,9 +112,10 @@ class Links(unittest.TestCase):
 
     def test_tour_minutes(self):
         tour = src("site", "lib", "tour.ts")
-        secs = [int(m) for m in re.findall(r'minutes: "about (\d+) seconds"', tour)]
-        self.assertEqual(len(secs), 5)
-        self.assertTrue(150 <= sum(secs) <= 210, sum(secs))
+        # session 292: seven stops, their seconds a number each, about five minutes in all
+        secs = [int(m) for m in re.findall(r'seconds: (\d+),', tour)]
+        self.assertEqual(len(secs), 7)
+        self.assertTrue(240 <= sum(secs) <= 330, sum(secs))
         self.assertNotIn(chr(0x2014), tour + src("docs", "tools.md"))
 
 

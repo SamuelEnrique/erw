@@ -120,7 +120,8 @@ export const GROUPS: Group[] = [
       // session 53: the battery game joins Learn (it was its own "Play" group)
       { href: "/play/battery", label: "Home battery game", line: "Run a home battery through a real day of ERCOT prices: charge cheap, sell dear, answer the fleet call, and see what perfect foresight would have earned.", tables: "iso_rtm_hub_prices, ercot_all_hub_prices_history", related: ["/storage", "/grid"] },
       // session 53: the guided tour, first
-      { href: "/tour", label: "The tour", line: "Five stops for a first visit, about three minutes: the network, a grid page, the price board, an event study and what a generator earns.", tables: "" },
+      // session 292 (ruling 11a): a guided path of seven stops
+      { href: "/tour", label: "The tour", line: "Seven stops for a first visit, about five minutes, one page each with Back and Next: the three tools, the grid, research, the price board and the digest.", tables: "" },
       // session 43: the bill explainer (in Economics from session 203 to session 288)
       { href: "/learn/bill", label: "What is on a bill", line: "Five real electricity bills built line by line from the tariffs (PG&E, SCE and SDG&E in California; Oncor and CenterPoint in Texas), and how much of each is the wholesale price of energy.", tables: "site/data/bill_rules.json; cost_of_power_monthly", related: ["/learn/problems/prices-and-your-bill", "/cost-of-power"] },
       // session 44: the problem sets; session 288: one entry, the index of the five
