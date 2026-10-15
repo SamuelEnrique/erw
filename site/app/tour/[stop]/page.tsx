@@ -34,9 +34,11 @@ export default async function TourStop({ params }: { params: Promise<{ stop: str
         <p className="max-w-3xl">{s.look}</p>
         <p className="mt-1 text-xs text-muted">About {s.seconds} seconds. Come back with the browser&apos;s Back button, or open the page in a new tab.</p>
       </section>
-      <p className="mb-8">
-        <Link href={s.href} className="inline-block border border-accent bg-accent px-4 py-2 text-white no-underline" data-tour-open>Open {s.title.replace(/^The /, "the ")}</Link>
-      </p>
+      {/* the words in a span of their own: the site's base link colour (cardinal) wins over a colour class on the link
+          itself (docs/brand.md, section 9), and would draw cardinal on cardinal */}
+      <div className="mb-8">
+        <Link href={s.href} className="inline-block border border-accent bg-accent px-4 py-2 no-underline" data-tour-open><span className="text-white">Open {s.title.replace(/^The /, "the ")}</span></Link>
+      </div>
       <p className="text-sm text-muted">{n < STOPS.length ? <>Next: <Link href={stopPath(n + 1)}>{STOPS[n].title}</Link>.</> : <>The last stop. After the tour: the <Link href="/">home page</Link> lists every tool by who it is for, and <Link href="/data">data and methods</Link> says how every number is built.</>}</p>
     </div>
     </Brand>
