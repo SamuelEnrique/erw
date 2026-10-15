@@ -1,0 +1,6 @@
+# ERW problem sets, the edition of 2026-10-15: "When the grid broke: four events", question 4 (c4): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-10-15T00:17:50Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: ERCOT, summer 2023: on which day was the highest 15-minute real-time price, and on which day the highest hour of demand? Were they the same day?
+source,entity,variable,ts_utc,value,unit,event,note
+event_window_daily,ercot:HB_HUBAVG,rt_max,2023-09-06T00:00:00+00:00,5075.46,USD/MWh,ercot_heat_2023,
+event_window_daily,eia930:ERCO,demand_max_mw,2023-08-10T00:00:00+00:00,85432,MW,ercot_heat_2023,

@@ -1,0 +1,8 @@
+# ERW problem sets, the edition of 2026-10-15: "Prices and your bill", question 4 (b4): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-10-15T00:17:50Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: On the default Oncor (Texas) bill of /learn/bill (600 kWh), how many dollars are wholesale energy, and what share of the bill is that?
+source,entity,variable,ts_utc,value,unit,event,note
+cost_of_power_monthly,ercot:HB_HUBAVG,rt_load_weighted,2026-09-01T00:00:00+00:00,39.5037,USD/MWh,,
+site/data/bill_rules.json,,bill|TX|wholesale|2026-09-01T00:00:00+00:00,,23.70222,USD,,computed
+site/data/bill_rules.json,,bill|TX|total,,95.27319999999999,USD,,computed
+site/data/bill_rules.json,,bill|TX|share|2026-09-01T00:00:00+00:00,,24.87816090988862,%,,computed

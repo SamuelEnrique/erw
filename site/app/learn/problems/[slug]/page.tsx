@@ -7,6 +7,7 @@ import { Num } from "@/components/Num";
 import { Section } from "@/components/Section";
 import { shown } from "@/lib/format";
 import { problemSet, SETS, type Part } from "@/lib/problems";
+import { editionPath, editions, longDate, teacherPath } from "@/lib/problemEditions";
 import { attempt } from "@/lib/supabase";
 
 // Session 44: a problem set (lib/problems.ts). Every answer is computed on the server from the warehouse tables and
@@ -46,6 +47,10 @@ export default async function Problems({ params }: { params: Promise<{ slug: str
       <div className="mb-5 max-w-3xl border-l-2 border-accent pl-3 text-sm">
         <p><strong>For teachers.</strong> {meta.teacher}</p>
         <p className="mt-1 text-xs text-muted">Pages: {meta.pages.map((p, i) => <span key={p.href}>{i ? ", " : ""}<Link href={p.href}>{p.label}</Link></span>)}.</p>
+        {/* session 293 (Samuel's ruling 8a): for a class, a dated edition whose numbers do not move, with a teacher's copy */}
+        {editions().length ? (
+          <p className="mt-1 text-xs" data-editions>For a class: <Link href={editionPath(slug, editions()[0])}>the edition of {longDate(editions()[0])}</Link>, whose numbers do not move, each question with the rows it needs, and <Link href={teacherPath(slug, editions()[0])}>its teacher&apos;s copy</Link> with the answers.</p>
+        ) : null}
       </div>
       {!got.ok || !got.data ? (
         <NoData what="the problem set" reason={got.ok ? "no data" : got.reason} />

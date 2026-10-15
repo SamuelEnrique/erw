@@ -1,0 +1,28 @@
+# ERW problem sets, the edition of 2026-10-15: "Storage and taxes", question 4 (d4): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-10-15T00:17:50Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: A well produces 1,000 barrels of oil in 2026-09, valued at that month's WTI Cushing mean. What state production tax does it owe in Texas, in Louisiana (a well completed before July 2025, no transport deducted) and in New Mexico (no royalty, trucking or district ad valorem)?
+source,entity,variable,ts_utc,value,unit,event,note
+eia_fuel_spot_prices,eia:wti_cushing,spot_price,2026-09-01T00:00:00+00:00,91.48,USD/bbl,,
+eia_fuel_spot_prices,eia:wti_cushing,spot_price,2026-09-02T00:00:00+00:00,92.15,USD/bbl,,
+eia_fuel_spot_prices,eia:wti_cushing,spot_price,2026-09-03T00:00:00+00:00,92.55,USD/bbl,,
+eia_fuel_spot_prices,eia:wti_cushing,spot_price,2026-09-04T00:00:00+00:00,92.69,USD/bbl,,
+eia_fuel_spot_prices,eia:wti_cushing,spot_price,2026-09-08T00:00:00+00:00,94.21,USD/bbl,,
+eia_fuel_spot_prices,eia:wti_cushing,spot_price,2026-09-09T00:00:00+00:00,97.26,USD/bbl,,
+eia_fuel_spot_prices,eia:wti_cushing,spot_price,2026-09-10T00:00:00+00:00,103.57,USD/bbl,,
+eia_fuel_spot_prices,eia:wti_cushing,spot_price,2026-09-11T00:00:00+00:00,101.27,USD/bbl,,
+eia_fuel_spot_prices,eia:wti_cushing,spot_price,2026-09-14T00:00:00+00:00,102.42,USD/bbl,,
+eia_fuel_spot_prices,eia:wti_cushing,spot_price,2026-09-15T00:00:00+00:00,107.02,USD/bbl,,
+eia_fuel_spot_prices,eia:wti_cushing,spot_price,2026-09-16T00:00:00+00:00,103.62,USD/bbl,,
+eia_fuel_spot_prices,eia:wti_cushing,spot_price,2026-09-17T00:00:00+00:00,103.21,USD/bbl,,
+eia_fuel_spot_prices,eia:wti_cushing,spot_price,2026-09-18T00:00:00+00:00,101.44,USD/bbl,,
+eia_fuel_spot_prices,eia:wti_cushing,spot_price,2026-09-21T00:00:00+00:00,96.97,USD/bbl,,
+eia_fuel_spot_prices,eia:wti_cushing,spot_price,2026-09-22T00:00:00+00:00,96.41,USD/bbl,,
+eia_fuel_spot_prices,eia:wti_cushing,spot_price,2026-09-23T00:00:00+00:00,93.38,USD/bbl,,
+eia_fuel_spot_prices,eia:wti_cushing,spot_price,2026-09-24T00:00:00+00:00,95.88,USD/bbl,,
+eia_fuel_spot_prices,eia:wti_cushing,spot_price,2026-09-25T00:00:00+00:00,85.23,USD/bbl,,
+eia_fuel_spot_prices,eia:wti_cushing,spot_price,2026-09-28T00:00:00+00:00,99.37,USD/bbl,,
+eia_fuel_spot_prices,eia:wti_cushing,spot_price,2026-09-29T00:00:00+00:00,96.16,USD/bbl,,
+eia_fuel_spot_prices,eia:wti_cushing,spot_price,2026-09-30T00:00:00+00:00,97.18,USD/bbl,,
+site/data/severance_rules.json,,sev|TX|oil|1000|2026-09|base,,4476.172380952382,USD,,computed
+site/data/severance_rules.json,,sev|LA|oil|1000|2026-09|base,,12163.511904761906,USD,,computed
+site/data/severance_rules.json,,sev|NM|oil|1000|2026-09|base,,6947.798000000001,USD,,computed

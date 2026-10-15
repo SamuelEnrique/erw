@@ -1,0 +1,9 @@
+# ERW problem sets, the edition of 2026-10-15: "Networks and money", question 5 (e5): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-10-15T00:17:50Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: During Winter Storm Uri, February 2021 (the 18 days from 2021-02-07 to 2021-02-24), what did the same 100 MW merchant solar plant at ERCOT's hub average earn, against as many normal days before the storm?
+source,entity,variable,ts_utc,value,unit,event,note
+site/data/merchant_snapshot.json,,mrs|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|uri_2021|days,,18,days,,computed
+site/data/merchant_snapshot.json,,mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|stress_total:uri_2021,,12382219.96,USD,,computed
+site/data/merchant_snapshot.json,,mrs|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|uri_2021|base_window,,157661.22000000003,USD,,computed
+site/data/merchant_snapshot.json,,mrs|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|uri_2021|base_mean,,8758.956666666669,USD,,computed
+site/data/merchant_snapshot.json,,mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|stress_week:uri_2021,,61312.696666666685,USD,,computed

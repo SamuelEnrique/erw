@@ -1,0 +1,7 @@
+# ERW problem sets, the edition of 2026-10-15: "Networks and money", question 3 (e3): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-10-15T00:17:50Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: A merchant solar plant at ERCOT's hub average (HB_HUBAVG) sells every MWh it makes at the real-time price. In 2026-09, the latest complete month held, what price did its output capture, and what is that as a share of the month's flat (time-average) price?
+source,entity,variable,ts_utc,value,unit,event,note
+site/data/merchant_snapshot.json,,mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|capture:2026-09,,33.416187279987554,USD/MWh,,computed
+site/data/merchant_snapshot.json,,mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|flat:2026-09,,38.3874,USD/MWh,,computed
+site/data/merchant_snapshot.json,,mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|rate:2026-09,,87.04988428491525,%,,computed

@@ -1,0 +1,8 @@
+# ERW problem sets, the edition of 2026-10-15: "Prices and your bill", question 3 (b3): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-10-15T00:17:50Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: On the default PG&E (California) bill of /learn/bill (600 kWh), how many dollars are wholesale energy, and what share of the bill is that?
+source,entity,variable,ts_utc,value,unit,event,note
+cost_of_power_monthly,caiso:TH_NP15_GEN-APND,rt_load_weighted,2026-09-01T00:00:00+00:00,44.8469,USD/MWh,,
+site/data/bill_rules.json,,bill|CA|wholesale|2026-09-01T00:00:00+00:00,,26.90814,USD,,computed
+site/data/bill_rules.json,,bill|CA|total,,229.6299,USD,,computed
+site/data/bill_rules.json,,bill|CA|share|2026-09-01T00:00:00+00:00,,11.718047170686397,%,,computed
