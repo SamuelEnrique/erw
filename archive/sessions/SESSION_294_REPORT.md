@@ -44,7 +44,7 @@ Locally: `C:\Users\lossa\Documents\erw-279\site`, `npx next start -p 3289`, unlo
 | `check-values.mjs`, Games pages | 0 | 105 of 105 (the EV game's prices come from a file, not the live set: checked by the comparison above) |
 | `check-tour.mjs` | 0 | 47 of 47 |
 | Screenshots after | 0 | 16, no sideways overflow |
-| The whole suite, clean copy of the branch | see the chain's note below | |
+| The whole suite, clean copy of the branch (`erw-check`) | 1, then 0 | 4,293 tests, one failure: session 67's test wants every menu page in the release list; `/play/ev` added as `review` (`07d50189`), and that test passes. Not rerun whole for a one-line change |
 
 ## Decisions made without you
 
@@ -62,4 +62,4 @@ Locally: `C:\Users\lossa\Documents\erw-279\site`, `npx next start -p 3289`, unlo
 ## Files
 
 - New: `site/app/play/ev/page.tsx`, `EvGame.tsx`, `site/lib/ev.ts`, `site/data/ev_prices.json`, `site/scripts/build-ev-prices.mjs`, `site/scripts/test-ev.mjs`, `docs/methods/ev_game.md`, `tests/test_session294.py`, `docs/reviews/games-2026-10-14/294/`, this report.
-- Changed: `site/lib/pages.ts`, `site/scripts/check-routes.mjs`, `docs/tools.md`, `tests/test_session{203,237,239,288}.py`.
+- Changed: `site/lib/pages.ts`, `site/lib/release.ts` (`/play/ev`: review), `site/scripts/check-routes.mjs`, `docs/tools.md`, `tests/test_session{203,237,239,288}.py`.
