@@ -1,8 +1,8 @@
 {
  "about": "Written by warehouse/health.py from the table erw_health: per UTC day, each scheduled job's steps by outcome, and the failures that count. green_days is the number of days in a row, back from counted_to, without a failed step.",
- "written": "2026-10-15T18:14Z",
- "green_days": 2,
- "counted_to": "2026-10-14",
+ "written": "2026-10-16T14:06Z",
+ "green_days": 0,
+ "counted_to": "2026-10-15",
  "days": {
   "2026-10-02": {
    "rows": 91,
@@ -888,6 +888,83 @@
      "workflow": "local:SU-4QC3QR3",
      "step": "dm_carb_lcfs",
      "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 30 days old (limit 28)"
+    }
+   ]
+  },
+  "2026-10-15": {
+   "rows": 684,
+   "failed": 3,
+   "missing": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 480,
+     "skipped": 6,
+     "retried": 0,
+     "failed": 0,
+     "runs": 102
+    },
+    "daily prices": {
+     "ok": 21,
+     "skipped": 1,
+     "retried": 1,
+     "failed": 1,
+     "runs": 2
+    },
+    "hourly network": {
+     "ok": 21,
+     "skipped": 8,
+     "retried": 0,
+     "failed": 0,
+     "runs": 29
+    },
+    "latest prices": {
+     "ok": 96,
+     "skipped": 7,
+     "retried": 0,
+     "failed": 0,
+     "runs": 103
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 39,
+     "skipped": 1,
+     "retried": 0,
+     "failed": 2,
+     "runs": 42
+    },
+    "local:samueloldlaptop": {
+     "ok": 1,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 1
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-10-15T17:47",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_live_set",
+     "reason": "FAILED tables: ['sources']"
+    },
+    {
+     "at": "2026-10-15T18:08",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_commit",
+     "reason": "git pull --rebase exit 128: committed here, not pushed"
+    },
+    {
+     "at": "2026-10-15T18:14",
+     "workflow": "daily prices",
+     "step": "daily run",
+     "reason": "FAIL restore state_generation_mix_monthly: APIError: [400 invalid_request] Cannot export more than 100GB within a 30 day period, unless the dataset's owner has configured an export billing project."
+    }
+   ],
+   "stale": [
+    {
+     "at": "2026-10-15T17:28",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 31 days old (limit 28)"
     }
    ]
   }
