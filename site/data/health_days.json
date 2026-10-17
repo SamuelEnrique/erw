@@ -1,8 +1,8 @@
 {
  "about": "Written by warehouse/health.py from the table erw_health: per UTC day, each scheduled job's steps by outcome, and the failures that count. green_days is the number of days in a row, back from counted_to, without a failed step.",
- "written": "2026-10-16T14:06Z",
+ "written": "2026-10-17T14:06Z",
  "green_days": 0,
- "counted_to": "2026-10-15",
+ "counted_to": "2026-10-16",
  "days": {
   "2026-10-02": {
    "rows": 91,
@@ -965,6 +965,136 @@
      "workflow": "local:SU-4QC3QR3",
      "step": "dm_carb_lcfs",
      "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 31 days old (limit 28)"
+    }
+   ]
+  },
+  "2026-10-16": {
+   "rows": 662,
+   "failed": 13,
+   "missing": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 480,
+     "skipped": 7,
+     "retried": 0,
+     "failed": 0,
+     "runs": 103
+    },
+    "daily prices": {
+     "ok": 2,
+     "skipped": 1,
+     "retried": 0,
+     "failed": 1,
+     "runs": 2
+    },
+    "hourly network": {
+     "ok": 23,
+     "skipped": 6,
+     "retried": 0,
+     "failed": 0,
+     "runs": 29
+    },
+    "latest prices": {
+     "ok": 95,
+     "skipped": 6,
+     "retried": 0,
+     "failed": 0,
+     "runs": 101
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 28,
+     "skipped": 1,
+     "retried": 0,
+     "failed": 12,
+     "runs": 41
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-10-16T14:06",
+     "workflow": "daily prices",
+     "step": "daily run",
+     "reason": "FAIL restore weather_obs_hourly: APIError: [400 invalid_request] Cannot export more than 100GB within a 30 day period, unless the dataset's owner has configured an export billing project."
+    },
+    {
+     "at": "2026-10-16T17:11",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_node_stores",
+     "reason": "ercot_rtm_node_prices FAILED: redivis exited 1"
+    },
+    {
+     "at": "2026-10-16T17:13",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_carb_auction_stores",
+     "reason": "carb_auction_allowance_prices FAILED: redivis exited 1"
+    },
+    {
+     "at": "2026-10-16T17:16",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_eia930_total_interchange_stores",
+     "reason": "eia930_daily_total_interchange FAILED: redivis exited 1"
+    },
+    {
+     "at": "2026-10-16T17:19",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_caiso_ws_forecast_stores",
+     "reason": "caiso_wind_solar_forecast FAILED: redivis exited 1"
+    },
+    {
+     "at": "2026-10-16T17:21",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_ercot_ws_forecast_stores",
+     "reason": "ercot_wind_solar_forecast FAILED: redivis exited 1"
+    },
+    {
+     "at": "2026-10-16T17:23",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_nrc_reactor_status_stores",
+     "reason": "nrc_reactor_status FAILED: redivis exited 1"
+    },
+    {
+     "at": "2026-10-16T17:25",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_caiso_emergencies_stores",
+     "reason": "caiso_grid_emergencies FAILED: redivis exited 1"
+    },
+    {
+     "at": "2026-10-16T17:27",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_caiso_reliability_stores",
+     "reason": "caiso_reliability_daily FAILED: redivis exited 1"
+    },
+    {
+     "at": "2026-10-16T17:31",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_ercot_large_load_stores",
+     "reason": "ercot_large_load_status FAILED: redivis exited 1"
+    },
+    {
+     "at": "2026-10-16T17:33",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_live_set",
+     "reason": "FAILED tables: ['sources']"
+    },
+    {
+     "at": "2026-10-16T17:38",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_zone_redivis",
+     "reason": "FAIL erw_headers: APIError: [400 invalid_request] Cannot export more than 100GB within a 30 day period, unless the dataset's owner has configured an export billing project."
+    },
+    {
+     "at": "2026-10-16T17:56",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_commit",
+     "reason": "git pull --rebase exit 128: committed here, not pushed"
+    }
+   ],
+   "stale": [
+    {
+     "at": "2026-10-16T17:13",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 32 days old (limit 28)"
     }
    ]
   }
