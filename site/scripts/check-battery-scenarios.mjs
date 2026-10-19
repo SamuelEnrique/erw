@@ -158,6 +158,7 @@ try {
       steps: panel.querySelector("[data-steps]")?.getAttribute("data-steps") ?? null, stepsText: panel.querySelector("[data-steps]")?.textContent ?? "",
       folds: [...document.querySelectorAll("[data-settings-fold]")].map((f) => ({ id: f.getAttribute("data-settings-fold"), open: f.open, summary: f.querySelector("[data-fold-summary]")?.textContent ?? "" })),
       noRange: document.querySelector("[data-no-range]")?.getAttribute("data-no-range") ?? "",
+      stress: document.querySelector("[data-stress-repeats] input")?.value ?? null,
       rows: [...root.querySelectorAll("[data-scenario-table] tbody tr")].map((r) => r.getAttribute("data-row")),
       cells: Object.fromEntries([...root.querySelectorAll("[data-cell]")].map((c) => [c.getAttribute("data-cell"), { raw: c.getAttribute("data-raw") === "" ? null : Number(c.getAttribute("data-raw")), text: c.textContent }])),
       headA: head("a"), headB: head("b"), words: root.querySelector("[data-differs-words]").textContent,
@@ -220,11 +221,15 @@ try {
   check(/The other five grids, in words only/.test(s.otherGrids) && /seller tab/.test(s.otherGrids), "one line under the grid picker stands for the other grids", s.otherGrids.slice(0, 80));
   const d = F.defaultsOf(B.COSTS[4]);
   check(s.search === "", "the bare address stays bare: nothing is written into it", s.search);
-  check(JSON.stringify(s.fields.map((f) => f.key)) === JSON.stringify(F.KEYS), "twelve assumptions, in the order asked (session 208: the contract's share and price last)", s.fields.map((f) => f.key).join(", "));
+  // session 297: eighteen assumptions; the stress repeats are set in the second question, not in the panel
+  check(JSON.stringify(s.fields.map((f) => f.key)) === JSON.stringify(F.KEYS.filter((k) => k !== "stress")), "the panel's assumptions, in the order asked (session 208: the contract's share and price last; session 297: the credit and the fade method before them)", s.fields.map((f) => f.key).join(", "));
+  check(s.stress === "0", "the stress repeats control sits in the second question, at 0", String(s.stress));
   check(s.fields.every((f) => Number(f.value) === d[f.key] && Number(f.def) === d[f.key]), "each field holds its default", s.fields.map((f) => `${f.key} ${f.value}`).join(", "));
   check(s.fields.every((f) => f.reset && f.resetOff === true), "each has a Reset, idle at the default");
-  check(s.fields.every((f) => /^Default [\d,.]+\. .{12,}\.$/.test(f.source)), "each states its default and where the default comes from", s.fields.find((f) => !/^Default [\d,.]+\. .{12,}\.$/.test(f.source))?.source ?? "");
-  check(s.fields.filter((f) => /Lazard, Levelized Cost of Energy\+, June 2025/.test(f.source)).length === 9, "nine defaults cite Lazard's June 2025 report (session 196: the degradation and the hurdle rate among them)", s.fields.filter((f) => !/Lazard/.test(f.source)).map((f) => f.key).join(", "));
+  // session 297: a choice's default is words ("Default revenue cut.", "Default none.")
+  const DEFAULT_LINE = /^Default (?:[\d,.]+|[a-z ]+)\. .{12,}\.$/;
+  check(s.fields.every((f) => DEFAULT_LINE.test(f.source)), "each states its default and where the default comes from", s.fields.find((f) => !DEFAULT_LINE.test(f.source))?.source ?? "");
+  check(s.fields.filter((f) => /Lazard, Levelized Cost of Energy\+, June 2025/.test(f.source)).length === 10, "ten defaults cite Lazard's June 2025 report (session 196: the degradation and the hurdle rate among them; session 297: the fade)", s.fields.filter((f) => !/Lazard/.test(f.source)).map((f) => f.key).join(", "));
   check(s.resetAll === "Reset all of A" && s.copy === "Copy A to B", "one Reset for all, and Copy A to B", `${s.resetAll}; ${s.copy}`);
   check(JSON.stringify(s.rows) === JSON.stringify(["revenue", "p10", "coverage", "npv", "irr", "toll", "tail", "differs"]), "seven rows in order, then the row in words", s.rows.join(", "));
   check(s.headA.length === 0 && s.headB.length === 0 && s.words === "A and B hold the same assumptions.", "equal scenarios: nothing in the headers", s.words);

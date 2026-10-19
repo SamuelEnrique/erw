@@ -95,6 +95,9 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/cost-of-power/battery?grid=ercot&dur=4&strat=dayahead", "/cost-of-power/battery?grid=caiso&dur=4&strat=foresight", "/cost-of-power/battery?grid=caiso&dur=2&strat=dayahead",
   "/cost-of-power/battery?grid=caiso&dur=8&strat=foresight&mw=250",
   "/cost-of-power/battery?grid=caiso&dur=4&strat=dayahead",  // session 257: the case the market monitor's fleet is set beside, read from the page's own rows
+  // session 297: one non-default setting each of the investment tax credit, the fade method, augmentation and the stress repeats
+  // (the page's table keys are the same at these addresses: the four prove the page draws with each set)
+  "/cost-of-power/battery?ai=30", "/cost-of-power/battery?ao=1", "/cost-of-power/battery?ao=1&am=5", "/cost-of-power/battery?ax=2",
   // session 60: the Flex Alert scorecard
   "/grid/caiso/alerts",
   // session 237: the Grid tool, one page. Now, Clean and Exchange for each of the eight choices, the Mix and the Network

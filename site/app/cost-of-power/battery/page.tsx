@@ -126,6 +126,9 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
   const events = stressRead?.ok ? stress(stressRead.data, x.strat, x.dur) : [];
   // session 296: each event's revenue by month, for the income table's "leave out" boxes
   const em = stressRead?.ok ? eventMonths(stressRead.data, x.strat, x.dur) : {};
+  // session 297: the grid's peak stress event, by its window's revenue, for the stress repeats (USD per kW)
+  const peakEvent = events.length ? events.reduce((a, e) => (e.total > a.total ? e : a)) : null;
+  const peak = peakEvent ? { kw: peakEvent.total / 1000, label: peakEvent.label } : null;
   // session 257: the published real-fleet figures beside the model's own case (CAISO: a 4-hour battery, day-ahead, 2025).
   // The case's months are the page's own rows when it is the battery shown, else one more read of the same table
   const fleet = g.review || !read.ok ? null : fleetBeside(x.grid);
@@ -166,7 +169,7 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
       {/* session 92: drawn only in the internal view while /ask/ercot is in review (components/AskErcotLink.tsx) */}
       {x.grid === "ercot" ? <AskErcotLink context={{ view: "/cost-of-power/battery", title: "What a battery earns", settings: { grid: "ERCOT", duration: `${x.dur} hours`, strategy: `${STRATEGIES[x.strat]} (${x.strat})`, size: `${x.mw} MW` } }} /> : null}
       <BatteryDecisions key={`${x.grid}|${x.dur}|${x.strat}|${x.mw}|${JSON.stringify(scenarioParams)}`} ms={ms} mw={x.mw} costs={costs} stepCase={stepCase}
-        stepMeta={stepMeta} initial={scenarioParams} view={view}>
+        stepMeta={stepMeta} initial={scenarioParams} view={view} peak={peak} hours={x.dur}>
         <div className="grid gap-8 lg:grid-cols-[290px_minmax(0,1fr)]">
           <aside>
             {/* session 296: the box "Assumptions", five sections (Settings.tsx) */}
@@ -251,7 +254,7 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
       <SourceLine tables={g.review
         ? [REVIEW_TABLE, "iso_hub_prices_history", ...(x.grid === "nyiso" ? ["nyiso_rtm_zone_prices", "nyiso_dam_zone_prices", "nyiso_as_prices"] : ["iso_rtm_hub_prices", "iso_dam_hub_prices", "spp_as_prices"])]
         : [TABLE, ...(x.grid === "ercot" ? ["ercot_all_hub_prices_history", "iso_rtm_hub_prices", "iso_dam_hub_prices", "ercot_as_prices"] : ["iso_hub_prices_history", "iso_rtm_hub_prices", "iso_dam_hub_prices", "caiso_as_prices"])]}
-        note={<>Derived by the ERW from {g.name}&apos;s public prices; {g.review ? "the first table is what this page reads, from the site's own copy of it" : "the first table is what this page reads"}. Cost defaults: Lazard, Levelized Cost of Energy+, June 2025, at 2 and 4 hours; at 8 hours <a href={ATB.url} rel="noopener">NREL&apos;s Annual Technology Baseline 2025</a> (session 296). Solar, wind and gas peakers are on <Link href="/cost-of-power/seller">the seller tab</Link>. The default case hour by hour: <a href={DISPATCH} download>CSV</a>, with a <a href={DO_FILE} download>Stata do-file</a> and its <a href={MIRROR} download>Python mirror</a> that rebuild the headline numbers from it. <span data-checked-against="14">Checked against: 14 published figures (Lazard, the Annual Technology Baseline, CAISO&apos;s market monitor, ERCOT&apos;s awards, EIA, and five published ERCOT battery revenues). <Link href="/data/methods/battery_earns_algorithm#cross-checks">Each comparison, with its gap and the reason</Link>.</span></>} />
+        note={<>Derived by the ERW from {g.name}&apos;s public prices; {g.review ? "the first table is what this page reads, from the site's own copy of it" : "the first table is what this page reads"}. Cost defaults: Lazard, Levelized Cost of Energy+, June 2025, at 2 and 4 hours; at 8 hours <a href={ATB.url} rel="noopener">NREL&apos;s Annual Technology Baseline 2025</a> (session 296). Solar, wind and gas peakers are on <Link href="/cost-of-power/seller">the seller tab</Link>. The default case hour by hour: <a href={DISPATCH} download>CSV</a>, with a <a href={DO_FILE} download>Stata do-file</a> and its <a href={MIRROR} download>Python mirror</a> that rebuild the headline numbers from it. <span data-checked-against="15">Checked against: 15 published figures (Lazard, the Annual Technology Baseline, CAISO&apos;s market monitor, ERCOT&apos;s awards, EIA, and five published ERCOT battery revenues). <Link href="/data/methods/battery_earns_algorithm#cross-checks">Each comparison, with its gap and the reason</Link>.</span></>} />
     </ToolPage>
     </Brand>
   );

@@ -37,6 +37,9 @@ KEYS = ["capex", "share", "rate", "term", "fom", "rte", "cycles", "deg", "life",
 # session 208: the contract's share and price are assumptions too, 0 by default; the mirror below leaves them out, and the
 # library reads a missing one as 0, so every case here is a merchant case
 PAGE_KEYS = KEYS + ["cshare", "cprice"]
+# session 297: six more between the hurdle rate and the contract (the credit, the degradation method and its fade,
+# augmentation and augmentation cost, the stress repeats), each defaulting to a value that moves nothing
+PAGE_KEYS = KEYS + ["itc", "method", "fade", "aug", "augcost", "stress", "cshare", "cprice"]
 FILES = ["warehouse/derived/battery_scenario_steps.py", "site/lib/battery/finance.ts", "site/app/cost-of-power/battery/Scenarios.tsx",
          "site/app/cost-of-power/battery/page.tsx", "site/app/cost-of-power/battery/BatteryForm.tsx",
          "site/scripts/test-battery-finance.mjs", "site/scripts/check-battery-scenarios.mjs", "docs/methods/battery_earns_algorithm.md",
@@ -352,15 +355,17 @@ class ThePage(unittest.TestCase):
             self.assertEqual(self.lib.count(f'  {k}: {{ key: "{k}", letter: "'), 1, k)
         # session 296: the sourced ranges below SPECS name a source each too; the count is SPECS' own
         specs = self.lib[self.lib.index("export const SPECS"):self.lib.index("export const MODEL")]
-        self.assertEqual(specs.count('{ key: "'), 12)
-        self.assertEqual(specs.count(", source: "), 12)
-        self.assertIn('export const isScenarioParam = (name: string) => name === "v" || /^[ab][csrtfeydlhnp]$/.test(name);', self.lib)
+        self.assertEqual(specs.count('{ key: "'), 18)   # session 297: eighteen
+        self.assertEqual(specs.count(", source: "), 18)
+        # session 297: the six new letters i, o, g, m, k and x
+        self.assertIn('export const isScenarioParam = (name: string) => name === "v" || /^[ab][csrtfeydlhiogmkxnp]$/.test(name);', self.lib)
 
     def test_the_defaults_and_what_they_cite(self):
         # session 196 (the owner's ruling of 11 October 2026): the degradation and the hurdle rate are cited to Lazard
         # session 208 (the owner's rulings of 12 October 2026): the debt share is Lazard's storage structure (20), the hurdle rate
         # Lazard's cost of equity (12), and the contract's share and price are assumptions, 0 by default
-        self.assertIn("return { capex: costs.capex, share: SHARE, rate: 8, term: 20, fom: costs.fom, rte: MODEL.rte, cycles: MODEL.cycles, deg: DEG, life: 20, hurdle: HURDLE, cshare: 0, cprice: 0 };", self.lib)
+        # session 297: six more defaults on the next line, each idle (no credit, the revenue cut, no augmentation, no repeat)
+        self.assertIn("return { capex: costs.capex, share: SHARE, rate: 8, term: 20, fom: costs.fom, rte: MODEL.rte, cycles: MODEL.cycles, deg: DEG, life: 20, hurdle: HURDLE,\n    itc: 0, method: 0, fade: DEG, aug: 0, augcost: 241, stress: 0, cshare: 0, cprice: 0 };", self.lib)
         self.assertIn("export const HURDLE = 12;", self.lib)
         self.assertIn("export const SHARE = 20;", self.lib)
         self.assertIn("export const DEG = 2.6;", self.lib)
