@@ -45,7 +45,8 @@
 
 ## The landing
 
-Landed with session 305's report; see that report's landing for the snapshots. No live page reads either table, so the load needed no snapshot of its own.
+- freeze 0; before `s306-before` 09:16:47 UTC; merged origin/main (nothing new); pushed 09:16:58 (`5d389ad6`, with session 305's report); deployment 7170048532 success 09:18:20; after `s306-after` 09:18:39; compare: **0 differences on 25 pages** (expected: no page reads either table).
+- No live page reads either table, so the load needed no snapshot of its own.
 
 ## Decisions made without you
 

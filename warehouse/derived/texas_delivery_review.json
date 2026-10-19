@@ -819,6 +819,8 @@
    "header_words": "one figure in the line: MONTHLY RATE | Transmission Service* | $635.58 Per Meter",
    "applies_to_a_for_profit_datacenter": "yes",
    "note": "The second of the two lines of Rider DCRF for this class: a fixed monthly amount per meter.",
+   "same_charge_as": "txdelivery:tnmp_tariff:070ce0f7df6da69f",
+   "same_charge_why": "Session 307 (pack datacenter, ruling 2c): one charge printed in two units, counted once. Rate Schedule 6.1.1.1.5 (page 102) is 'Delivery Service ... to one Point of Delivery and measured through one Meter', so a load on it has one ESI ID and one meter; the rider's formula on the same page divides each class's revenue by one set of billing determinants (BD C-CLASS), so one rate a class; read from the held copy of the tariff (warehouse/raw/texas_delivery/tnmp_retail_tariff_20251229_0.pdf, page 141, numbered 138.1).",
    "page": 141,
    "effective_date_as_written": "December 29, 2025"
   },

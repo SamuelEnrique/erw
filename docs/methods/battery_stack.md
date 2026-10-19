@@ -208,7 +208,7 @@ ERCOT's stress days are three named events. California's are made by a rule, fro
 - **A stress day is a local day on which CAISO issued a system-wide notice:** a Flex Alert, Restricted Maintenance Operations, an Energy Emergency Alert watch or level 1 to 3, a Stage 1 to 3 emergency, a Warning, an Alert or a load interruption, as `caiso_grid_emergencies` holds them (CAISO's Grid Emergencies History Report).
 - **Not a stress day:** a Transmission Emergency (a line or a fire: local, not a shortage on the system) and a voluntary load reduction.
 - **Days at most three days apart are one event,** named for its first day: `caiso_notices_<YYYYMMDD>`.
-- **Only days the model solved count.** CAISO's prices are held from 14 July 2023 (session 273: the oldest day OASIS still served; 1 September 2024 before), and the model runs from August 2023, its first whole month, so the heat waves of 2020 and 2022 are not in the table.
+- **Only days the model solved count.** CAISO's prices are held from 6 July 2023 (session 307: the oldest day OASIS served on 19 October 2026; 14 July 2023 from session 273, 1 September 2024 before), and the model runs from August 2023, its first whole month, so the heat waves of 2020 and 2022 are not in the table, nor CAISO's notices of 20, 25 and 26 July 2023 (July 2023 is not whole, and its reserve prices before 14 July are not held).
 
 The four events inside the held prices, as built on 13 October 2026 (USD per MW of power, the window's days added up). Session 246 built the first two from the notices then held (to 30 April 2025); session 247 read CAISO's report again the same day (its notices now reach 8 October 2026), and the rule wrote the other two without a line of code changing:
 

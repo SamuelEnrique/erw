@@ -126,7 +126,8 @@ class Delivery(unittest.TestCase):
                   self.review(event_id="e6", applies_to_a_for_profit_datacenter="no: the For Profit column prints 0.000000")]
         rows, left = dp.delivery_rows(d, review)
         self.assertEqual([r["charge"] for r in rows], ["Many columns, checked", "Distribution System Charge"])   # transmission before distribution
-        self.assertEqual(left, {"not the transmission-voltage class, or not reviewed": 1, "no unit printed": 1, "column not checked": 1, "another customer's rate": 1})
+        self.assertEqual(left, {"not the transmission-voltage class, or not reviewed": 1, "no unit printed": 1, "column not checked": 1, "another customer's rate": 1,
+                                "the same charge printed twice": 0})
         self.assertIn("checked against the printed header", rows[0]["column"])
         for r in rows:
             self.assertTrue(r["sentence"] and r["page"] and r["url"] and r["effective"] and r["document"])
@@ -138,7 +139,7 @@ class Delivery(unittest.TestCase):
         self.assertEqual(len(review), 45)
         self.assertEqual({r["kind"] for r in review}, {"transmission", "distribution", "other"})
         f = json.loads(src("site", "data", "datacenter", "texas_delivery.json"))
-        self.assertEqual(len(f["rows"]), 41)
+        self.assertEqual(len(f["rows"]), 40)  # session 307: TNMP's rider DCRF printed per ESI ID and per meter is one charge
         for u in ("Oncor", "CenterPoint Energy Houston Electric", "AEP Texas", "Texas-New Mexico Power"):
             kinds = {r["kind"] for r in f["rows"] if r["utility"] == u}
             self.assertTrue({"transmission", "distribution"} <= kinds, u)   # transmission and distribution apart, for each utility

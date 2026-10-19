@@ -156,7 +156,7 @@ For wholesale energy at SP15 over its own twelve months, yes: USD 24.97 million 
 The tool does not know. It repeats the last twelve months, changed by the rate typed (default 0: no cited forecast). By year at this zone: 24.04 (2015), 21.68, 23.88, 30.82, 36.35, 21.82, 150.61 (2021), 62.93, 48.69, 26.41, 32.66 (2025), 34.02 for nine months of 2026.
 
 ### 4. Why do two of the four Texas utilities show "conditional" where a total should be?
-CenterPoint and Texas-New Mexico Power bill per kVA and per meter. A kVA is a kW only at a power factor of 1, and the count of a site's meters is not in the tariff, so by the owner's rule of 14 October no total is stated without those two figures. With them (power factor 1, one meter) the totals are 7.67 and 7.10, in the row below, labelled conditional. Oncor (8.81) and AEP Texas (8.39) bill per kW, per kWh and per retail customer, and need neither.
+CenterPoint and Texas-New Mexico Power bill per kVA and per meter. A kVA is a kW only at a power factor of 1, and the count of a site's meters is not in the tariff, so by the owner's rule of 14 October no total is stated without those two figures. With them (power factor 1, one meter) the totals are 7.67 and 7.09 (7.10 until session 307 counted TNMP's rider DCRF once), in the row below, labelled conditional. Oncor (8.81) and AEP Texas (8.39) bill per kW, per kWh and per retail customer, and need neither.
 
 ### 5. Can I cut the transmission charge by being off in the four coincident peaks?
 Not computed. A flat load's four-peak demand is its size: Oncor's transmission is USD 8.58 per MWh (6.260839 x 12,000 / 8,760), AEP Texas's 8.16. The tool would need each year's four intervals and the load's draw in them. Texas-New Mexico Power's factor (sheet of 1 September 2025) is probably superseded.
@@ -235,7 +235,7 @@ Written from the page's code and check scripts, not clicked through. Open the in
 | 295,465.05 over 8,760 hours; the price files' date | `site/data/datacenter/index.json`, `ercot_2025.json`, `ercot_2026.json` | `built`; `regions.LZ_NORTH.rt` |
 | Cost by year, 24.04 (2015) to 34.02 (2026) | `runs/session265/replication_py3.out`; `datacenter_pays_algorithm.md` | section 4.6 |
 | 31.46, 2.27, 4.01, 27.24 million, 0.4672, 28.58, 24.97 million | `docs/methods/datacenter_pays_algorithm.md`; the old note (sessions 249 and 260) | sections 4.10, 4.14, 5.1 |
-| The delivery figures (8.58, 0.48, -0.24, 8.81; 7.67; 8.39; 7.10; 1 MW and 1,000 MW) | `site/lib/datacenter/delivery.ts` on `site/data/datacenter/texas_delivery.json`; `runs/session265/edges_c1.out` | `deliveryOf`, `deliveryStat` |
+| The delivery figures (8.58, 0.48, -0.24, 8.81; 7.67; 8.39; 7.09; 1 MW and 1,000 MW) | `site/lib/datacenter/delivery.ts` on `site/data/datacenter/texas_delivery.json`; `runs/session265/edges_c1.out` | `deliveryOf`, `deliveryStat` |
 | 6.260839, 5.956038, 68.547301, 7.83, 8.62, 41 lines, 3 conditional, 635.58 | `site/data/datacenter/texas_delivery.json`; `datacenter_pays_algorithm.md` | `rows`, `matrix`; sections 4.11 and 4.18 |
 | 70.70, 66.10, 251.10, 108.10, 30.59, 39.47, 77.45, 23.97, 24.04, 34.58, 34.35, 78.55, 77.72 | `docs/methods/datacenter_pays_algorithm.md` | "Cross-checks" |
 | 34.18 (July 2025) | `site/public/datacenter/erw_2026_datacenter_hourly.csv` | the 744 hours of `std_month` 2025-07 |
