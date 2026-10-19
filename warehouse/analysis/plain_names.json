@@ -1,7 +1,7 @@
 {
- "about": "Plain English names and units for the series and measures the findings use (the scanner's drafts, the daily chart, the watch list, the hunt's patterns). Session 267, 14 October 2026, drafted from the repository's own labels: status 'label' is a name the code already writes (the file named in 'from'); status 'draft' is a name drafted from the table's codes, for a person to check. Names and units only, no number. Rebuilt by runs/session267/build_plain_names.py (not in git).",
+ "about": "Plain English names and units for the series and measures the findings use (the scanner's drafts, the daily chart, the watch list, the hunt's patterns). Session 267, 14 October 2026, drafted from the repository's own labels: status 'label' is a name the code already writes (the file named in 'from'); status 'draft' is a name drafted from the table's codes, for a person to check. Names and units only, no number. Rebuilt by runs/session267/build_plain_names.py (not in git). Session 315 (the owner's ruling of 19 October 2026, the Research pack's 5b): a draft follows the methods note that names its table (the note in 'from'); the one draft no note names (eia_retail_sales_monthly retail_sales) stays a draft; status 'note' is a name taken from a methods note, not from the code's labels.",
  "count": 69,
- "drafts": 7,
+ "drafts": 1,
  "names": [
   {
    "key": "watch:watch_henry_hub",
@@ -578,10 +578,10 @@
    "table": "eia_state_generation_monthly",
    "entity": "",
    "variable": "net_generation",
-   "name": "Net generation, by state and fuel",
+   "name": "Net generation, all sectors, by state and energy source (EIA-923)",
    "unit": "MWh",
-   "from": "drafted by session 267 from the table's codes",
-   "status": "draft"
+   "from": "docs/methods/generation_mix.md (eia_state_generation_monthly)",
+   "status": "note"
   },
   {
    "key": "series:eia_retail_electricity_prices|eia:retail_price:DC:IND|retail_price",
@@ -598,10 +598,10 @@
    "table": "eia_retail_electricity_prices",
    "entity": "",
    "variable": "retail_price",
-   "name": "Retail electricity price, by state and sector",
+   "name": "Retail electricity price, by state and sector (EIA-861M)",
    "unit": "USD/MWh",
-   "from": "drafted by session 267 from the table's codes",
-   "status": "draft"
+   "from": "docs/methods/price_board.md (Retail electricity, EIA Form EIA-861M, monthly, by state and sector)",
+   "status": "note"
   },
   {
    "key": "series:eia_regional_retail_fuel_prices|eia:EMM_EPMR_PTE_YCLE_DPG|retail_price",
@@ -638,20 +638,20 @@
    "table": "cftc_cot_positions",
    "entity": "cftc:023651",
    "variable": "managed_money_long",
-   "name": "Managed-money long positions, NYMEX natural gas (CFTC Commitments of Traders)",
+   "name": "Managed money long positions, NYMEX natural gas futures (CFTC Commitments of Traders, disaggregated, futures only)",
    "unit": "contracts",
-   "from": "drafted by session 267 from the table's codes",
-   "status": "draft"
+   "from": "docs/methods/supply_and_trade.md (Managed money positioning)",
+   "status": "note"
   },
   {
    "key": "variable:cftc_cot_positions|managed_money_long",
    "table": "cftc_cot_positions",
    "entity": "",
    "variable": "managed_money_long",
-   "name": "Managed-money long positions, NYMEX natural gas (CFTC Commitments of Traders)",
+   "name": "Managed money long positions, futures only (CFTC Commitments of Traders, disaggregated)",
    "unit": "contracts",
-   "from": "drafted by session 267 from the table's codes",
-   "status": "draft"
+   "from": "docs/methods/supply_and_trade.md (Managed money positioning)",
+   "status": "note"
   },
   {
    "key": "series:eia_retail_electricity_prices|eia:retail_price:IA:IND|retail_price",
@@ -678,20 +678,20 @@
    "table": "storage_buildout_monthly",
    "entity": "iso:pjm",
    "variable": "battery_operating_mw_net_added_12m",
-   "name": "PJM: operating battery storage, net MW added over the last 12 months",
+   "name": "PJM: operating battery storage added over the last twelve months, net of retirements (EIA-860M)",
    "unit": "MW",
-   "from": "drafted by session 267 from the table's codes",
-   "status": "draft"
+   "from": "docs/methods/storage_buildout.md (battery_operating_mw_net_added_12m: the month's value less the value twelve months before)",
+   "status": "note"
   },
   {
    "key": "variable:storage_buildout_monthly|battery_operating_mw_net_added_12m",
    "table": "storage_buildout_monthly",
    "entity": "",
    "variable": "battery_operating_mw_net_added_12m",
-   "name": "Operating battery storage, net MW added over the last 12 months",
+   "name": "Operating battery storage added over the last twelve months, net of retirements (EIA-860M)",
    "unit": "MW",
-   "from": "drafted by session 267 from the table's codes",
-   "status": "draft"
+   "from": "docs/methods/storage_buildout.md (battery_operating_mw_net_added_12m)",
+   "status": "note"
   }
  ]
 }

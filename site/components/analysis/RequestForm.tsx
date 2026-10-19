@@ -78,8 +78,10 @@ export function RequestForm({ catalogue, listOnly = false }: { catalogue: Catalo
           <tbody>
             {reqs.map((r) => (
               <tr key={r.id} className="border-b border-rule" data-request-id={r.id} data-request-status={r.status}>
-                <td className="py-1 pr-3">{catalogue.find((c) => c.id === r.finding)?.title ?? (r.finding === "scanner_daily" ? "The scanner's daily scan" : r.finding)}</td>
-                <td className="py-1 pr-3">{Object.entries(r.params).map(([k, v]) => `${k}: ${catalogue.find((c) => c.id === r.finding)?.inputs[k]?.words?.[v] ?? v}`).join(", ")}</td>
+                <td className="py-1 pr-3">{catalogue.find((c) => c.id === r.finding)?.title ?? (r.finding === "scanner_daily" ? "The scanner's daily scan" : r.finding === "reader_question" ? "A reader's question (session 315: answered by a person, by email)" : r.finding)}</td>
+                <td className="py-1 pr-3">{r.finding === "reader_question"
+                  ? <span data-reader-question={r.id}>{r.params.question}{r.params.tables ? ` (tables: ${r.params.tables})` : ""}{r.params.email ? ` for ${r.params.email}` : ""}</span>
+                  : Object.entries(r.params).map(([k, v]) => `${k}: ${catalogue.find((c) => c.id === r.finding)?.inputs[k]?.words?.[v] ?? v}`).join(", ")}</td>
                 <td className="py-1 pr-3 font-mono">{when(r.asked_at)}</td>
                 <td className="py-1 pr-3">{STATUS[r.status] ?? r.status}{r.note ? `: ${r.note}` : ""}</td>
                 <td className="py-1">

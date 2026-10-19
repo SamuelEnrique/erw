@@ -5,8 +5,19 @@
 import { CardChart } from "./CardChart";
 import { FormChart } from "./FormChart";   // session 182, part 4: the card's chart in a chosen form (the default: as before)
 import { RoundupButton } from "./RoundupButton";
-import type { Card } from "@/lib/findings";
+import type { Card, Callout } from "@/lib/findings";
+import { Num } from "@/components/Num";
 import type { ReactNode } from "react";
+
+// Session 315 (the owner's ruling of 13 October 2026: every card is a Num with its table): each callout figure and each
+// cell of the table of estimates is a Num whose check key names the card and the figure's place in the card's own JSON
+// (finding|<card>|callout|<i>|before or after|<grid>, finding|<card>|effect|<row>|<column>|<grid>); the value checker
+// (scripts/check-values.mjs) reads the same file. The grid is the one the figure's own words name (its label, its
+// period, its row), or "-": a grid held under its publisher's terms from 21 October 2026 (lib/license.ts) reads
+// "license needed" in the figure's place, the card staying (ruling 6a of the Research pack).
+const GRID_WORD: [RegExp, string][] = [[/\bERCOT\b/i, "ercot"], [/\bCAISO\b/i, "caiso"], [/\bPJM\b/i, "pjm"], [/\bMISO\b/i, "miso"], [/\bSPP\b/i, "spp"], [/\bNYISO\b/i, "nyiso"], [/\bISO-NE\b/i, "isone"]];
+export const gridOfWords = (s: string): string => GRID_WORD.find(([re]) => re.test(s))?.[1] ?? "-";
+const calloutKey = (card: Card, i: number, side: "before" | "after", c: Callout) => `finding|${card.card_id}|callout|${i}|${side}|${gridOfWords(`${c[side].period} ${c.label}`)}`;
 
 // Session 238 (/research, one card a screen): with `fold` the card's method footnote, its table of estimates and its
 // further charts stand under one fold, closed until it is opened, so that the claim, the chart, the numbers, the why,
@@ -54,11 +65,11 @@ export function FindingCard({ card, render = false, roundup = true, found, files
           <div key={i} className="border border-rule bg-panel p-3" data-callout={i}>
             <div className="text-[11px] uppercase tracking-wide text-muted">{c.label}</div>
             <div className="mt-1 text-sm">
-              <span className="text-muted">{c.before.period}: </span><strong className="text-lg" data-callout-before={i}>{c.before.text}</strong>
+              <span className="text-muted">{c.before.period}: </span><Num check={calloutKey(card, i, "before", c)} raw={c.before.text}><strong className="text-lg" data-callout-before={i}>{c.before.text}</strong></Num>
               <span className="text-muted">{c.unit ? ` ${c.unit}` : ""}</span>
             </div>
             <div className="text-sm">
-              <span className="text-muted">{c.after.period}: </span><strong className="text-lg" data-callout-after={i}>{c.after.text}</strong>
+              <span className="text-muted">{c.after.period}: </span><Num check={calloutKey(card, i, "after", c)} raw={c.after.text}><strong className="text-lg" data-callout-after={i}>{c.after.text}</strong></Num>
               <span className="text-muted">{c.unit ? ` ${c.unit}` : ""}</span>
             </div>
           </div>
@@ -77,13 +88,17 @@ export function FindingCard({ card, render = false, roundup = true, found, files
               </tr>
             </thead>
             <tbody>
-              {card.effect_table.rows.map((r) => (
+              {card.effect_table.rows.map((r, ri) => {
+                const g = gridOfWords(r.measure);
+                const cell = (col: "coef_per_gw" | "se" | "p" | "n" | "r2", text: string) => <Num check={`finding|${card.card_id}|effect|${ri}|${col}|${g}`} raw={r[col]}>{text}</Num>;
+                return (
                 <tr key={r.measure} className="border-b border-rule">
-                  <td className="py-1 pr-3">{r.measure}</td><td className="py-1 pr-3 text-right font-mono">{fmtN(r.coef_per_gw)}</td>
-                  <td className="py-1 pr-3 text-right font-mono">{fmtN(r.se)}</td><td className="py-1 pr-3 text-right font-mono">{fmtP(r.p)}</td>
-                  <td className="py-1 pr-3 text-right font-mono">{r.n}</td><td className="py-1 text-right font-mono">{fmtN(r.r2)}</td>
+                  <td className="py-1 pr-3">{r.measure}</td><td className="py-1 pr-3 text-right font-mono">{cell("coef_per_gw", fmtN(r.coef_per_gw))}</td>
+                  <td className="py-1 pr-3 text-right font-mono">{cell("se", fmtN(r.se))}</td><td className="py-1 pr-3 text-right font-mono">{cell("p", fmtP(r.p))}</td>
+                  <td className="py-1 pr-3 text-right font-mono">{cell("n", String(r.n))}</td><td className="py-1 text-right font-mono">{cell("r2", fmtN(r.r2))}</td>
                 </tr>
-              ))}
+                );
+              })}
             </tbody>
           </table>
         </div>

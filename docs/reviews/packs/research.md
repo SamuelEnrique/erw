@@ -7,11 +7,19 @@
 - The page landed as `01161064` (session 238, which renamed Automated Analysis to Research). `/analysis` and every address under it answer with a permanent redirect to the same place under `/research` (`site/next.config.ts`).
 - Since session 260's note: session 251 took the weekly hunt from 7 patterns to 20 and raised 12 drafts (the list holds 28); session 258 made a draft's source line name only the tables whose rows it uses; session 267 put the verdict of 13 October beside each draft, the brand palette in the charts, a guard on the daily chart, a plain-names file and the do-files' first lines.
 
+## Session 315: the page as built (19 October 2026)
+
+The owner's rulings of 19 October on section 9 and of 13 October on the layout, built by session 315 (`archive/sessions/SESSION_315_REPORT.md`):
+
+- The page, in order: **the request form** (the reader's own question, the tables to read, an email for the answer; it writes `analysis_requests` through the server route and a person answers), with the finding flow under it; **today's chart** with its sentence and its record's figures; **this week's chart** (the Roundup's) with its callouts; **the findings library** (the approved cards, each with its chart, its sentence, its tables and its downloads); **the archive** last. Every figure on a card is a Num with its card's JSON (`finding|...` keys), today's record's figures too (`digest_chart|...`).
+- Section 9's outcomes: **1b** nothing changes at `/internal/findings` (no card reaches the page without approval). **2a** the hunt's floor and fourth test: session 316. **3a** the 25 percent guard stays. **4b** a record of EIA's newest month carries the publisher's figure: session 316. **5b** the plain names follow the methods notes (six of the seven drafts rewritten, listed in the methods note; the retail sales draft stays, no note names it). **6a** the NYISO and ISO-NE figures on the cards read "license needed" from 21 October by the tools' rule; the cards stay.
+- Counts on the branch: the eleven analyses, the eleven committed cards and the nine in the library are as the table below says; the drafts on the review list and the verdicts are session 304's (`site/lib/findingverdicts.ts`, each dated).
+
 ## 1. What it is for, and for whom
 
 - The question: what has the warehouse found in its own tables, how was each finding computed, and can a reader recompute it.
 - A finding is a question put to the warehouse and answered as a card: a title, the answer as a subtitle, one chart that compares, two or three before and after numbers, a paragraph, a method footnote, and three files to download (the data, the Python, a Stata do-file).
-- The page, in order: a form to ask for an analysis; today's chart; this week's chart; the findings library; an archive of every daily and weekly chart.
+- The page, in order: a form to ask for an analysis (the reader's own question since session 315, with the finding flow under it); today's chart; this week's chart; the findings library; an archive of every daily and weekly chart.
 - Researchers: each card can be recomputed from its own download.
 - Investors and operators: the cards state sizes with their errors, and say what the design cannot separate.
 - The owner: a review list (`/internal/findings`) where he approves or dismisses what the scanner and the weekly hunt raised, now with the verdict of 13 October beside each draft.
