@@ -71,19 +71,22 @@ class TheAddress(unittest.TestCase):
     def test_the_picker_is_the_eight_in_the_owners_order_and_the_views_are_six(self):
         self.assertEqual([c[1] for c in self.d["choices"]], ["ERCOT", "CAISO", "PJM", "MISO", "NYISO", "ISO-NE", "SPP", "US48"])
         self.assertEqual([c[2] for c in self.d["choices"]], ["ERCO", "CISO", "PJM", "MISO", "NYIS", "ISNE", "SWPP", "US48"])
-        self.assertEqual(self.d["views"], ["now", "network", "mix", "clean", "exchange", "ask"])
+        # session 299 (the owner's merge of 18 October 2026): four tabs; the old words now, exchange and ask still resolve (OLD_VIEWS)
+        self.assertEqual(self.d["views"], ["network", "mix", "clean", "gravity"])
 
     def test_the_grid_and_the_view_are_in_the_address(self):
-        self.assertEqual(self.d["hrefs"], ["/grid?grid=ercot", "/grid?grid=ercot&view=mix", "/grid?grid=us48&view=network&net=day&t=2021-02-15"])
+        # session 299: the Network tab is the default and is not written; the Gravity tab writes the network's shape word
+        self.assertEqual(self.d["hrefs"], ["/grid?grid=ercot", "/grid?grid=ercot", "/grid?grid=us48&view=network&net=day&t=2021-02-15"])   # session 299: Mix is the opening tab, so it writes no view
         p = self.d["picks"]
         self.assertEqual(p["ercot_mix"], ["ercot", "mix", "ERCO", True])
-        self.assertEqual(p["us48"], ["us48", "exchange", None, True])
+        self.assertEqual(p["us48"], ["us48", "gravity", None, True])              # view=exchange opens the Gravity tab, which holds its blocks
         self.assertEqual(p["label"][0], "isone")
 
     def test_an_address_that_names_no_grid(self):
         p = self.d["picks"]
-        self.assertEqual(p["bare"], ["ercot", "now", "ERCO", False])                # the first of the picker
-        self.assertEqual(p["odd"], ["ercot", "now", "ERCO", False])                 # an address it does not understand
+        # session 299 (ruling 4b): the Lower 48 first, on the Mix tab (the Now view's blocks), then the reader picks (ERCOT on the Now view until then)
+        self.assertEqual(p["bare"], ["us48", "mix", None, False])
+        self.assertEqual(p["odd"], ["us48", "mix", None, False])                # an address it does not understand
         # the views the old all-grid pages redirect into open on the Lower 48, as those pages opened: no panel on the network
         self.assertEqual(p["network_bare"], ["us48", "network", None, False])
         self.assertEqual(p["mix_bare"][0], "us48")
@@ -160,10 +163,12 @@ class TheRedirects(unittest.TestCase):
 
 class ThePage(unittest.TestCase):
     def test_the_page_draws_the_six_views_under_the_brand(self):
+        # session 299: four tabs; the Now blocks open the Mix tab, the Exchange blocks sit under the gravity shape, Ask is the panel beside every tab
         page = src("site", "app", "grid", "page.tsx")
         self.assertIn("<Brand>", page)
-        for words in ("<ToolPicker label=\"Grid\"", "<ToolTabs label=\"Views\"", '{view === "now" ? <NowView', '{view === "network" ? <NetworkView', "<MixView c={mix} />",
-                      "<EmissionsParts focus={`eia930:${grid.ba}`} />", "<MixClean c={mix} />", '{view === "exchange" ? <ExchangeView', '{view === "ask" ? <AskView', "<GridMixParts", "<GridCleanParts", "<MixTable />"):
+        for words in ("<ToolPicker label=\"Grid\"", "<ToolTabs label=\"Views\"", '<div data-grid-now="1"><NowView', '{view === "network" ? <NetworkView', "<MixView c={mix} />",
+                      "<EmissionsParts focus={`eia930:${grid.ba}`} />", "<MixClean c={mix} />", '<div className="mt-10"><ExchangeView grid={grid} /></div>', "<AskView grid={grid} question={one(sp.q) ?? \"\"} tab={view} compact />",
+                      "<GridMixParts", "<GridCleanParts", "<MixTable />", '{view === "gravity" ? (', '<aside className="min-w-0 lg:border-l lg:border-rule lg:pl-6" aria-label="Ask"', '<details className="mt-10 border-t border-rule pt-3 text-sm" data-decisions="299">'):
             self.assertIn(words, page)
 
     def test_the_four_numbers_of_now_read_the_public_eia930_tables(self):

@@ -109,6 +109,8 @@ const PAGES = [
   "/grid?grid=ercot", "/grid?grid=caiso", "/grid?grid=pjm", "/grid?grid=miso", "/grid?grid=nyiso", "/grid?grid=isone", "/grid?grid=spp", "/grid?grid=us48",
   "/grid?grid=ercot&view=network", "/grid?grid=ercot&view=mix", "/grid?grid=ercot&view=clean", "/grid?grid=ercot&view=exchange", "/grid?grid=ercot&view=ask",
   "/grid?grid=us48&view=network", "/grid?grid=us48&view=mix", "/grid?grid=us48&view=clean", "/grid?grid=us48&view=exchange", "/grid?grid=us48&view=ask", "/grid?grid=nyiso&view=ask&q=What+was+the+highest+demand+this+week%3F",
+  // session 299: the Gravity tab, the Ask panel's flag, and the old words (now, exchange, ask) that still resolve
+  "/grid?grid=ercot&view=gravity&shape=gravity", "/grid?grid=us48&view=gravity&shape=gravity", "/grid?grid=ercot&view=now", "/grid?grid=caiso&ask=1",
   "/grid?grid=caiso&view=mix&mix=day&period=2026-04", "/grid?grid=pjm&view=mix&mix=stress&year=2025", "/grid?grid=ercot&view=network&net=day&t=2021-02-15&node=ERCO&prices=1&trace=1&shape=map",
   "/grid?view=network&grid=BPAT", "/grid?view=mix&ba=ciso&state=CA", "/grid?grid=nowhere&view=nothing",
   "/policy?view=week", "/policy?view=week&days=30", "/policy?view=week&days=30&agency=ferc&topic=large_load&grid=pjm&large=1", "/policy?view=week&grid=miso", "/data/methods/policy_monitor",  // session 157: "What changed this week", the second view of the policy monitor (in review; scripts/check-policy.mjs opens it in a real browser)

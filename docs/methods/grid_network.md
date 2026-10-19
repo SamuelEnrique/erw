@@ -265,7 +265,8 @@ no drawing) and `site/app/network/NetworkGravity.tsx` (the SVG).
   in is positive (the panel's own sum). Divided by the grid's net generation, they give a share. A grid with no net
   exchange sits on the middle ring (205 units from the center, drawn dashed). A net importer is pulled toward the
   center by 90 units times its share over 0.25, a net exporter pushed out by the same rule; a share of a quarter or
-  more is the full pull. So **a net importer sits nearer the center, a net exporter farther out**. A circle never
+  more is the full pull. Since session 299 the pull is a square-root scale of that share (the section
+  "One page, four tabs" below). So **a net importer sits nearer the center, a net exporter farther out**. A circle never
   overlaps the Lower 48 and never leaves the frame (4 units of gap).
 - **Bearing.** Each grid keeps a fixed bearing that follows the map, in degrees clockwise from north: CAISO 262, SPP
   318, MISO 8, ISO-NE 40, NYISO 66, PJM 104, ERCOT 196. Only the distance carries data.
@@ -287,6 +288,33 @@ it began, computed from the snapshot (the check key `net|lag|<hour>|<refresh>`, 
 and why: EIA-930 publishes a balancing authority's interchange for a local day on the second morning after it (the
 section "How far behind the newest hour is, and why" above). The Now view's sentence gives the same lag for the hour
 of its exchange, under the same key.
+
+## One page, four tabs, and the Ask panel (session 299)
+
+The owner's merge of 18 October 2026, and the Grid pack's rulings, made the Grid tool one page of four tabs: Network,
+Mix, Clean and Gravity, the grid picked once above them, and Ask a panel on the right of every tab. The Now view's
+blocks (the latest hour) open the Mix tab; the Exchange view's blocks sit under the gravity shape on the Gravity tab;
+`/ask` and `/mix` redirect to the panel and the tab. An old address keeps resolving: `view=now` opens Mix,
+`view=exchange` opens Gravity, `view=ask` opens the page with the panel, `shape=gravity` with `view=network` opens
+Gravity (`site/lib/gridtool.ts`, `OLD_VIEWS`). Every block keeps its markup inside the wrapper and its check keys, so
+no number moved. The rulings the page carries, said on the page in its decisions block:
+
+- **4b, the opening grid.** With no grid in the address the page opens on the Lower 48 on every tab (ERCOT on the Now
+  and Ask views until then).
+- **1a, one source for the gravity shape.** EIA-930's net generation sizes every circle, CAISO's included, and the line
+  under the frame says that CAISO's reads smaller and more pulled in since December 2025 (the California break,
+  `docs/methods/eia930_caiso_break.md`). CAISO's own figure is not substituted: the shape would then mix two sources.
+- **2c, a square-root pull.** The pull toward or away from the center is now `sign(share) * sqrt(|share| / 0.25)`,
+  clamped to one (the linear `share / 0.25` until then), so a grid importing a sixteenth of its generation sits at half
+  the full pull rather than a quarter of it: small shares, which are most hours, are told apart. The full pull, a
+  quarter of generation or more, and the bearings are as they were. `site/lib/networkGravity.ts` and the replication
+  script `site/public/grid/erw_2026_grid_replication.py` carry the same rule.
+- **3c, the age of "now", said twice.** The line under the network gives the newest hour's age against the snapshot's
+  latest hourly refresh (the check key `net|lag|<hour>|<refresh>`, which the value checker recomputes) and, beside it,
+  against the clock when the page was drawn (`data-network-clock-lag`, not a key: the clock is not a table, and the
+  page is served for an hour, so the clock figure can be up to an hour stale).
+- **6a, the 63 other balancing authorities.** Not drawn on the gravity shape: their net generation is not in the live
+  set. The line under the frame counts them.
 
 ## Not here
 

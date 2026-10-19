@@ -60,7 +60,9 @@ export function gravityLayout(gen: Record<string, number | null | undefined>, ne
     else if (gi <= 0) state = "zero-generation";
     else r = Math.max(R_MIN, R_CENTER * Math.sqrt(gi / scale));
     if (net === null) { if (state === "drawn") state = "no-ties"; }
-    else if (gi !== null && gi > 0) { share = net / gi; pull = clamp(share / S_FULL, -1, 1); }
+    // session 299 (the owner's ruling 2c of 18 October 2026): a square-root scale, so a small importer moves visibly and
+    // the full pull still comes at S_FULL of generation: pull = sign(share) x sqrt(|share| / S_FULL), held to -1 to 1
+    else if (gi !== null && gi > 0) { share = net / gi; pull = clamp(Math.sign(share) * Math.sqrt(Math.abs(share) / S_FULL), -1, 1); }
     else if (gi !== null && net !== 0) pull = Math.sign(net);   // no generation and a net import: the full pull, either way
     // a net importer (pull > 0) is drawn nearer the center; never on top of the Lower 48, never outside the frame
     const d = clamp(D_MID - D_SPAN * pull, R_CENTER + r + GAP, c - r - GAP);

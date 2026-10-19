@@ -1,31 +1,18 @@
-import type { Metadata } from "next";
-import { Brand } from "@/components/Brand";
-import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
-import { DOCS } from "@/lib/markdown";
-import { AskForm } from "./AskForm";
+import { redirect } from "next/navigation";
+import { gridBy, gridHref } from "@/lib/gridtool";
 
-export const metadata: Metadata = { title: "Ask" };
-
-// session 35: /ask?grid=<slug>&q=<question> is a grid page's scoped chat, opened by its "Ask" box
-export default async function AskPage({ searchParams }: { searchParams: Promise<{ grid?: string; q?: string }> }) {
+// Session 299 (the owner's merge of 18 October 2026: "/mix and /ask become redirects to the tab and the panel"): /ask is
+// the Ask panel of the Grid tool. /ask opens the panel beside the Lower 48 (the general chat, the whole warehouse);
+// /ask?grid=<slug> opens it beside that grid (the grid's scoped chat, session 35, or Ask ERCOT's profile); a question
+// carried in the address (q) is placed in the box, never sent. The page that stood here (sessions 35 to 298) is kept,
+// unrouted, in app/_retired/ask-original. /ask/ercot (the reference version, session 92) is not this page and stays.
+// The redirect is the page's own (a 307, reversible), not a rule of next.config.ts, so the query is carried whole.
+export default async function AskPage({ searchParams }: { searchParams: Promise<{ grid?: string | string[]; q?: string | string[] }> }) {
   const sp = await searchParams;
-  const g = DOCS.grid_config.find((x) => x.slug === sp.grid) ?? null;
-  return (
-    <Brand>
-      <h1 className="mb-1 text-3xl">{g ? `Ask ${g.iso}` : "Ask the warehouse"}</h1>
-      {g ? (
-        <p className="mb-2 max-w-3xl text-sm">
-          This chat speaks for {g.name} only: it reads the tables and rows that carry {g.iso}, and the text of its{" "}
-          <Link href={`/grid/${g.slug}`}>grid page</Link> (cited as docs/grids/{g.slug}.md). <Link href="/ask">Ask about the whole warehouse</Link>.
-        </p>
-      ) : null}
-      <p className="mb-5 max-w-3xl text-sm text-muted">
-        A question about US energy prices, demand, generation, projects or news, answered only from the ERW tables this site reads. Every number in an
-        answer comes from a query of a table, and the answer names the table and its source report; a number that cannot be traced to a query is not
-        shown. If the warehouse does not hold the answer, it says so. Public tables only; power prices and demand cover the last 35 days. At most 10
-        questions per hour.
-      </p>
-      <AskForm grid={g?.slug ?? null} initial={sp.q ?? ""} placeholder={g ? `For example: what was ${g.iso}'s highest demand this week?` : undefined} />
-    </Brand>
-  );
+  const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v);
+  const grid = one(sp.grid);
+  const q = one(sp.q);
+  // gridHref writes the grid (and the opening tab, Mix, writes no view); the panel's flag and the question follow (a grid by any of its words, else the Lower 48)
+  const base = gridHref(gridBy(grid)?.slug ?? "us48");
+  redirect(`${base}${base.includes("?") ? "&" : "?"}ask=1${q ? `&q=${encodeURIComponent(q.slice(0, 500))}` : ""}`);
 }
