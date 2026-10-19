@@ -61,6 +61,8 @@ export function Settings({ x, internal, gridName, costs, defaultDs, stepMeta }: 
   const headWords = v.heads.map((k) => HEADS.find((h) => h.key === k)?.label.split(",")[0].split(":")[0]).join(", ");
   const chartWords = v.charts.length ? v.charts.map((k) => CHARTS.find((c) => c.key === k)?.label).join(", ") : "none";
   const contract = a.cshare > 0 ? `${plain(a.cshare)}% contracted at USD ${plain(a.cprice)} per kW-month` : "no contract";
+  // session 297: the credit and the fade method, when set
+  const more = `${(a.itc ?? 0) > 0 ? `, ${plain(a.itc)}% tax credit` : ""}${(a.method ?? 0) === 1 ? `, capacity fade ${plain(a.fade)}% a year${(a.aug ?? 0) > 0 ? ` restored every ${plain(a.aug)} years` : ""}` : ""}`;
   return (
     <section className="mb-4 bg-paper px-4 py-4" aria-label="Assumptions" data-settings="1">
       <h2 className="mb-1 font-serif text-lg text-accent">Assumptions</h2>
@@ -94,7 +96,7 @@ export function Settings({ x, internal, gridName, costs, defaultDs, stepMeta }: 
 
       <div id="financing">
         <SettingsFold id="financing" title="Financing" open={false}
-          summary={`Scenario ${s.view.toUpperCase()}: ${plain(a.share)}% debt at ${plain(a.rate)}%, ${plain(a.hurdle)}% hurdle, ${contract}`}>
+          summary={`Scenario ${s.view.toUpperCase()}: ${plain(a.share)}% debt at ${plain(a.rate)}%, ${plain(a.hurdle)}% hurdle, ${contract}${more}`}>
           <BatteryFinancing x={x} costs={costs} gridName={gridName} stepMeta={stepMeta} />
         </SettingsFold>
       </div>

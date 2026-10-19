@@ -97,7 +97,8 @@ class TheSourcedRanges(unittest.TestCase):
         self.assertEqual((r4["share"]["low"], r4["share"]["high"]), (20, 60))
         self.assertEqual((r8["capex"]["low"], r8["capex"]["high"]), (1180, 3040))
         self.assertIn("extrapolation", r8["capex"]["source"])
-        self.assertEqual(sorted(none), ["cprice", "cshare", "cycles", "hurdle", "rate", "term"])
+        # session 297: its six keys have no published range either
+        self.assertEqual(sorted(none), ["aug", "augcost", "cprice", "cshare", "cycles", "fade", "hurdle", "itc", "method", "rate", "stress", "term"])
 
     def test_the_finance_hand_cases_pass(self):
         try:
@@ -146,7 +147,8 @@ class TheBox(unittest.TestCase):
         self.assertIn('data-assumptions={s.view}', block)
         self.assertEqual(block.count("data-assumptions="), 1)
         sc = src("site", "app", "cost-of-power", "battery", "Scenarios.tsx")
-        self.assertIn('groups={[{ key: "contract", title: "The contract", keys: ["cshare", "cprice"] }]}', sc)
+        # session 297: the degradation method's sub-group joins the contract's
+        self.assertIn('groups={[{ key: "degradation", title: "Degradation and augmentation", keys: ["method", "fade", "aug", "augcost"] }, { key: "contract", title: "The contract", keys: ["cshare", "cprice"] }]}', sc)
         self.assertIn("panel={false}", sc)
         self.assertNotIn("useRef", sc)
         form = src("site", "app", "cost-of-power", "battery", "BatteryForm.tsx")

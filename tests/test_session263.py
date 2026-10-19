@@ -167,7 +167,7 @@ class ThePage(unittest.TestCase):
         # session 296: the field draws the line itself from the value typed and the value used (no ref is read in render);
         # the page hands it the words
         self.assertIn("clamp: (t: number, u: number) => clampWords(k, t, u) };", self.scen)
-        self.assertIn("note: <>Default {plain(d[k])}. {sourceOf(k)}.</>, clamp:", self.scen)
+        self.assertIn("note: <>Default {sp.plain(d[k])}. {sourceOf(k)}.</>, clamp:", self.scen)   # session 297: a choice's default is words
         block = src("site", "components", "decisions", "ScenarioBlock.tsx")
         self.assertIn("bound: (key: string, v: number) => number;", block)   # the shared block's bound is not changed
         self.assertIn('<span className="mt-1 block text-xs leading-snug text-muted" data-clamped={f.key}>{clamped}</span>', block)

@@ -15,10 +15,18 @@
 // battery is merchant (the tail). The standalone contract panel the page held until this session (Contract.tsx) is
 // gone: the contract is a scenario's assumption, in the address like the others.
 
-export type Key = "capex" | "share" | "rate" | "term" | "fom" | "rte" | "cycles" | "deg" | "life" | "hurdle" | "cshare" | "cprice";
+export type Key = "capex" | "share" | "rate" | "term" | "fom" | "rte" | "cycles" | "deg" | "life" | "hurdle" | "itc" | "method" | "fade" | "aug" | "augcost" | "stress" | "cshare" | "cprice";
 export type Assumptions = Record<Key, number>;
-/** The twelve, in the order the page lists them: the ten of session 179, then the contract (session 208). */
-export const KEYS: Key[] = ["capex", "share", "rate", "term", "fom", "rte", "cycles", "deg", "life", "hurdle", "cshare", "cprice"];
+/** The eighteen, in the order the page lists them: the ten of session 179, then (session 297) the investment tax
+ * credit, the degradation method with its fade, augmentation and augmentation cost, the stress repeats, then the
+ * contract (session 208). An older set of assumptions without the six of session 297 is read at their defaults, which
+ * move nothing. */
+export const KEYS: Key[] = ["capex", "share", "rate", "term", "fom", "rte", "cycles", "deg", "life", "hurdle", "itc", "method", "fade", "aug", "augcost", "stress", "cshare", "cprice"];
+/** The assumptions that take one of a few values: the degradation method (0 the revenue cut, 1 capacity fade with
+ * augmentation) and the augmentation period (0 none, or every 3, 5, 7 or 10 years). */
+export const OPTIONS: Partial<Record<Key, number[]>> = { method: [0, 1], aug: [0, 3, 5, 7, 10] };
+export const METHOD_WORDS: Record<number, string> = { 0: "revenue cut", 1: "capacity fade with augmentation" };
+export const AUG_WORDS = (v: number) => (v === 0 ? "none" : `every ${v} years`);
 
 export type Spec = {
   key: Key; letter: string; label: string; unit: string; min: number; max: number; whole: boolean;
@@ -66,6 +74,19 @@ export const SPECS: Record<Key, Spec> = {
     short: (v) => `life ${n(v)} years`, words: (v) => `project life ${n(v)} years`, plain: n, source: `${LAZARD}: 20 years for storage` },
   hurdle: { key: "hurdle", letter: "h", label: "Hurdle rate", unit: "percent a year", min: 0, max: 40, whole: false, swing: 1, swingWords: "1 point",
     short: (v) => `hurdle ${n(v)}%`, words: (v) => `hurdle rate ${n(v)} percent`, plain: n, source: `${LAZARD}: "80% equity at a 12% cost" in its storage cases. The default is that cost of equity, ${HURDLE} percent: the NPV is to equity, after the debt payments` },
+  // session 297 (the owner's chain prompt of 19 October 2026, items 1, 2 and 4): the credit, the fade method and the stress repeats
+  itc: { key: "itc", letter: "i", label: "Investment tax credit", unit: "percent of capital cost", min: 0, max: 70, whole: false, swing: 10, swingWords: "10 points",
+    short: (v) => `tax credit ${n(v)}%`, words: (v) => `investment tax credit ${n(v)} percent`, plain: n, source: "No credit by default. The federal investment tax credit for energy storage (the IRS's credit under Internal Revenue Code section 48E, 30 percent for a qualifying project before bonuses) is taken here at year 0 against the equity paid in; confirm the credit, its rate and the project's eligibility before use" },
+  method: { key: "method", letter: "o", label: "Degradation method", unit: "revenue cut, or capacity fade", min: 0, max: 1, whole: true, swing: 0, swingWords: "no step",
+    short: (v) => METHOD_WORDS[v] ?? n(v), words: (v) => `degradation method ${METHOD_WORDS[v] ?? n(v)}`, plain: (v) => METHOD_WORDS[v] ?? n(v), source: "The page's own method, a yearly cut to revenue by the degradation rate above (session 196). The alternative: the battery's capacity fades by the rate below each year, revenue follows it, and augmentation restores it at the cost below" },
+  fade: { key: "fade", letter: "g", label: "Capacity fade", unit: "percent a year", min: 0, max: 20, whole: false, swing: 1, swingWords: "1 point",
+    short: (v) => `fade ${n(v)}% a year`, words: (v) => `capacity fade ${n(v)} percent a year`, plain: n, source: `${LAZARD} (LCOS v10.0): battery degradation of 2.6 percent a year in its utility-scale cases. NREL's Annual Technology Baseline 2025 states no rate of its own (degradation "a function of the usage rate"; its fixed O&M pays for augmentation). Used by the fade method only` },
+  aug: { key: "aug", letter: "m", label: "Augmentation", unit: "none, or every N years", min: 0, max: 10, whole: true, swing: 0, swingWords: "one choice",
+    short: (v) => `augmentation ${AUG_WORDS(v)}`, words: (v) => `augmentation ${AUG_WORDS(v)}`, plain: AUG_WORDS, source: "None by default: the capacity fades through the life. Or restored to the rated capacity every 3, 5, 7 or 10 years (not in the last year) at the cost below. Used by the fade method only" },
+  augcost: { key: "augcost", letter: "k", label: "Augmentation cost", unit: "USD per kWh added", min: 0, max: 2000, whole: false, swing: 50, swingWords: "USD 50 per kWh",
+    short: (v) => `augmentation USD ${n(v)}/kWh`, words: (v) => `augmentation cost USD ${n(v)} per kWh`, plain: n, source: "NREL, Annual Technology Baseline 2025: the energy component of a system's cost, USD 241 per kWh in 2024 dollars (Cole, Karmakar and Mann, NREL/TP-6A40-93281, June 2025, section 2.2). Used by the fade method only" },
+  stress: { key: "stress", letter: "x", label: "Repeats of the peak stress event", unit: "over the life", min: 0, max: 40, whole: true, swing: 1, swingWords: "one repeat",
+    short: (v) => `${n(v)} ${v === 1 ? "repeat" : "repeats"} of the peak event`, words: (v) => `repeats of the peak stress event ${n(v)}`, plain: n, source: "0 by default: the future repeats the last twelve months. Each repeat adds the grid's peak stress event's window revenue once, spread evenly over the life's years (the roadmap's \"what if Uri happened again\")" },
   cshare: { key: "cshare", letter: "n", label: "Contract share", unit: "percent of the battery's power", min: 0, max: 100, whole: false, swing: 10, swingWords: "10 points",
     short: (v) => `contract ${n(v)}%`, words: (v) => `contract share ${n(v)} percent`, plain: n, source: "No contract: the default is fully merchant. A contracted share is paid the contract price every month of the debt's years and earns nothing from the market" },
   cprice: { key: "cprice", letter: "p", label: "Contract price", unit: "USD per kW-month", min: 0, max: 100, whole: false, swing: 1, swingWords: "USD 1 per kW-month",
@@ -78,7 +99,9 @@ export const ONLY_DEFAULT: Steps = { rte: [MODEL.rte], cycles: [MODEL.cycles] };
 
 /** The defaults for a duration: its Lazard capital cost and fixed O&M (lib/batterystack.ts, COSTS), and the rest. */
 export function defaultsOf(costs: { capex: number; fom: number }): Assumptions {
-  return { capex: costs.capex, share: SHARE, rate: 8, term: 20, fom: costs.fom, rte: MODEL.rte, cycles: MODEL.cycles, deg: DEG, life: 20, hurdle: HURDLE, cshare: 0, cprice: 0 };
+  // session 297: no credit, the revenue cut, Lazard's fade, no augmentation at the ATB's energy cost, no stress repeat
+  return { capex: costs.capex, share: SHARE, rate: 8, term: 20, fom: costs.fom, rte: MODEL.rte, cycles: MODEL.cycles, deg: DEG, life: 20, hurdle: HURDLE,
+    itc: 0, method: 0, fade: DEG, aug: 0, augcost: 241, stress: 0, cshare: 0, cprice: 0 };
 }
 
 /** One value brought inside its bounds, or to the default when it cannot be read; the two stepped assumptions take the
@@ -86,6 +109,7 @@ export function defaultsOf(costs: { capex: number; fom: number }): Assumptions {
 export function bound(key: Key, v: number, d: Assumptions, steps: Steps): number {
   if (!Number.isFinite(v)) return d[key];
   if (key === "rte" || key === "cycles") return steps[key].includes(v) ? v : d[key];
+  if (OPTIONS[key]) return OPTIONS[key]!.includes(v) ? v : d[key];  // session 297: one of a few choices, else the default
   const s = SPECS[key];
   const x = Math.min(s.max, Math.max(s.min, v));
   return s.whole ? Math.round(x) : x;
@@ -128,8 +152,9 @@ export function scenarioNotes(q: Record<string, string | undefined>, d: Assumpti
     if (raw === undefined || raw === "") continue;
     const v = Number(raw), b = bound(k, v, d, steps), s = SPECS[k], who = `${s.label}, scenario ${p.toUpperCase()}`;
     if (b === v) continue;
-    if (!Number.isFinite(v)) out.push(`${who}: the value asked for is not a number, so the default ${n(b)} is used.`);
+    if (!Number.isFinite(v)) out.push(`${who}: the value asked for is not a number, so the default ${s.plain(b)} is used.`);
     else if (k === "rte" || k === "cycles") out.push(`${who}: ${n(v)} is not a step the model was run at, so ${n(b)} is used.`);
+    else if (OPTIONS[k]) out.push(`${who}: ${n(v)} is not one of the choices (${OPTIONS[k]!.map((o) => s.plain(o)).join(", ")}), so ${s.plain(b)} is used.`);
     else if (v >= s.min && v <= s.max) out.push(`${who}: ${n(v)} is not a whole number of ${s.unit}, so ${n(b)} is used.`);
     else out.push(`${who}: ${n(v)} is outside the field's bounds, ${n(s.min)} to ${n(s.max)} ${s.unit}, so ${n(b)} is used.`);
   }
@@ -149,7 +174,7 @@ export function scenarioQuery(s: Scenarios, d: Assumptions): [string, string][] 
   return out;
 }
 /** Whether a parameter name is one of the scenarios' (so that the page's other links can carry or drop it). */
-export const isScenarioParam = (name: string) => name === "v" || /^[ab][csrtfeydlhnp]$/.test(name);
+export const isScenarioParam = (name: string) => name === "v" || /^[ab][csrtfeydlhiogmkxnp]$/.test(name);  // session 297: i, o, g, m, k, x
 /** The scenarios' parameters of a query string, to append to another link of the page. A change of duration drops the
  * capital cost and the fixed O&M (their defaults scale with the duration), as the page drops its own typed costs. */
 export function carry(search: string, sameDuration: boolean): string {
@@ -185,7 +210,24 @@ export const debtService = (a: Assumptions) => a.capex * (a.share / 100) * crf(a
 export const debtUsd = (a: Assumptions, mw: number) => Math.round(a.capex * 1000 * (a.share / 100) * crf(a.rate / 100, debtYears(a)) * mw);
 /** Market revenue in year t (1 is the first), USD per kW: the last twelve months' revenue, falling by the degradation
  * rate each year after the first. */
-export const revenueInYear = (a: Assumptions, revKw: number, t: number) => revKw * (1 - a.deg / 100) ** (t - 1);
+export const revenueInYear = (a: Assumptions, revKw: number, t: number, ctx: Ctx = {}) => {
+  // session 297: the fade method: the capacity fades by the rate each year since the last restoration (every `aug`
+  // years, or never), and revenue follows the capacity; the stress repeats add the peak event's revenue, spread evenly
+  const add = ((a.stress ?? 0) * (ctx.peak ?? 0)) / a.life;
+  if ((a.method ?? 0) === 1) {
+    const k = (a.aug ?? 0) > 0 ? (t - 1) % a.aug : t - 1;
+    return revKw * (1 - (a.fade ?? 0) / 100) ** k + add;
+  }
+  return revKw * (1 - a.deg / 100) ** (t - 1) + add;
+};
+/** Session 297: what a year's figures need beyond the assumptions: the grid's peak stress event's window revenue,
+ * USD per kW (each repeat adds it once, spread evenly over the life's years), and the battery's hours (the
+ * augmentation cost is per kWh added, and the library is per kW). Both 0 when absent, which moves nothing. */
+export type Ctx = { peak?: number; hours?: number };
+/** Session 297: the augmentation paid in year t, USD per kW: under the fade method, every `aug` years but the last,
+ * the capacity lost since the last restoration, times the hours, times the cost per kWh; 0 otherwise. */
+export const augmentationCost = (a: Assumptions, t: number, ctx: Ctx = {}) =>
+  (a.method ?? 0) === 1 && (a.aug ?? 0) > 0 && t % a.aug === 0 && t < a.life ? (1 - (1 - (a.fade ?? 0) / 100) ** a.aug) * (ctx.hours ?? 0) * (a.augcost ?? 0) : 0;
 /** Session 208: the contract's income a year, USD per kW of the whole battery: the contracted share at the contract
  * price, twelve months. 0 with no contract. */
 export const contractYear = (a: Assumptions) => ((a.cshare ?? 0) / 100) * (a.cprice ?? 0) * 12;
@@ -193,14 +235,15 @@ export const contractYear = (a: Assumptions) => ((a.cshare ?? 0) / 100) * (a.cpr
 export const merchantShare = (a: Assumptions) => 1 - (a.cshare ?? 0) / 100;
 /** Income in year t, USD per kW: for the debt's years the contract plus the uncontracted share of the market revenue;
  * after them the whole battery in the market. At a contract share of 0 this is the market revenue in every year. */
-export const incomeInYear = (a: Assumptions, revKw: number, t: number) =>
-  t <= debtYears(a) ? contractYear(a) + merchantShare(a) * revenueInYear(a, revKw, t) : revenueInYear(a, revKw, t);
-/** The cash flows to equity, USD per kW, years 0 to the project life: the equity paid in at year 0, then each year's
- * income less fixed O&M less the debt payment while the debt lasts. */
-export function flows(a: Assumptions, revKw: number): number[] {
+export const incomeInYear = (a: Assumptions, revKw: number, t: number, ctx: Ctx = {}) =>
+  t <= debtYears(a) ? contractYear(a) + merchantShare(a) * revenueInYear(a, revKw, t, ctx) : revenueInYear(a, revKw, t, ctx);
+/** The cash flows to equity, USD per kW, years 0 to the project life: the equity paid in at year 0 (session 297: less
+ * the investment tax credit, a share of the capital cost taken at year 0), then each year's income less fixed O&M less
+ * the debt payment while the debt lasts, less the augmentation paid that year (session 297, the fade method). */
+export function flows(a: Assumptions, revKw: number, ctx: Ctx = {}): number[] {
   const ds = debtService(a), dy = debtYears(a);
-  const out = [-a.capex * (1 - a.share / 100)];
-  for (let t = 1; t <= a.life; t++) out.push(incomeInYear(a, revKw, t) - a.fom - (t <= dy ? ds : 0));
+  const out = [-a.capex * (1 - a.share / 100) + a.capex * ((a.itc ?? 0) / 100)];
+  for (let t = 1; t <= a.life; t++) out.push(incomeInYear(a, revKw, t, ctx) - a.fom - (t <= dy ? ds : 0) - augmentationCost(a, t, ctx));
   return out;
 }
 /** Net present value of yearly cash flows at `ratePct` percent: the sum of flow t over (1 + rate)^t. */
@@ -246,20 +289,26 @@ export function breakevenToll(a: Assumptions, target = TARGET): number | null {
 }
 /** The merchant tail: the years of the project life after the debt's years (the toll is taken to run as long as the
  * debt), and the present value at the hurdle rate, at year 0, of those years' revenue less fixed O&M. */
-export function merchantTail(a: Assumptions, revKw: number): { years: number; from: number; to: number; pv: number } {
+export function merchantTail(a: Assumptions, revKw: number, ctx: Ctx = {}): { years: number; from: number; to: number; pv: number } {
   const dy = debtYears(a);
   let pv = 0;
-  for (let t = dy + 1; t <= a.life; t++) pv += (revenueInYear(a, revKw, t) - a.fom) / (1 + a.hurdle / 100) ** t;
+  for (let t = dy + 1; t <= a.life; t++) pv += (revenueInYear(a, revKw, t, ctx) - a.fom - augmentationCost(a, t, ctx)) / (1 + a.hurdle / 100) ** t;
   return { years: Math.max(0, a.life - dy), from: dy + 1, to: a.life, pv };
 }
 
 export type Result = { debt: number; coverage: number | null; npv: number; irr: number | null; toll: number | null; tail: ReturnType<typeof merchantTail> };
 /** Everything a scenario's column shows that depends on its finance, from the last twelve months' revenue per kW. */
-export function resultOf(a: Assumptions, revKw: number): Result {
-  const fl = flows(a, revKw);
-  return { debt: debtService(a), coverage: coverage(a, revKw), npv: npv(a.hurdle, fl), irr: irr(fl), toll: breakevenToll(a), tail: merchantTail(a, revKw) };
+export function resultOf(a: Assumptions, revKw: number, ctx: Ctx = {}): Result {
+  const fl = flows(a, revKw, ctx);
+  return { debt: debtService(a), coverage: coverage(a, revKw), npv: npv(a.hurdle, fl), irr: irr(fl), toll: breakevenToll(a), tail: merchantTail(a, revKw, ctx) };
 }
 
+/** The assumptions the sensitivity draws for a scenario: the contract's two only with a contract (session 211);
+ * session 297: the credit's row only with a credit, the stress row only with a repeat, the fade's three only under
+ * the fade method, and the method itself never. At the defaults the ten rows of session 208. */
+export const sensitivityKeys = (a: Assumptions): Key[] => KEYS
+  .filter((k) => !(k === "cshare" || k === "cprice") || (a.cshare ?? 0) > 0)
+  .filter((k) => k !== "method" && (k !== "itc" || (a.itc ?? 0) > 0) && (k !== "stress" || (a.stress ?? 0) > 0) && (!["fade", "aug", "augcost"].includes(k) || (a.method ?? 0) === 1));
 export type Side = { value: number; npv: number };
 export type Bar = { key: Key; label: string; step: string; base: number; down: Side | null; up: Side | null; size: number };
 /** The sensitivity of the net present value: each assumption moved by its stated step down and up, the others held
@@ -276,7 +325,7 @@ export function sensitivity(a: Assumptions, revOf: (rte: number, cycles: number)
   if (base === null) return [];
   // session 211 (the owner's ruling of 12 October 2026): the contract's share and price are rows only when the
   // scenario holds a contract (a share above 0); at the default, fully merchant, the chart draws the ten others
-  const keys = (a.cshare ?? 0) > 0 ? KEYS : KEYS.filter((k) => k !== "cshare" && k !== "cprice");
+  const keys = sensitivityKeys(a);
   const bars = keys.map((k): Bar => {
     const s = SPECS[k];
     const side = (dir: -1 | 1): Side | null => {
@@ -372,15 +421,16 @@ export type YearRow = { t: number; income: number; afterCosts: number; debt: num
 /** The years of a scenario, 1 to the life, USD per kW: the income (the contract and the market), the income less
  * fixed O&M, the debt payment, what is left after it (the cash flow to equity of that year), and the debt still owed at
  * the end of the year (level payments: each pays the year's interest and the rest repays). */
-export function projection(a: Assumptions, revKw: number): YearRow[] {
+export function projection(a: Assumptions, revKw: number, ctx: Ctx = {}): YearRow[] {
   const ds = debtService(a), dy = debtYears(a), r = a.rate / 100;
   let balance = a.capex * (a.share / 100);
   const out: YearRow[] = [];
   for (let t = 1; t <= a.life; t++) {
-    const income = incomeInYear(a, revKw, t);
+    const income = incomeInYear(a, revKw, t, ctx);
+    const costs = a.fom + augmentationCost(a, t, ctx);  // session 297: the augmentation paid that year counts as a cost
     const debt = t <= dy ? ds : 0;
     balance = t <= dy ? Math.max(0, balance * (1 + r) - ds) : 0;
-    out.push({ t, income, afterCosts: income - a.fom, debt, afterDebt: income - a.fom - debt, balance });
+    out.push({ t, income, afterCosts: income - costs, debt, afterDebt: income - costs - debt, balance });
   }
   return out;
 }
@@ -406,6 +456,13 @@ function snapStep(steps: number[], v: number, from: number, dir: -1 | 1): number
 export function movedValue(k: Key, a: Assumptions, dir: -1 | 1, mode: Mode, steps: Steps): number | null {
   const s = SPECS[k];
   const stepped = k === "rte" || k === "cycles";
+  // session 297: a choice (the method, the augmentation period) has no published range; by a percent step the
+  // augmentation period goes to the next choice that way, and the method does not move
+  if (OPTIONS[k]) {
+    if (mode.kind === "range" || k === "method") return null;
+    const opts = OPTIONS[k]!, i = opts.indexOf(a[k]) + dir;
+    return i >= 0 && i < opts.length && opts.indexOf(a[k]) >= 0 ? opts[i] : null;
+  }
   if (mode.kind === "range") {
     const r = mode.ranges[k];
     if (!r) return null;
@@ -424,16 +481,16 @@ export function movedValue(k: Key, a: Assumptions, dir: -1 | 1, mode: Mode, step
  * others held, and the NPV or the IRR recomputed; `size` and the sort are in the measure's unit. A row whose assumption
  * cannot move either way is left out (no published range in the sourced mode). The contract's two rows only when the
  * scenario holds a contract, as before. */
-export function sensitivityIn(a: Assumptions, revOf: (rte: number, cycles: number) => number | null, steps: Steps, mode: Mode, measure: Measure): Bar[] {
+export function sensitivityIn(a: Assumptions, revOf: (rte: number, cycles: number) => number | null, steps: Steps, mode: Mode, measure: Measure, ctx: Ctx = {}): Bar[] {
   const at = (x: Assumptions): number | null => {
     const rev = revOf(x.rte, x.cycles);
     if (rev === null) return null;
-    const fl = flows(x, rev);
+    const fl = flows(x, rev, ctx);
     return measure === "irr" ? irr(fl) : npv(x.hurdle, fl);
   };
   const base = at(a);
   if (base === null) return [];
-  const keys = (a.cshare ?? 0) > 0 ? KEYS : KEYS.filter((k) => k !== "cshare" && k !== "cprice");
+  const keys = sensitivityKeys(a);
   const bars: Bar[] = [];
   for (const k of keys) {
     const s = SPECS[k];
@@ -483,4 +540,7 @@ export function rangesOf(hours: number): Ranges {
 export const NO_RANGE: Partial<Record<Key, string>> = {
   rate: "8 percent in both of Lazard's structures", term: "20 years in Lazard's storage cases", hurdle: "a 12 percent cost of equity in both of Lazard's structures",
   cycles: "the model's rule, one a day; the other steps are the reader's", cshare: "the reader's own term", cprice: "the reader's own term",
+  // session 297
+  itc: "the project's own credit, none published as a range", method: "a choice, not a figure", fade: "Lazard's 2.6 percent; the ATB states no rate", aug: "a choice, not a figure",
+  augcost: "the ATB's one figure, USD 241 per kWh", stress: "the reader's own number of repeats",
 };

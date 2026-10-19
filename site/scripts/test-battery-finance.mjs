@@ -32,12 +32,13 @@ const near = (a, b, tol = 1e-9) => a !== null && b !== null && Math.abs(a - b) <
 const now4 = F.defaultsOf({ capex: 1110, fom: 22 });
 // session 208 (the owner's rulings of 12 October 2026): the debt share is Lazard's storage structure, 20 percent; the hurdle rate
 // is Lazard's cost of equity, 12 percent; the contract's share and price are assumptions, 0 by default (fully merchant)
-check(JSON.stringify(now4) === JSON.stringify({ capex: 1110, share: 20, rate: 8, term: 20, fom: 22, rte: 86, cycles: 1, deg: 2.6, life: 20, hurdle: 12, cshare: 0, cprice: 0 }), "the defaults of a 4-hour battery (session 208: debt share 20, hurdle rate 12, no contract)", JSON.stringify(now4));
+// session 297: six more, each at a default that moves nothing (no credit, the revenue cut, Lazard's fade, no augmentation at the ATB's energy cost, no repeat)
+check(JSON.stringify(now4) === JSON.stringify({ capex: 1110, share: 20, rate: 8, term: 20, fom: 22, rte: 86, cycles: 1, deg: 2.6, life: 20, hurdle: 12, itc: 0, method: 0, fade: 2.6, aug: 0, augcost: 241, stress: 0, cshare: 0, cprice: 0 }), "the defaults of a 4-hour battery (session 208: debt share 20, hurdle rate 12, no contract; session 297: the six at their idle defaults)", JSON.stringify(now4));
 check(/Lazard/.test(F.SPECS.hurdle.source) && /80% equity at a 12% cost/.test(F.SPECS.hurdle.source) && /Lazard/.test(F.SPECS.share.source) && /20% debt at an 8% interest rate/.test(F.SPECS.share.source) && /Lazard/.test(F.SPECS.deg.source) && /2\.6 percent a year/.test(F.SPECS.deg.source) && F.HURDLE === 12 && F.SHARE === 20 && F.DEG === 2.6, "the defaults state their source: the hurdle rate is the cost of equity, the debt share the storage cases'");
 check(/fully merchant/.test(F.SPECS.cshare.source) && /fully merchant/.test(F.SPECS.cprice.source), "the contract's two defaults say the default is fully merchant");
 // the hand cases below were worked at session 179's defaults, 60 percent debt, degradation 0 and a hurdle rate of 8, and stay on them
 const d4 = { ...now4, share: 60, deg: 0, hurdle: 8 };
-check(F.KEYS.length === 12 && new Set(F.KEYS.map((k) => F.SPECS[k].letter)).size === 12, "twelve assumptions, twelve different letters");
+check(F.KEYS.length === 18 && new Set(F.KEYS.map((k) => F.SPECS[k].letter)).size === 18, "eighteen assumptions, eighteen different letters (session 297: six more)");
 
 // the capital recovery factor and the debt payment: 0.08 / (1 - 1.08^-20) = 0.101852209; 1,110 x 0.6 x that = 67.8336 a kW
 check(near(F.crf(0.08, 20), 0.10185220882315059, 1e-12), "crf(8 percent, 20 years) = 0.101852209", String(F.crf(0.08, 20)));
@@ -184,6 +185,51 @@ check(F.cellTotals(c, 92, 2).get("2026-02") === 24 && F.cellTotals(c, 89, 1) ===
   check(capIrr && near(capIrr.base, F.irr(F.flows({ ...z, hurdle: 5 }, 150))) && capIrr.down.npv > capIrr.base, "measured in IRR the bars are rates of return: a lower capital cost gives a higher rate", JSON.stringify(capIrr));
   check(F.sensitivityIn(z, () => 5, steps, pct, "irr").length === 0 && F.sensitivityIn(z, () => 5, steps, pct, "npv").length === 10, "a scenario with no rate of return draws no bar in IRR, and its ten in NPV");
   check(F.NO_RANGE.rate !== undefined && F.NO_RANGE.term !== undefined && F.NO_RANGE.hurdle !== undefined && F.NO_RANGE.cycles !== undefined, "the assumptions without a range are named, with why");
+}
+
+// session 297: the investment tax credit, the fade method with augmentation, and the stress repeats
+{
+  const d = F.defaultsOf({ capex: 1110, fom: 22 });
+  const ctx = { peak: 3430.6, hours: 4 };
+  check(JSON.stringify(F.resultOf(d, 81.4, ctx)) === JSON.stringify(F.resultOf(d, 81.4)) && JSON.stringify(F.flows(d, 81.4, ctx)) === JSON.stringify(F.flows(d, 81.4)), "at the defaults the context moves nothing: no credit, the revenue cut, no repeat");
+  const old = { ...d };
+  for (const k of ["itc", "method", "fade", "aug", "augcost", "stress"]) delete old[k];
+  check(JSON.stringify(F.flows(old, 81.4, ctx)) === JSON.stringify(F.flows(d, 81.4, ctx)), "an older set of assumptions, without the six keys, is read at their defaults");
+  // the credit: 30 percent of 1,110 at year 0, against the equity paid in (80 percent of 1,110 = 888)
+  const withItc = F.flows({ ...d, itc: 30 }, 81.4);
+  check(near(withItc[0], -888 + 333) && withItc.slice(1).every((v, i) => near(v, F.flows(d, 81.4)[i + 1])), "the credit is taken at year 0 only: -888 + 333 = -555", String(withItc[0]));
+  check(F.npv(12, withItc) > F.npv(12, F.flows(d, 81.4)) && near(F.npv(12, withItc) - F.npv(12, F.flows(d, 81.4)), 333), "NPV rises by the credit itself, undiscounted at year 0");
+  // the fade method: capacity (1 - 0.026)^(t-1) with no augmentation, revenue following it; the revenue cut not applied
+  const fadeNone = { ...d, method: 1, fade: 2.6, aug: 0, deg: 0 };
+  check(near(F.revenueInYear(fadeNone, 100, 1, ctx), 100) && near(F.revenueInYear(fadeNone, 100, 3, ctx), 100 * 0.974 ** 2) && near(F.revenueInYear(fadeNone, 100, 20, ctx), 100 * 0.974 ** 19), "under the fade method revenue follows the capacity, (1 - fade)^(t - 1) with no augmentation");
+  check(near(F.revenueInYear({ ...fadeNone, deg: 10 }, 100, 3, ctx), 100 * 0.974 ** 2), "the revenue cut is not applied under the fade method");
+  // augmentation every 5 years: the capacity restarts at 1 in years 6, 11 and 16; the cost in years 5, 10 and 15 (not 20) is the lost share x hours x cost per kWh
+  const aug5 = { ...d, method: 1, fade: 2.6, aug: 5, augcost: 241 };
+  check(near(F.revenueInYear(aug5, 100, 5, ctx), 100 * 0.974 ** 4) && near(F.revenueInYear(aug5, 100, 6, ctx), 100) && near(F.revenueInYear(aug5, 100, 11, ctx), 100), "augmentation every 5 years restores the capacity in years 6, 11 and 16");
+  const lost = 1 - 0.974 ** 5;
+  check(near(F.augmentationCost(aug5, 5, ctx), lost * 4 * 241) && near(F.augmentationCost(aug5, 10, ctx), lost * 4 * 241) && F.augmentationCost(aug5, 20, ctx) === 0 && F.augmentationCost(aug5, 4, ctx) === 0 && F.augmentationCost(d, 5, ctx) === 0,
+    "the augmentation cost: the capacity lost over the period, times the hours, times the cost per kWh, in years 5, 10 and 15 and not the last; 0 under the revenue cut", String(F.augmentationCost(aug5, 5, ctx)));
+  const fl5 = F.flows(aug5, 100, ctx);
+  check(near(fl5[5], F.incomeInYear(aug5, 100, 5, ctx) - 22 - F.debtService(aug5) - lost * 4 * 241) && near(fl5[6], F.incomeInYear(aug5, 100, 6, ctx) - 22 - F.debtService(aug5)), "the flows pay the augmentation in its year");
+  check(near(F.projection(aug5, 100, ctx)[4].afterCosts, 100 * 0.974 ** 4 - 22 - lost * 4 * 241), "the projection counts the augmentation as a cost of its year");
+  check(F.augmentationCost({ ...aug5, hours: undefined }, 5, {}) === 0, "with no hours in the context no augmentation cost is charged (nothing invented)");
+  // the stress repeats: each adds the peak event's window revenue once, spread evenly over the life
+  const st = { ...d, stress: 2 };
+  check(near(F.revenueInYear(st, 100, 1, ctx), 100 + 2 * 3430.6 / 20) && near(F.revenueInYear(st, 100, 7, ctx), 100 * 0.974 ** 6 + 2 * 3430.6 / 20), "two repeats add 2 x 3,430.6 / 20 to each year", String(F.revenueInYear(st, 100, 1, ctx)));
+  check(near(F.npv(0, F.flows(st, 100, ctx)) - F.npv(0, F.flows(d, 100, ctx)), 2 * 3430.6), "the plain sum rises by the two windows' revenue");
+  check(F.revenueInYear(st, 100, 1, {}) === 100 && F.coverage(st, 100) === F.coverage(d, 100), "without a peak event in the context a repeat adds nothing; coverage never reads the repeats");
+  // the rows the sensitivity draws
+  check(F.sensitivityKeys(d).length === 10 && F.sensitivityKeys({ ...d, itc: 30 }).includes("itc") && F.sensitivityKeys({ ...d, stress: 1 }).includes("stress") && !F.sensitivityKeys(d).includes("method"),
+    "ten rows at the defaults; the credit's and the stress row with a value; the method never");
+  const fk = F.sensitivityKeys({ ...d, method: 1 });
+  check(fk.includes("fade") && fk.includes("aug") && fk.includes("augcost") && !fk.includes("method") && fk.length === 13, "under the fade method its three rows join (thirteen)", fk.join(","));
+  const steps = { rte: [86, 89, 92], cycles: [0.5, 1, 1.5, 2] }, pct = { kind: "pct", pct: 10 };
+  check(F.movedValue("aug", { ...d, method: 1, aug: 5 }, 1, pct, steps) === 7 && F.movedValue("aug", { ...d, method: 1, aug: 5 }, -1, pct, steps) === 3 && F.movedValue("aug", { ...d, method: 1, aug: 0 }, -1, pct, steps) === null && F.movedValue("method", d, 1, pct, steps) === null,
+    "the augmentation period moves to the next choice; the method does not move");
+  check(F.bound("aug", 4, d, steps) === 0 && F.bound("aug", 7, d, steps) === 7 && F.bound("method", 2, d, steps) === 0 && F.bound("itc", 90, d, steps) === 70, "a choice outside the list takes the default; the credit is held to 70");
+  check(F.isScenarioParam("ai") && F.isScenarioParam("bx") && F.isScenarioParam("ao") && !F.isScenarioParam("av"), "the six new letters are the scenarios' (i, o, g, m, k, x), and v is not");
+  const words = F.differenceWords(d, { ...d, method: 1, aug: 5, stress: 1 });
+  check(words === "B: degradation method capacity fade with augmentation against revenue cut; augmentation every 5 years against none; repeats of the peak stress event 1 against 0.", "the row in words names the choices", words);
 }
 
 console.log(failed ? `${failed} FAILED` : "all passed");

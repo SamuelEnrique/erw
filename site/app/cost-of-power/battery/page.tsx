@@ -126,6 +126,9 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
   const events = stressRead?.ok ? stress(stressRead.data, x.strat, x.dur) : [];
   // session 296: each event's revenue by month, for the income table's "leave out" boxes
   const em = stressRead?.ok ? eventMonths(stressRead.data, x.strat, x.dur) : {};
+  // session 297: the grid's peak stress event, by its window's revenue, for the stress repeats (USD per kW)
+  const peakEvent = events.length ? events.reduce((a, e) => (e.total > a.total ? e : a)) : null;
+  const peak = peakEvent ? { kw: peakEvent.total / 1000, label: peakEvent.label } : null;
   // session 257: the published real-fleet figures beside the model's own case (CAISO: a 4-hour battery, day-ahead, 2025).
   // The case's months are the page's own rows when it is the battery shown, else one more read of the same table
   const fleet = g.review || !read.ok ? null : fleetBeside(x.grid);
@@ -166,7 +169,7 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
       {/* session 92: drawn only in the internal view while /ask/ercot is in review (components/AskErcotLink.tsx) */}
       {x.grid === "ercot" ? <AskErcotLink context={{ view: "/cost-of-power/battery", title: "What a battery earns", settings: { grid: "ERCOT", duration: `${x.dur} hours`, strategy: `${STRATEGIES[x.strat]} (${x.strat})`, size: `${x.mw} MW` } }} /> : null}
       <BatteryDecisions key={`${x.grid}|${x.dur}|${x.strat}|${x.mw}|${JSON.stringify(scenarioParams)}`} ms={ms} mw={x.mw} costs={costs} stepCase={stepCase}
-        stepMeta={stepMeta} initial={scenarioParams} view={view}>
+        stepMeta={stepMeta} initial={scenarioParams} view={view} peak={peak} hours={x.dur}>
         <div className="grid gap-8 lg:grid-cols-[290px_minmax(0,1fr)]">
           <aside>
             {/* session 296: the box "Assumptions", five sections (Settings.tsx) */}

@@ -37,8 +37,8 @@ import { SeriesChart } from "@/components/tool/SeriesChart";
 import { HeadlineNumber, HeadlineRow, Tip } from "@/components/tool/ToolPage";
 import { badMonth, coverage, inputsKey, last36, lastTwelve, monthName, sumOf, usdShort, type Inputs, type Month, type Year } from "@/lib/batterystack";
 import {
-  KEYS, MODEL, NO_RANGE, SPECS, bound, cellTotals, clampWords, coverage as coverageOf, debtUsd, defaultsOf, differenceWords, differing, equityIn, flows, isOldParam, isScenarioParam, npvPerEquity, parseScenarios, paybackYear,
-  projection, rangesOf, resultOf, scenarioQuery, sensitivityIn, stepState, stepsOffered, type Assumptions, type Key, type Mode, type Scenarios as Both, type StepCase, type StepState, type Steps,
+  KEYS, MODEL, NO_RANGE, OPTIONS, SPECS, bound, cellTotals, clampWords, coverage as coverageOf, debtUsd, defaultsOf, differenceWords, differing, equityIn, flows, isOldParam, isScenarioParam, npvPerEquity, parseScenarios, paybackYear,
+  projection, rangesOf, resultOf, scenarioQuery, sensitivityIn, sensitivityKeys, stepState, stepsOffered, type Assumptions, type Ctx, type Key, type Mode, type Scenarios as Both, type StepCase, type StepState, type Steps,
 } from "@/lib/battery/finance";
 import { CHARTS, HEADS, isViewParam, viewQuery, type View as PageView } from "@/lib/battery/view";
 import { U, V } from "./nums";
@@ -52,7 +52,9 @@ const day = (iso: string) => new Date(iso).toLocaleDateString("en-GB", { day: "n
 type Revenue = { l12: number | null; first: string | null; last: string | null; bad: Month | null; n36: number; months: Month[] };
 export type StepMeta = { built: string; rte_steps: number[]; cycle_steps: number[] };
 type Costs = { capex: number; fom: number; note: string; source?: string };
-type Held = { d: Assumptions; steps: Steps; state: StepState; revenue: (rte: number, cycles: number) => Revenue | null };
+/** Session 297: the grid's peak stress event (its window revenue, USD per kW, and its name), for the stress repeats. */
+export type Peak = { kw: number; label: string } | null;
+type Held = { d: Assumptions; steps: Steps; state: StepState; revenue: (rte: number, cycles: number) => Revenue | null; ctx: Ctx; peak: Peak };
 const Battery = createContext<Held | null>(null);
 const useBattery = () => useContext(Battery)!;
 /** The parameters of the address the scenarios replace: their own, the two old names read as scenario A's, and
@@ -84,8 +86,10 @@ function revenueAt(ms: Month[], need: string[], state: StepState, stepCase: Step
 
 /** The two scenarios of the page and (session 296) the reader's view, held above its sections: the box edits them,
  * the headline reads scenario A and the view. */
-export function BatteryDecisions({ ms, mw, costs, stepCase, stepMeta, initial, view, children }: {
-  ms: Month[]; mw: number; costs: { capex: number; fom: number }; stepCase: StepCase | null; stepMeta: StepMeta; initial: Record<string, string | undefined>; view: PageView; children: ReactNode;
+export function BatteryDecisions({ ms, mw, costs, stepCase, stepMeta, initial, view, peak, hours, children }: {
+  ms: Month[]; mw: number; costs: { capex: number; fom: number }; stepCase: StepCase | null; stepMeta: StepMeta; initial: Record<string, string | undefined>; view: PageView;
+  /** session 297: the grid's peak stress event, and the battery's hours (the augmentation cost is per kWh) */
+  peak: Peak; hours: number; children: ReactNode;
 }) {
   const d = useMemo(() => defaultsOf(costs), [costs]);
   // the months the page's own windows read: a step is offered only while the file of steps still describes them
@@ -96,7 +100,8 @@ export function BatteryDecisions({ ms, mw, costs, stepCase, stepMeta, initial, v
   const [v, setV] = useState<PageView>(view);
   const set = useCallback((p: Partial<PageView>) => setV((cur) => ({ ...cur, ...p })), []);
   const query = useCallback((s: { a: Values; b: Values; view: View }) => [...scenarioQuery(s as unknown as Both, d), ...viewQuery(v)], [d, v]);
-  const held = useMemo(() => ({ d, steps, state, revenue }), [d, steps, state, revenue]);
+  const ctx = useMemo<Ctx>(() => ({ peak: peak?.kw ?? 0, hours }), [peak, hours]);
+  const held = useMemo(() => ({ d, steps, state, revenue, ctx, peak }), [d, steps, state, revenue, ctx, peak]);
   const heldView = useMemo(() => ({ v, set }), [v, set]);
   return (
     <Battery.Provider value={held}>
@@ -112,12 +117,12 @@ export function BatteryDecisions({ ms, mw, costs, stepCase, stepMeta, initial, v
  * contract. */
 function useA(x: Inputs, ms: Month[]) {
   const { s } = useScenarios<Assumptions>();
-  const { revenue } = useBattery();
+  const { revenue, ctx } = useBattery();
   const a = s.a;
   const model = a.rte === MODEL.rte && a.cycles === MODEL.cycles;
   const contracted = a.cshare > 0;
   const y: Inputs = { ...x, fom: a.fom, ds: debtUsd(a, x.mw) };
-  return { a, model, contracted, y, months: model ? ms : revenue(a.rte, a.cycles)?.months ?? ms };
+  return { a, model, contracted, y, ctx, months: model ? ms : revenue(a.rte, a.cycles)?.months ?? ms };
 }
 
 /** The summary sentence and the headline numbers, computed from scenario A. At the model's own efficiency and
@@ -127,7 +132,7 @@ function useA(x: Inputs, ms: Month[]) {
  * no key: the table holds no contract. Session 296: the reader picks which figures (up to six of eight); the five new
  * ones are scenario A's finance (lib/battery/finance.ts) and carry no key, as the results table's cells carry none. */
 export function BatteryHeadline({ ms, x, gridName, gridFrom }: { ms: Month[]; x: Inputs; gridName: string; gridFrom?: string }) {
-  const { a, model, contracted, y, months } = useA(x, ms);
+  const { a, model, contracted, y, ctx, months } = useA(x, ms);
   const { v } = useContext(ViewCtx)!;
   const key = inputsKey(y);
   const size = `${x.mw.toLocaleString("en-US")} MW, ${x.dur}-hour`;
@@ -137,8 +142,8 @@ export function BatteryHeadline({ ms, x, gridName, gridFrom }: { ms: Month[]; x:
   const share = l12 && total ? Math.round((sumOf(l12, "ancillary") / total) * 100) : null;
   const cover = total === null ? null : contracted ? coverageOf(a, total / 1000) : coverage(total, y);
   const kw = total === null ? null : total / 1000;
-  const r = kw === null ? null : resultOf(a, kw);
-  const fl = kw === null ? null : flows(a, kw);
+  const r = kw === null ? null : resultOf(a, kw, ctx);
+  const fl = kw === null ? null : flows(a, kw, ctx);
   const cycles = `${plain(a.cycles)} ${a.cycles === 1 ? "cycle" : "cycles"} a day`;
   const keyed = model && !contracted;
   // session 263: a capital cost or a debt share of 0 leaves no debt; the sentence and the number say so, where they read
@@ -197,11 +202,11 @@ export function BatteryHeadline({ ms, x, gridName, gridFrom }: { ms: Month[]; x:
 export function BatteryCharts({ ms, x, ys, upper, brokenNote, strategyLine }: {
   ms: Month[]; x: Inputs; ys: Year[]; upper: string; brokenNote: ReactNode; strategyLine: string;
 }) {
-  const { a, months } = useA(x, ms);
+  const { a, ctx, months } = useA(x, ms);
   const { v } = useContext(ViewCtx)!;
   const l12 = lastTwelve(months);
   const kw = l12 ? sumOf(l12, "total") / 1000 : null;
-  const rows = kw === null ? [] : projection(a, kw);
+  const rows = kw === null ? [] : projection(a, kw, ctx);
   const yearsOf = rows.map((r) => ({ label: String(r.t) }));
   const money = (n: number) => n.toLocaleString("en-US", { maximumFractionDigits: 0 });
   const charts: Record<string, ReactNode> = {
@@ -244,14 +249,14 @@ export function CoverOfA({ total, x }: { total: number; x: Inputs }) {
 /** What the block and the chart both read: the fields, the two columns and the bars of the scenario in view. */
 function useBlock(x: Inputs) {
   const { s } = useScenarios<Assumptions>();
-  const { d, steps, state, revenue } = useBattery();
+  const { d, steps, state, revenue, ctx, peak } = useBattery();
   const { v } = useContext(ViewCtx)!;
   const a = s[s.view];
   const size = `${x.mw.toLocaleString("en-US")} MW, ${x.dur}-hour`;
   const scale = 1000 * x.mw;
   const col = (p: View) => {
     const y = s[p], rev = revenue(y.rte, y.cycles);
-    return { p, y, rev, r: rev && rev.l12 !== null ? resultOf(y, rev.l12) : null };
+    return { p, y, rev, r: rev && rev.l12 !== null ? resultOf(y, rev.l12, ctx) : null };
   };
   const cols = { a: col("a"), b: col("b") };
   const inView = cols[s.view];
@@ -259,7 +264,7 @@ function useBlock(x: Inputs) {
   const ranges = rangesOf(x.dur);
   const mode: Mode = v.mode === "range" ? { kind: "range", ranges } : { kind: "pct", pct: v.pct };
   const irr = v.measure === "irr";
-  const bars = inView.r ? sensitivityIn(a, (rte, cycles) => revenue(rte, cycles)?.l12 ?? null, steps, mode, v.measure) : [];
+  const bars = inView.r ? sensitivityIn(a, (rte, cycles) => revenue(rte, cycles)?.l12 ?? null, steps, mode, v.measure, ctx) : [];
   const fmt = irr ? (t: number) => `${num(t, 1)} percent` : usd;
   const side = (t: Side | null) => (t ? `${fmt(t.v)} at ${plain(t.value)}` : v.mode === "range" ? "no published case" : "no step held");
   const chartBars: ChartBar[] = bars.map((b) => ({ key: b.key, label: b.label, step: b.step, base: irr ? b.base : b.base * scale, size: irr ? b.size : b.size * scale,
@@ -271,7 +276,7 @@ function useBlock(x: Inputs) {
     sizeWords: (b) => (b.down || b.up ? fmt(b.size) : "no case held"), stepWords: () => (v.mode === "range" ? "low and high case" : `by ${plain(v.pct)} percent`),
     heads: v.mode === "range" ? [`${what}, low case`, `${what}, high case`] : [`${what}, lowered`, `${what}, raised`], side: (_, t) => side(t),
     legend: v.mode === "range" ? ["Low case", "High case"] : [`Lowered by ${plain(v.pct)} percent`, `Raised by ${plain(v.pct)} percent`] } : null;
-  return { s, d, steps, state, a, size, scale, cols, chart, v };
+  return { s, d, steps, state, a, size, scale, cols, chart, v, peak };
 }
 
 /** Session 296: the twelve assumptions of the scenario in view, in the left box under "Financing": the panel the
@@ -281,14 +286,17 @@ export function BatteryFinancing({ x, costs, gridName, stepMeta }: { x: Inputs; 
   const sourceOf = (k: Key) => (k === "capex" || k === "fom" ? `${costs.source ?? SPECS[k].source}: ${costs.note}` : SPECS[k].source);
   // session 263: a value typed outside a field's bounds is brought inside them by `bound`, and the field says so under
   // it while that value is in force (session 296: the field draws the line itself, from the value typed and the one used)
-  const fields: Field[] = KEYS.map((k) => {
+  // session 297: the stress repeats are set in the second question (Scenarios), beside the results they move; the
+  // degradation method and the augmentation period are choices, each a list
+  const fields: Field[] = KEYS.filter((k) => k !== "stress").map((k) => {
     const sp = SPECS[k];
-    return { key: k, label: sp.label, unit: sp.unit, min: sp.min, max: sp.max, whole: sp.whole,
-      options: k === "rte" || k === "cycles" ? steps[k].map((v) => ({ value: v, label: plain(v) })) : undefined,
-      note: <>Default {plain(d[k])}. {sourceOf(k)}.</>, clamp: (t: number, u: number) => clampWords(k, t, u) };
+    const options = k === "rte" || k === "cycles" ? steps[k].map((v) => ({ value: v, label: plain(v) })) : OPTIONS[k] ? OPTIONS[k]!.map((v) => ({ value: v, label: sp.plain(v) })) : undefined;
+    return { key: k, label: sp.label, unit: sp.unit, min: sp.min, max: sp.max, whole: sp.whole, options,
+      note: <>Default {sp.plain(d[k])}. {sourceOf(k)}.</>, clamp: (t: number, u: number) => clampWords(k, t, u) };
   });
   return (
-    <ScenarioPanel fields={fields} defaults={d} bound={(k, v) => bound(k as Key, v, d, steps)} columns={1} groups={[{ key: "contract", title: "The contract", keys: ["cshare", "cprice"] }]}
+    <ScenarioPanel fields={fields} defaults={d} bound={(k, v) => bound(k as Key, v, d, steps)} columns={1}
+      groups={[{ key: "degradation", title: "Degradation and augmentation", keys: ["method", "fade", "aug", "augcost"] }, { key: "contract", title: "The contract", keys: ["cshare", "cprice"] }]}
       foot={(
         <p className="mt-3 text-xs leading-snug text-muted" data-steps={state.ok ? "held" : state.why}>
           {state.ok
@@ -303,8 +311,31 @@ export function BatteryFinancing({ x, costs, gridName, stepMeta }: { x: Inputs; 
   );
 }
 
+/** Session 297 (the roadmap's "what if Uri happened again"): the stress repeats of the scenario in view, set beside the
+ * results they move. Each repeat adds the grid's peak stress event's window revenue once, spread evenly over the
+ * life's years; 0 by default, so nothing moves. Drawn only when the grid holds a stress event. */
+function StressRepeats({ peak }: { peak: Peak }) {
+  const { s, update } = useScenarios<Assumptions>();
+  const { d, steps } = useBattery();
+  if (!peak) return null;
+  const a = s[s.view];
+  const set = (v: number) => update({ ...s, [s.view]: { ...a, stress: bound("stress", v, d, steps) } });
+  return (
+    <div className="mb-4 flex flex-wrap items-center gap-x-3 gap-y-2 border border-rule bg-paper px-3 py-2 text-sm" data-stress-repeats={s.view}>
+      <span className="font-semibold">Stress test<Tip id="stress" label="the stress test">{SPECS.stress.source}. The peak event of this grid is {peak.label}: USD {num(peak.kw)} per kW in its window, from the stress table. A repeat is added to the market revenue of every year, {num(peak.kw / a.life)} per kW a year each at a life of {plain(a.life)} years, before the contract&apos;s share and after the degradation; coverage, which reads the last twelve months, does not move.</Tip></span>
+      <label className="inline-flex items-center gap-2">scenario {s.view.toUpperCase()} repeats {peak.label}
+        <input type="number" inputMode="numeric" min={0} max={SPECS.stress.max} step={1} value={a.stress} data-assumption="stress" aria-label="Repeats of the peak stress event over the life" className="w-16 border border-muted bg-white px-2 py-1 text-sm"
+          onChange={(e) => { const v = Number(e.target.value); if (e.target.value !== "" && Number.isFinite(v)) set(v); }} />
+        {a.stress === 1 ? "time" : "times"} over its life
+      </label>
+      <button type="button" data-reset="stress" aria-label="Reset repeats of the peak stress event" disabled={a.stress === d.stress} className="border border-rule bg-white px-2 py-1 text-xs text-accent disabled:text-muted" onClick={() => set(d.stress)}>Reset</button>
+      <span className="text-xs text-muted">Default 0. USD {num(peak.kw)} per kW a repeat, {peak.label}.</span>
+    </div>
+  );
+}
+
 export function Scenarios({ x }: { x: Inputs }) {
-  const { s, d, steps, size, scale, cols } = useBlock(x);
+  const { s, d, steps, size, scale, cols, peak } = useBlock(x);
   type Col = (typeof cols)["a"];
   const none: Cell = { v: "not held", raw: null };
   const row = (key: string, label: string, note: string, cell: (c: Col) => Cell): Row => ({ key, label, note, cell: (p) => cell(cols[p]) });
@@ -328,7 +359,8 @@ export function Scenarios({ x }: { x: Inputs }) {
 
   return (
     <>
-      <p className="mb-3 max-w-3xl text-sm text-muted" data-financing-where="1">The twelve assumptions of each scenario are set in the box on the left, under <a href="#financing">Financing</a>; scenario A gives the headline.</p>
+      <p className="mb-3 max-w-3xl text-sm text-muted" data-financing-where="1">The assumptions of each scenario are set in the box on the left, under <a href="#financing">Financing</a>; scenario A gives the headline.</p>
+      <StressRepeats peak={peak} />
       <ScenarioBlock
         panel={false} fields={[]} defaults={d} bound={(k, v) => bound(k as Key, v, d, steps)} head={`For ${size}`} rows={rows}
         differing={differing(s.a, s.b)} short={(k, v) => SPECS[k as Key].short(v)} differs={differenceWords(s.a, s.b)}
@@ -350,7 +382,8 @@ export function BatterySensitivity({ x }: { x: Inputs }) {
   if (!chart) return <p className="max-w-3xl text-sm text-muted" data-sensitivity-none="1">No twelve consecutive months are held, so there is no NPV to move.</p>;
   const measure = v.measure === "irr" ? "IRR" : "NPV";
   const drawn = new Set(chart.bars.map((b) => b.key));
-  const missing = KEYS.filter((k) => !drawn.has(k) && NO_RANGE[k] && (s[s.view].cshare > 0 || (k !== "cshare" && k !== "cprice")));
+  // the rows the chart would draw for this scenario (session 297: sensitivityKeys) that have no published range
+  const missing = sensitivityKeys(s[s.view]).filter((k) => !drawn.has(k) && NO_RANGE[k]);
   return (
     <>
       <p className="mb-2 max-w-3xl text-sm" data-how-to-read="1" data-mode={v.mode} data-measure={v.measure}>
