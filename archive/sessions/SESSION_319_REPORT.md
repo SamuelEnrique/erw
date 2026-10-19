@@ -33,20 +33,38 @@ In the internal view (https://erw-flame.vercel.app/internal/open first).
 | `eslint` on the five page files | 1 | one error that stood before in `CompaniesTable.tsx` (a setState in an effect, line 42, untouched); the files changed are clean |
 | The live set read for the faults (the anon key) | 0 | the day-ahead tables' rows of the last day per grid; the elements wider than 390 px on the two deals pages |
 | `tests.test_session319`, `64`, `240`, `179`, `186`, `194`, `282`, `30` | 0 | OK |
-| `npm run build` | BUILD | |
-| `check-values.mjs` (`/events`, `/prices`, `/deals`, `/board`) | VALUES | |
-| `check-routes`, `check-board`, `check-prices-compare` | CHECKS | |
-| Captures, 1280 and 390, before and after | | `docs/brand/review-319/` |
-| Suite, clean copy, the commit pushed | SUITE | |
-| `scripts/freeze.py status` | FREEZE | |
+| `npm run build` | not run | stopped by the machine: at 23:02 UTC Claude Code stopped every background job of this chain for low memory (the suite at session 315's head, session 317's rebuild, this session's queued build), and a job so stopped is not restarted unattended (the chain's rule since 13 October, `archive/sessions/SESSION_209_REPORT.md`); the commands are under "To finish" |
+| `check-values.mjs` (`/events`, `/prices`, `/deals`, `/board`) | not run | the same |
+| `check-routes`, `check-board`, `check-prices-compare` | not run | the same |
+| Captures, 1280 and 390, before and after | not taken | `docs/brand/review-319/` holds the README alone; `s319_build.sh` takes the pairs (no before of the new page) |
+| Suite, clean copy, the commit pushed | not run | the same |
+| `scripts/freeze.py status` | 0 | no freeze at 23:02 UTC (no `REVIEW_FREEZE` file) |
 
 ## Landing of session 318 (recorded here: session 318's report is in that landing's own commit)
 
-LANDING318
+Session 318 had not landed when this session's work ended (its report, "To finish"); its landing's record goes here when it lands.
 
 ## Landing
 
-LANDING
+Not landed. The chain's landings stopped after session 315's: stopped by the machine: at 23:02 UTC Claude Code stopped every background job of this chain for low memory (the suite at session 315's head, session 317's rebuild, this session's queued build), and a job so stopped is not restarted unattended (the chain's rule since 13 October, `archive/sessions/SESSION_209_REPORT.md`); the commands are under "To finish".
+
+## To finish
+
+Each step on the code machine from the main copy, one landing at a time (no `task/` push waiting while a build or a suite runs), outside 14:00 to 16:15 and 22:30 to 23:45 UTC. `land_checks.sh` takes the build mutex, runs the whole suite in `erw-check` at the main copy's head, builds, serves, and runs `check-values`, `check-routes` and the checks named; `land_wait.sh` waits for GitHub's check and the merge, probes production for the new build, takes the after snapshot and compares. Read `runs/chain_oct19/<label>/result.txt` and `wait_result.txt`; every difference of the comparison goes into the next report, marked expected or not. Sessions 316 to 318 land first. The build script waits for `runs/chain_oct19/s318/result.txt` to say "done".
+
+```bash
+bash runs/chain_oct19/s319_build.sh                      # erw-296 at wip/319-events: the build, the sideways-scroll probe at 390 on five pages, check-values, the three checks, the capture pairs into erw-319/docs/brand/review-319/
+git -C ../erw-319 add docs/brand/review-319 && git -C ../erw-319 commit -m "Session 319: the shots"   # then push wip/319-events
+git fetch origin && git checkout -b task/319-events origin/wip/319-events && git merge origin/main
+bash runs/chain_oct19/land_checks.sh s319land 3319 check-board.mjs check-prices-compare.mjs
+.venv\Scripts\python.exe scripts/freeze.py status
+node site/scripts/snapshot-live.mjs take s319-before
+git push -u origin task/319-events
+bash runs/chain_oct19/land_wait.sh s319 $(git rev-parse HEAD) task/319-events s319-before s319-after
+git push origin --delete wip/319-events
+```
+
+Impeccable's `detect` on the page files of this session was not run either (the design tools run on the code machine with a browser; the same stop): `docs/tooling.md` says how, and its findings on words go under "For Samuel's ruling" of the landing's report.
 
 ## Decisions made without you
 
