@@ -7,7 +7,7 @@ import { FindingCard } from "@/components/analysis/FindingCard";
 import { Section } from "@/components/Section";
 import { VERDICTS, VERDICT_DOC } from "@/lib/findingverdicts";
 import { COOKIE } from "@/lib/release";
-import { listDrafts, STATE_WORDS, type Draft } from "@/lib/scanner";
+import { listDrafts, needsPublisher, STATE_WORDS, type Draft } from "@/lib/scanner";
 import { internalOk } from "@/lib/thesis/server";
 
 // Session 181: the scanner's review list (docs/methods/automated_analysis_scanner.md). Internal: no nav link, not
@@ -77,6 +77,20 @@ function VerdictLine({ id }: { id: string }) {
   );
 }
 
+// Session 316 (the Research pack's ruling 4b): a record of EIA's newest month shows EIA's own figure beside ours, read by
+// the data machine (publisher_figure.py) with the address and the time; until it is read the draft cannot be approved.
+function PublisherLine({ d }: { d: Draft }) {
+  if (!needsPublisher(d)) return null;
+  const p = d.card.publisher;
+  if (!p) return <p className="mb-2 text-xs text-muted" data-publisher="missing">EIA&apos;s own figure for this month is not read yet: approval waits for it (the data machine runs publisher_figure.py).</p>;
+  return (
+    <p className="mb-2 text-xs" data-publisher={p.same ? "same" : "differs"} data-publisher-value={p.value}>
+      <span className="text-muted">{p.source}&apos;s own figure for {p.period}: </span><strong className="font-mono">{p.value.toLocaleString("en-US", { maximumFractionDigits: 4 })} {p.unit}</strong>
+      <span className="text-muted"> ({p.eia_value.toLocaleString("en-US", { maximumFractionDigits: 4 })} {p.eia_unit} as EIA writes it); ours {p.ours === null ? "none" : p.ours.toLocaleString("en-US", { maximumFractionDigits: 4 })}: <strong>{p.same ? "the same" : "differs"}</strong>. Read {p.read_at.replace("T", " ").replace("Z", " UTC")} from <a href={p.url} className="underline">{p.url.replace(/^https:\/\//, "").slice(0, 60)}...</a></span>
+    </p>
+  );
+}
+
 function DraftBlock({ d }: { d: Draft }) {
   return (
     <div className="border border-rule p-3" data-draft-id={d.id} data-draft-rule={d.rule} data-draft-strength={d.strength} data-draft-verdict-of={VERDICTS[d.id]?.verdict ?? "none"}>
@@ -85,6 +99,7 @@ function DraftBlock({ d }: { d: Draft }) {
         <span className="font-mono">{d.table_name}</span>; flagged {d.flag_date}
       </p>
       <VerdictLine id={d.id} />
+      <PublisherLine d={d} />
       <FindingCard card={d.card} roundup={false} />
       {d.card.hunt ? <HuntFiles id={d.id} hunt={d.card.hunt} /> : null}
       <DraftReview id={d.id} state={d.state} history={d.state_history ?? []} requestId={d.request_id} fullCard={fullCardWords(d)} />

@@ -14,6 +14,10 @@ export type Draft = {
   request_id: string | null; card: Card;
 };
 export const STATES: DraftState[] = ["approved", "dismissed", "full_card_asked"];
+/** Session 316 (ruling 4b): a scanner record on a table EIA's API answers for carries the publisher's figure before approval. */
+export const needsPublisher = (d: Pick<Draft, "rule" | "table_name">) => d.rule === "record" && /^eia_/.test(d.table_name);
+/** The publisher's figure a draft carries (publisher_figure.py): EIA's value for the series and month, in the ERW's unit. */
+export type PublisherFigure = { source: string; period: string; value: number; unit: string; eia_value: number; eia_unit: string; url: string; read_at: string; ours: number | null; same: boolean };
 export const STATE_WORDS: Record<DraftState, string> = {
   draft: "draft, not reviewed", approved: "approved", dismissed: "dismissed", full_card_asked: "full card asked",
 };

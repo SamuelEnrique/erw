@@ -200,6 +200,15 @@ The owner's task of 12 October 2026: Automated Analysis is Research. The page is
 - **A card's files.** The data (CSV), the Stata do-file and the Python file are linked where `site/public/findings/` holds them; a file that is not held is named "not held" and is never a link.
 - **The charts' colors** are the brand's tokens (`site/app/tokens.css`): on these pages each color literal of a card's chart is replaced by a token when the chart draws (`site/components/echarts.ts`, `data-chart-tokens`). The renderer's photographs are not changed.
 
+## The hunt's fourth test and its floor (session 316, 19 October 2026)
+
+The owner's ruling of 19 October 2026 on the Research pack's question 2 (option a). A claim passes five tests since this session (three until it, `hunt.py`, `test_claim`): the three of session 233 (holds in more than one year, survives a change of window, sample large enough), and two more:
+
+- **Half the change remains without the first year.** From the second full year to the last, the change must be at least half of the change from the first; a claim that leans on its first year is one year's step, not a trend. ERCOT's night wind of 14 October 2026 (wind's share of the night, 26.97 percent in 2019 to 31.45 in 2025) kept 1.5 percent of its change without 2019 and would not have been drafted; the four hunt drafts of 13 October that were not spikes keep 77 to 107 percent and still pass. Fewer than three full years cannot leave the first out, and the test fails.
+- **At least one typical yearly move** (`STRENGTH_FLOOR = 1.0`). The strength is the change over the typical yearly move (the median move between full years); a change under one typical move is noise. The four spike drafts of 13 October (0.43 to 0.51) would not have been drafted.
+
+`tests/test_session316.py` runs the stored series of those drafts (`docs/reviews/findings-verified-2026-10-13/verify_hunt.json`, `findings-verified-2026-10-13-session251/verify_251.json`) through `test_claim` and shows which test stops each; the data machine runs the next hunt (`run_data_machine_tables.sh`).
+
 ## The Research tool, its form and its figures (session 315, 19 October 2026)
 
 The owner's ruling of 13 October 2026 on the tool's layout, and his rulings of 19 October on the Research pack's section 9, built by the chain of 19 October (daytime).

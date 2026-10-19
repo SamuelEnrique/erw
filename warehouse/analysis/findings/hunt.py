@@ -289,8 +289,11 @@ def spread(values):
     return 1.4826 * m
 
 
+STRENGTH_FLOOR = 1.0   # session 316: a draft's change is at least one typical yearly move (the Research pack's ruling 2a)
+
+
 def test_claim(series, P, this_year):
-    """The claim for one region and its three tests. None when there is no claim to test (fewer than two full years,
+    """The claim for one region and its five tests (three until session 316). None when there is no claim to test (fewer than two full years,
     or no change). Returns {first_year, last_year, first, last, change, direction, tests: [{name, passed, words}],
     passed, strength, years, values}."""
     full = full_years(series, P, this_year)
@@ -318,10 +321,25 @@ def test_claim(series, P, this_year):
           "words": f"{y0} holds {common.fmt(n0, 0)} and {y1} holds {common.fmt(n1, 0)} observations; the floor is {common.fmt(P['n_floor'], 0)}"}
     vals = [series[y][0] for y in full]
     sp = spread(vals)
+    strength = round(abs(change) / sp, 4) if sp > 0 else 0.0
+    # session 316 (the owner's ruling of 19 October 2026, the Research pack's 2a; session 252 asked for the test): the
+    # fourth test, half of the change must remain when the first year is left out (ERCOT's night wind of 14 October kept
+    # 1.5 percent of its change without 2019 and would not have been drafted); and a floor on the strength, the change
+    # must be at least one typical yearly move (the four spike drafts of 13 October, at 0.43 to 0.51, would not have been)
+    if len(full) >= 3:
+        rest = series[full[1]][0]
+        remains = (v1 - rest) / change
+        t4 = {"name": "half the change remains without the first year", "passed": remains >= 0.5,
+              "words": f"from {full[1]} to {y1} the change is {common.fmt(v1 - rest, P['decimals'])}, {common.fmt(remains * 100, 1)} percent of the change from {y0}"}
+    else:
+        t4 = {"name": "half the change remains without the first year", "passed": False, "words": f"only {len(full)} full years are held; three are needed to leave the first out"}
+    t5 = {"name": "at least one typical yearly move", "passed": strength >= STRENGTH_FLOOR,
+          "words": f"the change is {common.fmt(strength, 2)} typical yearly moves ({val(sp, P)} a year, the median move between full years); the floor is {common.fmt(STRENGTH_FLOOR, 0)}"}
+    tests = [t1, t2, t3, t4, t5]
     return {"first_year": y0, "last_year": y1, "first": v0, "last": v1, "change": change, "direction": "up" if s > 0 else "down",
-            "tests": [t1, t2, t3], "passed": t1["passed"] and t2["passed"] and t3["passed"], "years": full, "values": vals,
+            "tests": tests, "passed": all(t["passed"] for t in tests), "years": full, "values": vals,
             "n_first": n0, "n_last": n1, "years_held": len(held), "years_after": len(later), "typical_move": sp,
-            "strength": round(abs(change) / sp, 4) if sp > 0 else 0.0}
+            "strength": strength, "remains_without_first": round(remains, 4) if len(full) >= 3 else None}
 
 
 def news(key, claim, P, state):

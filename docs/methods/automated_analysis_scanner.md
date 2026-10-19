@@ -207,3 +207,8 @@ review list: a flag needs no ruling to be the day's chart, and being the day's c
   of customers) and three that a later revision must settle.
 - A record of a monthly series is a record of what the publisher has released; EIA revises its newest months.
 - The pair rule tests whether two series parted, not why.
+
+## The publisher's figure beside a record (session 316, 19 October 2026)
+
+The owner's ruling of 19 October 2026 on the Research pack's question 4 (option b). A draft the scanner raised as a record of EIA's newest month (rule `record` on a table EIA's API answers for, `eia_*`) carries, before it can be approved, the figure EIA's own data service holds for that series and month: `warehouse/analysis/findings/publisher_figure.py`, run on the data machine after the daily scan, asks `api.eia.gov/v2` once per draft and month (the series' route and facets as the connector `eia_series.py` reads them: the state and sector of a retail price, the location and energy source of generation; the series id for the petroleum routes), records the value as EIA writes it and in the ERW's unit by the connector's conversion, the address without the key and the time of the read, and writes them into the draft's card (`card.publisher`). `/internal/findings` shows the figure beside ours with whether the two agree; the approval route (`site/app/internal/findings/state/route.ts`) refuses "approved" for such a draft while the figure is missing. A read that fails leaves the draft without a figure (none is made up) and the script exits 1. A record on any other table is approved as before.
+
