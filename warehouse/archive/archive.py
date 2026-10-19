@@ -443,6 +443,14 @@ def archive_table(name, run_id, now, bucket, man, runner):
         if bucket.enabled:
             put_part(bucket, f"{name}/{month}", run_id, lines)  # session 34: chunked when too large for one object
         append_lines(path, lines, month_header(name, month, header))
+    if rolling(name) and bucket.enabled and len(np.setdiff1d(keys, kh)):
+        # session 305: a rolling-window table no longer holding keys it once held (policy_reads_evidence,
+        # price_board_spreads) cannot be rebuilt row for row from these lines (no deletion is recorded for it), so
+        # its exact copy goes to _copies/<table>/<data sha256>.csv.gz, which warehouse/restore_tables.py takes
+        copy = f"_copies/{name}/{data_sha}.csv.gz"
+        if bucket.get(copy) is None:
+            with open(os.path.join(OUT, name + ".csv"), "rb") as f:
+                bucket.put(copy, gzip.compress(f.read()))
     seen = np.union1d(seen, rh[new]) if new.any() else seen
     keys = np.union1d(keys, kh) if rolling(name) else np.unique(kh)
     save_state(name, seen, keys, run_id, bucket)
@@ -533,7 +541,9 @@ def pull():
     n = 0
     for top in bucket.ls(""):
         name = top["name"]
-        if name == "_state" or top.get("id") is not None:
+        # session 305: _copies (exact copies of tables, by data SHA-256) and _exports (the Redivis export ledger) are
+        # warehouse/restore_tables.py's, not run parts
+        if name in ("_state", "_copies", "_exports") or top.get("id") is not None:
             continue
         for mo in bucket.ls(name):
             month = mo["name"]

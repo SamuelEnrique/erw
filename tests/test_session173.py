@@ -101,7 +101,7 @@ class TheRoundupsTables(unittest.TestCase):
         line = next(l for l in y.splitlines() if "warehouse/news/roundup.py;" in l)
         # session 176: the analysis and the Roundup each ask the daily model budget first (warehouse/health.py budget), so
         # the two commands are no longer joined by one "&&"; the order is what this test holds: restore, analysis, Roundup
-        for step in ("upload.py --restore", "watch.py --tables", "run_finding.py --tables", "run.py --tables", "eia_fuels.py",
+        for step in ("restore_tables.py --rolling", "watch.py --tables", "run_finding.py --tables", "run.py --tables", "eia_fuels.py",
                      "then python warehouse/analysis/run.py;", "then python warehouse/news/roundup.py;"):
             self.assertIn(step, line, step)
         self.assertLess(line.find("run_finding.py --tables"), line.find("analysis/run.py --tables"))

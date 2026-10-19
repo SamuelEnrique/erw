@@ -95,7 +95,7 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
               <Num check={key(hi)} raw={t.price[hi]}>{shown(t.price[hi])}</Num> USD/MWh.
             </p>
           ) : (
-            <NoData what="today's level" reason={today.ok ? "no complete ERCOT operating day in the last four days of the live set" : today.reason} />
+            <NoData what="today's level" reason={today.ok ? "no complete ERCOT operating day in the last 30 days of the live set" : today.reason} />
           )}
           <p className="max-w-3xl text-muted">
             The prices are real: ERCOT&apos;s real-time settlement point price at the hub average (HB_HUBAVG), every interval of the day; on the California days,

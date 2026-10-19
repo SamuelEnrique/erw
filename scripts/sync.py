@@ -14,8 +14,11 @@ Where the warehouse lives in the cloud (docs/machines.md, "Cloud copies"):
 - every table, as last uploaded by a data run: Redivis, the public dataset and the internal one (licenses as in
   coverage.csv); the daily job already restores its rolling-window tables from there each morning
 - every row ever written, by month: the append-only archive (warehouse/archive/, and the private Supabase Storage bucket
-  erw-archive), which warehouse/archive/restore.py rebuilds a table from; Redivis is the first choice, the archive the
-  fallback for what Redivis lacks
+  erw-archive), which warehouse/archive/restore.py rebuilds a table from. Session 305: the archive is the first choice
+  (warehouse/restore_tables.py: an exact copy in the bucket, else the table rebuilt and checked against the latest run's
+  row count), Redivis the last, and only under the daily export ceiling (Redivis refused every export from 15 October
+  2026, when 100 GB had been exported in 30 days). The comparison below still reads Redivis's own counts and
+  statistics, which are metadata, not exports
 - raw source files (warehouse/raw/, several GB): the data machine only, by design (too large for the free tiers)
 
 The pull: on main with no uncommitted tracked changes, a fast-forward to origin/main (a merge if local commits exist; never
@@ -220,14 +223,25 @@ def download_frame(table, tmpdir):
 
 
 def restore(names, lic, log):
-    """Each table from its Redivis dataset into warehouse/output, header lines first. Returns {name: (rows, error)}."""
+    """Each table into warehouse/output: from the archive first (session 305), else from its Redivis dataset under the
+    daily export ceiling, header lines first. Returns {name: (rows, error, source)}."""
     sys.path.insert(0, os.path.join(ROOT, "warehouse", "redivis"))
+    sys.path.insert(0, os.path.join(ROOT, "warehouse"))
     import upload as up
+    import restore_tables as rt
     import tempfile
     drafts = up.Drafts()
+    sources = rt.Sources(redivis=False, log=log)
     headers, out = {}, {}
     tmpdir = tempfile.mkdtemp(prefix="erw-sync-")
     for name in names:
+        t0 = time.time()
+        n, source, note = sources.restore(name, os.path.join(OUT, name + ".csv"))
+        if source is not None:
+            out[name] = (n, None, "archive")
+            log(f"  restored {name}: {n:,} rows in {time.time() - t0:.0f} s (from {source})")
+            continue
+        log(f"  {name}: not from the archive ({note[:240]}); Redivis, under the daily export ceiling")
         try:
             dataset = up.dataset_for(lic.get(name, ""))
             ds = drafts(dataset)
@@ -235,8 +249,14 @@ def restore(names, lic, log):
             if meta is None:
                 raise RuntimeError(f"not in the Redivis dataset {dataset}; rebuild it from the archive: python warehouse/archive/restore.py {name}")
             have = meta.get("numRows")
+            nbytes = int(meta.get("numBytes") or 0) or int(1e9)
+            day, done = sources.exported_today()
+            if done + nbytes > rt.ceiling_bytes():
+                raise RuntimeError(f"not asked of Redivis: {nbytes / 1e9:.2f} GB would bring {day}'s exports to "
+                                   f"{(done + nbytes) / 1e9:.2f} GB, over the ceiling of {rt.ceiling_bytes() / 1e9:.1f} GB")
             t0 = time.time()
             df = up.as_erw_text(download_frame(ds.table(name), tmpdir))
+            sources.record_export(name, nbytes)
             if have is not None and len(df) != int(have):
                 raise RuntimeError(f"downloaded {len(df):,} rows, Redivis's count is {int(have):,}")
             if dataset not in headers:
@@ -256,10 +276,10 @@ def restore(names, lic, log):
                 f.write(f"# Restored from the Redivis draft ({dataset}) by scripts/sync.py; the connector rewrites this header when it merges\n")
                 df.to_csv(f, index=False, lineterminator="\n")
             os.replace(tmp, path)  # never half-written: a sync interrupted here leaves the old file or none
-            out[name] = (len(df), None)
+            out[name] = (len(df), None, "redivis")
             log(f"  restored {name}: {len(df):,} rows in {time.time() - t0:.0f} s ({dataset})")
         except Exception as exc:
-            out[name] = (0, f"{type(exc).__name__}: {str(exc)[:200]}")
+            out[name] = (0, f"{type(exc).__name__}: {str(exc)[:200]}", "")
             log(f"  FAILED {name}: {out[name][1]}")
     return out
 
@@ -308,10 +328,12 @@ def main(argv=None, cloud_reader=None, restorer=None):
     todo = groups["missing"] + groups["behind"] + (groups["diverged"] if a.refresh else [])
     if a.check or not todo:
         return 1 if unread else 0
-    log(f"restoring {len(todo)} tables from Redivis")
+    log(f"restoring {len(todo)} tables (the archive first, Redivis last: session 305)")
     got = restorer(todo, lic, log)
-    failed = [t for t, (_, e) in got.items() if e]
-    off = [(t, n) for t, (n, e) in got.items() if not e and n != cloud[t][0]]
+    failed = [t for t, (_, e, *_) in got.items() if e]
+    # session 305: a table rebuilt from the archive is checked against the archive's own run log (restore_tables.py);
+    # Redivis's count may be older, when the export cap held an upload back
+    off = [(t, n) for t, (n, e, *src) in got.items() if not e and (src or ["redivis"])[0] == "redivis" and n != cloud[t][0]]
     for t, n in off:
         log(f"  FAILED {t}: restored {n:,} rows, Redivis counted {cloud[t][0]:,}")
     log(f"sync: {len(got) - len(failed) - len(off)} restored, {len(failed) + len(off)} failed")

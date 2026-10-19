@@ -93,7 +93,7 @@ class TheWorkflows(unittest.TestCase):
     def test_the_watch_lists_tables_are_restored_and_a_failure_does_not_stop_the_roundup(self):
         main = self.steps()["Restore tables, pull fuel prices, run the analysis, write the Roundup"]["run"]
         self.assertIn('python scripts/sync.py --no-git --tables \\"$(python warehouse/analysis/watch.py --tables)\\" || echo', main)
-        self.assertLess(main.index("upload.py --restore"), main.index("scripts/sync.py"))
+        self.assertLess(main.index("restore_tables.py --rolling"), main.index("scripts/sync.py"))  # session 305: the archive first
         self.assertLess(main.index("scripts/sync.py"), main.index("warehouse/analysis/run.py"))
 
 

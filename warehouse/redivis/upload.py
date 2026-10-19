@@ -77,6 +77,14 @@ MIGRATIONS = os.path.join(ROOT, "warehouse", "metadata", "table_migrations.csv")
 PUBLIC, INTERNAL = CONFIG["dataset"], CONFIG["dataset_internal"]
 DESC_MAX = 2000  # Redivis's limit on a table description (HTTP 400 above it)
 HEADERS_TABLE = "erw_headers"  # every provenance header line of every table, in full
+# Session 305: Redivis's answer once 100 GB were exported in 30 days (from 15 October 2026). A read refused for it is a
+# skip, never a failure: the tables are in the archive, and a scheduled day is never red for Redivis.
+CAP_MESSAGE = "Cannot export more than"
+CAP_SKIP = "skipped: Redivis export cap"
+
+
+def capped(exc):
+    return CAP_MESSAGE in str(exc)
 
 
 def secret(name):
@@ -394,6 +402,11 @@ def merge_headers(drafts, names, lic, now, results):
             log(f"{'ok  ' if ok else 'FAIL'} {label}: {expected:,} header lines ({len(new)} for {', '.join(mine)}), "
                 f"Redivis count(*) {actual:,}")
         except Exception as exc:
+            if capped(exc):  # session 305: the draft's header lines could not be read; they stay as the draft has them
+                results.append((label, None, None, CAP_SKIP))
+                log(f"{label}: {CAP_SKIP}: the draft's header lines could not be read, so they are left as they are "
+                    f"(the tables' own headers are in the archive's run log)")
+                continue
             results.append((label, None, None, f"{type(exc).__name__}: {exc}"))
             log(f"FAIL {label}: {type(exc).__name__}: {exc}")
 
@@ -434,6 +447,10 @@ def run_upload(names, include_metadata, allow_shrink=(), create_internal=False, 
             log(f"{'ok  ' if ok else 'FAIL'} {name}: CSV {expected:,} rows, Redivis count(*) {actual:,}"
                 + ("" if target == PUBLIC else f" ({target})"))
         except Exception as exc:
+            if capped(exc):  # session 305: the table waits in the archive for a day the cap allows
+                results.append((name, None, None, CAP_SKIP))
+                log(f"{name}: {CAP_SKIP}: not uploaded; its rows are in the archive")
+                continue
             results.append((name, None, None, f"{type(exc).__name__}: {exc}"))
             log(f"FAIL {name}: {type(exc).__name__}: {exc}")
     if only:  # session 49, --tables: the named tables' header lines only, merged into the drafts' erw_headers
@@ -475,6 +492,10 @@ def run_upload(names, include_metadata, allow_shrink=(), create_internal=False, 
                 results.append((label, expected, actual, "" if ok else "row count mismatch"))
                 log(f"{'ok  ' if ok else 'FAIL'} {label}: {expected:,} header lines, Redivis count(*) {actual:,}")
             except Exception as exc:
+                if capped(exc):  # session 305, as in merge_headers
+                    results.append((label, None, None, CAP_SKIP))
+                    log(f"{label}: {CAP_SKIP}: the draft's header lines could not be read, so they are left as they are")
+                    continue
                 results.append((label, None, None, f"{type(exc).__name__}: {exc}"))
                 log(f"FAIL {label}: {type(exc).__name__}: {exc}")
         for rname, rel in CONFIG["metadata_tables"].items():
@@ -491,10 +512,18 @@ def run_upload(names, include_metadata, allow_shrink=(), create_internal=False, 
                 results.append((rname, None, None, f"{type(exc).__name__}: {exc}"))
                 log(f"FAIL {rname}: {type(exc).__name__}: {exc}")
     write_manifest(man.reset_index().rename(columns={"index": "table"}))
-    failed = [r for r in results if r[3]]
-    log(f"uploaded {len(results) - len(failed)} of {len(results)} tables to the drafts of "
-        f"{PUBLIC} and {INTERNAL} (by license); nothing released")
-    return 1 if failed else 0
+    failed = [r for r in results if r[3] and r[3] != CAP_SKIP]
+    skipped = [r[0] for r in results if r[3] == CAP_SKIP]
+    log(f"uploaded {len(results) - len(failed) - len(skipped)} of {len(results)} tables to the drafts of "
+        f"{PUBLIC} and {INTERNAL} (by license); nothing released"
+        + (f"; {len(skipped)} {CAP_SKIP}: {', '.join(skipped)}" if skipped else ""))
+    if failed:
+        return 1
+    tables_skipped = [n for n in skipped if not n.startswith(HEADERS_TABLE)]
+    if tables_skipped:  # session 305: a skip (warehouse/health.py's exit), with its reason as the last line
+        print(f"upload SKIPPED: {CAP_SKIP}: {len(tables_skipped)} tables wait in the archive: {', '.join(tables_skipped)}")
+        return int(os.environ.get("ERW_SKIP_EXIT") or 75)
+    return 0
 
 
 def changed_tables():
@@ -569,7 +598,7 @@ def as_erw_text(df):
     return out
 
 
-def restore(out_dir=None):
+def restore(out_dir=None, only=None):
     """Download, from the Redivis draft, each rolling-window table that is missing locally.
 
     Session 28: the tables expected are those the manifest lists (redivis_uploads.csv) that
@@ -588,6 +617,8 @@ def restore(out_dir=None):
     listed = {t.name for d in sorted(homes) for t in drafts(d).list_tables()}
     expected = sorted(n for n in ({n for n in man.index if rolling(n)} | {n for n in listed if rolling(n)})
                       if n not in moved)
+    if only is not None:  # session 305: warehouse/restore_tables.py asks for one table, its last resort
+        expected = [n for n in expected if n in set(only)] or sorted(set(only))
     got, failed = 0, 0
     # session 46: a restored file keeps its provenance header, read back from the draft's erw_headers table (every
     # header line of every table, as last uploaded). Daily run 13 failed on policy_reads, whose connector rewrites its
