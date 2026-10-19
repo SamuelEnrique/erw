@@ -36,15 +36,17 @@
 | `test-board.mjs` | 1 | `eia-henry-hub-spot is stale: 2026-10-06`: 13 days on 19 October, past the 10 allowed, while the daily run fails (the data condition of the day, not the rule) |
 | `tests.test_session304`, `test_session267_findings`, `240`, `132`, `161` | 0 | 72 passed |
 | Screenshots, 1280 and 390, before and after, four pages | | `docs/brand/review-304/` (the tracker and the contracts; the two long pages' shots left out for their size, said in the README) |
-| Suite, clean copy, the commit pushed | SUITE_EXIT | SUITE_LINE |
+| Suite, clean copy, the commit pushed | 0 | `Ran 4414 tests`, `OK (skipped=250)` at `1f342e48` in `../erw-check` (`runs/chain_oct19/s304_suite3.out`); the commit pushed is this report's commit on `cdefdb59`, the merge of the landed main (`59772e15`) into `1f342e48`, whose tree is byte for byte `1f342e48`'s; the report commit changes three documents only (this report, session 303's report, the review note), so the suite and the build of `1f342e48` are the suite and the build of the commit pushed |
 
 ## Landing of session 303 (recorded here: session 303's report is in that landing's own commit)
 
-LANDING303
+- Pushed `task/303-one-chart-library` at `e294d37b` at 16:18 UTC (the no-landing window of 14:00 to 16:15 UTC honoured); GitHub's checks passed (run 39284436606, https://github.com/SamuelEnrique/erw/actions/runs/39284436606) and merged it as `59772e15`; production served the new build at 16:40:08 (a new style sheet name) and the after snapshot was taken at 16:40:28.
+- Snapshot `s303-before` (16:18:23) against `s303-after` (16:40:28): 25 pages, 0 differences. Expected: none of the 25 snapshot pages draws a time-series chart whose checked numbers changed, and every page is in review (the visitor sees the in-review page). Nothing unexpected.
 
 ## Landing
 
-LANDING
+- Pushed `task/304-replication` (this report's commit on `cdefdb59`, the merge of the landed main; `git log` names it) after the before snapshot `s304-before`, taken as its own command; `python scripts/freeze.py status` exit 0 (no freeze) before the push; GitHub's check and merge, production's new build and the after snapshot `s304-after` with its comparison are waited for by `runs/chain_oct19/land_wait.sh s304` and written to `runs/chain_oct19/s304/wait_result.txt` (not in git).
+- The comparison's lines and the queue step's result are appended to this report in a commit on `wip/304-replication` after this landing (see "Decisions made without you"): a report cannot hold the comparison of the landing that carries it.
 
 ## Decisions made without you
 
@@ -54,6 +56,7 @@ LANDING
 - **Item 10:** the eight non-drop verdicts of 14 October are shown as "no verdict yet" with the verification's reading in grey, not as strong or usable in bold; a draft raised after 14 October reads "No verdict yet (raised after the verifications of 13 and 14 October 2026)".
 - **Item 4:** the pause line stands between the headline figures and the chart; the deck is named by its file name and the method note is linked; the deck's two figures for `large_load_statements` are the data machine's (session 308).
 - **The review folder leaves out the two long pages** (1.5 to 4 MB a shot).
+- **Session 303's report is completed in this commit** (its suite line and its own landing), since that report was in the landing's own commit; this report's own landing and the queue step's result are appended in a commit on `wip/304-replication` after the landing, pushed to that branch only (a wip push deploys nothing), to be merged by you or by the next chain. Every other session of the chain recorded its landing in the next session's report; this is the last.
 - Questions skipped (Impeccable's playbooks ask them); Impeccable `detect` on the three page files: see the checks.
 
 ## For Samuel's ruling
