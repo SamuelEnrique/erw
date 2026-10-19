@@ -93,6 +93,7 @@ TIER_RULES = [
     ("model_extracted", r"^news_scores_shadow$"),
     ("derived", r"^api_cost_ledger$"),
     ("derived", r"^known_data_faults$"),  # session 103: the ERW's own register of its sources' faults
+    ("derived", r"^grid_stress_days$"),  # session 306: ERW code over the hub prices and CAISO's notices
     # session 138: tariff and Commission figures read by a model, each kept only with its line found on the page
     ("model_extracted", r"^texas_delivery_charges$"),
     ("model_extracted", r"^texas_transmission_matrix$"),  # session 140: the Commission's transmission charge matrices, read the same way
@@ -234,6 +235,7 @@ SECTOR_RULES = [
     (r"^cost_of_power_carbon$", "power;carbon"),
     (r"^merchant_revenue_monthly$", "power;gas"),  # session 51: the seller's side (solar, wind, batteries, peaker)
     (r"^battery_stack_(monthly|stress_daily|review_monthly)$", "power"),  # session 67: the battery revenue stack (energy and ancillary); session 86: the grids in review
+    (r"^(battery_sourced_ranges|grid_stress_days)$", "power"),  # session 306: the battery's published cost cases; the grids' stress days by one rule
     # session 49: interchange and the grid network; a year of hub prices; the 2018 EIA-930 baseline; station weather
     (r"^(eia930_all_interchange|grid_network_(nodes|links))$", "power"),
     # session 68: EIA's daily total interchange of every BA, the two stories' hourly flows, who supplies a grid

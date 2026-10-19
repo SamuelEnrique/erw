@@ -143,6 +143,11 @@ full:
   # it is under review_hold, and its one source under sources_hold. Built on the data machine once a month; a machine
   # that does not hold the table does not load it, and the rows in Supabase stay
   - '^scarcity_hours_by_grid$'
+  # session 306: the battery Sensitivity's published cases (NLR's ATB 2025, 90 rows) and the stress days of the grids by
+  # one rule (derived, about 230 rows), whole. No page reads them yet: under review_hold (session 296's Sensitivity reads
+  # site/data/sourced_ranges.json), and the ATB's source under sources_hold
+  - '^battery_sourced_ranges$'
+  - '^grid_stress_days$'
 
 # Only rows whose time is within the last `days` days (series: ts_utc). Older rows
 # of these tables are deleted from Supabase on each load, so the window rolls.
@@ -342,6 +347,8 @@ review_hold:
   - ercot_as_prices_monthly            # session 148, /ask/ercot
   - ercot_rtm_price_adders             # session 244, no page yet (ERCOT's real-time reserve price adders by hour)
   - scarcity_hours_by_grid             # session 254, no page yet (each grid's own scarcity signal beside the price count)
+  - battery_sourced_ranges             # session 306, the battery page's Sensitivity (in review)
+  - grid_stress_days                   # session 306, no page yet (the grids' stress days by one rule)
 
 # Session 102: sources that serve only tables whose pages are in review, held off /terms (a live page that lists the
 # registry and counts it) until one of those pages opens. Read by the site's build (site/scripts/build-content.mjs);
@@ -443,6 +450,7 @@ sources_hold:
   - census:popest_cbsa                 # session 129, the same page (the stations' weights)
   - ercot:NP6-792-ER                   # session 244, ercot_rtm_price_adders (no page yet; this source row serves only that table)
   - erw:scarcity_hours_by_grid         # session 254, scarcity_hours_by_grid (no page yet; this source row serves only that table)
+  - nlr:atb-2025-v1                    # session 306, battery_sourced_ranges (the battery page's Sensitivity, in review)
 
 # Session 206 (the owner's ruling of 12 October 2026): tables loaded as a union by their key, not as a replacement. Each
 # machine appends to its own copy of the cost ledger (GitHub's runner, the data machine, a session's laptop), so no one

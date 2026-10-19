@@ -1,0 +1,927 @@
+{
+ "about": "Published low and high cases of the battery's assumptions, from warehouse/output/battery_sourced_ranges.csv (warehouse/connectors/sourced_ranges.py, session 306). One row per source, case and assumption; an assumption a source does not state has no row.",
+ "built": "20261019T090956Z",
+ "not_stated": {
+  "nlr:atb-2025-v1": [
+   "cycles a year or a day",
+   "degradation",
+   "capacity fade",
+   "augmentation cost",
+   "the debt share of a utility-scale battery (the WACC sheet gives none for it)"
+  ]
+ },
+ "sources": [
+  {
+   "source": "nlr:atb-2025-v1",
+   "document": "National Laboratory of the Rockies (NLR), 2025 Electricity Annual Technology Baseline (ATB), workbook 2025_v1_Workbook_08-27-2026.xlsx, sheet Utility-Scale Battery - R&D (battery costs from Cole, Ramasamy and Olmez Turan, Cost Projections for Utility-Scale Battery Storage: 2025 Update, NREL/TP-6A40-93281)",
+   "url": "https://data.openei.org/files/8759/2025_v1_Workbook_08-27-2026.xlsx",
+   "sha256": "fa0a2b95efb85ba448467d34054db6770d274db0076ae42eda87d69827155c44",
+   "retrieved_at": "2026-10-19T06:12:19Z",
+   "dollar_year": 2023,
+   "year": 2025,
+   "license": "public, DOE/NLR credited"
+  }
+ ],
+ "rows": [
+  {
+   "assumption": "energy_capital_cost",
+   "unit": "USD/kWh",
+   "duration_h": null,
+   "case": "low",
+   "published_case": "Advanced",
+   "value": 199.756865,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 19, column 2025"
+  },
+  {
+   "assumption": "energy_capital_cost",
+   "unit": "USD/kWh",
+   "duration_h": null,
+   "case": "mid",
+   "published_case": "Moderate",
+   "value": 222.634864,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 20, column 2025"
+  },
+  {
+   "assumption": "energy_capital_cost",
+   "unit": "USD/kWh",
+   "duration_h": null,
+   "case": "high",
+   "published_case": "Conservative",
+   "value": 233.122026,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 21, column 2025"
+  },
+  {
+   "assumption": "power_capital_cost",
+   "unit": "USD/kW",
+   "duration_h": null,
+   "case": "low",
+   "published_case": "Advanced",
+   "value": 346.116384,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 25, column 2025"
+  },
+  {
+   "assumption": "power_capital_cost",
+   "unit": "USD/kW",
+   "duration_h": null,
+   "case": "mid",
+   "published_case": "Moderate",
+   "value": 356.284384,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 26, column 2025"
+  },
+  {
+   "assumption": "power_capital_cost",
+   "unit": "USD/kW",
+   "duration_h": null,
+   "case": "high",
+   "published_case": "Conservative",
+   "value": 360.945345,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 27, column 2025"
+  },
+  {
+   "assumption": "interest_rate_nominal",
+   "unit": "ratio",
+   "duration_h": null,
+   "case": "low",
+   "published_case": "Advanced",
+   "value": 0.065,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 50, column 2025"
+  },
+  {
+   "assumption": "interest_rate_nominal",
+   "unit": "ratio",
+   "duration_h": null,
+   "case": "mid",
+   "published_case": "Moderate",
+   "value": 0.065,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 51, column 2025"
+  },
+  {
+   "assumption": "interest_rate_nominal",
+   "unit": "ratio",
+   "duration_h": null,
+   "case": "high",
+   "published_case": "Conservative",
+   "value": 0.065,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 52, column 2025"
+  },
+  {
+   "assumption": "return_on_equity_nominal",
+   "unit": "ratio",
+   "duration_h": null,
+   "case": "low",
+   "published_case": "Advanced",
+   "value": 0.085,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 57, column 2025"
+  },
+  {
+   "assumption": "return_on_equity_nominal",
+   "unit": "ratio",
+   "duration_h": null,
+   "case": "mid",
+   "published_case": "Moderate",
+   "value": 0.085,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 58, column 2025"
+  },
+  {
+   "assumption": "return_on_equity_nominal",
+   "unit": "ratio",
+   "duration_h": null,
+   "case": "high",
+   "published_case": "Conservative",
+   "value": 0.085,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 59, column 2025"
+  },
+  {
+   "assumption": "capex",
+   "unit": "USD/kW",
+   "duration_h": 2,
+   "case": "low",
+   "published_case": "Advanced",
+   "value": 878.546761,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 70, column 2025"
+  },
+  {
+   "assumption": "capex",
+   "unit": "USD/kW",
+   "duration_h": 2,
+   "case": "mid",
+   "published_case": "Moderate",
+   "value": 936.365934,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 71, column 2025"
+  },
+  {
+   "assumption": "capex",
+   "unit": "USD/kW",
+   "duration_h": 2,
+   "case": "high",
+   "published_case": "Conservative",
+   "value": 962.869955,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 72, column 2025"
+  },
+  {
+   "assumption": "capex",
+   "unit": "USD/kW",
+   "duration_h": 4,
+   "case": "low",
+   "published_case": "Advanced",
+   "value": 1291.59936,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 73, column 2025"
+  },
+  {
+   "assumption": "capex",
+   "unit": "USD/kW",
+   "duration_h": 4,
+   "case": "mid",
+   "published_case": "Moderate",
+   "value": 1396.725128,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 74, column 2025"
+  },
+  {
+   "assumption": "capex",
+   "unit": "USD/kW",
+   "duration_h": 4,
+   "case": "high",
+   "published_case": "Conservative",
+   "value": 1444.914258,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 75, column 2025"
+  },
+  {
+   "assumption": "capex",
+   "unit": "USD/kW",
+   "duration_h": 6,
+   "case": "low",
+   "published_case": "Advanced",
+   "value": 1704.651958,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 76, column 2025"
+  },
+  {
+   "assumption": "capex",
+   "unit": "USD/kW",
+   "duration_h": 6,
+   "case": "mid",
+   "published_case": "Moderate",
+   "value": 1857.084323,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 77, column 2025"
+  },
+  {
+   "assumption": "capex",
+   "unit": "USD/kW",
+   "duration_h": 6,
+   "case": "high",
+   "published_case": "Conservative",
+   "value": 1926.958561,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 78, column 2025"
+  },
+  {
+   "assumption": "capex",
+   "unit": "USD/kW",
+   "duration_h": 8,
+   "case": "low",
+   "published_case": "Advanced",
+   "value": 2117.704557,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 79, column 2025"
+  },
+  {
+   "assumption": "capex",
+   "unit": "USD/kW",
+   "duration_h": 8,
+   "case": "mid",
+   "published_case": "Moderate",
+   "value": 2317.443517,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 80, column 2025"
+  },
+  {
+   "assumption": "capex",
+   "unit": "USD/kW",
+   "duration_h": 8,
+   "case": "high",
+   "published_case": "Conservative",
+   "value": 2409.002863,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 81, column 2025"
+  },
+  {
+   "assumption": "capex",
+   "unit": "USD/kW",
+   "duration_h": 10,
+   "case": "low",
+   "published_case": "Advanced",
+   "value": 2530.757156,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 82, column 2025"
+  },
+  {
+   "assumption": "capex",
+   "unit": "USD/kW",
+   "duration_h": 10,
+   "case": "mid",
+   "published_case": "Moderate",
+   "value": 2777.802712,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 83, column 2025"
+  },
+  {
+   "assumption": "capex",
+   "unit": "USD/kW",
+   "duration_h": 10,
+   "case": "high",
+   "published_case": "Conservative",
+   "value": 2891.047166,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 84, column 2025"
+  },
+  {
+   "assumption": "overnight_capital_cost",
+   "unit": "USD/kW",
+   "duration_h": 2,
+   "case": "low",
+   "published_case": "Advanced",
+   "value": 745.630113,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 104, column 2025"
+  },
+  {
+   "assumption": "overnight_capital_cost",
+   "unit": "USD/kW",
+   "duration_h": 2,
+   "case": "mid",
+   "published_case": "Moderate",
+   "value": 801.554113,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 105, column 2025"
+  },
+  {
+   "assumption": "overnight_capital_cost",
+   "unit": "USD/kW",
+   "duration_h": 2,
+   "case": "high",
+   "published_case": "Conservative",
+   "value": 827.189396,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 106, column 2025"
+  },
+  {
+   "assumption": "overnight_capital_cost",
+   "unit": "USD/kW",
+   "duration_h": 4,
+   "case": "low",
+   "published_case": "Advanced",
+   "value": 1145.143842,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 107, column 2025"
+  },
+  {
+   "assumption": "overnight_capital_cost",
+   "unit": "USD/kW",
+   "duration_h": 4,
+   "case": "mid",
+   "published_case": "Moderate",
+   "value": 1246.823841,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 108, column 2025"
+  },
+  {
+   "assumption": "overnight_capital_cost",
+   "unit": "USD/kW",
+   "duration_h": 4,
+   "case": "high",
+   "published_case": "Conservative",
+   "value": 1293.433447,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 109, column 2025"
+  },
+  {
+   "assumption": "overnight_capital_cost",
+   "unit": "USD/kW",
+   "duration_h": 6,
+   "case": "low",
+   "published_case": "Advanced",
+   "value": 1544.657571,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 110, column 2025"
+  },
+  {
+   "assumption": "overnight_capital_cost",
+   "unit": "USD/kW",
+   "duration_h": 6,
+   "case": "mid",
+   "published_case": "Moderate",
+   "value": 1692.09357,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 111, column 2025"
+  },
+  {
+   "assumption": "overnight_capital_cost",
+   "unit": "USD/kW",
+   "duration_h": 6,
+   "case": "high",
+   "published_case": "Conservative",
+   "value": 1759.677498,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 112, column 2025"
+  },
+  {
+   "assumption": "overnight_capital_cost",
+   "unit": "USD/kW",
+   "duration_h": 8,
+   "case": "low",
+   "published_case": "Advanced",
+   "value": 1944.1713,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 113, column 2025"
+  },
+  {
+   "assumption": "overnight_capital_cost",
+   "unit": "USD/kW",
+   "duration_h": 8,
+   "case": "mid",
+   "published_case": "Moderate",
+   "value": 2137.363298,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 114, column 2025"
+  },
+  {
+   "assumption": "overnight_capital_cost",
+   "unit": "USD/kW",
+   "duration_h": 8,
+   "case": "high",
+   "published_case": "Conservative",
+   "value": 2225.921549,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 115, column 2025"
+  },
+  {
+   "assumption": "overnight_capital_cost",
+   "unit": "USD/kW",
+   "duration_h": 10,
+   "case": "low",
+   "published_case": "Advanced",
+   "value": 2343.685029,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 116, column 2025"
+  },
+  {
+   "assumption": "overnight_capital_cost",
+   "unit": "USD/kW",
+   "duration_h": 10,
+   "case": "mid",
+   "published_case": "Moderate",
+   "value": 2582.633027,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 117, column 2025"
+  },
+  {
+   "assumption": "overnight_capital_cost",
+   "unit": "USD/kW",
+   "duration_h": 10,
+   "case": "high",
+   "published_case": "Conservative",
+   "value": 2692.165601,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 118, column 2025"
+  },
+  {
+   "assumption": "fixed_om",
+   "unit": "USD/kW-year",
+   "duration_h": 2,
+   "case": "low",
+   "published_case": "Advanced",
+   "value": 29.825205,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 121, column 2025"
+  },
+  {
+   "assumption": "fixed_om",
+   "unit": "USD/kW-year",
+   "duration_h": 2,
+   "case": "mid",
+   "published_case": "Moderate",
+   "value": 32.062165,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 122, column 2025"
+  },
+  {
+   "assumption": "fixed_om",
+   "unit": "USD/kW-year",
+   "duration_h": 2,
+   "case": "high",
+   "published_case": "Conservative",
+   "value": 33.087576,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 123, column 2025"
+  },
+  {
+   "assumption": "fixed_om",
+   "unit": "USD/kW-year",
+   "duration_h": 4,
+   "case": "low",
+   "published_case": "Advanced",
+   "value": 45.805754,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 124, column 2025"
+  },
+  {
+   "assumption": "fixed_om",
+   "unit": "USD/kW-year",
+   "duration_h": 4,
+   "case": "mid",
+   "published_case": "Moderate",
+   "value": 49.872954,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 125, column 2025"
+  },
+  {
+   "assumption": "fixed_om",
+   "unit": "USD/kW-year",
+   "duration_h": 4,
+   "case": "high",
+   "published_case": "Conservative",
+   "value": 51.737338,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 126, column 2025"
+  },
+  {
+   "assumption": "fixed_om",
+   "unit": "USD/kW-year",
+   "duration_h": 6,
+   "case": "low",
+   "published_case": "Advanced",
+   "value": 61.786303,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 127, column 2025"
+  },
+  {
+   "assumption": "fixed_om",
+   "unit": "USD/kW-year",
+   "duration_h": 6,
+   "case": "mid",
+   "published_case": "Moderate",
+   "value": 67.683743,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 128, column 2025"
+  },
+  {
+   "assumption": "fixed_om",
+   "unit": "USD/kW-year",
+   "duration_h": 6,
+   "case": "high",
+   "published_case": "Conservative",
+   "value": 70.3871,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 129, column 2025"
+  },
+  {
+   "assumption": "fixed_om",
+   "unit": "USD/kW-year",
+   "duration_h": 8,
+   "case": "low",
+   "published_case": "Advanced",
+   "value": 77.766852,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 130, column 2025"
+  },
+  {
+   "assumption": "fixed_om",
+   "unit": "USD/kW-year",
+   "duration_h": 8,
+   "case": "mid",
+   "published_case": "Moderate",
+   "value": 85.494532,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 131, column 2025"
+  },
+  {
+   "assumption": "fixed_om",
+   "unit": "USD/kW-year",
+   "duration_h": 8,
+   "case": "high",
+   "published_case": "Conservative",
+   "value": 89.036862,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 132, column 2025"
+  },
+  {
+   "assumption": "fixed_om",
+   "unit": "USD/kW-year",
+   "duration_h": 10,
+   "case": "low",
+   "published_case": "Advanced",
+   "value": 93.747401,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 133, column 2025"
+  },
+  {
+   "assumption": "fixed_om",
+   "unit": "USD/kW-year",
+   "duration_h": 10,
+   "case": "mid",
+   "published_case": "Moderate",
+   "value": 103.305321,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 134, column 2025"
+  },
+  {
+   "assumption": "fixed_om",
+   "unit": "USD/kW-year",
+   "duration_h": 10,
+   "case": "high",
+   "published_case": "Conservative",
+   "value": 107.686624,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 135, column 2025"
+  },
+  {
+   "assumption": "grid_connection_cost",
+   "unit": "USD/kW",
+   "duration_h": 2,
+   "case": "low",
+   "published_case": "Advanced",
+   "value": 104.12,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 155, column 2025"
+  },
+  {
+   "assumption": "grid_connection_cost",
+   "unit": "USD/kW",
+   "duration_h": 2,
+   "case": "mid",
+   "published_case": "Moderate",
+   "value": 104.12,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 156, column 2025"
+  },
+  {
+   "assumption": "grid_connection_cost",
+   "unit": "USD/kW",
+   "duration_h": 2,
+   "case": "high",
+   "published_case": "Conservative",
+   "value": 104.12,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 157, column 2025"
+  },
+  {
+   "assumption": "grid_connection_cost",
+   "unit": "USD/kW",
+   "duration_h": 4,
+   "case": "low",
+   "published_case": "Advanced",
+   "value": 104.12,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 158, column 2025"
+  },
+  {
+   "assumption": "grid_connection_cost",
+   "unit": "USD/kW",
+   "duration_h": 4,
+   "case": "mid",
+   "published_case": "Moderate",
+   "value": 104.12,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 159, column 2025"
+  },
+  {
+   "assumption": "grid_connection_cost",
+   "unit": "USD/kW",
+   "duration_h": 4,
+   "case": "high",
+   "published_case": "Conservative",
+   "value": 104.12,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 160, column 2025"
+  },
+  {
+   "assumption": "grid_connection_cost",
+   "unit": "USD/kW",
+   "duration_h": 6,
+   "case": "low",
+   "published_case": "Advanced",
+   "value": 104.12,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 161, column 2025"
+  },
+  {
+   "assumption": "grid_connection_cost",
+   "unit": "USD/kW",
+   "duration_h": 6,
+   "case": "mid",
+   "published_case": "Moderate",
+   "value": 104.12,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 162, column 2025"
+  },
+  {
+   "assumption": "grid_connection_cost",
+   "unit": "USD/kW",
+   "duration_h": 6,
+   "case": "high",
+   "published_case": "Conservative",
+   "value": 104.12,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 163, column 2025"
+  },
+  {
+   "assumption": "grid_connection_cost",
+   "unit": "USD/kW",
+   "duration_h": 8,
+   "case": "low",
+   "published_case": "Advanced",
+   "value": 104.12,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 164, column 2025"
+  },
+  {
+   "assumption": "grid_connection_cost",
+   "unit": "USD/kW",
+   "duration_h": 8,
+   "case": "mid",
+   "published_case": "Moderate",
+   "value": 104.12,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 165, column 2025"
+  },
+  {
+   "assumption": "grid_connection_cost",
+   "unit": "USD/kW",
+   "duration_h": 8,
+   "case": "high",
+   "published_case": "Conservative",
+   "value": 104.12,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 166, column 2025"
+  },
+  {
+   "assumption": "grid_connection_cost",
+   "unit": "USD/kW",
+   "duration_h": 10,
+   "case": "low",
+   "published_case": "Advanced",
+   "value": 104.12,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 167, column 2025"
+  },
+  {
+   "assumption": "grid_connection_cost",
+   "unit": "USD/kW",
+   "duration_h": 10,
+   "case": "mid",
+   "published_case": "Moderate",
+   "value": 104.12,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 168, column 2025"
+  },
+  {
+   "assumption": "grid_connection_cost",
+   "unit": "USD/kW",
+   "duration_h": 10,
+   "case": "high",
+   "published_case": "Conservative",
+   "value": 104.12,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 169, column 2025"
+  },
+  {
+   "assumption": "round_trip_efficiency",
+   "unit": "ratio",
+   "duration_h": 2,
+   "case": "low",
+   "published_case": "Advanced",
+   "value": 0.85,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 172, column 2025"
+  },
+  {
+   "assumption": "round_trip_efficiency",
+   "unit": "ratio",
+   "duration_h": 2,
+   "case": "mid",
+   "published_case": "Moderate",
+   "value": 0.85,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 173, column 2025"
+  },
+  {
+   "assumption": "round_trip_efficiency",
+   "unit": "ratio",
+   "duration_h": 2,
+   "case": "high",
+   "published_case": "Conservative",
+   "value": 0.85,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 174, column 2025"
+  },
+  {
+   "assumption": "round_trip_efficiency",
+   "unit": "ratio",
+   "duration_h": 4,
+   "case": "low",
+   "published_case": "Advanced",
+   "value": 0.85,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 175, column 2025"
+  },
+  {
+   "assumption": "round_trip_efficiency",
+   "unit": "ratio",
+   "duration_h": 4,
+   "case": "mid",
+   "published_case": "Moderate",
+   "value": 0.85,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 176, column 2025"
+  },
+  {
+   "assumption": "round_trip_efficiency",
+   "unit": "ratio",
+   "duration_h": 4,
+   "case": "high",
+   "published_case": "Conservative",
+   "value": 0.85,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 177, column 2025"
+  },
+  {
+   "assumption": "round_trip_efficiency",
+   "unit": "ratio",
+   "duration_h": 6,
+   "case": "low",
+   "published_case": "Advanced",
+   "value": 0.85,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 178, column 2025"
+  },
+  {
+   "assumption": "round_trip_efficiency",
+   "unit": "ratio",
+   "duration_h": 6,
+   "case": "mid",
+   "published_case": "Moderate",
+   "value": 0.85,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 179, column 2025"
+  },
+  {
+   "assumption": "round_trip_efficiency",
+   "unit": "ratio",
+   "duration_h": 6,
+   "case": "high",
+   "published_case": "Conservative",
+   "value": 0.85,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 180, column 2025"
+  },
+  {
+   "assumption": "round_trip_efficiency",
+   "unit": "ratio",
+   "duration_h": 8,
+   "case": "low",
+   "published_case": "Advanced",
+   "value": 0.85,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 181, column 2025"
+  },
+  {
+   "assumption": "round_trip_efficiency",
+   "unit": "ratio",
+   "duration_h": 8,
+   "case": "mid",
+   "published_case": "Moderate",
+   "value": 0.85,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 182, column 2025"
+  },
+  {
+   "assumption": "round_trip_efficiency",
+   "unit": "ratio",
+   "duration_h": 8,
+   "case": "high",
+   "published_case": "Conservative",
+   "value": 0.85,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 183, column 2025"
+  },
+  {
+   "assumption": "round_trip_efficiency",
+   "unit": "ratio",
+   "duration_h": 10,
+   "case": "low",
+   "published_case": "Advanced",
+   "value": 0.85,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 184, column 2025"
+  },
+  {
+   "assumption": "round_trip_efficiency",
+   "unit": "ratio",
+   "duration_h": 10,
+   "case": "mid",
+   "published_case": "Moderate",
+   "value": 0.85,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 185, column 2025"
+  },
+  {
+   "assumption": "round_trip_efficiency",
+   "unit": "ratio",
+   "duration_h": 10,
+   "case": "high",
+   "published_case": "Conservative",
+   "value": 0.85,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 186, column 2025"
+  },
+  {
+   "assumption": "technical_life",
+   "unit": "year",
+   "duration_h": null,
+   "case": "low",
+   "published_case": "Advanced",
+   "value": 15.0,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 68 (\"For 15-year technical life\")"
+  },
+  {
+   "assumption": "technical_life",
+   "unit": "year",
+   "duration_h": null,
+   "case": "mid",
+   "published_case": "Moderate",
+   "value": 15.0,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 68 (\"For 15-year technical life\")"
+  },
+  {
+   "assumption": "technical_life",
+   "unit": "year",
+   "duration_h": null,
+   "case": "high",
+   "published_case": "Conservative",
+   "value": 15.0,
+   "source": "nlr:atb-2025-v1",
+   "page": "sheet Utility-Scale Battery - R&D, row 68 (\"For 15-year technical life\")"
+  }
+ ]
+}
