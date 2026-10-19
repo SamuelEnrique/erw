@@ -26,7 +26,9 @@
 
 ## The landing
 
-- See the commit that follows this one: the landing's times and the snapshot comparison are recorded there.
+- Freeze check exit 0. Before snapshot `s313-before` at 17:06:59 UTC. Merged origin/main, which brought the code machine's sessions 302 to 304 and the health summary. Pushed at 17:07:18 (`2ae92b2c`). Deployment 7179903028 succeeded at 17:08:49. After snapshot `s313-after` at 17:09:14. The comparison: **0 differences on 25 pages**, as expected, since every page is in review.
+- This line went out in a second push, with its own snapshots: `s313b-before` and `s313b-after`.
+- `warehouse/metadata/sources.csv` is left uncommitted. Its only change is two last-seen dates (`ercot_storage_dam_awards`, `ercot_storage_dam_offers`), moved from 18 to 19 October by this machine's own steps.
 
 ## Decisions made without you
 
