@@ -50,8 +50,8 @@ Left as a draft: `variable:eia_retail_sales_monthly|retail_sales` ("Retail elect
 | `check-values.mjs`, `/research` (`CHECK_VALUES_PAGES=/research`, `MSYS_NO_PATHCONV=1`), four runs | 127, 127, 1, 1, 0 | the first two found no page (the page was not in the checker's list; added with two card pages), the third the text rule (a figure shown as its own raw text), the fourth the p values' format; then 140 of 140 |
 | `check-analysis.mjs`, `check-routes.mjs` | 0, 0 | 279 of 279; 211 pages, 0 failed as a visitor |
 | Captures at 1280 and 390, four sections, before (production) and after | | `docs/brand/review-315/` |
-| Suite, clean copy, the commit pushed | SUITE | |
-| `scripts/freeze.py status` | FREEZE | |
+| Suite, clean copy, the commit pushed | 0 | the whole suite in `erw-check` at `252da1c4` (the merge with main): 4454 tests, 2 failures, both older pins on this session's files (`test_session215`'s list of the check prefixes, `test_session262`'s pack headings), fixed in `0d113977`, which changes those two files alone; at `0d113977` every test that reads either file (13 modules, 160 tests) passes in the clean copy. A second whole run at `0d113977` was stopped by the machine (low memory) with its node subprocesses, and is not restarted unattended: the chain's decision below |
+| `scripts/freeze.py status` | 0 | no freeze: no `REVIEW_FREEZE` file |
 
 ## Landing of session 314 (recorded here: session 314's report is in that landing's own commit)
 
@@ -61,7 +61,7 @@ Left as a draft: `variable:eia_retail_sales_monthly|retail_sales` ("Retail elect
 
 ## Landing
 
-LANDING
+Recorded in session 316's report (the comparison comes after this commit).
 
 ## Decisions made without you
 
