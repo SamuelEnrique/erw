@@ -157,6 +157,7 @@ def day_complete(table, day, part=None, variable=None):
 
 
 KNOWN_GAPS = os.path.join(ROOT, "warehouse", "metadata", "known_gaps.csv")
+BUDGET_REASON = "publisher did not answer within the budget"  # session 321: warehouse/pull_budget.py's reason
 
 
 def health_gate(rs):
@@ -267,7 +268,13 @@ def main():
     gaps["var"] = [("co2_emissions_" + t[2]) if len(t) >= 3 and "+" not in t[2] else None for t in tok]
     gaps = gaps.sort_values("run_id").drop_duplicates(["table", "part", "day", "var"], keep="last")
     open_rows, closed = [], 0
+    # session 321: a gap left by a pull stopped at its budget (warehouse/pull_budget.py) is closed by any later run that
+    # wrote the table: the next run asks for the same days again, and a monthly or full-history table has no day to check
+    oks = rs[rs["status"] == "ok"].groupby("table")["run_id"].max()
     for g in gaps.itertuples():
+        if str(g.detail).startswith(BUDGET_REASON) and str(oks.get(g.table, "")) > str(g.run_id):
+            closed += 1
+            continue
         if ".." in g.day:
             open_rows.append((g.table, f"{g.part} {g.day}", "a range recorded by a history build (run_status.csv)",
                               g.detail[:140].replace("|", "/")))

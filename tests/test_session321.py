@@ -190,6 +190,13 @@ class Wiring(unittest.TestCase):
         self.assertIn('[ "${DRY_STORES:-0}" = "1" ] && return 0', self.daily)
 
 
+class Status(unittest.TestCase):
+    def test_a_budget_gap_closes_with_the_next_good_run(self):
+        s = src("warehouse", "metadata", "build_status.py")
+        self.assertIn(f'BUDGET_REASON = "{pb.REASON}"', s)
+        self.assertIn('if str(g.detail).startswith(BUDGET_REASON) and str(oks.get(g.table, "")) > str(g.run_id):', s)
+
+
 class Emissions(unittest.TestCase):
     def test_no_complete_day_is_stale_at_source(self):
         s = src("warehouse", "connectors", "eia930_emissions.py")
