@@ -30,7 +30,7 @@ const check = (ok, what, detail = "") => { n += 1; if (!ok) failed += 1; console
 const ADVICE = /\b(should|better|worth|attractive|recommend\w*|advis\w*|ought|prefer\w*|ideal\w*)\b/i;
 
 const PAGES = [
-  { id: "battery", path: "/cost-of-power/battery", rows: ["revenue", "p10", "coverage"], sentence: "[data-npv-sentence]",
+  { id: "battery", path: "/cost-of-power/battery", rows: ["revenue", "p10", "coverage"], sentence: "[data-npv-sentence]", bars: 6,
     a: [["capex", "1300"]], b: [["hurdle", "10"], ["term", "10"]], link: "?ac=1300&bt=10&be=92&by=2&bh=10&v=b", from: "session 179" },
   { id: "seller", path: "/cost-of-power/seller", rows: ["revenue", "capture", "coverage"], sentence: "[data-npv-sentence]",
     a: [["capex", "1500"]], b: [["hurdle", "10"], ["term", "10"], ["deg", "0.5"]], link: "?ac=1500&bt=10&bd=0.5&bh=10&v=b", from: "session 186" },
@@ -54,7 +54,8 @@ const code = await withBrowser(async ({ go, evaluate, send, unlock, sleep }) => 
     await size(width);
   };
   const type = async (k, text) => {
-    await evaluate(`(() => { const e = document.querySelector('input[data-assumption="${k}"]'); e.scrollIntoView({ block: "center" }); e.focus(); e.select(); })()`);
+    // session 296: on the battery page the fields sit in a section of the box that is closed by default: opened first
+    await evaluate(`(() => { const e = document.querySelector('input[data-assumption="${k}"]'); const f = e.closest("details"); if (f) f.open = true; e.scrollIntoView({ block: "center" }); e.focus(); e.select(); })()`);
     await send("Input.insertText", { text });
     await sleep(350);
     await evaluate(`document.activeElement && document.activeElement.blur()`);
@@ -70,14 +71,14 @@ const code = await withBrowser(async ({ go, evaluate, send, unlock, sleep }) => 
     const cell = (k) => { const c = root.querySelector('[data-cell="' + k + '"]'); if (!c) return null; const first = c.firstChild; return { v: (first?.textContent ?? "").trim(), text: c.textContent, raw: c.getAttribute("data-raw") }; };
     const main = document.querySelector("main") ?? document.body;
     return {
-      view: root.querySelector("[data-assumptions]").getAttribute("data-assumptions"),
+      view: document.querySelector("[data-assumptions]").getAttribute("data-assumptions"),  // session 296: the battery's panel is in its box, outside the block
       summary: (sum?.textContent ?? "").replace(/\\s+/g, " ").trim(), headline: (row?.innerText ?? "").replace(/\\s+/g, " ").trim(),
       a: Object.fromEntries(${JSON.stringify(p.rows)}.map((k) => [k, cell("a|" + k)])), b: Object.fromEntries(${JSON.stringify(p.rows)}.map((k) => [k, cell("b|" + k)])),
       rows: [...root.querySelectorAll("[data-scenario-table] tbody tr")].map((r) => r.getAttribute("data-row")),
       table: [...root.querySelectorAll("[data-cell]")].map((c) => [c.getAttribute("data-cell"), c.textContent]),
       differs: root.querySelector("[data-differs-words]")?.textContent ?? "", against: root.querySelector("[data-against-words]")?.textContent ?? "",
       sentence: root.querySelector(${JSON.stringify(p.sentence)})?.textContent ?? "", chart: root.querySelector("[data-sensitivity] figcaption span")?.textContent ?? "",
-      bars: root.querySelectorAll("[data-bar]").length,
+      bars: document.querySelectorAll("[data-bar]").length,
       block: root.innerText, panel: document.querySelector("[data-costs-in-a]")?.textContent ?? "",
       fields: [...document.querySelectorAll("aside form input[name]")].map((e) => e.name),
       bad: /undefined|NaN/.test(main.innerText), search: location.search,
@@ -107,7 +108,8 @@ const code = await withBrowser(async ({ go, evaluate, send, unlock, sleep }) => 
         await sleep(name === "defaults" || name === "shared-link" || width === 390 ? 1800 : 400);
         const s = await read(p);
         const tag = `${p.id}, ${name}, ${width} px`;
-        check(!!s && s.rows.length >= 8 && s.bars >= 8 && !s.bad, `${tag}: the block is drawn, with no "undefined" and no "NaN" on the page`, s ? `${s.rows.length} rows, ${s.bars} bars` : "no block");
+        // session 296: the battery's chart draws the six assumptions with a published range by default (p.bars); the others still ten or more
+        check(!!s && s.rows.length >= 8 && s.bars >= (p.bars ?? 8) && !s.bad, `${tag}: the block is drawn, with no "undefined" and no "NaN" on the page`, s ? `${s.rows.length} rows, ${s.bars} bars` : "no block");
         if (!s) continue;
         const want = p.rows.map((k) => s.a[k]?.v ?? "").map(numeral);
         check(want.every((v) => v && s.headline.includes(v)), `${tag}: the three headline numbers are scenario A's rows`, `${want.join(" | ")} in "${s.headline.slice(0, 110)}"`);

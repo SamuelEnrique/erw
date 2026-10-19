@@ -71,10 +71,12 @@
 | A month counts | 90 percent of its days solved | the seller tab's rule | none |
 | The last twelve months end | with the last complete month | the owner's ruling of 2026-10-11 (session 195) | none |
 | A bad month | 10th percentile, nearest rank, of 36 calendar months | ERW's choice (session 71) | none |
-| The one month set aside | above 25 percent of everything held gets a column without it | ERW's choice (session 71) | none |
-| Chart scale | broken when the tallest year is above 2.5 times the second | ERW's choice | none |
-| Capital cost | 610, 1,110, 2,110 USD per kW (2, 4, 8 hours) | Lazard LCOE+ June 2025, LCOS v10.0, midpoints of 340 to 880 and 620 to 1,600; 8 hours a straight line through the two, an extrapolation | none |
-| Fixed O&M | 11.2, 22, 43.6 USD per kW a year | the same Lazard cases | none |
+| The one month set aside | above 25 percent of everything held: its share is said under the table, and the reader can leave its event out of the window (session 296: the column without it is gone, no window being the ERW's) | ERW's choice (session 71); the ruling of 15 October, item 6 | none |
+| Chart scale | "adjusted" by default: broken when the tallest year is above 2.5 times the second; the reader can choose linear or log (session 296) | ERW's choice; the ruling of 15 October, item 5 | none |
+| The income table's columns | the last twelve months, each calendar year held, and one window the reader sets (its first and last year; the grid's stress events left out by a checkbox each), which opens on every year held with nothing left out, the old average (session 296) | the ruling of 15 October, item 6: no window is the ERW's | none |
+| Capital cost | 610, 1,110, 2,300 USD per kW (2, 4, 8 hours) | Lazard LCOE+ June 2025, LCOS v10.0, midpoints of 340 to 880 and 620 to 1,600; 8 hours NREL's Annual Technology Baseline 2025 (Cole, Karmakar and Mann, NREL/TP-6A40-93281, June 2025, section 2.2: USD 241 per kWh times 8 hours plus USD 372 per kW, 2024 dollars), 2,110 by a straight line through Lazard's two until session 296 | the ruling of 15 October, item 8 |
+| Fixed O&M | 11.2, 22, 92 USD per kW a year | the same Lazard cases; 8 hours the ATB's 4 percent of its capital cost a year, which pays for augmentation (43.6 by the straight line until session 296) | the same |
+| Sensitivity mode | the sourced range by default: each assumption between its published low and high case (Lazard's two cases, and the ATB's figures where it states one), in NPV; or a percent step the reader sets (10 by default, 1 to 100), in NPV or IRR, efficiency and cycles snapping to the steps the model was run at (session 296) | the ruling of 15 October, item 7; `rangesOf` in `site/lib/battery/finance.ts`, the shape `site/data/sourced_ranges.json` will take | none |
 | Debt share | 20 percent of capital cost | Lazard's storage cases: "20% debt at an 8% interest rate and 80% equity at a 12% cost" | "the debt share's default is Lazard's storage capital structure, 20 percent" (60 until session 208) |
 | Interest rate | 8 percent a year | the same | the same ruling |
 | Term of the debt | 20 years, level payments, cut to the life if longer | Lazard: 20 years for storage | none |

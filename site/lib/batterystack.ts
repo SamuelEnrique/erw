@@ -74,12 +74,18 @@ export const CAPACITY_WORDS: Record<string, string> = {
 
 /** Lazard, "Levelized Cost of Energy+", June 2025, LCOS v10.0, utility-scale standalone storage, the midpoint of its low
  * and high: 100 MW / 200 MWh (capital 610 USD/kW, fixed O&M 11.2 USD/kW-yr) and 100 MW / 400 MWh (1,110 and 22), the
- * seller tab's defaults. Lazard prints no 8-hour case: its line is the straight line through the 2- and 4-hour figures
- * (capital 110 USD/kW plus 250 USD/kWh; fixed O&M 0.4 USD/kW-yr plus 5.4 USD/kWh-yr), an extrapolation and said so. */
-export const COSTS: Record<Duration, { capex: number; fom: number; note: string }> = {
-  2: { capex: 610, fom: 11.2, note: "Lazard's 100 MW / 200 MWh case, midpoint of 340 to 880 USD/kW and of 3.0 to 8.2 USD/kWh-yr" },
-  4: { capex: 1110, fom: 22, note: "Lazard's 100 MW / 400 MWh case, midpoint of 620 to 1,600 USD/kW and of 3.0 to 8.0 USD/kWh-yr" },
-  8: { capex: 2110, fom: 43.6, note: "no Lazard case: the straight line through its 2-hour and 4-hour midpoints, an extrapolation" },
+ * seller tab's defaults. Lazard prints no 8-hour case: until session 296 its line was the straight line through the 2-
+ * and 4-hour figures (capital 2,110 USD/kW, fixed O&M 43.6 USD/kW-yr), an extrapolation and said so.
+ * Session 296 (the owner's ruling of 15 October 2026, item 8): the 8-hour defaults are NREL's Annual Technology
+ * Baseline 2025 (lib/battery/finance.ts, ATB: energy USD 241 per kWh times 8 hours plus power USD 372 per kW, in 2024
+ * dollars, is 2,300; fixed O&M 4 percent of that a year is 92). The 8-hour page's debt payment, coverage and scenario
+ * figures move with them; its revenue does not. `source` names the report a duration's two defaults come from. */
+export const LAZARD_SOURCE = "Lazard, Levelized Cost of Energy+, June 2025 (LCOS v10.0)";
+export const ATB_SOURCE = "NREL, Annual Technology Baseline 2025, utility-scale battery storage (Cole, Karmakar and Mann, NREL/TP-6A40-93281, June 2025, section 2.2)";
+export const COSTS: Record<Duration, { capex: number; fom: number; note: string; source: string }> = {
+  2: { capex: 610, fom: 11.2, note: "Lazard's 100 MW / 200 MWh case, midpoint of 340 to 880 USD/kW and of 3.0 to 8.2 USD/kWh-yr", source: LAZARD_SOURCE },
+  4: { capex: 1110, fom: 22, note: "Lazard's 100 MW / 400 MWh case, midpoint of 620 to 1,600 USD/kW and of 3.0 to 8.0 USD/kWh-yr", source: LAZARD_SOURCE },
+  8: { capex: 2300, fom: 92, note: "no Lazard case: the ATB's 2024 cost, USD 241 per kWh times 8 hours plus USD 372 per kW, in 2024 dollars, and its fixed O&M of 4 percent of that a year, which pays for augmentation", source: ATB_SOURCE },
 };
 // Session 208 (the owner's ruling of 12 October 2026): Lazard's storage cases, "20% debt at an 8% interest rate", over a
 // 20-year life. From session 67 to 207 the share was 0.6, the structure of Lazard's generation cases.
@@ -361,14 +367,74 @@ export function stress(rows: StressRow[], strat: Strategy, dur: Duration): Stres
   return out.sort((a, b) => a.first.localeCompare(b.first) || a.event.localeCompare(b.event));
 }
 
+// Session 296 (the owner's ruling of 15 October 2026, item 6): the income table's columns are the calendar years the
+// chart draws, the last twelve months, and one window the reader sets (its first and last year, and the stress events
+// left out of it). No window is the ERW's: the columns "last three full years", "every year held" and "without the one
+// month" are gone, and the reader's window at its default (every year held, nothing left out) is the old average.
+export type EventMonth = { energy: number; ancillary: number; total: number };
+/** The stress events' revenue by month, per MW, from the daily stress table's rows for one strategy and duration:
+ * event id, then month (YYYY-MM), then the window's days in that month added up by stream. */
+export function eventMonths(rows: StressRow[], strat: Strategy, dur: Duration): Record<string, Record<string, EventMonth>> {
+  const pre = `${strat}_${dur}h_revenue_`;
+  const out: Record<string, Record<string, EventMonth>> = {};
+  for (const r of rows) {
+    if (!r.event || !r.variable.startsWith(pre)) continue;
+    const s = r.variable.slice(pre.length).replace("_usd_per_mw", "");
+    if (s !== "energy" && s !== "ancillary" && s !== "total") continue;
+    const m = r.ts_utc.slice(0, 7);
+    const e = (out[r.event] ??= {});
+    const t = (e[m] ??= { energy: 0, ancillary: 0, total: 0 });
+    t[s] += Number(r.value);
+  }
+  return out;
+}
+/** The held months of a window of calendar years, first to last, with the left-out events' days taken out of each
+ * month's energy, ancillary and total (the daily table holds those three streams; a product's row is not held when
+ * an event is left out). An event id the rows do not hold takes nothing out. */
+export function windowMonths(ms: Month[], from: string, to: string, leftOut: string[], em: Record<string, Record<string, EventMonth>>): Month[] {
+  return ms.filter((r) => r.held && r.m.slice(0, 4) >= from && r.m.slice(0, 4) <= to).map((r) => {
+    let energy = r.energy ?? 0, ancillary = r.ancillary ?? 0, total = r.total ?? 0;
+    for (const id of leftOut) {
+      const t = em[id]?.[r.m];
+      if (!t) continue;
+      energy -= t.energy; ancillary -= t.ancillary; total -= t.total;
+    }
+    return leftOut.length ? { ...r, energy, ancillary, total, products: {} } : r;
+  });
+}
+/** The revenue of one calendar year's held months, one stream, per MW; null when none of its months is held. */
+export function yearStream(ms: Month[], y: string, s: Stream): number | null {
+  const held = ms.filter((r) => r.held && r.m.slice(0, 4) === y);
+  return held.length ? sumOf(held, s) : null;
+}
+/** The window's average year of one stream, per MW: the twelve-calendar-month mean of its months (`averageYear`),
+ * with the left-out events taken out first; null unless every calendar month has a held month in the window, and
+ * null for a product's row once an event is left out. `leftOut` is the event ids, in any order. */
+export function windowAverage(ms: Month[], from: string, to: string, leftOut: string[], em: Record<string, Record<string, EventMonth>>, s: Stream): number | null {
+  if (leftOut.length && !["energy", "ancillary", "total"].includes(s)) return null;
+  return averageYear(windowMonths(ms, from, to, leftOut, em), s);
+}
+/** The years the chart draws and the pickers offer: every calendar year with a held month, oldest first. */
+export const yearsHeld = (ms: Month[]) => years(ms).map((y) => y.y);
+/** The window's part of a check key: `<from>:<to>:<left-out ids joined by +, or none>`. */
+export const windowKey = (from: string, to: string, leftOut: string[]) => `${from}:${to}:${leftOut.length ? [...leftOut].sort().join("+") : "none"}`;
+
 /** One number for a check key's stat (bs|<inputs>|<stat>), for the reader's size: what the page shows and
  * check-values recomputes from its own read of the tables. */
 export function stat(rows: Row[], stressRows: StressRow[], x: Inputs, what: string): number | null {
   const ms = monthsOf(rows, x.strat, x.dur);
-  const [a, b, c] = what.split(":");
+  const parts = what.split(":");
+  const [a, b, c] = parts;
   const scaled = (v: number | null) => (v === null ? null : Math.round(v * x.mw));  // whole US dollars for the reader's size
   const l12 = lastTwelve(ms);
+  // session 296: a calendar year's held months (yr:<year>:<stream>, yr_kw:...) and the reader's window
+  // (win:<from>:<to>:<left out>:<stream>, win_kw:...), the window with the named events' days taken out
+  const win = () => windowAverage(ms, parts[1], parts[2], parts[3] === "none" ? [] : parts[3].split("+"), eventMonths(stressRows, x.strat, x.dur), parts[4]);
   switch (a) {
+    case "yr": return scaled(yearStream(ms, b, c));
+    case "yr_kw": { const v = yearStream(ms, b, c); return v === null ? null : v / 1000; }
+    case "win": return parts.length === 5 ? scaled(win()) : null;
+    case "win_kw": { if (parts.length !== 5) return null; const v = win(); return v === null ? null : v / 1000; }
     case "avg": return scaled(averageYear(ms, b));
     case "avg_kw": return (() => { const v = averageYear(ms, b); return v === null ? null : v / 1000; })();
     case "share": { const t = averageYear(ms, "total"), v = averageYear(ms, b); return t === null || v === null || t === 0 ? null : Math.round((v / t) * 100); }

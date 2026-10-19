@@ -5,6 +5,36 @@
 // highlighted rows, thin grey rules. Colors and typefaces come from app/tokens.css.
 import type { ReactNode } from "react";
 
+// ---- Session 296 (the owner's rulings of 15 October 2026): two pieces for every tool page.
+
+/** A section of a settings box that opens and closes (a plain details element, so it works without script): its title
+ *  stays, and while it is closed one line says what it holds ("Financing: 20% debt at 8%, 12% hurdle, no contract").
+ *  The line is hidden while the section is open (app/tokens.css, "settings fold"). `open` is the state it starts in. */
+export function SettingsFold({ id, title, summary, open, children }: { id: string; title: string; summary: ReactNode; open?: boolean; children: ReactNode }) {
+  return (
+    <details className="border-t border-rule" data-settings-fold={id} open={open}>
+      <summary className="cursor-pointer py-2">
+        <span className="font-semibold text-sm">{title}</span>
+        <span className="mt-0.5 block text-xs leading-snug text-muted" data-fold-summary={id}>{summary}</span>
+      </summary>
+      <div className="pb-3">{children}</div>
+    </details>
+  );
+}
+
+/** A hover tip: a small mark after a label that shows its words when pointed at, tapped or focused (CSS alone:
+ *  app/tokens.css, "tip"), with the words in `title` as well. The words are the note the page used to print in grey
+ *  under the thing (item 9 of the rulings: every grey note becomes a hover tip). `label` says what the tip is about
+ *  for a screen reader. */
+export function Tip({ label, children, id }: { label: string; children: ReactNode; id: string }) {
+  return (
+    <span className="tip relative inline-block align-baseline" data-tip={id}>
+      <button type="button" className="ml-1 inline-flex h-4 w-4 items-center justify-center border border-muted text-[10px] leading-none text-muted" aria-label={`About ${label}`} aria-describedby={`tip-${id}`}>i</button>
+      <span role="tooltip" id={`tip-${id}`} className="absolute left-0 top-5 z-10 hidden w-72 max-w-[80vw] border border-rule bg-paper px-2 py-1.5 text-left text-xs font-normal leading-snug text-ink">{children}</span>
+    </span>
+  );
+}
+
 /** The page's frame: a white sheet on the site's beige, so the beige input panel and highlighted rows read as such. */
 export function ToolPage({ children }: { children: ReactNode }) {
   return <div className="border border-rule bg-white px-4 py-6 text-ink sm:px-8 sm:py-8">{children}</div>;

@@ -350,8 +350,10 @@ class ThePage(unittest.TestCase):
         self.assertEqual(re.findall(r'"(\w+)"', hit.group(1)), PAGE_KEYS)
         for k in PAGE_KEYS:
             self.assertEqual(self.lib.count(f'  {k}: {{ key: "{k}", letter: "'), 1, k)
-        self.assertEqual(self.lib.count('{ key: "'), 12)
-        self.assertEqual(self.lib.count(", source: "), 12)
+        # session 296: the sourced ranges below SPECS name a source each too; the count is SPECS' own
+        specs = self.lib[self.lib.index("export const SPECS"):self.lib.index("export const MODEL")]
+        self.assertEqual(specs.count('{ key: "'), 12)
+        self.assertEqual(specs.count(", source: "), 12)
         self.assertIn('export const isScenarioParam = (name: string) => name === "v" || /^[ab][csrtfeydlhnp]$/.test(name);', self.lib)
 
     def test_the_defaults_and_what_they_cite(self):

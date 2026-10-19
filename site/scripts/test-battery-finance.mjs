@@ -143,5 +143,48 @@ check(F.cellTotals(c, 92, 2).get("2026-02") === 24 && F.cellTotals(c, 89, 1) ===
   check(at50.down !== null && at50.down.value === 40 && at50.up !== null && at50.up.value === 60, "at a share of 50 the share's row moves 10 points each way", JSON.stringify(at50));
 }
 
+// session 296 (the owner's rulings of 15 October 2026): the ATB's 8-hour defaults, the payback year, NPV per dollar of
+// equity, the years of a scenario, the two sensitivity modes and the sourced ranges
+{
+  check(F.atbCapex(8) === 2300 && F.atbCapex(4) === 1336 && F.atbCapex(2) === 854 && F.atbFom(8) === 92, "the ATB's cost: 241 per kWh times the hours plus 372 per kW; fixed O&M 4 percent (2,300 and 92 at 8 hours)", `${F.atbCapex(8)} ${F.atbFom(8)}`);
+  check(/NREL\/TP-6A40-93281/.test(F.ATB.report) && F.ATB.rte === 85 && F.ATB.life === 15, "the ATB's report, efficiency and life are named");
+  const z = { capex: 1000, share: 60, rate: 0, term: 10, fom: 10, rte: 86, cycles: 1, deg: 0, life: 10, hurdle: 0, cshare: 0, cprice: 0 };
+  check(F.equityIn(z) === 400 && F.paybackYear(F.flows(z, 100)) === null, "capex 1,000 at 60 percent debt: 400 of equity; 30 a year for ten years never pays it back");
+  check(F.paybackYear(F.flows(z, 150)) === 5, "at 150 of revenue, 80 a year: the fifth year pays the 400 back (80 x 5 = 400)", String(F.paybackYear(F.flows(z, 150))));
+  check(F.paybackYear([-100, 60, 60]) === 2 && F.paybackYear([0, 5]) === 0 && F.paybackYear([-100, 10]) === null, "payback: the first year the running sum is no longer negative; 0 with nothing paid in; null when never");
+  check(near(F.npvPerEquity(z, -100), -0.25) && F.npvPerEquity({ ...z, share: 100 }, 5) === null, "NPV per dollar of equity is NPV over the equity paid in; null with no equity");
+  const rows = F.projection(z, 150);
+  check(rows.length === 10 && near(rows[0].income, 150) && near(rows[0].afterCosts, 140) && near(rows[0].debt, 60) && near(rows[0].afterDebt, 80) && near(rows[0].balance, 540) && near(rows[9].balance, 0),
+    "the projection: income 150, after costs 140, the debt payment 60, after debt 80, and the debt owed falls from 600 by 60 a year to 0", JSON.stringify(rows[0]));
+  check(near(F.projection({ ...z, term: 4 }, 150)[5].debt, 0) && near(F.projection({ ...z, term: 4 }, 150)[5].afterDebt, 140), "after the debt's last year the payment and the balance are gone");
+  check(near(F.projection({ ...z, rate: 8, term: 20, life: 20 }, 150)[19].balance, 0, 1e-6), "at 8 percent over 20 years the last payment leaves nothing owed");
+  const steps = { rte: [86, 89, 92], cycles: [0.5, 1, 1.5, 2] };
+  const pct = { kind: "pct", pct: 10 };
+  check(F.movedValue("capex", z, -1, pct, steps) === 900 && F.movedValue("capex", z, 1, pct, steps) === 1100, "a percent step moves capital cost by 10 percent each way");
+  check(F.movedValue("share", { ...z, share: 95 }, 1, pct, steps) === 100 && F.movedValue("term", z, 1, pct, steps) === 11, "a percent step is held inside the bounds, and a whole-number field stays whole");
+  check(F.movedValue("rte", z, 1, pct, steps) === 92 && F.movedValue("rte", z, -1, pct, steps) === null && F.movedValue("cycles", z, 1, pct, steps) === 1.5 && F.movedValue("cycles", z, -1, pct, steps) === 0.5,
+    "efficiency and cycles move to the nearest step held in that direction (86 up by 10 percent is 94.6: the step 92; down: no step below 86)");
+  const r4 = F.rangesOf(4);
+  check(r4.capex.low === 620 && r4.capex.high === 1600 && near(r4.fom.low, 12) && near(r4.fom.high, 53.44) && r4.share.low === 20 && r4.share.high === 60 && r4.rte.low === 85 && r4.rte.high === 92 && r4.deg.low === 0 && r4.deg.high === 2.6 && r4.life.low === 15 && r4.life.high === 20,
+    "the 4-hour sourced ranges: Lazard's low and high cases, the ATB's 4 percent fixed O&M of its own 1,336 (53.44), 85 percent, 15 years and no degradation", JSON.stringify(r4.fom));
+  check(Object.keys(r4).length === 6 && Object.values(r4).every((r) => /Lazard|Annual Technology Baseline/.test(r.source)), "six assumptions have a published range, each with its source; the others have none");
+  const r8 = F.rangesOf(8);
+  check(r8.capex.low === 1180 && r8.capex.high === 3040 && r8.capex.high > 2300 && r8.capex.low < 2300 && /extrapolation/.test(r8.capex.source), "the 8-hour capital range is the straight lines through Lazard's low cases and high cases, with the ATB's 2,300 inside", JSON.stringify(r8.capex));
+  const rev = () => 100;
+  const inRange = F.sensitivityIn(z, rev, steps, { kind: "range", ranges: r4 }, "npv");
+  check(inRange.length === 6 && inRange.every((b) => b.down || b.up) && !inRange.some((b) => ["rate", "term", "hurdle", "cycles", "cshare", "cprice"].includes(b.key)), "the sourced range draws the six rows with a range and no other", inRange.map((b) => b.key).join(","));
+  const cap = inRange.find((b) => b.key === "capex");
+  check(cap.down.value === 620 && cap.up.value === 1600 && near(cap.down.npv, F.npv(0, F.flows({ ...z, capex: 620 }, 100))) && near(cap.up.npv, F.npv(0, F.flows({ ...z, capex: 1600 }, 100))), "the capital cost row moves to 620 and 1,600 and recomputes NPV at each");
+  const rteRow = inRange.find((b) => b.key === "rte");
+  check(rteRow.down.value === 86 && rteRow.up.value === 92, "the efficiency row takes the lowest and highest step inside the range (86 stands in for the ATB's 85)");
+  const inPct = F.sensitivityIn(z, rev, steps, pct, "npv");
+  check(inPct.length === 10 && inPct.every((b) => b.step === "10 percent") && inPct[0].size >= inPct[inPct.length - 1].size, "the percent step draws ten rows at the default (the contract's two only with a contract), sorted by size");
+  const inIrr = F.sensitivityIn({ ...z, hurdle: 5 }, () => 150, steps, pct, "irr");
+  const capIrr = inIrr.find((b) => b.key === "capex");
+  check(capIrr && near(capIrr.base, F.irr(F.flows({ ...z, hurdle: 5 }, 150))) && capIrr.down.npv > capIrr.base, "measured in IRR the bars are rates of return: a lower capital cost gives a higher rate", JSON.stringify(capIrr));
+  check(F.sensitivityIn(z, () => 5, steps, pct, "irr").length === 0 && F.sensitivityIn(z, () => 5, steps, pct, "npv").length === 10, "a scenario with no rate of return draws no bar in IRR, and its ten in NPV");
+  check(F.NO_RANGE.rate !== undefined && F.NO_RANGE.term !== undefined && F.NO_RANGE.hurdle !== undefined && F.NO_RANGE.cycles !== undefined, "the assumptions without a range are named, with why");
+}
+
 console.log(failed ? `${failed} FAILED` : "all passed");
 process.exit(failed ? 1 : 0);

@@ -330,3 +330,157 @@ export function cellTotals(c: StepCase | null | undefined, rte: number, cycles: 
   const v = c?.cells[cellKey(rte, cycles)];
   return c && v ? new Map(c.months.map((m, i) => [m, v[i]])) : null;
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Session 296 (the owner's rulings of 15 October 2026, the battery page's pass 1): more of what one scenario shows
+// (the payback year, NPV per dollar of equity, the years of the project for the charts) and two ways to move it
+// (the sensitivity in a sourced range or by a percent step, measured in NPV or IRR). Nothing above this line changed:
+// every figure the page showed before is computed as it was.
+
+/** NREL, Annual Technology Baseline 2025, utility-scale battery storage, as its cost report states it: Cole, Karmakar
+ * and Mann, "Cost Projections for Utility-Scale Battery Storage: 2025 Update", NREL/TP-6A40-93281, June 2025, section
+ * 2.2 (read 19 October 2026). The 2024 cost of a system is `energy x duration + power` (2024 dollars); fixed O&M is 4
+ * percent of that cost a year and pays for augmentation, so the battery runs at its rating for its 15-year life; the
+ * round-trip efficiency is 85 percent. The ATB holds no fade rate of its own ("a function of the usage rate"). */
+export const ATB = {
+  energy: 241, power: 372, fomShare: 0.04, rte: 85, life: 15,
+  name: "NREL, Annual Technology Baseline 2025, utility-scale battery storage",
+  report: "Cole, Karmakar and Mann, Cost Projections for Utility-Scale Battery Storage: 2025 Update, NREL/TP-6A40-93281, June 2025, section 2.2",
+  url: "https://atb.nlr.gov/electricity/2025/utility-scale_battery_storage",
+};
+/** The ATB's capital cost for a duration, USD per kW (2024 dollars): 854 at 2 hours, 1,336 at 4, 2,300 at 8. */
+export const atbCapex = (hours: number) => ATB.energy * hours + ATB.power;
+/** The ATB's fixed O&M for a duration, USD per kW a year: 4 percent of its capital cost (92 at 8 hours). */
+export const atbFom = (hours: number) => Math.round(ATB.fomShare * atbCapex(hours) * 100) / 100;
+
+/** The equity paid in at year 0, USD per kW: the capital cost less the debt. */
+export const equityIn = (a: Assumptions) => a.capex * (1 - a.share / 100);
+/** The payback year: the first year in which the cash flows to equity, added up from year 0 without discounting, are
+ * no longer negative (0 when nothing is paid in); null when they never are within the life. */
+export function paybackYear(fl: number[]): number | null {
+  let s = 0;
+  for (let t = 0; t < fl.length; t++) {
+    s += fl[t];
+    if (s >= 0) return t;
+  }
+  return null;
+}
+/** NPV per dollar of equity paid in: the NPV over the equity; null when no equity is paid in. */
+export const npvPerEquity = (a: Assumptions, v: number): number | null => (equityIn(a) > 0 ? v / equityIn(a) : null);
+
+export type YearRow = { t: number; income: number; afterCosts: number; debt: number; afterDebt: number; balance: number };
+/** The years of a scenario, 1 to the life, USD per kW: the income (the contract and the market), the income less
+ * fixed O&M, the debt payment, what is left after it (the cash flow to equity of that year), and the debt still owed at
+ * the end of the year (level payments: each pays the year's interest and the rest repays). */
+export function projection(a: Assumptions, revKw: number): YearRow[] {
+  const ds = debtService(a), dy = debtYears(a), r = a.rate / 100;
+  let balance = a.capex * (a.share / 100);
+  const out: YearRow[] = [];
+  for (let t = 1; t <= a.life; t++) {
+    const income = incomeInYear(a, revKw, t);
+    const debt = t <= dy ? ds : 0;
+    balance = t <= dy ? Math.max(0, balance * (1 + r) - ds) : 0;
+    out.push({ t, income, afterCosts: income - a.fom, debt, afterDebt: income - a.fom - debt, balance });
+  }
+  return out;
+}
+
+export type Measure = "npv" | "irr";
+export type Range = { low: number; high: number; source: string };
+export type Ranges = Partial<Record<Key, Range>>;
+export type Mode = { kind: "range"; ranges: Ranges } | { kind: "pct"; pct: number };
+export const PCT_DEFAULT = 10, PCT_MIN = 1, PCT_MAX = 100;
+/** The held step nearest to a value (ties toward `dir`), at least one step away from `from` when the value is on the
+ * other side of it; null when no step lies in that direction. */
+function snapStep(steps: number[], v: number, from: number, dir: -1 | 1): number | null {
+  const ahead = steps.filter((s) => (dir > 0 ? s > from : s < from));
+  if (!ahead.length) return null;
+  let best = ahead[0];
+  for (const s of ahead) if (Math.abs(s - v) < Math.abs(best - v) || (Math.abs(s - v) === Math.abs(best - v) && (dir > 0 ? s > best : s < best))) best = s;
+  return best;
+}
+/** The value an assumption moves to in a mode, down or up; null when it does not move that way (no published range,
+ * a step not held, a value already at its bound). In the sourced range the two sides are the published low and high
+ * case; by a percent step each side is the value times (1 minus or plus the percent), held inside the field's bounds,
+ * and the two assumptions inside the model go to the nearest step the model was run at, within their limits. */
+export function movedValue(k: Key, a: Assumptions, dir: -1 | 1, mode: Mode, steps: Steps): number | null {
+  const s = SPECS[k];
+  const stepped = k === "rte" || k === "cycles";
+  if (mode.kind === "range") {
+    const r = mode.ranges[k];
+    if (!r) return null;
+    const v = dir < 0 ? r.low : r.high;
+    if (!stepped) return Math.min(s.max, Math.max(s.min, v));
+    const inside = steps[k].filter((x) => x >= r.low - 1e-9 && x <= r.high + 1e-9);
+    if (!inside.length) return null;
+    return dir < 0 ? Math.min(...inside) : Math.max(...inside);
+  }
+  const want = Math.round(a[k] * (1 + dir * mode.pct / 100) * 1e6) / 1e6;
+  if (stepped) return snapStep(steps[k], want, a[k], dir);
+  const v = Math.min(s.max, Math.max(s.min, want));
+  return s.whole ? Math.round(v) : v;
+}
+/** The sensitivity in a mode and a measure (session 296): each assumption moved down and up as `movedValue` says, the
+ * others held, and the NPV or the IRR recomputed; `size` and the sort are in the measure's unit. A row whose assumption
+ * cannot move either way is left out (no published range in the sourced mode). The contract's two rows only when the
+ * scenario holds a contract, as before. */
+export function sensitivityIn(a: Assumptions, revOf: (rte: number, cycles: number) => number | null, steps: Steps, mode: Mode, measure: Measure): Bar[] {
+  const at = (x: Assumptions): number | null => {
+    const rev = revOf(x.rte, x.cycles);
+    if (rev === null) return null;
+    const fl = flows(x, rev);
+    return measure === "irr" ? irr(fl) : npv(x.hurdle, fl);
+  };
+  const base = at(a);
+  if (base === null) return [];
+  const keys = (a.cshare ?? 0) > 0 ? KEYS : KEYS.filter((k) => k !== "cshare" && k !== "cprice");
+  const bars: Bar[] = [];
+  for (const k of keys) {
+    const s = SPECS[k];
+    const side = (dir: -1 | 1): Side | null => {
+      const v = movedValue(k, a, dir, mode, steps);
+      if (v === null) return null;
+      const y = at({ ...a, [k]: v });
+      return y === null ? null : { value: v, npv: y };
+    };
+    const down = side(-1), up = side(1);
+    if (!down && !up) continue;
+    const step = mode.kind === "range" ? "the published low and high case" : `${n(mode.pct)} percent`;
+    bars.push({ key: k, label: s.label, step, base, down, up, size: Math.max(down ? Math.abs(down.npv - base) : 0, up ? Math.abs(up.npv - base) : 0) });
+  }
+  return bars.map((b, i) => ({ b, i })).sort((x, y) => y.b.size - x.b.size || x.i - y.i).map((x) => x.b);
+}
+
+/** The published low and high case of each assumption, for a duration: Lazard's Levelized Cost of Energy+ (June 2025,
+ * its LCOS v10.0 storage cases) and NREL's Annual Technology Baseline 2025, the lower and the higher of the two where
+ * both state a figure. An assumption both state once has no range and no row in the sourced mode. The 8-hour capital
+ * cost and fixed O&M have no Lazard case: their low and high are the straight lines through Lazard's 2- and 4-hour
+ * low cases and high cases, an extrapolation, and the ATB's own 8-hour figures lie inside them. This is the shape of
+ * site/data/sourced_ranges.json (the data machine's session 306): when that file is in the live set it replaces these
+ * figures; until then they are typed here with their sources. */
+export const LAZARD_CASES: Record<number, { capexLow: number; capexHigh: number; fomLow: number; fomHigh: number }> = {
+  // capital USD per kW; fixed O&M USD per kWh a year times the hours: 2 hours 3.0 to 8.2, 4 hours 3.0 to 8.0
+  2: { capexLow: 340, capexHigh: 880, fomLow: 6.0, fomHigh: 16.4 },
+  4: { capexLow: 620, capexHigh: 1600, fomLow: 12, fomHigh: 32 },
+};
+export function rangesOf(hours: number): Ranges {
+  const line = (two: number, four: number) => four + ((four - two) / 2) * (hours - 4);  // the straight line through the 2- and 4-hour cases
+  const lz = LAZARD_CASES[hours] ?? { capexLow: line(LAZARD_CASES[2].capexLow, LAZARD_CASES[4].capexLow), capexHigh: line(LAZARD_CASES[2].capexHigh, LAZARD_CASES[4].capexHigh),
+    fomLow: line(LAZARD_CASES[2].fomLow, LAZARD_CASES[4].fomLow), fomHigh: line(LAZARD_CASES[2].fomHigh, LAZARD_CASES[4].fomHigh) };
+  const own = hours in LAZARD_CASES;
+  const lazardWords = own ? `${LAZARD}, LCOS v10.0, the low and high of its ${hours}-hour case` : `${LAZARD} prints no 8-hour case: the straight lines through its 2- and 4-hour low cases and high cases, an extrapolation`;
+  const atbCap = atbCapex(hours), atbF = atbFom(hours);
+  return {
+    capex: { low: Math.min(lz.capexLow, atbCap), high: Math.max(lz.capexHigh, atbCap), source: `${lazardWords}; ${ATB.name}: USD ${atbCap.toLocaleString("en-US")} per kW (${ATB.energy} per kWh times ${hours} hours plus ${ATB.power} per kW, 2024 dollars)` },
+    fom: { low: Math.min(lz.fomLow, atbF), high: Math.max(lz.fomHigh, atbF), source: `${lazardWords} (USD per kWh a year times the hours); ${ATB.name}: 4 percent of the capital cost a year, USD ${atbF.toLocaleString("en-US")}, which pays for augmentation` },
+    share: { low: 20, high: 60, source: `${LAZARD}: 20 percent debt in its storage cases, 60 percent in its generation cases` },
+    rte: { low: ATB.rte, high: 92, source: `${ATB.name}: 85 percent; ${LAZARD}, LCOS v10.0: 86 to 92 percent. The model was run at 86, 89 and 92, so the low case is the lowest step held, 86` },
+    deg: { low: 0, high: DEG, source: `${ATB.name}: none, its fixed O&M pays for augmentation; ${LAZARD}, LCOS v10.0: 2.6 percent a year` },
+    life: { low: ATB.life, high: 20, source: `${ATB.name}: a 15-year lifetime; ${LAZARD}: 20 years for storage` },
+  };
+}
+/** The assumptions the sources state once, with no range, in words for the line under the chart. */
+export const NO_RANGE: Partial<Record<Key, string>> = {
+  rate: "8 percent in both of Lazard's structures", term: "20 years in Lazard's storage cases", hurdle: "a 12 percent cost of equity in both of Lazard's structures",
+  cycles: "the model's rule, one a day; the other steps are the reader's", cshare: "the reader's own term", cprice: "the reader's own term",
+};
