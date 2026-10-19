@@ -136,6 +136,8 @@ _backend_ready = False
 # Session 35: a scoped chat (ask.py --grid, the site's /ask?grid=): the tables and rows carrying one grid
 # (docs/grids/grids.json), plus its written layer. None: the whole warehouse.
 GRIDS = {g["slug"]: g for g in json.load(open(os.path.join(ROOT, "docs", "grids", "grids.json"), encoding="utf-8"))["grids"]}
+# session 302: the derived tables keyed by hub, whose rows a grid's scoped chat keeps by entity prefix (scope_rows)
+HUB_KEYED = {"cost_of_power_monthly", "cost_of_power_hourly_profile", "merchant_revenue_monthly", "battery_stack_monthly", "battery_stack_stress_daily", "iso_curtailment_monthly"}
 SCOPE = None
 
 
@@ -164,6 +166,10 @@ def scope_rows(name, df):
         return df[df["iso"] == g["iso"]]
     if name == "energy_projects":
         return df[df["source_table"] == (g.get("queue_table") or "")]
+    # session 302: a derived table keyed by hub carries a grid's rows under its entity prefix and its market column is
+    # empty (as the site's scopeFilter): the prefix rule comes before the market rule, which would keep no row
+    if name in HUB_KEYED and "entity" in df.columns:
+        return df[df["entity"].fillna("").str.startswith(g["slug"] + ":")]
     if "market" in df.columns and g.get("market_prefix"):
         return df[df["market"].fillna("").str.startswith(g["market_prefix"])]  # as the site: market like <prefix>*
     return df

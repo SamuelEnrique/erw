@@ -16,9 +16,9 @@ questions:
   expected: [31.5717]
   tolerance: 0.01
   text: []
-  tables: ["price_board_peak_offpeak"]
+  tables: ["price_board_peak_offpeak", "ercot_hub_prices_daily"]
   refuse: false
-  note: "price_board_peak_offpeak, ercot:HB_HUBAVG, rt_year_peak_mean, ts 2024-01-01 (P1Y)"
+  note: "price_board_peak_offpeak, ercot:HB_HUBAVG, rt_year_peak_mean, ts 2024-01-01 (P1Y); the same 31.5717 is the mean of ercot_hub_prices_daily's rt_peak_mean over the year, which Ask ERCOT read (the key widened after the answer, as session 267 did for q22)"
 - id: q02
   grid: ERCOT
   via: panel
