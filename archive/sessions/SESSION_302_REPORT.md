@@ -49,8 +49,9 @@ The spend: USD 2.3256 for the first thirty, USD 0.4894 for the second asking of 
 | `tests.test_session302` | 0 | 7 passed |
 | `tests.test_session35`, `154`, `157`, `157_page`, `267`, `92` (the scopes and the tools) | 0 | 143 passed, 21 skipped |
 | `check-routes`, local build | 0 | 211 of 211; as a visitor 0 failed |
-| `check-values`, local build | VALUES_EXIT | VALUES_LINE |
-| Suite, clean copy, the commit pushed | SUITE_EXIT | SUITE_LINE |
+| `check-values`, the merged build (twice, after main moved) | 1 | 5,322 of 5,328 values match Supabase; the 6 that fail are one page's, `/learn/problems/know-your-grid`: yesterday's ERCOT and CAISO generation sums, which the live set does not hold for 18 October (the page shows 0, the checker finds no row). Production fails the same six keys the same way (`s302_values_prod.out`): a data condition of the day, not this session's. Every other page: every value |
+| Suite, clean copy, `f1cded3b` then `2d480586` (origin/main merged twice: sessions 309 to 311 landed meanwhile) | 0, 0 | 4,399 tests OK, 250 skipped, both |
+| `npm run build` of the merged commit, `check-routes` | 0, 0 | 211 of 211; as a visitor 0 failed |
 
 ## Landing of session 301 (recorded here: session 301's report is in that landing's own commit)
 
