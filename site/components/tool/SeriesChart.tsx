@@ -61,12 +61,13 @@ export function SeriesChart({ id, title, unit, categories, series, kind, scale, 
   const bw = (W - L - R) / Math.max(1, n);
   const cx = (i: number) => L + i * bw + bw / 2;
   const capped = (v: number) => Math.min(v, useLog ? hi : hi);
+  // the series' names at the top right, each in its own color, and the hatched note before them (the unit sits at the top left)
   const names = (
     <g data-direct-labels="1">
       {series.map((s, k) => (
         <text key={s.name} x={W - R - (series.length - 1 - k) * 150} y={14} textAnchor="end" fontSize="12" fill={s.color}>{s.name}</text>
       ))}
-      {categories.some((c) => c.partial) ? <text x={L + 4} y={14} fontSize="12" fill="var(--color-muted)">{partialWords}: hatched</text> : null}
+      {categories.some((c) => c.partial) ? <text x={W - R - series.length * 150 - 10} y={14} textAnchor="end" fontSize="12" fill="var(--color-muted)">{partialWords}: hatched</text> : null}
     </g>
   );
   const toggle = (

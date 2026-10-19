@@ -122,11 +122,14 @@ try {
     if (want === "foresight_4h") {
       const note = s.links.find((a) => a.text === "Every number, step by step");
       check(note && (note.href === "/data/methods/battery_earns_algorithm"), "the lead links the step-by-step note beside the Method link");
-      const files = s.links.filter((a) => a.download).map((a) => a.href);
-      check(files.length === 3 && files.every((h) => h.startsWith("/battery/erw_2026_battery_")), "the source line offers three downloads", files.join(", "));
-      for (const h of [...files, "/data/methods/battery_earns_algorithm"]) {
-        const res = await fetch(base + h, { headers: { Cookie: await ev("document.cookie") } }).catch(() => null);
-        check(res && res.status === 200, `${h} answers 200`, res ? `${res.status}, ${(await res.arrayBuffer()).byteLength.toLocaleString("en-US")} bytes` : "no answer");
+      // session 296: the page also offers the CSV of every month (session 208) and the stress table (session 257): the
+      // source line's three are the replication files; each download is asked by the page itself, whose cookie is httpOnly
+      const downloads = s.links.filter((a) => a.download).map((a) => a.href);
+      const files = downloads.filter((h) => h.startsWith("/battery/erw_2026_battery_"));
+      check(files.length === 3 && downloads.length === 5, "the source line offers three downloads, the page five in all", downloads.join(", "));
+      for (const h of [...downloads, "/data/methods/battery_earns_algorithm"]) {
+        const res = await ev(`fetch(${JSON.stringify(h)}).then(async (r) => ({ status: r.status, bytes: (await r.arrayBuffer()).byteLength })).catch(() => null)`);
+        check(res && res.status === 200, `${h} answers 200`, res ? `${res.status}, ${res.bytes.toLocaleString("en-US")} bytes` : "no answer");
       }
       await shot("battery-ercot-4h-desktop", 1280);
     }

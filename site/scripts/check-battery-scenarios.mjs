@@ -421,7 +421,7 @@ try {
     await go(`/cost-of-power/battery${q}`, 390);
     s = await ev(STATE);
     check(s.clientW === 390 && s.scrollW <= s.clientW + 1, `390 px${q ? ", two scenarios" : ""}: the page does not scroll sideways`, `scroll width ${s.scrollW}, width ${s.clientW}`);
-    check(s.bars.length === 10 && s.rows.length === 8, `390 px${q ? ", two scenarios" : ""}: the table and the chart are drawn`);
+    check(s.bars.length === 6 && s.rows.length === 8, `390 px${q ? ", two scenarios" : ""}: the table and the chart are drawn (session 296: six rows in the sourced range)`);
     await shot(q ? "scenarios-compared-phone" : "scenarios-default-phone", 390);
   }
 } finally {
