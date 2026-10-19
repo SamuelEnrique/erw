@@ -97,19 +97,20 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, errors
   await open(base);
   for (const [view, kinds] of [["day&grids=ercot,caiso&factor=price", ["stack"]], ["duck&grids=caiso,ercot", ["lines"]], ["clean", ["bars", "heat"]], ["stress&grids=ercot,pjm", ["lines"]], ["supply", ["lines", "stack"]], ["forecast", ["lines", "bars", "heat"]], ["history&states=US,TX", ["lines"]]]) {
     await go(`${base}/mix?view=${view}`);
-    await wait(kinds.map((k) => `!!document.querySelector('[data-chart="${k}"] canvas')`).join(" && "), 30000, `the charts of ${view}`);
+    await wait(kinds.map((k) => `!!document.querySelector('[data-chart="${k}"] svg')`).join(" && "), 30000, `the charts of ${view}`);   // session 317: SVG
     check(true, `${view.split("&")[0]}: its charts are drawn (${kinds.join(", ")})`);
   }
   await go(`${base}/mix`);
-  await wait(`!!document.querySelector('#hourly canvas, #monthly canvas')`, 30000, "the original view's charts");
+  await wait(`!!document.querySelector('#hourly svg, #monthly svg')`, 30000, "the original view's charts");
   check(true, "now: the original view's charts are drawn");
   // a chart answers the mouse: the tooltip of the first stack names the hour, a source and a value
   await go(`${base}/mix?view=day&grids=ercot`);
-  await wait(`!!document.querySelector('[data-chart="stack"] canvas')`, 30000, "the stack");
-  // the chart's own tooltip, shown where the mouse would be at the thirteenth hour
-  const tip = await evaluate(`(() => { const el = document.querySelector('[data-chart="stack"]'); const chart = window.echarts.getInstanceByDom(el);
-    chart.dispatchAction({ type: 'showTip', seriesIndex: 0, dataIndex: 13 });
-    return new Promise((ok) => setTimeout(() => ok([...el.querySelectorAll('div')].map((d) => d.innerText || '').filter((t) => /Natural gas/.test(t)).sort((x, y) => x.length - y.length)[0] ?? ''), 400)); })()`);
+  await wait(`!!document.querySelector('[data-chart="stack"] svg')`, 30000, "the stack");
+  // the chart's own hover card, shown where the mouse would be at the thirteenth hour (session 317: SVG)
+  const tip = await evaluate(`(() => { const el = document.querySelector('[data-chart="stack"]'); const svg = el.querySelector('svg'); const b = svg.getBoundingClientRect();
+    const L = Number(svg.dataset.plotLeft), R = Number(svg.dataset.plotRight), n = Number(svg.dataset.n);
+    svg.dispatchEvent(new MouseEvent('mousemove', { bubbles: true, clientX: b.left + L + 13.5 * (R - L) / n, clientY: b.top + b.height / 2 }));
+    return new Promise((ok) => setTimeout(() => ok(el.querySelector('[data-chart-card]')?.innerText ?? ''), 350)); })()`);
   check(/\d\d:00/.test(tip) && /Natural gas/.test(tip) && /MW/.test(tip), `a chart answers the mouse with the hour, the series and the value ("${tip.replace(/\s+/g, " ").slice(0, 110)}")`);
   await evaluate(`document.querySelector('[data-chip="Select grids:caiso"]').click()`);
   await wait(`location.search.includes('grids=ercot%2Ccaiso') && document.querySelectorAll('[data-chart="stack"]').length === 2`, 15000, "the second grid");
