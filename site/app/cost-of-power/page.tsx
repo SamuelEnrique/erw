@@ -196,6 +196,12 @@ async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyG
                     <>{loadWords(x)} at {place}, buying {market}: last twelve months <Missing why={noYear} />.</>
                   )}
                 </p>
+                {/* session 298 (the owner's ruling 5c of 18 October 2026): a load that runs in under a tenth of the hours is said so under the headline */}
+                {flex && s12 && s12.held > 0 && (s12.held - s12.down) / s12.held < 0.1 ? (
+                  <p className="-mt-4 mb-6 max-w-3xl text-sm" role="note" data-runs-little={String(Math.round(((s12.held - s12.down) / s12.held) * 1000) / 10)}>
+                    This load ran in {Math.round(((s12.held - s12.down) / s12.held) * 100)} percent of the hours held, fewer than one in ten: its price is the cheapest hours&apos; alone, and a load that runs more would pay more.
+                  </p>
+                ) : null}
 
                 {/* session 195: the three headline numbers are scenario A's rows (LoadScenarios.tsx) */}
                 <LoadHeadline facts={facts} missing={<Missing why={noYear} />}

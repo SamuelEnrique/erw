@@ -15,10 +15,10 @@ import {
   type CaptureFile, type Fuel, type Hub, type Market,
 } from "@/lib/capture";
 import {
-  DEBT, DEFAULT_SIZE, DEFAULTS, durationOf, HEAT_RATE, inputsKey, inputsOf, keyOf, months, stress, summary, VOM,
+  CO2_PER_MMBTU, DEBT, DEFAULT_SIZE, DEFAULTS, durationOf, HEAT_RATE, inputsKey, inputsOf, keyOf, months, stress, summary, VOM,
   type Inputs, type Snapshot,
 } from "@/lib/merchant";
-import { BATTERY_DEG, BATTERY_DEG_SOURCE, KEYS as SCENARIO_KEYS, SPECS, debtUsd, defaultsOf, isOldParam, isScenarioParam, parseScenarios } from "@/lib/seller/finance";
+import { BATTERY_DEG, BATTERY_DEG_SOURCE, KEYS as SCENARIO_KEYS, SOLAR_DEG, SOLAR_DEG_SOURCE, SPECS, debtUsd, defaultsOf, isOldParam, isScenarioParam, parseScenarios } from "@/lib/seller/finance";
 import { ASSETS, GRIDS, PAUSED, sentence, spanOf, spans, years } from "@/lib/seller2";
 import * as H from "@/lib/sellerhybrid";
 import * as HB from "@/lib/sellerhubs";
@@ -120,8 +120,10 @@ export async function modelOf(q: Record<string, string | undefined>) {
   const iso = q.iso && open.includes(q.iso) ? q.iso : "ercot";
   // session 195: scenario A, as the address has it, sets the page's fixed O&M and annual debt payments
   const asked = inputsOf({ ...q, iso });
-  // session 196: a battery's degradation default is Lazard's cited rate; the other assets hold none
-  const costsOf = (key: keyof typeof DEFAULTS) => ({ ...DEFAULTS[key], ...(asked.asset === "battery" ? { deg: BATTERY_DEG, degSource: BATTERY_DEG_SOURCE } : {}) });
+  // session 196: a battery's degradation default is Lazard's cited rate; session 298 (the owner's ruling 7a of 18 October
+  // 2026): solar's is the ATB's 0.7 percent a year; wind and the peaker hold none
+  const costsOf = (key: keyof typeof DEFAULTS) => ({ ...DEFAULTS[key],
+    ...(asked.asset === "battery" ? { deg: BATTERY_DEG, degSource: BATTERY_DEG_SOURCE } : asked.asset === "solar" ? { deg: SOLAR_DEG, degSource: SOLAR_DEG_SOURCE } : {}) });
   const A = parseScenarios(q, defaultsOf(costsOf(keyOf(asked))), asked.mw).a;
   const x: Inputs = { ...asked, fom: A.fom, ds: debtUsd(A, asked.mw) };
   const scenarioParams = Object.fromEntries(Object.entries(q).filter(([n, v]) => (isScenarioParam(n) || isOldParam(n)) && v !== undefined).sort(([a], [b]) => a.localeCompare(b))) as Record<string, string>;
@@ -281,10 +283,14 @@ export async function modelOf(q: Record<string, string | undefined>) {
     const b = CAPTURE.blank[id];
     return { id, name: b?.name ?? id.toUpperCase(), open: false, words: b?.words ?? "not held yet", why: id === "miso" ? PAUSED.words : PJM_WHY, hubs: [] };
   });
+  // session 298: the latest carbon cost of the fuel held for this grid, USD per MMBtu (null where the grid has none)
+  const co2Last = (snap.isos[iso]?.co2 ?? []).reduce<number | null>((last, v) => (v === null || v === undefined ? last : v), null);
   const defaults = `Defaults for ${a.name.toLowerCase()}, Lazard's Levelized Cost of Energy+ (June 2025), the midpoint of each range: capital ${D.capex.toLocaleString("en-US")} USD/kW (${D.capexRange}), `
     + `fixed O&M ${D.fom} USD/kW a year (${D.fomRange}), life ${D.life} years. Debt: ${DEBT.share * 100} percent of the capital at ${DEBT.rate * 100} percent over the life, `
     + `USD ${B.usdShort(Math.round(D.capex * 1000 * x.mw * DEBT.share * (DEBT.rate / (1 - (1 + DEBT.rate) ** -D.life))))} a year for ${sizeLabel}.`
     + (peaker ? ` Heat rate ${HEAT_RATE} MMBtu/MWh and variable O&M ${VOM} USD/MWh (Lazard gas peaking, new build, 10,275 to 11,175 Btu/kWh and 3.50 to 5.00 USD/MWh).` : "")
+    // session 298 (the owner's ruling 1a of 18 October 2026): where the grid's generators buy allowances, the run rule counts the carbon cost of the fuel
+    + (peaker && co2Last !== null ? ` In ${g.name} the run rule also counts the carbon cost of the fuel: California's allowance, the settlement price of the latest current auction (USD ${(co2Last / CO2_PER_MMBTU).toFixed(2)} per tCO2), times 53.06 kg CO2 per MMBtu of natural gas (EPA, 40 CFR part 98, Table C-1): USD ${co2Last.toFixed(2)} per MMBtu, each hour at the price of the latest auction before it (CARB, Summary of California and Joint Auction Settlement Prices and Results; the settlement prices are held internal and are in no download).` : "")
     + (x.asset === "battery" ? ` Priced as a ${durationOf(x.mw, x.mwh)}-hour battery (the nearer of the two durations Lazard prices), round trip ${snap.defaults.rte * 100} percent, one full cycle a day at most.` : "")
     + ` Default sizes: ${DEFAULT_SIZE.solar.mw} MW solar, wind or peaker; ${DEFAULT_SIZE.battery.mw} MW / ${DEFAULT_SIZE.battery.mwh} MWh battery.`;
 

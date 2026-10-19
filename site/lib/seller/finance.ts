@@ -57,6 +57,11 @@ export const HURDLE = 12;
  * none: the ruling names the battery, and the page says no cited rate is held for them. */
 export const BATTERY_DEG = 2.6;
 export const BATTERY_DEG_SOURCE = `${LAZARD} (LCOS v10.0): battery degradation of 2.6 percent a year in its utility-scale cases of 2 and 4 hours. The model itself has no loss of output with age: here the rate is a yearly cut to revenue`;
+/** Session 298 (the owner's ruling 7a of 18 October 2026): solar's degradation default is the ATB's 0.7 percent a
+ * year; wind and the gas peaker still hold none. The NPV of the default solar case moves with it (the page's source
+ * line and the methods note say by how much). */
+export const SOLAR_DEG = 0.7;
+export const SOLAR_DEG_SOURCE = "NREL, Annual Technology Baseline 2025, utility-scale PV: a degradation rate of 0.7 percent a year. The model itself has no loss of output with age: here the rate is a yearly cut to revenue";
 export const SPECS: Record<Key, Spec> = {
   capex: { key: "capex", letter: "c", label: "Capital cost", unit: "USD per kW", min: 0, max: 10000, whole: false, swing: 100, swingWords: "USD 100 per kW",
     short: (v) => `capex ${n(v)} USD/kW`, words: (v) => `capex USD ${n(v)} per kW`, plain: n, source: `${LAZARD}, the midpoint of its range` },

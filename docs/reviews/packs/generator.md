@@ -70,7 +70,7 @@ Not read by the model: `ercot_rtm_price_adders` (session 244). ERCOT's scarcity 
 | Peaker heat rate (`hr`) | 10.725 MMBtu per MWh; bounds 6 to 16 | Lazard, gas peaking new build, midpoint of 10,275 to 11,175 Btu per kWh | none |
 | Peaker variable O&M (`vom`) | USD 4.25 per MWh; bounds 0 to 50 | Lazard, midpoint of 3.50 to 5.00 | none |
 | Gas price | Henry Hub spot of the local day; no basis | EIA, `eia_fuel_spot_prices` | none |
-| Peaker carbon cost | none, on every grid | By construction; CAISO's allowance waits for a ruling (part 9) | none |
+| Peaker carbon cost | California's allowance on CAISO (the latest current auction's settlement price times 53.06 kg CO2 per MMBtu, USD per MMBtu added to the fuel); none elsewhere | The owner's ruling 1a of 18 October 2026 (session 298); CARB's auction results and EPA's factor | 1a |
 | Battery beside the plant (`bmw`, `dur`, `strat`) | the plant's MW, 4 hours, perfect foresight | ERW's choice | none |
 | The pair's limit and prices | the plant's MW or its highest hour; the main hub's day-ahead price | `docs/methods/cost_of_power.md`, "Session 162" | none |
 | 1. Capital cost (`c`) | solar 1,375; wind 2,100; battery 610 (2 h), 1,110 (4 h); peaker 1,300 USD per kW; 0 to 10,000 | Lazard, Levelized Cost of Energy+, June 2025, midpoints | none |
@@ -165,7 +165,7 @@ Ranked by the held number where there is one; "no number held" where the reposit
 7. Ancillary services and capacity: none counted. A battery: 58.53 per kW energy alone against 81.40 on What a battery earns. NYISO and ISO-NE capacity: no number held.
 8. Degradation: solar none; ATB 0.7 percent; one point a year moves NPV by USD 3.51 million.
 9. A fleet, not a site: site against fleet, no number held; EIA-860M lists some plants late (1,428 ERCOT solar hours above 1.0).
-10. CAISO's peaker carbon allowance: SP15 2025 30.05 per kW by the page's rule, 6.95 with the allowance, 0.78 by the market monitor; every CAISO peaker figure is too high by that; adding the allowance waits for a ruling (part 9, question 1).
+10. CAISO's peaker carbon allowance: SP15 2025 30.05 per kW by the page's rule, 6.95 with the allowance, 0.78 by the market monitor; every CAISO peaker figure is too high by that; adding the allowance waits for a ruling (part 9, question 1). Given on 18 October 2026 as 1a and built in session 298: the allowance is in the run rule now (the last twelve months' margin at SP15 from USD 43.19 to 19.66 per kW).
 11. California's wind since May 2026: 3,650 MW of New Mexico wind (SunZia) in the denominator; the last twelve months hold 2,477 MWh per MW against 3,125 in 2025.
 12. Curtailment and negative prices: the fleet's curtailment is out of EIA's generation; a site's is not; no number held.
 13. Real time against day-ahead: USD 6,328,531 day-ahead (364 days) against 5,985,226 real time for 100 MW.
@@ -260,7 +260,7 @@ Say first: this is what Texas's solar fleet was paid, hour by hour, at the hub's
 - Minute 1 to 2, the years and the price received: the chart Revenue by year (131.46, 62.44, 217.53, 197.43, 183.72, 59.46, 63.54 for 2019 to 2025; 2018 and 2026 hatched). The table: revenue 59.85, 102.24, 130.80; energy 2,580, 2,600, 2,422; capture rate 72, 110, 98. The capture chart: 177, 130, 55, 131, 146, 85, 76 for 2019 to 2025, 73 for 2026, 72 for the last twelve months. The hub table: West hub 18.47 against 30.63, 60 percent; Houston hub 27.26 against 32.88, 83 percent.
 - Minute 2 to 3, another hub: click West hub; revenue 47.51, coverage 0.49, price received 18.47. Click Hub average to go back.
 - Minute 3 to 4, is it worth building? Scenario A, eleven fields (session 264: the PPA term last). The results: worst month USD 139,299 (February 2024; coverage 0.06); NPV USD -74.16 million; IRR none; 39.14; 58.36 "on 100 percent of the energy for a PPA term of 35 years". Press "Make B a PPA": B's share 100, price 58.36, NPV zero or just above. Type 20 in B's PPA term: B's NPV falls to USD -6.4 million and its breakeven rises to 61.68.
-- Minute 4 to 5, what matters most: the chart for scenario A, eight rows: capital cost 8.21, interest 5.96, debt share 4.10, fixed O&M 4.09, degradation 3.51, life 1.73, hurdle 1.59, term 1.16 (USD million). Close on the source line: "Checked against: 20 published figures (Lazard, the Annual Technology Baseline, EIA, CAISO's market monitor, Berkeley Lab)."
+- Minute 4 to 5, what matters most: the chart for scenario A, eight rows: capital cost 8.21, interest 5.96, debt share 4.10, fixed O&M 4.09, degradation 3.51, life 1.73, hurdle 1.59, term 1.16 (USD million). Close on the source line: "Checked against: 21 published figures (Lazard, the Annual Technology Baseline, EIA, CAISO's market monitor, Berkeley Lab, Potomac Economics)." (session 298: 20 until then, before Potomac's 2024 net revenue; the same session set solar's degradation default to the ATB's 0.7 percent, so the solar case's rows and NPV above are the ones of before it.)
 - California, if asked: `/cost-of-power/seller?iso=caiso`: 28.45 per kW; 13.86 against 28.53, a capture rate of 49 percent; coverage 0.23; breakeven PPA 73.19.
 
 ## Where every number comes from

@@ -302,7 +302,7 @@ class ThePage(unittest.TestCase):
 
     def test_no_em_dash(self):
         for rel in ("site/lib/sellerhybrid.ts", "site/lib/capture.ts", "site/app/cost-of-power/seller/page.tsx", "site/app/cost-of-power/seller/SellerProfile.tsx", "site/app/cost-of-power/seller/SellerHubYears.tsx",
-                    "site/scripts/test-hybrid.mjs", "site/scripts/check-seller-deeper.mjs", "site/scripts/_retired/check-seller.mjs", "warehouse/derived/seller_hybrid.py",   # session 264: retired "docs/methods/cost_of_power.md",
+                    "site/scripts/test-hybrid.mjs", "site/scripts/_retired/check-seller-deeper.mjs", "site/scripts/_retired/check-seller.mjs", "warehouse/derived/seller_hybrid.py",   # session 264: retired "docs/methods/cost_of_power.md"; session 298: check-seller-deeper retired too
                     "tests/test_session162.py", "site/data/seller/hybrid.json"):
             self.assertNotIn(chr(0x2014), src(*rel.split("/")), rel)
 

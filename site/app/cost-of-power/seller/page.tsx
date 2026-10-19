@@ -5,7 +5,7 @@ import { Brand } from "@/components/Brand";
 import { Num } from "@/components/Num";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { GroupedBars } from "@/components/tool/GroupedBars";
-import { ChartFrame, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
+import { ChartFrame, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, Tip, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import * as B from "@/lib/batterystack";
 import { caisoJoinDay } from "@/lib/caisoJoin";  // session 78: the join's date is written in one place
 import { MARKETS, freeEnergyHref, hubAt, hubName, monthName as shortMonth, signed, two } from "@/lib/capture";
@@ -228,8 +228,9 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
               {held.length ? (
                 <>
                   {/* session 235: the brand's bar chart, the series named on it (components/tool/GroupedBars.tsx) */}
+                  {/* session 298: the note is a hover tip beside the title, the battery page's manner (session 296, item 9) */}
                   <ChartFrame title={`${money} by year, USD per kW`}
-                    note={<>Per kW of nameplate, priced at {at}. {atHub ? hubName(hub.id) : g.name} is held from {shortMonth(held[0].m)}.{ys.some((y) => !y.complete) ? " A hatched year holds fewer than twelve months and is not a full year." : ""}</>}>
+                    tip={<Tip id="revenue-years" label="the chart by year">Per kW of nameplate, priced at {at}. {atHub ? hubName(hub.id) : g.name} is held from {shortMonth(held[0].m)}.{ys.some((y) => !y.complete) ? " A hatched year holds fewer than twelve months and is not a full year." : ""}</Tip>}>
                     <GroupedBars id="revenue" unit="USD per kW" label={`${a.name} in ${g.name}: ${money.toLowerCase()} by year, USD per kW`} series={[{ name: money, tone: "accent" }]}
                       groups={ys.map((y) => ({ label: y.y, sub: y.complete ? undefined : `${y.months} months`, partial: !y.complete, values: [y.revenue / 1000],
                         title: `${y.y}: ${money.toLowerCase()} ${usd(y.revenue / 1000)} USD per kW${y.complete ? "" : ` (${y.months} of 12 months held, not a full year)`}` }))} />
@@ -260,7 +261,7 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
                   <Sub>What it earned per MWh against the hub average</Sub>
                   {capView.chart.length ? (
                     <ChartFrame title={`${capName} against the hub average, by year, USD per MWh`}
-                      note={<>At {capAt}. {fuel ? `${capName}: what ${g.name}'s whole ${fuel} fleet was paid for each MWh, the hub's price weighted by the fleet's generation hour by hour.` : `${capName}: what the ${peaker ? "peaker" : "battery"} was paid for each MWh it sold.`} Hub average: the plain average of the price over the same hours. The percent above each pair is the capture rate, the first over the second.{capView.chart.some((c) => c.partial) ? " A hatched year holds fewer than twelve months." : ""}</>}>
+                      tip={<Tip id="capture-years" label="the capture chart">At {capAt}. {fuel ? `${capName}: what ${g.name}'s whole ${fuel} fleet was paid for each MWh, the hub's price weighted by the fleet's generation hour by hour.` : `${capName}: what the ${peaker ? "peaker" : "battery"} was paid for each MWh it sold.`} Hub average: the plain average of the price over the same hours. The percent above each pair is the capture rate, the first over the second.{capView.chart.some((c) => c.partial) ? " A hatched year holds fewer than twelve months." : ""}</Tip>}>
                       <GroupedBars id="capture" unit="USD per MWh" label={`${a.name} at ${capAt}: ${capName.toLowerCase()} against the hub average by year, USD per MWh`}
                         series={[{ name: capName, tone: "accent" }, { name: "Hub average", tone: "ink" }]}
                         groups={capView.chart.map((c) => ({ label: c.label, sub: c.partial ? `${c.months} months` : undefined, partial: c.partial, values: [c.price, c.flat],
@@ -331,7 +332,7 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
         </div>
       </SellerDecisions>
       <SourceLine tables={["merchant_revenue_monthly", "eia_fuel_spot_prices", "eia860m_operating_generators", ...new Set(cg.hubs.flatMap((h) => [...(h.rt?.tables ?? []), ...(h.da?.tables ?? [])])), ...(batt ? [B.TABLE] : [])]}
-        note={<>Derived by the ERW from {g.name}&apos;s public prices and EIA-930&apos;s hourly generation by source ({cg.workbook}){cg.generation.includes("caiso") ? `, California from ${caisoJoinDay()} from CAISO's own supply by fuel` : ""}. The model&apos;s snapshot was built {snap.built.slice(0, 10)}, the capture prices {CAPTURE.built.slice(0, 10)}{atHub ? `, the model at ${hubAt(hub.id)} ${HUBS.built.slice(0, 10)}` : ""}{pair && hf ? `, the pair with a battery ${HYBRID.built.slice(0, 10)}` : ""}. The default case hour by hour: <a href={HOURLY_CSV} download data-download="csv">CSV</a>, <a href={DO_FILE} download data-download="do">Stata do-file</a>, <a href={MIRROR} download data-download="py">Python mirror</a>. Cost defaults: Lazard, Levelized Cost of Energy+, June 2025. The buyer&apos;s side is <Link href="/cost-of-power">What a datacenter pays</Link>. <span data-checked-against="20">Checked against: 20 published figures (Lazard, the Annual Technology Baseline, EIA, CAISO&apos;s market monitor, Berkeley Lab). <Link href="/data/methods/generator_earns_algorithm#cross-checks">Each comparison, with its gap and the reason</Link>.</span></>} />
+        note={<>Derived by the ERW from {g.name}&apos;s public prices and EIA-930&apos;s hourly generation by source ({cg.workbook}){cg.generation.includes("caiso") ? `, California from ${caisoJoinDay()} from CAISO's own supply by fuel` : ""}. The model&apos;s snapshot was built {snap.built.slice(0, 10)}, the capture prices {CAPTURE.built.slice(0, 10)}{atHub ? `, the model at ${hubAt(hub.id)} ${HUBS.built.slice(0, 10)}` : ""}{pair && hf ? `, the pair with a battery ${HYBRID.built.slice(0, 10)}` : ""}. The default case hour by hour: <a href={HOURLY_CSV} download data-download="csv">CSV</a>, <a href={DO_FILE} download data-download="do">Stata do-file</a>, <a href={MIRROR} download data-download="py">Python mirror</a>. Cost defaults: Lazard, Levelized Cost of Energy+, June 2025. The buyer&apos;s side is <Link href="/cost-of-power">What a datacenter pays</Link>. <span data-checked-against="21">Checked against: 21 published figures (Lazard, the Annual Technology Baseline, EIA, CAISO&apos;s market monitor, Berkeley Lab, Potomac Economics). <Link href="/data/methods/generator_earns_algorithm#cross-checks">Each comparison, with its gap and the reason</Link>.</span> <span data-decisions="298">Decisions of 18 October 2026 (session 298): solar&apos;s degradation default is the Annual Technology Baseline&apos;s 0.7 percent a year, which moved the default solar case&apos;s NPV from USD -74.16 million to -76.66 million (-741.60 to -766.62 per kW); the CAISO peaker&apos;s run rule counts California&apos;s allowance (USD 43.19 to 19.66 per kW over the last twelve months, 2,294 to 624 hours run).</span></>} />
     </ToolPage>
     </Brand>
   );
