@@ -64,6 +64,7 @@ LANDING
 ## For Samuel's ruling
 
 - The data machine's sessions 306 and 307 pushed to main with the suite failing (the Redivis package's list, then the licensing document and the reads' ceiling); each time a code session repaired main's record before it could land. Whether the data machine should run the suite before a push to main, as the code machine's task branches are checked, is yours.
+- The rewritten `docs/licenses.md` lists `battery_sourced_ranges` as "not settled" (its publisher, NLR, was not read in the sweep) while `coverage.csv` flags it public: the document's own "disagree" list, for a person to rule, as session 205 set it up.
 - Nothing else of this session needs a ruling. The page is in review; the words of the five lines are yours to change.
 
 ## Files
