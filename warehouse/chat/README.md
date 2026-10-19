@@ -137,3 +137,5 @@ The owner's rulings of 19 October 2026 on session 302's two open items.
   is applied an evaluation's question fails at its first call rather than spend unrecorded. Session 302's runner
   (`runs/chain_oct19/s302_ask.py`, not in git) spent through the public step and closed the public Ask for the day:
   that is what this replaces.
+
+Session 320 (the chain of 19 October 2026, daytime): `eval/questions_s320.yaml`, thirty hard questions on the three economics pages (ten each on the battery, generator and datacenter pages: the numbers the pages show, asked as a reader would, keyed from `battery_stack_monthly`, `merchant_revenue_monthly` and `cost_of_power_monthly` before any model call), asked through the real route as an evaluation (the header `x-erw-ask-eval`, the ledger step `site_ask_eval` of session 314); the recorded answers and grades in `eval/eval_s320_fixtures.json`.
