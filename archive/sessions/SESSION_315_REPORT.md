@@ -55,7 +55,9 @@ Left as a draft: `variable:eia_retail_sales_monthly|retail_sales` ("Retail elect
 
 ## Landing of session 314 (recorded here: session 314's report is in that landing's own commit)
 
-LANDING314
+- Pushed `task/314-battery-chart` at `42163551` at 22:06 UTC (after the before snapshot `s314-before`, 22:06:13, taken as its own command; `freeze.py status` exit 0). GitHub's first check (run 39332561651) failed in its build step on a Google Fonts download in the runner ("Module not found: Can't resolve '@vercel/turbopack-next/internal/font/google/font'", nothing of the session's files); the failed job was rerun through the API and passed; merged as `93917764` at 22:27. Production served the new build at 22:36:05 (a new style sheet name); the after snapshot `s314-after` was taken at 22:36:26.
+- Snapshot `s314-before` against `s314-after`: 25 pages, 0 differences. Expected: every page is in review. Nothing unexpected.
+- `origin/wip/304-replication` was deleted after the merge (its one commit is in this landing); GitHub deleted the task branch itself.
 
 ## Landing
 
