@@ -34,7 +34,7 @@ PAGES = {
     ("roundup", "page.tsx"): 2,
     ("roundup", "[week]", "page.tsx"): 1,
     ("subscribe", "page.tsx"): 1,
-    ("ask", "page.tsx"): 1,
+    ("_retired", "ask-original", "page.tsx"): 1,   # session 299: /ask is a redirect to the Grid tool's panel (no markup); the page of the batch is kept here
     ("ask", "ercot", "page.tsx"): 1,
     ("thesis", "page.tsx"): 1,
     ("reports", "draft", "ai-gigawatts", "page.tsx"): 1,

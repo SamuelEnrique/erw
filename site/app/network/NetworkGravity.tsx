@@ -79,7 +79,7 @@ export function NetworkGravity({ gen, net, names, colorOf, pick, neighbours, onP
       </div>
       {/* session 299 (the owner's rulings 1a and 2c of 18 October 2026): the one source, with its break named; the pull's scale */}
       <p className="border-t border-rule px-3 py-2 text-xs text-muted" data-gravity-note="1">
-        Every circle is EIA-930&apos;s net generation, one source for all eight; CAISO&apos;s reads smaller and more pulled in since December 2025, when its EIA-930 generation by fuel broke (the Mix and Clean views draw California from CAISO&apos;s own supply by fuel from 16 December 2025; this shape does not).
+        Every circle is EIA-930&apos;s net generation, one source for all eight; CAISO&apos;s reads smaller and more pulled in since December 2025, when its EIA-930 generation by fuel broke (the Mix and Clean views draw California from CAISO&apos;s own supply by fuel from mid-December 2025; this shape does not).
         A circle&apos;s pull follows the square root of its net imports over its generation, full at {Math.round(GRAVITY.S_FULL * 100)} percent (session 299; a straight line until then), so a small importer moves visibly. The 63 other balancing authorities are not drawn.
       </p>
     </div>
