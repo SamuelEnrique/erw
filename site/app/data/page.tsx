@@ -116,6 +116,13 @@ export default async function Data() {
           the live set keeps a window of (such as the last 35 days of prices), that window. The full history of every table, and the tables not in the
           live set, are on <a href={site.redivis.url}>Redivis</a>, where version 1 is pending release.
         </p>
+        {/* session 312: the citation line of release v1 (docs/redivis/release-v1.md, "How to cite v1"); the date is added at the click */}
+        <p className="mt-2 max-w-3xl text-xs text-muted">
+          How to cite a table: the publisher, the report, then &ldquo;via the Energy Research Warehouse (ERW), table{" "}
+          <code className="font-mono">&lt;table&gt;</code>, Redivis dataset <code className="font-mono">energy_research_warehouse</code>, version v1&rdquo;,
+          with the date of the release. Version: v1, pending release; each table&apos;s own line is in the release&apos;s{" "}
+          <a href="https://github.com/SamuelEnrique/erw/blob/main/docs/redivis/release-v1/tables.csv">table list</a>.
+        </p>
       </Section>
 
       <Section title="Pages" id="pages">

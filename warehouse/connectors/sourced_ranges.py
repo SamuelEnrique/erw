@@ -164,7 +164,8 @@ def main(argv=None):
             "Energy Research Warehouse (ERW): published low and high cases of the battery's assumptions, one row per source, case and assumption (session 306)",
             "Shape: series (docs/datastandard.md v0). entity <source>:<technology>:<case>; ts_utc the year the value is for; x_case low, mid or high on the cost scale; "
             "x_page where the number stands in the document. Nothing is filled: an assumption a source does not state has no row.",
-            f"Source: {DOCUMENT}; {URL} (listed on {PAGE}); SHA-256 {sha}; kept in warehouse/raw/nlr_atb/{FILE}",
+            f"Source: {SOURCE} {DOCUMENT}, {URL}",
+            f"Kept: warehouse/raw/nlr_atb/{FILE}, SHA-256 {sha}; listed on {PAGE}",
             f"Values: the ATB's for {YEAR}, in {DOLLAR_YEAR} dollars where a value is in dollars; cases Advanced (low cost), Moderate, Conservative (high cost)",
             "Vintage: the workbook's date, 27 August 2026 (2025 v1). Not stated by this source, so not written: " + "; ".join(NOT_STATED),
             "Lazard LCOE+ (June 2025): no copy is held in warehouse/raw, so none of its cases is written (no request was made)",
