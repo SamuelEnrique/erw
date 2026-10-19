@@ -48,6 +48,8 @@
 
 ## Landing
 
+- The first push (`d683e609`, 10:24 UTC) passed GitHub's checks (run 39237187594) but its merge step failed: session 308 (the data machine) landed on main at 10:25 with its own rewrite of `docs/licenses.md` and `tests/test_session205.py` (the same repair, made there from its own records, with a ceiling rule per session), and the two files conflicted. origin/main was merged into the branch taking main's two files (the data machine's record is the authority; this session's repair of them is superseded), the checks rerun, and the branch pushed again.
+
 LANDING
 
 ## Decisions made without you

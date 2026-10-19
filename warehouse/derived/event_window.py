@@ -105,7 +105,15 @@ EAST_HEAT_2025 = dict(event="east_heat_2025", label="the June 2025 heat, four ea
                       offsets=[364, 728], hub=None, max_vs=True,
                       bas={k: COVID["bas"][k] for k in ("pjm", "nyis", "isne", "miso")},
                       hubs=["nyiso:N.Y.C.", "isone:.H.INTERNAL_HUB", "miso:INDIANA.HUB"])
-MULTI = [COVID, CAISO_HEAT, ELLIOTT, ERCOT_HEAT, CAISO_HEAT_2022, COLD_2025, EAST_HEAT_2025]
+# Session 308 (the owner's default of 18 October to ruling 6 of docs/state/morning_2026-10-14.md): the late-January 2026
+# cold outbreak, on the cold_2025 template, chosen from the data: ERCOT's, MISO's, SPP's and ISO-NE's highest winter hour
+# of demand served (EIA-930, November 2025 to March 2026) fell on 25 to 27 January 2026 and PJM's on 29 January; the
+# window runs from 23 January, when MISO's and SPP's demand rose, to 2 February, PJM's and ERCOT's last high day
+COLD_2026 = dict(event="cold_2026", label="the late January 2026 cold, six grids", start="2026-01-23", end="2026-02-02",
+                 offsets=[364, 728], hub="ercot:HB_HUBAVG", hub_ba="erco", prices="full", max_vs=True,
+                 bas={k: COVID["bas"][k] for k in ("erco", "isne", "miso", "nyis", "pjm", "swpp")},
+                 hubs=["miso:INDIANA.HUB", "nyiso:N.Y.C.", "isone:.H.INTERNAL_HUB", "spp:SPPNORTH_HUB"])
+MULTI = [COVID, CAISO_HEAT, ELLIOTT, ERCOT_HEAT, CAISO_HEAT_2022, COLD_2025, EAST_HEAT_2025, COLD_2026]
 HUB_HISTORY = "iso_hub_prices_history"
 HUB_BA = {"miso": "miso", "nyiso": "nyis", "isone": "isne", "spp": "swpp", "caiso": "ciso"}  # each hub's grid (its local day)
 _hub_cache = {}

@@ -20,6 +20,16 @@ ba_supply_monthly,share_days,series variable,count
 ba_supply_monthly,thin_month,series variable,count
 ba_supply_monthly,total_interchange_all_days_mwh,series variable,MWh
 ba_supply_monthly,total_interchange_days,series variable,count
+battery_sourced_ranges,capex,series variable,USD/kW
+battery_sourced_ranges,energy_capital_cost,series variable,USD/kWh
+battery_sourced_ranges,fixed_om,series variable,USD/kW-year
+battery_sourced_ranges,grid_connection_cost,series variable,USD/kW
+battery_sourced_ranges,interest_rate_nominal,series variable,ratio
+battery_sourced_ranges,overnight_capital_cost,series variable,USD/kW
+battery_sourced_ranges,power_capital_cost,series variable,USD/kW
+battery_sourced_ranges,return_on_equity_nominal,series variable,ratio
+battery_sourced_ranges,round_trip_efficiency,series variable,ratio
+battery_sourced_ranges,technical_life,series variable,year
 battery_stack_monthly,dayahead_2h_days_held,series variable,count
 battery_stack_monthly,dayahead_2h_days_in_month,series variable,count
 battery_stack_monthly,dayahead_2h_days_left_out,series variable,count
@@ -2982,6 +2992,7 @@ grid_network_links,flow_mw,series variable,MW
 grid_network_nodes,demand_mw,series variable,MW
 grid_network_nodes,intensity_generation,series variable,kgCO2/MWh
 grid_network_nodes,interchange_volume_mwh,series variable,MWh
+grid_stress_days,stress_day,series variable,USD/MWh
 grid_stress_yearly,calm_hours,series variable,count
 grid_stress_yearly,calm_longest_fleet_energy_multiples,series variable,ratio
 grid_stress_yearly,calm_longest_fleet_full_power_hours,series variable,hour
