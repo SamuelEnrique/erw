@@ -48,7 +48,10 @@
 | Impeccable `detect` on the seven page, component and style files | 0 | no finding |
 | Screenshots, 1280 and 390, before (production) and after (local) | | `docs/brand/review-299/`; nothing scrolls sideways at 390 |
 | Suite, clean copy, `654f1e7d` (the session's first commit) | 1 | 4,354 tests, 4 failures: four older pins of the files this session changed (137: the panel's context line; 241b: `/ask` must be wrapped in the brand, now the kept page is; 78: the gravity note named the join's date, 16 December 2025, which only `caiso_join.py` may; 93: the component's `page` prop) |
-| Suite, clean copy, `cecd4742` (the pins updated; the report's last commit follows) | 0 | 4,354 tests OK, 245 skipped |
+| Suite, clean copy, `cecd4742` (the pins updated) | 0 | 4,354 tests OK, 245 skipped |
+| Suite, clean copy, `6a81355a` (origin/main merged, with session 306's commit) | 1 | 4,360 tests, 1 failure, main's own: `test_session275` (the Redivis release package's list disagrees with the record for session 306's two new tables). Fixed in the next commit, below |
+| `tests.test_session275` after the two rows | 0 | 4 passed |
+| `npm run build` of the merged commit (worktree) | 0 | `s299_build5.out`; 0 statement timeouts |
 
 ## Landing of session 298 (recorded here: session 298's report is in that landing's own commit)
 
@@ -61,6 +64,7 @@ LANDING
 
 ## Decisions made without you
 
+- **Session 306's two tables were added to the Redivis release package's list** (`docs/redivis/release-v1/tables.csv`: `battery_sourced_ranges` and `grid_stress_days`, `in_v1 = yes`, with the counts in `release-v1.md` and the package README moved from 125 to 127 tables, 109 series). Main at `5d389ad6` failed `test_session275` on them, and GitHub runs the whole suite on every task branch, so nothing of this chain could land until the list agreed with the record. The rows carry what the package's own script writes: the plan's verdict, coverage's rows and range, the writers' header title and license line, the script's citation. `variables.csv` does not list their variables (that needs the tables, which this machine does not hold): the data machine's next `release_v1.py` run completes it.
 - **The opening tab is Mix.** The merge names the tabs' order (Network first) but not the tab the page opens on; Mix holds the blocks the page opened on until now, keeps every default address at its numbers and leaves the floors as they are. Reversible: `DEFAULT_VIEW` in `site/lib/gridtool.ts`.
 - **`/ask` redirects from the page itself** (a 307 that carries grid and question), not from a rule in `next.config.ts` (a 308 the browser caches); the old page is kept unrouted.
 - **The Ask panel's context view stays `/grid/ercot`**, with the tab in its title and settings: the route's cleaner (`lib/chat/ercot.ts`) admits a site path only, and a view with a query would have dropped the context.
@@ -71,6 +75,7 @@ LANDING
 
 ## For Samuel's ruling
 
+- The data machine should rerun `warehouse/redivis/release_v1.py` so the package's `variables.csv` lists the two new tables' variables, and so the list is the script's own again.
 - The Grid pack's question 5 (EIA's annual generation by balancing authority as a cross-check) is still open.
 - Whether `check-grid-replication.mjs` should run in the daily workflow after the replication file is rebuilt, so the Gravity tab's rule is checked on the hour it draws (today it is checked by `tests/test_session299.py` in both languages on fixed inputs).
 
