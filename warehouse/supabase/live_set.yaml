@@ -148,6 +148,13 @@ full:
   # site/data/sourced_ranges.json), and the ATB's source under sources_hold
   - '^battery_sourced_ranges$'
   - '^grid_stress_days$'
+  # session 322: ERCOT's grid notices (news releases from 2011, the control room's messages from May 2026; events, about
+  # 180 rows), whole. No page reads it yet: under review_hold, its two sources under sources_hold
+  - '^ercot_grid_notices$'
+  # session 323: EIA's annual net generation by balancing authority (EIA-923 summed, about 500 rows) and the cross-check
+  # of EIA-930's hourly sums against it (144 rows), whole, for the Grid tool's decisions block; under review_hold
+  - '^eia_annual_generation_ba$'
+  - '^eia_annual_crosscheck_ba$'
 
 # Only rows whose time is within the last `days` days (series: ts_utc). Older rows
 # of these tables are deleted from Supabase on each load, so the window rolls.
@@ -349,11 +356,16 @@ review_hold:
   - scarcity_hours_by_grid             # session 254, no page yet (each grid's own scarcity signal beside the price count)
   - battery_sourced_ranges             # session 306, the battery page's Sensitivity (in review)
   - grid_stress_days                   # session 306, no page yet (the grids' stress days by one rule)
+  - ercot_grid_notices                 # session 322, no page yet (ERCOT's EEAs, conservation appeals and watches)
+  - eia_annual_generation_ba           # session 323, the Grid tool's decisions block (in review)
+  - eia_annual_crosscheck_ba
 
 # Session 102: sources that serve only tables whose pages are in review, held off /terms (a live page that lists the
 # registry and counts it) until one of those pages opens. Read by the site's build (site/scripts/build-content.mjs);
 # the registry itself (sources.csv), Redivis and Supabase hold them as any other. To release one, take it off the list.
 sources_hold:
+  - ercot:news_releases                # session 322, ercot_grid_notices (no page yet)
+  - ercot:operations_messages
   - erw:generation_mix_hourly          # session 94, /mix/v2
   - erw:generation_mix_hourly_caiso
   - erw:interconnection_queue_summary  # session 95, /queues

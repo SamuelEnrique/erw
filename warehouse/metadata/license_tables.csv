@@ -55,6 +55,8 @@ eia930_demand_weather,EIA,EIA-930 (its name; the registry lists no row for it)
 eia930_event_hourly_interchange,EIA,the source registry
 eia930_generation_latest,EIA,the source registry
 eia_all_futures_prices,"CME Group (NYMEX), whose prices EIA republished; EIA",by hand: its header: EIA names the New York Mercantile Exchange as the source of these prices
+eia_annual_crosscheck_ba,EIA,the source registry and the tables its header derives it from: eia_annual_generation_ba
+eia_annual_generation_ba,EIA,the source registry
 eia_basin_production_monthly,EIA,the source registry
 eia_crude_first_purchase_prices,EIA,the source registry
 eia_crude_imports_by_country,EIA,the source registry
@@ -86,6 +88,7 @@ ercot_as_prices_monthly,ERCOT,the source registry and the tables its header deri
 ercot_as_quantities,ERCOT,the source registry
 ercot_dam_cleared_energy,ERCOT,the source registry
 ercot_dam_esr_awards,ERCOT,the source registry
+ercot_grid_notices,ERCOT,the source registry
 ercot_hub_prices_daily,ERCOT,"the source registry and the tables its header derives it from: iso_dam_hub_prices, iso_rtm_hub_prices"
 ercot_interconnection_queue,ERCOT,the source registry
 ercot_large_load_status,ERCOT,the source registry
@@ -122,7 +125,7 @@ generation_mix_hourly_profile,CAISO; EIA,"the source registry and the tables its
 generation_mix_records,CAISO; EIA,"the source registry and the tables its header derives it from: caiso_fuel_supply, caiso_fuel_supply_history, carbon_intensity_hourly"
 grid_network_links,EIA,"the source registry and the tables its header derives it from: carbon_intensity_hourly, eia930_all_demand, eia930_all_interchange"
 grid_network_nodes,EIA,"the source registry and the tables its header derives it from: carbon_intensity_hourly, eia930_all_demand, eia930_all_interchange"
-grid_stress_days,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,by hand: its header: the main hubs' real-time prices of six grids and CAISO's notices
+grid_stress_days,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"by hand: its header: the main hubs' real-time prices of six grids, CAISO's notices and ERCOT's (session 322)"
 grid_stress_yearly,CAISO; EIA,"the source registry and the tables its header derives it from: caiso_fuel_supply, eia860m_operating_generators, eia860m_retired_generators_all, storage_buildout_monthly"
 hub_price_comparison,CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: carbon_intensity_daily, ercot_all_hub_prices_history, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices, isone_dam_zone_prices, isone_rtm_zone_prices, isone_rtm_zone_prices_hourly, nyiso_dam_zone_prices, nyiso_rtm_zone_prices"
 imf_commodity_prices,IMF,the source registry

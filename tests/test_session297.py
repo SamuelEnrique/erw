@@ -116,7 +116,9 @@ class TheNotes(unittest.TestCase):
         rule = src("docs", "methods", "battery_stress_days.md")
         for words in ("98th percentile of the daily means of the 365 days before it", "caiso_grid_emergencies", "Days at most three days apart are **one event**", "Not applied yet", "uri_2021"):
             self.assertIn(words, rule, words)
-        self.assertNotIn("ercot_grid_notices", rule)   # the warehouse holds no such table: nothing invented
+        # session 322: the table now exists (ERCOT's releases and control-room messages); the rule names it since
+        self.assertIn("ercot_grid_notices", rule)
+        self.assertTrue(os.path.exists(os.path.join(ROOT, "warehouse", "connectors", "ercot_grid_notices.py")))
         note = src("docs", "methods", "battery_earns_algorithm.md")
         self.assertIn("#### Session 297: the tax credit, the fade method with augmentation, and the stress repeats", note)
         for words in ("`F_0 = -capex x (1 - share) + capex x itc`", "`(1 - (1 - fade)^aug) x hours x augcost`", "`stress x peak / life`", "USD -697.80 to -364.80", "-768.12", "-613.19", "+583.43"):

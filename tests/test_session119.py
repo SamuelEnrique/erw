@@ -580,7 +580,7 @@ class WhatEarlierSessionsMended(unittest.TestCase):
 
     def test_a_table_uploaded_before_main_knows_it_passes_on_its_own_header(self):
         s = src("warehouse", "redivis", "upload.py")
-        self.assertIn("pending = header_public(pub, unknown) if unknown else set()", s)     # session 77
+        self.assertIn("pending = header_public(pub, unknown, cap) if unknown else set()", s)  # session 77; 321: the cap
         self.assertIn("pending -= held_internal", s)                                        # session 82: never an internal one
 
     def test_ercots_yearly_reserve_price_file_is_read_in_both_forms(self):

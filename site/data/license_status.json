@@ -545,6 +545,10 @@
    "status": "public",
    "pages": []
   },
+  "carb_auction_allowance_prices": {
+   "status": "public",
+   "pages": []
+  },
   "carb_lcfs_credit_prices": {
    "status": "public",
    "pages": [
@@ -843,6 +847,14 @@
     "/grid"
    ]
   },
+  "eia_annual_crosscheck_ba": {
+   "status": "public",
+   "pages": []
+  },
+  "eia_annual_generation_ba": {
+   "status": "public",
+   "pages": []
+  },
   "eia_basin_production_monthly": {
    "status": "public",
    "pages": [
@@ -1037,6 +1049,10 @@
    "pages": []
   },
   "ercot_dam_esr_awards": {
+   "status": "public",
+   "pages": []
+  },
+  "ercot_grid_notices": {
    "status": "public",
    "pages": []
   },
@@ -1613,6 +1629,10 @@
    ],
    "pages": []
   },
+  "rrc_lease_production_monthly": {
+   "status": "public",
+   "pages": []
+  },
   "scarcity_hours_by_grid": {
    "status": "license needed",
    "hold": "by grid",
@@ -1702,7 +1722,7 @@
    "pages": []
   }
  },
- "internal_tables": 34,
+ "internal_tables": 32,
  "pages": {
   "/": {
    "label": "Home",
