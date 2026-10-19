@@ -18,6 +18,14 @@ import { PeakPremiumView } from "../explorer/ercot-peak-premium/view";
 export const revalidate = 900;
 export const metadata: Metadata = { title: "Prices" };
 
+/** Session 319 (session 270's fault, the "no data" day-ahead cells): the cell's words say what the table holds, the
+ * newest hour of the entity's rows in the day read, or that no row of the entity was read; the hour asked is the
+ * render time's, as before (the fault was the data: the day-ahead tables of four grids held no row of the last day). */
+function daWhy(rows: SeriesRow[], table: string, since: string): string {
+  if (!rows.length) return `no data: no ${table} row since ${since.slice(0, 16).replace("T", " ")} UTC`;
+  const newest = rows.map((r) => r.ts_utc).sort().pop()!;
+  return `no data: this hour is not in ${table}; its newest hour held is ${newest.slice(0, 16).replace("T", " ")} UTC`;
+}
 /** The day-ahead row whose hour contains `now`, if the table has it. */
 function daNow(rows: SeriesRow[], now: number): SeriesRow | null {
   for (const r of rows) {
@@ -114,7 +122,7 @@ async function NowView() {
                                 {price(d.value)}
                               </Num>
                             ) : (
-                              <span className="text-xs text-muted">no data: hour not in {m.da.table}</span>
+                              <span className="text-xs text-muted" data-da-missing={e}>{daWhy(daRows.filter((r) => r.entity === e), m.da.table, since)}</span>
                             )}
                           </td>
                           <td className="py-1 pr-3 text-xs text-muted">{d ? utc(d.ts_utc).replace(" UTC", "") : ""}</td>

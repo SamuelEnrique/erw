@@ -65,7 +65,7 @@ export function CompaniesTable({ rows }: { rows: Company[] }) {
   const sel = (label: string, v: string, set: (x: string) => void, options: [string, string][]) => (
     <label className="flex flex-col text-xs text-muted">
       {label}
-      <select value={v} onChange={(e) => set(e.target.value)} className="mt-1 border border-rule bg-panel px-2 py-1 text-sm text-ink">
+      <select value={v} onChange={(e) => set(e.target.value)} className="mt-1 max-w-full border border-rule bg-panel px-2 py-1 text-sm text-ink">   {/* session 319: no wider than the page */}
         {options.map(([k, l]) => (
           <option key={k} value={k}>
             {l}

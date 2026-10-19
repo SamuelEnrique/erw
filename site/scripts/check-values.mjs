@@ -76,6 +76,7 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/events/caiso-heat-2022",
   // session 64: the January 2025 cold and the June 2025 heat
   "/events/cold-2025", "/events/east-heat-2025",
+  "/events/cold-2026",   // session 319
   // session 43: the bill explainer's default bills
   "/learn/bill",
   // session 44: every computed answer of the problem sets

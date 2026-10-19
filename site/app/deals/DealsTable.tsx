@@ -54,9 +54,10 @@ const uniq = (xs: string[]) => Array.from(new Set(xs.filter(Boolean))).sort();
 
 function Select({ label, value, set, options, render }: { label: string; value: string; set: (v: string) => void; options: string[]; render?: (v: string) => string }) {
   return (
-    <label className="flex flex-col gap-1 text-xs text-muted">
+    <label className="flex min-w-0 max-w-full flex-col gap-1 text-xs text-muted">
       {label}
-      <select value={value} onChange={(e) => set(e.target.value)} className="border border-rule bg-panel px-2 py-1 text-sm text-ink">
+      {/* session 319 (session 270's fault): a select takes its longest option's width and ran past a phone's screen; it shrinks to the page */}
+      <select value={value} onChange={(e) => set(e.target.value)} className="max-w-full border border-rule bg-panel px-2 py-1 text-sm text-ink">
         <option value="">All</option>
         {options.map((o) => (
           <option key={o} value={o}>
