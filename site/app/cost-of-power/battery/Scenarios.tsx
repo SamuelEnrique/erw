@@ -21,15 +21,28 @@
 // contract panel and "With your contract" are gone (ContractOfA with them); the headline's coverage reads A's contract.
 // The sensitivity chart answers the third question, "What matters most", in a section of its own (BatterySensitivity),
 // so the block is handed no chart. CoverOfA stays for the CSV of every month, which the page no longer draws.
-import { createContext, useCallback, useContext, useMemo, useRef, type ReactNode } from "react";
-import { ScenarioBlock, ScenarioState, Sensitivity, useScenarios, type Bar as ChartBar, type Cell, type Chart, type Field, type Row, type Side, type Values, type View } from "@/components/decisions/ScenarioBlock";
-import { HeadlineNumber, HeadlineRow } from "@/components/tool/ToolPage";
-import { badMonth, coverage, inputsKey, last36, lastTwelve, monthName, sumOf, usdShort, type Inputs, type Month } from "@/lib/batterystack";
+//
+// Session 296 (the owner's rulings of 15 October 2026, the page's pass 1): the twelve assumptions are drawn in the
+// left box, under "Financing" (Settings.tsx, BatteryFinancing: the same panel, the contract as a sub-group), and the
+// block in the second question draws the table alone. The reader's view (lib/battery/view.ts) is held here with the
+// scenarios and written into the address with them: which headline figures (up to six of eight: the three of before,
+// NPV, IRR, the breakeven toll, the payback year and NPV per dollar of equity, each scenario A's), which charts (up to
+// three of four: revenue by stream, and scenario A's years as cash after costs, cash after debt and the debt), at what
+// scale, the units, and the sensitivity's mode (a sourced range, or a percent step) and measure (NPV or IRR). At the
+// defaults (the three figures, the one chart, adjusted scale, this battery, the sourced range in NPV) every figure of
+// before is what it was; the sensitivity chart is the one thing that reads differently at the default, as item 7 asks.
+import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
+import { ScenarioBlock, ScenarioPanel, ScenarioState, Sensitivity, useScenarios, type Bar as ChartBar, type Cell, type Chart, type Field, type Row, type Side, type Values, type View } from "@/components/decisions/ScenarioBlock";
+import { SeriesChart } from "@/components/tool/SeriesChart";
+import { HeadlineNumber, HeadlineRow, Tip } from "@/components/tool/ToolPage";
+import { badMonth, coverage, inputsKey, last36, lastTwelve, monthName, sumOf, usdShort, type Inputs, type Month, type Year } from "@/lib/batterystack";
 import {
-  KEYS, MODEL, SPECS, bound, cellTotals, clampWords, coverage as coverageOf, debtUsd, defaultsOf, differenceWords, differing, isOldParam, isScenarioParam, parseScenarios, resultOf, scenarioQuery,
-  sensitivity, stepState, stepsOffered, type Assumptions, type Key, type Scenarios as Both, type StepCase, type StepState, type Steps,
+  KEYS, MODEL, NO_RANGE, SPECS, bound, cellTotals, clampWords, coverage as coverageOf, debtUsd, defaultsOf, differenceWords, differing, equityIn, flows, isOldParam, isScenarioParam, npvPerEquity, parseScenarios, paybackYear,
+  projection, rangesOf, resultOf, scenarioQuery, sensitivityIn, stepState, stepsOffered, type Assumptions, type Key, type Mode, type Scenarios as Both, type StepCase, type StepState, type Steps,
 } from "@/lib/battery/finance";
+import { CHARTS, HEADS, isViewParam, viewQuery, type View as PageView } from "@/lib/battery/view";
 import { U, V } from "./nums";
+import { ViewCtx } from "./ViewState";
 
 const num = (v: number, d = 2) => v.toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
 const plain = (v: number) => v.toLocaleString("en-US", { maximumFractionDigits: 2 });
@@ -37,12 +50,14 @@ const usd = (v: number) => `USD ${usdShort(Math.round(v))}`;
 const day = (iso: string) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
 
 type Revenue = { l12: number | null; first: string | null; last: string | null; bad: Month | null; n36: number; months: Month[] };
-type StepMeta = { built: string; rte_steps: number[]; cycle_steps: number[] };
+export type StepMeta = { built: string; rte_steps: number[]; cycle_steps: number[] };
+type Costs = { capex: number; fom: number; note: string; source?: string };
 type Held = { d: Assumptions; steps: Steps; state: StepState; revenue: (rte: number, cycles: number) => Revenue | null };
 const Battery = createContext<Held | null>(null);
 const useBattery = () => useContext(Battery)!;
-/** The parameters of the address the scenarios replace: their own, and the two old names read as scenario A's. */
-const drop = (name: string) => isScenarioParam(name) || isOldParam(name);
+/** The parameters of the address the scenarios replace: their own, the two old names read as scenario A's, and
+ * (session 296) the view's. */
+const drop = (name: string) => isScenarioParam(name) || isOldParam(name) || isViewParam(name);
 
 /** The revenue the rows read at an efficiency and a cycle limit: the page's own months at the model's values, the
  * model's run at that step otherwise; null when the step is not held. Session 268: made here, outside the component,
@@ -67,9 +82,10 @@ function revenueAt(ms: Month[], need: string[], state: StepState, stepCase: Step
   };
 }
 
-/** The two scenarios of the page, held above its sections: the block edits them, the headline reads scenario A. */
-export function BatteryDecisions({ ms, mw, costs, stepCase, stepMeta, initial, children }: {
-  ms: Month[]; mw: number; costs: { capex: number; fom: number }; stepCase: StepCase | null; stepMeta: StepMeta; initial: Record<string, string | undefined>; children: ReactNode;
+/** The two scenarios of the page and (session 296) the reader's view, held above its sections: the box edits them,
+ * the headline reads scenario A and the view. */
+export function BatteryDecisions({ ms, mw, costs, stepCase, stepMeta, initial, view, children }: {
+  ms: Month[]; mw: number; costs: { capex: number; fom: number }; stepCase: StepCase | null; stepMeta: StepMeta; initial: Record<string, string | undefined>; view: PageView; children: ReactNode;
 }) {
   const d = useMemo(() => defaultsOf(costs), [costs]);
   // the months the page's own windows read: a step is offered only while the file of steps still describes them
@@ -77,11 +93,16 @@ export function BatteryDecisions({ ms, mw, costs, stepCase, stepMeta, initial, c
   const state = useMemo(() => stepState(stepCase, ms, need), [stepCase, ms, need]);
   const steps = useMemo(() => stepsOffered(stepMeta, state), [stepMeta, state]);
   const revenue = useMemo(() => revenueAt(ms, need, state, stepCase), [ms, need, state, stepCase]);
-  const query = useCallback((s: { a: Values; b: Values; view: View }) => scenarioQuery(s as unknown as Both, d), [d]);
+  const [v, setV] = useState<PageView>(view);
+  const set = useCallback((p: Partial<PageView>) => setV((cur) => ({ ...cur, ...p })), []);
+  const query = useCallback((s: { a: Values; b: Values; view: View }) => [...scenarioQuery(s as unknown as Both, d), ...viewQuery(v)], [d, v]);
   const held = useMemo(() => ({ d, steps, state, revenue }), [d, steps, state, revenue]);
+  const heldView = useMemo(() => ({ v, set }), [v, set]);
   return (
     <Battery.Provider value={held}>
-      <ScenarioState start={parseScenarios(initial, d, steps, mw)} query={query} drop={drop}>{children}</ScenarioState>
+      <ViewCtx.Provider value={heldView}>
+        <ScenarioState start={parseScenarios(initial, d, steps, mw)} query={query} drop={drop}>{children}</ScenarioState>
+      </ViewCtx.Provider>
     </Battery.Provider>
   );
 }
@@ -99,26 +120,55 @@ function useA(x: Inputs, ms: Month[]) {
   return { a, model, contracted, y, months: model ? ms : revenue(a.rte, a.cycles)?.months ?? ms };
 }
 
-/** The summary sentence and the three headline numbers, computed from scenario A. At the model's own efficiency and
+/** The summary sentence and the headline numbers, computed from scenario A. At the model's own efficiency and
  * cycle limit, with no contract, every figure carries the check key the page always wrote (bs|<inputs>|<stat>, the
  * inputs with A's fixed O&M and debt payments), so scripts/check-values.mjs recomputes it from the table. With a
  * contract in A (session 208) the coverage is A's own, contract plus the uncontracted share of the market, and carries
- * no key: the table holds no contract. */
+ * no key: the table holds no contract. Session 296: the reader picks which figures (up to six of eight); the five new
+ * ones are scenario A's finance (lib/battery/finance.ts) and carry no key, as the results table's cells carry none. */
 export function BatteryHeadline({ ms, x, gridName, gridFrom }: { ms: Month[]; x: Inputs; gridName: string; gridFrom?: string }) {
   const { a, model, contracted, y, months } = useA(x, ms);
+  const { v } = useContext(ViewCtx)!;
   const key = inputsKey(y);
   const size = `${x.mw.toLocaleString("en-US")} MW, ${x.dur}-hour`;
+  const scale = 1000 * x.mw;
   const l12 = lastTwelve(months), w36 = last36(months), bad = badMonth(w36?.months ?? []);
   const total = l12 ? sumOf(l12, "total") : null;
   const share = l12 && total ? Math.round((sumOf(l12, "ancillary") / total) * 100) : null;
   const cover = total === null ? null : contracted ? coverageOf(a, total / 1000) : coverage(total, y);
   const kw = total === null ? null : total / 1000;
+  const r = kw === null ? null : resultOf(a, kw);
+  const fl = kw === null ? null : flows(a, kw);
   const cycles = `${plain(a.cycles)} ${a.cycles === 1 ? "cycle" : "cycles"} a day`;
   const keyed = model && !contracted;
   // session 263: a capital cost or a debt share of 0 leaves no debt; the sentence and the number say so, where they read
   // "not held times" until then
   const noDebt = total !== null && cover === null;
   const contractWords = contracted ? <span data-headline-contract="1"> with {plain(a.cshare)} percent of its power contracted at USD {plain(a.cprice)} per kW-month,</span> : null;
+  const money = (perKw: number) => (v.units === "kw" ? <>USD {num(perKw)}<span className="ml-1 font-sans text-sm text-muted">per kW</span></> : <>{usd(perKw * scale)}</>);
+  const none = <span className="text-muted">not held</span>;
+  const payback = fl ? paybackYear(fl) : null;
+  const perEquity = r ? npvPerEquity(a, r.npv) : null;
+  const figures: Record<string, ReactNode> = {
+    l12: <HeadlineNumber key="l12" label="Last twelve months, all streams" value={<>USD <V pre={key} s="l12_kw:total" v={kw} keyed={model} /><span className="ml-1 font-sans text-sm text-muted">per kW</span></>}
+      note={l12 ? <>USD <U pre={key} s="l12:total" v={Math.round(total! * x.mw)} keyed={model} /> for {size}, {monthName(l12[0].m)} to {monthName(l12[11].m)}.
+        {model ? null : <span data-scenario-a-steps="1"> Scenario A: round-trip efficiency {plain(a.rte)} percent, at most {cycles}. The sections below are the model&apos;s own run, at {MODEL.rte} percent and one cycle a day.</span>}</> : <>No twelve consecutive months are held.</>} />,
+    bad: <HeadlineNumber key="bad" label="A bad month: the 10th percentile, last 36 months"
+      value={v.units === "kw" ? <>USD <V pre={key} s="p10_36_kw" v={bad ? bad.total! / 1000 : null} keyed={false} /><span className="ml-1 font-sans text-sm text-muted">per kW</span></> : <>USD <U pre={key} s="p10_36" v={bad ? Math.round(bad.total! * x.mw) : null} keyed={model} /></>}
+      note={bad && w36 ? <>{monthName(bad.m)}. One month in ten of the <V pre={key} s="n36" v={w36.months.length} keyed={model} /> months held from {monthName(w36.months[0].m)} to {monthName(w36.to)} earned this or less{w36.months.length < 36 ? `: ${gridName} is held from ${gridFrom}` : ""}.</> : null} />,
+    cover: <HeadlineNumber key="cover" label="Debt coverage, last twelve months" value={noDebt ? <span data-no-debt="2">No debt</span> : <><V pre={key} s="cover" v={cover} keyed={keyed} /><span className="ml-1 font-sans text-sm text-muted">times</span></>}
+      note={l12 ? <>{monthName(l12[0].m)} to {monthName(l12[11].m)}: {contracted ? <span data-headline-contract="2">scenario A&apos;s contract ({plain(a.cshare)} percent at USD {plain(a.cprice)} per kW-month) plus the market on the rest, </span> : "revenue "}less fixed O&amp;M, over debt payments of USD <U pre={key} s="ds" v={y.ds} /> a year.</> : <>No twelve consecutive months are held.</>} />,
+    npv: <HeadlineNumber key="npv" label="NPV at the hurdle rate" value={r ? <span data-headline-raw={r.npv}>{money(r.npv)}</span> : none}
+      note={r ? <>To equity, scenario A, at {plain(a.hurdle)} percent: USD {num(r.npv)} per kW for {size}.</> : <>No twelve consecutive months are held.</>} />,
+    irr: <HeadlineNumber key="irr" label="IRR" value={r ? (r.irr === null ? <span className="text-muted" data-headline-raw="">none</span> : <span data-headline-raw={r.irr}>{num(r.irr, 1)}<span className="ml-1 font-sans text-sm text-muted">percent</span></span>) : none}
+      note={r ? (r.irr === null ? <>To equity, scenario A: no rate from -99 to 1,000 percent sets NPV to zero.</> : <>To equity, scenario A, a year.</>) : <>No twelve consecutive months are held.</>} />,
+    toll: <HeadlineNumber key="toll" label="Breakeven toll" value={r ? (r.toll === null ? <span className="text-muted" data-headline-raw="">no debt</span> : <span data-headline-raw={r.toll}>USD {num(r.toll)}<span className="ml-1 font-sans text-sm text-muted">per kW-month</span></span>) : none}
+      note={<>A toll on the whole battery at which coverage is 1.25 times, scenario A.</>} />,
+    payback: <HeadlineNumber key="payback" label="Payback year" value={fl ? (payback === null ? <span className="text-muted" data-headline-raw="">none</span> : <span data-headline-raw={payback}>{payback === 0 ? "none needed" : `year ${payback}`}</span>) : none}
+      note={fl ? (payback === null ? <>Scenario A&apos;s cash flows to equity, added up without discounting, stay negative through year {plain(a.life)}.</> : payback === 0 ? <>No equity is paid in at year 0.</> : <>The first year scenario A&apos;s cash flows to equity, added up from year 0 without discounting, are no longer negative.</>) : <>No twelve consecutive months are held.</>} />,
+    npveq: <HeadlineNumber key="npveq" label="NPV per dollar of equity" value={r ? (perEquity === null ? <span className="text-muted" data-headline-raw="">no equity</span> : <span data-headline-raw={perEquity}>{num(perEquity)}</span>) : none}
+      note={r ? (perEquity === null ? <>Scenario A pays no equity in at year 0.</> : <>Scenario A&apos;s NPV over the equity paid in at year 0, USD {num(equityIn(a))} per kW.</>) : <>No twelve consecutive months are held.</>} />,
+  };
   return (
     <>
       <p className="mb-6 max-w-3xl font-serif text-xl leading-snug" data-summary="1">
@@ -134,16 +184,57 @@ export function BatteryHeadline({ ms, x, gridName, gridFrom }: { ms: Month[]; x:
       </p>
 
       <HeadlineRow>
-        <HeadlineNumber label="Last twelve months, all streams" value={<>USD <V pre={key} s="l12_kw:total" v={kw} keyed={model} /><span className="ml-1 font-sans text-sm text-muted">per kW</span></>}
-          note={l12 ? <>USD <U pre={key} s="l12:total" v={Math.round(total! * x.mw)} keyed={model} /> for {size}, {monthName(l12[0].m)} to {monthName(l12[11].m)}.
-            {model ? null : <span data-scenario-a-steps="1"> Scenario A: round-trip efficiency {plain(a.rte)} percent, at most {cycles}. The sections below are the model&apos;s own run, at {MODEL.rte} percent and one cycle a day.</span>}</> : <>No twelve consecutive months are held.</>} />
-        <HeadlineNumber label="A bad month: the 10th percentile, last 36 months" value={<>USD <U pre={key} s="p10_36" v={bad ? Math.round(bad.total! * x.mw) : null} keyed={model} /></>}
-          note={bad && w36 ? <>{monthName(bad.m)}. One month in ten of the <V pre={key} s="n36" v={w36.months.length} keyed={model} /> months held from {monthName(w36.months[0].m)} to {monthName(w36.to)} earned this or less{w36.months.length < 36 ? `: ${gridName} is held from ${gridFrom}` : ""}.</> : null} />
-        <HeadlineNumber label="Debt coverage, last twelve months" value={noDebt ? <span data-no-debt="2">No debt</span> : <><V pre={key} s="cover" v={cover} keyed={keyed} /><span className="ml-1 font-sans text-sm text-muted">times</span></>}
-          note={l12 ? <>{monthName(l12[0].m)} to {monthName(l12[11].m)}: {contracted ? <span data-headline-contract="2">scenario A&apos;s contract ({plain(a.cshare)} percent at USD {plain(a.cprice)} per kW-month) plus the market on the rest, </span> : "revenue "}less fixed O&amp;M, over debt payments of USD <U pre={key} s="ds" v={y.ds} /> a year.</> : <>No twelve consecutive months are held.</>} />
+        {HEADS.filter((h) => v.heads.includes(h.key)).map((h) => figures[h.key])}
       </HeadlineRow>
     </>
   );
+}
+
+/** Session 296 (items 4, 5, 9): the charts the reader picked, side by side on a wide screen: revenue by stream (the
+ * year chart the page always drew, from the table) and scenario A's years from the finance (cash after costs, cash
+ * after debt, the debt), at the scale chosen, each with a Chart | Table toggle. At the default one chart is drawn,
+ * the first, as before. */
+export function BatteryCharts({ ms, x, ys, gridName, gridFrom, before2024, brokenNote, strategyLine }: {
+  ms: Month[]; x: Inputs; ys: Year[]; gridName: string; gridFrom?: string; before2024: boolean; brokenNote: ReactNode; strategyLine: string;
+}) {
+  const { a, months } = useA(x, ms);
+  const { v } = useContext(ViewCtx)!;
+  const l12 = lastTwelve(months);
+  const kw = l12 ? sumOf(l12, "total") / 1000 : null;
+  const rows = kw === null ? [] : projection(a, kw);
+  const yearsOf = rows.map((r) => ({ label: String(r.t) }));
+  const money = (n: number) => n.toLocaleString("en-US", { maximumFractionDigits: 0 });
+  const upper = before2024
+    ? "This is an upper bound: before 2024 it is mostly payment for holding reserves, to a battery longer than any Texas then had, and 2021 is one week of February. Recent years are the ones to read."
+    : `This is an upper bound: the battery is assumed to sell as much of its power as reserves as it likes at the posted price, and is never called. ${gridName} is held from ${gridFrom}, so every year here is a recent one.`;
+  const charts: Record<string, ReactNode> = {
+    revenue: (
+      <SeriesChart key="revenue" id="years" title="Revenue by year, USD per kW" unit="USD per kW" kind="stacked" scale={v.scale} partialWords="Incomplete year"
+        categories={ys.map((y) => ({ label: y.y, sub: y.complete ? undefined : `${y.months} months`, partial: !y.complete }))}
+        series={[{ name: "Energy", color: "var(--color-accent)", values: ys.map((y) => y.energy / 1000) }, { name: "Ancillary services", color: "var(--color-ink)", values: ys.map((y) => y.ancillary / 1000) }]}
+        says={(i) => `${ys[i].y}: energy ${money(ys[i].energy / 1000)}, ancillary ${money(ys[i].ancillary / 1000)} USD per kW${ys[i].complete ? "" : ` (${ys[i].months} months held)`}`}
+        tip={<Tip id="years" label="the year chart"><span className="block" data-upper-bound="1">{upper}</span> {strategyLine} Per kW of rated power. A hatched year holds fewer than twelve months and is not a full year&apos;s revenue.{brokenNote}</Tip>} />
+    ),
+    after_costs: (
+      <SeriesChart key="after_costs" id="after-costs" title="Cash after costs, USD per kW" unit="USD per kW" kind="line" scale={v.scale} categories={yearsOf}
+        series={[{ name: "Income less fixed O&M", color: "var(--color-accent)", values: rows.map((r) => r.afterCosts) }]} fmt={money}
+        tip={<Tip id="after-costs" label="cash after costs">Scenario A, each year of its {plain(a.life)}-year life: the income (the last twelve months&apos; revenue, falling by the degradation rate each year after the first, and the contract&apos;s income while the debt lasts) less fixed O&amp;M, USD per kW. The years run along the bottom.</Tip>} />
+    ),
+    after_debt: (
+      <SeriesChart key="after_debt" id="after-debt" title="Cash after debt, USD per kW" unit="USD per kW" kind="line" scale={v.scale} categories={yearsOf}
+        series={[{ name: "Cash to equity", color: "var(--color-accent)", values: rows.map((r) => r.afterDebt) }]} fmt={money}
+        tip={<Tip id="after-debt" label="cash after debt">Scenario A, each year of its life: the income less fixed O&amp;M less the debt payment while the debt lasts, USD per kW: the cash flow to equity that NPV and IRR discount (the equity paid in at year 0 is not drawn).</Tip>} />
+    ),
+    debt: (
+      <SeriesChart key="debt" id="debt" title="Debt, USD per kW" unit="USD per kW" kind="line" scale={v.scale} categories={yearsOf}
+        series={[{ name: "Payment", color: "var(--color-accent)", values: rows.map((r) => r.debt) }, { name: "Still owed", color: "var(--color-ink)", values: rows.map((r) => r.balance) }]} fmt={money}
+        tip={<Tip id="debt" label="the debt">Scenario A: the level debt payment each year of the debt&apos;s term, and the debt still owed at the end of each year (each payment covers the year&apos;s interest and the rest repays), USD per kW.</Tip>} />
+    ),
+  };
+  const chosen = CHARTS.filter((c) => v.charts.includes(c.key)).map((c) => charts[c.key]);
+  if (!chosen.length) return null;
+  const cols = chosen.length === 3 ? "lg:grid-cols-3" : chosen.length === 2 ? "lg:grid-cols-2" : "";
+  return <div className={`grid gap-x-6 ${cols}`} data-charts={v.charts.join("+")}>{chosen}</div>;
 }
 
 /** One month's coverage at scenario A's fixed O&M and debt payments (the CSV of every month reads it from the server
@@ -154,9 +245,10 @@ export function CoverOfA({ total, x }: { total: number; x: Inputs }) {
 }
 
 /** What the block and the chart both read: the fields, the two columns and the bars of the scenario in view. */
-function useBlock(x: Inputs, costs: { capex: number; fom: number; note: string }) {
+function useBlock(x: Inputs) {
   const { s } = useScenarios<Assumptions>();
   const { d, steps, state, revenue } = useBattery();
+  const { v } = useContext(ViewCtx)!;
   const a = s[s.view];
   const size = `${x.mw.toLocaleString("en-US")} MW, ${x.dur}-hour`;
   const scale = 1000 * x.mw;
@@ -166,37 +258,57 @@ function useBlock(x: Inputs, costs: { capex: number; fom: number; note: string }
   };
   const cols = { a: col("a"), b: col("b") };
   const inView = cols[s.view];
-  const bars = inView.r ? sensitivity(a, (rte, cycles) => revenue(rte, cycles)?.l12 ?? null, steps) : [];
-  const side = (t: Side | null) => (t ? `${usd(t.v)} at ${plain(t.value)}` : "no step held");
-  const chartBars: ChartBar[] = bars.map((b) => ({ key: b.key, label: b.label, step: b.step, base: b.base * scale, size: b.size * scale,
-    down: b.down ? { value: b.down.value, v: b.down.npv * scale } : null, up: b.up ? { value: b.up.value, v: b.up.npv * scale } : null }));
-  const chart: Chart | null = chartBars.length ? { bars: chartBars, moves: "NPV", axis: "NPV", fmt: usd, pad: 1,
-    says: (b) => `${b.label}, moved by ${b.step}: NPV is ${side(b.down)} and ${side(b.up)}; ${usd(b.base)} at ${plain(a[b.key as Key])}.`,
-    sizeWords: (b) => (b.down || b.up ? usd(b.size) : "no step held"), stepWords: (b) => `by ${b.step}`,
-    heads: ["NPV, lowered", "NPV, raised"], side: (_, t) => side(t) } : null;
-  return { s, d, steps, state, a, size, scale, cols, chart, costs };
+  // session 296: the sensitivity in the mode and the measure the reader chose (the sourced range in NPV by default)
+  const ranges = rangesOf(x.dur);
+  const mode: Mode = v.mode === "range" ? { kind: "range", ranges } : { kind: "pct", pct: v.pct };
+  const irr = v.measure === "irr";
+  const bars = inView.r ? sensitivityIn(a, (rte, cycles) => revenue(rte, cycles)?.l12 ?? null, steps, mode, v.measure) : [];
+  const fmt = irr ? (t: number) => `${num(t, 1)} percent` : usd;
+  const side = (t: Side | null) => (t ? `${fmt(t.v)} at ${plain(t.value)}` : v.mode === "range" ? "no published case" : "no step held");
+  const chartBars: ChartBar[] = bars.map((b) => ({ key: b.key, label: b.label, step: b.step, base: irr ? b.base : b.base * scale, size: irr ? b.size : b.size * scale,
+    down: b.down ? { value: b.down.value, v: irr ? b.down.npv : b.down.npv * scale } : null, up: b.up ? { value: b.up.value, v: irr ? b.up.npv : b.up.npv * scale } : null }));
+  const what = irr ? "IRR" : "NPV";
+  const low = v.mode === "range" ? "at its published low case" : `lowered by ${plain(v.pct)} percent`, high = v.mode === "range" ? "at its published high case" : `raised by ${plain(v.pct)} percent`;
+  const chart: Chart | null = chartBars.length ? { bars: chartBars, moves: what, axis: irr ? "IRR, percent" : "NPV", fmt, pad: irr ? 0.1 : 1,
+    says: (b) => `${b.label}, ${low}: ${what} is ${side(b.down)}; ${high}: ${side(b.up)}; ${fmt(b.base)} at ${plain(a[b.key as Key])}.${v.mode === "range" ? ` ${ranges[b.key as Key]?.source ?? ""}.` : ""}`,
+    sizeWords: (b) => (b.down || b.up ? fmt(b.size) : "no case held"), stepWords: () => (v.mode === "range" ? "low and high case" : `by ${plain(v.pct)} percent`),
+    heads: v.mode === "range" ? [`${what}, low case`, `${what}, high case`] : [`${what}, lowered`, `${what}, raised`], side: (_, t) => side(t),
+    legend: v.mode === "range" ? ["Low case", "High case"] : [`Lowered by ${plain(v.pct)} percent`, `Raised by ${plain(v.pct)} percent`] } : null;
+  return { s, d, steps, state, a, size, scale, cols, chart, v };
 }
 
-export function Scenarios({ x, costs, gridName, stepMeta }: { x: Inputs; costs: { capex: number; fom: number; note: string }; gridName: string; stepMeta: StepMeta }) {
-  const { s, d, steps, state, size, scale, cols } = useBlock(x, costs);
-  type Col = (typeof cols)["a"];
-  const sourceOf = (k: Key) => (k === "capex" || k === "fom" ? `${SPECS[k].source}: ${costs.note}` : SPECS[k].source);
+/** Session 296: the twelve assumptions of the scenario in view, in the left box under "Financing": the panel the
+ * block drew in the second question until this session, the contract's share and price as a sub-group. */
+export function BatteryFinancing({ x, costs, gridName, stepMeta }: { x: Inputs; costs: Costs; gridName: string; stepMeta: StepMeta }) {
+  const { d, steps, state } = useBlock(x);
+  const sourceOf = (k: Key) => (k === "capex" || k === "fom" ? `${costs.source ?? SPECS[k].source}: ${costs.note}` : SPECS[k].source);
   // session 263: a value typed outside a field's bounds is brought inside them by `bound`, and the field says so under
-  // it while that value is in force (the typed text stays in the box, so without the line the box and the figures differ)
-  const typed = useRef(new Map<string, number>());
-  const boundTyped = (k: string, v: number) => {
-    const b = bound(k as Key, v, d, steps), id = `${s.view}|${k}`;
-    if (Number.isFinite(v) && b !== v) typed.current.set(id, v); else typed.current.delete(id);
-    return b;
-  };
+  // it while that value is in force (session 296: the field draws the line itself, from the value typed and the one used)
   const fields: Field[] = KEYS.map((k) => {
     const sp = SPECS[k];
-    const t = typed.current.get(`${s.view}|${k}`);
-    const clamped = t !== undefined && bound(k, t, d, steps) === s[s.view][k] ? <span data-clamped={k}> {clampWords(k, t, s[s.view][k])}</span> : null;
     return { key: k, label: sp.label, unit: sp.unit, min: sp.min, max: sp.max, whole: sp.whole,
       options: k === "rte" || k === "cycles" ? steps[k].map((v) => ({ value: v, label: plain(v) })) : undefined,
-      note: <>Default {plain(d[k])}. {sourceOf(k)}.{clamped}</> };
+      note: <>Default {plain(d[k])}. {sourceOf(k)}.</>, clamp: (t: number, u: number) => clampWords(k, t, u) };
   });
+  return (
+    <ScenarioPanel fields={fields} defaults={d} bound={(k, v) => bound(k as Key, v, d, steps)} columns={1} groups={[{ key: "contract", title: "The contract", keys: ["cshare", "cprice"] }]}
+      foot={(
+        <p className="mt-3 text-xs leading-snug text-muted" data-steps={state.ok ? "held" : state.why}>
+          {state.ok
+            ? `Round-trip efficiency and cycles a day take the steps the model was run at on ${day(stepMeta.built)}.`
+            : state.why === "none"
+              ? `Round-trip efficiency and cycles a day: only the model's own step is held for ${gridName}.`
+              : state.why === "months"
+                ? `Round-trip efficiency and cycles a day: only the model's own step is offered. The other steps are held for months to ${monthName(state.fileLast!)}; the table now reaches ${monthName(state.liveLast!)}.`
+                : `Round-trip efficiency and cycles a day: only the model's own step is offered. The other steps were run on ${day(stepMeta.built)}, and a month of the table has changed since.`}
+        </p>
+      )} />
+  );
+}
+
+export function Scenarios({ x }: { x: Inputs }) {
+  const { s, d, steps, size, scale, cols } = useBlock(x);
+  type Col = (typeof cols)["a"];
   const none: Cell = { v: "not held", raw: null };
   const row = (key: string, label: string, note: string, cell: (c: Col) => Cell): Row => ({ key, label, note, cell: (p) => cell(cols[p]) });
   const contractNote = (c: Col) => (c.y.cshare > 0 ? `contract ${plain(c.y.cshare)} percent at USD ${plain(c.y.cprice)} per kW-month; ` : "");
@@ -218,42 +330,43 @@ export function Scenarios({ x, costs, gridName, stepMeta }: { x: Inputs; costs: 
   ];
 
   return (
-    <ScenarioBlock
-      fields={fields} defaults={d} bound={boundTyped} head={`For ${size}`} rows={rows}
-      differing={differing(s.a, s.b)} short={(k, v) => SPECS[k as Key].short(v)} differs={differenceWords(s.a, s.b)}
-      sentence={cols.a.r ? (
-        <p className="mt-3 max-w-3xl text-sm" data-npv-sentence="a">
-          Scenario A, {size}: at a hurdle rate of {plain(s.a.hurdle)} percent, NPV is {usd(cols.a.r.npv * scale)}.
-        </p>
-      ) : null}
-      chart={null}
-      foot={(
-        <p className="mt-3 text-xs leading-snug text-muted" data-steps={state.ok ? "held" : state.why}>
-          {state.ok
-            ? `Round-trip efficiency and cycles a day take the steps the model was run at on ${day(stepMeta.built)}.`
-            : state.why === "none"
-              ? `Round-trip efficiency and cycles a day: only the model's own step is held for ${gridName}.`
-              : state.why === "months"
-                ? `Round-trip efficiency and cycles a day: only the model's own step is offered. The other steps are held for months to ${monthName(state.fileLast!)}; the table now reaches ${monthName(state.liveLast!)}.`
-                : `Round-trip efficiency and cycles a day: only the model's own step is offered. The other steps were run on ${day(stepMeta.built)}, and a month of the table has changed since.`}
-        </p>
-      )}
-    />
+    <>
+      <p className="mb-3 max-w-3xl text-sm text-muted" data-financing-where="1">The twelve assumptions of each scenario are set in the box on the left, under <a href="#financing">Financing</a>; scenario A gives the headline.</p>
+      <ScenarioBlock
+        panel={false} fields={[]} defaults={d} bound={(k, v) => bound(k as Key, v, d, steps)} head={`For ${size}`} rows={rows}
+        differing={differing(s.a, s.b)} short={(k, v) => SPECS[k as Key].short(v)} differs={differenceWords(s.a, s.b)}
+        sentence={cols.a.r ? (
+          <p className="mt-3 max-w-3xl text-sm" data-npv-sentence="a">
+            Scenario A, {size}: at a hurdle rate of {plain(s.a.hurdle)} percent, NPV is {usd(cols.a.r.npv * scale)}.
+          </p>
+        ) : null}
+        chart={null}
+      />
+    </>
   );
 }
 
 /** Session 208: the sensitivity chart of the scenario in view, in the page's third section, with one line on how to
- * read it. Drawn only when the scenario has a result. */
-export function BatterySensitivity({ x, costs }: { x: Inputs; costs: { capex: number; fom: number; note: string } }) {
-  const { s, chart } = useBlock(x, costs);
+ * read it. Drawn only when the scenario has a result. Session 296: in the mode and measure the reader chose. */
+export function BatterySensitivity({ x }: { x: Inputs }) {
+  const { s, chart, v } = useBlock(x);
   if (!chart) return <p className="max-w-3xl text-sm text-muted" data-sensitivity-none="1">No twelve consecutive months are held, so there is no NPV to move.</p>;
+  const measure = v.measure === "irr" ? "IRR" : "NPV";
+  const drawn = new Set(chart.bars.map((b) => b.key));
+  const missing = KEYS.filter((k) => !drawn.has(k) && NO_RANGE[k] && (s[s.view].cshare > 0 || (k !== "cshare" && k !== "cprice")));
   return (
     <>
-      <p className="mb-2 max-w-3xl text-sm" data-how-to-read="1">
-        Each row moves one assumption of scenario {s.view.toUpperCase()} down and up by the step named, holds the other eleven, and draws where NPV lands from the
-        scenario&apos;s own NPV (the line); the longest bars are the assumptions that matter most.
+      <p className="mb-2 max-w-3xl text-sm" data-how-to-read="1" data-mode={v.mode} data-measure={v.measure}>
+        {v.mode === "range"
+          ? <>Each row moves one assumption of scenario {s.view.toUpperCase()} to its published low case and its published high case (Lazard, Levelized Cost of Energy+, June 2025, and NREL&apos;s Annual Technology Baseline 2025; the source is in the row&apos;s hover), holds the others, and draws where {measure} lands from the scenario&apos;s own {measure} (the line); the longest bars are the assumptions that matter most.</>
+          : <>Each row moves one assumption of scenario {s.view.toUpperCase()} down and up by {plain(v.pct)} percent of its value, holds the others, and draws where {measure} lands from the scenario&apos;s own {measure} (the line); the longest bars are the assumptions that matter most. Round-trip efficiency and cycles a day move to the nearest step the model was run at, within their limits.</>}
       </p>
       <Sensitivity c={chart} view={s.view} />
+      {v.mode === "range" && missing.length ? (
+        <p className="mt-2 max-w-3xl text-xs text-muted" data-no-range={missing.join("+")}>
+          No published range, so no row: {missing.map((k) => `${SPECS[k].label.toLowerCase()} (${NO_RANGE[k]})`).join("; ")}.
+        </p>
+      ) : null}
     </>
   );
 }

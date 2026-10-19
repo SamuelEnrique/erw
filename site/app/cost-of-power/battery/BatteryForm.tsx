@@ -6,10 +6,16 @@
 // sets the headline; the line under Show says where. An older link's `fom` and `ds` are read as scenario A's.
 import { useRouter, useSearchParams } from "next/navigation";
 import { SiteLink as Link } from "@/components/SiteLink";
+import { Tip } from "@/components/tool/ToolPage";
 import { COSTS, DURATIONS, GRIDS, STRATEGIES, debtPerMw, hrefOf, type Inputs, type Strategy } from "@/lib/batterystack";
 import { carry } from "@/lib/battery/finance";
 
 const field = "w-full border border-rule bg-white px-2 py-1 text-sm";
+/** Session 296 (item 10): one line on each strategy, as the hover says it. */
+export const STRATEGY_WORDS: Record<Strategy, string> = {
+  foresight: "Perfect foresight: energy at the hourly real-time price and ancillary services at day-ahead prices, all known in advance; an upper bound, not a forecast.",
+  dayahead: "Day-ahead schedule: the battery is scheduled against day-ahead energy and ancillary prices and paid those prices, with no real-time trading; its offers are assumed to clear.",
+};
 
 export function BatteryForm({ x, internal = false }: { x: Inputs; internal?: boolean }) {
   const router = useRouter();
@@ -52,11 +58,13 @@ export function BatteryForm({ x, internal = false }: { x: Inputs; internal?: boo
         </p>
       </fieldset>
 
+      {/* session 296 (item 10): one-line hovers on the duration and on each strategy; "perfect foresight" keeps its name */}
       <div>
-        <div className="mb-1 font-semibold" id="dur-label">Duration</div>
+        <div className="mb-1 font-semibold" id="dur-label">Duration<Tip id="duration" label="the duration">How long the battery can discharge at its rated power: a 4-hour battery holds 4 MWh for each MW. The model is run at 2, 4 and 8 hours; a longer battery can back a reserve that must be held longer and sell more energy in a day.</Tip></div>
         <div className="grid grid-cols-3 border border-accent" role="group" aria-labelledby="dur-label">
           {DURATIONS.map((d) => (
             <Link key={d} href={`${hrefOf(bare, { dur: d })}${carry(search, d === x.dur)}`} scroll={false} aria-current={x.dur === d ? "true" : undefined} data-duration={d}
+              title={`${d} hours: the battery discharges at its rated power for ${d} hours, ${d} MWh for each MW`}
               style={x.dur === d ? { color: "#fff" } : undefined}
               className={`px-2 py-1.5 text-center no-underline ${d !== DURATIONS[0] ? "border-l border-accent" : ""} ${x.dur === d ? "bg-accent font-semibold" : "bg-white text-accent"}`}>
               {d} hours
@@ -67,9 +75,9 @@ export function BatteryForm({ x, internal = false }: { x: Inputs; internal?: boo
       </div>
 
       <fieldset>
-        <legend className="mb-1 font-semibold">Strategy</legend>
+        <legend className="mb-1 font-semibold">Strategy<Tip id="strategy" label="the strategy">{STRATEGY_WORDS.foresight} {STRATEGY_WORDS.dayahead}</Tip></legend>
         {(Object.keys(STRATEGIES) as Strategy[]).map((s) => (
-          <label key={s} className="flex items-baseline gap-2">
+          <label key={s} className="flex items-baseline gap-2" title={STRATEGY_WORDS[s]}>
             <input type="radio" name="strat" value={s} defaultChecked={x.strat === s} className="accent-[var(--color-accent)]" />
             <span>{STRATEGIES[s]}</span>
           </label>
@@ -82,10 +90,7 @@ export function BatteryForm({ x, internal = false }: { x: Inputs; internal?: boo
       <div className="flex items-baseline gap-3">
         <button type="submit" className="border border-accent bg-accent px-4 py-1.5 text-white">Show</button>
       </div>
-      <p className="text-xs leading-snug text-muted" data-costs-in-a="1">
-        Defaults for {x.dur} hours: capital {COSTS[x.dur].capex.toLocaleString("en-US")} USD/kW and fixed O&amp;M {COSTS[x.dur].fom} USD/kW a year ({COSTS[x.dur].note}).
-        The costs, the debt and a contract are set under <a href="#scenarios">Scenarios A and B</a>: scenario A gives the headline.
-      </p>
+      {/* session 296: the line on the defaults and on scenario A is the box's own (Settings.tsx, data-costs-in-a) */}
     </form>
   );
 }

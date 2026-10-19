@@ -127,15 +127,16 @@ try {
     fs.writeFileSync(path.join(outDir, `${name}.png`), Buffer.from(s.data, "base64"));
   };
   /** Type a value into an assumption's field as a reader would: focus, select all, type. */
+  // session 296: the twelve fields sit in the box's "Financing" section, closed by default: it is opened first, as a reader opens it
   const type = async (k, text) => {
-    await ev(`(() => { const e = document.querySelector('input[data-assumption="${k}"]'); e.scrollIntoView({ block: "center" }); e.focus(); e.select(); })()`);
+    await ev(`(() => { const e = document.querySelector('input[data-assumption="${k}"]'); const f = e.closest("details"); if (f) f.open = true; e.scrollIntoView({ block: "center" }); e.focus(); e.select(); })()`);
     await page.send("Input.insertText", { text });
     await sleep(350);
     await ev(`document.activeElement && document.activeElement.blur()`);
     await sleep(150);
   };
   const choose = async (k, v) => {
-    await ev(`(() => { const e = document.querySelector('select[data-assumption="${k}"]'); Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, "value").set.call(e, "${v}"); e.dispatchEvent(new Event("change", { bubbles: true })); })()`);
+    await ev(`(() => { const e = document.querySelector('select[data-assumption="${k}"]'); const f = e.closest("details"); if (f) f.open = true; Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, "value").set.call(e, "${v}"); e.dispatchEvent(new Event("change", { bubbles: true })); })()`);
     await sleep(350);
   };
   const click = async (sel) => { await ev(`document.querySelector(${JSON.stringify(sel)}).click()`); await sleep(350); };
@@ -144,14 +145,19 @@ try {
     if (!root) return null;
     const head = (p) => { const h = root.querySelector('[data-head="' + p + '"]'); return [...h.querySelectorAll("[data-differs]")].map((e) => e.textContent); };
     const checked = (end) => { const e = [...document.querySelectorAll("[data-check]")].find((x) => x.getAttribute("data-check").endsWith(end)); return e ? Number(e.getAttribute("data-raw")) : null; };
+    // session 296: the panel (the twelve fields, the two tabs, Copy and Reset all) is in the box on the left, under
+    // "Financing", not inside the block: it is read from the page
+    const panel = document.querySelector("[data-assumptions]");
     return {
-      view: root.querySelector("[data-assumptions]").getAttribute("data-assumptions"),
-      fields: [...root.querySelectorAll("[data-field]")].map((f) => ({
+      view: panel.getAttribute("data-assumptions"),
+      fields: [...panel.querySelectorAll("[data-field]")].map((f) => ({
         key: f.getAttribute("data-field"), value: f.querySelector("[data-assumption]").value, tag: f.querySelector("[data-assumption]").tagName,
         options: [...f.querySelectorAll("option")].map((o) => o.value), reset: !!f.querySelector("button[data-reset]"), resetOff: f.querySelector("button[data-reset]")?.disabled ?? null,
         def: f.querySelector("[data-default]")?.getAttribute("data-default") ?? null, source: f.querySelector("[data-default]")?.textContent ?? "" })),
-      resetAll: root.querySelector("[data-reset-all]")?.textContent ?? null, copy: root.querySelector("[data-copy]")?.textContent ?? null,
-      steps: root.querySelector("[data-steps]")?.getAttribute("data-steps") ?? null, stepsText: root.querySelector("[data-steps]")?.textContent ?? "",
+      resetAll: panel.querySelector("[data-reset-all]")?.textContent ?? null, copy: panel.querySelector("[data-copy]")?.textContent ?? null,
+      steps: panel.querySelector("[data-steps]")?.getAttribute("data-steps") ?? null, stepsText: panel.querySelector("[data-steps]")?.textContent ?? "",
+      folds: [...document.querySelectorAll("[data-settings-fold]")].map((f) => ({ id: f.getAttribute("data-settings-fold"), open: f.open, summary: f.querySelector("[data-fold-summary]")?.textContent ?? "" })),
+      noRange: document.querySelector("[data-no-range]")?.getAttribute("data-no-range") ?? "",
       rows: [...root.querySelectorAll("[data-scenario-table] tbody tr")].map((r) => r.getAttribute("data-row")),
       cells: Object.fromEntries([...root.querySelectorAll("[data-cell]")].map((c) => [c.getAttribute("data-cell"), { raw: c.getAttribute("data-raw") === "" ? null : Number(c.getAttribute("data-raw")), text: c.textContent }])),
       headA: head("a"), headB: head("b"), words: root.querySelector("[data-differs-words]").textContent,
@@ -204,7 +210,13 @@ try {
   let s = await ev(STATE);
   check(!!s, "the bare address: the block is on the page");
   check(JSON.stringify(s.questions) === JSON.stringify(["What did it earn?", "Is it worth building?", "What matters most"]), "the three questions, in order (session 208)", (s.questions ?? []).join(" | "));
-  check(/^Each row moves one assumption of scenario A down and up by the step named, holds the other eleven/.test(s.howToRead), "one line says how to read the chart", s.howToRead);
+  check(/^Each row moves one assumption of scenario A to its published low case and its published high case/.test(s.howToRead), "one line says how to read the chart (session 296: the sourced range by default)", s.howToRead);
+  // session 296: the box on the left: five sections, two open, each with its summary line
+  check(JSON.stringify(s.folds.map((f) => f.id)) === JSON.stringify(["battery", "heads", "charts", "financing", "sensitivity"]) && s.folds.filter((f) => f.open).map((f) => f.id).join(",") === "battery,heads",
+    "the box has five sections, Assumptions and Headline figures open (session 296)", s.folds.map((f) => `${f.id}:${f.open}`).join(", "));
+  check(/^Scenario A: 20% debt at 8%, 12% hurdle, no contract$/.test(s.folds.find((f) => f.id === "financing")?.summary ?? ""), "the financing section's one line says its settings", s.folds.find((f) => f.id === "financing")?.summary);
+  check(/^Sourced range, NPV$/.test(s.folds.find((f) => f.id === "sensitivity")?.summary ?? "") && /^3 of 8: /.test(s.folds.find((f) => f.id === "heads")?.summary ?? "") && /^Revenue by stream; adjusted scale$/.test(s.folds.find((f) => f.id === "charts")?.summary ?? ""),
+    "the sensitivity, headline and chart sections' lines say the defaults", s.folds.map((f) => f.summary).join(" | "));
   check(/The other five grids, in words only/.test(s.otherGrids) && /seller tab/.test(s.otherGrids), "one line under the grid picker stands for the other grids", s.otherGrids.slice(0, 80));
   const d = F.defaultsOf(B.COSTS[4]);
   check(s.search === "", "the bare address stays bare: nothing is written into it", s.search);
@@ -257,12 +269,16 @@ try {
     "the sentence under the table states scenario A, the headline's scenario, with B in view (session 195)", s.sentence ?? "");
 
   // 7: the sensitivity chart
-  check(s.bars.length === 10 && s.bars.every((b, i) => i === 0 || s.bars[i - 1].size >= b.size) && !s.bars.some((b) => b.key === "cshare" || b.key === "cprice"), "ten bars at the default, sorted by size, no contract row (session 211)", s.bars.map((b) => b.key).join(", "));
-  check(/Lowered by the step/.test(s.legend) && /Raised by the step/.test(s.legend), "a legend names the two directions");
+  // session 296: the sourced range by default: the six assumptions with a published low and high case, and a line naming the others
+  check(s.bars.length === 6 && s.bars.every((b, i) => i === 0 || s.bars[i - 1].size >= b.size) && !s.bars.some((b) => b.key === "cshare" || b.key === "cprice") && ["capex", "fom", "share", "rte", "deg", "life"].every((k) => s.bars.some((b) => b.key === k)),
+    "six bars at the default (the sourced range: capital cost, fixed O&M, debt share, efficiency, degradation, life), sorted by size, no contract row", s.bars.map((b) => b.key).join(", "));
+  check(s.noRange === "rate+term+cycles+hurdle" || s.noRange.split("+").sort().join("+") === "cycles+hurdle+rate+term", "the line under the chart names the four without a published range", s.noRange);
+  check(/Low case/.test(s.legend) && /High case/.test(s.legend), "a legend names the two cases");
   const box = await ev(`(() => { const e = document.querySelector('[data-bar="${s.bars[0].key}"]'); e.scrollIntoView({ block: "center" }); const r = e.getBoundingClientRect(); return { x: r.x + r.width * 0.75, y: r.y + r.height / 2 }; })()`);
   await noRequest("pointing at a bar", () => page.send("Input.dispatchMouseEvent", { type: "mouseMoved", x: box.x, y: box.y }));
   const hover = await ev(STATE);
-  check(/moved by .+: NPV is USD -?[\d,.]+.* at [\d,.]+ and USD -?[\d,.]+.* at [\d,.]+; USD/.test(hover.readout) && hover.readout === s.bars[0].title, "pointing at a bar states the two NPVs and the step", hover.readout);
+  check(/at its published low case: NPV is USD -?[\d,.]+.* at [\d,.]+; at its published high case: USD -?[\d,.]+.* at [\d,.]+; USD/.test(hover.readout) && hover.readout === s.bars[0].title && /Lazard|Annual Technology Baseline/.test(hover.readout),
+    "pointing at a bar states the two NPVs, the two cases and their source (session 296)", hover.readout);
   await shot("scenarios-compared-desktop", 1280);
   await page.send("Emulation.setDeviceMetricsOverride", { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
 
@@ -327,7 +343,15 @@ try {
   s = await ev(STATE);
   const rc = F.resultOf({ ...d, cshare: 50, cprice: 10 }, s.l12kw), con = await ev(CONTRACT);
   check(/[?&]an=50&ap=10$/.test(s.search) && near(s.cells["a|coverage"].raw, rc.coverage) && near(s.cells["a|npv"].raw, rc.npv) && rc.coverage !== r00.coverage, "the share goes into the address; A's coverage and NPV read the contract", `${s.search}: ${s.cells["a|coverage"].text}`);
-  check(s.bars.length === 12 && s.bars.some((b) => b.key === "cshare") && s.bars.some((b) => b.key === "cprice"), "with a contract in A the chart draws its share and price as two more rows (session 211)", s.bars.map((b) => b.key).join(", "));
+  // session 296: in the sourced range the contract's two have no published case, so they are named under the chart, not drawn
+  // (session 211's two rows are drawn in the percent-step mode, checked below)
+  check(s.bars.length === 6 && !s.bars.some((b) => b.key === "cshare") && /cshare/.test(s.noRange) && /cprice/.test(s.noRange), "with a contract in A the sourced range names the contract's share and price as having no published case", s.noRange);
+  await noRequest("switching the sensitivity to a percent step", () => click('[data-seg="mode"] [data-seg-key="pct"]'));
+  s = await ev(STATE);
+  check(s.bars.length === 12 && s.bars.some((b) => b.key === "cshare") && s.bars.some((b) => b.key === "cprice") && /sm=pct/.test(s.search), "by a percent step, with a contract in A, the chart draws its share and price as two more rows (session 211), and the address says so", `${s.search}: ${s.bars.map((b) => b.key).join(", ")}`);
+  check(/down and up by 10 percent of its value/.test(s.howToRead) && /Lowered by 10 percent/.test(s.legend), "the line and the legend say the percent", s.howToRead);
+  await noRequest("switching the sensitivity back to the sourced range", () => click('[data-seg="mode"] [data-seg-key="range"]'));
+  s = await ev(STATE);
   check(/50 percent of its power contracted at USD 10 per kW-month/.test(con.words) && !con.keyed && near(con.cover, Number(rc.coverage.toFixed(2)), 1e-9), "the headline names the contract, reads its coverage and drops the key", `${con.words.trim()} ${con.cover}`);
   check(JSON.stringify(s.headA) === JSON.stringify(["contract 50%", "contract USD 10/kW-month"]) && s.words === "B: contract share 0 percent against 50; contract price USD 0 per kW-month against 10.", "the headers and the row in words name the contract", s.words);
   check(/contract 50 percent at USD 10 per kW-month; debt payments/.test(s.cells["a|coverage"].text), "the coverage cell says what the contract is", s.cells["a|coverage"].text);

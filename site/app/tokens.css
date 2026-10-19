@@ -956,3 +956,45 @@ body:has(.brand-a) header :focus-visible {
   --color-season-4: #797266;
   --color-season-5: #645E53;
 }
+
+/* ---- session 296 (the owner's rulings of 15 October 2026, the battery page's pass 1): two pieces of every tool page
+   (components/tool/ToolPage.tsx). The settings fold: a section of the box that opens and closes, with a plain marker
+   (a plus closed, a minus open, as the group fold draws it) and one line that says what it holds while it is closed,
+   hidden while it is open. The tip: a small mark after a label whose words show when it is pointed at, tapped or
+   focused; no shadow, square corners (docs/brand.md, section 3). Nothing here moves a number. */
+.brand-a details[data-settings-fold] > summary {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1ch minmax(0, 1fr);
+  column-gap: 8px;
+}
+.brand-a details[data-settings-fold] > summary::-webkit-details-marker {
+  display: none;
+}
+.brand-a details[data-settings-fold] > summary::before {
+  content: "+";
+  font-family: var(--font-mono);
+  color: var(--color-muted);
+  grid-row: 1 / span 2;
+}
+.brand-a details[data-settings-fold][open] > summary::before {
+  content: "\2212";
+}
+.brand-a details[data-settings-fold][open] > summary [data-fold-summary] {
+  display: none;
+}
+.brand-a details[data-settings-fold] > div {
+  padding-left: calc(1ch + 8px);
+}
+.brand-a .tip [role="tooltip"] {
+  display: none;
+}
+.brand-a .tip:hover [role="tooltip"],
+.brand-a .tip:focus-within [role="tooltip"] {
+  display: block;
+}
+.brand-a .tip > button {
+  border-radius: 0;
+  font-family: var(--font-sans);
+  vertical-align: 2px;
+}

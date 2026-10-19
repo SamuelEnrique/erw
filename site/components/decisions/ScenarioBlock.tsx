@@ -53,6 +53,9 @@ const field = "w-full border border-rule bg-white px-2 py-1 text-sm";
 export type Field = {
   key: string; label: string; unit: string; min: number; max: number; whole: boolean;
   options?: { value: number; label: string; disabled?: boolean }[]; aria?: string; note: ReactNode;
+  /** session 296: the words under the field while a value typed outside its bounds is in force (session 263's line),
+   *  from the value typed and the value used; drawn by the field itself, so no page reads a ref in render */
+  clamp?: (typed: number, used: number) => string;
 };
 /** One cell of the table: what is shown, its value for the checks, the small line under it, and why it is not held. */
 export type Cell = { v: string; raw: number | null; note?: string; why?: string };
@@ -71,17 +74,26 @@ export type Chart = {
   heads: [string, string]; side: (b: Bar, s: Side | null) => string;
   /** the label column is wider where the labels are longer; the smallest padding of the scale */
   wide?: boolean; pad: number;
+  /** session 296: the legend's two words for the two bars ("Lowered by the step" and "Raised by the step" unless given) */
+  legend?: [string, string];
 };
 
 /** One number field. The text typed is shown while it still reads as the value in force; otherwise the value is. */
 function NumberField({ f, value, onValue, read }: { f: Field; value: number; onValue: (v: number) => void; read: (v: number) => number }) {
   const [text, setText] = useState<string | null>(null);
   const shown = text !== null && (text === "" || read(Number(text)) === value) ? text : String(value);
+  // session 296: the typed value that was brought inside the bounds (session 263), said under the field while it is in
+  // force: remembered from the change, so it stays after the box loses focus, and gone once the value is another
+  const [typed, setTyped] = useState<number | null>(null);
+  const clamped = f.clamp && typed !== null && read(typed) === value ? f.clamp(typed, value) : null;
   return (
-    <input type="number" inputMode="decimal" autoComplete="off" min={f.min} max={f.max} step={f.whole ? 1 : "any"} value={shown} className={field}
-      data-assumption={f.key} aria-label={`${f.label}, ${f.unit}`}
-      onChange={(e) => { setText(e.target.value); const v = Number(e.target.value); if (e.target.value !== "" && Number.isFinite(v)) onValue(v); }}
-      onBlur={() => setText(null)} />
+    <span className="block w-full">
+      <input type="number" inputMode="decimal" autoComplete="off" min={f.min} max={f.max} step={f.whole ? 1 : "any"} value={shown} className={field}
+        data-assumption={f.key} aria-label={`${f.label}, ${f.unit}`}
+        onChange={(e) => { setText(e.target.value); const v = Number(e.target.value); if (e.target.value !== "" && Number.isFinite(v)) { onValue(v); setTyped(read(v) !== v ? v : null); } }}
+        onBlur={() => setText(null)} />
+      {clamped ? <span className="mt-1 block text-xs leading-snug text-muted" data-clamped={f.key}>{clamped}</span> : null}
+    </span>
   );
 }
 
@@ -104,8 +116,8 @@ export function Sensitivity({ c, view }: { c: Chart; view: View }) {
       <figcaption className="mb-2 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-rule pb-1">
         <span className="font-serif text-lg text-accent">How far each assumption moves {c.moves}, scenario {view.toUpperCase()}</span>
         <span className="flex flex-wrap gap-x-4 text-xs text-ink">
-          <span className="inline-flex items-center gap-1.5"><span aria-hidden="true" className="inline-block h-2.5 w-2.5" style={{ background: DOWN }} />Lowered by the step</span>
-          <span className="inline-flex items-center gap-1.5"><span aria-hidden="true" className="inline-block h-2.5 w-2.5" style={{ background: UP }} />Raised by the step</span>
+          <span className="inline-flex items-center gap-1.5"><span aria-hidden="true" className="inline-block h-2.5 w-2.5" style={{ background: DOWN }} />{c.legend?.[0] ?? "Lowered by the step"}</span>
+          <span className="inline-flex items-center gap-1.5"><span aria-hidden="true" className="inline-block h-2.5 w-2.5" style={{ background: UP }} />{c.legend?.[1] ?? "Raised by the step"}</span>
         </span>
       </figcaption>
       <ul className="space-y-1" onMouseLeave={() => setOn(null)}>
@@ -163,17 +175,14 @@ export function Sensitivity({ c, view }: { c: Chart; view: View }) {
   );
 }
 
-/** The block: the assumptions panel for the scenario in view, the two columns on the page's rows, the row that says in
- * words what differs, the page's own row that sets B against A in numbers (when it has one), the sentence under the
- * table, which states scenario A, the scenario the page's headline shows, and the chart for the scenario in view. */
-export function ScenarioBlock({ fields, defaults: d, bound, head, rows, differing, short, differs, against, sentence, chart, foot }: {
-  fields: Field[]; defaults: Values; bound: (key: string, v: number) => number;
-  /** the table's first heading: what the two columns are for ("For 100 MW, 4-hour") */
-  head: string; rows: Row[];
-  /** the assumptions that differ between A and B, how each reads in a column's heading, and the row in words */
-  differing: string[]; short: (key: string, v: number) => string; differs: string;
-  against?: { words: string; rate: string; even: string };
-  sentence: ReactNode; chart: Chart | null; foot?: ReactNode;
+/** Session 296: the assumptions panel on its own, for a page that draws it away from the table (the battery page puts
+ * it in its "Assumptions" box, under "Financing", with the contract's two fields as a sub-group: `group` names the
+ * sub-group a field belongs to, and `columns` how many fields sit side by side, one in a narrow box). What is drawn
+ * for each field is what the block drew. */
+export function ScenarioPanel({ fields, defaults: d, bound, foot, columns = 2, groups }: {
+  fields: Field[]; defaults: Values; bound: (key: string, v: number) => number; foot?: ReactNode; columns?: 1 | 2;
+  /** sub-groups: the keys of the fields each holds, with its title, drawn after the fields outside any group */
+  groups?: { key: string; title: string; keys: string[] }[];
 }) {
   const { s, update } = useScenarios();
   const a = s[s.view];
@@ -185,41 +194,67 @@ export function ScenarioBlock({ fields, defaults: d, bound, head, rows, differin
       Scenario {p.toUpperCase()}
     </button>
   );
+  const one = (f: Field) => {
+    const k = f.key;
+    return (
+      <div key={`${s.view}-${k}`} className="text-sm" data-field={k}>
+        <div className="mb-1 font-semibold">{f.label}, <span className="font-normal">{f.unit}</span></div>
+        <div className="flex items-center gap-2">
+          {f.options ? (
+            <select value={a[k]} className={field} data-assumption={k} aria-label={f.aria ?? `${f.label}, ${f.unit}`} onChange={(e) => set(k, Number(e.target.value))}>
+              {f.options.map((o) => <option key={o.value} value={o.value} disabled={o.disabled}>{o.label}</option>)}
+            </select>
+          ) : (
+            <NumberField f={f} value={a[k]} onValue={(v) => set(k, v)} read={(v) => bound(k, v)} />
+          )}
+          <button type="button" data-reset={k} aria-label={`Reset ${f.label}`} disabled={a[k] === d[k]} className="whitespace-nowrap border border-rule bg-white px-2 py-1 text-xs text-accent disabled:text-muted" onClick={() => set(k, d[k])}>Reset</button>
+        </div>
+        <p className="mt-1 text-xs leading-snug text-muted" data-default={d[k]}>{f.note}</p>
+      </div>
+    );
+  };
+  const grouped = new Set((groups ?? []).flatMap((g) => g.keys));
+  const grid = columns === 2 ? "grid gap-x-6 gap-y-3 sm:grid-cols-2" : "grid gap-y-3";
+  return (
+    <div className="bg-paper px-4 py-4" data-assumptions={s.view}>
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+        <div className="inline-grid grid-cols-2 border border-accent" role="group" aria-label="The scenario in view">{tab("a")}{tab("b")}</div>
+        <div className="flex flex-wrap gap-2 text-xs">
+          <button type="button" data-copy="1" className="border border-accent bg-white px-3 py-1 text-accent" onClick={() => update({ ...s, b: { ...s.a } })}>Copy A to B</button>
+          <button type="button" data-reset-all="1" className="border border-accent bg-white px-3 py-1 text-accent" onClick={() => update({ ...s, [s.view]: { ...d } })}>Reset all of {s.view.toUpperCase()}</button>
+        </div>
+      </div>
+      <div className={grid}>{fields.filter((f) => !grouped.has(f.key)).map(one)}</div>
+      {(groups ?? []).map((g) => (
+        <fieldset key={g.key} className="mt-4 border-t border-rule pt-3" data-group={g.key}>
+          <legend className="font-semibold text-sm">{g.title}</legend>
+          <div className={`mt-2 ${grid}`}>{fields.filter((f) => g.keys.includes(f.key)).map(one)}</div>
+        </fieldset>
+      ))}
+      {foot}
+    </div>
+  );
+}
+
+/** The block: the assumptions panel for the scenario in view, the two columns on the page's rows, the row that says in
+ * words what differs, the page's own row that sets B against A in numbers (when it has one), the sentence under the
+ * table, which states scenario A, the scenario the page's headline shows, and the chart for the scenario in view.
+ * Session 296: `panel: false` leaves the panel out (the page draws it elsewhere with ScenarioPanel). */
+export function ScenarioBlock({ fields, defaults: d, bound, head, rows, differing, short, differs, against, sentence, chart, foot, panel = true }: {
+  fields: Field[]; defaults: Values; bound: (key: string, v: number) => number;
+  /** the table's first heading: what the two columns are for ("For 100 MW, 4-hour") */
+  head: string; rows: Row[];
+  /** the assumptions that differ between A and B, how each reads in a column's heading, and the row in words */
+  differing: string[]; short: (key: string, v: number) => string; differs: string;
+  against?: { words: string; rate: string; even: string };
+  sentence: ReactNode; chart: Chart | null; foot?: ReactNode; panel?: boolean;
+}) {
+  const { s } = useScenarios();
   const views: View[] = ["a", "b"];
 
   return (
     <div data-scenarios="1">
-      <div className="mb-4 bg-paper px-4 py-4" data-assumptions={s.view}>
-        <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
-          <div className="inline-grid grid-cols-2 border border-accent" role="group" aria-label="The scenario in view">{tab("a")}{tab("b")}</div>
-          <div className="flex flex-wrap gap-2 text-xs">
-            <button type="button" data-copy="1" className="border border-accent bg-white px-3 py-1 text-accent" onClick={() => update({ ...s, b: { ...s.a } })}>Copy A to B</button>
-            <button type="button" data-reset-all="1" className="border border-accent bg-white px-3 py-1 text-accent" onClick={() => update({ ...s, [s.view]: { ...d } })}>Reset all of {s.view.toUpperCase()}</button>
-          </div>
-        </div>
-        <div className="grid gap-x-6 gap-y-3 sm:grid-cols-2">
-          {fields.map((f) => {
-            const k = f.key;
-            return (
-              <div key={`${s.view}-${k}`} className="text-sm" data-field={k}>
-                <div className="mb-1 font-semibold">{f.label}, <span className="font-normal">{f.unit}</span></div>
-                <div className="flex items-center gap-2">
-                  {f.options ? (
-                    <select value={a[k]} className={field} data-assumption={k} aria-label={f.aria ?? `${f.label}, ${f.unit}`} onChange={(e) => set(k, Number(e.target.value))}>
-                      {f.options.map((o) => <option key={o.value} value={o.value} disabled={o.disabled}>{o.label}</option>)}
-                    </select>
-                  ) : (
-                    <NumberField f={f} value={a[k]} onValue={(v) => set(k, v)} read={(v) => bound(k, v)} />
-                  )}
-                  <button type="button" data-reset={k} aria-label={`Reset ${f.label}`} disabled={a[k] === d[k]} className="whitespace-nowrap border border-rule bg-white px-2 py-1 text-xs text-accent disabled:text-muted" onClick={() => set(k, d[k])}>Reset</button>
-                </div>
-                <p className="mt-1 text-xs leading-snug text-muted" data-default={d[k]}>{f.note}</p>
-              </div>
-            );
-          })}
-        </div>
-        {foot}
-      </div>
+      {panel ? <div className="mb-4"><ScenarioPanel fields={fields} defaults={d} bound={bound} foot={foot} /></div> : null}
 
       <div className="overflow-x-auto">
         <table className="block w-full border-collapse text-left text-sm tabular-nums sm:table" data-scenario-table="1">
