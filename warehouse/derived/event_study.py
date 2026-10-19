@@ -69,6 +69,7 @@ WINDOWS = {
     "ercot_heat_2023": ("2023-08-01", "2023-09-10"),
     "cold_2025": ("2025-01-17", "2025-01-26"),  # session 64
     "east_heat_2025": ("2025-06-20", "2025-06-28"),  # session 64
+    "cold_2026": ("2026-01-23", "2026-02-02"),  # session 308
 }
 # each BA's local day, as event_window.py reads the extracts (COVID's time zones)
 TZ = {"ciso": "America/Los_Angeles", "erco": "America/Chicago", "isne": "America/New_York", "miso": "EST",

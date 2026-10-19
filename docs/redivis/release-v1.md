@@ -4,7 +4,7 @@ Energy Research Warehouse (ERW), session 275 (14 October 2026). Everything for o
 
 ## What v1 is
 
-- **125 tables and the three metadata tables** (`erw_coverage`, `erw_sources`, `erw_headers`), listed with `in_v1 = yes` in [`release-v1/tables.csv`](release-v1/tables.csv): every table coverage flags public that is still public on the public day, **21 October 2026**.
+- **127 tables and the three metadata tables** (`erw_coverage`, `erw_sources`, `erw_headers`), listed with `in_v1 = yes` in [`release-v1/tables.csv`](release-v1/tables.csv): every table coverage flags public that is still public on the public day, **21 October 2026**.
 - **40 tables of the public draft are held out** (`in_v1 = no`, each with its reason): a publisher's terms ask for permission or a license that is not recorded (`warehouse/metadata/license_status.csv`). Internal tables are never in this dataset; they are in `energy_research_warehouse_internal`, which stays private.
 - For each table, `tables.csv` gives its description (the first line of its provenance header, which the uploader already set as the table's description), its license line (the header's own `License:` line, or the license record's verdict where the header has none), its citation and its publishers. [`release-v1/variables.csv`](release-v1/variables.csv) gives every series variable with its unit and every column of the entity and event tables (3,766 rows). [`release-v1/README.md`](release-v1/README.md) is the dataset's README.
 
@@ -21,7 +21,7 @@ Energy Research Warehouse (ERW), session 275 (14 October 2026). Everything for o
 4. **Remove the 40 held tables from the draft**, each named in `tables.csv` with `in_v1 = no`: the table's menu, Delete (the draft only; a released version keeps what it held). Do this right before the click: the daily upload puts a held table back into the public draft whenever its data changes, because the uploader routes by coverage's flag (ruling 1 below).
 5. **The dataset's README:** paste `docs/redivis/release-v1/README.md` into the dataset's description.
 6. **Spot-check three tables:** each table's description is its provenance header (cut at Redivis's 2,000 characters), and its license line is in it.
-7. **Click Release.** The version's note: `v1: ERW commit <git rev-parse HEAD>, the daily run of <date>; 125 tables and 3 metadata tables; 40 held for a license (docs/redivis/release-v1/tables.csv)`.
+7. **Click Release.** The version's note: `v1: ERW commit <git rev-parse HEAD>, the daily run of <date>; 127 tables and 3 metadata tables; 40 held for a license (docs/redivis/release-v1/tables.csv)`.
 8. **Record it:** the date of the release in this file and in `docs/redivis/release-v1/README.md`'s citation ("version v1, released YYYY-MM-DD"), committed.
 
 ## How to cite v1

@@ -105,8 +105,8 @@ ercot_wind_solar_hsl_hourly,ERCOT,,11,PT1H,2026-09-28T05:00:00Z,2026-10-14T13:00
 ercot_wind_solar_output_hourly,ERCOT,,1,PT1H,2023-01-01T06:00:00Z,2026-01-01T05:00:00Z,52608,ercot:PG7-126-M,2026-10-14T15:21:24Z,pass,public,power,no,source
 ercot_zone_load_hourly,ERCOT,ercot_load,13,PT1H,2015-01-01T06:00:00Z,2026-10-01T04:00:00Z,926838,ercot:load_hist,2026-10-13T03:01:38Z,pass,public,power,no,source
 ercot_zone_prices_history,ERCOT,ercot_dam;ercot_rtm,8,PT15M;PT1H,2015-01-01T06:00:00Z,2026-10-18T04:45:00Z,2481384,ercot:NP4-180-ER;ercot:NP6-785-ER,2026-10-18T17:35:55Z,pass,public,power,no,source
-event_study_estimates,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,9,P1D;PT1H,2020-03-01T00:00:00Z,2025-06-28T00:00:00Z,2747,erw:event_study,2026-10-02T12:22:58Z,pass,public,power,yes,derived
-event_window_daily,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,ercot_dam;ercot_rtm;isone_dam;isone_rtm;miso_dam;miso_rtm;nyiso_dam;nyiso_rtm;spp_dam;spp_rtm,10,P1D;P1W,2018-03-04T00:00:00Z,2025-06-28T00:00:00Z,28438,erw:event_window,2026-10-02T12:56:43Z,pass,public,power;carbon,yes,derived
+event_study_estimates,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,13,P1D;PT1H,2020-03-01T00:00:00Z,2026-02-02T00:00:00Z,3040,erw:event_study,2026-10-19T09:46:06Z,pass,public,power,yes,derived
+event_window_daily,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,ercot_dam;ercot_rtm;isone_dam;isone_rtm;miso_dam;miso_rtm;nyiso_dam;nyiso_rtm;spp_dam;spp_rtm,10,P1D;P1W,2018-03-04T00:00:00Z,2026-02-02T00:00:00Z,29953,erw:event_window,2026-10-19T09:43:29Z,pass,public,power;carbon,yes,derived
 ferc_eqr_buyer_doubtful,none,,1,event,2026-06-30T00:00:00Z,2026-06-30T00:00:00Z,1281,1 outlets,2026-10-04T17:29:30Z,pass,internal,power,no,source
 ferc_eqr_buyer_names,ferc,,17955,snapshot,2026-10-04T17:29:30Z,2026-10-04T17:29:30Z,17955,erw:eqr_buyers,2026-10-04T17:29:30Z,pass,internal,power,no,source
 ferc_eqr_contract_terms,none,,1,event,1924-10-24T00:00:00Z,2223-01-01T00:00:00Z,186873,1 outlets,2026-10-05T16:59:01Z,pass,internal,power,no,source
@@ -150,7 +150,7 @@ large_load_public,none,,1,event,2024-05-01T00:00:00Z,2026-09-30T00:00:00Z,341,1 
 large_load_rule_reads,none,,1,event,2024-01-25T00:00:00Z,2026-10-07T00:00:00Z,87,1 outlets,2026-10-08T05:01:16Z,pass,public,power;datacenters,no,model_extracted
 large_load_rules,none,,5,event,2024-01-25T00:00:00Z,2026-09-22T00:00:00Z,43,5 outlets,2026-10-08T05:09:36Z,pass,public,power;datacenters,no,model_extracted
 large_load_rules_internal,none,,6,event,2024-05-13T00:00:00Z,2026-10-07T00:00:00Z,73,6 outlets,2026-10-08T05:09:36Z,pass,internal,power;datacenters,no,model_extracted
-large_load_statements,none,,1,event,2024-05-01T00:00:00Z,2026-10-08T00:00:00Z,796,1 outlets,2026-10-08T01:24:02Z,pass,internal,power,no,model_extracted
+large_load_statements,none,,1,event,2024-05-01T00:00:00Z,2026-10-08T00:00:00Z,798,1 outlets,2026-10-19T09:42:07Z,pass,internal,power,no,model_extracted
 large_load_waits,none,,4,event,2010-05-27T00:00:00Z,2026-10-08T00:00:00Z,2622,4 outlets,2026-10-09T01:14:33Z,pass,internal,power;datacenters,no,derived
 lbnl_interconnection_queue,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,38201,snapshot,2026-10-02T09:16:25Z,2026-10-02T09:16:25Z,38201,lbnl:queued_up,,pass,public,power,no,source
 merchant_revenue_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_rtm;ercot_rtm;isone_rtm;miso_rtm;nyiso_rtm;spp_rtm,6,P1M,2018-06-01T00:00:00Z,2026-10-01T00:00:00Z,8335,erw:merchant_revenue,2026-10-12T09:19:48Z,pass,public,power;gas,yes,derived

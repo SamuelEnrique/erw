@@ -21,16 +21,16 @@ files under `warehouse/raw/`. The rule is the pilot's ([`large_load_pilot.md`](l
 
 | | Forty (session 141) | Now (eighty) |
 |---|---|---|
-| Statements in the table | 434 (401 megawatt figures, 33 durations) | **796** (596 megawatt figures, 200 durations) |
-| Entities with at least one statement | 38 of 40 | **70 of 80**, 761 statements; 35 more from the 13 bodies outside |
+| Statements in the table | 434 (401 megawatt figures, 33 durations) | **798** (598 megawatt figures, 200 durations) |
+| Entities with at least one statement | 38 of 40 | **70 of 80**, 763 statements; 35 more from the 13 bodies outside |
 | Documents opened | 629 | 1,688 |
 | Documents that yielded a usable figure | 184 (29 percent) | 364 (22 percent) |
-| Statements with the page of the PDF | 270 | 612 |
+| Statements with the page of the PDF | 270 | 614 |
 | An agent's minutes searching and reading | 158 | 129 more for the forty new entities (about 3 an entity) |
 
-- **Megawatt figures by kind of document** (596): earnings presentations 104, resource plans 92, load forecast
+- **Megawatt figures by kind of document** (598): earnings presentations 104, resource plans 92, load forecast
   reports 91, commission filings 90, operator reports 73, earnings releases 36, tariff filings 26, SEC filings 19,
-  rate case testimony 10, other 55. No sum across entities and no ranking: 228 sit on no stage (a total, a
+  rate case testimony 10, other 55, and ERCOT's Batch Zero deck 2 (session 308, by hand at the owner's default of 18 October: "17 large loads (6,608 MW total peak demand over 5 years)" and the 157 medium loads of the April snapshot, about 8,766 MW). No sum across entities and no ranking: 230 sit on no stage (a total, a
   forecast, a threshold, a scenario) and 102 of the pilot's are not classed.
 - **Ten entities with none.** Salt River Project (its site refuses) and OGE (no megawatts stated), as before; LADWP,
   Western Farmers, MidAmerican, Associated Electric and Oglethorpe (no large load figure in their public documents);

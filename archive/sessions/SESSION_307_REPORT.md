@@ -50,7 +50,8 @@
 
 ## The landing
 
-See below (filled at the push).
+- freeze 0; before `s307-before` 09:37:00 UTC; merged origin/main (nothing new); pushed 09:37:07 (`65a28c7e`); deployment 7170432562 success 09:38:41; after `s307-after` 09:39:22; compare: **0 differences on 25 pages** (expected: every page is in review).
+- A follow-up commit with session 308 carries `counted_once` in the delivery file (below).
 
 ## Decisions made without you
 
@@ -58,7 +59,8 @@ See below (filled at the push).
 2. **The held copy of the tariff was read, not a new download**: the prompt allows one read, and the pack's option (c) is to read the sheet again on the data machine.
 3. **The battery model is not rebuilt for the eight days:** it counts whole months from August 2023, and July 2023 is not whole.
 4. **`capture.json` and the other files built from the history are left for the data machine's nightly run** to rebuild with the eight days.
-5. **No Electric Power Annual request:** the ceiling is one file, and the file was not known; spending it on an index would not have given the table.
+5. **The decisions block's line is data, not page code:** `texas_delivery.json` now carries `counted_once` (the utility, the two units, the page and why); the block's figures follow the file on their own (7.09), and showing the line's words is the code machine's.
+6. **No Electric Power Annual request:** the ceiling is one file, and the file was not known; spending it on an index would not have given the table.
 
 ## For Samuel's ruling
 
