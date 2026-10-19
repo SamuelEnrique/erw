@@ -499,7 +499,7 @@ class ThePage(unittest.TestCase):
     def test_the_chart_answers_the_mouse_and_the_keyboard(self):
         for words in ("onMouseEnter={() => setOn(b.key)}", "onFocus={() => setOn(b.key)}", "title={c.says(b)}", 'data-sensitivity-readout="1"', "The chart as a table"):
             self.assertIn(words, self.shared, words)                                      # session 195: the chart is the shared block's
-        self.assertIn("tooltip:", src("site", "app", "cost-of-power", "LoadCharts.tsx"))  # the page's other chart, as it was
+        self.assertIn("notes={notes}", src("site", "app", "cost-of-power", "LoadCharts.tsx"))  # the page's other chart, as it was (session 317: its hover card's notes)
 
     def test_one_tool_one_page_one_address(self):
         d = os.path.join(ROOT, "site", "app", "cost-of-power")

@@ -280,7 +280,7 @@ class OnePage(unittest.TestCase):
         for part in ("capture_last_twelve", "capture_by_year", "capture_hub_year", "battery_beside", "co_optimized_pair_usd", "stress_days", "eia_hours", "over_nameplate"):
             self.assertIn(part, tables, part)
         charts = src("site", "app", "cost-of-power", "seller", "SellerCharts.tsx")
-        self.assertEqual(charts.count("tooltip: {"), 4)                 # each of the four charts answers the mouse
+        self.assertEqual(charts.count("<CategoryChart "), 4)             # each of the four charts answers the mouse (session 317: the shared SVG chart's hover card)
         self.assertNotIn("<svg", page)                                   # no static drawing is left on the page
         contract = src("site", "app", "cost-of-power", "seller", "SellerContract.tsx")
         self.assertIn('import { contractResult, usdShort } from "@/lib/datacenter";', contract)   # the arithmetic already written, not a third

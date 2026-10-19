@@ -303,7 +303,7 @@ class ThePage(unittest.TestCase):
     def test_every_chart_answers_the_mouse(self):
         charts = src(*FACE_FILES[2])
         self.assertTrue(charts.startswith('"use client";'))
-        self.assertIn('from "@/components/echarts"', charts)
+        self.assertIn('from "@/components/svgchart"', charts)   # session 317: the shared SVG set, where the canvas library was
         parts = re.split(r"\nexport function ", charts)[1:]
         self.assertEqual([p.split("(")[0] for p in parts], ["XY", "Heat"])
         for p in parts:

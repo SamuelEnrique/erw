@@ -1,8 +1,10 @@
 "use client";
-// Session 145: the four charts of "What a generator earns" (/cost-of-power/seller). Every value drawn arrives from the
+// Session 145: the charts of "What a generator earns" (/cost-of-power/seller). Every value drawn arrives from the
 // server (page.tsx; lib/capture.ts, lib/merchant.ts, lib/seller2.ts); each chart answers the mouse with the figures of
-// the bar or point under it. The site's one chart library (components/echarts.ts).
-import { baseStyle, token, useEChart } from "@/components/echarts";
+// the bar or point under it. Session 317 (the owner's ruling of 13 October 2026): drawn through the shared SVG set
+// (components/svgchart.tsx, CategoryChart) with the rows they took on the canvas; a month of debt payments and the
+// coverage lines at 1 and 1.25 are reference lines named on the chart; the range slider is gone, the table stands in.
+import { CategoryChart, type CatSeries } from "@/components/svgchart";
 
 const two = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const whole = (v: number) => Math.round(v).toLocaleString("en-US");
@@ -14,104 +16,47 @@ export type PremiumRow = { label: string; partial: boolean; months: number; sola
 
 /** (a) the premium or discount to the flat average, by year and over the last twelve months, solar and wind. */
 export function PremiumYears({ rows, hub, market, label }: { rows: PremiumRow[]; hub: string; market: string; label: string }) {
-  const box = useEChart((chart) => {
-    const s = baseStyle();
-    const bar = (key: "solar" | "wind", color: string) => rows.map((r) => ({ value: r[key] ? Math.round(r[key]!.premium * 100) / 100 : null, itemStyle: { color, opacity: r.partial ? 0.4 : 1 } }));
-    const line = (name: string, f: Fig) => (f
-      ? `${name}: ${two(f.price)} USD/MWh received, ${sign(f.premium)}${f.pct === null ? "" : ` (${sign(f.pct)} percent)`} against a flat ${two(f.flat)}, ${whole(f.hours)} hours`
-      : `${name}: not held`);
-    chart.setOption({
-      textStyle: s.textStyle,
-      grid: { left: 56, right: 16, top: 16, bottom: 30 },
-      tooltip: { ...s.tooltip, trigger: "axis", axisPointer: { type: "shadow" },
-        formatter: (ps: { dataIndex: number }[]) => {
-          const r = rows[ps[0].dataIndex];
-          return [`<strong>${r.label}</strong>${r.partial ? ` (${r.months} of 12 months counted)` : ""}, ${hub}, ${market}`, line("Solar", r.solar), line("Wind", r.wind),
-            "The grid's whole fleet by hour, not one site"].join("<br/>");
-        } },
-      xAxis: { type: "category", data: rows.map((r) => r.label), ...s.axis },
-      yAxis: { type: "value", name: "USD/MWh", nameLocation: "middle", nameGap: 40, ...s.axis },
-      series: [
-        { name: "Solar", type: "bar", data: bar("solar", token("accent")), barMaxWidth: 30 },
-        { name: "Wind", type: "bar", data: bar("wind", token("ink")), barMaxWidth: 30 },
-      ],
-    }, true);
-  }, [rows, hub, market]);
-  return <div ref={box} role="img" aria-label={label} data-chart="premium" style={{ height: 300 }} className="w-full" />;
+  const faint = rows.map((r) => r.partial);
+  const line = (name: string, f: Fig) => (f
+    ? `${name}: ${two(f.price)} USD/MWh received, ${sign(f.premium)}${f.pct === null ? "" : ` (${sign(f.pct)} percent)`} against a flat ${two(f.flat)}, ${whole(f.hours)} hours`
+    : `${name}: not held`);
+  const series: CatSeries[] = [
+    { name: "Solar", color: "accent", values: rows.map((r) => (r.solar ? Math.round(r.solar.premium * 100) / 100 : null)), kind: "bar", faint, digits: 2 },
+    { name: "Wind", color: "ink", values: rows.map((r) => (r.wind ? Math.round(r.wind.premium * 100) / 100 : null)), kind: "bar", faint, digits: 2 },
+  ];
+  return <div data-chart="premium"><CategoryChart id="premium" x={rows.map((r) => r.label)} series={series} unit="USD/MWh" label={label} height={300}
+    notes={rows.map((r) => `${r.partial ? `${r.months} of 12 months counted; ` : ""}${hub}, ${market}. ${line("Solar", r.solar)}. ${line("Wind", r.wind)}. The grid's whole fleet by hour, not one site`)} /></div>;
 }
 
 export type YearRow = { y: string; complete: boolean; months: number; v: number };
-/** Revenue (the peaker's margin) by calendar year, USD per kW of nameplate; a year short of twelve held months is pale. */
+/** Revenue (the peaker's margin) by calendar year, USD per kW of nameplate; a year short of twelve held months is hatched. */
 export function RevenueYears({ rows, money, label }: { rows: YearRow[]; money: string; label: string }) {
-  const box = useEChart((chart) => {
-    const s = baseStyle();
-    chart.setOption({
-      textStyle: s.textStyle,
-      grid: { left: 56, right: 16, top: 16, bottom: 30 },
-      tooltip: { ...s.tooltip, trigger: "axis", axisPointer: { type: "shadow" },
-        formatter: (ps: { dataIndex: number }[]) => {
-          const r = rows[ps[0].dataIndex];
-          return `<strong>${r.y}</strong>${r.complete ? "" : ` (${r.months} of 12 months held, not a full year)`}<br/>${money}: ${two(r.v)} USD per kW`;
-        } },
-      xAxis: { type: "category", data: rows.map((r) => r.y), ...s.axis },
-      yAxis: { type: "value", name: "USD/kW", nameLocation: "middle", nameGap: 40, ...s.axis },
-      series: [{ name: money, type: "bar", barMaxWidth: 40, data: rows.map((r) => ({ value: Math.round(r.v * 100) / 100, itemStyle: { color: token("accent"), opacity: r.complete ? 1 : 0.4 } })) }],
-    }, true);
-  }, [rows, money]);
-  return <div ref={box} role="img" aria-label={label} data-chart="years" style={{ height: 280 }} className="w-full" />;
+  return <div data-chart="years"><CategoryChart id="years" x={rows.map((r) => r.y)} unit="USD/kW" label={label} height={280}
+    series={[{ name: money, color: "accent", values: rows.map((r) => Math.round(r.v * 100) / 100), kind: "bar", faint: rows.map((r) => !r.complete), digits: 2 }]}
+    notes={rows.map((r) => (r.complete ? null : `${r.months} of 12 months held, not a full year`))} /></div>;
 }
 
 export type MonthRow = { m: string; revenue: number; held: boolean; share: number };
 /** Revenue per month for the reader's size, with one month of debt payments as a dashed line. */
 export function MonthlyRevenue({ rows, dsMonth, label }: { rows: MonthRow[]; dsMonth: number; label: string }) {
-  const box = useEChart((chart) => {
-    const s = baseStyle();
-    const accent = token("accent"), ink = token("ink"), rule = token("rule");
-    chart.setOption({
-      textStyle: s.textStyle,
-      grid: { left: 70, right: 16, top: 16, bottom: 56 },
-      tooltip: { ...s.tooltip, trigger: "axis", axisPointer: { type: "shadow" },
-        formatter: (ps: { dataIndex: number }[]) => {
-          const r = rows[ps[0].dataIndex];
-          const lines = [`<strong>${r.m}</strong>`, `Revenue: ${short(Math.round(r.revenue))} USD`];
-          if (!r.held) lines.push(`${Math.round(r.share * 100)} percent of the month held: shown, not counted`);
-          else if (dsMonth > 0) lines.push(`${r.revenue < dsMonth ? "Below" : "Above"} a month of debt payments, ${short(Math.round(dsMonth))} USD`);
-          return lines.join("<br/>");
-        } },
-      xAxis: { type: "category", data: rows.map((r) => r.m), ...s.axis },
-      yAxis: { type: "value", name: "USD", nameLocation: "middle", nameGap: 54, ...s.axis, axisLabel: { ...s.axis.axisLabel, formatter: (v: number) => short(v) } },
-      dataZoom: [{ type: "slider", height: 16, bottom: 6 }],
-      series: [{
-        name: "Revenue", type: "bar", barCategoryGap: "10%",
-        data: rows.map((r) => ({ value: Math.round(r.revenue), itemStyle: { color: !r.held ? rule : r.revenue < dsMonth ? accent : ink } })),
-        markLine: dsMonth > 0 ? { silent: true, symbol: "none", lineStyle: { color: accent, type: "dashed" }, label: { show: false }, data: [{ yAxis: dsMonth }] } : undefined,
-      }],
-    }, true);
-  }, [rows, dsMonth]);
-  return <div ref={box} role="img" aria-label={label} data-chart="months" style={{ height: 300 }} className="w-full" />;
+  // a month not held whole is hatched; below a month of debt payments the bar is the accent, above it ink (as before)
+  const below = rows.map((r) => (r.held && dsMonth > 0 && r.revenue < dsMonth ? Math.round(r.revenue) : null));
+  const above = rows.map((r) => (r.held && !(dsMonth > 0 && r.revenue < dsMonth) ? Math.round(r.revenue) : null));
+  const part = rows.map((r) => (r.held ? null : Math.round(r.revenue)));
+  const series: CatSeries[] = [
+    { name: dsMonth > 0 ? "Revenue above a month of debt payments" : "Revenue", color: "ink", values: above, kind: "bar", stack: "rev" },
+    ...(dsMonth > 0 ? [{ name: "Revenue below a month of debt payments", color: "accent", values: below, kind: "bar" as const, stack: "rev" }] : []),
+    ...(part.some((v) => v !== null) ? [{ name: "Part of the month held", color: "rule", values: part, kind: "bar" as const, stack: "rev" }] : []),
+  ];
+  return <div data-chart="months"><CategoryChart id="months" x={rows.map((r) => r.m)} series={series} unit="USD" label={label} height={300}
+    refLines={dsMonth > 0 ? [{ value: dsMonth, name: `a month of debt payments, ${short(Math.round(dsMonth))} USD`, dashed: true }] : undefined}
+    notes={rows.map((r) => (!r.held ? `${Math.round(r.share * 100)} percent of the month held: shown, not counted` : dsMonth > 0 ? `${r.revenue < dsMonth ? "Below" : "Above"} a month of debt payments, ${short(Math.round(dsMonth))} USD` : null))} /></div>;
 }
 
 /** Trailing-twelve-month debt coverage, with lines at 1.0 and 1.25 times. */
 export function CoverageLine({ rows, label }: { rows: { m: string; dscr: number }[]; label: string }) {
-  const box = useEChart((chart) => {
-    const s = baseStyle();
-    const accent = token("accent");
-    chart.setOption({
-      textStyle: s.textStyle,
-      grid: { left: 56, right: 44, top: 16, bottom: 30 },
-      tooltip: { ...s.tooltip, trigger: "axis",
-        formatter: (ps: { dataIndex: number }[]) => {
-          const r = rows[ps[0].dataIndex];
-          return `<strong>The twelve months to ${r.m}</strong><br/>Coverage: ${two(r.dscr)} times`;
-        } },
-      xAxis: { type: "category", data: rows.map((r) => r.m), ...s.axis },
-      yAxis: { type: "value", name: "times", nameLocation: "middle", nameGap: 40, ...s.axis },
-      series: [{
-        name: "Coverage", type: "line", showSymbol: false, lineStyle: { color: token("ink"), width: 2 }, itemStyle: { color: token("ink") },
-        data: rows.map((r) => Math.round(r.dscr * 100) / 100),
-        markLine: { silent: true, symbol: "none", lineStyle: { color: accent }, label: { color: accent, formatter: "{c}x" }, data: [{ yAxis: 1 }, { yAxis: 1.25, lineStyle: { color: accent, type: "dashed" } }] },
-      }],
-    }, true);
-  }, [rows]);
-  return <div ref={box} role="img" aria-label={label} data-chart="coverage" style={{ height: 240 }} className="w-full" />;
+  return <div data-chart="coverage"><CategoryChart id="coverage" x={rows.map((r) => r.m)} unit="times" label={label} height={240}
+    series={[{ name: "Coverage", color: "ink", values: rows.map((r) => Math.round(r.dscr * 100) / 100), kind: "line", width: 2, digits: 2 }]}
+    refLines={[{ value: 1, name: "1x" }, { value: 1.25, name: "1.25x", dashed: true }]}
+    nameOf={(i) => `The twelve months to ${rows[i].m}`} /></div>;
 }

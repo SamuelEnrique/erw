@@ -4,40 +4,23 @@
 //   Band    a series through its year against the five years before: their lowest to highest as a band, their mean
 //           dashed, last year thin, this year bold. The mouse reads each of them with its date and unit.
 //   Trend   a row's last 52 points as a small line that answers the mouse with the value, the date and the series.
+// Session 317 (the owner's ruling of 13 October 2026): the band is drawn through the shared SVG set
+// (components/svgchart.tsx, BandChart) with the row it took on the canvas; the trend was SVG already.
 import { useMemo, useState } from "react";
-import { baseStyle, token, useEChart } from "@/components/echarts";
+import { BandChart } from "@/components/svgchart";
 import { dateWords, fmt, shortDate, type Row } from "@/lib/supply";
 
 export function Band({ row, height = 300 }: { row: Row; height?: number }) {
   const s = row.season!;
-  const box = useEChart((chart) => {
-    const el: Element | null = box.current;  // session 241: the tokens and the text face in force at the chart's own box (the brand's, inside its wrapper)
-    const st = baseStyle(el);
-    const x = s.t.map((t) => shortDate(t, row.freq));
-    const year = s.t[0].slice(0, 4);
-    const n = (v: number | null | undefined) => (v === null || v === undefined ? null : v);
-    chart.setOption({
-      textStyle: st.textStyle, animation: false, toolbox: st.toolbox(`erw-supply-${row.id}`),
-      legend: { type: "scroll", top: 0, left: 0, right: 30, textStyle: { fontSize: 11 }, itemWidth: 14, itemHeight: 8, data: [year, String(Number(year) - 1), "Five-year average", "Five-year range"] },
-      tooltip: { ...st.tooltip, trigger: "axis", formatter: (ps: { dataIndex: number }[]) => {
-        const i = ps[0].dataIndex;
-        const line = (name: string, v: number | null) => (v === null ? "" : `<br/>${name}: <b>${fmt(v, row.unit)}</b> ${row.unit}`);
-        return `${row.label}, ${row.at}<br/>${dateWords(s.t[i], row.freq)}${line(year, s.cur[i])}${line(String(Number(year) - 1), s.last[i])}${line("Five-year average", s.avg[i])}`
-          + (s.lo[i] !== null ? `<br/>Five-year range: ${fmt(s.lo[i]!, row.unit)} to ${fmt(s.hi[i]!, row.unit)} ${row.unit}` : "");
-      } },
-      grid: { left: 62, right: 14, top: 48, bottom: 26 },
-      xAxis: { type: "category", data: x, boundaryGap: false, ...st.axis, splitLine: { show: false } },
-      yAxis: { type: "value", scale: true, name: row.unit, ...st.axis },
-      series: [
-        { name: "low", type: "line", stack: "band", showSymbol: false, lineStyle: { opacity: 0 }, data: s.lo.map(n), tooltip: { show: false } },
-        { name: "Five-year range", type: "line", stack: "band", showSymbol: false, lineStyle: { opacity: 0 }, areaStyle: { color: token("rule", el), opacity: 0.6 }, itemStyle: { color: token("rule", el) }, data: s.hi.map((h, i) => (h === null || s.lo[i] === null ? null : h - s.lo[i]!)) },
-        { name: "Five-year average", type: "line", showSymbol: false, lineStyle: { width: 1.2, type: "dashed", color: token("muted", el) }, itemStyle: { color: token("muted", el) }, data: s.avg.map(n) },
-        { name: String(Number(year) - 1), type: "line", showSymbol: false, lineStyle: { width: 1.2, color: token("fuel-gas", el) }, itemStyle: { color: token("fuel-gas", el) }, data: s.last.map(n) },
-        { name: year, type: "line", showSymbol: row.freq === "M", symbolSize: 5, lineStyle: { width: 2.4, color: token("accent", el) }, itemStyle: { color: token("accent", el) }, data: s.cur.map(n), z: 5 },
-      ],
-    }, true);
-  }, [row]);
-  return <div ref={box} role="img" aria-label={`${row.label}, ${row.at}: this year against the five years before`} style={{ height }} className="w-full" data-chart="band" data-band={row.id} />;
+  const year = s.t[0].slice(0, 4);
+  const n = (v: number | null | undefined) => (v === null || v === undefined ? null : v);
+  return (
+    <div data-band={row.id}>
+      <BandChart id={`erw-supply-${row.id}`} x={s.t.map((t) => shortDate(t, row.freq))} lo={s.lo.map(n)} hi={s.hi.map(n)} avg={s.avg.map(n)} last={s.last.map(n)} cur={s.cur.map(n)}
+        names={["Five-year range", "Five-year average", String(Number(year) - 1), year]} unit={row.unit} label={`${row.label}, ${row.at}: this year against the five years before`} height={height}
+        fmt={(v) => fmt(v, row.unit)} dateOf={(i) => dateWords(s.t[i], row.freq)} />
+    </div>
+  );
 }
 
 export function Trend({ row }: { row: Row }) {

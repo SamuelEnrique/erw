@@ -61,7 +61,7 @@ class TheBrand(unittest.TestCase):
 
     def test_the_chart_reads_the_tokens_at_its_own_box(self):
         chart = src("site", "app", "cost-of-power", "LoadCharts.tsx")
-        self.assertIn("const s = baseStyle(el);", chart)
+        self.assertIn('from "@/components/svgchart"', chart)   # session 317: the SVG chart draws in the tokens by name (var(--color-...)), at its own box by CSS
         self.assertEqual(len(re.findall(r'token\("(?:muted|accent|ink)", el\)', chart)), 4)
         lib = src("site", "components", "echarts.ts")
         # additive: without an element the token is read at the page's root, as every other chart reads it
