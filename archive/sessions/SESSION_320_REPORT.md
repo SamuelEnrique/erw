@@ -29,16 +29,26 @@
 | The probe (one question through the evaluation's step) | 0 (runner), 502 (route) | admitted by the step's ceiling; one model call, USD 0.0671; the ledger row refused (`23514`, migration 035 not applied); the step's ledger today 0 rows |
 | The thirty questions | not run | waits for migration 035 ("To finish") |
 | `tests.test_session320` | 0 | OK (4 run, 2 skipped: the recorded answers' tests skip until the fixtures exist) |
-| Suite, clean copy, the commit pushed | SUITE | |
-| `scripts/freeze.py status` | FREEZE | |
+| Suite, clean copy, the commit pushed | not run | stopped by the machine: at 23:02 UTC Claude Code stopped every background job of this chain for low memory (the suite at session 315's head, session 317's rebuild, sessions 318's and 319's queued builds), and a job so stopped is not restarted unattended (the chain's rule since 13 October, `archive/sessions/SESSION_209_REPORT.md`); this session's own tests pass in the worktree |
+| `scripts/freeze.py status` | 0 | no freeze at 23:02 UTC (no `REVIEW_FREEZE` file) |
 
 ## Landing of session 319 (recorded here: session 319's report is in that landing's own commit)
 
-LANDING319
+Session 319 had not landed when this session's work ended (its report, "To finish"); its landing's record goes here when it lands. Sessions 316, 317 and 318 stand the same way; session 315's landing is recorded in session 316's report.
 
 ## Landing
 
-LANDING
+Not landed. The chain's landings stopped after session 315's: stopped by the machine: at 23:02 UTC Claude Code stopped every background job of this chain for low memory (the suite at session 315's head, session 317's rebuild, sessions 318's and 319's queued builds), and a job so stopped is not restarted unattended (the chain's rule since 13 October, `archive/sessions/SESSION_209_REPORT.md`). The landing, after the thirty questions (or without them, the fixtures then absent and the tests skipping):
+
+```bash
+git fetch origin && git checkout -b task/320-ask origin/wip/320-ask && git merge origin/main
+bash runs/chain_oct19/land_checks.sh s320land 3320
+.venv\Scripts\python.exe scripts/freeze.py status
+node site/scripts/snapshot-live.mjs take s320-before
+git push -u origin task/320-ask
+bash runs/chain_oct19/land_wait.sh s320 $(git rev-parse HEAD) task/320-ask s320-before s320-after
+git push origin --delete wip/320-ask
+```
 
 ## To finish (the thirty questions, after migration 035)
 
