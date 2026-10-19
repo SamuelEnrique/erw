@@ -7,6 +7,7 @@ import indexJson from "@/public/network/daily_index.json";
 import { TABLE as SUPPLY_TABLE, supplyOf, type Supply } from "@/lib/basupply";
 import { fetchHourly, pickSnapshot } from "@/lib/network";
 import { completeHour, type DailyIndex } from "@/lib/networkV3";
+import type { Shape } from "@/lib/networkMap";
 import { HOURLY, attempt } from "@/lib/supabase";
 import { Network, type Snapshot } from "@/app/network/Network";
 import { ISO_BA, liveExtras, supplyRows } from "@/app/network/data";
@@ -36,7 +37,8 @@ const ET = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", mont
 const utc = (t: string) => `${t.slice(0, 16).replace("T", " ")} UTC`;
 const both = (t: string) => `${utc(t)} (${ET.format(new Date(t))} Eastern)`;
 
-export async function NetworkView({ keep, node }: { /** the page's own query, kept in the address: "?grid=ercot&view=network" */ keep: string; /** the balancing authority whose panel opens when the address names none */ node: string | null }) {
+export async function NetworkView({ keep, node, shape }: { /** the page's own query, kept in the address: "?grid=ercot&view=network" */ keep: string; /** the balancing authority whose panel opens when the address names none */ node: string | null;
+  /** session 299: the shape the page's tab is (the Gravity tab passes "gravity"); the address's, else the network, when absent */ shape?: Shape }) {
   const { snap, from } = pickSnapshot(await fetchHourly(HOURLY), committed);
   const isos = Object.entries(ISO_BA);
   const [reads, extras] = await Promise.all([Promise.all(isos.map(([, ba]) => attempt(() => supplyRows(ba)))), liveExtras(snap)]);
@@ -52,11 +54,13 @@ export async function NetworkView({ keep, node }: { /** the page's own query, ke
     <div data-grid-network="1">
       <p className="mb-4 max-w-3xl text-base leading-relaxed">The {snap.nodes.length} balancing authorities that report to EIA-930 and the power they exchange. Watch a story, replay any day since {index.first.slice(0, 4)}, or
           click a grid to see who supplies it and trace the power two steps back. The address holds what you are looking at: copy it to share the view.</p>
-      <Network snap={snap} supply={supply} live={extras} v3={{ index, complete }} page={{ keep, node }} />
+      <Network snap={snap} supply={supply} live={extras} v3={{ index, complete }} page={{ keep, node, shape }} />
       {/* session 266: the two-day lag, under the chart, computed from the snapshot (net|lag in lib/network.ts) */}
-      {(() => { const shownHour = complete.hour ?? newest; const lag = Math.round((Date.parse(snap.built) - Date.parse(shownHour)) / 3_600_000); return (
-        <p className="mt-3 max-w-3xl text-sm" data-network-lag={lag}>The newest hour shown, {hourName(shownHour)}, began <Num check={`net|lag|${shownHour}|${snap.built}`} raw={lag}>{shown(lag)}</Num> hours before
-          this week&apos;s latest hourly refresh ({utc(snap.built)}): EIA-930 publishes a balancing authority&apos;s interchange for a local day on the second morning after it, so the network runs about two days behind the clock.</p>
+      {(() => { const shownHour = complete.hour ?? newest; const lag = Math.round((Date.parse(snap.built) - Date.parse(shownHour)) / 3_600_000);
+        // session 299 (the owner's ruling 3c of 18 October 2026): both ages: against the snapshot's refresh (checkable, the key) and against the clock when this page was drawn (not a key: the clock is not a table)
+        const drawn = new Date(); const clockLag = Math.round((drawn.getTime() - Date.parse(shownHour)) / 3_600_000); return (
+        <p className="mt-3 max-w-3xl text-sm" data-network-lag={lag} data-network-clock-lag={clockLag}>The newest hour shown, {hourName(shownHour)}, began <Num check={`net|lag|${shownHour}|${snap.built}`} raw={lag}>{shown(lag)}</Num> hours before
+          this week&apos;s latest hourly refresh ({utc(snap.built)}), and {shown(clockLag)} hours before this page was drawn ({utc(drawn.toISOString())}): EIA-930 publishes a balancing authority&apos;s interchange for a local day on the second morning after it, so the network runs about two days behind the clock.</p>
       ); })()}
       <p className="mt-3 max-w-3xl text-xs text-muted" data-network-source={from}>
         The live week: refreshed {utc(snap.built)}. <span data-newest-complete={complete.hour ?? "none"}>{complete.hour

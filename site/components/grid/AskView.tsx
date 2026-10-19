@@ -7,14 +7,17 @@ import { AskForm } from "@/app/ask/AskForm";
 import { AskPanel } from "@/components/ask/AskPanel";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { SourceLine } from "@/components/tool/ToolPage";
-import type { GridChoice } from "@/lib/gridtool";
+import type { GridChoice, GridView } from "@/lib/gridtool";
 
-export function AskView({ grid, question }: { grid: GridChoice; question: string }) {
+/** Session 299: drawn as the panel beside every tab (`compact`: the panel's smaller type); `tab` is the view on screen,
+ * which ERCOT's context names (lib/askContext.ts: a path of the site and its settings), so the answer knows what the
+ * reader is looking at. The other grids' chats take the grid alone, as the existing routes do. */
+export function AskView({ grid, question, tab = "network", compact = false }: { grid: GridChoice; question: string; tab?: GridView; compact?: boolean }) {
   const q = question.slice(0, 500);
-  // the context is the one the grid's page sent (a path of the site, as lib/askContext.ts asks; /grid/ercot redirects here)
-  const context = { view: "/grid/ercot", title: "Your grid: ERCOT", settings: { grid: "ERCOT" } };
+  // the context: the grid page's path (a path of the site, as lib/chat/ercot.ts cleanContext admits it: no query) and the tab on screen in its title and settings
+  const context = { view: "/grid/ercot", title: `The grid: ERCOT, ${tab}`, settings: { grid: "ERCOT", tab } };
   return (
-    <div data-grid-view="ask" data-ask-scope={grid.slug === "ercot" ? "profile:ercot" : grid.slug === "us48" ? "general" : `general:${grid.slug}`}>
+    <div data-grid-view="ask" data-ask-compact={compact ? "1" : undefined} data-ask-scope={grid.slug === "ercot" ? "profile:ercot" : grid.slug === "us48" ? "general" : `general:${grid.slug}`}>
       {grid.slug === "ercot" ? (
         <>
           <p className="mb-4 max-w-3xl text-base leading-relaxed">

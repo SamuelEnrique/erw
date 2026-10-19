@@ -86,7 +86,8 @@ def main(path):
             r = max(R_MIN, R_CENTER * math.sqrt(g / scale))
         if mine and g is not None and g > 0:
             share = net / g
-            pull = clamp(share / S_FULL, -1, 1)
+            # session 299 (the owner's ruling 2c of 18 October 2026): a square-root scale, the full pull still at S_FULL
+            pull = clamp(math.copysign(math.sqrt(abs(share) / S_FULL), share), -1, 1)
         elif mine and g is not None and net != 0:
             pull = math.copysign(1, net)
         d = clamp(D_MID - D_SPAN * pull, R_CENTER + r + GAP, SIZE / 2 - r - GAP)

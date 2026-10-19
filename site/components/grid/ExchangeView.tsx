@@ -45,7 +45,7 @@ export async function ExchangeView({ grid }: { grid: GridChoice }) {
         <ToolSection title="The seven grids, that hour" note="Net export, MW: the sum of a grid's reporting ties, signed from its side. A negative number is a net import.">
           <ToolTable caption="Net export of the seven grids in the hour" minWidth={360} head={["Grid", "Net export, MW", "Ties reporting"]}
             rows={isos.map((g) => ({ key: g.slug, cells: [
-              <Link key="g" href={gridHref(g.slug, "exchange")}>{g.label}</Link>,
+              <Link key="g" href={gridHref(g.slug, "gravity")}>{g.label}</Link>,
               <Num key="n" check={`net|export|${g.ba}|${hour}`} raw={net.get(g.ba)!}>{shown(net.get(g.ba)!)}</Num>,
               <Num key="t" check={`net|ties|${g.ba}|${hour}`} raw={tiesAt(snap, g.ba, hour).length}>{shown(tiesAt(snap, g.ba, hour).length)}</Num>,
             ] }))} />

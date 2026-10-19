@@ -248,6 +248,12 @@ do erw_2026_grid_replication.do
 5. **EIA's annual figures.** (a) Add EIA's Electric Power Annual generation by balancing authority to the repository so the hourly sums can be checked against a published annual figure; (b) leave the cross-checks on EIA-930's own balance and the operators' figures held.
 6. **The other 63 balancing authorities in the gravity shape.** (a) Leave them out (built, said in a line); (b) put their hourly generation into the live set (a data change on the main machine); (c) draw them sized by the week's interchange volume, as the 3D network does.
 
+Ruled on 18 October 2026 (the owner's merge and the chain prompt of 19 October), built in session 299: 1 (a), one source,
+the break named in the shape's note; 2 (c), a square-root scale with the full pull still at 25 percent; 3 (c), both ages,
+the refresh's as the check key and the clock's beside it; 4 (b), the Lower 48; 6 (a), left out and counted in the note.
+Question 5 stands. The page says these in its decisions block; `docs/methods/grid_network.md`, "One page, four tabs, and
+the Ask panel (session 299)", carries the method.
+
 ## Appendix: the five-minute demo
 
 On the machine you will show it from, open the internal view first: `https://erw-flame.vercel.app/internal/open`, paste the token and press **Open the internal view**. Then `https://erw-flame.vercel.app/grid`. Written from the page's code, its data files and its check scripts; session 266 clicked the gravity shape on a local build, not this path.
