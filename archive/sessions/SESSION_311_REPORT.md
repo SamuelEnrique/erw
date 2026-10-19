@@ -42,7 +42,7 @@ Read and kept, with no verdict (their tables stay "not settled"): the Arizona Co
 
 ## The landing
 
-See below (filled at the push).
+- freeze 0; before `s311-before` 12:24:42 UTC; merged origin/main; pushed 12:24:49 (`1bc96560`); deployment 7173700231 success 12:26:59; after `s311-after` 12:32:02; compare: **0 differences on 25 pages** (expected: every page is in review).
 
 ## Decisions made without you
 

@@ -1,6 +1,6 @@
 {
  "about": "Published low and high cases of the battery's assumptions, from warehouse/output/battery_sourced_ranges.csv (warehouse/connectors/sourced_ranges.py, session 306). One row per source, case and assumption; an assumption a source does not state has no row.",
- "built": "20261019T090956Z",
+ "built": "20261019T124018Z",
  "not_stated": {
   "nlr:atb-2025-v1": [
    "cycles a year or a day",

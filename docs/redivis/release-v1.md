@@ -18,7 +18,7 @@ Energy Research Warehouse (ERW), session 275 (14 October 2026). Everything for o
    A permission recorded before the day (a filled `permission` column in `license_status.csv`) moves that table into v1 here.
 2. **Check the draft against the tables on disk:** `python warehouse/redivis/upload.py --reconcile` (read only: `count(*)` of every draft table against its CSV, written to `runs/redivis_reconcile.csv`). Every row should match.
 3. **Open the dataset** on redivis.com, switch to the draft (version `next`).
-4. **Remove the 40 held tables from the draft**, each named in `tables.csv` with `in_v1 = no`: the table's menu, Delete (the draft only; a released version keeps what it held). Do this right before the click: the daily upload puts a held table back into the public draft whenever its data changes, because the uploader routes by coverage's flag (ruling 1 below).
+4. **Remove the 41 held tables from the draft**, each named in `tables.csv` with `in_v1 = no`: the table's menu, Delete (the draft only; a released version keeps what it held). Do this right before the click: the daily upload puts a held table back into the public draft whenever its data changes, because the uploader routes by coverage's flag (ruling 1 below).
 5. **The dataset's README:** paste `docs/redivis/release-v1/README.md` into the dataset's description.
 6. **Spot-check three tables:** each table's description is its provenance header (cut at Redivis's 2,000 characters), and its license line is in it.
 7. **Click Release.** The version's note: `v1: ERW commit <git rev-parse HEAD>, the daily run of <date>; 126 tables and 3 metadata tables; 41 held for a license (docs/redivis/release-v1/tables.csv)`.
@@ -33,5 +33,5 @@ Each table's own line is in `tables.csv`, column `citation`.
 ## For a ruling before the day
 
 1. **The uploader and the held tables.** `upload.py` routes a table by coverage's flag, so from 21 October a held table whose data changes goes back into the public draft, and step 4 must be repeated before each release. One change would route a held table to the private dataset from its date. Make it?
-2. **The by-grid tables.** 34 of the 40 are held only for ISO-NE's, MISO's and NYISO's rows on the site; v1 holds them out whole. A copy without those rows could be in v1 instead.
+2. **The by-grid tables.** 35 of the 41 are held only for ISO-NE's, MISO's and NYISO's rows on the site; v1 holds them out whole. A copy without those rows could be in v1 instead.
 3. **Who clicks:** the owner's account (`owner_kind: user` in `warehouse/redivis/config.yaml`), or the dataset moved to Ben Domingue's organization first.
