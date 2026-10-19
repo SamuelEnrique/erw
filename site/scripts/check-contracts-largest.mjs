@@ -16,7 +16,7 @@
 // Exit 1 on a failure.
 import fs from "node:fs";
 import http from "node:http";
-import { env } from "./browser.mjs";
+import { env, unlockPost } from "./browser.mjs";
 import * as c from "../lib/contracts.ts";
 
 const fixture = process.argv[2];
@@ -44,7 +44,7 @@ const server = http.createServer((req, res) => {
 await new Promise((r) => server.listen(port, "127.0.0.1", r));
 
 const token = env("INTERNAL_COSTS_TOKEN");
-const unlock = await fetch(`${base}/internal/unlock?token=${encodeURIComponent(token ?? "")}`, { redirect: "manual" });
+const unlock = await unlockPost(base, token ?? "");
 const cookie = (unlock.headers.getSetCookie?.() ?? []).map((x) => x.split(";")[0]).join("; ");
 if (!cookie) { console.log(`FAILED: ${base}/internal/unlock gave no cookie`); server.close(); process.exit(1); }
 const get = async (path, withCookie = true) => { const r = await fetch(base + path, { headers: withCookie ? { Cookie: cookie } : {} }); return { status: r.status, html: await r.text() }; };

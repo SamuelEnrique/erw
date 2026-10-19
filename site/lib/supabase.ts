@@ -1,10 +1,15 @@
 // Energy Research Warehouse (ERW) site: the one way the site reads Supabase.
 //
-// PostgREST over plain fetch, with SUPABASE_URL and SUPABASE_ANON_KEY only. The
+// PostgREST over plain fetch, with SUPABASE_URL and SUPABASE_ANON_KEY for every read. The
 // anon key is subject to row-level security (warehouse/supabase/migrations/002_rls.sql):
-// it sees public rows and nothing else. The service key is never read here. Since session 19
-// it also inserts into subscribers, the one table the anon key may write (migration 005).
-// Both variables are server-side (no NEXT_PUBLIC_ prefix), so neither reaches a browser.
+// it sees public rows and nothing else. Since session 19 the site also inserts into subscribers,
+// and since then the game's tables and the model-call ledger (migrations 005, 010, 013).
+// Session 301 (docs/reviews/2026-10-10-security.md, H3 and M1): the site's writes (insertRow, and rpc with
+// `privileged`) go with SUPABASE_SERVICE_KEY when the server holds it, so the anon key's insert policies on those
+// tables can be dropped (migration 034) and a holder of the anon key can write nothing. Without the service key the
+// writes still go with the anon key, as before, so the order of the change is free: key first, site second, policy
+// last. The service key is read by writeConfig() only, never for a read, and like the other two variables it is
+// server-side (no NEXT_PUBLIC_ prefix): none reaches a browser.
 import "server-only";
 import { gridOfEntity, licenseByGrid, licenseHeldGrid, licenseHeldRow, licenseNeeded, licenseReason } from "./license";
 
@@ -94,6 +99,18 @@ function config(): { base: string; key: string } {
     throw new NotConfigured("SUPABASE_URL or SUPABASE_ANON_KEY is not set on the server");
   }
   return { base: new URL(url).origin, key };
+}
+
+/** Session 301: the key a write goes with: the service key when the server holds it (row-level security does not
+ * bind it, so the anon key's insert policies can go), else the anon key as before. */
+function writeConfig(): { base: string; key: string; role: "service" | "anon" } {
+  const c = config();
+  const service = process.env.SUPABASE_SERVICE_KEY;
+  return service ? { ...c, key: service, role: "service" } : { ...c, role: "anon" };
+}
+/** Which key the site's writes go with on this server (for a check, never a page). */
+export function writeRole(): "service" | "anon" {
+  return process.env.SUPABASE_SERVICE_KEY ? "service" : "anon";
 }
 
 // Session 148: the pages of one large read are asked for together, PAGES_TOGETHER at a time, outside the build. Until
@@ -273,9 +290,11 @@ export async function required<T>(f: () => Promise<T>): Promise<{ ok: true; data
  * Session 19: add one row to a table the anon key may insert into (subscribers, migration 005).
  * Asks for no row back: the anon key cannot read that table.
  */
-/** Session 23: call a database function the anon key may execute (subscribe_confirm, subscribe_unsubscribe). */
-export async function rpc<T>(fn: string, args: Record<string, string>): Promise<T> {
-  const { base, key } = config();
+/** Session 23: call a database function the anon key may execute (subscribe_confirm, subscribe_unsubscribe).
+ * Session 301: `privileged` calls it with the write key (site_ask_admit, whose execute right the anon key loses in
+ * migration 034), so no holder of the anon key can fill the question tools' counts. */
+export async function rpc<T>(fn: string, args: Record<string, string>, opts: { privileged?: boolean } = {}): Promise<T> {
+  const { base, key } = opts.privileged ? writeConfig() : config();
   const res = await fetch(`${base}/rest/v1/rpc/${fn}`, {
     method: "POST",
     headers: { apikey: key, Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
@@ -287,7 +306,7 @@ export async function rpc<T>(fn: string, args: Record<string, string>): Promise<
 }
 
 export async function insertRow(table: string, row: Record<string, string | boolean | string[] | number | number[] | null | object>): Promise<void> {
-  const { base, key } = config();
+  const { base, key } = writeConfig();   // session 301: the service key when held (subscribers, game_scores, game_plays, site_api_calls)
   const res = await fetch(`${base}/rest/v1/${table}`, {
     method: "POST",
     headers: { apikey: key, Authorization: `Bearer ${key}`, "Content-Type": "application/json", Prefer: "return=minimal" },

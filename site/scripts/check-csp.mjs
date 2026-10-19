@@ -89,9 +89,13 @@ const code = await withBrowser(async ({ go, evaluate, unlock, send, sleep }) => 
       await new Promise((r) => setTimeout(r, 700));
       return { seen: window.__csp.slice(before), ran: window.__probe === 1 };
     })()`);
-    const caught = probe.seen.some((v) => v.disposition === "report" && /script-src/.test(v.directive));
-    console.log(`${caught && probe.ran ? "ok  " : "FAIL"} the detector: a script from a data: address is reported by the full policy${probe.ran ? " and still runs (report-only)" : " and DID NOT RUN (the policy is enforced?)"}`);
-    if (!caught || !probe.ran) failed += 1;
+    // session 301: the full policy is enforced (next.config.ts), with the report-only header beside it for a week: the
+    // probe must be blocked (disposition "enforce") and not run; under report-only alone it was reported and still ran
+    const reportedOnly = probe.seen.some((v) => v.disposition === "report" && /script-src/.test(v.directive));
+    const blocked = probe.seen.some((v) => v.disposition === "enforce" && /script-src/.test(v.directive));
+    const caught = blocked ? !probe.ran : reportedOnly && probe.ran;
+    console.log(`${caught ? "ok  " : "FAIL"} the detector: a script from a data: address is ${blocked ? "blocked by the enforced policy" : "reported by the full policy"}${probe.ran ? (blocked ? " and STILL RAN" : " and still runs (report-only)") : (blocked ? " and did not run" : " and DID NOT RUN (the policy is enforced?)")}`);
+    if (!caught) failed += 1;   // session 301: under the enforced policy the probe must not run
     await go(base + "/storage");
     await sleep(3000);
     charts = await evaluate("typeof window.echarts === 'object' && document.querySelectorAll('canvas').length > 0");

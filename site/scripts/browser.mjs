@@ -11,6 +11,10 @@
 //   evaluate(js)           run an expression in the page and return its value (a promise is awaited)
 //   wait(js, ms, what)     poll an expression until it is truthy; throws with `what` after ms (default 15 s)
 //   unlock(base)           open the internal view (INTERNAL_COSTS_TOKEN from the environment, site/.env.local or ../.env)
+//                          Session 301 (the security review's H1): by the form at /internal/open, the token in the posted
+//                          body, never in an address. unlockPost(base, token) is the same door for a script that
+//                          fetches (the Cookie header is read from its answer), unlockForm(h, base, token) for a
+//                          script that drives its own browser.
 //   requests               every request the page made: { at, kind, url }
 //
 // No browser on the machine: withBrowser returns null (the caller says "not proven here"); on the workflow's runner
@@ -34,6 +38,35 @@ export function env(name) {
     }
   }
   return undefined;
+}
+
+/** Session 301 (docs/reviews/2026-10-10-security.md, H1): the internal view opened as a script, by a POST of the token
+ * to /internal/unlock in the request's body (the form's own door, session 177), never by the old link that put the
+ * token in an address. Returns the answer (a 303 carrying the two cookies: read them with getSetCookie()); with no
+ * token, a 404 made here, no request sent (the old link answered 404 too, and a wrong try would count). */
+export async function unlockPost(base, token) {
+  if (!token) return new Response("Not found", { status: 404 });
+  const origin = new URL(base).origin;
+  return fetch(`${origin}/internal/unlock`, {
+    method: "POST", redirect: "manual",
+    headers: { "Content-Type": "application/x-www-form-urlencoded", Origin: origin, "User-Agent": "erw-check (node)" },
+    body: new URLSearchParams({ token }).toString(),
+  });
+}
+
+/** The same door from inside a browser a script drives: the form at /internal/open is filled and submitted, and the
+ * script waits until the home page is shown with the view's cookie (as check-csp.mjs proves it). `h` is the script's
+ * own { go, evaluate, sleep }; `base` may be "" when its go() takes a path. Throws when the view does not open. */
+export async function unlockForm(h, base, token) {
+  const pause = h.sleep ?? sleep;
+  await h.go(`${base}/internal/open`);
+  await h.evaluate(`(() => { const i = document.querySelector('form[action="/internal/unlock"] input[name="token"]'); i.value = ${JSON.stringify(token)}; i.form.requestSubmit(); })()`);
+  for (let i = 0; i < 60; i += 1) {
+    await pause(250);
+    const landed = await h.evaluate("location.pathname === '/' && document.cookie.split(';').some((c) => c.trim() === 'erw_view=internal')").catch(() => false);
+    if (landed) return;
+  }
+  throw new Error("the form at /internal/open did not open the internal view");
 }
 
 export function browserPath() {
@@ -112,7 +145,7 @@ export async function withBrowser(check, { width = 1280, height = 900 } = {}) {
     const unlock = async (base) => {
       const token = env("INTERNAL_COSTS_TOKEN");
       if (!token) throw new Error("INTERNAL_COSTS_TOKEN is not set: the pages in review cannot be opened");
-      await go(`${base}/internal/unlock?token=${encodeURIComponent(token)}`);
+      await unlockForm({ go, evaluate, sleep }, base, token);   // session 301: the form, never the token in an address
     };
     await send("Page.enable");
     await send("Network.enable");

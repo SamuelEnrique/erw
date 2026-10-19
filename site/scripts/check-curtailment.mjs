@@ -30,7 +30,7 @@
 // cell of the heatmap says its count; a tile of the schematic opens its place.
 // Exit 1 on a failure.
 import fs from "node:fs";
-import { env, withBrowser } from "./browser.mjs";
+import { env, withBrowser, unlockPost } from "./browser.mjs";
 import * as c from "../lib/curtailment.ts";
 import * as v2 from "../lib/curtailmentv2.ts";
 import * as fe from "../lib/freeenergy.ts";
@@ -49,7 +49,7 @@ function inside(point, geometry) {
 }
 let mappedSeen = 0, tilesSeen = 0;
 
-const unlock = await fetch(`${base}/internal/unlock?token=${encodeURIComponent(env("INTERNAL_COSTS_TOKEN") ?? "")}`, { redirect: "manual" });
+const unlock = await unlockPost(base, env("INTERNAL_COSTS_TOKEN") ?? "");
 const cookie = (unlock.headers.getSetCookie?.() ?? []).map((x) => x.split(";")[0]).join("; ");
 if (!cookie) { console.log(`FAILED: ${base}/internal/unlock gave no cookie (INTERNAL_COSTS_TOKEN missing or not the server's)`); process.exit(1); }
 const get = async (path, withCookie = true) => { const r = await fetch(base + path, { headers: withCookie ? { Cookie: cookie } : {}, redirect: "manual" }); return { status: r.status, html: await r.text(), location: r.headers.get("location") }; };
