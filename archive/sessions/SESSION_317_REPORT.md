@@ -40,18 +40,34 @@ In the internal view (https://erw-flame.vercel.app/internal/open first).
 | The canvas detector (`runs/chain_oct19/s303_canvas.mjs`) on nine pages | 0 | the counts above; 0 canvas on every moved page but the Mix tab's four share bars |
 | `check-values.mjs` on `/curtailment`, `/supply`, `/cost-of-power`, `/grid`, `/prices`, `/mix` | 0 | 2,633 of 2,633 |
 | `check-routes`, `check-curtailment`, `check-supply`, `check-datacenter-scenarios`, `check-seller-scenarios` | 0 × 5 | 211 pages; 118 of 118; 27 of 27; 119 of 119; all passed |
-| `check-mix`, the second commit | 1 | three checks: the heat legend's words and the stack markers (fixed in the third commit); its rerun on `1a0a97da`: MIXRERUN |
+| `check-mix`, the second commit | 1 | three checks: the heat legend's words and the stack markers (fixed in the third commit); its rerun on `1a0a97da` was stopped by the machine: at 23:02 UTC Claude Code stopped every background job of this chain for low memory (the suite at session 315's head, session 317's rebuild, this session's queued build), and a job so stopped is not restarted unattended (the chain's rule since 13 October, `archive/sessions/SESSION_209_REPORT.md`); the commands are under "To finish" (`check-mix.mjs` is named in the landing's command) |
 | Captures, 1280 and 390, six pages, before and after | | `docs/brand/review-317/`; four shots of 1280 retaken (the internal door's form was not ready the first time) |
-| Suite, clean copy, the commit pushed | SUITE | |
-| `scripts/freeze.py status` | FREEZE | |
+| Suite, clean copy, the commit pushed | not run | the same |
+| `scripts/freeze.py status` | 0 | no freeze at 23:02 UTC (no `REVIEW_FREEZE` file) |
 
 ## Landing of session 316 (recorded here: session 316's report is in that landing's own commit)
 
-LANDING316
+Session 316 had not landed when this session's work ended (its report, "To finish"); its landing's record goes here when it lands.
 
 ## Landing
 
-LANDING
+Not landed. The chain's landings stopped after session 315's: stopped by the machine: at 23:02 UTC Claude Code stopped every background job of this chain for low memory (the suite at session 315's head, session 317's rebuild, this session's queued build), and a job so stopped is not restarted unattended (the chain's rule since 13 October, `archive/sessions/SESSION_209_REPORT.md`); the commands are under "To finish".
+
+## To finish
+
+Each step on the code machine from the main copy, one landing at a time (no `task/` push waiting while a build or a suite runs), outside 14:00 to 16:15 and 22:30 to 23:45 UTC. `land_checks.sh` takes the build mutex, runs the whole suite in `erw-check` at the main copy's head, builds, serves, and runs `check-values`, `check-routes` and the checks named; `land_wait.sh` waits for GitHub's check and the merge, probes production for the new build, takes the after snapshot and compares. Read `runs/chain_oct19/<label>/result.txt` and `wait_result.txt`; every difference of the comparison goes into the next report, marked expected or not. Session 316 lands first.
+
+```bash
+git fetch origin && git checkout -b task/317-charts origin/wip/317-charts && git merge origin/main
+bash runs/chain_oct19/land_checks.sh s317land 3317 check-mix.mjs check-curtailment.mjs check-supply.mjs check-datacenter-scenarios.mjs check-seller-scenarios.mjs
+.venv\Scripts\python.exe scripts/freeze.py status
+node site/scripts/snapshot-live.mjs take s317-before
+git push -u origin task/317-charts
+bash runs/chain_oct19/land_wait.sh s317 $(git rev-parse HEAD) task/317-charts s317-before s317-after
+git push origin --delete wip/317-charts
+```
+
+Optional, before the push: `bash runs/chain_oct19/s317_build.sh` in the background (erw-296 at the branch's head: the build, the canvas detector on the nine pages, the checks, and the 1280 and 390 shots retaken on the last commit, whose heat legend reads "no value held"); its result in `runs/chain_oct19/s317/result.txt`.
 
 ## Decisions made without you
 
