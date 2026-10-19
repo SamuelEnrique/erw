@@ -344,7 +344,7 @@ class Wiring(unittest.TestCase):
     def test_the_weekly_refresh_runs_the_four_connectors_under_health_and_validates_their_tables(self):
         sh = src("warehouse", "refresh_supply.sh")
         self.assertIn("for t in ercot_zone nyiso_zone isone_zone caiso_area; do", sh)
-        self.assertIn('health.py run --step "${t}_load" -- "$PY" "warehouse/connectors/${t}_load.py"', sh)
+        self.assertIn('health.py run --step "${t}_load" -- "$PY" warehouse/pull_budget.py --minutes "${PULL_BUDGET_MIN:-15}" --step "${t}_load" -- "$PY" "warehouse/connectors/${t}_load.py"', sh)
         self.assertIn("warehouse/output/cftc_cot_positions.csv $CLEARED $LOADS", sh)
         self.assertNotRegex(sh, r"(miso|pjm)_(zone|area)_load")
         self.assertIn("bash warehouse/refresh_supply.sh", src("warehouse", "run_daily.sh"))            # the daily run calls the refresh on Saturdays
