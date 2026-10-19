@@ -111,8 +111,9 @@ class TheWrapper(unittest.TestCase):
             self.assertNotIn("<Brand>", page, "/".join(name))
             self.assertIn("data-no-usage", page, "/".join(name))
 
-    def test_the_home_page_does_not_carry_the_wrapper(self):
-        self.assertNotIn("<Brand", src("site", "app", "page.tsx"))
+    def test_the_home_page_carries_the_wrapper_since_session_300(self):
+        # session 241 left the home page outside the brand; session 300 (the owner's ruling of 18 October 2026) built it in the brand
+        self.assertIn("<Brand>", src("site", "app", "page.tsx"))
 
     def test_the_wrapper_is_the_one_of_session_235(self):
         brand = src("site", "components", "Brand.tsx")

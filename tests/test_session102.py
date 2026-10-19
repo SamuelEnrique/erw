@@ -57,7 +57,7 @@ class ReviewHold(unittest.TestCase):
         tools = src("site", "lib", "chat", "tools.ts")
         self.assertIn('c.in_live_set !== "yes" && c.in_live_set !== "review"', tools)   # Ask, in review itself, reads them
         home = src("site", "app", "page.tsx")
-        self.assertIn("required(catalogue)", home)           # the home page's counts come through that reader
+        self.assertNotIn("catalogue|", home)                 # session 300: the home page counts no table; a count elsewhere comes through that reader
 
 
 class TermsPage(unittest.TestCase):

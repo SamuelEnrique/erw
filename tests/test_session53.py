@@ -94,9 +94,10 @@ class Links(unittest.TestCase):
         home = src("site", "app", "page.tsx")
         tour = src("site", "lib", "tour.ts")
         routes = src("site", "scripts", "check-routes.mjs")
-        cards = re.findall(r'\{ href: "([^"]+)", name:', home)
+        # session 300: the home page links the five groups' first pages (lib/pages.ts) and the board, research, the digest and the roundup
+        cards = sorted(set(re.findall(r'href="(/[a-z][^"]*)"', home)))
         stops = re.findall(r'href: "([^"]+)", title:', tour)
-        self.assertGreaterEqual(len(cards), 15)
+        self.assertGreaterEqual(len(cards), 4)
         self.assertEqual(len(stops), 7)   # session 292 (ruling 11a): seven stops
         for h in cards + stops + ["/tour"]:
             self.assertTrue(route_exists(h), h)
@@ -104,11 +105,13 @@ class Links(unittest.TestCase):
 
     def test_home_layout(self):
         home = src("site", "app", "page.tsx")
-        self.assertIn('href="/tour"', home)
-        self.assertLess(home.index("<PriceBoard />"), home.index('<Audience title="Students and teachers"'))
-        for a in ("Students and teachers", "Investors and lenders", "Researchers"):
-            self.assertIn(f'<Audience title="{a}"', home)
-        self.assertIn("AI&apos;s demand for power", home)
+        # session 300 (the owner's ruling of 18 October 2026, mockup A): the one line, the "right now" strip, today's chart,
+        # the five groups, the latest Digest, in that order; the three audiences and the tour's button are gone from the page
+        self.assertIn('title="The live, citable record of the US energy system."', home)
+        self.assertLess(home.index("<RightNow />"), home.index("<TodayChart />"))
+        self.assertLess(home.index("<TodayChart />"), home.index("<Groups N={N} />"))
+        self.assertLess(home.index("<Groups N={N} />"), home.index("<Digest />"))
+        self.assertEqual(home.count('<Audience title='), 0)
 
     def test_tour_minutes(self):
         tour = src("site", "lib", "tour.ts")
