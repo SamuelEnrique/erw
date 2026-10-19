@@ -256,13 +256,18 @@ for (const [q, period, dur] of [["/curtailment", null, 4], ["/curtailment?period
 // ---- a real browser: every chart answers the mouse ------------------------------------------------------------------
 const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, errors, sleep }) => {
   await open(base);
-  const tip = (id, s, i) => evaluate(`(() => { const el = document.querySelector('[data-chart="${id}"]'); if (!el) return 'NO CHART'; const chart = window.echarts && window.echarts.getInstanceByDom(el); if (!chart) return 'NO INSTANCE';
-    chart.resize(); chart.dispatchAction({ type: 'showTip', seriesIndex: ${s}, dataIndex: ${i} });
-    return new Promise((ok) => setTimeout(() => ok([...el.querySelectorAll('div')].map((d) => d.innerText || '').filter((t) => t.trim()).sort((x, y) => x.length - y.length)[0] ?? ''), 450)); })()`);
+  // session 317: the charts are SVG (components/svgchart.tsx); the mouse is put on a category of the chart named and
+  // the hover card's words are read (a heat map: on the cell at a point's index, row-major)
+  const tip = (id, s, i) => evaluate(`(() => { const el = document.querySelector('[data-chart="${id}"]'); if (!el) return 'NO CHART'; const svg = el.querySelector('svg'); if (!svg) return 'NO SVG';
+    const r = svg.getBoundingClientRect(); let x, y;
+    if (svg.dataset.cellW) { const c = ${i} % Number(svg.dataset.cols), rw = Math.floor(${i} / Number(svg.dataset.cols)); x = r.left + Number(svg.dataset.plotLeft) + (c + 0.5) * Number(svg.dataset.cellW); y = r.top + Number(svg.dataset.plotTop) + (rw + 0.5) * Number(svg.dataset.cellH); }
+    else { const L = Number(svg.dataset.plotLeft), R = Number(svg.dataset.plotRight), n = Number(svg.dataset.n); x = r.left + L + (${i} + 0.5) * (R - L) / n; y = r.top + r.height / 2; }
+    svg.dispatchEvent(new MouseEvent('mousemove', { bubbles: true, clientX: x, clientY: y }));
+    return new Promise((ok) => setTimeout(() => ok(el.querySelector('[data-chart-card]')?.innerText ?? ''), 350)); })()`);
   const charts = async (path, wants) => {
     await go(base + path);
     await evaluate(`document.querySelectorAll('details').forEach((d) => { d.open = true; })`);
-    await wait(`[...document.querySelectorAll('[data-chart]')].length >= ${wants.length} && [...document.querySelectorAll('[data-chart]')].every((el) => el.querySelector('canvas'))`, 45000, `the charts of ${path}`);
+    await wait(`[...document.querySelectorAll('[data-chart]')].length >= ${wants.length} && [...document.querySelectorAll('[data-chart]')].every((el) => el.querySelector('svg'))`, 45000, `the charts of ${path}`);
     await sleep(600);
     for (const [id, s, i, re] of wants) {
       const t = (await tip(id, s, i)).replace(/\s+/g, " ");

@@ -111,14 +111,16 @@ const text = plain(html);
 const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, errors }) => {
   await open(base);
   await go(`${base}/supply`);
-  const bands = await wait(`(() => { const all = document.querySelectorAll('[data-chart="band"]'); const drawn = document.querySelectorAll('[data-chart="band"] canvas'); return all.length >= 8 && all.length === drawn.length ? all.length : 0; })()`, 40000, "the band charts");
+  // session 317: the bands are SVG (components/svgchart.tsx, BandChart); a drawn band holds its svg
+  const bands = await wait(`(() => { const all = document.querySelectorAll('[data-band]'); const drawn = document.querySelectorAll('[data-band] svg'); return all.length >= 8 && all.length === drawn.length ? all.length : 0; })()`, 40000, "the band charts");
   check(true, `the ${bands} seasonal band charts are drawn`);
   check(await evaluate(`!!document.querySelector('a[href="/data/methods/supply_and_trade"]')`), "in the internal view the Method note is a link");
   const r = row("eia-nw2-epg0-swo-r48-bcf");
   const i = r.season.t.indexOf(r.last.t);
-  const tip = await evaluate(`(() => { const el = document.querySelector('[data-band="${r.id}"]'); const chart = window.echarts.getInstanceByDom(el);
-    chart.dispatchAction({ type: 'showTip', seriesIndex: 4, dataIndex: ${i} });
-    return new Promise((ok) => setTimeout(() => ok([...el.querySelectorAll('div')].map((d) => d.innerText || '').filter((t) => /Five-year average/.test(t)).sort((x, y) => x.length - y.length)[0] ?? ''), 400)); })()`);
+  const tip = await evaluate(`(() => { const el = document.querySelector('[data-band="${r.id}"]'); const svg = el.querySelector('svg'); const b = svg.getBoundingClientRect();
+    const L = Number(svg.dataset.plotLeft), R = Number(svg.dataset.plotRight), n = Number(svg.dataset.n);
+    svg.dispatchEvent(new MouseEvent('mousemove', { bubbles: true, clientX: b.left + L + (${i} / Math.max(1, n - 1)) * (R - L), clientY: b.top + b.height / 2 }));
+    return new Promise((ok) => setTimeout(() => ok(el.querySelector('[data-chart-card]')?.innerText ?? ''), 350)); })()`);
   check(tip.includes(dateWords(r.last.t)) && tip.includes(fmt(r.last.v, r.unit)) && /Five-year average/.test(tip) && /Five-year range/.test(tip) && /Bcf/.test(tip),
     `a band chart answers the mouse with the date, each series and the unit ("${tip.replace(/\s+/g, " ").slice(0, 150)}")`);
   const trend = await evaluate(`(() => { const svg = document.querySelector('[data-trend="eia-wcestus1"] svg'); const b = svg.getBoundingClientRect();
@@ -127,7 +129,7 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, errors
     return new Promise((ok) => setTimeout(() => ok(document.querySelector('[data-trend="eia-wcestus1"] [role="tooltip"]')?.innerText ?? ''), 300)); })()`);
   check(/Commercial crude|crude/i.test(trend) && /million bbl on \d+ \w{3} 20\d\d/.test(trend), `a trend line answers the mouse with the series, the value and the date ("${trend.replace(/\s+/g, " ").slice(0, 110)}")`);
   await evaluate(`document.querySelector('[data-open="eia-wdistus1"]').click()`);
-  await wait(`location.search.includes('s=eia-wdistus1') && !!document.querySelector('[data-open-chart="eia-wdistus1"] canvas')`, 20000, "the opened chart");
+  await wait(`location.search.includes('s=eia-wdistus1') && !!document.querySelector('[data-open-chart="eia-wdistus1"] svg')`, 20000, "the opened chart");
   check(true, "a row opens its seasonal chart, and the address holds it");
   await evaluate(`document.querySelector('[data-chip="position"]').click()`);
   await wait(`location.search.includes('g=position') && document.querySelectorAll('[data-group]').length === 1`, 20000, "one group");
@@ -142,7 +144,7 @@ else {
     await open(base);
     await send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 1, mobile: false });
     await go(`${base}/supply`);
-    await wait(`document.querySelectorAll('[data-chart="band"] canvas').length >= 8`, 40000, "the band charts on a phone");
+    await wait(`document.querySelectorAll('[data-band] svg').length >= 8`, 40000, "the band charts on a phone");
     const w = await evaluate(`[document.documentElement.scrollWidth, window.innerWidth]`);
     check(w[0] <= w[1] + 1, `at a phone's width the page does not scroll sideways (${w[0]} in ${w[1]}); its tables scroll inside themselves`);
     return 0;

@@ -180,7 +180,7 @@ export function CategoryChart({ id, x, series, unit, unit2 = "", label, height =
       {table ? <DataTable label={label} id={id} head={["Period", ...series.map((s) => `${s.name}, ${unitOf(s)}`)]} rows={rows} /> : (
         <>
           <svg viewBox={`0 0 ${W} ${height}`} width={W} height={height} className="block max-w-full" role="img" aria-label={label} onMouseMove={onMove} onMouseLeave={() => setHover(null)}
-            data-n={n} data-points={n <= 100 ? JSON.stringify(series.map((s) => s.values)) : undefined}>
+            data-n={n} data-plot-left={L} data-plot-right={plotR} data-points={n <= 100 ? JSON.stringify(series.map((s) => s.values)) : undefined}>
             <title>{label}</title>
             <defs>
               {series.map((s, k) => <pattern key={k} id={`${id}-hatch-${k}`} width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="5" height="5" fill="var(--color-surface)" /><rect width="2.2" height="5" fill={tokenColor(s.color)} /></pattern>)}
@@ -246,7 +246,7 @@ export function CategoryChart({ id, x, series, unit, unit2 = "", label, height =
             <Card left={cx(hover) + 10} width={W}>
               <div className="text-ink">{nameOf ? nameOf(hover) : x[hover]}</div>
               {series.map((s) => { const v = s.values[hover]; return v === null || v === undefined ? null : (
-                <div key={s.name} className="flex justify-between gap-4"><span style={{ color: tokenColor(s.color) }}>{s.name}</span><span className="font-mono text-ink">{num(v, s.digits)} {unitOf(s)}</span></div>
+                <div key={s.name} className="flex justify-between gap-4"><span style={{ color: tokenColor(s.color) }}>{s.name}: </span><span className="font-mono text-ink">{num(v, s.digits)} {unitOf(s)}</span></div>
               ); })}
               {notes?.[hover] ? <div className="mt-1 max-w-[220px] text-muted">{notes[hover]}</div> : null}
               {children}
@@ -289,7 +289,8 @@ export function HeatChart({ id, rows, cols, cells, unit, label, tips, marks, lo:
       <Toggle label={label} table={table} setTable={setTable} id={id} />
       {table ? <DataTable label={label} id={id} head={["", ...cols]} rows={rows.map((r, i) => ({ key: r, cells: [r, ...cells[i].map((v, j) => (v === null || v === undefined ? <NotHeld key={j} /> : num(v)))] }))} /> : (
         <>
-          <svg viewBox={`0 0 ${W} ${height}`} width={W} height={height} className="block max-w-full" role="img" aria-label={label} onMouseMove={onMove} onMouseLeave={() => setHover(null)}>
+          <svg viewBox={`0 0 ${W} ${height}`} width={W} height={height} className="block max-w-full" role="img" aria-label={label} onMouseMove={onMove} onMouseLeave={() => setHover(null)}
+            data-plot-left={L} data-plot-top={TOP} data-cell-w={cw} data-cell-h={ch} data-rows={rows.length} data-cols={cols.length}>
             <title>{label}</title>
             <defs><pattern id={`${id}-blank`} width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="5" height="5" fill="var(--color-surface)" /><rect width="1.5" height="5" fill="var(--color-rule)" /></pattern></defs>
             {rows.map((r, i) => <text key={r} x={L - 6} y={TOP + i * ch + ch / 2 + 4} textAnchor="end" fontSize="11" fill="var(--color-ink)">{r}</text>)}
@@ -349,7 +350,7 @@ export function BandChart({ id, x, lo, hi, avg, last, cur, names, unit, label, h
       {table ? <DataTable label={label} id={id} head={["Period", `${names[3]}, ${unit}`, `${names[2]}, ${unit}`, `${names[1]}, ${unit}`, `${names[0]}, low`, `${names[0]}, high`]}
         rows={x.map((c, i) => ({ key: `${c}-${i}`, cells: [dateOf ? dateOf(i) : c, cell(cur[i]), cell(last[i]), cell(avg[i]), cell(lo[i]), cell(hi[i])] }))} /> : (
         <>
-          <svg viewBox={`0 0 ${W} ${height}`} width={W} height={height} className="block max-w-full" role="img" aria-label={label} onMouseMove={onMove} onMouseLeave={() => setHover(null)} data-n={n}>
+          <svg viewBox={`0 0 ${W} ${height}`} width={W} height={height} className="block max-w-full" role="img" aria-label={label} onMouseMove={onMove} onMouseLeave={() => setHover(null)} data-n={n} data-plot-left={L} data-plot-right={plotR}>
             <title>{label}</title>
             {ticksOf(b).map((v) => (
               <g key={v}>
@@ -370,9 +371,9 @@ export function BandChart({ id, x, lo, hi, avg, last, cur, names, unit, label, h
             <Card left={px(hover) + 10} width={W}>
               <div className="text-ink">{dateOf ? dateOf(hover) : x[hover]}</div>
               {([[names[3], cur[hover], "var(--color-accent)"], [names[2], last[hover], "var(--color-fuel-gas)"], [names[1], avg[hover], "var(--color-muted)"]] as [string, number | null, string][]).map(([nm, v, c]) => (v === null ? null : (
-                <div key={nm} className="flex justify-between gap-4"><span style={{ color: c }}>{nm}</span><span className="font-mono text-ink">{fmt(v)} {unit}</span></div>
+                <div key={nm} className="flex justify-between gap-4"><span style={{ color: c }}>{nm}: </span><span className="font-mono text-ink">{fmt(v)} {unit}</span></div>
               )))}
-              {lo[hover] !== null && hi[hover] !== null ? <div className="flex justify-between gap-4"><span className="text-muted">{names[0]}</span><span className="font-mono text-ink">{fmt(lo[hover]!)} to {fmt(hi[hover]!)} {unit}</span></div> : null}
+              {lo[hover] !== null && hi[hover] !== null ? <div className="flex justify-between gap-4"><span className="text-muted">{names[0]}: </span><span className="font-mono text-ink">{fmt(lo[hover]!)} to {fmt(hi[hover]!)} {unit}</span></div> : null}
             </Card>
           ) : null}
         </>
