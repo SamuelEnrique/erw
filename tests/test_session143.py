@@ -131,14 +131,16 @@ class TheGuards(unittest.TestCase):
         limits = json.loads(src("site", "lib", "chat", "limits.json"))
         self.assertEqual((limits["daily_usd"], limits["monthly_usd"], limits["per_visitor_per_day"]), (3, 30, 15))
         route = src("site", "app", "api", "ask", "route.ts")
-        self.assertLess(route.index("const admitted = await admit("), route.index("await ask(asked"))
+        self.assertLess(route.index("const admitted = evaluation"), route.index("await ask(asked"))
         self.assertLess(route.index("if (!admitted.ok) {"), route.index("const timing = {"))
         lim = src("site", "lib", "chat", "limits.ts")
         self.assertIn("if (!salt) return refuse(\"closed\"", lim)
 
     def test_every_model_call_still_goes_to_the_ledger_with_its_own_model(self):
         loop = src("site", "lib", "chat", "ask.ts")
-        self.assertEqual(loop.count('ledger.push(recordCall(model, resp, raw.request_id, profile ? "site_ask_ercot" : "site_ask", opts.questionId));'), 1)
+        # session 314: the step may be an evaluation's own (opts.step), written strictly (awaited); the public chat's row is pushed as before
+        self.assertEqual(loop.count('const row = recordCall(model, resp, raw.request_id, opts.step ?? (profile ? "site_ask_ercot" : "site_ask"), opts.questionId, opts.strictLedger === true);'), 1)
+        self.assertEqual(loop.count("if (opts.strictLedger) await row; else ledger.push(row);"), 1)
         self.assertEqual(loop.count("client.messages.stream("), 1)                     # one place calls the model, and it records the call
         self.assertNotIn("client.messages.create(", loop)
         self.assertIn("const c = cost(model, u);", loop)

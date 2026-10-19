@@ -424,11 +424,14 @@ console.log(JSON.stringify({{ text: historyText(cleanHistory(h)), opening: p.ope
     def test_the_route_streams_for_ask_ercot_only_and_the_other_chats_are_called_as_they_were(self):
         route = src("site", "app", "api", "ask", "route.ts")
         self.assertIn('if (profile === "ercot" && stream === true)', route)
-        self.assertIn('await ask(question.trim(), undefined, typeof grid === "string" && grid ? grid : null, null, null, { questionId: qid })', route)   # session 128: the same call, with the question's number for the ledger
+        # session 128: the same call, with the question's number for the ledger; session 314: and the evaluation's ledger step when the request is one
+        self.assertIn('await ask(question.trim(), undefined, typeof grid === "string" && grid ? grid : null, null, null, { questionId: qid, ...ledgerOpts })', route)
         self.assertIn("The answer itself is never sent in pieces: it is checked whole first.", route)
         self.assertIn("cost_usd: r.cost_usd ?? null, seconds: r.seconds ?? null", route)       # the cost and the time of each question, in its log line
         loop = src("site", "lib", "chat", "ask.ts")
-        self.assertIn('ledger.push(recordCall(model, resp, raw.request_id, profile ? "site_ask_ercot" : "site_ask", opts.questionId))', loop)   # session 128: with the question's number
+        # session 128: with the question's number; session 314: the step may be an evaluation's own, written strictly
+        self.assertIn('const row = recordCall(model, resp, raw.request_id, opts.step ?? (profile ? "site_ask_ercot" : "site_ask"), opts.questionId, opts.strictLedger === true);', loop)
+        self.assertIn("if (opts.strictLedger) await row; else ledger.push(row);", loop)
         self.assertIn("await Promise.allSettled(ledger);", loop)
         self.assertIn("const outs = await Promise.all(blocks.map((b, i) => (slots[i] ? runTool(b.name, b.input, scope) : null)));", loop)
         self.assertNotIn("await recordCall(", loop)
