@@ -35,7 +35,11 @@
 | Impeccable `detect` on `site/app/page.tsx` | 0 | no finding |
 | Screenshots, 1280 and 390, before (production) and after (local) | | `docs/brand/review-300/`; nothing scrolls sideways at 390 |
 | `tests.test_session300`, `53`, `90`, `102`, `241b` | 0 | 75 passed, 1 skipped |
-| Suite, clean copy, `5370cc94` (the session's commit; the report's last commit and the merge follow) | 0 | 4,370 tests OK, 248 skipped |
+| Suite, clean copy, `5370cc94` (the session's commit) | 0 | 4,370 tests OK, 248 skipped |
+| Suite, clean copy, `bfdb04b9` (origin/main merged, with session 307's commit) | 1 | 4,370 tests, 2 failures, main's own: `test_session205` (two tables of session 307 in `license_tables.csv` without their rows in `docs/licenses.md`; a 41st request in `license_reads.csv` against the test's ceiling of 40). Fixed in the next commit, below |
+| `scripts/licenses.py write`, then `check` | 0, 0 | `docs/licenses.md` rewritten from the records: 201 tables, 41 publishers with a verdict, 41 requests, 0 problems |
+| `tests.test_session205` after | 0 | 14 passed |
+| `npm run build` of the merged commit (worktree) | 0 | `s300_build3.out`; 0 statement timeouts |
 
 ## Landing of session 299 (recorded here: session 299's report is in that landing's own commit)
 
@@ -48,6 +52,7 @@ LANDING
 
 ## Decisions made without you
 
+- **Main's licensing record was put back in step with its document.** Session 307 (the data machine) added `battery_sourced_ranges` and `grid_stress_days` to `license_tables.csv` and a 42nd row to `license_reads.csv` (Berkeley Lab's disclaimer page, HTTP 404, the 41st request) without rewriting `docs/licenses.md`, so main at `c6b72b35` fails `test_session205` twice and nothing of this chain could land. `docs/licenses.md` was rewritten by the record's own script (`scripts/licenses.py write`, no request made; `check` passes), and the test's ceiling of requests was raised from 40 to 41, naming the read: the record is the data machine's and is not edited here.
 - **The groups' lines are written for the page** (`GROUP_LINES`): the menu's groups have no line of their own in `lib/pages.ts`, so each got one sentence naming its tools. Reversible words.
 - **The groups' numbers:** Economics the battery's USD per kW (the flagship tool's lead, as mockup A showed it); Grid ERCOT's newest demand; Infrastructure the US fleet; Analysis the findings count; Games ERCOT's fleet. Each is a key the value checker already verified except the findings count, which it now reads from the catalogue file (the findings are a file of the site, not a table; the key says so).
 - **Each group links its first page** of the menu (`/board`, `/grid`, `/map`, `/research`, `/play/battery`); the sub-tools stay in the menu, as the ruling says.
@@ -58,7 +63,8 @@ LANDING
 
 ## For Samuel's ruling
 
-- Nothing of this session needs a ruling. The page is in review; the words of the five lines are yours to change.
+- The data machine's sessions 306 and 307 pushed to main with the suite failing (the Redivis package's list, then the licensing document and the reads' ceiling); each time a code session repaired main's record before it could land. Whether the data machine should run the suite before a push to main, as the code machine's task branches are checked, is yours.
+- Nothing else of this session needs a ruling. The page is in review; the words of the five lines are yours to change.
 
 ## Files
 
