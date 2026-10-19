@@ -55,7 +55,7 @@
 
 ## The landing
 
-See below (filled at the push).
+- freeze 0; before `s309-before` 11:30:30 UTC; merged origin/main; pushed 11:30:37 (`9a552e1f`); deployment 7172603708 success 11:31:55; after `s309-after` 11:32:27; compare: **0 differences on 25 pages** (expected).
 
 ## Decisions made without you
 

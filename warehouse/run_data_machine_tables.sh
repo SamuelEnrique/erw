@@ -31,6 +31,8 @@
 #                                                                    (the runner's monthly job and Monday watch are kept)
 #     dm_ercot_hub_append           ercot_all_hub_prices_history     the live window's ERCOT hub rows after the history's
 #                                                                    newest interval (hub_history.py append-ercot); no request
+#   session 310, once a week: dm_mix_profile (generation_mix_hourly_profile, generation_mix_records), derived from the
+#   EIA-930 workbooks and CAISO's own supply; no request (warehouse/refresh_mix.sh, which held it, is called by no job)
 #   session 271, once a week (the first run of each ISO week, Monday to Sunday, or any run with WEEKLY=1)
 #     dm_ercot_sced_pull            (the reduced days, warehouse/raw) ERCOT's 60-Day SCED Disclosure, the days not yet
 #                                                                    held, within the approved 12 GB of downloads (at the
@@ -129,10 +131,11 @@ TABLE_STEPS=(
   "dm_noaa_weather|noaa_grid_weather_hourly,noaa_grid_weather_daily,noaa_grid_weather_stations,noaa_station_weather_hourly|weekly|warehouse/connectors/noaa_grid_weather.py --refresh"
   "dm_zone_history_pull|-|weekly|warehouse/connectors/zone_price_history.py --pull --iso caiso --recent 9"
   "dm_zone_history_write|iso_zone_prices_history|weekly|warehouse/connectors/zone_price_history.py --write --iso caiso --recent 9"
+  "dm_mix_profile|generation_mix_hourly_profile,generation_mix_records|weekly|warehouse/derived/mix_profile.py"
 )
 # session 271: the weekly load of every table this block and warehouse/run_data_machine.sh write (the loader takes
 # only those a live-set rule names, and writes what changed)
-WEEKLY_LIVE='^(iso_zone_prices_history|caiso_reliability_daily|caiso_grid_emergencies|storage_owners_monthly|shoulder_hours_monthly|ercot_rtm_price_adders|scarcity_hours_by_grid|eia930_daily_total_interchange|caiso_wind_solar_forecast|ercot_wind_solar_forecast|nrc_reactor_status|caiso_curtailment_intervals|ercot_large_load_status|ercot_all_hub_prices_history|ercot_sced_esr_hourly|ercot_storage_rt_monthly|ercot_storage_node_basis|clean_energy_hourly|clean_energy_summary|noaa_grid_weather_hourly|noaa_grid_weather_daily|noaa_grid_weather_stations|noaa_station_weather_hourly|ercot_rtm_node_prices|ercot_zone_prices_history|carb_auction_allowance_prices|carb_lcfs_credit_prices|merchant_revenue_monthly)$'
+WEEKLY_LIVE='^(iso_zone_prices_history|caiso_reliability_daily|caiso_grid_emergencies|storage_owners_monthly|shoulder_hours_monthly|ercot_rtm_price_adders|scarcity_hours_by_grid|eia930_daily_total_interchange|caiso_wind_solar_forecast|ercot_wind_solar_forecast|nrc_reactor_status|caiso_curtailment_intervals|ercot_large_load_status|ercot_all_hub_prices_history|ercot_sced_esr_hourly|ercot_storage_rt_monthly|ercot_storage_node_basis|clean_energy_hourly|clean_energy_summary|noaa_grid_weather_hourly|noaa_grid_weather_daily|noaa_grid_weather_stations|noaa_station_weather_hourly|ercot_rtm_node_prices|ercot_zone_prices_history|carb_auction_allowance_prices|carb_lcfs_credit_prices|merchant_revenue_monthly|generation_mix_hourly_profile|generation_mix_records)$'
 
 # the tables of this block that the live set holds (warehouse/supabase/live_set.yaml gives each its rule; the others
 # are histories, or held out of the catalogue, and are not loaded), and session 244's table, which only this machine builds
