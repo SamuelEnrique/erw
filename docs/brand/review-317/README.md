@@ -25,3 +25,8 @@ What to look at (the numbers are the same before and after; what changed is the 
 
 At 390 every chart is drawn for its width (the text keeps its size) and nothing scrolls sideways. The canvas detector
 (`runs/chain_oct19/s303_canvas.mjs`) reads 0 canvas charts on these pages: the session's report.
+
+The 1280 "after" shots of `costgrids`, `datacenter`, `mix`, `supply` and `ercot` were taken on the build of the
+session's second commit (`0fc62fa4`, 22:39 UTC), after a first pass at 1280 had failed on the internal door; the
+heat legend there still reads "not held", the words the last commit (`1a0a97da`) changed to "no value held". The
+rebuild of that commit was stopped by the machine (low memory) before it could retake them: the session's report.
