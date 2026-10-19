@@ -41,12 +41,14 @@ In the internal view: open https://erw-flame.vercel.app/internal/open first (the
 | `eslint` on the files changed | 0, 0 | no error |
 | `node scripts/test-battery-finance.mjs` | 0 | all passed (the 8-hour range, `noRangeOf`, the contract's words) |
 | Impeccable `detect` on `SeriesChart.tsx`, `Scenarios.tsx`, `tokens.css` | 0 | no finding |
-| `npm run build` (worktree, under the mutex, `duty.py beat` sent), twice | 0, BUILD2 | 0 statement timeouts |
+| `npm run build` (worktree, under the mutex, `duty.py beat` sent), twice | 0, 0 | 0 statement timeouts (the second build carries the grids' tables file) |
 | `check-values.mjs`, every page, the first build | 1 | 5,299 of 5,336 values match Supabase; 31 latest prices superseded within 45 minutes; the 6 that fail are `/learn/problems/know-your-grid`'s data-day keys (18 October's generation, not in the live set), failing on production the same way since session 302. Every battery key: every value |
 | `check-battery-scenarios`, `check-battery-face`, `check-decisions-face`, `check-seller-scenarios` | 0, 0, 0, 0 | all passed; 144 of 144 |
 | `check-ask-panel`, `check-ask-hours`, `test-ask-panel`, `test-ask-ready`, `test-ask-tables`, `test-ask-161`, `test-ask-168`, `test-ask-speed` | 0 × 8 | 13 of 13; 10; 20 of 20; 14 of 14; 8; 21 |
 | `warehouse/chat/grid_tables.py --check` | 0 | 7 grids, 90 public live tables, 411 requests, 112 s; 0 errors; the hand lists' `energy_projects` for NYISO and MISO not found (no row of their queues); run three times (the first two found the `like` probe and the market probe scanning partitions to the statement timeout, fixed) |
-| `tests.test_session314`, `302`, `296`, `297`, `128`, `92`, `35`, `154`, `157`, `267` | PYEXIT | PYLINE |
+| `tests.test_session314`, `302`, `296`, `297`, `128`, `92`, `35`, `154`, `157`, `267` (worktree, the final build) | 0 | OK, 20 skipped (tables not on this machine) |
+| `check-values.mjs`, every page, the final build | 1 | 5,324 of 5,336; the 6 `know-your-grid` keys as above, and 6 keys of `/cost-of-power`'s carbon window (`co2:window:*`) whose hours grew from 10,135 to 10,183 in Supabase between the page's build and the check (the page shows the figure the first build showed; the hourly carbon table was loaded meanwhile): a data condition of the moment on a page this session did not touch, checked again on the landing's build |
+| `check-battery-scenarios`, `check-battery-face`, `check-decisions-face`, `check-seller-scenarios`, `check-ask-panel`, `check-routes`, the final build | 0 × 6 | all passed; 144 of 144; 13 of 13; 211 pages, 0 failed as a visitor |
 | Captures at 1280 and 390 (the chart, the year chart, the 8-hour line, the page) | | `docs/brand/review-314/`; nothing scrolls sideways at 390 |
 | Suite, clean copy, the commit pushed | SUITE | |
 | `scripts/freeze.py status` | FREEZE | |
