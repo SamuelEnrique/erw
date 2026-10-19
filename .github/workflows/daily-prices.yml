@@ -25,9 +25,10 @@
 #      ingests and scores news and writes the Energy Digest (docs/digest/)
 #   Session 28: after coverage, archives every table's new or changed rows to the private Supabase
 #   storage bucket erw-archive (warehouse/archive/archive.py); the Redivis upload waits on it.
-#   Session 10: first restores the rolling-window tables from the Redivis draft
-#   (the runner has no tables); after coverage, loads the Supabase live set; last,
-#   uploads the tables it changed to the Redivis draft (never released).
+#   Session 10: first restores the rolling-window tables (the runner has no tables); after coverage, loads the
+#   Supabase live set; last, uploads the tables it changed to the Redivis draft (never released).
+#   Session 305: the restore reads GitHub's cache (the copies the last run stashed), then the archive, and Redivis only
+#   last, under a daily export ceiling (warehouse/restore_tables.py): Redivis refused every export from 15 October 2026.
 #   5. commits STATUS.md (session 14: tables, last runs, open gaps), metadata
 #      (coverage, sources, run status), docs, the digests and
 #      news_stories.csv (session 10 ruling 3) directly to main. Derived scripts
@@ -195,6 +196,16 @@ jobs:
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: python warehouse/health.py run --step "data lock" -- python warehouse/lock.py acquire --task "daily run ${{ github.run_id }}" --minutes 200 --wait 60 --github-env
 
+      # Session 305: the run-to-run copy of the rolling-window tables. The newest cache of any earlier run is restored;
+      # warehouse/restore_tables.py takes a table from it only when it is the archive's latest version of that table.
+      - name: Restore the rolling-window tables' cache
+        if: env.ERW_LOCK_TOKEN != ''
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ runner.temp }}/erw-rolling
+          key: erw-rolling-${{ github.run_id }}
+          restore-keys: erw-rolling-
+
       - name: Pull, validate, rebuild coverage
         id: daily
         if: env.ERW_LOCK_TOKEN != ''
@@ -233,11 +244,26 @@ jobs:
           # the shadow's steps in warehouse/run_daily.sh skip with "SHADOW_MODEL is not set" and spend nothing.
           # the runner has no tables (not in git): restore the rolling windows first
           RESTORE_FROM_REDIVIS: "1"
+          # session 305: the folder the cache step above restored (warehouse/restore_tables.py --cache)
+          RESTORE_CACHE: ${{ runner.temp }}/erw-rolling
           # session 16: set on a manual run (input queues, default 1); empty on the schedule
           QUEUES: ${{ github.event.inputs.queues || '0' }}
           # session 114: the monthly builds on any day of a manual run (input monthly); otherwise when the month's are due
           MONTHLY: ${{ github.event.inputs.monthly || '0' }}
         run: python warehouse/health.py run --step "daily run" --retries 0 -- bash -c "set -o pipefail; bash warehouse/run_daily.sh 2>&1 | tee daily.log"
+
+      # Session 305: after a good run, the rolling-window tables as this run archived them, for the next run's restore
+      - name: Stash the rolling-window tables for the cache
+        id: stash
+        if: steps.daily.outputs.status == 'ok' || steps.daily.outputs.status == 'retried'
+        run: python warehouse/restore_tables.py --rolling --stash "${{ runner.temp }}/erw-rolling"
+
+      - name: Save the rolling-window tables' cache
+        if: steps.stash.outcome == 'success'
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ runner.temp }}/erw-rolling
+          key: erw-rolling-${{ github.run_id }}
 
       - name: Keep the full log
         if: always()

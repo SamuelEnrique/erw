@@ -37,6 +37,7 @@ Midcontinent Independent System Operator,Midcontinent Independent System Operato
 Midcontinent Independent System Operator (MISO),Midcontinent Independent System Operator (MISO),news stories [PAUSED 2026-10-04: MISO's terms forbid automated access; pulls paused pending a review of MISO's terms by a person (docs/methods/miso_pause.md)],,,internal,news_index;news_stories,2026-09-25,2026-10-14
 NYISO,NYISO,news stories via feed 'NYISO newsroom',,,internal,news_index;news_stories,2026-10-07,2026-10-14
 Natural Gas Intelligence,Natural Gas Intelligence,news stories via feed 'Natural Gas Intelligence',,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-10-14
+OPEC: Publications,OPEC: Publications,news stories via feed 'OPEC press releases',,,internal,news_index;news_stories,2026-10-15,2026-10-15
 OilPrice.com,OilPrice.com,news stories via feed 'OilPrice.com',,,internal,energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-10-14
 Organization of the Petroleum Exporting Countries,Organization of the Petroleum Exporting Countries,news stories via feed 'OPEC press releases',,,internal,news_index;news_stories,2026-09-27,2026-10-14
 PJM newsroom,PJM newsroom,news stories via feed 'PJM newsroom',,,internal,news_index;news_stories,2026-09-25,2026-10-14

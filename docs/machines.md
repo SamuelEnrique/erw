@@ -243,6 +243,33 @@ other bytes is never overwritten. Neither side takes the data lock, and the arch
 scripts read only `.csv.gz` objects at the third level, and the handover has none there. It is a copy for a move, not a
 standing backup: once the new data machine has verified its files, a person may delete the prefix.
 
+### Where each scheduled job reads its tables from (session 305)
+
+Redivis is the citable release, never a scheduled job's working store. Until session 305 the daily run restored its
+rolling-window tables from the Redivis draft every run (about 2.5 GB of exports; `eia930_all_emissions` alone 1.1 GB).
+With the reruns, the Roundup and this machine's sync that passed Redivis's limit of 100 GB of exports in 30 days, and from
+15 October 2026 Redivis refused every export ("Cannot export more than 100GB within a 30 day period"): the daily run
+stopped at its first step on 15, 16, 17 and 18 October, and every store step of the data machine failed on its read of
+`erw_headers`. Uploads were never refused; only reads were.
+
+| Job | Its tables come from, in order | Redivis |
+|---|---|---|
+| The daily run (`daily-prices.yml`, `warehouse/run_daily.sh`) | GitHub's cache (`actions/cache`, the copies the last good run stashed, taken only when the copy's data SHA-256 is the archive's latest for the table); a copy in the bucket (`_copies/<table>/<sha>.csv.gz`, same test); the archive, rebuilt from the bucket `erw-archive` and taken only with the row count the latest run recorded; `warehouse/restore_tables.py` | last, under the ceiling |
+| The Roundup (`roundup.yml`) | the same restore, from the daily run's cache; then `scripts/sync.py` for the other tables it reads | last, under the ceiling |
+| A data machine's sync (`scripts/sync.py`, `dm_sync`) | compares with Redivis's counts and statistics (metadata, not an export); restores a missing or behind table from the archive first (a bucket copy, else the rebuild) | last, under the ceiling |
+| A store step (`warehouse/table_stores.py`, the daily run's upload) | writes to Redivis; reads only `erw_headers`, and a read refused for the cap is "skipped: Redivis export cap", the draft's header lines left as they are | an upload refused for the cap is a skip (exit 75): the table waits in the archive |
+| The latest prices, the hourly network, the chain watch, the thesis | pull from the publishers and read Supabase; never Redivis | never |
+
+The ceiling is `export_ceiling_gb_per_day` in `warehouse/redivis/config.yaml`: 2 GB a UTC day, all machines together
+(60 GB in 30 days). Before any export the restore reads the day's ledger in the bucket (`_exports/<YYYY-MM-DD>/`, one
+object an export, its bytes in its name) and does not ask when the export would pass it; each export made is written
+there. A table that none of the sources gives fails the restore, and the run stops before a short window could be
+uploaded over the full one (session 28's rule). The archive's rebuild of a large table is replayed in sixteen slices of
+keys, so `eia930_all_emissions` (4.3 million rows) is rebuilt in under a minute without being held whole. A rolling-window
+table that drops keys (`policy_reads_evidence`: the archive records no deletion for a rolling-window table) cannot be
+rebuilt row for row; it comes from the cache, or from the bucket copy a person seeds with
+`python warehouse/restore_tables.py <table> --seed-bucket` from a machine whose copy is the latest archived.
+
 ### Cloud copies
 
 Measured 2026-10-02 (session 59):

@@ -188,15 +188,22 @@ def month_frames(name, from_bucket=False, bucket=None):
     return out
 
 
+_BUCKET_RUNS = {}  # session 305: id(bucket client) -> the bucket's _runs parts, read once per client, not once per table
+
+
 def run_log(name, from_bucket=False, bucket=None):
     """The _runs lines of one table, oldest first."""
     frames = []
     if from_bucket:
         bucket = bucket or A.Bucket(True)
-        for mo in bucket.ls("_runs"):
-            for o in bucket.ls(f"_runs/{mo['name']}"):
-                frames.append(pd.read_csv(io.BytesIO(gzip.decompress(bucket.get(f"_runs/{mo['name']}/{o['name']}"))),
-                                          dtype=str, keep_default_na=False, na_values=[]))
+        if id(bucket) not in _BUCKET_RUNS:
+            got = []
+            for mo in bucket.ls("_runs"):
+                for o in bucket.ls(f"_runs/{mo['name']}"):
+                    got.append(pd.read_csv(io.BytesIO(gzip.decompress(bucket.get(f"_runs/{mo['name']}/{o['name']}"))),
+                                           dtype=str, keep_default_na=False, na_values=[]))
+            _BUCKET_RUNS[id(bucket)] = got
+        frames = list(_BUCKET_RUNS[id(bucket)])
     else:
         d = os.path.join(A.ARCH, "_runs")
         for f in sorted(os.listdir(d)) if os.path.isdir(d) else []:
