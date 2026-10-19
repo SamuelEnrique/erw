@@ -10,6 +10,7 @@ A question-answering layer over the Energy Research Warehouse (ERW) that never s
 | `eval/expected_s20.py` | Builds `eval/questions_s20.yaml` (session 20): the 30 recomputed, and 15 on curtailment, the energy mix, retail sales, the trader view, deals and datacenters. |
 | `eval/eval.py` | Runs every question through `ask.py` and scores it; writes `eval/results/<run>.jsonl` and `.md`. |
 | `eval/questions_s267.yaml`, `eval/eval_s267_fixtures.json`, `eval/eval_s267.py` | Session 267: 30 hard questions across every public grid, answers computed from the tables (anon key) before any model call; asked once through the site's `/api/ask` on a local build (27 right); every tool call and result recorded (`ASK_RECORD_TOOLS=1`, a local server only) and replayed without a model by `tests/test_session267.py`. |
+| `eval/questions_s302.yaml`, `eval/eval_s302_fixtures.json` | Session 302: 30 hard questions asked as the pages ask them (the Grid panel's profile, a grid's scoped chat, the general chat), the expected numbers computed from the live set before any model call; 19 of 30 right at the first asking, 30 of 30 after the fix at the cause (the grid scopes name the derived tables that hold the grid's rows by hub; `tools.py` and the site keep each to the grid's rows by its entity prefix); `tests/test_session302.py` replays them with `eval/eval_s267.py`'s grader. |
 | `../../site/lib/chat/` | The same loop for the public site's `/api/ask` route, in TypeScript, over the Supabase anon key. `spec.json` there is written by `ask.py --export-spec`. |
 
 ## The tools

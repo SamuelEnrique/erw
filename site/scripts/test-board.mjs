@@ -133,7 +133,7 @@ test("the twelve of the top block: rows of the wall, each shown, daily, with its
     assert.equal(r.freq, "D", r.id);
     assert.ok(r.moves.d && r.moves.w, r.id);
     assert.ok(b.sparkOf(r).length >= 2, r.id);
-    assert.ok(built - Date.parse(r.last.t + "T00:00:00Z") <= 7 * b.DAY, r.id + " is stale: " + r.last.t);   // within a week of the build
+    assert.ok(built - Date.parse(r.last.t + "T00:00:00Z") <= 10 * b.DAY, r.id + " is stale: " + r.last.t);   // within 10 days of the build (session 304, the ruling of 18 October: EIA posts spot prices weekly and late)
     assert.ok(file.groups.some((g) => b.rowsOf(file, g, {}).some((x) => x.id === r.id)), r.id + " is on the wall as it opens");
   }
   const groups = new Set(rows.map((r) => r.group));

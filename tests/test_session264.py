@@ -186,7 +186,8 @@ class TheReplication(unittest.TestCase):
         e = n["l12_energy"] / 1000
         flows = lambda price: [-m.CAPEX_USD_KW * (1 - m.DEBT_SHARE)] + [price * e - m.FOM_USD_KW_YEAR - ds for _ in range(m.LIFE_YEARS)]
         npv = lambda fl: sum(v / (1 + m.HURDLE) ** t for t, v in enumerate(fl))
-        merchant = [-m.CAPEX_USD_KW * (1 - m.DEBT_SHARE)] + [n["l12_kw"] - m.FOM_USD_KW_YEAR - ds for _ in range(m.LIFE_YEARS)]
+        # session 304: the market revenue falls by the degradation each year after the first (the page's default since session 298)
+        merchant = [-m.CAPEX_USD_KW * (1 - m.DEBT_SHARE)] + [n["l12_kw"] * (1 - m.DEG) ** k - m.FOM_USD_KW_YEAR - ds for k in range(m.LIFE_YEARS)]
         self.assertAlmostEqual(npv(merchant) * 1000 * m.MW / 1e6, n["npv_million"], places=9)
         self.assertAlmostEqual(npv(flows(n["breakeven_ppa"])), 0, places=6)
         self.assertAlmostEqual((n["contract_price"] * e - m.FOM_USD_KW_YEAR) / ds, 1.25, places=9)

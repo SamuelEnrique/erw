@@ -6,6 +6,7 @@
 // series key of ercot_large_load_status (the site's copy of the table is data/large_load_status.json; a report's row
 // is dated the report's day at 00:00 UTC, warehouse/connectors/ercot_large_load_status.py), the facilities' by the
 // datacenters keys (scripts/check-values.mjs).
+import { SiteLink as Link } from "@/components/SiteLink";
 import type { ReactNode } from "react";
 import { LineChart } from "@/components/LineChart";
 import { Num } from "@/components/Num";
@@ -64,6 +65,12 @@ export function LargeLoad({ read }: { read: Read }) {
             <HeadlineNumber label="Served at one moment" value={<span data-load="simultaneous"><Mw f={f} r={s.last} k="simultaneous" /></span>} unit="MW" note={<>the highest hour of those loads together</>} />
           </HeadlineRow>
         ) : null}
+        {/* session 304 (the ruling of 18 October 2026 on item 4 of docs/state/morning_2026-10-14.md): the pause, beside the newest figures */}
+        <p className="-mt-6 mb-6 max-w-3xl text-sm" data-load-pause="2026-08-03">
+          These are the newest figures ERCOT has stated{s ? <>, of {dayWords(s.last.day)}</> : null}: on 3 August 2026 ERCOT paused approvals to energize datacenters and
+          virtual currency mining facilities of 75 MW or more, and its Batch Zero study, and no status update since states these figures (ERCOT&apos;s deck to TAC of
+          26 August 2026, <span className="font-mono">Batch_Zero_Update_TAC_08262026.pptx</span>; <Link href="/data/methods/ercot_large_load_status">method</Link>).
+        </p>
         <ChartFrame title="MW, by report" legend={[{ label: "Approved to energize", color: "var(--color-accent)" }, { label: "Observed running (each load's own peak, summed)", color: "var(--color-fuel-storage)" }, { label: "Served at one moment", color: "var(--color-muted)" }]}
           note={<>A point is one report. ERCOT published no report in the months without a point, or none that the ERW found on its meeting pages.</>}>
           <LineChart unit="MW" height={280} x="month" ariaLabel="ERCOT large load approved to energize and observed running, by report"

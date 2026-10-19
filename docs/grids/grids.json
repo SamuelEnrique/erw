@@ -1,5 +1,5 @@
 {
-  "_about": "Session 35: the seven grid pages (/grid/<slug>), their scoped chat (/ask?grid=<slug>) and their checks read this one file. Which tables carry each grid was read once from warehouse/metadata/coverage.csv (session 35) and is written here; the page shows a block only when its table holds this grid's rows. states: the states counted for datacenter facilities and news, those wholly or mostly inside the grid (a state shared with another grid is left out); names: the words a news headline or region must contain to count as this grid's news (the news tables carry no ISO tag). utilities (session 36A): the utility names in datacenter_facilities' utility column that belong to this grid; a facility is this grid's when it comes from this grid's queue (member id <iso>_queue:), else when its utility is listed here, else when its state is in states and no other rule gave it another grid (docs/methods/datacenter_facilities.md).",
+  "_about": "Session 35: the seven grid pages (/grid/<slug>), their scoped chat (/ask?grid=<slug>) and their checks read this one file. Which tables carry each grid was read once from warehouse/metadata/coverage.csv (session 35) and is written here; the page shows a block only when its table holds this grid's rows. states: the states counted for datacenter facilities and news, those wholly or mostly inside the grid (a state shared with another grid is left out); names: the words a news headline or region must contain to count as this grid's news (the news tables carry no ISO tag). utilities (session 36A): the utility names in datacenter_facilities' utility column that belong to this grid; a facility is this grid's when it comes from this grid's queue (member id <iso>_queue:), else when its utility is listed here, else when its state is in states and no other rule gave it another grid (docs/methods/datacenter_facilities.md). Session 302 (19 October 2026): each grid's tables also name the derived tables that hold its rows by hub (cost_of_power_monthly, cost_of_power_hourly_profile, merchant_revenue_monthly; ERCOT and CAISO the battery stack's two; ERCOT its daily hub prices and reserve prices; CAISO and SPP the monthly curtailment), so a grid's scoped chat can answer from them; the tools keep each to the grid's own rows by its entity prefix (site/lib/chat/tools.ts scopeFilter, warehouse/chat/tools.py scope_rows).",
   "grids": [
     {
       "slug": "ercot",
@@ -45,7 +45,15 @@
         "ercot_wind_solar_hsl_daily",
         "ercot_peak_premium_annual",
         "ercot_peak_premium_monthly",
-        "energy_projects"
+        "energy_projects",
+        "cost_of_power_monthly",
+        "cost_of_power_hourly_profile",
+        "merchant_revenue_monthly",
+        "battery_stack_monthly",
+        "battery_stack_stress_daily",
+        "ercot_hub_prices_daily",
+        "ercot_as_prices",
+        "ercot_as_prices_monthly"
       ],
       "utilities": []
     },
@@ -91,7 +99,13 @@
         "price_board_spreads",
         "caiso_interconnection_queue",
         "caiso_curtailment_daily",
-        "energy_projects"
+        "energy_projects",
+        "cost_of_power_monthly",
+        "cost_of_power_hourly_profile",
+        "merchant_revenue_monthly",
+        "battery_stack_monthly",
+        "battery_stack_stress_daily",
+        "iso_curtailment_monthly"
       ],
       "utilities": []
     },
@@ -175,7 +189,10 @@
         "price_board_peak_offpeak",
         "price_board_spreads",
         "nyiso_interconnection_queue",
-        "energy_projects"
+        "energy_projects",
+        "cost_of_power_monthly",
+        "cost_of_power_hourly_profile",
+        "merchant_revenue_monthly"
       ],
       "utilities": []
     },
@@ -227,7 +244,10 @@
         "price_board_peak_offpeak",
         "price_board_spreads",
         "isone_interconnection_queue",
-        "energy_projects"
+        "energy_projects",
+        "cost_of_power_monthly",
+        "cost_of_power_hourly_profile",
+        "merchant_revenue_monthly"
       ],
       "utilities": []
     },
@@ -274,7 +294,10 @@
         "price_board_peak_offpeak",
         "price_board_spreads",
         "miso_interconnection_queue",
-        "energy_projects"
+        "energy_projects",
+        "cost_of_power_monthly",
+        "cost_of_power_hourly_profile",
+        "merchant_revenue_monthly"
       ],
       "utilities": [
         "WEC Energy"
@@ -324,7 +347,11 @@
         "price_board_spreads",
         "spp_interconnection_queue",
         "spp_curtailment_daily",
-        "energy_projects"
+        "energy_projects",
+        "cost_of_power_monthly",
+        "cost_of_power_hourly_profile",
+        "merchant_revenue_monthly",
+        "iso_curtailment_monthly"
       ],
       "utilities": [
         "OGE Energy"

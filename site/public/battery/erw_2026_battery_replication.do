@@ -6,6 +6,28 @@
 
 * The file has 14 comment lines; the column names are on line 15 and the hours start on line 16.
 
+* Expected values (session 304, 19 October 2026): what this file displays at the page's defaults, equal to the page value by value;
+
+* the Python mirror beside it printed these lines on 19 October 2026:
+
+*   last twelve months, all streams, USD per kW: 81.40
+
+*   share from ancillary services, percent: 33
+
+*   annual debt payments, USD: 2,261,119
+
+*   debt coverage, last twelve months, times: 2.63
+
+*   scenario A, NPV at the hurdle rate, USD for 100 MW: -69,779,883
+
+*   scenario A, IRR, percent a year: -8.8
+
+*   scenario A, breakeven toll, USD per kW-month: 4.19
+
+*   calendar year 2024, months held: 12, energy USD per kW: 62.70, ancillary USD per kW: 84.98
+
+*   calendar year 2025, months held: 12, energy USD per kW: 57.39, ancillary USD per kW: 30.05
+
 clear all
 
 import delimited using "erw_2026_battery_dispatch.csv", varnames(15) rowrange(16) stringcols(_all) clear
