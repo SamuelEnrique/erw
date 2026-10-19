@@ -29,12 +29,33 @@ In the internal view: open https://erw-flame.vercel.app/internal/unlock?token=<I
 - `site/lib/battery/view.ts` (new, pure): the view and its address parameters, defaulted and bounded.
 - `site/app/cost-of-power/battery/`: `Settings.tsx` (the box), `Income.tsx` (the table and its window), `ViewState.tsx`; `Scenarios.tsx` (the view held with the scenarios, the headline's eight figures, `BatteryCharts`, `BatteryFinancing`, the two modes); `page.tsx` (wires them; the year chart's sentence and the one-month share stay the page's); `BatteryForm.tsx` (the hovers; its defaults line moved to the box).
 - `site/components/tool/ToolPage.tsx`: `SettingsFold`, `Tip`; `site/components/tool/SeriesChart.tsx` (new: stacked bars or lines, direct labels, three scales, Chart | Table); `site/components/decisions/ScenarioBlock.tsx`: `ScenarioPanel` on its own, `panel={false}`, a field's `clamp` words drawn by the field (no ref read in render), the legend's words from the chart; `site/app/tokens.css`: the fold and the tip.
-- Checks and tests: `test-battery-finance.mjs` (21 more cases), `check-battery-scenarios.mjs` and `check-decisions-face.mjs` (the moved panel, the six rows, the percent step), `tests/test_session296.py` (15 tests), four older tests follow (102, 178, 179, 195, 263: each line marked).
+- Checks and tests: `test-battery-finance.mjs` (21 more cases), `check-battery-scenarios.mjs` and `check-decisions-face.mjs` (the moved panel, the six rows, the percent step), `tests/test_session296.py` (15 tests), four older tests follow (178, 179, 195, 263: each line marked; session 102's pin on the year chart's sentence holds as it was, the sentence staying the page's).
 - Notes: `docs/methods/battery_earns_algorithm.md` (4.5, section 6, 11.1's table and a "Session 296" part), `docs/reviews/packs/battery.md` (section 3).
 
 ## Checks
 
-CHECKS_TABLE
+| Check | Exit | Notes |
+|---|---|---|
+| `npx tsc --noEmit` (worktree, before its first build) | 2 | every error a fresh worktree's (`PageProps`, `@/content/docs.json`); none in the session's files |
+| `eslint` on the files changed | 0 | one pre-existing warning in `check-battery-scenarios.mjs` |
+| `node scripts/test-battery-finance.mjs` | 0 | 85 cases, 21 of them this session's |
+| `tests/test_session296.py` and the ten older modules whose pins or inputs moved | 0 | 232 tests |
+| Impeccable `detect` on the nine files | 0 | no finding |
+| `node scripts/check-battery-figures.mjs` | 0 | all 32 figures are the pack's |
+| `npm run build` (worktree), three times: the first build, the chart's label fix, the merged commit `a945bad9` | 0, 0, 0 | no "statement timeout"; a junction to the main copy's packages is refused by Turbopack, so the worktree has its own |
+| `check-values.mjs`, the eight battery pages, before and after the merge | 0, 0 | 660 of 660 (279 before the session: every key both runs share carries the same value; gone: `y3`, `y3_kw`, `avg_without`, `avg_without_kw`, and the 8-hour pages' keys under their old `fom=43.6`, which return under `fom=92`; new: `yr`, `yr_kw`) |
+| `check-battery-scenarios.mjs`, twice (the merged build last) | 0 | 94 of 94 |
+| `check-decisions-face.mjs` (the three decision pages) | 0 | 144 of 144 |
+| `check-battery-face.mjs` | 0 | 22 of 22, after its two pre-existing pins were fixed (production too has five downloads; the cookie is httpOnly) |
+| Captures at 1280 and 390, three addresses | | no sideways scroll (page width 390 in a 390 window); `docs/brand/review-296/` |
+| Suite, clean copy (`erw-check`), `008a656f` | 0 | 4,322 tests, 244 skipped |
+| `scripts/freeze.py status` | 0 | no freeze |
+
+## Landing of session 295 (recorded here: session 295's report is in that landing's own commit)
+
+- Pushed `task/295-games-land` at `d435b6d6` at 06:16 UTC; GitHub's checks passed (run 39208906861) and merged it as `cd2f523f` at 06:26; production served the new build at 06:28:16 (a new style sheet in the home page's HTML).
+- Snapshot `s295-before` (06:15:39) against `s295-after` (06:28:36): 25 pages, 25 differences, each one line of text, after only: "The EV game in review", the menu's new Games entry (session 294's `/play/ev`) drawn in every page's in-review view. Expected: the one line the landing adds to the menu; no checked number on a visitor page (none is live). Nothing unexpected.
+- The prompt expected 0 differences; the menu line is the one the EV game's entry makes, as session 288's landing saw for the Games menu.
 
 ## Landing
 
@@ -62,4 +83,4 @@ LANDING
 ## Files
 
 - New: `site/lib/battery/view.ts`, `site/app/cost-of-power/battery/Settings.tsx`, `Income.tsx`, `ViewState.tsx`, `site/components/tool/SeriesChart.tsx`, `tests/test_session296.py`, `docs/brand/review-296/`, this report.
-- Changed: `site/lib/battery/finance.ts`, `site/lib/batterystack.ts`, `site/app/cost-of-power/battery/page.tsx`, `Scenarios.tsx`, `BatteryForm.tsx`, `site/components/tool/ToolPage.tsx`, `site/components/decisions/ScenarioBlock.tsx`, `site/app/tokens.css`, `site/scripts/test-battery-finance.mjs`, `check-battery-scenarios.mjs`, `check-decisions-face.mjs`, `docs/methods/battery_earns_algorithm.md`, `docs/reviews/packs/battery.md`, `tests/test_session{102,178,179,195,263}.py`.
+- Changed: `site/lib/battery/finance.ts`, `site/lib/batterystack.ts`, `site/app/cost-of-power/battery/page.tsx`, `Scenarios.tsx`, `BatteryForm.tsx`, `site/components/tool/ToolPage.tsx`, `site/components/decisions/ScenarioBlock.tsx`, `site/app/tokens.css`, `site/scripts/test-battery-finance.mjs`, `check-battery-scenarios.mjs`, `check-decisions-face.mjs`, `docs/methods/battery_earns_algorithm.md`, `docs/reviews/packs/battery.md`, `tests/test_session{178,179,195,263}.py`, `site/scripts/check-battery-face.mjs`.
