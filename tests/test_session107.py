@@ -49,6 +49,22 @@ def by_hand(snap, grid, asset):
         held = {m: r["battery_4h"] for m, r in s["months"].items() if "battery_4h" in r and r["battery_4h"]["hours"] / calendar.monthrange(int(m[:4]), int(m[5:7]))[1] >= near - 1e-9}
     else:
         held = {m: r[asset] for m, r in s["months"].items() if asset in r and r[asset]["hours"] / r["him"] >= near - 1e-9}
+    if asset == "peaker" and s.get("co2"):
+        # session 298 (the owner's ruling 1a): where the grid carries the carbon cost of the fuel, the page solves the
+        # peaker hour by hour with it (lib/merchant.ts, peakerOver), so the hand sum does the same from the hourly arrays
+        hr, vom = snap["defaults"]["heat_rate"], snap["defaults"]["vom"]
+        held = {m: dict(r) for m, r in held.items()}
+        for m, r in held.items():
+            i0, i1 = s["months"][m]["i0"], s["months"][m]["i1"]
+            rev = 0.0
+            for i in range(i0, i1):
+                p, g = s["price"][i], s["hh"][i]
+                if p is None or g is None:
+                    continue
+                c = (g + (s["co2"][i] or 0)) * hr + vom
+                if p > c:
+                    rev += p - c
+            r["revenue_per_mw"] = rev
     twelve = None
     for m in sorted(held, reverse=True):
         if all(prev(m, k) in held for k in range(12)):

@@ -239,7 +239,7 @@ class WhatTheNotesPointAt(unittest.TestCase):
         self.assertIn(f"Checked against: {count} published figures", generator)
         self.assertNotIn("not among the ten the page counts", generator)
         # what session 257 did not do is not claimed: the peaker's rule is as it was, and the note says a ruling is awaited
-        self.assertIn("const c = g * hr + vom;", src("site", "lib", "merchant.ts"))
+        self.assertIn("const c = (g + (s.co2?.[i] ?? 0)) * hr + vom;", src("site", "lib", "merchant.ts"))   # session 298: the ruling came (1a), the allowance is in the rule
         self.assertIn("adding the allowance waits for a ruling", generator)
 
     def test_no_em_dash_in_what_the_session_wrote(self):

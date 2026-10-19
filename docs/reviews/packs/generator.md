@@ -70,7 +70,7 @@ Not read by the model: `ercot_rtm_price_adders` (session 244). ERCOT's scarcity 
 | Peaker heat rate (`hr`) | 10.725 MMBtu per MWh; bounds 6 to 16 | Lazard, gas peaking new build, midpoint of 10,275 to 11,175 Btu per kWh | none |
 | Peaker variable O&M (`vom`) | USD 4.25 per MWh; bounds 0 to 50 | Lazard, midpoint of 3.50 to 5.00 | none |
 | Gas price | Henry Hub spot of the local day; no basis | EIA, `eia_fuel_spot_prices` | none |
-| Peaker carbon cost | none, on every grid | By construction; CAISO's allowance waits for a ruling (part 9) | none |
+| Peaker carbon cost | California's allowance on CAISO (the latest current auction's settlement price times 53.06 kg CO2 per MMBtu, USD per MMBtu added to the fuel); none elsewhere | The owner's ruling 1a of 18 October 2026 (session 298); CARB's auction results and EPA's factor | 1a |
 | Battery beside the plant (`bmw`, `dur`, `strat`) | the plant's MW, 4 hours, perfect foresight | ERW's choice | none |
 | The pair's limit and prices | the plant's MW or its highest hour; the main hub's day-ahead price | `docs/methods/cost_of_power.md`, "Session 162" | none |
 | 1. Capital cost (`c`) | solar 1,375; wind 2,100; battery 610 (2 h), 1,110 (4 h); peaker 1,300 USD per kW; 0 to 10,000 | Lazard, Levelized Cost of Energy+, June 2025, midpoints | none |
@@ -165,7 +165,7 @@ Ranked by the held number where there is one; "no number held" where the reposit
 7. Ancillary services and capacity: none counted. A battery: 58.53 per kW energy alone against 81.40 on What a battery earns. NYISO and ISO-NE capacity: no number held.
 8. Degradation: solar none; ATB 0.7 percent; one point a year moves NPV by USD 3.51 million.
 9. A fleet, not a site: site against fleet, no number held; EIA-860M lists some plants late (1,428 ERCOT solar hours above 1.0).
-10. CAISO's peaker carbon allowance: SP15 2025 30.05 per kW by the page's rule, 6.95 with the allowance, 0.78 by the market monitor; every CAISO peaker figure is too high by that; adding the allowance waits for a ruling (part 9, question 1).
+10. CAISO's peaker carbon allowance: SP15 2025 30.05 per kW by the page's rule, 6.95 with the allowance, 0.78 by the market monitor; every CAISO peaker figure is too high by that; adding the allowance waits for a ruling (part 9, question 1). Given on 18 October 2026 as 1a and built in session 298: the allowance is in the run rule now (the last twelve months' margin at SP15 from USD 43.19 to 19.66 per kW).
 11. California's wind since May 2026: 3,650 MW of New Mexico wind (SunZia) in the denominator; the last twelve months hold 2,477 MWh per MW against 3,125 in 2025.
 12. Curtailment and negative prices: the fleet's curtailment is out of EIA's generation; a site's is not; no number held.
 13. Real time against day-ahead: USD 6,328,531 day-ahead (364 days) against 5,985,226 real time for 100 MW.
