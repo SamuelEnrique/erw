@@ -244,6 +244,8 @@ export function SellerScenarios({ facts: f }: { facts: Facts }) {
   return (
     <ScenarioBlock
       fields={fields} defaults={d} bound={(k, v) => bound(k as Key, v, d)} head={`For ${f.size}`} rows={rows}
+      // session 298: the panel in a section that opens and closes, as the battery page's Financing (session 296); open to start
+      fold={{ id: "financing", title: "Financing", summary: (a, view) => `Scenario ${view.toUpperCase()}: ${plain(a.share)}% debt at ${plain(a.rate)}%, ${plain(a.hurdle)}% hurdle, ${a.cshare > 0 ? `${SPECS.cshare.short(a.cshare)}, ${SPECS.cprice.short(a.cprice)}` : "no contract"}` }}
       differing={differing(s.a, s.b)} short={(k, v) => SPECS[k as Key].short(v)} differs={differenceWords(s.a, s.b)}
       sentence={cols.a.r ? (
         <p className="mt-3 max-w-3xl text-sm" data-npv-sentence="a">

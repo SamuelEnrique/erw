@@ -156,8 +156,9 @@ class TheNote(unittest.TestCase):
     def test_the_page_was_not_edited(self):
         page = src("site", "app", "cost-of-power", "seller", "page.tsx")
         # session 257 edited the page's count, as this session's list said (10 to 20); the peaker's rule is as it was
-        self.assertIn('<span data-checked-against="20">Checked against: 20 published figures (Lazard, the Annual Technology Baseline, EIA, CAISO&apos;s market monitor, Berkeley Lab).', page)
-        self.assertIn("const c = g * hr + vom;", src("site", "lib", "merchant.ts"))
+        # session 298 (the owner's rulings 1a and 6a of 18 October 2026): 21 with Potomac Economics; the peaker's rule counts the carbon cost of the fuel
+        self.assertIn('<span data-checked-against="21">Checked against: 21 published figures (Lazard, the Annual Technology Baseline, EIA, CAISO&apos;s market monitor, Berkeley Lab, Potomac Economics).', page)
+        self.assertIn("const c = (g + (s.co2?.[i] ?? 0)) * hr + vom;", src("site", "lib", "merchant.ts"))
 
     def test_no_em_dash_in_what_the_session_wrote(self):
         for parts in (NOTE, ("warehouse", "analysis", "generator_caiso_check.py"), ("tests", "test_session253.py"), ("archive", "sessions", "SESSION_253_REPORT.md")):

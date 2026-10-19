@@ -176,6 +176,8 @@ export function LoadScenarios({ facts: f }: { facts: Facts }) {
   return (
     <ScenarioBlock
       fields={fields} defaults={d} bound={(k, v) => bound(k as Key, v, d)} head={f.b ? `For ${f.size}: A at ${f.place}; B at ${f.b.place}` : `For ${f.size} at ${f.place}`} rows={rows}
+      // session 298: the panel in a section that opens and closes, as the battery page's Financing (session 296); open to start
+      fold={{ id: "assumptions", title: "Assumptions", summary: (a, view) => { const dd = d as Record<string, number>; const n = Object.keys(dd).filter((k) => a[k] !== dd[k]).length; return `Scenario ${view.toUpperCase()}: ${Object.keys(dd).length} assumptions, ${n === 0 ? "all at their defaults" : `${n} changed from the defaults`}`; } }}
       differing={diff} short={(k, v) => SPECS[k as Key].short(v)} differs={f.b ? `The site: B is at ${f.b.place}, A at ${f.place}${f.b.span && f.b.span !== f.span ? ` (B's last twelve months are ${f.b.span})` : ""}. ${differenceWords(s.a, s.b)}` : differenceWords(s.a, s.b)}
       against={{ words: versus, rate: versusRate, even: versusEven }}
       sentence={ca.r ? (

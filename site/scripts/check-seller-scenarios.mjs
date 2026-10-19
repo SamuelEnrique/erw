@@ -240,7 +240,7 @@ try {
   let s = await ev(STATE);
   check(!!s && !s.bad, "the bare address: the block is on the page");
   const D = M.DEFAULTS.solar;
-  const d = F.defaultsOf(D);
+  const d = F.defaultsOf({ ...D, deg: F.SOLAR_DEG });   // session 298 (ruling 7a): solar's degradation default is the ATB's 0.7
   check(s.search === "", "the bare address stays bare: nothing is written into it", s.search);
   check(JSON.stringify(s.fields.map((f) => f.key)) === JSON.stringify(F.KEYS), "eleven assumptions, in the order asked (session 212: the contract's share and price; session 264: the PPA term last)", s.fields.map((f) => f.key).join(", "));
   check(/percent of the energy/.test(s.text) && /USD per MWh/.test(s.fields.find((f) => f.key === "cprice").source + s.text), "for solar the contract is a share of the energy at a price per MWh");
@@ -291,7 +291,7 @@ try {
   const rb = F.resultOf(b1, tw.revenueKw);
   check(near(s.cells["b|npv"].raw, rb.npv) && near(s.cells["b|coverage"].raw, rb.coverage) && near(s.cells["b|contract"].raw, F.contractPrice(b1, tw.energyKw)) && (rb.irr === null ? s.cells["b|irr"].raw === null : near(s.cells["b|irr"].raw, rb.irr)),
     "B's coverage, NPV, IRR and contract price follow", `${s.cells["b|coverage"].text} | ${s.cells["b|npv"].text} | ${s.cells["b|irr"].text} | ${s.cells["b|contract"].text}`);
-  check(s.headA.length === 4 && s.headB.length === 4 && s.words === "B: capex USD 1,375 per kW against 1,500; term 10 years against 35; degradation 0.5 percent a year against 0; hurdle rate 10 percent against 12.", "four differences, in the headers and in words", s.words);
+  check(s.headA.length === 4 && s.headB.length === 4 && s.words === "B: capex USD 1,375 per kW against 1,500; term 10 years against 35; degradation 0.5 percent a year against 0.7; hurdle rate 10 percent against 12.", "four differences, in the headers and in words", s.words);
   check(s.chartView === "b" && /scenario B/.test(s.legend), "the chart follows the scenario in view");
   check(/^Scenario A, 100 MW of solar: at a hurdle rate of 12 percent, NPV is USD /.test(s.sentence ?? "") && (s.sentence ?? "").endsWith(`NPV is ${s.cells["a|npv"].text.match(/^USD -?[\d.,]+( million| billion)?/)[0]}.`),
     "the sentence under the table states scenario A, the headline's scenario, with B in view (session 195)", s.sentence ?? "");
@@ -468,7 +468,7 @@ try {
   await go("/cost-of-power/seller");
   s = await ev(STATE);
   {
-    const d5 = F.defaultsOf(M.DEFAULTS.solar), t5 = twelveOf("ercot", "solar"), c5 = { kind: "energy", energyKw: t5.energyKw };
+    const d5 = F.defaultsOf({ ...M.DEFAULTS.solar, deg: F.SOLAR_DEG }), t5 = twelveOf("ercot", "solar"), c5 = { kind: "energy", energyKw: t5.energyKw };   // session 298
     const want = F.breakevenPpa(d5, t5.revenueKw, c5), b5 = F.asPpa(d5, t5.revenueKw, c5);
     check(near(s.cells["a|ppa"].raw, want, 1e-6) && near(s.cells["b|ppa"].raw, want, 1e-6) && /Breakeven PPA price/.test(s.labels.ppa) && /on 100 percent of the energy/.test(s.cells["a|ppa"].text)
       && Math.abs(F.npv(d5.hurdle, F.flows({ ...d5, cshare: 100, cprice: want }, t5.revenueKw, c5))) < 1e-6,

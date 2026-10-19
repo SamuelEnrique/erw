@@ -224,10 +224,12 @@ class TheGeneratorsCount(unittest.TestCase):
         self.assertEqual(len(self.twelve), 12)
         gaps = [r for r in self.twelve if not r[3].startswith("not computed")]
         self.assertEqual(len(gaps), 10)
-        self.assertEqual(len(self.cross), 20)
-        first, last = self.cross[:10], self.cross[10:]
+        # session 298 (the owner's ruling 6a of 18 October 2026): one row more, Potomac's 2024 net revenue, among the first (the ERCOT) rows
+        self.assertEqual(len(self.cross), 21)
+        first, last = self.cross[:11], self.cross[11:]
         self.assertTrue(first[0][0].startswith("Solar in ERCOT, the contract price at which coverage reaches 1.25 times: USD 39.14 per MWh"))   # session 196's ten, as they were
-        self.assertTrue(first[9][0].startswith("New England's internal hub, day-ahead, the peak block"))
+        self.assertTrue(first[10][0].startswith("New England's internal hub, day-ahead, the peak block"))
+        self.assertTrue(any(r[0].startswith("ERCOT gas peaker, 2024") and "Potomac Economics" in r[2] for r in first))
         for moved, r in zip(last, gaps):
             self.assertEqual(len(moved), 5, moved[0][:60])
             self.assertTrue(moved[0].startswith("CAISO: "), moved[0][:60])
@@ -241,7 +243,7 @@ class TheGeneratorsCount(unittest.TestCase):
         self.assertIn("A gas peaker at SP15, 2025, run their way as far as the model can", last[3][0])
 
     def test_each_of_the_ten_names_where_it_was_read(self):
-        last = self.cross[10:]
+        last = self.cross[11:]   # session 298: Potomac's row joined the ERCOT rows before these
         dmm = "https://www.caiso.com/documents/2025-annual-report-on-market-issues-and-performance.pdf"
         wind = "https://eta-publications.lbl.gov/sites/default/files/2026-08/data_file_land-based_wind_energy_technology_update_2026_edition_public_0.xlsx"
         solar = "https://eta-publications.lbl.gov/sites/default/files/2025-10/2025_utility-scale_solar_data_update.xlsx"
@@ -260,16 +262,17 @@ class TheGeneratorsCount(unittest.TestCase):
         self.assertIn("for Berkeley Lab's host no terms page was read, which session 253 left for a ruling", intro)
 
     def test_the_page_counts_twenty_and_names_the_two_new_publishers(self):
-        self.assertIn('<span data-checked-against="20">Checked against: 20 published figures (Lazard, the Annual Technology Baseline, EIA, CAISO&apos;s market monitor, Berkeley Lab). '
+        # session 298 (the owner's ruling 6a of 18 October 2026): 21, with Potomac Economics
+        self.assertIn('<span data-checked-against="21">Checked against: 21 published figures (Lazard, the Annual Technology Baseline, EIA, CAISO&apos;s market monitor, Berkeley Lab, Potomac Economics). '
                       '<Link href="/data/methods/generator_earns_algorithm#cross-checks">Each comparison, with its gap and the reason</Link>.</span>', self.page)
         self.assertEqual(self.page.count("data-checked-against="), 1)
         how = src("docs", "reviews", "packs", "generator.md")   # session 264: the pack replaces the how-it-works note
         self.assertNotIn("10 published figures", how)
-        self.assertIn('"Checked against: 20 published figures (Lazard, the Annual Technology Baseline, EIA, CAISO\'s market monitor, Berkeley Lab)."', how)
+        self.assertIn('"Checked against: 21 published figures (Lazard, the Annual Technology Baseline, EIA, CAISO\'s market monitor, Berkeley Lab, Potomac Economics)."', how)
 
     def test_what_waits_was_not_touched(self):
         lib = src("site", "lib", "merchant.ts")
-        self.assertIn("const c = g * hr + vom;", lib)                                    # the peaker's carbon cost waits for a ruling
+        self.assertIn("const c = (g + (s.co2?.[i] ?? 0)) * hr + vom;", lib)            # session 298 (ruling 1a): the peaker's carbon cost, where the grid has one
         self.assertIn('export const EVENTS: Record<string, string> = { uri_2021: "Winter Storm Uri, February 2021", elliott_2022: "Winter Storm Elliott, December 2022", '
                       'ercot_heat_2023: "ERCOT\'s summer 2023 heat" };', lib)             # CAISO's stress days wait for the snapshot
         snap = json.loads(src("site", "data", "merchant_snapshot.json"))

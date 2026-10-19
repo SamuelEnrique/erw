@@ -178,6 +178,33 @@ def henry_hub():
     return pd.Series(s["value"].values, index=pd.to_datetime(day)).sort_index(), s
 
 
+# Session 298 (the owner's ruling 1a of 18 October 2026): California's generators buy an allowance for each tonne of
+# CO2, so the CAISO peaker's run rule counts the carbon cost of its fuel: the settlement price of the latest current
+# auction (CARB, carb_auction_allowance_prices, USD per tCO2, quarterly) times the emission factor of natural gas,
+# 53.06 kg CO2 per MMBtu (EPA, 40 CFR part 98, Table C-1). The table is internal: the snapshot carries the derived
+# hourly cost in USD per MMBtu (co2) and names the source; no settlement price is written to a download.
+CO2_PER_MMBTU = 0.05306
+CO2_GRIDS = {"caiso"}
+CO2_SOURCE = "California Air Resources Board, Summary of California and Joint Auction Settlement Prices and Results (carb_auction_allowance_prices, the current auction's settlement price, USD per tCO2) times 53.06 kg CO2 per MMBtu of natural gas (EPA, 40 CFR part 98, Table C-1)"
+_ALLOWANCE = {}
+
+
+def allowance(log):
+    """The carbon cost of natural gas by auction date, USD per MMBtu, from the allowance table; None when the table is
+    not on the machine (said once in the log; the grid is then built with no carbon cost, as before session 298)."""
+    if "s" not in _ALLOWANCE:
+        try:
+            s = pb.read_table("carb_auction_allowance_prices")
+            s = s[(s["entity"] == "carb:current_auction") & (s["variable"] == "settlement_price")]
+            day = s["ts"].dt.strftime("%Y-%m-%d")
+            _ALLOWANCE["s"] = (pd.Series(s["value"].values, index=pd.to_datetime(day)).sort_index() * CO2_PER_MMBTU)
+            log(f"  allowance: {len(s)} current-auction settlement prices, {day.min()} to {day.max()}, x {CO2_PER_MMBTU} tCO2/MMBtu")
+        except Exception as exc:  # noqa: BLE001  (an absent or unreadable table is said, and the carbon cost left out)
+            log(f"  allowance: carb_auction_allowance_prices not read ({type(exc).__name__}: {exc}): no carbon cost in the CAISO peaker's run rule")
+            _ALLOWANCE["s"] = None
+    return _ALLOWANCE["s"]
+
+
 def build_iso(iso, gens, hh, log, left, price=None, table=None, fuel=None):
     """The model of one ISO at its main hub. Session 183: the same model at another hub or zone (merchant_hubs.py) is
     this function with `price` (that hub's hourly price by the hour's start, UTC), `table` (the tables it was read
@@ -205,6 +232,14 @@ def build_iso(iso, gens, hh, log, left, price=None, table=None, fuel=None):
     days = pd.to_datetime(sorted(h["day"].unique()))
     hhd = hh.reindex(hh.index.union(days)).sort_index().ffill().reindex(days)
     h["hh"] = h["day"].map(dict(zip(days.strftime("%Y-%m-%d"), hhd.values)))
+    # session 298: the carbon cost of the fuel, USD per MMBtu, where the grid's generators buy allowances (CAISO): the
+    # latest auction at or before the day; none before the first auction, none elsewhere
+    co2 = allowance(log) if iso in CO2_GRIDS else None
+    if co2 is not None:
+        c = co2.reindex(co2.index.union(days)).sort_index().ffill().reindex(days)
+        h["co2"] = h["day"].map(dict(zip(days.strftime("%Y-%m-%d"), c.values)))
+    else:
+        h["co2"] = np.nan
     caps = {}
     for m in sorted(h["month"].unique()):
         caps[m] = (capacity(gens, BA[iso], "SUN", m), capacity(gens, BA[iso], "WND", m))
@@ -246,7 +281,7 @@ def build_iso(iso, gens, hh, log, left, price=None, table=None, fuel=None):
                                         capture_price=sales / deliv if deliv else None, flat_price=flat,
                                         capture_rate=(sales / deliv / flat * 100) if deliv and flat else None, hours=len(vals))
         x = g.dropna(subset=["hh"])
-        cost = x["hh"] * HEAT_RATE + VOM
+        cost = (x["hh"] + x["co2"].fillna(0)) * HEAT_RATE + VOM   # session 298: the carbon cost of the fuel, where there is one
         run = x["p"] > cost
         if len(x):
             e = float(run.sum())
@@ -310,6 +345,9 @@ def main():
                 s["months"][m]["i0"], s["months"][m]["i1"] = int(ix.min()), int(ix.max()) + 1
             s["price"] = [None if pd.isna(v) else round(float(v), 2) for v in hp["p"]]
             s["hh"] = [None if pd.isna(v) else round(float(v), 3) for v in hp["hh"]]
+            if iso in CO2_GRIDS and hp["co2"].notna().any():   # session 298: the carbon cost of the fuel, USD per MMBtu
+                s["co2"] = [None if pd.isna(v) else round(float(v), 4) for v in hp["co2"]]
+                s["co2_source"] = CO2_SOURCE
             if iso == "ercot":
                 stress = {}
                 for e in STRESS:

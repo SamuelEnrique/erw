@@ -15,6 +15,7 @@
 // Session 211: a field's Reset is named for its field (aria-label "Reset <label>", docs/brand.md section 7), so that
 // the twelve Resets of a panel are not twelve controls called "Reset"; what is drawn is unchanged.
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { SettingsFold } from "@/components/tool/ToolPage";
 
 export type View = "a" | "b";
 export type Values = Record<string, number>;
@@ -85,7 +86,11 @@ function NumberField({ f, value, onValue, read }: { f: Field; value: number; onV
   // session 296: the typed value that was brought inside the bounds (session 263), said under the field while it is in
   // force: remembered from the change, so it stays after the box loses focus, and gone once the value is another
   const [typed, setTyped] = useState<number | null>(null);
-  const clamped = f.clamp && typed !== null && read(typed) === value ? f.clamp(typed, value) : null;
+  // session 298 (the owner's ruling 8a of 18 October 2026): a field without its page's own words says so in the shared
+  // component's, so every decision page's field names a value brought inside its bounds (the battery's words are its own)
+  const n = (v: number) => v.toLocaleString("en-US", { maximumFractionDigits: 2 });
+  const words = f.clamp ?? ((t: number, u: number) => (t >= f.min && t <= f.max ? `${n(t)} was typed: the field takes whole ${f.unit}, so ${n(u)} is used.` : `${n(t)} was typed: the field runs from ${n(f.min)} to ${n(f.max)}, so ${n(u)} is used.`));
+  const clamped = typed !== null && read(typed) === value ? words(typed, value) : null;
   return (
     <span className="block w-full">
       <input type="number" inputMode="decimal" autoComplete="off" min={f.min} max={f.max} step={f.whole ? 1 : "any"} value={shown} className={field}
@@ -240,7 +245,7 @@ export function ScenarioPanel({ fields, defaults: d, bound, foot, columns = 2, g
  * words what differs, the page's own row that sets B against A in numbers (when it has one), the sentence under the
  * table, which states scenario A, the scenario the page's headline shows, and the chart for the scenario in view.
  * Session 296: `panel: false` leaves the panel out (the page draws it elsewhere with ScenarioPanel). */
-export function ScenarioBlock({ fields, defaults: d, bound, head, rows, differing, short, differs, against, sentence, chart, foot, panel = true }: {
+export function ScenarioBlock({ fields, defaults: d, bound, head, rows, differing, short, differs, against, sentence, chart, foot, panel = true, fold }: {
   fields: Field[]; defaults: Values; bound: (key: string, v: number) => number;
   /** the table's first heading: what the two columns are for ("For 100 MW, 4-hour") */
   head: string; rows: Row[];
@@ -248,13 +253,17 @@ export function ScenarioBlock({ fields, defaults: d, bound, head, rows, differin
   differing: string[]; short: (key: string, v: number) => string; differs: string;
   against?: { words: string; rate: string; even: string };
   sentence: ReactNode; chart: Chart | null; foot?: ReactNode; panel?: boolean;
+  /** session 298: the panel inside a section that opens and closes (open to start), with one line of the scenario
+   *  in view's settings while closed (the battery page's "Financing", session 296) */
+  fold?: { id: string; title: string; summary: (a: Values, view: View) => ReactNode };
 }) {
   const { s } = useScenarios();
   const views: View[] = ["a", "b"];
+  const panelEl = <ScenarioPanel fields={fields} defaults={d} bound={bound} foot={foot} />;
 
   return (
     <div data-scenarios="1">
-      {panel ? <div className="mb-4"><ScenarioPanel fields={fields} defaults={d} bound={bound} foot={foot} /></div> : null}
+      {panel ? <div className="mb-4">{fold ? <SettingsFold id={fold.id} title={fold.title} open={true} summary={fold.summary(s[s.view], s.view)}>{panelEl}</SettingsFold> : panelEl}</div> : null}
 
       <div className="overflow-x-auto">
         <table className="block w-full border-collapse text-left text-sm tabular-nums sm:table" data-scenario-table="1">

@@ -15,8 +15,14 @@ export type StressDay = { day: string; window: boolean; hours: number; i0: numbe
 export type SnapIso = {
   iso: string; hub: string; ba: string; tz: string; start: string; months: Record<string, SnapMonth>;
   price: (number | null)[]; hh: (number | null)[]; stress?: Record<string, { start: string; end: string; days: StressDay[] }>;
+  /** session 298 (the owner's ruling 1a of 18 October 2026): the carbon cost of the fuel, USD per MMBtu, on the same
+   *  hour grid, for a grid whose generators buy allowances (CAISO: California's cap-and-trade settlement price of the
+   *  latest auction, times the emission factor of natural gas); absent elsewhere, which counts as none */
+  co2?: (number | null)[]; co2_source?: string;
   over_nameplate: Record<string, number>; negative: Record<string, number>;
 };
+/** Natural gas burns to 53.06 kg of CO2 per MMBtu (EPA, 40 CFR part 98, Table C-1): tCO2 per MMBtu. */
+export const CO2_PER_MMBTU = 0.05306;
 export type Snapshot = { built: string; isos: Record<string, SnapIso>; defaults: { rte: number; heat_rate: number; vom: number; near: number; durations: number[] }; source: string[] };
 export type Inputs = { iso: string; asset: Asset; mw: number; mwh: number; ds: number; hr: number; vom: number; fom: number };
 
@@ -76,14 +82,15 @@ export function parseKey(k: string): Inputs {
 
 export type Month = { m: string; held: boolean; share: number; revenue: number; energy: number; capture: number | null; flat: number; rate: number | null; cfads: number; dscr: number | null };
 
-/** The peaker over hours [i0, i1): runs where price > Henry Hub x heat rate + variable O&M; per MW. */
+/** The peaker over hours [i0, i1): runs where price > (Henry Hub + the carbon cost of the fuel) x heat rate + variable
+ * O&M; per MW. Session 298: the carbon cost is the grid's `co2` series, USD per MMBtu (CAISO's allowance), none elsewhere. */
 export function peakerOver(s: SnapIso, i0: number, i1: number, hr: number, vom: number) {
   let sales = 0, cost = 0, run = 0, n = 0, sum = 0;
   for (let i = i0; i < i1; i++) {
     const p = s.price[i], g = s.hh[i];
     if (p === null || g === null || p === undefined || g === undefined) continue;
     n++; sum += p;
-    const c = g * hr + vom;
+    const c = (g + (s.co2?.[i] ?? 0)) * hr + vom;
     if (p > c) { sales += p; cost += c; run++; }
   }
   return { revenue: sales - cost, sales, energy: run, hours: n, flat: n ? sum / n : 0 };
@@ -101,7 +108,9 @@ export function months(snap: Snapshot, x: Inputs): Month[] {
   const out: Month[] = [];
   for (const [m, r] of Object.entries(s.months).sort()) {
     let row: { revenue: number; energy: number; sales: number; flat: number; hours: number } | null = null;
-    if (k === "peaker" && (x.hr !== HEAT_RATE || x.vom !== VOM)) {
+    // session 298: a grid with a carbon cost (CAISO) is always solved here, so the allowance is in the run rule whatever
+    // the snapshot's own monthly figures hold (the data machine's table carries it once its builder is rerun)
+    if (k === "peaker" && (x.hr !== HEAT_RATE || x.vom !== VOM || s.co2)) {
       const p = peakerOver(s, r.i0, r.i1, x.hr, x.vom);
       row = { revenue: p.revenue, energy: p.energy, sales: p.sales, flat: p.flat, hours: p.hours };
     } else if (r[k]) {

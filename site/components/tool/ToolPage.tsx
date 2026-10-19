@@ -75,12 +75,13 @@ export function HeadlineRow({ children }: { children: ReactNode }) {
 }
 
 export type LegendItem = { label: string; color: string; hatch?: boolean };
-/** A chart with its title, its legend and one line under it. The chart itself is the child. */
-export function ChartFrame({ title, legend, note, children }: { title: string; legend?: LegendItem[]; note?: ReactNode; children: ReactNode }) {
+/** A chart with its title, its legend and one line under it. The chart itself is the child. Session 298: `tip`, a
+ *  hover tip beside the title (the battery page's manner, session 296), for a note that explains rather than links. */
+export function ChartFrame({ title, legend, note, tip, children }: { title: string; legend?: LegendItem[]; note?: ReactNode; tip?: ReactNode; children: ReactNode }) {
   return (
     <figure className="mb-10">
       <figcaption className="mb-2 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-rule pb-1">
-        <span className="font-serif text-xl text-accent">{title}</span>
+        <span className="font-serif text-xl text-accent">{title}{tip}</span>
         {legend ? (
           <span className="flex flex-wrap gap-x-4 text-xs text-ink">
             {legend.map((l) => (

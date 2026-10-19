@@ -171,7 +171,9 @@ class ThePage(unittest.TestCase):
         block = src("site", "components", "decisions", "ScenarioBlock.tsx")
         self.assertIn("bound: (key: string, v: number) => number;", block)   # the shared block's bound is not changed
         self.assertIn('<span className="mt-1 block text-xs leading-snug text-muted" data-clamped={f.key}>{clamped}</span>', block)
-        self.assertIn("const clamped = f.clamp && typed !== null && read(typed) === value ? f.clamp(typed, value) : null;", block)
+        # session 298 (ruling 8a): a field without its page's own words takes the shared component's
+        self.assertIn("const clamped = typed !== null && read(typed) === value ? words(typed, value) : null;", block)
+        self.assertIn("const words = f.clamp ?? ((t: number, u: number) =>", block)
 
     def test_no_debt_and_a_term_above_the_life_are_said_as_they_are(self):
         # fixed on the local build of 14 October 2026: "covered its debt not held times", and a tail note that called a
