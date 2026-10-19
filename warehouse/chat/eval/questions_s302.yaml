@@ -1,0 +1,311 @@
+# Energy Research Warehouse (ERW): 30 hard questions for Ask (/api/ask), session 302 (the chain prompt of 19 October 2026).
+# Ten ERCOT (five through the Grid panel of session 299: Ask ERCOT's profile with the panel's context; five through the
+# ERCOT-scoped chat), five CAISO, five on the other grids, five cross-grid comparisons, five it must refuse (PJM's prices,
+# a forecast, a year before the tables, MISO paused, a number no table holds). Every expected number was computed before
+# any model call from the tables as the site reads them (Supabase, the anon key), on 19 October 2026 by
+# runs/chain_oct19/s302_expect.py (not in git); each note names the table, the entity, the variable, the period and the
+# aggregation. `via` is how the question is sent: panel (profile ercot, stream, the panel's context), grid (the grid's
+# scoped chat) or general. Fields otherwise as in questions_s267.yaml. The recorded answers and the grades are in
+# eval_s302_fixtures.json beside this file.
+today: '2026-10-19'
+questions:
+- id: q01
+  grid: ERCOT
+  via: panel
+  question: "What was the average real-time on-peak price at ERCOT's hub average (HB_HUBAVG) over calendar year 2024?"
+  expected: [31.5717]
+  tolerance: 0.01
+  text: []
+  tables: ["price_board_peak_offpeak"]
+  refuse: false
+  note: "price_board_peak_offpeak, ercot:HB_HUBAVG, rt_year_peak_mean, ts 2024-01-01 (P1Y)"
+- id: q02
+  grid: ERCOT
+  via: panel
+  question: "What was the load-weighted real-time price at ERCOT's HB_HUBAVG in July 2025?"
+  expected: [34.1771]
+  tolerance: 0.01
+  text: []
+  tables: ["cost_of_power_monthly"]
+  refuse: false
+  note: "cost_of_power_monthly, ercot:HB_HUBAVG, rt_load_weighted, 2025-07-01 (P1M)"
+- id: q03
+  grid: ERCOT
+  via: panel
+  question: "What was wind's capture rate at ERCOT's HB_HUBAVG in March 2024?"
+  expected: [72.5329]
+  tolerance: 0.01
+  text: []
+  tables: ["merchant_revenue_monthly"]
+  refuse: false
+  note: "merchant_revenue_monthly, ercot:HB_HUBAVG, wind_capture_rate (pct), 2024-03-01"
+- id: q04
+  grid: ERCOT
+  via: panel
+  question: "How many scarcity intervals did ERCOT's HB_SOUTH hub have in 2023?"
+  expected: [213.0]
+  tolerance: 0.5
+  text: []
+  tables: ["ercot_peak_premium_annual"]
+  refuse: false
+  note: "ercot_peak_premium_annual, ercot:HB_SOUTH, n_scarcity, 2023 (P1Y)"
+- id: q05
+  grid: ERCOT
+  via: panel
+  question: "What was the carbon intensity of ERCOT's demand in January 2025, in kg CO2 per MWh?"
+  expected: [356.7355]
+  tolerance: 0.01
+  text: []
+  tables: ["carbon_intensity_monthly"]
+  refuse: false
+  note: "carbon_intensity_monthly, eia930:ERCO, intensity_demand, 2025-01-01"
+- id: q06
+  grid: ERCOT
+  via: grid
+  question: "What was the average day-ahead price of Responsive Reserve Service (RRS) in ERCOT in August 2024?"
+  expected: [8.2538]
+  tolerance: 0.01
+  text: []
+  tables: ["ercot_as_prices_monthly", "ercot_as_prices"]
+  refuse: false
+  note: "ercot_as_prices_monthly, ercot:RRS, mcpc_dam_mean, 2024-08-01"
+- id: q07
+  grid: ERCOT
+  via: grid
+  question: "What was the highest daily real-time maximum price at ERCOT's HB_HOUSTON hub in 2025, and on which day?"
+  expected: [3777.15]
+  tolerance: 0.01
+  text: ["2025"]
+  tables: ["ercot_hub_prices_daily"]
+  refuse: false
+  note: "ercot_hub_prices_daily, ercot:HB_HOUSTON, rt_max, max over 2025: 3777.15 on 2025-04-07"
+- id: q08
+  grid: ERCOT
+  via: grid
+  question: "How many negative-price real-time intervals did ERCOT's HB_HUBAVG have in 2025?"
+  expected: [959.0]
+  tolerance: 0.5
+  text: []
+  tables: ["ercot_peak_premium_annual"]
+  refuse: false
+  note: "ercot_peak_premium_annual, ercot:HB_HUBAVG, n_negative, 2025 (P1Y)"
+- id: q09
+  grid: ERCOT
+  via: grid
+  question: "What was the average day-ahead off-peak price at ERCOT's HB_HUBAVG over calendar year 2024?"
+  expected: [22.3169]
+  tolerance: 0.01
+  text: []
+  tables: ["price_board_peak_offpeak"]
+  refuse: false
+  note: "price_board_peak_offpeak, ercot:HB_HUBAVG, da_year_offpeak_mean, 2024 (P1Y)"
+- id: q10
+  grid: ERCOT
+  via: grid
+  question: "What was the real-time shape premium at ERCOT's HB_HUBAVG in August 2024?"
+  expected: [3.2283]
+  tolerance: 0.01
+  text: []
+  tables: ["cost_of_power_monthly"]
+  refuse: false
+  note: "cost_of_power_monthly, ercot:HB_HUBAVG, rt_shape_premium, 2024-08-01"
+- id: q11
+  grid: CAISO
+  via: grid
+  question: "How much wind did CAISO curtail in total in 2024, in MWh?"
+  expected: [230776.644]
+  tolerance: 1
+  text: []
+  tables: ["iso_curtailment_monthly", "caiso_curtailment_daily"]
+  refuse: false
+  note: "iso_curtailment_monthly, caiso:ISO, curtailed_wind_mwh, sum of the 12 months of 2024 (12 rows)"
+- id: q12
+  grid: CAISO
+  via: grid
+  question: "What is the lowest monthly carbon intensity of CAISO's generation in the warehouse, and in which month?"
+  expected: [44.2145]
+  tolerance: 0.01
+  text: ["2026"]
+  tables: ["carbon_intensity_monthly"]
+  refuse: false
+  note: "carbon_intensity_monthly, eia930:CISO, intensity_generation, min over 69 months: 44.2145 in May 2026"
+- id: q13
+  grid: CAISO
+  via: grid
+  question: "What was the load-weighted real-time price at CAISO's SP15 hub in September 2024?"
+  expected: [33.0688]
+  tolerance: 0.01
+  text: []
+  tables: ["cost_of_power_monthly"]
+  refuse: false
+  note: "cost_of_power_monthly, caiso:TH_SP15_GEN-APND, rt_load_weighted, 2024-09-01"
+- id: q14
+  grid: CAISO
+  via: grid
+  question: "What was a 4-hour battery's capture rate at CAISO's SP15 hub in March 2025?"
+  expected: [216.4976]
+  tolerance: 0.01
+  text: []
+  tables: ["merchant_revenue_monthly"]
+  refuse: false
+  note: "merchant_revenue_monthly, caiso:TH_SP15_GEN-APND, battery_4h_capture_rate (pct), 2025-03-01"
+- id: q15
+  grid: CAISO
+  via: grid
+  question: "What was the day-ahead shape premium at CAISO's SP15 hub in March 2025?"
+  expected: [1.1363]
+  tolerance: 0.01
+  text: []
+  tables: ["cost_of_power_monthly"]
+  refuse: false
+  note: "cost_of_power_monthly, caiso:TH_SP15_GEN-APND, da_shape_premium, 2025-03-01"
+- id: q16
+  grid: NYISO
+  via: grid
+  question: "What was the load-weighted day-ahead price at NYISO's N.Y.C. zone in February 2025?"
+  expected: [105.98]
+  tolerance: 0.01
+  text: []
+  tables: ["cost_of_power_monthly"]
+  refuse: false
+  note: "cost_of_power_monthly, nyiso:N.Y.C., da_load_weighted, 2025-02-01"
+- id: q17
+  grid: SPP
+  via: grid
+  question: "What was the load-weighted real-time price at SPP's North hub in February 2025?"
+  expected: [24.7766]
+  tolerance: 0.01
+  text: []
+  tables: ["cost_of_power_monthly"]
+  refuse: false
+  note: "cost_of_power_monthly, spp:SPPNORTH_HUB, rt_load_weighted, 2025-02-01"
+- id: q18
+  grid: ISO-NE
+  via: grid
+  question: "What was the carbon intensity of ISO-NE's demand in July 2024?"
+  expected: [269.8458]
+  tolerance: 0.01
+  text: []
+  tables: ["carbon_intensity_monthly"]
+  refuse: false
+  note: "carbon_intensity_monthly, eia930:ISNE, intensity_demand, 2024-07-01"
+- id: q19
+  grid: US48
+  via: general
+  question: "What was the average monthly carbon intensity of US Lower 48 generation over 2024?"
+  expected: [337.4766]
+  tolerance: 0.01
+  text: []
+  tables: ["carbon_intensity_monthly"]
+  refuse: false
+  note: "carbon_intensity_monthly, eia930:US48, intensity_generation, mean of the 12 months of 2024"
+- id: q20
+  grid: ISO-NE
+  via: grid
+  question: "What was solar's capture rate at ISO-NE's Internal Hub in June 2025?"
+  expected: [96.9117]
+  tolerance: 0.01
+  text: []
+  tables: ["merchant_revenue_monthly"]
+  refuse: false
+  note: "merchant_revenue_monthly, isone:.H.INTERNAL_HUB, solar_capture_rate (pct), 2025-06-01"
+- id: q21
+  grid: CAISO vs ERCOT
+  via: general
+  question: "How did the carbon intensity of CAISO's generation in June 2025 compare with ERCOT's?"
+  expected: [141.9102, 306.3046]
+  tolerance: 0.01
+  text: []
+  tables: ["carbon_intensity_monthly"]
+  refuse: false
+  note: "carbon_intensity_monthly, intensity_generation, 2025-06-01: CISO 141.9102, ERCO 306.3046"
+- id: q22
+  grid: CAISO vs ERCOT
+  via: general
+  question: "In April 2025, what was solar's capture rate at CAISO's SP15 hub compared with ERCOT's HB_HUBAVG?"
+  expected: [-33.4176, 62.6119]
+  tolerance: 0.01
+  text: []
+  tables: ["merchant_revenue_monthly"]
+  refuse: false
+  note: "merchant_revenue_monthly, solar_capture_rate, 2025-04-01: SP15 -33.4176, HB_HUBAVG 62.6119"
+- id: q23
+  grid: NYISO vs ISO-NE
+  via: general
+  question: "In January 2025, how did the load-weighted real-time price at NYISO's N.Y.C. zone compare with ISO-NE's Internal Hub?"
+  expected: [138.6427, 141.5699]
+  tolerance: 0.01
+  text: []
+  tables: ["cost_of_power_monthly"]
+  refuse: false
+  note: "cost_of_power_monthly, rt_load_weighted, 2025-01-01: N.Y.C. 138.6427, Internal Hub 141.5699"
+- id: q24
+  grid: SPP vs ERCOT
+  via: general
+  question: "In December 2024, what was wind's capture rate at SPP's North hub compared with ERCOT's HB_HUBAVG?"
+  expected: [81.1935, 82.0721]
+  tolerance: 0.01
+  text: []
+  tables: ["merchant_revenue_monthly"]
+  refuse: false
+  note: "merchant_revenue_monthly, wind_capture_rate, 2024-12-01: SPPNORTH_HUB 81.1935, HB_HUBAVG 82.0721"
+- id: q25
+  grid: CAISO vs SPP
+  via: general
+  question: "Over 2024, how much wind did CAISO curtail in total compared with SPP, in MWh?"
+  expected: [230776.644, 15568332.363]
+  tolerance: 1
+  text: []
+  tables: ["iso_curtailment_monthly"]
+  refuse: false
+  note: "iso_curtailment_monthly, curtailed_wind_mwh, sum of 2024: caiso:ISO 230776.644, spp:SPP 15568332.363"
+- id: q26
+  grid: PJM
+  via: general
+  question: "What was the average day-ahead price at PJM's Western Hub in 2025?"
+  expected: []
+  tolerance: 0
+  text: []
+  tables: []
+  refuse: true
+  note: "PJM's prices are licensed for internal use (docs/licenses.md): no public table holds them; a figure would be a breach"
+- id: q27
+  grid: ERCOT
+  via: panel
+  question: "What will the real-time price at ERCOT's HB_HUBAVG be in July 2027?"
+  expected: []
+  tolerance: 0
+  text: []
+  tables: []
+  refuse: true
+  note: "a forecast: the warehouse holds no future prices"
+- id: q28
+  grid: ERCOT
+  via: grid
+  question: "What was ERCOT's peak demand in August 2010?"
+  expected: []
+  tolerance: 0
+  text: []
+  tables: []
+  refuse: true
+  note: "before the tables begin (EIA-930 from 2018, the ERCOT price history from 2015)"
+- id: q29
+  grid: MISO
+  via: general
+  question: "What was the load-weighted real-time price at MISO's Indiana hub in August 2026?"
+  expected: []
+  tolerance: 0
+  text: ["paused"]
+  tables: []
+  refuse: true
+  note: "MISO is paused since 4 October 2026 (docs/methods/miso_pause.md): Ask says so and gives no figure (session 267's fix)"
+- id: q30
+  grid: US48
+  via: general
+  question: "How many electric vehicles were registered in Texas in 2025?"
+  expected: []
+  tolerance: 0
+  text: []
+  tables: []
+  refuse: true
+  note: "no table of the warehouse holds vehicle registrations"
