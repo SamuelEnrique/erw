@@ -123,7 +123,7 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
   /** session 237: the component is a view of the Grid tool (/grid). `keep` is the page's own query, which stays at the
    *  head of the address; the component's "view" and "grid" are written as "net" and "node" after it (lib/gridtool.ts).
    *  `node`: the balancing authority whose panel opens when the address names none (the grid chosen on the page). */
-  page?: { keep: string; node: string | null } }) {
+  page?: { keep: string; node: string | null; /** session 299: the shape the page's tab is (the Gravity tab), when the address says nothing */ shape?: Shape } }) {
   const ownSearch = useCallback((search: string) => (page ? netFromPage(search, page.node) : search), [page]);
   const box = useRef<HTMLDivElement>(null);
   const graph = useRef<any>(null); // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -165,7 +165,7 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
   const isDayView = view.frame === "day";
   // session 180 (v3 only): the page's shape. The address's until the reader chooses one; the network when it says nothing
   const search = useSyncExternalStore(never, () => window.location.search, () => "");
-  const [ownShape, setOwnShape] = useState<Shape | null>(null);
+  const [ownShape, setOwnShape] = useState<Shape | null>(page?.shape ?? null);   // session 299: the Gravity tab opens in its shape
   const shape: Shape = v3 ? ownShape ?? parseShape(search) : "network";
   const toggled = useRef(false);   // the reader has changed the shape: a network built after that is brought to the moment shown
   const [graphAt, setGraphAt] = useState(0);

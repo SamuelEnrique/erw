@@ -26,15 +26,23 @@ export const GRID_CHOICES = [
 export type GridChoice = (typeof GRID_CHOICES)[number];
 export type GridSlug8 = GridChoice["slug"];
 
+// Session 299 (the owner's merge of 18 October 2026): four tabs across the top. The Now view's blocks open the Mix tab,
+// the Exchange view's sit under the gravity shape, and Ask is a panel beside every tab. The old words still resolve
+// (OLD_VIEWS): an address with view=now opens Mix, view=exchange opens Gravity, view=ask opens the page with the panel.
 export const GRID_VIEWS = [
-  ["now", "Now"], ["network", "Network"], ["mix", "Mix"], ["clean", "Clean"], ["exchange", "Exchange"], ["ask", "Ask"],
+  ["network", "Network"], ["mix", "Mix"], ["clean", "Clean"], ["gravity", "Gravity"],
 ] as const;
 export type GridView = (typeof GRID_VIEWS)[number][0];
+export const OLD_VIEWS: Record<string, GridView> = { now: "mix", exchange: "gravity", ask: "mix" };
+/** The tab the page opens on when the address names none: Mix, which holds the Now view's blocks, the opening view until
+ * session 299 (so /grid, /grid/<iso> and /grid?grid=<grid> draw the numbers they drew, and their floors stand). */
+export const DEFAULT_VIEW: GridView = "mix";
 
-/** The grid the page opens with when the address names none. */
-export const DEFAULT_GRID: GridSlug8 = "ercot";
-/** The views that open on the Lower 48 when the address names no grid: the pages that redirect into them showed every grid. */
-export const WHOLE_VIEWS: readonly GridView[] = ["network", "mix", "clean"];
+/** The grid the page opens with when the address names none: session 299 (the owner's ruling 4b of 18 October 2026),
+ * the Lower 48 first, then the reader picks (ERCOT until then). */
+export const DEFAULT_GRID: GridSlug8 = "us48";
+/** Kept for the addresses that named it: since session 299 every tab opens on the Lower 48 when no grid is named. */
+export const WHOLE_VIEWS: readonly GridView[] = ["network", "mix", "clean", "gravity"];
 export const GRID_PATH = "/grid";
 
 type Query = Record<string, string | string[] | undefined>;
@@ -49,6 +57,8 @@ export function gridBy(word: string | undefined | null): GridChoice | null {
 
 export type GridPick = {
   grid: GridChoice; view: GridView;
+  /** session 299: the Ask panel is open (view=ask, or ask=1) */
+  ask: boolean;
   /** the balancing authority whose panel the Network view opens: the address's node, else an old address's grid when
    *  it is a code that is none of the eight (BPAT), else the chosen grid's own (none for the Lower 48) */
   node: string | null;
@@ -59,9 +69,13 @@ export type GridPick = {
 /** What an address asks for. Anything unknown falls back to the page as it opens. */
 export function gridPick(q: Query): GridPick {
   const asked = one(q.view);
-  let view: GridView = GRID_VIEWS.some(([k]) => k === asked) ? (asked as GridView) : "now";
+  // session 299: the old words (now, exchange, ask) open the tab that holds their blocks; the Ask panel is a flag
+  let view: GridView = GRID_VIEWS.some(([k]) => k === asked) ? (asked as GridView) : (asked && OLD_VIEWS[asked]) || DEFAULT_VIEW;
+  const ask = asked === "ask" || one(q.ask) === "1";
   // the mix page's view "How clean, and when" is the Clean view of this page
   if (view === "mix" && one(q.mix) === "clean") view = "clean";
+  // the network's own shape word: an address with shape=gravity is the Gravity tab
+  if (view === "network" && one(q.shape) === "gravity") view = "gravity";
   const raw = one(q.grid);
   const byGrid = gridBy(raw), byBa = gridBy(one(q.ba)), byGrids = gridBy((one(q.grids) ?? "").split(",")[0]);
   const byNode = gridBy(one(q.node));
@@ -69,19 +83,19 @@ export function gridPick(q: Query): GridPick {
   // an old network address naming a balancing authority that is none of the eight (grid=BPAT): the Lower 48, that panel open
   const other = !byGrid ? code(raw) : null;
   const us48 = GRID_CHOICES.find((g) => g.slug === "us48")!;
-  // no grid named: ERCOT, the first of the picker; but the Network, Mix and Clean views open on the Lower 48, the whole
-  // picture, as the pages that redirect into them (/network, /mix, /emissions) opened
-  const unnamed = WHOLE_VIEWS.includes(view) ? us48 : GRID_CHOICES.find((g) => g.slug === DEFAULT_GRID)!;
+  // no grid named: the Lower 48, the whole picture, on every tab (session 299, ruling 4b; ERCOT on the Now and Ask views until then)
+  const unnamed = GRID_CHOICES.find((g) => g.slug === DEFAULT_GRID)!;
   const grid = byGrid ?? (other ? us48 : null) ?? byBa ?? byGrids ?? byNode ?? unnamed;
   const node = code(one(q.node)) ?? other ?? (grid.slug === "us48" ? null : grid.ba);
-  return { grid, view, node, named: !!(byGrid ?? other ?? byBa ?? byGrids ?? byNode) };
+  return { grid, view, ask, node, named: !!(byGrid ?? other ?? byBa ?? byGrids ?? byNode) };
 }
 
 /** The address of a grid and a view; `more` adds a view's own state. The opening page writes nothing. */
-export function gridHref(grid: string, view: GridView = "now", more: Record<string, string | undefined> = {}): string {
+export function gridHref(grid: string, view: GridView = DEFAULT_VIEW, more: Record<string, string | undefined> = {}): string {
   const q = new URLSearchParams();
   q.set("grid", grid);
-  if (view !== "now") q.set("view", view);
+  if (view !== DEFAULT_VIEW) q.set("view", view);
+  if (view === "gravity") q.set("shape", "gravity");   // session 299: the Gravity tab is the network component's gravity shape
   for (const [k, v] of Object.entries(more)) if (v !== undefined && v !== "") q.set(k, v);
   return `${GRID_PATH}?${q.toString()}`;
 }

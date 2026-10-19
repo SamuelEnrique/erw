@@ -998,3 +998,7 @@ body:has(.brand-a) header :focus-visible {
   font-family: var(--font-sans);
   vertical-align: 2px;
 }
+/* session 299: the Ask panel beside the Grid tool's tabs takes the text size, not the lead's */
+.brand-a [data-ask-compact] p.text-base {
+  font-size: 14px;
+}

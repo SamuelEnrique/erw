@@ -98,8 +98,8 @@ export async function NowView({ grid, cfg, data }: { grid: GridChoice; /** the g
           note={d ? <>Hour starting {hourOf(d.ts_utc, tz)}.{dWeek ? <> A week earlier: <N t={DEMAND} r={dWeek} /> MW.</> : null}</> : dem.ok ? "No hour of demand in the last nine days." : dem.reason} />
         <HeadlineNumber label={ties.length && !out ? "Net import" : "Net export"} unit="MW" value={ties.length ? netNum : <span className="text-muted">{grid.slug === "us48" ? "by grid" : "not reported"}</span>}
           note={ties.length
-            ? <>Hour starting {hourOf(xHour, tz)}, over <Num check={`net|ties|${grid.ba}|${xHour}`} raw={ties.length}>{shown(ties.length)}</Num> ties. <Link href={gridHref(grid.slug, "exchange")}>Each neighbour</Link>.</>
-            : grid.slug === "us48" ? <>The Lower 48 is the sum of its grids: <Link href={gridHref(grid.slug, "exchange")}>the exchange of each</Link>.</>
+            ? <>Hour starting {hourOf(xHour, tz)}, over <Num check={`net|ties|${grid.ba}|${xHour}`} raw={ties.length}>{shown(ties.length)}</Num> ties. <Link href={gridHref(grid.slug, "gravity")}>Each neighbour</Link>.</>
+            : grid.slug === "us48" ? <>The Lower 48 is the sum of its grids: <Link href={gridHref(grid.slug, "gravity")}>the exchange of each</Link>.</>
               : <>No tie of {grid.label} reported in the hour starting {hourOf(xHour, tz)}, the newest hour every reporting pair holds (session 266: nothing stands in for it).</>} />
         <HeadlineNumber label="Carbon intensity" unit="kg CO2/MWh" value={cg ? <N t={CARBON} r={cg} /> : <span className="text-muted">not read</span>}
           note={cg ? <>Of generation, hour starting {hourOf(cg.ts_utc, tz)}.{cd ? <> Of the power used here, imports counted: <N t={CARBON} r={cd} />.</> : null}</> : ci.ok ? "No hour in the last seven days." : ci.reason} />
