@@ -38,6 +38,8 @@ FORMS = {
     "seller": ("site/app/cost-of-power/seller/SellerForm.tsx", ("fom", "ds")),
     "datacenter": ("site/app/cost-of-power/LoadForm.tsx", ("gpu", "pue")),
 }
+# session 296: where the line on the defaults and on scenario A is said when it is not the form's own
+SAID = {"battery": ("site/app/cost-of-power/battery/Settings.tsx", '<a href="#financing">Financing</a>, below: scenario A gives the headline')}
 NOTES = ["docs/methods/battery_earns_algorithm.md", "docs/methods/generator_earns_algorithm.md", "docs/methods/datacenter_pays_algorithm.md"]
 FILES = [SHARED, *WRAPPERS.values(), *PAGES.values(), *(f for f, _ in FORMS.values()), *NOTES,
          "site/app/cost-of-power/LoadHeadline.tsx", "site/app/cost-of-power/battery/nums.tsx", "site/app/cost-of-power/seller/nums.tsx",
@@ -147,8 +149,10 @@ class ScenarioASetsTheHeadline(unittest.TestCase):
             text = src(form)
             for field in gone:
                 self.assertNotIn(f'name="{field}"', text, f"{name}: {field}")
-            self.assertIn('data-costs-in-a="1"', text, name)
-            self.assertIn('<a href="#scenarios">Scenarios A and B</a>: scenario A gives the headline.', text, name)
+            # session 296: on the battery page the line is the box's own (Settings.tsx), and the assumptions sit under "Financing"
+            said, sentence = SAID.get(name, (form, '<a href="#scenarios">Scenarios A and B</a>: scenario A gives the headline.'))
+            self.assertIn('data-costs-in-a="1"', src(said), name)
+            self.assertIn(sentence, src(said), name)
 
     def test_each_page_takes_its_costs_from_scenario_a(self):
         battery, seller, dc = (src(PAGES[k]) for k in ("battery", "seller", "datacenter"))

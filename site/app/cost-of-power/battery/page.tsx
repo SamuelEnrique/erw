@@ -138,6 +138,10 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
   const two = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const broken = (() => { const t = ys.map((r) => r.energy + r.ancillary).sort((a, b) => b - a); return t.length > 2 && t[0] > 2.5 * t[1] ? ys.find((r) => r.energy + r.ancillary === t[0])! : null; })();
   const before2024 = ys.some((r) => r.y < "2024");
+  // the year chart's first line (session 296: in its hover tip, handed to the chart from here)
+  const upper = before2024
+    ? "This is an upper bound: before 2024 it is mostly payment for holding reserves, to a battery longer than any Texas then had, and 2021 is one week of February. Recent years are the ones to read."
+    : `This is an upper bound: the battery is assumed to sell as much of its power as reserves as it likes at the posted price, and is never called. ${g.name} is held from ${g.from}, so every year here is a recent one.`;
   const topName = top ? `${monthName(top.m)}${top.m === "2021-02" ? " (Winter Storm Uri)" : ""}` : "";
   const strategyLine = x.strat === "foresight"
     ? "Perfect foresight: energy at the hourly real-time price and ancillary services at day-ahead prices, all known in advance. An upper bound, not a forecast."
@@ -190,7 +194,7 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
                   <BatteryHeadline ms={ms} x={x} gridName={g.name} gridFrom={g.from} />
 
                   {/* session 296: the charts the reader picked; by default the year chart alone, as before */}
-                  <BatteryCharts ms={ms} x={x} ys={ys} gridName={g.name} gridFrom={g.from} before2024={before2024} strategyLine={strategyLine}
+                  <BatteryCharts ms={ms} x={x} ys={ys} upper={upper} strategyLine={strategyLine}
                     brokenNote={broken ? <> {broken.y} is off the scale at <V pre={key} s={`year:${broken.y}:total`} v={st(`year:${broken.y}:total`)} /> USD per kW: Winter Storm Uri, when reserve prices stood near the cap for days.</> : null} />
 
                   <Income ms={ms} x={x} pre={key} gridName={g.name} products={products} capacityWords={CAPACITY_WORDS[x.grid]} em={em}

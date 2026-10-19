@@ -164,11 +164,14 @@ class ThePage(unittest.TestCase):
         self.assertEqual(self.page.count("data-typed-notes="), 1)
 
     def test_a_typed_value_brought_inside_its_bounds_says_so_under_the_field(self):
-        self.assertIn("bound={boundTyped}", self.scen)
-        self.assertIn("<span data-clamped={k}> {clampWords(k, t, s[s.view][k])}</span>", self.scen)
-        self.assertIn("note: <>Default {plain(d[k])}. {sourceOf(k)}.{clamped}</> };", self.scen)
+        # session 296: the field draws the line itself from the value typed and the value used (no ref is read in render);
+        # the page hands it the words
+        self.assertIn("clamp: (t: number, u: number) => clampWords(k, t, u) };", self.scen)
+        self.assertIn("note: <>Default {plain(d[k])}. {sourceOf(k)}.</>, clamp:", self.scen)
         block = src("site", "components", "decisions", "ScenarioBlock.tsx")
-        self.assertIn("bound: (key: string, v: number) => number;", block)   # the shared block is not changed
+        self.assertIn("bound: (key: string, v: number) => number;", block)   # the shared block's bound is not changed
+        self.assertIn('<span className="mt-1 block text-xs leading-snug text-muted" data-clamped={f.key}>{clamped}</span>', block)
+        self.assertIn("const clamped = f.clamp && typed !== null && read(typed) === value ? f.clamp(typed, value) : null;", block)
 
     def test_no_debt_and_a_term_above_the_life_are_said_as_they_are(self):
         # fixed on the local build of 14 October 2026: "covered its debt not held times", and a tail note that called a

@@ -194,8 +194,8 @@ export function BatteryHeadline({ ms, x, gridName, gridFrom }: { ms: Month[]; x:
  * year chart the page always drew, from the table) and scenario A's years from the finance (cash after costs, cash
  * after debt, the debt), at the scale chosen, each with a Chart | Table toggle. At the default one chart is drawn,
  * the first, as before. */
-export function BatteryCharts({ ms, x, ys, gridName, gridFrom, before2024, brokenNote, strategyLine }: {
-  ms: Month[]; x: Inputs; ys: Year[]; gridName: string; gridFrom?: string; before2024: boolean; brokenNote: ReactNode; strategyLine: string;
+export function BatteryCharts({ ms, x, ys, upper, brokenNote, strategyLine }: {
+  ms: Month[]; x: Inputs; ys: Year[]; upper: string; brokenNote: ReactNode; strategyLine: string;
 }) {
   const { a, months } = useA(x, ms);
   const { v } = useContext(ViewCtx)!;
@@ -204,9 +204,6 @@ export function BatteryCharts({ ms, x, ys, gridName, gridFrom, before2024, broke
   const rows = kw === null ? [] : projection(a, kw);
   const yearsOf = rows.map((r) => ({ label: String(r.t) }));
   const money = (n: number) => n.toLocaleString("en-US", { maximumFractionDigits: 0 });
-  const upper = before2024
-    ? "This is an upper bound: before 2024 it is mostly payment for holding reserves, to a battery longer than any Texas then had, and 2021 is one week of February. Recent years are the ones to read."
-    : `This is an upper bound: the battery is assumed to sell as much of its power as reserves as it likes at the posted price, and is never called. ${gridName} is held from ${gridFrom}, so every year here is a recent one.`;
   const charts: Record<string, ReactNode> = {
     revenue: (
       <SeriesChart key="revenue" id="years" title="Revenue by year, USD per kW" unit="USD per kW" kind="stacked" scale={v.scale} partialWords="Incomplete year"

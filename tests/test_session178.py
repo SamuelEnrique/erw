@@ -504,8 +504,10 @@ class TheNote(unittest.TestCase):
         self.assertIn("Stata is not installed on the machine that wrote it, so the do-file has not been run.", self.note)
 
     def test_every_check_key_the_page_prints_is_explained(self):
-        page = src("site", "app", "cost-of-power", "battery", "page.tsx")
-        stats = set(re.findall(r's="([a-z0-9_]+)[:"]', page)) | set(re.findall(r"s=\{`([a-z0-9_]+):", page)) | set(re.findall(r'st\("([a-z0-9_]+)[:"]', page))
+        # session 296: the page's keys are written by its components too (the headline and the income table), and a
+        # column's key is a template ("`yr:${y.y}:${s}`")
+        page = "\n".join(src("site", "app", "cost-of-power", "battery", f) for f in ("page.tsx", "Scenarios.tsx", "Income.tsx"))
+        stats = set(re.findall(r's="([a-z0-9_]+)[:"]', page)) | set(re.findall(r"s=\{`([a-z0-9_]+):", page)) | set(re.findall(r'st\("([a-z0-9_]+)[:"]', page)) | set(re.findall(r"`([a-z0-9_]+):\$\{", page))
         self.assertGreaterEqual(len(stats), 12)
         for s in sorted(stats):
             self.assertIn(f"`{s}", self.note, s)
