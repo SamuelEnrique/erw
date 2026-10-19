@@ -30,7 +30,8 @@
 | `check-csp.mjs`, second build (enforced), after the probe's rule | 0 | 89 pages: 0 enforced, 0 report-only violations, 0 not loaded; the probe blocked and not run |
 | `tests.test_session301`, `test_session177` | 0 | 37 passed |
 | Every moved script, once, against the second build | | the table below |
-| Suite, clean copy, the commit pushed | SUITE_EXIT | SUITE_LINE |
+| Suite, clean copy, `b2181c61` (origin/main merged, with sessions 300 and 308) | 0 | 4,388 tests OK, 250 skipped |
+| `npm run build` of the merged commit, `check-security`, `check-routes` | 0, 0, 0 | 50 of 50; 211 of 211, 0 failed as a visitor |
 
 ### Every moved script, run once (the second build, `http://localhost:3296`)
 
