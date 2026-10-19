@@ -1,6 +1,6 @@
 {
  "about": "Written by warehouse/health.py from the table erw_health: per UTC day, each scheduled job's steps by outcome, and the failures that count. green_days is the number of days in a row, back from counted_to, without a failed step.",
- "written": "2026-10-19T05:40Z",
+ "written": "2026-10-19T09:04Z",
  "green_days": 0,
  "counted_to": "2026-10-18",
  "days": {
