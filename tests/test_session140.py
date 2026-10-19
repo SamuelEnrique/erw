@@ -243,7 +243,7 @@ class Page(unittest.TestCase):
 
     def test_the_refresh_and_the_holds(self):
         daily = src("warehouse", "run_daily.sh")
-        self.assertIn('run_other nyiso_load_queue "$PYTHON" warehouse/connectors/nyiso_load_queue.py --pull --write', daily)
+        self.assertIn('pull nyiso_load_queue "$PYTHON" warehouse/connectors/nyiso_load_queue.py --pull --write', daily)
         self.assertIn("site/data/nyiso_load_queue.json", src(".github", "workflows", "daily-prices.yml"))
         hold = src("warehouse", "supabase", "live_set.yaml").split("catalogue_hold:", 1)[1]
         for t in ("ercot_zone_prices_history", "iso_zone_prices_history", "isone_zone_prices_history", "nyiso_load_queue", "texas_transmission_matrix"):

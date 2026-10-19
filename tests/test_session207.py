@@ -74,12 +74,12 @@ class TheBoardsTreasuryYields(unittest.TestCase):
         self.assertIn('table_daily("frb_treasury_yields")', src("warehouse", "derived", "board_page.py"))
         self.assertNotIn('table_daily("fred_treasury_yields")', src("warehouse", "derived", "board_page.py"))
         sh = src("warehouse", "refresh_board.sh")
-        self.assertIn('--step "frb_treasury" -- "$PY" warehouse/connectors/frb_treasury.py', sh)
+        self.assertIn('--step frb_treasury -- "$PY" warehouse/connectors/frb_treasury.py', sh)
         self.assertNotIn("fred_treasury.py", sh)
-        self.assertIn("frb_treasury_yields", sh.split("\n")[24])
+        self.assertIn("frb_treasury_yields", next(ln for ln in sh.split("\n") if ln.startswith("NEW=")))  # session 321: by name
         daily = src("warehouse", "run_daily.sh")
         self.assertNotIn("run_other fred_series", daily)
-        self.assertIn("run_other eia_fuels", daily)
+        self.assertIn("pull eia_fuels", daily)  # session 321: a pull, under its budget
         live = src("warehouse", "supabase", "live_set.yaml")
         self.assertNotIn("'^fred_daily_spot_prices$'", live)
         self.assertIn("frb_treasury_yields", live)

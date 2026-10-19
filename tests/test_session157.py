@@ -514,7 +514,7 @@ class DailyRunAndFiles(unittest.TestCase):
     def test_the_two_steps_are_soft_steps_in_the_daily_run_and_the_workflow_commits_the_files(self):
         with open(os.path.join(ROOT, "warehouse", "run_daily.sh"), encoding="utf-8") as f:
             sh = f.read()
-        a = sh.index('soft_step policy_monitor_refresh "$PYTHON" warehouse/connectors/policy_monitor_refresh.py')
+        a = sh.index('soft_step policy_monitor_refresh "${BUDGET[@]}" policy_monitor_refresh -- "$PYTHON" warehouse/connectors/policy_monitor_refresh.py')
         b = sh.index('soft_step policy_monitor_site "$PYTHON" warehouse/derived/policy_monitor_site.py --daily')
         self.assertLess(a, b, "the files are rebuilt after the refresh")
         with open(os.path.join(ROOT, ".github", "workflows", "daily-prices.yml"), encoding="utf-8") as f:

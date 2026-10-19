@@ -380,7 +380,7 @@ class Stores(unittest.TestCase):
         for name in self.NAMES:
             self.assertTrue(any(re.match(p, name) for p in cfg["restore_before_run"]), name)
         sh = src("warehouse", "run_daily.sh")
-        hourly = 'run_other ercot_as_prices "$PYTHON" warehouse/health.py run --strict --step "ercot_as_prices" -- "$PYTHON" warehouse/connectors/ercot_as_prices.py\n'
+        hourly = 'run_other ercot_as_prices "$PYTHON" warehouse/health.py run --strict --step "ercot_as_prices" -- "${BUDGET[@]}" ercot_as_prices -- "$PYTHON" warehouse/connectors/ercot_as_prices.py\n'  # session 321: the budget
         line = 'run_other ercot_as_prices_rollup "$PYTHON" warehouse/health.py run --strict --step "ercot_as_prices_rollup" -- "$PYTHON" warehouse/derived/ercot_as_prices_rollup.py\n'
         self.assertEqual(sh.count(line), 1)
         self.assertLess(sh.index(hourly), sh.index(line))

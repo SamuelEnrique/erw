@@ -88,7 +88,7 @@ class DailySupply(unittest.TestCase):
     def test_the_daily_run_pulls_the_supply_then_builds_then_applies_the_join(self):
         with open(os.path.join(ROOT, "warehouse", "run_daily.sh"), encoding="utf-8") as f:
             sh = f.read()
-        a = sh.index('run_other caiso_fuel_supply "$PYTHON" warehouse/connectors/caiso_fuel_supply.py --days "$DAYS"')
+        a = sh.index('pull caiso_fuel_supply "$PYTHON" warehouse/connectors/caiso_fuel_supply.py --days "$DAYS"')  # session 321: pull, under its budget
         b = sh.index('run_other carbon_intensity "$PYTHON" warehouse/derived/carbon_intensity.py')
         c = sh.index('run_other caiso_join "$PYTHON" warehouse/derived/caiso_join.py --apply')
         d = sh.index('run_other grid_network "$PYTHON" warehouse/derived/grid_network.py')
