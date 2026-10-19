@@ -346,7 +346,8 @@ Every step runs under `warehouse/health.py run`, which writes one row per step t
 (migration 017, service key only):
 
 - **skipped**, a success with a one-line reason, when the job should not run: the data lock is held after the wait, the
-  day's work is done (the daily job: a run succeeded today or today's "Daily prices" commit is on main; the Roundup:
+  day's work is done (the daily job: a run's "daily run" step passed today, read from `erw_health` since session 321,
+  or today's "Daily prices" commit is on main; the Roundup:
   not Sunday), EIA has not finished publishing the newest hour (the network), or the start duplicates another
   (`health.py dedupe`: the database's dispatch is the schedule; a run GitHub's own schedule starts yields to it);
 - **retried**, when a step failed once and passed on its second try a minute later;
@@ -357,6 +358,32 @@ The daily job writes the previous UTC day's rows into `queue/summary/<day>-healt
 (fewer than half means the schedule may have stopped), every failure and retry, and the skips by reason.
 `python warehouse/health.py summary --day <day>` writes it by hand. A market failing three daily runs in a row is a
 failure row there, no longer a GitHub issue.
+
+### The budget of a publisher pull, and the gate (session 321)
+
+The owner's ruling of 19 October 2026. The daily job was cancelled at GitHub's 180-minute limit on 14, 15 and 19
+October: a good run takes about 140 to 170 minutes, and a publisher that does not answer the runner adds 39 minutes a
+market (four tries of about 2.4 minutes, three days a run; CAISO's OASIS and SPP's file server), or an hour (EIA's API on
+19 October). The rules now:
+
+- **The job's limit is 300 minutes** (`timeout-minutes` of `daily-prices.yml`), and the data lock it takes lasts 320.
+- **Every publisher pull of the daily run has a budget of 15 minutes of wall clock** (`warehouse/pull_budget.py`;
+  `PULL_BUDGET_MIN` changes it). This covers every connector of `warehouse/run_daily.sh` that asks a publisher, and the
+  pulls of `refresh_board.sh` and `refresh_supply.sh`; derived steps and the warehouse's own stores (Supabase, Redivis,
+  the archive) have none. A connector that imports `iso_prices.py` has each request's connect and read timeouts cut to
+  the time left, retries included, and asks nothing after the deadline; any command still running at the budget is
+  stopped with its children.
+- **A pull stopped at its budget is a skip, not a failure.** Its tables are gap rows of `run_status.csv` with the reason
+  "publisher did not answer within the budget" (the day in the market column, so `STATUS.md` lists them until filled),
+  the step exits 75 and is recorded as skipped (session 305's skip rule), and the next run asks for the same days again.
+- **The day is red when a daily step failed, whatever the job's color.** A failed step of `run_daily.sh` is a failed row
+  of `erw_health` (a step under `health.py run` records itself), and a run stopped at the time limit is a failed row of
+  its "daily run" step. A skipped step is not a failure.
+- **The gate reads the steps, not the job's color.** A scheduled run, or a dispatch with `once=1`, is skipped only when a
+  run's "daily run" step is an ok or retried row of `erw_health` today, or today's "Daily prices" commit is on main.
+  Before, a run that stopped at its restore (17 and 18 October) left a green job, and the later trigger was skipped.
+- `eia930_emissions`: a window with no complete day of CO2 values is the publisher's lag (stale at source, a skip), and
+  the daily run reads the last 10 days, not 3, so days EIA posts late are still written.
 
 ### The builders that were run by hand (session 114)
 
