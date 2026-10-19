@@ -254,6 +254,7 @@ def test_cite_names_the_iso_the_table_and_the_commit(name):
                  "nyiso": "New York", "miso": "Midcontinent", "spp": "Southwest Power Pool",
                  "isone": "ISO New England", "pjm": "PJM",
                  "eia930": "Energy Information Administration",
+                 "battery": "National Laboratory of the Rockies",  # session 312: battery_sourced_ranges (NLR's ATB)
                  "eia": "Energy Information Administration",
                  "carb": "California Air Resources Board",
                  "rggi": "Regional Greenhouse Gas Initiative",

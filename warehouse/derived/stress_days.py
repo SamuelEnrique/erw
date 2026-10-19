@@ -51,6 +51,8 @@ OUT = os.path.join(ROOT, "warehouse", "output")
 HISTORY = "iso_hub_prices_history"
 ERCOT_DAILY = "ercot_hub_prices_daily"
 NOTICES = "caiso_grid_emergencies"
+SOURCE = "erw:grid_stress_days"   # session 312: the table's own source line, as the derived tables have
+METHOD_URL = "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/stress_days.md"
 MAIN = {"ercot": "HB_HUBAVG", "caiso": "TH_SP15_GEN-APND", "nyiso": "N.Y.C.", "miso": "INDIANA.HUB",
         "spp": "SPPNORTH_HUB", "isone": ".H.INTERNAL_HUB"}  # warehouse/derived/price_board.py MAIN
 TZ = {"ercot": "America/Chicago", "caiso": "America/Los_Angeles", "nyiso": "America/New_York", "miso": "EST",
@@ -178,6 +180,8 @@ def main():
         f"Inputs: {ERCOT_DAILY} (ERCOT's rt_mean at HB_HUBAVG), {HISTORY} (the other grids' main hubs), {NOTICES} (CAISO's system-wide notices); "
         "no other operator's notices are held, and PJM has neither prices nor notices here",
         *[f"This run: {x}" for x in said],
+        f"Derived from: {ERCOT_DAILY}; {HISTORY}; {NOTICES}",
+        f"Source: {SOURCE} ERW derived stress days of six grids by one rule (docs/methods/stress_days.md), {METHOD_URL}",
         f"Retrieved: {run_id} (UTC) by warehouse/derived/{NAME}.py from the ERW tables named above; per row, source and source_url are the prices' own",
         f"Run log: warehouse/output/logs/{NAME}_{run_id}.log",
         "License: public (derived from public ERW tables)",
@@ -187,6 +191,8 @@ def main():
         df.to_csv(os.path.join(ROOT, "runs", f"{NAME}_dry_run.csv"), index=False)
     else:
         ip.write_snapshot(df, NAME, header, log, COLS)
+        ip.update_sources([dict(source=SOURCE, publisher="Energy Research Warehouse (ERW)", report="ERW derived stress days of six grids by one rule (session 306)",
+                                report_url=METHOD_URL, document_list="", license="public", tables=[NAME])])
     log.close()
     return 0
 

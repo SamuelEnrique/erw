@@ -5,6 +5,10 @@
 #   gridstatus 0.36.0 pins lxml~=5.3, which has no Python 3.14 wheel and does
 #   not build from source on Windows. requirements-py314.txt is the exact,
 #   tested environment with lxml 6.1.3 instead. See archive/sessions/SESSION_1_REPORT.md.
+# Session 312 (security review M7): lxml 5.x, cryptography 46.x and setuptools 78.x carry advisories fixed in lxml
+#   6.1.0, cryptography 48.0.1 and setuptools 84; gridstatus 0.36.0 (the newest on PyPI, 19 October 2026) pins
+#   lxml~=5.3, cryptography<47 and setuptools<79, so a resolving install (the runner, Python 3.12) cannot move them.
+#   requirements-py314.txt (--no-deps) runs lxml 6.1.3, cryptography 50.0.2 and setuptools 84.0.0.
 gridstatus==0.36.0
 pandas>=2.2,<3
 python-dotenv>=1.0
