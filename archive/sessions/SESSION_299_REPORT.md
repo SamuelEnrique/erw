@@ -47,7 +47,8 @@
 | `tests.test_session299` | 0 | 14 passed |
 | Impeccable `detect` on the seven page, component and style files | 0 | no finding |
 | Screenshots, 1280 and 390, before (production) and after (local) | | `docs/brand/review-299/`; nothing scrolls sideways at 390 |
-| Suite, clean copy, the commit pushed | SUITE_EXIT | SUITE_LINE |
+| Suite, clean copy, `654f1e7d` (the session's first commit) | 1 | 4,354 tests, 4 failures: four older pins of the files this session changed (137: the panel's context line; 241b: `/ask` must be wrapped in the brand, now the kept page is; 78: the gravity note named the join's date, 16 December 2025, which only `caiso_join.py` may; 93: the component's `page` prop) |
+| Suite, clean copy, `cecd4742` (the pins updated; the report's last commit follows) | 0 | 4,354 tests OK, 245 skipped |
 
 ## Landing of session 298 (recorded here: session 298's report is in that landing's own commit)
 
