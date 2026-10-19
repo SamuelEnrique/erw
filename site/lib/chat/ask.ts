@@ -45,7 +45,10 @@ export type AskOptions = { history?: unknown; onEvent?: (e: AskEvent) => void; /
   /** session 143: when the request arrived (the stages are counted from it), and the steps the route took before the loop */
   startedAt?: number; before?: Step[];
   /** session 143, a session's own diagnosis only (scripts/probe-ask-ercot.mjs): asks for the summary of the model's reasoning and hands it over */
-  thinking?: (text: string) => void };
+  thinking?: (text: string) => void;
+  /** session 314: the ledger step the calls are written under (an evaluation's own, site_ask_eval) and whether a refused
+   * write fails the question (an evaluation never spends unrecorded) */
+  step?: string; strictLedger?: boolean };
 
 const PRICES = spec.prices as unknown as Record<string, [number, number]>;
 const TOOLS = spec.tools as unknown as Anthropic.Tool[];
@@ -287,7 +290,8 @@ export async function ask(question: string, today = new Date().toISOString().sli
     const resp = (await stream.finalMessage()) as Anthropic.Message;
     const raw = { data: resp, request_id: stream.request_id };
     if (opts.thinking) opts.thinking(JSON.stringify(resp.content.map((b) => (b.type === "thinking" ? { thinking: b.thinking } : b.type === "text" ? { text: b.text.slice(0, 300) } : b.type === "tool_use" ? { tool_use: b.name } : { type: b.type }))));
-    ledger.push(recordCall(model, resp, raw.request_id, profile ? "site_ask_ercot" : "site_ask", opts.questionId)); // session 30: every call into the cost ledger (site_api_calls)
+    const row = recordCall(model, resp, raw.request_id, opts.step ?? (profile ? "site_ask_ercot" : "site_ask"), opts.questionId, opts.strictLedger === true); // session 30: every call into the cost ledger (site_api_calls)
+    if (opts.strictLedger) await row; else ledger.push(row);
     if (secondsFirst === null) secondsFirst = Math.round((Date.now() - t0) / 100) / 10;
     const u = { input: resp.usage.input_tokens, output: resp.usage.output_tokens, cache_write: resp.usage.cache_creation_input_tokens ?? 0, cache_read: resp.usage.cache_read_input_tokens ?? 0, requests: 1 };
     usage.input += u.input; usage.output += u.output; usage.cache_write += u.cache_write; usage.cache_read += u.cache_read; usage.requests += 1;

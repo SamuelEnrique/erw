@@ -115,3 +115,25 @@ The second evaluation set: `eval/ercot_expected_s121.py` builds `eval/questions_
 five kinds (join, vague, followup, premise, outside); `eval/ercot_eval_s121.py --arm before|after --cap USD` runs it,
 `--rescore <jsonl>` scores saved answers again without a model call. `node site/scripts/time-ask-ercot.mjs <base>
 <out.json>` times a few questions on the site itself (each is a model call).
+
+## A grid's tables by rule, and an evaluation's own ledger step (session 314)
+
+The owner's rulings of 19 October 2026 on session 302's two open items.
+
+- **A grid's scoped chat reads the tables a rule finds, not a hand-kept list.** `python warehouse/chat/grid_tables.py`
+  reads the live set's catalogue and asks one row of each public table (the anon key, no publisher) and writes
+  `docs/grids/grid_tables.json`: for each grid its tables and the rule that admitted each (`name`: the grid's own
+  tables; `ba`, `entity` (session 302's prefix rule, `ercot:HB_HUBAVG`), `market`, `queue`, `iso`: a row of the grid's
+  found), with what the hand-kept list of `docs/grids/grids.json` lacks and what it names that the rule did not find.
+  Both tool sets read the file (`tools.py` `GRIDS[slug]["tables"]` and `["by"]`, `site/lib/chat/tools.ts` `scopeOf`
+  and `scopeFilter`) and keep a table's rows by the rule that admitted it. The data machine runs it after its live-set
+  load (`dm_grid_tables`); `grids.json`'s lists are documentation. `--check` exits 1 when a hand-listed table is not
+  found or a probe failed.
+- **An evaluation spends through a ledger step of its own**, `site_ask_eval`, under its own day ceiling, never the
+  public day ceiling (`site/lib/chat/limits.ts`, `admitEvaluation`; migration 035 widens the ledger's step check and
+  keeps the public ceilings' sums to the public steps). A runner marks its requests with the header `x-erw-ask-eval`
+  carrying the server's `ASK_EVAL_TOKEN` (set on the local site that runs the evaluation, never on Vercel) and the
+  server's `ASK_EVAL_DAILY_USD` is the ceiling; the calls are written under the step strictly, so until migration 035
+  is applied an evaluation's question fails at its first call rather than spend unrecorded. Session 302's runner
+  (`runs/chain_oct19/s302_ask.py`, not in git) spent through the public step and closed the public Ask for the day:
+  that is what this replaces.

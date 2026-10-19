@@ -170,7 +170,12 @@ check(F.cellTotals(c, 92, 2).get("2026-02") === 24 && F.cellTotals(c, 89, 1) ===
     "the 4-hour sourced ranges: Lazard's low and high cases, the ATB's 4 percent fixed O&M of its own 1,336 (53.44), 85 percent, 15 years and no degradation", JSON.stringify(r4.fom));
   check(Object.keys(r4).length === 6 && Object.values(r4).every((r) => /Lazard|Annual Technology Baseline/.test(r.source)), "six assumptions have a published range, each with its source; the others have none");
   const r8 = F.rangesOf(8);
-  check(r8.capex.low === 1180 && r8.capex.high === 3040 && r8.capex.high > 2300 && r8.capex.low < 2300 && /extrapolation/.test(r8.capex.source), "the 8-hour capital range is the straight lines through Lazard's low cases and high cases, with the ATB's 2,300 inside", JSON.stringify(r8.capex));
+  // session 314 (the owner's ruling of 19 October 2026): 8 hours takes the ATB's figure alone, no range for its capital
+  // cost and fixed O&M (session 296 drew the lines through Lazard's 2- and 4-hour cases, 1180 to 3040, an extrapolation)
+  check(r8.capex === undefined && r8.fom === undefined && Object.keys(r8).sort().join() === "deg,life,rte,share", "the 8-hour sourced range has no capital cost or fixed O&M row: the ATB's figure stands alone", JSON.stringify(Object.keys(r8)));
+  const n8 = F.noRangeOf(8), n4 = F.noRangeOf(4);
+  check(/no extrapolation/.test(n8.capex) && /2,300/.test(n8.capex) && /92/.test(n8.fom) && n4.capex === undefined && n4 === F.NO_RANGE, "noRangeOf(8) names the capital cost and fixed O&M with the ATB's figures and why; noRangeOf(4) is NO_RANGE", JSON.stringify(n8.capex));
+  check(/percent step moves it/.test(F.NO_RANGE.cshare) && /percent step moves it/.test(F.NO_RANGE.cprice), "the contract's two say the percent step moves them (session 314)");
   const rev = () => 100;
   const inRange = F.sensitivityIn(z, rev, steps, { kind: "range", ranges: r4 }, "npv");
   check(inRange.length === 6 && inRange.every((b) => b.down || b.up) && !inRange.some((b) => ["rate", "term", "hurdle", "cycles", "cshare", "cprice"].includes(b.key)), "the sourced range draws the six rows with a range and no other", inRange.map((b) => b.key).join(","));

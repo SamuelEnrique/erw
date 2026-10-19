@@ -136,8 +136,15 @@ _backend_ready = False
 # Session 35: a scoped chat (ask.py --grid, the site's /ask?grid=): the tables and rows carrying one grid
 # (docs/grids/grids.json), plus its written layer. None: the whole warehouse.
 GRIDS = {g["slug"]: g for g in json.load(open(os.path.join(ROOT, "docs", "grids", "grids.json"), encoding="utf-8"))["grids"]}
-# session 302: the derived tables keyed by hub, whose rows a grid's scoped chat keeps by entity prefix (scope_rows)
-HUB_KEYED = {"cost_of_power_monthly", "cost_of_power_hourly_profile", "merchant_revenue_monthly", "battery_stack_monthly", "battery_stack_stress_daily", "iso_curtailment_monthly"}
+# Session 314 (the owner's ruling of 19 October 2026 on session 302's open item): a grid's tables are the rule's, not
+# grids.json's hand-kept list: docs/grids/grid_tables.json (warehouse/chat/grid_tables.py, run by the data machine after
+# its live-set load) names each grid's tables and, in "by", the rule that admitted each (name, ba, entity, market, queue,
+# iso), which is how scope_rows keeps its rows. Each grid's entry carries them; grids.json's list is documentation.
+GRID_TABLES_PATH = os.path.join(ROOT, "docs", "grids", "grid_tables.json")
+GRID_TABLES = json.load(open(GRID_TABLES_PATH, encoding="utf-8"))["grids"] if os.path.exists(GRID_TABLES_PATH) else {}
+for _slug, _ruled in GRID_TABLES.items():
+    if _slug in GRIDS:
+        GRIDS[_slug] = {**GRIDS[_slug], "tables": list(_ruled["tables"]), "by": dict(_ruled["by"])}
 SCOPE = None
 
 
@@ -160,16 +167,29 @@ def scope_rows(name, df):
         for col, val in f.items():
             df = df[df[col].isin(val if isinstance(val, list) else [val])]
         return df
+    # session 314: the rule that admitted the table (docs/grids/grid_tables.json) says how its rows are kept, as the
+    # site's scopeFilter: a table of the grid's own by name whole; by ba, entity (session 302's prefix rule), market,
+    # queue or iso filtered as the rule says
+    by = (g.get("by") or {}).get(name)
+    if by == "name":
+        return df
+    if by == "ba" and "ba" in df.columns:
+        return df[df["ba"] == g["ba"]]
+    if by == "entity" and "entity" in df.columns:
+        return df[df["entity"].fillna("").str.startswith(g["slug"] + ":")]
+    if by == "market" and "market" in df.columns and g.get("market_prefix"):
+        return df[df["market"].fillna("").str.startswith(g["market_prefix"])]  # as the site: market like <prefix>*
+    if by == "queue" and "source_table" in df.columns:
+        return df[df["source_table"] == (g.get("queue_table") or "")]
+    if by == "iso" and "iso" in df.columns:
+        return df[df["iso"] == g["iso"]]
+    # a table the file does not name (a profile's own, warehouse/chat/ercot.py, with no filter of its own): by its columns
     if "ba" in df.columns:
         return df[df["ba"] == g["ba"]]
     if name == "storage_capacity":
         return df[df["iso"] == g["iso"]]
     if name == "energy_projects":
         return df[df["source_table"] == (g.get("queue_table") or "")]
-    # session 302: a derived table keyed by hub carries a grid's rows under its entity prefix and its market column is
-    # empty (as the site's scopeFilter): the prefix rule comes before the market rule, which would keep no row
-    if name in HUB_KEYED and "entity" in df.columns:
-        return df[df["entity"].fillna("").str.startswith(g["slug"] + ":")]
     if "market" in df.columns and g.get("market_prefix"):
         return df[df["market"].fillna("").str.startswith(g["market_prefix"])]  # as the site: market like <prefix>*
     return df

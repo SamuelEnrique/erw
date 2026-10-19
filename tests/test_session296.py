@@ -95,8 +95,9 @@ class TheSourcedRanges(unittest.TestCase):
         self.assertEqual((r4["deg"]["low"], r4["deg"]["high"]), (0, 2.6))
         self.assertEqual((r4["rte"]["low"], r4["rte"]["high"]), (85, 92))
         self.assertEqual((r4["share"]["low"], r4["share"]["high"]), (20, 60))
-        self.assertEqual((r8["capex"]["low"], r8["capex"]["high"]), (1180, 3040))
-        self.assertIn("extrapolation", r8["capex"]["source"])
+        # session 314 (the owner's ruling of 19 October 2026): 8 hours takes the ATB's figure alone, no range for its
+        # capital cost and fixed O&M (session 296 drew the lines through Lazard's 2- and 4-hour cases, 1180 to 3040)
+        self.assertEqual(sorted(r8), ["deg", "life", "rte", "share"])
         # session 297: its six keys have no published range either
         self.assertEqual(sorted(none), ["aug", "augcost", "cprice", "cshare", "cycles", "fade", "hurdle", "itc", "method", "rate", "stress", "term"])
 

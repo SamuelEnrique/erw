@@ -47,6 +47,8 @@
 
 - Pushed `task/304-replication` (this report's commit on `cdefdb59`, the merge of the landed main; `git log` names it) after the before snapshot `s304-before`, taken as its own command; `python scripts/freeze.py status` exit 0 (no freeze) before the push; GitHub's check and merge, production's new build and the after snapshot `s304-after` with its comparison are waited for by `runs/chain_oct19/land_wait.sh s304` and written to `runs/chain_oct19/s304/wait_result.txt` (not in git).
 - The comparison's lines and the queue step's result are appended to this report in a commit on `wip/304-replication` after this landing (see "Decisions made without you"): a report cannot hold the comparison of the landing that carries it.
+- **Landed** (appended after the landing, on `wip/304-replication`): the commit pushed was `a4340f12` at 16:43 UTC; GitHub's checks passed (run 39287746196, https://github.com/SamuelEnrique/erw/actions/runs/39287746196) and merged it as `baa3fafe` at 16:54; no new style sheet appeared within ten minutes (the commit changed three documents and no page), so the after snapshot was taken at 17:04:57.
+- Snapshot `s304-before` (16:42:42) against `s304-after` (17:04:57): 25 pages, 0 differences. Expected: nothing a visitor sees changed. Nothing unexpected.
 
 ## Decisions made without you
 
@@ -68,3 +70,7 @@
 - Changed: `site/public/seller/erw_2026_generator_replication.{py,do}`, `site/public/{battery,datacenter,grid}/*.do` (the expected values), `site/scripts/check-grid-replication.mjs`, `site/scripts/test-board.mjs`, `site/app/datacenters/LargeLoad.tsx`, `site/app/policy/PolicyTable.tsx`, `site/app/contracts/page.tsx`, `site/lib/findingverdicts.ts`, `site/app/internal/findings/page.tsx`, `tests/test_session267_findings.py`.
 - New: `tests/test_session304.py`, `docs/brand/review-304/`, `docs/state/review_2026-10-19_code.md`, this report.
 - Not in git: `runs/chain_oct19/s304*`.
+
+## The queue step (rule 12)
+
+`python scripts/chain_queue.py next` at 17:05 UTC, from the main copy at `ffe458a2` (main after this landing and the data machine's health summary): exit 3, `queue/next/` is empty. It wrote the idle row to `erw_health` (step idle, reason "ready for review: queue/next/ is empty: samueloldlaptop has nothing left to run after session 304") and took the machine off duty; the one email follows from the chain watch (`python scripts/alert.py ready`). `runs/chain_oct19/s304_queue_next.out`. **CHAIN DONE.**

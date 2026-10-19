@@ -552,7 +552,9 @@ class TheRuleAndTheSwitches(unittest.TestCase):
         self.assertIn('const ruled = await fastWrite("rule");', loop)
         self.assertIn("if (outs.every((o) => !o.isError)) {", loop)                      # an error is not written from
         self.assertIn('messages[0] = { role: "user", content: profile.resume(opening, records) };', loop)   # what is not settled is the model's, as before
-        self.assertEqual(loop.count('ledger.push(recordCall(model, resp, raw.request_id, profile ? "site_ask_ercot" : "site_ask", opts.questionId));'), 1)
+        # session 314: the step may be an evaluation's own (opts.step), written strictly (awaited); the public chat's row is pushed as before
+        self.assertEqual(loop.count('const row = recordCall(model, resp, raw.request_id, opts.step ?? (profile ? "site_ask_ercot" : "site_ask"), opts.questionId, opts.strictLedger === true);'), 1)
+        self.assertEqual(loop.count("if (opts.strictLedger) await row; else ledger.push(row);"), 1)
         self.assertEqual(loop.count("client.messages.stream("), 1)
         for words in ("const bad = unverified(draft.answer, sources);", "const uncited = draft.citations.map((c) => c.table).filter((t) => !tablesRead.has(t));"):
             self.assertIn(words, loop, words)

@@ -88,9 +88,9 @@ export const SPECS: Record<Key, Spec> = {
   stress: { key: "stress", letter: "x", label: "Repeats of the peak stress event", unit: "over the life", min: 0, max: 40, whole: true, swing: 1, swingWords: "one repeat",
     short: (v) => `${n(v)} ${v === 1 ? "repeat" : "repeats"} of the peak event`, words: (v) => `repeats of the peak stress event ${n(v)}`, plain: n, source: "0 by default: the future repeats the last twelve months. Each repeat adds the grid's peak stress event's window revenue once, spread evenly over the life's years (the roadmap's \"what if Uri happened again\")" },
   cshare: { key: "cshare", letter: "n", label: "Contract share", unit: "percent of the battery's power", min: 0, max: 100, whole: false, swing: 10, swingWords: "10 points",
-    short: (v) => `contract ${n(v)}%`, words: (v) => `contract share ${n(v)} percent`, plain: n, source: "No contract: the default is fully merchant. A contracted share is paid the contract price every month of the debt's years and earns nothing from the market" },
+    short: (v) => `contract ${n(v)}%`, words: (v) => `contract share ${n(v)} percent`, plain: n, source: "No contract: the default is fully merchant. A contracted share is paid the contract price every month of the debt's years and earns nothing from the market. The sourced range draws no row for it (no published case); the sensitivity's percent step moves it" },
   cprice: { key: "cprice", letter: "p", label: "Contract price", unit: "USD per kW-month", min: 0, max: 100, whole: false, swing: 1, swingWords: "USD 1 per kW-month",
-    short: (v) => `contract USD ${n(v)}/kW-month`, words: (v) => `contract price USD ${n(v)} per kW-month`, plain: n, source: "No contract: the default is fully merchant. The price is the reader's own term; no published price is held" },
+    short: (v) => `contract USD ${n(v)}/kW-month`, words: (v) => `contract price USD ${n(v)} per kW-month`, plain: n, source: "No contract: the default is fully merchant. The price is the reader's own term; no published price is held, so the sourced range draws no row for it and the sensitivity's percent step moves it" },
 };
 /** The model's own values of the two assumptions inside it, and the steps offered when no table of steps is held. */
 export const MODEL = { rte: 86, cycles: 1 };
@@ -521,15 +521,17 @@ export const LAZARD_CASES: Record<number, { capexLow: number; capexHigh: number;
   4: { capexLow: 620, capexHigh: 1600, fomLow: 12, fomHigh: 32 },
 };
 export function rangesOf(hours: number): Ranges {
-  const line = (two: number, four: number) => four + ((four - two) / 2) * (hours - 4);  // the straight line through the 2- and 4-hour cases
-  const lz = LAZARD_CASES[hours] ?? { capexLow: line(LAZARD_CASES[2].capexLow, LAZARD_CASES[4].capexLow), capexHigh: line(LAZARD_CASES[2].capexHigh, LAZARD_CASES[4].capexHigh),
-    fomLow: line(LAZARD_CASES[2].fomLow, LAZARD_CASES[4].fomLow), fomHigh: line(LAZARD_CASES[2].fomHigh, LAZARD_CASES[4].fomHigh) };
-  const own = hours in LAZARD_CASES;
-  const lazardWords = own ? `${LAZARD}, LCOS v10.0, the low and high of its ${hours}-hour case` : `${LAZARD} prints no 8-hour case: the straight lines through its 2- and 4-hour low cases and high cases, an extrapolation`;
+  // session 314 (the owner's ruling of 19 October 2026 on session 296's open item): a duration Lazard prints no case
+  // for (8 hours) takes the ATB's figure alone, with no range for its capital cost and fixed O&M; the extrapolated
+  // lines of session 296 are gone. noRangeOf(hours) says so under the chart.
+  const lz = LAZARD_CASES[hours];
+  const lazardWords = `${LAZARD}, LCOS v10.0, the low and high of its ${hours}-hour case`;
   const atbCap = atbCapex(hours), atbF = atbFom(hours);
   return {
-    capex: { low: Math.min(lz.capexLow, atbCap), high: Math.max(lz.capexHigh, atbCap), source: `${lazardWords}; ${ATB.name}: USD ${atbCap.toLocaleString("en-US")} per kW (${ATB.energy} per kWh times ${hours} hours plus ${ATB.power} per kW, 2024 dollars)` },
-    fom: { low: Math.min(lz.fomLow, atbF), high: Math.max(lz.fomHigh, atbF), source: `${lazardWords} (USD per kWh a year times the hours); ${ATB.name}: 4 percent of the capital cost a year, USD ${atbF.toLocaleString("en-US")}, which pays for augmentation` },
+    ...(lz ? {
+      capex: { low: Math.min(lz.capexLow, atbCap), high: Math.max(lz.capexHigh, atbCap), source: `${lazardWords}; ${ATB.name}: USD ${atbCap.toLocaleString("en-US")} per kW (${ATB.energy} per kWh times ${hours} hours plus ${ATB.power} per kW, 2024 dollars)` },
+      fom: { low: Math.min(lz.fomLow, atbF), high: Math.max(lz.fomHigh, atbF), source: `${lazardWords} (USD per kWh a year times the hours); ${ATB.name}: 4 percent of the capital cost a year, USD ${atbF.toLocaleString("en-US")}, which pays for augmentation` },
+    } : {}),
     share: { low: 20, high: 60, source: `${LAZARD}: 20 percent debt in its storage cases, 60 percent in its generation cases` },
     rte: { low: ATB.rte, high: 92, source: `${ATB.name}: 85 percent; ${LAZARD}, LCOS v10.0: 86 to 92 percent. The model was run at 86, 89 and 92, so the low case is the lowest step held, 86` },
     deg: { low: 0, high: DEG, source: `${ATB.name}: none, its fixed O&M pays for augmentation; ${LAZARD}, LCOS v10.0: 2.6 percent a year` },
@@ -539,8 +541,18 @@ export function rangesOf(hours: number): Ranges {
 /** The assumptions the sources state once, with no range, in words for the line under the chart. */
 export const NO_RANGE: Partial<Record<Key, string>> = {
   rate: "8 percent in both of Lazard's structures", term: "20 years in Lazard's storage cases", hurdle: "a 12 percent cost of equity in both of Lazard's structures",
-  cycles: "the model's rule, one a day; the other steps are the reader's", cshare: "the reader's own term", cprice: "the reader's own term",
+  cycles: "the model's rule, one a day; the other steps are the reader's",
+  // session 314 (the owner's ruling of 19 October 2026): the contract takes no sourced range; the percent step moves it
+  cshare: "the reader's own term, no published case; the percent step moves it", cprice: "the reader's own term, no published case; the percent step moves it",
   // session 297
   itc: "the project's own credit, none published as a range", method: "a choice, not a figure", fade: "Lazard's 2.6 percent; the ATB states no rate", aug: "a choice, not a figure",
   augcost: "the ATB's one figure, USD 241 per kWh", stress: "the reader's own number of repeats",
 };
+/** The assumptions with no range for a duration (session 314): NO_RANGE, and for a duration Lazard prints no case for
+ * (8 hours) the capital cost and fixed O&M, which take the ATB's figure alone. */
+export function noRangeOf(hours: number): Partial<Record<Key, string>> {
+  if (hours in LAZARD_CASES) return NO_RANGE;
+  return { ...NO_RANGE,
+    capex: `${LAZARD} prints no ${hours}-hour case, so the ATB's figure stands alone: USD ${atbCapex(hours).toLocaleString("en-US")} per kW (its ${ATB.energy} per kWh times ${hours} hours plus ${ATB.power} per kW, 2024 dollars); no extrapolation is drawn`,
+    fom: `${LAZARD} prints no ${hours}-hour case, so the ATB's figure stands alone: 4 percent of the capital cost a year, USD ${atbFom(hours).toLocaleString("en-US")} per kW` };
+}

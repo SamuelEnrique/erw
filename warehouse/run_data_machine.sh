@@ -100,7 +100,8 @@ PAGE_PATHS=(site/data/datacenter site/data/seller/capture.json site/data/curtail
 # 199), committed with the CSV whose header names it, and only when the generator's group was not put back
 RECORD_PATH=docs/methods/figures
 META_PATHS=(warehouse/metadata/coverage.csv docs/coverage.md warehouse/metadata/sources.csv
-            warehouse/metadata/archive_manifest.csv warehouse/metadata/redivis_uploads.csv)
+            warehouse/metadata/archive_manifest.csv warehouse/metadata/redivis_uploads.csv
+            docs/grids/grid_tables.json)   # session 314: the grids' tables by rule (dm_grid_tables)
 
 # ---- where is this: the three refusals ------------------------------------------------------------------------------
 if [ "${GITHUB_ACTIONS:-}" = "true" ]; then
