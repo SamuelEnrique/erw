@@ -394,7 +394,7 @@ class AsBuilt(unittest.TestCase):
         self.assertIn(f"real-time deviations at the hub average's price USD {kw('revenue_rt_deviation_hub_usd_per_mw')};", m)
         self.assertIn(f"the two together USD {kw('revenue_market_hub_usd_per_mw')}.", m)
         self.assertIn(f"discharged {round(w.loc['rt_discharge_mwh'].sum()):,} MWh in real time and had sold {round(w.loc['da_sold_mwh'].sum()):,} MWh day-ahead", m)
-        self.assertEqual(int(w.loc["days_held"].sum()), 194)   # 186 until session 271's pull to 14 August 2026 (194 of its 195 days matched)
+        self.assertEqual(int(w.loc["days_held"].sum()), 196)   # session 310: the disclosure to 20 August; 194 from session 271; 186 until session 271's pull to 14 August 2026 (194 of its 195 days matched)
         self.assertTrue((w.loc["intervals"] == w.loc["intervals_priced"]).all())   # every resource-interval had a hub price
         for month in w.columns:                                                    # the identity the page rests on, month by month
             self.assertAlmostEqual(w.loc["revenue_market_hub_usd", month], w.loc["revenue_da_usd", month] + w.loc["revenue_rt_deviation_hub_usd", month], places=2)

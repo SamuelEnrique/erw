@@ -59,7 +59,7 @@ About 120 requests of the 300, by each connector's own count where it prints one
 
 ## The landing
 
-See below (filled at the push).
+- freeze 0; before `s310-before` 12:04:48 UTC; merged origin/main; pushed 12:04:57 (`4e1cfea3`); deployment 7173267215 success 12:06:11; after `s310-after` 12:07:09; compare: **0 differences on 25 pages** (expected).
 
 ## Decisions made without you
 

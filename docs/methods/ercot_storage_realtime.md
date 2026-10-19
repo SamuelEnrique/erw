@@ -167,6 +167,7 @@ time it is rendered; these are here so that a later build can be set against the
   `ercot_sced_esr_hourly` holds 1,531,959 resource-hours, 195 operating days; 194 are matched by the day-ahead
   disclosure (14 August is not yet in it).
 - Over the 194 matched days (session 271) the fleet discharged 4,859,502 MWh in real time and had sold 1,560,672 MWh day-ahead, 32 percent of it. The six whole months are unchanged. The pull is on the data
+- Over the 196 matched days (session 310, the disclosure to 20 August 2026) the fleet discharged 4,915,071 MWh in real time and had sold 1,577,845 MWh day-ahead, 32 percent of it. The six whole months are unchanged.
   machine's schedule now, once a week (`warehouse/run_data_machine_tables.sh`); at the ceiling, about 19 days of zips
   from here, the step is a skip that says so.
 - Day-ahead, the fleet sold at its own nodes for USD 0.02 to 2.49 per MWh above the hub average, by month (August's

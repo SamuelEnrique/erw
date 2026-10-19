@@ -2992,7 +2992,6 @@ grid_network_links,flow_mw,series variable,MW
 grid_network_nodes,demand_mw,series variable,MW
 grid_network_nodes,intensity_generation,series variable,kgCO2/MWh
 grid_network_nodes,interchange_volume_mwh,series variable,MWh
-grid_stress_days,stress_day,series variable,USD/MWh
 grid_stress_yearly,calm_hours,series variable,count
 grid_stress_yearly,calm_longest_fleet_energy_multiples,series variable,ratio
 grid_stress_yearly,calm_longest_fleet_full_power_hours,series variable,hour
