@@ -94,7 +94,7 @@ class TheDeliveryTable(unittest.TestCase):
             held, total, assumed = totals(u, 100)
             self.assertEqual((assumed, f"{held:.2f}", f"{total:.2f}"), (0, shown, shown), u)
         # CenterPoint and Texas-New Mexico Power: session 236's totals only with the two conditions
-        for u, shown in (("CenterPoint Energy Houston Electric", "7.67"), ("Texas-New Mexico Power", "7.10")):
+        for u, shown in (("CenterPoint Energy Houston Electric", "7.67"), ("Texas-New Mexico Power", "7.09")):  # session 307: 7.10 before the rider DCRF was counted once
             held, total, assumed = totals(u, 100)
             self.assertGreater(assumed, 0, u)
             self.assertEqual(f"{total:.2f}", shown, u)

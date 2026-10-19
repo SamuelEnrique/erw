@@ -17,7 +17,7 @@ notices, docs/methods/battery_stack.md, session 246), so this is the rule the ch
   and no PJM notice, so PJM has no row, and the run says so.
 - The day's mean: the local day of the grid's own clock; a day with any hour missing is not tested (session 297's
   rule: every local hour of the day holds at least one interval). ERCOT's daily means are ercot_hub_prices_daily's rt_mean (from 2015); the others are computed here from
-  iso_hub_prices_history (CAISO from 14 July 2023, the others from 1 September 2024).
+  iso_hub_prices_history (CAISO from 6 July 2023 (session 307), the others from 1 September 2024).
 - The trailing 98th percentile is over the days held among the 365 before the day (the day itself left out), and only
   when at least 329 of them (nine tenths) are held; before that, a day is judged by the notice test alone.
 - The operator's notices held: CAISO's (caiso_grid_emergencies), the system-wide kinds of session 246 (a Flex Alert,

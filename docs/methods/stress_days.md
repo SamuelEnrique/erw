@@ -27,7 +27,7 @@ PJM has no row: the ERW holds neither a PJM hub price (PJM's data is licensed) n
 | Grid | Days held | Judged by price from | Stress days | By price | By notice | Events |
 |---|---|---|---|---|---|---|
 | ERCOT | 2015-01-01 to 2026-10-14 | 2015-11-26 | 113 | 113 | (none held) | 64 |
-| CAISO | 2023-07-14 to 2026-10-14 | 2024-06-08 | 58 | 24 | 36 | 25 |
+| CAISO | 2023-07-06 to 2026-10-14 (from 2023-07-14 until session 307) | 2024-05-31 | 58 | 24 | 36 | 25 |
 | NYISO | 2024-09-01 to 2026-10-14 | 2025-08-15 | 10 | 10 | (none held) | 2 |
 | MISO | 2024-09-01 to 2026-10-02 | 2025-07-27 | 16 | 16 | (none held) | 7 |
 | SPP | 2024-09-01 to 2026-10-13 | 2025-07-27 | 17 | 17 | (none held) | 9 |

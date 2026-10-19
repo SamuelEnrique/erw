@@ -64,7 +64,7 @@ class TheAnalyses(unittest.TestCase):
 
     def test_the_method_notes(self):
         note = src("docs", "methods", "battery_stack.md")
-        for piece in ("CAISO's prices are held from 14 July 2023 (session 273", "### Six more, on the history back to August 2023 (session 273)",
+        for piece in ("14 July 2023 from session 273", "### Six more, on the history back to August 2023 (session 273)",
                       "`caiso_notices_20230815`", "| **2024** (session 273: a whole year held now)", "53, 78 and 103"):
             self.assertIn(piece, note)
         for rel in ("docs/methods/battery_stack.md", "docs/methods/generator_earns_algorithm.md", "warehouse/analysis/caiso_southern_nodes.py",

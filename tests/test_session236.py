@@ -221,7 +221,7 @@ class Delivery(unittest.TestCase):
         cls.utilities = list(dict.fromkeys(r["utility"] for r in cls.rows))
 
     def test_every_unit_in_the_file_names_a_basis(self):
-        self.assertEqual(len(self.rows), 41)
+        self.assertEqual(len(self.rows), 40)  # session 307: TNMP's rider DCRF counted once
         self.assertEqual(self.utilities, ["Oncor", "CenterPoint Energy Houston Electric", "AEP Texas", "Texas-New Mexico Power"])
         self.assertEqual([r["unit"] for r in self.rows if basis(r["unit"]) is None], [])
         self.assertEqual(sum(1 for r in self.rows if (r.get("applies") or "").lower().startswith("conditional")), 3)

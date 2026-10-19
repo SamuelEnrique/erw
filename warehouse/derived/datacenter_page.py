@@ -133,15 +133,20 @@ def delivery_rows(d, review):
     """The rows of the delivery table a transmission-voltage load pays, as the page shows them, and the counts of the
     rows left out with the reason. A row is shown only when the review names it (so its class is the transmission-voltage
     class and its kind is stated), its unit is printed on its page, its figure's column was checked where its line holds
-    more than one figure, and the review does not say it is another customer's column (a non-profit rate)."""
+    more than one figure, the review does not say it is another customer's column (a non-profit rate), and the review
+    does not name it the same charge as another row (session 307)."""
     by = {r["event_id"]: r for r in review}
-    rows, left = [], {"not the transmission-voltage class, or not reviewed": 0, "no unit printed": 0, "column not checked": 0, "another customer's rate": 0}
+    rows, left = [], {"not the transmission-voltage class, or not reviewed": 0, "no unit printed": 0, "column not checked": 0, "another customer's rate": 0,
+                      "the same charge printed twice": 0}
     for _, r in d.iterrows():
         rule, v = DELIVERY.get(r["source"]), by.get(r["event_id"])
         if rule is None:
             continue
         if v is None:
             left["not the transmission-voltage class, or not reviewed"] += 1
+            continue
+        if v.get("same_charge_as"):  # session 307: one charge the tariff prints in two units is counted once
+            left["the same charge printed twice"] += 1
             continue
         if not r["unit_as_written"].strip():
             left["no unit printed"] += 1
