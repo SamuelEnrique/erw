@@ -32,7 +32,7 @@
 
 ## The landing
 
-See below (filled at the push).
+- freeze 0; before `s312-before` 12:46:42 UTC; merged origin/main; pushed 12:46:49 (`1252a4fe`); deployment 7174161557 success 12:48:08 (the `/data` change built); after `s312-after` 12:48:20; compare: **0 differences on 25 pages** (expected: `/data` is in review, so a visitor sees the in-review page).
 
 ## Decisions made without you
 
