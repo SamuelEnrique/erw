@@ -74,10 +74,16 @@ echo "== ERW daily refresh $(date -u +%FT%TZ): ISOs: $ISOS; days: $DAYS"
 # Session 26: the site's chat spec must be regenerated after every change to package/llms.txt (ARCHITECTURE.md);
 # a stale spec fails the run before anything is pulled
 "$PYTHON" warehouse/chat/check_spec.py || { echo "stopping: regenerate site/lib/chat/spec.json first"; exit 1; }
+# Session 305: the restore no longer reads Redivis first. Redivis refused every export from 15 October 2026 (100 GB in
+# 30 days; this restore took about 2.5 GB a run), and the run stopped here three days running. Each rolling-window
+# table missing here now comes from GitHub's cache (RESTORE_CACHE, the copy the last run stashed, taken only when it is
+# the archive's latest), then the archive (the bucket erw-archive, rebuilt and checked against the latest run's row
+# count), and Redivis only last, under the daily export ceiling (warehouse/restore_tables.py). RESTORE_FROM_REDIVIS
+# keeps its name (the workflows set it); what it switches on is this restore.
 if [ "${RESTORE_FROM_REDIVIS:-0}" = "1" ]; then
-  echo "== restore rolling-window tables from the Redivis draft (session 10)"
-  "$PYTHON" warehouse/redivis/upload.py --restore || {
-    echo "restore from Redivis failed: stopping, so a partial window is never uploaded over a full one"
+  echo "== restore rolling-window tables: the cache, the archive, Redivis last (session 305)"
+  "$PYTHON" warehouse/restore_tables.py --rolling ${RESTORE_CACHE:+--cache "$RESTORE_CACHE"} || {
+    echo "restore failed: stopping, so a partial window is never uploaded over a full one"
     exit 1
   }
 fi

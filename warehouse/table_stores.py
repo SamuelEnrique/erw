@@ -49,8 +49,12 @@ def commands(table):
     ]
 
 
+SKIP = int(os.environ.get("ERW_SKIP_EXIT") or 75)
+CAP_SKIPPED = set()  # session 305: the tables whose Redivis step was skipped for Redivis's export cap
+
+
 def stores(table, dry=False, run=subprocess.run, log=print, runs=None):
-    """True when the table reached all four."""
+    """True when the table reached all four (session 305: or the archive, with Redivis skipped for its export cap)."""
     ok = True
     for step, gate, cmd in commands(table):
         if dry:
@@ -61,6 +65,12 @@ def stores(table, dry=False, run=subprocess.run, log=print, runs=None):
         with open(out, "w", encoding="utf-8") as f:
             rc = run([sys.executable, os.path.join(ROOT, cmd[0])] + cmd[1:], cwd=ROOT, stdout=f, stderr=subprocess.STDOUT).returncode
         log(f"{table} {step} exit={rc} ({os.path.relpath(out, ROOT).replace(os.sep, '/')})")
+        if step == "redivis" and rc == SKIP:
+            # session 305: upload.py exits with the skip exit when Redivis's export cap stopped the upload; the table
+            # is in the archive (the step before) and waits there, so this is a skip, not a failure
+            CAP_SKIPPED.add(table)
+            log(f"{table} redivis skipped: Redivis export cap; the table waits in the archive")
+            continue
         if rc != 0:
             ok = False
             if gate:
@@ -82,7 +92,12 @@ def main(argv=None):
             print(f"{t} FAILED: warehouse/output/{t}.csv is not on this machine; nothing was run")
             return 2
     done = [stores(t, a.dry_run) for t in a.tables]
-    return 0 if all(done) else 1
+    if not all(done):
+        return 1
+    if CAP_SKIPPED:  # the skip's reason is the last line (warehouse/health.py)
+        print(f"stores SKIPPED: Redivis export cap: {', '.join(sorted(CAP_SKIPPED))} archived, not uploaded; they wait in the archive")
+        return SKIP
+    return 0
 
 
 if __name__ == "__main__":

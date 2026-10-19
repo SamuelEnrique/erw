@@ -423,6 +423,15 @@ if [ "${PUSH:-1}" = "0" ]; then
   echo "PUSH=0: committed, not pushed"
   exit 0
 fi
+# Session 305: a tracked file this run does not commit (a table kept in git, news_stories.csv among them, rewritten on this
+# machine by an earlier session) stopped `git pull --rebase` with exit 128 ("You have unstaged changes") on 15 and 17
+# October, so the day's page files stayed here. Such files are set aside in a named stash first, never discarded, and
+# left there (main's copy is the record of a table kept in git); `git stash list` shows them.
+left="$(git diff --name-only)"
+if [ -n "$left" ]; then
+  git stash push --quiet -m "dm_commit $day: tracked files the data machine's run did not commit (session 305)" -- $left
+  echo "set aside in a stash before the pull: $(echo "$left" | paste -sd ' ' -)"
+fi
 git pull --rebase --quiet origin main
 rc=$?
 echo "pull exit=$rc"
