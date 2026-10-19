@@ -35,7 +35,7 @@
 | Impeccable `detect` on `site/app/page.tsx` | 0 | no finding |
 | Screenshots, 1280 and 390, before (production) and after (local) | | `docs/brand/review-300/`; nothing scrolls sideways at 390 |
 | `tests.test_session300`, `53`, `90`, `102`, `241b` | 0 | 75 passed, 1 skipped |
-| Suite, clean copy, the commit pushed | SUITE_EXIT | SUITE_LINE |
+| Suite, clean copy, `5370cc94` (the session's commit; the report's last commit and the merge follow) | 0 | 4,370 tests OK, 248 skipped |
 
 ## Landing of session 299 (recorded here: session 299's report is in that landing's own commit)
 
