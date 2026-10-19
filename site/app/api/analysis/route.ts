@@ -22,6 +22,7 @@ const NO_STORE = { "Cache-Control": "no-store", "X-Robots-Tag": "noindex" } as c
 const hidden = () => new NextResponse(null, { status: 404, headers: NO_STORE });
 const json = (body: unknown, status = 200) => NextResponse.json(body, { status, headers: NO_STORE });
 const token = () => process.env.INTERNAL_COSTS_TOKEN ?? "";
+export const READER_QUESTION = "reader_question";   // session 315: a reader's own question, for a person to answer
 
 export async function POST(req: NextRequest) {
   if (!sameOrigin(req)) return hidden();   // session 177: never from another site's page, whatever cookie comes with it
@@ -48,6 +49,23 @@ export async function POST(req: NextRequest) {
     }
   }
   if (body.kind !== "run") return json({ ok: false, reason: "kind is run or roundup" }, 400);
+  // session 315: a reader's question in their own words (components/analysis/AskForm.tsx): the question, the tables to
+  // read and an email for the answer, one queued row the data machine's worker leaves alone and a person answers.
+  // Each field is bounded here; the database function bounds the whole (2,000 characters) and counts the day's requests.
+  if (body.finding === READER_QUESTION) {
+    const given = (typeof body.params === "object" && body.params !== null ? body.params : {}) as Record<string, unknown>;
+    const question = String(given.question ?? "").trim(), email = String(given.email ?? "").trim();
+    const tables = String(given.tables ?? "").split(",").map((t) => t.trim()).filter(Boolean);
+    if (question.length < 10 || question.length > 500) return json({ ok: false, reason: "a question is 10 to 500 characters" }, 400);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 120) return json({ ok: false, reason: "an email address is needed for the answer" }, 400);
+    if (tables.length > 10 || tables.some((t) => !/^[a-z0-9_]{1,80}$/.test(t))) return json({ ok: false, reason: "tables are named by their table name, ten at most" }, 400);
+    try {
+      const r = await rpc<{ ok: boolean; reason?: string; id?: string }>("analysis_request", { p_token: token(), p_kind: "run", p_finding: READER_QUESTION, p_params: JSON.stringify({ question, tables: tables.join(","), email }) });
+      return r && r.ok ? json({ ok: true, id: r.id }) : json({ ok: false, reason: r?.reason === "day" ? "Today's requests are used up." : (r?.reason ?? "not queued") }, r?.reason === "day" ? 429 : 400);
+    } catch (e) {
+      return json({ ok: false, reason: `the queue could not be written: ${(e as Error).message.slice(0, 120)}` }, 502);
+    }
+  }
   const entry = catalogue.find((c) => c.id === body.finding);
   if (!entry) return json({ ok: false, reason: "no such finding" }, 400);
   const given = (typeof body.params === "object" && body.params !== null ? body.params : {}) as Record<string, unknown>;

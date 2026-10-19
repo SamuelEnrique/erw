@@ -5,6 +5,10 @@ import { Fold, ToolHeader, ToolPage, ToolSection } from "@/components/tool/ToolP
 import { FindingCard } from "@/components/analysis/FindingCard";
 import { CardChart } from "@/components/analysis/CardChart";
 import { RequestForm } from "@/components/analysis/RequestForm";
+import { AskForm } from "@/components/analysis/AskForm";   // session 315: the reader's own question, first
+import { Num } from "@/components/Num";
+import { gridOfWords } from "@/components/analysis/FindingCard";
+import { catalogue as liveCatalogue } from "@/lib/data";
 import { ImpactForm } from "@/components/analysis/ImpactForm";
 import { ScannerFound } from "@/components/analysis/ScannerFound";
 import { RequestFlow } from "@/components/analysis/RequestFlow";
@@ -49,7 +53,11 @@ export const metadata: Metadata = { title: "Research" };
 // the tokens (data-chart-tokens, components/echarts.ts).
 const day = (d: string) => new Date(`${d}T00:00:00Z`).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
 
-export default function ResearchPage() {
+export default async function ResearchPage() {
+  // session 315: the public tables of the live set, for the reader's form (optional there: a failed read leaves the
+  // list empty and the form says so; the page is not held back for it)
+  let tables: string[] = [];
+  try { tables = (await liveCatalogue()).map((r) => r.table_name).sort(); } catch { tables = []; }
   const weeks = analysisWeeks();
   const a = DOCS.analysis;
   const all = loadCards();
@@ -110,7 +118,10 @@ export default function ResearchPage() {
             <a href="#archive">Chart archive</a>
           </nav>
 
-          <ToolSection title="Ask for an analysis" id="ask" note="Two steps: what to analyze, then how to show it. A request waits in a queue and runs on the data machine.">
+          <ToolSection title="Ask for an analysis" id="ask" note="Your own question first: it is read and answered by a person, by email. Or choose a finding and its inputs: that request waits in a queue and runs on the data machine.">
+            <AskForm tables={tables} />
+            {tables.length === 0 ? <p className="mt-1 text-xs text-muted" data-ask-tables-none="1">The list of tables could not be read when this page was built; name them in the question.</p> : null}
+            <h3 className="sub-title" id="choose">Or choose a finding and its inputs</h3>
             <RequestFlow catalogue={catalogue} templates={ofTheFlow(a.templates)} gallery={ofTheFlow(a.gallery.templates)} computedAt={a.gallery.computed_at} cards={defaults}
               impactForm={impact ? <ImpactForm entry={impact} /> : null} />
           </ToolSection>
@@ -127,6 +138,13 @@ export default function ResearchPage() {
                   <p className="lead-date">{day(today.date)}</p>
                   <h3>{today.title}</h3>
                   <p className="lead-fact" data-today-fact="1">{today.fact}</p>
+                  {Object.keys(today.numbers ?? {}).length ? (
+                    <p className="lead-numbers text-xs text-muted" data-today-numbers={Object.keys(today.numbers).length}>
+                      The record&apos;s figures: {Object.entries(today.numbers).map(([k, v], i) => (
+                        <span key={k}>{i ? "; " : ""}{k.replace(/_/g, " ")} <Num check={`digest_chart|${today.date}|${today.table}|${k}`} raw={String(v)}><span className="font-mono">{String(v)}</span></Num></span>
+                      ))}.
+                    </p>
+                  ) : null}
                   <p className="lead-source text-xs text-muted" data-today-source="1">
                     Source: {today.source ? <>{today.source}, </> : null}ERW table <code className="font-mono">{today.table}</code>. The Digest&apos;s chart of the day, drawn by
                     code from the scanner&apos;s strongest flag of the day ({today.rule ? `rule: ${today.rule}` : "rule not recorded"}); <Link href="/data/methods/automated_analysis_scanner">method</Link>.
@@ -152,7 +170,7 @@ export default function ResearchPage() {
                   <p className="lead-fact">{wk.card.subtitle}</p>
                   <ul className="lead-numbers">
                     {wk.card.callouts.map((c, i) => (
-                      <li key={i}>{c.label}: <span className="font-mono">{c.before.text}</span> ({c.before.period}), <span className="font-mono">{c.after.text}</span> ({c.after.period}){c.unit ? ` ${c.unit}` : ""}</li>
+                      <li key={i}>{c.label}: <Num check={`finding|${wk.card!.card_id}|callout|${i}|before|${gridOfWords(`${c.before.period} ${c.label}`)}`} raw={c.before.text}><span className="font-mono">{c.before.text}</span></Num> ({c.before.period}), <Num check={`finding|${wk.card!.card_id}|callout|${i}|after|${gridOfWords(`${c.after.period} ${c.label}`)}`} raw={c.after.text}><span className="font-mono">{c.after.text}</span></Num> ({c.after.period}){c.unit ? ` ${c.unit}` : ""}</li>
                     ))}
                   </ul>
                   <p className="lead-source text-xs text-muted">

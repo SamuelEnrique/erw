@@ -95,7 +95,9 @@ class Supabase:
         self.h = {"apikey": key, "Authorization": f"Bearer {key}", "Content-Type": "application/json"}
 
     def queued(self):
-        r = self.requests.get(self.base, params={"kind": "eq.run", "status": "eq.queued", "order": "asked_at.asc", "limit": "20"},
+        # session 315: a reader's question in their own words (finding reader_question, site/components/analysis/AskForm.tsx)
+        # is a person's to answer by email, never this worker's: it is left queued and never taken
+        r = self.requests.get(self.base, params={"kind": "eq.run", "status": "eq.queued", "finding": "neq.reader_question", "order": "asked_at.asc", "limit": "20"},
                               headers=self.h, timeout=30)
         r.raise_for_status()
         return r.json()
@@ -107,7 +109,7 @@ class Supabase:
         return r.json()
 
     def queued_count(self):
-        r = self.requests.get(self.base, params={"kind": "eq.run", "status": "eq.queued", "select": "id", "limit": "1000"}, headers=self.h, timeout=30)
+        r = self.requests.get(self.base, params={"kind": "eq.run", "status": "eq.queued", "finding": "neq.reader_question", "select": "id", "limit": "1000"}, headers=self.h, timeout=30)
         r.raise_for_status()
         return len(r.json())
 

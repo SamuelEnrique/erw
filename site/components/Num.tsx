@@ -22,6 +22,13 @@ export function heldBy(check: string): { table: string; title: string } | null {
   const p = check.split("|");
   const head = p[0];
   const entity = p.slice(1).find((x) => gridOfEntity(x) !== "");
+  // session 315: a finding card's figure (finding|<card>|...|<grid>) is held by the grid its words name; the Digest's
+  // chart of the day (digest_chart|<date>|<table>|<key>) by its table
+  if (head === "finding") {
+    const g = p[p.length - 1];
+    return g && g !== "-" && licenseHeldGrid(g) ? { table: `finding ${p[1]}`, title: licenseGridTitle(g) } : null;
+  }
+  if (head === "digest_chart") return p[2] && licenseHeldRow(p[2], null) ? { table: p[2], title: licenseTitle(p[2]) } : null;
   if (head === "latest_prices") {
     const g = gridOfEntity(p[1]);
     return g && licenseHeldGrid(g) ? { table: "latest_prices", title: licenseGridTitle(g) } : null;

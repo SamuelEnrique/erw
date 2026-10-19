@@ -92,6 +92,8 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/storage?tab=owners", "/severance", "/severance?tab=lease", "/map?tab=resources",
   "/shoulder", "/shoulder?grid=caiso&month=2025-07",  // session 75
   // session 67: what a battery earns: both grids, the three durations, both strategies, another size
+  // session 315: the Research tool (every card figure a Num with its card; today's record's figures) and one card's own page
+  "/research", "/research/card/batteries_lunch_grids", "/research/card/gas_sets_price",
   "/cost-of-power/battery", "/cost-of-power/battery?grid=ercot&dur=2&strat=foresight", "/cost-of-power/battery?grid=ercot&dur=8&strat=dayahead",
   "/cost-of-power/battery?grid=ercot&dur=4&strat=dayahead", "/cost-of-power/battery?grid=caiso&dur=4&strat=foresight", "/cost-of-power/battery?grid=caiso&dur=2&strat=dayahead",
   "/cost-of-power/battery?grid=caiso&dur=8&strat=foresight&mw=250",
@@ -216,6 +218,18 @@ async function truth(check) {
   }
   // session 43: the bill explainer's default bills, recomputed here from data/bill_rules.json (California by the tariff's
   // total rates, not its unbundled lines; Texas by its charges), and the wholesale share from cost_of_power_monthly
+  // session 315: a finding card's figures, from the card's own JSON (site/data/findings/<card>.json): a callout's text
+  // (finding|<card>|callout|<i>|before or after|<grid>) or a cell of its table of estimates (finding|<card>|effect|<row>|<column>|<grid>)
+  if (p[0] === "finding") {
+    const card = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "findings", `${p[1]}.json`), "utf-8"));
+    if (p[2] === "callout") return card.callouts?.[Number(p[3])]?.[p[4]]?.text;
+    if (p[2] === "effect") return card.effect_table?.rows?.[Number(p[3])]?.[p[4]];
+    return card.numbers?.[p[2]];
+  }
+  // session 315: the Digest's chart of the day, its record's numbers (docs/digest/charts/<date>.json): digest_chart|<date>|<table>|<key>
+  if (p[0] === "digest_chart") {
+    return JSON.parse(fs.readFileSync(path.join(here, "..", "..", "docs", "digest", "charts", `${p[1]}.json`), "utf-8")).numbers?.[p[3]];
+  }
   // session 300: the home page's count of findings, from the library's own catalogue (site/data/findings/catalogue.json)
   if (p[0] === "findings" && p[1] === "count") {
     return JSON.parse(fs.readFileSync(path.join(here, "..", "data", "findings", "catalogue.json"), "utf-8")).length;
@@ -882,14 +896,18 @@ async function main() {
     }
     const isTime = /^\d{4}-\d{2}-\d{2}T/.test(raw);
     // sums of floats may differ in the last bits with the order of addition: relative tolerance
-    const same = isTime ? new Date(t).getTime() === new Date(raw).getTime() : Math.abs(Number(t) - Number(raw)) < 1e-9 * Math.max(1, Math.abs(Number(t)));
+    // session 315: a figure written as text in its own file (a card's callout, "126.6x") is compared as text
+    const same = isTime ? new Date(t).getTime() === new Date(raw).getTime() : (typeof t === "string" && Number.isNaN(Number(t))) ? t === raw : Math.abs(Number(t) - Number(raw)) < 1e-9 * Math.max(1, Math.abs(Number(t)));
     // session 16: MW sums are written as whole MW (lib/format.ts count)
     // session 90: /storage/buildout writes its MW and MWh whole too (lib/buildout.ts WHOLE; the ratios keep two decimals)
     const whole = /(^projects\|mw\|)|(^datacenters\|(mw_total|state_mw|operator_mw|status_mw|sites_mw|texas_mw))|(^series\|ercot_large_load_status\|)|(^series\|storage_buildout_monthly\|[^|]+\|(battery|solar)_(operating|planned)_(mw|mwh)(?!_per_)(_|\|))/.test(check);
     // session 76: an hour of the day (a variable named ..._hour, a whole number 0 to 23) may be written "09:00" (/shoulder):
     // "16:00" passed the rule below by accident, "09:00" could not
     const hourText = /\|[a-z0-9_]*_hour\|/.test(check) && /^\d{1,2}$/.test(raw) && text.startsWith(`${raw.padStart(2, "0")}:00`);
-    const textOk = hourText || text.startsWith(usdFormat ? usd(Number(raw)) : whole ? Math.round(Number(raw)).toLocaleString("en-US") : shown(raw));
+    // session 315: a figure the page shows as its own raw text (a card's callout "126.6x", a record's figure as written) is its text
+    // a card's p value (FindingCard fmtP): "< 0.001" under a thousandth, else three decimals
+    const pText = /^finding\|[^|]+\|effect\|\d+\|p\|/.test(check) && (Number(raw) < 0.001 ? text === "< 0.001" : text === Number(raw).toFixed(3));
+    const textOk = hourText || pText || text === raw || text.startsWith(usdFormat ? usd(Number(raw)) : whole ? Math.round(Number(raw)).toLocaleString("en-US") : shown(raw));
     const pass = t !== undefined && t !== null && same && textOk;
     pass ? ok++ : bad++;
     lines.push(`${pass ? "ok  " : "FAIL"} | ${page} | ${check} | page shows "${text}" | page read ${raw} | Supabase ${t}`);

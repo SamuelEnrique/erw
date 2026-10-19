@@ -182,7 +182,7 @@ class ThePlainNames(unittest.TestCase):
         self.assertGreaterEqual(len(names), 60)
         self.assertEqual(len({e["key"] for e in names}), len(names))
         for e in names:
-            self.assertIn(e["status"], ("label", "draft"), e["key"])
+            self.assertIn(e["status"], ("label", "draft", "note"), e["key"])   # session 315: "note", a name taken from a methods note (ruling 5b)
             self.assertTrue(e["name"].strip() and e["unit"].strip() and e["from"].strip(), e["key"])
             self.assertNotIn(EM, e["name"])
         self.assertNotIn(EM, json.dumps(self.doc, ensure_ascii=False))
