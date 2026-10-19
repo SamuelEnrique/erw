@@ -88,9 +88,11 @@ class TheThirtyQuestions(unittest.TestCase):
                 continue
             n = q["note"]
             if "summed" in n or "the sum of" in n:
-                self.assertTrue("summed" in q["question"] or "in total" in q["question"] or "total revenue" in q["question"] or "earn" in q["question"], q["id"])
+                self.assertTrue("summed" in q["question"] or "in total" in q["question"] or "total revenue" in q["question"] or "over " in q["question"], q["id"])   # a span of months, named
             if "the mean of" in n:
                 self.assertIn("average of the twelve monthly", q["question"], q["id"])
+            if ", 20" in n and "summed" not in n and "the mean of" not in n and "the largest" not in n and "less" not in n:
+                self.assertRegex(q["question"], r"(January|February|March|April|May|June|July|August|September|October|November|December) 20\d\d", q["id"])   # a month's figure names its month
 
 
 @unittest.skipUnless(os.path.exists(FIX), "the recorded answers are written by the run")
