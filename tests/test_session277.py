@@ -53,8 +53,8 @@ class TheZoneHistoryStep(unittest.TestCase):
     def test_a_weekly_step_asks_caiso_only(self):
         text = src("warehouse", "run_data_machine_tables.sh")
         steps = [tuple(line.strip().strip('"').split("|")) for line in text.split("TABLE_STEPS=(", 1)[1].split("\n)", 1)[0].strip().splitlines()]
-        self.assertEqual([s[:3] for s in steps[18:]], [("dm_zone_history_pull", "-", "weekly"), ("dm_zone_history_write", "iso_zone_prices_history", "weekly")])
-        for s in steps[18:]:
+        self.assertEqual([s[:3] for s in steps[18:20]], [("dm_zone_history_pull", "-", "weekly"), ("dm_zone_history_write", "iso_zone_prices_history", "weekly")])
+        for s in steps[18:20]:   # session 310 adds dm_mix_profile after them (test_session310.py)
             self.assertIn("--iso caiso --recent 9", s[3])
             for word in ("nyiso", "isone", "spp", "miso"):
                 self.assertNotIn(word, s[3])

@@ -53,7 +53,7 @@
 
 ## The landing
 
-See below (filled at the push).
+- freeze 0; before `s308-before` 10:24:45 UTC; the merge of origin/main conflicted in `docs/redivis/release-v1/tables.csv` (session 299 had made the same change), resolved by `release_v1.py` (check 0, tests 0); pushed 10:25:45 (`8b3b60b9`); deployment 7171358192 success 10:27:17; after `s308-after` 10:27:24; compare: **0 differences on 25 pages** (expected: every page is in review).
 
 ## To finish
 

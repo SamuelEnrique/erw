@@ -123,7 +123,7 @@ class TheBlock(unittest.TestCase):
         r = run(["--list"])
         self.assertEqual(r.returncode, 0, r.stderr)
         lines = r.stdout.strip().splitlines()
-        self.assertEqual(len(lines), 22)                                                           # ten steps since session 254, eight more since session 271, two since 277, and the two loads
+        self.assertEqual(len(lines), 23)                                                           # ten steps since session 254, eight more since session 271, two since 277, and the two loads
         self.assertTrue(lines[0].startswith("dm_eia930_total_interchange: eia930_daily_total_interchange (daily): python warehouse/connectors/"), lines[0])
         self.assertTrue(lines[-2].startswith("dm_live_set: python warehouse/supabase/load.py --no-vacuum --only"), lines[-2])
         self.assertTrue(lines[-1].startswith("dm_live_set_weekly (weekly): python warehouse/supabase/load.py --no-vacuum --only"), lines[-1])
