@@ -1497,7 +1497,9 @@ def pull_caiso(ctx):
     ctx["data_url"] = r"oasisapi/SingleZip"
 
     def fetch(market):
-        return lambda day: c.get_lmp(date=day, end=day + pd.Timedelta(days=1), market=market,
+        # session 322: the request ends at the next local midnight (a calendar day), not 24 hours later: on the
+        # 25-hour fall-back day 24 hours ended at 23:00 local and the day's last hour was never asked (session 309)
+        return lambda day: c.get_lmp(date=day, end=day + pd.DateOffset(days=1), market=market,
                                      locations=CAISO_HUBS, sleep=5)
     ctx["reports"] = {
         "caiso:PRC_LMP": ("OASIS Locational Marginal Prices, day-ahead market (DAM)", CAISO_OASIS),

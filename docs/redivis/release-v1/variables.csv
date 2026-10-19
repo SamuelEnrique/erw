@@ -397,6 +397,9 @@ caiso_wind_solar_forecast,solar_actual_mw,series variable,MW
 caiso_wind_solar_forecast,solar_forecast_dam_mw,series variable,MW
 caiso_wind_solar_forecast,wind_actual_mw,series variable,MW
 caiso_wind_solar_forecast,wind_forecast_dam_mw,series variable,MW
+carb_auction_allowance_prices,allowances_offered,series variable,count
+carb_auction_allowance_prices,allowances_sold,series variable,count
+carb_auction_allowance_prices,settlement_price,series variable,USD/tCO2
 carb_lcfs_credit_prices,credit_price_type1_weekly_avg,series variable,USD/tCO2
 carb_lcfs_credit_prices,credit_price_weekly_avg,series variable,USD/tCO2
 carb_lcfs_credit_prices,credit_volume,series variable,tCO2
@@ -1627,6 +1630,15 @@ eia930_generation_latest,net_generation_unknown_mw,series variable,MW
 eia930_generation_latest,net_generation_unknown_storage_mw,series variable,MW
 eia930_generation_latest,net_generation_wind_mw,series variable,MW
 eia930_generation_latest,net_generation_wind_with_battery_mw,series variable,MW
+eia_annual_crosscheck_ba,eia923_net_generation_mwh,series variable,MWh
+eia_annual_crosscheck_ba,eia930_hours,series variable,count
+eia_annual_crosscheck_ba,eia930_net_generation_mwh,series variable,MWh
+eia_annual_crosscheck_ba,expected_hours,series variable,count
+eia_annual_crosscheck_ba,gap_mwh,series variable,MWh
+eia_annual_crosscheck_ba,gap_pct,series variable,pct
+eia_annual_generation_ba,net_generation_mwh,series variable,MWh
+eia_annual_generation_ba,plants,series variable,count
+eia_annual_generation_ba,storage_net_generation_mwh,series variable,MWh
 eia_basin_production_monthly,crude_production,series variable,kbbl/d
 eia_basin_production_monthly,gas_marketed_production,series variable,bcf/d
 eia_crude_first_purchase_prices,first_purchase_price,series variable,USD/bbl
@@ -1703,6 +1715,23 @@ ercot_as_prices_monthly,mcpc_dam_min,series variable,USD/MW-hour
 ercot_as_quantities,quantity_mw_plan,series variable,MW
 ercot_dam_cleared_energy,dam_cleared_energy,series variable,MWh
 ercot_dam_esr_awards,hsl_mw,series variable,MW
+ercot_grid_notices,event_id,column,
+ercot_grid_notices,event_date,column,
+ercot_grid_notices,event_type,column,
+ercot_grid_notices,parties,column,
+ercot_grid_notices,entity_ids,column,
+ercot_grid_notices,mw,column,
+ercot_grid_notices,price,column,
+ercot_grid_notices,currency,column,
+ercot_grid_notices,status,column,
+ercot_grid_notices,source,column,
+ercot_grid_notices,source_url,column,
+ercot_grid_notices,retrieved_at,column,
+ercot_grid_notices,x_label,column,
+ercot_grid_notices,x_region,column,
+ercot_grid_notices,x_issued_at,column,
+ercot_grid_notices,x_counts,column,
+ercot_grid_notices,x_text,column,
 ercot_hub_prices_daily,da_hours_above_200,series variable,count
 ercot_hub_prices_daily,da_hours_below_zero,series variable,count
 ercot_hub_prices_daily,da_max,series variable,USD/MWh
@@ -3354,6 +3383,10 @@ policy_reads,model_id,column,
 policy_reads,read_at,column,
 policy_reads,recheck,column,
 policy_reads,rechecked_at,column,
+rrc_lease_production_monthly,casinghead_gas_mcf,series variable,Mcf
+rrc_lease_production_monthly,condensate_bbl,series variable,bbl
+rrc_lease_production_monthly,gas_mcf,series variable,Mcf
+rrc_lease_production_monthly,oil_bbl,series variable,bbl
 shoulder_hours_monthly,avg_battery_mw_h00,series variable,MW
 shoulder_hours_monthly,avg_battery_mw_h01,series variable,MW
 shoulder_hours_monthly,avg_battery_mw_h02,series variable,MW

@@ -18,7 +18,7 @@ notebooks/flex_alert_scorecard.ipynb reproduces every number.
     python warehouse/derived/flex_alert_scorecard.py --days     # the days the price pull needs, one per line
 
 The model, in short (the method has it whole). For each local hour h, an ordinary least squares fit on the non-alert days
-of May to October, 2018-07 to 2025:
+of May to October, 2018-07 to 2026 (session 322; the three stations' weather ends 2025-08-27, so no later day is fitted):
     demand = a + b1 CDH + b2 CDH^2 + b3 CDH24 + b4 CDH24^2 + b5 dew + b6 CDH x dew + Saturday + Sunday + holiday
              + month + year + e
 CDH is the cooling degree hour, max(T - 65 F, 0), of the population-weighted temperature of three NOAA stations
@@ -55,7 +55,8 @@ SOURCE = "erw:flex_alert_scorecard"
 METHOD_URL = "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/flex_alert_scorecard.md"
 TZ = "America/Los_Angeles"
 START = "2018-07-01"           # the start of EIA's per-BA workbook as the extract holds it
-END = "2025-10-31"             # the last alert season with weather
+END = "2026-10-31"             # session 322: through the 2026 season (2025-10-31 before); CAISO's report lists no alert
+                               # day in 2025 or 2026, and the three stations' weather ends 2025-08-27, so no day joins
 MONTHS = (5, 6, 7, 8, 9, 10)   # the alert season
 WEIGHTS = {"SAC": 0.30, "FAT": 0.20, "LAX": 0.50}  # stated in the method: CAISO's population by region, rounded
 BASE_F = 65.0
@@ -619,7 +620,8 @@ def main():
                       "(reduction times price, summed) with _lo and _hi. PT1H rows (ts_utc the hour's start, local 12:00 to 23:00): actual_mw, "
                       "predicted_mw, predicted_mw_lo and _hi, alert_hour. P1Y rows (ts_utc the year's 1 January): year_<measure>.",
                       f"Alert days: {len(D)} with complete data, {D['day'].min()} to {D['day'].max()}; {n_assumed} with assumed hours. "
-                      "CAISO's Grid Emergencies History Report ends 2025-04-30, so the 2025 season has none."],
+                      "Session 322: the window runs to 2026-10-31; CAISO's Grid Emergencies History Report (revised 2026-10-09) lists no "
+                      "Flex Alert, EEA or emergency in the 2025 or 2026 season, so neither season has an alert day."],
             MODEL: ["Energy Research Warehouse (ERW): the Flex Alert scorecard's model, CAISO (derived, session 60)",
                     "Shape: series (docs/datastandard.md v0), entity erw:flex_alert_model. Rows at ts_utc 2018-07-01T00:00:00Z (freq blank): "
                     "pooled_<measure> (every alert hour of every alert day), oos_<metric> (the held-out hottest tenth of non-alert days, hours "
