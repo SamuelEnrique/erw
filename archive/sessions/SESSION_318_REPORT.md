@@ -6,8 +6,8 @@
 
 - **One interpreter, every option.** The analysis engine's chart options (the card charts of `lib/findingchart.ts`, the forms of `lib/chartforms.ts`, the small multiples of `MultiChart`, the weekly templates and the charts of the week `warehouse/analysis/style.py` writes) are ECharts options. `site/lib/svgoption.ts` (pure) reads an option into the shared SVG set's props: a category axis with bars, lines and areas (stacked where stacked, a second axis, a named reference line, a shaded band of categories, a marked point), a time axis with lines, a value axis with a scatter and its fitted line, and a multi-grid option as a column of panels; every color literal of the old palettes is the token `components/echarts.ts` maps it to. `components/SvgOption.tsx` draws the reading. **Every committed card, every analysis file in `docs/analysis/` and every gallery file held is read into a kind the set draws** (the test walks them; none is unread).
 - **What draws through it:** `CardChart` (a card's own chart), `FormChart`'s `OptionChart` (a card in a chosen form, a template's chart, the picker's examples, small), `MultiChart`'s panels and one-grid view, `EChartOption` (the week's chart on `/research/<week>` and the rule's pick). **And beyond the research pages**, so that the site reads 0 canvas charts: the Grid tool's `ShareBar` (the day's mix, now `ShareSegments`, each part named on the bar with its share), the thesis builder's `TrendChart` and `FunnelChart` (`HorizontalBars`), and the board's three charts (the price chart as time charts with the calculation's average a named line, the seasons as lines with the earlier years' range a band, the distribution as bars). The shared set grew what these need (`shade`, `marks`, `band`, `fit`, `small`, `yMax`; `TimeChart`'s `refLines`).
-- **The maps stay on the canvas** (`/map`, `/resources`): a map is not a chart of the ruling, and the library draws it; the detector counts them (DETECTOR).
-- **Every card's numbers are identical**: a card's figures are its JSON's (session 315's Nums), and `check-values` on `/research` and the card pages reads VALUES.
+- **The maps stay on the canvas** (`/map`, `/resources`): a map is not a chart of the ruling, and the library draws it; the detector counts them (the detector's run on this session's build was stopped by the machine: at 23:02 UTC Claude Code stopped every background job of this chain for low memory (the suite at session 315's head, session 317's rebuild, this session's queued build), and a job so stopped is not restarted unattended (the chain's rule since 13 October, `archive/sessions/SESSION_209_REPORT.md`); the commands are under "To finish").
+- **Every card's numbers are identical**: a card's figures are its JSON's (session 315's Nums), and `check-values` on `/research` and the card pages is the landing's (not run here: the same stop).
 - **The card page has its h1** (session 270's finding): `<h1 className="sr-only">` with the card's title, the card's title line as it was.
 
 ## What to review
@@ -32,21 +32,39 @@ In the internal view (https://erw-flame.vercel.app/internal/open first).
 | `tsc --noEmit` (worktree), five runs | 2 | every error a fresh worktree's generated types; none in the files changed |
 | `eslint` on the eleven files | 0 | (`MultiChart.tsx` carries one lint error that stood on main before this session, a setState in its address-reading effect, untouched) |
 | `tests.test_session318`, `174`, `181`, `182`, `182_flow`, `238`, `135` | 0 | OK |
-| `npm run build` | BUILD | |
-| The canvas detector on `/research`, the two card pages, `/grid?grid=ercot`, `/board`, `/thesis`, `/map` | DETECTOR | |
-| `check-values.mjs`, `/research` and the cards | VALUES | |
-| `check-analysis`, `check-routes`, `check-internal-findings`, `check-board`, `check-thesis` | CHECKS | |
-| Captures, 1280 and 390, before and after | | `docs/brand/review-318/` |
-| Suite, clean copy, the commit pushed | SUITE | |
-| `scripts/freeze.py status` | FREEZE | |
+| `npm run build` | not run | stopped by the machine: at 23:02 UTC Claude Code stopped every background job of this chain for low memory (the suite at session 315's head, session 317's rebuild, this session's queued build), and a job so stopped is not restarted unattended (the chain's rule since 13 October, `archive/sessions/SESSION_209_REPORT.md`); the commands are under "To finish" |
+| The canvas detector on `/research`, the two card pages, `/grid?grid=ercot`, `/board`, `/thesis`, `/map` | not run | the same (`runs/chain_oct19/s318_build.sh` runs it on 28 pages) |
+| `check-values.mjs`, `/research` and the cards | not run | the same |
+| `check-analysis`, `check-routes`, `check-internal-findings`, `check-board`, `check-thesis` | not run | the same |
+| Captures, 1280 and 390, before and after | not taken | `docs/brand/review-318/` holds the README alone; `s318_build.sh` takes the twelve pairs |
+| Suite, clean copy, the commit pushed | not run | the same |
+| `scripts/freeze.py status` | 0 | no freeze at 23:02 UTC (no `REVIEW_FREEZE` file) |
 
 ## Landing of session 317 (recorded here: session 317's report is in that landing's own commit)
 
-LANDING317
+Session 317 had not landed when this session's work ended (its report, "To finish"); its landing's record goes here when it lands.
 
 ## Landing
 
-LANDING
+Not landed. The chain's landings stopped after session 315's: stopped by the machine: at 23:02 UTC Claude Code stopped every background job of this chain for low memory (the suite at session 315's head, session 317's rebuild, this session's queued build), and a job so stopped is not restarted unattended (the chain's rule since 13 October, `archive/sessions/SESSION_209_REPORT.md`); the commands are under "To finish".
+
+## To finish
+
+Each step on the code machine from the main copy, one landing at a time (no `task/` push waiting while a build or a suite runs), outside 14:00 to 16:15 and 22:30 to 23:45 UTC. `land_checks.sh` takes the build mutex, runs the whole suite in `erw-check` at the main copy's head, builds, serves, and runs `check-values`, `check-routes` and the checks named; `land_wait.sh` waits for GitHub's check and the merge, probes production for the new build, takes the after snapshot and compares. Read `runs/chain_oct19/<label>/result.txt` and `wait_result.txt`; every difference of the comparison goes into the next report, marked expected or not. Sessions 316 and 317 land first. The build script below waits for `runs/chain_oct19/s317/result.txt` to say "done" (session 317's optional step), so run that one first or write the word there.
+
+```bash
+bash runs/chain_oct19/s318_build.sh                      # erw-296 at wip/318-cards: the build, the detector on 28 pages (0 canvas but the two maps), check-values, the five checks, the twelve capture pairs into erw-318/docs/brand/review-318/
+git -C ../erw-318 add docs/brand/review-318 && git -C ../erw-318 commit -m "Session 318: the shots"   # then push wip/318-cards
+git fetch origin && git checkout -b task/318-cards origin/wip/318-cards && git merge origin/main
+bash runs/chain_oct19/land_checks.sh s318land 3318 check-analysis.mjs check-internal-findings.mjs check-board.mjs check-thesis.mjs
+.venv\Scripts\python.exe scripts/freeze.py status
+node site/scripts/snapshot-live.mjs take s318-before
+git push -u origin task/318-cards
+bash runs/chain_oct19/land_wait.sh s318 $(git rev-parse HEAD) task/318-cards s318-before s318-after
+git push origin --delete wip/318-cards
+```
+
+Impeccable's `detect` on the eleven files of this session was not run (the design tools run on the code machine with a browser; the same stop): `docs/tooling.md` says how, and its findings on words go under "For Samuel's ruling" of the landing's report.
 
 ## Decisions made without you
 
