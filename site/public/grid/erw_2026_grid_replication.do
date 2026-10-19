@@ -1,5 +1,24 @@
 * ERW, the Grid tool (/grid?view=network): the figures of the Network view and of its gravity shape, rebuilt from erw_2026_grid_replication.csv.
 
+* Expected values (session 304, 19 October 2026): what this file displays at the page's defaults, equal to the page value by value;
+* the Python mirror beside it printed these lines on 19 October 2026 from the committed erw_2026_grid_replication.csv (its hour, 2026-10-12T03:00Z; a file written today shows today's hour):
+*   hour_shown = 2026-10-12T03:00:00Z
+*   snapshot_built = 2026-10-14T08:05:18Z
+*   lag_hours = 53
+*   nodes = 70
+*   pairs_reporting = 157
+*   generation_US48 = 449872
+*   ties_CISO = 11
+*   net_import_CISO = 6591
+*   generation_CISO = 18499
+*   gravity_share_CISO = 0.356290
+*   gravity_r_CISO = 16.2
+*   gravity_d_CISO = 115.0
+*   ties_ERCO = 2
+*   net_import_ERCO = 128
+*   gravity_r_ERCO = 29.4
+*   gravity_d_ERCO = 196.7
+
 * The hour shown is the newest hour every reporting pair holds. Method: docs/methods/grid_network.md; the gravity rule: site/lib/networkGravity.ts.
 
 * This do-file has not been run: Stata is not installed on the machine that wrote it. erw_2026_grid_replication.py follows it step for step and prints the same lines.

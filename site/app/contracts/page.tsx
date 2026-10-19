@@ -32,6 +32,8 @@ function Limits({ rows, priced }: { rows: number | null; priced: number | null }
 }
 
 export default async function Contracts({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  // session 304 (the ruling of 18 October 2026, item 5): a date after today is shown as the filing wrote it, with the words "as filed"
+  const today = new Date().toISOString().slice(0, 10);
   const sp = await searchParams;
   const q = Object.fromEntries(Object.entries(sp).map(([k, v]) => [k, typeof v === "string" ? v : undefined]));
   const summary = await attempt(contractSummary);
@@ -119,7 +121,7 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
                       const t = termYears(r), rate = rateText(r);
                       return {
                         key: r.event_id,
-                        cells: [r.event_date, r.seller ?? "", <>{r.buyer ?? ""}{(r.affiliate ?? "").toUpperCase() === "Y" ? <span className="text-muted"> (affiliate)</span> : null}</>,
+                        cells: [<>{r.event_date}{r.event_date > today ? <span className="text-muted" data-as-filed="1"> as filed</span> : null}</>, r.seller ?? "", <>{r.buyer ?? ""}{(r.affiliate ?? "").toUpperCase() === "Y" ? <span className="text-muted"> (affiliate)</span> : null}</>,
                           <>{r.product ?? ""}{r.class && r.class !== "N/A" ? <span className="text-muted">, {r.class}</span> : null}{r.term && r.term !== "N/A" ? <span className="text-muted">, {r.term}</span> : null}</>,
                           <>{fercDate(r.commencement) || "not stated"} to {fercDate(r.termination) || "no end filed"}{t !== null ? <span className="text-muted"> ({t.toFixed(1)} years)</span> : null}</>,
                           (r.quantity ?? "").trim() === "" ? <span className="text-muted">not stated</span> : `${r.quantity} ${r.units ?? ""}`,

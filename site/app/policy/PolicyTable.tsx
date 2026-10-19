@@ -18,6 +18,8 @@ const split = (s: string | null | undefined) => (s ? s.split(";").filter(Boolean
 const uniq = (xs: string[]) => Array.from(new Set(xs)).sort();
 
 export function PolicyTable({ rows, tags = [], tag: tagAtOpen = "", missing = [] }: { rows: Row[]; tags?: TagChoice[]; tag?: string; missing?: { what: string; why: string }[] }) {
+  // session 304 (the ruling of 18 October 2026, item 5): a date after today is shown as the filing wrote it, with the words "as filed"
+  const today = new Date().toISOString().slice(0, 10);
   const [agency, setAgency] = useState("");
   const [type, setType] = useState("");
   const [sector, setSector] = useState("");
@@ -92,7 +94,7 @@ export function PolicyTable({ rows, tags = [], tag: tagAtOpen = "", missing = []
             {shown.slice(0, 400).map((r) => (
               <Fragment key={r.event_id}>
                 <tr className="cursor-pointer border-b border-rule align-top hover:bg-panel" data-policy-row={r.event_id} onClick={() => setOpen(open === r.event_id ? null : r.event_id)}>
-                  <td className="whitespace-nowrap py-1 pr-3 font-mono text-xs">{r.event_date}</td>
+                  <td className="whitespace-nowrap py-1 pr-3 font-mono text-xs">{r.event_date}{r.event_date > today ? <span className="font-sans text-muted" data-as-filed="1"> as filed</span> : null}</td>
                   <td className="py-1 pr-3">{r.agency}</td>
                   <td className="whitespace-nowrap py-1 pr-3">{TYPE[r.action_type] ?? r.action_type}</td>
                   <td className="py-1 pr-3">
