@@ -65,8 +65,10 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, errors }) =>
   const rows = await evaluate(`document.querySelectorAll('[data-turn="3"] [data-series] tbody tr').length`);
   const mark = await evaluate(`document.querySelector('[data-turn="3"] [data-chart-check]')?.getAttribute('data-chart-check') ?? ''`);
   check(rows === chart.series[0].rows.length && mark.endsWith(`/${chart.series[0].rows.length}`), `the table holds every row fetched (${rows}) and the chart says how many of them it draws (${mark})`);
-  const tip = await evaluate(`(() => { const el = document.querySelector('[data-turn="3"] [data-series] [_echarts_instance_]'); if (!el || !window.echarts) return ''; const c = window.echarts.getInstanceByDom(el);
-    c.dispatchAction({ type: 'showTip', seriesIndex: 0, dataIndex: 1 }); return new Promise((ok) => setTimeout(() => ok([...el.querySelectorAll('div')].map((d) => d.innerText || '').filter((t) => /\\d/.test(t)).sort((a, b) => b.length - a.length)[0] ?? ''), 500)); })()`);
+  // session 303: the chart is SVG (components/TimeChart.tsx); a mouse move over it opens the hover card
+  const tip = await evaluate(`(() => { const el = document.querySelector('[data-turn="3"] [data-series] svg[role=img]'); if (!el) return ''; const r = el.getBoundingClientRect();
+    el.dispatchEvent(new MouseEvent('mousemove', { clientX: r.left + r.width * 0.6, clientY: r.top + r.height / 2, bubbles: true }));
+    return new Promise((ok) => setTimeout(() => ok(document.querySelector('[data-turn="3"] [data-chart-card]')?.innerText ?? ''), 300)); })()`);
   check(/\d/.test(String(tip)), `the chart answers the mouse ("${String(tip).replace(/\s+/g, " ").slice(0, 90)}")`);
   const asked = await evaluate(`window.__asked`);
   check(asked.length === 3 && asked.every((a) => a.profile === "ercot" && a.stream === true && a.context?.view === "/grid/ercot") && asked[1].history?.length === 1 && asked[2].history?.length === 2,
