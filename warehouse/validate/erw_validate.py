@@ -48,7 +48,10 @@ UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "mph", "
          "degF-day", "bbl", "Mcf",  # session 49: degree days at 65 F; barrels and thousand cubic feet (Decision 33)
          # session 65: capacity per kW-month as NYISO and ISO-NE publish it, and capacity held for an hour, the
          # ancillary service clearing prices of ERCOT and CAISO (Decision 37)
-         "USD/kW-month", "USD/MW-hour"}
+         "USD/kW-month", "USD/MW-hour",
+         # session 306: the battery's published cost cases as the ATB prints them, per kW of power, per kWh of energy,
+         # and per kW a year (battery_sourced_ranges; Decision 47)
+         "USD/kW", "USD/kWh", "USD/kW-year"}
 NAME_RE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+){2,}$")
 NAME_MAX = 40
 TS_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
