@@ -21,7 +21,7 @@ Every number comes from Supabase or a committed metadata file (`data/markets.jso
 ## Files
 
 - `app/tokens.css`: the single design token file (colors, typefaces).
-- `lib/supabase.ts`: the only reader of Supabase. `SUPABASE_URL` and `SUPABASE_ANON_KEY`, server-side only; never the service key.
+- `lib/supabase.ts`: the only reader of Supabase. `SUPABASE_URL` and `SUPABASE_ANON_KEY`, server-side only. Session 301: `SUPABASE_SERVICE_KEY`, when set, is read by its write helper alone (the sign-up, the game's two tables, the model-call ledger, the question counter), never for a read; without it the writes go with the anon key as before.
 - `lib/data.ts`, `lib/markdown.ts`, `lib/format.ts`: reads, markdown rendering, number formats.
 - `scripts/build-content.mjs`: bundles `../docs` into `content/docs.json` before `dev` and `build` (generated, not committed).
 - `scripts/screenshots.mjs`: full-page screenshots of every page in headless Chrome, to `screenshots/`.
@@ -64,7 +64,7 @@ Use `npm run build` and `npm start` rather than `npm run dev`: `next dev`, when 
    - `SUPABASE_ANON_KEY`: the project's anon (public) key
    - `ANTHROPIC_API_KEY`: a Claude API key, needed only by `/ask` (session 12). Without it, `/ask` answers "no answer: ANTHROPIC_API_KEY is not set on the server" and every other page works. Every question costs money (USD 0.043 on average in the session 12 evaluation), so consider a key with a spending limit.
 
-   Do not add `SUPABASE_SERVICE_KEY` or any other key, and do not prefix any name with `NEXT_PUBLIC_`: the site reads Supabase and calls the model on the server only, and no key reaches a browser.
+   Add `SUPABASE_SERVICE_KEY` only for the writes (session 301: the service key stays on the server and is read by `lib/supabase.ts`'s write helper alone; it must be set before migration 034 drops the anon key's insert policies). Add no other key, and do not prefix any name with `NEXT_PUBLIC_`: the site reads Supabase and calls the model on the server only, and no key reaches a browser.
    In **Settings, Functions**, the `/api/ask` route asks for up to 120 seconds (`maxDuration`); a plan with a lower limit cuts long questions off.
 5. **Deploy.** Each push to `main` redeploys, so a newly committed digest appears after the daily workflow's commit. Prices refresh on their own schedule (15 minutes for latest prices, hourly for the rest) without a redeploy.
 6. Check the deployment: the home page status strip shows the table count and last refresh, and no section says "no data". If one does, its reason names the failing read.

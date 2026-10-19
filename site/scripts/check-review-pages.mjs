@@ -13,6 +13,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { unlockPost } from "./browser.mjs";   // session 301: the internal view by the form's door, no token in an address
 
 const [baseArg, ...given] = process.argv.slice(2);
 // Git Bash on Windows rewrites an argument that begins with "/" into a Windows path (run with MSYS_NO_PATHCONV=1, or
@@ -30,7 +31,7 @@ const env = (k) => {
   }
   return undefined;
 };
-const unlock = await fetch(`${base}/internal/unlock?token=${encodeURIComponent(env("INTERNAL_COSTS_TOKEN") ?? "")}`, { redirect: "manual" });
+const unlock = await unlockPost(base, env("INTERNAL_COSTS_TOKEN") ?? "");
 const cookie = (unlock.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ");
 if (!cookie) { console.log(`FAILED: ${base}/internal/unlock gave no cookie (INTERNAL_COSTS_TOKEN missing or not the server's)`); process.exit(1); }
 

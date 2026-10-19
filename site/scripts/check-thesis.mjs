@@ -46,7 +46,7 @@
 // a forced run's report carries the mark "run anyway" with its reason on hover. Start the server for this check with
 // THESIS_GATE_MODEL=0, so that no input of the check can reach the model.
 // Exit 1 on a failure.
-import { env, withBrowser } from "./browser.mjs";
+import { env, withBrowser, unlockPost } from "./browser.mjs";
 import { EMPTY_TAB, PB_PENDING, PB_PENDING_WHY, TABS } from "../lib/thesis/view.ts";
 import { ALSO, DONE, FAILED, FORCED, KEPT_MARK, KEPT_NOTE, KEY, MARKET, MARKET_PB, QUEUED, THREE, VENDOR_NOTE, fixtureAnswer } from "./thesis-stub.mjs";
 import { CONNECTOR_NOTE } from "../lib/thesis/view.ts";
@@ -59,7 +59,7 @@ const NOT_KEPT_WORDS = `${NOT_KEPT.crunchbase}.`;      // "Crunchbase answers ar
 const base = (process.argv[2] ?? "http://localhost:3135").replace(/\/$/, "");
 let bad = 0, n = 0;
 const check = (ok, what) => { n += 1; if (!ok) { bad += 1; console.log(`FAIL ${what}`); } else console.log(`ok   ${what}`); };
-const unlock = await fetch(`${base}/internal/unlock?token=${encodeURIComponent(env("INTERNAL_COSTS_TOKEN") ?? "")}`, { redirect: "manual" });
+const unlock = await unlockPost(base, env("INTERNAL_COSTS_TOKEN") ?? "");
 const cookie = (unlock.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ");
 if (!cookie) { console.log(`FAILED: ${base}/internal/unlock gave no cookie (INTERNAL_COSTS_TOKEN missing or not the server's)`); process.exit(1); }
 const ask = async (path, { withCookie = true, method = "GET", body, wrong = false } = {}) => {

@@ -18,7 +18,7 @@
 //   visitor    without the cookie the page is the in-review page and carries no number
 // Exit 1 on a failure.
 import fs from "node:fs";
-import { env, withBrowser } from "./browser.mjs";
+import { env, withBrowser, unlockPost } from "./browser.mjs";
 import * as g from "../lib/demandweather.ts";
 
 const base = (process.argv[2] ?? "http://localhost:3126").replace(/\/$/, "");
@@ -27,7 +27,7 @@ const check = (ok, what) => { n += 1; if (!ok) { bad += 1; console.log(`FAIL ${w
 const file = JSON.parse(fs.readFileSync(new URL("../data/demand_weather.json", import.meta.url), "utf-8"));
 
 const token = env("INTERNAL_COSTS_TOKEN");
-const unlock = await fetch(`${base}/internal/unlock?token=${encodeURIComponent(token ?? "")}`, { redirect: "manual" });
+const unlock = await unlockPost(base, token ?? "");
 const cookie = (unlock.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ");
 if (!cookie) { console.log(`FAILED: ${base}/internal/unlock gave no cookie (INTERNAL_COSTS_TOKEN missing or not the server's)`); process.exit(1); }
 const get = async (path, withCookie = true) => { const r = await fetch(base + path, { headers: withCookie ? { Cookie: cookie } : {} }); return { status: r.status, html: await r.text() }; };

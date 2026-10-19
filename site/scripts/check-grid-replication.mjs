@@ -11,7 +11,7 @@
 import { execFileSync } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { env, withBrowser } from "./browser.mjs";
+import { env, withBrowser, unlockPost } from "./browser.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const [base, csvArg] = process.argv.slice(2);
@@ -33,7 +33,7 @@ const checks = (html) => Object.fromEntries([...html.matchAll(/data-check="([^"]
 // the pages are in review (lib/release.ts): read with the internal cookie, as check-values reads them
 const tok = env("INTERNAL_COSTS_TOKEN");
 let cookie = "";
-if (tok) { const u = await fetch(`${base}/internal/unlock?token=${encodeURIComponent(tok)}`, { redirect: "manual" }); cookie = (u.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; "); }
+if (tok) { const u = await unlockPost(base, tok); cookie = (u.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; "); }
 if (!cookie) { console.log("no internal cookie: the pages in review cannot be read"); process.exit(2); }
 const get = async (p) => { const r = await fetch(`${base}${p}`, { headers: cookie ? { cookie } : {} }); return r.text(); };
 const hour = mirror.hour_shown, built = mirror.snapshot_built;

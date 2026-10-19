@@ -28,7 +28,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { env, withBrowser } from "./browser.mjs";
+import { env, withBrowser, unlockPost } from "./browser.mjs";
 import { LOWER, NOT_HERE, NOT_YET, PAUSED_WHY, PAUSED_WORDS, blockOf, dayWords, fileOf, measuredTip, measuredWords, notHereWhy, notYetWhy, num, sentenceOf, statedOf, statedTip, basisWords, waitingWords } from "../lib/howsoon.ts";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -41,7 +41,7 @@ const NAMES = { ...Object.fromEntries(Object.entries(index.blank).map(([id, v]) 
 const FILE = fileOf(JSON.parse(fs.readFileSync(path.join(dir, "how_soon.json"), "utf-8")));
 if (!FILE) { console.log("FAILED: data/datacenter/how_soon.json is not a file of measured waits (python warehouse/derived/how_soon.py builds it)"); process.exit(1); }
 
-const unlock = await fetch(`${base}/internal/unlock?token=${encodeURIComponent(env("INTERNAL_COSTS_TOKEN") ?? "")}`, { redirect: "manual" });
+const unlock = await unlockPost(base, env("INTERNAL_COSTS_TOKEN") ?? "");
 const cookie = (unlock.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ");
 if (!cookie) { console.log(`FAILED: ${base}/internal/unlock gave no cookie (INTERNAL_COSTS_TOKEN missing or not the server's)`); process.exit(1); }
 const get = async (p) => { const r = await fetch(base + p, { headers: { Cookie: cookie } }); return { status: r.status, html: await r.text() }; };

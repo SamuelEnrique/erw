@@ -39,6 +39,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { unlockForm } from "./browser.mjs";   // session 301: the internal view by the form's door, no token in an address
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const base = (process.argv[2] ?? "http://localhost:3000").replace(/\/$/, "");
@@ -222,7 +223,7 @@ try {
     check(sent.length === 0, `${what}: no request is sent`, sent.slice(0, 3).map((r) => `${r.method} ${r.url}`).join(" "));
   };
 
-  await go(`/internal/unlock?token=${encodeURIComponent(tok)}`);
+  await unlockForm({ go, evaluate: ev, sleep }, "", tok);   // session 301: the form's door
   if (process.env.TEXT_ONLY) {
     await go("/cost-of-power/seller");
     const text = await ev(`document.querySelector("main")?.innerText ?? document.body.innerText`);

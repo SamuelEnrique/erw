@@ -21,6 +21,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { unlockForm } from "./browser.mjs";   // session 301: the internal view by the form's door, no token in an address
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 function env(name) {
@@ -135,7 +136,7 @@ try {
   await send("Page.enable");
   await send("Runtime.enable");
 
-  await go(`${base}/internal/unlock?token=${encodeURIComponent(token)}`);
+  await unlockForm({ go, evaluate, sleep }, base, token);   // session 301: the form's door, no token in an address
   await go(`${base}${PAGE}`);
   await quiet(3000);
   const fields = await evaluate(`[...document.querySelectorAll('input[data-field]')].map((e) => e.dataset.field)`);

@@ -22,6 +22,7 @@ import { spawn } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { unlockForm } from "./browser.mjs";   // session 301: the internal view by the form's door, no token in an address
 
 const base = (process.argv[2] ?? "http://localhost:3000").replace(/\/$/, "");
 const shots = process.argv[3];
@@ -254,7 +255,7 @@ try {
   if (!token) {
     console.log("skip the internal view: INTERNAL_COSTS_TOKEN is not set here");
   } else {
-    await go(`/internal/unlock?token=${encodeURIComponent(token)}`);
+    await unlockForm({ go, evaluate: ev, sleep }, "", token);   // session 301: the form's door
     const inside = await ev(`(() => { const nav = document.querySelector('nav[aria-label="Site"]'); return { path: location.pathname + location.search, greyed: document.querySelectorAll(".gate-review").length, mark: /internal view/.test(nav.textContent), board: !!nav.querySelector('a[href="/board"]'), readable: document.cookie.includes("erw_internal") }; })()`);
     check(inside.path === "/" && inside.greyed === 0 && inside.mark && inside.board, "internal: unlock goes to the home page, nothing is greyed, the menu links every page and carries the internal view mark", JSON.stringify({ ...inside, path: inside.path }));
     check(!inside.readable, "internal: the cookie the gate checks is httpOnly (the page's script cannot read it)");
@@ -263,7 +264,10 @@ try {
     await go("/internal/lock");
     const out = await ev(`({ greyed: document.querySelectorAll('nav[aria-label="Site"] .gate-review').length, mark: /internal view/.test(document.querySelector('nav[aria-label="Site"]').textContent) })`);
     check(out.greyed > 0 && !out.mark, "internal: lock closes it again", JSON.stringify(out));
-    await go("/internal/unlock?token=not-the-token");
+    // session 301: a wrong token tried at the form's door (no token in an address)
+    await go("/internal/open");
+    await ev(`(() => { const i = document.querySelector('form[action="/internal/unlock"] input[name="token"]'); i.value = "not-the-token"; i.form.requestSubmit(); })()`);
+    await sleep(1500);
     check(await ev(`document.querySelectorAll('nav[aria-label="Site"] .gate-review').length > 0 || !document.querySelector("nav")`), "internal: a wrong token opens nothing");
   }
   page.close();

@@ -23,14 +23,14 @@
 // The board's own check, with its top block, its folds and its workbench in a browser, is check-board.mjs.
 // Exit 1 on a failure.
 import fs from "node:fs";
-import { env } from "./browser.mjs";
+import { env, unlockPost } from "./browser.mjs";
 import * as b from "../lib/board.ts";
 
 const base = (process.argv[2] ?? "http://localhost:3127").replace(/\/$/, "");
 let bad = 0, n = 0;
 const check = (ok, what) => { n += 1; if (!ok) { bad += 1; console.log(`FAIL ${what}`); } else console.log(`ok   ${what}`); };
 const file = JSON.parse(fs.readFileSync(new URL("../data/board.json", import.meta.url), "utf-8"));
-const unlock = await fetch(`${base}/internal/unlock?token=${encodeURIComponent(env("INTERNAL_COSTS_TOKEN") ?? "")}`, { redirect: "manual" });
+const unlock = await unlockPost(base, env("INTERNAL_COSTS_TOKEN") ?? "");
 const cookie = (unlock.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ");
 if (!cookie) { console.log(`FAILED: ${base}/internal/unlock gave no cookie (INTERNAL_COSTS_TOKEN missing or not the server's)`); process.exitCode = 1; }
 else {

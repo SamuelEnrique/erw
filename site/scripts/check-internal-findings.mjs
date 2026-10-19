@@ -22,7 +22,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { env, withBrowser } from "./browser.mjs";
+import { env, withBrowser, unlockPost } from "./browser.mjs";
 import { BACKTEST, DONE_ID, fixtureRows, startStub } from "./findings-stub.mjs";
 
 const site = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -55,7 +55,7 @@ try {
   const postNo = await fetch(`${base}/internal/findings/state`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: drafts[0].id, state: "approved" }) });
   check(postNo.status === 404 && stub.rows.every((r) => r.state === "draft"), "without the cookie a ruling is 404 and changes nothing", `(${postNo.status})`);
 
-  const unlock = await fetch(`${base}/internal/unlock?token=${encodeURIComponent(token)}`, { redirect: "manual" });
+  const unlock = await unlockPost(base, token);
   const cookie = (unlock.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ");
   if (!cookie) throw new Error(`${base}/internal/unlock gave no cookie (INTERNAL_COSTS_TOKEN missing or not the server's)`);
   const page = async () => { const r = await fetch(`${base}/internal/findings`, { headers: { Cookie: cookie } }); return { r, html: await r.text() }; };
