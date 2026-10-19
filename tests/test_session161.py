@@ -23,12 +23,12 @@ class TheSharedChart(unittest.TestCase):
         c = src("site", "components", "TimeChart.tsx")
         self.assertIn('x?: "minute" | "day" | "month" | "year" | "hour_of_day";', c)
         self.assertIn('const hod = x === "hour_of_day";', c)
-        # the time axis, the slider and the grid of every chart that is not the hours of a day: the lines session 22 wrote
-        for words in ('type: "time",', '{ type: "slider", height: 18, bottom: 6, filterMode: "none", borderColor: token("rule"), textStyle: { color: token("muted"), fontSize: 10 }, labelFormatter: (v: number) => fmt(v) },',
-                      '? [{ type: "inside", filterMode: "none" }]', 'sampling: "lttb",', "bottom: hod ? 30 : 58 },", 'xAxis: hod', "dataZoom: hod"):
+        # session 303: the chart is plain SVG (Samuel's ruling of 13 October 2026); the hour axis is still one branch: its
+        # labels 00:00 to 23:00 (FMT and TICK), its seven ticks, and its span 0 to 23 in place of the time span
+        for words in ('hour_of_day: (t) => `${String(Math.round(t)).padStart(2, "0")}:00`,', "const t0 = hod ? 0 : xs[0] ?? 0, t1 = hod ? 23 : xs[xs.length - 1] ?? 1;",
+                      "const xTicks = hod ? [0, 4, 8, 12, 16, 20, 23] :"):
             self.assertIn(words, c, words)
-        # hod appears only where a branch is taken: the header's note, its definition and the three branches
-        self.assertEqual(c.count("hod"), 5, "a use of hod that is not one of the three branches")
+        self.assertNotIn("echarts", c.lower())
         line = src("site", "components", "LineChart.tsx")
         self.assertIn('l.points.map((p) => [x === "hour_of_day" ? p.t : p.t * 1000, p.v])', line)
 

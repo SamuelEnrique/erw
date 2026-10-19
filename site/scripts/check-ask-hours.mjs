@@ -57,14 +57,18 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, errors }) =>
     await evaluate(`(() => { const q = document.querySelector('[data-ask-panel] input'); Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(q, ${JSON.stringify(text)}); q.dispatchEvent(new Event('input', { bubbles: true })); return true; })()`);
     await wait(`!document.querySelector('[data-ask-panel] form button[type=submit]').disabled`);
     await evaluate(`document.querySelector('[data-ask-panel] form button[type=submit]').click()`);
-    await wait(`!!document.querySelector('[data-turn="${turn}"] [data-series] [_echarts_instance_] canvas')`, 25000, `the chart of answer ${turn}`);
+    await wait(`!!document.querySelector('[data-turn="${turn}"] [data-series] svg[role=img]')`, 25000, `the chart of answer ${turn}`);   // session 303: SVG
   };
-  const chartOf = (turn) => evaluate(`(() => { const s = document.querySelector('[data-turn="${turn}"] [data-series]'); const el = s.querySelector('[_echarts_instance_]'); const o = window.echarts.getInstanceByDom(el).getOption();
-    return { x: { type: o.xAxis[0].type, min: o.xAxis[0].min ?? null, max: o.xAxis[0].max ?? null }, zoom: (o.dataZoom ?? []).map((z) => z.type), lines: o.series.length, kind: o.series[0].type, points: o.series[0].data,
-      mark: s.querySelector('[data-chart-check]').getAttribute('data-chart-check'), said: s.querySelector('[data-chart-check]').innerText, open: s.querySelector('details').open, tableRows: s.querySelectorAll('tbody tr').length,
+  // session 303: the chart is SVG (components/TimeChart.tsx): its axis is data-x, its points data-points (held for a chart of at most 100 points), its lines its paths
+  const chartOf = (turn) => evaluate(`(() => { const s = document.querySelector('[data-turn="${turn}"] [data-series]'); const w = s.querySelector('[data-time-chart]'); const el = s.querySelector('svg[role=img]');
+    const pts = JSON.parse(el.getAttribute('data-points') || '[]');
+    return { x: { type: w.getAttribute('data-x') === 'hour_of_day' ? 'value' : 'time', min: w.getAttribute('data-x') === 'hour_of_day' ? 0 : null, max: w.getAttribute('data-x') === 'hour_of_day' ? 23 : null }, zoom: [], lines: pts.length, kind: 'line', points: pts[0] ?? [],
+      mark: s.querySelector('[data-chart-check]').getAttribute('data-chart-check'), said: s.querySelector('[data-chart-check]').innerText, open: s.querySelector('details').open, tableRows: s.querySelectorAll('details tbody tr').length,
       shown: s.getAttribute('data-form') }; })()`);
-  const tipOf = (turn, i) => evaluate(`(() => { const el = document.querySelector('[data-turn="${turn}"] [data-series] [_echarts_instance_]'); const c = window.echarts.getInstanceByDom(el);
-    c.dispatchAction({ type: 'showTip', seriesIndex: 0, dataIndex: ${i} }); return new Promise((ok) => setTimeout(() => ok([...el.querySelectorAll('div')].map((d) => d.innerText || '').filter((t) => /\\d/.test(t)).sort((a, b) => b.length - a.length)[0] ?? ''), 500)); })()`);
+  const tipOf = (turn, i) => evaluate(`(() => { const s = document.querySelector('[data-turn="${turn}"] [data-series]'); const el = s.querySelector('svg[role=img]'); const r = el.getBoundingClientRect();
+    const g = el.querySelector('line'); const L = Number(g.getAttribute('x1')), R = Number(g.getAttribute('x2'));   // the plot's edges, from a grid line
+    el.dispatchEvent(new MouseEvent('mousemove', { clientX: r.left + L + ((R - L) * ${i}) / 23, clientY: r.top + r.height / 2, bubbles: true }));
+    return new Promise((ok) => setTimeout(() => ok(s.querySelector('[data-chart-card]')?.innerText ?? ''), 300)); })()`);
 
   await askIt("Show how ERCOT's batteries charge and discharge across the hours of a day.", 1);
   const h = await chartOf(1);
@@ -78,7 +82,8 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, errors }) =>
 
   await askIt("How has the fleet grown?", 2);
   const t = await chartOf(2);
-  check(t.x.type === "time" && t.x.min === null && t.zoom.join(",") === "inside,slider", `a series over time is on a time axis with its range slider, as before (${t.x.type}; ${t.zoom.join(", ")})`);
+  // session 303: the SVG chart has no range slider; its table shows every value in its place
+  check(t.x.type === "time" && t.x.min === null && t.zoom.length === 0, `a series over time is on a time axis, with no slider and the table in its place (${t.x.type})`);
   check(t.points.length === overTime.series[0].rows.filter((x) => x.value !== null).length && t.points.every((p) => p[0] > 1e11), `its points are times (${t.points.length})`);
   check(errors.length === 0, `no script error on the page${errors.length ? ": " + errors[0].slice(0, 160) : ""}`);
   return bad ? 1 : 0;
