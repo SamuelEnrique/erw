@@ -36,7 +36,10 @@
 
 ## Landing of session 315 (recorded here: session 315's report is in that landing's own commit)
 
-LANDING315
+- Pushed `task/315-research` at `3808f9a6` at 23:46:35 UTC (after the no-landing window; the before snapshot `s315-before`, 23:46:25, taken as its own command; `freeze.py status` exit 0 at 23:46). GitHub's check (run 39343643362) passed at 23:54:16 and merged the branch as `0b3d728c`. Production served the new build at 23:56:06 (a new style sheet name); the after snapshot `s315-after` was taken at 23:56:26.
+- Snapshot `s315-before` against `s315-after`: 25 pages, 0 differences. Expected: every page is in review. Nothing unexpected.
+- The commit pushed is session 315's `0d113977` plus one commit filling the suite, freeze and landing lines of sessions 314's and 315's reports (session 314's commit had carried its placeholders). The whole-suite rule was met as the 315 report's suite line says: the whole suite at the parent commit, every dependent module at the head, after the machine stopped the second whole run.
+- `origin/wip/315-research` was deleted after the merge; GitHub deleted the task branch itself.
 
 ## Landing
 
