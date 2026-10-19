@@ -148,8 +148,8 @@ console.log(JSON.stringify({ threw, calls, waits }));""", env={**KEYS, "NEXT_PHA
         self.assertNotIn("attempt", re.search(r'import \{([^}]*)\} from "@/lib/supabase"', page).group(1))
         # every reader the page calls is inside required(...): rest, series, newest and the named readers
         calls = re.findall(r"required\(", page)
-        self.assertGreaterEqual(len(calls), 13)
-        for reader in ("latestPrices", "storageUnits", "deals", "datacenters", "catalogue"):
+        self.assertGreaterEqual(len(calls), 5)   # session 300: the latest prices, the three fuels (one call in a map), ERCOT's demand, the fleet, the battery's stack
+        for reader in ("latestPrices", "storageUnits"):
             self.assertIn(f"required({reader})", page)
             self.assertNotRegex(page, rf"(?<![.\w]){reader}\(", f"{reader} is called outside required")
         for m in re.finditer(r"\b(series|newest|rest)(<[^>]*>)?\(", page):

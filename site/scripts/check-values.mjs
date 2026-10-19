@@ -215,6 +215,10 @@ async function truth(check) {
   }
   // session 43: the bill explainer's default bills, recomputed here from data/bill_rules.json (California by the tariff's
   // total rates, not its unbundled lines; Texas by its charges), and the wholesale share from cost_of_power_monthly
+  // session 300: the home page's count of findings, from the library's own catalogue (site/data/findings/catalogue.json)
+  if (p[0] === "findings" && p[1] === "count") {
+    return JSON.parse(fs.readFileSync(path.join(here, "..", "data", "findings", "catalogue.json"), "utf-8")).length;
+  }
   if (p[0] === "bill") {
     const R = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "bill_rules.json"), "utf-8")).bills;
     const [, st, what, ts] = p;
