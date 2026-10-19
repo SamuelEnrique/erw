@@ -18,7 +18,7 @@ import unittest
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 EM = chr(0x2014)
 NOTES = {
-    "battery_earns_algorithm": ("site/app/cost-of-power/battery/page.tsx", 14),
+    "battery_earns_algorithm": ("site/app/cost-of-power/battery/page.tsx", 15),   # session 297: the fade method beside the ATB's convention
     "generator_earns_algorithm": ("site/app/cost-of-power/seller/page.tsx", 20),   # session 257: 10 until then; the ten more are CAISO's (the note's section 12.5)
     "datacenter_pays_algorithm": ("site/app/cost-of-power/page.tsx", 6),
 }
@@ -50,7 +50,7 @@ class TheDefaults(unittest.TestCase):
             self.assertIn("The default is that cost of equity, ${HURDLE} percent", text)
         self.assertIn('"80% equity at a 12% cost" in its storage cases', battery)
         self.assertIn('"60% debt at an 8% interest rate and 40% equity at a 12% cost". The default is that cost of equity', seller)
-        self.assertIn("hurdle: HURDLE, cshare: 0, cprice: 0 };", battery)
+        self.assertIn("hurdle: HURDLE,\n    itc: 0, method: 0, fade: DEG, aug: 0, augcost: 241, stress: 0, cshare: 0, cprice: 0 };", battery)   # session 297: six more, idle
         self.assertIn("hurdle: HURDLE, cshare: 0, cprice: 0, ppa: costs.life };", seller)   # session 212; session 264: the PPA term, its default the life
         dc = src("site/lib/datacenter/finance.ts")
         self.assertIn("export const LIFE = 20, HURDLE = 9.6;", dc)
@@ -60,7 +60,7 @@ class TheDefaults(unittest.TestCase):
     def test_a_batterys_degradation_is_lazards_and_no_other_assets(self):
         battery = src("site/lib/battery/finance.ts")
         self.assertIn("export const DEG = 2.6;", battery)
-        self.assertIn("deg: DEG, life: 20, hurdle: HURDLE, cshare: 0, cprice: 0 };", battery)   # session 208
+        self.assertIn("deg: DEG, life: 20, hurdle: HURDLE,\n    itc: 0, method: 0, fade: DEG, aug: 0, augcost: 241, stress: 0, cshare: 0, cprice: 0 };", battery)   # session 208; session 297 (the fade's default is Lazard's rate too)
         self.assertIn("(LCOS v10.0): battery degradation of 2.6 percent a year in its utility-scale cases of 2 and 4 hours", battery)
         seller = src("site/lib/seller/finance.ts")
         self.assertIn("export const BATTERY_DEG = 2.6;", seller)

@@ -129,7 +129,7 @@
 | Reserves called, ERCOT, 2018-01-01 to 2024-07-31 | 393.1 and 530.1 (2022, 2023) | 401.8 and 562.3, called on ERCOT's own event lists | within 0.1 percent 2018 to 2020; 0.9 below in 2021; above from 2022 | energy delivered on call is paid a scarcity price |
 | A cap by the market's size, ERCOT, 2026-09-03 to 2026-10-02 | 5.92 (price taker) | 4.52 (fleet-limited) | the capped battery earns 69 to 82 percent | caps average 2.6 percent of power for regulation, 9 for ECRS, 13 for Responsive Reserve and Non-Spin |
 
-- The page's source line says "Checked against: 14 published figures"; the rows above are those and the model checks beside them.
+- The page's source line says "Checked against: 15 published figures" (14 until session 297, which set the fade method beside the ATB's convention); the rows above are those and the model checks beside them.
 - Not held: no published 2025 ERCOT figure from ERCOT's market monitor (its report has none); no Berkeley Lab figure for storage revenue is quoted on this page.
 
 ## 5. The edge cases tested
@@ -331,7 +331,7 @@ Written from the page's code and its check scripts on 2026-10-13 (session 249), 
 
 - "How far each assumption moves NPV, scenario A": ten rows at the defaults (twelve with a contract).
 - The first two rows: "Cycles a day, at most" (USD 11.14 million, the move down to 0.5 cycles; the move up to 1.5 is USD 1.40 million) and "Capital cost" (USD 9.52 million either way for USD 100 per kW).
-- Close on the source line: "Checked against: 14 published figures", with "Each comparison, with its gap and the reason".
+- Close on the source line: "Checked against: 15 published figures" (session 297), with "Each comparison, with its gap and the reason".
 - A sixth minute: "Scenario B", efficiency 92, cycles 2: B's revenue USD 88.24 per kW against A's 81.40; "What differs" says so; "Copy A to B" undoes it.
 
 **If something goes wrong.**
