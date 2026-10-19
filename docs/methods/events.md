@@ -126,6 +126,16 @@ Both are on the Elliott template (each grid's local day; the same weekdays 364 a
 - **Prices:** every hub's highest came on 2025-06-24: NYISO N.Y.C. 2,960.11 USD/MWh (15 minutes), ISO-NE 1,240.24, MISO Indiana 1,202.05 (an hour).
 - **Left out, the ISOs' own gaps:** ISO-NE's demand on 2025-06-25 (23 of 24 hours); NYISO's real-time price on 2025-06-27 and ISO-NE's on 2025-06-22 and 2025-06-26 (days the history does not hold complete).
 
+## Session 308: the late January 2026 cold (`cold_2026`)
+
+The owner's default of 18 October 2026 to ruling 6 of `docs/state/morning_2026-10-14.md`: one new event window, the late-January 2026 cold outbreak, with the same baseline as the other eight (the same weekdays 364 and 728 days earlier). It is on the `cold_2025` template (the six grids, ERCOT's hub in full, the four hubs above, the peak-hour variables). No request was made: EIA's hourly data is the emissions connector's held extract, and the hub prices are `iso_hub_prices_history`.
+
+- **Window:** 2026-01-23 to 2026-02-02. **Why these days, from the data:** the highest winter hour of demand served (EIA-930, November 2025 to March 2026) came on 2026-01-26 in ERCOT (75,599 MW) and SPP (45,624 MW), 2026-01-25 in ISO-NE (20,279 MW), 2026-01-27 in MISO (101,013 MW) and 2026-01-29 in PJM (139,410 MW); NYISO's came on 2026-02-07 (24,317 MW), outside the window. The window opens on 23 January, when MISO's and SPP's demand rose, and closes on 2 February, PJM's and ERCOT's last high day.
+- **What the window shows:** daily demand above the baseline at most by 49.95 percent in ERCOT (2026-01-25), 40.46 in PJM and 37.47 in SPP (2026-01-31), 30.49 in MISO (2026-02-01), 29.68 in ISO-NE (2026-01-25) and 22.43 in NYISO (2026-01-31). The event study's pooled effect on daily demand served: PJM +677,815 MWh a day (95 percent interval 579,490 to 776,140), MISO +401,424, ERCOT +346,005, SPP +200,299, NYISO +74,910, ISO-NE +67,430.
+- **Prices:** the highest real-time 15 minutes (MISO: an hour) were NYISO N.Y.C. 3,768.68 USD/MWh and MISO Indiana 2,001.11 on 2026-01-24, ERCOT 1,281.45 on 2026-01-28, ISO-NE 847.69 on 2026-01-25 and SPP North 790.62 on 2026-01-23. The pooled effect on the daily real-time mean: MISO +192.39 USD/MWh, NYISO +167.19, ISO-NE +130.29, SPP +95.19, ERCOT +78.12, every interval above zero.
+- **No weather:** as for `cold_2025`, no estimate controls for temperature.
+- **The rebuild moved the older events' figures by rounding only:** 15 of `event_window_daily`'s ERCOT hub means by 0.0001 USD/MWh, and 146 of `event_study_estimates`' figures by at most 0.0003 USD/MWh (relative 7 in 100,000), from inputs rebuilt since the table's last build on 2 October 2026.
+
 ## Sources and variables
 
 | Variable | Entity | From | Unit |

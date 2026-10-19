@@ -222,8 +222,23 @@ def delivery(in_dir, out_dir, built, log):
     obj = dict(table=DELIVERY_TABLE, matrix_table=MATRIX_TABLE, built=built, license="internal",
                note="Each charge as its tariff prints it, read by a model and kept only where the line is found in the page's text with the figure in it; "
                     "the Commission's matrix figures the same way. Shown as public regulatory filings, each with its document, address and date.",
-               rows=rows, withheld=[], matrix=matrix)
+               rows=rows, withheld=[], matrix=matrix,
+               # session 307: the line for the page's decisions block, one entry a charge the tariff prints twice
+               counted_once=counted_once(review) if os.path.exists(path) else kept.get("counted_once", []))
     write_if_changed(kept_path, obj)
+
+
+def counted_once(review):
+    """The charges a tariff prints in two units and the review counts once (session 307), each with the kept row and why."""
+    by = {r["event_id"]: r for r in review}
+    out = []
+    for r in review:
+        k = by.get(r.get("same_charge_as") or "")
+        if k:
+            out.append(dict(utility=r["utility"], rate_class=r["rate_class"], value_as_written=r["value_as_written"],
+                            counted=" ".join(k["unit_as_written"].split()), not_counted=" ".join(r["unit_as_written"].split()),
+                            page=r.get("page"), why=r.get("same_charge_why", "")))
+    return out
 
 
 def year_hours(y):

@@ -125,6 +125,10 @@ RAW141 = os.path.join(ROOT, "warehouse", "raw", "large_load_statements")
 PASSES = [("A", RAW), ("B", RAW), ("C", RAW141), ("D", RAW141), ("E", RAW141), ("F", RAW141), ("G", RAW141), ("H", RAW141)]
 PASSES_151 = ["I", "J", "K", "L", "M", "N", "O", "P", "W1", "W2", "W3"]   # session 151: eight entity passes, three wait hunts
 PASSES += [(p, RAW141) for p in PASSES_151]
+# session 308: the two figures of ERCOT's Batch Zero deck (TAC, 26 August 2026), added by hand at the owner's default of
+# 18 October (docs/state/morning_2026-10-14.md, ruling 4); proved against the deck's saved text like the passes of 151
+PASSES_308 = ["S308"]
+PASSES += [(p, RAW141) for p in PASSES_308]
 HELD_BEFORE_151 = ["A", "B", "C", "D", "E", "F", "G", "H"]
 PER_GROUP = None   # session 139 took at most five an entity (the owner asked for 30 to 50 statements); session 141 takes all
 PILOT_TEN = ["Dominion Energy Virginia", "Georgia Power (Southern Company)", "Duke Energy", "Entergy", "PJM Interconnection", "Oncor Electric Delivery",
@@ -798,7 +802,7 @@ def build(passes, retrieved, log):
             continue
         mine = read_pass(letter, base)
         read.append(letter)
-        if letter in PASSES_151:   # proved again against the pass's saved text before anything is taken
+        if letter in PASSES_151 + PASSES_308:   # proved again against the pass's saved text before anything is taken
             cache, good, how = {}, [], {}
             for r in mine:
                 why, by = proved(r, base, letter, cache)

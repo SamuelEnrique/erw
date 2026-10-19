@@ -74,7 +74,7 @@ import findings_common as common  # noqa: E402
 import hunt_measures  # noqa: E402
 import run_finding  # noqa: E402
 
-VERSION = "1.1.0"                  # 1.1.0, session 251: thirteen measure families; session 252's two lessons
+VERSION = "1.2.0"                  # 1.1.0, session 251: thirteen measure families; session 252's two lessons; 1.2.0, session 308: ENDED and TOPIC
 OUT = os.path.join(ROOT, "runs", "hunt")
 STATE = os.path.join(OUT, "state.json")
 MAX_DRAFTS = 12                    # the strongest claims of a hunt; the rest are kept in the run's file, not drafted
@@ -154,6 +154,42 @@ PATTERNS += [
     family("record_days", "record_days", "days", 0, 330, 2.0, "RECORD-SETTING DAYS",
            "days of the year with demand above the highest day of every earlier year held"),
 ]
+# Session 308 (the owner's default of 18 October to ruling 8 of docs/state/morning_2026-10-14.md), two rules:
+#   ENDED   a pattern whose measure has ended is computed and kept in the run's file, never drafted: its last full year
+#           can only be the year before the end, so each hunt would raise the same story again
+#   TOPIC   patterns that measure one thing are one topic; a claim whose topic, grid and years (first and last full
+#           year) agree with a draft already on the list, or drafted earlier in the same hunt, is folded into it, not
+#           drafted again (ERCOT's negative hours were drafted seven times, hub by hub and zone by zone, over one span)
+ENDED = {"scarcity_hours": ("2025-12-04", "ERCOT's on-line reserve price adder (RTORPA) ends on 4 December 2025, when "
+                            "real-time co-optimization began (docs/methods/ercot_rt_price_adders.md)")}
+TOPIC = {"negative_prices": "negative_hours", "negative_hours_zones": "negative_hours"}
+
+
+def topic_of(pattern):
+    return TOPIC.get(pattern, pattern)
+
+
+PARTS = ("night", "morning", "midday", "evening", "late")   # da_rt_spread's parts of the day: each part is its own story
+
+
+def fold_key(pattern, region, first_year, last_year):
+    """The story a claim tells: its topic (with the part of the day, where the region names one), its grid and its years
+    (session 308)."""
+    tail = str(region).rsplit("_", 1)[-1].lower()
+    part = tail if tail in PARTS else ""
+    return (topic_of(pattern), part, grid_of(region), str(first_year), str(last_year))
+
+
+def listed_stories(state):
+    """{story: the key of the draft on the list that tells it}, from the hunt's memory of what it drafted."""
+    out = {}
+    for key, v in sorted(state.items()):
+        pattern, _, region = key.partition("|")
+        if v.get("first_year") and v.get("last_year"):
+            out.setdefault(fold_key(pattern, region, v["first_year"], v["last_year"]), key)
+    return out
+
+
 # Session 252's second lesson, for the patterns that read a finding: the tables a grid's own rows of the measure come
 # from. A finding's TABLES names every table it reads for every grid and for its regressors; a draft names these.
 PRICES_ERCOT = ["ercot_all_hub_prices_history", "iso_rtm_hub_prices"]
@@ -667,7 +703,10 @@ def hunt(in_dir=None, only=None, dry_run=False, log=print, now=None, state_path=
             if claim is not None:
                 row.update({k: claim[k] for k in ("first_year", "last_year", "first", "last", "change", "direction", "strength", "passed", "years_held", "years_after")})
                 row["tests"] = claim["tests"]
-            if claim is not None and claim["passed"] and P.get("one_interval"):
+            if claim is not None and claim["passed"] and P["name"] in ENDED:
+                # session 308: the measure has ended; the claim is kept here and never drafted
+                row["reason"] = f"passes its tests; the measure ended on {ENDED[P['name']][0]} ({ENDED[P['name']][1]}), so it is kept here and never drafted (session 308)"
+            elif claim is not None and claim["passed"] and P.get("one_interval"):
                 # session 252: the measure is one interval of a year, and most of each spike claim was one year's fall
                 row["reason"] = "passes its tests; the measure is one interval of a year, so it is kept here and never drafted (session 252)"
             elif claim is not None and claim["passed"]:
@@ -679,7 +718,14 @@ def hunt(in_dir=None, only=None, dry_run=False, log=print, now=None, state_path=
             results.append(row)
     drafts.sort(key=lambda d: (-d[0], d[9]["key"]))
     built, per_pattern, seen = [], {}, {}
+    stories = listed_stories(state)                      # session 308: the stories already on the list
     for _, P, region, words, series, claim, why, card, tables, row, used in drafts:
+        story = fold_key(P["name"], region, claim["first_year"], claim["last_year"])
+        if story in stories and stories[story] != row["key"]:
+            row["reason"] = (f"passes its tests and is news ({why}); folded into {stories[story]}: the same topic, grid and years "
+                             f"({claim['first_year']} to {claim['last_year']}), so not drafted again (session 308)")
+            row["folded_into"] = stories[story]
+            continue
         same = (P.get("fn") or P["measure"], claim["first_year"], claim["last_year"], round(claim["first"], 6), round(claim["last"], 6))
         if same in seen:                                 # two patterns that read one number (a grid's hub average, twice)
             row["reason"] = f"passes its tests and is news; the same numbers as {seen[same]}, drafted once"
@@ -691,6 +737,7 @@ def hunt(in_dir=None, only=None, dry_run=False, log=print, now=None, state_path=
             row["reason"] = f"passes its tests and is news ({why}); beyond the {MAX_DRAFTS} strongest of this hunt, so kept here and not drafted"
             continue
         seen[same] = row["key"]
+        stories.setdefault(story, row["key"])
         per_pattern[P["name"]] = per_pattern.get(P["name"], 0) + 1
         d = build_draft(P, region, words, series, claim, why, card, tables, out_dir, used)
         row.update(drafted=True, draft_id=d["id"], reason=why, fact=d["card"]["subtitle"])

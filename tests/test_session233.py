@@ -253,6 +253,11 @@ class TheHunt(unittest.TestCase):
 
     def test_the_strongest_two_regions_of_a_pattern_and_never_the_same_numbers_twice(self):
         hunt.PATTERNS = [dict(P, name="one"), dict(P, name="two")]
+        # session 308: the hunt folds the regions of one grid over one span into one draft (tests/test_session308.py);
+        # here every region is its own story, so this test's rule, two regions a pattern, still shows
+        saved_fold = hunt.fold_key
+        hunt.fold_key = lambda pattern, region, first_year, last_year: (pattern, region)
+        self.addCleanup(setattr, hunt, "fold_key", saved_fold)
         rise = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
         self.fake({"one": [("ercot_a", rise), ("ercot_b", [1.0, 2.0, 3.0, 4.0, 5.0, 9.0]), ("ercot_c", [1.0, 2.0, 3.0, 4.0, 5.0, 12.0]), ("ercot_d", [3.0, 2.0, 1.0, 2.5, 4.0])],
                    "two": [("ercot", rise)]})
