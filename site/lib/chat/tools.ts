@@ -24,6 +24,8 @@ import { addLocalTimes, zoneOfEntity } from "./plaintime";
 // while every one of `tables` is in the live set, a query of `hourly` must give a start and span a few weeks at most.
 export type Scope = (GridConfig & { filters?: Record<string, Record<string, string | string[]>>; max_groups?: number; dated_groups?: boolean; rollup?: { hourly: string; tables: string[] } }) | null;
 export const scopeOf = (slug: string | null | undefined): Scope => (slug ? DOCS.grid_config.find((g) => g.slug === slug) ?? null : null);
+/** Session 302: the derived tables keyed by hub, whose rows a grid's scoped chat keeps by entity prefix (scopeFilter). */
+const HUB_KEYED = new Set(["cost_of_power_monthly", "cost_of_power_hourly_profile", "merchant_revenue_monthly", "battery_stack_monthly", "battery_stack_stress_daily", "iso_curtailment_monthly"]);
 const BA_TABLES = new Set(["eia930_all_demand", "eia930_all_generation", "eia930_all_emissions", "eia930_all_storage", "eia930_all_interchange",
   "carbon_intensity_hourly", "carbon_intensity_daily", "carbon_intensity_monthly", "storage_daily_cycle"]);
 
@@ -43,6 +45,10 @@ function scopeFilter(scope: Scope, name: string, shape: Shape, columns: string[]
   if (shape === "series" && BA_TABLES.has(name)) return { ba: `eq.${scope.ba}` };
   if (name === "storage_capacity") return { "extra->>iso": `eq.${scope.iso}` };
   if (name === "energy_projects") return { entity_id: `like.${(scope.queue_table ?? "none").replace(/_interconnection_queue$/, "_queue")}:*` };
+  // session 302: a derived table keyed by hub (cost_of_power_monthly, merchant_revenue_monthly, ...) carries a grid's rows
+  // under its entity prefix (ercot:HB_HUBAVG, caiso:TH_SP15_GEN-APND, spp:SPP), and its market column is empty: the
+  // scoped chat reads those rows alone, by the prefix, before the market rule below would read none
+  if (shape === "series" && HUB_KEYED.has(name)) return { entity: `like.${scope.slug}:*` };
   if (shape === "series" && scope.market_prefix && columns.includes("market")) return { market: `like.${scope.market_prefix}*` };
   return {};
 }
