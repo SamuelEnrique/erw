@@ -10,12 +10,13 @@
 import fs from "node:fs";
 import { shown } from "../lib/shoulder.ts";
 import { tableRows, TABLE } from "./shoulder-stub.mjs";
+import { unlockPost } from "./browser.mjs";   // session 301: the internal view by the form's door, no token in an address
 
 const base = process.argv[2] ?? "http://localhost:3075";
 const token = process.env.INTERNAL_COSTS_TOKEN ?? (() => {
   try { return (fs.readFileSync(new URL("../.env.local", import.meta.url), "utf-8").match(/^INTERNAL_COSTS_TOKEN=(.*)$/m)?.[1] ?? "").trim().replace(/^"|"$/g, ""); } catch { return ""; }
 })();
-const unlock = token ? await fetch(`${base}/internal/unlock?token=${encodeURIComponent(token)}`, { redirect: "manual" }) : null;
+const unlock = token ? await unlockPost(base, token) : null;
 const cookie = unlock ? (unlock.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ") : "";
 let bad = 0, n = 0, values = 0;
 const check = (ok, what) => { n++; if (!ok) { bad++; console.log(`FAIL ${what}`); } };

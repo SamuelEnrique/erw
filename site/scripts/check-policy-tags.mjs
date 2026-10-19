@@ -20,7 +20,7 @@
 //              the words it explains, and all three stand in the Method note
 // Exit 1 on a failure.
 import fs from "node:fs";
-import { env, withBrowser } from "./browser.mjs";
+import { env, withBrowser, unlockPost } from "./browser.mjs";
 import { ANY_TAG, FIRST_VIEW_METHOD, METHOD, tagHref } from "../lib/policyweek.ts";
 
 const base = (process.argv[2] ?? "http://localhost:3164").replace(/\/$/, "");
@@ -35,7 +35,7 @@ const TAGS = Object.keys(rules.tags);
 const FIELD = { title: "title", abstract: "summary", first_paragraph: "first paragraph of the printed text", docket: "docket field" };
 
 const token = env("INTERNAL_COSTS_TOKEN");
-const unlock = await fetch(`${base}/internal/unlock?token=${encodeURIComponent(token ?? "")}`, { redirect: "manual" });
+const unlock = await unlockPost(base, token ?? "");
 const cookie = (unlock.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ");
 if (!cookie) { console.log(`FAILED: ${base}/internal/unlock gave no cookie (INTERNAL_COSTS_TOKEN missing or not the server's)`); process.exit(1); }
 const get = async (path, withCookie = true) => { const r = await fetch(base + path, { headers: withCookie ? { Cookie: cookie } : {} }); return { status: r.status, html: await r.text() }; };

@@ -16,7 +16,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { env, withBrowser } from "./browser.mjs";
+import { env, withBrowser, unlockPost } from "./browser.mjs";
 
 const site = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const base = (process.argv[2] ?? "http://localhost:3188").replace(/\/$/, "");
@@ -42,7 +42,7 @@ try {
   check(tok.status === 404, "a token in the address opens nothing", `(${tok.status})`);
 
   // internal
-  const unlock = await fetch(`${base}/internal/unlock?token=${encodeURIComponent(token)}`, { redirect: "manual" });
+  const unlock = await unlockPost(base, token);
   const cookie = (unlock.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ");
   if (!cookie) throw new Error(`${base}/internal/unlock gave no cookie (INTERNAL_COSTS_TOKEN missing or not the server's)`);
   const r = await fetch(`${base}/internal/waits`, { headers: { Cookie: cookie } });

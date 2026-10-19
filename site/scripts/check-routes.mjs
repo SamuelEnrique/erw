@@ -19,6 +19,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { unlockPost } from "./browser.mjs";   // session 301: the internal view by the form's door, no token in an address
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 function env(name) {
@@ -130,7 +131,7 @@ async function unlock(site) {
   const token = env("INTERNAL_COSTS_TOKEN");
   if (!token) return "";
   try {
-    const r = await fetch(`${site}/internal/unlock?token=${encodeURIComponent(token)}`, { redirect: "manual" });
+    const r = await unlockPost(site, token);
     return (r.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ");
   } catch {
     return "";

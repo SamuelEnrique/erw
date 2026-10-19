@@ -21,7 +21,7 @@
 // phone's width the page does not scroll sideways.
 // Exit 1 on a failure.
 import fs from "node:fs";
-import { env, withBrowser } from "./browser.mjs";
+import { env, withBrowser, unlockPost } from "./browser.mjs";
 import { HEADLINE, PLACEHOLDER, dateWords, easternNow, fmt, nextRelease, pct, releaseWords, signed, surprises } from "../lib/supply.ts";
 
 const base = (process.argv[2] ?? "http://localhost:3134").replace(/\/$/, "");
@@ -29,7 +29,7 @@ let bad = 0, n = 0;
 const check = (ok, what) => { n += 1; if (!ok) { bad += 1; console.log(`FAIL ${what}`); } else console.log(`ok   ${what}`); };
 const file = JSON.parse(fs.readFileSync(new URL("../data/supply.json", import.meta.url), "utf-8"));
 const row = (id) => file.rows.find((r) => r.id === id);
-const unlock = await fetch(`${base}/internal/unlock?token=${encodeURIComponent(env("INTERNAL_COSTS_TOKEN") ?? "")}`, { redirect: "manual" });
+const unlock = await unlockPost(base, env("INTERNAL_COSTS_TOKEN") ?? "");
 const cookie = (unlock.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ");
 if (!cookie) { console.log(`FAILED: ${base}/internal/unlock gave no cookie (INTERNAL_COSTS_TOKEN missing or not the server's)`); process.exit(1); }
 const get = async (path, withCookie = true) => { const r = await fetch(base + path, { headers: withCookie ? { Cookie: cookie } : {} }); return { status: r.status, html: await r.text() }; };

@@ -19,14 +19,14 @@
 //   hover       a trend line answers the mouse with a value, a date and the series
 // Exit 1 on a failure.
 import fs from "node:fs";
-import { env, withBrowser } from "./browser.mjs";
+import { env, withBrowser, unlockPost } from "./browser.mjs";
 import * as b from "../lib/board.ts";
 
 const base = (process.argv[2] ?? "http://localhost:3132").replace(/\/$/, "");
 let bad = 0, n = 0;
 const check = (ok, what) => { n += 1; if (!ok) { bad += 1; console.log(`FAIL ${what}`); } else console.log(`ok   ${what}`); };
 const file = JSON.parse(fs.readFileSync(new URL("../data/board.json", import.meta.url), "utf-8"));
-const unlock = await fetch(`${base}/internal/unlock?token=${encodeURIComponent(env("INTERNAL_COSTS_TOKEN") ?? "")}`, { redirect: "manual" });
+const unlock = await unlockPost(base, env("INTERNAL_COSTS_TOKEN") ?? "");
 const cookie = (unlock.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ");
 if (!cookie) { console.log(`FAILED: ${base}/internal/unlock gave no cookie (INTERNAL_COSTS_TOKEN missing or not the server's)`); process.exit(1); }
 const get = async (path, withCookie = true, redirect = "follow") => { const r = await fetch(base + path, { redirect, headers: withCookie ? { Cookie: cookie } : {} }); return { status: r.status, html: await r.text(), location: r.headers.get("location"), url: r.url }; };

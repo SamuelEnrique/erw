@@ -19,12 +19,12 @@
 //   /datacenters/v2  answers 308 to /datacenters, a query carried
 //   visitor          without the cookie each page is the in-review page
 // No browser. Exit 1 on a failure.
-import { env } from "./browser.mjs";
+import { env, unlockPost } from "./browser.mjs";
 
 const base = (process.argv[2] ?? "http://localhost:3166").replace(/\/$/, "");
 let bad = 0, n = 0;
 const check = (ok, what) => { n += 1; if (!ok) { bad += 1; console.log(`FAIL ${what}`); } else console.log(`ok   ${what}`); };
-const unlock = await fetch(`${base}/internal/unlock?token=${encodeURIComponent(env("INTERNAL_COSTS_TOKEN") ?? "")}`, { redirect: "manual" });
+const unlock = await unlockPost(base, env("INTERNAL_COSTS_TOKEN") ?? "");
 const cookie = (unlock.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ");
 if (!cookie) { console.log(`FAILED: ${base}/internal/unlock gave no cookie (INTERNAL_COSTS_TOKEN missing or not the server's)`); process.exit(1); }
 const get = async (path, withCookie = true) => { const r = await fetch(base + path, { headers: withCookie ? { Cookie: cookie } : {} }); return { status: r.status, html: await r.text() }; };

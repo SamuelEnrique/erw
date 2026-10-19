@@ -25,7 +25,7 @@
 //   face       the view's face holds no sentence of the Method note (docs/methods/policy_monitor.md), and links it
 // Exit 1 on a failure.
 import fs from "node:fs";
-import { env, withBrowser } from "./browser.mjs";
+import { env, withBrowser, unlockPost } from "./browser.mjs";
 import { METHOD, MUNICIPAL, NONE_WORDS, NO_READ, PAUSED_WORDS, PAUSE_WHY, sinceDay } from "../lib/policyweek.ts";
 
 const base = (process.argv[2] ?? "http://localhost:3149").replace(/\/$/, "");
@@ -35,7 +35,7 @@ const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 const readJson = (rel) => { const u = new URL(rel, import.meta.url); return fs.existsSync(u) ? JSON.parse(fs.readFileSync(u, "utf8")) : null; };
 
 const token = env("INTERNAL_COSTS_TOKEN");
-const unlock = await fetch(`${base}/internal/unlock?token=${encodeURIComponent(token ?? "")}`, { redirect: "manual" });
+const unlock = await unlockPost(base, token ?? "");
 const cookie = (unlock.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ");
 if (!cookie) { console.log(`FAILED: ${base}/internal/unlock gave no cookie (INTERNAL_COSTS_TOKEN missing or not the server's)`); process.exit(1); }
 const get = async (path, withCookie = true) => { const r = await fetch(base + path, { headers: withCookie ? { Cookie: cookie } : {} }); return { status: r.status, html: await r.text() }; };

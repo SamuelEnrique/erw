@@ -28,6 +28,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { unlockPost } from "./browser.mjs";   // session 301: the internal view by the form's door, no token in an address
 
 const REQUEST_MS = Number(process.env.CHECK_VALUES_REQUEST_S ?? 60) * 1000;
 const RUN_MIN = Number(process.env.CHECK_VALUES_TIMEOUT_MIN ?? 15);
@@ -835,7 +836,7 @@ async function main() {
   // are still checked; without it they would answer the in-review page, which carries no number
   let cookie = "";
   if (tok) {
-    const u = await fetch(`${base}/internal/unlock?token=${encodeURIComponent(tok)}`, { redirect: "manual" });
+    const u = await unlockPost(base, tok);
     cookie = (u.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ");
   }
   if (!cookie) console.log(`no internal cookie from ${base}/internal/unlock: pages in review answer the in-review page and are counted as failures`);

@@ -6,15 +6,18 @@ import type { NextConfig } from "next";
 //   X-Frame-Options, frame-ancestors   no other site may frame a page (the site frames nothing of its own)
 //   Referrer-Policy             another site learns the origin, never the path or the query
 //   Permissions-Policy          the site uses no camera, microphone, location, payment or sensors
-// The Content-Security-Policy that is ENFORCED holds only the directives that cannot break a page: the site has no
-// <base>, no <object> or <embed>, no frame, and every form posts to the site itself. The full policy (where scripts,
-// styles, images and requests may come from) is sent as Content-Security-Policy-Report-Only: it has not been proven
-// against every page in a browser, so it blocks nothing yet and a violation shows in the browser's console. It allows
-// what the site is known to use: its own files, inline scripts and styles (Next writes both), the chart library from
-// cdnjs (components/echarts.ts), the database's storage for the network's hourly file, blob: for the map's worker
-// and the pages' own downloads, and data: images.
-const CSP_ENFORCED = "base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'";
-const CSP_REPORT_ONLY = [
+// Session 177 sent the full policy (where scripts, styles, images and requests may come from) as
+// Content-Security-Policy-Report-Only, and enforced only the four directives that cannot break a page (base-uri,
+// object-src, frame-ancestors, form-action: the site has no <base>, no <object> or <embed>, no frame, and every form
+// posts to the site itself). Session 301 (the security review's M4, the chain prompt of 19 October 2026): the full
+// policy is ENFORCED, after scripts/check-csp.mjs opened every page of the release list in a real browser on the
+// built site and found 0 violations (89 pages, 19 October 2026). The report-only header stays beside it for a week,
+// with the same value, so a violation after a click would still be reported where the enforced one blocks it. It
+// allows what the site is known to use: its own files, inline scripts and styles (Next writes both), the chart
+// library from cdnjs (components/echarts.ts), the database's storage for the network's hourly file, blob: for the
+// map's worker and the pages' own downloads, and data: images. To go back: CSP_ENFORCED = CSP_MINIMAL.
+const CSP_MINIMAL = "base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'";
+const CSP_FULL = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com",
   "style-src 'self' 'unsafe-inline'",
@@ -25,6 +28,9 @@ const CSP_REPORT_ONLY = [
   "frame-src 'none'",
   "base-uri 'self'", "object-src 'none'", "frame-ancestors 'none'", "form-action 'self'",
 ].join("; ");
+const CSP_ENFORCED = CSP_FULL;          // session 301; until then CSP_MINIMAL
+const CSP_REPORT_ONLY = CSP_FULL;       // beside it for a week (session 301)
+void CSP_MINIMAL;
 const SECURITY_HEADERS = [
   { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
   { key: "X-Content-Type-Options", value: "nosniff" },

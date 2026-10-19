@@ -73,7 +73,10 @@ try {
   await send("Runtime.enable");
   await send("Page.bringToFront");
   await send("Page.addScriptToEvaluateOnNewDocument", { source: "window.__ft = []; window.__at = []; window.__on = false; window.__step = ''; window.__long = []; try { new PerformanceObserver((l) => { for (const e of l.getEntries()) if (window.__on) window.__long.push(Math.round(e.duration)); }).observe({ entryTypes: ['longtask'] }); } catch (e) {} (() => { let last = performance.now(); const f = (now) => { if (window.__on) { window.__ft.push(now - last); window.__at.push([window.__step, Math.round(now - last)]); } last = now; requestAnimationFrame(f); }; requestAnimationFrame(f); })();" });
-  await send("Page.navigate", { url: `${base}/internal/unlock?token=${encodeURIComponent(token ?? "")}` });
+  // session 301: the internal view by the form's door (no token in an address)
+  await send("Page.navigate", { url: `${base}/internal/open` });
+  await sleep(2500);
+  await run(`(() => { const i = document.querySelector('form[action="/internal/unlock"] input[name="token"]'); i.value = ${JSON.stringify(token ?? "")}; i.form.requestSubmit(); })()`);
   await sleep(4000);
   // frames only run in a window that is being shown: a locked or sleeping screen, or a window behind another, gives none
   const probe = await run("Promise.race([new Promise((r) => requestAnimationFrame(() => r('frames run'))), new Promise((r) => setTimeout(() => r('no frame in 3 s'), 3000))])");

@@ -18,7 +18,7 @@
 //   visitor    without the cookie the page is the in-review page and carries no number; /curtailment is as it was
 // Exit 1 on a failure.
 import fs from "node:fs";
-import { env } from "./browser.mjs";
+import { env, unlockPost } from "./browser.mjs";
 import * as c from "../lib/curtailmentv2.ts";
 
 await import("./check-curtailment.mjs");  // session 144: it ends the process with its own exit code; nothing below runs
@@ -29,7 +29,7 @@ const check = (ok, what) => { n += 1; if (!ok) { bad += 1; console.log(`FAIL ${w
 const file = JSON.parse(fs.readFileSync(new URL("../data/curtailment_profile.json", import.meta.url), "utf-8"));
 
 const token = env("INTERNAL_COSTS_TOKEN");
-const unlock = await fetch(`${base}/internal/unlock?token=${encodeURIComponent(token ?? "")}`, { redirect: "manual" });
+const unlock = await unlockPost(base, token ?? "");
 const cookie = (unlock.headers.getSetCookie?.() ?? []).map((x) => x.split(";")[0]).join("; ");
 if (!cookie) { console.log(`FAILED: ${base}/internal/unlock gave no cookie (INTERNAL_COSTS_TOKEN missing or not the server's)`); process.exit(1); }
 const get = async (path, withCookie = true) => { const r = await fetch(base + path, { headers: withCookie ? { Cookie: cookie } : {} }); return { status: r.status, html: await r.text() }; };

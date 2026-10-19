@@ -91,7 +91,7 @@ export async function POST(req: Request) {
   // session 128: the spending ceilings and the visitor's daily number, counted by the database. A refusal is logged
   // with its reason and nothing about the visitor or the question.
   const limits = readLimits();
-  const admitted = await admit(clientIp(req), now, limits, readSalt(), (a) => rpc("site_ask_admit", a as unknown as Record<string, string>));
+  const admitted = await admit(clientIp(req), now, limits, readSalt(), (a) => rpc("site_ask_admit", a as unknown as Record<string, string>, { privileged: true }));   // session 301: the write key
   if (!admitted.ok) {
     console.log(JSON.stringify({ erw_ask: { at: new Date(now).toISOString(), status: "refused", reason: admitted.reason, why: admitted.why } }));
     return NextResponse.json({ error: admitted.message, refused: admitted.reason }, { status: admitted.status, headers: { "Cache-Control": "no-store" } });

@@ -13,6 +13,7 @@
 import fsMod from "node:fs";
 import { GRIDS, shown, whole, written } from "../lib/buildout.ts";
 import { fixtureRows, TABLE } from "./buildout-stub.mjs";
+import { unlockPost } from "./browser.mjs";   // session 301: the internal view by the form's door, no token in an address
 
 const base = process.argv[2] ?? "http://localhost:3069";
 // session 72: the page is in review (lib/release.ts), so it is read with the internal cookie, as check-values does; the
@@ -21,7 +22,7 @@ const token = process.env.INTERNAL_COSTS_TOKEN ?? (() => {
   const f = new URL("../.env.local", import.meta.url);
   try { return (fsMod.readFileSync(f, "utf-8").match(/^INTERNAL_COSTS_TOKEN=(.*)$/m)?.[1] ?? "").trim().replace(/^"|"$/g, ""); } catch { return ""; }
 })();
-const unlock = token ? await fetch(`${base}/internal/unlock?token=${encodeURIComponent(token)}`, { redirect: "manual" }) : null;
+const unlock = token ? await unlockPost(base, token) : null;
 const cookie = unlock ? (unlock.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ") : "";
 if (!cookie) console.log("no internal cookie: the page in review answers the in-review page to this check");
 const get = (url) => fetch(url, { headers: cookie ? { Cookie: cookie } : {} });
