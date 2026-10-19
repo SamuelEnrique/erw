@@ -43,7 +43,7 @@ In the internal view: open https://erw-flame.vercel.app/internal/unlock?token=<I
 | `check-decisions-face.mjs` (the three pages) | 0 | 144 of 144 |
 | Captures at 1280 and 390, three addresses | | no sideways scroll; `docs/brand/review-298/` |
 | Suite, clean copy (`erw-check`), `2156ad60` | 1 | 4,340 tests; four pins of older tests moved with the session (107's hand sum of the CAISO peaker, 162's path of the retired script, 190's heading list of the datacenter note, 260's old run rule): each fixed and marked |
-| Suite, clean copy, the final commit | SUITE2 | |
+| Suite, clean copy, `15d2572e` (the code and the tests as pushed; the report's last commit follows) | 0 | 4,340 tests, 245 skipped |
 | `scripts/freeze.py status` | 0 | no freeze |
 
 ## Landing of session 297 (recorded here: session 297's report is in that landing's own commit)
