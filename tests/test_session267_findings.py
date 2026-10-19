@@ -75,36 +75,41 @@ class ThePack(unittest.TestCase):
 
 class TheVerdicts(unittest.TestCase):
     def doc_verdicts(self):
-        # session 286: the verdicts of 13 October only. The document now goes on with those of 14 October (blocks 29 to
-        # 40), which the page cannot yet date ("Verdict of 13 October 2026" is its words), so they are not in the file
-        doc = read(DOC).split("\n## Session 286's twelve drafts, verified", 1)[0]
+        # session 286 appended the verdicts of 14 October (blocks 29 to 40); session 304 dates each verdict in the file, so
+        # both sections are read: the day is the section's
+        doc = read(DOC)
+        parts = doc.split("\n## Session 286's twelve drafts, verified", 1)
         out = {}
-        for n, body in zip(*[iter(re.split(r"\n### (\d+)\. ", doc)[1:])] * 2):
-            m = re.search(r"\*\*Draft:\*\* `(scan-[a-z]+-[0-9a-f]{12})`", body)
-            v = re.search(r"\*\*Verdict: (strong|usable|drop)\.\*\* (.+)", body)
-            if m and v:
-                out[m.group(1)] = (int(n), v.group(1), v.group(2).strip())
+        for day, text in (("2026-10-13", parts[0]), ("2026-10-14", parts[1] if len(parts) > 1 else "")):
+            for n, body in zip(*[iter(re.split(r"\n### (\d+)\. ", text)[1:])] * 2):
+                m = re.search(r"\*\*Draft:\*\* `(scan-[a-z]+-[0-9a-f]{12})`", body)
+                v = re.search(r"\*\*Verdict: (strong|usable|drop)\.\*\* (.+)", body)
+                if m and v:
+                    out[m.group(1)] = (int(n), v.group(1), v.group(2).strip(), day)
         return out
 
-    def test_the_28_verdicts_are_the_documents(self):
+    def test_the_40_verdicts_are_the_documents_each_with_its_day(self):
         want = self.doc_verdicts()
-        self.assertEqual(len(want), 28)
+        self.assertEqual(len(want), 40)
         ts = read(VERDICTS)
         got = dict(
-            (m.group(1), (int(m.group(2)), m.group(3)))
-            for m in re.finditer(r'"(scan-[a-z]+-[0-9a-f]{12})": \{ block: (\d+), verdict: "(\w+)"', ts))
+            (m.group(1), (int(m.group(2)), m.group(3), m.group(4)))
+            for m in re.finditer(r'"(scan-[a-z]+-[0-9a-f]{12})": \{ block: (\d+), verdict: "(\w+)", reason: "(?:[^"\\]|\\.)*", by: "\d+", day: "(\d{4}-\d\d-\d\d)" \}', ts))
         self.assertEqual(set(got), set(want))
-        for k, (n, verdict, reason) in want.items():
-            self.assertEqual(got[k], (n, verdict), k)
+        for k, (n, verdict, reason, day) in want.items():
+            self.assertEqual(got[k], (n, verdict, day), k)
             self.assertIn(reason.replace("\\", "\\\\").replace('"', '\\"'), ts, k)
         counts = {w: sum(1 for v in want.values() if v[1] == w) for w in ("strong", "usable", "drop")}
-        self.assertEqual(counts, {"strong": 7, "usable": 14, "drop": 7})
+        self.assertEqual(counts, {"strong": 9, "usable": 20, "drop": 11})
+        self.assertEqual(sum(1 for v in want.values() if v[3] == "2026-10-14"), 12)
 
     def test_the_page_prints_a_verdict_beside_every_draft(self):
         page = read(PAGE)
         self.assertIn('from "@/lib/findingverdicts"', page)
         self.assertIn("<VerdictLine id={d.id} />", page)
-        self.assertIn("no verdict", page)
+        self.assertIn("no verdict yet", page)
+        self.assertIn("dismissed", page)             # session 304: the four to drop of 14 October
+        self.assertIn("Verdict of {day}", page)       # each verdict dated
         # words and an attribute only: the review buttons and the sections are as they were
         for kept in ("<DraftReview id={d.id}", 'title="Waiting for a ruling"', 'title="Ruled"'):
             self.assertIn(kept, page)

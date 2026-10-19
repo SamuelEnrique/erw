@@ -61,11 +61,18 @@ function HuntFiles({ id, hunt }: { id: string; hunt: NonNullable<Draft["card"]["
 // Words only: it rules on nothing, and a draft raised after that evening reads "no verdict".
 function VerdictLine({ id }: { id: string }) {
   const v = VERDICTS[id];
-  if (!v) return <p className="mb-2 text-xs text-muted" data-draft-verdict="none">Verdict of 13 October 2026: no verdict (raised after the verification).</p>;
+  // session 304: each verdict is dated; a draft of 14 October's twelve reads "dismissed" (the four to drop) or "no verdict yet" (Samuel approves at this page)
+  if (!v) return <p className="mb-2 text-xs text-muted" data-draft-verdict="none">No verdict yet (raised after the verifications of 13 and 14 October 2026).</p>;
+  const day = v.day === "2026-10-14" ? "14 October 2026" : "13 October 2026";
+  if (v.day === "2026-10-14" && v.verdict !== "drop") return (
+    <p className="mb-2 text-xs" data-draft-verdict="pending" data-draft-verdict-day={v.day}>
+      <span className="text-muted">Verdict of {day} (session {v.by}; block {v.block} of <span className="font-mono">{VERDICT_DOC}</span>): <strong>no verdict yet</strong>. The verification read it as {v.verdict}; it waits for your approval here. {v.reason}</span>
+    </p>
+  );
   return (
-    <p className="mb-2 text-xs" data-draft-verdict={v.verdict}>
-      <span className="text-muted">Verdict of 13 October 2026 (session {v.by}{v.by === "251" ? ", by session 252's rule" : ""}; block {v.block} of <span className="font-mono">{VERDICT_DOC}</span>): </span>
-      <strong>{v.verdict}</strong>. {v.reason}
+    <p className="mb-2 text-xs" data-draft-verdict={v.day === "2026-10-14" ? "dismissed" : v.verdict} data-draft-verdict-day={v.day}>
+      <span className="text-muted">Verdict of {day} (session {v.by}{v.by === "251" ? ", by session 252's rule" : ""}; block {v.block} of <span className="font-mono">{VERDICT_DOC}</span>):
+      <strong>{v.day === "2026-10-14" ? "dismissed" : v.verdict}</strong>. {v.reason}</span>
     </p>
   );
 }

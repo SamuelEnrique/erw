@@ -22,8 +22,10 @@ const lines = execFileSync(py, [script, ...(csvArg ? [csvArg] : [])], { encoding
 const mirror = Object.fromEntries(lines.map((l) => l.split(" = ")));
 const SLUG = { CISO: "caiso", ERCO: "ercot", ISNE: "isone", MISO: "miso", NYIS: "nyiso", PJM: "pjm", SWPP: "spp" };
 let bad = 0, n = 0;
+const ABSENT = new Set(["", "not held", "none", "NaN", "null", "undefined"]);   // session 304: a figure not held, as the mirror and the page each write it
 const same = (what, ours, page) => {
   n += 1;
+  if (ABSENT.has(String(ours).trim()) && (page === undefined || page === null || ABSENT.has(String(page).trim()))) { console.log(`same  ${what}: not held on either side`); return; }
   const ok = page !== undefined && page !== null && (Number.isFinite(Number(ours)) && Number.isFinite(Number(page)) ? Math.abs(Number(ours) - Number(page)) < 1e-6 * Math.max(1, Math.abs(Number(ours))) : String(ours) === String(page));
   if (!ok) bad += 1;
   console.log(`${ok ? "same" : "DIFFERENT"}  ${what}: replication ${ours}, page ${page}`);
@@ -60,7 +62,8 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock }) => {
   for (const g of JSON.parse(got)) {
     same(`${g.id} generation, MW (Gravity)`, mirror[`generation_${g.id}`], g.gen);
     same(`${g.id} net imports, MW (Gravity)`, mirror[`net_import_${g.id}`], g.net);
-    same(`${g.id} share of generation (Gravity)`, Number(mirror[`gravity_share_${g.id}`]).toFixed(6), Number(g.share).toFixed(6));
+    // session 304: a share the page does not hold (no generation for the hour) is an empty attribute, not a zero
+    same(`${g.id} share of generation (Gravity)`, Number(mirror[`gravity_share_${g.id}`]).toFixed(6), g.share === null || g.share === "" ? "" : Number(g.share).toFixed(6));
     same(`${g.id} radius (Gravity)`, mirror[`gravity_r_${g.id}`], g.r);
     same(`${g.id} distance from the center (Gravity)`, mirror[`gravity_d_${g.id}`], g.d);
   }

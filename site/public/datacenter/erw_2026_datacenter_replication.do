@@ -4,6 +4,32 @@
 
 * This do-file has not been run: Stata is not installed on the machine that wrote it. erw_2026_datacenter_replication.py follows it step for step and prints the same lines.
 
+* Expected values (session 304, 19 October 2026): what this file displays at the page's defaults, equal to the page value by value;
+
+* the Python mirror beside it printed these lines on 19 October 2026:
+
+*   market energy, a flat load, last twelve months, USD per MWh: 33.73
+
+*   cost for 100 MW, USD: 29,546,505
+
+*   energy for 100 MW, MWh: 876,000
+
+*   power per GPU-hour, USD: 0.0684
+
+*   GPUs that 100 MW powers: 49,310
+
+*   the hub beside it, a flat load, USD per MWh: 32.51
+
+*   the load zone less its hub, USD per MWh: 1.22
+
+*   bought day-ahead, a flat load, the same twelve months, USD per MWh: 35.33
+
+*   a bad month, nearest rank 4: 2026-08, USD per MWh: 37.88
+
+*   the bad month's cost for 100 MW, USD: 2,818,474
+
+*   a flat load's own hours over them, kg CO2 per MWh (the grid's mean): 313.01
+
 * The file has 15 comment lines; the column names are on line 16 and the hours start on line 17.
 
 clear all

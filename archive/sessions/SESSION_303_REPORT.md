@@ -36,7 +36,7 @@
 | The canvas detector on 16 addresses | 0 | the counts above |
 | `tests.test_session303`, `test_session161`, and the tests that pin the chart components (133, 138, 236, 241a, 241c, 177) | 0 | 17 and 142 passed |
 | Screenshots, 1280 and 390, before (production) and after (local), six pages | | `docs/brand/review-303/`; nothing scrolls sideways at 390 but `/events/covid-2020`'s table, as before |
-| Suite, clean copy, the commit pushed | SUITE_EXIT | SUITE_LINE |
+| Suite, clean copy, the commit pushed | 0 | `Ran 4405 tests`, `OK (skipped=250)` at `e294d37b` in `../erw-check` (`runs/chain_oct19/s303_suite2.out`) |
 
 ## Landing of session 302 (recorded here: session 302's report is in that landing's own commit)
 
@@ -45,7 +45,10 @@
 
 ## Landing
 
-LANDING
+- Pushed `task/303-one-chart-library` at `e294d37b` at 16:18 UTC (the no-landing window of 14:00 to 16:15 UTC honoured); GitHub's checks passed (run 39284436606, https://github.com/SamuelEnrique/erw/actions/runs/39284436606) and merged it as `59772e15`; production served the new build at 16:40:08 (a new style sheet name) and the after snapshot was taken at 16:40:28.
+- Snapshot `s303-before` (16:18:23) against `s303-after` (16:40:28): 25 pages, 0 differences. Expected: none of the 25 snapshot pages draws a time-series chart whose checked numbers changed, and every page is in review (the visitor sees the in-review page). Nothing unexpected.
+
+(These two sections were filled by session 304, whose commit follows this landing; session 303's report was in the landing's own commit.)
 
 ## Decisions made without you
 

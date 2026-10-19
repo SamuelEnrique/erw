@@ -27,6 +27,9 @@ MW, FOM_USD_KW_YEAR, CAPEX_USD_KW, DEBT_SHARE, DEBT_RATE, DEBT_YEARS = 100, 12.5
 # Session 264: scenario A's other defaults (site/lib/seller/finance.ts): hurdle 12 percent, life 35 years, the PPA term
 # (the eleventh assumption) the asset's life, 35 years, no degradation
 HURDLE, LIFE_YEARS, PPA_YEARS = 0.12, 35, 35
+# Session 304: solar's degradation default is 0.7 percent a year since session 298 (NREL ATB 2025; the owner's ruling 7a of 18
+# October 2026): the market revenue of year t is the last twelve months' times (1 - DEG) ** (t - 1); the contract's share is not cut
+DEG = 0.007
 
 
 def stata_round(v):
@@ -137,7 +140,9 @@ def numbers(rows):
     annuity = (1 - (1 + HURDLE) ** (-LIFE_YEARS)) / HURDLE
     ppa_annuity = (1 - (1 + HURDLE) ** (-PPA_YEARS)) / HURDLE
     out["contract_price"] = (1.25 * debt_kw + FOM_USD_KW_YEAR) / (out["l12_energy"] / 1000)
-    out["npv_million"] = (-CAPEX_USD_KW * (1 - DEBT_SHARE) + (out["l12_kw"] - FOM_USD_KW_YEAR - debt_kw) * annuity) * 1000 * MW / 1e6
+    # session 304: the sum of each year's flow to equity at the hurdle rate, the market revenue falling by DEG a year (as the site's finance.ts flows and npv)
+    npv_kw = -CAPEX_USD_KW * (1 - DEBT_SHARE) + sum((out["l12_kw"] * (1 - DEG) ** (t - 1) - FOM_USD_KW_YEAR - debt_kw) / (1 + HURDLE) ** t for t in range(1, LIFE_YEARS + 1))
+    out["npv_million"] = npv_kw * 1000 * MW / 1e6
     npv0 = -CAPEX_USD_KW * (1 - DEBT_SHARE) + (-FOM_USD_KW_YEAR - debt_kw) * ppa_annuity + (out["l12_kw"] - FOM_USD_KW_YEAR) * (annuity - ppa_annuity)
     out["breakeven_ppa"] = -npv0 / (out["l12_energy"] / 1000 * ppa_annuity)
     # trailing twelve months

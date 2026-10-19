@@ -258,7 +258,7 @@ class DoFileRules(unittest.TestCase):
                 loops += 1
         self.assertEqual(depth, 0)
         self.assertGreater(seen, 90)
-        self.assertEqual(loops, 2)                                       # so the rule for the inside of a loop is exercised
+        self.assertEqual(loops, 3)                                       # so the rule for the inside of a loop is exercised (session 304: the NPV's year loop is the third)
         self.assertFalse(lines[-1].strip() == "", "the file ends with two empty lines")
 
     def test_every_numeric_column_is_destrung_with_force_one_command_each(self):
