@@ -1,26 +1,42 @@
 * ERW, What a generator earns (/cost-of-power/seller): the headline numbers of the default case, rebuilt from erw_2026_generator_hourly.csv.
 
-* Expected values (session 304, 19 October 2026): what this file displays at the page's defaults, equal to the page value by value;
-* the Python mirror beside it printed these lines on 19 October 2026:
-*   revenue, last twelve months, USD per kW: 59.85
-*   long-run average of the last three full years, USD per kW a year: 102.24
-*   long-run average of every full year held, USD per kW a year: 130.80
-*   hours used for the capture price: 8736
-*   price received, weighted by generation, USD per MWh: 23.27
-*   flat average over the same hours, USD per MWh: 32.17
-*   capture rate, percent of the flat average: 72
-*   annual debt payments, USD: 7,078,769
-*   debt coverage, last twelve months, times: 0.67
-*   energy sold, last twelve months, MWh per MW: 2,580
-*   contract price at which coverage reaches 1.25 times, USD per MWh: 39.14
-*   NPV at the hurdle rate, USD million for 100 MW: -76.66
-*   breakeven PPA price, the whole of the energy for the PPA term, USD per MWh: 58.36
-*   months held: 99, 2018-07 to 2026-09
-*   worst month 1: 2024-02, USD for 100 MW: 139,298.97
-
 * The default case: ERCOT, solar, 100 MW, priced at the hub average (HB_HUBAVG) in real time. Method: docs/methods/cost_of_power.md.
 
 * This do-file has not been run: Stata is not installed on the machine that wrote it. erw_2026_generator_replication.py follows it step for step and prints the same lines.
+
+* Expected values (session 304, 19 October 2026): what this file displays at the page's defaults, equal to the page value by value;
+
+* the Python mirror beside it printed these lines on 19 October 2026:
+
+*   revenue, last twelve months, USD per kW: 59.85
+
+*   long-run average of the last three full years, USD per kW a year: 102.24
+
+*   long-run average of every full year held, USD per kW a year: 130.80
+
+*   hours used for the capture price: 8736
+
+*   price received, weighted by generation, USD per MWh: 23.27
+
+*   flat average over the same hours, USD per MWh: 32.17
+
+*   capture rate, percent of the flat average: 72
+
+*   annual debt payments, USD: 7,078,769
+
+*   debt coverage, last twelve months, times: 0.67
+
+*   energy sold, last twelve months, MWh per MW: 2,580
+
+*   contract price at which coverage reaches 1.25 times, USD per MWh: 39.14
+
+*   NPV at the hurdle rate, USD million for 100 MW: -76.66
+
+*   breakeven PPA price, the whole of the energy for the PPA term, USD per MWh: 58.36
+
+*   months held: 99, 2018-07 to 2026-09
+
+*   worst month 1: 2024-02, USD for 100 MW: 139,298.97
 
 * The file has 16 comment lines; the column names are on line 17 and the hours start on line 18.
 
@@ -204,8 +220,11 @@ scalar s_ppa_annuity = (1 - (1 + s_hurdle)^(-s_ppa_years)) / s_hurdle
 display "contract price at which coverage reaches 1.25 times, USD per MWh: " %9.2f (1.25 * s_debt_kw + s_fom_usd_kw_year) / (s_l12_energy / 1000)
 
 * Session 304: solar's degradation default is 0.7 percent a year since session 298 (NREL ATB 2025; the owner's ruling 7a of 18 October 2026): the market revenue of year t is the last twelve months' times (1 - s_deg)^(t - 1), summed at the hurdle rate (the site's finance.ts, flows and npv)
+
 scalar s_deg = 0.007
+
 scalar s_npv_kw = -s_capex_usd_kw * (1 - s_debt_share)
+
 forvalues t = 1/35 {
     scalar s_npv_kw = s_npv_kw + (s_l12_usd_per_mw / 1000 * (1 - s_deg)^(`t' - 1) - s_fom_usd_kw_year - s_debt_kw) / (1 + s_hurdle)^`t'
 }
