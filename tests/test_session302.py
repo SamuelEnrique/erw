@@ -134,17 +134,22 @@ class TheFix(unittest.TestCase):
         self.assertIn("Session 302", g["_about"])
 
     def test_both_tool_sets_keep_a_hub_keyed_table_to_the_grids_rows_before_the_market_rule(self):
+        # session 314: the hand-kept set HUB_KEYED is gone; the rule's file (docs/grids/grid_tables.json, "by") names the
+        # tables kept by entity prefix, and both tool sets read it before any column rule (tests/test_session314.py)
         ts = src("site", "lib", "chat", "tools.ts")
-        self.assertIn("const HUB_KEYED = new Set(" + json.dumps(HUB_KEYED) + ");", ts)
-        prefix = ts.index("if (shape === \"series\" && HUB_KEYED.has(name)) return { entity: `like.${scope.slug}:*` };")
+        self.assertNotIn("HUB_KEYED", ts)
+        prefix = ts.index('if (by === "entity" && shape === "series") return { entity: `like.${scope.slug}:*` };')
         market = ts.index("if (shape === \"series\" && scope.market_prefix && columns.includes(\"market\")) return { market: `like.${scope.market_prefix}*` };")
         self.assertLess(prefix, market)
         py = src("warehouse", "chat", "tools.py")
-        self.assertIn("HUB_KEYED = {" + ", ".join(json.dumps(t) for t in HUB_KEYED) + "}", py)
-        p = py.index('if name in HUB_KEYED and "entity" in df.columns:')
+        self.assertNotIn("HUB_KEYED", py)
+        p = py.index('if by == "entity" and "entity" in df.columns:')
         m = py.index('if "market" in df.columns and g.get("market_prefix"):')
         self.assertLess(p, m)
         self.assertIn('return df[df["entity"].fillna("").str.startswith(g["slug"] + ":")]', py)
+        ruled = json.load(open(os.path.join(ROOT, "docs", "grids", "grid_tables.json"), encoding="utf-8"))["grids"]
+        for t in HUB_KEYED:
+            self.assertTrue(any(g["by"].get(t) == "entity" for g in ruled.values()), t)
 
     def test_no_em_dash_in_any_file_the_session_wrote(self):
         for f in FILES:

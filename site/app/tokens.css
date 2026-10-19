@@ -327,15 +327,17 @@ body:has(.brand-a) header :focus-visible {
 
 /* ---- charts (docs/brand.md, section 6) */
 /* on a phone the year chart keeps a width at which its labels can be read (about 9.5 px, where shrunk to the screen
-   they were under 6) and scrolls sideways inside its frame; its title and its note stay in place */
+   they were under 6) and scrolls sideways inside its frame; its title and its note stay in place. Session 314: a chart
+   drawn for its measured width (components/tool/SeriesChart.tsx, data-chart-width) keeps its text size at any width
+   and is left out: it fits the phone's width with no sideways scroll */
 @media (max-width: 639px) {
-  .brand-a figure:has(> svg[role="img"]) {
+  .brand-a figure:not([data-chart-width]):has(> svg[role="img"]) {
     overflow-x: auto;
   }
-  .brand-a figure > svg[role="img"] {
+  .brand-a figure:not([data-chart-width]) > svg[role="img"] {
     min-width: 600px;
   }
-  .brand-a figure:has(> svg[role="img"]) > :not(svg) {
+  .brand-a figure:not([data-chart-width]):has(> svg[role="img"]) > :not(svg) {
     position: sticky;
     left: 0;
   }

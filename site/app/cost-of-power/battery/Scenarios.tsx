@@ -37,8 +37,8 @@ import { SeriesChart } from "@/components/tool/SeriesChart";
 import { HeadlineNumber, HeadlineRow, Tip } from "@/components/tool/ToolPage";
 import { badMonth, coverage, inputsKey, last36, lastTwelve, monthName, sumOf, usdShort, type Inputs, type Month, type Year } from "@/lib/batterystack";
 import {
-  KEYS, MODEL, NO_RANGE, OPTIONS, SPECS, bound, cellTotals, clampWords, coverage as coverageOf, debtUsd, defaultsOf, differenceWords, differing, equityIn, flows, isOldParam, isScenarioParam, npvPerEquity, parseScenarios, paybackYear,
-  projection, rangesOf, resultOf, scenarioQuery, sensitivityIn, sensitivityKeys, stepState, stepsOffered, type Assumptions, type Ctx, type Key, type Mode, type Scenarios as Both, type StepCase, type StepState, type Steps,
+  KEYS, MODEL, OPTIONS, SPECS, bound, cellTotals, clampWords, coverage as coverageOf, debtUsd, defaultsOf, differenceWords, differing, equityIn, flows, isOldParam, isScenarioParam, npvPerEquity, parseScenarios, paybackYear,
+  noRangeOf, projection, rangesOf, resultOf, scenarioQuery, sensitivityIn, sensitivityKeys, stepState, stepsOffered, type Assumptions, type Ctx, type Key, type Mode, type Scenarios as Both, type StepCase, type StepState, type Steps,
 } from "@/lib/battery/finance";
 import { CHARTS, HEADS, isViewParam, viewQuery, type View as PageView } from "@/lib/battery/view";
 import { U, V } from "./nums";
@@ -383,7 +383,9 @@ export function BatterySensitivity({ x }: { x: Inputs }) {
   const measure = v.measure === "irr" ? "IRR" : "NPV";
   const drawn = new Set(chart.bars.map((b) => b.key));
   // the rows the chart would draw for this scenario (session 297: sensitivityKeys) that have no published range
-  const missing = sensitivityKeys(s[s.view]).filter((k) => !drawn.has(k) && NO_RANGE[k]);
+  // session 314: for 8 hours the capital cost and fixed O&M have no range either (the ATB's figure alone)
+  const noRange = noRangeOf(x.dur);
+  const missing = sensitivityKeys(s[s.view]).filter((k) => !drawn.has(k) && noRange[k]);
   return (
     <>
       <p className="mb-2 max-w-3xl text-sm" data-how-to-read="1" data-mode={v.mode} data-measure={v.measure}>
@@ -394,7 +396,7 @@ export function BatterySensitivity({ x }: { x: Inputs }) {
       <Sensitivity c={chart} view={s.view} />
       {v.mode === "range" && missing.length ? (
         <p className="mt-2 max-w-3xl text-xs text-muted" data-no-range={missing.join("+")}>
-          No published range, so no row: {missing.map((k) => `${SPECS[k].label.toLowerCase()} (${NO_RANGE[k]})`).join("; ")}.
+          No published range, so no row: {missing.map((k) => `${SPECS[k].label.toLowerCase()} (${noRange[k]})`).join("; ")}.
         </p>
       ) : null}
     </>

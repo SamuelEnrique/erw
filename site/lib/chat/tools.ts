@@ -22,12 +22,18 @@ import { addLocalTimes, zoneOfEntity } from "./plaintime";
 // value or values}}, as warehouse/chat/tools.py scope_rows) and may raise the rows one grouped result returns.
 // Session 148: a profile's scope may name an hourly table that has tables of days and months beside it (lib/chat/rollup.ts):
 // while every one of `tables` is in the live set, a query of `hourly` must give a start and span a few weeks at most.
-export type Scope = (GridConfig & { filters?: Record<string, Record<string, string | string[]>>; max_groups?: number; dated_groups?: boolean; rollup?: { hourly: string; tables: string[] } }) | null;
-export const scopeOf = (slug: string | null | undefined): Scope => (slug ? DOCS.grid_config.find((g) => g.slug === slug) ?? null : null);
-/** Session 302: the derived tables keyed by hub, whose rows a grid's scoped chat keeps by entity prefix (scopeFilter). */
-const HUB_KEYED = new Set(["cost_of_power_monthly", "cost_of_power_hourly_profile", "merchant_revenue_monthly", "battery_stack_monthly", "battery_stack_stress_daily", "iso_curtailment_monthly"]);
-const BA_TABLES = new Set(["eia930_all_demand", "eia930_all_generation", "eia930_all_emissions", "eia930_all_storage", "eia930_all_interchange",
-  "carbon_intensity_hourly", "carbon_intensity_daily", "carbon_intensity_monthly", "storage_daily_cycle"]);
+// Session 314 (the owner's ruling of 19 October 2026 on session 302's open item): a grid's tables are not the hand-kept
+// list of grids.json but the rule's, docs/grids/grid_tables.json (warehouse/chat/grid_tables.py: the grid's own tables
+// by name, and the public live tables that hold a row of the grid's balancing authority, of its entity prefix, of its
+// market prefix, of its queue, or of its ISO), written by the data machine after its live-set load; `by` names the rule
+// that admitted each table, which is how scopeFilter keeps its rows. grids.json's list is documentation.
+export type Scope = (GridConfig & { by?: Record<string, string>; filters?: Record<string, Record<string, string | string[]>>; max_groups?: number; dated_groups?: boolean; rollup?: { hourly: string; tables: string[] } }) | null;
+export const scopeOf = (slug: string | null | undefined): Scope => {
+  const g = slug ? DOCS.grid_config.find((x) => x.slug === slug) ?? null : null;
+  if (!g) return null;
+  const ruled = DOCS.grid_tables?.grids?.[g.slug];
+  return ruled ? { ...g, tables: [...ruled.tables], by: { ...ruled.by } } : g;
+};
 
 /** The PostgREST filters that keep a table's rows of the scoped grid. */
 function scopeFilter(scope: Scope, name: string, shape: Shape, columns: string[]): Record<string, string> {
@@ -42,13 +48,20 @@ function scopeFilter(scope: Scope, name: string, shape: Shape, columns: string[]
     }
     return out;
   }
-  if (shape === "series" && BA_TABLES.has(name)) return { ba: `eq.${scope.ba}` };
+  // session 314: the rule that admitted the table (docs/grids/grid_tables.json) says how its rows are kept: a table of
+  // the grid's own by name is read whole; by ba, entity (session 302's prefix rule: ercot:HB_HUBAVG), market, queue or iso
+  // its rows are filtered as the rule says
+  const by = scope.by?.[name];
+  if (by === "name") return {};
+  if (by === "ba" && shape === "series") return { ba: `eq.${scope.ba}` };
+  if (by === "entity" && shape === "series") return { entity: `like.${scope.slug}:*` };
+  if (by === "market" && shape === "series" && scope.market_prefix) return { market: `like.${scope.market_prefix}*` };
+  if (by === "queue") return { entity_id: `like.${(scope.queue_table ?? "none").replace(/_interconnection_queue$/, "_queue")}:*` };
+  if (by === "iso") return { "extra->>iso": `eq.${scope.iso}` };
+  // a table the file does not name (a profile's own, lib/chat/ercot.ts, with no filter of its own): by its columns
+  if (shape === "series" && columns.includes("ba")) return { ba: `eq.${scope.ba}` };
   if (name === "storage_capacity") return { "extra->>iso": `eq.${scope.iso}` };
   if (name === "energy_projects") return { entity_id: `like.${(scope.queue_table ?? "none").replace(/_interconnection_queue$/, "_queue")}:*` };
-  // session 302: a derived table keyed by hub (cost_of_power_monthly, merchant_revenue_monthly, ...) carries a grid's rows
-  // under its entity prefix (ercot:HB_HUBAVG, caiso:TH_SP15_GEN-APND, spp:SPP), and its market column is empty: the
-  // scoped chat reads those rows alone, by the prefix, before the market rule below would read none
-  if (shape === "series" && HUB_KEYED.has(name)) return { entity: `like.${scope.slug}:*` };
   if (shape === "series" && scope.market_prefix && columns.includes("market")) return { market: `like.${scope.market_prefix}*` };
   return {};
 }

@@ -91,6 +91,7 @@
 | IRR search | -99 to 1,000 percent a year; outside it "none" | ERW's choice | none |
 | Steps of efficiency and cycles | the model's own runs, nothing interpolated; withdrawn when a month of the table differs by more than half a cent per MW | `site/data/battery_scenario_steps.json` | none |
 | Sensitivity rows | ten at the defaults; the contract's two only when scenario A holds a contract | `sensitivity()`, session 211 | the ruling of 12 October (session 211) |
+| The sourced range at 8 hours, and the contract | 8 hours takes the ATB's figure alone, no range for its capital cost and fixed O&M (four rows where 2 and 4 hours draw six); the contract's share and price take no sourced range, the percent step moves them; the year chart alone is the default chart | `rangesOf`, `noRangeOf` in `site/lib/battery/finance.ts`, session 314 | the ruling of 19 October 2026 (session 296's three open items) |
 | The awards line (ERCOT) | January to July 2026, the months both tables hold whole | `site/data/battery_awards_beside.json` | none |
 | California's line beside its market monitor | 2025, 4 hours, day-ahead: the model's energy and regulation from the table; the real fleet's 35 and 9 typed from the report | `FLEET_BESIDE` in `site/lib/batterystack.ts`; CAISO DMM, 2025 Annual Report, section 1.3.3, Tables 1.7 and 1.8 | none |
 | Rounding | table four decimals; USD a whole dollar; USD per kW two decimals | the code | none |

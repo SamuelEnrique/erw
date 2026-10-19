@@ -17,9 +17,9 @@ import { ask } from "@/lib/chat/ask";
 import { cleanQuestion } from "@/lib/chat/plaintime";
 import { scopeOf } from "@/lib/chat/tools";
 import { cleanContext, cleanHistory, ercotProfile } from "@/lib/chat/ercot";
-import { admit, questionId, readLimits, readSalt } from "@/lib/chat/limits";
+import { EVAL_STEP, admit, admitEvaluation, questionId, readEvalCap, readEvalToken, readLimits, readSalt } from "@/lib/chat/limits";
 import { rpc } from "@/lib/supabase";
-import { limited, sameOrigin, scripted, typed } from "@/lib/guard";
+import { limited, sameOrigin, sameSecret, scripted, typed } from "@/lib/guard";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -77,8 +77,13 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: `a question is at most ${MAX_QUESTION} characters` }, { status: 400 });
   }
   const now = Date.now();
-  let gate = allow(clientIp(req), now);
-  if (gate.ok) {
+  // session 314: an evaluation (lib/chat/limits.ts, EVAL_STEP) is known by its header and the server's ASK_EVAL_TOKEN; it
+  // skips the hourly limit (its runner asks from one address) and the public ceilings, is admitted by its own day
+  // ceiling against its own step's spend, and every model call it makes is written under its step, strictly
+  const evalToken = readEvalToken();
+  const evaluation = evalToken !== null && sameSecret(req.headers.get("x-erw-ask-eval") ?? "", evalToken);
+  let gate = evaluation ? { ok: true, retryAfter: 0 } : allow(clientIp(req), now);
+  if (gate.ok && !evaluation) {
     const hour = await limited(req, "ask_hour", LIMIT, WINDOW_MS / 1000);   // session 177: the same limit, counted by the database
     if (!hour.ok) gate = { ok: false, retryAfter: hour.retryAfter };
   }
@@ -91,11 +96,14 @@ export async function POST(req: Request) {
   // session 128: the spending ceilings and the visitor's daily number, counted by the database. A refusal is logged
   // with its reason and nothing about the visitor or the question.
   const limits = readLimits();
-  const admitted = await admit(clientIp(req), now, limits, readSalt(), (a) => rpc("site_ask_admit", a as unknown as Record<string, string>, { privileged: true }));   // session 301: the write key
+  const admitted = evaluation
+    ? await admitEvaluation(now, readEvalCap(), () => rpc("internal_ask_spend", { p_token: process.env.INTERNAL_COSTS_TOKEN ?? "" }, { privileged: true }))
+    : await admit(clientIp(req), now, limits, readSalt(), (a) => rpc("site_ask_admit", a as unknown as Record<string, string>, { privileged: true }));   // session 301: the write key
   if (!admitted.ok) {
-    console.log(JSON.stringify({ erw_ask: { at: new Date(now).toISOString(), status: "refused", reason: admitted.reason, why: admitted.why } }));
-    return NextResponse.json({ error: admitted.message, refused: admitted.reason }, { status: admitted.status, headers: { "Cache-Control": "no-store" } });
+    console.log(JSON.stringify({ erw_ask: { at: new Date(now).toISOString(), status: "refused", reason: admitted.reason, why: admitted.why, ...(evaluation ? { step: EVAL_STEP } : {}) } }));
+    return NextResponse.json({ error: evaluation ? `${admitted.message} (${admitted.why})` : admitted.message, refused: admitted.reason }, { status: admitted.status, headers: { "Cache-Control": "no-store" } });
   }
+  const ledgerOpts = evaluation ? { step: EVAL_STEP, strictLedger: true } : {};
   const qid = questionId();
   // session 168: a question pasted with a quote mark at its end (or a pair around it) is asked, logged and shown without it
   const asked = cleanQuestion(question);
@@ -103,7 +111,7 @@ export async function POST(req: Request) {
   const timing = { startedAt: now, before: [{ stage: "other" as const, what: "admit", ms: Date.now() - now }] };
   // session 121: the per-question line of the log also holds what the question cost and how long it took
   const logged = (r: Record<string, unknown>) => console.log(JSON.stringify({ erw_ask: { at: new Date(now).toISOString(), grid: grid || (profile === "ercot" ? "ercot (reference)" : null), question: asked,
-    status: r.status ?? "answered", question_id: qid, cost_usd: r.cost_usd ?? null, seconds: r.seconds ?? null, seconds_first: r.seconds_first ?? null, tool_calls: r.tool_calls ?? null, turns_before: cleanHistory(history).length,
+    status: r.status ?? "answered", question_id: qid, ...(evaluation ? { step: EVAL_STEP } : {}), cost_usd: r.cost_usd ?? null, seconds: r.seconds ?? null, seconds_first: r.seconds_first ?? null, tool_calls: r.tool_calls ?? null, turns_before: cleanHistory(history).length,
     seconds_words: r.seconds_words ?? null, stages_ms: r.stages_ms ?? null } }));
   // session 121, Ask ERCOT only: {stream: true} answers as lines of JSON, one per thing a reader can be shown: first
   // {"type":"reading","table":...} as each query starts, then {"type":"result",...} (the same object the plain answer
@@ -119,7 +127,7 @@ export async function POST(req: Request) {
         const send = (o: unknown) => ctrl.enqueue(enc.encode(JSON.stringify(o) + "\n"));
         send({ type: "started" });
         try {
-          const r = await ask(asked, undefined, null, ercotProfile(), cleanContext(context), { history: cleanHistory(history), onEvent: send, questionId: qid, ...timing });
+          const r = await ask(asked, undefined, null, ercotProfile(), cleanContext(context), { history: cleanHistory(history), onEvent: send, questionId: qid, ...timing, ...ledgerOpts });
           logged(r);
           send({ type: "result", ...r });
         } catch (e) {
@@ -134,11 +142,11 @@ export async function POST(req: Request) {
   }
   try {
     const r = profile === "ercot"
-      ? await ask(asked, undefined, null, ercotProfile(), cleanContext(context), { history: cleanHistory(history), questionId: qid, ...timing })
-      : await ask(question.trim(), undefined, typeof grid === "string" && grid ? grid : null, null, null, { questionId: qid });
+      ? await ask(asked, undefined, null, ercotProfile(), cleanContext(context), { history: cleanHistory(history), questionId: qid, ...timing, ...ledgerOpts })
+      : await ask(question.trim(), undefined, typeof grid === "string" && grid ? grid : null, null, null, { questionId: qid, ...ledgerOpts });
     // session 21 (/terms): each question is logged without identity: the time, the question and the
     // outcome, never the IP address (which lives only in memory, for the hourly limit) or any other identifier
-    console.log(JSON.stringify({ erw_ask: { at: new Date(now).toISOString(), grid: grid || (profile === "ercot" ? "ercot (reference)" : null), question: question.trim(), status: (r as { status?: string }).status ?? "answered", question_id: qid, cost_usd: (r as { cost_usd?: number | null }).cost_usd ?? null } }));
+    console.log(JSON.stringify({ erw_ask: { at: new Date(now).toISOString(), grid: grid || (profile === "ercot" ? "ercot (reference)" : null), question: question.trim(), status: (r as { status?: string }).status ?? "answered", question_id: qid, ...(evaluation ? { step: EVAL_STEP } : {}), cost_usd: (r as { cost_usd?: number | null }).cost_usd ?? null } }));
     return NextResponse.json(r);
   } catch (e) {
     console.log(JSON.stringify({ erw_ask: { at: new Date(now).toISOString(), question: question.trim(), status: "error" } }));

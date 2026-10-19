@@ -22,8 +22,9 @@ export function callUsd(model: string, u: Anthropic.Usage): number | null {
   return (u.input_tokens * p.input + u.output_tokens * p.output + read * p.cache_read + write * p.cache_write_5m) / 1e6;
 }
 
-/** One /ask call, into site_api_calls. A failed write is logged and never fails the answer. */
-export async function recordCall(model: string, resp: Anthropic.Message, requestId?: string | null, step = "site_ask", questionId?: string): Promise<void> {
+/** One /ask call, into site_api_calls. A failed write is logged and never fails the answer, except a strict one
+ * (session 314: an evaluation's step, site_ask_eval, whose spend must never go unrecorded): that one throws. */
+export async function recordCall(model: string, resp: Anthropic.Message, requestId?: string | null, step = "site_ask", questionId?: string, strict = false): Promise<void> {
   const u = resp.usage;
   const cost = callUsd(model, u);
   try {
@@ -41,5 +42,6 @@ export async function recordCall(model: string, resp: Anthropic.Message, request
     });
   } catch (e) {
     console.error(`[erw] cost ledger: ${(e as Error).message}`);
+    if (strict) throw new Error(`the cost ledger refused the ${step} row (is migration 035 applied?): ${(e as Error).message}`.slice(0, 300));
   }
 }

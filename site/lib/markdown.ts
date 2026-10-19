@@ -34,6 +34,8 @@ export type Docs = {
   // session 35: the grid pages' config (docs/grids/grids.json) and written layer (docs/grids/<slug>.md)
   grid_config: GridConfig[];
   grids: Record<string, string>;
+  // session 314: the tables each grid's scoped chat reads, by rule (docs/grids/grid_tables.json, warehouse/chat/grid_tables.py)
+  grid_tables?: { read_at: string; grids: Record<string, { tables: string[]; by: Record<string, string>; not_in_grids_json: string[]; grids_json_not_found: string[] }> };
 };
 export type GridConfig = {
   slug: string; iso: string; name: string; ba: string; entity: string; tz: string; tz_label: string;

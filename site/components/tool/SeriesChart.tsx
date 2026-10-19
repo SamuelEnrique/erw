@@ -7,7 +7,19 @@
 // value is above zero: otherwise the chart says so and draws linear); adjusted, the battery page's own rule, where one
 // period far above the others is drawn to the top of the scale with a break mark and its value written, so the rest
 // stay readable. Plain SVG; no chart library. No number is computed here: the page hands it the values.
-import { useState, type ReactNode } from "react";
+//
+// Session 314 (the fault on the income chart of /cost-of-power/battery): the chart is drawn for the width it has,
+// measured, and drawn again when that changes (as components/TimeChart.tsx since session 303), so its text keeps its
+// size on a phone; the axis step is chosen by magnitude (1, 2, 2.5 or 5 times a power of ten, five steps at most) where
+// a fixed list of steps ended at 20,000 and an axis in tens of millions of dollars drew thousands of ticks over the
+// first column; a category's label is wrapped by words to its column, the labels are thinned to every k-th column when
+// a line is wider than a column, a sub-label and the figure above a bar are written only where they fit the column (the
+// hover and the table hold them whatever the width), and the series' names at the top right are spaced by their own
+// length; a figure above a bar may run a quarter into each neighbour's column (the bars differ in height, so the
+// figures seldom meet) and is left to the hover and the table beyond that. The figure carries data-chart-width, which
+// app/tokens.css reads to leave the phone's sideways scroll (a 600 px floor for a chart that shrank with its viewBox)
+// to the charts that are not measured. Nothing the page hands the chart changed.
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 export type Scale = "linear" | "log" | "adjusted";
 export const SCALES: { key: Scale; label: string; words: string }[] = [
@@ -32,12 +44,41 @@ type Props = {
   tableFirst?: boolean;
 };
 
-const W = 760, H = 300, L = 60, R = 12, TOP = 28, BOT = 44;
-const nice = (span: number) => [0.1, 0.2, 0.25, 0.5, 1, 2, 5, 10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000, 2500, 5000, 10000].find((s) => span / s <= 5) ?? 20000;
+const PLOT = 228, L = 60, R = 12, TOP = 34, LINE = 12;
+/** The axis step: 1, 2, 2.5 or 5 times a power of ten, the smallest that draws at most five steps over the span. */
+export const nice = (span: number): number => {
+  if (!(span > 0)) return 1;
+  const p = 10 ** Math.floor(Math.log10(span / 5));
+  for (const m of [1, 2, 2.5, 5, 10]) if (span / (m * p) <= 5) return m * p;
+  return 10 * p;
+};
 const plain = (v: number) => Math.round(v).toLocaleString("en-US");
+/** The width of a text in the axis face, estimated (the chart is laid out before it is drawn). */
+const textWidth = (s: string, size = 11) => s.length * size * 0.56;
+/** A label wrapped by words to a width: each line as wide as fits; a word wider than the width stands alone. */
+export function wrapLabel(label: string, width: number, size = 11): string[] {
+  const lines: string[] = [];
+  let line = "";
+  for (const word of label.split(/\s+/).filter(Boolean)) {
+    const next = line ? `${line} ${word}` : word;
+    if (line && textWidth(next, size) > width) { lines.push(line); line = word; } else line = next;
+  }
+  if (line) lines.push(line);
+  return lines.length ? lines : [label];
+}
 
 export function SeriesChart({ id, title, unit, categories, series, kind, scale, fmt = plain, note, tip, says, partialWords = "Incomplete period", tableFirst = false }: Props) {
   const [table, setTable] = useState(tableFirst);
+  const wrap = useRef<HTMLElement>(null);
+  const [width, setWidth] = useState(760);
+  useEffect(() => {
+    const el = wrap.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const ro = new ResizeObserver((es) => { const w = Math.round(es[0].contentRect.width); if (w > 0) setWidth(w); });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  const W = Math.max(280, width);
   const n = categories.length;
   // the figure of a category: the sum of its series (stacked), or each series' own value (lines)
   const totals = categories.map((_, i) => series.reduce((a, s) => a + (s.values[i] ?? 0), 0));
@@ -52,8 +93,8 @@ export function SeriesChart({ id, title, unit, categories, series, kind, scale, 
   const hi = useLog ? Math.max(...all) : (hiRaw * 1.15 || 1);
   const ly = (v: number) => Math.log10(v);
   const y = (v: number) => {
-    if (useLog) { const a = ly(Math.max(v, lo)); return TOP + ((ly(hi) - a) / (ly(hi) - ly(lo) || 1)) * (H - TOP - BOT); }
-    return TOP + ((hi - v) / (hi - lo || 1)) * (H - TOP - BOT);
+    if (useLog) { const a = ly(Math.max(v, lo)); return TOP + ((ly(hi) - a) / (ly(hi) - ly(lo) || 1)) * PLOT; }
+    return TOP + ((hi - v) / (hi - lo || 1)) * PLOT;
   };
   const ticks: number[] = [];
   if (useLog) { for (let p = Math.floor(ly(lo)); p <= Math.ceil(ly(hi)); p++) ticks.push(10 ** p); }
@@ -61,15 +102,27 @@ export function SeriesChart({ id, title, unit, categories, series, kind, scale, 
   const bw = (W - L - R) / Math.max(1, n);
   const cx = (i: number) => L + i * bw + bw / 2;
   const capped = (v: number) => Math.min(v, useLog ? hi : hi);
-  // the series' names at the top right, each in its own color, and the hatched note before them (the unit sits at the top left)
-  const names = (
-    <g data-direct-labels="1">
-      {series.map((s, k) => (
-        <text key={s.name} x={W - R - (series.length - 1 - k) * 150} y={14} textAnchor="end" fontSize="12" fill={s.color}>{s.name}</text>
-      ))}
-      {categories.some((c) => c.partial) ? <text x={W - R - series.length * 150 - 10} y={14} textAnchor="end" fontSize="12" fill="var(--color-muted)">{partialWords}: hatched</text> : null}
-    </g>
-  );
+  // the labels under the columns: wrapped by words to the column; written on every k-th column when a line is wider
+  // than a column (a line chart with many categories writes about ten); a sub-label only where it fits
+  const lines = categories.map((c) => wrapLabel(c.label, bw - 4));
+  const widest = Math.max(1, ...lines.flat().map((s) => textWidth(s)));
+  const every = kind === "line" && n > 12 ? Math.ceil(n / 10) : Math.max(1, Math.ceil(widest / bw));
+  const labelled = (i: number) => i % every === 0 || (every > 1 && i === n - 1 && (n - 1) % every >= every / 2);
+  const subs = every === 1 && categories.some((c) => c.sub && textWidth(c.sub, 10) <= bw - 2);
+  const subOf = (c: ChartCategory) => (subs && c.sub && textWidth(c.sub, 10) <= bw - 2 ? c.sub : null);
+  const anyPartial = categories.some((c) => c.partial);
+  const depth = Math.max(1, ...lines.map((l) => l.length));
+  const BOT = 20 + depth * LINE + (subs ? LINE : 0) + (anyPartial ? LINE + 2 : 0);
+  const H = TOP + PLOT + BOT;
+  const baseY = TOP + PLOT;
+  // the series' names at the top right, each in its own color, spaced by their own length (the unit sits at the top left)
+  const names: ReactNode[] = [];
+  let right = W - R;
+  for (let k = series.length - 1; k >= 0; k--) {
+    const s = series[k];
+    names.unshift(<text key={s.name} x={right} y={14} textAnchor="end" fontSize="12" fill={s.color}>{s.name}</text>);
+    right -= textWidth(s.name, 12) + 16;
+  }
   const toggle = (
     <span className="inline-grid grid-cols-2 border border-muted text-xs" role="group" aria-label={`${title}: chart or table`} data-chart-table={id}>
       {([["chart", "Chart"], ["table", "Table"]] as const).map(([k, label], i) => (
@@ -79,7 +132,7 @@ export function SeriesChart({ id, title, unit, categories, series, kind, scale, 
     </span>
   );
   return (
-    <figure className="mb-10 min-w-0" data-series-chart={id} data-scale={useLog ? "log" : broken ? "adjusted" : "linear"}>
+    <figure ref={wrap} className="mb-10 min-w-0" data-series-chart={id} data-scale={useLog ? "log" : broken ? "adjusted" : "linear"} data-chart-width={W}>
       <figcaption className="mb-2 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-rule pb-1">
         <span className="font-serif text-xl text-accent">{title}{tip}</span>
         {toggle}
@@ -101,7 +154,7 @@ export function SeriesChart({ id, title, unit, categories, series, kind, scale, 
           </table>
         </div>
       ) : (
-        <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label={`${title}, ${unit}${kind === "stacked" ? ", stacked" : ""}: ${series.map((s) => s.name).join(", ")}`}>
+        <svg viewBox={`0 0 ${W} ${H}`} width={W} height={H} className="block max-w-full" role="img" aria-label={`${title}, ${unit}${kind === "stacked" ? ", stacked" : ""}: ${series.map((s) => s.name).join(", ")}`}>
           <defs>
             {series.map((s, k) => (
               <pattern key={k} id={`${id}-hatch-${k}`} width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="5" height="5" fill="var(--color-surface)" /><rect width="2.2" height="5" fill={s.color} /></pattern>
@@ -114,7 +167,8 @@ export function SeriesChart({ id, title, unit, categories, series, kind, scale, 
             </g>
           ))}
           <text x={2} y={14} fontSize="11" fill="var(--color-muted)">{unit}</text>
-          {names}
+          <g data-direct-labels="1">{names}</g>
+          {anyPartial ? <text x={L} y={H - 6} fontSize="11" fill="var(--color-muted)">{partialWords}: hatched</text> : null}
           {kind === "stacked" ? categories.map((c, i) => {
             const x0 = L + i * bw + bw * 0.18, w = bw * 0.64;
             const over = broken && totals[i] > hi;
@@ -125,6 +179,8 @@ export function SeriesChart({ id, title, unit, categories, series, kind, scale, 
               if (v >= 0) { segs.push({ v0: up, v1: up + v, k }); up += v; }
               else { segs.push({ v0: down + v, v1: down, k }); down += v; }
             });
+            const figure = fmt(totals[i]);
+            const sub = subOf(c);
             return (
               <g key={c.label}>
                 {segs.map((sg) => {
@@ -135,10 +191,10 @@ export function SeriesChart({ id, title, unit, categories, series, kind, scale, 
                   return <rect key={sg.k} x={x0} width={w} y={top} height={Math.max(0.5, bottom - top)} fill={c.partial ? `url(#${id}-hatch-${sg.k})` : series[sg.k].color} stroke={c.partial ? series[sg.k].color : "none"} strokeWidth={c.partial ? 0.75 : 0} />;
                 })}
                 {over ? <path d={`M${x0 - 3},${TOP + 14} l${w / 4 + 1.5},-5 l${w / 4},5 l${w / 4},-5 l${w / 4 + 1.5},5`} fill="none" stroke="var(--color-surface)" strokeWidth="3" /> : null}
-                <text x={cx(i)} y={(over ? TOP : y(capped(Math.max(up, useLog ? lo : 0)))) - 6} textAnchor="middle" fontSize="11" fill="var(--color-ink)">{fmt(totals[i])}</text>
-                <text x={cx(i)} y={H - BOT + 16} textAnchor="middle" fontSize="11" fill="var(--color-ink)">{c.label}</text>
-                {c.sub ? <text x={cx(i)} y={H - BOT + 30} textAnchor="middle" fontSize="10" fill="var(--color-muted)">{c.sub}</text> : null}
-                <title>{says ? says(i) : `${c.label}: ${series.map((s) => `${s.name} ${s.values[i] === null ? "not held" : fmt(s.values[i]!)}`).join(", ")} ${unit}`}</title>
+                {textWidth(figure) <= bw * 1.5 ? <text x={cx(i)} y={(over ? TOP : y(capped(Math.max(up, useLog ? lo : 0)))) - 6} textAnchor="middle" fontSize="11" fill="var(--color-ink)">{figure}</text> : null}
+                {labelled(i) ? lines[i].map((s, j) => <text key={j} x={cx(i)} y={baseY + 16 + j * LINE} textAnchor="middle" fontSize="11" fill="var(--color-ink)">{s}</text>) : null}
+                {sub ? <text x={cx(i)} y={baseY + 16 + depth * LINE} textAnchor="middle" fontSize="10" fill="var(--color-muted)">{sub}</text> : null}
+                <title>{says ? says(i) : `${c.label}${c.sub ? ` (${c.sub})` : ""}: ${series.map((s) => `${s.name} ${s.values[i] === null ? "not held" : fmt(s.values[i]!)}`).join(", ")} ${unit}`}</title>
               </g>
             );
           }) : (
@@ -155,7 +211,7 @@ export function SeriesChart({ id, title, unit, categories, series, kind, scale, 
                   </g>
                 );
               })}
-              {categories.map((c, i) => (n <= 12 || i % Math.ceil(n / 10) === 0 || i === n - 1 ? <text key={c.label} x={cx(i)} y={H - BOT + 16} textAnchor="middle" fontSize="11" fill="var(--color-ink)">{c.label}</text> : null))}
+              {categories.map((c, i) => (labelled(i) ? lines[i].map((s, j) => <text key={`${c.label}-${j}`} x={cx(i)} y={baseY + 16 + j * LINE} textAnchor="middle" fontSize="11" fill="var(--color-ink)">{s}</text>) : null))}
             </>
           )}
         </svg>

@@ -487,7 +487,8 @@ class TheSite(unittest.TestCase):
 
     def test_the_general_chat_and_the_grid_chats_take_the_route_they_took(self):
         route = src("site", "app", "api", "ask", "route.ts")
-        self.assertIn('await ask(question.trim(), undefined, typeof grid === "string" && grid ? grid : null, null, null, { questionId: qid })', route)   # session 128: the same call, with the question's number for the ledger
+        # session 128: the same call, with the question's number for the ledger; session 314: and the evaluation's ledger step when the request is one
+        self.assertIn('await ask(question.trim(), undefined, typeof grid === "string" && grid ? grid : null, null, null, { questionId: qid, ...ledgerOpts })', route)
         self.assertIn('profile === "ercot"', route)
         loop = src("site", "lib", "chat", "ask.ts")
         self.assertIn("profile ? profile.system : spec.system", loop)

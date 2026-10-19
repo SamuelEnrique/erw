@@ -85,6 +85,39 @@ export async function admit(ip: string, now: number, limits: Limits | null, salt
   return refuse("closed", `site_ask_admit: ${reason ?? "no answer"}`, limits);
 }
 
+// Session 314 (the owner's ruling of 19 October 2026 on session 302's open item): an evaluation of the tools (thirty
+// questions through the real route, as sessions 302 and 320 run them) spends through a ledger step of its own,
+// site_ask_eval, under a day ceiling of its own, ASK_EVAL_DAILY_USD, never the public day ceiling above. A request is an
+// evaluation's when its header x-erw-ask-eval carries ASK_EVAL_TOKEN, a secret set only on the server that runs the
+// evaluation (a local site; never on Vercel), compared in constant time. Its spend is read from the ledger by step
+// (internal_ask_spend, which groups by day and step); the public ceilings' sums leave the step out (migration 035).
+export const EVAL_STEP = "site_ask_eval";
+/** The evaluation's secret, or null when it is not set or is too short to be one (then no request is an evaluation). */
+export function readEvalToken(env: Record<string, string | undefined> = process.env): string | null {
+  const s = (env.ASK_EVAL_TOKEN ?? "").trim();
+  return s.length >= 24 ? s : null;
+}
+/** The evaluation's day ceiling in USD, or null when it is not set or is not a number (then the evaluation is closed). */
+export function readEvalCap(env: Record<string, string | undefined> = process.env): number | null {
+  return env.ASK_EVAL_DAILY_USD !== undefined && env.ASK_EVAL_DAILY_USD !== "" ? num(env.ASK_EVAL_DAILY_USD) : null;
+}
+export type SpendRows = { days?: { day: string; step: string; usd: number | string | null }[] };
+/** May an evaluation's question go to a model? Its own step's spend today, read by the injected call, against its own
+ * ceiling; any failure, and a missing ceiling, is a no. */
+export async function admitEvaluation(now: number, cap: number | null, spend: () => Promise<SpendRows>): Promise<Admitted> {
+  if (cap === null) return refuse("closed", "ASK_EVAL_DAILY_USD is not set, or is not a number of dollars", null);
+  let r: SpendRows;
+  try {
+    r = await spend();
+  } catch (e) {
+    return refuse("closed", `the ledger did not answer: ${(e as Error).message}`.slice(0, 200), null);
+  }
+  const day = utcDay(now);
+  const spent = (r?.days ?? []).filter((d) => d.day === day && d.step === EVAL_STEP).reduce((a, d) => a + (Number(d.usd ?? 0) || 0), 0);
+  if (spent >= cap) return refuse("day", `${EVAL_STEP}: USD ${spent.toFixed(4)} spent today of the evaluation's ceiling of USD ${cap}`, null);
+  return { ok: true };
+}
+
 /** A question's identifier in the ledger: 32 hexadecimal characters drawn at random, made from nothing about the visitor. */
 export function questionId(): string {
   return crypto.randomUUID().replace(/-/g, "");

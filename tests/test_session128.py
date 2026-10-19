@@ -132,14 +132,16 @@ class TheRouteTheLedgerAndTheDatabase(unittest.TestCase):
         self.assertLess(gate, first)
         self.assertLess(r.index("if (!admitted.ok)"), first)
         refusal = r[r.index("if (!admitted.ok)"): r.index("const qid = questionId()")]
-        self.assertIn("return NextResponse.json({ error: admitted.message", refusal)
+        # session 314: an evaluation's refusal carries its why (its own ceiling); a visitor's the message alone
+        self.assertIn("return NextResponse.json({ error: evaluation ? `${admitted.message} (${admitted.why})` : admitted.message", refusal)
         self.assertNotIn("clientIp", refusal)
         self.assertNotIn("question:", refusal)                       # a refusal's log line holds its reason, not the question
         self.assertEqual(r.count("questionId: qid"), 3)               # the stream, Ask ERCOT and the general chat
         self.assertNotIn("x-forwarded-for", src("site", "lib", "chat", "limits.ts"))
 
     def test_every_model_call_carries_the_questions_number_into_the_ledger(self):
-        self.assertIn('recordCall(model, resp, raw.request_id, profile ? "site_ask_ercot" : "site_ask", opts.questionId)', src("site", "lib", "chat", "ask.ts"))
+        # session 314: the step may be an evaluation's own (opts.step), written strictly; the question's number as before
+        self.assertIn('recordCall(model, resp, raw.request_id, opts.step ?? (profile ? "site_ask_ercot" : "site_ask"), opts.questionId, opts.strictLedger === true)', src("site", "lib", "chat", "ask.ts"))
         self.assertIn("question_id: questionId", src("site", "lib", "chat", "ledger.ts"))
 
     def test_the_migration(self):

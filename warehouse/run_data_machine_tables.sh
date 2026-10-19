@@ -209,6 +209,8 @@ fi
 echo "== the live set, for the tables only this machine builds"
 soft_step dm_live_set "$PYTHON" warehouse/supabase/load.py --no-vacuum --only "$LIVE_ONLY"
 grep -E "^(match|MISMATCH|refused)|pg_database_size:" runs/daily_dm_live_set.out
+# session 314: the tables each grid's scoped chat reads, by rule from the live set just loaded (docs/grids/grid_tables.json)
+soft_step dm_grid_tables "$PYTHON" warehouse/chat/grid_tables.py
 if [ "$weekly" = "1" ]; then
   echo "== the live set, once a week: every table this machine writes that a live-set rule names (session 271)"
   soft_step dm_live_set_weekly "$PYTHON" warehouse/supabase/load.py --no-vacuum --only "$WEEKLY_LIVE"

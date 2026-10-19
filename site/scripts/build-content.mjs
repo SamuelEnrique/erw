@@ -194,9 +194,12 @@ const gridConfig = JSON.parse(read(path.join(docs, "grids", "grids.json")));
 const grids = {};
 for (const g of gridConfig.grids) grids[g.slug] = read(path.join(docs, "grids", `${g.slug}.md`));
 
+// session 314: the tables each grid's scoped chat reads, by rule (warehouse/chat/grid_tables.py writes the file)
+const gridTables = JSON.parse(read(path.join(docs, "grids", "grid_tables.json")));
 const out = {
   built_at: new Date().toISOString(),
   grid_config: gridConfig.grids,
+  grid_tables: { read_at: gridTables.read_at, grids: gridTables.grids },
   grids,
   platform,
   analysis,
