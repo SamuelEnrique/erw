@@ -1,6 +1,6 @@
 {
  "from": "2026-10-21",
- "written": "2026-10-14",
+ "written": "2026-10-19",
  "what": "Tables flagged public whose publisher's own page asks for permission or a license (docs/licenses.md). From 2026-10-21 a table with status 'license needed' shows 'license needed' on the site unless a permission is recorded (warehouse/metadata/license_status.csv).",
  "tables": {
   "ai_power_regions": {
@@ -140,16 +140,24 @@
    "status": "license needed",
    "from": "2026-10-21",
    "publishers": [
+    "ANS Nuclear Newswire",
     "Bloomberg",
+    "Canary Media",
     "Data Center Dynamics",
     "Data Center Frontier",
     "Financial Times",
     "Hart Energy",
+    "JPT",
+    "LNG Prime",
     "Latitude Media",
     "Natural Gas Intelligence",
+    "OilPrice.com",
     "POWER Magazine",
     "Reuters",
-    "WSJ"
+    "Rigzone",
+    "Utility Dive",
+    "WSJ",
+    "pv magazine USA"
    ]
   },
   "energy_projects": {
@@ -169,6 +177,15 @@
    ]
   },
   "event_window_daily": {
+   "status": "license needed",
+   "from": "2026-10-21",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ]
+  },
+  "grid_stress_days": {
    "status": "license needed",
    "from": "2026-10-21",
    "publishers": [
@@ -281,21 +298,31 @@
    "status": "license needed",
    "from": "2026-10-21",
    "publishers": [
+    "ANS Nuclear Newswire",
     "Bloomberg",
+    "Canary Media",
+    "CivicPlus",
     "Data Center Dynamics",
     "Data Center Frontier",
     "Data Center Knowledge",
     "Financial Times",
     "Hart Energy",
     "Heatmap News",
+    "Hydrogen Insight",
     "ISO-NE",
+    "JPT",
+    "LNG Prime",
     "Latitude Media",
     "MISO",
     "NYISO",
     "Natural Gas Intelligence",
+    "OilPrice.com",
     "POWER Magazine",
     "Reuters",
-    "WSJ"
+    "Rigzone",
+    "Utility Dive",
+    "WSJ",
+    "pv magazine USA"
    ]
   },
   "nyiso_as_prices": {
@@ -401,6 +428,10 @@
     "/grid"
    ]
   },
+  "battery_sourced_ranges": {
+   "status": "public",
+   "pages": []
+  },
   "battery_stack_monthly": {
    "status": "public",
    "pages": [
@@ -445,6 +476,7 @@
   "caiso_battery_storage": {
    "status": "public",
    "pages": [
+    "/",
     "/curtailment",
     "/grid",
     "/shoulder",
@@ -454,6 +486,7 @@
   "caiso_curtailment_daily": {
    "status": "public",
    "pages": [
+    "/",
     "/curtailment",
     "/shoulder"
    ]
@@ -461,6 +494,7 @@
   "caiso_curtailment_intervals": {
    "status": "public",
    "pages": [
+    "/",
     "/curtailment"
    ]
   },
@@ -481,6 +515,7 @@
   "caiso_fuel_supply": {
    "status": "public",
    "pages": [
+    "/",
     "/curtailment",
     "/shoulder"
    ]
@@ -488,6 +523,7 @@
   "caiso_fuel_supply_history": {
    "status": "public",
    "pages": [
+    "/",
     "/curtailment"
    ]
   },
@@ -519,7 +555,7 @@
    "status": "public",
    "pages": [
     "/grid",
-    "/learn/problems/know-your-grid"
+    "/learn/problems"
    ]
   },
   "carbon_intensity_hourly": {
@@ -527,10 +563,7 @@
    "pages": [
     "/cost-of-power",
     "/grid",
-    "/learn/problems/know-your-grid",
-    "/learn/problems/networks-and-money",
-    "/learn/problems/prices-and-your-bill",
-    "/learn/problems/when-the-grid-broke"
+    "/learn/problems"
    ]
   },
   "carbon_intensity_monthly": {
@@ -598,7 +631,7 @@
    ],
    "pages": [
     "/cost-of-power",
-    "/learn/problems/prices-and-your-bill"
+    "/learn/problems"
    ]
   },
   "cost_of_power_monthly": {
@@ -610,10 +643,9 @@
     "NYISO"
    ],
    "pages": [
-    "/",
     "/cost-of-power",
     "/learn/bill",
-    "/learn/problems/prices-and-your-bill"
+    "/learn/problems"
    ]
   },
   "datacenter_facilities": {
@@ -646,7 +678,6 @@
     "WSJ"
    ],
    "pages": [
-    "/",
     "/datacenters",
     "/grid",
     "/map"
@@ -705,6 +736,7 @@
   "eia860m_operating_generators": {
    "status": "public",
    "pages": [
+    "/",
     "/cost-of-power/seller",
     "/map"
    ]
@@ -723,17 +755,16 @@
   },
   "eia860m_retired_generators_all": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/"
+   ]
   },
   "eia930_all_demand": {
    "status": "public",
    "pages": [
     "/",
     "/grid",
-    "/learn/problems/know-your-grid",
-    "/learn/problems/networks-and-money",
-    "/learn/problems/prices-and-your-bill",
-    "/learn/problems/when-the-grid-broke"
+    "/learn/problems"
    ]
   },
   "eia930_all_emissions": {
@@ -747,7 +778,7 @@
    "pages": [
     "/curtailment",
     "/grid",
-    "/learn/problems/know-your-grid",
+    "/learn/problems",
     "/play/battery"
    ]
   },
@@ -759,10 +790,7 @@
    "status": "public",
    "pages": [
     "/grid",
-    "/learn/problems/know-your-grid",
-    "/learn/problems/networks-and-money",
-    "/learn/problems/prices-and-your-bill",
-    "/learn/problems/when-the-grid-broke"
+    "/learn/problems"
    ]
   },
   "eia930_all_storage": {
@@ -775,12 +803,14 @@
   "eia930_daily_demand": {
    "status": "public",
    "pages": [
+    "/",
     "/grid"
    ]
   },
   "eia930_daily_interchange": {
    "status": "public",
    "pages": [
+    "/",
     "/grid"
    ]
   },
@@ -839,6 +869,7 @@
     "/",
     "/board",
     "/cost-of-power/seller",
+    "/learn/problems",
     "/prices",
     "/severance"
    ]
@@ -892,19 +923,17 @@
   "eia_regional_retail_fuel_prices": {
    "status": "public",
    "pages": [
-    "/board"
+    "/board",
+    "/play/ev"
    ]
   },
   "eia_retail_electricity_prices": {
    "status": "public",
    "pages": [
-    "/",
     "/board",
     "/learn/bill",
-    "/learn/problems/know-your-grid",
-    "/learn/problems/networks-and-money",
-    "/learn/problems/prices-and-your-bill",
-    "/learn/problems/when-the-grid-broke"
+    "/learn/problems",
+    "/play/ev"
    ]
   },
   "eia_retail_fuel_prices": {
@@ -937,19 +966,26 @@
    "status": "license needed",
    "hold": "whole",
    "publishers": [
+    "ANS Nuclear Newswire",
     "Bloomberg",
+    "Canary Media",
     "Data Center Dynamics",
     "Data Center Frontier",
     "Financial Times",
     "Hart Energy",
+    "JPT",
+    "LNG Prime",
     "Latitude Media",
     "Natural Gas Intelligence",
+    "OilPrice.com",
     "POWER Magazine",
     "Reuters",
-    "WSJ"
+    "Rigzone",
+    "Utility Dive",
+    "WSJ",
+    "pv magazine USA"
    ],
    "pages": [
-    "/",
     "/deals",
     "/roundup"
    ]
@@ -968,6 +1004,7 @@
   "ercot_all_hub_prices_history": {
    "status": "public",
    "pages": [
+    "/",
     "/board",
     "/cost-of-power",
     "/cost-of-power/battery",
@@ -1091,6 +1128,7 @@
   "ercot_zone_load_hourly": {
    "status": "public",
    "pages": [
+    "/",
     "/cost-of-power"
    ]
   },
@@ -1123,7 +1161,7 @@
    "pages": [
     "/",
     "/events",
-    "/learn/problems/when-the-grid-broke"
+    "/learn/problems"
    ]
   },
   "flex_alert_effects": {
@@ -1163,6 +1201,16 @@
    "pages": [
     "/grid"
    ]
+  },
+  "grid_stress_days": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ],
+   "pages": []
   },
   "grid_stress_yearly": {
    "status": "public",
@@ -1222,6 +1270,7 @@
     "NYISO"
    ],
    "pages": [
+    "/",
     "/board",
     "/cost-of-power",
     "/cost-of-power/battery",
@@ -1246,6 +1295,7 @@
     "MISO"
    ],
    "pages": [
+    "/",
     "/cost-of-power",
     "/cost-of-power/battery",
     "/cost-of-power/seller",
@@ -1271,6 +1321,7 @@
     "NYISO"
    ],
    "pages": [
+    "/",
     "/cost-of-power",
     "/cost-of-power/seller",
     "/curtailment"
@@ -1331,7 +1382,9 @@
   },
   "large_load_public": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/cost-of-power"
+   ]
   },
   "large_load_rule_reads": {
    "status": "public",
@@ -1345,7 +1398,9 @@
   },
   "lbnl_interconnection_queue": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/"
+   ]
   },
   "merchant_revenue_monthly": {
    "status": "license needed",
@@ -1356,9 +1411,8 @@
     "NYISO"
    ],
    "pages": [
-    "/",
     "/cost-of-power/seller",
-    "/learn/problems/networks-and-money"
+    "/learn/problems"
    ]
   },
   "miso_interconnection_queue": {
@@ -1373,21 +1427,31 @@
    "status": "license needed",
    "hold": "whole",
    "publishers": [
+    "ANS Nuclear Newswire",
     "Bloomberg",
+    "Canary Media",
+    "CivicPlus",
     "Data Center Dynamics",
     "Data Center Frontier",
     "Data Center Knowledge",
     "Financial Times",
     "Hart Energy",
     "Heatmap News",
+    "Hydrogen Insight",
     "ISO-NE",
+    "JPT",
+    "LNG Prime",
     "Latitude Media",
     "MISO",
     "NYISO",
     "Natural Gas Intelligence",
+    "OilPrice.com",
     "POWER Magazine",
     "Reuters",
-    "WSJ"
+    "Rigzone",
+    "Utility Dive",
+    "WSJ",
+    "pv magazine USA"
    ],
    "pages": [
     "/digest",
@@ -1481,6 +1545,7 @@
     "NYISO"
    ],
    "pages": [
+    "/",
     "/cost-of-power",
     "/cost-of-power/battery",
     "/cost-of-power/seller",
@@ -1556,7 +1621,9 @@
     "MISO",
     "NYISO"
    ],
-   "pages": []
+   "pages": [
+    "/cost-of-power"
+   ]
   },
   "shoulder_hours_monthly": {
    "status": "public",
@@ -1598,6 +1665,7 @@
   "storage_buildout_monthly": {
    "status": "public",
    "pages": [
+    "/",
     "/shoulder",
     "/storage"
    ]
@@ -1615,7 +1683,7 @@
    "status": "public",
    "pages": [
     "/grid",
-    "/learn/problems/know-your-grid",
+    "/learn/problems",
     "/storage"
    ]
   },
@@ -1641,14 +1709,14 @@
    "dark": "part",
    "license_needed": [
     "battery_stack_review_monthly",
-    "cost_of_power_monthly",
-    "datacenter_facilities",
-    "energy_deals",
     "event_window_daily",
-    "merchant_revenue_monthly"
+    "iso_hub_prices_history",
+    "iso_rtm_hub_prices",
+    "iso_zone_prices_history",
+    "nyiso_rtm_zone_prices"
    ],
-   "internal": 0,
-   "public": 6
+   "internal": 1,
+   "public": 18
   },
   "/data/faults": {
    "label": "Known faults in source data",
@@ -1722,15 +1790,6 @@
    "internal": 0,
    "public": 1
   },
-  "/learn/bill": {
-   "label": "What is on a bill",
-   "dark": "part",
-   "license_needed": [
-    "cost_of_power_monthly"
-   ],
-   "internal": 0,
-   "public": 1
-  },
   "/cost-of-power/battery": {
    "label": "What a battery earns",
    "dark": "part",
@@ -1784,10 +1843,11 @@
     "nyiso_dam_zone_prices",
     "nyiso_load_queue",
     "nyiso_rtm_zone_prices",
-    "nyiso_zone_load_hourly"
+    "nyiso_zone_load_hourly",
+    "scarcity_hours_by_grid"
    ],
    "internal": 3,
-   "public": 13
+   "public": 14
   },
   "/shoulder": {
    "label": "The shoulder hours",
@@ -1898,40 +1958,33 @@
    "internal": 0,
    "public": 3
   },
-  "/learn/problems/know-your-grid": {
-   "label": "Problems: know your grid",
-   "dark": "none",
-   "license_needed": [],
-   "internal": 0,
-   "public": 7
-  },
-  "/learn/problems/prices-and-your-bill": {
-   "label": "Problems: prices and your bill",
+  "/learn/bill": {
+   "label": "What is on a bill",
    "dark": "part",
    "license_needed": [
-    "cost_of_power_hourly_profile",
     "cost_of_power_monthly"
    ],
    "internal": 0,
-   "public": 4
+   "public": 1
   },
-  "/learn/problems/when-the-grid-broke": {
-   "label": "Problems: when the grid broke",
+  "/learn/problems": {
+   "label": "Problem sets",
    "dark": "part",
    "license_needed": [
-    "event_window_daily"
-   ],
-   "internal": 0,
-   "public": 4
-  },
-  "/learn/problems/networks-and-money": {
-   "label": "Problems: networks and money",
-   "dark": "part",
-   "license_needed": [
+    "cost_of_power_hourly_profile",
+    "cost_of_power_monthly",
+    "event_window_daily",
     "merchant_revenue_monthly"
    ],
    "internal": 0,
-   "public": 4
+   "public": 8
+  },
+  "/play/ev": {
+   "label": "Should your family get an EV?",
+   "dark": "none",
+   "license_needed": [],
+   "internal": 0,
+   "public": 2
   }
  }
 }

@@ -216,7 +216,8 @@ class TheTables(unittest.TestCase):
         first = cost[cost["variable"] == "flat_cost_usd_per_mwh"].groupby("entity")["ts_utc"].min()
         self.assertEqual(first["iso:ercot"][:4], "2019")
         for g in ("iso:caiso", "iso:isone", "iso:nyiso", "iso:spp"):
-            self.assertGreaterEqual(first[g][:7], "2024-09", g)
+            # the first month of a held price: CAISO from July 2023 (sessions 273 and 307), the others from September 2024
+            self.assertGreaterEqual(first[g][:7], "2023-07" if g == "iso:caiso" else "2024-09", g)
 
     def test_the_sites_copy_is_the_table(self):
         s = self.table(mc.SUMMARY)

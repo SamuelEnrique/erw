@@ -49,6 +49,7 @@ GRIDS = {"CAISO", "ERCOT", "ISO-NE", "MISO", "NYISO", "SPP", "PJM"}
 CANON = [
     (r"California (ISO|Independent System Operator)|^caiso\.com$|^CAISO$", "CAISO"), (r"New York (ISO|Independent System Operator)|^nyiso\.com$", "NYISO"),
     (r"Energy Information Administration|^EIA ", "EIA"), (r"Electric Reliability Council|^ercot\.com$", "ERCOT"), (r"ISO New England|^ISO-NE", "ISO-NE"),
+    (r"^nyiso mis$", "NYISO"),  # session 311: the news feed of NYISO's market notices is NYISO's
     (r"Southwest Power Pool", "SPP"), (r"Midcontinent|misoenergy\.org|^MISO", "MISO"), (r"^PJM", "PJM"),
     (r"National Centers for Environmental", "NOAA NCEI"), (r"National Weather Service", "NWS"), (r"Air Resources Board", "CARB"),
     (r"St\. Louis|FRED", "FRED"),  # a name "through FRED" is FRED's: this rule goes before the Board's
@@ -71,6 +72,8 @@ BY_HAND = {
     "datacenter_queue_positions": (["CAISO", "ERCOT", "ISO-NE", "MISO", "NYISO", "SPP"], "its header: rows of the six operators' queue tables"),
     "energy_companies": (["ERW"], "its header: names, one-line descriptions written by the ERW, and links"),
     "known_data_faults": (["ERW"], "its header: the ERW's own account of its sources' data"),
+    # session 311: derived from the six grids' hub prices (ercot_hub_prices_daily, iso_hub_prices_history) and CAISO's notices
+    "grid_stress_days": (["CAISO", "ERCOT", "ISO-NE", "MISO", "NYISO", "SPP"], "its header: the main hubs' real-time prices of six grids and CAISO's notices"),
     "large_load_rule_reads": (["Arizona Corporation Commission", "California Public Utilities Commission", "Illinois Commerce Commission",
                                "Oregon Public Utility Commission", "Pennsylvania Public Utility Commission", "Office of the Federal Register (NARA)"],
                               "its header: a model's reads of the rows of large_load_rules and of policy_actions"),
@@ -231,7 +234,7 @@ def write(doc=None):
     w("")
     w(f"- **{len(lines)} tables.** The flag and the verdict agree on {count('agrees')}; disagree on {count('DISAGREES')}; {count('not settled')} are not settled (a publisher not read); "
       f"{count('internal by')} is internal by the ERW's own choice.")
-    w(f"- **{len(reads)} publishers in the record: {n_ask} requests of the ceiling of 40, {n_read} pages read, {n_ask - n_read} that could not be read, "
+    w(f"- **{len(reads)} publishers in the record: {n_ask} requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60), {n_read} pages read, {n_ask - n_read} that could not be read, "
       f"{len(reads) - n_ask} not asked (paused).**")
     loose = [x for x in lines if x["standing"] == "DISAGREES: the flag is looser"]
     strict = [x for x in lines if x["standing"] == "DISAGREES: the flag is stricter"]
