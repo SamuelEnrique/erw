@@ -43,6 +43,8 @@ export default async function CardPage({ params, searchParams }: Props) {
       <ToolPage>
         <div data-chart-tokens="1">
           <p className="mb-4 text-sm"><Link href="/research">Research</Link></p>
+          {/* session 318 (session 270's finding): the card's own page carries its heading; the card's title line stays as it is */}
+          <h1 className="sr-only">{c.title}</h1>
           {/* session 238: a file the site does not hold is named "not held" under the card; the row of the card is as it was */}
           <FindingCard card={c} formKey="form" />
           {(() => { const h = filesHeld(c); const none = [!h.csv && "data (CSV)", !h.stata && "Stata do-file", !h.python && "Python file"].filter(Boolean); return none.length ? <p className="text-xs text-muted" data-not-held="page">Not held: {none.join(", ")}.</p> : null; })()}

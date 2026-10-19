@@ -87,7 +87,7 @@ export function baseStyle(from?: Element | null) {
 // to the fifth's, and is told by its name in the legend and the hover card. Outside such an element nothing changes.
 // Session 267: a chart warehouse/analysis/style.py draws with more than five series is written in the eight colors of
 // "Many series" (--chart-series-1 to -8), and each is read here from its token.
-const LITERAL_TOKENS: Record<string, string> = {
+export const LITERAL_TOKENS: Record<string, string> = {   // session 318: lib/svgoption.ts reads the same map
   "#1a1a1a": "--chart-ink", "#2e2d29": "--chart-ink", "#6b6b6b": "--color-muted", "#6b665e": "--color-muted", "#e5e5e5": "--color-rule", "#d9d2c3": "--color-rule",
   "#fbf8f2": "--color-panel",
   "#1f5f8b": "--chart-ink", "#c4541c": "--color-accent", "#2e7d4f": "--chart-blue", "#8a6d3b": "--chart-grey", "#6a4c93": "--chart-light", "#9a9a9a": "--chart-light",

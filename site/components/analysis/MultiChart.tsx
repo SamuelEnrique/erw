@@ -6,7 +6,7 @@
 // single-grid card's chart (lib/findingchart.ts), with that grid's callouts, its regression table where there is one,
 // the effect in plain words and its caveat. Every number comes from the card's JSON, which a test reproduces.
 import { useEffect, useRef, useState } from "react";
-import { useEChart } from "@/components/echarts";
+import { SvgOption } from "@/components/SvgOption";   // session 318: the panels and the one-grid view through the shared SVG set
 import { optionFor, type ChartSpec } from "@/lib/findingchart";
 
 type Box = { label: string; before: { period: string; text: string }; after: { period: string; text: string }; unit: string };
@@ -84,25 +84,12 @@ export function multiOption(spec: MultiSpec, measureKey: string, W: number, H: n
 }
 
 function All({ spec, measure, label, height }: { spec: MultiSpec; measure: string; label: string; height: number }) {
-  const [w, setW] = useState(0);
-  const box = useEChart((chart) => {
-    const el = box.current;
-    if (!el) return;
-    chart.setOption(multiOption(spec, measure, el.clientWidth, el.clientHeight), true);
-  }, [spec, measure, w]);
-  useEffect(() => {
-    const el = box.current;
-    if (!el) return;
-    const ro = new ResizeObserver(() => setW(el.clientWidth));
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, [box]);
-  return <div ref={box} role="img" aria-label={label} style={{ height }} className="w-full" data-finding-chart="multiples" />;
+  // the option as the canvas drew it (rows: one panel a grid), read into a column of category charts
+  return <SvgOption option={multiOption(spec, measure, 760, height)} label={label} height={height} id={`multi-${spec.param}`} data-finding-chart="multiples" />;
 }
 
 function One({ spec, label }: { spec: ChartSpec; label: string }) {
-  const box = useEChart((chart) => chart.setOption(optionFor(spec), true), [spec]);
-  return <div ref={box} role="img" aria-label={label} style={{ height: 340 }} className="w-full" data-finding-chart={spec.kind} data-grid-chart="1" />;
+  return <SvgOption option={optionFor(spec)} label={label} height={340} id={`one-${spec.kind}`} data-finding-chart={spec.kind} data-grid-chart="1" />;
 }
 
 export function MultiChart({ spec, label }: { spec: MultiSpec; label: string }) {
