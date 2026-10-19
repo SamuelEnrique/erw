@@ -1,0 +1,29 @@
+# ERW problem sets, the edition of 2026-10-15: "Storage and taxes", question 5 (d5): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-10-15T00:17:50Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: A Texas gas well produced 2,400 Mcf in 2026-08 (80 Mcf a day over 30 days), valued at that month's Henry Hub mean. What is its tax, and what does it owe with the low-producing well credit?
+source,entity,variable,ts_utc,value,unit,event,note
+site/data/severance_rules.json,,sev|TX|gas|2400|2026-08|base,,501.34285714285704,USD,,computed
+site/data/severance_rules.json,,sevcert|tx_lp_gas|2026-08,,1.36,USD/Mcf (2005 dollars),,computed
+site/data/severance_rules.json,,sevcredit|tx_lp_gas|2026-08,,100,%,,computed
+site/data/severance_rules.json,,sev|TX|gas|2400|2026-08|tx_lp_gas,,0,USD,,computed
+eia_fuel_spot_prices,eia:henry_hub,spot_price,2026-08-03T00:00:00+00:00,2.81,USD/MMBtu,,
+eia_fuel_spot_prices,eia:henry_hub,spot_price,2026-08-04T00:00:00+00:00,2.74,USD/MMBtu,,
+eia_fuel_spot_prices,eia:henry_hub,spot_price,2026-08-05T00:00:00+00:00,2.6,USD/MMBtu,,
+eia_fuel_spot_prices,eia:henry_hub,spot_price,2026-08-06T00:00:00+00:00,2.6,USD/MMBtu,,
+eia_fuel_spot_prices,eia:henry_hub,spot_price,2026-08-07T00:00:00+00:00,2.56,USD/MMBtu,,
+eia_fuel_spot_prices,eia:henry_hub,spot_price,2026-08-10T00:00:00+00:00,2.72,USD/MMBtu,,
+eia_fuel_spot_prices,eia:henry_hub,spot_price,2026-08-11T00:00:00+00:00,2.79,USD/MMBtu,,
+eia_fuel_spot_prices,eia:henry_hub,spot_price,2026-08-12T00:00:00+00:00,2.82,USD/MMBtu,,
+eia_fuel_spot_prices,eia:henry_hub,spot_price,2026-08-13T00:00:00+00:00,2.82,USD/MMBtu,,
+eia_fuel_spot_prices,eia:henry_hub,spot_price,2026-08-14T00:00:00+00:00,2.79,USD/MMBtu,,
+eia_fuel_spot_prices,eia:henry_hub,spot_price,2026-08-17T00:00:00+00:00,2.77,USD/MMBtu,,
+eia_fuel_spot_prices,eia:henry_hub,spot_price,2026-08-18T00:00:00+00:00,2.82,USD/MMBtu,,
+eia_fuel_spot_prices,eia:henry_hub,spot_price,2026-08-19T00:00:00+00:00,2.94,USD/MMBtu,,
+eia_fuel_spot_prices,eia:henry_hub,spot_price,2026-08-20T00:00:00+00:00,2.94,USD/MMBtu,,
+eia_fuel_spot_prices,eia:henry_hub,spot_price,2026-08-21T00:00:00+00:00,2.82,USD/MMBtu,,
+eia_fuel_spot_prices,eia:henry_hub,spot_price,2026-08-24T00:00:00+00:00,2.83,USD/MMBtu,,
+eia_fuel_spot_prices,eia:henry_hub,spot_price,2026-08-25T00:00:00+00:00,2.7,USD/MMBtu,,
+eia_fuel_spot_prices,eia:henry_hub,spot_price,2026-08-26T00:00:00+00:00,2.81,USD/MMBtu,,
+eia_fuel_spot_prices,eia:henry_hub,spot_price,2026-08-27T00:00:00+00:00,2.89,USD/MMBtu,,
+eia_fuel_spot_prices,eia:henry_hub,spot_price,2026-08-28T00:00:00+00:00,2.82,USD/MMBtu,,
+eia_fuel_spot_prices,eia:henry_hub,spot_price,2026-08-31T00:00:00+00:00,2.9,USD/MMBtu,,

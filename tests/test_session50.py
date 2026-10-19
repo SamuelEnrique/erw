@@ -34,8 +34,8 @@ class Rules(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stdout[-3000:] + r.stderr[-2000:])
         for label in ("hard, default battery", "hard, 5 kWh", "easy, 20 kWh", "normal, default battery"):
             self.assertIn(f"ok   {label}", r.stdout)
-        # session 63: the preset carries the rules' version (session 66: v4); Normal with the default battery keeps v1's scoring
-        self.assertIn("Normal with the default battery: its preset is normal:13.5-5-90-v4", r.stdout)
+        # session 63: the preset carries the rules' version (session 66: v4; session 289: v5); Normal with the default battery keeps v1's scoring
+        self.assertIn("Normal with the default battery: its preset is normal:13.5-5-90-v5", r.stdout)
         self.assertNotIn("FAIL", r.stdout)
 
     def test_degradation_default_traces_to_lazard(self):
@@ -83,7 +83,8 @@ class Game(unittest.TestCase):
         g = src("site", "app", "play", "battery", "Game.tsx")
         self.assertRegex(g, r"try \{ return window\.localStorage\.getItem\(key\); \} catch")
         self.assertRegex(g, r"try \{ window\.localStorage\.setItem\(key, v\); \} catch")
-        self.assertIn("prefers-reduced-motion", g)
+        # session 291: no motion at all (docs/brand.md, section 3), so nothing is left for reduced motion to stop
+        self.assertNotIn("animation:", g)
         for part in ("function Tutorial", "function HouseFlow", "function Replay", "function SettingsPanel"):
             self.assertIn(part, g)
 

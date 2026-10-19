@@ -42,7 +42,8 @@ class TheMenu(unittest.TestCase):
         cls.g = node("import { GROUPS } from './lib/pages.ts'; console.log(JSON.stringify(Object.fromEntries(GROUPS.map((g) => [g.label, g.pages.map((p) => p.href)]))));")
 
     def test_games_is_the_ruled_four(self):
-        self.assertEqual(self.g["Games"], ["/play/battery", "/tour", "/learn/bill", "/learn/problems"])
+        # session 294: the EV game joins on the games branch (ruling 14's fifth entry)
+        self.assertEqual(self.g["Games"], ["/play/battery", "/tour", "/learn/bill", "/learn/problems", "/play/ev"])
 
     def test_the_bill_left_economics(self):
         self.assertNotIn("/learn/bill", self.g["Economics"])

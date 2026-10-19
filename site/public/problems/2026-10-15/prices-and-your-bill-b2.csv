@@ -1,0 +1,13 @@
+# ERW problem sets, the edition of 2026-10-15: "Prices and your bill", question 2 (b2): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-10-15T00:17:50Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: The table holds 7 hubs: CAISO NP15, CAISO SP15, ERCOT hub average, ISO-NE internal hub, MISO Indiana hub, NYISO New York City, SPP North hub. In the latest month all 7 hold at least 95 percent of their hours, which had the largest shape premium, and which the smallest?
+source,entity,variable,ts_utc,value,unit,event,note
+cost_of_power_monthly,spp:SPPNORTH_HUB,rt_shape_premium,2026-08-01T00:00:00+00:00,3.684,USD/MWh,,
+cost_of_power_monthly,caiso:TH_NP15_GEN-APND,rt_shape_premium,2026-08-01T00:00:00+00:00,0.7461,USD/MWh,,
+cost_of_power_monthly,isone:.H.INTERNAL_HUB,rt_hours,2026-08-01T00:00:00+00:00,720,count,,
+cost_of_power_monthly,isone:.H.INTERNAL_HUB,hours_in_month,2026-08-01T00:00:00+00:00,744,count,,
+cost_of_power_monthly,caiso:TH_SP15_GEN-APND,rt_shape_premium,2026-08-01T00:00:00+00:00,1.6162,USD/MWh,,
+cost_of_power_monthly,ercot:HB_HUBAVG,rt_shape_premium,2026-08-01T00:00:00+00:00,1.2446,USD/MWh,,
+cost_of_power_monthly,isone:.H.INTERNAL_HUB,rt_shape_premium,2026-08-01T00:00:00+00:00,3.3419,USD/MWh,,
+cost_of_power_monthly,miso:INDIANA.HUB,rt_shape_premium,2026-08-01T00:00:00+00:00,2.4104,USD/MWh,,
+cost_of_power_monthly,nyiso:N.Y.C.,rt_shape_premium,2026-08-01T00:00:00+00:00,3.6453,USD/MWh,,

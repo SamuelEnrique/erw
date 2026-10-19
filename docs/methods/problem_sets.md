@@ -15,7 +15,16 @@ Energy Research Warehouse (ERW). Five sets of five questions for a class, writte
 - **The storm's days against as many normal days (ruling 6a).** Set E question 5 sets what the solar plant earned over the event window (18 days for Uri) against the mean baseline day of the same event (the same dates of earlier years) times the window's days. The keys are `mrs|<inputs>|<event>|days`, `|base_mean` and `|base_window`, recomputed from `lib/merchant.ts`'s `stress()`. Until session 288 the window was set against one normal week, seven days, which made the ratio about 2.6 times too large.
 - **The ratio questions (ruling 7a)** ask in the order a student reads: "ERCOT's peak was how many times CAISO's?" (A1, A3, C1, C5).
 
-## Limits
+## Dated editions, the teacher's copy and the rows (session 293, Samuel's ruling 8a)
 
-- The answers move every day; a class that prepares on one day meets other numbers on the next. A dated edition of each set beside the live one is ruling 8a (a later session).
+The live sets move every day: a class that prepares on one day meets other numbers on the next (set A question 1 read 2.56 on 13 October and 2.92 on 14 October). So each set also comes as a dated edition.
+
+- **What an edition is:** every set as `site/lib/problems.ts` built it on the edition's date, frozen in `site/data/problem_editions/<date>.json` by `site/scripts/build-problem-edition.mjs` (the same code as the live pages, run once from the live set). `index.json` beside it lists the editions held.
+- **The students' copy** (`/learn/problems/<set>/<date>`): the questions and their tables, no answers.
+- **The teacher's copy** (`/learn/problems/<set>/<date>/teacher`): every answer and worked solution open, why it matters, and a print button.
+- **The rows each question needs:** a CSV a question (`/problems/<date>/<set>-<id>.csv`, in `site/public/`), with a header naming the edition, the source and the time read. The rows come from the question's figures' check keys, the same keys `check-values.mjs` recomputes: one series row; the rows of a sum or a maximum over a range; the days of a month's mean; the two rows of a battery cycle. A figure computed from a committed file rather than a table (the bill rules, the severance rules, the merchant snapshot, the network snapshot, the game's battery) is one row marked "computed", its source the file.
+- **Its numbers are drawn as frozen,** not checked against today's tables (`check-values.mjs` reads the live sets): their source rows are in the downloads.
+- **A new edition** is one command, `node --import ./scripts/alias-register.mjs scripts/build-problem-edition.mjs <date>` in `site/`, and a commit. The first is of 15 October 2026 (UTC), read at 00:17.
+
+## Limits
 - The battery questions of set D use the game's assumed battery (`site/lib/battery.ts`): 13.5 kWh, 90 percent round trip.

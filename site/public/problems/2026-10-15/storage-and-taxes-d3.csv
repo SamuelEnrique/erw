@@ -1,0 +1,8 @@
+# ERW problem sets, the edition of 2026-10-15: "Storage and taxes", question 3 (d3): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-10-15T00:17:50Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: The home battery game's battery charges once from empty at ERCOT's cheapest average hour of 2026-09 (the latest complete month) and empties at its dearest. What does that one cycle earn, and what would the game's fictional fleet of homes earn?
+source,entity,variable,ts_utc,value,unit,event,note
+cost_of_power_hourly_profile,ercot:HB_HUBAVG,rt_mean_h09,2026-09-01T00:00:00+00:00,22.5327,USD/MWh,,
+cost_of_power_hourly_profile,ercot:HB_HUBAVG,rt_mean_h20,2026-09-01T00:00:00+00:00,73.128,USD/MWh,,
+site/lib/battery.ts,,battery|bought_kwh,,14.230249470757707,kWh,,computed
+site/lib/battery.ts,,battery|delivered_kwh,,12.807224523681937,kWh,,computed

@@ -1,0 +1,6 @@
+# ERW problem sets, the edition of 2026-10-15: "Networks and money", question 4 (e4): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-10-15T00:17:50Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: A default merchant battery at ERCOT's hub average, 100 MW / 400 MWh, financed with 60 percent debt at 8 percent over its 20-year life at Lazard's midpoint cost, owes 6,783,357 USD of debt service a year. In how many of the months held, 2018-07 to 2026-09, could its cash flow at best cover that month's share?
+source,entity,variable,ts_utc,value,unit,event,note
+site/data/merchant_snapshot.json,,mr|iso=ercot&asset=battery&mw=100&mwh=400&ds=6783357&hr=10.725&vom=4.25&fom=22|n,,99,months,,computed
+site/data/merchant_snapshot.json,,mr|iso=ercot&asset=battery&mw=100&mwh=400&ds=6783357&hr=10.725&vom=4.25&fom=22|under1,,73,months,,computed

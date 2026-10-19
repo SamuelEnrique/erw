@@ -1,0 +1,6 @@
+# ERW problem sets, the edition of 2026-10-15: "Prices and your bill", question 1 (b1): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-10-15T00:17:50Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: For ERCOT's hub average in its latest complete month, what were the load-weighted and the simple average real-time prices, and what is the shape premium?
+source,entity,variable,ts_utc,value,unit,event,note
+cost_of_power_monthly,ercot:HB_HUBAVG,rt_load_weighted,2026-09-01T00:00:00+00:00,39.5037,USD/MWh,,
+cost_of_power_monthly,ercot:HB_HUBAVG,rt_simple_mean,2026-09-01T00:00:00+00:00,38.3874,USD/MWh,,

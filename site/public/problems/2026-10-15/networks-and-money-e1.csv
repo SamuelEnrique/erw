@@ -1,0 +1,6 @@
+# ERW problem sets, the edition of 2026-10-15: "Networks and money", question 1 (e1): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-10-15T00:17:50Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: In the newest hour of the network snapshot, 2026-10-13 03:00 UTC (Oct 12, 23:00 Eastern), with how many neighboring balancing authorities did ERCOT exchange power, and what was the largest flow?
+source,entity,variable,ts_utc,value,unit,event,note
+the network snapshot (lib/network.ts),,net|ties|ERCO|2026-10-13T03:00:00Z,,2,neighbors,,computed
+the network snapshot (lib/network.ts),,net|maxflow|ERCO|2026-10-13T03:00:00Z,,365,MW,,computed

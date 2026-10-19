@@ -110,7 +110,7 @@ export async function load(g: GridConfig): Promise<GridData> {
   const newsSince = daysAgo(14);
   const [demand, gen, cycle, units, ci, monthly, prices, peak, q, dcs, n] = await Promise.all([
     safe("demand", () => series("eia930_all_demand", { entity: g.entity, variable: "demand_mw", since: daysAgo(9) }), []),
-    safe("gen", () => series("eia930_all_generation", { entity: g.entity, since: daysAgo(34) }), []), // covers the 30-day window whole
+    safe("gen", () => series("eia930_all_generation", { entity: g.entity, since: daysAgo(45) }), []), // covers the 30-day window whole: it ends with the latest complete day, which lags when the loads do (session 295: four days behind since 15 October 2026, and a 34-day read missed the window's first hours)
     safe("cycle", () => (g.storage_entity ? series("storage_daily_cycle", { entity: g.storage_entity, since: daysAgo(45) }) : Promise.resolve([])), []),
     safe("units", storageUnits, []),
     safe("ci", () => series("carbon_intensity_hourly", { entity: g.entity, since: daysAgo(4) }), []),

@@ -104,7 +104,7 @@ class TheMenu(unittest.TestCase):
         # their index, /learn/problems, which lists all five; each set keeps its address and is reached from the index
         sets = [h for h in BEFORE if h.startswith("/learn/problems/")]
         self.assertEqual(len(sets), 4)
-        self.assertEqual(now, sorted([moved.get(h, h) for h in BEFORE if h not in folded and h not in sets] + ["/learn/problems"]))   # sessions 237, 238 and 288
+        self.assertEqual(now, sorted([moved.get(h, h) for h in BEFORE if h not in folded and h not in sets] + ["/learn/problems", "/play/ev"]))   # sessions 237, 238, 288 and 294 (the EV game)
         self.assertEqual(len(now), len(set(now)))                                           # each page once
         for p in self.all:
             self.assertTrue(p["line"], p["href"])

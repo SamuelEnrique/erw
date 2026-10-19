@@ -1,0 +1,6 @@
+# ERW problem sets, the edition of 2026-10-15: "Prices and your bill", question 5 (b5): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-10-15T00:17:50Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: In the latest complete month of ERCOT's hour-of-day profile, which hour was cheapest and which dearest on average, and how far apart were they?
+source,entity,variable,ts_utc,value,unit,event,note
+cost_of_power_hourly_profile,ercot:HB_HUBAVG,rt_mean_h09,2026-09-01T00:00:00+00:00,22.5327,USD/MWh,,
+cost_of_power_hourly_profile,ercot:HB_HUBAVG,rt_mean_h20,2026-09-01T00:00:00+00:00,73.128,USD/MWh,,

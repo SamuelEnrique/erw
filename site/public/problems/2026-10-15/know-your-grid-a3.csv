@@ -1,0 +1,6 @@
+# ERW problem sets, the edition of 2026-10-15: "Know your grid: ERCOT and CAISO side by side", question 3 (a3): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-10-15T00:17:50Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: On the latest day both are held, how many MWh did batteries discharge in ERCOT and in CAISO? CAISO's discharge was how many times ERCOT's?
+source,entity,variable,ts_utc,value,unit,event,note
+storage_daily_cycle,eia930:ERCO,mwh_discharged,2026-10-12T00:00:00+00:00,27644,MWh,,
+storage_daily_cycle,caiso:ISO,mwh_discharged,2026-10-12T00:00:00+00:00,53533.083,MWh,,

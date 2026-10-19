@@ -70,9 +70,9 @@ function toLevel(day: string, rows: Row[]): Level {
   };
 }
 
-/** Today's level: the latest complete operating day in the last four days of the live set. */
+/** Today's level: the latest complete operating day in the last 30 days of the live set (session 295: four days until then; the level names its day, and the daily run has missed days). */
 export async function todayLevel(revalidate = 3600): Promise<Level | null> {
-  const since = new Date(Date.now() - 4 * 86_400_000).toISOString().slice(0, 13) + ":00:00Z";
+  const since = new Date(Date.now() - 30 * 86_400_000).toISOString().slice(0, 13) + ":00:00Z";
   const days = await recentDays(since, revalidate);
   const [day] = days.keys();
   return day ? toLevel(day, days.get(day)!) : null;

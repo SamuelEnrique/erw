@@ -1,0 +1,6 @@
+# ERW problem sets, the edition of 2026-10-15: "Storage and taxes", question 2 (d2): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-10-15T00:17:50Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: On 2026-10-12, at which hour (Central time) did ERCOT's batteries charge hardest, at which did they discharge hardest, and how many hours apart were they?
+source,entity,variable,ts_utc,value,unit,event,note
+storage_daily_cycle,eia930:ERCO,peak_charge_hour,2026-10-12T00:00:00+00:00,10,hour,,
+storage_daily_cycle,eia930:ERCO,peak_discharge_hour,2026-10-12T00:00:00+00:00,19,hour,,
