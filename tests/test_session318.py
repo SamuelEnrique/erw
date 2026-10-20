@@ -36,6 +36,8 @@ def node(js):
     exe = shutil.which("node")
     if not exe:
         raise unittest.SkipTest("node is not on this machine")
+    if not os.path.isdir(os.path.join(ROOT, "site", "node_modules")):
+        raise unittest.SkipTest("the site's packages are not here (the interpreter reaches react through components/echarts.ts)")
     r = subprocess.run([exe, "--import", "./scripts/alias-register.mjs", "--input-type=module", "-e", js], cwd=os.path.join(ROOT, "site"), capture_output=True, text=True, timeout=180)
     if r.returncode != 0:
         if "ERR_UNKNOWN_FILE_EXTENSION" in r.stderr or "Unknown file extension" in r.stderr:
