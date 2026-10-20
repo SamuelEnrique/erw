@@ -11,7 +11,7 @@ import { HOURLY, rest } from "@/lib/supabase";
 export async function internalView(): Promise<boolean> {
   const token = process.env.INTERNAL_COSTS_TOKEN;
   const have = (await cookies()).get(COOKIE)?.value;
-  return cookieOpens(have, token);   // session 371: constant time (lib/release.ts); until then have === (await digest(token))
+  return cookieOpens(have, token);   // session 371: constant time (lib/release.ts); until then compared by ===
 }
 /** The rows of a grid in review, from the committed snapshot, for one strategy and duration. */
 export function reviewRows(grid: string, x: Inputs): Row[] {
