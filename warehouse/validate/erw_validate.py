@@ -51,7 +51,10 @@ UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "mph", "
          "USD/kW-month", "USD/MW-hour",
          # session 306: the battery's published cost cases as the ATB prints them, per kW of power, per kWh of energy,
          # and per kW a year (battery_sourced_ranges; Decision 47)
-         "USD/kW", "USD/kWh", "USD/kW-year"}
+         "USD/kW", "USD/kWh", "USD/kW-year",
+         # session 345: JEDI's jobs per MW (job-years of a build, jobs of each operating year) and dollars per MW a year
+         # (nlr_jedi_multipliers; Decision 48)
+         "FTE-year/MW", "FTE/MW", "USD/MW-year"}
 NAME_RE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+){2,}$")
 NAME_MAX = 40
 TS_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
