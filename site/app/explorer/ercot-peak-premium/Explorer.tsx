@@ -184,8 +184,9 @@ export function Explorer({
               </div>
             ))}
             <p className="mt-2 text-xs text-muted">
-              Box: Q1 to Q3, accent mark the median, whiskers to the min and max. The price axis opens on the boxes; drag the slider, or scroll on the
-              chart, to zoom out to the whiskers. The exact values are in the rows above.
+              {/* session 328: the words of the canvas chart (a slider, a scroll to zoom) were left after session 317 drew it in SVG, which has neither */}
+              Box: Q1 to Q3, accent mark the median, whiskers to the min and max. The price axis is drawn around the boxes; a whisker that reaches
+              past it stops at its edge. The exact values, the min and max among them, are in the rows above.
             </p>
           </div>
         )}

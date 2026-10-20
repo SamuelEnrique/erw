@@ -10,7 +10,7 @@
 // Session 168: before any row is clicked, the workbench's place holds a quiet empty panel (BenchPlaceholder): the same
 // box the workbench takes, docked on the right on wide screens and above the tables on narrow ones, the faint outline of
 // a chart drawn in SVG, and one line. A click on a row puts the workbench in that box, exactly as before.
-import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useMemo, useState, useSyncExternalStore, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { SiteLink } from "@/components/SiteLink";
 import { Workbench } from "@/components/board/Workbench";
@@ -347,7 +347,8 @@ function subscribe(cb: () => void) {
   return () => { listeners.delete(cb); window.removeEventListener("popstate", cb); };
 }
 
-export function BoardView({ file }: { file: BoardFile }) {
+/** Session 328: `footer` is drawn at the board's foot, inside its frame (the page's table downloads, a server part). */
+export function BoardView({ file, footer }: { file: BoardFile; footer?: ReactNode }) {
   const search = useSyncExternalStore(subscribe, () => window.location.search, () => "");
   const params = useMemo(() => new URLSearchParams(search), [search]);
   const path = usePathname();
@@ -427,6 +428,7 @@ export function BoardView({ file }: { file: BoardFile }) {
           </aside>
         ) : null}
       </div>
+      {footer}
     </div>
   );
 }

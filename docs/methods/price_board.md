@@ -257,3 +257,21 @@ any row to open the markets workbench here." A click on a row puts the workbench
 browser on 9 October 2026: at 1440 px the box and the tables do not move on a click; on narrower screens the box keeps
 its place and width, and its height becomes the workbench's own (614 to 1,669 px by row, against the panel's 736 px),
 while the row clicked stays where it was on the screen.
+
+## As the page stands (session 328, 20 October 2026)
+
+What sessions 318, 319 and 328 changed, so that this note says what the page draws today:
+
+- **The workbench's three charts are drawn in SVG** (session 318, the owner's ruling of 13 October 2026 on charts),
+  through the site's shared chart set, with labels on the lines and a Chart | Table switch. The price chart draws the
+  spread or ratio as its own line with its average as a named line; its range is no longer a shaded area: the low and
+  the high are the stat row's (the table under the chart). The prior years are lines with the five years before the
+  newest as a band; the distribution is bars. No value moved.
+- **The day and week moves are written in the ink** (session 319, `docs/brand.md`'s rule on up and down): the sign and
+  the arrow carry the direction, so color is never the only cue.
+- **The distribution's threshold** shows its default beside the box, in grey: USD 100 per MWh for a power price
+  (`USD/MWh` rows), else halfway from the window's mean to its high, as `benchOf` in `site/lib/board.ts` sets it. Reset
+  puts it back (session 328). The default is the board's own rule, not a published figure.
+- **Downloads** (session 328): under the board, each public table the board is built from, as the live set's CSV
+  (`/api/download`), with a Python and a Stata reader of that CSV. A table not in the live set is named with its place
+  on Redivis. The workbench's own CSV (the rows shown) is unchanged.

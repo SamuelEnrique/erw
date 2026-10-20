@@ -160,6 +160,7 @@ export function Workbench({ file, bench, row, set }: { file: BoardFile; bench: B
   const when = (t: number) => (hourly ? (tz ? `${localHour(t, tz)} local` : isoHour(t)) : dateWords(isoDay(t), lines?.freq === "M" ? "M" : "D"));
   const sumA = lines ? summary(lines.a) : null, sumB = lines?.b ? summary(lines.b) : null, sumC = calc ? summary(calc) : null;
   const th = Number.isFinite(bench.th) ? bench.th : sumA ? Number((sumA.mean + (sumA.max - sumA.mean) / 2).toFixed(2)) : 0;
+  const thDefault = row.unit === "USD/MWh" ? 100 : NaN;   // session 328: benchOf's default (lib/board.ts), for the Reset
   const dist = active ? distribution(active.p, th, hourly && !(calc && calc.length) ? lines!.fileA ?? undefined : undefined) : null;
   const distA = lines && hourly ? distribution(lines.a, th, lines.fileA ?? undefined) : null;
   const distB = lines?.b && hourly ? distribution(lines.b, th, lines.fileB ?? undefined) : null;
@@ -280,7 +281,10 @@ export function Workbench({ file, bench, row, set }: { file: BoardFile; bench: B
           {bench.v === "dist" && dist && active ? (
             <div className="mt-3" data-dist="1">
               <div className="mb-1 flex flex-wrap items-center gap-2 text-xs">
-                <label className="flex items-center gap-1 text-muted" title="By default halfway from the window's mean to its high">Threshold <input type="number" value={Number.isFinite(th) ? th : 0} step="any" onChange={(e) => set({ th: Number(e.target.value) })} className="w-24 border border-rule bg-white px-1 py-0.5 text-ink" /> {active.unit}</label>
+                <label className="flex items-center gap-1 text-muted">Threshold <input type="number" value={Number.isFinite(th) ? th : 0} step="any" onChange={(e) => set({ th: Number(e.target.value) })} className="w-24 border border-rule bg-white px-1 py-0.5 text-ink" /> {active.unit}</label>
+                {/* session 328: the default, in grey, as lib/board.ts sets it (benchOf), and a Reset back to it */}
+                <span className="text-muted" data-default="th">Default: {row.unit === "USD/MWh" ? "USD 100 per MWh for a power price" : "halfway from the window's mean to its high"} (the board&apos;s rule, Method note)</span>
+                {thDefault !== bench.th && !(Number.isNaN(thDefault) && Number.isNaN(bench.th)) ? <button type="button" data-reset="th" aria-label="Reset the threshold" onClick={() => set({ th: thDefault })} className="border border-rule px-1.5 py-px">Reset</button> : null}
               </div>
               <div className="grid grid-cols-2 gap-px border border-rule bg-rule sm:grid-cols-4">
                 <Stat label={`${hourly ? "Hours" : "Values"} above ${fmt(th, active.unit)}`} value={`${dist.above.toLocaleString("en-US")} of ${dist.n.toLocaleString("en-US")}`} />

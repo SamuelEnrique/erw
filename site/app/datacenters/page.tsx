@@ -4,6 +4,7 @@ import { Related } from "@/components/Related";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { NoData } from "@/components/NoData";
 import { ToolHeader, ToolPage } from "@/components/tool/ToolPage";
+import { TableDownloads } from "@/components/tool/TableDownloads";
 import { datacenters } from "@/lib/data";
 import { attempt } from "@/lib/supabase";
 import { Body, toFacility } from "./Body";
@@ -32,7 +33,7 @@ export default async function DatacentersPage() {
         operator&apos;s site is read from its own page, with MW only where the page states it. Nothing is inferred, so a field no source states is
         blank. A facility found by several stories, or by the news and an operator&apos;s list (same operator and place), is one row with every source
         linked. Placed facilities are also on the <Link href="/map">project map</Link>. What a datacenter pays for wholesale energy in each ISO:
-        the <Link href="/cost-of-power">cost of power</Link> calculator.
+        the <Link href="/cost-of-power">cost of power</Link> calculator. <Link href="/data/methods/datacenter_facilities">Method</Link>.
       </p>
     </>
   );
@@ -55,6 +56,8 @@ export default async function DatacentersPage() {
           <Body rows={res.data.map(toFacility)} today={today}><LargeLoad read={res} />{words}</Body>
         )}
         <LargeLoadSource />
+        {/* session 329: the tracker's public tables, as CSV with a Python and a Stata reader (session 328's shared line) */}
+        <TableDownloads tables={["datacenter_facilities", "datacenter_operator_sites", "datacenter_projects", "ercot_large_load_status"]} />
         <Related href="/datacenters" />
       </ToolPage>
     </Brand>

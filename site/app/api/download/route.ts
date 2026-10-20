@@ -43,6 +43,62 @@ const cell = (v: unknown): string => {
 
 const text = (msg: string, status: number) => new Response(msg + "\n", { status, headers: { "Content-Type": "text/plain; charset=utf-8" } });
 
+/** Session 328: a reader of one table's CSV from this route, in Python or Stata. It fetches the CSV, keeps the lines that
+ *  begin with "#" (the table's provenance: the source report, its address, when it was retrieved) and loads the rows that
+ *  follow as they are: no number is computed, so what it loads is what the page read. */
+function readerText(table: string, as: "py" | "do", origin: string): string {
+  const url = `${origin}/api/download?table=${table}`;
+  if (as === "py") {
+    return [
+      `# Energy Research Warehouse (ERW): read the table ${table} from the ERW site's live set.`,
+      "# The CSV opens with its provenance, lines that begin with \"#\" (the source report, its address, when it was",
+      "# retrieved); they are printed and skipped, and the rows are loaded as they are. Needs pandas.",
+      "import io",
+      "import urllib.request",
+      "",
+      "import pandas as pd",
+      "",
+      `URL = "${url}"`,
+      "text = urllib.request.urlopen(URL, timeout=300).read().decode(\"utf-8\")",
+      "lines = text.splitlines()",
+      "n = 0",
+      "while n < len(lines) and lines[n].startswith(\"#\"):",
+      "    n += 1",
+      "print(\"\\n\".join(lines[:n]))",
+      `${table} = pd.read_csv(io.StringIO("\\n".join(lines[n:])))`,
+      `print(${table}.shape)`,
+      `print(${table}.head())`,
+      "",
+    ].join("\n");
+  }
+  return [
+    `* Energy Research Warehouse (ERW): read the table ${table} from the ERW site's live set.`,
+    "* The CSV opens with its provenance, lines that begin with \"#\" (the source report, its address, when it was",
+    "* retrieved); they are counted and skipped, the column names are the first line after them, and the rows are",
+    "* loaded as they are.",
+    "clear",
+    "tempfile raw",
+    `copy "${url}" \`raw'`,
+    "tempname fh",
+    "local n 0",
+    "file open `fh' using `raw', read text",
+    "file read `fh' line",
+    "while r(eof) == 0 {",
+    "    if substr(`\"`macval(line)'\"', 1, 1) != \"#\" continue, break",
+    "    local n = `n' + 1",
+    "    file read `fh' line",
+    "}",
+    "file close `fh'",
+    "import delimited using `raw', varnames(`=`n' + 1') encoding(\"utf-8\") bindquote(strict) clear",
+    "describe",
+    "",
+  ].join("\n");
+}
+
+const reader = (table: string, as: "py" | "do", origin: string) => new Response(readerText(table, as, origin), {
+  headers: { "Content-Type": "text/plain; charset=utf-8", "Content-Disposition": `attachment; filename="erw_${table}.${as}"`, "Cache-Control": "public, max-age=3600" },
+});
+
 export async function GET(req: Request) {
   const table = new URL(req.url).searchParams.get("table") ?? "";
   if (!/^[a-z0-9_]{3,64}$/.test(table)) return text("table must be an ERW table name", 400);
@@ -60,6 +116,9 @@ export async function GET(req: Request) {
     if (cat[0].in_live_set !== "yes" || !cat[0].columns) {
       return text(`${table} is not in the site's live set. Every table is on Redivis (${site.redivis.url}); version 1 is pending release.`, 404);
     }
+    // session 328: ?as=py or ?as=do answers a Python or a Stata reader of this table's CSV, never the rows themselves
+    const as = new URL(req.url).searchParams.get("as");
+    if (as === "py" || as === "do") return reader(table, as, new URL(req.url).origin);
     const columns = JSON.parse(cat[0].columns) as string[];
     const shape = columns[0] === "entity_id" ? "entities" : columns[0] === "event_id" ? "events" : "series";
     const countRes = await get(`${shape}?select=table_name&table_name=eq.${table}&limit=1`, { Prefer: "count=exact" });

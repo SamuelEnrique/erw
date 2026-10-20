@@ -34,6 +34,8 @@ export async function CompaniesView() {
           {/* session 27: a blank field arrives from the live set as null (the deal-seeded rows have many); the table reads strings */}
           <CompaniesTable rows={res.data.map((r) => Object.fromEntries(Object.entries(r).map(([k, v]) => [k, v ?? ""])) as typeof r)} />
           <Cite tables={["energy_companies"]} note="Found by warehouse/thesis/build.py from public web sources; what its reports hold: docs/methods/thesis.md" />
+          {/* session 329: the two notes the tab's rows follow */}
+          <p className="mt-1 text-xs text-muted">Method: <Link href="/data/methods/energy_deals">the companies a deal names</Link>; <Link href="/data/methods/thesis">the Thesis Builder&apos;s research</Link>.</p>
         </>
       )}
     </>

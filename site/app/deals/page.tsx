@@ -9,6 +9,7 @@ import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every 
 import { count } from "@/lib/format";
 import { attempt } from "@/lib/supabase";
 import { Tabs } from "@/components/tool/Tabs";
+import { TableDownloads } from "@/components/tool/TableDownloads";
 import { ToolPage } from "@/components/tool/ToolPage";
 import { one, tabOf } from "@/lib/tabs";
 import { CompaniesView } from "../companies/view";
@@ -31,6 +32,8 @@ export default async function DealsPage({ searchParams }: { searchParams: Promis
         <div data-deals-tab={tab}>
           <Tabs page="/deals" active={tab} />
           {tab === "tracker" ? <TrackerView sp={sp} /> : tab === "companies" ? <CompaniesView /> : <DealsView />}
+          {/* session 329: each tab's public tables, as CSV with a Python and a Stata reader (session 328's shared line) */}
+          <TableDownloads tables={tab === "companies" ? ["energy_companies", "energy_deals"] : ["energy_deals", "news_stories"]} />
           <Related href="/deals" />
         </div>
       </ToolPage>
@@ -53,7 +56,8 @@ async function DealsView() {
         Transactions: power purchase agreements, offtakes, acquisitions, financings, joint ventures, fuel supply,
         nuclear and datacenter power deals. Each deal is extracted from the stories&apos; titles and summaries by a model, and every number was checked
         against the text it came from; a number the stories do not state is left blank. A deal reported by several stories is one row, with every
-        story linked. A party that is in the company table links to its row on <Link href="/deals?tab=companies">Companies</Link>.
+        story linked. A party that is in the company table links to its row on <Link href="/deals?tab=companies">Companies</Link>.{" "}
+        <Link href="/data/methods/energy_deals">Method</Link>.
       </p>
       {!res.ok ? (
         <NoData what="deals" reason={res.reason} />

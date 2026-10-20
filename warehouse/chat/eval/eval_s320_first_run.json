@@ -1,0 +1,1398 @@
+{
+ "_about": "Session 320: the 30 questions of questions_s320.yaml as asked through the site's /api/ask on a local production build, as an evaluation (the header x-erw-ask-eval, the ledger step site_ask_eval of session 314), each as its page sends it (via: grid = the grid's scoped chat, general = no grid). Every expected number was computed from the tables before any model call (runs/chain_oct19/s320_expect.py). A question wrong at first carries first_asking with the cause and the fix.",
+ "route": "POST /api/ask (site/app/api/ask/route.ts, lib/chat/ask.ts) with x-erw-ask-eval: admitted by ASK_EVAL_DAILY_USD against the step's spend, never the public ceiling; every call under site_ask_eval",
+ "questions": [
+  {
+   "id": "b01",
+   "grid": "ERCOT",
+   "via": "grid",
+   "question": "For a 4-hour battery at ERCOT's hub average with perfect foresight, what was the total revenue over the last twelve complete months (2025-10 to 2026-09), in USD per kW?",
+   "expected": [
+    81.4022
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "battery_stack_monthly"
+   ],
+   "refuse": false,
+   "asked_at_utc": "2026-10-20T04:21:17.368Z",
+   "http": 200,
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "The warehouse holds this figure in USD per MW, not USD per kW. The sum of the 12 monthly values for a 4-hour battery at ERCOT HB_HUBAVG with perfect foresight is 81402.19 USD/MW (battery_stack_monthly, derived). The months are 2025-10 to 2026-09, and the table's months are local ERCOT (Central time) months. All 12 months are complete: 365 days held in total and 0 days left out. The variable is foresight_4h_revenue_total_usd_per_mw, which includes energy plus ancillary services. I can't give a USD per kW figure, because the unit conversion is a calculation I'm not allowed to do. The table's method note says USD per kW is the USD/MW value scaled to kilowatts. The figure is a perfect-foresight upper bound. It assumes the battery is a price taker, and it includes no capacity payment.",
+   "citations": [
+    {
+     "table": "battery_stack_monthly",
+     "source_report": "erw:battery_stack",
+     "data_version": "Supabase live set (public site); table last run 2026-10-20T01:04:16Z",
+     "tier": "derived"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 8,
+   "retried": true,
+   "cost_usd": 0.16734290000000002,
+   "seconds": 32.4,
+   "error": null,
+   "refused": null,
+   "trace": null,
+   "grade": {
+    "number": false,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": false
+   },
+   "verdict": "wrong",
+   "step": "site_ask_eval"
+  },
+  {
+   "id": "b02",
+   "grid": "ERCOT",
+   "via": "grid",
+   "question": "How much of that came from energy (charging low and selling high) over 2025-10 to 2026-09, for the same 4-hour battery with perfect foresight at ERCOT's hub average, in USD per kW?",
+   "expected": [
+    54.5986
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "battery_stack_monthly"
+   ],
+   "refuse": false,
+   "asked_at_utc": "2026-10-20T04:22:22.244Z",
+   "http": 200,
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "I read \"that\" as the energy part of the 4-hour battery's revenue, since the earlier part of the conversation isn't visible to me. For a 4-hour battery with perfect foresight at ERCOT's hub average (ercot:HB_HUBAVG), the energy revenue summed over the 12 local months from October 2025 to September 2026 is 54,598.58 USD per MW (battery_stack_monthly, derived). The table holds this in USD/MW, and I'm not allowed to convert units myself. The method note in docs/methods/battery_stack.md gives the USD/MW to USD/kW conversion, so I'm not stating a USD/kW figure. For comparison, total revenue (energy plus ancillary services) over the same months is 81,402.19 USD/MW (battery_stack_monthly, derived). All 365 days were held in those months (days_held). This is an upper bound: perfect foresight, a price-taking battery, and no capacity payment.",
+   "citations": [
+    {
+     "table": "battery_stack_monthly",
+     "source_report": "erw:battery_stack",
+     "data_version": "Supabase live set (public site); table last run 2026-10-20T01:04:16Z",
+     "tier": "derived"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 3,
+   "retried": true,
+   "cost_usd": 0.0502987,
+   "seconds": 16.5,
+   "error": null,
+   "refused": null,
+   "trace": null,
+   "grade": {
+    "number": false,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": false
+   },
+   "verdict": "wrong",
+   "step": "site_ask_eval"
+  },
+  {
+   "id": "b03",
+   "grid": "ERCOT",
+   "via": "grid",
+   "question": "And from ancillary services over 2025-10 to 2026-09, for the 4-hour battery with perfect foresight at ERCOT's hub average, in USD per kW?",
+   "expected": [
+    26.8036
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "battery_stack_monthly"
+   ],
+   "refuse": false,
+   "asked_at_utc": "2026-10-20T04:22:38.839Z",
+   "http": 200,
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "For ERCOT's hub average (ercot:HB_HUBAVG), the 4-hour battery with perfect foresight earned 26803.61 USD/MW from ancillary services over the 12 local months 2025-10 to 2026-09 (battery_stack_monthly, derived). That is the sum of the 12 monthly values, and no days were left out in any month. The table holds this only in USD per MW. I am not allowed to convert units, so I cannot give a USD per kW figure. Its method note says to scale USD per MW down to USD per kW. This is an upper bound: perfect foresight uses real-time energy and day-ahead ancillary prices, and the battery is a price taker.",
+   "citations": [
+    {
+     "table": "battery_stack_monthly",
+     "source_report": "erw:battery_stack",
+     "data_version": "Supabase live set (public site); table last run 2026-10-20T01:04:16Z",
+     "tier": "derived"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 4,
+   "retried": true,
+   "cost_usd": 0.0597607,
+   "seconds": 17.4,
+   "error": null,
+   "refused": null,
+   "trace": null,
+   "grade": {
+    "number": false,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": false
+   },
+   "verdict": "wrong",
+   "step": "site_ask_eval"
+  },
+  {
+   "id": "b04",
+   "grid": "ERCOT",
+   "via": "grid",
+   "question": "What did a 2-hour battery at ERCOT's hub average earn in total on the day-ahead strategy over the last twelve complete months (2025-10 to 2026-09), in USD per kW?",
+   "expected": [
+    51.0671
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "battery_stack_monthly"
+   ],
+   "refuse": false,
+   "asked_at_utc": "2026-10-20T04:22:56.301Z",
+   "http": 200,
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "The warehouse holds this figure in USD per MW, not USD per kW, and I can't convert units myself, so I can't give a USD per kW number. A 2-hour battery at ERCOT's HB_HUBAVG hub, on the day-ahead strategy, earned a total of 51067.14 USD/MW over the 12 local months 2025-10 to 2026-09 (battery_stack_monthly, derived). This is the sum of the 12 monthly total revenues, energy plus ancillary services. No days were left out in those months (sum of dayahead_2h_days_left_out = 0, battery_stack_monthly). It is modelled revenue for a price-taker battery and includes no capacity payment.",
+   "citations": [
+    {
+     "table": "battery_stack_monthly",
+     "source_report": "erw:battery_stack",
+     "data_version": "Supabase live set (public site); table last run 2026-10-20T01:04:16Z",
+     "tier": "derived"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 4,
+   "retried": true,
+   "cost_usd": 0.0596548,
+   "seconds": 16.4,
+   "error": null,
+   "refused": null,
+   "trace": null,
+   "grade": {
+    "number": false,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": false
+   },
+   "verdict": "wrong",
+   "step": "site_ask_eval"
+  },
+  {
+   "id": "b05",
+   "grid": "ERCOT",
+   "via": "grid",
+   "question": "What did a 4-hour battery with perfect foresight at ERCOT's hub average earn in total in calendar year 2021, the year of Winter Storm Uri, in USD per kW?",
+   "expected": [
+    3430.5566
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "battery_stack_monthly"
+   ],
+   "refuse": false,
+   "asked_at_utc": "2026-10-20T04:23:12.889Z",
+   "http": 200,
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "The warehouse holds this figure in USD per MW, not USD per kW. For calendar year 2021 (twelve monthly rows, January to December, local months), a 4-hour battery with perfect foresight at ERCOT HB_HUBAVG earned a total of 3,430,556.56 USD/MW (battery_stack_monthly, derived). That is the sum of the monthly foresight_4h_revenue_total_usd_per_mw values, which combine energy and ancillary services. No days were left out in 2021 (days_left_out sums to 0). I haven't converted this to USD per kW, because I can't compute that conversion here. Perfect foresight is an upper bound, and the battery is modeled as a price taker. February 2021 (Winter Storm Uri) is far above every other month, so it drives much of the year's total.",
+   "citations": [
+    {
+     "table": "battery_stack_monthly",
+     "source_report": "erw:battery_stack",
+     "data_version": "Supabase live set (public site); table last run 2026-10-20T01:04:16Z",
+     "tier": "derived"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 5,
+   "retried": true,
+   "cost_usd": 0.068462,
+   "seconds": 19.2,
+   "error": null,
+   "refused": null,
+   "trace": null,
+   "grade": {
+    "number": false,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": false
+   },
+   "verdict": "wrong",
+   "step": "site_ask_eval"
+  },
+  {
+   "id": "b06",
+   "grid": "ERCOT",
+   "via": "grid",
+   "question": "And in calendar year 2025, the same 4-hour battery with perfect foresight at ERCOT's hub average: the total revenue in USD per kW?",
+   "expected": [
+    87.4396
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "battery_stack_monthly"
+   ],
+   "refuse": false,
+   "asked_at_utc": "2026-10-20T04:23:32.216Z",
+   "http": 200,
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "The warehouse holds this figure in USD per MW, not USD per kW. For calendar 2025 (12 local months, January to December), the total revenue of a 4-hour ERCOT battery with perfect foresight at ercot:HB_HUBAVG is 87,439.61 USD/MW (battery_stack_monthly, variable foresight_4h_revenue_total_usd_per_mw). That is the sum of the 12 monthly values, all complete: days_left_out sums to 0 over 2025. My rules don't let me convert units myself, so I give no per-kW number. The USD/MW-to-USD/kW conversion is a division by a thousand, per the table's method notes. The table is derived. Perfect foresight is an upper bound. The figure covers energy and ancillary services together, with no capacity payment, and the battery is treated as a price taker.",
+   "citations": [
+    {
+     "table": "battery_stack_monthly",
+     "source_report": "erw:battery_stack",
+     "data_version": "Supabase live set (public site); table last run 2026-10-20T01:04:16Z",
+     "tier": "derived"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 4,
+   "retried": true,
+   "cost_usd": 0.0614985,
+   "seconds": 18.4,
+   "error": null,
+   "refused": null,
+   "trace": null,
+   "grade": {
+    "number": false,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": false
+   },
+   "verdict": "wrong",
+   "step": "site_ask_eval"
+  },
+  {
+   "id": "b07",
+   "grid": "ERCOT",
+   "via": "grid",
+   "question": "Which month of 2025 earned the most for a 4-hour battery with perfect foresight at ERCOT's hub average, and how much was it in USD per MW?",
+   "expected": [
+    12926.2516
+   ],
+   "tolerance": 0.01,
+   "text": [
+    "2025",
+    "May"
+   ],
+   "tables": [
+    "battery_stack_monthly"
+   ],
+   "refuse": false,
+   "asked_at_utc": "2026-10-20T04:23:50.701Z",
+   "http": 200,
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "May 2025 earned the most. A 4-hour battery with perfect foresight at ERCOT's HB_HUBAVG earned 12,926.25 USD per MW that month (battery_stack_monthly, variable foresight_4h_revenue_total_usd_per_mw, local month starting 1 May 2025). This is the highest of the 12 months of 2025. The lowest was September 2025 at 5,498.36 USD/MW (battery_stack_monthly). May's total is energy revenue of 6,973.03 USD/MW plus ancillary revenue of 5,953.23 USD/MW (battery_stack_monthly). All 31 days of May were held (foresight_4h_days_held), and no 2025 month had any days left out. This is a derived ERW model, not a published price. Perfect foresight is an upper bound: it uses real-time energy prices and day-ahead ancillary prices. The battery is a price taker, and the figure includes no capacity payment.",
+   "citations": [
+    {
+     "table": "battery_stack_monthly",
+     "source_report": "erw:battery_stack",
+     "data_version": "Supabase live set (public site); table last run 2026-10-20T01:04:16Z",
+     "tier": "derived"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 8,
+   "retried": false,
+   "cost_usd": 0.0849059,
+   "seconds": 18.1,
+   "error": null,
+   "refused": null,
+   "trace": null,
+   "grade": {
+    "number": true,
+    "text": true,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "verdict": "right",
+   "step": "site_ask_eval"
+  },
+  {
+   "id": "b08",
+   "grid": "CAISO",
+   "via": "grid",
+   "question": "For a 4-hour battery at CAISO's SP15 hub with perfect foresight, what was the total revenue over the last twelve complete months (2025-10 to 2026-09), in USD per kW?",
+   "expected": [
+    79.046
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "battery_stack_monthly"
+   ],
+   "refuse": false,
+   "asked_at_utc": "2026-10-20T04:24:08.928Z",
+   "http": 200,
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "The warehouse holds this figure in USD per MW, not USD per kW, and I can't convert units myself. For a 4-hour battery at CAISO's SP15 hub (caiso:TH_SP15_GEN-APND) with perfect foresight, total revenue over the 12 complete local (Pacific) months from October 2025 to September 2026 was 79308.31 USD/MW (battery_stack_monthly, derived). That is the sum of 12 monthly values of foresight_4h_revenue_total_usd_per_mw, which covers energy and ancillary services together. No days were left out in any month (days_left_out sums to 0). To get USD per kW, divide the USD/MW figure by the number of kW in a MW. This is an upper bound: perfect foresight, a price-taker battery, and no capacity payment.",
+   "citations": [
+    {
+     "table": "battery_stack_monthly",
+     "source_report": "erw:battery_stack",
+     "data_version": "Supabase live set (public site); table last run 2026-10-20T01:04:16Z",
+     "tier": "derived"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 8,
+   "retried": true,
+   "cost_usd": 0.10918629999999999,
+   "seconds": 25.7,
+   "error": null,
+   "refused": null,
+   "trace": null,
+   "grade": {
+    "number": false,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": false
+   },
+   "verdict": "wrong",
+   "step": "site_ask_eval"
+  },
+  {
+   "id": "b09",
+   "grid": "CAISO",
+   "via": "grid",
+   "question": "In calendar year 2025, how much energy revenue did a 4-hour battery on the day-ahead strategy at CAISO's SP15 hub earn, in USD per kW?",
+   "expected": [
+    42.3137
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "battery_stack_monthly"
+   ],
+   "refuse": false,
+   "asked_at_utc": "2026-10-20T04:24:34.768Z",
+   "http": 200,
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "In calendar year 2025 (twelve local months, January to December), a 4-hour battery on the day-ahead strategy at CAISO's SP15 hub (caiso:TH_SP15_GEN-APND) earned 42,503.77 USD per MW from energy alone (battery_stack_monthly, derived). That is the sum of the 12 monthly values of dayahead_4h_revenue_energy_usd_per_mw. The warehouse holds this table in USD per MW, not USD per kW. I am not allowed to convert units myself, so I can't state a USD per kW figure. The figure covers only days the model held: 362 days held and 3 days left out because of missing prices (battery_stack_monthly). It is a price-taker model that sets the day-ahead schedule, and it includes no ancillary-service or capacity revenue.",
+   "citations": [
+    {
+     "table": "battery_stack_monthly",
+     "source_report": "erw:battery_stack",
+     "data_version": "Supabase live set (public site); table last run 2026-10-20T01:04:16Z",
+     "tier": "derived"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 7,
+   "retried": true,
+   "cost_usd": 0.10310389999999998,
+   "seconds": 25.0,
+   "error": null,
+   "refused": null,
+   "trace": null,
+   "grade": {
+    "number": false,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": false
+   },
+   "verdict": "wrong",
+   "step": "site_ask_eval"
+  },
+  {
+   "id": "b10",
+   "grid": "ERCOT",
+   "via": "grid",
+   "question": "In July 2026, how many MWh per MW of rated power did an 8-hour battery with perfect foresight at ERCOT's hub average discharge?",
+   "expected": [
+    200.337
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "battery_stack_monthly"
+   ],
+   "refuse": false,
+   "asked_at_utc": "2026-10-20T04:25:00.121Z",
+   "http": 200,
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "In July 2026 (local Central month), an 8-hour battery with perfect foresight at ERCOT's HB_HUBAVG discharged 200.337 MWh per MW of rated power, or about 200.3 MWh/MW (battery_stack_monthly, variable foresight_8h_discharged_mwh_per_mw, derived). All 31 of the month's 31 days were held (days_held and days_in_month, battery_stack_monthly), so the figure covers the whole month. Perfect foresight is an upper bound, because the model assumes a price-taking battery with real-time energy and day-ahead ancillary prices known in advance.",
+   "citations": [
+    {
+     "table": "battery_stack_monthly",
+     "source_report": "erw:battery_stack",
+     "data_version": "Supabase live set (public site); table last run 2026-10-20T01:04:16Z",
+     "tier": "derived"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.041603,
+   "seconds": 11.3,
+   "error": null,
+   "refused": null,
+   "trace": null,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "verdict": "right",
+   "step": "site_ask_eval"
+  },
+  {
+   "id": "g01",
+   "grid": "ERCOT",
+   "via": "grid",
+   "question": "What was the solar capture price at ERCOT's hub average in July 2026, in USD per MWh?",
+   "expected": [
+    24.9462
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "merchant_revenue_monthly"
+   ],
+   "refuse": false,
+   "asked_at_utc": "2026-10-20T04:25:11.535Z",
+   "http": 200,
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "ERCOT's solar capture price at the hub average (HB_HUBAVG) for July 2026 was 24.95 USD/MWh (merchant_revenue_monthly, derived, energy-only). The row is labelled 2026-07-01 and covers the local July month. It uses 744 solar hours, which is every hour of July.",
+   "citations": [
+    {
+     "table": "merchant_revenue_monthly",
+     "source_report": "erw:merchant_revenue",
+     "data_version": "Supabase live set (public site); table last run 2026-10-19T22:20:44Z",
+     "tier": "derived"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.0524843,
+   "seconds": 10.4,
+   "error": null,
+   "refused": null,
+   "trace": null,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "verdict": "right",
+   "step": "site_ask_eval"
+  },
+  {
+   "id": "g02",
+   "grid": "ERCOT",
+   "via": "grid",
+   "question": "What was wind's capture rate at ERCOT's hub average in June 2026, as a share of the flat price?",
+   "expected": [
+    90.7867
+   ],
+   "tolerance": 0.02,
+   "text": [],
+   "tables": [
+    "merchant_revenue_monthly"
+   ],
+   "refuse": false,
+   "asked_at_utc": "2026-10-20T04:25:21.988Z",
+   "http": 200,
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "Wind's capture rate at ERCOT's HB_HUBAVG in June 2026 was 90.8 percent of the flat price (wind_capture_rate, merchant_revenue_monthly, derived table, energy only). That is a wind capture price of 26.85 USD/MWh against a flat price of 29.58 USD/MWh (same table). The month is the local June 2026 row, labelled 2026-06-01.",
+   "citations": [
+    {
+     "table": "merchant_revenue_monthly",
+     "source_report": "erw:merchant_revenue",
+     "data_version": "Supabase live set (public site); table last run 2026-10-19T22:20:44Z",
+     "tier": "derived"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.033652800000000004,
+   "seconds": 8.1,
+   "error": null,
+   "refused": null,
+   "trace": null,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "verdict": "right",
+   "step": "site_ask_eval"
+  },
+  {
+   "id": "g03",
+   "grid": "ERCOT",
+   "via": "grid",
+   "question": "Over calendar year 2025, how much did a gas peaker at ERCOT's hub average earn in margin over fuel, in USD per MW (the twelve months summed)?",
+   "expected": [
+    50424.0741
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "merchant_revenue_monthly"
+   ],
+   "refuse": false,
+   "asked_at_utc": "2026-10-20T04:25:30.204Z",
+   "http": 200,
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "For calendar year 2025, the peaker revenue at ERCOT's HB_HUBAVG hub summed to about 50,424 USD/MW over the twelve months (merchant_revenue_monthly, variable peaker_revenue_per_mw, derived table, 12 monthly rows, January to December 2025). The monthly values ran from 2,557 USD/MW in March to 7,486 USD/MW in May (merchant_revenue_monthly). I read this variable as the margin over fuel because it sits well below the gross peaker_sales_per_mw, which summed to about 120,471 USD/MW for the same year (merchant_revenue_monthly). I did not read the method document, so that reading is an inference. Months are local ERCOT months (America/Chicago). This is an energy-only figure with no capacity payment, since ERCOT has no capacity market (docs/grids/ercot.md, written).",
+   "citations": [
+    {
+     "table": "merchant_revenue_monthly",
+     "source_report": "erw:merchant_revenue",
+     "data_version": "Supabase live set (public site); table last run 2026-10-19T22:20:44Z",
+     "tier": "derived"
+    },
+    {
+     "table": "docs/grids/ercot.md",
+     "source_report": "docs/grids/ercot.md: text written for the ERW's grid page; each section names its ISO and EIA sources",
+     "data_version": "the site's build",
+     "tier": "written"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 8,
+   "retried": false,
+   "cost_usd": 0.0963009,
+   "seconds": 22.1,
+   "error": null,
+   "refused": null,
+   "trace": null,
+   "grade": {
+    "number": false,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": false
+   },
+   "verdict": "wrong",
+   "step": "site_ask_eval"
+  },
+  {
+   "id": "g04",
+   "grid": "ERCOT",
+   "via": "grid",
+   "question": "Over calendar year 2025, how many MWh per MW did ERCOT's solar fleet produce at the hub average (the twelve monthly figures summed)?",
+   "expected": [
+    2596.6548
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "merchant_revenue_monthly"
+   ],
+   "refuse": false,
+   "asked_at_utc": "2026-10-20T04:25:52.377Z",
+   "http": 200,
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "The twelve monthly solar_energy_per_mw values for ERCOT's HB_HUBAVG hub, January to December 2025 (local months), sum to 2596.65 MWh per MW (merchant_revenue_monthly, derived table; the sum covers 12 rows). Monthly values ranged from 133.76 MWh/MW in December 2025 to 277.99 MWh/MW in July 2025 (merchant_revenue_monthly).",
+   "citations": [
+    {
+     "table": "merchant_revenue_monthly",
+     "source_report": "erw:merchant_revenue",
+     "data_version": "Supabase live set (public site); table last run 2026-10-19T22:20:44Z",
+     "tier": "derived"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 8,
+   "retried": false,
+   "cost_usd": 0.10242049999999998,
+   "seconds": 18.4,
+   "error": null,
+   "refused": null,
+   "trace": null,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "verdict": "right",
+   "step": "site_ask_eval"
+  },
+  {
+   "id": "g05",
+   "grid": "CAISO",
+   "via": "grid",
+   "question": "What was the average of the twelve monthly solar capture rates at CAISO's SP15 hub over 2025?",
+   "expected": [
+    38.3296
+   ],
+   "tolerance": 0.02,
+   "text": [],
+   "tables": [
+    "merchant_revenue_monthly"
+   ],
+   "refuse": false,
+   "asked_at_utc": "2026-10-20T04:26:10.880Z",
+   "http": 200,
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "The simple average of the twelve monthly solar capture rates at CAISO's SP15 hub (TH_SP15_GEN-APND) for 2025 was 38.33 pct (merchant_revenue_monthly, derived). It covers the 12 monthly rows from January to December 2025, labelled by local month. The monthly values ranged from -33.42 pct in April 2025 to 80.29 pct in August 2025 (merchant_revenue_monthly). Capture rates were negative in February (-8.47), March (-18.08) and April (-33.42), which pulls the average down. The table is energy-only and covers wholesale energy revenue only.",
+   "citations": [
+    {
+     "table": "merchant_revenue_monthly",
+     "source_report": "erw:merchant_revenue",
+     "data_version": "Supabase live set (public site); table last run 2026-10-19T22:20:44Z",
+     "tier": "derived"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 6,
+   "retried": false,
+   "cost_usd": 0.0586757,
+   "seconds": 13.1,
+   "error": null,
+   "refused": null,
+   "trace": null,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "verdict": "right",
+   "step": "site_ask_eval"
+  },
+  {
+   "id": "g06",
+   "grid": "SPP",
+   "via": "grid",
+   "question": "Over calendar year 2025, how much did wind at SPP's North hub earn per MW (the twelve monthly revenues per MW summed), in USD?",
+   "expected": [
+    66963.0112
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "merchant_revenue_monthly"
+   ],
+   "refuse": false,
+   "asked_at_utc": "2026-10-20T04:26:24.098Z",
+   "http": 200,
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "Wind at SPP's North hub (spp:SPPNORTH_HUB) earned about 66,963 USD per MW over calendar year 2025. This is the sum of the 12 monthly wind_revenue_per_mw values, January to December 2025 (merchant_revenue_monthly, derived table, energy-only revenue, monthly rows labelled by UTC month start).",
+   "citations": [
+    {
+     "table": "merchant_revenue_monthly",
+     "source_report": "erw:merchant_revenue",
+     "data_version": "Supabase live set (public site); table last run 2026-10-19T22:20:44Z",
+     "tier": "derived"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.047313499999999994,
+   "seconds": 11.4,
+   "error": null,
+   "refused": null,
+   "trace": null,
+   "grade": {
+    "number": false,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": false
+   },
+   "verdict": "wrong",
+   "step": "site_ask_eval"
+  },
+  {
+   "id": "g07",
+   "grid": "ISO-NE",
+   "via": "grid",
+   "question": "What was the solar capture price at ISO-NE's internal hub in August 2026, in USD per MWh?",
+   "expected": [
+    54.5475
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "merchant_revenue_monthly"
+   ],
+   "refuse": false,
+   "asked_at_utc": "2026-10-20T04:26:35.595Z",
+   "http": 200,
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "The solar capture price at ISO-NE's internal hub (.H.INTERNAL_HUB) for August 2026 was about 54.55 USD/MWh (merchant_revenue_monthly, derived, energy only). For comparison, the flat price for the same month was 53.66 USD/MWh (merchant_revenue_monthly). Caveat: the table counts 720 solar hours against 744 hours in the month (merchant_revenue_monthly), so the figure may not cover every hour of August. The month is the ISO-NE local month (Eastern time).",
+   "citations": [
+    {
+     "table": "merchant_revenue_monthly",
+     "source_report": "erw:merchant_revenue",
+     "data_version": "Supabase live set (public site); table last run 2026-10-19T22:20:44Z",
+     "tier": "derived"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 6,
+   "retried": false,
+   "cost_usd": 0.059523,
+   "seconds": 11.9,
+   "error": null,
+   "refused": null,
+   "trace": null,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "verdict": "right",
+   "step": "site_ask_eval"
+  },
+  {
+   "id": "g08",
+   "grid": "NYISO",
+   "via": "grid",
+   "question": "What was the flat (time-weighted) real-time price at NYISO's New York City zone in July 2026, in USD per MWh?",
+   "expected": [
+    73.8689
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "merchant_revenue_monthly"
+   ],
+   "refuse": false,
+   "asked_at_utc": "2026-10-20T04:26:47.623Z",
+   "http": 200,
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "The flat real-time price at the New York City zone (nyiso:N.Y.C.) for July 2026 (local Eastern month) was 73.87 USD/MWh. This is rt_simple_mean in cost_of_power_monthly (derived table), the simple mean of hourly real-time prices, which is what a flat load pays. The month is not complete in the warehouse. It holds 696 real-time hours (rt_hours) against 744 hours in the month (hours_in_month), so the figure covers only the hours held. The NYISO live price tables start on 2026-08-26, so I could not check the figure against the underlying July prices.",
+   "citations": [
+    {
+     "table": "cost_of_power_monthly",
+     "source_report": "erw:cost_of_power",
+     "data_version": "Supabase live set (public site); table last run 2026-10-04T02:26:12Z",
+     "tier": "derived"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 8,
+   "retried": false,
+   "cost_usd": 0.0928919,
+   "seconds": 20.0,
+   "error": null,
+   "refused": null,
+   "trace": null,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": false,
+    "cited": true,
+    "refusal": true,
+    "ok": false
+   },
+   "verdict": "wrong",
+   "step": "site_ask_eval"
+  },
+  {
+   "id": "g09",
+   "grid": "ERCOT",
+   "via": "grid",
+   "question": "On the generator page's rule, what did a 4-hour battery at ERCOT's hub average earn per MW from energy over the last twelve complete months (2025-10 to 2026-09), in USD (the monthly revenues per MW summed)?",
+   "expected": [
+    58533.7042
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "merchant_revenue_monthly"
+   ],
+   "refuse": false,
+   "asked_at_utc": "2026-10-20T04:27:07.773Z",
+   "http": 200,
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "A 4-hour battery at ERCOT's Hub Average (ercot:HB_HUBAVG) earned about 58,534 USD per MW from energy alone over the 12 complete months 2025-10 to 2026-09. That is the sum of the 12 monthly battery_4h_revenue_per_mw values, in USD/MW (merchant_revenue_monthly, derived table). Months are local ERCOT months. The monthly values ran from 2,449 USD/MW in 2026-06 to 8,589 USD/MW in 2026-01 (merchant_revenue_monthly). The table is energy-only, with no ancillary services or capacity payments. I could not find a separate \"generator page\" rule in the warehouse, so I used the table's own battery_4h_revenue_per_mw variable. ERCOT has no capacity market (docs/grids/ercot.md, written text).",
+   "citations": [
+    {
+     "table": "merchant_revenue_monthly",
+     "source_report": "erw:merchant_revenue",
+     "data_version": "Supabase live set (public site); table last run 2026-10-19T22:20:44Z",
+     "tier": "derived"
+    },
+    {
+     "table": "docs/grids/ercot.md",
+     "source_report": "docs/grids/ercot.md: text written for the ERW's grid page; each section names its ISO and EIA sources",
+     "data_version": "the site's build",
+     "tier": "written"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 8,
+   "retried": false,
+   "cost_usd": 0.0961669,
+   "seconds": 16.9,
+   "error": null,
+   "refused": null,
+   "trace": null,
+   "grade": {
+    "number": false,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": false
+   },
+   "verdict": "wrong",
+   "step": "site_ask_eval"
+  },
+  {
+   "id": "g10",
+   "grid": "MISO",
+   "via": "grid",
+   "question": "What was the solar capture price at MISO's Indiana hub in July 2026, in USD per MWh?",
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "paused"
+   ],
+   "tables": [
+    "merchant_revenue_monthly"
+   ],
+   "refuse": true,
+   "asked_at_utc": "2026-10-20T04:27:24.803Z",
+   "http": 200,
+   "model": "claude-sonnet-5-5",
+   "status": "not_in_warehouse",
+   "answer": "Not in the warehouse. MISO is paused while its terms are reviewed (since 4 October 2026), so this site shows no MISO figure. I can't give the July 2026 solar capture price at the Indiana hub. The merchant_revenue_monthly table lists a solar_capture_price variable for miso:INDIANA.HUB, but every query on it returned the pause message instead of a value.",
+   "citations": [
+    {
+     "table": "merchant_revenue_monthly",
+     "source_report": "erw:merchant_revenue",
+     "data_version": "Supabase live set (public site); table last run 2026-10-19T22:20:44Z",
+     "tier": "derived"
+    }
+   ],
+   "not_in_warehouse": true,
+   "tool_calls": 8,
+   "retried": false,
+   "cost_usd": 0.0789918,
+   "seconds": 22.8,
+   "error": null,
+   "refused": null,
+   "trace": null,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": true,
+    "cited": null,
+    "refusal": true,
+    "ok": true
+   },
+   "verdict": "right",
+   "step": "site_ask_eval"
+  },
+  {
+   "id": "d01",
+   "grid": "ERCOT",
+   "via": "grid",
+   "question": "What was the load-weighted real-time price at ERCOT's hub average in August 2026, in USD per MWh?",
+   "expected": [
+    36.6951
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "cost_of_power_monthly"
+   ],
+   "refuse": false,
+   "asked_at_utc": "2026-10-20T04:27:47.793Z",
+   "http": 200,
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "The load-weighted real-time price at ERCOT's hub average (ercot:HB_HUBAVG) for August 2026 was 36.70 USD/MWh (cost_of_power_monthly, derived). It is the hourly real-time price weighted by demand, for the Central-time month. The month is complete, with 744 real-time hours held (cost_of_power_monthly). This covers wholesale energy only.",
+   "citations": [
+    {
+     "table": "cost_of_power_monthly",
+     "source_report": "erw:cost_of_power",
+     "data_version": "Supabase live set (public site); table last run 2026-10-04T02:26:12Z",
+     "tier": "derived"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 2,
+   "retried": true,
+   "cost_usd": 0.030788299999999998,
+   "seconds": 8.8,
+   "error": null,
+   "refused": null,
+   "trace": null,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "verdict": "right",
+   "step": "site_ask_eval"
+  },
+  {
+   "id": "d02",
+   "grid": "ERCOT",
+   "via": "grid",
+   "question": "What was the load-weighted day-ahead price at ERCOT's hub average in January 2026, in USD per MWh?",
+   "expected": [
+    90.7806
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "cost_of_power_monthly"
+   ],
+   "refuse": false,
+   "asked_at_utc": "2026-10-20T04:27:56.726Z",
+   "http": 200,
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "The load-weighted day-ahead price at ERCOT's hub average (HB_HUBAVG) for January 2026 (Central-time month) was 90.78 USD/MWh (cost_of_power_monthly, variable da_load_weighted). The month is complete, with 744 day-ahead hours (cost_of_power_monthly). This is a derived, wholesale-energy-only figure.",
+   "citations": [
+    {
+     "table": "cost_of_power_monthly",
+     "source_report": "erw:cost_of_power",
+     "data_version": "Supabase live set (public site); table last run 2026-10-04T02:26:12Z",
+     "tier": "derived"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 3,
+   "retried": true,
+   "cost_usd": 0.038858000000000004,
+   "seconds": 10.9,
+   "error": null,
+   "refused": null,
+   "trace": null,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "verdict": "right",
+   "step": "site_ask_eval"
+  },
+  {
+   "id": "d03",
+   "grid": "CAISO",
+   "via": "grid",
+   "question": "What was the real-time shape premium (the load-weighted price over the simple mean) at CAISO's NP15 hub in July 2026, in USD per MWh?",
+   "expected": [
+    0.9321
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "cost_of_power_monthly"
+   ],
+   "refuse": false,
+   "asked_at_utc": "2026-10-20T04:28:07.651Z",
+   "http": 200,
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "The real-time shape premium at CAISO's NP15 hub (TH_NP15_GEN-APND) for July 2026 was 0.9321 USD/MWh (cost_of_power_monthly, derived). It is the load-weighted real-time price of 37.656 USD/MWh minus the simple mean of 36.7239 USD/MWh, and the compare tool confirmed that difference. The month is complete, with 744 real-time hours out of 744 hours in the month. The month is a local Pacific month, and the table is market-based, wholesale energy only.",
+   "citations": [
+    {
+     "table": "cost_of_power_monthly",
+     "source_report": "erw:cost_of_power",
+     "data_version": "Supabase live set (public site); table last run 2026-10-04T02:26:12Z",
+     "tier": "derived"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 8,
+   "retried": false,
+   "cost_usd": 0.09585850000000001,
+   "seconds": 17.4,
+   "error": null,
+   "refused": null,
+   "trace": null,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "verdict": "right",
+   "step": "site_ask_eval"
+  },
+  {
+   "id": "d04",
+   "grid": "ERCOT",
+   "via": "grid",
+   "question": "What was the average of the twelve monthly simple-mean real-time prices at ERCOT's hub average over 2025, in USD per MWh?",
+   "expected": [
+    32.3934
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "cost_of_power_monthly"
+   ],
+   "refuse": false,
+   "asked_at_utc": "2026-10-20T04:28:25.155Z",
+   "http": 200,
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "The average of the twelve monthly real-time simple-mean prices at ERCOT's HB_HUBAVG for 2025 (January to December, local months) was 32.39 USD/MWh (cost_of_power_monthly, variable rt_simple_mean, 12 monthly values; derived table). Caveat: the monthly rows hold 8712 real-time hours in total (cost_of_power_monthly, rt_hours), against 8760 hours in the year's months (hours_in_month). So some months are slightly incomplete. The 32.39 is an unweighted average of the monthly means, not an hours-weighted annual mean.",
+   "citations": [
+    {
+     "table": "cost_of_power_monthly",
+     "source_report": "erw:cost_of_power",
+     "data_version": "Supabase live set (public site); table last run 2026-10-04T02:26:12Z",
+     "tier": "derived"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 8,
+   "retried": false,
+   "cost_usd": 0.0866404,
+   "seconds": 17.4,
+   "error": null,
+   "refused": null,
+   "trace": null,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "verdict": "right",
+   "step": "site_ask_eval"
+  },
+  {
+   "id": "d05",
+   "grid": "NYISO",
+   "via": "grid",
+   "question": "What was the load-weighted real-time price at NYISO's New York City zone in January 2026, in USD per MWh?",
+   "expected": [
+    159.4187
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "cost_of_power_monthly"
+   ],
+   "refuse": false,
+   "asked_at_utc": "2026-10-20T04:28:42.687Z",
+   "http": 200,
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "The load-weighted real-time price at NYISO's N.Y.C. zone in January 2026 was 159.42 USD/MWh (cost_of_power_monthly, derived). It is the hourly real-time price weighted by the balancing authority's hourly demand. It covers 744 real-time hours out of 744 hours in the month, so the month is complete (local Eastern time). For comparison, the flat-load simple mean was 150.05 USD/MWh (cost_of_power_monthly). This is wholesale energy only.",
+   "citations": [
+    {
+     "table": "cost_of_power_monthly",
+     "source_report": "erw:cost_of_power",
+     "data_version": "Supabase live set (public site); table last run 2026-10-04T02:26:12Z",
+     "tier": "derived"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 4,
+   "retried": true,
+   "cost_usd": 0.06479090000000001,
+   "seconds": 13.9,
+   "error": null,
+   "refused": null,
+   "trace": null,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "verdict": "right",
+   "step": "site_ask_eval"
+  },
+  {
+   "id": "d06",
+   "grid": "SPP",
+   "via": "grid",
+   "question": "How many real-time hours were held for SPP's North hub in July 2026?",
+   "expected": [
+    744.0
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "cost_of_power_monthly"
+   ],
+   "refuse": false,
+   "asked_at_utc": "2026-10-20T04:28:56.709Z",
+   "http": 200,
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "For SPP's North hub (spp:SPPNORTH_HUB), July 2026 held 744 real-time hours (cost_of_power_monthly, variable rt_hours, derived). That equals the 744 hours in the month (cost_of_power_monthly, hours_in_month), so the month is complete. The month is the local Central-time month, which the table labels 2026-07-01.",
+   "citations": [
+    {
+     "table": "cost_of_power_monthly",
+     "source_report": "erw:cost_of_power",
+     "data_version": "Supabase live set (public site); table last run 2026-10-04T02:26:12Z",
+     "tier": "derived"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 3,
+   "retried": false,
+   "cost_usd": 0.0452135,
+   "seconds": 9.8,
+   "error": null,
+   "refused": null,
+   "trace": null,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "verdict": "right",
+   "step": "site_ask_eval"
+  },
+  {
+   "id": "d07",
+   "grid": "ISO-NE",
+   "via": "grid",
+   "question": "What was the day-ahead shape premium at ISO-NE's internal hub in June 2026, in USD per MWh?",
+   "expected": [
+    2.6811
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "cost_of_power_monthly"
+   ],
+   "refuse": false,
+   "asked_at_utc": "2026-10-20T04:29:06.674Z",
+   "http": 200,
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "The day-ahead shape premium at ISO-NE's .H.INTERNAL_HUB for June 2026 (local month) was 2.68 USD/MWh (cost_of_power_monthly, derived). This is the day-ahead load-weighted price minus the flat day-ahead mean, wholesale energy only. The month is complete: 720 day-ahead hours out of 720 hours in the month (cost_of_power_monthly).",
+   "citations": [
+    {
+     "table": "cost_of_power_monthly",
+     "source_report": "erw:cost_of_power",
+     "data_version": "Supabase live set (public site); table last run 2026-10-04T02:26:12Z",
+     "tier": "derived"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 5,
+   "retried": false,
+   "cost_usd": 0.056039000000000005,
+   "seconds": 10.8,
+   "error": null,
+   "refused": null,
+   "trace": null,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "verdict": "right",
+   "step": "site_ask_eval"
+  },
+  {
+   "id": "d08",
+   "grid": "ERCOT",
+   "via": "grid",
+   "question": "Which month of 2025 had the highest load-weighted real-time price at ERCOT's hub average, and what was it in USD per MWh?",
+   "expected": [
+    37.9939
+   ],
+   "tolerance": 0.01,
+   "text": [
+    "May"
+   ],
+   "tables": [
+    "cost_of_power_monthly"
+   ],
+   "refuse": false,
+   "asked_at_utc": "2026-10-20T04:29:17.600Z",
+   "http": 200,
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "May 2025 had the highest load-weighted real-time price at ERCOT's hub average (ercot:HB_HUBAVG). It was 37.99 USD/MWh (cost_of_power_monthly, variable rt_load_weighted). This is the highest of the 12 monthly values for 2025, with months taken in ERCOT local time (America/Chicago). The price is each hour's real-time price weighted by the balancing authority's hourly demand. It covers wholesale energy only. The table is derived by the ERW.",
+   "citations": [
+    {
+     "table": "cost_of_power_monthly",
+     "source_report": "erw:cost_of_power",
+     "data_version": "Supabase live set (public site); table last run 2026-10-04T02:26:12Z",
+     "tier": "derived"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 3,
+   "retried": true,
+   "cost_usd": 0.038362299999999995,
+   "seconds": 9.6,
+   "error": null,
+   "refused": null,
+   "trace": null,
+   "grade": {
+    "number": true,
+    "text": true,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "verdict": "right",
+   "step": "site_ask_eval"
+  },
+  {
+   "id": "d09",
+   "grid": "ERCOT",
+   "via": "general",
+   "question": "In June 2026, how much higher or lower was the load-weighted real-time price at ERCOT's hub average than at CAISO's SP15 hub, in USD per MWh?",
+   "expected": [
+    15.7097,
+    29.4033,
+    13.6936
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "cost_of_power_monthly"
+   ],
+   "refuse": false,
+   "asked_at_utc": "2026-10-20T04:29:27.276Z",
+   "http": 200,
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "In June 2026 (local month, 720 of 720 real-time hours held for both hubs), ERCOT's hub average load-weighted real-time price was 29.40 USD/MWh (cost_of_power_monthly, ercot:HB_HUBAVG, rt_load_weighted). CAISO's SP15 hub was 13.69 USD/MWh (cost_of_power_monthly, caiso:TH_SP15_GEN-APND). ERCOT was higher by 15.71 USD/MWh (difference from compare on cost_of_power_monthly). These are wholesale energy prices only, each weighted by the hourly demand of its balancing authority. The table is derived by the ERW and is public.",
+   "citations": [
+    {
+     "table": "cost_of_power_monthly",
+     "source_report": "erw:cost_of_power",
+     "data_version": "Supabase live set (public site); table last run 2026-10-04T02:26:12Z",
+     "tier": "derived"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 7,
+   "retried": false,
+   "cost_usd": 0.0715509,
+   "seconds": 16.9,
+   "error": null,
+   "refused": null,
+   "trace": null,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "verdict": "right",
+   "step": "site_ask_eval"
+  },
+  {
+   "id": "d10",
+   "grid": "PJM",
+   "via": "general",
+   "question": "What was the load-weighted real-time price at PJM's Western hub in August 2026, in USD per MWh?",
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse"
+   ],
+   "tables": [
+    "cost_of_power_monthly"
+   ],
+   "refuse": true,
+   "asked_at_utc": "2026-10-20T04:29:44.307Z",
+   "http": 200,
+   "model": "claude-sonnet-5-5",
+   "status": "not_in_warehouse",
+   "answer": "Not in the warehouse. The warehouse holds no PJM energy prices, so it has no real-time price or load-weighted price for PJM's Western hub in August 2026. PJM's prices are not licensed for public use, and the cost-of-power table covers only CAISO, ERCOT, ISO-NE, MISO, NYISO and SPP.",
+   "citations": [],
+   "not_in_warehouse": true,
+   "tool_calls": 8,
+   "retried": false,
+   "cost_usd": 0.1547785,
+   "seconds": 24.8,
+   "error": null,
+   "refused": null,
+   "trace": null,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": false,
+    "cited": null,
+    "refusal": true,
+    "ok": false
+   },
+   "verdict": "wrong",
+   "step": "site_ask_eval"
+  }
+ ]
+}

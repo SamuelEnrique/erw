@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { BoardView } from "@/components/board/BoardView";
 import { Brand } from "@/components/Brand";
+import { TableDownloads } from "@/components/tool/TableDownloads";
 import fileJson from "@/data/board.json";
 import type { BoardFile } from "@/lib/board";
 
@@ -16,6 +17,12 @@ export const metadata: Metadata = { title: "Price board", robots: { index: false
 
 const file = fileJson as unknown as BoardFile;
 
+// Session 328: the tables board_page.py reads (scripts/page_tables.py on this page and its builder); the downloads keep
+// those in the public catalogue, each as its CSV with a Python and a Stata reader
+const TABLES = ["ercot_all_hub_prices_history", "iso_hub_prices_history", "caiso_as_prices", "ercot_as_prices", "nyiso_as_prices", "spp_as_prices",
+  "eia_fuel_spot_prices", "eia_product_spot_prices", "eia_crude_stream_prices", "eia_power_plant_fuel_costs", "eia_regional_retail_fuel_prices",
+  "eia_retail_electricity_prices", "carb_lcfs_credit_prices", "frb_treasury_yields", "imf_commodity_prices"];
+
 export default function Board() {
-  return <Brand><BoardView file={file} /></Brand>;
+  return <Brand><BoardView file={file} footer={<TableDownloads tables={TABLES} />} /></Brand>;
 }

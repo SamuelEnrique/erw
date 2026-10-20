@@ -91,3 +91,12 @@ A derived table inherits the most restrictive license of its inputs (docs/datast
 | midday_min | -3.98 | -18.25 |
 
 These are the human's values. The package tests check that the annual table reproduces them to the cent.
+
+## On the site (session 328, 20 October 2026)
+
+The two tables are drawn on the ERCOT tab of `/prices` (the peak premium explorer; `/explorer/ercot-peak-premium`
+redirects there). Since session 317 its box plot is drawn in SVG through the site's shared chart set: five numbers a
+box on one scale, the median named with its value; no value moved. Since session 328 the tab offers both tables as the
+live set's CSV with a Python and a Stata reader of that CSV. The catalogue,
+read on 20 October 2026, gives both tables' last run as 29 September 2026; the monthly table's newest month is
+September 2026.

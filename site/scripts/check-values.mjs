@@ -340,6 +340,13 @@ async function truth(check) {
     const r = (await q("events", { select: col, table_name: `eq.${table}`, event_id: `eq.${id}` }))[0];
     return r ? Number(r.v) : undefined;
   }
+  // session 329: one field of one row of an entities table (the companies tab's confidence: entity|energy_companies|<id>|confidence)
+  if (p[0] === "entity") {
+    const [, table, id, field] = p;
+    const col = field === "capacity_mw" ? "v:capacity_mw" : `v:extra->>${field}`;
+    const r = (await q("entities", { select: col, table_name: `eq.${table}`, entity_id: `eq.${id}` }))[0];
+    return r ? Number(r.v) : undefined;
+  }
   if (p[0] === "series_max" || p[0] === "series_sum") {
     // session 29: an optional sixth part names the entity (one BA of the consolidated EIA-930 tables)
     const [, table, variable, start, end, entity] = p;
