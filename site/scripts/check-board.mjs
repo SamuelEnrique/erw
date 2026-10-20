@@ -108,7 +108,7 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open }) => {
   await go(`${base}/board`);
   await wait(`!!document.querySelector('[data-board][data-ready="1"]')`, 15000, "the board");
   await evaluate(`document.querySelector('tr[data-row="ercot-hb-hubavg-da"]').click()`);
-  await wait(`!!document.querySelector('[data-workbench="ercot-hb-hubavg-da"] [data-chart="price"] canvas')`, 30000, "the workbench's chart");
+  await wait(`!!document.querySelector('[data-workbench="ercot-hb-hubavg-da"] [data-chart="price"] svg')`, 30000, "the workbench's chart");
   check((await evaluate("location.search")).includes("s=ercot-hb-hubavg-da"), "a click on a row opens the workbench and writes the row to the address");
   check(await evaluate(`(() => { const w = document.querySelector('[data-workbench]').getBoundingClientRect(), tb = document.querySelector('[data-group="power"]').getBoundingClientRect(); return innerWidth < 1280 || w.left >= tb.right - 4; })()`), "the workbench sits beside the tables");
   await wait(`document.querySelectorAll('[data-stats] tbody tr').length >= 3`, 15000, "the window's table");
@@ -122,14 +122,14 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open }) => {
   check(await evaluate(`(() => { const w = document.querySelector('[data-workbench]').getBoundingClientRect(), bd = document.querySelector('[data-board]').getBoundingClientRect(); return w.width > bd.width * 0.9; })()`), "Expand makes the workbench full width");
   // an address alone reopens a view: Henry Hub over five years with WTI laid over it and the ratio between them
   await go(`${base}/board?s=eia-wti-cushing-spot&o=eia-henry-hub-spot&m=ratio&w=5y`);
-  await wait(`!!document.querySelector('[data-workbench="eia-wti-cushing-spot"] [data-chart="price"] canvas') && document.querySelectorAll('[data-stats] tbody tr').length === 3`, 30000, "the shared view");
+  await wait(`!!document.querySelector('[data-workbench="eia-wti-cushing-spot"] [data-chart="price"] svg') && document.querySelectorAll('[data-stats] tbody tr').length === 3`, 30000, "the shared view");
   const shared = await evaluate(`[...document.querySelectorAll('[data-stats] tbody tr')].map((r) => r.innerText.replace(/\\s+/g, ' '))`);
   check(/WTI/.test(shared[0]) && /Henry Hub/.test(shared[1]) && / over /.test(shared[2]), "an address alone reopens the view: two series and the ratio between them");
   await go(`${base}/board?s=eia-henry-hub-spot&v=season`);
-  await wait(`!!document.querySelector('[data-chart="season"] canvas')`, 30000, "the prior-years chart");
+  await wait(`!!document.querySelector('[data-chart="season"] svg')`, 30000, "the prior-years chart");
   check(true, "this year against prior years is drawn");
   await go(`${base}/board?s=ercot-hb-hubavg-rt&v=dist&w=1m&th=100`);
-  await wait(`!!document.querySelector('[data-dist]') && !!document.querySelector('[data-chart="dist"] canvas')`, 30000, "the distribution");
+  await wait(`!!document.querySelector('[data-dist]') && !!document.querySelector('[data-chart="dist"] svg')`, 30000, "the distribution");
   const dist = await evaluate(`document.querySelector('[data-dist]').innerText.replace(/\\s+/g, ' ')`);
   check(/above 100/i.test(dist) && /below zero/i.test(dist) && /On-peak mean/i.test(dist) && /volatility/i.test(dist), "the distribution block: hours above the threshold, below zero, on-peak and off-peak, volatility");
   // a trend line answers the mouse
