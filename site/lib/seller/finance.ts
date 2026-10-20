@@ -22,17 +22,39 @@
 // contract now runs that contract for the life, not the shorter term (a shared address must open what the browser
 // showed, so the PPA term is never inferred from the debt's). A set of assumptions without the key (an older caller)
 // runs the contract for the debt's years.
+//
+// Session 353 (the chain of 20 October 2026, night): two more assumptions in Financing, the tax credits, 0 by default so
+// every default figure is what it was. The investment tax credit (`itc`, letter `i`) is a percent of the capital cost,
+// received in the first year; the production tax credit (`ptc`, letter `x`) is USD per MWh of the plant's energy (the
+// last twelve months' energy, falling with the degradation) in each of the first ten years. Both reach the cash flows to
+// equity, so NPV, IRR and the breakeven PPA price; neither is counted in debt coverage (a credit is a tax figure, not
+// cash from the plant). The page offers each credit only for an asset it names (SellerScenarios.tsx). And the contract
+// has a shape (Contract.shape): "generated", the default and the only shape until now, pays the contract price on the
+// contracted share of the energy as it is made; "block" is a fixed volume, the same MWh a year spread flat over every
+// hour and settled against the hub's average of every hour, so the plant keeps all of its market revenue and pays the
+// hub's flat price on the block. An older set of assumptions without the two keys reads as no credit.
 
-export type Key = "capex" | "share" | "rate" | "term" | "fom" | "deg" | "life" | "hurdle" | "cshare" | "cprice" | "ppa";
+export type Key = "capex" | "share" | "rate" | "term" | "fom" | "deg" | "life" | "hurdle" | "cshare" | "cprice" | "ppa" | "itc" | "ptc";
 export type Assumptions = Record<Key, number>;
-/** The eleven, in the order the page lists them (session 212: the contract's share and price; session 264: the PPA term last). */
-export const KEYS: Key[] = ["capex", "share", "rate", "term", "fom", "deg", "life", "hurdle", "cshare", "cprice", "ppa"];
+/** The thirteen, in the order the page lists them (session 212: the contract's share and price; session 264: the PPA
+ * term; session 353: the two tax credits last). */
+export const KEYS: Key[] = ["capex", "share", "rate", "term", "fom", "deg", "life", "hurdle", "cshare", "cprice", "ppa", "itc", "ptc"];
 /** The eight of session 186: the ones every asset's arithmetic reads the same way. */
 export const FINANCE_KEYS: Key[] = ["capex", "share", "rate", "term", "fom", "deg", "life", "hurdle"];
+/** Session 353: the contract's three, and the two tax credits. */
+export const CONTRACT_KEYS: Key[] = ["cshare", "cprice", "ppa"];
+export const CREDIT_KEYS: Key[] = ["itc", "ptc"];
+/** The years the production tax credit is paid: ten, its term under sections 45 and 45Y of the Internal Revenue Code. */
+export const PTC_YEARS = 10;
 /** What the contract is for the asset: a share of the energy at a price per MWh (solar, wind), or a toll on a share of
  * the capacity, USD per kW-month (a battery, a gas peaker). `energyKw` is the last twelve months' energy, MWh per kW
  * of nameplate, which an energy contract is priced on. */
-export type Contract = { kind: "energy" | "toll"; energyKw: number };
+export type Contract = {
+  kind: "energy" | "toll"; energyKw: number;
+  /** session 353: an energy contract's shape ("generated" when absent), and the hub's average price of every hour over
+   * the same months, USD per MWh, which a block is settled against (null when not held: the block is then not offered) */
+  shape?: "generated" | "block"; flat?: number | null;
+};
 export const NO_CONTRACT: Contract = { kind: "toll", energyKw: 0 };
 
 export type Spec = {
@@ -87,6 +109,11 @@ export const SPECS: Record<Key, Spec> = {
   // session 264: the contract's length, the eleventh
   ppa: { key: "ppa", letter: "y", label: "PPA term", unit: "years", min: 1, max: 40, whole: true, swing: 5, swingWords: "5 years",
     short: (v) => `PPA ${n(v)} ${v === 1 ? "year" : "years"}`, words: (v) => `PPA term ${n(v)} ${v === 1 ? "year" : "years"}`, plain: n, source: `The years the contract pays its price, cut to the project life; after them the whole plant is in the market. No published PPA term is held, so the default is this asset's life (${LAZARD}), the debt's own default term: at the default the contract runs as it did before this field` },
+  // session 353: the tax credits, none by default
+  itc: { key: "itc", letter: "i", label: "Investment tax credit", unit: "percent of capital cost", min: 0, max: 70, whole: false, swing: 10, swingWords: "10 points",
+    short: (v) => `ITC ${n(v)}%`, words: (v) => `investment tax credit ${n(v)} percent`, plain: n, source: "No credit: the default is none. The credit is that percent of the capital cost, received in the first year. The page holds no figure for whether this project qualifies, or at what rate" },
+  ptc: { key: "ptc", letter: "x", label: "Production tax credit", unit: "USD per MWh", min: 0, max: 100, whole: false, swing: 5, swingWords: "USD 5 per MWh",
+    short: (v) => `PTC ${n(v)} USD/MWh`, words: (v) => `production tax credit USD ${n(v)} per MWh`, plain: n, source: `No credit: the default is none. The credit is paid on each MWh of the first ${PTC_YEARS} years, the credit's term under sections 45 and 45Y of the Internal Revenue Code, on the last twelve months' energy falling with the degradation. The page holds no figure for whether this project qualifies, or at what rate` },
 };
 /** The contract's unit and the chart's words for an asset (session 212). */
 export function contractUnits(kind: Contract["kind"]): { shareUnit: string; priceUnit: string; priceStep: string } {
@@ -98,7 +125,7 @@ export function contractUnits(kind: Contract["kind"]): { shareUnit: string; pric
 /** The defaults for an asset: its Lazard capital cost, fixed O&M and life (lib/merchant.ts, DEFAULTS), Lazard's
  * financing (60 percent debt at 8 percent, repaid over the life), and the two that no source in the repository gives. */
 export function defaultsOf(costs: { capex: number; fom: number; life: number; deg?: number }): Assumptions {
-  return { capex: costs.capex, share: 60, rate: 8, term: costs.life, fom: costs.fom, deg: costs.deg ?? 0, life: costs.life, hurdle: HURDLE, cshare: 0, cprice: 0, ppa: costs.life };
+  return { capex: costs.capex, share: 60, rate: 8, term: costs.life, fom: costs.fom, deg: costs.deg ?? 0, life: costs.life, hurdle: HURDLE, cshare: 0, cprice: 0, ppa: costs.life, itc: 0, ptc: 0 };
 }
 
 /** One value brought inside its bounds, or to the default when it cannot be read. */
@@ -144,7 +171,7 @@ export function scenarioQuery(s: Scenarios, d: Assumptions): [string, string][] 
   return out;
 }
 /** Whether a parameter name is one of the scenarios' (so that the page's other links can carry or drop it). */
-export const isScenarioParam = (name: string) => name === "v" || /^[ab][csrtfdlhnpy]$/.test(name);
+export const isScenarioParam = (name: string) => name === "v" || /^[ab][csrtfdlhnpyix]$/.test(name);
 /** The scenarios' parameters of a query string, to append to another address of the page. A change of asset (or of a
  * battery's duration) drops the capital cost, the fixed O&M, the term, the life and (session 264) the PPA term, whose
  * defaults are the asset's. */
@@ -192,17 +219,30 @@ export const contractYear = (a: Assumptions, c: Contract = NO_CONTRACT) =>
   ((a.cshare ?? 0) / 100) * (a.cprice ?? 0) * (c.kind === "energy" ? c.energyKw : 12);
 /** The uncontracted share of the plant, a fraction: 1 with no contract. */
 export const merchantShare = (a: Assumptions) => 1 - (a.cshare ?? 0) / 100;
+/** Session 353: what the market pays a plant under contract in a year of the contract, USD per kW, on that year's market
+ * revenue `rev`: the uncontracted share of it (the shape "generated", as every contract until now); for a block, all of
+ * it less the hub's flat price on the block's volume (the contracted share of the energy). */
+export const contractedMarket = (a: Assumptions, rev: number, c: Contract = NO_CONTRACT) =>
+  c.shape === "block" && c.kind === "energy" && c.flat !== null && c.flat !== undefined ? rev - ((a.cshare ?? 0) / 100) * c.energyKw * c.flat : merchantShare(a) * rev;
 /** Income in year t, USD per kW: for the contract's years (session 264: the PPA term; the debt's years until then) the
- * contract plus the uncontracted share of the market revenue; after them the whole plant in the market. At a contract
- * share of 0 this is the market revenue in every year. */
+ * contract plus what the market pays the plant beside it (the uncontracted share of the market revenue; session 353:
+ * for a block, contractedMarket); after them the whole plant in the market. At a contract share of 0 this is the market
+ * revenue in every year. */
 export const incomeInYear = (a: Assumptions, revKw: number, t: number, c: Contract = NO_CONTRACT) =>
-  t <= contractYears(a) ? contractYear(a, c) + merchantShare(a) * revenueInYear(a, revKw, t) : revenueInYear(a, revKw, t);
+  t <= contractYears(a) ? contractYear(a, c) + contractedMarket(a, revenueInYear(a, revKw, t), c) : revenueInYear(a, revKw, t);
+/** Session 353: the tax credits in year t, USD per kW: the investment tax credit, a percent of the capital cost, in year
+ * 1; the production tax credit on the year's energy (the last twelve months' energy, falling by the degradation rate)
+ * in the first PTC_YEARS years. 0 with neither (an older set of assumptions, without the keys, is read as none). */
+export const creditInYear = (a: Assumptions, t: number, c: Contract = NO_CONTRACT) =>
+  (t === 1 ? ((a.itc ?? 0) / 100) * a.capex : 0) + (t <= PTC_YEARS && (a.ptc ?? 0) > 0 ? (a.ptc ?? 0) * c.energyKw * (1 - a.deg / 100) ** (t - 1) : 0);
 /** The cash flows to equity, USD per kW, years 0 to the project life: the equity paid in at year 0, then each year's
- * income less fixed O&M less the debt payment while the debt lasts. */
+ * income less fixed O&M less the debt payment while the debt lasts (session 353: plus the year's tax credits, when the
+ * scenario holds one; with none the flows are what they were, to the last digit). */
 export function flows(a: Assumptions, revKw: number, c: Contract = NO_CONTRACT): number[] {
   const ds = debtService(a), dy = debtYears(a);
+  const credits = (a.itc ?? 0) > 0 || (a.ptc ?? 0) > 0;
   const out = [-a.capex * (1 - a.share / 100)];
-  for (let t = 1; t <= a.life; t++) out.push(incomeInYear(a, revKw, t, c) - a.fom - (t <= dy ? ds : 0));
+  for (let t = 1; t <= a.life; t++) out.push(incomeInYear(a, revKw, t, c) - a.fom - (t <= dy ? ds : 0) + (credits ? creditInYear(a, t, c) : 0));
   return out;
 }
 /** Net present value of yearly cash flows at `ratePct` percent: the sum of flow t over (1 + rate)^t. */
@@ -237,7 +277,7 @@ export function irr(fl: number[]): number | null {
  * before). Null with no debt. */
 export function coverage(a: Assumptions, revKw: number, c: Contract = NO_CONTRACT): number | null {
   const ds = debtService(a);
-  return ds > 0 ? (contractYear(a, c) + merchantShare(a) * revKw - a.fom) / ds : null;
+  return ds > 0 ? (contractYear(a, c) + contractedMarket(a, revKw, c) - a.fom) / ds : null;
 }
 /** Debt coverage in one month: the month's revenue per kW less a twelfth of the fixed O&M, over a twelfth of the debt
  * payments (the page's own monthly coverage, lib/merchant.ts). Null with no debt. */
@@ -306,8 +346,9 @@ export type Bar = { key: Key; label: string; step: string; base: number; down: S
 export function sensitivity(a: Assumptions, revKw: number, c: Contract = NO_CONTRACT): Bar[] {
   const at = (x: Assumptions) => npv(x.hurdle, flows(x, revKw, c));
   const base = at(a);
-  // session 212 (as session 211 on the battery): the contract's two rows only when the scenario holds a contract
-  const keys = (a.cshare ?? 0) > 0 ? KEYS : FINANCE_KEYS;
+  // session 212 (as session 211 on the battery): the contract's two rows only when the scenario holds a contract;
+  // session 353: a tax credit's row only when the scenario holds that credit
+  const keys = [...FINANCE_KEYS, ...((a.cshare ?? 0) > 0 ? CONTRACT_KEYS : []), ...CREDIT_KEYS.filter((k) => (a[k] ?? 0) > 0)];
   const bars = keys.map((k): Bar => {
     const s = SPECS[k];
     const side = (dir: -1 | 1): Side | null => {

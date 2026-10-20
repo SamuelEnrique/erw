@@ -284,6 +284,10 @@ written to `warehouse/metadata/findings_recompute.csv` (the day, the card, `reco
 `computed_at`, how many of its numbers moved and which). A finding whose table is not on the machine keeps its card.
 The cards are committed with the day's page files; a step that fails puts the cards back as committed.
 
+### On the page (session 355, 20 October 2026)
+
+`components/analysis/FindingCard.tsx` reads `statistics` (`lib/findings.ts`, `CardStatistics`) and writes it in the card's fold, under the table of estimates, never in the PNG renderer's frame: a hunt draft's flag "A step, not a trend" with its two levels when `shape.step_better`; a table of each regression's SE and p by HC1 and by Newey-West with the lags (`newey_west.rows`) and the rule; and the round's line, its claims tested and passing, the card's own q-values and the caveat. No figure, verdict or word of a card changes; the numbers are the card file's, as written by `card_statistics.py`.
+
 ## License
 
 A finding's card and downloads carry the most restrictive license of their inputs (Decision 23). Findings 1 and 3 read public tables: public. Findings 8, 9 and 10 (session 182) read public tables only: public. Finding 2 reads one internal table (ISO-NE's hourly history) and publishes only yearly aggregates of it; its hourly rows are not in any download.

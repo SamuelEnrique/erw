@@ -16,6 +16,9 @@ export type View = {
   /** the income table's window: its first and last calendar year (null: every year held) and the events left out */
   from: string | null; to: string | null; out: string[]; income: "table" | "chart";
   mode: Mode; pct: number; measure: Measure;
+  /** session 352: the price years the page is priced on, a window of price_years_by_window (lib/priceyears.ts); the
+   * page's own last twelve months by default */
+  py: string;
 };
 export const HEADS: { key: HeadKey; label: string; words: string }[] = [
   { key: "l12", label: "Last twelve months, all streams", words: "the last twelve months' revenue, USD per kW" },
@@ -34,8 +37,8 @@ export const CHARTS: { key: ChartKey; label: string; words: string }[] = [
   { key: "debt", label: "Debt", words: "each year of scenario A's life: the debt payment and the debt still owed, USD per kW" },
 ];
 export const HEADS_MAX = 6, CHARTS_MAX = 3;
-export const DEFAULT_VIEW: View = { units: "battery", heads: ["l12", "bad", "cover"], charts: ["revenue"], scale: "adjusted", from: null, to: null, out: [], income: "table", mode: "range", pct: 10, measure: "npv" };
-const PARAMS = ["u", "hf", "ch", "sc", "wf", "wt", "lo", "it", "sm", "sp", "sx"];
+export const DEFAULT_VIEW: View = { units: "battery", heads: ["l12", "bad", "cover"], charts: ["revenue"], scale: "adjusted", from: null, to: null, out: [], income: "table", mode: "range", pct: 10, measure: "npv", py: "last_12" };
+const PARAMS = ["u", "hf", "ch", "sc", "wf", "wt", "lo", "it", "sm", "sp", "sx", "py"];
 export const isViewParam = (name: string) => PARAMS.includes(name);
 const list = <T extends string>(raw: string | undefined, all: readonly T[], max: number): T[] | null => {
   if (raw === undefined || raw === "") return null;
@@ -59,6 +62,7 @@ export function parseView(q: Record<string, string | undefined>): View {
   const p = Number(q.sp);
   if (q.sp !== undefined && Number.isFinite(p)) v.pct = Math.min(100, Math.max(1, Math.round(p)));
   if (q.sx === "irr") v.measure = "irr";
+  if (q.py && /^(year_\d{4}|avg_3y|avg_7y|all|all_less_[a-z0-9_]+)$/.test(q.py)) v.py = q.py;   // session 352
   return v;
 }
 /** The address parameters of a view: only what differs from the default. */
@@ -76,6 +80,7 @@ export function viewQuery(v: View): [string, string][] {
   if (v.mode !== DEFAULT_VIEW.mode) out.push(["sm", v.mode]);
   if (v.pct !== DEFAULT_VIEW.pct) out.push(["sp", String(v.pct)]);
   if (v.measure !== DEFAULT_VIEW.measure) out.push(["sx", v.measure]);
+  if (v.py !== DEFAULT_VIEW.py) out.push(["py", v.py]);
   return out;
 }
 /** The window's first and last year as the table uses them: the reader's, else the years held. */

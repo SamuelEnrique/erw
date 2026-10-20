@@ -68,3 +68,35 @@ In the order of their value:
 8. **Branches:** `task/198-battery-data` stands on GitHub with four commits not on main (not this chain's). Every `wip/` branch of 316 to 320 and 328 to 334 is deleted; `wip/335-bill-night` is deleted once this landing is on main.
 
 Your answers of 20 October recorded in the queue's next chain (`queue/next/010-night-20-october-code.md`) settle several earlier questions: the two maps stay as they are (sessions 318 and 330 asked), no range slider, the hunt's floor at one typical move, the day-ahead column with its words. That chain (sessions 351 to 356) is the queue step's next file.
+
+## The chain of 20 October, night: sessions 351 to 356
+
+The queue's file `queue/done/010-night-20-october-code.md`, taken at the end of the chain above, ran on the same machine from about 12:10 UTC. Every change is default-neutral: at each page's bare address `check-values` passed against Supabase and the pages' own scenario checks held their default figures, and every new choice defaults to the page as it was. No landing between 14:00 and 16:15 UTC, so sessions 352 to 355 landed together after it.
+
+- **Session 351, your six answers** (`bb7ec816`, 13:06 UTC): `https://erw-flame.vercel.app/terms#research`. `/terms` names the email a reader leaves on Research and that you answer it within a week, with no promise of an analysis; the shared heat map takes two hues where its figure is signed (`docs/brand.md`, "Heat maps"); the day-ahead column, no range slider and the hunt's floor recorded as ruled; the two maps unchanged.
+- **Session 352, price years** (landed with 353 to 355): `https://erw-flame.vercel.app/cost-of-power/battery?py=year_2021`, `/cost-of-power/seller?py=avg_3y`, `/cost-of-power?py=year_2021`. A "Price years" choice on the three economics pages reads `price_years_by_window`; scenario A and B, the results and the sensitivity follow it; the headline names the window; a line gives the highest and lowest whole year. The last twelve months stay the default and write nothing into the address.
+- **Session 353, the generator** (the same landing): `https://erw-flame.vercel.app/cost-of-power/seller?nb=p10`, `?ai=30&ax=25`, `?ps=block&an=100&ap=58.36`. The investment and production tax credits in Financing (0 by default, not counted in coverage); the settlement point, hubs and load zones apart, and a node at the 10th, median or 90th percentile of its class's day-ahead basis (`node_basis_summary`); the PPA's shape, as generated or a flat block.
+- **Session 354, the datacenter** (the same landing): `https://erw-flame.vercel.app/cost-of-power?run=share&pct=10` and `&cp=1`. ERCOT's four summer peaks against the flexible way's own hours (`ercot_4cp_intervals`), counted only when asked; a node's band under the cost table; a row "Capacity charges" ("no public figure" outside ERCOT).
+- **Session 355, the battery's node and Research's statistics** (the same landing): `https://erw-flame.vercel.app/cost-of-power/battery` (under "Income by stream") and `https://erw-flame.vercel.app/research/card/batteries_lunch` (the fold). The storage nodes' four-hour spread against the hub; on every card, Newey-West beside HC1, the round's q-values and caveat, and a hunt draft's step flag.
+- **Session 356, this section** (landed with it).
+
+Screenshots: `docs/brand/review-351/` to `review-355/`, each with its README (before on production, after on the session's build; each new choice shot once off its default).
+
+### Decisions made without you (this chain)
+
+1. **Price years: the default is the page's own twelve months**, not the table's `last_12` row (they agree today); under a window what the table does not hold is said ("not held"), never computed.
+2. **"Best" and "worst" became "highest" and "lowest"**: the battery page's rule against words that judge forbids the first two.
+3. **Tax credits are not counted in debt coverage**; the ITC arrives in year 1, the PTC for ten years on the plant's energy; both for solar and wind, the ITC for a battery, neither for a gas peaker.
+4. **The node is priced on the day-ahead basis** over real-time prices (the real-time basis is held from September 2026 only), on scenario A and B only; not for a battery on the generator page.
+5. **The four peaks use the Commission's newest approved postage stamp rate** (2025; 2026's is filed only) and the newest summer held (2025), not counted by default.
+6. **Capacity outside ERCOT is words**: the one table of auction results is internal.
+7. **The battery's band is the storage nodes' spread**, not their basis, weighted by the days held; Research's statistics stay in the card's fold and out of the PNG renders.
+8. **`check-values` reads ERCOT's four-peak loads as whole MW**, as it reads other MW.
+
+### Waiting for you (this chain)
+
+1. **Whether the node should move the generator's headline**, and the real-time basis replace the day-ahead once twelve months are held.
+2. **Session 361's two questions, now on the page**: the Newey-West error in a card's sentence where it moves a p across 0.05; whether the step flag keeps a draft from the review list.
+3. **Checks that fail on production too, older than this chain**: `check-battery-scenarios`' CAISO 2-hour case; `check-datacenter` (22 of its session 138 assertions); `check-findings-grids` (waits for small multiples); the card chart's right legend past 390 inside its box.
+4. **For the data machine**: summer 2026's four intervals (and 2021's) for `ercot_4cp_intervals`; NYISO's ICAP spot rows in a public table if the datacenter page should show them; the real-time node basis as it accumulates.
+5. **The third machine's two branches, not landed by this chain**: `wip/345-impact` (sessions 345 to 347: `nlr_jedi_multipliers`, `impact_tax_rules`, the page `/impact`) and `wip/348-map` (sessions 348 to 350: `iso_queue_statistics`, the map's Queues tab, its night note `docs/state/review_2026-10-20_third.md`). Its note gives the order: `wip/345-impact` first, merged with main and landed through the full gate (its four `/impact` addresses are new in `check-values`, with no floor yet), then `wip/348-map`; Impeccable `detect` on their pages is the code machine's, and `release_v1.py` the data machine's.

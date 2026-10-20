@@ -34,13 +34,13 @@ const near = (a, b, tol = 1e-9) => a !== null && b !== null && Math.abs(a - b) <
 
 // the defaults: Lazard's solar (1,375 USD per kW, 12.5 USD per kW a year, 35 years), 60 percent debt at 8 percent over the life
 const solarNow = F.defaultsOf({ capex: 1375, fom: 12.5, life: 35 });
-check(JSON.stringify(solarNow) === JSON.stringify({ capex: 1375, share: 60, rate: 8, term: 35, fom: 12.5, deg: 0, life: 35, hurdle: 12, cshare: 0, cprice: 0, ppa: 35 }), "the defaults of solar (session 208: a hurdle rate of 12, Lazard's cost of equity; session 212: no contract; session 264: a PPA term of the life)", JSON.stringify(solarNow));
+check(JSON.stringify(solarNow) === JSON.stringify({ capex: 1375, share: 60, rate: 8, term: 35, fom: 12.5, deg: 0, life: 35, hurdle: 12, cshare: 0, cprice: 0, ppa: 35, itc: 0, ptc: 0 }), "the defaults of solar (session 208: a hurdle rate of 12, Lazard's cost of equity; session 212: no contract; session 264: a PPA term of the life)", JSON.stringify(solarNow));
 check(F.defaultsOf({ capex: 1110, fom: 22, life: 20, deg: F.BATTERY_DEG }).deg === 2.6 && /2\.6 percent a year/.test(F.BATTERY_DEG_SOURCE) && /40% equity at a 12% cost/.test(F.SPECS.hurdle.source) && F.HURDLE === 12,
   "a battery's degradation default is Lazard's 2.6 percent a year, and the hurdle rate is the weighted cost 0.6 x 8 + 0.4 x 12");
 // the hand cases below were worked at session 186's default hurdle rate of 8, and stay on it
 const solar = { ...solarNow, hurdle: 8 };
-check(F.KEYS.length === 11 && new Set(F.KEYS.map((k) => F.SPECS[k].letter)).size === 11, "eleven assumptions, eleven different letters (session 212: the contract's share and price; session 264: the PPA term)");
-check(JSON.stringify(F.KEYS) === JSON.stringify(["capex", "share", "rate", "term", "fom", "deg", "life", "hurdle", "cshare", "cprice", "ppa"]) && JSON.stringify(F.FINANCE_KEYS) === JSON.stringify(F.KEYS.slice(0, 8)), "in the order asked, the contract's three last (session 264: the PPA term eleventh)");
+check(F.KEYS.length === 13 && new Set(F.KEYS.map((k) => F.SPECS[k].letter)).size === 13, "thirteen assumptions, thirteen different letters (session 212: the contract's share and price; session 264: the PPA term; session 353: the two tax credits)");
+check(JSON.stringify(F.KEYS) === JSON.stringify(["capex", "share", "rate", "term", "fom", "deg", "life", "hurdle", "cshare", "cprice", "ppa", "itc", "ptc"]) && JSON.stringify(F.FINANCE_KEYS) === JSON.stringify(F.KEYS.slice(0, 8)), "in the order asked, the contract's three next (session 264: the PPA term eleventh), the two tax credits last (session 353)");
 check(/fully merchant/.test(F.SPECS.cshare.source) && /fully merchant/.test(F.SPECS.cprice.source), "the contract's two defaults say the default is fully merchant");
 check(F.contractUnits("energy").priceUnit === "USD per MWh" && F.contractUnits("toll").priceUnit === "USD per kW-month" && /energy/.test(F.contractUnits("energy").shareUnit) && /capacity/.test(F.contractUnits("toll").shareUnit), "an energy contract is a share of the energy at USD per MWh; a toll a share of the capacity at USD per kW-month");
 
@@ -133,7 +133,7 @@ check(term.up.value === 40 && near(term.up.npv, term.base), "a term raised past 
   check(F.sensitivity({ ...c, cshare: 0 }, 100, energy).length === 8 && !F.sensitivity({ ...c, cshare: 0, cprice: 30 }, 100, energy).some((b) => b.key === "cprice"), "at a share of 0 the contract's rows are not drawn at all (as session 211 on the battery)");
   const sh = bars.find((b) => b.key === "cshare");
   check(sh.down.value === 40 && sh.up.value === 60 && near(sh.up.npv, F.npv(c.hurdle, F.flows({ ...c, cshare: 60 }, 100, energy))), "the share's row moves 10 points each way");
-  check(F.isScenarioParam("an") && F.isScenarioParam("bp") && !F.isScenarioParam("ax"), "the contract's letters n and p are scenario parameters");
+  check(F.isScenarioParam("an") && F.isScenarioParam("bp") && !F.isScenarioParam("az"), "the contract's letters n and p are scenario parameters (session 353: x is the production tax credit's, so the letter that is none is z)");
   const sc = F.parseScenarios({ an: "50", ap: "30", bn: "200" }, solarNow);
   check(sc.a.cshare === 50 && sc.a.cprice === 30 && sc.b.cshare === 100, "the address carries the contract, bounded");
   check(F.carry("?iso=ercot&an=50&ap=30&ac=1500", false) === "&an=50&ap=30", "a change of asset keeps the contract and drops the costs");

@@ -15,6 +15,8 @@ import { STRATEGIES, type Inputs } from "@/lib/batterystack";
 import { BatteryForm } from "./BatteryForm";
 import { BatteryFinancing, type StepMeta } from "./Scenarios";
 import { useView } from "./ViewState";
+import { PriceYearsChoice } from "@/components/tool/PriceYearsChoice";
+import type { PriceYear } from "@/lib/priceyears";
 
 const plain = (v: number) => v.toLocaleString("en-US", { maximumFractionDigits: 2 });
 
@@ -51,8 +53,10 @@ function Picks<T extends string>({ all, chosen, max, onChange, id }: { all: { ke
   );
 }
 
-export function Settings({ x, internal, gridName, costs, defaultDs, stepMeta }: {
+export function Settings({ x, internal, gridName, costs, defaultDs, stepMeta, years = [], yearsRead = true }: {
   x: Inputs; internal: boolean; gridName: string; costs: { capex: number; fom: number; note: string; source: string }; defaultDs: number; stepMeta: StepMeta;
+  /** session 352: the price years held for the battery shown, and whether the table could be read */
+  years?: PriceYear[]; yearsRead?: boolean;
 }) {
   const { v, set } = useView();
   const { s } = useScenarios<Assumptions>();
@@ -74,6 +78,8 @@ export function Settings({ x, internal, gridName, costs, defaultDs, stepMeta }: 
           <Seg id="units" label="Units" value={v.units} onChange={(units) => set({ units })}
             items={[{ key: "kw", label: "Per kW" }, { key: "battery", label: `This battery (${size})` }]} />
         </div>
+        {/* session 352: the price years the page is priced on (price_years_by_window), at the model's own efficiency and cycles */}
+        <PriceYearsChoice ws={years} read={yearsRead} value={v.py} onChange={(py) => set({ py })} unit="USD per kW a year" />
         <p className="mt-3 text-xs leading-snug text-muted" data-costs-in-a="1">
           Defaults for {x.dur} hours: capital {costs.capex.toLocaleString("en-US")} USD/kW and fixed O&amp;M {costs.fom} USD/kW a year ({costs.note}).
           The costs, the debt and a contract are set under <a href="#financing">Financing</a>, below: scenario A gives the headline, and its debt payments default to USD {defaultDs.toLocaleString("en-US")} a year for {size}.
