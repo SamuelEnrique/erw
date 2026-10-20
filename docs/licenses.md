@@ -544,3 +544,57 @@ Only if the ERW sells anything:
 
 No page read states a price. For the letter of intent, a price has to be asked for.
 
+## The publishers' prices, for the letter of intent (session 378)
+
+What each page read says of a price, for every publisher whose sentence asks for permission or a license, today or if the ERW sells anything. A figure is written only where the page states one; none does. The four grid operators' letters are drafts under `docs/reviews/licenses/`, for Samuel to send.
+
+| Publisher | Today | If the ERW sells anything | Price, as the page states it | Who to write to | Letter |
+|---|---|---|---|---|---|
+| MISO | needs written permission | needs written permission | none stated | not known: the page was not asked | `docs/reviews/licenses/miso-permission-letter.md` |
+| NYISO | needs written permission | needs written permission | none stated | none named on the page | `docs/reviews/licenses/nyiso-permission-letter.md` |
+| PJM | needs a paid license | needs a paid license | not stated on the page (membership of PJM; the page names "Member or Associate Member status") | none named on the page | `docs/reviews/licenses/pjm-permission-letter.md` |
+| SPP | may be public | needs written permission | none stated | SPP Communications, 201 Worthen Drive, Little Rock, AR 72223-4936, (501) 614-3200; communication@spp.org is on the same page | `docs/reviews/licenses/spp-permission-letter.md` |
+| AEP Texas Inc. | needs written permission | needs written permission | none stated | not named |  |
+| Alberta Electric System Operator (AESO), Canada | may be public | needs written permission | none stated | not named |  |
+| Amazon Web Services | needs written permission | needs written permission | none stated | not named |  |
+| ANS Nuclear Newswire | needs written permission | needs written permission | none stated | not named |  |
+| Bloomberg | needs written permission | needs written permission | none stated | none named for permissions in the sentences read |  |
+| Canary Media | needs written permission | needs written permission | none stated | not named |  |
+| CenterPoint Energy Houston Electric, LLC | needs written permission | needs written permission | none stated | CenterPointEnergy.com/en-us/corporate/contact-us/ |  |
+| CivicPlus | needs written permission | needs written permission | none stated | not named |  |
+| Data Center Dynamics | needs written permission | needs written permission | none stated | not named |  |
+| Data Center Frontier | needs written permission | needs written permission | none stated | not named |  |
+| Data Center Knowledge | needs written permission | needs written permission | none stated | not named |  |
+| Digital Realty | needs written permission | needs written permission | none stated | not named |  |
+| EEX | needs written permission | needs written permission | none stated | not named |  |
+| Equinix | needs written permission | needs written permission | none stated | not named |  |
+| Financial Times | needs written permission | needs written permission | none stated | not named |  |
+| FRED | needs written permission | needs written permission | none stated | none named in the sentences read |  |
+| Google | needs written permission | needs written permission | none stated | not named |  |
+| Hart Energy | needs written permission | needs written permission | none stated | not named |  |
+| Heatmap News | needs written permission | needs written permission | none stated | not named |  |
+| Hydrogen Insight | needs written permission | needs written permission | none stated | not named |  |
+| IMF | may be public | needs written permission | none stated | copyright@imf.org |  |
+| IMF PortWatch | may be public | needs written permission | none stated | copyright@imf.org |  |
+| Indiana Utility Regulatory Commission | needs written permission | needs written permission | none stated | not named |  |
+| ISO-NE | needs written permission | needs written permission | none stated | info@iso-ne.com (the page names it for permission to use a graph, chart or image); Participant Support, (413) 540-4220 |  |
+| JPT | needs written permission | needs written permission | none stated | not named |  |
+| Latitude Media | needs written permission | needs written permission | none stated | not named |  |
+| LNG Prime | needs written permission | needs written permission | none stated | its newsdesk |  |
+| Meta | needs written permission | needs written permission | none stated | not named |  |
+| Microsoft | needs written permission | needs written permission | none stated | not named |  |
+| Natural Gas Intelligence | needs written permission | needs a paid license | not stated on the page (an "NGI Data Feed" or a "Corporate Licensing Agreement") | info@naturalgasintel.com |  |
+| OilPrice.com | needs written permission | needs written permission | none stated | not named |  |
+| Oncor Electric Delivery Company LLC | needs written permission | needs written permission | none stated | not named |  |
+| Oracle | needs written permission | needs written permission | none stated | not named |  |
+| POWER Magazine | needs written permission | needs written permission | none stated | not named |  |
+| pv magazine USA | needs written permission | needs written permission | none stated | not named |  |
+| Reuters | needs written permission | needs written permission | none stated | not named |  |
+| RGGI | needs written permission | needs written permission | none stated | none named on the page |  |
+| Rigzone | needs written permission | needs written permission | none stated | not named |  |
+| RRC | may be public | needs written permission | none stated | none named in the sentences read |  |
+| Switch | needs written permission | needs written permission | none stated | not named |  |
+| Utility Dive | needs written permission | needs written permission | none stated | not named |  |
+| Vantage Data Centers | needs written permission | needs written permission | none stated | not named |  |
+| WSJ | needs written permission | needs a paid license | not stated on the page | djreprints.com (the Dow Jones Reprints website, named for licenses) |  |
+

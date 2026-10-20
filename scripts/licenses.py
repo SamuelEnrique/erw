@@ -414,6 +414,23 @@ def write(doc=None):
     w("")
     w("No page read states a price. For the letter of intent, a price has to be asked for.")
     w("")
+    # session 378: the prices for the letter of intent, one row a publisher whose verdict is not "may be public" today or
+    # if the ERW sells anything, with what its page says of a price and who to write to; the four letters are named
+    letters = {"NYISO": "nyiso", "SPP": "spp", "PJM": "pjm", "MISO": "miso"}
+    w("## The publishers' prices, for the letter of intent (session 378)")
+    w("")
+    w("What each page read says of a price, for every publisher whose sentence asks for permission or a license, today or "
+      "if the ERW sells anything. A figure is written only where the page states one; none does. The four grid operators' "
+      "letters are drafts under `docs/reviews/licenses/`, for Samuel to send.")
+    w("")
+    w("| Publisher | Today | If the ERW sells anything | Price, as the page states it | Who to write to | Letter |")
+    w("|---|---|---|---|---|---|")
+    for k, v in sorted(verdicts.items(), key=lambda kv: (kv[0] not in letters, kv[0].lower())):
+        if v["verdict"] == PUBLIC and v["if_commercial"] == PUBLIC:
+            continue
+        letter = f"`docs/reviews/licenses/{letters[k]}-permission-letter.md`" if k in letters else ""
+        w(f"| {k} | {v['verdict']} | {v['if_commercial']} | {cell(v['price']) or 'none stated'} | {cell(v['contact']) or 'not named'} | {letter} |")
+    w("")
     text = "\n".join(L) + "\n"
     if chr(0x2014) in text:
         text = text.replace(chr(0x2014), ":")     # a publisher's own dash inside a quotation would break the house rule; none is expected
