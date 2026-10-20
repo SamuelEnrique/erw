@@ -17,7 +17,7 @@ def src(*parts):
 class TheDownloads(unittest.TestCase):
     def test_the_map_offers_the_four_tables_its_file_is_built_from(self):
         page = src("site", "app", "map", "page.tsx")
-        self.assertIn("<TableDownloads tables={(mapJson as unknown as MapFile).tables} />", page)
+        self.assertIn("<TableDownloads tables={tab === \"queues\" ? [QUEUE_TABLE] : (mapJson as unknown as MapFile).tables} />", page)   # session 367: the Queues tab offers its own table
         tables = json.loads(src("site", "data", "map.json"))["tables"]
         self.assertEqual(sorted(tables), sorted(["eia860m_operating_generators", "eia860m_planned_generators", "energy_projects", "datacenter_facilities"]))
 
