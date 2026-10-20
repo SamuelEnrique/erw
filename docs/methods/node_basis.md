@@ -73,3 +73,73 @@ The basis is taken against `HB_HUBAVG`, the hub average at which the battery and
 every point. ERCOT assigns each resource node to a load zone and a hub in its settlement point list (NP4-160-SG); the
 ERW does not hold that list, so a point's own zone and zonal hub are not written, and its coordinates are not held
 either. Taking the list is a new source, a ruling for Samuel.
+
+## Where the prices come from, and what cannot be had (session 358)
+
+ERCOT's public lists keep its node prices for a short time: the real-time Settlement Point Prices (NP6-905-CD) for
+seven days, the day-ahead Settlement Point Prices (NP4-190-CD) for 31 days. The prompt asked for twelve months to
+30 September 2026 "through the existing connector's path"; that path cannot give them, and nothing was taken from
+another place. What was had, without a new source:
+
+- **Day-ahead at every resource node, from the 60-Day DAM Disclosure** (NP3-966-ER, `ercot_dam_esr.py`, whose list
+  keeps about two and a half years): each resource's Settlement Point Name and its Energy Settlement Point Price by hour,
+  in the files `60d_DAM_Gen_Resource_Data` and `60d_DAM_ESR_Data`. The disclosure comes 60 days after the operating
+  day: on 20 October 2026 the newest is 20 August. This machine held 4 December 2025 to 5 August 2026; session 358
+  saved 1 October to 3 December 2025 and 6 to 20 August 2026 (79 zips, 709 MB, within the connector's own 3 GB ceiling).
+- **Day-ahead at every point, from the 31-day list** (NP4-190-CD, `ercot_rt_spp.py --pull-dam`, session 358): 20
+  September to 20 October 2026.
+- **Real time at every point, from the 15-minute files** this machine has saved daily since 28 September 2026
+  (`ercot_rt_spp.py`, session 204), which hold every point.
+- The hub's and the zones' day-ahead from `ercot_all_hub_prices_history` and `ercot_zone_prices_history`.
+
+So the day-ahead covers 1 October 2025 to 20 October 2026 except **21 August to 19 September 2026** (the disclosure
+has not reached those days and the 31-day list no longer holds them; they come in the disclosure from 21 October to
+19 November), and the autumn clock-change day (2 November 2025: the disclosure does not mark its repeated hour). Real
+time covers **28 September to 18 October 2026 only**. Twelve months of real time at the nodes cannot be had from
+ERCOT's public lists at any ceiling.
+
+Requests, session 358: 113 of the ceiling of 400 (the two lists of the 60-day and day-ahead reports, one probe of the
+day-ahead list, 79 disclosure zips, 31 day-ahead files), at the connectors' own pace (2 and 1.5 seconds).
+
+## How it is computed
+
+- A point's day in a market: every hour of the Central operating day held (23 or 25 on the clock-change days), the
+  hour's price as ERCOT printed it (day-ahead) or the mean of its four 15-minute prices (real time, an hour held only
+  with all four). The mean, the four-hour spread (the mean of the four dearest hours less the mean of the four
+  cheapest) and the basis (the point's mean less `HB_HUBAVG`'s, the hub's day held whole too).
+- The points: every settlement point a resource of the disclosures is settled at (888 with the hubs and zones), the six
+  hubs and the eight load zones. A point's class comes from ERCOT's resource types at it over the year: storage
+  (`PWRSTR`, `ESR`), solar (`PVGR`), wind (`WIND`), gas (the combined-cycle, simple-cycle and steam types), other, and
+  `mixed` where one point settles resources of two classes (a solar and storage pair at one node).
+- The summary: per point, the month's mean daily basis and spread over the days it holds; a point counts when it holds
+  at least 90 percent of the hub's days that month; then the percentiles across the points of a class, the hub's own
+  mean spread, and the share of points whose spread is wider than the hub's over the point's own days.
+- The internal hourly table: the storage points' hours, both markets, for the newest days under 500,000 rows (13 July
+  to 19 October 2026 in the first build). It is ERCOT's prices reshaped, read from the saved files; no ERW table is
+  read, so coverage does not mark it derived (its tier is derived by rule), and it is licensed internal by the owner's
+  rule.
+
+## The first build (20 October 2026)
+
+`node_basis_daily` 949,995 rows over 888 points; `node_basis_summary` 1,260 rows; `ercot_node_prices_hourly` 498,360
+rows. The figures of the twelve months (day-ahead, 1 October 2025 to 30 September 2026, 335 days with the hub whole),
+per point the mean over its days, against `HB_HUBAVG`, USD per MWh:
+
+| Points (held 90 percent of the days) | Basis, 10th / median / 90th | Four-hour spread, median | Wider than the hub |
+|---|---|---|---|
+| every resource node (786) | -5.63 / 0.18 / 5.38 | 50.97 | 65.4 percent |
+| storage (195) | -4.07 / 1.31 / 5.78 | 49.31 | 57.4 percent |
+| solar (125) | -5.22 / 0.09 / 5.40 | 52.74 | 80.0 percent |
+| wind (165) | -7.88 / -3.79 / 4.06 | 53.18 | 74.5 percent |
+| gas (195) | -2.70 / 1.36 / 4.77 | 47.62 | 52.3 percent |
+| the eight load zones | 0.71 / 2.22 / 4.68 (`LZ_SOUTH` 0.07 to `LZ_CPS` 4.78; `LZ_NORTH` 0.98) | 51.09 | 6 of 8 |
+
+The hub's own four-hour spread over those days: 47.26. Real time, 28 September to 18 October 2026 (20 days): the
+hub's spread 50.75; storage points' median spread 62.08 (76.3 percent wider than the hub), median basis 3.14. Over
+the one week the battery pack quoted (28 September to 4 October), the storage points' median real-time spread is 44.11
+against the pack's 44.29 (the pack's figure took 16 dearest and cheapest 15-minute intervals, this table four hours of
+hourly means).
+
+    python warehouse/connectors/ercot_rt_spp.py --pull-dam
+    python warehouse/connectors/ercot_dam_esr.py --pull --days <the operating days>     # probe mode: saves the zips, writes no table
+    python warehouse/lock.py run --task node -- <python> warehouse/derived/node_basis.py --from 2025-10-01

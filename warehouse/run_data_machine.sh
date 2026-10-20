@@ -101,7 +101,8 @@ PAGE_PATHS=(site/data/datacenter site/data/seller/capture.json site/data/curtail
 RECORD_PATH=docs/methods/figures
 META_PATHS=(warehouse/metadata/coverage.csv docs/coverage.md warehouse/metadata/sources.csv
             warehouse/metadata/archive_manifest.csv warehouse/metadata/redivis_uploads.csv
-            docs/grids/grid_tables.json)   # session 314: the grids' tables by rule (dm_grid_tables)
+            docs/grids/grid_tables.json    # session 314: the grids' tables by rule (dm_grid_tables)
+            warehouse/metadata/findings_recompute.csv)   # session 361: the daily recompute's record (dm_findings_recompute)
 
 # ---- where is this: the three refusals ------------------------------------------------------------------------------
 if [ "${GITHUB_ACTIONS:-}" = "true" ]; then
@@ -276,6 +277,10 @@ soft_step dm_scanner "$PYTHON" warehouse/analysis/findings/findings_scanner.py -
 # route needs. EIA is asked once per draft and month (a draft that carries its month's figure is not asked again), so
 # most days this asks nothing. A soft step: a figure not read leaves the draft without one, recorded in erw_health.
 soft_step dm_publisher_figure "$PYTHON" warehouse/analysis/findings/publisher_figure.py
+# Session 361 (the chain of 20 October 2026): the Research cards computed again from the day's tables, after the scan,
+# with their Newey-West errors and the round's line; one record line a card in warehouse/metadata/findings_recompute.csv.
+# A finding whose table is not here keeps its card; a step that fails puts the cards back as committed (below).
+soft_step dm_findings_recompute "$PYTHON" warehouse/analysis/findings/card_statistics.py --recompute
 
 # a file whose builder failed, or whose own test fails, is put back as the last commit has it: never a half-built file
 put_back() {  # put_back <step> <path...>
@@ -286,6 +291,7 @@ put_back() {  # put_back <step> <path...>
   fi
 }
 put_back dm_datacenter_page site/data/datacenter
+put_back dm_findings_recompute site/data/findings site/public/findings
 put_back dm_capture_price site/data/seller/capture.json
 put_back dm_curtailment_shares site/data/curtailment/shares.json
 put_back dm_free_energy site/data/curtailment/free_energy.json
@@ -408,6 +414,9 @@ fi
 for p in "${PAGE_PATHS[@]}" "${META_PATHS[@]}"; do
   [ -e "$p" ] && git add -- "$p"
 done
+# session 361: the recomputed Research cards, the files git already holds only (a card run with other inputs by hand
+# stays out of the commit)
+git add -u -- site/data/findings site/public/findings
 # session 204: the generator export's record of the day, with the CSV that names it
 [ "${GENERATOR_OK:-0}" = "1" ] && [ -e "$RECORD_PATH" ] && git add -- "$RECORD_PATH"
 if git diff --cached --quiet; then
