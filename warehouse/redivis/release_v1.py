@@ -68,6 +68,11 @@ def held(day=PUBLIC_DAY):
 STORAGE_HELD = {
     "node_basis_daily": "held: Redivis storage (the account's free 10 GB is full; refused on 20 October 2026, session 363). "
                         "In v1 by its license once uploaded: python warehouse/redivis/upload.py node_basis_daily, after the storage is settled",
+    # session 385: in the draft until 20 October, when the daily's upload was refused for storage (17:32 UTC) and the
+    # uploader, which deletes a table before it uploads the new copy, left it out (Redivis answers 404 for it)
+    "ercot_all_hub_prices_history": "held: Redivis storage (the account's free 10 GB is full; the upload of 20 October 2026, 17:32 UTC, "
+                                    "was refused and the table is no longer in the draft, session 385). In v1 by its license once "
+                                    "uploaded again: python warehouse/redivis/upload.py ercot_all_hub_prices_history, after the storage is settled",
 }
 
 
