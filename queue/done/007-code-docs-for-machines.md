@@ -4,6 +4,8 @@ spend_cap_usd: 2
 timeout_minutes: 90
 permission_mode: auto
 ---
+Done by session 371 (chain of 20 October 2026, day, code machine): ARCHITECTURE.md and docs/runbook.md edited and committed on wip/371-docs-security; the CLAUDE.md change is a patch for the owner's copy, runs/chain_oct20d/s371/claude_md.patch (an agent does not edit CLAUDE.md); package/llms.txt unchanged, as it does not describe how the warehouse is refreshed. Report: archive/sessions/SESSION_371_REPORT.md.
+
 # Bring the core documents up to date with session 59's machines
 
 Source: PRIORITIES.md layer 1, order 3 (reach: documentation a person or agent needs to work correctly). Session 59 built the multi-machine setup; docs/machines.md describes it, but the documents an agent reads first do not mention it yet.
