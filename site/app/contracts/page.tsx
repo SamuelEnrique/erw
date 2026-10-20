@@ -75,7 +75,7 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
       ) : (
         <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
           <aside>
-            <InputPanel title="Choose" reset={{ href: "/contracts", defaults: `the newest quarter listed${held[0] ? ` (${held[0].replace("_", " ")})` : ""}, energy, capacity and tolling, every balancing authority.` }} note={`Filed for ${summary.data.quarters.map((x) => x.replace("_", " ")).join(", ")}. The rows held were executed from ${summary.data.first} to ${summary.data.last}.`}>
+            <InputPanel title="Choose" reset={{ href: "/contracts", defaults: `the newest quarter listed${held[0] ? ` (${held[0].quarter.replace("_", " ")})` : ""}, energy, capacity and tolling, every balancing authority.` }} note={`Filed for ${summary.data.quarters.map((x) => x.replace("_", " ")).join(", ")}. The rows held were executed from ${summary.data.first} to ${summary.data.last}.`}>
               <nav aria-label="Quarter signed" className="mb-4 text-sm">
                 <div className="mb-1 text-xs uppercase tracking-wide text-muted">Quarter signed</div>
                 {held.slice(0, 12).map((h) => (
