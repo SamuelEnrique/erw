@@ -126,6 +126,8 @@ The loader still warns above `warn_mb` (350 MB) and fails above `max_mb` in `war
 
 ## An outside trigger for the scheduled jobs (session 58)
 
+**Done: no step for Samuel here.** Since session 59 (2 October 2026) the outside trigger is the project's own database: pg_cron in Supabase calls GitHub's `workflow_dispatch` for every scheduled job (migration 015, and 022 for the chain watch), with the token in Supabase Vault (`github_dispatch`), never in this repository. The jobs, their times and the commands are in [`docs/machines.md`](machines.md), "The schedule"; `python warehouse/supabase/scheduler.py --status` lists the jobs, their last runs and GitHub's last answers (read in session 371 on 20 October 2026: six jobs active, each last run succeeded, every recent answer HTTP 204). The steps below stay as the fallback: the workflows' own GitHub schedules are still in their files, and cron-job.org (step 2) is the way to dispatch from outside if the database's scheduler is ever unavailable.
+
 **Why.** GitHub runs scheduled workflows on a best-effort basis, and for this repository it runs them rarely.
 - On 2026-10-01, "latest prices" (every 15 minutes, 96 runs a day) ran five times in 24 hours.
 - The hourly network ran once in the five hours after it was added.
@@ -189,11 +191,13 @@ select cron.schedule('erw-daily', '0 14 * * *', $$
 $$);
 ```
 
-Repeat with the other rows' files, times and bodies. `select * from net._http_response order by id desc limit 5;` shows GitHub's answers; 204 is accepted. cron-job.org is simpler and keeps the database's resources for the site, so it is the first choice.
+Repeat with the other rows' files, times and bodies. `select * from net._http_response order by id desc limit 5;` shows GitHub's answers; 204 is accepted. cron-job.org is simpler and keeps the database's resources for the site, so it is the first choice. (Session 59 chose this alternative instead, and it is the one in use: migration 015 does all of the above for the five jobs, migration 022 adds the chain watch, and `python warehouse/supabase/scheduler.py --apply` applies migration 015.)
 
 ### 4. When the token expires
 
 Generate a new one as in step 1. Replace it in each cron job (or the vault secret), then test one run. Delete the old token on GitHub.
+
+For the schedule in use (pg_cron, session 59), the vault secret is written from a machine that holds the token: put it in `.env` as `GH_TOKEN`, run `python warehouse/supabase/scheduler.py --set-token`, then `python warehouse/supabase/scheduler.py --test latest-prices.yml`, which should print HTTP 204.
 
 ## The sending domain: the DNS records Resend needs (session 276)
 
