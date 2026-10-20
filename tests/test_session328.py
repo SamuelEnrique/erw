@@ -94,6 +94,18 @@ class ThePrices(unittest.TestCase):
         self.assertIn("## On the site (session 328, 20 October 2026)", premium)
 
 
+class TheBoxPlot(unittest.TestCase):
+    def test_a_label_past_the_edge_is_written_inside_it(self):
+        s = src("site", "components", "svgchart.tsx")
+        self.assertIn("const far = px(mx) + 6 + textWidth(num(md), 11) > W - 2;", s)
+        self.assertIn('<text x={far ? W - 2 : px(mx) + 6} y={far ? y - 13 : y + 4} textAnchor={far ? "end" : undefined}', s)
+
+    def test_the_caption_says_what_the_svg_chart_does(self):
+        e = src("site", "app", "explorer", "ercot-peak-premium", "Explorer.tsx")
+        self.assertNotIn("drag the slider", e)
+        self.assertIn("a whisker that reaches\n              past it stops at its edge", e)
+
+
 class NoEmDash(unittest.TestCase):
     def test_none_in_what_the_session_wrote(self):
         for parts in (("site", "components", "tool", "TableDownloads.tsx"), ("site", "app", "api", "download", "route.ts"), ("site", "app", "board", "page.tsx"),

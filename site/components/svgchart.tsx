@@ -493,6 +493,9 @@ export function BoxPlot({ id, rows, unit, label, table: tableFirst = false }: { 
             <text x={W - R} y={height - 6} textAnchor="end" fontSize="12" fill="var(--color-muted)">{unit}</text>
             {rows.map((r, i) => {
               const [mn, a, md, c, mx] = r.stats, y = cy(i);
+              // session 328: a median's label that would pass the drawing's right edge (a whisker cut at the axis) is
+              // written inside it, above the line, so it is never clipped
+              const far = px(mx) + 6 + textWidth(num(md), 11) > W - 2;
               return (
                 <g key={r.name} data-box={r.name}>
                   <text x={L - 8} y={y + 4} textAnchor="end" fontSize="12" fill="var(--color-ink)">{r.name}</text>
@@ -502,7 +505,7 @@ export function BoxPlot({ id, rows, unit, label, table: tableFirst = false }: { 
                   <line x1={px(mx)} x2={px(mx)} y1={y - 6} y2={y + 6} stroke="var(--color-ink)" strokeWidth="1" />
                   <rect x={px(a)} y={y - 10} width={Math.max(1, px(c) - px(a))} height="20" fill="var(--color-panel)" stroke={hover === i ? "var(--color-accent)" : "var(--color-ink)"} strokeWidth="1" />
                   <rect x={px(md) - 1.5} y={y - 10} width="3" height="20" fill="var(--color-accent)" />
-                  <text x={px(mx) + 6} y={y + 4} fontSize="11" fill="var(--color-muted)" data-direct-labels="1">{num(md)}</text>
+                  <text x={far ? W - 2 : px(mx) + 6} y={far ? y - 13 : y + 4} textAnchor={far ? "end" : undefined} fontSize="11" fill="var(--color-muted)" data-direct-labels="1">{num(md)}</text>
                 </g>
               );
             })}
