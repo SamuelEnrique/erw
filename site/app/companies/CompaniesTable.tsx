@@ -63,7 +63,7 @@ export function CompaniesTable({ rows }: { rows: Company[] }) {
       Number(r.confidence || 0) >= Number(minConf),
   );
   const sel = (label: string, v: string, set: (x: string) => void, options: [string, string][]) => (
-    <label className="flex flex-col text-xs text-muted">
+    <label className="flex min-w-0 max-w-full flex-col text-xs text-muted">
       {label}
       <select value={v} onChange={(e) => set(e.target.value)} className="mt-1 max-w-full border border-rule bg-panel px-2 py-1 text-sm text-ink">   {/* session 319: no wider than the page */}
         {options.map(([k, l]) => (
