@@ -52,7 +52,7 @@ Every other read was of this machine's files, the live set (Supabase) and the ar
 - Freeze 0. Before snapshot `s336-before` at 04:33:09 UTC. Merged origin/main (session 319's landing) into `task/336-red-steps`; pushed 04:33:18 (`7cea126d`). Checks: run 39370197596 **success** (04:33:22 to 04:44:44). The branch was merged to main by the checks' own landing at 04:44:39 (`1f038b92`, "Merge task/336-red-steps: checks passed"), deployment 7191776445 success 04:46:12; session 320's landing followed at 04:47:51 (`ad0a1e76`), deployment 7191815445 success 04:49:16.
 - After snapshot `s336-after` at 05:14:33; compare: **0 differences on 25 pages** (expected: every page is in review; the after snapshot carries session 320's landing too).
 - My watch of the checks queried the API with a token this shell holds that GitHub refuses ("Bad credentials"), read nothing for 40 minutes and timed out; the public API showed the success. The dispatch used git's own credential.
-- This report went out in a second push, with its own snapshots (below).
+- This report went out in a second push, with its own snapshots: freeze 0 at 07:32 UTC, before snapshot `s336b-before` at 07:32:48 UTC (25 pages, 0 failed), merged origin/main (sessions 328 and 329's landings and the manual run's metadata), pushed to `task/336-red-steps`. The after snapshot `s336b-after` is taken once that push's deployment succeeds, and its compare is kept in `runs/s336_snap_b_compare.out` (it cannot be in the report it deploys).
 
 ## Decisions made without you
 
