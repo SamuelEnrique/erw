@@ -23,7 +23,7 @@ Energy Research Warehouse (ERW), session 312 (19 October 2026), for Samuel. The 
 3. **Compare the table list** with the `in_v1 = yes` rows of `tables.csv`: the same names, and the three metadata tables `erw_coverage`, `erw_sources`, `erw_headers`.
 4. **Paste the README**: [`release-v1/README.md`](release-v1/README.md) into the dataset's description.
 5. **Spot-check three tables**: each description is the table's provenance header, with its `License:` line in it.
-6. **Press Release.** The note: `v1: ERW commit <git rev-parse HEAD>, the daily run of <date>; 135 tables and 3 metadata tables; 41 held for a license (docs/redivis/release-v1/tables.csv)`.
+6. **Press Release.** The note: `v1: ERW commit <git rev-parse HEAD>, the daily run of <date>; 137 tables and 3 metadata tables; 41 held for a license (docs/redivis/release-v1/tables.csv)`.
 
 ## After the click (2 minutes)
 
