@@ -159,7 +159,7 @@ export async function TrackerView({ sp }: { sp: Record<string, string | undefine
         lead={<>Power purchases, offtakes, financings and acquisitions in energy, as the news reported them: who, what technology, how large and at what price, where a story says so, each with a link to the story. <strong>These are deals reported in the news the ERW reads, not a complete record of the market.</strong></>} />
       <div className="grid gap-8 lg:grid-cols-[290px_minmax(0,1fr)]">
         <aside>
-          <InputPanel title="Your selection" note={<>The counts in brackets are of every deal held. Grid is the grid operator that serves most of the state a story names; {whole(withState)} of the {whole(ca.deals)} deals name a US state, and {whole(withGrid)} of those states have one grid.</>}>
+          <InputPanel title="Your selection" reset={{ href: "/deals?tab=tracker", defaults: "all deals, of every type, technology, grid, party and year." }} note={<>The counts in brackets are of every deal held. Grid is the grid operator that serves most of the state a story names; {whole(withState)} of the {whole(ca.deals)} deals name a US state, and {whole(withGrid)} of those states have one grid.</>}>
             <Choices key={hrefOf(x)} x={x} all={all} />
           </InputPanel>
         </aside>
@@ -263,7 +263,7 @@ export async function TrackerView({ sp }: { sp: Record<string, string | undefine
           )}
         </div>
       </div>
-      <SourceLine tables={["energy_deals"]} note={<>Extracted by <code className="font-mono">warehouse/deals/extract.py</code> from the stories of <code className="font-mono">news_stories</code>; the sentence each deal was read from is outlet text and stays in the internal table. Duplicates: <code className="font-mono">warehouse/deals/duplicates.csv</code>. This page is in review.</>} />
+      <SourceLine tables={["energy_deals"]} note={<>Extracted by <code className="font-mono">warehouse/deals/extract.py</code> from the stories of <code className="font-mono">news_stories</code>; the sentence each deal was read from is outlet text and stays in the internal table. Duplicates: <code className="font-mono">warehouse/deals/duplicates.csv</code>. <Link href="/data/methods/energy_deals">Method</Link>. This page is in review.</>} />
     </>
   );
 }
