@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Brand } from "@/components/Brand";
 import { SiteLink } from "@/components/SiteLink";
 import { Band, Trend } from "@/components/supply/SupplyCharts";
+import { TableDownloads } from "@/components/tool/TableDownloads";
 import fileJson from "@/data/supply.json";
 import { HEADLINE, PLACEHOLDER, choiceOf, dateWords, easternNow, fmt, nextRelease, hrefOf, pct, reading, releaseWords, rowsOf, shortDate, signed, surprises, toggled, withUnitWords, type Choice, type Group, type Row, type SupplyFile } from "@/lib/supply";
 
@@ -15,6 +16,8 @@ export const metadata: Metadata = { title: "Supply and trade", robots: { index: 
 
 const file = withUnitWords(fileJson as unknown as SupplyFile);
 const METHOD = "/data/methods/supply_and_trade";
+// session 333: the tables the file is built from, as its sources name them in brackets ("CFTC, ... (cftc_cot_positions)")
+const TABLES = [...new Set((file.sources as string[]).flatMap((s) => [...s.matchAll(/\(([a-z0-9]+(?:_[a-z0-9]+)+)\)/g)].map((m) => m[1])))];
 const NH = ({ why, words = "not held yet" }: { why: string; words?: string }) => <span className="cursor-help whitespace-nowrap border-b border-dotted border-muted text-[11px] italic text-muted" title={why} data-missing="1">{words}</span>;
 
 /** A difference the page writes as zero carries no reading. */
@@ -203,6 +206,8 @@ export default async function Supply({ searchParams }: { searchParams: Promise<R
       ) : null}
 
       {shown.map((g) => <Table key={g.id} group={g} c={c} />)}
+      {/* session 333: the tables to download, as CSV with a Python and a Stata reader (session 328's shared line) */}
+      <TableDownloads tables={TABLES} />
     </div>
     </Brand>
   );

@@ -4611,5 +4611,220 @@
   "python": "batteries_lunch_grids.py",
   "stata": "batteries_lunch_grids.do"
  },
- "csv_sha256": "97838b940a54017ac92ebd318512741f61d83b5a93dd036d2ece7ce2e5a6d2d1"
+ "csv_sha256": "97838b940a54017ac92ebd318512741f61d83b5a93dd036d2ece7ce2e5a6d2d1",
+ "statistics": {
+  "session": 361,
+  "round": {
+   "name": "the findings library's cards as computed by 2026-10-10",
+   "claims_tested": 26,
+   "claims_passing": 15,
+   "alpha": 0.05,
+   "method": "Benjamini-Hochberg over the round's distinct p-values",
+   "caveat": "Many claims were tested in this round; a claim's q-value is the false discovery rate at which it would still be kept over all of them (Benjamini and Hochberg). A caveat, not a test the card had to pass.",
+   "claims_of_this_card": 15,
+   "q_bh": {
+    "ercot_reg_multiple_p": 3.97848935778384e-05,
+    "ercot_reg_hours1000_p": 0.06121498986282911,
+    "ercot_reg_top1_p": 0.040430027468247115,
+    "caiso_reg_multiple_p": 0.3880724677828457,
+    "caiso_reg_hours1000_p": 0.9547472140033408,
+    "caiso_reg_top1_p": 0.2917572233917032,
+    "nyiso_reg_multiple_p": 0.06986563016968704,
+    "nyiso_reg_hours1000_p": 0.23679723609523964,
+    "nyiso_reg_top1_p": 0.006120435615367222,
+    "isone_reg_multiple_p": 0.7209966156497579,
+    "isone_reg_hours1000_p": 0.43206351223298617,
+    "isone_reg_top1_p": 0.3880724677828457,
+    "spp_reg_multiple_p": 0.21804441504674776,
+    "spp_reg_hours1000_p": 0.31183146310454407,
+    "spp_reg_top1_p": 0.08652088001306818
+   }
+  },
+  "newey_west": {
+   "rows": [
+    {
+     "spec": "ercot:worst_interval_multiple",
+     "label": "ERCOT: worst-interval multiple (P99.9 over the median), per GW of batteries",
+     "numbers_key": "ercot_reg_multiple",
+     "coef": -10.757437586072225,
+     "se_hc1": 2.3158957190795477,
+     "p_hc1": 1.3771693930782413e-05,
+     "se_nw": 2.692151233245524,
+     "p_nw": 0.00014645497997732633,
+     "nw_lag": 3,
+     "n": 92
+    },
+    {
+     "spec": "ercot:hours_ge_1000",
+     "label": "ERCOT: hours at or above USD 1,000/MWh, per GW of batteries",
+     "numbers_key": "ercot_reg_hours1000",
+     "coef": -1.2453806910891392,
+     "se_hc1": 0.565389273460827,
+     "p_hc1": 0.03060749493141878,
+     "se_nw": 0.5789204440007182,
+     "p_nw": 0.03459531580299364,
+     "nw_lag": 3,
+     "n": 92
+    },
+    {
+     "spec": "ercot:hours_top1pct",
+     "label": "ERCOT: hours in the sample's top 1 percent, per GW of batteries",
+     "numbers_key": "ercot_reg_top1",
+     "coef": -1.9284289247064006,
+     "se_hc1": 0.802450288217033,
+     "p_hc1": 0.01866001267765866,
+     "se_nw": 0.8180782470723277,
+     "p_nw": 0.020951325965216632,
+     "nw_lag": 3,
+     "n": 92
+    },
+    {
+     "spec": "caiso:worst_interval_multiple",
+     "label": "CAISO: worst-interval multiple (P99.9 over the median), per GW of batteries",
+     "numbers_key": "caiso_reg_multiple",
+     "coef": 1.024146148649597,
+     "se_hc1": 1.023829919573817,
+     "p_hc1": 0.34329487534640907,
+     "se_nw": 0.6530003504291065,
+     "p_nw": 0.15123956994827553,
+     "nw_lag": 2,
+     "n": 24
+    },
+    {
+     "spec": "caiso:hours_ge_1000",
+     "label": "CAISO: hours at or above USD 1,000/MWh, per GW of batteries",
+     "numbers_key": "caiso_reg_hours1000",
+     "coef": 0.00237829264594306,
+     "se_hc1": 0.040761210119212805,
+     "p_hc1": 0.9547472140033715,
+     "se_nw": 0.029640678000140076,
+     "p_nw": 0.9378042754758255,
+     "nw_lag": 2,
+     "n": 24
+    },
+    {
+     "spec": "caiso:hours_top1pct",
+     "label": "CAISO: hours in the sample's top 1 percent, per GW of batteries",
+     "numbers_key": "caiso_reg_top1",
+     "coef": -1.4202499971940097,
+     "se_hc1": 1.0887195947006305,
+     "p_hc1": 0.2244286333781826,
+     "se_nw": 0.8337463107080085,
+     "p_nw": 0.12268287733464356,
+     "nw_lag": 2,
+     "n": 24
+    },
+    {
+     "spec": "nyiso:worst_interval_multiple",
+     "label": "NYISO: worst-interval multiple (P99.9 over the median), per GW of batteries",
+     "numbers_key": "nyiso_reg_multiple",
+     "coef": 26.62314083567705,
+     "se_hc1": 12.584750357075029,
+     "p_hc1": 0.03761995470675966,
+     "se_nw": 16.10119507347861,
+     "p_nw": 0.10230310384723912,
+     "nw_lag": 3,
+     "n": 92
+    },
+    {
+     "spec": "nyiso:hours_ge_1000",
+     "label": "NYISO: hours at or above USD 1,000/MWh, per GW of batteries",
+     "numbers_key": "nyiso_reg_hours1000",
+     "coef": 1.9527876825356691,
+     "se_hc1": 1.3895295308129774,
+     "p_hc1": 0.1639365480659378,
+     "se_nw": 1.7210553760920957,
+     "p_nw": 0.2600437700958432,
+     "nw_lag": 3,
+     "n": 92
+    },
+    {
+     "spec": "nyiso:hours_top1pct",
+     "label": "NYISO: hours in the sample's top 1 percent, per GW of batteries",
+     "numbers_key": "nyiso_reg_top1",
+     "coef": 74.27718577153865,
+     "se_hc1": 23.61083515213304,
+     "p_hc1": 0.0023540136982187422,
+     "se_nw": 22.97998049382074,
+     "p_nw": 0.001808702977761771,
+     "nw_lag": 3,
+     "n": 92
+    },
+    {
+     "spec": "isone:worst_interval_multiple",
+     "label": "ISONE: worst-interval multiple (P99.9 over the median), per GW of batteries",
+     "numbers_key": "isone_reg_multiple",
+     "coef": -4.019665129975484,
+     "se_hc1": 9.86772161344258,
+     "p_hc1": 0.6932659765864718,
+     "se_nw": 5.9771453189947605,
+     "p_nw": 0.5181531883500572,
+     "nw_lag": 2,
+     "n": 24
+    },
+    {
+     "spec": "isone:hours_ge_1000",
+     "label": "ISONE: hours at or above USD 1,000/MWh, per GW of batteries",
+     "numbers_key": "isone_reg_hours1000",
+     "coef": -0.9184927502361089,
+     "se_hc1": 1.0370302235319728,
+     "p_hc1": 0.39882785744589194,
+     "se_nw": 0.6538745152624577,
+     "p_nw": 0.1936728523002595,
+     "nw_lag": 2,
+     "n": 24
+    },
+    {
+     "spec": "isone:hours_top1pct",
+     "label": "ISONE: hours in the sample's top 1 percent, per GW of batteries",
+     "numbers_key": "isone_reg_top1",
+     "coef": 8.85929979003406,
+     "se_hc1": 8.668426275632532,
+     "p_hc1": 0.33345667852921657,
+     "se_nw": 9.667916752616778,
+     "p_nw": 0.38337499847697903,
+     "nw_lag": 2,
+     "n": 24
+    },
+    {
+     "spec": "spp:worst_interval_multiple",
+     "label": "SPP: worst-interval multiple (P99.9 over the median), per GW of batteries",
+     "numbers_key": "spp_reg_multiple",
+     "coef": 37.50051867845557,
+     "se_hc1": 23.339105017742163,
+     "p_hc1": 0.14256750214584923,
+     "se_nw": 16.02842030140332,
+     "p_nw": 0.0440472063711723,
+     "nw_lag": 2,
+     "n": 24
+    },
+    {
+     "spec": "spp:hours_ge_1000",
+     "label": "SPP: hours at or above USD 1,000/MWh, per GW of batteries",
+     "numbers_key": "spp_reg_hours1000",
+     "coef": 0.7888185712906737,
+     "se_hc1": 0.6442205780830249,
+     "p_hc1": 0.2518638740458897,
+     "se_nw": 0.5351102099217545,
+     "p_nw": 0.17454553054842864,
+     "nw_lag": 2,
+     "n": 24
+    },
+    {
+     "spec": "spp:hours_top1pct",
+     "label": "SPP: hours in the sample's top 1 percent, per GW of batteries",
+     "numbers_key": "spp_reg_top1",
+     "coef": 9.573264826354768,
+     "se_hc1": 4.229992499846654,
+     "p_hc1": 0.049915892315293586,
+     "se_nw": 4.002448499309472,
+     "p_nw": 0.040434432585325725,
+     "nw_lag": 2,
+     "n": 24
+    }
+   ],
+   "rule": "the Bartlett kernel to floor(4 (n / 100) ^ (2 / 9)) lags (Newey and West, 1994), with HC1's n / (n - k)",
+   "words": "Newey-West errors allow for correlation between neighbouring months (or days); HC1, the card's own, does not. Both are from the rows of the card's CSV, in time order."
+  }
+ }
 }

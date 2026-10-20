@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { Cite } from "@/components/Cite";
+import { TableDownloads } from "@/components/tool/TableDownloads";
 import { Num } from "@/components/Num";
 import { Section } from "@/components/Section";
 import { series, type SeriesRow } from "@/lib/data";
@@ -81,6 +82,8 @@ export default async function Events() {
           })}
         </div>
         <Cite tables={[T]} />
+        {/* session 332: the index's table, as CSV with a Python and a Stata reader (session 328's shared line) */}
+        <TableDownloads tables={[T, "event_study_estimates"]} />
       </Section>
       <Section title="Across many events: the Flex Alert scorecard">
         <p className="max-w-3xl text-sm">

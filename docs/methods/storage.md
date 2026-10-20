@@ -92,3 +92,17 @@ CAISO reports no battery series to EIA-930, so its rows come from CAISO's own da
 - The three EIA-860M tables were rebuilt from the saved workbook (`eia860.py --from-raw 20260926T000340Z`, no pull); every other column is unchanged.
 
 **On `/storage`,** the fleet by status (MW, and MWh where EIA gives it), by ISO, by state and by planned year are sums of this table's rows. The page sums nothing else, and `site/scripts/check-values.mjs` recomputes each sum from Supabase.
+
+## The page `/storage` as it stands (session 330, 20 October 2026)
+
+- **Three tabs** since session 239: the fleet (this note's three tables and `caiso_battery_storage`), the build-out
+  (`storage_buildout.md`) and the owners (`storage_owners.md`); `/storage/buildout` and `/storage/owners` redirect to
+  their tabs.
+- **The charts** are drawn in SVG (session 303); no value moved.
+- **Every number** is a row of its table, carried with its check key and read again by `check-values`.
+- **Downloads** (session 330): under each tab, its tables as the live set's CSV with a Python and a Stata reader of
+  that CSV (session 328's shared line). `storage_owners_monthly` is held for review in the live set, so the owners tab
+  offers none and points to Data and methods.
+- **Read on 20 October 2026** from the public catalogue: `storage_capacity`, `storage_daily_cycle` (to 18 October),
+  `eia930_all_storage` (to 18 October) and `caiso_battery_storage` (to 19 October) ran that day; the build-out and the
+  owners hold EIA-860M's August 2026 inventory, the newest the warehouse holds.

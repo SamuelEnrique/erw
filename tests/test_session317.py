@@ -56,7 +56,9 @@ class TheSharedSet(unittest.TestCase):
 
     def test_a_heat_cell_is_one_color_at_a_strength_and_a_blank_cell_is_hatched(self):
         self.assertIn("const strength = (v: number) => (hi > lo ? 0.08 + 0.92 * ((v - lo) / (hi - lo)) : 0.6);", self.s)
-        self.assertIn("fill={v === null || v === undefined ? `url(#${id}-blank)` : \"var(--color-accent)\"}", self.s)
+        # session 351 (the owner's ruling of 20 October 2026): one color for a magnitude, two hues where the figure is signed
+        self.assertIn("fill={v === null || v === undefined ? `url(#${id}-blank)` : fillOf(v)}", self.s)
+        self.assertIn('(signed ? (v < 0 ? "var(--chart-blue)" : "var(--color-accent)") : "var(--color-accent)")', self.s)
 
 
 class ThePagesDrawThroughIt(unittest.TestCase):

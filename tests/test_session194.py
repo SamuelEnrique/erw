@@ -520,7 +520,7 @@ class ThePage(unittest.TestCase):
     def test_the_two_ways_come_from_the_pages_own_functions(self):
         for words in ("const flatMonths = (ms: Month[]): Month[] => ms.map((r) => ({ ...r, cost: r.flat, energy: r.held, down: 0, tightDown: 0 }));",
                       'const altFlex = { run: "hours" as const, n: DEFAULTS.n, pct: 0, shift: 0 };',
-                      'monthsRuled(files, x.region, x.buy, altFlex, "forecast").months',
+                      'monthsRuled(files, x.region, x.buy, altFlex, "forecast")',   # session 354: the Ruled kept for its weights (the four peaks)
                       "const s = span(l), w = last36(ms), b = badMonth(w?.months ?? []);"):
             self.assertIn(words, self.page, words)
         self.assertNotIn('"hindsight"', self.page.split("// session 194: the two ways of running", 1)[1].split("const facts: Facts", 1)[0])   # the foreseen load is not used

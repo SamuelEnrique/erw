@@ -2605,5 +2605,77 @@
   "python": "batteries_curtailment.py",
   "stata": "batteries_curtailment.do"
  },
- "csv_sha256": "21d62f1e672459e197ea2dbcf366ee1d00a80aeec2d3d7c77c3418738f73706b"
+ "csv_sha256": "21d62f1e672459e197ea2dbcf366ee1d00a80aeec2d3d7c77c3418738f73706b",
+ "statistics": {
+  "session": 361,
+  "round": {
+   "name": "the findings library's cards as computed by 2026-10-10",
+   "claims_tested": 26,
+   "claims_passing": 15,
+   "alpha": 0.05,
+   "method": "Benjamini-Hochberg over the round's distinct p-values",
+   "caveat": "Many claims were tested in this round; a claim's q-value is the false discovery rate at which it would still be kept over all of them (Benjamini and Hochberg). A caveat, not a test the card had to pass.",
+   "claims_of_this_card": 4,
+   "q_bh": {
+    "charging_p": 1.1159707755541265e-18,
+    "charging_solar_p": 1.800184804431178e-09,
+    "charging_solar_month_p": 3.0135025263480202e-09,
+    "solar_p": 6.749199091191545e-07
+   }
+  },
+  "newey_west": {
+   "rows": [
+    {
+     "spec": "charging",
+     "label": "charging: MWh curtailed per GWh charged",
+     "numbers_key": "charging",
+     "coef": 699.2908372493324,
+     "se_hc1": 73.50883720322305,
+     "p_hc1": 1.7168781162336289e-19,
+     "se_nw": 115.90964581570225,
+     "p_nw": 3.646137109382563e-09,
+     "nw_lag": 5,
+     "n": 405
+    },
+    {
+     "spec": "charging_solar",
+     "label": "charging solar: MWh curtailed per GWh charged",
+     "numbers_key": "charging_solar",
+     "coef": 950.8745801428414,
+     "se_hc1": 148.41020721763067,
+     "p_hc1": 4.1542726256092075e-10,
+     "se_nw": 244.36930417159238,
+     "p_nw": 0.0001167565353695552,
+     "nw_lag": 5,
+     "n": 405
+    },
+    {
+     "spec": "charging_solar_month",
+     "label": "charging solar month: MWh curtailed per GWh charged",
+     "numbers_key": "charging_solar_month",
+     "coef": 1081.2435192336775,
+     "se_hc1": 171.64414403593494,
+     "p_hc1": 8.113276032487505e-10,
+     "se_nw": 232.48997397644627,
+     "p_nw": 4.543308389901394e-06,
+     "nw_lag": 5,
+     "n": 405
+    },
+    {
+     "spec": "solar",
+     "label": "solar: MWh curtailed per GWh of solar (with charging and the month)",
+     "numbers_key": "solar",
+     "coef": -283.90584803443204,
+     "se_hc1": 53.695176385731806,
+     "p_hc1": 2.0766766434440646e-07,
+     "se_nw": 72.54855887847842,
+     "p_nw": 0.00010749338971256815,
+     "nw_lag": 5,
+     "n": 405
+    }
+   ],
+   "rule": "the Bartlett kernel to floor(4 (n / 100) ^ (2 / 9)) lags (Newey and West, 1994), with HC1's n / (n - k)",
+   "words": "Newey-West errors allow for correlation between neighbouring months (or days); HC1, the card's own, does not. Both are from the rows of the card's CSV, in time order."
+  }
+ }
 }

@@ -49,6 +49,17 @@ points of ercot_dam_esr_awards and 64 more, or the most this run has met); if it
 run says STOPPED, and the files saved so far are written. A file not asked for today is asked for tomorrow while
 ERCOT still lists it. The table is internal to the warehouse: no page reads it and it is not in the live set
 (warehouse/supabase).
+
+Session 358 (the chain of 20 October 2026): the day-ahead prices at the same points, for node_basis_daily
+(docs/methods/node_basis.md). ERCOT's "DAM Settlement Point Prices" (EMIL NP4-190-CD, report type 12331), one small
+zip a day with the day-ahead price of every settlement point and hour, kept on the public list for 31 days (measured
+on 20 October 2026: 31 days, posted 19 September to 19 October). The stage saves each listed day not yet held, once,
+under warehouse/raw/ercot_dam_spp/zips/ with a manifest, at the same pace; it writes no table (the derived builder
+reads the saved files). Day-ahead prices at the resource nodes for the days before the list come from the 60-Day DAM
+Disclosure's resource files (warehouse/connectors/ercot_dam_esr.py), which give each resource's settlement point and
+its Energy Settlement Point Price.
+
+    python warehouse/connectors/ercot_rt_spp.py --pull-dam      # ERCOT's DAM list, then each listed day not yet held
 """
 import argparse
 import csv
@@ -95,6 +106,17 @@ TWICE = {"LZEW", "LZ_DCEW"}                     # a zone's second row in the fil
 ESR_TABLE = "ercot_dam_esr_awards"
 NAME = re.compile(r"SPPHLZNP6905_(\d{8})_(\d{4})_csv$")
 COLS = ip.SERIES_COLS + ["x_point_type"]
+# session 358: the day-ahead prices of every settlement point (NP4-190-CD), saved for node_basis_daily
+DAM_REPORT_TYPE = 12331
+DAM_SOURCE = "ercot:NP4-190-CD"
+DAM_LIST = f"https://www.ercot.com/misapp/servlets/IceDocListJsonWS?reportTypeId={DAM_REPORT_TYPE}"
+DAM_RAW = os.path.join(ROOT, "warehouse", "raw", "ercot_dam_spp")
+DAM_ZIPS = os.path.join(DAM_RAW, "zips")
+DAM_MANIFEST = os.path.join(DAM_ZIPS, "manifest.csv")
+DAM_MANIFEST_COLS = ["operating_day", "file", "doc_id", "url", "bytes", "sha256", "published", "retrieved_at", "how"]
+DAM_NAME = re.compile(r"DAMSPNP4190_csv$")
+DAM_MAX_FILE = 2_000_000    # a day's zip is about 180 kB; a larger one is not what this report posts
+DAM_MAX_FILES = 40          # the most a run asks for (the list holds 31 days)
 
 
 def manifest():
@@ -249,6 +271,68 @@ def pull(a, log, get=requests.get, run_id=None, result=None):
     return rc
 
 
+def dam_manifest():
+    if not os.path.exists(DAM_MANIFEST):
+        return []
+    with open(DAM_MANIFEST, encoding="utf-8", newline="") as f:
+        return list(csv.DictReader(f))
+
+
+def pull_dam(a, log, get=requests.get):
+    """Session 358: ERCOT's list of DAM Settlement Point Prices, then each listed day's csv zip not yet held, saved
+    once with a line in the manifest. Writes no table. Returns the files saved."""
+    if ip.paused("ercot"):
+        raise RuntimeError("ERCOT is paused (warehouse/metadata/paused_sources.csv): nothing is requested")
+    os.makedirs(DAM_ZIPS, exist_ok=True)
+    r = get(DAM_LIST, headers=UA, timeout=120)
+    r.raise_for_status()
+    with open(os.path.join(DAM_RAW, "doclist_latest.json"), "w", encoding="utf-8") as f:
+        f.write(r.text)
+    docs = [d["Document"] for d in r.json()["ListDocsByRptTypeRes"]["DocumentList"]]
+    want = sorted((d for d in docs if DAM_NAME.search(d["FriendlyName"])), key=lambda d: d["PublishDate"])
+    held = {m["file"] for m in dam_manifest()} | {os.path.basename(p) for p in glob.glob(os.path.join(DAM_ZIPS, "*.zip"))}
+    todo = [d for d in want if d["ConstructedName"] not in held][:DAM_MAX_FILES]
+    log(f"{DAM_LIST}: {len(want)} days listed, posted {want[0]['PublishDate'][:10]} to {want[-1]['PublishDate'][:10]}; {len(todo)} not yet on this machine")
+    n = 0
+    for d in todo:
+        size = int(d["ContentSize"])
+        if size > DAM_MAX_FILE:
+            log(f"  {d['ConstructedName']}: listed at {size:,} bytes, not requested")
+            continue
+        url = FILE.format(doc=d["DocID"])
+        time.sleep(PAUSE)
+        g = None
+        for attempt in range(3):
+            try:
+                g = get(url, headers=UA, timeout=120)
+                if g.status_code == 200 and len(g.content) == size:
+                    break
+            except requests.RequestException:
+                pass
+            g = None
+            time.sleep(10 * (attempt + 1))
+        if g is None:
+            log(f"  {d['ConstructedName']}: three attempts failed; left for a later run")
+            continue
+        z = zipfile.ZipFile(io.BytesIO(g.content))
+        day = pd.read_csv(z.open(z.namelist()[0]), usecols=["DeliveryDate"], dtype=str, nrows=1)["DeliveryDate"].iloc[0]
+        path = os.path.join(DAM_ZIPS, d["ConstructedName"])
+        with open(path + ".tmp", "wb") as f:
+            f.write(g.content)
+        os.replace(path + ".tmp", path)
+        new = not os.path.exists(DAM_MANIFEST)
+        with open(DAM_MANIFEST, "a", encoding="utf-8", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=DAM_MANIFEST_COLS, lineterminator="\n")
+            if new:
+                w.writeheader()
+            w.writerow({"operating_day": dt.datetime.strptime(day, "%m/%d/%Y").date().isoformat(), "file": d["ConstructedName"], "doc_id": d["DocID"], "url": url,
+                        "bytes": len(g.content), "sha256": hashlib.sha256(g.content).hexdigest(), "published": d["PublishDate"],
+                        "retrieved_at": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "how": "requested"})
+        n += 1
+    log(f"DAM Settlement Point Prices: {n} files saved by this run; {len(glob.glob(os.path.join(DAM_ZIPS, '*.zip')))} on this machine")
+    return n
+
+
 def read_interval(content):
     """One interval's file: its rows as strings, with the interval's start in UTC. Raises ValueError on a file that is
     not one interval, has a repeated-hour flag, or a time the clock change makes absent."""
@@ -372,6 +456,7 @@ def main(argv=None):
     ap.add_argument("--write", action="store_true")
     ap.add_argument("--daily", action="store_true", help="session 204: the pull under the day's row ceiling, then the table when a file was saved (data lock)")
     ap.add_argument("--max-rows", type=int, help=f"the rows a UTC day's runs may add (--daily: {MAX_ROWS_DAY:,} unless named)")
+    ap.add_argument("--pull-dam", action="store_true", help="session 358: save the listed days of DAM Settlement Point Prices (NP4-190-CD); no table")
     a = ap.parse_args(argv)
     if a.daily:
         if a.offline:
@@ -398,11 +483,14 @@ def main(argv=None):
                 log(f"{TABLE}: no file saved by this run; the table is left as it is")
                 return 0
             return write(log, run_id)   # a run stopped at the ceiling still writes what it saved: the stop is the rule, not a failure
+        if a.pull_dam:
+            pull_dam(a, log)
+            return 0
         if a.pull:
             return pull(a, log, run_id=run_id)
         if a.write:
             return write(log, run_id)
-        ap.error("--pull, --write or --daily")
+        ap.error("--pull, --pull-dam, --write or --daily")
     finally:
         logf.close()
 

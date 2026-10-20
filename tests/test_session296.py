@@ -114,7 +114,7 @@ class TheSourcedRanges(unittest.TestCase):
 class TheView(unittest.TestCase):
     def test_the_defaults_are_the_page_as_it_was_and_the_address_is_round_trip(self):
         v = node_eval("await (async () => { const V = await import('./lib/battery/view.ts'); const d = V.parseView({}); const q = V.viewQuery(d); const w = V.parseView({ u: 'kw', hf: 'l12+npv+irr', ch: 'revenue+debt', sc: 'log', wf: '2020', wt: '2024', lo: 'uri_2021+elliott_2022', it: 'chart', sm: 'pct', sp: '25', sx: 'irr' }); return { d, q, w, back: V.parseView(Object.fromEntries(V.viewQuery(w))), many: V.parseView({ hf: 'l12+bad+cover+npv+irr+toll+payback+npveq', ch: 'revenue+after_costs+after_debt+debt', sp: '500' }) }; })()")
-        self.assertEqual(v["d"], {"units": "battery", "heads": ["l12", "bad", "cover"], "charts": ["revenue"], "scale": "adjusted", "from": None, "to": None, "out": [], "income": "table", "mode": "range", "pct": 10, "measure": "npv"})
+        self.assertEqual(v["d"], {"units": "battery", "heads": ["l12", "bad", "cover"], "charts": ["revenue"], "scale": "adjusted", "from": None, "to": None, "out": [], "income": "table", "mode": "range", "pct": 10, "measure": "npv", "py": "last_12"})   # session 352: the price years, written into the address only away from the default
         self.assertEqual(v["q"], [])
         self.assertEqual(v["w"]["units"], "kw")
         self.assertEqual(v["w"]["heads"], ["l12", "npv", "irr"])

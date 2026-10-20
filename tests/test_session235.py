@@ -220,8 +220,8 @@ class TheBreakevenPpaPrice(unittest.TestCase):
                     self.assertEqual(b[k], v)
 
     def test_no_default_moved(self):
-        self.assertEqual(self.got["defaults"], {"capex": 1375, "share": 60, "rate": 8, "term": 35, "fom": 12.5, "deg": 0, "life": 35, "hurdle": 12, "cshare": 0, "cprice": 0, "ppa": 35})   # session 264: the PPA term, its default the life
-        self.assertEqual(len(self.got["keys"]), 11)   # session 264: eleven
+        self.assertEqual(self.got["defaults"], {"capex": 1375, "share": 60, "rate": 8, "term": 35, "fom": 12.5, "deg": 0, "life": 35, "hurdle": 12, "cshare": 0, "cprice": 0, "ppa": 35, "itc": 0, "ptc": 0})   # session 264: the PPA term, its default the life; session 353: no tax credit
+        self.assertEqual(len(self.got["keys"]), 13)   # session 264: eleven; session 353: thirteen
 
     def test_the_page_offers_it_and_shows_the_row(self):
         block = src(*SELLER, "SellerScenarios.tsx")

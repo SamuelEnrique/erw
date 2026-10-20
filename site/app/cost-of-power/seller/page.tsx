@@ -14,6 +14,9 @@ import { ASSET_NAMES } from "@/lib/merchant";
 import { isOldParam, isScenarioParam } from "@/lib/seller/finance";
 import { usd, whole, type Span } from "@/lib/seller2";
 import { CostTabs } from "../Tabs";
+import { ParamChoice } from "@/components/tool/ParamChoice";
+import { PriceYearsNav } from "@/components/tool/PriceYearsNav";
+import { highLow, windowWords } from "@/lib/priceyears";
 import { SellerForm } from "./SellerForm";
 import { SellerProfile } from "./SellerProfile";
 import { CoverHeadline, SellerDecisions, SellerScenarios, SellerSensitivity } from "./SellerScenarios";
@@ -178,12 +181,26 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
         lead={<>What a solar plant, a wind plant, a battery or a gas peaker earned selling at the hub price: by year, the price it received against the flat average, whether that covers its debt, and whether it is worth building, with or without a contract. <Link href={METHOD}>Method note</Link>. <Link href={ALGORITHM}>Every number, step by step</Link>.</>}
       />
       {x.iso === "ercot" ? <AskErcotLink context={{ view: "/cost-of-power/seller", title: "What a generator earns", settings: { grid: "ERCOT", hub: hubName(hub.id), asset: ASSET_NAMES[x.asset], size: sizeLabel } }} /> : null}
-      <SellerDecisions key={scenarioKey} costs={costs} mw={x.mw} initial={scenarioParams}>
+      <SellerDecisions key={scenarioKey} costs={costs} mw={x.mw} initial={scenarioParams} credits={facts.credits}>
         <div className="grid gap-8 lg:grid-cols-[290px_minmax(0,1fr)]">
           <aside>
             <InputPanel title="Your plant">
               <SellerForm key={`${key}|${hub.id}|${bmw}|${dur}|${strat}`} x={{ iso, hub: hub.id, asset: x.asset, mw: x.mw, mwh: x.mwh, hr: x.hr, vom: x.vom, bmw, dur, strat }} grids={M.grids} hybrid={M.hybrid} defaults={M.defaults} />
               {clamped.length ? <p className="mt-2 text-xs leading-snug" role="status" data-clamped={clamped.length}>{clamped.join(" ")}</p> : null}
+              {/* session 352: the price years the scenarios are priced on (price_years_by_window, at the main hub) */}
+              {M.pyOffered ? <PriceYearsNav ws={M.pyWs} read={M.pyRead} value={M.win?.id ?? "last_12"} unit={peaker ? "USD per kW a year, margin" : "USD per kW a year"} path="/cost-of-power/seller" />
+                : <p className="mt-3 text-xs leading-snug text-muted" data-price-years-choice="0">Price years: the table holds this case at the main hub only, for solar and wind, a 4-hour battery and the peaker at its default heat rate and variable O&amp;M.</p>}
+              {/* session 353: the settlement point at a node (node_basis_summary), and the contract's shape */}
+              {M.nodeOffered ? (
+                <ParamChoice name="nb" value={M.nbAsked ?? ""} dflt="" label="At a node" path="/cost-of-power/seller"
+                  options={[["", "No node: the hub (default)"], ["p10", "A node at the 10th percentile of basis"], ["p50", "A node at the median basis"], ["p90", "A node at the 90th percentile of basis"]]}
+                  note={<>Default: no node, the hub&apos;s price. A plant is paid at its own node: the percentile is of ERCOT&apos;s {x.asset === "wind" ? "wind" : peaker ? "gas" : "solar"} nodes&apos; day-ahead basis to the hub average, month by month (node_basis_summary). It moves scenarios A and B only.</>} />
+              ) : iso === "ercot" || M.nbAsked ? <p className="mt-3 text-xs leading-snug text-muted" data-param-choice="nb-none">At a node: {M.nodeWhy}</p> : null}
+              {fuel ? (
+                <ParamChoice name="ps" value={M.shape} dflt="generated" label="PPA shape" path="/cost-of-power/seller"
+                  options={[["generated", "As generated (default)"], ["block", "A flat block, every hour"]]}
+                  note={<>Default: as generated, the contracted share of the energy as it is made. A block is the same MWh a year spread flat over every hour and settled against the hub&apos;s average price of every hour{facts.flat !== null && facts.flat !== undefined ? <> (USD {two(facts.flat)} per MWh over the same months)</> : null}; the plant sells all its energy in the market. It moves a figure only where a scenario holds a contract.</>} />
+              ) : null}
             </InputPanel>
           </aside>
 
@@ -319,7 +336,37 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
 
             <div data-question="2">
             <ToolSection title="Is it worth building?" id="scenarios">
+              {M.win ? (
+                <p className="mb-3 max-w-3xl text-sm" data-price-years={M.win.id}>
+                  {/* session 352: the window the scenarios are priced on, the table's figure with its key */}
+                  The scenarios are priced {windowWords(M.win).sentence}: {money.toLowerCase()} of USD <Num check={`series|price_years_by_window|${M.win.entity}|${M.win.variable}|${M.win.ts}`} raw={M.win.value}>{two(M.win.value)}</Num> per
+                  kW a year at {at}. The figures above it on the page stay on the last twelve months.
+                </p>
+              ) : null}
+              {M.node ? (
+                <div className="mb-3 max-w-3xl text-sm" data-node-priced={M.node.pct}>
+                  {/* session 353: the node's basis, month by month from node_basis_summary, each with its key */}
+                  <p>
+                    Scenarios A and B are priced at a node: the {M.node.pct === "p50" ? "median" : `${M.node.pct.slice(1)}th percentile`} of ERCOT&apos;s {M.node.cls} nodes&apos; day-ahead
+                    basis to the hub average, month by month, weighted by the plant&apos;s energy: USD {two(M.node.mean)} per MWh, which moves the twelve months&apos; {money.toLowerCase()} by
+                    USD {two(M.node.adjKw)} per kW. The prices are the hub&apos;s real-time prices and the basis is day-ahead: the table holds the real-time basis from September 2026 only.
+                    The figures above stay at the hub.
+                  </p>
+                  <details className="mt-1 text-xs">
+                    <summary className="cursor-pointer">The basis of each month, USD per MWh</summary>
+                    <ul className="mt-1 grid grid-cols-2 gap-x-4 sm:grid-cols-3">
+                      {M.node.months.map((r) => <li key={r.m}>{shortMonth(r.m)}: <Num check={`series|node_basis_summary|ercot:${cg.main}|${M.node!.variable}|${r.ts}`} raw={r.basis}>{two(r.basis)}</Num></li>)}
+                    </ul>
+                  </details>
+                </div>
+              ) : M.nbAsked && (M.nodeReadWhy || M.nodeWhy) ? <p className="mb-3 max-w-3xl text-sm" role="status" data-node-priced="0">{M.nodeReadWhy || M.nodeWhy}</p> : null}
               <SellerScenarios facts={facts} />
+              {(() => {
+                const bw = highLow(M.pyWs);
+                if (!bw) return null;
+                const one = (w: typeof bw.high) => <>USD <Num check={`series|price_years_by_window|${w.entity}|${w.variable}|${w.ts}`} raw={w.value}>{two(w.value)}</Num> per kW in {w.id.slice(5)}</>;
+                return <p className="mt-3 max-w-3xl text-sm" data-years-line="1">The same plant earned {one(bw.high)} in its highest whole year held at {at} and {one(bw.low)} in its lowest{peaker ? " (margin over fuel)" : ""}; the &quot;Price years&quot; choice prices the scenarios on any of them.</p>;
+              })()}
             </ToolSection>
             </div>
 
@@ -331,7 +378,7 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
           </div>
         </div>
       </SellerDecisions>
-      <SourceLine tables={["merchant_revenue_monthly", "eia_fuel_spot_prices", "eia860m_operating_generators", ...new Set(cg.hubs.flatMap((h) => [...(h.rt?.tables ?? []), ...(h.da?.tables ?? [])])), ...(batt ? [B.TABLE] : [])]}
+      <SourceLine tables={["merchant_revenue_monthly", "eia_fuel_spot_prices", "eia860m_operating_generators", ...new Set(cg.hubs.flatMap((h) => [...(h.rt?.tables ?? []), ...(h.da?.tables ?? [])])), ...(batt ? [B.TABLE] : []), ...(M.pyWs.length ? ["price_years_by_window"] : []), ...(M.node ? ["node_basis_summary"] : [])]}
         note={<>Derived by the ERW from {g.name}&apos;s public prices and EIA-930&apos;s hourly generation by source ({cg.workbook}){cg.generation.includes("caiso") ? `, California from ${caisoJoinDay()} from CAISO's own supply by fuel` : ""}. The model&apos;s snapshot was built {snap.built.slice(0, 10)}, the capture prices {CAPTURE.built.slice(0, 10)}{atHub ? `, the model at ${hubAt(hub.id)} ${HUBS.built.slice(0, 10)}` : ""}{pair && hf ? `, the pair with a battery ${HYBRID.built.slice(0, 10)}` : ""}. The default case hour by hour: <a href={HOURLY_CSV} download data-download="csv">CSV</a>, <a href={DO_FILE} download data-download="do">Stata do-file</a>, <a href={MIRROR} download data-download="py">Python mirror</a>. Cost defaults: Lazard, Levelized Cost of Energy+, June 2025. The buyer&apos;s side is <Link href="/cost-of-power">What a datacenter pays</Link>. <span data-checked-against="21">Checked against: 21 published figures (Lazard, the Annual Technology Baseline, EIA, CAISO&apos;s market monitor, Berkeley Lab, Potomac Economics). <Link href="/data/methods/generator_earns_algorithm#cross-checks">Each comparison, with its gap and the reason</Link>.</span> <span data-decisions="298">Decisions of 18 October 2026 (session 298): solar&apos;s degradation default is the Annual Technology Baseline&apos;s 0.7 percent a year, which moved the default solar case&apos;s NPV from USD -74.16 million to -76.66 million (-741.60 to -766.62 per kW); the CAISO peaker&apos;s run rule counts California&apos;s allowance (USD 43.19 to 19.66 per kW over the last twelve months, 2,294 to 624 hours run).</span></>} />
     </ToolPage>
     </Brand>

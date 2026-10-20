@@ -29,6 +29,46 @@ function Folded({ children, title }: { children: ReactNode; title?: string }) {
 }
 
 const fmtP = (p: number) => (p < 0.001 ? "< 0.001" : p.toFixed(3));
+
+/** Session 355: the statistics session 361 added to a card (lib/findings.ts, CardStatistics), under its table of
+ * estimates: the Newey-West errors beside HC1, the round's multiple-comparisons line with the card's own q-values, and a
+ * hunt draft's step-versus-trend flag. A caveat beside the card, never a figure or a verdict of it. */
+function Statistics({ st }: { st: NonNullable<Card["statistics"]> }) {
+  const nw = st.newey_west?.rows ?? [], rd = st.round, sh = st.shape;
+  const q = rd?.q_bh;
+  const qs = q === null || q === undefined ? [] : typeof q === "number" ? [["this claim", q] as [string, number]] : Object.entries(q);
+  const label = (k: string) => nw.find((r) => `${r.numbers_key}_p` === k)?.label ?? k.replace(/_p$/, "").replace(/_/g, " ");
+  return (
+    <div className="mt-3 max-w-3xl text-xs" data-card-statistics={st.session ?? 1}>
+      {sh && sh.step_better ? <p className="mb-2 font-semibold" data-step-flag={String(sh.break_year)}>A step, not a trend: {sh.words.replace(/^a step, not a trend: /, "")}.</p> : null}
+      {nw.length ? (
+        <div className="overflow-x-auto" data-newey-west={nw.length}>
+          <table className="w-full text-xs">
+            <thead><tr className="border-b border-rule text-left text-muted">
+              <th className="py-1 pr-3">Measure</th><th className="py-1 pr-3 text-right">SE (HC1)</th><th className="py-1 pr-3 text-right">p (HC1)</th><th className="py-1 pr-3 text-right">SE (Newey-West)</th><th className="py-1 pr-3 text-right">p (Newey-West)</th><th className="py-1 text-right">Lags</th>
+            </tr></thead>
+            <tbody>
+              {nw.map((r) => (
+                <tr key={r.spec} className="border-b border-rule" data-nw-row={r.numbers_key}>
+                  <td className="py-1 pr-3">{r.label}</td><td className="py-1 pr-3 text-right font-mono">{fmtN(r.se_hc1, 3)}</td><td className="py-1 pr-3 text-right font-mono">{fmtP(r.p_hc1)}</td>
+                  <td className="py-1 pr-3 text-right font-mono">{fmtN(r.se_nw, 3)}</td><td className="py-1 pr-3 text-right font-mono">{fmtP(r.p_nw)}</td><td className="py-1 text-right font-mono">{r.nw_lag}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {st.newey_west?.words ? <p className="mt-1 text-muted">{st.newey_west.words} Lags: {st.newey_west.rule}.</p> : null}
+        </div>
+      ) : null}
+      {rd ? (
+        <p className="mt-2 text-muted" data-multiple-comparisons={rd.claims_tested}>
+          {rd.name ? `In ${rd.name}, ` : "In this round, "}{rd.claims_tested} claims were tested and {rd.claims_passing} passed{rd.alpha ? ` at ${Math.round(rd.alpha * 100)} percent` : ""}.
+          {qs.length ? <> The q-value{qs.length > 1 ? "s" : ""} over the round: {qs.map(([k, v], i) => <span key={k}>{i ? "; " : ""}{label(k)} {fmtP(v)}</span>)}.</> : null}
+          {rd.caveat ? <> {rd.caveat}</> : null}
+        </p>
+      ) : null}
+    </div>
+  );
+}
 const fmtN = (v: number, nd = 2) => v.toLocaleString("en-US", { maximumFractionDigits: nd, minimumFractionDigits: nd });
 
 // Session 182, part 4: `formKey` names where the chosen chart form is kept in the address ("form" on a card's own page;
@@ -103,6 +143,8 @@ export function FindingCard({ card, render = false, roundup = true, found, files
           </table>
         </div>
       ) : null}
+      {/* session 355: the card's statistics (session 361), beside its figures */}
+      {!render && card.statistics ? <Statistics st={card.statistics} /> : null}
       {(render ? [] : card.more_charts ?? []).map((m) => (
         <figure key={m.title} className="mt-4" data-more-chart="1">
           <figcaption className="text-xs font-semibold text-muted">{m.title}</figcaption>

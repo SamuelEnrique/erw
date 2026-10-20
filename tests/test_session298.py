@@ -86,7 +86,7 @@ class TheOtherRulings(unittest.TestCase):
         self.assertIn("| `check-seller-deeper.mjs` | session 162 | session 298, 19 October 2026", src("site", "scripts", "_retired", "README.md"))
 
     def test_5a_the_ppa_term_is_the_life(self):
-        self.assertIn("ppa: costs.life };", src("site", "lib", "seller", "finance.ts"))
+        self.assertIn("ppa: costs.life, itc: 0, ptc: 0 };", src("site", "lib", "seller", "finance.ts"))   # session 353: the tax credits after the PPA term
 
     def test_6a_potomac_is_a_cross_check_row_and_the_page_counts_21(self):
         note = src("docs", "methods", "generator_earns_algorithm.md")

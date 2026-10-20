@@ -43,6 +43,8 @@ import {
 import { CHARTS, HEADS, isViewParam, viewQuery, type View as PageView } from "@/lib/battery/view";
 import { U, V } from "./nums";
 import { ViewCtx } from "./ViewState";
+import { Num } from "@/components/Num";
+import { highLow, chosen, windowWords, type PriceYear } from "@/lib/priceyears";
 
 const num = (v: number, d = 2) => v.toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
 const plain = (v: number) => v.toLocaleString("en-US", { maximumFractionDigits: 2 });
@@ -54,7 +56,9 @@ export type StepMeta = { built: string; rte_steps: number[]; cycle_steps: number
 type Costs = { capex: number; fom: number; note: string; source?: string };
 /** Session 297: the grid's peak stress event (its window revenue, USD per kW, and its name), for the stress repeats. */
 export type Peak = { kw: number; label: string } | null;
-type Held = { d: Assumptions; steps: Steps; state: StepState; revenue: (rte: number, cycles: number) => Revenue | null; ctx: Ctx; peak: Peak };
+// session 352: `ws` the price years held for the battery shown (price_years_by_window), `win` the one the view chose (null: the
+// page's own last twelve months, the default)
+type Held = { d: Assumptions; steps: Steps; state: StepState; revenue: (rte: number, cycles: number) => Revenue | null; ctx: Ctx; peak: Peak; ws: PriceYear[]; win: PriceYear | null };
 const Battery = createContext<Held | null>(null);
 const useBattery = () => useContext(Battery)!;
 /** The parameters of the address the scenarios replace: their own, the two old names read as scenario A's, and
@@ -64,12 +68,21 @@ const drop = (name: string) => isScenarioParam(name) || isOldParam(name) || isVi
 /** The revenue the rows read at an efficiency and a cycle limit: the page's own months at the model's values, the
  * model's run at that step otherwise; null when the step is not held. Session 268: made here, outside the component,
  * with its own cache (the rules of React's hooks forbid a function made in render that changes a local value). */
-function revenueAt(ms: Month[], need: string[], state: StepState, stepCase: StepCase | null) {
+function revenueAt(ms: Month[], need: string[], state: StepState, stepCase: StepCase | null, win: PriceYear | null) {
   const memo = new Map<string, Revenue | null>();
   return (rte: number, cycles: number): Revenue | null => {
     const k = `${rte}|${cycles}`;
     if (memo.has(k)) return memo.get(k)!;
     let months: Month[] | null = ms;
+    // session 352: a window of price years is the table's, at the model's own efficiency and cycles; at another step the
+    // table holds no figure, so the row says "not held"
+    if (win) {
+      const w = last36(ms);
+      const out: Revenue | null = rte === MODEL.rte && cycles === MODEL.cycles
+        ? { l12: win.value, first: win.from, last: win.to, bad: badMonth(w?.months ?? []), n36: w?.months.length ?? 0, months: ms } : null;
+      memo.set(k, out);
+      return out;
+    }
     if (rte !== MODEL.rte || cycles !== MODEL.cycles) {
       const t = state.ok ? cellTotals(stepCase, rte, cycles) : null;
       months = t ? ms.map((r) => (need.includes(r.m) && t.has(r.m) ? { ...r, total: t.get(r.m)! } : r)) : null;
@@ -86,22 +99,25 @@ function revenueAt(ms: Month[], need: string[], state: StepState, stepCase: Step
 
 /** The two scenarios of the page and (session 296) the reader's view, held above its sections: the box edits them,
  * the headline reads scenario A and the view. */
-export function BatteryDecisions({ ms, mw, costs, stepCase, stepMeta, initial, view, peak, hours, children }: {
+export function BatteryDecisions({ ms, mw, costs, stepCase, stepMeta, initial, view, peak, hours, years = [], children }: {
   ms: Month[]; mw: number; costs: { capex: number; fom: number }; stepCase: StepCase | null; stepMeta: StepMeta; initial: Record<string, string | undefined>; view: PageView;
   /** session 297: the grid's peak stress event, and the battery's hours (the augmentation cost is per kWh) */
   peak: Peak; hours: number; children: ReactNode;
+  /** session 352: the price years held for the battery shown */
+  years?: PriceYear[];
 }) {
   const d = useMemo(() => defaultsOf(costs), [costs]);
   // the months the page's own windows read: a step is offered only while the file of steps still describes them
   const need = useMemo(() => (last36(ms)?.months ?? []).map((r) => r.m), [ms]);
   const state = useMemo(() => stepState(stepCase, ms, need), [stepCase, ms, need]);
   const steps = useMemo(() => stepsOffered(stepMeta, state), [stepMeta, state]);
-  const revenue = useMemo(() => revenueAt(ms, need, state, stepCase), [ms, need, state, stepCase]);
   const [v, setV] = useState<PageView>(view);
+  const win = useMemo(() => chosen(years, v.py), [years, v.py]);
+  const revenue = useMemo(() => revenueAt(ms, need, state, stepCase, win), [ms, need, state, stepCase, win]);
   const set = useCallback((p: Partial<PageView>) => setV((cur) => ({ ...cur, ...p })), []);
   const query = useCallback((s: { a: Values; b: Values; view: View }) => [...scenarioQuery(s as unknown as Both, d), ...viewQuery(v)], [d, v]);
   const ctx = useMemo<Ctx>(() => ({ peak: peak?.kw ?? 0, hours }), [peak, hours]);
-  const held = useMemo(() => ({ d, steps, state, revenue, ctx, peak }), [d, steps, state, revenue, ctx, peak]);
+  const held = useMemo(() => ({ d, steps, state, revenue, ctx, peak, ws: years, win }), [d, steps, state, revenue, ctx, peak, years, win]);
   const heldView = useMemo(() => ({ v, set }), [v, set]);
   return (
     <Battery.Provider value={held}>
@@ -117,12 +133,12 @@ export function BatteryDecisions({ ms, mw, costs, stepCase, stepMeta, initial, v
  * contract. */
 function useA(x: Inputs, ms: Month[]) {
   const { s } = useScenarios<Assumptions>();
-  const { revenue, ctx } = useBattery();
+  const { revenue, ctx, win } = useBattery();
   const a = s.a;
   const model = a.rte === MODEL.rte && a.cycles === MODEL.cycles;
   const contracted = a.cshare > 0;
   const y: Inputs = { ...x, fom: a.fom, ds: debtUsd(a, x.mw) };
-  return { a, model, contracted, y, ctx, months: model ? ms : revenue(a.rte, a.cycles)?.months ?? ms };
+  return { a, model, contracted, y, ctx, months: model ? ms : revenue(a.rte, a.cycles)?.months ?? ms, win };
 }
 
 /** The summary sentence and the headline numbers, computed from scenario A. At the model's own efficiency and
@@ -132,10 +148,11 @@ function useA(x: Inputs, ms: Month[]) {
  * no key: the table holds no contract. Session 296: the reader picks which figures (up to six of eight); the five new
  * ones are scenario A's finance (lib/battery/finance.ts) and carry no key, as the results table's cells carry none. */
 export function BatteryHeadline({ ms, x, gridName, gridFrom }: { ms: Month[]; x: Inputs; gridName: string; gridFrom?: string }) {
-  const { a, model, contracted, y, ctx, months } = useA(x, ms);
+  const { a, model, contracted, y, ctx, months, win } = useA(x, ms);
   const { v } = useContext(ViewCtx)!;
   const key = inputsKey(y);
   const size = `${x.mw.toLocaleString("en-US")} MW, ${x.dur}-hour`;
+  if (win) return <WindowHeadline x={x} gridName={gridName} />;
   const scale = 1000 * x.mw;
   const l12 = lastTwelve(months), w36 = last36(months), bad = badMonth(w36?.months ?? []);
   const total = l12 ? sumOf(l12, "total") : null;
@@ -202,10 +219,11 @@ export function BatteryHeadline({ ms, x, gridName, gridFrom }: { ms: Month[]; x:
 export function BatteryCharts({ ms, x, ys, upper, brokenNote, strategyLine }: {
   ms: Month[]; x: Inputs; ys: Year[]; upper: string; brokenNote: ReactNode; strategyLine: string;
 }) {
-  const { a, ctx, months } = useA(x, ms);
+  const { a, ctx, months, win, model } = useA(x, ms);
   const { v } = useContext(ViewCtx)!;
   const l12 = lastTwelve(months);
-  const kw = l12 ? sumOf(l12, "total") / 1000 : null;
+  // session 352: the years of scenario A's life are priced on the window chosen, the table's figure at the model's step
+  const kw = win ? (model ? win.value : null) : l12 ? sumOf(l12, "total") / 1000 : null;
   const rows = kw === null ? [] : projection(a, kw, ctx);
   const yearsOf = rows.map((r) => ({ label: String(r.t) }));
   const money = (n: number) => n.toLocaleString("en-US", { maximumFractionDigits: 0 });
@@ -336,12 +354,13 @@ function StressRepeats({ peak }: { peak: Peak }) {
 
 export function Scenarios({ x }: { x: Inputs }) {
   const { s, d, steps, size, scale, cols, peak } = useBlock(x);
+  const { win, ws, ctx } = useBattery();
   type Col = (typeof cols)["a"];
   const none: Cell = { v: "not held", raw: null };
   const row = (key: string, label: string, note: string, cell: (c: Col) => Cell): Row => ({ key, label, note, cell: (p) => cell(cols[p]) });
   const contractNote = (c: Col) => (c.y.cshare > 0 ? `contract ${plain(c.y.cshare)} percent at USD ${plain(c.y.cprice)} per kW-month; ` : "");
   const rows: Row[] = [
-    row("revenue", "Revenue, last twelve months", "USD per kW, the market's",
+    row("revenue", win ? `Revenue, ${windowWords(win).label.toLowerCase()}` : "Revenue, last twelve months", win ? "USD per kW a year, the market's, price_years_by_window" : "USD per kW, the market's",
       (c) => (c.rev && c.rev.l12 !== null ? { v: `USD ${num(c.rev.l12)}`, raw: c.rev.l12, note: `${monthName(c.rev.first!)} to ${monthName(c.rev.last!)}` } : none)),
     row("p10", "The 10th-percentile month", `for ${size}, last 36 months`,
       (c) => (c.rev?.bad ? { v: usd(c.rev.bad.total! * x.mw), raw: Math.round(c.rev.bad.total! * x.mw), note: `${monthName(c.rev.bad.m)}, of ${c.rev.n36} months` } : none)),
@@ -371,6 +390,55 @@ export function Scenarios({ x }: { x: Inputs }) {
         ) : null}
         chart={null}
       />
+      <YearsLine ws={ws} a={s.a} ctx={ctx} size={size} scale={scale} />
+    </>
+  );
+}
+
+/** Session 352: what the same project earns in the highest and the lowest whole year held, at the model's own step, with
+ * scenario A's NPV in each; said only when two whole years are held. */
+function YearsLine({ ws, a, ctx, size, scale }: { ws: PriceYear[]; a: Assumptions; ctx: Ctx; size: string; scale: number }) {
+  const bw = highLow(ws);
+  if (!bw) return null;
+  const one = (w: PriceYear) => {
+    const r = resultOf(a, w.value, ctx);
+    return <>USD <Num check={`series|price_years_by_window|${w.entity}|${w.variable}|${w.ts}`} raw={w.value}>{num(w.value)}</Num> per kW in {w.id.slice(5)} (scenario A&apos;s NPV {usd(r.npv * scale)})</>;
+  };
+  return (
+    <p className="mt-3 max-w-3xl text-sm" data-years-line="1">
+      The same {size} battery, at the model&apos;s efficiency and one cycle a day, earned {one(bw.high)} in its highest whole year held and {one(bw.low)} in its
+      lowest. The &quot;Price years&quot; choice in the box prices the page on any of them.
+    </p>
+  );
+}
+
+/** Session 352: the summary and the first figures when the page is priced on a window of price years other than the
+ * last twelve months: the table's figure, at the model's own step, scenario A's coverage and NPV on it. */
+function WindowHeadline({ x, gridName }: { x: Inputs; gridName: string }) {
+  const { s } = useScenarios<Assumptions>();
+  const { win, revenue, ctx } = useBattery();
+  const a = s.a, w = win!;
+  const size = `${x.mw.toLocaleString("en-US")} MW, ${x.dur}-hour`;
+  const rev = revenue(a.rte, a.cycles);
+  const kw = rev?.l12 ?? null;
+  const r = kw === null ? null : resultOf(a, kw, ctx);
+  const words = windowWords(w);
+  const value = <Num check={`series|price_years_by_window|${w.entity}|${w.variable}|${w.ts}`} raw={w.value}>{num(w.value)}</Num>;
+  return (
+    <>
+      <p className="mb-6 max-w-3xl font-serif text-xl leading-snug" data-summary="1" data-price-years={w.id}>
+        {kw === null
+          ? <>A {size} battery in {gridName}: the price years hold no figure at a round-trip efficiency of {plain(a.rte)} percent and at most {plain(a.cycles)} cycles a day, only at the model&apos;s own; choose the last twelve months for this step.</>
+          : <>Priced {words.sentence}, a {size} battery in {gridName} earns USD {value} per kW a year{r && r.coverage !== null ? <>, and covers its debt {num(r.coverage)} times</> : null}.</>}
+      </p>
+      <HeadlineRow>
+        <HeadlineNumber label={`Price years: ${words.label}`} value={kw === null ? <span className="text-muted">not held</span> : <>USD {value}<span className="ml-1 font-sans text-sm text-muted">per kW a year</span></>}
+          note={<>{w.months} months, {monthName(w.from)} to {monthName(w.to)}, the model&apos;s own run (price_years_by_window).</>} />
+        <HeadlineNumber label="Debt coverage" value={r ? (r.coverage === null ? <span>No debt</span> : <>{num(r.coverage)}<span className="ml-1 font-sans text-sm text-muted">times</span></>) : <span className="text-muted">not held</span>}
+          note={<>Scenario A on these price years.</>} />
+        <HeadlineNumber label="NPV at the hurdle rate" value={r ? <>{usd(r.npv * 1000 * x.mw)}</> : <span className="text-muted">not held</span>}
+          note={<>To equity, scenario A, at {plain(a.hurdle)} percent, on these price years.</>} />
+      </HeadlineRow>
     </>
   );
 }

@@ -23,7 +23,8 @@ Every price is a checked number: `check-values` reads it again from the same row
   real-time price can therefore be up to about half an hour old when read.
 - **The day-ahead hour.** The page reads the last day of each day-ahead table and shows the row whose hour contains
   the time the page was drawn. Where the table holds no such row, the cell says what the table holds: its newest hour
-  for that node, or that it holds no row of the node in the last day (session 319).
+  for that node, or that it holds no row of the node in the last day (session 319). The owner ruled on 20 October 2026
+  that the column stays, with these words (recorded by session 351).
 - **PJM** is not shown: its prices are licensed for internal use only.
 - **MISO** is paused since 4 October 2026 (`miso_pause.md`): no request goes to MISO, so its rows are those held
   before the pause, or none.

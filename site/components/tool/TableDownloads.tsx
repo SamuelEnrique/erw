@@ -17,8 +17,12 @@ export async function TableDownloads({ tables }: { tables: string[] }) {
   return (
     <p className="mt-3 text-xs leading-relaxed text-muted" data-downloads={cat.ok ? shown.length : "unread"}>
       Download the tables:{" "}
-      {!cat.ok || !shown.length ? (
+      {!cat.ok ? (
         <>every public table is on <Link href="/data">Data and methods</Link></>
+      ) : !shown.length ? (
+        // session 333: a page none of whose tables is in the site's live catalogue (held for review, or public in the
+        // warehouse and not loaded: /supply's) is not sent to /data, which lists none of them either
+        <span data-not-held="catalogue">this page&apos;s tables are not in the site&apos;s live set; every table is on <a href={site.redivis.url}>Redivis</a> (version 1 pending release)</span>
       ) : (
         shown.map((t, i) => (
           <span key={t} data-download-table={t}>
