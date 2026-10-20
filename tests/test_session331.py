@@ -46,6 +46,20 @@ class TheCurtailmentPage(unittest.TestCase):
         self.assertIn("<TableDownloads tables={srcTables} />", page)
 
 
+class TheSharedChartLabels(unittest.TestCase):
+    def test_bar_names_follow_the_unit_and_wrap_and_the_plot_starts_under_them(self):
+        s = src("site", "components", "svgchart.tsx")
+        self.assertIn("let bx = L + textWidth(unit) + 14, by = 11;", s)
+        self.assertIn("if (bx + w > edge && bx > L + 4) { bx = L + 4; by += 14; }", s)
+        self.assertIn("const TOP = small ? 6 : Math.max(24, (barNames.length ? barNames[barNames.length - 1].y : 0) + 13);", s)
+        self.assertNotIn("x={L + 4 + j * (textWidth(s.name) + 14)} y={TOP - 6}", s)
+
+    def test_the_heat_legend_is_measured_from_its_words(self):
+        s = src("site", "components", "svgchart.tsx")
+        self.assertIn("const x0 = L + span <= W - 4 ? L : 4, sx = x0 + textWidth(w0, 11) + 8, hx = sx + 8 * 12 + 6;", s)
+        self.assertNotIn("x={L + 110 + k * 12}", s)
+
+
 class TheNotes(unittest.TestCase):
     def test_the_notes_say_what_the_pages_draw_today(self):
         self.assertIn("## Session 331 (20 October 2026): downloads and the third view's note", src("docs", "methods", "demand_growth.md"))
