@@ -214,11 +214,47 @@ def run(task, cmd, minutes=120, wait=0):
             except Exception as exc:  # a network blip: the next try may work; the lock lasts `minutes`
                 print(f"WARNING: renewing the data lock: {exc}", file=sys.stderr, flush=True)
     threading.Thread(target=keep, daemon=True).start()
+    closed = on_console_close(lambda: (stop.set(), release(tok)))
     try:
         return subprocess.call(cmd, env={**os.environ, "ERW_LOCK_TOKEN": tok})
     finally:
         stop.set()
-        release(tok)
+        if not closed.is_set():
+            release(tok)
+
+
+# Session 384: the daily run of 20 October ended at 18:06 UTC with 0xC000013A (STATUS_CONTROL_C_EXIT) and held the lock
+# until it lapsed two hours later. The scheduled task is "Interactive only", so its console sits on the desktop; when that
+# window closes (or the user signs out, or Windows shuts down) Windows sends the console's processes a close event and
+# ends them a few seconds later, and the `finally` above never runs (a Ctrl+C does run it: Python raises
+# KeyboardInterrupt). A console handler releases the lock in those seconds instead.
+CLOSE_EVENTS = (2, 5, 6)  # CTRL_CLOSE_EVENT, CTRL_LOGOFF_EVENT, CTRL_SHUTDOWN_EVENT
+
+
+def on_console_close(fn, kernel32=None):
+    """Run fn once when the console closes, the user signs out or Windows shuts down; returns an Event set once it ran.
+    Windows only (elsewhere a no-op). The handler returns False, so Windows's own handling follows."""
+    done = threading.Event()
+    if kernel32 is None and os.name != "nt":
+        return done
+    import ctypes
+
+    @getattr(ctypes, "WINFUNCTYPE", ctypes.CFUNCTYPE)(ctypes.c_int, ctypes.c_uint)  # BOOL, DWORD; CFUNCTYPE: a test off Windows
+    def handler(event):
+        if event in CLOSE_EVENTS and not done.is_set():
+            try:
+                fn()
+            except Exception as exc:  # the lock lapses by itself at its ceiling
+                print(f"WARNING: releasing the data lock on close: {exc}", file=sys.stderr, flush=True)
+            done.set()
+        return False
+
+    on_console_close.handlers.append(handler)  # kept alive: Windows calls it from its own thread
+    (kernel32 or ctypes.windll.kernel32).SetConsoleCtrlHandler(handler, True)
+    return done
+
+
+on_console_close.handlers = []
 
 
 def main(argv=None):
