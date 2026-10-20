@@ -50,7 +50,7 @@ class Docs(unittest.TestCase):
 class SecurityList(unittest.TestCase):
     def test_every_item_is_listed(self):
         s = src("docs", "security.md")
-        items = [f"H{i}" for i in range(1, 4)] + [f"M{i}" for i in range(1, 9)] + [f"L{i}" for i in range(1, 14)] + ["S1", "S2", "S3"]
+        items = [f"H{i}" for i in range(1, 4)] + [f"M{i}" for i in range(1, 9)] + [f"L{i}" for i in range(1, 14)] + ["S1", "S2", "S3", "S4"]
         for i in items:
             self.assertRegex(s, rf"\n\| {i} \|", i)
         self.assertIn("reviews/2026-10-10-security.md", s)
@@ -103,6 +103,14 @@ class TokenOutOfAddresses(unittest.TestCase):
         self.assertNotIn("url: `${page}?token=", cv)
 
 
+class CspProbe(unittest.TestCase):
+    def test_s4_the_library_probe_opens_a_page_that_loads_it(self):
+        csp = src("site", "scripts", "check-csp.mjs")
+        self.assertIn('await go(base + "/map");', csp)
+        self.assertIn('/map: the chart library loaded and drew', csp)
+        self.assertIn('useEChart', src("site", "app", "map", "ProjectMap.tsx"))
+
+
 class NoDash(unittest.TestCase):
     def test_no_em_dash(self):
         for p in (("ARCHITECTURE.md",), ("docs", "runbook.md"), ("docs", "security.md"), ("queue", "done", "007-code-docs-for-machines.md"),
@@ -110,7 +118,7 @@ class NoDash(unittest.TestCase):
                   ("site", "app", "cost-of-power", "battery", "read.ts"), ("site", "app", "severance", "finder", "page.tsx"),
                   ("site", "app", "severance", "finder", "download", "route.ts"), ("site", "app", "severance", "lease", "real", "page.tsx"),
                   ("site", "app", "reports", "draft", "shape-premium", "page.tsx"), ("site", "app", "reports", "draft", "ai-gigawatts", "page.tsx"),
-                  ("site", "scripts", "check-values.mjs"), ("tests", "test_session371.py")):
+                  ("site", "scripts", "check-values.mjs"), ("site", "scripts", "check-csp.mjs"), ("tests", "test_session371.py")):
             self.assertNotIn(chr(0x2014), src(*p), "/".join(p))
 
 

@@ -96,10 +96,13 @@ const code = await withBrowser(async ({ go, evaluate, unlock, send, sleep }) => 
     const caught = blocked ? !probe.ran : reportedOnly && probe.ran;
     console.log(`${caught ? "ok  " : "FAIL"} the detector: a script from a data: address is ${blocked ? "blocked by the enforced policy" : "reported by the full policy"}${probe.ran ? (blocked ? " and STILL RAN" : " and still runs (report-only)") : (blocked ? " and did not run" : " and DID NOT RUN (the policy is enforced?)")}`);
     if (!caught) failed += 1;   // session 301: under the enforced policy the probe must not run
-    await go(base + "/storage");
-    await sleep(3000);
+    // session 371: /storage draws its charts in SVG since the shared chart set moved (components/LineChart.tsx draws through
+    // TimeChart) and loads the library no more, so the probe failed on a page that no longer uses it. The project map
+    // (app/map/ProjectMap.tsx, useEChart) still loads it from cdnjs with its integrity hash, so the probe opens that page.
+    await go(base + "/map");
+    await sleep(5000);
     charts = await evaluate("typeof window.echarts === 'object' && document.querySelectorAll('canvas').length > 0");
-    console.log(`${charts ? "ok  " : "FAIL"} /storage: the chart library loaded and drew`);
+    console.log(`${charts ? "ok  " : "FAIL"} /map: the chart library loaded and drew`);
     // The sign-up form, posted by this real browser with neither email chosen: the route must take it as this site's
     // own form and answer "choose one" (state none). Another site's form is answered "invalid". Nothing is stored and
     // no email is sent: the route stops before either.

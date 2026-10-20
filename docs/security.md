@@ -16,7 +16,7 @@ Every read below is a read: nothing was written to the database, to Supabase Aut
 | The `search_path` of the lock and scheduler functions (L7) | `pg_proc.proconfig` | unchanged: `erw_lock_*` and `erw_db_size` pin `search_path=public`, `erw_dispatch` `public, extensions` |
 | Sign-ups in Supabase Auth (L8) | `GET /auth/v1/settings` with the anon key | `disable_signup: false`, the email provider on, `mailer_autoconfirm: false` |
 | The chart library's integrity (M5) | the file fetched once from cdnjs, hashed, and cdnjs's own published hash read from `api.cdnjs.com` | 1,034,102 bytes; its SHA-384 is `ECHARTS_SRI` in `site/components/echarts.ts`; its SHA-512 equals the SRI cdnjs publishes for `echarts/5.6.0/echarts.min.js` |
-| The site's dependencies (H2, L9, L10) | `npm audit` in `site/` | see H2 and L9 below |
+| The site's dependencies (H2, L9, L10) | `npm audit --json` in `site/` after `npm ci` | 5 advisories, all high, all one chain: `eslint-config-next` 16.3.8 through `@next/eslint-plugin-next`, `fast-glob`, `micromatch` and `braces` (GHSA-vfj7-8cjw-p6xm), that is L9; the only fix offered is `eslint-config-next` 14.2.35, a major step back. Nothing on `next`, `react` or any package the site ships |
 | The headers, the form, the internal pages, the routes' refusals | `node scripts/check-security.mjs` and `node scripts/check-csp.mjs` on the local build | see the session report, `archive/sessions/SESSION_371_REPORT.md` |
 
 ## The list
@@ -24,7 +24,7 @@ Every read below is a read: nothing was written to the database, to Supabase Aut
 | # | Item | State | Commit or proof |
 |---|---|---|---|
 | H1 | The internal token travels in addresses | **open: Samuel** (the old link's retirement and the token's rotation); the scripts' part closed | session 301 (`52174f26`): every check script opens the internal view by the form; S2 below closes the five pages that still needed the token |
-| H2 | Next.js advisories | closed | session 177: `next` and `eslint-config-next` 16.3.8; `npm audit` of 20 October below |
+| H2 | Next.js advisories | closed | session 177: `next` and `eslint-config-next` 16.3.8; `npm audit` of 20 October: no advisory on `next` (above) |
 | H3 | The anon key could write the cost ledger | closed | site side session 301 (`52174f26`); migration 034 applied (catalog read of 20 October above). One look remains for Samuel: item 3 below |
 | M1 | The same for the game's tables, the subscribers and the question counter | closed | with H3 |
 | M2 | Limits per address held in one instance's memory | closed | session 177, `site/lib/guard.ts`; migration 028 applied (`site_rate_counts` in the catalog) |
@@ -49,6 +49,7 @@ Every read below is a read: nothing was written to the database, to Supabase Aut
 | L13 | A long read by the anon key | noted | the anon role's 3-second statement timeout is the control |
 | S1 | The proxy and the battery page compared the internal cookie with `===` (found by session 371) | closed | `a04d463e`: `cookieOpens` in `site/lib/release.ts`, the same constant-time comparison `internalOk` and the form's door already made |
 | S2 | Five internal addresses still needed `?token=`; the refund finder wrote the token into its own links and form, and `check-values.mjs` opened the two drafts with it, so each landing's check against production put the production token in a production address (found by session 371) | closed | `e5eeac60`: `/severance/finder`, `/severance/finder/download`, `/severance/lease/real`, `/reports/draft/shape-premium` and `/reports/draft/ai-gigawatts` open with the internal cookie (an address with `?token=` still opens them); the finder writes the token into a link only when its own address brought it; `check-values.mjs` reads the drafts with the cookie |
+| S4 | `check-csp.mjs` proved the chart library's integrity hash on `/storage`, which has drawn its charts in SVG since the shared chart set moved and no longer loads the library, so the proof failed on a page that no longer used it (found by session 371) | closed | session 371's last commit: the probe opens `/map` (`app/map/ProjectMap.tsx`, `useEChart`), which loads the library from cdnjs with its hash; `check-csp.mjs` exit 0 on the local build, "/map: the chart library loaded and drew" |
 | S3 | Three checks prove "a token in the address opens nothing" with the real token (`check-internal-findings.mjs`, `check-internal-health.mjs`, `check-internal-waits.mjs`); run against production, that request writes the token into the host's request log (found by session 371) | noted | the proof needs the real token, and the checks are run against a local build; run against production only after the rotation of H1, or not at all |
 
 ## What needs Samuel, with the choice
