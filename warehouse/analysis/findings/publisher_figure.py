@@ -7,7 +7,8 @@ that series and that month: read from EIA's API (api.eia.gov/v2, the publisher's
 recorded without the key, with the time of the read, EIA's own unit and the value in the ERW's unit by the connector's
 conversion. /internal/findings shows it beside ours (site/app/internal/findings/page.tsx), and the approval route
 (site/app/internal/findings/state/route.ts) refuses "approved" while the figure is missing. A figure is never made up:
-a read that fails leaves the draft without one, and this script exits 1.
+a read that fails leaves the draft without one, and this script exits 1 (session 336: 75, warehouse/health.py's skip,
+when every read that failed is EIA not answering: HTTP 5xx, a timeout or a refused connection).
 
 The read is a request to a publisher, so it is the data machine's (run after the daily scan; a code machine makes no
 pull), and EIA is asked once per draft and month: a draft that carries a figure for its month is not asked again.
@@ -41,6 +42,8 @@ FACETS = {
     "eia_retail_sales_monthly": ("electricity/retail-sales", None, ("stateid", "sectorid")),   # the data column is the measure: sales or customers
     "eia_state_generation_monthly": ("electricity/electric-power-operational-data", "generation", ("location", "fueltypeid")),
 }
+SKIP = 75   # warehouse/health.py's skip: EIA did not answer (session 336)
+MEASURE_COLUMNS = {"retail_sales": "sales"}   # the entity's measure to EIA's data column, where they differ
 SERIES_TABLES = {"eia_product_spot_prices", "eia_retail_fuel_prices", "eia_petroleum_trade_weekly", "eia_petroleum_stocks_weekly",
                  "eia_lng_exports_monthly", "eia_crude_first_purchase_prices", "eia_crude_imports_by_country", "eia_padd_crude_pipeline_flows",
                  "eia_sector_energy_consumption_monthly", "eia_fuel_spot_prices", "eia_regional_retail_fuel_prices", "eia_crude_stream_prices",
@@ -77,7 +80,9 @@ def request_of(table, series, flag_date, freq="monthly"):
         values = parts[2:]
         if len(values) != len(names):
             raise ValueError(f"{table}: the entity {ent!r} does not carry {len(names)} facets")
-        data = data or parts[1]
+        # session 336: the entity's measure is the ERW's variable; EIA's column for retail_sales is "sales" (eia_series.py),
+        # and the measure as written was answered HTTP 400 on 20 October
+        data = data or MEASURE_COLUMNS.get(parts[1], parts[1])
         q.insert(0, ("data[0]", data))
         q += [(f"facets[{n}][]", v) for n, v in zip(names, values)]
         if table == "eia_state_generation_monthly":
@@ -174,13 +179,16 @@ def main(argv=None):
     if not ekey:
         print("needs EIA_API_KEY", file=sys.stderr)
         return 2
-    failed, done = [], []
+    failed, done, unanswered = [], [], 0
     for d in todo:
         try:
             pub = read(d, ekey, requests.get)
         except Exception as exc:
             failed.append((d["id"], str(exc)[:200]))
             print(f"  {d['id']}: not read: {str(exc)[:200]}")
+            # session 336: EIA's gateway answered 504 twice on 20 October; a publisher that does not answer is a skip
+            # (session 321's rule for a pull), a request EIA refuses (4xx) or a month it lacks is a failure
+            unanswered += isinstance(exc, (requests.ConnectionError, requests.Timeout)) or " HTTP 5" in str(exc)
             continue
         card = dict(d["card"]); card["publisher"] = pub
         w = requests.patch(base, params={"id": f"eq.{d['id']}"}, headers={**h, "Prefer": "return=minimal"}, json={"card": card}, timeout=30)
@@ -190,6 +198,9 @@ def main(argv=None):
         with open(args.out, "w", encoding="utf-8", newline="\n") as f:
             json.dump({"read_at": dt.datetime.now(UTC).isoformat(), "done": done, "failed": failed}, f, indent=1)
     print(f"{len(done)} figure(s) recorded, {len(failed)} not read")
+    if failed and unanswered == len(failed):
+        print(f"dm_publisher_figure SKIPPED: EIA did not answer for {len(failed)} draft(s); asked again on the next run")
+        return SKIP
     return 1 if failed else 0
 
 
