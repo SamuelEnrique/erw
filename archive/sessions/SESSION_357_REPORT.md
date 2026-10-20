@@ -30,7 +30,9 @@
 | `scripts/precheck.py --what "session 357"` | 0 | on duty until 2026-10-21 00:42 UTC |
 | `warehouse/derived/price_years.py --live` (data lock) | 0 | 2,754 rows; 45 proofs equal |
 | `erw_validate.py warehouse/output/price_years_by_window.csv` | 0 | PASS, 0 errors, 0 warnings |
-| `build_coverage.py` (data lock) | 0 | 205 tables; the first run failed (exit 1) on my "Derived from" line, which named files beside tables; fixed and rerun |
+| `build_coverage.py` (data lock) | 0 | the first run failed (exit 1) on my "Derived from" line, which named files beside tables; fixed and rerun. **That whole rebuild was wrong for this machine and was not landed**: this machine's copies of about 80 tables are older than the runner's, so a full rebuild rewrote their rows of main's coverage backwards (and `nyiso_load_queue`'s license), and the first landing's checks failed on it (run 39400638183, tests 207, 248 and 275). Main's `coverage.csv` and `docs/coverage.md` were taken back and only the new row built (`build_coverage.py --only '^price_years_by_window$'`: 1 built, 204 carried over) |
+| `release_v1.py --check` | 0 | the release package lists the new table (`tables.csv` one row, `variables.csv` 470 rows, 132 tables in v1): spliced into main's files, since a full rewrite from this machine's tables moves about 60 other rows the same way |
+| the suite in four groups, `GITHUB_ACTIONS=true` (the whole run passes 590 s here) | 1 | only the standing local failures: 51, 94, 125, 156, 165, and 267 (an untracked `queue_divorce__first_year-2010.do` in this working copy, not in git) |
 | `load.py --only '^price_years_by_window$'` (data lock) | 1 | the table matched: 2,754 in the CSV, 2,754 in Supabase, 2,754 written. Exit 1 is the sources check: Supabase holds 11 sources this machine's `sources.csv` does not (`erw:impact_tax_rules`, `la_ldr:la_rib_26_013`, `la_ldr:la_rib_26_014`, `la_legislature:la_rs_47_633`, `nlr:jedi` and six more), registered by another machine's load; not this table's. Nothing was pruned |
 | `redivis/upload.py price_years_by_window` (data lock) | 0 | count(*) 2,754; coverage and sources too; the headers table skipped by the export cap, as before; nothing released |
 | `tests.test_session357` | 0 | 5 tests |
@@ -50,6 +52,8 @@ No snapshot was taken around the load: no page reads `price_years_by_window` yet
 The shapes: above (`cfe05c6d`, 0 differences). This session: see the commit that carries this report; its before and after snapshots are recorded in session 358's report.
 
 ## Decisions made without you
+
+0. **Coverage on this machine is rebuilt with `--only` for the tables a session writes**, never whole: the runner's copies are newer than this machine's for about 80 tables, and a whole rebuild here writes them backwards. The same holds for the release package. The chain's later sessions do the same.
 
 1. **The table is `price_years_by_window`**, not `price_years`: the validator's three-part rule for series tables. The note says so first.
 2. **ERCOT, CAISO and SPP only.** NYISO, ISO-NE and MISO are "license needed" from 21 October 2026 (MISO is also paused); PJM is licensed. A grid joins when its license allows.
