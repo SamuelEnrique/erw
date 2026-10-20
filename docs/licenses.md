@@ -10,11 +10,12 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 ## Read these first
 
-- **207 tables.** The flag and the verdict agree on 143; a ruling settles 42 (session 324: the "license needed" rows of `license_status.csv`, and one table kept internal); disagree on 1; 20 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
+- **212 tables.** The flag and the verdict agree on 147; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 20 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
+- **The ERW's verdict (session 378): 130 public, 33 internal, 49 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
 - **82 publishers in the record: 80 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60), 70 pages read, 10 that could not be read, 2 not asked (paused).**
-- **42 tables are flagged public where a publisher's sentence asks for permission or a license** (41 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Latitude Media 4; Natural Gas Intelligence 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Heatmap News 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; OilPrice.com 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1.
+- **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Latitude Media 4; Natural Gas Intelligence 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Heatmap News 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; OilPrice.com 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1.
 - **0 tables are flagged internal where the sentence read allows them.**
-- **9 tables that may be public today would need permission if the ERW sells anything** (SPP 6; IMF 1; IMF PortWatch 1; RRC 1).
+- **10 tables that may be public today would need permission if the ERW sells anything** (SPP 7; IMF 1; IMF PortWatch 1; RRC 1).
 
 ## The reads
 
@@ -182,215 +183,222 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 
 "Decided by" names the publisher whose sentence sets the verdict. A table of the ERW's own work has no publisher.
 
-| Table | Publishers | Verdict today | Decided by | Not read | Flag in coverage.csv | Flag and verdict | If the ERW sells anything |
-|---|---|---|---|---|---|---|---|
-| `ai_power_regions` | Berkeley Lab; CAISO; EIA; ERCOT; ISO-NE; MISO; and 3 more | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `api_cost_ledger` | the ERW's own work | may be public |  |  | internal | internal by the ERW's own choice | may be public |
-| `ba_supply_monthly` | EIA | may be public |  |  | public | agrees | may be public |
-| `battery_sourced_ranges` | National Laboratory of the Rockies (NLR, formerly NREL) | may be public |  |  | public | agrees | may be public |
-| `battery_stack_monthly` | CAISO; ERCOT | may be public |  |  | public | agrees | may be public |
-| `battery_stack_review_monthly` | NYISO; SPP | needs written permission | NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `battery_stack_stress_daily` | CAISO; ERCOT | may be public |  |  | public | agrees | may be public |
-| `caiso_area_load_hourly` | CAISO | may be public |  |  | public | agrees | may be public |
-| `caiso_as_prices` | CAISO | may be public |  |  | public | agrees | may be public |
-| `caiso_battery_storage` | CAISO | may be public |  |  | public | agrees | may be public |
-| `caiso_curtailment_daily` | CAISO | may be public |  |  | public | agrees | may be public |
-| `caiso_curtailment_intervals` | CAISO | may be public |  |  | public | agrees | may be public |
-| `caiso_curtailment_profile` | CAISO | may be public |  |  | public | agrees | may be public |
-| `caiso_dam_alert_day_hub_prices` | CAISO | may be public |  |  | public | agrees | may be public |
-| `caiso_dam_cleared_energy` | CAISO | may be public |  |  | public | agrees | may be public |
-| `caiso_fuel_supply` | CAISO | may be public |  |  | public | agrees | may be public |
-| `caiso_fuel_supply_history` | CAISO | may be public |  |  | public | agrees | may be public |
-| `caiso_grid_emergencies` | CAISO | may be public |  |  | public | agrees | may be public |
-| `caiso_interconnection_queue` | CAISO | may be public |  |  | public | agrees | may be public |
-| `caiso_reliability_daily` | CAISO; EIA | may be public |  |  | public | agrees | may be public |
-| `caiso_wind_solar_forecast` | CAISO | may be public |  |  | public | agrees | may be public |
-| `carb_auction_allowance_prices` | CARB | may be public |  |  | public | agrees | may be public |
-| `carb_lcfs_credit_prices` | CARB | may be public |  |  | public | agrees | may be public |
-| `carbon_intensity_daily` | EIA | may be public |  |  | public | agrees | may be public |
-| `carbon_intensity_hourly` | EIA | may be public |  |  | public | agrees | may be public |
-| `carbon_intensity_monthly` | EIA | may be public |  |  | public | agrees | may be public |
-| `census_metro_population` | Census Bureau | may be public |  |  | public | agrees | may be public |
-| `cftc_cot_positions` | CFTC | may be public |  |  | public | agrees | may be public |
-| `clean_energy_hourly` | CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; and 1 more | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `clean_energy_summary` | CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; and 1 more | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `cost_of_power_carbon` | CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `cost_of_power_hourly_profile` | CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `cost_of_power_monthly` | CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `datacenter_facilities` | Amazon Web Services; Bloomberg; CAISO; Census Bureau; Data Center Dynamics; Data Center Frontier; and 22 more | needs written permission | Amazon Web Services; Bloomberg; Data Center Dynamics; Data Center Frontier; and 20 more |  | public | ruled: license needed from 2026-10-21 | needs a paid license |
-| `datacenter_operator_sites` | Amazon Web Services; Digital Realty; Equinix; Google; Meta; Microsoft; and 3 more | needs written permission | Amazon Web Services; Digital Realty; Equinix; Google; and 5 more |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `datacenter_projects` | Bloomberg; Census Bureau; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; and 7 more | needs written permission | Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; and 8 more |  | public | ruled: license needed from 2026-10-21 | needs a paid license |
-| `datacenter_projects_evidence` | Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; Hart Energy; and 6 more | needs written permission | Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; and 8 more |  | internal | agrees | needs a paid license |
-| `datacenter_queue_positions` | CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `eia860m_operating_generators` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia860m_planned_generators` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia860m_retired_generators` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia860m_retired_generators_all` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia930_all_demand` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia930_all_emissions` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia930_all_generation` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia930_all_history` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia930_all_interchange` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia930_all_storage` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia930_daily_demand` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia930_daily_interchange` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia930_daily_total_interchange` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia930_demand_growth` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia930_demand_weather` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia930_event_hourly_interchange` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia930_generation_latest` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia_all_futures_prices` | CME Group (NYMEX), whose prices EIA republished; EIA | not settled (needs written permission by default) |  | CME Group (NYMEX), whose prices EIA republished | internal | not settled | may be public |
-| `eia_annual_crosscheck_ba` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia_annual_generation_ba` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia_basin_production_monthly` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia_crude_first_purchase_prices` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia_crude_imports_by_country` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia_crude_stream_prices` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia_fuel_spot_prices` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia_gas_storage_weekly` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia_gas_trade_monthly` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia_lng_exports_monthly` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia_padd_crude_pipeline_flows` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia_petroleum_stocks_weekly` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia_petroleum_supply_weekly` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia_petroleum_trade_weekly` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia_power_plant_fuel_costs` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia_product_spot_prices` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia_regional_retail_fuel_prices` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia_retail_electricity_prices` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia_retail_fuel_prices` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia_retail_sales_monthly` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia_sector_energy_consumption_monthly` | EIA | may be public |  |  | public | agrees | may be public |
-| `eia_state_generation_monthly` | EIA | may be public |  |  | public | agrees | may be public |
-| `energy_companies` | the ERW's own work | may be public |  |  | public | agrees | may be public |
-| `energy_deals` | ANS Nuclear Newswire; Bloomberg; Canary Media; DOE newsroom; Data Center Dynamics; Data Center Frontier; and 16 more | needs written permission | ANS Nuclear Newswire; Bloomberg; Canary Media; Data Center Dynamics; and 14 more | Electrek; Energy-Storage.news | public | ruled: license needed from 2026-10-21 | needs a paid license |
-| `energy_deals_evidence` | ANS Nuclear Newswire; Bloomberg; Canary Media; DOE newsroom; Data Center Dynamics; Data Center Frontier; and 16 more | needs written permission | ANS Nuclear Newswire; Bloomberg; Canary Media; Data Center Dynamics; and 14 more | Electrek; Energy-Storage.news | internal | agrees | needs a paid license |
-| `energy_projects` | CAISO; Census Bureau; EIA; ERCOT; ISO-NE; SPP | needs written permission | ISO-NE |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `ercot_all_hub_prices_history` | ERCOT | may be public |  |  | public | agrees | may be public |
-| `ercot_as_prices` | ERCOT | may be public |  |  | public | agrees | may be public |
-| `ercot_as_prices_daily` | ERCOT | may be public |  |  | public | agrees | may be public |
-| `ercot_as_prices_monthly` | ERCOT | may be public |  |  | public | agrees | may be public |
-| `ercot_as_quantities` | ERCOT | may be public |  |  | public | agrees | may be public |
-| `ercot_dam_cleared_energy` | ERCOT | may be public |  |  | public | agrees | may be public |
-| `ercot_dam_esr_awards` | ERCOT | may be public |  |  | public | agrees | may be public |
-| `ercot_grid_notices` | ERCOT | may be public |  |  | public | agrees | may be public |
-| `ercot_hub_prices_daily` | ERCOT | may be public |  |  | public | agrees | may be public |
-| `ercot_interconnection_queue` | ERCOT | may be public |  |  | public | agrees | may be public |
-| `ercot_large_load_status` | ERCOT | may be public |  |  | public | agrees | may be public |
-| `ercot_peak_premium_annual` | ERCOT | may be public |  |  | public | agrees | may be public |
-| `ercot_peak_premium_monthly` | ERCOT | may be public |  |  | public | agrees | may be public |
-| `ercot_rtm_node_prices` | ERCOT | may be public |  |  | public | agrees | may be public |
-| `ercot_rtm_price_adders` | ERCOT | may be public |  |  | public | agrees | may be public |
-| `ercot_sced_esr_hourly` | ERCOT | may be public |  |  | public | agrees | may be public |
-| `ercot_storage_dam_awards_monthly` | ERCOT | may be public |  |  | public | agrees | may be public |
-| `ercot_storage_dam_offers_daily` | ERCOT | may be public |  |  | public | agrees | may be public |
-| `ercot_storage_dam_offers_monthly` | ERCOT | may be public |  |  | public | agrees | may be public |
-| `ercot_storage_node_basis` | ERCOT | may be public |  |  | public | agrees | may be public |
-| `ercot_storage_rt_monthly` | ERCOT | may be public |  |  | public | agrees | may be public |
-| `ercot_wind_solar_forecast` | ERCOT | may be public |  |  | public | agrees | may be public |
-| `ercot_wind_solar_hsl_daily` | ERCOT | may be public |  |  | public | agrees | may be public |
-| `ercot_wind_solar_hsl_hourly` | ERCOT | may be public |  |  | public | agrees | may be public |
-| `ercot_wind_solar_output_hourly` | ERCOT | may be public |  |  | public | agrees | may be public |
-| `ercot_zone_load_hourly` | ERCOT | may be public |  |  | public | agrees | may be public |
-| `ercot_zone_prices_history` | ERCOT | may be public |  |  | public | agrees | may be public |
-| `event_study_estimates` | CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; and 2 more | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `event_window_daily` | CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; and 2 more | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `ferc_eqr_buyer_doubtful` | FERC | not settled (needs written permission by default) |  | FERC | internal | not settled | may be public |
-| `ferc_eqr_buyer_names` | FERC | not settled (needs written permission by default) |  | FERC | internal | not settled | may be public |
-| `ferc_eqr_contract_terms` | EIA; FERC | not settled (needs written permission by default) |  | FERC | internal | not settled | may be public |
-| `ferc_eqr_contracts` | FERC | not settled (needs written permission by default) |  | FERC | internal | not settled | may be public |
-| `ferc_eqr_contracts_history` | FERC | not settled (needs written permission by default) |  | FERC | internal | not settled | may be public |
-| `ferc_eqr_party_mw` | EIA; FERC | not settled (needs written permission by default) |  | FERC | internal | not settled | may be public |
-| `ferc_eqr_party_totals` | FERC | not settled (needs written permission by default) |  | FERC | internal | not settled | may be public |
-| `ferc_eqr_quarter_changes` | EIA; FERC | not settled (needs written permission by default) |  | FERC | internal | not settled | may be public |
-| `flex_alert_effects` | CAISO; EIA; NOAA NCEI | may be public |  |  | public | agrees | may be public |
-| `flex_alert_model` | CAISO; EIA; NOAA NCEI | may be public |  |  | public | agrees | may be public |
-| `frb_treasury_yields` | FRB | may be public |  |  | public | agrees | may be public |
-| `generation_mix_hourly_profile` | CAISO; EIA | may be public |  |  | public | agrees | may be public |
-| `generation_mix_records` | CAISO; EIA | may be public |  |  | public | agrees | may be public |
-| `grid_network_links` | EIA | may be public |  |  | public | agrees | may be public |
-| `grid_network_nodes` | EIA | may be public |  |  | public | agrees | may be public |
-| `grid_stress_days` | CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `grid_stress_yearly` | CAISO; EIA | may be public |  |  | public | agrees | may be public |
-| `hub_price_comparison` | CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; and 1 more | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `imf_commodity_prices` | IMF | may be public |  |  | public | agrees | needs written permission |
-| `impact_tax_rules` | Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department; Texas Comptroller of Public Accounts | not settled (needs written permission by default) |  | Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department; and 1 more | public | not settled | may be public |
-| `interconnection_queue_summary` | Berkeley Lab | may be public |  |  | public | agrees | may be public |
-| `iso_all_capacity_prices` | ISO-NE; MISO; NYISO; PJM | needs a paid license | PJM |  | internal | agrees | needs a paid license |
-| `iso_curtailment_monthly` | CAISO; ERCOT; SPP | may be public |  |  | public | agrees | needs written permission |
-| `iso_dam_hub_prices` | CAISO; ERCOT; MISO; SPP | needs written permission | MISO |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `iso_hub_prices_history` | CAISO; ISO-NE; MISO; NYISO; SPP | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `iso_queue_statistics` | CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP | needs written permission | ISO-NE; MISO; NYISO |  | public | DISAGREES: the flag is looser | needs written permission |
-| `iso_rt_top_intervals` | ISO-NE; NYISO | needs written permission | ISO-NE; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `iso_rtm_hub_prices` | CAISO; ERCOT; MISO; SPP | needs written permission | MISO |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `iso_trader_daily` | CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `iso_zone_prices_history` | CAISO; NYISO; SPP | needs written permission | NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `isone_as_prices` | ISO-NE | needs written permission | ISO-NE |  | internal | agrees | needs written permission |
-| `isone_dam_cleared_energy` | ISO-NE | needs written permission | ISO-NE |  | internal | agrees | needs written permission |
-| `isone_dam_zone_prices` | ISO-NE | needs written permission | ISO-NE |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `isone_ddg_undelivered_monthly` | ISO-NE | needs written permission | ISO-NE |  | internal | agrees | needs written permission |
-| `isone_interconnection_queue` | ISO-NE | needs written permission | ISO-NE |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `isone_rtm_zone_prices` | ISO-NE | needs written permission | ISO-NE |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `isone_rtm_zone_prices_hourly` | ISO-NE | needs written permission | ISO-NE |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `isone_zone_load_hourly` | ISO-NE | needs written permission | ISO-NE |  | internal | agrees | needs written permission |
-| `isone_zone_prices_history` | ISO-NE | needs written permission | ISO-NE |  | internal | agrees | needs written permission |
-| `known_data_faults` | the ERW's own work | may be public |  |  | public | agrees | may be public |
-| `large_load_document_verdicts` | Alberta Electric System Operator (AESO), Canada; Bonneville Power Administration (BPA); NYISO; Public Utility District No. 2 of Grant County, Washington (Grant PUD); utilities and operators, each row's own document (not listed one by one) | needs written permission | NYISO | Bonneville Power Administration (BPA); Public Utility District No. 2 of Grant County, Washington (Grant PUD); utilities and operators, each row's own document (not listed one by one) | internal | agrees | needs written permission |
-| `large_load_public` | utilities and operators, each row's own document (not listed one by one) | not settled (needs written permission by default) |  | utilities and operators, each row's own document (not listed one by one) | public | not settled | may be public |
-| `large_load_rule_reads` | Arizona Corporation Commission; California Public Utilities Commission; Illinois Commerce Commission; Office of the Federal Register (NARA); Oregon Public Utility Commission; Pennsylvania Public Utility Commission | not settled (needs written permission by default) |  | Arizona Corporation Commission; Illinois Commerce Commission; Office of the Federal Register (NARA); and 2 more | public | not settled | may be public |
-| `large_load_rules` | Arizona Corporation Commission; California Public Utilities Commission; Illinois Commerce Commission; Oregon Public Utility Commission; Pennsylvania Public Utility Commission | not settled (needs written permission by default) |  | Arizona Corporation Commission; Illinois Commerce Commission; Oregon Public Utility Commission; and 1 more | public | not settled | may be public |
-| `large_load_rules_internal` | FERC; Georgia Public Service Commission; Indiana Utility Regulatory Commission; Public Utilities Commission of Ohio; Public Utility Commission of Texas; Virginia State Corporation Commission | needs written permission | Indiana Utility Regulatory Commission | FERC; Georgia Public Service Commission; Public Utilities Commission of Ohio; and 2 more | internal | agrees | needs written permission |
-| `large_load_statements` | utilities and operators, each row's own document (not listed one by one) | not settled (needs written permission by default) |  | utilities and operators, each row's own document (not listed one by one) | internal | not settled | may be public |
-| `large_load_waits` | Alberta Electric System Operator (AESO), Canada; Bonneville Power Administration (BPA); NYISO; Public Utility District No. 2 of Grant County, Washington (Grant PUD) | needs written permission | NYISO | Bonneville Power Administration (BPA); Public Utility District No. 2 of Grant County, Washington (Grant PUD) | internal | agrees | needs written permission |
-| `lbnl_interconnection_queue` | Berkeley Lab | may be public |  |  | public | agrees | may be public |
-| `merchant_revenue_monthly` | CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; and 2 more | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `miso_as_prices` | MISO | needs written permission | MISO |  | internal | agrees | needs written permission |
-| `miso_interconnection_queue` | MISO | needs written permission | MISO |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `news_index` | ANS Nuclear Newswire; Bloomberg; CAISO; CTVC; California Public Utilities Commission; California State Portal / CA.gov; and 39 more | needs written permission | ANS Nuclear Newswire; Bloomberg; Canary Media; CivicPlus; and 21 more | CTVC; Electrek; Energy-Storage.news; and 7 more | public | ruled: license needed from 2026-10-21 | needs a paid license |
-| `news_scores_shadow` | the outlets of news_stories | not settled (needs written permission by default) |  | the outlets of news_stories | internal | not settled | may be public |
-| `news_stories` | ANS Nuclear Newswire; Bloomberg; CAISO; CTVC; California Public Advocates Office (.gov); California Public Utilities Commission; and 40 more | needs written permission | ANS Nuclear Newswire; Bloomberg; Canary Media; CivicPlus; and 21 more | CTVC; California Public Advocates Office (.gov); Electrek; and 8 more | internal | agrees | needs a paid license |
-| `nlr_jedi_multipliers` | National Laboratory of the Rockies (NLR, formerly NREL) | may be public |  |  | public | agrees | may be public |
-| `noaa_grid_weather_daily` | NOAA NCEI | may be public |  |  | public | agrees | may be public |
-| `noaa_grid_weather_hourly` | NOAA NCEI | may be public |  |  | public | agrees | may be public |
-| `noaa_grid_weather_stations` | NOAA NCEI | may be public |  |  | public | agrees | may be public |
-| `noaa_isd_hourly` | NOAA NCEI | may be public |  |  | public | agrees | may be public |
-| `noaa_station_weather_hourly` | NOAA NCEI | may be public |  |  | public | agrees | may be public |
-| `nrc_reactor_status` | NRC | may be public |  |  | public | agrees | may be public |
-| `nyiso_as_prices` | NYISO | needs written permission | NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `nyiso_dam_cleared_energy` | NYISO | needs written permission | NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `nyiso_dam_zone_prices` | NYISO | needs written permission | NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `nyiso_interconnection_queue` | NYISO | needs written permission | NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `nyiso_load_queue` | NYISO | needs written permission | NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `nyiso_rtm_zone_prices` | NYISO | needs written permission | NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `nyiso_zone_load_hourly` | NYISO | needs written permission | NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `pjm_rpm_capacity_prices` | PJM | needs a paid license | PJM |  | internal | agrees | needs a paid license |
-| `policy_action_tags` | California Public Utilities Commission; NRC; Office of the Federal Register (NARA); Public Utility Commission of Texas; U.S. Department of Energy (DOE) | not settled (needs written permission by default) |  | Office of the Federal Register (NARA); Public Utility Commission of Texas | public | not settled | may be public |
-| `policy_actions` | California Public Utilities Commission; NRC; Office of the Federal Register (NARA); Public Utility Commission of Texas; U.S. Department of Energy (DOE) | not settled (needs written permission by default) |  | Office of the Federal Register (NARA); Public Utility Commission of Texas | public | not settled | may be public |
-| `policy_reads` | California Public Utilities Commission; NRC; Office of the Federal Register (NARA); Public Utility Commission of Texas; U.S. Department of Energy (DOE) | not settled (needs written permission by default) |  | Office of the Federal Register (NARA); Public Utility Commission of Texas | public | not settled | may be public |
-| `policy_reads_evidence` | California Public Utilities Commission; NRC; Office of the Federal Register (NARA); Public Utility Commission of Texas; U.S. Department of Energy (DOE) | not settled (needs written permission by default) |  | Office of the Federal Register (NARA); Public Utility Commission of Texas | internal | not settled | may be public |
-| `portwatch_chokepoint_transits` | IMF PortWatch | may be public |  |  | internal | ruled: kept internal | needs written permission |
-| `price_board_carbon` | CARB; RGGI | needs written permission | RGGI |  | internal | agrees | needs written permission |
-| `price_board_latest` | CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `price_board_peak_offpeak` | CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `price_board_spreads` | CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; and 1 more | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `rggi_auction_allowance_prices` | RGGI | needs written permission | RGGI |  | internal | agrees | needs written permission |
-| `rrc_lease_production_monthly` | RRC | may be public |  |  | public | agrees | needs written permission |
-| `scarcity_hours_by_grid` | CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission |
-| `shoulder_hours_monthly` | CAISO; EIA | may be public |  |  | public | agrees | may be public |
-| `spp_as_prices` | SPP | may be public |  |  | public | agrees | needs written permission |
-| `spp_as_quantities` | SPP | may be public |  |  | public | agrees | needs written permission |
-| `spp_curtailment_daily` | SPP | may be public |  |  | public | agrees | needs written permission |
-| `spp_dam_cleared_energy` | SPP | may be public |  |  | public | agrees | needs written permission |
-| `spp_interconnection_queue` | SPP | may be public |  |  | public | agrees | needs written permission |
-| `state_generation_mix_monthly` | EIA | may be public |  |  | public | agrees | may be public |
-| `storage_buildout_monthly` | EIA | may be public |  |  | public | agrees | may be public |
-| `storage_capacity` | EIA | may be public |  |  | public | agrees | may be public |
-| `storage_daily_cycle` | CAISO; EIA | may be public |  |  | public | agrees | may be public |
-| `storage_owners_monthly` | EIA | may be public |  |  | public | agrees | may be public |
-| `texas_delivery_charges` | AEP Texas Inc.; CenterPoint Energy Houston Electric, LLC; Oncor Electric Delivery Company LLC; Public Utility Commission of Texas; Texas-New Mexico Power Company | needs written permission | AEP Texas Inc.; CenterPoint Energy Houston Electric, LLC; Oncor Electric Delivery Company LLC | Public Utility Commission of Texas; Texas-New Mexico Power Company | internal | agrees | needs written permission |
-| `texas_transmission_matrix` | Public Utility Commission of Texas | not settled (needs written permission by default) |  | Public Utility Commission of Texas | internal | not settled | may be public |
-| `weather_forecast_hourly` | NWS | may be public |  |  | public | agrees | may be public |
-| `weather_obs_hourly` | NWS | may be public |  |  | public | agrees | may be public |
+"ERW verdict" (session 378) is one word a table: public (flagged public, and every publisher's sentence read allows it), internal (flagged internal), unsettled (a publisher not read, a "license needed" ruling waiting for its permission, or a flag and a verdict that disagree). A verdict that needs a document the ERW does not hold says so under "Not read"; such a table stays as it is flagged.
+
+| Table | Publishers | Verdict today | Decided by | Not read | Flag in coverage.csv | Flag and verdict | If the ERW sells anything | ERW verdict |
+|---|---|---|---|---|---|---|---|---|
+| `ai_power_regions` | Berkeley Lab; CAISO; EIA; ERCOT; ISO-NE; MISO; and 3 more | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `api_cost_ledger` | the ERW's own work | may be public |  |  | internal | internal by the ERW's own choice | may be public | internal |
+| `ba_supply_monthly` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `battery_sourced_ranges` | National Laboratory of the Rockies (NLR, formerly NREL) | may be public |  |  | public | agrees | may be public | public |
+| `battery_stack_monthly` | CAISO; ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `battery_stack_review_monthly` | NYISO; SPP | needs written permission | NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `battery_stack_stress_daily` | CAISO; ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `caiso_area_load_hourly` | CAISO | may be public |  |  | public | agrees | may be public | public |
+| `caiso_as_prices` | CAISO | may be public |  |  | public | agrees | may be public | public |
+| `caiso_battery_storage` | CAISO | may be public |  |  | public | agrees | may be public | public |
+| `caiso_curtailment_daily` | CAISO | may be public |  |  | public | agrees | may be public | public |
+| `caiso_curtailment_intervals` | CAISO | may be public |  |  | public | agrees | may be public | public |
+| `caiso_curtailment_profile` | CAISO | may be public |  |  | public | agrees | may be public | public |
+| `caiso_dam_alert_day_hub_prices` | CAISO | may be public |  |  | public | agrees | may be public | public |
+| `caiso_dam_cleared_energy` | CAISO | may be public |  |  | public | agrees | may be public | public |
+| `caiso_fuel_supply` | CAISO | may be public |  |  | public | agrees | may be public | public |
+| `caiso_fuel_supply_history` | CAISO | may be public |  |  | public | agrees | may be public | public |
+| `caiso_grid_emergencies` | CAISO | may be public |  |  | public | agrees | may be public | public |
+| `caiso_interconnection_queue` | CAISO | may be public |  |  | public | agrees | may be public | public |
+| `caiso_reliability_daily` | CAISO; EIA | may be public |  |  | public | agrees | may be public | public |
+| `caiso_wind_solar_forecast` | CAISO | may be public |  |  | public | agrees | may be public | public |
+| `carb_auction_allowance_prices` | CARB | may be public |  |  | public | agrees | may be public | public |
+| `carb_lcfs_credit_prices` | CARB | may be public |  |  | public | agrees | may be public | public |
+| `carbon_intensity_daily` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `carbon_intensity_hourly` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `carbon_intensity_monthly` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `census_metro_population` | Census Bureau | may be public |  |  | public | agrees | may be public | public |
+| `cftc_cot_positions` | CFTC | may be public |  |  | public | agrees | may be public | public |
+| `clean_energy_hourly` | CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; and 1 more | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `clean_energy_summary` | CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; and 1 more | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `cost_of_power_carbon` | CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `cost_of_power_hourly_profile` | CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `cost_of_power_monthly` | CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `datacenter_facilities` | Amazon Web Services; Bloomberg; CAISO; Census Bureau; Data Center Dynamics; Data Center Frontier; and 22 more | needs written permission | Amazon Web Services; Bloomberg; Data Center Dynamics; Data Center Frontier; and 20 more |  | public | ruled: license needed from 2026-10-21 | needs a paid license | unsettled |
+| `datacenter_operator_sites` | Amazon Web Services; Digital Realty; Equinix; Google; Meta; Microsoft; and 3 more | needs written permission | Amazon Web Services; Digital Realty; Equinix; Google; and 5 more |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `datacenter_projects` | Bloomberg; Census Bureau; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; and 7 more | needs written permission | Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; and 8 more |  | public | ruled: license needed from 2026-10-21 | needs a paid license | unsettled |
+| `datacenter_projects_evidence` | Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; Hart Energy; and 6 more | needs written permission | Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; and 8 more |  | internal | agrees | needs a paid license | internal |
+| `datacenter_queue_positions` | CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `eia860m_operating_generators` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia860m_planned_generators` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia860m_retired_generators` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia860m_retired_generators_all` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia930_all_demand` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia930_all_emissions` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia930_all_generation` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia930_all_history` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia930_all_interchange` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia930_all_storage` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia930_daily_demand` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia930_daily_interchange` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia930_daily_total_interchange` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia930_demand_growth` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia930_demand_weather` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia930_event_hourly_interchange` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia930_generation_latest` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_all_futures_prices` | CME Group (NYMEX), whose prices EIA republished; EIA | not settled (needs written permission by default) |  | CME Group (NYMEX), whose prices EIA republished | internal | not settled | may be public | internal |
+| `eia_annual_crosscheck_ba` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_annual_generation_ba` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_basin_production_monthly` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_crude_first_purchase_prices` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_crude_imports_by_country` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_crude_stream_prices` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_fuel_spot_prices` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_gas_storage_weekly` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_gas_trade_monthly` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_lng_exports_monthly` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_padd_crude_pipeline_flows` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_petroleum_stocks_weekly` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_petroleum_supply_weekly` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_petroleum_trade_weekly` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_power_plant_fuel_costs` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_product_spot_prices` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_regional_retail_fuel_prices` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_retail_electricity_prices` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_retail_fuel_prices` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_retail_sales_monthly` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_sector_energy_consumption_monthly` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_state_generation_monthly` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `energy_companies` | the ERW's own work | may be public |  |  | public | agrees | may be public | public |
+| `energy_deals` | ANS Nuclear Newswire; Bloomberg; Canary Media; DOE newsroom; Data Center Dynamics; Data Center Frontier; and 16 more | needs written permission | ANS Nuclear Newswire; Bloomberg; Canary Media; Data Center Dynamics; and 14 more | Electrek; Energy-Storage.news | public | ruled: license needed from 2026-10-21 | needs a paid license | unsettled |
+| `energy_deals_evidence` | ANS Nuclear Newswire; Bloomberg; Canary Media; DOE newsroom; Data Center Dynamics; Data Center Frontier; and 16 more | needs written permission | ANS Nuclear Newswire; Bloomberg; Canary Media; Data Center Dynamics; and 14 more | Electrek; Energy-Storage.news | internal | agrees | needs a paid license | internal |
+| `energy_projects` | CAISO; Census Bureau; EIA; ERCOT; ISO-NE; SPP | needs written permission | ISO-NE |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `ercot_4cp_intervals` | ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `ercot_all_hub_prices_history` | ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `ercot_as_prices` | ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `ercot_as_prices_daily` | ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `ercot_as_prices_monthly` | ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `ercot_as_quantities` | ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `ercot_dam_cleared_energy` | ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `ercot_dam_esr_awards` | ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `ercot_grid_notices` | ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `ercot_hub_prices_daily` | ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `ercot_interconnection_queue` | ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `ercot_large_load_status` | ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `ercot_node_prices_hourly` | ERCOT | may be public |  |  | internal | ruled: kept internal | may be public | internal |
+| `ercot_peak_premium_annual` | ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `ercot_peak_premium_monthly` | ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `ercot_rtm_node_prices` | ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `ercot_rtm_price_adders` | ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `ercot_sced_esr_hourly` | ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `ercot_storage_dam_awards_monthly` | ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `ercot_storage_dam_offers_daily` | ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `ercot_storage_dam_offers_monthly` | ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `ercot_storage_node_basis` | ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `ercot_storage_rt_monthly` | ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `ercot_wind_solar_forecast` | ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `ercot_wind_solar_hsl_daily` | ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `ercot_wind_solar_hsl_hourly` | ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `ercot_wind_solar_output_hourly` | ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `ercot_zone_load_hourly` | ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `ercot_zone_prices_history` | ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `event_study_estimates` | CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; and 2 more | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `event_window_daily` | CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; and 2 more | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `ferc_eqr_buyer_doubtful` | FERC | not settled (needs written permission by default) |  | FERC | internal | not settled | may be public | internal |
+| `ferc_eqr_buyer_names` | FERC | not settled (needs written permission by default) |  | FERC | internal | not settled | may be public | internal |
+| `ferc_eqr_contract_terms` | EIA; FERC | not settled (needs written permission by default) |  | FERC | internal | not settled | may be public | internal |
+| `ferc_eqr_contracts` | FERC | not settled (needs written permission by default) |  | FERC | internal | not settled | may be public | internal |
+| `ferc_eqr_contracts_history` | FERC | not settled (needs written permission by default) |  | FERC | internal | not settled | may be public | internal |
+| `ferc_eqr_party_mw` | EIA; FERC | not settled (needs written permission by default) |  | FERC | internal | not settled | may be public | internal |
+| `ferc_eqr_party_totals` | FERC | not settled (needs written permission by default) |  | FERC | internal | not settled | may be public | internal |
+| `ferc_eqr_quarter_changes` | EIA; FERC | not settled (needs written permission by default) |  | FERC | internal | not settled | may be public | internal |
+| `flex_alert_effects` | CAISO; EIA; NOAA NCEI | may be public |  |  | public | agrees | may be public | public |
+| `flex_alert_model` | CAISO; EIA; NOAA NCEI | may be public |  |  | public | agrees | may be public | public |
+| `frb_treasury_yields` | FRB | may be public |  |  | public | agrees | may be public | public |
+| `generation_mix_hourly_profile` | CAISO; EIA | may be public |  |  | public | agrees | may be public | public |
+| `generation_mix_records` | CAISO; EIA | may be public |  |  | public | agrees | may be public | public |
+| `grid_network_links` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `grid_network_nodes` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `grid_stress_days` | CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `grid_stress_yearly` | CAISO; EIA | may be public |  |  | public | agrees | may be public | public |
+| `hub_price_comparison` | CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; and 1 more | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `imf_commodity_prices` | IMF | may be public |  |  | public | agrees | needs written permission | public |
+| `impact_tax_rules` | Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department; Texas Comptroller of Public Accounts | not settled (needs written permission by default) |  | Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department; and 1 more | public | not settled | may be public | unsettled |
+| `interconnection_queue_summary` | Berkeley Lab | may be public |  |  | public | agrees | may be public | public |
+| `iso_all_capacity_prices` | ISO-NE; MISO; NYISO; PJM | needs a paid license | PJM |  | internal | agrees | needs a paid license | internal |
+| `iso_curtailment_monthly` | CAISO; ERCOT; SPP | may be public |  |  | public | agrees | needs written permission | public |
+| `iso_dam_hub_prices` | CAISO; ERCOT; MISO; SPP | needs written permission | MISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `iso_hub_prices_history` | CAISO; ISO-NE; MISO; NYISO; SPP | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `iso_queue_statistics` | CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `iso_rt_top_intervals` | ISO-NE; NYISO | needs written permission | ISO-NE; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `iso_rtm_hub_prices` | CAISO; ERCOT; MISO; SPP | needs written permission | MISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `iso_trader_daily` | CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `iso_zone_prices_history` | CAISO; NYISO; SPP | needs written permission | NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `isone_as_prices` | ISO-NE | needs written permission | ISO-NE |  | internal | agrees | needs written permission | internal |
+| `isone_dam_cleared_energy` | ISO-NE | needs written permission | ISO-NE |  | internal | agrees | needs written permission | internal |
+| `isone_dam_zone_prices` | ISO-NE | needs written permission | ISO-NE |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `isone_ddg_undelivered_monthly` | ISO-NE | needs written permission | ISO-NE |  | internal | agrees | needs written permission | internal |
+| `isone_interconnection_queue` | ISO-NE | needs written permission | ISO-NE |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `isone_rtm_zone_prices` | ISO-NE | needs written permission | ISO-NE |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `isone_rtm_zone_prices_hourly` | ISO-NE | needs written permission | ISO-NE |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `isone_zone_load_hourly` | ISO-NE | needs written permission | ISO-NE |  | internal | agrees | needs written permission | internal |
+| `isone_zone_prices_history` | ISO-NE | needs written permission | ISO-NE |  | internal | agrees | needs written permission | internal |
+| `known_data_faults` | the ERW's own work | may be public |  |  | public | agrees | may be public | public |
+| `large_load_document_verdicts` | Alberta Electric System Operator (AESO), Canada; Bonneville Power Administration (BPA); NYISO; Public Utility District No. 2 of Grant County, Washington (Grant PUD); utilities and operators, each row's own document (not listed one by one) | needs written permission | NYISO | Bonneville Power Administration (BPA); Public Utility District No. 2 of Grant County, Washington (Grant PUD); utilities and operators, each row's own document (not listed one by one) | internal | agrees | needs written permission | internal |
+| `large_load_public` | utilities and operators, each row's own document (not listed one by one) | not settled (needs written permission by default) |  | utilities and operators, each row's own document (not listed one by one) | public | not settled | may be public | unsettled |
+| `large_load_rule_reads` | Arizona Corporation Commission; California Public Utilities Commission; Illinois Commerce Commission; Office of the Federal Register (NARA); Oregon Public Utility Commission; Pennsylvania Public Utility Commission | not settled (needs written permission by default) |  | Arizona Corporation Commission; Illinois Commerce Commission; Office of the Federal Register (NARA); and 2 more | public | not settled | may be public | unsettled |
+| `large_load_rules` | Arizona Corporation Commission; California Public Utilities Commission; Illinois Commerce Commission; Oregon Public Utility Commission; Pennsylvania Public Utility Commission | not settled (needs written permission by default) |  | Arizona Corporation Commission; Illinois Commerce Commission; Oregon Public Utility Commission; and 1 more | public | not settled | may be public | unsettled |
+| `large_load_rules_internal` | FERC; Georgia Public Service Commission; Indiana Utility Regulatory Commission; Public Utilities Commission of Ohio; Public Utility Commission of Texas; Virginia State Corporation Commission | needs written permission | Indiana Utility Regulatory Commission | FERC; Georgia Public Service Commission; Public Utilities Commission of Ohio; and 2 more | internal | agrees | needs written permission | internal |
+| `large_load_statements` | utilities and operators, each row's own document (not listed one by one) | not settled (needs written permission by default) |  | utilities and operators, each row's own document (not listed one by one) | internal | not settled | may be public | internal |
+| `large_load_waits` | Alberta Electric System Operator (AESO), Canada; Bonneville Power Administration (BPA); NYISO; Public Utility District No. 2 of Grant County, Washington (Grant PUD) | needs written permission | NYISO | Bonneville Power Administration (BPA); Public Utility District No. 2 of Grant County, Washington (Grant PUD) | internal | agrees | needs written permission | internal |
+| `lbnl_interconnection_queue` | Berkeley Lab | may be public |  |  | public | agrees | may be public | public |
+| `merchant_revenue_monthly` | CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; and 2 more | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `miso_as_prices` | MISO | needs written permission | MISO |  | internal | agrees | needs written permission | internal |
+| `miso_interconnection_queue` | MISO | needs written permission | MISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `news_index` | ANS Nuclear Newswire; Bloomberg; CAISO; CTVC; California Public Utilities Commission; California State Portal / CA.gov; and 39 more | needs written permission | ANS Nuclear Newswire; Bloomberg; Canary Media; CivicPlus; and 21 more | CTVC; Electrek; Energy-Storage.news; and 7 more | public | ruled: license needed from 2026-10-21 | needs a paid license | unsettled |
+| `news_scores_shadow` | the outlets of news_stories | not settled (needs written permission by default) |  | the outlets of news_stories | internal | not settled | may be public | internal |
+| `news_stories` | ANS Nuclear Newswire; Bloomberg; CAISO; CTVC; California Public Advocates Office (.gov); California Public Utilities Commission; and 40 more | needs written permission | ANS Nuclear Newswire; Bloomberg; Canary Media; CivicPlus; and 21 more | CTVC; California Public Advocates Office (.gov); Electrek; and 8 more | internal | agrees | needs a paid license | internal |
+| `nlr_jedi_multipliers` | National Laboratory of the Rockies (NLR, formerly NREL) | may be public |  |  | public | agrees | may be public | public |
+| `noaa_grid_weather_daily` | NOAA NCEI | may be public |  |  | public | agrees | may be public | public |
+| `noaa_grid_weather_hourly` | NOAA NCEI | may be public |  |  | public | agrees | may be public | public |
+| `noaa_grid_weather_stations` | NOAA NCEI | may be public |  |  | public | agrees | may be public | public |
+| `noaa_isd_hourly` | NOAA NCEI | may be public |  |  | public | agrees | may be public | public |
+| `noaa_station_weather_hourly` | NOAA NCEI | may be public |  |  | public | agrees | may be public | public |
+| `node_basis_daily` | ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `node_basis_summary` | ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `nrc_reactor_status` | NRC | may be public |  |  | public | agrees | may be public | public |
+| `nyiso_as_prices` | NYISO | needs written permission | NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `nyiso_dam_cleared_energy` | NYISO | needs written permission | NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `nyiso_dam_zone_prices` | NYISO | needs written permission | NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `nyiso_interconnection_queue` | NYISO | needs written permission | NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `nyiso_load_queue` | NYISO | needs written permission | NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `nyiso_rtm_zone_prices` | NYISO | needs written permission | NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `nyiso_zone_load_hourly` | NYISO | needs written permission | NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `pjm_rpm_capacity_prices` | PJM | needs a paid license | PJM |  | internal | agrees | needs a paid license | internal |
+| `policy_action_tags` | California Public Utilities Commission; NRC; Office of the Federal Register (NARA); Public Utility Commission of Texas; U.S. Department of Energy (DOE) | not settled (needs written permission by default) |  | Office of the Federal Register (NARA); Public Utility Commission of Texas | public | not settled | may be public | unsettled |
+| `policy_actions` | California Public Utilities Commission; NRC; Office of the Federal Register (NARA); Public Utility Commission of Texas; U.S. Department of Energy (DOE) | not settled (needs written permission by default) |  | Office of the Federal Register (NARA); Public Utility Commission of Texas | public | not settled | may be public | unsettled |
+| `policy_reads` | California Public Utilities Commission; NRC; Office of the Federal Register (NARA); Public Utility Commission of Texas; U.S. Department of Energy (DOE) | not settled (needs written permission by default) |  | Office of the Federal Register (NARA); Public Utility Commission of Texas | public | not settled | may be public | unsettled |
+| `policy_reads_evidence` | California Public Utilities Commission; NRC; Office of the Federal Register (NARA); Public Utility Commission of Texas; U.S. Department of Energy (DOE) | not settled (needs written permission by default) |  | Office of the Federal Register (NARA); Public Utility Commission of Texas | internal | not settled | may be public | internal |
+| `portwatch_chokepoint_transits` | IMF PortWatch | may be public |  |  | internal | ruled: kept internal | needs written permission | internal |
+| `price_board_carbon` | CARB; RGGI | needs written permission | RGGI |  | internal | agrees | needs written permission | internal |
+| `price_board_latest` | CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `price_board_peak_offpeak` | CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `price_board_spreads` | CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; and 1 more | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `price_years_by_window` | CAISO; EIA; ERCOT; NOAA NCEI; SPP | may be public |  |  | public | agrees | needs written permission | public |
+| `rggi_auction_allowance_prices` | RGGI | needs written permission | RGGI |  | internal | agrees | needs written permission | internal |
+| `rrc_lease_production_monthly` | RRC | may be public |  |  | public | agrees | needs written permission | public |
+| `scarcity_hours_by_grid` | CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `shoulder_hours_monthly` | CAISO; EIA | may be public |  |  | public | agrees | may be public | public |
+| `spp_as_prices` | SPP | may be public |  |  | public | agrees | needs written permission | public |
+| `spp_as_quantities` | SPP | may be public |  |  | public | agrees | needs written permission | public |
+| `spp_curtailment_daily` | SPP | may be public |  |  | public | agrees | needs written permission | public |
+| `spp_dam_cleared_energy` | SPP | may be public |  |  | public | agrees | needs written permission | public |
+| `spp_interconnection_queue` | SPP | may be public |  |  | public | agrees | needs written permission | public |
+| `state_generation_mix_monthly` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `storage_buildout_monthly` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `storage_capacity` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `storage_daily_cycle` | CAISO; EIA | may be public |  |  | public | agrees | may be public | public |
+| `storage_owners_monthly` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `texas_delivery_charges` | AEP Texas Inc.; CenterPoint Energy Houston Electric, LLC; Oncor Electric Delivery Company LLC; Public Utility Commission of Texas; Texas-New Mexico Power Company | needs written permission | AEP Texas Inc.; CenterPoint Energy Houston Electric, LLC; Oncor Electric Delivery Company LLC | Public Utility Commission of Texas; Texas-New Mexico Power Company | internal | agrees | needs written permission | internal |
+| `texas_transmission_matrix` | Public Utility Commission of Texas | not settled (needs written permission by default) |  | Public Utility Commission of Texas | internal | not settled | may be public | internal |
+| `weather_forecast_hourly` | NWS | may be public |  |  | public | agrees | may be public | public |
+| `weather_obs_hourly` | NWS | may be public |  |  | public | agrees | may be public | public |
 
 ## Settled by a ruling (session 324)
 
@@ -409,12 +417,14 @@ The flag and the verdict differ, and a newer record says what holds. A table fla
 - `datacenter_queue_positions`: needs written permission, by ISO-NE; MISO; NYISO; license needed from 2026-10-21.
 - `energy_deals`: needs written permission, by ANS Nuclear Newswire; Bloomberg; Canary Media; Data Center Dynamics; Data Center Frontier; Financial Times; Hart Energy; JPT; and 10 more; license needed from 2026-10-21.
 - `energy_projects`: needs written permission, by ISO-NE; license needed from 2026-10-21.
+- `ercot_node_prices_hourly`: kept internal by the owner's rule for the hourly table (its header, session 358: the storage points' hourly prices kept in the warehouse, not in the live set, under 500,000 rows); ERCOT's terms (read 2) would allow it.
 - `event_study_estimates`: needs written permission, by ISO-NE; MISO; NYISO; license needed from 2026-10-21.
 - `event_window_daily`: needs written permission, by ISO-NE; MISO; NYISO; license needed from 2026-10-21.
 - `grid_stress_days`: needs written permission, by ISO-NE; MISO; NYISO; license needed from 2026-10-21.
 - `hub_price_comparison`: needs written permission, by ISO-NE; MISO; NYISO; license needed from 2026-10-21.
 - `iso_dam_hub_prices`: needs written permission, by MISO; license needed from 2026-10-21.
 - `iso_hub_prices_history`: needs written permission, by ISO-NE; MISO; NYISO; license needed from 2026-10-21.
+- `iso_queue_statistics`: needs written permission, by ISO-NE; MISO; NYISO; license needed from 2026-10-21.
 - `iso_rt_top_intervals`: needs written permission, by ISO-NE; NYISO; license needed from 2026-10-21.
 - `iso_rtm_hub_prices`: needs written permission, by MISO; license needed from 2026-10-21.
 - `iso_trader_daily`: needs written permission, by ISO-NE; MISO; NYISO; license needed from 2026-10-21.
@@ -445,7 +455,6 @@ None of these was changed. Each is a ruling.
 
 ### Flagged public; a publisher's sentence asks for permission or a license
 
-- `iso_queue_statistics`: needs written permission, by ISO-NE; MISO; NYISO.
 
 ### Flagged internal; the sentence read allows it
 
@@ -475,11 +484,11 @@ None of these was changed. Each is a ruling.
 
 ## Three lists
 
-### Public now (126 tables)
+### Public now (130 tables)
 
 The flag says public and every publisher's sentence read allows it, as the ERW is today.
 
-`ba_supply_monthly`, `battery_sourced_ranges`, `battery_stack_monthly`, `battery_stack_stress_daily`, `caiso_area_load_hourly`, `caiso_as_prices`, `caiso_battery_storage`, `caiso_curtailment_daily`, `caiso_curtailment_intervals`, `caiso_curtailment_profile`, `caiso_dam_alert_day_hub_prices`, `caiso_dam_cleared_energy`, `caiso_fuel_supply`, `caiso_fuel_supply_history`, `caiso_grid_emergencies`, `caiso_interconnection_queue`, `caiso_reliability_daily`, `caiso_wind_solar_forecast`, `carb_auction_allowance_prices`, `carb_lcfs_credit_prices`, `carbon_intensity_daily`, `carbon_intensity_hourly`, `carbon_intensity_monthly`, `census_metro_population`, `cftc_cot_positions`, `eia860m_operating_generators`, `eia860m_planned_generators`, `eia860m_retired_generators`, `eia860m_retired_generators_all`, `eia930_all_demand`, `eia930_all_emissions`, `eia930_all_generation`, `eia930_all_history`, `eia930_all_interchange`, `eia930_all_storage`, `eia930_daily_demand`, `eia930_daily_interchange`, `eia930_daily_total_interchange`, `eia930_demand_growth`, `eia930_demand_weather`, `eia930_event_hourly_interchange`, `eia930_generation_latest`, `eia_annual_crosscheck_ba`, `eia_annual_generation_ba`, `eia_basin_production_monthly`, `eia_crude_first_purchase_prices`, `eia_crude_imports_by_country`, `eia_crude_stream_prices`, `eia_fuel_spot_prices`, `eia_gas_storage_weekly`, `eia_gas_trade_monthly`, `eia_lng_exports_monthly`, `eia_padd_crude_pipeline_flows`, `eia_petroleum_stocks_weekly`, `eia_petroleum_supply_weekly`, `eia_petroleum_trade_weekly`, `eia_power_plant_fuel_costs`, `eia_product_spot_prices`, `eia_regional_retail_fuel_prices`, `eia_retail_electricity_prices`, `eia_retail_fuel_prices`, `eia_retail_sales_monthly`, `eia_sector_energy_consumption_monthly`, `eia_state_generation_monthly`, `energy_companies`, `ercot_all_hub_prices_history`, `ercot_as_prices`, `ercot_as_prices_daily`, `ercot_as_prices_monthly`, `ercot_as_quantities`, `ercot_dam_cleared_energy`, `ercot_dam_esr_awards`, `ercot_grid_notices`, `ercot_hub_prices_daily`, `ercot_interconnection_queue`, `ercot_large_load_status`, `ercot_peak_premium_annual`, `ercot_peak_premium_monthly`, `ercot_rtm_node_prices`, `ercot_rtm_price_adders`, `ercot_sced_esr_hourly`, `ercot_storage_dam_awards_monthly`, `ercot_storage_dam_offers_daily`, `ercot_storage_dam_offers_monthly`, `ercot_storage_node_basis`, `ercot_storage_rt_monthly`, `ercot_wind_solar_forecast`, `ercot_wind_solar_hsl_daily`, `ercot_wind_solar_hsl_hourly`, `ercot_wind_solar_output_hourly`, `ercot_zone_load_hourly`, `ercot_zone_prices_history`, `flex_alert_effects`, `flex_alert_model`, `frb_treasury_yields`, `generation_mix_hourly_profile`, `generation_mix_records`, `grid_network_links`, `grid_network_nodes`, `grid_stress_yearly`, `imf_commodity_prices`, `interconnection_queue_summary`, `iso_curtailment_monthly`, `known_data_faults`, `lbnl_interconnection_queue`, `nlr_jedi_multipliers`, `noaa_grid_weather_daily`, `noaa_grid_weather_hourly`, `noaa_grid_weather_stations`, `noaa_isd_hourly`, `noaa_station_weather_hourly`, `nrc_reactor_status`, `rrc_lease_production_monthly`, `shoulder_hours_monthly`, `spp_as_prices`, `spp_as_quantities`, `spp_curtailment_daily`, `spp_dam_cleared_energy`, `spp_interconnection_queue`, `state_generation_mix_monthly`, `storage_buildout_monthly`, `storage_capacity`, `storage_daily_cycle`, `storage_owners_monthly`, `weather_forecast_hourly`, `weather_obs_hourly`.
+`ba_supply_monthly`, `battery_sourced_ranges`, `battery_stack_monthly`, `battery_stack_stress_daily`, `caiso_area_load_hourly`, `caiso_as_prices`, `caiso_battery_storage`, `caiso_curtailment_daily`, `caiso_curtailment_intervals`, `caiso_curtailment_profile`, `caiso_dam_alert_day_hub_prices`, `caiso_dam_cleared_energy`, `caiso_fuel_supply`, `caiso_fuel_supply_history`, `caiso_grid_emergencies`, `caiso_interconnection_queue`, `caiso_reliability_daily`, `caiso_wind_solar_forecast`, `carb_auction_allowance_prices`, `carb_lcfs_credit_prices`, `carbon_intensity_daily`, `carbon_intensity_hourly`, `carbon_intensity_monthly`, `census_metro_population`, `cftc_cot_positions`, `eia860m_operating_generators`, `eia860m_planned_generators`, `eia860m_retired_generators`, `eia860m_retired_generators_all`, `eia930_all_demand`, `eia930_all_emissions`, `eia930_all_generation`, `eia930_all_history`, `eia930_all_interchange`, `eia930_all_storage`, `eia930_daily_demand`, `eia930_daily_interchange`, `eia930_daily_total_interchange`, `eia930_demand_growth`, `eia930_demand_weather`, `eia930_event_hourly_interchange`, `eia930_generation_latest`, `eia_annual_crosscheck_ba`, `eia_annual_generation_ba`, `eia_basin_production_monthly`, `eia_crude_first_purchase_prices`, `eia_crude_imports_by_country`, `eia_crude_stream_prices`, `eia_fuel_spot_prices`, `eia_gas_storage_weekly`, `eia_gas_trade_monthly`, `eia_lng_exports_monthly`, `eia_padd_crude_pipeline_flows`, `eia_petroleum_stocks_weekly`, `eia_petroleum_supply_weekly`, `eia_petroleum_trade_weekly`, `eia_power_plant_fuel_costs`, `eia_product_spot_prices`, `eia_regional_retail_fuel_prices`, `eia_retail_electricity_prices`, `eia_retail_fuel_prices`, `eia_retail_sales_monthly`, `eia_sector_energy_consumption_monthly`, `eia_state_generation_monthly`, `energy_companies`, `ercot_4cp_intervals`, `ercot_all_hub_prices_history`, `ercot_as_prices`, `ercot_as_prices_daily`, `ercot_as_prices_monthly`, `ercot_as_quantities`, `ercot_dam_cleared_energy`, `ercot_dam_esr_awards`, `ercot_grid_notices`, `ercot_hub_prices_daily`, `ercot_interconnection_queue`, `ercot_large_load_status`, `ercot_peak_premium_annual`, `ercot_peak_premium_monthly`, `ercot_rtm_node_prices`, `ercot_rtm_price_adders`, `ercot_sced_esr_hourly`, `ercot_storage_dam_awards_monthly`, `ercot_storage_dam_offers_daily`, `ercot_storage_dam_offers_monthly`, `ercot_storage_node_basis`, `ercot_storage_rt_monthly`, `ercot_wind_solar_forecast`, `ercot_wind_solar_hsl_daily`, `ercot_wind_solar_hsl_hourly`, `ercot_wind_solar_output_hourly`, `ercot_zone_load_hourly`, `ercot_zone_prices_history`, `flex_alert_effects`, `flex_alert_model`, `frb_treasury_yields`, `generation_mix_hourly_profile`, `generation_mix_records`, `grid_network_links`, `grid_network_nodes`, `grid_stress_yearly`, `imf_commodity_prices`, `interconnection_queue_summary`, `iso_curtailment_monthly`, `known_data_faults`, `lbnl_interconnection_queue`, `nlr_jedi_multipliers`, `noaa_grid_weather_daily`, `noaa_grid_weather_hourly`, `noaa_grid_weather_stations`, `noaa_isd_hourly`, `noaa_station_weather_hourly`, `node_basis_daily`, `node_basis_summary`, `nrc_reactor_status`, `price_years_by_window`, `rrc_lease_production_monthly`, `shoulder_hours_monthly`, `spp_as_prices`, `spp_as_quantities`, `spp_curtailment_daily`, `spp_dam_cleared_energy`, `spp_interconnection_queue`, `state_generation_mix_monthly`, `storage_buildout_monthly`, `storage_capacity`, `storage_daily_cycle`, `storage_owners_monthly`, `weather_forecast_hourly`, `weather_obs_hourly`.
 
 ### Permission needed
 
@@ -527,7 +536,7 @@ By publisher: the tables its sentence decides, and who to write to where the pag
 
 Only if the ERW sells anything:
 
-- **SPP** (6 tables). Write to: SPP Communications, 201 Worthen Drive, Little Rock, AR 72223-4936, (501) 614-3200; communication@spp.org is on the same page.
+- **SPP** (7 tables). Write to: SPP Communications, 201 Worthen Drive, Little Rock, AR 72223-4936, (501) 614-3200; communication@spp.org is on the same page.
 - **IMF** (1 tables). Write to: copyright@imf.org.
 - **IMF PortWatch** (1 tables). Write to: copyright@imf.org.
 - **RRC** (1 tables). Write to: none named in the sentences read.
@@ -539,4 +548,58 @@ Only if the ERW sells anything:
 - **PJM** (today). Price: not stated on the page (membership of PJM; the page names "Member or Associate Member status"). Tables: `iso_all_capacity_prices`, `pjm_rpm_capacity_prices`.
 
 No page read states a price. For the letter of intent, a price has to be asked for.
+
+## The publishers' prices, for the letter of intent (session 378)
+
+What each page read says of a price, for every publisher whose sentence asks for permission or a license, today or if the ERW sells anything. A figure is written only where the page states one; none does. The four grid operators' letters are drafts under `docs/reviews/licenses/`, for Samuel to send.
+
+| Publisher | Today | If the ERW sells anything | Price, as the page states it | Who to write to | Letter |
+|---|---|---|---|---|---|
+| MISO | needs written permission | needs written permission | none stated | not known: the page was not asked | `docs/reviews/licenses/miso-permission-letter.md` |
+| NYISO | needs written permission | needs written permission | none stated | none named on the page | `docs/reviews/licenses/nyiso-permission-letter.md` |
+| PJM | needs a paid license | needs a paid license | not stated on the page (membership of PJM; the page names "Member or Associate Member status") | none named on the page | `docs/reviews/licenses/pjm-permission-letter.md` |
+| SPP | may be public | needs written permission | none stated | SPP Communications, 201 Worthen Drive, Little Rock, AR 72223-4936, (501) 614-3200; communication@spp.org is on the same page | `docs/reviews/licenses/spp-permission-letter.md` |
+| AEP Texas Inc. | needs written permission | needs written permission | none stated | not named |  |
+| Alberta Electric System Operator (AESO), Canada | may be public | needs written permission | none stated | not named |  |
+| Amazon Web Services | needs written permission | needs written permission | none stated | not named |  |
+| ANS Nuclear Newswire | needs written permission | needs written permission | none stated | not named |  |
+| Bloomberg | needs written permission | needs written permission | none stated | none named for permissions in the sentences read |  |
+| Canary Media | needs written permission | needs written permission | none stated | not named |  |
+| CenterPoint Energy Houston Electric, LLC | needs written permission | needs written permission | none stated | CenterPointEnergy.com/en-us/corporate/contact-us/ |  |
+| CivicPlus | needs written permission | needs written permission | none stated | not named |  |
+| Data Center Dynamics | needs written permission | needs written permission | none stated | not named |  |
+| Data Center Frontier | needs written permission | needs written permission | none stated | not named |  |
+| Data Center Knowledge | needs written permission | needs written permission | none stated | not named |  |
+| Digital Realty | needs written permission | needs written permission | none stated | not named |  |
+| EEX | needs written permission | needs written permission | none stated | not named |  |
+| Equinix | needs written permission | needs written permission | none stated | not named |  |
+| Financial Times | needs written permission | needs written permission | none stated | not named |  |
+| FRED | needs written permission | needs written permission | none stated | none named in the sentences read |  |
+| Google | needs written permission | needs written permission | none stated | not named |  |
+| Hart Energy | needs written permission | needs written permission | none stated | not named |  |
+| Heatmap News | needs written permission | needs written permission | none stated | not named |  |
+| Hydrogen Insight | needs written permission | needs written permission | none stated | not named |  |
+| IMF | may be public | needs written permission | none stated | copyright@imf.org |  |
+| IMF PortWatch | may be public | needs written permission | none stated | copyright@imf.org |  |
+| Indiana Utility Regulatory Commission | needs written permission | needs written permission | none stated | not named |  |
+| ISO-NE | needs written permission | needs written permission | none stated | info@iso-ne.com (the page names it for permission to use a graph, chart or image); Participant Support, (413) 540-4220 |  |
+| JPT | needs written permission | needs written permission | none stated | not named |  |
+| Latitude Media | needs written permission | needs written permission | none stated | not named |  |
+| LNG Prime | needs written permission | needs written permission | none stated | its newsdesk |  |
+| Meta | needs written permission | needs written permission | none stated | not named |  |
+| Microsoft | needs written permission | needs written permission | none stated | not named |  |
+| Natural Gas Intelligence | needs written permission | needs a paid license | not stated on the page (an "NGI Data Feed" or a "Corporate Licensing Agreement") | info@naturalgasintel.com |  |
+| OilPrice.com | needs written permission | needs written permission | none stated | not named |  |
+| Oncor Electric Delivery Company LLC | needs written permission | needs written permission | none stated | not named |  |
+| Oracle | needs written permission | needs written permission | none stated | not named |  |
+| POWER Magazine | needs written permission | needs written permission | none stated | not named |  |
+| pv magazine USA | needs written permission | needs written permission | none stated | not named |  |
+| Reuters | needs written permission | needs written permission | none stated | not named |  |
+| RGGI | needs written permission | needs written permission | none stated | none named on the page |  |
+| Rigzone | needs written permission | needs written permission | none stated | not named |  |
+| RRC | may be public | needs written permission | none stated | none named in the sentences read |  |
+| Switch | needs written permission | needs written permission | none stated | not named |  |
+| Utility Dive | needs written permission | needs written permission | none stated | not named |  |
+| Vantage Data Centers | needs written permission | needs written permission | none stated | not named |  |
+| WSJ | needs written permission | needs a paid license | not stated on the page | djreprints.com (the Dow Jones Reprints website, named for licenses) |  |
 

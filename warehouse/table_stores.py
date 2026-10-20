@@ -7,6 +7,7 @@ this is the same sequence for any table named, once, so the script does not hold
 
     python warehouse/table_stores.py ercot_rtm_node_prices
     python warehouse/table_stores.py merchant_revenue_monthly --dry-run     # print the four commands; run nothing
+    python warehouse/table_stores.py node_basis_daily --no-redivis         # session 376: the first three, no Redivis draft
 
 For each table, in this order, each command started by itself and its own exit code read (never piped):
 
@@ -38,25 +39,29 @@ RUNS = os.path.join(ROOT, "runs")
 NAME = re.compile(r"^[a-z0-9_]+$")
 
 
-def commands(table):
-    """(step, gate, command) for one table, in order."""
+def commands(table, redivis=True):
+    """(step, gate, command) for one table, in order; without the Redivis draft when redivis is False (session 376)."""
     only = f"^{table}$"
-    return [
+    steps = [
         ("validate", True, ["warehouse/validate/erw_validate.py", f"warehouse/output/{table}.csv"]),
         ("coverage", True, ["warehouse/metadata/build_coverage.py", "--only", only]),
         ("archive", False, ["warehouse/archive/archive.py", "write", "--tables", only]),
         ("redivis", False, ["warehouse/redivis/upload.py", "--tables", table]),
     ]
+    return steps if redivis else steps[:3]
 
 
 SKIP = int(os.environ.get("ERW_SKIP_EXIT") or 75)
 CAP_SKIPPED = set()  # session 305: the tables whose Redivis step was skipped for Redivis's export cap
 
 
-def stores(table, dry=False, run=subprocess.run, log=print, runs=None):
-    """True when the table reached all four (session 305: or the archive, with Redivis skipped for its export cap)."""
+def stores(table, dry=False, run=subprocess.run, log=print, runs=None, redivis=True):
+    """True when the table reached all four (session 305: or the archive, with Redivis skipped for its export cap;
+    session 376: or the first three, with --no-redivis)."""
     ok = True
-    for step, gate, cmd in commands(table):
+    if not redivis:
+        log(f"{table} redivis not asked (--no-redivis)")
+    for step, gate, cmd in commands(table, redivis):
         if dry:
             log(f"{table} {step}: {' '.join(cmd)}")
             continue
@@ -69,7 +74,7 @@ def stores(table, dry=False, run=subprocess.run, log=print, runs=None):
             # session 305: upload.py exits with the skip exit when Redivis's export cap stopped the upload; the table
             # is in the archive (the step before) and waits there, so this is a skip, not a failure
             CAP_SKIPPED.add(table)
-            log(f"{table} redivis skipped: Redivis export cap; the table waits in the archive")
+            log(f"{table} redivis skipped: Redivis export cap or storage full (session 377); the table waits in the archive")
             continue
         if rc != 0:
             ok = False
@@ -84,6 +89,8 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description="A table's stores: the validator, its coverage row, the archive and the Redivis draft (session 204)")
     ap.add_argument("tables", nargs="+")
     ap.add_argument("--dry-run", action="store_true", help="print the commands; run nothing")
+    ap.add_argument("--no-redivis", action="store_true", help="session 376: the validator, the coverage row and the archive, not "
+                    "the Redivis draft (node_basis_daily, held from the draft by Redivis's storage cap)")
     a = ap.parse_args(argv)
     for t in a.tables:
         if not NAME.match(t):
@@ -91,11 +98,11 @@ def main(argv=None):
         if not a.dry_run and not os.path.exists(os.path.join(OUT_DIR, t + ".csv")):
             print(f"{t} FAILED: warehouse/output/{t}.csv is not on this machine; nothing was run")
             return 2
-    done = [stores(t, a.dry_run) for t in a.tables]
+    done = [stores(t, a.dry_run, redivis=not a.no_redivis) for t in a.tables]
     if not all(done):
         return 1
     if CAP_SKIPPED:  # the skip's reason is the last line (warehouse/health.py)
-        print(f"stores SKIPPED: Redivis export cap: {', '.join(sorted(CAP_SKIPPED))} archived, not uploaded; they wait in the archive")
+        print(f"stores SKIPPED: Redivis export cap or storage full: {', '.join(sorted(CAP_SKIPPED))} archived, not uploaded; they wait in the archive")
         return SKIP
     return 0
 

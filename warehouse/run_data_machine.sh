@@ -131,6 +131,7 @@ if [ "$CHECK" = "1" ]; then
   echo "  datacenter_page, capture_price, curtailment_shares, free_energy, curtailment_worth, each under warehouse/health.py;"
   echo "  (session 284) the price board's files (page_keep.py board), then its Python tests as a group;"
   echo "  (session 204) first of all after the sync, ERCOT's node prices (scheduled.py ercot_rtm_node_prices, 500,000 rows a day at most) and its stores when it moved;"
+  echo "  (session 376) then the node basis's real-time days (node_basis.py --daily: a rebuild when the saved files hold a whole day node_basis_daily lacks), its three tables' stores (node_basis_daily without the Redivis draft);"
   echo "  (session 206) then the runner's known gaps: carbon_auctions.py --table carb, carb_lcfs.py, policy_monitor_refresh.py --only orpuc, each table's stores when it moved;"
   echo "  (session 244) then ERCOT's reserve price adders: ercot_rt_adders.py (the list, and a year's workbook when ERCOT posted it again), its stores when the table moved;"
   echo "  (session 247) then the tables no other schedule refreshes (bash warehouse/run_data_machine_tables.sh --list): six steps a day, three once a month, their stores, and the live-set load of the tables only this machine builds;"
@@ -181,6 +182,34 @@ was="$(sha_of "$NODES")"
 soft_step dm_ercot_node_prices "$PYTHON" warehouse/scheduled.py "$NODES"
 grep -E "rows counted against the ceiling|STOPPED before" runs/daily_dm_ercot_node_prices.out
 table_stores dm_node_stores "$NODES" "$was"
+
+# ---- 1b2. the node basis's real-time days, before ERCOT's list loses them (session 376) ---------------------------------
+# The step above saves every 15-minute file ERCOT's seven-day list holds, with every settlement point in it; the node
+# basis (warehouse/derived/node_basis.py, session 358) read them once. Each day now: when the saved files hold a whole
+# Central day of real time that node_basis_daily does not, the three tables are rebuilt from the saved files (no
+# request: the files are the step above's), the internal hourly table keeping the newest days under the owner's
+# 500,000 rows; otherwise the step is a skip. node_basis_daily's stores leave out the Redivis draft (Redivis's free
+# storage is full, session 363; the owner's to settle): the validator, its coverage row and the archive. The live set
+# is not loaded here (the two public tables are in review; a load is a session's or a person's).
+NODE_DAILY=node_basis_daily
+NODE_SUMMARY=node_basis_summary
+NODE_HOURLY=ercot_node_prices_hourly
+echo "== the node basis's real-time days: the whole days saved that $NODE_DAILY does not hold (runs/daily_dm_node_rt.out)"
+was_daily="$(sha_of "$NODE_DAILY")"
+was_summary="$(sha_of "$NODE_SUMMARY")"
+was_hourly="$(sha_of "$NODE_HOURLY")"
+soft_step dm_node_rt "$PYTHON" warehouse/derived/node_basis.py --daily
+grep -E "^real time held|^days gained" runs/daily_dm_node_rt.out
+if [ "$(sha_of "$NODE_DAILY")" = "$was_daily" ]; then
+  echo "$NODE_DAILY: as it was; its stores are left as they are"
+  echo "dm_node_rt_stores_daily skipped: no change in $NODE_DAILY" >> "$status"
+else
+  echo "== $NODE_DAILY moved: the validator and its coverage row (gates), the archive; not the Redivis draft (its storage is full)"
+  soft_step dm_node_rt_stores_daily "$PYTHON" warehouse/table_stores.py "$NODE_DAILY" --no-redivis
+  grep -E " exit=[0-9]+ " runs/daily_dm_node_rt_stores_daily.out
+fi
+table_stores dm_node_rt_stores_summary "$NODE_SUMMARY" "$was_summary"
+table_stores dm_node_rt_stores_hourly "$NODE_HOURLY" "$was_hourly"
 
 # ---- 1c. the publishers that refuse GitHub's runner (session 206, the owner's ruling of 12 October 2026) --------------
 # CARB's auction summary and its LCFS credit prices (ww2.arb.ca.gov answers the runner HTTP 202 with no body since
