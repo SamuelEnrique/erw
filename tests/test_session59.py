@@ -110,7 +110,9 @@ class QueueFiles(unittest.TestCase):
         for s in tq.STATES:
             d = os.path.join(ROOT, "queue", s)
             for f in (os.listdir(d) if os.path.isdir(d) else []):
-                if f.endswith(".md"):
+                # the chain queue (scripts/chain_queue.py) moves its prompt files into queue/done/ too, named NNN-<slug>.md
+                # and never NNN-code- or NNN-data-: those are its files, not tasks (the chain of 20 October took the first)
+                if f.endswith(".md") and (s != "done" or tq.NAME_RE.match(f)):
                     t = tq.Task(os.path.join(d, f))  # a bad name, role or front matter raises
                     self.assertGreater(t.cap, 0, f)
                     self.assertGreater(len(t.prompt), 200, f)
