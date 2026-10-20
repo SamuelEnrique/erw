@@ -205,6 +205,9 @@ def realtime(first, last, keep):
     are; the points of `keep` (and every hub and load zone), with ERCOT's settlement point type of each."""
     acc = collections.defaultdict(lambda: collections.defaultdict(lambda: collections.defaultdict(list)))
     types = {}
+    # session 376: ERCOT posts an interval twice now and then (8 October 2026, 11:45 Central); the later posting is read,
+    # as the connector reads it, so that the hour holds four prices and the day is whole
+    by_utc = {}
     for path in sorted(glob.glob(os.path.join(rt.ZIPS, "*.zip"))):
         with open(path, "rb") as f:
             content = f.read()
@@ -212,12 +215,13 @@ def realtime(first, last, keep):
             df, utc = rt.read_interval(content)
         except ValueError:
             continue
-        local = utc.tz_convert(TZ)
-        day = local.strftime("%Y-%m-%d")
+        day = utc.tz_convert(TZ).strftime("%Y-%m-%d")
         if day < first or day > last:
             continue
-        k = int((utc - pd.Timestamp(day).tz_localize(TZ).tz_convert("UTC")).total_seconds() // 3600)
         df = df[~df["SettlementPointType"].isin(rt.TWICE)]
+        by_utc[utc] = (day, df[df["SettlementPointName"].isin(keep) | df["SettlementPointType"].isin(["HU", "SH", "AH", "LZ"])])
+    for utc, (day, df) in sorted(by_utc.items()):
+        k = int((utc - pd.Timestamp(day).tz_localize(TZ).tz_convert("UTC")).total_seconds() // 3600)
         for sp, typ, price in zip(df["SettlementPointName"], df["SettlementPointType"], df["SettlementPointPrice"]):
             if sp in keep or typ in ("HU", "SH", "AH", "LZ"):
                 acc[day][sp][k].append(float(price))

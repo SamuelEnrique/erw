@@ -52,6 +52,25 @@ class Days(unittest.TestCase):
         open(os.path.join(self.d, "cdr.00012301.0000000000000000.20261018.114702248.SPPHLZNP6905_20261018_1145_csv.zip"), "wb").close()
         self.assertEqual(nb.rt_days_saved(self.d), [])
 
+    def test_an_interval_posted_twice_is_read_once(self):
+        import pandas as pd
+        day = "2026-10-08"
+        start = pd.Timestamp(day).tz_localize(nb.TZ).tz_convert("UTC")
+        files = {}
+        for k in range(96):
+            files[f"a{k:03d}.zip"] = start + pd.Timedelta(minutes=15 * (k + 1))
+        files["a046_again.zip"] = files["a046.zip"]           # ERCOT's second posting of one interval
+        for name in files:
+            open(os.path.join(self.d, name), "wb").close()
+
+        def read(content, it=iter(sorted(files))):
+            utc = files[next(it)]
+            return pd.DataFrame({"SettlementPointName": ["HB_HUBAVG"], "SettlementPointType": ["HU"],
+                                 "SettlementPointPrice": [10.0]}), utc - pd.Timedelta(minutes=15)
+        with mock.patch.object(nb.rt, "ZIPS", self.d), mock.patch.object(nb.rt, "read_interval", side_effect=read):
+            out, _ = nb.realtime(day, day, set())
+        self.assertEqual(len(out[day]["HB_HUBAVG"]), 24)
+
     def test_gained(self):
         self.assertEqual(nb.gained(["2026-10-18", "2026-10-19"], ["2026-10-17", "2026-10-18"]), ["2026-10-19"])
         self.assertEqual(nb.gained(["2026-10-18"], ["2026-10-18"]), [])
