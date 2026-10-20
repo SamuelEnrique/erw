@@ -108,7 +108,10 @@ def main(argv=None):
             retrieved = next((h.split(":", 1)[1].strip() for h in head if h.startswith("Retrieved:")), "")
             stamp = retrieved.split(" ")[0]
             retrieved_iso = (dt.datetime.strptime(stamp, "%Y%m%dT%H%M%SZ").strftime("%Y-%m-%dT%H:%M:%SZ") if len(stamp) == 16 else "")
-            d = pd.read_csv(path, comment="#", low_memory=False, dtype=str)
+            # session 367: the header is skipped by its count of lines (session 103's rule): comment="#" would cut a data row
+            # at a "#" inside a cell (a project named "Unit #2"), and its later columns with it
+            n_head = next(i for i, line in enumerate(open(path, encoding="utf-8")) if not line.startswith("#"))
+            d = pd.read_csv(path, skiprows=n_head, low_memory=False, dtype=str)
             inputs.append(f"{iso}_interconnection_queue ({len(d)} rows; retrieved {retrieved.split(' ')[0]}"
                           + (f"; {run.split(';')[0].replace('Rebuilt from the ERW archive by warehouse/archive/restore.py, ', '')}" if run else "") + ")")
             d["year"] = pd.to_datetime(d["queue_date"], errors="coerce").dt.year
