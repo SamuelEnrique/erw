@@ -95,6 +95,8 @@ TIER_RULES = [
     ("derived", r"^known_data_faults$"),  # session 103: the ERW's own register of its sources' faults
     ("derived", r"^grid_stress_days$"),  # session 306: ERW code over the hub prices and CAISO's notices
     ("derived", r"^eia_annual_crosscheck_ba$"),  # session 323: ERW code over EIA-923's sums and EIA-930's hours
+    # session 345: NLR's JEDI workbooks' own formulas, evaluated by ERW code for each state the model lists, per MW
+    ("derived", r"^nlr_jedi_multipliers$"),
     # session 138: tariff and Commission figures read by a model, each kept only with its line found on the page
     ("model_extracted", r"^texas_delivery_charges$"),
     ("model_extracted", r"^texas_transmission_matrix$"),  # session 140: the Commission's transmission charge matrices, read the same way
@@ -239,6 +241,8 @@ SECTOR_RULES = [
     (r"^merchant_revenue_monthly$", "power;gas"),  # session 51: the seller's side (solar, wind, batteries, peaker)
     (r"^battery_stack_(monthly|stress_daily|review_monthly)$", "power"),  # session 67: the battery revenue stack (energy and ancillary); session 86: the grids in review
     (r"^(battery_sourced_ranges|grid_stress_days)$", "power"),  # session 306: the battery's published cost cases; the grids' stress days by one rule
+    (r"^nlr_jedi_multipliers$", "power"),  # session 345: JEDI's jobs, earnings and output per MW of a power plant, by state
+    (r"^impact_tax_rules$", "power;oil;gas"),  # session 346: the severance rules of TX, LA and NM, and the property tax of a plant (none held)
     # session 49: interchange and the grid network; a year of hub prices; the 2018 EIA-930 baseline; station weather
     (r"^(eia930_all_interchange|grid_network_(nodes|links))$", "power"),
     # session 68: EIA's daily total interchange of every BA, the two stories' hourly flows, who supplies a grid
