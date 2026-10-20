@@ -4,6 +4,7 @@ import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every 
 import { Cite } from "@/components/Cite";
 import { Num } from "@/components/Num";
 import { Section } from "@/components/Section";
+import { TableDownloads } from "@/components/tool/TableDownloads";
 import rules from "@/data/bill_rules.json";
 import { BILL_KEYS, defaultBill, type BillKey } from "@/lib/bill";
 import { series, type SeriesRow } from "@/lib/data";
@@ -104,6 +105,8 @@ export default async function LearnBill() {
           })}
         </div>
         <Cite tables={[M]} note="Bills: site/data/bill_rules.json, each rate with its tariff passage (PG&E Electric Schedule E-TOU-C; SCE Schedule TOU-D; SDG&E Schedule TOU-DR1; Oncor and CenterPoint Tariffs for Retail Delivery Service). Wholesale: the load-weighted real-time price of the ISO's zone" />
+        {/* session 335: the page's note (docs/methods/bill.md) */}
+        <p className="mt-1 text-xs text-muted" data-method="1"><Link href="/data/methods/bill">Method</Link></p>
       </Section>
 
       <Section title="Build a bill">
@@ -123,6 +126,9 @@ export default async function LearnBill() {
           ))}
         </dl>
       </Section>
+      {/* session 335: the page's one table, as CSV with a Python and a Stata reader (session 328's shared line); the bills'
+          rates are the site's own file, each with its tariff passage */}
+      <TableDownloads tables={[M]} />
     </div>
     </Brand>
   );
