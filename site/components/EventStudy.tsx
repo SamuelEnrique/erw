@@ -4,6 +4,7 @@
 // key (es|<event>|<entity>|<variable>|<term>|<field>) that scripts/check-values.mjs recomputes.
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { Cite } from "@/components/Cite";
+import { TableDownloads } from "@/components/tool/TableDownloads";
 import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";
 import { Section } from "@/components/Section";
@@ -144,6 +145,9 @@ export async function EventStudy({ event, grids, primary, price }: { event: stri
         </table>
       </details>
       <Cite tables={[T]} note="Estimated here with lib/eventstudy.ts, the twin of warehouse/derived/event_study.py, whose table event_study_estimates holds the same estimates" />
+      {/* session 332: every event page ends with this block, so the page's tables are offered here, as CSV with a Python and a
+          Stata reader (session 328's shared line): the window's rows, and the estimates the block draws */}
+      <TableDownloads tables={[T, "event_study_estimates"]} />
     </Section>
   );
 }

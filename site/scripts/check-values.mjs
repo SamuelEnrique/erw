@@ -54,6 +54,8 @@ const wanted = (page) => !ONLY.length || ONLY.some((pre) => page.startsWith(pre)
 const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/ercot%3AHB_HUBAVG", "/data", "/prices?tab=ercot", "/deals", "/deals?tab=tracker", "/deals?tab=companies", "/grid", "/map", "/datacenters", "/roundup",
   // session 18
   "/mix", "/mix?ba=erco&state=TX", "/curtailment", "/demand?view=consumption",
+  // session 332: every action's significance (event|policy_actions|<id>|significance)
+  "/policy",
   // session 19
   // session 35: the seven grid pages
   "/grid/ercot", "/grid/caiso", "/grid/pjm", "/grid/nyiso", "/grid/isone", "/grid/miso", "/grid/spp",

@@ -332,3 +332,14 @@ The table `policy_action_tags` is not in the live set and the page does not need
 - News releases are scored on their titles and their places are not read from their text.
 - A rating, a sector, a why and every field of a read are a model's. The quotations hold a read to its text; they do
   not make it a regulator's statement.
+
+## 10. The page as it stands (session 332, 20 October 2026)
+
+- **Every action's significance is a checked number**: the score in the table's last column carries its key
+  (`event|policy_actions|<id>|significance`) and `check-values` reads it again from `policy_actions`; `/policy` is in
+  its list since session 332.
+- **The filters** (agency, type, sector, state, tag, significance, date) have their Reset; the significance floor
+  starts at 5, the score from which an action is read for its impact.
+- **Downloads** (session 332): under both views, `policy_actions` and `policy_reads` as the live set's CSV with a Python
+  and a Stata reader of that CSV (session 328's shared line). `policy_reads_evidence` (the evidence spans, outlet text)
+  is internal and is not offered.

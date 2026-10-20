@@ -189,3 +189,13 @@ Under each chart is a one-line figure read from a row of the table, each with a 
 - Prices of other hubs and load zones.
 - Outage (load shed) amounts: ERCOT reports them, and the warehouse does not hold them.
 - Weather: `weather_obs_hourly` starts in 2026.
+
+## The pages as they stand (session 332, 20 October 2026)
+
+- **Nine event pages and the index**: the eight events before it and `cold_2026` (session 319, from the window of
+  session 308). Their charts are drawn in SVG (session 303); every figure under a chart, and every estimate of the
+  event study block, carries its check key, and `check-values` reads each page.
+- **Downloads** (session 332): at the foot of every event page (in the event study block every page ends with) and on
+  the index, `event_window_daily` as the live set's CSV with a Python and a Stata reader of that CSV, and
+  `event_study_estimates` named with its place on Redivis (not in the live set: the pages compute the same estimates,
+  `event_study.md`).
