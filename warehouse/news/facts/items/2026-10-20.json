@@ -1,19 +1,19 @@
 {
  "date": "2026-10-20",
- "fact_id": "ff_528bbbd5f8",
+ "fact_id": "ff_820d85993b",
  "kind": "history",
- "fact": "A kilowatt-hour equals 3.6 megajoules, the energy delivered by one kilowatt of power for one hour.",
+ "fact": "US oil extraction peaked at 10.2 million barrels per day in 1970 before declining for the next 35 years.",
  "second": "",
  "structure": "none",
  "conjecture": "False",
  "sources": [
   {
-   "label": "Wikipedia, Kilowatt-hour",
-   "url": "https://en.wikipedia.org/wiki/Kilowatt-hour",
-   "raw": "warehouse/news/facts/raw/wikipedia/kilowatt_hour_20260928T082936Z.txt",
-   "retrieved_at": "20260928T082936Z",
+   "label": "Wikipedia, Hubbert peak theory",
+   "url": "https://en.wikipedia.org/wiki/Hubbert_peak_theory",
+   "raw": "warehouse/news/facts/raw/wikipedia/hubbert_peak_theory_20260928T082943Z.txt",
+   "retrieved_at": "20260928T082943Z",
    "part": "fact",
-   "span": "A kilowatt-hour (unit symbol: kW⋅h or kW h; commonly written as kWh) is a non-SI unit of energy equal to 3.6 megajoules (MJ) in SI units, which is the energy delivered by one kilowatt of power for one hour."
+   "span": "Oil extraction peaked at 10.2 million barrels (1.62×10^6 m3) per day in 1970 and then declined over the subsequent 35 years"
   }
  ]
 }
