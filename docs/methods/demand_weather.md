@@ -451,3 +451,10 @@ decimals (NOAA's tenth of a degree Celsius turns back from it exactly). Measured
 no interpolated value is written. With it the grid tables can be rebuilt with other weights, or another rule, on a machine that never held
 NOAA's files: `python warehouse/connectors/noaa_grid_weather.py --from-table`.
 
+
+## Session 331 (20 October 2026): the Reset and the downloads
+
+The view's panel ("Choose": the figure and the year in the chart) has the shared Reset, back to the year's energy in
+the last whole year held, as `choices` in `site/lib/demandweather.ts` sets them. Under the view, `eia930_demand_weather`,
+`noaa_grid_weather_hourly` and `noaa_grid_weather_stations` as the live set's CSV with a Python and a Stata reader, or
+named with their place on Redivis where the live set does not hold them.

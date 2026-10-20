@@ -151,3 +151,10 @@ few hours not written; the year to date over the same months; growth against 201
 change; the Lower 48 without a peak; the table as built against the workbook for one area, computed again by hand;
 the site's copy equal to the table; the break check; and the page's choices and ranking, run in Node.
 `site/scripts/check-demand.mjs`: every number the page shows, against the site's copy, on the built site.
+
+## Session 331 (20 October 2026): downloads and the third view's note
+
+Each view of `/demand` offers its tables under it, as the live set's CSV with a Python and a Stata reader of that CSV
+(session 328's shared line): as metered, `eia930_demand_growth`; with the weather taken out, `eia930_demand_weather` and
+the two NOAA tables; consumption, its two EIA tables. The consumption view has its own note now,
+[consumption](consumption.md), linked from the view as the other two link theirs.

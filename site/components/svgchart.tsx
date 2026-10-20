@@ -134,8 +134,23 @@ export function CategoryChart({ id, x, series, unit, unit2 = "", label, height =
   const n = x.length;
   const two = series.some((s) => s.axis === 1);
   const gutter = small ? 4 : Math.min(150, Math.max(60, Math.max(0, ...series.filter((s) => (s.kind ?? "bar") !== "bar").map((s) => textWidth(s.name))) + 8));
-  const L = small ? 34 : 58, R = small ? 6 : two ? 56 : 12, TOP = small ? 6 : 24, BOT = small ? 16 : 30;
+  const L = small ? 34 : 58, R = small ? 6 : two ? 56 : 12, BOT = small ? 16 : 30;
   const plotR = W - R - gutter;
+  // session 331: a bar series is named at the top, after the unit (they overlapped it), in as many rows as the width
+  // needs (at a phone's width the names ran past the drawing); the plot starts under the last row
+  const bars = series.filter((s) => (s.kind ?? "bar") === "bar");
+  const barNames: { name: string; color: string; x: number; y: number }[] = [];
+  if (!small) {
+    const edge = two ? plotR : W - 4;
+    let bx = L + textWidth(unit) + 14, by = 11;
+    for (const s of bars) {
+      const w = textWidth(s.name);
+      if (bx + w > edge && bx > L + 4) { bx = L + 4; by += 14; }
+      barNames.push({ name: s.name, color: s.color, x: bx, y: by });
+      bx += w + 14;
+    }
+  }
+  const TOP = small ? 6 : Math.max(24, (barNames.length ? barNames[barNames.length - 1].y : 0) + 13);
   // stacks: each stack's running top per category; a bar or an area in a stack is drawn from the stack below it
   const tops = new Map<string, number[]>(), bottoms = new Map<string, number[]>();
   const stacked = series.map((s) => {
@@ -157,7 +172,6 @@ export function CategoryChart({ id, x, series, unit, unit2 = "", label, height =
   const bw = (plotR - L) / Math.max(1, n);
   const cx = (i: number) => L + i * bw + bw / 2;
   const py = (v: number, b: Bounds) => TOP + ((b.hi - v) / (b.hi - b.lo || 1)) * (height - TOP - BOT);
-  const bars = series.filter((s) => (s.kind ?? "bar") === "bar");
   const barGroups = [...new Set(bars.map((s) => s.stack ?? `_${s.name}`))];
   const barW = Math.max(2, (bw * 0.7) / Math.max(1, barGroups.length));
   const everyK = every ?? (n > 12 ? Math.ceil(Math.max(1, ...x.map((s) => textWidth(s, 11))) / bw) : 1);
@@ -265,7 +279,7 @@ export function CategoryChart({ id, x, series, unit, unit2 = "", label, height =
             ))}
             {small ? null : <g data-direct-labels="1">
               {ends.map(({ k, y }) => <text key={series[k].name} x={plotR + (two ? 50 : 6)} y={y + 4} fontSize="12" fill={tokenColor(series[k].color)}>{series[k].name}</text>)}
-              {bars.map((s, j) => <text key={s.name} x={L + 4 + j * (textWidth(s.name) + 14)} y={TOP - 6} fontSize="12" fill={tokenColor(s.color)}>{s.name}</text>)}
+              {barNames.map((b) => <text key={b.name} x={b.x} y={b.y} fontSize="12" fill={tokenColor(b.color)}>{b.name}</text>)}
             </g>}
             {hover !== null ? <line x1={cx(hover)} x2={cx(hover)} y1={TOP} y2={height - BOT} stroke="var(--color-muted)" strokeWidth="1" strokeDasharray="3 3" /> : null}
           </svg>
@@ -328,13 +342,22 @@ export function HeatChart({ id, rows, cols, cells, unit, label, tips, marks, lo:
             )))}
             {marks?.map(([r, c]) => <rect key={`m${r}-${c}`} x={L + c * cw + cw / 2 - 3} y={TOP + r * ch + ch / 2 - 3} width="6" height="6" fill="var(--color-ink)" />)}
             {hover ? <rect x={L + hover[1] * cw} y={TOP + hover[0] * ch} width={cw} height={ch} fill="none" stroke="var(--color-ink)" strokeWidth="1.5" /> : null}
-            <g data-direct-labels="1">
-              <text x={L} y={height - 8} fontSize="11" fill="var(--color-muted)">{legend?.[0] ?? `${num(lo)} ${unit}`}</text>
-              {Array.from({ length: 8 }, (_, k) => <rect key={k} x={L + 110 + k * 12} y={height - 17} width="12" height="10" fill="var(--color-accent)" fillOpacity={0.08 + 0.92 * (k / 7)} />)}
-              <text x={L + 110 + 8 * 12 + 6} y={height - 8} fontSize="11" fill="var(--color-muted)">{legend?.[1] ?? `${num(hi)} ${unit}`}</text>
-              <rect x={L + 110 + 8 * 12 + 6 + textWidth(legend?.[1] ?? `${num(hi)} ${unit}`, 11) + 14} y={height - 17} width="12" height="10" fill={`url(#${id}-blank)`} />
-              <text x={L + 110 + 8 * 12 + 6 + textWidth(legend?.[1] ?? `${num(hi)} ${unit}`, 11) + 30} y={height - 8} fontSize="11" fill="var(--color-muted)">no value held</text>
-            </g>
+            {/* session 331: the scale starts after its first word (it stood 110 px past the row labels whatever that word's
+                width, and ran past a phone's drawing); the whole legend starts at the left edge where it would not fit */}
+            {(() => {
+              const w0 = legend?.[0] ?? `${num(lo)} ${unit}`, w1 = legend?.[1] ?? `${num(hi)} ${unit}`;
+              const span = textWidth(w0, 11) + 8 + 8 * 12 + 6 + textWidth(w1, 11) + 30 + textWidth("no value held", 11);
+              const x0 = L + span <= W - 4 ? L : 4, sx = x0 + textWidth(w0, 11) + 8, hx = sx + 8 * 12 + 6;
+              return (
+                <g data-direct-labels="1">
+                  <text x={x0} y={height - 8} fontSize="11" fill="var(--color-muted)">{w0}</text>
+                  {Array.from({ length: 8 }, (_, k) => <rect key={k} x={sx + k * 12} y={height - 17} width="12" height="10" fill="var(--color-accent)" fillOpacity={0.08 + 0.92 * (k / 7)} />)}
+                  <text x={hx} y={height - 8} fontSize="11" fill="var(--color-muted)">{w1}</text>
+                  <rect x={hx + textWidth(w1, 11) + 14} y={height - 17} width="12" height="10" fill={`url(#${id}-blank)`} />
+                  <text x={hx + textWidth(w1, 11) + 30} y={height - 8} fontSize="11" fill="var(--color-muted)">no value held</text>
+                </g>
+              );
+            })()}
           </svg>
           {hover ? <Card left={L + hover[1] * cw + 10} width={W}><div className="max-w-[260px] text-ink">{words(hover[0], hover[1])}</div></Card> : null}
         </>

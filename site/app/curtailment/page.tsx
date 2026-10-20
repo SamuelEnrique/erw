@@ -7,6 +7,7 @@ import { Related } from "@/components/Related";
 import { SiteLink } from "@/components/SiteLink";
 import { Term } from "@/components/Term";
 import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
+import { TableDownloads } from "@/components/tool/TableDownloads";
 import ercotJson from "@/data/curtailment/ercot.json";
 import freeJson from "@/data/curtailment/free_energy.json";
 import sharesJson from "@/data/curtailment/shares.json";
@@ -207,6 +208,8 @@ export default async function CurtailmentPage({ searchParams }: { searchParams: 
   const top = fg ? ranked(fg, fc.win)[0] : undefined;
   const cheap = top ? <>Its place with the most hours under USD {free.threshold_usd_per_mwh} {fc.win === "year" ? "in the last twelve months" : `in ${monthName(free.end_month)}`} is {placeName(top.id)}, with <N k="sum|cheap">{whole(top.win.under5)}</N>.</> : null;
 
+  // session 331: the tables the source line names for the grid chosen, which the downloads offer too
+  const srcTables: string[] = [...(g.daily ? [g.daily, MONTHLY] : []), ...(c.grid === "caiso" ? [TABLE, INPUT, "caiso_battery_storage"] : []), ...(c.grid === "ercot" ? ercot.tables : []), ...(fc.place ? [...new Set(Object.values((fc.place as unknown as { tables: Record<string, string[]> }).tables).flat())] : [])];
   return (
     <Brand>
     <ToolPage>
@@ -352,8 +355,10 @@ export default async function CurtailmentPage({ searchParams }: { searchParams: 
               </Fold>
             ) : null}
           </div>
-          <SourceLine tables={[...(g.daily ? [g.daily, MONTHLY] : []), ...(c.grid === "caiso" ? [TABLE, INPUT, "caiso_battery_storage"] : []), ...(c.grid === "ercot" ? ercot.tables : []), ...(fc.place ? [...new Set(Object.values((fc.place as unknown as { tables: Record<string, string[]> }).tables).flat())] : [])]}
+          <SourceLine tables={srcTables}
             note={<>Data: California ISO, Production and curtailments data, the Daily Renewable Report and Today&apos;s Outlook; Southwest Power Pool, VER Curtailments; ERCOT, Wind and Solar Power Production; EIA-930; each grid&apos;s public prices. Credit: California ISO. Built {profile.built.slice(0, 10)} (California by the hour), {shares.built.slice(0, 10)} (shares), {free.built.slice(0, 10)} (prices), {worth.built.slice(0, 10)} (worth), {ercot.built.slice(0, 10)} (Texas). This page is in review.</>} />
+          {/* session 331: the grid's tables, as CSV with a Python and a Stata reader (session 328's shared line) */}
+          <TableDownloads tables={srcTables} />
           <Related href="/curtailment" />
         </div>
       </div>

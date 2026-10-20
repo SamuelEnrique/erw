@@ -186,3 +186,14 @@ The owner's rule (7 October 2026): the schematic of tiles becomes a true map onl
   - New York State: the terms address tried answered HTTP 404. Nothing of New York State's is shown; its catalogue and one document of its Department of Public Service (a picture of a map, not used) were read only as evidence that no boundary file exists.
 - **To build it again:** `python warehouse/connectors/zone_boundaries.py --pull --build`. `--pull` asks only for files the raw store lacks, never for one a site refused, and stops before the ceiling.
 - Tests: `tests/test_session149_map.py` and, on the built site, `site/scripts/check-curtailment.mjs` (a mapped place's centroid is checked to lie inside its boundary there too).
+
+## The page as it stands (session 331, 20 October 2026)
+
+- **The charts** are drawn in SVG through the site's shared chart set since session 317, with the props they had; the
+  range slider under the long month axes is gone (a Chart | Table switch stands in for it) and no value moved.
+- **Every number** of the page is its files' (`site/data/curtailment/` and `site/data/curtailment_profile.json`, built
+  from the tables this note names); `check-curtailment` reads them against the files, and `check-values` the figures
+  carried with a check key.
+- **Downloads** (session 331): under the page, the tables the source line names for the grid chosen, each as the live
+  set's CSV with a Python and a Stata reader of that CSV, or named with its place on Redivis where the live set does
+  not hold it (session 328's shared line).
