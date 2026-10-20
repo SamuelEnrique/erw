@@ -34,6 +34,7 @@ type Props = {
   mini?: boolean;
   file?: string; // kept for the pages that name one (the PNG download the canvas had is not drawn here)
   unit2?: string; // session 24: the unit of the y2 series
+  refLines?: { value: number; name: string; dashed?: boolean }[];   // session 318: horizontal lines on the left axis, named (the board's average)
 };
 
 const FMT: Record<string, (t: number) => string> = {
@@ -95,7 +96,7 @@ const ticksOf = (b: Bounds) => { const out: number[] = []; for (let v = b.lo; v 
 
 const PAGE = 500;
 
-export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false, x = "minute", mini = false, unit2 = "" }: Props) {
+export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false, x = "minute", mini = false, unit2 = "", refLines }: Props) {
   const wrap = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(760);
   const [table, setTable] = useState(false);
@@ -247,6 +248,12 @@ export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false
               </g>
             ))}
             {has2 ? ticksOf(b2).map((v) => <text key={`y2${v}`} x={plotR + 6} y={py(v, b2) + 4} textAnchor="start" fontSize="12" fill="var(--color-muted)">{axisNum(v)}</text>) : null}
+            {refLines?.map((r) => (
+              <g key={r.name}>
+                <line x1={L} x2={plotR} y1={py(r.value, b1)} y2={py(r.value, b1)} stroke="var(--color-accent)" strokeWidth="1" strokeDasharray={r.dashed ? "4 3" : undefined} />
+                <text x={plotR - 2} y={py(r.value, b1) - 3} textAnchor="end" fontSize="11" fill="var(--color-accent)">{r.name}</text>
+              </g>
+            ))}
             <text x={L} y={11} fontSize="12" fill="var(--color-muted)">{unit}</text>
             {has2 ? <text x={plotR + 6} y={11} fontSize="12" fill="var(--color-muted)">{unit2}</text> : null}
             {xTicks.map((t, i) => (

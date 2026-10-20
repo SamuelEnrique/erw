@@ -10,7 +10,8 @@
 // Every chart answers the mouse with the value, the hour or date and the series. Nothing is filled: an hour or a day
 // that is not held is a gap in the line. The state is the address (lib/board.ts, benchOf).
 import { useEffect, useMemo, useState } from "react";
-import { baseStyle, token, useEChart } from "@/components/echarts";
+import { TimeChart, type TimeSeries } from "@/components/TimeChart";   // session 318: the three charts through the shared SVG set
+import { CategoryChart } from "@/components/svgchart";
 import {
   FREQ_WORDS, SLOTS, WINDOWS, csv, dateWords, distribution, fmt, histogram, hourlyOf, isoDay, isoHour, joined, localHour, pointsOf, seasonal, slotLabel, summary, volatility, windowed,
   type Bench, type BoardFile, type HourlyFile, type Point, type Row, type SeriesFile,
@@ -48,96 +49,54 @@ function Btn({ on, onClick, children, title }: { on?: boolean; onClick: () => vo
 type Lines = { hourly: boolean; freq: "D" | "W" | "M" | "H"; a: Point[]; b: Point[] | null; nameA: string; nameB: string; unitA: string; unitB: string; fileA: HourlyFile | null; fileB: HourlyFile | null; note: string };
 
 function PriceChart({ lines, calc, mode, tz }: { lines: Lines; calc: Point[] | null; mode: Bench["m"]; tz: string | null }) {
-  const box = useEChart((chart) => {
-    const st = baseStyle();
-    const cA = token("accent"), cB = token("fuel-gas"), cC = token("ink");
-    const when = (t: number) => (lines.hourly ? (tz ? `${localHour(t, tz)} local` : isoHour(t)) : dateWords(isoDay(t), lines.freq === "H" ? "D" : lines.freq));
-    const two = calc !== null && calc.length > 0;
-    const sameUnit = !lines.b || lines.unitA === lines.unitB;
-    const calcName = mode === "ratio" ? `${lines.nameA} over ${lines.nameB}` : `${lines.nameA} minus ${lines.nameB}`;
-    const cs = two ? summary(calc!) : null;
-    const series: unknown[] = [
-      { name: lines.nameA, type: "line", showSymbol: false, connectNulls: false, lineStyle: { width: 1.4, color: cA }, itemStyle: { color: cA }, data: lines.a.map((p) => [p.t, p.v]), xAxisIndex: 0, yAxisIndex: 0 },
-    ];
-    if (lines.b) series.push({ name: lines.nameB, type: "line", showSymbol: false, lineStyle: { width: 1.2, color: cB }, itemStyle: { color: cB }, data: lines.b.map((p) => [p.t, p.v]), xAxisIndex: 0, yAxisIndex: sameUnit ? 0 : 1 });
-    if (two) series.push({
-      name: calcName, type: "line", showSymbol: false, lineStyle: { width: 1.2, color: cC }, itemStyle: { color: cC }, data: calc!.map((p) => [p.t, p.v]), xAxisIndex: 1, yAxisIndex: 2,
-      markLine: cs ? { silent: true, symbol: "none", lineStyle: { color: token("muted"), type: "dashed" }, label: { formatter: `average ${cs.mean.toFixed(2)}`, color: token("muted"), fontSize: 10, position: "insideEndTop" }, data: [{ yAxis: cs.mean }] } : undefined,
-      markArea: cs ? { silent: true, itemStyle: { color: token("rule"), opacity: 0.25 }, data: [[{ yAxis: cs.min }, { yAxis: cs.max }]] } : undefined,
-    });
-    const xAxis = (i: number, show: boolean) => ({ type: "time", gridIndex: i, ...st.axis, axisLabel: { ...st.axis.axisLabel, show }, splitLine: { show: false } });
-    chart.setOption({
-      textStyle: st.textStyle, animation: false,
-      legend: { type: "scroll", top: 0, left: 0, right: 40, textStyle: { fontSize: 11 }, itemWidth: 14, itemHeight: 8 },
-      toolbox: st.toolbox("erw-price-board"),
-      axisPointer: { link: [{ xAxisIndex: "all" }] },
-      tooltip: { ...st.tooltip, trigger: "axis", formatter: (ps: { seriesName: string; value: [number, number]; marker: string }[]) => `${when(ps[0].value[0])}<br/>` + ps.map((p) => `${p.marker}${p.seriesName}: <b>${p.value[1].toLocaleString("en-US", { maximumFractionDigits: 3 })}</b>`).join("<br/>") },
-      grid: two ? [{ left: 56, right: sameUnit ? 16 : 56, top: 52, height: "42%" }, { left: 56, right: sameUnit ? 16 : 56, top: "66%", bottom: 54 }] : [{ left: 56, right: sameUnit ? 16 : 56, top: 52, bottom: 54 }],
-      xAxis: two ? [xAxis(0, false), xAxis(1, true)] : [xAxis(0, true)],
-      yAxis: [
-        { type: "value", scale: true, gridIndex: 0, name: lines.unitA, ...st.axis },
-        { type: "value", scale: true, gridIndex: 0, name: sameUnit ? "" : lines.unitB, show: !sameUnit, ...st.axis, splitLine: { show: false } },
-        ...(two ? [{ type: "value", scale: true, gridIndex: 1, name: mode === "ratio" ? "ratio" : "spread", ...st.axis }] : []),
-      ],
-      dataZoom: [{ type: "inside", xAxisIndex: two ? [0, 1] : [0] }, { type: "slider", xAxisIndex: two ? [0, 1] : [0], height: 18, bottom: 8, borderColor: token("rule") }],
-      series,
-    }, true);
-  }, [lines, calc, mode, tz]);
-  return <div ref={box} role="img" aria-label={`${lines.nameA}${lines.b ? ` against ${lines.nameB}` : ""}`} style={{ height: calc && calc.length ? 460 : 340 }} className="w-full" data-chart="price" />;
+  // session 318: the two series on one time chart (the second on its own axis when its unit differs), the calculation
+  // under it on a second, with its average as a named line; the range slider is gone, the table holds every point
+  const sameUnit = !lines.b || lines.unitA === lines.unitB;
+  const series: TimeSeries[] = [{ name: lines.nameA, color: "accent", points: lines.a.map((p): [number, number | null] => [p.t, p.v]) }];
+  if (lines.b) series.push({ name: lines.nameB, color: "fuel-gas", points: lines.b.map((p): [number, number | null] => [p.t, p.v]), y2: !sameUnit || undefined });
+  const x = lines.hourly ? "minute" : lines.freq === "M" ? "month" : "day";
+  const two = calc !== null && calc.length > 0;
+  const cs = two ? summary(calc!) : null;
+  const calcName = mode === "ratio" ? `${lines.nameA} over ${lines.nameB}` : `${lines.nameA} minus ${lines.nameB}`;
+  return (
+    <div data-chart="price" role="group" aria-label={`${lines.nameA}${lines.b ? ` against ${lines.nameB}` : ""}${tz ? `, ${tz}` : ""}`}>
+      <TimeChart series={series} unit={lines.unitA} unit2={sameUnit ? "" : lines.unitB} ariaLabel={`${lines.nameA}${lines.b ? ` against ${lines.nameB}` : ""}`} height={two ? 240 : 320} x={x} />
+      {two ? (
+        <div className="mt-2" data-chart="calc">
+          <TimeChart series={[{ name: calcName, color: "ink", points: calc!.map((p): [number, number | null] => [p.t, p.v]) }]} unit={mode === "ratio" ? "ratio" : "spread"} ariaLabel={calcName} height={200} x={x}
+            refLines={cs ? [{ value: cs.mean, name: `average ${cs.mean.toFixed(2)}`, dashed: true }] : undefined} />
+        </div>
+      ) : null}
+    </div>
+  );
 }
 
 function SeasonChart({ p, freq, name, unit }: { p: Point[]; freq: "D" | "W" | "M"; name: string; unit: string }) {
   const s = useMemo(() => seasonal(p, freq), [p, freq]);
-  const box = useEChart((chart) => {
-    const st = baseStyle();
-    const labels = Array.from({ length: SLOTS[freq] }, (_, i) => slotLabel(i, freq));
-    const newest = s.years[s.years.length - 1];
-    const shown = s.years.slice(-6);
-    const greys = [1, 2, 3, 4, 5].map((i) => token(`season-${i}`));   // session 241: the five greys of the earlier years are tokens (app/tokens.css, --color-season-1 to 5)
-    const band = s.bandYears.length ? `${s.bandYears[0]} to ${s.bandYears[s.bandYears.length - 1]} range` : "";
-    chart.setOption({
-      textStyle: st.textStyle, animation: false,
-      legend: { type: "scroll", top: 0, left: 0, right: 40, textStyle: { fontSize: 11 }, itemWidth: 14, itemHeight: 8, data: [...(band ? [band] : []), ...shown.map(String)] },
-      toolbox: st.toolbox("erw-price-board-seasons"),
-      tooltip: { ...st.tooltip, trigger: "axis", formatter: (ps: { seriesName: string; value: number | null; marker: string; name: string; seriesId?: string }[]) => {
-        const i = labels.indexOf(ps[0].name);
-        const lines = ps.filter((q) => q.seriesName !== "low" && q.seriesName !== band && q.value !== null && q.value !== undefined).map((q) => `${q.marker}${q.seriesName}: <b>${Number(q.value).toLocaleString("en-US", { maximumFractionDigits: 3 })}</b>`);
-        const b = s.lo[i] !== null ? `<br/>${band}: ${s.lo[i]!.toLocaleString("en-US", { maximumFractionDigits: 3 })} to ${s.hi[i]!.toLocaleString("en-US", { maximumFractionDigits: 3 })}` : "";
-        return `${name}, ${ps[0].name}<br/>${lines.join("<br/>")}${b}`;
-      } },
-      grid: { left: 56, right: 16, top: 52, bottom: 30 },
-      xAxis: { type: "category", data: labels, ...st.axis, axisLabel: { ...st.axis.axisLabel, interval: freq === "D" ? 30 : freq === "W" ? 3 : 0 }, splitLine: { show: false } },
-      yAxis: { type: "value", scale: true, name: unit, ...st.axis },
-      series: [
-        ...(band ? [
-          { name: "low", type: "line", stack: "band", showSymbol: false, connectNulls: true, lineStyle: { opacity: 0 }, data: s.lo, legendHoverLink: false, tooltip: { show: false } },
-          { name: band, type: "line", stack: "band", showSymbol: false, connectNulls: true, lineStyle: { opacity: 0 }, areaStyle: { color: token("rule"), opacity: 0.55 }, itemStyle: { color: token("rule") }, data: s.hi.map((h, i) => (h === null || s.lo[i] === null ? null : h - s.lo[i]!)) },
-        ] : []),
-        ...shown.map((y, i) => ({
-          name: String(y), type: "line", showSymbol: freq !== "D", symbolSize: 4, connectNulls: true, data: s.lines[y],   // a line joins the dates the year holds (a fuel has no weekend); the mouse reads only values held
-          lineStyle: { width: y === newest ? 2 : 1, color: y === newest ? token("accent") : greys[Math.max(0, greys.length - (shown.length - 1) + i)] ?? greys[0] },
-          itemStyle: { color: y === newest ? token("accent") : greys[Math.max(0, greys.length - (shown.length - 1) + i)] ?? greys[0] }, z: y === newest ? 5 : 2,
-        })),
-      ],
-    }, true);
-  }, [s, freq, name, unit]);
-  return <div ref={box} role="img" aria-label={`${name}: this year against the same dates in prior years`} style={{ height: 360 }} className="w-full" data-chart="season" />;
+  // session 318: the years as lines over the season's slots, the newest in the accent and the earlier ones in the five
+  // greys (app/tokens.css, --color-season-1 to 5), the range of the years before as a band
+  const labels = Array.from({ length: SLOTS[freq] }, (_, i) => slotLabel(i, freq));
+  const newest = s.years[s.years.length - 1];
+  const shown = s.years.slice(-6);
+  const greys = [1, 2, 3, 4, 5].map((i) => `season-${i}`);
+  const band = s.bandYears.length ? `${s.bandYears[0]} to ${s.bandYears[s.bandYears.length - 1]} range` : "";
+  const series = shown.map((y, i) => ({ name: String(y), color: y === newest ? "accent" : greys[Math.max(0, greys.length - (shown.length - 1) + i)] ?? greys[0], values: s.lines[y], kind: "line" as const, width: y === newest ? 2 : 1 }));
+  return (
+    <div data-chart="season">
+      <CategoryChart id="board-season" x={labels} series={series} unit={unit} label={`${name}: this year against the same dates in prior years`} height={360} zero={false} every={freq === "D" ? 31 : freq === "W" ? 4 : 1}
+        band={band ? { lo: s.lo, hi: s.hi, name: band } : undefined} nameOf={(i) => `${name}, ${labels[i]}`} />
+    </div>
+  );
 }
 
 function HistChart({ p, name, unit }: { p: Point[]; name: string; unit: string }) {
   const bins = useMemo(() => histogram(p, 30), [p]);
-  const box = useEChart((chart) => {
-    const st = baseStyle();
-    chart.setOption({
-      textStyle: st.textStyle, animation: false, toolbox: st.toolbox("erw-price-board-distribution"),
-      tooltip: { ...st.tooltip, trigger: "item", formatter: (q: { dataIndex: number }) => { const b = bins[q.dataIndex]; return `${name}<br/>${b.lo.toFixed(2)} to ${b.hi.toFixed(2)} ${unit}: <b>${b.n.toLocaleString("en-US")}</b> of ${p.length.toLocaleString("en-US")} observations`; } },
-      grid: { left: 56, right: 16, top: 16, bottom: 30 },
-      xAxis: { type: "category", data: bins.map((b) => b.lo.toFixed(b.hi - b.lo < 1 ? 2 : 0)), ...st.axis, name: unit, nameLocation: "middle", nameGap: 22, splitLine: { show: false } },
-      yAxis: { type: "value", name: "observations", ...st.axis },
-      series: [{ type: "bar", data: bins.map((b) => b.n), itemStyle: { color: token("accent") }, barCategoryGap: "8%" }],
-    }, true);
-  }, [bins, name, unit, p.length]);
-  return <div ref={box} role="img" aria-label={`${name}: distribution of the window's values`} style={{ height: 240 }} className="w-full" data-chart="dist" />;
+  return (
+    <div data-chart="dist">
+      <CategoryChart id="board-dist" x={bins.map((b) => b.lo.toFixed(b.hi - b.lo < 1 ? 2 : 0))} unit="observations" label={`${name}: distribution of the window's values`} height={240}
+        series={[{ name: `${name}, ${unit}`, color: "accent", values: bins.map((b) => b.n), kind: "bar" }]} notes={bins.map((b) => `${b.lo.toFixed(2)} to ${b.hi.toFixed(2)} ${unit}`)} />
+    </div>
+  );
 }
 
 function Stat({ label, value, title }: { label: string; value: React.ReactNode; title?: string }) {

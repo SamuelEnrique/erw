@@ -9,7 +9,7 @@
 // `addressKey` (?form=bars on a card's own page, ?form.<card>=bars in a list), so a link opens the same view. With no
 // address key (the renderer's frame) the default is drawn and no control is shown.
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { useEChart } from "@/components/echarts";
+import { SvgOption } from "@/components/SvgOption";   // session 318: the forms are drawn through the shared SVG set
 import { asMulti, formName, formsOfSpec, isForm, plainSeries, specOption, type FormId } from "@/lib/chartforms";
 import type { ChartSpec } from "@/lib/findingchart";
 import { CardChart } from "./CardChart";
@@ -18,8 +18,8 @@ import { CardChart } from "./CardChart";
 export const FormScope = createContext<FormId | null>(null);
 
 export function OptionChart({ option, label, height, form, small = false }: { option: unknown; label: string; height: number; form: string; small?: boolean }) {
-  const box = useEChart((chart) => chart.setOption(option, true), [option]);
-  return <div ref={box} role="img" aria-label={label} style={{ height }} className="w-full" {...(small ? { "data-form-example": form } : { "data-finding-chart": form, "data-form-drawn": form })} />;
+  // session 318: the option (a card's form, a template's chart, the picker's example) read into the shared SVG set
+  return <SvgOption option={option} label={label} height={height} small={small} id={`form-${form}`} {...(small ? { "data-form-example": form } : { "data-finding-chart": form, "data-form-drawn": form })} />;
 }
 
 function Reformed({ spec, form, label, height }: { spec: ChartSpec; form: FormId; label: string; height: number }) {

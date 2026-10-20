@@ -115,20 +115,26 @@ export type CatSeries = {
   /** a per-category opacity (a year short of twelve months drawn pale) */
   faint?: boolean[];
 };
-export function CategoryChart({ id, x, series, unit, unit2 = "", label, height = 300, notes, dim, every, zero = true, scale2 = true, refLines, children, nameOf, table: tableFirst = false }: {
+export function CategoryChart({ id, x, series, unit, unit2 = "", label, height = 300, notes, dim, every, zero = true, scale2 = true, refLines, children, nameOf, table: tableFirst = false, shade, marks, small = false, yMax, y2Max, band }: {
   id: string; x: string[]; series: CatSeries[]; unit: string; unit2?: string; label: string; height?: number;
   notes?: (string | null)[]; dim?: boolean[]; every?: number; zero?: boolean; scale2?: boolean;
   /** horizontal reference lines on the left axis, each named (a month of debt payments; coverage at 1 and 1.25) */
   refLines?: { value: number; name: string; dashed?: boolean }[];
   children?: ReactNode; nameOf?: (i: number) => string; table?: boolean;
+  /** session 318: a band of categories shaded and named (the days an impact study compares), points marked and named
+   * (a scanner's flagged point), the picker's small example (no toggle, no card, no names), and a shared top of an
+   * axis across panels */
+  shade?: { from: number; to: number; label: string }; marks?: { i: number; value: number; label: string }[]; small?: boolean; yMax?: number; y2Max?: number;
+  /** a band between two series of the left axis, named at its right edge (the range of the years before, on the board) */
+  band?: { lo: (number | null)[]; hi: (number | null)[]; name: string };
 }) {
   const [wrap, W] = useWidth<HTMLDivElement>();
   const [table, setTable] = useState(tableFirst);
   const [hover, setHover] = useState<number | null>(null);
   const n = x.length;
   const two = series.some((s) => s.axis === 1);
-  const gutter = Math.min(150, Math.max(60, Math.max(0, ...series.filter((s) => (s.kind ?? "bar") !== "bar").map((s) => textWidth(s.name))) + 8));
-  const L = 58, R = two ? 56 : 12, TOP = 24, BOT = 30;
+  const gutter = small ? 4 : Math.min(150, Math.max(60, Math.max(0, ...series.filter((s) => (s.kind ?? "bar") !== "bar").map((s) => textWidth(s.name))) + 8));
+  const L = small ? 34 : 58, R = small ? 6 : two ? 56 : 12, TOP = small ? 6 : 24, BOT = small ? 16 : 30;
   const plotR = W - R - gutter;
   // stacks: each stack's running top per category; a bar or an area in a stack is drawn from the stack below it
   const tops = new Map<string, number[]>(), bottoms = new Map<string, number[]>();
@@ -144,8 +150,10 @@ export function CategoryChart({ id, x, series, unit, unit2 = "", label, height =
     return { from, to };
   });
   const vals = (k: number) => stacked[k].to.filter((v): v is number => v !== null);
-  const b1 = bounds(series.flatMap((s, k) => (s.axis === 1 && two ? [] : vals(k))), !zero);
-  const b2 = bounds(series.flatMap((s, k) => (s.axis === 1 && two ? vals(k) : [])), scale2);
+  const b1raw = bounds([...series.flatMap((s, k) => (s.axis === 1 && two ? [] : vals(k))), ...(band ? [...band.lo, ...band.hi].filter((v): v is number => v !== null) : [])], !zero);
+  const b2raw = bounds(series.flatMap((s, k) => (s.axis === 1 && two ? vals(k) : [])), scale2);
+  const b1 = yMax !== undefined ? { lo: Math.min(0, b1raw.lo), hi: yMax } : b1raw;
+  const b2 = y2Max !== undefined ? { lo: Math.min(0, b2raw.lo), hi: y2Max } : b2raw;
   const bw = (plotR - L) / Math.max(1, n);
   const cx = (i: number) => L + i * bw + bw / 2;
   const py = (v: number, b: Bounds) => TOP + ((b.hi - v) / (b.hi - b.lo || 1)) * (height - TOP - BOT);
@@ -176,12 +184,18 @@ export function CategoryChart({ id, x, series, unit, unit2 = "", label, height =
   const rows = x.map((c, i) => ({ key: `${c}-${i}`, cells: [nameOf ? nameOf(i) : c, ...series.map((s) => (s.values[i] === null || s.values[i] === undefined ? <NotHeld key={s.name} /> : num(s.values[i] as number, s.digits)))] }));
   return (
     <div ref={wrap} className="relative w-full min-w-0" data-chart={id} data-svg-chart="category" data-chart-width={W}>
-      <Toggle label={label} table={table} setTable={setTable} id={id} />
-      {table ? <DataTable label={label} id={id} head={["Period", ...series.map((s) => `${s.name}, ${unitOf(s)}`)]} rows={rows} /> : (
+      {small ? null : <Toggle label={label} table={table} setTable={setTable} id={id} />}
+      {table && !small ? <DataTable label={label} id={id} head={["Period", ...series.map((s) => `${s.name}, ${unitOf(s)}`)]} rows={rows} /> : (
         <>
-          <svg viewBox={`0 0 ${W} ${height}`} width={W} height={height} className="block max-w-full" role="img" aria-label={label} onMouseMove={onMove} onMouseLeave={() => setHover(null)}
+          <svg viewBox={`0 0 ${W} ${height}`} width={W} height={height} className="block max-w-full" role="img" aria-label={label} onMouseMove={small ? undefined : onMove} onMouseLeave={() => setHover(null)}
             data-n={n} data-plot-left={L} data-plot-right={plotR} data-points={n <= 100 ? JSON.stringify(series.map((s) => s.values)) : undefined}>
             <title>{label}</title>
+            {shade && shade.from >= 0 && shade.to >= shade.from ? (
+              <g data-shade={shade.label}>
+                <rect x={L + shade.from * bw} y={TOP} width={(shade.to - shade.from + 1) * bw} height={height - TOP - BOT} fill="var(--color-accent)" fillOpacity="0.1" />
+                {small ? null : <text x={L + shade.from * bw + 3} y={TOP + 12} fontSize="11" fill="var(--color-muted)">{shade.label}</text>}
+              </g>
+            ) : null}
             <defs>
               {series.map((s, k) => <pattern key={k} id={`${id}-hatch-${k}`} width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="5" height="5" fill="var(--color-surface)" /><rect width="2.2" height="5" fill={tokenColor(s.color)} /></pattern>)}
             </defs>
@@ -236,10 +250,23 @@ export function CategoryChart({ id, x, series, unit, unit2 = "", label, height =
                 </g>
               );
             })}
-            <g data-direct-labels="1">
+            {band ? (() => {
+              const held = x.map((_, i) => (band.lo[i] !== null && band.hi[i] !== null ? i : -1)).filter((i) => i >= 0);
+              if (!held.length) return null;
+              const d = `M${cx(held[0]).toFixed(1)},${py(band.hi[held[0]]!, b1).toFixed(1)} ` + held.map((i) => `L${cx(i).toFixed(1)},${py(band.hi[i]!, b1).toFixed(1)}`).join(" ") + " " + [...held].reverse().map((i) => `L${cx(i).toFixed(1)},${py(band.lo[i]!, b1).toFixed(1)}`).join(" ") + " Z";
+              const last = held[held.length - 1];
+              return <g data-band-name={band.name}><path d={d} fill="var(--color-rule)" fillOpacity="0.55" stroke="none" />{small ? null : <text x={plotR + 6} y={(py(band.hi[last]!, b1) + py(band.lo[last]!, b1)) / 2 + 4} fontSize="12" fill="var(--color-muted)">{band.name}</text>}</g>;
+            })() : null}
+            {marks?.map((m) => (
+              <g key={`${m.i}-${m.label}`} data-mark={m.label}>
+                <circle cx={cx(m.i)} cy={py(m.value, b1)} r={small ? 3 : 6} fill="none" stroke="var(--color-accent)" strokeWidth="2" />
+                {small ? null : <text x={cx(m.i) + 9} y={py(m.value, b1) - 8} fontSize="11" fill="var(--color-accent)">{m.label}</text>}
+              </g>
+            ))}
+            {small ? null : <g data-direct-labels="1">
               {ends.map(({ k, y }) => <text key={series[k].name} x={plotR + (two ? 50 : 6)} y={y + 4} fontSize="12" fill={tokenColor(series[k].color)}>{series[k].name}</text>)}
               {bars.map((s, j) => <text key={s.name} x={L + 4 + j * (textWidth(s.name) + 14)} y={TOP - 6} fontSize="12" fill={tokenColor(s.color)}>{s.name}</text>)}
-            </g>
+            </g>}
             {hover !== null ? <line x1={cx(hover)} x2={cx(hover)} y1={TOP} y2={height - BOT} stroke="var(--color-muted)" strokeWidth="1" strokeDasharray="3 3" /> : null}
           </svg>
           {hover !== null ? (
@@ -385,13 +412,15 @@ export function BandChart({ id, x, lo, hi, avg, last, cur, names, unit, label, h
 // ---------------------------------------------------------------------------------------------------------------------
 // ScatterChart
 // ---------------------------------------------------------------------------------------------------------------------
-export function ScatterChart({ id, points, xUnit, yUnit, label, height = 320, xName, yName, table: tableFirst = false }: {
+export function ScatterChart({ id, points, xUnit, yUnit, label, height = 320, xName, yName, table: tableFirst = false, fit, labels = true, small = false }: {
   id: string; points: { name: string; x: number; y: number }[]; xUnit: string; yUnit: string; label: string; height?: number; xName?: string; yName?: string; table?: boolean;
+  /** session 318: a fitted line through the cloud, named; the names beside the points (off for a cloud of days); the picker's small example */
+  fit?: { x0: number; y0: number; x1: number; y1: number; name: string }; labels?: boolean; small?: boolean;
 }) {
   const [wrap, W] = useWidth<HTMLDivElement>();
   const [table, setTable] = useState(tableFirst);
   const [hover, setHover] = useState<number | null>(null);
-  const L = 62, R = 90, TOP = 16, BOT = 44;
+  const L = small ? 30 : 62, R = small ? 6 : labels ? 90 : 16, TOP = small ? 6 : 16, BOT = small ? 14 : 44;
   const bx = bounds(points.map((p) => p.x), true), by = bounds(points.map((p) => p.y), true);
   const px = (v: number) => L + ((v - bx.lo) / (bx.hi - bx.lo || 1)) * (W - L - R);
   const py = (v: number) => TOP + ((by.hi - v) / (by.hi - by.lo || 1)) * (height - TOP - BOT);
@@ -404,11 +433,12 @@ export function ScatterChart({ id, points, xUnit, yUnit, label, height = 320, xN
   };
   return (
     <div ref={wrap} className="relative w-full min-w-0" data-chart={id} data-svg-chart="scatter" data-chart-width={W}>
-      <Toggle label={label} table={table} setTable={setTable} id={id} />
-      {table ? <DataTable label={label} id={id} head={["", `${xName ?? "x"}, ${xUnit}`, `${yName ?? "y"}, ${yUnit}`]} rows={points.map((p) => ({ key: p.name, cells: [p.name, num(p.x), num(p.y)] }))} /> : (
+      {small ? null : <Toggle label={label} table={table} setTable={setTable} id={id} />}
+      {table && !small ? <DataTable label={label} id={id} head={["", `${xName ?? "x"}, ${xUnit}`, `${yName ?? "y"}, ${yUnit}`]} rows={points.map((p, i) => ({ key: `${p.name}-${i}`, cells: [p.name, num(p.x), num(p.y)] }))} /> : (
         <>
-          <svg viewBox={`0 0 ${W} ${height}`} width={W} height={height} className="block max-w-full" role="img" aria-label={label} onMouseMove={onMove} onMouseLeave={() => setHover(null)} data-n={points.length}>
+          <svg viewBox={`0 0 ${W} ${height}`} width={W} height={height} className="block max-w-full" role="img" aria-label={label} onMouseMove={small ? undefined : onMove} onMouseLeave={() => setHover(null)} data-n={points.length}>
             <title>{label}</title>
+            {fit ? <g data-fit={fit.name}><line x1={px(fit.x0)} y1={py(fit.y0)} x2={px(fit.x1)} y2={py(fit.y1)} stroke="var(--color-ink)" strokeWidth="1.5" />{small ? null : <text x={px(fit.x1) - 4} y={py(fit.y1) - 6} textAnchor="end" fontSize="12" fill="var(--color-ink)">{fit.name}</text>}</g> : null}
             {ticksOf(by).map((v) => (
               <g key={`y${v}`}><line x1={L} x2={W - R} y1={py(v)} y2={py(v)} stroke="var(--color-rule)" strokeWidth="0.75" /><text x={L - 6} y={py(v) + 4} textAnchor="end" fontSize="12" fill="var(--color-muted)">{axisNum(v)}</text></g>
             ))}
@@ -419,9 +449,9 @@ export function ScatterChart({ id, points, xUnit, yUnit, label, height = 320, xN
             <text x={W - R} y={height - 6} textAnchor="end" fontSize="12" fill="var(--color-muted)">{xName ?? ""} {xUnit}</text>
             <g data-direct-labels="1">
               {points.map((p, i) => (
-                <g key={p.name} data-point={p.name}>
-                  <circle cx={px(p.x)} cy={py(p.y)} r={hover === i ? 7 : 5.5} fill="var(--color-accent)" />
-                  <text x={px(p.x) + 9} y={py(p.y) + 4} fontSize="12" fill="var(--color-ink)">{p.name}</text>
+                <g key={`${p.name}-${i}`} data-point={p.name}>
+                  <circle cx={px(p.x)} cy={py(p.y)} r={small ? 2 : hover === i ? 7 : labels ? 5.5 : 3.5} fill="var(--color-accent)" fillOpacity={labels ? 1 : 0.6} />
+                  {labels && !small ? <text x={px(p.x) + 9} y={py(p.y) + 4} fontSize="12" fill="var(--color-ink)">{p.name}</text> : null}
                 </g>
               ))}
             </g>
@@ -485,6 +515,69 @@ export function BoxPlot({ id, rows, unit, label, table: tableFirst = false }: { 
           ) : null}
         </>
       )}
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// HorizontalBars (session 318): one bar a row, the value written at its end (the deal funnel of /thesis)
+// ---------------------------------------------------------------------------------------------------------------------
+export function HorizontalBars({ id, rows, unit, label, fmt = num }: { id: string; rows: { name: string; value: number }[]; unit: string; label: string; fmt?: (v: number) => string }) {
+  const [wrap, W] = useWidth<HTMLDivElement>();
+  const [table, setTable] = useState(false);
+  const L = Math.min(200, Math.max(60, Math.max(0, ...rows.map((r) => textWidth(r.name, 12))) + 12)), R = 70, TOP = 6, RH = 30, BOT = 10;
+  const height = TOP + rows.length * RH + BOT;
+  const hi = Math.max(1, ...rows.map((r) => r.value));
+  const px = (v: number) => L + (Math.max(0, v) / hi) * (W - L - R);
+  return (
+    <div ref={wrap} className="relative w-full min-w-0" data-chart={id} data-svg-chart="hbars" data-chart-width={W}>
+      <Toggle label={label} table={table} setTable={setTable} id={id} />
+      {table ? <DataTable label={label} id={id} head={["", unit]} rows={rows.map((r) => ({ key: r.name, cells: [r.name, fmt(r.value)] }))} /> : (
+        <svg viewBox={`0 0 ${W} ${height}`} width={W} height={height} className="block max-w-full" role="img" aria-label={label}>
+          <title>{label}</title>
+          <g data-direct-labels="1">
+            {rows.map((r, i) => (
+              <g key={r.name} data-row={r.name}>
+                <text x={L - 8} y={TOP + i * RH + RH / 2 + 4} textAnchor="end" fontSize="12" fill="var(--color-ink)">{r.name}</text>
+                <rect x={L} y={TOP + i * RH + 6} width={Math.max(1, px(r.value) - L)} height={RH - 12} fill="var(--color-accent)" />
+                <text x={px(r.value) + 6} y={TOP + i * RH + RH / 2 + 4} fontSize="12" fill="var(--color-ink)">{fmt(r.value)}</text>
+              </g>
+            ))}
+          </g>
+        </svg>
+      )}
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// ShareSegments (session 318): one bar of parts, each named with its share (the day's generation mix on the Grid tool)
+// ---------------------------------------------------------------------------------------------------------------------
+export function ShareSegments({ id, parts, unit, label }: { id: string; parts: { name: string; value: number; color: string }[]; unit: string; label: string }) {
+  const [wrap, W] = useWidth<HTMLDivElement>();
+  const [hover, setHover] = useState<number | null>(null);
+  const pos = parts.filter((p) => p.value > 0);
+  const total = pos.reduce((a, p) => a + p.value, 0) || 1;
+  const H = 22, TOP = 4, BOT = 34;
+  const widths = pos.map((p) => (p.value / total) * W);
+  const segs = pos.map((p, i) => ({ ...p, x0: widths.slice(0, i).reduce((a, w) => a + w, 0), w: widths[i], share: (100 * p.value) / total }));
+  const fits = (s: { name: string; share: number; w: number }) => s.w > textWidth(`${s.name} ${s.share.toFixed(0)}%`, 11) + 6;
+  const narrow = segs.filter((s) => !fits(s));
+  return (
+    <div ref={wrap} className="relative w-full min-w-0" data-chart={id} data-svg-chart="shares" data-chart-width={W}>
+      <svg viewBox={`0 0 ${W} ${TOP + H + BOT}`} width={W} height={TOP + H + BOT} className="block max-w-full" role="img" aria-label={label} onMouseLeave={() => setHover(null)}>
+        <title>{label}</title>
+        {segs.map((s, i) => (
+          <g key={s.name} data-part={s.name} onMouseEnter={() => setHover(i)}>
+            <rect x={s.x0} y={TOP} width={Math.max(0.5, s.w)} height={H} fill={tokenColor(s.color)} stroke="var(--color-panel)" strokeWidth="1" />
+            {fits(s) ? <text x={s.x0 + s.w / 2} y={TOP + H / 2 + 4} textAnchor="middle" fontSize="11" fill="var(--color-paper)">{s.name} {s.share.toFixed(0)}%</text> : null}
+          </g>
+        ))}
+        <g data-direct-labels="1">
+          {narrow.length ? <text x={0} y={TOP + H + 14} fontSize="10" fill="var(--color-muted)">{narrow.map((s) => `${s.name} ${s.share.toFixed(1)}%`).join("; ")}</text> : null}
+        </g>
+      </svg>
+      {hover !== null && segs[hover] ? <Card left={segs[hover].x0 + 8} width={W}><div className="text-ink">{segs[hover].name}: <span className="font-mono">{num(segs[hover].value)} {unit}</span> ({segs[hover].share.toFixed(1)}%)</div></Card> : null}
     </div>
   );
 }

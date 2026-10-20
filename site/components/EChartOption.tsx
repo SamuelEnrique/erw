@@ -1,9 +1,9 @@
 "use client";
-// Session 23: an Automated Analysis chart. The option is the ECharts spec warehouse/analysis/style.py wrote
-// (the house palette, the site's tokens); this mounts it with the site's one chart library (components/echarts.ts).
-import { useEChart } from "./echarts";
+// Session 23: an Automated Analysis chart. The option is the ECharts spec warehouse/analysis/style.py wrote (the house
+// palette, the site's tokens); session 318 (the owner's ruling of 13 October 2026) reads it into the shared SVG set
+// (lib/svgoption.ts, components/SvgOption.tsx) instead of mounting it on the canvas.
+import { SvgOption } from "./SvgOption";
 
 export function EChartOption({ option, height = 360, label }: { option: unknown; height?: number; label: string }) {
-  const box = useEChart((chart) => chart.setOption(option, true), [option]);
-  return <div ref={box} role="img" aria-label={label} style={{ height }} className="w-full" />;
+  return <SvgOption option={option} height={height} label={label} id="week" data-week-chart-svg="1" />;
 }
