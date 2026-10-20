@@ -86,3 +86,14 @@ day a few rows leave it: 19,009 on 4 October 2026, 18,989 on the 5th, the 20 bet
 The loader compares an events table by its row count when it has no retrieval time to compare, reads the smaller
 file as an older one, and refuses. On 5 October it was run with `--allow-older ferc_eqr_contracts` after the 20 rows
 were checked to be exactly the day the window had passed. A loader that knew the window would not need the flag.
+
+## The page as it stands (session 333, 20 October 2026)
+
+- **`/contracts` reads the table only through the two internal functions** (above), so its figures are not read again by
+  `check-values`, which asks with the public key; `check-contracts-largest` reads them against a fixture of the summary
+  (`warehouse/supabase/eqr_fixture.py`), which this machine does not hold (session 301).
+- **No download is offered**: the table is internal while the license stands as above, and `/data` does not offer it
+  either. Once the license is ruled public, the page takes the shared downloads line (session 328) like every other.
+- **The four views** (the contracts by the quarter signed, the largest, those ranked by megawatts stated, what the
+  filings state) keep their "Choose" panels; the quarters they read
+  are named in each panel's note. Future dates read "as filed" (session 304).

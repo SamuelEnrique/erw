@@ -48,7 +48,7 @@ for (const page of pages) {
   check(r.status === 200 && lines.length === 1 && lines[0] !== 'data-downloads="unread"', `${page}: one downloads line, its tables read (${lines.join(" ")})`);
   // session 330: a page whose only tables are not public in the live set (held for review) shows the line with none, and
   // points to Data and methods: said, and the page is passed by
-  if (lines[0] === 'data-downloads="0"') { console.log(`note ${page}: no table of the page is public in the live set; the line points to Data and methods (${/every public table is on/.test(html) ? "it does" : "it does not"})`); continue; }
+  if (lines[0] === 'data-downloads="0"') { console.log(`note ${page}: no table of the page is in the site's live catalogue; the line says so (${/every public table is on|every table is on/.test(html) ? "it does" : "it does not"})`); continue; }
   const csvs = [...html.matchAll(/href="\/api\/download\?table=([a-z0-9_]+)"/g)].map((m) => m[1]);
   const pys = [...html.matchAll(/href="\/api\/download\?table=([a-z0-9_]+)&amp;as=py"/g)].map((m) => m[1]);
   const dos = [...html.matchAll(/href="\/api\/download\?table=([a-z0-9_]+)&amp;as=do"/g)].map((m) => m[1]);

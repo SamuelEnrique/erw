@@ -75,7 +75,7 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
       ) : (
         <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
           <aside>
-            <InputPanel title="Choose" note={`Filed for ${summary.data.quarters.map((x) => x.replace("_", " ")).join(", ")}. The rows held were executed from ${summary.data.first} to ${summary.data.last}.`}>
+            <InputPanel title="Choose" reset={{ href: "/contracts", defaults: `the newest quarter listed${held[0] ? ` (${held[0].quarter.replace("_", " ")})` : ""}, energy, capacity and tolling, every balancing authority.` }} note={`Filed for ${summary.data.quarters.map((x) => x.replace("_", " ")).join(", ")}. The rows held were executed from ${summary.data.first} to ${summary.data.last}.`}>
               <nav aria-label="Quarter signed" className="mb-4 text-sm">
                 <div className="mb-1 text-xs uppercase tracking-wide text-muted">Quarter signed</div>
                 {held.slice(0, 12).map((h) => (
@@ -191,7 +191,7 @@ function LargestView({ summary, reason, product }: { summary: Summary | null; re
   return (
     <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]" data-largest="1">
       <aside>
-        <InputPanel title="Choose" note={`Contracts in force in the filings for ${(L.quarter ?? "").replace("_", " ")}: every agreement in force is filed again each quarter, so this is the standing book, not one quarter's signings.`}>
+        <InputPanel title="Choose" reset={{ href: largestHref(LARGEST_PRODUCTS[0].slug), defaults: `${LARGEST_PRODUCTS[0].label.toLowerCase()}.` }} note={`Contracts in force in the filings for ${(L.quarter ?? "").replace("_", " ")}: every agreement in force is filed again each quarter, so this is the standing book, not one quarter's signings.`}>
           <nav aria-label="Product" className="text-sm">
             <div className="mb-1 text-xs uppercase tracking-wide text-muted">Product</div>
             {LARGEST_PRODUCTS.map((p) => <div key={p.slug}><Link href={largestHref(p.slug)} aria-current={p.slug === product.slug ? "true" : undefined} className={item(p.slug === product.slug)}>{p.label}</Link></div>)}
@@ -267,7 +267,7 @@ function MwView({ summary, reason, product }: { summary: Summary | null; reason:
   return (
     <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]" data-mw="1">
       <aside>
-        <InputPanel title="Choose" note={`Contracts in force in the filings for ${quarterText(T.quarter)}. Only a contract that states a quantity in MW, or in kW, is ranked.`}>
+        <InputPanel title="Choose" reset={{ href: mwHref(LARGEST_PRODUCTS[0].slug), defaults: `${LARGEST_PRODUCTS[0].label.toLowerCase()}.` }} note={`Contracts in force in the filings for ${quarterText(T.quarter)}. Only a contract that states a quantity in MW, or in kW, is ranked.`}>
           <nav aria-label="Product" className="text-sm">
             <div className="mb-1 text-xs uppercase tracking-wide text-muted">Product</div>
             {LARGEST_PRODUCTS.map((p) => <div key={p.slug}><Link href={mwHref(p.slug)} aria-current={p.slug === product.slug ? "true" : undefined} className={item(p.slug === product.slug)}>{p.label}</Link></div>)}
