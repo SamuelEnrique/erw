@@ -43,6 +43,9 @@ Read from the public catalogue on 20 October 2026: `energy_projects` last ran on
 
 ## Landing of session 329 (recorded here: session 329's report is in that landing's own commit)
 
+- `land_checks.sh s329land 3329 check-datacenters.mjs check-deals-v2.mjs check-table-downloads.mjs` on `task/329-datacenters-deals` (origin/main merged, no change): the suite 4,551 tests OK; build 0; `check-values` 6,051 of 6,082 (31 latest prices superseded within 45 minutes); `check-routes` 0 failed; `check-datacenters` 15 of 15; `check-deals-v2` 19 of 19; `check-table-downloads` 7 of 7.
+- Freeze status exit 0. Before snapshot `s329-before` at 06:40:14 UTC; pushed at 06:40:24; run 39381746119 succeeded and merged `be2de9af` at 06:52; GitHub recorded the deployment's success at 06:54; no new style sheet (no style changed), so the after snapshot `s329-after` was taken at 07:03:11. Production was asked for a mark: `/deals` carries `data-downloads="1"` and `/deals?tab=companies` the confidences' `entity|energy_companies|...` keys. The comparison: **0 differences on 25 pages**, expected. `wip/329-datacenters-deals` deleted.
+
 ## Landing
 
 ## Decisions made without you
