@@ -95,6 +95,7 @@ TIER_RULES = [
     ("derived", r"^known_data_faults$"),  # session 103: the ERW's own register of its sources' faults
     ("derived", r"^grid_stress_days$"),  # session 306: ERW code over the hub prices and CAISO's notices
     ("derived", r"^eia_annual_crosscheck_ba$"),  # session 323: ERW code over EIA-923's sums and EIA-930's hours
+    ("derived", r"^ercot_node_prices_hourly$"),  # session 358: ERCOT's saved price files reshaped by ERW code, internal by the owner's rule
     # session 138: tariff and Commission figures read by a model, each kept only with its line found on the page
     ("model_extracted", r"^texas_delivery_charges$"),
     ("model_extracted", r"^texas_transmission_matrix$"),  # session 140: the Commission's transmission charge matrices, read the same way
@@ -309,6 +310,8 @@ def iso_of(table):
         return "CAISO;ERCOT"
     if table == "price_years_by_window":  # session 357: the public grids of the three economics pages
         return "CAISO;ERCOT;SPP"
+    if table in ("node_basis_daily", "node_basis_summary"):  # session 358: ERCOT's settlement points
+        return "ERCOT"
     if table == "iso_all_capacity_prices":  # session 65: the markets with a capacity auction (ERCOT and CAISO have none)
         return "ISO-NE;MISO;NYISO;PJM"
     if table == "iso_hub_prices_history":  # session 49: the five ISOs' main hubs (ERCOT's history is its own table)
