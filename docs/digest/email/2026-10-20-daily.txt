@@ -2,25 +2,25 @@ ERW's Energy Digest, 2026-10-20
 
 Top 5 of the day
 
-1. Nscale and Anthropic are in talks for a $45 Billion cloud computing deal, Bloomberg News reports
+1. Nscale and Anthropic are in talks on a $45 Billion cloud computing deal, Bloomberg reports
    Major AI datacenter infrastructure deal signals massive power demand and capital commitment. $45 Billion; parties: Nscale; Anthropic.
    Bloomberg: https://news.google.com/rss/articles/CBMisgFBVV95cUxOWElPM1lSczhESmRndWxlZjZIbWhtVS0zZXBjS2Z2Qi12ZVIwcXR0c2lZTWNSYjQxc2lTUnBGaEVBQWZpbUFhNUxQcUhNeVByZVFPQ0hJbm52TVVrX2c0WFFaMDJHSjktNHV3VFVhcDZoY2Ewc1Q4Yks2N0FTek1HR0lYYVoxV0ZYb0Y0c2RmUUtRdVlSbDRNYWJvcm5PeFdqQkVOeFVfQ1RMZTZTeGtzcDFR?oc=5
 2. AEP, Amazon and X-energy plan a 960 MW, 12-SMR nuclear plant in Indiana
    Major datacenter power deal: 960 MW of small modular reactors for Amazon in Indiana. 960 MW; parties: AEP; Amazon; X-energy.
    Financial Times: https://news.google.com/rss/articles/CBMimAFBVV95cUxON1U3dDJrZmhleVQ1ZzBwVkZhT3BPMlhEYUwzSUNOaU1adXJfMHo1ZDZMb1lzOEI1X1RhZmlUazA4RnFrNGNWdzV0elBjdHM4WU5KQjFPSE9vTkFoLW9aUHlQQWszZ0NkVmUyd3ZIdW5NM0pZZEhMaHpucHFxeFRrTUlmQWoya3BRQW9IUmFKMU1KcG1Sb0Y5WQ?oc=5
-3. Voters in Texas, Georgia and Iowa decide Nov. 3 on state data center moratoriums
+3. Iran war tilts balance of global oil power towards the Americas, Financial Times reports
+   Major geopolitical shift affecting global oil supply and market structure.
+   Financial Times: https://news.google.com/rss/articles/CBMihAFBVV95cUxOcC1WUldmLXZleGpod29MTXNuME9vc2tYVkhmbjc5NkNFRGY0eV9OdUtac3R6UG9lTndqTjFpQi1kQkJnNHZZNDQzMkRYd09LM3A0MkFRcnpNaV9aaF9iT2NKX0xteHVscFRVQXotRHBoSVlzclIxWW90V2U0VDRBOGpDS24?oc=5
+4. Voters in Texas, Georgia and Iowa decide Nov. 3 on state data center moratoriums
    State-level votes on data center moratoriums could reshape natural gas demand outlook.
    Natural Gas Intelligence: https://naturalgasintel.com/news/november-races-put-data-centers-on-ballot-clouding-natural-gas-demand/
-4. Data centers and the green shift are reviving Europe's power demand, Bloomberg reports
+5. Data centers and the green shift are reviving Europe's power demand, Bloomberg reports
    Data center and renewable growth driving material increase in European electricity demand and investment.
    Bloomberg.com: https://news.google.com/rss/articles/CBMitAFBVV95cUxPWmpvaFl6RHdyUDQ0RjhMYmR2QVpBLTBMSi1NZ3dmSVljcWZqZFd0dXZVMUFEbjk4aEZVek9POE55MFVORWpPaEE0LVBkdVY5NGhmdmMtUWl3bXNwaUFEUl9Gd2FDaTVWc3lNQV9QQVUtRXF6ZWtpX1VIbmdOZkFHSkFyTFhkUzJTb1VuR19lZkFIUWxlVDUtZmxDa1RjUjlQeW9HUGtDQ3o5LW5ZejBwRHY4Y28?oc=5
-5. Woodside resumes Scarborough commissioning work after Greenpeace protest at its $12.5 Billion gas project
-   Major LNG project resumes operations after activist disruption; significant counterparty and asset. $12.5 Billion; parties: Woodside; Greenpeace.
-   Bloomberg: https://news.google.com/rss/articles/CBMiwgFBVV95cUxPc3RzTWlvckREcEp1ZHA5YUEwTjVTQ0tKSU9EcVBaX0lOaWFWeWdVTWcwamJjRkhHMVNCT0dPdFo4WHYwclpweEllTmRlR1pLSWQySEx1anExZkdIOXRONWR0cWpRSUREUzRiR3IyUmFmckM1UWktaFR4MUNZenJmdzhBbzBvYXpxMFhoNFdtVXhyTVRQbTFGc3hLbXU2ZV8wU28yWFZCQzZfRmc4TWtyWGh3ZWFHX2lNTHhITVloQWNuQQ?oc=5
 
 ERW's Numbers Today
 
-Day-ahead power on 2026-10-19 was dearest at NYISO's N.Y.C., 52.53 USD/MWh, and cheapest at SPP's SPPSOUTH_HUB, 21.85; ERCOT's HB_NORTH averaged 23.41, CAISO's TH_SP15_GEN-APND 44.78 and ISO-NE's internal hub 42.50. MISO's INDIANA.HUB is not in the warehouse for that day, PJM has no price table, and no real-time table covers yesterday. The latest fuel closes, on 2026-10-14, were 3.22 USD/MMBtu for Henry Hub gas, 101.91 USD/bbl for WTI and 126.55 USD/bbl for Brent.
+Day-ahead power on 2026-10-19 was dearest at NYISO's N.Y.C., 52.53 USD/MWh, and cheapest at SPP's SPPSOUTH_HUB, 21.85; MISO has no prices in the warehouse for that day and PJM has no price table. The highest real-time price was 192.89 USD/MWh at N.Y.C. in the interval starting 2026-10-19 08:00 local. The latest EIA spot closes, from 2026-10-14, were 3.22 USD/MMBtu for Henry Hub gas, 101.91 USD/bbl for WTI and 126.55 USD/bbl for Brent.
 Day-ahead average, yesterday, main hub (mean of the 24 hourly prices of the operating day):
   ISO: ERCOT; Hub or zone: HB_NORTH; Operating day: 2026-10-19; Average USD/MWh: 23.41; Table: [1]
   ISO: CAISO; Hub or zone: TH_SP15_GEN-APND; Operating day: 2026-10-19; Average USD/MWh: 44.78; Table: [1]
@@ -29,12 +29,12 @@ Day-ahead average, yesterday, main hub (mean of the 24 hourly prices of the oper
   ISO: SPP; Hub or zone: SPPSOUTH_HUB; Operating day: 2026-10-19; Average USD/MWh: 21.85; Table: [1]
   ISO: ISO-NE; Hub or zone: .H.INTERNAL_HUB; Operating day: 2026-10-19; Average USD/MWh: 42.50; Table: [3]
   ISO: PJM; Average USD/MWh: no PJM price table (no API key)
-Highest real-time price, yesterday: no real-time table covers yesterday.
+Highest real-time price, yesterday: 192.89 USD/MWh at N.Y.C. (NYISO), interval starting 2026-10-19 08:00 local (2026-10-19 12:00 UTC), PT15M lmp_rtm_15m_mean (a 15-minute mean of 5-minute prices) [4].
 Latest fuel spot closes (EIA, trading dates):
-- Henry Hub natural gas: 3.22 USD/MMBtu on 2026-10-14 [4]
-- WTI Cushing crude: 101.91 USD/bbl on 2026-10-14 [4]
-- Brent crude: 126.55 USD/bbl on 2026-10-14 [4]
-Tables: [1] iso_dam_hub_prices (caiso:PRC_LMP, ercot:NP4-190-CD, miso:da_expost_lmp, spp:DA-LMP-SL); [2] nyiso_dam_zone_prices (nyiso:damlbmp); [3] isone_dam_zone_prices (isone:da_lmp_hourly); [4] eia_fuel_spot_prices (eia:natural-gas/pri/fut, eia:petroleum/pri/spt).
+- Henry Hub natural gas: 3.22 USD/MMBtu on 2026-10-14 [5]
+- WTI Cushing crude: 101.91 USD/bbl on 2026-10-14 [5]
+- Brent crude: 126.55 USD/bbl on 2026-10-14 [5]
+Tables: [1] iso_dam_hub_prices (caiso:PRC_LMP, ercot:NP4-190-CD, miso:da_expost_lmp, spp:DA-LMP-SL); [2] nyiso_dam_zone_prices (nyiso:damlbmp); [3] isone_dam_zone_prices (isone:da_lmp_hourly); [4] nyiso_rtm_zone_prices (nyiso:realtime); real-time tables read: iso_rtm_hub_prices, isone_rtm_zone_prices, isone_rtm_zone_prices_hourly, nyiso_rtm_zone_prices; [5] eia_fuel_spot_prices (eia:natural-gas/pri/fut, eia:petroleum/pri/spt).
 
 ERW's Chart of the Day
 
@@ -44,8 +44,8 @@ Table eia_retail_sales_monthly, series entity=eia:retail_sales:UT:RES, variable=
 
 ERW's Fun Fact
 
-A kilowatt-hour equals 3.6 megajoules, the energy delivered by one kilowatt of power for one hour.
-Sources: Wikipedia, Kilowatt-hour (https://en.wikipedia.org/wiki/Kilowatt-hour).
+US oil extraction peaked at 10.2 million barrels per day in 1970 before declining for the next 35 years.
+Sources: Wikipedia, Hubbert peak theory (https://en.wikipedia.org/wiki/Hubbert_peak_theory).
 
 ERW
 
