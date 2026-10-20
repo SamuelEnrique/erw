@@ -49,7 +49,11 @@
 
 - **First** (the fix): freeze 0; before `s321-before` 20:38:52 UTC; `task/321-daily-run-finishes` pushed 20:38:58; checks run 39321064014 success; merge `68b46126`; deployment success 20:51:52; after `s321-after`; compare: **0 differences on 25 pages** (expected: every page is in review).
 - **Second** (a budget gap closes with its table's next good run, `build_status.py`): before `s321b-before`; `task/321b-budget-gaps` pushed 20:54:08; run 39323163846 success; merge `0b9802ca`; deployment success 21:06:48; after `s321b-after`; **0 differences**.
-- **Third** (the two faults above, and sessions 322 to 326): after 23:45 UTC, below.
+- **Third** (the two faults above, and sessions 322 to 326): freeze 0; before `s321c-before`; `task/321c-chain-day` pushed 23:47:42; run 39343755461 success; merge `cb4d456f`; deployment success 00:00:17 on 20 October; after `s321c-after`; **0 differences on 25 pages**.
+
+## The manual run
+
+[Run 39344868297](https://github.com/SamuelEnrique/erw/actions/runs/39344868297), dispatched 23:58:54 UTC (queues 0, monthly 0) on main at `cb4d456f`: **job success**, the daily step ok at 02:11:22 (2 h 8 min in its step, 2 h 19 min the whole job), the cache stashed and saved, the metadata commit `2bea6dc1` ("Daily prices 2026-10-20") on main, the health summary of 19 October written. `eia_series` was stopped at its budget (a skip, as designed). Three failed rows of the day: `eia930` (dispatched just after midnight, EIA's 23:00 hour of 19 October not yet published, five demand series not written), `generation_mix` (its input absent once `eia_series` was skipped; a skip since session 327) and the package test of `nyiso_zone_load_hourly` ("assert (False)"; the step's log cannot be read from a session). Green days: 0, counted to 19 October.
 
 ## Decisions made without you
 

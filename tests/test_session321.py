@@ -190,6 +190,14 @@ class Wiring(unittest.TestCase):
         self.assertIn('[ "${DRY_STORES:-0}" = "1" ] && return 0', self.daily)
 
 
+class Downstream(unittest.TestCase):
+    def test_generation_mix_skips_when_eia_series_did_not_write(self):
+        # session 327: the manual run of 20 October 2026 stopped eia_series at its budget and generation_mix then failed
+        sh = src("warehouse", "run_daily.sh")
+        self.assertIn("if [ -f warehouse/output/eia_state_generation_monthly.csv ]; then\n  run_other generation_mix", sh)
+        self.assertIn("generation_mix skipped: its input eia_state_generation_monthly is not on this machine", sh)
+
+
 class Status(unittest.TestCase):
     def test_a_budget_gap_closes_with_the_next_good_run(self):
         s = src("warehouse", "metadata", "build_status.py")
