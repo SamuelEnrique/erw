@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Brand } from "@/components/Brand";
 import { Num } from "@/components/Num";
+import { ParamChoice } from "@/components/tool/ParamChoice";
 import { PriceYearsNav } from "@/components/tool/PriceYearsNav";
 import { highLow, windowWords } from "@/lib/priceyears";
 import { SiteLink as Link } from "@/components/SiteLink";
@@ -180,6 +181,12 @@ async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyG
             {outsideOf(q, x, g?.name).length ? <p className="mt-3 text-xs leading-snug" role="status" data-clamped="1">{outsideOf(q, x, g?.name).join(" ")}</p> : null}
             {/* session 352: the price years the scenarios are priced on (price_years_by_window, the page's own run at its defaults) */}
             {M.pyOffered ? <PriceYearsNav ws={M.pyWs} read={M.pyRead} value={M.win?.id ?? "last_12"} unit="USD per MWh, a flat load" path="/cost-of-power" /> : null}
+            {/* session 354: ERCOT's four summer peaks, counted in the flexible way's cost or not (ercot_4cp_intervals) */}
+            {M.cp && M.cp.perMw !== null ? (
+              <ParamChoice name="cp" value={M.cp.on ? "1" : ""} dflt="" label="Four summer peaks" path="/cost-of-power"
+                options={[["", "Not counted (default)"], ["1", "Counted: the newest summer held"]]}
+                note={<>Default: not counted, the page&apos;s market energy alone. Counted, the flexible way&apos;s cost falls by the share of its four-peak demand it avoided in summer {M.cp.newest!.year} at the Commission&apos;s {M.cp.rate!.year} rate (ercot_4cp_intervals; the transmission matrix).</>} />
+            ) : null}
           </InputPanel>
         </aside>
 
@@ -238,9 +245,29 @@ async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyG
                           { key: "matrix", cells: ["Wholesale transmission, all of ERCOT: the Commission's rate to the wires utilities, not a line of a retail tariff"], wide: matrix.length ? <MatrixCell rows={matrix} /> : <Missing why="The Commission's transmission charge matrices are not in this page's files yet." /> }]
                         : [{ key: "delivery", cells: ["Delivery and transmission charges"], wide: <Missing why="The four large Texas wires utilities' tariff charges are not in this page's files yet." /> }])
                       : [{ key: "delivery", cells: ["Delivery charges"], wide: <Missing why={`The delivery and transmission tariffs of ${g.name}'s utilities are not in the warehouse. Texas's four large wires utilities are.`} /> }]),
+                    // session 354: capacity charges, only from a public table; none is held, so no figure but ERCOT's own words
+                    { key: "capacity", cells: ["Capacity charges"], wide: x.grid === "ercot"
+                      ? <span data-capacity="ercot">None: ERCOT is an energy-only market with no capacity charge. Its four summer peaks set the transmission charge (the row above, and the four peaks under the scenarios).</span>
+                      : <Missing words="no public figure" why={CAPACITY_WHY[x.grid] ?? `No public table of ${g.name}'s capacity prices is held.`} /> },
                   ]} />
                 {/* session 236: Texas's delivery charges, one row a component in USD per MWh, and the total; the tariff's own
                     lines (the schedule names, the rates as filed) are in the download */}
+                {M.nodeBand ? (
+                  <div className="mt-2 max-w-3xl text-xs text-muted" data-node-band="1">
+                    {/* session 354: the band of a node's day-ahead basis to the hub, ERCOT, each month with its keys */}
+                    <p>
+                      At a node: a load settles at its load zone ({x.region}); a site behind a generator&apos;s meter is paid and charged at that generator&apos;s node. Over the same twelve months, ERCOT&apos;s resource nodes&apos;
+                      day-ahead basis to the hub average averaged USD {two(M.nodeBand.p10)} per MWh at the 10th percentile, {two(M.nodeBand.p50)} at the median and {two(M.nodeBand.p90)} at the 90th (node_basis_summary).
+                      Not added to any figure.
+                    </p>
+                    <details className="mt-1">
+                      <summary className="cursor-pointer">Each month, USD per MWh: 10th percentile, median, 90th</summary>
+                      <ul className="mt-1 grid grid-cols-1 gap-x-4 sm:grid-cols-2">
+                        {M.nodeBand.months.map((r) => <li key={r.m}>{monthName(r.m)}: <Num check={`series|node_basis_summary|ercot:HB_HUBAVG|dam_all_basis_p10|${r.ts}`} raw={r.p10}>{two(r.p10)}</Num>, <Num check={`series|node_basis_summary|ercot:HB_HUBAVG|dam_all_basis_p50|${r.ts}`} raw={r.p50}>{two(r.p50)}</Num>, <Num check={`series|node_basis_summary|ercot:HB_HUBAVG|dam_all_basis_p90|${r.ts}`} raw={r.p90}>{two(r.p90)}</Num></li>)}
+                      </ul>
+                    </details>
+                  </div>
+                ) : x.grid === "ercot" && M.nodeBandWhy ? <p className="mt-2 max-w-3xl text-xs text-muted" data-node-band="0">At a node: {M.nodeBandWhy}</p> : null}
                 {x.grid === "ercot" && deliveryParts.length ? <DeliveryTable parts={deliveryParts} mw={x.mw} size={size} href={`${TABLES_CSV}${suffix}`} /> : null}
                 {/* session 213: one sentence of what the model cannot see; the rest is in the methods note */}
                 <p className="mt-2 max-w-3xl text-xs text-muted" data-income-note="1">
@@ -291,6 +318,24 @@ async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyG
                   </p>
                 ) : null}
                 <LoadScenarios facts={facts} />
+                {M.cp ? (
+                  <div className="mt-3 max-w-3xl text-sm" data-four-peaks={M.cp.on ? "1" : "0"}>
+                    {/* session 354: the four summer peaks against the flexible way's own hours, each interval's load with its key */}
+                    <p>
+                      ERCOT&apos;s four summer peaks: transmission is charged on a load&apos;s demand in the four 15-minute intervals of June to September&apos;s monthly peaks, for the next year.
+                      {M.cp.newest && M.cp.perMw !== null ? <> In summer {M.cp.newest.year} the flexible way ({facts.words[1]}) drew {two(100 * (1 - M.cp.newest.avoided!))} percent of its load in those intervals, so it avoided {two(100 * M.cp.newest.avoided!)} percent of its four-peak demand: USD {two(M.cp.perMw / 1000)} per kW a year at the Commission&apos;s {M.cp.rate!.year} rate of USD {M.cp.rate!.value.toFixed(6)} per kW of four-peak demand, {M.cp.on ? "taken off the flexible way's cost at this site in scenario A and B" : 'not counted in scenario A and B ("Four summer peaks" in the box counts it)'}. The newest summer held is {M.cp.summers.at(-1)!.year}.</>
+                        : <> {M.cpWhy || "The flexible way's hours are not held for every interval of a summer held."}</>}
+                    </p>
+                    <details className="mt-1 text-xs">
+                      <summary className="cursor-pointer">Each summer held, its four intervals and the flexible way&apos;s load in each</summary>
+                      <ul className="mt-1 space-y-1">
+                        {M.cp.summers.map((k) => (
+                          <li key={k.year}>{k.year}: {k.intervals.map((iv, i) => <span key={iv.ts}>{i ? "; " : ""}{iv.ts.slice(5, 10)} {iv.ts.slice(11, 16)} UTC, ERCOT <Num check={`series|ercot_4cp_intervals|ercot:system|cp4_load_mw|${iv.ts}`} raw={iv.mw}>{whole(iv.mw)}</Num> MW, the load {iv.w === null ? "not held" : iv.w === 0 ? "off" : `${two(100 * iv.w)} percent on`}</span>)}{k.avoided === null ? "" : `: avoided ${two(100 * k.avoided)} percent`}</li>
+                        ))}
+                      </ul>
+                    </details>
+                  </div>
+                ) : null}
                 {(() => {
                   const bw = highLow(M.pyWs);
                   if (!bw) return null;
@@ -371,6 +416,16 @@ function linesTip(utility: string, kind: string): string {
 function conditionalLines(): string[] {
   return DELIVERY.rows.filter((r) => conditionOf(r) === "tariff").map((r) => `${r.utility}'s ${r.charge.trim()} (${(r.applies ?? "").replace(/^conditional:\s*/i, "")})`);
 }
+/** Session 354: why no capacity figure is shown outside ERCOT. The ISO-NE and NYISO auction results are held in
+ * iso_all_capacity_prices, an internal table (not in the live set); the data machine can split NYISO's public rows
+ * into a public table. CAISO's resource adequacy and SPP have no market price held. */
+const CAPACITY_WHY: Record<string, string> = {
+  nyiso: "NYISO's capacity (ICAP spot) prices are held in the warehouse's internal table iso_all_capacity_prices, with other grids' licensed rows, and not in a public table this page may read: no public figure.",
+  isone: "ISO-NE's Forward Capacity Auction results are held in the warehouse's internal table iso_all_capacity_prices, under ISO-NE's terms, and not in a public table: no public figure.",
+  caiso: "California's resource adequacy is bought in bilateral contracts; no public market price of it is held in the warehouse: no public figure.",
+  spp: "SPP has no capacity market; its planning reserve is met by each load-responsible entity, and no public price of it is held: no public figure.",
+};
+
 /** The Commission's wholesale transmission rate for all of ERCOT (the postage stamp rate), each year as printed, with
  * what it comes to per MWh for a flat load. Its own row: never added to the market cost. */
 function MatrixCell({ rows }: { rows: MatrixRow[] }): ReactNode {
