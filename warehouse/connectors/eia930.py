@@ -26,6 +26,13 @@ interval start, as docs/datastandard.md requires.
 
 Window: the last N complete UTC days before today. EIA-930 is published in UTC
 hours, so UTC days are used rather than each BA's local operating day.
+Session 336: a demand table's window ends at the last midnight EIA has
+published demand to: today's when EIA has the hour that ends there, else the
+one before (one day back at most), so a run that starts just after 00:00 UTC
+writes the days EIA has. The dry run proves a start without asking EIA:
+
+    python warehouse/connectors/eia930.py --dry-run --now 2026-10-20T00:05:00Z
+        --raw warehouse/raw/eia930/<run_id> --raw-through 2026-10-19T23   (one line)
 
 Completeness (the ERW rule, with session 6 ruling a): demand_mw,
 demand_forecast_mw and net_generation_mw must have a value for every hour of
@@ -214,7 +221,56 @@ def per_fuel_problems(rows):
     return problems
 
 
-def build_table(rows, code, start, end, log, name, title, run_id, days):
+def demand_window_end(rows, clock_end, log, name):
+    """Session 336: where a demand table's window ends. The clock's midnight when EIA has published demand_mw for the
+    hour that ends there; otherwise the midnight before it, and that day is read by the next run. The manual run of 20
+    October started at 00:26 UTC, before EIA had published the 23:00 hour of 19 October, and wrote no file for the five
+    demand tables checked over the whole window (CISO, ISNE, MISO, PJM, US48: "71 of 72 hours"). One day back at most:
+    a longer lag in EIA's data fails the table as before."""
+    have = rows.loc[(rows["variable"] == "demand_mw") & rows["value"].notna(), "interval_start"]
+    published = have.max() + pd.Timedelta(hours=1) if len(have) else None  # the end of the newest hour published
+    if published is not None and published >= clock_end:
+        return clock_end
+    back = clock_end - pd.Timedelta(days=1)
+    log(f"  {name}: EIA has published demand_mw to {ip.utc_iso(published) if published is not None else 'no hour'}, "
+        f"before the clock's midnight {ip.utc_iso(clock_end)}; the window ends at {ip.utc_iso(back)}")
+    return back
+
+
+def raw_rows(raw_dir, route, respondents, types, q_start, q_end, through=None):
+    """Session 336, the dry run's replay: the rows of one route as EIA answered them in an earlier run's raw folder
+    (warehouse/raw/eia930/<run_id>/, its manifest.csv), never asking EIA. A response that is not EIA's JSON (an error
+    page kept by the raw store) is passed over; a row answered twice (a retry, or the latest-hours snapshot) is taken
+    once, from the first response. through (EIA's period, hour-ending) leaves out the newer rows, as EIA's answer
+    would have lacked them at the simulated start."""
+    import json
+    man = pd.read_csv(os.path.join(raw_dir, "manifest.csv"), dtype=str, keep_default_na=False)
+    out = []
+    for rec in man.to_dict("records"):
+        if f"/rto/{route}/data/" not in rec["url"]:
+            continue
+        try:
+            with open(os.path.join(raw_dir, rec["file"]), encoding="utf-8") as f:
+                data = json.load(f)["response"]["data"]
+        except (ValueError, KeyError, TypeError):
+            continue
+        for row in data:
+            row["_url"], row["_retrieved"] = rec["url"], rec["retrieved_at"]
+        out += data
+    df = pd.DataFrame(out)
+    if df.empty:
+        raise RuntimeError(f"no {route} rows in {raw_dir}")
+    code_col = "type" if route == "region-data" else "fueltype"
+    keep = df["respondent"].isin(respondents) & (df["period"] >= q_start) & (df["period"] <= q_end)
+    if types is not None:
+        keep &= df[code_col].isin(types)
+    if through is not None:
+        keep &= df["period"] <= through
+    df = df[keep].drop_duplicates(["respondent", code_col, "period"], keep="first")
+    return df.reset_index(drop=True)
+
+
+def build_table(rows, code, start, end, log, name, title, run_id, days, write=True):
     respondent, geo = BAS[code]
     rows = rows[(rows["interval_start"] >= start) & (rows["interval_start"] < end)]
     dup = rows.duplicated(["variable", "interval_start"], keep=False)
@@ -280,7 +336,10 @@ def build_table(rows, code, start, end, log, name, title, run_id, days):
                       + ("; days not written, which keep any rows from earlier runs: "
                          + "; ".join(f"{d} ({r[:120]})" for d, r in gaps) if gaps else "")
                       + ". Each day not written is a gap row in warehouse/metadata/run_status.csv.")
-    ip.write_csv(s, name, header, log)
+    if write:
+        ip.write_csv(s, name, header, log)
+    else:  # session 336: the dry run
+        log(f"  dry run: {name} would write {len(s):,} rows, {s['ts_utc'].min()} to {s['ts_utc'].max()}; nothing written")
     return [problems[v] for v in dropped], gaps
 
 
@@ -359,19 +418,39 @@ def main(argv=None):
     ap.add_argument("--ba", action="append", choices=sorted(BAS),
                     help="one balancing authority (repeatable); default all")
     ap.add_argument("--out-dir", help="write CSVs, logs and raw files here (trial runs)")
+    # session 336: the dry run, at a simulated start, from an earlier run's raw answers
+    ap.add_argument("--dry-run", action="store_true",
+                    help="build every table and write none (no table, status or registry; the log goes to a scratch "
+                         "folder unless --out-dir names one)")
+    ap.add_argument("--now", help="a simulated start, UTC (e.g. 2026-10-20T00:05:00Z); with --dry-run only")
+    ap.add_argument("--raw", help="with --dry-run: read EIA's answers from this raw folder of an earlier run, ask nothing")
+    ap.add_argument("--raw-through", help="with --raw: EIA's newest period (hour-ending, YYYY-MM-DDTHH) at the "
+                                          "simulated start; newer rows of the folder are left out")
     args = ap.parse_args(argv)
+    if (args.now or args.raw) and not args.dry_run:
+        ap.error("--now and --raw are for --dry-run only")
+    if args.raw_through and not args.raw:
+        ap.error("--raw-through needs --raw")
+    if args.dry_run and not args.out_dir:
+        import tempfile
+        args.out_dir = tempfile.mkdtemp(prefix="erw-eia930-dry-")
     if args.out_dir:
         ip.set_out_dir(args.out_dir)
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     log = ip.Log(os.path.join(ip.LOG_DIR, f"eia930_{run_id}.log"))
-    ip.RAW.open("eia930", run_id)
+    if not args.raw:
+        ip.RAW.open("eia930", run_id)
     results = []
-    key = ip.load_key("EIA_API_KEY", log)
+    key = "raw replay" if args.raw else ip.load_key("EIA_API_KEY", log)
     codes = args.ba or sorted(BAS)
-    end = pd.Timestamp.now(tz="UTC").normalize()
+    clock = pd.Timestamp(args.now) if args.now else pd.Timestamp.now(tz="UTC")
+    clock = clock.tz_localize("UTC") if clock.tzinfo is None else clock.tz_convert("UTC")
+    end = clock.normalize()
     start = end - pd.Timedelta(days=args.days)
-    log(f"ERW eia930 run {run_id}; window [{ip.utc_iso(start)}, {ip.utc_iso(end)}); BAs {codes}")
+    log(f"ERW eia930 run {run_id}; window [{ip.utc_iso(start)}, {ip.utc_iso(end)}); BAs {codes}"
+        + (f"; DRY RUN at a simulated start {ip.utc_iso(clock)}" if args.dry_run else "")
+        + (f", EIA's answers read from {args.raw} through period {args.raw_through or 'its last'}" if args.raw else ""))
     if key is None:
         log("FAILED: EIA_API_KEY is empty; nothing pulled")
         print("eia930 FAILED: EIA_API_KEY is empty", file=sys.stderr)
@@ -381,16 +460,23 @@ def main(argv=None):
         log.close()
         return 1
     respondents = [BAS[c][0] for c in codes]
-    # EIA periods are hour-ending, so the window's first hour ends at start + 1h
-    q_start = (start + pd.Timedelta(hours=1)).strftime("%Y-%m-%dT%H")
+    # EIA periods are hour-ending, so the window's first hour ends at start + 1h. Session 336: one day more at the
+    # start, for a demand table whose window ends a day early (demand_window_end)
+    q_start = (start - pd.Timedelta(days=1) + pd.Timedelta(hours=1)).strftime("%Y-%m-%dT%H")
     q_end = end.strftime("%Y-%m-%dT%H")
     fetched = {}
     try:
-        reg = fetch_route("electricity/rto/region-data", key,
-                          {"respondent": respondents, "type": list(REGION_TYPES)}, q_start, q_end, log)
+        if args.raw:
+            reg = raw_rows(args.raw, "region-data", respondents, list(REGION_TYPES), q_start, q_end, args.raw_through)
+            fuel = raw_rows(args.raw, "fuel-type-data", respondents, None, q_start, q_end, args.raw_through)
+            log(f"  read from {args.raw}: region-data {len(reg):,} rows, fuel-type-data {len(fuel):,} rows")
+        else:
+            reg = fetch_route("electricity/rto/region-data", key,
+                              {"respondent": respondents, "type": list(REGION_TYPES)}, q_start, q_end, log)
         fetched["region"] = to_rows(reg, "electricity/rto/region-data", REGION_TYPES, "type")
-        fuel = fetch_route("electricity/rto/fuel-type-data", key,
-                           {"respondent": respondents}, q_start, q_end, log)
+        if not args.raw:
+            fuel = fetch_route("electricity/rto/fuel-type-data", key,
+                               {"respondent": respondents}, q_start, q_end, log)
         fuel_vars = {k: f"net_generation_{v}_mw" for k, v in FUELS.items()}
         fetched["fuel"] = to_rows(fuel, "electricity/rto/fuel-type-data", fuel_vars, "fueltype")
     except Exception:
@@ -420,8 +506,14 @@ def main(argv=None):
             try:
                 if rows.empty:
                     raise ip.SourceGap(f"EIA returned no {fam} rows for {respondent}")
-                dropped, gaps = build_table(rows, code, start, end, log, name, title, run_id, args.days)
+                t_end = demand_window_end(rows, end, log, name) if fam == "demand" else end
+                t_start = t_end - pd.Timedelta(days=args.days)
+                dropped, gaps = build_table(rows, code, t_start, t_end, log, name, title, run_id, args.days,
+                                            write=not args.dry_run)
                 detail = ("dropped series: " + "; ".join(dropped)) if dropped else ""
+                if t_end != end:
+                    detail = (detail + "; " if detail else "") + (
+                        f"window to {ip.utc_iso(t_end)}: EIA had not published the hour ending {ip.utc_iso(end)}")
                 if gaps:
                     detail = (detail + "; " if detail else "") + f"{len(gaps)} days not complete, not written"
                 results.append(dict(table=name, market=fam, status="ok", detail=detail[:300]))
@@ -433,6 +525,15 @@ def main(argv=None):
                 log(f"{name} FAILED, no output file written:\n{tb}")
                 print(f"eia930 {name} FAILED, no output file written: {last}", file=sys.stderr)
                 results.append(dict(table=name, market=fam, status="failed", detail=last[:300]))
+    if args.dry_run:  # session 336: no snapshot (it asks EIA), no registry, no status
+        for r in results:
+            log(f"dry run: {r['table']} {r['status']}" + (f" ({r['detail']})" if r["detail"] else ""))
+            print(f"eia930 dry run: {r['table']} {r['market']} {r['status']}" + (f": {r['detail']}" if r["detail"] else ""))
+        failures = sum(r["status"] == "failed" for r in results)
+        log(f"done (dry run, nothing written), failures={failures}")
+        log.close()
+        print(f"eia930 dry run log: {log.path}")
+        return 1 if failures else 0
     if not args.ba:  # session 18: the "today so far" snapshot, all eight BAs
         results.append(latest_hours(key, run_id, log))
     ok = [x["table"] for x in results if x["status"] == "ok"]
