@@ -257,8 +257,9 @@ class TemperatureSpec(unittest.TestCase):
 
 class RRC(unittest.TestCase):
     def test_terms_make_it_internal(self):
+        # session 324: public since the RRC's page was read (session 311, read 19): the document's clause wins
         s = src("warehouse", "connectors", "rrc_production.py")
-        self.assertIn('license="internal"', s)
+        self.assertIn('license="public"', s)
         self.assertEqual(rrc.CEILING, 500_000)
         self.assertEqual(rrc.PERMIAN, {"08", "7C", "8A"})
 
@@ -288,7 +289,7 @@ class RRC(unittest.TestCase):
         self.assertFalse(t.duplicated(["entity", "variable", "ts_utc"]).any())
         self.assertTrue((t["x_wells"].astype(int) >= 1).all())
         lines = [l for l in open(os.path.join(OUT, "rrc_lease_production_monthly.csv"), encoding="utf-8") if l.startswith("#")]
-        self.assertTrue(any(l.startswith("# License: internal") for l in lines))
+        self.assertTrue(any(l.startswith("# License: public (session 324") for l in lines))  # session 324: the clause wins
 
     def test_the_real_lease_route_is_behind_the_token(self):
         p = src("site", "app", "severance", "lease", "real", "page.tsx")

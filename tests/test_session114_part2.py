@@ -64,7 +64,7 @@ def text(*parts):
 class Schedule(unittest.TestCase):
     def test_the_daily_run_starts_the_replay_after_its_inputs(self):
         sh = text("warehouse", "run_daily.sh")
-        at = [sh.index(f'soft_step {n} "$PYTHON" warehouse/scheduled.py {n}') for n in DAILY]
+        at = [sh.index(f'warehouse/scheduled.py {n}\n') for n in DAILY]  # session 321: the pulls run under their budget
         self.assertEqual(at, sorted(at), "the two tables are extended before the replay is built")
         # after the consolidated price tables and the hub history the replay reads, before the validator
         self.assertLess(sh.index("warehouse/consolidate.py build"), at[0])

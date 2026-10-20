@@ -219,7 +219,7 @@ class Wiring(unittest.TestCase):
     def test_the_weekly_refresh_runs_the_five_connectors_under_health_and_validates_their_tables(self):
         sh = src("warehouse", "refresh_supply.sh")
         self.assertIn("for iso in ercot caiso nyiso isone spp; do", sh)
-        self.assertIn('health.py run --step "${iso}_dam_cleared" -- "$PY" "warehouse/connectors/${iso}_dam_cleared.py"', sh)
+        self.assertIn('health.py run --step "${iso}_dam_cleared" -- "$PY" warehouse/pull_budget.py --minutes "${PULL_BUDGET_MIN:-15}" --step "${iso}_dam_cleared" -- "$PY" "warehouse/connectors/${iso}_dam_cleared.py"', sh)
         self.assertIn("warehouse/output/cftc_cot_positions.csv $CLEARED", sh)
         self.assertNotRegex(sh, r"(miso|pjm)_dam_cleared")
 

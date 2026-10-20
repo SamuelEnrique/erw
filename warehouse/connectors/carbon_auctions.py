@@ -135,11 +135,11 @@ def carb(run_id, log):
         f"Source: carb:auction-results-summary California Air Resources Board, Summary of Joint Auction "
         f"Settlement Prices and Results (PDF, {updated or 'no update line'}; linked from {CARB_PAGE}), {CARB_URL}",
         "Prices in USD per metric ton of CO2e; allowances in allowances (1 allowance = 1 metric ton).",
-        "License: internal. CARB terms for this summary are unconfirmed.",
+        "License: public (session 324, the document's clause wins: docs/licenses.md, read 10, the State of California's conditions of use: \"information presented on this website, unless otherwise indicated, is considered in the public domain\"; CARB's own page was not read). Credit: California Air Resources Board.",
     ]
     return s, header, dict(source="carb:auction-results-summary", publisher="California Air Resources Board (CARB)",
                            report="Summary of California and Joint Auction Settlement Prices and Results",
-                           report_url=CARB_PAGE, document_list=CARB_URL, license="internal")
+                           report_url=CARB_PAGE, document_list=CARB_URL, license="public")  # session 324
 
 
 def rggi(run_id, log):
