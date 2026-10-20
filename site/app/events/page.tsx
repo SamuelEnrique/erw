@@ -39,6 +39,9 @@ const EVENTS: Card[] = [
     entity: "eia930:PJM", variable: "demand_max_mw", how: "max", within: ["2025-01-17", "2025-01-26"], unit: "MW", lead: "PJM's highest hour of demand served" },
   { href: "/events/east-heat-2025", title: "The June 2025 heat: four eastern grids", dates: "2025-06-20 to 2025-06-28", grids: "PJM, NYISO, ISO-NE and MISO", event: "east_heat_2025",
     entity: "eia930:PJM", variable: "demand_max_mw", how: "max", within: ["2025-06-20", "2025-06-28"], unit: "MW", lead: "PJM's highest hour of demand served" },
+  // session 319: the data machine's event window of session 308
+  { href: "/events/cold-2026", title: "The late January 2026 cold: six grids", dates: "2026-01-23 to 2026-02-02", grids: "PJM, MISO, SPP, NYISO, ISO-NE and ERCOT", event: "cold_2026",
+    entity: "eia930:PJM", variable: "demand_max_mw", how: "max", within: ["2026-01-23", "2026-02-02"], unit: "MW", lead: "PJM's highest hour of demand served" },
 ];
 
 async function headline(c: Card): Promise<SeriesRow | undefined> {
