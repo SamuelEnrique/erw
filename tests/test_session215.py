@@ -123,7 +123,9 @@ class TheComponents(unittest.TestCase):
                  "dcll",
                  # session 315: the finding cards' figures (finding|<card>|...) and the Digest's chart of the day (digest_chart|<date>|...),
                  # read from the site's own files; Num holds a figure of a grid held under its publisher's terms by the key's grid
-                 "finding", "digest_chart"}
+                 "finding", "digest_chart",
+                 # session 329: one field of one row of an entities table (entity|<table>|<id>|<field>), held by its table as event| is
+                 "entity"}
         found = set()
         for dirpath, _, files in os.walk(os.path.join(ROOT, "site", "app")):
             if "_retired" in dirpath:
