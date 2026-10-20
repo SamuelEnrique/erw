@@ -3,13 +3,16 @@
 // potential saving and what the flag cannot see (warehouse/derived/severance_screen.py).
 import fs from "node:fs";
 import zlib from "node:zlib";
-import { FLAGS, outDir, tokenOk } from "@/lib/finder";
+import { cookies } from "next/headers";
+import { FLAGS, internalOpen, outDir } from "@/lib/finder";
+import { COOKIE } from "@/lib/release";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function GET(req: Request) {
-  if (!tokenOk(new URL(req.url).searchParams.get("token"))) return new Response("Not found", { status: 404 });
+  // session 371 (docs/security.md, S2): the internal view's cookie opens it too; ?token= as before
+  if (!(await internalOpen(new URL(req.url).searchParams.get("token"), (await cookies()).get(COOKIE)?.value))) return new Response("Not found", { status: 404 });
   const f = `${outDir()}/${FLAGS}`;
   if (!fs.existsSync(f)) return new Response("The finder's flags are not on this server", { status: 404 });
   return new Response(zlib.gunzipSync(fs.readFileSync(f)), {

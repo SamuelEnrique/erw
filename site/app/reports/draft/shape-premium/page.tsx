@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
+import { COOKIE } from "@/lib/release";
+import { internalOk } from "@/lib/thesis/server";
 import { Cite } from "@/components/Cite";
 import { Num } from "@/components/Num";
 import { Section } from "@/components/Section";
@@ -113,7 +116,8 @@ export default async function ShapePremium({ searchParams }: { searchParams: Pro
   const sp = await searchParams;
   const token = typeof sp.token === "string" ? sp.token : "";
   const want = process.env.INTERNAL_COSTS_TOKEN ?? "";
-  if (want.length < 24 || token !== want) notFound();
+  // session 371 (docs/security.md, S2): the internal view's cookie opens it too, as the /internal pages, so no address needs the token
+  if (want.length < 24 || (token !== want && !(await internalOk((await cookies()).get(COOKIE)?.value)))) notFound();
 
   const all = await series(M, {});
   const rows: Row[] = all.map((r) => ({ entity: r.entity, variable: r.variable, ts_utc: r.ts_utc, value: r.value }));

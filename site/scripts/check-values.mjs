@@ -865,7 +865,9 @@ async function main() {
   }
   if (!cookie) console.log(`no internal cookie from ${base}/internal/unlock: pages in review answer the in-review page and are counted as failures`);
   const urls = PAGES.filter(wanted).map((page) => ({ page, url: page }));
-  if (tok) urls.push(...INTERNAL.filter(wanted).map((page) => ({ page, url: `${page}?token=${encodeURIComponent(tok)}`, internal: true })));
+  // session 371 (docs/security.md, S2): the two drafts open with the internal cookie, so the token is no longer written into
+  // their address (until then `${page}?token=...`, which put the production token in a production address at each landing)
+  if (tok) urls.push(...INTERNAL.filter(wanted).map((page) => ({ page, url: page, internal: true })));
   else console.log(`internal pages not checked (INTERNAL_COSTS_TOKEN not set here): ${INTERNAL.join(", ")}`);
   for (const { page, url, internal } of urls) {
     const res = await fetch(base + url, { headers: cookie ? { Cookie: cookie } : {} });
