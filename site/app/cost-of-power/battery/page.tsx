@@ -5,7 +5,7 @@ import { Num } from "@/components/Num";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { SourceLine, ToolHeader, ToolPage, ToolSection } from "@/components/tool/ToolPage";
 import {
-  CAPACITY_WORDS, COSTS, DURATION_WORDS, LEFT_OUT, PRODUCTS, REVIEW_TABLE, STRATEGIES, STRESS_BY, TABLE, awardsBeside, debtPerMw, eventMonths, fleetBeside, fleetCase, gridOf, inputsKey, inputsOf, last36,
+  CAPACITY_WORDS, COSTS, DURATION_WORDS, LEFT_OUT, PRODUCTS, REVIEW_TABLE, STRATEGIES, STRESS_BY, TABLE, awardsBeside, debtPerMw, eventMonths, fleetBeside, fleetCase, gridOf, inputsKey, inputsOf, last36, lastTwelve,
   monthName, monthsOf, outlier, stat, stress, typedNotes, years, type AwardsSnapshot, type Inputs, type Month,
 } from "@/lib/batterystack";
 import awardsData from "@/data/battery_awards_beside.json";
@@ -13,6 +13,7 @@ import stepsData from "@/data/battery_scenario_steps.json";
 import { ATB, debtUsd, defaultsOf, isOldParam, isScenarioParam, parseScenarios, scenarioNotes, stepState, stepsOffered, type StepFile } from "@/lib/battery/finance";
 import { parseView } from "@/lib/battery/view";
 import { attempt } from "@/lib/supabase";
+import { STORAGE_VARS as nodeVars, storageRows } from "@/lib/nodebasisread";
 import { CostTabs } from "../Tabs";
 import { Income } from "./Income";
 import { V } from "./nums";
@@ -112,6 +113,25 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
   // last twelve months stay the default
   const py = g.entity ? await priceYears("battery", g.entity, `${asked.strat}_${asked.dur}h`) : null;
   const pyWs = py?.ok ? py.ws : [];
+  // session 355 (the chain of 20 October 2026, night): the band of ERCOT's storage nodes against the hub, over the
+  // battery's last twelve months (node_basis_summary, the data machine's session 358): each month's four-hour spread at
+  // the 10th percentile, median and 90th of the storage nodes, the hub's own spread over the same days, and the share of
+  // nodes wider than the hub; the twelve months' means weighted by the days held. Shown beside the figures, added to none.
+  const l12m = lastTwelve(ms)?.map((r) => r.m) ?? [];
+  const nodeRead = asked.grid === "ercot" && g.entity === "ercot:HB_HUBAVG" && l12m.length === 12 ? await storageRows() : null;
+  type NodeMonth = { m: string; ts: string } & Record<(typeof nodeVars)[number], number>;
+  const nodeMonths: NodeMonth[] | null = nodeRead?.ok ? (() => {
+    const out = l12m.map((m) => {
+      const at = (v: string) => nodeRead.data.find((r) => r.ts_utc.slice(0, 7) === m && r.variable === `dam_storage_${v}`);
+      if (nodeVars.some((v) => !at(v))) return null;
+      return { m, ts: at("days")!.ts_utc, ...Object.fromEntries(nodeVars.map((v) => [v, Number(at(v)!.value)])) } as NodeMonth;
+    });
+    return out.every(Boolean) ? (out as NodeMonth[]) : null;
+  })() : null;
+  const nodeDays = nodeMonths ? nodeMonths.reduce((a, r) => a + r.days, 0) : 0;
+  const nodeMean = (v: (typeof nodeVars)[number]) => (nodeMonths && nodeDays ? nodeMonths.reduce((a, r) => a + r[v] * r.days, 0) / nodeDays : 0);
+  const nodeWhy = asked.grid !== "ercot" ? "" : !nodeRead ? "" : !nodeRead.ok ? `node_basis_summary could not be read: ${nodeRead.reason}`
+    : !nodeMonths ? `node_basis_summary does not hold the storage nodes for every one of the battery's last twelve months (${monthName(l12m[0])} to ${monthName(l12m[11])}).` : "";
   // session 263: what the address asked for and the page does not show as asked is said, in one line, never replaced in silence
   const asItWas = [...typedNotes(q, asked), ...scenarioNotes(q, defaultsOf(COSTS[asked.dur]), offered)];
   const x: Inputs = { ...asked, fom: A.fom, ds: debtUsd(A, asked.mw) };
@@ -230,6 +250,26 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
                     {top ? <> {topName} alone is <V pre={key} s="top_share" v={st("top_share")} /> percent of everything this battery earned in the {held.length} months held; leave it out of your window to see the average without it.</> : null}
                     {" "}<Link href={`${ALGORITHM}#cannot-see`}>What else the model cannot see</Link>.
                   </p>
+                  {nodeMonths ? (
+                    <div className="mt-2 max-w-3xl text-xs text-muted" data-node-band="storage">
+                      {/* session 355: ERCOT's storage nodes against the hub, each month with its keys (node_basis_summary) */}
+                      <p>
+                        At its own node: over the same twelve months ({nodeDays} days held), the day-ahead four-hour spread at ERCOT&apos;s storage nodes averaged USD {nodeMean("spread_4h_p10").toFixed(2)} per MWh at the
+                        10th percentile, {nodeMean("spread_4h_p50").toFixed(2)} at the median and {nodeMean("spread_4h_p90").toFixed(2)} at the 90th, against {nodeMean("hub_spread_4h").toFixed(2)} at the hub;
+                        {" "}{nodeMean("share_wider_pct").toFixed(1)} percent of storage nodes had a wider spread than the hub. The median node&apos;s spread is {(100 * nodeMean("spread_4h_p50") / nodeMean("hub_spread_4h")).toFixed(1)} percent
+                        of the hub&apos;s: the energy this page counts at the hub would scale about with it, the reserves not at all. Added to no figure (node_basis_summary).
+                      </p>
+                      <details className="mt-1">
+                        <summary className="cursor-pointer">Each month: days held; the storage nodes&apos; four-hour spread at the 10th percentile, median and 90th; the hub&apos;s; the share wider</summary>
+                        <ul className="mt-1 space-y-0.5">
+                          {nodeMonths.map((r) => {
+                            const k = (v: string) => `series|node_basis_summary|ercot:HB_HUBAVG|dam_storage_${v}|${r.ts}`;
+                            return <li key={r.m}>{monthName(r.m)}: <Num check={k("days")} raw={r.days}>{r.days}</Num> days; <Num check={k("spread_4h_p10")} raw={r.spread_4h_p10}>{r.spread_4h_p10.toFixed(2)}</Num>, <Num check={k("spread_4h_p50")} raw={r.spread_4h_p50}>{r.spread_4h_p50.toFixed(2)}</Num>, <Num check={k("spread_4h_p90")} raw={r.spread_4h_p90}>{r.spread_4h_p90.toFixed(2)}</Num>; hub <Num check={k("hub_spread_4h")} raw={r.hub_spread_4h}>{r.hub_spread_4h.toFixed(2)}</Num>; <Num check={k("share_wider_pct")} raw={r.share_wider_pct}>{r.share_wider_pct.toFixed(2)}</Num> percent wider</li>;
+                          })}
+                        </ul>
+                      </details>
+                    </div>
+                  ) : nodeWhy ? <p className="mt-2 max-w-3xl text-xs text-muted" data-node-band="none">At its own node: {nodeWhy}</p> : null}
                   <p className="mt-2 max-w-3xl text-xs text-muted" data-months-csv="1">
                     <a href={monthsHref} download>Every month, CSV</a>: energy, ancillary and total for {size}, each month&apos;s coverage at scenario A&apos;s costs, days held and days left out
                     (<V pre={key} s="out" v={st("out")} /> days in all{leftOut ? `, ${leftAnc} of them for a missing ancillary price` : ""}).
