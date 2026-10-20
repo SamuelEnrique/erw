@@ -5,9 +5,15 @@ Copy everything below the line into `queue/next/NNN-<slug>.md`, fill in what sta
 that does not apply, commit and push. The first rule and the last rule stay as they are: they are what keeps a machine
 from waiting for a person. This file itself is never taken by the queue (its name is not `NNN-<slug>.md`).
 
+The line `machine: code` or `machine: data` under the title (session 365) says which machine runs the file:
+`python scripts/chain_queue.py next` on a machine of the other role leaves it where it is and takes the next one
+that is for it; strike the line for a file any machine may run.
+
 ---
 
 # Chain of <day and month>: sessions <first> to <last>
+
+machine: <code or data>
 
 <Which machine, which folder, unattended. The sessions in order. One line on why this chain, and for whom.>
 
