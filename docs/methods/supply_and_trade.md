@@ -166,3 +166,16 @@ These terms forbid republishing. The session read the header line of one ICE fil
 ## The refresh
 
 `warehouse/refresh_supply.sh`: the two connectors, the schedule, the validator and the builder, each under `warehouse/health.py`. Weekly, written and not scheduled. The fuel burned for power is rebuilt only on a data machine that holds EIA-930's workbooks; elsewhere the builder is run with `--no-burn` and those rows read "working on it".
+
+## The page as it stands (session 333, 20 October 2026)
+
+- **The bands** (storage and stocks through the year against the five years before) are drawn in SVG through the
+  site's shared chart set since session 317 (`BandChart`); no value moved.
+- **Every number** is the file's (`site/data/supply.json`), and `check-supply` reads them against it.
+- **Downloads** (session 333): at the foot of the page, the five tables the file's sources name (`cftc_cot_positions`,
+  `eia_basin_production_monthly`, `eia_gas_storage_weekly`, `eia_gas_trade_monthly`, `eia_petroleum_supply_weekly`),
+  each as the live set's CSV with a Python and a Stata reader of that CSV, or named with its place on Redivis where the
+  live set does not hold it (session 328's shared line). The list is read from the file's sources, so it follows the
+  file. The grid operators' day-ahead load rows the file also reads are not an ERW table of their own. **On 20 October
+  2026 none of the five is in the site's live catalogue** (all five are public in `warehouse/metadata/coverage.csv`), so
+  the line says the tables are not in the site's live set and names Redivis; once they are loaded, it offers them.
