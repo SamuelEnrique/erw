@@ -96,6 +96,7 @@ const PAGES = [
   "/events/caiso-heat-2020", "/events/elliott-2022", "/events/ercot-heat-2023",
   "/events/caiso-heat-2022",  // session 58
   "/events/cold-2025", "/events/east-heat-2025",  // session 64
+  "/events/cold-2026",  // session 319
   "/grid/caiso/alerts",  // session 60: the Flex Alert scorecard
   "/cost-of-power/battery/awards", "/data/methods/ercot_storage_dam_awards",  // session 115: the storage fleet's day-ahead awards (in review)
   "/data/methods/ercot_storage_dam_offers",  // session 116: what the storage fleet offered day-ahead (in review; the awards page's new section reads it)
