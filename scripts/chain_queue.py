@@ -8,7 +8,7 @@ machine then sits until a person pastes the next prompt. The next prompts are fi
     queue/done/NNN-<slug>.md    taken: the file as it was run
 
     python scripts/chain_queue.py list
-    python scripts/chain_queue.py next [--dry-run]
+    python scripts/chain_queue.py next [--dry-run] [--file NNN-<slug>.md]
 
 `next` is the last step of a chain's last session. With a file waiting it moves the first one to queue/done/ in one
 commit of that move alone and prints the file's new path on its last line: the session then reads that file and runs
@@ -35,8 +35,24 @@ The move is a commit on the branch the session is on; it is not pushed here (a p
 A file in queue/next/ whose name is not NNN-<slug>.md is left where it is and named in what is printed (and counted
 in the idle line): it is never run.
 
+Session 365, the machine a file is for. A prompt file may carry a line `machine: code` or `machine: data` in its first
+ten lines (queue/CHAIN_TEMPLATE.md puts it under the title). `next` takes the lowest-numbered file whose line names
+this machine's role (duty.machine()["role"], from .erw/machine.json) or this machine's own name, or that has no such
+line; a file marked for another machine is left where it is and named in what is printed. When only such files wait,
+the machine is idle as with an empty queue (the planner path included) and the idle line says the files wait for
+another machine. A machine whose role is not known takes only files with no line: it cannot tell whose a marked file
+is. A line with a value that is neither code, data nor this machine's name marks a file for no machine this one can
+be: it is left too.
+
+    python scripts/chain_queue.py next --file NNN-<slug>.md [--dry-run]
+
+takes that one file by name, with the same move and commit, so a person can start a named chain on a machine. It
+refuses (exit 2, nothing moved) a name that is not in queue/next/, a name of the task queue, and a file marked for
+another machine; a machine whose role is not known takes a marked file by name (a person named it), and says so.
+`list` shows each file's machine.
+
 Exit codes: 0 a file was taken (its path is the last line printed), or list; 3 nothing waits (idle: recorded); 1
-could not (git refused the move, or the idle row or the duty mark failed); 2 bad input.
+could not (git refused the move, or the idle row or the duty mark failed); 2 bad input (a --file that is refused).
 """
 
 import argparse
@@ -56,7 +72,11 @@ import duty  # noqa: E402
 NAME_RE = re.compile(r"^(\d{3,})-([a-z0-9][a-z0-9-]*)\.md$")
 TASK_RE = re.compile(r"^\d{3,}-(code|data)-")   # scripts/taskqueue.py's names: not this queue's
 IDLE_EXIT = 3
+BAD_INPUT = 2
 UTC = dt.timezone.utc
+ROLES = ("code", "data")
+MACHINE_RE = re.compile(r"^\s*machine\s*:\s*(.*?)\s*$", re.I)   # session 365: "machine: code" or "machine: data"
+MARK_LINES = 10                                                    # the line counts only within a file's first ten lines
 
 
 def waiting(root=ROOT):
@@ -70,6 +90,60 @@ def waiting(root=ROOT):
         (good if NAME_RE.match(f) and not TASK_RE.match(f) else odd).append(f)
     good.sort(key=lambda f: (int(NAME_RE.match(f).group(1)), f))
     return good, odd
+
+
+def mark_of(text):
+    """Session 365. The machine a prompt file is for: the value of its first line "machine: <value>" within its first
+    ten lines, lower case, or None when it has no such line. "machine: code" and "machine: data" are the roles; a value
+    that is neither is returned as it stands (a machine's name, or a blank of the template left unfilled)."""
+    for line in (text or "").replace("\r\n", "\n").split("\n")[:MARK_LINES]:
+        m = MACHINE_RE.match(line)
+        if m:
+            return m.group(1).strip().rstrip(".").lower() or "(empty)"
+    return None
+
+
+def mark(name, root=ROOT):
+    """The mark of queue/next/<name> (mark_of), read from the file; a file that cannot be read is "(unreadable)"."""
+    try:
+        with open(os.path.join(root, "queue", "next", name), encoding="utf-8", errors="replace") as f:
+            head = "".join(f.readline() for _ in range(MARK_LINES))
+    except OSError:
+        return "(unreadable)"
+    return mark_of(head)
+
+
+def known(role):
+    """This machine's role when it is code or data, else None (not known)."""
+    r = (role or "").strip().lower()
+    return r if r in ROLES else None
+
+
+def this_role():
+    return (duty.machine() or {}).get("role")
+
+
+def for_this(m, role, who=None):
+    """Whether a file whose mark is m is for this machine: no mark, or its role, or its own name. A machine whose role
+    is not known takes only a file with no mark."""
+    if m is None:
+        return True
+    if known(role) is None:
+        return False
+    return m == known(role) or (who is not None and m == duty.clean(who))
+
+
+def split(names, role, who=None, root=ROOT):
+    """(the files of `names` for this machine, in order; [(name, mark)] of those left for another machine)."""
+    mine, others = [], []
+    for f in names:
+        m = mark(f, root)
+        (mine.append(f) if for_this(m, role, who) else others.append((f, m)))
+    return mine, others
+
+
+def others_line(others):
+    return ", ".join(f"{f} (machine: {m})" for f, m in others)
 
 
 def git(*args, root=ROOT):
@@ -136,20 +210,67 @@ def plan(who, root=ROOT, dry_run=False, out=print, git=git, role=None, now=None)
     return name
 
 
-def take(dry_run=False, root=ROOT, who=None, rec=health_row, send=None, off=None, mover=move, now=None, out=print, planner=plan, held=None):
+def by_name(name, role, who, root=ROOT, dry_run=False, mover=move, out=print):
+    """Session 365, `next --file <name>`: take that one file of queue/next/, with the same move and commit as `next`.
+    Returns the exit code: 0 taken (its path the last line printed), 2 refused and nothing moved."""
+    given = (name or "").strip().replace("\\", "/")
+    if given.startswith("queue/next/"):
+        given = given[len("queue/next/"):]
+    if not given or "/" in given:
+        out(f"refused: --file takes a file's name in queue/next/ (NNN-<slug>.md), not {name!r}")
+        return BAD_INPUT
+    if TASK_RE.match(given):
+        out(f"refused: {given} is a name of the task queue (NNN-code-, NNN-data-: scripts/taskqueue.py), not a prompt file of this queue")
+        return BAD_INPUT
+    if not NAME_RE.match(given):
+        out(f"refused: {given} is not a name this queue takes (NNN-<slug>.md)")
+        return BAD_INPUT
+    good, _ = waiting(root)
+    if given not in good:
+        out(f"refused: there is no {given} in queue/next/ ({len(good)} waiting" + (f": {', '.join(good)})" if good else ")"))
+        return BAD_INPUT
+    m = mark(given, root)
+    if not for_this(m, role, who):
+        if known(role) is not None:
+            out(f"refused: {given} is marked machine: {m}, and {who} is a {known(role)} machine; run it on a machine of that role, or change its line")
+            return BAD_INPUT
+        out(f"{who}'s role is not known (.erw/machine.json): {given}, marked machine: {m}, is taken because a person named it")
+    rest = len(good) - 1
+    if dry_run:
+        out(f"would take queue/next/{given} by name, move it to queue/done/{given} in one commit, and print that path ({rest} more waiting)")
+        return 0
+    dst = mover(given, who, root)
+    out(f"taken by name: {given} by {who} ({rest} more waiting); read the file below and run it")
+    out(os.path.join(root, *dst.split("/")))
+    return 0
+
+
+def take(dry_run=False, root=ROOT, who=None, rec=health_row, send=None, off=None, mover=move, now=None, out=print, planner=plan, held=None, role=None, file=None):
     """The `next` command. Returns the exit code. `send` is accepted for a caller that still hands one in and is never
-    called (session 243: this command emails nothing)."""
+    called (session 243: this command emails nothing). `role` is this machine's (None: read from .erw/machine.json;
+    anything but code or data: not known). `file`: take that one file by name (by_name)."""
     off, held = off or duty.off, held or duty.held
     now = now or dt.datetime.now(UTC)
     who = who or duty.clean((duty.machine() or {}).get("name") or os.environ.get("COMPUTERNAME") or os.environ.get("HOSTNAME") or "machine")
+    role = this_role() if role is None else role
+    if file is not None:
+        return by_name(file, role, who, root, dry_run, mover, out)
     good, odd = waiting(root)
     if odd:
         out("not prompt files of this queue (NNN-<slug>.md; NNN-code- and NNN-data- are the task queue's), left where they are: " + ", ".join(odd))
+    good, others = split(good, role, who, root)
+    if others:
+        if known(role) is None:
+            out(f"{who}'s role is not known (.erw/machine.json): only files with no machine: line are taken; left where they are: " + others_line(others))
+        else:
+            out(f"for another machine ({who} is a {known(role)} machine), left where they are: " + others_line(others))
     if not good and planner is not None:
-        # session 197: nothing waits. With "planner: on" the planner drafts the next chain; off (the default), nothing happens here
+        # session 197: nothing waits for this machine. With "planner: on" the planner drafts the next chain; off (the default), nothing happens here
         try:
-            if planner(who, root, dry_run, out):
-                good, odd = waiting(root)
+            planned = planner(who, root, dry_run, out)
+            if planned:
+                # the planner drafted it for this machine's role (machine: <role>, session 365): it is the file taken
+                good = [planned] if planned in waiting(root)[0] else split(waiting(root)[0], role, who, root)[0]
         except Exception as exc:
             print(f"chain_queue: the planner could not run ({type(exc).__name__}: {alert.one_line(exc, 200)}); idle as without it", file=sys.stderr)
     if good:
@@ -162,6 +283,12 @@ def take(dry_run=False, root=ROOT, who=None, rec=health_row, send=None, off=None
         out(os.path.join(root, *dst.split("/")))
         return 0
     left = f" ({len(odd)} file{'s' if len(odd) != 1 else ''} there with a name this queue does not take)" if odd else ""
+    head = "queue/next/ is empty"
+    if others:
+        # session 365: files wait, none of them for this machine
+        n = len(others)
+        head = (f"queue/next/ holds nothing for {who} ({known(role) or 'role not known'}): {n} file{'s' if n != 1 else ''} there "
+                f"wait{'' if n != 1 else 's'} for another machine ({', '.join(f for f, _ in others)})")
     # Session 243, the email rule: nothing is emailed here. A machine that was on duty went idle: its row's reason
     # begins with alert.READY_MARK, and the chain watch sends its one line 15 minutes later (scripts/alert.py ready),
     # unless it has gone on duty again by then. A machine that was not on duty was idle already: its row says so and
@@ -171,7 +298,7 @@ def take(dry_run=False, root=ROOT, who=None, rec=health_row, send=None, off=None
     except Exception:
         mark = None
     what = alert.one_line((mark or {}).get("what") or "", 120)
-    why = f"queue/next/ is empty{left}: {who} has nothing left to run" + (f" after \"{what}\"" if what else "")
+    why = f"{head}{left}: {who} has nothing left to run" + (f" after \"{what}\"" if what else "")
     why = alert.one_line(alert.READY_MARK + why if mark else why + " (it was not on duty: idle already, no line follows)", 480)
     follows = (f"the one email follows {alert.READY_MIN} minutes from now, from the chain watch (python scripts/alert.py ready), unless the machine is on duty again by then"
                if mark else "no email follows: the machine was not on duty")
@@ -196,21 +323,34 @@ def take(dry_run=False, root=ROOT, who=None, rec=health_row, send=None, off=None
     return 1 if problems else IDLE_EXIT
 
 
+def listing(root=ROOT, role=None, who=None, out=print):
+    """The `list` command: each waiting file with its machine (session 365), and whether `next` here would take it."""
+    role = this_role() if role is None else role
+    who = who or duty.clean((duty.machine() or {}).get("name") or os.environ.get("COMPUTERNAME") or os.environ.get("HOSTNAME") or "machine")
+    good, odd = waiting(root)
+    mine, _ = split(good, role, who, root)
+    out(f"{len(good)} waiting in queue/next/ ({len(mine)} for {who}, a {(known(role) + ' machine') if known(role) else 'machine whose role is not known'})" + (":" if good else ""))
+    for f in good:
+        m = mark(f, root)
+        out(f"  {f}  machine: {m or 'any (no line)'}" + ("" if f in mine else "  (left for another machine)"))
+    if odd:
+        out("not this queue's (left where they are): " + ", ".join(odd))
+    return 0
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="The chain queue: the prompt files a machine runs next (session 188)")
     ap.add_argument("action", choices=["next", "list"])
     ap.add_argument("--dry-run", action="store_true", help="next: say what would happen; move, commit, write and send nothing")
+    ap.add_argument("--file", metavar="NAME", help="next: take this one file of queue/next/ by name (session 365)")
     a = ap.parse_args(argv)
     try:
         if a.action == "list":
-            good, odd = waiting()
-            print(f"{len(good)} waiting in queue/next/" + (":" if good else ""))
-            for f in good:
-                print(f"  {f}")
-            if odd:
-                print("not this queue's (left where they are): " + ", ".join(odd))
-            return 0
-        return take(a.dry_run)
+            if a.file is not None:
+                print("chain_queue: --file goes with next, not list", file=sys.stderr)
+                return BAD_INPUT
+            return listing()
+        return take(a.dry_run, file=a.file)
     except Exception as exc:
         print(f"chain_queue: {type(exc).__name__}: {str(exc)[:300]}", file=sys.stderr)
         return 1
