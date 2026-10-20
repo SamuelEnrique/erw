@@ -209,6 +209,8 @@ The owner's ruling of 19 October 2026 on the Research pack's question 2 (option 
 
 `tests/test_session316.py` runs the stored series of those drafts (`docs/reviews/findings-verified-2026-10-13/verify_hunt.json`, `findings-verified-2026-10-13-session251/verify_251.json`) through `test_claim` and shows which test stops each; the data machine runs the next hunt (`run_data_machine_tables.sh`).
 
+**Ruled (20 October 2026).** The owner ruled that the floor stays at one typical yearly move (`STRENGTH_FLOOR = 1.0`), as built; recorded by session 351.
+
 ## The Research tool, its form and its figures (session 315, 19 October 2026)
 
 The owner's ruling of 13 October 2026 on the tool's layout, and his rulings of 19 October on the Research pack's section 9, built by the chain of 19 October (daytime).

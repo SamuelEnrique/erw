@@ -77,6 +77,16 @@ export default function Terms() {
         </p>
       </Section>
 
+      {/* session 351 (the owner's ruling of 20 October 2026): the email a reader leaves with a question on Research, and who answers it */}
+      <Section title="Questions sent from Research" id="research">
+        <p className="text-sm" data-terms-research="1">
+          A question sent with the form on <Link href="/research">Research</Link> stores the question, the tables it names, the email address left for
+          the answer and the time it was sent, as one row of the ERW&apos;s Supabase database. The address is used to send the answer and for nothing
+          else, and no visitor is shown it. Samuel Enrique, who runs the ERW, reads each question and answers it by email within a week; an answer is
+          not a promise of an analysis.
+        </p>
+      </Section>
+
       <Section title="Usage counts and cookies" id="usage">
         <p className="text-sm">
           This site sets no tracking cookies. It counts how its tools are used with no cookie and no personal data: the page&apos;s path, the
