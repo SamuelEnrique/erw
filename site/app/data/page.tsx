@@ -112,7 +112,7 @@ export default async function Data() {
           <Link href="/data/standard">data standard</Link>.
         </p>
         <p className="mt-2 max-w-3xl text-xs text-muted">
-          Download CSV gives the rows the site&apos;s live set holds, with the table&apos;s provenance header lines at the top, up to 200,000 rows; for a table
+          Download CSV gives the rows the site&apos;s live set holds, with the table&apos;s provenance header lines at the top, up to 500,000 rows; for a table
           the live set keeps a window of (such as the last 35 days of prices), that window. The full history of every table, and the tables not in the
           live set, are on <a href={site.redivis.url}>Redivis</a>, where version 1 is pending release.
         </p>
