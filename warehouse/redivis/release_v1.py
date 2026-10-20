@@ -63,6 +63,14 @@ def held(day=PUBLIC_DAY):
     return out
 
 
+# Session 375: a public table the draft cannot hold for Redivis's storage (the account's free 10 GB is full, session
+# 363). It is marked "held", not dropped: in v1 by its license, uploaded once the storage is settled (the owner's).
+STORAGE_HELD = {
+    "node_basis_daily": "held: Redivis storage (the account's free 10 GB is full; refused on 20 October 2026, session 363). "
+                        "In v1 by its license once uploaded: python warehouse/redivis/upload.py node_basis_daily, after the storage is settled",
+}
+
+
 def plan(day=PUBLIC_DAY):
     """[(table, in_v1, reason)] over coverage, in coverage's order."""
     cov = rows(os.path.join(META, "coverage.csv"))
@@ -80,6 +88,8 @@ def plan(day=PUBLIC_DAY):
             out.append((t, "no", "a consolidated table's old member (warehouse/metadata/table_migrations.csv)"))
         elif t in hold:
             out.append((t, "no", hold[t]))
+        elif t in STORAGE_HELD:
+            out.append((t, "held", STORAGE_HELD[t]))
         else:
             out.append((t, "yes", "public, and public on the public day"))
     return out
@@ -153,7 +163,7 @@ def build(out_dir, day=PUBLIC_DAY):
                         cols = next(csv.reader([ln]))
                         break
             kind = shape(cols)
-            if in_v1 == "yes":
+            if in_v1 in ("yes", "held"):
                 variables_out += [dict(table=t, name=n, kind=k, unit=u) for n, k, u in variables(path, cols, kind)]
         elif in_v1 == "yes":
             missing.append(t)
@@ -173,6 +183,11 @@ def build(out_dir, day=PUBLIC_DAY):
 def readme(tables, day=PUBLIC_DAY):
     v1 = [t for t in tables if t["in_v1"] == "yes" and t["shape"] != "metadata"]
     out = [t for t in tables if t["in_v1"] == "no"]
+    stored = [t for t in tables if t["in_v1"] == "held"]
+    stored_names = ", ".join("`" + t["table"] + "`" for t in stored)
+    stored_line = (f" {len(stored)} public table{'s' if len(stored) != 1 else ''} ({stored_names}) "
+                   f"{'are' if len(stored) != 1 else 'is'} in version 1 by license but not yet in the dataset: the account's storage is "
+                   "full, and the table is added once it is settled.") if stored else ""
     by_shape = {}
     for t in v1:
         by_shape[t["shape"]] = by_shape.get(t["shape"], 0) + 1
@@ -194,7 +209,7 @@ def readme(tables, day=PUBLIC_DAY):
         f"{len(out)} tables of the warehouse's public draft are not in version 1: a table whose publisher's terms ask for permission or a license "
         f"that has not been recorded is held from {day} (the ERW's license record, https://github.com/SamuelEnrique/erw/blob/main/docs/licenses.md), "
         "and retired tables and the old members of consolidated tables are not tables of the warehouse. Tables licensed for internal use are never "
-        "in this dataset.",
+        "in this dataset." + stored_line,
         "",
         "## How to cite",
         "",

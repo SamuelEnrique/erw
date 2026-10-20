@@ -473,6 +473,7 @@ machine that holds the price histories.
 | the monthly storage tables | `ercot_storage_dam_awards.py`, then `ercot_storage_dam_offers.py`, right after the sync: the sync leaves a table that was rewritten whole as it was, so the monthly offers stood a day behind the daily ones | `dm_storage_awards_rollup`, `dm_storage_offers_rollup` |
 | ERCOT's node prices | `ercot_rt_spp.py --daily --max-rows 500000`: ERCOT's list (it keeps seven days and no more), each listed 15-minute file not yet saved, then the table. At most 500,000 rows a UTC day, counted in `warehouse/raw/ercot_rtm_spp/rows_by_run.csv`; the request that could pass the ceiling is not made. Internal: no page reads the table and it is in no live set | `dm_ercot_node_prices` |
 | its stores, when the table moved | `warehouse/table_stores.py`: the validator and the coverage row (gates for this table's stores), the archive, the Redivis draft | `dm_node_stores` |
+| the node basis's real-time days (session 376) | `warehouse/derived/node_basis.py --daily`: when the saved 15-minute files hold a whole Central day `node_basis_daily` does not (ERCOT's list keeps seven days, so a day not built within the week is built only from the files this machine saved), the three tables are rebuilt from the saved files (about 3 minutes); otherwise exit 75, a skip. No request: the files are the node prices' own. Then the stores of the tables that moved, `node_basis_daily`'s without the Redivis draft (`table_stores.py --no-redivis`: the account's storage is full) | `dm_node_rt`, `dm_node_rt_stores_daily`, `dm_node_rt_stores_summary`, `dm_node_rt_stores_hourly` |
 | the runner's known gaps (session 206, the owner's ruling of 12 October 2026) | `carbon_auctions.py --table carb` (CARB's auction summary), `carb_lcfs.py` (CARB's LCFS credit prices), `policy_monitor_refresh.py --only orpuc` (Oregon's docket lists, into the two large-load rule tables): the publishers that answer GitHub's runner HTTP 202 with no body or do not answer it (`warehouse/metadata/known_gaps.csv`, where the runner records each as skipped). Each table that moved gets its stores through `table_stores.py` | `dm_carb_auction`, `dm_carb_auction_stores`, `dm_carb_lcfs`, `dm_carb_lcfs_stores`, `dm_orpuc_dockets`, `dm_orpuc_rules_stores`, `dm_orpuc_held_stores` |
 | the battery page's downloads | `battery_dispatch_export.py --keep-same`, `battery_scenario_steps.py --keep-same` (about 13 minutes). A file whose hours, months and model are as held is left as it is: the page prints the steps file's build date, so that date moves only when a month did | `dm_battery_dispatch_export`, `dm_battery_scenario_steps` |
 | the generator page's builders | `merchant_revenue.py` (the snapshot and the table `merchant_revenue_monthly`, which gets its stores when it moved), then `merchant_hubs.py` (about 10 minutes) and `seller_hybrid.py` | `dm_merchant_revenue`, `dm_merchant_stores`, `dm_merchant_hubs`, `dm_seller_hybrid` |
@@ -745,6 +746,22 @@ not alerts, and are not touched by this.
 - **To see what would be sent now:** `python scripts/alert.py ready --dry-run`, `python scripts/alert.py failures
   --dry-run`. Every other check has a dry run that says "would record, not email".
 - **What GitHub itself sends is outside this,** as before: a failed "code branch" check emails the pusher from GitHub.
+
+### One alert policy, draft for Samuel's ruling (session 377)
+
+Draft for Samuel's ruling, not in force: the rules already in force (the email rule of session 243, the chain watch,
+the idle alarm, the data machine's six-hour stop) said as one policy. Where it and the sections around it differ, they
+govern until the ruling.
+
+1. A person gets two emails from the machinery: a machine is ready for review (15 minutes after its idle row, not at all when it is on duty again by then), and the daily run is red (once a UTC day).
+2. The daily run is red when a step of `daily prices` or a `dm_` step of a data machine's run newly failed, or when `daily prices` recorded no step by 18:00 UTC.
+3. Everything else is recorded and not emailed: a row of `erw_health` and a line of the chain watch's log (the idle alarm, a chain's silence, another job's failed step, the model cap's skips, a session that waits).
+4. A machine on duty is watched by its duty mark: the precheck writes it; the queue's idle step or `duty.py off` removes it; it lapses by itself after 16 hours.
+5. A silence is 30 minutes on duty without a commit, a push or a beat; `duty.py beat` comes before a step longer than that; each silence and each lapsed mark is said once.
+6. Every message is said once: the memory is a row of workflow `alerts`, and a failure still there at the next run adds nothing.
+7. The data machine's daily task is stopped at six hours (`PT6H`), so it holds the data lock until 16:00 Pacific at the latest; a missed run is not started late.
+8. A day is green when no step of a scheduled job and no `dm_` step failed (a publisher's lag, "stale at source", is not a failure); `site/data/health_days.json` counts the days, and a session's own rows never count.
+9. What GitHub sends itself (a failed `code branch` check, to the pusher) is outside this policy.
 
 ### One alert policy (session 202)
 

@@ -500,13 +500,30 @@ def render(day, rows):
     return "\n".join(lines) + "\n"
 
 
+ROOT_CAUSES = "## Root causes"  # session 377: a person's or a session's section of a day's file, kept when it is rewritten
+
+
+def kept_causes(path):
+    """The "## Root causes" section of the day's file already there (to the next "## " heading or the end), or ""."""
+    if not os.path.exists(path):
+        return ""
+    with open(path, encoding="utf-8") as f:
+        text = f.read()
+    i = text.find("\n" + ROOT_CAUSES + "\n")
+    if i < 0:
+        return ""
+    j = text.find("\n## ", i + 1)
+    return text[i + 1:j + 1 if j >= 0 else len(text)].rstrip("\n") + "\n"
+
+
 def summary(day, out_dir=None, rows=None):
     rows = fetch(day) if rows is None else rows
     out_dir = out_dir or os.path.join(ROOT, "queue", "summary")
     os.makedirs(out_dir, exist_ok=True)
     path = os.path.join(out_dir, f"{day}-health.md")
+    causes = kept_causes(path)
     with open(path, "w", encoding="utf-8", newline="\n") as f:
-        f.write(render(day, rows))
+        f.write(render(day, rows) + ("\n" + causes if causes else ""))
     if out_dir == os.path.join(ROOT, "queue", "summary"):  # the repository's own summary: the record of days follows it
         try:
             write_days({day: rows})

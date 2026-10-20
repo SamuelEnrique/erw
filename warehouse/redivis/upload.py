@@ -87,6 +87,18 @@ def capped(exc):
     return CAP_MESSAGE in str(exc)
 
 
+# Session 377: Redivis's answer once the account's free storage (10 GB) is full (from 20 October 2026; node_basis_daily
+# was refused first, session 358). An upload refused for it is a skip, as session 305 made the export cap one: the
+# table is in the archive and waits there; the draft falls behind until Samuel settles the storage (a paid tier or
+# tables out of the draft), and the skip's reason says so each day.
+STORAGE_MESSAGE = "exceed its free storage allotment"
+STORAGE_SKIP = "skipped: Redivis storage full"
+
+
+def storage_full(exc):
+    return STORAGE_MESSAGE in str(exc)
+
+
 def secret(name):
     v = os.environ.get(name)
     if not v:
@@ -451,6 +463,10 @@ def run_upload(names, include_metadata, allow_shrink=(), create_internal=False, 
                 results.append((name, None, None, CAP_SKIP))
                 log(f"{name}: {CAP_SKIP}: not uploaded; its rows are in the archive")
                 continue
+            if storage_full(exc):  # session 377: the table waits in the archive until the storage is settled
+                results.append((name, None, None, STORAGE_SKIP))
+                log(f"{name}: {STORAGE_SKIP}: not uploaded ({' '.join(str(exc).split())[:160]}); its rows are in the archive")
+                continue
             results.append((name, None, None, f"{type(exc).__name__}: {exc}"))
             log(f"FAIL {name}: {type(exc).__name__}: {exc}")
     if only:  # session 49, --tables: the named tables' header lines only, merged into the drafts' erw_headers
@@ -512,13 +528,18 @@ def run_upload(names, include_metadata, allow_shrink=(), create_internal=False, 
                 results.append((rname, None, None, f"{type(exc).__name__}: {exc}"))
                 log(f"FAIL {rname}: {type(exc).__name__}: {exc}")
     write_manifest(man.reset_index().rename(columns={"index": "table"}))
-    failed = [r for r in results if r[3] and r[3] != CAP_SKIP]
+    failed = [r for r in results if r[3] and r[3] not in (CAP_SKIP, STORAGE_SKIP)]
     skipped = [r[0] for r in results if r[3] == CAP_SKIP]
+    full = [r[0] for r in results if r[3] == STORAGE_SKIP]
     log(f"uploaded {len(results) - len(failed) - len(skipped)} of {len(results)} tables to the drafts of "
         f"{PUBLIC} and {INTERNAL} (by license); nothing released"
-        + (f"; {len(skipped)} {CAP_SKIP}: {', '.join(skipped)}" if skipped else ""))
+        + (f"; {len(skipped)} {CAP_SKIP}: {', '.join(skipped)}" if skipped else "")
+        + (f"; {len(full)} {STORAGE_SKIP}: {', '.join(full)}" if full else ""))
     if failed:
         return 1
+    if full:  # session 377: a skip, with its reason as the last line
+        print(f"upload SKIPPED: {STORAGE_SKIP} (10 GB free, the owner's to settle): {len(full)} tables wait in the archive: {', '.join(full)}")
+        return int(os.environ.get("ERW_SKIP_EXIT") or 75)
     tables_skipped = [n for n in skipped if not n.startswith(HEADERS_TABLE)]
     if tables_skipped:  # session 305: a skip (warehouse/health.py's exit), with its reason as the last line
         print(f"upload SKIPPED: {CAP_SKIP}: {len(tables_skipped)} tables wait in the archive: {', '.join(tables_skipped)}")
