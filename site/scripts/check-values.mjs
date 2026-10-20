@@ -68,6 +68,7 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/cost-of-power?grid=caiso",  // session 280: CAISO's hub counts (scarcity_hours_by_grid) and its list of statements (large_load_public)
   // session 51: the seller's tab, its defaults and three other assets
   // session 347: the economic impact tool, its defaults and three other views (a size, cost, local content and life given)
+  "/map?tab=queues", "/map?tab=queues&iso=ercot", "/map?tab=queues&iso=spp",  // session 349: the map's Queues tab (iso_queue_statistics)
   "/impact", "/impact?tech=utility_pv&state=la&mw=200&life=30", "/impact?tech=natural_gas&state=nm&capex=120&local=80", "/impact?tech=geothermal&state=us&life=25",
   "/cost-of-power/seller", "/cost-of-power/seller?asset=battery", "/cost-of-power/seller?asset=peaker", "/cost-of-power/seller?iso=spp&asset=wind",  // session 145: MISO is blank on the page, so the fourth view is SPP's wind
   // session 38: today's level's price range
