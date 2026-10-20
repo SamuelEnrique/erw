@@ -9,6 +9,7 @@ import type { Rules } from "@/lib/severance";
 import { attempt } from "@/lib/supabase";
 import { Tabs } from "@/components/tool/Tabs";
 import { ToolPage } from "@/components/tool/ToolPage";
+import { TableDownloads } from "@/components/tool/TableDownloads";
 import { one, tabOf } from "@/lib/tabs";
 import { Calculator } from "./Calculator";
 import { LeaseView } from "./lease/view";
@@ -49,6 +50,9 @@ export default async function Severance({ searchParams }: { searchParams: Promis
         <div data-severance={tab}>
           <Tabs page="/severance" active={tab} />
           {tab === "lease" ? <LeaseView /> : <CalculatorView />}
+          {/* session 334: the one table both tabs read (their default prices), as CSV with a Python and a Stata reader (session
+              328's shared line); the tax rules are the site's own file, each with its citation */}
+          <TableDownloads tables={[T]} />
         </div>
       </ToolPage>
     </Brand>
