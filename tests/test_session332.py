@@ -38,6 +38,14 @@ class TheDownloads(unittest.TestCase):
             self.assertIn("<EventStudy ", src("site", "app", "events", d, "page.tsx"), d)   # each page ends with the block that carries the line
 
 
+class TheLineNames(unittest.TestCase):
+    def test_a_long_name_is_written_on_lines_within_the_gutter(self):
+        t = src("site", "components", "TimeChart.tsx")
+        self.assertIn("const fitW = Math.max(40, gutter - 8);", t)
+        self.assertIn("labels[i].y = labels[i - 1].y + 13 * labels[i - 1].n;", t)
+        self.assertIn("<tspan key={j} x={plotR + (has2 ? 50 : 6)} dy={j ? 13 : 0}>{ln}</tspan>", t)
+
+
 class TheNotes(unittest.TestCase):
     def test_the_notes_say_what_the_pages_draw_today(self):
         self.assertIn("## 10. The page as it stands (session 332, 20 October 2026)", src("docs", "methods", "policy_monitor.md"))
