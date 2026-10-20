@@ -32,6 +32,12 @@ point's day is written in a market only when every hour of the operating day is 
 
     python warehouse/derived/node_basis.py --from 2025-10-01            # the tables (data lock)
     python warehouse/derived/node_basis.py --from 2025-10-01 --out-dir DIR   # a trial, no data lock
+    python warehouse/derived/node_basis.py --daily       # session 376: the data machine's dm_node_rt (data lock)
+
+Session 376: ERCOT's real-time list keeps seven days, and the data machine's run saves every file of it each day
+(ercot_rt_spp.py through dm_ercot_node_prices). --daily rebuilds the three tables when the saved files hold a whole
+Central day of real time that node_basis_daily does not (a day is whole when the files of all its 15-minute intervals
+are saved, read from their names), and is a skip otherwise; it prints the real-time days held before and after.
 """
 
 import argparse
@@ -41,6 +47,7 @@ import datetime as dt
 import glob
 import io
 import os
+import re
 import sys
 import traceback
 import zipfile
@@ -394,12 +401,62 @@ def write(name, df, header, log, out_dir):
     return ip.write_csv(df, name, header, log, cols=list(df.columns))
 
 
+# ---------------------------------------------------------------------------------------------------------------------
+# session 376: the daily step (dm_node_rt), so that the real-time days ERCOT's seven-day list still holds reach the tables
+# ---------------------------------------------------------------------------------------------------------------------
+
+STAMP = re.compile(r"_(\d{8})_(\d{4})_csv\.zip$")
+
+
+def rt_days_saved(zips=None):
+    """The Central operating days whose every 15-minute interval the saved real-time files hold, by the files' names
+    (a stamp is the END of its interval, so 00:00 closes the day before). A file ERCOT posted twice counts once."""
+    stamps = collections.defaultdict(set)
+    for path in glob.glob(os.path.join(zips or rt.ZIPS, "*.zip")):
+        m = STAMP.search(os.path.basename(path))
+        if not m:
+            continue
+        end = dt.datetime.strptime(m.group(1) + m.group(2), "%Y%m%d%H%M")
+        start = end - dt.timedelta(minutes=15)
+        stamps[start.strftime("%Y-%m-%d")].add(end)
+    return sorted(d for d, s in stamps.items() if len(s) >= 4 * hours_in(d))
+
+
+def rt_days_held(path=None):
+    """The operating days node_basis_daily holds in real time (its rtm_mean rows for the hub), or [] without the table."""
+    path = path or os.path.join(ip.OUT_DIR, DAILY + ".csv")
+    if not os.path.exists(path):
+        return []
+    days = set()
+    for ch in pd.read_csv(path, skiprows=ip.header_rows(path), usecols=["entity", "variable", "ts_utc"], dtype=str, chunksize=500_000):
+        ch = ch[(ch["variable"] == "rtm_mean") & (ch["entity"] == f"ercot:{HUB}")]
+        days |= set(ch["ts_utc"].str.slice(0, 10))
+    return sorted(days)
+
+
+def gained(saved, held):
+    """The whole real-time days saved that the table does not hold."""
+    return sorted(set(saved) - set(held))
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW: ERCOT's settlement points against the hub, by day and by month (session 358)")
     ap.add_argument("--from", dest="first", default="2025-10-01", help="the first operating day, YYYY-MM-DD")
     ap.add_argument("--to", dest="last", default=dt.date.today().isoformat(), help="the last operating day, YYYY-MM-DD")
     ap.add_argument("--out-dir", help="write here instead of warehouse/output (a trial: no data lock)")
+    ap.add_argument("--daily", action="store_true", help="session 376: rebuild only when the saved real-time files hold a whole "
+                    "day the table does not; otherwise a skip (exit ERW_SKIP_EXIT)")
     a = ap.parse_args(argv)
+    if a.daily:
+        saved, held = rt_days_saved(), rt_days_held(os.path.join(a.out_dir, DAILY + ".csv") if a.out_dir else None)
+        new = gained(saved, held)
+        say = (f"real time held before: {held[0] if held else '-'} to {held[-1] if held else '-'}, {len(held)} days; "
+               f"whole days in the saved files: {saved[0] if saved else '-'} to {saved[-1] if saved else '-'}, {len(saved)}")
+        print(say)
+        if not new:
+            print(f"{DAILY} SKIPPED: no whole real-time day saved that the table does not hold ({say})")
+            return int(os.environ.get("ERW_SKIP_EXIT", "75"))
+        print(f"days gained: {', '.join(new)}")
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     log = ip.Log(os.path.join(ip.LOG_DIR, f"{DAILY}_{run_id}.log"))
@@ -461,6 +518,9 @@ def main(argv=None):
                f"{HOURLY} {len(hr):,} rows ({h0} to {h1}); {len(notes['failed'])} days not read")
         log(msg)
         print(msg)
+        if a.daily:
+            print(f"real time held after: {rt0} to {rt1}, {d[d.market == 'rtm']['day'].nunique()} days; {HOURLY} {h0} to {h1}"
+                  + (f" (the ceiling of {HOURLY_CEILING:,} rows keeps the newest days)" if len(hr) > 0.95 * HOURLY_CEILING else ""))
         results.append(dict(table=DAILY, market="derived", status="ok", detail=msg[:300]))
     except Exception:
         tb = ip.redact(traceback.format_exc())
