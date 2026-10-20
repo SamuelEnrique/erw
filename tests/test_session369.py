@@ -64,9 +64,11 @@ class TheDayBothTablesHold(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        held = fixture("know_your_grid_hours.json")["held"]
+        # the rows are read by node from the fixture itself (inlined, they pass Windows' limit on a command line)
+        path = json.dumps(os.path.join(FIX, "know_your_grid_hours.json"))
         cls.out = node(
-            "const G = await import('./lib/gridday.ts'); const held = " + json.dumps(held) + ";"
+            "const fs = await import('node:fs'); const G = await import('./lib/gridday.ts');"
+            " const held = JSON.parse(fs.readFileSync(" + path + ", 'utf-8')).held;"
             "const E = G.KNOW_YOUR_GRID.entities;"
             "const less = held.map((h) => h.table === 'eia930_all_generation' ? { ...h, rows: h.rows.filter((r) => !(r.entity === 'eia930:ERCO'"
             " && r.variable === 'net_generation_natural_gas_mw' && r.ts_utc.startsWith('2026-10-18T05'))) } : h);"
