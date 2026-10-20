@@ -318,6 +318,11 @@ export function HeatChart({ id, rows, cols, cells, unit, label, tips, marks, lo:
   const cw = (W - L - R) / Math.max(1, cols.length), ch = 18;
   const height = TOP + rows.length * ch + BOT;
   const strength = (v: number) => (hi > lo ? 0.08 + 0.92 * ((v - lo) / (hi - lo)) : 0.6);
+  // session 351 (the owner's ruling of 20 October 2026): one color for a magnitude; where the figure is signed (its values
+  // cross zero) a two-hue ramp, the accent above zero and the blue below, each cell's strength its distance from zero
+  const signed = lo < 0 && hi > 0, far = Math.max(-lo, hi);
+  const fillOf = (v: number) => (signed ? (v < 0 ? "var(--chart-blue)" : "var(--color-accent)") : "var(--color-accent)");
+  const opacityOf = (v: number) => (signed ? 0.08 + 0.92 * (Math.abs(v) / (far || 1)) : strength(v));
   const everyC = Math.max(1, Math.ceil(Math.max(1, ...cols.map((c) => textWidth(c, 11))) / cw));
   const onMove = (e: React.MouseEvent<SVGSVGElement>) => {
     const r = e.currentTarget.getBoundingClientRect();
@@ -326,7 +331,7 @@ export function HeatChart({ id, rows, cols, cells, unit, label, tips, marks, lo:
   };
   const words = (r: number, c: number) => tips?.[r]?.[c] ?? (cells[r][c] === null || cells[r][c] === undefined ? `${rows[r]}, ${cols[c]}: not held` : `${rows[r]}, ${cols[c]}: ${num(cells[r][c] as number)} ${unit}`);
   return (
-    <div ref={wrap} className="relative w-full min-w-0" data-chart={id} data-svg-chart="heat" data-chart-width={W}>
+    <div ref={wrap} className="relative w-full min-w-0" data-chart={id} data-svg-chart="heat" data-chart-width={W} data-heat-scale={signed ? "diverging" : "one"}>
       <Toggle label={label} table={table} setTable={setTable} id={id} />
       {table ? <DataTable label={label} id={id} head={["", ...cols]} rows={rows.map((r, i) => ({ key: r, cells: [r, ...cells[i].map((v, j) => (v === null || v === undefined ? <NotHeld key={j} /> : num(v)))] }))} /> : (
         <>
@@ -337,8 +342,8 @@ export function HeatChart({ id, rows, cols, cells, unit, label, tips, marks, lo:
             {rows.map((r, i) => <text key={r} x={L - 6} y={TOP + i * ch + ch / 2 + 4} textAnchor="end" fontSize="11" fill="var(--color-ink)">{r}</text>)}
             {cols.map((c, j) => (j % everyC === 0 ? <text key={c} x={L + j * cw + cw / 2} y={height - BOT + 14} textAnchor="middle" fontSize="11" fill="var(--color-ink)">{c}</text> : null))}
             {cells.map((row, i) => row.map((v, j) => (
-              <rect key={`${i}-${j}`} x={L + j * cw} y={TOP + i * ch} width={cw} height={ch} fill={v === null || v === undefined ? `url(#${id}-blank)` : "var(--color-accent)"}
-                fillOpacity={v === null || v === undefined ? 1 : strength(v)} stroke="var(--color-surface)" strokeWidth="0.75" data-cell={`${i}-${j}`} />
+              <rect key={`${i}-${j}`} x={L + j * cw} y={TOP + i * ch} width={cw} height={ch} fill={v === null || v === undefined ? `url(#${id}-blank)` : fillOf(v)}
+                fillOpacity={v === null || v === undefined ? 1 : opacityOf(v)} stroke="var(--color-surface)" strokeWidth="0.75" data-cell={`${i}-${j}`} />
             )))}
             {marks?.map(([r, c]) => <rect key={`m${r}-${c}`} x={L + c * cw + cw / 2 - 3} y={TOP + r * ch + ch / 2 - 3} width="6" height="6" fill="var(--color-ink)" />)}
             {hover ? <rect x={L + hover[1] * cw} y={TOP + hover[0] * ch} width={cw} height={ch} fill="none" stroke="var(--color-ink)" strokeWidth="1.5" /> : null}
@@ -351,7 +356,9 @@ export function HeatChart({ id, rows, cols, cells, unit, label, tips, marks, lo:
               return (
                 <g data-direct-labels="1">
                   <text x={x0} y={height - 8} fontSize="11" fill="var(--color-muted)">{w0}</text>
-                  {Array.from({ length: 8 }, (_, k) => <rect key={k} x={sx + k * 12} y={height - 17} width="12" height="10" fill="var(--color-accent)" fillOpacity={0.08 + 0.92 * (k / 7)} />)}
+                  {signed
+                    ? Array.from({ length: 8 }, (_, k) => <rect key={k} x={sx + k * 12} y={height - 17} width="12" height="10" fill={k < 4 ? "var(--chart-blue)" : "var(--color-accent)"} fillOpacity={0.08 + 0.92 * (Math.abs(k - 3.5) - 0.5) / 3} data-diverging="1" />)
+                    : Array.from({ length: 8 }, (_, k) => <rect key={k} x={sx + k * 12} y={height - 17} width="12" height="10" fill="var(--color-accent)" fillOpacity={0.08 + 0.92 * (k / 7)} />)}
                   <text x={hx} y={height - 8} fontSize="11" fill="var(--color-muted)">{w1}</text>
                   <rect x={hx + textWidth(w1, 11) + 14} y={height - 17} width="12" height="10" fill={`url(#${id}-blank)`} />
                   <text x={hx + textWidth(w1, 11) + 30} y={height - 8} fontSize="11" fill="var(--color-muted)">no value held</text>
