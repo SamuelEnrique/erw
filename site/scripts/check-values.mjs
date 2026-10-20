@@ -29,6 +29,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { unlockPost } from "./browser.mjs";   // session 301: the internal view by the form's door, no token in an address
+import * as ED from "./event-dates.mjs";   // session 369: the date of every event-page figure (todo 008)
 
 const REQUEST_MS = Number(process.env.CHECK_VALUES_REQUEST_S ?? 60) * 1000;
 const RUN_MIN = Number(process.env.CHECK_VALUES_TIMEOUT_MIN ?? 15);
@@ -348,6 +349,23 @@ async function truth(check) {
     const col = field === "capacity_mw" ? "v:capacity_mw" : `v:extra->>${field}`;
     const r = (await q("entities", { select: col, table_name: `eq.${table}`, entity_id: `eq.${id}` }))[0];
     return r ? Number(r.v) : undefined;
+  }
+  // session 369: the day a problem set's figures belong to, fullday|<set>|<YYYY-MM-DD>, checked with the page's own rule
+  // (lib/gridday.ts, the same function): the newest day every table of the set holds in full, up to the page's day. A
+  // page that names a day missing hours in any table reads an earlier day here and fails; a newer day the tables have
+  // gained since the page was built is not counted against it (a cached page names the day it was built on)
+  if (p[0] === "fullday") {
+    const G = await import("../lib/gridday.ts");
+    const [, set, d] = p;
+    if (set !== "know-your-grid") throw new Error(`unknown problem set in ${check}`);
+    const from = new Date(Date.parse(`${d}T00:00:00Z`) - 3 * 86_400_000).toISOString(), to = new Date(Date.parse(`${d}T00:00:00Z`) + 86_400_000).toISOString();
+    const held = [];
+    for (const { table, variables } of G.KNOW_YOUR_GRID.tables) {
+      const rows = await all("series", { select: "entity,variable,ts_utc", table_name: `eq.${table}`, variable: `in.(${variables.join(",")})`,
+        entity: `in.(${G.KNOW_YOUR_GRID.entities.map((e) => `"${e}"`).join(",")})`, and: `(ts_utc.gte.${from},ts_utc.lt.${to})`, order: "entity,variable,ts_utc" });
+      held.push({ table, variables, rows });
+    }
+    return G.newestCommonFullDay(held, G.KNOW_YOUR_GRID.entities, d);
   }
   if (p[0] === "series_max" || p[0] === "series_sum") {
     // session 29: an optional sixth part names the entity (one BA of the consolidated EIA-930 tables)
@@ -719,6 +737,16 @@ let storageRows = null;
 const stackRows = new Map();
 const supplyRows = new Map();  // session 68: ba_supply_monthly, one ISO grid at a time  // session 67: the battery stack's rows, by entity|strategy|duration
 const studies = new Map();  // session 47: event studies, by event|entity|variable
+// session 369: an event page's rows of one entity and variable (every date the table holds for the event), read once;
+// the figure is compared with the row of its key's own date among them (event-dates.mjs rowOfKey)
+const evRows = new Map();
+async function eventRows(check) {
+  const [, table, entity, variable, , event] = check.split("|");
+  const k = [table, entity, variable, event ?? ""].join("|");
+  if (!evRows.has(k)) evRows.set(k, await all("series", { select: "ts_utc,value", table_name: `eq.${table}`, entity: `eq.${entity}`, variable: `eq.${variable}`,
+    ...(event ? { event: `eq.${event}` } : {}), order: "ts_utc" }));
+  return evRows.get(k);
+}
 
 /** US dollars, short, as site/app/deals/DealsTable.tsx writes them (data-format usd). */
 function usd(v) {
@@ -877,17 +905,28 @@ async function main() {
     const html = await res.text();
     if (html.includes('data-in-review="1"')) throw new Error(`${page}: the in-review page was served (no internal cookie, or the server's token is not this one)`);
     const re = /<span data-check="([^"]+)" data-raw="([^"]*)"[^>]*>([\s\S]*?)<\/span>/g;
-    perPage.set(page, [...html.matchAll(re)].length);
-    for (const m of html.matchAll(re)) {
+    const ms = [...html.matchAll(re)];
+    perPage.set(page, ms.length);
+    for (const [i, m] of ms.entries()) {
       const text = decode(m[3].replace(/<!-- -->/g, "").replace(/<[^>]+>/g, "")).trim();
       const check = decode(m[1]);
       const usdFormat = html.slice(Math.max(0, m.index - 30), m.index).endsWith('<span data-format="usd">');
-      if (!found.has(check)) found.set(check, { page, raw: decode(m[2]), text, usdFormat });
+      // session 369 (todo 008): on an event page, the date the page writes beside the figure (from the text between the
+      // figures around it), and every event page that carries the key, each reported on its own line
+      const ev = ED.isEventPage(page);
+      const written = ev ? ED.besideOf(html, ms, i) : null;
+      if (!found.has(check)) found.set(check, { page, raw: decode(m[2]), text, usdFormat, written: written ? [written] : [], also: [] });
+      else if (ev) {
+        const f = found.get(check), o = f.page === page ? f : f.also.find((x) => x.page === page);
+        if (o) { if (written && !o.written.includes(written)) o.written.push(written); }
+        else f.also.push({ page, raw: decode(m[2]), text, usdFormat, written: written ? [written] : [] });
+      }
     }
   }
   let ok = 0, bad = 0, superseded = 0;
   const lines = [];
-  for (const [check, { page, raw, text, usdFormat }] of found) {
+  for (const [check, first] of found) {
+    const { page, raw, text } = first;
     let t = await truth(check);
     if (t && t.latest) {
       const lag = (new Date(t.ts).getTime() - new Date(t.pageTs).getTime()) / 60000;
@@ -904,24 +943,39 @@ async function main() {
       }
       t = t.value;
     }
-    const isTime = /^\d{4}-\d{2}-\d{2}T/.test(raw);
-    // sums of floats may differ in the last bits with the order of addition: relative tolerance
-    // session 315: a figure written as text in its own file (a card's callout, "126.6x") is compared as text
-    const same = isTime ? new Date(t).getTime() === new Date(raw).getTime() : (typeof t === "string" && Number.isNaN(Number(t))) ? t === raw : Math.abs(Number(t) - Number(raw)) < 1e-9 * Math.max(1, Math.abs(Number(t)));
-    // session 16: MW sums are written as whole MW (lib/format.ts count)
-    // session 90: /storage/buildout writes its MW and MWh whole too (lib/buildout.ts WHOLE; the ratios keep two decimals)
-    // session 354: ERCOT's load in each of the four summer peak intervals, written whole (/cost-of-power)
-    const whole = /(^projects\|mw\|)|(^datacenters\|(mw_total|state_mw|operator_mw|status_mw|sites_mw|texas_mw))|(^series\|ercot_large_load_status\|)|(^series\|ercot_4cp_intervals\|)|(^series\|storage_buildout_monthly\|[^|]+\|(battery|solar)_(operating|planned)_(mw|mwh)(?!_per_)(_|\|))/.test(check);
-    // session 76: an hour of the day (a variable named ..._hour, a whole number 0 to 23) may be written "09:00" (/shoulder):
-    // "16:00" passed the rule below by accident, "09:00" could not
-    const hourText = /\|[a-z0-9_]*_hour\|/.test(check) && /^\d{1,2}$/.test(raw) && text.startsWith(`${raw.padStart(2, "0")}:00`);
-    // session 315: a figure the page shows as its own raw text (a card's callout "126.6x", a record's figure as written) is its text
-    // a card's p value (FindingCard fmtP): "< 0.001" under a thousandth, else three decimals
-    const pText = /^finding\|[^|]+\|effect\|\d+\|p\|/.test(check) && (Number(raw) < 0.001 ? text === "< 0.001" : text === Number(raw).toFixed(3));
-    const textOk = hourText || pText || text === raw || text.startsWith(usdFormat ? usd(Number(raw)) : whole ? Math.round(Number(raw)).toLocaleString("en-US") : shown(raw));
-    const pass = t !== undefined && t !== null && same && textOk;
-    pass ? ok++ : bad++;
-    lines.push(`${pass ? "ok  " : "FAIL"} | ${page} | ${check} | page shows "${text}" | page read ${raw} | Supabase ${t}`);
+    // session 369: each page the key is reported under (the first; on event pages, every event page that carries it)
+    for (const { page, raw, text, usdFormat, written } of [first, ...first.also]) {
+      const isTime = /^\d{4}-\d{2}-\d{2}T/.test(raw);
+      // sums of floats may differ in the last bits with the order of addition: relative tolerance
+      // session 315: a figure written as text in its own file (a card's callout, "126.6x") is compared as text
+      const same = isTime ? new Date(t).getTime() === new Date(raw).getTime() : (typeof t === "string" && Number.isNaN(Number(t))) ? t === raw : Math.abs(Number(t) - Number(raw)) < 1e-9 * Math.max(1, Math.abs(Number(t)));
+      // session 16: MW sums are written as whole MW (lib/format.ts count)
+      // session 90: /storage/buildout writes its MW and MWh whole too (lib/buildout.ts WHOLE; the ratios keep two decimals)
+      // session 354: ERCOT's load in each of the four summer peak intervals, written whole (/cost-of-power)
+      const whole = /(^projects\|mw\|)|(^datacenters\|(mw_total|state_mw|operator_mw|status_mw|sites_mw|texas_mw))|(^series\|ercot_large_load_status\|)|(^series\|ercot_4cp_intervals\|)|(^series\|storage_buildout_monthly\|[^|]+\|(battery|solar)_(operating|planned)_(mw|mwh)(?!_per_)(_|\|))/.test(check);
+      // session 76: an hour of the day (a variable named ..._hour, a whole number 0 to 23) may be written "09:00" (/shoulder):
+      // "16:00" passed the rule below by accident, "09:00" could not
+      const hourText = /\|[a-z0-9_]*_hour\|/.test(check) && /^\d{1,2}$/.test(raw) && text.startsWith(`${raw.padStart(2, "0")}:00`);
+      // session 315: a figure the page shows as its own raw text (a card's callout "126.6x", a record's figure as written) is its text
+      // a card's p value (FindingCard fmtP): "< 0.001" under a thousandth, else three decimals
+      const pText = /^finding\|[^|]+\|effect\|\d+\|p\|/.test(check) && (Number(raw) < 0.001 ? text === "< 0.001" : text === Number(raw).toFixed(3));
+      const textOk = hourText || pText || text === raw || text.startsWith(usdFormat ? usd(Number(raw)) : whole ? Math.round(Number(raw)).toLocaleString("en-US") : shown(raw));
+      let pass = t !== undefined && t !== null && same && textOk;
+      // session 369 (todo 008): on an event page, the date the figure belongs to is named on its line; a series figure
+      // is compared with the row of that date among its entity's rows (never another day's), an estimate of a day with
+      // that day's, and a date the page writes beside the figure must be the same date
+      let of = "";
+      if (ED.isEventPage(page)) {
+        const kd = ED.keyDate(check);
+        const rows = !kd || kd.window ? [] : check.startsWith("series|") ? await eventRows(check) : [{ ts_utc: `${kd.date}T00:00:00Z`, value: t }];
+        const w = written.find((x) => kd && !kd.window && x !== kd.date) ?? written[0] ?? null;
+        const d = ED.compareDated({ check, raw, written: w }, rows);
+        if (d.pass === false) pass = false;
+        of = ` of ${d.label}${d.why ? ` (${d.why})` : ""} |`;
+      }
+      pass ? ok++ : bad++;
+      lines.push(`${pass ? "ok  " : "FAIL"} | ${page} | ${check} |${of} page shows "${text}" | page read ${raw} | Supabase ${t}`);
+    }
   }
   for (const [page, count] of perPage) {
     const floor = FLOOR[page];
@@ -933,7 +987,7 @@ async function main() {
   const [wok, wbad] = ONLY.length ? [0, 0] : await checkWeekly(lines);
   ok += wok;
   bad += wbad;
-  const n = found.size + wok + wbad;
+  const n = [...found.values()].reduce((a, f) => a + 1 + f.also.length, 0) + wok + wbad;   // session 369: a key on several event pages is a line each
   console.log(lines.join("\n"));
   if (ONLY.length) console.log(`\nRESTRICTED RUN (CHECK_VALUES_PAGES): only the pages starting with ${ONLY.join(", ")}; not the gate of a landing`);
   console.log(`\n${ok} of ${n} values match Supabase${superseded ? `; ${superseded} latest prices superseded by a newer interval within ${LATEST_LAG_MIN} minutes (checked for staleness, not comparable by value)` : ""}${bad ? `; ${bad} FAILED` : ""} (/roundup: ${wok} of ${wok + wbad})`);

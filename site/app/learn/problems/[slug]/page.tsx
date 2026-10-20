@@ -60,6 +60,8 @@ export default async function Problems({ params }: { params: Promise<{ slug: str
             <li key={q.id}>
               <Section title={`Question ${n + 1}`}>
                 <p className="mb-1 max-w-3xl">{q.q}</p>
+                {/* session 369: the day the figures belong to, checked by check-values with lib/gridday.ts (the page's own rule) */}
+                {q.day ? <p className="mb-1 text-xs text-muted" data-day>Figures of <Num check={q.day.k} raw={q.day.d}>{q.day.d}</Num>: {q.day.note}.</p> : null}
                 <p className="mb-2 text-xs text-muted">Tables: {q.tables.map((t, i) => <span key={t}>{i ? ", " : ""}<Link href={`/data#${t}`} className="font-mono">{t}</Link></span>)}</p>
                 <details className="max-w-3xl border border-rule bg-panel p-2 text-sm">
                   <summary className="cursor-pointer text-accent">Show answer</summary>
