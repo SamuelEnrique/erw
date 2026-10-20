@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ChartFrame, Fold, InputPanel, SourceLine, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import fileJson from "@/data/demand_weather.json";
-import { FIGURES, ORDER, TABLE, choices, day, figureOf, href, one, reading, signed, split, whole, years, type Figure, type WeatherFile } from "@/lib/demandweather";
+import { FIGURES, ORDER, TABLE, choices, day, figureOf, href, lastWholeYear, one, reading, signed, split, whole, years, type Figure, type WeatherFile } from "@/lib/demandweather";
 import { Hint } from "./Hint";
 import { Hover } from "./Hover";
 
@@ -95,7 +95,7 @@ export function WeatherView({ q }: { q: Record<string, string | undefined> }) {
       </p>
       <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
         <aside>
-          <InputPanel title="Choose" note={<>The newest year stops on {through}. <Hint words="How it is compared" why={`Its energy and its overnight minimum are compared with the same days of ${t0} to ${t1}.`} /></>}>
+          <InputPanel title="Choose" reset={{ href: "/demand?view=weather", defaults: `${FIGURES[0].name.toLowerCase()}, in ${lastWholeYear(file)}, the last whole year held.` }} note={<>The newest year stops on {through}. <Hint words="How it is compared" why={`Its energy and its overnight minimum are compared with the same days of ${t0} to ${t1}.`} /></>}>
             <nav aria-label="Figure" className="mb-4 text-sm">
               <div className="mb-1 text-xs uppercase tracking-wide text-muted">Figure</div>
               {FIGURES.map((f) => <div key={f.slug}><Link href={href(f.slug, year)} aria-current={f.slug === figure.slug ? "true" : undefined} className={item(f.slug === figure.slug)} title={f.what}>{f.name}</Link></div>)}
