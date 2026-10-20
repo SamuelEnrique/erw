@@ -463,7 +463,7 @@ try {
   check(!s.bad && s.cells["a|revenue"].raw !== null && s.cells["a|battery"].raw === null && (s.cells["a|battery"].missing ?? "").length > 20 && s.bars.length === 8, "New York wind: the scenarios are computed; no pair is modeled, with its reason on hover", s.cells["a|battery"].missing ?? "");
   await go("/cost-of-power/seller?iso=isone&asset=solar&hub=.Z.MAINE");
   s = await ev(STATE);
-  check(!!s && !s.bad && s.cells["a|revenue"].raw === null && s.cells["a|npv"].raw === null && s.bars.length === 0 && s.sentence === null && s.fields.length === 11, "a zone with no twelve months: the rows say not held, with no chart and no sentence (nothing is filled)", s ? s.cells["a|revenue"].text : "no block");
+  check(!!s && !s.bad && s.cells["a|revenue"].raw === null && s.cells["a|npv"].raw === null && s.bars.length === 0 && s.sentence === null && s.fields.length === 13, "a zone with no twelve months: the rows say not held, with no chart and no sentence (nothing is filled; session 353: thirteen fields, solar offers the two tax credits)", s ? s.cells["a|revenue"].text : "no block");
 
   // 10b (session 235): the breakeven PPA price, "Make B a PPA", and the capture chart and table inside the first question
   await go("/cost-of-power/seller");
