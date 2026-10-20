@@ -22,6 +22,7 @@
 // What the canvas had and these do not: the range slider and the PNG download (the table stands in for both; a
 // slider is the next ruling's).
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { stackNames, wrapName } from "@/lib/chartwrap";   // session 370: the names at the right in lines that fit
 
 export const tokenColor = (c: string) => (c.startsWith("var(") ? c : c.startsWith("--") ? `var(${c})` : c.startsWith("series-") ? `var(--chart-${c})` : /^#|^rgb/.test(c) ? c : `var(--color-${c})`);
 export const num = (v: number, digits?: number) => (digits === undefined
@@ -191,10 +192,14 @@ export function CategoryChart({ id, x, series, unit, unit2 = "", label, height =
     const i = n - 1 - last;
     const v = stacked[k].to[i]!;
     const y = s.stack && (s.kind ?? "bar") === "area" ? (py(v, b) + py(stacked[k].from[i], b)) / 2 : py(v, b);
-    return { k, y };
-  }).filter((e): e is { k: number; y: number } => e !== null && (series[e.k].kind ?? "bar") !== "bar");
-  ends.sort((a, b) => a.y - b.y);
-  for (let i = 1; i < ends.length; i++) if (ends[i].y < ends[i - 1].y + 13) ends[i].y = ends[i - 1].y + 13;
+    return { k, y, lines: [] as string[] };
+  }).filter((e): e is { k: number; y: number; lines: string[] } => e !== null && (series[e.k].kind ?? "bar") !== "bar");
+  // session 370: a name wider than the room at the right is drawn in lines that fit (on /research/card/* the names ran
+  // past the chart's box, at 390 px and at 1280); each name keeps the room of its lines below it, and the last stays
+  // inside the drawing's height (lib/chartwrap.ts)
+  const endX = plotR + (two ? 50 : 6);
+  for (const e of ends) e.lines = wrapName(series[e.k].name, W - endX - 2);
+  stackNames(ends, height - 6);
   const rows = x.map((c, i) => ({ key: `${c}-${i}`, cells: [nameOf ? nameOf(i) : c, ...series.map((s) => (s.values[i] === null || s.values[i] === undefined ? <NotHeld key={s.name} /> : num(s.values[i] as number, s.digits)))] }));
   return (
     <div ref={wrap} className="relative w-full min-w-0" data-chart={id} data-svg-chart="category" data-chart-width={W}>
@@ -278,7 +283,11 @@ export function CategoryChart({ id, x, series, unit, unit2 = "", label, height =
               </g>
             ))}
             {small ? null : <g data-direct-labels="1">
-              {ends.map(({ k, y }) => <text key={series[k].name} x={plotR + (two ? 50 : 6)} y={y + 4} fontSize="12" fill={tokenColor(series[k].color)}>{series[k].name}</text>)}
+              {ends.map(({ k, y, lines }) => (
+                <text key={series[k].name} x={endX} y={y + 4} fontSize="12" fill={tokenColor(series[k].color)}>
+                  {lines.length === 1 ? series[k].name : lines.map((l, j) => <tspan key={j} x={endX} dy={j ? 13 : 0}>{j < lines.length - 1 ? `${l} ` : l}</tspan>)}
+                </text>
+              ))}
               {barNames.map((b) => <text key={b.name} x={b.x} y={b.y} fontSize="12" fill={tokenColor(b.color)}>{b.name}</text>)}
             </g>}
             {hover !== null ? <line x1={cx(hover)} x2={cx(hover)} y1={TOP} y2={height - BOT} stroke="var(--color-muted)" strokeWidth="1" strokeDasharray="3 3" /> : null}
