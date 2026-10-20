@@ -20,6 +20,8 @@
 //   4. a step of efficiency is the model's own run in data/battery_scenario_steps.json;
 //   5. the address round trip: opening the address again gives the same inputs and the same numbers;
 //   6. "Copy A to B", a Reset and the Reset for all;
+//      (session 370) on another grid the steps are held exactly while that file still describes the live months (read
+//      from the page's months.csv, judged by the library's stepState); otherwise the page offers the default step alone;
 //   7. the sensitivity chart: ten bars sorted by size (twelve with a contract, session 211), a legend, and a hover that states the two values and the step;
 //   8. no word of recommendation in the block;
 //   9. the page's own six parameters still work, and its links and its Show carry the scenarios;
@@ -81,6 +83,28 @@ async function cdp(wsUrl) {
     send: (method, params = {}) => new Promise((res, rej) => { const i = ++id; pending.set(i, { res, rej }); ws.send(JSON.stringify({ id: i, method, params })); }),
     on: (f) => listeners.push(f),
   };
+}
+/** Session 370: the state the page's steps must be in, from the page's own months (its months.csv, read at 5,000 MW)
+ * and the file of steps, by the library's rule (F.stepState over B.last36's held months); with the months that differ. */
+function stepsExpected(csv, key) {
+  const lines = (csv ?? "").split(/\r?\n/).filter((l) => l && !l.startsWith("#"));
+  if (lines.length < 2) return null;
+  const cols = lines[0].split(",");
+  const at = (r, c) => r[cols.indexOf(c)];
+  const ms = lines.slice(1).map((l) => l.split(",")).map((r) => {
+    const daysHeld = Number(at(r, "days_held")), daysOut = Number(at(r, "days_left_out")), daysInMonth = Number(at(r, "days_in_month"));
+    return { m: at(r, "month"), held: at(r, "held") === "yes", daysHeld, daysOut, daysInMonth, whole: daysInMonth > 0 && daysHeld + daysOut >= daysInMonth,
+      total: at(r, "total_usd") === "" ? null : Number(at(r, "total_usd")) / 5000 };
+  });
+  const c = STEPS.cases[key];
+  const st = F.stepState(c, ms, (B.last36(ms)?.months ?? []).map((r) => r.m));
+  const by = new Map(ms.map((r) => [r.m, r]));
+  const differ = (c?.months ?? []).flatMap((m, i) => {
+    const r = by.get(m);
+    return r && r.daysHeld === c.days[i] && r.total !== null && Math.abs(r.total - c.cells["86|1"][i]) <= 0.005 ? []
+      : [`${m}: file ${c.days[i]} days, live ${r ? r.daysHeld : "none"}`];
+  });
+  return { state: st.ok ? "held" : st.why, differ };
 }
 let failed = 0;
 function check(ok, what, detail = "") {
@@ -416,7 +440,19 @@ try {
   // other grids
   await go("/cost-of-power/battery?grid=caiso&dur=2&strat=foresight");
   s = await ev(STATE);
-  check(!!s && s.steps === "held" && Number(s.fields.find((f) => f.key === "capex").value) === 610 && s.cells["a|revenue"].raw === s.l12kw, "CAISO, 2 hours: the block opens at that duration's defaults, steps held", s ? s.cells["a|revenue"].text : "no block");
+  // Session 370: the steps are held only while the file of steps still describes the live table over the page's window
+  // (lib/battery/finance.ts, stepState). Until session 370 this case expected "held" outright, which is true only while
+  // the file is current: session 322 filled CAISO's three fall-back days, the daily run rebuilt battery_stack_monthly
+  // with 30 days in each November, and the file (built 14 October) still holds 29, so the page rightly offers the
+  // default step alone. The check now reads the page's own months (months.csv at 5,000 MW, so a month's total per MW is
+  // exact to 0.0001 USD) and asks the library which state the page must be in, then holds the page to it.
+  const csv = await ev(`fetch("/cost-of-power/battery/months.csv?grid=caiso&dur=2&strat=foresight&mw=5000").then((r) => r.ok ? r.text() : "")`);
+  const want = stepsExpected(csv, "caiso|foresight|2");
+  check(!!s && !!want && s.steps === want.state && Number(s.fields.find((f) => f.key === "capex").value) === 610 && s.cells["a|revenue"].raw === s.l12kw
+    && (want.state === "held" || /only the model's own step is offered/.test(s.stepsText)),
+    `CAISO, 2 hours: the block opens at that duration's defaults, steps ${want ? want.state : "(months.csv not read)"} as the file of steps and the live months say`,
+    s ? `${s.cells["a|revenue"].text}; steps ${s.steps}` : "no block");
+  if (want && want.state !== "held") console.log(`note CAISO, 2 hours: the file of steps (built ${STEPS.built}) no longer describes the live table (${want.differ.join("; ")}): the data machine's battery_scenario_steps, run on tables that hold the live months, brings the steps back`);
   await go("/cost-of-power/battery?grid=nyiso&dur=4&strat=foresight");
   s = await ev(STATE);
   if (s) check(s.steps === "none" && s.fields.find((f) => f.key === "rte").options.length === 1 && /only the model's own step is held for NYISO/.test(s.stepsText), "a grid in review offers the default step alone and says so", s.stepsText);

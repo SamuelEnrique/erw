@@ -3,46 +3,51 @@
 //   npm run build && npx next start -p 3138
 //   node scripts/check-datacenter.mjs [base-url]      (default http://localhost:3138)
 //
+// Session 370: the page as it stands now. Session 213 put the page on the battery page's questions and moved what the
+// grid sections drew (the tight hours, demand by region, the carbon-free share, the large load in line, how long a
+// load waits, the rules in motion, the tariff lines) into its download, /cost-of-power/tables.csv; sessions 228, 236,
+// 265, 280 and 317 changed the rest (the four questions' titles, the delivery table by component, the Commission's
+// rate per MWh with the rate as printed on hover, a line for a grid the address names and the page does not hold, the
+// chart in SVG). Each assertion of session 138 below either follows the page as it stands now (and reads the download
+// where the figure moved there) or was retired with the block it described: the standalone contract panel (its
+// terms are two scenario assumptions since session 213, held by check-datacenter-scenarios.mjs), and the block
+// "Rules in motion" with its rows, hovers, fold and seven choices (undrawn since session 213: its rows are the table
+// "rules" of the download, its count a figure of "How soon?"). archive/sessions/SESSION_370_REPORT.md lists each.
+//
 // As HTML, in the internal view (the page is in review):
-//   opens      200, its title, the three tabs, the four questions, no "undefined", no NaN; it names its Method note
+//   opens      200, its title, the three tabs, the four questions (What will it pay? Will the power be there? How
+//              clean? How soon?), no "undefined", no NaN; it names its Method note and links the note's list of what
+//              the model cannot see
 //   numbers    the summary sentence's figures equal the arithmetic of lib/datacenter.ts over the site's own files, for
 //              a flat load, a load off in 100 hours a year bought day-ahead, and a shifting load in California
 //   uneven     a region with no price in the market named reads "not held yet" with its reason on hover, and no number
 //   forecast   (session 140) a flexible load's figures are the forecast rule's (lib/datacenter.ts monthsRuled), with the
-//              same load "if perfectly foreseen" beside them; a load zone shows its trading hub beside it; the load's
-//              own hours against the grid's carbon-free share are the library's figure
-//   new york   (session 140) New York's load in line by zone, from NYISO's queue workbook, and request by request
+//              same load "if perfectly foreseen" beside them; a load zone shows its trading hub beside it
+//   new york   (session 149) New York's load in line is not shown (NYISO's terms): the download says so with the reason
 //   blank      MISO reads "paused while terms are reviewed" and PJM "licensed source needed", neither selectable; an
-//              address that names one opens the default grid
-//   nowhere    large load in line by region: "not published anywhere yet"; how long a new large load waits (session 163):
-//              "not measured here" for ERCOT, "measured, below" for New York (the block: scripts/check-how-soon.mjs)
-//   delivery   Texas (session 140, the owner's ruling): the four wires utilities' charges, each a row of its own with
-//              transmission and distribution apart, each charge as the tariff prints it with its line; the Commission's
-//              wholesale transmission rate as a row of its own; another grid "not held yet"
-//   there      ERCOT's tight hours are the file's count, and the hours a flexible load was off in are the library's;
-//              ISO-NE's demand, held internally, reads "licensed source needed"; SPP's "not held yet"
+//              address that names one opens the default grid and says so in one line
+//   download   (session 370) the tables session 213 moved: the large load in line "not published anywhere yet", how
+//              long a load waits "not measured here" for ERCOT; ERCOT's tight hours (the file's count) and the hours a
+//              flexible load was off in them (the library's); ERCOT's eight weather zones with their growth; the
+//              load's own hours against the grid's carbon-free share (the library's); ISO-NE's demand held internally
+//              and none of it shown; SPP's tight hours not held; every tariff line with its page, date and address
+//   delivery   Texas: the four wires utilities as the columns of a table by component, transmission and distribution
+//              apart, each figure's hover naming the tariff lines it sums as printed; the Commission's wholesale
+//              transmission rate as a row of its own, per MWh, with the rate as printed on hover; another grid "not
+//              held yet"
+//   rules      for each of the seven grids an address can name, "How soon?" counts the file's rows (lib/rules.ts) with
+//              the newest, or MISO's pause; the download's table "rules" holds exactly the file's rows and federal rows
 //   view       ?view=grids is what the tab showed before: its ranking, ERCOT since 2018, the hours of the day, cost
 //              against carbon and the calculator
 //   visitor    without the cookie the page is the in-review page
-//   rules      (session 154) "Rules in motion" in the section "How soon", for each of the seven grids an address can name:
-//              the block is there; every row shown is a row of data/datacenter/rules.json in the order of lib/rules.ts,
-//              with its date, its status, a link whose address is the file's and whose hover holds the file's sentence
-//              (or, where the file does not copy a regulator's text, the file's phrase in its place and the status's
-//              class: never neither, never a sentence the file does not hold),
-//              and a read marked as a model's or the placeholder "no read yet"; eight rows of a group stand before its
-//              fold; MISO shows the fixed words and no row; PJM shows the file's rows, and the rest of its address is
-//              what the default address shows; the block holds no municipal word, on its face or on hover; its face
-//              holds no sentence of the Method note. Before the file exists the block reads "not held yet".
-// In a real browser: the chart is drawn and answers the mouse with the year and its figures; the contract's terms make
-// no request, leave the address as it was, write nothing to storage or cookies, and show the result; choosing another
-// grid opens that grid with its own regions. Session 154: the rows of "Rules in motion" carry the file's address and
-// sentence in the page as the browser holds it, a row's link takes the keyboard's focus, and a fold opens to a real
-// click and to the Enter key.
+// In a real browser: the chart is drawn and answers the mouse with the year and its figures; ERCOT's regions are load
+// zones, then trading hubs; choosing another grid opens that grid with its own regions; no script error.
 // Exit 1 on a failure.
 import fs from "node:fs";
 import { env, withBrowser, unlockPost } from "./browser.mjs";
 import { cleanShare, expandSeries, gpuHour, lastTwelve, monthsOf, monthsRuled, span, two, usdShort } from "../lib/datacenter.ts";
-import { MUNICIPAL, NO_READ, NO_READ_WHY, PAUSED_WORDS, PAUSE_WHY, RULE_GRIDS, SHOWN, blockOf, dayWords, docketTip, docketWords, fileOf, linkOf, readOf, statusOf } from "../lib/rules.ts";
+import { MUNICIPAL, PAUSED_WORDS, RULE_GRIDS, blockOf, fileOf } from "../lib/rules.ts";
+import { conditionOf, deliveryOf, kindOf, slugOf, utilitiesOf } from "../lib/datacenter/delivery.ts";
 
 const base = (process.argv[2] ?? "http://localhost:3138").replace(/\/$/, "");
 let bad = 0, n = 0;
@@ -57,20 +62,50 @@ const get = async (path, withCookie = true) => { const r = await fetch(base + pa
 const plain = (html) => html.replace(/<script[\s\S]*?<\/script>/gi, " ").replace(/<style[\s\S]*?<\/style>/gi, " ").replace(/<!--.*?-->/g, "").replace(/<[^>]+>/g, " ").replace(/&#x27;/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, "&").replace(/\s+/g, " ");
 const face = (html) => { const i = html.indexOf("<h1"); return i < 0 ? "" : html.slice(i); };
 const stat = (html, k) => new RegExp(`data-stat="${k}"[^>]*>([^<]*)<`).exec(html)?.[1] ?? null;
+const decode = (t) => t.replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16))).replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(Number(d))).replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+const attrs = (tag) => Object.fromEntries([...tag.matchAll(/([a-zA-Z_:-]+)="([^"]*)"/g)].map((m) => [m[1], decode(m[2])]));
+const titles = (h) => [...h.matchAll(/\btitle="([^"]*)"/g)].map((m) => decode(m[1]));
+// session 370: the page's download, tables.csv (table,row,column,value,note), where session 213 moved the grid sections
+function csvRows(t) {
+  const out = [];
+  for (const line of t.split(/\r?\n/)) {
+    if (!line || line.startsWith("#")) continue;
+    const cells = [];
+    let cur = "", q = false;
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (q) { if (ch === '"' && line[i + 1] === '"') { cur += '"'; i++; } else if (ch === '"') q = false; else cur += ch; }
+      else if (ch === '"') q = true;
+      else if (ch === ",") { cells.push(cur); cur = ""; }
+      else cur += ch;
+    }
+    cells.push(cur);
+    out.push(cells);
+  }
+  return out.slice(1).map(([table, row, column, value, note]) => ({ table, row, column, value: value ?? "", note: note ?? "" }));
+}
+const tablesOf = async (q = "") => csvRows((await get(`/cost-of-power/tables.csv${q}`)).html);
+const cell = (rows, table, row, column) => rows.find((r) => r.table === table && r.row === row && r.column === column) ?? null;
 
 const page = await get("/cost-of-power");
 const html = face(page.html), text = plain(html);
+const T = await tablesOf();
 check(page.status === 200 && text.includes("What a datacenter pays") && !/\bundefined\b|NaN/.test(text), '/cost-of-power opens as "What a datacenter pays", with no "undefined" and no NaN');
 check(["What a datacenter pays", "What a generator earns", "What a battery earns"].every((t) => plain(/<nav[^>]*aria-label="Cost of power"[\s\S]*?<\/nav>/.exec(page.html)?.[0] ?? "").includes(t)), "the three tabs: What a datacenter pays, What a generator earns, What a battery earns");
-check(["What will it cost", "Will the power be there", "How clean", "How soon"].every((t) => html.includes(`>${t}</h2>`)), "the four questions are four sections");
-check(page.html.includes("/data/methods/datacenter_cost") && !/upper bound|Wholesale energy only|cannot see|limitation/i.test(text), "the page names its Method note and carries no method prose on its face");
+// session 213 named the first question for a buyer ("What will it pay?"); session 228 answered the other three, as questions
+check(["What will it pay?", "Will the power be there?", "How clean?", "How soon?"].every((t) => html.includes(`>${t}</h2>`)), "the four questions are four sections: What will it pay? Will the power be there? How clean? How soon? (sessions 213 and 228)");
+// session 190 linked the page's own note (datacenter_pays_algorithm); session 213 gave the three tools one line of what the model cannot see, linked to the note
+check(page.html.includes("/data/methods/datacenter_pays_algorithm") && page.html.includes("datacenter_pays_algorithm#cannot-see") && (text.match(/cannot see/g) ?? []).length === 1 && !/upper bound|Wholesale energy only|limitation/i.test(text),
+  "the page names its Method note (datacenter_pays_algorithm) and its one line of what the model cannot see links the note's list; no other method prose on its face");
 check(/data-grid="miso"[^>]*data-open="0"[\s\S]{0,400}?paused while terms are reviewed/.test(html) && /data-grid="pjm"[^>]*data-open="0"[\s\S]{0,400}?licensed source needed/.test(html)
   && /<input[^>]*disabled=""[^>]*value="miso"|value="miso"[^>]*disabled=""/.test(html), 'MISO reads "paused while terms are reviewed" and PJM "licensed source needed"; neither can be chosen');
 check(["ercot", "caiso", "nyiso", "isone", "spp"].every((g) => new RegExp(`data-grid="${g}"[^>]*data-open="1"`).test(html)), "the five public grids can each be chosen");
-// session 163: how long a load waits is measured for New York and reads "not measured here" for Texas (the block below the table,
-// scripts/check-how-soon.mjs); the load in line by region still reads "not published anywhere yet"
-check((text.match(/not published anywhere yet/g) ?? []).length === 1 && /Large load in line, by region\s+not published anywhere yet/.test(text) && /How long a new large load waits\s+not measured here/.test(text),
-  'large load in line by region reads "not published anywhere yet"; how long a new large load waits reads "not measured here" for ERCOT');
+{
+  // session 163's two lines, in the download since session 213
+  const inLine = cell(T, "how_soon", "large_load_in_line", "mw"), waits = cell(T, "waits", "state", "words");
+  check(!!inLine && inLine.value === "" && inLine.note.startsWith("not published anywhere yet") && waits?.value === "not measured here",
+    'large load in line by region reads "not published anywhere yet" and how long a new large load waits "not measured here" for ERCOT (the download, tables.csv)');
+}
 
 for (const [q, grid, region, buy, x] of [
   ["/cost-of-power", "ercot", index.grids.ercot.main, "rt", { run: "flat", n: 0, pct: 0, shift: 0 }],
@@ -99,54 +134,58 @@ for (const [q, grid, region, buy, x] of [
   } else check(false, "ERCOT holds a load zone with day-ahead prices only");
   const m = face((await get("/cost-of-power?grid=miso")).html);
   check(/<input[^>]*checked=""[^>]*value="ercot"|value="ercot"[^>]*checked=""/.test(m), "an address that names MISO opens the default grid, ERCOT");
-  const ny = plain(face((await get("/cost-of-power?grid=nyiso")).html));
   const q = JSON.parse(fs.readFileSync(new URL("../nyiso_load_queue.json", dir), "utf-8"));
   const nyh = (await get("/cost-of-power?grid=nyiso&region=CENTRL&buy=da")).html;
   if (q.shown === false) {
     // Session 149 (the owner's ruling of 7 October 2026: the rows are shown only if NYISO's terms allow it; by their
-    // words they do not): the megawatts in line and the fold of requests have left the face; a placeholder with its
-    // reason on hover stands where they stood, and the page's file holds no request
-    check(/data-nyload-held="1"/.test(nyh) && !/data-nyload="1"/.test(nyh) && plain(nyh).includes(`Large load in line, by region ${q.words}`)
-      && nyh.includes(`title="${q.why.replace(/'/g, "&#x27;")}"`) && /How long a new large load waits\s+measured, below/.test(ny),
-      `New York's load in line reads "${q.words}", with the reason on hover`);
+    // words they do not). Since session 213 the placeholder is the download's row, with the reason beside it, and the
+    // waits New York's own copies measure are there too
+    const TN = await tablesOf("?grid=nyiso");
+    const line = cell(TN, "how_soon", "large_load_in_line", "mw");
+    check(!!line && line.value === "" && line.note.startsWith(`${q.words}: ${q.why.slice(0, 60)}`) && TN.some((r) => r.table === "waits" && r.column === "measured_here" && r.value),
+      `New York's load in line reads "${q.words}", with the reason beside it, and its waits are measured (the download, tables.csv)`);
     check(!("rows" in q) && !("zones" in q) && !("total" in q) && !/New York(&#x27;|')s load in line, request by request/.test(nyh) && !/data-nyload-zone=/.test(nyh),
       "no request, zone or megawatt of NYISO's load queue is on the page or in its file");
-  } else {
-    const mine = q.zones.find((z) => z.zone_name === "CENTRL");
-    check(/data-nyload="1"/.test(nyh) && new RegExp(`${mine.mw.toLocaleString("en-US")} MW in ${mine.requests} requests in CENTRL`).test(plain(nyh)) && new RegExp(`${q.total.mw.toLocaleString("en-US")} MW in ${q.total.requests} requests in New York`).test(plain(nyh))
-      && q.zones.every((z) => nyh.includes(`data-nyload-zone="${z.zone_name}"`)) && /How long a new large load waits\s+measured, below/.test(ny),
-      `New York's load in line by zone is NYISO's own list: ${mine.mw.toLocaleString("en-US")} MW in ${mine.requests} requests in CENTRL, ${q.total.mw.toLocaleString("en-US")} MW in ${q.total.requests} in all, each zone with its statuses and its source on hover`);
-    const inLine = q.rows.filter((r) => r.in_line);
-    check(inLine.length === q.total.requests && inLine.every((r) => nyh.includes(`>${r.queue_position}</a>`)) && nyh.includes(q.source.url), `the ${inLine.length} requests in line are listed one by one, each linked to NYISO's workbook with its sheet and row on hover`);
-  }
+  } else check(false, "data/nyiso_load_queue.json says NYISO's rows may be shown: this check describes the page that does not show them (session 149)");
   const other = face((await get("/cost-of-power?grid=caiso")).html);
   check(/Delivery charges\s+not held yet/.test(plain(other)), 'another grid shows "delivery charges: not held yet"');
 }
 {
-  // Texas: delivery as rows of its own, shown only where the utility's terms allow, and the tight hours
+  // Texas: delivery by component (session 236), only what the tariffs state (session 265), and the tight hours
   const d = JSON.parse(fs.readFileSync(new URL("texas_delivery.json", dir), "utf-8"));
   const e = (await get("/cost-of-power?grid=ercot&run=hours&n=100")).html, et = plain(face(e));
-  const utilities = [...new Set(d.rows.map((r) => r.utility))];
-  const tcrf = d.rows.find((r) => r.utility === "Oncor" && /TCRF/.test(r.charge));
-  const per = two((tcrf.value * 12000) / 8760);
-  check(utilities.length === 4 && d.withheld.length === 0 && utilities.every((u) => new RegExp(`Delivery and transmission, ${u}`).test(et)) && et.includes(`The transmission factor alone, a flat load: USD ${per} per MWh`)
-    && d.rows.every((r) => e.includes(r.value_as_written.replace(/^\$\s*/, "").replace(/^\(\s*\$?\s*/, "("))),
-    `the four utilities' ${d.rows.length} delivery charges are rows of their own (${utilities.join(", ")}), each as the tariff prints it; Oncor's transmission factor alone is USD ${per} per MWh for a flat load`);
-  check(d.rows.every((r) => r.sentence && r.url.startsWith("http") && r.page && r.effective && e.includes(r.sentence.slice(0, 30).replace(/&/g, "&amp;").replace(/"/g, "&quot;"))), "every charge shown carries the line it was read from, its page, its date and its address");
-  check(utilities.every((u) => ["transmission", "distribution"].every((k) => d.rows.some((r) => r.utility === u && r.kind === k))) && (e.match(/data-delivery-kind="transmission"/g) ?? []).length === 4
+  const TH = await tablesOf("?grid=ercot&run=hours&n=100");
+  const utilities = utilitiesOf(d.rows);
+  const oncor = deliveryOf(d.rows, "Oncor", 100).components.find((c) => c.kind === "transmission");
+  const block = e.slice(e.indexOf('data-delivery="1"'), e.indexOf('data-delivery-note="1"'));
+  const tips = titles(block).join(" || ");
+  const inTotals = d.rows.filter((r) => conditionOf(r) !== "tariff");
+  const firstT = /data-delivery-kind="transmission"[^>]*>[\s\S]*?data-check="dcd\|100\|oncor:transmission"[^>]*>([^<]*)</.exec(block)?.[1];
+  check(utilities.length === 4 && d.withheld.length === 0 && et.includes(`Component ${utilities.join(" ")}`) && utilities.every((u) => block.includes(`data-delivery-total="${slugOf(u)}"`))
+    && inTotals.every((r) => tips.includes(`${r.charge.trim()}:${r.value_as_written} ${r.unit}`)) && firstT === two(oncor.perMwh),
+    `the four utilities are the columns of the delivery table (${utilities.join(", ")}); each figure's hover names the tariff lines it sums as printed (${inTotals.length} of ${d.rows.length}; the others apply only to some loads and are named under it); Oncor's transmission is USD ${two(oncor.perMwh)} per MWh for a flat 100 MW load (sessions 236 and 265)`);
+  const lines = TH.filter((r) => r.table === "delivery" && r.column === "line_read"), docs = TH.filter((r) => r.table === "delivery" && r.column === "document");
+  check(lines.length === d.rows.length && d.rows.every((r) => r.sentence && lines.some((l) => l.value.trim() === r.sentence.trim()) && docs.some((x) => x.note.includes(r.url) && x.note.includes(`page ${r.page}`) && x.note.includes(String(r.effective)))),
+    `every tariff line (${d.rows.length}) carries the line it was read from, its page, its date and its address, in the download's table "delivery" (session 236: none is on the page)`);
+  check(utilities.every((u) => ["transmission", "distribution"].every((k) => d.rows.some((r) => r.utility === u && kindOf(r) === k))) && (e.match(/data-delivery-kind="transmission"/g) ?? []).length === 4
     && (e.match(/data-delivery-kind="distribution"/g) ?? []).length === 4, "each utility's row shows transmission and distribution apart");
   const rate = d.matrix.find((r) => r.quantity === "postage_stamp_rate" && r.year === "2025");
-  check(/data-matrix="1"/.test(e) && et.includes(`2025: USD ${rate.value.toFixed(6)} per kW of four-peak demand a year`) && et.includes(`USD ${two((rate.value * 1000) / 8760)} per MWh, a flat load`) && /filed, not approved/.test(et)
-    && e.includes(rate.sentence.slice(0, 30)), `the Commission's wholesale transmission rate is a row of its own: USD ${rate.value.toFixed(6)} per kW a year in 2025 (approved), USD ${two((rate.value * 1000) / 8760)} per MWh for a flat load; 2026 is marked filed, not approved`);
+  const rateTip = attrs(/<a[^>]*data-matrix-rate="2025"[^>]*>/.exec(e)?.[0] ?? "").title ?? "";
+  const perMwh = two((rate.value * 1000) / 8760);
+  check(/data-matrix="1"/.test(e) && new RegExp(`2025\\s*:\\s*USD ${perMwh.replace(".", "\\.")} per MWh, a flat load\\s+approved`).test(et) && /2026\s*:\s*USD [\d.,]+ per MWh, a flat load\s+filed, not approved/.test(et)
+    && rateTip.startsWith(`USD ${rate.value.toFixed(6)} per kW of four-peak demand a year, as printed`) && rateTip.includes(rate.sentence.slice(0, 30)),
+    `the Commission's wholesale transmission rate is a row of its own: USD ${perMwh} per MWh for a flat load in 2025 (approved), USD ${rate.value.toFixed(6)} per kW a year as printed on hover with its line (session 236); 2026 is marked filed, not approved`);
   const E = index.grids.ercot, yrs = Object.keys(E.demand).filter((y) => E.demand[y].whole && E.demand[y].tight_hours !== undefined).sort(), y = yrs.at(-1);
   const f = files("ercot").find((k) => String(k.year) === y);
   const X100 = { run: "hours", n: 100, pct: 0, shift: 0 }, main = E.main;
   const ruled = monthsRuled(files("ercot"), main, "rt", X100, "forecast"), p = ruled.prices.get(Number(y)), w = ruled.weights.get(Number(y));
   const off = f.tight.filter((i) => p[i] !== null && w[i] === 0).length;
-  check(new RegExp(`Hours the grid was tight, ${y}\\s+${E.demand[y].tight_hours} hours`).test(et) && new RegExp(`this load was off in\\s+${off} of ${E.demand[y].tight_hours}`).test(et),
-    `ERCOT was tight in ${E.demand[y].tight_hours} hours of ${y} (the file's count), and a load off in the year's 100 dearest hours was off in ${off} of them`);
-  check(/data-zone="FWEST"/.test(e) && /Demand by region[\s\S]{0,200}FWEST \+/.test(et), "demand by region: ERCOT's eight weather zones, each with its growth");
-  // session 140: the hub beside the load zone, the foreseen row, and the load's own hours against clean generation
+  const tight = cell(TH, "power_there", `hours_tight_${y}`, "hours"), offIn = cell(TH, "power_there", `hours_tight_${y}`, "this_load_off_in");
+  check(Number(tight?.value) === E.demand[y].tight_hours && tight.value !== "" && Number(offIn?.value) === off && offIn.value !== "",
+    `ERCOT was tight in ${E.demand[y].tight_hours} hours of ${y} (the file's count), and a load off in the year's 100 dearest hours was off in ${off} of them (the download)${tight ? "" : " (no row)"}`);
+  const zones = TH.filter((r) => r.table === "power_there" && r.row.startsWith("demand_by_region_") && r.column === "change_pct" && r.value !== "");
+  check(zones.length === 8 && zones.some((r) => r.row === "demand_by_region_FWEST"), `demand by region: ERCOT's eight weather zones, each with its growth (the download: ${zones.length})`);
+  // session 140: the hub beside the load zone, the foreseen row
   const region = E.regions.find((r) => r.id === main);
   const l12 = lastTwelve(ruled.months), refMs = monthsOf(files("ercot"), region.ref, "rt", { run: "flat", n: 0, pct: 0, shift: 0 }).filter((r) => r.m >= l12[0].m && r.m <= l12[11].m);
   const refHub = /data-ref-hub="1"[^>]*>([^<]*)</.exec(e)?.[1];
@@ -154,16 +193,20 @@ for (const [q, grid, region, buy, x] of [
   const hind = span(lastTwelve(monthsRuled(files("ercot"), main, "rt", X100, "hindsight").months));
   check(new RegExp(`This load, if perfectly foreseen\\s+${two(hind.per).replace(".", "\\.")}`).test(et) && /title="[^"]*8th dearest hourly day-ahead price of the prior 30 days[^"]*"/.test(e) && !/8th dearest/.test(et),
     `the same load if perfectly foreseen (USD ${two(hind.per)}) stands beside the forecast figure; the rule is stated on hover and not on the face`);
-  const cy = /data-stat="own_clean"[^>]*>([^<]*)</.exec(e)?.[1];
-  const cyear = Number(/hours of (\d{4}) in which the price and the share are both held/.exec(e)?.[1]);
+  // the load's own hours against the grid's carbon-free share: the download's row (session 213), the library's figure
+  const own = TH.find((r) => r.table === "how_clean" && /^this_loads_own_hours_\d{4}$/.test(r.row) && r.column === "pct");
+  const cyear = own ? Number(own.row.slice(-4)) : NaN;
   const cf = files("ercot").find((k) => k.year === cyear);
-  const own = cf ? cleanShare(expandSeries(cf.clean, cf.hours), ruled.prices.get(cyear), ruled.weights.get(cyear)) : null;
-  check(own && cy === two(own.load) && et.includes(`against ${two(own.flat)} for a flat load`), `this load's own hours met ${own ? two(own.load) : "?"} percent carbon-free generation in ${cyear} (a flat load over the same hours: ${own ? two(own.flat) : "?"})${own && cy !== two(own.load) ? ` (the page says ${cy})` : ""}`);
-  const ne = plain(face((await get("/cost-of-power?grid=isone&buy=da")).html));
-  check(/Hours the grid was tight\s+licensed source needed/.test(ne) && /Demand by region\s+licensed source needed/.test(ne) && !("demand" in index.grids.isone && Object.keys(index.grids.isone.demand).length),
-    'ISO-NE\'s demand is held internally: its rows read "licensed source needed" and the site\'s files hold none of it');
-  const sp = plain(face((await get("/cost-of-power?grid=spp")).html));
-  check(/Hours the grid was tight\s+not held yet/.test(sp), 'SPP, whose hourly demand was not pulled, reads "not held yet"');
+  const lib = cf ? cleanShare(expandSeries(cf.clean, cf.hours), ruled.prices.get(cyear), ruled.weights.get(cyear)) : null;
+  check(!!lib && own.value === two(lib.load) && own.note.includes(`a flat load over the same hours ${two(lib.flat)}`),
+    `this load's own hours met ${lib ? two(lib.load) : "?"} percent carbon-free generation in ${cyear} (a flat load over the same hours: ${lib ? two(lib.flat) : "?"}), in the download${lib && own.value !== two(lib.load) ? ` (the download says ${own.value})` : ""}`);
+  const TI = await tablesOf("?grid=isone&buy=da");
+  const neT = cell(TI, "power_there", "hours_tight", "hours"), neD = cell(TI, "power_there", "demand_by_region", "average_mw");
+  check(!!neT && !!neD && neT.value === "" && neD.value === "" && [neT, neD].every((r) => /held internally and nothing of it is shown/.test(r.note)) && !("demand" in index.grids.isone && Object.keys(index.grids.isone.demand).length),
+    "ISO-NE's demand is held internally: the download's rows say so and state no figure, and the site's files hold none of it");
+  const TS = await tablesOf("?grid=spp");
+  const spT = cell(TS, "power_there", "hours_tight", "hours");
+  check(!!spT && spT.value === "" && /not held for SPP/.test(spT.note), "SPP, whose hourly demand was not pulled: its tight hours are not counted, and the download says so");
 }
 {
   const g = await get("/cost-of-power?view=grids");
@@ -175,190 +218,79 @@ for (const [q, grid, region, buy, x] of [
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// session 154: "Rules in motion", read against the one file the block reads
+// The rules in motion (session 154's block; since session 228 a count in "How soon?" and the rows in the download)
 // ---------------------------------------------------------------------------------------------------------------------
 const rulesAt = new URL("rules.json", dir);
 const RULES = fs.existsSync(rulesAt) ? fileOf(JSON.parse(fs.readFileSync(rulesAt, "utf-8"))) : null;
 const NAMES = { ...Object.fromEntries(Object.entries(index.blank).map(([k, v]) => [k, v.name])), ...Object.fromEntries(Object.entries(index.grids).map(([k, v]) => [k, v.name])) };
-const decode = (t) => t.replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16))).replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(Number(d))).replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
-const attrs = (tag) => Object.fromEntries([...tag.matchAll(/([a-zA-Z_:-]+)="([^"]*)"/g)].map((m) => [m[1], decode(m[2])]));
-const firstTag = (h, re) => { const m = h.match(re); return m ? attrs(m[0]) : {}; };
-const words = (h) => decode(h.replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
-/** The block's HTML: from its own element to the end of the section "How soon", of which it is the last part. */
-const blockOfPage = (h) => { const i = h.indexOf('data-rules="1"'); if (i < 0) return null; const from = h.lastIndexOf("<div", i), to = h.indexOf("</section>", i); return h.slice(from, to < 0 ? undefined : to); };
-/** The heading of the section the block stands in. */
-const lastHeading = (f) => { const pre = f.slice(0, f.indexOf('data-rules="1"')); return words(pre.slice(pre.lastIndexOf("<h2")).match(/<h2[^>]*>[\s\S]*?<\/h2>/)?.[0] ?? ""); };
-const norm = (t) => String(t).replace(/\s+/g, " ").trim();
-/** Session 163: the block "How long a large load waits" stands above "Rules in motion" and follows the address too: its HTML, from its own element to the rules block's. */
-const waitsOfPage = (h) => { const i = h.indexOf('data-waits="1"'); if (i < 0) return null; const from = h.lastIndexOf("<div", i), j = h.indexOf('data-rules="1"', i); return h.slice(from, j < 0 ? undefined : h.lastIndexOf("<div", j)); };
-/** The page's face outside the two blocks that follow the grid an address names (sessions 154 and 163), as text. */
-const outside = (h) => { let f = face(h); const w = waitsOfPage(f); if (w) f = f.replace(w, " "); const b = blockOfPage(f); return plain(b ? f.replace(b, " ") : f); };
-/** The rows the block shows, in the page's order: what a reader sees and what each hover says. */
-function rowsOfPage(b) {
-  const out = [];
-  for (const m of b.matchAll(/<span[^>]*\bdata-rule="[^"]*"[^>]*>/g)) {
-    const a = attrs(m[0]);
-    const end = b.indexOf("</tr>", m.index), row = b.slice(m.index, end < 0 ? undefined : end);
-    const cells = row.split(/<\/t[hd]>/);
-    const linkTag = cells[2]?.match(/<a[^>]*\bdata-rule-link="[^"]*"[^>]*>/), link = linkTag ? attrs(linkTag[0]) : null;
-    const linkWords = linkTag ? words(cells[2].slice(linkTag.index + linkTag[0].length, cells[2].indexOf("</a>", linkTag.index))) : null;
-    const mark = firstTag(cells[3] ?? "", /<span[^>]*\bdata-rule-mark="model"[^>]*>/), gap = firstTag(cells[3] ?? "", /<span[^>]*\bdata-missing="1"[^>]*>/);
-    out.push({ id: a["data-rule"], group: a["data-rule-group"], date: a["data-rule-date"], dateWords: words(cells[0] ?? ""), status: words(cells[1] ?? ""), linkId: link?.["data-rule-link"] ?? null, hover: link?.["data-rule-hover"] ?? null, href: link?.href ?? null, tip: link?.title ?? null, linkWords,
-      read: words(cells[3] ?? ""), marked: "data-rule-mark" in mark, markTip: mark.title ?? null, gapTip: gap.title ?? null, folded: b.lastIndexOf("<details", m.index) > b.lastIndexOf("</details>", m.index) });
-  }
-  return out;
-}
 const RULE_PAGES = {};
-let noMunicipal = true, municipalFound = "", foldsRight = true, shownTotal = 0, foldGrid = null, rowsWrong = 0;
-const hovers = { sentence: 0, withheld: 0, neither: 0 };
+let municipalFound = "";
 for (const g of RULE_GRIDS) {
   const r = await get(`/cost-of-power?grid=${g}`);
-  const b = blockOfPage(face(r.html));
   RULE_PAGES[g] = r.html;
-  const want = blockOf(RULES, g), expect = [...want.rows.map((x) => ({ x, group: "grid" })), ...want.federal.map((x) => ({ x, group: "federal" }))];
-  if (!b) { check(false, `${NAMES[g]}: the block "Rules in motion" is in the section "How soon"`); continue; }
-  const head = attrs(b.slice(0, b.indexOf(">") + 1)), got = rowsOfPage(b), text = words(b);
-  const there = r.status === 200 && head["data-rules-for"] === g && head["data-rules-state"] === want.state && words(b.match(/<h3[^>]*>[\s\S]*?<\/h3>/)?.[0] ?? "").replace(/ ,/g, ",") === `Rules in motion, ${NAMES[g]}`
-    && RULE_GRIDS.every((k) => b.includes(`data-rules-choice="${k}"`)) && lastHeading(face(r.html)) === "How soon";
-  const wrong = [];
-  if (!there) wrong.push(`the block is not as the file says (for ${head["data-rules-for"]}, state ${head["data-rules-state"]}; the file gives ${want.state}), or its heading, its seven choices or its section is not`);
-  if (got.length !== expect.length) wrong.push(`${got.length} rows on the page, ${expect.length} in the file`);
-  expect.forEach(({ x, group }, i) => {
-    const p = got[i], st = statusOf(x), rd = readOf(x);
-    if (!p || p.id !== String(x.id) || p.group !== group) { if (wrong.length < 4) wrong.push(`row ${i + 1} is ${p?.id ?? "missing"}, not ${x.id}`); return; }
-    const bad = [];
-    if (p.dateWords !== (dayWords(x.date) ?? "not stated")) bad.push("date");
-    if (!st.words || p.status !== norm(st.words)) bad.push("status");
-    if (p.linkId !== p.id || p.href !== x.url || p.href !== linkOf(x) || p.linkWords !== norm(docketWords(x))) bad.push("link");
-    // the docket's hover leads with the file's sentence, in quotes, or, where the file does not copy the regulator's text,
-    // with the file's phrase in its place; after it stand only the page, the topic and the tags as the file has them:
-    // never neither, and never a sentence the file does not hold
-    const s = typeof x.sentence === "string" ? x.sentence.trim() : "", w = typeof x.sentence_withheld === "string" ? x.sentence_withheld.trim() : "";
-    const lead = s ? `"${s}"` : w, after = lead && typeof p.tip === "string" && p.tip.startsWith(lead) ? p.tip.slice(lead.length).replace(/^\.?\s*/, "") : null;
-    const tail = [s && x.sentence_from ? `Sentence from: ${x.sentence_from}.` : "", x.page !== null && x.page !== undefined && String(x.page).trim() ? `Page ${String(x.page).trim()} of the document.` : "", x.topic ? `Topic: ${x.topic}.` : "",
-      Array.isArray(x.tags) && x.tags.length ? `Tags: ${x.tags.join(", ")}.` : ""].filter(Boolean).join(" ");
-    if (!lead) bad.push("neither a sentence nor the phrase in its place");
-    else if (after !== tail || p.tip !== docketTip(x) || p.hover !== (s ? "sentence" : "withheld")) bad.push(s ? "sentence on hover" : "the phrase in place of the sentence on hover");
-    if (!s && w && (p.status !== (["open", "decided", "closed"].includes(x.status_class) ? x.status_class : "not stated") || (x.status_as_worded && p.status === norm(x.status_as_worded)))) bad.push("the status's class in place of its wording");
-    hovers[s ? "sentence" : w ? "withheld" : "neither"] += 1;
-    if (rd.line ? !(p.marked && p.read === `${norm(rd.line)} model's read` && p.markTip === rd.why && x.read_by === "model") : !(p.read === NO_READ && !p.marked && p.gapTip === NO_READ_WHY)) bad.push("read");
-    if (bad.length) rowsWrong += 1;
-    if (bad.length && wrong.length < 4) wrong.push(`${x.id}: ${bad.join(", ")}`);
-  });
-  // the fold: eight rows of a group stand before it, the rest inside it
-  for (const group of ["grid", "federal"]) {
-    const all = got.filter((p) => p.group === group), open = all.filter((p) => !p.folded).length;
-    if (open !== Math.min(all.length, SHOWN) || (all.length > SHOWN) !== b.includes(`data-rules-fold="${group}"`)) foldsRight = false;
-    if (all.length > SHOWN && !foldGrid) foldGrid = { g, group, folded: all.length - SHOWN };
-  }
-  shownTotal += got.length;
-  const withRead = expect.filter(({ x }) => readOf(x).line).length;
-  const gapTip = firstTag(b, /<span[^>]*\bdata-missing="1"[^>]*>/).title;
-  if (g === "miso") {
-    check(there && want.state === "paused" && got.length === 0 && !/<table|<details|data-rule=/.test(b) && /data-rules-paused="1"/.test(b) && text.endsWith(PAUSED_WORDS) && gapTip === PAUSE_WHY,
-      `MISO: the block reads "${PAUSED_WORDS}", with the pause's reason on hover, and shows no row, federal ones included`);
-  } else if (want.state === "shown") {
-    check(!wrong.length, `${NAMES[g]}: ${want.rows.length} rows and ${want.federal.length} federal, newest first, each with its date, its status, a link to the file's address with the file's sentence on hover, and a read marked as a model's (${withRead}) or "${NO_READ}" (${expect.length - withRead})${wrong.length ? `: ${wrong.join("; ")}` : ""}`);
+  const want = blockOf(RULES, g), t = plain(face(r.html));
+  // the count stands in the row "Rules in motion for a large load" where the grid has large load reports, else as a sentence
+  const said = /\d+ proceedings and orders on large loads are in motion for [^.]*?each is in the download, with its document|No proceeding or order on large loads is held[^.]*|paused while terms are reviewed/.exec(t)?.[0] ?? "";
+  const TG = await tablesOf(`?grid=${g}`);
+  const ids = [...new Set(TG.filter((x) => x.table === "rules").map((x) => x.row))].filter((x) => x !== "file" && x !== "state").sort();
+  // the download names a row by its group: the grid's name or "federal", then the file's id
+  const strip = (x) => x.replace(/^(federal|[A-Z][A-Z_-]*)_(?=[a-z])/, "");   // "ERCOT_txpuc:...", "ISO_NE_ferc:...", "federal_ferc:..."
+  const got = JSON.stringify([ids.filter((x) => !x.startsWith("federal_")).map(strip).sort(), ids.filter((x) => x.startsWith("federal_")).map(strip).sort()]);
+  const fileIds = JSON.stringify([want.rows.map((x) => String(x.id)).sort(), want.federal.map((x) => String(x.id)).sort()]);
+  let ok, what;
+  if (want.state === "paused") {
+    ok = r.status === 200 && t.includes(`Rules in motion for a large load 0 ${PAUSED_WORDS}`) && ids.length === 0 && cell(TG, "rules", "state", "words")?.value === PAUSED_WORDS;
+    what = `${NAMES[g]}: "How soon?" counts no rule and reads "${PAUSED_WORDS}"; the download holds no row of it`;
+  } else if (want.state === "shown" && want.rows.length) {
+    const newest = want.rows[0];
+    ok = r.status === 200 && t.includes(`${want.rows.length} proceedings and orders on large loads are in motion for ${NAMES[g]} in the public dockets held, the newest `)
+      && t.includes(`(${newest.date}); each is in the download, with its document`) && got === fileIds;
+    what = `${NAMES[g]}: "How soon?" counts the file's ${want.rows.length} rows, the newest of ${newest.date}; the download's table "rules" holds exactly the file's ${want.rows.length} rows and ${want.federal.length} federal (${ids.length})`;
   } else {
-    check(!wrong.length && b.includes(`data-rules-empty="${want.state}"`) && text.includes(want.state === "none" ? want.words : "not held yet") && !!gapTip && (want.state !== "none" || gapTip === want.why),
-      `${NAMES[g]}: ${want.state === "none" ? `no row of its own ("${want.words}", with the file's reason on hover)` : `"not held yet" with its reason on hover (${RULES ? "the file holds no entry for it" : "data/datacenter/rules.json is not there yet"})`}${RULES ? `, and ${want.federal.length} federal rows (${withRead} with a read marked as a model's)` : ""}${wrong.length ? `: ${wrong.join("; ")}` : ""}`);
+    ok = r.status === 200 && /Rules in motion for a large load 0 No proceeding or order on large loads is held/.test(t) && got === fileIds;
+    what = `${NAMES[g]}: "How soon?" counts no row of its own (the file's state: ${want.state}), and the download holds the federal rows alone (${ids.length})`;
   }
-  // no municipal word in anything the block shows: its text and every hover (an address is not a word of the block)
-  const said = `${text} ${[...b.matchAll(/\btitle="([^"]*)"/g)].map((m) => decode(m[1])).join(" ")}`.toLowerCase().replace(/\s+/g, " ");
-  const hit = MUNICIPAL.find((w) => said.includes(w));
-  if (hit) { noMunicipal = false; municipalFound += ` ${g}: "${hit}"`; }
+  check(ok, what);
+  const hit = MUNICIPAL.find((w) => said.toLowerCase().includes(w));
+  if (hit) municipalFound += ` ${g}: "${hit}"`;
 }
+check(!municipalFound, `the count's line holds none of the words ${MUNICIPAL.map((w) => `"${w}"`).join(", ")} for any of the seven addresses${municipalFound ? ` (found:${municipalFound})` : ""}`);
 {
-  const held = Array.isArray(RULES?.grids?.pjm?.rows) ? RULES.grids.pjm.rows.length : 0, kept = blockOf(RULES, "pjm").rows.length;
-  const shown = rowsOfPage(blockOfPage(face(RULE_PAGES.pjm ?? "")) ?? "").filter((p) => p.group === "grid").length;
-  check(held > 0 ? shown > 0 && shown === kept : shown === 0, held > 0 ? `PJM shows rows: ${shown} of the ${held} the file holds for it` : `PJM: the file holds no row for it${RULES ? "" : " (it is not there yet)"}, and the block shows none`);
-  check(outside(RULE_PAGES.pjm ?? "") === outside(page.html) && /data-grid="pjm"[^>]*data-open="0"[\s\S]{0,400}?licensed source needed/.test(RULE_PAGES.pjm ?? ""),
-    'an address that names PJM shows, outside the two blocks that follow the address, what the default address shows: ERCOT, and PJM\'s prices still read "licensed source needed"');
-  check(outside(RULE_PAGES.miso ?? "") === outside(page.html), "an address that names MISO shows, outside the two blocks that follow the address, what the default address shows");
-  check(hovers.neither === 0 && rowsWrong === 0, `every row shown has on its docket's hover either the file's sentence (${hovers.sentence} over the seven addresses) or, where the file does not copy the regulator's text, the file's phrase in its place with the status's class (${hovers.withheld}); neither: ${hovers.neither}; and nothing else but the page, the topic and the tags`);
-  check(foldsRight, `eight rows of a group stand before its fold and the rest inside it (${shownTotal} rows over the seven addresses${foldGrid ? "" : "; no group holds more than eight, so no fold is drawn"})`);
-  check(noMunicipal, `the block holds none of the words ${MUNICIPAL.map((w) => `"${w}"`).join(", ")}, on its face or on hover${municipalFound ? ` (found:${municipalFound})` : ""}`);
-  // the face holds no sentence of the Method note
-  const note = new URL("../../docs/methods/datacenter_cost.md", import.meta.url);
-  if (fs.existsSync(note)) {
-    const sentences = [...new Set(fs.readFileSync(note, "utf-8").split(/\r?\n/).filter((l) => !/^\s*(\||#|```)/.test(l)).join(" ").replace(/[*_`]/g, "").replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").split(/(?<=[.!?])\s+/).map((t) => t.replace(/\s+/g, " ").trim()).filter((t) => t.length >= 40))];
-    const faces = RULE_GRIDS.map((g) => plain(blockOfPage(face(RULE_PAGES[g] ?? "")) ?? ""));
-    const on = sentences.find((t) => faces.some((f) => f.includes(t)));
-    check(sentences.length > 20 && !on, `the block's face holds no sentence of the Method note (${sentences.length} sentences of docs/methods/datacenter_cost.md, seven addresses)${on ? `: "${on.slice(0, 120)}"` : ""}`);
-  } else check(false, "docs/methods/datacenter_cost.md is beside the site, so the block's face can be read against it");
+  // session 265: an address that names a grid the page does not hold says so in one line and shows the default grid;
+  // the rules count follows the grid the address names (session 228). Outside those two the page is the default's.
+  const outside = (h) => plain(face(h)).replace(/Grid: "[a-z]+" is not held here, so ERCOT is shown\.?/, " ")
+    .replace(/Rules in motion for a large load .*?(each is in the download, with its document\.?|paused while terms are reviewed\.?|in the public dockets read\.?)/, " ").replace(/\s+/g, " ");
+  const pjm = RULE_PAGES.pjm ?? "", miso = RULE_PAGES.miso ?? "";
+  check(outside(pjm) === outside(page.html) && /Grid: "pjm" is not held here, so ERCOT is shown/.test(plain(face(pjm))) && /data-grid="pjm"[^>]*data-open="0"[\s\S]{0,400}?licensed source needed/.test(pjm),
+    'an address that names PJM says "Grid: "pjm" is not held here, so ERCOT is shown", and outside that line and the rules count shows what the default address shows; PJM\'s prices still read "licensed source needed"');
+  check(outside(miso) === outside(page.html) && /Grid: "miso" is not held here, so ERCOT is shown/.test(plain(face(miso))),
+    "an address that names MISO says so in one line, and outside that line and the rules count shows what the default address shows");
 }
 
-const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, requests, errors, sleep }) => {
+const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, errors, sleep }) => {
   await open(base);
   await go(`${base}/cost-of-power?grid=ercot&run=hours&n=100`);
-  await wait(`!!document.querySelector('[data-year-cost] canvas')`, 40000, "the chart");
-  const tip = await evaluate(`(() => { const el = document.querySelector('[data-year-cost]'); const chart = window.echarts.getInstanceByDom(el);
-    chart.dispatchAction({ type: 'showTip', seriesIndex: 0, dataIndex: 6 });
-    return new Promise((ok) => setTimeout(() => ok([...el.querySelectorAll('div')].map((d) => d.innerText || '').filter((t) => /Flat load/.test(t)).sort((x, y) => x.length - y.length)[0] ?? ''), 400)); })()`);
-  check(/2021/.test(tip) && /Flat load: [\d,.]+ USD\/MWh/.test(tip) && /This load: [\d,.]+ USD\/MWh/.test(tip) && /off in \d+ hours/.test(tip) && /If perfectly foreseen: [\d,.]+ USD\/MWh/.test(tip), `the chart answers the mouse with the year, the load under the rule and the load if perfectly foreseen ("${tip.replace(/\s+/g, " ").slice(0, 190)}")`);
+  // session 317: the chart is the shared SVG set's (components/svgchart.tsx); its card answers the mouse
+  await wait(`!!document.querySelector('[data-year-cost] svg text')`, 40000, "the chart");
+  await sleep(2000);   // the page hydrates before the chart answers the mouse
+  const at = await evaluate(`(() => { const s = document.querySelector('[data-year-cost] svg'); s.scrollIntoView({ block: 'center', behavior: 'instant' });
+    const label = [...s.querySelectorAll('text')].find((t) => t.textContent === '2021'); if (!label) return null;
+    const r = s.getBoundingClientRect(), k = r.width / s.viewBox.baseVal.width;
+    return { x: r.left + Number(label.getAttribute('x')) * k, y: r.top + r.height / 2 }; })()`);
+  let tip = "";
+  if (at) {
+    await send("Input.dispatchMouseEvent", { type: "mouseMoved", x: at.x, y: at.y });
+    await sleep(400);
+    tip = await evaluate(`document.querySelector('[data-year-cost] [data-chart-card]')?.innerText ?? ''`);
+  }
+  const t1 = tip.replace(/\s+/g, " ");
+  check(/2021/.test(t1) && /Flat load: [\d,.]+ USD\/MWh/.test(t1) && /This load: [\d,.]+ USD\/MWh/.test(t1) && /off in [\d,]+ hours/.test(t1) && /If perfectly foreseen: [\d,.]+ USD\/MWh/.test(t1),
+    `the chart answers the mouse with the year, the load under the rule and the load if perfectly foreseen ("${t1.slice(0, 190)}")`);
   check(await evaluate(`[...document.querySelectorAll('[data-region] optgroup')].map((o) => o.label).join('|').includes('Load zones')`), "ERCOT's regions are listed as load zones, then trading hubs");
   await sleep(1500);
-  const before = requests.length, address = await evaluate("location.href");
-  await evaluate(`(() => { const set = (sel, v) => { const el = document.querySelector(sel); const s = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set; s.call(el, v); el.dispatchEvent(new Event('input', { bubbles: true })); };
-    set('[data-contract="share"]', '40'); set('[data-contract="price"]', '45'); })()`);
-  await wait(`!!document.querySelector('[data-contract-result="shown"]')`, 10000, "the contract result");
-  await sleep(1500);
-  const shown = await evaluate(`document.querySelector('[data-contract-result="shown"]').innerText`);
-  check(/With the contract/.test(shown) && /40 percent of [\d,]+ MWh at USD 45 per MWh/.test(shown) && /per MWh/.test(shown), "the contract's result is shown from the two terms typed");
-  const sent = requests.slice(before);
-  check(sent.length === 0 && (await evaluate("location.href")) === address, `typing the contract's terms makes no request and leaves the address as it was${sent.length ? ` (${sent.length} requests: ${sent[0].url.slice(0, 100)})` : ""}`);
-  check(await evaluate(`(() => { const all = JSON.stringify(Object.entries(localStorage)) + JSON.stringify(Object.entries(sessionStorage)) + document.cookie; return !/45/.test(all.replace(/erw_[a-z]+=[^;]*/g, '')); })()`), "nothing of the contract is in storage or in a cookie");
   await evaluate(`document.querySelector('[data-grid="caiso"] input').click()`);
   await wait(`location.search.includes('grid=caiso') && [...document.querySelectorAll('[data-region] option')].some((o) => o.value.includes('SP15'))`, 20000, "CAISO's regions");
   check(!(await evaluate(`[...document.querySelectorAll('[data-region] option')].some((o) => o.value.startsWith('HB_'))`)), "choosing another grid opens it with its own regions");
-  check(await evaluate(`document.querySelector('[data-contract="share"]').value === '40'`), "the contract's terms survive the change of grid");
-  {
-    // session 154: the rows as the browser holds them, the keyboard, and the fold
-    const g = foldGrid?.g ?? "pjm", want = blockOf(RULES, g), all = [...want.rows, ...want.federal];
-    await go(`${base}/cost-of-power?grid=${g}`);
-    await wait(`!!document.querySelector('[data-rules="1"]')`, 20000, "the block Rules in motion");
-    const dom = await evaluate(`[...document.querySelectorAll('[data-rules="1"] a[data-rule-link]')].map((a) => ({ id: a.dataset.ruleLink, href: a.getAttribute('href'), title: a.title, tab: a.tabIndex }))`);
-    check(dom.length === all.length && all.every((x, i) => dom[i].id === String(x.id) && dom[i].href === x.url && dom[i].title === docketTip(x) && dom[i].tab === 0),
-      all.length ? `in the browser, ${NAMES[g]}: the ${all.length} rows' links carry the file's addresses, and each hover is the file's sentence with its page and topic` : `in the browser, ${NAMES[g]}: no row is in the file, and no row's link is on the page`);
-    if (all.length) {
-      check(await evaluate(`(() => { const a = document.querySelector('[data-rules="1"] a[data-rule-link]'); a.focus(); const m = document.querySelector('[data-rules="1"] [data-rule-mark], [data-rules="1"] [data-rule-read] [data-missing]'); return document.activeElement === a && !!a.title && !!m && !!m.title; })()`),
-        "a row's link takes the keyboard's focus, and its hover and the read's are the elements' titles");
-    } else console.log("note: the file holds no row for this grid yet; the keyboard's focus on a row's link was not tried");
-    if (foldGrid) {
-      const sel = `[data-rules-fold="${foldGrid.group}"]`;
-      const seen = `(() => { const d = document.querySelector('${sel}'); const rows = [...d.querySelectorAll('[data-rule]')]; return { open: d.open, rows: rows.length, seen: rows.filter((r) => (r.checkVisibility ? r.checkVisibility() : r.getClientRects().length > 0)).length }; })()`;  // a closed details keeps its rows' boxes and does not draw them: checkVisibility says which
-      const before = await evaluate(seen);
-      // the summary is brought into the window at once (the site scrolls smoothly by default), then measured where it rests
-      await evaluate(`document.querySelector('${sel} summary').scrollIntoView({ block: 'center', behavior: 'instant' })`);
-      await sleep(400);
-      const at = await evaluate(`(() => { const r = document.querySelector('${sel} summary').getBoundingClientRect(); return { x: r.left + 12, y: r.top + r.height / 2 }; })()`);
-      await send("Input.dispatchMouseEvent", { type: "mouseMoved", x: at.x, y: at.y });
-      await send("Input.dispatchMouseEvent", { type: "mousePressed", x: at.x, y: at.y, button: "left", clickCount: 1 });
-      await send("Input.dispatchMouseEvent", { type: "mouseReleased", x: at.x, y: at.y, button: "left", clickCount: 1 });
-      await sleep(300);
-      const clicked = await evaluate(seen);
-      check(!before.open && before.rows === foldGrid.folded && before.seen === 0 && clicked.open && clicked.seen === foldGrid.folded, `the fold opens to a click: ${foldGrid.folded} earlier rows of ${NAMES[g]}'s ${foldGrid.group === "grid" ? "own" : "federal"} group, hidden before it and shown after${clicked.open && before.seen === 0 && !before.open ? "" : ` (before: ${JSON.stringify(before)}; after the click at ${Math.round(at.x)}, ${Math.round(at.y)}: ${JSON.stringify(clicked)})`}`);
-      await evaluate(`(() => { const d = document.querySelector('${sel}'); d.open = false; d.querySelector('summary').focus(); })()`);
-      await send("Input.dispatchKeyEvent", { type: "keyDown", key: "Enter", code: "Enter", windowsVirtualKeyCode: 13, nativeVirtualKeyCode: 13, text: "\r" });
-      await send("Input.dispatchKeyEvent", { type: "keyUp", key: "Enter", code: "Enter", windowsVirtualKeyCode: 13, nativeVirtualKeyCode: 13 });
-      await sleep(300);
-      const keyed = await evaluate(seen);
-      check(keyed.open && keyed.seen === foldGrid.folded, "the fold opens to the keyboard: Enter on its summary");
-    } else console.log("note: no group of the file holds more than eight rows, so the page draws no fold; it was not opened here (the fold's rule is tested in scripts/test-rules.mjs)");
-    // the seven choices of the block: links that name each grid; MISO's opens the pause, PJM's opens PJM's rules
-    await wait(`document.querySelectorAll('[data-rules-nav] [data-rules-choice] a').length === ${RULE_GRIDS.length}`, 20000, "the block's seven choices as links");
-    const choices = await evaluate(`[...document.querySelectorAll('[data-rules-nav] [data-rules-choice]')].map((s) => ({ id: s.dataset.rulesChoice, href: s.querySelector('a').getAttribute('href'), tab: s.querySelector('a').tabIndex }))`);
-    await evaluate(`document.querySelector('[data-rules-choice="miso"] a').click()`);
-    await wait(`document.querySelector('[data-rules="1"]')?.dataset.rulesFor === 'miso'`, 20000, "MISO's block");
-    const miso = await evaluate(`(() => { const b = document.querySelector('[data-rules="1"]'); const m = b.querySelector('[data-rules-paused] [data-missing]'); return { words: m?.innerText ?? '', why: m?.title ?? '', rows: b.querySelectorAll('[data-rule], table, details').length, ercot: document.querySelector('[data-grid="ercot"] input').checked }; })()`);
-    await evaluate(`document.querySelector('[data-rules-choice="pjm"] a').click()`);
-    await wait(`document.querySelector('[data-rules="1"]')?.dataset.rulesFor === 'pjm'`, 20000, "PJM's block");
-    const pjm = await evaluate(`({ rows: document.querySelectorAll('[data-rules="1"] [data-rule]').length, ercot: document.querySelector('[data-grid="ercot"] input').checked, chosen: document.querySelector('[data-rules-choice="pjm"]').dataset.rulesChosen })`);
-    const pjmWant = blockOf(RULES, "pjm");
-    check(choices.length === RULE_GRIDS.length && choices.every((c, i) => c.id === RULE_GRIDS[i] && c.href.includes(`grid=${c.id}`) && c.tab === 0) && miso.words === PAUSED_WORDS && miso.why === PAUSE_WHY && miso.rows === 0 && miso.ercot
-      && pjm.rows === pjmWant.rows.length + pjmWant.federal.length && pjm.ercot && pjm.chosen === "1",
-      `the block's seven choices are links a keyboard reaches; MISO's opens "${PAUSED_WORDS}" and no row, PJM's opens PJM's block (${pjmWant.rows.length} rows and ${pjmWant.federal.length} federal), and the rest of the page stays ERCOT`);
-  }
   check(errors.length === 0, `no script error on the page${errors.length ? `: ${errors[0].slice(0, 160)}` : ""}`);
   return 0;
 });
