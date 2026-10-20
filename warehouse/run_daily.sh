@@ -239,7 +239,14 @@ run_other trader_view "$PYTHON" warehouse/derived/trader_view.py
 pull eia_series "$PYTHON" warehouse/connectors/eia_series.py
 # Session 18: the energy mix explorer (tool 21): EIA-923 generation by state (eia_series, above)
 # grouped by fuel (docs/methods/generation_mix.md)
-run_other generation_mix "$PYTHON" warehouse/derived/generation_mix.py
+# Session 327: on the runner its input exists only when eia_series wrote it this run; when eia_series was stopped at its
+# budget (the manual run of 20 October 2026), the build is a skip with that reason, not a failure
+if [ -f warehouse/output/eia_state_generation_monthly.csv ]; then
+  run_other generation_mix "$PYTHON" warehouse/derived/generation_mix.py
+else
+  echo "generation_mix skipped: its input eia_state_generation_monthly is not on this machine (eia_series: $(grep -m1 "^eia_series " "$status" | cut -c1-200))" >> "$status"
+  echo "generation_mix: skipped, eia_state_generation_monthly absent"
+fi
 
 # Session 7 price board: PJM RPM capacity prices (internal), CARB and RGGI carbon
 # auctions (internal). Session 207 (the owner's ruling of 12 October 2026): the FRED series are no longer pulled or
