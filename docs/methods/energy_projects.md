@@ -112,3 +112,20 @@ Every list (kind, grid, technology, status, state) is a multi-select with "Selec
 ### The unit card
 
 A click on a unit opens version 1's card: name and entity id, kind, technology group (with the source's own technology text), MW, status, state, county, city, grid, operator or developer, developer, date, power, location, the source table, the stories (datacenters) and the line naming the ERW table it was read from with its vintage. Version 1 read the card from Supabase through `/api/entity`, one request a click. The one page reads it from its own file: `project_map.py` writes the card's fields into `site/data/map.json`, and the page leaves them out of what it loads and asks for them once, at the first click on a unit, from `/map/card` (a route built with the site from the same file, behind the same release gate as the page; it never asks Supabase). Measured on the file of 9 October 2026 (gzip): the page's data without the card is 430 KB, with the entity ids a request per click would need 582 KB, with every field of the card 835 KB (3.3 MB before compression); the whole page as served (local `next start`, gzip) was 994 KB with the card inside and is 646 KB without it (the dates stay on the page: the hover shows them). Read at the first click, the card costs a reader who never clicks nothing, and the card is always of the same vintage as the map (the ids of the datacenter tracker change when its merge rule does, so a card read from Supabase could miss a facility the page's file still holds). If the page's file was rebuilt between the load and the click, the card says so and asks for a reload, rather than show another row's fields.
+
+### The page as it stands (session 330, 20 October 2026)
+
+- **Two tabs** since session 239: the projects (this section) and the resources (the natural resource layers, with
+  the units, the queue and the datacenters laid over them; `/resources` redirects there).
+- **The maps stay drawn by the chart library on a canvas** (session 318: a map is not a chart of the owner's ruling of
+  13 October on charts); whether they should leave it is a question for the owner.
+- **The numbers** (the units held, the totals by status, the line of what is drawn) are the file's, and `check-map`
+  reads them against it.
+- **Downloads** (session 330): under both tabs, the four tables the file is built from, each as the live set's CSV with
+  a Python and a Stata reader of that CSV, or named with its place on Redivis where the live set does not hold it
+  (session 328's shared line). The CSV is the table as the live set holds it today; the map's copy is the file's, built
+  on the day its source line says.
+- **The copy and its tables, on 20 October 2026:** the file was built on 9 October (EIA-860M of August 2026, the queues
+  as `energy_projects` held them on 30 September, the tracker of 9 October); `energy_projects` last ran on 5 October,
+  `datacenter_facilities` and the two EIA-860M tables on 20 October. The file follows them at its next rebuild (the
+  monthly job, or by hand).
