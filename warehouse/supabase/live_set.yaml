@@ -77,6 +77,8 @@ full:
   # session 67: the battery revenue stack, whole (/cost-of-power/battery reads both; about 20,000 monthly rows and
   # a few thousand stress-day rows)
   - '^battery_stack_(monthly|stress_daily)$'
+  # session 357: the price years, whole (the three economics pages' "Price years" setting; about 2,800 rows)
+  - '^price_years_by_window$'
   # session 76 (for session 75's page): the shoulder hours, whole (/shoulder reads it; about 20,000 monthly and yearly rows)
   - '^shoulder_hours_monthly$'
   # session 68: who supplies a grid; the page reads the last twelve months, so only the last 430 days are loaded (select,
@@ -351,6 +353,7 @@ review_hold:
   - clean_energy_summary               # session 122, /mix/clean
   - grid_stress_yearly                 # session 123, /mix/stress
   - ercot_as_prices_daily              # session 148, /ask/ercot
+  - price_years_by_window              # session 357, the three economics pages' "Price years" (built tonight by the code machine)
   - ercot_as_prices_monthly            # session 148, /ask/ercot
   - ercot_rtm_price_adders             # session 244, no page yet (ERCOT's real-time reserve price adders by hour)
   - scarcity_hours_by_grid             # session 254, no page yet (each grid's own scarcity signal beside the price count)

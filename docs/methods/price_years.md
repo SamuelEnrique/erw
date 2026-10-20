@@ -54,7 +54,7 @@ A grid joins the table when its license allows it.
 | `year_<YYYY>` | `year` | one calendar year, every year with a month counted; `x_complete` says whether all twelve are |
 | `last_12` | `last_12` | the page's own last twelve months (each page's `lastTwelve`): the page's default and the figure its headline shows today |
 | `avg_3y` | `avg_3y` | the last three full calendar years held, averaged a year (written only when all three are full) |
-| `avg_7y` | `avg_7y` | the last seven full calendar years held, averaged a year (written only when all seven are full: ERCOT, and SPP for the datacenter) |
+| `avg_7y` | `avg_7y` | the last seven full calendar years held, averaged a year (written only when all seven are full: on 20 October 2026, ERCOT for all three tools, and the datacenter's day-ahead load at SPP's South hub, held from 2019) |
 | `all` | `all` | the whole span held, by the page's own rule: the battery's reader window at its default (every held month, the twelve-calendar-month mean); the generator's "every full year held"; the datacenter's every complete month |
 | `all_less_<event>` | `all_less` | `all` with one stress event's days taken out of the months they fall in (`x_left_out` names it) |
 | `all_less_events` | `all_less` | `all` with every stress event of the grid taken out |
@@ -67,3 +67,51 @@ The stress events are the battery page's leave-out boxes, read from `battery_sta
 How a page reads it: the row whose `entity`, `x_tool`, `x_config` and `x_window` match; the figure is `value`, the
 months counted `x_months`, the span `x_from` to `x_to`. A window without a row is not held for that configuration: the
 page says so and shows no number.
+
+## How it is computed (session 357)
+
+`warehouse/derived/price_years.py` reads the battery's rows as the battery page reads them
+(`app/cost-of-power/battery/read.ts`): ERCOT's and CAISO's rows of `battery_stack_monthly` and
+`battery_stack_stress_daily` from the live set, with the anon key; SPP, a grid in review, from the committed
+`site/data/battery_stack_review.json`. The live set is read, not this machine's copy of the two tables, because the
+daily run loads the live set and it can be newer: on 20 October 2026 it held CAISO's 2 November 2025 (the autumn
+clock change), which this machine's copy left out, and CAISO's 2-hour battery read USD 61.29 per kW over the last
+twelve months on the page against 61.11 from this machine's copy.
+
+It hands them to `site/scripts/price-years.mjs`, which imports the pages' own modules and runs them:
+
+- **battery**: `monthsOf`, `lastTwelve`, `sumOf`, `yearStream`, `years`, `windowAverage` with `eventMonths` and
+  `stress` (`lib/batterystack.ts`). A calendar year is `yearStream` (the held months' sum); the averages and the whole
+  span are `windowAverage` over the years named, the page's own reader window; a left-out event takes its days out of
+  the months they fall in (`windowMonths`), exactly as the page's leave-out boxes do.
+- **generator**: `monthsOf`, `years`, `spanOf`, `spans`, `fullYears` (`lib/seller2.ts`) over `months`
+  (`lib/merchant.ts`) on `site/data/merchant_snapshot.json`, the page's own snapshot. A left-out event takes the
+  snapshot's own daily figures of the event's window days (as `stress()` in `lib/merchant.ts` reads them: the asset's
+  day, the peaker's day through `peakerOver`) out of the full years' sum; the years averaged over stay the page's full
+  years. The snapshot holds daily figures for ERCOT's three events only, so CAISO and SPP have no left-out rows. A
+  window day without its figure stops the window (no row): it is never taken out by guess.
+- **datacenter**: `monthsRuled(files, region, buy, x, "forecast")`, `years`, `lastTwelve`, `span`
+  (`lib/datacenter.ts`) over `site/data/datacenter/<grid>_<year>.json`, the page's own figure for a flexible load (the
+  rule decided from day-ahead prices) and the flat load's. A left-out event takes the event days' hours out of the
+  complete months' sums: each hour's price times the load's weight in it, and the weight, as the page's own run set
+  them (`Ruled.prices`, `Ruled.weights`); the run is not redone without the days, so a flexible load's yearly budget of
+  hours off is as the page spent it. The event days are the battery page's (`battery_stack_stress_daily`), by the
+  grid's local date; the datacenter counts hours in standard time.
+
+The page's last twelve months is the default window, and the run fails unless every one of them equals the page's
+own figure to half a cent: the battery's against its check-key stat (`stat(..., "l12_kw:total")`), the generator's
+against `spans().twelve`, the datacenter's (the main region, flat, real time) against `span(lastTwelve())`; with
+`--live`, the battery's twelve configurations again against a second read of the live set
+(`site/scripts/price-years-live.mjs`). The proofs are written into the table's header.
+
+## The first build (20 October 2026)
+
+2,754 rows: battery 234, generator 108, datacenter 2,412. 45 proofs, all equal. Figures the packs quote, read from
+the table: the battery's default (ERCOT, 4 hours, perfect foresight) USD 81.40 per kW over the last twelve months,
+255.08 a year over 2023 to 2025, 614.58 over every year held, 269.52 without Uri's days (the pack's 269.68 left out
+the whole of February 2021, the page's rule of before session 296), 739.80 over the seven full years 2019 to 2025;
+the generator's ERCOT solar 59.85, 102.24 (three years), 130.80 (seven), from 59.46 (2024) to 217.53 (2021); the
+datacenter's flat load at `LZ_NORTH` 33.73, from 21.68 (2016) to 150.61 (2021), 43.00 over every complete month held
+and 33.16 without Uri's days.
+
+    python warehouse/lock.py run --task price-years -- <python> warehouse/derived/price_years.py --live
