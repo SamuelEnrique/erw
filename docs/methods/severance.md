@@ -265,3 +265,14 @@ A flag means a lease **may** qualify, never that it qualifies. Not tax advice.
 - New Mexico's reduced rates for stripper wells, enhanced recovery or well workovers (the NMSA text, on NMOneSource, could not be read as text);
 - products H and C of TRD's table, which the table does not name;
 - the equipment ad valorem tax.
+
+## The pages as they stand (session 334, 20 October 2026)
+
+- **Two tabs**: the calculator and the lease tool (`?tab=lease`); the refund finder is internal.
+- **The default prices** (WTI Cushing for oil and condensate, Henry Hub for gas: monthly means of `eia_fuel_spot_prices`)
+  are written beside the price box as an assumption to edit, with their months, and Reset puts every input back to the
+  defaults the calculator names.
+- **Downloads** (session 334): under both tabs, `eia_fuel_spot_prices` as the live set's CSV with a Python and a Stata
+  reader of that CSV (session 328's shared line). The tax rules are the site's own file
+  (`site/data/severance_rules.json`), each with the statute or agency page it cites; the lease tool's files are built in
+  the reader's browser from what the reader enters, as before.

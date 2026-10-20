@@ -106,3 +106,14 @@ Since session 150 the same stage takes two more providers. In the panel of a fin
 - **The landscape depends on the trends.** A real company in the niche that no source ties to one of the run's five trends is in the funnel, not on the map.
 - **Two runs of the same niche are not identical.** Web search returns different pages on different days. Run a niche again if a company you expected is missing, and read the funnel.
 - **A source can be wrong.** The report repeats what its sources say, with the link, so you can read the source yourself.
+
+## The page as it stands (session 334, 20 October 2026)
+
+- **Version 1, as it stands.** The owner's roadmap holds version 2 (the next builder) on hold; this pass changed no
+  feature of the page.
+- **The charts** of a report (the trends, the funnel of a run written before 9 October) are drawn in SVG through the
+  site's shared chart set since session 318; no value moved.
+- **No download, no checked number**: the runs are an internal table read through functions that check the internal
+  token (the opening of this note), so `check-values`, which asks with the public key, reads none of them, and the page
+  offers no file. `check-thesis` reads the page; its report tabs are proven only against its stand-in
+  (`site/scripts/thesis-stub.mjs`), as the check itself says.
