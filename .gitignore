@@ -62,3 +62,4 @@ private/newsletters/*
 !private/newsletters/README.md
 # Session 59: this machine's role and its data lock token (warehouse/lock.py), never in git
 .erw/
+.venv-jedi/

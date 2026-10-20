@@ -43,7 +43,9 @@ Hard stops, in the code and in tests/test_planner.py:
   - a planned chain holds one to three sessions, and at most one of them lands: the last;
   - an item is planned once: an item already in a planned chain (queue/next/ or queue/done/) is not taken again;
   - the file written is checked before it is kept: its name by the chain queue's own rule, its first line, the
-    precheck as its first rule, the queue step as its last, no em dash, no unfilled blank.
+    precheck as its first rule, the queue step as its last, no em dash, no unfilled blank, and (session 365) the
+    line `machine: <role>` for the role it was drafted for, which scripts/chain_queue.py reads to leave the chain to a
+    machine of that role. A file in queue/next/ marked for another machine does not hold the queue for this one.
 
 The planner is off by default. Only a person sets "planner: on", in docs/roadmap.md.
 
@@ -71,6 +73,7 @@ MAX_SESSIONS = 3
 REFUSED = 3
 FIRST_LINE = "PLANNED by scripts/planner.py from docs/roadmap.md as of "
 ITEM_LINE = "Roadmap item: "
+MACHINE_LINE = "machine: "                 # session 365: scripts/chain_queue.py reads it in a file's first ten lines
 EM = chr(0x2014)
 NAME_RE = re.compile(r"^(\d{3,})-([a-z0-9][a-z0-9-]*)\.md$")     # scripts/chain_queue.py's own rule
 TASK_RE = re.compile(r"^\d{3,}-(code|data)-")
@@ -387,7 +390,9 @@ def refusals(text, machine, role, now, root=ROOT, changed=None, sessions=None):
         if age > MAX_AGE_DAYS:
             out.append(f"the roadmap is {age:.1f} days old (last changed {changed:%Y-%m-%d %H:%M} UTC): older than {MAX_AGE_DAYS} days, it is not planned from")
     out += s["problems"]
-    held = [name for folder, name, _ in chain_files(root) if folder == "next"]
+    # session 365: a file marked for another machine (machine: code or data) is not this machine's; it does not hold the queue for it
+    import chain_queue
+    held = [name for folder, name, text in chain_files(root) if folder == "next" and chain_queue.for_this(chain_queue.mark_of(text), role, machine)]
     if held:
         out.append(f"queue/next/ already holds a file ({', '.join(held)}): the queue is not empty")
     if role not in ("code", "data"):
@@ -429,6 +434,7 @@ def chain(text, template, machine, role, now, root=ROOT, changed=None, number=No
 
     out = [f"{FIRST_LINE}{now:%Y-%m-%d %H:%M} UTC (the roadmap last changed {changed:%Y-%m-%d %H:%M} UTC)." if changed else f"{FIRST_LINE}{now:%Y-%m-%d %H:%M} UTC.", ""]
     out += [f"# Planned chain of {now.day} {now:%B}: session{'s' if last > first else ''} {first}{f' to {last}' if last > first else ''}", ""]
+    out += [f"{MACHINE_LINE}{role}", ""]                         # session 365: the chain queue takes it only on a machine of this role
     out += [f"The machine {machine} ({role}), unattended. No person wrote this file: scripts/planner.py built it from docs/roadmap.md, whose words are quoted below as they stand, and from queue/CHAIN_TEMPLATE.md. It was built because the chain queue was empty and the roadmap says \"planner: on\".", ""]
     out += [f"{ITEM_LINE}{item['n']}. {item['title']}", f"- Where: {item['where']}", f"- Done means: {item['done']}"]
     out += [f"- Ruling already made: {r}" for r in item["rulings"]] or ["- Rulings already made on this item: none written in the roadmap."]
@@ -471,10 +477,17 @@ def chain(text, template, machine, role, now, root=ROOT, changed=None, number=No
     return name, "\n".join(out) + "\n"
 
 
-def problems_of(name, text, cutoffs=None):
+def problems_of(name, text, cutoffs=None, role=None):
     """What is wrong with a planned chain file; empty when it may be kept. The last hard stop: nothing is written
-    that fails here."""
+    that fails here. Session 365: the chain names its machine (machine: code or data, in its first ten lines, read as
+    scripts/chain_queue.py reads it), and with `role` given, that role."""
+    import chain_queue
     out = []
+    mark = chain_queue.mark_of(text)
+    if mark not in chain_queue.ROLES:
+        out.append(f"the chain does not say which machine it is for (a line machine: code or machine: data in its first {chain_queue.MARK_LINES} lines)" + (f": it says machine: {mark}" if mark else ""))
+    elif role is not None and mark != role:
+        out.append(f"the chain says machine: {mark}, and was drafted for a {role} machine")
     if not NAME_RE.match(name) or TASK_RE.match(name) or "-planned-" not in name:
         out.append(f"the name {name} is not NNN-planned-<slug>.md by the chain queue's rule")
     if not text.startswith(FIRST_LINE):
@@ -535,7 +548,7 @@ def run(action, machine, role, roadmap=None, dry_run=False, now=None, root=ROOT,
         out(f"planner: {TEMPLATE} cannot be read ({type(exc).__name__})")
         return 1, None
     name, body = chain(text, template, machine, role, now, root, changed)
-    bad = problems_of(name, body, status(text)["cutoffs"])
+    bad = problems_of(name, body, status(text)["cutoffs"], role)
     if bad:
         out(f"refused: the chain drafted for {machine} does not pass its own checks, and is not written:")
         for b in bad:

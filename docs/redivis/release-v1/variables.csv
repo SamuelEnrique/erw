@@ -3070,6 +3070,40 @@ grid_stress_yearly,wind_solar_capacity_mw,series variable,MW
 grid_stress_yearly,wind_solar_mean_mw,series variable,MW
 imf_commodity_prices,price,series variable,USD/lb
 imf_commodity_prices,price,series variable,USD/t
+impact_tax_rules,event_id,column,
+impact_tax_rules,event_date,column,
+impact_tax_rules,event_type,column,
+impact_tax_rules,parties,column,
+impact_tax_rules,entity_ids,column,
+impact_tax_rules,mw,column,
+impact_tax_rules,price,column,
+impact_tax_rules,currency,column,
+impact_tax_rules,status,column,
+impact_tax_rules,source,column,
+impact_tax_rules,source_url,column,
+impact_tax_rules,x_state,column,
+impact_tax_rules,x_tax,column,
+impact_tax_rules,x_product,column,
+impact_tax_rules,x_rule,column,
+impact_tax_rules,x_rule_name,column,
+impact_tax_rules,x_kind,column,
+impact_tax_rules,x_basis,column,
+impact_tax_rules,x_rate,column,
+impact_tax_rules,x_per_unit,column,
+impact_tax_rules,x_unit,column,
+impact_tax_rules,x_effective_text,column,
+impact_tax_rules,x_date_kind,column,
+impact_tax_rules,x_who,column,
+impact_tax_rules,x_what,column,
+impact_tax_rules,x_how_long,column,
+impact_tax_rules,x_quote,column,
+impact_tax_rules,x_quote2,column,
+impact_tax_rules,x_code_section,column,
+impact_tax_rules,x_code_quote,column,
+impact_tax_rules,x_code_url,column,
+impact_tax_rules,x_detail,column,
+impact_tax_rules,x_applies_to,column,
+impact_tax_rules,x_note,column,
 interconnection_queue_summary,median_years_to_operation,series variable,year
 interconnection_queue_summary,mw_active,series variable,MW
 interconnection_queue_summary,mw_entered,series variable,MW
@@ -3272,6 +3306,14 @@ lbnl_interconnection_queue,mw_2,column,
 lbnl_interconnection_queue,mw_3,column,
 lbnl_interconnection_queue,q_year,column,
 lbnl_interconnection_queue,prop_year,column,
+nlr_jedi_multipliers,earnings,series variable,USD/MW
+nlr_jedi_multipliers,earnings,series variable,USD/MW-year
+nlr_jedi_multipliers,jobs,series variable,FTE-year/MW
+nlr_jedi_multipliers,jobs,series variable,FTE/MW
+nlr_jedi_multipliers,local_share,series variable,ratio
+nlr_jedi_multipliers,output,series variable,USD/MW
+nlr_jedi_multipliers,output,series variable,USD/MW-year
+nlr_jedi_multipliers,project_mw,series variable,MW
 noaa_grid_weather_daily,cooling_degree_days,series variable,degF-day
 noaa_grid_weather_daily,dew_point_f,series variable,degF
 noaa_grid_weather_daily,heating_degree_days,series variable,degF-day

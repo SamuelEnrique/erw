@@ -102,6 +102,7 @@ export const RELEASE: Record<string, Status> = {
   "/play/battery": "review",
   "/play/ev": "review",  // session 294: the EV game (in review, as every page)
   "/severance": "review",
+  "/impact": "review",  // session 347: what a project does for a state (tool 17), NLR's JEDI models and the tax rules held
   "/severance/lease": "review",
   "/digest": "review",
   "/roundup": "review",

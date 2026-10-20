@@ -871,6 +871,9 @@ python scripts/chain_queue.py next [--dry-run]
   chain watch reads, and the machine's one email, "ready for review", follows 15 minutes later.
 - A name that is not `NNN-<slug>.md`, and a name of the task queue below (`NNN-code-`, `NNN-data-`), is left where it
   is and never run.
+- **A file says its machine** (session 365) with a line `machine: code` or `machine: data` in its first ten lines:
+  `next` takes only files for this machine's role or with no line, names the others and leaves them, and
+  `next --file NNN-<slug>.md` takes one named file (`queue/README.md` has the rules).
 - This is not the task queue of "The queue and the worker" above: that one hands single tasks to whichever worker
   claims them, by role, and its claim is a push. `queue/README.md` describes both.
 - One machine draws from `queue/next/` at a time. A second machine that has not pulled the move would take the same

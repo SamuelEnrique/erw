@@ -69,6 +69,8 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/cost-of-power", "/cost-of-power?run=hours",
   "/cost-of-power?grid=caiso",  // session 280: CAISO's hub counts (scarcity_hours_by_grid) and its list of statements (large_load_public)
   // session 51: the seller's tab, its defaults and three other assets
+  // session 347: the economic impact tool, its defaults and three other views (a size, cost, local content and life given)
+  "/impact", "/impact?tech=utility_pv&state=la&mw=200&life=30", "/impact?tech=natural_gas&state=nm&capex=120&local=80", "/impact?tech=geothermal&state=us&life=25",
   "/cost-of-power/seller", "/cost-of-power/seller?asset=battery", "/cost-of-power/seller?asset=peaker", "/cost-of-power/seller?iso=spp&asset=wind",  // session 145: MISO is blank on the page, so the fourth view is SPP's wind
   // session 38: today's level's price range
   "/play/battery", "/play/battery?mode=hard",  // session 63: the simple page and the full game; session 289: one page, three modes (?more=1 redirects)
@@ -160,6 +162,7 @@ async function all(table, params) {
   }
 }
 
+const impactRows = new Map(), impactAll = new Map();   // session 347: /impact's rows, by technology and state, and by technology
 const dcAnswers = new Map();   // session 228: the answers of one address of /cost-of-power, read once
 const dcllRows = new Map();
 let R_statOf = null;
@@ -316,6 +319,18 @@ async function truth(check) {
       const [mw, lf, days] = p.slice(3, 6).map(Number);
       return mw * lf * 24 * days * share * price;
     }
+  }
+  // session 347: /impact's figures, impact|<tech>|<state>|<mw>|<capex>|<local>|<life>|<stat>: recomputed by lib/impact.ts
+  // (the page's own arithmetic) from this script's own read of nlr_jedi_multipliers: the rows of the technology and
+  // state, and every state's construction jobs for the state's rank
+  if (p[0] === "impact") {
+    const I = await import("../lib/impact.ts");
+    const { x, stat } = I.parseKey(check);
+    const num = (r) => ({ ...r, value: Number(r.value) });
+    const k = `${x.tech}|${x.state}`;
+    if (!impactRows.has(k)) impactRows.set(k, (await all("series", { select: "entity,variable,ts_utc,value", table_name: `eq.${I.TABLE}`, entity: `like.nlr_jedi:${x.tech}:${x.state}:*`, order: "entity,variable" })).map(num));
+    if (!impactAll.has(x.tech)) impactAll.set(x.tech, (await all("series", { select: "entity,variable,ts_utc,value", table_name: `eq.${I.TABLE}`, entity: `like.nlr_jedi:${x.tech}:*:construction:*`, variable: "eq.jobs", order: "entity" })).map(num));
+    return I.stat(impactRows.get(k), x, stat, impactAll.get(x.tech)) ?? undefined;
   }
   if (p[0] === "series") {
     const [, table, entity, variable, at, event] = p;
