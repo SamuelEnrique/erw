@@ -70,6 +70,14 @@ class TheDefaultsHold(unittest.TestCase):
         self.assertIn("const out: Revenue | null = rte === MODEL.rte && cycles === MODEL.cycles", sc)
         self.assertIn("? { l12: win.value, first: win.from, last: win.to,", sc)
 
+    def test_show_keeps_the_price_years_and_a_figure_is_a_bare_number(self):
+        keep = 'const py = new URLSearchParams(window.location.search).get("py"); if (py) q.set("py", py); }'
+        for parts in (("seller", "SellerForm.tsx"), ("LoadForm.tsx",), ("battery", "BatteryForm.tsx")):
+            self.assertIn(keep, src("site", "app", "cost-of-power", *parts), parts)
+        # check-values reads a figure's text as a number: the currency stays outside the Num
+        for parts in (("battery", "Scenarios.tsx"), ("seller", "page.tsx"), ("page.tsx",)):
+            self.assertNotIn("raw={w.value}>USD", src("site", "app", "cost-of-power", *parts), parts)
+
     def test_the_packs_say_what_the_pages_show_now(self):
         for name in ("battery", "generator", "datacenter"):
             self.assertIn("Since session 352 (20 October 2026)", src("docs", "reviews", "packs", f"{name}.md"), name)

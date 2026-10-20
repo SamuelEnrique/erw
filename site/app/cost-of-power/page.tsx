@@ -294,7 +294,7 @@ async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyG
                 {(() => {
                   const bw = highLow(M.pyWs);
                   if (!bw) return null;
-                  const one = (w: typeof bw.high) => <><Num check={`series|price_years_by_window|${w.entity}|${w.variable}|${w.ts}`} raw={w.value}>USD {two(w.value)}</Num> per MWh in {w.id.slice(5)}</>;
+                  const one = (w: typeof bw.high) => <>USD <Num check={`series|price_years_by_window|${w.entity}|${w.variable}|${w.ts}`} raw={w.value}>{two(w.value)}</Num> per MWh in {w.id.slice(5)}</>;
                   return <p className="mt-3 max-w-3xl text-sm" data-years-line="1">A flat load at {place} paid {one(bw.low)}, its cheapest whole year held, and {one(bw.high)}, its dearest; the &quot;Price years&quot; choice prices the scenarios on any of them.</p>;
                 })()}
               </ToolSection>

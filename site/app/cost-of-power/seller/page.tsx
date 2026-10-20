@@ -335,7 +335,7 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
               {(() => {
                 const bw = highLow(M.pyWs);
                 if (!bw) return null;
-                const one = (w: typeof bw.high) => <><Num check={`series|price_years_by_window|${w.entity}|${w.variable}|${w.ts}`} raw={w.value}>USD {two(w.value)}</Num> per kW in {w.id.slice(5)}</>;
+                const one = (w: typeof bw.high) => <>USD <Num check={`series|price_years_by_window|${w.entity}|${w.variable}|${w.ts}`} raw={w.value}>{two(w.value)}</Num> per kW in {w.id.slice(5)}</>;
                 return <p className="mt-3 max-w-3xl text-sm" data-years-line="1">The same plant earned {one(bw.high)} in its highest whole year held at {at} and {one(bw.low)} in its lowest{peaker ? " (margin over fuel)" : ""}; the &quot;Price years&quot; choice prices the scenarios on any of them.</p>;
               })()}
             </ToolSection>

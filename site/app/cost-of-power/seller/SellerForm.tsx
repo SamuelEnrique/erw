@@ -36,6 +36,7 @@ export function SellerForm({ x, grids, hybrid, defaults }: { x: FormValues; grid
         const f = new FormData(e.currentTarget);
         const q = new URLSearchParams();
         for (const k of KEYS) { const v = f.get(k); if (typeof v === "string" && v !== "") q.set(k, v); }
+        { const py = new URLSearchParams(window.location.search).get("py"); if (py) q.set("py", py); }   // session 352: Show keeps the price years chosen
         const mw = Number(q.get("mw") ?? x.mw), mwh = Number(q.get("mwh") ?? x.mwh);
         const same = keyOf({ asset: x.asset as Asset, mw: mw > 0 ? mw : x.mw, mwh: mwh > 0 ? mwh : x.mwh }) === own;
         router.push(`/cost-of-power/seller?${q.toString()}${carry(window.location.search, same)}`, { scroll: false });

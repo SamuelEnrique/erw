@@ -402,7 +402,7 @@ function YearsLine({ ws, a, ctx, size, scale }: { ws: PriceYear[]; a: Assumption
   if (!bw) return null;
   const one = (w: PriceYear) => {
     const r = resultOf(a, w.value, ctx);
-    return <><Num check={`series|price_years_by_window|${w.entity}|${w.variable}|${w.ts}`} raw={w.value}>USD {num(w.value)}</Num> per kW in {w.id.slice(5)} (scenario A&apos;s NPV {usd(r.npv * scale)})</>;
+    return <>USD <Num check={`series|price_years_by_window|${w.entity}|${w.variable}|${w.ts}`} raw={w.value}>{num(w.value)}</Num> per kW in {w.id.slice(5)} (scenario A&apos;s NPV {usd(r.npv * scale)})</>;
   };
   return (
     <p className="mt-3 max-w-3xl text-sm" data-years-line="1">
