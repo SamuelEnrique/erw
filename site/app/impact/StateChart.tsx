@@ -13,19 +13,19 @@ export function StateChart({ id, unit, categories, keys, onsite, supply, induced
   return (
     <SeriesChart
       id={id}
-      title="The same project in each state"
+      title="The same project in other states"
       unit={unit}
       kind="stacked"
       scale="linear"
       fmt={(v) => Math.round(v).toLocaleString("en-US")}
-      categories={keys.map((k) => ({ label: k.toUpperCase(), sub: k === highlight ? "yours" : undefined }))}
+      categories={keys.map((k, i) => ({ label: categories[i], sub: k === highlight ? "yours" : undefined }))}
       series={[
         { name: "On site", color: "var(--color-accent)", values: onsite },
         { name: "Supply chain", color: "var(--color-ink)", values: supply },
         { name: "Induced", color: "var(--color-muted)", values: induced },
       ]}
       says={(i) => `${categories[i]}: ${one(onsite[i] + supply[i] + induced[i])} ${unit} (on site ${one(onsite[i])}, supply chain ${one(supply[i])}, induced ${one(induced[i])})`}
-      note="JEDI's per-MW construction jobs in each state, times your project's size, cost and local content. A state whose own businesses supply more of what a plant buys keeps more of the jobs."
+      note="The ten states with the most construction job-years, yours, and the five with the fewest: JEDI's per-MW construction jobs in each state, times your project's size, cost and local content. Every state is in the table below."
     />
   );
 }

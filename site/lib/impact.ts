@@ -140,6 +140,7 @@ export function factor(x: Inputs, phase: Phase, mw: number): number {
  *   <phase>:<effect>:<measure>   the reader's project (construction: over the build; operations: each year)
  *   life:<effect>:<measure>      operations over the reader's life (null when no life is given)
  *   mw                           the MW the figures are for
+ *   state:<state>:<phase>:<effect>:<measure>  the same project in another state
  *   state_rank:<phase>:<measure> the state's place among the 51 (1 is the most), at JEDI's per-MW total
  *   swing:<lever>:<phase>:<measure> the total at the lever's swing (mw +50%, capex +25 points, local +25 points, life +5 years) */
 export function stat(rows: Row[], x: Inputs, s: string, all?: Row[]): number | null {
@@ -167,6 +168,13 @@ export function stat(rows: Row[], x: Inputs, s: string, all?: Row[]): number | n
     if (phase === "life") return y.life === null ? null : stat(rows, y, `life:total:${measure}`);
     return stat(rows, y, `${phase}:total:${measure}`);
   }
+  if (p[0] === "state") {
+    // state:<state>:<phase>:<effect>:<measure>, the reader's project built in another state (every state's rows in `all`)
+    if (!all) return null;
+    const [, k, phase, effect, measure] = p;
+    const v = perMw(all, { tech: x.tech, state: k }, phase, effect, measure);
+    return v === null ? null : v * factor(x, phase as Phase, mw);
+  }
   if (p[0] === "state_rank") {
     if (!all) return null;
     const [, phase, measure] = p;
@@ -193,13 +201,14 @@ export const UNIT: Record<Phase, Record<Measure, string>> = {
   operations: { jobs: "jobs each year", earnings: "USD a year", output: "USD a year" },
 };
 /** a figure as the page writes it, as scripts/check-values.mjs reads it: a count whole with commas, any other number to
- *  two decimals; dollars short ("63.46 million"), as the deals table writes them (the Num inside <span data-format="usd">) */
+ *  two decimals; dollars of a million or more short ("63.46 million"), as the deals table writes them (the Num inside
+ *  <span data-format="usd">: usdShort), and below a million to two decimals like any other number */
+export const usdShort = (v: number, measure: string) => (measure === "earnings" || measure === "output") && Math.abs(v) >= 1e6;
 export function fmt(v: number, measure: Measure | "mw" | "rank"): string {
   if (measure === "earnings" || measure === "output") {
     const t = (x: number) => x.toLocaleString("en-US", { maximumFractionDigits: 2 });
     if (Math.abs(v) >= 1e9) return `${t(v / 1e9)} billion`;
     if (Math.abs(v) >= 1e6) return `${t(v / 1e6)} million`;
-    return v.toLocaleString("en-US");
   }
   return Number.isInteger(v) ? v.toLocaleString("en-US") : v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }

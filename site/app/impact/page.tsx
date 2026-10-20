@@ -7,7 +7,7 @@ import { TableDownloads } from "@/components/tool/TableDownloads";
 import { HeadlineNumber, HeadlineRow, InputPanel, SourceLine, Tip, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import {
   BOUNDS, EFFECTS, EFFECT_TIPS, EFFECT_WORDS, METHOD, NOT_MODELED, STATES, TABLE, TAX_STATES, TAX_TABLE, TECHS, UNIT,
-  fmt, inputsKey, inputsOf, lineWords, mwOf, perMw, projectMw, stat, stateName, statesHeld, techOf,
+  fmt, inputsKey, usdShort, inputsOf, lineWords, mwOf, perMw, projectMw, stat, stateName, statesHeld, techOf,
   type Effect, type Inputs, type Measure, type Phase, type Row,
 } from "@/lib/impact";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
@@ -31,12 +31,12 @@ const iso = (ts: string) => new Date(ts).toISOString().replace(".000Z", "Z");
 function V({ x, s, v, m }: { x: Inputs; s: string; v: number | null; m: Measure | "mw" | "rank" }) {
   if (v === null) return <span className="text-muted">not held</span>;
   const n = <Num check={`${inputsKey(x)}|${s}`} raw={v}>{fmt(v, m)}</Num>;
-  return m === "earnings" || m === "output" ? <span data-format="usd">{n}</span> : n;
+  return usdShort(v, m) ? <span data-format="usd">{n}</span> : n;
 }
 function S({ r, m }: { r: Row | undefined; m: Measure | "mw" }) {
   if (!r) return <span className="text-muted">not held</span>;
   const n = <Num check={`series|${TABLE}|${r.entity}|${r.variable}|${iso(r.ts_utc)}`} raw={Number(r.value)}>{fmt(Number(r.value), m)}</Num>;
-  return m === "earnings" || m === "output" ? <span data-format="usd">{n}</span> : n;
+  return usdShort(Number(r.value), m) ? <span data-format="usd">{n}</span> : n;
 }
 
 export default async function Impact({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
@@ -87,6 +87,8 @@ export default async function Impact({ searchParams }: { searchParams: Promise<R
     return { k, name, onsite: v("onsite"), supply: v("supply_chain"), induced: v("induced"), total: v("total") };
   }).filter((r) => r.total !== null).sort((a, b) => (b.total ?? 0) - (a.total ?? 0));
   const f = mw === null ? 0 : mw * (x.local / 100) * (x.capex / 100);
+  // the chart: the ten states with the most, the reader's state, and the five with the fewest (every state is in the table under it)
+  const shown = perState.filter((r, i) => i < 10 || i >= perState.length - 5 || r.k === x.state);
 
   const levers: { key: string; label: string; change: string; tip: string }[] = [
     { key: "mw", label: "Size", change: "50 percent more MW", tip: "JEDI's effects are proportional to the spending, so 50 percent more MW gives 50 percent more of every figure." },
@@ -152,13 +154,13 @@ export default async function Impact({ searchParams }: { searchParams: Promise<R
             {!read.ok ? (
               <p className="mb-6 border border-rule bg-paper px-3 py-2 text-sm" role="status">The table could not be read, so no number is shown: {read.reason}</p>
             ) : !held ? (
-              <p className="mb-6 border border-rule bg-paper px-3 py-2 text-sm" role="status" data-not-held={`${x.tech}:${x.state}`}>JEDI gives no figure for {t.label.toLowerCase()} in {where}: its own answer there is an error (the gas model&apos;s #DIV/0! for the District of Columbia and Hawaii), so the ERW holds none. <Link href={METHOD}>Why</Link>.</p>
+              <p className="mb-6 border border-rule bg-paper px-3 py-2 text-sm" role="status" data-not-held={`${x.tech}:${x.state}`}>JEDI gives no figure for {lower(t.label)} in {where}: its own answer there is an error (the gas model&apos;s #DIV/0! for the District of Columbia and Hawaii), so the ERW holds none. <Link href={METHOD}>Why</Link>.</p>
             ) : (
               <>
                 <div data-question="1">
                   <ToolSection title="How many jobs?" id="jobs">
                     <p className="mb-4 max-w-3xl text-sm" data-summary="1">
-                      A {fmt(mw!, "mw")} MW {t.label.toLowerCase()} plant in {where}{nation ? " (spending anywhere in the country counted as local)" : ""}, at JEDI&apos;s {x.capex === 100 ? "default cost" : `default cost times ${x.capex} percent`} and {x.local === 100 ? "its local shares" : `${x.local} percent of its local shares`}: JEDI counts <V x={x} s="construction:total:jobs" v={st("construction:total:jobs")} m="jobs" /> job-years while it is built and <V x={x} s="operations:total:jobs" v={st("operations:total:jobs")} m="jobs" /> jobs in each year it runs, in the state.
+                      A {fmt(mw!, "mw")} MW {lower(t.label)} plant in {where}{nation ? " (spending anywhere in the country counted as local)" : ""}, at JEDI&apos;s {x.capex === 100 ? "default cost" : `default cost times ${x.capex} percent`} and {x.local === 100 ? "its local shares" : `${x.local} percent of its local shares`}: JEDI counts <V x={x} s="construction:total:jobs" v={st("construction:total:jobs")} m="jobs" /> job-years while it is built and <V x={x} s="operations:total:jobs" v={st("operations:total:jobs")} m="jobs" /> jobs in each year it runs, in the state.
                     </p>
                     <HeadlineRow>
                       <HeadlineNumber label="Built" value={<V x={x} s="construction:total:jobs" v={st("construction:total:jobs")} m="jobs" />} unit="job-years" note="One job-year is one full-time job for a year (2,080 hours), over the whole build." />
@@ -222,8 +224,13 @@ export default async function Impact({ searchParams }: { searchParams: Promise<R
                           Where it is built matters as much: the same project counts {(() => { const r = st("state_rank:construction:jobs"); return r === null ? <span className="text-muted">no rank</span> : <>the <V x={x} s="state_rank:construction:jobs" v={r} m="rank" />{ordinal(r)} most</>; })()} construction job-years in {where} of the {nStates} places JEDI gives a figure for (the states and the District of Columbia), because each state&apos;s own businesses supply a different share of what it buys.
                         </p>
                         <StateChart id="impact-states" unit="job-years" highlight={x.state}
-                          categories={perState.map((r) => r.name)} keys={perState.map((r) => r.k)}
-                          onsite={perState.map((r) => (r.onsite ?? 0) * f)} supply={perState.map((r) => (r.supply ?? 0) * f)} induced={perState.map((r) => (r.induced ?? 0) * f)} />
+                          categories={shown.map((r) => r.name)} keys={shown.map((r) => r.k)}
+                          onsite={shown.map((r) => (r.onsite ?? 0) * f)} supply={shown.map((r) => (r.supply ?? 0) * f)} induced={shown.map((r) => (r.induced ?? 0) * f)} />
+                        <details className="mt-2 text-sm" data-every-state={perState.length}>
+                          <summary className="cursor-pointer text-accent">Every state, from the most construction jobs to the fewest</summary>
+                          <ToolTable caption={`${t.label}: your project's construction job-years in every state`} minWidth={360} head={["State", "Job-years built"]}
+                            rows={perState.map((r) => ({ key: r.k, highlight: r.k === x.state, cells: [r.name, <V key="v" x={x} s={`state:${r.k}:construction:total:jobs`} v={st(`state:${r.k}:construction:total:jobs`)} m="jobs" />] }))} />
+                        </details>
                       </div>
                     ) : null}
                   </ToolSection>
@@ -250,6 +257,10 @@ export default async function Impact({ searchParams }: { searchParams: Promise<R
       </ToolPage>
     </Brand>
   );
+}
+
+function lower(s: string): string {
+  return s.charAt(0).toLowerCase() + s.slice(1);
 }
 
 function ordinal(n: number): string {
