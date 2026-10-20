@@ -243,7 +243,7 @@ try {
   const D = M.DEFAULTS.solar;
   const d = F.defaultsOf({ ...D, deg: F.SOLAR_DEG });   // session 298 (ruling 7a): solar's degradation default is the ATB's 0.7
   check(s.search === "", "the bare address stays bare: nothing is written into it", s.search);
-  check(JSON.stringify(s.fields.map((f) => f.key)) === JSON.stringify(F.KEYS), "eleven assumptions, in the order asked (session 212: the contract's share and price; session 264: the PPA term last)", s.fields.map((f) => f.key).join(", "));
+  check(JSON.stringify(s.fields.map((f) => f.key)) === JSON.stringify(F.KEYS), "thirteen assumptions, in the order asked (session 212: the contract's share and price; session 264: the PPA term; session 353: the two tax credits last, both offered for solar)", s.fields.map((f) => f.key).join(", "));
   check(/percent of the energy/.test(s.text) && /USD per MWh/.test(s.fields.find((f) => f.key === "cprice").source + s.text), "for solar the contract is a share of the energy at a price per MWh");
   let dl = await downloads("");
   check(dl.status[0] === 200 && dl.status[1] === 200 && dl.months > 12 && dl.tables > 100 && /^# Energy Research Warehouse/.test(dl.heads), "the two CSV downloads answer the internal view with their provenance lines", `${dl.status}; ${dl.months} months, ${dl.tables} cells`);
@@ -463,7 +463,7 @@ try {
   check(!s.bad && s.cells["a|revenue"].raw !== null && s.cells["a|battery"].raw === null && (s.cells["a|battery"].missing ?? "").length > 20 && s.bars.length === 8, "New York wind: the scenarios are computed; no pair is modeled, with its reason on hover", s.cells["a|battery"].missing ?? "");
   await go("/cost-of-power/seller?iso=isone&asset=solar&hub=.Z.MAINE");
   s = await ev(STATE);
-  check(!!s && !s.bad && s.cells["a|revenue"].raw === null && s.cells["a|npv"].raw === null && s.bars.length === 0 && s.sentence === null && s.fields.length === 11, "a zone with no twelve months: the rows say not held, with no chart and no sentence (nothing is filled)", s ? s.cells["a|revenue"].text : "no block");
+  check(!!s && !s.bad && s.cells["a|revenue"].raw === null && s.cells["a|npv"].raw === null && s.bars.length === 0 && s.sentence === null && s.fields.length === 13, "a zone with no twelve months: the rows say not held, with no chart and no sentence (nothing is filled; session 353: thirteen fields, solar offers the two tax credits)", s ? s.cells["a|revenue"].text : "no block");
 
   // 10b (session 235): the breakeven PPA price, "Make B a PPA", and the capture chart and table inside the first question
   await go("/cost-of-power/seller");

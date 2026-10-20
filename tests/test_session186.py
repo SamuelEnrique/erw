@@ -286,13 +286,13 @@ class ThePage(unittest.TestCase):
     def test_eight_assumptions_and_no_others(self):
         # session 212: ten, the contract's share and price last (0 by default: fully merchant); the eight of this session are FINANCE_KEYS
         hit = re.search(r"export const KEYS: Key\[\] = \[(.*?)\];", self.lib)
-        self.assertEqual(re.findall(r'"(\w+)"', hit.group(1)), KEYS + ["cshare", "cprice", "ppa"])   # session 264: the PPA term eleventh
+        self.assertEqual(re.findall(r'"(\w+)"', hit.group(1)), KEYS + ["cshare", "cprice", "ppa", "itc", "ptc"])   # session 264: the PPA term eleventh; session 353: the two tax credits
         hit = re.search(r"export const FINANCE_KEYS: Key\[\] = \[(.*?)\];", self.lib)
         self.assertEqual(re.findall(r'"(\w+)"', hit.group(1)), KEYS)
-        for k in KEYS + ["cshare", "cprice", "ppa"]:
+        for k in KEYS + ["cshare", "cprice", "ppa", "itc", "ptc"]:
             self.assertEqual(self.lib.count(f'  {k}: {{ key: "{k}", letter: "'), 1, k)
-        self.assertEqual(self.lib.count('{ key: "'), 11)   # session 264: eleven
-        self.assertEqual(self.lib.count(", source: "), 11)
+        self.assertEqual(self.lib.count('{ key: "'), 13)   # session 264: eleven; session 353: thirteen, the two tax credits
+        self.assertEqual(self.lib.count(", source: "), 13)
         self.assertIn('cshare: { key: "cshare", letter: "n", label: "Contract share", unit: "percent", min: 0, max: 100, whole: false, swing: 10,', self.lib)
         self.assertIn('cprice: { key: "cprice", letter: "p", label: "Contract price", unit: "USD", min: 0, max: 1000, whole: false, swing: 1,', self.lib)
         for k in KEYS:                                                                  # the steps and bounds the mirror uses are the library's
@@ -302,7 +302,7 @@ class ThePage(unittest.TestCase):
 
     def test_the_defaults_and_what_they_cite(self):
         # session 196 (the owner's ruling of 11 October 2026): the hurdle rate is Lazard's weighted cost; a battery's degradation is Lazard's
-        self.assertIn("return { capex: costs.capex, share: 60, rate: 8, term: costs.life, fom: costs.fom, deg: costs.deg ?? 0, life: costs.life, hurdle: HURDLE, cshare: 0, cprice: 0, ppa: costs.life };", self.lib)   # session 212; session 264: the PPA term
+        self.assertIn("return { capex: costs.capex, share: 60, rate: 8, term: costs.life, fom: costs.fom, deg: costs.deg ?? 0, life: costs.life, hurdle: HURDLE, cshare: 0, cprice: 0, ppa: costs.life, itc: 0, ptc: 0 };", self.lib)   # session 212; session 264: the PPA term
         self.assertIn("export const HURDLE = 12;", self.lib)        # session 208: Lazard's cost of equity (the owner's ruling of 12 October 2026)
         self.assertIn("export const BATTERY_DEG = 2.6;", self.lib)
         merchant = src("site", "lib", "merchant.ts")

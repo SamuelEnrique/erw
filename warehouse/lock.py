@@ -147,6 +147,11 @@ def acquire(task, minutes=120, wait=0):
             os.environ["ERW_LOCK_TOKEN"] = tok
             return tok
         s = status()
+        if s is None:  # session 359: released between the try and the look; try again (the deadline still holds)
+            if time.time() >= deadline:
+                raise SystemExit("the data lock could not be taken, and no holder is recorded")
+            time.sleep(2)
+            continue
         if time.time() >= deadline:
             raise SystemExit(f"the data lock is held by {s['holder']} for {s['task']!r} until {s['expires']}; not taken")
         print(f"the data lock is held by {s['holder']} ({s['task']}) until {s['expires']}; waiting", flush=True)

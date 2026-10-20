@@ -26,6 +26,17 @@ export type Card = {
     tests: { name: string; passed: boolean; words: string }[] };
   // session 316: the publisher's own figure beside a scanner record of an EIA table (warehouse/analysis/findings/publisher_figure.py)
   publisher?: { source: string; period: string; value: number; unit: string; eia_value: number; eia_unit: string; url: string; read_at: string; ours: number | null; same: boolean };
+  // session 361 (the data machine) wrote it, session 355 shows it: the round's claims with each claim's Benjamini-Hochberg
+  // q-value (a library card: a q-value a claim of its own; a hunt draft: its trend's), Newey-West errors beside the card's
+  // HC1, and a hunt draft's shape (one step against a straight line). Beside the card's figures, never one of them.
+  statistics?: CardStatistics;
+};
+export type CardStatistics = {
+  session?: number;
+  round?: { name?: string; claims_tested: number; claims_passing: number; alpha?: number; method?: string; caveat?: string; claims_of_this_card?: number;
+    q_bh?: Record<string, number> | number | null; p_trend?: number | null };
+  newey_west?: { rows: { spec: string; label: string; numbers_key: string; coef: number; se_hc1: number; p_hc1: number; se_nw: number; p_nw: number; nw_lag: number; n: number }[]; rule?: string; words?: string };
+  shape?: { step_better: boolean; break_year: number | string; before: number; after: number; words: string } | null;
 };
 export type CatalogueInput = { label: string; default: string | number; choices: (string | number)[]; words: Record<string, string> };
 export type CatalogueEntry = { id: string; title: string; kind: string; tables: string[]; inputs: Record<string, CatalogueInput> };

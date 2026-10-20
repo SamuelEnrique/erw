@@ -7,6 +7,7 @@ import { Related } from "@/components/Related";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { Tabs } from "@/components/tool/Tabs";
 import { SourceLine, ToolHeader, ToolPage } from "@/components/tool/ToolPage";
+import { TableDownloads } from "@/components/tool/TableDownloads";
 import mapJson from "@/data/map.json";
 import { faceOf, whole, type MapFile } from "@/lib/projectmap";
 import { one, tabOf } from "@/lib/tabs";
@@ -14,7 +15,7 @@ import { ResourcesView } from "../resources/view";
 import { Num } from "@/components/Num";
 import { HOURLY, attempt, restCount } from "@/lib/supabase";
 import { ProjectMap } from "./ProjectMap";
-import { QueuesView } from "./QueuesView";
+import { QUEUE_TABLE, QueuesView } from "./QueuesView";
 
 // Session 167: the project map, one page. Version 2's layout and data (session 105: the "Choose" panel, the summary
 // sentence, the totals by status, the map with hover, the source line) with what version 1 offered carried over
@@ -40,6 +41,10 @@ export default async function MapPage({ searchParams }: { searchParams: Promise<
         <div data-map-tab={tab}>
           <Tabs page="/map" active={tab} />
           {tab === "resources" ? <ResourcesView /> : tab === "queues" ? <QueuesView iso={sp.iso} /> : <ProjectsView />}
+          {/* session 330: the four tables the map's own copy is built from (both tabs draw them), as CSV with a Python and a
+              Stata reader (session 328's shared line); the resource layers are their publishers' files, named in the tab's note.
+              Session 367: the Queues tab (session 349) offers its own table instead */}
+          <TableDownloads tables={tab === "queues" ? [QUEUE_TABLE] : (mapJson as unknown as MapFile).tables} />
           <Related href="/map" />
         </div>
       </ToolPage>

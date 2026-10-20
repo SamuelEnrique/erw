@@ -15,6 +15,7 @@ import { METHODS, viewHref, viewOf } from "@/lib/demandpage";
 import { Brand } from "@/components/Brand";
 import { Related } from "@/components/Related";
 import { Tabs } from "@/components/tool/Tabs";
+import { TableDownloads } from "@/components/tool/TableDownloads";
 import { ConsumptionView } from "../consumption/view";
 
 // Demand growth, one page at one address (session 152), in review (lib/release.ts). Two views, both in the address
@@ -250,7 +251,10 @@ export default async function Demand({ searchParams }: { searchParams: Promise<R
         <ToolPage>
           <div data-demand={view}>
             <Tabs page="/demand" active={view} />
+            {/* session 331: the view's method note (docs/methods/consumption.md) and its two tables to download */}
+            <p className="mb-4 text-xs text-muted" data-method="1"><SiteLink href="/data/methods/consumption">Method, sources and gaps</SiteLink></p>
             <ConsumptionView />
+            <TableDownloads tables={["eia_retail_sales_monthly", "eia_sector_energy_consumption_monthly"]} />
             <Related href="/demand" />
           </div>
         </ToolPage>
@@ -269,6 +273,8 @@ export default async function Demand({ searchParams }: { searchParams: Promise<R
               See also <SiteLink href="/queues">the interconnection queue</SiteLink> and <SiteLink href="/prices/compare">where power is cheap</SiteLink>.</>} />
         <p className="mb-6 text-xs text-muted" data-method="1"><SiteLink href={METHODS[view].href}>Method, sources and gaps</SiteLink></p>
         {view === "weather" ? <WeatherView q={q} /> : <MeteredView q={q} />}
+        {/* session 331: the view's tables, as CSV with a Python and a Stata reader (session 328's shared line) */}
+        <TableDownloads tables={view === "weather" ? ["eia930_demand_weather", "noaa_grid_weather_hourly", "noaa_grid_weather_stations"] : ["eia930_demand_growth"]} />
       </div>
     </ToolPage>
     </Brand>

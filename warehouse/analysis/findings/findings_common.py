@@ -148,9 +148,86 @@ def ols_hc1(y, X, names):
     p = 2 * stats.t.sf(np.abs(t), n - k)
     ss_tot = float(((y - y.mean()) ** 2).sum())
     r2 = 1 - float((e ** 2).sum()) / ss_tot if ss_tot > 0 else float("nan")
-    return {"coef": {nm: {"coef": float(b), "se": float(s), "t": float(tt), "p": float(pp)}
-                     for nm, b, s, tt, pp in zip(names, beta, se, t, p)},
-            "n": int(n), "k": int(k), "r2": r2, "se_kind": "HC1"}
+    # session 361: Newey-West errors beside HC1, for rows in time order (a month or a day after the one before): the
+    # Bartlett kernel to NW_LAG(n) lags, with the same n / (n - k) as HC1 (Stata's `newey`). HC1 is unchanged and still
+    # the card's figure; the new keys are added beside it.
+    L = nw_lag(n)
+    S = (X * e[:, None]).T @ (X * e[:, None])
+    for j in range(1, L + 1):
+        G = (X[j:] * e[j:, None]).T @ (X[:-j] * e[:-j, None])
+        S += (1 - j / (L + 1)) * (G + G.T)
+    V_nw = (n / (n - k)) * bread @ S @ bread
+    se_nw = np.sqrt(np.maximum(np.diag(V_nw), 0))
+    t_nw = beta / se_nw
+    p_nw = 2 * stats.t.sf(np.abs(t_nw), n - k)
+    return {"coef": {nm: {"coef": float(b), "se": float(s), "t": float(tt), "p": float(pp), "se_nw": float(sn), "t_nw": float(tn), "p_nw": float(pn)}
+                     for nm, b, s, tt, pp, sn, tn, pn in zip(names, beta, se, t, p, se_nw, t_nw, p_nw)},
+            "n": int(n), "k": int(k), "r2": r2, "se_kind": "HC1", "nw_lag": int(L)}
+
+
+NW_RULE = "the Bartlett kernel to floor(4 (n / 100) ^ (2 / 9)) lags (Newey and West, 1994), with HC1's n / (n - k)"
+
+
+def nw_lag(n):
+    """Session 361: the Newey-West lag for n observations in time order, by Newey and West's (1994) rule of thumb."""
+    return int(np.floor(4 * (n / 100.0) ** (2.0 / 9.0)))
+
+
+def bh_q(pvals):
+    """Session 361: Benjamini-Hochberg q-values for a list of p-values (None stays None), in the list's order. A caveat
+    on a round of claims, never a gate: q is the smallest false discovery rate at which the claim would be kept."""
+    idx = [i for i, p in enumerate(pvals) if p is not None]
+    m = len(idx)
+    out = [None] * len(pvals)
+    if not m:
+        return out
+    order = sorted(idx, key=lambda i: pvals[i])
+    q, prev = [0.0] * m, 1.0
+    for r in range(m, 0, -1):
+        i = order[r - 1]
+        prev = min(prev, pvals[i] * m / r)
+        q[r - 1] = prev
+    for r, i in enumerate(order):
+        out[i] = min(1.0, q[r])
+    return out
+
+
+def trend_p(years, values):
+    """Session 361: the p-value of a straight-line trend of a yearly series (ordinary least squares on the year, Student's
+    t on n - 2 degrees of freedom). None under three years."""
+    from scipy import stats
+    if len(values) < 3:
+        return None
+    r = stats.linregress([float(y) for y in years], [float(v) for v in values])
+    return float(r.pvalue)
+
+
+def step_or_trend(years, values):
+    """Session 361: a one-step fit (two levels, the break at the year that fits best, at least two years on each side)
+    against a straight line, by the Bayesian information criterion (the step counts three parameters, the line two).
+    None under four years. Returns {"step_better", "break_year", "before", "after", "bic_step", "bic_line", "words"}."""
+    n = len(values)
+    if n < 4:
+        return None
+    x = np.array([float(y) for y in years])
+    v = np.array([float(a) for a in values])
+    A = np.c_[np.ones(n), x]
+    b = np.linalg.lstsq(A, v, rcond=None)[0]
+    sse_line = float(((v - A @ b) ** 2).sum())
+    best = None
+    for k in range(2, n - 1):
+        s = float(((v[:k] - v[:k].mean()) ** 2).sum() + ((v[k:] - v[k:].mean()) ** 2).sum())
+        if best is None or s < best[0]:
+            best = (s, k)
+    sse_step, k = best
+    bic = lambda sse, p: n * np.log(max(sse, 1e-12) / n) + p * np.log(n)  # noqa: E731
+    bs, bl = float(bic(sse_step, 3)), float(bic(sse_line, 2))
+    step = bs < bl
+    first_after = str(years[k])
+    words = (f"a step, not a trend: the years before {first_after} average {v[:k].mean():.4g} and the years from {first_after} {v[k:].mean():.4g}, "
+             f"and two levels fit them better than a straight line" if step else "a trend: a straight line fits the years better than one step")
+    return {"step_better": bool(step), "break_year": first_after, "before": float(v[:k].mean()), "after": float(v[k:].mean()),
+            "bic_step": round(bs, 4), "bic_line": round(bl, 4), "words": words}
 
 
 def round6(x):

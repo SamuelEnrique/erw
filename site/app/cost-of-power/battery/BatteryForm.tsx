@@ -31,6 +31,7 @@ export function BatteryForm({ x, internal = false }: { x: Inputs; internal?: boo
         const f = new FormData(e.currentTarget);
         const q = new URLSearchParams();
         for (const k of ["grid", "dur", "strat", "mw"]) { const v = f.get(k); if (typeof v === "string" && v !== "") q.set(k, v); }
+        { const py = new URLSearchParams(window.location.search).get("py"); if (py) q.set("py", py); }   // session 352: Show keeps the price years chosen
         router.push(`/cost-of-power/battery?${q.toString()}${carry(window.location.search, true)}`, { scroll: false });
       }}
     >

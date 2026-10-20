@@ -26,6 +26,7 @@ export function LoadForm({ x, grids, blank }: { x: Inputs; grids: Record<string,
         const f = new FormData(e.currentTarget);
         const q = new URLSearchParams();
         for (const k of KEYS) { const v = f.get(k); if (typeof v === "string" && v !== "") q.set(k, v); }
+        { const py = new URLSearchParams(window.location.search).get("py"); if (py) q.set("py", py); }   // session 352: Show keeps the price years chosen
         router.push(`/cost-of-power?${q.toString()}${carry(window.location.search)}`, { scroll: false });
       }}
     >

@@ -635,5 +635,23 @@
   "python": "batteries_curtailment_hourly.py",
   "stata": "batteries_curtailment_hourly.do"
  },
- "csv_sha256": "5ffb4c38169560c178df567fccc88886924da496b95572a79b3e919b552b6599"
+ "csv_sha256": "5ffb4c38169560c178df567fccc88886924da496b95572a79b3e919b552b6599",
+ "statistics": {
+  "session": 361,
+  "round": {
+   "name": "the findings library's cards as computed by 2026-10-10",
+   "claims_tested": 26,
+   "claims_passing": 15,
+   "alpha": 0.05,
+   "method": "Benjamini-Hochberg over the round's distinct p-values",
+   "caveat": "Many claims were tested in this round; a claim's q-value is the false discovery rate at which it would still be kept over all of them (Benjamini and Hochberg). A caveat, not a test the card had to pass.",
+   "claims_of_this_card": 4,
+   "q_bh": {
+    "charging_p": 1.921941718034121e-73,
+    "charging_netload_p": 1.6677830979449113e-36,
+    "charging_netload_fe_p": 3.944808572175094e-17,
+    "before_curtailment_p": 9.33713416781904e-112
+   }
+  }
+ }
 }

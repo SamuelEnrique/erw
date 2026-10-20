@@ -565,5 +565,64 @@
   "python": "batteries_lunch.py",
   "stata": "batteries_lunch.do"
  },
- "csv_sha256": "e2475430deb4679078f817271513c7ed3d71e9a03f6e673d6304f7fab73f3987"
+ "csv_sha256": "e2475430deb4679078f817271513c7ed3d71e9a03f6e673d6304f7fab73f3987",
+ "statistics": {
+  "session": 361,
+  "round": {
+   "name": "the findings library's cards as computed by 2026-10-10",
+   "claims_tested": 26,
+   "claims_passing": 15,
+   "alpha": 0.05,
+   "method": "Benjamini-Hochberg over the round's distinct p-values",
+   "caveat": "Many claims were tested in this round; a claim's q-value is the false discovery rate at which it would still be kept over all of them (Benjamini and Hochberg). A caveat, not a test the card had to pass.",
+   "claims_of_this_card": 3,
+   "q_bh": {
+    "reg_multiple_p": 3.97848935778384e-05,
+    "reg_hours1000_p": 0.06121498986282911,
+    "reg_top1_p": 0.040430027468247115
+   }
+  },
+  "newey_west": {
+   "rows": [
+    {
+     "spec": "worst_interval_multiple",
+     "label": "worst-interval multiple (P99.9 over the median), per GW of batteries",
+     "numbers_key": "reg_multiple",
+     "coef": -10.757437586072225,
+     "se_hc1": 2.3158957190795477,
+     "p_hc1": 1.3771693930782413e-05,
+     "se_nw": 2.692151233245524,
+     "p_nw": 0.00014645497997732633,
+     "nw_lag": 3,
+     "n": 92
+    },
+    {
+     "spec": "hours_ge_1000",
+     "label": "hours at or above USD 1,000/MWh, per GW of batteries",
+     "numbers_key": "reg_hours1000",
+     "coef": -1.2453806910891392,
+     "se_hc1": 0.565389273460827,
+     "p_hc1": 0.03060749493141878,
+     "se_nw": 0.5789204440007182,
+     "p_nw": 0.03459531580299364,
+     "nw_lag": 3,
+     "n": 92
+    },
+    {
+     "spec": "hours_top1pct",
+     "label": "hours in the sample's top 1 percent, per GW of batteries",
+     "numbers_key": "reg_top1",
+     "coef": -1.9284289247064006,
+     "se_hc1": 0.802450288217033,
+     "p_hc1": 0.01866001267765866,
+     "se_nw": 0.8180782470723277,
+     "p_nw": 0.020951325965216632,
+     "nw_lag": 3,
+     "n": 92
+    }
+   ],
+   "rule": "the Bartlett kernel to floor(4 (n / 100) ^ (2 / 9)) lags (Newey and West, 1994), with HC1's n / (n - k)",
+   "words": "Newey-West errors allow for correlation between neighbouring months (or days); HC1, the card's own, does not. Both are from the rows of the card's CSV, in time order."
+  }
+ }
 }

@@ -473,6 +473,10 @@ The review pack (`docs/reviews/packs/battery.md`) quotes figures the page does n
 
 The same script also holds the default case's headline (81.40, 8,140,219, 33, 475,477, 2,261,119, 2.63, 255.08, 614.58, 269.68, 57, -69.78 million, -8.8, 4.19), which `check-values.mjs` checks on the page. On 14 October 2026 it printed "all 32 figures are the pack's" and exited 0.
 
+### 11.3 The node band (session 355, 20 October 2026)
+
+For ERCOT at `HB_HUBAVG`, under "Income by stream": over the battery's own last twelve months, the day-ahead four-hour spread of ERCOT's storage nodes at the 10th percentile, the median and the 90th, the hub's own spread over the same days and the share of storage nodes wider than the hub, from `node_basis_summary` (`dam_storage_*`, `docs/methods/node_basis.md`), each month's figures with their keys in a fold and the twelve months' means weighted by the days held (`days`). The median node's spread over the hub's is the one ratio written: the energy this page counts at the hub would scale about with it, the reserves not at all. Added to no figure. Read in `site/lib/nodebasisread.ts`, so the page's own reads stay `read.ts`'s.
+
 ## Checks
 
 `tests/test_session178.py`: the do-file's rules, parsed; the mirror against the CSV and against `battery_stack_monthly` through the page's own library (skipped without the tables or without node); the optimizer check on five days of the committed CSV; the awards snapshot against the two tables; the page's new line and links. `site/scripts/check-values.mjs` checks the new line's three numbers (`bsa|...`).

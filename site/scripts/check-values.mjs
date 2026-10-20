@@ -54,6 +54,8 @@ const wanted = (page) => !ONLY.length || ONLY.some((pre) => page.startsWith(pre)
 const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/ercot%3AHB_HUBAVG", "/data", "/prices?tab=ercot", "/deals", "/deals?tab=tracker", "/deals?tab=companies", "/grid", "/map", "/datacenters", "/roundup",
   // session 18
   "/mix", "/mix?ba=erco&state=TX", "/curtailment", "/demand?view=consumption",
+  // session 332: every action's significance (event|policy_actions|<id>|significance)
+  "/policy",
   // session 19
   // session 35: the seven grid pages
   "/grid/ercot", "/grid/caiso", "/grid/pjm", "/grid/nyiso", "/grid/isone", "/grid/miso", "/grid/spp",
@@ -924,7 +926,8 @@ async function main() {
     const same = isTime ? new Date(t).getTime() === new Date(raw).getTime() : (typeof t === "string" && Number.isNaN(Number(t))) ? t === raw : Math.abs(Number(t) - Number(raw)) < 1e-9 * Math.max(1, Math.abs(Number(t)));
     // session 16: MW sums are written as whole MW (lib/format.ts count)
     // session 90: /storage/buildout writes its MW and MWh whole too (lib/buildout.ts WHOLE; the ratios keep two decimals)
-    const whole = /(^projects\|mw\|)|(^datacenters\|(mw_total|state_mw|operator_mw|status_mw|sites_mw|texas_mw))|(^series\|ercot_large_load_status\|)|(^series\|storage_buildout_monthly\|[^|]+\|(battery|solar)_(operating|planned)_(mw|mwh)(?!_per_)(_|\|))/.test(check);
+    // session 354: ERCOT's load in each of the four summer peak intervals, written whole (/cost-of-power)
+    const whole = /(^projects\|mw\|)|(^datacenters\|(mw_total|state_mw|operator_mw|status_mw|sites_mw|texas_mw))|(^series\|ercot_large_load_status\|)|(^series\|ercot_4cp_intervals\|)|(^series\|storage_buildout_monthly\|[^|]+\|(battery|solar)_(operating|planned)_(mw|mwh)(?!_per_)(_|\|))/.test(check);
     // session 76: an hour of the day (a variable named ..._hour, a whole number 0 to 23) may be written "09:00" (/shoulder):
     // "16:00" passed the rule below by accident, "09:00" could not
     const hourText = /\|[a-z0-9_]*_hour\|/.test(check) && /^\d{1,2}$/.test(raw) && text.startsWith(`${raw.padStart(2, "0")}:00`);

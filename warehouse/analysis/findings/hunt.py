@@ -74,7 +74,7 @@ import findings_common as common  # noqa: E402
 import hunt_measures  # noqa: E402
 import run_finding  # noqa: E402
 
-VERSION = "1.2.0"                  # 1.1.0, session 251: thirteen measure families; session 252's two lessons; 1.2.0, session 308: ENDED and TOPIC
+VERSION = "1.3.0"                  # 1.1.0, session 251: thirteen measure families; session 252's two lessons; 1.2.0, session 308: ENDED and TOPIC; 1.3.0, session 361: the round's q-values and the shape
 OUT = os.path.join(ROOT, "runs", "hunt")
 STATE = os.path.join(OUT, "state.json")
 MAX_DRAFTS = 12                    # the strongest claims of a hunt; the rest are kept in the run's file, not drafted
@@ -339,7 +339,10 @@ def test_claim(series, P, this_year):
     return {"first_year": y0, "last_year": y1, "first": v0, "last": v1, "change": change, "direction": "up" if s > 0 else "down",
             "tests": tests, "passed": all(t["passed"] for t in tests), "years": full, "values": vals,
             "n_first": n0, "n_last": n1, "years_held": len(held), "years_after": len(later), "typical_move": sp,
-            "strength": strength, "remains_without_first": round(remains, 4) if len(full) >= 3 else None}
+            "strength": strength, "remains_without_first": round(remains, 4) if len(full) >= 3 else None,
+            # session 361: beside the tests, never one of them: the straight-line trend's p-value (for the round's
+            # Benjamini-Hochberg q-values) and whether one step fits the full years better than a line
+            "p_trend": common.trend_p(full, vals), "shape": common.step_or_trend(full, vals)}
 
 
 def news(key, claim, P, state):
@@ -594,6 +597,13 @@ def build_draft(P, region, words, series, c, why, module_card, tables, out_dir, 
             "scanner": {"version": VERSION, "rule": "hunt", "date": f"{c['last_year']}-12-31", "flag_id": did, "strength": c["strength"], "full_card": None},
             "hunt": {"pattern": P["name"], "module": P["module"], "region": str(region), "region_words": words, "why": why, "tests": c["tests"], "files": files,
                      **({"measure": P["fn"]} if P.get("fn") else {}), **({"context": dict(P["context"], values=context)} if beside else {})}}
+    if c.get("statistics"):                              # session 361: the round's line and the shape, beside the claim
+        card["statistics"] = c["statistics"]
+        sh, rd = c["statistics"].get("shape"), c["statistics"]["round"]
+        if sh and sh["step_better"]:
+            card["footnote"] += f" Its shape: {sh['words']}."
+        card["footnote"] += (f" This hunt tested {rd['claims_tested']} claims and {rd['claims_passing']} passed its tests"
+                             + (f"; this claim's q-value over the round is {common.fmt(rd['q_bh'], 3)}" if rd.get("q_bh") is not None else "") + " (a caveat, not a test).")
     caption = caption_of(P, words, c, source_line, beside)
     card["hunt"]["caption"] = caption
     csv_name = files[0]
@@ -719,7 +729,8 @@ def hunt(in_dir=None, only=None, dry_run=False, log=print, now=None, state_path=
             key = f"{P['name']}|{region}"
             row = {"pattern": P["name"], "module": P["module"], "region": region, "region_words": words, "key": key, "drafted": False, "reason": reason}
             if claim is not None:
-                row.update({k: claim[k] for k in ("first_year", "last_year", "first", "last", "change", "direction", "strength", "passed", "years_held", "years_after")})
+                row.update({k: claim[k] for k in ("first_year", "last_year", "first", "last", "change", "direction", "strength", "passed", "years_held", "years_after",
+                                                   "p_trend", "shape")})
                 row["tests"] = claim["tests"]
             if claim is not None and claim["passed"] and P["name"] in ENDED:
                 # session 308: the measure has ended; the claim is kept here and never drafted
@@ -734,6 +745,18 @@ def hunt(in_dir=None, only=None, dry_run=False, log=print, now=None, state_path=
                 else:
                     drafts.append((claim["strength"], P, region, words, series, claim, why, card, tables, row, more[0] if more else None))
             results.append(row)
+    # session 361: the multiple-comparison line of the round, a caveat and not a gate: every claim tested, the claims that
+    # pass the hunt's tests, and each claim's Benjamini-Hochberg q-value over the trend p-values of the round
+    tested = [r for r in results if r.get("p_trend") is not None]
+    for r, q in zip(tested, common.bh_q([r["p_trend"] for r in tested])):
+        r["q_bh"] = q
+    rnd = {"claims_tested": sum(1 for r in results if "passed" in r), "claims_passing": sum(1 for r in results if r.get("passed")),
+           "claims_with_a_trend_p": len(tested), "method": "Benjamini-Hochberg over each claim's straight-line trend p-value (the full years)",
+           "caveat": "Many claims were tested in this hunt; a claim's q-value is the false discovery rate at which its trend would still be kept over "
+                     "all of them. A caveat, not a test a draft had to pass."}
+    for d in drafts:
+        claim, row = d[5], d[9]
+        claim["statistics"] = {"session": 361, "round": dict(rnd, q_bh=row.get("q_bh"), p_trend=row.get("p_trend")), "shape": claim.get("shape")}
     drafts.sort(key=lambda d: (-d[0], d[9]["key"]))
     built, per_pattern, seen = [], {}, {}
     stories = listed_stories(state)                      # session 308: the stories already on the list
@@ -772,7 +795,7 @@ def hunt(in_dir=None, only=None, dry_run=False, log=print, now=None, state_path=
             f.write("\n")
     summary = {"hunt_version": VERSION, "day": day, "computed_at": common.now_iso(), "patterns": [P["name"] for P in PATTERNS if not only or re.search(only, P["name"])],
                "not_yet": NOT_YET, "blocked_grids": sorted(blocked), "claims": len(results), "passed": sum(1 for r in results if r.get("passed")),
-               "drafts": len(built), "loaded": loaded, "dry_run": bool(dry_run), "failed": failed, "results": results}
+               "drafts": len(built), "loaded": loaded, "dry_run": bool(dry_run), "failed": failed, "multiple_comparisons": rnd, "results": results}
     with open(os.path.join(out_dir, "hunt.json"), "w", encoding="utf-8", newline="\n") as f:
         json.dump(summary, f, indent=1, ensure_ascii=False, default=common.round6)
         f.write("\n")

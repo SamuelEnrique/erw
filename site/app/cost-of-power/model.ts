@@ -17,6 +17,8 @@ import { deliveryOf, utilitiesOf } from "@/lib/datacenter/delivery";
 import { blockOf as rulesBlockOf, docketWords, rulesGrid } from "@/lib/rules";
 import { rulesFile } from "@/lib/rulesdata";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
+import { WINDOW_RE, chosen, windowWords, type PriceYear } from "@/lib/priceyears";
+import { priceYears } from "@/lib/priceyearsread";
 import { DELIVERY, INDEX, yearFiles } from "@/lib/datacenterdata";
 import type { DemandFile } from "@/lib/demandgrowth";
 import { SLUGS } from "@/lib/demandgrowth";
@@ -69,6 +71,19 @@ function wayOf(ms: Month[]): Way | null {
   if (s.per === null) return null;
   return { per: s.per, cost: s.cost, energy: s.energy, held: s.held, flatCost: s.flatCost, down: s.down, bad: b ? { m: b.m, per: b.cost / b.energy, cost: b.cost } : null, of: w?.months.length ?? 0 };
 }
+/** Session 352: one way of running over a window of price years: the table's price per MWh (price_years_by_window, the
+ * page's own run), and the page's own complete months inside the window for the cost, the energy and the hours, a year
+ * (the averages over the years they cover). The bad month stays the last 36 months'. Null when the window holds no
+ * complete month here. */
+function wayWindow(ms: Month[], w: PriceYear): Way | null {
+  const inside = ms.filter((r) => r.complete && r.m >= w.from && r.m <= w.to);
+  if (!inside.length) return null;
+  const k = w.kind === "year" ? 1 : w.kind === "avg_3y" ? 3 : w.kind === "avg_7y" ? 7 : Math.max(1, inside.length / 12);
+  const t = span(inside), win = last36(ms), b = badMonth(win?.months ?? []);
+  return { per: w.value, cost: t.cost / k, energy: t.energy / k, held: t.held / k, flatCost: t.flatCost / k, down: t.down / k,
+    bad: b ? { m: b.m, per: b.cost / b.energy, cost: b.cost } : null, of: win?.months.length ?? 0 };
+}
+
 /** The bad month of one way of running, with the window it was ranked in: the headline's second number (session 195:
  * the headline is scenario A's, so both ways are handed over). Held wherever a month is, as the headline always was. */
 function badOf(ms: Month[] | null): Bad | null {
@@ -89,6 +104,19 @@ export function siteBOf(raw: string | undefined, x: Pick<Inputs, "grid" | "regio
 
 /** Everything "Your load" computes for one address, in the order page.tsx computed it until session 213. Session 228:
  * and the three answers beside "What will it pay?" (lib/datacenter/reads.ts), read from the live set. */
+/** Session 354: one of ERCOT's four summer peak intervals (ercot_4cp_intervals), and the share of the flexible way's
+ * load in that interval's hour (1 on, 0 off; a shifting load can be above 1). */
+export type CpInterval = { ts: string; mw: number; w: number | null };
+/** A summer's four intervals; `avoided` is the share of the load's four-peak demand the flexible way did not draw (null
+ * when the way's hours are not held for every interval). */
+export type CpSummer = { year: number; intervals: CpInterval[]; avoided: number | null };
+/** The four-peak saving: the summers held, the rate (the Commission's newest approved postage stamp rate, USD per kW
+ * of four-peak demand a year), and the saving of the newest summer held, USD per MW of the load a year. */
+export type Cp = { summers: CpSummer[]; rate: { year: string; value: number } | null; newest: CpSummer | null; perMw: number | null; on: boolean };
+/** Session 354: a percentile of every ERCOT resource node's day-ahead basis to the hub average, month by month
+ * (node_basis_summary, `dam_all_basis_<p>`), over the twelve months shown. */
+export type NodeBand = { months: { m: string; ts: string; p10: number; p50: number; p90: number }[]; p10: number; p50: number; p90: number } | null;
+
 export async function loadModel(asked: Inputs, buyGiven: boolean, gridAsked: string | undefined, q: Record<string, string | undefined>) {
   let x = asked;
   const g = INDEX.grids[x.grid];
@@ -141,14 +169,80 @@ export async function loadModel(asked: Inputs, buyGiven: boolean, gridAsked: str
   const flexWords = (y: Pick<Inputs, "run" | "n" | "pct" | "shift">) => (y.run === "hours" ? `off in the ${y.n.toLocaleString("en-US")} most expensive hours of each year` : y.run === "share" ? `off in the most expensive ${y.pct} percent of hours`
     : `${y.shift} percent of each day's energy moved to the day's cheapest hours`);
   let sets: [Month[] | null, Month[] | null] = [null, null];
+  let altRuled: Ruled | null = null;   // session 354: the hours-off run beside a flat load, kept for its weights
   if (!failed && side) {
     if (flex) sets = [ms.length ? flatMonths(ms) : monthsOf(files, x.region, x.buy, { run: "flat", n: 0, pct: 0, shift: 0 }), ms];
-    else sets = [ms, region?.da ? monthsRuled(files, x.region, x.buy, altFlex, "forecast").months : null];
+    else { altRuled = region?.da ? monthsRuled(files, x.region, x.buy, altFlex, "forecast") : null; sets = [ms, altRuled ? altRuled.months : null]; }
   }
-  const ways: Ways = [sets[0] ? wayOf(sets[0]) : null, sets[1] ? wayOf(sets[1]) : null];
+  let ways: Ways = [sets[0] ? wayOf(sets[0]) : null, sets[1] ? wayOf(sets[1]) : null];
+  // session 352: the price years the scenarios are priced on (price_years_by_window, the page's own run at its defaults:
+  // off in 100 hours a year, off in 5 percent of hours, 20 percent of each day's energy shifted). The flat way reads
+  // flat_<market>; the second way the flexible run shown (or, for a flat load, the hours-off run beside it), only at the
+  // run's default. The windows with a stress event taken out are not offered here.
+  const atDefault = (r: string) => (r === "hours" ? x.n === DEFAULTS.n : r === "share" ? x.pct === DEFAULTS.pct : r === "shift" ? x.shift === DEFAULTS.shift : true);
+  const pyConfigs: [string, string | null] = [`flat_${x.buy}`, flex ? (atDefault(x.run) ? `${x.run}_${x.buy}` : null) : `hours_${x.buy}`];
+  const pyEntity = `${x.grid}:${x.region}`;
+  const pyReads = !failed && side ? await Promise.all(pyConfigs.map((c) => (c ? priceYears("datacenter", pyEntity, c) : Promise.resolve(null)))) : [null, null];
+  const pyLists = pyReads.map((r) => (r?.ok ? r.ws.filter((w) => w.kind !== "all_less") : [])) as [PriceYear[], PriceYear[]];
+  const pyWs = pyLists[0];
+  const pyId = q.py && WINDOW_RE.test(q.py) ? q.py : null;
+  const win = chosen(pyWs, pyId);
+  if (win) {
+    const second = chosen(pyLists[1], win.id);
+    ways = [sets[0] ? wayWindow(sets[0], win) : null, sets[1] && second ? wayWindow(sets[1], second) : null];
+  }
+  // session 354 (the chain of 20 October 2026, night): ERCOT's four summer peaks. ERCOT charges transmission on a load's
+  // demand in the four 15-minute intervals of the summer's monthly peaks (June to September), so a load off in those
+  // intervals avoids that share of the charge for the next year. For each summer held in ercot_4cp_intervals (the data
+  // machine), the flexible way's share of load in each interval's hour (its weights, the rule's own); the saving is the
+  // share avoided, of the newest summer held, at the Commission's newest approved postage stamp rate. With `cp=1` it is
+  // taken off the flexible way's cost in scenario A and B; by default nothing moves.
+  let cp: Cp | null = null, cpWhy = "";
+  if (x.grid === "ercot" && !failed && side) {
+    const read = await attempt(() => rest<{ ts_utc: string; value: number }>("series", { select: "ts_utc,value", table_name: "eq.ercot_4cp_intervals", entity: "eq.ercot:system", variable: "eq.cp4_load_mw", order: "ts_utc" }, HOURLY));
+    if (!read.ok) cpWhy = `ercot_4cp_intervals could not be read: ${read.reason}`;
+    else {
+      const flexW = flex ? fore.weights : altRuled?.weights;
+      const behind = g?.std_hours_behind_utc ?? 6;
+      const byYear = new Map<number, CpInterval[]>();
+      for (const r of read.data) {
+        const t = Date.parse(r.ts_utc) - behind * 3600000, y = new Date(t).getUTCFullYear();
+        const i = Math.floor((t - Date.UTC(y, 0, 1)) / 3600000);
+        const w = flexW?.get(y)?.[i];
+        byYear.set(y, [...(byYear.get(y) ?? []), { ts: r.ts_utc, mw: Number(r.value), w: w === undefined || w === null || !Number.isFinite(w) ? null : w }]);
+      }
+      const summers: CpSummer[] = [...byYear.entries()].sort(([a], [b]) => a - b).map(([year, iv]) => ({ year, intervals: iv,
+        avoided: iv.length === 4 && iv.every((k) => k.w !== null) ? 1 - iv.reduce((a, k) => a + k.w!, 0) / 4 : null }));
+      const rates = (DELIVERY.matrix ?? []).filter((r) => r.quantity === "postage_stamp_rate" && r.status === "approved" && r.matrix !== "B").sort((a, b) => a.year.localeCompare(b.year));
+      const rate = rates.length ? { year: rates.at(-1)!.year, value: rates.at(-1)!.value } : null;
+      const newest = [...summers].reverse().find((k) => k.avoided !== null) ?? null;
+      const perMw = newest && rate ? newest.avoided! * rate.value * 1000 : null;
+      cp = { summers, rate, newest, perMw, on: q.cp === "1" && perMw !== null };
+      if (cp.on && ways[1]) ways = [ways[0], { ...ways[1], cost: ways[1].cost - perMw!, per: (ways[1].cost - perMw!) / ways[1].energy }];
+      if (!summers.length) cpWhy = "ercot_4cp_intervals holds no summer.";
+    }
+  }
+  // session 354: the band of a node's basis to the hub, ERCOT, over the twelve months shown (node_basis_summary)
+  let nodeBand: NodeBand = null, nodeBandWhy = "";
+  if (x.grid === "ercot" && l12) {
+    const vars = ["p10", "p50", "p90"].map((k) => `dam_all_basis_${k}`);
+    const read = await attempt(() => rest<{ variable: string; ts_utc: string; value: number }>("series", { select: "variable,ts_utc,value", table_name: "eq.node_basis_summary", entity: "eq.ercot:HB_HUBAVG", variable: `in.(${vars.join(",")})`, order: "ts_utc" }, HOURLY));
+    if (!read.ok) nodeBandWhy = `node_basis_summary could not be read: ${read.reason}`;
+    else {
+      const at = (m: string, k: string) => read.data.find((r) => r.ts_utc.slice(0, 7) === m && r.variable === `dam_all_basis_${k}`);
+      const months = l12.map((r) => ({ m: r.m, a: at(r.m, "p10"), b: at(r.m, "p50"), c: at(r.m, "p90") }));
+      const missing = months.filter((r) => !r.a || !r.b || !r.c).map((r) => shortMonth(r.m));
+      if (missing.length) nodeBandWhy = `node_basis_summary holds no node basis for ${missing.join(", ")}.`;
+      else {
+        const rows = months.map((r) => ({ m: r.m, ts: r.a!.ts_utc, p10: Number(r.a!.value), p50: Number(r.b!.value), p90: Number(r.c!.value) }));
+        const mean = (k: "p10" | "p50" | "p90") => rows.reduce((a, r) => a + r[k], 0) / rows.length;
+        nodeBand = { months: rows, p10: mean("p10"), p50: mean("p50"), p90: mean("p90") };
+      }
+    }
+  }
   const noDa = `No day-ahead price is held for ${x.region}, and a flexible load decides from day-ahead prices.`;
   // session 195: the power per GPU and the overhead ratio are scenario A's; their defaults are the two the page cites
-  const facts: Facts = { mw: x.mw, size, place: `${place}, ${market}`, span: l12Span, load: { run: flex ? FLEX : FLAT, gpu: DEFAULTS.gpu, pue: DEFAULTS.pue }, gpuSource: ASSUMED.gpu.source, pueSource: ASSUMED.pue.source, ways,
+  const facts: Facts = { mw: x.mw, size, place: `${place}, ${market}`, span: win ? windowWords(win).label.replace(" (default)", "") : l12Span, load: { run: flex ? FLEX : FLAT, gpu: DEFAULTS.gpu, pue: DEFAULTS.pue }, gpuSource: ASSUMED.gpu.source, pueSource: ASSUMED.pue.source, ways,
     words: ["the same in every hour", flexWords(flex ? x : altFlex)], why: [noYear, flex ? noYear : region?.da ? noYear : noDa], bads: [badOf(sets[0]), badOf(sets[1])] };
   const scenarioParams = Object.fromEntries(Object.entries(q).filter(([n, v]) => (isScenarioParam(n) || isOldParam(n)) && v !== undefined).sort(([a], [b]) => a.localeCompare(b))) as Record<string, string>;
 
@@ -175,8 +269,12 @@ export async function loadModel(asked: Inputs, buyGiven: boolean, gridAsked: str
       : !sideB ? `No ${market} price is held for ${placeB}.`
       : flex && !foreB.da ? `No day-ahead price is held for ${bSite.region}, and a flexible load decides from day-ahead prices. Its ${market} price is held from ${day(sideB.first)}.`
       : `Twelve complete months of ${market} prices are not held for ${bSite.region}: it is held from ${day(sideB.first)}. A month counts when at least 95 percent of its hours are held.`;
-    facts.b = { grid: bSite.grid, region: bSite.region, place: `${placeB}, ${market}`, span: l12B ? `${shortMonth(l12B[0].m)} to ${shortMonth(l12B[11].m)}` : null,
-      ways: [setsB[0] ? wayOf(setsB[0]) : null, setsB[1] ? wayOf(setsB[1]) : null], bads: [badOf(setsB[0]), badOf(setsB[1])],
+    // session 352: under a window of price years, B at its own site reads that site's own rows of the table, the same window
+    const pyB = win && sideB && !failedB ? await Promise.all(pyConfigs.map((c) => (c ? priceYears("datacenter", `${bSite.grid}:${bSite.region}`, c) : Promise.resolve(null)))) : null;
+    const winB = pyB ? pyB.map((r) => (r?.ok ? chosen(r.ws, win!.id) : null)) : null;
+    facts.b = { grid: bSite.grid, region: bSite.region, place: `${placeB}, ${market}`, span: win ? windowWords(win).label.replace(" (default)", "") : l12B ? `${shortMonth(l12B[0].m)} to ${shortMonth(l12B[11].m)}` : null,
+      ways: winB ? [setsB[0] && winB[0] ? wayWindow(setsB[0], winB[0]) : null, setsB[1] && winB[1] ? wayWindow(setsB[1], winB[1]) : null]
+        : [setsB[0] ? wayOf(setsB[0]) : null, setsB[1] ? wayOf(setsB[1]) : null], bads: [badOf(setsB[0]), badOf(setsB[1])],
       why: [noYearB, flex ? noYearB : regionB?.da ? noYearB : `No day-ahead price is held for ${bSite.region}, and a flexible load decides from day-ahead prices.`] };
   }
   // the sites scenario B can be given: every region of every grid held, by grid (the form's list)
@@ -273,6 +371,8 @@ export async function loadModel(asked: Inputs, buyGiven: boolean, gridAsked: str
     x, g, files, failed, region, side, flex, off, fore, ms, l12, noRule, hind, h12, sh12, ysH, msH, rule, s12, bad, badPer, ys, place, market, heldFrom, noYear, savedH, refId, ref12,
     l12Span, saved, size, ways, facts, scenarioParams, grids, regionRows, slug, sf, sy, peak, peakAt, fuels, growth, tightRows, lastTight, zones, withheld, cf, cy, cv, cFile, own, qv, ll,
     gridNames, delivery, matrix, utilities, waitsFor, href: hrefOf(x),
+    pyWs, pyRead: pyReads[0]?.ok ?? false, pyOffered: !failed && !!side, win,
+    cp, cpWhy, nodeBand, nodeBandWhy,
   };
 }
 export type LoadModel = Awaited<ReturnType<typeof loadModel>>;
