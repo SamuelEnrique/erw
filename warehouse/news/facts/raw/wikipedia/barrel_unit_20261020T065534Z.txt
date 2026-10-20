@@ -1,0 +1,99 @@
+# source: Wikipedia (CC BY-SA 4.0), MediaWiki API plain-text extract
+# title: Barrel (unit)
+# url: https://en.wikipedia.org/wiki/Barrel_(unit)
+# revision: 1371959716
+# note: em dashes in the source are stored as hyphens
+# retrieved_at: 20261020T065534Z
+
+A barrel is one of several units of volume applied in various contexts: there are dry barrels; fluid barrels, such as the British beer barrel and American beer barrel; oil barrels, etc. For historical reasons, the volumes of some barrel units are roughly double the volumes of others; volumes in common use range approximately from 100 to 200 litres (22 to 44 imp gal; 26 to 53 US gal). In many connections, the term drum is used almost interchangeably with barrel.
+Since medieval times, the term barrel as a unit of measure has had various meanings throughout Europe, ranging from about 100 litres to about 1,000 litres. The name was derived in medieval times from the French baril, of unknown origin, but still in use, both in French and as derivations in many other languages, such as Italian, Polish, and Spanish. In most countries, such usage is obsolescent, having been superseded by SI units. As a result, the meaning of corresponding words and related concepts (vat, cask, keg etc.) in other languages often refers to a physical container rather than a known measure.
+In the international oil market context, however, prices in United States dollars per barrel are commonly used, and the term is variously translated, often to derivations of the Latin / Germanic  root fat (for example vat or Fass).
+In other commercial connections, barrel sizes, such as beer keg volumes, are standardised in many countries.
+
+
+== Dry goods in the US ==
+
+US dry barrel: 7,056 cubic inches (115.6 litres; 3.3 US bushels)
+Defined as length of stave 28+1⁄2 in (72 cm), diameter of head 17+1⁄8 in (43 cm), distance between heads 26 in (66 cm), circumference of bulge 64 in (160 cm) outside measurement; representing as nearly as possible 7,056 cubic inches; and the thickness of staves not greater than 4⁄10 in (10 mm) (diameter ≈ 20.37 in or 52 cm). Any barrel that is 7,056 cubic inches is recognized as equivalent.
+US barrel for cranberries 5,826 cubic inches (95.5 litres; 2.7 US bushels)
+Defined as length of stave 28+1⁄2 in (72 cm), diameter of head 16+1⁄4 in (41 cm), distance between heads 25+1⁄4 in (64 cm), circumference of bulge 58+1⁄2 in (149 cm) outside measurement; and the thickness of staves not greater than 4⁄10 in (10 mm) (diameter ≈ 18.62 in or 47.3 cm). No equivalent in cubic inches is given in the statute, but later regulations specify it as 5,826 cubic inches.
+Some products have a standard weight or volume that constitutes a barrel: 
+
+Cornmeal, 200 pounds (91 kg)
+Cement (including Portland cement), 4 cubic feet (113 L; 30 US gal) or 376 pounds (171 kg)
+Sugar, 5 cubic feet (142 L; 37 US gal)
+Wheat or rye flour,  three US bushels (110 L) or 196 pounds (89 kg)
+Lime (mineral), 280 pounds (127 kg) large barrel, or 180 pounds (82 kg) small barrel
+Salt, 280 pounds (130 kg)
+
+
+== Fluid barrel in the US and UK ==
+Fluid barrels vary depending on what is being measured and where. In the UK a beer barrel is 36 imperial gallons (43 US gal; 164 L). In the US most fluid barrels (apart from oil) are 31.5 US gallons (26 imp gal; 119 L) (half a hogshead), but a beer barrel is 31 US gallons (26 imp gal; 117 L). The size of beer kegs in the US is based loosely on fractions of the US beer barrel. When referring to beer barrels or kegs in many countries, the term may be used for the commercial package units independent of actual volume, where common range for professional use is 20–60 L, typically a DIN or Euro keg of 50 L.
+Richard III, King of England from 1483 until 1485, had defined the wine puncheon as a cask holding 84 wine gallons and a wine tierce as holding 42 wine gallons. Custom had made the 42 gallon watertight tierce a standard container for shipping eel, salmon, herring, molasses, wine, whale oil, and many other commodities in the English colonies by 1700. After the American Revolution in 1776, American merchants continued to use the same size barrels.
+
+
+== Oil barrel ==
+
+
+=== Definitions ===
+In the oil industry, one barrel (unit symbol bbl) is a unit of volume used for measuring oil defined as exactly 42 US gallons, approximately 159 liters, or 35 imperial gallons.
+According to the American Petroleum Institute (API), a standard barrel of oil is the amount of oil that would occupy a volume of exactly 1 barrel (158.99 L) at reference temperature and pressure conditions of 60 °F (15.6 °C) and 14.696 psi (101,325 Pa; 1 atm). This standard barrel of oil will occupy a different volume at different pressures and temperatures. A standard barrel in this context is thus not simply a measure of volume, but of volume under specific conditions.
+
+
+=== Unit multiples ===
+Oil companies that are publicly listed in the United States typically report their production using the unit multiples Mbbl (one thousand barrels) and MMbbl (one million barrels), derived from the Latin word "mille" and Roman Numeral M, meaning "thousand". Due to the risk of confusion the Society of Petroleum Engineers recommends in their style guide that abbreviations or prefixes M or MM not be used for barrels of oil or barrel of oil equivalent, but rather that thousands, millions or billions be spelled out.
+Using M for thousand and MM for million are in conflict with the SI convention where the "M" prefix stands for "mega" representing million, from the Greek for "large". Some oil companies, particularly those based in Europe, use kb (kilobarrels, one thousand barrels), mb (megabarrels, one million barrels), and gb (gigabarrels, one billion barrels). The lower case m is used to avoid confusion with the capital M used for thousand. For the same reason, the unit kbbl (one thousand barrels) is also sometimes used.
+
+
+=== Etymology ===
+The first "b" in "bbl" may have been doubled originally to indicate the plural (1 bl, 2 bbl), or possibly it was doubled to eliminate any confusion with bl as a symbol for the bale. Some sources assert that "bbl" originated as a symbol for "blue barrels" delivered by Standard Oil in its early days. However, while Ida Tarbell's 1904 Standard Oil Company history acknowledged the "holy blue barrel", the abbreviation "bbl" had been in use well before the 1859 birth of the U.S. petroleum industry.
+
+
+=== Flow rate ===
+
+Oil wells recover not just oil from the ground, but also natural gas and water. The term barrels of liquid per day (BLPD) refers to the total volume of liquid that is recovered. Similarly, barrels of oil equivalent or BOE is a value that accounts for both oil and natural gas while ignoring any water that is recovered. Other terms are used when discussing only oil. These terms can refer to either the production of crude oil at an oil well, the conversion of crude oil to other products at an oil refinery, or the overall consumption of oil by a region or country. One common term is barrels per day (BPD, BOPD, bbl/d, bpd, bd, or b/d), where 1 BPD is equivalent to 0.0292 gallons per minute. One BPD also becomes 49.8 tonnes per year. At an oil refinery, production is sometimes reported as barrels per calendar day (b/cd or bcd), which is total production in a year divided by the days in that year. Likewise, barrels per stream day (BSD or BPSD) is the quantity of oil product produced by a single refining unit during continuous operation for 24 hours.
+Burning one tonne of light, synthetic, or heavy crude yields 38.51, 39.40, or 40.90 GJ (thermal) respectively (10.70, 10.94, or 11.36 MW·h), so 1 tonne per day of synthetic crude is about 456 kW of thermal power and 1 bpd of synthetic crude is about 378 kW (slightly less for light crude, slightly more for heavy crude).
+
+
+=== Conversion ===
+The task of converting a standard barrel of oil to a standard cubic metre of oil is complicated by the fact that the latter is defined by the API to mean the amount of oil that, at different reference conditions (101.325 kPa and 15 °C (59.0 °F)), occupies 1 cubic metre. The fact that the reference conditions are not exactly the same means that an exact conversion is impossible unless the exact expansion coefficient of the crude is known, and this will vary from one crude oil to another.
+For a light oil with density of 850 kilogram per cubic metre (API gravity of 35), warming the oil from 59 °F (15 °C) to 60 °F (16 °C) might increase its volume by about 0.047%. Conversely, a heavy oil with a density of 934 kg/m3 (API gravity of 20) might only increase in volume by 0.039%. If physically measuring the density at a new temperature is not possible, then tables of empirical data can be used to accurately predict the change in density. In turn, this allows maximum accuracy when converting between standard barrel and standard cubic metre. The logic above also implies the same level of accuracy in measurements for barrels if there is a 1 °F (0.56 °C) error in measuring the temperature at time of measuring the volume.
+For ease of trading, communication and financial accounting, international commodity exchanges often set a conversion factor for benchmark crude oils. For instance the conversion factor set by the New York Mercantile Exchange (NYMEX) for Western Canadian Select (WCS) crude oil traded at Hardisty, Alberta, Canada is 6.29287 U.S. barrels per standard cubic metre, despite the uncertainty in converting the volume for crude oil. Regulatory authorities in producing countries set standards for measurement accuracy of produced hydrocarbons, where such measurements affect taxes or royalties to the government. In the United Kingdom, for instance, the measurement accuracy required is ±0.25%.
+
+
+=== Qualifiers ===
+A barrel can technically be used to specify any volume. Since the actual nature of the fluids being measured varies along the stream, sometimes qualifiers are used to clarify what is being specified. In the oil field, it is often important to differentiate between rates of production of fluids, which may be a mix of oil and water, and rates of production of the oil itself. If a well is producing 10 MBD (thousands of barrels per day) of fluids with a 20% water cut, then the well would also be said to be producing 8,000 barrels of oil a day (bod).
+In other circumstances, it can be important to include gas in production and consumption figures. Normally, gas amount is measured in standard cubic feet or standard cubic metres (for volume at STP), as well as in kg or Btu (which do not depend on pressure or temperature). But when necessary, such volume is converted to a volume of oil of equivalent enthalpy of combustion. Production and consumption using this analogue is stated in barrels of oil equivalent per day (boed).
+In the case of water-injection wells, in the United States it is common to refer to the injectivity rate in barrels of water per day (bwd). In Canada, it is measured in cubic metres per day (m3/d). In general, water injection rates will be stated in the same units as oil production rates, since the usual objective is to replace the volume of oil produced with a similar volume of water to maintain reservoir pressure.
+
+
+=== Related kinds of quantity ===
+Outside the United States, volumes of oil are usually reported in cubic metres (m3) instead of oil barrels. Cubic metre is the basic volume unit in the International System. In Canada, oil companies measure oil in cubic metres, but convert to barrels on export, since most of Canada's oil production is exported to the US. The nominal conversion factor is 1 cubic metre = 6.2898 oil barrels, but conversion is generally done by custody transfer meters on the border, since the volumes are specified at different temperatures, and the exact conversion factor depends on both density and temperature. Canadian companies operate internally and report to Canadian governments in cubic metres, but often convert to US barrels for the benefit of American investors and oil marketers. They generally quote prices in Canadian dollars per cubic metre to other Canadian companies, but use US dollars per barrel in financial reports and press statements, making it appear to the outside world that they operate in barrels.
+Companies on the European stock exchanges report the mass of oil in tonnes. Since different varieties of petroleum have different densities, however, there is not a single conversion between mass and volume. For example, one tonne of heavy distillates might occupy a volume of 6.1 barrels (970 litres; 256 US gallons). In contrast, one tonne of crude oil might occupy 6.5 barrels (1,030 litres; 273 US gallons), and one tonne of gasoline will require 7.9 barrels (1,260 litres; 332 US gallons). Overall, the conversion is usually between 6 and 8 barrels (954 and 1,270 litres; 252 and 336 US gallons) per tonne.
+
+
+=== History ===
+The measurement of an "oil barrel" originated in the early Pennsylvania oil fields. The Drake Well, the first oil well in the US, was drilled in Pennsylvania in 1859, and an oil boom followed in the 1860s. When oil production began, there was no standard container for oil, so oil and petroleum products were stored and transported in barrels of different shapes and sizes. Some of these barrels would originally have been used for other products, such as beer, fish, molasses, or turpentine. Both the 42-US-gallon (159 L) barrels (based on the old English wine measure), the tierce (159 litres) and the 40-US-gallon (150 L) whiskey barrels were used. Also, 45-US-gallon (170 L) barrels were in common use. The 40 gallon whiskey barrel was the most common size used by early oil producers, since they were readily available at the time.
+Around 1866, early oil producers in Pennsylvania concluded that shipping oil in a variety of different containers was causing buyer distrust. They decided they needed a standard unit of measure to convince buyers that they were getting a fair volume for their money, and settled on the standard wine tierce, which was two gallons larger than the standard whisky barrel. The Weekly Register, an Oil City, Pennsylvania newspaper, stated on August 31, 1866 that "the oil producers have issued the following circular":
+
+ Whereas, It is conceded by all producers of crude petroleum on Oil Creek that the present system of selling crude oil by the barrel, without regard to the size, is injurious to the oil trade, alike to the buyer and seller, as buyers, with an ordinary sized barrel cannot compete with those with large ones. We, therefore, mutually agree and bind ourselves that from this date we will sell no crude by the barrel or package, but by the gallon only. An allowance of two gallons will be made on the gauge of each and every 40 gallons in favor of the buyer.
+And by that means, King Richard III's English wine tierce became the American standard oil barrel.
+By 1872, the standard oil barrel was firmly established as 42 US-gallons. The 42 gallon standard oil barrel was officially adopted by the Petroleum Producers Association in 1872 and by the U.S. Geological Survey and the U.S. Bureau of Mines in 1882.
+In modern times, many different types of oil, chemicals, and other products are transported in steel drums. In the United States, these commonly have a capacity of 55 US gallons (208 L) and are referred to as such. They are called 200 litre or 200 kg drums outside the United States. In the United Kingdom and its former dependencies, a 44-imperial-gallon (200 L) drum was used, even though all those countries now officially use the metric system and the drums are filled to 200 litres. In the United States, the 42 US-gallon size as a unit of measure is largely confined to the oil industry, while different sizes of barrel are used in other industries. Nearly all other countries use the metric system.
+Thus, the 42 US-gallon oil barrel is a unit of measure rather than a physical container used to transport crude oil.
+
+
+== See also ==
+English brewery cask units
+English wine cask units
+Imperial units
+List of non-coherent units of measurement
+Gasoline and diesel usage and pricing
+Standard Barrel Act For Fruits, Vegetables, and Dry Commodities
+United States customary units
+
+
+== Notes ==
+
+
+== References ==
