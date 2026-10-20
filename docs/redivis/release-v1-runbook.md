@@ -19,11 +19,11 @@ Energy Research Warehouse (ERW), session 312 (19 October 2026), for Samuel. The 
 ## On redivis.com (about 15 minutes)
 
 1. **Open** the dataset `energy_research_warehouse` (the account `REDIVIS_OWNER`, or Ben Domingue's organization if it was moved), and switch to the draft (version `next`).
-2. **Delete the held tables from the draft**: every row of [`release-v1/tables.csv`](release-v1/tables.csv) with `in_v1 = no` (41 today). Do it right before the click: the daily upload puts a held table back when its data changes.
+2. **Delete the held tables from the draft**: every row of [`release-v1/tables.csv`](release-v1/tables.csv) with `in_v1 = no` (42 today, session 367). Do it right before the click: the daily upload puts a held table back when its data changes.
 3. **Compare the table list** with the `in_v1 = yes` rows of `tables.csv`: the same names, and the three metadata tables `erw_coverage`, `erw_sources`, `erw_headers`.
 4. **Paste the README**: [`release-v1/README.md`](release-v1/README.md) into the dataset's description.
 5. **Spot-check three tables**: each description is the table's provenance header, with its `License:` line in it.
-6. **Press Release.** The note: `v1: ERW commit <git rev-parse HEAD>, the daily run of <date>; 137 tables and 3 metadata tables; 41 held for a license (docs/redivis/release-v1/tables.csv)`.
+6. **Press Release.** The note: `v1: ERW commit <git rev-parse HEAD>, the daily run of <date>; 137 tables and 3 metadata tables; 42 held for a license (docs/redivis/release-v1/tables.csv)`.
 
 ## After the click (2 minutes)
 

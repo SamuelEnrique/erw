@@ -6,7 +6,7 @@ The live, citable record of the US energy system: prices, flows, projects, deals
 
 ## What is not in it
 
-41 tables of the warehouse's public draft are not in version 1: a table whose publisher's terms ask for permission or a license that has not been recorded is held from 2026-10-21 (the ERW's license record, https://github.com/SamuelEnrique/erw/blob/main/docs/licenses.md), and retired tables and the old members of consolidated tables are not tables of the warehouse. Tables licensed for internal use are never in this dataset.
+42 tables of the warehouse's public draft are not in version 1: a table whose publisher's terms ask for permission or a license that has not been recorded is held from 2026-10-21 (the ERW's license record, https://github.com/SamuelEnrique/erw/blob/main/docs/licenses.md), and retired tables and the old members of consolidated tables are not tables of the warehouse. Tables licensed for internal use are never in this dataset.
 
 ## How to cite
 
