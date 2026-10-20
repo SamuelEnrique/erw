@@ -48,6 +48,8 @@ export const GROUPS: Group[] = [
       { href: "/contracts", label: "Power contracts", line: "Where bilateral power contracts are being signed: seller, buyer, product, term, price as filed and delivery point, by the quarter of signing, from the contracts sellers file with FERC.", tables: "ferc_eqr_contracts (internal)", related: ["/deals", "/cost-of-power/seller"] },
       // session 239: one page, two tabs (lib/tabs.ts): the calculator and the lease tool (until then its own entry "Lease tool" at /severance/lease, which redirects to the tab)
       { href: "/severance", label: "Severance tax", line: "State production taxes on a month of oil, gas or condensate in Texas, Louisiana and New Mexico: the base rate, the reduced rates and exemptions, and the savings, each rule cited; and, on the Lease tab, the same calculator for every well and month of a lease file, computed in the browser: nothing is sent.", tables: "site/data/severance_rules.json; eia_fuel_spot_prices (default prices)", related: ["/prices", "/cost-of-power"] },
+      // session 347: the economic impact tool (tool 17), its own line (in review)
+      { href: "/impact", label: "Economic impact", line: "How many jobs, how much in wages and output a wind, solar, gas or geothermal plant brings to the state it is built in, while it is built and each year it runs, from NLR's JEDI models read for every state; and what the ERW holds of the state's taxes on it.", tables: "nlr_jedi_multipliers, impact_tax_rules", related: ["/severance", "/cost-of-power/seller"] },
     ],
     sub: {
       label: "Infrastructure Economics",

@@ -29,6 +29,7 @@ TOOLS = {
     "datacenter": ("What a datacenter pays", "/cost-of-power"),
     "grid": ("the Grid tool", "/grid"),
     "research": ("Research", "/research"),
+    "impact": ("What a project does for a state", "/impact"),  # session 347, the economic impact tool
 }
 
 PARTS = [
