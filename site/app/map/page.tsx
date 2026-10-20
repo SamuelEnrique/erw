@@ -7,6 +7,7 @@ import { Related } from "@/components/Related";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { Tabs } from "@/components/tool/Tabs";
 import { SourceLine, ToolHeader, ToolPage } from "@/components/tool/ToolPage";
+import { TableDownloads } from "@/components/tool/TableDownloads";
 import mapJson from "@/data/map.json";
 import { faceOf, whole, type MapFile } from "@/lib/projectmap";
 import { one, tabOf } from "@/lib/tabs";
@@ -37,6 +38,9 @@ export default async function MapPage({ searchParams }: { searchParams: Promise<
         <div data-map-tab={tab}>
           <Tabs page="/map" active={tab} />
           {tab === "resources" ? <ResourcesView /> : <ProjectsView />}
+          {/* session 330: the four tables the map's own copy is built from (both tabs draw them), as CSV with a Python and a
+              Stata reader (session 328's shared line); the resource layers are their publishers' files, named in the tab's note */}
+          <TableDownloads tables={(mapJson as unknown as MapFile).tables} />
           <Related href="/map" />
         </div>
       </ToolPage>
