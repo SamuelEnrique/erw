@@ -240,8 +240,10 @@ def rebuild(name, as_of=None, from_bucket=False, bucket=None):
     if len(rl):
         run = rl.iloc[-1]
         cols = json.loads(run["columns"])
+        # session 336: the run's own rebuild lines are dropped, so rebuilds do not stack one line a run
         header = [f"Rebuilt from the ERW archive by warehouse/archive/restore.py, as of run {run['run_id']} "
-                  f"({run['archived_at']}); that run's own header of the table follows"] + run["header"].split("\n")
+                  f"({run['archived_at']}); that run's own header of the table follows"] + \
+            [h for h in run["header"].split("\n") if not h.startswith("Rebuilt from the ERW archive by ")]
         expected = int(run["table_rows"])
     else:  # no run log: the columns the lines carry, in their order
         cols = [c for c in rows.columns if c not in A.FIXED and c != "_order"]
