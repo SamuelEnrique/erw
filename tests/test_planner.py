@@ -258,6 +258,13 @@ class ItDrafts(Folder):
         self.assertIn("Total for the chain: USD 3.", text)
         self.assertEqual(text.count("Model spend cap USD 1.5. Pulls: none."), 2)
         self.said = []
+        # session 365: the first chain says "machine: code" and so does not hold the queue for a data machine
+        # (TheMachineLine); without the line it is any machine's, and holds it
+        first = os.path.join(self.root, "queue", "next", os.listdir(os.path.join(self.root, "queue", "next"))[0])
+        with open(first, encoding="utf-8") as f:
+            unmarked = f.read().replace("\nmachine: code\n", "\n", 1)
+        with open(first, "w", encoding="utf-8", newline="\n") as f:
+            f.write(unmarked)
         code, dest = planner.run("draft", "databox", "data", now=NOW, root=os.path.join(self.root), out=self.said.append, sessions=lambda m, t: 0)
         self.assertEqual(code, planner.REFUSED)                                                # the queue now holds the first chain
         os.remove(os.path.join(self.root, "queue", "next", os.listdir(os.path.join(self.root, "queue", "next"))[0]))
@@ -286,6 +293,56 @@ class ItDrafts(Folder):
         shutil.move(dest, os.path.join(self.root, "queue", "done", os.path.basename(dest)))
         self.assertEqual(self.run_planner()[0], planner.REFUSED)
         self.assertIn("that was not planned before: 2 open, each already in a planned chain", self.text())
+
+
+class TheMachineLine(Folder):
+    """Session 365: a planned chain says which machine it is for, and the planner's own check holds it to that."""
+
+    def test_a_drafted_chain_carries_the_role_it_was_drafted_for(self):
+        code, dest = self.run_planner()
+        self.assertEqual(code, 0, self.text())
+        with open(dest, encoding="utf-8") as f:
+            text = f.read()
+        self.assertIn("machine: code", text.split("\n")[:10])
+        self.assertEqual(chain_queue.mark_of(text), "code")
+        os.remove(dest)
+        code, dest = self.run_planner(role="data")
+        self.assertEqual(code, 0, self.text())
+        with open(dest, encoding="utf-8") as f:
+            self.assertEqual(chain_queue.mark_of(f.read()), "data")
+
+    def test_its_own_check_refuses_a_chain_without_the_line_or_with_another_role(self):
+        code, dest = self.run_planner()
+        self.assertEqual(code, 0, self.text())
+        with open(dest, encoding="utf-8") as f:
+            name, good = os.path.basename(dest), f.read()
+        self.assertEqual(planner.problems_of(name, good, role="code"), [])
+        bare = good.replace("\nmachine: code\n", "\n", 1)
+        self.assertNotEqual(bare, good)
+        self.assertTrue(any("does not say which machine it is for" in p for p in planner.problems_of(name, bare)))
+        self.assertTrue(any("does not say which machine it is for" in p for p in planner.problems_of(name, bare, role="code")))
+        self.assertIn("the chain says machine: code, and was drafted for a data machine", planner.problems_of(name, good, role="data"))
+        self.assertTrue(any("it says machine: elsewhere" in p for p in planner.problems_of(name, good.replace("machine: code", "machine: elsewhere", 1))))
+
+    def test_a_chain_that_would_lack_the_line_is_not_written(self):
+        real = planner.chain
+        planner.chain = lambda *a, **k: (lambda n, b: (n, b.replace("\nmachine: code\n", "\n", 1)))(*real(*a, **k))
+        try:
+            code, dest = self.run_planner()
+        finally:
+            planner.chain = real
+        self.assertEqual((code, dest), (planner.REFUSED, None))
+        self.assertIn("does not say which machine it is for", self.text())
+        self.assertEqual(os.listdir(os.path.join(self.root, "queue", "next")), [])
+
+    def test_a_file_for_the_other_machine_does_not_hold_the_queue(self):
+        with open(os.path.join(self.root, "queue", "next", "195-day-data.md"), "w", encoding="utf-8") as f:
+            f.write("# Chain\n\nmachine: data\n\n## Session 195: x\n")
+        code, _ = self.run_planner(action="check")
+        self.assertEqual(code, 0, self.text())
+        self.assertNotIn("already holds a file", self.text())
+        self.assertEqual(self.run_planner(action="check", role="data")[0], planner.REFUSED)
+        self.assertIn("queue/next/ already holds a file (195-day-data.md)", self.text())
 
 
 class TheQueueStep(Folder):

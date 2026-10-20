@@ -22,6 +22,15 @@ queue/CHAIN_TEMPLATE.md     the shape of a prompt file: copy it, fill it in, sav
     the machine's one email, "ready for review", unless the machine is on duty again by then.
 - **Looking:** `python scripts/chain_queue.py list`, and `python scripts/chain_queue.py next --dry-run` (says what
   would happen; moves, commits, writes and sends nothing).
+- **Which machine (session 365):** a prompt file may say whose it is, with a line `machine: code` or `machine: data`
+  in its first ten lines (under the title, as `CHAIN_TEMPLATE.md` puts it). `next` takes the lowest-numbered file
+  marked for this machine's role (`.erw/machine.json`), or with no such line, and leaves a file marked for the other
+  role where it is, naming it in what it prints; when only such files wait, the machine idles (the planner may still
+  draft for it) and the idle line says they wait for another machine. A machine whose role is not known takes only
+  files with no line. `list` shows each file's machine. To start a named chain on a machine,
+  `python scripts/chain_queue.py next --file NNN-<slug>.md` (with `--dry-run` to look first) takes that one file with
+  the same move and commit; it refuses a name not in `queue/next/`, a name of the task queue, and a file marked for
+  the other role (exit 2, nothing moved).
 - **Not taken:** a file in `queue/next/` whose name is not `NNN-<slug>.md`, and a name of the task queue below
   (`NNN-code-...`, `NNN-data-...`). It is left where it is and named in what the command prints.
 - **One machine draws at a time.** The move is a commit on the session's branch; it reaches other machines when it is
