@@ -112,3 +112,50 @@ Every list (kind, grid, technology, status, state) is a multi-select with "Selec
 ### The unit card
 
 A click on a unit opens version 1's card: name and entity id, kind, technology group (with the source's own technology text), MW, status, state, county, city, grid, operator or developer, developer, date, power, location, the source table, the stories (datacenters) and the line naming the ERW table it was read from with its vintage. Version 1 read the card from Supabase through `/api/entity`, one request a click. The one page reads it from its own file: `project_map.py` writes the card's fields into `site/data/map.json`, and the page leaves them out of what it loads and asks for them once, at the first click on a unit, from `/map/card` (a route built with the site from the same file, behind the same release gate as the page; it never asks Supabase). Measured on the file of 9 October 2026 (gzip): the page's data without the card is 430 KB, with the entity ids a request per click would need 582 KB, with every field of the card 835 KB (3.3 MB before compression); the whole page as served (local `next start`, gzip) was 994 KB with the card inside and is 646 KB without it (the dates stay on the page: the hover shows them). Read at the first click, the card costs a reader who never clicks nothing, and the card is always of the same vintage as the map (the ids of the datacenter tracker change when its merge rule does, so a card read from Supabase could miss a facility the page's file still holds). If the page's file was rebuilt between the load and the click, the card says so and asks for a reload, rather than show another row's fields.
+
+## Queue statistics
+
+Session 348, 20 October 2026. `iso_queue_statistics` (the chain prompt's `queue_statistics`; a series table's name has three parts), built by `warehouse/derived/queue_statistics.py` from the six ISO queue tables (`<iso>_interconnection_queue`), the same rows `energy_projects` takes its queue positions from. For each ISO and each year a position entered the queue: how many positions entered, were withdrawn, reached operation and are still waiting, the MW of each, the withdrawal rate, and the median and mean years from entry to operation of the positions that reached it. The map's Queues tab draws it (session 349).
+
+### What counts, in each ISO's own words
+
+The status is the queue connector's (`STATUS_MAP` of `warehouse/connectors/iso_queues.py`), which maps every word an ISO uses and fails on a new one. This section reads it as follows.
+
+| ISO | Withdrawn | Operating | Still waiting |
+|---|---|---|---|
+| ERCOT | none held: its GIS report lists active and completed positions only | Completed | Active |
+| CAISO | WITHDRAWN | COMPLETED | ACTIVE |
+| NYISO | Withdrawn | Completed | Active |
+| MISO | Withdrawn | Done, LEGACY: Done | Active, Pending Revision Approval, Pending Transfer |
+| SPP | WITHDRAWN, TERMINATED | IA FULLY EXECUTED/COMMERCIAL OPERATION | IA FULLY EXECUTED/ON SCHEDULE, IA PENDING, DISIS STAGE, FACILITY STUDY STAGE, SPECIAL STUDY, ERAS, ICS; and IA FULLY EXECUTED/ON SUSPENSION (suspended) |
+| ISO-NE | Withdrawn | Completed | Active |
+
+- **Status not stated.** A position the ISO lists with no status (SPP's affected-system requests, and rows of other ISOs whose status cell is blank) is counted as `positions_status_not_stated`, in none of the three.
+- **The entry year** is the year of the ISO's queue date. A position with no queue date is in no year and is counted in the table's header: ERCOT 456, CAISO 169, NYISO 104, MISO 36, SPP 64, ISO-NE 94. ERCOT's are many (456 of 1,758), so its counts by year are a part of its queue.
+- **The withdrawal rate** is withdrawn positions over positions entered, by count. ERCOT has none (above).
+- **The wait** is the years from the queue date to the in-service date (days over 365.25), for operating positions with both dates and an in-service date on or after the queue date (`wait_positions` counts them). MISO's and ISO-NE's tables hold no in-service date, so they have no wait. SPP's in-service date is its "Commercial Operation Date", which the table fills for active and withdrawn positions too: for an operating position it may be the date requested rather than achieved, and its rows say so (`x_rule`).
+- **MW** is the capacity the queue states, summed (a repowering request may be negative); a position with no MW is in the counts and not in the MW.
+- **Nothing is filled.** A variable an ISO does not give has no row for it.
+
+### The inputs read
+
+The data machine's copies, restored from the ERW archive (`warehouse/archive/restore.py --from-bucket`, session 348): ERCOT, CAISO, SPP and ISO-NE as of the run of 19 October 2026; NYISO and MISO as of 4 October 2026 (their last run). The table's header names each run. 1,511 rows: six ISOs, entry years 1989 to 2026 (CAISO's dated positions end in 2023; MISO's begin in 2015).
+
+### Licenses
+
+The six queues' tables are flagged public, and NYISO's, MISO's and ISO-NE's are "license needed" from 21 October 2026 (`docs/licenses.md`). The table's publishers are the six ISOs (`scripts/licenses.py`, by hand), so it is held by grid: from that day a page shows its ERCOT, CAISO and SPP rows and holds the other three, as it holds their prices.
+
+### The cross-check against LBNL's Queued Up
+
+From the copy held in `warehouse/raw/lbnl_queues/20261002T091624Z/` (Berkeley Lab's queue data file through 2025; no request to LBNL), for CAISO:
+
+| What | This table (CAISO's queue as of October 2026) | LBNL (as of the end of 2025) |
+|---|---|---|
+| Requests entered 2000 to 2020: operating | 233 | 232 (sheet 25, count by status) |
+| the same: withdrawn | 1,379 | 1,492 |
+| the same: still waiting | 150 | 185 active and 1 suspended |
+| Request to operation, positions online 2018 to 2025: count | 94 | 99 (sheet 38, box plot data) |
+| the same: median, months | 92.35 | 91.39 |
+| the same: mean, months | 94.46 | 91.88 |
+
+The operating counts and the waits agree within a few positions and about a month. The other counts differ: CAISO's current report holds 148 fewer positions of those years than LBNL counted (113 fewer withdrawn, 36 fewer still waiting, one more operating). LBNL builds its file from many years of each ISO's reports; the ERW holds the current one. The withdrawal rate of those years is close all the same: 78.3 percent here (1,379 of 1,762), 78.1 percent in LBNL's counts (1,492 of 1,910).
