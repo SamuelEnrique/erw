@@ -1,0 +1,308 @@
+# Energy Research Warehouse (ERW): 30 hard questions for Ask (/api/ask) on the three economics pages, session 320 (the chain of 19 October 2026, daytime).
+# Ten on the battery page (battery_stack_monthly), ten on the generator page (merchant_revenue_monthly), ten on the datacenter page (cost_of_power_monthly),
+# the numbers the pages show asked as a reader would, two of them refusals (MISO paused, PJM not held). Every expected number was computed before any model
+# call from the tables as the site reads them (Supabase, the anon key), on 2026-10-19 by runs/chain_oct19/s320_expect.py (not in git); each note names the table, the
+# entity, the variable, the period and the aggregation. `via` as in questions_s302.yaml (grid: the grid's scoped chat; general: no grid). The recorded answers and
+# the grades are in eval_s320_fixtures.json beside this file.
+today: '2026-10-19'
+questions:
+- id: b01
+  grid: ERCOT
+  via: grid
+  question: "For a 4-hour battery at ERCOT's hub average with perfect foresight, what was the total revenue over the last twelve complete months (2025-10 to 2026-09), in USD per kW?"
+  expected: [81.4022]
+  tolerance: 0.01
+  text: []
+  tables: ["battery_stack_monthly"]
+  refuse: false
+  note: "battery_stack_monthly, ercot:HB_HUBAVG, foresight_4h_revenue_total_usd_per_mw: the sum of 2025-10 to 2026-09 (81402.19 USD per MW) over 1,000"
+- id: b02
+  grid: ERCOT
+  via: grid
+  question: "How much of that came from energy (charging low and selling high) over 2025-10 to 2026-09, for the same 4-hour battery with perfect foresight at ERCOT's hub average, in USD per kW?"
+  expected: [54.5986]
+  tolerance: 0.01
+  text: []
+  tables: ["battery_stack_monthly"]
+  refuse: false
+  note: "battery_stack_monthly, ercot:HB_HUBAVG, foresight_4h_revenue_energy_usd_per_mw: the sum of 2025-10 to 2026-09 over 1,000"
+- id: b03
+  grid: ERCOT
+  via: grid
+  question: "And from ancillary services over 2025-10 to 2026-09, for the 4-hour battery with perfect foresight at ERCOT's hub average, in USD per kW?"
+  expected: [26.8036]
+  tolerance: 0.01
+  text: []
+  tables: ["battery_stack_monthly"]
+  refuse: false
+  note: "battery_stack_monthly, ercot:HB_HUBAVG, foresight_4h_revenue_ancillary_usd_per_mw: the sum of 2025-10 to 2026-09 over 1,000"
+- id: b04
+  grid: ERCOT
+  via: grid
+  question: "What did a 2-hour battery at ERCOT's hub average earn in total on the day-ahead strategy over the last twelve complete months (2025-10 to 2026-09), in USD per kW?"
+  expected: [51.0671]
+  tolerance: 0.01
+  text: []
+  tables: ["battery_stack_monthly"]
+  refuse: false
+  note: "battery_stack_monthly, ercot:HB_HUBAVG, dayahead_2h_revenue_total_usd_per_mw: the sum of 2025-10 to 2026-09 over 1,000"
+- id: b05
+  grid: ERCOT
+  via: grid
+  question: "What did a 4-hour battery with perfect foresight at ERCOT's hub average earn in total in calendar year 2021, the year of Winter Storm Uri, in USD per kW?"
+  expected: [3430.5566]
+  tolerance: 0.01
+  text: []
+  tables: ["battery_stack_monthly"]
+  refuse: false
+  note: "battery_stack_monthly, ercot:HB_HUBAVG, foresight_4h_revenue_total_usd_per_mw: the twelve months of 2021 summed over 1,000"
+- id: b06
+  grid: ERCOT
+  via: grid
+  question: "And in calendar year 2025, the same 4-hour battery with perfect foresight at ERCOT's hub average: the total revenue in USD per kW?"
+  expected: [87.4396]
+  tolerance: 0.01
+  text: []
+  tables: ["battery_stack_monthly"]
+  refuse: false
+  note: "battery_stack_monthly, ercot:HB_HUBAVG, foresight_4h_revenue_total_usd_per_mw: the twelve months of 2025 summed over 1,000"
+- id: b07
+  grid: ERCOT
+  via: grid
+  question: "Which month of 2025 earned the most for a 4-hour battery with perfect foresight at ERCOT's hub average, and how much was it in USD per MW?"
+  expected: [12926.2516]
+  tolerance: 0.01
+  text: ["2025", "May"]
+  tables: ["battery_stack_monthly"]
+  refuse: false
+  note: "battery_stack_monthly, ercot:HB_HUBAVG, foresight_4h_revenue_total_usd_per_mw: the largest of the twelve months of 2025, 2025-05"
+- id: b08
+  grid: CAISO
+  via: grid
+  question: "For a 4-hour battery at CAISO's SP15 hub with perfect foresight, what was the total revenue over the last twelve complete months (2025-10 to 2026-09), in USD per kW?"
+  expected: [79.046]
+  tolerance: 0.01
+  text: []
+  tables: ["battery_stack_monthly"]
+  refuse: false
+  note: "battery_stack_monthly, caiso:TH_SP15_GEN-APND, foresight_4h_revenue_total_usd_per_mw: the sum of 2025-10 to 2026-09 over 1,000"
+- id: b09
+  grid: CAISO
+  via: grid
+  question: "In calendar year 2025, how much energy revenue did a 4-hour battery on the day-ahead strategy at CAISO's SP15 hub earn, in USD per kW?"
+  expected: [42.3137]
+  tolerance: 0.01
+  text: []
+  tables: ["battery_stack_monthly"]
+  refuse: false
+  note: "battery_stack_monthly, caiso:TH_SP15_GEN-APND, dayahead_4h_revenue_energy_usd_per_mw: the twelve months of 2025 summed over 1,000"
+- id: b10
+  grid: ERCOT
+  via: grid
+  question: "In July 2026, how many MWh per MW of rated power did an 8-hour battery with perfect foresight at ERCOT's hub average discharge?"
+  expected: [200.337]
+  tolerance: 0.01
+  text: []
+  tables: ["battery_stack_monthly"]
+  refuse: false
+  note: "battery_stack_monthly, ercot:HB_HUBAVG, foresight_8h_discharged_mwh_per_mw, 2026-07"
+- id: g01
+  grid: ERCOT
+  via: grid
+  question: "What was the solar capture price at ERCOT's hub average in July 2026, in USD per MWh?"
+  expected: [24.9462]
+  tolerance: 0.01
+  text: []
+  tables: ["merchant_revenue_monthly"]
+  refuse: false
+  note: "merchant_revenue_monthly, ercot:HB_HUBAVG, solar_capture_price, 2026-07"
+- id: g02
+  grid: ERCOT
+  via: grid
+  question: "What was wind's capture rate at ERCOT's hub average in June 2026, as a share of the flat price?"
+  expected: [90.7867]
+  tolerance: 0.02
+  text: []
+  tables: ["merchant_revenue_monthly"]
+  refuse: false
+  note: "merchant_revenue_monthly, ercot:HB_HUBAVG, wind_capture_rate, 2026-06"
+- id: g03
+  grid: ERCOT
+  via: grid
+  question: "Over calendar year 2025, how much did a gas peaker at ERCOT's hub average earn in margin over fuel, in USD per MW (the twelve months summed)?"
+  expected: [50424.0741]
+  tolerance: 0.01
+  text: []
+  tables: ["merchant_revenue_monthly"]
+  refuse: false
+  note: "merchant_revenue_monthly, ercot:HB_HUBAVG, peaker_revenue_per_mw: the twelve months of 2025 summed"
+- id: g04
+  grid: ERCOT
+  via: grid
+  question: "Over calendar year 2025, how many MWh per MW did ERCOT's solar fleet produce at the hub average (the twelve monthly figures summed)?"
+  expected: [2596.6548]
+  tolerance: 0.5
+  text: []
+  tables: ["merchant_revenue_monthly"]
+  refuse: false
+  note: "merchant_revenue_monthly, ercot:HB_HUBAVG, solar_energy_per_mw: the twelve months of 2025 summed"
+- id: g05
+  grid: CAISO
+  via: grid
+  question: "What was the average of the twelve monthly solar capture rates at CAISO's SP15 hub over 2025?"
+  expected: [38.3296]
+  tolerance: 0.02
+  text: []
+  tables: ["merchant_revenue_monthly"]
+  refuse: false
+  note: "merchant_revenue_monthly, caiso:TH_SP15_GEN-APND, solar_capture_rate: the mean of the twelve months of 2025"
+- id: g06
+  grid: SPP
+  via: grid
+  question: "Over calendar year 2025, how much did wind at SPP's North hub earn per MW (the twelve monthly revenues per MW summed), in USD?"
+  expected: [66963.0112]
+  tolerance: 0.01
+  text: []
+  tables: ["merchant_revenue_monthly"]
+  refuse: false
+  note: "merchant_revenue_monthly, spp:SPPNORTH_HUB, wind_revenue_per_mw: the twelve months of 2025 summed"
+- id: g07
+  grid: ISO-NE
+  via: grid
+  question: "What was the solar capture price at ISO-NE's internal hub in August 2026, in USD per MWh?"
+  expected: [54.5475]
+  tolerance: 0.01
+  text: []
+  tables: ["merchant_revenue_monthly"]
+  refuse: false
+  note: "merchant_revenue_monthly, isone:.H.INTERNAL_HUB, solar_capture_price, 2026-08"
+- id: g08
+  grid: NYISO
+  via: grid
+  question: "What was the flat (time-weighted) real-time price at NYISO's New York City zone in July 2026, in USD per MWh?"
+  expected: [73.8689]
+  tolerance: 0.01
+  text: []
+  tables: ["merchant_revenue_monthly"]
+  refuse: false
+  note: "merchant_revenue_monthly, nyiso:N.Y.C., flat_price, 2026-07"
+- id: g09
+  grid: ERCOT
+  via: grid
+  question: "On the generator page's rule, what did a 4-hour battery at ERCOT's hub average earn per MW from energy over the last twelve complete months (2025-10 to 2026-09), in USD (the monthly revenues per MW summed)?"
+  expected: [58533.7042]
+  tolerance: 0.01
+  text: []
+  tables: ["merchant_revenue_monthly"]
+  refuse: false
+  note: "merchant_revenue_monthly, ercot:HB_HUBAVG, battery_4h_revenue_per_mw: the sum of 2025-10 to 2026-09"
+- id: g10
+  grid: MISO
+  via: grid
+  question: "What was the solar capture price at MISO's Indiana hub in July 2026, in USD per MWh?"
+  expected: []
+  tolerance: 0.01
+  text: ["paused"]
+  tables: ["merchant_revenue_monthly"]
+  refuse: true
+  note: "MISO is paused since 4 October 2026 (warehouse/metadata/paused_sources.csv): the answer must refuse and state no figure"
+- id: d01
+  grid: ERCOT
+  via: grid
+  question: "What was the load-weighted real-time price at ERCOT's hub average in August 2026, in USD per MWh?"
+  expected: [36.6951]
+  tolerance: 0.01
+  text: []
+  tables: ["cost_of_power_monthly"]
+  refuse: false
+  note: "cost_of_power_monthly, ercot:HB_HUBAVG, rt_load_weighted, 2026-08"
+- id: d02
+  grid: ERCOT
+  via: grid
+  question: "What was the load-weighted day-ahead price at ERCOT's hub average in January 2026, in USD per MWh?"
+  expected: [90.7806]
+  tolerance: 0.01
+  text: []
+  tables: ["cost_of_power_monthly"]
+  refuse: false
+  note: "cost_of_power_monthly, ercot:HB_HUBAVG, da_load_weighted, 2026-01"
+- id: d03
+  grid: CAISO
+  via: grid
+  question: "What was the real-time shape premium (the load-weighted price over the simple mean) at CAISO's NP15 hub in July 2026, in USD per MWh?"
+  expected: [0.9321]
+  tolerance: 0.01
+  text: []
+  tables: ["cost_of_power_monthly"]
+  refuse: false
+  note: "cost_of_power_monthly, caiso:TH_NP15_GEN-APND, rt_shape_premium, 2026-07"
+- id: d04
+  grid: ERCOT
+  via: grid
+  question: "What was the average of the twelve monthly simple-mean real-time prices at ERCOT's hub average over 2025, in USD per MWh?"
+  expected: [32.3934]
+  tolerance: 0.01
+  text: []
+  tables: ["cost_of_power_monthly"]
+  refuse: false
+  note: "cost_of_power_monthly, ercot:HB_HUBAVG, rt_simple_mean: the mean of the twelve months of 2025"
+- id: d05
+  grid: NYISO
+  via: grid
+  question: "What was the load-weighted real-time price at NYISO's New York City zone in January 2026, in USD per MWh?"
+  expected: [159.4187]
+  tolerance: 0.01
+  text: []
+  tables: ["cost_of_power_monthly"]
+  refuse: false
+  note: "cost_of_power_monthly, nyiso:N.Y.C., rt_load_weighted, 2026-01"
+- id: d06
+  grid: SPP
+  via: grid
+  question: "How many real-time hours were held for SPP's North hub in July 2026?"
+  expected: [744.0]
+  tolerance: 0.5
+  text: []
+  tables: ["cost_of_power_monthly"]
+  refuse: false
+  note: "cost_of_power_monthly, spp:SPPNORTH_HUB, rt_hours, 2026-07"
+- id: d07
+  grid: ISO-NE
+  via: grid
+  question: "What was the day-ahead shape premium at ISO-NE's internal hub in June 2026, in USD per MWh?"
+  expected: [2.6811]
+  tolerance: 0.01
+  text: []
+  tables: ["cost_of_power_monthly"]
+  refuse: false
+  note: "cost_of_power_monthly, isone:.H.INTERNAL_HUB, da_shape_premium, 2026-06"
+- id: d08
+  grid: ERCOT
+  via: grid
+  question: "Which month of 2025 had the highest load-weighted real-time price at ERCOT's hub average, and what was it in USD per MWh?"
+  expected: [37.9939]
+  tolerance: 0.01
+  text: ["May"]
+  tables: ["cost_of_power_monthly"]
+  refuse: false
+  note: "cost_of_power_monthly, ercot:HB_HUBAVG, rt_load_weighted: the largest of the twelve months of 2025, 2025-05"
+- id: d09
+  grid: ERCOT
+  via: general
+  question: "In June 2026, how much higher or lower was the load-weighted real-time price at ERCOT's hub average than at CAISO's SP15 hub, in USD per MWh?"
+  expected: [15.7097, 29.4033, 13.6936]
+  tolerance: 0.01
+  text: []
+  tables: ["cost_of_power_monthly"]
+  refuse: false
+  note: "cost_of_power_monthly, rt_load_weighted, 2026-06: ercot:HB_HUBAVG 29.4033 less caiso:TH_SP15_GEN-APND 13.6936"
+- id: d10
+  grid: PJM
+  via: general
+  question: "What was the load-weighted real-time price at PJM's Western hub in August 2026, in USD per MWh?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse"]
+  tables: ["cost_of_power_monthly"]
+  refuse: true
+  note: "PJM's prices are not in the warehouse (licensed internal): the answer must refuse and state no figure"
