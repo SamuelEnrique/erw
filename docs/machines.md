@@ -746,6 +746,22 @@ not alerts, and are not touched by this.
   --dry-run`. Every other check has a dry run that says "would record, not email".
 - **What GitHub itself sends is outside this,** as before: a failed "code branch" check emails the pusher from GitHub.
 
+### One alert policy, draft for Samuel's ruling (session 377)
+
+Draft for Samuel's ruling, not in force: the rules already in force (the email rule of session 243, the chain watch,
+the idle alarm, the data machine's six-hour stop) said as one policy. Where it and the sections around it differ, they
+govern until the ruling.
+
+1. A person gets two emails from the machinery: a machine is ready for review (15 minutes after its idle row, not at all when it is on duty again by then), and the daily run is red (once a UTC day).
+2. The daily run is red when a step of `daily prices` or a `dm_` step of a data machine's run newly failed, or when `daily prices` recorded no step by 18:00 UTC.
+3. Everything else is recorded and not emailed: a row of `erw_health` and a line of the chain watch's log (the idle alarm, a chain's silence, another job's failed step, the model cap's skips, a session that waits).
+4. A machine on duty is watched by its duty mark: the precheck writes it; the queue's idle step or `duty.py off` removes it; it lapses by itself after 16 hours.
+5. A silence is 30 minutes on duty without a commit, a push or a beat; `duty.py beat` comes before a step longer than that; each silence and each lapsed mark is said once.
+6. Every message is said once: the memory is a row of workflow `alerts`, and a failure still there at the next run adds nothing.
+7. The data machine's daily task is stopped at six hours (`PT6H`), so it holds the data lock until 16:00 Pacific at the latest; a missed run is not started late.
+8. A day is green when no step of a scheduled job and no `dm_` step failed (a publisher's lag, "stale at source", is not a failure); `site/data/health_days.json` counts the days, and a session's own rows never count.
+9. What GitHub sends itself (a failed `code branch` check, to the pusher) is outside this policy.
+
 ### One alert policy (session 202)
 
 Replaced by "The email rule (session 243)" above: the table below is what was sent until 13 October 2026, kept as
