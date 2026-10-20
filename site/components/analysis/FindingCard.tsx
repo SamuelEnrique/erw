@@ -62,7 +62,7 @@ function Statistics({ st }: { st: NonNullable<Card["statistics"]> }) {
       {rd ? (
         <p className="mt-2 text-muted" data-multiple-comparisons={rd.claims_tested}>
           {rd.name ? `In ${rd.name}, ` : "In this round, "}{rd.claims_tested} claims were tested and {rd.claims_passing} passed{rd.alpha ? ` at ${Math.round(rd.alpha * 100)} percent` : ""}.
-          {qs.length ? <> The q-value over the round{qs.length > 1 ? "s" : ""}: {qs.map(([k, v], i) => <span key={k}>{i ? "; " : ""}{label(k)} {fmtP(v)}</span>)}.</> : null}
+          {qs.length ? <> The q-value{qs.length > 1 ? "s" : ""} over the round: {qs.map(([k, v], i) => <span key={k}>{i ? "; " : ""}{label(k)} {fmtP(v)}</span>)}.</> : null}
           {rd.caveat ? <> {rd.caveat}</> : null}
         </p>
       ) : null}
