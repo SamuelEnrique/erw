@@ -42,6 +42,16 @@ class TheContracts(unittest.TestCase):
         self.assertIn("## The page as it stands (session 333, 20 October 2026)", src("docs", "methods", "supply_and_trade.md"))
 
 
+class TheContractsResets(unittest.TestCase):
+    def test_each_panel_resets_to_the_defaults_the_library_sets(self):
+        page = src("site", "app", "contracts", "page.tsx")
+        self.assertEqual(page.count('<InputPanel title="Choose" reset={{'), 3)
+        lib = src("site", "lib", "contracts.ts")
+        self.assertIn("const quarter = q.q && held.includes(q.q) ? q.q : held[0] ?? null;", lib)
+        self.assertIn("const product = PRODUCTS.find((p) => p.slug === q.product) ?? PRODUCTS[0];", lib)
+        self.assertIn(".sort((a, b) => b.quarter.localeCompare(a.quarter));", lib)    # newest first: held[0] is the newest
+
+
 class NoEmDash(unittest.TestCase):
     def test_none_in_what_the_session_wrote(self):
         for parts in (("site", "app", "supply", "page.tsx"), ("site", "components", "tool", "TableDownloads.tsx"), ("site", "scripts", "check-table-downloads.mjs"),
