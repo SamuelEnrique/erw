@@ -6,7 +6,7 @@ Energy Research Warehouse (ERW), session 312 (19 October 2026), for Samuel. The 
 
 | Do | Expect | If not |
 |---|---|---|
-| `python warehouse/redivis/release_v1.py` | "126 tables in v1 (with the three metadata tables), 41 public tables held out" (the counts move with the license record) | read the line it prints; a permission you recorded moves a table into v1 |
+| `python warehouse/redivis/release_v1.py` | "134 tables in v1 (with the three metadata tables), 41 public tables held out" (the counts move with the license record) | read the line it prints; a permission you recorded moves a table into v1 |
 | `python warehouse/redivis/release_v1.py --check` | exit 0, "0 difference(s)" | stop: the package and the license record disagree |
 | `python warehouse/redivis/upload.py --reconcile` | every row of `runs/redivis_reconcile.csv` matches (the draft's `count(*)` against the CSV) | a table off by rows: run its stores (`python warehouse/table_stores.py <table>`) and reconcile again |
 
@@ -17,7 +17,7 @@ Energy Research Warehouse (ERW), session 312 (19 October 2026), for Samuel. The 
 3. **Compare the table list** with the `in_v1 = yes` rows of `tables.csv`: the same names, and the three metadata tables `erw_coverage`, `erw_sources`, `erw_headers`.
 4. **Paste the README**: [`release-v1/README.md`](release-v1/README.md) into the dataset's description.
 5. **Spot-check three tables**: each description is the table's provenance header, with its `License:` line in it.
-6. **Press Release.** The note: `v1: ERW commit <git rev-parse HEAD>, the daily run of <date>; 126 tables and 3 metadata tables; 41 held for a license (docs/redivis/release-v1/tables.csv)`.
+6. **Press Release.** The note: `v1: ERW commit <git rev-parse HEAD>, the daily run of <date>; 131 tables and 3 metadata tables; 41 held for a license (docs/redivis/release-v1/tables.csv)`.
 
 ## After the click (2 minutes)
 

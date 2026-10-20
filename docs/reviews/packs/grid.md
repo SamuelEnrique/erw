@@ -127,7 +127,7 @@ EIA's hourly report is EIA-930 itself: the tables are its figures, so the checks
 | The replication file against the page (session 266, local build, snapshot of 2026-10-14 09:05 UTC) | `erw_2026_grid_replication.py`: 60 values (the lag, the counts, each grid's ties, net imports, generation, share, radius and distance) | The page's keyed numbers in Now and Network and the gravity shape's circles | 0 of 60 different | `check-grid-replication.mjs`, exit 0 (a first run read one count wrong: React's comment markers in the HTML, fixed in the check) |
 | Every keyed number of `/grid` against its table (session 266, local build) | `check-values` restricted to `/grid`: 1,171 values, the new `net|lag` key among them (53) | The same values recomputed from Supabase and the snapshot | 0, twice | Exit 0 both runs |
 | Every keyed number at the tool's landing (session 237) | 4,590 values on every page | Recomputed | 0 | `check-values`, exit 0 |
-| EIA's annual net generation (Electric Power Annual) against the sum of EIA-930's hours | not held | not held | not held | No annual EIA figure of generation by balancing authority is in the repository: for Samuel (part 9, question 5) |
+| EIA's annual net generation against the sum of EIA-930's hours (session 323; the Electric Power Annual has no table by balancing authority, so Form EIA-923's plant rows summed by their code; `eia_annual_crosscheck_ba`, `docs/methods/eia_annual_crosscheck.md`) | EIA-930, 2025: ERCO 485.2, CISO 185.4, PJM 873.8, SWPP 302.1, US48 4,280.5 TWh | EIA-923, 2025: 541.8, 203.1, 878.1, 293.2, 4,494.7 TWh | -10.45, -8.72, -0.48, +3.05, -4.76 percent (2023 and 2024 alike; ISNE, MISO and NYIS -3 to -7) | Likely, not EIA's statement: EIA-930 is what the balancing authority meters, EIA-923 each plant's own net generation (self-generation used on site among it); SPP meters plants EIA-923 codes elsewhere. Missing hours explain none |
 | The exchange against an operator's own tie flows | not held | not held | not held | No operator's tie-flow connector is built |
 
 ## 5. The edge cases tested
@@ -253,6 +253,14 @@ the break named in the shape's note; 2 (c), a square-root scale with the full pu
 the refresh's as the check key and the clock's beside it; 4 (b), the Lower 48; 6 (a), left out and counted in the note.
 Question 5 stands. The page says these in its decisions block; `docs/methods/grid_network.md`, "One page, four tabs, and
 the Ask panel (session 299)", carries the method.
+
+Question 5, answered in session 323 (the chain prompt of 19 October 2026, daytime): (a), with Form EIA-923 in place of the
+Electric Power Annual, whose index has no table by balancing authority. `eia_annual_generation_ba` sums EIA-923's plant
+rows by their balancing authority code (2023 to 2025, final files); `eia_annual_crosscheck_ba` sets the sum of EIA-930's
+hours against it for CISO, ERCO, ISNE, MISO, NYIS, PJM, SWPP and the Lower 48. EIA-930 is lower by 3 to 10 percent on six
+of them and by about 4.5 percent on the Lower 48, within 1 percent on PJM, and about 3 percent higher on SPP; missing hours
+explain none of it (section 4's row; `docs/methods/eia_annual_crosscheck.md`). Both tables are in the live set for the
+decisions block; the page's words are the code machine's.
 
 ## Appendix: the five-minute demo
 

@@ -22,7 +22,10 @@ notices, docs/methods/battery_stack.md, session 246), so this is the rule the ch
   when at least 329 of them (nine tenths) are held; before that, a day is judged by the notice test alone.
 - The operator's notices held: CAISO's (caiso_grid_emergencies), the system-wide kinds of session 246 (a Flex Alert,
   Restricted Maintenance Operations, an Energy Emergency Alert watch or level, a Stage emergency, a Warning, an Alert,
-  a load interruption). No other operator's notices are held, so on the other grids only the price test can make one.
+  a load interruption); since session 322 ERCOT's (ercot_grid_notices, the rows marked x_counts yes: an EEA level,
+  rotating outages, a conservation appeal or notice, a Power or Weather Watch, an OCN for extreme weather, and the day an
+  emergency ended). No other operator's notices are held, so on NYISO, MISO, SPP and ISO-NE only the price test can
+  make one.
 - Only days on which the grid's prices are held are written.
 
 Shape: series, one row per grid and stress day: entity <iso>:<hub>, variable stress_day, value the day's mean real-time
@@ -51,6 +54,7 @@ OUT = os.path.join(ROOT, "warehouse", "output")
 HISTORY = "iso_hub_prices_history"
 ERCOT_DAILY = "ercot_hub_prices_daily"
 NOTICES = "caiso_grid_emergencies"
+ERCOT_NOTICES = "ercot_grid_notices"  # session 322
 SOURCE = "erw:grid_stress_days"   # session 312: the table's own source line, as the derived tables have
 METHOD_URL = "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/stress_days.md"
 MAIN = {"ercot": "HB_HUBAVG", "caiso": "TH_SP15_GEN-APND", "nyiso": "N.Y.C.", "miso": "INDIANA.HUB",
@@ -134,7 +138,11 @@ def main():
     hist = read(HISTORY, ["ts_utc", "value", "freq", "market", "node", "source", "source_url"])
     notices = read(NOTICES, ["event_date", "event_type"])
     notices = notices[notices["event_type"].isin(CAISO_NOTICES)]
-    kinds = notices.groupby("event_date")["event_type"].agg(lambda x: ";".join(sorted(set(x))))
+    kinds = {"caiso": notices.groupby("event_date")["event_type"].agg(lambda x: ";".join(sorted(set(x))))}
+    # session 322: ERCOT's notices, the rows its connector marks as a system-wide call on supply or demand
+    en = read(ERCOT_NOTICES, ["event_date", "event_type", "x_counts"])
+    en = en[en["x_counts"] == "yes"]
+    kinds["ercot"] = en.groupby("event_date")["event_type"].agg(lambda x: ";".join(sorted(set(x))))
     rows, said = [], []
     for iso in ("ercot", "caiso", "nyiso", "miso", "spp", "isone"):
         means, src, url = ercot_means() if iso == "ercot" else daily_means(hist, iso)
@@ -144,8 +152,8 @@ def main():
         s, p, n = judge(means)
         by_price = s > p
         note = pd.Series(False, index=s.index)
-        if iso == "caiso":
-            note = pd.Series(s.index.strftime("%Y-%m-%d").isin(kinds.index), index=s.index)
+        if iso in kinds:
+            note = pd.Series(s.index.strftime("%Y-%m-%d").isin(kinds[iso].index), index=s.index)
         stress = by_price | note
         ev = events(iso, [d.strftime("%Y-%m-%d") for d in s.index[stress.values]])
         for day in s.index[stress.values]:
@@ -156,12 +164,12 @@ def main():
                              node=MAIN[iso], source=src, source_url=url, retrieved_at=stamp, vintage="",
                              x_reason=reason, x_event=ev[d], x_trailing_p98="" if pd.isna(p[day]) else round(float(p[day]), 4),
                              x_trailing_days=int(n[day]) if not pd.isna(n[day]) else 0,
-                             x_notices=kinds.get(d, "") if iso == "caiso" else ""))
+                             x_notices=kinds[iso].get(d, "") if iso in kinds else ""))
         k = int(stress.sum())
         n_ev = len(set(ev.values()))
         said.append(f"{iso}: {len(s):,} days held {s.index.min():%Y-%m-%d} to {s.index.max():%Y-%m-%d}, judged by price from "
                     f"{p.first_valid_index():%Y-%m-%d}; {k} stress days ({int(by_price.sum())} by price"
-                    + (f", {int(note.sum())} by notice" if iso == "caiso" else "") + f"), {n_ev} events"
+                    + (f", {int(note.sum())} by notice" if iso in kinds else "") + f"), {n_ev} events"
                     if p.first_valid_index() is not None else
                     f"{iso}: {len(s):,} days held from {s.index.min():%Y-%m-%d}, fewer than {MIN_DAYS} trailing days so far; {k} stress days by notice")
     said.append("pjm: no PJM hub price and no PJM notice is held (PJM's data is licensed); no row")
@@ -176,11 +184,11 @@ def main():
         f"Rule: a local day is a stress day when the day's mean real-time price at the grid's main hub is above the {int(PCT * 100)}th percentile of "
         f"the daily means of the {WINDOW} days before it (at least {MIN_DAYS} of them held; a day with any hour missing is not tested), or the operator issued an emergency notice that day",
         "Shape: series (docs/datastandard.md v0). One row per grid and stress day: value the day's mean real-time price (USD/MWh); ts_utc the local day at 00:00Z; "
-        "x_reason price, notice, or price and notice; x_event the event (days at most three apart; ERCOT's named events keep their names); x_trailing_p98 and x_trailing_days the threshold and the days it is taken over; x_notices CAISO's notice kinds",
-        f"Inputs: {ERCOT_DAILY} (ERCOT's rt_mean at HB_HUBAVG), {HISTORY} (the other grids' main hubs), {NOTICES} (CAISO's system-wide notices); "
-        "no other operator's notices are held, and PJM has neither prices nor notices here",
+        "x_reason price, notice, or price and notice; x_event the event (days at most three apart; ERCOT's named events keep their names); x_trailing_p98 and x_trailing_days the threshold and the days it is taken over; x_notices CAISO's or ERCOT's notice kinds",
+        f"Inputs: {ERCOT_DAILY} (ERCOT's rt_mean at HB_HUBAVG), {HISTORY} (the other grids' main hubs), {NOTICES} (CAISO's system-wide notices), "
+        f"{ERCOT_NOTICES} (ERCOT's notices marked x_counts yes, session 322); no other operator's notices are held, and PJM has neither prices nor notices here",
         *[f"This run: {x}" for x in said],
-        f"Derived from: {ERCOT_DAILY}; {HISTORY}; {NOTICES}",
+        f"Derived from: {ERCOT_DAILY}; {HISTORY}; {NOTICES}; {ERCOT_NOTICES}",
         f"Source: {SOURCE} ERW derived stress days of six grids by one rule (docs/methods/stress_days.md), {METHOD_URL}",
         f"Retrieved: {run_id} (UTC) by warehouse/derived/{NAME}.py from the ERW tables named above; per row, source and source_url are the prices' own",
         f"Run log: warehouse/output/logs/{NAME}_{run_id}.log",

@@ -5,7 +5,7 @@
 ## Read these first
 
 - **The page is in the ruled order, with a reader's own form first.** `/research` opens on "Ask for an analysis": the question in the reader's words (10 to 500 characters), the tables it should read (chosen by name from the public tables of the live set, ten at most, optional) and an email for the answer; then "Or choose a finding and its inputs", session 182's flow as it was; then today's chart, this week's chart, the findings library and the archive. The form writes one row of `analysis_requests` through the server route (`POST /api/analysis`, finding `reader_question`, the three fields as its params, each bounded by the route; the database function of migration 027 bounds the whole and counts the day's requests, 24). The data machine's worker never takes such a row (`worker.py` reads `finding neq reader_question`): a person answers by email, and the row is listed with the other requests ("A reader's question"). The email is stored with the request, used for the answer alone, shown to no visitor (the list answers the internal view only), and the form says so.
-- **Every figure on a card is a Num with its card.** Each callout figure and each cell of a card's table of estimates carries a check key naming the card and the figure's place in the card's own JSON (`finding|<card>|callout|<i>|before or after|<grid>`, `finding|<card>|effect|<row>|<column>|<grid>`), read by `check-values` from `site/data/findings/<card>.json`; the week's card on the page carries the same keys; today's chart carries its record's own figures (`digest_chart|<date>|<table>|<key>`). CHECKVALUES. No word on any card changed.
+- **Every figure on a card is a Num with its card.** Each callout figure and each cell of a card's table of estimates carries a check key naming the card and the figure's place in the card's own JSON (`finding|<card>|callout|<i>|before or after|<grid>`, `finding|<card>|effect|<row>|<column>|<grid>`), read by `check-values` from `site/data/findings/<card>.json`; the week's card on the page carries the same keys; today's chart carries its record's own figures (`digest_chart|<date>|<table>|<key>`). `check-values` reads 140 keys on `/research` and the two card pages added to its list (121 of the cards, 10 of today's record, and the page's older ones), 140 of 140 matching the files. No word on any card changed.
 - **The section 9 rulings.** 1b: nothing changes at `/internal/findings`. 3a: the 25 percent guard stays (`RECORD_JUMP`). 5b: six of the seven plain-name drafts follow the methods notes that name their tables (status `note`, each change listed below); the seventh (`eia_retail_sales_monthly`, `retail_sales`) is named by no note and stays a draft. 6a: a card figure whose own words name NYISO or ISO-NE reads "license needed" from 21 October 2026 by the tools' rule (`lib/license.ts`, the day in `license_status.json`), the card staying; on 19 October the figures show. The cards' charts (their NYISO and ISO-NE series) are session 318's, which redraws every card chart through the shared components. 2a and 4b are session 316's.
 - **"Automated Analysis" survives as the method's name only** (`docs/methods/automated_analysis*.md`); the menu, the page and its sections read Research (as session 238 left them; a test now holds it).
 
@@ -46,20 +46,22 @@ Left as a draft: `variable:eia_retail_sales_monthly|retail_sales` ("Retail elect
 | `eslint` on the files changed | 0 | 0 errors, 3 warnings that stood before (`check-values.mjs`) |
 | Impeccable `detect` on the four page and component files | 0 | no finding |
 | `tests.test_session315`, `267`, `238`, `181`, `181_worker`, `170`, `260` | 0 | OK |
-| `npm run build` (worktree, under the mutex, `duty.py beat` sent) | BUILD | |
-| `check-values.mjs`, `/research` (`CHECK_VALUES_PAGES`) | VALUES | |
-| `check-analysis.mjs`, `check-routes.mjs` | ANALYSIS | |
+| `npm run build` (worktree, under the mutex, `duty.py beat` sent) | 0 | 0 statement timeouts |
+| `check-values.mjs`, `/research` (`CHECK_VALUES_PAGES=/research`, `MSYS_NO_PATHCONV=1`), four runs | 127, 127, 1, 1, 0 | the first two found no page (the page was not in the checker's list; added with two card pages), the third the text rule (a figure shown as its own raw text), the fourth the p values' format; then 140 of 140 |
+| `check-analysis.mjs`, `check-routes.mjs` | 0, 0 | 279 of 279; 211 pages, 0 failed as a visitor |
 | Captures at 1280 and 390, four sections, before (production) and after | | `docs/brand/review-315/` |
-| Suite, clean copy, the commit pushed | SUITE | |
-| `scripts/freeze.py status` | FREEZE | |
+| Suite, clean copy, the commit pushed | 0 | the whole suite in `erw-check` at `252da1c4` (the merge with main): 4454 tests, 2 failures, both older pins on this session's files (`test_session215`'s list of the check prefixes, `test_session262`'s pack headings), fixed in `0d113977`, which changes those two files alone; at `0d113977` every test that reads either file (13 modules, 160 tests) passes in the clean copy. A second whole run at `0d113977` was stopped by the machine (low memory) with its node subprocesses, and is not restarted unattended: the chain's decision below |
+| `scripts/freeze.py status` | 0 | no freeze: no `REVIEW_FREEZE` file |
 
 ## Landing of session 314 (recorded here: session 314's report is in that landing's own commit)
 
-LANDING314
+- Pushed `task/314-battery-chart` at `42163551` at 22:06 UTC (after the before snapshot `s314-before`, 22:06:13, taken as its own command; `freeze.py status` exit 0). GitHub's first check (run 39332561651) failed in its build step on a Google Fonts download in the runner ("Module not found: Can't resolve '@vercel/turbopack-next/internal/font/google/font'", nothing of the session's files); the failed job was rerun through the API and passed; merged as `93917764` at 22:27. Production served the new build at 22:36:05 (a new style sheet name); the after snapshot `s314-after` was taken at 22:36:26.
+- Snapshot `s314-before` against `s314-after`: 25 pages, 0 differences. Expected: every page is in review. Nothing unexpected.
+- `origin/wip/304-replication` was deleted after the merge (its one commit is in this landing); GitHub deleted the task branch itself.
 
 ## Landing
 
-LANDING
+Recorded in session 316's report (the comparison comes after this commit).
 
 ## Decisions made without you
 

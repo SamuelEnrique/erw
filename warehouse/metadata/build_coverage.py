@@ -94,6 +94,7 @@ TIER_RULES = [
     ("derived", r"^api_cost_ledger$"),
     ("derived", r"^known_data_faults$"),  # session 103: the ERW's own register of its sources' faults
     ("derived", r"^grid_stress_days$"),  # session 306: ERW code over the hub prices and CAISO's notices
+    ("derived", r"^eia_annual_crosscheck_ba$"),  # session 323: ERW code over EIA-923's sums and EIA-930's hours
     # session 138: tariff and Commission figures read by a model, each kept only with its line found on the page
     ("model_extracted", r"^texas_delivery_charges$"),
     ("model_extracted", r"^texas_transmission_matrix$"),  # session 140: the Commission's transmission charge matrices, read the same way
@@ -200,6 +201,8 @@ SECTOR_RULES = [
     (r"^nrc_reactor_status$", "power;uranium"),           # the NRC's daily power level of each reactor
     (r"^(caiso|ercot)_wind_solar_forecast$", "power"),    # wind and solar, forecast a day ahead and actual, hourly
     (r"^caiso_grid_emergencies$", "power"),  # session 58: CAISO's Flex Alerts and emergencies
+    (r"^ercot_grid_notices$", "power"),
+    (r"^eia_annual_(generation|crosscheck)_ba$", "power"),  # session 323: EIA-923's annual generation by BA, and EIA-930 against it  # session 322: ERCOT's EEAs, conservation appeals, watches and control-room notices
     (r"^caiso_reliability_daily$", "power"),  # session 58: how tight was it (derived)
     (r"^flex_alert_(effects|model)$", "power"),  # session 60: the Flex Alert scorecard (derived)
     (r"^caiso_dam_alert_day_hub_prices$", "power"),  # session 60: day-ahead hub prices on alert days

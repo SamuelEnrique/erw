@@ -216,6 +216,12 @@ def png(spec, path, size="email"):
         step = max(1, math.ceil(len(x) / 14))
         ax.set_xticklabels([str(v) if k % step == 0 else "" for k, v in enumerate(x)], rotation=0 if len(x) <= 8 else 45,
                            ha="center" if len(x) <= 8 else "right")
+    if kind == "line" and not spec.get("x_time") and len(x) > 14 and all(isinstance(v, str) for v in x):
+        # session 326: text on the x axis (a week's or month's label) is a category axis that labels every point, so the
+        # dry Roundup of week 42 printed 107 dates over each other; label about ten, as the bars do
+        step = max(1, math.ceil(len(x) / 10))
+        ax.set_xticks([k for k in range(len(x)) if k % step == 0])
+        ax.set_xticklabels([x[k] for k in range(len(x)) if k % step == 0])
     if spec.get("x_time"):
         ax.xaxis.set_major_formatter(mdates.DateFormatter("%b %d" if len(x) < 400 else "%Y-%m"))
     for a in [ax] + ([ax2] if ax2 else []):

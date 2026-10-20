@@ -79,7 +79,8 @@ class TheTables(unittest.TestCase):
         days = set(t.loc[t["entity"] == "ercot:HB_HUBAVG", "ts_utc"].str[:10])
         for d in ("2021-02-15", "2021-02-16", "2021-02-17", "2021-02-18", "2021-02-19", "2022-12-23"):
             self.assertIn(d, days)
-        self.assertNotIn("2022-12-24", days, "the price test misses 24 December 2022 (docs/methods/stress_days.md)")
+        # session 322: the price test misses 24 December 2022; ERCOT's OCN for 22 to 26 December (ercot_grid_notices) makes it one
+        self.assertIn("2022-12-24", days, "24 December 2022 is a stress day by ERCOT's notice (docs/methods/stress_days.md)")
         self.assertFalse(t["entity"].str.startswith("pjm:").any())
         r = t[t["entity"] == "ercot:HB_HUBAVG"]
         e = pd.Series(r["x_event"].values, index=r["ts_utc"].str[:10].values)

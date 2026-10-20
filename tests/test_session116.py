@@ -433,7 +433,7 @@ class Records(unittest.TestCase):
 
     def test_the_daily_run_starts_it_once_under_health(self):
         sh = open(os.path.join(ROOT, "warehouse", "run_daily.sh"), encoding="utf-8").read()
-        self.assertEqual(sh.count('soft_step ercot_storage_dam "$PYTHON" warehouse/scheduled.py ercot_storage_dam'), 1)
+        self.assertEqual(sh.count('soft_step ercot_storage_dam "${BUDGET[@]}" ercot_storage_dam -- "$PYTHON" warehouse/scheduled.py ercot_storage_dam'), 1)
         soft = open(os.path.join(ROOT, "warehouse", "soft_step.sh"), encoding="utf-8").read()
         self.assertIn('warehouse/health.py run --step "$name"', soft)
         job = scheduled.JOBS["ercot_storage_dam"]

@@ -120,7 +120,10 @@ class TheComponents(unittest.TestCase):
                  "ms",
                  # session 265b: "How soon?" on the datacenter page (dcll|<grid>|<stat>), read from large_load_public, public by
                  # the owner's ruling (session 272), so no map: a table that is not "license needed" is shown as it is
-                 "dcll"}
+                 "dcll",
+                 # session 315: the finding cards' figures (finding|<card>|...) and the Digest's chart of the day (digest_chart|<date>|...),
+                 # read from the site's own files; Num holds a figure of a grid held under its publisher's terms by the key's grid
+                 "finding", "digest_chart"}
         found = set()
         for dirpath, _, files in os.walk(os.path.join(ROOT, "site", "app")):
             if "_retired" in dirpath:

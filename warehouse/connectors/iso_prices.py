@@ -41,6 +41,7 @@ import sys
 import threading
 import time
 import traceback
+import urllib.parse
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 from email.utils import parsedate_to_datetime
@@ -438,12 +439,65 @@ _orig_send = requests.Session.send
 _orig_urlopen = urllib.request.urlopen
 
 
+# Session 321 (the owner's ruling of 19 October 2026): the budget of a publisher pull. warehouse/pull_budget.py runs each
+# publisher step of the daily run with ERW_PULL_DEADLINE (epoch seconds). Until then every request to a publisher has its
+# connect and read timeouts cut to the time left; after it no request is made (BudgetExhausted, never retried), a mark is
+# left in runs/budget/<step>.txt, and the wrapper writes the step's failed tables as gap rows with BUDGET_REASON. The
+# warehouse's own stores are not publishers and are never cut. Without ERW_PULL_DEADLINE nothing changes.
+BUDGET_REASON = "publisher did not answer within the budget"
+NOT_PUBLISHERS = ("supabase.co", "redivis.com", "github.com", "githubusercontent.com", "anthropic.com", "resend.com")
+
+
+class BudgetExhausted(RuntimeError):
+    """The step's budget has passed: no more requests to a publisher. Not retried."""
+
+
+def pull_deadline():
+    """ERW_PULL_DEADLINE as epoch seconds, or None (no budget: a session's own run, or a step that is not a pull)."""
+    try:
+        return float(os.environ.get("ERW_PULL_DEADLINE") or 0) or None
+    except ValueError:
+        return None
+
+
+def budget_spent(what):
+    """Leave the mark warehouse/pull_budget.py reads, and the exception to raise."""
+    step = os.environ.get("ERW_PULL_STEP")
+    if step:
+        try:
+            os.makedirs(os.path.join(ROOT, "runs", "budget"), exist_ok=True)
+            with open(os.path.join(ROOT, "runs", "budget", f"{step}.txt"), "a", encoding="utf-8") as f:
+                f.write(f"{dt.datetime.now(dt.timezone.utc):%Y-%m-%dT%H:%M:%SZ} {redact(what)[:300]}\n")
+        except OSError:
+            pass
+    return BudgetExhausted(f"{BUDGET_REASON}: {redact(what)[:240]}")
+
+
+def budget_timeout(url, timeout):
+    """The timeout for a request to url under the step's budget (a number, a (connect, read) pair, or None), or raise
+    BudgetExhausted when the deadline has passed. A request to the warehouse's own stores is left as asked."""
+    deadline = pull_deadline()
+    if deadline is None:
+        return timeout
+    host = (urllib.parse.urlsplit(str(url)).hostname or "").lower()
+    if any(host == h or host.endswith("." + h) for h in NOT_PUBLISHERS):
+        return timeout
+    left = deadline - time.time()
+    if left <= 1:
+        raise budget_spent(f"the step's deadline passed before asking {url}")
+    if isinstance(timeout, tuple):
+        return tuple(left if not isinstance(t, (int, float)) else min(t, left) for t in timeout)
+    return min(timeout, left) if isinstance(timeout, (int, float)) else left
+
+
 _send_depth = threading.local()
 
 
 def _send(self, request, **kwargs):
     # requests re-enters Session.send to follow redirects and the outer call
     # returns the same final response, so record at the outermost call only
+    if "timeout" in kwargs or pull_deadline() is not None:
+        kwargs["timeout"] = budget_timeout(request.url, kwargs.get("timeout"))
     depth = getattr(_send_depth, "n", 0)
     _send_depth.n = depth + 1
     try:
@@ -471,6 +525,13 @@ class _Buffered(io.BytesIO):
 
 
 def _urlopen(*args, **kwargs):
+    if pull_deadline() is not None:  # session 321: the step's budget
+        url = args[0] if args else kwargs.get("url")
+        url = getattr(url, "full_url", url)
+        if len(args) > 2:
+            args = args[:2] + (budget_timeout(url, args[2]),) + args[3:]
+        else:
+            kwargs["timeout"] = budget_timeout(url, kwargs.get("timeout"))
     r = _orig_urlopen(*args, **kwargs)
     with r:
         content = r.read()
@@ -831,10 +892,13 @@ def with_retries(what, fn, log, attempts=RETRIES, wait=5):
     for attempt in range(attempts):
         try:
             return fn()
-        except SourceGap:
+        except (SourceGap, BudgetExhausted):
             raise
         except Exception as exc:
             last = exc
+            deadline = pull_deadline()  # session 321: no retry after the step's budget
+            if deadline is not None and time.time() + wait * (attempt + 1) >= deadline:
+                raise budget_spent(f"{what} after {attempt + 1} attempts: {exc!r}") from exc
             log(f"    retry {attempt + 1}/{attempts} for {what}: {exc!r}")
             time.sleep(wait * (attempt + 1))
     raise RuntimeError(f"{what} failed after {attempts} attempts: {last!r}")
@@ -1433,7 +1497,9 @@ def pull_caiso(ctx):
     ctx["data_url"] = r"oasisapi/SingleZip"
 
     def fetch(market):
-        return lambda day: c.get_lmp(date=day, end=day + pd.Timedelta(days=1), market=market,
+        # session 322: the request ends at the next local midnight (a calendar day), not 24 hours later: on the
+        # 25-hour fall-back day 24 hours ended at 23:00 local and the day's last hour was never asked (session 309)
+        return lambda day: c.get_lmp(date=day, end=day + pd.DateOffset(days=1), market=market,
                                      locations=CAISO_HUBS, sleep=5)
     ctx["reports"] = {
         "caiso:PRC_LMP": ("OASIS Locational Marginal Prices, day-ahead market (DAM)", CAISO_OASIS),

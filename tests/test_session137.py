@@ -155,7 +155,7 @@ class Ceilings(unittest.TestCase):
         limits = json.loads(src("site", "lib", "chat", "limits.json"))
         self.assertEqual((limits["daily_usd"], limits["monthly_usd"], limits["per_visitor_per_day"]), (3, 30, 15))
         route = src("site", "app", "api", "ask", "route.ts")
-        self.assertLess(route.index("const admitted = await admit("), route.index("await ask(asked"))     # admitted by the database before any model call
+        self.assertLess(route.index("const admitted = evaluation"), route.index("await ask(asked"))     # admitted by the database before any model call
         self.assertIn("if (!admitted.ok) {", route)
         self.assertIn('opts.questionId', src("site", "lib", "chat", "ask.ts"))
 
