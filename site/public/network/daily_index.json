@@ -240,7 +240,7 @@
   "NSB",
   "WACM"
  ],
- "built": "2026-10-20T01:07:47Z",
+ "built": "2026-10-20T06:24:09Z",
  "source": "eia930_daily_interchange",
  "demand_source": "eia930_daily_demand",
  "demand_band": [
