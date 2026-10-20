@@ -9,6 +9,7 @@
 import { Fragment, useMemo, useState } from "react";
 import type { PolicyAction, PolicyRead } from "@/lib/data";
 import { ANY_TAG, hasTag, tagHref, type TagChip } from "@/lib/policyweek";
+import { Num } from "@/components/Num";
 
 export type Row = PolicyAction & { read: PolicyRead | null; tags?: TagChip[] };
 export type TagChoice = { key: string; label: string; why: string };
@@ -107,7 +108,8 @@ export function PolicyTable({ rows, tags = [], tag: tagAtOpen = "", missing = []
                     ) : null}
                   </td>
                   <td className="py-1 pr-3 text-xs">{split(r.sector_tags).join(", ")}</td>
-                  <td className="py-1 text-right">{r.significance || "not scored"}</td>
+                  {/* session 332: the score is the table's, read again by check-values (event|policy_actions|<id>|significance) */}
+                  <td className="py-1 text-right">{r.significance ? <Num check={`event|policy_actions|${r.event_id}|significance`} raw={Number(r.significance)}>{r.significance}</Num> : "not scored"}</td>
                 </tr>
                 {open === r.event_id ? (
                   <tr className="border-b border-rule bg-panel">

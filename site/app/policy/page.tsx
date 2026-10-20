@@ -10,6 +10,7 @@ import { FIRST_VIEW_METHOD, METHOD, VIEWS, chosenOf, tagOf, viewHref, viewOf, ty
 import { allTags, weekData } from "@/lib/policyweekdata";
 import { attempt } from "@/lib/supabase";
 import { PolicyTable, type Row } from "./PolicyTable";
+import { TableDownloads } from "@/components/tool/TableDownloads";
 import { WeekView } from "./WeekView";
 
 export const revalidate = 3600;
@@ -48,6 +49,7 @@ async function Week({ q }: { q: Record<string, string | undefined> }) {
         <WeekView today={d.today} rows={d.rows} bodies={d.bodies} topics={d.topics} grids={d.grids} dropped={d.dropped.length} missing={d.missing} droppedWhy={d.droppedWhy} held={d.held} chosen={chosen} />
         <Cite tables={["policy_actions", "policy_reads"]} note="Proceedings and orders of FERC and the state commissions from the site's own file, data/policy/state_rules.json" />
       </Section>
+      <TableDownloads tables={["policy_actions", "policy_reads"]} />
       <Related href="/policy" />
     </>
   );
@@ -112,6 +114,8 @@ export default async function PolicyPage({ searchParams }: { searchParams: Promi
         <PolicyTable rows={rows} tags={tagged.topics.map((t) => ({ key: t.key, label: t.label, why: t.why }))} tag={tag} missing={tagged.missing} />
         <Cite tables={["policy_actions", "policy_reads"]} note="Scores from warehouse/policy/score.py (the news rubric); reads from warehouse/policy/reads.py; the evidence spans are kept in the internal policy_reads_evidence" />
       </Section>
+      {/* session 332: the two public tables, as CSV with a Python and a Stata reader (session 328's shared line) */}
+      <TableDownloads tables={["policy_actions", "policy_reads"]} />
       <Related href="/policy" />
     </div>
     </Brand>

@@ -180,9 +180,20 @@ export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false
   });
 
   // the names at the right, pushed apart so none covers another
-  const labels = drawn.map((d, k) => ({ k, y: d.endY ?? py(0, b1) })).sort((a, b) => a.y - b.y);
-  for (let i = 1; i < labels.length; i++) if (labels[i].y < labels[i - 1].y + 13) labels[i].y = labels[i - 1].y + 13;
-  for (let i = labels.length - 2; i >= 0; i--) if (labels[i].y > labels[i + 1].y - 13) labels[i].y = labels[i + 1].y - 13;
+  // session 332: a name wider than the gutter (capped at 150 px) ran past the drawing at every width; it is written on as
+  // many lines as the gutter needs, broken between words, and the names below it make room for its lines
+  const fitW = Math.max(40, gutter - 8);
+  const lines = (name: string): string[] => {
+    if (name.length * 6.2 <= fitW) return [name];
+    const out: string[] = [];
+    let cur = "";
+    for (const w of name.split(" ")) { const t = cur ? `${cur} ${w}` : w; if (t.length * 6.2 > fitW && cur) { out.push(cur); cur = w; } else cur = t; }
+    if (cur) out.push(cur);
+    return out;
+  };
+  const labels = drawn.map((d, k) => ({ k, y: d.endY ?? py(0, b1), n: lines(d.s.name).length })).sort((a, b) => a.y - b.y);
+  for (let i = 1; i < labels.length; i++) if (labels[i].y < labels[i - 1].y + 13 * labels[i - 1].n) labels[i].y = labels[i - 1].y + 13 * labels[i - 1].n;
+  for (let i = labels.length - 2; i >= 0; i--) if (labels[i].y > labels[i + 1].y - 13 * labels[i].n) labels[i].y = labels[i + 1].y - 13 * labels[i].n;
 
   const onMove = (e: React.MouseEvent<SVGSVGElement>) => {
     if (!xs.length) return;
@@ -262,7 +273,7 @@ export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false
             {drawn.map((d) => (d.area ? <path key={`a${d.s.name}`} d={d.area} fill={d.color} fillOpacity="0.85" stroke="var(--color-surface)" strokeWidth="0.75" /> : null))}
             {drawn.map((d) => (d.area ? null : <path key={`l${d.s.name}`} d={d.d} fill="none" stroke={d.color} strokeWidth="1.5" strokeDasharray={d.s.dashed ? "4 3" : undefined} strokeLinejoin="round" />))}
             <g data-direct-labels="1">
-              {labels.map(({ k, y }) => <text key={drawn[k].s.name} x={plotR + (has2 ? 50 : 6)} y={y + 4} fontSize="12" fill={drawn[k].color}>{drawn[k].s.name}</text>)}
+              {labels.map(({ k, y }) => <text key={drawn[k].s.name} x={plotR + (has2 ? 50 : 6)} y={y + 4} fontSize="12" fill={drawn[k].color}>{lines(drawn[k].s.name).map((ln, j) => <tspan key={j} x={plotR + (has2 ? 50 : 6)} dy={j ? 13 : 0}>{ln}</tspan>)}</text>)}
             </g>
             {hover ? <line x1={hover.px} x2={hover.px} y1={TOP} y2={height - BOT} stroke="var(--color-muted)" strokeWidth="1" strokeDasharray="3 3" /> : null}
           </svg>
