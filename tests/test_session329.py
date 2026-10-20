@@ -25,6 +25,12 @@ class TheCompaniesNumbers(unittest.TestCase):
         self.assertIn('else if (head === "event" || head === "entity") table = p[1] ?? "";', num)   # a held table is held by this key too
 
 
+class TheTrackerReset(unittest.TestCase):
+    def test_the_tracker_form_has_the_shared_reset(self):
+        v = src("site", "app", "deals", "v2", "view.tsx")
+        self.assertIn('<InputPanel title="Your selection" reset={{ href: "/deals?tab=tracker", defaults: "all deals, of every type, technology, grid, party and year." }}', v)
+
+
 class TheDownloadsAndNotes(unittest.TestCase):
     def test_each_page_offers_its_tables(self):
         deals = src("site", "app", "deals", "page.tsx")
