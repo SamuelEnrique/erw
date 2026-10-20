@@ -76,7 +76,7 @@ class TheKeysNameTheGrid(unittest.TestCase):
         self.assertIn("export const inputsKey = (x: Inputs) => `iso=${x.iso}&", src("site", "lib", "merchant.ts"))
         page = src(*SELLER, "page.tsx")
         for key in re.findall(r"check=\{`([^`]+)`\}", page):
-            self.assertTrue(key.startswith(("cap|${iso}|", "ms|${key}|")), key)       # ${key} is inputsKey: iso= first
+            self.assertTrue(key.startswith(("cap|${iso}|", "ms|${key}|", "series|price_years_by_window|${")), key)       # ${key} is inputsKey: iso= first; session 352: a price year's entity is <grid>:<hub>
 
 
 class ThePpaTerm(unittest.TestCase):

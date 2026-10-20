@@ -63,7 +63,7 @@ class TheSmallThings(unittest.TestCase):
     def test_the_battery_scenarios_make_no_function_that_changes_a_local_in_render(self):
         block = src("site", "app", "cost-of-power", "battery", "Scenarios.tsx")
         self.assertIn("function revenueAt(", block)
-        self.assertIn("const revenue = useMemo(() => revenueAt(ms, need, state, stepCase), [ms, need, state, stepCase]);", block)
+        self.assertIn("const revenue = useMemo(() => revenueAt(ms, need, state, stepCase, win), [ms, need, state, stepCase, win]);", block)   # session 352: the window of price years
         self.assertLess(block.index("function revenueAt("), block.index("export function BatteryDecisions("))
 
     def test_check_values_has_a_floor_a_page(self):

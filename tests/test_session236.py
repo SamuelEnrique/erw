@@ -308,7 +308,7 @@ class TwoSites(unittest.TestCase):
         # B's ways are computed as A's are: the same functions on that site's own files
         self.assertIn('const foreB: Ruled = bSite && sideB && !failedB ? monthsRuled(filesB, bSite.region, x.buy, x, "forecast") : none;', model)
         self.assertIn('monthsRuled(filesB, bSite.region, x.buy, altFlex, "forecast").months', model)
-        self.assertIn("ways: [setsB[0] ? wayOf(setsB[0]) : null, setsB[1] ? wayOf(setsB[1]) : null]", model)
+        self.assertIn("[setsB[0] ? wayOf(setsB[0]) : null, setsB[1] ? wayOf(setsB[1]) : null]", model)   # session 352: the last twelve months' ways, outside a window of price years
 
     def test_the_block_reads_bs_site_and_as_figures_do_not(self):
         block = src("site", "app", "cost-of-power", "LoadScenarios.tsx")

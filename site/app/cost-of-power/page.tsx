@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Brand } from "@/components/Brand";
 import { Num } from "@/components/Num";
+import { PriceYearsNav } from "@/components/tool/PriceYearsNav";
+import { highLow, windowWords } from "@/lib/priceyears";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ChartFrame, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { ASSUMED, LIMITS, hrefOf, loadWords, monthName, two, usdShort, whole, type Inputs } from "@/lib/datacenter";
@@ -176,6 +178,8 @@ async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyG
             <LoadForm key={hrefOf(x)} x={x} grids={M.grids} blank={INDEX.blank} />
             {/* session 265: a typed value outside its bounds is brought inside them, and this line says so */}
             {outsideOf(q, x, g?.name).length ? <p className="mt-3 text-xs leading-snug" role="status" data-clamped="1">{outsideOf(q, x, g?.name).join(" ")}</p> : null}
+            {/* session 352: the price years the scenarios are priced on (price_years_by_window, the page's own run at its defaults) */}
+            {M.pyOffered ? <PriceYearsNav ws={M.pyWs} read={M.pyRead} value={M.win?.id ?? "last_12"} unit="USD per MWh, a flat load" path="/cost-of-power" /> : null}
           </InputPanel>
         </aside>
 
@@ -279,7 +283,20 @@ async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyG
                   Scenario A is the load under &quot;Your load&quot;, and it sets the headline. To compare two sites, give scenario B a site of its own here: another zone or hub, or another grid. To compare two contracts, give A and B a different contract share and price below. The table then sets B against A.
                 </p>
                 <LoadSiteB sites={M.sitesB} current={M.bSite ? `${M.bSite.grid}:${M.bSite.region}` : ""} asked={typeof q.bsite === "string" ? q.bsite : ""} aPlace={place} keep={Object.entries(q).filter(([n, v]) => v !== undefined && n !== "bsite") as [string, string][]} />
+                {M.win ? (
+                  <p className="mb-3 max-w-3xl text-sm" data-price-years={M.win.id}>
+                    {/* session 352: the window the scenarios are priced on, the flat load's price per MWh from the table with its key */}
+                    The scenarios are priced {windowWords(M.win).sentence}: a flat load paid USD <Num check={`series|price_years_by_window|${M.win.entity}|${M.win.variable}|${M.win.ts}`} raw={M.win.value}>{two(M.win.value)}</Num> per
+                    MWh at {place}. The flexible way and scenario B at its own site read their own rows of the same window; a run away from its default holds none. The figures above stay on the last twelve months.
+                  </p>
+                ) : null}
                 <LoadScenarios facts={facts} />
+                {(() => {
+                  const bw = highLow(M.pyWs);
+                  if (!bw) return null;
+                  const one = (w: typeof bw.high) => <><Num check={`series|price_years_by_window|${w.entity}|${w.variable}|${w.ts}`} raw={w.value}>USD {two(w.value)}</Num> per MWh in {w.id.slice(5)}</>;
+                  return <p className="mt-3 max-w-3xl text-sm" data-years-line="1">A flat load at {place} paid {one(bw.low)}, its cheapest whole year held, and {one(bw.high)}, its dearest; the &quot;Price years&quot; choice prices the scenarios on any of them.</p>;
+                })()}
               </ToolSection>
               </div>
 

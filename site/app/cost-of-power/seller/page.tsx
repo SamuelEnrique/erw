@@ -14,6 +14,8 @@ import { ASSET_NAMES } from "@/lib/merchant";
 import { isOldParam, isScenarioParam } from "@/lib/seller/finance";
 import { usd, whole, type Span } from "@/lib/seller2";
 import { CostTabs } from "../Tabs";
+import { PriceYearsNav } from "@/components/tool/PriceYearsNav";
+import { highLow, windowWords } from "@/lib/priceyears";
 import { SellerForm } from "./SellerForm";
 import { SellerProfile } from "./SellerProfile";
 import { CoverHeadline, SellerDecisions, SellerScenarios, SellerSensitivity } from "./SellerScenarios";
@@ -184,6 +186,9 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
             <InputPanel title="Your plant">
               <SellerForm key={`${key}|${hub.id}|${bmw}|${dur}|${strat}`} x={{ iso, hub: hub.id, asset: x.asset, mw: x.mw, mwh: x.mwh, hr: x.hr, vom: x.vom, bmw, dur, strat }} grids={M.grids} hybrid={M.hybrid} defaults={M.defaults} />
               {clamped.length ? <p className="mt-2 text-xs leading-snug" role="status" data-clamped={clamped.length}>{clamped.join(" ")}</p> : null}
+              {/* session 352: the price years the scenarios are priced on (price_years_by_window, at the main hub) */}
+              {M.pyOffered ? <PriceYearsNav ws={M.pyWs} read={M.pyRead} value={M.win?.id ?? "last_12"} unit={peaker ? "USD per kW a year, margin" : "USD per kW a year"} path="/cost-of-power/seller" />
+                : <p className="mt-3 text-xs leading-snug text-muted" data-price-years-choice="0">Price years: the table holds this case at the main hub only, for solar and wind, a 4-hour battery and the peaker at its default heat rate and variable O&amp;M.</p>}
             </InputPanel>
           </aside>
 
@@ -319,7 +324,20 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
 
             <div data-question="2">
             <ToolSection title="Is it worth building?" id="scenarios">
+              {M.win ? (
+                <p className="mb-3 max-w-3xl text-sm" data-price-years={M.win.id}>
+                  {/* session 352: the window the scenarios are priced on, the table's figure with its key */}
+                  The scenarios are priced {windowWords(M.win).sentence}: {money.toLowerCase()} of USD <Num check={`series|price_years_by_window|${M.win.entity}|${M.win.variable}|${M.win.ts}`} raw={M.win.value}>{two(M.win.value)}</Num> per
+                  kW a year at {at}. The figures above it on the page stay on the last twelve months.
+                </p>
+              ) : null}
               <SellerScenarios facts={facts} />
+              {(() => {
+                const bw = highLow(M.pyWs);
+                if (!bw) return null;
+                const one = (w: typeof bw.high) => <><Num check={`series|price_years_by_window|${w.entity}|${w.variable}|${w.ts}`} raw={w.value}>USD {two(w.value)}</Num> per kW in {w.id.slice(5)}</>;
+                return <p className="mt-3 max-w-3xl text-sm" data-years-line="1">The same plant earned {one(bw.high)} in its highest whole year held at {at} and {one(bw.low)} in its lowest{peaker ? " (margin over fuel)" : ""}; the &quot;Price years&quot; choice prices the scenarios on any of them.</p>;
+              })()}
             </ToolSection>
             </div>
 

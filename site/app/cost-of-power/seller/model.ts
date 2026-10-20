@@ -23,6 +23,8 @@ import { ASSETS, GRIDS, PAUSED, sentence, spanOf, spans, years } from "@/lib/sel
 import * as H from "@/lib/sellerhybrid";
 import * as HB from "@/lib/sellerhubs";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
+import { DEFAULT_WINDOW, WINDOW_RE, chosen, windowWords, type PriceYear } from "@/lib/priceyears";
+import { priceYears } from "@/lib/priceyearsread";
 import type { PremiumRow } from "./SellerCharts";
 import type { Facts, MonthRevenue } from "./SellerScenarios";
 import type { HyCell, HyRow, HyTable } from "./SellerHubYears";
@@ -300,11 +302,28 @@ export async function modelOf(q: Record<string, string | undefined>) {
 
   // session 186: what the scenarios read. Every figure is one the page shows elsewhere, for the hub, asset and size chosen.
   const assetWords = fuel ? plantName : x.asset === "battery" ? `a ${durationOf(x.mw, x.mwh)}-hour battery` : "a gas peaker";
+  // session 352: the price years the scenarios are priced on (price_years_by_window, the page's own figure under each
+  // window, at the main hub). A window the table holds is offered when the page's case is the table's: solar and wind at
+  // any size, the battery at 4 hours, the peaker at its default heat rate and variable O&M. The windows with a stress
+  // event taken out hold the revenue and not the energy the contract rows read, so they are not offered here.
+  const pyConfig = atHub ? null : x.asset === "battery" ? (x.mwh / x.mw === 4 ? "battery" : null) : x.asset === "peaker" ? (x.hr === HEAT_RATE && x.vom === VOM ? "peaker" : null) : x.asset;
+  const pyRead = pyConfig ? await priceYears("generator", `${iso}:${cg.main}`, pyConfig) : null;
+  const pyWs: PriceYear[] = pyRead?.ok ? pyRead.ws.filter((w) => w.kind !== "all_less") : [];
+  const pyId = q.py && WINDOW_RE.test(q.py) ? q.py : DEFAULT_WINDOW;
+  const win = chosen(pyWs, pyId);
+  // the window's energy, from the page's own months per MW over the window, averaged over the years it covers (the table
+  // was built by the same spanOf, so its revenue equals the span's)
+  const winSpan = win ? (() => {
+    const inside = ms1.filter((r) => r.held && r.m >= win.from && r.m <= win.to);
+    const yearsCovered = win.kind === "year" ? 1 : win.kind === "avg_3y" ? 3 : win.kind === "avg_7y" ? 7 : Math.max(1, Math.round(inside.length / 12));
+    return spanOf(inside, yearsCovered);
+  })() : null;
   const facts: Facts = {
     mw: x.mw,
     size: fuel ? `${sizeLabel} of ${plantName}` : x.asset === "battery" ? `a ${sizeLabel} battery` : `a ${sizeLabel} gas peaker`,
     costs: { ...costsOf(k), capex: D.capex, fom: D.fom, life: D.life, capexNote: `${D.capexRange} for ${assetWords}`, fomNote: `${D.fomRange} for ${assetWords}`, lifeNote: `${D.life} years for ${assetWords}` },
-    twelve: s.twelve ? { revenueKw: s.twelve.revenue_kw, energyKw: s.twelve.energy / 1000, span: `${shortMonth(s.twelve.from)} to ${shortMonth(s.twelve.to)}`, at } : null,
+    twelve: win && winSpan ? { revenueKw: win.value, energyKw: winSpan.energy / 1000, span: windowWords(win).label.replace(" (default)", ""), at }
+      : s.twelve ? { revenueKw: s.twelve.revenue_kw, energyKw: s.twelve.energy / 1000, span: `${shortMonth(s.twelve.from)} to ${shortMonth(s.twelve.to)}`, at } : null,
     twelveWhy, money,
     capture: fuel
       ? mine && mine.flat ? { price: mine.price, flat: mine.flat, ratio: (100 * mine.price) / mine.flat, words: `${MARKETS[mk].toLowerCase()}, ${shortMonth(mine.from)} to ${shortMonth(mine.to)}` } : null
@@ -345,6 +364,7 @@ export async function modelOf(q: Record<string, string | undefined>) {
     q, snap, open, iso, asked, costsOf, A, x, scenarioParams, g, a, cg, hub, mainHub, he, atHub, at, key, k, D, sizeLabel, fuel, peaker, money, bmw, dur, strat,
     ms, sm, st, held, monthRows, annual, ms1, ms1Main, s, ys, line, cap, mk, other, why, mine, yearRows, capView, plant, hybrid, bg, batt, battWhy, plantTotal, both, COMBINED,
     hf, pair, pairSpan, fromPlant, plantName, DA_PLANT, DA_BATTERY, DA_PAIR, DA_ADDED, above, KEPT, grids, defaults, threeWhy, everyWhy, twelveWhy, facts,
+    pyWs, pyRead: pyRead?.ok ?? false, pyOffered: !!pyConfig, win,
   };
 }
 export type Model = Awaited<ReturnType<typeof modelOf>>;

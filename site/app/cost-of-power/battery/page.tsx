@@ -19,6 +19,7 @@ import { V } from "./nums";
 import { internalView, reviewRows, rowsOf, stressRowsOf } from "./read";
 import { BatteryCharts, BatteryDecisions, BatteryHeadline, BatterySensitivity, Scenarios } from "./Scenarios";
 import { Settings } from "./Settings";
+import { priceYears } from "@/lib/priceyearsread";
 
 // Session 203: the page restyled on the brand, version 0 (docs/brand.md, direction A). The year chart names its series
 // on the chart (the legend's own three words) where it had a legend box.
@@ -107,6 +108,10 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
   const A = parseScenarios(q, defaultsOf(COSTS[asked.dur]), offered, asked.mw).a;
   // session 296: the reader's view, as the address has it
   const view = parseView(q);
+  // session 352: the price years held for the battery shown (price_years_by_window), offered in the box; the page's own
+  // last twelve months stay the default
+  const py = g.entity ? await priceYears("battery", g.entity, `${asked.strat}_${asked.dur}h`) : null;
+  const pyWs = py?.ok ? py.ws : [];
   // session 263: what the address asked for and the page does not show as asked is said, in one line, never replaced in silence
   const asItWas = [...typedNotes(q, asked), ...scenarioNotes(q, defaultsOf(COSTS[asked.dur]), offered)];
   const x: Inputs = { ...asked, fom: A.fom, ds: debtUsd(A, asked.mw) };
@@ -169,11 +174,11 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
       {/* session 92: drawn only in the internal view while /ask/ercot is in review (components/AskErcotLink.tsx) */}
       {x.grid === "ercot" ? <AskErcotLink context={{ view: "/cost-of-power/battery", title: "What a battery earns", settings: { grid: "ERCOT", duration: `${x.dur} hours`, strategy: `${STRATEGIES[x.strat]} (${x.strat})`, size: `${x.mw} MW` } }} /> : null}
       <BatteryDecisions key={`${x.grid}|${x.dur}|${x.strat}|${x.mw}|${JSON.stringify(scenarioParams)}`} ms={ms} mw={x.mw} costs={costs} stepCase={stepCase}
-        stepMeta={stepMeta} initial={scenarioParams} view={view} peak={peak} hours={x.dur}>
+        stepMeta={stepMeta} initial={scenarioParams} view={view} peak={peak} hours={x.dur} years={pyWs}>
         <div className="grid gap-8 lg:grid-cols-[290px_minmax(0,1fr)]">
           <aside>
             {/* session 296: the box "Assumptions", five sections (Settings.tsx) */}
-            <Settings x={x} internal={internal} gridName={g.name} costs={costs} defaultDs={defaultDs} stepMeta={stepMeta} />
+            <Settings x={x} internal={internal} gridName={g.name} costs={costs} defaultDs={defaultDs} stepMeta={stepMeta} years={pyWs} yearsRead={py?.ok ?? false} />
           </aside>
 
           <div className="min-w-0">

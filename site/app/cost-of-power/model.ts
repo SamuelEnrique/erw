@@ -17,6 +17,8 @@ import { deliveryOf, utilitiesOf } from "@/lib/datacenter/delivery";
 import { blockOf as rulesBlockOf, docketWords, rulesGrid } from "@/lib/rules";
 import { rulesFile } from "@/lib/rulesdata";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
+import { WINDOW_RE, chosen, windowWords, type PriceYear } from "@/lib/priceyears";
+import { priceYears } from "@/lib/priceyearsread";
 import { DELIVERY, INDEX, yearFiles } from "@/lib/datacenterdata";
 import type { DemandFile } from "@/lib/demandgrowth";
 import { SLUGS } from "@/lib/demandgrowth";
@@ -69,6 +71,19 @@ function wayOf(ms: Month[]): Way | null {
   if (s.per === null) return null;
   return { per: s.per, cost: s.cost, energy: s.energy, held: s.held, flatCost: s.flatCost, down: s.down, bad: b ? { m: b.m, per: b.cost / b.energy, cost: b.cost } : null, of: w?.months.length ?? 0 };
 }
+/** Session 352: one way of running over a window of price years: the table's price per MWh (price_years_by_window, the
+ * page's own run), and the page's own complete months inside the window for the cost, the energy and the hours, a year
+ * (the averages over the years they cover). The bad month stays the last 36 months'. Null when the window holds no
+ * complete month here. */
+function wayWindow(ms: Month[], w: PriceYear): Way | null {
+  const inside = ms.filter((r) => r.complete && r.m >= w.from && r.m <= w.to);
+  if (!inside.length) return null;
+  const k = w.kind === "year" ? 1 : w.kind === "avg_3y" ? 3 : w.kind === "avg_7y" ? 7 : Math.max(1, inside.length / 12);
+  const t = span(inside), win = last36(ms), b = badMonth(win?.months ?? []);
+  return { per: w.value, cost: t.cost / k, energy: t.energy / k, held: t.held / k, flatCost: t.flatCost / k, down: t.down / k,
+    bad: b ? { m: b.m, per: b.cost / b.energy, cost: b.cost } : null, of: win?.months.length ?? 0 };
+}
+
 /** The bad month of one way of running, with the window it was ranked in: the headline's second number (session 195:
  * the headline is scenario A's, so both ways are handed over). Held wherever a month is, as the headline always was. */
 function badOf(ms: Month[] | null): Bad | null {
@@ -145,10 +160,26 @@ export async function loadModel(asked: Inputs, buyGiven: boolean, gridAsked: str
     if (flex) sets = [ms.length ? flatMonths(ms) : monthsOf(files, x.region, x.buy, { run: "flat", n: 0, pct: 0, shift: 0 }), ms];
     else sets = [ms, region?.da ? monthsRuled(files, x.region, x.buy, altFlex, "forecast").months : null];
   }
-  const ways: Ways = [sets[0] ? wayOf(sets[0]) : null, sets[1] ? wayOf(sets[1]) : null];
+  let ways: Ways = [sets[0] ? wayOf(sets[0]) : null, sets[1] ? wayOf(sets[1]) : null];
+  // session 352: the price years the scenarios are priced on (price_years_by_window, the page's own run at its defaults:
+  // off in 100 hours a year, off in 5 percent of hours, 20 percent of each day's energy shifted). The flat way reads
+  // flat_<market>; the second way the flexible run shown (or, for a flat load, the hours-off run beside it), only at the
+  // run's default. The windows with a stress event taken out are not offered here.
+  const atDefault = (r: string) => (r === "hours" ? x.n === DEFAULTS.n : r === "share" ? x.pct === DEFAULTS.pct : r === "shift" ? x.shift === DEFAULTS.shift : true);
+  const pyConfigs: [string, string | null] = [`flat_${x.buy}`, flex ? (atDefault(x.run) ? `${x.run}_${x.buy}` : null) : `hours_${x.buy}`];
+  const pyEntity = `${x.grid}:${x.region}`;
+  const pyReads = !failed && side ? await Promise.all(pyConfigs.map((c) => (c ? priceYears("datacenter", pyEntity, c) : Promise.resolve(null)))) : [null, null];
+  const pyLists = pyReads.map((r) => (r?.ok ? r.ws.filter((w) => w.kind !== "all_less") : [])) as [PriceYear[], PriceYear[]];
+  const pyWs = pyLists[0];
+  const pyId = q.py && WINDOW_RE.test(q.py) ? q.py : null;
+  const win = chosen(pyWs, pyId);
+  if (win) {
+    const second = chosen(pyLists[1], win.id);
+    ways = [sets[0] ? wayWindow(sets[0], win) : null, sets[1] && second ? wayWindow(sets[1], second) : null];
+  }
   const noDa = `No day-ahead price is held for ${x.region}, and a flexible load decides from day-ahead prices.`;
   // session 195: the power per GPU and the overhead ratio are scenario A's; their defaults are the two the page cites
-  const facts: Facts = { mw: x.mw, size, place: `${place}, ${market}`, span: l12Span, load: { run: flex ? FLEX : FLAT, gpu: DEFAULTS.gpu, pue: DEFAULTS.pue }, gpuSource: ASSUMED.gpu.source, pueSource: ASSUMED.pue.source, ways,
+  const facts: Facts = { mw: x.mw, size, place: `${place}, ${market}`, span: win ? windowWords(win).label.replace(" (default)", "") : l12Span, load: { run: flex ? FLEX : FLAT, gpu: DEFAULTS.gpu, pue: DEFAULTS.pue }, gpuSource: ASSUMED.gpu.source, pueSource: ASSUMED.pue.source, ways,
     words: ["the same in every hour", flexWords(flex ? x : altFlex)], why: [noYear, flex ? noYear : region?.da ? noYear : noDa], bads: [badOf(sets[0]), badOf(sets[1])] };
   const scenarioParams = Object.fromEntries(Object.entries(q).filter(([n, v]) => (isScenarioParam(n) || isOldParam(n)) && v !== undefined).sort(([a], [b]) => a.localeCompare(b))) as Record<string, string>;
 
@@ -175,8 +206,12 @@ export async function loadModel(asked: Inputs, buyGiven: boolean, gridAsked: str
       : !sideB ? `No ${market} price is held for ${placeB}.`
       : flex && !foreB.da ? `No day-ahead price is held for ${bSite.region}, and a flexible load decides from day-ahead prices. Its ${market} price is held from ${day(sideB.first)}.`
       : `Twelve complete months of ${market} prices are not held for ${bSite.region}: it is held from ${day(sideB.first)}. A month counts when at least 95 percent of its hours are held.`;
-    facts.b = { grid: bSite.grid, region: bSite.region, place: `${placeB}, ${market}`, span: l12B ? `${shortMonth(l12B[0].m)} to ${shortMonth(l12B[11].m)}` : null,
-      ways: [setsB[0] ? wayOf(setsB[0]) : null, setsB[1] ? wayOf(setsB[1]) : null], bads: [badOf(setsB[0]), badOf(setsB[1])],
+    // session 352: under a window of price years, B at its own site reads that site's own rows of the table, the same window
+    const pyB = win && sideB && !failedB ? await Promise.all(pyConfigs.map((c) => (c ? priceYears("datacenter", `${bSite.grid}:${bSite.region}`, c) : Promise.resolve(null)))) : null;
+    const winB = pyB ? pyB.map((r) => (r?.ok ? chosen(r.ws, win!.id) : null)) : null;
+    facts.b = { grid: bSite.grid, region: bSite.region, place: `${placeB}, ${market}`, span: win ? windowWords(win).label.replace(" (default)", "") : l12B ? `${shortMonth(l12B[0].m)} to ${shortMonth(l12B[11].m)}` : null,
+      ways: winB ? [setsB[0] && winB[0] ? wayWindow(setsB[0], winB[0]) : null, setsB[1] && winB[1] ? wayWindow(setsB[1], winB[1]) : null]
+        : [setsB[0] ? wayOf(setsB[0]) : null, setsB[1] ? wayOf(setsB[1]) : null], bads: [badOf(setsB[0]), badOf(setsB[1])],
       why: [noYearB, flex ? noYearB : regionB?.da ? noYearB : `No day-ahead price is held for ${bSite.region}, and a flexible load decides from day-ahead prices.`] };
   }
   // the sites scenario B can be given: every region of every grid held, by grid (the form's list)
@@ -273,6 +308,7 @@ export async function loadModel(asked: Inputs, buyGiven: boolean, gridAsked: str
     x, g, files, failed, region, side, flex, off, fore, ms, l12, noRule, hind, h12, sh12, ysH, msH, rule, s12, bad, badPer, ys, place, market, heldFrom, noYear, savedH, refId, ref12,
     l12Span, saved, size, ways, facts, scenarioParams, grids, regionRows, slug, sf, sy, peak, peakAt, fuels, growth, tightRows, lastTight, zones, withheld, cf, cy, cv, cFile, own, qv, ll,
     gridNames, delivery, matrix, utilities, waitsFor, href: hrefOf(x),
+    pyWs, pyRead: pyReads[0]?.ok ?? false, pyOffered: !failed && !!side, win,
   };
 }
 export type LoadModel = Awaited<ReturnType<typeof loadModel>>;
