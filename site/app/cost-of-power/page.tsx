@@ -330,7 +330,7 @@ async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyG
                       <summary className="cursor-pointer">Each summer held, its four intervals and the flexible way&apos;s load in each</summary>
                       <ul className="mt-1 space-y-1">
                         {M.cp.summers.map((k) => (
-                          <li key={k.year}>{k.year}: {k.intervals.map((iv, i) => <span key={iv.ts}>{i ? "; " : ""}{iv.ts.slice(5, 10)} {iv.ts.slice(11, 16)} UTC, ERCOT <Num check={`series|ercot_4cp_intervals|ercot:system|cp4_load_mw|${iv.ts}`} raw={iv.mw}>{whole(iv.mw)}</Num> MW, the load {iv.w === null ? "not held" : iv.w === 0 ? "off" : `${two(100 * iv.w)} percent on`}</span>)}{k.avoided === null ? "" : `: avoided ${two(100 * k.avoided)} percent`}</li>
+                          <li key={k.year}>{k.year}: {k.intervals.map((iv, i) => <span key={iv.ts}>{i ? "; " : ""}{iv.ts.slice(5, 10)} {iv.ts.slice(11, 16)} UTC, ERCOT <Num check={`series|ercot_4cp_intervals|ercot:system|cp4_load_mw|${iv.ts}`} raw={iv.mw}>{whole(iv.mw)}</Num> MW, the load {iv.w === null ? "not held" : iv.w === 0 ? "off" : iv.w === 1 ? "on" : `${two(100 * iv.w)} percent on`}</span>)}{k.avoided === null ? "" : `: avoided ${two(100 * k.avoided)} percent`}</li>
                         ))}
                       </ul>
                     </details>
