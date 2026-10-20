@@ -421,7 +421,18 @@ class TagRule(unittest.TestCase):
         with open(os.path.join(SITE, "action_tags.json"), encoding="utf-8") as f:
             site = json.load(f)
         tagged = {c["event_id"]: c["expect"] for c in d["cases"] if c["expect"]}
-        self.assertEqual(site["tags"], tagged, "the site's file holds every tagged action, and the cases hold them all")
+        # the chain of 20 October, night: the daily run tags the actions it reads after the cases were frozen (two on
+        # 20 October), so the site's file holds every case's tags as the cases say, and any action beyond them carries
+        # the rule's own tags on a field the rule reads
+        self.assertEqual({k: v for k, v in site["tags"].items() if k in tagged}, tagged, "the site's file holds every tagged case as the cases say")
+        cased = {c["event_id"] for c in d["cases"]}
+        known = {t for t in site["counts"]}
+        for k, v in site["tags"].items():
+            self.assertTrue(k in tagged or k not in cased, f"{k}: a case the rule leaves untagged is tagged in the site's file")
+            if k not in cased:
+                for h in v:
+                    self.assertIn(h["tag"], known, k)
+                    self.assertIn(h["matched_field"], site["fields_read"], k)
         self.assertEqual(site["rule_version"], rules["version"])
         for i in site["first_paragraph"]:
             self.assertTrue(any(h["matched_field"] == "first_paragraph" for h in site["tags"][i]))

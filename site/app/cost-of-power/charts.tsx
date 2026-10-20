@@ -1,66 +1,29 @@
 "use client";
 // Session 37: the cost-of-power page's charts and calculator. Every value drawn here arrives from the server
 // (page.tsx), read from the cost_of_power_* tables; the calculator multiplies the reader's inputs by those prices.
+// Session 317 (the owner's ruling of 13 October 2026): the three charts are drawn through the shared SVG set
+// (components/svgchart.tsx) with the props they took on the canvas: the rank as bars (a partial month hatched), the
+// heat grid as a HeatChart, the cost against carbon as a ScatterChart with each grid named beside its point.
 import { useMemo, useState } from "react";
-import { baseStyle, num, token, useEChart } from "@/components/echarts";
+import { CategoryChart, HeatChart, ScatterChart, num } from "@/components/svgchart";
 import { cheapPrice, energy, type Cell, PERIODS, DEFAULTS } from "@/lib/cost";
 
 export function RankBars({ bars, label }: { bars: { name: string; value: number; partial: boolean }[]; label: string }) {
-  const box = useEChart((chart) => {
-    const s = baseStyle();
-    const sorted = [...bars].sort((a, b) => a.value - b.value);
-    chart.setOption({
-      textStyle: s.textStyle,
-      grid: { left: 70, right: 60, top: 10, bottom: 30 },
-      tooltip: { ...s.tooltip, trigger: "item", formatter: (p: { name: string; value: number }) => `${p.name}: ${num(p.value)} USD/MWh` },
-      xAxis: { type: "value", name: "USD/MWh", nameLocation: "middle", nameGap: 22, ...s.axis },
-      yAxis: { type: "category", data: sorted.map((b) => b.name), ...s.axis },
-      series: [{
-        type: "bar",
-        data: sorted.map((b) => ({ value: b.value, itemStyle: { color: b.partial ? token("muted") : token("accent") } })),
-        label: { show: true, position: "right", color: token("ink"), fontSize: 11, formatter: (p: { value: number }) => num(p.value) },
-      }],
-    }, true);
-  }, [bars]);
-  return <div ref={box} role="img" aria-label={label} style={{ height: 40 + bars.length * 34 }} className="w-full" />;
+  const sorted = [...bars].sort((a, b) => a.value - b.value);
+  return <CategoryChart id="rank" x={sorted.map((b) => b.name)} unit="USD/MWh" label={label} height={Math.max(200, 60 + sorted.length * 26)}
+    series={[{ name: "Load-weighted price", color: "accent", values: sorted.map((b) => b.value), kind: "bar", faint: sorted.map((b) => b.partial), digits: 2 }]}
+    notes={sorted.map((b) => (b.partial ? "a partial month" : null))} />;
 }
 
 export function HeatGrid({ cells, label }: { cells: Cell[]; label: string }) {
   const months = useMemo(() => [...new Set(cells.map((c) => c.month))].sort(), [cells]);
-  const box = useEChart((chart) => {
-    const s = baseStyle();
-    const vals = cells.map((c) => c.price);
-    chart.setOption({
-      textStyle: s.textStyle,
-      grid: { left: 60, right: 10, top: 8, bottom: 56 },
-      tooltip: { ...s.tooltip, formatter: (p: { value: [number, number, number] }) => `${months[p.value[1]]}, ${String(p.value[0]).padStart(2, "0")}:00 local: ${num(p.value[2])} USD/MWh` },
-      xAxis: { type: "category", data: Array.from({ length: 24 }, (_, h) => String(h)), name: "hour of day, local", nameLocation: "middle", nameGap: 22, ...s.axis, splitArea: { show: false } },
-      yAxis: { type: "category", data: months, ...s.axis },
-      visualMap: { min: Math.min(...vals), max: Math.max(...vals), calculable: false, orient: "horizontal", left: "center", bottom: 0, itemHeight: 90, itemWidth: 10,
-        text: ["dear", "cheap"], textStyle: { color: token("muted"), fontSize: 10 }, inRange: { color: [token("panel"), token("var(--color-fuel-wind)"), token("accent")] } },
-      series: [{ type: "heatmap", data: cells.map((c) => [c.hour, months.indexOf(c.month), c.price]) }],
-    }, true);
-  }, [cells, months]);
-  return <div ref={box} role="img" aria-label={label} style={{ height: 90 + months.length * 18 }} className="w-full" />;
+  const grid = useMemo(() => months.map((m) => Array.from({ length: 24 }, (_, h) => cells.find((c) => c.month === m && c.hour === h)?.price ?? null)), [cells, months]);
+  return <HeatChart id="heat" rows={months} cols={Array.from({ length: 24 }, (_, h) => String(h))} cells={grid} unit="USD/MWh" label={label} legend={["cheap", "dear"]}
+    tips={months.map((m, i) => Array.from({ length: 24 }, (_, h) => (grid[i][h] === null ? `${m}, ${String(h).padStart(2, "0")}:00 local: not held` : `${m}, ${String(h).padStart(2, "0")}:00 local: ${num(grid[i][h] as number)} USD/MWh`)))} />;
 }
 
 export function CostCarbon({ points, label }: { points: { name: string; x: number; y: number }[]; label: string }) {
-  const box = useEChart((chart) => {
-    const s = baseStyle();
-    chart.setOption({
-      textStyle: s.textStyle,
-      grid: { left: 56, right: 24, top: 16, bottom: 44 },
-      tooltip: { ...s.tooltip, trigger: "item", formatter: (p: { data: { name: string; value: [number, number] } }) => `${p.data.name}: ${num(p.data.value[1])} USD/MWh, ${num(p.data.value[0])} kg CO2/MWh` },
-      xAxis: { type: "value", name: "kg CO2 per MWh generated", nameLocation: "middle", nameGap: 26, scale: true, ...s.axis },
-      yAxis: { type: "value", name: "USD/MWh", nameLocation: "middle", nameGap: 40, scale: true, ...s.axis },
-      series: [{
-        type: "scatter", symbolSize: 12, itemStyle: { color: token("accent") },
-        label: { show: true, position: "right", color: token("ink"), fontSize: 11, formatter: (p: { data: { name: string } }) => p.data.name },
-        data: points.map((p) => ({ name: p.name, value: [p.x, p.y] })),
-      }],
-    }, true);
-  }, [points]);
-  return <div ref={box} role="img" aria-label={label} style={{ height: 320 }} className="w-full" />;
+  return <ScatterChart id="cost-carbon" points={points} xUnit="kg CO2 per MWh generated" yUnit="USD/MWh" xName="" yName="" label={label} />;
 }
 
 type HubIn = { iso: string; flat: number | null; cells: Cell[]; months: string };

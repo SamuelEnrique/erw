@@ -303,13 +303,14 @@ class ThePage(unittest.TestCase):
     def test_every_chart_answers_the_mouse(self):
         charts = src(*FACE_FILES[2])
         self.assertTrue(charts.startswith('"use client";'))
-        self.assertIn('from "@/components/echarts"', charts)
+        self.assertIn('from "@/components/svgchart"', charts)   # session 317: the shared SVG set, where the canvas library was
         parts = re.split(r"\nexport function ", charts)[1:]
         self.assertEqual([p.split("(")[0] for p in parts], ["XY", "Heat"])
+        # session 317: each is the shared set's chart, which answers the mouse itself (svgchart.tsx), named by its id
+        self.assertIn("return <CategoryChart id={id}", parts[0])
+        self.assertIn("return <HeatChart id={id}", parts[1])
         for p in parts:
-            self.assertRegex(p, r"tooltip: \{ \.\.\.st\.tooltip, trigger: \"(axis|item)\"", p[:20])
-            self.assertIn("formatter:", p)
-            self.assertIn("data-chart={id}", p)
+            self.assertNotIn("tooltip:", p)
         used = 0
         for parts_ in FACE_FILES[:2]:
             text = src(*parts_)
