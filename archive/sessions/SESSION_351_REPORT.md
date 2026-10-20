@@ -45,6 +45,8 @@ In the internal view (https://erw-flame.vercel.app/internal/open first).
 
 ## Landing
 
+- `land_checks.sh s351land 3351 check-curtailment.mjs check-mix.mjs check-table-downloads.mjs` on `task/351-answers` (origin/main merged): build 0; `check-routes`, `check-curtailment`, `check-mix`, `check-table-downloads` passed; `check-values` 6,425 of 6,462 (31 latest prices superseded), the six of `/learn/problems/know-your-grid` that production fails too. **The suite failed one test**: `test_session59`'s task test parses every file of `queue/done/` as a task, and the queue step of the chain of 19 to 20 October moved this chain's prompt file there (`010-night-20-october-code.md`), the first chain file ever taken. The two queues share the folder by design (`chain_queue.py`: a chain file is never named `NNN-code-` or `NNN-data-`); the test now reads only task names there. The suite then ran again alone (the site unchanged since the green build).
+
 ## Decisions made without you
 
 - **Samuel's name on `/terms`**: the ruling names him; the page writes "Samuel Enrique, who runs the ERW", the name the repository carries. No other public page names a person: change the words if you want a role instead of a name.
