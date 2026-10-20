@@ -62,9 +62,10 @@ Nothing was asked of NYISO, ISO-NE, MISO, SPP, PJM or a paused publisher.
 5. **The generator group:** let a session change the six tests that hold the hourly CSV to its export of 7 October, and look at the page library's NYISO difference, so the snapshot, hub files and CSV move with CAISO's allowance.
 6. **`eia_series` and its budget:** it reads twelve tables' full histories each run and took 12, 29, 41 and 66 minutes in recent runs, so at 15 minutes it will often be stopped and its tables left as they were. Split it into per-table pulls, each with its own budget (its status file would need a name per table), or allow it a longer budget.
 7. **The package test of `nyiso_zone_load_hourly`** failed in the manual run ("assert (False)"); its log needs admin to read. For a session with the log, or yours.
-8. **M7 on the runner** (gridstatus's pins).
-9. **The Flex Alert scorecard's weather:** allow a NOAA pull for Sacramento and Fresno from 28 August 2025 (no alert day would join).
-10. **ERCO's two storage days and EIA-930's eight demand days:** close as known gaps, or keep asking.
-11. **Week 42's Roundup:** send it late by hand, or let week 43 (Sunday) be next (the default).
-12. **Lazard's LCOE+** (session 306), **Berkeley Lab's terms address** (session 307), **`/events`'s `cold_2026` card**, and the **site copies' `--snapshot`** (item 15), as in the morning note.
-13. **The Grid decisions block's words** for the EIA-930 against EIA-923 gaps (the code machine's page; the reasons are hypotheses).
+8. **Main fails two tests since the manual run's commit `2bea6dc1`** (new data, not new code): `test_session157.TagRule` (two newly tagged policy actions are not in the test's cases) and `test_session156` case 18 (Texas's curtailment share moved). Until a session updates them, every `task/` branch fails its checks; this note went straight to main.
+9. **M7 on the runner** (gridstatus's pins).
+10. **The Flex Alert scorecard's weather:** allow a NOAA pull for Sacramento and Fresno from 28 August 2025 (no alert day would join).
+11. **ERCO's two storage days and EIA-930's eight demand days:** close as known gaps, or keep asking.
+12. **Week 42's Roundup:** send it late by hand, or let week 43 (Sunday) be next (the default).
+13. **Lazard's LCOE+** (session 306), **Berkeley Lab's terms address** (session 307), **`/events`'s `cold_2026` card**, and the **site copies' `--snapshot`** (item 15), as in the morning note.
+14. **The Grid decisions block's words** for the EIA-930 against EIA-923 gaps (the code machine's page; the reasons are hypotheses).

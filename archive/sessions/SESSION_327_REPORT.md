@@ -16,7 +16,9 @@
 
 ## The landing
 
-LANDING
+- First try: `task/327-afternoon` pushed 02:19:55; its checks (run 39358324576) **failed** in "Tests (tests/)". Reproduced here with `GITHUB_ACTIONS=true`: the whole suite fails the five standing tests (51, 94, 125, 165, 267) and two that **main itself now fails**, since the manual run's metadata commit `2bea6dc1` brought new data: `test_session157.TagRule` (the site's policy file holds tagged actions the test's cases do not: `federalregister:2026-21217`, `puct:537c766a4c02`) and `test_session156.TheNodeTests` (case 18: the briefing's Texas curtailment share against the new `curtailment/ercot.json`). Neither file is touched by this session, so every `task/` branch fails until they are updated.
+- So the note went **straight to main**, as session 305 did, after the local suite showed no failure main does not already have: freeze 0; before `s327b-before`; merged origin/main; pushed 02:38:56 (`d65db7f7`); deployment success 02:40:29; after `s327b-after`; **0 differences on 25 pages**.
+- This line went out in a second push, with its own snapshots.
 
 ## Decisions made without you
 
@@ -26,6 +28,7 @@ LANDING
 ## For Samuel's ruling
 
 - `eia_series`'s budget (split it, or a longer one) and the package test of `nyiso_zone_load_hourly`: the note's items 6 and 7.
+- Tests 156 (case 18) and 157 (`TagRule`) fail on main since the daily commit `2bea6dc1`: a session must update their cases to the new data before any `task/` branch can land (the note's item 8).
 
 ## Files
 
