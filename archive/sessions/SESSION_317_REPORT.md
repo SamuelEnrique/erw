@@ -49,6 +49,13 @@ In the internal view (https://erw-flame.vercel.app/internal/open first).
 
 Session 316 had not landed when this session's work ended (its report, "To finish"); its landing's record goes here when it lands.
 
+Landed by the chain of 19 to 20 October, night (`CHAIN_OCT19_PROMPT.md`), on 20 October 2026:
+
+- `task/316-hunt` from `wip/316-hunt` with origin/main (`cb4d456f`, sessions 321 to 326) merged in cleanly: `8ac2ae61`.
+- `land_checks.sh s316land 3316` (01:26 to 01:44 UTC): the whole suite in `erw-check` at `8ac2ae61`, 4,492 tests OK (250 skipped); build 0, no statement timeout; `check-values` 5,514 of 5,514; `check-routes` 0 failed.
+- `check-internal-findings` was run against its own stand-in (`runs/chain_oct19/findings_stub_check.sh`: the build served with `SUPABASE_URL` at the stub on 54381), 114 of 114. It was taken out of the `land_checks.sh` line of session 316's report: that script serves the build against the live database, and the check posts three rulings (an approval, a dismissal, a full-card ask) to whatever database the server reads. The first attempt of this landing was stopped before it reached the check; the orphaned suite of that attempt (146 failures, every one a child process that could not start, exit `0xC0000142`, once its shell was stopped) is kept in `runs/chain_oct19/s316land_orphaned/` and is not a result.
+- Freeze status exit 0. Before snapshot `s316-before` at 01:44:43 UTC; pushed at 01:44:53; GitHub's check run 39355138849 succeeded and merged `fa418c0f` at 01:56; no new style sheet in ten minutes (the landing changed no style), so the after snapshot `s316-after` was taken at 02:06:54. The comparison: **0 differences on 25 pages**, expected (every page is in review). `wip/316-hunt` deleted.
+
 ## Landing
 
 Not landed. The chain's landings stopped after session 315's: stopped by the machine: at 23:02 UTC Claude Code stopped every background job of this chain for low memory (the suite at session 315's head, session 317's rebuild, this session's queued build), and a job so stopped is not restarted unattended (the chain's rule since 13 October, `archive/sessions/SESSION_209_REPORT.md`); the commands are under "To finish".
