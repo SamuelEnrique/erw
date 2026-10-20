@@ -243,7 +243,7 @@ try {
   const D = M.DEFAULTS.solar;
   const d = F.defaultsOf({ ...D, deg: F.SOLAR_DEG });   // session 298 (ruling 7a): solar's degradation default is the ATB's 0.7
   check(s.search === "", "the bare address stays bare: nothing is written into it", s.search);
-  check(JSON.stringify(s.fields.map((f) => f.key)) === JSON.stringify(F.KEYS), "eleven assumptions, in the order asked (session 212: the contract's share and price; session 264: the PPA term last)", s.fields.map((f) => f.key).join(", "));
+  check(JSON.stringify(s.fields.map((f) => f.key)) === JSON.stringify(F.KEYS), "thirteen assumptions, in the order asked (session 212: the contract's share and price; session 264: the PPA term; session 353: the two tax credits last, both offered for solar)", s.fields.map((f) => f.key).join(", "));
   check(/percent of the energy/.test(s.text) && /USD per MWh/.test(s.fields.find((f) => f.key === "cprice").source + s.text), "for solar the contract is a share of the energy at a price per MWh");
   let dl = await downloads("");
   check(dl.status[0] === 200 && dl.status[1] === 200 && dl.months > 12 && dl.tables > 100 && /^# Energy Research Warehouse/.test(dl.heads), "the two CSV downloads answer the internal view with their provenance lines", `${dl.status}; ${dl.months} months, ${dl.tables} cells`);

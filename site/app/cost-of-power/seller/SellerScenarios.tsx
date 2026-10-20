@@ -34,13 +34,17 @@
 // Session 264 (the owner's list of 14 October 2026): the panel grows by one field, the eleventh assumption "PPA term,
 // years" (lib/seller/finance.ts, SPECS.ppa): the contract and the breakeven PPA price run for it, cut to the project
 // life; its default is the asset's life, so no default figure moves. The capture row's note names the capture rate.
+//
+// Session 353 (the chain of 20 October 2026, night): Financing holds the two tax credits (lib/seller/finance.ts, 0 by
+// default), each only for an asset it is offered for (model.ts, CREDITS_OF; one not offered is held at 0), and the
+// contract has a shape, as generated or a flat block (Facts.shape, chosen under "Your plant"). No default figure moves.
 import { useCallback, useMemo, type ReactNode } from "react";
 import { ScenarioBlock, ScenarioState, Sensitivity, useScenarios, type Bar as ChartBar, type Cell, type Chart, type Field, type Row, type Side, type Values, type View } from "@/components/decisions/ScenarioBlock";
 import { HeadlineNumber } from "@/components/tool/ToolPage";
 import { usdShort } from "@/lib/batterystack";
 import { ttm, type Month } from "@/lib/merchant";
 import {
-  KEYS, SPECS, TARGET, asPpa, bound, breakevenPpa, breakevenToll, contractPrice, contractUnits, contractYears, coverage as coverageOf, debtUsd, defaultsOf, ppaShare, differenceWords, differing, isOldParam, isScenarioParam, monthCoverage, parseScenarios, resultOf, scenarioQuery, sensitivity,
+  CREDIT_KEYS, KEYS, SPECS, TARGET, asPpa, bound, breakevenPpa, breakevenToll, contractPrice, contractUnits, contractYears, coverage as coverageOf, debtUsd, defaultsOf, ppaShare, differenceWords, differing, isOldParam, isScenarioParam, monthCoverage, parseScenarios, resultOf, scenarioQuery, sensitivity,
   type Assumptions, type Contract, type Key, type Scenarios as Both,
 } from "@/lib/seller/finance";
 import { CoverageLine, MonthlyRevenue } from "./SellerCharts";
@@ -68,18 +72,24 @@ export type Facts = {
   contract: "energy" | "toll";
   /** the co-optimized pair and the plant alone at day-ahead prices, USD for the reader's sizes */
   battery: { withIt: number; without: number; words: string } | null; batteryWhy: string;
+  /** session 353: the tax credits offered for the asset; the contract's shape; the hub's flat price a block settles at */
+  credits?: Key[]; shape?: "generated" | "block"; flat?: number | null;
 };
-/** The contract the arithmetic reads: the page's form of it and the last twelve months' energy (session 212). */
-const contractOf = (f: Pick<Facts, "contract" | "twelve">): Contract => ({ kind: f.contract, energyKw: f.twelve?.energyKw ?? 0 });
+/** The contract the arithmetic reads: the page's form of it and the last twelve months' energy (session 212); session
+ * 353: its shape, and the flat price a block is settled against. */
+const contractOf = (f: Pick<Facts, "contract" | "twelve" | "shape" | "flat">): Contract => ({ kind: f.contract, energyKw: f.twelve?.energyKw ?? 0, shape: f.shape ?? "generated", flat: f.flat ?? null });
 
 /** The parameters of the address the scenarios replace: their own, and the two old names read as scenario A's. */
 const drop = (name: string) => isScenarioParam(name) || isOldParam(name);
 
 /** The two scenarios of the page, held above its sections: the block edits them, the headline reads scenario A. */
-export function SellerDecisions({ costs, mw, initial, children }: { costs: { capex: number; fom: number; life: number; deg?: number }; mw: number; initial: Record<string, string | undefined>; children: ReactNode }) {
+export function SellerDecisions({ costs, mw, initial, credits = CREDIT_KEYS, children }: { costs: { capex: number; fom: number; life: number; deg?: number }; mw: number; initial: Record<string, string | undefined>; credits?: Key[]; children: ReactNode }) {
   const d = useMemo(() => defaultsOf(costs), [costs]);
   const query = useCallback((s: { a: Values; b: Values; view: View }) => scenarioQuery(s as unknown as Both, d), [d]);
-  return <ScenarioState start={parseScenarios(initial, d, mw)} query={query} drop={drop}>{children}</ScenarioState>;
+  // session 353: a credit not offered for this asset is held at its default, none, whatever an address says
+  const start = parseScenarios(initial, d, mw);
+  for (const p of ["a", "b"] as View[]) for (const k of CREDIT_KEYS) if (!credits.includes(k)) start[p][k] = d[k];
+  return <ScenarioState start={start} query={query} drop={drop}>{children}</ScenarioState>;
 }
 
 /** One month as the page's coverage figures read it: its revenue in USD for the reader's size, and whether it is held. */
@@ -191,7 +201,8 @@ export function SellerScenarios({ facts: f }: { facts: Facts }) {
   const u = contractUnits(f.contract);
   const sourceOf = (k: Key) => (k === "capex" ? `${SPECS[k].source}, ${f.costs.capexNote}` : k === "fom" ? `${SPECS[k].source}, ${f.costs.fomNote}` : k === "life" || k === "term" || k === "ppa" ? `${SPECS[k].source}, ${f.costs.lifeNote}` : k === "deg" && f.costs.degSource ? f.costs.degSource : SPECS[k].source);
 
-  const fields: Field[] = KEYS.map((k) => {
+  // session 353: a tax credit is a field only for an asset it is offered for
+  const fields: Field[] = KEYS.filter((k) => !CREDIT_KEYS.includes(k) || (f.credits ?? CREDIT_KEYS).includes(k)).map((k) => {
     const sp = SPECS[k];
     // session 212: the contract's units are the asset's (a share of the energy at a price per MWh; a toll on the capacity)
     const unit = k === "cshare" ? u.shareUnit : k === "cprice" ? u.priceUnit : sp.unit;
@@ -200,7 +211,10 @@ export function SellerScenarios({ facts: f }: { facts: Facts }) {
   const none = (why: string, v = "not held"): Cell => ({ v, raw: null, why });
   const noDebt: Cell = { v: "no debt", raw: null };
   const row = (key: string, label: string, note: string, cell: (c: Col) => Cell): Row => ({ key, label, note, cell: (p) => cell(cols[p]) });
-  const contractNote = (c: Col) => (c.y.cshare > 0 ? `contract ${plain(c.y.cshare)} percent at USD ${plain(c.y.cprice)} ${u.priceUnit.replace("USD ", "")}; ` : "");
+  const block = f.shape === "block" && f.contract === "energy" && f.flat !== null && f.flat !== undefined;
+  const contractNote = (c: Col) => (c.y.cshare > 0 ? `contract ${plain(c.y.cshare)} percent at USD ${plain(c.y.cprice)} ${u.priceUnit.replace("USD ", "")}${block ? `, a flat block settled at the hub's average of USD ${num(f.flat!)}` : ""}; ` : "");
+  // session 353: the tax credits a scenario holds, in words, where a row reads them
+  const creditWords = (y: Assumptions) => [y.itc > 0 ? SPECS.itc.words(y.itc) : "", y.ptc > 0 ? SPECS.ptc.words(y.ptc) : ""].filter(Boolean).join(" and ");
   const rows: Row[] = [
     row("revenue", `${f.money}, last twelve months`, "USD per kW, the market's",
       () => (f.twelve ? { v: `USD ${num(f.twelve.revenueKw)}`, raw: f.twelve.revenueKw, note: `${f.twelve.span}, priced at ${f.twelve.at}` } : none(f.twelveWhy))),
@@ -213,9 +227,9 @@ export function SellerScenarios({ facts: f }: { facts: Facts }) {
         return { v: usd(f.lowest.usd), raw: f.lowest.usd, note: `${f.lowest.month}, of ${f.lowest.months} months; ${cover === null ? "no debt" : `coverage that month ${num(cover)} times, in the market`}` };
       }),
     row("coverage", "Debt coverage", "last twelve months: the contract plus the market on the rest, less fixed O&M, over debt payments",
-      (c) => (c.r ? (c.r.coverage === null ? noDebt : { v: `${num(c.r.coverage)} times`, raw: c.r.coverage, note: `${contractNote(c)}debt payments ${usd(c.r.debt * scale)} a year` }) : none(f.twelveWhy))),
+      (c) => (c.r ? (c.r.coverage === null ? noDebt : { v: `${num(c.r.coverage)} times`, raw: c.r.coverage, note: `${contractNote(c)}debt payments ${usd(c.r.debt * scale)} a year${creditWords(c.y) ? "; tax credits not counted" : ""}` }) : none(f.twelveWhy))),
     row("npv", "NPV at the hurdle rate", `to equity, for ${f.size}`,
-      (c) => (c.r ? { v: usd(c.r.npv * scale), raw: c.r.npv, note: `USD ${num(c.r.npv)} per kW at ${plain(c.y.hurdle)} percent` } : none(f.twelveWhy))),
+      (c) => (c.r ? { v: usd(c.r.npv * scale), raw: c.r.npv, note: `USD ${num(c.r.npv)} per kW at ${plain(c.y.hurdle)} percent${creditWords(c.y) ? `, with the ${creditWords(c.y)}` : ""}` } : none(f.twelveWhy))),
     row("irr", "IRR", "to equity, percent a year",
       (c) => (c.r ? (c.r.irr === null ? { v: "none", raw: null, note: "no rate from -99 to 1,000 percent sets NPV to zero" } : { v: `${num(c.r.irr, 1)} percent`, raw: c.r.irr }) : none(f.twelveWhy))),
     row("contract", `Contract price at which coverage reaches ${TARGET} times`,
@@ -245,7 +259,7 @@ export function SellerScenarios({ facts: f }: { facts: Facts }) {
     <ScenarioBlock
       fields={fields} defaults={d} bound={(k, v) => bound(k as Key, v, d)} head={`For ${f.size}`} rows={rows}
       // session 298: the panel in a section that opens and closes, as the battery page's Financing (session 296); open to start
-      fold={{ id: "financing", title: "Financing", summary: (a, view) => `Scenario ${view.toUpperCase()}: ${plain(a.share)}% debt at ${plain(a.rate)}%, ${plain(a.hurdle)}% hurdle, ${a.cshare > 0 ? `${SPECS.cshare.short(a.cshare)}, ${SPECS.cprice.short(a.cprice)}` : "no contract"}` }}
+      fold={{ id: "financing", title: "Financing", summary: (a, view) => `Scenario ${view.toUpperCase()}: ${plain(a.share)}% debt at ${plain(a.rate)}%, ${plain(a.hurdle)}% hurdle, ${a.cshare > 0 ? `${SPECS.cshare.short(a.cshare)}, ${SPECS.cprice.short(a.cprice)}` : "no contract"}${a.itc > 0 ? `, ${SPECS.itc.short(a.itc)}` : ""}${a.ptc > 0 ? `, ${SPECS.ptc.short(a.ptc)}` : ""}` }}
       differing={differing(s.a, s.b)} short={(k, v) => SPECS[k as Key].short(v)} differs={differenceWords(s.a, s.b)}
       sentence={cols.a.r ? (
         <p className="mt-3 max-w-3xl text-sm" data-npv-sentence="a">

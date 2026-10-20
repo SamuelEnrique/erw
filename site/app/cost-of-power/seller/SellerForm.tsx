@@ -14,7 +14,7 @@ import { SiteLink as Link } from "@/components/SiteLink";
 import { keyOf, type Asset } from "@/lib/merchant";
 import { carry } from "@/lib/seller/finance";
 
-export type FormGrid = { id: string; name: string; open: boolean; words?: string; why?: string; hubs: { id: string; label: string }[] };
+export type FormGrid = { id: string; name: string; open: boolean; words?: string; why?: string; hubs: { id: string; label: string; zone?: boolean }[] };
 export type FormValues = { iso: string; hub: string; asset: string; mw: number; mwh: number; hr: number; vom: number; bmw: number; dur: number; strat: string };
 
 const field = "w-full border border-rule bg-white px-2 py-1 text-sm";
@@ -37,6 +37,7 @@ export function SellerForm({ x, grids, hybrid, defaults }: { x: FormValues; grid
         const q = new URLSearchParams();
         for (const k of KEYS) { const v = f.get(k); if (typeof v === "string" && v !== "") q.set(k, v); }
         { const py = new URLSearchParams(window.location.search).get("py"); if (py) q.set("py", py); }   // session 352: Show keeps the price years chosen
+        for (const k of ["nb", "ps"]) { const v = new URLSearchParams(window.location.search).get(k); if (v) q.set(k, v); }   // session 353: and the node and the contract's shape
         const mw = Number(q.get("mw") ?? x.mw), mwh = Number(q.get("mwh") ?? x.mwh);
         const same = keyOf({ asset: x.asset as Asset, mw: mw > 0 ? mw : x.mw, mwh: mwh > 0 ? mwh : x.mwh }) === own;
         router.push(`/cost-of-power/seller?${q.toString()}${carry(window.location.search, same)}`, { scroll: false });
@@ -58,9 +59,11 @@ export function SellerForm({ x, grids, hybrid, defaults }: { x: FormValues; grid
         </ul>
       </fieldset>
 
-      <label className="block"><span className="mb-1 block font-semibold">Hub or zone</span>
+      {/* session 353: the settlement point, its hubs and its load zones apart; a node is chosen under the form (ParamChoice) */}
+      <label className="block"><span className="mb-1 block font-semibold">Settlement point</span>
         <select name="hub" defaultValue={x.hub} className={field} data-hub="1">
-          {g?.hubs.map((h) => <option key={h.id} value={h.id}>{h.label}</option>)}
+          {g && g.hubs.some((h) => !h.zone) ? <optgroup label="Hubs">{g.hubs.filter((h) => !h.zone).map((h) => <option key={h.id} value={h.id}>{h.label}</option>)}</optgroup> : null}
+          {g && g.hubs.some((h) => h.zone) ? <optgroup label="Load zones">{g.hubs.filter((h) => h.zone).map((h) => <option key={h.id} value={h.id}>{h.label}</option>)}</optgroup> : null}
         </select>
       </label>
 

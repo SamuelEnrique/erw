@@ -76,7 +76,7 @@ class TheKeysNameTheGrid(unittest.TestCase):
         self.assertIn("export const inputsKey = (x: Inputs) => `iso=${x.iso}&", src("site", "lib", "merchant.ts"))
         page = src(*SELLER, "page.tsx")
         for key in re.findall(r"check=\{`([^`]+)`\}", page):
-            self.assertTrue(key.startswith(("cap|${iso}|", "ms|${key}|", "series|price_years_by_window|${")), key)       # ${key} is inputsKey: iso= first; session 352: a price year's entity is <grid>:<hub>
+            self.assertTrue(key.startswith(("cap|${iso}|", "ms|${key}|", "series|price_years_by_window|${", "series|node_basis_summary|ercot:${")), key)       # ${key} is inputsKey: iso= first; session 352: a price year's entity is <grid>:<hub>
 
 
 class ThePpaTerm(unittest.TestCase):
@@ -86,13 +86,13 @@ class ThePpaTerm(unittest.TestCase):
 
     def test_the_eleventh_assumption(self):
         hit = re.search(r"export const KEYS: Key\[\] = \[(.*?)\];", self.lib)
-        self.assertEqual(re.findall(r'"(\w+)"', hit.group(1)), ["capex", "share", "rate", "term", "fom", "deg", "life", "hurdle", "cshare", "cprice", "ppa"])
+        self.assertEqual(re.findall(r'"(\w+)"', hit.group(1)), ["capex", "share", "rate", "term", "fom", "deg", "life", "hurdle", "cshare", "cprice", "ppa", "itc", "ptc"])   # session 353: the two tax credits after it
         self.assertIn('ppa: { key: "ppa", letter: "y", label: "PPA term", unit: "years", min: 1, max: 40, whole: true, swing: 5, swingWords: "5 years",', self.lib)
-        self.assertIn("hurdle: HURDLE, cshare: 0, cprice: 0, ppa: costs.life };", self.lib)
+        self.assertIn("hurdle: HURDLE, cshare: 0, cprice: 0, ppa: costs.life, itc: 0, ptc: 0 };", self.lib)
         self.assertIn("export const contractYears = (a: Assumptions) => Math.min(a.ppa ?? debtYears(a), a.life);", self.lib)
         self.assertIn("t <= contractYears(a) ?", self.lib)
         self.assertIn("dy = contractYears(a);  // session 264: the PPA term's years", self.lib)
-        self.assertIn('/^[ab][csrtfdlhnpy]$/', self.lib)
+        self.assertIn('/^[ab][csrtfdlhnpyix]$/', self.lib)   # session 353: the two tax credits, i and x
         self.assertIn('/^[ab][cftly]$/', self.lib)
         self.assertNotIn("out.ppa = out.term", self.lib)                            # never inferred from the debt's term
 

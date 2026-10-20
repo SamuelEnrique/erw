@@ -18,7 +18,7 @@ import {
   CO2_PER_MMBTU, DEBT, DEFAULT_SIZE, DEFAULTS, durationOf, HEAT_RATE, inputsKey, inputsOf, keyOf, months, stress, summary, VOM,
   type Inputs, type Snapshot,
 } from "@/lib/merchant";
-import { BATTERY_DEG, BATTERY_DEG_SOURCE, KEYS as SCENARIO_KEYS, SOLAR_DEG, SOLAR_DEG_SOURCE, SPECS, debtUsd, defaultsOf, isOldParam, isScenarioParam, parseScenarios } from "@/lib/seller/finance";
+import { BATTERY_DEG, BATTERY_DEG_SOURCE, KEYS as SCENARIO_KEYS, SOLAR_DEG, SOLAR_DEG_SOURCE, SPECS, debtUsd, defaultsOf, isOldParam, isScenarioParam, parseScenarios, type Key as ScenarioKey } from "@/lib/seller/finance";
 import { ASSETS, GRIDS, PAUSED, sentence, spanOf, spans, years } from "@/lib/seller2";
 import * as H from "@/lib/sellerhybrid";
 import * as HB from "@/lib/sellerhubs";
@@ -31,6 +31,9 @@ import type { HyCell, HyRow, HyTable } from "./SellerHubYears";
 import { longMonth } from "./nums";
 
 export const HUBS = hubsJson as unknown as HB.HubIndex;
+/** Session 353: the tax credits offered for an asset: both for solar and wind, the investment credit for a battery,
+ * neither for a gas peaker. A credit not offered is held at 0 (SellerDecisions). */
+export const CREDITS_OF = (asset: string): ScenarioKey[] => (asset === "solar" || asset === "wind" ? ["itc", "ptc"] : asset === "battery" ? ["itc"] : []);
 // session 183: one hub's model, read when it is asked for and kept while the server lives (a hub's file is about half a megabyte)
 const HUB_FILES = new Map<string, unknown>();
 export function hubFile<T>(rel: string): T | null {
@@ -111,7 +114,20 @@ export type CapRow = {
  * for a battery and a gas peaker, whose figures are this page's model at each hub and carry no key of the capture file. */
 export type CapView = { fuel: Fuel | null; years: string[]; rows: CapRow[]; chart: (CapCell & { label: string })[] };
 
-export type FormGridOf = { id: string; name: string; open: boolean; words?: string; why?: string; hubs: { id: string; label: string }[] };
+export type FormGridOf = { id: string; name: string; open: boolean; words?: string; why?: string; hubs: { id: string; label: string; zone?: boolean }[] };
+
+/** Session 353: a point the grid names a load zone, not a trading hub (the form groups them): ERCOT's LZ_, ISO-NE's
+ * .Z., every NYISO zone. CAISO's trading hubs and SPP's hubs are hubs. */
+export const isZone = (iso: string, id: string) => /^LZ_/.test(id) || /^\.Z\./.test(id) || iso === "nyiso";
+
+/** Session 353: a node's percentile of basis (node_basis_summary): the address's `nb`. */
+export const NODE_PCTS = ["p10", "p50", "p90"] as const;
+export type NodePct = (typeof NODE_PCTS)[number];
+/** The class of resource node an asset is counted in by node_basis_summary; null for a battery, which buys at its node
+ * as well as selling, so one basis on its sales would not describe it. */
+const nodeClassOf = (asset: string) => (asset === "solar" ? "solar" : asset === "wind" ? "wind" : asset === "peaker" ? "gas" : null);
+export type NodeMonth = { m: string; ts: string; basis: number; energy: number };
+export type Node = { pct: NodePct; cls: string; variable: string; months: NodeMonth[]; adjKw: number; mean: number };
 
 /** Everything the page computes for one address, in the order page.tsx computed it until session 212. */
 export async function modelOf(q: Record<string, string | undefined>) {
@@ -281,7 +297,7 @@ export async function modelOf(q: Record<string, string | undefined>) {
   const KEPT = `${COMBINED} The plant is this page's model at real-time prices and the battery is the figure of What a battery earns, energy and ancillary services together. It is on other prices than the row above and holds ancillary revenue the co-optimized pair does not, so the two rows are not one measure${pair && both !== null ? `: here the co-optimized pair, USD ${B.usdShort(Math.round(pair.pair))}, is ${above ? "above" : "below"} it` : ""}.`;
 
   const grids: FormGridOf[] = ORDER.map((id) => {
-    if (open.includes(id)) return { id, name: CAPTURE.grids[id].name, open: true, hubs: CAPTURE.grids[id].hubs.map((h) => ({ id: h.id, label: `${hubName(h.id)} (${h.id})` })) };
+    if (open.includes(id)) return { id, name: CAPTURE.grids[id].name, open: true, hubs: CAPTURE.grids[id].hubs.map((h) => ({ id: h.id, label: `${hubName(h.id)} (${h.id})`, zone: isZone(id, h.id) })) };
     const b = CAPTURE.blank[id];
     return { id, name: b?.name ?? id.toUpperCase(), open: false, words: b?.words ?? "not held yet", why: id === "miso" ? PAUSED.words : PJM_WHY, hubs: [] };
   });
@@ -318,6 +334,38 @@ export async function modelOf(q: Record<string, string | undefined>) {
     const yearsCovered = win.kind === "year" ? 1 : win.kind === "avg_3y" ? 3 : win.kind === "avg_7y" ? 7 : Math.max(1, Math.round(inside.length / 12));
     return spanOf(inside, yearsCovered);
   })() : null;
+  // session 353 (the chain of 20 October 2026, night): the settlement point at a node. ERCOT's resource nodes are paid
+  // their own price, not the hub's; node_basis_summary (the data machine, session 358) holds, for each month, the
+  // percentiles across nodes of a class (solar, wind, gas) of each node's mean daily basis to the hub average. Chosen,
+  // the scenarios' twelve months move by that percentile's basis on the plant's energy, month by month. The day-ahead
+  // basis: the table holds the real-time basis from September 2026 only. Offered for solar, wind and the peaker at
+  // ERCOT's hub average over the last twelve months; nothing moves at the default (no node).
+  const nbAsked: NodePct | null = (NODE_PCTS as readonly string[]).includes(q.nb ?? "") ? (q.nb as NodePct) : null;
+  const nbClass = nodeClassOf(x.asset);
+  const nodeOffered = iso === "ercot" && mainHub && nbClass !== null && !win;
+  const nodeWhy = iso !== "ercot" ? "A node's basis is held for ERCOT only (node_basis_summary)."
+    : !mainHub ? `A node's basis is taken against the hub average, ${cg.main}: choose it to price at a node.`
+    : nbClass === null ? "A battery buys at its node as well as selling, so one basis on its sales would not describe it: What a battery earns holds a battery's node."
+    : win ? "A node's basis is held from October 2025: it prices the last twelve months only, not another window of price years." : "";
+  let node: Node | null = null, nodeReadWhy = "";
+  if (nodeOffered && nbAsked && s.twelve) {
+    const variable = `dam_${nbClass}_basis_${nbAsked}`;
+    const read = await attempt(() => rest<{ ts_utc: string; value: number }>("series", { select: "ts_utc,value", table_name: "eq.node_basis_summary", entity: `eq.ercot:${cg.main}`, variable: `eq.${variable}`, order: "ts_utc" }, HOURLY));
+    if (!read.ok) nodeReadWhy = `node_basis_summary could not be read, so the scenarios are priced at the hub: ${read.reason}`;
+    else {
+      const by = new Map(read.data.map((r) => [r.ts_utc.slice(0, 7), r]));
+      const inside = ms1.filter((r) => r.m >= s.twelve!.from && r.m <= s.twelve!.to);
+      const missing = inside.filter((r) => !by.has(r.m)).map((r) => shortMonth(r.m));
+      if (missing.length) nodeReadWhy = `node_basis_summary holds no ${variable} for ${missing.join(", ")}, so the scenarios are priced at the hub.`;
+      else {
+        const months: NodeMonth[] = inside.map((r) => ({ m: r.m, ts: by.get(r.m)!.ts_utc, basis: Number(by.get(r.m)!.value), energy: r.energy }));
+        const e = months.reduce((a, r) => a + r.energy, 0), usdPerMw = months.reduce((a, r) => a + r.energy * r.basis, 0);
+        node = { pct: nbAsked, cls: nbClass!, variable, months, adjKw: usdPerMw / 1000, mean: e > 0 ? usdPerMw / e : 0 };
+      }
+    }
+  }
+  // session 353: the contract's shape, an energy contract's only: as generated (the default) or a flat block
+  const shape: "generated" | "block" = q.ps === "block" && fuel ? "block" : "generated";
   const facts: Facts = {
     mw: x.mw,
     size: fuel ? `${sizeLabel} of ${plantName}` : x.asset === "battery" ? `a ${sizeLabel} battery` : `a ${sizeLabel} gas peaker`,
@@ -335,7 +383,11 @@ export async function modelOf(q: Record<string, string | undefined>) {
     battery: pair ? { withIt: Math.round(pair.pair), without: Math.round(pair.plant), words: `${pairSpan}, a ${bmw.toLocaleString("en-US")} MW, ${dur}-hour battery, priced at ${g.at}` } : null,
     batteryWhy: !fuel ? "A battery beside the plant is modeled for a solar or a wind plant." : !BATTERY_GRIDS.includes(iso) ? battWhy
       : `No twelve months in a row hold ${g.name}'s day-ahead price and its ${plantName} fleet's output on at least 90 percent of their days.`,
+    // session 353: the credits offered for this asset, the contract's shape and the flat price a block settles against
+    credits: CREDITS_OF(x.asset), shape, flat: win && winSpan ? winSpan.flat : s.twelve ? s.twelve.flat : null,
   };
+  // session 353: at a node, the twelve months' revenue moves by the basis on the plant's energy (scenarios A and B only)
+  if (node && facts.twelve && !win) facts.twelve = { ...facts.twelve, revenueKw: facts.twelve.revenueKw + node.adjKw, at: `a node at the ${node.pct.slice(1)}th percentile of ${node.cls} nodes' basis to ${hubName(cg.main)}` };
 
   // session 264: a typed value outside its bounds is held at the bound (lib/merchant.ts inputsOf, lib/seller/finance.ts
   // bound); the page says so in one line under "Your plant", value by value. A value that is not a number takes the default.
@@ -365,6 +417,7 @@ export async function modelOf(q: Record<string, string | undefined>) {
     ms, sm, st, held, monthRows, annual, ms1, ms1Main, s, ys, line, cap, mk, other, why, mine, yearRows, capView, plant, hybrid, bg, batt, battWhy, plantTotal, both, COMBINED,
     hf, pair, pairSpan, fromPlant, plantName, DA_PLANT, DA_BATTERY, DA_PAIR, DA_ADDED, above, KEPT, grids, defaults, threeWhy, everyWhy, twelveWhy, facts,
     pyWs, pyRead: pyRead?.ok ?? false, pyOffered: !!pyConfig, win,
+    node, nodeOffered, nodeWhy, nodeReadWhy, nbAsked, shape,
   };
 }
 export type Model = Awaited<ReturnType<typeof modelOf>>;
