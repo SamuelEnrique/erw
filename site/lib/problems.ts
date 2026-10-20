@@ -13,11 +13,14 @@ import netJson from "@/data/grid_network.json";
 import type { Snapshot as NetSnapshot } from "@/app/network/Network";
 import { fetchHourly, netExports, pickSnapshot, tiesAt, topExporter } from "@/lib/network";
 import { EVENTS, ISO_NAMES, inputsKey, inputsOf, months, stat, stress, summary, type Inputs, type Snapshot as MerchantSnapshot } from "@/lib/merchant";
+import { dayKey, KNOW_YOUR_GRID, newestCommonFullDay } from "@/lib/gridday";
 
 export type V = { v: number; k: string; u?: string };
 export type Part = string | V;
 export type Question = {
   id: string; q: string; tables: string[]; answer: Part[]; steps: Part[][]; why: string;
+  // session 369: the day the figures belong to, written beside the question with its check key (lib/gridday.ts)
+  day?: { d: string; k: string; note: string };
 };
 export type ProblemSet = { slug: string; title: string; line: string; teacher: string; pages: { href: string; label: string }[]; questions: Question[] };
 
@@ -67,28 +70,32 @@ async function setA(): Promise<Question[]> {
   const E = "eia930:ERCO", CA = "eia930:CISO";
   const since = iso(Date.now() - 6 * DAY);
   const dem = await series(D, { variable: "demand_mw", entities: [E, CA], since });
-  const hours = (e: string, d: string) => dem.filter((r) => r.entity === e && day(r.ts_utc) === d).length;
-  const days = [...new Set(dem.map((r) => day(r.ts_utc)))].sort().reverse();
-  const d0 = days.find((d) => hours(E, d) === 24 && hours(CA, d) === 24)!;
+  // session 369: questions 1 and 2 are asked of the newest UTC day both tables hold in full (every hour, both grids,
+  // each variable asked), by lib/gridday.ts, which check-values.mjs runs too. Until then the day was the demand table's
+  // alone; the generation table ends a day earlier, so from 19 October 2026 question 2 summed no rows and wrote 0.
+  const [GV, GG] = KNOW_YOUR_GRID.tables[1].variables;
+  const gen = [...await series(G, { variable: GV, entities: [E, CA], since }), ...await series(G, { variable: GG, entities: [E, CA], since })];
+  const d0 = newestCommonFullDay([{ table: D, variables: ["demand_mw"], rows: dem }, { table: G, variables: [GV, GG], rows: gen }], KNOW_YOUR_GRID.entities);
+  if (!d0) throw new Error(`no UTC day since ${since} is held in full in both ${D} and ${G} for ERCOT and CAISO`);
+  const dayNote: Question["day"] = { d: d0, k: dayKey("know-your-grid", d0), note: `the newest UTC day both ${D} and ${G} hold in full (24 hours, both grids)` };
   const s0 = `${d0}T00:00:00Z`, s1 = iso(Date.parse(s0) + DAY);
   const peak = (e: string): V => ({ v: Math.max(...dem.filter((r) => r.entity === e && day(r.ts_utc) === d0).map((r) => r.value)), k: `series_max|${D}|demand_mw|${s0}|${s1}|${e}`, u: "MW" });
   const pE = peak(E), pC = peak(CA);
   const q1: Question = {
-    id: "a1", tables: [D],
-    q: "On the latest UTC day both grids report in full, what was the highest hour of demand in ERCOT and in CAISO? ERCOT's peak was how many times CAISO's?",
+    id: "a1", tables: [D], day: dayNote,
+    q: `On ${d0} (UTC), the latest day both grids' demand and generation are held in full, what was the highest hour of demand in ERCOT and in CAISO? ERCOT's peak was how many times CAISO's?`,
     answer: [`${d0}: ERCOT `, pE, `, CAISO `, pC, `; ERCOT's peak was `, calc("ratio", pE, pC, "times"), ` CAISO's.`],
     steps: [[`Take the 24 hourly demand values of ${d0} (UTC) for each grid (entity eia930:ERCO and eia930:CISO, variable demand_mw).`],
       ["The highest ERCOT hour is ", pE, "; the highest CAISO hour is ", pC, "."], ["Divide: ", pE, " / ", pC, " = ", calc("ratio", pE, pC, "times"), "."]],
     why: "Peak demand, not average demand, sets how much generation and wire a grid has to build.",
   };
-  const gen = await series(G, { entities: [E, CA], since: s0 });
   // session 46: compared parsed; Supabase's "+00:00" sorts before "Z", so a row at s1 itself passed the text test
-  const sum = (e: string, v: string): V => ({ v: gen.filter((r) => r.entity === e && r.variable === v && Date.parse(r.ts_utc) < Date.parse(s1)).reduce((a, r) => a + r.value, 0), k: `series_sum|${G}|${v}|${s0}|${s1}|${e}`, u: "MWh" });
+  const sum = (e: string, v: string): V => ({ v: gen.filter((r) => r.entity === e && r.variable === v && Date.parse(r.ts_utc) >= Date.parse(s0) && Date.parse(r.ts_utc) < Date.parse(s1)).reduce((a, r) => a + r.value, 0), k: `series_sum|${G}|${v}|${s0}|${s1}|${e}`, u: "MWh" });
   const gE = sum(E, "net_generation_natural_gas_mw"), tE = sum(E, "net_generation_mw"), gC = sum(CA, "net_generation_natural_gas_mw"), tC = sum(CA, "net_generation_mw");
   const q2: Question = {
-    id: "a2", tables: [G],
-    q: `On the same day, what share of each grid's net generation came from natural gas?`,
-    answer: ["ERCOT ", calc("pct", gE, tE, "%"), ", CAISO ", calc("pct", gC, tC, "%"), "."],
+    id: "a2", tables: [G], day: dayNote,
+    q: `On the same day, ${d0} (UTC), what share of each grid's net generation came from natural gas?`,
+    answer: [`${d0}: ERCOT `, calc("pct", gE, tE, "%"), ", CAISO ", calc("pct", gC, tC, "%"), "."],
     steps: [[`Add the 24 hourly values of net_generation_natural_gas_mw and of net_generation_mw for ${d0} (UTC).`],
       ["ERCOT: ", gE, " from gas of ", tE, " in all: ", calc("pct", gE, tE, "%"), "."], ["CAISO: ", gC, " from gas of ", tC, " in all: ", calc("pct", gC, tC, "%"), "."]],
     why: "The fuel that runs most often sets both the price and the emissions of a grid's power.",
