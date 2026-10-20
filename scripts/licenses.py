@@ -74,6 +74,7 @@ BY_HAND = {
     "known_data_faults": (["ERW"], "its header: the ERW's own account of its sources' data"),
     # session 311: derived from the six grids' hub prices (ercot_hub_prices_daily, iso_hub_prices_history) and CAISO's notices
     "grid_stress_days": (["CAISO", "ERCOT", "ISO-NE", "MISO", "NYISO", "SPP"], "its header: the main hubs' real-time prices of six grids, CAISO's notices and ERCOT's (session 322)"),
+    "iso_queue_statistics": (["CAISO", "ERCOT", "ISO-NE", "MISO", "NYISO", "SPP"], "its header: the six ISOs' interconnection queues it counts (session 348)"),
     "large_load_rule_reads": (["Arizona Corporation Commission", "California Public Utilities Commission", "Illinois Commerce Commission",
                                "Oregon Public Utility Commission", "Pennsylvania Public Utility Commission", "Office of the Federal Register (NARA)"],
                               "its header: a model's reads of the rows of large_load_rules and of policy_actions"),

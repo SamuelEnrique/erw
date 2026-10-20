@@ -162,6 +162,15 @@ full:
   # of EIA-930's hourly sums against it (144 rows), whole, for the Grid tool's decisions block; under review_hold
   - '^eia_annual_generation_ba$'
   - '^eia_annual_crosscheck_ba$'
+  # session 345: NLR's JEDI jobs, earnings and output per MW by technology, state, phase and effect (5,562 rows), whole,
+  # for the economic impact tool (/impact, in review); under review_hold, its source under sources_hold
+  - '^nlr_jedi_multipliers$'
+  # session 346: the tax rules of the economic impact tool (49 rows: the /severance page's rules of TX, LA and NM in a
+  # table, and seven property-tax rows that say no rule is held), whole; under review_hold, its sources under sources_hold
+  - '^impact_tax_rules$'
+  # session 348: the six ISOs' queues by entry year (about 1,500 rows: entered, withdrawn, operating, waiting, MW, withdrawal
+  # rate, waits), whole, for the map's Queues tab (in review); under review_hold, its source under sources_hold
+  - '^iso_queue_statistics$'
 
 # Only rows whose time is within the last `days` days (series: ts_utc). Older rows
 # of these tables are deleted from Supabase on each load, so the window rolls.
@@ -369,6 +378,9 @@ review_hold:
   - grid_stress_days                   # session 306, no page yet (the grids' stress days by one rule)
   - ercot_grid_notices                 # session 322, no page yet (ERCOT's EEAs, conservation appeals and watches)
   - eia_annual_generation_ba           # session 323, the Grid tool's decisions block (in review)
+  - nlr_jedi_multipliers               # session 345, /impact (in review)
+  - impact_tax_rules                   # session 346, /impact (in review)
+  - iso_queue_statistics               # session 348, /map's Queues tab (in review)
   - eia_annual_crosscheck_ba
 
 # Session 102: sources that serve only tables whose pages are in review, held off /terms (a live page that lists the
@@ -474,6 +486,18 @@ sources_hold:
   - ercot:NP6-792-ER                   # session 244, ercot_rtm_price_adders (no page yet; this source row serves only that table)
   - erw:scarcity_hours_by_grid         # session 254, scarcity_hours_by_grid (no page yet; this source row serves only that table)
   - nlr:atb-2025-v1                    # session 306, battery_sourced_ranges (the battery page's Sensitivity, in review)
+  - nlr:jedi                           # session 345, nlr_jedi_multipliers (/impact, in review)
+  - erw:iso_queue_statistics           # session 348, iso_queue_statistics (/map's Queues tab, in review)
+  - erw:impact_tax_rules               # session 346, impact_tax_rules (/impact, in review)
+  - la_ldr:la_rib_26_013               # session 346, impact_tax_rules (/impact, in review)
+  - la_ldr:la_rib_26_014               # session 346, impact_tax_rules (/impact, in review)
+  - la_legislature:la_rs_47_633        # session 346, impact_tax_rules (/impact, in review)
+  - nm_trd:nm_trd_rates_2026           # session 346, impact_tax_rules (/impact, in review)
+  - nm_trd:nm_trd_taxes                # session 346, impact_tax_rules (/impact, in review)
+  - tx_cpa:tx_cpa_gas                  # session 346, impact_tax_rules (/impact, in review)
+  - tx_cpa:tx_cpa_lp_gas               # session 346, impact_tax_rules (/impact, in review)
+  - tx_cpa:tx_cpa_lp_oil               # session 346, impact_tax_rules (/impact, in review)
+  - tx_cpa:tx_cpa_oil                  # session 346, impact_tax_rules (/impact, in review)
 
 # Session 206 (the owner's ruling of 12 October 2026): tables loaded as a union by their key, not as a replacement. Each
 # machine appends to its own copy of the cost ledger (GitHub's runner, the data machine, a session's laptop), so no one

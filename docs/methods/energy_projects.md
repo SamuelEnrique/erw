@@ -43,7 +43,8 @@ The entities standard columns first (`docs/datastandard.md`), then:
    - lat and lon are the county's **internal point** (`INTPTLAT`, `INTPTLONG`). The Census Bureau places this point inside the county, at or near its geographic center. The session 16 prompt asked for the centroid; the internal point is the gazetteer's published point, and it is always inside the county, which a centroid is not.
    - **Connecticut:** since 2022 the Census Bureau publishes planning regions instead of Connecticut's eight counties, while the ISO-NE queue still names the counties. For names the 2025 file lacks, the 2020 file (`2020_Gaz_counties_national.zip`) is used; `geo_note` names the file.
    - **Matching:** names are compared without case, accents, punctuation and the words county, parish, borough, census area and municipality; "Saint" and "St." are the same. The whole text is tried first (a county may contain a hyphen, as in Miami-Dade), then each county of a list ("Tioga - Bradford", "Kern/Kings"): the first that matches is used, and `geo_note` says the row listed several.
-3. **None.** No fuzzy matching and no city lookup: a misspelled county ("Wocester"), a city named in place of a county ("Oklahoma City") or a row without a state stays unplaced, with the reason in `geo_note`. On 2026-09-27: 1,172 queue positions (286 without a state, 214 without a county, the rest a name the gazetteer does not hold).
+3. **Place (session 349).** County words that match no county are tried, in the same state, as a place of the Census Bureau's place gazetteer (cities, towns, villages and census-designated places, `2025_Gaz_place_national.zip`), then as a town or township of its county subdivision gazetteer (`2025_Gaz_cousubs_national.zip`), with the same matching less the place's kind ("Austin city", "Hartford town", "Milford CDP"). A name two places of one state share is never used (212 place names and 3,540 subdivision names on 20 October 2026). lat and lon are the place's internal point: `geo_precision` place, and `geo_note` names the place, the file and the words it came from. Its card says "city or town point; not the site itself".
+4. **None.** No fuzzy matching: a misspelled name ("Wocester") or a row without a state or a county stays unplaced, with the reason in `geo_note`. On 2026-09-27: 1,172 queue positions (286 without a state, 214 without a county, the rest a name the county gazetteer does not hold). On 2026-10-19's table, 710; of those, the two place files place 355 (333 by a place, 22 by a town or township), measured on 20 October 2026 (session 349; `runs/s349/placement.csv` on the third machine), and 355 stay unplaced: 90 state no county, 76 no state, the rest name nothing either file holds. The map's Projects tab gives the count of the table it reads.
 
 A county point is drawn differently from an exact one on the map, and the click card says which it is.
 
@@ -116,7 +117,8 @@ A click on a unit opens version 1's card: name and entity id, kind, technology g
 ### The page as it stands (session 330, 20 October 2026)
 
 - **Two tabs** since session 239: the projects (this section) and the resources (the natural resource layers, with
-  the units, the queue and the datacenters laid over them; `/resources` redirects there).
+  the units, the queue and the datacenters laid over them; `/resources` redirects there); session 349 added a third, the
+  queues (`iso_queue_statistics`, "Queue statistics" below), whose downloads line offers that table.
 - **The maps stay drawn by the chart library on a canvas** (session 318: a map is not a chart of the owner's ruling of
   13 October on charts); whether they should leave it is a question for the owner.
 - **The numbers** (the units held, the totals by status, the line of what is drawn) are the file's, and `check-map`
@@ -129,3 +131,50 @@ A click on a unit opens version 1's card: name and entity id, kind, technology g
   as `energy_projects` held them on 30 September, the tracker of 9 October); `energy_projects` last ran on 5 October,
   `datacenter_facilities` and the two EIA-860M tables on 20 October. The file follows them at its next rebuild (the
   monthly job, or by hand).
+
+## Queue statistics
+
+Session 348, 20 October 2026. `iso_queue_statistics` (the chain prompt's `queue_statistics`; a series table's name has three parts), built by `warehouse/derived/queue_statistics.py` from the six ISO queue tables (`<iso>_interconnection_queue`), the same rows `energy_projects` takes its queue positions from. For each ISO and each year a position entered the queue: how many positions entered, were withdrawn, reached operation and are still waiting, the MW of each, the withdrawal rate, and the median and mean years from entry to operation of the positions that reached it. The map's Queues tab draws it (session 349).
+
+### What counts, in each ISO's own words
+
+The status is the queue connector's (`STATUS_MAP` of `warehouse/connectors/iso_queues.py`), which maps every word an ISO uses and fails on a new one. This section reads it as follows.
+
+| ISO | Withdrawn | Operating | Still waiting |
+|---|---|---|---|
+| ERCOT | none held: its GIS report lists active and completed positions only | Completed | Active |
+| CAISO | WITHDRAWN | COMPLETED | ACTIVE |
+| NYISO | Withdrawn | Completed | Active |
+| MISO | Withdrawn | Done, LEGACY: Done | Active, Pending Revision Approval, Pending Transfer |
+| SPP | WITHDRAWN, TERMINATED | IA FULLY EXECUTED/COMMERCIAL OPERATION | IA FULLY EXECUTED/ON SCHEDULE, IA PENDING, DISIS STAGE, FACILITY STUDY STAGE, SPECIAL STUDY, ERAS, ICS; and IA FULLY EXECUTED/ON SUSPENSION (suspended) |
+| ISO-NE | Withdrawn | Completed | Active |
+
+- **Status not stated.** A position the ISO lists with no status (SPP's affected-system requests, and rows of other ISOs whose status cell is blank) is counted as `positions_status_not_stated`, in none of the three.
+- **The entry year** is the year of the ISO's queue date. A position with no queue date is in no year and is counted in the table's header: ERCOT 456, CAISO 169, NYISO 104, MISO 36, SPP 64, ISO-NE 94. ERCOT's are many (456 of 1,758), so its counts by year are a part of its queue.
+- **The withdrawal rate** is withdrawn positions over positions entered, by count. ERCOT has none (above).
+- **The wait** is the years from the queue date to the in-service date (days over 365.25), for operating positions with both dates and an in-service date on or after the queue date (`wait_positions` counts them). MISO's and ISO-NE's tables hold no in-service date, so they have no wait. SPP's in-service date is its "Commercial Operation Date", which the table fills for active and withdrawn positions too: for an operating position it may be the date requested rather than achieved, and its rows say so (`x_rule`).
+- **MW** is the capacity the queue states, summed (a repowering request may be negative); a position with no MW is in the counts and not in the MW.
+- **Nothing is filled.** A variable an ISO does not give has no row for it.
+
+### The inputs read
+
+The data machine's copies, restored from the ERW archive (`warehouse/archive/restore.py --from-bucket`, session 348): ERCOT, CAISO, SPP and ISO-NE as of the run of 19 October 2026; NYISO and MISO as of 4 October 2026 (their last run). The table's header names each run. 1,511 rows: six ISOs, entry years 1989 to 2026 (CAISO's dated positions end in 2023; MISO's begin in 2015).
+
+### Licenses
+
+The six queues' tables are flagged public, and NYISO's, MISO's and ISO-NE's are "license needed" from 21 October 2026 (`docs/licenses.md`). The table's publishers are the six ISOs (`scripts/licenses.py`, by hand), so it is held by grid: from that day a page shows its ERCOT, CAISO and SPP rows and holds the other three, as it holds their prices.
+
+### The cross-check against LBNL's Queued Up
+
+From the copy held in `warehouse/raw/lbnl_queues/20261002T091624Z/` (Berkeley Lab's queue data file through 2025; no request to LBNL), for CAISO:
+
+| What | This table (CAISO's queue as of October 2026) | LBNL (as of the end of 2025) |
+|---|---|---|
+| Requests entered 2000 to 2020: operating | 233 | 232 (sheet 25, count by status) |
+| the same: withdrawn | 1,379 | 1,492 |
+| the same: still waiting | 150 | 185 active and 1 suspended |
+| Request to operation, positions online 2018 to 2025: count | 94 | 99 (sheet 38, box plot data) |
+| the same: median, months | 92.35 | 91.39 |
+| the same: mean, months | 94.46 | 91.88 |
+
+The operating counts and the waits agree within a few positions and about a month. The other counts differ: CAISO's current report holds 148 fewer positions of those years than LBNL counted (113 fewer withdrawn, 36 fewer still waiting, one more operating). LBNL builds its file from many years of each ISO's reports; the ERW holds the current one. The withdrawal rate of those years is close all the same: 78.3 percent here (1,379 of 1,762), 78.1 percent in LBNL's counts (1,492 of 1,910).

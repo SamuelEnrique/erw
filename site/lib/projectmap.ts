@@ -177,7 +177,25 @@ export const COLOR_KEY: { color: string; label: string }[] = [
 const ONE_OF: string[] = ["Operating unit (EIA-860M)", "Planned unit (EIA-860M)", "Queue position", "Datacenter"];
 const DATE_IS: string[] = ["began operating", "planned operation date", "queue date", "planned year, as stated"];
 const FROM: Record<string, string> = { news: "from the news", operator: "from its operator's site list", queue: "from a queue" };
-export type CardRow = { key: string; label: string; value: string; table?: boolean };
+export type CardRow = { key: string; label: string; value: string; table?: boolean; href?: string };
+
+// Session 349: the card links the generator tool (/cost-of-power/seller) with the unit's grid and technology prefilled,
+// where that tool holds them, and says "not modeled" where it does not. What it holds, by grid: the assets of
+// site/data/merchant_snapshot.json (tests/test_session349.py holds this table to the file), less MISO, which the tool
+// leaves blank while its terms are reviewed (session 145), and PJM, whose prices need a license. Its gas asset is a
+// peaker: a natural gas unit is linked only when its own technology names a combustion turbine or a peaker.
+export const GENERATOR_HELD: Record<string, string[]> = {
+  ercot: ["solar", "wind", "battery", "peaker"], caiso: ["solar", "wind", "battery", "peaker"], isone: ["solar", "wind", "battery", "peaker"],
+  nyiso: ["wind", "battery", "peaker"], spp: ["solar", "wind", "battery", "peaker"],
+};
+const ASSET_WORDS: Record<string, string> = { solar: "solar", wind: "wind", battery: "battery", peaker: "gas peaker" };
+export function generatorLink(grid: string, tech: string, text: string): { href: string | null; words: string } {
+  const asset = tech === "solar" || tech === "wind" || tech === "battery" ? tech
+    : tech === "natural_gas" && /combustion turbine|peaker|\bct\b/i.test(text) ? "peaker" : "";
+  if (!asset) return { href: null, words: "not modeled: the generator tool holds solar, wind, batteries and gas peakers" };
+  if (!(GENERATOR_HELD[grid] ?? []).includes(asset)) return { href: null, words: `not modeled: the generator tool holds no ${ASSET_WORDS[asset]} in this grid` };
+  return { href: `/cost-of-power/seller?iso=${grid}&asset=${asset}`, words: `What a ${ASSET_WORDS[asset]} earns in this grid` };
+}
 export type Card = { i: number; name: string; id: string; rows: CardRow[]; stories: string[]; table: string; vintage: string; built: string };
 export function cardOf(f: MapFile, i: number): Card {
   const kind = f.k[i], j = i - f.kinds[kind].start;
@@ -195,7 +213,7 @@ export function cardOf(f: MapFile, i: number): Card {
     if (own) said += ` (as the queue states it: ${own})`;
   }
   const at = f.la[i] === null || f.lo[i] === null ? "" : `, ${f.la[i]}, ${f.lo[i]}`;
-  const place = ["exact coordinates" + at, `county point (Census gazetteer)${at}; not the site itself`, `city point (Census gazetteer)${at}; not the site itself`,
+  const place = ["exact coordinates" + at, `county point (Census gazetteer)${at}; not the site itself`, `city or town point (Census gazetteer)${at}; not the site itself`,
     `the operator's coordinates${at}`, "not placed"][f.pr[i]] ?? "not placed";
   const m = f.more.datacenter;
   const developer = dc ? m.developer[j] : "";
@@ -214,6 +232,8 @@ export function cardOf(f: MapFile, i: number): Card {
     { key: "date", label: "Date", value: f.d[i] ? `${dateOf(f.d[i])} (${DATE_IS[kind]})` : "not stated" },
     { key: "power", label: "Power", value: dc ? [m.power[j], m.utility[j] ? `utility ${m.utility[j]}` : ""].filter(Boolean).join("; ") : "" },
     { key: "location", label: "Location", value: place },
+    // session 349: the generator tool, prefilled, for a generating unit or a queue position (not a datacenter)
+    ...(dc ? [] : [(() => { const g = generatorLink(grid.slug, tech.slug, text); return { key: "generator", label: "Generator tool", value: g.words, ...(g.href ? { href: g.href } : {}) }; })()]),
     { key: "source_table", label: "Source table", value: sourceTable, table: true },
   ];
   return {

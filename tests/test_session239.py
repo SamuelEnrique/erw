@@ -43,7 +43,7 @@ PAGES = {
     "/prices": ("tab", ["now", "ercot"], {"ercot": ("explorer/ercot-peak-premium/view.tsx", "PeakPremiumView")}),
     "/demand": ("view", ["metered", "weather", "consumption"], {"consumption": ("consumption/view.tsx", "ConsumptionView")}),
     "/deals": ("tab", ["deals", "tracker", "companies"], {"tracker": ("deals/v2/view.tsx", "TrackerView"), "companies": ("companies/view.tsx", "CompaniesView")}),
-    "/map": ("tab", ["projects", "resources"], {"resources": ("resources/view.tsx", "ResourcesView")}),
+    "/map": ("tab", ["projects", "resources", "queues"], {"resources": ("resources/view.tsx", "ResourcesView")}),  # session 349: Queues, a new tab (no page folded into it)
 }
 # every old address and the tab it became
 MERGED = {
@@ -199,7 +199,7 @@ class TheMenu(unittest.TestCase):
         group = lambda label: re.search(r'label: "%s",\s*pages: \[(.*?)\n    \],' % label, self.pages, flags=re.S).group(1)
         hrefs = lambda label: re.findall(r'\{ href: "([^"]+)"', code(group(label)))
         self.assertEqual(hrefs("Infrastructure"), ["/map", "/datacenters", "/storage", "/deals"])
-        self.assertEqual(hrefs("Economics"), ["/board", "/prices", "/supply", "/contracts", "/severance"])   # Power contracts stays (the owner's ruling); session 288: the bill moved to Games
+        self.assertEqual(hrefs("Economics"), ["/board", "/prices", "/supply", "/contracts", "/severance", "/impact"])   # Power contracts stays (the owner's ruling); session 288: the bill moved to Games; session 347: the economic impact tool
         self.assertIn("/thesis", hrefs("Analysis"))   # Thesis Builder stays (the owner's ruling)
         # session 288 (Samuel's ruling 14 of 14 October 2026): the battery game, the tour, the bill and the problem sets' index
         self.assertEqual(hrefs("Games"), ["/play/battery", "/tour", "/learn/bill", "/learn/problems", "/play/ev"])   # session 294: the EV game

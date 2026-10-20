@@ -18,6 +18,7 @@ grid_stress_days,license needed,2026-10-21,ISO-NE; MISO; NYISO,needs written per
 hub_price_comparison,license needed,2026-10-21,ISO-NE; MISO; NYISO,needs written permission,,,flagged public; the publisher's sentence read in session 205 asks for it (docs/licenses.md)
 iso_dam_hub_prices,license needed,2026-10-21,MISO,needs written permission,,,flagged public; the publisher's sentence read in session 205 asks for it (docs/licenses.md)
 iso_hub_prices_history,license needed,2026-10-21,ISO-NE; MISO; NYISO,needs written permission,,,flagged public; the publisher's sentence read in session 205 asks for it (docs/licenses.md)
+iso_queue_statistics,license needed,2026-10-21,ISO-NE; MISO; NYISO,needs written permission,,,flagged public; the publisher's sentence read in session 205 asks for it (docs/licenses.md)
 iso_rt_top_intervals,license needed,2026-10-21,ISO-NE; NYISO,needs written permission,,,flagged public; the publisher's sentence read in session 205 asks for it (docs/licenses.md)
 iso_rtm_hub_prices,license needed,2026-10-21,MISO,needs written permission,,,flagged public; the publisher's sentence read in session 205 asks for it (docs/licenses.md)
 iso_trader_daily,license needed,2026-10-21,ISO-NE; MISO; NYISO,needs written permission,,,flagged public; the publisher's sentence read in session 205 asks for it (docs/licenses.md)

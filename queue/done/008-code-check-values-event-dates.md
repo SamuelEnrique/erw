@@ -1,3 +1,4 @@
+Done by session 369 (the chain of 20 October 2026, day): site/scripts/event-dates.mjs, check-values.mjs, tests/test_session369.py; report archive/sessions/SESSION_369_REPORT.md.
 ---
 role: code
 spend_cap_usd: 3
