@@ -115,8 +115,12 @@ What the first script had to do that a reader of its code should know:
 
 ### What the table holds, and what it does not
 
-`nlr_jedi_multipliers`: 4,944 rows, four technologies, 52 locations each (the 50 states, the District of Columbia and
-the United States as a whole), two phases, four effects, three measures. The `UNITED STATES` row is JEDI's national
+`nlr_jedi_multipliers`: 5,562 rows. Four technologies, 52 locations each (the 50 states, the District of Columbia and
+the United States as a whole; the gas model 50, below), and for each location 27 rows: two phases, four effects and
+three measures (24 figures), the default project's MW (`<technology>:<state>:all:project`, variable `project_mw`) and
+each phase's local share (`<technology>:<state>:<phase>:spending`, variable `local_share`, a ratio). The last three
+are rows of their own because the site reads only a row's entity, variable, time and value from the live set (session
+347). The `UNITED STATES` row is JEDI's national
 figure (state blank, `geo` US): spending anywhere in the country counts as local, so it is far larger than any state's.
 For the national rows of the gas and geothermal models JEDI's local spending exceeds the project's cost
 (`x_local_share` 1.04 and 1.01); the table gives JEDI's lines as they stand.

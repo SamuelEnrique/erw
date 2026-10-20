@@ -85,11 +85,11 @@ class TheTable(unittest.TestCase):
         self.assertEqual(n, {"geothermal": 52, "land_based_wind": 52, "natural_gas": 50, "utility_pv": 52})
         gas = set(self.d[self.d.x_technology == "natural_gas"].x_state)
         self.assertFalse({"DC", "HI"} & gas, "JEDI's own answer there is #DIV/0!: no row")
-        self.assertEqual(len(self.d), 206 * 24)
+        self.assertEqual(len(self.d), 206 * 27, "24 figures, the project's MW and two local shares a location")
 
     def test_the_total_is_the_sum_of_its_three_lines(self):
         k = ["x_technology", "x_location", "x_phase", "variable"]
-        p = self.d.pivot_table(index=k, columns="x_effect", values="value", aggfunc="first")
+        p = self.d[self.d.variable.isin(["jobs", "earnings", "output"])].pivot_table(index=k, columns="x_effect", values="value", aggfunc="first")
         parts = p["onsite"] + p["supply_chain"] + p["induced"]
         # each value is written to six decimals, so three rounded parts may differ from the rounded total by 1.5e-6
         self.assertTrue(((parts - p["total"]).abs() <= 2e-6 + 1e-9 * p["total"].abs()).all())
@@ -99,6 +99,14 @@ class TheTable(unittest.TestCase):
                    & (self.d.x_effect == "induced") & (self.d.variable == "jobs")].set_index("x_location").value
         self.assertGreater(t.nunique(), 40, "a state's own multipliers give its own induced jobs")
         self.assertGreater(t["UNITED STATES"], t.drop("UNITED STATES").max())
+
+    def test_the_project_and_its_local_shares_are_rows(self):
+        mw = self.d[self.d.variable == "project_mw"].groupby("x_technology").value.unique()
+        self.assertEqual({k: list(v) for k, v in mw.items()}, {"geothermal": [12.226196], "land_based_wind": [300.0],
+                                                              "natural_gas": [500.0], "utility_pv": [100.0]})
+        ls = self.d[self.d.variable == "local_share"]
+        self.assertEqual(set(ls.x_phase), {"construction", "operations"})
+        self.assertTrue((ls.value == ls.x_local_share.astype(float)).all())
 
     def test_the_saved_project_is_marked_as_saved(self):
         ct = self.d[(self.d.x_technology == "land_based_wind") & (self.d.x_state == "CT")]

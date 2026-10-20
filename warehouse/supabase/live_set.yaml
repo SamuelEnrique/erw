@@ -155,7 +155,7 @@ full:
   # of EIA-930's hourly sums against it (144 rows), whole, for the Grid tool's decisions block; under review_hold
   - '^eia_annual_generation_ba$'
   - '^eia_annual_crosscheck_ba$'
-  # session 345: NLR's JEDI jobs, earnings and output per MW by technology, state, phase and effect (4,944 rows), whole,
+  # session 345: NLR's JEDI jobs, earnings and output per MW by technology, state, phase and effect (5,562 rows), whole,
   # for the economic impact tool (/impact, in review); under review_hold, its source under sources_hold
   - '^nlr_jedi_multipliers$'
   # session 346: the tax rules of the economic impact tool (49 rows: the /severance page's rules of TX, LA and NM in a

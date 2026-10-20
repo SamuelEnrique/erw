@@ -163,7 +163,7 @@ miso_interconnection_queue,MISO,,3881,snapshot,2026-09-30T23:33:22Z,2026-09-30T2
 news_index,none,,77,event,2025-01-01T08:00:00Z,2026-12-01T12:00:00Z,15847,77 outlets,2026-10-20T06:16:09Z,pass,public,news,no,model_extracted
 news_scores_shadow,none,,62,event,2026-08-31T07:00:00Z,2026-10-05T14:39:55Z,4748,62 outlets,2026-10-04T14:36:49Z,pass,internal,news,no,model_extracted
 news_stories,none,,79,event,2025-01-01T08:00:00Z,2026-12-01T12:00:00Z,21087,79 outlets,2026-10-20T06:13:48Z,pass,internal,news,no,model_extracted
-nlr_jedi_multipliers,nlr,,1648,P1Y,2010-01-01T00:00:00Z,2017-01-01T00:00:00Z,4944,nlr:jedi,2026-10-20T08:22:06Z,pass,public,power,no,derived
+nlr_jedi_multipliers,nlr,,2266,P1Y,2010-01-01T00:00:00Z,2017-01-01T00:00:00Z,5562,nlr:jedi,2026-10-20T08:43:20Z,pass,public,power,no,derived
 noaa_grid_weather_daily,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,P1D,2019-01-01T00:00:00Z,2026-10-10T00:00:00Z,118336,noaa:isd_lite;noaa:lcd_v2,2026-10-19T17:30:35Z,pass,public,power,no,source
 noaa_grid_weather_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,PT1H,2019-01-01T00:00:00Z,2026-10-11T03:00:00Z,1902921,noaa:isd_lite;noaa:lcd_v2,2026-10-19T17:30:35Z,pass,public,power,no,source
 noaa_grid_weather_stations,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,,2019-01-01T00:00:00Z,2019-01-01T00:00:00Z,245,noaa:isd_lite,2026-10-19T17:30:35Z,pass,public,power,no,source

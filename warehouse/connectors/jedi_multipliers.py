@@ -184,6 +184,23 @@ def rows_for(tech, m, spec, rec, version, mult, sha, kept, log):
                     x_multiplier_data=mult, x_local_share="" if share is None else round(share, 6),
                     x_local_share_cells=share_cells, x_settings="; ".join(f"{k} = {v}" for k, v in rec["settings"].items()),
                     x_method=method))
+        # the project's MW and each phase's local share, as rows of their own: the site reads only entity, variable, ts_utc
+        # and value from the live set (its series table has no room for x_ columns), and the page shows both
+        common = dict(ts_utc=f"{dollar_year}-01-01T00:00:00Z", freq="P1Y", geo=f"US-{state}" if state else "US", market="",
+                      node="", source=SOURCE, source_url=m["url"], retrieved_at=kept, vintage="", x_technology=tech, x_state=state,
+                      x_location=loc.strip(), x_model=m["model"], x_version=version, x_file=m["file"], x_sheet=summary,
+                      x_project_mw=round(mw, 6), x_mw_basis=spec["mw_basis"], x_dollar_year=str(dollar_year),
+                      x_multiplier_data=mult, x_settings="; ".join(f"{k} = {v}" for k, v in rec["settings"].items()), x_method=method)
+        out.append(dict(common, entity=f"nlr_jedi:{tech}:{(state or 'us').lower()}:all:project", variable="project_mw",
+                        value=round(mw, 6), unit="MW", x_phase="all", x_effect="project",
+                        x_cells=spec["mw"] + (f" x {spec['mw_scale']:g}" if spec["mw_scale"] != 1 else ""),
+                        x_local_share="", x_local_share_cells=""))
+        for phase, (share, share_cells) in shares.items():
+            if share is None:
+                continue
+            out.append(dict(common, entity=f"nlr_jedi:{tech}:{(state or 'us').lower()}:{phase}:spending", variable="local_share",
+                            value=round(share, 6), unit="ratio", x_phase=phase, x_effect="spending", x_cells=share_cells,
+                            x_local_share=round(share, 6), x_local_share_cells=share_cells))
     log(f"{tech}: {len(out)} rows from {len(rec['results'])} locations"
         + (f"; JEDI gives an Excel error at {sorted(rec.get('errors', {}))}, no row" if rec.get("errors") else ""))
     return out
@@ -229,7 +246,9 @@ def main(argv=None):
             "Energy Research Warehouse (ERW): JEDI's jobs, earnings and output per MW, by technology, state, phase and effect (session 345)",
             "Shape: series (docs/datastandard.md v0). entity nlr_jedi:<technology>:<state or us>:<phase>:<effect>; variable jobs, earnings or output; "
             "ts_utc 1 January of the model's dollar year. Construction jobs are job-years (1 FTE = 2,080 hours) over the build per MW; "
-            "operations figures are each year's. Per MW of JEDI's default project (x_project_mw), at JEDI's default costs and local shares.",
+            "operations figures are each year's. Per MW of JEDI's default project (x_project_mw), at JEDI's default costs and local shares. "
+            "Two more rows a location: <...>:all:project, variable project_mw (the default project's MW), and <...>:<phase>:spending, "
+            "variable local_share (JEDI's local spending over the phase's cost).",
             f"Source: {SOURCE} {PUBLISHER}, Jobs and Economic Development Impact (JEDI) models, {PAGE}",
             "Kept: " + "; ".join(kept_files),
             "Method: each workbook's own formulas, evaluated for each location of its own list (warehouse/connectors/jedi_recalc.py, pycel), "
