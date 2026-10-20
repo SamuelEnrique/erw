@@ -11,6 +11,7 @@ import { MARKETS, daysAgo, latestPrices, renderTime, series, type SeriesRow } fr
 import { node, price, utc } from "@/lib/format";
 import { attempt } from "@/lib/supabase";
 import { Tabs } from "@/components/tool/Tabs";
+import { TableDownloads } from "@/components/tool/TableDownloads";
 import { ToolPage } from "@/components/tool/ToolPage";
 import { one, tabOf } from "@/lib/tabs";
 import { PeakPremiumView } from "../explorer/ercot-peak-premium/view";
@@ -47,6 +48,9 @@ export default async function Prices({ searchParams }: { searchParams: Promise<R
         <div data-prices={tab}>
           <Tabs page="/prices" active={tab} />
           {tab === "ercot" ? <PeakPremiumView /> : <NowView />}
+          {/* session 328: each tab's public tables, as CSV with a Python and a Stata reader (latest_prices is the live set's
+              own table, refreshed every 15 minutes, and is not an ERW table: its intervals reach the real-time tables) */}
+          <TableDownloads tables={tab === "ercot" ? ["ercot_peak_premium_annual", "ercot_peak_premium_monthly"] : MARKETS.flatMap((m) => [m.rt?.table, m.da.table]).filter((t): t is string => Boolean(t))} />
           <Related href="/prices" />
         </div>
       </ToolPage>
@@ -69,7 +73,8 @@ async function NowView() {
         market data.
       </p>
       <p className="mb-6 max-w-3xl text-sm text-muted">
-        Select a hub or zone for its last 30 days. <Term t="PJM" first /> prices are licensed for internal use and are not shown.
+        Select a hub or zone for its last 30 days. <Term t="PJM" first /> prices are licensed for internal use and are not shown.{" "}
+        <Link href="/data/methods/power_prices">Method</Link>.
       </p>
       {!latest.ok ? <NoData what="real-time prices" reason={latest.reason} /> : null}
       {da.map(({ m, rows }) => {
