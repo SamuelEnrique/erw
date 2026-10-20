@@ -160,8 +160,9 @@ class NoColorLiteral(unittest.TestCase):
         self.assertIn('from "@/components/svgchart"', mixcharts)
         self.assertNotIn("token(", mixcharts)
         bench = src("site", "components", "board", "Workbench.tsx")
-        self.assertIn("const greys = [1, 2, 3, 4, 5].map((i) => token(`season-${i}`));", bench)
-        self.assertEqual(bench.count("greys[Math.max(0, greys.length - (shown.length - 1) + i)] ?? greys[0]"), 2)   # the line and its marker, as they were
+        # session 318: the shared SVG set takes the token by name, so the greys are names, in the same order
+        self.assertIn("const greys = [1, 2, 3, 4, 5].map((i) => `season-${i}`);", bench)
+        self.assertEqual(bench.count("greys[Math.max(0, greys.length - (shown.length - 1) + i)] ?? greys[0]"), 1)   # the line (the SVG line carries its own marker)
         res = src("site", "app", "resources", "ResourceMap.tsx")
         self.assertIn('none: R.rgbOf(cssVar("--color-not-reported"))', res)
         self.assertIn("tone === null ? R.css(p.none, 0.6) :", res)                     # the grey of a class with no value, at the opacity it had

@@ -36,11 +36,12 @@ class TheSharedSet(unittest.TestCase):
     def test_five_kinds_each_with_direct_labels_a_table_toggle_and_a_hover_card(self):
         for name in ("CategoryChart", "HeatChart", "BandChart", "ScatterChart", "BoxPlot"):
             self.assertIn(f"export function {name}(", self.s, name)
-        self.assertEqual(self.s.count('data-direct-labels="1"'), 5)
-        self.assertEqual(self.s.count("<Toggle label={label} table={table} setTable={setTable} id={id} />"), 5)
-        self.assertEqual(self.s.count("<DataTable label={label} id={id}"), 5)
-        self.assertGreaterEqual(self.s.count("<Card left="), 5)
-        self.assertEqual(self.s.count("useWidth<HTMLDivElement>()"), 5)   # drawn for the width measured
+        # session 318 added two (HorizontalBars and ShareSegments: labelled, measured; the bars with a table toggle)
+        self.assertEqual(self.s.count('data-direct-labels="1"'), 7)
+        self.assertEqual(self.s.count("<Toggle label={label} table={table} setTable={setTable} id={id} />"), 6)
+        self.assertEqual(self.s.count("<DataTable label={label} id={id}"), 6)
+        self.assertGreaterEqual(self.s.count("<Card left="), 6)
+        self.assertEqual(self.s.count("useWidth<HTMLDivElement>()"), 7)   # drawn for the width measured
         for kind in ("category", "heat", "band", "scatter", "box"):
             self.assertIn(f'data-svg-chart="{kind}"', self.s)
 
@@ -88,8 +89,8 @@ class ThePagesDrawThroughIt(unittest.TestCase):
         self.assertEqual(src("site", "app", "cost-of-power", "page.tsx").count("<YearCost"), 1)
 
     def test_the_canvas_library_stays_for_what_is_not_moved_yet(self):
-        # the finding cards (session 318) and the maps still draw on it; the library itself is untouched
-        self.assertIn("useEChart", src("site", "components", "analysis", "CardChart.tsx"))
+        # the maps still draw on it; the finding cards moved in session 318; the library itself is untouched
+        self.assertNotIn("useEChart", src("site", "components", "analysis", "CardChart.tsx"))
         self.assertIn("export function useEChart", src("site", "components", "echarts.ts"))
 
 
