@@ -13,7 +13,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { limited, sameOrigin, typed } from "@/lib/guard";
 import { COOKIE } from "@/lib/release";
-import { ID, STATES, listDrafts, setDraftState, type DraftState } from "@/lib/scanner";
+import { ID, STATES, listDrafts, needsPublisher, setDraftState, type DraftState } from "@/lib/scanner";
 import { rpc } from "@/lib/supabase";
 import { internalOk } from "@/lib/thesis/server";
 
@@ -46,6 +46,13 @@ export async function POST(req: NextRequest) {
   try {
     let requestId: string | undefined;
     let note = "";
+    // session 316 (the Research pack's ruling 4b): a record of EIA's newest month is approved only with the publisher's
+    // own figure beside ours (warehouse/analysis/findings/publisher_figure.py writes card.publisher on the data machine)
+    if (state === "approved") {
+      const draft = (await listDrafts()).find((d) => d.id === id);
+      if (!draft) return json({ ok: false, reason: "no such draft" }, 404);
+      if (needsPublisher(draft) && !draft.card.publisher) return json({ ok: false, reason: "a record of an EIA table is approved only with EIA's own figure beside ours; the data machine reads it (publisher_figure.py) and the figure appears here" }, 409);
+    }
     if (state === "full_card_asked") {
       const draft = (await listDrafts()).find((d) => d.id === id);
       if (!draft) return json({ ok: false, reason: "no such draft" }, 404);

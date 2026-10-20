@@ -45,7 +45,9 @@ class TheThreeTests(unittest.TestCase):
         self.assertEqual((c["first_year"], c["last_year"], c["direction"]), ("2019", "2024", "up"))
         self.assertEqual(c["change"], 4.0)
         self.assertEqual((c["years_held"], c["years_after"]), (5, 5))
-        self.assertEqual([t["name"] for t in c["tests"]], ["holds in more than one year", "survives a change of window", "sample large enough"])
+        # session 316: two tests more, half the change without the first year and a floor of one typical yearly move
+        self.assertEqual([t["name"] for t in c["tests"]], ["holds in more than one year", "survives a change of window", "sample large enough",
+                                                           "half the change remains without the first year", "at least one typical yearly move"])
 
     def test_one_year_on_its_side_is_not_more_than_one_year(self):
         c = hunt.test_claim(series([3.0, 2.0, 1.0, 2.5, 4.0]), P, 2026)

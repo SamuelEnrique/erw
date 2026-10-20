@@ -24,6 +24,8 @@ export type Card = {
   // tests, the caption computed for LinkedIn and the names of its files (fetched one at a time at /internal/findings/file)
   hunt?: { pattern: string; module: string; region: string; region_words: string; why: string; caption: string; files: string[];
     tests: { name: string; passed: boolean; words: string }[] };
+  // session 316: the publisher's own figure beside a scanner record of an EIA table (warehouse/analysis/findings/publisher_figure.py)
+  publisher?: { source: string; period: string; value: number; unit: string; eia_value: number; eia_unit: string; url: string; read_at: string; ours: number | null; same: boolean };
 };
 export type CatalogueInput = { label: string; default: string | number; choices: (string | number)[]; words: Record<string, string> };
 export type CatalogueEntry = { id: string; title: string; kind: string; tables: string[]; inputs: Record<string, CatalogueInput> };
