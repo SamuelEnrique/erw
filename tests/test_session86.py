@@ -214,7 +214,7 @@ console.log(JSON.stringify({
 
     def test_the_page_opens_them_with_the_cookie_only_and_reads_the_snapshot(self):
         page = src("site", "app", "cost-of-power", "battery", "page.tsx")
-        self.assertIn("have === (await digest(token))", src("site", "app", "cost-of-power", "battery", "read.ts"))   # the proxy's own test of the internal cookie (session 208: in read.ts, shared with the CSV of every month)
+        self.assertIn("return cookieOpens(have, token);", src("site", "app", "cost-of-power", "battery", "read.ts"))   # the proxy's own test of the internal cookie (session 208: in read.ts, shared with the CSV of every month; session 371: in constant time, lib/release.ts)
         # session 195: the address is read once into `q`, which scenario A's parameters are read from as well
         self.assertIn("const q = Object.fromEntries(Object.entries(sp).map(([k, v]) => [k, typeof v === \"string\" ? v : undefined]));", page)
         self.assertIn("const asked = inputsOf(q, internal);", page)

@@ -3,14 +3,14 @@
 // (/internal/unlock) sees every page. The API routes, the internal routes and static files never come here.
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { COOKIE, digest, exempt, statusOf } from "@/lib/release";
+import { COOKIE, cookieOpens, exempt, statusOf } from "@/lib/release";
 
 export async function proxy(req: NextRequest) {
   const path = req.nextUrl.pathname;
   if (exempt(path) || statusOf(path) === "live") return NextResponse.next();
   const token = process.env.INTERNAL_COSTS_TOKEN;
   const have = req.cookies.get(COOKIE)?.value;
-  if (token && have && have === (await digest(token))) return NextResponse.next();
+  if (await cookieOpens(have, token)) return NextResponse.next();   // session 371: constant time (docs/security.md, S1)
   const url = req.nextUrl.clone();
   url.pathname = "/in-review";
   url.search = `?path=${encodeURIComponent(path)}`;

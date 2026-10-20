@@ -152,3 +152,14 @@ export async function digest(token: string): Promise<string> {
   const d = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(`erw-internal-view:${token}`));
   return [...new Uint8Array(d)].map((b) => b.toString(16).padStart(2, "0")).join("");
 }
+/** Session 371 (docs/security.md, S1): does a cookie hold the digest of the token? Compared in constant time, as
+ * internalOk (lib/thesis/server.ts) and the form's door (sameSecret, lib/guard.ts) compare; the proxy and the battery
+ * page compared with ===. No import, so the proxy can use it. */
+export async function cookieOpens(have: string | undefined, token: string | undefined): Promise<boolean> {
+  if (!token || !have) return false;
+  const want = await digest(token);
+  if (have.length !== want.length) return false;
+  let d = 0;
+  for (let i = 0; i < want.length; i += 1) d |= have.charCodeAt(i) ^ want.charCodeAt(i);
+  return d === 0;
+}
