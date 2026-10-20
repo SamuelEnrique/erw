@@ -49,7 +49,8 @@ class SmallFixes(unittest.TestCase):
         self.assertIn('<SiteLink href="/grid?view=mix">the energy mix</SiteLink>', src("site", "app", "curtailment", "page.tsx"))
 
     def test_the_threshold_and_the_range(self):
-        self.assertIn("By default halfway from the window's mean to its high", src("site", "components", "board", "Workbench.tsx"))
+        # session 328: the default is said beside the box (both of its rules), no longer in a title
+        self.assertIn("\"halfway from the window's mean to its high\"", src("site", "components", "board", "Workbench.tsx"))
         self.assertIn("{file.caiso_break.rows.length > 1 ? <>; in the", src("site", "app", "demand", "page.tsx"))
 
     def test_the_method_notes(self):
