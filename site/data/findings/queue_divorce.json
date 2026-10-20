@@ -261,5 +261,19 @@
   "python": "queue_divorce.py",
   "stata": "queue_divorce.do"
  },
- "csv_sha256": "ef4478539e29dd525651e07621b83c28c12914bc3e4d9c9217a8f7dc75d9f6f2"
+ "csv_sha256": "ef4478539e29dd525651e07621b83c28c12914bc3e4d9c9217a8f7dc75d9f6f2",
+ "statistics": {
+  "session": 361,
+  "round": {
+   "name": "the findings library's cards as computed by 2026-10-10",
+   "claims_tested": 26,
+   "claims_passing": 15,
+   "alpha": 0.05,
+   "method": "Benjamini-Hochberg over the round's distinct p-values",
+   "caveat": "Many claims were tested in this round; a claim's q-value is the false discovery rate at which it would still be kept over all of them (Benjamini and Hochberg). A caveat, not a test the card had to pass.",
+   "claims_of_this_card": 0,
+   "q_bh": {},
+   "this_card": "no claim of this card is a test with a p-value: it states figures, and the round's count is the library's"
+  }
+ }
 }

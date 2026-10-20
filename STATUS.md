@@ -1,20 +1,20 @@
 # ERW status
 
-Generated 2026-10-20 01:32 UTC by `warehouse/metadata/build_status.py`, which the daily run regenerates after coverage; the daily workflow commits it. Every number below is read from `warehouse/metadata/coverage.csv`, `warehouse/metadata/run_status.csv` or Supabase.
+Generated 2026-10-20 06:56 UTC by `warehouse/metadata/build_status.py`, which the daily run regenerates after coverage; the daily workflow commits it. Every number below is read from `warehouse/metadata/coverage.csv`, `warehouse/metadata/run_status.csv` or Supabase.
 
 ## Tables
 
 | | Tables | Rows |
 |---|---|---|
-| All | 204 | 38,819,410 |
-| Public | 172 | 36,342,846 |
-| Internal (never shown publicly) | 32 | 2,476,564 |
+| All | 204 | 38,831,118 |
+| Public | 172 | 36,354,425 |
+| Internal (never shown publicly) | 32 | 2,476,693 |
 
-Newest table refresh: 2026-10-20 01:11:09 UTC. Validator: 203 of 204 tables pass. Per-table detail: [`docs/coverage.md`](docs/coverage.md).
+Newest table refresh: 2026-10-20 06:28:04 UTC. Validator: 203 of 204 tables pass. Per-table detail: [`docs/coverage.md`](docs/coverage.md).
 
 ## Health gate
 
-**Closed.** The latest daily run on GitHub (2026-10-20) has 6 failed tables outside the known-gap list below: `eia930_ciso_demand`, `eia930_isne_demand`, `eia930_miso_demand`, `eia930_pjm_demand`, `eia930_us48_demand`, `state_generation_mix_monthly`. While the gate is closed, no session adds a new source or a new tool (`PRIORITIES.md`); fixing the failures, or a human adding one to the list, opens it. `python warehouse/metadata/build_status.py --gate` exits 1 while it is closed.
+**Closed.** The latest daily run on GitHub (2026-10-20) has 1 failed table outside the known-gap list below: `state_generation_mix_monthly`. While the gate is closed, no session adds a new source or a new tool (`PRIORITIES.md`); fixing the failures, or a human adding one to the list, opens it. `python warehouse/metadata/build_status.py --gate` exits 1 while it is closed.
 
 ### Known gaps
 
@@ -36,9 +36,9 @@ Failures a human has accepted for now (`warehouse/metadata/known_gaps.csv`, edit
 
 | Workflow | Last run (UTC) | Outcome |
 |---|---|---|
-| daily prices, on GitHub | 2026-10-20 01:32 | 158 ok, 6 failed, 46 gap, 8 skipped (table results of that day) |
+| daily prices, on GitHub | 2026-10-20 06:56 | 322 ok, 6 failed, 88 gap, 17 skipped (table results of that day) |
 | daily run, local | 2026-10-19 23:20 | 941 gap (table results of that day) |
-| latest prices, every 15 minutes | 2026-10-20 01:31 | 39 hubs and zones in `latest_prices` (newest retrieval) |
+| latest prices, every 15 minutes | 2026-10-20 06:46 | 39 hubs and zones in `latest_prices` (newest retrieval) |
 
 A table that failed is not written that day; nothing partial is. The reasons are in `warehouse/metadata/run_status.csv`.
 
@@ -47,11 +47,6 @@ A table that failed is not written that day; nothing partial is. The reasons are
 | Table | Run | Reason |
 |---|---|---|
 | `coverage` | 20260929T185935Z | price_board_carbon: input tables ['carb_auction_allowance_prices'] are not in warehouse/output; fixed in 670ba69 (session 33); recorded in session 34 from the j |
-| `eia930_ciso_demand` | 20261020T002603Z | RuntimeError: incomplete data, no file written for eia930_ciso_demand: demand_mw: 71 of 72 hours (1 missing, 0 published as null; first missing ['2026-10-19T23: |
-| `eia930_isne_demand` | 20261020T002603Z | RuntimeError: incomplete data, no file written for eia930_isne_demand: demand_mw: 71 of 72 hours (1 missing, 0 published as null; first missing ['2026-10-19T23: |
-| `eia930_miso_demand` | 20261020T002603Z | RuntimeError: incomplete data, no file written for eia930_miso_demand: demand_mw: 71 of 72 hours (1 missing, 0 published as null; first missing ['2026-10-19T23: |
-| `eia930_pjm_demand` | 20261020T002603Z | RuntimeError: incomplete data, no file written for eia930_pjm_demand: demand_mw: 71 of 72 hours (1 missing, 0 published as null; first missing ['2026-10-19T23:0 |
-| `eia930_us48_demand` | 20261020T002603Z | RuntimeError: incomplete data, no file written for eia930_us48_demand: demand_mw: 71 of 72 hours (1 missing, 0 published as null; first missing ['2026-10-19T23: |
 | `ercot_large_load_queue` | 20261012T144846Z | iso_prices.SourceGap: ERCOT publishes no request-level large-load list: https://www.ercot.com/services/rq/large-load-integration links 3 spreadsheets, none a st |
 | `ercot_zone_load_hourly` | 20261010T150220Z | RuntimeError: the operator answered no hour |
 | `nyiso_interconnection_queue` | 20261012T144744Z | RuntimeError: nyiso queue failed after 4 attempts: RuntimeError('GET https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx failed: <Res |
@@ -60,7 +55,7 @@ A table that failed is not written that day; nothing partial is. The reasons are
 
 ## Open gaps
 
-Days a per-day connector could not write complete, re-checked against the table with the connector's own completeness rule. Recorded gap days: 1022; filled since: 147; closed as known gaps: 599 (`eia930_all_emissions` 486, `eia930_all_storage` 113; the rows of warehouse/metadata/known_gaps.csv keyed <table>:gap_days); open: 276.
+Days a per-day connector could not write complete, re-checked against the table with the connector's own completeness rule. Recorded gap days: 1023; filled since: 152; closed as known gaps: 599 (`eia930_all_emissions` 486, `eia930_all_storage` 113; the rows of warehouse/metadata/known_gaps.csv keyed <table>:gap_days); open: 272.
 
 | Table | Day | State | First recorded reason |
 |---|---|---|---|
@@ -266,22 +261,17 @@ Days a per-day connector could not write complete, re-checked against the table 
 | `eia930_erco_demand` | 2026-09-05 | still incomplete in the table | session 325 re-check (EIA's API, electricity/rto/region-data, asked again for the last 50 days): still incomplete |
 | `eia930_erco_demand` | 2026-10-05 | still incomplete in the table | session 325 re-check (EIA's API, electricity/rto/region-data, asked again for the last 50 days): still incomplete |
 | `eia930_erco_demand` | 2026-10-06 | still incomplete in the table | session 325 re-check (EIA's API, electricity/rto/region-data, asked again for the last 50 days): still incomplete |
-| `eia930_erco_demand` | 2026-10-19 | still incomplete in the table | demand_mw: 23 of 24 hours (1 missing, 0 published as null; first missing ['2026-10-19T23:00:00Z']) |
 | `eia930_erco_generation` | 2026-10-19 | still incomplete in the table | net_generation_mw: 4 of 24 hours (20 missing, 0 published as null; first missing ['2026-10-19T04:00:00Z', '2026-10-19T05:00:00Z', '2026-10-1 |
 | `eia930_isne_generation` | 2026-10-19 | still incomplete in the table | net_generation_mw: 3 of 24 hours (21 missing, 0 published as null; first missing ['2026-10-19T03:00:00Z', '2026-10-19T04:00:00Z', '2026-10-1 |
 | `eia930_miso_generation` | 2026-10-19 | still incomplete in the table | net_generation_mw: 4 of 24 hours (20 missing, 0 published as null; first missing ['2026-10-19T04:00:00Z', '2026-10-19T05:00:00Z', '2026-10-1 |
 | `eia930_nyis_demand` | 2026-09-04 | still incomplete in the table | session 325 re-check (EIA's API, electricity/rto/region-data, asked again for the last 50 days): still incomplete |
 | `eia930_nyis_demand` | 2026-09-05 | still incomplete in the table | session 325 re-check (EIA's API, electricity/rto/region-data, asked again for the last 50 days): still incomplete |
-| `eia930_nyis_demand` | 2026-10-19 | still incomplete in the table | demand_mw: 23 of 24 hours (1 missing, 0 published as null; first missing ['2026-10-19T23:00:00Z']) |
 | `eia930_nyis_generation` | 2026-10-19 | still incomplete in the table | net_generation_mw: 3 of 24 hours (21 missing, 0 published as null; first missing ['2026-10-19T03:00:00Z', '2026-10-19T04:00:00Z', '2026-10-1 |
 | `eia930_pjm_generation` | 2026-10-19 | still incomplete in the table | net_generation_mw: 3 of 24 hours (21 missing, 0 published as null; first missing ['2026-10-19T03:00:00Z', '2026-10-19T04:00:00Z', '2026-10-1 |
 | `eia930_swpp_demand` | 2026-09-28 | still incomplete in the table | session 325 re-check (EIA's API, electricity/rto/region-data, asked again for the last 50 days): still incomplete |
 | `eia930_swpp_demand` | 2026-09-29 | still incomplete in the table | session 325 re-check (EIA's API, electricity/rto/region-data, asked again for the last 50 days): still incomplete |
-| `eia930_swpp_demand` | 2026-10-19 | still incomplete in the table | demand_mw: 23 of 24 hours (1 missing, 0 published as null; first missing ['2026-10-19T23:00:00Z']) |
 | `eia930_swpp_generation` | 2026-10-19 | still incomplete in the table | net_generation_mw: 4 of 24 hours (20 missing, 0 published as null; first missing ['2026-10-19T04:00:00Z', '2026-10-19T05:00:00Z', '2026-10-1 |
 | `eia930_us48_generation` | 2026-10-19 | still incomplete in the table | net_generation_mw: 3 of 24 hours (21 missing, 0 published as null; first missing ['2026-10-19T03:00:00Z', '2026-10-19T04:00:00Z', '2026-10-1 |
-| `eia_retail_electricity_prices` | 2026-10-20 | not on this machine, not verifiable here | publisher did not answer within the budget (15 minutes of wall clock); asked again by the next run: iso_prices.BudgetExhausted: publisher di |
-| `eia_retail_fuel_prices` | 2026-10-20 | not on this machine, not verifiable here | publisher did not answer within the budget (15 minutes of wall clock); asked again by the next run: iso_prices.BudgetExhausted: publisher di |
 | `eia_retail_sales_monthly` | 2026-10-20 | not on this machine, not verifiable here | publisher did not answer within the budget (15 minutes of wall clock); asked again by the next run: iso_prices.BudgetExhausted: publisher di |
 | `eia_sector_energy_consumption_monthly` | 2026-10-20 | not on this machine, not verifiable here | publisher did not answer within the budget (15 minutes of wall clock); asked again by the next run: iso_prices.BudgetExhausted: publisher di |
 | `eia_state_generation_monthly` | 2026-10-20 | not on this machine, not verifiable here | publisher did not answer within the budget (15 minutes of wall clock); asked again by the next run: iso_prices.BudgetExhausted: publisher di |
@@ -340,3 +330,4 @@ Days a per-day connector could not write complete, re-checked against the table 
 | `spp_rtm_hub_prices` | 2026-10-07 | still incomplete in the table | SPP has no daily RTBM file for 2026-10-07 and its interval file for 2026-10-07 23:10:00-05:00 is missing: SPP RTBM interval 2026-10-07 23:10 |
 | `spp_rtm_hub_prices` | 2026-10-10 | still incomplete in the table | SPP has no daily RTBM file for 2026-10-10 and its interval file for 2026-10-10 15:15:00-05:00 is missing: SPP RTBM interval 2026-10-10 15:15 |
 | `spp_rtm_hub_prices` | 2026-10-12 | still incomplete in the table | SPP has no daily RTBM file for 2026-10-12 and its interval file for 2026-10-12 17:20:00-05:00 is missing: SPP RTBM interval 2026-10-12 17:20 |
+| `spp_rtm_hub_prices` | 2026-10-19 | still incomplete in the table | SPP has no daily RTBM file for 2026-10-19 and its interval file for 2026-10-19 12:15:00-05:00 is missing: SPP RTBM interval 2026-10-19 12:15 |
