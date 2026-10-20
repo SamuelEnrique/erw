@@ -63,8 +63,10 @@ def own_first_line(header):
     """True when the table's own first header line is the ERW's. Session 202: a table the runner rebuilds from the
     archive carries one line above it ("Rebuilt from the ERW archive by warehouse/archive/restore.py, as of run ...;
     that run's own header of the table follows", restore.py), and header[0] alone failed four tests every day from 5
-    October 2026."""
-    own = [h for h in header if not h.startswith("Rebuilt from the ERW archive by warehouse/archive/restore.py")]
+    October 2026. Session 336: warehouse/restore_tables.py (session 305) writes its own such line ("Rebuilt from the
+    ERW archive by warehouse/restore_tables.py (session 305), ..."), which failed nyiso_zone_load_hourly on 20 October:
+    a held table no connector rewrites keeps it, so any rebuild line is set aside, whichever script wrote it."""
+    own = [h for h in header if not h.startswith("Rebuilt from the ERW archive by ")]
     return bool(own) and own[0].startswith("Energy Research Warehouse (ERW):")
 
 

@@ -272,6 +272,10 @@ soft_step dm_board_page "$PYTHON" warehouse/derived/page_keep.py board
 # its drafts are added to the internal review list (public.scanner_drafts); a draft raised before is never raised
 # twice. No model call. A soft step: a failure is recorded in erw_health and never stops this run.
 soft_step dm_scanner "$PYTHON" warehouse/analysis/findings/findings_scanner.py --daily
+# Session 336 (session 316's request): EIA's own figure beside each open record draft of an EIA table, which the approval
+# route needs. EIA is asked once per draft and month (a draft that carries its month's figure is not asked again), so
+# most days this asks nothing. A soft step: a figure not read leaves the draft without one, recorded in erw_health.
+soft_step dm_publisher_figure "$PYTHON" warehouse/analysis/findings/publisher_figure.py
 
 # a file whose builder failed, or whose own test fails, is put back as the last commit has it: never a half-built file
 put_back() {  # put_back <step> <path...>

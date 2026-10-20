@@ -182,9 +182,11 @@ class Sources:
                     g.to_pickle(os.path.join(work, f"{k}_{i:06d}.pkl"))
             if not n_parts:
                 raise RuntimeError("nothing archived in the bucket")
+            # session 336: the run's header loses its own rebuild lines, so a held table rebuilt each day carries one
+            # (nyiso_zone_load_hourly had stacked four by 20 October, one a run)
             header = [f"Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run "
                       f"{run['run_id']} ({run['archived_at']}); that run's own header of the table follows"] + \
-                run["header"].split("\n")
+                [h for h in run["header"].split("\n") if not h.startswith("Rebuilt from the ERW archive by ")]
             n = 0
             with open(out, "w", encoding="utf-8", newline="") as fh:
                 for h in header:
