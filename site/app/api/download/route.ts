@@ -1,24 +1,41 @@
 // Energy Research Warehouse (ERW) site: GET /api/download?table=<table>, one public table of the live set
 // as CSV (session 21, ruling 10). Streams from Supabase with the anon key (public rows only), page by
 // page, with the table's provenance header lines at the top (as '#' lines, as in the ERW's own CSVs),
-// then the table's columns in their CSV order. At most 200,000 rows: a larger table answers 413 and
-// points to Redivis. A windowed table (for example the last 35 days of prices) gives what the live set
-// holds; the full history is on Redivis.
+// then the table's columns in their CSV order. A windowed table (for example the last 35 days of prices)
+// gives what the live set holds; the full history is on Redivis.
+//
+// Session 368: pages by key, not by offset, and takes no row count. The count (Prefer: count=exact) and a page deep in
+// a table by offset passed the anon role's three-second statement timeout on the largest tables (session 328's finding,
+// the night note of 20 October 2026, item 3). Each page now starts after the last row of the one before, on the table's
+// primary key in the live set (warehouse/supabase/migrations/001_shapes.sql and 011: series (table_name, entity,
+// variable, ts_utc, event), entities (table_name, entity_id), events (table_name, event_id)), so every page is a short
+// range read of that key's index; the stream ends when a page comes back short. The rows come in the order they came in
+// before (series entity, variable, ts_utc; entities entity_id; events event_id), with event last for the series rows that
+// share the first three. The first pages are read before the answer starts: a table that ends within them is counted as
+// before (the same line, the same bytes); a larger one is streamed a page at a time as the reader takes it, its line
+// saying the count was not taken.
 import site from "@/data/site.json";
 import { limited } from "@/lib/guard";
 import { licenseNeeded, licensePublishers } from "@/lib/license";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+// session 368: the largest table of the live set (ercot_as_prices, about 340,000 rows) is some 340 short reads
+export const maxDuration = 300;
 
-const MAX_ROWS = 200_000;
+// session 368: no count is taken, so the limit is kept as the rows are streamed: a table that passes it ends in an error,
+// never in a file that looks whole. 200,000 until session 368; ercot_as_prices, whole in the live set, holds 338,132.
+const MAX_ROWS = 500_000;
 const PAGE = 1000;
+// the rows read before the answer starts: a table that ends within them carries its count on the "Downloaded" line
+const FIRST_ROWS = 50_000;
 const STD: Record<string, string[]> = {
   series: ["entity", "variable", "ts_utc", "value", "unit", "freq", "geo", "market", "node", "source", "source_url", "retrieved_at", "vintage"],
   entities: ["entity_id", "entity_type", "name", "geo", "lat", "lon", "capacity_mw", "status", "status_date", "operator", "source", "source_url", "retrieved_at", "vintage"],
   events: ["event_id", "event_date", "event_type", "parties", "entity_ids", "mw", "price", "currency", "status", "source", "source_url"],
 };
-const ORDER: Record<string, string> = { series: "entity,variable,ts_utc", entities: "entity_id", events: "event_id" };
+// each shape's primary key after table_name, in order: the order of the rows and the page's start
+const KEY: Record<string, string[]> = { series: ["entity", "variable", "ts_utc", "event"], entities: ["entity_id"], events: ["event_id"] };
 
 function supa() {
   const url = process.env.SUPABASE_URL, key = process.env.SUPABASE_ANON_KEY;
@@ -99,13 +116,60 @@ const reader = (table: string, as: "py" | "do", origin: string) => new Response(
   headers: { "Content-Type": "text/plain; charset=utf-8", "Content-Disposition": `attachment; filename="erw_${table}.${as}"`, "Cache-Control": "public, max-age=3600" },
 });
 
+/** A filter value in PostgREST's logic syntax (or=(...)): in double quotes, its own quotes and backslashes escaped. */
+const quoted = (v: string) => `"${v.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
+const enc = (v: unknown) => encodeURIComponent(String(v));
+
+/** Session 368: the table's rows, page by page, in its key's order, each page starting after the last row of the one
+ *  before. A series row's key has four parts, so the next rows are read in up to three ranges, each a range of the
+ *  primary key's index: the rest of the last row's (entity, variable), then the rest of its entity, then the entities
+ *  after it. A single-column key (entities, events) has one. A short page of the last range ends the table. The key's
+ *  values are read as k0, k1, ... so that a column the CSV does not carry (event) adds nothing to the row's bytes. */
+async function* pages(shape: string, table: string, select: string): AsyncGenerator<Record<string, unknown>[]> {
+  const key = KEY[shape];
+  const sel = `${select},${key.map((k, i) => `k${i}:${k}`).join(",")}`;
+  const order = key.join(",");
+  const base = `${shape}?select=${sel}&table_name=eq.${table}&order=${order}&limit=${PAGE}`;
+  // with retries: one page is a short read, and a busy database can refuse one now and then
+  const read = async (filter: string) => {
+    for (let attempt = 1; ; attempt += 1) {
+      try {
+        return (await (await get(base + filter)).json()) as Record<string, unknown>[];
+      } catch (e) {
+        if (attempt >= 3) throw e;
+        await new Promise((r) => setTimeout(r, 500 * attempt));
+      }
+    }
+  };
+  // the ranges after a row's key, the narrowest first: for series [same entity and variable], [same entity], [after]
+  const ranges = (last: Record<string, unknown>): string[] => {
+    if (key.length === 1) return [`&${key[0]}=gt.${enc(last.k0)}`];
+    const [e, v, t, ev] = [String(last.k0), String(last.k1), String(last.k2), String(last.k3)];
+    return [
+      `&entity=eq.${enc(e)}&variable=eq.${enc(v)}&ts_utc=gte.${enc(t)}&or=${enc(`(ts_utc.gt.${quoted(t)},event.gt.${quoted(ev)})`)}`,
+      `&entity=eq.${enc(e)}&variable=gt.${enc(v)}`,
+      `&entity=gt.${enc(e)}`,
+    ];
+  };
+  let rows = await read("");
+  yield rows;
+  if (rows.length < PAGE) return;
+  let todo = ranges(rows[rows.length - 1]);
+  while (todo.length) {
+    rows = await read(todo[0]);
+    if (rows.length) yield rows;
+    // a full page: the next one starts after its last row, in the narrowest range again; a short one: the next range
+    todo = rows.length === PAGE ? ranges(rows[rows.length - 1]) : todo.slice(1);
+  }
+}
+
 export async function GET(req: Request) {
   const table = new URL(req.url).searchParams.get("table") ?? "";
   if (!/^[a-z0-9_]{3,64}$/.test(table)) return text("table must be an ERW table name", 400);
   // session 282: the download refuses what /data holds back, a table marked "license
   // needed" on the day (lib/license.ts, the rule of session 207 from 20 October 2026); until now only the link was hidden
   if (licenseNeeded(table)) return text(`${table} is held: license needed (${licensePublishers(table).join("; ")}). It is not downloaded from this site.`, 403);
-  // session 177 (lib/guard.ts): a download reads up to 200,000 rows from the database; sixty an hour a visitor
+  // session 177 (lib/guard.ts): a download reads up to MAX_ROWS rows from the database; sixty an hour a visitor
   const lim = await limited(req, "download", 60, 3600);
   if (!lim.ok) return new Response("limit reached: 60 downloads per hour; try again later\n", { status: 429, headers: { "Content-Type": "text/plain; charset=utf-8", "Retry-After": String(lim.retryAfter) } });
   try {
@@ -121,32 +185,48 @@ export async function GET(req: Request) {
     if (as === "py" || as === "do") return reader(table, as, new URL(req.url).origin);
     const columns = JSON.parse(cat[0].columns) as string[];
     const shape = columns[0] === "entity_id" ? "entities" : columns[0] === "event_id" ? "events" : "series";
-    const countRes = await get(`${shape}?select=table_name&table_name=eq.${table}&limit=1`, { Prefer: "count=exact" });
-    const n = Number((countRes.headers.get("content-range") ?? "").split("/")[1]);
-    if (!Number.isFinite(n)) return text(`${table}: Supabase gave no row count`, 502);
-    if (n > MAX_ROWS) {
-      return text(`${table} holds ${n.toLocaleString("en-US")} rows in the live set, more than the ${MAX_ROWS.toLocaleString("en-US")} a download allows. `
-        + `Every table is on Redivis (${site.redivis.url}); version 1 is pending release.`, 413);
-    }
     const hdr = (await (await get(`headers?select=line&table_name=eq.${table}&order=line_no`)).json()) as { line: string }[];
     const std = STD[shape];
     const select = shape === "series" ? std.join(",") : [...std, "extra"].join(",");
-    const enc = new TextEncoder();
+    const csv = (rows: Record<string, unknown>[]) => rows.map((r) => columns.map((c) => cell(c in r ? r[c] : (r.extra as Record<string, unknown> | null)?.[c])).join(",") + "\n").join("");
+    // the first pages, read before the answer starts: a failure here is a plain 502, as before
+    const it = pages(shape, table, select);
+    const first: string[] = [];
+    let n = 0, done = false;
+    while (n < FIRST_ROWS) {
+      const step = await it.next();
+      if (step.done) { done = true; break; }
+      n += step.value.length;
+      first.push(csv(step.value));
+    }
+    const at = new Date().toISOString().replace(/\.\d{3}Z$/, "Z");
+    const counted = done ? `${n} rows` : `${n} rows or more, read page by page (the count is not taken on a table this large)`;
+    const top = hdr.map((h) => `# ${h.line}\n`).join("") + `# Downloaded from the ERW site's live set (Supabase) at ${at}: ${counted}.\n` + columns.join(",") + "\n";
+    const encoder = new TextEncoder();
+    let started = false;
+    // pulled: the next page is read only when the reader has taken the last, so no table is held whole in the server
     const stream = new ReadableStream<Uint8Array>({
-      async start(ctl) {
+      async pull(ctl) {
         try {
-          ctl.enqueue(enc.encode(hdr.map((h) => `# ${h.line}\n`).join("")
-            + `# Downloaded from the ERW site's live set (Supabase) at ${new Date().toISOString().replace(/\.\d{3}Z$/, "Z")}: ${n} rows.\n`
-            + columns.join(",") + "\n"));
-          for (let off = 0; off < n; off += PAGE) {
-            const rows = (await (await get(`${shape}?select=${select}&table_name=eq.${table}&order=${ORDER[shape]}&limit=${PAGE}&offset=${off}`)).json()) as Record<string, unknown>[];
-            ctl.enqueue(enc.encode(rows.map((r) => columns.map((c) => cell(c in r ? r[c] : (r.extra as Record<string, unknown> | null)?.[c])).join(",")).join("\n") + (rows.length ? "\n" : "")));
-            if (rows.length < PAGE) break;
+          if (!started) {
+            started = true;
+            ctl.enqueue(encoder.encode(top + first.join("")));
+            first.length = 0;
+            if (done) ctl.close();
+            return;
           }
-          ctl.close();
+          const step = await it.next();
+          if (step.done) { ctl.close(); return; }
+          n += step.value.length;
+          if (n > MAX_ROWS) throw new Error(`${table} holds more than the ${MAX_ROWS} rows a download allows; every table is on Redivis (${site.redivis.url})`);
+          ctl.enqueue(encoder.encode(csv(step.value)));
         } catch (e) {
           ctl.error(e);
+          await it.return(undefined).catch(() => {});
         }
+      },
+      async cancel() {
+        await it.return(undefined).catch(() => {});
       },
     });
     return new Response(stream, {
