@@ -333,7 +333,7 @@ export function HeatChart({ id, rows, cols, cells, unit, label, tips, marks, lo:
               {Array.from({ length: 8 }, (_, k) => <rect key={k} x={L + 110 + k * 12} y={height - 17} width="12" height="10" fill="var(--color-accent)" fillOpacity={0.08 + 0.92 * (k / 7)} />)}
               <text x={L + 110 + 8 * 12 + 6} y={height - 8} fontSize="11" fill="var(--color-muted)">{legend?.[1] ?? `${num(hi)} ${unit}`}</text>
               <rect x={L + 110 + 8 * 12 + 6 + textWidth(legend?.[1] ?? `${num(hi)} ${unit}`, 11) + 14} y={height - 17} width="12" height="10" fill={`url(#${id}-blank)`} />
-              <text x={L + 110 + 8 * 12 + 6 + textWidth(legend?.[1] ?? `${num(hi)} ${unit}`, 11) + 30} y={height - 8} fontSize="11" fill="var(--color-muted)">not held</text>
+              <text x={L + 110 + 8 * 12 + 6 + textWidth(legend?.[1] ?? `${num(hi)} ${unit}`, 11) + 30} y={height - 8} fontSize="11" fill="var(--color-muted)">no value held</text>
             </g>
           </svg>
           {hover ? <Card left={L + hover[1] * cw + 10} width={W}><div className="max-w-[260px] text-ink">{words(hover[0], hover[1])}</div></Card> : null}

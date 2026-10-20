@@ -146,8 +146,9 @@ class NoColorOfItsOwn(unittest.TestCase):
 
     def test_the_charts_of_thesis_builder_read_the_tokens_at_their_own_box(self):
         charts = src("site", "components", "thesis", "ThesisCharts.tsx")
-        self.assertEqual(charts.count("baseStyle(el)"), 2)
-        self.assertNotIn("baseStyle()", charts)
+        # session 318: both drawn through the shared SVG set, whose colors are tokens by name; nothing reads a style
+        self.assertIn('from "@/components/svgchart"', charts)
+        self.assertNotIn("baseStyle(", charts)
         self.assertNotRegex(charts, r'token\("[a-z-]+"\)')
         echarts = src("site", "components", "echarts.ts")
         self.assertIn("export function token(name: string, from?: Element | null)", echarts)

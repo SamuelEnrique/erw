@@ -31,7 +31,8 @@ class TheSchedule(unittest.TestCase):
             self.assertNotIn("refresh_mix.sh", src(*rel.split("/")), rel)
 
     def test_the_scorecard_is_a_closed_study(self):
-        self.assertTrue(re.search(r'^END = "2025-10-31"', src("warehouse", "derived", "flex_alert_scorecard.py"), re.M))
+        # session 322: extended through the 2026 season (the owner's default of 19 October 2026); still on no schedule
+        self.assertTrue(re.search(r'^END = "2026-10-31"', src("warehouse", "derived", "flex_alert_scorecard.py"), re.M))
         self.assertNotIn("flex_alert_scorecard.py", src("warehouse", "run_data_machine_tables.sh"))
 
     def test_the_list_names_the_step(self):

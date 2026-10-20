@@ -371,7 +371,10 @@ def main(argv=None):
             n_new += len(rows)
             del rows, x
         if not n_new:
-            raise RuntimeError("no complete day of CO2 values in the window")
+            # session 321: EIA posts the per-BA workbooks with the CO2 hours some days behind the window's end; a window
+            # with no complete day yet is the publisher's lag (session 271's rule), a skip, never a red day
+            raise RuntimeError("stale at source: no complete day of CO2 values in the window; EIA's newest workbooks "
+                               f"hold none yet ({'; '.join(used)[:160]})")
         if args.max_new_rows is not None and n_new > args.max_new_rows:
             raise RuntimeError(f"{n_new:,} rows exceed the ceiling of {args.max_new_rows:,}; nothing written")
         if args.dry_run:
@@ -421,12 +424,21 @@ def main(argv=None):
         results.append(dict(table=NAME, market="all", status="ok", detail=summary[:300]))
     except Exception:
         tb = ip.redact(traceback.format_exc())
-        log(f"FAILED:\n{tb}")
-        print(f"eia930_emissions {NAME} FAILED: {tb.strip().splitlines()[-1]}", file=sys.stderr)
-        results.append(dict(table=NAME, market="all", status="failed", detail=tb.strip().splitlines()[-1][:300]))
+        last = tb.strip().splitlines()[-1]
+        why = ip.gap_skip(NAME, last)  # session 321: a publisher's lag (stale at source) is a skip
+        if why:
+            log(f"SKIPPED: {why}")
+            print(f"eia930_emissions {NAME} SKIPPED: {why}")
+            results.append(dict(table=NAME, market="all", status="skipped", detail=why[:300]))
+        else:
+            log(f"FAILED:\n{tb}")
+            print(f"eia930_emissions {NAME} FAILED: {last}", file=sys.stderr)
+            results.append(dict(table=NAME, market="all", status="failed", detail=last[:300]))
     ip.write_status("eia930_emissions", run_id, results + gaps)
     log.close()
-    return 0 if all(r["status"] != "failed" for r in results) else 1
+    if any(r["status"] == "failed" for r in results):
+        return 1
+    return ip.skip_exit() if any(r["status"] == "skipped" for r in results) else 0
 
 
 if __name__ == "__main__":

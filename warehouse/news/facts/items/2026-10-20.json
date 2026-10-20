@@ -1,0 +1,19 @@
+{
+ "date": "2026-10-20",
+ "fact_id": "ff_528bbbd5f8",
+ "kind": "history",
+ "fact": "A kilowatt-hour equals 3.6 megajoules, the energy delivered by one kilowatt of power for one hour.",
+ "second": "",
+ "structure": "none",
+ "conjecture": "False",
+ "sources": [
+  {
+   "label": "Wikipedia, Kilowatt-hour",
+   "url": "https://en.wikipedia.org/wiki/Kilowatt-hour",
+   "raw": "warehouse/news/facts/raw/wikipedia/kilowatt_hour_20260928T082936Z.txt",
+   "retrieved_at": "20260928T082936Z",
+   "part": "fact",
+   "span": "A kilowatt-hour (unit symbol: kW⋅h or kW h; commonly written as kWh) is a non-SI unit of energy equal to 3.6 megajoules (MJ) in SI units, which is the energy delivered by one kilowatt of power for one hour."
+  }
+ ]
+}

@@ -291,6 +291,24 @@ class GateTest(unittest.TestCase):
         with mock.patch.object(upload, "read_frame", boom):
             self.assertEqual(upload.check_license(), 1)
 
+    # session 321: a read refused for Redivis's export cap is a skip (session 305's rule); the private dataset decides
+    def test_check_license_passes_an_uncapped_name_when_the_headers_are_refused_for_the_cap(self):
+        def capped(t):
+            raise RuntimeError("APIError: [400 invalid_request] Cannot export more than 100GB within a 30 day period")
+        self.use_two(FakeDataset({FULL: frame(2), "retired_table": frame(1)}), FakeDataset({}))
+        with mock.patch.object(upload, "read_frame", capped):
+            self.assertEqual(upload.check_license(), 0)
+        self.assertIn(f"note retired_table: in the public dataset {upload.PUBLIC}", self.log.getvalue())
+        self.assertIn(upload.CAP_SKIP, self.log.getvalue())
+        # the private dataset holds the name: it fails, cap or not
+        self.use_two(FakeDataset({FULL: frame(2), "forgotten": frame(1)}), FakeDataset({"forgotten": frame(1)}))
+        with mock.patch.object(upload, "read_frame", capped):
+            self.assertEqual(upload.check_license(), 1)
+        # an internal table of coverage.csv in the public dataset fails, cap or not
+        self.use_two(FakeDataset({FULL: frame(2), INT: frame(3)}, unlisted={INT}), FakeDataset({}))
+        with mock.patch.object(upload, "read_frame", capped):
+            self.assertEqual(upload.check_license(), 1)
+
     def test_a_full_upload_keeps_the_header_lines_of_tables_this_machine_does_not_hold(self):
         # session 77: the daily run on the runner wrote erw_headers from its own tables alone
         h = self.headers(("elsewhere_table", "1", "License: public"), (FULL, "1", "an old line of a table held here"))

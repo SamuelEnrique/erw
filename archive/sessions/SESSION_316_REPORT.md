@@ -30,17 +30,36 @@
 | `publisher_figure.py` pure parts by hand | 0 | the DC retail price and Wyoming's gas generation requests built as the connector reads them; the conversion 32.15 cents to USD 321.5 |
 | `tsc --noEmit` (the worktree, with session 296's packages by junction) | 2 | 13 errors, every one a fresh worktree's generated types (`PageProps`, `LayoutProps`); none in the files changed |
 | `eslint` on the four site files | 0 | |
-| `npm run build`, `check-routes`, `check-internal-findings` (in `erw-296` after session 315 lands) | BUILD | |
-| Suite, clean copy, the commit pushed | SUITE | |
-| `scripts/freeze.py status` | FREEZE | |
+| `npm run build`, `check-routes`, `check-internal-findings` | not run | stopped by the machine: at 23:02 UTC Claude Code stopped every background job of this chain for low memory (the suite at session 315's head, session 317's rebuild, this session's queued build), and a job so stopped is not restarted unattended (the chain's rule since 13 October, `archive/sessions/SESSION_209_REPORT.md`); the commands are under "To finish" |
+| Suite, clean copy, the commit pushed | not run | the same |
+| `scripts/freeze.py status` | 0 | no freeze at 23:02 UTC (no `REVIEW_FREEZE` file) |
 
 ## Landing of session 315 (recorded here: session 315's report is in that landing's own commit)
 
-LANDING315
+- Pushed `task/315-research` at `3808f9a6` at 23:46:35 UTC (after the no-landing window; the before snapshot `s315-before`, 23:46:25, taken as its own command; `freeze.py status` exit 0 at 23:46). GitHub's check (run 39343643362) passed at 23:54:16 and merged the branch as `0b3d728c`. Production served the new build at 23:56:06 (a new style sheet name); the after snapshot `s315-after` was taken at 23:56:26.
+- Snapshot `s315-before` against `s315-after`: 25 pages, 0 differences. Expected: every page is in review. Nothing unexpected.
+- The commit pushed is session 315's `0d113977` plus one commit filling the suite, freeze and landing lines of sessions 314's and 315's reports (session 314's commit had carried its placeholders). The whole-suite rule was met as the 315 report's suite line says: the whole suite at the parent commit, every dependent module at the head, after the machine stopped the second whole run.
+- `origin/wip/315-research` was deleted after the merge; GitHub deleted the task branch itself.
 
 ## Landing
 
-LANDING
+Not landed. The chain's landings stopped after session 315's: stopped by the machine: at 23:02 UTC Claude Code stopped every background job of this chain for low memory (the suite at session 315's head, session 317's rebuild, this session's queued build), and a job so stopped is not restarted unattended (the chain's rule since 13 October, `archive/sessions/SESSION_209_REPORT.md`); the commands are under "To finish".
+
+## To finish
+
+Each step on the code machine from the main copy, one landing at a time (no `task/` push waiting while a build or a suite runs), outside 14:00 to 16:15 and 22:30 to 23:45 UTC. `land_checks.sh` takes the build mutex, runs the whole suite in `erw-check` at the main copy's head, builds, serves, and runs `check-values`, `check-routes` and the checks named; `land_wait.sh` waits for GitHub's check and the merge, probes production for the new build, takes the after snapshot and compares. Read `runs/chain_oct19/<label>/result.txt` and `wait_result.txt`; every difference of the comparison goes into the next report, marked expected or not.
+
+```bash
+git fetch origin && git checkout -b task/316-hunt origin/wip/316-hunt && git merge origin/main
+bash runs/chain_oct19/land_checks.sh s316land 3316 check-internal-findings.mjs        # read runs/chain_oct19/s316land/result.txt: suite OK, build 0, values 0, routes 0, the check 0
+.venv\Scripts\python.exe scripts/freeze.py status
+node site/scripts/snapshot-live.mjs take s316-before                                   # its own command, never chained
+git push -u origin task/316-hunt
+bash runs/chain_oct19/land_wait.sh s316 $(git rev-parse HEAD) task/316-hunt s316-before s316-after
+git push origin --delete wip/316-hunt                                                   # once the merge is on main
+```
+
+The landing's record (the push time, the run, the merge commit, the comparison's lines) goes into session 317's report under "Landing of session 316".
 
 ## Decisions made without you
 

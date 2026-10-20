@@ -674,15 +674,20 @@ def restore(out_dir=None, only=None):
     return 1 if failed else 0
 
 
-def header_public(pub, names):
+def header_public(pub, names, cap=None):
     """Session 77: which of these tables' own header lines, as uploaded to the public draft's erw_headers, hold a
     license line and only public ones ("License: public ..." or "License: public domain ..."). A table with no license
-    line, or with any other, is not returned; if erw_headers cannot be read, none is (the check then fails as before)."""
+    line, or with any other, is not returned; if erw_headers cannot be read, none is (the check then fails as before).
+    Session 321: if the read is refused for Redivis's export cap (session 305's rule: a read refused for the cap is a
+    skip), the names are put in `cap` (a set) for the caller, which passes them only when the internal dataset does not
+    hold the name."""
     try:
         h = read_frame(pub.table(HEADERS_TABLE))
     except Exception as exc:
         log(f"WARNING: could not read {HEADERS_TABLE} to look up {len(names)} tables not in coverage.csv: "
             f"{type(exc).__name__}: {exc}")
+        if cap is not None and capped(exc):
+            cap.update(names)
         return set()
     out = set()
     for n in names:
@@ -713,7 +718,13 @@ def check_license(fix=False):
     # (merge_headers), and push() refused it unless that checkout's coverage licensed it public. So a table whose own
     # header says "License: public" is reported and passes; one with no header, or any other license line, still fails.
     # The daily run of 2026-10-03 failed here on four such tables (sessions 69 and 73 to 75) and skipped its commit.
-    pending = header_public(pub, unknown) if unknown else set()
+    cap = set()  # session 321: names whose header could not be read for the export cap
+    pending = header_public(pub, unknown, cap) if unknown else set()
+    # session 321: the daily run of 19 October 2026 (39311936332) failed here on four tables uploaded before the cap
+    # (fred_daily_spot_prices, fred_treasury_yields and price_board_stats, retired since; power_deals, session 130's).
+    # While erw_headers cannot be read for the cap, such a table passes with a note unless the internal dataset holds its
+    # name (below); a table coverage.csv flags internal is in `found` and fails whatever the cap.
+    pending |= cap
     # session 82: and never a table the internal dataset holds. A name that is in the private dataset is an internal
     # table by the ERW's own record, whatever a header in the public one says; if the private dataset cannot be read,
     # nothing passes on its header.
@@ -728,6 +739,10 @@ def check_license(fix=False):
                 log(f"FAIL {n}: its header in {HEADERS_TABLE} says License: public, but {INTERNAL} holds a table of that name")
             pending -= held_internal
     for n in sorted(pending):
+        if n in cap:
+            log(f"note {n}: in the public dataset {PUBLIC}, not in this checkout's coverage.csv; its header in "
+                f"{HEADERS_TABLE} could not be read ({CAP_SKIP}), and {INTERNAL} holds no table of that name")
+            continue
         log(f"note {n}: in the public dataset {PUBLIC}, not in this checkout's coverage.csv; its header in "
             f"{HEADERS_TABLE} says License: public (uploaded from a branch not merged yet)")
     unknown = [n for n in unknown if n not in pending]
