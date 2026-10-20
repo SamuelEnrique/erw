@@ -4,9 +4,9 @@ Energy Research Warehouse (ERW), session 275 (14 October 2026). Everything for o
 
 ## What v1 is
 
-- **136 tables and the three metadata tables** (`erw_coverage`, `erw_sources`, `erw_headers`), listed with `in_v1 = yes` in [`release-v1/tables.csv`](release-v1/tables.csv): every table coverage flags public that is still public on the public day, **21 October 2026**.
+- **135 tables and the three metadata tables** (`erw_coverage`, `erw_sources`, `erw_headers`), listed with `in_v1 = yes` in [`release-v1/tables.csv`](release-v1/tables.csv): every table coverage flags public that is still public on the public day, **21 October 2026**.
 - **41 tables of the public draft are held out** (`in_v1 = no`, each with its reason): a publisher's terms ask for permission or a license that is not recorded (`warehouse/metadata/license_status.csv`). Internal tables are never in this dataset; they are in `energy_research_warehouse_internal`, which stays private.
-- **1 table is held for Redivis's storage** (`in_v1 = held`, session 375): `node_basis_daily` is in v1 by its license, but the account's free 10 GB is full and Redivis refused it (session 363). It is uploaded once the storage is settled (`python warehouse/redivis/upload.py node_basis_daily`), or its row is taken out of v1 and noted; no session uploads it.
+- **2 tables are held for Redivis's storage** (`in_v1 = held`, sessions 375 and 385): `node_basis_daily` is in v1 by its license, but the account's free 10 GB is full and Redivis refused it (session 363); `ercot_all_hub_prices_history` was in the draft until 20 October, when the daily's upload was refused for storage and the uploader, which deletes a table before it uploads its new copy, left it out. Each is uploaded once the storage is settled (`python warehouse/redivis/upload.py <table>`), or its row is taken out of v1 and noted; no session uploads them.
 - For each table, `tables.csv` gives its description (the first line of its provenance header, which the uploader already set as the table's description), its license line (the header's own `License:` line, or the license record's verdict where the header has none), its citation and its publishers. [`release-v1/variables.csv`](release-v1/variables.csv) gives every series variable with its unit and every column of the entity and event tables (4,496 rows on 20 October 2026, session 366). [`release-v1/README.md`](release-v1/README.md) is the dataset's README.
 
 ## The steps (about 20 minutes, on or after 21 October 2026)
@@ -22,7 +22,7 @@ Energy Research Warehouse (ERW), session 275 (14 October 2026). Everything for o
 4. **Remove the 41 held tables from the draft**, each named in `tables.csv` with `in_v1 = no`: the table's menu, Delete (the draft only; a released version keeps what it held). Do this right before the click: the daily upload puts a held table back into the public draft whenever its data changes, because the uploader routes by coverage's flag (ruling 1 below).
 5. **The dataset's README:** paste `docs/redivis/release-v1/README.md` into the dataset's description.
 6. **Spot-check three tables:** each table's description is its provenance header (cut at Redivis's 2,000 characters), and its license line is in it.
-7. **Click Release.** The version's note: `v1: ERW commit <git rev-parse HEAD>, the daily run of <date>; 136 tables and 3 metadata tables; 41 held for a license, node_basis_daily for storage (docs/redivis/release-v1/tables.csv)`.
+7. **Click Release.** The version's note: `v1: ERW commit <git rev-parse HEAD>, the daily run of <date>; 135 tables and 3 metadata tables; 41 held for a license, node_basis_daily and ercot_all_hub_prices_history for storage (docs/redivis/release-v1/tables.csv)`.
 8. **Record it:** the date of the release in this file and in `docs/redivis/release-v1/README.md`'s citation ("version v1, released YYYY-MM-DD"), committed.
 
 ## How to cite v1
