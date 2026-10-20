@@ -220,5 +220,19 @@
   "python": "who_rescues_whom.py",
   "stata": "who_rescues_whom.do"
  },
- "csv_sha256": "95e12efd00ac9e2586928dda2f4f3a055786a0846af58c0049234acb717ee173"
+ "csv_sha256": "95e12efd00ac9e2586928dda2f4f3a055786a0846af58c0049234acb717ee173",
+ "statistics": {
+  "session": 361,
+  "round": {
+   "name": "the findings library's cards as computed by 2026-10-10",
+   "claims_tested": 26,
+   "claims_passing": 15,
+   "alpha": 0.05,
+   "method": "Benjamini-Hochberg over the round's distinct p-values",
+   "caveat": "Many claims were tested in this round; a claim's q-value is the false discovery rate at which it would still be kept over all of them (Benjamini and Hochberg). A caveat, not a test the card had to pass.",
+   "claims_of_this_card": 0,
+   "q_bh": {},
+   "this_card": "no claim of this card is a test with a p-value: it states figures, and the round's count is the library's"
+  }
+ }
 }

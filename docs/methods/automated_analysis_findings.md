@@ -222,6 +222,66 @@ The owner's ruling of 13 October 2026 on the tool's layout, and his rulings of 1
 - **Ruling 5b, the plain names** (`warehouse/analysis/plain_names.json`): the seven drafts of session 267 follow the methods notes that name their tables, six of them (status `note`, the note in `from`): net generation by state and energy source (`generation_mix.md`), the retail electricity price by state and sector (`price_board.md`), managed money long positions (`supply_and_trade.md`, twice), operating battery storage added over twelve months net of retirements (`storage_buildout.md`, twice). The seventh, `eia_retail_sales_monthly` `retail_sales`, is named by no methods note and stays a draft.
 - **Checks:** `tests/test_session315.py`; `scripts/check-values.mjs` on `/research` and the cards' pages; the review pack `docs/reviews/packs/research.md`.
 
+## Session 361: the statistics a card carries (20 October 2026)
+
+Three things are added beside a card's figures. None of them changes a figure, a verdict or a word a card had: every
+existing key of the eleven library cards is as it was (`tests/test_session361.py` compares them with the commit before).
+The code machine's Research pages read these keys.
+
+**1. Newey-West beside HC1.** `findings_common.ols_hc1` returns, beside each coefficient's `coef`, `se`, `t` and `p`
+(HC1, unchanged, still the card's figure), `se_nw`, `t_nw` and `p_nw`, and the fit's `nw_lag`: the Bartlett kernel to
+`floor(4 (n / 100) ^ (2 / 9))` lags (Newey and West, 1994), with HC1's `n / (n - k)`, the rows in time order. It equals
+`impact_study`'s own Newey-West, written to match Stata's `newey`. A card on the helper carries them in
+`statistics.newey_west`:
+
+| Key | What it is |
+|---|---|
+| `statistics.newey_west.rows[]` | one regression a row: `spec`, `label`, `numbers_key` (the card's own `numbers` prefix: `<key>_coef`, `<key>_se`, `<key>_p`), `coef`, `se_hc1`, `p_hc1`, `se_nw`, `p_nw`, `nw_lag`, `n` |
+| `statistics.newey_west.rule` | the lag rule in words |
+| `statistics.newey_west.words` | one sentence a page may show under the table |
+
+The cards: `batteries_lunch` (3 monthly regressions, 92 months, 3 lags), `batteries_lunch_grids` (15: ERCOT and NYISO 92 months,
+3 lags; CAISO, ISO-NE and SPP 24 months, 2 lags) and `batteries_curtailment` (4 daily regressions, 405 days, 5
+lags; the days are those with all three series held, in order, so a gap between two days counts as neighbouring).
+`impact_study` was Newey-West already; `batteries_curtailment_hourly` is clustered by day. The HC1 figures are
+recomputed from each card's CSV download and must equal the card's to 1e-9 before anything is written
+(`warehouse/analysis/findings/card_statistics.py`). ERCOT's battery-spike multiple: HC1 2.316 (p 0.00001), Newey-West
+2.692 (p 0.0001); CAISO's: HC1 1.024 (p 0.34), Newey-West 0.653 (p 0.15).
+
+**2. The claims of a round.** Every card carries `statistics.round`:
+
+| Key | What it is |
+|---|---|
+| `claims_tested` | the claims the library tested in the round: every card's numbers ending in `_p`, a test on two cards counted once (the grid card's ERCOT rows are the ERCOT card's). On 20 October 2026: 26 |
+| `claims_passing` | of them, p under `alpha` (0.05): 15 |
+| `claims_of_this_card` | the card's own tested claims (0 for a card that states figures) |
+| `q_bh` | each of the card's claims (its numbers key) with its Benjamini-Hochberg q-value over the round |
+| `caveat`, `method`, `name` | the words: a caveat, never a gate |
+
+The hunt's drafts carry the same block for their own round, the hunt that raised them (`statistics.round`, hunt
+version 1.3.0): `claims_tested` (every claim the hunt tested: 88 in the dry run of 20 October), `claims_passing` (the
+claims that pass the hunt's tests: 25), `claims_with_a_trend_p` (70), the draft's `p_trend` (the p-value of a straight
+line through its full years) and `q_bh` (over the round's trend p-values). `runs/hunt/<day>/hunt.json` holds the same
+line as `multiple_comparisons`, and every claim's `p_trend`, `q_bh` and `shape`. A draft's footnote ends with the line in
+words.
+
+**3. A step, not a trend.** `findings_common.step_or_trend` fits a draft's full years twice: one step (two levels, the
+break at the year that fits best, at least two years on each side) and a straight line, and compares them by the
+Bayesian information criterion (three parameters against two). A draft whose step fits better carries
+`statistics.shape` with `step_better: true`, `break_year` (the first year of the second level), `before`, `after`,
+`bic_step`, `bic_line` and `words` ("a step, not a trend: ..."), and its footnote says so. Session 251's seven usable
+drafts, reproduced from their CSVs: the five its verification called a step or a hump are flagged (20, CAISO's evening
+carbon, break 2024; 21, `LZ_WEST`'s negative hours, 2020; 24, CAISO's evening battery discharge, 2021; 25, CAISO's
+stress-day imports, 2023; 26, `LZ_SOUTH`'s negative hours, 2021), and the two it called trends are not (22, the West
+hub's night spread; 23, PJM's night wind). A hump is caught as a step to its higher level; the words say the two
+levels, and a page should show the years.
+
+**4. The daily recompute.** On the data machine's daily run, after the scan (`dm_findings_recompute`), every finding is
+computed again at its default inputs from that day's tables, the statistics are added again, and one line a card is
+written to `warehouse/metadata/findings_recompute.csv` (the day, the card, `recomputed`, `kept` or `failed`, its
+`computed_at`, how many of its numbers moved and which). A finding whose table is not on the machine keeps its card.
+The cards are committed with the day's page files; a step that fails puts the cards back as committed.
+
 ## License
 
 A finding's card and downloads carry the most restrictive license of their inputs (Decision 23). Findings 1 and 3 read public tables: public. Findings 8, 9 and 10 (session 182) read public tables only: public. Finding 2 reads one internal table (ISO-NE's hourly history) and publishes only yearly aggregates of it; its hourly rows are not in any download.
