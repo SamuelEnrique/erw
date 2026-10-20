@@ -1,9 +1,9 @@
 {
- "built_at_utc": "2026-10-08T10:20:16Z",
- "as_of": "2026-10-08",
+ "built_at_utc": "2026-10-20T01:13:43Z",
+ "as_of": "2026-10-20",
  "tables": {
   "large_load_rules": 43,
-  "large_load_rules_internal": 73
+  "large_load_rules_internal": 74
  },
  "topics": [
   "large-load interconnection",
@@ -12,6 +12,43 @@
   "interconnection reform"
  ],
  "rows": [
+  {
+   "id": "txpuc:58796:order:065fadc476",
+   "date": "2026-10-15",
+   "regulator": "Public Utility Commission of Texas",
+   "jurisdiction": "state",
+   "state": "TX",
+   "docket": "58796",
+   "title": "",
+   "row_kind": "order",
+   "status_as_worded": null,
+   "status_class": "decided",
+   "url": "https://interchange.puc.texas.gov/search/documents/?controlNumber=58796&itemNumber=107",
+   "page": null,
+   "sentence": null,
+   "sentence_withheld": "The Public Utility Commission of Texas's terms ask permission to copy its text; open the document",
+   "sentence_from": "Interchange filing list",
+   "sentence_kind": "docket list",
+   "flags": [
+    "cut from the docket list: the list's own title line, not the document's text"
+   ],
+   "terms_class": "restricted",
+   "read": null,
+   "read_by": null,
+   "read_model": null,
+   "read_from": null,
+   "regulator_key": "txpuc",
+   "topics": [
+    "large-load tariff"
+   ],
+   "large_load": true,
+   "grids": [
+    "spp"
+   ],
+   "all_grids": false,
+   "why_here": "A case of Southwestern Electric Power Company: a transmission owner of SPP, by the caption of FERC's order in EL26-68.",
+   "in_motion": true
+  },
   {
    "id": "iurc:46394:order:4e6e619d6a",
    "date": "2026-10-07",

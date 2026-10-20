@@ -142,6 +142,14 @@ def day_complete(table, day, part=None, variable=None):
         core = set(df["variable"]) & eia930.CORE
         return not any(v in core for v in problems) and core <= set(part["variable"])
     iso = table.split("_")[0]  # ISO tables: the ISO's local operating day, every node and interval
+    if iso not in ip.ISOS and part and str(part).split("_")[0] in ip.ISOS:
+        # session 325: a table of several ISOs whose gap names its market ("caiso_dam 2025-11-02"): that market's rows,
+        # judged on that ISO's operating day (iso_hub_prices_history; CAISO's fall-back days were filled in session 322)
+        iso = str(part).split("_")[0]
+        df = df[df["market"] == part]
+        ts = pd.to_datetime(df["ts_utc"], utc=True)
+        if df.empty:
+            return False
     if iso not in ip.ISOS:
         # session 58: a table of several ISOs (iso_hub_prices_history, the consolidated iso_* tables) has no one operating day
         # here; its gap is listed, not re-checked. On 2026-10-02 the daily run's STATUS.md step failed here (KeyError 'iso').
@@ -157,6 +165,44 @@ def day_complete(table, day, part=None, variable=None):
 
 
 KNOWN_GAPS = os.path.join(ROOT, "warehouse", "metadata", "known_gaps.csv")
+BUDGET_REASON = "publisher did not answer within the budget"  # session 321: warehouse/pull_budget.py's reason
+GAP_DAYS = ":gap_days"  # session 325: a known_gaps.csv row closing gap days of a table, not the table's failures
+
+
+def known_gap_days(path=None):
+    """Session 325 (the owner's default of 19 October 2026, the morning note's item 16): rows of known_gaps.csv whose
+    table is "<table>:gap_days" close that table's gap days as known gaps: days the source will not complete. The key is
+    not the table's own name, so iso_prices.gap_skip never reads them as a pass for the table's failures. Columns part
+    (the gap's first word, ";"-separated, blank for any) and days ("YYYY-MM-DD;...", "YYYY-MM-DD..YYYY-MM-DD" or "all").
+    Returns [(table, parts or None, days test, reason)]."""
+    path = path or KNOWN_GAPS
+    if not os.path.exists(path):
+        return []
+    k = pd.read_csv(path, dtype=str, keep_default_na=False)
+    out = []
+    for r in k.to_dict("records"):
+        if not r["table"].endswith(GAP_DAYS):
+            continue
+        parts = {x.strip().lower() for x in r.get("part", "").split(";") if x.strip()} or None
+        spec = r.get("days", "").strip()
+        if spec in ("", "all"):
+            test = lambda d: True  # noqa: E731
+        elif ".." in spec:
+            a, b = spec.split("..", 1)
+            test = lambda d, a=a.strip(), b=b.strip(): a <= d <= b  # noqa: E731
+        else:
+            days = {x.strip() for x in spec.split(";") if x.strip()}
+            test = lambda d, days=days: d in days  # noqa: E731
+        out.append((r["table"][: -len(GAP_DAYS)], parts, test, r["reason"]))
+    return out
+
+
+def known_day(rules, table, part, day):
+    """The reason a gap day is closed as a known gap, or None."""
+    for t, parts, test, why in rules:
+        if t == table and (parts is None or str(part or "").lower() in parts) and test(str(day)):
+            return why
+    return None
 
 
 def health_gate(rs):
@@ -267,7 +313,14 @@ def main():
     gaps["var"] = [("co2_emissions_" + t[2]) if len(t) >= 3 and "+" not in t[2] else None for t in tok]
     gaps = gaps.sort_values("run_id").drop_duplicates(["table", "part", "day", "var"], keep="last")
     open_rows, closed = [], 0
+    # session 321: a gap left by a pull stopped at its budget (warehouse/pull_budget.py) is closed by any later run that
+    # wrote the table: the next run asks for the same days again, and a monthly or full-history table has no day to check
+    oks = rs[rs["status"] == "ok"].groupby("table")["run_id"].max()
+    rules, known_days = known_gap_days(), {}
     for g in gaps.itertuples():
+        if str(g.detail).startswith(BUDGET_REASON) and str(oks.get(g.table, "")) > str(g.run_id):
+            closed += 1
+            continue
         if ".." in g.day:
             open_rows.append((g.table, f"{g.part} {g.day}", "a range recorded by a history build (run_status.csv)",
                               g.detail[:140].replace("|", "/")))
@@ -280,12 +333,18 @@ def main():
         if state is True:
             closed += 1
             continue
+        if known_day(rules, g.table, g.part, g.day):  # session 325: still incomplete, closed as a known gap by a ruling
+            known_days[g.table] = known_days.get(g.table, 0) + 1
+            continue
         open_rows.append((g.table, g.day, "not on this machine, not verifiable here" if state is None
                           else "still incomplete in the table", g.detail[:140].replace("|", "/")))
     L += ["", "## Open gaps", "",
           "Days a per-day connector could not write complete, re-checked against the table with the "
           f"connector's own completeness rule. Recorded gap days: {len(gaps)}; filled since: {closed}; "
-          f"open: {len(open_rows)}.", ""]
+          f"closed as known gaps: {sum(known_days.values())}"
+          + (" (" + ", ".join(f"`{t}` {n}" for t, n in sorted(known_days.items())) + "; the rows of "
+             "warehouse/metadata/known_gaps.csv keyed <table>:gap_days)" if known_days else "")
+          + f"; open: {len(open_rows)}.", ""]
     if open_rows:
         L += ["| Table | Day | State | First recorded reason |", "|---|---|---|---|"]
         for t, d, st, why in sorted(open_rows):
@@ -295,7 +354,7 @@ def main():
     L.append("")
     with open(OUT, "w", encoding="utf-8", newline="\n") as f:
         f.write("\n".join(L))
-    print(f"wrote STATUS.md: {len(cov)} tables, {len(open_rows)} open gaps, {closed} filled, "
+    print(f"wrote STATUS.md: {len(cov)} tables, {len(open_rows)} open gaps, {closed} filled, {sum(known_days.values())} closed as known, "
           f"latest prices {last_lp or info}")
     return 0
 

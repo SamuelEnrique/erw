@@ -156,7 +156,9 @@ class NoColorLiteral(unittest.TestCase):
         mix = src("site", "lib", "mixpage.ts")
         self.assertIn('export const YEAR_SHADES = ["--color-year-1", "--color-year-2", "--color-year-3", "--color-year-4", "--color-year-5", "--color-year-6", "--color-year-7", "--color-accent"];', mix)
         self.assertIn('`var(${n <= 1 ? "--color-accent" : YEAR_SHADES[Math.min(7, Math.round((7 * i) / (n - 1)))]})`', mix)   # the same step for the same year
-        self.assertIn('const col = (c: string) => (c.startsWith("var(") || c.startsWith("--") ? token(c) : c);', src("site", "components", "mix", "Charts.tsx"))
+        mixcharts = src("site", "components", "mix", "Charts.tsx")   # session 317: the shared SVG set takes the colors as given (tokens by name)
+        self.assertIn('from "@/components/svgchart"', mixcharts)
+        self.assertNotIn("token(", mixcharts)
         bench = src("site", "components", "board", "Workbench.tsx")
         self.assertIn("const greys = [1, 2, 3, 4, 5].map((i) => token(`season-${i}`));", bench)
         self.assertEqual(bench.count("greys[Math.max(0, greys.length - (shown.length - 1) + i)] ?? greys[0]"), 2)   # the line and its marker, as they were

@@ -21,9 +21,10 @@ zip; only the county's lines are kept, and those are saved beside the dump as <c
 
 Rows: a report the operator did not file (PROD_REPORT_FILED_FLAG not Y) is not written; a filed zero is (the RRC's
 value). Volumes: the RRC's whole barrels (BBL) and thousand cubic feet (MCF); the manual calls them "estimated"
-values, as reported by the operator. License: internal. The RRC states its data sets are "available ... free of
-charge" and its site policies disclaim liability, but no page read grants reuse or redistribution, so the table is
-built internal (Decision 23) and goes only to the internal Redivis dataset.
+values, as reported by the operator. License: public since session 324 (internal before): the RRC's page read in
+session 311 (docs/licenses.md, read 19) grants permission to copy and distribute its information for noncommercial use,
+unaltered, so the document's clause wins (the chain prompt of 19 October 2026); if the ERW sells anything, it needs the
+RRC's written permission.
 """
 
 import argparse
@@ -198,7 +199,7 @@ def main(argv=None):
             "be incomplete: operators file late and the RRC revises.",
             "Values: the RRC's BBL and MCF as reported by operators (the manual: \"estimated\" values).",
             f"Rows: {len(s):,} of the {CEILING:,} ceiling.",
-            "License: internal. The RRC offers its data sets \"free of charge\"; no page read grants reuse or redistribution.",
+            "License: public (session 324, the document's clause wins: docs/licenses.md, read 19, the RRC \"grants permission to copy and distribute the information on its website for noncommercial use, as long as the content remains unaltered\"; noncommercial use only). Credit: Railroad Commission of Texas.",
         ]
         out = os.path.join(ip.OUT_DIR, NAME + ".csv")
         if os.path.exists(out):
@@ -206,7 +207,7 @@ def main(argv=None):
         ip.write_csv(s[cols], NAME, header, log, cols=cols, key=["entity", "variable", "ts_utc"])
         ip.update_sources([dict(source=SOURCE, publisher="Railroad Commission of Texas (RRC)",
                                 report="Production Data Query dump (PDQ_DSV.zip)", report_url=PAGE, document_list=SHARE,
-                                license="internal", tables=[NAME])])
+                                license="public", tables=[NAME])])  # session 324
         results.append(dict(table=NAME, market=county.lower(), status="ok",
                             detail=f"{len(s)} rows, {s['entity'].nunique()} leases, {months[0]} to {months[-1]}; {unfiled} unfiled lease-months"))
         print(f"rrc_production: {len(s):,} rows, {s['entity'].nunique():,} leases in {county}, {nlines:,} lines read")

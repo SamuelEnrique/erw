@@ -150,9 +150,9 @@ class ChartsReadTokens(unittest.TestCase):
             with self.subTest(file="/".join(parts)):
                 self.assertNotIn("baseStyle()", c)
                 # session 317: the two files draw through the shared SVG set, whose colors are tokens by name (var(--color-...)) and
-        # so are the brand's at the chart's own box by CSS; nothing reads a computed style
-        self.assertIn('from "@/components/svgchart"', c)
-        self.assertNotIn("baseStyle(", c)
+                # so are the brand's at the chart's own box by CSS; nothing reads a computed style
+                self.assertIn('from "@/components/svgchart"', c)
+                self.assertNotIn("baseStyle(", c)
                 self.assertNotIn("box.current", c)   # session 317: no element is read for a token
                 # no token is read at the page's root any more
                 self.assertEqual(re.findall(r'token\("[a-z0-9-]+"\)', c), [])

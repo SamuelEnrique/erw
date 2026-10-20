@@ -50,12 +50,13 @@ In the internal view: open https://erw-flame.vercel.app/internal/open first (the
 | `check-values.mjs`, every page, the final build | 1 | 5,324 of 5,336; the 6 `know-your-grid` keys as above, and 6 keys of `/cost-of-power`'s carbon window (`co2:window:*`) whose hours grew from 10,135 to 10,183 in Supabase between the page's build and the check (the page shows the figure the first build showed; the hourly carbon table was loaded meanwhile): a data condition of the moment on a page this session did not touch, checked again on the landing's build |
 | `check-battery-scenarios`, `check-battery-face`, `check-decisions-face`, `check-seller-scenarios`, `check-ask-panel`, `check-routes`, the final build | 0 × 6 | all passed; 144 of 144; 13 of 13; 211 pages, 0 failed as a visitor |
 | Captures at 1280 and 390 (the chart, the year chart, the 8-hour line, the page) | | `docs/brand/review-314/`; nothing scrolls sideways at 390 |
-| Suite, clean copy, the commit pushed | SUITE | |
-| `scripts/freeze.py status` | FREEZE | |
+| Suite, clean copy, `152c2a3f` (origin/main merged, with the data machine's session 321) | 1 | 4,4xx tests, 5 failures: older pins on the lines the evaluation step moved (121, 137, 143 twice, 148: the route's `admit(` and `ask(` calls, the loop's `recordCall` line); each moved and marked in the next commit |
+| Suite, clean copy, the commit pushed | 0 | 4444 tests, 0 failures, 250 skipped, in `erw-check` at `42163551` (the first run at the previous commit failed 3 and errored 2 on route and ledger lines of this session in tests 121, 128, 137, 143 and 148; their pins were moved and marked) |
+| `scripts/freeze.py status` | 0 | no freeze: no `REVIEW_FREEZE` file |
 
 ## Landing
 
-LANDING
+Recorded in session 315's report (the comparison comes after this commit): pushed at 22:06 UTC, merged as `93917764` at 22:27, 25 pages with 0 differences. (These three lines were filled by session 315 before its own push; session 314's commit carried the placeholders.)
 
 ## Decisions made without you
 

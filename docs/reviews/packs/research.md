@@ -7,7 +7,7 @@
 - The page landed as `01161064` (session 238, which renamed Automated Analysis to Research). `/analysis` and every address under it answer with a permanent redirect to the same place under `/research` (`site/next.config.ts`).
 - Since session 260's note: session 251 took the weekly hunt from 7 patterns to 20 and raised 12 drafts (the list holds 28); session 258 made a draft's source line name only the tables whose rows it uses; session 267 put the verdict of 13 October beside each draft, the brand palette in the charts, a guard on the daily chart, a plain-names file and the do-files' first lines.
 
-## Session 315: the page as built (19 October 2026)
+### Session 315: the page as built (19 October 2026)
 
 The owner's rulings of 19 October on section 9 and of 13 October on the layout, built by session 315 (`archive/sessions/SESSION_315_REPORT.md`):
 

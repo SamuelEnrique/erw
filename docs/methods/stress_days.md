@@ -22,23 +22,23 @@ Before session 306 the repository recorded two ways of naming a stress day, one 
 
 PJM has no row: the ERW holds neither a PJM hub price (PJM's data is licensed) nor a PJM notice.
 
-## What the rule gives (built 19 October 2026)
+## What the rule gives (built 19 October 2026, session 322)
 
 | Grid | Days held | Judged by price from | Stress days | By price | By notice | Events |
 |---|---|---|---|---|---|---|
-| ERCOT | 2015-01-01 to 2026-10-14 | 2015-11-26 | 113 | 113 | (none held) | 64 |
-| CAISO | 2023-07-06 to 2026-10-14 (from 2023-07-14 until session 307) | 2024-05-31 | 58 | 24 | 36 | 25 |
-| NYISO | 2024-09-01 to 2026-10-14 | 2025-08-15 | 10 | 10 | (none held) | 2 |
+| ERCOT | 2015-01-01 to 2026-10-14 | 2015-11-26 | 169 | 113 | 79 (`ercot_grid_notices`, session 322; 113 and 64 events before) | 74 |
+| CAISO | 2023-07-06 to 2026-10-18 (from 2023-07-14 until session 307; the fall-back days of 2023 to 2025 filled in session 322) | 2024-05-30 | 58 | 24 | 36 | 25 |
+| NYISO | 2024-09-01 to 2026-10-18 | 2025-08-15 | 10 | 10 | (none held) | 2 |
 | MISO | 2024-09-01 to 2026-10-02 | 2025-07-27 | 16 | 16 | (none held) | 7 |
-| SPP | 2024-09-01 to 2026-10-13 | 2025-07-27 | 17 | 17 | (none held) | 9 |
-| ISO-NE | 2024-09-01 to 2026-10-13 | 2025-08-23 | 12 | 12 | (none held) | 3 |
+| SPP | 2024-09-01 to 2026-10-18 | 2025-07-27 | 17 | 17 | (none held) | 9 |
+| ISO-NE | 2024-09-01 to 2026-10-18 | 2025-08-23 | 12 | 12 | (none held) | 3 |
 
 The header of `grid_stress_days.csv` carries each run's own counts.
 
 ## The cross-check against ERCOT's named events
 
 - **Winter Storm Uri: 11 to 19 February 2021 are all stress days by price** (event `uri_2021`), 15 to 19 February among them (daily means USD 6,764.8, 8,970.1, 9,002.0, 8,989.1 and 3,410.8 per MWh against thresholds of 99.1 to 314.8).
-- **Winter Storm Elliott: 23 December 2022 is a stress day (USD 557.5 against 217.5); 24 December 2022 is not.** Its mean was USD 63.2 against a threshold of 225.6: the summer of 2022 had raised the year's 98th percentile. The ERW holds none of ERCOT's notices, so the notice test cannot make it one. The rule does not reproduce the named event's second day; `elliott_2022` holds one day here, and the named events stay where they are used (`event_window.py`).
+- **Winter Storm Elliott: 22 to 26 December 2022 are stress days, 23 December by price and notice (USD 557.5 against 217.5), the others by notice.** 24 December's mean was USD 63.2 against a threshold of 225.6 (the summer of 2022 had raised the year's 98th percentile), so the price test alone missed it (session 306). Since session 322 the ERW holds ERCOT's notices (`ercot_grid_notices`, `docs/methods/ercot_grid_notices.md`): ERCOT's release of 16 December 2022 announced an Operating Condition Notice for temperatures of 25 degrees or lower between 22 and 26 December, an OCN for extreme weather, which the rule counts as it counts CAISO's notices. ERCOT issued no conservation appeal or EEA for Elliott in its releases.
 - **The summer 2023 heat: 11 stress days from 4 August to 6 September 2023** (event `ercot_heat_2023`).
 
 ## Limits
