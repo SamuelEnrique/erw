@@ -4,6 +4,7 @@
 import { Fragment, useEffect, useMemo, useState } from "react";
 import type { Company } from "@/lib/data";
 import { companyAnchor } from "@/lib/companies";
+import { Num } from "@/components/Num";
 
 const STATES: Record<string, string> = {
   Alabama: "AL", Alaska: "AK", Arizona: "AZ", Arkansas: "AR", California: "CA", Colorado: "CO", Connecticut: "CT", Delaware: "DE",
@@ -122,7 +123,8 @@ export function CompaniesTable({ rows }: { rows: Company[] }) {
                       {r.location || (fromDeals ? "not stated" : "not disclosed")}
                       {r.location && fromDeals ? <span className="text-xs text-muted"> (where a deal is)</span> : null}
                     </td>
-                    <td className="py-1 text-right tabular-nums">{r.confidence}</td>
+                    {/* session 329: the score is the table's, read again by check-values (entity|<table>|<id>|<field>) */}
+                    <td className="py-1 text-right tabular-nums">{r.confidence !== "" ? <Num check={`entity|energy_companies|${r.entity_id}|confidence`} raw={Number(r.confidence)}>{r.confidence}</Num> : null}</td>
                   </tr>
                   <tr hidden={!isOpen} className="border-b border-rule bg-panel">
                     <td colSpan={5} className="px-3 py-2 text-sm">

@@ -263,7 +263,7 @@ export async function TrackerView({ sp }: { sp: Record<string, string | undefine
           )}
         </div>
       </div>
-      <SourceLine tables={["energy_deals"]} note={<>Extracted by <code className="font-mono">warehouse/deals/extract.py</code> from the stories of <code className="font-mono">news_stories</code>; the sentence each deal was read from is outlet text and stays in the internal table. Duplicates: <code className="font-mono">warehouse/deals/duplicates.csv</code>. This page is in review.</>} />
+      <SourceLine tables={["energy_deals"]} note={<>Extracted by <code className="font-mono">warehouse/deals/extract.py</code> from the stories of <code className="font-mono">news_stories</code>; the sentence each deal was read from is outlet text and stays in the internal table. Duplicates: <code className="font-mono">warehouse/deals/duplicates.csv</code>. <Link href="/data/methods/energy_deals">Method</Link>. This page is in review.</>} />
     </>
   );
 }

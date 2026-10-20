@@ -35,7 +35,7 @@ export function heldBy(check: string): { table: string; title: string } | null {
   }
   let table = "";
   if (head.startsWith("series")) table = p[1] ?? "";
-  else if (head === "event") table = p[1] ?? "";
+  else if (head === "event" || head === "entity") table = p[1] ?? "";   // session 329: entity|<table>|<id>|<field>
   else if (head in KEY_TABLE) table = KEY_TABLE[head];
   if (!table) return null;
   return licenseHeldRow(table, entity ?? (head.startsWith("series") || head === "es" ? undefined : null)) ? { table, title: licenseTitle(table) } : null;

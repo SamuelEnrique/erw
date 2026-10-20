@@ -81,3 +81,22 @@ The grid pages (`/grid/<slug>`, session 35) count the facilities of their grid. 
 3. **State:** otherwise, a facility counts for every grid whose `states` include its state: the states wholly or mostly inside the grid (TX; CA; NY; the six New England states; for PJM DE, DC, MD, NJ, OH, PA, VA, WV; for MISO MN, WI, IA; for SPP KS, NE, OK). A state shared by several grids is on none of their lists, so its facilities are not counted by state.
 
 In session 36A, 5 of the 340 facilities were placed by rules 1 and 2 (two ERCOT queue rows, one NYISO queue row, one utility each for MISO and SPP), all in states their grid already counts, so no grid's count changed.
+
+## The tracker as it stands (session 329, 20 October 2026)
+
+What the page `/datacenters` draws today, after the sessions since 166:
+
+- **A top block** (session 240): the facilities held, the megawatts stated with what the sum counts, and what changed
+  in the seven days to the day the page was drawn; then the list grouped by operator. Each figure is computed from
+  `datacenter_facilities` and read again by `check-values`.
+- **ERCOT's large loads** (session 241, from what `/datacenters/v2` showed): `ercot_large_load_status` beside the Texas
+  sites, with ERCOT's pause of new large loads (session 304). The table's newest row is June 2026: ERCOT's reports since
+  then state no figure (session 310); its method is `ercot_large_load_status.md`. The table is held for review in the
+  live set, so it is not offered as a download.
+- **The chart** (the large loads by report) is drawn in SVG (session 303).
+- **The filters** (country, state, status, operator, source kind, a floor of megawatts) start at "All" (the floor of megawatts at none) and have a Reset.
+- **Downloads** (session 329): `datacenter_facilities` and `datacenter_projects` as the live set's CSV with a Python and
+  a Stata reader of that CSV (session 328's shared line); `datacenter_operator_sites` is not in the live set and is
+  named with its place on Redivis.
+- Read on 20 October 2026 from the public catalogue: `datacenter_facilities` and `datacenter_projects` were rebuilt that
+  day; `datacenter_operator_sites` last on 12 October.
