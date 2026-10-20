@@ -1,8 +1,8 @@
 {
  "about": "Written by warehouse/health.py from the table erw_health: per UTC day, each scheduled job's steps by outcome, and the failures that count. green_days is the number of days in a row, back from counted_to, without a failed step.",
- "written": "2026-10-19T17:00Z",
+ "written": "2026-10-20T02:17Z",
  "green_days": 0,
- "counted_to": "2026-10-18",
+ "counted_to": "2026-10-19",
  "days": {
   "2026-10-02": {
    "rows": 91,
@@ -1381,6 +1381,97 @@
      "workflow": "local:SU-4QC3QR3",
      "step": "dm_carb_lcfs",
      "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 34 days old (limit 28)"
+    }
+   ]
+  },
+  "2026-10-19": {
+   "rows": 728,
+   "failed": 3,
+   "missing": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 480,
+     "skipped": 5,
+     "retried": 0,
+     "failed": 0,
+     "runs": 101
+    },
+    "daily prices": {
+     "ok": 39,
+     "skipped": 7,
+     "retried": 1,
+     "failed": 2,
+     "runs": 3
+    },
+    "energy roundup": {
+     "ok": 2,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 1,
+     "runs": 1
+    },
+    "hourly network": {
+     "ok": 14,
+     "skipped": 12,
+     "retried": 1,
+     "failed": 0,
+     "runs": 27
+    },
+    "latest prices": {
+     "ok": 96,
+     "skipped": 5,
+     "retried": 0,
+     "failed": 0,
+     "runs": 101
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 63,
+     "skipped": 1,
+     "retried": 0,
+     "failed": 0,
+     "runs": 64
+    },
+    "local:lab-desktop": {
+     "ok": 4,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 4
+    },
+    "local:samueloldlaptop": {
+     "ok": 17,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 17
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-10-19T00:37",
+     "workflow": "energy roundup",
+     "step": "write the Roundup",
+     "reason": "FAIL restore weather_obs_hourly: APIError: [400 invalid_request] Cannot export more than 100GB within a 30 day period, unless the dataset's owner has configured an export billing project."
+    },
+    {
+     "at": "2026-10-19T21:46",
+     "workflow": "daily prices",
+     "step": "supabase_load",
+     "reason": "FAILED tables: ['datacenter_projects', 'energy_deals']"
+    },
+    {
+     "at": "2026-10-19T22:20",
+     "workflow": "daily prices",
+     "step": "daily run",
+     "reason": "license check: 34 internal tables, 0 in the public dataset, 4 unknown tables there; FAILED"
+    }
+   ],
+   "stale": [
+    {
+     "at": "2026-10-19T17:11",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 35 days old (limit 28)"
     }
    ]
   }

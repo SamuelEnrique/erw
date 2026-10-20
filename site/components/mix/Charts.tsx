@@ -19,18 +19,18 @@ export function HourStack({ x, layers, lines, unit, unit2, label, height = 300, 
     ...layers.map((l) => ({ ...l, kind: "area" as const, stack: "mix" })),
     ...lines.map((l) => ({ ...l, kind: "line" as const })),
   ];
-  return <CategoryChart id={name} x={x} series={series} unit={unit} unit2={unit2} label={label} height={height} />;
+  return <div data-chart="stack"><CategoryChart id={name} x={x} series={series} unit={unit} unit2={unit2} label={label} height={height} /></div>;
 }
 
 export function Lines({ x, series, unit, unit2, label, height = 300, name, zero, every }: { x: string[]; series: Series[]; unit: string; unit2?: string; label: string; height?: number; name: string; zero?: boolean; every?: number }) {
-  return <CategoryChart id={name} x={x} series={series.map((l) => ({ ...l, kind: "line" as const }))} unit={unit} unit2={unit2} label={label} height={height} zero={Boolean(zero)} every={every} />;
+  return <div data-chart="lines"><CategoryChart id={name} x={x} series={series.map((l) => ({ ...l, kind: "line" as const }))} unit={unit} unit2={unit2} label={label} height={height} zero={Boolean(zero)} every={every} /></div>;
 }
 
 export function Bars({ x, series, unit, label, height = 260, name }: { x: string[]; series: Series[]; unit: string; label: string; height?: number; name: string }) {
-  return <CategoryChart id={name} x={x} series={series.map((l) => ({ ...l, kind: "bar" as const }))} unit={unit} label={label} height={height} />;
+  return <div data-chart="bars"><CategoryChart id={name} x={x} series={series.map((l) => ({ ...l, kind: "bar" as const }))} unit={unit} label={label} height={height} /></div>;
 }
 
 /** rows by columns; cells[r][c] is the value or null. The mouse reads the row, the column and the value. */
 export function Heat({ rows, cols, cells, unit, label, name, marks }: { rows: string[]; cols: string[]; cells: (number | null)[][]; unit: string; label: string; height?: number; name: string; marks?: [number, number][] }) {
-  return <HeatChart id={name} rows={rows} cols={cols} cells={cells} unit={unit} label={label} marks={marks} />;
+  return <div data-chart="heat"><HeatChart id={name} rows={rows} cols={cols} cells={cells} unit={unit} label={label} marks={marks} /></div>;
 }

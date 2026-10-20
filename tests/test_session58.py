@@ -60,7 +60,9 @@ class DailyJob(unittest.TestCase):
             self.assertIn("  gate:\n", s)
             self.assertIn(f"  {job}:\n    needs: gate\n    if: needs.gate.outputs.run == '1'", s)
             self.assertIn("github.event_name == 'schedule' || github.event.inputs.once == '1'", s)
-            self.assertIn(f"actions/workflows/{wf}/runs?status=success", s)
+            # session 321: the daily gate reads its daily step's row of erw_health, not the job's color
+            self.assertIn("step=eq.daily%20run&status=in.(ok,retried)" if wf == "daily-prices.yml"
+                          else f"actions/workflows/{wf}/runs?status=success", s)
             self.assertIn("actions: read", s)
 
     def test_status_lists_a_multi_iso_gap(self):

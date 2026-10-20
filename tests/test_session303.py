@@ -49,7 +49,7 @@ class TheChart(unittest.TestCase):
         for words in ("export type TimeSeries = {", "points: [number, number | null][];", "step?: boolean;", "dashed?: boolean;", "y2?: boolean;",
                       "series: TimeSeries[];", "unit: string;", "ariaLabel: string;", "height?: number;", "stack?: boolean;",
                       'x?: "minute" | "day" | "month" | "year" | "hour_of_day";', "mini?: boolean;", "file?: string;", "unit2?: string;",
-                      "export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false, x = \"minute\", mini = false, unit2 = \"\" }: Props) {"):
+                      "export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false, x = \"minute\", mini = false, unit2 = \"\", refLines }: Props) {"):   # session 318: refLines, a named line
             self.assertIn(words, c, words)
         self.assertIn('const hod = x === "hour_of_day";', c)
         self.assertIn("const xTicks = hod ? [0, 4, 8, 12, 16, 20, 23] :", c)

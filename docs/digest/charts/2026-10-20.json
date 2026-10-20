@@ -1,0 +1,80 @@
+{
+ "date": "2026-10-20",
+ "source": "scanner",
+ "key": "scan-record-90427afd38ee",
+ "fact": "Retail electricity sales in Utah, residential: 1,658,263 MWh in July 2026, the highest monthly value held since January 2001. The record until now was 1,484,757 MWh, in July 2024.",
+ "table": "eia_retail_sales_monthly",
+ "series_key": "entity=eia:retail_sales:UT:RES|variable=retail_sales|market=|node=|freq=P1M",
+ "why": "the strongest of the scanner's 11 flag(s) of the day that no Digest has shown (rank 3; rule record, strength 1.0112)",
+ "candidates_from": "the scan of 2026-10-20 (computed 2026-10-20T01:18:29+00:00)",
+ "title": "RECORD HIGH",
+ "numbers": {
+  "sigma": 171583.6108559999,
+  "value": 1658262.63,
+  "margin": 173505.75,
+  "strength": 1.0112,
+  "threshold": 1484756.88,
+  "old_record": 1484756.88,
+  "stood_points": 24,
+  "history_years": 25.33,
+  "margin_sigmas": 1.0112,
+  "history_points": 305
+ },
+ "image": "2026-10-20.png",
+ "rendered_at": "2026-10-20T01:32:31Z",
+ "method": "docs/methods/automated_analysis_scanner.md",
+ "flag": {
+  "id": "scan-record-90427afd38ee",
+  "geo": "US-UT",
+  "date": "2026-07-01",
+  "note": "",
+  "rule": "record",
+  "unit": "MWh",
+  "label": "eia:retail_sales:UT:RES retail_sales",
+  "table": "eia_retail_sales_monthly",
+  "value": 1658262.63,
+  "series": {
+   "freq": "P1M",
+   "node": "",
+   "entity": "eia:retail_sales:UT:RES",
+   "market": "",
+   "variable": "retail_sales"
+  },
+  "source": "eia:electricity/retail-sales",
+  "window": [
+   "2026-07-01",
+   "2026-07-01"
+  ],
+  "history": {
+   "last": "2026-05-01",
+   "first": "2001-01-01",
+   "years": 25.33,
+   "points": 305
+  },
+  "compared": {
+   "sigma": 171583.6108559999,
+   "margin": 173505.75,
+   "old_record": 1484756.88,
+   "stood_points": 24,
+   "margin_sigmas": 1.0112,
+   "old_record_date": "2024-07-01"
+  },
+  "flag_key": "record|eia_retail_sales_monthly|entity=eia:retail_sales:UT:RES|variable=retail_sales|market=|node=|freq=P1M",
+  "strength": 1.0112,
+  "direction": "high",
+  "scan_date": "2026-10-20",
+  "statistic": "monthly value",
+  "threshold": {
+   "name": "record high",
+   "value": 1484756.88,
+   "config": {
+    "record_min_points": 60,
+    "record_stood_points": 24,
+    "record_min_margin_sigmas": 0.5
+   },
+   "statistic": "the highest monthly value of the held history"
+  },
+  "series_key": "entity=eia:retail_sales:UT:RES|variable=retail_sales|market=|node=|freq=P1M",
+  "scanner_version": "1.1.0"
+ }
+}

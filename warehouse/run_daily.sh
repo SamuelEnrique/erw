@@ -63,6 +63,21 @@ DAYS="${DAYS:-3}"
 # connectors refuse a paused publisher themselves, so ISOS=miso would request nothing either. MISO's tables stay as
 # they are. To bring it back: delete the row of paused_sources.csv and put miso back in this list.
 ISOS="${ISOS:-ercot caiso nyiso spp isone}"
+# Session 321 (the owner's ruling of 19 October 2026): every publisher pull below runs under warehouse/pull_budget.py,
+# 15 minutes of wall clock each (PULL_BUDGET_MIN). The daily job was cancelled at GitHub's 180-minute limit on 14, 15
+# and 19 October, waiting 39 minutes a market on CAISO's and SPP's hosts, and 66 minutes on EIA's API on 19 October.
+# A pull still unanswered at its budget is stopped; its tables are gap rows with the reason "publisher did not answer
+# within the budget", the step is skipped (exit 75, not a failure for the health gate), and the next run asks again.
+BUDGET=("$PYTHON" warehouse/pull_budget.py --minutes "${PULL_BUDGET_MIN:-15}" --step)
+BUDGET_MARK="publisher did not answer within the budget"
+health_row() {
+  # session 321 (the morning note's item 5, the owner's default of 19 October 2026): health_row <step> <status> <reason>.
+  # A step of this run that failed is a failed row of erw_health, so the day is red in health.py's day record even when
+  # the job is green; a step skipped at its budget is a skipped row with that reason. A step that runs under
+  # warehouse/health.py run records itself; a dry run (DRY_STORES=1) records nothing.
+  [ "${DRY_STORES:-0}" = "1" ] && return 0
+  "$PYTHON" warehouse/health.py record --step "$1" --status "$2" --reason "$3" > /dev/null 2>&1 || true
+}
 
 cd "$(dirname "$0")/.."
 mkdir -p runs
@@ -95,16 +110,24 @@ echo "== split the consolidated tables into their members (session 29)"
 "$PYTHON" warehouse/consolidate.py split || { echo "stopping: consolidate.py split failed"; exit 1; }
 for iso in $ISOS; do
   out="runs/daily_${iso}.out"
-  "$PYTHON" warehouse/connectors/iso_prices.py "$iso" --days "$DAYS" > "$out" 2>&1
+  "${BUDGET[@]}" "$iso" -- "$PYTHON" warehouse/connectors/iso_prices.py "$iso" --days "$DAYS" > "$out" 2>&1
   rc=$?
-  grep -E "\.csv: rows=|FAILED|run log:" "$out" | grep -vE " - (INFO|DEBUG|WARNING) - "
+  grep -E "\.csv: rows=|FAILED|SKIPPED|run log:" "$out" | grep -vE " - (INFO|DEBUG|WARNING) - "
   failed=$(grep -oE "^${iso} (DAM|RTM|RTM_HOURLY) FAILED" "$out" | awk '{print $2}' | sort -u | tr '\n' ' ' | sed 's/ $//')
   if [ "$rc" -eq 0 ]; then
     echo "$iso ok" >> "$status"
+  elif [ "$rc" -eq 75 ]; then
+    # session 321: the budget ran out (or every table is a known gap): skipped, its tables gap rows
+    why=$(grep -m1 "SKIPPED: ${BUDGET_MARK}" "$out" || grep -m1 "SKIPPED" "$out")
+    why=$(echo "$why" | sed -E "s/^[a-z0-9_]+ ([A-Za-z0-9_]+ )?SKIPPED: //" | cut -c1-300)
+    echo "$iso skipped: $why" >> "$status"
+    case "$why" in "$BUDGET_MARK"*) health_row "$iso" skipped "$why" ;; esac
   elif [ -n "$failed" ]; then
     echo "$iso failed: $failed" >> "$status"
+    health_row "$iso" failed "$iso $failed failed: $(grep -m1 -E "^${iso} (DAM|RTM|RTM_HOURLY) FAILED" "$out" | cut -c1-300)"
   else
     echo "$iso failed: connector exit $rc" >> "$status"
+    health_row "$iso" failed "connector exit $rc: $(tail -1 "$out" | cut -c1-300)"
     tail -20 "$out"
   fi
 done
@@ -145,15 +168,30 @@ run_other() {
   elif [ "$rc" -eq 75 ]; then
     # session 206 (the owner's ruling of 12 October 2026): a connector whose every table is a known gap on this runner
     # (warehouse/metadata/known_gaps.csv; iso_prices.gap_skip) exits 75, the skip exit warehouse/health.py uses, with a
-    # SKIPPED line naming the gap: recorded as skipped, not failed
-    echo "$name skipped: $(grep -m1 "SKIPPED" "$out" | sed -E "s/^[a-z0-9_]+ ([a-z0-9_]+ )?SKIPPED: //" | cut -c1-300)" >> "$status"
+    # SKIPPED line naming the gap: recorded as skipped, not failed. Session 321: the same for a pull stopped at its
+    # budget (warehouse/pull_budget.py), whose reason is preferred to any other SKIPPED line of the step
+    local why
+    why=$( (grep -m1 "SKIPPED: ${BUDGET_MARK}" "$out" || grep -m1 "SKIPPED" "$out") | sed -E "s/^[a-z0-9_]+ ([a-z0-9_]+ )?SKIPPED: //" | cut -c1-300)
+    echo "$name skipped: $why" >> "$status"
+    case "$why" in "$BUDGET_MARK"*) case "$*" in *"warehouse/health.py run"*) ;; *) health_row "$name" skipped "$why" ;; esac ;; esac
   elif [ "$rc" -eq 0 ]; then
     echo "$name ok" >> "$status"
   else
     failed=$(grep -oE "^${name} [a-z0-9_]+ FAILED" "$out" | awk '{print $2}' | sort -u | tr '\n' ' ' | sed 's/ $//')
     echo "$name failed: ${failed:-connector exit $rc}" >> "$status"
+    # session 321: a failed step is a failed row of erw_health (a step under warehouse/health.py run recorded itself)
+    case "$*" in
+      *"warehouse/health.py run"*) ;;
+      *) health_row "$name" failed "${failed:+$failed: }$( (grep -m1 -E "FAILED|Error" "$out" || tail -1 "$out") | cut -c1-300)" ;;
+    esac
     [ -z "$failed" ] && tail -20 "$out"
   fi
+  return 0
+}
+pull() {
+  # session 321: pull <name> <command...>: a publisher pull, run like run_other under its budget (warehouse/pull_budget.py)
+  local name="$1"; shift
+  run_other "$name" "${BUDGET[@]}" "$name" -- "$@"
 }
 
 # Derived (session 9): ERCOT peak premium metrics from the ERCOT real-time history and live
@@ -163,84 +201,93 @@ run_other() {
 run_other ercot_peak_premium "$PYTHON" warehouse/derived/ercot_peak_premium.py
 
 # EIA-930 hourly demand and generation (EIA_API_KEY from the environment or .env)
-run_other eia930 "$PYTHON" warehouse/connectors/eia930.py --days "$DAYS"
+pull eia930 "$PYTHON" warehouse/connectors/eia930.py --days "$DAYS"
 # Session 31: EIA-930 battery storage (fuel type BAT), merged into its history like EIA-930 demand; its daily cycle
 # runs after CAISO's own battery series below (session 34) (docs/methods/storage.md)
-run_other eia930_storage "$PYTHON" warehouse/connectors/eia930_storage.py --days "$DAYS"
+pull eia930_storage "$PYTHON" warehouse/connectors/eia930_storage.py --days "$DAYS"
 # Session 32: EIA-930 CO2 estimates from EIA's per-BA workbooks (the newest workbook per BA; the last $DAYS days merged
 # on (entity, variable, ts_utc); the raw copy kept), then carbon intensity (docs/methods/emissions.md)
-run_other eia930_emissions "$PYTHON" warehouse/connectors/eia930_emissions.py --days "$DAYS"
+# Session 321: the last 10 days, not $DAYS: EIA's workbooks carry the CO2 hours some days behind, and a 3-day window
+# passed over days that arrived after it had moved on (no extra request: each run reads the whole workbook)
+pull eia930_emissions "$PYTHON" warehouse/connectors/eia930_emissions.py --days "${EMISSIONS_DAYS:-10}"
 # Session 82 (Samuel's ruling on session 73, built in session 78): California from the join. CAISO's own supply by fuel,
 # the last $DAYS Pacific days merged into its history (about 312 rows a day); then the carbon tables, in which
 # carbon_intensity.py no longer writes California's intensity of generation from the join, and caiso_join.py --apply
 # writes it on CAISO's own generation. A day on which the last step fails leaves those rows absent, never EIA's
 # (docs/methods/eia930_caiso_break.md).
-run_other caiso_fuel_supply "$PYTHON" warehouse/connectors/caiso_fuel_supply.py --days "$DAYS"
+pull caiso_fuel_supply "$PYTHON" warehouse/connectors/caiso_fuel_supply.py --days "$DAYS"
 run_other carbon_intensity "$PYTHON" warehouse/derived/carbon_intensity.py
 run_other caiso_join "$PYTHON" warehouse/derived/caiso_join.py --apply
 # Session 49 (session 42's A2): EIA-930 interchange, every BA pair EIA reports, merged into its history like the other
 # EIA-930 tables (the last $DAYS days pulled again), then the grid network's tables and the /network snapshot
 # site/data/grid_network.json (docs/methods/grid_network.md)
-run_other eia930_interchange "$PYTHON" warehouse/connectors/eia930_interchange.py --days "$DAYS"
+pull eia930_interchange "$PYTHON" warehouse/connectors/eia930_interchange.py --days "$DAYS"
 run_other grid_network "$PYTHON" warehouse/derived/grid_network.py
 
 # Session 24: NWS weather at one airport per ISO load center: hourly observations (the API serves about 7 days;
 # the table grows by merging) and the 7-day hourly forecast, for /grid's temperature overlay and degree days
-run_other weather_nws "$PYTHON" warehouse/connectors/weather_nws.py
+pull weather_nws "$PYTHON" warehouse/connectors/weather_nws.py
 
 # EIA daily fuel spot prices, full history each run (small)
-run_other eia_fuels "$PYTHON" warehouse/connectors/eia_fuels.py
+pull eia_fuels "$PYTHON" warehouse/connectors/eia_fuels.py
 # Session 19: the trader view (tool 24), from the ISO price tables above and Henry Hub
 # (docs/methods/trader_view.md); SPP has no real-time table, PJM no price table
 run_other trader_view "$PYTHON" warehouse/derived/trader_view.py
 
 # EIA refined products, retail fuels, weekly trade and stocks, LNG exports by terminal
 # (session 7), full history each run
-run_other eia_series "$PYTHON" warehouse/connectors/eia_series.py
+pull eia_series "$PYTHON" warehouse/connectors/eia_series.py
 # Session 18: the energy mix explorer (tool 21): EIA-923 generation by state (eia_series, above)
 # grouped by fuel (docs/methods/generation_mix.md)
-run_other generation_mix "$PYTHON" warehouse/derived/generation_mix.py
+# Session 327: on the runner its input exists only when eia_series wrote it this run; when eia_series was stopped at its
+# budget (the manual run of 20 October 2026), the build is a skip with that reason, not a failure
+if [ -f warehouse/output/eia_state_generation_monthly.csv ]; then
+  run_other generation_mix "$PYTHON" warehouse/derived/generation_mix.py
+else
+  echo "generation_mix skipped: its input eia_state_generation_monthly is not on this machine (eia_series: $(grep -m1 "^eia_series " "$status" | cut -c1-200))" >> "$status"
+  echo "generation_mix: skipped, eia_state_generation_monthly absent"
+fi
 
 # Session 7 price board: PJM RPM capacity prices (internal), CARB and RGGI carbon
 # auctions (internal). Session 207 (the owner's ruling of 12 October 2026): the FRED series are no longer pulled or
 # stored (fred_series.py; warehouse/metadata/retired_tables.csv): the spot prices are EIA's own (eia_fuels.py, above),
 # the Treasury yields the Board's own (frb_treasury.py, in warehouse/refresh_board.sh)
-run_other capacity_prices "$PYTHON" warehouse/connectors/capacity_prices.py
-run_other carbon_auctions "$PYTHON" warehouse/connectors/carbon_auctions.py
+pull capacity_prices "$PYTHON" warehouse/connectors/capacity_prices.py
+pull carbon_auctions "$PYTHON" warehouse/connectors/carbon_auctions.py
 # IMF PortWatch daily chokepoint transits (session 8; internal until terms are confirmed)
-run_other portwatch "$PYTHON" warehouse/connectors/portwatch.py
+pull portwatch "$PYTHON" warehouse/connectors/portwatch.py
 # Session 18: the curtailment tracker (tool 22): CAISO and SPP curtailment, ERCOT output below HSL,
 # the latest days (the history is restored from Redivis first), then the monthly sums
 # (docs/methods/curtailment.md)
-run_other curtailment "$PYTHON" warehouse/connectors/curtailment.py
+pull curtailment "$PYTHON" warehouse/connectors/curtailment.py
 run_other iso_curtailment_monthly "$PYTHON" warehouse/derived/iso_curtailment_monthly.py
 # Session 144: ERCOT's wind and solar by the hour, with the high sustained limit system-wide. ERCOT's list keeps about
 # seven days of these reports, so a lapse of more than a week loses hours for good: the table (restored from the draft
 # first, warehouse/redivis/config.yaml) takes each day's new hours. Then the file of the Texas section of /curtailment
 # (in review), from that table; the daily run's commit step adds it
-run_other ercot_wind_solar_history "$PYTHON" warehouse/connectors/ercot_wind_solar_history.py --pull --write
+pull ercot_wind_solar_history "$PYTHON" warehouse/connectors/ercot_wind_solar_history.py --pull --write
 run_other ercot_estimate_page "$PYTHON" warehouse/derived/ercot_estimate_page.py
 # Session 23: CAISO battery storage output (Today's Outlook, 5-minute), the last 30 days, for the Automated
 # Analysis template storage_evening_peak (EIA-930 carries no battery series)
-run_other caiso_outlook "$PYTHON" warehouse/connectors/caiso_outlook.py
+pull caiso_outlook "$PYTHON" warehouse/connectors/caiso_outlook.py
 # Session 31: the daily cycle of battery storage from eia930_all_storage; session 34: with CAISO's rows from
 # caiso_battery_storage (above), so it runs after both (docs/methods/storage.md)
 run_other storage_daily_cycle "$PYTHON" warehouse/derived/storage_daily_cycle.py
 
 # Session 8 entities. EIA-860M generator inventory: runs every day, writes only when EIA's
 # newest published monthly vintage differs from the one in the tables (a monthly cadence).
-run_other eia860 "$PYTHON" warehouse/connectors/eia860.py
+pull eia860 "$PYTHON" warehouse/connectors/eia860.py
 # ISO interconnection queues: weekly, on Mondays (UTC), or any day with QUEUES=1
 if [ "$(date -u +%u)" = "1" ] || [ "${QUEUES:-0}" = "1" ]; then
-  run_other iso_queues "$PYTHON" warehouse/connectors/iso_queues.py
+  pull iso_queues "$PYTHON" warehouse/connectors/iso_queues.py
   # Session 140: NYISO's load interconnection requests (the sheet "Load Projects" of the same workbook), the one
   # grid that publishes load in line by place; /cost-of-power (in review) reads site/data/nyiso_load_queue.json
-  run_other nyiso_load_queue "$PYTHON" warehouse/connectors/nyiso_load_queue.py --pull --write
+  pull nyiso_load_queue "$PYTHON" warehouse/connectors/nyiso_load_queue.py --pull --write
   # Session 17: ERCOT large-load requests. ERCOT publishes no request-level list (the status report
   # aggregates, Protocol 3.2.7); this watches its Large Load Integration page and fails loudly until one appears
-  run_other ercot_large_load "$PYTHON" warehouse/connectors/ercot_large_load.py
+  pull ercot_large_load "$PYTHON" warehouse/connectors/ercot_large_load.py
   # Session 22: the datacenter operators' own site lists (nine connectors), weekly with the queues
-  run_other datacenter_operators "$PYTHON" warehouse/datacenters/operators/run.py
+  pull datacenter_operators "$PYTHON" warehouse/datacenters/operators/run.py
 else
   echo "iso_queues: weekly (Mondays UTC); skipped today, QUEUES=1 to force"
 fi
@@ -255,7 +302,7 @@ run_other storage_buildout "$PYTHON" warehouse/derived/storage_buildout.py
 
 # News (session 6): ingest the feeds, then score new stories with the Claude API
 # (ANTHROPIC_API_KEY). The digest is written after validation and coverage, below.
-run_other news_ingest "$PYTHON" warehouse/news/ingest.py
+pull news_ingest "$PYTHON" warehouse/news/ingest.py
 model_step news_score "$PYTHON" warehouse/news/score.py
 # Session 30 (B4): the Haiku shadow scorer scores the same stories into news_scores_shadow (internal), only while
 # SHADOW_MODEL is set (the workflow sets it; unsetting it is the kill switch) and before the expiry date in
@@ -264,7 +311,7 @@ model_step news_score_shadow "$PYTHON" warehouse/news/shadow.py score
 run_other news_index "$PYTHON" warehouse/news/index.py   # public companion table (session 7)
 # Session 24: policy actions (tool 12): the Federal Register, NRC, DOE, PUCT and CPUC, linked to the scored news,
 # then scored with the news rubric and read for impact (warehouse/policy/)
-run_other policy_sources "$PYTHON" warehouse/connectors/policy_sources.py
+pull policy_sources "$PYTHON" warehouse/connectors/policy_sources.py
 model_step policy_score "$PYTHON" warehouse/policy/score.py
 model_step policy_reads "$PYTHON" warehouse/policy/reads.py
 # Session 15: deals from the newly scored stories (warehouse/deals/extract.py, tool 6)
@@ -320,16 +367,16 @@ fi
 # into), then the stack itself, each under warehouse/health.py (a failed step is retried once and recorded in
 # erw_health). On the runner the ERCOT price history is absent: the stack rebuilds the months the rolling tables reach
 # and keeps the earlier ones from its own table, restored from the draft (docs/methods/battery_stack.md).
-run_other ercot_as_prices "$PYTHON" warehouse/health.py run --strict --step "ercot_as_prices" -- "$PYTHON" warehouse/connectors/ercot_as_prices.py
+run_other ercot_as_prices "$PYTHON" warehouse/health.py run --strict --step "ercot_as_prices" -- "${BUDGET[@]}" ercot_as_prices -- "$PYTHON" warehouse/connectors/ercot_as_prices.py
 # Session 148: ERCOT's reserve prices by day and by month (ercot_as_prices_daily, ercot_as_prices_monthly, for Ask
 # ERCOT, so that no question reads a year of hourly rows), from the hourly table the step above has just written whole.
 # No request. A day or a month with fewer hours than it has is written with its count, never filled; the two tables are
 # restored from the draft so that an unchanged row keeps its retrieved_at (docs/methods/ercot_as_prices_rollup.md)
 run_other ercot_as_prices_rollup "$PYTHON" warehouse/health.py run --strict --step "ercot_as_prices_rollup" -- "$PYTHON" warehouse/derived/ercot_as_prices_rollup.py
-run_other caiso_as_prices "$PYTHON" warehouse/health.py run --strict --step "caiso_as_prices" -- "$PYTHON" warehouse/connectors/caiso_as_prices.py --start "$("$PYTHON" -c "import datetime as d; print((d.datetime.now(d.timezone.utc) - d.timedelta(days=${DAYS} + 3)).date())")"
+run_other caiso_as_prices "$PYTHON" warehouse/health.py run --strict --step "caiso_as_prices" -- "${BUDGET[@]}" caiso_as_prices -- "$PYTHON" warehouse/connectors/caiso_as_prices.py --start "$("$PYTHON" -c "import datetime as d; print((d.datetime.now(d.timezone.utc) - d.timedelta(days=${DAYS} + 3)).date())")"
 # the capacity prices (internal) change with each auction: the first day of each month only, or any day with CAPACITY=1
 if [ "$(date -u +%d)" = "01" ] || [ "${CAPACITY:-0}" = "1" ]; then
-  run_other iso_capacity_prices "$PYTHON" warehouse/health.py run --strict --step "iso_capacity_prices" -- "$PYTHON" warehouse/connectors/iso_capacity_prices.py
+  run_other iso_capacity_prices "$PYTHON" warehouse/health.py run --strict --step "iso_capacity_prices" -- "${BUDGET[@]}" iso_capacity_prices -- "$PYTHON" warehouse/connectors/iso_capacity_prices.py
 else
   echo "iso_capacity_prices: monthly (the first day of the month, UTC); skipped today, CAPACITY=1 to force"
 fi
@@ -348,14 +395,14 @@ run_other board "$PYTHON" warehouse/health.py run --step "board" -- bash warehou
 # that is not there is never started), then the replay's newest year and its index are rebuilt, so the replay holds
 # every day to EIA's newest. It runs here, after the consolidated price tables and the hub history it reads.
 . warehouse/soft_step.sh
-soft_step eia930_daily_interchange "$PYTHON" warehouse/scheduled.py eia930_daily_interchange
-soft_step eia930_daily_demand "$PYTHON" warehouse/scheduled.py eia930_daily_demand
+soft_step eia930_daily_interchange "${BUDGET[@]}" eia930_daily_interchange -- "$PYTHON" warehouse/scheduled.py eia930_daily_interchange
+soft_step eia930_daily_demand "${BUDGET[@]}" eia930_daily_demand -- "$PYTHON" warehouse/scheduled.py eia930_daily_demand
 soft_step network_replay "$PYTHON" warehouse/scheduled.py network_replay
 # Session 116, the standing pull (approved in that session's prompt): one zip a day of ERCOT's 60-Day DAM Disclosure, the
 # first listed operating day after the last one held, so the storage resources' day-ahead awards and offers stay 60 days
 # behind and no further (docs/methods/ercot_storage_dam_offers.md). A soft step under warehouse/health.py: on the runner
 # its four tables are first rebuilt from the ERW's archive; without them nothing is requested. Never more than one zip
-soft_step ercot_storage_dam "$PYTHON" warehouse/scheduled.py ercot_storage_dam
+soft_step ercot_storage_dam "${BUDGET[@]}" ercot_storage_dam -- "$PYTHON" warehouse/scheduled.py ercot_storage_dam
 # Session 157, the policy monitor's refresh (the owner's words of 8 October 2026: "the ten commissions' open docket lists
 # ... to the daily run under health.py, each quoting its terms"): by plain request, each regulator's own open list for
 # what is new in the dockets held of large_load_rules and large_load_rules_internal and for new dockets on the four
@@ -366,7 +413,7 @@ soft_step ercot_storage_dam "$PYTHON" warehouse/scheduled.py ercot_storage_dam
 # regulators; on the runner the two tables are first rebuilt from the ERW's archive, and without them nothing is
 # requested. Both tables are in the live set's hold lists (warehouse/supabase/live_set.yaml): nothing here is loaded,
 # and no live page (/cost-of-power/battery, /network, /storage) reads either table.
-soft_step policy_monitor_refresh "$PYTHON" warehouse/connectors/policy_monitor_refresh.py
+soft_step policy_monitor_refresh "${BUDGET[@]}" policy_monitor_refresh -- "$PYTHON" warehouse/connectors/policy_monitor_refresh.py
 # Session 157: the policy monitor's site files that follow the tables (site/data/policy/state_rules.json, refresh.json
 # with the refresh step's last run, action_tags.json), rebuilt after the refresh so that the "What changed this week"
 # view of /policy (in review) shows a row the day the step finds it. No request, no model, no table written. Never a

@@ -152,7 +152,7 @@ try {
     await go(`${base}/research`);
     await wait(`!!document.querySelector('[data-request-show="${DONE_ID}"]')`, 20000, "the done request in the list");
     await evaluate(`document.querySelector('[data-request-show="${DONE_ID}"]').click()`);
-    await wait(`!!document.querySelector('[data-request-card="done"] [data-more-chart] canvas')`, 20000, "the request's card with its second chart");
+    await wait(`!!document.querySelector('[data-request-card="done"] [data-more-chart] svg')`, 20000, "the request's card with its second chart");
     const rq = await evaluate(`(() => { const box = document.querySelector('[data-request-card="done"]'); return { text: box.innerText.replace(/\\s+/g, " "), table: !!box.querySelector('[data-effect-table]'),
       downloads: [...box.querySelectorAll('[data-request-downloads] [data-download]')].map((e) => e.dataset.download), files: box.querySelectorAll('a[href$=".csv"]').length,
       py: box.querySelector('[data-download="python"]').getAttribute("href") }; })()`);
@@ -172,11 +172,11 @@ try {
     check(made.split(NL).slice(0, 4).join("|") === file.split(NL).slice(0, 4).join("|") && same && pa.length > 40, "the CSV the page makes holds the committed CSV's comment lines and rows", `(${pa.length - 1} rows)`);
     await wait(`document.querySelector('[data-scanner-cards]')?.dataset.scannerCards === "1"`, 20000, "the scanner's group with one card");
     const s = await evaluate(`({ found: [...document.querySelectorAll("[data-found-by-scanner]")].map((e) => e.dataset.foundByScanner + "|" + e.textContent),
-      cards: [...document.querySelectorAll("[data-scanner-cards] [data-card]")].map((e) => e.dataset.card), chart: !!document.querySelector("[data-scanner-cards] [data-finding-chart] canvas"),
+      cards: [...document.querySelectorAll("[data-scanner-cards] [data-card]")].map((e) => e.dataset.card), chart: !!document.querySelector("[data-scanner-cards] [data-finding-chart] svg"),
       draftMarks: document.querySelectorAll("[data-scanner-cards] [data-draft-mark]").length })`);
     check(s.cards.length === 1 && s.cards[0] === a.id, "in a browser, /research draws the approved draft and no other", `(${s.cards.join(", ")})`);
     check(s.found.length === 1 && s.found[0].startsWith(`${a.id}|Found by the scanner, flagged ${a.flag_date}`), "it is marked Found by the scanner with its date", `(${s.found[0]})`);
-    check(s.chart, "its chart is drawn (a canvas that answers the mouse)");
+    check(s.chart, "its chart is drawn (the shared SVG set, which answers the mouse)");
     await send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 2, mobile: true });
     for (const p of ["/internal/findings", "/research"]) {
       await go(`${base}${p}`);

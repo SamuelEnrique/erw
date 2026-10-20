@@ -93,17 +93,25 @@ jobs:
       # Session 61: the day's work is done when a run succeeded today OR today's "Daily prices <day>" commit is on main:
       # the run of 2026-10-01 22:48 UTC committed and sent 2026-10-02's digest after midnight, then failed in its package
       # tests, and a second run that day would have sent a second digest.
+      # Session 321 (the morning note's item 5, the owner's default of 19 October 2026): "succeeded" is read from the
+      # steps, not the job's color. The job stays green when its daily step fails (warehouse/health.py), so on 17 and 18
+      # October a run that stopped at its restore counted as done and the next trigger was skipped. A run counts only
+      # when its "daily run" step is an ok or retried row of erw_health today; the commit test is unchanged (the commit
+      # step runs only after a good daily step).
       - id: check
         env:
           GH_TOKEN: ${{ github.token }}
           ONCE: ${{ github.event_name == 'schedule' || github.event.inputs.once == '1' }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: |
           if [ "$ONCE" != "true" ]; then echo "run=1" >> "$GITHUB_OUTPUT"; exit 0; fi
           today=$(date -u +%F)
-          n=$(gh api "repos/${{ github.repository }}/actions/workflows/daily-prices.yml/runs?status=success&created=%3E%3D${today}" --jq '.total_count')
+          base="${SUPABASE_URL%/}"; base="${base%/rest/v1}"
+          n=$(curl -sf "$base/rest/v1/erw_health?select=run_id&workflow=eq.daily%20prices&step=eq.daily%20run&status=in.(ok,retried)&at=gte.${today}T00:00:00Z"                 -H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" | jq 'length' || echo 0)
           c=$(gh api "repos/${{ github.repository }}/commits?sha=main&since=${today}T00:00:00Z&per_page=100" --jq "[.[] | select(.commit.message | startswith(\"Daily prices ${today}\"))] | length")
-          if [ "$n" -gt 0 ] || [ "${c:-0}" -gt 0 ]; then
-            reason="the day's work is done: $n successful runs today ($today) and $c 'Daily prices $today' commits on main"
+          if [ "${n:-0}" -gt 0 ] || [ "${c:-0}" -gt 0 ]; then
+            reason="the day's work is done: $n runs today ($today) whose daily step passed and $c 'Daily prices $today' commits on main"
             echo "$reason"
             echo "run=0" >> "$GITHUB_OUTPUT"
             echo "reason=$reason" >> "$GITHUB_OUTPUT"
@@ -134,7 +142,10 @@ jobs:
     runs-on: ubuntu-latest
     # SPP serves large files slowly; a day without its daily file is read from
     # 288 interval files. Three days usually finish well inside this.
-    timeout-minutes: 180
+    # Session 321 (the owner's ruling of 19 October 2026): 300, from 180. A good run takes about 140 to 170 minutes, and
+    # the runs of 14, 15 and 19 October were cancelled at 180 while CAISO's and SPP's hosts or EIA's API did not answer.
+    # Each publisher pull now has 15 minutes of its own (warehouse/pull_budget.py), so a run ends well inside 300.
+    timeout-minutes: 300
     steps:
       # Session 14: the first run on GitHub stopped 50 seconds in, at the Redivis restore,
       # because REDIVIS_OWNER (and SUPABASE_URL, SUPABASE_SERVICE_KEY) were empty. Check
@@ -187,14 +198,14 @@ jobs:
         run: python warehouse/health.py run --step "merge tests" -- python -m unittest discover -s tests -v
 
       # Session 59: the data lock (warehouse/lock.py, docs/machines.md). A data machine may be writing the warehouse; the
-      # run waits up to 60 minutes for it, then stops. The lock lasts 200 minutes, longer than the job's 180, and is
-      # released after the commit below, whatever happened.
+      # run waits up to 60 minutes for it, then stops. The lock lasts 320 minutes, longer than the job's 300 (session
+      # 321; 200 and 180 before), and is released after the commit below, whatever happened.
       - name: Take the data lock
         if: steps.tests.outputs.status == 'ok' || steps.tests.outputs.status == 'retried'
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-        run: python warehouse/health.py run --step "data lock" -- python warehouse/lock.py acquire --task "daily run ${{ github.run_id }}" --minutes 200 --wait 60 --github-env
+        run: python warehouse/health.py run --step "data lock" -- python warehouse/lock.py acquire --task "daily run ${{ github.run_id }}" --minutes 320 --wait 60 --github-env
 
       # Session 305: the run-to-run copy of the rolling-window tables. The newest cache of any earlier run is restored;
       # warehouse/restore_tables.py takes a table from it only when it is the archive's latest version of that table.
@@ -251,6 +262,15 @@ jobs:
           # session 114: the monthly builds on any day of a manual run (input monthly); otherwise when the month's are due
           MONTHLY: ${{ github.event.inputs.monthly || '0' }}
         run: python warehouse/health.py run --step "daily run" --retries 0 -- bash -c "set -o pipefail; bash warehouse/run_daily.sh 2>&1 | tee daily.log"
+
+      # Session 321 (the morning note's item 5): a run stopped at the job's time limit leaves no row for its daily step, and
+      # every row it did write may be ok. The stop is a failed row, so the day is red and the gate does not count the run.
+      - name: Record a daily run stopped at the time limit
+        if: always() && steps.daily.outcome == 'cancelled'
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: python warehouse/health.py record --step "daily run" --status failed --reason "cancelled at the job's time limit (timeout-minutes); the run did not finish"
 
       # Session 305: after a good run, the rolling-window tables as this run archived them, for the next run's restore
       - name: Stash the rolling-window tables for the cache

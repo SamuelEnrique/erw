@@ -21,7 +21,7 @@ SITE = os.path.join(ROOT, "site")
 DASH = chr(0x2014)
 
 # the page of each address, and the files that are that page's own (its page, its client parts, its own chart file)
-EVENTS = ["caiso-heat-2020", "caiso-heat-2022", "cold-2025", "covid-2020", "east-heat-2025", "elliott-2022", "ercot-heat-2023", "uri-2021"]
+EVENTS = ["caiso-heat-2020", "caiso-heat-2022", "cold-2025", "cold-2026", "covid-2020", "east-heat-2025", "elliott-2022", "ercot-heat-2023", "uri-2021"]   # session 319: cold-2026
 PAGES = {
     "/supply": ["app/supply/page.tsx", "components/supply/SupplyCharts.tsx"],
     "/contracts": ["app/contracts/page.tsx", "app/contracts/read.ts"],
@@ -56,7 +56,7 @@ def code(text):
 
 class TheWrapper(unittest.TestCase):
     def test_the_batch_is_the_eleven_pages_and_the_eight_events(self):
-        self.assertEqual(len(PAGES), 11 + 8)
+        self.assertEqual(len(PAGES), 11 + 9)
         on_disk = sorted(d for d in os.listdir(os.path.join(SITE, "app", "events")) if os.path.isfile(os.path.join(SITE, "app", "events", d, "page.tsx")))
         self.assertEqual(on_disk, sorted(EVENTS))            # an event page added later must be put on the brand too
 
@@ -150,9 +150,9 @@ class ChartsReadTokens(unittest.TestCase):
             with self.subTest(file="/".join(parts)):
                 self.assertNotIn("baseStyle()", c)
                 # session 317: the two files draw through the shared SVG set, whose colors are tokens by name (var(--color-...)) and
-        # so are the brand's at the chart's own box by CSS; nothing reads a computed style
-        self.assertIn('from "@/components/svgchart"', c)
-        self.assertNotIn("baseStyle(", c)
+                # so are the brand's at the chart's own box by CSS; nothing reads a computed style
+                self.assertIn('from "@/components/svgchart"', c)
+                self.assertNotIn("baseStyle(", c)
                 self.assertNotIn("box.current", c)   # session 317: no element is read for a token
                 # no token is read at the page's root any more
                 self.assertEqual(re.findall(r'token\("[a-z0-9-]+"\)', c), [])

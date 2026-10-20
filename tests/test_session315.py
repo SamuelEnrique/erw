@@ -89,6 +89,8 @@ class EveryFigureIsANum(unittest.TestCase):
         self.assertIn('if (p[0] === "digest_chart") {', chk)
         self.assertIn('(typeof t === "string" && Number.isNaN(Number(t))) ? t === raw :', chk)
         self.assertIn("numbers: r.numbers && typeof r.numbers === \"object\" ? r.numbers : {} };", src("site", "scripts", "build-content.mjs"))
+        self.assertIn('"/research", "/research/card/batteries_lunch_grids", "/research/card/gas_sets_price",', chk)   # the pages checked
+        self.assertIn("const textOk = hourText || pText || text === raw || text.startsWith(", chk)
 
     def test_the_keys_resolve_in_every_committed_card(self):
         d = os.path.join(ROOT, "site", "data", "findings")

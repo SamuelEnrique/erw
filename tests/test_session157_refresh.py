@@ -473,7 +473,7 @@ class Step(unittest.TestCase):
     def test_the_daily_run_starts_it_as_a_soft_step(self):
         with open(os.path.join(ROOT, "warehouse", "run_daily.sh"), encoding="utf-8") as f:
             sh = f.read()
-        line = 'soft_step policy_monitor_refresh "$PYTHON" warehouse/connectors/policy_monitor_refresh.py'
+        line = 'soft_step policy_monitor_refresh "${BUDGET[@]}" policy_monitor_refresh -- "$PYTHON" warehouse/connectors/policy_monitor_refresh.py'  # session 321
         self.assertEqual(sh.count(line), 1)
         self.assertGreater(sh.index(line), sh.index(". warehouse/soft_step.sh"), "after the soft step function is read")
         self.assertLess(sh.index(line), sh.index('echo "== connector status"'), "before the status is recorded and the validator runs")

@@ -73,7 +73,7 @@ BY_HAND = {
     "energy_companies": (["ERW"], "its header: names, one-line descriptions written by the ERW, and links"),
     "known_data_faults": (["ERW"], "its header: the ERW's own account of its sources' data"),
     # session 311: derived from the six grids' hub prices (ercot_hub_prices_daily, iso_hub_prices_history) and CAISO's notices
-    "grid_stress_days": (["CAISO", "ERCOT", "ISO-NE", "MISO", "NYISO", "SPP"], "its header: the main hubs' real-time prices of six grids and CAISO's notices"),
+    "grid_stress_days": (["CAISO", "ERCOT", "ISO-NE", "MISO", "NYISO", "SPP"], "its header: the main hubs' real-time prices of six grids, CAISO's notices and ERCOT's (session 322)"),
     "large_load_rule_reads": (["Arizona Corporation Commission", "California Public Utilities Commission", "Illinois Commerce Commission",
                                "Oregon Public Utility Commission", "Pennsylvania Public Utility Commission", "Office of the Federal Register (NARA)"],
                               "its header: a model's reads of the rows of large_load_rules and of policy_actions"),
@@ -192,8 +192,28 @@ def short(pubs, n=6):
     return "; ".join(pubs[:n]) + (f"; and {len(pubs) - n} more" if len(pubs) > n else "")
 
 
+# Session 324 (the chain prompt of 19 October 2026): a table kept internal by the owner's ruling although the sentence
+# read allows it, with the reason. The document says it is ruled, not open.
+RULED_INTERNAL = {
+    "portwatch_chokepoint_transits": "kept internal by the owner's default of 19 October 2026 (the morning note's item 12): the IMF's "
+                                     "terms (read 13) prohibit bulk download of information by automated technology without explicit "
+                                     "permission, and the table is the daily pull of PortWatch's series; commercial reuse needs "
+                                     "copyright@imf.org's permission",
+}
+STATUS = os.path.join(META, "license_status.csv")
+
+
+def license_needed():
+    """{table: from} of license_status.csv's "license needed" rows (session 207's ruling: the flag stays public, the
+    table shows "license needed" from that day until a permission is recorded)."""
+    if not os.path.exists(STATUS):
+        return {}
+    return {r["table"]: r["from"] for r in rows(STATUS) if r["status"] == "license needed" and not r.get("permission")}
+
+
 def write(doc=None):
     cov = rows(COVERAGE)
+    needed = license_needed()
     reads = rows(READS)
     verdicts = {r["key"]: r for r in rows(VERDICTS)}
     tables = {r["table"]: r for r in rows(TABLES)}
@@ -214,6 +234,11 @@ def write(doc=None):
             standing = "agrees"
         else:
             standing = "DISAGREES: the flag is looser" if r["license"] == "public" else "DISAGREES: the flag is stricter"
+        # session 324: a disagreement a newer record settles is ruled, not open
+        if standing == "DISAGREES: the flag is looser" and r["table"] in needed:
+            standing = f"ruled: license needed from {needed[r['table']]}"
+        if standing == "DISAGREES: the flag is stricter" and r["table"] in RULED_INTERNAL:
+            standing = "ruled: kept internal"
         lines.append(dict(table=r["table"], pubs=pubs, v=v, why=why, unread=unread, flag=r["license"], standing=standing, vc=vc, whyc=whyc, own=own, rows=r["n_rows"]))
     n_ask = sum(1 for r in reads if not r["outcome"].startswith("not asked"))
     n_read = sum(1 for r in reads if r["outcome"] == "read")
@@ -232,19 +257,22 @@ def write(doc=None):
     w("")
     w("## Read these first")
     w("")
-    w(f"- **{len(lines)} tables.** The flag and the verdict agree on {count('agrees')}; disagree on {count('DISAGREES')}; {count('not settled')} are not settled (a publisher not read); "
-      f"{count('internal by')} is internal by the ERW's own choice.")
+    w(f"- **{len(lines)} tables.** The flag and the verdict agree on {count('agrees')}; a ruling settles {count('ruled')} (session 324: "
+      f"the \"license needed\" rows of `license_status.csv`, and one table kept internal); disagree on {count('DISAGREES')}; "
+      f"{count('not settled')} are not settled (a publisher not read); {count('internal by')} is internal by the ERW's own choice.")
     w(f"- **{len(reads)} publishers in the record: {n_ask} requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60), {n_read} pages read, {n_ask - n_read} that could not be read, "
       f"{len(reads) - n_ask} not asked (paused).**")
     loose = [x for x in lines if x["standing"] == "DISAGREES: the flag is looser"]
     strict = [x for x in lines if x["standing"] == "DISAGREES: the flag is stricter"]
     by = {}
-    for x in loose:
+    # session 324: the tables flagged public whose publisher asks for permission, open or settled as "license needed"
+    asks = loose + [x for x in lines if x["standing"].startswith("ruled: license needed")]
+    for x in asks:
         for p in x["why"]:
             by.setdefault(p, []).append(x["table"])
-    w(f"- **{len(loose)} tables are flagged public where a publisher's sentence asks for permission or a license.** By the publisher that decides it (a table can be under several): "
+    w(f"- **{len(asks)} tables are flagged public where a publisher's sentence asks for permission or a license** ({len(asks) - len(loose)} of them settled as \"license needed\"). By the publisher that decides it (a table can be under several): "
       + "; ".join(f"{p} {len(t)}" for p, t in sorted(by.items(), key=lambda kv: -len(kv[1]))) + ".")
-    w(f"- **{len(strict)} tables are flagged internal where the sentence read allows them:** " + ", ".join(f"`{x['table']}`" for x in strict) + ".")
+    w(f"- **{len(strict)} tables are flagged internal where the sentence read allows them" + (":** " + ", ".join(f"`{x['table']}`" for x in strict) + "." if strict else ".**"))
     change = [x for x in lines if x["v"] == PUBLIC and x["vc"] != PUBLIC and not x["own"]]
     byc = {}
     for x in change:
@@ -285,6 +313,18 @@ def write(doc=None):
         pubs = "the ERW's own work" if x["own"] else short(x["pubs"])
         v = x["v"] if not (x["unread"] and x["v"] == PUBLIC) else f"not settled ({PERMISSION} by default)"
         w(f"| `{x['table']}` | {cell(pubs)} | {v} | {cell(short(x['why'], 4)) or ''} | {cell(short(x['unread'], 3)) or ''} | {x['flag']} | {x['standing']} | {x['vc']} |")
+    w("")
+    ruled = [x for x in lines if x["standing"].startswith("ruled")]
+    w("## Settled by a ruling (session 324)")
+    w("")
+    w("The flag and the verdict differ, and a newer record says what holds. A table flagged public whose publisher asks for "
+      "permission keeps its flag by the owner's ruling of 12 October 2026 (session 207): from the day in "
+      "`warehouse/metadata/license_status.csv` it shows \"license needed\" in place of its numbers until a permission is recorded "
+      "in its row. The verdict is right about the clause; the flag is the table's place once permitted.")
+    w("")
+    for x in ruled:
+        why = RULED_INTERNAL.get(x["table"]) or f"{x['v']}, by {short(x['why'], 8)}; license needed from {needed.get(x['table'], '')}"
+        w(f"- `{x['table']}`: {why}.")
     w("")
     w("## Where the flag and the verdict disagree")
     w("")
