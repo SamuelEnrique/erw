@@ -29,6 +29,7 @@ rules. A verdict is a session's reading of a sentence, not legal advice.
 """
 
 import argparse
+import collections
 import csv
 import datetime as dt
 import os
@@ -68,6 +69,7 @@ BY_HAND = {
     "eia_all_futures_prices": (["EIA", "CME Group (NYMEX), whose prices EIA republished"], "its header: EIA names the New York Mercantile Exchange as the source of these prices"),
     "ercot_peak_premium_annual": (["ERCOT"], "its header: derived from ERCOT's hub prices (reports NP6-785-ER and NP6-905-CD)"),
     "ercot_peak_premium_monthly": (["ERCOT"], "its header: derived from ERCOT's hub prices (reports NP6-785-ER and NP6-905-CD)"),
+    "ercot_node_prices_hourly": (["ERCOT"], "its header: ERCOT's prices read from the saved files of NP3-966-ER, NP4-190-CD and NP6-905-CD (session 378)"),
     "ercot_all_hub_prices_history": (["ERCOT"], "ERCOT's hub price reports"),
     "datacenter_queue_positions": (["CAISO", "ERCOT", "ISO-NE", "MISO", "NYISO", "SPP"], "its header: rows of the six operators' queue tables"),
     "energy_companies": (["ERW"], "its header: names, one-line descriptions written by the ERW, and links"),
@@ -199,8 +201,21 @@ RULED_INTERNAL = {
                                      "terms (read 13) prohibit bulk download of information by automated technology without explicit "
                                      "permission, and the table is the daily pull of PortWatch's series; commercial reuse needs "
                                      "copyright@imf.org's permission",
+    # session 378: ERCOT's sentence allows it; the table is internal by the owner's rule for the hourly table (session 358)
+    "ercot_node_prices_hourly": "kept internal by the owner's rule for the hourly table (its header, session 358: the storage "
+                                "points' hourly prices kept in the warehouse, not in the live set, under 500,000 rows); "
+                                "ERCOT's terms (read 2) would allow it",
 }
 STATUS = os.path.join(META, "license_status.csv")
+
+
+def erw_verdict(flag, standing):
+    """Session 378: one word a table. internal: flagged internal (by the ERW's choice or a ruling); public: flagged
+    public and every publisher's sentence read allows it as the ERW is today; unsettled: anything else (a publisher not
+    read, a "license needed" ruling waiting for a permission, a flag and a verdict that disagree)."""
+    if flag != "public":
+        return "internal"
+    return "public" if standing == "agrees" else "unsettled"
 
 
 def license_needed():
@@ -258,8 +273,11 @@ def write(doc=None):
     w("## Read these first")
     w("")
     w(f"- **{len(lines)} tables.** The flag and the verdict agree on {count('agrees')}; a ruling settles {count('ruled')} (session 324: "
-      f"the \"license needed\" rows of `license_status.csv`, and one table kept internal); disagree on {count('DISAGREES')}; "
+      f"the \"license needed\" rows of `license_status.csv`, and {len(RULED_INTERNAL)} tables kept internal by a ruling); disagree on {count('DISAGREES')}; "
       f"{count('not settled')} are not settled (a publisher not read); {count('internal by')} is internal by the ERW's own choice.")
+    ev = collections.Counter(erw_verdict(x["flag"], x["standing"]) for x in lines)
+    w(f"- **The ERW's verdict (session 378): {ev['public']} public, {ev['internal']} internal, {ev['unsettled']} unsettled** "
+      "(one word a table, in \"Every table\"; an unsettled table waits for a permission, a read, or a ruling).")
     w(f"- **{len(reads)} publishers in the record: {n_ask} requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60), {n_read} pages read, {n_ask - n_read} that could not be read, "
       f"{len(reads) - n_ask} not asked (paused).**")
     loose = [x for x in lines if x["standing"] == "DISAGREES: the flag is looser"]
@@ -307,12 +325,16 @@ def write(doc=None):
     w("")
     w("\"Decided by\" names the publisher whose sentence sets the verdict. A table of the ERW's own work has no publisher.")
     w("")
-    w("| Table | Publishers | Verdict today | Decided by | Not read | Flag in coverage.csv | Flag and verdict | If the ERW sells anything |")
-    w("|---|---|---|---|---|---|---|---|")
+    w("\"ERW verdict\" (session 378) is one word a table: public (flagged public, and every publisher's sentence read allows it), internal "
+      "(flagged internal), unsettled (a publisher not read, a \"license needed\" ruling waiting for its permission, or a flag and a verdict that disagree). "
+      "A verdict that needs a document the ERW does not hold says so under \"Not read\"; such a table stays as it is flagged.")
+    w("")
+    w("| Table | Publishers | Verdict today | Decided by | Not read | Flag in coverage.csv | Flag and verdict | If the ERW sells anything | ERW verdict |")
+    w("|---|---|---|---|---|---|---|---|---|")
     for x in lines:
         pubs = "the ERW's own work" if x["own"] else short(x["pubs"])
         v = x["v"] if not (x["unread"] and x["v"] == PUBLIC) else f"not settled ({PERMISSION} by default)"
-        w(f"| `{x['table']}` | {cell(pubs)} | {v} | {cell(short(x['why'], 4)) or ''} | {cell(short(x['unread'], 3)) or ''} | {x['flag']} | {x['standing']} | {x['vc']} |")
+        w(f"| `{x['table']}` | {cell(pubs)} | {v} | {cell(short(x['why'], 4)) or ''} | {cell(short(x['unread'], 3)) or ''} | {x['flag']} | {x['standing']} | {x['vc']} | {erw_verdict(x['flag'], x['standing'])} |")
     w("")
     ruled = [x for x in lines if x["standing"].startswith("ruled")]
     w("## Settled by a ruling (session 324)")
