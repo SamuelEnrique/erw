@@ -261,6 +261,9 @@ catalogue_hold:
   - epa_ghgrp_power_co2
   - nlr_atb_electricity_costs
   - uswtdb_wind_turbines
+  # sessions 510 and 511: Form EIA-923's plants and EIA-861M's utilities, held the same way
+  - eia923_plant_fuel_annual
+  - eia861m_utility_sales_monthly
   # session 109: EIA's daily demand by balancing authority, a history (190,512 rows). The network's replay reads its own
   # files (site/public/network/daily_<year>.json), built from it; nothing reads it from Supabase
   - eia930_daily_demand
