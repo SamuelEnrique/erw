@@ -271,7 +271,8 @@ class Documents(unittest.TestCase):
     def test_readme_says_erw_backend_counts_on_first_use(self):
         readme = (PKG / "README.md").read_text(encoding="utf-8")
         self.assertIn("picks one on first use", readme)
-        self.assertIn("ERW_SUPABASE_ROLE=anon", (PKG / "llms.txt").read_text(encoding="utf-8"))
+        self.assertIn("ERW_SUPABASE_ROLE=anon", readme)
+        # package/llms.txt is also the chat's system prompt (site/lib/chat/spec.json, tests 58 and 92): left as it was
 
 
 if __name__ == "__main__":
