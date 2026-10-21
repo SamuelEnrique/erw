@@ -40,7 +40,7 @@ const baseline = (process.argv[3] ?? env("SITE_URL") ?? "").replace(/\/$/, "");
 const PAGES = [
   "/", "/privacy", "/board", "/emissions", "/storage", "/prices", "/prices/ercot%3AHB_HUBAVG", "/prices/caiso%3ATH_SP15_GEN-APND", "/prices/miso%3AINDIANA.HUB",
   "/prices/spp%3ASPPSOUTH_HUB", "/prices/nyiso%3AN.Y.C.", "/board?s=ercot-hb-hubavg-da", "/grid", "/mix", "/mix?ba=erco&state=TX",
-  "/mix?ba=ciso&state=CA", "/curtailment", "/consumption", "/data", "/data/standard", "/explorer/ercot-peak-premium",
+  "/mix?ba=ciso&state=CA", "/curtailment", "/consumption", "/data", "/data/standard", "/explorer/ercot-peak-premium", "/explore/ercot-peak-premium",  /* session 403 */
   "/deals", "/map", "/datacenters", "/companies", "/policy", "/digest", "/roundup", "/analysis", "/research", "/research?grid=ERCOT&topic=batteries", "/analysis/card/gas_sets_price", "/analysis/2026-W40", "/about", "/terms",
   "/subscribe", "/ask",
   "/ask/ercot", "/ask/ercot?from=%2Fshoulder&title=The+shoulder+hours&s_grid=ERCOT&s_month=2025-01",  // session 92: Ask ERCOT, the reference version (the page only: the check never asks the model)

@@ -100,3 +100,31 @@ box on one scale, the median named with its value; no value moved. Since session
 live set's CSV with a Python and a Stata reader of that CSV. The catalogue,
 read on 20 October 2026, gives both tables' last run as 29 September 2026; the monthly table's newest month is
 September 2026.
+
+## The explorer (session 403, 21 October 2026)
+
+`/explore/ercot-peak-premium` (platform tool 5, the first signature explorer; in review, not in the menu) is the
+thesis chart made live. Its one-line definition: the peak premium is how much higher and how much wider ERCOT's
+real-time price runs from 16:00 to 21:00 than at midday, read as `peak_minus_midday_median` and `peak_iqr` above.
+
+- **Filters**, in the address so that each view can be linked and checked: `hub` (the six hubs, default HB_HUBAVG),
+  `month` (blank for the whole year, from `ercot_peak_premium_annual`; 1 to 12 for that calendar month in each year,
+  from `ercot_peak_premium_monthly`), `from` and `to` (two years; default the first year held and the newest complete
+  one, so the default view is the thesis's 2015 against 2025). A value the tables do not hold is replaced by the
+  default, and the page says so in one line.
+- **What it draws**, through the site's shared charts only (`components/BoxChart.tsx` over `svgchart.tsx`'s
+  `BoxPlot`, and `LineChart`): the five numbers of each block, the two years side by side (the thesis chart); the
+  table of those numbers; the thesis's figures (`all_median`, `all_p999`, `worst_interval_multiple`, `peak_iqr`,
+  `peak_minus_midday_median`, `midday_min`, `n_scarcity`, `n_negative`, `n_intervals`) for both years; the peak-block
+  IQR, the peak-minus-midday median and the median along the years (or along one month's years); the monthly medians
+  of the three blocks. Every figure is one row of one table, with its check key
+  (`series|<table>|<hub>|<variable>|<period>`); the page computes none.
+- **Partial periods.** A year is partial when `n_intervals` is short of 35,040 (35,136 in a leap year); a month when
+  it is short of its days times 96 less four (the four quarter hours the spring clock change removes). Only the newest
+  year and month can be partial, as the completeness rule above says; the page marks them.
+- **How old the tables are** is read, never written by hand: the catalogue's `last_run` and `ts_max` of each table,
+  and the header's "Last input interval". A table not computed for more than three days is called stale on the page,
+  with the date. On 21 October 2026 both tables' last run is 29 September 2026, the newest month September 2026 and
+  the newest interval 28 September 2026 04:45 UTC.
+- **The ERCOT tab of `/prices`** (where `/explorer/ercot-peak-premium` redirects) draws the same tables one hub and one
+  year at a time; it is unchanged. The explorer sets two years side by side and reads one month across the years.

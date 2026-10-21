@@ -61,6 +61,8 @@ export const RELEASE: Record<string, Status> = {
   "/supply": "review",  // session 134: supply and trade (storage, stocks, production, refining, trade and positioning against last week, last year and the five-year average)
   "/prices": "review",
   "/explorer/ercot-peak-premium": "review",
+  // session 403: the signature explorers (platform tool 5), each at /explore/<name>, in review and not in the menu (lib/pages.ts)
+  "/explore/ercot-peak-premium": "review",  // session 403: the thesis chart live, by hub, year and month (the ERCOT tab of /prices is the older view)
   "/grid": "review",
   "/mix": "review",
   "/prices/compare": "review",  // session 96: where power is cheap (hub and zone prices compared)
