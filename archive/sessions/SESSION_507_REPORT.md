@@ -1,6 +1,6 @@
-# Session 497 report: EIA's State Energy Data System
+# Session 507 report: EIA's State Energy Data System
 
-21 October 2026, from about 18:05 UTC, on lab-desktop (the data machine), a public source probed while the daily run held the data lock. Model spend USD 0.
+21 October 2026, from about 18:05 UTC, on lab-desktop (the data machine), a public source probed while the daily run held the data lock. Model spend USD 0. Numbered 497 when it ran, and renumbered 507 at the landing, with 498 and 499 as 508 and 509: the code machine's chain 023 holds 497 to 506.
 
 ## Read these first
 

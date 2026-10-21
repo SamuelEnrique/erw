@@ -1,6 +1,6 @@
-# Session 499 report: BLS energy price indexes, probed, refused by the robots file
+# Session 509 report: BLS energy price indexes, probed, refused by the robots file
 
-21 October 2026, from 18:17 UTC, on lab-desktop (the data machine), a public source probed while the daily run held the data lock. Model spend USD 0.
+21 October 2026, from 18:17 UTC, on lab-desktop (the data machine), a public source probed while the daily run held the data lock. Model spend USD 0. Numbered 499 when it ran, and renumbered 509 at the landing: the code machine's chain 023 holds 497 to 506.
 
 ## Read these first
 

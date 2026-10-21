@@ -1,6 +1,6 @@
-# Session 498 report: DOE's OE-417 disturbance reports, probed, not pulled
+# Session 508 report: DOE's OE-417 disturbance reports, probed, not pulled
 
-21 October 2026, from 18:16 UTC, on lab-desktop (the data machine), a public source probed while the daily run held the data lock (the owner's instruction of 21 October: "probe another public source rather than idle"). Model spend USD 0.
+21 October 2026, from 18:16 UTC, on lab-desktop (the data machine), a public source probed while the daily run held the data lock (the owner's instruction of 21 October: "probe another public source rather than idle"). Model spend USD 0. Numbered 498 when it ran, and renumbered 508 at the landing: the code machine's chain 023 holds 497 to 506.
 
 ## Read these first
 

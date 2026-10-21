@@ -316,7 +316,7 @@ soft_step dm_publisher_figure "$PYTHON" warehouse/analysis/findings/publisher_fi
 # with their Newey-West errors and the round's line; one record line a card in warehouse/metadata/findings_recompute.csv.
 # A finding whose table is not here keeps its card; a step that fails puts the cards back as committed (below).
 soft_step dm_findings_recompute "$PYTHON" warehouse/analysis/findings/card_statistics.py --recompute
-# Session 499 (21 October 2026): the cards' own tests, after the recompute. Its first committed run (c8aa37ff) moved
+# Session 489 (the landing, 21 October 2026): the cards' own tests, after the recompute. Its first committed run (c8aa37ff) moved
 # numbers that tests a landing must pass hold to the cards as built (sessions 173, 174, 182, 274 and 381), and every
 # task/ branch then failed its checks. A failing test puts the cards back as committed (below), as a page file's own
 # test does, until a person rules which gives way: the tests or the recompute.

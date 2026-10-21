@@ -249,7 +249,7 @@ catalogue_hold:
   # session 483: node_basis_daily, out of the live set (no reader in Supabase) and held for Redivis's storage: not in the
   # live catalogue either, so /data does not name a table it cannot link
   - node_basis_daily
-  # session 489: the public tables of sessions 485 to 497, held on the data machine and in the archive, not loaded, and
+  # session 489: the public tables of sessions 485 to 496 and 507, held on the data machine and in the archive, not loaded, and
   # not on Redivis (an upload is a person's, and the account's free 10 GB is full, session 363): not in the live
   # catalogue, so /data does not name tables it cannot link
   - boem_renewable_leases

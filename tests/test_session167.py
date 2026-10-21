@@ -161,7 +161,7 @@ class TheFunctions(unittest.TestCase):
                     pick.append(i)
             self.assertEqual(g["rows"], len(pick), a)
             kinds = [[sum(1 for i in pick if f["k"][i] == k), math.floor(sum(f["mw"][i] or 0 for i in pick if f["k"][i] == k) + 0.5)] for k in range(4)]
-            # session 499: the counts exactly; the MW within 1, since a sum in another order can round the other way
+            # session 489 (the landing): the counts exactly; the MW within 1, since a sum in another order can round the other way
             # (map.json of 21 October: 762,785 on the page, 762,786 here)
             self.assertEqual([x[0] for x in g["kind"]], [x[0] for x in kinds], a)
             for (_, got_mw), (_, want_mw) in zip(g["kind"], kinds):

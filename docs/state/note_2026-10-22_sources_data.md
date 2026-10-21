@@ -1,6 +1,6 @@
 # The data machine's note of the chain of 21 October, evening: public federal sources (written 21 October 2026, about 19:00 UTC)
 
-Energy Research Warehouse (ERW), for Samuel. The data machine's chain of 21 October, evening (sessions 483 to 499, `queue/done/022-evening-21-october-sources.md` and the owner's instruction of 21 October), unattended on lab-desktop, from about 16:40 UTC to this note's push. Model spend USD 0 in every session. Before it: [`docs/state/note_2026-10-22_evening_data.md`](note_2026-10-22_evening_data.md).
+Energy Research Warehouse (ERW), for Samuel. The data machine's chain of 21 October, evening (sessions 483 to 496 and 507 to 509, `queue/done/022-evening-21-october-sources.md` and the owner's instruction of 21 October), unattended on lab-desktop, from about 16:40 UTC to this note's push. Model spend USD 0 in every session. Before it: [`docs/state/note_2026-10-22_evening_data.md`](note_2026-10-22_evening_data.md).
 
 ## Read these first
 
@@ -18,16 +18,22 @@ Energy Research Warehouse (ERW), for Samuel. The data machine's chain of 21 Octo
   | EPA GHGRP, subpart D (492) | `epa_ghgrp_power_co2` | 17,035 | eGRID: median ratio 1.000 |
   | BOEM's renewable leases (493) | `boem_renewable_leases` | 52 | |
   | USGS's Wind Turbine Database (496) | `uswtdb_wind_turbines` | 77,839 turbines | EIA-860M: median ratio 1.000 by plant |
-  | EIA SEDS (497) | `eia_seds_state_energy` | 23,660 | EIA's retail sales: within 0.04% in all 1,248 state-years |
+  | EIA SEDS (507) | `eia_seds_state_energy` | 23,660 | EIA's retail sales: within 0.04% in all 1,248 state-years |
 
 - **Not pulled, and why:**
   - **EPA CAMPD** (488) needs an API key the ERW does not hold.
-  - **DOE's OE-417** (498) has no file to pull: the old host is gone, and the new form site is a JavaScript application.
-  - **BLS's price indexes** (499): `api.bls.gov`'s robots file disallows every path.
+  - **DOE's OE-417** (508) has no file to pull: the old host is gone, and the new form site is a JavaScript application.
+  - **BLS's price indexes** (509): `api.bls.gov`'s robots file disallows every path.
   - **FERC's own site** answers 403 from Cloudflare (484), so PUDL's open copy was used, and FERC's own site was not worked around.
 - **Two faults caught before anything was written**:
   - EIA-861's reader read columns by position, and 2019's extra column shifted every figure. It now reads by heading (495).
   - Session 494's first metadata commit held merge markers. It was undone before any push.
+- **Main failed ten tests after today's daily run, and this landing fixes them** (session 489). The daily recompute of the Research cards (session 361) committed its first run in `c8aa37ff` and moved numbers that five sessions' tests hold. Every `task/` branch would have failed its checks.
+  - The cards are put back as they were.
+  - The data machine's run now tests the cards after each recompute, and puts them back when a test fails.
+  - Which gives way is yours to rule (item 1 below).
+- **The nine new public tables are held** from `/data`'s catalogue and from Redivis v1 until they are uploaded.
+- **Session numbers**: this chain's 497 to 499 became 507 to 509, since the code machine's chain 023 holds 497 to 506.
 
 ## What each session landed
 
@@ -36,7 +42,7 @@ Energy Research Warehouse (ERW), for Samuel. The data machine's chain of 21 Octo
 | 483 | `live_set.yaml` and two test fixes (`745abfd9`) |
 | 484 to 487 | the FERC 714, EIA-861, eGRID and ATB connectors with tests (`ffc3b0c0`) |
 | 490 to 493, 496 | the AEO, STEO, GHGRP, BOEM and USWTDB connectors with tests (`1e87846a`) |
-| 489, 494, 495, 497 to 499 | the tables' metadata (coverage, archive manifest, sources, licenses), the SEDS connector, the reader's fix, the reports and this note (this landing, `task/489-499-sources`) |
+| 489, 494, 495, 507 to 509 | the tables' metadata (coverage, archive manifest, sources, licenses), the SEDS connector, the reader's fix, the cards put back and tested after each recompute, the holds, the reports and this note (this landing, `task/489-499-sources`) |
 
 ## Pulls against their ceilings
 
@@ -48,18 +54,20 @@ Every session's pulls stayed under its ceiling; each report has its table. The l
 - 484, 494: FERC 714 as yearly tables, internal until you rule.
 - 485: EIA's imputed rows and its 88888 and 99999 codes left out.
 - 490: every AEO case kept; rows in short tons not taken (no such unit in the vocabulary).
-- 497: SEDS from 1990.
+- 507: SEDS from 1990.
 - 489: coverage rebuilt with the branch's sector rules.
+- 489: the Research cards put back and tested after each recompute, not the tests changed to today's numbers; the new public tables held from `/data` and Redivis v1.
 
 ## Waiting for Samuel, highest value first
 
-1. **FERC 714's license**: public (PUDL's CC-BY-4.0, a U.S. government work) or internal until FERC's own terms page can be read (484).
-2. **`VACUUM FULL` of `series`** (about 600 MB back): `python warehouse/supabase/load.py --vacuum-full` (483).
-3. **`tCO2e` and short tons in the unit vocabulary**, for GHGRP's other gases and AEO's emissions (490, 492).
-4. **An EPA API key** for CAMPD (488).
-5. **Which AEO2026 case is central**, if a page should show one (490).
-6. **Redivis**: whether the new tables, FERC 714's 5.7 GB above all, are uploaded (494).
-7. **BLS** by another route, or not at all (499).
+1. **The daily recompute or the cards' pinned tests** (sessions 361 against 173, 174, 182, 274 and 381): which gives way. Until you rule, the cards are put back every day the tests fail (489).
+2. **FERC 714's license**: public (PUDL's CC-BY-4.0, a U.S. government work) or internal until FERC's own terms page can be read (484).
+3. **`VACUUM FULL` of `series`** (about 600 MB back): `python warehouse/supabase/load.py --vacuum-full` (483).
+4. **`tCO2e` and short tons in the unit vocabulary**, for GHGRP's other gases and AEO's emissions (490, 492).
+5. **An EPA API key** for CAMPD (488).
+6. **Which AEO2026 case is central**, if a page should show one (490).
+7. **Redivis**: whether the new tables, FERC 714's 5.7 GB above all, are uploaded (494).
+8. **BLS** by another route, or not at all (509).
 
 ## The next chain
 

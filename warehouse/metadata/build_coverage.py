@@ -136,7 +136,7 @@ SECTOR_RULES = [
     (r"^epa_ghgrp_power_co2$", "power;carbon"),  # session 492: EPA GHGRP, power plants' reported CO2 by year
     (r"^boem_renewable_leases$", "power"),  # session 493: BOEM's offshore renewable energy leases and grants
     (r"^uswtdb_wind_turbines$", "power"),  # session 496: USGS's U.S. Wind Turbine Database
-    (r"^eia_seds_state_energy$", "power;gas;oil;coal"),  # session 497: EIA's State Energy Data System
+    (r"^eia_seds_state_energy$", "power;gas;oil;coal"),  # session 507: EIA's State Energy Data System
     (r"^pjm_rpm_capacity_prices$", "capacity"),
     # session 65: capacity prices of the four markets that pay capacity apart, and the day-ahead ancillary services
     (r"^iso_all_capacity_prices$", "capacity"),

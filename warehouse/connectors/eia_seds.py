@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """EIA's State Energy Data System: each state's energy consumption by source, electricity prices by sector and
-expenditures, a year (session 497, a public source probed while the data lock was held).
+expenditures, a year (session 507, a public source probed while the data lock was held).
 
 Energy Research Warehouse (ERW) connector. One series table, warehouse/output/eia_seds_state_energy.csv, from the U.S.
 Energy Information Administration's API v2, route seds (annual, 1960 to the latest year; this table from 1990):
@@ -119,7 +119,7 @@ def main(argv=None):
             raise RuntimeError("a row on two pages")
         s = s[ip.SERIES_COLS]
         header = [
-            "Energy Research Warehouse (ERW): EIA State Energy Data System, each state's consumption by source, electricity prices by sector and expenditures, a year (session 497)",
+            "Energy Research Warehouse (ERW): EIA State Energy Data System, each state's consumption by source, electricity prices by sector and expenditures, a year (session 507)",
             f"Shape: series (docs/datastandard.md v0). entity eia_seds:<seriesId>:<state>; variable value; ts_utc the year's 1 January; freq P1Y; node the series' name. Series: {', '.join(SERIES)}. Billion Btu as TBtu, dollars per million Btu as USD/MMBtu, million dollars as USD.",
             f"EIA's estimates as SEDS publishes them (its technical notes); nothing is filled here; a withheld value has no row. Years {s['ts_utc'].min()[:4]} to {s['ts_utc'].max()[:4]}.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/eia_seds.py; {asked[0]} requests of {CEILING}",

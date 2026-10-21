@@ -1,4 +1,4 @@
-"""Session 497: EIA's State Energy Data System. Units into the standard's vocabulary (billion Btu as TBtu, million
+"""Session 507 (numbered 497 when it ran): EIA's State Energy Data System. Units into the standard's vocabulary (billion Btu as TBtu, million
 dollars as USD, dollars per million Btu as USD/MMBtu); the U.S. row's geo US, a state's US-<state>; an unknown unit or a
 repeated key stops the run; a withheld value has no row."""
 

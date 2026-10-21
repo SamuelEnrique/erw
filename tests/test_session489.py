@@ -1,9 +1,9 @@
-"""Session 499: the landing of chain 022's tables, and what it needed.
+"""Session 489: the landing of chain 022's tables, and what it needed.
 
 Energy Research Warehouse (ERW). The daily recompute of the Research cards (session 361) committed its first run on
 21 October 2026 (c8aa37ff) and moved numbers that tests a landing must pass hold; the cards were put back, and the data
 machine's run now tests the cards after the recompute and puts them back when a test fails. The nine public tables of
-sessions 485 to 497 are held from /data's catalogue and from Redivis v1 until they are uploaded (a person's).
+sessions 485 to 496 and 507 are held from /data's catalogue and from Redivis v1 until they are uploaded (a person's).
 """
 
 import os
@@ -54,7 +54,7 @@ class TheNewTablesAreHeld(unittest.TestCase):
         self.assertEqual(R.check(), [])
 
     def test_no_em_dash(self):
-        for f in ("tests/test_session499.py", "warehouse/run_data_machine.sh", "warehouse/redivis/release_v1.py"):
+        for f in ("tests/test_session489.py", "warehouse/run_data_machine.sh", "warehouse/redivis/release_v1.py"):
             self.assertNotIn(chr(0x2014), src(*f.split("/")), f)
 
 
