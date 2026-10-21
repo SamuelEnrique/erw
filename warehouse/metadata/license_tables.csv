@@ -64,6 +64,7 @@ eia_all_futures_prices,"CME Group (NYMEX), whose prices EIA republished; EIA",by
 eia_annual_crosscheck_ba,EIA,the source registry and the tables its header derives it from: eia_annual_generation_ba
 eia_annual_generation_ba,EIA,the source registry
 eia_basin_production_monthly,EIA,the source registry
+eia_co2_state_annual,EIA,the source registry
 eia_coal_prices_annual,EIA,the source registry
 eia_crude_first_purchase_prices,EIA,the source registry
 eia_crude_imports_by_country,EIA,the source registry
@@ -77,6 +78,7 @@ eia_gas_storage_state_monthly,EIA,the source registry
 eia_gas_storage_weekly,EIA,the source registry
 eia_gas_trade_monthly,EIA,the source registry
 eia_lng_exports_monthly,EIA,the source registry
+eia_net_metering_state_annual,EIA,the source registry
 eia_nuclear_outages_daily,EIA,the source registry
 eia_nuclear_outages_facility_daily,EIA,the source registry
 eia_padd_crude_pipeline_flows,EIA,the source registry
@@ -85,6 +87,7 @@ eia_petroleum_supply_weekly,EIA,the source registry
 eia_petroleum_trade_weekly,EIA,the source registry
 eia_power_plant_fuel_costs,EIA,the source registry
 eia_product_spot_prices,EIA,the source registry
+eia_refinery_weekly,EIA,the source registry
 eia_regional_retail_fuel_prices,EIA,the source registry
 eia_retail_electricity_prices,EIA,the source registry
 eia_retail_fuel_prices,EIA,the source registry
@@ -93,6 +96,7 @@ eia_sector_energy_consumption_monthly,EIA,the source registry
 eia_seds_state_energy,EIA,the source registry
 eia_state_capacity_annual,EIA,the source registry
 eia_state_generation_monthly,EIA,the source registry
+eia_state_source_disposition_annual,EIA,the source registry
 eia_steo_forecasts,EIA,the source registry
 energy_companies,ERW,"by hand: its header: names, one-line descriptions written by the ERW, and links"
 energy_deals,ANS Nuclear Newswire; Bloomberg; Canary Media; DOE newsroom; Data Center Dynamics; Data Center Frontier; Electrek; Energy-Storage.news; Financial Times; Hart Energy; JPT; LNG Prime; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; Rigzone; Utility Dive; WSJ; World Nuclear News; pv magazine USA,the source registry

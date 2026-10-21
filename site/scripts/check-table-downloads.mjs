@@ -3,14 +3,15 @@
 //
 //   node scripts/check-table-downloads.mjs [base-url] [page ...]          (default http://localhost:3000, /board /prices)
 //   CHECK_DOWNLOADS_PY=<python> CHECK_DOWNLOADS_TABLE=<table> ...          also runs the Python reader of that table
+//   CHECK_DOWNLOADS_RSCRIPT=<Rscript> CHECK_DOWNLOADS_TABLE=<table> ...    also runs the R reader of that table (session 535)
 //
 //   line       each page carries the line once, with at least one table, and every table offered as a CSV has its
-//              Python and Stata reader beside it
+//              Python, Stata and R reader beside it (R since session 535)
 //   csv        the first table offered on each page that answers: its CSV opens with the provenance lines ("#") and then the columns
 //              (a table whose row count passes the database's statement timeout is the route's known fault, named and skipped)
-//   readers    its Python and Stata readers name this site's own address for the CSV and are attachments
-//   run        (optional) the Python reader, run, loads the table: it prints the provenance and the shape
-// A download is limited to sixty an hour a visitor (lib/guard.ts): the check asks for one CSV and two readers a page.
+//   readers    its Python, Stata and R readers name this site's own address for the CSV and are attachments
+//   run        (optional) the Python reader, or the R reader, run, loads the table: it prints the provenance and the shape
+// A download is limited to sixty an hour a visitor (lib/guard.ts): the check asks for one CSV and three readers a page.
 // Exit 1 on a failure.
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
@@ -54,13 +55,16 @@ for (const page of pages) {
   const csvs = [...html.matchAll(/href="\/api\/download\?table=([a-z0-9_]+)"/g)].map((m) => m[1]);
   const pys = [...html.matchAll(/href="\/api\/download\?table=([a-z0-9_]+)&amp;as=py"/g)].map((m) => m[1]);
   const dos = [...html.matchAll(/href="\/api\/download\?table=([a-z0-9_]+)&amp;as=do"/g)].map((m) => m[1]);
+  // session 535: the R reader (?as=r), offered beside the other two
+  const rs = [...html.matchAll(/href="\/api\/download\?table=([a-z0-9_]+)&amp;as=r"/g)].map((m) => m[1]);
   // session 383: from 21 October 2026 a table held for a license says "held: license needed" in the line instead of its
   // links (components/tool/TableDownloads.tsx), and one not in the live set points to Redivis: each table of the line is
   // one of the three. A page all of whose tables are held (/prices: its six ISO price tables) offers no CSV: said, and passed by
   const shownN = Number(/\d+/.exec(lines[0] ?? "")?.[0] ?? 0);
   const heldN = (html.match(/data-not-held="license"/g) ?? []).length, redivisN = (html.match(/data-not-held="live-set"/g) ?? []).length;
-  check(csvs.length + heldN + redivisN === shownN && JSON.stringify(csvs) === JSON.stringify(pys) && JSON.stringify(csvs) === JSON.stringify(dos),
-    `${page}: every CSV offered has its Python and Stata reader (${csvs.length} tables; ${heldN} held for a license, ${redivisN} on Redivis, of ${shownN})`);
+  check(csvs.length + heldN + redivisN === shownN && JSON.stringify(csvs) === JSON.stringify(pys) && JSON.stringify(csvs) === JSON.stringify(dos)
+    && JSON.stringify(csvs) === JSON.stringify(rs),
+    `${page}: every CSV offered has its Python, Stata and R reader (${csvs.length} tables; ${heldN} held for a license, ${redivisN} on Redivis, of ${shownN})`);
   if (!csvs.length) { console.log(`note ${page}: no CSV is offered: ${heldN} of ${shownN} tables held for a license, ${redivisN} on Redivis`); continue; }
   // the route's own fault, found by session 328: on the largest series tables its row count (count=exact) passes the
   // database's statement timeout and the download answers 502 ("Supabase series: HTTP 500"), on /data as here. Such a
@@ -75,9 +79,9 @@ for (const page of pages) {
   const first = c.text.split("\n");
   const k = first.findIndex((l) => !l.startsWith("#"));
   check(c.status === 200 && k > 0 && /^[a-z_]+(,[a-z0-9_]+)+\r?$/.test(first[k]), `${page}: ${t}.csv opens with ${k} provenance lines, then its columns (${(first[k] ?? "").slice(0, 60)})`);
-  for (const as of ["py", "do"]) {
+  for (const as of ["py", "do", "r"]) {
     const s = await head(`${base}/api/download?table=${t}&as=${as}`, 20000);
-    check(s.status === 200 && s.text.includes(`${base}/api/download?table=${t}`) && s.disp.includes(`erw_${t}.${as}`), `${page}: the ${as === "py" ? "Python" : "Stata"} reader of ${t} names this site's CSV and is an attachment`);
+    check(s.status === 200 && s.text.includes(`${base}/api/download?table=${t}`) && s.disp.includes(`erw_${t}.${as}"`), `${page}: the ${{ py: "Python", do: "Stata", r: "R" }[as]} reader of ${t} names this site's CSV and is an attachment`);
   }
 }
 
@@ -92,6 +96,22 @@ if (py && table) {
     check(Boolean(shape) && Number(shape[1]) > 0 && out.startsWith("#"), `the Python reader of ${table}, run, prints the provenance and loads ${shape ? shape[1] : "no"} rows`);
   } catch (e) {
     check(false, `the Python reader of ${table}, run: ${String(e.stderr ?? e.message).slice(-400)}`);
+  }
+}
+
+// session 535: the R reader, run where an R interpreter is named (Rscript); on a machine without R the reader is checked by
+// its text above and by tests/test_session535.py
+const rscript = process.env.CHECK_DOWNLOADS_RSCRIPT;
+if (rscript && table) {
+  const s = await head(`${base}/api/download?table=${table}&as=r`, 20000);
+  const f = path.join(fs.mkdtempSync(path.join(os.tmpdir(), "erw-reader-")), `erw_${table}.r`);
+  fs.writeFileSync(f, s.text);
+  try {
+    const out = execFileSync(rscript, ["--vanilla", f], { encoding: "utf-8", timeout: 300000 });
+    const dim = out.match(/^\[1\] (\d+) +(\d+)\r?$/m);
+    check(Boolean(dim) && Number(dim[1]) > 0 && out.startsWith("#"), `the R reader of ${table}, run, prints the provenance and loads ${dim ? dim[1] : "no"} rows`);
+  } catch (e) {
+    check(false, `the R reader of ${table}, run: ${String(e.stderr ?? e.message).slice(-400)}`);
   }
 }
 

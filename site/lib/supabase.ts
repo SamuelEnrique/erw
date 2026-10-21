@@ -127,6 +127,45 @@ export function pagesTogether(v: string | undefined, building = false): number {
 }
 const PAGES_TOGETHER = pagesTogether(process.env.ERW_PAGES_TOGETHER, BUILDING);
 
+// Session 537: a page whose read failed is asked again soon, not after its whole interval. A page is cached for the
+// shortest revalidation among the reads made while it was rendered. A read that failed (the statement timeout past
+// session 90's retries, a refused request, an HTTP error) leaves the page with "no data" in that place, and until this
+// session the page was kept that way for its own interval: an hour, or until the next deploy for a page with none
+// (session 461's check-routes: 15 pages built on a slow live set). Now a failed read also asks Next for a revalidation
+// of RETRY seconds, through unstable_cache, the one public call whose interval Next takes into the page's own (a fetch
+// that failed is never kept in Next's data cache: only a 200 is). So the page that lost a read is regenerated on the
+// first request after RETRY seconds, in the background as every regeneration is (that request is answered with the
+// page as it was, the next one with the new page), and a page whose reads all succeeded never comes here and keeps its
+// interval exactly. Nothing is read from the database for the mark: it is one small entry in Next's own cache, kept per
+// page. A read held for a license (LicenseNeeded) and a server with no database named (NotConfigured) are not failed
+// reads and are not marked. required() reads keep failing the build, and a render that throws is never cached, as
+// before. Outside Next (the node scripts that import this file, the tests) there is no page and no mark.
+export const RETRY = 60;
+let askAgainMark: (() => Promise<boolean>) | null = null;
+export async function markFailedRead(e: unknown): Promise<boolean> {
+  if (e instanceof LicenseNeeded || e instanceof NotConfigured) return false;
+  if (!process.env.NEXT_RUNTIME) return false;   // not inside Next: a script or a test, with no page to mark
+  try {
+    if (!askAgainMark) {
+      const { unstable_cache } = await import("next/cache");
+      askAgainMark = unstable_cache(async () => true, ["erw-failed-read"], { revalidate: RETRY });
+    }
+    await askAgainMark();
+    return true;
+  } catch (m) {
+    console.error(`[erw] a failed read could not shorten the page's revalidation: ${(m as Error).message}`);
+    return false;
+  }
+}
+async function askAgainOnFailure<T>(f: () => Promise<T>): Promise<T> {
+  try {
+    return await f();
+  } catch (e) {
+    await markFailedRead(e);
+    throw e;
+  }
+}
+
 /** One page of a read: the request, its retries and its failure, exactly as the reader always made them. */
 async function onePage<T>(base: string, key: string, table: string, query: Record<string, string>, revalidate: number, offset: number, max: number): Promise<T[]> {
   const qs = new URLSearchParams({ ...query, limit: String(Math.min(PAGE, max - offset)), offset: String(offset) });
@@ -203,10 +242,10 @@ export async function restPaged<T>(
   if (hold.throw) throw new LicenseNeeded(tableOf(query));
   if (hold.byRow) {
     // session 499: a table held by row is asked for its public rows only, and what comes back is checked again
-    const rows = await restPages<T>(table, publicRowsQuery(query), revalidate, max, together);
+    const rows = await askAgainOnFailure(() => restPages<T>(table, publicRowsQuery(query), revalidate, max, together));
     return rows.filter((r) => !rowLicenseHeld(r as Record<string, unknown>));
   }
-  const rows = await restPages<T>(table, query, revalidate, max, together);
+  const rows = await askAgainOnFailure(() => restPages<T>(table, query, revalidate, max, together));
   if (!hold.filter) return rows;
   const t = tableOf(query);
   return rows.filter((r) => !licenseHeldRow(t, (r as { entity?: string }).entity ?? ""));
@@ -271,6 +310,10 @@ export async function restHeldRowCount(table: string, query: Record<string, stri
 }
 
 async function restCountRaw(table: string, query: Record<string, string>, revalidate: number): Promise<number> {
+  return askAgainOnFailure(() => countOf(table, query, revalidate));
+}
+
+async function countOf(table: string, query: Record<string, string>, revalidate: number): Promise<number> {
   const { base, key } = config();
   const qs = new URLSearchParams({ ...query, limit: "1" });
   const res = await turn(() => fetch(`${base}/rest/v1/${table}?${qs}`, {

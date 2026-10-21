@@ -54,8 +54,10 @@ class Guide(unittest.TestCase):
         self.assertIn('as === "py" || as === "do"', route)
         self.assertIn("&as=py", GUIDE)
         self.assertIn("&as=do", GUIDE)
-        self.assertIn("No page offers an R reader", GUIDE)
-        self.assertNotIn("read.csv", GUIDE)   # no R line the site does not offer
+        # session 535: the route writes an R reader too (as=r); the guide names it and says it is checked by its text
+        self.assertIn('if (as === "r") return reader(', route)
+        self.assertIn("&as=r", GUIDE)
+        self.assertIn("The R reader (session 535) is checked by its text", GUIDE)
         self.assertIn("MAX_ROWS = 500_000", route)
         self.assertIn('"download", 60, 3600', route)
         self.assertIn("500,000 rows", GUIDE)
@@ -89,7 +91,7 @@ class PackageAgrees(unittest.TestCase):
         self.assertIn(CITE, llms)
         self.assertIn(SITE["redivis"]["url"], llms)
         self.assertIn("/api/download?table=<table>", llms)
-        self.assertIn("no R reader is offered", llms)
+        self.assertIn("&as=do or &as=r for a Python, Stata or base-R reader", llms)   # session 535
         self.assertIn("warehouse/metadata/license_status.csv", llms)
         self.assertIn("docs/guide.md", llms)
 

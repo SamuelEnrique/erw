@@ -38,6 +38,14 @@ def finding(name):
         return json.load(f)
 
 
+def made_from(name):
+    """Session 534: the card a spec was made from. The specs are proofs rendered once (session 274); the data machine
+    recomputes the cards (21 October 2026, c8aa37ff), so the specs' numbers are held to the cards as they were then,
+    copied from the commit before into tests/fixtures/session274/, and not to the day's cards."""
+    with open(os.path.join(ROOT, "tests", "fixtures", "session274", "cards_before_2026-10-21.json"), encoding="utf-8") as f:
+        return json.load(f)["cards"][name]
+
+
 class TheSpecs(unittest.TestCase):
     def setUp(self):
         self.s = specs()
@@ -74,16 +82,16 @@ class TheSpecs(unittest.TestCase):
         self.assertEqual(s["x"], [str(x) for x in week["chart"]["x"]])
         self.assertEqual(s["series"][0]["values"], week["chart"]["series"][0]["values"])
         for name in ("batteries_curtailment_hourly", "batteries_lunch", "impact_study"):
-            c, sp = finding(name)["chart"], self.s[name]
+            c, sp = made_from(name)["chart"], self.s[name]
             kept = [x for x in c["series"] if x["name"] not in sp["leftOut"]]
             self.assertEqual([x["values"] for x in sp["series"]], [x["values"] for x in kept], name)
         self.assertEqual(self.s["batteries_lunch"]["leftOut"], ["Hours at or above USD 1,000/MWh"])
-        et = finding("batteries_curtailment")["effect_table"]
+        et = made_from("batteries_curtailment")["effect_table"]
         self.assertEqual(self.s["batteries_curtailment"]["value"], et["rows"][-1]["coef_per_gw"])
-        c = finding("who_rescues_whom")["chart"]
+        c = made_from("who_rescues_whom")["chart"]
         self.assertEqual((self.s["who_rescues_whom"]["before"]["values"], self.s["who_rescues_whom"]["after"]["values"]),
                          (c["series"][0]["values"], c["series"][1]["values"]))
-        c = finding("queue_divorce")["chart"]
+        c = made_from("queue_divorce")["chart"]
         self.assertEqual([r["value"] for r in self.s["queue_divorce"]["rows"]], c["series"][0]["values"])
 
 

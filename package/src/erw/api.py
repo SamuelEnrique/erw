@@ -30,10 +30,18 @@ ISO_ALIASES = {"ercot": "ERCOT", "caiso": "CAISO", "nyiso": "NYISO", "miso": "MI
 
 
 def get_backend() -> Backend:
-    """The active backend; a LocalBackend on first use."""
+    """The active backend. On first use, the one ERW_BACKEND names (local, redivis or supabase), else a
+    LocalBackend.
+
+    Session 536: until then the first use always made a LocalBackend and ERW_BACKEND counted only in
+    set_backend(), so an install from GitHub with ERW_BACKEND=supabase and no local tables failed at
+    erw.info() with "No ERW data directory found", although the README and docs/guide.md say ERW_BACKEND picks
+    the backend.
+    """
     global _backend
     if _backend is None:
-        _backend = LocalBackend()
+        from .remote import backend_from_env
+        _backend = backend_from_env() or LocalBackend()
     return _backend
 
 
@@ -43,7 +51,8 @@ def set_backend(backend: Union[Backend, str, None] = None) -> Backend:
     set_backend() with no argument resets to the default (ERW_DATA_DIR, else
     the repository's warehouse/output).
     """
-    global _backend
+    global _backend, _MIGRATIONS
+    _MIGRATIONS = None  # session 536: the map is read again for the new backend's data directory
     if backend is None:
         # session 10: ERW_BACKEND=redivis or supabase selects a remote backend
         from .remote import backend_from_env
@@ -66,6 +75,17 @@ def _migrations_csv() -> Optional[Path]:
     env = os.environ.get("ERW_MIGRATIONS_CSV")
     if env:
         return Path(env)
+    # session 536: beside the local tables, as coverage.csv and sources.csv are (<data dir>/../metadata). An install
+    # from GitHub (not editable) lives outside the clone, so the search from this file below never reaches it, and
+    # an old name such as ercot_dam_hub_prices failed with ERWDataNotFound when ERW_DATA_DIR named the tables.
+    try:
+        b = get_backend()
+    except (FileNotFoundError, ValueError, ImportError):
+        b = None
+    if isinstance(b, LocalBackend):
+        candidate = b.data_dir.parent / "metadata" / "table_migrations.csv"
+        if candidate.is_file():
+            return candidate
     for base in (Path(__file__).resolve(), Path.cwd().resolve()):
         for parent in [base, *base.parents]:
             candidate = parent / "warehouse" / "metadata" / "table_migrations.csv"
@@ -276,7 +296,11 @@ def fetch(name: Union[str, Iterable[str]], start=None, end=None,
 
 def _local_columns(name: str) -> Optional[pd.DataFrame]:
     """Session 33: for a local table, only the columns _table_facts needs, streamed with pyarrow, so filter() never
-    holds a large table (the ERCOT history, eia930_all_emissions) whole. None for any other backend or a moved name."""
+    holds a large table (the ERCOT history, eia930_all_emissions) whole. None for any other backend or a moved name.
+
+    Session 536: pyarrow is not a dependency of the package, and without it this returned None, so filter(variable=)
+    and filter(node=) read every table whole and kept nothing on disk (about nine minutes a call on 198 tables in a
+    new venv). Without pyarrow the same columns are now read in pandas chunks and cached the same way."""
     b = get_backend()
     if not isinstance(b, LocalBackend) or name in migrations():
         return None
@@ -284,7 +308,7 @@ def _local_columns(name: str) -> Optional[pd.DataFrame]:
         import pyarrow as pa
         import pyarrow.csv as pcsv
     except ImportError:
-        return None
+        pa = pcsv = None
     path = b._path(name)
     with open(path, encoding="utf-8") as f:
         skip = 0
@@ -299,10 +323,18 @@ def _local_columns(name: str) -> Optional[pd.DataFrame]:
     if cached is not None:
         return cached
     before = os.stat(path)  # the file as it was when the scan began: the cache is keyed on it
+    seen = {c: set() for c in want}
+    if pa is None:
+        # never comment="#" (it would cut a value holding one); every cell as written, an empty one ""
+        for chunk in pd.read_csv(path, skiprows=skip, usecols=want, dtype=str, keep_default_na=False, na_values=[],
+                                 encoding="utf-8", chunksize=250_000):
+            for c in want:
+                seen[c] |= set(chunk[c])
+        _facts_cache_write(path, seen, before)
+        return seen
     reader = pcsv.open_csv(path, read_options=pcsv.ReadOptions(skip_rows=skip, block_size=1 << 24),
                            convert_options=pcsv.ConvertOptions(include_columns=want,
                                                                column_types={c: pa.string() for c in want}))
-    seen = {c: set() for c in want}
     for batch in reader:
         for c in want:
             seen[c] |= set(batch.column(c).to_pylist())

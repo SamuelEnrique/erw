@@ -85,9 +85,15 @@ class TheCards(unittest.TestCase):
         self.assertEqual(n["ercot_first_year"], 2019)
         self.assertGreater(n["ercot_last_evening_pct"], n["ercot_first_evening_pct"])
         self.assertGreater(n["ercot_last_solar_mw"], n["ercot_first_solar_mw"])
-        self.assertEqual(n["caiso_first_held_year"], 2024, "CAISO's prices are held from 2024-09-01")
+        # session 534: CAISO's prices were held from 2024-09-01 when this was written; since the data machine's run of
+        # 21 October 2026 they are held from 2023-07. What is held is the card's own reading: its first held year is the
+        # first year it read, no later than 2024, and a first year held only in part is not a line
+        first = n["caiso_first_held_year"]
+        self.assertEqual(first, n["caiso_first_year"])
+        self.assertLessEqual(first, 2024, "CAISO's prices are held from 2024-09-01 or earlier")
         names = [s["name"] for s in c["chart"]["series"]]
-        self.assertNotIn("CAISO 2024", names, "a partial first year is not a line")
+        if n["caiso_first_days"] < 365:
+            self.assertNotIn(f"CAISO {first}", names, "a partial first year is not a line")
         self.assertEqual(len(c["chart"]["x"]), 24)
         for s in c["chart"]["series"]:
             vals = [v for v in s["values"] if v is not None]

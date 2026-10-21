@@ -11,19 +11,23 @@ Energy Information Administration's API v2, route seds (annual, 1960 to the late
     ts_utc    the year's 1 January; freq P1Y
     series    SERIES below: total, electricity, natural gas, coal, petroleum and renewable consumption and nuclear
               (billion Btu, as TBtu: times 0.001); electricity's price by sector and all sectors (dollars per million
-              Btu, as USD/MMBtu); electricity's and all energy's expenditures (million dollars, as USD: times 1,000,000)
+              Btu, as USD/MMBtu); electricity's and all energy's expenditures (million dollars, as USD: times 1,000,000);
+              since session 546, electricity's and natural gas's consumption by sector (TBtu) and natural gas's price by
+              sector and all sectors (USD/MMBtu)
 
 SEDS's figures are EIA's estimates, as its technical notes describe them, published by EIA; nothing is filled here, and a
 withheld or missing value has no row. A unit not in the map stops the run; so does a key given twice.
 
-    python warehouse/connectors/eia_seds.py
+    python warehouse/connectors/eia_seds.py [--offline | --fresh]
 
-Ceiling: 20 requests a run (pages of 5,000, 3 seconds apart; a 429 or a 5xx asked once more after 60 seconds). License:
+Ceiling: 20 requests a run (pages of 5,000, 3 seconds apart; a 429 or a 5xx asked once more after 60 seconds; a page an
+earlier run saved in warehouse/raw is reused unless --fresh, and --offline asks nothing: session 546). License:
 public (EIA, record 1 of license_reads.csv; cite "U.S. Energy Information Administration, State Energy Data System").
 """
 
 import argparse
 import datetime as dt
+import json
 import os
 import sys
 import time
@@ -43,7 +47,10 @@ PAGE = "https://www.eia.gov/state/seds/"
 CEILING, PAUSE, RETRY_WAIT = 20, 3, 60
 FIRST = "1990"
 SERIES = ["TETCB", "ESTCB", "NGTCB", "CLTCB", "PATCB", "RETCB", "NUETB",
-          "ESRCD", "ESCCD", "ESICD", "ESTCD", "ESTCV", "TETCV"]
+          "ESRCD", "ESCCD", "ESICD", "ESTCD", "ESTCV", "TETCV",
+          # session 546: electricity's and natural gas's consumption by sector, natural gas's price by sector
+          "ESRCB", "ESCCB", "ESICB", "ESACB", "NGRCB", "NGCCB", "NGICB", "NGEIB", "NGACB",
+          "NGRCD", "NGCCD", "NGICD", "NGEID", "NGTCD"]
 UNITS = {"billion btu": ("TBtu", 0.001), "dollars per million btu": ("USD/MMBtu", 1.0), "million dollars": ("USD", 1e6)}
 
 
@@ -73,6 +80,8 @@ def rows(data, url, retrieved):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description="EIA State Energy Data System: consumption, prices and expenditures by state")
+    ap.add_argument("--offline", action="store_true", help="the pages from warehouse/raw only, no request")
+    ap.add_argument("--fresh", action="store_true", help="ask every page again, even one saved in warehouse/raw")
     ap.add_argument("--out-dir", help="a trial: the table under this folder, not warehouse/output")
     args = ap.parse_args(argv)
     if args.out_dir:
@@ -86,13 +95,27 @@ def main(argv=None):
     results = []
     asked = [0]
 
+    class Saved:   # a saved page, answering as a response does
+        def __init__(self, content, url):
+            self.content, self.url = content, url
+
+        def json(self):
+            return json.loads(self.content)
+
     def get(params):
+        url = requests.Request("GET", API + "data/", params=params).prepare().url
+        hit = None if args.fresh else ip.raw_cached(CONNECTOR, url)
+        if hit:
+            log(f"  raw file reused: {ip.redact(url)}")
+            return Saved(hit[0], url)
+        if args.offline:
+            raise RuntimeError(f"offline: {ip.redact(url)} is not in warehouse/raw/{CONNECTOR}/")
         for attempt in (1, 2):
             if asked[0] >= CEILING:
                 raise RuntimeError(f"the ceiling of {CEILING} requests is reached")
             asked[0] += 1
             time.sleep(PAUSE)
-            r = requests.get(API + "data/", params=params, timeout=120)
+            r = requests.get(url, timeout=120)
             if r.status_code < 500 and r.status_code != 429:
                 r.raise_for_status()
                 return r

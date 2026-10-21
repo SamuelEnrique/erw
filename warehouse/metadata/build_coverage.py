@@ -149,6 +149,10 @@ SECTOR_RULES = [
     (r"^eia_state_capacity_annual$", "power"),  # session 526: EIA's state electricity profiles, net summer capacity
     (r"^eia_crude_production_state_monthly$", "oil"),  # session 527: EIA's crude oil field production by state, a month
     (r"^eia_gas_production_state_monthly$", "gas"),  # session 528: EIA's natural gas production by state, a month
+    (r"^eia_co2_state_annual$", "power;gas;oil;coal;carbon"),  # session 530: EIA's energy-related CO2 by state, sector and fuel
+    (r"^eia_refinery_weekly$", "oil;products"),  # session 543: EIA's weekly refinery inputs and utilization
+    (r"^eia_state_source_disposition_annual$", "power"),  # session 544: EIA's state electricity supply and disposition
+    (r"^eia_net_metering_state_annual$", "power"),  # session 545: EIA's net-metered capacity and customers by state
     (r"^pjm_rpm_capacity_prices$", "capacity"),
     # session 65: capacity prices of the four markets that pay capacity apart, and the day-ahead ancillary services
     (r"^iso_all_capacity_prices$", "capacity"),
