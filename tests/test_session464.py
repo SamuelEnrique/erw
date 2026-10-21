@@ -44,9 +44,9 @@ class TheRows(unittest.TestCase):
 
     def test_the_table_has_the_rows_the_page_counts(self):
         n = int(re.search(r'data-checked-against="(\d+)"', src(PAGE)).group(1))
-        self.assertEqual(n, 17)
+        self.assertGreaterEqual(n, 17)   # session 501: session 448's rows follow Modo's two (25); the page counts every row
         self.assertEqual(len(self.rows), n)
-        self.assertIn('Checked against: 17 published figures (', src(PAGE))
+        self.assertIn(f'Checked against: {n} published figures (', src(PAGE))
 
     def test_every_row_has_five_cells_and_a_reason(self):
         for r in self.rows:
@@ -55,7 +55,7 @@ class TheRows(unittest.TestCase):
             self.assertGreater(len(r[4]), 30, r[0][:60])
 
     def test_the_two_new_rows_quote_modo_with_its_address_and_date(self):
-        a, b = self.rows[-2], self.rows[-1]
+        a, b = self.rows[15], self.rows[16]   # session 501: session 448's rows follow these two
         self.assertIn("2-hour", a[0]); self.assertIn("USD 56.01 per kW", a[0]); self.assertIn("$29.4/kW", a[1])
         self.assertIn(WHY, a[2]); self.assertIn("read 12 October 2026", a[2]); self.assertIn("+26.61", a[3])
         self.assertIn("46.8 percent", b[0]); self.assertIn("76% of revenue from energy arbitrage in June 2025", b[1])
