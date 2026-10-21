@@ -275,6 +275,13 @@ The counts of 3.2: hours above installed nameplate and hours below zero, solar a
 
 The tables read, the EIA-930 workbook, the dates the snapshot, the capture file and (at another hub) the hub's model were built, the cost source, and the three downloads of section 8.
 
+### 4.20 The figures and their keys the subsections above do not name (session 409)
+
+Each number `/cost-of-power/seller` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The keys the sections above do not name:
+
+- `mr|<case>|ttm_last`: the debt coverage of the last trailing twelve months held, the headline "Debt coverage, last twelve months" (without a contract) and the first figure of the sentence on trailing twelve months under the monthly coverage: revenue less fixed O&M over the twelve months to the last month, over a year of debt payments.
+- `price_years_by_window`, `generator_solar_year_<year>`, `generator_battery_year_<year>`, `generator_peaker_year_<year>` (the variable is the tool, the asset and the window, `generator_<asset>_<window>`): what the same plant earned in USD per kW in a window of price years at the main hub, in the line on its highest and its lowest whole year held (the peaker's as margin over fuel), and, when the "Price years" choice prices the scenarios on a window, in the sentence above them.
+
 ## 5. Another hub or zone (new in session 183)
 
 **What was wrong.** Until this session, choosing another hub changed the capture price (4.3 to 4.6) and the contract (4.10) and nothing else: revenue, the months, debt coverage and the stress days stayed at the main hub. One page stood on two footings.
@@ -707,11 +714,3 @@ Session 196, 11 October 2026. The page's numbers are reproducible from its table
 
 - A battery among this page's assets: its cross-checks are the battery page's (`battery_earns_algorithm.md`, "Cross-checks").
 - Not compared: ERCOT's hubs. EIA's 2026 file holds no ERCOT hub; it holds SP15, NP15, the New England hub, and hubs of two operators this project sends no request to and reads no row of.
-
-
-## The figures on the page and their keys
-
-Each number `/cost-of-power/seller` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The keys the sections above do not name:
-
-- `mr|<case>|ttm_last`: the debt coverage of the last trailing twelve months held, the headline "Debt coverage, last twelve months" (without a contract) and the first figure of the sentence on trailing twelve months under the monthly coverage: revenue less fixed O&M over the twelve months to the last month, over a year of debt payments.
-- `price_years_by_window`, `generator_solar_year_<year>`, `generator_battery_year_<year>`, `generator_peaker_year_<year>` (the variable is the tool, the asset and the window, `generator_<asset>_<window>`): what the same plant earned in USD per kW in a window of price years at the main hub, in the line on its highest and its lowest whole year held (the peaker's as margin over fuel), and, when the "Price years" choice prices the scenarios on a window, in the sentence above them.

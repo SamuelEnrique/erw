@@ -51,6 +51,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { unlockPost } from "./browser.mjs";   // the internal view by the form's door, no token in an address
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const SITE = path.join(here, "..");
@@ -244,7 +245,6 @@ function env(name) {
 const decode = (s) => s.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#x27;|&#39;/g, "'");
 
 async function keysFromSite(base, pages) {
-  const { unlockPost } = await import("./browser.mjs");
   const tok = env("INTERNAL_COSTS_TOKEN");
   let cookie = "";
   if (tok) {
