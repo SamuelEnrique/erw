@@ -8,10 +8,15 @@ unless that variable is set: with the folder off PYTHONPATH it is never imported
 
 What is moved: time.time and time.time_ns (and gmtime, localtime, ctime and strftime
 called without a time), datetime.datetime.now, utcnow and today, datetime.date.today,
-and pandas.Timestamp.now, utcnow and today. The clock keeps
-ticking, shifted by a constant. pandas is imported first
-(see below), so every python child pays its import time: a deadline loop still ends. time.monotonic and
-time.perf_counter are left alone. Files keep the mtimes the real clock gave them.
+and pandas.Timestamp.now, utcnow and today. The clock keeps ticking, shifted by a
+constant: a deadline loop still ends. time.monotonic and time.perf_counter are left
+alone. pandas is imported first (see below), so every python child pays its import time.
+
+Files: os.stat, os.lstat and os.fstat (and so os.path.getmtime and Path.stat) report
+every time shifted by the same constant, and os.utime takes it off again, so a file
+written now reads as written on the shifted day: the copy behaves as one checked out
+on that day, as GitHub's runner checks out a fresh copy. A DirEntry's own stat() and
+a node child's file times are not shifted.
 """
 import os
 
@@ -49,6 +54,48 @@ if _SHIFT:
     _time.time, _time.time_ns = _time_fn, _time_ns_fn
     _time.gmtime, _time.localtime = _gmtime, _localtime
     _time.ctime, _time.strftime = _ctime, _strftime
+
+    _NS = int(_OFF * 1_000_000_000)
+    _real_stat, _real_lstat, _real_fstat, _real_utime = os.stat, os.lstat, os.fstat, os.utime
+    _TIMES = ("st_atime", "st_mtime", "st_ctime", "st_birthtime")
+    _SEQ_NAMES = ("st_mode", "st_ino", "st_dev", "st_nlink", "st_uid", "st_gid", "st_size")  # the named part of the sequence
+    _EXTRA_NAMES = []
+
+    def _shifted(r):
+        n = r.n_sequence_fields
+        seq = list(r[:n])
+        for i in (7, 8, 9):  # the whole-second atime, mtime and ctime
+            seq[i] = int(seq[i] + _OFF)
+        if not _EXTRA_NAMES:
+            _EXTRA_NAMES.extend(n for n in dir(r) if n.startswith("st_") and n not in _SEQ_NAMES)
+        extra = {}
+        for name in _EXTRA_NAMES:
+            value = getattr(r, name)
+            if name in _TIMES:
+                value = value + _OFF
+            elif name.endswith("_ns") and name[:-3] in _TIMES:
+                value = value + _NS
+            extra[name] = value
+        return os.stat_result(seq, extra)
+
+    def _stat(*a, **k):
+        return _shifted(_real_stat(*a, **k))
+
+    def _lstat(*a, **k):
+        return _shifted(_real_lstat(*a, **k))
+
+    def _fstat(*a, **k):
+        return _shifted(_real_fstat(*a, **k))
+
+    def _utime(path, times=None, *, ns=None, **k):
+        if times is not None:
+            times = (times[0] - _OFF, times[1] - _OFF)
+        if ns is not None:
+            ns = (ns[0] - _NS, ns[1] - _NS)
+            return _real_utime(path, ns=ns, **k)
+        return _real_utime(path, times, **k)
+
+    os.stat, os.lstat, os.fstat, os.utime = _stat, _lstat, _fstat, _utime
 
     _RealDate, _RealDatetime = _dt.date, _dt.datetime
     _DELTA = _dt.timedelta(seconds=_OFF)

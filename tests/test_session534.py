@@ -4,7 +4,8 @@ scripts/suite_shifted.py runs the suite with scripts/clock_shift/ on PYTHONPATH 
 sitecustomize that shifts time and datetime) and NODE_OPTIONS requiring a Date shim.
 These tests prove the shift reaches a python child and a node child, that a child with
 no shift set reads the real clock, that the runner drops the keys that write, and that
-it reads unittest's FAIL and ERROR lines.
+it reads unittest's FAIL and ERROR lines. A file written in a shifted child reads as written on the
+shifted day.
 """
 import importlib.util
 import os
@@ -53,6 +54,16 @@ class ShiftReachesChildren(unittest.TestCase):
         self.assertEqual(got[0], local_want)
         self.assertEqual(got[1:4], [utc_want] * 3)
         self.assertEqual(got[4], "True", "a datetime built from values is still a datetime")
+
+    def test_a_file_written_now_reads_as_written_on_the_shifted_day(self):
+        code = ("import os, time, tempfile, pathlib;"
+                "d = tempfile.mkdtemp(); p = os.path.join(d, 'a'); open(p, 'w').write('x');"
+                "a = round(os.path.getmtime(p) - time.time()); b = round(pathlib.Path(p).stat().st_mtime - time.time());"
+                "os.utime(p, (time.time() - 3600, time.time() - 3600)); c = round(os.path.getmtime(p) - time.time());"
+                "print(a, b, c, os.stat(p).st_size)")
+        r = subprocess.run([sys.executable, "-c", code], env=self.runner.child_env(30), capture_output=True, text=True, timeout=120)
+        self.assertEqual(r.returncode, 0, r.stderr[-500:])
+        self.assertEqual(r.stdout.split(), ["0", "0", "-3600", "1"])
 
     def test_no_shift_reads_the_real_clock(self):
         env = self.runner.child_env(0)
