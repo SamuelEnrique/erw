@@ -18,7 +18,7 @@ import unittest
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 EM = chr(0x2014)
 NOTES = {
-    "battery_earns_algorithm": ("site/app/cost-of-power/battery/page.tsx", 17),   # session 297: the fade method beside the ATB's convention; session 464: Modo Energy at two hours and the June share (17)
+    "battery_earns_algorithm": ("site/app/cost-of-power/battery/page.tsx", 25),   # session 501: eight rows of session 448 (Lazard, the ATB; B12 and B14 wait) (25)   # session 297: the fade method beside the ATB's convention; session 464: Modo Energy at two hours and the June share (17)
     "generator_earns_algorithm": ("site/app/cost-of-power/seller/page.tsx", 34),   # session 463: thirteen rows of session 448 (Lazard, the ATB)   # session 257: 10 until then; the ten more are CAISO's (the note's section 12.5); session 298: Potomac Economics
     "datacenter_pays_algorithm": ("site/app/cost-of-power/page.tsx", 8),   # session 462: two rows of session 448 (Lazard, the ATB)
 }
