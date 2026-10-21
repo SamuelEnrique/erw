@@ -21,6 +21,8 @@ this includes the yearly history tables, ercot_rtm_hub_prices_<year>, where pres
 capped."""
 BLOCKS = {"overnight": lambda h: (h >= 21) | (h < 12), "midday": lambda h: (h >= 12) & (h < 16),
           "peak": lambda h: (h >= 16) & (h < 21)}
+BLOCK_HOURS = {"overnight": "overnight (21:00 to 11:59 local)", "midday": "midday (12:00 to 15:59 local)",
+               "peak": "peak (16:00 to 20:59 local)"}  # session 470: the hours of BLOCKS, as words
 
 
 def _prices(iso, hub, history):
@@ -78,8 +80,10 @@ def compute(iso="ercot", hub=None, window=30, history=True):
     chart = {"kind": "bar", "x": list(BLOCKS), "x_label": "Block (local time)", "y_label": "USD/MWh",
              "series": [{"name": s.upper() if s != "median" else "Median",
                          "values": [r["value"] for r in rows if r["stat"] == s]} for s in ("q1", "median", "q3")]}
-    facts = [f"{label} {hub} real-time prices, {use[0]} to {use[-1]} ({window} days): median overnight {med['overnight']}, "
-             f"midday {med['midday']}, peak {med['peak']} USD/MWh.",
+    # session 470 (roundup audit fix 12): the hours of each block, local time, in the fact itself, since another finding
+    # (site/public/findings/peak_hour_moved.py) calls 10:00 to 15:59 midday
+    facts = [f"{label} {hub} real-time prices, {use[0]} to {use[-1]} ({window} days): median {BLOCK_HOURS['overnight']} "
+             f"{med['overnight']}, {BLOCK_HOURS['midday']} {med['midday']}, {BLOCK_HOURS['peak']} {med['peak']} USD/MWh.",
              f"Peak minus midday median, {cur[0]}: {cur[1]} USD/MWh."]
     return result(NAME, {"iso": iso, "hub": hub, "window": window}, f"{label} {hub}: real-time prices by time of day",
                   f"Quartiles of 15-minute prices by block, {use[0]} to {use[-1]}, USD/MWh", frame, tables, chart,

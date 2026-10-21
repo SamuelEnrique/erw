@@ -348,6 +348,40 @@ class TheEmail(unittest.TestCase):
         self.assertIn("</a> (via Google News)", h)
 
 
+class TheFunFactAndTheChart(unittest.TestCase):
+    def test_deaths_and_disasters_are_not_a_fun_fact(self):
+        import funfact
+        p = os.path.join(ROOT, "warehouse", "news", "facts", "items", "2026-10-14.json")
+        if os.path.exists(p):
+            import json
+            item = json.load(open(p, encoding="utf-8"))
+            self.assertTrue(any("not a fun fact" in x for x in funfact.check_record(item)))
+        r = {"fact": "Pearl Street Station opened in 1882.", "second": "On this day in 1913 a colliery disaster claimed "
+             "the lives of 439 miners.", "structure": "on_this_day", "sources": []}
+        self.assertTrue(any("not a fun fact" in x for x in funfact.check_record(r)))
+        ok = {"fact": "Pearl Street Station opened in 1882.", "second": "", "structure": "none", "sources": []}
+        self.assertFalse(any("not a fun fact" in x for x in funfact.check_record(ok)))
+
+    def test_the_bank_holds_no_grave_fact(self):
+        import csv
+        import funfact
+        p = os.path.join(ROOT, "warehouse", "news", "facts", "bank.csv")
+        if not os.path.exists(p):
+            self.skipTest("the bank is not here")
+        rows = list(csv.DictReader(open(p, encoding="utf-8")))
+        self.assertEqual([r["fact"][:60] for r in rows if funfact.GRAVE.search(r["fact"] + " " + (r.get("second") or ""))], [])
+
+    def test_the_peak_premium_fact_states_its_hours(self):
+        sys.path.insert(0, os.path.join(ROOT, "warehouse", "analysis"))
+        from templates import peak_premium_block as ppb
+        self.assertEqual(ppb.BLOCK_HOURS["midday"], "midday (12:00 to 15:59 local)")
+        for b, rule in ppb.BLOCKS.items():
+            hours = [h for h in range(24) if bool(rule(pd.Series([h])).iloc[0])]
+            first, last = re.search(r"(\d{2}):00 to (\d{2}):59", ppb.BLOCK_HOURS[b]).groups()
+            self.assertEqual(hours[0] if b != "overnight" else 21, int(first))
+            self.assertEqual((hours[-1] if b != "overnight" else 11), int(last))
+
+
 def stories():
     path = os.path.join(ROOT, "warehouse", "output", "news_stories.csv")
     if not os.path.exists(path):
