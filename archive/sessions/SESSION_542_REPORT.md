@@ -47,6 +47,8 @@ The merges into `wip/024-land`: exit 0 each, one conflict, `tests/test_session16
 
 ## The landing of chain 024
 
+The gate at `d63b6b0d` (`runs/chain_oct20d/land024/`): the whole suite in a new clean copy, 5,356 tests, OK (exit 0); `npm run build` exit 0, no statement timeout; check-values 6,456 of 6,456 values equal, the ten held floors failing as session 408 counted them (exit 1, the known pass for a landing), no floor lowered.
+
 LANDING_PLACEHOLDER
 
 ## Decisions made without you
