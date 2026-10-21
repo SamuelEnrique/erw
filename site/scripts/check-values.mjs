@@ -117,6 +117,11 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/grid?grid=ercot&view=mix", "/grid?grid=us48&view=mix", "/grid?grid=pjm&view=mix&mix=stress", "/grid?grid=ercot&view=network", "/grid?grid=us48&view=network",
   // session 299: the Gravity tab (the network's gravity shape with the exchange blocks under it)
   "/grid?grid=ercot&view=gravity&shape=gravity", "/grid?grid=us48&view=gravity&shape=gravity"];  // (the line ended "// session 46: set D" before session 60)
+// session 402: the Energy Digest, today's page and each Digest of the archive whose operating day the live set still holds
+// (its ISO prices are kept 35 days: warehouse/supabase/live_set.yaml). Older Digests are traced by scripts/check_digest.py
+// against the warehouse's CSVs. A held figure (lib/license.ts) carries no key and is not read here.
+PAGES.push("/digest", ...fs.readdirSync(path.join(here, "..", "..", "docs", "digest")).map((f) => /^(\d{4}-\d{2}-\d{2})\.md$/.exec(f)?.[1])
+  .filter((d) => d && Date.now() - Date.parse(`${d}T00:00:00Z`) <= 33 * 86_400_000).sort().reverse().map((d) => `/digest/${d}`));
 // session 48: the draft report behind the internal token (INTERNAL_COSTS_TOKEN, in .env.local or the environment); left
 // out, and said so, where the token is not set (the page answers 404 without it)
 const INTERNAL = ["/reports/draft/shape-premium", "/reports/draft/ai-gigawatts"];  // session 62: the AI gigawatts draft
@@ -237,6 +242,36 @@ async function truth(check) {
   // session 315: the Digest's chart of the day, its record's numbers (docs/digest/charts/<date>.json): digest_chart|<date>|<table>|<key>
   if (p[0] === "digest_chart") {
     return JSON.parse(fs.readFileSync(path.join(here, "..", "..", "docs", "digest", "charts", `${p[1]}.json`), "utf-8")).numbers?.[p[3]];
+  }
+  // session 402: the Energy Digest's numbers section (lib/digest.ts), recomputed by the Digest's own rule (warehouse/news/brief.py):
+  // digest_dam|<ISO>|<table>|<node>|<day>: the mean of the ISO's local operating day's hourly day-ahead prices, every hour
+  // held, exact and rounded half up to cents (as brief.mean2 and the Roundup's check below); digest_rt|<table>|<node>|
+  // <variable>|<ts_utc>: the real-time price at its interval; digest_fuel|eia_fuel_spot_prices|<entity>|<day>: the close.
+  // A table consolidated since (session 29) is read from its new table. The live set holds ISO prices for 35 days.
+  if (p[0] === "digest_dam") {
+    const [, iso, table, node, d] = p;
+    const tz = HUB[iso]?.[1];
+    if (!tz) throw new Error(`unknown grid in ${check}`);
+    const [y, m, dd] = d.split("-").map(Number);
+    const s0 = localMidnight(y, m - 1, dd, tz), s1 = localMidnight(y, m - 1, dd + 1, tz);
+    const [t, f] = current(table, { node: `eq.${node}`, and: `(ts_utc.gte.${s0.toISOString()},ts_utc.lt.${s1.toISOString()})` });
+    const rows = await all("series", { select: "value", table_name: `eq.${t}`, ...f, order: "ts_utc" });
+    const hours = Math.round((s1 - s0) / 36e5);
+    if (rows.length !== hours) return undefined;   // a day not held whole in the live set: no value to compare
+    const micro = rows.reduce((a, r) => a + Math.round(r.value * 1e6), 0);
+    const x = micro / rows.length / 1e4;
+    return Math.sign(x) * Math.floor(Math.abs(x) + 0.5) / 100;
+  }
+  if (p[0] === "digest_rt") {
+    const [, table, node, variable, ts] = p;
+    const [t, f] = current(table, { node: `eq.${node}`, variable: `eq.${variable}`, ts_utc: `eq.${ts}` });
+    const r = (await q("series", { select: "value", table_name: `eq.${t}`, ...f }))[0];
+    return r ? Number(r.value.toFixed(2)) : undefined;
+  }
+  if (p[0] === "digest_fuel") {
+    const [, table, entity, d] = p;
+    const r = (await q("series", { select: "value", table_name: `eq.${table}`, entity: `eq.${entity}`, ts_utc: `eq.${d}T00:00:00Z` }))[0];
+    return r ? Number(r.value.toFixed(2)) : undefined;
   }
   // session 300: the home page's count of findings, from the library's own catalogue (site/data/findings/catalogue.json)
   if (p[0] === "findings" && p[1] === "count") {
@@ -772,6 +807,13 @@ function usd(v) {
   return v.toLocaleString("en-US");
 }
 
+/** Session 402: the chart-maker's rounding (warehouse/analysis/findings/daily_chart.py nd_for; lib/digest.ts chartText). */
+function digestChartText(v) {
+  const a = Math.abs(v);
+  const nd = a >= 10000 ? 0 : a >= 100 ? 1 : a >= 1 ? 2 : 4;
+  return v.toLocaleString("en-US", { minimumFractionDigits: nd, maximumFractionDigits: nd });
+}
+
 function shown(raw) {
   // how the page writes a raw value: a timestamp as "YYYY-MM-DD HH:MM UTC", a whole number with commas, else 2 decimals
   if (/^\d{4}-\d{2}-\d{2}T/.test(raw)) return new Date(raw).toISOString().slice(0, 16).replace("T", " ") + " UTC";
@@ -977,7 +1019,9 @@ async function main() {
       // session 315: a figure the page shows as its own raw text (a card's callout "126.6x", a record's figure as written) is its text
       // a card's p value (FindingCard fmtP): "< 0.001" under a thousandth, else three decimals
       const pText = /^finding\|[^|]+\|effect\|\d+\|p\|/.test(check) && (Number(raw) < 0.001 ? text === "< 0.001" : text === Number(raw).toFixed(3));
-      const textOk = hourText || pText || text === raw || text.startsWith(usdFormat ? usd(Number(raw)) : whole ? Math.round(Number(raw)).toLocaleString("en-US") : shown(raw));
+      // session 402: a figure of the Digest's chart of the day is written as the chart-maker rounds it (lib/digest.ts chartText)
+      const chartOk = /^digest_chart\|/.test(check) && text === digestChartText(Number(raw));
+      const textOk = hourText || pText || chartOk || text === raw || text.startsWith(usdFormat ? usd(Number(raw)) : whole ? Math.round(Number(raw)).toLocaleString("en-US") : shown(raw));
       let pass = t !== undefined && t !== null && same && textOk;
       // session 369 (todo 008): on an event page, the date the figure belongs to is named on its line; a series figure
       // is compared with the row of that date among its entity's rows (never another day's), an estimate of a day with
