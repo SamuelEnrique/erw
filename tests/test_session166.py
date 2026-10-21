@@ -16,6 +16,7 @@ import os
 import re
 import sys
 import unittest
+from unittest import mock
 
 import pandas as pd
 
@@ -137,7 +138,10 @@ class TheBoardBuilder(unittest.TestCase):
         try:
             b = board_page.Board()
             lines = []
-            board_page.build_as(b, set(), lines.append)
+            # the four tables' skip is the subject, not the day's holds: from 21 October 2026 NYISO is held (license
+            # needed) and is greyed before its table is looked for, so no grid is held here
+            with mock.patch.object(board_page.ls, "held_grids", return_value=set()):
+                board_page.build_as(b, set(), lines.append)
             skipped = [ln for ln in lines if "not on this machine, skipped" in ln]
             self.assertEqual(len(skipped), 4, lines)
             self.assertEqual([r["status"] for r in b.rows], ["not_held", "paused", "licensed"])
