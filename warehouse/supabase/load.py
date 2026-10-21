@@ -94,6 +94,11 @@ NUMERIC = {"value", "lat", "lon", "capacity_mw", "mw", "price"}
 SERIES_PARTITION = ["ba", "event"]  # session 36C: event (migration 011), part of the series key
 MIGRATIONS = os.path.join(ROOT, "warehouse", "metadata", "table_migrations.csv")
 TIMESTAMP = {"ts_utc", "retrieved_at", "event_date"}
+# Session 455: when a row was retrieved, not what it says. A rebuild stamps every row anew; a row whose values have not
+# moved is not written again (session 438 wrote 30,232 rows for 8 changed values), and a copy older by its stamps but
+# equal in value is no rollback (session 374's 31 refusals)
+STAMPS = {"retrieved_at"}
+VACUUM_SHARE = 0.01  # session 455: series is vacuumed after a load only when the load changed more than this share of it
 CAT_NUMERIC = {"n_nodes", "n_rows"}
 
 
@@ -412,14 +417,17 @@ def _ts(v):
         return str(v)
 
 
-def canon(r, shape):
+def canon(r, shape, stamps=True):
     """A row (a record written by this loader, or one read back from Supabase) in one
-    comparable form: key tuple, value tuple."""
+    comparable form: key tuple, value tuple. stamps=False (session 455): the body leaves out
+    STAMPS, so two copies that differ only in when they were retrieved compare equal."""
     cols, key = SHAPES[shape]
     vals = {}
     for c in cols:
         v = r.get(c)
-        if v is None or v == "":
+        if not stamps and c in STAMPS:
+            vals[c] = None
+        elif v is None or v == "":
             vals[c] = None
         elif c in NUMERIC:
             vals[c] = float(v)
@@ -521,21 +529,29 @@ def union_table(name):
     return any(re.search(p, name) for p in LIVE.get("union_by_key") or [])
 
 
+def value_diff(client, name, df, shape, license_, loaded_at, conn=None):
+    """Session 455: the rows to write (new keys, or values that moved) and the keys Supabase holds that the file does
+    not, each row compared without its STAMPS. Returns (records to write, keys gone)."""
+    want = {}
+    for r in records(name, df, shape, license_, loaded_at):
+        k, body = canon(r, shape, stamps=False)
+        want[k] = (body, r)
+    have = {}
+    for r in existing_rows(client, shape, name, conn):
+        k, body = canon(r, shape, stamps=False)
+        have[k] = body
+    write = [r for k, (body, r) in want.items() if have.get(k) != body]
+    gone = [k for k in have if k not in want]
+    return write, gone
+
+
 def sync_table(client, name, df, shape, license_, loaded_at, days, now, conn=None, union=False):
     """Make Supabase hold exactly the selected rows of one table, writing only the
     difference. Returns (written, deleted). union (session 206): add and rewrite, remove nothing."""
     cols, key = SHAPES[shape]
-    recs = records(name, df, shape, license_, loaded_at)
-    want = {}
-    for r in recs:
-        k, body = canon(r, shape)
-        want[k] = (body, r)
-    have = {}
-    for r in existing_rows(client, shape, name, conn):
-        k, body = canon(r, shape)
-        have[k] = body
-    write = [r for k, (body, r) in want.items() if have.get(k) != body]
-    gone = [] if union else [k for k in have if k not in want]
+    write, gone = value_diff(client, name, df, shape, license_, loaded_at, conn)
+    if union:
+        gone = []
     for i in range(0, len(write), BATCH):
         client.table(shape).upsert(write[i:i + BATCH], on_conflict=",".join(key)).execute()
     deleted = 0
@@ -583,15 +599,27 @@ def db_url():
     return (v or "").strip() or None
 
 
-def vacuum(url=None, full=False):
+def vacuum(url=None, full=False, changed=None, connect=None):
     """Session 45: VACUUM (ANALYZE) the shape tables after every load (no exclusive lock; the
     space of replaced rows is reused by later loads), or VACUUM (FULL, ANALYZE) when full is
-    True (--vacuum-full, a person's command). Needs SUPABASE_DB_URL."""
+    True (--vacuum-full, a person's command). Needs SUPABASE_DB_URL. Session 455: with changed
+    (rows written or deleted by shape table), a shape table the load changed by VACUUM_SHARE of
+    its rows or less is analysed only: a VACUUM of series (2.1 GB on 21 October 2026) after a
+    load of 474 rows read the whole table from disk."""
     if full:
         return vacuum_full(url)
-    import psycopg
-    with psycopg.connect(url or env("SUPABASE_DB_URL"), autocommit=True, connect_timeout=30) as conn:
+    if connect is None:
+        import psycopg
+        connect = psycopg.connect
+    with connect(url or env("SUPABASE_DB_URL"), autocommit=True, connect_timeout=30) as conn:
         for t in ("series", "entities", "events", "headers", "catalogue", "sources"):
+            if changed is not None and t in SHAPES:
+                rows = conn.execute(f"select greatest(reltuples, 0)::bigint from pg_class where oid = 'public.{t}'::regclass").fetchone()[0]
+                n = changed.get(t, 0)
+                if n <= VACUUM_SHARE * rows:
+                    conn.execute(f"ANALYZE public.{t}")
+                    print(f"ANALYZE {t}: {n:,} rows changed, not over {VACUUM_SHARE:.0%} of its {rows:,}; no vacuum")
+                    continue
             before = conn.execute(f"select pg_total_relation_size('public.{t}')").fetchone()[0]
             conn.execute(f"VACUUM (ANALYZE) public.{t}")
             after = conn.execute(f"select pg_total_relation_size('public.{t}')").fetchone()[0]
@@ -696,6 +724,7 @@ def main(argv=None):
     hashes = {}
     failed = []
     recon = []
+    changed = {}  # session 455: rows written or deleted, by shape table, for the vacuum's choice
     conn = db_reader()  # session 166: the whole-table reads, outside the API's 8-second statement timeout
     for name, (df, shape) in selected.items():
         days = dict((n, d) for n, _, d in plan)[name]
@@ -706,13 +735,21 @@ def main(argv=None):
             unchanged = prev.get(name) == digest
             union = union_table(name)  # session 206: the ledger is added to, never replaced, so no copy is "older"
             stale = None if unchanged or union or name in args.allow_older else older_than_live(client, name, df, shape, conn)
-            if stale:
-                raise RuntimeError(f"refused, older than the live copy: {stale}. Sync this machine from the cloud first "
-                                   f"(python scripts/sync.py --refresh), or pass --allow-older {name} to roll it back on purpose")
-            if unchanged:
+            equal = False
+            if stale:  # session 455: older by its stamps is a rollback only when the values differ
+                w, g = value_diff(client, name, df, shape, lic[name], loaded_at, conn)
+                if w or g:
+                    raise RuntimeError(f"refused, older than the live copy: {stale}; {len(w):,} rows differ in value, "
+                                       f"{len(g):,} only in Supabase. Sync this machine from the cloud first "
+                                       f"(python scripts/sync.py --refresh), or pass --allow-older {name} to roll it back on purpose")
+                equal = True
+                print(f"         {name}: older by its retrieved_at than the live copy ({stale}), equal in value: "
+                      "nothing written, the live rows keep their stamps")
+            if unchanged or equal:
                 written = deleted = 0
             else:
                 written, deleted = sync_table(client, name, df, shape, lic[name], loaded_at, days, now, conn, union=union)
+            changed[shape] = changed.get(shape, 0) + written + deleted
             n = live_count(client, shape, name, conn)
             ok = n >= len(df) if union else n == len(df)  # a union holds every row of the file, and may hold more
             if union:
@@ -854,7 +891,7 @@ def main(argv=None):
             print("WARNING: vacuum skipped, SUPABASE_DB_URL is not set (.env or the repository secret)")
         else:
             try:
-                vacuum(url, full=args.vacuum_full)
+                vacuum(url, full=args.vacuum_full, changed=changed)
                 vac = vacuum_kind
             except Exception as exc:
                 vac = f"FAILED {type(exc).__name__}"
