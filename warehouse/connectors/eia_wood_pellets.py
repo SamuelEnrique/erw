@@ -9,8 +9,9 @@ Energy Information Administration's API v2, three routes of densified-biomass (t
     export-sales-and-price      average-price           variable export_price (USD/short_ton), the U.S.
     capacity-by-region          number-of-facilities    variable facilities (count), by region
                                 number-of-fte-employees variable fte_employees (count), by region
+    feedstocks-and-cost         cost                    variable feedstock_cost (USD/short_ton), by fuel type (session 575)
 
-    entity    eia_wood_pellets:<route>:<region>; ts_utc the month's first day at 00:00:00Z; freq P1M; geo US; node EIA's
+    entity    eia_wood_pellets:<route>:<region or fuel type>; ts_utc the month's first day at 00:00:00Z; freq P1M; geo US; node EIA's
               region name. EIA's tons are short tons. Its quantities and capacity in tons are not taken: the vocabulary
               has no tonnage (a ruling asked in sessions 490 and 519)
 
@@ -50,8 +51,11 @@ ROUTES = {
     "export-sales-and-price": [("average-price", "export_price", {"usd per ton": ("USD/short_ton", 1.0)})],
     "capacity-by-region": [("number-of-facilities", "facilities", {"number of facilities": ("count", 1.0)}),
                            ("number-of-fte-employees", "fte_employees", {"number of fte employees": ("count", 1.0)})],
+    # session 575: the feedstocks' cost by fuel type (the route is keyed by fuelTypeId, not by region)
+    "feedstocks-and-cost": [("cost", "feedstock_cost", {"usd per ton": ("USD/short_ton", 1.0)})],
 }
-SHORT = {"sales-and-price-by-region": "sales", "export-sales-and-price": "export", "capacity-by-region": "capacity"}
+SHORT = {"sales-and-price-by-region": "sales", "export-sales-and-price": "export", "capacity-by-region": "capacity",
+         "feedstocks-and-cost": "feedstocks"}
 
 
 def text(v):
@@ -63,8 +67,8 @@ def rows(route, data, url, retrieved):
     for r in data:
         month = text(r.get("period"))[:7]
         dt.date.fromisoformat(month + "-01")
-        region = text(r.get("region")) or "US"
-        name = text(r.get("regionDescription") or r.get("region-name") or r.get("regionName")) or region
+        region = text(r.get("region") or r.get("fuelTypeId")) or "US"
+        name = text(r.get("regionDescription") or r.get("region-name") or r.get("regionName") or r.get("fuelTypeDescription")) or region
         for col, variable, units in ROUTES[route]:
             v = pd.to_numeric(r.get(col), errors="coerce")
             if pd.isna(v):
@@ -148,7 +152,7 @@ def main(argv=None):
         header = [
             "Energy Research Warehouse (ERW): EIA, densified biomass (wood pellets): domestic and export prices, plants and employees, a month (session 558)",
             "Shape: series (docs/datastandard.md v0). entity eia_wood_pellets:<sales|export|capacity>:<region>; variable domestic_price or export_price (USD/short_ton), "
-            "facilities or fte_employees (count); ts_utc the month's first day; freq P1M; node EIA's region name. EIA's tonnages are not taken.",
+            "facilities or fte_employees (count), feedstock_cost (USD/short_ton, by fuel type); ts_utc the month's first day; freq P1M; node EIA's region or fuel name. EIA's tonnages are not taken.",
             f"A figure EIA withholds has no row; nothing is filled. Months {span}; records of EIA's: " + ", ".join(f"{k} {v:,}" for k, v in counts.items()) + ".",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/eia_wood_pellets.py; {asked[0]} requests of {CEILING}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",

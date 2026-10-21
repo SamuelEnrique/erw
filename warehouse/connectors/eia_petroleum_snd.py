@@ -14,8 +14,11 @@ Energy Information Administration's API v2, route petroleum/sum/snd (Petroleum S
     value     kbbl (EIA's thousand barrels in the month) or kbbl/d
     ts_utc    the month's first day at 00:00:00Z; freq P1M; geo US; node EIA's series name
 
-Eight products only (PRODUCTS below: the total, crude oil, finished motor gasoline, distillate, jet fuel, propane, residual
-fuel and fuel ethanol), from 2015: the route holds about 40 products and 3,949 records a month, beyond a run's ceiling.
+Twenty products, in two groups (GROUPS below): session 555's eight (the total, crude oil, finished motor gasoline,
+distillate, jet fuel, propane, residual fuel and fuel ethanol) and session 574's twelve (kerosene, aviation gasoline,
+asphalt, petroleum coke, lubricants, natural gas plant liquids, ethane, normal butane, isobutane, unfinished oils,
+biodiesel and renewable diesel), from 2015: the route holds about 40 products and 3,949 records a month, beyond a
+run's ceiling.
 A blank has no row; nothing is filled. A unit, process or area not in the map stops the run; so does a key given twice.
 
     python warehouse/connectors/eia_petroleum_snd.py [--from 2015-01] [--offline | --fresh]
@@ -49,7 +52,11 @@ FIRST = "2015-01"
 PROCESSES = {"FPF": "field_production", "YPR": "refinery_net_production", "YIR": "refinery_net_input", "IM0": "imports",
              "EEX": "exports", "VNR": "net_receipts", "SCG": "stock_change", "SAE": "ending_stocks", "VPP": "product_supplied",
              "VUA": "supply_adjustment", "YNP": "renewable_plant_production", "TVP": "transfers_to_crude_supply"}
-PRODUCTS = ["EP00", "EPC0", "EPM0F", "EPD0", "EPJK", "EPLLPA", "EPPR", "EPOOXE"]
+# the products, in groups a run reads one after another; the first group is session 555's (its saved pages answer the
+# same addresses), the second session 574's
+GROUPS = [["EP00", "EPC0", "EPM0F", "EPD0", "EPJK", "EPLLPA", "EPPR", "EPOOXE"],
+          ["EPPK", "EPPV", "EPPA", "EPPC", "EPPL", "EPL2", "EPLLEA", "EPLLBAN", "EPLLBAI", "EPPU", "EPOORDB", "EPOORDO"]]
+PRODUCTS = [p for g in GROUPS for p in g]
 AREAS = {"NUS", "NUS-Z00", "R10", "R10-Z00", "R10-Z0P", "R20", "R20-Z00", "R20-Z0P", "R30", "R30-Z00", "R30-Z0P",
          "R40", "R40-Z00", "R40-Z0P", "R50", "R50-Z00", "R50-Z0P"}
 UNITS = {"mbbl": ("kbbl", 1.0, ""), "mbbl/d": ("kbbl/d", 1.0, "_per_day")}
@@ -125,20 +132,24 @@ def main(argv=None):
         if not key:
             raise RuntimeError("EIA_API_KEY is not set (.env or the environment)")
         retrieved = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-        frames, offset, total = [], 0, None
-        while True:
-            body, url = get({"api_key": key, "frequency": "monthly", "data[]": "value", "facets[product][]": PRODUCTS,
-                             "start": args.first, "length": 5000, "offset": offset,
-                             "sort[0][column]": "period", "sort[0][direction]": "asc",
-                             "sort[1][column]": "series", "sort[1][direction]": "asc"})
-            resp = body["response"]
-            total = int(resp["total"])
-            frames.append(rows(resp["data"], url.split("&length")[0], retrieved))
-            offset += len(resp["data"])
-            if offset >= total or len(resp["data"]) < 5000:
-                break
-        if offset != total:
-            raise RuntimeError(f"{offset:,} rows read of the {total:,} EIA counts")
+        frames, totals = [], []
+        for group in GROUPS:
+            offset, total = 0, None
+            while True:
+                body, url = get({"api_key": key, "frequency": "monthly", "data[]": "value", "facets[product][]": group,
+                                 "start": args.first, "length": 5000, "offset": offset,
+                                 "sort[0][column]": "period", "sort[0][direction]": "asc",
+                                 "sort[1][column]": "series", "sort[1][direction]": "asc"})
+                resp = body["response"]
+                total = int(resp["total"])
+                frames.append(rows(resp["data"], url.split("&length")[0], retrieved))
+                offset += len(resp["data"])
+                if offset >= total or len(resp["data"]) < 5000:
+                    break
+            if offset != total:
+                raise RuntimeError(f"products {group[0]} and on: {offset:,} rows read of the {total:,} EIA counts")
+            totals.append(total)
+        total = sum(totals)
         s = pd.concat([f for f in frames if len(f)], ignore_index=True)
         if s.duplicated(["entity", "variable", "ts_utc"]).any():
             raise RuntimeError("a row on two pages")
