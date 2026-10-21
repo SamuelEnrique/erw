@@ -160,6 +160,7 @@ SECTOR_RULES = [
     (r"^eia_coal_delivered_price_annual$", "coal"),  # session 553: EIA's delivered coal price by state and sector
     (r"^eia_petroleum_snd_monthly$", "oil;products"),  # session 555: EIA's petroleum supply and disposition, a month
     (r"^eia_product_supplied_monthly$", "oil;products"),  # session 556: EIA's petroleum products supplied, a month
+    (r"^eia_wood_pellets_monthly$", "power"),  # session 558: EIA's densified biomass (wood pellets), a month
     (r"^pjm_rpm_capacity_prices$", "capacity"),
     # session 65: capacity prices of the four markets that pay capacity apart, and the day-ahead ancillary services
     (r"^iso_all_capacity_prices$", "capacity"),

@@ -105,6 +105,7 @@ eia_state_capacity_annual,none,,2671,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:0
 eia_state_generation_monthly,none,,760,P1M,2001-01-01T00:00:00Z,2026-07-01T00:00:00Z,200030,eia:electricity/electric-power-operational-data,2026-10-14T14:36:52Z,pass,public,power,no,source
 eia_state_source_disposition_annual,none,,52,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,37738,eia:electricity/state-electricity-profiles/source-disposition,2026-10-21T21:48:14Z,pass,public,power,no,source
 eia_steo_forecasts,none,,53,P1M,2020-01-01T00:00:00Z,2027-12-01T00:00:00Z,5088,eia:steo,2026-10-21T18:32:37Z,pass,public,power;gas,no,source
+eia_wood_pellets_monthly,none,,5,P1M,2016-01-01T00:00:00Z,2026-05-01T00:00:00Z,1613,eia:densified-biomass,2026-10-21T23:11:35Z,pass,public,power,no,source
 energy_companies,none,,475,snapshot,2026-09-28T17:04:21Z,2026-10-21T15:09:00Z,475,erw:energy_deals;erw:thesis_builder,2026-10-21T15:09:00Z,pass,public,deals,no,model_extracted
 energy_deals,none,,24,event,2025-01-05T08:00:00Z,2026-10-21T13:16:53Z,497,24 outlets,2026-10-21T15:08:25Z,pass,public,deals,no,model_extracted
 energy_deals_evidence,none,,25,event,2025-01-05T08:00:00Z,2026-10-21T13:16:53Z,548,25 outlets,2026-10-21T15:08:25Z,pass,internal,deals,no,model_extracted

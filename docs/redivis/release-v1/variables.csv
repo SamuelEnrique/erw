@@ -1909,6 +1909,10 @@ eia_state_source_disposition_annual,unaccounted,series variable,MWh
 eia_steo_forecasts,value,series variable,USD/MMBtu
 eia_steo_forecasts,value,series variable,USD/kWh
 eia_steo_forecasts,value,series variable,ratio
+eia_wood_pellets_monthly,domestic_price,series variable,USD/short_ton
+eia_wood_pellets_monthly,export_price,series variable,USD/short_ton
+eia_wood_pellets_monthly,facilities,series variable,count
+eia_wood_pellets_monthly,fte_employees,series variable,count
 energy_companies,entity_id,column,
 energy_companies,entity_type,column,
 energy_companies,name,column,
