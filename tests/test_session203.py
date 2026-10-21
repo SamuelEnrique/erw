@@ -131,7 +131,8 @@ class TheHeader(unittest.TestCase):
         self.assertIn('absolute left-0 right-0 ${gi >= 3 ? "sm:left-auto sm:right-0" : "sm:right-auto"}', nav)
 
     def test_the_internal_view_keeps_its_lock(self):
-        self.assertIn('internal view <a href="/internal/lock" className="text-muted">lock</a>', src("site", "components", "Nav.tsx"))
+        # session 423: the lock is underlined (axe link-in-text-block), its words and address unchanged
+        self.assertIn('internal view <a href="/internal/lock" className="text-muted underline">lock</a>', src("site", "components", "Nav.tsx"))
 
     def test_the_about_page_lists_a_sub_groups_pages_too(self):
         self.assertIn("[...g.pages, ...(g.sub?.pages ?? [])].map((p) => (", src("site", "app", "about", "page.tsx"))

@@ -245,7 +245,9 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
       const c = document.createElement("canvas");
       if (!(c.getContext("webgl2") || c.getContext("webgl"))) { fail(); return; }
     } catch { fail(); return; }
-    Promise.all([import("3d-force-graph"), import("three")]).then(([{ default: ForceGraph3D }, THREE]) => {
+    // session 428 (session 411's item for 401): the scene's chunk (3d-force-graph with three.js, 841 KB) is fetched once
+    // its frame is on screen or within 200 px of it, not while a phone opens on the words and controls above the frame
+    const load = () => Promise.all([import("3d-force-graph"), import("three")]).then(([{ default: ForceGraph3D }, THREE]) => {
       if (!alive || !el) return;
       three.current = THREE;
       const nodes = snap.nodes.map((n) => ({ ...n, fx: n.x, fy: n.y, fz: n.z }));
@@ -274,9 +276,15 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
       setTimeout(() => { if (alive) g.zoomToFit(400, 10); }, 1200);
       if (toggled.current) setGraphAt((k) => k + 1);   // session 180: back from the map, the scene takes the hour, view and selection shown
     }).catch(() => setNoGl(true));
+    let seen: IntersectionObserver | null = null;
+    if (typeof IntersectionObserver === "undefined") load();
+    else {
+      seen = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { seen?.disconnect(); seen = null; load(); } }, { rootMargin: "200px 0px" });
+      seen.observe(el);
+    }
     const onResize = () => { if (graph.current && el) graph.current.width(el.clientWidth).height(el.clientHeight); };
     window.addEventListener("resize", onResize);
-    return () => { alive = false; window.removeEventListener("resize", onResize); graph.current?._destructor?.(); graph.current = null; };
+    return () => { alive = false; seen?.disconnect(); window.removeEventListener("resize", onResize); graph.current?._destructor?.(); graph.current = null; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shape]);
 

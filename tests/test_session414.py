@@ -6,7 +6,7 @@ Energy Research Warehouse (ERW). What is held to:
     the one subject, what an item blocks, two items merged only by a written rule and an item that restates two kept
     beside each, the rank taken only from a note that says its list is by value, nothing put first where no note
     ranks, and on the repository's own reports every line of the run in one item, linked to its line;
-  the run is sessions 351 to 413, and the ledger never fails the site's build;
+  the run is sessions 351 to the newest report present (351 to 413 until session 425), and the ledger never fails the site's build;
   the page draws the ledger after the cookie is checked, with its count at the top, the first three, the five blocks,
     what was not listed, and the rules it applied; a visitor's 404 carries none of it;
   the documents say where the rules are.
@@ -44,7 +44,7 @@ class TheRules(unittest.TestCase):
 
     def test_the_run_is_351_to_413_and_the_ledger_cannot_fail_a_build(self):
         s = src("site", "scripts", "build-waits.mjs")
-        self.assertIn("export const LEDGER = { from: 351, to: 413 };", s)
+        self.assertIn('export const LEDGER = { from: 351, to: "newest" };', s)   # session 425: was { from: 351, to: 413 }
         build = s.split("export function build(repo", 1)[1]
         self.assertIn("led = ledger(all, readNotes(repo), marker);", build)
         self.assertIn("} catch (e) {", build.split("led = ledger(", 1)[1].split("return {", 1)[0], "a fault in the ledger is said, not thrown")

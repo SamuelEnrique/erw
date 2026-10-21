@@ -37,7 +37,9 @@ for (const [w, h, mobile] of WIDTHS) {
     await go(`${base}/data`);
     await wait("document.querySelector('h1') !== null", 30000, "the page's heading");
     const shot = async (name) => {
-      const s = await send("Page.captureScreenshot", { format: "png", clip: { x: 0, y: 0, width: w, height: h, scale: 1 }, captureBeyondViewport: false });
+      // session 416: no clip. Under mobile emulation a clip at (0, 0) is read from the document's top, so a scrolled page
+      // came out with a band of its scroll's height above it (02 and 03 at 390); the viewport as it is, as site/scripts/shot.mjs takes it
+      const s = await send("Page.captureScreenshot", { format: "png" });
       fs.writeFileSync(path.join(here, `${name}_${w}.png`), Buffer.from(s.data, "base64"));
     };
     await evaluate("window.scrollTo(0, 0)");

@@ -107,6 +107,9 @@ export type Carbon = {
   years: { y: number; kg: number; months: number }[];
   /** the grid's intensity by month, as the table holds it */
   monthly: { m: string; kg: number }[];
+  /** session 419: the last month (YYYY-MM) of the page's twelve months, as the server chose them; the page names the
+   * year it counts from this, not from the reader's clock */
+  through?: string | null;
 };
 const monthKey = (ts: string) => ts.slice(0, 7);
 /** The load's carbon over the last twelve months at the grid's monthly average: each month's energy per MW (a way's)
@@ -257,6 +260,10 @@ export function byGrid(rows: { variable: string; ts_utc: string; value: number }
 }
 export type Answers = { scarcity: Scarcity; carbon: Carbon; largeLoad: LargeLoad | null; notices: Notices; adders: Adders; byGrid?: ByGrid; mw: number; held: Record<Way, boolean> };
 
+/** Session 419: the year of a YYYY-MM month (the page's twelve months' last, `Carbon.through`), or null when the page
+ * was given none: the carbon note names this year, not the reader's clock's. */
+export const yearOfThrough = (m: string | null | undefined): number | null => (m && /^\d{4}-\d{2}/.test(m) ? Number(m.slice(0, 4)) : null);
+
 /** One number of the answers by its name, for the reader's size: the page writes it, check-values recomputes it. */
 export function statOf(a: Answers, stat: string): number | null | undefined {
   const p = stat.split(":");
@@ -362,7 +369,7 @@ export async function readAnswers(args: AnswerArgs): Promise<Answers> {
   for (const k of WAYS) months[k] = ruled[k].months.map((m) => ({ m: m.m, energy: m.energy, held: m.held }));
   const hourlyWays = {} as Record<Way, Hourly>;
   for (const k of WAYS) hourlyWays[k] = { prices: ruled.flat.prices, weights: ruled[k].weights };
-  const carbon = { l12: l12Carbon(monthly, months, l12), window: windowCarbon(hourly, hourlyWays, behind), years: yearlyCarbon(monthly), monthly: monthly.map((r) => ({ m: r.ts_utc.slice(0, 7), kg: r.value })) };
+  const carbon = { l12: l12Carbon(monthly, months, l12), window: windowCarbon(hourly, hourlyWays, behind), years: yearlyCarbon(monthly), monthly: monthly.map((r) => ({ m: r.ts_utc.slice(0, 7), kg: r.value })), through: l12.at(-1) ?? null };
   for (const k of WAYS) if (!held[k]) { carbon.l12[k] = { kgPerMwh: null, tonnesPerMw: null, energy: 0, months: 0, of: l12.length }; carbon.window.ways[k] = null; }
   const status: StatusRow[] = statusRaw.map((r) => ({ variable: String(r.variable), ts_utc: String(r.ts_utc), value: num(r.value) }));
   let notices: Notices = null;
