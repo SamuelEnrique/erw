@@ -28,7 +28,8 @@ class TheCompaniesNumbers(unittest.TestCase):
 class TheTrackerReset(unittest.TestCase):
     def test_the_tracker_form_has_the_shared_reset(self):
         v = src("site", "app", "deals", "v2", "view.tsx")
-        self.assertIn('<InputPanel title="Your selection" reset={{ href: "/deals?tab=tracker", defaults: "all deals, of every type, technology, grid, party and year." }}', v)
+        # session 465 added the kind and the status to the panel, and to its defaults' words
+        self.assertIn('<InputPanel title="Your selection" reset={{ href: "/deals?tab=tracker", defaults: "all deals, of every type, kind, technology, grid, party, year and status." }}', v)
 
 
 class TheDownloadsAndNotes(unittest.TestCase):

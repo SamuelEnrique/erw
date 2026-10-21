@@ -53,7 +53,7 @@ const FLOOR = fs.existsSync(FLOOR_FILE) ? JSON.parse(fs.readFileSync(FLOOR_FILE,
 // gate of a landing is the full run, with the variable unset.
 const ONLY = (process.env.CHECK_VALUES_PAGES ?? "").split(",").map((v) => v.trim()).filter(Boolean);
 const wanted = (page) => !ONLY.length || ONLY.some((pre) => page.startsWith(pre));
-const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/ercot%3AHB_HUBAVG", "/data", "/prices?tab=ercot", "/deals", "/deals?tab=tracker", "/deals?tab=companies", "/grid", "/map", "/datacenters", "/roundup",
+const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/ercot%3AHB_HUBAVG", "/data", "/prices?tab=ercot", "/deals", "/deals?tab=tracker", "/deals?view=comparables", "/deals?tab=companies", "/grid", "/map", "/datacenters", "/roundup",
   // session 18
   "/mix", "/mix?ba=erco&state=TX", "/curtailment", "/demand?view=consumption",
   // session 404: the demand growth explorer (the default, ERCOT's whole-year average; the peak with the Lower 48's missing
@@ -410,6 +410,18 @@ async function truth(check) {
     return item === undefined ? undefined : Number(item.slice(name.length + 1).replace(/,/g, ""));
   }
   // session 15: /deals and /grid
+  // session 466: the comparables view, deals|comp_<stat>|<dimension>|<value>: the page's own functions (lib/deals2.ts)
+  // on every row of energy_deals as the page reads it, with the register's folded pairs shown once
+  if (p[0] === "deals" && String(p[1]).startsWith("comp_")) {
+    const D = await import("../lib/deals2.ts");
+    const [, stat, dim, value] = p;
+    const rows = await all("events", { select: "event_id,event_date,status,mw,price,currency,parties,source,source_url,extra", table_name: "eq.energy_deals", order: "event_date.desc,event_id" });
+    const pairs = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "deal_duplicates.json"), "utf-8")).pairs;
+    const cell = D.comparables(D.fold(rows.map(D.toDeal), pairs), dim).find((c) => c.value === (value === "-" ? "" : value));
+    if (!cell) return undefined;
+    const v = { comp_deals: cell.deals, comp_with_price: cell.withPrice, comp_with_mw: cell.withMw, comp_median_price: cell.medianPrice, comp_median_mw: cell.medianMw }[stat];
+    return v ?? undefined;
+  }
   if (p[0] === "deals") {
     const [, what, month] = p;
     const rows = await all("events", { select: "event_date,mw,ai:extra->>ai_power", table_name: "eq.energy_deals" });
