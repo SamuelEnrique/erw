@@ -141,6 +141,10 @@ SECTOR_RULES = [
     (r"^eia861m_utility_sales_monthly$", "power"),  # session 511: Form EIA-861M, the sampled utilities' monthly sales
     (r"^eia_nuclear_outages_daily$", "power;uranium"),  # session 513: EIA's U.S. nuclear outages, a day
     (r"^ferc714_respondents$", "power"),  # session 514: FERC Form 714's respondents, from PUDL
+    (r"^eia_nuclear_outages_facility_daily$", "power;uranium"),  # session 516: EIA's nuclear outages by plant, a day
+    (r"^eia_gas_prices_state_monthly$", "gas"),  # session 517: EIA's natural gas prices by state, a month
+    (r"^eia_gas_consumption_state_monthly$", "gas"),  # session 518: EIA's natural gas consumption by state, a month
+    (r"^eia_coal_prices_annual$", "coal"),  # session 519: EIA's coal market sales price by state or region, a year
     (r"^pjm_rpm_capacity_prices$", "capacity"),
     # session 65: capacity prices of the four markets that pay capacity apart, and the day-ahead ancillary services
     (r"^iso_all_capacity_prices$", "capacity"),
