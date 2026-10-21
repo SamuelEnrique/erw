@@ -1,6 +1,7 @@
 // Energy Research Warehouse (ERW) site: the reads each page makes, over lib/supabase.ts.
 import "server-only";
 import { DataError, HOURLY, LATEST, rest } from "./supabase";
+import { licenseNeeded } from "./license";
 import markets from "@/data/markets.json";
 
 export type CatalogueRow = {
@@ -349,4 +350,30 @@ export async function storageUnits(): Promise<StorageUnit[]> {
     HOURLY,
     20_000,
   );
+}
+
+/** Session 467: the words of warehouse/derived/datacenter_facilities.py's QUEUE_PATTERN, as PostgreSQL reads a regular
+ *  expression (tests/test_session467.py holds the two equal). A queue position whose name or fuel field matches is one
+ *  the datacenter tracker counts as naming a datacenter or a large load. */
+export const QUEUE_SITE_PATTERN = "data ?cent(?:er|re)s?|datacenter|large load|co-?located load|digital campus|hyperscale|crypto|bitcoin";
+/** The six queues the builder reads (warehouse/derived/energy_projects.py, QUEUE_ISOS), in its order. */
+export const QUEUE_GRIDS = ["ercot", "caiso", "nyiso", "miso", "spp", "isone"] as const;
+
+/** Session 467: the queue positions that name a datacenter or a large load, read from each ISO's own queue table in the
+ *  live set: the facilities of datacenter_facilities that rest on a public source, without reading that table, which
+ *  is held whole while its other rows rest on publishers who ask for permission (lib/license.ts). A queue table held
+ *  itself is not asked for; its grid is named in `held`. Two reads a table, the name and the fuel field, joined by id. */
+export async function queueSites(): Promise<{ rows: EntityRow[]; held: string[] }> {
+  const rows = new Map<string, EntityRow>();
+  const held: string[] = [];
+  const select = "entity_id,entity_type,name,lat,lon,capacity_mw,status,status_date,operator,source,source_url,vintage,table_name,extra";
+  for (const grid of QUEUE_GRIDS) {
+    const table = `${grid}_interconnection_queue`;
+    if (licenseNeeded(table)) { held.push(grid); continue; }
+    for (const field of ["name", "extra->>fuel_technology"]) {
+      const got = await rest<EntityRow>("entities", { select, table_name: `eq.${table}`, [field]: `imatch.${QUEUE_SITE_PATTERN}`, order: "entity_id" }, HOURLY, 2_000);
+      for (const r of got) rows.set(r.entity_id, r);
+    }
+  }
+  return { rows: [...rows.values()].sort((a, b) => a.entity_id.localeCompare(b.entity_id)), held };
 }

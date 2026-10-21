@@ -5,10 +5,11 @@ import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every 
 import { NoData } from "@/components/NoData";
 import { ToolHeader, ToolPage } from "@/components/tool/ToolPage";
 import { TableDownloads } from "@/components/tool/TableDownloads";
-import { datacenters } from "@/lib/data";
+import { datacenters, queueSites } from "@/lib/data";
 import { attempt } from "@/lib/supabase";
 import { Body, toFacility } from "./Body";
 import { LargeLoad, LargeLoadSource } from "./LargeLoad";
+import { PowerSide } from "./PowerSide";
 
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "Datacenter tracker" };  // session 203: renamed (the roadmap's ruling of 12 October 2026); "Datacenters" is the cost-of-power page's name in the menu now
@@ -21,6 +22,7 @@ export const metadata: Metadata = { title: "Datacenter tracker" };  // session 2
 // redirects to this page (next.config.ts). The section is drawn whether or not the facilities table could be read.
 export default async function DatacentersPage() {
   const res = await attempt(datacenters);
+  const queues = await attempt(queueSites);   // session 467: the sites a public source names, read from the queues themselves
   const today = new Date().toISOString().slice(0, 10);   // the UTC day the page was drawn on: "this week" is the seven days to it
   const words = (
     <>
@@ -55,6 +57,8 @@ export default async function DatacentersPage() {
         ) : (
           <Body rows={res.data.map(toFacility)} today={today}><LargeLoad read={res} />{words}</Body>
         )}
+        {/* session 467: on the power side, drawn whether or not the facilities table can be read (it is held since 21 October 2026) */}
+        <PowerSide read={queues} />
         <LargeLoadSource />
         {/* session 329: the tracker's public tables, as CSV with a Python and a Stata reader (session 328's shared line) */}
         <TableDownloads tables={["datacenter_facilities", "datacenter_operator_sites", "datacenter_projects", "ercot_large_load_status"]} />

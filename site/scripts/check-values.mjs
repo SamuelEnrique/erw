@@ -640,6 +640,17 @@ async function truth(check) {
     if (p[2]?.startsWith("row:")) return S.rowStat(rows, p.slice(2).join("|"));
     return S.statedStat(S.statedOf(rows), p.slice(2).join("|"));
   }
+  // session 467: the datacenter tracker's power side, dcpow|<grid>|<region>|per: what a flat load paid at a region under
+  // the cost-of-power calculator's defaults (its last twelve complete months, real time where held, else day-ahead),
+  // recomputed from the page's own price files by the calculator's own steps (scripts/datacenter-ways.mjs, pageOf), so it
+  // is the headline /cost-of-power?grid=<grid>&region=<region> shows
+  if (p[0] === "dcpow") {
+    const W = await import("./datacenter-ways.mjs");
+    if (!W.INDEX.grids[p[1]]) return undefined;
+    const page = W.pageOf({ grid: p[1], region: p[2] });
+    if (page.x.grid !== p[1] || page.x.region !== p[2] || p[3] !== "per") return undefined;
+    return page.s12?.per ?? undefined;
+  }
   if (p[0] === "dcd") {
     const D = await import("../lib/datacenter/delivery.ts");
     const file = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "datacenter", "texas_delivery.json"), "utf-8"));
