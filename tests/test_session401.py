@@ -50,7 +50,8 @@ class TheFixes(unittest.TestCase):
             self.assertIn('<summary className="cursor-pointer py-1">', s, parts)
         self.assertIn('<summary className="cursor-pointer py-1 text-accent">', src("grid", "page.tsx"))
         self.assertIn('<summary className="cursor-pointer py-1">Citations</summary>', src("research", "view.tsx"))
-        self.assertIn('className="inline-block py-1 text-xs">Reset</Link>', src("cost-of-power", "LoadForm.tsx"))
+        # session 541: the link is named for what it puts back (brand section 7), the 24 px target unchanged
+        self.assertIn('className="inline-block py-1 text-xs" data-load-reset="1">Reset your load</Link>', src("cost-of-power", "LoadForm.tsx"))
         self.assertIn("`px-2.5 py-1 ", src("cost-of-power", "battery", "Income.tsx"))
         self.assertEqual(src("research", "page.tsx").count('<a className="inline-block py-0.5" href="#'), 5)
 
