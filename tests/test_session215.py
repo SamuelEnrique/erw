@@ -125,7 +125,11 @@ class TheComponents(unittest.TestCase):
                  # read from the site's own files; Num holds a figure of a grid held under its publisher's terms by the key's grid
                  "finding", "digest_chart",
                  # session 329: one field of one row of an entities table (entity|<table>|<id>|<field>), held by its table as event| is
-                 "entity"}
+                 "entity",
+                 # session 461 (merging chain 019): the datacenter page's power side and grids view (dcpow|<grid>|<zone>|<stat>,
+                 # dcq|<grid>|<zone>|<stat>, sessions 467 and 468) read only the queues of grids whose tables are not held and ERCOT's
+                 # public zone prices; /data/licenses (lic|..., session 471) counts the license records themselves: no held table
+                 "dcpow", "dcq", "lic"}
         found = set()
         for dirpath, _, files in os.walk(os.path.join(ROOT, "site", "app")):
             if "_retired" in dirpath:

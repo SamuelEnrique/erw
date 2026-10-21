@@ -57,7 +57,8 @@ test("markdown's own output is as it was", () => {
 
 test("every document the site holds renders with no tag that is not markdown's own", () => {
   const OWN = new Set(["p", "h1", "h2", "h3", "h4", "h5", "h6", "ul", "ol", "li", "a", "strong", "em", "code", "pre", "table", "thead", "tbody", "tr", "th", "td", "blockquote", "hr", "br", "img", "del", "span", "sub", "sup", "input"]);
-  const sets = { digest: DOCS.digests, roundup: DOCS.weeklies, methods: DOCS.methods, grids: DOCS.grids, standard: { datastandard: DOCS.datastandard } };
+  const sets = { digest: DOCS.digests, roundup: DOCS.weeklies, methods: DOCS.methods, grids: DOCS.grids, standard: { datastandard: DOCS.datastandard },
+    licenses: { licenses: DOCS.licenses } };   // session 471: the licensing record, /data/licenses
   let files = 0;
   for (const [kind, set] of Object.entries(sets)) {
     for (const [name, md] of Object.entries(set ?? {})) {

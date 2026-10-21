@@ -69,7 +69,7 @@ function Spark({ row, top }: { row: Row; top?: boolean }) {
         {at !== null ? <line x1={x(at)} x2={x(at)} y1={0} y2={H} stroke="var(--color-muted)" strokeWidth={0.6} /> : null}
       </svg>
       {p ? (
-        <span role="tooltip" className="pointer-events-none absolute bottom-full right-0 z-20 mb-1 whitespace-nowrap border border-rule bg-white px-2 py-1 text-left text-xs leading-tight text-ink shadow-sm">
+        <span role="tooltip" className="pointer-events-none absolute bottom-full right-0 z-20 mb-1 whitespace-nowrap border border-rule bg-white px-2 py-1 text-left text-xs leading-tight text-ink">
           <span className="block text-muted">{row.label}{row.at ? `, ${row.at}` : ""}</span>
           <span className="block"><strong>{fmt(p.v, row.unit)}</strong> {row.unit} on {dateWords(p.t, row.freq)}</span>
         </span>
@@ -158,7 +158,7 @@ function PriceRow({ row, group, open, onOpen, file }: { row: Row; group: Group; 
       {name}
       <td className="py-1 pr-3 text-right font-semibold"><span data-n={`${row.id}|last`}>{fmt(last.v, row.unit)}</span><span className="ml-1 text-xs font-normal text-muted">{row.unit}</span></td>
       <td className="whitespace-nowrap py-1 pr-3 text-right text-xs text-muted" title={`${dateWords(last.t, row.freq)}${row.freq !== "D" ? `, a ${FREQ_WORDS[row.freq]} series` : ""}`}>
-        {shortDate(last.t, row.freq)}{row.freq !== "D" ? <span className="ml-1 rounded-sm border border-rule px-0.5 text-xs uppercase">{FREQ_WORDS[row.freq]}</span> : null}
+        {shortDate(last.t, row.freq)}{row.freq !== "D" ? <span className="ml-1 border border-rule px-0.5 text-xs">{FREQ_WORDS[row.freq]}</span> : null}
       </td>
       {MOVES.map(([k]) => <td key={k} className="py-1 pr-3 text-right text-xs"><MoveCell row={row} k={k} /></td>)}
       <td className="py-1 pr-3 text-right text-xs">{row.avg7 ? <span title={`the mean of the ${row.avg7.n} values held in the 7 days to ${dateWords(last.t)}`} data-n={`${row.id}|avg7`}>{fmt(row.avg7.v, row.unit)}</span> : <span className="text-xs text-muted" title={`A ${FREQ_WORDS[row.freq]} series has no 7-day mean.`}>{FREQ_WORDS[row.freq]}</span>}</td>
@@ -195,7 +195,7 @@ function GroupTable({ file, group, chosen, pick, open, onOpen, unfolded, fold }:
       <div className="overflow-x-auto">
         <table className="w-full min-w-[1180px] border-collapse text-sm tabular-nums" data-dense="1">
           <thead>
-            <tr className="border-b border-rule text-xs uppercase tracking-wide text-muted">
+            <tr className="border-b border-rule text-xs text-muted">
               <th className="py-1 pl-2 text-left font-normal">Price</th>
               <th className="pr-3 text-right font-normal">Latest</th>
               <th className="pr-3 text-right font-normal">Its date</th>
@@ -241,7 +241,7 @@ function WeekTable({ file, grid, pick, onOpen, unfolded, fold }: { file: BoardFi
       <div className="overflow-x-auto">
         <table className="w-full min-w-[980px] border-collapse text-sm tabular-nums" data-dense="1">
           <thead>
-            <tr className="border-b border-rule text-xs uppercase tracking-wide text-muted">
+            <tr className="border-b border-rule text-xs text-muted">
               <th className="py-1 pl-2 text-left font-normal">Hub or zone</th>
               <th className="pr-3 text-right font-normal">Day-ahead, latest</th>
               {WEEK_COLS.map(([k, n]) => <th key={k} className="pr-3 text-right font-normal">{n}, week</th>)}
@@ -266,7 +266,7 @@ function WeekTable({ file, grid, pick, onOpen, unfolded, fold }: { file: BoardFi
           </tbody>
         </table>
       </div>
-      <h3 className="mb-1 mt-3 text-xs uppercase tracking-wide text-muted">The week&apos;s highest real-time intervals</h3>
+      <h3 className="mb-1 mt-3 text-xs text-muted">The week&apos;s highest real-time intervals</h3>
       <ol className="grid gap-x-8 text-xs tabular-nums sm:grid-cols-2 xl:grid-cols-3">
         {file.spikes.filter((s) => grid === "all" || s.grid === grid).slice(0, 30).map((s) => (
           <li key={`${s.hub}${s.t}`} className="flex cursor-pointer justify-between border-b border-rule/60 py-0.5 hover:bg-paper" onClick={() => onOpen(`${s.hub}-rt`)}
@@ -335,7 +335,7 @@ function Headline({ file, market, setMarket, onOpen }: { file: BoardFile; market
       <div className="grid grid-cols-2 gap-px border border-rule bg-rule sm:grid-cols-4 xl:grid-cols-8">
         {cells.map((c) => (
           <button key={c.k} type="button" onClick={() => c.r && onOpen(c.r.id)} className="bg-white px-2 py-1.5 text-left hover:bg-paper" title={c.r ? `${c.r.label}${c.r.at ? `, ${c.r.at}` : ""}. Open in the workbench.` : undefined}>
-            <span className="block text-xs uppercase tracking-wide text-muted">{c.label}</span>
+            <span className="block text-xs text-muted">{c.label}</span>
             <span className="block font-serif text-xl tabular-nums" data-n={`head|${c.k}`}>{c.r && c.v !== undefined ? fmt(c.v, c.r.unit) : ""}<span className="ml-1 font-sans text-xs text-muted">{c.r?.unit}</span></span>
             <span className="block truncate text-xs text-muted">{c.note}</span>
           </button>

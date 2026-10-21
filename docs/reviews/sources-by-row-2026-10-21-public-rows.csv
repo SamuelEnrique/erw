@@ -1,0 +1,12 @@
+table,id,name,state,mw,queue_mw,publishers,source,source_url
+datacenter_facilities,datacenter:ercot_queue-25INR0688,Giga Texas Data Center,TX,,133.0,ERCOT,ercot:interconnection_queue,https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1281327706
+datacenter_facilities,datacenter:ercot_queue-28INR0499,Alpha Digital Campus Combined-cycle and Co-located Load,TX,,58.26,ERCOT,ercot:interconnection_queue,https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1281327706
+energy_deals,deal:12f09b2267a3d2ef,second Polish nuclear power plant,,,,World Nuclear News,World Nuclear News,https://www.world-nuclear-news.org/articles/agreement-signed-on-second-polish-nuclear-power-plant
+energy_deals,deal:2049dd8e3a5413cf,JESS,,,,World Nuclear News,World Nuclear News,https://www.world-nuclear-news.org/articles/slovakia-buys-out-czech-stake-in-new-nuclear-project
+energy_deals,deal:22af83288d1df241,nuclear power plant in Pątnów,,,,World Nuclear News,World Nuclear News,https://www.world-nuclear-news.org/articles/joint-venture-formed-for-six-unit-smr-plant-in-poland
+energy_deals,deal:3c1f461ac1000983,asset care framework at Sellafield site,,,,World Nuclear News,World Nuclear News,https://www.world-nuclear-news.org/articles/sellafield-selects-partners-for-asset-care-framework
+energy_deals,deal:3e77f0878dee58f3,"long-lead items for the first unit of Poland's first nuclear power plant, three AP1000 reactors",,,,World Nuclear News,World Nuclear News,https://www.world-nuclear-news.org/articles/poland-begins-ordering-long-lead-components-for-first-ap1000
+energy_deals,deal:47c4c339a9ef5a9d,BWRX-300 small modular reactor projects,,,,World Nuclear News,World Nuclear News,https://www.world-nuclear-news.org/articles/polish-entrepreneurs-invest-in-sges-bwrx-300-projects
+energy_deals,deal:6daa5127a8a81cab,safety-related modules for Poland's first nuclear power plant,,,,World Nuclear News,World Nuclear News,https://www.world-nuclear-news.org/articles/westinghouse-places-initial-orders-for-polish-plant
+energy_deals,deal:b2f3d832a4fa0f52,floating nuclear power plants,,,,World Nuclear News,World Nuclear News,https://www.world-nuclear-news.org/articles/rosatom-signs-floating-nuclear-power-deal-for-indonesia
+energy_deals,deal:ea783b38ea44bf8f,EPZ,,,,World Nuclear News,World Nuclear News,https://www.world-nuclear-news.org/articles/legislative-amendment-paves-way-for-continued-operation-of-borssele

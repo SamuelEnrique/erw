@@ -3,10 +3,13 @@ import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, 
 import duplicates from "@/data/deal_duplicates.json";
 import { deals } from "@/lib/data";
 import {
-  GRIDS, GROUPS, NOT_STATED, TYPE_LABEL, counts, fold, hrefOf, inputsOf, monthWords, months, parties, select, selectionWords, summary, technologies, toDeal, usd, whole,
+  GRIDS, GROUPS, KINDS, NOT_STATED, STATUSES, TYPE_LABEL, counts, fold, hrefOf, inputsOf, monthWords, months, parties, select, selectionWords, summary, technologies, toDeal, usd, whole,
   type Deal, type DealRow, type Inputs, type Pair,
 } from "@/lib/deals2";
+import { isLicenseReason } from "@/lib/license";
 import { attempt } from "@/lib/supabase";
+import { NoData } from "@/components/NoData";
+import { DealsHeld } from "../Held";
 
 // Session 113: the deals tracker, version 2, in the battery page's layout: the choices in a fog beige panel on the
 // left, the answer on the right. It reads the deals already extracted (energy_deals, warehouse/deals/extract.py) and
@@ -108,6 +111,13 @@ function Choices({ x, all }: { x: Inputs; all: Deal[] }) {
           {GROUPS.map((g) => <option key={g.id} value={g.id}>{g.label} ({whole(c.byGroup[g.id])})</option>)}
         </select>
       </label>
+      {/* session 465: the kinds of master plan tool 6 that the groups above gather under Other */}
+      <label className="block"><span className="mb-1 block font-semibold">Kind (master plan tool 6)</span>
+        <select name="kind" defaultValue={x.kind} className={field}>
+          <option value="">Every kind</option>
+          {KINDS.map((k) => <option key={k.id} value={k.id}>{k.label} ({whole(n((d) => d.kinds.includes(k.id)))})</option>)}
+        </select>
+      </label>
       <label className="block"><span className="mb-1 block font-semibold">Technology, as the story states it</span>
         <select name="tech" defaultValue={x.tech} className={field}>
           <option value="">All</option>
@@ -128,6 +138,12 @@ function Choices({ x, all }: { x: Inputs; all: Deal[] }) {
         <select name="year" defaultValue={x.year} className={field}>
           <option value="">All</option>
           {years.map((y) => <option key={y} value={y}>{y} ({whole(n((d) => d.year === y))})</option>)}
+        </select>
+      </label>
+      <label className="block"><span className="mb-1 block font-semibold">Status, as the stories state it</span>
+        <select name="status" defaultValue={x.status} className={field}>
+          <option value="">Any</option>
+          {STATUSES.map((v) => <option key={v} value={v}>{v} ({whole(n((d) => d.status === v))})</option>)}
         </select>
       </label>
       <div className="flex items-baseline gap-3">
@@ -154,17 +170,22 @@ export async function TrackerView({ sp }: { sp: Record<string, string | undefine
 
   return (
     <>
-      <ToolHeader title="The deals tracker" crumb={<>The deals as a sortable table: <Link href="/deals" className="underline">Deals</Link>. The companies they name: <Link href="/deals?tab=companies" className="underline">Companies</Link></>}
+      <ToolHeader title="The deals tracker" crumb={<>The deals as a sortable table: <Link href="/deals" className="underline">Deals</Link>. The companies they name: <Link href="/deals?tab=companies" className="underline">Companies</Link>. Their disclosed figures side by side: <Link href="/deals?view=comparables" className="underline">Comparables</Link></>}
         lead={<>Power purchases, offtakes, financings and acquisitions in energy, as the news reported them: who, what technology, how large and at what price, where a story says so, each with a link to the story. <strong>These are deals reported in the news the ERW reads, not a complete record of the market.</strong></>} />
       <div className="grid gap-8 lg:grid-cols-[290px_minmax(0,1fr)]">
         <aside>
-          <InputPanel title="Your selection" reset={{ href: "/deals?tab=tracker", defaults: "all deals, of every type, technology, grid, party and year." }} note={<>The counts in brackets are of every deal held. Grid is the grid operator that serves most of the state a story names; {whole(withState)} of the {whole(ca.deals)} deals name a US state, and {whole(withGrid)} of those states have one grid.</>}>
+          <InputPanel title="Your selection" reset={{ href: "/deals?tab=tracker", defaults: "all deals, of every type, kind, technology, grid, party, year and status." }} note={<>The counts in brackets are of every deal held. Grid is the grid operator that serves most of the state a story names; {whole(withState)} of the {whole(ca.deals)} deals name a US state, and {whole(withGrid)} of those states have one grid.</>}>
             <Choices key={hrefOf(x)} x={x} all={all} />
           </InputPanel>
         </aside>
 
         <div className="min-w-0">
-          {!read.ok ? (
+          {!read.ok && isLicenseReason(read.reason) ? (
+            <>
+              <p className="mb-3 text-sm"><NoData what="deals" reason={read.reason} /></p>
+              <DealsHeld />
+            </>
+          ) : !read.ok ? (
             <p className="mb-6 border border-rule bg-paper px-3 py-2 text-sm" role="status">The table could not be read, so no number is shown: {read.reason}</p>
           ) : !all.length ? (
             <p className="mb-6 border border-rule bg-paper px-3 py-2 text-sm" role="status">No deal is held in the live set.</p>
