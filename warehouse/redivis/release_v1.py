@@ -74,6 +74,14 @@ STORAGE_HELD = {
                                     "was refused and the table is no longer in the draft, session 385). In v1 by its license once "
                                     "uploaded again: python warehouse/redivis/upload.py ercot_all_hub_prices_history, after the storage is settled",
 }
+# Session 489: the public tables of sessions 485 to 496 and 507, written on 21 October 2026 and never uploaded (an upload is a
+# person's, and the storage is full). Held the same way: in v1 by their license once uploaded.
+for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales", "eia_aeo_electricity",
+           "eia_seds_state_energy", "eia_steo_forecasts", "epa_ghgrp_power_co2", "nlr_atb_electricity_costs",
+           "uswtdb_wind_turbines"):
+    STORAGE_HELD[_t] = ("held: not yet on Redivis (written 21 October 2026, session 489; the account's free 10 GB is full, "
+                        f"session 363). In v1 by its license once uploaded: python warehouse/redivis/upload.py {_t}, after the "
+                        "storage is settled")
 
 
 def plan(day=PUBLIC_DAY):
