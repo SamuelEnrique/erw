@@ -73,6 +73,7 @@ eia_crude_production_state_monthly,none,,84,P1M,2001-01-01T00:00:00Z,2026-07-01T
 eia_crude_reserves_annual,none,,416,P1Y,1977-01-01T00:00:00Z,2021-01-01T00:00:00Z,13931,eia:petroleum/crd/pres,2026-10-21T22:16:51Z,pass,public,oil,no,source
 eia_crude_stream_prices,none,,38,P1M,2019-01-01T00:00:00Z,2026-08-01T00:00:00Z,2982,eia:petroleum/pri/dfp2:streams;eia:petroleum/pri/imc2;eia:petroleum/pri/land2;eia:petroleum/pri/rac2,2026-10-21T15:12:37Z,pass,public,oil,no,source
 eia_fuel_spot_prices,none,,3,P1D,1986-01-02T00:00:00Z,2026-10-14T00:00:00Z,27754,eia:natural-gas/pri/fut;eia:petroleum/pri/spt,2026-10-21T14:35:35Z,pass,public,oil;gas,no,source
+eia_gas_balance_annual,none,,460,P1Y,1997-01-01T00:00:00Z,2025-01-01T00:00:00Z,11274,eia:natural-gas/sum/snd,2026-10-21T23:21:38Z,pass,public,gas,no,source
 eia_gas_consumption_state_monthly,none,,208,P1M,2001-01-01T00:00:00Z,2026-07-01T00:00:00Z,63420,eia:natural-gas/cons/sum,2026-10-21T20:22:19Z,pass,public,gas,no,source
 eia_gas_interstate_annual,none,,1888,P1Y,1997-01-01T00:00:00Z,2024-01-01T00:00:00Z,29470,eia:natural-gas/move/ist,2026-10-21T22:16:43Z,pass,public,gas,no,source
 eia_gas_prices_state_monthly,none,,257,P1M,2001-01-01T00:00:00Z,2026-07-01T00:00:00Z,72550,eia:natural-gas/pri/sum,2026-10-21T20:17:23Z,pass,public,gas,no,source

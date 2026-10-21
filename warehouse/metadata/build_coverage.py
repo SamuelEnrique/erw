@@ -162,6 +162,7 @@ SECTOR_RULES = [
     (r"^eia_product_supplied_monthly$", "oil;products"),  # session 556: EIA's petroleum products supplied, a month
     (r"^eia_wood_pellets_monthly$", "power"),  # session 558: EIA's densified biomass (wood pellets), a month
     (r"^eia_petroleum_stocks_monthly$", "oil;products"),  # session 559: EIA's petroleum product stocks, a month
+    (r"^eia_gas_balance_annual$", "gas"),  # session 557: EIA's natural gas supply and disposition by state, a year
     (r"^pjm_rpm_capacity_prices$", "capacity"),
     # session 65: capacity prices of the four markets that pay capacity apart, and the day-ahead ancillary services
     (r"^iso_all_capacity_prices$", "capacity"),
