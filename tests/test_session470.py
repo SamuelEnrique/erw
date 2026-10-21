@@ -242,6 +242,112 @@ class Wording(unittest.TestCase):
         self.assertIsNone(brief.paused_row("ERCOT"))
 
 
+import roundup  # noqa: E402
+import email_digest  # noqa: E402
+
+# EIA's closes (eia_fuel_spot_prices): 18 and 22 September as the table held them on portable-laptop (retrieved to
+# 2026-09-22); 24 to 29 September as the Roundup audit of 21 October read them (roundup-audit, "How the numbers were
+# traced"); 23 September is not in either and is left out
+CLOSES = {"eia:wti_cushing": [("2026-09-18", 101.44), ("2026-09-22", 96.41), ("2026-09-24", 95.88), ("2026-09-25", 85.23),
+                              ("2026-09-28", 99.37), ("2026-09-29", 96.16)],
+          "eia:brent": [("2026-09-18", 119.66), ("2026-09-22", 114.89), ("2026-09-24", 120.92), ("2026-09-25", 116.01),
+                        ("2026-09-28", 119.97), ("2026-09-29", 113.96)]}
+
+
+def fuel_series():
+    return {e: pd.DataFrame({"ts_utc": [pd.Timestamp(d, tz="UTC") for d, _ in v], "value": [x for _, x in v],
+                             "unit": "USD/bbl"}) for e, v in CLOSES.items()}
+
+
+class TheRoundup(unittest.TestCase):
+    def test_the_fuel_change_is_a_week_not_two_trading_days(self):
+        # W40 printed WTI +12.8 percent: 29 September against 25 September, one outlying close
+        a, b, flags = roundup.fuel_change(fuel_series(), "eia:wti_cushing", pd.Timestamp("2026-10-05", tz="UTC"))
+        self.assertEqual((f"{a['ts_utc']:%Y-%m-%d}", a["value"]), ("2026-09-29", 96.16))
+        self.assertEqual((f"{b['ts_utc']:%Y-%m-%d}", b["value"]), ("2026-09-22", 96.41))
+        self.assertEqual(flags, [])
+
+    def test_an_outlying_close_is_flagged(self):
+        a, b, flags = roundup.fuel_change(fuel_series(), "eia:wti_cushing", pd.Timestamp("2026-09-26", tz="UTC"))
+        self.assertEqual(f"{a['ts_utc']:%Y-%m-%d}", "2026-09-25")
+        self.assertEqual(len(flags), 1)
+        self.assertIn("2026-09-25 moved -11.1% in a day while Brent moved -4.1%", flags[0])
+
+    def test_no_two_closes_a_week_apart_is_none(self):
+        s = fuel_series()
+        s["eia:wti_cushing"] = s["eia:wti_cushing"].iloc[-2:]
+        self.assertIsNone(roundup.fuel_change(s, "eia:wti_cushing", pd.Timestamp("2026-10-05", tz="UTC")))
+
+    def test_the_policy_section_s_words(self):
+        t = ("Sabine Pass Liquefaction, LLC, Sabine Pass Liquefaction Stage V, LLC, Sabine Crossing Pipeline, LLC, Cheniere "
+             "Creole Trail Pipeline, L.P.; Notice of Availability of the Final Environmental Impact Statement for the "
+             "Proposed Sabine Pass Stage 5 Expansion Project")
+        self.assertEqual(roundup.policy_title(t), "Notice of Availability of the Final Environmental Impact Statement for "
+                                                  "the Proposed Sabine Pass Stage 5 Expansion Project")
+        self.assertEqual(roundup.policy_title("Short title; with a subject"), "Short title; with a subject")
+        self.assertEqual(roundup.dockets("Docket No. CP24-75-001;Docket No. CP25-505-000"), "dockets CP24-75-001, CP25-505-000")
+        self.assertNotIn("Docket", roundup.dockets("Docket No. CP24-75-001"))
+        self.assertEqual(roundup.dated({"action_type": "press_release", "event_date": "2026-09-29T00:00:00Z"}),
+                         "released 2026-09-29")
+        self.assertEqual(roundup.dated({"action_type": "notice", "event_date": "2026-09-30"}), "published 2026-09-30")
+
+    def test_every_deal_type_is_a_word(self):
+        sys.path.insert(0, os.path.join(ROOT, "warehouse", "deals"))
+        src = open(os.path.join(ROOT, "warehouse", "deals", "extract.py"), encoding="utf-8").read()
+        types = re.findall(r'"([a-z_]+)"', re.search(r"DEAL_TYPES = \[(.*?)\]", src, re.S).group(1))
+        for t in types:
+            self.assertIn(t, roundup.DEAL_LABEL)
+            self.assertNotIn("_", roundup.DEAL_LABEL[t])
+
+    def test_the_week_before(self):
+        self.assertEqual(roundup.previous_week(pd.Timestamp("2026-10-05", tz="UTC")), "2026-W40")
+        self.assertEqual(roundup.previous_week(pd.Timestamp("2026-01-05", tz="UTC")), "2026-W01")
+
+
+class TheEmail(unittest.TestCase):
+    """Roundup audit fix 5 and Digest audit fix 17."""
+
+    def test_the_roundup_email_carries_the_page_s_disclosures(self):
+        p = os.path.join(ROOT, "docs", "roundup", "2026-W41.md")
+        if not os.path.exists(p):
+            self.skipTest("W41 is not here")
+        _, _, text, body = email_digest.render(p, "roundup")
+        self.assertIn("publishers' own titles", text)
+        self.assertIn("1806 scored stories", text)
+        self.assertIn("publishers' own titles", body)
+        self.assertNotRegex(text, r"(?<![\w*])\*\S")
+
+    def test_no_link_to_a_page_in_review(self):
+        rel = {"/digest": "review", "/about": "review", "/board": "live"}
+        self.assertFalse(email_digest.live("/digest/2026-10-20", rel))
+        self.assertTrue(email_digest.live("/board?x=1", rel))
+        self.assertFalse(email_digest.live("/nowhere", rel))
+        self.assertEqual(email_digest.gate_links("see [the method](/about#digest) and [prices](/board)", rel),
+                         "see the method and [prices](/board)")
+
+    def test_while_every_page_is_in_review_the_email_links_github(self):
+        p = os.path.join(ROOT, "docs", "digest", "2026-10-20.md")
+        if not os.path.exists(p) or any(v == "live" for v in email_digest.release().values()):
+            self.skipTest("a page is live, or the issue is not here")
+        old = os.environ.get("SITE_URL")
+        os.environ["SITE_URL"] = "https://erw-flame.vercel.app"
+        try:
+            _, _, text, body = email_digest.render(p, "daily")
+        finally:
+            if old is None:
+                os.environ.pop("SITE_URL")
+            else:
+                os.environ["SITE_URL"] = old
+        self.assertNotIn("erw-flame.vercel.app", text)
+        self.assertNotIn("erw-flame.vercel.app", body)
+        self.assertIn("github.com/SamuelEnrique/erw/blob/main/docs/digest/2026-10-20.md", text)
+
+    def test_a_google_news_link_says_so_in_the_email(self):
+        t, h = email_digest.story_list([{"head": "H", "why": "", "src": ("Reuters", GN)}])
+        self.assertIn("Reuters (via Google News)", t[1])
+        self.assertIn("</a> (via Google News)", h)
+
+
 def stories():
     path = os.path.join(ROOT, "warehouse", "output", "news_stories.csv")
     if not os.path.exists(path):
