@@ -73,7 +73,8 @@ export const DOCS = docs as unknown as Docs;
 
 /** Session 238: one day's chart of the Digest, as warehouse/analysis/findings/daily_chart.py recorded it. */
 export type DigestChart = { date: string; title: string; fact: string; table: string; source: string; unit: string; rule: string; rendered_at: string; image: string; proof: boolean;
-  numbers: Record<string, number | string> };   // session 315: the record's own figures
+  numbers: Record<string, number | string>;   // session 315: the record's own figures
+  width?: number; height?: number };   // session 411: the picture's own size in pixels (absent in a bundle built before)
 /** The days with a chart of the Digest, newest first (session 238). */
 export function digestChartDays(): string[] {
   return Object.keys(DOCS.digest_charts ?? {}).sort().reverse();
