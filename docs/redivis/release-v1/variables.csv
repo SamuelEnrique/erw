@@ -1868,6 +1868,8 @@ eia_power_plant_fuel_costs,cost_per_mcf,series variable,USD/Mcf
 eia_power_plant_fuel_costs,cost_per_mmbtu,series variable,USD/MMBtu
 eia_power_plant_fuel_costs,cost_per_short_ton,series variable,USD/short_ton
 eia_product_spot_prices,spot_price,series variable,USD/gal
+eia_product_supplied_monthly,product_supplied,series variable,kbbl
+eia_product_supplied_monthly,product_supplied_per_day,series variable,kbbl/d
 eia_refinery_weekly,net_input,series variable,kbbl/d
 eia_refinery_weekly,operable_capacity,series variable,kbbl/d
 eia_refinery_weekly,refinery_net_input,series variable,kbbl/d
