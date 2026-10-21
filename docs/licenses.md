@@ -10,8 +10,8 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 ## Read these first
 
-- **244 tables.** The flag and the verdict agree on 158; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 41 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
-- **The ERW's verdict (session 378): 141 public, 53 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
+- **245 tables.** The flag and the verdict agree on 158; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 42 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
+- **The ERW's verdict (session 378): 141 public, 54 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
 - **87 publishers in the record: 85 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 75 pages read, 10 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Heatmap News 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1.
 - **0 tables are flagged internal where the sentence read allows them.**
@@ -338,6 +338,7 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | `ferc714_area_demand_2023` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
 | `ferc714_area_demand_2024` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
 | `ferc714_area_demand_2025` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_respondents` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
 | `ferc_eqr_buyer_doubtful` | FERC | not settled (needs written permission by default) |  | FERC | internal | not settled | may be public | internal |
 | `ferc_eqr_buyer_names` | FERC | not settled (needs written permission by default) |  | FERC | internal | not settled | may be public | internal |
 | `ferc_eqr_contract_terms` | EIA; FERC | not settled (needs written permission by default) |  | FERC | internal | not settled | may be public | internal |
@@ -522,6 +523,7 @@ None of these was changed. Each is a ruling.
 - `ferc714_area_demand_2023` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
 - `ferc714_area_demand_2024` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
 - `ferc714_area_demand_2025` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_respondents` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
 - `ferc_eqr_buyer_doubtful` (flag internal): not read: FERC.
 - `ferc_eqr_buyer_names` (flag internal): not read: FERC.
 - `ferc_eqr_contract_terms` (flag internal): not read: FERC.

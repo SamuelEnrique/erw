@@ -142,6 +142,7 @@ ferc714_area_demand_2022,"Catalyst Cooperative (PUDL), from FERC Form 714",the s
 ferc714_area_demand_2023,"Catalyst Cooperative (PUDL), from FERC Form 714",the source registry
 ferc714_area_demand_2024,"Catalyst Cooperative (PUDL), from FERC Form 714",the source registry
 ferc714_area_demand_2025,"Catalyst Cooperative (PUDL), from FERC Form 714",the source registry
+ferc714_respondents,"Catalyst Cooperative (PUDL), from FERC Form 714",the source registry
 ferc_eqr_buyer_doubtful,FERC,the source registry and the tables its header derives it from: ferc_eqr_contracts
 ferc_eqr_buyer_names,FERC,the source registry and the tables its header derives it from: ferc_eqr_contracts
 ferc_eqr_contract_terms,EIA; FERC,"the source registry and the tables its header derives it from: eia860m_operating_generators, ferc_eqr_buyer_names, ferc_eqr_contracts, ferc_eqr_contracts_history"
