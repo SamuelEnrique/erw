@@ -249,6 +249,18 @@ catalogue_hold:
   # session 483: node_basis_daily, out of the live set (no reader in Supabase) and held for Redivis's storage: not in the
   # live catalogue either, so /data does not name a table it cannot link
   - node_basis_daily
+  # session 489: the public tables of sessions 485 to 497, held on the data machine and in the archive, not loaded, and
+  # not on Redivis (an upload is a person's, and the account's free 10 GB is full, session 363): not in the live
+  # catalogue, so /data does not name tables it cannot link
+  - boem_renewable_leases
+  - egrid_power_plants
+  - eia861_utility_sales
+  - eia_aeo_electricity
+  - eia_seds_state_energy
+  - eia_steo_forecasts
+  - epa_ghgrp_power_co2
+  - nlr_atb_electricity_costs
+  - uswtdb_wind_turbines
   # session 109: EIA's daily demand by balancing authority, a history (190,512 rows). The network's replay reads its own
   # files (site/public/network/daily_<year>.json), built from it; nothing reads it from Supabase
   - eia930_daily_demand
