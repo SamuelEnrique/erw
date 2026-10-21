@@ -12,7 +12,7 @@
 ## What to review
 
 - The commit `e18cfa90` on `wip/410-s`: `site/app/data/page.tsx`, `warehouse/metadata/sources.csv`, `tests/test_session410.py`.
-- The shots: `docs/brand/review-410/` (`01-data-top`, `02-data-coverage` at 1280 and 390, `03-data-refreshed` at 390), made by `docs/brand/review-410/shot-410.mjs`, with `data-410.json`, the rows the page drew.
+- The shots are **not made**: three builds failed on Supabase statement timeouts (see "To finish"). `docs/brand/review-410/shot-410.mjs` makes them (`01-data-top`, `02-data-coverage` at 1280 and 390, `03-data-refreshed` at 390) with `data-410.json`, the rows the page drew.
 - After the landing, in the internal view: `/data#coverage`.
 
 ## What disagreed, and what was done
@@ -47,6 +47,7 @@ Every gate redirected to a file under `runs/chain_oct21/s410/`, never piped; the
 | `npm ci` in the worktree's `site/` | 0 | |
 | `npm run build`, first try (04:17) | 1 | compiled and type-checked (TypeScript passed); the home page's required reads met Supabase statement timeouts (57014); the mutex was let go |
 | `npm run build`, second try (04:42) | 1 | the same: seven statement timeouts, the home page's prerender failed |
+| `npm run build`, third and last try (05:00) | 1 | the same (seven timeouts, the home page); TypeScript passed each time. No server was started; the shots wait under "To finish" |
 | The whole suite (`ERW_LOCK_EXEMPT=1 ... -m unittest discover -s tests`) | 1 | 4,794 tests, 2 failures, 255 skipped: `test_session156` (the ask fixtures, expected tonight) and `test_session121.TheSite` ("alias-loader: nothing at @/content/docs.json": the suite started before the first build wrote `site/content/docs.json`) |
 | `tests.test_session121` again, after the build wrote the file | 0 | 34 tests OK |
 
@@ -64,8 +65,20 @@ Every gate redirected to a file under `runs/chain_oct21/s410/`, never piped; the
 - **`nyiso_load_queue`**: its header says "License: public, with a caution" and coverage.csv says public; the registry row `nyiso:load_queue` says internal; `license_status.csv` holds it ("license needed"). Which record governs, and should the registry row be made public or the header internal?
 - **The consolidated tables in the registry**: name `iso_dam_hub_prices`, `iso_rtm_hub_prices`, `iso_trader_daily`, `eia930_all_demand`, `eia930_all_generation` and `ercot_all_hub_prices_history` in their sources' rows (it moves `scripts/licenses.py`'s reason for them to the registry), or keep the migration file as the link.
 
+## To finish
+
+On a build that passes (the database answering), from the worktree or the merged copy, under the build mutex:
+
+```
+cd site && npm run build > ../runs/chain_oct21/s410/build4.out 2>&1; echo "exit=$?"
+npx next start -p 3410            # in the background
+node ../docs/brand/review-410/shot-410.mjs http://localhost:3410 > ../runs/chain_oct21/s410/shots.out 2>&1; echo "exit=$?"
+```
+
+Then look at each PNG in `docs/brand/review-410/`, check that `data-410.json` lists the tables `tests/test_session410.py`'s `page_tables()` names (99 by coverage.csv tonight, unless the live catalogue was loaded from another coverage), that the 30 held tables read "license needed" and "Held: license needed", and that the Refreshed column shows a day for every table but `datacenter_queue_positions` and `lbnl_interconnection_queue`; commit the shots and the JSON, and stop the process on port 3410.
+
 ## Files
 
 - `site/app/data/page.tsx` (the Refreshed column and its note); `warehouse/metadata/sources.csv` (two rows); `tests/test_session410.py` (new).
-- `docs/brand/review-410/` (the shots, `shot-410.mjs`, `data-410.json`).
+- `docs/brand/review-410/shot-410.mjs` (the shots and `data-410.json` wait).
 - This report.
