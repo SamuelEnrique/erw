@@ -92,7 +92,18 @@ function bounds(vs: number[], fromZero: boolean): Bounds {
   const step = nice(hi - lo);
   return { lo: Math.floor(lo / step) * step, hi: Math.ceil(hi / step) * step, step };
 }
-const ticksOf = (b: Bounds) => { const out: number[] = []; for (let v = b.lo; v <= b.hi + b.step / 2; v += b.step) out.push(Math.round(v * 1e6) / 1e6); return out; };
+/** Session 417: a year axis's ticks, on whole years only (1 January, UTC, where the pages put a year's point), every
+ * year or every 2, 5, 10 ... so that at most n fit; times spaced evenly wrote a year twice where a chart holds few
+ * years ("2020, 2020, 2021, 2023, 2024, 2024, 2026"). A single year is its one tick. */
+export function yearTicks(t0: number, t1: number, n: number): number[] {
+  const first = new Date(t0).getUTCFullYear(), y0 = t0 > Date.UTC(first, 0, 1) ? first + 1 : first, y1 = new Date(t1).getUTCFullYear();
+  if (y1 < y0) return [t0];
+  const step = [1, 2, 5, 10, 20, 25, 50, 100].find((k) => Math.floor((y1 - y0) / k) + 1 <= Math.max(1, n)) ?? 100;
+  const out: number[] = [];
+  for (let y = y0; y <= y1; y += step) out.push(Date.UTC(y, 0, 1));
+  return out;
+}
+const ticksOf = (b: Bounds) => { const out: number[] = []; for (let v = b.lo; v <= b.hi + b.step / 2; v += b.step) out.push(Math.round(v * 1e6) / 1e6 || 0); return out; };  // session 416: || 0, no "-0" tick
 
 const PAGE = 500;
 
@@ -142,7 +153,7 @@ export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false
   const t0 = hod ? 0 : xs[0] ?? 0, t1 = hod ? 23 : xs[xs.length - 1] ?? 1;
   const px = (t: number) => L + ((t - t0) / (t1 - t0 || 1)) * (plotR - L);
   const py = (v: number, b: Bounds) => TOP + ((b.hi - v) / (b.hi - b.lo || 1)) * (height - TOP - BOT);
-  const xTicks = hod ? [0, 4, 8, 12, 16, 20, 23] : (() => { const n = Math.max(2, Math.min(7, Math.floor((plotR - L) / 110))); return Array.from({ length: n }, (_, i) => t0 + ((t1 - t0) * i) / (n - 1)); })();
+  const xTicks = hod ? [0, 4, 8, 12, 16, 20, 23] : (() => { const n = Math.max(2, Math.min(7, Math.floor((plotR - L) / 110))); return x === "year" ? yearTicks(t0, t1, n) : Array.from({ length: n }, (_, i) => t0 + ((t1 - t0) * i) / (n - 1)); })();
 
   // each series' path, thinned to the pixels it has; a stacked series is an area from the series below it (or zero) to its own top
   const drawn = series.map((s, k) => {
@@ -268,7 +279,7 @@ export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false
             <text x={L} y={11} fontSize="12" fill="var(--color-muted)">{unit}</text>
             {has2 ? <text x={plotR + 6} y={11} fontSize="12" fill="var(--color-muted)">{unit2}</text> : null}
             {xTicks.map((t, i) => (
-              <text key={`x${i}`} x={px(t)} y={height - BOT + 16} textAnchor={i === 0 ? "start" : i === xTicks.length - 1 ? "end" : "middle"} fontSize="12" fill="var(--color-muted)">{TICK[x](t, t1 - t0)}</text>
+              <text key={`x${i}`} x={px(t)} y={height - BOT + 16} textAnchor={x === "year" ? (t === t0 ? "start" : t === t1 ? "end" : "middle") : i === 0 ? "start" : i === xTicks.length - 1 ? "end" : "middle"} fontSize="12" fill="var(--color-muted)">{TICK[x](t, t1 - t0)}</text>
             ))}
             {drawn.map((d) => (d.area ? <path key={`a${d.s.name}`} d={d.area} fill={d.color} fillOpacity="0.85" stroke="var(--color-surface)" strokeWidth="0.75" /> : null))}
             {drawn.map((d) => (d.area ? null : <path key={`l${d.s.name}`} d={d.d} fill="none" stroke={d.color} strokeWidth="1.5" strokeDasharray={d.s.dashed ? "4 3" : undefined} strokeLinejoin="round" />))}
