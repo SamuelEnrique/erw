@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { BoardView } from "@/components/board/BoardView";
 import { Brand } from "@/components/Brand";
 import { TableDownloads } from "@/components/tool/TableDownloads";
+import { TableLicenses } from "@/components/tool/TableLicenses";
 import fileJson from "@/data/board.json";
 import type { BoardFile } from "@/lib/board";
 
@@ -24,5 +25,6 @@ const TABLES = ["ercot_all_hub_prices_history", "iso_hub_prices_history", "caiso
   "eia_retail_electricity_prices", "carb_lcfs_credit_prices", "frb_treasury_yields", "imf_commodity_prices"];
 
 export default function Board() {
-  return <Brand><BoardView file={file} footer={<TableDownloads tables={TABLES} />} /></Brand>;
+  // session 502: the same list, with each table's license, under the title
+  return <Brand><BoardView file={file} under={<TableLicenses tables={TABLES} />} footer={<TableDownloads tables={TABLES} />} /></Brand>;
 }

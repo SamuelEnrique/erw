@@ -167,3 +167,12 @@ export function licenseGridTitle(grid: string): string {
   const g = (GRID_PREFIX[grid] ?? grid).toLowerCase();
   return `${GRID_NAME[g] ?? grid}: ${LICENSE_TITLE_SUFFIX}`;
 }
+
+/** Session 502: the license words of one table on the day, for a page's license line (components/tool/TableLicenses.tsx):
+ *  "public" when the table is not held (every table a page reads is public in coverage.csv: tests/test_session502.py),
+ *  "held: license needed" when it is held whole, "held for <the grids>: license needed" when it is held by grid. */
+export function licenseWords(table: string, now: Date = new Date()): string {
+  if (!licenseNeeded(table, now)) return "public";
+  if (licenseByGrid(table)) return `held for ${licensePublishers(table).join(", ")}: ${LICENSE_NEEDED}`;
+  return `held: ${LICENSE_NEEDED}`;
+}

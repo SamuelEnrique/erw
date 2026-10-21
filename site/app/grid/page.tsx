@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Brand } from "@/components/Brand";
 import { Related } from "@/components/Related";
 import { ToolHeader, ToolPage } from "@/components/tool/ToolPage";
+import { TableLicenses } from "@/components/tool/TableLicenses";
+import { GRID_VIEW_TABLES } from "@/lib/gridtables";
+import { licenseNeededTables } from "@/lib/license";
 import { ToolPicker, ToolTabs } from "@/components/tool/Choose";
 import { AskView } from "@/components/grid/AskView";
 import { MixTable } from "@/components/grid/Conditions";
@@ -85,7 +88,7 @@ export default async function GridTool({ searchParams }: { searchParams: Promise
     <Brand>
       <ToolPage>
         <div data-grid-tool={grid.slug} data-grid-tool-view={view} data-grid-ask={p.ask ? "open" : "panel"}>
-          <ToolHeader crumb="The grid" title={grid.slug === "us48" ? "The Lower 48 states" : `${grid.label}: ${grid.name}`} lead={LEAD[view]} />
+          <ToolHeader crumb="The grid" title={grid.slug === "us48" ? "The Lower 48 states" : `${grid.label}: ${grid.name}`} lead={LEAD[view]} under={<TableLicenses tables={GRID_VIEW_TABLES[view]} />} />
           <ToolPicker label="Grid" items={GRID_CHOICES.map((g) => ({ key: g.slug, label: g.label, href: gridHref(g.slug, view), on: g.slug === grid.slug, title: g.name }))} />
           <ToolTabs label="Views" items={GRID_VIEWS.map(([k, label]) => ({ key: k, label, href: gridHref(grid.slug, k), on: k === view }))} />
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
@@ -121,6 +124,10 @@ export default async function GridTool({ searchParams }: { searchParams: Promise
             <aside className="min-w-0 lg:border-l lg:border-rule lg:pl-6" aria-label="Ask" data-ask-side={grid.slug} data-ask-tab={view}>
               <h2 className="mb-1 font-serif text-lg text-accent" id="ask">Ask</h2>
               <p className="mb-3 text-xs text-muted" data-ask-on-screen="1">On screen: {grid.slug === "us48" ? "the Lower 48" : grid.label}, the {tabName} tab. The answer comes only from the warehouse&apos;s tables, each number with its table.</p>
+              {/* session 502: what the panel reads and under which license (lib/chat/tools.ts refuses a held table by name, and a read of a table held by grid gives none of those grids' rows) */}
+              <p className="mb-3 text-xs leading-relaxed text-muted" data-ask-licenses={licenseNeededTables().length}>
+                Tables read, with their licenses: the public tables of the site&apos;s live set, through the panel&apos;s tools; the {licenseNeededTables().length} tables held for a license are refused by name or, for a table held by grid, read without the held grids&apos; rows.
+              </p>
               <AskView grid={grid} question={one(sp.q) ?? ""} tab={view} compact />
             </aside>
           </div>
