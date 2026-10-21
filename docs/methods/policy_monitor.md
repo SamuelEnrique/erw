@@ -343,3 +343,24 @@ The table `policy_action_tags` is not in the live set and the page does not need
 - **Downloads** (session 332): under both views, `policy_actions` and `policy_reads` as the live set's CSV with a Python
   and a Stata reader of that CSV (session 328's shared line). `policy_reads_evidence` (the evidence spans, outlet text)
   is internal and is not offered.
+
+## 11. What a read cites, and the filter for large loads, interconnection and tariffs (session 469, 21 October 2026)
+
+- **The significance score, as it stands.** Every action of `policy_actions` is scored 0 to 10 by the news scorer and
+  its rubric (`warehouse/policy/score.py`, importing the system prompt, schema and model choice of
+  `warehouse/news/score.py`; the rubric is `warehouse/news/rubric.md`), as section 3 says; an action of 5 or more is
+  read for its impact. On 21 October 2026 at 09:57 UTC the live set held 1,926 actions, every one scored: 377 at 5 or
+  more (each with a read) and 70 at 7 or more. The score on the page is a checked number since session 332
+  (`event|policy_actions|<id>|significance`, read again by `check-values`; section 10).
+- **What a read cites.** Under each read, in the row a reader opens, one line says which figures the read states and
+  that each stands in the action's own text (the field is kept only then, section 3), or "No figure: this read states
+  no number"; a read naming one of the ERW's tables would be shown with it. The function is `site/lib/policyreads.ts`
+  (`citeOf`); the review that ran it over every read is `docs/reviews/policy-impact-reads-2026-10-21.md`: of 385 reads,
+  255 state figures from the action's text, 130 state none, 0 cite an ERW table. Dates, years, times, dockets, order and
+  section numbers, numbered things and model names are not figures; a number in words is not read. The line computes
+  no figure, so it carries no `check-values` key: the figures are the read's own words.
+- **The filter.** The Tag filter has one more choice, "Large loads, interconnection or tariffs"
+  (`/policy?tag=loads_interconnection_tariffs`): an action carrying any of the rule's `large_load`, `interconnection` or
+  `transmission_cost` tags. "Tariffs" are the `transmission_cost` tag (transmission rates, formula rates, transmission
+  service rates, network upgrades, cost allocation), the charges a tariff sets; tax credits are not in it. Not chosen,
+  the page is as it was; chosen, it lifts the significance floor as any tag does.
