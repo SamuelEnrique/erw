@@ -54,11 +54,11 @@ class TheDownloads(unittest.TestCase):
 class TheBoard(unittest.TestCase):
     def test_the_page_passes_its_tables_to_the_foot_of_the_board(self):
         page = src("site", "app", "board", "page.tsx")
-        self.assertIn("<BoardView file={file} footer={<TableDownloads tables={TABLES} />} />", page)
+        self.assertIn("footer={<TableDownloads tables={TABLES} />} />", page)  # session 502: `under` (the license line) before it
         tables = re.findall(r'"([a-z0-9_]+)"', page[page.index("const TABLES"):page.index("export default")])
         self.assertEqual(len(tables), 15)
         view = src("site", "components", "board", "BoardView.tsx")
-        self.assertIn("export function BoardView({ file, footer }: { file: BoardFile; footer?: ReactNode }) {", view)
+        self.assertIn("export function BoardView({ file, footer, under }: { file: BoardFile; footer?: ReactNode; under?: ReactNode }) {", view)
         self.assertIn("      </div>\n      {footer}\n    </div>\n  );\n}", view)
 
     def test_the_threshold_says_its_default_as_the_library_sets_it(self):
@@ -80,7 +80,10 @@ class ThePrices(unittest.TestCase):
     def test_both_tabs_offer_their_tables_and_the_first_names_its_method(self):
         page = src("site", "app", "prices", "page.tsx")
         self.assertIn('<Link href="/data/methods/power_prices">Method</Link>', page)
-        self.assertIn('tab === "ercot" ? ["ercot_peak_premium_annual", "ercot_peak_premium_monthly"] : MARKETS.flatMap((m) => [m.rt?.table, m.da.table])', page)
+        # session 502: the two lists are named once, for the downloads and the license line
+        self.assertIn('<TableDownloads tables={tab === "ercot" ? ERCOT_TABLES : NOW_TABLES} />', page)
+        self.assertIn('const ERCOT_TABLES = ["ercot_peak_premium_annual", "ercot_peak_premium_monthly"];', page)
+        self.assertIn("const NOW_TABLES = MARKETS.flatMap((m) => [m.rt?.table, m.da.table])", page)
         self.assertIn("export const revalidate = 900;", page)
 
     def test_the_method_note_matches_the_page(self):
