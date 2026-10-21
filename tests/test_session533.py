@@ -233,8 +233,9 @@ class TheStoredWeeks(unittest.TestCase):
 
 class TheSiteDrawsTheMark(unittest.TestCase):
     """The site draws an option's markPoint through the shared SVG set: site/lib/svgoption.ts reads its coord and name,
-    site/components/svgchart.tsx rings the point and (session 533) writes the name as the figure and its key, to the
-    point's left in the right part of the plot, over a halo of the panel's color."""
+    site/components/svgchart.tsx rings the point and (session 533) writes the name as the figure and its key, beside the
+    ring where it crosses least of what is drawn, or set apart with a hairline, never past the chart's edge, over a halo
+    of the page's color."""
 
     def src(self, *parts):
         with open(os.path.join(ROOT, *parts), encoding="utf-8") as f:
@@ -248,9 +249,13 @@ class TheSiteDrawsTheMark(unittest.TestCase):
     def test_the_label_is_the_figure_and_its_key_kept_inside_the_plot(self):
         s = self.src("site", "components", "svgchart.tsx")
         self.assertIn('m.label.split(", ")', s)
-        self.assertIn("cx(m.i) > L + (plotR - L) * 0.6", s)
-        self.assertIn('textAnchor={left ? "end" : "start"}', s)
-        self.assertIn('stroke="var(--color-panel)"', s)
+        self.assertIn('textAnchor={best.left ? "end" : "start"}', s)   # left or right of the ring, as chosen
+        self.assertIn("const clear = (left: boolean, up: boolean)", s)   # set apart past what is drawn under it
+        self.assertIn('data-mark-leader="1"', s)                          # then joined to the ring by a hairline
+        self.assertIn("Math.max(2, Math.min(W - 2 - w, best.x0))", s)      # never cut at the chart's edge
+        self.assertIn('stroke="var(--color-surface)"', s)
+        self.assertIn('fill={m.label ? "var(--color-surface)" : "none"}', s)  # a named ring holds on an ink bar
+        self.assertIn('fontSize="12" fill="var(--color-accent)" data-mark-label="1"', s)  # the brand's 12 px
         self.assertNotIn(EM, s)
 
     def test_the_option_s_name_splits_there(self):

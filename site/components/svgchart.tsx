@@ -279,23 +279,63 @@ export function CategoryChart({ id, x, series, unit, unit2 = "", label, height =
             })() : null}
             {marks?.map((m) => (
               <g key={`${m.i}-${m.label}`} data-mark={m.label}>
-                <circle cx={cx(m.i)} cy={py(m.value, b1)} r={small ? 3 : 6} fill="none" stroke="var(--color-accent)" strokeWidth="2" />
+                {/* session 533: a named mark's ring is filled with the page, as the PNG's is, so it holds on an ink bar */}
+                <circle cx={cx(m.i)} cy={py(m.value, b1)} r={small ? 3 : 6} fill={m.label ? "var(--color-surface)" : "none"} stroke="var(--color-accent)" strokeWidth="2" />
                 {small || !m.label ? null : (() => {
                   // session 533: a mark's label is its figure and, after the first ", ", its key (the chart of the
-                  // week's "28.08 USD/MWh, week of ..."): two lines, the figure in bold; a mark in the right part of
-                  // the plot is labelled to its left, so the label is not cut at the chart's edge
+                  // week's "28.08 USD/MWh, week of ..."): two lines, the figure in bold, at the brand's 12 px. Its
+                  // place is chosen as the PNG's is (warehouse/analysis/style.py): left or right of the ring, above
+                  // or below, the one that crosses the fewest bars and points of the left axis and stays inside the
+                  // chart, beside the ring first on the side away from the nearer edge
                   const [fig, ...rest] = m.label.split(", ");
                   const key = rest.join(", ");
-                  const left = cx(m.i) > L + (plotR - L) * 0.6;
-                  const tx = cx(m.i) + (left ? -9 : 9);
-                  const above = py(m.value, b1) - 8 - (key ? 13 : 0);
-                  const y0 = above < TOP ? py(m.value, b1) + 20 : above;
+                  const mx = cx(m.i), my = py(m.value, b1);
+                  const w = Math.max(textWidth(fig, 12), key ? textWidth(key, 12) : 0) + 4, h = key ? 30 : 16;
+                  const zeroY = py(Math.min(Math.max(0, b1.lo), b1.hi), b1);
+                  const spans: [number, number, number, number][] = [];
+                  series.forEach((s) => {
+                    if (s.axis === 1 && two) return;
+                    const bar = (s.kind ?? "bar") === "bar";
+                    s.values.forEach((v, i) => {
+                      if (v === null || v === undefined || (i === m.i && v === m.value)) return;
+                      const y = py(v, b1);
+                      if (bar) { spans.push([cx(i) - bw / 2, cx(i) + bw / 2, Math.min(y, zeroY), Math.max(y, zeroY)]); return; }
+                      const nxt = s.values[i + 1];
+                      const y2 = nxt === null || nxt === undefined ? y : py(nxt, b1);
+                      spans.push([cx(i), cx(i + 1), Math.min(y, y2), Math.max(y, y2)]);   // the segment to the next point
+                    });
+                  });
+                  const place = (left: boolean, up: boolean, lift = 0) => {
+                    const x0 = left ? mx - 9 - w : mx + 9, top = up ? my - 9 - h - lift : my + 9 + lift;
+                    const out = x0 < 2 || x0 + w > W - 2 || top < 2 || top + h > height - BOT ? 1000 : 0;
+                    const hits = spans.filter(([a0, a1, b0, b1_]) => a1 >= x0 && a0 <= x0 + w && b1_ >= top && b0 <= top + h).length;
+                    return { left, up, x0, top, lift, score: out + hits };
+                  };
+                  // how far past the ring the label must sit to clear what is drawn under it (then a hairline joins them)
+                  const clear = (left: boolean, up: boolean) => {
+                    const x0 = left ? mx - 9 - w : mx + 9;
+                    const under = spans.filter(([a0, a1]) => a1 >= x0 && a0 <= x0 + w);
+                    return up ? Math.max(0, ...under.map(([, , b0]) => my - 9 - (b0 - 4)))
+                      : Math.max(0, ...under.map(([, , , b1_]) => b1_ + 4 - (my + 9)));
+                  };
+                  const first = mx > L + (plotR - L) * 0.5;
+                  const near = [place(first, true), place(first, false), place(!first, true), place(!first, false)];
+                  const tries = [...near, ...near.map((t) => place(t.left, t.up, clear(t.left, t.up))).filter((t) => t.lift > 0)];
+                  const best = tries.reduce((a, b) => (b.score < a.score || (b.score === a.score && b.lift < a.lift) ? b : a));
+                  const x0 = Math.max(2, Math.min(W - 2 - w, best.x0));
+                  const tx = best.left ? x0 + w : x0;
+                  const y0 = best.top + 12;
                   return (
-                    <text x={tx} y={y0} textAnchor={left ? "end" : "start"} fontSize="11" fill="var(--color-accent)" data-mark-label="1"
-                      stroke="var(--color-panel)" strokeWidth="3" strokeLinejoin="round" paintOrder="stroke">
-                      <tspan fontWeight="600">{fig}</tspan>
-                      {key ? <tspan x={tx} dy={13} fill="var(--color-muted)">{key}</tspan> : null}
-                    </text>
+                    <>
+                      {best.lift > 0 ? <line x1={mx} y1={my + (best.up ? -7 : 7)} x2={best.left ? x0 + w - 4 : x0 + 4} y2={best.up ? best.top + h : best.top}
+                        stroke="var(--color-accent)" strokeWidth="1" data-mark-leader="1" /> : null}
+                      <text x={tx} y={y0} textAnchor={best.left ? "end" : "start"} fontSize="12" fill="var(--color-accent)" data-mark-label="1"
+                        data-mark-place={`${best.left ? "left" : "right"} ${best.up ? "above" : "below"}${best.lift > 0 ? " apart" : ""}`}
+                        stroke="var(--color-surface)" strokeWidth="3" strokeLinejoin="round" paintOrder="stroke">
+                        <tspan fontWeight="600">{fig}</tspan>
+                        {key ? <tspan x={tx} dy={15} fill="var(--color-muted)">{key}</tspan> : null}
+                      </text>
+                    </>
                   );
                 })()}
               </g>
