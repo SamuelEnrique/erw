@@ -231,5 +231,33 @@ class TheStoredWeeks(unittest.TestCase):
         self.assertEqual(res["chart"]["series"][0]["values"][m["at"]], 28.08)
 
 
+class TheSiteDrawsTheMark(unittest.TestCase):
+    """The site draws an option's markPoint through the shared SVG set: site/lib/svgoption.ts reads its coord and name,
+    site/components/svgchart.tsx rings the point and (session 533) writes the name as the figure and its key, to the
+    point's left in the right part of the plot, over a halo of the panel's color."""
+
+    def src(self, *parts):
+        with open(os.path.join(ROOT, *parts), encoding="utf-8") as f:
+            return f.read()
+
+    def test_the_reader_takes_a_markpoint_s_coord_and_name(self):
+        s = self.src("site", "lib", "svgoption.ts")
+        self.assertIn("s.markPoint?.data", s)
+        self.assertIn("label: String(m.name", s)
+
+    def test_the_label_is_the_figure_and_its_key_kept_inside_the_plot(self):
+        s = self.src("site", "components", "svgchart.tsx")
+        self.assertIn('m.label.split(", ")', s)
+        self.assertIn("cx(m.i) > L + (plotR - L) * 0.6", s)
+        self.assertIn('textAnchor={left ? "end" : "start"}', s)
+        self.assertIn('stroke="var(--color-panel)"', s)
+        self.assertNotIn(EM, s)
+
+    def test_the_option_s_name_splits_there(self):
+        m = style.mark_of(weekly_spec([1.0, 45968.0], {"series": 0, "at": 1, "label": "45,968 MWh a day", "key": "week of 2026-09-28 to 2026-10-04"}))
+        fig, key = m["text"].split(", ", 1)
+        self.assertEqual((fig, key), ("45,968 MWh a day", "week of 2026-09-28 to 2026-10-04"))
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -280,7 +280,24 @@ export function CategoryChart({ id, x, series, unit, unit2 = "", label, height =
             {marks?.map((m) => (
               <g key={`${m.i}-${m.label}`} data-mark={m.label}>
                 <circle cx={cx(m.i)} cy={py(m.value, b1)} r={small ? 3 : 6} fill="none" stroke="var(--color-accent)" strokeWidth="2" />
-                {small ? null : <text x={cx(m.i) + 9} y={py(m.value, b1) - 8} fontSize="11" fill="var(--color-accent)">{m.label}</text>}
+                {small || !m.label ? null : (() => {
+                  // session 533: a mark's label is its figure and, after the first ", ", its key (the chart of the
+                  // week's "28.08 USD/MWh, week of ..."): two lines, the figure in bold; a mark in the right part of
+                  // the plot is labelled to its left, so the label is not cut at the chart's edge
+                  const [fig, ...rest] = m.label.split(", ");
+                  const key = rest.join(", ");
+                  const left = cx(m.i) > L + (plotR - L) * 0.6;
+                  const tx = cx(m.i) + (left ? -9 : 9);
+                  const above = py(m.value, b1) - 8 - (key ? 13 : 0);
+                  const y0 = above < TOP ? py(m.value, b1) + 20 : above;
+                  return (
+                    <text x={tx} y={y0} textAnchor={left ? "end" : "start"} fontSize="11" fill="var(--color-accent)" data-mark-label="1"
+                      stroke="var(--color-panel)" strokeWidth="3" strokeLinejoin="round" paintOrder="stroke">
+                      <tspan fontWeight="600">{fig}</tspan>
+                      {key ? <tspan x={tx} dy={13} fill="var(--color-muted)">{key}</tspan> : null}
+                    </text>
+                  );
+                })()}
               </g>
             ))}
             {small ? null : <g data-direct-labels="1">
