@@ -28,6 +28,7 @@ a data machine, after a change that removes rows on purpose).
     python warehouse/derived/page_keep.py supply [--no-burn]
 """
 import argparse
+import datetime as dt
 import json
 import os
 import shutil
@@ -40,6 +41,7 @@ ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 SITE = os.path.join(ROOT, "site")
 BLANKED_ON_PURPOSE = {"paused", "licensed"}
 SHORTER = 0.98
+HELD_LAG_DAYS = 2  # session 478: a held row this many days behind its group's newest is marked held
 
 
 def load(path):
@@ -81,6 +83,32 @@ def choose(old, new, n_old, n_new):
     return "new", ""
 
 
+def _day(t):
+    try:
+        return dt.date.fromisoformat(str(t)[:10])
+    except ValueError:
+        return None
+
+
+def mark_held(rows, kept_why, lag_days=HELD_LAG_DAYS):
+    """Session 478: a held row whose last day is lag_days or more behind the newest of its group and frequency gets
+    held = {since, newest, why}; its status stays "ok", so every reader of the board shows it as before (site/lib/board.ts
+    keeps only rows with status "ok"). On 20 October 2026 the ERCOT tiles were held at 15 October while the other grids
+    read 20 October, and nothing in the file said so (session 433). A row no longer held loses the mark."""
+    newest_of = {}
+    for r in rows:
+        d = _day(newest(r)) if r.get("status") == "ok" else None
+        if d:
+            k = (r.get("group"), r.get("freq"))
+            newest_of[k] = max(newest_of.get(k, d), d)
+    for r in rows:
+        r.pop("held", None)
+        d, top = _day(newest(r)), newest_of.get((r.get("group"), r.get("freq")))
+        if r["id"] in kept_why and r.get("status") == "ok" and d and top and (top - d).days >= lag_days:
+            r["held"] = {"since": d.isoformat(), "newest": top.isoformat(), "why": kept_why[r["id"]]}
+    return rows
+
+
 def merge_rows(old_body, new_body, points_old, points_new, log):
     old_rows, new_rows = named(old_body), named(new_body)
     old_by = {r["id"]: r for r in old_rows}
@@ -97,6 +125,7 @@ def merge_rows(old_body, new_body, points_old, points_new, log):
         if r["id"] not in new_by and r.get("group") in order:
             out.append(r); kept.append((r["id"], "only the held file has it"))
     out.sort(key=lambda r: order[r["group"]])                      # stable: rows keep their order inside a group
+    mark_held(out, dict(kept))
     sources = sorted({r["source"] for r in out if isinstance(r.get("source"), str)})
     rows = [dict(r, source=sources.index(r["source"])) if isinstance(r.get("source"), str) else r for r in out]
     for rid, why in kept[:40]:
