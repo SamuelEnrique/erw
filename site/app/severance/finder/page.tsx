@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { Section } from "@/components/Section";
-import { RULE_NAMES, readSummary, tokenOk, type Totals } from "@/lib/finder";
+import { RULE_NAMES, internalOpen, readSummary, type Totals } from "@/lib/finder";
+import { COOKIE } from "@/lib/release";
 
 // Session 57: the Texas severance refund finder, internal. For a severance tax consultant who today pulls well data
 // from a vendor and works it by hand: which leases may be paying more severance tax than the rules require, and how much
@@ -44,9 +46,10 @@ const Head = ({ first, extra }: { first: string; extra?: React.ReactNode }) => (
 export default async function Finder({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const sp = await searchParams;
   const token = typeof sp.token === "string" ? sp.token : "";
-  if (!tokenOk(token)) notFound();
+  // session 371 (docs/security.md, S2): the internal view's cookie opens it too, and then no link below carries the token
+  if (!(await internalOpen(token, (await cookies()).get(COOKIE)?.value))) notFound();
   const s = readSummary();
-  const q = `token=${encodeURIComponent(token)}`;
+  const q = token ? `token=${encodeURIComponent(token)}&` : "";   // an address that brought the token keeps it; the cookie needs none
   const head = (
     <>
       <p className="mb-1 text-sm"><Link href="/severance" prefetch={false}>Severance tax</Link> / the refund finder</p>
@@ -65,7 +68,7 @@ export default async function Finder({ searchParams }: { searchParams: Promise<R
       </>
     );
   }
-  const open = (l: { lease_id: string; county: string }) => `/severance/lease/real?${q}&src=statewide&county=${encodeURIComponent(l.county)}&lease=${encodeURIComponent(l.lease_id)}`;
+  const open = (l: { lease_id: string; county: string }) => `/severance/lease/real?${q}src=statewide&county=${encodeURIComponent(l.county)}&lease=${encodeURIComponent(l.lease_id)}`;
   const rules = Object.keys(s.by_rule).sort();
   return (
     <>
@@ -79,7 +82,7 @@ export default async function Finder({ searchParams }: { searchParams: Promise<R
         </p>
         <p className="text-muted">
           Built {s.built} from the dump of {s.dump.oil_extract} (oil) and {s.dump.gas_extract} (gas); rules file version {s.rules_version}.{" "}
-          <a href={`/severance/finder/download?${q}`}>Download every flag (CSV)</a>.
+          <a href={`/severance/finder/download${q ? `?${q.slice(0, -1)}` : ""}`}>Download every flag (CSV)</a>.
         </p>
       </div>
 
@@ -159,7 +162,7 @@ export default async function Finder({ searchParams }: { searchParams: Promise<R
         </div>
         {/* a GET form on this internal page only */}
         <form method="get" action="/severance/lease/real" className="mt-3 flex flex-wrap items-end gap-3 text-sm">
-          <input type="hidden" name="token" value={token} />
+          {token ? <input type="hidden" name="token" value={token} /> : null}
           <input type="hidden" name="src" value="statewide" />
           <label className="flex flex-col">County<input name="county" className="border border-rule bg-panel px-2 py-1" placeholder="MARTIN" /></label>
           <label className="flex flex-col">Lease id<input name="lease" className="border border-rule bg-panel px-2 py-1 font-mono" placeholder="O-08-12345" /></label>

@@ -1,6 +1,6 @@
 {
  "from": "2026-10-21",
- "written": "2026-10-19",
+ "written": "2026-10-20",
  "what": "Tables flagged public whose publisher's own page asks for permission or a license (docs/licenses.md). From 2026-10-21 a table with status 'license needed' shows 'license needed' on the site unless a permission is recorded (warehouse/metadata/license_status.csv).",
  "tables": {
   "ai_power_regions": {
@@ -211,6 +211,15 @@
    ]
   },
   "iso_hub_prices_history": {
+   "status": "license needed",
+   "from": "2026-10-21",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ]
+  },
+  "iso_queue_statistics": {
    "status": "license needed",
    "from": "2026-10-21",
    "publishers": [
@@ -1251,6 +1260,12 @@
     "/board"
    ]
   },
+  "impact_tax_rules": {
+   "status": "public",
+   "pages": [
+    "/impact"
+   ]
+  },
   "interconnection_queue_summary": {
    "status": "public",
    "pages": [
@@ -1294,6 +1309,16 @@
     "/curtailment",
     "/play/battery"
    ]
+  },
+  "iso_queue_statistics": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ],
+   "pages": []
   },
   "iso_rt_top_intervals": {
    "status": "license needed",
@@ -1473,6 +1498,12 @@
     "/digest",
     "/grid",
     "/roundup"
+   ]
+  },
+  "nlr_jedi_multipliers": {
+   "status": "public",
+   "pages": [
+    "/impact"
    ]
   },
   "noaa_grid_weather_daily": {
@@ -1809,6 +1840,13 @@
    "license_needed": [],
    "internal": 0,
    "public": 1
+  },
+  "/impact": {
+   "label": "Economic impact",
+   "dark": "none",
+   "license_needed": [],
+   "internal": 0,
+   "public": 2
   },
   "/cost-of-power/battery": {
    "label": "What a battery earns",

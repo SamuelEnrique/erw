@@ -36,7 +36,11 @@ Every output is in `runs/chain_oct20d/s365/` (one `.out` a module or command).
 
 ## Landing
 
-(the orchestrator's)
+Written by the chain's orchestrator. Three landings are recorded here.
+
+- **Sessions 352 to 356** (`task/352-356-economics`, recorded here as session 356's report said): the freeze status read "no freeze"; the before snapshot `s356-before` at 16:15:43 UTC; GitHub's run 39455892956 passed and merged it (`af5d8b4f`); no new style sheet was seen in ten minutes (the landing changed no style), so the after snapshot `s356-after` was taken at 16:38:01: **0 differences in all** (every page in review).
+- **The two queue commits of 18:05 UTC**, pushed straight to main as the owner's prompt asked: `25a6c727` (the two day chains, 011 data and 012 code) and `5b4f13b9` (012 taken by samueloldlaptop, the move alone, made by `chain_queue.py`'s own `move()`: `next` would have taken 011, the lowest number). Freeze status "no freeze"; snapshots `q011-012-before` (18:04:47) and `q011-012-after` (18:05:33): 0 differences. That after snapshot may have been read before Vercel had built the two commits; they change no file a page reads.
+- **Sessions 365 and 366 together** (`task/365-366`, `e807631f`): origin/main merged first (the data machine's queue move `ae894d37`); the remote `task/` branches listed (`task/198-battery-data` only, standing since 11 October, not in flight); freeze status "no freeze"; the whole suite in the clean copy at `2bbfdc68` exit 0 (4,679 tests, OK); before snapshot `s366-before` at 19:00:10; GitHub's run 39479695256 passed and merged it at 19:10 (`e468065a`); the after snapshot `s366-after` at 19:20:55. **The comparison: 25 differences, one a page, each expected**: the in-review page's menu gained "Economic impact in review" (session 347's `/impact` in the Economics menu). That line is also production's mark that it served the landing (no style sheet changed). The branches `wip/345-impact`, `wip/365-queue-machine` and `task/365-366` are deleted.
 
 ## Decisions made without you
 

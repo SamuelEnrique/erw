@@ -23,7 +23,7 @@ export const TABBED = {
   "/prices": { param: "tab", name: "Prices", tabs: [["now", "Every hub and zone"], ["ercot", "ERCOT"]] },
   "/demand": { param: "view", name: "Demand", tabs: [["metered", "As metered"], ["weather", "With the weather taken out"], ["consumption", "Consumption"]] },
   "/deals": { param: "tab", name: "Deals", tabs: [["deals", "Deals"], ["tracker", "Tracker"], ["companies", "Companies"]] },
-  "/map": { param: "tab", name: "Project map", tabs: [["projects", "Projects"], ["resources", "Resources"]] },
+  "/map": { param: "tab", name: "Project map", tabs: [["projects", "Projects"], ["resources", "Resources"], ["queues", "Queues"]] },  // session 349: Queues
 } as const satisfies Record<string, Tabbed>;
 export type TabbedPage = keyof typeof TABBED;
 

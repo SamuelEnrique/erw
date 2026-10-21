@@ -3,6 +3,7 @@
 // grants no reuse in writing), never in git, the public database or a committed JSON. Like /severance/lease/real, the
 // pages that read them answer 404 without the internal token.
 import fs from "node:fs";
+import { cookieOpens } from "@/lib/release";
 
 export type Totals = { leases: number; flags: number; months: number; base_tax: number; savings: number; with_savings: number };
 export type Summary = {
@@ -32,6 +33,14 @@ export function readSummary(): Summary | null {
 export function tokenOk(token: string | null | undefined): boolean {
   const want = process.env.INTERNAL_COSTS_TOKEN ?? "";
   return want.length >= 24 && token === want;
+}
+
+/** Session 371 (docs/security.md, S2): the finder, its download and the lease loader open with the internal view's
+ * cookie as well, as /internal/costs, /internal/ask and /internal/usage do since session 177, so no address needs the
+ * token and the pages stop writing it into their own links. An address with ?token= opens them as before. */
+export async function internalOpen(token: string | null | undefined, cookie: string | undefined): Promise<boolean> {
+  const want = process.env.INTERNAL_COSTS_TOKEN ?? "";
+  return want.length >= 24 && (tokenOk(token) || (await cookieOpens(cookie, want)));
 }
 
 export const RULE_NAMES: Record<string, string> = {

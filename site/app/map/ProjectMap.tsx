@@ -341,7 +341,7 @@ function UnitCard({ f, part, i, close }: { f: MapFace; part: CardPart | { error:
         {c.rows.map((r) => (
           <div key={r.key} className="contents">
             <dt className="text-xs text-muted">{r.label}</dt>
-            <dd className="min-w-0 break-words" data-card-field={r.key}>{r.table ? <a href={`/data#${r.value}`} className="font-mono underline">{r.value}</a> : r.value}</dd>
+            <dd className="min-w-0 break-words" data-card-field={r.key}>{r.table ? <a href={`/data#${r.value}`} className="font-mono underline">{r.value}</a> : r.href ? <a href={r.href} className="underline" data-generator-link={r.href}>{r.value}</a> : r.value}</dd>
           </div>
         ))}
       </dl>

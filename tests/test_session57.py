@@ -70,11 +70,12 @@ class Internal(unittest.TestCase):
 
     def test_pages_behind_the_token(self):
         page = src("site", "app", "severance", "finder", "page.tsx")
-        self.assertIn("if (!tokenOk(token)) notFound();", page)
+        # session 371 (docs/security.md, S2): the token in the address, or the internal view's cookie
+        self.assertIn("if (!(await internalOpen(token, (await cookies()).get(COOKIE)?.value))) notFound();", page)
         self.assertIn("robots: { index: false, follow: false }", page)
         self.assertIn('export const dynamic = "force-dynamic"', page)
         route = src("site", "app", "severance", "finder", "download", "route.ts")
-        self.assertIn('if (!tokenOk(new URL(req.url).searchParams.get("token"))) return new Response("Not found", { status: 404 });', route)
+        self.assertIn('if (!(await internalOpen(new URL(req.url).searchParams.get("token"), (await cookies()).get(COOKIE)?.value))) return new Response("Not found", { status: 404 });', route)
         lib = src("site", "lib", "finder.ts")
         self.assertIn('want.length >= 24 && token === want', lib)
         real = src("site", "app", "severance", "lease", "real", "page.tsx")

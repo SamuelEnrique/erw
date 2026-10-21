@@ -244,6 +244,7 @@ SECTOR_RULES = [
     (r"^(battery_sourced_ranges|grid_stress_days)$", "power"),  # session 306: the battery's published cost cases; the grids' stress days by one rule
     (r"^nlr_jedi_multipliers$", "power"),  # session 345: JEDI's jobs, earnings and output per MW of a power plant, by state
     (r"^impact_tax_rules$", "power;oil;gas"),  # session 346: the severance rules of TX, LA and NM, and the property tax of a plant (none held)
+    (r"^iso_queue_statistics$", "power"),  # session 348: the six queues' entries, withdrawals, completions and waits by entry year
     # session 49: interchange and the grid network; a year of hub prices; the 2018 EIA-930 baseline; station weather
     (r"^(eia930_all_interchange|grid_network_(nodes|links))$", "power"),
     # session 68: EIA's daily total interchange of every BA, the two stories' hourly flows, who supplies a grid

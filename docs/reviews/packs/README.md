@@ -48,13 +48,14 @@ do peak_hour_moved.do
 do queue_divorce.do
 ```
 
-The same without Stata, one line a tool, each run in its own folder (each prints what its do-file displays; a finding's mirror is the `.py` beside its `.do`):
+The same without Stata, one line a tool, each run in its own folder (each prints what its do-file displays). Research's mirror is one file for the nine library cards (session 381): the `.py` beside each finding's `.do` is the card's generator, which reads the warehouse's tables and does not run from the folder (exit 1, `findings_common` not found):
 
 ```
 cd site/public/battery    && python erw_2026_battery_replication.py
 cd site/public/datacenter && python erw_2026_datacenter_replication.py
 cd site/public/seller     && python erw_2026_generator_replication.py erw_2026_generator_hourly.csv
 cd site/public/grid       && python erw_2026_grid_replication.py erw_2026_grid_replication.csv
+cd site/public/findings   && python erw_2026_research_replication.py
 ```
 
 ## Addendum, 14 October 2026 evening: what changed on these pages after the packs (session 283)

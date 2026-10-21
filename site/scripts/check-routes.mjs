@@ -90,7 +90,8 @@ const PAGES = [
   "/tour", "/tour/1", "/tour/7",  // session 53: the guided tour; session 292: its stops, the first and the last
   "/data/methods/battery_game",  // session 50
   "/severance", "/severance/lease", "/data/methods/severance",
-  "/impact", "/impact?tech=natural_gas&state=dc", "/data/methods/economic_impact",  // session 347: the economic impact tool, a state JEDI gives no figure for, its method
+  "/impact", "/impact?tech=natural_gas&state=dc", "/data/methods/economic_impact",
+  "/map?tab=queues", "/map?tab=queues&iso=isone",  // session 349: the map's Queues tab  // session 347: the economic impact tool, a state JEDI gives no figure for, its method
   "/learn/bill",
   "/learn/problems", "/learn/problems/know-your-grid", "/learn/problems/prices-and-your-bill", "/learn/problems/when-the-grid-broke", "/learn/problems/storage-and-taxes",
   "/learn/problems/networks-and-money",  // session 55: set E

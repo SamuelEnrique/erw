@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import fs from "node:fs";
 import zlib from "node:zlib";
@@ -10,6 +11,8 @@ import { COLUMNS, type PriceBook } from "@/lib/lease";
 import { monthMeans } from "@/lib/leaseprices";
 import { leaseCsv, parseRrc, parseStatewideLease, type RrcLease } from "@/lib/rrclease";
 import type { Rules } from "@/lib/severance";
+import { internalOpen } from "@/lib/finder";
+import { COOKIE } from "@/lib/release";
 import { attempt } from "@/lib/supabase";
 import { LeaseTool } from "../LeaseTool";
 
@@ -51,7 +54,8 @@ export default async function RealLease({ searchParams }: { searchParams: Promis
   const one = (k: string) => (typeof sp[k] === "string" ? (sp[k] as string) : "");
   const token = one("token");
   const want = process.env.INTERNAL_COSTS_TOKEN ?? "";
-  if (want.length < 24 || token !== want) notFound();
+  // session 371 (docs/security.md, S2): the internal view's cookie opens it too; ?token= as before
+  if (want.length < 24 || !(await internalOpen(token, (await cookies()).get(COOKIE)?.value))) notFound();
 
   const field = "border border-rule bg-panel px-2 py-1 text-sm";
   const head = (
@@ -76,7 +80,7 @@ export default async function RealLease({ searchParams }: { searchParams: Promis
     return (
       <>
         {head}
-        <p className="mb-3 text-sm"><Link href={`/severance/finder?token=${encodeURIComponent(token)}`} prefetch={false}>Back to the refund finder</Link></p>
+        <p className="mb-3 text-sm"><Link href={token ? `/severance/finder?token=${encodeURIComponent(token)}` : "/severance/finder"} prefetch={false}>Back to the refund finder</Link></p>
         {!got ? (
           <p className="max-w-3xl text-sm">The statewide table (<code className="font-mono">{STATEWIDE}</code>) is not on this server, or the county is not in its index.</p>
         ) : !l ? (
@@ -149,7 +153,7 @@ export default async function RealLease({ searchParams }: { searchParams: Promis
       <Section title="Pick a lease">
         {/* a GET form on this internal page only: the lease tool itself still makes no request */}
         <form method="get" className="flex flex-wrap items-end gap-3 text-sm">
-          <input type="hidden" name="token" value={token} />
+          {token ? <input type="hidden" name="token" value={token} /> : null}
           <label className="flex flex-col">Operator (leases)
             <select name="op" defaultValue={op} className={field}>
               <option value="">Choose an operator</option>

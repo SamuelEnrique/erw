@@ -1,0 +1,148 @@
+{
+ "source": "ERW live set (Supabase table series, table_name event_window_daily, event caiso_heat_2022, entity eia930:CISO), read with the anon key; the paragraph from https://erw-flame.vercel.app/events/caiso-heat-2022 (its HTML as served)",
+ "retrieved_utc": "2026-10-20T18:25:20Z",
+ "extracted_by": "runs/chain_oct20d/s369/extract_fixture.py (session 369)",
+ "rows": [
+  {
+   "entity": "eia930:CISO",
+   "variable": "demand_max_mw",
+   "ts_utc": "2022-08-31T00:00:00+00:00",
+   "value": 44927,
+   "event": "caiso_heat_2022"
+  },
+  {
+   "entity": "eia930:CISO",
+   "variable": "demand_max_mw",
+   "ts_utc": "2022-09-01T00:00:00+00:00",
+   "value": 46868,
+   "event": "caiso_heat_2022"
+  },
+  {
+   "entity": "eia930:CISO",
+   "variable": "demand_max_mw",
+   "ts_utc": "2022-09-02T00:00:00+00:00",
+   "value": 45432,
+   "event": "caiso_heat_2022"
+  },
+  {
+   "entity": "eia930:CISO",
+   "variable": "demand_max_mw",
+   "ts_utc": "2022-09-03T00:00:00+00:00",
+   "value": 43611,
+   "event": "caiso_heat_2022"
+  },
+  {
+   "entity": "eia930:CISO",
+   "variable": "demand_max_mw",
+   "ts_utc": "2022-09-04T00:00:00+00:00",
+   "value": 43694,
+   "event": "caiso_heat_2022"
+  },
+  {
+   "entity": "eia930:CISO",
+   "variable": "demand_max_mw",
+   "ts_utc": "2022-09-05T00:00:00+00:00",
+   "value": 48456,
+   "event": "caiso_heat_2022"
+  },
+  {
+   "entity": "eia930:CISO",
+   "variable": "demand_max_mw",
+   "ts_utc": "2022-09-06T00:00:00+00:00",
+   "value": 51104,
+   "event": "caiso_heat_2022"
+  },
+  {
+   "entity": "eia930:CISO",
+   "variable": "demand_max_mw",
+   "ts_utc": "2022-09-07T00:00:00+00:00",
+   "value": 49520,
+   "event": "caiso_heat_2022"
+  },
+  {
+   "entity": "eia930:CISO",
+   "variable": "demand_max_mw",
+   "ts_utc": "2022-09-08T00:00:00+00:00",
+   "value": 48151,
+   "event": "caiso_heat_2022"
+  },
+  {
+   "entity": "eia930:CISO",
+   "variable": "demand_max_mw",
+   "ts_utc": "2022-09-09T00:00:00+00:00",
+   "value": 42734,
+   "event": "caiso_heat_2022"
+  },
+  {
+   "entity": "eia930:CISO",
+   "variable": "demand_max_pct_vs_baseline",
+   "ts_utc": "2022-08-31T00:00:00+00:00",
+   "value": 34.5906,
+   "event": "caiso_heat_2022"
+  },
+  {
+   "entity": "eia930:CISO",
+   "variable": "demand_max_pct_vs_baseline",
+   "ts_utc": "2022-09-01T00:00:00+00:00",
+   "value": 34.7362,
+   "event": "caiso_heat_2022"
+  },
+  {
+   "entity": "eia930:CISO",
+   "variable": "demand_max_pct_vs_baseline",
+   "ts_utc": "2022-09-02T00:00:00+00:00",
+   "value": 22.1028,
+   "event": "caiso_heat_2022"
+  },
+  {
+   "entity": "eia930:CISO",
+   "variable": "demand_max_pct_vs_baseline",
+   "ts_utc": "2022-09-03T00:00:00+00:00",
+   "value": 7.4255,
+   "event": "caiso_heat_2022"
+  },
+  {
+   "entity": "eia930:CISO",
+   "variable": "demand_max_pct_vs_baseline",
+   "ts_utc": "2022-09-04T00:00:00+00:00",
+   "value": 4.5248,
+   "event": "caiso_heat_2022"
+  },
+  {
+   "entity": "eia930:CISO",
+   "variable": "demand_max_pct_vs_baseline",
+   "ts_utc": "2022-09-05T00:00:00+00:00",
+   "value": 19.7568,
+   "event": "caiso_heat_2022"
+  },
+  {
+   "entity": "eia930:CISO",
+   "variable": "demand_max_pct_vs_baseline",
+   "ts_utc": "2022-09-06T00:00:00+00:00",
+   "value": 32.2379,
+   "event": "caiso_heat_2022"
+  },
+  {
+   "entity": "eia930:CISO",
+   "variable": "demand_max_pct_vs_baseline",
+   "ts_utc": "2022-09-07T00:00:00+00:00",
+   "value": 28.6835,
+   "event": "caiso_heat_2022"
+  },
+  {
+   "entity": "eia930:CISO",
+   "variable": "demand_max_pct_vs_baseline",
+   "ts_utc": "2022-09-08T00:00:00+00:00",
+   "value": 30.5808,
+   "event": "caiso_heat_2022"
+  },
+  {
+   "entity": "eia930:CISO",
+   "variable": "demand_max_pct_vs_baseline",
+   "ts_utc": "2022-09-09T00:00:00+00:00",
+   "value": 19.0014,
+   "event": "caiso_heat_2022"
+  }
+ ],
+ "paragraph_html": "<p><strong>The peak.</strong> CAISO&#x27;s highest hour of demand served in the window was <span data-check=\"series|event_window_daily|eia930:CISO|demand_max_mw|2022-09-06T00:00:00+00:00|caiso_heat_2022\" data-raw=\"51104\">51,104</span> MW on <!-- -->2022-09-06<!-- -->; against the baseline, the peak hour rose most on <!-- -->2022-09-01<!-- -->, <span data-check=\"series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2022-09-01T00:00:00+00:00|caiso_heat_2022\" data-raw=\"34.7362\">34.74</span>% above it, and on 2022-09-06 it was <span data-check=\"series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2022-09-06T00:00:00+00:00|caiso_heat_2022\" data-raw=\"32.2379\">32.24</span>% above.</p>"
+}

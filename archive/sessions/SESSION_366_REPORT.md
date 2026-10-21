@@ -28,11 +28,11 @@
 | `check-values`, every page, twice | 1 | 6,962 of 6,968: the six of `/learn/problems/know-your-grid` that production fails too (session 369's); `/impact` 340 of 340 |
 | `check-routes` | 0 | 1 live entry and 214 pages in review asked as a visitor, 0 failed |
 | `check-table-downloads` | 0 | 7 of 7 |
-| The whole suite in the clean copy at `2bbfdc68` | see Landing | |
+| The whole suite in the clean copy at `2bbfdc68` | 0 | 4,679 tests, OK (268 skipped) |
 
 ## Landing
 
-(written at the landing, below)
+With session 365, as `task/365-366` (`e807631f`): the whole record is in session 365's report, "Landing". In short: the whole suite at `2bbfdc68` exit 0 (4,679 tests, OK); merged by GitHub's run 39479695256 as `e468065a` at 19:10 UTC; the snapshots `s366-before` (19:00:10) and `s366-after` (19:20:55) differ on all 25 pages by one expected line, the menu's "Economic impact in review". `wip/345-impact` is deleted.
 
 ## Decisions made without you
 

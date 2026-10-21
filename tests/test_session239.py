@@ -43,7 +43,7 @@ PAGES = {
     "/prices": ("tab", ["now", "ercot"], {"ercot": ("explorer/ercot-peak-premium/view.tsx", "PeakPremiumView")}),
     "/demand": ("view", ["metered", "weather", "consumption"], {"consumption": ("consumption/view.tsx", "ConsumptionView")}),
     "/deals": ("tab", ["deals", "tracker", "companies"], {"tracker": ("deals/v2/view.tsx", "TrackerView"), "companies": ("companies/view.tsx", "CompaniesView")}),
-    "/map": ("tab", ["projects", "resources"], {"resources": ("resources/view.tsx", "ResourcesView")}),
+    "/map": ("tab", ["projects", "resources", "queues"], {"resources": ("resources/view.tsx", "ResourcesView")}),  # session 349: Queues, a new tab (no page folded into it)
 }
 # every old address and the tab it became
 MERGED = {

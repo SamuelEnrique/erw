@@ -19,6 +19,12 @@ Coordinates:
   legacy counties, which the 2025 file replaces with planning regions), downloaded each run into
   warehouse/raw/census_gazetteer/<run_id>/ with a manifest; lat and lon are the
   county's internal point (INTPTLAT, INTPTLONG): geo_precision county;
+- session 349: a row whose county words match no county is tried, in the same state, against the
+  Census Bureau's place gazetteer (cities, towns, villages and census-designated places) and then its
+  county subdivision gazetteer (towns and townships), 2025 files, by the same words: a queue often names
+  a city or a town where it means the county. A name two places of one state share is not used. Its
+  lat and lon are the place's internal point: geo_precision place, and geo_note names the place and the
+  file;
 - a row whose county cannot be matched keeps lat and lon empty: geo_precision
   none, with the reason in geo_note. Where the queue lists several counties, the
   first that matches is used, and geo_note says so.
@@ -68,6 +74,12 @@ GAZ_SOURCE = "census:gazetteer_counties"
 GAZ_URL = "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazetteer/2025_Gaz_counties_national.zip"
 GAZ_URL_2020 = "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2020_Gazetteer/2020_Gaz_counties_national.zip"
 GAZ_PAGE = "https://www.census.gov/geographies/reference-files/time-series/geo/gazetteer-files.html"
+# session 349: the place and county subdivision files, for county words that name a city or a town
+PLACE_SOURCE, COUSUB_SOURCE = "census:gazetteer_places", "census:gazetteer_cousubs"
+PLACE_URL = "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazetteer/2025_Gaz_place_national.zip"
+COUSUB_URL = "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazetteer/2025_Gaz_cousubs_national.zip"
+PLACE_SUFFIX = re.compile(r" (city and borough|consolidated government|metropolitan government|unified government|urban county|"
+                          r"city|town|township|village|cdp|borough|plantation|ccd|municipality|comunidad|zona urbana|unorganized territory)$")
 QUEUE_ISOS = ["ercot", "caiso", "nyiso", "miso", "spp", "isone"]
 REQUIRED = ["eia860m_operating_generators", "eia860m_planned_generators"]
 QUEUES = [f"{i}_interconnection_queue" for i in QUEUE_ISOS]
@@ -172,7 +184,7 @@ def fetch_gazetteer(url, log):
         gaz = pd.read_csv(z.open(member), sep="|" if "|" in first else "	", dtype=str,
                           keep_default_na=False, encoding="latin-1")
     gaz.columns = [c.strip() for c in gaz.columns]
-    log(f"gazetteer: {member}, {len(gaz)} counties, saved as {rec['file']}")
+    log(f"gazetteer: {member}, {len(gaz)} rows, saved as {rec['file']}")
     return gaz, rec, member
 
 
@@ -203,7 +215,35 @@ def load_gazetteer(run_id, log):
     return look, got
 
 
-def geocode(state, county, look):
+def place_key(s):
+    """A place's or a town's name without its kind ("Austin city", "Hartford town", "Milford CDP": austin, hartford, milford)."""
+    return PLACE_SUFFIX.sub("", county_key(s))
+
+
+def load_places(log):
+    """({(state, key): (lat, lon, NAME, file)} for places, the same for county subdivisions, [(member, record)], names
+    dropped as shared). Session 349. A key two entries of one state share is dropped from that file's lookup: the
+    words cannot say which is meant."""
+    out, got, dropped = [], [], {}
+    for url, what in ((PLACE_URL, "places"), (COUSUB_URL, "county subdivisions")):
+        gaz, rec, member = fetch_gazetteer(url, log)
+        got.append((member, rec))
+        seen = {}
+        for g in gaz.itertuples():
+            if not str(g.INTPTLAT).strip():
+                continue
+            k = (g.USPS, place_key(g.NAME))
+            if not k[1]:
+                continue
+            seen.setdefault(k, []).append((float(g.INTPTLAT), float(g.INTPTLONG), g.NAME, member))
+        look = {k: v[0] for k, v in seen.items() if len(v) == 1}
+        dropped[what] = sum(1 for v in seen.values() if len(v) > 1)
+        log(f"gazetteer {what}: {len(look)} names held, {dropped[what]} names shared by two or more in one state and not used")
+        out.append(look)
+    return out[0], out[1], got, dropped
+
+
+def geocode(state, county, look, places=None, subs=None):
     """(lat, lon, precision, note) from county and state; lat and lon None when not matched.
     The whole text is tried first ("Miami-Dade"), then each county of a list ("Tioga - Bradford")."""
     if not state:
@@ -219,6 +259,14 @@ def geocode(state, county, look):
             if p != s and len(parts) > 1:
                 note += f", the first matching of {len(parts)} counties listed"
             return hit[0], hit[1], "county", note
+    # session 349: the same words as a place, then as a town or township, of the same state
+    for lookup, what in ((places, "place"), (subs, "county subdivision")):
+        if not lookup:
+            continue
+        for p in [s] + parts:
+            hit = lookup.get((state, place_key(p)))
+            if hit:
+                return hit[0], hit[1], "place", f"{what} {hit[2]} ({hit[3]}), from the county words {county!r}"
     return None, None, "none", f"county {county!r} not found in the gazetteer for {state}"
 
 
@@ -234,7 +282,7 @@ def read(name):
     return pd.read_csv(path, skiprows=n, dtype=str, keep_default_na=False, na_values=[])
 
 
-def build(look, log, queue_isos=QUEUE_ISOS):
+def build(look, log, queue_isos=QUEUE_ISOS, places=None, subs=None):
     frames = []
     for name, kind in (("eia860m_operating_generators", "operating"), ("eia860m_planned_generators", "planned")):
         d = read(name)
@@ -272,7 +320,7 @@ def build(look, log, queue_isos=QUEUE_ISOS):
         if r.lat and r.lon:
             lat.append(r.lat), lon.append(r.lon), prec.append("point"), note.append("")
             continue
-        a, b, p, n = geocode(r.state, r.county, look)
+        a, b, p, n = geocode(r.state, r.county, look, places, subs)
         lat.append("" if a is None else f"{a:.6f}")
         lon.append("" if b is None else f"{b:.6f}")
         prec.append(p), note.append(n)
@@ -341,7 +389,8 @@ def main():
         log(f"ERW energy_projects {run_id}: method {METHOD}")
         license_, srcs = derived_license(log, inputs)
         look, got = load_gazetteer(run_id, log)
-        t = build(look, log, [q.split("_")[0] for q in present_queues])
+        places, subs, got_p, dropped = load_places(log)
+        t = build(look, log, [q.split("_")[0] for q in present_queues], places, subs)
         n = len(t)
         by = t.groupby(["kind", "geo_precision"]).size()
         log("rows by kind and geo_precision: " + "; ".join(f"{k[0]} {k[1]} {v}" for k, v in by.items()))
@@ -363,8 +412,12 @@ def main():
             f"retrieved {ip.utc_iso(got[0][1]['retrieved_at'])}, kept in warehouse/raw/census_gazetteer/{run_id}/ "
             "(manifest.csv). lat and lon of a county-precision row are the county's internal point "
             "(INTPTLAT, INTPTLONG); geo_note names the county and the file.",
+            f"Places (session 349): county words that match no county are tried in the same state against {PLACE_SOURCE} "
+            f"{got_p[0][0]} ({PLACE_URL}), then {COUSUB_SOURCE} {got_p[1][0]} ({COUSUB_URL}); a name two of one state "
+            f"share is not used ({dropped['places']} places, {dropped['county subdivisions']} subdivisions); lat and lon "
+            "the place's internal point; geo_note names the place and the file.",
             "geo_precision: point (EIA's plant coordinates), county (the county's internal point, from county "
-            "and state), none (no county or state matched; geo_note says why).",
+            "and state), place (a place's or a town's internal point, from the county words), none (nothing matched; geo_note says why).",
             "kind: operating (eia860m_operating_generators), planned (eia860m_planned_generators), queue "
             "(<iso>_interconnection_queue). date: operating year, planned operation date or queue date, named "
             "by date_kind. operator_role: operator (EIA) or developer (the queue's interconnection customer).",
@@ -381,6 +434,12 @@ def main():
                  report_url=METHOD_URL, document_list=METHOD, license=license_, tables=[NAME]),
             dict(source=GAZ_SOURCE, publisher="U.S. Census Bureau",
                  report="Gazetteer Files, counties (2025), county internal points", report_url=GAZ_URL,
+                 document_list=GAZ_PAGE, license="public", tables=[NAME]),
+            dict(source=PLACE_SOURCE, publisher="U.S. Census Bureau",
+                 report="Gazetteer Files, places (2025), place internal points", report_url=PLACE_URL,
+                 document_list=GAZ_PAGE, license="public", tables=[NAME]),
+            dict(source=COUSUB_SOURCE, publisher="U.S. Census Bureau",
+                 report="Gazetteer Files, county subdivisions (2025), internal points", report_url=COUSUB_URL,
                  document_list=GAZ_PAGE, license="public", tables=[NAME]),
         ])
         detail = (f"absent: {', '.join(q for q, _ in missing_q)}; " if missing_q else "") + f"{n} rows; " \

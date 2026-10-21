@@ -156,7 +156,7 @@ class LicenseStatus(unittest.TestCase):
 
     def test_the_real_file_is_the_sweeps_40_tables_from_20_october_with_no_permission_yet(self):
         rows = ls.rows()
-        self.assertEqual(len(rows), 41)   # session 311: grid_stress_days joins the 40
+        self.assertEqual(len(rows), 42)   # session 311: grid_stress_days joins the 40; session 348: iso_queue_statistics (NYISO, ISO-NE and MISO queues)
         self.assertEqual({r["status"] for r in rows}, {"license needed"})
         # session 248: the public day moved to 21 October 2026 (the ruling of 12 October, night), and the file's day with it
         self.assertEqual({r["from"] for r in rows}, {"2026-10-21"})
@@ -181,7 +181,7 @@ class LicenseStatus(unittest.TestCase):
 
     def test_the_status_command_keeps_a_recorded_permission(self):
         lines = licenses.status_lines()
-        self.assertEqual(len(lines), 41)   # session 311: grid_stress_days (its NYISO, ISO-NE and MISO prices); session 271: price_board_stats retired, scarcity_hours_by_grid (session 254) in
+        self.assertEqual(len(lines), 42)   # session 348: iso_queue_statistics; session 311: grid_stress_days (its NYISO, ISO-NE and MISO prices); session 271: price_board_stats retired, scarcity_hours_by_grid (session 254) in
         self.assertTrue(all(v != licenses.PUBLIC for _, v, _ in lines))
         self.assertIn("iso_hub_prices_history", {t for t, _, _ in lines})
         # write_status against temporary paths: a permission a person recorded survives a rebuild
@@ -200,7 +200,7 @@ class LicenseStatus(unittest.TestCase):
         self.assertEqual(out["news_index"]["status"], "permission recorded")
         self.assertEqual(out["news_index"]["permission"], "granted 2026-10-15")
         self.assertEqual(out["iso_hub_prices_history"]["status"], "license needed")
-        self.assertEqual(len(out), 41)   # session 311: grid_stress_days
+        self.assertEqual(len(out), 42)   # session 311: grid_stress_days; session 348: iso_queue_statistics
         self.assertEqual(json.load(open(tmp_site, encoding="utf-8"))["written"], "2026-10-13")
 
     def test_the_board_and_the_data_page_read_the_status(self):

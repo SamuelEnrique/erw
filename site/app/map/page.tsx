@@ -12,7 +12,10 @@ import mapJson from "@/data/map.json";
 import { faceOf, whole, type MapFile } from "@/lib/projectmap";
 import { one, tabOf } from "@/lib/tabs";
 import { ResourcesView } from "../resources/view";
+import { Num } from "@/components/Num";
+import { HOURLY, attempt, restCount } from "@/lib/supabase";
 import { ProjectMap } from "./ProjectMap";
+import { QUEUE_TABLE, QueuesView } from "./QueuesView";
 
 // Session 167: the project map, one page. Version 2's layout and data (session 105: the "Choose" panel, the summary
 // sentence, the totals by status, the map with hover, the source line) with what version 1 offered carried over
@@ -37,10 +40,11 @@ export default async function MapPage({ searchParams }: { searchParams: Promise<
       <ToolPage>
         <div data-map-tab={tab}>
           <Tabs page="/map" active={tab} />
-          {tab === "resources" ? <ResourcesView /> : <ProjectsView />}
+          {tab === "resources" ? <ResourcesView /> : tab === "queues" ? <QueuesView iso={sp.iso} /> : <ProjectsView />}
           {/* session 330: the four tables the map's own copy is built from (both tabs draw them), as CSV with a Python and a
-              Stata reader (session 328's shared line); the resource layers are their publishers' files, named in the tab's note */}
-          <TableDownloads tables={(mapJson as unknown as MapFile).tables} />
+              Stata reader (session 328's shared line); the resource layers are their publishers' files, named in the tab's note.
+              Session 367: the Queues tab (session 349) offers its own table instead */}
+          <TableDownloads tables={tab === "queues" ? [QUEUE_TABLE] : (mapJson as unknown as MapFile).tables} />
           <Related href="/map" />
         </div>
       </ToolPage>
@@ -49,14 +53,22 @@ export default async function MapPage({ searchParams }: { searchParams: Promise<
 }
 
 /** The first tab: every unit, queue position and datacenter on the map of the states (what /map drew before session 239). */
-function ProjectsView() {
+async function ProjectsView() {
   const f = mapJson as unknown as MapFile;
   const topo = statesTopo as unknown as Topology<{ states: GeometryCollection }>;
   const c = f.counts;
+  // session 349: the queue positions not placed on the map, read from energy_projects (the check key's own count): their
+  // county words name no county, place or town the Census Bureau lists in their state, or they state none
+  const unplaced = await attempt(() => restCount("entities", { table_name: "eq.energy_projects", "extra->>kind": "eq.queue", "extra->>geo_precision": "eq.none" }, HOURLY));
   return (
     <>
       <ToolHeader title="The project map"
         lead={<>Every generating unit in EIA&apos;s monthly inventory, operating and planned (<span data-map-units="1">{whole(c.units)}</span> units as of {f.vintage}), the interconnection queue positions that are not withdrawn, and the datacenters the ERW holds, on one map. Choose any grids, technologies, statuses, states, kinds and sizes; click a unit for its card. <Link href={METHOD}>Method</Link>.</>} />
+      {unplaced.ok ? (
+        <p className="mb-3 max-w-3xl text-sm" data-unplaced="queue">
+          <Num check="projects|count|queue|none" raw={unplaced.data}>{unplaced.data.toLocaleString("en-US")}</Num> queue positions the ERW holds (withdrawn ones among them) are not on the map: their county words name no county, city or town the Census Bureau lists in their state, or they state no county or no state. <Link href={`${METHOD}#coordinates`}>How a position is placed</Link>.
+        </p>
+      ) : null}
       <ProjectMap file={faceOf(f)} statesGeo={feature(topo, topo.objects.states)} />
       <SourceLine tables={f.tables}
         note={<>U.S. Energy Information Administration, Form EIA-860M, {f.vintage} (public domain), retrieved {f.retrieved.slice(0, 10)}; the ISOs&apos; queues as energy_projects holds them, {f.vintages.queue}; the datacenter tracker, {f.vintages.datacenter}. This page is in review and reads the site&apos;s own copy of the tables, built {f.built.slice(0, 10)}.</>} />

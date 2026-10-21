@@ -4,14 +4,14 @@
 import { cookies } from "next/headers";
 import reviewData from "@/data/battery_stack_review.json";
 import { STRESS_TABLE, TABLE, type Inputs, type Row, type StressRow } from "@/lib/batterystack";
-import { COOKIE, digest } from "@/lib/release";
+import { COOKIE, cookieOpens } from "@/lib/release";
 import { HOURLY, rest } from "@/lib/supabase";
 
 /** Whether this request carries the internal view's cookie. */
 export async function internalView(): Promise<boolean> {
   const token = process.env.INTERNAL_COSTS_TOKEN;
   const have = (await cookies()).get(COOKIE)?.value;
-  return !!token && !!have && have === (await digest(token));
+  return cookieOpens(have, token);   // session 371: constant time (lib/release.ts); until then compared by ===
 }
 /** The rows of a grid in review, from the committed snapshot, for one strategy and duration. */
 export function reviewRows(grid: string, x: Inputs): Row[] {

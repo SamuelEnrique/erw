@@ -33,6 +33,7 @@
 #        free_energy          site/data/curtailment/free_energy.json
 #        curtailment_worth    site/data/curtailment/worth.json
 #        board_page           site/data/board.json, site/public/board/   /board          (session 284)
+#        project_map          site/data/map.json, site/data/map_v2.json   /map, /resources (session 349)
 #      and, where node is installed, each file's own test (a file whose test fails is put back as it was); the board's
 #      are its Python tests (tests.test_session132, tests.test_session240), as a group: a board they refuse is put back
 #      whole. Session 284: the runner holds ERCOT's rolling window only, so page_keep.py keeps its older, longer ERCOT
@@ -95,7 +96,8 @@ PAGE_PATHS=(site/data/datacenter site/data/seller/capture.json site/data/curtail
             site/public/battery/erw_2026_battery_dispatch.csv site/data/battery_scenario_steps.json
             site/data/merchant_snapshot.json site/data/seller/hubs site/public/seller/erw_2026_generator_hourly.csv
             site/data/seller/hybrid.json site/public/seller/prices
-            site/data/board.json site/public/board)
+            site/data/board.json site/public/board
+            site/data/map.json site/data/map_v2.json)   # session 349: the map's copy (dm_project_map)
 # session 204: the generator export's dated record of the capture file's build (docs/methods/figures/<day>/, session
 # 199), committed with the CSV whose header names it, and only when the generator's group was not put back
 RECORD_PATH=docs/methods/figures
@@ -297,6 +299,10 @@ soft_step dm_curtailment_worth "$PYTHON" warehouse/derived/curtailment_worth.py
 # page_keep.py takes a row of either build only where it is no older and no shorter than the held one: so the runner's
 # rows of the fuels and the other grids stand, and ERCOT's are refreshed here (the runner's are a rolling window).
 soft_step dm_board_page "$PYTHON" warehouse/derived/page_keep.py board
+# Session 349: the project map's copy (site/data/map.json, and map_v2.json for /resources), rebuilt each day from the
+# energy_projects this machine holds after the sync, so the queue positions placed by a city or a town (session 349)
+# and the day's queues reach /map without waiting for the monthly run. The same builder the monthly run calls.
+soft_step dm_project_map "$PYTHON" warehouse/scheduled.py project_map
 # Session 181, the scanner: after the sync this machine holds the day's tables and the full histories, so the daily
 # scan runs here (about four minutes; it reads tables and writes none). The run is kept under runs/scanner/<date>/ and
 # its drafts are added to the internal review list (public.scanner_drafts); a draft raised before is never raised

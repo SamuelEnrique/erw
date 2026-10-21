@@ -124,7 +124,10 @@ class ThePage(unittest.TestCase):
 
     def test_the_checks_name_it(self):
         check = src("site", "scripts", "check-datacenter.mjs")
-        for said in ("Rules in motion", "data-rules-paused", "MUNICIPAL", "docs/methods/datacenter_cost.md", "Input.dispatchKeyEvent"):
+        # session 370: the block left the page in session 213 (its rows are the download's table "rules", its count a
+        # figure of "How soon?"); the check now holds the count, the pause and the download, and no longer the block's
+        # fold, keyboard and hovers (data-rules-paused, Input.dispatchKeyEvent, the note's sentences on its face)
+        for said in ("Rules in motion", "PAUSED_WORDS", "MUNICIPAL", 'table "rules"', "tables.csv"):
             self.assertIn(said, check)
         routes = src("site", "scripts", "check-routes.mjs")
         self.assertIn('"/cost-of-power?grid=pjm"', routes)

@@ -20,7 +20,7 @@ Note on the name: in sustainability circles "ERW" also means enhanced rock weath
 | Warehouse of record | Redivis | The published, versioned copy of every table (`warehouse/redivis/`). Uploads write a draft; what Redivis has released is what the ERW says |
 | Live layer | Supabase Postgres | A small live set (`warehouse/supabase/`): public reads through row-level security. Derived from the warehouse, never the other way round |
 | Public site | Next.js on Vercel (`site/`) | Price board, prices, digest, data and methods, the ERCOT peak-premium explorer, and `/ask`. Reads Supabase with the anon key only |
-| Schedules | GitHub Actions | Everything that runs on a clock (`.github/workflows/`: the daily run, the 15-minute latest prices, and the Sunday Energy Roundup with Automated Analysis). No crontabs on anyone's machine |
+| Schedules | GitHub Actions, started by pg_cron in Supabase | Everything that runs on a clock in the cloud (`.github/workflows/`: the daily run, the 15-minute latest prices, the hourly network, the Sunday Energy Roundup with Automated Analysis, the weekly vacuum and the 15-minute chain watch). Since session 59 pg_cron in Supabase starts each on time through GitHub's `workflow_dispatch` (migrations 015 and 022, `warehouse/supabase/scheduler.py --status`; the token in Supabase Vault, never in the repository); each workflow's own `schedule` stays as the fallback, and the daily run and the Roundup skip a second start on a day one already succeeded. No crontabs on anyone's machine for these. The data machine's own jobs (its daily run, the weekly hunt, the findings worker) are Windows scheduled tasks registered by `scripts/register_*.ps1` ([`docs/machines.md`](docs/machines.md)) |
 | Scoring and chat | Claude API | News scoring, the weekday digest with its fun fact and the Sunday Roundup (`warehouse/news/`), the chart-of-the-week note (`warehouse/analysis/`), and question answering over the warehouse (`warehouse/chat/`, `/ask`) |
 
 ## Non-negotiables
@@ -60,10 +60,17 @@ The pages open to visitors (`live` in `site/lib/release.ts`, the one list): none
 | `PRIORITIES.md` | What kind of work to do next |
 | `archive/sessions/` | Per-session prompts and reports (`SESSION_*_PROMPT.md`, `SESSION_*_REPORT.md`): what was asked, what was built, decisions, errors, open questions (moved from the root in session 28) |
 | `warehouse/archive/` | The append-only durable store (session 28): every table's new or changed rows by month, copied to the private Supabase storage bucket `erw-archive`; `restore.py` rebuilds any table (`ARCHITECTURE.md` section 1a) |
+| `scripts/` | The machines' tools (session 59 on): `sync.py`, `precheck.py`, `freeze.py`, `duty.py`, `chain_queue.py`, `taskqueue.py` and `worker.py`, `setup.ps1` and `setup.sh`, the alerts and the Task Scheduler registrations ([`docs/machines.md`](docs/machines.md)) |
+| `queue/` | Two queues ([`queue/README.md`](queue/README.md)): `next/`, the chain prompt files a machine takes with `scripts/chain_queue.py next`; `todo/`, `doing/` and `done/`, the task files of `scripts/taskqueue.py`. A taken file of either ends in `done/` |
+| `exports/` | Packaged copies of tables for a named reader, each with its README and codebook (`exports/redivis-starter/`, session 59, built by `warehouse/exports/redivis_starter.py`) |
 
 ## Running things
 
 ```bash
+python scripts/precheck.py --what "session N"            # what a chain session runs first: exit 1 stops it
+python scripts/sync.py                                    # every session: pull main, restore a missing or behind table
+python warehouse/lock.py role                             # this machine's role (data or code) and name
+python warehouse/lock.py status                           # who holds the data lock, if anyone
 pip install -r requirements.txt
 bash warehouse/run_daily.sh                               # the full daily sequence, as the workflow runs it
 python warehouse/validate/erw_validate.py warehouse/output/*.csv   # a gate: never piped, read its exit code
@@ -84,5 +91,7 @@ The full rules live in **[`docs/datastandard.md`](docs/datastandard.md)**, which
 - Connectors write CSV only, with a `#` comment header naming the source report, source URL and retrieval timestamp.
 - Credentials live outside the repository and are read from the environment. Never commit a key.
 - A publisher in `warehouse/metadata/paused_sources.csv` is never requested (session 89). Every connector that reaches a publisher's servers asks `iso_prices.paused()` first. MISO is paused since 4 October 2026: its terms forbid automated access, pending a review ([`docs/methods/miso_pause.md`](docs/methods/miso_pause.md)). Its tables and pages stay as they are; only a person lifts a pause. The Virginia State Corporation Commission is paused since 10 October 2026: its robots file disallows every automated request ([`docs/methods/vascc_pause.md`](docs/methods/vascc_pause.md)); the policy monitor's refresh and every other connector consult the file, and `iso_prices.paused_host()` refuses a paused publisher's host whatever the caller.
+- Every data write needs the data lock (session 59, `warehouse/lock.py`), and only a machine whose role is `data` takes it. The connectors' writer, the loader, the uploader, the archive and the vacuum refuse without it; a write outside `warehouse/output` and a test run are exempt ([`docs/machines.md`](docs/machines.md), "The data lock").
+- Code work reaches `main` through a `task/` branch: a push to `task/**` runs `.github/workflows/code-branch.yml` (the tests, the site build, check-routes against the live site), which merges the branch when they pass. Work not ready to land waits on a `wip/` branch.
 - When a decision has to be made without a human, make a reasonable one, write it down in the session report, and continue.
 - Design and browser tools (session 201). On the code machine, at the user level of Claude Code and outside this repository: Impeccable, UI/UX Pro Max, frontend-design, web-design-guidelines, react-best-practices, chrome-devtools-mcp and AccessLint. [`docs/tooling.md`](docs/tooling.md) says which a session uses for a design critique, an accessibility check, a performance review and a browser check, and what each may not do unattended (no question asked, no `PRODUCT.md`, `DESIGN.md` or `.impeccable/` written, no hook installed, no browser left running). None of them is a gate; their findings on words or structure go under "For Samuel's ruling". [`docs/brand.md`](docs/brand.md) is the one design document (session 209, the owner's ruling of 12 October 2026): no `PRODUCT.md` or `DESIGN.md` is written, by a tool or by a session. Every python command of a chain names the repository's interpreter, `.venv\Scripts\python.exe` on Windows, and the allow rules of `.claude/settings.json` carry that form beside the bare `python`.
