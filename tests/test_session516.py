@@ -42,7 +42,7 @@ def run_with(pages, tmp):
     with mock.patch.object(F.ip, "load_key", return_value="k"), \
          mock.patch.object(F.ip, "raw_cached", side_effect=lambda c, u: (__import__("json").dumps({"response": next(answers)}).encode(), {})), \
          mock.patch.object(F.ip, "write_snapshot") as ws:
-        rc = F.main(["--out-dir", tmp])
+        rc = F.main(["--from", "2026-10-19", "--out-dir", tmp])
     return rc, ws
 
 

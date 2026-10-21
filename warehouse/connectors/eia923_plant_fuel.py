@@ -18,9 +18,9 @@ monthly sample and the API marks no row as imputed, so no monthly row is taken. 
 key: a pumped-storage and a conventional hydro unit share fuel2002 WAT (session 510's probe). A blank value has no row;
 nothing is filled. A unit not in the map stops the run; so does a key given twice.
 
-    python warehouse/connectors/eia923_plant_fuel.py [--from 2020] [--to 2024]
+    python warehouse/connectors/eia923_plant_fuel.py [--from 2001] [--to 2024]
 
-Ceiling: 40 requests a run (pages of 5,000, 3 seconds apart; a 429 or a 5xx asked once more after 60 seconds; a page an
+Ceiling: 130 requests a run (pages of 5,000, 3 seconds apart; a 429 or a 5xx asked once more after 60 seconds; a page an
 earlier run saved in warehouse/raw/eia923_plant_fuel/ is reused and not asked again). License:
 public (EIA, record 1 of license_reads.csv; cite "U.S. Energy Information Administration, Form EIA-923").
 """
@@ -44,8 +44,8 @@ CONNECTOR = "eia923_plant_fuel"
 SOURCE = "eia:electricity/facility-fuel"
 API = "https://api.eia.gov/v2/electricity/facility-fuel/"
 PAGE = "https://www.eia.gov/electricity/data/eia923/"
-CEILING, PAUSE, RETRY_WAIT = 40, 3, 60
-FIRST, LAST = 2020, 2024
+CEILING, PAUSE, RETRY_WAIT = 130, 3, 60   # session 524: 2001 on, about 6 pages a year
+FIRST, LAST = 2001, 2024   # session 524: from 2001 (2020 to 2024 since session 510)
 DATA = {"generation": ("net_generation", {"megawatthours": ("MWh", 1.0)}),
         "total-consumption-btu": ("fuel_consumed", {"mmbtu": ("TBtu", 1e-6)})}
 

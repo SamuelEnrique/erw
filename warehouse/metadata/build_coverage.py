@@ -145,6 +145,10 @@ SECTOR_RULES = [
     (r"^eia_gas_prices_state_monthly$", "gas"),  # session 517: EIA's natural gas prices by state, a month
     (r"^eia_gas_consumption_state_monthly$", "gas"),  # session 518: EIA's natural gas consumption by state, a month
     (r"^eia_coal_prices_annual$", "coal"),  # session 519: EIA's coal market sales price by state or region, a year
+    (r"^eia_gas_storage_state_monthly$", "gas"),  # session 525: EIA's natural gas in underground storage by state, a month
+    (r"^eia_state_capacity_annual$", "power"),  # session 526: EIA's state electricity profiles, net summer capacity
+    (r"^eia_crude_production_state_monthly$", "oil"),  # session 527: EIA's crude oil field production by state, a month
+    (r"^eia_gas_production_state_monthly$", "gas"),  # session 528: EIA's natural gas production by state, a month
     (r"^pjm_rpm_capacity_prices$", "capacity"),
     # session 65: capacity prices of the four markets that pay capacity apart, and the day-ahead ancillary services
     (r"^iso_all_capacity_prices$", "capacity"),
