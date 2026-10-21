@@ -29,6 +29,7 @@ import re
 import shutil
 import subprocess
 import sys
+import tempfile
 import unittest
 
 import yaml
@@ -392,7 +393,20 @@ class TheNodeTests(unittest.TestCase):
             self.skipTest("node or the site's packages are not here")
         # the session's switch is taken out of the child's environment only: this process's is not changed
         env = {k: v for k, v in os.environ.items() if k not in ("ASK_PAGES", "ASK_ROLLUP", "ASK_RULE_PLAN", "ASK_READER_EFFORT", "NEXT_PHASE")}
-        r = subprocess.run([node, "--import", "./scripts/alias-register.mjs", "scripts/test-ask-tables.mjs"], cwd=os.path.join(ROOT, "site"), capture_output=True, text=True, timeout=300, env=env)
+        # session 534: the node test's replay (its test 13) is set against the questions computed again from this copy's
+        # own page files, which the data machine's run rebuilds every day (session 199's ruling: no committed number is
+        # compared with the day's files; p07 moved on 21 October 2026). Nothing is written to the repository; the two
+        # questions answered from a table keep their committed numbers (the folder given holds no table)
+        old = questions()
+        kept = {q["id"]: q for q in old["questions"]}
+        kept["_facts"] = old.get("facts", {})
+        exp.use_frozen(None)
+        day = exp.build(os.path.join(ROOT, "docs", "methods", "figures"), kept)
+        with tempfile.TemporaryDirectory() as d:
+            env["ASK_TABLES_DAY_SET"] = os.path.join(d, "day_questions.json")
+            with open(env["ASK_TABLES_DAY_SET"], "w", encoding="utf-8") as f:
+                json.dump(day, f)
+            r = subprocess.run([node, "--import", "./scripts/alias-register.mjs", "scripts/test-ask-tables.mjs"], cwd=os.path.join(ROOT, "site"), capture_output=True, text=True, timeout=300, env=env)
         self.assertEqual(r.returncode, 0, r.stdout[-2500:] + r.stderr[-1500:])
         self.assertIn("14 of 14 passed", r.stdout)
 

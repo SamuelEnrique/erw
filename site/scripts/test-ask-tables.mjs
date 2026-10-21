@@ -18,6 +18,14 @@ const read = (p) => fs.readFileSync(new URL(p, import.meta.url), "utf8");
 const FIX = JSON.parse(read("../../tests/fixtures/session153/table_reads.json"));
 const SET = JSON.parse(read("../../warehouse/chat/eval_ercot_pages.json"));
 const OLD = JSON.parse(read("../../warehouse/chat/eval_ercot_panel.json"));
+// session 534: the page files are rebuilt by the data machine's run every day, and session 199's ruling is that no
+// committed number is compared with the day's files (p07 moved on 21 October 2026 and test 13 failed). So the replay is
+// set against the questions computed again from this copy's own files, the second reading of the same files:
+// tests/test_session153.py builds them (ercot_pages_expected.build, nothing written) and names them in
+// ASK_TABLES_DAY_SET. Run alone, without it, a page file's figure is held to be a number and the resource layers,
+// which no scheduled run rebuilds, are compared with the committed questions as before.
+const DAY_SET = process.env.ASK_TABLES_DAY_SET ? JSON.parse(fs.readFileSync(process.env.ASK_TABLES_DAY_SET, "utf8")) : null;
+const REBUILT = (q) => q.page !== "/resources";
 
 // the recorded reads stand in for the database: the catalogue, the registry of sources (empty), and the rows recorded
 process.env.SUPABASE_URL = "https://fixture.invalid";
@@ -370,7 +378,12 @@ await test("the 20 questions are well formed: four pages, the kinds, one source 
 });
 
 await test("each question's read, replayed with no model, gives the number the script computed from the same file", async () => {
-  for (const q of SET.questions) {
+  const day = new Map((DAY_SET?.questions ?? []).map((x) => [x.id, x]));
+  for (const asSet of SET.questions) {
+    // session 534: the figure is the one the script computes from this copy's files (DAY_SET), never a committed one
+    // from a page file the daily run has rebuilt since
+    const q = day.get(asSet.id) ?? asSet;
+    const loose = !DAY_SET && REBUILT(q);
     const r = q.read;
     if (r.tool === "page_file") {
       const { out, isError } = await own("page_file", r.input);
@@ -380,12 +393,14 @@ await test("each question's read, replayed with no model, gives the number the s
       assert.ok(new RegExp(q.cite).test(out.table), `${q.id}: the tool names ${out.table}`);
       if (r.contains) { assert.ok(JSON.stringify(out).includes(r.contains), q.id); for (const e of q.expect_all) assert.ok(holds(JSON.stringify(out), e), `${q.id}: ${e}`); continue; }
       // session 159: p14 rests on site/data/curtailment/ercot.json, which the daily run rebuilds, so its share moves each day;
-      // its read must still give a number, and the question file is written again by the script before an evaluation
-      if (r.at && q.id === "p14") { const v = at(out, r.at); assert.equal(typeof v, "number", `${q.id}: ${r.at}`); continue; }
+      // its read must still give a number, and the question file is written again by the script before an evaluation.
+      // Session 534: so does every figure of a rebuilt page file when the day's questions are not given (loose)
+      if (r.at && loose) { const v = at(out, r.at); assert.equal(typeof v, "number", `${q.id}: ${r.at}`); continue; }
       if (r.at) { const v = at(out, r.at); assert.equal(r.abs ? Math.abs(v) : v, q.expect[0], `${q.id}: ${r.at}`); continue; }
       const [k, key] = Object.entries(r.row)[0];
       const row = out.result.find((x) => x[k] === key);
       assert.ok(row, `${q.id}: no row ${key}`);
+      if (loose) { assert.equal(typeof row.value, "number", q.id); continue; }
       assert.equal(row.value, (q.series_has ?? { value: q.expect[0] }).value, q.id);
       if (q.series_rows) assert.equal(out.result.length, q.series_rows, `${q.id}: rows`);
     } else {
