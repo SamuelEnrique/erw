@@ -106,6 +106,8 @@ print(erw.cite("eia_fuel_spot_prices"))          # the publisher's report, then 
 erw.version()                                    # which data you read: give it with any result
 ```
 
+Every line above was run in a new virtual environment in session 536, on a clone's tables and on the live set with the anon key, and each exited 0 (`archive/sessions/SESSION_536_REPORT.md`). `ERW_BACKEND` counts from the first call since that session (`package/src/erw/api.py`, `get_backend`). The live set's address and anon key are not published (the site reads them on its server only, `docs/reviews/2026-10-10-security.md`), so a reader outside the project reads a clone's tables, or Redivis once its dataset is open.
+
 The functions and the backends' keys are in `package/README.md`; for an AI assistant, `package/llms.txt` says which table answers which question and which reads silently go wrong.
 
 ## Where this guide comes from
