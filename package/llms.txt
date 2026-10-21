@@ -687,6 +687,6 @@ Version 1 is pending release (session 445): until a person releases it, the
 draft has no version number and is not citable, so cite the table, the data
 commit and the date read, as erw.cite() writes them. A page's own figures are
 rebuilt by its replication files (site/public/<tool>/erw_2026_*_replication.py
-and .do); the site's downloads (/api/download?table=<table>, with &as=py or
-&as=do for a Python or Stata reader; no R reader is offered) are described in
+and .do); the site's downloads (/api/download?table=<table>, with &as=py,
+&as=do or &as=r for a Python, Stata or base-R reader) are described in
 docs/guide.md, the reader's guide.
