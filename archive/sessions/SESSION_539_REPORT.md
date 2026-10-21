@@ -27,7 +27,7 @@ Every gate redirected to a file under `C:/Users/lossa/Documents/erw/runs/chain_0
 | `regrade_s539.py --keys` (the live set, the anon key; twice, the second after the hold was added) | 0, 0 | 28 keys; b08 and b09 moved |
 | `regrade_s539.py` (offline) | 0 | 17 then, 17 now, 14 under the hold, 30 if ruled; every wrong answer has a cause |
 | `tests.test_session539`, `tests.test_session320`, `tests.test_session267`, `tests.test_session302` | 0 | 48 tests OK (2 skipped: session 320's fixtures tests, which skip until `eval_s320_fixtures.json` exists) |
-| The whole suite (`ERW_LOCK_EXEMPT=1 ... unittest discover -s tests`) | SUITE_EXIT | SUITE_RESULT |
+| The whole suite (`ERW_LOCK_EXEMPT=1 ... unittest discover -s tests`) | 1 | 5,204 tests, 9 failures, 291 skipped, 571 s; every failure is one the brief names as known on this machine (the data machine's page files of 21 October, session 534's subject), none in a file this session touched: `test_session167` (`[3713, 762785] != [3713, 762786]`), `test_session173` (`('batteries_lunch', '2026-10-21T18:02:08Z')`), `test_session174` (`2023 != 2024 : CAISO's prices are held from 2024-09-01`), `test_session182` three (`417 != 405 : n_days`; a sha256 differs; the panel start `2023-07` against `2024-09`), `test_session274` (the chart's numbers differ), `test_session381` two (the replication's figures of 21 October 18:02 UTC). `test_session156` and `test_session484` did not fail in this run |
 
 ## Decisions made without you
 
