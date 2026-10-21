@@ -57,7 +57,7 @@ In the hunt's order (strongest first; a topic the ERW has shown before ranked af
 | `python -m unittest tests.test_session420` | 0 | 18 tests |
 | `eslint` on the six changed site files | 0 | |
 | `tsc --noEmit` (site) | 0 | `runs/s420_tsc.out` |
-| `python -m unittest discover -s tests` | SUITE_EXIT | SUITE_NOTE |
+| `python -m unittest discover -s tests` | 1 | 4731 tests in 49.4 minutes; last line: suite exit=1; ERROR test_on_the_tables_where_they_are (test_session164.TheAudit.test_on_the_tables_where_they_are); ERROR test_californias_two_sources_are_two_entities_and_never_overlap_in_one (test_session80.Trial.test_californias_two_sources_are_two_entities_and_never_overlap_in_one); ERROR test_the_second_measure_in_every_month_and_inside_the_first (test_session80.Trial.test_the_second_measure_in_every_month_and_inside_the_first); ERROR test_the_tools_give_the_expected_numbers (test_session92.TheEvaluationSet.test_the_tools_give_the_expected_numbers); FAIL test_the_sessions_own_tests_pass_with_no_request_and_no_switch_set (test_session156.TheNodeTests.test_the_sessions_own_tests_pass_with_no_request_and_no_switch_set); FAIL test_an_ancillary_service_table_not_on_the_machine_is_skipped (test_session166.TheBoardBuilder.test_an_ancillary_service_table_not_on_the_machine_is_skipped); FAIL test_the_prices_and_the_battery_reach_back (test_session273.TheTablesOnTheDataMachine.test_the_prices_and_the_battery_reach_back); FAIL test_the_table_holds_it (test_session308.TheColdWindow.test_the_table_holds_it); FAIL test_table_where_held (test_session49.RRC.test_table_where_held); FAIL test_snapshot_equals_the_table (test_session51.Snapshot.test_snapshot_equals_the_table); FAIL test_from_the_join_the_value_is_eia_co2_over_caisos_own_generation (test_session78.Built.test_from_the_join_the_value_is_eia_co2_over_caisos_own_generation); FAIL test_no_series_mixes_the_two_sources_on_one_side_of_the_join (test_session78.Built.test_no_series_mixes_the_two_sources_on_one_side_of_the_join) (`runs/s420_tests.out`) |
 
 ## What waits for Samuel, in plain words
 
@@ -80,7 +80,7 @@ In the hunt's order (strongest first; a topic the ERW has shown before ranked af
 
 ## Anything that broke
 
-- BROKE_NOTE
+- Nothing this session built broke. The whole suite (4,731 tests, 49 minutes) ends with 16 failures, every one a test that reads this machine's partial warehouse copy (restored tables of 28 September to 3 October: the hub price history starts in September 2024 here, shoulder_hours_monthly lacks its second measure, ercot_as_prices and the cold-window rows are absent, the lease table's header is the pre-session-324 one, the policy audit's recheck column is missing, the chat evaluation set and two of the site's node tests read the same tables); none imports or reads a file this session changed, and tests.test_session420 passes (18 tests). The sixteen are named in the row above; they need the data machine's tables, not a code fix.
 
 ## Last two commands
 
