@@ -66,7 +66,8 @@ const nextConfig: NextConfig = {
   // session 138: /cost-of-power reads a grid's years of hourly prices from data/datacenter when a request asks for that
   // grid (lib/datacenterdata.ts); the file names are built at request time, so the folder is named for the server trace
   // session 183: the seller page reads one hub's model by a name taken from data/seller/hubs/index.json
-  outputFileTracingIncludes: { "/cost-of-power": ["./data/datacenter/*.json"], "/cost-of-power/seller": ["./data/seller/hubs/**/*.json"] },
+  // session 467: /datacenters reads the same price files for its power-side section (app/datacenters/PowerSide.tsx)
+  outputFileTracingIncludes: { "/cost-of-power": ["./data/datacenter/*.json"], "/datacenters": ["./data/datacenter/*.json"], "/cost-of-power/seller": ["./data/seller/hubs/**/*.json"] },
   // session 23: Energy Week became the Energy Roundup; the old addresses keep working
   async redirects() {
     return [
