@@ -5,6 +5,7 @@
 //   docs/datastandard.md                                   the data standard
 //   docs/methods/*.md                                      method documents
 //   warehouse/metadata/sources.csv                         the source registry (session 21, /terms)
+//   docs/licenses.md, warehouse/metadata/license_verdicts.csv  the licenses and each publisher's verdict (session 471, /data/licenses)
 // and writes site/content/docs.json, which the pages import. Runs before
 // `next dev` and `next build` (package.json predev and prebuild), so the
 // content is part of the build and no page reads the file system at request
@@ -124,6 +125,18 @@ function sources() {
     .map(({ source, publisher, report, report_url, license, tables }) => ({ source, publisher, report, report_url, license, tables }));
 }
 
+// Session 471: each publisher's verdict (warehouse/metadata/license_verdicts.csv, written with docs/licenses.md by
+// scripts/licenses.py), for the short reading at the head of /data/licenses: the publisher, its verdict as the ERW is
+// today and if the ERW sells anything, and the note (what the publisher asks for, an acknowledgment or a citation).
+function licenseVerdicts() {
+  // a row whose last cell (the note) holds an unquoted comma has more cells than the header (NLR's, 21 October 2026):
+  // the extra cells are the note's, joined back, so no publisher is dropped
+  const [head, ...rows] = csvRows(read(path.join(repo, "warehouse", "metadata", "license_verdicts.csv")));
+  return rows.filter((r) => r.length >= head.length).map((r) => [...r.slice(0, head.length - 1), r.slice(head.length - 1).join(",")])
+    .map((r) => Object.fromEntries(head.map((h, i) => [h, r[i]])))
+    .map(({ key, verdict, if_commercial, note }) => ({ key, verdict, if_commercial, note }));
+}
+
 // Session 23: Automated Analysis (docs/analysis/, warehouse/analysis/run.py). Each week's chart of the week and
 // results, the template list, and the gallery index go into the bundle; the PNGs and the gallery charts are copied
 // to public/analysis-files/ so the pages and the Roundup's images can link them. None is not an error.
@@ -221,6 +234,8 @@ const out = {
   weekly_source: weeklySource,
   latest: read(path.join(digestDir, "latest.md")),
   datastandard: read(path.join(docs, "datastandard.md")),
+  licenses: read(path.join(docs, "licenses.md")),   // session 471
+  license_verdicts: licenseVerdicts(),
   methods,
 };
 fs.mkdirSync(path.join(here, "..", "content"), { recursive: true });

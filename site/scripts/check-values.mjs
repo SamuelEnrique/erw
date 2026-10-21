@@ -62,6 +62,8 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/explore/demand-growth?grid=caiso&window=m08", "/explore/demand-growth?grid=ercot&window=h17",
   // session 332: every action's significance (event|policy_actions|<id>|significance)
   "/policy",
+  // session 471: the licensing record's short reading (lic|held|..., lic|verdict|...), recomputed from warehouse/metadata
+  "/data/licenses",
   // session 19
   // session 35: the seven grid pages
   "/grid/ercot", "/grid/caiso", "/grid/pjm", "/grid/nyiso", "/grid/isone", "/grid/miso", "/grid/spp",
@@ -198,6 +200,28 @@ const dcAnswers = new Map();   // session 228: the answers of one address of /co
 const dcllRows = new Map();
 const dcqRows = new Map();   // session 468: the view by grid of /datacenters, one grid's groups read once
 let R_statOf = null;
+/** Session 471: a CSV file's rows as objects, by its header (quoted cells, doubled quotes inside them). */
+function licCsv(text) {
+  const rows = [];
+  let row = [], cell = "", q = false;
+  text = text.replace(/\r\n/g, "\n");
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (q) {
+      if (ch === '"' && text[i + 1] === '"') { cell += '"'; i++; }
+      else if (ch === '"') q = false;
+      else cell += ch;
+    } else if (ch === '"') q = true;
+    else if (ch === ",") { row.push(cell); cell = ""; }
+    else if (ch === "\n") { row.push(cell); rows.push(row); row = []; cell = ""; }
+    else cell += ch;
+  }
+  if (cell || row.length) { row.push(cell); rows.push(row); }
+  const [head, ...body] = rows;   // extra cells (an unquoted comma in the last column) are the last column's
+  return body.filter((r) => r.length >= head.length).map((r) => [...r.slice(0, head.length - 1), r.slice(head.length - 1).join(",")])
+    .map((r) => Object.fromEntries(head.map((h, i) => [h, r[i]])));
+}
+
 /** The value Supabase holds for one data-check key. */
 async function truth(check) {
   if (R_statOf === null) R_statOf = (await import("../lib/datacenter/answers.ts")).statOf;
@@ -265,6 +289,24 @@ async function truth(check) {
     return card.numbers?.[p[2]];
   }
   // session 315: the Digest's chart of the day, its record's numbers (docs/digest/charts/<date>.json): digest_chart|<date>|<table>|<key>
+  // session 471: /data/licenses' figures, recomputed from the licensing record's own files, not from lib/ or the page's
+  // bundle: lic|held|count, lic|held|pub|<publisher> (warehouse/metadata/license_status.csv, the rows "license needed");
+  // lic|verdict|both|count and lic|verdict|today_only|count (license_verdicts.csv: "may be public" today, and if the
+  // ERW sold anything, "may be public" or not)
+  if (p[0] === "lic") {
+    const meta = (f) => licCsv(fs.readFileSync(path.join(here, "..", "..", "warehouse", "metadata", f), "utf-8"));
+    if (p[1] === "held") {
+      const held = meta("license_status.csv").filter((r) => r.status === "license needed");
+      if (p[2] === "count") return held.length;
+      if (p[2] === "pub") return held.filter((r) => r.publishers.split(";").map((x) => x.trim()).includes(p[3])).length;
+    }
+    if (p[1] === "verdict") {
+      const today = meta("license_verdicts.csv").filter((r) => r.verdict === "may be public");
+      if (p[2] === "both") return today.filter((r) => r.if_commercial === "may be public").length;
+      if (p[2] === "today_only") return today.filter((r) => r.if_commercial !== "may be public").length;
+    }
+    return undefined;
+  }
   if (p[0] === "digest_chart") {
     return JSON.parse(fs.readFileSync(path.join(here, "..", "..", "docs", "digest", "charts", `${p[1]}.json`), "utf-8")).numbers?.[p[3]];
   }

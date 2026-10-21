@@ -43,6 +43,7 @@ const PAGES = [
   "/mix?ba=ciso&state=CA", "/curtailment", "/consumption", "/data", "/data/standard", "/explorer/ercot-peak-premium", "/explore/ercot-peak-premium",  /* session 403 */
   "/deals", "/map", "/datacenters", "/companies", "/policy", "/digest", "/roundup", "/analysis", "/research", "/research?grid=ERCOT&topic=batteries", "/analysis/card/gas_sets_price", "/analysis/2026-W40", "/about", "/terms",
   "/subscribe", "/ask",
+  "/data/licenses",  // session 471: the licensing record, in review
   "/ask/ercot", "/ask/ercot?from=%2Fshoulder&title=The+shoulder+hours&s_grid=ERCOT&s_month=2025-01",  // session 92: Ask ERCOT, the reference version (the page only: the check never asks the model)
   "/mix/v2", "/mix/v2?grid=caiso&period=2026-04&vs=ercot", "/mix/v2?grid=pjm&period=2024", "/data/methods/generation_mix_hourly",  // session 94: the energy mix, version 2, in review
   "/queues", "/queues?grid=ercot&tech=battery", "/queues?grid=miso&tech=offshore_wind", "/data/methods/interconnection_queue_summary",  // session 95: the interconnection queue explorer, in review
