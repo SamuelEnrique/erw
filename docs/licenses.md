@@ -674,3 +674,22 @@ What each page read says of a price, for every publisher whose sentence asks for
 | Vantage Data Centers | needs written permission | needs written permission | none stated | not named |  |
 | WSJ | needs written permission | needs a paid license | not stated on the page | djreprints.com (the Dow Jones Reprints website, named for licenses) |  |
 
+## Held figures that still show (session 505)
+
+A table held for a license is drawn as "license needed" (`site/lib/license.ts`, `components/Num.tsx`). `site/scripts/check-holds.mjs` reads every page of check-values' list on a build and lists each figure drawn from a held table without those words. How such a figure is held is Samuel's ruling; no page was changed. Read on 2026-10-21: 14 pages.
+
+- `/digest`: 1 held figures shown (number), from `iso_rtm_hub_prices`.
+- `/digest/2026-10-07`: 1 held figures shown (number), from `iso_rtm_hub_prices`.
+- `/digest/2026-10-08`: 1 held figures shown (number), from `iso_rtm_hub_prices`.
+- `/digest/2026-10-12`: 1 held figures shown (number), from `iso_rtm_hub_prices`.
+- `/digest/2026-10-14`: 1 held figures shown (number), from `iso_rtm_hub_prices`.
+- `/digest/2026-10-21`: 1 held figures shown (number), from `iso_rtm_hub_prices`.
+- `/grid?grid=isone`: 36 held figures shown (number), from `isone_interconnection_queue`.
+- `/grid/isone`: 36 held figures shown (number), from `isone_interconnection_queue`.
+- `/research`: 4 held figures shown (panel), from `iso_hub_prices_history`, `iso_rtm_hub_prices`, `iso_zone_prices_history`, grids ISO-NE; NYISO.
+- `/research?lunch_grid=isone`: 1 held figures shown (view), from `iso_hub_prices_history`, `iso_rtm_hub_prices`, `iso_zone_prices_history`, grids ISO-NE.
+- `/research?lunch_grid=nyiso`: 1 held figures shown (view), from `iso_hub_prices_history`, `iso_rtm_hub_prices`, `iso_zone_prices_history`, grids NYISO.
+- `/research?peak_grid=isone`: 1 held figures shown (view), from `iso_hub_prices_history`, `iso_rtm_hub_prices`, `iso_zone_prices_history`, grids ISO-NE.
+- `/research?peak_grid=nyiso`: 1 held figures shown (view), from `iso_hub_prices_history`, `iso_rtm_hub_prices`, `iso_zone_prices_history`, grids NYISO.
+- `/research/card/batteries_lunch_grids`: 2 held figures shown (panel), from `iso_hub_prices_history`, `iso_rtm_hub_prices`, `iso_zone_prices_history`, grids ISO-NE; NYISO.
+
