@@ -21,7 +21,7 @@ ROUTES = os.path.join(SITE, "scripts", "check-routes.mjs")
 RELEASE = os.path.join(SITE, "lib", "release.ts")
 META = os.path.join(ROOT, "warehouse", "metadata")
 REPORT = os.path.join(ROOT, "archive", "sessions", "SESSION_471_REPORT.md")
-DASHES = re.compile("[–—]")
+DASHES = re.compile("[" + chr(0x2013) + chr(0x2014) + "]")
 
 
 def _read(p):
