@@ -126,12 +126,19 @@ function MoveCell({ row, k }: { row: Row; k: "d" | "w" | "m" | "y" }) {
   );
 }
 
+// Session 412 (the accessibility pass, docs/reviews/accessibility-2026-10-20.md): a row that opens the workbench was a
+// table row made a stop of the keyboard (tabindex 0, aria-selected), which a screen reader announces as a row with no
+// role to press (AccessLint, 218 rows of /board). The row's name is now a button, the stop of the keyboard, pressed while
+// its series is in the workbench; a click anywhere on the row still opens it (the button's click reaches the row).
 function PriceRow({ row, group, open, onOpen, file }: { row: Row; group: Group; open: boolean; onOpen: (id: string) => void; file: BoardFile }) {
+  const words = (
+    <span className={row.status === "ok" ? "text-ink" : "text-muted"} title={[row.code ? `Code: ${row.code}` : "", row.formula ? `Formula: ${row.formula}` : "", row.source !== undefined ? `Source: ${file.sources[row.source]}` : ""].filter(Boolean).join("\n") || undefined}>
+      {row.label}{row.formula ? <sup className="ml-0.5 text-xs text-muted">f</sup> : null}
+    </span>
+  );
   const name = (
     <th scope="row" className="whitespace-nowrap py-1 pl-2 pr-3 text-left font-normal">
-      <span className={row.status === "ok" ? "text-ink" : "text-muted"} title={[row.code ? `Code: ${row.code}` : "", row.formula ? `Formula: ${row.formula}` : "", row.source !== undefined ? `Source: ${file.sources[row.source]}` : ""].filter(Boolean).join("\n") || undefined}>
-        {row.label}{row.formula ? <sup className="ml-0.5 text-xs text-muted">f</sup> : null}
-      </span>
+      {row.status === "ok" ? <button type="button" aria-pressed={open} data-row-open={row.id} className="text-left">{words}</button> : words}
       {row.at ? <span className="ml-1.5 text-xs text-muted">{row.at}</span> : null}
     </th>
   );
@@ -146,8 +153,8 @@ function PriceRow({ row, group, open, onOpen, file }: { row: Row; group: Group; 
   }
   const last = row.last!;
   return (
-    <tr className={`cursor-pointer border-b border-rule/70 hover:bg-paper ${open ? "bg-paper outline outline-1 -outline-offset-1 outline-accent" : ""}`} data-row={row.id} tabIndex={0} aria-selected={open}
-      onClick={() => onOpen(row.id)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen(row.id); } }}>
+    <tr className={`cursor-pointer border-b border-rule/70 hover:bg-paper ${open ? "bg-paper outline outline-1 -outline-offset-1 outline-accent" : ""}`} data-row={row.id}
+      onClick={() => onOpen(row.id)}>
       {name}
       <td className="py-1 pr-3 text-right font-semibold"><span data-n={`${row.id}|last`}>{fmt(last.v, row.unit)}</span><span className="ml-1 text-xs font-normal text-muted">{row.unit}</span></td>
       <td className="whitespace-nowrap py-1 pr-3 text-right text-xs text-muted" title={`${dateWords(last.t, row.freq)}${row.freq !== "D" ? `, a ${FREQ_WORDS[row.freq]} series` : ""}`}>
@@ -245,8 +252,8 @@ function WeekTable({ file, grid, pick, onOpen, unfolded, fold }: { file: BoardFi
           </thead>
           <tbody>
             {rows.map((w) => (
-              <tr key={w.hub} className="cursor-pointer border-b border-rule/70 hover:bg-paper" tabIndex={0} onClick={() => onOpen(`${w.hub}-da`)} onKeyDown={(e) => { if (e.key === "Enter") onOpen(`${w.hub}-da`); }}>
-                <th scope="row" className="py-1 pl-2 pr-3 text-left font-normal"><span title={`Code: ${w.code}`}>{w.label}</span></th>
+              <tr key={w.hub} className="cursor-pointer border-b border-rule/70 hover:bg-paper" onClick={() => onOpen(`${w.hub}-da`)}>
+                <th scope="row" className="py-1 pl-2 pr-3 text-left font-normal"><button type="button" data-row-open={`${w.hub}-da`} className="text-left"><span title={`Code: ${w.code}`}>{w.label}</span></button></th>
                 <td className="pr-3 text-right">{w.last_da ? <span title={dateWords(w.last_da.t)}><span data-n={`week|${w.hub}|last`}>{two(w.last_da.v)}</span><span className="ml-1 text-xs text-muted">{shortDate(w.last_da.t)}</span></span> : <span className="text-xs text-muted">not held yet</span>}</td>
                 {WEEK_COLS.map(([k]) => <td key={k} className="pr-3 text-right">{cell(w, k)}</td>)}
                 <td className="pr-3 text-right">{w.max_spread ? <span title={`${dateWords(w.max_spread.start)} to ${dateWords(w.max_spread.end)}`}>{two(w.max_spread.v)}</span> : <span className="text-xs text-muted" title="Needs a real-time price on each of the week's 7 days.">not held yet</span>}</td>

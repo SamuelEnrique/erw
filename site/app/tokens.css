@@ -208,9 +208,21 @@ body:has(.brand-a) > footer {
 
 /* ---- focus: one outline for every link and control */
 .brand-a :focus-visible,
-body:has(.brand-a) header :focus-visible {
+body:has(.brand-a) header :focus-visible,
+body:has(.brand-a) > footer :focus-visible {
   outline: 2px solid var(--color-ink);
   outline-offset: 2px;
+}
+/* Session 412 (the accessibility pass, docs/reviews/accessibility-2026-10-20.md): the footer's three links took the
+   browser's own thin ring, outside the rule above; and a date field (the network's replay day, the policy tracker's
+   dates) never matches :focus-visible while one of its parts has the keyboard, so it showed no outline at all. */
+.brand-a input[type="date"]:focus-within {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
+/* a scrolling table or block the keyboard can now reach (components/ScrollRegions.tsx): the ring inside its edge */
+.brand-a [data-scroll-focus]:focus-visible {
+  outline-offset: -2px;
 }
 
 /* ---- panels and controls */
@@ -317,12 +329,14 @@ body:has(.brand-a) header :focus-visible {
 }
 
 /* its first column stays in place while the figures scroll */
-.brand-a .overflow-x-auto table:not([data-scenario-table]) th:first-child {
+.brand-a .overflow-x-auto table:not([data-scenario-table]) th:first-child,
+.brand-a .overflow-x-auto table:not([data-scenario-table]) td[data-empty-head]:first-child {
   position: sticky;
   left: 0;
   background: #FFFFFF;
 }
-.brand-a .overflow-x-auto table:not([data-scenario-table]) tr.bg-paper th:first-child {
+.brand-a .overflow-x-auto table:not([data-scenario-table]) tr.bg-paper th:first-child,
+.brand-a .overflow-x-auto table:not([data-scenario-table]) tr.bg-paper td[data-empty-head]:first-child {
   background: var(--color-paper);
 }
 

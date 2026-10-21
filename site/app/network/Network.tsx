@@ -504,7 +504,7 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
           <span className="flex flex-wrap items-center gap-2" data-replay="1">
             <label className="ml-2 text-muted" htmlFor="replay-day">A day since {v3.index.first.slice(0, 4)}:</label>
             <input id="replay-day" type="date" min={v3.index.first} max={v3.index.last} value={isDayView ? ts.slice(0, 10) : ""} onChange={(e) => { if (e.target.value) void watchDay(e.target.value); }}
-              className="border border-rule bg-panel px-2 py-0.5 text-sm" aria-label="Replay a day" />
+              className="border border-rule bg-panel px-2 py-0.5 text-sm" />
             <button type="button" onClick={() => { if (isDayView) setPlaying(true); else void watchDay(`${v3.index.last.slice(0, 4)}-01-01`, true); }} className={buttons} aria-pressed={isDayView && playing}>{loading === "day" ? "Loading..." : "Play the year"}</button>
           </span>
         ) : null}

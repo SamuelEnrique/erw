@@ -69,7 +69,7 @@ export default async function Events() {
             const r = h.ok ? h.data : undefined;
             return (
               <div key={c.href} className="border border-rule bg-panel p-3">
-                <Link href={c.href} className="text-lg">{c.title}</Link>
+                <Link href={c.href} className="text-lg underline">{c.title}</Link>
                 <div className="text-xs text-muted">{c.dates}. {c.grids}.</div>
                 <p className="mt-2 text-sm">
                   {c.lead}:{" "}
