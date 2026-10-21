@@ -39,7 +39,7 @@ function Chip({ tier }: { tier: "source" | "derived" | "model_extracted" | "writ
   const label = tier === "written" ? "written, cited" : TIER_LABEL[tier];
   const title = tier === "written" ? "Text written for this site, with its sources named; not data" : TIER_TITLE[tier];
   return (
-    <Link href="/data/standard" title={title} className="ml-1 rounded border border-rule px-1 text-[10px] uppercase tracking-wide text-muted no-underline">
+    <Link href="/data/standard" title={title} className="ml-1 border border-rule px-1 text-xs text-muted no-underline">
       {label}
     </Link>
   );
@@ -93,7 +93,7 @@ function RightNow({ g, d }: { g: GridConfig; d: GridData }) {
           <LineChart lines={lines} unit="MW" height={220} ariaLabel={`${g.iso} hourly demand today so far and the same day last week`} />
         </div>
       </div>
-      <p className="mt-1 text-[11px] text-muted">
+      <p className="mt-1 text-xs text-muted">
         Demand is how much power customers use each hour. EIA publishes each grid&apos;s hourly demand an hour or so after the hour, so &quot;right now&quot;
         is the latest hour it has published. Last week&apos;s line is moved forward seven days so the two days line up.
       </p>
@@ -143,7 +143,7 @@ function Power({ g, d }: { g: GridConfig; d: GridData }) {
         unit="MWh" ariaLabel={`${g.iso} generation by fuel, 30 days`} file={`erw-${g.slug}-mix-30d`} />
       <div className="mt-2 overflow-x-auto">
         <table className="w-full min-w-[360px] text-sm tabular-nums">
-          <thead><tr className="border-b border-rule text-left text-[11px] text-muted"><th className="py-0.5 font-normal">Fuel (as EIA names it)</th><th className="pr-2 text-right font-normal">MWh, 30 days</th><th className="pr-2 text-right font-normal">Hours held</th></tr></thead>
+          <thead><tr className="border-b border-rule text-left text-xs text-muted"><th className="py-0.5 font-normal">Fuel (as EIA names it)</th><th className="pr-2 text-right font-normal">MWh, 30 days</th><th className="pr-2 text-right font-normal">Hours held</th></tr></thead>
           <tbody>
             {sums.map((s) => (
               <tr key={s.v} className="border-b border-rule">
@@ -155,7 +155,7 @@ function Power({ g, d }: { g: GridConfig; d: GridData }) {
           </tbody>
         </table>
       </div>
-      <p className="mt-1 text-[11px] text-muted">
+      <p className="mt-1 text-xs text-muted">
         Net generation: what the plants produce minus what they use themselves. Storage can be negative: batteries take power in when they charge.
         A fuel with fewer hours than the others is one EIA did not report for every hour.
       </p>
@@ -203,13 +203,13 @@ function Batteries({ g, d }: { g: GridConfig; d: GridData }) {
             <span>Under construction: <Num check={`storage|iso_mw|${g.iso}|under_construction`} raw={mw(by(["under_construction"]))}>{shown(mw(by(["under_construction"])))}</Num> MW</span>
             <span>Planned: <Num check={`storage|iso_mw|${g.iso}|planned`} raw={mw(by(["planned"]))}>{shown(mw(by(["planned"])))}</Num> MW</span>
           </div>
-          <p className="mt-1 text-[11px] text-muted">MW is how fast a battery can deliver power; MWh is how much energy it holds. EIA-860M gives MWh for operating units, not planned ones.</p>
+          <p className="mt-1 text-xs text-muted">MW is how fast a battery can deliver power; MWh is how much energy it holds. EIA-860M gives MWh for operating units, not planned ones.</p>
           <Cite tables={["storage_capacity"]} note="Sums of the battery units whose balancing authority is this grid" />
         </div>
       ) : (
         <NotYet what={`battery units mapped to ${g.iso}`} where="EIA publishes the generator inventory, EIA-860M" href="https://www.eia.gov/electricity/data/eia860m/" />
       )}
-      <p className="mt-1 text-[11px] text-muted"><Link href="/data/methods/storage">Method</Link>.</p>
+      <p className="mt-1 text-xs text-muted"><Link href="/data/methods/storage">Method</Link>.</p>
     </>
   );
 }
@@ -249,7 +249,7 @@ function Clean({ g, d }: { g: GridConfig; d: GridData }) {
           </div>
           <LineChart lines={[{ label: "Of generation, monthly", color: "ink", points: m.map((r) => ({ t: Date.parse(r.ts_utc) / 1000, v: r.value })) }]} x="month" unit="kg CO2/MWh" height={180} ariaLabel={`${g.iso} carbon intensity by month since 2018`} />
           {out.length ? (
-            <p className="mt-1 text-[11px] text-muted" data-carbon-left-out={out.length}>
+            <p className="mt-1 text-xs text-muted" data-carbon-left-out={out.length}>
               Left out of this line, though the table still holds them: {monthRuns(out.map((x) => x.month))}. Each rests on hours that did
               not happen or, in California from October 2019 to July 2020, on a file with no hydro in it:{" "}
               <Link href="/data/faults">known data faults</Link>.
@@ -258,7 +258,7 @@ function Clean({ g, d }: { g: GridConfig; d: GridData }) {
           <Cite tables={[TM]} />
         </div>
       ) : null}
-      <p className="mt-1 text-[11px] text-muted">Carbon intensity is the CO2 released per MWh of electricity: lower is cleaner. <Link href="/data/methods/emissions">Method</Link>.</p>
+      <p className="mt-1 text-xs text-muted">Carbon intensity is the CO2 released per MWh of electricity: lower is cleaner. <Link href="/data/methods/emissions">Method</Link>.</p>
     </>
   );
 }
@@ -277,16 +277,16 @@ function Cost({ g, d }: { g: GridConfig; d: GridData }) {
     <>
       <div className="text-xs text-muted">{g.hub.label}, USD per MWh</div>
       <div className="mt-1 grid grid-cols-2 gap-px border border-rule bg-rule text-sm tabular-nums sm:grid-cols-4">
-        <div className="bg-panel p-2"><div className="text-[11px] text-muted">Day-ahead, {daMean?.ts_utc.slice(0, 10)}</div><div className="text-xl"><N t={T} r={daMean} /></div></div>
-        <div className="bg-panel p-2"><div className="text-[11px] text-muted">Real-time, {rtMean?.ts_utc.slice(0, 10)}</div><div className="text-xl"><N t={T} r={rtMean} /></div></div>
-        <div className="bg-panel p-2"><div className="text-[11px] text-muted">Day-ahead peak, {pk?.ts_utc.slice(0, 10)}</div><div className="text-xl"><N t={TP} r={pk} /></div></div>
-        <div className="bg-panel p-2"><div className="text-[11px] text-muted">Day-ahead off-peak, same day</div><div className="text-xl"><N t={TP} r={off} /></div></div>
+        <div className="bg-panel p-2"><div className="text-xs text-muted">Day-ahead, {daMean?.ts_utc.slice(0, 10)}</div><div className="text-xl"><N t={T} r={daMean} /></div></div>
+        <div className="bg-panel p-2"><div className="text-xs text-muted">Real-time, {rtMean?.ts_utc.slice(0, 10)}</div><div className="text-xl"><N t={T} r={rtMean} /></div></div>
+        <div className="bg-panel p-2"><div className="text-xs text-muted">Day-ahead peak, {pk?.ts_utc.slice(0, 10)}</div><div className="text-xl"><N t={TP} r={pk} /></div></div>
+        <div className="bg-panel p-2"><div className="text-xs text-muted">Day-ahead off-peak, same day</div><div className="text-xl"><N t={TP} r={off} /></div></div>
       </div>
       <div className="mt-2 flex flex-wrap items-center gap-3 text-sm">
         <span className="text-xs text-muted">Day-ahead daily mean, 30 days (average <N t={T} r={avg30} />)</span>
         <span className="w-48"><InlineSpark values={daily.map((r) => ({ t: r.ts_utc, v: r.value }))} label={`${g.iso} day-ahead daily mean price, 30 days`} /></span>
       </div>
-      <p className="mt-1 text-[11px] text-muted">
+      <p className="mt-1 text-xs text-muted">
         Wholesale prices, what power plants are paid, not what a household pays. Day-ahead is the price agreed the day before; real-time is the price at
         the moment. Peak hours are the busy daytime hours of working days, as the price board&apos;s method defines them; off-peak is the rest. <Link href="/data/methods/price_board">Method</Link>.
       </p>
@@ -317,7 +317,7 @@ function Building({ g, d }: { g: GridConfig; d: GridData }) {
       <>
         <div className="overflow-x-auto">
           <table className="w-full min-w-[420px] text-sm tabular-nums">
-            <thead><tr className="border-b border-rule text-left text-[11px] text-muted"><th className="py-0.5 font-normal">Kind of project</th><th className="pr-2 text-right font-normal">Waiting (active)</th><th className="pr-2 text-right font-normal">Active MW</th><th className="pr-2 text-right font-normal">Completed</th></tr></thead>
+            <thead><tr className="border-b border-rule text-left text-xs text-muted"><th className="py-0.5 font-normal">Kind of project</th><th className="pr-2 text-right font-normal">Waiting (active)</th><th className="pr-2 text-right font-normal">Active MW</th><th className="pr-2 text-right font-normal">Completed</th></tr></thead>
             <tbody>
               {rows.map((r) => (
                 <tr key={r.t} className="border-b border-rule">
@@ -330,7 +330,7 @@ function Building({ g, d }: { g: GridConfig; d: GridData }) {
             </tbody>
           </table>
         </div>
-        <p className="mt-1 text-[11px] text-muted">
+        <p className="mt-1 text-xs text-muted">
           The interconnection queue is the waiting list of projects asking to connect to the grid; many never get built. Withdrawn projects are left out.
           Kinds are the ERW&apos;s grouping of the ISO&apos;s own fuel names. <Link href="/data/methods/energy_projects">Method</Link>.
         </p>
@@ -347,7 +347,7 @@ function Building({ g, d }: { g: GridConfig; d: GridData }) {
           <Num check={`griddc|${g.slug}|n`} raw={dcN}>{count(dcN)}</Num> facilities; <Num check={`griddc|${g.slug}|mw`} raw={dcMw}>{shown(dcMw)}</Num> MW where a source states it.{" "}
           <Link href="/datacenters">All datacenters</Link>.
         </div>
-        <p className="mt-1 text-[11px] text-muted">
+        <p className="mt-1 text-xs text-muted">
           A facility from {g.iso}&apos;s interconnection queue, or whose utility is one of {g.iso}&apos;s, is counted here; any other is counted by its
           state, for the states wholly or mostly inside {g.iso} ({states.map((s) => g.states[s]).join(", ")}), so one there may be served by a
           neighboring grid. Many rows come from news stories read by a model: check each against its source.{" "}
@@ -374,14 +374,14 @@ function News({ g, d }: { g: GridConfig; d: GridData }) {
           {d.news.slice(0, 12).map((r) => (
             <li key={r.event_id}>
               <a href={r.source_url}>{r.extra?.headline || "(no headline)"}</a>{" "}
-              <span className="text-[11px] text-muted">{r.source}, {r.event_date.slice(0, 10)}; significance {r.extra?.significance ?? ""}</span>
+              <span className="text-xs text-muted">{r.source}, {r.event_date.slice(0, 10)}; significance {r.extra?.significance ?? ""}</span>
             </li>
           ))}
         </ul>
       ) : (
         <p className="text-sm text-muted">No story in the last 14 days matched. <Link href="/digest">The Energy Digest</Link> has every day&apos;s news.</p>
       )}
-      <p className="mt-1 text-[11px] text-muted">Headlines and scores are written by a model reading each story; the link goes to the outlet.</p>
+      <p className="mt-1 text-xs text-muted">Headlines and scores are written by a model reading each story; the link goes to the outlet.</p>
       <Cite tables={["news_index"]} />
     </>
   );
@@ -430,7 +430,7 @@ export function GridNowParts({ g, d }: { g: GridConfig; d: GridData }) {
         <Written md={rest} slug={g.slug} />
       </Section>
       {Object.keys(d.errors).length ? (
-        <p className="text-[11px] text-muted">Reads that failed: {Object.entries(d.errors).map(([k, v]) => `${k}: ${v}`).join("; ")}</p>
+        <p className="text-xs text-muted">Reads that failed: {Object.entries(d.errors).map(([k, v]) => `${k}: ${v}`).join("; ")}</p>
       ) : null}
     </div>
   );

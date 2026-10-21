@@ -100,7 +100,7 @@ function HistChart({ p, name, unit }: { p: Point[]; name: string; unit: string }
 }
 
 function Stat({ label, value, title }: { label: string; value: React.ReactNode; title?: string }) {
-  return <div className="bg-white px-2 py-1" title={title}><div className="text-xs uppercase tracking-wide text-muted">{label}</div><div className="text-sm tabular-nums">{value}</div></div>;
+  return <div className="bg-white px-2 py-1" title={title}><div className="text-xs text-muted">{label}</div><div className="text-sm tabular-nums">{value}</div></div>;
 }
 const NOT = <span className="text-xs text-muted">not held yet</span>;
 
@@ -197,7 +197,7 @@ export function Workbench({ file, bench, row, set }: { file: BoardFile; bench: B
     <div className="border border-accent bg-paper/40 p-3 text-sm" data-workbench={row.id}>
       <div className="mb-2 flex flex-wrap items-start justify-between gap-2">
         <div className="min-w-0">
-          <div className="text-xs uppercase tracking-wide text-muted">Markets workbench</div>
+          <div className="text-xs text-muted">Markets workbench</div>
           <h2 className="font-serif text-xl leading-tight text-accent" title={row.code ? `Code: ${row.code}` : undefined}>{row.label}</h2>
           <div className="text-xs text-muted">{row.at}{row.at ? " · " : ""}{row.last ? <>{fmt(row.last.v, row.unit)} {row.unit} on {dateWords(row.last.t, row.freq)}</> : null}{row.formula ? <span className="ml-1 cursor-help border-b border-dotted border-muted" title={row.formula}>formula</span> : null}</div>
         </div>
@@ -255,7 +255,7 @@ export function Workbench({ file, bench, row, set }: { file: BoardFile; bench: B
 
           <div className="mt-2 overflow-x-auto">
             <table className="w-full border-collapse text-xs tabular-nums" data-stats="1">
-              <thead><tr className="border-b border-rule text-xs uppercase tracking-wide text-muted">
+              <thead><tr className="border-b border-rule text-xs text-muted">
                 <th className="py-0.5 text-left font-normal">In the window</th><th className="px-2 text-right font-normal">Mean</th><th className="px-2 text-right font-normal">Low</th><th className="px-2 text-right font-normal">High</th>
                 {hourly ? <><th className="px-2 text-right font-normal">On-peak</th><th className="px-2 text-right font-normal">Off-peak</th><th className="px-2 text-right font-normal">Hours below 0</th></> : null}
                 <th className="px-2 text-right font-normal">{hourly ? "Hours" : "Values"}</th>
@@ -299,7 +299,7 @@ export function Workbench({ file, bench, row, set }: { file: BoardFile; bench: B
 
           {(bench.v === "dist" || hourly) && (top || dist) ? (
             <div className="mt-3" data-spikes="1">
-              <h3 className="mb-1 text-xs uppercase tracking-wide text-muted">The ten highest {hourly ? "hours" : "values"} in the window{rtLine && hourly ? `, ${rtLine.name}` : ""}</h3>
+              <h3 className="mb-1 text-xs text-muted">The ten highest {hourly ? "hours" : "values"} in the window{rtLine && hourly ? `, ${rtLine.name}` : ""}</h3>
               <ol className="grid gap-x-6 text-xs tabular-nums sm:grid-cols-2">
                 {(hourly && top ? top : dist!.top).map((p) => <li key={p.t} className="flex justify-between border-b border-rule/60 py-0.5"><span className="text-muted">{when(p.t)}</span><span>{p.v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></li>)}
               </ol>
@@ -322,7 +322,7 @@ export function Workbench({ file, bench, row, set }: { file: BoardFile; bench: B
               ) : null}
               {spikes.length ? (
                 <>
-                  <h3 className="mb-1 mt-2 text-xs uppercase tracking-wide text-muted">The week&apos;s highest real-time intervals at this hub</h3>
+                  <h3 className="mb-1 mt-2 text-xs text-muted">The week&apos;s highest real-time intervals at this hub</h3>
                   <ol className="grid gap-x-6 text-xs tabular-nums sm:grid-cols-2">
                     {spikes.map((s) => <li key={s.t} className="flex justify-between border-b border-rule/60 py-0.5"><span className="text-muted">{localHour(Date.parse(s.t), s.tz)} local</span><span>{s.v.toFixed(2)}</span></li>)}
                   </ol>
