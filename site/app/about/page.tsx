@@ -47,6 +47,33 @@ export default function About() {
           scored fields; a headline&apos;s numbers are checked against them. The line under each headline is the story&apos;s own scored reason, with its
           sources linked.
         </p>
+        {/* Session 532: the four paragraphs below say what warehouse/news/brief.py does since session 470 (tests/test_session470.py);
+            each claim names, in a comment beside it, the function that does it. */}
+        <p>
+          <strong>Sections.</strong> An issue has its top 10 stories, up to three more for each group of sectors, and AI and power; a story is shown
+          in one section only, the first that takes it.{/* brief.py select */} AI and power takes up to five stories that the scorer rated 7 or more
+          for AI&apos;s demand for power and 5 or more for significance, so commentary and minor items are not in it.{/* brief.py select, AI_MIN_SIG = 5 */}
+        </p>
+        <p>
+          <strong>One event once.</strong> The scorer groups stories only within one batch, so one event can reach an issue as two clusters. Two
+          clusters are one event when they name a party in common, are filed in the same sector, and either their lead titles share most of their
+          words or they share an amount (a sum of USD 1 million or more, or a capacity of 10 MW or more).{/* brief.py same_event */} The
+          lower-ranked of the two is left out before the sections are filled, so the top 10 still holds ten stories.{/* brief.py one_per_event */} A
+          story is also dropped when its headline or any of its links is already in the issue, and the top stories are numbered again; the run log
+          names each story dropped.{/* brief.py unique_items, without_repeats, drop_repeated_items */}
+        </p>
+        <p>
+          <strong>Not the same story twice in a week.</strong> A story that a digest of the seven days before printed is left out: a link in common,
+          or a party named again with either an amount that issue printed or most of its headline&apos;s words.{/* brief.py earlier_issues (days=7), repeat_of, not_shown_before */}{" "}
+          It comes back only when it brings a sum of money none of those issues printed, such as a price disclosed after the deal.{/* brief.py not_shown_before */}{" "}
+          The Roundup leaves out, in the same way, the stories the previous week&apos;s Roundup printed.{/* roundup.py main: brief.not_shown_before on the previous Roundup */}
+        </p>
+        <p>
+          <strong>Links.</strong> A top story links up to three of its sources and a story in the other sections its first, each address
+          once.{/* brief.py build_clusters (links[:3]), main (links[:1]) */} The ERW follows a Google News link once to reach the outlet; when it
+          cannot, the link stays a Google News address and says so, &ldquo;(via Google News)&rdquo;, in the digest, the Roundup and the digest&apos;s
+          email.{/* ingest.py resolves the address; brief.py link_text; email_digest.py story_list */}
+        </p>
         <p>
           <strong>Numbers.</strong> Every number in the numbers section is read from the ERW&apos;s tables through its Python package, and each names its
           table in the section&apos;s footnotes. A day-ahead average is the mean of the 24 hourly prices of the grid&apos;s own operating day, rounded half
