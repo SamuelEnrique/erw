@@ -137,6 +137,8 @@ SECTOR_RULES = [
     (r"^boem_renewable_leases$", "power"),  # session 493: BOEM's offshore renewable energy leases and grants
     (r"^uswtdb_wind_turbines$", "power"),  # session 496: USGS's U.S. Wind Turbine Database
     (r"^eia_seds_state_energy$", "power;gas;oil;coal"),  # session 507: EIA's State Energy Data System
+    (r"^eia923_plant_fuel_annual$", "power;gas;oil;coal"),  # session 510: Form EIA-923, each plant's generation and fuel by year
+    (r"^eia861m_utility_sales_monthly$", "power"),  # session 511: Form EIA-861M, the sampled utilities' monthly sales
     (r"^pjm_rpm_capacity_prices$", "capacity"),
     # session 65: capacity prices of the four markets that pay capacity apart, and the day-ahead ancillary services
     (r"^iso_all_capacity_prices$", "capacity"),
