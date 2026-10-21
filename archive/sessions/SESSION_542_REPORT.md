@@ -49,7 +49,14 @@ The merges into `wip/024-land`: exit 0 each, one conflict, `tests/test_session16
 
 The gate at `d63b6b0d` (`runs/chain_oct20d/land024/`): the whole suite in a new clean copy, 5,356 tests, OK (exit 0); `npm run build` exit 0, no statement timeout; check-values 6,456 of 6,456 values equal, the ten held floors failing as session 408 counted them (exit 1, the known pass for a landing), no floor lowered.
 
-LANDING_PLACEHOLDER
+`origin/main` merged twice more before the push (`2e6d9e34`: the data machine's sessions 516 and 523 to 528, no file under `site/`, the whole suite again 5,378 OK; `0dcbcd2d`: one queue file). `task/*` listed: only the stale `task/198-battery-data`. `s024-land-before` at 21:57:30 UTC, its own command; the push of `0dcbcd2d` to `task/024-land` at 21:57:41; GitHub run 39682900870 passed and merged it at 22:06 (`3c012abd`). No new style sheet in ten minutes (the landing changes no style); `s024-land-after` at 22:16:44.
+
+| Snapshot | Taken (UTC) | Result |
+|---|---|---|
+| `s024-land-before` | 21:57:30 | 25 pages, 0 failed |
+| `s024-land-after` | 22:16:44 | 25 pages, 0 failed; compare: 0 differences, expected (every page a visitor reads is the in-review page) |
+
+The remote branches `wip/531-s` to `wip/541-s` were deleted (each on main).
 
 ## Decisions made without you
 
