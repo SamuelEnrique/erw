@@ -80,7 +80,7 @@ function readerText(table: string, as: Reader, origin: string): string {
       "options(old)",
       "n <- 0L",
       "while (n < length(lines) && startsWith(lines[n + 1L], \"#\")) n <- n + 1L",
-      "cat(lines[seq_len(n)], sep = \"\\n\")",
+      "writeLines(lines[seq_len(n)])",
       `${name} <- read.csv(text = lines[seq_along(lines) > n], stringsAsFactors = FALSE, check.names = FALSE,`,
       "  na.strings = \"\", encoding = \"UTF-8\")",
       `print(dim(${name}))`,

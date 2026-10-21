@@ -85,14 +85,16 @@ class TheRoute(unittest.TestCase):
         code = "\n".join(l for l in r.splitlines() if not l.startswith("#"))
         calls = set(re.findall(r"([A-Za-z_][A-Za-z0-9_.]*)\(", code))
         # base and utils (utils is attached by Rscript and by R itself): startsWith is base R from 3.3.0
-        allowed = {"options", "max", "getOption", "readLines", "startsWith", "length", "cat", "seq_len", "read.csv",
+        allowed = {"options", "max", "getOption", "readLines", "startsWith", "length", "writeLines", "seq_len", "read.csv",
                    "seq_along", "print", "dim", "head"}
         self.assertEqual(calls - allowed, set(), calls)
 
     def test_it_skips_the_provenance_and_computes_nothing(self):
         r = render("eia_fuel_spot_prices")
         self.assertIn('while (n < length(lines) && startsWith(lines[n + 1L], "#")) n <- n + 1L', r)
-        self.assertIn('cat(lines[seq_len(n)], sep = "\\n")', r)    # the provenance printed, one line a line
+        # the provenance printed, each line ended (cat(..., sep = "\n") left the last unended, and dim() printed on it)
+        self.assertIn("writeLines(lines[seq_len(n)])", r)
+        self.assertNotIn("cat(", r)
         # the rows after the provenance; seq_along(lines) > n, not lines[-seq_len(n)], which is empty when n is 0
         self.assertIn("read.csv(text = lines[seq_along(lines) > n]", r)
         self.assertNotIn("-seq_len", r)
