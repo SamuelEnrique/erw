@@ -21,7 +21,6 @@ import { CaisoBreakNote } from "@/components/CaisoBreakNote";  // session 73
 // mean and shape premium are defined, the calculator's assumptions) is in the Method note, with a short hover here.
 
 const M = "cost_of_power_monthly", P = "cost_of_power_hourly_profile", C = "cost_of_power_carbon";
-const METHOD = "/data/methods/cost_of_power";
 const ISO: Record<string, { name: string; hub: string; grid: string }> = {
   ercot: { name: "ERCOT", hub: "HB_HUBAVG", grid: "/grid/ercot" },
   caiso: { name: "CAISO", hub: "SP15", grid: "/grid/caiso" },

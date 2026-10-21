@@ -24,8 +24,6 @@ import { FLEX, type Assumptions } from "@/lib/datacenter/finance";
 import { GRID_STATE, leadingNumber, statedStat, stageWords, type Stated, type Statement } from "@/lib/datacenter/statements";
 import type { ReactNode } from "react";
 
-const one = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
-const usd = (v: number) => `USD ${usdShort(Math.round(v))}`;
 const hh = (h: number) => `${String(h).padStart(2, "0")}:00`;
 /** A number of the answers with its check key: the figure is statOf's, by the stat's name, so that the page's raw value
  * and check-values' recomputation are one definition; the text is lib/format's shown (a whole number, else two
@@ -64,7 +62,6 @@ const typeWords = (byType: Record<string, number>) => Object.entries(byType).sor
 export function PowerThere({ a, f, b }: { a: Answers; f: AnswerFacts; b?: SiteB }) {
   const w = useWays(f.own, f.words);
   const s = a.scarcity;
-  const flat = s.flatUsd * a.mw;
   const wayLine = (k: Way, label: string) => (a.held[k] && k !== "flat"
     ? <> {label} ({f.words[k]}) was off in <N pre={f.pre} stat={`scarce:off:${k}`} a={a} /> of them and avoided USD <N pre={f.pre} stat={`scarce:avoided_usd:${k}`} a={a} usd /> of that.</>
     : k === "flat" ? <> {label} runs flat, in every hour.</> : <> {label}&apos;s way ({f.words[k]}) is not held here.</>);
