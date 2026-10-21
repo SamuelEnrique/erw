@@ -53,7 +53,33 @@ Session 503's record (its report, "Finished"): the whole suite in a fresh worktr
 
 ## The landing
 
-LANDING_PLACEHOLDER
+Not landed by this session: portable-laptop's session 563 is landing the same ten branches (`wip/562-land-023`, taken at 23:31 UTC), and two machines landing one chain at once would each meet the other's merge in the middle of its gate. The gate this session ran on `wip/506-combined` (above) stands for the records it adds.
+
+## To finish
+
+Once `task/563-land-023` has merged into main (or `wip/563-land-023` says why not), on the old laptop, each its own command, never piped, its exit read:
+
+```bash
+cd C:/Users/lossa/Documents/erw-506                     # the worktree of wip/506-combined
+git fetch origin && git merge origin/main               # code files: take main's (563's), the same fixes; records: keep both
+PY=C:/Users/lossa/Documents/erw/.venv/Scripts/python.exe
+$PY scripts/freeze.py status; echo "exit=$?"
+git diff --stat origin/main...HEAD                      # expected: archive/sessions, docs/state, docs/brand/review-497 only
+$PY scripts/buildlock.py acquire s506
+# the whole suite in a clean copy of the merged commit (git worktree add --detach ../erw-506d HEAD; cp .env; ERW_LOCK_EXEMPT=1 $PY -m unittest discover -s tests)
+$PY scripts/buildlock.py release s506
+node ../erw/site/scripts/snapshot-live.mjs take s506-land-before
+git push origin HEAD:refs/heads/task/506-records
+# wait for code-branch.yml to merge it; three minutes for the deploy (no page changes)
+node ../erw/site/scripts/snapshot-live.mjs take s506-land-after
+node ../erw/site/scripts/snapshot-live.mjs compare s506-land-before s506-land-after    # expected: 0 differences
+# then delete the remote branches on main: wip/506-combined, wip/429-combined, wip/430-check-values, wip/497-faults,
+# wip/498-digest-numbers, wip/499-500-row-license, wip/501-battery-rows, wip/502-license-lines, wip/503-fresh-suite,
+# wip/504-buildlock, wip/505-check-holds, wip/461-combined, wip/474-checks, wip/475-note (each checked with
+# git merge-base --is-ancestor first; 563's report may already have deleted them)
+```
+
+If 563 did not land, `wip/506-combined` is itself a landing of chain 023 through the full gate: merge origin/main, the suite in a clean copy, the build, check-values (the ten held floors a pass), the snapshots, the push to `task/506-combined`. The session of chain 034 that next lands does whichever applies, and its report says which.
 
 ## The queue
 
