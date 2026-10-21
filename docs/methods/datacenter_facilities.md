@@ -143,3 +143,19 @@ Since 21 October 2026 `datacenter_facilities` is held whole ("license needed", `
 - **The price.** In the table, the cheapest and the dearest load zone of the grid (or the zone named) for a flat load over the calculator's last twelve months (`dcpow|<grid>|<region>|per`, above). The chart sets each complete calendar year beside them, at most the last eight held, for the cheapest load zone of that year, the calculator's default zone and the dearest load zone of that year, in the market each zone's last twelve months are bought in (real time where held, else day-ahead); the fold under it holds the chart's figures, each `dcpow|<grid>|<region>|year|<YYYY>` (a complete calendar year), which check-values recomputes from the calculator's months for that region (`site/lib/datacenter.ts`, `years`).
 - **What it leaves out.** The facilities that rest on news stories or on operators' own pages (held), a load zone for a Texas county (no list of counties is published), and any delivery, capacity or tax charge.
 - **Downloads.** The queue tables of the grids shown and the price tables the calculator's regions read, as the shared downloads line offers them (a table not in the site's catalogue is left out, and the line says so when none is).
+
+## Held by row: how a row is shown (sessions 499 and 500)
+
+The site can now hold `datacenter_facilities` row by row instead of whole, by each row's own license (session 441's
+method, [`docs/reviews/sources-by-row-2026-10-21.md`](../reviews/sources-by-row-2026-10-21.md)). Nothing changes until the
+data machine writes a column `row_license` (one of `public`, `license needed`, `unsettled`, the strictest of the row's
+members: its operator site, its stories and its queue position), kept in the row's `extra` by the loader, and marks the
+table `hold = row` in `warehouse/metadata/license_status.csv`. Today no table carries the mark, so `/datacenters` shows
+the hold as before.
+
+Once both are there, the site reads the facilities whose own license is public (`extra->>row_license=eq.public`, checked
+again row by row), shows them as it shows every facility, each with its sources linked, and says above them how many
+rows are held (check key `held|entities|datacenter_facilities|rows`, a count of the rows whose license is missing or not
+public). The top block's counts and megawatts are then of the public rows only. Session 441 counted 2 such rows on 20
+October, both from ERCOT's queue. The power side and the view by grid (sessions 467 and 468) read the grids' own queues
+and are unchanged.

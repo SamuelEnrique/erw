@@ -10,6 +10,7 @@ import { isLicenseReason } from "@/lib/license";
 import { attempt } from "@/lib/supabase";
 import { NoData } from "@/components/NoData";
 import { DealsHeld } from "../Held";
+import { HeldRows } from "@/components/tool/HeldRows";  // session 500
 
 // Session 113: the deals tracker, version 2, in the battery page's layout: the choices in a fog beige panel on the
 // left, the answer on the right. It reads the deals already extracted (energy_deals, warehouse/deals/extract.py) and
@@ -191,6 +192,7 @@ export async function TrackerView({ sp }: { sp: Record<string, string | undefine
             <p className="mb-6 border border-rule bg-paper px-3 py-2 text-sm" role="status">No deal is held in the live set.</p>
           ) : (
             <>
+              <HeldRows shape="events" table="energy_deals" shown={all.length} method="/data/methods/energy_deals" />
               <p className="mb-6 max-w-3xl font-serif text-xl leading-snug" data-deals-summary="1">{summary(all, shown, x)}</p>
 
               <p className="mb-8 max-w-3xl border-l-2 border-accent bg-paper px-4 py-3 text-sm" data-deals-stated="1">

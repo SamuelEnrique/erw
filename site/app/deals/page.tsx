@@ -7,7 +7,8 @@ import { Num } from "@/components/Num";
 import { companies, deals, renderTime } from "@/lib/data";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { count } from "@/lib/format";
-import { isLicenseReason } from "@/lib/license";
+import { isLicenseReason, licenseByRow, licenseNeeded } from "@/lib/license";
+import { HeldRows } from "@/components/tool/HeldRows";
 import { attempt } from "@/lib/supabase";
 import { Tabs } from "@/components/tool/Tabs";
 import { TableDownloads } from "@/components/tool/TableDownloads";
@@ -73,9 +74,17 @@ async function DealsView() {
           {isLicenseReason(res.reason) ? <DealsHeld /> : null}
         </>
       ) : res.data.length === 0 ? (
-        <NoData what="deals" reason="energy_deals has no rows in the live set" />
+        <>
+          {/* session 500: a table held by row with no public row says so, then how many are held */}
+          <NoData what="deals" reason={licenseNeeded("energy_deals") && licenseByRow("energy_deals") ? "no row of energy_deals rests on a public source alone" : "energy_deals has no rows in the live set"} />
+          <HeldRows shape="events" table="energy_deals" shown={0} method="/data/methods/energy_deals" />
+        </>
       ) : (
-        <Body rows={res.data.map(toDeal)} month={month} companies={cos.ok ? cos.data.map((c) => c.name) : []} />
+        <>
+          {/* session 500: held by row, the public rows are shown and the held ones counted (nothing here until the mark) */}
+          <HeldRows shape="events" table="energy_deals" shown={res.data.length} method="/data/methods/energy_deals" />
+          <Body rows={res.data.map(toDeal)} month={month} companies={cos.ok ? cos.data.map((c) => c.name) : []} />
+        </>
       )}
     </>
   );
