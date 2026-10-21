@@ -132,6 +132,7 @@ SECTOR_RULES = [
     (r"^egrid_power_plants$", "power;carbon"),  # session 486: EPA eGRID, every plant's generation and emissions
     (r"^nlr_atb_electricity_costs$", "power"),  # session 487: NLR (NREL) ATB, projected technology costs
     (r"^eia_aeo_electricity$", "power"),  # session 490: EIA's Annual Energy Outlook, electricity Tables 8 and 9
+    (r"^eia_steo_forecasts$", "power;gas"),  # session 491: EIA's Short-Term Energy Outlook, prices and the mix
     (r"^pjm_rpm_capacity_prices$", "capacity"),
     # session 65: capacity prices of the four markets that pay capacity apart, and the day-ahead ancillary services
     (r"^iso_all_capacity_prices$", "capacity"),
