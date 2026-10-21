@@ -42,6 +42,7 @@ META = os.path.join(ROOT, "warehouse", "metadata")
 COVERAGE, SOURCES = os.path.join(META, "coverage.csv"), os.path.join(META, "sources.csv")
 READS, VERDICTS, TABLES = (os.path.join(META, f"license_{n}.csv") for n in ("reads", "verdicts", "tables"))
 DOC = os.path.join(ROOT, "docs", "licenses.md")
+HOLDS_SHOWN = os.path.join(ROOT, "docs", "licenses_holds.csv")   # session 505: site/scripts/check-holds.mjs --csv
 PUBLIC, PERMISSION, PAID, FORBIDDEN = "may be public", "needs written permission", "needs a paid license", "forbidden"
 ORDER = [PUBLIC, PERMISSION, PAID, FORBIDDEN]
 OWN = {"ERW", "Anthropic"}          # the ERW's own work and its own bills: no publisher's page applies
@@ -432,6 +433,22 @@ def write(doc=None):
         letter = f"`docs/reviews/licenses/{letters[k]}-permission-letter.md`" if k in letters else ""
         w(f"| {k} | {v['verdict']} | {v['if_commercial']} | {cell(v['price']) or 'none stated'} | {cell(v['contact']) or 'not named'} | {letter} |")
     w("")
+    # session 505: the held figures a page still shows, one line a page, from docs/licenses_holds.csv (written by
+    # site/scripts/check-holds.mjs --csv on a build); no file, no section
+    if os.path.exists(HOLDS_SHOWN):
+        shown = rows(HOLDS_SHOWN)
+        day = shown[0]["day"] if shown else ""
+        w("## Held figures that still show (session 505)")
+        w("")
+        w("A table held for a license is drawn as \"license needed\" (`site/lib/license.ts`, `components/Num.tsx`). "
+          "`site/scripts/check-holds.mjs` reads every page of check-values' list on a build and lists each figure drawn from "
+          "a held table without those words. How such a figure is held is Samuel's ruling; no page was changed. "
+          + (f"Read on {day}: {len(shown)} pages." if shown else "Read: no page shows a held figure."))
+        w("")
+        for r in shown:
+            grids = f", grids {r['grids']}" if r["grids"] else ""
+            w(f"- `{r['page']}`: {r['figures']} held figures shown ({r['kinds']}), from `" + "`, `".join(r["tables"].split("; ")) + f"`{grids}.")
+        w("")
     text = "\n".join(L) + "\n"
     if chr(0x2014) in text:
         text = text.replace(chr(0x2014), ":")     # a publisher's own dash inside a quotation would break the house rule; none is expected
