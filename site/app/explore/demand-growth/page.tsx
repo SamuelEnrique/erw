@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { LineChart, type Line } from "@/components/LineChart";
 import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";
 import { SiteLink as Link } from "@/components/SiteLink";
@@ -30,7 +29,6 @@ export const dynamic = "force-dynamic";
 
 const PATH = "/explore/demand-growth";
 const SELECT = "entity,variable,ts_utc,value";
-const t0 = (y: number) => Date.UTC(y, 0, 1) / 1000;
 
 export default async function DemandGrowthExplorer({ searchParams }: { searchParams: Promise<Params> }) {
   const sp = await searchParams;
@@ -87,12 +85,12 @@ export default async function DemandGrowthExplorer({ searchParams }: { searchPar
   const recent = newest(rows, e);
   const key = (entity: string, variable: string, y: number) => `series|${TABLE}|${entity}|${variable}|${isoKey(yearTs(y))}`;
   const val = (entity: string, variable: string, y: number | undefined) => (y === undefined ? undefined : valueOf(rows, entity, variable, y));
-  // a figure: MW written whole (check-values reads this table's MW keys as whole), a percent with its sign outside the number
-  const N = ({ entity = e, v, y, pct }: { entity?: string; v: string; y: number | undefined; pct?: boolean }) => {
+  // a figure: MW written whole (check-values reads this table's MW keys as whole); a growth (percent or MW) with its sign outside the number
+  const n = (entity: string, v: string, y: number | undefined, pct?: boolean): ReactNode => {
     const x = val(entity, v, y);
     if (x === undefined || y === undefined) return <span className="text-muted">not held</span>;
     const text = pct || v.startsWith("growth_pct") ? shown(x) : Math.round(x).toLocaleString("en-US");
-    return <>{pct && x > 0 ? "+" : ""}<Num check={key(entity, v, y)} raw={x}>{text}</Num></>;
+    return <>{(pct || v.startsWith("growth_")) && x > 0 ? "+" : ""}<Num check={key(entity, v, y)} raw={x}>{text}</Num></>;
   };
   const when = (y: number | undefined) => (y === undefined ? "" : `${y}${win.latest === "newest" ? so(y) : ""}`);
   const ytdWords = (y: number | undefined) => (y === undefined ? "" : `${y}${so(y) || (through ? ` (January to ${monthName(through.month)})` : "")}`);
@@ -105,91 +103,106 @@ export default async function DemandGrowthExplorer({ searchParams }: { searchPar
   });
   const ordered = [...byGrid].sort((a, b) => (a.v === undefined ? 1 : b.v === undefined ? -1 : b.v - a.v));
   const third: { label: string; value: ReactNode; unit: string } = win.growthMw
-    ? { label: `Change since ${BASE}, ${win.short}, ${grid.name}, ${when(latest)}`, value: <N v={win.growthMw} y={latest} />, unit: "MW" }
+    ? { label: `Change since ${BASE}, ${win.short}, ${grid.name}, ${when(latest)}`, value: n(e, win.growthMw, latest), unit: "MW" }
     : win.slug === "ytd"
-      ? { label: `Average demand growth since ${BASE}, whole year, ${grid.name}, ${whole ?? ""}`, value: <N v="avg_demand_growth_since_2019_pct" y={whole} pct />, unit: "percent" }
-      : { label: `The year so far: growth since ${BASE}, ${grid.name}, ${ytdWords(recent)}`, value: <N v="ytd_avg_demand_growth_since_2019_pct" y={recent} pct />, unit: "percent" };
-  const along = (variable: string): Line["points"] => yearsOf(rows, e, variable)
-    .map((y) => ({ t: t0(y), v: val(e, variable, y) }))
-    .filter((p): p is { t: number; v: number } => p.v !== undefined);
-  const growthLines: Line[] = [
-    { label: "Average hour, whole year", points: along("avg_demand_growth_since_2019_pct"), color: "accent" },
-    { label: "Highest hour, whole year", points: along("peak_demand_growth_since_2019_pct"), color: "ink" },
-    { label: `The year so far${through ? ` (January to ${monthName(through.month)})` : ""}`, points: along("ytd_avg_demand_growth_since_2019_pct"), color: "muted" },
-  ].filter((l) => l.points.length > 0);
+      ? { label: `Average demand growth since ${BASE}, whole year, ${grid.name}, ${whole ?? ""}`, value: n(e, "avg_demand_growth_since_2019_pct", whole, true), unit: "percent" }
+      : { label: `The year so far: growth since ${BASE}, ${grid.name}, ${ytdWords(recent)}`, value: n(e, "ytd_avg_demand_growth_since_2019_pct", recent, true), unit: "percent" };
+  // the grid's growth by window along the years: one group a year, one bar a window (the site's bar chart, whose year
+  // labels are the years themselves); a window without a row that year has no bar
+  const GROWTH = [
+    { v: "avg_demand_growth_since_2019_pct", name: "Average hour, whole year", tone: "accent" as const },
+    { v: "peak_demand_growth_since_2019_pct", name: "Highest hour, whole year", tone: "ink" as const },
+    { v: "ytd_avg_demand_growth_since_2019_pct", name: `The year so far${through ? ` (January to ${monthName(through.month)})` : ""}`, tone: "muted" as const },
+  ].filter((s) => yearsOf(rows, e, s.v).length > 0);
+  const growthYears = Array.from(new Set(GROWTH.flatMap((s) => yearsOf(rows, e, s.v)))).sort((a, b) => a - b);
   const years = yearsOf(rows, e, win.mw);
   const noPeak = grid.ba === "US48";
 
   const body = (
     <>
+      {noPeak && win.slug === "peak" ? (
+        <p className="mb-6 max-w-3xl text-sm" data-no-window="1">
+          The table gives no peak for the Lower 48: its demand is EIA&apos;s sum over every balancing authority, faulty hours included, so its highest hour
+          could be a fault (the <Link href="/data/methods/demand_growth">method note</Link> says why). The other grids&apos; peaks are below.
+        </p>
+      ) : null}
       <HeadlineRow>
-        <HeadlineNumber label={`Growth since ${BASE}, ${win.short}, ${grid.name}, ${when(latest)}`} value={<N v={win.growth} y={latest} pct />} unit="percent"
-          note={<>{BASE}{win.latest === "newest" && through ? `, January to ${monthName(through.month)}` : ""}: <N v={win.mw} y={BASE} /> MW; {latest ?? ""}: <N v={win.mw} y={latest} /> MW</>} />
-        <HeadlineNumber label={`${win.short[0].toUpperCase()}${win.short.slice(1)}, ${grid.name}, ${when(latest)}`} value={<N v={win.mw} y={latest} />} unit="MW"
-          note={<>{BASE}: <N v={win.mw} y={BASE} /> MW</>} />
+        <HeadlineNumber label={`Growth since ${BASE}, ${win.short}, ${grid.name}, ${when(latest)}`} value={n(e, win.growth, latest, true)} unit="percent"
+          note={<>{BASE}{win.latest === "newest" && through ? `, January to ${monthName(through.month)}` : ""}: {n(e, win.mw, BASE)} MW; {latest ?? ""}: {n(e, win.mw, latest)} MW</>} />
+        <HeadlineNumber label={`${win.short[0].toUpperCase()}${win.short.slice(1)}, ${grid.name}, ${when(latest)}`} value={n(e, win.mw, latest)} unit="MW"
+          note={<>{BASE}: {n(e, win.mw, BASE)} MW</>} />
         <HeadlineNumber label={third.label} value={third.value} unit={third.unit} />
       </HeadlineRow>
 
       <ChartFrame title={`The headline chart: growth since ${BASE} by grid, ${win.short}`}
         note={<>One bar a grid, at its {win.latest === "newest" ? "newest year, the year so far against the same months of " + BASE : "last whole year"}, largest first; {grid.name} is marked &quot;shown below&quot;. Each bar is one row of the table; its figure is in the table under the chart.{byGrid.some((x) => x.v === undefined) ? <> A grid without a bar has no row for this window{win.slug === "peak" ? " (the Lower 48 has no peak: the method note says why)" : ""}.</> : null}</>}>
-        <div className="border border-rule bg-panel p-3" data-thesis-chart="1">
           <GroupedBars id="growth-by-grid" unit="percent" label={`Growth since ${BASE} of ${win.short}, by grid, percent`}
-            series={[{ name: `Growth since ${BASE}, ${win.label.toLowerCase()}`, tone: "accent" }]}
+            series={[{ name: `Growth since ${BASE}: ${win.label}`, tone: "accent" }]}
             fmt={signedText}
             groups={ordered.map(({ g, y, v }) => ({
               label: g.name, sub: g.slug === grid.slug ? "shown below" : v === undefined ? "not held" : undefined, values: [v ?? null],
               title: v === undefined ? `${g.name}: not held` : `${g.name}: ${signedText(v)} percent from ${BASE} to ${y}`,
             }))} />
-        </div>
       </ChartFrame>
 
       <ToolSection title={`Every grid: ${win.short}`} note={`Each grid at its ${win.latest === "newest" ? "newest year (the year so far)" : "last whole year"}; a grid's name opens it in this window.`}>
         <ToolTable caption={`Growth since ${BASE} of ${win.short}, by grid`} minWidth={win.growthMw ? 520 : 440}
-          head={["Grid", `${BASE}, MW`, `${win.latest === "newest" ? "Newest year" : "Last whole year"}, MW`, `Growth since ${BASE}, percent`, ...(win.growthMw ? ["Change, MW"] : [])]}
+          head={["Grid", `${BASE}, MW`, `${latest ?? (win.latest === "newest" ? "Newest year" : "Last whole year")}, MW`, `Growth since ${BASE}, percent`, ...(win.growthMw ? ["Change, MW"] : [])]}
           rows={byGrid.map(({ g, y }) => {
             const ge = entityOf(g.ba);
             return {
               key: g.slug, highlight: g.slug === grid.slug,
               cells: [
                 <Link key="g" href={viewHref(g.slug, win.slug)}>{g.name}</Link>,
-                <N key="b" entity={ge} v={win.mw} y={BASE} />,
-                <span key="l"><N entity={ge} v={win.mw} y={y} />{y !== undefined ? <span className="ml-1 text-xs text-muted">{y}</span> : null}</span>,
-                <N key="p" entity={ge} v={win.growth} y={y} pct />,
-                ...(win.growthMw ? [<span key="m">{(val(ge, win.growthMw, y) ?? 0) > 0 ? "+" : ""}<N entity={ge} v={win.growthMw} y={y} /></span>] : []),
+                <span key="b">{n(ge, win.mw, BASE)}</span>,
+                <span key="l">{n(ge, win.mw, y)}{y !== undefined && y !== latest ? <span className="ml-1 text-xs text-muted">{y}</span> : null}</span>,
+                <span key="p">{n(ge, win.growth, y, true)}</span>,
+                ...(win.growthMw ? [<span key="m">{n(ge, win.growthMw, y)}</span>] : []),
               ],
             };
           })} />
       </ToolSection>
 
       <ChartFrame title={`${grid.name}: growth since ${BASE}, year by year, by window`}
-        note={<>Each point is a year&apos;s row of the table, against {BASE}.{noPeak ? " No peak is given for the Lower 48 (the method note says why)." : ""}{through ? ` The year so far compares 1 January to the end of ${monthName(through.month)} of each year with the same months of ${BASE}; ${through.year} has only that window.` : ""}</>}>
-        {growthLines.length === 0 ? <NoData what={TABLE} reason={`no growth rows for ${grid.name}`} /> : (
-          <LineChart x="year" unit="percent" height={260} ariaLabel={`${grid.name}: growth since ${BASE} of average demand, peak demand and the year so far, by year`} lines={growthLines} />
+        note={<>Each bar is a year&apos;s row of the table, against {BASE}; the three figures of a year are in its hover.{noPeak ? " No peak is given for the Lower 48 (the method note says why)." : ""}{through ? ` The year so far compares 1 January to the end of ${monthName(through.month)} of each year with the same months of ${BASE}; ${through.year} has only that window.` : ""}</>}>
+        {GROWTH.length === 0 ? <NoData what={TABLE} reason={`no growth rows for ${grid.name}`} /> : (
+          <GroupedBars id="growth-by-window" unit="percent" label={`${grid.name}: growth since ${BASE} of average demand, peak demand and the year so far, by year, percent`}
+            series={GROWTH.map((s) => ({ name: s.name, tone: s.tone }))} fmt={() => ""}
+            groups={growthYears.map((y) => {
+              const vs = GROWTH.map((s) => val(e, s.v, y));
+              return {
+                label: String(y), values: vs.map((v) => v ?? null),
+                title: `${grid.name}, ${y}: ${GROWTH.map((s, k) => `${s.name.toLowerCase()} ${vs[k] === undefined ? "not held" : signedText(vs[k]!) + " percent"}`).join("; ")}`,
+              };
+            })} />
         )}
       </ChartFrame>
 
       <ChartFrame title={`${grid.name}: ${win.short} by year, MW`}
-        note={<>One point a year the table holds for this window{win.growthMw ? "; the change since " + BASE + " is written on the last whole year's row only" : ""}.</>}>
-        {years.length === 0 ? <NoData what={TABLE} reason={`no ${win.mw} rows for ${grid.name}`} /> : (
-          <LineChart x="year" unit="MW" height={240} ariaLabel={`${grid.name}: ${win.short} by year, MW`} lines={[{ label: win.label, points: along(win.mw), color: "accent" }]} />
+        note={<>One bar a year the table holds for this window{win.growthMw ? "; the change since " + BASE + " is written on the last whole year's row only" : ""}.</>}>
+        {years.length === 0 ? (noPeak && win.slug === "peak" ? <p className="text-sm text-muted" data-no-window="1">No peak is given for the Lower 48 (above): the table holds no row of it.</p> : <NoData what={TABLE} reason={`no ${win.mw} rows for ${grid.name}`} />) : (
+          <GroupedBars id="demand-by-year" unit="MW" label={`${grid.name}: ${win.short} by year, MW`} series={[{ name: win.label, tone: "accent" }]}
+            groups={years.map((y) => ({ label: String(y), values: [val(e, win.mw, y) ?? null], title: `${grid.name}, ${y}: ${Math.round(val(e, win.mw, y) ?? 0).toLocaleString("en-US")} MW` }))} />
         )}
       </ChartFrame>
 
-      <ToolSection title={`${grid.name}, year by year: ${win.short}`}
-        note={win.slug === "avg" ? "Hours used: the hours of the year whose demand passed the method's test; a year is written when at least 95 percent of its hours are used." : win.slug === "ytd" ? "Hours used: the hours of the window whose demand passed the method's test." : undefined}>
-        <ToolTable caption={`${grid.name}: ${win.short}, every year the table holds`} minWidth={360}
-          head={["Year", "MW", ...(win.perYear ? [`Growth since ${BASE}, percent`] : []), ...(win.slug === "avg" ? ["On the year before, percent", "Hours used", "Hours in the year"] : []), ...(win.slug === "ytd" ? ["Hours used", "Hours in the window"] : [])]}
-          rows={years.map((y) => ({
-            key: String(y), highlight: y === latest,
-            cells: [
-              `${y}${win.latest === "newest" ? so(y) : ""}`,
-              <N key="mw" v={win.mw} y={y} />,
-              ...(win.perYear ? [y === BASE ? <span key="g" className="text-muted">base year</span> : <N key="g" v={win.growth} y={y} pct />] : []),
-              ...(win.slug === "avg" ? [y === BASE ? <span key="o" className="text-muted">base year</span> : <N key="o" v="avg_demand_growth_yoy_pct" y={y} pct />, <N key="u" v="hours_used" y={y} />, <N key="h" v="hours_in_year" y={y} />] : []),
-              ...(win.slug === "ytd" ? [<N key="u" v="ytd_hours_used" y={y} />, <N key="h" v="ytd_hours_in_window" y={y} />] : []),
-            ],
-          }))} />
-      </ToolSection>
+      {years.length === 0 ? null : (
+        <ToolSection title={`${grid.name}, year by year: ${win.short}`}
+          note={win.slug === "avg" ? "Hours used: the hours of the year whose demand passed the method's test; a year is written when at least 95 percent of its hours are used." : win.slug === "ytd" ? "Hours used: the hours of the window whose demand passed the method's test." : undefined}>
+          <ToolTable caption={`${grid.name}: ${win.short}, every year the table holds`} minWidth={360}
+            head={["Year", "MW", ...(win.perYear ? [`Growth since ${BASE}, percent`] : []), ...(win.slug === "avg" ? ["On the year before, percent", "Hours used", "Hours in the year"] : []), ...(win.slug === "ytd" ? ["Hours used", "Hours in the window"] : [])]}
+            rows={years.map((y) => ({
+              key: String(y), highlight: y === latest,
+              cells: [
+                `${y}${win.latest === "newest" ? so(y) : ""}`,
+                <span key="mw">{n(e, win.mw, y)}</span>,
+                ...(win.perYear ? [y === BASE ? <span key="g" className="text-muted">base year</span> : <span key="g">{n(e, win.growth, y, true)}</span>] : []),
+                ...(win.slug === "avg" ? [y === BASE ? <span key="o" className="text-muted">base year</span> : <span key="o">{n(e, "avg_demand_growth_yoy_pct", y, true)}</span>, <span key="u">{n(e, "hours_used", y)}</span>, <span key="h">{n(e, "hours_in_year", y)}</span>] : []),
+                ...(win.slug === "ytd" ? [<span key="u">{n(e, "ytd_hours_used", y)}</span>, <span key="h">{n(e, "ytd_hours_in_window", y)}</span>] : []),
+              ],
+            }))} />
+        </ToolSection>
+      )}
 
       <p className="max-w-3xl text-sm" data-related-view="1">
         The same table is drawn on <Link href="/demand">Demand growth</Link>, with the map of where the growth sits by month and hour of the day

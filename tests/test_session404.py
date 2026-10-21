@@ -56,17 +56,19 @@ class ThePage(unittest.TestCase):
         self.assertEqual(p.count("<Num "), 1)                     # one figure writer, N, keyed by the row it shows
         self.assertIn("<Num check={key(entity, v, y)} raw={x}>{text}</Num>", p)
         # a sign is written outside the number, so the text check-values reads is the number as stored
-        self.assertIn('{pct && x > 0 ? "+" : ""}<Num', p)
+        self.assertIn('{(pct || v.startsWith("growth_")) && x > 0 ? "+" : ""}<Num', p)
 
     def test_it_draws_through_the_shared_charts_and_frame_only(self):
         p = self.p
         for i in re.findall(r'from "([^"]+)"', p):
             self.assertFalse(i.startswith("./") or "echarts" in i, i)
         self.assertIn('import { GroupedBars } from "@/components/tool/GroupedBars";', p)
-        self.assertIn('import { LineChart, type Line } from "@/components/LineChart";', p)
+        self.assertIn('<GroupedBars id="growth-by-window"', p)
+        self.assertIn('<GroupedBars id="demand-by-year"', p)
+        self.assertNotIn("LineChart", p)   # the shared line chart's year axis repeats a year (2024 twice): bars label each year
         self.assertIn('import { ExploreFrame, FilterForm } from "@/components/explore/Explore";', p)
         self.assertNotIn("<svg", p)
-        self.assertIn('data-thesis-chart="1"', p)
+        self.assertIn('<GroupedBars id="growth-by-grid"', p)   # its svg a direct child of the figure, so the brand lets it scroll on a phone
 
     def test_the_definition_method_and_newest_date(self):
         p = self.p
