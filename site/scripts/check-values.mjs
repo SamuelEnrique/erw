@@ -15,7 +15,8 @@
 // carries 76, and pass): scripts/check-values-floor.json holds, for each page of a passing full run, the smaller of ten
 // and the keys it carried. A page read with fewer keys than its floor fails, with a line that says so. A page not in
 // the file has no floor. CHECK_VALUES_WRITE_FLOOR=1 writes the file again from a run that passes in full (no
-// CHECK_VALUES_PAGES); a page added to the list gets its floor that way.
+// CHECK_VALUES_PAGES); a page added to the list gets its floor that way. Session 403: or from a restricted run that
+// passes in full (CHECK_VALUES_PAGES set), which sets the floors of the pages it read and leaves every other line.
 //
 // Session 72: it cannot hang. Every request has a hard timeout (CHECK_VALUES_REQUEST_S, default 60 s) and the whole run
 // one too (CHECK_VALUES_TIMEOUT_MIN, default 15 minutes): past it the run fails, loudly, with exit 1 (session 71's third
@@ -116,7 +117,11 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   ...["ercot", "caiso", "pjm", "miso", "nyiso", "isone", "spp", "us48"].flatMap((g) => [`/grid?grid=${g}`, `/grid?grid=${g}&view=clean`, `/grid?grid=${g}&view=exchange`]),
   "/grid?grid=ercot&view=mix", "/grid?grid=us48&view=mix", "/grid?grid=pjm&view=mix&mix=stress", "/grid?grid=ercot&view=network", "/grid?grid=us48&view=network",
   // session 299: the Gravity tab (the network's gravity shape with the exchange blocks under it)
-  "/grid?grid=ercot&view=gravity&shape=gravity", "/grid?grid=us48&view=gravity&shape=gravity"];  // (the line ended "// session 46: set D" before session 60)
+  "/grid?grid=ercot&view=gravity&shape=gravity", "/grid?grid=us48&view=gravity&shape=gravity",
+  // session 403: the ERCOT peak premium explorer (the thesis's default; another hub and two years; one month across the
+  // years, from the monthly table; Houston's February of Winter Storm Uri against the year before)
+  "/explore/ercot-peak-premium", "/explore/ercot-peak-premium?hub=ercot%3AHB_WEST&from=2018&to=2024", "/explore/ercot-peak-premium?month=8",
+  "/explore/ercot-peak-premium?hub=ercot%3AHB_HOUSTON&month=2&from=2020&to=2021"];  // (the line ended "// session 46: set D" before session 60)
 // session 48: the draft report behind the internal token (INTERNAL_COSTS_TOKEN, in .env.local or the environment); left
 // out, and said so, where the token is not set (the page answers 404 without it)
 const INTERNAL = ["/reports/draft/shape-premium", "/reports/draft/ai-gigawatts"];  // session 62: the AI gigawatts draft
@@ -1011,8 +1016,17 @@ async function main() {
   console.log(`\n${ok} of ${n} values match Supabase${superseded ? `; ${superseded} latest prices superseded by a newer interval within ${LATEST_LAG_MIN} minutes (checked for staleness, not comparable by value)` : ""}${bad ? `; ${bad} FAILED` : ""} (/roundup: ${wok} of ${wok + wbad})`);
   if (n < 10) console.log(`check-values FAILED: ${n} values checked, fewer than the floor of ten a run`);
   if (process.env.CHECK_VALUES_WRITE_FLOOR === "1") {
-    if (bad || n < 10 || ONLY.length) console.log("the floor file was not written: the run is restricted or did not pass");
-    else {
+    if (bad || n < 10) console.log("the floor file was not written: the run did not pass");
+    else if (ONLY.length) {
+      // session 403: a restricted run that passes in full adds (or sets again) the floors of the pages it read and only
+      // those, so a new page gets its floor without a full run moving every other page's; the other lines stay as written
+      const kept = fs.existsSync(FLOOR_FILE) ? JSON.parse(fs.readFileSync(FLOOR_FILE, "utf-8")) : { floor: {} };
+      const merged = { ...kept.floor };
+      for (const [page, count] of perPage) merged[page] = Math.min(10, count);
+      const floor = Object.fromEntries(Object.entries(merged).sort(([a], [b]) => a.localeCompare(b)));
+      fs.writeFileSync(FLOOR_FILE, JSON.stringify({ ...kept, floor }, null, 2) + "\n");
+      console.log(`the floor file was updated for ${perPage.size} pages of a restricted run (${ONLY.join(", ")}); every other page's floor is as it was`);
+    } else {
       const floor = Object.fromEntries([...perPage].sort(([a], [b]) => a.localeCompare(b)).map(([page, count]) => [page, Math.min(10, count)]));
       fs.writeFileSync(FLOOR_FILE, JSON.stringify({ note: "session 268: the smaller of ten and the checked numbers each page carried in a passing full run of check-values.mjs; written with CHECK_VALUES_WRITE_FLOOR=1", written_utc: new Date().toISOString(), base, floor }, null, 2) + "\n");
       console.log(`the floor file was written: ${perPage.size} pages`);
