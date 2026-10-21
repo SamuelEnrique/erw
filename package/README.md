@@ -90,7 +90,7 @@ dataset `energy_research_warehouse`, version v1 (released YYYY-MM-DD)". Version
 | `erw.coverage()` | The coverage table as a DataFrame, one row per table, with `license` (`public` or `internal`) |
 | `erw.fetch(name, start=, end=, node=)` | One table as a DataFrame, provenance header in `df.attrs["erw"]`; optional row subset by interval start in [start, end) and node or entity |
 | `erw.fetch([names])` | A dict of name to DataFrame |
-| `erw.filter(iso=, market=, variable=, node=, start=, end=, license=)` | Names of matching tables. With `variable=` or `node=` on local files it reads each table's distinct values once and keeps them on disk (session 34: `ERW_CACHE_DIR`, default `~/.cache/erw`; valid while the file's modification time and size are unchanged; `ERW_FACTS_CACHE=0` turns it off) |
+| `erw.filter(iso=, market=, variable=, node=, start=, end=, license=)` | Names of matching tables. With `variable=` or `node=` on local files it reads each table's distinct values once and keeps them on disk (session 34: `ERW_CACHE_DIR`, default `~/.cache/erw`; valid while the file's modification time and size are unchanged; `ERW_FACTS_CACHE=0` turns it off; since session 536 with or without pyarrow, which the package does not require) |
 | `erw.sources(name)` | Source reports, report pages and every file URL behind a table |
 | `erw.cite(name)` | A citation for the source report(s), from the source registry, naming the ERW table and data commit |
 | `erw.version()` | The git commit of the data directory, and whether it has uncommitted changes |

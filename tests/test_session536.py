@@ -11,6 +11,9 @@ and the Supabase anon backend; nothing of Redivis). Three faults came out, fixed
      the tables ERW_DATA_DIR names (api._migrations_csv).
   3. The Supabase backend dropped a series row's partition columns ba and event, so fetch("eia930_all_demand",
      ba="ciso") returned no rows there (remote.SupabaseBackend.read_table).
+  4. Without pyarrow, which the package does not require, filter(variable=) and filter(node=) read every local
+     table whole and cached nothing, though the README says the facts are kept on disk: about nine minutes a call
+     on 198 tables in the new venv (api._local_columns).
 
 The install test builds a wheel of package/ with this interpreter's setuptools (offline, no build isolation),
 installs it with --no-index into a new venv in a temporary folder and runs the package there from a folder
@@ -196,6 +199,47 @@ print(json.dumps({"cols": list(df.columns), "ba": df["ba"].tolist(), "value": df
         self.assertEqual(out["cols"][-1], "ba")
         self.assertEqual(out["ba"], ["ciso"])
         self.assertEqual(out["value"], ["25099.0"])
+
+
+class FactsWithoutPyarrow(unittest.TestCase):
+    """Fault 4: without pyarrow (not a dependency) filter(variable=, node=) read every table whole and cached nothing."""
+
+    CODE = r'''
+import json, sys
+if sys.argv[1] == "block":
+    sys.modules["pyarrow"] = None  # import pyarrow raises ImportError, as in a new venv
+import erw
+from erw import api
+s = api._local_columns("energy_deals")
+print(json.dumps({"none": s is None, "cols": sorted(s) if s else [], "n": {k: len(v) for k, v in (s or {}).items()},
+                  "types": sorted(s["event_type"]) if s else []}))
+'''
+
+    def run_one(self, mode, cache):
+        env = dict(os.environ, PYTHONPATH=str(PKG / "src"), ERW_DATA_DIR=str(ROOT / "warehouse" / "output"),
+                   ERW_CACHE_DIR=str(cache), ERW_FACTS_CACHE="1")
+        p = subprocess.run([sys.executable, "-c", self.CODE, mode], capture_output=True, text=True, timeout=300,
+                           env=env, cwd=str(ROOT))
+        self.assertEqual(p.returncode, 0, p.stderr)
+        return json.loads(p.stdout.strip().splitlines()[-1])
+
+    def test_streamed_and_cached_without_pyarrow(self):
+        with tempfile.TemporaryDirectory() as d:
+            out = self.run_one("block", Path(d) / "a")
+            self.assertFalse(out["none"])
+            self.assertIn("event_type", out["cols"])
+            self.assertTrue(out["types"])
+            self.assertEqual(len(list((Path(d) / "a" / "facts").glob("energy_deals_*.json"))), 1)
+            again = self.run_one("block", Path(d) / "a")  # read from the cache
+            self.assertEqual(again, out)
+
+    def test_pandas_and_pyarrow_read_the_same_facts(self):
+        try:
+            import pyarrow.csv  # noqa: F401
+        except Exception as e:  # noqa: BLE001 (ImportError, or this machine's Application Control block)
+            self.skipTest(f"pyarrow cannot be imported here, so the two readers are not compared: {e}")
+        with tempfile.TemporaryDirectory() as d:
+            self.assertEqual(self.run_one("pyarrow", Path(d) / "b"), self.run_one("block", Path(d) / "a"))
 
 
 class Documents(unittest.TestCase):
