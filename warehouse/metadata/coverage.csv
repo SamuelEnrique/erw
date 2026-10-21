@@ -44,6 +44,8 @@ eia860m_planned_generators,none,,2316,snapshot,2026-10-21T14:55:38Z,2026-10-21T1
 eia860m_retired_generators,none,,249,snapshot,2026-10-21T14:55:38Z,2026-10-21T14:55:38Z,249,eia:860m,2026-10-21T14:54:29Z,pass,public,power,no,source
 eia860m_retired_generators_all,none,,7334,snapshot,2026-10-06T09:55:47Z,2026-10-06T09:55:47Z,7334,eia:860m:retired,2026-10-06T09:54:25Z,pass,public,power,no,source
 eia861_utility_sales,eia861,,3529,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,433115,eia:eia861,2026-10-21T18:30:47Z,pass,public,power,no,source
+eia861m_utility_sales_monthly,eia861m,,357,P1M,2025-01-01T00:00:00Z,2026-07-01T00:00:00Z,180161,eia:eia861m,2026-10-21T19:33:05Z,pass,public,power,no,source
+eia923_plant_fuel_annual,eia923,,31644,P1Y,2020-01-01T00:00:00Z,2024-01-01T00:00:00Z,268344,eia:electricity/facility-fuel,2026-10-21T19:33:00Z,pass,public,power;gas;oil;coal,no,source
 eia930_all_demand,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,8,PT1H,2026-08-26T00:00:00Z,2026-10-20T23:00:00Z,21024,eia:electricity/rto/region-data,2026-10-21T14:24:50Z,pass,public,power,no,source
 eia930_all_emissions,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,8,PT1H,2018-07-02T00:00:00Z,2026-10-18T23:00:00Z,4347360,eia:gridmonitor/knownissues/xls,2026-10-21T14:25:29Z,pass,public,power;carbon,no,source
 eia930_all_generation,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,8,PT1H,2026-08-26T00:00:00Z,2026-10-20T23:00:00Z,111240,eia:electricity/rto/fuel-type-data;eia:electricity/rto/region-data,2026-10-21T14:24:50Z,pass,public,power,no,source
@@ -69,6 +71,7 @@ eia_fuel_spot_prices,none,,3,P1D,1986-01-02T00:00:00Z,2026-10-14T00:00:00Z,27754
 eia_gas_storage_weekly,none,,8,P1W,2010-01-01T00:00:00Z,2026-10-02T00:00:00Z,7000,eia:natural-gas/stor/wkly,2026-10-10T14:58:19Z,pass,public,gas,no,source
 eia_gas_trade_monthly,none,,36,P1M,2015-01-01T00:00:00Z,2026-07-01T00:00:00Z,1979,eia:natural-gas/move/poe1:supply;eia:natural-gas/move/poe2:supply,2026-10-10T14:58:19Z,pass,public,gas;lng,no,source
 eia_lng_exports_monthly,none,,17,P1M,2013-11-01T00:00:00Z,2026-07-01T00:00:00Z,1083,eia:natural-gas/move/poe2,2026-10-21T14:36:30Z,pass,public,lng,no,source
+eia_nuclear_outages_daily,none,,1,P1D,2007-01-01T00:00:00Z,2026-10-21T00:00:00Z,21702,eia:nuclear-outages/us-nuclear-outages,2026-10-21T19:39:31Z,pass,public,power;uranium,no,source
 eia_padd_crude_pipeline_flows,none,,11,P1M,1986-01-01T00:00:00Z,2026-07-01T00:00:00Z,4558,eia:petroleum/move/pipe,2026-10-21T14:36:30Z,pass,public,oil,no,source
 eia_petroleum_stocks_weekly,none,,8,P1W,1982-08-20T00:00:00Z,2026-10-09T00:00:00Z,16823,eia:petroleum/stoc/wstk,2026-10-21T14:36:30Z,pass,public,oil;products,no,source
 eia_petroleum_supply_weekly,none,,30,P1W,2010-01-01T00:00:00Z,2026-10-02T00:00:00Z,26118,eia:petroleum/move/wkly:supply;eia:petroleum/stoc/wstk:supply;eia:petroleum/sum/sndw,2026-10-10T14:58:19Z,pass,public,oil;products,no,source
@@ -139,6 +142,7 @@ ferc714_area_demand_2022,ferc714,,91,PT1H,2022-01-01T00:00:00Z,2022-12-31T23:00:
 ferc714_area_demand_2023,ferc714,,89,PT1H,2023-01-01T00:00:00Z,2023-12-31T23:00:00Z,779627,pudl:core_ferc714__hourly_planning_area_demand,2026-10-21T18:29:50Z,pass,internal,power,no,source
 ferc714_area_demand_2024,ferc714,,89,PT1H,2024-01-01T00:00:00Z,2024-12-31T23:00:00Z,781703,pudl:core_ferc714__hourly_planning_area_demand,2026-10-21T18:29:50Z,pass,internal,power,no,source
 ferc714_area_demand_2025,ferc714,,89,PT1H,2025-01-01T00:00:00Z,2025-12-31T23:00:00Z,770886,pudl:core_ferc714__hourly_planning_area_demand,2026-10-21T18:29:50Z,pass,internal,power,no,source
+ferc714_respondents,ferc714,,219,snapshot,2026-10-21T16:54:04Z,2026-10-21T16:54:04Z,219,pudl:core_ferc714__respondent_id,2026-10-21T19:43:35Z,pass,internal,power,no,source
 ferc_eqr_buyer_doubtful,none,,1,event,2026-06-30T00:00:00Z,2026-06-30T00:00:00Z,1281,1 outlets,2026-10-04T17:29:30Z,pass,internal,power,no,source
 ferc_eqr_buyer_names,ferc,,17955,snapshot,2026-10-04T17:29:30Z,2026-10-04T17:29:30Z,17955,erw:eqr_buyers,2026-10-04T17:29:30Z,pass,internal,power,no,source
 ferc_eqr_contract_terms,none,,1,event,1924-10-24T00:00:00Z,2223-01-01T00:00:00Z,186873,1 outlets,2026-10-05T16:59:01Z,pass,internal,power,no,source
