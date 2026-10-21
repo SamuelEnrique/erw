@@ -221,3 +221,10 @@ These profiles come from the hourly extracts, which are raw files, not warehouse
   - `site/scripts/test-eventstudy.mjs`: the TypeScript estimator against the same panel and against the Python table, all 1,077 daily and pooled estimates (session 49: 2,060, the temperature-controlled ones included, 0 mismatched).
   - The notebook reproduces both specifications (relative tolerance 1e-6).
 - **`site/scripts/check-values.mjs`:** recomputes every number on the pages from Supabase.
+
+## The figures on the page and their keys
+
+Each number `/events/<slug>` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The keys the sections above do not name:
+
+- `es|`, `demand_mwh`: the estimates of daily demand served, MWh a day, for each grid the event page studies, in its block "What the estimates say" (`site/components/EventStudy.tsx`). The page computes them at build time from `event_window_daily` with `site/lib/eventstudy.ts`, the twin of `warehouse/derived/event_study.py`. A key is `es|<event>|<entity>|demand_mwh|<term>|<field>`. The term is `pooled` (the window's pooled effect), `pooled_temp` (with the degree-day terms), `weather_share` (the percent of the estimate without the weather terms that they account for) or `day|<date>` (one event day). The field is `est`, `lo` and `hi` (the 95 percent interval), `pct` (percent of the expected) or `cf` (the MWh a day expected).
+- `es|`, `rt_mean`: the same estimates for the daily mean real-time price at ERCOT's hub average (`ercot:HB_HUBAVG`), USD/MWh, a row of the block's table on the event pages that show a price.

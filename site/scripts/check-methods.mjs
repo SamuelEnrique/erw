@@ -197,20 +197,25 @@ const METHOD_WORDS = /\bmethods?\b|^every number, step by step$/i;
 /** The notes a page's code links (rule 1), each with the file that links it. */
 export function notesOf(files) {
   const srcs = files.map((f) => [f, fs.readFileSync(f, "utf-8")]);
-  const consts = {};
-  for (const [, s] of srcs) {
-    for (const m of s.matchAll(/\b([A-Za-z_][A-Za-z0-9_]*)\s*[:=]\s*["`]\/data\/methods\/([a-z0-9_]+)/g)) consts[m[1]] ??= m[2];
+  // a constant is read in the file that links it first, then in the files it imports (two files may each hold a METHOD)
+  const constsOf = (src) => {
+    const c = {};
+    for (const m of src.matchAll(/\b([A-Za-z_][A-Za-z0-9_]*)\s*[:=]\s*["`]\/data\/methods\/([a-z0-9_]+)/g)) c[m[1]] ??= m[2];
     // an object that holds it as its href (lib/policyweek.ts: METHOD = { href: "/data/methods/..." })
-    for (const m of s.matchAll(/\b([A-Za-z_][A-Za-z0-9_]*)\s*(?::[^=\n]+)?=\s*\{[^}]*?\bhref:\s*["`]\/data\/methods\/([a-z0-9_]+)/g)) consts[`${m[1]}.href`] ??= m[2];
-  }
+    for (const m of src.matchAll(/\b([A-Za-z_][A-Za-z0-9_]*)\s*(?::[^=\n]+)?=\s*\{[^}]*?\bhref:\s*["`]\/data\/methods\/([a-z0-9_]+)/g)) c[`${m[1]}.href`] ??= m[2];
+    return c;
+  };
+  const consts = {};
+  for (const [, s] of srcs) for (const [k, v] of Object.entries(constsOf(s))) consts[k] ??= v;
   const out = new Map();
   for (const [f, s] of srcs) {
     if (isLib(f)) continue;
+    const own = constsOf(s);
     for (const m of s.matchAll(/<(?:Link|SiteLink|a)\b[^>]*?href=(?:\{\s*)?(?:"([^"]+)"|`([^`]+)`|([A-Za-z_][A-Za-z0-9_.]*))\s*\}?[^>]*>([^<]{0,80})</g)) {
       const words = m[4].replace(/&apos;/g, "'").trim();
       if (!METHOD_WORDS.test(words)) continue;
       const href = m[1] ?? m[2] ?? null;
-      const slug = href ? (href.match(/^\/data\/methods\/([a-z0-9_]+)/) ?? [])[1] : consts[m[3]];
+      const slug = href ? (href.match(/^\/data\/methods\/([a-z0-9_]+)/) ?? [])[1] : own[m[3]] ?? consts[m[3]];
       if (slug && fs.existsSync(path.join(ROOT, "docs", "methods", `${slug}.md`)) && !out.has(slug)) out.set(slug, path.relative(SITE, f).replaceAll("\\", "/"));
     }
   }
