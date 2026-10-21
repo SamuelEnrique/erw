@@ -195,22 +195,22 @@ export default async function ResearchPage() {
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b border-rule text-left text-xs text-muted">
-                        <th className="py-1 pr-3">Template</th>
-                        <th className="py-1 pr-3">Headline</th>
-                        <th className="py-1 pr-3">Period</th>
-                        <th className="py-1 pr-3 text-right">Value</th>
-                        <th className="py-1 pr-3 text-right">Earlier values</th>
-                        <th className="py-1 pr-3 text-right">Robust z</th>
-                        <th className="py-1 text-right">Percentile</th>
+                        <th scope="col" className="py-1 pr-3">Template</th>
+                        <th scope="col" className="py-1 pr-3">Headline</th>
+                        <th scope="col" className="py-1 pr-3">Period</th>
+                        <th scope="col" className="py-1 pr-3 text-right">Value</th>
+                        <th scope="col" className="py-1 pr-3 text-right">Earlier values</th>
+                        <th scope="col" className="py-1 pr-3 text-right">Robust z</th>
+                        <th scope="col" className="py-1 text-right">Percentile</th>
                       </tr>
                     </thead>
                     <tbody>
                       {res.results.map((r) => (
                         <tr key={r.template} className="border-b border-rule align-top">
-                          <td className="py-1 pr-3">
+                          <th scope="row" className="py-1 pr-3 text-left font-normal">
                             {r.title}
-                            {r.template === res.picked ? <strong className="text-accent"> (picked)</strong> : null}
-                          </td>
+                            {r.template === res.picked ? <strong> (picked)</strong> : null}
+                          </th>
                           <td className="py-1 pr-3">{r.headline.label}</td>
                           <td className="py-1 pr-3 font-mono text-xs">{r.headline.period}</td>
                           <td className="py-1 pr-3 text-right">
