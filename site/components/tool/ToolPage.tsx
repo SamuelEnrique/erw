@@ -41,12 +41,14 @@ export function ToolPage({ children }: { children: ReactNode }) {
   return <div className="border border-rule bg-white px-4 py-6 text-ink sm:px-8 sm:py-8">{children}</div>;
 }
 
-export function ToolHeader({ title, lead, crumb }: { title: string; lead?: ReactNode; crumb?: ReactNode }) {
+/** Session 502: `under`, when given, is drawn below the lead (a page's license line); no page without it changes. */
+export function ToolHeader({ title, lead, crumb, under }: { title: string; lead?: ReactNode; crumb?: ReactNode; under?: ReactNode }) {
   return (
     <header className="mb-8 border-b border-rule pb-5">
       {crumb ? <div className="mb-2 text-xs text-muted">{crumb}</div> : null}
       <h1 className="font-serif text-3xl text-accent sm:text-4xl">{title}</h1>
       {lead ? <p className="mt-3 max-w-3xl text-base leading-relaxed">{lead}</p> : null}
+      {under}
     </header>
   );
 }

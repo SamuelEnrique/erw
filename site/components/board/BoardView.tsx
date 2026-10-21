@@ -354,8 +354,9 @@ function subscribe(cb: () => void) {
   return () => { listeners.delete(cb); window.removeEventListener("popstate", cb); };
 }
 
-/** Session 328: `footer` is drawn at the board's foot, inside its frame (the page's table downloads, a server part). */
-export function BoardView({ file, footer }: { file: BoardFile; footer?: ReactNode }) {
+/** Session 328: `footer` is drawn at the board's foot, inside its frame (the page's table downloads, a server part). Session 502:
+ *  `under`, below the header (the page's license line). */
+export function BoardView({ file, footer, under }: { file: BoardFile; footer?: ReactNode; under?: ReactNode }) {
   const search = useSyncExternalStore(subscribe, () => window.location.search, () => "");
   const params = useMemo(() => new URLSearchParams(search), [search]);
   const path = usePathname();
@@ -414,6 +415,8 @@ export function BoardView({ file, footer }: { file: BoardFile; footer?: ReactNod
           <span title={`The board's files were built at ${file.built}.`}>built {dateWords(file.built)}</span>
         </p>
       </header>
+      {/* session 502: the tables the board reads and their licenses, under its title */}
+      {under ? <div className="mb-3" data-board-licenses="1">{under}</div> : null}
       <TopTwelve file={file} onOpen={onOpen} />
       <Headline file={file} market={market} setMarket={(m) => setParam("mk", m, "da")} onOpen={onOpen} />
       <nav aria-label="Sections" className="mb-4 flex flex-wrap gap-x-3 gap-y-1 text-xs">
