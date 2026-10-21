@@ -1857,6 +1857,7 @@ eia_petroleum_snd_monthly,supply_adjustment,series variable,kbbl
 eia_petroleum_snd_monthly,supply_adjustment_per_day,series variable,kbbl/d
 eia_petroleum_snd_monthly,transfers_to_crude_supply,series variable,kbbl
 eia_petroleum_snd_monthly,transfers_to_crude_supply_per_day,series variable,kbbl/d
+eia_petroleum_stocks_monthly,ending_stocks,series variable,kbbl
 eia_petroleum_stocks_weekly,stocks,series variable,kbbl
 eia_petroleum_supply_weekly,crude_input,series variable,kbbl/d
 eia_petroleum_supply_weekly,flow,series variable,kbbl/d

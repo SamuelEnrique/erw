@@ -285,6 +285,7 @@ catalogue_hold:
   - eia_petroleum_snd_monthly
   - eia_product_supplied_monthly
   - eia_wood_pellets_monthly
+  - eia_petroleum_stocks_monthly
   # session 109: EIA's daily demand by balancing authority, a history (190,512 rows). The network's replay reads its own
   # files (site/public/network/daily_<year>.json), built from it; nothing reads it from Supabase
   - eia930_daily_demand

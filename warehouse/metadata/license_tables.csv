@@ -88,6 +88,7 @@ eia_nuclear_outages_facility_daily,EIA,the source registry
 eia_nuclear_outages_generator_daily,EIA,the source registry
 eia_padd_crude_pipeline_flows,EIA,the source registry
 eia_petroleum_snd_monthly,EIA,the source registry
+eia_petroleum_stocks_monthly,EIA,the source registry
 eia_petroleum_stocks_weekly,EIA,the source registry
 eia_petroleum_supply_weekly,EIA,the source registry
 eia_petroleum_trade_weekly,EIA,the source registry
