@@ -22,6 +22,8 @@ export type Deal = {
   /** a price the story states in another unit, as extracted */
   priceOther: { value: number; unit: string } | null;
   termYears: number | null; ai: boolean; storage: boolean;
+  /** session 465: the kinds of master plan tool 6 the deal is (kindsOf), none for most */
+  kinds: string[];
   source: string; links: string[];
   /** the ids of the rows folded into this one (warehouse/deals/duplicates.csv) */
   folded: string[];
@@ -62,6 +64,30 @@ export const GRIDS = ["ERCOT", "CAISO", "PJM", "MISO", "SPP", "NYISO", "ISO-NE"]
 export const isStorage = (technology: string, asset: string): boolean =>
   /batter|storage|\bbess\b/i.test(technology) || /batter|energy storage|\bbess\b/i.test(asset);
 
+/** Session 465: the four kinds of deal master plan tool 6 names that the panel's groups gather under Other. The
+ * extraction has a type for three of them (warehouse/deals/extract.py, DEAL_TYPES); a deal of another type is of the
+ * kind too where its asset or technology names it in these words. Gas generation has no type: a deal is of it where
+ * the technology names gas and the asset a plant, a turbine or generation, an acquisition or a fuel supply excepted.
+ * Whether a plant is new build the table does not say, so the kind is "gas generation", not "gas buildout". */
+export const KINDS: { id: string; label: string; types: string[]; words: RegExp | null }[] = [
+  { id: "nuclear_restart", label: "Nuclear restart", types: ["nuclear_restart"], words: /\brestart|recommission|\breopen/i },
+  { id: "smr", label: "Small modular reactor", types: ["smr"], words: /\bsmrs?\b|small modular|micro-?reactor/i },
+  { id: "gas", label: "Gas generation", types: [], words: null },
+  { id: "behind_the_meter", label: "Behind the meter", types: ["behind_the_meter"], words: /behind[- ]the[- ]meter|co-?locat|\bon-?site\b/i },
+];
+const GAS_TECH = /\bgas\b|natgas|natural gas/i;
+const GAS_BUILD = /plant|turbine|generat|power station|peaker|combined[- ]cycle|\bccgt\b/i;
+export function kindsOf(type: string, technology: string, asset: string): string[] {
+  const text = `${asset} | ${technology}`;
+  return KINDS.filter((k) =>
+    k.id === "gas"
+      ? GAS_TECH.test(technology) && GAS_BUILD.test(asset) && type !== "m_and_a" && type !== "fuel_supply"
+      : k.types.includes(type) || (k.words !== null && k.words.test(text))).map((k) => k.id);
+}
+
+/** The statuses a story states, in the order a deal moves; "" is a deal whose stories state none. */
+export const STATUSES = ["rumored", "announced", "signed", "closed", "cancelled"];
+
 const num = (v: unknown): number | null => {
   if (v === null || v === undefined || v === "") return null;
   const n = Number(v);
@@ -86,6 +112,7 @@ export function toDeal(r: DealRow): Deal {
     mw: num(r.mw), mwh: num(x.mwh), dollars: num(x.dollars),
     price: num(r.price), priceOther: other !== null ? { value: other, unit: x.price_unit ?? "" } : null,
     termYears: num(x.term_years), ai: String(x.ai_power ?? "").toLowerCase() === "true", storage: isStorage(technology, asset),
+    kinds: kindsOf(type, technology, asset),
     source: r.source, links: links.length ? links : [r.source_url].filter(Boolean), folded: [],
   };
 }
@@ -105,7 +132,9 @@ export function fold(deals: Deal[], pairs: Pair[]): Deal[] {
   return [...by.values()].sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : a.id.localeCompare(b.id)));
 }
 
-export type Inputs = { type: string; tech: string; grid: string; party: string; year: string; view: "" | "storage" | "ai" };
+export type Inputs = { type: string; tech: string; grid: string; party: string; year: string; view: "" | "storage" | "ai";
+  /** session 465: a kind of tool 6 (KINDS) and a status the stories state (STATUSES), "" for every one */
+  kind: string; status: string };
 export const NOT_STATED = "not stated";
 
 /** The panel's choices from the address. A value the page does not offer is dropped, so a mistyped address shows every deal. */
@@ -116,13 +145,15 @@ export function inputsOf(sp: Record<string, string | undefined>, deals: Deal[]):
   const grid = GRIDS.includes(one("grid")) ? one("grid") : "";
   const year = /^\d{4}$/.test(one("year")) && deals.some((d) => d.year === one("year")) ? one("year") : "";
   const view = one("view") === "storage" || one("view") === "ai" ? (one("view") as "storage" | "ai") : "";
-  return { type, tech, grid, party: one("party").slice(0, 80), year, view };
+  const kind = KINDS.some((k) => k.id === one("kind")) ? one("kind") : "";
+  const status = STATUSES.includes(one("status")) ? one("status") : "";
+  return { type, tech, grid, party: one("party").slice(0, 80), year, view, kind, status };
 }
 
 export function hrefOf(x: Inputs, patch: Partial<Inputs> = {}): string {
   const y = { ...x, ...patch };
   const q = new URLSearchParams();
-  for (const k of ["view", "type", "tech", "grid", "party", "year"] as const) if (y[k]) q.set(k, y[k]);
+  for (const k of ["view", "type", "kind", "tech", "grid", "party", "year", "status"] as const) if (y[k]) q.set(k, y[k]);
   const s = q.toString();
   return s ? `/deals?tab=tracker&${s}` : "/deals?tab=tracker";  // session 239: the tracker is a tab of /deals (lib/tabs.ts); /deals/v2 redirects to it
 }
@@ -135,6 +166,8 @@ export function select(deals: Deal[], x: Inputs): Deal[] {
     && (!x.grid || d.grid === x.grid)
     && (!p || d.names.some((n) => n.toLowerCase().includes(p)))
     && (!x.year || d.year === x.year)
+    && (!x.kind || d.kinds.includes(x.kind))
+    && (!x.status || d.status === x.status)
     && (x.view !== "storage" || d.storage)
     && (x.view !== "ai" || d.ai));
 }
@@ -207,10 +240,12 @@ export function selectionWords(x: Inputs): string {
   if (x.view === "storage") w.push("storage");
   if (x.view === "ai") w.push("AI power");
   if (x.type) w.push(GROUPS.find((g) => g.id === x.type)!.label.toLowerCase());
+  if (x.kind) w.push(KINDS.find((k) => k.id === x.kind)!.label.toLowerCase());
   if (x.tech) w.push(x.tech === NOT_STATED ? "technology not stated" : `technology ${x.tech}`);
   if (x.grid) w.push(x.grid);
   if (x.party) w.push(`a party named "${x.party}"`);
   if (x.year) w.push(x.year);
+  if (x.status) w.push(`status ${x.status}`);
   return w.join(", ");
 }
 
@@ -231,3 +266,4 @@ export function summary(all: Deal[], shown: Deal[], x: Inputs): string {
   const price = c.withPrice ? `${whole(c.withPrice)} ${c.withPrice === 1 ? "states" : "state"} a price in US dollars per MWh` : "none states a price";
   return `${lead} ${size}, and ${price}.`;
 }
+
