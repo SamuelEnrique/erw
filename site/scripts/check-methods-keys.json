@@ -1,6 +1,6 @@
 {
  "note": "session 409: one check-values key for each figure (scripts/check-methods.mjs, rule 2) of each page of check-values-floor.json; written with --write",
- "written_utc": "2026-10-21T03:45:39.405Z",
+ "written_utc": "2026-10-21T03:56:20.337Z",
  "source": "the check-values run s372land/values_floor.out (each key under the first page that carried it)",
  "floor_written_utc": "2026-10-20T23:15:29.896Z",
  "pages": {
@@ -434,6 +434,7 @@
   "/grid?grid=caiso&view=exchange": [
    "bsup|CISO|days_held",
    "bsup|CISO|mwh:pairs",
+   "bsup|CISO|neighbour:NEVP",
    "bsup|CISO|neighbour_mwh:NEVP",
    "bsup|CISO|share:pairs",
    "net|maxflow|CISO|2026-10-19T03:00:00Z",
@@ -442,6 +443,7 @@
   "/grid?grid=ercot&view=exchange": [
    "bsup|ERCO|days_held",
    "bsup|ERCO|mwh:pairs",
+   "bsup|ERCO|neighbour:SWPP",
    "bsup|ERCO|neighbour_mwh:SWPP",
    "bsup|ERCO|share:pairs",
    "net|tie|ERCO|SWPP|2026-10-19T03:00:00Z"
@@ -449,6 +451,7 @@
   "/grid?grid=isone&view=exchange": [
    "bsup|ISNE|days_held",
    "bsup|ISNE|mwh:pairs",
+   "bsup|ISNE|neighbour:NYIS",
    "bsup|ISNE|neighbour_mwh:NYIS",
    "bsup|ISNE|share:pairs",
    "net|maxflow|ISNE|2026-10-19T03:00:00Z",
@@ -457,6 +460,7 @@
   "/grid?grid=miso&view=exchange": [
    "bsup|MISO|days_held",
    "bsup|MISO|mwh:pairs",
+   "bsup|MISO|neighbour:PJM",
    "bsup|MISO|neighbour_mwh:PJM",
    "bsup|MISO|share:pairs",
    "net|maxflow|MISO|2026-10-19T03:00:00Z",
@@ -465,6 +469,7 @@
   "/grid?grid=nyiso&view=exchange": [
    "bsup|NYIS|days_held",
    "bsup|NYIS|mwh:pairs",
+   "bsup|NYIS|neighbour:PJM",
    "bsup|NYIS|neighbour_mwh:PJM",
    "bsup|NYIS|share:pairs",
    "net|maxflow|NYIS|2026-10-19T03:00:00Z",
@@ -473,6 +478,7 @@
   "/grid?grid=pjm&view=exchange": [
    "bsup|PJM|days_held",
    "bsup|PJM|mwh:pairs",
+   "bsup|PJM|neighbour:TVA",
    "bsup|PJM|neighbour_mwh:TVA",
    "bsup|PJM|share:pairs",
    "net|maxflow|PJM|2026-10-19T03:00:00Z",
@@ -481,6 +487,7 @@
   "/grid?grid=spp&view=exchange": [
    "bsup|SWPP|days_held",
    "bsup|SWPP|mwh:pairs",
+   "bsup|SWPP|neighbour:SPC",
    "bsup|SWPP|neighbour_mwh:SPC",
    "bsup|SWPP|share:pairs",
    "net|maxflow|SWPP|2026-10-19T03:00:00Z",
@@ -766,6 +773,10 @@
    "mrs|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|uri_2021|base_window",
    "mrs|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|uri_2021|days",
    "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|capture:2026-09",
+   "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|flat:2026-09",
+   "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|rate:2026-09",
+   "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|stress_total:uri_2021",
+   "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|stress_week:uri_2021",
    "net|maxflow|ERCO|2026-10-19T03:00:00Z",
    "net|topexport|2026-10-19T03:00:00Z"
   ],
