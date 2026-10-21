@@ -1,5 +1,5 @@
 {
- "note": "session 407: the ten LinkedIn posts' figures. Each key is the check-values key (the data-check attribute) the page writes beside the figure; shown is the text the page wrote for it, and raw the value it read, in the passing full check-values run of 20 October 2026 (runs/chain_oct20d/s372land/values_floor.out, floor written 23:15:29 UTC). read-407.mjs reads each raw value again from Supabase; shots-407.mjs cuts each chart from a local build.",
+ "note": "session 407: the ten LinkedIn posts' figures. Each key is the check-values key (the data-check attribute) the page writes beside the figure; shown is the text the page wrote for it, and raw the value it read, in the passing full check-values run of 20 October 2026 (runs/chain_oct20d/s372land/values_floor.out, floor written 23:15:29 UTC). read-407.mjs reads each raw value again from Supabase; shots-407.mjs cuts each chart from a local build. Post 9's figures moved with the rebuild of iso_queue_statistics on 21 October: its four are the page's in the passing full check-values run of 21 October 2026 on the combined build of chain 015 (runs/chain_oct21/finish/cv_full.out), where every value matched Supabase.",
  "site": "https://erw-flame.vercel.app",
  "posts": [
   {
@@ -71,8 +71,8 @@
    "file": "post-09-spp-queue-2023.png",
    "page": "/map?tab=queues&iso=spp",
    "key": "series|iso_queue_statistics|spp:queue_2023|positions_withdrawn|2023-01-01T00:00:00Z",
-   "shown": "340",
-   "raw": 340
+   "shown": "341",
+   "raw": 341
   },
   {
    "n": 10,
@@ -159,8 +159,8 @@
   {
    "n": 9,
    "key": "series|iso_queue_statistics|spp:queue_2023|positions_entered|2023-01-01T00:00:00Z",
-   "shown": "435",
-   "raw": 435
+   "shown": "436",
+   "raw": 436
   },
   {
    "n": 9,
@@ -171,8 +171,8 @@
   {
    "n": 9,
    "key": "series|iso_queue_statistics|spp:queue_2023|mw_entered|2023-01-01T00:00:00Z",
-   "shown": "89,590.30",
-   "raw": 89590.298
+   "shown": "89,663.80",
+   "raw": 89663.798
   },
   {
    "n": 10,

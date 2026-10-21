@@ -192,3 +192,19 @@ the site's public catalogue does not list it; the explorer reads the catalogue's
 (`site/lib/explore/heldfresh.ts`) and states its last computation and the newest year it holds, and the end of the
 year-to-date window from the table's header. No date is written by hand. For the same reason the downloads line says
 the table is not in the site's live set and points to Redivis, as `/demand` does.
+
+## The figures on the page and their keys
+
+Each number `/explore/demand-growth` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs`
+checks against the live set and `site/scripts/check-methods.mjs` against this note (finished on the combined branch of
+chain 015, 21 October 2026). The keys of a month's or an hour's window, which the table above writes as `mMM` and `hHH`:
+
+- `eia930_demand_growth`, `avg_demand_mw_m<month>` and `avg_demand_mw_h<hour>`: the grid's average demand in the window,
+  in MW: the headline "Average demand in ..." (its last whole year, with 2019 under it), the columns "2019, MW" and the
+  last whole year's MW of the table "Every grid", and the MW column of the grid's table year by year
+  (`site/lib/explore/demandgrowth.ts`, `WINDOWS`).
+- `eia930_demand_growth`, `growth_pct_m<month>` and `growth_pct_h<hour>`: the growth since 2019 of the same window, in
+  percent, on the last whole year's row only: the first headline and the column "Growth since 2019, percent" of the
+  table "Every grid".
+- `eia930_demand_growth`, `growth_mw_m<month>` and `growth_mw_h<hour>`: the change since 2019 of the same window, in MW,
+  on the last whole year's row only: the column "Change, MW" of the table "Every grid".

@@ -44,6 +44,7 @@ const k = [
   "series|cost_of_power_hourly_profile|ercot:HB_HUBAVG|rt_mean_h03|2026-09-01T00:00:00+00:00",
   "calc|ratio|storage~iso_mw~ERCOT~operating|battery~fleet_mw",
   "es|uri_2021|eia930:ERCO|demand_mwh|pooled|est",
+  "dcll|none of the seven|row:llstmt:48367a1ed351bb6c:mw",
 ];
 console.log(JSON.stringify(k.map((x) => M.figures(x).map((f) => f.id))));
 """)
@@ -56,6 +57,7 @@ console.log(JSON.stringify(k.map((x) => M.figures(x).map((f) => f.id))));
             ["cost_of_power_hourly_profile rt_mean_h#"],
             ["storage| iso_mw", "battery| fleet_mw"],
             ["es| demand_mwh"],
+            ["dcll| row"],   # large_load_public's grid "none of the seven" is a case, not the measure (finished 21 October)
         ])
 
     def test_named(self):

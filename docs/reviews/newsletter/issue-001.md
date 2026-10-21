@@ -2,9 +2,7 @@
 
 ## What a battery in Texas earns, and why it earns a sixth of what it did
 
-*Draft for Samuel's review, written by session 406 on 21 October 2026. Nothing has been sent. Every figure is the one the page computes, rounded as the page rounds it (read on 21 October from Supabase through the page's own code, since the pages could not be built that night: see the notes), and its footnote gives the page's address and the figure's check-values key (the `data-check` attribute the page writes beside the number). The sceptic's notes are in [`issue-001-notes.md`](issue-001-notes.md).*
-
-*The three charts are not made yet. Their places are marked below, each with the page and the element it is cut from; on 21 October the local build failed three times on Supabase statement timeouts, so no page could be drawn. `issue-001/shots-406.mjs` makes all three from the next build, and the session report (`archive/sessions/SESSION_406_REPORT.md`, "To finish") has the commands. Until then the image links below point at files that do not exist.*
+*Draft for Samuel's review, written by session 406 on 21 October 2026. Nothing has been sent. Every figure is the one the page computes, rounded as the page rounds it (computed on 21 October from Supabase through the page's own code, and read again that morning from the built pages, where each was the page's own text: see the notes), and its footnote gives the page's address and the figure's check-values key (the `data-check` attribute the page writes beside the number). The sceptic's notes are in [`issue-001-notes.md`](issue-001-notes.md).*
 
 ---
 
@@ -34,7 +32,7 @@ Year by year[^4]:
 
 ![Revenue by year, USD per kW: ERCOT, 100 MW, 4 hours, perfect foresight](issue-001/chart-1-ercot-revenue-by-year.png)
 
-*Chart 1. The battery page's year chart, energy and ancillary services stacked, USD per kW. On the page's default scale a year more than two and a half times the next is drawn to the top of the scale with a break and its value written, so 2021 should be (the caption is to be checked against the PNG when it is made). From `/cost-of-power/battery`, the element `[data-series-chart="years"]`.*
+*Chart 1. The battery page's year chart, energy and ancillary services stacked, USD per kW. On the page's default scale a year more than two and a half times the next is drawn to the top of the scale with a break and its value written, and 2021 is: its bar is broken at the top of the scale and its total, 3,431, is written above it. 2026 is hatched as an incomplete year, nine months. From `/cost-of-power/battery`, the element `[data-series-chart="years"]`.*
 
 Over the same years, ERCOT's operating battery fleet at each year's end[^5]:
 
@@ -48,7 +46,7 @@ Over the same years, ERCOT's operating battery fleet at each year's end[^5]:
 
 ![ERCOT, MW at each year's end, by duration](issue-001/chart-2-ercot-fleet-mw.png)
 
-*Chart 2. The storage page's buildout chart for ERCOT, operating MW at each year's end, split by duration. From `/storage?tab=buildout&grid=ercot`, the first chart frame (the figure titled "ERCOT, MW at each year's end").*
+*Chart 2. The storage page's buildout chart for ERCOT, operating MW at each year's end, split by duration. From `/storage?tab=buildout&grid=ercot`, the first chart frame (the figure titled "ERCOT, MW at each year's end"). Its last bar, 2026, is the year so far, to August 2026, marked with an asterisk as the page marks it.*
 
 The same battery on a more modest assumption, scheduled against day-ahead prices only and paid those prices, earned USD 459.63 per kW in 2023, 127.14 in 2024 and 78.71 in 2025[^6], and 73.00 over the last twelve months[^7].
 

@@ -68,7 +68,7 @@ const TABLE_KEY = {
 export const MEASURE_AT = { digest_chart: 3, cap: -1, impact: -1, gridq: -1, shape: 3, sev: 2, ms: -1, finding: 4, awe: 2, dcd: -1, bsa: -1, es: 3, mrs: -1 };
 // the families whose measure is the last piece of that part when it is cut at ":" (dcd|<mw>|<utility>:<charge>)
 export const CUT_LAST = new Set(["dcd"]);
-const GRIDS = new Set(["ercot", "caiso", "pjm", "miso", "nyiso", "isone", "spp", "us48", "us", "erco", "ciso", "isne", "nyis", "swpp", "west", "east"]);
+const GRIDS = new Set(["ercot", "caiso", "pjm", "miso", "nyiso", "isone", "spp", "us48", "us", "erco", "ciso", "isne", "nyis", "swpp", "west", "east", "none of the seven", "more than one"]);
 
 /** A part of a key that is a case or an instance, not a name (rule 2). */
 export function instance(x) {
