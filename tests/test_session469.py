@@ -83,6 +83,12 @@ class ThePage(unittest.TestCase):
         self.assertIn('const [minSig, setMinSig] = useState(tagAtOpen ? "" : "5");', t)
         self.assertIn('setTag(""); setMinSig("5");', t)                        # Reset: no tag, as before
 
+    def test_the_browser_check_reads_both(self):
+        t = src("site", "scripts", "check-policy-reads.mjs")
+        self.assertIn("tagHref(LOAD_GROUP)", t)
+        self.assertIn("data-read-cites-of", t)
+        self.assertIn('back.tag === "" && back.sig === "5" && back.shown === plain.shown', t)
+
     def test_release_is_not_touched(self):
         r = subprocess.run(["git", "diff", "--quiet", "origin/main", "--", "site/lib/release.ts"], cwd=ROOT, capture_output=True)
         if r.returncode not in (0, 1):
