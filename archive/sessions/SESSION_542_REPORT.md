@@ -55,6 +55,7 @@ The gate at `d63b6b0d` (`runs/chain_oct20d/land024/`): the whole suite in a new 
 |---|---|---|
 | `s024-land-before` | 21:57:30 | 25 pages, 0 failed |
 | `s024-land-after` | 22:16:44 | 25 pages, 0 failed; compare: 0 differences, expected (every page a visitor reads is the in-review page) |
+| `s024-land-after2` | 22:58:13 | taken once production served the new build ("Reset your load" on `/cost-of-power`, session 541's mark); compare with `s024-land-before`: 0 differences, expected |
 
 The remote branches `wip/531-s` to `wip/541-s` were deleted (each on main).
 
