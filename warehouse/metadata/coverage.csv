@@ -167,11 +167,11 @@ news_index,none,,77,event,2025-01-01T08:00:00Z,2026-12-01T12:00:00Z,15847,77 out
 news_scores_shadow,none,,62,event,2026-08-31T07:00:00Z,2026-10-05T14:39:55Z,4748,62 outlets,2026-10-04T14:36:49Z,pass,internal,news,no,model_extracted
 news_stories,none,,79,event,2025-01-01T08:00:00Z,2026-12-01T12:00:00Z,21087,79 outlets,2026-10-20T06:13:48Z,pass,internal,news,no,model_extracted
 nlr_jedi_multipliers,nlr,,2266,P1Y,2010-01-01T00:00:00Z,2017-01-01T00:00:00Z,5562,nlr:jedi,2026-10-20T08:43:20Z,pass,public,power,no,derived
-noaa_grid_weather_daily,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,P1D,2019-01-01T00:00:00Z,2026-10-10T00:00:00Z,118336,noaa:isd_lite;noaa:lcd_v2,2026-10-19T17:30:35Z,pass,public,power,no,source
-noaa_grid_weather_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,PT1H,2019-01-01T00:00:00Z,2026-10-11T03:00:00Z,1902921,noaa:isd_lite;noaa:lcd_v2,2026-10-19T17:30:35Z,pass,public,power,no,source
-noaa_grid_weather_stations,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,,2019-01-01T00:00:00Z,2019-01-01T00:00:00Z,245,noaa:isd_lite,2026-10-19T17:30:35Z,pass,public,power,no,source
+noaa_grid_weather_daily,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,P1D,2019-01-01T00:00:00Z,2026-10-17T00:00:00Z,118630,noaa:isd_lite;noaa:lcd_v2,2026-10-21T08:45:57Z,pass,public,power,no,source
+noaa_grid_weather_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,PT1H,2019-01-01T00:00:00Z,2026-10-18T03:00:00Z,1907625,noaa:isd_lite;noaa:lcd_v2,2026-10-21T08:45:57Z,pass,public,power,no,source
+noaa_grid_weather_stations,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,,2019-01-01T00:00:00Z,2019-01-01T00:00:00Z,245,noaa:isd_lite,2026-10-21T08:45:57Z,pass,public,power,no,source
 noaa_isd_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,4,,2018-03-04T05:51:00Z,2025-08-27T06:53:00Z,412435,noaa:isd_global_hourly,2026-10-01T03:54:43Z,pass,public,power,no,source
-noaa_station_weather_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,35,PT1H,2019-01-01T00:00:00Z,2026-10-11T03:00:00Z,4735433,noaa:isd_lite;noaa:lcd_v2,2026-10-19T17:30:35Z,pass,public,power,no,source
+noaa_station_weather_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,35,PT1H,2019-01-01T00:00:00Z,2026-10-18T03:00:00Z,4747179,noaa:isd_lite;noaa:lcd_v2,2026-10-21T08:45:57Z,pass,public,power,no,source
 node_basis_daily,ERCOT,ercot_dam;ercot_rtm,888,P1D,2025-10-01T00:00:00Z,2026-10-20T00:00:00Z,957969,erw:node_basis,2026-10-20T20:21:01Z,pass,public,power,yes,derived
 node_basis_summary,ERCOT,ercot_dam;ercot_rtm,1,P1M,2025-10-01T00:00:00Z,2026-10-01T00:00:00Z,1260,erw:node_basis,2026-10-20T20:21:01Z,pass,public,power,yes,derived
 nrc_reactor_status,nrc,,99,P1D,2020-01-01T00:00:00Z,2026-10-20T00:00:00Z,234720,nrc:power_reactor_status,2026-10-20T17:23:31Z,pass,public,power;uranium,no,source
