@@ -111,7 +111,7 @@ export default async function PeakPremiumExplorer({ searchParams }: { searchPara
         { name: "to", label: "Second year", value: toS, options: years.map(yearOpt) },
       ]}
       reset={{ href: PATH, defaults: `${node(THESIS_HUB)}, the whole year, the first year held against the newest complete one (the thesis's comparison)` }}
-      note={asked.length ? <span data-asked-unknown="1">The address asked for a {asked.join(", ")} the tables do not hold; the page shows the default in its place.</span> : undefined}
+      note={asked.length ? <span data-asked-unknown="1">The address asked for a {asked.join(" and a ")} the tables do not hold; the page shows the default in its place.</span> : undefined}
     />
   );
   if (!read.ok || rows.length === 0) {
@@ -161,7 +161,7 @@ export default async function PeakPremiumExplorer({ searchParams }: { searchPara
       </ToolSection>
 
       <ToolSection title={`The thesis's figures, ${name}`} note="Each figure is one row of the table, as the method note defines it; the page computes none of them.">
-        <ToolTable caption={`${name}: the thesis's figures in ${pair.map(when).join(" and ")}`} minWidth={480}
+        <ToolTable caption={`${name}: the thesis's figures in ${pair.map(when).join(" and ")}`} minWidth={360}
           head={["Figure", ...pair.map(when)]}
           rows={FIGURES.map((f) => ({ key: f.v, cells: [f.label, ...pair.map((y) => <N key={y} v={f.v} y={y} unit={f.unit} />)] }))} />
       </ToolSection>
