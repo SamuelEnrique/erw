@@ -41,7 +41,7 @@ export function ChartOfWeekView({ c }: { c: ChartOfWeek }) {
         <a href={`${base}/${c.files.social_square}`}>1080 by 1080</a>.
       </p>
       <details className="mt-2 text-xs text-muted">
-        <summary>Citations</summary>
+        <summary className="cursor-pointer py-1">Citations</summary>
         <ul className="list-disc pl-5">
           {c.citations.map((x) => (
             <li key={x}>{x}</li>

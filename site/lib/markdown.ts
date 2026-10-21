@@ -7,6 +7,7 @@ import { Marked, type Tokens } from "marked";
 import docs from "@/content/docs.json";
 import site from "@/data/site.json";
 import { gated } from "@/lib/release";
+import { archiveOf, digestMarkdown, fillDigest, type DayKind } from "@/lib/digest";
 
 export type Docs = {
   built_at: string;
@@ -220,18 +221,22 @@ export function isoWeek(date: string): string {
 }
 
 /**
- * Session 23: the digest archive by day, newest first: every dated digest, plus each Saturday and Sunday
- * between the first digest and today (UTC) that has none, marked as having no weekend issue.
+ * Session 23: the digest archive by day, newest first. Session 402: every day from the first Digest to today (UTC), each
+ * with what the Digest holds for it (lib/digest.ts dayKind): its Digest, a weekend (no weekend issue), today before
+ * its Digest is written, or a weekday that passed without one (until this session such a day was left out of the
+ * list and its address answered 404).
  */
-export function archiveDays(): { date: string; has: boolean }[] {
-  const have = new Set(digestDates());
-  const first = [...have].sort()[0];
-  const out: { date: string; has: boolean }[] = [];
-  const today = new Date().toISOString().slice(0, 10);
-  for (let d = new Date(`${first}T00:00:00Z`); d.toISOString().slice(0, 10) <= today; d.setUTCDate(d.getUTCDate() + 1)) {
-    const s = d.toISOString().slice(0, 10);
-    if (have.has(s)) out.push({ date: s, has: true });
-    else if (isWeekend(s)) out.push({ date: s, has: false });
-  }
-  return out.reverse();
+export function archiveDays(today: string = new Date().toISOString().slice(0, 10)): { date: string; kind: DayKind }[] {
+  return archiveOf(digestDates(), today);
+}
+
+/**
+ * Session 402: a Digest rendered with its figures' keys (lib/digest.ts): each figure of the numbers section and of
+ * the chart of the day is a span with data-check and data-raw, as components/Num.tsx draws one, or "license needed"
+ * where its table is held (lib/license.ts); while news_index is held, the sections of stories read as held.
+ */
+export function renderDigest(md: string, date: string, now: Date = new Date()): string {
+  const chart = DOCS.digest_charts?.[date] ?? null;
+  const t = digestMarkdown(md, date, chart ? { table: chart.table, numbers: chart.numbers } : null, now);
+  return fillDigest(render(t.md, `docs/digest/${date}.md`), t.spans);
 }

@@ -519,3 +519,11 @@ Session 381, 21 October 2026 (roadmap item 2, "a cross-check table against publi
 - Not in the table: ERCOT's 2023 peak demand, 85,432 MW in the highest hour of EIA-930 against ERCOT's record of 85,508 MW (`docs/methods/demand_growth.md`). The note quotes ERCOT's record without the address it was read from, so it is listed here and not set in the table.
 - Not in the table: ISO-NE, MISO and NYISO against Form EIA-923 (2025: -4.91, -6.68 and -3.09 percent). `eia_annual_crosscheck.md` gives the gaps and not the two totals, and `eia_annual_crosscheck_ba` is not in the live set (a read on 21 October 2026 answered "Could not find the table"), so their TWh are not quoted.
 - The page carries no "Checked against" line yet, unlike the three decision tools: adding one changes the page's words, and is listed in the session's report for Samuel's ruling.
+
+## The figures on the page and their keys
+
+Each number `/grid` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The keys the sections above do not name:
+
+- `bsup|<BA>|share:pairs`, `bsup|<BA>|mwh:pairs`, `bsup|<BA>|days_held`: on the Gravity tab, under the gravity shape, the Exchange view's block "Over the last twelve months" (`components/grid/ExchangeView.tsx`): the grid's net imports as a percent of its demand, by the sum of its reported ties (`pairs`), the same net imports in MWh, and the days held, computed from `ba_supply_monthly` by `site/lib/basupply.ts` as "Who supplies a grid" above describes.
+- `bsup|<BA>|neighbour_mwh:<ID>`, `bsup|<BA>|neighbour:<ID>`: the table of the grid's neighbours over the same twelve months: each neighbour's net import into the grid in MWh, and its percent of the grid's demand.
+- `net|maxflow|<BA>|<hour>`: the Exchange view's headline "Largest flow": the largest flow, either way, over the grid's reporting ties in the hour shown, in MW, read from the network's snapshot of `eia930_all_interchange`.

@@ -353,7 +353,7 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
                     The figures above stay at the hub.
                   </p>
                   <details className="mt-1 text-xs">
-                    <summary className="cursor-pointer">The basis of each month, USD per MWh</summary>
+                    <summary className="cursor-pointer py-1">The basis of each month, USD per MWh</summary>
                     <ul className="mt-1 grid grid-cols-2 gap-x-4 sm:grid-cols-3">
                       {M.node.months.map((r) => <li key={r.m}>{shortMonth(r.m)}: <Num check={`series|node_basis_summary|ercot:${cg.main}|${M.node!.variable}|${r.ts}`} raw={r.basis}>{two(r.basis)}</Num></li>)}
                     </ul>
