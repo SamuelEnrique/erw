@@ -9,7 +9,7 @@ import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
-  BLOCKS, BLOCK_RULES, LEDGER, blockOf, build, ledger, noteOrder, parseNote, parseReport, readNotes, sameAsk, sessionsNamed, spans, subjectOf, tokens,
+  BLOCKS, BLOCK_RULES, LEDGER, blockOf, build, ledger, noteOrder, parseNote, parseReport, readNotes, reportId, resolveRun, sameAsk, sessionsNamed, spans, subjectOf, tokens,
 } from "./build-waits.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -120,12 +120,28 @@ try {
   fs.rmSync(tmp, { recursive: true, force: true });
 }
 
+// --- session 425: the end of the run
+eq(LEDGER, { from: 351, to: "newest" }, "the run is 351 to the newest report present");
+eq(resolveRun([{ n: 360 }, { n: 475 }, { n: 300 }, { n: 9999 / 0 }]), { from: 351, to: 475 }, "newest is the highest session read, from 351");
+eq(resolveRun([{ n: 300 }]), { from: 351, to: 351 }, "no report of the run: the run is its first session alone");
+eq(resolveRun([{ n: 475 }], { from: 900, to: 902 }), { from: 900, to: 902 }, "a run with a number for its end is kept");
+{
+  const late = parseReport("SESSION_475_REPORT.md", ["# Session 475 report: a late one", "", "21 October 2026.", "", "## For Samuel's ruling", "", "- Whether the late report joins the ledger.", ""].join(String.fromCharCode(10)));
+  const led = ledger([late], [], { error: null, order: null, last: null });
+  ok(led.to === 475 && led.held.includes("475") && led.groups.length === 1, "a report numbered past 413 joins the ledger with its item");
+}
+
 // --- the repository's own reports and notes
 const w = build(repo);
 const L = w.ledger;
 ok(L && L.error === null, `the repository's ledger is made (${L && L.error})`);
 if (L && L.error === null) {
-  eq([L.from, L.to], [LEDGER.from, LEDGER.to], "the run the page names is LEDGER's");
+  // session 425: the run ends at the newest report of the folder the build read (those the marker has not answered)
+  const files = fs.readdirSync(path.join(repo, "archive", "sessions")).map(reportId).filter(Boolean)
+    .filter((id) => !(w.marker.error === null && id.order <= w.marker.order) && id.n >= LEDGER.from);
+  const newest = files.length ? Math.max(...files.map((id) => id.n)) : LEDGER.from;
+  eq([L.from, L.to], [LEDGER.from, newest], "the run the page names is LEDGER's, to the newest report present");
+  ok(L.to > 413, "the run reaches past session 413 once newer reports are present");
   ok(L.held.length > 0 && L.held.every((id) => Number.parseInt(id, 10) >= L.from && Number.parseInt(id, 10) <= L.to), "every report read is of the run");
   const counted = new Set();
   for (const g of L.groups) {

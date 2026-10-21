@@ -934,7 +934,7 @@ python scripts/duty.py check --dry-run
 - The page checks the internal cookie as the other `/internal` pages do (open `/internal/open` first), is linked from
   nothing, and answers 404 to a visitor.
 - **Each ruling once (session 414).** At the top of the page, the ledger of one run of sessions (`LEDGER` in
-  `build-waits.mjs`, 351 to 413 today): every item of a section for him in those reports, listed once, under what it
+  `build-waits.mjs`, 351 to the newest report present at the build since session 425, 351 to 413 before): every item of a section for him in those reports, listed once, under what it
   blocks (money, a data pull, a ruling on a figure, a public page, or none of the four), with a count at the top and the
   three that the state notes rank highest first. Fixed rules, no model, each printed on the page: two items of
   different reports are one when they match one subject (`SUBJECTS`), or when one names the other's session and they
