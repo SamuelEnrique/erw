@@ -23,8 +23,23 @@ if (Test-Path $lock) {
     Note "stale lock removed (pid $old)"
 }
 
-# 1b. Any Claude Code session on this machine (interactive or worker-started) means the machine is busy: leave it alone.
-if (Get-Process -Name "claude" -ErrorAction SilentlyContinue) { exit 0 }
+# 1b. A Claude Code session on this machine (interactive or worker-started) is left alone while it shows work: a commit
+#     in the main checkout or any worktree within the last 30 minutes. A session open with no commit for 30 minutes is
+#     stalled (waiting for a time of day, a lock, a person): it is closed, and a fresh session takes the chain from its
+#     reports. The owner's rule of 21 October: no machine sits idle; every session's work is on a pushed branch.
+$procs = Get-Process -Name "claude" -ErrorAction SilentlyContinue
+if ($procs) {
+    $logs = @(Join-Path $Root ".git\logs\HEAD")
+    $wt = Join-Path $Root ".git\worktrees"
+    if (Test-Path $wt) { $logs += Get-ChildItem $wt -Directory | ForEach-Object { Join-Path $_.FullName "logs\HEAD" } }
+    $newest = Get-Date "2000-01-01"
+    foreach ($f in $logs) { if (Test-Path $f) { $t = (Get-Item $f).LastWriteTime; if ($t -gt $newest) { $newest = $t } } }
+    $quiet = ((Get-Date) - $newest).TotalMinutes
+    if ($quiet -lt 30) { exit 0 }
+    Note ("a Claude Code session has shown no commit for {0:N0} minutes: closing it" -f $quiet)
+    $procs | Stop-Process -Force -ErrorAction SilentlyContinue
+    Start-Sleep -Seconds 10
+}
 
 Set-Location $Root
 $py = Join-Path $Root ".venv\Scripts\python.exe"
