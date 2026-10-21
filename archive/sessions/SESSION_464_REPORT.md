@@ -23,9 +23,9 @@
 
 | n | UTC | Address | Status | Purpose |
 |---|---|---|---|---|
-| 1 | 09:46 | `https://modoenergy.com/robots.txt` | 200 | the robots file, first: `Allow: /` for every client, ClaudeBot and anthropic-ai named |
-| 2 | 09:47 | `https://modoenergy.com/website-terms-of-service` | 200 | the terms, before any research page: no sentence on automated reading; "You may not recirculate, redistribute or publish the analysis and presentation included in the Service without Modo's prior written consent" |
-| 3 | 09:48 | `https://modoenergy.com/research/en/how-does-battery-energy-storage-make-money` | 200 | the June 2025 share (published 19 May 2026, from the page's own metadata) |
+| 1 | 09:41 | `https://modoenergy.com/robots.txt` | 200 | the robots file, first: `Allow: /` for every client, ClaudeBot and anthropic-ai named |
+| 2 | 09:42 | `https://modoenergy.com/website-terms-of-service` | 200 | the terms, before any research page: no sentence on automated reading; "You may not recirculate, redistribute or publish the analysis and presentation included in the Service without Modo's prior written consent" |
+| 3 | 09:42 | `https://modoenergy.com/research/en/how-does-battery-energy-storage-make-money` | 200 | the June 2025 share (published 19 May 2026, from the page's own metadata) |
 
 The fourth request was not spent: the nowcast's post was read by session 208 on 12 October and is quoted as it read it. The log is `runs/chain_019/s464/requests.csv` (git ignores `runs/`); the raw pages are beside it and are not in git.
 
