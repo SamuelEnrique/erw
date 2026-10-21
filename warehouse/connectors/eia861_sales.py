@@ -67,22 +67,55 @@ def zip_url(page_html, year=None):
     return PAGE + href, int(y)
 
 
+CHARACTERISTICS = {"data year": "year", "utility number": "utility", "utility name": "name", "part": "part",
+                   "service type": "service", "data type": "data_type", "state": "state", "ownership": "ownership",
+                   "ba code": "ba", "ba_code": "ba"}
+
+
+def columns(frame):
+    """Session 495: the sheet's columns by their headings (its first three rows), not by position. 2019's sheet holds a
+    "Short Form" column the other years do not, which a positional read shifted into every figure. Returns
+    ({characteristic: column}, {(sector, measure): column}); a heading not understood is left out, and a characteristic
+    or a sector's measure missing stops the run."""
+    chars, figs, sector = {}, {}, None
+    for c in range(frame.shape[1]):
+        top, mid, low = (str(frame.iloc[r, c]).strip() for r in range(3))
+        if top.upper() in {s.upper() for s in SECTORS}:
+            sector = top.lower()
+        name = low.split(chr(10))[0].strip().lower()   # "Data Type", before EIA's note on the next lines
+        if name in CHARACTERISTICS:
+            chars[CHARACTERISTICS[name]] = c
+            continue
+        m = mid.lower()
+        measure = {"revenues": "revenue", "revenue": "revenue", "sales": "sales", "customers": "customers"}.get(m)
+        if sector and measure:
+            figs[(sector, measure)] = c
+    missing = [k for k in ("year", "utility", "name", "part", "service", "data_type", "state", "ownership", "ba") if k not in chars]
+    missing += [f"{s}_{m}" for s in SECTORS for m, _, _ in MEASURES if (s, m) not in figs]
+    if missing:
+        raise RuntimeError(f"the sheet's headings lack {missing}")
+    return chars, figs
+
+
 def sheet_rows(frame, year, url, retrieved):
-    """One sheet (States or Territories) as the table's rows: observed utilities only, a row a figure."""
-    d = frame[pd.to_numeric(frame[0], errors="coerce").eq(year)].copy()
-    d = d[d[5].astype(str).str.strip().eq("O")]
-    d = d[~pd.to_numeric(d[1], errors="coerce").isin(NOT_UTILITIES)]
+    """One sheet (States or Territories), its three heading rows included, as the table's rows: observed utilities only,
+    a row a figure, every column found by its heading."""
+    ch, figs = columns(frame)
+    d = frame.iloc[3:]
+    d = d[pd.to_numeric(d[ch["year"]], errors="coerce").eq(year)]
+    d = d[d[ch["data_type"]].astype(str).str.strip().eq("O")]
+    d = d[~pd.to_numeric(d[ch["utility"]], errors="coerce").isin(NOT_UTILITIES)]
+    text = lambda r, k: "" if pd.isna(r[ch[k]]) else str(r[ch[k]]).strip()  # noqa: E731
     out = []
     for _, r in d.iterrows():
-        util, state, part, ba = int(r[1]), str(r[6]).strip(), str(r[3]).strip(), "" if pd.isna(r[8]) else str(r[8]).strip()
-        ent = f"eia861:{util}:{state}:{part}:{ba}"
-        base = dict(entity=ent, ts_utc=f"{year}-01-01T00:00:00Z", freq="P1Y", geo=f"US-{state}", market="", node=str(r[2]).strip(),
-                    source=SOURCE, source_url=url, retrieved_at=retrieved, vintage="",
-                    x_utility_number=str(util), x_state=state, x_part=part, x_service_type=str(r[4]).strip(),
-                    x_ownership="" if pd.isna(r[7]) else str(r[7]).strip(), x_ba_code=ba, x_data_type="O")
-        for i, sector in enumerate(SECTORS):
-            for j, (measure, unit, scale) in enumerate(MEASURES):
-                v = pd.to_numeric(r[9 + 3 * i + j], errors="coerce")
+        util, state, part, ba = int(r[ch["utility"]]), text(r, "state"), text(r, "part"), text(r, "ba")
+        base = dict(entity=f"eia861:{util}:{state}:{part}:{ba}", ts_utc=f"{year}-01-01T00:00:00Z", freq="P1Y", geo=f"US-{state}",
+                    market="", node=text(r, "name"), source=SOURCE, source_url=url, retrieved_at=retrieved, vintage="",
+                    x_utility_number=str(util), x_state=state, x_part=part, x_service_type=text(r, "service"),
+                    x_ownership=text(r, "ownership"), x_ba_code=ba, x_data_type="O")
+        for sector in SECTORS:
+            for measure, unit, scale in MEASURES:
+                v = pd.to_numeric(r[figs[(sector, measure)]], errors="coerce")
                 if pd.isna(v):      # "." in EIA's sheet: no value, no row
                     continue
                 out.append(dict(base, variable=f"{sector}_{measure}", value=float(v) * scale, unit=unit))
@@ -107,13 +140,17 @@ def main(argv=None):
     ip.RAW.open(CONNECTOR, run_id)
     results = []
     try:
-        page, _ = ip.fetch_raw(CONNECTOR, PAGE, log, fresh=True, headers=UA)
+        page, _ = ip.fetch_raw(CONNECTOR, PAGE, log, fresh=args.year is None, headers=UA)  # a year asked: the saved page is enough
         url, year = zip_url(page.decode("utf-8", errors="replace"), args.year)
         content, rec = ip.fetch_raw(CONNECTOR, url, log, headers=UA, timeout=600)
         if content[:2] != b"PK":
             raise RuntimeError(f"{url} is not a zip (it starts {content[:20]!r})")
         book = zipfile.ZipFile(io.BytesIO(content)).read(f"Sales_Ult_Cust_{year}.xlsx")
-        frames = [sheet_rows(pd.read_excel(io.BytesIO(book), s, header=None, skiprows=3), year, url, rec["retrieved_at"]) for s in ("States", "Territories")]
+        xl = pd.ExcelFile(io.BytesIO(book))
+        sheets = [n for n in ("States", "Territories") if n in xl.sheet_names]
+        if "States" not in sheets:
+            raise RuntimeError(f"Sales_Ult_Cust_{year}.xlsx has no States sheet: {xl.sheet_names}")
+        frames = [sheet_rows(pd.read_excel(xl, n, header=None), year, url, rec["retrieved_at"]) for n in sheets]
         s = pd.concat(frames, ignore_index=True)
         if s.duplicated(["entity", "variable", "ts_utc"]).any():
             raise RuntimeError(f"{year}: a row in both sheets")
