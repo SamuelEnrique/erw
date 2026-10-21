@@ -10,8 +10,8 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 ## Read these first
 
-- **224 tables.** The flag and the verdict agree on 155; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 24 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
-- **The ERW's verdict (session 378): 138 public, 36 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
+- **241 tables.** The flag and the verdict agree on 155; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 41 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
+- **The ERW's verdict (session 378): 138 public, 53 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
 - **87 publishers in the record: 85 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 75 pages read, 10 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Heatmap News 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1.
 - **0 tables are flagged internal where the sentence read allows them.**
@@ -315,6 +315,23 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | `ercot_zone_prices_history` | ERCOT | may be public |  |  | public | agrees | may be public | public |
 | `event_study_estimates` | CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; and 2 more | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
 | `event_window_daily` | CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; and 2 more | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `ferc714_area_demand_2006` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2007` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2008` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2009` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2010` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2011` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2012` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2013` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2014` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2015` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2016` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2017` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2018` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2019` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2020` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2021` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2022` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
 | `ferc714_area_demand_2023` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
 | `ferc714_area_demand_2024` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
 | `ferc714_area_demand_2025` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
@@ -482,6 +499,23 @@ None of these was changed. Each is a ruling.
 ### Not settled: a publisher was not read
 
 - `eia_all_futures_prices` (flag internal): not read: CME Group (NYMEX), whose prices EIA republished.
+- `ferc714_area_demand_2006` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2007` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2008` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2009` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2010` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2011` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2012` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2013` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2014` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2015` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2016` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2017` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2018` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2019` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2020` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2021` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2022` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
 - `ferc714_area_demand_2023` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
 - `ferc714_area_demand_2024` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
 - `ferc714_area_demand_2025` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.

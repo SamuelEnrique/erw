@@ -119,6 +119,23 @@ ercot_zone_load_hourly,ERCOT,the source registry
 ercot_zone_prices_history,ERCOT,the source registry
 event_study_estimates,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,the source registry and the tables its header derives it from: event_window_daily
 event_window_daily,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"the source registry and the tables its header derives it from: eia930_all_emissions, eia930_all_history, ercot_all_hub_prices_history, iso_hub_prices_history, noaa_isd_hourly"
+ferc714_area_demand_2006,"Catalyst Cooperative (PUDL), from FERC Form 714",the source registry
+ferc714_area_demand_2007,"Catalyst Cooperative (PUDL), from FERC Form 714",the source registry
+ferc714_area_demand_2008,"Catalyst Cooperative (PUDL), from FERC Form 714",the source registry
+ferc714_area_demand_2009,"Catalyst Cooperative (PUDL), from FERC Form 714",the source registry
+ferc714_area_demand_2010,"Catalyst Cooperative (PUDL), from FERC Form 714",the source registry
+ferc714_area_demand_2011,"Catalyst Cooperative (PUDL), from FERC Form 714",the source registry
+ferc714_area_demand_2012,"Catalyst Cooperative (PUDL), from FERC Form 714",the source registry
+ferc714_area_demand_2013,"Catalyst Cooperative (PUDL), from FERC Form 714",the source registry
+ferc714_area_demand_2014,"Catalyst Cooperative (PUDL), from FERC Form 714",the source registry
+ferc714_area_demand_2015,"Catalyst Cooperative (PUDL), from FERC Form 714",the source registry
+ferc714_area_demand_2016,"Catalyst Cooperative (PUDL), from FERC Form 714",the source registry
+ferc714_area_demand_2017,"Catalyst Cooperative (PUDL), from FERC Form 714",the source registry
+ferc714_area_demand_2018,"Catalyst Cooperative (PUDL), from FERC Form 714",the source registry
+ferc714_area_demand_2019,"Catalyst Cooperative (PUDL), from FERC Form 714",the source registry
+ferc714_area_demand_2020,"Catalyst Cooperative (PUDL), from FERC Form 714",the source registry
+ferc714_area_demand_2021,"Catalyst Cooperative (PUDL), from FERC Form 714",the source registry
+ferc714_area_demand_2022,"Catalyst Cooperative (PUDL), from FERC Form 714",the source registry
 ferc714_area_demand_2023,"Catalyst Cooperative (PUDL), from FERC Form 714",the source registry
 ferc714_area_demand_2024,"Catalyst Cooperative (PUDL), from FERC Form 714",the source registry
 ferc714_area_demand_2025,"Catalyst Cooperative (PUDL), from FERC Form 714",the source registry
