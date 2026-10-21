@@ -267,3 +267,57 @@ export function summary(all: Deal[], shown: Deal[], x: Inputs): string {
   return `${lead} ${size}, and ${price}.`;
 }
 
+
+// Session 466: the comparables view (/deals?view=comparables). The disclosed figures of the deals by one dimension
+// at a time: the deals in each cell, those that state a price in US dollars per MWh and those that state a size in
+// MW, and the median of each where at least three deals of the cell state it. Nothing is computed from fewer than three
+// disclosed deals: such a cell says so (FEWER). A median is of the figures as the stories state them, the deals that do
+// not state one left out, never counted as zero. A cell shows the price where three or more state one, else the size
+// where three or more state one, else neither (shown()).
+export const MIN_DISCLOSED = 3;
+export const FEWER = "fewer than three";
+export const DIMENSIONS: { id: string; label: string }[] = [
+  { id: "type", label: "Deal type" }, { id: "technology", label: "Technology" }, { id: "grid", label: "Grid" }, { id: "year", label: "Year" },
+];
+export type Cell = { value: string; label: string; deals: number; withPrice: number; withMw: number; medianPrice: number | null; medianMw: number | null };
+
+/** The median of the numbers, or null for fewer than MIN_DISCLOSED. */
+export function medianOf(xs: number[]): number | null {
+  if (xs.length < MIN_DISCLOSED) return null;
+  const s = [...xs].sort((a, b) => a - b), h = Math.floor(s.length / 2);
+  return s.length % 2 ? s[h] : (s[h - 1] + s[h]) / 2;
+}
+
+/** The value of a deal on a dimension: the extraction's type, the technology as stated, the grid, the year; "" none. */
+export function valueOf(d: Deal, dim: string): string {
+  if (dim === "type") return d.type;
+  if (dim === "technology") return d.technology;
+  if (dim === "grid") return d.grid;
+  if (dim === "year") return d.year;
+  throw new Error(`unknown dimension ${dim}`);
+}
+
+/** The cells of one dimension, most deals first; deals with no value are one cell, "" ("not stated"), last. */
+export function comparables(deals: Deal[], dim: string): Cell[] {
+  const by = new Map<string, Deal[]>();
+  for (const d of deals) { const v = valueOf(d, dim); by.set(v, [...(by.get(v) ?? []), d]); }
+  const cells = [...by.entries()].map(([value, ds]) => {
+    const prices = ds.flatMap((d) => (d.price === null ? [] : [d.price])), mws = ds.flatMap((d) => (d.mw === null ? [] : [d.mw]));
+    return {
+      value, label: value === "" ? NOT_STATED : dim === "type" ? (TYPE_LABEL[value] ?? value) : value,
+      deals: ds.length, withPrice: prices.length, withMw: mws.length, medianPrice: medianOf(prices), medianMw: medianOf(mws),
+    };
+  });
+  return cells.sort((a, b) => (a.value === "" ? 1 : 0) - (b.value === "" ? 1 : 0) || b.deals - a.deals || a.label.localeCompare(b.label));
+}
+
+/** What a cell shows: the median price where three or more deals state one, else the median size, else neither. */
+export function shown(c: Cell): { what: "price" | "mw" | "none"; value: number | null } {
+  if (c.medianPrice !== null) return { what: "price", value: c.medianPrice };
+  if (c.medianMw !== null) return { what: "mw", value: c.medianMw };
+  return { what: "none", value: null };
+}
+
+/** The check key of a cell's figure: deals|comp_<stat>|<dimension>|<value> (the value "-" for not stated). */
+export const compKey = (stat: "deals" | "with_price" | "with_mw" | "median_price" | "median_mw", dim: string, value: string) =>
+  `deals|comp_${stat}|${dim}|${value === "" ? "-" : value}`;

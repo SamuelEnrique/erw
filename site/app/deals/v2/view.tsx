@@ -171,7 +171,7 @@ export async function TrackerView({ sp }: { sp: Record<string, string | undefine
 
   return (
     <>
-      <ToolHeader title="The deals tracker" crumb={<>The deals as a sortable table: <Link href="/deals" className="underline">Deals</Link>. The companies they name: <Link href="/deals?tab=companies" className="underline">Companies</Link></>}
+      <ToolHeader title="The deals tracker" crumb={<>The deals as a sortable table: <Link href="/deals" className="underline">Deals</Link>. The companies they name: <Link href="/deals?tab=companies" className="underline">Companies</Link>. Their disclosed figures side by side: <Link href="/deals?view=comparables" className="underline">Comparables</Link></>}
         lead={<>Power purchases, offtakes, financings and acquisitions in energy, as the news reported them: who, what technology, how large and at what price, where a story says so, each with a link to the story. <strong>These are deals reported in the news the ERW reads, not a complete record of the market.</strong></>} />
       <div className="grid gap-8 lg:grid-cols-[290px_minmax(0,1fr)]">
         <aside>

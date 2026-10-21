@@ -91,3 +91,25 @@ review's method) and a ruling; until then the hold is whole.
 
 The pages list every choice they make about the deals, one line each with its session and ruling, in a block under
 every tab (`site/app/deals/Decisions.tsx`, session 465).
+
+## The comparables view (session 466)
+
+`/deals?view=comparables` (in review, under the tracker's tab) sets the deals' disclosed figures side by side, one
+dimension at a time: the deal type (the extraction's fourteen types, the default), the technology as the story states
+it, the grid (read from the state, as the tracker reads it) or the year (`?by=type`, `technology`, `grid`, `year`). The
+register's folded pairs are counted once, as on the tracker. For each group, a row of one table:
+
+- `deals|comp_deals|<dimension>|<value>`: the deals of the group;
+- `deals|comp_with_price|<dimension>|<value>`: those that state a price in US dollars per MWh;
+- `deals|comp_median_price|<dimension>|<value>`: the median of those prices, only where three or more deals state one;
+- `deals|comp_with_mw|<dimension>|<value>`: those that state a size in MW;
+- `deals|comp_median_mw|<dimension>|<value>`: the median of those sizes, only where three or more deals state one.
+
+The value is the group's own (a type's id, a technology's words, a grid, a year), "-" for the group that does not state
+it. **Nothing is computed from fewer than three disclosed deals**: a group with fewer says "fewer than three". A median
+is of the figures the stories state; a deal that states none is left out, never counted as zero. One chart beside the
+table shows the median price of each group that has one; where no group of the dimension has three deals that state a
+price (every group of the 492 rows of 20 October: none states a price), it shows the median size, and says so. The
+functions are `comparables()`, `medianOf()` and `shown()` of `site/lib/deals2.ts`; `site/scripts/check-values.mjs`
+recomputes every key with the same functions on the live set's rows. Under the hold the view shows the hold's words
+and the rows it covers, and nothing of a row.

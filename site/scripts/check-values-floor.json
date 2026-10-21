@@ -33,6 +33,7 @@
     "/deals": 10,
     "/deals?tab=companies": 10,
     "/deals?tab=tracker": 0,
+    "/deals?view=comparables": 0,
     "/demand?view=consumption": 10,
     "/emissions": 10,
     "/events": 9,

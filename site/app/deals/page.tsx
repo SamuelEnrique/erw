@@ -16,6 +16,7 @@ import { one, tabOf } from "@/lib/tabs";
 import { CompaniesView } from "../companies/view";
 import { DealsTable, type Deal } from "./DealsTable";
 import { TrackerView } from "./v2/view";
+import { ComparablesView } from "./comparables/view";
 import { DealsDecisions } from "./Decisions";
 import { DealsHeld } from "./Held";
 
@@ -28,13 +29,15 @@ export const metadata: Metadata = { title: "Deals" };
 // tracker (?tab=tracker&party=<name>), and each company row links to it.
 export default async function DealsPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const sp = one(await searchParams);
-  const tab = tabOf("/deals", sp.tab);
+  // session 466: /deals?view=comparables, the tracker's disclosed figures side by side, under the tracker's tab
+  const comparablesView = sp.view === "comparables";
+  const tab = comparablesView ? "tracker" : tabOf("/deals", sp.tab);
   return (
     <Brand>
       <ToolPage>
         <div data-deals-tab={tab}>
           <Tabs page="/deals" active={tab} />
-          {tab === "tracker" ? <TrackerView sp={sp} /> : tab === "companies" ? <CompaniesView /> : <DealsView />}
+          {comparablesView ? <ComparablesView sp={sp} /> : tab === "tracker" ? <TrackerView sp={sp} /> : tab === "companies" ? <CompaniesView /> : <DealsView />}
           {/* session 465: the decisions block, under every tab and under the hold */}
           <DealsDecisions />
           {/* session 329: each tab's public tables, as CSV with a Python and a Stata reader (session 328's shared line) */}
