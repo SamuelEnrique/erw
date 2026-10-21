@@ -52,3 +52,9 @@ Every gate redirected into `runs/chain_023/s499/` (outside git), never piped; th
 - `tests/test_session499.py`, `tests/fixtures/session499/rows.json` (new).
 - This report.
 - Not in git: `runs/chain_023/s499/` (precheck, probe, tsc, test outputs).
+
+## Finished (session 506)
+
+Done by session 506 on the old laptop (samueloldlaptop), 21 October 2026, on `wip/506-combined`: `wip/429-combined` with origin/main (chain 024 landed) merged, then `wip/430-check-values` to `wip/505-check-holds` in session order, three conflicts resolved (`check-values.mjs`'s whole-MW rule, `site/lib/supabase.ts` with session 537's retry, `docs/machines.md`; `energy_deals.md` kept both sections). One build of that branch served every report's checks, not one build a branch: the branch holds each session's work, and a build takes the database's time. `scripts/db_probe.py` 0 (0.63 s), the build lock `scripts/buildlock.py acquire s506` (session 504's, on the branch), the build exit 0 with no statement timeout, served on port 3506. The session tests of 430 to 505 and 531 to 541, with 402, 418, 464, 470 and 196: 258 tests OK.
+
+- `tests.test_session499` OK on the combined branch; the suite in a clean copy (session 506's report). The merge kept session 537's retry around the public-rows read: `restPaged` asks again on a failure for a table held by row as for any other, and `restCountRaw` is session 537's `countOf` with the retry. The note for the data machine (the column, its values and the four tables) stands as written above.

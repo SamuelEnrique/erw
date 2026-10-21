@@ -66,3 +66,9 @@ The script that does all of it is `runs/chain_023/s502/heavy.sh` in the worktree
 - `site/components/tool/TableLicenses.tsx`, `site/lib/gridtables.ts`, `site/scripts/test-session502.mjs`, `tests/test_session502.py` (new).
 - `site/lib/license.ts` (`licenseWords`), `site/components/tool/ToolPage.tsx`, `site/components/board/BoardView.tsx`, `site/app/board/page.tsx`, `site/app/prices/page.tsx`, `site/app/explorer/ercot-peak-premium/view.tsx`, `site/app/grid/page.tsx`, `scripts/page_tables.py`, `tests/test_session240.py`, `tests/test_session328.py`.
 - `docs/brand/review-502/` (README and shots), this report.
+
+## Finished (session 506)
+
+Done by session 506 on the old laptop (samueloldlaptop), 21 October 2026, on `wip/506-combined`: `wip/429-combined` with origin/main (chain 024 landed) merged, then `wip/430-check-values` to `wip/505-check-holds` in session order, three conflicts resolved (`check-values.mjs`'s whole-MW rule, `site/lib/supabase.ts` with session 537's retry, `docs/machines.md`; `energy_deals.md` kept both sections). One build of that branch served every report's checks, not one build a branch: the branch holds each session's work, and a build takes the database's time. `scripts/db_probe.py` 0 (0.63 s), the build lock `scripts/buildlock.py acquire s506` (session 504's, on the branch), the build exit 0 with no statement timeout, served on port 3506. The session tests of 430 to 505 and 531 to 541, with 402, 418, 464, 470 and 196: 258 tests OK.
+
+- The before shots from production (in the internal view) and the after shots from the build, eight each, in `docs/brand/review-502/before/` and `after/` at 1280 by 900 and 390 by 844 (`site/scripts/shot.mjs`). The line "Tables read, with their licenses:" stands under each title; nothing else moved. `tsc` was run by the build (exit 0). check-values on `/board`, `/prices` and `/grid` within the full run: every value equal.

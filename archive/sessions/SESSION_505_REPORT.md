@@ -70,3 +70,10 @@ Then the list goes into this report under "Read these first", and the branch lan
 - `scripts/licenses.py` (the section from `docs/licenses_holds.csv`): commit `b9f5c90e`.
 - This report.
 - Not in git: `runs/chain_023/s505/` (the precheck, the probe, the tests' outputs, `build_check.sh`).
+
+## Finished (session 506)
+
+Done by session 506 on the old laptop (samueloldlaptop), 21 October 2026, on `wip/506-combined`: `wip/429-combined` with origin/main (chain 024 landed) merged, then `wip/430-check-values` to `wip/505-check-holds` in session order, three conflicts resolved (`check-values.mjs`'s whole-MW rule, `site/lib/supabase.ts` with session 537's retry, `docs/machines.md`; `energy_deals.md` kept both sections). One build of that branch served every report's checks, not one build a branch: the branch holds each session's work, and a build takes the database's time. `scripts/db_probe.py` 0 (0.63 s), the build lock `scripts/buildlock.py acquire s506` (session 504's, on the branch), the build exit 0 with no statement timeout, served on port 3506. The session tests of 430 to 505 and 531 to 541, with 402, 418, 464, 470 and 196: 258 tests OK.
+
+- On the build: `check-holds.mjs --browser` exit 1, as expected: 149 of 149 pages read, **88 held figures shown on 14 pages**, 0 series to read by hand. Beyond session 474's research cards and one-grid views, two kinds it found: the Digest's real-time price line (one figure of `iso_rtm_hub_prices` on `/digest` and five issues), and `/grid?grid=isone` and `/grid/isone` (36 figures each of `isone_interconnection_queue`).
+- `docs/licenses_holds.csv` written by the check, `scripts/licenses.py write` 0, `docs/licenses.md` gains the section "Held figures that still show (session 505)", one line a page; `tests.test_session505` OK. How each is drawn stays Samuel's (this report's two items, now with the Digest's and the Grid's lines).
