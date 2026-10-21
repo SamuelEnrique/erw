@@ -3,6 +3,7 @@
 // files (adding .ts where the import names none), reads a .json import as a module, and stands in for the two imports
 // that only exist inside Next ("server-only", a marker, and "next/server", of which lib/game.ts uses NextResponse.json).
 // Used by scripts/check-scorer.mjs:  node --import ./scripts/alias-register.mjs scripts/check-scorer.mjs
+import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -13,9 +14,31 @@ const STUBS = {
   "next/server": "export const NextResponse = { json: (body, init) => ({ body, status: init?.status ?? 200 }) };",
 };
 
+// session 503: the files the build generates (git ignores them), each with the script that writes it, as `npm run
+// content` runs them. A fresh checkout has none, so a script importing the site's modules stopped with "nothing at
+// @/content/docs.json"; the loader now writes a missing one once, with that script, before it resolves it. Both scripts
+// read only the repository (docs/, archive/sessions/). A file already there is never rewritten here.
+export const GENERATED = {
+  "content/docs.json": "scripts/build-content.mjs",
+  "content/waits.json": "scripts/build-waits.mjs",
+};
+
+export function ensureGenerated(rel) {
+  const script = GENERATED[rel];
+  const file = path.join(site, rel);
+  if (!script || fs.existsSync(file)) return;
+  try {
+    execFileSync(process.execPath, [path.join(site, script)], { cwd: site, stdio: ["ignore", "ignore", "pipe"] });
+  } catch (e) {
+    throw new Error(`alias-loader: ${rel} is missing and node ${script} failed (run npm run content in site/): ${e.stderr || e.message}`);
+  }
+  process.stderr.write(`alias-loader: ${rel} was missing; written by node ${script} (npm run content)\n`);
+}
+
 export async function resolve(specifier, context, next) {
   if (specifier in STUBS) return { url: `erw-stub:${specifier}`, shortCircuit: true };
   if (specifier.startsWith("@/")) {
+    ensureGenerated(specifier.slice(2));
     const base = path.join(site, specifier.slice(2));
     const file = [base, `${base}.ts`, `${base}.tsx`, path.join(base, "index.ts")].find((p) => fs.existsSync(p) && fs.statSync(p).isFile());
     if (!file) throw new Error(`alias-loader: nothing at ${specifier}`);
