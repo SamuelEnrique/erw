@@ -8,9 +8,12 @@ dict) and hands it here:
             "x": [...] (category labels or ISO timestamps; scatter: numbers),
             "x_label": ..., "y_label": ..., "x_time": bool, "stacked": bool,
             "series": [{"name": ..., "values": [...], "y2": bool (optional, a second axis)}],
-            "y2_label": ... (optional)}
+            "y2_label": ... (optional),
+            "mark": {"series": i, "at": j, "label": "28.08 USD/MWh", "key": "week of 2026-09-20 to 2026-09-26"}
+                    (optional, session 533: the one value the chart's finding names, series i at x[j], ringed in
+                    cardinal and labelled with the figure and its key; templates/common.py headline_mark sets it)}
 
-    echarts(spec)                 the site's interactive chart: an ECharts option (JSON), in the site's tokens
+    echarts(spec)                the site's interactive chart: an ECharts option (JSON), in the site's tokens
     png(spec, path, "email")      1200 x 750 px, shown at 600 px in the email
     png(spec, path, "social_wide")    1200 x 627 px
     png(spec, path, "social_square")  1080 x 1080 px
@@ -68,6 +71,43 @@ def fmt(v):
     return f"{v:,.2f}".rstrip("0").rstrip(".")
 
 
+def mark_of(spec):
+    """Session 533 (the Roundup audit's fix 11: the chart of the week named a number its chart did not show): the
+    spec's mark, read against its own series. Returns {series, at, x, y, value, text} or None. x is the point's place
+    on the x axis as the option writes it (the category's label, the timestamp, or the scatter's number); value is the
+    series' own value there, never one supplied with the mark; y is where the ring sits: the value, or for a stacked bar
+    the top of its segment. A mark whose series or place does not hold a number is not drawn."""
+    m = spec.get("mark")
+    if not m:
+        return None
+    series = spec["series"]
+    i, j = m.get("series"), m.get("at")
+    if not isinstance(i, int) or not isinstance(j, int) or not 0 <= i < len(series) or not 0 <= j < len(spec["x"]):
+        return None
+    vals = series[i]["values"]
+    if j >= len(vals) or vals[j] is None or (isinstance(vals[j], float) and math.isnan(vals[j])):
+        return None
+    value = float(vals[j])
+    y = value
+    if spec["kind"] == "bar" and spec.get("stacked"):
+        y = sum(float(s["values"][j]) for s in series[:i + 1]
+                if j < len(s["values"]) and s["values"][j] is not None and not (isinstance(s["values"][j], float) and math.isnan(s["values"][j])))
+    text = m.get("label") or fmt(value)
+    if m.get("key"):
+        text = f"{text}, {m['key']}"
+    return {"series": i, "at": j, "x": spec["x"][j], "y": y, "value": value, "text": text,
+            "label": m.get("label") or fmt(value), "key": m.get("key", "")}
+
+
+def mark_point(m):
+    """The mark as an ECharts markPoint: a cardinal ring on the point, its name the figure and its key (the site's SVG
+    reader, site/lib/svgoption.ts, draws a markPoint's coord and name; ECharts itself draws the ring and the label)."""
+    return {"symbol": "circle", "symbolSize": 12, "silent": True,
+            "itemStyle": {"color": PAPER, "borderColor": ACCENT, "borderWidth": 2},
+            "label": {"show": True, "formatter": m["text"], "position": "top", "distance": 8, "color": ACCENT, "fontSize": 11},
+            "data": [{"coord": [m["x"], m["y"]], "name": m["text"], "value": m["value"]}]}
+
+
 def echarts(spec):
     """The ECharts option for the site. Colors are the house palette (the site's tokens hold the same values)."""
     kind, series = spec["kind"], spec["series"]
@@ -105,6 +145,9 @@ def echarts(spec):
             e["stack"] = "total"
         if kind == "scatter":
             e["symbolSize"] = 7
+        m = mark_of(spec)
+        if m and m["series"] == i:
+            e["markPoint"] = mark_point(m)
         out.append(e)
     option = {
         "color": colors, "backgroundColor": "transparent",
@@ -170,7 +213,9 @@ def png(spec, path, size="email"):
 
     # top down, in pixels: the title (clear of the mark), the subtitle, the legend row, then the axes
     y = 0.035 * h
-    y = block(spec["title"], 24 * scale, w - left_px - mark_px - 0.07 * w, serif, INK, y, 1.2)
+    # session 533: the title stops short of the whole mark, the word "ERW" as well as its square (a title of 47
+    # characters ran into the word on the 1080 px square of 2026-W39)
+    y = block(spec["title"], 24 * scale, w - left_px - 2.6 * mark_px - 0.05 * w, serif, INK, y, 1.2)
     if spec.get("subtitle"):
         y = block(spec["subtitle"], 13 * scale, w - 2 * left_px, sans, MUTED, y + 4)
     _mark(fig, 0.965, 0.965, mark_px * 0.8 / h)
@@ -181,7 +226,11 @@ def png(spec, path, size="email"):
         y += px(11 * scale) * 1.55 * math.ceil(len(series) / ncol) + 4
     src_lines = textwrap.wrap(spec["source"], max(40, int((w - 2 * left_px) / (px(10 * scale) * 0.52))))
     rotated = kind == "bar" and len(spec["x"]) > 8
-    bottom_px = 0.03 * h + len(src_lines) * px(10 * scale) * 1.3 + (92 if rotated else 50) * scale
+    # session 533: a rotated label longer than a month's ('2026-08') takes more room below the axis (a week's first day,
+    # '2026-09-20', put the axis's own label on the source line); a month's and shorter keep the 92 they had
+    longest = max((len(str(v)) for v in spec["x"]), default=0)
+    bottom_px = (0.03 * h + len(src_lines) * px(10 * scale) * 1.3
+                 + ((92 + 7 * max(0, longest - 7)) if rotated else 50) * scale)
     top_px = y + 18 * scale
     has2 = any(s_.get("y2") for s_ in series)
     ax = fig.add_axes([0.085, bottom_px / h, (0.81 if has2 else 0.875), 1 - (top_px + bottom_px) / h])
@@ -237,6 +286,90 @@ def png(spec, path, size="email"):
         a.yaxis.set_major_formatter(FuncFormatter(lambda v, _: fmt(round(v, 2))))
     if kind == "scatter":
         ax.xaxis.set_major_formatter(FuncFormatter(lambda v, _: fmt(round(v, 2))))
+    m = mark_of(spec)
+    if m:  # session 533: the value the finding names, ringed in cardinal, with the figure and its key beside it
+        a = ax2 if series[m["series"]].get("y2") else ax
+        wd = 0.8 / n
+
+        def where(k, si):
+            """Where the k-th value of series si sits on the x axis, in the axis's own numbers."""
+            if kind == "bar":
+                return k if spec.get("stacked") else k - 0.4 + wd * (si + 0.5)
+            if kind == "line" and not spec.get("x_time") and isinstance(x[k], str):
+                return k  # a category axis of text: matplotlib places the k-th label at k
+            return mdates.date2num(x[k]) if spec.get("x_time") else x[k]
+
+        xm = where(m["at"], m["series"])
+        a.scatter([mdates.num2date(xm) if spec.get("x_time") else xm], [m["y"]], s=(11 * scale) ** 2, facecolor=PAPER,
+                  edgecolor=ACCENT, linewidth=2.2, zorder=6)
+        a.get_xlim(), a.get_ylim()  # the limits as drawn, the ring included, before the label's place is chosen
+        to_ax = a.transData + a.transAxes.inverted()
+        fx, fy = to_ax.transform((xm, m["y"]))
+        box = a.get_window_extent()
+        aw, ah = box.width, box.height
+        # the label's size in axes fractions: the figure (bold) and its key, one line each
+        lw = (max(len(m["label"]) * px(12.5 * scale) * 0.6, len(m["key"]) * px(10.5 * scale) * 0.52) + 14) / aw
+        lh = (px(12.5 * scale) + px(10.5 * scale)) * 1.35 / ah
+        gap = 8 / ah
+        # what else the axis draws, in axes fractions: each point of a line, each bar's span from its base to its top
+        marks_at = []
+        for si, s_ in enumerate(series):
+            if bool(s_.get("y2")) != (a is ax2):
+                continue
+            base = [0.0] * len(x)
+            if kind == "bar" and spec.get("stacked"):
+                for q in series[:si]:
+                    base = [b + (0.0 if v is None or (isinstance(v, float) and math.isnan(v)) else float(v)) for b, v in zip(base, q["values"])]
+            for k, v in enumerate(s_["values"][:len(x)]):
+                if v is None or (isinstance(v, float) and math.isnan(v)) or (k == m["at"] and si == m["series"]):
+                    continue
+                px_, top = to_ax.transform((where(k, si), base[k] + float(v)))
+                if kind == "bar":
+                    _, bot = to_ax.transform((where(k, si), base[k]))
+                    half = (wd if not spec.get("stacked") else 0.75) / 2 * abs(to_ax.transform((1, 0))[0] - to_ax.transform((0, 0))[0])
+                    marks_at.append((px_ - half, px_ + half, min(bot, top), max(bot, top)))
+                else:
+                    marks_at.append((px_, px_, top, top))
+
+        def span(left):
+            return (fx - 0.01 - lw, fx) if left else (fx, fx + 0.01 + lw)
+
+        def hits(left, up, lift=0.0):
+            x0, x1 = span(left)
+            y0, y1 = (fy + gap + lift, fy + gap + lift + lh) if up else (fy - gap - lift - lh, fy - gap - lift)
+            out = 1000 if (x0 < 0 or x1 > 1 or y0 < 0 or y1 > 1) else 0  # past the axes: the last resort
+            return out + sum(1 for a0, a1, b0, b1 in marks_at if a1 >= x0 and a0 <= x1 and b1 >= y0 and b0 <= y1)
+
+        def clear(left, up):
+            """How much further than beside the ring the label must sit to clear what the axis draws under it."""
+            x0, x1 = span(left)
+            near = [(b0, b1) for a0, a1, b0, b1 in marks_at if a1 >= x0 and a0 <= x1]
+            if up:
+                return max([0.0] + [b1 - fy for b0, b1 in near if b1 > fy])
+            return max([0.0] + [fy - b0 for b0, b1 in near if b0 < fy])
+
+        prefer_left = fx > 0.6
+        tries = []
+        for left in (prefer_left, not prefer_left):
+            for up in (True, False):
+                tries.append((left, up, 0.0))
+        tries += [(t[0], t[1], clear(t[0], t[1])) for t in list(tries) if clear(t[0], t[1]) > 0]
+        # the fewest crossings; beside the ring before set apart from it (then joined to it by a hairline)
+        left, up, lift = min(tries, key=lambda t: (hits(*t), t[2] > 0, tries.index(t)))
+        dx, ha = (-12, "right") if left else (12, "left")
+        halo = {"boxstyle": "square,pad=0.15", "fc": PAPER, "ec": "none", "alpha": 0.9}
+        xy = (mdates.num2date(xm) if spec.get("x_time") else xm, m["y"])
+        lift_pt = lift * ah * 72 / dpi * (1 if up else -1)
+        for text, off, color, pt, weight in ((m["label"], (22 if up else -8), ACCENT, 12.5, "bold"),
+                                             (m["key"], (8 if up else -24), MUTED, 10.5, "normal")):
+            if text:
+                a.annotate(text, xy, xytext=(dx, off + lift_pt), textcoords="offset points", ha=ha,
+                           va="bottom" if up else "top", color=color, fontsize=pt * scale, family=sans,
+                           fontweight=weight, bbox=halo, zorder=7)
+        if lift > 0:  # the hairline from the ring to the label set apart from it
+            a.annotate("", xy, xytext=(dx * 0.5, (6 if up else -6) + lift_pt), textcoords="offset points",
+                       arrowprops={"arrowstyle": "-", "color": ACCENT, "lw": 0.9, "shrinkA": 0, "shrinkB": 7 * scale},
+                       zorder=7)
     ax.set_ylabel(spec.get("y_label", ""), color=MUTED, fontsize=11 * scale, family=sans)
     if ax2:
         ax2.set_ylabel(spec.get("y2_label", ""), color=MUTED, fontsize=11 * scale, family=sans)
