@@ -34,4 +34,4 @@
 
 ## Files
 
-- Changed: `docs/coverage.md`, `docs/licenses.md`, `warehouse/metadata/{coverage,archive_manifest,sources,license_tables}.csv`. New: this report, `runs/s494_resolve.py`.
+- Changed: `docs/coverage.md`, `docs/licenses.md`, `warehouse/metadata/{coverage,archive_manifest,sources,license_tables}.csv`. New: this report. `runs/s494_resolve.py` stays on the data machine (`runs/` is not in git).

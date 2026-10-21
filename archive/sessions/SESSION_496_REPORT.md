@@ -8,7 +8,7 @@
   - The U.S. Wind Turbine Database is published by USGS, Lawrence Berkeley National Laboratory and the American Clean Power Association, through USGS's public API (no key).
   - There are 77,839 turbines, 159,587 MW in all. Each turbine has its project, maker and model, hub height, rotor diameter, location and EIA plant id.
 - **Robots and terms first.** `energy.usgs.gov` has no robots file (404), so by the convention every path is allowed. USGS's copyrights page (`www.usgs.gov/information-policies-and-instructions/copyrights-and-credits`) went through `license_read.py` into the record (record 87): "USGS-authored or produced data and information are considered to be in the U.S. Public Domain". Its verdict, "may be public", was cut by code into `license_verdicts.csv`.
-- **Cross-check against `eia860m_operating_generators`** (run again on the written table by `runs/s497_crosscheck.py`): the turbines' capacity is summed by EIA plant id and set against EIA-860M's wind nameplate.
+- **Cross-check against `eia860m_operating_generators`** (run again on the written table by `runs/s497_crosscheck.py` on the data machine): the turbines' capacity is summed by EIA plant id and set against EIA-860M's wind nameplate.
   - 1,281 plants are in both (USWTDB names 1,348, and EIA-860M lists 1,387 wind plants).
   - The median ratio is 1.000, and 83.5% of plants are within 5%.
   - The totals are 154,420 MW against 157,493 MW.

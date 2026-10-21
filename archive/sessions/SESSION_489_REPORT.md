@@ -37,4 +37,4 @@
 
 ## Files
 
-- Changed: `docs/coverage.md`, `docs/licenses.md`, `warehouse/metadata/{coverage,archive_manifest,sources,license_tables}.csv`. New: this report, `runs/s489_write.sh`.
+- Changed: `docs/coverage.md`, `docs/licenses.md`, `warehouse/metadata/{coverage,archive_manifest,sources,license_tables}.csv`. New: this report. `runs/s489_write.sh` stays on the data machine (`runs/` is not in git).

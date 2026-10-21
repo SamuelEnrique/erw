@@ -11,7 +11,7 @@
     - electricity's price by sector and for all sectors, in USD/MMBtu;
     - the expenditures on electricity and on all energy, in USD.
 - **Robots and terms**: EIA's API path is allowed, and EIA's terms are record 1 of `license_reads.csv` (public).
-- **Cross-check** (run again on the written table by `runs/s497_crosscheck.py`): each state's electricity sold to all sectors (ESTCB) against `eia_retail_sales_monthly`'s all-sector sales, summed over each whole year, at 3,412 Btu per kWh.
+- **Cross-check** (run again on the written table by `runs/s497_crosscheck.py` on the data machine): each state's electricity sold to all sectors (ESTCB) against `eia_retail_sales_monthly`'s all-sector sales, summed over each whole year, at 3,412 Btu per kWh.
   - 1,248 state-years are in both, 2001 to 2024.
   - The median ratio is 1.0000, the lowest 1.0000 and the highest 1.0004.
 - SEDS's figures are EIA's estimates, as its technical notes say, and are published by EIA. Nothing is filled here: a withheld value has no row. A unit not in the map stops the run, and so does a key given twice.
