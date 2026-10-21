@@ -9,6 +9,8 @@
 // or a line of short links (Grid: "Your grid"). The group marked aside (Energy Digest, Roundup, Email) is not a menu:
 // its three links stand at the right of the header, in grey. A page's name here is its short menu name where it has
 // one (lib/pages.ts, menu). On a phone the header wraps: the menus on their lines, the three grey links on their own.
+// Session 412 (the accessibility pass): the page in view is marked aria-current="page" in the menus too, where only its
+// color said so (WCAG 1.3.1); the grey links at the right carried it already.
 import { SiteLink as Link } from "@/components/SiteLink";  // session 46: no prefetch on /severance/lease
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
@@ -39,7 +41,7 @@ export function Nav() {
         if (g.pages.length === 1) {
           const p = g.pages[0];
           return (
-            <Link key={g.label} href={p.href} className={`no-underline ${here ? "text-accent" : "text-ink hover:text-accent"}`}>
+            <Link key={g.label} href={p.href} aria-current={path === p.href ? "page" : undefined} className={`no-underline ${here ? "text-accent" : "text-ink hover:text-accent"}`}>
               {g.label}
             </Link>
           );
@@ -55,7 +57,7 @@ export function Nav() {
             <ul className={`absolute left-0 right-0 ${gi >= 3 ? "sm:left-auto sm:right-0" : "sm:right-auto"} z-20 mt-1 min-w-48 border border-rule bg-panel py-1 shadow-sm`}>
               {g.pages.map((p) => (
                 <li key={p.href}>
-                  <Link href={p.href} className={`block px-3 py-1 no-underline ${path === p.href ? "text-accent" : "text-ink hover:text-accent"}`}>
+                  <Link href={p.href} aria-current={path === p.href ? "page" : undefined} className={`block px-3 py-1 no-underline ${path === p.href ? "text-accent" : "text-ink hover:text-accent"}`}>
                     {name(p)}
                   </Link>
                 </li>
@@ -65,7 +67,7 @@ export function Nav() {
                   <div className="text-xs text-muted">{g.sub.label}</div>
                   <div className="flex flex-wrap gap-x-2 text-sm">
                     {g.sub.pages.map((l) => (
-                      <Link key={l.href} href={l.href} className={`no-underline ${path === l.href ? "text-accent" : "text-ink hover:text-accent"}`}>
+                      <Link key={l.href} href={l.href} aria-current={path === l.href ? "page" : undefined} className={`no-underline ${path === l.href ? "text-accent" : "text-ink hover:text-accent"}`}>
                         {name(l)}
                       </Link>
                     ))}
@@ -77,7 +79,7 @@ export function Nav() {
                   <ul>
                     {g.sub.pages.map((p) => (
                       <li key={p.href}>
-                        <Link href={p.href} className={`block py-1 pl-5 pr-3 no-underline ${path === p.href ? "text-accent" : "text-ink hover:text-accent"}`}>
+                        <Link href={p.href} aria-current={path === p.href ? "page" : undefined} className={`block py-1 pl-5 pr-3 no-underline ${path === p.href ? "text-accent" : "text-ink hover:text-accent"}`}>
                           {name(p)}
                         </Link>
                       </li>

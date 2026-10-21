@@ -140,7 +140,9 @@ class NoLookOfItsOwn(unittest.TestCase):
         s = src("app", "curtailment", "Sections.tsx")
         # the same shade as before: cardinal at an opacity of 0.06 to 0.90, now mixed from the token
         self.assertIn("background: `color-mix(in srgb, var(--color-accent) ${(100 * (0.06 + 0.84 * s)).toFixed(1)}%, transparent)`", s)
-        self.assertIn('color: s > 0.5 ? "var(--color-surface)" : "var(--color-ink)"', s)
+        # session 412 (the accessibility pass): the words turn white where white and ink meet in contrast (TILE_WHITE),
+        # no longer at s = 0.5, where white gave 2.84 to 1; the shade itself is unchanged
+        self.assertIn('color: s > TILE_WHITE ? "var(--color-surface)" : "var(--color-ink)"', s)
 
 
 class ChartsReadTokens(unittest.TestCase):

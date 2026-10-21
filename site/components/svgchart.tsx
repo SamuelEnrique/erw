@@ -22,6 +22,7 @@
 // What the canvas had and these do not: the range slider and the PNG download (the table stands in for both; a
 // slider is the next ruling's).
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { emptyCell, scrollRegion } from "@/lib/cells";   // session 412: an empty header cell is a plain cell
 import { stackNames, wrapName } from "@/lib/chartwrap";   // session 370: the names at the right in lines that fit
 
 export const tokenColor = (c: string) => (c.startsWith("var(") ? c : c.startsWith("--") ? `var(${c})` : c.startsWith("series-") ? `var(--chart-${c})` : /^#|^rgb/.test(c) ? c : `var(--color-${c})`);
@@ -84,10 +85,10 @@ export function Toggle({ label, table, setTable, id }: { label: string; table: b
 /** A table of rows by columns, the shape every chart's table takes. */
 export function DataTable({ label, head, rows, id }: { label: string; head: ReactNode[]; rows: { key: string; cells: ReactNode[] }[]; id?: string }) {
   return (
-    <div className="overflow-x-auto" data-chart-as-table={id ?? "1"}>
+    <div className="overflow-x-auto" data-chart-as-table={id ?? "1"} {...scrollRegion(`${label}, as a table`)}>
       <table className="w-full border-collapse text-left text-sm tabular-nums" style={{ minWidth: 320 }}>
         <caption className="sr-only">{label}, as a table</caption>
-        <thead><tr>{head.map((h, i) => <th key={i} scope="col" className={`px-3 py-1.5 font-normal ${i ? "text-right" : ""}`}>{h}</th>)}</tr></thead>
+        <thead><tr>{head.map((h, i) => (emptyCell(h) ? <td key={i} data-empty-head="1" className="px-3 py-1.5" /> : <th key={i} scope="col" className={`px-3 py-1.5 font-normal ${i ? "text-right" : ""}`}>{h}</th>))}</tr></thead>
         <tbody>
           {rows.map((r) => (
             <tr key={r.key} className="border-b border-rule">
