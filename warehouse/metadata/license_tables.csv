@@ -71,6 +71,7 @@ eia_fuel_spot_prices,EIA,the source registry
 eia_gas_storage_weekly,EIA,the source registry
 eia_gas_trade_monthly,EIA,the source registry
 eia_lng_exports_monthly,EIA,the source registry
+eia_nuclear_outages_daily,EIA,the source registry
 eia_padd_crude_pipeline_flows,EIA,the source registry
 eia_petroleum_stocks_weekly,EIA,the source registry
 eia_petroleum_supply_weekly,EIA,the source registry

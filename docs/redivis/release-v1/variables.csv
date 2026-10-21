@@ -1769,6 +1769,9 @@ eia_gas_trade_monthly,export_volume,series variable,MMcf
 eia_gas_trade_monthly,import_volume,series variable,MMcf
 eia_lng_exports_monthly,export_price,series variable,USD/Mcf
 eia_lng_exports_monthly,export_volume,series variable,MMcf
+eia_nuclear_outages_daily,capacity,series variable,MW
+eia_nuclear_outages_daily,outage,series variable,MW
+eia_nuclear_outages_daily,outage_share,series variable,ratio
 eia_padd_crude_pipeline_flows,pipeline_receipts,series variable,kbbl
 eia_petroleum_stocks_weekly,stocks,series variable,kbbl
 eia_petroleum_supply_weekly,crude_input,series variable,kbbl/d
