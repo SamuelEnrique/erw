@@ -1,0 +1,467 @@
+{
+ "session": 448,
+ "date": "2026-10-21",
+ "about": "Rows for the section Cross-checks of three Method notes, in the five columns site/scripts/check-cross-checks.mjs reads (Our figure, Published figure, Source and date, Gap, Reason). 'where' and 'source_refs' and 'read' are for the reviewer and are not columns of the note.",
+ "columns": [
+  "Our figure",
+  "Published figure",
+  "Source and date",
+  "Gap",
+  "Reason"
+ ],
+ "notes": [
+  {
+   "note": "battery_earns_algorithm",
+   "page": "/cost-of-power/battery",
+   "count_line": "site/app/cost-of-power/battery/page.tsx:302",
+   "count_now": 15,
+   "count_after": 25,
+   "rows": [
+    {
+     "our": "Capital cost, 2 hours: USD 610 per kW",
+     "published": "Lazard, 100 MW / 200 MWh: total initial installed cost USD 34 to 88 million, USD 340 to 880 per kW; ATB, 2 hours, Moderate, overnight capital cost USD 801.55 per kW (2023 dollars)",
+     "source": "[Lazard, *Levelized Cost of Energy+*, June 2025](https://www.lazard.com/media/uounhon4/lazards-lcoeplus-june-2025.pdf), LCOS v10.0, page 43; [NLR (formerly NREL), Annual Technology Baseline 2025, workbook 2025_v1](https://data.openei.org/files/8759/2025_v1_Workbook_08-27-2026.xlsx), sheet Utility-Scale Battery - R&D, row 105, column 2025",
+     "gap": "0 at Lazard's midpoint (+270 to -270 across its range); -191.55 against the ATB, 23.9 percent",
+     "reason": "The page takes the midpoint of Lazard's 2-hour case. The ATB's overnight cost is one modeled system in 2023 dollars with its grid connection outside it; Lazard's is a 2025 range of its own estimates with EPC inside it",
+     "where": "typed default, site/lib/batterystack.ts:86 (COSTS[2]); no check-values key",
+     "source_refs": [
+      {
+       "source": "Lazard",
+       "page": "page 43"
+      },
+      {
+       "source": "ATB workbook",
+       "page": "row 105"
+      }
+     ],
+     "read": "Lazard read 21 October 2026 (session 448); ATB cited in the repository: site/data/sourced_ranges.json, from the workbook retrieved 19 October 2026 (session 306)"
+    },
+    {
+     "our": "Capital cost, 4 hours: USD 1,110 per kW",
+     "published": "Lazard, 100 MW / 400 MWh: USD 62 to 160 million, USD 620 to 1,600 per kW; ATB, 4 hours, Moderate, overnight USD 1,246.82 per kW (2023 dollars)",
+     "source": "[Lazard, *Levelized Cost of Energy+*, June 2025](https://www.lazard.com/media/uounhon4/lazards-lcoeplus-june-2025.pdf), LCOS v10.0, page 43; [NLR (formerly NREL), Annual Technology Baseline 2025, workbook 2025_v1](https://data.openei.org/files/8759/2025_v1_Workbook_08-27-2026.xlsx), sheet Utility-Scale Battery - R&D, row 108, column 2025",
+     "gap": "0 at Lazard's midpoint (+490 to -490); -136.82 against the ATB, 11.0 percent",
+     "reason": "As the 2-hour row: Lazard's midpoint, below the ATB's one modeled system. The ATB's own 4-hour figure with its grid connection and financing is USD 1,396.73 (row 74)",
+     "where": "typed default, site/lib/batterystack.ts:87 (COSTS[4]); no check-values key",
+     "source_refs": [
+      {
+       "source": "Lazard",
+       "page": "page 43"
+      },
+      {
+       "source": "ATB workbook",
+       "page": "rows 74 and 108"
+      }
+     ],
+     "read": "Lazard read 21 October 2026 (session 448); ATB cited in the repository: site/data/sourced_ranges.json, from the workbook retrieved 19 October 2026 (session 306)"
+    },
+    {
+     "our": "Capital cost, 8 hours: USD 2,300 per kW (the ATB's cost report: USD 241 per kWh times 8 plus USD 372 per kW, 2024 dollars)",
+     "published": "ATB workbook, 8 hours, Moderate, overnight USD 2,137.36 per kW (2023 dollars); Lazard prints no 8-hour case",
+     "source": "[NLR (formerly NREL), Annual Technology Baseline 2025, workbook 2025_v1](https://data.openei.org/files/8759/2025_v1_Workbook_08-27-2026.xlsx), sheet Utility-Scale Battery - R&D, row 114, column 2025; [Lazard, *Levelized Cost of Energy+*, June 2025](https://www.lazard.com/media/uounhon4/lazards-lcoeplus-june-2025.pdf), page 43 (2 and 4 hours only)",
+     "gap": "+162.64, 7.6 percent",
+     "reason": "Two documents of the same ATB: the page reads the cost report's 2024 dollars (Cole, Karmakar and Mann, section 2.2), the workbook states 2023 dollars and a Moderate case built from component costs. The gap is the dollar year and the case, not a fault of the model",
+     "where": "typed default, site/lib/batterystack.ts:88 (COSTS[8]) and site/lib/battery/finance.ts:394 (ATB); no check-values key",
+     "source_refs": [
+      {
+       "source": "ATB workbook",
+       "page": "row 114"
+      },
+      {
+       "source": "Lazard",
+       "page": "page 43"
+      }
+     ],
+     "read": "ATB cited in the repository: site/data/sourced_ranges.json, from the workbook retrieved 19 October 2026 (session 306); Lazard read 21 October 2026 (session 448)"
+    },
+    {
+     "our": "Fixed O&M, 2 hours: USD 11.20 per kW a year",
+     "published": "Lazard: storage O&M USD 3.0 to 8.2 per kWh a year, USD 6.00 to 16.40 per kW at 2 hours; ATB, 2 hours, Moderate: USD 32.06 per kW a year",
+     "source": "[Lazard, *Levelized Cost of Energy+*, June 2025](https://www.lazard.com/media/uounhon4/lazards-lcoeplus-june-2025.pdf), LCOS v10.0, page 43; [NLR (formerly NREL), Annual Technology Baseline 2025, workbook 2025_v1](https://data.openei.org/files/8759/2025_v1_Workbook_08-27-2026.xlsx), sheet Utility-Scale Battery - R&D, row 122, column 2025",
+     "gap": "0 at Lazard's midpoint (+5.20 to -5.20); -20.86 against the ATB",
+     "reason": "Two conventions, as the 4-hour row above says: Lazard leaves augmentation out of O&M and lets the battery fade; the ATB's fixed O&M is 4 percent of its capital cost a year and pays for augmentation",
+     "where": "typed default, site/lib/batterystack.ts:86 (COSTS[2]); no check-values key",
+     "source_refs": [
+      {
+       "source": "Lazard",
+       "page": "page 43"
+      },
+      {
+       "source": "ATB workbook",
+       "page": "row 122"
+      }
+     ],
+     "read": "Lazard read 21 October 2026 (session 448); ATB cited in the repository: site/data/sourced_ranges.json, from the workbook retrieved 19 October 2026 (session 306)"
+    },
+    {
+     "our": "Fixed O&M, 8 hours: USD 92 per kW a year (4 percent of USD 2,300)",
+     "published": "ATB, 8 hours, Moderate: USD 85.49 per kW a year (4 percent of USD 2,137.36)",
+     "source": "[NLR (formerly NREL), Annual Technology Baseline 2025, workbook 2025_v1](https://data.openei.org/files/8759/2025_v1_Workbook_08-27-2026.xlsx), sheet Utility-Scale Battery - R&D, row 131, column 2025",
+     "gap": "+6.51, 7.6 percent",
+     "reason": "The same 4 percent of a capital cost in a different dollar year (the 8-hour capital cost row); the share itself agrees",
+     "where": "typed default, site/lib/batterystack.ts:88 (COSTS[8]); no check-values key",
+     "source_refs": [
+      {
+       "source": "ATB workbook",
+       "page": "row 131"
+      }
+     ],
+     "read": "ATB cited in the repository: site/data/sourced_ranges.json, from the workbook retrieved 19 October 2026 (session 306)"
+    },
+    {
+     "our": "Round-trip efficiency, 2 hours: 86 percent (one figure for every duration)",
+     "published": "Lazard, 2 hours: 91 to 87 percent; ATB, 2 hours: 85 percent",
+     "source": "[Lazard, *Levelized Cost of Energy+*, June 2025](https://www.lazard.com/media/uounhon4/lazards-lcoeplus-june-2025.pdf), LCOS v10.0, page 43; [NLR (formerly NREL), Annual Technology Baseline 2025, workbook 2025_v1](https://data.openei.org/files/8759/2025_v1_Workbook_08-27-2026.xlsx), sheet Utility-Scale Battery - R&D, row 173, column 2025",
+     "gap": "-5 to -1 against Lazard; +1 against the ATB",
+     "reason": "The model was run at 86, 89 and 92 percent only, so the default is the step at or below Lazard's lowest case of either duration; at 2 hours it lies 1 point under Lazard's low case",
+     "where": "typed default, site/lib/batterystack.ts:26 (RTE) and site/lib/battery/finance.ts:96 (MODEL); no check-values key",
+     "source_refs": [
+      {
+       "source": "Lazard",
+       "page": "page 43"
+      },
+      {
+       "source": "ATB workbook",
+       "page": "row 173"
+      }
+     ],
+     "read": "Lazard read 21 October 2026 (session 448); ATB cited in the repository: site/data/sourced_ranges.json, from the workbook retrieved 19 October 2026 (session 306)"
+    },
+    {
+     "our": "Breakeven toll, default case (ERCOT, 4 hours): USD 106.79 per kW-year",
+     "published": "Lazard's levelized cost of storage, 100 MW, 4 hours, unsubsidized, as Lazard states it per kW-year: USD 145 to 319",
+     "source": "[Lazard, *Levelized Cost of Energy+*, June 2025](https://www.lazard.com/media/uounhon4/lazards-lcoeplus-june-2025.pdf), LCOS v10.0, page 20",
+     "gap": "-38.21 to -212.21",
+     "reason": "Lazard's own per kW-year page agrees with the row above that converts its USD 115 to 254 per MWh (USD 144.90 to 320.04). The toll covers the debt 1.25 times and the fixed O&M only; Lazard's cost also earns 12 percent on equity, pays the charging energy and taxes",
+     "where": "no check-values key: computed by site/lib/battery/finance.ts from the assumptions; the method note's own row of session 196",
+     "source_refs": [
+      {
+       "source": "Lazard",
+       "page": "page 20"
+      }
+     ],
+     "read": "Lazard read 21 October 2026 (session 448)"
+    },
+    {
+     "our": "Cycles: at most one full cycle a day, on every day of the year",
+     "published": "Lazard: one cycle a day at 90 percent depth of discharge, 350 days a year (126,000 MWh a year for 100 MW, 4 hours)",
+     "source": "[Lazard, *Levelized Cost of Energy+*, June 2025](https://www.lazard.com/media/uounhon4/lazards-lcoeplus-june-2025.pdf), LCOS v10.0, pages 43 and 47",
+     "gap": "0 cycles a day; up to 15 more days a year",
+     "reason": "The model dispatches against each day's prices and may skip a day; Lazard fixes a duty of 350 full cycles. Its 126,000 MWh a year is the divisor the per kW-year conversion above uses",
+     "where": "typed default, site/lib/battery/finance.ts:96 (MODEL.cycles); no check-values key",
+     "source_refs": [
+      {
+       "source": "Lazard",
+       "page": "pages 43 and 47"
+      }
+     ],
+     "read": "Lazard read 21 October 2026 (session 448)"
+    },
+    {
+     "our": "Investment tax credit: none by default; the sensitivity's sourced mode says \"the project's own credit, none published as a range\"",
+     "published": "Lazard's storage cases: investment tax credit (storage) 30 to 40 percent",
+     "source": "[Lazard, *Levelized Cost of Energy+*, June 2025](https://www.lazard.com/media/uounhon4/lazards-lcoeplus-june-2025.pdf), LCOS v10.0, page 43",
+     "gap": "-30 to -40 points at the default; the sourced mode has a published range it does not use",
+     "reason": "No credit is the page's ruled default and stays so (Lazard's comparison figures are unsubsidized too); the words in the sourced mode do not hold for Lazard, which prints a range on the page the other storage defaults come from",
+     "where": "site/lib/battery/finance.ts:548 (NO_RANGE.itc); no check-values key",
+     "source_refs": [
+      {
+       "source": "Lazard",
+       "page": "page 43"
+      }
+     ],
+     "read": "Lazard read 21 October 2026 (session 448)"
+    },
+    {
+     "our": "Cost of capital: debt at 8 percent, equity at 12 percent, coverage target 1.25 times",
+     "published": "ATB, utility-scale battery storage: term debt 6.5 percent, after-tax equity returns 8.5 percent, debt service coverage 2.0",
+     "source": "[Annual Technology Baseline 2025, Financial Cases and Methods](https://atb.nlr.gov/electricity/2025/financial_cases_&_methods), \"Financial Assumptions by Technology\"; [NLR (formerly NREL), Annual Technology Baseline 2025, workbook 2025_v1](https://data.openei.org/files/8759/2025_v1_Workbook_08-27-2026.xlsx), rows 50 to 59",
+     "gap": "+1.5 points (debt); +3.5 points (equity); -0.75 (coverage)",
+     "reason": "The page follows Lazard's storage structure (20 percent debt at 8 percent, equity at 12 percent, ruled 12 October 2026). The ATB's lower rates and higher coverage describe a contracted project that sells under a PPA, the ATB's stated electricity sales for a battery",
+     "where": "typed defaults, site/lib/batterystack.ts:92 (DEBT), site/lib/battery/finance.ts:48 (HURDLE) and :283 (TARGET); no check-values key",
+     "source_refs": [
+      {
+       "source": "ATB",
+       "page": "Financial Cases and Methods"
+      },
+      {
+       "source": "ATB workbook",
+       "page": "rows 50 to 59"
+      }
+     ],
+     "read": "ATB page read 21 October 2026 (session 448); workbook cited in the repository: site/data/sourced_ranges.json, from the workbook retrieved 19 October 2026 (session 306)"
+    }
+   ]
+  },
+  {
+   "note": "generator_earns_algorithm",
+   "page": "/cost-of-power/seller",
+   "count_line": "site/app/cost-of-power/seller/page.tsx:382",
+   "count_now": 21,
+   "count_after": 34,
+   "rows": [
+    {
+     "our": "Solar defaults: capital USD 1,375 per kW, fixed O&M USD 12.50 per kW a year, life 35 years",
+     "published": "Lazard, utility-scale solar PV: total capital cost USD 1,150 to 1,600 per kW; fixed O&M USD 11.00 to 14.00; facility life 35 years",
+     "source": "[Lazard, *Levelized Cost of Energy+*, June 2025](https://www.lazard.com/media/uounhon4/lazards-lcoeplus-june-2025.pdf), LCOE v18.0, page 34",
+     "gap": "0 at each midpoint (capital +225 to -225; O&M +1.50 to -1.50); life 0",
+     "reason": "The page takes the midpoint of each Lazard range; the code cites the report without its page, which is page 34. The ATB recovers capital over 30 years for every technology (its Financial Cases and Methods)",
+     "where": "typed defaults, site/lib/merchant.ts:38 (DEFAULTS.solar); no check-values key",
+     "source_refs": [
+      {
+       "source": "Lazard",
+       "page": "page 34"
+      }
+     ],
+     "read": "Lazard read 21 October 2026 (session 448)"
+    },
+    {
+     "our": "Wind defaults: capital USD 2,100 per kW, fixed O&M USD 32.25 per kW a year, life 30 years",
+     "published": "Lazard, onshore wind: USD 1,900 to 2,300 per kW; fixed O&M USD 24.50 to 40.00; facility life 30 years",
+     "source": "[Lazard, *Levelized Cost of Energy+*, June 2025](https://www.lazard.com/media/uounhon4/lazards-lcoeplus-june-2025.pdf), LCOE v18.0, page 35",
+     "gap": "0 at each midpoint (capital +200 to -200; O&M +7.75 to -7.75); life 0",
+     "reason": "Midpoints of Lazard's ranges, page 35. The ATB's figures for the same items are in the rows above (USD 1,968 per kW and USD 43 a year)",
+     "where": "typed defaults, site/lib/merchant.ts:39 (DEFAULTS.wind); no check-values key",
+     "source_refs": [
+      {
+       "source": "Lazard",
+       "page": "page 35"
+      }
+     ],
+     "read": "Lazard read 21 October 2026 (session 448)"
+    },
+    {
+     "our": "Gas peaker defaults: capital USD 1,300 per kW, fixed O&M USD 13.50 per kW a year, life 30 years",
+     "published": "Lazard, gas peaking (new build): USD 1,150 to 1,450 per kW; fixed O&M USD 10.00 to 17.00; facility life 30 years",
+     "source": "[Lazard, *Levelized Cost of Energy+*, June 2025](https://www.lazard.com/media/uounhon4/lazards-lcoeplus-june-2025.pdf), LCOE v18.0, page 37",
+     "gap": "0 at each midpoint (capital +150 to -150; O&M +3.50 to -3.50); life 0",
+     "reason": "Midpoints of Lazard's ranges, page 37. The ATB's figures for a combustion turbine sit in its interactive chart, not in its page's text, and were not read",
+     "where": "typed defaults, site/lib/merchant.ts:42 (DEFAULTS.peaker); no check-values key",
+     "source_refs": [
+      {
+       "source": "Lazard",
+       "page": "page 37"
+      }
+     ],
+     "read": "Lazard read 21 October 2026 (session 448)"
+    },
+    {
+     "our": "Gas peaker: heat rate 10.725 MMBtu per MWh, variable O&M USD 4.25 per MWh",
+     "published": "Lazard, gas peaking: heat rate 10,275 to 11,175 Btu per kWh; variable O&M USD 3.50 to 5.00 per MWh",
+     "source": "[Lazard, *Levelized Cost of Energy+*, June 2025](https://www.lazard.com/media/uounhon4/lazards-lcoeplus-june-2025.pdf), LCOE v18.0, page 37",
+     "gap": "0 at each midpoint (+0.45 to -0.45 MMBtu; +0.75 to -0.75 USD)",
+     "reason": "The code's comment calls these Lazard's gas peaking midpoints; page 37 confirms both ranges",
+     "where": "typed defaults, site/lib/merchant.ts:45 (HEAT_RATE, VOM); in every mr| and ms| key as hr= and vom=",
+     "source_refs": [
+      {
+       "source": "Lazard",
+       "page": "page 37"
+      }
+     ],
+     "read": "Lazard read 21 October 2026 (session 448)"
+    },
+    {
+     "our": "Gas price: Henry Hub, the 2025 mean over 8,735 hours, USD 3.54 per MMBtu (the peaker's fuel, read hour by hour)",
+     "published": "Lazard's gas price for every gas-fired LCOE: USD 3.45 per MMBtu",
+     "source": "[Lazard, *Levelized Cost of Energy+*, June 2025](https://www.lazard.com/media/uounhon4/lazards-lcoeplus-june-2025.pdf), LCOE v18.0, page 8 note 3 and page 37",
+     "gap": "+0.09",
+     "reason": "Lazard holds one price for every year of a plant's life; the page reads the price of each hour, so a year's mean is the comparable figure",
+     "where": "the method note's CAISO cross-check row (session 298); no check-values key",
+     "source_refs": [
+      {
+       "source": "Lazard",
+       "page": "pages 8 and 37"
+      }
+     ],
+     "read": "Lazard read 21 October 2026 (session 448)"
+    },
+    {
+     "our": "Solar in ERCOT: 2,580 MWh sold per MW over the last twelve months, a capacity factor of 29.5 percent",
+     "published": "Lazard's regional capacity factor for solar in ERCOT: 24 percent; utility-scale PV: 20 to 30 percent; ATB: 19.4 percent (class 10) to 31.5 percent (class 1), 2023",
+     "source": "[Lazard, *Levelized Cost of Energy+*, June 2025](https://www.lazard.com/media/uounhon4/lazards-lcoeplus-june-2025.pdf), Cost of Firming Intermittency, page 30, and LCOE v18.0, page 34; [Annual Technology Baseline 2025, utility-scale PV](https://atb.nlr.gov/electricity/2025/utility-scale_pv)",
+     "gap": "+5.5 points against Lazard's ERCOT figure; inside both ranges",
+     "reason": "Ours is the ERCOT fleet's own output over its installed capacity in EIA-930 (2,580 / 8,760 hours); Lazard's ERCOT figure is its assumed plant in that region. Why the fleet runs higher was not tested here",
+     "where": "ms|iso=ercot&asset=solar&mw=100&mwh=0&ds=<default>&hr=10.725&vom=4.25&fom=12.5|twelve|energy",
+     "source_refs": [
+      {
+       "source": "Lazard",
+       "page": "pages 30 and 34"
+      },
+      {
+       "source": "ATB",
+       "page": "utility-scale PV page"
+      }
+     ],
+     "read": "read 21 October 2026 (session 448)"
+    },
+    {
+     "our": "Wind in ERCOT: 3,028 MWh sold per MW over the last twelve months, a capacity factor of 34.6 percent",
+     "published": "Lazard's regional capacity factor for wind in ERCOT: 34 percent; onshore wind: 30 to 55 percent; ATB, the 2023 market average turbine: 43 percent",
+     "source": "[Lazard, *Levelized Cost of Energy+*, June 2025](https://www.lazard.com/media/uounhon4/lazards-lcoeplus-june-2025.pdf), page 30 and page 35; [Annual Technology Baseline 2025, land-based wind](https://atb.nlr.gov/electricity/2025/land-based_wind)",
+     "gap": "+0.6 points against Lazard's ERCOT figure; -8.4 against the ATB's turbine",
+     "reason": "The ATB's 43 percent is the 2023 market average turbine, new; the fleet's turbines are of every age. Why they differ was not tested further here",
+     "where": "ms|iso=ercot&asset=wind&mw=100&mwh=0&ds=<default>&hr=10.725&vom=4.25&fom=32.25|twelve|energy",
+     "source_refs": [
+      {
+       "source": "Lazard",
+       "page": "pages 30 and 35"
+      },
+      {
+       "source": "ATB",
+       "page": "land-based wind page"
+      }
+     ],
+     "read": "read 21 October 2026 (session 448)"
+    },
+    {
+     "our": "CAISO: solar sold 2,075 MWh per MW in 2025 (23.7 percent), wind 3,125 (35.7 percent)",
+     "published": "Lazard's regional capacity factors for CAISO: solar 27 percent, wind 33 percent",
+     "source": "[Lazard, *Levelized Cost of Energy+*, June 2025](https://www.lazard.com/media/uounhon4/lazards-lcoeplus-june-2025.pdf), Cost of Firming Intermittency, page 30",
+     "gap": "-3.3 points (solar); +2.7 points (wind)",
+     "reason": "Ours is the CAISO fleet in 2025 from CAISO's own supply by fuel and EIA-930; Lazard's figures are its assumed plants in that region. Why the fleet differs was not tested here",
+     "where": "the method note's CAISO rows (warehouse/analysis/generator_caiso_check.py); no check-values key",
+     "source_refs": [
+      {
+       "source": "Lazard",
+       "page": "page 30"
+      }
+     ],
+     "read": "Lazard read 21 October 2026 (session 448)"
+    },
+    {
+     "our": "ERCOT gas peaker, 2024: 2,105 MWh per MW under the page's rule, a capacity factor of 24.0 percent (8,784 hours)",
+     "published": "Lazard, gas peaking: capacity factor 15 to 10 percent",
+     "source": "[Lazard, *Levelized Cost of Energy+*, June 2025](https://www.lazard.com/media/uounhon4/lazards-lcoeplus-june-2025.pdf), LCOE v18.0, page 37",
+     "gap": "+9.0 to +14.0 points",
+     "reason": "The page runs the peaker in every hour the price clears its fuel and variable cost, with no start cost, minimum run or outage; a real peaker runs less. The CAISO rows above show the same against CAISO's own study",
+     "where": "the method note's ERCOT peaker row (session 298); no check-values key",
+     "source_refs": [
+      {
+       "source": "Lazard",
+       "page": "page 37"
+      }
+     ],
+     "read": "Lazard read 21 October 2026 (session 448)"
+    },
+    {
+     "our": "ERCOT gas peaker, the toll at which coverage reaches 1.25 times: USD 8.34 per kW-month",
+     "published": "ERCOT's net cost of new entry for a gas peaker, as Lazard quotes it: USD 9.92 per kW-month",
+     "source": "[Lazard, *Levelized Cost of Energy+*, June 2025](https://www.lazard.com/media/uounhon4/lazards-lcoeplus-june-2025.pdf), Cost of Firming Intermittency, page 30 note 1",
+     "gap": "-1.58",
+     "reason": "Net CONE is a new peaker's full capital and operating cost less its expected market revenue; our toll pays the debt 1.25 times and the fixed O&M at Lazard's midpoints and leaves equity only the margin above the debt. The two are near because both price a new peaker's fixed cost per kW-month",
+     "where": "no check-values key: computed by site/lib/seller/finance.ts; the method note's peaker row",
+     "source_refs": [
+      {
+       "source": "Lazard",
+       "page": "page 30"
+      }
+     ],
+     "read": "Lazard read 21 October 2026 (session 448)"
+    },
+    {
+     "our": "Cost of capital: debt at 8 percent, equity at 12 percent (every asset)",
+     "published": "ATB: utility PV and land-based wind, term debt 6.5 percent and after-tax equity returns 8.0 percent; natural gas, 7.5 and 8.5 percent",
+     "source": "[Annual Technology Baseline 2025, Financial Cases and Methods](https://atb.nlr.gov/electricity/2025/financial_cases_&_methods), \"Financial Assumptions by Technology\"",
+     "gap": "+1.5 and +4.0 points (solar, wind); +0.5 and +3.5 points (gas)",
+     "reason": "The page follows Lazard's LCOE structure, 60 percent debt at 8 percent and equity at 12 percent (page 8); the ATB's rates are after tax and for a project selling under a PPA, the gas plant quasi-merchant",
+     "where": "typed defaults, site/lib/merchant.ts:44 (DEBT) and site/lib/seller/finance.ts:76 (HURDLE); no check-values key",
+     "source_refs": [
+      {
+       "source": "ATB",
+       "page": "Financial Cases and Methods"
+      }
+     ],
+     "read": "ATB read 21 October 2026 (session 448)"
+    },
+    {
+     "our": "Debt coverage target: 1.25 times (the contract price and the toll are solved for it)",
+     "published": "ATB debt service coverage: utility PV 1.275, land-based wind 1.375, natural gas 1.45",
+     "source": "[Annual Technology Baseline 2025, Financial Cases and Methods](https://atb.nlr.gov/electricity/2025/financial_cases_&_methods), \"Financial Assumptions by Technology\"",
+     "gap": "-0.025 (solar); -0.125 (wind); -0.20 (gas)",
+     "reason": "A higher target raises the contract price at which a lender is paid; the contract price rises by the change in the target times the yearly debt payment, over the energy sold",
+     "where": "typed default, site/lib/seller/finance.ts:288 (TARGET); no check-values key",
+     "source_refs": [
+      {
+       "source": "ATB",
+       "page": "Financial Cases and Methods"
+      }
+     ],
+     "read": "ATB read 21 October 2026 (session 448)"
+    },
+    {
+     "our": "Tax credits: none by default (investment and production credits are inputs, session 353)",
+     "published": "ATB 2025: utility-scale PV, investment credit 40 percent (38.4 after transfer); land-based wind, production credit USD 33 per MWh (32.0 after transfer), 2023 to 2029",
+     "source": "[Annual Technology Baseline 2025, Financial Cases and Methods](https://atb.nlr.gov/electricity/2025/financial_cases_&_methods), tax credit table",
+     "gap": "-40 points (solar); USD -33 per MWh (wind)",
+     "reason": "No credit is the page's ruled default, and Lazard's comparison figures above are unsubsidized; the ATB's values are what a reader who sets the inputs would look for",
+     "where": "site/lib/seller/finance.ts:113 and :115 (itc, ptc); no check-values key",
+     "source_refs": [
+      {
+       "source": "ATB",
+       "page": "Financial Cases and Methods"
+      }
+     ],
+     "read": "ATB read 21 October 2026 (session 448)"
+    }
+   ]
+  },
+  {
+   "note": "datacenter_pays_algorithm",
+   "page": "/cost-of-power",
+   "count_line": "site/app/cost-of-power/page.tsx:358",
+   "count_now": 6,
+   "count_after": 9,
+   "rows": [
+    {
+     "our": "Cost of capital, the default: 9.6 percent, labelled \"a generator's WACC, Lazard\" (0.6 x 8 + 0.4 x 12)",
+     "published": "Lazard's own after-tax IRR/WACC at 60 percent debt at 8 percent and 40 percent equity at 12 percent: 7.7 percent",
+     "source": "[Lazard, *Levelized Cost of Energy+*, June 2025](https://www.lazard.com/media/uounhon4/lazards-lcoeplus-june-2025.pdf), LCOE v18.0, page 9 note and page 12",
+     "gap": "+1.9 points",
+     "reason": "9.6 is the pre-tax weighted cost; Lazard names 7.7 percent as the WACC of that structure, after the tax saved on interest. The label quotes Lazard's structure correctly but not the figure Lazard itself calls the WACC",
+     "where": "typed default, site/lib/datacenter/finance.ts:85 (HURDLE); no check-values key",
+     "source_refs": [
+      {
+       "source": "Lazard",
+       "page": "pages 9 and 12"
+      }
+     ],
+     "read": "Lazard read 21 October 2026 (session 448)"
+    },
+    {
+     "our": "The same 9.6 percent",
+     "published": "ATB, natural gas (quasi-merchant): term debt 7.5 percent, after-tax equity returns 8.5 percent",
+     "source": "[Annual Technology Baseline 2025, Financial Cases and Methods](https://atb.nlr.gov/electricity/2025/financial_cases_&_methods), \"Financial Assumptions by Technology\"",
+     "gap": "+2.1 points against the debt; +1.1 against the equity",
+     "reason": "A datacenter's own cost of capital is not held; the gas plant that would serve a load is the nearest published figure, and it sits under the page's default",
+     "where": "typed default, site/lib/datacenter/finance.ts:85 (HURDLE); no check-values key",
+     "source_refs": [
+      {
+       "source": "ATB",
+       "page": "Financial Cases and Methods"
+      }
+     ],
+     "read": "ATB read 21 October 2026 (session 448)"
+    },
+    {
+     "our": "Years counted: 20 (\"no cited term is held\")",
+     "published": "Lazard, gas combined cycle: facility life 30 years; ATB: cost recovery over 30 years for every technology",
+     "source": "[Lazard, *Levelized Cost of Energy+*, June 2025](https://www.lazard.com/media/uounhon4/lazards-lcoeplus-june-2025.pdf), LCOE v18.0, page 37; [Annual Technology Baseline 2025, Financial Cases and Methods](https://atb.nlr.gov/electricity/2025/financial_cases_&_methods)",
+     "gap": "-10 years",
+     "reason": "The page counts the load's power bill, not a plant's life, so no term is wrong; these are the published terms a reader comparing with building power would meet",
+     "where": "typed default, site/lib/datacenter/finance.ts:85 (LIFE); no check-values key",
+     "source_refs": [
+      {
+       "source": "Lazard",
+       "page": "page 37"
+      },
+      {
+       "source": "ATB",
+       "page": "Financial Cases and Methods"
+      }
+     ],
+     "read": "read 21 October 2026 (session 448)"
+    }
+   ]
+  }
+ ]
+}
