@@ -199,6 +199,12 @@ above says otherwise, this section is the newer one.
   `next build` writes (`.next/types`): run it after a build. Tests that read `warehouse/output` skip where it is absent.
   The whole suite in a fresh worktree of `wip/429-combined`, with `npm ci` done and nothing else, is session 503's
   record.
+- **The build lock** (session 504). One heavy process at a time on a machine (a site build, the whole suite, a browser
+  check, Lighthouse): `python scripts/buildlock.py acquire <who>` waits until it is free (180 minutes by default, then
+  exit 1), `release <who>` frees it only for its holder, `status` says who holds it (exit 1 when held). The lock is
+  `runs/build.lock` in the main checkout, found from any worktree of it, holding "<who> <UTC time>" (the format of
+  chain 019's helper, so either honours the other); a lock older than 3 hours is taken as stale. It takes no path, so
+  Git Bash's `MSYS_NO_PATHCONV=1` cannot hide it.
 - **A test's residue.** `warehouse/output/raw/madeup_as_prices/` (untracked, two files, 112 bytes) was made on
   11 October at 20:22 UTC, while session 198 ran the suite; session 200's run of the suite in a clean worktree made
   the same folder there. `scripts/raw_handover.py` names `tests/test_session85.py` as the writer of a folder of that
