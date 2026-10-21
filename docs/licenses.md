@@ -10,10 +10,10 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 ## Read these first
 
-- **212 tables.** The flag and the verdict agree on 147; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 20 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
-- **The ERW's verdict (session 378): 130 public, 33 internal, 49 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
-- **85 publishers in the record: 83 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; session 484, one), 73 pages read, 10 that could not be read, 2 not asked (paused).**
-- **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Latitude Media 4; Natural Gas Intelligence 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Heatmap News 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; OilPrice.com 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1.
+- **262 tables.** The flag and the verdict agree on 175; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 42 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
+- **The ERW's verdict (session 378): 158 public, 54 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
+- **87 publishers in the record: 85 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 75 pages read, 10 that could not be read, 2 not asked (paused).**
+- **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Heatmap News 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1.
 - **0 tables are flagged internal where the sentence read allows them.**
 - **10 tables that may be public today would need permission if the ERW sells anything** (SPP 7; IMF 1; IMF PortWatch 1; RRC 1).
 
@@ -108,6 +108,8 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | 83 | Louisiana Department of Revenue | https://revenue.louisiana.gov/terms/ | 06:16:07 | 200 | 62356 | read |
 | 84 | Louisiana State Legislature | https://www.legis.la.gov/Legis/Disclaimer.aspx | 06:16:08 | 200 | 18395 | read |
 | 85 | Catalyst Cooperative (PUDL) | https://docs.catalyst.coop/pudl/en/stable/data_access.html | 16:49:15 | 200 | 88452 | read |
+| 86 | Bureau of Ocean Energy Management (BOEM) | https://www.boem.gov/copyright (answered at https://www.boem.gov/about-boem/copyright-restrictions-and-permissions) | 17:46:20 | 200 | 58441 | read |
+| 87 | U.S. Geological Survey (USGS) | https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits | 17:54:19 | 200 | 88994 | read |
 
 ## The publishers: the sentence and the verdict
 
@@ -180,8 +182,10 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | CivicPlus | #81: read | "Any unauthorized reproduction, publication, further distribution or public exhibition of the materials provided on the Solutions, in whole or in part, is strictly prohibited." | needs written permission | needs written permission | not named | none stated | Session 311. CivicPlus hosts municipal sites; a city's own content may differ. |
 | IMF PortWatch | #13: read | "Users may download, extract, copy, create derivative works, publish, distribute, and use Data obtained from IMF Sites subject to these conditions: Distributed or reproduced Data must appear accurately with attribution to the IMF as the source [...] For any potential commercial reuse of IMF Data, email copyright@imf.org to request permission. [...] The IMF prohibits bulk download of information by automated technology without explicit permission" | may be public | needs written permission | copyright@imf.org | none stated | Session 311: PortWatch has no terms page of its own; a web search found its contact page sending terms questions to the IMF, so the IMF's page (read 13) is taken. PortWatch's own page was not read. |
 | Catalyst Cooperative (PUDL) | #85: read | "Copyright 2016-2026, Catalyst Cooperative, CC-BY-4.0." | may be public | may be public | not named | none stated | Session 484. The page's own license line (CC-BY-4.0: attribution). PUDL's README gives the same license for its data. The data it republishes from FERC Form 714 are a U.S. government work; FERC's own terms page answers HTTP 403 (sessions 311 and 484). |
+| Bureau of Ocean Energy Management (BOEM) | #86: read | "Generally, materials produced by federal agencies are in the public domain and may be reproduced without permission. However, not all materials appearing on this web site are in the public domain. Some materials have been donated or obtained from individuals or organizations and may be subject to restrictions on use." | may be public | may be public | not named | none stated | Session 493. BOEM's own records (its lease table) are a federal agency's materials; the page's exception is for items donated or obtained from others. BOEM asks to be credited as the source. |
+| U.S. Geological Survey (USGS) | #87: read | "USGS-authored or produced data and information are considered to be in the U.S.  Public Domain ." | may be public | may be public | not named | none stated | Session 496. USGS's own data (the U.S. Wind Turbine Database is a USGS, LBNL and ACP product published by USGS); the page's exception is for non-USGS images and graphics. |
 
-**Publishers no read of this sweep covers (29):** Arizona Corporation Commission; Bonneville Power Administration (BPA); CME Group (NYMEX), whose prices EIA republished; CTVC; California Public Advocates Office (.gov); Electrek; Energy-Storage.news; FERC; Georgia Public Service Commission; Illinois Commerce Commission; Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department; OPEC: Publications; Office of the Federal Register (NARA); Oregon Public Utility Commission; Organization of the Petroleum Exporting Countries; PJM (its news releases); Pennsylvania Public Utility Commission; Public Utilities Commission of Ohio; Public Utility Commission of Texas; Public Utility District No. 2 of Grant County, Washington (Grant PUD); T&D World; Texas Comptroller of Public Accounts; Texas-New Mexico Power Company; Texas.gov; Virginia State Corporation Commission; the outlets of news_stories; utilities and operators, each row's own document (not listed one by one).
+**Publishers no read of this sweep covers (31):** Arizona Corporation Commission; Bonneville Power Administration (BPA); CME Group (NYMEX), whose prices EIA republished; CTVC; California Public Advocates Office (.gov); Catalyst Cooperative (PUDL), from FERC Form 714; Electrek; Energy-Storage.news; FERC; Georgia Public Service Commission; Illinois Commerce Commission; Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department; OPEC: Publications; Office of the Federal Register (NARA); Oregon Public Utility Commission; Organization of the Petroleum Exporting Countries; PJM (its news releases); Pennsylvania Public Utility Commission; Public Utilities Commission of Ohio; Public Utility Commission of Texas; Public Utility District No. 2 of Grant County, Washington (Grant PUD); T&D World; Texas Comptroller of Public Accounts; Texas-New Mexico Power Company; Texas.gov; U.S. Geological Survey (USGS), with LBNL and ACP; Virginia State Corporation Commission; the outlets of news_stories; utilities and operators, each row's own document (not listed one by one).
 
 ## Every table
 
@@ -198,6 +202,7 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | `battery_stack_monthly` | CAISO; ERCOT | may be public |  |  | public | agrees | may be public | public |
 | `battery_stack_review_monthly` | NYISO; SPP | needs written permission | NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
 | `battery_stack_stress_daily` | CAISO; ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `boem_renewable_leases` | Bureau of Ocean Energy Management (BOEM) | may be public |  |  | public | agrees | may be public | public |
 | `caiso_area_load_hourly` | CAISO | may be public |  |  | public | agrees | may be public | public |
 | `caiso_as_prices` | CAISO | may be public |  |  | public | agrees | may be public | public |
 | `caiso_battery_storage` | CAISO | may be public |  |  | public | agrees | may be public | public |
@@ -224,15 +229,19 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | `cost_of_power_carbon` | CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
 | `cost_of_power_hourly_profile` | CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
 | `cost_of_power_monthly` | CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
-| `datacenter_facilities` | Amazon Web Services; Bloomberg; CAISO; Census Bureau; Data Center Dynamics; Data Center Frontier; and 22 more | needs written permission | Amazon Web Services; Bloomberg; Data Center Dynamics; Data Center Frontier; and 20 more |  | public | ruled: license needed from 2026-10-21 | needs a paid license | unsettled |
+| `datacenter_facilities` | Amazon Web Services; Bloomberg; CAISO; Census Bureau; Data Center Dynamics; Data Center Frontier; and 23 more | needs written permission | Amazon Web Services; Bloomberg; Data Center Dynamics; Data Center Frontier; and 21 more |  | public | ruled: license needed from 2026-10-21 | needs a paid license | unsettled |
 | `datacenter_operator_sites` | Amazon Web Services; Digital Realty; Equinix; Google; Meta; Microsoft; and 3 more | needs written permission | Amazon Web Services; Digital Realty; Equinix; Google; and 5 more |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
-| `datacenter_projects` | Bloomberg; Census Bureau; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; and 7 more | needs written permission | Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; and 8 more |  | public | ruled: license needed from 2026-10-21 | needs a paid license | unsettled |
-| `datacenter_projects_evidence` | Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; Hart Energy; and 6 more | needs written permission | Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; and 8 more |  | internal | agrees | needs a paid license | internal |
+| `datacenter_projects` | Bloomberg; Census Bureau; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; and 8 more | needs written permission | Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; and 9 more |  | public | ruled: license needed from 2026-10-21 | needs a paid license | unsettled |
+| `datacenter_projects_evidence` | Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; Hart Energy; and 7 more | needs written permission | Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; and 9 more |  | internal | agrees | needs a paid license | internal |
 | `datacenter_queue_positions` | CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `egrid_power_plants` | EPA | may be public |  |  | public | agrees | may be public | public |
 | `eia860m_operating_generators` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `eia860m_planned_generators` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `eia860m_retired_generators` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `eia860m_retired_generators_all` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia861_utility_sales` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia861m_utility_sales_monthly` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia923_plant_fuel_annual` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `eia930_all_demand` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `eia930_all_emissions` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `eia930_all_generation` | EIA | may be public |  |  | public | agrees | may be public | public |
@@ -246,33 +255,55 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | `eia930_demand_weather` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `eia930_event_hourly_interchange` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `eia930_generation_latest` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_aeo_electricity` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `eia_all_futures_prices` | CME Group (NYMEX), whose prices EIA republished; EIA | not settled (needs written permission by default) |  | CME Group (NYMEX), whose prices EIA republished | internal | not settled | may be public | internal |
 | `eia_annual_crosscheck_ba` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `eia_annual_generation_ba` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `eia_basin_production_monthly` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_co2_state_annual` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_coal_delivered_price_annual` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_coal_prices_annual` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `eia_crude_first_purchase_prices` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `eia_crude_imports_by_country` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_crude_production_state_monthly` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_crude_reserves_annual` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `eia_crude_stream_prices` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `eia_fuel_spot_prices` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_gas_consumption_state_monthly` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_gas_interstate_annual` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_gas_prices_state_monthly` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_gas_production_state_monthly` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_gas_reserves_annual` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_gas_storage_state_monthly` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `eia_gas_storage_weekly` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `eia_gas_trade_monthly` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `eia_lng_exports_monthly` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_net_metering_state_annual` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_nuclear_outages_daily` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_nuclear_outages_facility_daily` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_nuclear_outages_generator_daily` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `eia_padd_crude_pipeline_flows` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `eia_petroleum_stocks_weekly` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `eia_petroleum_supply_weekly` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `eia_petroleum_trade_weekly` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `eia_power_plant_fuel_costs` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `eia_product_spot_prices` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_refinery_weekly` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `eia_regional_retail_fuel_prices` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `eia_retail_electricity_prices` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `eia_retail_fuel_prices` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `eia_retail_sales_monthly` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `eia_sector_energy_consumption_monthly` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_seds_state_energy` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_state_capacity_annual` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `eia_state_generation_monthly` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_state_source_disposition_annual` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `eia_steo_forecasts` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `energy_companies` | the ERW's own work | may be public |  |  | public | agrees | may be public | public |
 | `energy_deals` | ANS Nuclear Newswire; Bloomberg; Canary Media; DOE newsroom; Data Center Dynamics; Data Center Frontier; and 16 more | needs written permission | ANS Nuclear Newswire; Bloomberg; Canary Media; Data Center Dynamics; and 14 more | Electrek; Energy-Storage.news | public | ruled: license needed from 2026-10-21 | needs a paid license | unsettled |
 | `energy_deals_evidence` | ANS Nuclear Newswire; Bloomberg; Canary Media; DOE newsroom; Data Center Dynamics; Data Center Frontier; and 16 more | needs written permission | ANS Nuclear Newswire; Bloomberg; Canary Media; Data Center Dynamics; and 14 more | Electrek; Energy-Storage.news | internal | agrees | needs a paid license | internal |
 | `energy_projects` | CAISO; Census Bureau; EIA; ERCOT; ISO-NE; SPP | needs written permission | ISO-NE |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `epa_ghgrp_power_co2` | EPA | may be public |  |  | public | agrees | may be public | public |
 | `ercot_4cp_intervals` | ERCOT | may be public |  |  | public | agrees | may be public | public |
 | `ercot_all_hub_prices_history` | ERCOT | may be public |  |  | public | agrees | may be public | public |
 | `ercot_as_prices` | ERCOT | may be public |  |  | public | agrees | may be public | public |
@@ -304,6 +335,27 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | `ercot_zone_prices_history` | ERCOT | may be public |  |  | public | agrees | may be public | public |
 | `event_study_estimates` | CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; and 2 more | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
 | `event_window_daily` | CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; and 2 more | needs written permission | ISO-NE; MISO; NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
+| `ferc714_area_demand_2006` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2007` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2008` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2009` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2010` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2011` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2012` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2013` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2014` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2015` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2016` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2017` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2018` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2019` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2020` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2021` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2022` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2023` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2024` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_area_demand_2025` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
+| `ferc714_respondents` | Catalyst Cooperative (PUDL), from FERC Form 714 | not settled (needs written permission by default) |  | Catalyst Cooperative (PUDL), from FERC Form 714 | internal | not settled | may be public | internal |
 | `ferc_eqr_buyer_doubtful` | FERC | not settled (needs written permission by default) |  | FERC | internal | not settled | may be public | internal |
 | `ferc_eqr_buyer_names` | FERC | not settled (needs written permission by default) |  | FERC | internal | not settled | may be public | internal |
 | `ferc_eqr_contract_terms` | EIA; FERC | not settled (needs written permission by default) |  | FERC | internal | not settled | may be public | internal |
@@ -358,6 +410,7 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | `news_index` | ANS Nuclear Newswire; Bloomberg; CAISO; CTVC; California Public Utilities Commission; California State Portal / CA.gov; and 39 more | needs written permission | ANS Nuclear Newswire; Bloomberg; Canary Media; CivicPlus; and 21 more | CTVC; Electrek; Energy-Storage.news; and 7 more | public | ruled: license needed from 2026-10-21 | needs a paid license | unsettled |
 | `news_scores_shadow` | the outlets of news_stories | not settled (needs written permission by default) |  | the outlets of news_stories | internal | not settled | may be public | internal |
 | `news_stories` | ANS Nuclear Newswire; Bloomberg; CAISO; CTVC; California Public Advocates Office (.gov); California Public Utilities Commission; and 40 more | needs written permission | ANS Nuclear Newswire; Bloomberg; Canary Media; CivicPlus; and 21 more | CTVC; California Public Advocates Office (.gov); Electrek; and 8 more | internal | agrees | needs a paid license | internal |
+| `nlr_atb_electricity_costs` | National Laboratory of the Rockies (NLR, formerly NREL) | may be public |  |  | public | agrees | may be public | public |
 | `nlr_jedi_multipliers` | National Laboratory of the Rockies (NLR, formerly NREL) | may be public |  |  | public | agrees | may be public | public |
 | `noaa_grid_weather_daily` | NOAA NCEI | may be public |  |  | public | agrees | may be public | public |
 | `noaa_grid_weather_hourly` | NOAA NCEI | may be public |  |  | public | agrees | may be public | public |
@@ -401,6 +454,7 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | `storage_owners_monthly` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `texas_delivery_charges` | AEP Texas Inc.; CenterPoint Energy Houston Electric, LLC; Oncor Electric Delivery Company LLC; Public Utility Commission of Texas; Texas-New Mexico Power Company | needs written permission | AEP Texas Inc.; CenterPoint Energy Houston Electric, LLC; Oncor Electric Delivery Company LLC | Public Utility Commission of Texas; Texas-New Mexico Power Company | internal | agrees | needs written permission | internal |
 | `texas_transmission_matrix` | Public Utility Commission of Texas | not settled (needs written permission by default) |  | Public Utility Commission of Texas | internal | not settled | may be public | internal |
+| `uswtdb_wind_turbines` | U.S. Geological Survey (USGS), with LBNL and ACP | not settled (needs written permission by default) |  | U.S. Geological Survey (USGS), with LBNL and ACP | public | not settled | may be public | unsettled |
 | `weather_forecast_hourly` | NWS | may be public |  |  | public | agrees | may be public | public |
 | `weather_obs_hourly` | NWS | may be public |  |  | public | agrees | may be public | public |
 
@@ -415,9 +469,9 @@ The flag and the verdict differ, and a newer record says what holds. A table fla
 - `cost_of_power_carbon`: needs written permission, by ISO-NE; MISO; NYISO; license needed from 2026-10-21.
 - `cost_of_power_hourly_profile`: needs written permission, by ISO-NE; MISO; NYISO; license needed from 2026-10-21.
 - `cost_of_power_monthly`: needs written permission, by ISO-NE; MISO; NYISO; license needed from 2026-10-21.
-- `datacenter_facilities`: needs written permission, by Amazon Web Services; Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Digital Realty; Equinix; Financial Times; and 16 more; license needed from 2026-10-21.
+- `datacenter_facilities`: needs written permission, by Amazon Web Services; Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Digital Realty; Equinix; Financial Times; and 17 more; license needed from 2026-10-21.
 - `datacenter_operator_sites`: needs written permission, by Amazon Web Services; Digital Realty; Equinix; Google; Meta; Microsoft; Oracle; Switch; and 1 more; license needed from 2026-10-21.
-- `datacenter_projects`: needs written permission, by Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; Hart Energy; Heatmap News; Latitude Media; and 4 more; license needed from 2026-10-21.
+- `datacenter_projects`: needs written permission, by Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; Hart Energy; Heatmap News; Latitude Media; and 5 more; license needed from 2026-10-21.
 - `datacenter_queue_positions`: needs written permission, by ISO-NE; MISO; NYISO; license needed from 2026-10-21.
 - `energy_deals`: needs written permission, by ANS Nuclear Newswire; Bloomberg; Canary Media; Data Center Dynamics; Data Center Frontier; Financial Times; Hart Energy; JPT; and 10 more; license needed from 2026-10-21.
 - `energy_projects`: needs written permission, by ISO-NE; license needed from 2026-10-21.
@@ -466,6 +520,27 @@ None of these was changed. Each is a ruling.
 ### Not settled: a publisher was not read
 
 - `eia_all_futures_prices` (flag internal): not read: CME Group (NYMEX), whose prices EIA republished.
+- `ferc714_area_demand_2006` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2007` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2008` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2009` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2010` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2011` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2012` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2013` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2014` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2015` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2016` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2017` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2018` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2019` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2020` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2021` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2022` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2023` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2024` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_area_demand_2025` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
+- `ferc714_respondents` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
 - `ferc_eqr_buyer_doubtful` (flag internal): not read: FERC.
 - `ferc_eqr_buyer_names` (flag internal): not read: FERC.
 - `ferc_eqr_contract_terms` (flag internal): not read: FERC.
@@ -485,14 +560,15 @@ None of these was changed. Each is a ruling.
 - `policy_reads` (flag public): not read: Office of the Federal Register (NARA); Public Utility Commission of Texas.
 - `policy_reads_evidence` (flag internal): not read: Office of the Federal Register (NARA); Public Utility Commission of Texas.
 - `texas_transmission_matrix` (flag internal): not read: Public Utility Commission of Texas.
+- `uswtdb_wind_turbines` (flag public): not read: U.S. Geological Survey (USGS), with LBNL and ACP.
 
 ## Three lists
 
-### Public now (130 tables)
+### Public now (158 tables)
 
 The flag says public and every publisher's sentence read allows it, as the ERW is today.
 
-`ba_supply_monthly`, `battery_sourced_ranges`, `battery_stack_monthly`, `battery_stack_stress_daily`, `caiso_area_load_hourly`, `caiso_as_prices`, `caiso_battery_storage`, `caiso_curtailment_daily`, `caiso_curtailment_intervals`, `caiso_curtailment_profile`, `caiso_dam_alert_day_hub_prices`, `caiso_dam_cleared_energy`, `caiso_fuel_supply`, `caiso_fuel_supply_history`, `caiso_grid_emergencies`, `caiso_interconnection_queue`, `caiso_reliability_daily`, `caiso_wind_solar_forecast`, `carb_auction_allowance_prices`, `carb_lcfs_credit_prices`, `carbon_intensity_daily`, `carbon_intensity_hourly`, `carbon_intensity_monthly`, `census_metro_population`, `cftc_cot_positions`, `eia860m_operating_generators`, `eia860m_planned_generators`, `eia860m_retired_generators`, `eia860m_retired_generators_all`, `eia930_all_demand`, `eia930_all_emissions`, `eia930_all_generation`, `eia930_all_history`, `eia930_all_interchange`, `eia930_all_storage`, `eia930_daily_demand`, `eia930_daily_interchange`, `eia930_daily_total_interchange`, `eia930_demand_growth`, `eia930_demand_weather`, `eia930_event_hourly_interchange`, `eia930_generation_latest`, `eia_annual_crosscheck_ba`, `eia_annual_generation_ba`, `eia_basin_production_monthly`, `eia_crude_first_purchase_prices`, `eia_crude_imports_by_country`, `eia_crude_stream_prices`, `eia_fuel_spot_prices`, `eia_gas_storage_weekly`, `eia_gas_trade_monthly`, `eia_lng_exports_monthly`, `eia_padd_crude_pipeline_flows`, `eia_petroleum_stocks_weekly`, `eia_petroleum_supply_weekly`, `eia_petroleum_trade_weekly`, `eia_power_plant_fuel_costs`, `eia_product_spot_prices`, `eia_regional_retail_fuel_prices`, `eia_retail_electricity_prices`, `eia_retail_fuel_prices`, `eia_retail_sales_monthly`, `eia_sector_energy_consumption_monthly`, `eia_state_generation_monthly`, `energy_companies`, `ercot_4cp_intervals`, `ercot_all_hub_prices_history`, `ercot_as_prices`, `ercot_as_prices_daily`, `ercot_as_prices_monthly`, `ercot_as_quantities`, `ercot_dam_cleared_energy`, `ercot_dam_esr_awards`, `ercot_grid_notices`, `ercot_hub_prices_daily`, `ercot_interconnection_queue`, `ercot_large_load_status`, `ercot_peak_premium_annual`, `ercot_peak_premium_monthly`, `ercot_rtm_node_prices`, `ercot_rtm_price_adders`, `ercot_sced_esr_hourly`, `ercot_storage_dam_awards_monthly`, `ercot_storage_dam_offers_daily`, `ercot_storage_dam_offers_monthly`, `ercot_storage_node_basis`, `ercot_storage_rt_monthly`, `ercot_wind_solar_forecast`, `ercot_wind_solar_hsl_daily`, `ercot_wind_solar_hsl_hourly`, `ercot_wind_solar_output_hourly`, `ercot_zone_load_hourly`, `ercot_zone_prices_history`, `flex_alert_effects`, `flex_alert_model`, `frb_treasury_yields`, `generation_mix_hourly_profile`, `generation_mix_records`, `grid_network_links`, `grid_network_nodes`, `grid_stress_yearly`, `imf_commodity_prices`, `interconnection_queue_summary`, `iso_curtailment_monthly`, `known_data_faults`, `lbnl_interconnection_queue`, `nlr_jedi_multipliers`, `noaa_grid_weather_daily`, `noaa_grid_weather_hourly`, `noaa_grid_weather_stations`, `noaa_isd_hourly`, `noaa_station_weather_hourly`, `node_basis_daily`, `node_basis_summary`, `nrc_reactor_status`, `price_years_by_window`, `rrc_lease_production_monthly`, `shoulder_hours_monthly`, `spp_as_prices`, `spp_as_quantities`, `spp_curtailment_daily`, `spp_dam_cleared_energy`, `spp_interconnection_queue`, `state_generation_mix_monthly`, `storage_buildout_monthly`, `storage_capacity`, `storage_daily_cycle`, `storage_owners_monthly`, `weather_forecast_hourly`, `weather_obs_hourly`.
+`ba_supply_monthly`, `battery_sourced_ranges`, `battery_stack_monthly`, `battery_stack_stress_daily`, `boem_renewable_leases`, `caiso_area_load_hourly`, `caiso_as_prices`, `caiso_battery_storage`, `caiso_curtailment_daily`, `caiso_curtailment_intervals`, `caiso_curtailment_profile`, `caiso_dam_alert_day_hub_prices`, `caiso_dam_cleared_energy`, `caiso_fuel_supply`, `caiso_fuel_supply_history`, `caiso_grid_emergencies`, `caiso_interconnection_queue`, `caiso_reliability_daily`, `caiso_wind_solar_forecast`, `carb_auction_allowance_prices`, `carb_lcfs_credit_prices`, `carbon_intensity_daily`, `carbon_intensity_hourly`, `carbon_intensity_monthly`, `census_metro_population`, `cftc_cot_positions`, `egrid_power_plants`, `eia860m_operating_generators`, `eia860m_planned_generators`, `eia860m_retired_generators`, `eia860m_retired_generators_all`, `eia861_utility_sales`, `eia861m_utility_sales_monthly`, `eia923_plant_fuel_annual`, `eia930_all_demand`, `eia930_all_emissions`, `eia930_all_generation`, `eia930_all_history`, `eia930_all_interchange`, `eia930_all_storage`, `eia930_daily_demand`, `eia930_daily_interchange`, `eia930_daily_total_interchange`, `eia930_demand_growth`, `eia930_demand_weather`, `eia930_event_hourly_interchange`, `eia930_generation_latest`, `eia_aeo_electricity`, `eia_annual_crosscheck_ba`, `eia_annual_generation_ba`, `eia_basin_production_monthly`, `eia_co2_state_annual`, `eia_coal_delivered_price_annual`, `eia_coal_prices_annual`, `eia_crude_first_purchase_prices`, `eia_crude_imports_by_country`, `eia_crude_production_state_monthly`, `eia_crude_reserves_annual`, `eia_crude_stream_prices`, `eia_fuel_spot_prices`, `eia_gas_consumption_state_monthly`, `eia_gas_interstate_annual`, `eia_gas_prices_state_monthly`, `eia_gas_production_state_monthly`, `eia_gas_reserves_annual`, `eia_gas_storage_state_monthly`, `eia_gas_storage_weekly`, `eia_gas_trade_monthly`, `eia_lng_exports_monthly`, `eia_net_metering_state_annual`, `eia_nuclear_outages_daily`, `eia_nuclear_outages_facility_daily`, `eia_nuclear_outages_generator_daily`, `eia_padd_crude_pipeline_flows`, `eia_petroleum_stocks_weekly`, `eia_petroleum_supply_weekly`, `eia_petroleum_trade_weekly`, `eia_power_plant_fuel_costs`, `eia_product_spot_prices`, `eia_refinery_weekly`, `eia_regional_retail_fuel_prices`, `eia_retail_electricity_prices`, `eia_retail_fuel_prices`, `eia_retail_sales_monthly`, `eia_sector_energy_consumption_monthly`, `eia_seds_state_energy`, `eia_state_capacity_annual`, `eia_state_generation_monthly`, `eia_state_source_disposition_annual`, `eia_steo_forecasts`, `energy_companies`, `epa_ghgrp_power_co2`, `ercot_4cp_intervals`, `ercot_all_hub_prices_history`, `ercot_as_prices`, `ercot_as_prices_daily`, `ercot_as_prices_monthly`, `ercot_as_quantities`, `ercot_dam_cleared_energy`, `ercot_dam_esr_awards`, `ercot_grid_notices`, `ercot_hub_prices_daily`, `ercot_interconnection_queue`, `ercot_large_load_status`, `ercot_peak_premium_annual`, `ercot_peak_premium_monthly`, `ercot_rtm_node_prices`, `ercot_rtm_price_adders`, `ercot_sced_esr_hourly`, `ercot_storage_dam_awards_monthly`, `ercot_storage_dam_offers_daily`, `ercot_storage_dam_offers_monthly`, `ercot_storage_node_basis`, `ercot_storage_rt_monthly`, `ercot_wind_solar_forecast`, `ercot_wind_solar_hsl_daily`, `ercot_wind_solar_hsl_hourly`, `ercot_wind_solar_output_hourly`, `ercot_zone_load_hourly`, `ercot_zone_prices_history`, `flex_alert_effects`, `flex_alert_model`, `frb_treasury_yields`, `generation_mix_hourly_profile`, `generation_mix_records`, `grid_network_links`, `grid_network_nodes`, `grid_stress_yearly`, `imf_commodity_prices`, `interconnection_queue_summary`, `iso_curtailment_monthly`, `known_data_faults`, `lbnl_interconnection_queue`, `nlr_atb_electricity_costs`, `nlr_jedi_multipliers`, `noaa_grid_weather_daily`, `noaa_grid_weather_hourly`, `noaa_grid_weather_stations`, `noaa_isd_hourly`, `noaa_station_weather_hourly`, `node_basis_daily`, `node_basis_summary`, `nrc_reactor_status`, `price_years_by_window`, `rrc_lease_production_monthly`, `shoulder_hours_monthly`, `spp_as_prices`, `spp_as_quantities`, `spp_curtailment_daily`, `spp_dam_cleared_energy`, `spp_interconnection_queue`, `state_generation_mix_monthly`, `storage_buildout_monthly`, `storage_capacity`, `storage_daily_cycle`, `storage_owners_monthly`, `weather_forecast_hourly`, `weather_obs_hourly`.
 
 ### Permission needed
 
@@ -508,6 +584,7 @@ By publisher: the tables its sentence decides, and who to write to where the pag
 - **Hart Energy** (7 tables). Write to: no person or address on the page read. Tables: `datacenter_facilities`, `datacenter_projects`, `datacenter_projects_evidence`, `energy_deals`, `energy_deals_evidence`, `news_index`, `news_stories`.
 - **Latitude Media** (7 tables). Write to: no person or address on the page read. Tables: `datacenter_facilities`, `datacenter_projects`, `datacenter_projects_evidence`, `energy_deals`, `energy_deals_evidence`, `news_index`, `news_stories`.
 - **Natural Gas Intelligence** (7 tables). Write to: info@naturalgasintel.com. Tables: `datacenter_facilities`, `datacenter_projects`, `datacenter_projects_evidence`, `energy_deals`, `energy_deals_evidence`, `news_index`, `news_stories`.
+- **OilPrice.com** (7 tables). Write to: no person or address on the page read. Tables: `datacenter_facilities`, `datacenter_projects`, `datacenter_projects_evidence`, `energy_deals`, `energy_deals_evidence`, `news_index`, `news_stories`.
 - **POWER Magazine** (7 tables). Write to: no person or address on the page read. Tables: `datacenter_facilities`, `datacenter_projects`, `datacenter_projects_evidence`, `energy_deals`, `energy_deals_evidence`, `news_index`, `news_stories`.
 - **Reuters** (7 tables). Write to: no person or address on the page read. Tables: `datacenter_facilities`, `datacenter_projects`, `datacenter_projects_evidence`, `energy_deals`, `energy_deals_evidence`, `news_index`, `news_stories`.
 - **WSJ** (7 tables). Write to: djreprints.com (the Dow Jones Reprints website, named for licenses). Tables: `datacenter_facilities`, `datacenter_projects`, `datacenter_projects_evidence`, `energy_deals`, `energy_deals_evidence`, `news_index`, `news_stories`.
@@ -517,7 +594,6 @@ By publisher: the tables its sentence decides, and who to write to where the pag
 - **Canary Media** (4 tables). Write to: no person or address on the page read. Tables: `energy_deals`, `energy_deals_evidence`, `news_index`, `news_stories`.
 - **JPT** (4 tables). Write to: no person or address on the page read. Tables: `energy_deals`, `energy_deals_evidence`, `news_index`, `news_stories`.
 - **LNG Prime** (4 tables). Write to: its newsdesk. Tables: `energy_deals`, `energy_deals_evidence`, `news_index`, `news_stories`.
-- **OilPrice.com** (4 tables). Write to: no person or address on the page read. Tables: `energy_deals`, `energy_deals_evidence`, `news_index`, `news_stories`.
 - **Rigzone** (4 tables). Write to: no person or address on the page read. Tables: `energy_deals`, `energy_deals_evidence`, `news_index`, `news_stories`.
 - **Utility Dive** (4 tables). Write to: no person or address on the page read. Tables: `energy_deals`, `energy_deals_evidence`, `news_index`, `news_stories`.
 - **pv magazine USA** (4 tables). Write to: no person or address on the page read. Tables: `energy_deals`, `energy_deals_evidence`, `news_index`, `news_stories`.

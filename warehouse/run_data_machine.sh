@@ -316,6 +316,11 @@ soft_step dm_publisher_figure "$PYTHON" warehouse/analysis/findings/publisher_fi
 # with their Newey-West errors and the round's line; one record line a card in warehouse/metadata/findings_recompute.csv.
 # A finding whose table is not here keeps its card; a step that fails puts the cards back as committed (below).
 soft_step dm_findings_recompute "$PYTHON" warehouse/analysis/findings/card_statistics.py --recompute
+# Session 489 (the landing, 21 October 2026): the cards' own tests, after the recompute. Its first committed run (c8aa37ff) moved
+# numbers that tests a landing must pass hold to the cards as built (sessions 173, 174, 182, 274 and 381), and every
+# task/ branch then failed its checks. A failing test puts the cards back as committed (below), as a page file's own
+# test does, until a person rules which gives way: the tests or the recompute.
+PYTHONPATH=tests soft_step dm_test_findings "$PYTHON" -m unittest test_session173 test_session174 test_session182 test_session274 test_session381
 
 # a file whose builder failed, or whose own test fails, is put back as the last commit has it: never a half-built file
 put_back() {  # put_back <step> <path...>
@@ -327,6 +332,7 @@ put_back() {  # put_back <step> <path...>
 }
 put_back dm_datacenter_page site/data/datacenter
 put_back dm_findings_recompute site/data/findings site/public/findings
+put_back dm_test_findings site/data/findings site/public/findings
 put_back dm_capture_price site/data/seller/capture.json
 put_back dm_curtailment_shares site/data/curtailment/shares.json
 put_back dm_free_energy site/data/curtailment/free_energy.json

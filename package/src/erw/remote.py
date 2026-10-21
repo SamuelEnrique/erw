@@ -143,7 +143,7 @@ class SupabaseBackend(Backend):
 
     role="service" uses SUPABASE_SERVICE_KEY and sees every row; role="anon" uses
     SUPABASE_ANON_KEY and, by row-level security, sees only public rows. Only the
-    live set is here: whole tables for some, the last 90 days for ISO and EIA-930.
+    live set is here: whole tables for some, the last 35 days for ISO and EIA-930 (session 36C; 90 before).
     """
 
     name = "supabase"
@@ -156,6 +156,7 @@ class SupabaseBackend(Backend):
         "events": ["event_id", "event_date", "event_type", "parties", "entity_ids", "mw", "price",
                    "currency", "status", "source", "source_url"],
     }
+    SERIES_PARTITION = ["ba", "event"]  # session 536: as warehouse/supabase/load.py writes them
     TYPES = {"ts_utc": "dateTime", "retrieved_at": "dateTime", "event_date": "dateTime",
              "status_date": "date", "value": "float", "lat": "float", "lon": "float",
              "capacity_mw": "float", "mw": "float", "price": "float"}
@@ -217,6 +218,11 @@ class SupabaseBackend(Backend):
             # a live-set table can hold no rows (an ERCOT yearly table outside the 90-day window)
             df = pd.DataFrame(rows) if rows else pd.DataFrame(columns=cols + ["extra"])
             extra = pd.DataFrame(df["extra"].tolist()) if "extra" in df and len(df) else pd.DataFrame(index=df.index)
+            # session 536: a series row's partition columns (ba, event: warehouse/supabase/load.py SERIES_PARTITION,
+            # migrations 009 and 011) are columns of the series table, not keys of extra. They were dropped here, so
+            # fetch("eia930_all_demand", ba="ciso") on this backend returned no rows and every ba read "".
+            if shape == "series":
+                cols = cols + [c for c in self.SERIES_PARTITION if c in df.columns]
             body = _as_text(df[cols], self.TYPES)
             full = pd.concat([body, extra.fillna("").astype(str)], axis=1)
             # exactly the table's own columns in CSV order (catalogue.columns, migration 003):

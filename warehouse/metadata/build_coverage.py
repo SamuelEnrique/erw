@@ -131,6 +131,33 @@ SECTOR_RULES = [
     (r"^eia861_utility_sales$", "power"),  # session 485: EIA-861 retail sales, revenue and customers by utility
     (r"^egrid_power_plants$", "power;carbon"),  # session 486: EPA eGRID, every plant's generation and emissions
     (r"^nlr_atb_electricity_costs$", "power"),  # session 487: NLR (NREL) ATB, projected technology costs
+    (r"^eia_aeo_electricity$", "power"),  # session 490: EIA's Annual Energy Outlook, electricity Tables 8 and 9
+    (r"^eia_steo_forecasts$", "power;gas"),  # session 491: EIA's Short-Term Energy Outlook, prices and the mix
+    (r"^epa_ghgrp_power_co2$", "power;carbon"),  # session 492: EPA GHGRP, power plants' reported CO2 by year
+    (r"^boem_renewable_leases$", "power"),  # session 493: BOEM's offshore renewable energy leases and grants
+    (r"^uswtdb_wind_turbines$", "power"),  # session 496: USGS's U.S. Wind Turbine Database
+    (r"^eia_seds_state_energy$", "power;gas;oil;coal"),  # session 507: EIA's State Energy Data System
+    (r"^eia923_plant_fuel_annual$", "power;gas;oil;coal"),  # session 510: Form EIA-923, each plant's generation and fuel by year
+    (r"^eia861m_utility_sales_monthly$", "power"),  # session 511: Form EIA-861M, the sampled utilities' monthly sales
+    (r"^eia_nuclear_outages_daily$", "power;uranium"),  # session 513: EIA's U.S. nuclear outages, a day
+    (r"^ferc714_respondents$", "power"),  # session 514: FERC Form 714's respondents, from PUDL
+    (r"^eia_nuclear_outages_facility_daily$", "power;uranium"),  # session 516: EIA's nuclear outages by plant, a day
+    (r"^eia_gas_prices_state_monthly$", "gas"),  # session 517: EIA's natural gas prices by state, a month
+    (r"^eia_gas_consumption_state_monthly$", "gas"),  # session 518: EIA's natural gas consumption by state, a month
+    (r"^eia_coal_prices_annual$", "coal"),  # session 519: EIA's coal market sales price by state or region, a year
+    (r"^eia_gas_storage_state_monthly$", "gas"),  # session 525: EIA's natural gas in underground storage by state, a month
+    (r"^eia_state_capacity_annual$", "power"),  # session 526: EIA's state electricity profiles, net summer capacity
+    (r"^eia_crude_production_state_monthly$", "oil"),  # session 527: EIA's crude oil field production by state, a month
+    (r"^eia_gas_production_state_monthly$", "gas"),  # session 528: EIA's natural gas production by state, a month
+    (r"^eia_co2_state_annual$", "power;gas;oil;coal;carbon"),  # session 530: EIA's energy-related CO2 by state, sector and fuel
+    (r"^eia_refinery_weekly$", "oil;products"),  # session 543: EIA's weekly refinery inputs and utilization
+    (r"^eia_state_source_disposition_annual$", "power"),  # session 544: EIA's state electricity supply and disposition
+    (r"^eia_net_metering_state_annual$", "power"),  # session 545: EIA's net-metered capacity and customers by state
+    (r"^eia_nuclear_outages_generator_daily$", "power;uranium"),  # session 548: EIA's nuclear outages by reactor, a day
+    (r"^eia_gas_interstate_annual$", "gas"),  # session 550: EIA's interstate and international gas movements by state
+    (r"^eia_crude_reserves_annual$", "oil"),  # session 551: EIA's crude oil proved reserves by state
+    (r"^eia_gas_reserves_annual$", "gas"),  # session 552: EIA's dry natural gas proved reserves by state
+    (r"^eia_coal_delivered_price_annual$", "coal"),  # session 553: EIA's delivered coal price by state and sector
     (r"^pjm_rpm_capacity_prices$", "capacity"),
     # session 65: capacity prices of the four markets that pay capacity apart, and the day-ahead ancillary services
     (r"^iso_all_capacity_prices$", "capacity"),

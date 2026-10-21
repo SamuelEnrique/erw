@@ -6,10 +6,13 @@ IRW's Python package, github.com/itemresponsewarehouse/Python-pkg.
 
     import erw
     erw.info()
-    df = erw.fetch("ercot_dam_hub_prices")
+    df = erw.fetch("iso_dam_hub_prices", market="ercot_dam")
     df.attrs["erw"]["sources"]
     erw.filter(iso="ERCOT", market="rtm")
-    erw.cite("ercot_dam_hub_prices")
+    erw.cite("iso_dam_hub_prices")
+
+Session 536: the examples name today's tables; ercot_dam_hub_prices became the ercot_dam partition of
+iso_dam_hub_prices in session 29 (warehouse/metadata/table_migrations.csv).
 """
 
 __version__ = "0.1.0"

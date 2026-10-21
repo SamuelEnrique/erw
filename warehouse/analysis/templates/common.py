@@ -152,9 +152,58 @@ def weeks_back(days, n_days=7):
     return out[::-1]
 
 
+MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+               "November", "December"]
+
+
+def period_key(period):
+    """A headline's period as its mark's key says it: 'week of 2026-09-20 to 2026-09-26', 'August 2026', else as is."""
+    p = str(period)
+    if " to " in p:
+        try:
+            week = (pd.Timestamp(p.split(" to ")[-1]) - pd.Timestamp(p.split(" to ")[0])).days == 6
+        except (ValueError, TypeError):
+            week = False
+        return f"week of {p}" if week else p
+    if len(p) == 7 and p[4] == "-" and p[:4].isdigit() and p[5:].isdigit() and 1 <= int(p[5:]) <= 12:
+        return f"{MONTH_NAMES[int(p[5:]) - 1]} {p[:4]}"
+    return p
+
+
+def headline_mark(chart, headline):
+    """Session 533 (the Roundup audit's fix 11): where the chart holds the headline, the number the chart of the week
+    names, so style.py can ring it and label it with the figure and its key. Found, never supplied: a category axis
+    (bars or a line; not a time axis, whose daily points are not a week's figure, nor a scatter) whose label at some
+    place is the headline's period (or, for a period 'a to b', its first day a, the label the watch lines give a week),
+    in a series whose value there equals the headline's value. Returns {series, at, label, key} or None, the chart then
+    showing no mark: it is not made to hold a number it does not."""
+    if not headline or headline.get("value") is None or chart.get("kind") not in ("bar", "line") or chart.get("x_time"):
+        return None
+    try:
+        v = float(headline["value"])
+    except (TypeError, ValueError):
+        return None
+    p = str(headline.get("period", ""))
+    places = [p] + ([p.split(" to ")[0]] if " to " in p else [])
+    xs = [str(x) for x in chart.get("x", [])]
+    at = next((xs.index(q) for q in places if q in xs), None)
+    if at is None:
+        return None
+    for i, s in enumerate(chart.get("series", [])):
+        vals = s.get("values", [])
+        if at < len(vals) and vals[at] is not None and not pd.isna(vals[at]) and abs(float(vals[at]) - v) <= 1e-9 * max(1.0, abs(v)):
+            unit = headline.get("unit") or ""
+            return {"series": i, "at": at, "label": f"{style.fmt(v)} {unit}".strip(), "key": period_key(p)}
+    return None
+
+
 def result(template, params, title, subtitle, frame, tables, chart, headline, facts, extra_source=""):
     src = source_line(tables, extra_source)
     chart = dict(chart, title=title, subtitle=subtitle, source=src, name=template)
+    if "mark" not in chart:  # session 533: the headline ringed where the chart holds it
+        m = headline_mark(chart, headline)
+        if m:
+            chart["mark"] = m
     return {"template": template, "params": params, "title": title, "subtitle": subtitle, "frame": frame,
             "tables": tables, "citations": citations(tables), "source_line": src, "chart": chart,
             "headline": headline, "facts": facts}
