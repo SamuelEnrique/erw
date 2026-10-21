@@ -1,6 +1,6 @@
 # Session 478 report: the stale tile (a branch, not landed)
 
-21 October 2026, from 09:50 UTC, unattended, on lab-desktop (the data machine), the fourth session of the chain of 21 October, day and evening (`queue/done/020-day-21-october-data-2.md`). Model spend USD 0. Pulls: none. **On [`wip/478-stale-tile`](https://github.com/SamuelEnrique/erw/tree/wip/478-stale-tile) (`0f465e76`), not landed, for Samuel's ruling.**
+21 October 2026, from about 09:47 UTC, unattended, on lab-desktop (the data machine), the fourth session of the chain of 21 October, day and evening (`queue/done/020-day-21-october-data-2.md`). Model spend USD 0. Pulls: none. **On [`wip/478-stale-tile`](https://github.com/SamuelEnrique/erw/tree/wip/478-stale-tile) (`0f465e76`), not landed, for Samuel's ruling.**
 
 ## Read these first
 
