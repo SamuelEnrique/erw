@@ -101,3 +101,21 @@ body:has(.finding-render) > main { max-width: none; padding: 0; margin: 0; }
   .finding-render [data-finding="batteries_curtailment_hourly"] table td,
   .finding-render [data-finding="batteries_curtailment_hourly"] table th { padding-top: 1px; padding-bottom: 1px; }
 }
+
+/* Session 497: sessions 317 and 318 drew the small multiples in the shared SVG set (components/SvgOption.tsx), where they
+   are a column of panels, each at least 120 px tall; the wide frame's 250 px box above was the canvas's, which stood the
+   panels side by side, so on the 1600 x 900 picture the column ran past its box and its labels past the picture's foot
+   (batteries_lunch_grids to 952 px, peak_hour_grids to 924; session 474). In the wide frame the panels stand side by side
+   again, one column a grid, inside the same box: no value, no panel and no label is removed, only placed. Each panel's
+   Chart | Table toggle (components/svgchart.tsx Toggle) is a control, and no control is on the picture (session 182):
+   it is off in both frames, with the space it took. */
+.finding-render div:has(> [data-chart-table]) { display: none; }
+@media (min-aspect-ratio: 3/2) {
+  .finding-render [data-finding-chart="multiples"][data-option-kind="panels"] {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    column-gap: 12px;
+    align-content: start;
+  }
+}
