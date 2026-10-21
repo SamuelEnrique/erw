@@ -1756,6 +1756,7 @@ eia_annual_generation_ba,plants,series variable,count
 eia_annual_generation_ba,storage_net_generation_mwh,series variable,MWh
 eia_basin_production_monthly,crude_production,series variable,kbbl/d
 eia_basin_production_monthly,gas_marketed_production,series variable,bcf/d
+eia_coal_prices_annual,price,series variable,USD/short_ton
 eia_crude_first_purchase_prices,first_purchase_price,series variable,USD/bbl
 eia_crude_imports_by_country,imports,series variable,kbbl/d
 eia_crude_stream_prices,first_purchase_price,series variable,USD/bbl
@@ -1764,6 +1765,16 @@ eia_crude_stream_prices,landed_cost,series variable,USD/bbl
 eia_crude_stream_prices,refiner_acquisition_cost,series variable,USD/bbl
 eia_fuel_spot_prices,spot_price,series variable,USD/MMBtu
 eia_fuel_spot_prices,spot_price,series variable,USD/bbl
+eia_gas_consumption_state_monthly,consumption_commercial,series variable,MMcf
+eia_gas_consumption_state_monthly,consumption_electric_power,series variable,MMcf
+eia_gas_consumption_state_monthly,consumption_industrial,series variable,MMcf
+eia_gas_consumption_state_monthly,consumption_residential,series variable,MMcf
+eia_gas_consumption_state_monthly,consumption_total,series variable,MMcf
+eia_gas_prices_state_monthly,price_citygate,series variable,USD/Mcf
+eia_gas_prices_state_monthly,price_commercial,series variable,USD/Mcf
+eia_gas_prices_state_monthly,price_electric_power,series variable,USD/Mcf
+eia_gas_prices_state_monthly,price_industrial,series variable,USD/Mcf
+eia_gas_prices_state_monthly,price_residential,series variable,USD/Mcf
 eia_gas_storage_weekly,working_gas,series variable,bcf
 eia_gas_trade_monthly,export_volume,series variable,MMcf
 eia_gas_trade_monthly,import_volume,series variable,MMcf
@@ -1772,6 +1783,9 @@ eia_lng_exports_monthly,export_volume,series variable,MMcf
 eia_nuclear_outages_daily,capacity,series variable,MW
 eia_nuclear_outages_daily,outage,series variable,MW
 eia_nuclear_outages_daily,outage_share,series variable,ratio
+eia_nuclear_outages_facility_daily,capacity,series variable,MW
+eia_nuclear_outages_facility_daily,outage,series variable,MW
+eia_nuclear_outages_facility_daily,outage_share,series variable,ratio
 eia_padd_crude_pipeline_flows,pipeline_receipts,series variable,kbbl
 eia_petroleum_stocks_weekly,stocks,series variable,kbbl
 eia_petroleum_supply_weekly,crude_input,series variable,kbbl/d
