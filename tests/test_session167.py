@@ -27,6 +27,14 @@ OWNER_WORDS = {  # the owner's file of 8 October 2026, session 167, word for wor
 }
 
 
+def plain_sum(values):
+    """Session 534: left to right, one addition at a time, as JavaScript's += adds (no compensated summation)."""
+    total = 0.0
+    for v in values:
+        total += v
+    return total
+
+
 def src(*parts):
     with open(os.path.join(ROOT, *parts), encoding="utf-8") as f:
         return f.read()
@@ -160,12 +168,11 @@ class TheFunctions(unittest.TestCase):
                 if ok:
                     pick.append(i)
             self.assertEqual(g["rows"], len(pick), a)
-            kinds = [[sum(1 for i in pick if f["k"][i] == k), math.floor(sum(f["mw"][i] or 0 for i in pick if f["k"][i] == k) + 0.5)] for k in range(4)]
-            # session 489 (the landing): the counts exactly; the MW within 1, since a sum in another order can round the other way
-            # (map.json of 21 October: 762,785 on the page, 762,786 here)
-            self.assertEqual([x[0] for x in g["kind"]], [x[0] for x in kinds], a)
-            for (_, got_mw), (_, want_mw) in zip(g["kind"], kinds):
-                self.assertLessEqual(abs(got_mw - want_mw), 1, a)
+            # session 534: added one by one in the file's order, as the page adds them (lib/projectmap.ts, totals): Python's
+            # sum() of floats is compensated since 3.12, and on 21 October 2026 the file's queue total sat so near a half
+            # that the two roundings parted (762785 and 762786)
+            kinds = [[sum(1 for i in pick if f["k"][i] == k), math.floor(plain_sum(f["mw"][i] for i in pick if f["k"][i] == k and f["mw"][i] is not None) + 0.5)] for k in range(4)]
+            self.assertEqual(g["kind"], kinds, a)
             # the address read back is the same address, in the page's own order
             self.assertEqual(g["q"], a if a != "?kind=queue&grid=caiso,ercot" else "?kind=queue&grid=ercot,caiso", a)
 

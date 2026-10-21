@@ -97,7 +97,7 @@ export function LoadForm({ x, grids, blank }: { x: Inputs; grids: Record<string,
 
       <div className="flex items-baseline gap-3">
         <button type="submit" className="border border-accent bg-accent px-4 py-1.5 text-white">Show</button>
-        <Link href={hrefOf(x, { mw: DEFAULTS.mw, run: "flat", buy: "rt", gpu: DEFAULTS.gpu, pue: DEFAULTS.pue })} scroll={false} className="inline-block py-1 text-xs">Reset</Link>
+        <Link href={hrefOf(x, { mw: DEFAULTS.mw, run: "flat", buy: "rt", gpu: DEFAULTS.gpu, pue: DEFAULTS.pue })} scroll={false} className="inline-block py-1 text-xs" data-load-reset="1">Reset your load</Link>
       </div>
       <p className="text-xs leading-snug text-muted" data-costs-in-a="1">Power per GPU and the facility overhead ratio are set under <a href="#scenarios">Scenarios A and B</a>: scenario A gives the headline.</p>
     </form>

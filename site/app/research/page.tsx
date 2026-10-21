@@ -242,7 +242,7 @@ export default async function ResearchPage() {
               left out); its topics are the kinds of table it read. Neither is a judgment of the finding. A filtered view keeps its address.
             </p>
             {cards.length === 0 ? (
-              <p className="text-sm text-muted" data-finding-cards="0">no card yet: no finding has run (data/findings/ is empty).</p>
+              <p className="text-sm text-muted" data-finding-cards="0">No card yet: no finding has run (data/findings/ is empty).</p>
             ) : (
               <Library items={items} grids={gridChoices} topics={topicChoices} />
             )}
@@ -253,7 +253,7 @@ export default async function ResearchPage() {
           <ToolSection title="Chart archive" id="archive" note="Every daily chart and every weekly chart held, newest first. A daily chart opens its picture; a week opens its page.">
             <h3 className="sub-title">Daily charts, {days.length}</h3>
             {days.length === 0 ? (
-              <p className="text-sm text-muted" data-archive-daily="0">no daily chart is held yet (docs/digest/charts/ is empty).</p>
+              <p className="text-sm text-muted" data-archive-daily="0">No daily chart is held yet (docs/digest/charts/ is empty).</p>
             ) : (
               <ul className="chart-archive" data-archive-daily={days.length}>
                 {days.map((d) => (
@@ -269,7 +269,7 @@ export default async function ResearchPage() {
             )}
             <h3 className="sub-title">Weekly charts, {weeks.length}</h3>
             {weeks.length === 0 ? (
-              <p className="text-sm text-muted" data-archive-weekly="0">no week has been analysed yet (docs/analysis/ is empty).</p>
+              <p className="text-sm text-muted" data-archive-weekly="0">No week has been analysed yet (docs/analysis/ is empty).</p>
             ) : (
               <ul className="chart-archive" data-archive-weekly={weeks.length}>
                 {weeks.map((w) => {

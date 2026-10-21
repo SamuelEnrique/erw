@@ -37,14 +37,15 @@ For example (`docs/redivis/release-v1/README.md`, "How to cite"):
 - At most 500,000 rows a file, and 60 downloads an hour a visitor; past either, the route answers an error, never a file that looks whole.
 - A table held for a license answers 403 with the words "held: license needed" and its publishers; a table that is not public, or not in the live set, answers 404 and names Redivis.
 
-The same route writes a reader of that CSV, the two readers every page's downloads line offers (`site/components/tool/TableDownloads.tsx`):
+The same route writes a reader of that CSV, the three readers every page's downloads line offers (`site/components/tool/TableDownloads.tsx`):
 
 | Reader | Address | What it does |
 |---|---|---|
 | Python | `/api/download?table=<table>&as=py` | fetches the CSV, prints the `#` lines, loads the rows with pandas into a frame named after the table; no number is computed |
 | Stata | `/api/download?table=<table>&as=do` | copies the CSV to a temporary file, counts the `#` lines and imports the rows with `import delimited`, the column names from the first line after them |
+| R | `/api/download?table=<table>&as=r` | base R, no package to install: reads the CSV's lines with `readLines`, prints the `#` lines, loads the rows after them with `read.csv` into a data frame named after the table (an empty cell is `NA`); no number is computed |
 
-**R.** No page offers an R reader: the route writes Python (`as=py`) and Stata (`as=do`) only, and no file of the site holds R code. This guide gives no R lines, because none has been run against the route. The one thing any reader must do is the readers' own first step: skip the leading lines that begin with `#`, then read the CSV. Do not do it with a comment character on the whole file, which would also cut a value that holds `#` (an address, for example).
+**R.** The R reader (session 535) is checked by its text (`tests/test_session535.py`), not yet run against the route: no R interpreter was on the machine that wrote it, and `site/scripts/check-table-downloads.mjs` runs it where one is named (`CHECK_DOWNLOADS_RSCRIPT`). Like the other two, its first step is the one any reader must take: skip the leading lines that begin with `#`, then read the CSV. Do not do it with a comment character on the whole file, which would also cut a value that holds `#` (an address, for example); the R reader sets none.
 
 On `/data`, once it leaves review, each public table has the same "Download CSV" link, "Held: license needed" in its place for a held table, and a link to Redivis for a table not in the live set (`site/app/data/page.tsx`).
 
@@ -104,6 +105,8 @@ erw.tier("energy_deals")                         # source, derived or model_extr
 print(erw.cite("eia_fuel_spot_prices"))          # the publisher's report, then the ERW table and data commit
 erw.version()                                    # which data you read: give it with any result
 ```
+
+Every line above was run in a new virtual environment in session 536, on a clone's tables and on the live set with the anon key, and each exited 0 (`archive/sessions/SESSION_536_REPORT.md`). `ERW_BACKEND` counts from the first call since that session (`package/src/erw/api.py`, `get_backend`). The live set's address and anon key are not published (the site reads them on its server only, `docs/reviews/2026-10-10-security.md`), so a reader outside the project reads a clone's tables, or Redivis once its dataset is open.
 
 The functions and the backends' keys are in `package/README.md`; for an AI assistant, `package/llms.txt` says which table answers which question and which reads silently go wrong.
 
