@@ -738,3 +738,24 @@ zones' hours still stop at 3 October 2026. Since session 190 the same run export
 after it rebuilds these files.) New York's load queue is refreshed with the interconnection queues on Mondays. A build is merged into the kept files: an hour the new build holds is
 the new build's, an hour only the kept file holds is kept, so a machine with a shorter history (the scheduled runner
 holds no ERCOT price history) adds hours and never thins a file. A file is rewritten only when its content changes.
+
+## The figures on the page and their keys
+
+Each number `/cost-of-power` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The keys the sections above do not name:
+
+- `dc|` `sbg`: under "Will the power be there?", the two counts at the grid's hub (`HB_HUBAVG` in ERCOT, `TH_SP15_GEN-APND` in CAISO) over the page's twelve months, side by side: the hours whose real-time price was at or above the scarcity level and the hours the grid's own signal was in force, each with the hours held (`sbg:rt:hours`, `sbg:rt:held`, `sbg:own:hours`, `sbg:own:held`), from `scarcity_hours_by_grid` (`site/app/cost-of-power/LoadAnswers.tsx`, `site/lib/datacenter/answers.ts`).
+- `dcll|` `statements`, `mws`, `waits`, `entities`, `documents`: under "How soon?", the count of statements on large loads that public documents make for the load's grid, how many state megawatts and how many a wait, and the entities and documents they come from, counted from `large_load_public` and never summed across rows (`site/lib/datacenter/statements.ts`).
+- `dcll|` `wait` and `mw` (`wait:newest`, `mw:newest`): the newest wait as the table writes it (the key holds its first number) and the newest megawatt figure, each with who stated it, the day and the document.
+- `dcll|` `row` (`row:<statement_id>:mw` or `:wait`): each row's figure in the fold "Every public figure on large loads", its megawatts or the first number of its wait, one row a statement, under the grid's operator, its other entities and elsewhere in the state.
+- `ercot_4cp_intervals`, `cp4_load_mw`: in the fold of ERCOT's four summer peaks, each summer's four 15-minute intervals with ERCOT's load in MW, beside the flexible way's share of load in that interval's hour.
+- `node_basis_summary`, `dam_all_basis_p10`, `dam_all_basis_p50`, `dam_all_basis_p90`: in the fold "At a node" (ERCOT), each month's 10th percentile, median and 90th percentile of the resource nodes' day-ahead basis to the hub average, in USD per MWh. Not added to any figure.
+- `price_years_by_window`, `datacenter_flat_rt_year_<year>` (and `datacenter_flat_da_year_<year>` for a day-ahead buyer): the line under the scenarios that gives what a flat load paid at the site in its cheapest and its dearest whole year held, in USD per MWh.
+
+The view "Grid by grid" (`/cost-of-power?view=grids`, `site/app/cost-of-power/GridsView.tsx`):
+
+- `cost_of_power_monthly`, `rt_load_weighted`, `rt_simple_mean`, `rt_shape_premium`, `rt_hours`, `hours_in_month`: the table of the ranked month by ISO, each main hub's load-weighted real-time price, its simple mean, the shape premium (load-weighted less simple mean), and the hours held of the month's hours; and under the ERCOT chart the latest complete month's load-weighted price and shape premium and the dearest month since July 2018.
+- `cost_of_power_hourly_profile`, `rt_mean_h<hour>`: under each hub's heat grid, the cheapest and the dearest local hour of the newest month and its mean real-time price.
+- `cost_of_power_carbon`, `rt_load_weighted`: the load-weighted real-time price in the table "Cost against carbon", beside the carbon intensity of generation.
+- `cop|` `energy`: the calculator's energy in MWh at its defaults (MW times load factor times 24 times the days, times the share of hours run), for a flat load and for the cheapest 80 percent of hours.
+- `cop|` `flat_price`, `flat_cost`: a flat load's price, the hub's real-time simple mean in the ranked month, and its cost, that price times the flat energy.
+- `cop|` `cheap_price`, `cheap_cost`: the mean price of the cheapest 80 percent of the ranked month's hours (the hourly profile's hour-of-day cells ranked by price and taken by their hours, the last in part), and its cost, that price times the energy of those hours.

@@ -190,3 +190,18 @@ The operating counts and the waits agree within a few positions and about a mont
 - **The fault of the first build:** while the table's header says it was built before the fix (session 367's commit of 20 October 2026, 19:45 UTC), the page says in one line that its counts are that build's and not the queues', and shows them as the table holds them, never a corrected figure. The line goes when the data machine's rebuild writes a later "Retrieved" time; a header the page cannot read is said so.
 - **Licenses:** NYISO's, MISO's and ISO-NE's queues are held from 21 October 2026 (Licenses, above): the page does not read their rows and shows the catalogue's words, "license needed", in their place, as the map's Queues tab does.
 - **Freshness:** the catalogue's line for this table and for the chosen queue's table (the shared frame), and the header's build time and the queue's retrieval date under it. On 21 October the live catalogue did not list `iso_queue_statistics`, and the line says so.
+
+## The figures on the page and their keys
+
+Each number `/map` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The keys the sections above do not name:
+
+- `projects|count|queue|none`: under the map, the queue positions the ERW holds (withdrawn ones among them) that are not on the map, because their county words name no county, city or town of their state, or they state no county or no state.
+- `iso_queue_statistics`, `positions_operating`, `positions_withdrawn`, `positions_waiting`: on the Queues tab, in the table "Every entry year", the positions of the entry year that reached operation, were withdrawn and are still waiting (the columns Operating, Withdrawn and Still waiting).
+- `iso_queue_statistics`, `wait_years_median`: the column "Median wait, years", the median years from entry to operation of the year's positions that reached it.
+- `iso_queue_statistics`, `mw_entered`: the column "MW entered", the MW of the positions that entered the queue that year.
+
+## The figures on the grid page and their keys
+
+Each number `/grid` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The keys the sections above do not name:
+
+- `gridq|<queue table>|active|<kind>|n`, `gridq|<queue table>|active|<kind>|mw`, `gridq|<queue table>|completed|<kind>|n`: a grid's block "What is being built" (`components/grid/YourGrid.tsx`), the table of the grid's interconnection queue (`caiso_interconnection_queue` for CAISO), one row a kind of project as `energy_projects` groups the ISO's own fuel names: the positions waiting (active), their MW, and the positions completed. Withdrawn positions are left out.

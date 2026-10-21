@@ -106,3 +106,17 @@ CAISO reports no battery series to EIA-930, so its rows come from CAISO's own da
 - **Read on 20 October 2026** from the public catalogue: `storage_capacity`, `storage_daily_cycle` (to 18 October),
   `eia930_all_storage` (to 18 October) and `caiso_battery_storage` (to 19 October) ran that day; the build-out and the
   owners hold EIA-860M's August 2026 inventory, the newest the warehouse holds.
+
+## The figures on the page and their keys
+
+Each number `/storage` and `/grid` show carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The keys the sections above do not name:
+
+- `storage|mw|<status>`, `storage|n|<status>`, `storage|mwh|<status>`, `storage|n_mwh|<status>`: on `/storage`, the fleet tab's four cells (Operating, Under construction, Planned, Retired): the sum of `capacity_mw` of the `storage_capacity` units of that status, the count of those units, the sum of their MWh where EIA gives it, and the count of the units that have it. `storage|n|operating` is also the count of units under the page's headline number.
+- `storage|iso_mw|<ISO>|<status>`: on `/storage`, the table by ISO: the operating, under-construction and planned MW of the units whose balancing authority is that ISO, and a last row of the units outside the seven ISOs (`none`).
+- `storage|iso_mw|<ISO>|<status>`, `storage|iso_mwh|<ISO>|operating`: on `/grid`, a grid's block "Batteries": the same sums for the grid's ISO (operating, under construction and planned MW), and the MWh of its operating units where EIA gives it.
+- `storage|state_mw|<state>|operating`, `storage|state_mw|<state>|build`: on `/storage`, the table of the 15 states with the most operating MW: each state's operating MW, and its under-construction and planned MW together.
+- `storage|year_mw|<year>`: on `/storage`, under the bars of planned additions, the MW of the under-construction and planned units whose planned year is that year.
+- `storage_buildout_monthly` (its method is `storage_buildout.md`), on the build-out tab of `/storage`, each figure one row of the table for the grid chosen, in the newest month held: `battery_operating_mw` and `battery_operating_units` (operating power, and the units under it), `battery_operating_mwh` and `battery_operating_mwh_per_mw` (operating energy, and the average duration in hours), `battery_operating_mw_net_added_12m` and `battery_operating_mwh_net_added_12m` (added over the last twelve months, net of retirements, in MW and MWh).
+- `storage_buildout_monthly`, `battery_operating_mw_<lt2h, 2to4h, 4to6h, ge6h>`, `battery_operating_mwh_<lt2h, 2to4h, 4to6h, ge6h>`, `battery_operating_mw_energy_not_reported`: the bars by duration at each year's end, in MW or in MWh as the measure chosen (`measure=mwh`), and the MW of the units with no energy value, which cannot be drawn in MWh; the folded table "The numbers behind both charts, year by year" gives each, with the year's total and average hours.
+- `storage_buildout_monthly`, `solar_operating_mw`, `battery_mwh_per_solar_mw`: the chart "Storage against solar" and the same folded table: the grid's operating solar MW and the MWh of batteries per MW of solar at each year's end.
+- `storage_buildout_monthly`, `battery_planned_mw`, `battery_planned_mw_online_<year>`: the table "By grid": each grid's planned MW, all years together and by the year expected online, beside its operating MW, MWh, average hours and twelve months' additions.

@@ -35,3 +35,9 @@ Every price is a checked number: `check-values` reads it again from the same row
 Under the tables, each grid's real-time and day-ahead table as the live set's CSV, with a Python and a Stata reader of
 that CSV (`/api/download?table=<name>&as=py` or `&as=do`). `latest_prices` is not an ERW table and has no download: the
 intervals it shows reach the real-time tables with the daily run.
+
+## The figures on the page and their keys
+
+Each number `/prices` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The keys the sections above do not name:
+
+- `iso_dam_hub_prices`, `nyiso_dam_zone_prices`, `isone_dam_zone_prices`, `lmp_dam`, `spp_dam`: the column "Day-ahead this hour, USD/MWh", each grid's day-ahead table and variable as `site/data/markets.json` names them: `spp_dam` in `iso_dam_hub_prices` for ERCOT; `lmp_dam` in `iso_dam_hub_prices` for CAISO, MISO and SPP, in `nyiso_dam_zone_prices` for NYISO and in `isone_dam_zone_prices` for ISO-NE.
