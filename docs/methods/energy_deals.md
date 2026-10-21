@@ -113,3 +113,21 @@ price (every group of the 492 rows of 20 October: none states a price), it shows
 functions are `comparables()`, `medianOf()` and `shown()` of `site/lib/deals2.ts`; `site/scripts/check-values.mjs`
 recomputes every key with the same functions on the live set's rows. Under the hold the view shows the hold's words
 and the rows it covers, and nothing of a row.
+
+## Held by row: how a row is shown (sessions 499 and 500)
+
+The site can now hold `energy_deals` row by row instead of whole, by each row's own license (session 441's method,
+[`docs/reviews/sources-by-row-2026-10-21.md`](../reviews/sources-by-row-2026-10-21.md)). Nothing changes until the data
+machine does two things: the table's CSV carries a column `row_license` (one of `public`, `license needed`, `unsettled`,
+computed from every publisher the row rests on), which the loader keeps in the row's `extra`; and
+`warehouse/metadata/license_status.csv` marks the table `hold = row`, which `scripts/licenses.py status` copies into
+`site/data/license_status.json`. Today no table carries the mark, so the deal pages show the hold as above.
+
+Once both are there, the site's one reader (`site/lib/supabase.ts`) asks for the public rows only
+(`extra->>row_license=eq.public`) and checks each row again when it comes back; a row with no `row_license` is held. The
+three deal views (the deals, the tracker and the comparables) show the public rows as they show every deal, each with its
+stories linked, and a line above them says how many rows are held and why: a count of the rows whose license is missing
+or not public (check key `held|events|energy_deals|rows`), never a row of them. Every figure the views compute (the
+month's count and MW, the tracker's counts, the comparables' medians) is then of the public rows only. The download of
+the table, Ask and the catalogue on `/data` still treat it as held whole: serving its public rows there waits for a later
+session and Samuel's ruling.

@@ -237,6 +237,11 @@ async function truth(check) {
     if (p[1] === "max_last_run") return (await q("catalogue", { select: "last_run", ...SEEN, order: "last_run.desc.nullslast", limit: "1" }))[0].last_run;
     return (await q("catalogue", { select: "n_rows", table_name: `eq.${p[1]}` }))[0]?.n_rows;
   }
+  if (p[0] === "held") {
+    // session 500: held|<shape>|<table>|rows, how many rows of a table held by row are held (lib/supabase.ts
+    // heldRowsQuery: the row's own license, extra->>row_license, missing or not public); a count, never a row
+    return q(p[1], { select: "table_name", table_name: `eq.${p[2]}`, or: "(extra->>row_license.is.null,extra->>row_license.neq.public)" }, true);
+  }
   if (p[0] === "latest_prices") {
     const r = (await q("latest_prices", { select: "value,ts_utc", entity: `eq.${p[1]}`, variable: `eq.${p[2]}` }))[0];
     if (p[3] === undefined || r === undefined) return r?.value;  // a key without its interval: the value alone

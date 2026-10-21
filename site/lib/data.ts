@@ -1,6 +1,6 @@
 // Energy Research Warehouse (ERW) site: the reads each page makes, over lib/supabase.ts.
 import "server-only";
-import { DataError, HOURLY, LATEST, rest } from "./supabase";
+import { DataError, HOURLY, LATEST, rest, restHeldRowCount } from "./supabase";
 import { licenseNeeded } from "./license";
 import { QUEUE_GRIDS, QUEUE_SITE_PATTERN, type QueueRow } from "./datacenter/bygrid";
 import markets from "@/data/markets.json";
@@ -385,4 +385,11 @@ export async function queueActive(grids: string[]): Promise<QueueRow[]> {
     out.push(...(await rest<QueueRow>("entities", { select: "table_name,capacity_mw,status,zone:extra->>zone", table_name: `eq.${table}`, status: "eq.active", order: "entity_id" }, HOURLY, 20_000)));
   }
   return out;
+}
+
+/** Session 500: how many rows of a table held by row are held (session 499's reader, lib/supabase.ts), a count of the
+ *  table and never a row of it; null for a table that is not held by row today. `shape` is the live-set table the rows
+ *  are in ("events" for energy_deals, "entities" for the datacenter tables). */
+export async function heldRowCount(shape: "events" | "entities", table: string): Promise<number | null> {
+  return restHeldRowCount(shape, { table_name: `eq.${table}` }, HOURLY);
 }
