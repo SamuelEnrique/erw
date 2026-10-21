@@ -1775,6 +1775,10 @@ eia_crude_stream_prices,first_purchase_price,series variable,USD/bbl
 eia_crude_stream_prices,fob_cost,series variable,USD/bbl
 eia_crude_stream_prices,landed_cost,series variable,USD/bbl
 eia_crude_stream_prices,refiner_acquisition_cost,series variable,USD/bbl
+eia_energy_efficiency_state_annual,all_other_costs,series variable,USD
+eia_energy_efficiency_state_annual,customer_incentive,series variable,USD
+eia_energy_efficiency_state_annual,energy_savings,series variable,MWh
+eia_energy_efficiency_state_annual,potential_peak_savings,series variable,MW
 eia_fuel_spot_prices,spot_price,series variable,USD/MMBtu
 eia_fuel_spot_prices,spot_price,series variable,USD/bbl
 eia_gas_balance_annual,balancing_item,series variable,MMcf
