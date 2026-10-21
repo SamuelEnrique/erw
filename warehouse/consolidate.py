@@ -363,14 +363,21 @@ def check_family(new, members):
     rows = sum(1 for _ in _data_lines(cons))
     if total != rows:
         msgs.append(f"{new}: {rows:,} rows, of which {total:,} belong to a member")
+    older = []
     for old, _ in members:
         p = next((q for q in (os.path.join(STAGE, old + ".csv"), os.path.join(OUT, old + ".csv")) if os.path.exists(q)), None)
         if p is None:
             continue
+        # session 476: a member file older than the consolidated table is the last build's copy, not the table's now (a
+        # run or a restore wrote the table since); comparing them read iso_rtm_hub_prices as MISMATCH on 21 October 2026
+        if os.path.getmtime(p) < os.path.getmtime(cons):
+            older.append(old)
+            continue
         m = sum(1 for _ in _data_lines(p))
         if m != per[old]:
             msgs.append(f"{new}: {old} has {per[old]:,} rows here, {m:,} in {os.path.relpath(p, ROOT)}")
-    log(f"{'MISMATCH' if msgs else 'ok      '} {new}: {rows:,} rows, " + ", ".join(f"{o} {c:,}" for o, c in per.items()))
+    log(f"{'MISMATCH' if msgs else 'ok      '} {new}: {rows:,} rows, " + ", ".join(f"{o} {c:,}" for o, c in per.items())
+        + (f"; not compared, older than {new}.csv: {', '.join(older)}" if older else ""))
     return msgs
 
 
@@ -419,8 +426,12 @@ def main(argv=None):
                 split_family(new, fams[new])
             elif args.command == "migrate":
                 migrate_family(new, fams[new], os.path.join(args.work, new))
-            elif check_family(new, fams[new]):
-                failed.append(new)
+            else:
+                msgs = check_family(new, fams[new])
+                for m in msgs:  # session 476: the reasons, which were returned and never printed
+                    log(f"  {m}")
+                if msgs:
+                    failed.append(new)
         except Exception as exc:
             failed.append(new)
             log(f"FAILED {args.command} {new}: {type(exc).__name__}: {exc}")
