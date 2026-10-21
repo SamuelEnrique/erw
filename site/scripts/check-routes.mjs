@@ -49,6 +49,7 @@ const PAGES = [
   "/prices/compare", "/prices/compare?period=month&market=rtm&sort=spread", "/data/methods/hub_price_comparison",  // session 96: where power is cheap, in review
   "/data/methods/price_board",  // session 132: the one price board (/board/v3, /board/v4 and /markets redirect to it)
   "/demand", "/demand?area=caiso&rank=peak", "/demand?area=us48&rank=ytd", "/data/methods/demand_growth",  // session 97: the demand growth explorer, in review
+  "/explore/demand-growth", "/explore/demand-growth?grid=us48&window=peak", "/explore/demand-growth?grid=caiso&window=m08",  // session 404: the demand growth explorer, in review
   "/demand?view=weather", "/demand?view=weather&figure=night&year=2026", "/demand?view=weather&figure=winter&year=2023", "/data/methods/demand_weather",  // session 152: the second view of the one demand page (demand growth with the weather taken out, sessions 126 and 129), in review
   "/demand/weather", "/demand/weather?figure=night&year=2026",  // session 126: the address the view was built at (since session 152 these redirect to /demand?view=weather)
   "/curtailment/v2", "/curtailment/v2?period=2026-05", "/curtailment/v2?period=2019", "/data/methods/caiso_curtailment_intervals",  // session 98: curtailment, version 2 (since session 144 these redirect to /curtailment)
