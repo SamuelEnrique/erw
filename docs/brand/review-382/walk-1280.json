@@ -1,0 +1,2590 @@
+{
+ "steps": [
+  {
+   "step": "01-seller",
+   "width": 1280,
+   "url": "/cost-of-power/seller",
+   "found": true,
+   "unreadable": false,
+   "inReview": false,
+   "errorText": "",
+   "checksInView": [
+    {
+     "k": "cap|ercot|HB_HUBAVG|rt|solar|l12|price",
+     "raw": "23.27094202790795",
+     "text": "23.27"
+    },
+    {
+     "k": "cap|ercot|HB_HUBAVG|rt|solar|l12|flat",
+     "raw": "32.17396634615385",
+     "text": "32.17"
+    },
+    {
+     "k": "cap|ercot|HB_HUBAVG|rt|solar|l12|rate",
+     "raw": "72",
+     "text": "72"
+    },
+    {
+     "k": "ms|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|twelve|revenue",
+     "raw": "59.852264600000005",
+     "text": "59.85"
+    },
+    {
+     "k": "cap|ercot|HB_HUBAVG|rt|solar|l12|price",
+     "raw": "23.27094202790795",
+     "text": "23.27"
+    },
+    {
+     "k": "cap|ercot|HB_HUBAVG|rt|solar|l12|flat",
+     "raw": "32.17396634615385",
+     "text": "32.17"
+    },
+    {
+     "k": "cap|ercot|HB_HUBAVG|rt|solar|l12|rate",
+     "raw": "72",
+     "text": "72"
+    },
+    {
+     "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|ttm_last",
+     "raw": "0.668933604133713",
+     "text": "0.67"
+    },
+    {
+     "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|ds",
+     "raw": "7078769",
+     "text": "7.08 million"
+    }
+   ],
+   "nsInView": [],
+   "nChecks": 180,
+   "focusText": "What a generator earns",
+   "viewText": "▾ | ▾ | ▾ | ▾ | ▾ | ▾ | What a generator earns | Your plant | ERCOT | 14 hubs and zones | CAISO | 3 hubs and zones | NYISO | 11 hubs and zones | ISO-NE | 9 hubs and zones | SPP | 2 hubs and zones | MISO | paused while terms are reviewed | PJM | licensed source needed | Settlement point | Solar | Wind | Battery | Gas peaker | Size, MW | What did it earn? | 23.27 | 32.17 | 72 | 59.85 | USD/kW | the hub average | 23.27 | USD/MWh | -8.90 | -27.7 | 32.17 | 72 | 0.67 | times | 7.08 million | i",
+   "scrollW": 1265,
+   "clientW": 1265,
+   "shot": "01-seller_1280.png"
+  },
+  {
+   "step": "02-seller-wind",
+   "width": 1280,
+   "act": true,
+   "url": "/cost-of-power/seller?iso=ercot&asset=wind&hub=HB_HUBAVG",
+   "found": true,
+   "unreadable": false,
+   "inReview": false,
+   "errorText": "",
+   "checksInView": [
+    {
+     "k": "cap|ercot|HB_HUBAVG|rt|wind|l12|price",
+     "raw": "27.604199946364986",
+     "text": "27.60"
+    },
+    {
+     "k": "cap|ercot|HB_HUBAVG|rt|wind|l12|flat",
+     "raw": "32.17396634615385",
+     "text": "32.17"
+    },
+    {
+     "k": "cap|ercot|HB_HUBAVG|rt|wind|l12|rate",
+     "raw": "86",
+     "text": "86"
+    },
+    {
+     "k": "ms|iso=ercot&asset=wind&mw=100&mwh=0&ds=11192257&hr=10.725&vom=4.25&fom=32.25|twelve|revenue",
+     "raw": "83.568562",
+     "text": "83.57"
+    },
+    {
+     "k": "cap|ercot|HB_HUBAVG|rt|wind|l12|price",
+     "raw": "27.604199946364986",
+     "text": "27.60"
+    },
+    {
+     "k": "cap|ercot|HB_HUBAVG|rt|wind|l12|flat",
+     "raw": "32.17396634615385",
+     "text": "32.17"
+    },
+    {
+     "k": "cap|ercot|HB_HUBAVG|rt|wind|l12|rate",
+     "raw": "86",
+     "text": "86"
+    },
+    {
+     "k": "mr|iso=ercot&asset=wind&mw=100&mwh=0&ds=11192257&hr=10.725&vom=4.25&fom=32.25|ttm_last",
+     "raw": "0.45851843823814975",
+     "text": "0.46"
+    },
+    {
+     "k": "mr|iso=ercot&asset=wind&mw=100&mwh=0&ds=11192257&hr=10.725&vom=4.25&fom=32.25|ds",
+     "raw": "11192257",
+     "text": "11.19 million"
+    }
+   ],
+   "nsInView": [],
+   "nChecks": 180,
+   "focusText": "What a generator earns",
+   "viewText": "▾ | ▾ | ▾ | ▾ | ▾ | ▾ | What a generator earns | Your plant | ERCOT | 14 hubs and zones | CAISO | 3 hubs and zones | NYISO | 11 hubs and zones | ISO-NE | 9 hubs and zones | SPP | 2 hubs and zones | MISO | paused while terms are reviewed | PJM | licensed source needed | Settlement point | Solar | Wind | Battery | Gas peaker | Size, MW | What did it earn? | 27.60 | 32.17 | 86 | 83.57 | USD/kW | the hub average | 27.60 | USD/MWh | -4.57 | -14.2 | 32.17 | 86 | 0.46 | times | 11.19 million | i",
+   "scrollW": 1265,
+   "clientW": 1265,
+   "shot": "02-seller-wind_1280.png"
+  },
+  {
+   "step": "03-seller-west",
+   "width": 1280,
+   "act": true,
+   "url": "/cost-of-power/seller?iso=ercot&hub=HB_WEST&asset=wind&mw=100&bmw=100&dur=4&strat=foresight",
+   "found": true,
+   "unreadable": false,
+   "inReview": false,
+   "errorText": "",
+   "checksInView": [
+    {
+     "k": "cap|ercot|HB_WEST|rt|wind|l12|price",
+     "raw": "23.86333527166611",
+     "text": "23.86"
+    },
+    {
+     "k": "cap|ercot|HB_WEST|rt|wind|l12|flat",
+     "raw": "30.627194368131867",
+     "text": "30.63"
+    },
+    {
+     "k": "cap|ercot|HB_WEST|rt|wind|l12|rate",
+     "raw": "78",
+     "text": "78"
+    },
+    {
+     "k": "cap|ercot|HB_WEST|rt|wind|l12|price",
+     "raw": "23.86333527166611",
+     "text": "23.86"
+    },
+    {
+     "k": "cap|ercot|HB_WEST|rt|wind|l12|flat",
+     "raw": "30.627194368131867",
+     "text": "30.63"
+    },
+    {
+     "k": "cap|ercot|HB_WEST|rt|wind|l12|rate",
+     "raw": "78",
+     "text": "78"
+    },
+    {
+     "k": "mr|iso=ercot&asset=wind&mw=100&mwh=0&ds=11192257&hr=10.725&vom=4.25&fom=32.25&hub=HB_WEST&market=rt|ttm_last",
+     "raw": "0.3572493841054579",
+     "text": "0.36"
+    },
+    {
+     "k": "mr|iso=ercot&asset=wind&mw=100&mwh=0&ds=11192257&hr=10.725&vom=4.25&fom=32.25&hub=HB_WEST&market=rt|ds",
+     "raw": "11192257",
+     "text": "11.19 million"
+    }
+   ],
+   "nsInView": [],
+   "nChecks": 162,
+   "focusText": "What a generator earns",
+   "viewText": "▾ | ▾ | ▾ | ▾ | ▾ | ▾ | What a generator earns | Your plant | ERCOT | 14 hubs and zones | CAISO | 3 hubs and zones | NYISO | 11 hubs and zones | ISO-NE | 9 hubs and zones | SPP | 2 hubs and zones | MISO | paused while terms are reviewed | PJM | licensed source needed | Settlement point | Solar | Wind | Battery | Gas peaker | Size, MW | What did it earn? | 23.86 | 30.63 | 78 | 72.23 | USD/kW | the West hub (real-time prices) | 23.86 | USD/MWh | -6.76 | -22.1 | 30.63 | 78 | 0.36 | times | 11.19 million | i",
+   "scrollW": 1265,
+   "clientW": 1265,
+   "shot": "03-seller-west_1280.png"
+  },
+  {
+   "step": "04-seller-capture",
+   "width": 1280,
+   "url": "/cost-of-power/seller?iso=ercot&hub=HB_WEST&asset=wind&mw=100&bmw=100&dur=4&strat=foresight",
+   "found": true,
+   "unreadable": false,
+   "inReview": false,
+   "errorText": "",
+   "checksInView": [
+    {
+     "k": "cap|ercot|HB_HUBAVG|rt|wind|l12|price",
+     "raw": "27.604199946364986",
+     "text": "27.60"
+    },
+    {
+     "k": "cap|ercot|HB_HUBAVG|rt|wind|l12|flat",
+     "raw": "32.17396634615385",
+     "text": "32.17"
+    },
+    {
+     "k": "cap|ercot|HB_HUBAVG|rt|wind|l12|rate",
+     "raw": "86",
+     "text": "86"
+    },
+    {
+     "k": "cap|ercot|HB_HUBAVG|rt|wind|2019|rate",
+     "raw": "70",
+     "text": "70"
+    },
+    {
+     "k": "cap|ercot|HB_HUBAVG|rt|wind|2020|rate",
+     "raw": "82",
+     "text": "82"
+    },
+    {
+     "k": "cap|ercot|HB_HUBAVG|rt|wind|2021|rate",
+     "raw": "48",
+     "text": "48"
+    },
+    {
+     "k": "cap|ercot|HB_HUBAVG|rt|wind|2022|rate",
+     "raw": "80",
+     "text": "80"
+    },
+    {
+     "k": "cap|ercot|HB_HUBAVG|rt|wind|2023|rate",
+     "raw": "70",
+     "text": "70"
+    },
+    {
+     "k": "cap|ercot|HB_HUBAVG|rt|wind|2024|rate",
+     "raw": "79",
+     "text": "79"
+    },
+    {
+     "k": "cap|ercot|HB_HUBAVG|rt|wind|2025|rate",
+     "raw": "85",
+     "text": "85"
+    },
+    {
+     "k": "cap|ercot|HB_HUBAVG|rt|wind|2026|rate",
+     "raw": "87",
+     "text": "87"
+    },
+    {
+     "k": "cap|ercot|LZ_AEN|da|wind|l12|price",
+     "raw": "34.09208354725595",
+     "text": "34.09"
+    },
+    {
+     "k": "cap|ercot|LZ_AEN|da|wind|l12|flat",
+     "raw": "38.723351648351645",
+     "text": "38.72"
+    },
+    {
+     "k": "cap|ercot|LZ_AEN|da|wind|l12|rate",
+     "raw": "88",
+     "text": "88"
+    },
+    {
+     "k": "cap|ercot|LZ_AEN|da|wind|2019|rate",
+     "raw": "77",
+     "text": "77"
+    },
+    {
+     "k": "cap|ercot|LZ_AEN|da|wind|2020|rate",
+     "raw": "89",
+     "text": "89"
+    },
+    {
+     "k": "cap|ercot|LZ_AEN|da|wind|2021|rate",
+     "raw": "51",
+     "text": "51"
+    },
+    {
+     "k": "cap|ercot|LZ_AEN|da|wind|2022|rate",
+     "raw": "86",
+     "text": "86"
+    },
+    {
+     "k": "cap|ercot|LZ_AEN|da|wind|2023|rate",
+     "raw": "74",
+     "text": "74"
+    },
+    {
+     "k": "cap|ercot|LZ_AEN|da|wind|2024|rate",
+     "raw": "85",
+     "text": "85"
+    },
+    {
+     "k": "cap|ercot|LZ_AEN|da|wind|2025|rate",
+     "raw": "91",
+     "text": "91"
+    },
+    {
+     "k": "cap|ercot|LZ_AEN|da|wind|2026|rate",
+     "raw": "88",
+     "text": "88"
+    },
+    {
+     "k": "cap|ercot|LZ_CPS|da|wind|l12|price",
+     "raw": "34.07072719635214",
+     "text": "34.07"
+    },
+    {
+     "k": "cap|ercot|LZ_CPS|da|wind|l12|flat",
+     "raw": "38.79399152930403",
+     "text": "38.79"
+    },
+    {
+     "k": "cap|ercot|LZ_CPS|da|wind|l12|rate",
+     "raw": "88",
+     "text": "88"
+    },
+    {
+     "k": "cap|ercot|LZ_CPS|da|wind|2019|rate",
+     "raw": "79",
+     "text": "79"
+    },
+    {
+     "k": "cap|ercot|LZ_CPS|da|wind|2020|rate",
+     "raw": "89",
+     "text": "89"
+    },
+    {
+     "k": "cap|ercot|LZ_CPS|da|wind|2021|rate",
+     "raw": "51",
+     "text": "51"
+    },
+    {
+     "k": "cap|ercot|LZ_CPS|da|wind|2022|rate",
+     "raw": "87",
+     "text": "87"
+    },
+    {
+     "k": "cap|ercot|LZ_CPS|da|wind|2023|rate",
+     "raw": "75",
+     "text": "75"
+    },
+    {
+     "k": "cap|ercot|LZ_CPS|da|wind|2024|rate",
+     "raw": "85",
+     "text": "85"
+    },
+    {
+     "k": "cap|ercot|LZ_CPS|da|wind|2025|rate",
+     "raw": "92",
+     "text": "92"
+    },
+    {
+     "k": "cap|ercot|LZ_CPS|da|wind|2026|rate",
+     "raw": "88",
+     "text": "88"
+    },
+    {
+     "k": "cap|ercot|LZ_HOUSTON|rt|wind|l12|price",
+     "raw": "30.342107667178002",
+     "text": "30.34"
+    },
+    {
+     "k": "cap|ercot|LZ_HOUSTON|rt|wind|l12|flat",
+     "raw": "33.41334134615384",
+     "text": "33.41"
+    },
+    {
+     "k": "cap|ercot|LZ_HOUSTON|rt|wind|l12|rate",
+     "raw": "91",
+     "text": "91"
+    },
+    {
+     "k": "cap|ercot|LZ_HOUSTON|rt|wind|2019|rate",
+     "raw": "73",
+     "text": "73"
+    },
+    {
+     "k": "cap|ercot|LZ_HOUSTON|rt|wind|2020|rate",
+     "raw": "85",
+     "text": "85"
+    },
+    {
+     "k": "cap|ercot|LZ_HOUSTON|rt|wind|2021|rate",
+     "raw": "50",
+     "text": "50"
+    },
+    {
+     "k": "cap|ercot|LZ_HOUSTON|rt|wind|2022|rate",
+     "raw": "88",
+     "text": "88"
+    }
+   ],
+   "nsInView": [],
+   "nChecks": 162,
+   "focusText": "What did it earn?\nOver the last twelve months, Oct 2025 to Sep 2026, a merchant wind plant in ERCOT priced at the West hub (real-time prices) earned USD 72.23 per kW. The long-run average of 2023 to 2025 was USD 77.52 a year, and of the 7 full years held (2019 to 2025) USD 101.19. At the West hub the price it received, weighted by generation, was USD 23.86 per MWh, USD 6.76 (22.1 percent) below the flat average of USD 30.63: a capture rate of 78 percent.\nRevenue, last twelve months\n72.23USD/kW\nOct 2025 to Sep 2026, priced at the West hub (real-time prices)\nPrice received at the West hub\n23.86USD/MWh\n-6.76 USD per MWh (-22.1 percent) against the flat average of 30.63, a capture rate of 78 percent; real time, Oct 2025 to Sep 2026\nDebt coverage, last twelve months\n0.36times\nThe twelve months to September 2026: revenue less fixed O&M, over debt payments of USD 11.19 million a year.\nRevenue by year, USD per kWi\n0\n50\n100\n150\n200\nUSD per kW\nRevenue\nIncomplete year\n37\n2018\n6 months\n75\n2019\n48\n2020\n222\n2021\n131\n2022\n99\n2023\n58\n2024\n76\n2025\n53\n2026\n9 months\nThe last twelve months beside the long-run averages\nWind in ERCOT, by span\n\tLast twelve months\nOct 2025 to Sep 2026\n\tLong-run average, a year\n2023 to 2025, the last three full years\n\tLong-run average, a year\nevery full year held, 2019 to 2025\nRevenue, USD per kW\t72.23\t77.52\t101.19\nEnergy sold, MWh per MW\t3,028\t2,945\t3,123\nCapture price, USD per MWh\t23.85\t26.32\t32.40\nPrice of every hour, USD per MWh\t30.54\t36.47\t53.75\nCapture rate, percent\t78\t72\t60\nPer kW of nameplate, priced at the West hub (real-time prices). The plant is ERCOT's whole wind fleet by the hour, scaled to 100 MW, not one site, and is paid the hub's price, not its own node's; nothing is curtailed, and no capacity or ancillary payment is counted. What else the mode",
+   "viewText": "Default: as generated, the contracted share of the energy as it is made. A block is the same MWh a year spread flat over every hour and settled against the hub's average price of every hour (USD 30.54 per MWh over the same months); the plant sells all its energy in the market. It moves a figure only where a scenario holds a contract. | What it earned per MWh against the hub average | i | Every hub and zone of ERCOT: the last twelve months in the first three columns, then the capture rate of each year, in percent. | Hub or zone | USD per MWh | USD per MWh | percent | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 | 2026 | real time | 27.60 | 32.17 | 86 | 70 | 82 | 48 | 80 | 70 | 79 | 85 | 87 | day-ahead | 34.09 | 38.72 | 88 | 77 | 89 | 51 | 86 | 74 | 85 | 91 | 88 | day-ahead | 34.07 | 38.79 | 88 | 79 | 89 | 51 | 87 | 75 | 85 | 92 | 88 | real time | 30.34 | 33.41 | 91 | 73 | 85 | 50 | 88 | 72 | 83 | 89 | 92 | day-ahead | 33.87 | 38.69 | 88 | 77 | 88 | 51 | 86 | 74 | 83 | 91 | 88 | real time | 29.27 | 33.72 | 87 | 71 | 84 | 48 | 81 | 71 | 79 | 86 | 88",
+   "scrollW": 1265,
+   "clientW": 1265,
+   "shot": "04-seller-capture_1280.png"
+  },
+  {
+   "step": "05-seller-caiso",
+   "width": 1280,
+   "act": true,
+   "url": "/cost-of-power/seller?iso=caiso&asset=wind",
+   "found": true,
+   "unreadable": false,
+   "inReview": false,
+   "errorText": "",
+   "checksInView": [
+    {
+     "k": "cap|caiso|TH_SP15_GEN-APND|rt|wind|l12|price",
+     "raw": "25.878331529249202",
+     "text": "25.88"
+    },
+    {
+     "k": "cap|caiso|TH_SP15_GEN-APND|rt|wind|l12|flat",
+     "raw": "28.52731848089576",
+     "text": "28.53"
+    },
+    {
+     "k": "cap|caiso|TH_SP15_GEN-APND|rt|wind|l12|rate",
+     "raw": "91",
+     "text": "91"
+    },
+    {
+     "k": "ms|iso=caiso&asset=wind&mw=100&mwh=0&ds=11192257&hr=10.725&vom=4.25&fom=32.25|twelve|revenue",
+     "raw": "64.03944800000001",
+     "text": "64.04"
+    },
+    {
+     "k": "cap|caiso|TH_SP15_GEN-APND|rt|wind|l12|price",
+     "raw": "25.878331529249202",
+     "text": "25.88"
+    },
+    {
+     "k": "cap|caiso|TH_SP15_GEN-APND|rt|wind|l12|flat",
+     "raw": "28.52731848089576",
+     "text": "28.53"
+    },
+    {
+     "k": "cap|caiso|TH_SP15_GEN-APND|rt|wind|l12|rate",
+     "raw": "91",
+     "text": "91"
+    },
+    {
+     "k": "mr|iso=caiso&asset=wind&mw=100&mwh=0&ds=11192257&hr=10.725&vom=4.25&fom=32.25|ttm_last",
+     "raw": "0.2840307187370698",
+     "text": "0.28"
+    },
+    {
+     "k": "mr|iso=caiso&asset=wind&mw=100&mwh=0&ds=11192257&hr=10.725&vom=4.25&fom=32.25|ds",
+     "raw": "11192257",
+     "text": "11.19 million"
+    }
+   ],
+   "nsInView": [],
+   "nChecks": 39,
+   "focusText": "What a generator earns",
+   "viewText": "▾ | ▾ | ▾ | ▾ | ▾ | ▾ | What a generator earns | Your plant | ERCOT | 14 hubs and zones | CAISO | 3 hubs and zones | NYISO | 11 hubs and zones | ISO-NE | 9 hubs and zones | SPP | 2 hubs and zones | MISO | paused while terms are reviewed | PJM | licensed source needed | Settlement point | Solar | Wind | Battery | Gas peaker | Size, MW | What did it earn? | 25.88 | 28.53 | 91 | 64.04 | USD/kW | SP15 | 25.88 | USD/MWh | -2.65 | -9.3 | 28.53 | 91 | 0.28 | times | 11.19 million | i",
+   "scrollW": 1265,
+   "clientW": 1265,
+   "shot": "05-seller-caiso_1280.png"
+  },
+  {
+   "step": "06-seller-ppa",
+   "width": 1280,
+   "act": true,
+   "url": "/cost-of-power/seller?iso=caiso&asset=wind&bn=100&bp=100.32&v=b",
+   "found": true,
+   "unreadable": false,
+   "inReview": false,
+   "errorText": "",
+   "checksInView": [],
+   "nsInView": [],
+   "nChecks": 39,
+   "focusText": "Is it worth building?\nFinancing\nScenario A\nScenario B\nCopy A to B\nReset all of B\nCapital cost, USD per kW\nReset\nDefault 2,100. Lazard, Levelized Cost of Energy+, June 2025, the midpoint of its range, 1,900 to 2,300 for wind.\nDebt share, percent of capital cost\nReset\nDefault 60. Lazard, Levelized Cost of Energy+, June 2025: 60% debt at an 8% interest rate.\nInterest rate, percent a year\nReset\nDefault 8. Lazard, Levelized Cost of Energy+, June 2025: 60% debt at an 8% interest rate.\nTerm of the debt, years\nReset\nDefault 30. Lazard, Levelized Cost of Energy+, June 2025: economic life sets the debt amortization schedule, so the term is this asset's life, 30 years for wind.\nFixed O&M, USD per kW a year\nReset\nDefault 32.25. Lazard, Levelized Cost of Energy+, June 2025, the midpoint of its range, 24.50 to 40.00 for wind.\nDegradation, percent a year\nReset\nDefault 0. The model has no loss of output with age. No cited rate is held, so the default is none.\nProject life, years\nReset\nDefault 30. Lazard, Levelized Cost of Energy+, June 2025: the life of this asset, 30 years for wind.\nHurdle rate, percent a year\nReset\nDefault 12. Lazard, Levelized Cost of Energy+, June 2025: \"60% debt at an 8% interest rate and 40% equity at a 12% cost\". The default is that cost of equity, 12 percent: the NPV is to equity, after the debt payments.\nContract share, percent of the energy\nReset\nDefault 0. No contract: the default is fully merchant. A contracted share is paid the contract price every month of the debt's years and earns nothing from the market.\nContract price, USD per MWh\nReset\nDefault 0. No contract: the default is fully merchant. The price is the reader's own term; no published price is held.\nPPA term, years\nReset\nDefault 30. The years the contract pays its price, cut to the project life; a",
+   "viewText": "12.0 percent | What differs | B: contract share 100 percent against 0; contract price USD 100.32 against 0. | Scenario A, 100 MW of wind: at a hurdle rate of 12 percent, NPV is USD -148.55 million. | What matters most | Each row moves one assumption of scenario B down and up by the step named, holds the others, and draws where NPV lands from the scenario's own NPV (the line); the longest bars are the assumptions that matter most. | How far each assumption moves NPV, scenario B | Contract share | by 10 points | USD 14.86 million",
+   "scrollW": 1265,
+   "clientW": 1265,
+   "shot": "06-seller-ppa_1280.png"
+  },
+  {
+   "step": "07-battery",
+   "width": 1280,
+   "act": true,
+   "url": "/cost-of-power/battery",
+   "found": true,
+   "unreadable": false,
+   "inReview": false,
+   "errorText": "",
+   "checksInView": [
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|l12_kw:total",
+     "raw": "81.4021896",
+     "text": "81.40"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|l12_share:ancillary",
+     "raw": "33",
+     "text": "33"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|cover",
+     "raw": "2.627114698518742",
+     "text": "2.63"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|l12_kw:total",
+     "raw": "81.4021896",
+     "text": "81.40"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|l12:total",
+     "raw": "8140219",
+     "text": "8.14 million"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|p10_36",
+     "raw": "475477",
+     "text": "475,477"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|n36",
+     "raw": "36",
+     "text": "36"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|cover",
+     "raw": "2.627114698518742",
+     "text": "2.63"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|ds",
+     "raw": "2261119",
+     "text": "2.26 million"
+    }
+   ],
+   "nsInView": [],
+   "nChecks": 188,
+   "focusText": "What a battery earns",
+   "viewText": "▾ | ▾ | ▾ | ▾ | ▾ | ▾ | What a battery earns | Assumptions | Assumptions | ERCOT | HB_HUBAVG, from 2018 | CAISO | SP15, from August 2023 | PJM | license needed | NYISO | N.Y.C., from September 2024; in review | ISO-NE | held, not shown: license needed | MISO | held, not shown: license needed | SPP | SPPNORTH_HUB, from September 2024; in review | i | What did it earn? | 81.40 | 33 | 2.63 | 81.40 | per kW | 8.14 million | 475,477 | 36 | 2.63 | times | 2.26 million | i | Chart | Table",
+   "scrollW": 1265,
+   "clientW": 1265,
+   "shot": "07-battery_1280.png"
+  },
+  {
+   "step": "08-battery-awards",
+   "width": 1280,
+   "url": "/cost-of-power/battery",
+   "found": true,
+   "unreadable": false,
+   "inReview": false,
+   "errorText": "",
+   "checksInView": [
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|l12:regdn",
+     "raw": "998971",
+     "text": "998,971"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2018:regdn",
+     "raw": "3512815",
+     "text": "3.51 million"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2019:regdn",
+     "raw": "6568958",
+     "text": "6.57 million"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2020:regdn",
+     "raw": "5908396",
+     "text": "5.91 million"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2021:regdn",
+     "raw": "80876615",
+     "text": "80.88 million"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2022:regdn",
+     "raw": "6838538",
+     "text": "6.84 million"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2023:regdn",
+     "raw": "11426765",
+     "text": "11.43 million"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2024:regdn",
+     "raw": "2717846",
+     "text": "2.72 million"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2025:regdn",
+     "raw": "1115119",
+     "text": "1.12 million"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2026:regdn",
+     "raw": "689800",
+     "text": "689,800"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|avg:regdn",
+     "raw": "13412016",
+     "text": "13.41 million"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|l12:rrs",
+     "raw": "402471",
+     "text": "402,471"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2018:rrs",
+     "raw": "13571419",
+     "text": "13.57 million"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2019:rrs",
+     "raw": "19831195",
+     "text": "19.83 million"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2020:rrs",
+     "raw": "6567817",
+     "text": "6.57 million"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2021:rrs",
+     "raw": "246353594",
+     "text": "246.35 million"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2022:rrs",
+     "raw": "4829695",
+     "text": "4.83 million"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2023:rrs",
+     "raw": "1813080",
+     "text": "1.81 million"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2024:rrs",
+     "raw": "1055144",
+     "text": "1.06 million"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2025:rrs",
+     "raw": "665884",
+     "text": "665,884"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2026:rrs",
+     "raw": "303753",
+     "text": "303,753"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|avg:rrs",
+     "raw": "32946964",
+     "text": "32.95 million"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|l12:ecrs",
+     "raw": "194068",
+     "text": "194,068"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2018:ecrs",
+     "raw": "0",
+     "text": "0"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2019:ecrs",
+     "raw": "0",
+     "text": "0"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2020:ecrs",
+     "raw": "0",
+     "text": "0"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2021:ecrs",
+     "raw": "0",
+     "text": "0"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2022:ecrs",
+     "raw": "0",
+     "text": "0"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2023:ecrs",
+     "raw": "18580648",
+     "text": "18.58 million"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2024:ecrs",
+     "raw": "3353971",
+     "text": "3.35 million"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2025:ecrs",
+     "raw": "60432",
+     "text": "60,432"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2026:ecrs",
+     "raw": "192730",
+     "text": "192,730"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|avg:ecrs",
+     "raw": "2479209",
+     "text": "2.48 million"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|l12:nspin",
+     "raw": "420627",
+     "text": "420,627"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2018:nspin",
+     "raw": "2035890",
+     "text": "2.04 million"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2019:nspin",
+     "raw": "1033631",
+     "text": "1.03 million"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2020:nspin",
+     "raw": "96176",
+     "text": "96,176"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2021:nspin",
+     "raw": "2862393",
+     "text": "2.86 million"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2022:nspin",
+     "raw": "9142188",
+     "text": "9.14 million"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=foresight&mw=100&fom=22&ds=2261119|yr:2023:nspin",
+     "raw": "1004821",
+     "text": "1 million"
+    }
+   ],
+   "nsInView": [],
+   "nChecks": 188,
+   "focusText": "What did it earn?\nOver the last twelve months a 100 MW, 4-hour battery in ERCOT earned USD 81.40 per kW, 33 percent of it from ancillary services, and covered its debt 2.63 times.\nLast twelve months, all streams\nUSD 81.40per kW\nUSD 8.14 million for 100 MW, 4-hour, October 2025 to September 2026.\nA bad month: the 10th percentile, last 36 months\nUSD 475,477\nDecember 2024. One month in ten of the 36 months held from October 2023 to September 2026 earned this or less.\nDebt coverage, last twelve months\n2.63times\nOctober 2025 to September 2026: revenue less fixed O&M, over debt payments of USD 2.26 million a year.\nRevenue by year, USD per kWi\nChart\nTable\n0\n200\n400\n600\nUSD per kW\nEnergy\nAncillary services\nIncomplete year: hatched\n244\n2018\n402\n2019\n187\n2020\n3,431\n2021\n393\n2022\n530\n2023\n148\n2024\n87\n2025\n60\n2026\n9 months\nIncome by streami\nTable\nChart\nYour window\nFrom\n2018\n2019\n2020\n2021\n2022\n2023\n2024\n2025\n2026\nto\n2018\n2019\n2020\n2021\n2022\n2023\n2024\n2025\n2026\nLeave out\nUri\nElliott\nthe 2023 heat\nIncome by stream\nStream\tLast twelve months, USD\nOct 2025 to Sep 2026\n\t2018, USD\ncalendar year\n\t2019, USD\ncalendar year\n\t2020, USD\ncalendar year\n\t2021, USD\ncalendar year\n\t2022, USD\ncalendar year\n\t2023, USD\ncalendar year\n\t2024, USD\ncalendar year\n\t2025, USD\ncalendar year\n\t2026, USD\n9 months\n\tYour window, a year, USD\n2018 to 2026: the average year\nEnergy (charge low, sell high)\t5.46 million\t4.52 million\t11.07 million\t3.41 million\t2.3 million\t12.61 million\t15.2 million\t6.27 million\t5.74 million\t4.08 million\t7.38 million\nAncillary services\t2.68 million\t19.85 million\t29.14 million\t15.34 million\t340.75 million\t26.7 million\t37.81 million\t8.5 million\t3.01 million\t1.94 million\t54.08 million\nRegulation Up\t664,224\t732,590\t1.71 million\t2.77 million\t10.66 million\t5.89 million\t4.99 million\t1.04 million\t766",
+   "viewText": "Headline figures | Up to 6 of 8, in this order. Each is scenario A's. | Last twelve months, all streams | A bad month: the 10th percentile, last 36 months | Debt coverage, last twelve months | NPV at the hurdle rate | IRR | Breakeven toll | Payback year | NPV per dollar of equity | Charts | Revenue by stream; adjusted scale | Up to 3 of 4, side by side on a wide screen. Each has a Chart | Table toggle. | Revenue by stream | Cash after costs | Cash after debt | Debt | i | Linear | Log | Adjusted | Financing | Scenario A: 20% debt at 8%, 12% hurdle, no contract | Scenario A | Scenario B | Copy A to B | Reset all of A | USD per kW | Reset | Default 1,110. Lazard, Levelized Cost of Energy+, June 2025 (LCOS v10.0): Lazard's 100 MW / 400 MWh case, midpoint of 620 to 1,600 USD/kW and of 3.0 to 8.0 USD/kWh-yr. | percent of capital cost | Reset | Default 20. Lazard, Levelized Cost of Energy+, June 2025, the storage cases: \"20% debt at an 8% interest rate and 80% equity at a 12% cost\". | Sensitivity | Sourced range, NPV | i | Sourced range | Percent step | i | NPV | IRR | Regulation Down | 998,971 | 3.51 million | 6.57 million | 5.91 million | 80.88 million | 6.84 million | 11.43 million | 2.72 million | 1.12 million | 689,800 | 13.41 million | Responsive Reserve | 402,471 | 13.57 million | 19.83 million | 6.57 million | 246.35 million | 4.83 million | 1.81 million | 1.06 million | 665,884 | 303,753 | 32.95 million | ECRS (from June 2023) | 194,068 | 0 | 0 | 0 | 0 | 0 | 18.58 million | 3.35 million | 60,432 | 192,730 | 2.48 million | Non-Spin | 420,627 | 2.04 million | 1.03 million | 96,176 | 2.86 million | 9.14 million | 1 million | 329,034 | 397,383 | 313,175 | 1.95 million | Capacity | None: an energy-only market | Total, split hour by hour with no double counting | 8.14 million | 24.37 million | 40.22 million | 18.75 million | 343.06 million | 39.31 million | 53.01 million | 14.77 million | 8.74 million | 6.02 million | 61.46 million | Total, USD per kW | 81.40 | 243.69 | 402.18 | 187.48 | 3,430.56 | 393.10 | 530.14 | 147.67 | 87.44 | 60.19 | 614.58 | ERCOT | 2.25 | 0.40 | 5.66 | 57",
+   "scrollW": 1265,
+   "clientW": 1265,
+   "shot": "08-battery-awards_1280.png"
+  },
+  {
+   "step": "09-battery-2h",
+   "width": 1280,
+   "act": true,
+   "url": "/cost-of-power/battery?grid=ercot&dur=2&strat=foresight",
+   "found": true,
+   "unreadable": false,
+   "inReview": false,
+   "errorText": "",
+   "checksInView": [
+    {
+     "k": "bs|grid=ercot&dur=2&strat=foresight&mw=100&fom=11.2&ds=1242597|l12_kw:total",
+     "raw": "58.63440729999999",
+     "text": "58.63"
+    },
+    {
+     "k": "bs|grid=ercot&dur=2&strat=foresight&mw=100&fom=11.2&ds=1242597|l12_share:ancillary",
+     "raw": "46",
+     "text": "46"
+    },
+    {
+     "k": "bs|grid=ercot&dur=2&strat=foresight&mw=100&fom=11.2&ds=1242597|cover",
+     "raw": "3.817360519943312",
+     "text": "3.82"
+    },
+    {
+     "k": "bs|grid=ercot&dur=2&strat=foresight&mw=100&fom=11.2&ds=1242597|l12_kw:total",
+     "raw": "58.63440729999999",
+     "text": "58.63"
+    },
+    {
+     "k": "bs|grid=ercot&dur=2&strat=foresight&mw=100&fom=11.2&ds=1242597|l12:total",
+     "raw": "5863441",
+     "text": "5.86 million"
+    },
+    {
+     "k": "bs|grid=ercot&dur=2&strat=foresight&mw=100&fom=11.2&ds=1242597|p10_36",
+     "raw": "364767",
+     "text": "364,767"
+    },
+    {
+     "k": "bs|grid=ercot&dur=2&strat=foresight&mw=100&fom=11.2&ds=1242597|n36",
+     "raw": "36",
+     "text": "36"
+    },
+    {
+     "k": "bs|grid=ercot&dur=2&strat=foresight&mw=100&fom=11.2&ds=1242597|cover",
+     "raw": "3.817360519943312",
+     "text": "3.82"
+    },
+    {
+     "k": "bs|grid=ercot&dur=2&strat=foresight&mw=100&fom=11.2&ds=1242597|ds",
+     "raw": "1242597",
+     "text": "1.24 million"
+    }
+   ],
+   "nsInView": [],
+   "nChecks": 188,
+   "focusText": "What a battery earns",
+   "viewText": "▾ | ▾ | ▾ | ▾ | ▾ | ▾ | What a battery earns | Assumptions | Assumptions | ERCOT | HB_HUBAVG, from 2018 | CAISO | SP15, from August 2023 | PJM | license needed | NYISO | N.Y.C., from September 2024; in review | ISO-NE | held, not shown: license needed | MISO | held, not shown: license needed | SPP | SPPNORTH_HUB, from September 2024; in review | i | What did it earn? | 58.63 | 46 | 3.82 | 58.63 | per kW | 5.86 million | 364,767 | 36 | 3.82 | times | 1.24 million | i | Chart | Table",
+   "scrollW": 1265,
+   "clientW": 1265,
+   "shot": "09-battery-2h_1280.png"
+  },
+  {
+   "step": "10-battery-4h-dayahead",
+   "width": 1280,
+   "act": true,
+   "then": true,
+   "url": "/cost-of-power/battery?grid=ercot&dur=4&strat=dayahead&mw=100",
+   "found": true,
+   "unreadable": false,
+   "inReview": false,
+   "errorText": "",
+   "checksInView": [
+    {
+     "k": "bs|grid=ercot&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|l12_kw:total",
+     "raw": "73.0000232",
+     "text": "73.00"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|l12_share:ancillary",
+     "raw": "35",
+     "text": "35"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|cover",
+     "raw": "2.255521412185736",
+     "text": "2.26"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|l12_kw:total",
+     "raw": "73.0000232",
+     "text": "73.00"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|l12:total",
+     "raw": "7300002",
+     "text": "7.3 million"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|p10_36",
+     "raw": "411520",
+     "text": "411,520"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|n36",
+     "raw": "36",
+     "text": "36"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|cover",
+     "raw": "2.255521412185736",
+     "text": "2.26"
+    },
+    {
+     "k": "bs|grid=ercot&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|ds",
+     "raw": "2261119",
+     "text": "2.26 million"
+    }
+   ],
+   "nsInView": [],
+   "nChecks": 188,
+   "focusText": "What a battery earns",
+   "viewText": "▾ | ▾ | ▾ | ▾ | ▾ | ▾ | What a battery earns | Assumptions | Assumptions | ERCOT | HB_HUBAVG, from 2018 | CAISO | SP15, from August 2023 | PJM | license needed | NYISO | N.Y.C., from September 2024; in review | ISO-NE | held, not shown: license needed | MISO | held, not shown: license needed | SPP | SPPNORTH_HUB, from September 2024; in review | i | What did it earn? | 73.00 | 35 | 2.26 | 73.00 | per kW | 7.3 million | 411,520 | 36 | 2.26 | times | 2.26 million | i | Chart | Table",
+   "scrollW": 1265,
+   "clientW": 1265,
+   "shot": "10-battery-4h-dayahead_1280.png"
+  },
+  {
+   "step": "11-battery-caiso",
+   "width": 1280,
+   "act": true,
+   "url": "/cost-of-power/battery?grid=caiso&dur=4&strat=dayahead&mw=100",
+   "found": true,
+   "unreadable": false,
+   "inReview": false,
+   "errorText": "",
+   "checksInView": [
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|l12_kw:total",
+     "raw": "65.2166329",
+     "text": "65.22"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|l12_share:ancillary",
+     "raw": "51",
+     "text": "51"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|cover",
+     "raw": "1.9112940495391884",
+     "text": "1.91"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|l12_kw:total",
+     "raw": "65.2166329",
+     "text": "65.22"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|l12:total",
+     "raw": "6521663",
+     "text": "6.52 million"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|p10_36",
+     "raw": "459656",
+     "text": "459,656"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|n36",
+     "raw": "36",
+     "text": "36"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|cover",
+     "raw": "1.9112940495391884",
+     "text": "1.91"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|ds",
+     "raw": "2261119",
+     "text": "2.26 million"
+    }
+   ],
+   "nsInView": [],
+   "nChecks": 62,
+   "focusText": "What a battery earns",
+   "viewText": "▾ | ▾ | ▾ | ▾ | ▾ | ▾ | What a battery earns | Assumptions | Assumptions | ERCOT | HB_HUBAVG, from 2018 | CAISO | SP15, from August 2023 | PJM | license needed | NYISO | N.Y.C., from September 2024; in review | ISO-NE | held, not shown: license needed | MISO | held, not shown: license needed | SPP | SPPNORTH_HUB, from September 2024; in review | i | What did it earn? | 65.22 | 51 | 1.91 | 65.22 | per kW | 6.52 million | 459,656 | 36 | 1.91 | times | 2.26 million | i | Chart | Table",
+   "scrollW": 1265,
+   "clientW": 1265,
+   "shot": "11-battery-caiso_1280.png"
+  },
+  {
+   "step": "12-battery-income",
+   "width": 1280,
+   "url": "/cost-of-power/battery?grid=caiso&dur=4&strat=dayahead&mw=100",
+   "found": true,
+   "unreadable": false,
+   "inReview": false,
+   "errorText": "",
+   "checksInView": [
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|l12:energy",
+     "raw": "3196134",
+     "text": "3.2 million"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|yr:2023:energy",
+     "raw": "3161549",
+     "text": "3.16 million"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|yr:2024:energy",
+     "raw": "6089850",
+     "text": "6.09 million"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|yr:2025:energy",
+     "raw": "4250377",
+     "text": "4.25 million"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|yr:2026:energy",
+     "raw": "2392478",
+     "text": "2.39 million"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|avg:energy",
+     "raw": "5018996",
+     "text": "5.02 million"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|l12:ancillary",
+     "raw": "3325530",
+     "text": "3.33 million"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|yr:2023:ancillary",
+     "raw": "2211326",
+     "text": "2.21 million"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|yr:2024:ancillary",
+     "raw": "4883359",
+     "text": "4.88 million"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|yr:2025:ancillary",
+     "raw": "4308823",
+     "text": "4.31 million"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|yr:2026:ancillary",
+     "raw": "2712114",
+     "text": "2.71 million"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|avg:ancillary",
+     "raw": "4403448",
+     "text": "4.4 million"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|l12:regup",
+     "raw": "1172140",
+     "text": "1.17 million"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|yr:2023:regup",
+     "raw": "627601",
+     "text": "627,601"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|yr:2024:regup",
+     "raw": "1070418",
+     "text": "1.07 million"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|yr:2025:regup",
+     "raw": "837075",
+     "text": "837,075"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|yr:2026:regup",
+     "raw": "1070612",
+     "text": "1.07 million"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|avg:regup",
+     "raw": "1105448",
+     "text": "1.11 million"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|l12:regdn",
+     "raw": "2039312",
+     "text": "2.04 million"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|yr:2023:regdn",
+     "raw": "1440478",
+     "text": "1.44 million"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|yr:2024:regdn",
+     "raw": "3724252",
+     "text": "3.72 million"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|yr:2025:regdn",
+     "raw": "3394553",
+     "text": "3.39 million"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|yr:2026:regdn",
+     "raw": "1546605",
+     "text": "1.55 million"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|avg:regdn",
+     "raw": "3180776",
+     "text": "3.18 million"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|l12:spin",
+     "raw": "15540",
+     "text": "15,540"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|yr:2023:spin",
+     "raw": "14070",
+     "text": "14,070"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|yr:2024:spin",
+     "raw": "11442",
+     "text": "11,442"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|yr:2025:spin",
+     "raw": "6986",
+     "text": "6,986"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|yr:2026:spin",
+     "raw": "15212",
+     "text": "15,212"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|avg:spin",
+     "raw": "15588",
+     "text": "15,588"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|l12:nonspin",
+     "raw": "98537",
+     "text": "98,537"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|yr:2023:nonspin",
+     "raw": "129178",
+     "text": "129,178"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|yr:2024:nonspin",
+     "raw": "77247",
+     "text": "77,247"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|yr:2025:nonspin",
+     "raw": "70210",
+     "text": "70,210"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|yr:2026:nonspin",
+     "raw": "79685",
+     "text": "79,685"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|avg:nonspin",
+     "raw": "101636",
+     "text": "101,636"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|l12:total",
+     "raw": "6521663",
+     "text": "6.52 million"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|yr:2023:total",
+     "raw": "5372876",
+     "text": "5.37 million"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|yr:2024:total",
+     "raw": "10973209",
+     "text": "10.97 million"
+    },
+    {
+     "k": "bs|grid=caiso&dur=4&strat=dayahead&mw=100&fom=22&ds=2261119|yr:2025:total",
+     "raw": "8559201",
+     "text": "8.56 million"
+    }
+   ],
+   "nsInView": [],
+   "nChecks": 62,
+   "focusText": "What did it earn?\nOver the last twelve months a 100 MW, 4-hour battery in CAISO earned USD 65.22 per kW, 51 percent of it from ancillary services, and covered its debt 1.91 times.\nLast twelve months, all streams\nUSD 65.22per kW\nUSD 6.52 million for 100 MW, 4-hour, October 2025 to September 2026.\nA bad month: the 10th percentile, last 36 months\nUSD 459,656\nNovember 2025. One month in ten of the 36 months held from October 2023 to September 2026 earned this or less.\nDebt coverage, last twelve months\n1.91times\nOctober 2025 to September 2026: revenue less fixed O&M, over debt payments of USD 2.26 million a year.\nRevenue by year, USD per kWi\nChart\nTable\n0\n50\n100\nUSD per kW\nEnergy\nAncillary services\nIncomplete year: hatched\n54\n2023\n5 months\n110\n2024\n86\n2025\n51\n2026\n9 months\nIncome by streami\nTable\nChart\nYour window\nFrom\n2023\n2024\n2025\n2026\nto\n2023\n2024\n2025\n2026\nLeave out\n15 to 17 August 2023\n28 to 30 August 2023\n3 to 11 July 2024\n15 July 2024\n24 and 25 July 2024\n5 to 7 August 2024\n4 to 9 September 2024\n20 and 21 January 2025\n9 and 10 September 2026\n5 to 8 October 2026\nIncome by stream\nStream\tLast twelve months, USD\nOct 2025 to Sep 2026\n\t2023, USD\n5 months\n\t2024, USD\ncalendar year\n\t2025, USD\ncalendar year\n\t2026, USD\n9 months\n\tYour window, a year, USD\n2023 to 2026: the average year\nEnergy (charge low, sell high)\t3.2 million\t3.16 million\t6.09 million\t4.25 million\t2.39 million\t5.02 million\nAncillary services\t3.33 million\t2.21 million\t4.88 million\t4.31 million\t2.71 million\t4.4 million\nRegulation Up\t1.17 million\t627,601\t1.07 million\t837,075\t1.07 million\t1.11 million\nRegulation Down\t2.04 million\t1.44 million\t3.72 million\t3.39 million\t1.55 million\t3.18 million\nSpinning Reserve\t15,540\t14,070\t11,442\t6,986\t15,212\t15,588\nNon-Spinning Reserve\t98,537\t129,178\t77,247\t70,210\t79,685\t101,636\nC",
+   "viewText": "Per kW | This battery (100 MW) | Price years | Default: the last twelve months, the page's own figure. Each window is the page's figure under those years (price_years_by_window, built from the same tables). | Headline figures | Up to 6 of 8, in this order. Each is scenario A's. | Last twelve months, all streams | A bad month: the 10th percentile, last 36 months | Debt coverage, last twelve months | NPV at the hurdle rate | IRR | Breakeven toll | Payback year | NPV per dollar of equity | Charts | Revenue by stream; adjusted scale | Up to 3 of 4, side by side on a wide screen. Each has a Chart | Table toggle. | Revenue by stream | Cash after costs | Cash after debt | Debt | Financing | Scenario A: 20% debt at 8%, 12% hurdle, no contract | Scenario A | Scenario B | Copy A to B | Reset all of A | Sensitivity | Sourced range, NPV | i | i | Table | Chart | Leave out | 15 to 17 August 2023 | 28 to 30 August 2023 | 3 to 11 July 2024 | 15 July 2024 | 24 and 25 July 2024 | 5 to 7 August 2024 | 4 to 9 September 2024 | 20 and 21 January 2025 | 9 and 10 September 2026 | 5 to 8 October 2026 | Stream | Oct 2025 to Sep 2026 | 5 months | calendar year | calendar year | 9 months | 2023 to 2026: the average year | Energy (charge low, sell high) | 3.2 million | 3.16 million | 6.09 million | 4.25 million | 2.39 million | 5.02 million | Ancillary services | 3.33 million | 2.21 million | 4.88 million | 4.31 million | 2.71 million | 4.4 million | Regulation Up | 1.17 million | 627,601 | 1.07 million | 837,075 | 1.07 million | 1.11 million | Regulation Down | 2.04 million | 1.44 million | 3.72 million | 3.39 million | 1.55 million | 3.18 million | Spinning Reserve | 15,540 | 14,070 | 11,442 | 6,986 | 15,212 | 15,588 | Non-Spinning Reserve | 98,537 | 129,178 | 77,247 | 70,210 | 79,685 | 101,636 | Capacity | Not held: California's resource adequacy prices are contract statistics, not yet in the warehouse | Total, split hour by hour with no double counting | 6.52 million | 5.37 million | 10.97 million | 8.56 million | 5.1 million | 9.42 million | Total, USD per kW | 65.22 | 53.73 | 109.73 | 85.59 | 51.05 | 94.22 | CAISO | 42.50 | 42.32 | 35 | 9 | The two differ in regulation: this model sells it as if the market had no size, and the monitor writes that “there is a large amount of battery capacity competing to provide a relatively low amount of required regulation”.",
+   "scrollW": 1265,
+   "clientW": 1265,
+   "shot": "12-battery-income_1280.png"
+  },
+  {
+   "step": "13-board",
+   "width": 1280,
+   "act": true,
+   "url": "/board",
+   "found": true,
+   "unreadable": false,
+   "inReview": false,
+   "errorText": "",
+   "checksInView": [],
+   "nsInView": [
+    {
+     "k": "top|ercot-hb-hubavg-da|last",
+     "text": "43.95"
+    },
+    {
+     "k": "top|ercot-hb-hubavg-da|d",
+     "text": "−12.49"
+    },
+    {
+     "k": "top|ercot-hb-hubavg-da|w",
+     "text": "−20.50"
+    },
+    {
+     "k": "top|ercot-hb-hubavg-rt|last",
+     "text": "50.22"
+    },
+    {
+     "k": "top|ercot-hb-hubavg-rt|d",
+     "text": "+2.24"
+    },
+    {
+     "k": "top|ercot-hb-hubavg-rt|w",
+     "text": "−9.31"
+    },
+    {
+     "k": "top|caiso-th-sp15-gen-apnd-da|last",
+     "text": "45.01"
+    },
+    {
+     "k": "top|caiso-th-sp15-gen-apnd-da|d",
+     "text": "+0.24"
+    },
+    {
+     "k": "top|caiso-th-sp15-gen-apnd-da|w",
+     "text": "+13.39"
+    },
+    {
+     "k": "top|spp-sppnorth-hub-da|last",
+     "text": "24.76"
+    },
+    {
+     "k": "top|spp-sppnorth-hub-da|d",
+     "text": "−8.06"
+    },
+    {
+     "k": "top|spp-sppnorth-hub-da|w",
+     "text": "−33.55"
+    },
+    {
+     "k": "top|eia-henry-hub-spot|last",
+     "text": "3.22"
+    },
+    {
+     "k": "top|eia-henry-hub-spot|d",
+     "text": "+0.08"
+    },
+    {
+     "k": "top|eia-henry-hub-spot|w",
+     "text": "+0.06"
+    },
+    {
+     "k": "top|ercot-hb-hubavg-spark|last",
+     "text": "4.81"
+    },
+    {
+     "k": "top|ercot-hb-hubavg-spark|d",
+     "text": "−24.61"
+    },
+    {
+     "k": "top|ercot-hb-hubavg-spark|w",
+     "text": "−18.29"
+    },
+    {
+     "k": "top|eia-wti-cushing-spot|last",
+     "text": "101.91"
+    },
+    {
+     "k": "top|eia-wti-cushing-spot|d",
+     "text": "+1.05"
+    },
+    {
+     "k": "top|eia-wti-cushing-spot|w",
+     "text": "+6.89"
+    },
+    {
+     "k": "top|eia-brent-spot|last",
+     "text": "126.55"
+    },
+    {
+     "k": "top|eia-brent-spot|d",
+     "text": "+0.77"
+    },
+    {
+     "k": "top|eia-brent-spot|w",
+     "text": "+0.55"
+    },
+    {
+     "k": "top|eia-eer-epmru-pf4-y35ny-dpg-spot|last",
+     "text": "2.987"
+    },
+    {
+     "k": "top|eia-eer-epmru-pf4-y35ny-dpg-spot|d",
+     "text": "−0.001"
+    },
+    {
+     "k": "top|eia-eer-epmru-pf4-y35ny-dpg-spot|w",
+     "text": "−0.071"
+    },
+    {
+     "k": "top|eia-eer-epd2dxl0-pf4-y35ny-dpg-spot|last",
+     "text": "5.066"
+    },
+    {
+     "k": "top|eia-eer-epd2dxl0-pf4-y35ny-dpg-spot|d",
+     "text": "−0.048"
+    },
+    {
+     "k": "top|eia-eer-epd2dxl0-pf4-y35ny-dpg-spot|w",
+     "text": "+0.069"
+    },
+    {
+     "k": "top|erw-crack-321-gulf-coast|last",
+     "text": "64.61"
+    },
+    {
+     "k": "top|erw-crack-321-gulf-coast|d",
+     "text": "+1.67"
+    },
+    {
+     "k": "top|erw-crack-321-gulf-coast|w",
+     "text": "−3.35"
+    },
+    {
+     "k": "top|fred-dgs10|last",
+     "text": "5.09"
+    },
+    {
+     "k": "top|fred-dgs10|d",
+     "text": "−0.01"
+    },
+    {
+     "k": "top|fred-dgs10|w",
+     "text": "−0.15"
+    },
+    {
+     "k": "head|low",
+     "text": "35.00USD/MWh"
+    },
+    {
+     "k": "head|high",
+     "text": "64.57USD/MWh"
+    },
+    {
+     "k": "head|eia-henry-hub-spot",
+     "text": "3.22USD/MMBtu"
+    },
+    {
+     "k": "head|eia-wti-cushing-spot",
+     "text": "101.91USD/bbl"
+    }
+   ],
+   "nChecks": 0,
+   "focusText": "Price board",
+   "viewText": "▾ | ▾ | ▾ | ▾ | ▾ | ▾ | Price board | built 20 Oct 2026 | day-ahead | 43.95 | USD/MWh | ▼ | −12.49 | ▼ | −20.50 | real time | 50.22 | USD/MWh | ▲ | +2.24 | ▼ | −9.31 | day-ahead | 45.01 | USD/MWh | ▲ | +0.24 | ▲ | +13.39 | day-ahead | 24.76 | USD/MWh | ▼ | −8.06 | ▼ | −33.55 | Louisiana, spot | 3.22 | USD/MMBtu | ▲ | +0.08 | +2.5% | ▲ | +0.06 | +1.9% | spark spread, indicative | 4.81 | USD/MWh | ▼ | −24.61 | ▼ | −18.29 | Cushing, Oklahoma, spot | 101.91 | USD/bbl | ▲ | +1.05 | +1.0% | ▲ | +6.89 | +7.3% | Europe, FOB, spot | 126.55 | USD/bbl | ▲ | +0.77 | +0.6% | ▲ | +0.55 | +0.4% | New York Harbor, spot | 2.987 | USD/gal | ▼ | −0.001 | −0.0% | ▼ | −0.071 | −2.3% | New York Harbor, spot | 5.066 | USD/gal | ▼ | −0.048 | −0.9% | ▲ | +0.069 | +1.4% | Gulf Coast products, WTI | 64.61 | USD/bbl | ▲ | +1.67 | ▼ | −3.35 | constant maturity | 5.09 | percent | ▼ | −0.01 | ▼ | −0.15 | Power market | Day-ahead | Real time | Lowest grid, day-ahead | USD/MWh | CAISO Southern California (SP15), 14 Oct 2026 | Highest grid, day-ahead | USD/MWh | SPP North hub, 14 Oct 2026 | Henry Hub gas | USD/MMBtu | 14 Oct 2026 | WTI crude | USD/bbl | 14 Oct 2026 | Brent crude | USD/bbl | 14 Oct 2026",
+   "scrollW": 1265,
+   "clientW": 1265,
+   "shot": "13-board_1280.png"
+  },
+  {
+   "step": "14-board-workbench",
+   "width": 1280,
+   "act": true,
+   "url": "/board?s=ercot-hb-hubavg-da",
+   "found": true,
+   "unreadable": false,
+   "inReview": false,
+   "errorText": "",
+   "checksInView": [],
+   "nsInView": [
+    {
+     "k": "fold|power|last",
+     "text": "43.95"
+    },
+    {
+     "k": "ercot-hb-hubavg-da|last",
+     "text": "43.95"
+    },
+    {
+     "k": "ercot-hb-hubavg-da|d",
+     "text": "−12.49"
+    },
+    {
+     "k": "ercot-hb-hubavg-da|w",
+     "text": "−20.50"
+    },
+    {
+     "k": "ercot-hb-hubavg-da|m",
+     "text": "+14.14"
+    },
+    {
+     "k": "ercot-hb-hubavg-da|y",
+     "text": "+8.93"
+    },
+    {
+     "k": "ercot-hb-hubavg-da|avg7",
+     "text": "38.58"
+    },
+    {
+     "k": "ercot-hb-hubavg-da|avg30",
+     "text": "42.61"
+    },
+    {
+     "k": "ercot-hb-hubavg-da|lo",
+     "text": "9.08"
+    },
+    {
+     "k": "ercot-hb-hubavg-da|hi",
+     "text": "654.03"
+    },
+    {
+     "k": "ercot-hb-hubavg-rt|last",
+     "text": "50.22"
+    },
+    {
+     "k": "ercot-hb-hubavg-rt|d",
+     "text": "+2.24"
+    },
+    {
+     "k": "ercot-hb-hubavg-rt|w",
+     "text": "−9.31"
+    },
+    {
+     "k": "ercot-hb-hubavg-rt|m",
+     "text": "+25.46"
+    },
+    {
+     "k": "ercot-hb-hubavg-rt|y",
+     "text": "+17.23"
+    },
+    {
+     "k": "ercot-hb-hubavg-rt|avg7",
+     "text": "39.08"
+    },
+    {
+     "k": "ercot-hb-hubavg-rt|avg30",
+     "text": "42.15"
+    },
+    {
+     "k": "ercot-hb-hubavg-rt|lo",
+     "text": "3.31"
+    },
+    {
+     "k": "ercot-hb-hubavg-rt|hi",
+     "text": "262.80"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-da|last",
+     "text": "45.01"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-da|d",
+     "text": "+0.24"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-da|w",
+     "text": "+13.39"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-da|m",
+     "text": "+5.25"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-da|y",
+     "text": "+12.01"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-da|avg7",
+     "text": "41.47"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-da|avg30",
+     "text": "44.56"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-da|lo",
+     "text": "-0.92"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-da|hi",
+     "text": "98.22"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-rt|last",
+     "text": "31.32"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-rt|d",
+     "text": "−10.99"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-rt|w",
+     "text": "−1.88"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-rt|m",
+     "text": "+12.12"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-rt|y",
+     "text": "+6.04"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-rt|avg7",
+     "text": "38.61"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-rt|avg30",
+     "text": "40.38"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-rt|lo",
+     "text": "-3.66"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-rt|hi",
+     "text": "195.09"
+    },
+    {
+     "k": "nyiso-n-y-c-da|last",
+     "text": "49.25"
+    },
+    {
+     "k": "nyiso-n-y-c-da|d",
+     "text": "−3.28"
+    },
+    {
+     "k": "nyiso-n-y-c-da|w",
+     "text": "−2.17"
+    }
+   ],
+   "nChecks": 0,
+   "focusText": "Markets workbench\nERCOT Hub average\nday-ahead · 43.95 USD/MWh on 15 Oct 2026\nCSV\nCopy link\nExpand\nClose\nView\nPrices\nPrior years\nDistribution\nWindow\nWeek\nMonth\n3 months\n6 months\nYear\n2 years\n5 years\nAll\nfrom\nto\nStep\nHourly\nDaily\nOverlay\nNone\nERCOT Hub average, real time (USD/MWh)\nERCOT Bus average, day-ahead (USD/MWh)\nERCOT Bus average, real time (USD/MWh)\nERCOT Houston hub, day-ahead (USD/MWh)\nERCOT Houston hub, real time (USD/MWh)\nERCOT North hub, day-ahead (USD/MWh)\nERCOT North hub, real time (USD/MWh)\nERCOT South hub, day-ahead (USD/MWh)\nERCOT South hub, real time (USD/MWh)\nERCOT West hub, day-ahead (USD/MWh)\nERCOT West hub, real time (USD/MWh)\nCAISO Southern California (SP15), day-ahead (USD/MWh)\nCAISO Southern California (SP15), real time (USD/MWh)\nCAISO Central California (ZP26), day-ahead (USD/MWh)\nCAISO Central California (ZP26), real time (USD/MWh)\nCAISO Northern California (NP15), day-ahead (USD/MWh)\nCAISO Northern California (NP15), real time (USD/MWh)\nNYISO New York City, day-ahead (USD/MWh)\nNYISO New York City, real time (USD/MWh)\nNYISO Capital, day-ahead (USD/MWh)\nNYISO Capital, real time (USD/MWh)\nNYISO Central, day-ahead (USD/MWh)\nNYISO Central, real time (USD/MWh)\nNYISO Dunwoodie, day-ahead (USD/MWh)\nNYISO Dunwoodie, real time (USD/MWh)\nNYISO Genesee, day-ahead (USD/MWh)\nNYISO Genesee, real time (USD/MWh)\nNYISO Hudson Valley, day-ahead (USD/MWh)\nNYISO Hudson Valley, real time (USD/MWh)\nNYISO Long Island, day-ahead (USD/MWh)\nNYISO Long Island, real time (USD/MWh)\nNYISO Millwood, day-ahead (USD/MWh)\nNYISO Millwood, real time (USD/MWh)\nNYISO Mohawk Valley, day-ahead (USD/MWh)\nNYISO Mohawk Valley, real time (USD/MWh)\nNYISO North, day-ahead (USD/MWh)\nNYISO North, real time (USD/MWh)\nNYISO West, day-ahead (USD/MWh)\nNYISO West, real time (USD/MWh)\nISO-NE Inter",
+   "viewText": "Power, by hub and zone | 14 rows | 43.95 | Grid | All grids | ERCOT | CAISO | NYISO | ISO-NE | SPP | MISO | PJM | Market | Both | Day-ahead | Real time | Show | Main hubs | Every hub and zone | Price | Latest | Its date | Day | Week | Month | Year | 7-day avg | 30-day avg | 30-day low to high | Last 30 | One-year range | ERCOT Hub average | day-ahead | 43.95 | USD/MWh | 15 Oct | −12.49 | −20.50 | +14.14 | +8.93 | 38.58 | 42.61 | 18.41 to 64.45 | 9.08 | 654.03 | ERCOT Hub average | real time | 50.22 | USD/MWh | 14 Oct | +2.24 | −9.31 | +25.46 | +17.23 | 39.08 | 42.15 | 13.85 to 77.44 | 3.31 | 262.80 | CAISO Southern California (SP15) | day-ahead | 45.01 | USD/MWh | 20 Oct | +0.24 | +13.39 | +5.25 | +12.01 | 41.47 | 44.56 | 30.79 to 84.15 | -0.92 | 98.22 | CAISO Southern California (SP15) | real time | 31.32 | USD/MWh | 18 Oct | −10.99 | −1.88 | +12.12 | +6.04 | 38.61 | 40.38 | 24.67 to 61.22 | -3.66 | 195.09 | NYISO New York City | day-ahead | 49.25 | USD/MWh | 20 Oct | −3.28 | −2.17 | +5.29 | +1.22 | 48.00 | 43.88 | 36.46 to 53.77 | 29.38 | 834.38 | NYISO New York City | real time | 45.36 | USD/MWh | 19 Oct | +12.05 | +9.00 | +5.15 | +8.20 | 54.41 | 40.99 | 26.55 to 76.68 | 22.38 | 515.40 | ISO-NE Internal hub | day-ahead | 40.64 | USD/MWh | 20 Oct",
+   "scrollW": 1265,
+   "clientW": 1265,
+   "shot": "14-board-workbench_1280.png"
+  },
+  {
+   "step": "15-board-ercot-hubs",
+   "width": 1280,
+   "act": [
+    "power",
+    false,
+    true
+   ],
+   "url": "/board?s=ercot-hb-hubavg-da",
+   "found": true,
+   "unreadable": false,
+   "inReview": false,
+   "errorText": "",
+   "checksInView": [],
+   "nsInView": [
+    {
+     "k": "fold|power|last",
+     "text": "43.95"
+    },
+    {
+     "k": "ercot-hb-hubavg-da|last",
+     "text": "43.95"
+    },
+    {
+     "k": "ercot-hb-hubavg-da|d",
+     "text": "−12.49"
+    },
+    {
+     "k": "ercot-hb-hubavg-da|w",
+     "text": "−20.50"
+    },
+    {
+     "k": "ercot-hb-hubavg-da|m",
+     "text": "+14.14"
+    },
+    {
+     "k": "ercot-hb-hubavg-da|y",
+     "text": "+8.93"
+    },
+    {
+     "k": "ercot-hb-hubavg-da|avg7",
+     "text": "38.58"
+    },
+    {
+     "k": "ercot-hb-hubavg-da|avg30",
+     "text": "42.61"
+    },
+    {
+     "k": "ercot-hb-hubavg-da|lo",
+     "text": "9.08"
+    },
+    {
+     "k": "ercot-hb-hubavg-da|hi",
+     "text": "654.03"
+    },
+    {
+     "k": "ercot-hb-hubavg-rt|last",
+     "text": "50.22"
+    },
+    {
+     "k": "ercot-hb-hubavg-rt|d",
+     "text": "+2.24"
+    },
+    {
+     "k": "ercot-hb-hubavg-rt|w",
+     "text": "−9.31"
+    },
+    {
+     "k": "ercot-hb-hubavg-rt|m",
+     "text": "+25.46"
+    },
+    {
+     "k": "ercot-hb-hubavg-rt|y",
+     "text": "+17.23"
+    },
+    {
+     "k": "ercot-hb-hubavg-rt|avg7",
+     "text": "39.08"
+    },
+    {
+     "k": "ercot-hb-hubavg-rt|avg30",
+     "text": "42.15"
+    },
+    {
+     "k": "ercot-hb-hubavg-rt|lo",
+     "text": "3.31"
+    },
+    {
+     "k": "ercot-hb-hubavg-rt|hi",
+     "text": "262.80"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-da|last",
+     "text": "45.01"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-da|d",
+     "text": "+0.24"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-da|w",
+     "text": "+13.39"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-da|m",
+     "text": "+5.25"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-da|y",
+     "text": "+12.01"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-da|avg7",
+     "text": "41.47"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-da|avg30",
+     "text": "44.56"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-da|lo",
+     "text": "-0.92"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-da|hi",
+     "text": "98.22"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-rt|last",
+     "text": "31.32"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-rt|d",
+     "text": "−10.99"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-rt|w",
+     "text": "−1.88"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-rt|m",
+     "text": "+12.12"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-rt|y",
+     "text": "+6.04"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-rt|avg7",
+     "text": "38.61"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-rt|avg30",
+     "text": "40.38"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-rt|lo",
+     "text": "-3.66"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-rt|hi",
+     "text": "195.09"
+    },
+    {
+     "k": "nyiso-n-y-c-da|last",
+     "text": "49.25"
+    },
+    {
+     "k": "nyiso-n-y-c-da|d",
+     "text": "−3.28"
+    },
+    {
+     "k": "nyiso-n-y-c-da|w",
+     "text": "−2.17"
+    }
+   ],
+   "nChecks": 0,
+   "focusText": "Power, by hub and zone\n14 rowsERCOT Hub average, day-ahead: 43.95 USD/MWh, 15 Oct\nGrid\nAll grids\nERCOT\nCAISO\nNYISO\nISO-NE\nSPP\nMISO\nPJM\nMarket\nBoth\nDay-ahead\nReal time\nShow\nMain hubs\nEvery hub and zone\nPrice\tLatest\tIts date\tDay\tWeek\tMonth\tYear\t7-day avg\t30-day avg\t30-day low to high\tLast 30\tOne-year range\nERCOT Hub averageday-ahead\t43.95USD/MWh\t15 Oct\t−12.49\t−20.50\t+14.14\t+8.93\t38.58\t42.61\t18.41 to 64.45\t\n\t\n9.08\n654.03\nERCOT Hub averagereal time\t50.22USD/MWh\t14 Oct\t+2.24\t−9.31\t+25.46\t+17.23\t39.08\t42.15\t13.85 to 77.44\t\n\t\n3.31\n262.80\nCAISO Southern California (SP15)day-ahead\t45.01USD/MWh\t20 Oct\t+0.24\t+13.39\t+5.25\t+12.01\t41.47\t44.56\t30.79 to 84.15\t\n\t\n-0.92\n98.22\nCAISO Southern California (SP15)real time\t31.32USD/MWh\t18 Oct\t−10.99\t−1.88\t+12.12\t+6.04\t38.61\t40.38\t24.67 to 61.22\t\n\t\n-3.66\n195.09\nNYISO New York Cityday-ahead\t49.25USD/MWh\t20 Oct\t−3.28\t−2.17\t+5.29\t+1.22\t48.00\t43.88\t36.46 to 53.77\t\n\t\n29.38\n834.38\nNYISO New York Cityreal time\t45.36USD/MWh\t19 Oct\t+12.05\t+9.00\t+5.15\t+8.20\t54.41\t40.99\t26.55 to 76.68\t\n\t\n22.38\n515.40\nISO-NE Internal hubday-ahead\t40.64USD/MWh\t20 Oct\t−1.86\t+1.05\t−5.72\t−3.17\t40.45\t37.96\t29.53 to 46.62\t\n\t\n22.01\n639.14\nISO-NE Internal hubreal time\t37.94USD/MWh\t19 Oct\t+3.17\t+7.39\t−3.22\t+3.68\t38.28\t34.48\t23.76 to 42.88\t\n\t\n9.28\n426.28\nSPP North hubday-ahead\t24.76USD/MWh\t20 Oct\t−8.06\t−33.55\t−4.93\t+21.90\t28.30\t32.49\t9.88 to 64.57\t\n\t\n-1.12\n342.09\nSPP North hubreal time\t3.38USD/MWh\t18 Oct\t−20.62\t−3.67\t−25.67\t−5.03\t32.84\t35.48\t2.29 to 101.71\t\n\t\n-11.17\n234.41\nMISO Indiana hubday-ahead\tpaused while terms are reviewed\nMISO Indiana hubreal time\tpaused while terms are reviewed\nPJM Western hubday-ahead\tlicensed source needed\nPJM Western hubreal time\tlicensed source needed",
+   "viewText": "Click any row to open it in the markets workbench. A group opens and closes on its title; every row is in the page either way. | Power, by hub and zone | 14 rows | 43.95 | Grid | All grids | ERCOT | CAISO | NYISO | ISO-NE | SPP | MISO | PJM | Market | Both | Day-ahead | Real time | Show | Main hubs | Every hub and zone | Price | Latest | Its date | Day | Week | Month | Year | 7-day avg | 30-day avg | 30-day low to high | Last 30 | One-year range | ERCOT Hub average | day-ahead | 43.95 | USD/MWh | 15 Oct | −12.49 | −20.50 | +14.14 | +8.93 | 38.58 | 42.61 | 18.41 to 64.45 | 9.08 | 654.03 | ERCOT Hub average | real time | 50.22 | USD/MWh | 14 Oct | +2.24 | −9.31 | +25.46 | +17.23 | 39.08 | 42.15 | 13.85 to 77.44 | 3.31 | 262.80 | CAISO Southern California (SP15) | day-ahead | 45.01 | USD/MWh | 20 Oct | +0.24 | +13.39 | +5.25 | +12.01 | 41.47 | 44.56 | 30.79 to 84.15 | -0.92 | 98.22 | CAISO Southern California (SP15) | real time | 31.32 | USD/MWh | 18 Oct | −10.99 | −1.88 | +12.12 | +6.04 | 38.61 | 40.38 | 24.67 to 61.22 | -3.66 | 195.09 | NYISO New York City | day-ahead | 49.25 | USD/MWh | 20 Oct | −3.28 | −2.17 | +5.29 | +1.22 | 48.00 | 43.88 | 36.46 to 53.77 | 29.38 | 834.38 | NYISO New York City | real time | 45.36 | USD/MWh | 19 Oct | +12.05 | +9.00 | +5.15 | +8.20 | 54.41 | 40.99 | 26.55 to 76.68 | 22.38 | 515.40 | ISO-NE Internal hub | day-ahead | 40.64 | USD/MWh",
+   "scrollW": 1265,
+   "clientW": 1265,
+   "shot": "15-board-ercot-hubs_1280.png"
+  },
+  {
+   "step": "16-board-week",
+   "width": 1280,
+   "url": "/board?s=ercot-hb-hubavg-da",
+   "found": true,
+   "unreadable": false,
+   "inReview": false,
+   "errorText": "",
+   "checksInView": [],
+   "nsInView": [
+    {
+     "k": "caiso-th-sp15-gen-apnd-da-peak-less-off|last",
+     "text": "-18.56"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-da-peak-less-off|d",
+     "text": "−8.31"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-da-peak-less-off|w",
+     "text": "+2.31"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-da-peak-less-off|m",
+     "text": "+4.14"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-da-peak-less-off|y",
+     "text": "−11.70"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-da-peak-less-off|avg7",
+     "text": "-15.08"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-da-peak-less-off|avg30",
+     "text": "-9.10"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-da-peak-less-off|lo",
+     "text": "-30.28"
+    },
+    {
+     "k": "caiso-th-sp15-gen-apnd-da-peak-less-off|hi",
+     "text": "22.56"
+    },
+    {
+     "k": "nyiso-n-y-c-da-peak|last",
+     "text": "54.46"
+    },
+    {
+     "k": "nyiso-n-y-c-da-peak|d",
+     "text": "−3.72"
+    },
+    {
+     "k": "nyiso-n-y-c-da-peak|w",
+     "text": "−3.57"
+    },
+    {
+     "k": "nyiso-n-y-c-da-peak|m",
+     "text": "+5.08"
+    },
+    {
+     "k": "nyiso-n-y-c-da-peak|y",
+     "text": "−0.20"
+    },
+    {
+     "k": "nyiso-n-y-c-da-peak|avg7",
+     "text": "56.12"
+    },
+    {
+     "k": "nyiso-n-y-c-da-peak|avg30",
+     "text": "49.73"
+    },
+    {
+     "k": "nyiso-n-y-c-da-peak|lo",
+     "text": "35.96"
+    },
+    {
+     "k": "nyiso-n-y-c-da-peak|hi",
+     "text": "891.21"
+    },
+    {
+     "k": "nyiso-n-y-c-da-offpeak|last",
+     "text": "38.83"
+    },
+    {
+     "k": "nyiso-n-y-c-da-offpeak|d",
+     "text": "−2.39"
+    },
+    {
+     "k": "nyiso-n-y-c-da-offpeak|w",
+     "text": "+0.64"
+    },
+    {
+     "k": "nyiso-n-y-c-da-offpeak|m",
+     "text": "−5.12"
+    },
+    {
+     "k": "nyiso-n-y-c-da-offpeak|y",
+     "text": "+4.06"
+    },
+    {
+     "k": "nyiso-n-y-c-da-offpeak|avg7",
+     "text": "39.64"
+    },
+    {
+     "k": "nyiso-n-y-c-da-offpeak|avg30",
+     "text": "37.36"
+    },
+    {
+     "k": "nyiso-n-y-c-da-offpeak|lo",
+     "text": "28.69"
+    },
+    {
+     "k": "nyiso-n-y-c-da-offpeak|hi",
+     "text": "720.72"
+    },
+    {
+     "k": "nyiso-n-y-c-da-peak-less-off|last",
+     "text": "15.63"
+    },
+    {
+     "k": "nyiso-n-y-c-da-peak-less-off|d",
+     "text": "−1.32"
+    },
+    {
+     "k": "nyiso-n-y-c-da-peak-less-off|w",
+     "text": "−4.21"
+    },
+    {
+     "k": "nyiso-n-y-c-da-peak-less-off|m",
+     "text": "+6.41"
+    },
+    {
+     "k": "nyiso-n-y-c-da-peak-less-off|y",
+     "text": "−4.26"
+    },
+    {
+     "k": "nyiso-n-y-c-da-peak-less-off|avg7",
+     "text": "17.57"
+    },
+    {
+     "k": "nyiso-n-y-c-da-peak-less-off|avg30",
+     "text": "13.33"
+    },
+    {
+     "k": "nyiso-n-y-c-da-peak-less-off|lo",
+     "text": "1.81"
+    },
+    {
+     "k": "nyiso-n-y-c-da-peak-less-off|hi",
+     "text": "258.79"
+    },
+    {
+     "k": "isone-h-internal-hub-da-peak|last",
+     "text": "43.80"
+    },
+    {
+     "k": "isone-h-internal-hub-da-peak|d",
+     "text": "−2.59"
+    },
+    {
+     "k": "isone-h-internal-hub-da-peak|w",
+     "text": "+0.95"
+    },
+    {
+     "k": "isone-h-internal-hub-da-peak|m",
+     "text": "−3.82"
+    }
+   ],
+   "nChecks": 0,
+   "focusText": "The week, by hub\n31 rows",
+   "viewText": "20 Oct | day-ahead, on-peak less off-peak | -18.56 | USD/MWh | 20 Oct | −8.31 | +2.31 | +4.14 | −11.70 | -15.08 | -9.10 | -23.53 to 19.07 | -30.28 | 22.56 | NYISO New York City | day-ahead, on-peak | 54.46 | USD/MWh | 20 Oct | −3.72 | −3.57 | +5.08 | −0.20 | 56.12 | 49.73 | 38.30 to 61.46 | 35.96 | 891.21 | NYISO New York City | day-ahead, off-peak | 38.83 | USD/MWh | 20 Oct | −2.39 | +0.64 | −5.12 | +4.06 | 39.64 | 37.36 | 30.16 to 42.94 | 28.69 | 720.72 | day-ahead, on-peak less off-peak | 15.63 | USD/MWh | 20 Oct | −1.32 | −4.21 | +6.41 | −4.26 | 17.57 | 13.33 | 5.08 to 23.05 | 1.81 | 258.79 | ISO-NE Internal hub | day-ahead, on-peak | 43.80 | USD/MWh | 20 Oct | −2.59 | +0.95 | −3.82 | −6.55 | 45.39 | 41.73 | 34.38 to 50.16 | 31.20 | 672.75 | ISO-NE Internal hub | day-ahead, off-peak | 34.33 | USD/MWh | 20 Oct | −0.40 | +1.24 | −12.04 | +3.60 | 35.01 | 33.51 | 19.26 to 44.77 | 19.26 | 571.92 | day-ahead, on-peak less off-peak | 9.48 | USD/MWh | 20 Oct | −2.19 | −0.29 | +6.26 | −10.14 | 11.42 | 9.10 | 0.26 to 15.41 | -26.41 | 334.77 | SPP North hub | day-ahead, on-peak | 30.68 | USD/MWh | 20 Oct | −13.01 | −47.49 | −11.26 | +22.32 | 43.59 | 44.91 | 15.70 to 84.30 | 2.24 | 335.26 | SPP North hub | day-ahead, off-peak | 12.92 | USD/MWh | 20 Oct | +1.83 | −5.66 | −16.77 | +21.04 | 14.19",
+   "scrollW": 1265,
+   "clientW": 1265,
+   "shot": "16-board-week_1280.png"
+  }
+ ],
+ "links": [
+  [
+   "/",
+   200,
+   "/"
+  ],
+  [
+   "/board",
+   200,
+   "/board"
+  ],
+  [
+   "/prices",
+   200,
+   "/prices"
+  ],
+  [
+   "/supply",
+   200,
+   "/supply"
+  ],
+  [
+   "/contracts",
+   200,
+   "/contracts"
+  ],
+  [
+   "/severance",
+   200,
+   "/severance"
+  ],
+  [
+   "/impact",
+   200,
+   "/impact"
+  ],
+  [
+   "/cost-of-power/battery",
+   200,
+   "/cost-of-power/battery"
+  ],
+  [
+   "/cost-of-power/seller",
+   200,
+   "/cost-of-power/seller"
+  ],
+  [
+   "/cost-of-power",
+   200,
+   "/cost-of-power"
+  ],
+  [
+   "/battery/customer",
+   200,
+   "/battery/customer"
+  ],
+  [
+   "/shoulder",
+   200,
+   "/shoulder"
+  ],
+  [
+   "/grid",
+   200,
+   "/grid"
+  ],
+  [
+   "/demand",
+   200,
+   "/demand"
+  ],
+  [
+   "/curtailment",
+   200,
+   "/curtailment"
+  ],
+  [
+   "/map",
+   200,
+   "/map"
+  ],
+  [
+   "/datacenters",
+   200,
+   "/datacenters"
+  ],
+  [
+   "/storage",
+   200,
+   "/storage"
+  ],
+  [
+   "/deals",
+   200,
+   "/deals"
+  ],
+  [
+   "/research",
+   200,
+   "/research"
+  ],
+  [
+   "/ask",
+   200,
+   "/grid?grid=us48&ask=1"
+  ],
+  [
+   "/events",
+   200,
+   "/events"
+  ],
+  [
+   "/policy",
+   200,
+   "/policy"
+  ],
+  [
+   "/thesis",
+   200,
+   "/thesis"
+  ],
+  [
+   "/play/battery",
+   200,
+   "/play/battery"
+  ],
+  [
+   "/tour",
+   200,
+   "/tour"
+  ],
+  [
+   "/learn/bill",
+   200,
+   "/learn/bill"
+  ],
+  [
+   "/learn/problems",
+   200,
+   "/learn/problems"
+  ],
+  [
+   "/play/ev",
+   200,
+   "/play/ev"
+  ],
+  [
+   "/data",
+   200,
+   "/data"
+  ],
+  [
+   "/about",
+   200,
+   "/about"
+  ],
+  [
+   "/terms",
+   200,
+   "/terms"
+  ],
+  [
+   "/digest",
+   200,
+   "/digest"
+  ],
+  [
+   "/roundup",
+   200,
+   "/roundup"
+  ],
+  [
+   "/subscribe",
+   200,
+   "/subscribe"
+  ],
+  [
+   "/data/methods/cost_of_power",
+   200,
+   "/data/methods/cost_of_power"
+  ],
+  [
+   "/data/methods/generator_earns_algorithm",
+   200,
+   "/data/methods/generator_earns_algorithm"
+  ],
+  [
+   "/ask/ercot?from=%2Fcost-of-power%2Fseller&title=What+a+generator+earns&s_grid=ERCOT&s_hub=Hub+average&s_asset=Solar&s_size=100+MW",
+   200,
+   "/ask/ercot?from=%2Fcost-of-power%2Fseller&title=What+a+generator+earns&s_grid=ERCOT&s_hub=Hub+average&s_asset=Solar&s_size=100+MW"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&asset=solar&hub=HB_HUBAVG",
+   200,
+   "/cost-of-power/seller?iso=ercot&asset=solar&hub=HB_HUBAVG"
+  ],
+  [
+   "/data/methods/generator_earns_algorithm#cannot-see",
+   200,
+   "/data/methods/generator_earns_algorithm"
+  ],
+  [
+   "/curtailment?grid=ercot&place=HB_HUBAVG#free-energy",
+   200,
+   "/curtailment?grid=ercot&place=HB_HUBAVG"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&hub=LZ_AEN#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&hub=LZ_AEN"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&hub=LZ_CPS#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&hub=LZ_CPS"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&hub=LZ_HOUSTON#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&hub=LZ_HOUSTON"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&hub=LZ_LCRA#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&hub=LZ_LCRA"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&hub=LZ_NORTH#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&hub=LZ_NORTH"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&hub=LZ_RAYBN#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&hub=LZ_RAYBN"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&hub=LZ_SOUTH#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&hub=LZ_SOUTH"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&hub=LZ_WEST#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&hub=LZ_WEST"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&hub=HB_BUSAVG#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&hub=HB_BUSAVG"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&hub=HB_HOUSTON#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&hub=HB_HOUSTON"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&hub=HB_NORTH#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&hub=HB_NORTH"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&hub=HB_SOUTH#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&hub=HB_SOUTH"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&hub=HB_WEST#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&hub=HB_WEST"
+  ],
+  [
+   "/cost-of-power/seller/tables.csv",
+   200,
+   "/cost-of-power/seller/tables.csv"
+  ],
+  [
+   "/cost-of-power/seller/months.csv",
+   200,
+   "/cost-of-power/seller/months.csv"
+  ],
+  [
+   "/seller/erw_2026_generator_hourly.csv",
+   200,
+   "/seller/erw_2026_generator_hourly.csv"
+  ],
+  [
+   "/seller/erw_2026_generator_replication.do",
+   200,
+   "/seller/erw_2026_generator_replication.do"
+  ],
+  [
+   "/seller/erw_2026_generator_replication.py",
+   200,
+   "/seller/erw_2026_generator_replication.py"
+  ],
+  [
+   "/data/methods/generator_earns_algorithm#cross-checks",
+   200,
+   "/data/methods/generator_earns_algorithm"
+  ],
+  [
+   "/privacy",
+   200,
+   "/privacy"
+  ],
+  [
+   "/ask/ercot?from=%2Fcost-of-power%2Fseller&title=What+a+generator+earns&s_grid=ERCOT&s_hub=Hub+average&s_asset=Wind&s_size=100+MW",
+   200,
+   "/ask/ercot?from=%2Fcost-of-power%2Fseller&title=What+a+generator+earns&s_grid=ERCOT&s_hub=Hub+average&s_asset=Wind&s_size=100+MW"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&asset=wind&hub=HB_HUBAVG",
+   200,
+   "/cost-of-power/seller?iso=ercot&asset=wind&hub=HB_HUBAVG"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&asset=wind&hub=LZ_AEN#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&asset=wind&hub=LZ_AEN"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&asset=wind&hub=LZ_CPS#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&asset=wind&hub=LZ_CPS"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&asset=wind&hub=LZ_HOUSTON#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&asset=wind&hub=LZ_HOUSTON"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&asset=wind&hub=LZ_LCRA#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&asset=wind&hub=LZ_LCRA"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&asset=wind&hub=LZ_NORTH#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&asset=wind&hub=LZ_NORTH"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&asset=wind&hub=LZ_RAYBN#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&asset=wind&hub=LZ_RAYBN"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&asset=wind&hub=LZ_SOUTH#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&asset=wind&hub=LZ_SOUTH"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&asset=wind&hub=LZ_WEST#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&asset=wind&hub=LZ_WEST"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&asset=wind&hub=HB_BUSAVG#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&asset=wind&hub=HB_BUSAVG"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&asset=wind&hub=HB_HOUSTON#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&asset=wind&hub=HB_HOUSTON"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&asset=wind&hub=HB_NORTH#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&asset=wind&hub=HB_NORTH"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&asset=wind&hub=HB_SOUTH#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&asset=wind&hub=HB_SOUTH"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&asset=wind&hub=HB_WEST#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&asset=wind&hub=HB_WEST"
+  ],
+  [
+   "/cost-of-power/seller/tables.csv?iso=ercot&asset=wind&hub=HB_HUBAVG",
+   200,
+   "/cost-of-power/seller/tables.csv?iso=ercot&asset=wind&hub=HB_HUBAVG"
+  ],
+  [
+   "/cost-of-power/seller/months.csv?iso=ercot&asset=wind&hub=HB_HUBAVG",
+   200,
+   "/cost-of-power/seller/months.csv?iso=ercot&asset=wind&hub=HB_HUBAVG"
+  ],
+  [
+   "/ask/ercot?from=%2Fcost-of-power%2Fseller&title=What+a+generator+earns&s_grid=ERCOT&s_hub=West+hub&s_asset=Wind&s_size=100+MW",
+   200,
+   "/ask/ercot?from=%2Fcost-of-power%2Fseller&title=What+a+generator+earns&s_grid=ERCOT&s_hub=West+hub&s_asset=Wind&s_size=100+MW"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&asset=wind&hub=HB_WEST",
+   200,
+   "/cost-of-power/seller?iso=ercot&asset=wind&hub=HB_WEST"
+  ],
+  [
+   "/curtailment?grid=ercot&place=HB_WEST#free-energy",
+   200,
+   "/curtailment?grid=ercot&place=HB_WEST"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&hub=HB_HUBAVG&asset=wind&mw=100&bmw=100&dur=4&strat=foresight#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&hub=HB_HUBAVG&asset=wind&mw=100&bmw=100&dur=4&strat=foresight"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&hub=LZ_AEN&asset=wind&mw=100&bmw=100&dur=4&strat=foresight#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&hub=LZ_AEN&asset=wind&mw=100&bmw=100&dur=4&strat=foresight"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&hub=LZ_CPS&asset=wind&mw=100&bmw=100&dur=4&strat=foresight#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&hub=LZ_CPS&asset=wind&mw=100&bmw=100&dur=4&strat=foresight"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&hub=LZ_HOUSTON&asset=wind&mw=100&bmw=100&dur=4&strat=foresight#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&hub=LZ_HOUSTON&asset=wind&mw=100&bmw=100&dur=4&strat=foresight"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&hub=LZ_LCRA&asset=wind&mw=100&bmw=100&dur=4&strat=foresight#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&hub=LZ_LCRA&asset=wind&mw=100&bmw=100&dur=4&strat=foresight"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&hub=LZ_NORTH&asset=wind&mw=100&bmw=100&dur=4&strat=foresight#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&hub=LZ_NORTH&asset=wind&mw=100&bmw=100&dur=4&strat=foresight"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&hub=LZ_RAYBN&asset=wind&mw=100&bmw=100&dur=4&strat=foresight#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&hub=LZ_RAYBN&asset=wind&mw=100&bmw=100&dur=4&strat=foresight"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&hub=LZ_SOUTH&asset=wind&mw=100&bmw=100&dur=4&strat=foresight#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&hub=LZ_SOUTH&asset=wind&mw=100&bmw=100&dur=4&strat=foresight"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&hub=LZ_WEST&asset=wind&mw=100&bmw=100&dur=4&strat=foresight#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&hub=LZ_WEST&asset=wind&mw=100&bmw=100&dur=4&strat=foresight"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&hub=HB_BUSAVG&asset=wind&mw=100&bmw=100&dur=4&strat=foresight#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&hub=HB_BUSAVG&asset=wind&mw=100&bmw=100&dur=4&strat=foresight"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&hub=HB_HOUSTON&asset=wind&mw=100&bmw=100&dur=4&strat=foresight#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&hub=HB_HOUSTON&asset=wind&mw=100&bmw=100&dur=4&strat=foresight"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&hub=HB_NORTH&asset=wind&mw=100&bmw=100&dur=4&strat=foresight#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&hub=HB_NORTH&asset=wind&mw=100&bmw=100&dur=4&strat=foresight"
+  ],
+  [
+   "/cost-of-power/seller?iso=ercot&hub=HB_SOUTH&asset=wind&mw=100&bmw=100&dur=4&strat=foresight#capture",
+   200,
+   "/cost-of-power/seller?iso=ercot&hub=HB_SOUTH&asset=wind&mw=100&bmw=100&dur=4&strat=foresight"
+  ],
+  [
+   "/cost-of-power/seller/tables.csv?iso=ercot&hub=HB_WEST&asset=wind&mw=100&bmw=100&dur=4&strat=foresight",
+   200,
+   "/cost-of-power/seller/tables.csv?iso=ercot&hub=HB_WEST&asset=wind&mw=100&bmw=100&dur=4&strat=foresight"
+  ],
+  [
+   "/cost-of-power/seller/months.csv?iso=ercot&hub=HB_WEST&asset=wind&mw=100&bmw=100&dur=4&strat=foresight",
+   200,
+   "/cost-of-power/seller/months.csv?iso=ercot&hub=HB_WEST&asset=wind&mw=100&bmw=100&dur=4&strat=foresight"
+  ],
+  [
+   "/cost-of-power/seller?iso=caiso&asset=wind&hub=TH_SP15_GEN-APND",
+   200,
+   "/cost-of-power/seller?iso=caiso&asset=wind&hub=TH_SP15_GEN-APND"
+  ],
+  [
+   "/curtailment?grid=caiso&place=TH_SP15_GEN-APND#free-energy",
+   200,
+   "/curtailment?grid=caiso&place=TH_SP15_GEN-APND"
+  ],
+  [
+   "/cost-of-power/seller?iso=caiso&asset=wind&hub=TH_ZP26_GEN-APND#capture",
+   200,
+   "/cost-of-power/seller?iso=caiso&asset=wind&hub=TH_ZP26_GEN-APND"
+  ],
+  [
+   "/cost-of-power/seller?iso=caiso&asset=wind&hub=TH_NP15_GEN-APND#capture",
+   200,
+   "/cost-of-power/seller?iso=caiso&asset=wind&hub=TH_NP15_GEN-APND"
+  ],
+  [
+   "/cost-of-power/seller/tables.csv?iso=caiso&asset=wind",
+   200,
+   "/cost-of-power/seller/tables.csv?iso=caiso&asset=wind"
+  ],
+  [
+   "/cost-of-power/seller/months.csv?iso=caiso&asset=wind",
+   200,
+   "/cost-of-power/seller/months.csv?iso=caiso&asset=wind"
+  ],
+  [
+   "/cost-of-power/seller?iso=caiso&asset=wind&hub=TH_SP15_GEN-APND&bn=100&bp=100.32&v=b",
+   200,
+   "/cost-of-power/seller?iso=caiso&asset=wind&hub=TH_SP15_GEN-APND&bn=100&bp=100.32&v=b"
+  ],
+  [
+   "/data/methods/battery_stack",
+   200,
+   "/data/methods/battery_stack"
+  ],
+  [
+   "/data/methods/battery_earns_algorithm",
+   200,
+   "/data/methods/battery_earns_algorithm"
+  ],
+  [
+   "/ask/ercot?from=%2Fcost-of-power%2Fbattery&title=What+a+battery+earns&s_grid=ERCOT&s_duration=4+hours&s_strategy=Perfect+foresight+%28foresight%29&s_size=100+MW",
+   200,
+   "/ask/ercot?from=%2Fcost-of-power%2Fbattery&title=What+a+battery+earns&s_grid=ERCOT&s_duration=4+hours&s_strategy=Perfect+foresight+%28foresight%29&s_size=100+MW"
+  ],
+  [
+   "/cost-of-power/seller?asset=battery",
+   200,
+   "/cost-of-power/seller?asset=battery"
+  ],
+  [
+   "/cost-of-power/battery?grid=ercot&dur=2&strat=foresight",
+   200,
+   "/cost-of-power/battery?grid=ercot&dur=2&strat=foresight"
+  ],
+  [
+   "/cost-of-power/battery?grid=ercot&dur=4&strat=foresight",
+   200,
+   "/cost-of-power/battery?grid=ercot&dur=4&strat=foresight"
+  ],
+  [
+   "/cost-of-power/battery?grid=ercot&dur=8&strat=foresight",
+   200,
+   "/cost-of-power/battery?grid=ercot&dur=8&strat=foresight"
+  ],
+  [
+   "/data/methods/battery_earns_algorithm#cannot-see",
+   200,
+   "/data/methods/battery_earns_algorithm"
+  ],
+  [
+   "/cost-of-power/battery/months.csv",
+   200,
+   "/cost-of-power/battery/months.csv"
+  ],
+  [
+   "/api/download?table=battery_stack_stress_daily",
+   200,
+   "/api/download?table=battery_stack_stress_daily"
+  ],
+  [
+   "/battery/erw_2026_battery_dispatch.csv",
+   200,
+   "/battery/erw_2026_battery_dispatch.csv"
+  ],
+  [
+   "/battery/erw_2026_battery_replication.do",
+   200,
+   "/battery/erw_2026_battery_replication.do"
+  ],
+  [
+   "/battery/erw_2026_battery_replication.py",
+   200,
+   "/battery/erw_2026_battery_replication.py"
+  ],
+  [
+   "/data/methods/battery_earns_algorithm#cross-checks",
+   200,
+   "/data/methods/battery_earns_algorithm"
+  ],
+  [
+   "/ask/ercot?from=%2Fcost-of-power%2Fbattery&title=What+a+battery+earns&s_grid=ERCOT&s_duration=2+hours&s_strategy=Perfect+foresight+%28foresight%29&s_size=100+MW",
+   200,
+   "/ask/ercot?from=%2Fcost-of-power%2Fbattery&title=What+a+battery+earns&s_grid=ERCOT&s_duration=2+hours&s_strategy=Perfect+foresight+%28foresight%29&s_size=100+MW"
+  ],
+  [
+   "/cost-of-power/battery/months.csv?grid=ercot&dur=2&strat=foresight",
+   200,
+   "/cost-of-power/battery/months.csv?grid=ercot&dur=2&strat=foresight"
+  ],
+  [
+   "/ask/ercot?from=%2Fcost-of-power%2Fbattery&title=What+a+battery+earns&s_grid=ERCOT&s_duration=4+hours&s_strategy=Day-ahead+schedule+%28dayahead%29&s_size=100+MW",
+   200,
+   "/ask/ercot?from=%2Fcost-of-power%2Fbattery&title=What+a+battery+earns&s_grid=ERCOT&s_duration=4+hours&s_strategy=Day-ahead+schedule+%28dayahead%29&s_size=100+MW"
+  ],
+  [
+   "/cost-of-power/battery?grid=ercot&dur=2&strat=dayahead",
+   200,
+   "/cost-of-power/battery?grid=ercot&dur=2&strat=dayahead"
+  ],
+  [
+   "/cost-of-power/battery?grid=ercot&dur=4&strat=dayahead",
+   200,
+   "/cost-of-power/battery?grid=ercot&dur=4&strat=dayahead"
+  ],
+  [
+   "/cost-of-power/battery?grid=ercot&dur=8&strat=dayahead",
+   200,
+   "/cost-of-power/battery?grid=ercot&dur=8&strat=dayahead"
+  ],
+  [
+   "/cost-of-power/battery/months.csv?grid=ercot&dur=4&strat=dayahead&mw=100",
+   200,
+   "/cost-of-power/battery/months.csv?grid=ercot&dur=4&strat=dayahead&mw=100"
+  ],
+  [
+   "/cost-of-power/battery?grid=caiso&dur=2&strat=dayahead",
+   200,
+   "/cost-of-power/battery?grid=caiso&dur=2&strat=dayahead"
+  ],
+  [
+   "/cost-of-power/battery?grid=caiso&dur=4&strat=dayahead",
+   200,
+   "/cost-of-power/battery?grid=caiso&dur=4&strat=dayahead"
+  ],
+  [
+   "/cost-of-power/battery?grid=caiso&dur=8&strat=dayahead",
+   200,
+   "/cost-of-power/battery?grid=caiso&dur=8&strat=dayahead"
+  ],
+  [
+   "/data/methods/battery_stack#caiso-market-monitor",
+   200,
+   "/data/methods/battery_stack"
+  ],
+  [
+   "/cost-of-power/battery/months.csv?grid=caiso&dur=4&strat=dayahead&mw=100",
+   200,
+   "/cost-of-power/battery/months.csv?grid=caiso&dur=4&strat=dayahead&mw=100"
+  ],
+  [
+   "/data/methods/price_board",
+   200,
+   "/data/methods/price_board"
+  ],
+  [
+   "/prices?tab=ercot",
+   200,
+   "/prices?tab=ercot"
+  ],
+  [
+   "/api/download?table=ercot_as_prices",
+   502,
+   "/api/download?table=ercot_as_prices"
+  ],
+  [
+   "/api/download?table=ercot_as_prices&as=py",
+   200,
+   "/api/download?table=ercot_as_prices&as=py"
+  ],
+  [
+   "/api/download?table=ercot_as_prices&as=do",
+   200,
+   "/api/download?table=ercot_as_prices&as=do"
+  ],
+  [
+   "/api/download?table=eia_fuel_spot_prices",
+   502,
+   "/api/download?table=eia_fuel_spot_prices"
+  ],
+  [
+   "/api/download?table=eia_fuel_spot_prices&as=py",
+   200,
+   "/api/download?table=eia_fuel_spot_prices&as=py"
+  ],
+  [
+   "/api/download?table=eia_fuel_spot_prices&as=do",
+   200,
+   "/api/download?table=eia_fuel_spot_prices&as=do"
+  ]
+ ],
+ "pageErrors": []
+}

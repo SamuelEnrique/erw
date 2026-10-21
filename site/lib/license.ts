@@ -82,6 +82,18 @@ export function gridOfEntity(entity: string | undefined | null): string {
   return "";
 }
 
+/** Session 382: the grid a check key names as an input, in the entity form ("iso:ercot"), or undefined. The generator
+ *  page's model keys (mr|iso=ercot&asset=solar&...|<stat>, ms|iso=ercot&...&hub=HB_WEST&market=rt|<span>|<stat>) carry
+ *  their grid as `iso=` (session 264: "every check key names its grid"), not as an entity, so until this session the
+ *  hold of 21 October read them as naming no grid and held ERCOT's, CAISO's and SPP's figures with ISO-NE's and NYISO's. */
+export function gridEntityOfKey(parts: string[]): string | undefined {
+  for (const x of parts) {
+    const m = /(?:^|&)(?:iso|grid)=([a-z0-9_-]+)(?=&|$)/i.exec(x);
+    if (m && m[1].toLowerCase() in GRID_NAME) return `iso:${m[1].toLowerCase()}`;
+  }
+  return undefined;
+}
+
 /** The hold on one row of a table: a held table decided by grids holds the rows of the grids that decide it (and a row
  *  of no grid, such as a national total, is kept); any other held table holds every row. `entity` undefined asks about
  *  the table whole. */
