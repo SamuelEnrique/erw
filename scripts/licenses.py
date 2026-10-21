@@ -279,7 +279,7 @@ def write(doc=None):
     ev = collections.Counter(erw_verdict(x["flag"], x["standing"]) for x in lines)
     w(f"- **The ERW's verdict (session 378): {ev['public']} public, {ev['internal']} internal, {ev['unsettled']} unsettled** "
       "(one word a table, in \"Every table\"; an unsettled table waits for a permission, a read, or a ruling).")
-    w(f"- **{len(reads)} publishers in the record: {n_ask} requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; session 484, one), {n_read} pages read, {n_ask - n_read} that could not be read, "
+    w(f"- **{len(reads)} publishers in the record: {n_ask} requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484 and 493, one each), {n_read} pages read, {n_ask - n_read} that could not be read, "
       f"{len(reads) - n_ask} not asked (paused).**")
     loose = [x for x in lines if x["standing"] == "DISAGREES: the flag is looser"]
     strict = [x for x in lines if x["standing"] == "DISAGREES: the flag is stricter"]

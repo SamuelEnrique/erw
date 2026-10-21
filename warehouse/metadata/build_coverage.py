@@ -134,6 +134,7 @@ SECTOR_RULES = [
     (r"^eia_aeo_electricity$", "power"),  # session 490: EIA's Annual Energy Outlook, electricity Tables 8 and 9
     (r"^eia_steo_forecasts$", "power;gas"),  # session 491: EIA's Short-Term Energy Outlook, prices and the mix
     (r"^epa_ghgrp_power_co2$", "power;carbon"),  # session 492: EPA GHGRP, power plants' reported CO2 by year
+    (r"^boem_renewable_leases$", "power"),  # session 493: BOEM's offshore renewable energy leases and grants
     (r"^pjm_rpm_capacity_prices$", "capacity"),
     # session 65: capacity prices of the four markets that pay capacity apart, and the day-ahead ancillary services
     (r"^iso_all_capacity_prices$", "capacity"),
