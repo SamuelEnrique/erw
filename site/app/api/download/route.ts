@@ -62,9 +62,32 @@ const text = (msg: string, status: number) => new Response(msg + "\n", { status,
 
 /** Session 328: a reader of one table's CSV from this route, in Python or Stata. It fetches the CSV, keeps the lines that
  *  begin with "#" (the table's provenance: the source report, its address, when it was retrieved) and loads the rows that
- *  follow as they are: no number is computed, so what it loads is what the page read. */
-function readerText(table: string, as: "py" | "do", origin: string): string {
+ *  follow as they are: no number is computed, so what it loads is what the page read. Session 535: and in R (as=r), base R
+ *  only, so nothing is installed: readLines and read.csv, as the Python reader does with urllib and pandas. */
+function readerText(table: string, as: Reader, origin: string): string {
   const url = `${origin}/api/download?table=${table}`;
+  if (as === "r") {
+    // an R name begins with a letter: a table name that does not (none does on 21 October 2026) is read into erw_<table>
+    const name = /^[a-z]/.test(table) ? table : `erw_${table}`;
+    return [
+      `# Energy Research Warehouse (ERW): read the table ${table} from the ERW site's live set.`,
+      "# The CSV opens with its provenance, lines that begin with \"#\" (the source report, its address, when it was",
+      "# retrieved); they are printed and skipped, and the rows are loaded as they are. Base R only: no package to install.",
+      "# An empty cell is NA; no comment character is set, so a value that holds \"#\" (an address) is read whole.",
+      `URL <- "${url}"`,
+      "old <- options(timeout = max(300, getOption(\"timeout\")))",
+      "lines <- readLines(URL, warn = FALSE, encoding = \"UTF-8\")",
+      "options(old)",
+      "n <- 0L",
+      "while (n < length(lines) && startsWith(lines[n + 1L], \"#\")) n <- n + 1L",
+      "cat(lines[seq_len(n)], sep = \"\\n\")",
+      `${name} <- read.csv(text = lines[seq_along(lines) > n], stringsAsFactors = FALSE, check.names = FALSE,`,
+      "  na.strings = \"\", encoding = \"UTF-8\")",
+      `print(dim(${name}))`,
+      `print(head(${name}))`,
+      "",
+    ].join("\n");
+  }
   if (as === "py") {
     return [
       `# Energy Research Warehouse (ERW): read the table ${table} from the ERW site's live set.`,
@@ -112,7 +135,9 @@ function readerText(table: string, as: "py" | "do", origin: string): string {
   ].join("\n");
 }
 
-const reader = (table: string, as: "py" | "do", origin: string) => new Response(readerText(table, as, origin), {
+type Reader = "py" | "do" | "r";
+
+const reader = (table: string, as: Reader, origin: string) => new Response(readerText(table, as, origin), {
   headers: { "Content-Type": "text/plain; charset=utf-8", "Content-Disposition": `attachment; filename="erw_${table}.${as}"`, "Cache-Control": "public, max-age=3600" },
 });
 
@@ -183,6 +208,8 @@ export async function GET(req: Request) {
     // session 328: ?as=py or ?as=do answers a Python or a Stata reader of this table's CSV, never the rows themselves
     const as = new URL(req.url).searchParams.get("as");
     if (as === "py" || as === "do") return reader(table, as, new URL(req.url).origin);
+    // session 535: ?as=r answers an R reader of the same CSV, after the same checks
+    if (as === "r") return reader(table, as, new URL(req.url).origin);
     const columns = JSON.parse(cat[0].columns) as string[];
     const shape = columns[0] === "entity_id" ? "entities" : columns[0] === "event_id" ? "events" : "series";
     const hdr = (await (await get(`headers?select=line&table_name=eq.${table}&order=line_no`)).json()) as { line: string }[];
