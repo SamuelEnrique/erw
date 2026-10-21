@@ -11,11 +11,12 @@
 ## Landing
 
 - `queue/next/016-day-21-october-data.md` on main: rule 8 snapshots, compared in the table below.
-- This note and the reports of 384 and 386 on `task/386-morning`, after merging origin/main and the whole suite; the record of its checks is in session 389's note (it cannot be in the commit it lands).
+- The whole suite in the worktree after merging origin/main (`GITHUB_ACTIONS=true`, 4,705 tests, 278 skipped, 257 s): exit 1, one failure, `test_session166`'s skip of four ancillary tables, which counts 3 from 21 October because NYISO is now held (license needed) and greyed before its table is looked for. The code machine fixed the test on `task/367-372` (`b39bada3`, test only, not on main yet); this session took it with `git cherry-pick -x`, and `tests.test_session166` then passes (exit 0). Without it every landing of today fails its checks.
+- This note and the reports of 384 and 386 on `task/386-morning`; the record of its checks is in session 389's note (it cannot be in the commit it lands).
 
 | Snapshot pair | Differences | Expected |
 |---|---|---|
-| `s386-queue-before`, `s386-queue-after` | see below | |
+| `s386-queue-before` (05:18 UTC), `s386-queue-after` (after the deployment of `bfca6f1a` reported success at 05:21 UTC) | 0 on 25 pages | yes: a queue file changes no page |
 
 ## The queue step
 
@@ -25,7 +26,8 @@
 
 1. The next chain from items 5 and 6 only; item 9's remaining acts are Samuel's and Ben's.
 2. Session 384's report written by this session, with its part (b) marked not run, so that the chain's record is whole.
-3. The next note named `docs/state/note_2026-10-21_day_data.md`, since it will be written during the day of 21 October, not in a morning.
+3. `b39bada3` taken from the code machine's branch rather than writing a second fix of the same test; the merge of `task/367-372` then meets the same change.
+4. The next note named `docs/state/note_2026-10-21_day_data.md`, since it will be written during the day of 21 October, not in a morning.
 
 ## Files
 
