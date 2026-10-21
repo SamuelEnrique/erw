@@ -24,7 +24,7 @@
 | `scripts/precheck.py` | 0 | |
 | the run log's lines for the two tables | 0 | `runs/s460_runs.out` |
 | the copies' data SHA-256 against the latest run's | 0 | the set-aside copies match; the replays do not |
-| `warehouse/lock.py acquire`, the swap back, `erw_validate.py`, `build_coverage.py --only` | 0 | 09:44 to 09:45 UTC |
+| `warehouse/lock.py acquire`, the swap back, `erw_validate.py`, `build_coverage.py --only` | 0 | about 09:38 UTC |
 | `tests.test_session460` with and without the fix | 0, 1 | |
 | `prove.py --fresh --only` the two (fixed; the main checkout's copy restored after) | 0 | both equal |
 

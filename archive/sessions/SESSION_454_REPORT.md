@@ -37,6 +37,6 @@
 - Changed: `warehouse/metadata/coverage.csv`, `docs/coverage.md` (two rows). New: this report.
 - On this machine (not in git): the four tables, `runs/s454_before/`, `runs/s454_*`.
 
-## Correction (session 460, 21 October 2026, 09:45 UTC)
+## Correction (session 460, 21 October 2026, about 09:40 UTC)
 
 Two of the four were wrong, and are undone. `policy_reads_evidence` and `price_board_spreads` held the archive's latest run's own copies: the run log's latest lines (GitHub's runs of 01:16 and 06:33 UTC on 20 October) record 3,362 and 2,408 rows with the data SHA-256 of the copies `restore_tables.py` gave, which this machine already held. `restore.py`'s replay keeps every key any run ever wrote, so its 5,143 and 2,436 rows included 1,781 and 28 keys the latest run no longer had; `prove.py` read that as "this machine behind", and this session took the replay. Session 460 put the exact copies back (coverage 3,362 and 2,408 again) and fixed `prove.py`: a copy that is the latest run's own, by its data SHA-256, is equal. The finding about `restore_tables.py` above is withdrawn: it was right. `grid_network_links` and `caiso_reliability_daily` stand (each rebuilt to the latest run's row count).
