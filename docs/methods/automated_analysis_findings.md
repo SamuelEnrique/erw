@@ -291,3 +291,21 @@ The cards are committed with the day's page files; a step that fails puts the ca
 ## License
 
 A finding's card and downloads carry the most restrictive license of their inputs (Decision 23). Findings 1 and 3 read public tables: public. Findings 8, 9 and 10 (session 182) read public tables only: public. Finding 2 reads one internal table (ISO-NE's hourly history) and publishes only yearly aggregates of it; its hourly rows are not in any download.
+
+<a id="cross-checks"></a>
+
+## Cross-checks
+
+Session 381, 21 October 2026 (roadmap item 2, "a cross-check table against published figures"), in the form of the three decision tools' notes: our figure, the published figure, where it was read, the gap, the reason. Our figure is the card's, as the findings library on `/research` shows it at its default inputs (`site/data/findings/<card>.json`, "numbers"). Every figure on the other side is one the ERW already holds with its source; none was fetched for this table. Two of the four rows are against the owner's thesis, not a publisher: they are kept because the thesis is what the cards were first built to reproduce, and they are marked. The review pack's part 4 (`docs/reviews/packs/research.md`) keeps the rows that set a draft or a card against the ERW's own tables (each reproduced to 0 differences), and `site/public/findings/erw_2026_research_replication.py` reruns the nine cards' figures from their downloads (304 of 304 equal on 21 October 2026). "Gap" is ours less theirs.
+
+| Our figure | Published figure | Source and date | Gap | Reason |
+|---|---|---|---|---|
+| ERCOT hub average (HB_HUBAVG), 2025, the median real-time price: USD 25.68 per MWh (card `batteries_lunch_grids`, ERCOT's panel) | USD 25.68 per MWh, the owner's thesis (not a publisher) | The thesis's values as `docs/methods/ercot_peak_premium.md` ("Thesis reproduction (HB_HUBAVG)") holds them; the package's tests reproduce them to the cent | 0.00 | The same 15-minute prices (`ercot_all_hub_prices_history`, ERCOT's NP6-785-ER and NP6-905-CD) and the same percentile, numpy's linear one |
+| The same, the 99.9th percentile: USD 311.80 per MWh | USD 311.80 per MWh, the owner's thesis (not a publisher) | the same | 0.00 | The same prices and percentile; the card's year is ERCOT's last full year before the newest, 2025, as the thesis's |
+| Requests withdrawn, 2000 to 2020: 75.2 percent of 3,509 GW requested (card `queue_divorce`) | 75 percent of 3,501 GW, the owner's thesis (not a publisher) | The thesis's figure as Finding 3 of this note (`docs/methods/automated_analysis_findings.md`) quotes it | +0.2 points, against a figure given to the whole percent; +8 GW | Berkeley Lab's *Queued Up*, 2026 edition (through 2025), as `lbnl_interconnection_queue` holds it, against the edition the thesis read: requests are added and reclassified between editions |
+| The marriage and divorce rates on the queue card: 6.1 and 2.4 per 1,000 population | 6.1 and 2.4 per 1,000 population, provisional 2023 (divorces in 45 reporting states and D.C.) | [CDC/NCHS FastStats, "Marriage and Divorce"](https://www.cdc.gov/nchs/fastats/marriage-divorce.htm), retrieved 9 October 2026 (Finding 3 of this note, with the page's hash) | 0 | Quoted, not computed: the card's own figure is the ratio of the two, 39.3 percent, and the queue's share is 1.9 times it |
+
+- Not compared: CAISO's own annual curtailment totals (published with its curtailment reports). The cards on curtailment read CAISO's own interval and daily files (`caiso_curtailment_intervals`, `caiso_curtailment_daily`), so a sum of them is a reproduction of CAISO's figures, not a check against them; no annual total of CAISO's is held.
+- Not compared: the share of hours a fuel set the price, as a market monitor publishes it (Potomac Economics for ERCOT, ISO-NE's internal market monitor), beside the card `gas_sets_price`. Not held.
+- Not compared: Berkeley Lab's report's own summary of withdrawn capacity. The ERW holds the edition's data file, not the report's figures.
+- Not compared: a hunt draft against a publisher's own site. None is held (the pack's section 9, question 4).
