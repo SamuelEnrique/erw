@@ -45,6 +45,8 @@ PARTS = [
 ]
 APPENDIX = "## Appendix: the five-minute demo"
 SOURCES = "## Where every number comes from"
+# session 381: a pack of the five sellable tools may open with its table against roadmap item 2, before part 1
+ROADMAP = "## Against roadmap item 2 (session 381)"
 
 # the documents a reader follows today: a link to an old note here would lead nowhere
 LIVE_DOCS = [os.path.join(ROOT, "docs", "methods"), os.path.join(ROOT, "docs", "howitworks"), PACKS,
@@ -96,7 +98,7 @@ class ThePacks(unittest.TestCase):
     def test_the_nine_parts_in_order_then_the_sources(self):
         for tool in written():
             headings = [line for line in pack(tool).split("\n") if line.startswith("## ")]
-            want = PARTS + ([APPENDIX] if APPENDIX in headings else []) + [SOURCES]
+            want = ([ROADMAP] if ROADMAP in headings else []) + PARTS + ([APPENDIX] if APPENDIX in headings else []) + [SOURCES]
             self.assertEqual(headings, want, tool)
 
     def test_no_part_is_thin(self):
