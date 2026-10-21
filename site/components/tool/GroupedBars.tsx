@@ -36,7 +36,7 @@ export function GroupedBars({ id, groups, series, unit, label, partialWords = "I
   const hi = (Math.max(0, ...all) * 1.12) || 1, lo = Math.min(0, ...all) * 1.12;
   const step = nice(hi - lo);
   const ticks: number[] = [];
-  for (let t = Math.ceil(lo / step) * step; t <= hi; t += step) ticks.push(Math.round(t * 100) / 100);
+  for (let t = Math.ceil(lo / step) * step; t <= hi; t += step) ticks.push(Math.round(t * 100) / 100 || 0);  // session 404: || 0, so a tick at minus zero reads "0", not "-0"
   const y = (v: number) => top + ((hi - v) / (hi - lo)) * (H - top - bot);
   const gw = (W - L - R) / Math.max(1, groups.length);
   const n = series.length;
