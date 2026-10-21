@@ -17,6 +17,31 @@ Energy Research Warehouse (ERW), session 312 (19 October 2026), for Samuel. The 
 - New in the draft since session 312: `price_years_by_window`, `node_basis_summary`, `ercot_4cp_intervals` (public) and `ercot_node_prices_hourly` (the internal dataset). `nlr_jedi_multipliers` and `impact_tax_rules` are in v1 since session 366; `iso_queue_statistics` comes with the code machine's `wip/348-map` and is not in the package until that branch is on main.
 - The package was spliced, not rewritten (session 375): four rows changed (`node_basis_daily` held, and the publishers of `node_basis_summary`, `ercot_4cp_intervals` and `price_years_by_window`, from session 378's license record); `release_v1.py --check` reads 0 differences. No request was made to Redivis.
 
+## The draft on 21 October 2026 (session 437)
+
+- `python scripts/sync.py --check --no-git` at 07:40 UTC: 212 tables in coverage.
+  - **206 current.**
+  - 1 behind: `api_cost_ledger` (Redivis's newest entry is later than this machine's).
+  - **2 ahead**, meaning Redivis is behind on them: `ercot_node_prices_hourly` (here 499,080 rows to 21 October 04:00 UTC, Redivis 498,360 to 20 October; the internal dataset) and `eia930_all_storage` (here 72,744 rows, Redivis 72,720).
+  - 1 diverged: `grid_network_links` (here 26,280 rows to 13 October, Redivis 18,744 to 17 October). It is never uploaded from here, since that would put older rows over newer ones.
+  - 2 not on Redivis: the two held for storage.
+- **The bytes**: 9.306 GB in the two drafts by Redivis's own sizes (session 385, 223 tables), against the account's free 10 GB. The account's own count is a little higher. Its refusal of 20 October said "Total storage after this import would be 10.1GB" for `ercot_all_hub_prices_history`, about 0.7 GB, so about 9.4 GB is in use and **about 0.6 GB is free**. Nothing has been uploaded since.
+- **What fits**: the two tables Redivis is behind on are replaced, not added. `ercot_node_prices_hourly` is 101 MB in the draft and `eia930_all_storage` 38 MB, and each grows by a few hundred kilobytes, so both fit.
+- **What the two held tables need**: neither is in the draft, so Redivis's sizes for them are not known.
+  - `ercot_all_hub_prices_history` (0.72 GB as a CSV here) is about 0.7 GB by the refusal's arithmetic.
+  - `node_basis_daily` (957,969 rows) was refused twice on 20 October with nothing else in the way.
+  - Together they need more than the 0.6 GB free. The 41 license-held tables (0.94 GB, session 385) leave the draft at step 2 below anyway; removing them first would make room for both.
+- **Not uploaded by session 437**: this machine's permission settings for an unattended session refused the uploads (an outward-facing write). They wait, newest first, for a person or a session allowed to make them:
+
+  ```
+  .venv\Scripts\python.exe warehouse\lock.py acquire --task "Redivis uploads that fit" --minutes 45
+  .venv\Scripts\python.exe warehouse\redivis\upload.py ercot_node_prices_hourly
+  .venv\Scripts\python.exe warehouse\redivis\upload.py eia930_all_storage
+  .venv\Scripts\python.exe warehouse\lock.py release
+  ```
+
+  This machine's daily run (17:00 UTC) uploads each table that moved, so these two are uploaded then if they move again.
+
 ## On redivis.com (about 15 minutes)
 
 1. **Open** the dataset `energy_research_warehouse` (the account `REDIVIS_OWNER`, or Ben Domingue's organization if it was moved), and switch to the draft (version `next`).
