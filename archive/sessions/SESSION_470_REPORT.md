@@ -1,6 +1,6 @@
 # Session 470 report: the Digest and the Roundup, the fixes the audits name
 
-21 October 2026, about 09:06 to 10:40 UTC, unattended, on portable-laptop (the code machine; the chain file was written for samueloldlaptop), in the worktree `C:\Users\samen\Documents\erw-470` on `wip/470-periodicals` (from `origin/main` at `440a2c8f`). Chain `queue/done/019-night-21-october-code.md`, session 470. Model spend USD 0: no issue was written and no model was called; each change is shown on the audits' named days by rebuilding their selection from `warehouse/output/news_stories.csv` with the brief's own functions. No warehouse data written, no published issue rewritten, nothing posted or sent, no web request, no file under `site/` changed (so no build and no shots).
+21 October 2026, about 09:06 to 11:00 UTC, unattended, on portable-laptop (the code machine; the chain file was written for samueloldlaptop), in the worktree `C:\Users\samen\Documents\erw-470` on `wip/470-periodicals` (from `origin/main` at `440a2c8f`). Chain `queue/done/019-night-21-october-code.md`, session 470. Model spend USD 0: no issue was written and no model was called; each change is shown on the audits' named days by rebuilding their selection from `warehouse/output/news_stories.csv` with the brief's own functions. No warehouse data written, no published issue rewritten, nothing posted or sent, no web request, no file under `site/` changed (so no build and no shots).
 
 ## Read these first
 
