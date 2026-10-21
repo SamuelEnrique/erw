@@ -205,6 +205,15 @@ above says otherwise, this section is the newer one.
   `runs/build.lock` in the main checkout, found from any worktree of it, holding "<who> <UTC time>" (the format of
   chain 019's helper, so either honours the other); a lock older than 3 hours is taken as stale. It takes no path, so
   Git Bash's `MSYS_NO_PATHCONV=1` cannot hide it.
+- **The landing gate** (session 579). `python scripts/land_check.py [--ref <branch>] [--task <name>] [--port 3700]`
+  runs the gate of a landing for one commit, each step its own process with its exit code read: freeze status,
+  origin/main merged, a trial merge with every remote `task/` branch in flight, the database probe, the build lock,
+  the whole suite in a clean worktree of the commit (no keys in its environment), `npm ci` and the build (stopped after
+  30 minutes, built once more if its log holds "statement timeout"), the page checks against it (check-values resumed
+  with `CHECK_VALUES_RESUME=1` on exit 3, at most three tries; the license holds' ten floors pass only when each page
+  shows "license needed"; check-routes, check-cross-checks, check-csp), and the server stopped by PID. One line a step
+  in `runs/land_check/<sha>.txt`. It ends by printing the snapshot, push and compare commands; it never pushes, never
+  takes a snapshot and never deletes a branch. Exit 0 every step passed, 1 one failed or the site is frozen, 2 bad input.
 - **A test's residue.** `warehouse/output/raw/madeup_as_prices/` (untracked, two files, 112 bytes) was made on
   11 October at 20:22 UTC, while session 198 ran the suite; session 200's run of the suite in a clean worktree made
   the same folder there. `scripts/raw_handover.py` names `tests/test_session85.py` as the writer of a folder of that
