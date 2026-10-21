@@ -130,11 +130,14 @@ class Rows(unittest.TestCase):
             self.assertIn(f"goes from {note['count_now']} to {note['count_after']}", md)
 
     def test_counts_now_match_the_pages(self):
+        # session 461: once the rows land (sessions 462 to 464) the line moves and the count grows; the page holds one
+        # count, never fewer than the review found on 21 October (check-cross-checks.mjs proves it equals the note's rows)
         for note in data()["notes"]:
-            path, line = note["count_line"].rsplit(":", 1)
+            path, _ = note["count_line"].rsplit(":", 1)
             with open(os.path.join(ROOT, path), encoding="utf-8") as f:
-                src = f.read().split("\n")
-            self.assertIn(f'data-checked-against="{note["count_now"]}"', src[int(line) - 1], note["count_line"])
+                found = re.findall(r'data-checked-against="(\d+)"', f.read())
+            self.assertEqual(len(found), 1, path)
+            self.assertGreaterEqual(int(found[0]), note["count_now"], path)
 
 
 if __name__ == "__main__":
