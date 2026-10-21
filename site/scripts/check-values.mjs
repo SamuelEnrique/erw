@@ -1305,7 +1305,11 @@ async function main() {
   // so no landing takes it for a pass; CHECK_VALUES_RESUME=1 reads only the pages it left
   if (!bad && missing.length) {
     console.log(`check-values INCOMPLETE: ${missing.length} pages not read; every value read matched. Run again with CHECK_VALUES_RESUME=1 to read only those (state: ${STATE_FILE})`);
-    process.exit(3);
+    // the run ends by itself with this code rather than by process.exit: on Windows, process.exit while a socket is
+    // closing can end node with 0xC0000409 (a libuv assertion, seen once in six runs on 21 October), and a script that
+    // reads 3 to resume must get 3
+    process.exitCode = 3;
+    return;
   }
   if (bad || n < 10) process.exit(1);
 }

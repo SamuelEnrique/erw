@@ -72,7 +72,15 @@ const STATE = path.join(dir, "state.json");
 const FLOORS = path.join(here, "check-values-floor.json");
 const floorsBefore = fs.readFileSync(FLOORS, "utf-8");
 
-function run(extra = {}) {
+// Node on Windows can end a child that calls process.exit with 0xC0000409 (3221226505, "UV_HANDLE_CLOSING", a libuv
+// assertion while a socket closes): seen once in six runs on a loaded machine on 21 October. A run that ends so is run
+// once more, and only for that signature; any other code is the run's own.
+const CRASH = 3221226505;
+async function run(extra = {}) {
+  const r = await run1(extra);
+  return r.code === CRASH && r.out.includes("UV_HANDLE_CLOSING") ? run1(extra) : r;
+}
+function run1(extra = {}) {
   return new Promise((resolve) => {
     const child = spawn(process.execPath, [path.join(here, "check-values.mjs"), base], {
       cwd: path.join(here, ".."),
@@ -133,7 +141,7 @@ try {
     });
     await new Promise((r) => thin.listen(0, "127.0.0.1", r));
     const b2 = `http://127.0.0.1:${thin.address().port}`;
-    const r = await new Promise((resolve) => {
+    const thinRun = () => new Promise((resolve) => {
       const child = spawn(process.execPath, [path.join(here, "check-values.mjs"), b2], {
         cwd: path.join(here, ".."),
         env: { ...process.env, SUPABASE_URL: "http://127.0.0.1:9", SUPABASE_ANON_KEY: "test", INTERNAL_COSTS_TOKEN: "t", CHECK_VALUES_PAGES: "/data/licenses,/storage", CHECK_VALUES_STATE: path.join(dir, "thin.json"), CHECK_VALUES_WRITE_FLOOR: "", CHECK_VALUES_RESUME: "" },
@@ -143,6 +151,8 @@ try {
       child.stderr.on("data", (d) => (out += d));
       child.on("close", (code) => resolve({ code, out }));
     });
+    let r = await thinRun();
+    if (r.code === CRASH && r.out.includes("UV_HANDLE_CLOSING")) r = await thinRun();
     thin.close();
     assert.equal(r.code, 1, r.out);
     assert.match(r.out, /^FAIL \| \/storage \| the floor \| the page carries 2 checked numbers; its floor is 10/m);

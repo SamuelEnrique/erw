@@ -56,7 +56,7 @@ class TheScript(unittest.TestCase):
     def test_a_page_not_read_is_listed_and_the_run_is_not_a_pass(self):
         self.assertIn("not read | ${p} | ${why.get(p) ?? \"not reached\"} | its numbers and its floor are not judged", self.cv)
         i = self.cv.index("if (!bad && missing.length) {")
-        self.assertIn("process.exit(3);", self.cv[i:i + 400])
+        self.assertIn("process.exitCode = 3;", self.cv[i:i + 700])   # ends by itself: see the comment there
         self.assertLess(i, self.cv.index("if (bad || n < 10) process.exit(1);"))
 
     def test_the_older_rules_hold(self):
