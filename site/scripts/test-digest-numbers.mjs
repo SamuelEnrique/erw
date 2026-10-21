@@ -221,7 +221,10 @@ test("every Digest the site holds has its numbers read: a key for each figure, a
     assert.ok(figs.filter((x) => x.part === "dam").length >= 5, `${f}: five or six grids`);
     // no figure of the numbers section is left without a key: every price-like number of its lines is wrapped
     const t = D.digestMarkdown(md, date, null, BEFORE);
-    const sec = t.md.split("\n").filter((l) => /^\| (ERCOT|CAISO|NYISO|MISO|SPP|ISO-NE) \|/.test(l) || l.startsWith("**Highest real-time") || /^- (Henry Hub|WTI|Brent)/.test(l));
+    // session 418: a fuel line is "- Brent crude: 126.55 USD/bbl ...", its colon before any parenthesis; a story whose
+    // headline begins "Brent crude trades at $110.30 ... (oil): ..." (21 October) is a story, not the fuels section
+    const sec = t.md.split("\n").filter((l) => /^\| (ERCOT|CAISO|NYISO|MISO|SPP|ISO-NE) \|/.test(l) || l.startsWith("**Highest real-time") || /^- (Henry Hub|WTI|Brent)[^:(\[]*: /.test(l));
+    assert.equal(sec.filter((l) => l.startsWith("- ")).length, 3, `${f}: the three fuel lines`);
     for (const l of sec) assert.ok(!/(?<![\dA-Z.])\d+\.\d{2}(?= |$)(?! UTC)/.test(l.replace(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}/g, "")), `${f}: a bare figure in ${l}`);
   }
 });
