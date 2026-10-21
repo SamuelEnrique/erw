@@ -14,5 +14,5 @@ Session 497 (21 October 2026, portable-laptop) placed the panels of the two five
 What to look at, before against after:
 
 - **The wide frame**: the five panels side by side again; the lowest chart text moved from 959 px (below the 900 px frame) to 281 and 269 px. check-findings-grids: 163 of 163.
-- **The tall frame still overlaps**: the five panels in one column end at 870 px, and the fifth (SPP) is drawn over the callouts' boxes, which begin near 830 px. Session 497's report left this case to a later session (two columns in the tall frame, the same way); it is session 573 of `queue/next/032-night-22-october-code.md`.
+- **The tall frame still overlaps**: the five panels in one column end at 870 px, and the fifth (SPP) is drawn over the callouts' boxes, which begin near 830 px. Session 497's report left this case to a later session (two columns in the tall frame, the same way); it is session 588 of `queue/next/034-night-22-october-code.md`.
 - No value moved; the toggle is off the picture in every frame.

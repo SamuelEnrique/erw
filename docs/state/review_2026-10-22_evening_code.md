@@ -4,10 +4,10 @@ Energy Research Warehouse (ERW), session 506, written on the old laptop (samuelo
 
 ## First: what to know
 
-1. **Chain 023 lands with chain 021.** `wip/506-combined` holds `wip/429-combined` (chain 021, sessions 416 to 428, with 427's note) and chain 023's nine other branches, main of 22:06 UTC merged. LANDING_LINE
+1. **Chain 023 lands with chain 021, by portable-laptop's session 563.** Portable-laptop came back: its session 562 merged chain 023's ten branches (`wip/562-land-023`, which holds `wip/429-combined` and so chain 021, sessions 416 to 428) and its session 563 lands it (`queue/done/032-night-22-october-code-563.md`, taken at 23:31 UTC). This session had built the same merge as `wip/506-combined` and run every report's remaining checks on it; finding 563 at work, it did not race it, and lands its own records after 563. LANDING_LINE
 2. **One build served every report's remaining checks**: check-values 6,457 of 6,457 values equal on 152 of 152 pages in 6.2 minutes, the ten held floors failing as session 408 counted them; check-routes, check-cross-checks (77 of 77), check-analysis (279), check-internal-waits, check-csp and check-findings-grids (163) all 0. Each report's new last section, "Finished (session 506)", says what it ran.
 3. **check-holds (session 505) finds 88 held figures shown on 14 pages**: session 474's five-grid cards and one-grid views, and two kinds no one had named, the Digest's real-time price line (`/digest` and five issues) and the ISO-NE queue on `/grid?grid=isone` and `/grid/isone` (36 figures each). Nothing changed; yours to rule (below).
-4. **The tall render frame still overlaps** on the two five-grid cards (session 497's after shots); the next file's session 573 places it in two columns.
+4. **The tall render frame still overlaps** on the two five-grid cards (session 497's after shots); the next file's session 588 places it in two columns.
 5. **The q025 comparison could not be made**: `q025-before` stayed on portable-laptop; `q025-after` (22:59 UTC, 25 pages, 0 failed) is here. The landing took its own pair.
 
 ## What each session did
@@ -25,7 +25,7 @@ Energy Research Warehouse (ERW), session 506, written on the old laptop (samuelo
 | 503 | `wip/503-fresh-suite` | a fresh worktree writes the generated files its tests need; the suite in one, run by 506 | `docs/machines.md`, "Other checkouts" |
 | 504 | `wip/504-buildlock` | `scripts/buildlock.py` (acquire, release, status), found from any worktree | `docs/machines.md`, "The build lock" |
 | 505 | `wip/505-check-holds` | `site/scripts/check-holds.mjs`; its list in `docs/licenses.md` | `docs/licenses.md`, "Held figures that still show" |
-| 506 | `wip/506-combined` | the remaining steps, the combined branch, two faults of the merge fixed, the landing, this note, the next file | this file |
+| 506 | `wip/506-combined` | the remaining steps on one build of the combined branch, two faults of the merge fixed, this note, the next file; lands after 563 | this file |
 
 ## The screenshot folders
 
@@ -36,11 +36,12 @@ Energy Research Warehouse (ERW), session 506, written on the old laptop (samuelo
 1. **One build of the combined branch** for every report's checks, not one a branch.
 2. **Four merge conflicts**, both sides kept each time (`check-values.mjs`'s whole-MW line, `site/lib/supabase.ts`'s retry with the public-rows read, `energy_deals.md`, `docs/machines.md`).
 3. **Two faults of the merge fixed** in session 505's files: `check-holds.mjs` names its browser door statically (session 301's rule); the held figures' section of `docs/licenses.md` comes before the publishers' prices (session 378's rule).
-4. **Session 497's shot script waits for fonts**; the tall frame left to session 573.
+4. **Session 497's shot script waits for fonts**; the tall frame left to session 588.
 5. **The ten held floors read as a pass**; no floor lowered.
 6. **The sync not restarted** after the harness stopped it in its restore of 103 tables.
 7. **The merged remote branches deleted** once on main.
-8. Each session's own, in its report: 430's exit 3 for an incomplete run; 498's "revised" for a row changed after the issue; 499's `row_license` in `extra` and the status file's `hold: row`; 500's count never a read; 501 leaving out B12 and B14; 502's one static line from `license_status.json`; 503's fix in the loader; 504's stale age of 3 hours; 505's page list read from check-values.
+8. **Portable-laptop's 563 lands chain 023**; this branch lands after it with its records only, not in a race.
+9. Each session's own, in its report: 430's exit 3 for an incomplete run; 498's "revised" for a row changed after the issue; 499's `row_license` in `extra` and the status file's `hold: row`; 500's count never a read; 501 leaving out B12 and B14; 502's one static line from `license_status.json`; 503's fix in the loader; 504's stale age of 3 hours; 505's page list read from check-values.
 
 ## Waiting for you
 
@@ -56,4 +57,4 @@ One item a line in each report, and on `/internal/waits` after the landing:
 
 ## The queue
 
-`python scripts/chain_queue.py list` at about 23:00 UTC on 21 October: 1 waiting, `031-night-22-october-sources.md` (machine: data), 0 for samueloldlaptop. So session 506 wrote **`queue/next/032-night-22-october-code.md`**, sessions 562 to 574 (the next free numbers: the queue's files and the branches use up to 561), thirteen sessions for the code machine, default-neutral, and pushed it to main with the landing. This session's queue step takes it next.
+`python scripts/chain_queue.py list` at about 23:00 UTC on 21 October: 1 waiting, `031-night-22-october-sources.md` (machine: data), 0 for samueloldlaptop. So session 506 wrote the next file, thirteen sessions for the code machine, default-neutral: drafted as 032 with sessions 562 to 574, it became **`queue/next/034-night-22-october-code.md`, sessions 577 to 589** when main showed portable-laptop's 032 (562, 563) and the data machine's 033 (570 to 576). On main since 23:44 UTC (`b4c00d76`, snapshots 0 differences). This session's queue step takes it next, unless portable-laptop takes it first.

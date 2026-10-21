@@ -4,12 +4,13 @@
 
 ## Read these first
 
-- **Chain 023 (sessions 429, 430, 497 to 505) is finished and lands as one branch, `wip/506-combined`**, which also carries chain 021 (sessions 416 to 428, by `wip/429-combined`). One build of it served every report's remaining checks; each report has a new last section, "Finished (session 506)".
+- **Chain 023 (sessions 429, 430, 497 to 505) is finished on `wip/506-combined`**, which also carries chain 021 (sessions 416 to 428, by `wip/429-combined`). One build of it served every report's remaining checks; each report has a new last section, "Finished (session 506)".
+- **Portable-laptop came back and lands chain 023 itself.** At 23:12 UTC its session 562 had merged the same ten branches (`wip/562-land-023`), and at 23:31 UTC its session 563 took `queue/done/032-night-22-october-code-563.md` to land it through the full gate. Session 506 found this at 23:38 UTC, before its own landing push, and did not race it: 563 lands chain 023, and `wip/506-combined` then lands only what it adds (the reports' "Finished" sections, 497's after shots, the note, this report). The code of both branches is the same where both fixed the merge's faults (`check-holds.mjs`'s static import and the section's place in `docs/licenses.md`, fixed on that branch by session 555).
 - **The full check-values run finished on the first try**: 6,457 of 6,457 values equal, 152 of 152 pages in 6.2 minutes (session 430's batched run); the ten held floors of session 408 fail, each showing "license needed".
 - **The fresh-worktree suite found two faults of the merge** (session 505's script and section against sessions 301's and 378's rules); both are fixed.
 - **check-holds finds two kinds of held figure beyond session 474's cards**: the Digest's real-time price line (`iso_rtm_hub_prices`, on `/digest` and five issues) and `/grid?grid=isone` with `/grid/isone` (36 figures each of `isone_interconnection_queue`). Listed for Samuel, nothing changed.
-- **The tall render frame of the two five-grid cards still overlaps** its callouts (session 497's shots); session 573 of the next file does it.
-- **The next file is `queue/next/032-night-22-october-code.md`**, sessions 562 to 574, for the code machine.
+- **The tall render frame of the two five-grid cards still overlaps** its callouts (session 497's shots); session 588 of the next file does it.
+- **The next file is `queue/next/034-night-22-october-code.md`**, sessions 577 to 589, for the code machine, on main since 23:44 UTC (`b4c00d76`; snapshots `s506-q034-before` against `s506-q034-after`: 0 differences).
 
 ## What was found on arrival
 
@@ -56,18 +57,19 @@ LANDING_PLACEHOLDER
 
 ## The queue
 
-`python scripts/chain_queue.py list` at about 23:10 UTC: 1 waiting, `031-night-22-october-sources.md` (machine: data), 0 for samueloldlaptop. So this session wrote `queue/next/032-night-22-october-code.md`: thirteen sessions, 562 to 574, machine: code, default-neutral. The numbers: the queue's files and the branches use numbers up to 561 (the data machine's 030 and 031 hold 548 to 561), so 562 is the next free. Its sessions, from chain 023's reports, the notes of 22 October and the roadmap draft: the audits' remaining fixes (562), seven days of scheduled jobs (563), the landing gate as one script that never pushes (564), the database's slow reads measured with an unapplied migration (565), every internal link and anchor (566), the five tools' replications in a clean environment (567), an accessibility scan (568), 390 pixels on every page (569), the trader path walked (570), the dependencies audited with nothing upgraded (571), an internal page of the held figures that show (572), the tall render frame in two columns (573), the note (574). It rides to main with this landing.
+`python scripts/chain_queue.py list` at about 23:10 UTC: 1 waiting, `031-night-22-october-sources.md` (machine: data), 0 for samueloldlaptop. So this session wrote the next file: thirteen sessions, machine: code, default-neutral. It was drafted as `032-night-22-october-code.md` with sessions 562 to 574, the next free numbers at 23:00 UTC. By 23:38 UTC main held portable-laptop's `032-night-22-october-code-563.md` (sessions 562 and 563) and the data machine's `033-night-22-october-sources.md` (renumbered to 570 to 576), so before it reached main the file became **`queue/next/034-night-22-october-code.md`, sessions 577 to 589**, the next free numbers above every one taken (564 to 569 are free but too few). Pushed to main alone at 23:44 UTC (`b4c00d76`), with snapshots `s506-q034-before` (23:43 UTC) and `s506-q034-after`: 0 differences. Its sessions, from chain 023's reports, the notes of 22 October and the roadmap draft: the audits' remaining fixes (577), seven days of scheduled jobs (578), the landing gate as one script that never pushes (579), the database's slow reads measured with an unapplied migration (580), every internal link and anchor (581), the five tools' replications in a clean environment (582), an accessibility scan (583), 390 pixels on every page (584), the trader path walked (585), the dependencies audited with nothing upgraded (586), an internal page of the held figures that show (587), the tall render frame in two columns (588), the note (589).
 
 ## Decisions made without you
 
 1. **One build of the combined branch for every report's checks**, not one build a branch: the combined branch holds each branch whole, and seven builds on the database would have taken the night. A fault would have been traced to its branch by the report's own pages; none appeared.
 2. **The four conflicts resolved as above**, keeping both sides each time; main's line where both fixed the same key.
 3. **Session 497's shot script waits for the page's fonts** before measuring, as its report asked.
-4. **The tall frame's overlap is left to the next file** (session 573), as session 497's report says, with the shaded area that runs below two panels' axes seen in the same shots.
+4. **The tall frame's overlap is left to the next file** (session 588), as session 497's report says, with the shaded area that runs below two panels' axes seen in the same shots.
 5. **The ten held floors read as a pass** for the landing, by chain 024's rule; no floor lowered.
 6. **The sync not restarted** after the harness stopped it in its restore (above).
 7. **The two faults of the merge fixed in session 505's files** (a static import; the section moved before the prices) rather than by changing the older tests.
-8. **The next file numbered 562 to 574**, thirteen sessions, and pushed to main with the landing.
+8. **The next file renumbered 034, sessions 577 to 589**, when 562 to 576 were found taken, and pushed to main on its own with a snapshot pair.
+10. **Portable-laptop's session 563 lands chain 023; this branch lands after it** with only its records, rather than two machines landing the same ten branches at once (the memory's rule on another machine's landing in flight).
 9. **The merged remote branches deleted after the landing** (session 429's "To finish" names them; the owner's rule that merged `wip/` and `task/` branches are deleted).
 
 ## For Samuel's ruling
