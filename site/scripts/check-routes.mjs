@@ -81,6 +81,7 @@ const PAGES = [
   // would read those three as new; ask it by its own address once the baseline holds the view)
   "/severance?tab=lease", "/prices?tab=ercot", "/deals?tab=tracker", "/deals?tab=tracker&party=Constellation", "/deals?tab=companies",
   "/map?tab=resources", "/map?tab=resources&on=oil_gas_basins,plants_operating&z=2&c=-101,32", "/deals/v2", "/deals/v2?view=ai", "/seller/v2", "/datacenters/v2",  // session 241: /datacenters/v2 redirects to /datacenters, which draws its blocks
+  "/datacenters?view=grids",  // session 468: the tracker by grid (in review)
   "/shoulder", "/shoulder?grid=caiso&month=2025-07", "/data/methods/shoulder_hours",  // session 75
   "/contracts", "/contracts?product=capacity",  // session 83
   "/storage/owners", "/storage/owners?grid=caiso", "/storage/owners?grid=isone",  // session 87

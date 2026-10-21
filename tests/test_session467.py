@@ -38,14 +38,14 @@ def node(js):
 class TheReader(unittest.TestCase):
     def test_the_pattern_is_the_builders(self):
         import datacenter_facilities as dc
-        m = re.search(r'export const QUEUE_SITE_PATTERN = "([^"]+)";', read("site", "lib", "data.ts"))
+        m = re.search(r'export const QUEUE_SITE_PATTERN = "([^"]+)";', read("site", "lib", "datacenter", "bygrid.ts"))
         self.assertIsNotNone(m)
         self.assertEqual(m.group(1), dc.QUEUE_PATTERN.pattern)
         self.assertTrue(dc.QUEUE_PATTERN.flags & re.I)   # the page matches case-blind (imatch) as the builder does
 
     def test_the_grids_are_the_builders(self):
         import energy_projects as ep
-        m = re.search(r"export const QUEUE_GRIDS = \[([^\]]+)\] as const;", read("site", "lib", "data.ts"))
+        m = re.search(r"export const QUEUE_GRIDS = \[([^\]]+)\] as const;", read("site", "lib", "datacenter", "bygrid.ts"))
         self.assertEqual(re.findall(r'"([a-z]+)"', m.group(1)), list(ep.QUEUE_ISOS))
 
     def test_the_held_table_is_never_read_by_the_section(self):

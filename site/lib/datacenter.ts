@@ -459,7 +459,9 @@ export function expandSeries(s: Series | undefined, hours: number): (number | nu
  * months), as /cost-of-power computes its headline for that region (scripts/datacenter-ways.mjs, pageOf). The
  * datacenter tracker shows it beside a site whose load zone the queue does not name. `kinds` picks load zones, hubs or
  * both; a region with no twelve complete months in either market is left out. */
-export type RegionCost = { id: string; name: string; kind: "zone" | "hub" | ""; buy: Buy; per: number; from: string; to: string; main: boolean };
+export type RegionCost = { id: string; name: string; kind: "zone" | "hub" | ""; buy: Buy; per: number; from: string; to: string; main: boolean;
+  /** Session 468: each complete calendar year held in the same market, a flat load's USD per MWh (lib/datacenter.ts, years) */
+  years: { y: string; per: number }[] };
 export function regionCosts(files: YearFile[], g: GridIndex, kinds: ("zone" | "hub")[] = ["zone"]): RegionCost[] {
   const flat = { run: "flat" as const, n: 0, pct: 0, shift: 0 };
   const out: RegionCost[] = [];
@@ -467,12 +469,14 @@ export function regionCosts(files: YearFile[], g: GridIndex, kinds: ("zone" | "h
     const kind = r.kind ?? "";
     if (kind && !kinds.includes(kind as "zone" | "hub")) continue;  // a grid whose regions carry no kind (all but ERCOT today) shows every one
     let buy: Buy = "rt";
-    let l12 = r.rt ? lastTwelve(monthsRuled(files, r.id, "rt", flat, "forecast").months) : null;
-    if (!l12 && r.da) { buy = "da"; l12 = lastTwelve(monthsRuled(files, r.id, "da", flat, "forecast").months); }
+    let ms = r.rt ? monthsRuled(files, r.id, "rt", flat, "forecast").months : [];
+    let l12 = lastTwelve(ms);
+    if (!l12 && r.da) { buy = "da"; ms = monthsRuled(files, r.id, "da", flat, "forecast").months; l12 = lastTwelve(ms); }
     if (!l12) continue;
     const s = span(l12);
     if (s.per === null) continue;
-    out.push({ id: r.id, name: r.name ?? r.id, kind: kind as RegionCost["kind"], buy, per: s.per, from: l12[0].m, to: l12[11].m, main: r.id === g.main });
+    const ys = years(ms).filter((y) => y.complete && y.per !== null).map((y) => ({ y: y.y, per: y.per as number }));
+    out.push({ id: r.id, name: r.name ?? r.id, kind: kind as RegionCost["kind"], buy, per: s.per, from: l12[0].m, to: l12[11].m, main: r.id === g.main, years: ys });
   }
   return out;
 }

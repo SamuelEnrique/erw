@@ -5,10 +5,15 @@ import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every 
 import { NoData } from "@/components/NoData";
 import { ToolHeader, ToolPage } from "@/components/tool/ToolPage";
 import { TableDownloads } from "@/components/tool/TableDownloads";
-import { datacenters, queueSites } from "@/lib/data";
+import { Tabs } from "@/components/tool/Tabs";
+import { datacenters, queueActive, queueSites } from "@/lib/data";
+import { gridOfTable } from "@/lib/datacenter/bygrid";
+import { INDEX } from "@/lib/datacenterdata";
+import { one } from "@/lib/tabs";
 import { attempt } from "@/lib/supabase";
 import { Body, toFacility } from "./Body";
 import { LargeLoad, LargeLoadSource } from "./LargeLoad";
+import { GridsView } from "./GridsView";
 import { PowerSide } from "./PowerSide";
 
 export const revalidate = 3600;
@@ -20,9 +25,37 @@ export const metadata: Metadata = { title: "Datacenter tracker" };  // session 2
 // Session 241: the one tracker. What /datacenters/v2 showed (session 106: ERCOT's large-load status, and the Texas sites
 // beside it) is drawn here, between the top block and the words about the list (./LargeLoad.tsx); /datacenters/v2
 // redirects to this page (next.config.ts). The section is drawn whether or not the facilities table could be read.
-export default async function DatacentersPage() {
-  const res = await attempt(datacenters);
+// Session 468: two views, the facilities (the page's own address) and the tracker by grid (?view=grids, lib/tabs.ts).
+export default async function DatacentersPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  const view = one(await searchParams).view === "grids" ? "grids" : "facilities";
   const queues = await attempt(queueSites);   // session 467: the sites a public source names, read from the queues themselves
+  const header = (
+    <ToolHeader
+      title="Datacenter power tracker"
+      lead={<>
+        Datacenter facilities from three sources: the energy news since 2025-01-01 (the stories the ERW scores), the public site lists of nine
+        operators, and interconnection queue positions that name a datacenter or a large load. Who runs or builds them, where, how many megawatts and
+        how they will be powered.
+      </>}
+    />
+  );
+  if (view === "grids") {
+    const grids = queues.ok ? [...new Set(queues.data.rows.map((r) => gridOfTable(r.table_name)))] : [];
+    const active = await attempt(() => queueActive(grids));
+    const priceTables = grids.flatMap((g) => (INDEX.grids[g]?.regions ?? []).flatMap((r) => [...(r.rt?.tables ?? []), ...(r.da?.tables ?? [])]));
+    return (
+      <Brand>
+        <ToolPage>
+          {header}
+          <Tabs page="/datacenters" active="grids" />
+          <GridsView sites={queues} active={active} />
+          <TableDownloads tables={[...grids.map((g) => `${g}_interconnection_queue`), ...priceTables]} />
+          <Related href="/datacenters" />
+        </ToolPage>
+      </Brand>
+    );
+  }
+  const res = await attempt(datacenters);
   const today = new Date().toISOString().slice(0, 10);   // the UTC day the page was drawn on: "this week" is the seven days to it
   const words = (
     <>
@@ -42,14 +75,8 @@ export default async function DatacentersPage() {
   return (
     <Brand>
       <ToolPage>
-        <ToolHeader
-          title="Datacenter power tracker"
-          lead={<>
-            Datacenter facilities from three sources: the energy news since 2025-01-01 (the stories the ERW scores), the public site lists of nine
-            operators, and interconnection queue positions that name a datacenter or a large load. Who runs or builds them, where, how many megawatts and
-            how they will be powered.
-          </>}
-        />
+        {header}
+        <Tabs page="/datacenters" active="facilities" />
         {!res.ok ? (
           <><NoData what="datacenters" reason={res.reason} /><LargeLoad read={res} />{words}</>
         ) : res.data.length === 0 ? (

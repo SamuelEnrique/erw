@@ -53,7 +53,7 @@ const FLOOR = fs.existsSync(FLOOR_FILE) ? JSON.parse(fs.readFileSync(FLOOR_FILE,
 // gate of a landing is the full run, with the variable unset.
 const ONLY = (process.env.CHECK_VALUES_PAGES ?? "").split(",").map((v) => v.trim()).filter(Boolean);
 const wanted = (page) => !ONLY.length || ONLY.some((pre) => page.startsWith(pre));
-const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/ercot%3AHB_HUBAVG", "/data", "/prices?tab=ercot", "/deals", "/deals?tab=tracker", "/deals?tab=companies", "/grid", "/map", "/datacenters", "/roundup",
+const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/ercot%3AHB_HUBAVG", "/data", "/prices?tab=ercot", "/deals", "/deals?tab=tracker", "/deals?tab=companies", "/grid", "/map", "/datacenters", "/datacenters?view=grids", "/roundup",
   // session 18
   "/mix", "/mix?ba=erco&state=TX", "/curtailment", "/demand?view=consumption",
   // session 404: the demand growth explorer (the default, ERCOT's whole-year average; the peak with the Lower 48's missing
@@ -196,6 +196,7 @@ async function all(table, params) {
 const impactRows = new Map(), impactAll = new Map();   // session 347: /impact's rows, by technology and state, and by technology
 const dcAnswers = new Map();   // session 228: the answers of one address of /cost-of-power, read once
 const dcllRows = new Map();
+const dcqRows = new Map();   // session 468: the view by grid of /datacenters, one grid's groups read once
 let R_statOf = null;
 /** The value Supabase holds for one data-check key. */
 async function truth(check) {
@@ -648,8 +649,33 @@ async function truth(check) {
     const W = await import("./datacenter-ways.mjs");
     if (!W.INDEX.grids[p[1]]) return undefined;
     const page = W.pageOf({ grid: p[1], region: p[2] });
-    if (page.x.grid !== p[1] || page.x.region !== p[2] || p[3] !== "per") return undefined;
-    return page.s12?.per ?? undefined;
+    if (page.x.grid !== p[1] || page.x.region !== p[2]) return undefined;
+    if (p[3] === "per") return page.s12?.per ?? undefined;
+    // session 468: dcpow|<grid>|<region>|year|<YYYY>, a complete calendar year in the same market, as the view by grid shows it
+    if (p[3] === "year") {
+      const L = await import("../lib/datacenter.ts");
+      const y = L.years(page.ms).find((r) => r.y === p[4] && r.complete);
+      return y?.per ?? undefined;
+    }
+    return undefined;
+  }
+  // session 468: the datacenter tracker by grid, dcq|<grid>|<zone or ->|<stat>: the queue positions that name a datacenter
+  // or a large load (the builder's pattern, read from the grid's own queue table by name and by fuel field, as
+  // lib/data.ts queueSites reads them) and the grid's active positions, grouped by lib/datacenter/bygrid.ts
+  if (p[0] === "dcq") {
+    const B = await import("../lib/datacenter/bygrid.ts");
+    const table = `${p[1]}_interconnection_queue`;
+    if (!dcqRows.has(p[1])) {
+      dcqRows.set(p[1], (async () => {
+        const sel = "entity_id,table_name,capacity_mw,status,zone:extra->>zone";
+        const byName = await all("entities", { select: sel, table_name: `eq.${table}`, name: `imatch.${B.QUEUE_SITE_PATTERN}`, order: "entity_id" });
+        const byFuel = await all("entities", { select: sel, table_name: `eq.${table}`, "extra->>fuel_technology": `imatch.${B.QUEUE_SITE_PATTERN}`, order: "entity_id" });
+        const sites = [...new Map([...byName, ...byFuel].map((r) => [r.entity_id, r])).values()];
+        const active = await all("entities", { select: "table_name,capacity_mw,status,zone:extra->>zone", table_name: `eq.${table}`, status: "eq.active", order: "entity_id" });
+        return B.groups(sites, active);
+      })());
+    }
+    return B.groupStat(await dcqRows.get(p[1]), p[1], p[2], p[3]);
   }
   if (p[0] === "dcd") {
     const D = await import("../lib/datacenter/delivery.ts");
