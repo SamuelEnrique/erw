@@ -35,6 +35,13 @@ the model marks a deal that is one of them (same_as); its story links are added 
 that deal instead of making a new one. Deals in the same call can point to an
 earlier deal of that call.
 
+Session 531 (the Roundup audit's fix 8): the model's same_as missed, so a deal reported over several days was extracted
+again from its later stories (the daily run sends only stories not yet checked). A deal the model does not mark is now
+matched in code against every deal already held (warehouse/deals/deal_parties.py same_deal: the same type and the same
+two parties, within 30 days, an asset sharing a word, sums within a quarter of each other) and merged into it as a
+same_as would be. A deal whose two parties are both governments is not kept, and a buyer or seller the story's words do
+not name is left empty; each is said in the run log.
+
 Outputs (the events shape, docs/datastandard.md):
   warehouse/output/energy_deals.csv            license public: the model's structured
       fields and the story links, no outlet text; event_type deal
@@ -66,6 +73,8 @@ sys.path.insert(0, os.path.join(ROOT, "warehouse", "connectors"))
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "news"))
 import iso_prices as ip  # noqa: E402
 from ingest import NAME as NEWS, NEWS_COLS  # noqa: E402
+sys.path.insert(0, HERE)
+import deal_parties  # noqa: E402  session 531: one deal across days, two parties
 sys.path.insert(0, os.path.join(ROOT, "warehouse"))
 import llm  # noqa: E402  session 30: every Anthropic call goes through the cost ledger
 
@@ -372,7 +381,7 @@ def main(argv=None):
                 log(f"  call {bi} FAILED ({len(batch)} clusters left unchecked): {ip.redact(repr(exc))[:300]}")
                 continue
             keys = {}   # cluster_id#n -> deal_id, within this call
-            n_new = n_merged = 0
+            n_new = n_merged = n_code = n_refused = 0
             for g in batch:
                 cid = g["cluster_id"].iloc[0]
                 story_ids = list(g["event_id"])
@@ -411,6 +420,26 @@ def main(argv=None):
                     elif same and same in keys:
                         target = keys[same]
                     stories_here = news_by_id.loc[story_ids]
+                    if not target:   # session 531: the checks the model's same_as cannot be trusted with
+                        why_not = deal_parties.fault(d, text)
+                        if why_not:
+                            dropped.append(f"{cid}: deal not kept: {why_not}")
+                            n_refused += 1
+                            continue
+                        for role in deal_parties.unnamed(d, text):
+                            dropped.append(f"{cid}: {role} {d[role]!r} is not named in the story, not kept")
+                            d[role] = None
+                        ad0 = d.get("announced_date") or ""
+                        first0 = stories_here.sort_values("event_date").iloc[0]
+                        target = deal_parties.find_same(
+                            {"deal_type": d.get("deal_type"), "buyer": d.get("buyer"), "seller": d.get("seller"),
+                             "asset": d.get("asset"), "dollars": vals["dollars"],
+                             "event_date": ad0 if re.match(r"^\d{4}-\d{2}-\d{2}$", ad0) else first0["event_date"]},
+                            by_id.values())
+                        if target:
+                            n_code += 1
+                            dropped.append(f"{cid}: deal {n} is {target} (same type, parties and asset, within "
+                                           f"{deal_parties.WINDOW_DAYS} days): merged, not a new row")
                     if target:   # add this cluster's stories to the existing deal
                         row = by_id[target]
                         ids = [x for x in row["story_ids"].split(";") if x]
@@ -468,7 +497,8 @@ def main(argv=None):
                     new_checked.append({"story_id": sid, "cluster_id": cid, "checked_at": now, "model_id": model,
                                         "n_deals": str(len(out["deals"]))})
             u = usage[-1]
-            log(f"  call {bi}: {len(batch)} clusters, {n_new} new deals, {n_merged} merged into earlier deals; "
+            log(f"  call {bi}: {len(batch)} clusters, {n_new} new deals, {n_merged} merged into earlier deals "
+                f"({n_code} of them by the code's match, not the model's same_as), {n_refused} not kept; "
                 f"tokens in {u['input']} out {u['output']} cache read {u['cache_read']}; request {resp._request_id}")
 
         for d in dropped:

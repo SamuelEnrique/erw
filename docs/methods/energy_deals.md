@@ -18,6 +18,7 @@ from the builders' own descriptions, `warehouse/deals/extract.py` (session 15) a
   A state, a country and a status are kept only where the story's words name them (session 16's ruling).
 - **One deal, every story.** Each call carries the deals already extracted, and a deal the model marks as one of them
   adds its story to that deal instead of making a new one; `warehouse/deals/duplicates.py` lists the pairs left.
+  Since session 531 the code checks too (below, "One deal across days").
 
 ## The tables
 
@@ -113,3 +114,33 @@ price (every group of the 492 rows of 20 October: none states a price), it shows
 functions are `comparables()`, `medianOf()` and `shown()` of `site/lib/deals2.ts`; `site/scripts/check-values.mjs`
 recomputes every key with the same functions on the live set's rows. Under the hold the view shows the hold's words
 and the rows it covers, and nothing of a row.
+
+## One deal across days (session 531)
+
+The Roundup audit of 21 October (`docs/reviews/roundup-audit-2026-10-21.md`, fix 8) found deals printed twice in two
+issues: the Department of Energy's loan to Vistra (a row of 2 October, "US" lending USD 4 billion, and one of 5
+October, "Department of Energy" lending USD 4.2 billion) and Amazon's PPA with Constellation (a row of 30 September,
+and one of 6 October, "nuclear expansions", from the story of Google's deal that says Constellation signed with "both
+Google and Amazon in the last week"). The second rows came from the daily run: it sends only the stories it has not
+checked, so a deal reported over several days is sent again with its later stories, and the model's `same_as` was the
+only guard. It left both empty.
+
+From session 531, `warehouse/deals/extract.py` applies three rules of `warehouse/deals/deal_parties.py` to every deal the
+model does not mark as one already held. No model is called for them.
+
+- **One deal, one row.** The deal is merged into a deal already held, as a `same_as` would be, when the two have the
+  same type and the same two parties (buyer and seller, in either order), are dated within 30 days of each other, name
+  assets that share a word (when both name one), and state sums within a quarter of each other (when both state one).
+  A name is the same party when one is the other with words added ("Constellation", "Constellation Energy"); the US
+  government is one party whatever the story calls it ("US", "DOE", "Department of Energy", "Pentagon").
+- **Two governments are not a deal.** A deal whose buyer and seller are both governments or countries is not kept: in
+  the stories held such rows were policy, talks or a memorandum ("Trump says Russia to supply diesel to US and global
+  markets"; 8 of the 497 rows of 21 October, each with a confidence of 0.6 or less).
+- **A party the story does not name is not kept.** A buyer or seller whose name is not in the story's words (an
+  equity raise's "investors" where no investor is named) is left empty, as a number without its words is.
+
+Each is said in the run log. The rules change what a later extraction writes, not the rows already held: the table is
+as the extraction left it, so the tracker's counts did not move. Run over the 497 rows of 21 October, read only, the
+first rule finds four repeats: the audit's two, session 113's folded Prysmian and Atkore pair, and its doubtful Lynas
+pair (the Pentagon and "US" are one party for the rule). Folding the held rows is the register's (`duplicates.csv`), a
+person's choice.
