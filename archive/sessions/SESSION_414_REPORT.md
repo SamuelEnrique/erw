@@ -25,9 +25,10 @@ Every gate redirected to a file under `runs/chain_oct21/s414/`, never piped; the
 | `node site/scripts/test-waits.mjs` (session 188's reader) | 0 | 3,285 of 3,285 held |
 | `tests.test_session414`, `tests.test_session188_waits`, `tests.test_session160_waits` | 0 | 33 tests OK, 1 skipped (160's saved copies are not on this machine) |
 | `npm ci` in the worktree's `site/` | 0 | |
-| `duty.py beat` before the builds | 1, 0 | the first timed out on Supabase |
+| `duty.py beat` before the builds | 1, 0, 1 | the first and third timed out on Supabase |
 | `npm run build`, first try (03:25) | 1 | TypeScript passed; the home page's required read met Supabase statement timeouts (57014, 9 in the log) |
 | `npm run build`, second try (03:50) | 1 | the same, 17 timeouts in the log; the mutex was let go between tries |
+| `npm run build`, third and last try (04:10) | 1 | the same, 9 timeouts; the built site's check is under "To finish" |
 | `check-internal-waits.mjs http://localhost:3414` against `next dev` (no build) | 1 | 29 of 32: every ledger check and every visitor check passed (404 without the cookie, none of the ledger's words sent, a token in the address opens nothing, 390 px does not scroll sideways). The three failures are of the dev server: no-cache instead of no-store (the production server sends no-store), the browser counted 50 of 152 report sections while the dev server was still streaming the page (the server's HTML held all 152), and an exception from the home page's Supabase timeout |
 | `curl` `/internal/waits` without the cookie, `/internal/open` | 404, 200 | the internal pages still answer 404 to a visitor; the door opens |
 | The whole suite, `ERW_LOCK_EXEMPT=1` | 1 | 4,789 tests, 1 failure: `test_session156` (the ask fixtures), as the chain's rules expected; 252 skipped |
