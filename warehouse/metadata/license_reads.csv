@@ -83,3 +83,4 @@ n,publisher,url,final_url,read_at,http_status,bytes,sha256,content_type,outcome
 82,Virginia State Corporation Commission,https://www.scc.virginia.gov/,,2026-10-19T12:06:53Z,,,,,not asked: paused (www.scc.virginia.gov is in warehouse/metadata/paused_sources.csv)
 83,Louisiana Department of Revenue,https://revenue.louisiana.gov/terms/,https://revenue.louisiana.gov/terms/,2026-10-21T06:16:07Z,200,62356,635617ee7e2cc5851300f4acb0bd08145fdabee49f138cecf38b12c9c9e2fa64,text/html,read
 84,Louisiana State Legislature,https://www.legis.la.gov/Legis/Disclaimer.aspx,https://www.legis.la.gov/Legis/Disclaimer.aspx,2026-10-21T06:16:08Z,200,18395,fceb07fdab0f7e7d3a204217cb92f2020e384cdd8addc4154421bb5bcfe31a24,text/html,read
+85,Catalyst Cooperative (PUDL),https://docs.catalyst.coop/pudl/en/stable/data_access.html,https://docs.catalyst.coop/pudl/en/stable/data_access.html,2026-10-21T16:49:15Z,200,88452,e6f9d3cf771a62e2849f90477bf86ff68a5b1ad39795a9460938a513b5377854,text/html,read
