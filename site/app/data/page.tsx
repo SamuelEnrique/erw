@@ -63,10 +63,12 @@ export default async function Data() {
               <tbody>
                 {cat.data.map((r) => (
                   <tr key={r.table_name} id={r.table_name} className="border-b border-rule/60 align-top target:bg-panel">
-                    <td className="py-1 pr-3 font-mono text-xs">
+                    {/* session 416: the table's name is the row's header, a th, so that it stays in place beside its column's
+                        head when the figures scroll sideways on a phone (tokens.css keeps a first th in place, not a td) */}
+                    <th scope="row" className="py-1 pr-3 text-left align-top font-mono text-xs font-normal">
                       {r.table_name}
                       {r.derived === "yes" ? <span className="ml-1 font-sans text-muted">(derived)</span> : null}
-                    </td>
+                    </th>
                     <td className="py-1 pr-3 text-xs">{(r.sector ?? "").split(";").join(", ")}</td>
                     <td className="py-1 pr-3 text-xs">{r.interval}</td>
                     <td className="py-1 pr-3 text-xs whitespace-nowrap">{day(r.ts_min)}</td>

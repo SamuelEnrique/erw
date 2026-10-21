@@ -92,7 +92,7 @@ function bounds(vs: number[], fromZero: boolean): Bounds {
   const step = nice(hi - lo);
   return { lo: Math.floor(lo / step) * step, hi: Math.ceil(hi / step) * step, step };
 }
-const ticksOf = (b: Bounds) => { const out: number[] = []; for (let v = b.lo; v <= b.hi + b.step / 2; v += b.step) out.push(Math.round(v * 1e6) / 1e6); return out; };
+const ticksOf = (b: Bounds) => { const out: number[] = []; for (let v = b.lo; v <= b.hi + b.step / 2; v += b.step) out.push(Math.round(v * 1e6) / 1e6 || 0); return out; };  // session 416: || 0, no "-0" tick
 
 const PAGE = 500;
 
