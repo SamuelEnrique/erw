@@ -56,7 +56,7 @@ Every output is in `runs/s555/` in the worktree (not in git). Commands are never
 1. **One build on the landing branch stands for each branch's build.** Sessions 430, 497, 500, 501, 502 and 505 each asked for a build of their own branch and a check on it. Every one of those branches is on this branch, and 497, 501, 503 and 505 say "or the combined landing branch". Ten builds would not fit in the hour, so their checks ran once, on the combined build.
 2. **The suite ran beside the build, and the lighter page checks beside check-values**, to save time. The build lock was held by this session for all of them. Running them side by side probably slowed check-values.
 3. **check-values was given 40 minutes**, so it would end by itself (430's exit 3, its state saved) before the hour was up. It finished in 32.8 minutes.
-4. **The session number 555** follows queue file 030's sessions 548 to 554.
+4. **The session number 555** followed queue file 030's sessions 548 to 554. Queue file 031, which reached main during this session, gives 555 to 561 to the data machine. So this report is `SESSION_023_LANDING_REPORT.md` and not `SESSION_555_REPORT.md`. The branch `wip/555-land-023`, the commits named "Session 555" and `runs/s555/` are this landing's, not the data machine's session 555.
 5. **`docs/licenses.md`: 505's held-figures section placed before 378's prices.** 378's test says the prices close the document, and 505 had written its section after them. Its first run on a build (this session) wrote the CSV, which made the section appear, so the order is changed in `scripts/licenses.py`. No words are changed.
 6. **`check-holds.mjs`: the browser helper imported statically.** 505 imported `unlockPost` and `withBrowser` dynamically, and 301's test asks every script that unlocks to name the door in a static import. Its node test (13 passed) and the run on the build were unaffected.
 7. **497's after shots were taken without the `document.fonts.ready` wait** that its "To finish" proposed (the edit was not made in time). The measures: the wide frame (1600 x 900) is now 900 px tall, with its lowest chart text at 281 and 269 px, which fits. The tall frame (1080 x 1350) still overlaps: the SPP panel runs into the callouts, and the CAISO and ISO-NE shaded areas fall below their axes. As 497's report says, a later session places the tall frame's panels in two columns. The cards are in review, so no visitor sees them.
@@ -71,7 +71,7 @@ In `C:\Users\samen\Documents\erw-429` on `wip/555-land-023` (or a checkout of it
 
 ```bash
 PY=/c/Users/samen/Documents/erw/.venv/Scripts/python.exe
-git fetch origin && git merge origin/main            # the old laptop's chain 024 may have landed; re-run the suite if it brought code
+git fetch origin && git merge origin/main            # chain 024 (3c012abd) and 530-547 landed during this session: at 22:42 UTC the merge conflicted in docs/methods/energy_deals.md and site/lib/supabase.ts (aborted, not resolved); resolve, then the whole suite again
 $PY scripts/freeze.py status; echo "exit=$?"
 $PY scripts/db_probe.py; echo "exit=$?"              # 0 before the build
 $PY scripts/buildlock.py acquire s555
