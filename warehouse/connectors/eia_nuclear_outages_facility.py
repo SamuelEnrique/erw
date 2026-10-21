@@ -2,11 +2,11 @@
 """EIA's nuclear outages by plant: each nuclear plant's capacity and the capacity out of service, a day (session 516).
 
 Energy Research Warehouse (ERW) connector. One series table, warehouse/output/eia_nuclear_outages_facility_daily.csv, from
-the U.S. Energy Information Administration's API v2, route nuclear-outages/facility-nuclear-outages (daily, 2007 on;
-this table from 2015, the years a run's ceiling holds):
+the U.S. Energy Information Administration's API v2, route nuclear-outages/facility-nuclear-outages (daily, 2007 on),
+read in two windows, 2007 to 2014 and 2015 on, each within a run's ceiling (session 523):
 
     https://api.eia.gov/v2/nuclear-outages/facility-nuclear-outages/data/?frequency=daily&data[]=capacity&data[]=outage
-        &data[]=percentOutage&start=2015-01-01
+        &data[]=percentOutage&start=2007-01-01&end=2014-12-31   and   ...&start=2015-01-01
 
     entity    eia_nuclear_outages:<facility>, EIA's plant id; node the plant's name; geo US
     variable  capacity (MW), outage (MW), outage_share (ratio; EIA's percent divided by 100)
@@ -16,10 +16,12 @@ EIA estimates the outages from the Nuclear Regulatory Commission's daily power r
 percent of full power, set against its capacity); the figures are EIA's as it publishes them. A blank has no row; nothing
 is filled. A unit not in the map stops the run; so does a day given twice.
 
-    python warehouse/connectors/eia_nuclear_outages_facility.py [--from 2015-01-01] [--offline | --fresh]
+    python warehouse/connectors/eia_nuclear_outages_facility.py [--from 2015-01-01] [--offline | --fresh]   # one window
+    python warehouse/connectors/eia_nuclear_outages_facility.py [--offline | --fresh]                     # both windows
 
-Ceiling: 98 requests a run (pages of 5,000, 3 seconds apart; about 36,000 rows a year, so 2015 on is about 85 pages;
-a page an earlier run saved in warehouse/raw is reused unless --fresh; --offline asks nothing). License: public (EIA, record 1 of license_reads.csv; cite "U.S. Energy Information
+Ceiling: 98 requests a run (pages of 5,000, 3 seconds apart; about 36,000 rows a year, so each window is about 50 to
+60 pages; a page an earlier run saved in warehouse/raw is reused unless --fresh, so a window already read asks nothing;
+--offline asks nothing). License: public (EIA, record 1 of license_reads.csv; cite "U.S. Energy Information
 Administration, Status of U.S. Nuclear Outages").
 """
 
@@ -44,6 +46,8 @@ API = "https://api.eia.gov/v2/nuclear-outages/facility-nuclear-outages/"
 PAGE = "https://www.eia.gov/nuclear/outages/"
 CEILING, PAUSE, RETRY_WAIT = 98, 3, 60
 FIRST = "2015-01-01"
+# session 523: the windows a run reads, in order; the last one open-ended (its pages saved by session 516)
+WINDOWS = [("2007-01-01", "2014-12-31"), ("2015-01-01", None)]
 DATA = {"capacity": ("capacity", {"megawatts": ("MW", 1.0)}),
         "outage": ("outage", {"megawatts": ("MW", 1.0)}),
         "percentOutage": ("outage_share", {"percent": ("ratio", 0.01)})}
@@ -74,7 +78,8 @@ def rows(data, url, retrieved):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description="EIA's nuclear outages by plant, a day")
-    ap.add_argument("--from", dest="first", default=FIRST, help="the first day, YYYY-MM-DD")
+    ap.add_argument("--from", dest="first", help="one window from this day, YYYY-MM-DD (default: the windows of WINDOWS)")
+    ap.add_argument("--to", dest="last", help="the window's last day, YYYY-MM-DD (with --from)")
     ap.add_argument("--offline", action="store_true", help="the pages from warehouse/raw only, no request")
     ap.add_argument("--fresh", action="store_true", help="ask every page again, even one saved in warehouse/raw")
     ap.add_argument("--out-dir", help="a trial: the table under this folder, not warehouse/output")
@@ -121,21 +126,28 @@ def main(argv=None):
         # plants and returns 55, the plants whose figures are blank being left out of the data). So the run reads until
         # a page comes back short, and checks that the pages run in order with no day missing; the per-day sums are
         # checked against EIA's U.S. total in session 516's report.
-        frames, offset, days = [], 0, []
-        while True:
-            body, url = get({"api_key": key, "frequency": "daily", "data[]": list(DATA), "start": args.first, "length": 5000,
-                             "offset": offset, "sort[0][column]": "period", "sort[0][direction]": "asc",
-                             "sort[1][column]": "facility", "sort[1][direction]": "asc"})
-            resp = body["response"]
-            data = resp["data"]
-            p = [str(r["period"])[:10] for r in data]
-            if p != sorted(p) or (days and p and p[0] < days[-1]):
-                raise RuntimeError(f"the page at offset {offset:,} is not in day order")
-            days.extend(p)
-            frames.append(rows(data, url.split("&length")[0], retrieved))
-            offset += len(data)
-            if len(data) < 5000:
-                break
+        windows = [(args.first, args.last)] if args.first else WINDOWS
+        frames, days, offset = [], [], 0
+        for start, end in windows:
+            offset = 0
+            while True:
+                params = {"api_key": key, "frequency": "daily", "data[]": list(DATA), "start": start}
+                if end:
+                    params["end"] = end
+                params.update({"length": 5000, "offset": offset, "sort[0][column]": "period", "sort[0][direction]": "asc",
+                               "sort[1][column]": "facility", "sort[1][direction]": "asc"})
+                body, url = get(params)
+                resp = body["response"]
+                data = resp["data"]
+                p = [str(r["period"])[:10] for r in data]
+                if p != sorted(p) or (days and p and p[0] < days[-1]) or (end and p and p[-1] > end):
+                    raise RuntimeError(f"window from {start}: the page at offset {offset:,} is not in day order")
+                days.extend(p)
+                frames.append(rows(data, url.split("&length")[0], retrieved))
+                offset += len(data)
+                if len(data) < 5000:
+                    break
+            log(f"window {start} to {end or 'the newest day'}: {offset:,} rows")
         if not days:
             raise RuntimeError("no rows")
         have = set(days)
@@ -143,7 +155,7 @@ def main(argv=None):
         missing = [d for d in want if d not in have]
         if missing:
             raise RuntimeError(f"{len(missing)} days with no row, from {missing[0]}")
-        log(f"{offset:,} rows, {len(want):,} days from {days[0]} to {days[-1]}, none missing (EIA's total says {int(resp['total']):,})")
+        log(f"{len(days):,} rows, {len(want):,} days from {days[0]} to {days[-1]}, none missing (EIA's total for the last window says {int(resp['total']):,})")
         s = pd.concat([f for f in frames if len(f)], ignore_index=True)
         if s.duplicated(["entity", "variable", "ts_utc"]).any():
             raise RuntimeError("a row on two pages")
@@ -157,7 +169,7 @@ def main(argv=None):
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
             f"Source: {SOURCE} U.S. Energy Information Administration, Status of U.S. Nuclear Outages (API v2), {PAGE}",
-            f"  access: {API}data/?frequency=daily&data[]=capacity&data[]=outage&data[]=percentOutage&start={args.first}",
+            f"  access: {API}data/?frequency=daily&data[]=capacity&data[]=outage&data[]=percentOutage&start=<first day>[&end=<last day>], the windows " + "; ".join(f"{a} to {b or 'the newest day'}" for a, b in windows),
             'License: public (a work of the U.S. government; cite "U.S. Energy Information Administration, Status of U.S. Nuclear Outages").',
         ]
         ip.write_snapshot(s, NAME, header, log, ip.SERIES_COLS)
