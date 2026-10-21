@@ -50,18 +50,21 @@ UA = {"User-Agent": "Mozilla/5.0 (compatible; ERW-connector/0.1; +https://github
 SECTORS = ["residential", "commercial", "industrial", "transportation", "total"]
 MEASURES = [("revenue", "USD", 1000.0), ("sales", "MWh", 1.0), ("customers", "count", 1.0)]
 NOT_UTILITIES = re.compile(r"^(state adjustment|state total|us total)", re.I)
-CEILING = 6
+CEILING = 11   # session 520: the page and ten years
 X_COLS = ["x_utility_number", "x_state", "x_ownership", "x_data_status"]
 CHARACTERISTICS = {"year": "year", "month": "month", "utility number": "utility", "utility name": "name", "state": "state",
                    "ownership": "ownership", "data status": "status"}
 
 
 def file_urls(page_html, years):
-    """{year: the file's address}, as the page links sales_ult_cust_<year>.xlsx; a year it does not link stops the run."""
-    links = {int(y): PAGE + href.lstrip("./") for href, y in re.findall(r'href="((?:\./)?(?:archive/)?xls/sales_ult_cust_(\d{4})\.xlsx)"', page_html)}
+    """{year: the file's address}, as the page links sales_ult_cust_<year>.xlsx (retail_sales_<year>.xlsx to 2020); a year
+    it does not link stops the run."""
+    # session 520: 2017 to 2020 are named retail_sales_<year>.xlsx, 2021 on sales_ult_cust_<year>.xlsx
+    links = {int(y): PAGE + href.lstrip("./") for href, y in
+             re.findall(r'href="((?:\./)?(?:archive/)?xls/(?:sales_ult_cust|retail_sales)_(\d{4})\.xlsx)"', page_html)}
     missing = [y for y in years if y not in links]
     if missing:
-        raise RuntimeError(f"the EIA-861M page links no sales_ult_cust file for {missing}")
+        raise RuntimeError(f"the EIA-861M page links no sales_ult_cust or retail_sales file for {missing}")
     return {y: links[y] for y in years}
 
 
