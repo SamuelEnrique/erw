@@ -1,0 +1,18 @@
+{
+  "what": "Session 499's fixture: rows of a table held by row as the live set would serve them (the row's own license in extra.row_license, session 441's method). Synthetic ids and no figures: it tests which rows a page may show, nothing else.",
+  "status": {
+    "by_row": {"status": "license needed", "from": "2026-10-21", "publishers": ["Reuters", "ERCOT"], "hold": "row"},
+    "whole": {"status": "license needed", "from": "2026-10-21", "publishers": ["Reuters"]},
+    "marked_table": {"status": "license needed", "from": "2026-10-21", "publishers": ["Reuters"], "hold": "table"}
+  },
+  "rows": [
+    {"event_id": "fixture:1", "extra": {"row_license": "public"}},
+    {"event_id": "fixture:2", "extra": {"row_license": "public"}},
+    {"event_id": "fixture:3", "extra": {"row_license": "Public "}},
+    {"event_id": "fixture:4", "extra": {"row_license": "license needed"}},
+    {"event_id": "fixture:5", "extra": {"row_license": "license needed"}},
+    {"event_id": "fixture:6", "extra": {"row_license": "unsettled"}},
+    {"event_id": "fixture:7", "extra": {}}
+  ],
+  "expect": {"shown": ["fixture:1", "fixture:2", "fixture:3"], "held": 4}
+}

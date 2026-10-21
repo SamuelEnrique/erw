@@ -11,6 +11,7 @@ import {
 import { isLicenseReason } from "@/lib/license";
 import { attempt } from "@/lib/supabase";
 import { DealsHeld } from "../Held";
+import { HeldRows } from "@/components/tool/HeldRows";  // session 500
 
 // Session 466: the comparables view of the deals tracker (/deals?view=comparables, in review, under the tracker's tab).
 // The deals' disclosed figures side by side, one dimension at a time (?by=type, technology, grid or year; the type by
@@ -89,6 +90,7 @@ export async function ComparablesView({ sp }: { sp: Record<string, string | unde
         <p className="mb-6 border border-rule bg-paper px-3 py-2 text-sm" role="status">No deal is held in the live set.</p>
       ) : (
         <>
+          <HeldRows shape="events" table="energy_deals" shown={all.length} method="/data/methods/energy_deals" />
           <p className="mb-8 max-w-3xl border-l-2 border-accent bg-paper px-4 py-3 text-sm" data-comp-stated="1">
             Of the {whole(all.length)} deals held, {whole(withPrice)} state a price in US dollars per MWh and {whole(withMw)} a size in MW.
             {what === "mw" ? <> No group of this view has {MIN_DISCLOSED} deals that state a price, so the chart shows the median size.</> : null}
