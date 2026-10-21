@@ -72,6 +72,7 @@ export const RELEASE: Record<string, Status> = {
   // session 144: /curtailment/v2 is retired and redirects to /curtailment (next.config.ts); its line stays so that an address typed by hand never reads as a page with no status
   "/curtailment/v2": "review",  // session 98: curtailment, version 2 (California by hour, month and reason, against battery charging)
   "/queues": "review",  // session 95: the interconnection queue explorer
+  "/explore/interconnection": "review",  // session 405: the third signature explorer, the six ISO queues by entry year and status (iso_queue_statistics)
   // session 133: /mix/v2, /mix/clean and /mix/stress are retired and redirect to /mix (next.config.ts); their lines stay so that an address typed by hand never reads as a page with no status
   "/mix/clean": "review",  // session 122: how clean each grid's generation is, and when (hourly against annual matching, the cleanest hours, load moved into them)
   "/mix/stress": "review",  // session 123: how hard each grid works (evening ramp, lowest net load, fuels in the tightest hours, dark and calm stretches)
