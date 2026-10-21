@@ -1764,6 +1764,11 @@ eia_crude_stream_prices,landed_cost,series variable,USD/bbl
 eia_crude_stream_prices,refiner_acquisition_cost,series variable,USD/bbl
 eia_fuel_spot_prices,spot_price,series variable,USD/MMBtu
 eia_fuel_spot_prices,spot_price,series variable,USD/bbl
+eia_gas_prices_state_monthly,price_citygate,series variable,USD/Mcf
+eia_gas_prices_state_monthly,price_commercial,series variable,USD/Mcf
+eia_gas_prices_state_monthly,price_electric_power,series variable,USD/Mcf
+eia_gas_prices_state_monthly,price_industrial,series variable,USD/Mcf
+eia_gas_prices_state_monthly,price_residential,series variable,USD/Mcf
 eia_gas_storage_weekly,working_gas,series variable,bcf
 eia_gas_trade_monthly,export_volume,series variable,MMcf
 eia_gas_trade_monthly,import_volume,series variable,MMcf
