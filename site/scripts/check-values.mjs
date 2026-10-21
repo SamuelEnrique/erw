@@ -26,22 +26,46 @@
 // interval in Supabase (the page was cached before the 15-minute refresh), the key is "superseded", reported on its own
 // line and in the summary, and passes only if the page's interval is at most 45 minutes behind Supabase's (the page's
 // 15-minute cache, the refresh and the run's own length); any other case fails. No key is dropped.
+//
+// Session 430: it finishes on a slow database. The full run passed its 15-minute limit three times on 21 October 2026
+// and so reported nothing. The pages are now read one at a time, in batches (CHECK_VALUES_BATCH, default 10), each under
+// a limit of its own (CHECK_VALUES_PAGE_S, default 300 s) that aborts the page's requests; a page that timed out is tried
+// once more after the last page. At the run's limit (CHECK_VALUES_TIMEOUT_MIN) no page starts, and the run reports what
+// it read and lists every page it did not ("not read | <page> | why | its numbers and its floor are not judged"). Exit
+// codes: 0 every page read and every value and floor passed; 1 a value differs, a floor fails, a page or a query failed
+// for any reason but slowness, or fewer than ten values; 3 every value read passed but some pages were not read (never 0:
+// no landing takes an incomplete run for a pass). After each batch the run writes its state (CHECK_VALUES_STATE, default
+// runs/check-values/state.json); CHECK_VALUES_RESUME=1 keeps the pages an earlier run of the same base and the same
+// CHECK_VALUES_PAGES read and reads only the others. CHECK_VALUES_WRITE_FLOOR=1 writes floors only from a run (resumed or
+// not) that read every page and passed. scripts/check-values-run.mjs holds the scheduling; its test is
+// scripts/test-check-values-run.mjs.
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { unlockPost } from "./browser.mjs";   // session 301: the internal view by the form's door, no token in an address
 import * as ED from "./event-dates.mjs";   // session 369: the date of every event-page figure (todo 008)
+import * as RUN from "./check-values-run.mjs";   // session 430: the pages in batches, each under its own timeout
 
 const REQUEST_MS = Number(process.env.CHECK_VALUES_REQUEST_S ?? 60) * 1000;
 const RUN_MIN = Number(process.env.CHECK_VALUES_TIMEOUT_MIN ?? 15);
 const LATEST_LAG_MIN = 45;
+// Session 430: one page's limit (CHECK_VALUES_PAGE_S, default 300 s) and the pages a batch (CHECK_VALUES_BATCH, default 10)
+const PAGE_S = Number(process.env.CHECK_VALUES_PAGE_S ?? 300);
+const BATCH = Number(process.env.CHECK_VALUES_BATCH ?? 10);
+const RUN_START = Date.now();
+let pageSignal = null;   // session 430: the page being read; its timeout aborts its requests
 {
   const plain = globalThis.fetch;
-  globalThis.fetch = (url, opts = {}) => plain(url, { ...opts, signal: opts.signal ?? AbortSignal.timeout(REQUEST_MS) });
+  globalThis.fetch = (url, opts = {}) => {
+    const own = opts.signal ?? AbortSignal.timeout(REQUEST_MS);
+    return plain(url, { ...opts, signal: pageSignal ? AbortSignal.any([own, pageSignal]) : own });
+  };
+  // session 430: at the run's limit no page starts and the run reports what it read (scripts/check-values-run.mjs); this
+  // stop, five minutes later, is only for a run that hangs past it all the same
   setTimeout(() => {
-    console.error(`check-values FAILED: the run passed its ${RUN_MIN}-minute limit (CHECK_VALUES_TIMEOUT_MIN); nothing is reported as checked`);
+    console.error(`check-values FAILED: the run passed its ${RUN_MIN}-minute limit (CHECK_VALUES_TIMEOUT_MIN) by five minutes and did not stop; nothing is reported as checked`);
     process.exit(1);
-  }, RUN_MIN * 60 * 1000).unref();
+  }, (RUN_MIN + 5) * 60 * 1000).unref();
 }
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -1062,8 +1086,6 @@ async function checkWeekly(lines) {
 }
 
 async function main() {
-  const found = new Map();
-  const perPage = new Map();  // session 268: the keys each page carried, counted before keys shared with a page read earlier are set aside
   const tok = env("INTERNAL_COSTS_TOKEN");
   // session 67, the release gate (lib/release.ts): the pages are read with the internal cookie, so the pages in review
   // are still checked; without it they would answer the in-review page, which carries no number
@@ -1078,56 +1100,88 @@ async function main() {
   // their address (until then `${page}?token=...`, which put the production token in a production address at each landing)
   if (tok) urls.push(...INTERNAL.filter(wanted).map((page) => ({ page, url: page, internal: true })));
   else console.log(`internal pages not checked (INTERNAL_COSTS_TOKEN not set here): ${INTERNAL.join(", ")}`);
-  for (const { page, url, internal } of urls) {
+
+  // Session 430: the pages are read one at a time, in batches, each under its own timeout (scripts/check-values-run.mjs).
+  // A page and the keys first seen on it are one unit, judged when the page is read; the weekly brief is one more unit.
+  const WEEKLY = "/roundup (the weekly brief's table)";
+  const ids = urls.map((u) => u.page);
+  if (!ONLY.length) ids.push(WEEKLY);
+  const byPage = new Map(urls.map((u) => [u.page, u]));
+  const STATE_FILE = process.env.CHECK_VALUES_STATE ?? path.join(here, "..", "..", "runs", "check-values", "state.json");
+  const skey = RUN.stateKey(base, ONLY);
+  let state = { key: skey, started_utc: new Date().toISOString(), pages: {} };
+  if (process.env.CHECK_VALUES_RESUME === "1") {
+    const { state: s, why } = RUN.loadState(STATE_FILE, skey);
+    if (s) {
+      state = s;
+      console.log(`resumed from ${STATE_FILE}: ${Object.keys(s.pages).length} of ${ids.length} pages read by an earlier run are kept, the others read now`);
+    } else console.log(why);
+  }
+  const seen = new Set(Object.values(state.pages).flatMap((r) => r.keys ?? []));   // the keys judged on an earlier page
+  const truths = new Map();   // one query a key, whichever page it is judged on
+
+  async function readOne({ page, url, internal }, signal) {
+    const out = { page, lines: [], ok: 0, bad: 0, superseded: 0, n: 0, keys: [], count: 0 };
     const res = await fetch(base + url, { headers: cookie ? { Cookie: cookie } : {} });
     if (internal && res.status === 404) {  // the server has no INTERNAL_COSTS_TOKEN (or another): the page is off there
-      console.log(`internal page not checked: ${page} answers 404 at ${base} (its INTERNAL_COSTS_TOKEN is not this one)`);
-      continue;
+      out.skipped = `internal page not checked: ${page} answers 404 at ${base} (its INTERNAL_COSTS_TOKEN is not this one)`;
+      return out;
     }
     if (!res.ok) throw new Error(`${page}: HTTP ${res.status}`);
     const html = await res.text();
     if (html.includes('data-in-review="1"')) throw new Error(`${page}: the in-review page was served (no internal cookie, or the server's token is not this one)`);
     const re = /<span data-check="([^"]+)" data-raw="([^"]*)"[^>]*>([\s\S]*?)<\/span>/g;
     const ms = [...html.matchAll(re)];
-    perPage.set(page, ms.length);
+    out.count = ms.length;   // session 268: the keys the page carried, counted before keys shared with a page read earlier are set aside
+    // session 369 (todo 008): on an event page, the date the page writes beside the figure (from the text between the
+    // figures around it), and every event page that carries the key, each reported on its own line
+    const ev = ED.isEventPage(page);
+    const onPage = new Map();
     for (const [i, m] of ms.entries()) {
       const text = decode(m[3].replace(/<!-- -->/g, "").replace(/<[^>]+>/g, "")).trim();
       const check = decode(m[1]);
       const usdFormat = html.slice(Math.max(0, m.index - 30), m.index).endsWith('<span data-format="usd">');
-      // session 369 (todo 008): on an event page, the date the page writes beside the figure (from the text between the
-      // figures around it), and every event page that carries the key, each reported on its own line
-      const ev = ED.isEventPage(page);
       const written = ev ? ED.besideOf(html, ms, i) : null;
-      if (!found.has(check)) found.set(check, { page, raw: decode(m[2]), text, usdFormat, written: written ? [written] : [], also: [] });
-      else if (ev) {
-        const f = found.get(check), o = f.page === page ? f : f.also.find((x) => x.page === page);
-        if (o) { if (written && !o.written.includes(written)) o.written.push(written); }
-        else f.also.push({ page, raw: decode(m[2]), text, usdFormat, written: written ? [written] : [] });
-      }
+      const o = onPage.get(check);
+      if (!o) onPage.set(check, { raw: decode(m[2]), text, usdFormat, written: written ? [written] : [] });
+      else if (written && !o.written.includes(written)) o.written.push(written);
     }
-  }
-  let ok = 0, bad = 0, superseded = 0;
-  const lines = [];
-  for (const [check, first] of found) {
-    const { page, raw, text } = first;
-    let t = await truth(check);
-    if (t && t.latest) {
-      const lag = (new Date(t.ts).getTime() - new Date(t.pageTs).getTime()) / 60000;
-      if (lag > 0) {
-        const pass = lag <= LATEST_LAG_MIN && text.startsWith(shown(raw));
-        pass ? superseded++ : bad++;
-        lines.push(`${pass ? "late" : "FAIL"} | ${page} | ${check} | page shows "${text}" for the interval starting ${t.pageTs} | Supabase now holds ${t.ts} (${lag} minutes later; the earlier interval is held nowhere to compare)${pass ? "" : `: more than ${LATEST_LAG_MIN} minutes behind`}`);
-        continue;
+    for (const [check, { raw, text, usdFormat, written }] of onPage) {
+      const first = !seen.has(check);
+      if (!first && !ev) continue;   // a key judged on an earlier page is not judged again, but on an event page
+      out.keys.push(check);
+      let t;
+      if (truths.has(check)) t = truths.get(check);
+      else {
+        try {
+          t = await truth(check);
+        } catch (e) {
+          if (RUN.isTimeout(e)) throw e;   // the database's slowness: the page waits for its second try
+          out.bad++;
+          out.n++;
+          out.lines.push(`FAIL | ${page} | ${check} | the check's own query failed: ${e.message}`);
+          continue;
+        }
+        truths.set(check, t);
       }
-      if (lag < 0) {
-        bad++;
-        lines.push(`FAIL | ${page} | ${check} | the page's interval ${t.pageTs} is newer than Supabase's ${t.ts}`);
-        continue;
+      if (t && t.latest) {
+        const lag = (new Date(t.ts).getTime() - new Date(t.pageTs).getTime()) / 60000;
+        if (lag !== 0 && !first) continue;   // a latest price not comparable by value is reported once, on its first page
+        if (lag > 0) {
+          const pass = lag <= LATEST_LAG_MIN && text.startsWith(shown(raw));
+          pass ? out.superseded++ : out.bad++;
+          out.n++;
+          out.lines.push(`${pass ? "late" : "FAIL"} | ${page} | ${check} | page shows "${text}" for the interval starting ${t.pageTs} | Supabase now holds ${t.ts} (${lag} minutes later; the earlier interval is held nowhere to compare)${pass ? "" : `: more than ${LATEST_LAG_MIN} minutes behind`}`);
+          continue;
+        }
+        if (lag < 0) {
+          out.bad++;
+          out.n++;
+          out.lines.push(`FAIL | ${page} | ${check} | the page's interval ${t.pageTs} is newer than Supabase's ${t.ts}`);
+          continue;
+        }
+        t = t.value;
       }
-      t = t.value;
-    }
-    // session 369: each page the key is reported under (the first; on event pages, every event page that carries it)
-    for (const { page, raw, text, usdFormat, written } of [first, ...first.also]) {
       const isTime = /^\d{4}-\d{2}-\d{2}T/.test(raw);
       // sums of floats may differ in the last bits with the order of addition: relative tolerance
       // session 315: a figure written as text in its own file (a card's callout, "126.6x") is compared as text
@@ -1150,7 +1204,7 @@ async function main() {
       // is compared with the row of that date among its entity's rows (never another day's), an estimate of a day with
       // that day's, and a date the page writes beside the figure must be the same date
       let of = "";
-      if (ED.isEventPage(page)) {
+      if (ev) {
         const kd = ED.keyDate(check);
         const rows = !kd || kd.window ? [] : check.startsWith("series|") ? await eventRows(check) : [{ ts_utc: `${kd.date}T00:00:00Z`, value: t }];
         const w = written.find((x) => kd && !kd.window && x !== kd.date) ?? written[0] ?? null;
@@ -1158,30 +1212,79 @@ async function main() {
         if (d.pass === false) pass = false;
         of = ` of ${d.label}${d.why ? ` (${d.why})` : ""} |`;
       }
-      pass ? ok++ : bad++;
-      lines.push(`${pass ? "ok  " : "FAIL"} | ${page} | ${check} |${of} page shows "${text}" | page read ${raw} | Supabase ${t}`);
+      pass ? out.ok++ : out.bad++;
+      out.n++;
+      out.lines.push(`${pass ? "ok  " : "FAIL"} | ${page} | ${check} |${of} page shows "${text}" | page read ${raw} | Supabase ${t}`);
     }
-  }
-  for (const [page, count] of perPage) {
     const floor = FLOOR[page];
-    if (floor !== undefined && count < floor) {
-      bad++;
-      lines.push(`FAIL | ${page} | the floor | the page carries ${count} checked numbers; its floor is ${floor} (scripts/check-values-floor.json): a read failed and the page drew fewer numbers, or a number lost its key`);
+    if (floor !== undefined && out.count < floor) {
+      out.bad++;
+      out.lines.push(`FAIL | ${page} | the floor | the page carries ${out.count} checked numbers; its floor is ${floor} (scripts/check-values-floor.json): a read failed and the page drew fewer numbers, or a number lost its key`);
     }
     // session 408: a page read here with no floor is said on its own line (not a failure): a run with
     // CHECK_VALUES_WRITE_FLOOR=1 that passes in full gives it one
-    if (floor === undefined) lines.push(`note | ${page} | the floor | the page carries ${count} checked numbers and has no floor in scripts/check-values-floor.json`);
+    if (floor === undefined) out.lines.push(`note | ${page} | the floor | the page carries ${out.count} checked numbers and has no floor in scripts/check-values-floor.json`);
+    if (!signal.aborted) for (const k of out.keys) seen.add(k);   // a page that ran out of time leaves its keys to the next
+    return out;
   }
-  const [wok, wbad] = ONLY.length ? [0, 0] : await checkWeekly(lines);
-  ok += wok;
-  bad += wbad;
-  const n = [...found.values()].reduce((a, f) => a + 1 + f.also.length, 0) + wok + wbad;   // session 369: a key on several event pages is a line each
+  async function readWeekly() {
+    const lines = [];
+    const [wok, wbad] = await checkWeekly(lines);
+    return { page: WEEKLY, lines, ok: wok, bad: wbad, superseded: 0, n: wok + wbad, keys: [], weekly: true };
+  }
+  async function readPage(page, signal) {
+    pageSignal = signal;
+    // a timeout leaves a cached read rejected: the page's second try reads again
+    signal.addEventListener("abort", () => { dcAnswers.clear(); dcllRows.clear(); dcqRows.clear(); }, { once: true });
+    try {
+      return page === WEEKLY ? await readWeekly() : await readOne(byPage.get(page), signal);
+    } finally {
+      if (pageSignal === signal) pageSignal = null;
+    }
+  }
+  const t0 = Date.now();
+  function commit(results) {
+    for (const [page, r] of results) {
+      if (state.pages[page]) continue;
+      state.pages[page] = r.error
+        ? { page, lines: [`FAIL | ${page} | the page | ${r.error.message}`], ok: 0, bad: 1, superseded: 0, n: 0, keys: [] }
+        : r;
+    }
+    try {
+      RUN.saveState(STATE_FILE, { ...state, saved_utc: new Date().toISOString() });
+    } catch (e) {
+      console.log(`the state file could not be written (${e.message}); a second run cannot resume this one`);
+    }
+  }
+  const { results, notRead } = await RUN.runPages({
+    pages: ids, readPage, pageMs: PAGE_S * 1000, deadline: RUN_START + RUN_MIN * 60 * 1000, batch: BATCH,
+    done: new Set(Object.keys(state.pages)),
+    onBatch: ({ results: rs, notRead: nr, pending }) => {
+      commit(rs);
+      console.log(`progress | ${Object.keys(state.pages).length} of ${ids.length} read | ${pending.length} waiting for a second try | ${nr.length} not read | ${((Date.now() - t0) / 60000).toFixed(1)} minutes`);
+    },
+    onRetry: (page) => console.log(`retry | ${page} | timed out once; tried again`),
+  });
+  commit(results);
+
+  const done = ids.filter((p) => state.pages[p]).map((p) => state.pages[p]);
+  for (const r of done) if (r.skipped) console.log(r.skipped);
+  const lines = done.flatMap((r) => r.lines);
+  let ok = 0, bad = 0, superseded = 0, n = 0;
+  for (const r of done) { ok += r.ok; bad += r.bad; superseded += r.superseded; n += r.n; }
+  const wk = state.pages[WEEKLY];
+  const [wok, wbad] = [wk?.ok ?? 0, wk?.bad ?? 0];
+  // session 430: what this run could not read, a page a line; their floors are not judged and the run is not a pass
+  const why = new Map(notRead.map((x) => [x.page, x.why]));
+  const missing = ids.filter((p) => !state.pages[p]);
+  for (const p of missing) lines.push(`not read | ${p} | ${why.get(p) ?? "not reached"} | its numbers and its floor are not judged`);
   console.log(lines.join("\n"));
   if (ONLY.length) console.log(`\nRESTRICTED RUN (CHECK_VALUES_PAGES): only the pages starting with ${ONLY.join(", ")}; not the gate of a landing`);
-  console.log(`\n${ok} of ${n} values match Supabase${superseded ? `; ${superseded} latest prices superseded by a newer interval within ${LATEST_LAG_MIN} minutes (checked for staleness, not comparable by value)` : ""}${bad ? `; ${bad} FAILED` : ""} (/roundup: ${wok} of ${wok + wbad})`);
+  console.log(`\n${ok} of ${n} values match Supabase${superseded ? `; ${superseded} latest prices superseded by a newer interval within ${LATEST_LAG_MIN} minutes (checked for staleness, not comparable by value)` : ""}${bad ? `; ${bad} FAILED` : ""} (/roundup: ${wok} of ${wok + wbad})${missing.length ? `; ${missing.length} of ${ids.length} pages NOT READ` : ""}`);
   if (n < 10) console.log(`check-values FAILED: ${n} values checked, fewer than the floor of ten a run`);
+  const perPage = new Map(done.filter((r) => !r.weekly && !r.skipped && r.count !== undefined).map((r) => [r.page, r.count]));
   if (process.env.CHECK_VALUES_WRITE_FLOOR === "1") {
-    if (bad || n < 10) console.log("the floor file was not written: the run did not pass");
+    if (bad || n < 10 || missing.length) console.log(`the floor file was not written: the run did not pass${missing.length ? " (not every page was read)" : ""}`);
     else if (ONLY.length) {
       // session 403: a restricted run that passes in full adds (or sets again) the floors of the pages it read and only
       // those, so a new page gets its floor without a full run moving every other page's; the other lines stay as written
@@ -1196,6 +1299,12 @@ async function main() {
       fs.writeFileSync(FLOOR_FILE, JSON.stringify({ note: "session 268: the smaller of ten and the checked numbers each page carried in a passing full run of check-values.mjs; written with CHECK_VALUES_WRITE_FLOOR=1", written_utc: new Date().toISOString(), base, floor }, null, 2) + "\n");
       console.log(`the floor file was written: ${perPage.size} pages`);
     }
+  }
+  // session 430: a run that read some pages and failed none, but could not read them all, is incomplete: exit 3, never 0,
+  // so no landing takes it for a pass; CHECK_VALUES_RESUME=1 reads only the pages it left
+  if (!bad && missing.length) {
+    console.log(`check-values INCOMPLETE: ${missing.length} pages not read; every value read matched. Run again with CHECK_VALUES_RESUME=1 to read only those (state: ${STATE_FILE})`);
+    process.exit(3);
   }
   if (bad || n < 10) process.exit(1);
 }

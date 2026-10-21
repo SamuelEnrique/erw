@@ -146,7 +146,8 @@ class TheChecks(unittest.TestCase):
     def test_a_restricted_run_that_passes_sets_only_its_pages_floors(self):
         cv = src("site", "scripts", "check-values.mjs")
         block = cv[cv.index('if (process.env.CHECK_VALUES_WRITE_FLOOR === "1") {'):cv.index("if (bad || n < 10) process.exit(1);")]
-        self.assertIn('if (bad || n < 10) console.log("the floor file was not written: the run did not pass");', block)
+        # session 430: and not from a run that left pages unread
+        self.assertIn('if (bad || n < 10 || missing.length) console.log(`the floor file was not written: the run did not pass${missing.length ? " (not every page was read)" : ""}`);', block)
         self.assertIn("else if (ONLY.length) {", block)
         self.assertIn("const merged = { ...kept.floor };", block)
         self.assertIn("for (const [page, count] of perPage) merged[page] = Math.min(10, count);", block)
