@@ -9,6 +9,7 @@
 import { useScenarios } from "@/components/decisions/ScenarioBlock";
 import { SCALES } from "@/components/tool/SeriesChart";
 import { SettingsFold, Tip } from "@/components/tool/ToolPage";
+import { OpenFoldOnHash } from "@/components/tool/OpenFoldOnHash";
 import type { Assumptions } from "@/lib/battery/finance";
 import { CHARTS, CHARTS_MAX, HEADS, HEADS_MAX, type ChartKey, type HeadKey } from "@/lib/battery/view";
 import { STRATEGIES, type Inputs } from "@/lib/batterystack";
@@ -100,6 +101,8 @@ export function Settings({ x, internal, gridName, costs, defaultDs, stepMeta, ye
         </div>
       </SettingsFold>
 
+      {/* session 419: the "#financing" links (below and in the scenarios) open this fold */}
+      <OpenFoldOnHash />
       <div id="financing">
         <SettingsFold id="financing" title="Financing" open={false}
           summary={`Scenario ${s.view.toUpperCase()}: ${plain(a.share)}% debt at ${plain(a.rate)}%, ${plain(a.hurdle)}% hurdle, ${contract}${more}`}>
