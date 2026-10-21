@@ -1021,7 +1021,7 @@ async function main() {
       const pText = /^finding\|[^|]+\|effect\|\d+\|p\|/.test(check) && (Number(raw) < 0.001 ? text === "< 0.001" : text === Number(raw).toFixed(3));
       // session 402: a figure of the Digest's chart of the day is written as the chart-maker rounds it (lib/digest.ts chartText)
       const chartOk = /^digest_chart\|/.test(check) && text === digestChartText(Number(raw));
-      const textOk = hourText || pText || chartOk || text === raw || text.startsWith(usdFormat ? usd(Number(raw)) : whole ? Math.round(Number(raw)).toLocaleString("en-US") : shown(raw));
+      const textOk = hourText || pText || text === raw || text.startsWith(usdFormat ? usd(Number(raw)) : whole ? Math.round(Number(raw)).toLocaleString("en-US") : shown(raw)) || chartOk;
       let pass = t !== undefined && t !== null && same && textOk;
       // session 369 (todo 008): on an event page, the date the figure belongs to is named on its line; a series figure
       // is compared with the row of that date among its entity's rows (never another day's), an estimate of a day with
