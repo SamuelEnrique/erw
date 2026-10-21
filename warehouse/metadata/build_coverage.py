@@ -153,6 +153,11 @@ SECTOR_RULES = [
     (r"^eia_refinery_weekly$", "oil;products"),  # session 543: EIA's weekly refinery inputs and utilization
     (r"^eia_state_source_disposition_annual$", "power"),  # session 544: EIA's state electricity supply and disposition
     (r"^eia_net_metering_state_annual$", "power"),  # session 545: EIA's net-metered capacity and customers by state
+    (r"^eia_nuclear_outages_generator_daily$", "power;uranium"),  # session 548: EIA's nuclear outages by reactor, a day
+    (r"^eia_gas_interstate_annual$", "gas"),  # session 550: EIA's interstate and international gas movements by state
+    (r"^eia_crude_reserves_annual$", "oil"),  # session 551: EIA's crude oil proved reserves by state
+    (r"^eia_gas_reserves_annual$", "gas"),  # session 552: EIA's dry natural gas proved reserves by state
+    (r"^eia_coal_delivered_price_annual$", "coal"),  # session 553: EIA's delivered coal price by state and sector
     (r"^pjm_rpm_capacity_prices$", "capacity"),
     # session 65: capacity prices of the four markets that pay capacity apart, and the day-ahead ancillary services
     (r"^iso_all_capacity_prices$", "capacity"),
