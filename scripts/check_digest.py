@@ -22,6 +22,8 @@ for word against its stored source when it was written (warehouse/news/funfact.p
     python scripts/check_digest.py --supabase            # the live set, with the anon key (read only; ISO prices
                                                          # are held there for 35 days)
     python scripts/check_digest.py --figures FILE        # figures already written by digest-figures.mjs
+    python scripts/check_digest.py --supabase --then-csv # the live set, then the CSVs for what it does not hold
+                                                         # (session 498: one run traces every Digest)
 
 Each figure is one line: ok, FAIL (the warehouse holds the period and gives another value), or "not here" (the source
 read does not hold the period: an old copy of the CSVs, or past the live set's window). Exit 1 when any figure fails,
@@ -310,10 +312,16 @@ def main(argv=None):
     ap.add_argument("--supabase", action="store_true")
     ap.add_argument("--figures")
     ap.add_argument("--date", action="append", help="only these Digests (YYYY-MM-DD; repeat)")
+    # session 498: the live set keeps ISO prices 35 days and not every row of the monthly tables, the CSVs of a copy end
+    # where its last sync ended; a figure "not here" in the live set is read again from the CSVs of --in-dir, and its
+    # line says the CSVs traced it. Without the flag nothing changes.
+    ap.add_argument("--then-csv", action="store_true", help="with --supabase: read a figure the live set does not hold from --in-dir")
     a = ap.parse_args(argv)
     src = Live() if a.supabase else Csv(a.in_dir)
+    alt = Csv(a.in_dir) if (a.supabase and a.then_csv) else None
     data = figures(a.figures)
-    print(f"check_digest: {len(data['digests'])} Digests, read against {src.describe()}; holds of {data['holds_on']}")
+    print(f"check_digest: {len(data['digests'])} Digests, read against {src.describe()}"
+          + (f", then {alt.describe()} for what it does not hold" if alt else "") + f"; holds of {data['holds_on']}")
     n = {"ok": 0, "FAIL": 0, "not here": 0, "record": 0, "source": 0}
     for date, d in sorted(data["digests"].items()):
         if a.date and date not in a.date:
@@ -323,12 +331,26 @@ def main(argv=None):
                 st, got = check_figure(src, date, f, d.get("chart") or {})
             except Exception as exc:   # a failed read is not a figure checked: said so, loudly
                 st, got = "not here", f"read failed: {exc!r}"[:200]
+            if st == "not here" and alt:
+                try:
+                    st2, got2 = check_figure(alt, date, f, d.get("chart") or {})
+                except Exception as exc:
+                    st2, got2 = "not here", f"read failed: {exc!r}"[:200]
+                if st2 != "not here":
+                    st, got = st2, f"{got2} (the CSVs; the live set: {got})"
             n[st] += 1
             print(f"{st:8} | {date} | {f['key']} | page {'license needed' if f['held'] else repr(f['text'])} (raw {f['raw']}) | warehouse {got}")
         try:
             facts = check_fact(src, date)
         except Exception as exc:
             facts = [("not here", "fun fact", f"read failed: {exc!r}"[:200])]
+        if alt and any(st == "not here" for st, _, _ in facts):
+            try:
+                again = check_fact(alt, date)
+            except Exception as exc:
+                again = [("not here", "fun fact", f"read failed: {exc!r}"[:200])]
+            if not any(st == "not here" for st, _, _ in again):
+                facts = [(st, what, f"{got} (the CSVs)") for st, what, got in again]
         for st, what, got in facts:
             n[st] += 1
             print(f"{st:8} | {date} | {what} | {got}")
