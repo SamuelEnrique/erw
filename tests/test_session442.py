@@ -13,6 +13,7 @@ import unittest
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 DOC = os.path.join(ROOT, "docs", "reviews", "digest-audit-2026-10-21.md")
 CEILING = 250
+AUDITED = "2026-10-21"   # the audit's own day (its first line)
 
 
 def _doc():
@@ -39,7 +40,10 @@ class TestSession442(unittest.TestCase):
             self.assertTrue(os.path.exists(os.path.join(ROOT, "docs", "digest", f"{d}.md")), d)
 
     def test_issue_table_names_every_issue_held(self):
+        # the issues the repository held when the audit was read (21 October, 07:16 to 07:50 UTC, before that day's Digest
+        # was written): an issue written after the audit is not one it could name
         held = {os.path.basename(p)[:10] for p in glob.glob(os.path.join(ROOT, "docs", "digest", "2026-*.md"))}
+        held = {d for d in held if d < AUDITED}
         table = _section(_doc(), "## 1. What was read", "## 2.")
         rows = set(re.findall(r"\| `docs/digest/(2026-\d\d-\d\d)\.md` \|", table))
         self.assertEqual(rows, held)

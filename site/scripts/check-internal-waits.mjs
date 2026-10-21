@@ -65,7 +65,10 @@ try {
   const first = w.reports[0]?.waits[0];
   if (first) {
     const words = first.md.replace(/^\s*([-*+]|\d+[.)])\s+/, "").replace(/[*_`]/g, "").replace(/\s+/g, " ").slice(0, 60);
-    check(t.replace(/[*_`]/g, "").includes(words), "the newest report's first item is in the report's own words", `("${words}")`);
+    // compared without whitespace: text() turns each tag into a space, so a code span before a comma reads "wip/479-streak ,"
+    // (session 479's first item, 21 October), which is the page's markup, not other words
+    const bare = (s) => s.replace(/[*_`]/g, "").replace(/\s+/g, "");
+    check(bare(t).includes(bare(words)), "the newest report's first item is in the report's own words", `("${words}")`);
   }
   check(t.includes(`the reports after session ${w.marker.last}`) && t.includes("last_answered:") && html.includes(`${w.repo}/blob/main/${w.marker.path}`),
     "the page says which report was the last answered, and where a person changes it");

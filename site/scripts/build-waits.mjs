@@ -252,7 +252,16 @@ export function parseReport(file, raw) {
 // the rule that made it and the words that matched, and the page prints them, so a person can read why and overrule it.
 // A report that lands later (a session run on another branch) is read by the next build, and its items join.
 
-export const LEDGER = { from: 351, to: 413 };
+// Session 425: the run ends at the newest report present at the build ("newest"), so that a report that lands later
+// joins the ledger without a change here; 351 to 413 until then. resolveRun turns "newest" into that number.
+export const LEDGER = { from: 351, to: "newest" };
+
+/** The run with its end as a number: "newest" is the highest session number among the reports read, from LEDGER.from. */
+export function resolveRun(reports, run = LEDGER) {
+  if (run.to !== "newest") return run;
+  const ns = (reports ?? []).map((r) => r.n).filter((n) => Number.isFinite(n) && n >= run.from);
+  return { from: run.from, to: ns.length ? Math.max(...ns) : run.from };
+}
 export const NOTES = "docs/state";
 
 // an item that only sends the reader to another list and asks nothing of its own ("The items of the note's ...")
@@ -470,6 +479,7 @@ function noteScore(t, g) {
 
 /** The ledger, from the parsed reports (parseReport) and the notes (readNotes). */
 export function ledger(reports, notes, marker = { error: "not given", order: null }, run = LEDGER) {
+  run = resolveRun(reports, run);
   const inRange = reports.filter((r) => r.n >= run.from && r.n <= run.to).sort((a, b) => a.order - b.order);
   const answered = marker && marker.error === null && marker.order !== null ? marker.order : null;
   const heldNums = [...new Set(inRange.map((r) => r.n))];
@@ -603,12 +613,12 @@ export function build(repo, now = new Date()) {
   all.sort((a, b) => b.order - a.order);
   const reports = all.filter((r) => r.waits.length > 0);
   const decidedOnly = all.filter((r) => r.waits.length === 0 && r.decided.length > 0).map((r) => ({ id: r.id, title: r.title, url: r.url, date_words: r.date_words, count: r.decided.length }));
-  // session 414: the ledger of LEDGER.from to LEDGER.to; a fault in it is said on the page and never fails the build
+  // session 414: the ledger of LEDGER.from to LEDGER.to (session 425: to the newest report read); a fault in it is said on the page and never fails the build
   let led;
   try {
     led = ledger(all, readNotes(repo), marker);
   } catch (e) {
-    led = { ...LEDGER, error: `the ledger could not be made: ${String(e && e.message ? e.message : e).slice(0, 200)}` };
+    led = { ...resolveRun(all), error: `the ledger could not be made: ${String(e && e.message ? e.message : e).slice(0, 200)}` };
   }
   return { ...base, marker, reports, decided_only: decidedOnly, counts: { after: all.length, listed: reports.length, items: reports.reduce((a, r) => a + r.waits.length, 0) }, ledger: led };
 }

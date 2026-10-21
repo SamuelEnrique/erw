@@ -54,7 +54,7 @@ function Monthly({ rows }: { rows: SeriesRow[] }) {
   const lines: Line[] = ISOS.map((i) => ({ label: i.label, color: i.color, points: of(i.entity).map((r) => ({ t: new Date(r.ts_utc).getTime() / 1000, v: r.value })) }));
   return (
     <>
-      <LineChart lines={lines} unit="kg CO2/MWh" height={280} ariaLabel="Carbon intensity of generation per ISO, monthly since 2018" />
+      <LineChart lines={lines} unit="kg CO2/MWh" height={280} x="month" ariaLabel="Carbon intensity of generation per ISO, monthly since 2018" />  {/* session 416: x="month", so the axis reads 2018-07 to 2026-09, not 08-01 to 09-01 */}
       <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm tabular-nums">
         {ISOS.map((i) => {
           const first = of(i.entity)[0];

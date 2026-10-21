@@ -27,9 +27,13 @@ export function regionName(el: HTMLElement): string {
 }
 
 export function markScrollers(root: ParentNode = document) {
-  root.querySelectorAll<HTMLElement>(SCROLLERS).forEach((el) => {
+  // session 428: every box's sizes are read first and the attributes written after, so the browser lays the page out
+  // once, not once a box (a write between two reads forced a new layout: Lighthouse's forced reflow)
+  const boxes = [...root.querySelectorAll<HTMLElement>(SCROLLERS)].map((el) => ({
+    el, scrolls: el.scrollWidth > el.clientWidth + 1 || el.scrollHeight > el.clientHeight + 1,
+  }));
+  boxes.forEach(({ el, scrolls }) => {
     const ours = el.dataset.scrollFocus === "1";
-    const scrolls = el.scrollWidth > el.clientWidth + 1 || el.scrollHeight > el.clientHeight + 1;
     const reachable = !!el.querySelector(FOCUSABLE);
     if (scrolls && !reachable && !ours && !el.hasAttribute("tabindex")) {
       el.tabIndex = 0;
@@ -50,7 +54,8 @@ export function ScrollRegions() {
   useEffect(() => {
     let t: ReturnType<typeof setTimeout> | undefined;
     const soon = () => { if (t) clearTimeout(t); t = setTimeout(() => markScrollers(), 150); };
-    markScrollers();   // at once, and again once the fonts and the charts have settled
+    // session 428: once the fonts and the charts have settled, not at once: a pass inside this effect read the boxes'
+    // sizes while the page was still being laid out after it loaded, and so forced the browser to lay it out early
     soon();
     window.addEventListener("resize", soon);
     document.addEventListener("toggle", soon, true);   // a details opened: its table is laid out only now

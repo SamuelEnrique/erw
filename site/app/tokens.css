@@ -189,6 +189,18 @@ body:has(.brand-a) > footer {
 .brand-a a[class*="border"] {
   text-decoration: none;               /* a link drawn as a button or a segment is told by its edge */
 }
+/* Session 423: the footer's links stand in its one sentence of running text, outside the wrapper the rule above
+   reads, so they were told from the sentence by their color alone (WCAG 1.4.1; cardinal against the captions grey is
+   1.67 to 1). They are underlined as the brand's links in running text are. A link to a page in review is drawn as a
+   span (components/SiteLink.tsx) and is not matched. */
+body:has(.brand-a) > footer a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+body:has(.brand-a) > footer a:hover {
+  text-decoration-thickness: 2px;
+}
 .brand-a [id] {
   scroll-margin-top: 16px;
 }

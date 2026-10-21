@@ -20,7 +20,9 @@ import { env, unlockPost } from "./browser.mjs";
 
 const args = process.argv.slice(2);
 const base = (args[0] ?? "http://localhost:3000").replace(/\/$/, "");
-const pages = args.length > 1 ? args.slice(1) : ["/board", "/prices"];
+// session 416: Git Bash on Windows rewrites a page that begins with "/" into a Windows path (session 403's run exited
+// 127 on it); both spellings are taken, as check-review-pages.mjs does, so a caller needs no MSYS_NO_PATHCONV=1
+const pages = (args.length > 1 ? args.slice(1) : ["/board", "/prices"]).map((p) => p.replaceAll("\\", "/").replace(/^[A-Za-z]:\/.*?\/Git(?=\/)/, "")).map((p) => (p.startsWith("/") ? p : `/${p}`));
 let bad = 0, n = 0;
 const check = (ok, what) => { n += 1; if (!ok) bad += 1; console.log(`${ok ? "ok  " : "FAIL"} ${what}`); };
 
