@@ -32,6 +32,7 @@ Every gate redirected to a file under `runs/chain_024/s537/`, never piped; the e
 | `tests.test_session537` | 0 | 8 tests OK |
 | The tests that read `lib/supabase.ts` or the alias loader (90, 148, 153, 154_page, 157_page, 163, 215, 272, 301, 408, 66, 537) | 0 | 213 tests OK, 15 skipped |
 | The whole suite (`ERW_LOCK_EXEMPT=1 ... -m unittest discover -s tests`) | 0 | 5,234 tests OK, 291 skipped; none of the known flakes (`test_session156`, `484`, `114`, `188_idle`) failed this time |
+| Disk again at 20:46 UTC, 16 minutes after the failure (the second try the brief allows) | n/a | 256 MB free: still too little for `npm ci` (528 MB) and a build |
 | `npm run build`, check-routes, check-values | not run | no disk space (above): under "To finish" |
 
 ## Decisions made without you
