@@ -5,6 +5,7 @@
   "floor": {
     "/": 10,
     "/board": 0,
+    "/contracts": 0,
     "/cost-of-power": 10,
     "/cost-of-power?grid=caiso": 10,
     "/cost-of-power?run=hours": 10,
@@ -21,6 +22,7 @@
     "/cost-of-power/battery?grid=ercot&dur=2&strat=foresight": 10,
     "/cost-of-power/battery?grid=ercot&dur=4&strat=dayahead": 10,
     "/cost-of-power/battery?grid=ercot&dur=8&strat=dayahead": 10,
+    "/cost-of-power/battery/awards": 0,
     "/cost-of-power/seller": 10,
     "/cost-of-power/seller?asset=battery": 10,
     "/cost-of-power/seller?asset=peaker": 10,
