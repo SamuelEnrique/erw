@@ -162,6 +162,13 @@ if (fs.existsSync(digestCharts)) {
 // Session 238: each day's record beside its picture (docs/digest/charts/<date>.json), for /research: the one fact, the
 // table and the source it was read from, as the warehouse wrote them. A day with a picture and no record is not listed.
 const digestChartRecords = {};
+// Session 411: the picture's own size, read from its PNG header (the IHDR chunk: width and height at bytes 16 and 20), so
+// a page reserves the right room for it before it arrives; the pages had written 1600 by 900 for pictures of 1200 by 880.
+function pngSize(file) {
+  const b = fs.readFileSync(file);
+  if (b.length < 24 || b.toString("latin1", 12, 16) !== "IHDR") return {};
+  return { width: b.readUInt32BE(16), height: b.readUInt32BE(20) };
+}
 if (fs.existsSync(digestCharts)) {
   for (const f of fs.readdirSync(digestCharts).sort()) {
     const m = f.match(/^(\d{4}-\d{2}-\d{2})\.json$/);
@@ -170,6 +177,7 @@ if (fs.existsSync(digestCharts)) {
     digestChartRecords[m[1]] = { date: r.date ?? m[1], title: r.title ?? "", fact: r.fact ?? "", table: r.table ?? "", source: r.flag?.source ?? "", unit: r.flag?.unit ?? "",
       rule: r.flag?.rule ?? "", rendered_at: r.rendered_at ?? "", image: `${m[1]}.png`, proof: r.proof === true,
       numbers: r.numbers && typeof r.numbers === "object" ? r.numbers : {} };   // session 315: the record's own figures, each a Num on /research
+    Object.assign(digestChartRecords[m[1]], pngSize(path.join(digestCharts, `${m[1]}.png`)));   // session 411: width and height in pixels
   }
 }
 

@@ -275,3 +275,11 @@ What sessions 318, 319 and 328 changed, so that this note says what the page dra
 - **Downloads** (session 328): under the board, each public table the board is built from, as the live set's CSV
   (`/api/download`), with a Python and a Stata reader of that CSV. A table not in the live set is named with its place
   on Redivis. The workbench's own CSV (the rows shown) is unchanged.
+
+## The figures on the page and their keys
+
+Each number `/grid` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The keys the sections above do not name:
+
+- `price_board_latest`, `da_latest_day_mean`, `rt_latest_day_mean`: a grid's block "What it costs" (`components/grid/YourGrid.tsx`): the day-ahead and the real-time daily mean at the grid's hub, each on its own latest day, USD per MWh.
+- `price_board_peak_offpeak`, `da_peak_mean`, `da_offpeak_mean`: the same block: the day-ahead peak mean on its latest day, and the off-peak mean of the same day.
+- `price_board_latest`, `da_avg_30d`: the same block: the average written beside the 30-day line of the day-ahead daily mean.

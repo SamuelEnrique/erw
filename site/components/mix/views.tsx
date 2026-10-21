@@ -15,7 +15,7 @@ import * as clean from "@/lib/clean";
 import { LICENSE_NEEDED, licenseHeldRow, licenseTitle } from "@/lib/license";  // session 215
 import * as mix from "@/lib/mix2";
 import { CLEAN, FORECAST, HISTORY, MIX, PLUS, STRESS, type Hourly, type Slug } from "@/lib/mixdata";
-import { DASHES, FUEL_COLOR, FUEL_WORDS, GRID_COLORS, HOURS, SEASON_NAMES, hrefOf, n0, n1, n2, ofPeak, peakOf, yearShade, type Choice } from "@/lib/mixpage";
+import { DASHES, FUEL_COLOR, FUEL_WORDS, GRID_COLORS, HOURS, SEASON_NAMES, n0, n1, n2, ofPeak, peakOf, yearShade, type Choice } from "@/lib/mixpage";
 import { STATES } from "@/lib/regions";
 import * as stress from "@/lib/stress";
 
