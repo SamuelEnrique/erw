@@ -99,6 +99,11 @@ TIMESTAMP = {"ts_utc", "retrieved_at", "event_date"}
 # equal in value is no rollback (session 374's 31 refusals)
 STAMPS = {"retrieved_at"}
 VACUUM_SHARE = 0.01  # session 455: series is vacuumed after a load only when the load changed more than this share of it
+# Session 477: the database gate before the first write (scripts/db_probe.py, session 431: one page-shaped read under
+# 5 seconds, open under 3), a skip under warehouse/health.py when it is closed; and a pause after a large table's write,
+# so that the disk is not asked for the next table at once (the night of 20 to 21 October 2026, docs/state/database_2026-10-21.md)
+GATE_SKIP = 75
+PAUSE_ROWS, PAUSE_S = 100_000, 10
 CAT_NUMERIC = {"n_nodes", "n_rows"}
 
 
@@ -529,6 +534,31 @@ def union_table(name):
     return any(re.search(p, name) for p in LIVE.get("union_by_key") or [])
 
 
+def gate(probe=None, url=None):
+    """Session 477: None when the database gate is open, else why it is closed. Without SUPABASE_DB_URL the probe
+    cannot run and the load goes on as before (the API path), saying so."""
+    url = url or db_url()
+    if url is None:
+        print("the database gate was not asked: SUPABASE_DB_URL is not set")
+        return None
+    if probe is None:
+        sys.path.insert(0, os.path.join(ROOT, "scripts"))
+        import db_probe
+        probe = db_probe.probe
+    code, s, what = probe(url)
+    print(f"the database gate: {'open' if code == 0 else 'CLOSED'}, {s:.2f} s, {what}")
+    return None if code == 0 else f"{s:.2f} s, {what}"
+
+
+def pause_after(written, sleep=None):
+    """Session 477: after a table that wrote PAUSE_ROWS rows or more, PAUSE_S seconds before the next. Returns the pause."""
+    if written < PAUSE_ROWS:
+        return 0
+    (sleep or __import__("time").sleep)(PAUSE_S)
+    print(f"         {written:,} rows written: a pause of {PAUSE_S} s before the next table")
+    return PAUSE_S
+
+
 def value_diff(client, name, df, shape, license_, loaded_at, conn=None):
     """Session 455: the rows to write (new keys, or values that moved) and the keys Supabase holds that the file does
     not, each row compared without its STAMPS. Returns (records to write, keys gone)."""
@@ -692,6 +722,10 @@ def main(argv=None):
     print(f"rows selected: {total:,}")
     if args.dry_run:
         return 0
+    closed = gate()
+    if closed:  # session 477: the database gate (scripts/db_probe.py), before the first write
+        print(f"the database gate is closed ({closed}): nothing loaded; a skip (exit {GATE_SKIP})")
+        return GATE_SKIP
 
     from supabase import create_client
     u = urllib.parse.urlparse(env("SUPABASE_URL"))
@@ -750,6 +784,7 @@ def main(argv=None):
             else:
                 written, deleted = sync_table(client, name, df, shape, lic[name], loaded_at, days, now, conn, union=union)
             changed[shape] = changed.get(shape, 0) + written + deleted
+            pause_after(written + deleted)
             n = live_count(client, shape, name, conn)
             ok = n >= len(df) if union else n == len(df)  # a union holds every row of the file, and may hold more
             if union:
