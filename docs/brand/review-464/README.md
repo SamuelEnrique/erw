@@ -15,3 +15,9 @@ Session 464, 21 October 2026, portable-laptop. What changed, and where to look:
 Not taken: the database gate was closed at the session's end (`scripts/db_probe.py`, 3.23 s against 3 s at 10:01 UTC), so no local build. The commands are in `archive/sessions/SESSION_464_REPORT.md`, "To finish": the same four addresses, into `after/`.
 
 Impeccable is not installed on this laptop; it was not run.
+
+## After (session 461)
+
+Taken by session 461 on 21 October 2026, about 12:30 UTC, from the local build of `wip/461-combined` (every branch of
+chain 019 merged onto main, the internal view) at 1280 and 390 px, into `after/`. The build read the live set while it
+was slow (the probe at 2.92 s against 3 s); the shots show these pages as the build drew them.

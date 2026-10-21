@@ -20,3 +20,9 @@ What to look at, before against after:
 - The board's uppercase labels were already drawn in sentence case by `tokens.css`; removing the classes changes nothing on the screen.
 
 Every number is the same: no checked-number key moved (`tests/test_session473.py`), and `check-values` on the build is the proof the landing runs.
+
+## After (session 461)
+
+Taken by session 461 on 21 October 2026, about 12:30 UTC, from the local build of `wip/461-combined` (every branch of
+chain 019 merged onto main, the internal view) at 1280 and 390 px, into `after/`. The build read the live set while it
+was slow (the probe at 2.92 s against 3 s); the shots show these pages as the build drew them.

@@ -11,3 +11,9 @@ What to look at in the after shots, when taken: the tracker's tab active, the ti
 by" line (deal type, technology, grid, year), then under the hold the words "license needed" and the held note, and
 the decisions fold. With the hold lifted (a local build that reads a copy of the table, or a later day): the chart of
 median sizes, the table with "fewer than three" in most cells.
+
+## After (session 461)
+
+Taken by session 461 on 21 October 2026, about 12:30 UTC, from the local build of `wip/461-combined` (every branch of
+chain 019 merged onto main, the internal view) at 1280 and 390 px, into `after/`. The build read the live set while it
+was slow (the probe at 2.92 s against 3 s); the shots show these pages as the build drew them.

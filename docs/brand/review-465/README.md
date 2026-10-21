@@ -10,3 +10,9 @@ build ran. The commands are in `archive/sessions/SESSION_465_REPORT.md`, "To fin
 What to look at in the after shots, when taken: the tracker under the hold shows the words "license needed" with the
 publishers in the hover, then a note that the hold covers every row, with the row count from the catalogue; both
 tabs end with a "Decisions (17)" fold; the panel has two more choices, "Kind (master plan tool 6)" and "Status".
+
+## After (session 461)
+
+Taken by session 461 on 21 October 2026, about 12:30 UTC, from the local build of `wip/461-combined` (every branch of
+chain 019 merged onto main, the internal view) at 1280 and 390 px, into `after/`. The build read the live set while it
+was slow (the probe at 2.92 s against 3 s); the shots show these pages as the build drew them.
