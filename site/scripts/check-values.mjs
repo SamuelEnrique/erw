@@ -124,6 +124,18 @@ const INTERNAL = ["/reports/draft/shape-premium", "/reports/draft/ai-gigawatts"]
 // session 35: the grid pages' config, for their news and datacenter keys (the same file the pages read)
 const GRIDS = JSON.parse(fs.readFileSync(path.join(here, "..", "..", "docs", "grids", "grids.json"), "utf-8")).grids;
 
+// Session 408: the routes under app/ that show a warehouse figure (tests/test_session408.py holds the rule: a page whose
+// code renders a Num with a check key, or reads Supabase through lib/supabase.ts) and were not read here: the contract
+// tracker and the battery fleet's awards. Neither draws its figures through Num yet, so each carries no checked number
+// and its floor is 0; it is read so its address answers and is not the in-review page.
+PAGES.push("/contracts", "/cost-of-power/battery/awards");
+// Session 408: `node scripts/check-values.mjs --list` prints the addresses this script reads ({pages, internal}, JSON)
+// and stops, before any variable is read or any request made: tests/test_session408.py holds them against site/app/.
+if (process.argv[2] === "--list") {
+  console.log(JSON.stringify({ pages: PAGES, internal: INTERNAL }));
+  process.exit(0);
+}
+
 function env(name) {
   if (process.env[name]) return process.env[name];
   const f = path.join(here, "..", ".env.local");
@@ -1002,6 +1014,9 @@ async function main() {
       bad++;
       lines.push(`FAIL | ${page} | the floor | the page carries ${count} checked numbers; its floor is ${floor} (scripts/check-values-floor.json): a read failed and the page drew fewer numbers, or a number lost its key`);
     }
+    // session 408: a page read here with no floor is said on its own line (not a failure): a run with
+    // CHECK_VALUES_WRITE_FLOOR=1 that passes in full gives it one
+    if (floor === undefined) lines.push(`note | ${page} | the floor | the page carries ${count} checked numbers and has no floor in scripts/check-values-floor.json`);
   }
   const [wok, wbad] = ONLY.length ? [0, 0] : await checkWeekly(lines);
   ok += wok;
