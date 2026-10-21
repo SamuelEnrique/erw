@@ -18,7 +18,20 @@ pip install "erw[redivis] @ git+https://github.com/SamuelEnrique/erw.git#subdire
 ```
 
 An install from GitHub has the code but not the tables: point it at data with
-`ERW_BACKEND=redivis` or `ERW_BACKEND=supabase` (below), or with `ERW_DATA_DIR`.
+`ERW_BACKEND=redivis` or `ERW_BACKEND=supabase` (below; each needs its extra),
+or with `ERW_DATA_DIR`. With none of them, `erw.info()` stops with "No ERW data
+directory found". The Supabase live set reads with the anon key, public rows
+only:
+
+```bash
+pip install "erw[supabase] @ git+https://github.com/SamuelEnrique/erw.git#subdirectory=package"
+export ERW_BACKEND=supabase ERW_SUPABASE_ROLE=anon
+export SUPABASE_URL=<the project's address> SUPABASE_ANON_KEY=<its anon key>
+```
+
+The address and the anon key are not published: the site reads them on its
+server only (`docs/reviews/2026-10-10-security.md`), so a reader outside the
+project asks the ERW for them, or reads Redivis or a clone's tables.
 
 From a clone of the erw repository, which reads the clone's tables:
 
@@ -48,10 +61,19 @@ means, how to cite, and how to download a table from the site.
 ```python
 import erw
 erw.info()                                   # what the warehouse holds, and its data commit
-df = erw.fetch("ercot_dam_hub_prices")      # ts_utc is the interval START, in UTC
+df = erw.fetch("iso_dam_hub_prices", market="ercot_dam")   # ts_utc is the interval START, in UTC
 print(df.attrs["erw"]["sources"])            # the ISO report(s) behind the numbers
-print(erw.cite("ercot_dam_hub_prices"))      # cite the ISO report, and the ERW table
+print(erw.cite("iso_dam_hub_prices"))        # cite the ISO report, and the ERW table
 ```
+
+Session 29 moved 54 tables into 6 with the partition in a column
+(`market`, `ba`, `year`): `ercot_dam_hub_prices` is now the `ercot_dam`
+partition of `iso_dam_hub_prices`. An old name still reads, with a
+DeprecationWarning, wherever `warehouse/metadata/table_migrations.csv` is
+found (beside the tables' directory, as `coverage.csv` is, or in the clone).
+Every example of this README, of `docs/guide.md` and of `llms.txt` was run in a
+new virtual environment in session 536, each with its exit code, in
+`archive/sessions/SESSION_536_REPORT.md`.
 
 `erw.cite` names the data commit. For a released Redivis version, cite it as
 `docs/redivis/release-v1.md` ("How to cite v1") gives: the publisher, the
@@ -85,7 +107,8 @@ Every function reads through `erw.get_backend()`. Today that is
 - **`erw.RedivisBackend`** reads the Redivis dataset `energy_research_warehouse` (every table). It needs `REDIVIS_API_TOKEN` and `REDIVIS_OWNER` (`pip install -e "package[redivis]"`).
 - **`erw.SupabaseBackend`** reads the Supabase live set (`warehouse/supabase/live_set.yaml`). It needs `SUPABASE_URL` with `SUPABASE_SERVICE_KEY`. With `SUPABASE_ANON_KEY` and `ERW_SUPABASE_ROLE=anon`, it reads public rows only (`pip install -e "package[supabase]"`).
 
-`ERW_BACKEND=local|redivis|supabase` picks one for `erw.set_backend()`. Any other backend subclasses `erw.Backend` and is passed to `erw.set_backend(...)`. The public functions do not change. `erw.set_backend("/path/to/output")` points the local
+`ERW_BACKEND=local|redivis|supabase` picks one on first use (since session 536; before, only for
+`erw.set_backend()`) and for `erw.set_backend()`. Any other backend subclasses `erw.Backend` and is passed to `erw.set_backend(...)`. The public functions do not change. `erw.set_backend("/path/to/output")` points the local
 backend at another directory.
 
 ## Tests
