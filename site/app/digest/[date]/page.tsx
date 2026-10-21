@@ -37,29 +37,22 @@ export default async function DigestDay({ params }: PageProps<"/digest/[date]">)
       {later ? <Link href={`/digest/${later}`}>Later: {later}</Link> : null}
     </p>
   );
-  if (kind === "weekend") {
-    // session 23: the digest is written Monday to Friday; the weekend's stories open Sunday's Energy Roundup
-    const week = isoWeek(date);
-    return (
-      <Brand>
-        {nav}
-        <h1 className="mb-2 text-3xl">No weekend issue</h1>
-        <p className="max-w-prose" data-digest-none="weekend">
-          {dayWords(date)}: ERW&apos;s Energy Digest is written Monday to Friday. The weekend&apos;s top stories open ERW&apos;s Roundup for {week},
-          written and sent on Sunday at 23:00 UTC (4 PM Pacific){" "}
-          {weeklyWeeks().includes(week) ? <Link href={`/roundup/${week}`}>(read it)</Link> : <>(not written yet; <Link href="/roundup">all Roundups</Link>)</>}.
-        </p>
-      </Brand>
-    );
-  }
   if (kind !== "digest") {
-    // session 402: a weekday without a Digest says so in one line, and shows no other day's
+    // session 23: the digest is written Monday to Friday; the weekend's stories open Sunday's Energy Roundup.
+    // session 402: a weekday without a Digest says so in one line too, and shows no other day's
+    const week = isoWeek(date);
     return (
       <Brand>
         {nav}
         <h1 className="mb-2 text-3xl">{TITLE[kind]}</h1>
         <p className="max-w-prose" data-digest-none={kind}>
-          {kind === "pending"
+          {kind === "weekend" ? (
+            <>
+              {dayWords(date)}: ERW&apos;s Energy Digest is written Monday to Friday. The weekend&apos;s top stories open ERW&apos;s Roundup for {week},
+              written and sent on Sunday at 23:00 UTC (4 PM Pacific){" "}
+              {weeklyWeeks().includes(week) ? <Link href={`/roundup/${week}`}>(read it)</Link> : <>(not written yet; <Link href="/roundup">all Roundups</Link>)</>}.
+            </>
+          ) : kind === "pending"
             ? <>No Digest yet for {dayWords(date)}: the weekday brief is written by the daily run, which starts at 14:00 UTC.</>
             : <>No Digest was published for {dayWords(date)}.</>}
         </p>

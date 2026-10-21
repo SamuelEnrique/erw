@@ -82,6 +82,17 @@ def day_bounds(day, tz):
     return start, end, int(round((end.astimezone(timezone.utc) - start.astimezone(timezone.utc)).total_seconds() / 3600))
 
 
+def header_rows(path):
+    """The "#" lines before the column row (warehouse/connectors/iso_prices.py header_rows; connectors share no code)."""
+    n = 0
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            if not line.startswith("#"):
+                break
+            n += 1
+    return n
+
+
 # ---------------------------------------------------------------------------------------------------------------------
 # the sources: the CSVs, or the live set
 # ---------------------------------------------------------------------------------------------------------------------
@@ -102,7 +113,8 @@ class Csv:
             if not os.path.exists(path):
                 self.cache[table] = None
             else:
-                self.cache[table] = pd.read_csv(path, comment="#", usecols=["entity", "variable", "ts_utc", "value"],
+                # the provenance header skipped by its count, never by the comment character (session 103: a value may hold "#")
+                self.cache[table] = pd.read_csv(path, skiprows=header_rows(path), usecols=["entity", "variable", "ts_utc", "value"],
                                                 dtype={"entity": str, "variable": str, "ts_utc": str}, low_memory=False)
         return self.cache[table]
 
