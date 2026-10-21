@@ -10,6 +10,7 @@ import { Num } from "@/components/Num";
 import { Section } from "@/components/Section";
 import { series, type SeriesRow } from "@/lib/data";
 import { shown } from "@/lib/format";
+import { LICENSE_NEEDED, licenseHeldRow } from "@/lib/license";
 import { monthsOf, stats, type Row } from "@/lib/shapepremium";
 
 // Session 48 (fallback): the first deep-dive report, a draft, internal only. Not in the nav, not indexed, and gated by
@@ -119,14 +120,16 @@ export default async function ShapePremium({ searchParams }: { searchParams: Pro
   // session 371 (docs/security.md, S2): the internal view's cookie opens it too, as the /internal pages, so no address needs the token
   if (want.length < 24 || (token !== want && !(await internalOk((await cookies()).get(COOKIE)?.value)))) notFound();
 
+  // session 383: from 21 October 2026 a hub whose grid needs a license (lib/license.ts) is not read; the report compares the others
+  const OPEN = HUBS.filter((h) => !licenseHeldRow(M, h.e)), HELD = HUBS.filter((h) => licenseHeldRow(M, h.e));
   const all = await series(M, {});
   const rows: Row[] = all.map((r) => ({ entity: r.entity, variable: r.variable, ts_utc: r.ts_utc, value: r.value }));
   const find = (e: string, v: string, ts: string) => all.find((r) => r.entity === e && r.variable === v && r.ts_utc.slice(0, 10) === ts.slice(0, 10))!;
 
   // 1. the six hubs, day-ahead, the latest month every hub holds with its day-ahead hours
   const latest = [...new Set(all.filter((r) => r.variable === "da_shape_premium").map((r) => r.ts_utc.slice(0, 10)))].sort()
-    .reverse().find((ts) => HUBS.every((h) => all.some((r) => r.entity === h.e && r.variable === "da_shape_premium" && r.ts_utc.slice(0, 10) === ts)))!;
-  const six = HUBS.map((h) => {
+    .reverse().find((ts) => OPEN.every((h) => all.some((r) => r.entity === h.e && r.variable === "da_shape_premium" && r.ts_utc.slice(0, 10) === ts)))!;
+  const six = OPEN.map((h) => {
     const lw = rowV(M, find(h.e, "da_load_weighted", latest)), sm = rowV(M, find(h.e, "da_simple_mean", latest));
     const pr = rowV(M, find(h.e, "da_shape_premium", latest)), hrs = rowV(M, find(h.e, "da_hours", latest)), inMonth = rowV(M, find(h.e, "hours_in_month", latest));
     return { ...h, lw, sm, pr, hrs, inMonth, pct: calc("pct", pr, sm) };
@@ -157,11 +160,11 @@ export default async function ShapePremium({ searchParams }: { searchParams: Pro
   // the twelve months ending with the latest month every hub holds in real time, each hub's complete months in it (the
   // ISOs' own gap days leave some months partial; only complete months count)
   const lastAll = [...new Set(all.filter((r) => r.variable === "rt_shape_premium").map((r) => r.ts_utc.slice(0, 10)))].sort().reverse()
-    .find((ts) => HUBS.every((h) => monthsOf(rows, h.e, "rt").some((m) => m.ts === ts)));
+    .find((ts) => OPEN.every((h) => monthsOf(rows, h.e, "rt").some((m) => m.ts === ts)));
   const yEnd = lastAll ? nextDay(lastAll) : "";
   const yStart = lastAll ? `${Number(lastAll.slice(0, 4)) - 1}-${String(Number(lastAll.slice(5, 7)) % 12 + 1).padStart(2, "0")}-01` : "";
   const fixStart = lastAll && Number(lastAll.slice(5, 7)) === 12 ? `${lastAll.slice(0, 4)}-01-01` : yStart;
-  const year = lastAll ? HUBS.map((h) => {
+  const year = lastAll ? OPEN.map((h) => {
     const st = stats(rows, h.e, "rt", fixStart, yEnd);
     const k = (stat: string, v: number): V => ({ v, k: `shape|${h.e}|rt|${stat}|${fixStart}|${yEnd}` });
     return { ...h, n: k("n", st.n), npos: k("npos", st.npos), mean: k("mean", st.mean), usd: k("usdmw", st.usdmw) };
@@ -174,7 +177,7 @@ export default async function ShapePremium({ searchParams }: { searchParams: Pro
   // 3. the hour of the day, each hub's latest profile month
   const prof = await series(P, {});
   const pm = [...new Set(prof.map((r) => r.ts_utc.slice(0, 10)))].sort().at(-1)!;
-  const shapes = HUBS.map((h) => {
+  const shapes = OPEN.map((h) => {
     const cells = prof.filter((r) => r.entity === h.e && r.ts_utc.slice(0, 10) === pm && r.variable.startsWith("rt_mean_h"));
     const days = prof.find((r) => r.entity === h.e && r.ts_utc.slice(0, 10) === pm && r.variable === "rt_days_h12");
     const lo = cells.reduce((a, b) => (b.value < a.value ? b : a)), hi = cells.reduce((a, b) => (b.value > a.value ? b : a));
@@ -190,6 +193,11 @@ export default async function ShapePremium({ searchParams }: { searchParams: Pro
       <p className="mb-2 text-xs uppercase tracking-wide text-accent">Draft, internal: not for circulation. Not in the nav, not indexed.</p>
       <h1 className="mb-1 text-3xl">What flat load pays: the shape premium across six ISOs</h1>
       <p className="mb-6 text-sm text-muted">Energy Research Warehouse (ERW), deep-dive report 1, draft of 2026-10-01. Every number is read from the warehouse&apos;s cost-of-power tables and checked against them.</p>
+      {HELD.length ? (
+        <p className="mb-6 text-sm text-muted" data-held-hubs>
+          {HELD.map((h) => h.iso).join(", ")}: {LICENSE_NEEDED} (held from 21 October 2026, lib/license.ts). Where the words below say six, the tables and charts hold the other {OPEN.length}.
+        </p>
+      ) : null}
 
       <Section title="The question">
         <p className="mb-3">
