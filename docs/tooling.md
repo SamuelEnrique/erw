@@ -19,6 +19,24 @@ One line each. "Page" means a page of `site/`, served from a local production bu
 | Browser check: what the page looks like and does at a width, its console, its requests, its load | chrome-devtools-mcp | the MCP server `chrome-devtools`: `navigate_page`, `take_screenshot`, `list_console_messages`, `list_network_requests`, `performance_start_trace`, `lighthouse_audit` |
 | Accessibility of a rendered page, contrast included | AccessLint | the plugin `accesslint`: its MCP tool `audit_live <url>` (WCAG 2.2 A and AA; `include_aaa` for AAA, `wcag: ["1.4.3"]` for contrast alone), or its skills `accessibility-scan` and `accessibility-audit` |
 
+## First use of each tool
+
+Session 401 (21 October 2026; the roadmap's item 4: each tool "used in at least one session's checks"), read from the session reports. "First use" is the first session that ran the tool on a page of this site, all on the code machine; "On the five tool pages" is the first run on all of `/cost-of-power/battery`, `/cost-of-power/seller`, `/cost-of-power`, `/research` (once `/analysis`) and `/grid`, recorded in `docs/reviews/tooling-pass-2026-10-20.md`.
+
+| Tool | First use | Where | On the five tool pages |
+|---|---|---|---|
+| Impeccable | 12 October 2026, session 201 | `/cost-of-power/battery`: `critique` and `detect` (`runs/session201/impeccable/`) | 21 October 2026, session 401: `detect` on the pages' files and on the shared components, `critique` as two separate agents, nothing written to `.impeccable/` |
+| UI/UX Pro Max | 12 October 2026, session 201 | `/cost-of-power/battery`: 27 searches (`runs/session201/ui-ux-pro-max/`) | 21 October 2026, session 401: 12 searches of its guidelines, read against the rendered pages |
+| frontend-design | 12 October 2026, session 201 | `/cost-of-power/battery`, against its principles (`runs/session201/frontend-design/critique.md`) | 21 October 2026, session 401 |
+| web-design-guidelines | 12 October 2026, session 201 | the battery page's five files and two shared components, its rules fetched once and kept (`runs/session201/vercel-skills/guidelines_command.md`) | 21 October 2026, session 401, from the kept copy of the rules (no fetch) |
+| react-best-practices | 12 October 2026, session 201 | the same files (`runs/session201/vercel-skills/react-best-practices.md`) | 21 October 2026, session 401 |
+| chrome-devtools-mcp | 12 October 2026, session 201 | `/cost-of-power/battery`: 16 calls and the 390 px test (`runs/session201/chrome-devtools-mcp/`) | not by session 401: its shots and measurements were taken over the same DevTools protocol by `site/scripts/browser.mjs` (`docs/brand/review-401/shots-401.mjs`) |
+| AccessLint | 12 October 2026, session 201 | `/cost-of-power/battery`: `audit_live`, AA and AAA (`runs/session201/accesslint/`) | 21 October 2026, session 401: `audit_live` on each page in the internal view, before and after the fixes |
+
+Session 203 (12 October 2026) was the first to use Impeccable, UI/UX Pro Max, frontend-design and web-design-guidelines in a page change's own checks (the battery restyle). On lab-desktop each was installed and proven by session 207 (13 October 2026), chrome-devtools-mcp excepted.
+
+**AccessLint on a page in review, without the token in an address** (session 401): start a headless browser on port 9222, open the internal view in it by the form (`unlockForm` of `site/scripts/browser.mjs`), and give `audit_live` the port; it reuses that browser and its cookie. Stop the browser when the audits are done.
+
 ## Order of use on a page change
 
 1. Before: chrome-devtools-mcp screenshots at 1280 and 390 px, and every number read from the page's text.

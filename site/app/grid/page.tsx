@@ -55,7 +55,7 @@ const LEAD: Record<string, string> = {
 function Decisions() {
   return (
     <details className="mt-10 border-t border-rule pt-3 text-sm" data-decisions="299">
-      <summary className="cursor-pointer text-accent">Decisions on this page (the owner&apos;s rulings of 18 October 2026, session 299)</summary>
+      <summary className="cursor-pointer py-1 text-accent">Decisions on this page (the owner&apos;s rulings of 18 October 2026, session 299)</summary>
       <ul className="mt-2 max-w-3xl list-disc space-y-1 pl-5 text-sm">
         <li>One page, four tabs (Network, Mix, Clean, Gravity), the grid picked once above them, and Ask as a panel beside every tab. The Now view&apos;s blocks open the Mix tab; the Exchange view&apos;s sit under the gravity shape; every older address still resolves to the tab that holds its blocks.</li>
         <li>The page opens on the Lower 48, then the reader picks a grid (ruling 4b; ERCOT until then).</li>

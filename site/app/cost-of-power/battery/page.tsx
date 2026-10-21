@@ -260,7 +260,7 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
                         of the hub&apos;s: the energy this page counts at the hub would scale about with it, the reserves not at all. Added to no figure (node_basis_summary).
                       </p>
                       <details className="mt-1">
-                        <summary className="cursor-pointer">Each month: days held; the storage nodes&apos; four-hour spread at the 10th percentile, median and 90th; the hub&apos;s; the share wider</summary>
+                        <summary className="cursor-pointer py-1">Each month: days held; the storage nodes&apos; four-hour spread at the 10th percentile, median and 90th; the hub&apos;s; the share wider</summary>
                         <ul className="mt-1 space-y-0.5">
                           {nodeMonths.map((r) => {
                             const k = (v: string) => `series|node_basis_summary|ercot:HB_HUBAVG|dam_storage_${v}|${r.ts}`;

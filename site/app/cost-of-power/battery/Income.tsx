@@ -63,7 +63,7 @@ export function Income({ ms, x, pre, gridName, products, capacityWords, events, 
         <span className="inline-grid grid-cols-2 border border-muted text-xs" role="group" aria-label="Income by stream: table or chart" data-chart-table="income">
           {([["table", "Table"], ["chart", "Chart"]] as const).map(([k, label], i) => (
             <button key={k} type="button" aria-pressed={v.income === k} data-show={k} onClick={() => set({ income: k })}
-              className={`px-2.5 py-0.5 ${i ? "border-l border-muted" : ""} ${v.income === k ? "bg-ink text-white" : "bg-white text-ink"}`}>{label}</button>
+              className={`px-2.5 py-1 ${i ? "border-l border-muted" : ""} ${v.income === k ? "bg-ink text-white" : "bg-white text-ink"}`}>{label}</button>
           ))}
         </span>
       </div>
@@ -71,10 +71,10 @@ export function Income({ ms, x, pre, gridName, products, capacityWords, events, 
         <fieldset className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm" data-window="1">
           <legend className="sr-only">Your window</legend>
           <label className="inline-flex items-center gap-1.5">From
-            <select className={sel} value={win.from} data-window-from="1" aria-label="Your window, first year" onChange={(e) => pick("from", e.target.value)}>{heldYears.map((y) => <option key={y} value={y}>{y}</option>)}</select>
+            <select className={sel} value={win.from} data-window-from="1" aria-label="From: your window's first year" onChange={(e) => pick("from", e.target.value)}>{heldYears.map((y) => <option key={y} value={y}>{y}</option>)}</select>
           </label>
           <label className="inline-flex items-center gap-1.5">to
-            <select className={sel} value={win.to} data-window-to="1" aria-label="Your window, last year" onChange={(e) => pick("to", e.target.value)}>{heldYears.map((y) => <option key={y} value={y}>{y}</option>)}</select>
+            <select className={sel} value={win.to} data-window-to="1" aria-label="to: your window's last year" onChange={(e) => pick("to", e.target.value)}>{heldYears.map((y) => <option key={y} value={y}>{y}</option>)}</select>
           </label>
           {events.length ? (
             <span className="inline-flex flex-wrap items-center gap-x-3 gap-y-1">
