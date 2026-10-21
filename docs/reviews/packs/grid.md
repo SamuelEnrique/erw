@@ -17,6 +17,8 @@ Roadmap item 2 (`docs/roadmap.md`, "Five tools sellable") is done for a tool whe
 | A decisions block | "Decisions on this page" (`Decisions()`, `data-decisions="299"`): the owner's rulings of 18 October on questions 1, 2, 3, 4 and 6 | `site/app/grid/page.tsx` | On the page: in the code (`data-decisions="299"`); not read on a build on 21 October | Question 5's answer (session 323, the EIA-923 check) is not in the block: the pack says its words are the code machine's; a page change |
 | The Grid tool one page | One page, four tabs (Network, Mix, Clean, Gravity), the grid picked once, Ask as a panel beside every tab; `/network` and `/mix` answer with a permanent redirect into a tab, `/ask` with a 307 to the panel; `/ask/ercot` stays its own page | `site/app/grid/page.tsx`, `site/next.config.ts`, `site/app/ask/page.tsx` | In the code (`next.config.ts` lines 100 to 104, `app/ask/page.tsx`); the redirects not read on a build on 21 October | Nothing that needs no ruling |
 
+**On a built site (session 422, 21 October 2026).** A build at 15:22 UTC of `wip/422-tool-checks`, which is main with chain 019's branches not yet landed (`wip/461-combined`), served on localhost; outputs in `runs/chain_021/s422/` (git ignores `runs/`). `write-grid-replication.mjs` exit 0 (the hour 2026-10-19 03:00 UTC: 70 nodes, 157 ties, 7 demand rows, 0 generation rows), then `check-grid-replication.mjs` on that file exit 0: 60 values compared, 0 different. The mirror on the committed CSV, exit 0.
+
 ## 1. What it is for, and for whom
 
 - **The question.** What is a US grid doing: what it used, what generated it, what it exchanged with its neighbours and how much CO2 it carried, in the latest hours held and since 2018.
