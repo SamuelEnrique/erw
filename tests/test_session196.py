@@ -20,7 +20,7 @@ EM = chr(0x2014)
 NOTES = {
     "battery_earns_algorithm": ("site/app/cost-of-power/battery/page.tsx", 15),   # session 297: the fade method beside the ATB's convention
     "generator_earns_algorithm": ("site/app/cost-of-power/seller/page.tsx", 21),   # session 257: 10 until then; the ten more are CAISO's (the note's section 12.5); session 298: Potomac Economics
-    "datacenter_pays_algorithm": ("site/app/cost-of-power/page.tsx", 6),
+    "datacenter_pays_algorithm": ("site/app/cost-of-power/page.tsx", 8),   # session 462: two rows of session 448 (Lazard, the ATB)
 }
 FILES = [f"docs/methods/{n}.md" for n in NOTES] + [p for p, _ in NOTES.values()] + [
     "site/lib/battery/finance.ts", "site/lib/seller/finance.ts", "site/lib/datacenter/finance.ts", "site/app/cost-of-power/seller/SellerScenarios.tsx",
