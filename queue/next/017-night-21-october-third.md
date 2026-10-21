@@ -1,0 +1,51 @@
+# Chain of 21 October 2026, night: sessions 441 to 451, third machine (the portable laptop, code role), unattended
+
+machine: code
+
+The portable laptop's night, written by the owner on 21 October at 22:00 Pacific, taken by name (python scripts/chain_queue.py next --file 017-night-21-october-third.md), not by the queue's order, so that the old laptop keeps its own files. Session numbers 441 to 451 are reserved for this file. This machine writes documents and drafts only: nothing under site/ changes, nothing lands on main, no warehouse data is written, nothing is posted or sent. Every session pushes its work to one branch, wip/441-450-third, and the chain's last session lists what the code machine should land from it. The reason: the database is timing out tonight and two code machines landing on one main would collide; this machine's work needs neither.
+
+## Rules for every session
+
+Every python command uses .venv\Scripts\python.exe. Precheck first (exit 1: stop). Unattended: do not stop to ask; reversible choices under "Decisions made without you"; irreversible ones under "For Samuel's ruling", undone. A failed session stays on the branch and the next starts. No file under site/ is changed; no landing; no warehouse data; pulls only where a session's part names them, under its ceiling, robots and terms read first. Model spend USD 0 (the session's own writing is not model spend). The project's voice throughout: the number first, then the reading; no hype; no em dashes anywhere; every figure with its check-values key or its source. Reports as the chain of 20 October's. Read docs/state/review_2026-10-20_code.md, docs/state/morning_2026-10-21_day.md, docs/state/review_2026-10-21_night_code.md (on wip/381-382-land), docs/reviews/competitors/2026-10-20.md (on wip/413-s) first. Samuel's ruling of 21 October: no long-form piece and no newsletter of any kind; the Digest and the Roundup are the only two periodicals and must be perfect first; the drafts of sessions 406 and 407 stay on their branches, unused. Last step of the last session: the note, then CHAIN DONE (this file is taken by name; the queue step is not run on this machine tonight).
+
+## Session 441: the datacenter and deals tables, row by row, by what their sources allow
+
+Long end 2:30. Pulls: none (the tables and sources.csv are held). The license holds of 21 October grey datacenter_facilities, datacenter_projects, datacenter_operator_sites and energy_deals whole because some rows rest on publishers who ask for permission. docs/reviews/sources-by-row-2026-10-21.md: for each of the four tables, every row's source publisher counted, which publishers are public or permissive by their own terms (docs/licenses.md), which ask for permission, and how many rows and how many MW each group holds; the rows that rest only on a public source (an ISO queue, EIA, a company's own announcement page, a regulator's filing) listed as the subset a page could show today; the method for a split table (a license column a row, read by the page) written for the code machine, with the tests it would need. No table is changed; no page is changed.
+
+## Session 442: the daily Digest, read as its most demanding reader
+
+Long end 2:30. Pulls: none. Samuel's ruling of 21 October: the Digest and the Roundup must be perfect before anything else is written for the public. Read the last 14 Digest issues as the site holds them (the page, its archive, the sent email where the repository keeps it). docs/reviews/digest-audit-2026-10-21.md: for every issue, every number traced to its table and key or marked untraceable; every item's source link checked to resolve; the scoring and clustering judged against the master plan's description (what moved energy, two minutes, not an RSS dump); the chart of the day judged (right fact, right chart, right caption); duplicated items, stale items, missing stories a reader would expect that day (named with the public source that carried them); the wording faults (hype, vagueness, em dashes); a day without a brief and what the page said. Then one ranked list of fixes for the code machine, each with the file it lives in and the test that would prove it. No code changes.
+## Session 443: the company database, seeded
+
+Long end 2:00. Pulls: none (the thesis, the deals and the datacenter tables already hold the names). Master plan tool 10, the seed only: docs/reviews/companies-seed.csv, one row a company named anywhere in the warehouse's deals, datacenter, projects and policy tables and in the thesis's company list: name, what it does in one line, segment (the master plan's taxonomy), stage where a public source states it, the ERW tables and rows that name it, the source of each field. No field invented; a field without a source is left empty. A note beside it on what the data machine needs to load it as a table (shape, license, key) and which fields need a pull the chain has not approved.
+
+## Session 444: the weekly Roundup, read the same way
+
+Long end 2:00. Pulls: none. Every Roundup issue the site holds, read as session 442 read the Digest: every number traced, every link resolving, the week's selection judged against what a reader of the week would expect (named with sources), the charts, the wording, the email as sent. docs/reviews/roundup-audit-2026-10-21.md with the same ranked list of fixes for the code machine. A short section on what the two periodicals share (the clustering, the scoring, the chart code) so that one fix lands in both. No code changes; nothing is posted or sent.
+## Session 445: the reader's guide to the warehouse
+
+Long end 2:00. Pulls: none. docs/guide.md for a reader outside the project: what the ERW is in one paragraph, how to cite it (the Redivis address and the citation form), how to download a table from /data and read it in Python, Stata and R (the readers the pages offer), how to rerun a page's figure from its replication, how the licenses work and what "held" means, how to report a fault, and the erw package in ten lines. Every address checked to exist on main or on a named branch. package/llms.txt and the package README brought to agree with it.
+
+## Session 446: the paper, outlined on what the warehouse can show
+
+Long end 2:00. Pulls: none. docs/paper/outline.md: the ERW paper in the IRW paper's shape (the data standard, the harmonization, the coverage, the licensing ledger, the validator, the citable release, the uses), each section with the figures and tables the warehouse can produce today (named with their tables and keys) and the ones that need work (named with what); a figure list; the author roles as the master plan states them, for Samuel's and Ben's ruling; a cover note of the five decisions the paper needs from them.
+
+## Session 447: every open ruling, with a recommended answer
+
+Long end 2:30. Pulls: none. docs/reviews/rulings-2026-10-21-draft.md: every item of the ruling sections of sessions 351 to 440's reports and of /internal/waits' ledger (session 414's build-waits rules, read from the reports directly), each once, with the evidence the reports give, the reversible choice the session made meanwhile, what each answer would change, and a recommended ruling in one line with its reason, grouped as the ledger groups them (money, a data pull, a figure, a public page). The three highest-value first. Nothing is decided here; the file is the agenda for Samuel's review.
+
+## Session 448: the economics models against Lazard and NREL
+
+Long end 2:00. Pulls: Lazard's LCOE+ and LCOS reports and NREL's ATB, their public pages and PDFs only, ceiling 10 requests, terms read first. docs/reviews/cross-checks-external.md: for the battery, generator and datacenter pages, every published figure those sources state that the pages also compute (capital cost per kW, fixed and variable costs, degradation, round-trip efficiency, capacity factors, cost of capital, LCOE and LCOS ranges by technology and region), with the source's exact page and year, the ERW page's figure with its key, and the difference; the rows in the form site/scripts/check-cross-checks.mjs reads, so the code machine can land them as checks. Where a figure is behind a paywall, the row says so.
+
+## Session 449: the day's and night's reports, read as a reviewer
+
+Long end 2:00. Pulls: none. Read every report of sessions 365 to 440 as a sceptical reviewer would: docs/reviews/review-of-20-21-october.md, one line a session on whether its "done" was met by its own evidence (its checks' exit codes, its shots, its landing), where a report claims more than its checks show, where two sessions' decisions conflict, and which five items most need Samuel's eyes before the landings pile up. No code changes.
+
+## Session 450: the two research reports, read into a roadmap v4 draft
+
+Long end 2:30. Pulls: none. Samuel's two research reports of 21 October are in the repository at docs/reviews/research/ (the owner commits them beside this file: deep-research-report.md and ask-the-grid-landscape-2026-10.md). Read both, then docs/roadmap.md and 02_master_plan's tool table as the repository holds it. docs/reviews/roadmap-v4-draft.md: for each of the twenty tools, what the two reports say about it (with the report and section), what the ERW has on main and on branches today, and a one-line recommendation for its place in the order, with the reason; then "This week" rewritten as the reports' evidence would have it, in the roadmap's own format (machine, where, done), with the owner's standing rulings kept (no tool is cut; the site is not public; the Digest and the Roundup are the only two periodicals, and nothing else is written for the public until they are perfect; the ERW competes with Ask the Grid on the live views, in parallel, not by copying). Every claim links to the report or the file. A section "Where the two reports disagree" and one "What neither report checked". This is a draft for the review of Wednesday; nothing in docs/roadmap.md changes.
+
+## Session 451: the note
+
+Long end 0:45. docs/state/review_2026-10-21_third.md: one line a session with its file, every decision made without Samuel, every item waiting for him, and the list for the code machine: which files on wip/441-450-third it should land and with which checks (the cross-check rows, the guide, the reports). Push. Say CHAIN DONE.
