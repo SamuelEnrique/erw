@@ -52,8 +52,10 @@ class TheRun(unittest.TestCase):
         self.assertNotIn(chr(0x2014), s)
 
     def test_the_check_reads_an_item_with_punctuation_after_inline_code(self):
+        # session 429: main's landing of 21 October (7640c259) fixed the same fault by comparing without whitespace;
+        # the combined branch keeps main's form, which reads a code span before any punctuation
         s = src("site", "scripts", "check-internal-waits.mjs")
-        self.assertIn('.replace(/ ([,.;:)])/g, "$1").includes(words.replace(/ ([,.;:)])/g, "$1"))', s)
+        self.assertIn('check(bare(t).includes(bare(words))', s)
 
     def test_414s_test_and_the_machines_note_follow(self):
         self.assertIn('export const LEDGER = { from: 351, to: "newest" };', src("tests", "test_session414.py"))
