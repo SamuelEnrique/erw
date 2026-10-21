@@ -235,7 +235,7 @@ export async function GridsView() {
                 </tbody>
               </table>
             </div>
-            <h3 className="mb-2 text-base">Your own inputs</h3>
+            <h3 className="mb-3 mt-8 text-base">Your own inputs</h3>
             <Calculator hubs={calc.map((c) => ({ iso: ISO[isoOf(c.e)].name, flat: c.flat, cells: cells(d.profile, c.e).filter((x) => !common || x.month === common), months: span(c.months) }))} />
             <Cite tables={[M, P]} note="Flat: the hub's real-time simple mean in the ranked month; cheapest 80 percent: the hourly profile's cheapest hour-of-day cells of that month" />
           </Section>

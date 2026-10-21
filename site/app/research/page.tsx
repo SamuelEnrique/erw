@@ -111,11 +111,11 @@ export default async function ResearchPage() {
               computed it, and each card downloads its data, its Stata do-file and its Python file. <Link href={METHOD}>Method note</Link>.
             </>} />
           <nav className="page-index" aria-label="On this page">
-            <a href="#ask">Ask for an analysis</a>
-            <a href="#today">Today&apos;s chart</a>
-            <a href="#week">This week&apos;s chart</a>
-            <a href="#library">Findings library</a>
-            <a href="#archive">Chart archive</a>
+            <a className="inline-block py-0.5" href="#ask">Ask for an analysis</a>
+            <a className="inline-block py-0.5" href="#today">Today&apos;s chart</a>
+            <a className="inline-block py-0.5" href="#week">This week&apos;s chart</a>
+            <a className="inline-block py-0.5" href="#library">Findings library</a>
+            <a className="inline-block py-0.5" href="#archive">Chart archive</a>
           </nav>
 
           <ToolSection title="Ask for an analysis" id="ask" note="Your own question first: it is read and answered by a person, by email. Or choose a finding and its inputs: that request waits in a queue and runs on the data machine.">
