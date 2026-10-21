@@ -13,9 +13,16 @@ sys.path.insert(0, os.path.join(ROOT, "warehouse", "connectors"))
 import eia861_sales as es  # noqa: E402
 
 
-def sheet(*rows):
-    """Rows as EIA's sheet holds them after its three heading rows: 9 characteristics, then 5 sectors of 3 figures."""
-    return pd.DataFrame([list(r) for r in rows])
+HEAD = [["Utility Characteristics"] + [None] * 8 + ["RESIDENTIAL", None, None, "COMMERCIAL", None, None, "INDUSTRIAL", None, None,
+                                                    "TRANSPORTATION", None, None, "TOTAL", None, None],
+        [None] * 9 + ["Revenues", "Sales", "Customers"] * 5,
+        ["Data Year", "Utility Number", "Utility Name", "Part", "Service Type", "Data Type" + chr(10) + "O = Observed" + chr(10) + "I = Imputed", "State",
+         "Ownership", "BA Code"] + ["Thousand Dollars", "Megawatthours", "Count"] * 5]
+
+
+def sheet(*rows, head=HEAD):
+    """EIA's sheet: its three heading rows, then rows of 9 characteristics and 5 sectors of 3 figures."""
+    return pd.DataFrame([list(r) for r in head] + [list(r) for r in rows])
 
 
 ROW_A = [2025, 55, "City of Aberdeen - (MS)", "A", "Bundled", "O", "MS", "Municipal", "TVA",
@@ -49,6 +56,18 @@ class Sheet(unittest.TestCase):
     def test_a_repeated_key_stops_the_run(self):
         with self.assertRaisesRegex(RuntimeError, "given twice"):
             es.sheet_rows(sheet(ROW_A, ROW_A), 2025, "u", "r")
+
+    def test_2019s_extra_column_is_read_by_its_heading(self):
+        # session 495: 2019's sheet holds a "Short Form" column after the BA code, which a positional read shifted
+        head = [h[:9] + [x] + h[9:] for h, x in zip(HEAD, [None, None, "Short Form"])]
+        row = ROW_A[:9] + ["N"] + ROW_A[9:]
+        by = dict(zip(*[es.sheet_rows(sheet(row, head=head), 2025, "u", "r")[c] for c in ("variable", "value")]))
+        self.assertEqual((by["residential_revenue"], by["total_sales"], by["total_customers"]), (4216000.0, 168839.0, 3270.0))
+
+    def test_a_missing_heading_stops_the_run(self):
+        head = [h[:23] for h in HEAD]   # the total's customers gone
+        with self.assertRaisesRegex(RuntimeError, "headings lack"):
+            es.sheet_rows(sheet(ROW_A[:23], head=head), 2025, "u", "r")
 
     def test_the_newest_zip_or_the_year_asked(self):
         html = '<a href="archive/zip/f86199.zip"></a><a href="zip/f8612023er.zip"></a><a href="zip/f8612025.zip"></a><a href="archive/zip/f8612024.zip"></a>'

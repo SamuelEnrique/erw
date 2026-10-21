@@ -131,6 +131,11 @@ SECTOR_RULES = [
     (r"^eia861_utility_sales$", "power"),  # session 485: EIA-861 retail sales, revenue and customers by utility
     (r"^egrid_power_plants$", "power;carbon"),  # session 486: EPA eGRID, every plant's generation and emissions
     (r"^nlr_atb_electricity_costs$", "power"),  # session 487: NLR (NREL) ATB, projected technology costs
+    (r"^eia_aeo_electricity$", "power"),  # session 490: EIA's Annual Energy Outlook, electricity Tables 8 and 9
+    (r"^eia_steo_forecasts$", "power;gas"),  # session 491: EIA's Short-Term Energy Outlook, prices and the mix
+    (r"^epa_ghgrp_power_co2$", "power;carbon"),  # session 492: EPA GHGRP, power plants' reported CO2 by year
+    (r"^boem_renewable_leases$", "power"),  # session 493: BOEM's offshore renewable energy leases and grants
+    (r"^uswtdb_wind_turbines$", "power"),  # session 496: USGS's U.S. Wind Turbine Database
     (r"^pjm_rpm_capacity_prices$", "capacity"),
     # session 65: capacity prices of the four markets that pay capacity apart, and the day-ahead ancillary services
     (r"^iso_all_capacity_prices$", "capacity"),
