@@ -67,6 +67,14 @@ class TheScrollRegions(unittest.TestCase):
         self.assertIn("boxes.forEach(({ el, scrolls }) => {", body)
         self.assertEqual(body.count("el.scrollWidth"), 1)
 
+    def test_no_pass_inside_the_effect_itself(self):
+        c = read(SITE, "components", "ScrollRegions.tsx")
+        effect = c[c.index("export function ScrollRegions"):]
+        # the first pass is the settled one (soon, 150 ms), not a synchronous read while the page is laid out
+        self.assertNotIn("    markScrollers();", effect)
+        self.assertIn("t = setTimeout(() => markScrollers(), 150);", effect)
+        self.assertIn("    soon();", effect)
+
 
 class TheToolingLine(unittest.TestCase):
     def test_lighthouse_audit_named(self):

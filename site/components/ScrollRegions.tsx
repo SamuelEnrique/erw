@@ -54,7 +54,8 @@ export function ScrollRegions() {
   useEffect(() => {
     let t: ReturnType<typeof setTimeout> | undefined;
     const soon = () => { if (t) clearTimeout(t); t = setTimeout(() => markScrollers(), 150); };
-    markScrollers();   // at once, and again once the fonts and the charts have settled
+    // session 428: once the fonts and the charts have settled, not at once: a pass inside this effect read the boxes'
+    // sizes while the page was still being laid out after it loaded, and so forced the browser to lay it out early
     soon();
     window.addEventListener("resize", soon);
     document.addEventListener("toggle", soon, true);   // a details opened: its table is laid out only now
