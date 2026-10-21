@@ -65,7 +65,8 @@ try {
   const first = w.reports[0]?.waits[0];
   if (first) {
     const words = first.md.replace(/^\s*([-*+]|\d+[.)])\s+/, "").replace(/[*_`]/g, "").replace(/\s+/g, " ").slice(0, 60);
-    check(t.replace(/[*_`]/g, "").includes(words), "the newest report's first item is in the report's own words", `("${words}")`);
+    // session 425: a tag taken out leaves a space before the punctuation after inline code ("`wip/x`, with" reads "wip/x , with")
+    check(t.replace(/[*_`]/g, "").replace(/ ([,.;:)])/g, "$1").includes(words.replace(/ ([,.;:)])/g, "$1")), "the newest report's first item is in the report's own words", `("${words}")`);
   }
   check(t.includes(`the reports after session ${w.marker.last}`) && t.includes("last_answered:") && html.includes(`${w.repo}/blob/main/${w.marker.path}`),
     "the page says which report was the last answered, and where a person changes it");
