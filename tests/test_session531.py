@@ -122,6 +122,7 @@ class Runs(unittest.TestCase):
             mock.patch.object(ip, "OUT_DIR", self.tmp),
             mock.patch.object(ip, "LOG_DIR", os.path.join(self.tmp, "logs")),
             mock.patch.object(ip, "STATUS_DIR", os.path.join(self.tmp, "status")),
+            mock.patch.object(ip, "METADATA_DIR", os.path.join(self.tmp, "metadata")),
             mock.patch.object(ip, "load_key", lambda *a, **k: "test-key"),
             mock.patch.object(ip, "update_sources", lambda entries: None),
             mock.patch.object(self.ex, "CHECKED", os.path.join(self.tmp, "checked.csv")),
@@ -130,6 +131,9 @@ class Runs(unittest.TestCase):
         ]
         for p in self.patches:
             p.start()
+        os.makedirs(os.path.join(self.tmp, "metadata"))
+        with open(os.path.join(self.tmp, "metadata", "sources.csv"), "w", encoding="utf-8") as f:
+            f.write("source,tables\n")   # the registry is read, never written (update_sources is patched)
 
     def tearDown(self):
         for p in reversed(self.patches):
