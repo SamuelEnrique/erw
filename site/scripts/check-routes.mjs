@@ -46,6 +46,7 @@ const PAGES = [
   "/ask/ercot", "/ask/ercot?from=%2Fshoulder&title=The+shoulder+hours&s_grid=ERCOT&s_month=2025-01",  // session 92: Ask ERCOT, the reference version (the page only: the check never asks the model)
   "/mix/v2", "/mix/v2?grid=caiso&period=2026-04&vs=ercot", "/mix/v2?grid=pjm&period=2024", "/data/methods/generation_mix_hourly",  // session 94: the energy mix, version 2, in review
   "/queues", "/queues?grid=ercot&tech=battery", "/queues?grid=miso&tech=offshore_wind", "/data/methods/interconnection_queue_summary",  // session 95: the interconnection queue explorer, in review
+  "/explore/interconnection", "/explore/interconnection?queue=ercot&measure=mw", "/explore/interconnection?queue=isone",  // session 405: the interconnection explorer, in review
   "/prices/compare", "/prices/compare?period=month&market=rtm&sort=spread", "/data/methods/hub_price_comparison",  // session 96: where power is cheap, in review
   "/data/methods/price_board",  // session 132: the one price board (/board/v3, /board/v4 and /markets redirect to it)
   "/demand", "/demand?area=caiso&rank=peak", "/demand?area=us48&rank=ytd", "/data/methods/demand_growth",  // session 97: the demand growth explorer, in review

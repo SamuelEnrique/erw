@@ -77,6 +77,9 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   // session 51: the seller's tab, its defaults and three other assets
   // session 347: the economic impact tool, its defaults and three other views (a size, cost, local content and life given)
   "/map?tab=queues", "/map?tab=queues&iso=ercot", "/map?tab=queues&iso=spp",  // session 349: the map's Queues tab (iso_queue_statistics)
+  // session 405: the interconnection explorer (the default, CAISO in positions; ERCOT in MW over a window; SPP; a held queue)
+  "/explore/interconnection", "/explore/interconnection?queue=ercot&measure=mw&from=2018&to=2025", "/explore/interconnection?queue=spp",
+  "/explore/interconnection?queue=nyiso",
   "/impact", "/impact?tech=utility_pv&state=la&mw=200&life=30", "/impact?tech=natural_gas&state=nm&capex=120&local=80", "/impact?tech=geothermal&state=us&life=25",
   "/cost-of-power/seller", "/cost-of-power/seller?asset=battery", "/cost-of-power/seller?asset=peaker", "/cost-of-power/seller?iso=spp&asset=wind",  // session 145: MISO is blank on the page, so the fourth view is SPP's wind
   // session 38: today's level's price range
@@ -385,6 +388,14 @@ async function truth(check) {
     if (at === "newest") Object.assign(params, { order: "ts_utc.desc", limit: "1" });
     else params.ts_utc = `eq.${at}`;
     return (await q("series", params))[0]?.value;
+  }
+  // session 405: a count a series table's header states for one name, series_hdr|<table>|<entity naming the grid>|<line
+  // prefix>|<name>: the header line that begins with the prefix, "...: ERCOT 456, CAISO 169", read for "<name> <count>"
+  if (p[0] === "series_hdr") {
+    const [, table, , prefix, name] = p;
+    const line = (await q("headers", { select: "line", table_name: `eq.${table}`, order: "line_no" })).map((r) => r.line).find((l) => l.startsWith(prefix));
+    const item = line?.slice(line.indexOf(":") + 1).split(",").map((s) => s.trim()).find((s) => s.startsWith(`${name} `));
+    return item === undefined ? undefined : Number(item.slice(name.length + 1).replace(/,/g, ""));
   }
   // session 15: /deals and /grid
   if (p[0] === "deals") {
