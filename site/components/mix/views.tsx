@@ -26,7 +26,7 @@ const cols = (n: number) => (n <= 1 ? "" : "grid gap-4 lg:grid-cols-2");
 
 export function Chips({ label, items }: { label: string; items: { key: string; label: string; href: string; on: boolean; title?: string; off?: boolean }[] }) {
   return (
-    <div className="flex flex-wrap items-center gap-1 text-[11px]" role="group" aria-label={label}>
+    <div className="flex flex-wrap items-center gap-1 text-xs" role="group" aria-label={label}>
       <span className="mr-1 text-muted">{label}</span>
       {items.map((i) => i.off
         ? <span key={i.key} title={i.title} data-chip-off={`${label}:${i.key}`} className="cursor-help border border-rule/60 px-1.5 py-px text-muted">{i.label}</span>
@@ -46,7 +46,7 @@ function Table({ head, rows, caption }: { head: ReactNode[]; rows: { key: string
     <div className="overflow-x-auto">
       <table className="w-full border-collapse text-sm tabular-nums">
         <caption className="sr-only">{caption}</caption>
-        <thead><tr className="border-b border-rule text-[10px] uppercase tracking-wide text-muted">{head.map((h, i) => <th key={i} className={`py-1 pr-3 font-normal ${i ? "text-right" : "text-left"}`}>{h}</th>)}</tr></thead>
+        <thead><tr className="border-b border-rule text-xs text-muted">{head.map((h, i) => <th key={i} className={`py-1 pr-3 font-normal ${i ? "text-right" : "text-left"}`}>{h}</th>)}</tr></thead>
         <tbody>{rows.map((r) => <tr key={r.key} className={`border-b border-rule/60 ${r.on ? "bg-paper" : ""}`}>{r.cells.map((c, i) => (i ? <td key={i} className="py-1 pr-3 text-right">{c}</td> : <th key={i} scope="row" className="py-1 pr-3 text-left font-normal">{c}</th>))}</tr>)}</tbody>
       </table>
     </div>

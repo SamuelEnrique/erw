@@ -574,7 +574,7 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
                 <dt className="text-xs text-muted">Who is supplying it, largest first</dt>
                 <dd>{ties.length ? (
                   <ul className="mt-0.5 space-y-0.5 tabular-nums">
-                    {ties.map((t) => <li key={t.other} className="flex justify-between gap-2"><span>{nameOf(t.other)} <span className="font-mono text-[10px] text-muted">{t.other}</span></span><span className="whitespace-nowrap">{Math.round(t.imp) === 0 ? "0 MW" : t.imp > 0 ? `${fmt(t.imp)} MW in` : `${fmt(-t.imp)} MW out`}{isDayView && demandNow && Math.round(t.imp) !== 0 ? <span className="text-muted" data-tie-share={t.other}>, {pct((Math.abs(t.imp) / demandNow) * 100)}% of demand</span> : null}</span></li>)}
+                    {ties.map((t) => <li key={t.other} className="flex justify-between gap-2"><span>{nameOf(t.other)} <span className="font-mono text-xs text-muted">{t.other}</span></span><span className="whitespace-nowrap">{Math.round(t.imp) === 0 ? "0 MW" : t.imp > 0 ? `${fmt(t.imp)} MW in` : `${fmt(-t.imp)} MW out`}{isDayView && demandNow && Math.round(t.imp) !== 0 ? <span className="text-muted" data-tie-share={t.other}>, {pct((Math.abs(t.imp) / demandNow) * 100)}% of demand</span> : null}</span></li>)}
                   </ul>
                 ) : "none reported"}</dd>
               </div>
@@ -633,10 +633,10 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
                       <ol className="mt-1 list-decimal space-y-1 pl-5 tabular-nums">
                         {traced.rows.map((r) => (
                           <li key={r.id} data-trace-supplier={r.id}>
-                            <span>{nameOf(r.id)} <span className="font-mono text-[10px] text-muted">{r.id}</span>: {pct(r.share)} percent, {fmt(r.mwh)} MWh</span>
+                            <span>{nameOf(r.id)} <span className="font-mono text-xs text-muted">{r.id}</span>: {pct(r.share)} percent, {fmt(r.mwh)} MWh</span>
                             {r.via.length ? (
                               <ul className="text-xs text-muted">
-                                {r.via.map((x) => <li key={x.id} data-trace-via={x.id}>supplied by {nameOf(x.id)} <span className="font-mono text-[10px]">{x.id}</span>: {pct(x.share)} percent of what {r.id} took in, {fmt(x.mwh)} MWh</li>)}
+                                {r.via.map((x) => <li key={x.id} data-trace-via={x.id}>supplied by {nameOf(x.id)} <span className="font-mono text-xs">{x.id}</span>: {pct(x.share)} percent of what {r.id} took in, {fmt(x.mwh)} MWh</li>)}
                               </ul>
                             ) : <div className="text-xs text-muted" {...(r.island ? { "data-trace-island": r.id } : {})}>{r.island ?? "no neighbour supplied it on net"}</div>}
                           </li>
@@ -679,7 +679,7 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
               <thead><tr className="bg-accent text-left text-white"><th className="px-2 py-1 font-normal">Neighbour</th><th className="px-2 py-1 text-right font-normal">Net imports, MWh</th><th className="px-2 py-1 text-right font-normal">Share of demand</th></tr></thead>
               <tbody>
                 {supply[pick.id].neighbours.map((n) => (
-                  <tr key={n.id} className="border-b border-rule"><td className="px-2 py-1">{nameOf(n.id)} <span className="font-mono text-[10px] text-muted">{n.id}</span></td><td className="px-2 py-1 text-right">{fmt(n.mwh)}</td><td className="px-2 py-1 text-right">{n.share === null ? "" : `${pct(n.share)} percent`}</td></tr>
+                  <tr key={n.id} className="border-b border-rule"><td className="px-2 py-1">{nameOf(n.id)} <span className="font-mono text-xs text-muted">{n.id}</span></td><td className="px-2 py-1 text-right">{fmt(n.mwh)}</td><td className="px-2 py-1 text-right">{n.share === null ? "" : `${pct(n.share)} percent`}</td></tr>
                 ))}
               </tbody>
             </table>

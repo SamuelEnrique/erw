@@ -37,7 +37,7 @@ const ISOS = [
 
 function Tier() {
   return (
-    <Link href="/data/standard" title={TIER_TITLE.derived} className="ml-1 rounded border border-rule px-1 text-[10px] uppercase tracking-wide text-muted no-underline">
+    <Link href="/data/standard" title={TIER_TITLE.derived} className="ml-1 border border-rule px-1 text-xs text-muted no-underline">
       {TIER_LABEL.derived}
     </Link>
   );
@@ -62,14 +62,14 @@ function Monthly({ rows }: { rows: SeriesRow[] }) {
           return last && first ? (
             <span key={i.entity}>
               {i.label}: <Num check={`series|${TM}|${first.entity}|${first.variable}|${first.ts_utc}`} raw={first.value}>{shown(first.value)}</Num>{" "}
-              <span className="text-[11px] text-muted">({first.ts_utc.slice(0, 7)})</span> to{" "}
+              <span className="text-xs text-muted">({first.ts_utc.slice(0, 7)})</span> to{" "}
               <Num check={`series|${TM}|${last.entity}|${last.variable}|${last.ts_utc}`} raw={last.value}>{shown(last.value)}</Num>{" "}
-              <span className="text-[11px] text-muted">({last.ts_utc.slice(0, 7)})</span>
+              <span className="text-xs text-muted">({last.ts_utc.slice(0, 7)})</span>
             </span>
           ) : null;
         })}
       </div>
-      <p className="mt-1 text-[11px] text-muted">
+      <p className="mt-1 text-xs text-muted">
         Intensity of generation, kg CO2/MWh: each month&apos;s CO2 over its net generation, for UTC months whose every day is
         complete; a month with a missing day is left out, so a line can have gaps. The first and the latest complete month
         per ISO are given in figures.
@@ -131,7 +131,7 @@ export async function EmissionsParts({ focus = null }: { focus?: string | null }
           <div className="overflow-x-auto">
             <table className="w-full min-w-[460px] text-sm tabular-nums">
               <thead>
-                <tr className="border-b border-rule text-left text-[11px] text-muted">
+                <tr className="border-b border-rule text-left text-xs text-muted">
                   <th className="py-0.5 font-normal">ISO, lowest first</th>
                   <th className="pr-2 font-normal">Latest hour (start, UTC)</th>
                   <th className="pr-2 text-right font-normal">Of generation, kg CO2/MWh</th>
@@ -151,7 +151,7 @@ export async function EmissionsParts({ focus = null }: { focus?: string | null }
                 ))}
               </tbody>
             </table>
-            <p className="mt-1 text-[11px] text-muted">
+            <p className="mt-1 text-xs text-muted">
               Of generation: the CO2 EIA estimates for the power made in the ISO, over its net generation. Of demand: the CO2 of
               the power used there, imports counted and exports taken out, over its demand; the two differ by trade. EIA
               publishes generation a day or more late, so the latest hour is not the current one.
