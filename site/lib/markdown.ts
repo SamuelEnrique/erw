@@ -18,6 +18,10 @@ export type Docs = {
   weekly_source: Record<string, string>;
   latest: string;
   datastandard: string;
+  // session 471: docs/licenses.md, and each publisher's verdict (warehouse/metadata/license_verdicts.csv), for
+  // /data/licenses. Absent in a bundle built before session 471
+  licenses?: string;
+  license_verdicts?: { key: string; verdict: string; if_commercial: string; note: string }[];
   methods: Record<string, string>;
   // session 15: warehouse/metadata/run_status.csv rows for EIA-930 that are not ok (gaps, failures)
   run_status_eia930: { run_id: string; table: string; market: string; status: string; detail: string }[];
