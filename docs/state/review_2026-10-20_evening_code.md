@@ -4,7 +4,7 @@ Energy Research Warehouse (ERW), session 415, 21 October 2026. The chain `queue/
 
 ## Landed
 
-`wip/015-land` (sessions 401 to 414, the finisher's `wip/015-finish`, origin/main at `80406007`) is pushed to `task/015-land` after its landing checks at `4643d8a5` (session 415's report, "Checks"): every value matches Supabase, check-routes and the twelve other checks exit 0, and ten pages' floors fail on figures the license holds of 21 October replace with "license needed" (session 408's list). The merge, the deploy and the snapshot comparison are recorded in session 415's report, "The landing", by the commit that follows the deploy.
+`wip/015-land` (sessions 401 to 414, the finisher's `wip/015-finish`, origin/main at `80406007`) is pushed to `task/015-land` after its landing checks at `4643d8a5` (session 415's report, "Checks"): every value matches Supabase, check-routes and the twelve other checks exit 0, and ten pages' floors fail on figures the license holds of 21 October replace with "license needed" (session 408's list). **Landed at 10:39 UTC on 21 October** (`4c519d5b`, GitHub run 39584984147); production served the new build from 10:41 UTC (a new style sheet on the home page). The snapshot comparison `s415-before` (10:29 UTC) against `s415-after` (10:41 UTC): 0 differences, 25 pages, 0 failed. The remote branches `wip/401-s` to `wip/414-s`, `wip/015-finish` and `wip/015-land` are deleted.
 
 ## What each session did
 

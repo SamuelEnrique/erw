@@ -49,7 +49,15 @@ The ten floors: `/deals` 0 of 10, `/map` 0 of 1, `/events` 2 of 9, `/events/uri-
 
 ## The landing
 
-Before the push: `git ls-remote --heads origin "task/*"` and a trial merge of each, `scripts/freeze.py status`, and the before snapshot `s415-before`, its own command. The push: `task/015-land`. The merge, the deploy and the comparison follow in the next commit.
+Before the push: `git ls-remote --heads origin "task/*"` and a trial merge of each, `scripts/freeze.py status`, and the before snapshot `s415-before`, its own command. The push: `task/015-land`. GitHub's check of `3ae36ca5` (run 39584984147) passed and merged it at 10:39 UTC: main is `4c519d5b`. Production served a new build from 10:41:33 UTC (the home page's style sheet `23_8b0cd7i-4z.css` became `08pa162_kj65r.css`). Before the push, `origin/main` (`7f3459b9`, the merge of `task/460-482-day`, no file under `site/`) was merged again (`3ae36ca5`) and the whole suite run once more in the clean copy at that commit: 4,943 tests, OK, exit 0, the git-hook tests among them. Only `task/198-battery-data` was on the remote, stale.
+
+| Snapshot | Taken (UTC) | Result |
+|---|---|---|
+| `s415-before` | 10:29:30 | 25 pages, 0 failed |
+| `s415-after` | 10:41:54 | 25 pages, 0 failed |
+| compare | | 0 differences in all: expected, every page a visitor reads is the in-review page |
+
+The remote branches `wip/401-s` to `wip/414-s`, `wip/015-finish` and `wip/015-land` were deleted after the landing (each fully on main).
 
 ## Decisions made without you
 
