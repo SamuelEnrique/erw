@@ -265,6 +265,7 @@ catalogue_hold:
   - eia923_plant_fuel_annual
   - eia861m_utility_sales_monthly
   - eia_nuclear_outages_daily
+  - eia_nuclear_outages_facility_daily
   # session 109: EIA's daily demand by balancing authority, a history (190,512 rows). The network's replay reads its own
   # files (site/public/network/daily_<year>.json), built from it; nothing reads it from Supabase
   - eia930_daily_demand

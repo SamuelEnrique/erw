@@ -72,6 +72,7 @@ eia_gas_storage_weekly,none,,8,P1W,2010-01-01T00:00:00Z,2026-10-02T00:00:00Z,700
 eia_gas_trade_monthly,none,,36,P1M,2015-01-01T00:00:00Z,2026-07-01T00:00:00Z,1979,eia:natural-gas/move/poe1:supply;eia:natural-gas/move/poe2:supply,2026-10-10T14:58:19Z,pass,public,gas;lng,no,source
 eia_lng_exports_monthly,none,,17,P1M,2013-11-01T00:00:00Z,2026-07-01T00:00:00Z,1083,eia:natural-gas/move/poe2,2026-10-21T14:36:30Z,pass,public,lng,no,source
 eia_nuclear_outages_daily,none,,1,P1D,2007-01-01T00:00:00Z,2026-10-21T00:00:00Z,21702,eia:nuclear-outages/us-nuclear-outages,2026-10-21T19:39:31Z,pass,public,power;uranium,no,source
+eia_nuclear_outages_facility_daily,none,,62,P1D,2015-01-01T00:00:00Z,2026-10-21T00:00:00Z,741501,eia:nuclear-outages/facility-nuclear-outages,2026-10-21T20:03:37Z,pass,public,power;uranium,no,source
 eia_padd_crude_pipeline_flows,none,,11,P1M,1986-01-01T00:00:00Z,2026-07-01T00:00:00Z,4558,eia:petroleum/move/pipe,2026-10-21T14:36:30Z,pass,public,oil,no,source
 eia_petroleum_stocks_weekly,none,,8,P1W,1982-08-20T00:00:00Z,2026-10-09T00:00:00Z,16823,eia:petroleum/stoc/wstk,2026-10-21T14:36:30Z,pass,public,oil;products,no,source
 eia_petroleum_supply_weekly,none,,30,P1W,2010-01-01T00:00:00Z,2026-10-02T00:00:00Z,26118,eia:petroleum/move/wkly:supply;eia:petroleum/stoc/wstk:supply;eia:petroleum/sum/sndw,2026-10-10T14:58:19Z,pass,public,oil;products,no,source
