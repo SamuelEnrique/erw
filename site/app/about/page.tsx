@@ -49,13 +49,23 @@ export default function About() {
         </p>
         <p>
           <strong>Numbers.</strong> Every number in the numbers section is read from the ERW&apos;s tables through its Python package, and each names its
-          table in the section&apos;s footnotes. The short summary above them is written by the model under a literal check: every number in it must appear
-          in the section, or the summary is regenerated once and otherwise left out.
+          table in the section&apos;s footnotes. A day-ahead average is the mean of the 24 hourly prices of the grid&apos;s own operating day, rounded half
+          up to cents. The short summary above them is written by the model under a literal check: every number in it must appear
+          in the section, or the summary is regenerated once and otherwise left out. On this site each figure carries the table and key it came from:
+          scripts/check-values.mjs compares it with the live set, and scripts/check_digest.py traces every Digest of the archive to the warehouse. Since
+          21 October 2026 a figure from a table whose publisher asks for permission reads &ldquo;license needed&rdquo;, as it does on every page; so does the
+          summary when it names one, and so do the stories, which come from the news index.
         </p>
         <p>
-          <strong>Schedule.</strong> The digest covers the 24 hours before it is written, Monday to Friday at 14:00 UTC; there is no weekend issue.
+          <strong>Schedule.</strong> The digest covers the 24 hours before it is written, Monday to Friday, by the daily run that starts at 14:00 UTC;
+          there is no weekend issue. A day without a digest, before it is written or when none was, says so on its page and shows no other day&apos;s.
           ERW&apos;s Roundup covers an ISO week (Monday to Sunday, UTC), opens with the weekend&apos;s top stories, and is written and sent on Sundays at
           23:00 UTC (4 PM Pacific). It was called Energy Week, on Mondays, until session 23.
+        </p>
+        <p>
+          <strong>Chart of the day.</strong> Since 13 October 2026 each digest carries a chart drawn by code, with no model and no person choosing it: the
+          strongest flag of the day&apos;s scan of the warehouse that no digest has shown (<Link href="/data/methods/automated_analysis_scanner">how the chart
+          is chosen</Link>). Its figures are its table&apos;s, as its record holds them.
         </p>
         <p>
           <strong>Fun fact and chart of the week.</strong> Each digest ends with a fun fact: always an energy fact first (a number from the warehouse,

@@ -198,6 +198,8 @@ export function parseReport(file, raw) {
   const date = reportDate(lines);
   const waits = [];
   const decided = [];
+  // session 414: what a section for the owner holds when it says there is nothing ("Nothing new."), for the ledger's note
+  const nothing = [];
   let h2 = { text: "", kind: "none" };
   let sec = { text: "The report's opening lines", kind: "none" };
   let buf = [];
@@ -209,6 +211,7 @@ export function parseReport(file, raw) {
         const says = INLINE.some((re) => re.test(own(bare)));
         if (sec.kind === "wait") {
           if (!(NOTHING.test(bare) && bare.length < 200 && !says)) waits.push({ section: sec.text, line: it.line, md: it.md, kind: "section" });
+          else nothing.push({ section: sec.text, line: it.line, md: it.md });
         } else if (says) {
           waits.push({ section: sec.text, line: it.line, md: it.md, kind: "inline" });
         } else if (sec.kind === "decided") {
@@ -237,7 +240,349 @@ export function parseReport(file, raw) {
   waits.sort((a, b) => (a.kind === b.kind ? a.line - b.line : a.kind === "section" ? -1 : 1));
   return {
     ...id, file, path: `${REPORTS}/${file}`, heading, title, date: date ? date.iso : null, date_words: date ? date.words : null,
-    url: `${REPO_URL}/blob/main/${REPORTS}/${file}`, waits, decided,
+    url: `${REPO_URL}/blob/main/${REPORTS}/${file}`, waits, decided, nothing,
+  };
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Session 414: the ledger of one run of sessions (LEDGER below). Every item of a section for the owner ("For Samuel's
+// ruling") in those reports, listed once: an item that a later report asks again is merged with it, and keeps the link
+// to every report that asks it. Each is then put under what it blocks (BLOCKS), and the three that the state notes of
+// docs/state/ rank highest by value are put first. Fixed rules and no model: each merge, each place and each rank keeps
+// the rule that made it and the words that matched, and the page prints them, so a person can read why and overrule it.
+// A report that lands later (a session run on another branch) is read by the next build, and its items join.
+
+export const LEDGER = { from: 351, to: 413 };
+export const NOTES = "docs/state";
+
+// an item that only sends the reader to another list and asks nothing of its own ("The items of the note's ...")
+export const POINTER = /^\W*the (?:\w+ )?items of (?:the|a|this) (?:\w+ )?(?:note|list)\b/i;
+
+// a subject several reports name in different words: items that match the same one are one item
+export const SUBJECTS = [
+  { key: "redivis-storage", label: "the Redivis storage", re: /\bredivis\W{0,3}s?\s+(?:free\s+)?(?:storage|10 GB)\b|\b10 GB\b|^\W*the storage\b/i },
+];
+
+// what an item blocks; the rules of BLOCK_RULES are tried in their order and the first that matches places the item
+export const BLOCKS = [
+  { key: "money", label: "Money", says: "a cost to pay or a plan to choose" },
+  { key: "pull", label: "A data pull", says: "data to fetch, load, restore or publish, or a publisher to ask" },
+  { key: "figure", label: "A ruling on a figure", says: "which number a page or a table states, and how" },
+  { key: "page", label: "A public page", says: "what a page shows, links or offers, or who walks it" },
+  { key: "other", label: "None of the four", says: "the machines, the repository, security, a method's sign-off: no rule above matched" },
+];
+export const BLOCK_RULES = [
+  { block: "money", re: /\bpaid tier\b|\bupgrade\b|\bsubscription\b|\bbudget\b|\binvoice\b|\b(?:project|supabase|account)\W{0,2}s? plan\b|\bUSD \d/i },
+  { block: "pull", re: /\bfor the data machine\b|\binformation request\b|\bnew source\b|\ba pull\b|\bdata access portal\b/i },
+  { block: "page", re: /\bon a phone\b|\bphone width\b|\bat 390\b/i },
+  { block: "figure", re: /\bheadline\b|\btwo figures\b|\bpublished figures\b|\bnewey-west\b|\bverdict\b|\ba cent\b|\btolerance\b|\bthreshold\b|\bbasis\b|\bcounts? as\b/i },
+  { block: "page", re: /\bpages?\b|\bwalk(?:s|through)?\b|\bcards?\b|\bdownloads?\b|(?:^|[\s(`])\/[a-z][a-z-]+/i },
+  { block: "pull", re: /\bpull\b|\bdata machine\b|\brestor(?:e|ed|ing)\b|\barchive\b|\blive set\b|\bload(?:s|ed|er|ing)?\b|\bletters?\b|\blicen[cs]e\b|\bredivis\b|\bupload(?:s|ed|er)?\b|\bsource\b/i },
+  { block: "other", re: /[\s\S]/ },
+];
+
+// two items ask the same thing when (a) they match one subject, (b) one names the other's session and they share at
+// least NAMED.words words, NAMED.share of the shorter's, or (c) they share SAME.words words, SAME.share of the shorter's.
+// (b) and (c) merge one item with one: an item that matches two of another report's items restates both, and is kept
+// beside each of them instead of joining them into one.
+export const NAMED = { words: 3, share: 0.2 };
+export const SAME = { words: 5, share: 0.6 };
+
+// the notes: a section "Waiting for you" or "What waits for Samuel"; it ranks by value only where it says so
+export const NOTE_HEAD = /^(?:what )?wait(?:s|ing) for (?:you|samuel)\b/i;
+export const BY_VALUE = /\bhighest value first\b|\bin the order of (?:their )?value\b|\bby value\b/i;
+const DAY_PART = [["night", 0], ["morning", 1], ["day", 2], ["pm", 3], ["afternoon", 3], ["evening", 4]];
+
+const STOP = new Set(("the and for whether should this that with from its are not now but was were has have had been into than then them "
+  + "they their there these those which what when where while who will would could can may might must about after again all any because "
+  + "before being both down each few here how more most once only other our out over own same some such too under until very you your one "
+  + "two three four five six seven eight nine ten also just per via item today none nothing new session samuel ruling question wait note "
+  + "does did done keep make made take give see seen yet still every less much many like ask asked than it's "
+  // the folders and file kinds that paths share without sharing a subject
+  + "site data docs json csv warehouse scripts runs tests lib app components content").split(" "));
+
+/** The words an item is compared by: lower case, no markup, no short or common word, a plural's s taken off; a path or
+ * file name is kept whole and also by its parts. */
+export function tokens(text) {
+  const t = String(text).toLowerCase().replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").replace(/[*`"“”]/g, " ");
+  const out = new Set();
+  for (const m of t.matchAll(/[a-z0-9][a-z0-9_./-]*[a-z0-9]/g)) {
+    const w = m[0];
+    const parts = /[/.]/.test(w) && !/^[\d.,]+$/.test(w) ? w.split(/[/.]+/) : [];
+    for (const x of [w, ...parts]) {
+      let y = x;
+      if (/^[a-z]{4,}s$/.test(y) && !/(ss|us|is)$/.test(y)) y = y.slice(0, -1);
+      if (y.length < 3 || STOP.has(y) || /^\d{1,3}$/.test(y)) continue;
+      out.add(y);
+    }
+  }
+  return out;
+}
+
+/** The sessions an item names: "session 359", "sessions 359 and 379", "sessions 351 to 356", "**368**". */
+export function sessionsNamed(text) {
+  const out = new Set();
+  const t = String(text).replace(/[`]/g, "");
+  for (const m of t.replace(/\*/g, "").matchAll(/\bsessions?\s+(\d{3}[a-z]?)((?:\s*(?:,|and|or|to)\s*\d{3}[a-z]?\b)*)/gi)) {
+    const rest = m[2].match(/\d{3}[a-z]?/gi) ?? [];
+    const nums = [m[1], ...rest].map((x) => x.toLowerCase());
+    if (rest.length === 1 && /^\s*to\b/i.test(m[2]) && /^\d+$/.test(nums[0]) && /^\d+$/.test(nums[1]) && Number(nums[1]) - Number(nums[0]) <= 100) {
+      for (let k = Number(nums[0]); k <= Number(nums[1]); k += 1) out.add(String(k));
+    } else nums.forEach((x) => out.add(x));
+  }
+  for (const m of t.matchAll(/\*\*(\d{3}[a-z]?)\*\*/g)) out.add(m[1].toLowerCase());
+  return out;
+}
+
+/** The subject an item matches, or null. */
+export function subjectOf(text) {
+  const s = SUBJECTS.find((x) => x.re.test(text));
+  return s ? s.key : null;
+}
+
+/** Where an item goes: { block, rule, said }, the first rule of BLOCK_RULES that its words match. */
+export function blockOf(text) {
+  const t = own(String(text).replace(/[*`]/g, ""));
+  for (let i = 0; i < BLOCK_RULES.length; i += 1) {
+    const m = BLOCK_RULES[i].re.exec(t);
+    if (m) return { block: BLOCK_RULES[i].block, rule: i + 1, said: BLOCK_RULES[i].block === "other" ? null : m[0].trim() };
+  }
+  return { block: "other", rule: BLOCK_RULES.length, said: null };
+}
+
+// an item without its own list marker, so that "6. **Whether ...**" is not drawn as a list that starts at 6
+const plainMd = (md) => String(md).replace(/^\s*([-*+]|\d+[.)])\s+/, "");
+const plainOf = (md) => String(md).replace(/^\s*([-*+]|\d+[.)])\s+/, "").replace(/\s+/g, " ").trim();
+
+/** Why two items ask the same thing, or null. a and b each hold { session, tokens, names, subject }. */
+export function sameAsk(a, b) {
+  if (a.session === b.session) return null;
+  if (a.subject && a.subject === b.subject) return { rule: "subject", subject: a.subject, words: [] };
+  const words = [...a.tokens].filter((w) => b.tokens.has(w)).sort();
+  const share = words.length / (Math.min(a.tokens.size, b.tokens.size) || 1);
+  if ((a.names.has(b.session) || b.names.has(a.session)) && words.length >= NAMED.words && share >= NAMED.share) return { rule: "named", words, share };
+  if (words.length >= SAME.words && share >= SAME.share) return { rule: "same", words, share };
+  return null;
+}
+
+/** A sentence that says why two items were taken for one. */
+export function whySame(a, b, m) {
+  const label = (SUBJECTS.find((s) => s.key === m.subject) ?? {}).label;
+  if (m.rule === "subject") return `sessions ${a.session} and ${b.session} both ask about ${label}`;
+  const who = a.names.has(b.session) ? `session ${a.session} names session ${b.session}` : b.names.has(a.session) ? `session ${b.session} names session ${a.session}` : `sessions ${a.session} and ${b.session}`;
+  return `${who}, and they share ${m.words.length} words (${m.words.slice(0, 8).join(", ")}${m.words.length > 8 ? ", ..." : ""})`;
+}
+
+/** A note's order among notes: its date, then the part of the day its name says (night, morning, day, pm, evening). */
+export function noteOrder(file) {
+  const m = /(\d{4}-\d{2}-\d{2})/.exec(file);
+  if (!m) return null;
+  const after = file.slice(m.index + 10).toLowerCase();
+  const before = file.slice(0, m.index).toLowerCase();
+  const find = (s) => { for (const [w, p] of DAY_PART) if (new RegExp(`(^|[_.\\s-])${w}([_.\\s-]|$)`).test(s)) return p; return null; };
+  const part = find(after) ?? find(before) ?? 1;
+  return { date: m[1], part, order: `${m[1]}#${part}` };
+}
+
+/** A state note's lists of what waits: [{ heading, line, by_value, items: [{ line, rank, md }] }]. */
+export function parseNote(raw) {
+  const lines = String(raw).replace(/\r\n/g, "\n").split("\n");
+  const out = [];
+  let cur = null;
+  let fence = false;
+  const close = () => {
+    if (!cur) return;
+    const its = items(cur.lines);
+    const lead = its.find((x) => !/^\s*([-*+]|\d+[.)])\s/.test(x.md));
+    cur.by_value = BY_VALUE.test(cur.heading) || (!!lead && its.indexOf(lead) === 0 && BY_VALUE.test(lead.md));
+    let pos = 0;
+    cur.items = its.filter((x) => /^\s*([-*+]|\d+[.)])\s/.test(x.md)).map((x) => {
+      pos += 1;
+      const num = /^\s*(\d+)[.)]\s/.exec(x.md);
+      return { line: x.line, rank: num ? Number(num[1]) : pos, md: x.md };
+    });
+    delete cur.lines;
+    delete cur.level;
+    if (cur.items.length) out.push(cur);
+    cur = null;
+  };
+  lines.forEach((text, i) => {
+    if (/^\s*(```|~~~)/.test(text)) fence = !fence;
+    const m = fence ? null : /^(#{1,4}) +(.*\S)\s*$/.exec(text);
+    if (m) {
+      if (cur && m[1].length > cur.level) { cur.lines.push({ n: i + 1, text }); return; }
+      close();
+      if (m[1].length >= 2 && NOTE_HEAD.test(m[2])) cur = { heading: m[2], line: i + 1, level: m[1].length, lines: [] };
+      return;
+    }
+    if (cur) cur.lines.push({ n: i + 1, text });
+  });
+  close();
+  return out;
+}
+
+/** Every dated note of docs/state/ with a list of what waits, newest first. */
+export function readNotes(repo) {
+  const dir = path.join(repo, ...NOTES.split("/"));
+  if (!fs.existsSync(dir)) return [];
+  const out = [];
+  for (const f of fs.readdirSync(dir).sort()) {
+    if (!f.endsWith(".md")) continue;
+    const o = noteOrder(f);
+    if (!o) continue;
+    const lists = parseNote(fs.readFileSync(path.join(dir, f), "utf-8"));
+    if (lists.length) out.push({ file: f, path: `${NOTES}/${f}`, url: `${REPO_URL}/blob/main/${NOTES}/${f}`, ...o, lists });
+  }
+  return out.sort((a, b) => (a.order < b.order ? 1 : a.order > b.order ? -1 : a.file < b.file ? 1 : -1));
+}
+
+/** "384, 386 to 413" from a sorted list of numbers. */
+export function spans(nums) {
+  const out = [];
+  for (let i = 0; i < nums.length; i += 1) {
+    let j = i;
+    while (j + 1 < nums.length && nums[j + 1] === nums[j] + 1) j += 1;
+    out.push(j === i ? `${nums[i]}` : j === i + 1 ? `${nums[i]}, ${nums[j]}` : `${nums[i]} to ${nums[j]}`);
+    i = j;
+  }
+  return out.join(", ");
+}
+
+// a note's item speaks of an item of the ledger when they match one subject, or the note names its session and they share
+// NOTE_MATCH.named words, or they share NOTE_MATCH.words words, NOTE_MATCH.share of the shorter's. A note's item that
+// speaks of several is ranked for each; the one it shares most with is the one it puts first.
+export const NOTE_MATCH = { named: 3, words: 4, share: 0.4 };
+
+/** How well a note's item matches a group: 0 when it does not. */
+function noteScore(t, g) {
+  let best = 0;
+  for (const m of g.all) {
+    const words = [...t.tokens].filter((w) => m.tokens.has(w)).length;
+    const share = words / (Math.min(t.tokens.size, m.tokens.size) || 1);
+    let s = 0;
+    if (t.subject && t.subject === m.subject) s = 100 + words;
+    else if (t.names.has(m.session) && words >= NOTE_MATCH.named) s = 50 + words;
+    else if (words >= NOTE_MATCH.words && share >= NOTE_MATCH.share) s = words;
+    if (s > best) best = s;
+  }
+  return best;
+}
+
+/** The ledger, from the parsed reports (parseReport) and the notes (readNotes). */
+export function ledger(reports, notes, marker = { error: "not given", order: null }, run = LEDGER) {
+  const inRange = reports.filter((r) => r.n >= run.from && r.n <= run.to).sort((a, b) => a.order - b.order);
+  const answered = marker && marker.error === null && marker.order !== null ? marker.order : null;
+  const heldNums = [...new Set(inRange.map((r) => r.n))];
+  const missing = [];
+  for (let k = run.from; k <= run.to; k += 1) if (!heldNums.includes(k) && !(answered !== null && k * 100 <= answered)) missing.push(k);
+  const quiet = [];
+  const asks = [];
+  for (const r of inRange) {
+    const own_ = r.waits.filter((w) => w.kind === "section");
+    const pointers = own_.filter((w) => POINTER.test(plainOf(w.md).replace(/[*_`]/g, "")));
+    const told = [...(r.nothing ?? []).map((x) => ({ ...x, why: "says there is nothing new" })), ...pointers.map((x) => ({ section: x.section, line: x.line, md: x.md, why: "sends the reader to another list" }))];
+    if (told.length) quiet.push({ session: r.id, url: r.url, lines: told.map((x) => ({ line: x.line, md: x.md, why: x.why })) });
+    for (const w of own_) {
+      if (pointers.includes(w)) continue;
+      const plain = plainOf(w.md);
+      asks.push({ session: r.id, n: r.n, order: r.order, url: r.url, path: r.path, title: r.title, date_words: r.date_words, section: w.section, line: w.line, md: w.md,
+        tokens: tokens(plain), names: sessionsNamed(w.md), subject: subjectOf(plain.replace(/[*`]/g, "")) });
+    }
+  }
+  // which items ask the same thing
+  const parent = asks.map((_, i) => i);
+  const root = (i) => (parent[i] === i ? i : (parent[i] = root(parent[i])));
+  const join = (i, j) => { parent[root(i)] = root(j); };
+  const pairs = [];
+  for (let i = 0; i < asks.length; i += 1) for (let j = i + 1; j < asks.length; j += 1) {
+    const m = sameAsk(asks[i], asks[j]);
+    if (m) pairs.push({ i, j, m });
+  }
+  const partners = (i, session) => pairs.filter((p) => p.m.rule !== "subject" && ((p.i === i && asks[p.j].session === session) || (p.j === i && asks[p.i].session === session))).length;
+  const why = new Map();
+  const restates = [];
+  for (const p of pairs) {
+    const a = asks[p.i], b = asks[p.j];
+    const one = p.m.rule === "subject" || (partners(p.i, b.session) === 1 && partners(p.j, a.session) === 1);
+    if (one) { join(p.i, p.j); why.set(`${p.i}|${p.j}`, whySame(a, b, p.m)); continue; }
+    if (partners(p.i, b.session) > 1) restates.push({ by: p.i, of: p.j, why: whySame(a, b, p.m) });
+    if (partners(p.j, a.session) > 1) restates.push({ by: p.j, of: p.i, why: whySame(a, b, p.m) });
+  }
+  const joined = new Set(pairs.filter((p) => root(p.i) === root(p.j)).flatMap((p) => [p.i, p.j]));
+  const onlyRestates = new Set(restates.map((x) => x.by).filter((i) => !joined.has(i)));
+  const byRoot = new Map();
+  asks.forEach((a, i) => {
+    if (onlyRestates.has(i)) return;
+    const k = root(i);
+    if (!byRoot.has(k)) byRoot.set(k, []);
+    byRoot.get(k).push(i);
+  });
+  const link = (a) => ({ session: a.session, line: a.line, path: a.path, url: `${a.url}?plain=1#L${a.line}`, report_url: a.url, section: a.section, md: plainMd(a.md) });
+  let groups = [...byRoot.values()].map((idx) => {
+    idx.sort((x, y) => asks[x].order - asks[y].order || asks[x].line - asks[y].line);
+    const members = idx.map((i) => asks[i]);
+    const latest = members[members.length - 1];
+    const also = restates.filter((x) => idx.includes(x.of) && onlyRestates.has(x.by)).map((x) => x.by);
+    const alsoUniq = [...new Set(also)].map((i) => asks[i]);
+    const reasons = [];
+    for (const [k, v] of why) { const [i, j] = k.split("|").map(Number); if (idx.includes(i) && idx.includes(j)) reasons.push(v); }
+    for (const x of restates) if (idx.includes(x.of) && onlyRestates.has(x.by)) reasons.push(`${x.why}; session ${asks[x.by].session}'s item asks more than this one, so it is kept beside each item it restates`);
+    const place = blockOf(members.map((m) => plainOf(m.md)).join(" \n "));
+    return { members, latest, also: alsoUniq, all: [...members, ...alsoUniq], reasons, place };
+  });
+  // the notes: only those written since the first report of the run
+  const since = inRange.map((r) => r.date).filter(Boolean).sort()[0] ?? null;
+  const read = notes.filter((n) => since === null || n.date >= since);
+  const ranks = groups.map(() => []);
+  const firsts = [];
+  for (const note of read) {
+    for (const list of note.lists) {
+      for (const it of list.items) {
+        const t = { tokens: tokens(plainOf(it.md)), names: sessionsNamed(it.md), subject: subjectOf(plainOf(it.md).replace(/[*`]/g, "")) };
+        let best = -1, bestScore = 0;
+        groups.forEach((g, gi) => {
+          const s = noteScore(t, g);
+          if (s > 0) ranks[gi].push({ note: note.file, path: note.path, url: `${note.url}?plain=1#L${it.line}`, heading: list.heading, rank: it.rank, by_value: list.by_value, best: false, score: s });
+          if (s > bestScore) { bestScore = s; best = gi; }
+        });
+        if (best >= 0) {
+          const r = ranks[best].find((x) => x.note === note.file && x.rank === it.rank && x.heading === list.heading);
+          if (r) r.best = true;
+          if (list.by_value) firsts.push({ gi: best, note: note.file, path: note.path, url: `${note.url}?plain=1#L${it.line}`, heading: list.heading, rank: it.rank, date: note.date });
+        }
+      }
+    }
+  }
+  // the three first: the notes that rank by value, newest first, each in its own order; one group once
+  const top = [];
+  for (const f of firsts) {
+    if (top.length >= 3) break;
+    if (!top.some((x) => x.gi === f.gi)) top.push(f);
+  }
+  const blockIndex = (k) => BLOCKS.findIndex((b) => b.key === k);
+  const out = groups.map((g, gi) => ({
+    id: `w${String(gi + 1).padStart(3, "0")}`,
+    block: g.place.block, block_rule: g.place.rule, block_said: g.place.said,
+    md: plainMd(g.latest.md), session: g.latest.session, path: g.latest.path, section: g.latest.section,
+    sessions: [...new Set(g.all.map((m) => m.session))],
+    asked: g.members.map(link), restated: g.also.map(link), reasons: g.reasons,
+    ranks: ranks[gi].map(({ score, ...r }) => r),
+    first: (() => { const k = top.findIndex((x) => x.gi === gi); return k < 0 ? null : { place: k + 1, note: top[k].note, path: top[k].path, url: top[k].url, heading: top[k].heading, rank: top[k].rank }; })(),
+    order: g.latest.order, line: g.latest.line,
+  }));
+  out.sort((a, b) => blockIndex(a.block) - blockIndex(b.block) || b.order - a.order || a.line - b.line);
+  const byBlock = Object.fromEntries(BLOCKS.map((b) => [b.key, out.filter((g) => g.block === b.key).length]));
+  const lines = asks.length;
+  return {
+    from: run.from, to: run.to, error: null,
+    held: inRange.map((r) => r.id), held_words: spans(heldNums), missing: spans(missing), answered_to: answered !== null && marker.last ? marker.last : null,
+    notes_read: read.map((n) => ({ file: n.file, path: n.path, url: n.url, date: n.date, lists: n.lists.map((l) => ({ heading: l.heading, line: l.line, by_value: l.by_value, items: l.items.length })) })),
+    ranked_by_value: read.some((n) => n.lists.some((l) => l.by_value)),
+    counts: { reports: inRange.length, with_items: new Set(asks.map((a) => a.session)).size, lines, items: out.length, merged: lines - out.length, by_block: byBlock, first: top.length, unranked: out.filter((g) => g.ranks.length === 0).length },
+    blocks: BLOCKS, rules: { block: BLOCK_RULES.map((r, i) => ({ n: i + 1, block: r.block, re: String(r.re) })), subjects: SUBJECTS.map((s) => ({ label: s.label, re: String(s.re) })), named: NAMED, same: SAME, note: NOTE_MATCH, by_value: String(BY_VALUE), pointer: String(POINTER) },
+    groups: out.map(({ order, ...g }) => g), quiet,
+    // a report of the run with no section for the owner at all
+    silent: inRange.filter((r) => !asks.some((a) => a.session === r.id) && !quiet.some((q) => q.session === r.id)).map((r) => ({ session: r.id, url: r.url })),
   };
 }
 
@@ -258,7 +603,14 @@ export function build(repo, now = new Date()) {
   all.sort((a, b) => b.order - a.order);
   const reports = all.filter((r) => r.waits.length > 0);
   const decidedOnly = all.filter((r) => r.waits.length === 0 && r.decided.length > 0).map((r) => ({ id: r.id, title: r.title, url: r.url, date_words: r.date_words, count: r.decided.length }));
-  return { ...base, marker, reports, decided_only: decidedOnly, counts: { after: all.length, listed: reports.length, items: reports.reduce((a, r) => a + r.waits.length, 0) } };
+  // session 414: the ledger of LEDGER.from to LEDGER.to; a fault in it is said on the page and never fails the build
+  let led;
+  try {
+    led = ledger(all, readNotes(repo), marker);
+  } catch (e) {
+    led = { ...LEDGER, error: `the ledger could not be made: ${String(e && e.message ? e.message : e).slice(0, 200)}` };
+  }
+  return { ...base, marker, reports, decided_only: decidedOnly, counts: { after: all.length, listed: reports.length, items: reports.reduce((a, r) => a + r.waits.length, 0) }, ledger: led };
 }
 
 // run as a script: write site/content/waits.json

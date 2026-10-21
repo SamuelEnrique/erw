@@ -322,13 +322,15 @@ class Site(unittest.TestCase):
             self.assertIn(word, m)
         self.assertLess(m.index("if (!safeHref(t.href))"), m.index("t.href = sitePath("))      # checked before a link is rewritten
         self.assertEqual(m.count("new Marked("), 1)                                            # one renderer: nothing goes round it
-        # every page that writes markdown into the page does it through render()
+        # every page that writes markdown into the page does it through render(); session 402: or renderDigest(), which
+        # renders through render() and then puts in spans whose every attribute and text is escaped (lib/digest.ts)
+        self.assertIn("return fillDigest(render(t.md, `docs/digest/${date}.md`), t.spans);", m)
         for base, _, files in os.walk(os.path.join(ROOT, "site", "app")):
             for f in files:
                 if f.endswith(".tsx"):
                     text = open(os.path.join(base, f), encoding="utf-8").read()
                     for use in re.findall(r"dangerouslySetInnerHTML=\{\{ __html: (\w+)", text):
-                        self.assertEqual(use, "render", os.path.join(base, f))
+                        self.assertIn(use, ("render", "renderDigest"), os.path.join(base, f))
 
     def test_the_chart_library_is_pinned_by_its_hash(self):
         e = src("site", "components", "echarts.ts")

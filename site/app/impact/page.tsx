@@ -128,17 +128,20 @@ export default async function Impact({ searchParams }: { searchParams: Promise<R
                     {STATES.map(([k, name]) => <option key={k} value={k}>{name}</option>)}
                   </select>
                 </label>
-                <label className="block"><span className="mb-1 block font-semibold">Size, MW<Tip id="mw" label="the size">Blank is JEDI&apos;s own default project: {jediMw !== null ? <><S r={row("all", "project", "project_mw")} m="mw" /> {t.basis}</> : "not held"}. Every figure is JEDI&apos;s per MW times this.</Tip></span>
-                  <input name="mw" type="number" min={BOUNDS.mw[0]} max={BOUNDS.mw[1]} step="any" defaultValue={x.mw ?? ""} placeholder={jediMw !== null ? `JEDI's ${fmt(jediMw, "mw")}` : ""} className={field} />
+                {/* session 412 (the accessibility pass): each label names its field by htmlFor. A label's own field is otherwise the
+                    first that can be labelled inside it, and here that was the hover tip's button: the four fields had no
+                    name, or their placeholder for one (WCAG 1.3.1, 4.1.2) */}
+                <label className="block" htmlFor="impact-mw"><span className="mb-1 block font-semibold">Size, MW<Tip id="mw" label="the size">Blank is JEDI&apos;s own default project: {jediMw !== null ? <><S r={row("all", "project", "project_mw")} m="mw" /> {t.basis}</> : "not held"}. Every figure is JEDI&apos;s per MW times this.</Tip></span>
+                  <input id="impact-mw" name="mw" type="number" min={BOUNDS.mw[0]} max={BOUNDS.mw[1]} step="any" defaultValue={x.mw ?? ""} placeholder={jediMw !== null ? `JEDI's ${fmt(jediMw, "mw")}` : ""} className={field} />
                 </label>
-                <label className="block"><span className="mb-1 block font-semibold">Capital cost, percent of JEDI&apos;s default<Tip id="capex" label="the capital cost">100 is JEDI&apos;s own cost for its default project, in the model&apos;s dollar year. The construction figures move in proportion; the operating ones do not.</Tip></span>
-                  <input name="capex" type="number" min={BOUNDS.capex[0]} max={BOUNDS.capex[1]} step={1} defaultValue={x.capex} className={field} />
+                <label className="block" htmlFor="impact-capex"><span className="mb-1 block font-semibold">Capital cost, percent of JEDI&apos;s default<Tip id="capex" label="the capital cost">100 is JEDI&apos;s own cost for its default project, in the model&apos;s dollar year. The construction figures move in proportion; the operating ones do not.</Tip></span>
+                  <input id="impact-capex" name="capex" type="number" min={BOUNDS.capex[0]} max={BOUNDS.capex[1]} step={1} defaultValue={x.capex} className={field} />
                 </label>
-                <label className="block"><span className="mb-1 block font-semibold">Local content, percent of JEDI&apos;s shares<Tip id="local" label="the local content">100 is JEDI&apos;s own share of each line bought in the state. In {where}, of each dollar of construction spending JEDI counts <S r={row("construction", "spending", "local_share")} m="mw" /> as spent in the state, and of each dollar of direct operating cost <S r={row("operations", "spending", "local_share")} m="mw" />.</Tip></span>
-                  <input name="local" type="number" min={BOUNDS.local[0]} max={BOUNDS.local[1]} step={1} defaultValue={x.local} className={field} />
+                <label className="block" htmlFor="impact-local"><span className="mb-1 block font-semibold">Local content, percent of JEDI&apos;s shares<Tip id="local" label="the local content">100 is JEDI&apos;s own share of each line bought in the state. In {where}, of each dollar of construction spending JEDI counts <S r={row("construction", "spending", "local_share")} m="mw" /> as spent in the state, and of each dollar of direct operating cost <S r={row("operations", "spending", "local_share")} m="mw" />.</Tip></span>
+                  <input id="impact-local" name="local" type="number" min={BOUNDS.local[0]} max={BOUNDS.local[1]} step={1} defaultValue={x.local} className={field} />
                 </label>
-                <label className="block"><span className="mb-1 block font-semibold">Life, years<Tip id="life" label="the life">JEDI states no life for a plant, so none is assumed. Give one to see the operating years added up.</Tip></span>
-                  <input name="life" type="number" min={BOUNDS.life[0]} max={BOUNDS.life[1]} step={1} defaultValue={x.life ?? ""} placeholder="none given" className={field} />
+                <label className="block" htmlFor="impact-life"><span className="mb-1 block font-semibold">Life, years<Tip id="life" label="the life">JEDI states no life for a plant, so none is assumed. Give one to see the operating years added up.</Tip></span>
+                  <input id="impact-life" name="life" type="number" min={BOUNDS.life[0]} max={BOUNDS.life[1]} step={1} defaultValue={x.life ?? ""} placeholder="none given" className={field} />
                 </label>
                 <label className="flex items-baseline gap-2" data-abate={x.abate ? "1" : "0"}>
                   <input type="checkbox" name="abate" value="1" defaultChecked={x.abate} className="accent-[var(--color-accent)]" />

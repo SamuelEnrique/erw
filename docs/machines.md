@@ -933,6 +933,18 @@ python scripts/duty.py check --dry-run
   words: it can list a line that no longer waits and miss one worded another way. The report is the record.
 - The page checks the internal cookie as the other `/internal` pages do (open `/internal/open` first), is linked from
   nothing, and answers 404 to a visitor.
+- **Each ruling once (session 414).** At the top of the page, the ledger of one run of sessions (`LEDGER` in
+  `build-waits.mjs`, 351 to 413 today): every item of a section for him in those reports, listed once, under what it
+  blocks (money, a data pull, a ruling on a figure, a public page, or none of the four), with a count at the top and the
+  three that the state notes rank highest first. Fixed rules, no model, each printed on the page: two items of
+  different reports are one when they match one subject (`SUBJECTS`), or when one names the other's session and they
+  share three words, or when they share five words, 60 percent of the shorter's; an item that restates two items of
+  another report is kept beside each. The first rule of `BLOCK_RULES` that an item's words match places it. The rank
+  comes only from a note of `docs/state/` whose "Waiting for you" list says it is ranked by value ("highest value
+  first", "in the order of their value"), newest note first; a numbered list that does not say so is shown beside each
+  item and puts nothing first, and where no note ranks by value the page says so. A report that lands later joins at
+  the next build; the page names the sessions of the run whose reports it did not read. Its test:
+  `node site/scripts/test-waits-ledger.mjs` (`tests/test_session414.py`).
 
 ### The planner: the next chain, drafted from the roadmap (session 197)
 

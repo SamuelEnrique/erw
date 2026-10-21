@@ -257,3 +257,12 @@ view that cannot shows it greyed, with a hover that says why. What each view doe
 The grids chosen go in the address (`grids=`) and are carried from view to view; nothing chosen writes nothing, so
 every opening address is as it was. With every grid on, each of the three views shows exactly what it showed before
 (compared as text before and after, 9 October 2026: only the control's row was added).
+
+## The figures on the page and their keys
+
+Each number `/grid` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The keys the sections above do not name:
+
+- `eia930_generation_latest`, `net_generation_mw` (a `series_esum` key): on the Mix tab, the block "today so far": the sum of the hourly net generation of the latest UTC day held, over its complete hours, in MWh.
+- `state_generation_mix_monthly`, `net_generation_<natural_gas, coal, nuclear, wind, solar, hydro, other_renewables, oil_and_other, not_itemized>_mwh`: the block "monthly mix since 2001", the table's last column: each fuel group's MWh in the newest month held for the state chosen (the United States, `eia:US`, unless another is chosen).
+- `eia930_all_generation`, `net_generation_<coal, geothermal, hydro, natural_gas, nuclear, oil, other, other_storage, pumped_storage, solar, solar_with_battery, unknown, unknown_storage, wind, wind_with_battery, battery>_mw`: the latest hour's blocks that open the Mix tab (`components/grid/NowView.tsx`), "The mix in that hour": each source's net generation in MW, as EIA names it, in the latest hour that holds the total; the largest of them is also named in the tab's first sentence.
+- `eia930_all_demand`, `demand_forecast_mw`: the block "yesterday" under them (`components/grid/Conditions.tsx`): EIA's day-ahead demand forecast for the hour of the day's peak demand; the error beside it is the peak demand less that forecast.
