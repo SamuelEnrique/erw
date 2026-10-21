@@ -80,8 +80,11 @@ full:
   # session 357: the price years, whole (the three economics pages' "Price years" setting; about 2,800 rows)
   - '^price_years_by_window$'
   # session 358: the node basis, whole (about 950,000 daily rows over 888 settlement points, and 1,260 monthly rows); the hourly
-  # prices behind them (ercot_node_prices_hourly) are internal and not loaded
-  - '^node_basis_(daily|summary)$'
+  # prices behind them (ercot_node_prices_hourly) are internal and not loaded.
+  # Session 483 (the owner's instruction of 21 October 2026): node_basis_daily out of the live set. No page, the package
+  # or Ask reads it from Supabase (the pages read node_basis_summary, site/lib/nodebasisread.ts), and its 957,969 rows
+  # were 27% of series (docs/state/live_set_size_2026-10-21.md). It stays in warehouse/output, the archive and Redivis
+  - '^node_basis_summary$'
   # session 359: ERCOT's four coincident-peak intervals by year, whole (28 rows)
   - '^ercot_4cp_intervals$'
   # session 76 (for session 75's page): the shoulder hours, whole (/shoulder reads it; about 20,000 monthly and yearly rows)
@@ -243,6 +246,9 @@ catalogue_hold:
   # Redivis draft; not loaded, not in the live catalogue
   - caiso_curtailment_intervals
   - spp_as_quantities
+  # session 483: node_basis_daily, out of the live set (no reader in Supabase) and held for Redivis's storage: not in the
+  # live catalogue either, so /data does not name a table it cannot link
+  - node_basis_daily
   # session 109: EIA's daily demand by balancing authority, a history (190,512 rows). The network's replay reads its own
   # files (site/public/network/daily_<year>.json), built from it; nothing reads it from Supabase
   - eia930_daily_demand
@@ -368,7 +374,6 @@ review_hold:
   - grid_stress_yearly                 # session 123, /mix/stress
   - ercot_as_prices_daily              # session 148, /ask/ercot
   - price_years_by_window              # session 357, the three economics pages' "Price years" (built tonight by the code machine)
-  - node_basis_daily                   # session 358, the node basis on the three economics pages (built tonight by the code machine)
   - node_basis_summary
   - ercot_4cp_intervals                # session 359, the datacenter page's 4CP toggle (built tonight by the code machine)
   - ercot_as_prices_monthly            # session 148, /ask/ercot
