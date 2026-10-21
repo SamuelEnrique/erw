@@ -1,0 +1,184 @@
+{
+ "note": "session 407: the ten LinkedIn posts' figures. Each key is the check-values key (the data-check attribute) the page writes beside the figure; shown is the text the page wrote for it, and raw the value it read, in the passing full check-values run of 20 October 2026 (runs/chain_oct20d/s372land/values_floor.out, floor written 23:15:29 UTC). read-407.mjs reads each raw value again from Supabase; shots-407.mjs cuts each chart from a local build.",
+ "site": "https://erw-flame.vercel.app",
+ "posts": [
+  {
+   "n": 1,
+   "file": "post-01-uri-price.png",
+   "page": "/events/uri-2021",
+   "key": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2021-02-17T00:00:00+00:00|uri_2021",
+   "shown": "9,051.55",
+   "raw": 9051.55
+  },
+  {
+   "n": 2,
+   "file": "post-02-elliott-pjm-peak.png",
+   "page": "/events/elliott-2022",
+   "key": "series|event_window_daily|eia930:PJM|demand_max_pct_vs_baseline|2022-12-23T00:00:00+00:00|elliott_2022",
+   "shown": "41.76",
+   "raw": 41.7611
+  },
+  {
+   "n": 3,
+   "file": "post-03-pjm-summer-peak-2025.png",
+   "page": "/events/east-heat-2025",
+   "key": "series|event_window_daily|eia930:PJM|demand_max_mw|2025-06-23T00:00:00+00:00|east_heat_2025",
+   "shown": "160,560",
+   "raw": 160560
+  },
+  {
+   "n": 4,
+   "file": "post-04-ercot-winter-peak-2025.png",
+   "page": "/events/cold-2025",
+   "key": "series|event_window_daily|eia930:ERCO|demand_max_pct_vs_baseline|2025-01-22T00:00:00+00:00|cold_2025",
+   "shown": "47.97",
+   "raw": 47.9713
+  },
+  {
+   "n": 5,
+   "file": "post-05-caiso-curtailment-may-2026.png",
+   "page": "/curtailment",
+   "key": "series|iso_curtailment_monthly|caiso:ISO|curtailed_solar_mwh|2026-05-01T00:00:00+00:00",
+   "shown": "1,361,345.63",
+   "raw": 1361345.63
+  },
+  {
+   "n": 6,
+   "file": "post-06-ercot-large-loads.png",
+   "page": "/datacenters",
+   "key": "series|ercot_large_load_status|ercot:large_load|approved_to_energize_mw|2026-06-19T00:00:00Z",
+   "shown": "8,927",
+   "raw": 8927
+  },
+  {
+   "n": 7,
+   "file": "post-07-ercot-negative-intervals-2025.png",
+   "page": "/prices?tab=ercot",
+   "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|n_negative|2025-01-01T00:00:00Z",
+   "shown": "959",
+   "raw": 959
+  },
+  {
+   "n": 8,
+   "file": "post-08-caiso-carbon-intensity.png",
+   "page": "/emissions",
+   "key": "series|carbon_intensity_monthly|eia930:CISO|intensity_generation|2026-07-01T00:00:00+00:00",
+   "shown": "127.31",
+   "raw": 127.3126
+  },
+  {
+   "n": 9,
+   "file": "post-09-spp-queue-2023.png",
+   "page": "/map?tab=queues&iso=spp",
+   "key": "series|iso_queue_statistics|spp:queue_2023|positions_withdrawn|2023-01-01T00:00:00Z",
+   "shown": "340",
+   "raw": 340
+  },
+  {
+   "n": 10,
+   "file": "post-10-load-weighted-nyc-ercot.png",
+   "page": "/cost-of-power?view=grids",
+   "key": "series|cost_of_power_monthly|nyiso:N.Y.C.|rt_load_weighted|2026-08-01T00:00:00+00:00",
+   "shown": "58.53",
+   "raw": 58.525
+  }
+ ],
+ "also": [
+  {
+   "n": 2,
+   "key": "series|event_window_daily|eia930:PJM|demand_max_mw|2022-12-23T00:00:00+00:00|elliott_2022",
+   "shown": "135,328",
+   "raw": 135328
+  },
+  {
+   "n": 3,
+   "key": "series|event_window_daily|eia930:PJM|demand_max_pct_vs_baseline|2025-06-24T00:00:00+00:00|east_heat_2025",
+   "shown": "33.58",
+   "raw": 33.5769
+  },
+  {
+   "n": 4,
+   "key": "series|event_window_daily|eia930:ERCO|demand_max_mw|2025-01-22T00:00:00+00:00|cold_2025",
+   "shown": "77,426",
+   "raw": 77426
+  },
+  {
+   "n": 4,
+   "key": "series|event_window_daily|eia930:PJM|demand_max_pct_vs_baseline|2025-01-22T00:00:00+00:00|cold_2025",
+   "shown": "38.57",
+   "raw": 38.5669
+  },
+  {
+   "n": 4,
+   "key": "series|event_window_daily|eia930:MISO|demand_max_pct_vs_baseline|2025-01-21T00:00:00+00:00|cold_2025",
+   "shown": "28.42",
+   "raw": 28.4243
+  },
+  {
+   "n": 4,
+   "key": "series|event_window_daily|eia930:SWPP|demand_max_pct_vs_baseline|2025-01-21T00:00:00+00:00|cold_2025",
+   "shown": "31.09",
+   "raw": 31.0907
+  },
+  {
+   "n": 4,
+   "key": "series|event_window_daily|eia930:NYIS|demand_max_pct_vs_baseline|2025-01-25T00:00:00+00:00|cold_2025",
+   "shown": "16.02",
+   "raw": 16.0218
+  },
+  {
+   "n": 4,
+   "key": "series|event_window_daily|eia930:ISNE|demand_max_pct_vs_baseline|2025-01-25T00:00:00+00:00|cold_2025",
+   "shown": "17.02",
+   "raw": 17.0237
+  },
+  {
+   "n": 5,
+   "key": "series|iso_curtailment_monthly|caiso:ISO|curtailed_solar_mwh|2026-09-01T00:00:00+00:00",
+   "shown": "163,494.64",
+   "raw": 163494.642
+  },
+  {
+   "n": 6,
+   "key": "series|ercot_large_load_status|ercot:large_load|observed_simultaneous_peak_mw|2026-06-19T00:00:00Z",
+   "shown": "3,675",
+   "raw": 3675
+  },
+  {
+   "n": 7,
+   "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|n_intervals|2025-01-01T00:00:00Z",
+   "shown": "35,040",
+   "raw": 35040
+  },
+  {
+   "n": 8,
+   "key": "series|carbon_intensity_monthly|eia930:CISO|intensity_generation|2018-08-01T00:00:00+00:00",
+   "shown": "213.51",
+   "raw": 213.5147
+  },
+  {
+   "n": 9,
+   "key": "series|iso_queue_statistics|spp:queue_2023|positions_entered|2023-01-01T00:00:00Z",
+   "shown": "435",
+   "raw": 435
+  },
+  {
+   "n": 9,
+   "key": "series|iso_queue_statistics|spp:queue_2023|positions_operating|2023-01-01T00:00:00Z",
+   "shown": "8",
+   "raw": 8
+  },
+  {
+   "n": 9,
+   "key": "series|iso_queue_statistics|spp:queue_2023|mw_entered|2023-01-01T00:00:00Z",
+   "shown": "89,590.30",
+   "raw": 89590.298
+  },
+  {
+   "n": 10,
+   "key": "series|cost_of_power_monthly|ercot:HB_HUBAVG|rt_load_weighted|2026-08-01T00:00:00+00:00",
+   "shown": "36.70",
+   "raw": 36.6951
+  }
+ ]
+}

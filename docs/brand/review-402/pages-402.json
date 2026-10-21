@@ -1,0 +1,352 @@
+{
+ "/digest @1280": {
+  "held": [],
+  "checked": [],
+  "none": "No Digest yet for Wednesday 21 October 2026: the weekday brief is written by the daily run, which starts at 14:00 UTC. The newest is the Digest of Tuesday 20 October 2026.",
+  "archive": [
+   "pending 2026-10-21: not written yet",
+   "digest 2026-10-20",
+   "missed 2026-10-19: no Digest",
+   "weekend 2026-10-18: no weekend issue",
+   "weekend 2026-10-17: no weekend issue",
+   "missed 2026-10-16: no Digest",
+   "missed 2026-10-15: no Digest",
+   "digest 2026-10-14"
+  ],
+  "overflow": false,
+  "height": 900
+ },
+ "/digest/2026-10-20 @1280": {
+  "held": [
+   "news_index",
+   "news_index",
+   "news_index",
+   "nyiso_dam_zone_prices nyiso_rtm_zone_prices",
+   "nyiso_dam_zone_prices",
+   "isone_dam_zone_prices",
+   "nyiso_rtm_zone_prices"
+  ],
+  "checked": [
+   [
+    "digest_dam|ERCOT|iso_dam_hub_prices|HB_NORTH|2026-10-19",
+    "23.41"
+   ],
+   [
+    "digest_dam|CAISO|iso_dam_hub_prices|TH_SP15_GEN-APND|2026-10-19",
+    "44.78"
+   ],
+   [
+    "digest_dam|SPP|iso_dam_hub_prices|SPPSOUTH_HUB|2026-10-19",
+    "21.85"
+   ],
+   [
+    "digest_fuel|eia_fuel_spot_prices|eia:henry_hub|2026-10-14",
+    "3.22"
+   ],
+   [
+    "digest_fuel|eia_fuel_spot_prices|eia:wti_cushing|2026-10-14",
+    "101.91"
+   ],
+   [
+    "digest_fuel|eia_fuel_spot_prices|eia:brent|2026-10-14",
+    "126.55"
+   ],
+   [
+    "digest_chart|2026-10-20|eia_retail_sales_monthly|value",
+    "1,658,263"
+   ],
+   [
+    "digest_chart|2026-10-20|eia_retail_sales_monthly|old_record",
+    "1,484,757"
+   ],
+   [
+    "digest_chart|2026-10-20|eia_retail_sales_monthly|strength",
+    "1.01"
+   ]
+  ],
+  "none": null,
+  "archive": [],
+  "overflow": false,
+  "height": 2962
+ },
+ "/digest/2026-10-19 @1280": {
+  "held": [],
+  "checked": [],
+  "none": "No Digest was published for Monday 19 October 2026.",
+  "archive": [],
+  "overflow": false,
+  "height": 900
+ },
+ "/digest/2026-09-25 @1280": {
+  "held": [
+   "news_index",
+   "news_index",
+   "news_index",
+   "nyiso_dam_zone_prices",
+   "iso_dam_hub_prices",
+   "isone_dam_zone_prices"
+  ],
+  "checked": [
+   [
+    "digest_dam|ERCOT|ercot_dam_hub_prices|HB_NORTH|2026-09-24",
+    "41.60"
+   ],
+   [
+    "digest_dam|CAISO|caiso_dam_hub_prices|TH_SP15_GEN-APND|2026-09-24",
+    "37.98"
+   ],
+   [
+    "digest_dam|SPP|spp_dam_hub_prices|SPPSOUTH_HUB|2026-09-24",
+    "33.69"
+   ],
+   [
+    "digest_rt|caiso_rtm_hub_prices|TH_NP15_GEN-APND|lmp_rtm_15m_mean|2026-09-25T00:30:00Z",
+    "111.75"
+   ],
+   [
+    "digest_fuel|eia_fuel_spot_prices|eia:henry_hub|2026-09-22",
+    "2.90"
+   ],
+   [
+    "digest_fuel|eia_fuel_spot_prices|eia:wti_cushing|2026-09-22",
+    "96.41"
+   ],
+   [
+    "digest_fuel|eia_fuel_spot_prices|eia:brent|2026-09-22",
+    "114.89"
+   ]
+  ],
+  "none": null,
+  "archive": [],
+  "overflow": false,
+  "height": 1862
+ },
+ "/digest/2026-10-13 @1280": {
+  "held": [
+   "news_index",
+   "news_index",
+   "news_index",
+   "nyiso_dam_zone_prices nyiso_rtm_zone_prices",
+   "nyiso_dam_zone_prices",
+   "isone_dam_zone_prices",
+   "nyiso_rtm_zone_prices"
+  ],
+  "checked": [
+   [
+    "digest_dam|ERCOT|iso_dam_hub_prices|HB_NORTH|2026-10-12",
+    "30.10"
+   ],
+   [
+    "digest_dam|CAISO|iso_dam_hub_prices|TH_SP15_GEN-APND|2026-10-12",
+    "42.17"
+   ],
+   [
+    "digest_dam|SPP|iso_dam_hub_prices|SPPSOUTH_HUB|2026-10-12",
+    "4.12"
+   ],
+   [
+    "digest_fuel|eia_fuel_spot_prices|eia:henry_hub|2026-10-06",
+    "3.03"
+   ],
+   [
+    "digest_fuel|eia_fuel_spot_prices|eia:wti_cushing|2026-10-06",
+    "96.24"
+   ],
+   [
+    "digest_fuel|eia_fuel_spot_prices|eia:brent|2026-10-06",
+    "125.44"
+   ],
+   [
+    "digest_chart|2026-10-13|eia_state_generation_monthly|value",
+    "1,028,747"
+   ],
+   [
+    "digest_chart|2026-10-13|eia_state_generation_monthly|old_record",
+    "765,381"
+   ],
+   [
+    "digest_chart|2026-10-13|eia_state_generation_monthly|strength",
+    "9.86"
+   ]
+  ],
+  "none": null,
+  "archive": [],
+  "overflow": false,
+  "height": 3068
+ },
+ "/digest @390": {
+  "held": [],
+  "checked": [],
+  "none": "No Digest yet for Wednesday 21 October 2026: the weekday brief is written by the daily run, which starts at 14:00 UTC. The newest is the Digest of Tuesday 20 October 2026.",
+  "archive": [
+   "pending 2026-10-21: not written yet",
+   "digest 2026-10-20",
+   "missed 2026-10-19: no Digest",
+   "weekend 2026-10-18: no weekend issue",
+   "weekend 2026-10-17: no weekend issue",
+   "missed 2026-10-16: no Digest",
+   "missed 2026-10-15: no Digest",
+   "digest 2026-10-14"
+  ],
+  "overflow": false,
+  "height": 1103
+ },
+ "/digest/2026-10-20 @390": {
+  "held": [
+   "news_index",
+   "news_index",
+   "news_index",
+   "nyiso_dam_zone_prices nyiso_rtm_zone_prices",
+   "nyiso_dam_zone_prices",
+   "isone_dam_zone_prices",
+   "nyiso_rtm_zone_prices"
+  ],
+  "checked": [
+   [
+    "digest_dam|ERCOT|iso_dam_hub_prices|HB_NORTH|2026-10-19",
+    "23.41"
+   ],
+   [
+    "digest_dam|CAISO|iso_dam_hub_prices|TH_SP15_GEN-APND|2026-10-19",
+    "44.78"
+   ],
+   [
+    "digest_dam|SPP|iso_dam_hub_prices|SPPSOUTH_HUB|2026-10-19",
+    "21.85"
+   ],
+   [
+    "digest_fuel|eia_fuel_spot_prices|eia:henry_hub|2026-10-14",
+    "3.22"
+   ],
+   [
+    "digest_fuel|eia_fuel_spot_prices|eia:wti_cushing|2026-10-14",
+    "101.91"
+   ],
+   [
+    "digest_fuel|eia_fuel_spot_prices|eia:brent|2026-10-14",
+    "126.55"
+   ],
+   [
+    "digest_chart|2026-10-20|eia_retail_sales_monthly|value",
+    "1,658,263"
+   ],
+   [
+    "digest_chart|2026-10-20|eia_retail_sales_monthly|old_record",
+    "1,484,757"
+   ],
+   [
+    "digest_chart|2026-10-20|eia_retail_sales_monthly|strength",
+    "1.01"
+   ]
+  ],
+  "none": null,
+  "archive": [],
+  "overflow": false,
+  "height": 3803
+ },
+ "/digest/2026-10-19 @390": {
+  "held": [],
+  "checked": [],
+  "none": "No Digest was published for Monday 19 October 2026.",
+  "archive": [],
+  "overflow": false,
+  "height": 900
+ },
+ "/digest/2026-09-25 @390": {
+  "held": [
+   "news_index",
+   "news_index",
+   "news_index",
+   "nyiso_dam_zone_prices",
+   "iso_dam_hub_prices",
+   "isone_dam_zone_prices"
+  ],
+  "checked": [
+   [
+    "digest_dam|ERCOT|ercot_dam_hub_prices|HB_NORTH|2026-09-24",
+    "41.60"
+   ],
+   [
+    "digest_dam|CAISO|caiso_dam_hub_prices|TH_SP15_GEN-APND|2026-09-24",
+    "37.98"
+   ],
+   [
+    "digest_dam|SPP|spp_dam_hub_prices|SPPSOUTH_HUB|2026-09-24",
+    "33.69"
+   ],
+   [
+    "digest_rt|caiso_rtm_hub_prices|TH_NP15_GEN-APND|lmp_rtm_15m_mean|2026-09-25T00:30:00Z",
+    "111.75"
+   ],
+   [
+    "digest_fuel|eia_fuel_spot_prices|eia:henry_hub|2026-09-22",
+    "2.90"
+   ],
+   [
+    "digest_fuel|eia_fuel_spot_prices|eia:wti_cushing|2026-09-22",
+    "96.41"
+   ],
+   [
+    "digest_fuel|eia_fuel_spot_prices|eia:brent|2026-09-22",
+    "114.89"
+   ]
+  ],
+  "none": null,
+  "archive": [],
+  "overflow": false,
+  "height": 2733
+ },
+ "/digest/2026-10-13 @390": {
+  "held": [
+   "news_index",
+   "news_index",
+   "news_index",
+   "nyiso_dam_zone_prices nyiso_rtm_zone_prices",
+   "nyiso_dam_zone_prices",
+   "isone_dam_zone_prices",
+   "nyiso_rtm_zone_prices"
+  ],
+  "checked": [
+   [
+    "digest_dam|ERCOT|iso_dam_hub_prices|HB_NORTH|2026-10-12",
+    "30.10"
+   ],
+   [
+    "digest_dam|CAISO|iso_dam_hub_prices|TH_SP15_GEN-APND|2026-10-12",
+    "42.17"
+   ],
+   [
+    "digest_dam|SPP|iso_dam_hub_prices|SPPSOUTH_HUB|2026-10-12",
+    "4.12"
+   ],
+   [
+    "digest_fuel|eia_fuel_spot_prices|eia:henry_hub|2026-10-06",
+    "3.03"
+   ],
+   [
+    "digest_fuel|eia_fuel_spot_prices|eia:wti_cushing|2026-10-06",
+    "96.24"
+   ],
+   [
+    "digest_fuel|eia_fuel_spot_prices|eia:brent|2026-10-06",
+    "125.44"
+   ],
+   [
+    "digest_chart|2026-10-13|eia_state_generation_monthly|value",
+    "1,028,747"
+   ],
+   [
+    "digest_chart|2026-10-13|eia_state_generation_monthly|old_record",
+    "765,381"
+   ],
+   [
+    "digest_chart|2026-10-13|eia_state_generation_monthly|strength",
+    "9.86"
+   ]
+  ],
+  "none": null,
+  "archive": [],
+  "overflow": false,
+  "height": 3961
+ }
+}

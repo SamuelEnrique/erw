@@ -216,7 +216,7 @@ function MeteredView({ q }: { q: Record<string, string | undefined> }) {
           <ToolSection title={`The ranking: growth in ${rank.name.toLowerCase()}`} id="ranking"
             note={<Hint words="What is ranked" why={`Percent change since ${file.base}: average and peak demand to ${file.last_year}; the year so far is January to ${through} against the same months of ${file.base}. The Lower 48 is the total, not a grid among the seven.`} />}>
             <ToolTable minWidth={620} caption={`The grids ranked by growth in ${rank.name.toLowerCase()} since ${file.base}`}
-              head={["", "Grid", ...RANKS.map((r) => <Link key={r.slug} href={`${href(slug, r.slug)}#ranking`} className="underline" style={{ color: "var(--color-surface)" }} data-rank={r.slug}>{r.name}{r.slug === rank.slug ? " ↓" : ""}</Link>)]}
+              head={["", "Grid", ...RANKS.map((r) => <Link key={r.slug} href={`${href(slug, r.slug)}#ranking`} className="underline" data-rank={r.slug}>{r.name}{r.slug === rank.slug ? " ↓" : ""}</Link>)]}
               rows={ranked.map((r, i) => ({ key: r.ba, highlight: r.ba === ba, muted: r.ba === "US48", cells: [r.ba === "US48" ? "" : String(ranked.filter((x) => x.ba !== "US48").findIndex((x) => x.ba === r.ba) + 1), <Link key="l" href={href(slugOf(r.ba), rank.slug)} className="text-ink" data-ranked={`${i}|${r.ba}`}>{r.name}</Link>,
                 g(r.avg, `rank|${r.ba}|avg`), g(r.peak, `rank|${r.ba}|peak`), g(r.ytd, `rank|${r.ba}|ytd`)] }))} />
           </ToolSection>

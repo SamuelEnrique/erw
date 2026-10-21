@@ -28,3 +28,9 @@ Both are written by `warehouse/connectors/eia_series.py` (session 18). EIA's dat
 
 Under the view, the two tables as the live set's CSV with a Python and a Stata reader of that CSV (session 328's shared
 line).
+
+## The figures on the page and their keys
+
+Each number `/demand?view=consumption` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The keys the sections above do not name:
+
+- `eia_sector_energy_consumption_monthly`, `energy_consumption`: the sectors' energy in trillion British thermal units, for each of the five Monthly Energy Review series the view lists (`TEICBUS`, `ESICBUS`, `NNICBUS`, `TECCBUS`, `ESCCBUS`, entity `eia:<series>`), summed over the table's latest twelve months and written only when all twelve are held. Its key is a `series_esum` key: the table, the series, the variable and the window. The change beside it, against the twelve months before, is not a checked number.

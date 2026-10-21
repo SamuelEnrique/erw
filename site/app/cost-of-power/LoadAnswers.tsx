@@ -247,7 +247,7 @@ function StatedList({ lists, gridName }: { lists: ListsProp; gridName: string })
   ) : null;
   return (
     <details className="mb-4 max-w-5xl text-sm" data-stated-lists="1">
-      <summary className="cursor-pointer">Every public figure on large loads for {gridName}{st && lists.state.length ? ` and elsewhere in ${st.name}` : ""}: {n}, each with its date and document</summary>
+      <summary className="cursor-pointer py-1">Every public figure on large loads for {gridName}{st && lists.state.length ? ` and elsewhere in ${st.name}` : ""}: {n}, each with its date and document</summary>
       {part(lists.operator, `${gridName}, the grid's operator`, "operator")}
       {part(lists.others, `Utilities and others in ${gridName}`, "others")}
       {st ? part(lists.state, `Elsewhere in ${st.name}, outside ${gridName}'s grid or across several grids`, "state") : null}

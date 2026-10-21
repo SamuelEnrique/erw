@@ -6,7 +6,7 @@ import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";
 import { Section } from "@/components/Section";
 import { catalogue } from "@/lib/data";
-import { count, day } from "@/lib/format";
+import { count, day, utc } from "@/lib/format";
 import { DOCS, render } from "@/lib/markdown";
 import { attempt } from "@/lib/supabase";
 import site from "@/data/site.json";
@@ -52,6 +52,7 @@ export default async function Data() {
                   <th className="py-1 pr-3 font-normal">Freq</th>
                   <th className="py-1 pr-3 font-normal">First (UTC)</th>
                   <th className="py-1 pr-3 font-normal">Last (UTC)</th>
+                  <th className="py-1 pr-3 font-normal">Refreshed (UTC)</th>
                   <th className="py-1 pr-3 text-right font-normal">Rows</th>
                   <th className="py-1 pr-3 font-normal">Source report</th>
                   <th className="py-1 pr-3 font-normal">License</th>
@@ -70,6 +71,10 @@ export default async function Data() {
                     <td className="py-1 pr-3 text-xs">{r.interval}</td>
                     <td className="py-1 pr-3 text-xs whitespace-nowrap">{day(r.ts_min)}</td>
                     <td className="py-1 pr-3 text-xs whitespace-nowrap">{day(r.ts_max)}</td>
+                    {/* session 410: the table's last run, coverage.csv's last_run as the loader put it in the catalogue */}
+                    <td className="py-1 pr-3 text-xs whitespace-nowrap" title={r.last_run ? utc(r.last_run) : undefined}>
+                      {r.last_run ? day(r.last_run) : <span className="text-muted" title="coverage.csv records no run for this table">not recorded</span>}
+                    </td>
                     <td className="py-1 pr-3 text-right tabular-nums">
                       <Num check={`catalogue|${r.table_name}|n_rows`} raw={r.n_rows ?? ""}>
                         {count(r.n_rows)}
@@ -103,7 +108,7 @@ export default async function Data() {
             </table>
           </div>
         )}
-        <Cite tables={["catalogue"]} note="Freq is the interval between rows (ISO 8601 duration); snapshot means an entities table. Dates are the first and last row" />
+        <Cite tables={["catalogue"]} note="Freq is the interval between rows (ISO 8601 duration); snapshot means an entities table. First and Last are the first and last row; Refreshed is the day of the table's last run" />
         <p className="mt-2 max-w-3xl text-xs text-muted">
           Tier (session 28) is where a table&apos;s numbers come from: <strong className="font-normal">source</strong>, as the publisher published them;{" "}
           <strong className="font-normal">derived</strong>, computed by the ERW from other tables, with a method in the methods pages; or{" "}

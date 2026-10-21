@@ -111,11 +111,11 @@ export default async function ResearchPage() {
               computed it, and each card downloads its data, its Stata do-file and its Python file. <Link href={METHOD}>Method note</Link>.
             </>} />
           <nav className="page-index" aria-label="On this page">
-            <a href="#ask">Ask for an analysis</a>
-            <a href="#today">Today&apos;s chart</a>
-            <a href="#week">This week&apos;s chart</a>
-            <a href="#library">Findings library</a>
-            <a href="#archive">Chart archive</a>
+            <a className="inline-block py-0.5" href="#ask">Ask for an analysis</a>
+            <a className="inline-block py-0.5" href="#today">Today&apos;s chart</a>
+            <a className="inline-block py-0.5" href="#week">This week&apos;s chart</a>
+            <a className="inline-block py-0.5" href="#library">Findings library</a>
+            <a className="inline-block py-0.5" href="#archive">Chart archive</a>
           </nav>
 
           <ToolSection title="Ask for an analysis" id="ask" note="Your own question first: it is read and answered by a person, by email. Or choose a finding and its inputs: that request waits in a queue and runs on the data machine.">
@@ -195,22 +195,22 @@ export default async function ResearchPage() {
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b border-rule text-left text-xs text-muted">
-                        <th className="py-1 pr-3">Template</th>
-                        <th className="py-1 pr-3">Headline</th>
-                        <th className="py-1 pr-3">Period</th>
-                        <th className="py-1 pr-3 text-right">Value</th>
-                        <th className="py-1 pr-3 text-right">Earlier values</th>
-                        <th className="py-1 pr-3 text-right">Robust z</th>
-                        <th className="py-1 text-right">Percentile</th>
+                        <th scope="col" className="py-1 pr-3">Template</th>
+                        <th scope="col" className="py-1 pr-3">Headline</th>
+                        <th scope="col" className="py-1 pr-3">Period</th>
+                        <th scope="col" className="py-1 pr-3 text-right">Value</th>
+                        <th scope="col" className="py-1 pr-3 text-right">Earlier values</th>
+                        <th scope="col" className="py-1 pr-3 text-right">Robust z</th>
+                        <th scope="col" className="py-1 text-right">Percentile</th>
                       </tr>
                     </thead>
                     <tbody>
                       {res.results.map((r) => (
                         <tr key={r.template} className="border-b border-rule align-top">
-                          <td className="py-1 pr-3">
+                          <th scope="row" className="py-1 pr-3 text-left font-normal">
                             {r.title}
-                            {r.template === res.picked ? <strong className="text-accent"> (picked)</strong> : null}
-                          </td>
+                            {r.template === res.picked ? <strong> (picked)</strong> : null}
+                          </th>
                           <td className="py-1 pr-3">{r.headline.label}</td>
                           <td className="py-1 pr-3 font-mono text-xs">{r.headline.period}</td>
                           <td className="py-1 pr-3 text-right">
