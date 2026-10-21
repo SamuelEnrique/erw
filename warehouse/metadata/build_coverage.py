@@ -130,6 +130,7 @@ SECTOR_RULES = [
     (r"^ferc714_area_demand_\d{4}$", "power"),  # session 484: FERC Form 714 hourly demand by planning area (PUDL)
     (r"^eia861_utility_sales$", "power"),  # session 485: EIA-861 retail sales, revenue and customers by utility
     (r"^egrid_power_plants$", "power;carbon"),  # session 486: EPA eGRID, every plant's generation and emissions
+    (r"^nlr_atb_electricity_costs$", "power"),  # session 487: NLR (NREL) ATB, projected technology costs
     (r"^pjm_rpm_capacity_prices$", "capacity"),
     # session 65: capacity prices of the four markets that pay capacity apart, and the day-ahead ancillary services
     (r"^iso_all_capacity_prices$", "capacity"),
