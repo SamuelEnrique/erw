@@ -21,6 +21,8 @@ import { LoadDecisions, LoadScenarios, LoadSensitivity } from "./LoadScenarios";
 import { LoadSiteB } from "./LoadSiteB";
 import { FORESEEN, FORESEEN_WHY, NY_SHOWN, NYLOAD, day, inputsFrom, loadModel } from "./model";
 import { CostTabs } from "./Tabs";
+import { DecisionsBlock } from "@/components/tool/DecisionsBlock";
+import { DATACENTER_DECISIONS } from "@/lib/decisions";
 import { largeLoadStatements } from "@/lib/largeloadpublic";
 import { GRID_STATE, listsOf, statedOf, type Stated, type Statement } from "@/lib/datacenter/statements";
 
@@ -354,8 +356,11 @@ async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyG
           )}
         </div>
       </div>
+      {/* session 462 (chain 019): every modelling choice of the page, one line each, with the session that made it and the
+          ruling where one exists (lib/decisions.ts; docs/methods/datacenter_pays_algorithm.md, section 12). Words only */}
+      <DecisionsBlock id="462" title="Decisions on this page (each with the session that made it, and the ruling where one exists)" items={DATACENTER_DECISIONS} />
       <SourceLine tables={[...INDEX.tables, "carbon_intensity_monthly", "carbon_intensity_hourly", ...(x.grid === "caiso" || M.bSite?.grid === "caiso" ? ["caiso_grid_emergencies"] : []), ...(x.grid === "ercot" ? ["ercot_large_load_status", "ercot_rtm_price_adders"] : []), ...(x.grid === "ercot" || x.grid === "caiso" ? ["scarcity_hours_by_grid"] : []), "large_load_public", "large_load_rules", "clean_energy_summary", "grid_stress_yearly", "eia930_demand_growth", "interconnection_queue_summary", ...(x.grid === "ercot" ? ["ercot_large_load_status"] : []), ...(g?.demand_source && !M.withheld ? [g.demand_source.split(" ")[0]] : []), ...(DELIVERY.table && x.grid === "ercot" ? [DELIVERY.table, ...(DELIVERY.matrix_table ? [DELIVERY.matrix_table] : [])] : []), ...(x.grid === "nyiso" ? ["nyiso_load_queue"] : []), ...(M.cFile?.clean ? ["clean_energy_hourly"] : [])]}
-        note={<>The price files were built {day(INDEX.built)}. Defaults: <span className="cursor-help border-b border-dotted border-muted" title={ASSUMED.gpu.source}>power per GPU</span>, <span className="cursor-help border-b border-dotted border-muted" title={ASSUMED.pue.source}>overhead ratio</span>. The default case hour by hour: <a href={HOURLY_CSV} download data-download="csv">CSV</a>, <a href={DO_FILE} download data-download="do">Stata do-file</a>, <a href={MIRROR} download data-download="py">Python mirror</a>. <Link href={METHOD}>Method note</Link>. <span data-checked-against="6">Checked against: 6 published figures (EIA). <Link href="/data/methods/datacenter_pays_algorithm#cross-checks">Each comparison, with its gap and the reason</Link>.</span></>} />
+        note={<>The price files were built {day(INDEX.built)}. Defaults: <span className="cursor-help border-b border-dotted border-muted" title={ASSUMED.gpu.source}>power per GPU</span>, <span className="cursor-help border-b border-dotted border-muted" title={ASSUMED.pue.source}>overhead ratio</span>. The default case hour by hour: <a href={HOURLY_CSV} download data-download="csv">CSV</a>, <a href={DO_FILE} download data-download="do">Stata do-file</a>, <a href={MIRROR} download data-download="py">Python mirror</a>. <Link href={METHOD}>Method note</Link>. <span data-checked-against="8">Checked against: 8 published figures (EIA, Lazard, the Annual Technology Baseline). <Link href="/data/methods/datacenter_pays_algorithm#cross-checks">Each comparison, with its gap and the reason</Link>.</span></>} />
      </LoadDecisions>
   );
 }
