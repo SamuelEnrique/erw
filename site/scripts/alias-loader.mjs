@@ -11,6 +11,10 @@ const site = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const STUBS = {
   "server-only": "export {};",
   "next/server": "export const NextResponse = { json: (body, init) => ({ body, status: init?.status ?? 200 }) };",
+  // session 537: lib/supabase.ts asks for a short revalidation through unstable_cache when a read fails, and only inside
+  // Next (process.env.NEXT_RUNTIME). Here it runs the function and notes each call in globalThis.__erwCacheCalls, so
+  // scripts/test-failed-read.mjs can see the mark; no script that leaves NEXT_RUNTIME unset ever reaches it
+  "next/cache": "export const unstable_cache = (cb, keyParts, options) => async (...a) => { (globalThis.__erwCacheCalls ??= []).push({ keyParts, options }); return cb(...a); };",
 };
 
 export async function resolve(specifier, context, next) {
