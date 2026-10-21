@@ -1,0 +1,188 @@
+{
+ "slug": "pjm-queue-withdrawn-share-by-cohort",
+ "day": "2026-10-20",
+ "rank": 4,
+ "state": "new",
+ "state_history": [],
+ "internal": false,
+ "family": "queue_withdrawn_cohort",
+ "kind": "trend",
+ "grid": "pjm",
+ "region_words": "PJM",
+ "title": "TILL QUEUE DO US PART, BY COHORT",
+ "label": "share of the MW that entered PJM's queue in the year and had withdrawn by the end of 2025 (cohorts at least six years old)",
+ "unit": "percent of the cohort's MW",
+ "decimals": 1,
+ "grain": "year",
+ "fact": "PJM: share of the MW that entered PJM's queue in the year and had withdrawn by the end of 2025 (cohorts at least six years old), 63.3 percent of the cohort's MW in 2019, down from 88.7 percent of the cohort's MW in 2010. The direction holds in 9 of the 9 complete years after 2010.",
+ "note": "",
+ "shown_before": "",
+ "tables": [
+  "lbnl_interconnection_queue"
+ ],
+ "license": "public",
+ "source_line": "Source: the rows for PJM of the ERW table lbnl_interconnection_queue (license: public). Computed by warehouse/analysis/findings/hunt_oct20.py; method docs/methods/automated_analysis_findings.md.",
+ "headline": {
+  "op": "share_of_sum",
+  "numerator_flag": "withdrawn",
+  "period": 2019,
+  "compare_period": 2010,
+  "value": 63.27548958242708,
+  "compare_value": 88.7021895611938,
+  "expected_in_do_file": 63.27549
+ },
+ "claim": {
+  "first_year": "2010",
+  "last_year": "2019",
+  "first": 88.7021895611938,
+  "last": 63.27548958242708,
+  "change": -25.426699978766727,
+  "direction": "down",
+  "passed": true,
+  "years": [
+   "2010",
+   "2011",
+   "2012",
+   "2013",
+   "2014",
+   "2015",
+   "2016",
+   "2017",
+   "2018",
+   "2019"
+  ],
+  "values": [
+   88.7021895611938,
+   79.9955284114476,
+   76.13240349812162,
+   67.42449167793445,
+   59.763262355269056,
+   76.8786274638092,
+   66.52480960514053,
+   70.08794928050084,
+   78.88756014411639,
+   63.27548958242708
+  ],
+  "n_first": 422,
+  "n_last": 659,
+  "years_held": 9,
+  "years_after": 9,
+  "typical_move": 12.910350064609489,
+  "strength": 1.9695,
+  "remains_without_first": 0.6576,
+  "p_trend": 0.12084822174107951,
+  "shape": {
+   "step_better": true,
+   "break_year": "2012",
+   "before": 84.34885898632069,
+   "after": 69.87182420091489,
+   "bic_step": 43.028,
+   "bic_line": 43.9761,
+   "words": "a step, not a trend: the years before 2012 average 84.35 and the years from 2012 69.87, and two levels fit them better than a straight line"
+  },
+  "kind": "trend"
+ },
+ "tests": [
+  {
+   "name": "holds in more than one year",
+   "passed": true,
+   "words": "9 of the 9 full years after 2010 lie below 2010's value"
+  },
+  {
+   "name": "survives a change of window",
+   "passed": true,
+   "words": "from 2011 to 2019 the change is -16.7, from 2010 to 2018 it is -9.8"
+  },
+  {
+   "name": "sample large enough",
+   "passed": true,
+   "words": "2010 holds 422 and 2019 holds 659 observations; the floor is 20"
+  },
+  {
+   "name": "half the change remains without the first year",
+   "passed": true,
+   "words": "from 2011 to 2019 the change is -16.7, 65.8 percent of the change from 2010"
+  },
+  {
+   "name": "at least one typical yearly move",
+   "passed": true,
+   "words": "the change is 1.97 typical yearly moves (12.9 percent of the cohort's MW a year, the median move between full years); the floor is 1"
+  }
+ ],
+ "strength": 1.9695,
+ "series": [
+  {
+   "period": 2010,
+   "value": 88.7021895611938,
+   "n": 422,
+   "complete": true
+  },
+  {
+   "period": 2011,
+   "value": 79.9955284114476,
+   "n": 325,
+   "complete": true
+  },
+  {
+   "period": 2012,
+   "value": 76.13240349812162,
+   "n": 149,
+   "complete": true
+  },
+  {
+   "period": 2013,
+   "value": 67.42449167793445,
+   "n": 138,
+   "complete": true
+  },
+  {
+   "period": 2014,
+   "value": 59.763262355269056,
+   "n": 182,
+   "complete": true
+  },
+  {
+   "period": 2015,
+   "value": 76.8786274638092,
+   "n": 288,
+   "complete": true
+  },
+  {
+   "period": 2016,
+   "value": 66.52480960514053,
+   "n": 384,
+   "complete": true
+  },
+  {
+   "period": 2017,
+   "value": 70.08794928050084,
+   "n": 348,
+   "complete": true
+  },
+  {
+   "period": 2018,
+   "value": 78.88756014411639,
+   "n": 431,
+   "complete": true
+  },
+  {
+   "period": 2019,
+   "value": 63.27548958242708,
+   "n": 659,
+   "complete": true
+  }
+ ],
+ "files": {
+  "extract": "extract.csv",
+  "series": "series.csv",
+  "do": "check.do",
+  "caption": "caption.md",
+  "chart_square": "chart_square.png",
+  "chart_wide": "chart_wide.png"
+ },
+ "extract_rows": 1081,
+ "caption": "Till queue do us part, by cohort. PJM: share of the MW that entered PJM's queue in the year and had withdrawn by the end of 2025 (cohorts at least six years old), 63.3 percent of the cohort's MW in 2019, down from 88.7 percent of the cohort's MW in 2010. The direction holds in 9 of the 9 complete years after 2010.\n\nChecked five ways before it was drafted: 9 of the 9 full years after 2010 lie below 2010's value; from 2011 to 2019 the change is -16.7, from 2010 to 2018 it is -9.8; from 2011 to 2019 the change is -16.7, 65.8 percent of the change from 2010; the change is 1.97 typical yearly moves (12.9 percent of the cohort's MW a year, the median move between full years); the floor is 1; 2010 holds 422 and 2019 holds 659 observations; the floor is 20.\n\nThe claim states a change; it does not say what caused it.\n\nSource: lbnl_interconnection_queue, as the ERW holds it. ERW table: lbnl_interconnection_queue.",
+ "computed_at": "2026-10-21T02:11:21Z",
+ "hunt_version": "1.0.0",
+ "method": "docs/methods/automated_analysis_findings.md"
+}

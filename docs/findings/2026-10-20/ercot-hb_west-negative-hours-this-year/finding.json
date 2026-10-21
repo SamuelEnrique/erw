@@ -1,0 +1,186 @@
+{
+ "slug": "ercot-hb_west-negative-hours-this-year",
+ "day": "2026-10-20",
+ "rank": 8,
+ "state": "new",
+ "state_history": [],
+ "internal": false,
+ "family": "negative_share_window",
+ "kind": "record",
+ "grid": "ercot",
+ "region_words": "ERCOT, the West hub",
+ "title": "HOURS BELOW ZERO, THIS YEAR SO FAR",
+ "label": "share of the 15-minute intervals from 1 January to 25 August with a real-time price below zero at the West hub",
+ "unit": "percent of intervals",
+ "decimals": 2,
+ "grain": "year",
+ "fact": "ERCOT, the West hub: share of the 15-minute intervals from 1 January to 25 August with a real-time price below zero at the West hub was 15.95 percent of intervals in 2026, the highest of the 12 complete years held; the previous high was 13.49 percent of intervals in 2022.",
+ "note": "the window is 1 January to 2026-08-25 of each year, the last local date the table holds for 2026",
+ "shown_before": "",
+ "tables": [
+  "ercot_all_hub_prices_history"
+ ],
+ "license": "public",
+ "source_line": "Source: the rows for ERCOT, the West hub of the ERW table ercot_all_hub_prices_history (license: public). Computed by warehouse/analysis/findings/hunt_oct20.py; method docs/methods/automated_analysis_findings.md.",
+ "headline": {
+  "op": "share_below",
+  "threshold": 0,
+  "period": 2026,
+  "compare_period": 2022,
+  "value": 15.948654826797961,
+  "compare_value": 13.48689994724811,
+  "expected_in_do_file": 15.948655
+ },
+ "claim": {
+  "kind": "record",
+  "direction": "high",
+  "period": 2026,
+  "value": 15.948654826797961,
+  "n": 22748,
+  "previous_period": 2022,
+  "previous": 13.48689994724811,
+  "margin": 2.4617548795498507,
+  "margin_pct": 18.252933507170795,
+  "passed": true,
+  "typical_move": 2.93639958326838,
+  "strength": 0.8384,
+  "periods": [
+   2015,
+   2016,
+   2017,
+   2018,
+   2019,
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025,
+   2026
+  ],
+  "values": [
+   0.6286266924564796,
+   4.403782174750481,
+   5.864251802356251,
+   7.130297168981889,
+   3.7058202918937933,
+   5.686394676939241,
+   6.954457534728328,
+   13.48689994724811,
+   9.912959381044487,
+   10.562948695499912,
+   8.82275364867241,
+   15.948654826797961
+  ]
+ },
+ "tests": [
+  {
+   "name": "history long enough",
+   "passed": true,
+   "words": "11 complete years before 2026; the floor is 5"
+  },
+  {
+   "name": "the record period is complete",
+   "passed": true,
+   "words": "2026 holds 22,748 observations, 100 percent of a whole year's"
+  },
+  {
+   "name": "no gap in the window",
+   "passed": true,
+   "words": "every year from 2015 to 2026 is complete"
+  },
+  {
+   "name": "a margin over the previous record",
+   "passed": true,
+   "words": "2026 stands 18.3 percent above 2022, the previous high; the floor is 5 percent"
+  }
+ ],
+ "strength": 0.8384,
+ "series": [
+  {
+   "period": 2015,
+   "value": 0.6286266924564796,
+   "n": 22748,
+   "complete": true
+  },
+  {
+   "period": 2016,
+   "value": 4.403782174750481,
+   "n": 22844,
+   "complete": true
+  },
+  {
+   "period": 2017,
+   "value": 5.864251802356251,
+   "n": 22748,
+   "complete": true
+  },
+  {
+   "period": 2018,
+   "value": 7.130297168981889,
+   "n": 22748,
+   "complete": true
+  },
+  {
+   "period": 2019,
+   "value": 3.7058202918937933,
+   "n": 22748,
+   "complete": true
+  },
+  {
+   "period": 2020,
+   "value": 5.686394676939241,
+   "n": 22844,
+   "complete": true
+  },
+  {
+   "period": 2021,
+   "value": 6.954457534728328,
+   "n": 22748,
+   "complete": true
+  },
+  {
+   "period": 2022,
+   "value": 13.48689994724811,
+   "n": 22748,
+   "complete": true
+  },
+  {
+   "period": 2023,
+   "value": 9.912959381044487,
+   "n": 22748,
+   "complete": true
+  },
+  {
+   "period": 2024,
+   "value": 10.562948695499912,
+   "n": 22844,
+   "complete": true
+  },
+  {
+   "period": 2025,
+   "value": 8.82275364867241,
+   "n": 22748,
+   "complete": true
+  },
+  {
+   "period": 2026,
+   "value": 15.948654826797961,
+   "n": 22748,
+   "complete": true
+  }
+ ],
+ "files": {
+  "extract": "extract.csv",
+  "series": "series.csv",
+  "do": "check.do",
+  "caption": "caption.md",
+  "chart_square": "chart_square.png",
+  "chart_wide": "chart_wide.png"
+ },
+ "extract_rows": 45496,
+ "caption": "Hours below zero, this year so far. ERCOT, the West hub: share of the 15-minute intervals from 1 January to 25 August with a real-time price below zero at the West hub was 15.95 percent of intervals in 2026, the highest of the 12 complete years held; the previous high was 13.49 percent of intervals in 2022.\n\nChecked before it was drafted: 11 complete years before 2026; the floor is 5; 2026 stands 18.3 percent above 2022, the previous high; the floor is 5 percent; every year from 2015 to 2026 is complete.\n\nThe claim states a change; it does not say what caused it. the window is 1 January to 2026-08-25 of each year, the last local date the table holds for 2026.\n\nSource: ercot_all_hub_prices_history, as the ERW holds it. ERW table: ercot_all_hub_prices_history.",
+ "computed_at": "2026-10-21T02:11:29Z",
+ "hunt_version": "1.0.0",
+ "method": "docs/methods/automated_analysis_findings.md"
+}

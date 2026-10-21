@@ -3,6 +3,7 @@ import { Brand } from "@/components/Brand";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { DraftReview } from "@/components/analysis/DraftReview";
+import { HuntReview } from "@/components/analysis/HuntReview";
 import { FindingCard } from "@/components/analysis/FindingCard";
 import { Section } from "@/components/Section";
 import { VERDICTS, VERDICT_DOC } from "@/lib/findingverdicts";
@@ -120,6 +121,7 @@ export default async function FindingsReviewPage() {
       <div data-drafts="unread">
         <h1 className="mb-2 text-3xl">Scanner drafts (internal)</h1>
         <p className="text-sm">The review list could not be read: {(e as Error).message.slice(0, 160)}. Until migration 029 is applied there is no list.</p>
+        <HuntReview />
       </div>
       </Brand>
     );
@@ -141,6 +143,7 @@ export default async function FindingsReviewPage() {
           <div key={s} className="bg-panel p-3"><div className="text-xs text-muted">{STATE_WORDS[s]}</div><div className="text-2xl tabular-nums" data-n={s}>{count(s)}</div></div>
         ))}
       </div>
+      <HuntReview />
       <Section title="Waiting for a ruling" aside={`${open.length}`}>
         {open.length === 0 ? <p className="text-sm text-muted" data-open-drafts="0">No draft waits.</p> : (
           <div className="flex flex-col gap-8" data-open-drafts={open.length}>{open.map((d) => <DraftBlock key={d.id} d={d} />)}</div>

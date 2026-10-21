@@ -1,0 +1,291 @@
+{
+ "slug": "ercot-battery-evening-share-by-month",
+ "day": "2026-10-20",
+ "rank": 2,
+ "state": "new",
+ "state_history": [],
+ "internal": false,
+ "family": "storage_evening_months",
+ "kind": "trend",
+ "grid": "ercot",
+ "region_words": "ERCOT",
+ "title": "BATTERY DISCHARGE IN THE EVENING, MONTH BY MONTH",
+ "label": "share of the month's battery discharge (hourly net battery output above zero) delivered from 5 PM to 10 PM local",
+ "unit": "percent of discharge",
+ "decimals": 1,
+ "grain": "month",
+ "fact": "ERCOT: share of the month's battery discharge (hourly net battery output above zero) delivered from 5 PM to 10 PM local, 85.8 percent of discharge in September 2026, up from 47.6 percent of discharge in December 2024. The direction holds in 19 of the 21 complete months after December 2024.",
+ "note": "the two ends of the series are different months of the year; every complete month between them is on the chart",
+ "shown_before": "",
+ "tables": [
+  "eia930_all_storage"
+ ],
+ "license": "public",
+ "source_line": "Source: the rows for ERCOT of the ERW table eia930_all_storage (license: public). Computed by warehouse/analysis/findings/hunt_oct20.py; method docs/methods/automated_analysis_findings.md.",
+ "headline": {
+  "op": "share_of_sum",
+  "numerator_flag": "evening",
+  "period": 202609,
+  "compare_period": 202412,
+  "value": 85.83247904792314,
+  "compare_value": 47.58484308352621,
+  "expected_in_do_file": 85.832479
+ },
+ "claim": {
+  "first_year": "2024-12",
+  "last_year": "2026-09",
+  "first": 47.58484308352621,
+  "last": 85.83247904792314,
+  "change": 38.247635964396935,
+  "direction": "up",
+  "passed": true,
+  "years": [
+   "2024-12",
+   "2025-01",
+   "2025-02",
+   "2025-03",
+   "2025-04",
+   "2025-05",
+   "2025-06",
+   "2025-07",
+   "2025-08",
+   "2025-09",
+   "2025-10",
+   "2025-11",
+   "2025-12",
+   "2026-01",
+   "2026-02",
+   "2026-03",
+   "2026-04",
+   "2026-05",
+   "2026-06",
+   "2026-07",
+   "2026-08",
+   "2026-09"
+  ],
+  "values": [
+   47.58484308352621,
+   45.42155960820391,
+   46.27685226705473,
+   50.86393873526591,
+   56.52819912690663,
+   63.053460830806706,
+   63.53066920326971,
+   65.94963332757192,
+   70.5074952664871,
+   75.64188165013567,
+   70.83288755750509,
+   59.29326199108284,
+   52.17709372669431,
+   58.49908060212512,
+   67.06473351509486,
+   72.47118359123749,
+   67.00650301906579,
+   76.78332726804719,
+   77.62909141438334,
+   80.49448992889316,
+   88.33981630194741,
+   85.83247904792314
+  ],
+  "n_first": 31,
+  "n_last": 30,
+  "years_held": 19,
+  "years_after": 21,
+  "typical_move": 7.612241252397377,
+  "strength": 5.0245,
+  "remains_without_first": 1.0566,
+  "p_trend": 0.0003262941058168125,
+  "shape": {
+   "step_better": false,
+   "break_year": "202605",
+   "before": 60.7472515942373,
+   "after": 81.81584079223884,
+   "bic_step": 103.4763,
+   "bic_line": 101.9221,
+   "words": "a trend: a straight line fits the years better than one step"
+  },
+  "kind": "trend",
+  "grain": "month"
+ },
+ "tests": [
+  {
+   "name": "holds in more than one year",
+   "passed": true,
+   "words": "19 of the 21 complete months after 2024-12 lie above 2024-12's value"
+  },
+  {
+   "name": "survives a change of window",
+   "passed": true,
+   "words": "from 2025-01 to 2026-09 the change is 40.4, from 2024-12 to 2026-08 it is 40.8"
+  },
+  {
+   "name": "sample large enough",
+   "passed": true,
+   "words": "2024-12 holds 31 and 2026-09 holds 30 observations; the floor is 28"
+  },
+  {
+   "name": "half the change remains without the first year",
+   "passed": true,
+   "words": "from 2025-01 to 2026-09 the change is 40.4, 105.7 percent of the change from 2024-12"
+  },
+  {
+   "name": "at least one typical yearly move",
+   "passed": true,
+   "words": "the change is 5.02 typical monthly moves (7.6 percent of discharge a month, the median move between complete months); the floor is 1"
+  }
+ ],
+ "strength": 5.0245,
+ "series": [
+  {
+   "period": "2024-11",
+   "value": 52.461952747078676,
+   "n": 25,
+   "complete": false
+  },
+  {
+   "period": "2024-12",
+   "value": 47.58484308352621,
+   "n": 31,
+   "complete": true
+  },
+  {
+   "period": "2025-01",
+   "value": 45.42155960820391,
+   "n": 31,
+   "complete": true
+  },
+  {
+   "period": "2025-02",
+   "value": 46.27685226705473,
+   "n": 28,
+   "complete": true
+  },
+  {
+   "period": "2025-03",
+   "value": 50.86393873526591,
+   "n": 31,
+   "complete": true
+  },
+  {
+   "period": "2025-04",
+   "value": 56.52819912690663,
+   "n": 30,
+   "complete": true
+  },
+  {
+   "period": "2025-05",
+   "value": 63.053460830806706,
+   "n": 31,
+   "complete": true
+  },
+  {
+   "period": "2025-06",
+   "value": 63.53066920326971,
+   "n": 30,
+   "complete": true
+  },
+  {
+   "period": "2025-07",
+   "value": 65.94963332757192,
+   "n": 31,
+   "complete": true
+  },
+  {
+   "period": "2025-08",
+   "value": 70.5074952664871,
+   "n": 31,
+   "complete": true
+  },
+  {
+   "period": "2025-09",
+   "value": 75.64188165013567,
+   "n": 30,
+   "complete": true
+  },
+  {
+   "period": "2025-10",
+   "value": 70.83288755750509,
+   "n": 31,
+   "complete": true
+  },
+  {
+   "period": "2025-11",
+   "value": 59.29326199108284,
+   "n": 30,
+   "complete": true
+  },
+  {
+   "period": "2025-12",
+   "value": 52.17709372669431,
+   "n": 30,
+   "complete": true
+  },
+  {
+   "period": "2026-01",
+   "value": 58.49908060212512,
+   "n": 31,
+   "complete": true
+  },
+  {
+   "period": "2026-02",
+   "value": 67.06473351509486,
+   "n": 28,
+   "complete": true
+  },
+  {
+   "period": "2026-03",
+   "value": 72.47118359123749,
+   "n": 31,
+   "complete": true
+  },
+  {
+   "period": "2026-04",
+   "value": 67.00650301906579,
+   "n": 30,
+   "complete": true
+  },
+  {
+   "period": "2026-05",
+   "value": 76.78332726804719,
+   "n": 31,
+   "complete": true
+  },
+  {
+   "period": "2026-06",
+   "value": 77.62909141438334,
+   "n": 30,
+   "complete": true
+  },
+  {
+   "period": "2026-07",
+   "value": 80.49448992889316,
+   "n": 31,
+   "complete": true
+  },
+  {
+   "period": "2026-08",
+   "value": 88.33981630194741,
+   "n": 31,
+   "complete": true
+  },
+  {
+   "period": "2026-09",
+   "value": 85.83247904792314,
+   "n": 30,
+   "complete": true
+  }
+ ],
+ "files": {
+  "extract": "extract.csv",
+  "series": "series.csv",
+  "do": "check.do",
+  "caption": "caption.md",
+  "chart_square": "chart_square.png",
+  "chart_wide": "chart_wide.png"
+ },
+ "extract_rows": 1008,
+ "caption": "Battery discharge in the evening, month by month. ERCOT: share of the month's battery discharge (hourly net battery output above zero) delivered from 5 PM to 10 PM local, 85.8 percent of discharge in September 2026, up from 47.6 percent of discharge in December 2024. The direction holds in 19 of the 21 complete months after December 2024.\n\nChecked five ways before it was drafted: 19 of the 21 complete months after 2024-12 lie above 2024-12's value; from 2025-01 to 2026-09 the change is 40.4, from 2024-12 to 2026-08 it is 40.8; from 2025-01 to 2026-09 the change is 40.4, 105.7 percent of the change from 2024-12; the change is 5.02 typical monthly moves (7.6 percent of discharge a month, the median move between complete months); the floor is 1; 2024-12 holds 31 and 2026-09 holds 30 observations; the floor is 28.\n\nThe claim states a change; it does not say what caused it. the two ends of the series are different months of the year; every complete month between them is on the chart.\n\nSource: eia930_all_storage, as the ERW holds it. ERW table: eia930_all_storage.",
+ "computed_at": "2026-10-21T02:11:18Z",
+ "hunt_version": "1.0.0",
+ "method": "docs/methods/automated_analysis_findings.md"
+}

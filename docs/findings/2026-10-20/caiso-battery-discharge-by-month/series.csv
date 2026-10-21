@@ -1,0 +1,19 @@
+# Energy Research Warehouse (ERW): findings hunt of 2026-10-20, finding caiso-battery-discharge-by-month (CAISO): one row a period: the measure, its observations, whether the period is complete
+# Computed 2026-10-21T02:11:23Z by warehouse/analysis/findings/hunt_oct20.py 1.0.0; method docs/methods/automated_analysis_findings.md
+# Sources: ERW table storage_daily_cycle; license public; each table's own header names its publisher's report and retrieval time
+# the month's battery discharge in CAISO, MWh, summed from the daily cycle table (MWh)
+period,value,n_observations,complete
+202508,285833.417,8,0
+202509,1105003.584,30,1
+202510,1195833.918,31,1
+202511,937042.4970000001,29,1
+202512,1019340.6680000001,31,1
+202601,1210385.1650000003,31,1
+202602,1146397.1660000002,28,1
+202603,1361070.0839999998,30,1
+202604,1320693.584,30,1
+202605,1406052.167,31,1
+202606,1441376.3350000002,30,1
+202607,1408037.4139999999,31,1
+202608,1462303.0849999995,31,1
+202609,1335586.332,30,1

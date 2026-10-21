@@ -1,0 +1,28 @@
+# Energy Research Warehouse (ERW): findings hunt of 2026-10-20, finding ercot-battery-evening-share-by-month (ERCOT): one row a period: the measure, its observations, whether the period is complete
+# Computed 2026-10-21T02:11:18Z by warehouse/analysis/findings/hunt_oct20.py 1.0.0; method docs/methods/automated_analysis_findings.md
+# Sources: ERW table eia930_all_storage; license public; each table's own header names its publisher's report and retrieval time
+# share of the month's battery discharge (hourly net battery output above zero) delivered from 5 PM to 10 PM local (percent of discharge)
+period,value,n_observations,complete
+202411,52.461952747078676,25,0
+202412,47.58484308352621,31,1
+202501,45.42155960820391,31,1
+202502,46.27685226705473,28,1
+202503,50.86393873526591,31,1
+202504,56.52819912690663,30,1
+202505,63.053460830806706,31,1
+202506,63.53066920326971,30,1
+202507,65.94963332757192,31,1
+202508,70.5074952664871,31,1
+202509,75.64188165013567,30,1
+202510,70.83288755750509,31,1
+202511,59.29326199108284,30,1
+202512,52.17709372669431,30,1
+202601,58.49908060212512,31,1
+202602,67.06473351509486,28,1
+202603,72.47118359123749,31,1
+202604,67.00650301906579,30,1
+202605,76.78332726804719,31,1
+202606,77.62909141438334,30,1
+202607,80.49448992889316,31,1
+202608,88.33981630194741,31,1
+202609,85.83247904792314,30,1

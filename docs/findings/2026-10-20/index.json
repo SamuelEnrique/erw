@@ -1,0 +1,943 @@
+{
+ "day": "2026-10-20",
+ "hunt_version": "1.0.0",
+ "computed_at": "2026-10-21T02:11:33Z",
+ "summary": {
+  "candidates": 27,
+  "passing": 17,
+  "kept": 10,
+  "failed": [],
+  "blocked_grids": [
+   "isone",
+   "miso",
+   "nyiso",
+   "spp"
+  ],
+  "this_year": 2026,
+  "candidates_list": [
+   {
+    "slug": "ercot-hb_houston-negative-hours-by-year",
+    "family": "negative_share_year",
+    "kind": "trend",
+    "strength": 2.0395,
+    "reason": "fails half the change remains without the first year",
+    "tests": [
+     {
+      "name": "holds in more than one year",
+      "passed": true
+     },
+     {
+      "name": "survives a change of window",
+      "passed": true
+     },
+     {
+      "name": "sample large enough",
+      "passed": true
+     },
+     {
+      "name": "half the change remains without the first year",
+      "passed": false
+     },
+     {
+      "name": "at least one typical yearly move",
+      "passed": true
+     }
+    ]
+   },
+   {
+    "slug": "ercot-hb_hubavg-negative-hours-by-year",
+    "family": "negative_share_year",
+    "kind": "trend",
+    "strength": 2.4981,
+    "reason": "passes; beyond the 10 kept",
+    "tests": [
+     {
+      "name": "holds in more than one year",
+      "passed": true
+     },
+     {
+      "name": "survives a change of window",
+      "passed": true
+     },
+     {
+      "name": "sample large enough",
+      "passed": true
+     },
+     {
+      "name": "half the change remains without the first year",
+      "passed": true
+     },
+     {
+      "name": "at least one typical yearly move",
+      "passed": true
+     }
+    ]
+   },
+   {
+    "slug": "ercot-hb_north-negative-hours-by-year",
+    "family": "negative_share_year",
+    "kind": "trend",
+    "strength": 2.0838,
+    "reason": "passes; beyond the 10 kept",
+    "tests": [
+     {
+      "name": "holds in more than one year",
+      "passed": true
+     },
+     {
+      "name": "survives a change of window",
+      "passed": true
+     },
+     {
+      "name": "sample large enough",
+      "passed": true
+     },
+     {
+      "name": "half the change remains without the first year",
+      "passed": true
+     },
+     {
+      "name": "at least one typical yearly move",
+      "passed": true
+     }
+    ]
+   },
+   {
+    "slug": "ercot-hb_north-negative-hours-this-year",
+    "family": "negative_share_window",
+    "kind": "record",
+    "strength": 0.5141,
+    "reason": "passes; one hub of this grid already tells the story",
+    "tests": [
+     {
+      "name": "history long enough",
+      "passed": true
+     },
+     {
+      "name": "the record period is complete",
+      "passed": true
+     },
+     {
+      "name": "no gap in the window",
+      "passed": true
+     },
+     {
+      "name": "a margin over the previous record",
+      "passed": true
+     }
+    ]
+   },
+   {
+    "slug": "ercot-hb_south-negative-hours-by-year",
+    "family": "negative_share_year",
+    "kind": "trend",
+    "strength": 3.1082,
+    "reason": "passes; beyond the 10 kept",
+    "tests": [
+     {
+      "name": "holds in more than one year",
+      "passed": true
+     },
+     {
+      "name": "survives a change of window",
+      "passed": true
+     },
+     {
+      "name": "sample large enough",
+      "passed": true
+     },
+     {
+      "name": "half the change remains without the first year",
+      "passed": true
+     },
+     {
+      "name": "at least one typical yearly move",
+      "passed": true
+     }
+    ]
+   },
+   {
+    "slug": "ercot-hb_west-negative-hours-by-year",
+    "family": "negative_share_year",
+    "kind": "trend",
+    "strength": 2.3799,
+    "reason": "passes; beyond the 10 kept",
+    "tests": [
+     {
+      "name": "holds in more than one year",
+      "passed": true
+     },
+     {
+      "name": "survives a change of window",
+      "passed": true
+     },
+     {
+      "name": "sample large enough",
+      "passed": true
+     },
+     {
+      "name": "half the change remains without the first year",
+      "passed": true
+     },
+     {
+      "name": "at least one typical yearly move",
+      "passed": true
+     }
+    ]
+   },
+   {
+    "slug": "ercot-hb_west-negative-hours-this-year",
+    "family": "negative_share_window",
+    "kind": "record",
+    "strength": 0.8384,
+    "reason": "passes",
+    "tests": [
+     {
+      "name": "history long enough",
+      "passed": true
+     },
+     {
+      "name": "the record period is complete",
+      "passed": true
+     },
+     {
+      "name": "no gap in the window",
+      "passed": true
+     },
+     {
+      "name": "a margin over the previous record",
+      "passed": true
+     }
+    ]
+   },
+   {
+    "slug": "ercot-hubavg-intervals-at-100-or-more",
+    "family": "hours_above_100_year",
+    "kind": "trend",
+    "strength": 1.4974,
+    "reason": "passes; beyond the 10 kept",
+    "tests": [
+     {
+      "name": "holds in more than one year",
+      "passed": true
+     },
+     {
+      "name": "survives a change of window",
+      "passed": true
+     },
+     {
+      "name": "sample large enough",
+      "passed": true
+     },
+     {
+      "name": "half the change remains without the first year",
+      "passed": true
+     },
+     {
+      "name": "at least one typical yearly move",
+      "passed": true
+     }
+    ]
+   },
+   {
+    "slug": "ercot-west-hub-basis-by-year",
+    "family": "west_basis_year",
+    "kind": "trend",
+    "strength": 0.0,
+    "reason": "fails holds in more than one year; survives a change of window; at least one typical yearly move",
+    "tests": [
+     {
+      "name": "holds in more than one year",
+      "passed": false
+     },
+     {
+      "name": "survives a change of window",
+      "passed": false
+     },
+     {
+      "name": "sample large enough",
+      "passed": true
+     },
+     {
+      "name": "half the change remains without the first year",
+      "passed": true
+     },
+     {
+      "name": "at least one typical yearly move",
+      "passed": false
+     }
+    ]
+   },
+   {
+    "slug": "ercot-hubavg-day-ahead-premium-by-year",
+    "family": "da_premium_year",
+    "kind": "trend",
+    "strength": 0.6756,
+    "reason": "fails survives a change of window; at least one typical yearly move",
+    "tests": [
+     {
+      "name": "holds in more than one year",
+      "passed": true
+     },
+     {
+      "name": "survives a change of window",
+      "passed": false
+     },
+     {
+      "name": "sample large enough",
+      "passed": true
+     },
+     {
+      "name": "half the change remains without the first year",
+      "passed": true
+     },
+     {
+      "name": "at least one typical yearly move",
+      "passed": false
+     }
+    ]
+   },
+   {
+    "slug": "ercot-peak-premium-by-year",
+    "family": "peak_premium_year",
+    "kind": "trend",
+    "strength": 7.4169,
+    "reason": "passes",
+    "tests": [
+     {
+      "name": "holds in more than one year",
+      "passed": true
+     },
+     {
+      "name": "survives a change of window",
+      "passed": true
+     },
+     {
+      "name": "sample large enough",
+      "passed": true
+     },
+     {
+      "name": "half the change remains without the first year",
+      "passed": true
+     },
+     {
+      "name": "at least one typical yearly move",
+      "passed": true
+     }
+    ]
+   },
+   {
+    "slug": "caiso-curtailment-record-month",
+    "family": "curtailment_record_month",
+    "kind": "record",
+    "strength": 0.2706,
+    "reason": "fails a margin over the previous record",
+    "tests": [
+     {
+      "name": "history long enough",
+      "passed": true
+     },
+     {
+      "name": "the record period is complete",
+      "passed": true
+     },
+     {
+      "name": "no gap in the window",
+      "passed": true
+     },
+     {
+      "name": "a margin over the previous record",
+      "passed": false
+     }
+    ]
+   },
+   {
+    "slug": "caiso-curtailment-this-year",
+    "family": "curtailment_window",
+    "kind": "record",
+    "strength": 3.1942,
+    "reason": "passes",
+    "tests": [
+     {
+      "name": "history long enough",
+      "passed": true
+     },
+     {
+      "name": "the record period is complete",
+      "passed": true
+     },
+     {
+      "name": "no gap in the window",
+      "passed": true
+     },
+     {
+      "name": "a margin over the previous record",
+      "passed": true
+     }
+    ]
+   },
+   {
+    "slug": "caiso-curtailment-share-by-year",
+    "family": "curtailment_share_year",
+    "kind": "trend",
+    "strength": 11.2289,
+    "reason": "passes",
+    "tests": [
+     {
+      "name": "holds in more than one year",
+      "passed": true
+     },
+     {
+      "name": "survives a change of window",
+      "passed": true
+     },
+     {
+      "name": "sample large enough",
+      "passed": true
+     },
+     {
+      "name": "half the change remains without the first year",
+      "passed": true
+     },
+     {
+      "name": "at least one typical yearly move",
+      "passed": true
+     }
+    ]
+   },
+   {
+    "slug": "ercot-battery-discharge-record-month",
+    "family": "storage_record_month",
+    "kind": "record",
+    "strength": 0.6745,
+    "reason": "fails a margin over the previous record",
+    "tests": [
+     {
+      "name": "history long enough",
+      "passed": true
+     },
+     {
+      "name": "the record period is complete",
+      "passed": true
+     },
+     {
+      "name": "no gap in the window",
+      "passed": true
+     },
+     {
+      "name": "a margin over the previous record",
+      "passed": false
+     }
+    ]
+   },
+   {
+    "slug": "ercot-battery-discharge-by-month",
+    "family": "storage_discharge_months",
+    "kind": "trend",
+    "strength": 10.8114,
+    "reason": "passes",
+    "tests": [
+     {
+      "name": "holds in more than one year",
+      "passed": true
+     },
+     {
+      "name": "survives a change of window",
+      "passed": true
+     },
+     {
+      "name": "sample large enough",
+      "passed": true
+     },
+     {
+      "name": "half the change remains without the first year",
+      "passed": true
+     },
+     {
+      "name": "at least one typical yearly move",
+      "passed": true
+     }
+    ]
+   },
+   {
+    "slug": "caiso-battery-discharge-record-month",
+    "family": "storage_record_month",
+    "kind": "record",
+    "strength": 0.1684,
+    "reason": "fails history long enough; a margin over the previous record",
+    "tests": [
+     {
+      "name": "history long enough",
+      "passed": false
+     },
+     {
+      "name": "the record period is complete",
+      "passed": true
+     },
+     {
+      "name": "no gap in the window",
+      "passed": true
+     },
+     {
+      "name": "a margin over the previous record",
+      "passed": false
+     }
+    ]
+   },
+   {
+    "slug": "caiso-battery-discharge-by-month",
+    "family": "storage_discharge_months",
+    "kind": "trend",
+    "strength": 1.8553,
+    "reason": "passes",
+    "tests": [
+     {
+      "name": "holds in more than one year",
+      "passed": true
+     },
+     {
+      "name": "survives a change of window",
+      "passed": true
+     },
+     {
+      "name": "sample large enough",
+      "passed": true
+     },
+     {
+      "name": "half the change remains without the first year",
+      "passed": true
+     },
+     {
+      "name": "at least one typical yearly move",
+      "passed": true
+     }
+    ]
+   },
+   {
+    "slug": "ercot-battery-evening-share-by-month",
+    "family": "storage_evening_months",
+    "kind": "trend",
+    "strength": 5.0245,
+    "reason": "passes",
+    "tests": [
+     {
+      "name": "holds in more than one year",
+      "passed": true
+     },
+     {
+      "name": "survives a change of window",
+      "passed": true
+     },
+     {
+      "name": "sample large enough",
+      "passed": true
+     },
+     {
+      "name": "half the change remains without the first year",
+      "passed": true
+     },
+     {
+      "name": "at least one typical yearly move",
+      "passed": true
+     }
+    ]
+   },
+   {
+    "slug": "ercot-battery-evening-share-record-high",
+    "family": "storage_evening_share",
+    "kind": "record",
+    "strength": 0.3294,
+    "reason": "fails a margin over the previous record",
+    "tests": [
+     {
+      "name": "history long enough",
+      "passed": true
+     },
+     {
+      "name": "the record period is complete",
+      "passed": true
+     },
+     {
+      "name": "no gap in the window",
+      "passed": true
+     },
+     {
+      "name": "a margin over the previous record",
+      "passed": false
+     }
+    ]
+   },
+   {
+    "slug": "caiso-queue-withdrawn-share-by-cohort",
+    "family": "queue_withdrawn_cohort",
+    "kind": "trend",
+    "strength": 1.3452,
+    "reason": "passes",
+    "tests": [
+     {
+      "name": "holds in more than one year",
+      "passed": true
+     },
+     {
+      "name": "survives a change of window",
+      "passed": true
+     },
+     {
+      "name": "sample large enough",
+      "passed": true
+     },
+     {
+      "name": "half the change remains without the first year",
+      "passed": true
+     },
+     {
+      "name": "at least one typical yearly move",
+      "passed": true
+     }
+    ]
+   },
+   {
+    "slug": "caiso-queue-wait-to-operation-by-cohort",
+    "family": "queue_wait_years",
+    "kind": "trend",
+    "strength": 2.7921,
+    "reason": "fails sample large enough",
+    "tests": [
+     {
+      "name": "holds in more than one year",
+      "passed": true
+     },
+     {
+      "name": "survives a change of window",
+      "passed": true
+     },
+     {
+      "name": "sample large enough",
+      "passed": false
+     },
+     {
+      "name": "half the change remains without the first year",
+      "passed": true
+     },
+     {
+      "name": "at least one typical yearly move",
+      "passed": true
+     }
+    ]
+   },
+   {
+    "slug": "ercot-queue-entries-record-year",
+    "family": "queue_entries_year",
+    "kind": "record",
+    "strength": 1.6759,
+    "reason": "passes",
+    "tests": [
+     {
+      "name": "history long enough",
+      "passed": true
+     },
+     {
+      "name": "the record period is complete",
+      "passed": true
+     },
+     {
+      "name": "no gap in the window",
+      "passed": true
+     },
+     {
+      "name": "a margin over the previous record",
+      "passed": true
+     }
+    ]
+   },
+   {
+    "slug": "ercot-queue-withdrawn-share-by-cohort",
+    "family": "queue_withdrawn_cohort",
+    "kind": "trend",
+    "strength": 1.0543,
+    "reason": "passes; beyond the two strongest of its family",
+    "tests": [
+     {
+      "name": "holds in more than one year",
+      "passed": true
+     },
+     {
+      "name": "survives a change of window",
+      "passed": true
+     },
+     {
+      "name": "sample large enough",
+      "passed": true
+     },
+     {
+      "name": "half the change remains without the first year",
+      "passed": true
+     },
+     {
+      "name": "at least one typical yearly move",
+      "passed": true
+     }
+    ]
+   },
+   {
+    "slug": "ercot-queue-wait-to-operation-by-cohort",
+    "family": "queue_wait_years",
+    "kind": "trend",
+    "strength": 0.3725,
+    "reason": "fails survives a change of window; half the change remains without the first year; at least one typical yearly move",
+    "tests": [
+     {
+      "name": "holds in more than one year",
+      "passed": true
+     },
+     {
+      "name": "survives a change of window",
+      "passed": false
+     },
+     {
+      "name": "sample large enough",
+      "passed": true
+     },
+     {
+      "name": "half the change remains without the first year",
+      "passed": false
+     },
+     {
+      "name": "at least one typical yearly move",
+      "passed": false
+     }
+    ]
+   },
+   {
+    "slug": "pjm-queue-withdrawn-share-by-cohort",
+    "family": "queue_withdrawn_cohort",
+    "kind": "trend",
+    "strength": 1.9695,
+    "reason": "passes",
+    "tests": [
+     {
+      "name": "holds in more than one year",
+      "passed": true
+     },
+     {
+      "name": "survives a change of window",
+      "passed": true
+     },
+     {
+      "name": "sample large enough",
+      "passed": true
+     },
+     {
+      "name": "half the change remains without the first year",
+      "passed": true
+     },
+     {
+      "name": "at least one typical yearly move",
+      "passed": true
+     }
+    ]
+   },
+   {
+    "slug": "pjm-queue-wait-to-operation-by-cohort",
+    "family": "queue_wait_years",
+    "kind": "trend",
+    "strength": 0.9823,
+    "reason": "fails at least one typical yearly move",
+    "tests": [
+     {
+      "name": "holds in more than one year",
+      "passed": true
+     },
+     {
+      "name": "survives a change of window",
+      "passed": true
+     },
+     {
+      "name": "sample large enough",
+      "passed": true
+     },
+     {
+      "name": "half the change remains without the first year",
+      "passed": true
+     },
+     {
+      "name": "at least one typical yearly move",
+      "passed": false
+     }
+    ]
+   }
+  ]
+ },
+ "findings": [
+  {
+   "slug": "ercot-battery-discharge-by-month",
+   "rank": 1,
+   "state": "new",
+   "title": "BATTERY DISCHARGE, MONTH BY MONTH",
+   "fact": "ERCOT: the month's battery discharge in ERCOT, MWh, summed from the daily cycle table, 770,026 MWh in September 2026, up from 338,301 MWh in December 2024. The direction holds in 21 of the 21 complete months after December 2024.",
+   "kind": "trend",
+   "family": "storage_discharge_months",
+   "grid": "ercot",
+   "internal": false,
+   "tables": [
+    "storage_daily_cycle"
+   ],
+   "license": "public",
+   "strength": 10.8114,
+   "shown_before": ""
+  },
+  {
+   "slug": "ercot-battery-evening-share-by-month",
+   "rank": 2,
+   "state": "new",
+   "title": "BATTERY DISCHARGE IN THE EVENING, MONTH BY MONTH",
+   "fact": "ERCOT: share of the month's battery discharge (hourly net battery output above zero) delivered from 5 PM to 10 PM local, 85.8 percent of discharge in September 2026, up from 47.6 percent of discharge in December 2024. The direction holds in 19 of the 21 complete months after December 2024.",
+   "kind": "trend",
+   "family": "storage_evening_months",
+   "grid": "ercot",
+   "internal": false,
+   "tables": [
+    "eia930_all_storage"
+   ],
+   "license": "public",
+   "strength": 5.0245,
+   "shown_before": ""
+  },
+  {
+   "slug": "caiso-curtailment-this-year",
+   "rank": 3,
+   "state": "new",
+   "title": "CURTAILMENT, THIS YEAR SO FAR",
+   "fact": "CAISO: curtailed wind and solar output from 1 January to 30 September, MWh was 5,115,404 MWh in 2026, the highest of the 12 complete years held; the previous high was 3,452,749 MWh in 2025.",
+   "kind": "record",
+   "family": "curtailment_window",
+   "grid": "caiso",
+   "internal": false,
+   "tables": [
+    "caiso_curtailment_daily"
+   ],
+   "license": "public",
+   "strength": 3.1942,
+   "shown_before": ""
+  },
+  {
+   "slug": "pjm-queue-withdrawn-share-by-cohort",
+   "rank": 4,
+   "state": "new",
+   "title": "TILL QUEUE DO US PART, BY COHORT",
+   "fact": "PJM: share of the MW that entered PJM's queue in the year and had withdrawn by the end of 2025 (cohorts at least six years old), 63.3 percent of the cohort's MW in 2019, down from 88.7 percent of the cohort's MW in 2010. The direction holds in 9 of the 9 complete years after 2010.",
+   "kind": "trend",
+   "family": "queue_withdrawn_cohort",
+   "grid": "pjm",
+   "internal": false,
+   "tables": [
+    "lbnl_interconnection_queue"
+   ],
+   "license": "public",
+   "strength": 1.9695,
+   "shown_before": ""
+  },
+  {
+   "slug": "caiso-battery-discharge-by-month",
+   "rank": 5,
+   "state": "new",
+   "title": "BATTERY DISCHARGE, MONTH BY MONTH",
+   "fact": "CAISO: the month's battery discharge in CAISO, MWh, summed from the daily cycle table, 1,335,586 MWh in September 2026, up from 1,105,004 MWh in September 2025. The direction holds in 10 of the 12 complete months after September 2025.",
+   "kind": "trend",
+   "family": "storage_discharge_months",
+   "grid": "caiso",
+   "internal": false,
+   "tables": [
+    "storage_daily_cycle"
+   ],
+   "license": "public",
+   "strength": 1.8553,
+   "shown_before": ""
+  },
+  {
+   "slug": "ercot-queue-entries-record-year",
+   "rank": 6,
+   "state": "new",
+   "title": "THE QUEUE'S BIGGEST YEAR",
+   "fact": "ERCOT: MW of generation and storage that entered ERCOT's interconnection queue in the year, every status, as LBNL's Queued Up data file records it was 85,405 MW in 2024, the highest of the 21 complete years held; the previous high was 66,858 MW in 2023.",
+   "kind": "record",
+   "family": "queue_entries_year",
+   "grid": "ercot",
+   "internal": false,
+   "tables": [
+    "lbnl_interconnection_queue"
+   ],
+   "license": "public",
+   "strength": 1.6759,
+   "shown_before": ""
+  },
+  {
+   "slug": "caiso-queue-withdrawn-share-by-cohort",
+   "rank": 7,
+   "state": "new",
+   "title": "TILL QUEUE DO US PART, BY COHORT",
+   "fact": "CAISO: share of the MW that entered CAISO's queue in the year and had withdrawn by the end of 2025 (cohorts at least six years old), 60.0 percent of the cohort's MW in 2019, down from 83.4 percent of the cohort's MW in 2010. The direction holds in 5 of the 9 complete years after 2010.",
+   "kind": "trend",
+   "family": "queue_withdrawn_cohort",
+   "grid": "caiso",
+   "internal": false,
+   "tables": [
+    "lbnl_interconnection_queue"
+   ],
+   "license": "public",
+   "strength": 1.3452,
+   "shown_before": ""
+  },
+  {
+   "slug": "ercot-hb_west-negative-hours-this-year",
+   "rank": 8,
+   "state": "new",
+   "title": "HOURS BELOW ZERO, THIS YEAR SO FAR",
+   "fact": "ERCOT, the West hub: share of the 15-minute intervals from 1 January to 25 August with a real-time price below zero at the West hub was 15.95 percent of intervals in 2026, the highest of the 12 complete years held; the previous high was 13.49 percent of intervals in 2022.",
+   "kind": "record",
+   "family": "negative_share_window",
+   "grid": "ercot",
+   "internal": false,
+   "tables": [
+    "ercot_all_hub_prices_history"
+   ],
+   "license": "public",
+   "strength": 0.8384,
+   "shown_before": ""
+  },
+  {
+   "slug": "caiso-curtailment-share-by-year",
+   "rank": 9,
+   "state": "new",
+   "title": "WIND AND SOLAR CURTAILED",
+   "fact": "CAISO: share of the year's wind and solar output that was curtailed: curtailed over curtailed plus generated, 4.53 percent of output in 2025, up from 0.67 percent of output in 2015. The direction holds in 10 of the 10 complete years after 2015.",
+   "kind": "trend",
+   "family": "curtailment_share_year",
+   "grid": "caiso",
+   "internal": false,
+   "tables": [
+    "caiso_curtailment_daily"
+   ],
+   "license": "public",
+   "strength": 11.2289,
+   "shown_before": "the weekly hunt's draft of 13 October 2026 (block 19)"
+  },
+  {
+   "slug": "ercot-peak-premium-by-year",
+   "rank": 10,
+   "state": "new",
+   "title": "THE PEAK PREMIUM",
+   "fact": "ERCOT, the hub average: the year's median evening-peak real-time price minus its median midday price at the hub average (ercot_peak_premium_annual), 14.52 USD per MWh in 2025, up from -0.16 USD per MWh in 2015. The direction holds in 10 of the 10 complete years after 2015.",
+   "kind": "trend",
+   "family": "peak_premium_year",
+   "grid": "ercot",
+   "internal": false,
+   "tables": [
+    "ercot_peak_premium_annual"
+   ],
+   "license": "public",
+   "strength": 7.4169,
+   "shown_before": "the thesis page and the ERCOT peak premium explorer (docs/methods/ercot_peak_premium.md)"
+  }
+ ]
+}

@@ -1,0 +1,28 @@
+# Energy Research Warehouse (ERW): findings hunt of 2026-10-20, finding ercot-battery-discharge-by-month (ERCOT): one row a period: the measure, its observations, whether the period is complete
+# Computed 2026-10-21T02:11:14Z by warehouse/analysis/findings/hunt_oct20.py 1.0.0; method docs/methods/automated_analysis_findings.md
+# Sources: ERW table storage_daily_cycle; license public; each table's own header names its publisher's report and retrieval time
+# the month's battery discharge in ERCOT, MWh, summed from the daily cycle table (MWh)
+period,value,n_observations,complete
+202411,243488.0,24,0
+202412,338301.0,31,1
+202501,369580.0,31,1
+202502,354579.0,28,1
+202503,426477.0,31,1
+202504,402477.0,30,1
+202505,385890.0,31,1
+202506,382664.0,30,1
+202507,445493.0,31,1
+202508,542409.0,31,1
+202509,537677.0,30,1
+202510,560820.0,31,1
+202511,542549.0,30,1
+202512,469777.0,28,1
+202601,528063.0,31,1
+202602,512393.0,28,1
+202603,587686.0,31,1
+202604,554973.0,30,1
+202605,563315.0,31,1
+202606,546938.0,30,1
+202607,705980.0,31,1
+202608,796960.0,31,1
+202609,770026.0,29,1

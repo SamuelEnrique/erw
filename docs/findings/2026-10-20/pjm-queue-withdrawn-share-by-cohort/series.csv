@@ -1,0 +1,15 @@
+# Energy Research Warehouse (ERW): findings hunt of 2026-10-20, finding pjm-queue-withdrawn-share-by-cohort (PJM): one row a period: the measure, its observations, whether the period is complete
+# Computed 2026-10-21T02:11:21Z by warehouse/analysis/findings/hunt_oct20.py 1.0.0; method docs/methods/automated_analysis_findings.md
+# Sources: ERW table lbnl_interconnection_queue; license public; each table's own header names its publisher's report and retrieval time
+# share of the MW that entered PJM's queue in the year and had withdrawn by the end of 2025 (cohorts at least six years old) (percent of the cohort's MW)
+period,value,n_observations,complete
+2010,88.7021895611938,422,1
+2011,79.9955284114476,325,1
+2012,76.13240349812162,149,1
+2013,67.42449167793445,138,1
+2014,59.763262355269056,182,1
+2015,76.8786274638092,288,1
+2016,66.52480960514053,384,1
+2017,70.08794928050084,348,1
+2018,78.88756014411639,431,1
+2019,63.27548958242708,659,1

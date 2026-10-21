@@ -1,0 +1,192 @@
+{
+ "slug": "caiso-curtailment-this-year",
+ "day": "2026-10-20",
+ "rank": 3,
+ "state": "new",
+ "state_history": [],
+ "internal": false,
+ "family": "curtailment_window",
+ "kind": "record",
+ "grid": "caiso",
+ "region_words": "CAISO",
+ "title": "CURTAILMENT, THIS YEAR SO FAR",
+ "label": "curtailed wind and solar output from 1 January to 30 September, MWh",
+ "unit": "MWh",
+ "decimals": 0,
+ "grain": "year",
+ "fact": "CAISO: curtailed wind and solar output from 1 January to 30 September, MWh was 5,115,404 MWh in 2026, the highest of the 12 complete years held; the previous high was 3,452,749 MWh in 2025.",
+ "note": "the window is 1 January to 2026-09-30 of each year",
+ "shown_before": "",
+ "tables": [
+  "caiso_curtailment_daily"
+ ],
+ "license": "public",
+ "source_line": "Source: the rows for CAISO of the ERW table caiso_curtailment_daily (license: public). Computed by warehouse/analysis/findings/hunt_oct20.py; method docs/methods/automated_analysis_findings.md.",
+ "headline": {
+  "op": "sum",
+  "column": "curtailed",
+  "period": 2026,
+  "compare_period": 2025,
+  "value": 5115404.251,
+  "compare_value": 3452749.2169999997,
+  "expected_in_do_file": 5115404.251
+ },
+ "claim": {
+  "kind": "record",
+  "direction": "high",
+  "period": 2026,
+  "value": 5115404.251,
+  "n": 273,
+  "previous_period": 2025,
+  "previous": 3452749.2169999997,
+  "margin": 1662655.0340000005,
+  "margin_pct": 48.15452642241525,
+  "passed": true,
+  "typical_move": 520516.0264499993,
+  "strength": 3.1942,
+  "periods": [
+   2015,
+   2016,
+   2017,
+   2018,
+   2019,
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025,
+   2026
+  ],
+  "values": [
+   152973.11899999998,
+   200006.26299999998,
+   336745.925,
+   344070.934,
+   777980.5619999999,
+   1365155.122,
+   1262392.74,
+   2257168.199,
+   2343226.3120000004,
+   3101665.967,
+   3452749.2169999997,
+   5115404.251
+  ]
+ },
+ "tests": [
+  {
+   "name": "history long enough",
+   "passed": true,
+   "words": "11 complete years before 2026; the floor is 5"
+  },
+  {
+   "name": "the record period is complete",
+   "passed": true,
+   "words": "2026 holds 273 observations, 100 percent of a whole year's"
+  },
+  {
+   "name": "no gap in the window",
+   "passed": true,
+   "words": "every year from 2015 to 2026 is complete"
+  },
+  {
+   "name": "a margin over the previous record",
+   "passed": true,
+   "words": "2026 stands 48.2 percent above 2025, the previous high; the floor is 5 percent"
+  }
+ ],
+ "strength": 3.1942,
+ "series": [
+  {
+   "period": 2014,
+   "value": 18325.737,
+   "n": 152,
+   "complete": false
+  },
+  {
+   "period": 2015,
+   "value": 152973.11899999998,
+   "n": 273,
+   "complete": true
+  },
+  {
+   "period": 2016,
+   "value": 200006.26299999998,
+   "n": 274,
+   "complete": true
+  },
+  {
+   "period": 2017,
+   "value": 336745.925,
+   "n": 273,
+   "complete": true
+  },
+  {
+   "period": 2018,
+   "value": 344070.934,
+   "n": 273,
+   "complete": true
+  },
+  {
+   "period": 2019,
+   "value": 777980.5619999999,
+   "n": 273,
+   "complete": true
+  },
+  {
+   "period": 2020,
+   "value": 1365155.122,
+   "n": 274,
+   "complete": true
+  },
+  {
+   "period": 2021,
+   "value": 1262392.74,
+   "n": 273,
+   "complete": true
+  },
+  {
+   "period": 2022,
+   "value": 2257168.199,
+   "n": 273,
+   "complete": true
+  },
+  {
+   "period": 2023,
+   "value": 2343226.3120000004,
+   "n": 273,
+   "complete": true
+  },
+  {
+   "period": 2024,
+   "value": 3101665.967,
+   "n": 274,
+   "complete": true
+  },
+  {
+   "period": 2025,
+   "value": 3452749.2169999997,
+   "n": 273,
+   "complete": true
+  },
+  {
+   "period": 2026,
+   "value": 5115404.251,
+   "n": 273,
+   "complete": true
+  }
+ ],
+ "files": {
+  "extract": "extract.csv",
+  "series": "series.csv",
+  "do": "check.do",
+  "caption": "caption.md",
+  "chart_square": "chart_square.png",
+  "chart_wide": "chart_wide.png"
+ },
+ "extract_rows": 546,
+ "caption": "Curtailment, this year so far. CAISO: curtailed wind and solar output from 1 January to 30 September, MWh was 5,115,404 MWh in 2026, the highest of the 12 complete years held; the previous high was 3,452,749 MWh in 2025.\n\nChecked before it was drafted: 11 complete years before 2026; the floor is 5; 2026 stands 48.2 percent above 2025, the previous high; the floor is 5 percent; every year from 2015 to 2026 is complete.\n\nThe claim states a change; it does not say what caused it. the window is 1 January to 2026-09-30 of each year.\n\nSource: caiso_curtailment_daily, as the ERW holds it. ERW table: caiso_curtailment_daily.",
+ "computed_at": "2026-10-21T02:11:20Z",
+ "hunt_version": "1.0.0",
+ "method": "docs/methods/automated_analysis_findings.md"
+}

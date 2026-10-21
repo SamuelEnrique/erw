@@ -1,0 +1,290 @@
+{
+ "slug": "ercot-battery-discharge-by-month",
+ "day": "2026-10-20",
+ "rank": 1,
+ "state": "new",
+ "state_history": [],
+ "internal": false,
+ "family": "storage_discharge_months",
+ "kind": "trend",
+ "grid": "ercot",
+ "region_words": "ERCOT",
+ "title": "BATTERY DISCHARGE, MONTH BY MONTH",
+ "label": "the month's battery discharge in ERCOT, MWh, summed from the daily cycle table",
+ "unit": "MWh",
+ "decimals": 0,
+ "grain": "month",
+ "fact": "ERCOT: the month's battery discharge in ERCOT, MWh, summed from the daily cycle table, 770,026 MWh in September 2026, up from 338,301 MWh in December 2024. The direction holds in 21 of the 21 complete months after December 2024.",
+ "note": "the two ends of the series are different months of the year; every complete month between them is on the chart",
+ "shown_before": "",
+ "tables": [
+  "storage_daily_cycle"
+ ],
+ "license": "public",
+ "source_line": "Source: the rows for ERCOT of the ERW table storage_daily_cycle (license: public). Computed by warehouse/analysis/findings/hunt_oct20.py; method docs/methods/automated_analysis_findings.md.",
+ "headline": {
+  "op": "sum",
+  "period": 202609,
+  "compare_period": 202412,
+  "value": 770026.0,
+  "compare_value": 338301.0,
+  "expected_in_do_file": 770026.0
+ },
+ "claim": {
+  "first_year": "2024-12",
+  "last_year": "2026-09",
+  "first": 338301.0,
+  "last": 770026.0,
+  "change": 431725.0,
+  "direction": "up",
+  "passed": true,
+  "years": [
+   "2024-12",
+   "2025-01",
+   "2025-02",
+   "2025-03",
+   "2025-04",
+   "2025-05",
+   "2025-06",
+   "2025-07",
+   "2025-08",
+   "2025-09",
+   "2025-10",
+   "2025-11",
+   "2025-12",
+   "2026-01",
+   "2026-02",
+   "2026-03",
+   "2026-04",
+   "2026-05",
+   "2026-06",
+   "2026-07",
+   "2026-08",
+   "2026-09"
+  ],
+  "values": [
+   338301.0,
+   369580.0,
+   354579.0,
+   426477.0,
+   402477.0,
+   385890.0,
+   382664.0,
+   445493.0,
+   542409.0,
+   537677.0,
+   560820.0,
+   542549.0,
+   469777.0,
+   528063.0,
+   512393.0,
+   587686.0,
+   554973.0,
+   563315.0,
+   546938.0,
+   705980.0,
+   796960.0,
+   770026.0
+  ],
+  "n_first": 31,
+  "n_last": 29,
+  "years_held": 21,
+  "years_after": 21,
+  "typical_move": 39932.348399999995,
+  "strength": 10.8114,
+  "remains_without_first": 0.9275,
+  "p_trend": 5.908642127677047e-05,
+  "shape": {
+   "step_better": false,
+   "break_year": "202607",
+   "before": 476424.2631578947,
+   "after": 757655.3333333334,
+   "bic_step": 504.3172,
+   "bic_line": 503.8535,
+   "words": "a trend: a straight line fits the years better than one step"
+  },
+  "kind": "trend",
+  "grain": "month"
+ },
+ "tests": [
+  {
+   "name": "holds in more than one year",
+   "passed": true,
+   "words": "21 of the 21 complete months after 2024-12 lie above 2024-12's value"
+  },
+  {
+   "name": "survives a change of window",
+   "passed": true,
+   "words": "from 2025-01 to 2026-09 the change is 400,446, from 2024-12 to 2026-08 it is 458,659"
+  },
+  {
+   "name": "sample large enough",
+   "passed": true,
+   "words": "2024-12 holds 31 and 2026-09 holds 29 observations; the floor is 28"
+  },
+  {
+   "name": "half the change remains without the first year",
+   "passed": true,
+   "words": "from 2025-01 to 2026-09 the change is 400,446, 92.8 percent of the change from 2024-12"
+  },
+  {
+   "name": "at least one typical yearly move",
+   "passed": true,
+   "words": "the change is 10.81 typical monthly moves (39,932 MWh a month, the median move between complete months); the floor is 1"
+  }
+ ],
+ "strength": 10.8114,
+ "series": [
+  {
+   "period": "2024-11",
+   "value": 243488.0,
+   "n": 24,
+   "complete": false
+  },
+  {
+   "period": "2024-12",
+   "value": 338301.0,
+   "n": 31,
+   "complete": true
+  },
+  {
+   "period": "2025-01",
+   "value": 369580.0,
+   "n": 31,
+   "complete": true
+  },
+  {
+   "period": "2025-02",
+   "value": 354579.0,
+   "n": 28,
+   "complete": true
+  },
+  {
+   "period": "2025-03",
+   "value": 426477.0,
+   "n": 31,
+   "complete": true
+  },
+  {
+   "period": "2025-04",
+   "value": 402477.0,
+   "n": 30,
+   "complete": true
+  },
+  {
+   "period": "2025-05",
+   "value": 385890.0,
+   "n": 31,
+   "complete": true
+  },
+  {
+   "period": "2025-06",
+   "value": 382664.0,
+   "n": 30,
+   "complete": true
+  },
+  {
+   "period": "2025-07",
+   "value": 445493.0,
+   "n": 31,
+   "complete": true
+  },
+  {
+   "period": "2025-08",
+   "value": 542409.0,
+   "n": 31,
+   "complete": true
+  },
+  {
+   "period": "2025-09",
+   "value": 537677.0,
+   "n": 30,
+   "complete": true
+  },
+  {
+   "period": "2025-10",
+   "value": 560820.0,
+   "n": 31,
+   "complete": true
+  },
+  {
+   "period": "2025-11",
+   "value": 542549.0,
+   "n": 30,
+   "complete": true
+  },
+  {
+   "period": "2025-12",
+   "value": 469777.0,
+   "n": 28,
+   "complete": true
+  },
+  {
+   "period": "2026-01",
+   "value": 528063.0,
+   "n": 31,
+   "complete": true
+  },
+  {
+   "period": "2026-02",
+   "value": 512393.0,
+   "n": 28,
+   "complete": true
+  },
+  {
+   "period": "2026-03",
+   "value": 587686.0,
+   "n": 31,
+   "complete": true
+  },
+  {
+   "period": "2026-04",
+   "value": 554973.0,
+   "n": 30,
+   "complete": true
+  },
+  {
+   "period": "2026-05",
+   "value": 563315.0,
+   "n": 31,
+   "complete": true
+  },
+  {
+   "period": "2026-06",
+   "value": 546938.0,
+   "n": 30,
+   "complete": true
+  },
+  {
+   "period": "2026-07",
+   "value": 705980.0,
+   "n": 31,
+   "complete": true
+  },
+  {
+   "period": "2026-08",
+   "value": 796960.0,
+   "n": 31,
+   "complete": true
+  },
+  {
+   "period": "2026-09",
+   "value": 770026.0,
+   "n": 29,
+   "complete": true
+  }
+ ],
+ "files": {
+  "extract": "extract.csv",
+  "series": "series.csv",
+  "do": "check.do",
+  "caption": "caption.md",
+  "chart_square": "chart_square.png",
+  "chart_wide": "chart_wide.png"
+ },
+ "extract_rows": 60,
+ "caption": "Battery discharge, month by month. ERCOT: the month's battery discharge in ERCOT, MWh, summed from the daily cycle table, 770,026 MWh in September 2026, up from 338,301 MWh in December 2024. The direction holds in 21 of the 21 complete months after December 2024.\n\nChecked five ways before it was drafted: 21 of the 21 complete months after 2024-12 lie above 2024-12's value; from 2025-01 to 2026-09 the change is 400,446, from 2024-12 to 2026-08 it is 458,659; from 2025-01 to 2026-09 the change is 400,446, 92.8 percent of the change from 2024-12; the change is 10.81 typical monthly moves (39,932 MWh a month, the median move between complete months); the floor is 1; 2024-12 holds 31 and 2026-09 holds 29 observations; the floor is 28.\n\nThe claim states a change; it does not say what caused it. the two ends of the series are different months of the year; every complete month between them is on the chart.\n\nSource: storage_daily_cycle, as the ERW holds it. ERW table: storage_daily_cycle.",
+ "computed_at": "2026-10-21T02:11:14Z",
+ "hunt_version": "1.0.0",
+ "method": "docs/methods/automated_analysis_findings.md"
+}

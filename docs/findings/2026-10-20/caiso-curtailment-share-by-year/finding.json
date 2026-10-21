@@ -1,0 +1,209 @@
+{
+ "slug": "caiso-curtailment-share-by-year",
+ "day": "2026-10-20",
+ "rank": 9,
+ "state": "new",
+ "state_history": [],
+ "internal": false,
+ "family": "curtailment_share_year",
+ "kind": "trend",
+ "grid": "caiso",
+ "region_words": "CAISO",
+ "title": "WIND AND SOLAR CURTAILED",
+ "label": "share of the year's wind and solar output that was curtailed: curtailed over curtailed plus generated",
+ "unit": "percent of output",
+ "decimals": 2,
+ "grain": "year",
+ "fact": "CAISO: share of the year's wind and solar output that was curtailed: curtailed over curtailed plus generated, 4.53 percent of output in 2025, up from 0.67 percent of output in 2015. The direction holds in 10 of the 10 complete years after 2015.",
+ "note": "",
+ "shown_before": "the weekly hunt's draft of 13 October 2026 (block 19)",
+ "tables": [
+  "caiso_curtailment_daily"
+ ],
+ "license": "public",
+ "source_line": "Source: the rows for CAISO of the ERW table caiso_curtailment_daily (license: public). Computed by warehouse/analysis/findings/hunt_oct20.py; method docs/methods/automated_analysis_findings.md.",
+ "headline": {
+  "op": "share_of_sum",
+  "numerator": "curtailed",
+  "denominator_add": "generation",
+  "period": 2025,
+  "compare_period": 2015,
+  "value": 4.532151833071182,
+  "compare_value": 0.6672109751751173,
+  "expected_in_do_file": 4.532152
+ },
+ "claim": {
+  "first_year": "2015",
+  "last_year": "2025",
+  "first": 0.6672109751751173,
+  "last": 4.532151833071182,
+  "change": 3.8649408578960642,
+  "direction": "up",
+  "passed": true,
+  "years": [
+   "2015",
+   "2016",
+   "2017",
+   "2018",
+   "2019",
+   "2020",
+   "2021",
+   "2022",
+   "2023",
+   "2024",
+   "2025"
+  ],
+  "values": [
+   0.6672109751751173,
+   0.864302005261092,
+   0.9554641620549578,
+   1.0294708870506868,
+   2.119485191893929,
+   3.324430239493352,
+   2.759753193247604,
+   4.222731160028619,
+   4.200695065297528,
+   4.4679198706635415,
+   4.532151833071182
+  ],
+  "n_first": 365,
+  "n_last": 365,
+  "years_held": 10,
+  "years_after": 10,
+  "typical_move": 0.3441973288205589,
+  "strength": 11.2289,
+  "remains_without_first": 0.949,
+  "p_trend": 2.451032131394342e-06,
+  "shape": {
+   "step_better": false,
+   "break_year": "2020",
+   "before": 1.1271866442871565,
+   "after": 3.9179468936336383,
+   "bic_step": -4.3526,
+   "bic_line": -14.4864,
+   "words": "a trend: a straight line fits the years better than one step"
+  },
+  "kind": "trend"
+ },
+ "tests": [
+  {
+   "name": "holds in more than one year",
+   "passed": true,
+   "words": "10 of the 10 full years after 2015 lie above 2015's value"
+  },
+  {
+   "name": "survives a change of window",
+   "passed": true,
+   "words": "from 2016 to 2025 the change is 3.67, from 2015 to 2024 it is 3.80"
+  },
+  {
+   "name": "sample large enough",
+   "passed": true,
+   "words": "2015 holds 365 and 2025 holds 365 observations; the floor is 330"
+  },
+  {
+   "name": "half the change remains without the first year",
+   "passed": true,
+   "words": "from 2016 to 2025 the change is 3.67, 94.9 percent of the change from 2015"
+  },
+  {
+   "name": "at least one typical yearly move",
+   "passed": true,
+   "words": "the change is 11.23 typical yearly moves (0.34 percent of output a year, the median move between full years); the floor is 1"
+  }
+ ],
+ "strength": 11.2289,
+ "series": [
+  {
+   "period": 2014,
+   "value": 0.2896108331620945,
+   "n": 244,
+   "complete": false
+  },
+  {
+   "period": 2015,
+   "value": 0.6672109751751173,
+   "n": 365,
+   "complete": true
+  },
+  {
+   "period": 2016,
+   "value": 0.864302005261092,
+   "n": 366,
+   "complete": true
+  },
+  {
+   "period": 2017,
+   "value": 0.9554641620549578,
+   "n": 365,
+   "complete": true
+  },
+  {
+   "period": 2018,
+   "value": 1.0294708870506868,
+   "n": 365,
+   "complete": true
+  },
+  {
+   "period": 2019,
+   "value": 2.119485191893929,
+   "n": 364,
+   "complete": true
+  },
+  {
+   "period": 2020,
+   "value": 3.324430239493352,
+   "n": 366,
+   "complete": true
+  },
+  {
+   "period": 2021,
+   "value": 2.759753193247604,
+   "n": 365,
+   "complete": true
+  },
+  {
+   "period": 2022,
+   "value": 4.222731160028619,
+   "n": 365,
+   "complete": true
+  },
+  {
+   "period": 2023,
+   "value": 4.200695065297528,
+   "n": 365,
+   "complete": true
+  },
+  {
+   "period": 2024,
+   "value": 4.4679198706635415,
+   "n": 366,
+   "complete": true
+  },
+  {
+   "period": 2025,
+   "value": 4.532151833071182,
+   "n": 365,
+   "complete": true
+  },
+  {
+   "period": 2026,
+   "value": 8.311275197751145,
+   "n": 214,
+   "complete": false
+  }
+ ],
+ "files": {
+  "extract": "extract.csv",
+  "series": "series.csv",
+  "do": "check.do",
+  "caption": "caption.md",
+  "chart_square": "chart_square.png",
+  "chart_wide": "chart_wide.png"
+ },
+ "extract_rows": 730,
+ "caption": "Wind and solar curtailed. CAISO: share of the year's wind and solar output that was curtailed: curtailed over curtailed plus generated, 4.53 percent of output in 2025, up from 0.67 percent of output in 2015. The direction holds in 10 of the 10 complete years after 2015.\n\nChecked five ways before it was drafted: 10 of the 10 full years after 2015 lie above 2015's value; from 2016 to 2025 the change is 3.67, from 2015 to 2024 it is 3.80; from 2016 to 2025 the change is 3.67, 94.9 percent of the change from 2015; the change is 11.23 typical yearly moves (0.34 percent of output a year, the median move between full years); the floor is 1; 2015 holds 365 and 2025 holds 365 observations; the floor is 330.\n\nThe claim states a change; it does not say what caused it.\n\nSource: caiso_curtailment_daily, as the ERW holds it. ERW table: caiso_curtailment_daily.",
+ "computed_at": "2026-10-21T02:11:30Z",
+ "hunt_version": "1.0.0",
+ "method": "docs/methods/automated_analysis_findings.md"
+}

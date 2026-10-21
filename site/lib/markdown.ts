@@ -8,6 +8,19 @@ import docs from "@/content/docs.json";
 import site from "@/data/site.json";
 import { gated } from "@/lib/release";
 
+// the findings hunt of 20 October 2026 (warehouse/analysis/findings/hunt_oct20.py): a finding's record as finding.json holds it
+export type HuntTest = { name: string; passed: boolean; words: string };
+export type HuntFinding = {
+  slug: string; day: string; rank: number; state: "new" | "approved" | "rejected" | "stata_checked"; state_history: { from: string; state: string; at: string }[];
+  internal: boolean; family: string; kind: "record" | "trend"; grid: string; region_words: string; title: string; label: string; unit: string; decimals: number;
+  grain: "year" | "month"; fact: string; note: string; shown_before: string; tables: string[]; license: string; source_line: string;
+  headline: { value: number; period: number; compare_period: number; compare_value: number; op: string; expected_in_do_file: number };
+  claim: Record<string, unknown>; tests: HuntTest[]; strength: number; series: { period: string | number; value: number; n: number; complete: boolean }[];
+  files: Record<string, string>; extract_rows: number; caption: string; computed_at: string; hunt_version: string; method: string; files_held: string[];
+};
+export type HuntIndex = { day: string; hunt_version: string; computed_at: string; summary: { candidates: number; passing: number; kept: number; blocked_grids: string[]; this_year: number;
+  candidates_list: { slug: string; family: string; kind: string; strength: number; reason: string; tests: { name: string; passed: boolean }[] }[] } };
+
 export type Docs = {
   built_at: string;
   digests: Record<string, string>;
@@ -27,6 +40,9 @@ export type Docs = {
   digest_charts?: Record<string, DigestChart>;
   // session 238: the names of the finding cards' downloads the site holds (site/public/findings/: csv, py, do)
   findings_files?: string[];
+  // the findings hunt of 20 October 2026 (docs/findings/<day>/): each day's index and its findings' records, for
+  // /internal/findings. Absent in a bundle built before the hunt
+  findings_review?: { days: Record<string, { index: HuntIndex; findings: HuntFinding[] }> };
   // session 24: the tool counts by status, from docs/platform-tools.md
   platform: { total: number; yes: number; partial: number; no: number; planned: number };
   // session 21: warehouse/metadata/sources.csv, for /terms

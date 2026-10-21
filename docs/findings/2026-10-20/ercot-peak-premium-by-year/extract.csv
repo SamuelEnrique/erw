@@ -1,0 +1,13 @@
+# Energy Research Warehouse (ERW): findings hunt of 2026-10-20, finding ercot-peak-premium-by-year (ERCOT, the hub average): the exact rows the headline number comes from, at the table's own grain, for the headline period and the comparison period
+# Computed 2026-10-21T02:11:32Z by warehouse/analysis/findings/hunt_oct20.py 1.0.0; method docs/methods/automated_analysis_findings.md
+# Sources: ERW table ercot_peak_premium_annual; license public; each table's own header names its publisher's report and retrieval time
+# the year's median evening-peak real-time price minus its median midday price at the hub average (ercot_peak_premium_annual) (USD per MWh)
+period,variable,value
+2015,midday_median,24.28
+2015,n_intervals,35040.0
+2015,peak_minus_midday_median,-0.16
+2015,peak_median,24.12
+2025,n_intervals,35040.0
+2025,midday_median,22.515
+2025,peak_median,37.035
+2025,peak_minus_midday_median,14.52

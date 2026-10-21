@@ -1,0 +1,218 @@
+{
+ "slug": "caiso-battery-discharge-by-month",
+ "day": "2026-10-20",
+ "rank": 5,
+ "state": "new",
+ "state_history": [],
+ "internal": false,
+ "family": "storage_discharge_months",
+ "kind": "trend",
+ "grid": "caiso",
+ "region_words": "CAISO",
+ "title": "BATTERY DISCHARGE, MONTH BY MONTH",
+ "label": "the month's battery discharge in CAISO, MWh, summed from the daily cycle table",
+ "unit": "MWh",
+ "decimals": 0,
+ "grain": "month",
+ "fact": "CAISO: the month's battery discharge in CAISO, MWh, summed from the daily cycle table, 1,335,586 MWh in September 2026, up from 1,105,004 MWh in September 2025. The direction holds in 10 of the 12 complete months after September 2025.",
+ "note": "the two ends of the series are different months of the year; every complete month between them is on the chart",
+ "shown_before": "",
+ "tables": [
+  "storage_daily_cycle"
+ ],
+ "license": "public",
+ "source_line": "Source: the rows for CAISO of the ERW table storage_daily_cycle (license: public). Computed by warehouse/analysis/findings/hunt_oct20.py; method docs/methods/automated_analysis_findings.md.",
+ "headline": {
+  "op": "sum",
+  "period": 202609,
+  "compare_period": 202509,
+  "value": 1335586.332,
+  "compare_value": 1105003.584,
+  "expected_in_do_file": 1335586.332
+ },
+ "claim": {
+  "first_year": "2025-09",
+  "last_year": "2026-09",
+  "first": 1105003.584,
+  "last": 1335586.332,
+  "change": 230582.7479999999,
+  "direction": "up",
+  "passed": true,
+  "years": [
+   "2025-09",
+   "2025-10",
+   "2025-11",
+   "2025-12",
+   "2026-01",
+   "2026-02",
+   "2026-03",
+   "2026-04",
+   "2026-05",
+   "2026-06",
+   "2026-07",
+   "2026-08",
+   "2026-09"
+  ],
+  "values": [
+   1105003.584,
+   1195833.918,
+   937042.4970000001,
+   1019340.6680000001,
+   1210385.1650000003,
+   1146397.1660000002,
+   1361070.0839999998,
+   1320693.584,
+   1406052.167,
+   1441376.3350000002,
+   1408037.4139999999,
+   1462303.0849999995,
+   1335586.332
+  ],
+  "n_first": 30,
+  "n_last": 30,
+  "years_held": 10,
+  "years_after": 12,
+  "typical_move": 124283.95174019987,
+  "strength": 1.8553,
+  "remains_without_first": 0.6061,
+  "p_trend": 0.0008232633460267119,
+  "shape": {
+   "step_better": true,
+   "break_year": "202603",
+   "before": 1102333.833,
+   "after": 1390731.2858571429,
+   "bic_step": 299.6394,
+   "bic_line": 303.2739,
+   "words": "a step, not a trend: the years before 202603 average 1.102e+06 and the years from 202603 1.391e+06, and two levels fit them better than a straight line"
+  },
+  "kind": "trend",
+  "grain": "month"
+ },
+ "tests": [
+  {
+   "name": "holds in more than one year",
+   "passed": true,
+   "words": "10 of the 12 complete months after 2025-09 lie above 2025-09's value"
+  },
+  {
+   "name": "survives a change of window",
+   "passed": true,
+   "words": "from 2025-10 to 2026-09 the change is 139,752, from 2025-09 to 2026-08 it is 357,300"
+  },
+  {
+   "name": "sample large enough",
+   "passed": true,
+   "words": "2025-09 holds 30 and 2026-09 holds 30 observations; the floor is 28"
+  },
+  {
+   "name": "half the change remains without the first year",
+   "passed": true,
+   "words": "from 2025-10 to 2026-09 the change is 139,752, 60.6 percent of the change from 2025-09"
+  },
+  {
+   "name": "at least one typical yearly move",
+   "passed": true,
+   "words": "the change is 1.86 typical monthly moves (124,284 MWh a month, the median move between complete months); the floor is 1"
+  }
+ ],
+ "strength": 1.8553,
+ "series": [
+  {
+   "period": "2025-08",
+   "value": 285833.417,
+   "n": 8,
+   "complete": false
+  },
+  {
+   "period": "2025-09",
+   "value": 1105003.584,
+   "n": 30,
+   "complete": true
+  },
+  {
+   "period": "2025-10",
+   "value": 1195833.918,
+   "n": 31,
+   "complete": true
+  },
+  {
+   "period": "2025-11",
+   "value": 937042.4970000001,
+   "n": 29,
+   "complete": true
+  },
+  {
+   "period": "2025-12",
+   "value": 1019340.6680000001,
+   "n": 31,
+   "complete": true
+  },
+  {
+   "period": "2026-01",
+   "value": 1210385.1650000003,
+   "n": 31,
+   "complete": true
+  },
+  {
+   "period": "2026-02",
+   "value": 1146397.1660000002,
+   "n": 28,
+   "complete": true
+  },
+  {
+   "period": "2026-03",
+   "value": 1361070.0839999998,
+   "n": 30,
+   "complete": true
+  },
+  {
+   "period": "2026-04",
+   "value": 1320693.584,
+   "n": 30,
+   "complete": true
+  },
+  {
+   "period": "2026-05",
+   "value": 1406052.167,
+   "n": 31,
+   "complete": true
+  },
+  {
+   "period": "2026-06",
+   "value": 1441376.3350000002,
+   "n": 30,
+   "complete": true
+  },
+  {
+   "period": "2026-07",
+   "value": 1408037.4139999999,
+   "n": 31,
+   "complete": true
+  },
+  {
+   "period": "2026-08",
+   "value": 1462303.0849999995,
+   "n": 31,
+   "complete": true
+  },
+  {
+   "period": "2026-09",
+   "value": 1335586.332,
+   "n": 30,
+   "complete": true
+  }
+ ],
+ "files": {
+  "extract": "extract.csv",
+  "series": "series.csv",
+  "do": "check.do",
+  "caption": "caption.md",
+  "chart_square": "chart_square.png",
+  "chart_wide": "chart_wide.png"
+ },
+ "extract_rows": 60,
+ "caption": "Battery discharge, month by month. CAISO: the month's battery discharge in CAISO, MWh, summed from the daily cycle table, 1,335,586 MWh in September 2026, up from 1,105,004 MWh in September 2025. The direction holds in 10 of the 12 complete months after September 2025.\n\nChecked five ways before it was drafted: 10 of the 12 complete months after 2025-09 lie above 2025-09's value; from 2025-10 to 2026-09 the change is 139,752, from 2025-09 to 2026-08 it is 357,300; from 2025-10 to 2026-09 the change is 139,752, 60.6 percent of the change from 2025-09; the change is 1.86 typical monthly moves (124,284 MWh a month, the median move between complete months); the floor is 1; 2025-09 holds 30 and 2026-09 holds 30 observations; the floor is 28.\n\nThe claim states a change; it does not say what caused it. the two ends of the series are different months of the year; every complete month between them is on the chart.\n\nSource: storage_daily_cycle, as the ERW holds it. ERW table: storage_daily_cycle.",
+ "computed_at": "2026-10-21T02:11:23Z",
+ "hunt_version": "1.0.0",
+ "method": "docs/methods/automated_analysis_findings.md"
+}

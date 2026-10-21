@@ -1,0 +1,18 @@
+# Energy Research Warehouse (ERW): findings hunt of 2026-10-20, finding caiso-curtailment-this-year (CAISO): one row a period: the measure, its observations, whether the period is complete
+# Computed 2026-10-21T02:11:20Z by warehouse/analysis/findings/hunt_oct20.py 1.0.0; method docs/methods/automated_analysis_findings.md
+# Sources: ERW table caiso_curtailment_daily; license public; each table's own header names its publisher's report and retrieval time
+# curtailed wind and solar output from 1 January to 30 September, MWh (MWh)
+period,value,n_observations,complete
+2014,18325.737,152,0
+2015,152973.11899999998,273,1
+2016,200006.26299999998,274,1
+2017,336745.925,273,1
+2018,344070.934,273,1
+2019,777980.5619999999,273,1
+2020,1365155.122,274,1
+2021,1262392.74,273,1
+2022,2257168.199,273,1
+2023,2343226.3120000004,273,1
+2024,3101665.967,274,1
+2025,3452749.2169999997,273,1
+2026,5115404.251,273,1

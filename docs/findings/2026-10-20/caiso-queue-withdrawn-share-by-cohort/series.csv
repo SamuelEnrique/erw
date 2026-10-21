@@ -1,0 +1,15 @@
+# Energy Research Warehouse (ERW): findings hunt of 2026-10-20, finding caiso-queue-withdrawn-share-by-cohort (CAISO): one row a period: the measure, its observations, whether the period is complete
+# Computed 2026-10-21T02:11:26Z by warehouse/analysis/findings/hunt_oct20.py 1.0.0; method docs/methods/automated_analysis_findings.md
+# Sources: ERW table lbnl_interconnection_queue; license public; each table's own header names its publisher's report and retrieval time
+# share of the MW that entered CAISO's queue in the year and had withdrawn by the end of 2025 (cohorts at least six years old) (percent of the cohort's MW)
+period,value,n_observations,complete
+2010,83.42210221959233,190,1
+2011,95.1701659172425,184,1
+2012,96.23220482111373,66,1
+2013,88.39095012015707,59,1
+2014,86.16845245477202,86,1
+2015,54.131418901159336,118,1
+2016,72.91283075260986,117,1
+2017,51.90585801176337,88,1
+2018,68.46449308788353,94,1
+2019,59.99142320412994,131,1

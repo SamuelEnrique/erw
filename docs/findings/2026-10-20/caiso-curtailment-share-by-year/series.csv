@@ -1,0 +1,18 @@
+# Energy Research Warehouse (ERW): findings hunt of 2026-10-20, finding caiso-curtailment-share-by-year (CAISO): one row a period: the measure, its observations, whether the period is complete
+# Computed 2026-10-21T02:11:30Z by warehouse/analysis/findings/hunt_oct20.py 1.0.0; method docs/methods/automated_analysis_findings.md
+# Sources: ERW table caiso_curtailment_daily; license public; each table's own header names its publisher's report and retrieval time
+# share of the year's wind and solar output that was curtailed: curtailed over curtailed plus generated (percent of output)
+period,value,n_observations,complete
+2014,0.2896108331620945,244,0
+2015,0.6672109751751173,365,1
+2016,0.864302005261092,366,1
+2017,0.9554641620549578,365,1
+2018,1.0294708870506868,365,1
+2019,2.119485191893929,364,1
+2020,3.324430239493352,366,1
+2021,2.759753193247604,365,1
+2022,4.222731160028619,365,1
+2023,4.200695065297528,365,1
+2024,4.4679198706635415,366,1
+2025,4.532151833071182,365,1
+2026,8.311275197751145,214,0

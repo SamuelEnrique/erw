@@ -1,0 +1,17 @@
+# Energy Research Warehouse (ERW): findings hunt of 2026-10-20, finding ercot-hb_west-negative-hours-this-year (ERCOT, the West hub): one row a period: the measure, its observations, whether the period is complete
+# Computed 2026-10-21T02:11:29Z by warehouse/analysis/findings/hunt_oct20.py 1.0.0; method docs/methods/automated_analysis_findings.md
+# Sources: ERW table ercot_all_hub_prices_history; license public; each table's own header names its publisher's report and retrieval time
+# share of the 15-minute intervals from 1 January to 25 August with a real-time price below zero at the West hub (percent of intervals)
+period,value,n_observations,complete
+2015,0.6286266924564796,22748,1
+2016,4.403782174750481,22844,1
+2017,5.864251802356251,22748,1
+2018,7.130297168981889,22748,1
+2019,3.7058202918937933,22748,1
+2020,5.686394676939241,22844,1
+2021,6.954457534728328,22748,1
+2022,13.48689994724811,22748,1
+2023,9.912959381044487,22748,1
+2024,10.562948695499912,22844,1
+2025,8.82275364867241,22748,1
+2026,15.948654826797961,22748,1

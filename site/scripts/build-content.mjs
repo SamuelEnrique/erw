@@ -179,6 +179,33 @@ if (fs.existsSync(digestCharts)) {
 const findingsPublic = path.join(here, "..", "public", "findings");
 const findingsFiles = fs.existsSync(findingsPublic) ? fs.readdirSync(findingsPublic).filter((f) => /\.(csv|py|do)$/.test(f)).sort() : [];
 
+// The findings hunt of 20 October 2026 (warehouse/analysis/findings/hunt_oct20.py): each day's folder under docs/findings/
+// holds an index and one folder a finding (finding.json, extract.csv, series.csv, check.do, caption.md, two charts). The
+// records go into the bundle for /internal/findings; the files are copied to content/findings/ (not committed) so that
+// the gated route /internal/findings/local can read them at request time (next.config.ts traces that folder). None is
+// not an error: a bundle built before the hunt holds no day.
+const findingsDir = path.join(docs, "findings");
+const contentFindings = path.join(here, "..", "content", "findings");
+fs.rmSync(contentFindings, { recursive: true, force: true });
+const findingsReview = { days: {} };
+if (fs.existsSync(findingsDir)) {
+  for (const day of fs.readdirSync(findingsDir).sort()) {
+    const dayDir = path.join(findingsDir, day);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(day) || !fs.existsSync(path.join(dayDir, "index.json"))) continue;
+    const index = JSON.parse(read(path.join(dayDir, "index.json")));
+    const findings = [];
+    for (const slug of fs.readdirSync(dayDir).sort()) {
+      const f = path.join(dayDir, slug, "finding.json");
+      if (!fs.existsSync(f)) continue;
+      const r = JSON.parse(read(f));
+      findings.push({ ...r, files_held: fs.readdirSync(path.join(dayDir, slug)).sort() });
+    }
+    findings.sort((x, y) => (x.rank ?? 0) - (y.rank ?? 0));
+    findingsReview.days[day] = { index, findings };
+    fs.cpSync(dayDir, path.join(contentFindings, day), { recursive: true, filter: (src) => fs.statSync(src).isDirectory() || /\.(png|csv|do|md|json)$/.test(src) });
+  }
+}
+
 // Session 24: the platform's tool counts by status, from docs/platform-tools.md (for /about)
 const platform = { total: 0, yes: 0, partial: 0, no: 0, planned: 0 };
 for (const line of read(path.join(docs, "platform-tools.md")).split("\n")) {
@@ -206,6 +233,7 @@ const out = {
   analysis,
   digest_charts: digestChartRecords,
   findings_files: findingsFiles,
+  findings_review: findingsReview,
   sources: sources(),
   run_status_eia930: runStatus(),
   digests,
@@ -217,4 +245,4 @@ const out = {
 };
 fs.mkdirSync(path.join(here, "..", "content"), { recursive: true });
 fs.writeFileSync(path.join(here, "..", "content", "docs.json"), JSON.stringify(out));
-console.log(`build-content: ${Object.keys(grids).length} grid pages, ${Object.keys(digests).length} digests, ${Object.keys(weeklies).length} weekly briefs, ${Object.keys(methods).length} method documents, the data standard, ${Object.keys(analysis.weeks).length} analysis weeks`);
+console.log(`build-content: ${Object.keys(findingsReview.days).length} findings hunt day(s); ${Object.keys(grids).length} grid pages, ${Object.keys(digests).length} digests, ${Object.keys(weeklies).length} weekly briefs, ${Object.keys(methods).length} method documents, the data standard, ${Object.keys(analysis.weeks).length} analysis weeks`);

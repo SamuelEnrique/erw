@@ -45,6 +45,9 @@ next-env.d.ts
 # session 188: generated from ../archive/sessions by scripts/build-waits.mjs (/internal/waits)
 /content/waits.json
 
+# the findings hunt of 20 October 2026: copied from ../docs/findings at build (scripts/build-content.mjs)
+/content/findings/
+
 # local screenshots are committed; the headless browser profile is not
 /.screenshot-profile/
 

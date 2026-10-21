@@ -1,0 +1,188 @@
+{
+ "slug": "caiso-queue-withdrawn-share-by-cohort",
+ "day": "2026-10-20",
+ "rank": 7,
+ "state": "new",
+ "state_history": [],
+ "internal": false,
+ "family": "queue_withdrawn_cohort",
+ "kind": "trend",
+ "grid": "caiso",
+ "region_words": "CAISO",
+ "title": "TILL QUEUE DO US PART, BY COHORT",
+ "label": "share of the MW that entered CAISO's queue in the year and had withdrawn by the end of 2025 (cohorts at least six years old)",
+ "unit": "percent of the cohort's MW",
+ "decimals": 1,
+ "grain": "year",
+ "fact": "CAISO: share of the MW that entered CAISO's queue in the year and had withdrawn by the end of 2025 (cohorts at least six years old), 60.0 percent of the cohort's MW in 2019, down from 83.4 percent of the cohort's MW in 2010. The direction holds in 5 of the 9 complete years after 2010.",
+ "note": "",
+ "shown_before": "",
+ "tables": [
+  "lbnl_interconnection_queue"
+ ],
+ "license": "public",
+ "source_line": "Source: the rows for CAISO of the ERW table lbnl_interconnection_queue (license: public). Computed by warehouse/analysis/findings/hunt_oct20.py; method docs/methods/automated_analysis_findings.md.",
+ "headline": {
+  "op": "share_of_sum",
+  "numerator_flag": "withdrawn",
+  "period": 2019,
+  "compare_period": 2010,
+  "value": 59.99142320412994,
+  "compare_value": 83.42210221959233,
+  "expected_in_do_file": 59.991423
+ },
+ "claim": {
+  "first_year": "2010",
+  "last_year": "2019",
+  "first": 83.42210221959233,
+  "last": 59.99142320412994,
+  "change": -23.430679015462395,
+  "direction": "down",
+  "passed": true,
+  "years": [
+   "2010",
+   "2011",
+   "2012",
+   "2013",
+   "2014",
+   "2015",
+   "2016",
+   "2017",
+   "2018",
+   "2019"
+  ],
+  "values": [
+   83.42210221959233,
+   95.1701659172425,
+   96.23220482111373,
+   88.39095012015707,
+   86.16845245477202,
+   54.131418901159336,
+   72.91283075260986,
+   51.90585801176337,
+   68.46449308788353,
+   59.99142320412994
+  ],
+  "n_first": 190,
+  "n_last": 131,
+  "years_held": 5,
+  "years_after": 9,
+  "typical_move": 17.417679238136138,
+  "strength": 1.3452,
+  "remains_without_first": 1.5014,
+  "p_trend": 0.008718486672254418,
+  "shape": {
+   "step_better": true,
+   "break_year": "2015",
+   "before": 89.87677510657554,
+   "after": 61.48120479150921,
+   "bic_step": 45.0498,
+   "bic_line": 50.5881,
+   "words": "a step, not a trend: the years before 2015 average 89.88 and the years from 2015 61.48, and two levels fit them better than a straight line"
+  },
+  "kind": "trend"
+ },
+ "tests": [
+  {
+   "name": "holds in more than one year",
+   "passed": true,
+   "words": "5 of the 9 full years after 2010 lie below 2010's value"
+  },
+  {
+   "name": "survives a change of window",
+   "passed": true,
+   "words": "from 2011 to 2019 the change is -35.2, from 2010 to 2018 it is -15.0"
+  },
+  {
+   "name": "sample large enough",
+   "passed": true,
+   "words": "2010 holds 190 and 2019 holds 131 observations; the floor is 20"
+  },
+  {
+   "name": "half the change remains without the first year",
+   "passed": true,
+   "words": "from 2011 to 2019 the change is -35.2, 150.1 percent of the change from 2010"
+  },
+  {
+   "name": "at least one typical yearly move",
+   "passed": true,
+   "words": "the change is 1.35 typical yearly moves (17.4 percent of the cohort's MW a year, the median move between full years); the floor is 1"
+  }
+ ],
+ "strength": 1.3452,
+ "series": [
+  {
+   "period": 2010,
+   "value": 83.42210221959233,
+   "n": 190,
+   "complete": true
+  },
+  {
+   "period": 2011,
+   "value": 95.1701659172425,
+   "n": 184,
+   "complete": true
+  },
+  {
+   "period": 2012,
+   "value": 96.23220482111373,
+   "n": 66,
+   "complete": true
+  },
+  {
+   "period": 2013,
+   "value": 88.39095012015707,
+   "n": 59,
+   "complete": true
+  },
+  {
+   "period": 2014,
+   "value": 86.16845245477202,
+   "n": 86,
+   "complete": true
+  },
+  {
+   "period": 2015,
+   "value": 54.131418901159336,
+   "n": 118,
+   "complete": true
+  },
+  {
+   "period": 2016,
+   "value": 72.91283075260986,
+   "n": 117,
+   "complete": true
+  },
+  {
+   "period": 2017,
+   "value": 51.90585801176337,
+   "n": 88,
+   "complete": true
+  },
+  {
+   "period": 2018,
+   "value": 68.46449308788353,
+   "n": 94,
+   "complete": true
+  },
+  {
+   "period": 2019,
+   "value": 59.99142320412994,
+   "n": 131,
+   "complete": true
+  }
+ ],
+ "files": {
+  "extract": "extract.csv",
+  "series": "series.csv",
+  "do": "check.do",
+  "caption": "caption.md",
+  "chart_square": "chart_square.png",
+  "chart_wide": "chart_wide.png"
+ },
+ "extract_rows": 321,
+ "caption": "Till queue do us part, by cohort. CAISO: share of the MW that entered CAISO's queue in the year and had withdrawn by the end of 2025 (cohorts at least six years old), 60.0 percent of the cohort's MW in 2019, down from 83.4 percent of the cohort's MW in 2010. The direction holds in 5 of the 9 complete years after 2010.\n\nChecked five ways before it was drafted: 5 of the 9 full years after 2010 lie below 2010's value; from 2011 to 2019 the change is -35.2, from 2010 to 2018 it is -15.0; from 2011 to 2019 the change is -35.2, 150.1 percent of the change from 2010; the change is 1.35 typical yearly moves (17.4 percent of the cohort's MW a year, the median move between full years); the floor is 1; 2010 holds 190 and 2019 holds 131 observations; the floor is 20.\n\nThe claim states a change; it does not say what caused it.\n\nSource: lbnl_interconnection_queue, as the ERW holds it. ERW table: lbnl_interconnection_queue.",
+ "computed_at": "2026-10-21T02:11:26Z",
+ "hunt_version": "1.0.0",
+ "method": "docs/methods/automated_analysis_findings.md"
+}
