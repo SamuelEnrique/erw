@@ -52,8 +52,14 @@ for (const page of pages) {
   const csvs = [...html.matchAll(/href="\/api\/download\?table=([a-z0-9_]+)"/g)].map((m) => m[1]);
   const pys = [...html.matchAll(/href="\/api\/download\?table=([a-z0-9_]+)&amp;as=py"/g)].map((m) => m[1]);
   const dos = [...html.matchAll(/href="\/api\/download\?table=([a-z0-9_]+)&amp;as=do"/g)].map((m) => m[1]);
-  check(csvs.length > 0 && JSON.stringify(csvs) === JSON.stringify(pys) && JSON.stringify(csvs) === JSON.stringify(dos), `${page}: every CSV offered has its Python and Stata reader (${csvs.length} tables)`);
-  if (!csvs.length) continue;
+  // session 383: from 21 October 2026 a table held for a license says "held: license needed" in the line instead of its
+  // links (components/tool/TableDownloads.tsx), and one not in the live set points to Redivis: each table of the line is
+  // one of the three. A page all of whose tables are held (/prices: its six ISO price tables) offers no CSV: said, and passed by
+  const shownN = Number(/\d+/.exec(lines[0] ?? "")?.[0] ?? 0);
+  const heldN = (html.match(/data-not-held="license"/g) ?? []).length, redivisN = (html.match(/data-not-held="live-set"/g) ?? []).length;
+  check(csvs.length + heldN + redivisN === shownN && JSON.stringify(csvs) === JSON.stringify(pys) && JSON.stringify(csvs) === JSON.stringify(dos),
+    `${page}: every CSV offered has its Python and Stata reader (${csvs.length} tables; ${heldN} held for a license, ${redivisN} on Redivis, of ${shownN})`);
+  if (!csvs.length) { console.log(`note ${page}: no CSV is offered: ${heldN} of ${shownN} tables held for a license, ${redivisN} on Redivis`); continue; }
   // the route's own fault, found by session 328: on the largest series tables its row count (count=exact) passes the
   // database's statement timeout and the download answers 502 ("Supabase series: HTTP 500"), on /data as here. Such a
   // table is named, and the next one offered is asked, three at most: the line is proven on a table that answers.
