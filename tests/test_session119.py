@@ -15,6 +15,7 @@ import sys
 import tempfile
 import unittest
 from contextlib import redirect_stdout
+from unittest import mock
 
 import pandas as pd
 import yaml
@@ -357,8 +358,16 @@ class ThePick(unittest.TestCase):
         run.DOCS, run.HISTORY, run.INTERNAL = self.tmp, os.path.join(self.tmp, "history.csv"), os.path.join(self.tmp, "_i")
         run.ip.LOG_DIR = run.ip.STATUS_DIR = os.path.join(self.tmp, "_logs")
         run.table_registry = lambda mods: {"public_tables": 0, "read": 0, "not_read": {}, "tables": []}
+        # session 534: the fixtures' weeks are 2026-W40 and W41, and run.main measures a headline's age from its clock
+        # (MAX_AGE_DAYS 45, MAX_AGE_NEW 100), so the run reads the Sunday of W41 as today, the day these weeks stand for,
+        # not the day the suite runs: on the real clock the level rule's test fails from 18 November 2026 (found by
+        # scripts/suite_shifted.py at 30 days ahead).
+        today = pd.Timestamp("2026-10-11T14:00:00Z")
+        self.clock = mock.patch.object(pd.Timestamp, "now", staticmethod(lambda tz=None: today.tz_convert(tz)))
+        self.clock.start()
 
     def tearDown(self):
+        self.clock.stop()
         (run.DOCS, run.HISTORY, run.INTERNAL, templates.load_all, order, run.ip.LOG_DIR, run.ip.STATUS_DIR, run.table_registry) = self.saved
         templates.ORDER[:] = order
         shutil.rmtree(self.tmp, ignore_errors=True)
