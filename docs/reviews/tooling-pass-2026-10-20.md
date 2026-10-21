@@ -4,7 +4,7 @@ Energy Research Warehouse (ERW), session 401, chain `queue/done/015-day-20-octob
 
 The pages: `/cost-of-power/battery`, `/cost-of-power/seller`, `/cost-of-power` (with its `?view=grids`, "Grid by grid"), `/research` (where `/analysis` redirects since session 238) and `/grid`. Every page is in review, so each was read in the internal view, opened by the form (no token in an address), on a local production build at `http://localhost:3401`.
 
-**Every value unchanged.** Every figure that carries a check key was read before and after the fixes, at 1280 and at 390 px: 1,646 figures each time (the same 823 at each width), every key, raw value and shown text the same. `check-values`, restricted to the five pages, passes after the fixes (the session's report gives its exit code).
+**Every value unchanged.** Every figure that carries a check key was read before and after the fixes, at 1280 and at 390 px: 1,646 figures each time (the same 823 at each width), every key, raw value and shown text the same. `check-values` on the final build, restricted to `/cost-of-power` and `/grid` (every address under them in its list): exit 0, 2,589 of 2,589 values match the live set. With `/research` and `/analysis` added: 2,709 of 2,709 values match, `/research` itself 120 of 120, and one line fails, the floor of `/research/card/gas_sets_price` (4 numbers where its floor is 6). That card page is not one of the five and nothing on it changed; its ISO-NE callout is the one now drawn as held (the license hold that begins on 21 October 2026, `lib/license.ts`). The restriction cannot keep `/research` and leave its cards out (the variable takes address prefixes).
 
 Shots, before and after, at 1280 and 390 px: `docs/brand/review-401/<page>_<width>_<before|after>.png` (the top of each page; the script that took them and measured the pages is `docs/brand/review-401/shots-401.mjs`). The tools' raw outputs are kept on the code machine under `runs/chain_oct21/s401/` (not in git).
 
@@ -49,7 +49,7 @@ Each line: what, where, the tool that found it, the brand rule.
 | "(picked)" in the research rule's table is ink, not cardinal (cardinal is a link, a control or the highlighted series) | `app/research/page.tsx:212` | Impeccable A and B, measurement | section 2 |
 | 32 px of air before "Your own inputs" in Grid by grid (it sat 8 px under the table above) | `GridsView.tsx:238` | Impeccable A | section 3 (a title inside a section) |
 
-Measured after: text under 12 px on Grid by grid 5 to 0; targets under 24 px on the battery 22 to 19 (1280) and 21 to 19 (390), the datacenter page 19 to 16, Grid by grid 27 to 22, the Grid 17 to 16; cardinal text outside a link or control on Research 2 to 1 (the one left is the shared scanner card). AccessLint's findings are unchanged (all in shared components).
+Measured after: text under 12 px on Grid by grid 5 to 0; targets under 24 px on the battery 22 to 19 (1280) and 21 to 19 (390), the datacenter page 19 to 16, Grid by grid 27 to 22, Research 62 to 57, the Grid 17 to 16; cardinal text outside a link or control on Research 2 to 1 (the one left is the shared scanner card). AccessLint's findings are unchanged (all in shared components).
 
 ## For Samuel's ruling
 
