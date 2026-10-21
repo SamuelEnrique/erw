@@ -92,7 +92,7 @@ class TheFixes(unittest.TestCase):
         b = read(os.path.join(SITE, "scripts", "build-content.mjs"))
         self.assertIn("function pngSize(file)", b)
         self.assertIn('"IHDR"', b)
-        self.assertIn("...pngSize(", b)
+        self.assertIn("Object.assign(digestChartRecords[m[1]], pngSize(", b)
         self.assertIn("width?: number; height?: number", read(os.path.join(SITE, "lib", "markdown.ts")))
         p = read(os.path.join(SITE, "app", "page.tsx"))
         self.assertIn("width={today.width ?? 1600} height={today.height ?? 900}", p)

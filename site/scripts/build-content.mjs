@@ -176,8 +176,8 @@ if (fs.existsSync(digestCharts)) {
     const r = JSON.parse(read(path.join(digestCharts, f)));
     digestChartRecords[m[1]] = { date: r.date ?? m[1], title: r.title ?? "", fact: r.fact ?? "", table: r.table ?? "", source: r.flag?.source ?? "", unit: r.flag?.unit ?? "",
       rule: r.flag?.rule ?? "", rendered_at: r.rendered_at ?? "", image: `${m[1]}.png`, proof: r.proof === true,
-      numbers: r.numbers && typeof r.numbers === "object" ? r.numbers : {},   // session 315: the record's own figures, each a Num on /research
-      ...pngSize(path.join(digestCharts, `${m[1]}.png`)) };   // session 411: width and height in pixels
+      numbers: r.numbers && typeof r.numbers === "object" ? r.numbers : {} };   // session 315: the record's own figures, each a Num on /research
+    Object.assign(digestChartRecords[m[1]], pngSize(path.join(digestCharts, `${m[1]}.png`)));   // session 411: width and height in pixels
   }
 }
 
