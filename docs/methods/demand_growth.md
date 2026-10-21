@@ -158,3 +158,37 @@ Each view of `/demand` offers its tables under it, as the live set's CSV with a 
 (session 328's shared line): as metered, `eia930_demand_growth`; with the weather taken out, `eia930_demand_weather` and
 the two NOAA tables; consumption, its two EIA tables. The consumption view has its own note now,
 [consumption](consumption.md), linked from the view as the other two link theirs.
+
+## The explorer (session 404, 21 October 2026)
+
+A second page reads this table: `/explore/demand-growth`, in review and not in the menu, the second of the signature
+explorers (platform tool 5, on the frame session 403 built for `/explore/ercot-peak-premium`). `/demand` stays as it
+was. Where `/demand` reads the site's copy (`data/demand_growth.json`), the explorer reads the table's rows in the live
+set, so every figure it shows is one row, with that row's check key (`series|eia930_demand_growth|<entity>|<variable>|<year>`),
+and `scripts/check-values.mjs` reads it again on five views. It computes nothing.
+
+Two filters, kept in the address:
+
+| Filter | Values | Rows read |
+|---|---|---|
+| `grid` | `ercot`, `caiso`, `pjm`, `miso`, `spp`, `nyiso`, `isone`, `us48` (the slugs of `/demand`) | |
+| `window` | `avg`, the whole year's average hour (the default) | `avg_demand_mw`, `avg_demand_growth_since_2019_pct`, `avg_demand_growth_yoy_pct`, `hours_used`, `hours_in_year` |
+| | `peak`, the whole year's highest hour (none for the Lower 48) | `peak_demand_mw`, `peak_demand_growth_since_2019_pct` |
+| | `ytd`, the year so far (the newest year against the same months of 2019) | `ytd_avg_demand_mw`, `ytd_avg_demand_growth_since_2019_pct`, `ytd_hours_used`, `ytd_hours_in_window` |
+| | `m01` to `m12`, one calendar month | `avg_demand_mw_mMM` every year; `growth_pct_mMM`, `growth_mw_mMM` on the last whole year's row |
+| | `h00` to `h23`, one local hour of the day over the year | `avg_demand_mw_hHH` every year; `growth_pct_hHH`, `growth_mw_hHH` on the last whole year's row |
+
+A value the table does not hold falls back to the default (ERCOT, `avg`), with one line saying so.
+
+**The headline chart.** No document of the ERW names a "thesis chart" for demand growth (the thesis charts named are the
+ERCOT peak premium's). The explorer's first chart is this table's own headline figure: growth since 2019 for every grid,
+in the window chosen, at the last whole year (the newest year for the year so far), largest first, drawn with the site's
+bar chart (`components/tool/GroupedBars.tsx`). Under it: every grid's 2019 and latest demand and its growth (and, for a
+month or an hour, the change in MW); the grid's growth by window along the years and its demand in the window by year
+(`components/LineChart.tsx`); the grid's rows year by year.
+
+**How old it is.** The table is held for review in the live set (`warehouse/supabase/live_set.yaml`, `review_hold`), so
+the site's public catalogue does not list it; the explorer reads the catalogue's own row of the table
+(`site/lib/explore/heldfresh.ts`) and states its last computation and the newest year it holds, and the end of the
+year-to-date window from the table's header. No date is written by hand. For the same reason the downloads line says
+the table is not in the site's live set and points to Redivis, as `/demand` does.

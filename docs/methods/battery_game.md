@@ -264,3 +264,12 @@ Unchanged from session 38:
 - **Session 50 adds** the preset and the difficulty.
 - **The research record of each play** (never shown): the actions, the score, and since session 50 the preset, the difficulty and the settings. No IP, no nickname.
 - **The schema:** migration `warehouse/supabase/migrations/014_game_v2.sql` (columns only); session 63's `018_game_v3_digest_sends.sql` lets a preset end `-v3`; session 66's `019_game_v4.sql` lets it end `-v4` with the add-ons before it; session 289's `033_game_v5.sql` lets it end `-v5`. The add-ons of a play are stored in its preset.
+
+## The figures on the page and their keys
+
+Each number `/play/battery` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The keys the sections above do not name:
+
+- `iso_rtm_hub_prices`, `spp_rtm`: in "The day and the battery", the lowest and the highest real-time price of today's level, ERCOT's hub average (`ercot:HB_HUBAVG`), USD per MWh.
+- `battery|fleet_mw`, `battery|fleet_mwh`: in "The fleet: fictional and real", the game's fleet: its 10,000 homes times each home's 5 kW and 13.5 kWh, in MW and MWh (`FLEET_MW` and `FLEET_MWH` of `site/lib/battery.ts`).
+- `storage|iso_mw|ERCOT|operating`, `storage|iso_n|ERCOT|operating`, `storage|iso_mwh|ERCOT|operating`, `storage|iso_n_mwh|ERCOT|operating`: beside it, ERCOT's real fleet: the sum of `capacity_mw` of the operating `storage_capacity` units whose balancing authority is ERCOT, the count of those units, the sum of their MWh where EIA gives it, and the count of the units that have it.
+- `calc|ratio|storage~iso_mw~ERCOT~operating|battery~fleet_mw`: the line under both: ERCOT's operating MW over the game fleet's MW, "times the power" of the 10,000 homes.

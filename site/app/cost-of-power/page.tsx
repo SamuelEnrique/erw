@@ -261,7 +261,7 @@ async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyG
                       Not added to any figure.
                     </p>
                     <details className="mt-1">
-                      <summary className="cursor-pointer">Each month, USD per MWh: 10th percentile, median, 90th</summary>
+                      <summary className="cursor-pointer py-1">Each month, USD per MWh: 10th percentile, median, 90th</summary>
                       <ul className="mt-1 grid grid-cols-1 gap-x-4 sm:grid-cols-2">
                         {M.nodeBand.months.map((r) => <li key={r.m}>{monthName(r.m)}: <Num check={`series|node_basis_summary|ercot:HB_HUBAVG|dam_all_basis_p10|${r.ts}`} raw={r.p10}>{two(r.p10)}</Num>, <Num check={`series|node_basis_summary|ercot:HB_HUBAVG|dam_all_basis_p50|${r.ts}`} raw={r.p50}>{two(r.p50)}</Num>, <Num check={`series|node_basis_summary|ercot:HB_HUBAVG|dam_all_basis_p90|${r.ts}`} raw={r.p90}>{two(r.p90)}</Num></li>)}
                       </ul>
@@ -327,7 +327,7 @@ async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyG
                         : <> {M.cpWhy || "The flexible way's hours are not held for every interval of a summer held."}</>}
                     </p>
                     <details className="mt-1 text-xs">
-                      <summary className="cursor-pointer">Each summer held, its four intervals and the flexible way&apos;s load in each</summary>
+                      <summary className="cursor-pointer py-1">Each summer held, its four intervals and the flexible way&apos;s load in each</summary>
                       <ul className="mt-1 space-y-1">
                         {M.cp.summers.map((k) => (
                           <li key={k.year}>{k.year}: {k.intervals.map((iv, i) => <span key={iv.ts}>{i ? "; " : ""}{iv.ts.slice(5, 10)} {iv.ts.slice(11, 16)} UTC, ERCOT <Num check={`series|ercot_4cp_intervals|ercot:system|cp4_load_mw|${iv.ts}`} raw={iv.mw}>{whole(iv.mw)}</Num> MW, the load {iv.w === null ? "not held" : iv.w === 0 ? "off" : iv.w === 1 ? "on" : `${two(100 * iv.w)} percent on`}</span>)}{k.avoided === null ? "" : `: avoided ${two(100 * k.avoided)} percent`}</li>

@@ -65,7 +65,7 @@ export function LoadForm({ x, grids, blank }: { x: Inputs; grids: Record<string,
       </label>
 
       <label className="block"><span className="mb-1 block font-semibold">Size, MW</span>
-        <input name="mw" type="number" min={LIMITS.mw[0]} max={LIMITS.mw[1]} step="any" defaultValue={x.mw} className={field} />
+        <input name="mw" type="number" min={LIMITS.mw[0]} max={LIMITS.mw[1]} step="any" autoComplete="off" defaultValue={x.mw} className={field} />
       </label>
 
       <fieldset>
@@ -75,9 +75,9 @@ export function LoadForm({ x, grids, blank }: { x: Inputs; grids: Record<string,
             <label key={r} className="flex items-baseline gap-2" data-run={r}>
               <input type="radio" name="run" value={r} defaultChecked={x.run === r} className="accent-[var(--color-accent)]" />
               <span>{RUNS[r]}
-                {r === "hours" ? <span className="mt-0.5 block text-xs text-muted">hours a year <input name="n" type="number" min={0} max={8784} step={1} defaultValue={x.n} className={small} aria-label="Hours a year turned off" /></span> : null}
-                {r === "share" ? <span className="mt-0.5 block text-xs text-muted">percent of hours <input name="pct" type="number" min={0} max={100} step="any" defaultValue={x.pct} className={small} aria-label="Percent of hours turned off" /></span> : null}
-                {r === "shift" ? <span className="mt-0.5 block text-xs text-muted">percent of a day&apos;s energy <input name="shift" type="number" min={0} max={50} step="any" defaultValue={x.shift} className={small} aria-label="Percent of the energy of each day moved" /></span> : null}
+                {r === "hours" ? <span className="mt-0.5 block text-xs text-muted">hours a year <input name="n" type="number" autoComplete="off" min={0} max={8784} step={1} defaultValue={x.n} className={small} aria-label="Hours a year turned off" /></span> : null}
+                {r === "share" ? <span className="mt-0.5 block text-xs text-muted">percent of hours <input name="pct" type="number" autoComplete="off" min={0} max={100} step="any" defaultValue={x.pct} className={small} aria-label="Percent of hours turned off" /></span> : null}
+                {r === "shift" ? <span className="mt-0.5 block text-xs text-muted">percent of a day&apos;s energy <input name="shift" type="number" autoComplete="off" min={0} max={50} step="any" defaultValue={x.shift} className={small} aria-label="Percent of the energy of each day moved" /></span> : null}
               </span>
             </label>
           ))}
@@ -97,7 +97,7 @@ export function LoadForm({ x, grids, blank }: { x: Inputs; grids: Record<string,
 
       <div className="flex items-baseline gap-3">
         <button type="submit" className="border border-accent bg-accent px-4 py-1.5 text-white">Show</button>
-        <Link href={hrefOf(x, { mw: DEFAULTS.mw, run: "flat", buy: "rt", gpu: DEFAULTS.gpu, pue: DEFAULTS.pue })} scroll={false} className="text-xs">Reset</Link>
+        <Link href={hrefOf(x, { mw: DEFAULTS.mw, run: "flat", buy: "rt", gpu: DEFAULTS.gpu, pue: DEFAULTS.pue })} scroll={false} className="inline-block py-1 text-xs">Reset</Link>
       </div>
       <p className="text-xs leading-snug text-muted" data-costs-in-a="1">Power per GPU and the facility overhead ratio are set under <a href="#scenarios">Scenarios A and B</a>: scenario A gives the headline.</p>
     </form>

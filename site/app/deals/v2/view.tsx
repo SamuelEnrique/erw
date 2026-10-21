@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolSection } from "@/components/tool/ToolPage";
 import duplicates from "@/data/deal_duplicates.json";

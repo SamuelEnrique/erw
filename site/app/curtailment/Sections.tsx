@@ -14,6 +14,13 @@ import {
 } from "@/lib/freeenergy";
 import { Heat, XY } from "./Charts";
 
+// Session 412 (the accessibility pass, docs/reviews/accessibility-2026-10-20.md): where a tile's words turn from ink to
+// white. A tile is cardinal at 6 to 90 percent over the page (0.06 + 0.84 s); white words passed 4.5 to 1 only from about
+// 70 percent and ink only to about 53, and at s = 0.5 (48 percent) white gave 2.84 to 1 (AccessLint read 2.91 on NP15).
+// The two meet near 61 percent (s = 0.655), where each gives about 3.7 to 1: the best either color can do in that band,
+// which no switch point can lift to 4.5 (listed for a ruling in the review).
+export const TILE_WHITE = 0.655;
+
 export const N = ({ k, children }: { k: string; children: string }) => <span data-n={k}>{children}</span>;
 /** A figure that is not held: a few words, and the reason on hover. Never a number. */
 export const Blank = ({ words = "not held yet", why }: { words?: string; why: string }) => (
@@ -96,7 +103,7 @@ export function FreeEnergy({ file, c, zones }: { file: FreeFile; c: Choice; zone
                     return (
                       <Link key={l.id} href={link({ ...c, place: l.id, win }, "free-energy")} scroll={false} title={text} data-tile={l.id} data-count={held ? (w as Held).under5 : ""} data-shape={z?.status ?? "tile"} aria-current={l.id === place.id ? "true" : undefined}
                         className={`block border px-2 py-2 text-xs no-underline ${l.id === place.id ? "border-ink ring-1 ring-ink" : "border-rule"} ${held ? "" : "bg-paper text-muted"}`}
-                        style={held ? { background: `color-mix(in srgb, var(--color-accent) ${(100 * (0.06 + 0.84 * s)).toFixed(1)}%, transparent)`, color: s > 0.5 ? "var(--color-surface)" : "var(--color-ink)" } : undefined}>
+                        style={held ? { background: `color-mix(in srgb, var(--color-accent) ${(100 * (0.06 + 0.84 * s)).toFixed(1)}%, transparent)`, color: s > TILE_WHITE ? "var(--color-surface)" : "var(--color-ink)" } : undefined}>
                         <span className="block font-semibold">{placeName(l.id)}</span>
                         <span className="block tabular-nums">{held ? `${whole((w as Held).under5)} hours` : "not held yet"}</span>
                       </Link>

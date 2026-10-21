@@ -4,6 +4,7 @@
 // Georgia in cardinal for the title and headings, Stanford black for text, fog beige for the input panel and
 // highlighted rows, thin grey rules. Colors and typefaces come from app/tokens.css.
 import type { ReactNode } from "react";
+import { emptyCell, scrollRegion } from "@/lib/cells";  // session 412: an empty header cell is a plain cell
 
 // ---- Session 296 (the owner's rulings of 15 October 2026): two pieces for every tool page.
 
@@ -121,12 +122,12 @@ export function ToolTable({ head, rows, minWidth = 520, caption, words }: {
 }) {
   const side = words ? "text-left" : "text-right";
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto" {...scrollRegion(caption)}>
       <table className="w-full border-collapse text-left text-sm tabular-nums" style={{ minWidth }}>
         {caption ? <caption className="sr-only">{caption}</caption> : null}
         <thead>
           <tr className="bg-accent text-white">
-            {head.map((h, i) => <th key={i} scope="col" className={`px-3 py-1.5 font-normal ${i ? side : ""}`}>{h}</th>)}
+            {head.map((h, i) => (emptyCell(h) ? <td key={i} data-empty-head="1" className="px-3 py-1.5" /> : <th key={i} scope="col" className={`px-3 py-1.5 font-normal ${i ? side : ""}`}>{h}</th>))}
           </tr>
         </thead>
         <tbody>
@@ -134,7 +135,7 @@ export function ToolTable({ head, rows, minWidth = 520, caption, words }: {
             <tr key={r.key} className={`border-b border-rule ${r.highlight ? "bg-paper font-semibold" : ""} ${r.muted ? "text-muted" : ""}`}>
               {r.wide !== undefined
                 ? <><th scope="row" className="px-3 py-1.5 font-normal">{r.cells[0]}</th><td colSpan={head.length - 1} className="px-3 py-1.5 text-left text-muted">{r.wide}</td></>
-                : r.cells.map((c, i) => (i === 0 ? <th key={i} scope="row" className="px-3 py-1.5 font-normal">{c}</th> : <td key={i} className={`px-3 py-1.5 ${side}`}>{c}</td>))}
+                : r.cells.map((c, i) => (i === 0 ? (emptyCell(c) ? <td key={i} data-empty-head="1" className="px-3 py-1.5" /> : <th key={i} scope="row" className="px-3 py-1.5 font-normal">{c}</th>) : <td key={i} className={`px-3 py-1.5 ${side}`}>{c}</td>))}
             </tr>
           ))}
         </tbody>

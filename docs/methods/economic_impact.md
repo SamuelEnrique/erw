@@ -190,3 +190,13 @@ data for taxes per MW", and a tax figure on this page comes from a statute or do
 The pages are state statutes and the agencies' own pages. Their publishers' terms of reuse were not read (no request
 was allowed), so `docs/licenses.md` lists `impact_tax_rules` as "not settled" and the tool does not offer it for
 download until a person rules or the terms are read. The /severance page has cited the same pages since session 40.
+
+## 3. The figures on the page and their keys
+
+Each number `/impact` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` recomputes with the page's own arithmetic (`site/lib/impact.ts`, `stat`) from its own read of `nlr_jedi_multipliers`, and `site/scripts/check-methods.mjs` checks against this note (session 409). The key is `impact|<technology>|<state>|<mw>|<capex>|<local>|<life>|<figure>`, the inputs as the form holds them (`jedi` for JEDI's own project size, `-` for no life given), then the figure:
+
+- `impact|...|construction:<effect>:<measure>` and `impact|...|operations:<effect>:<measure>`: the reader's project, over the build (construction) or each year it runs (operations), for the effect (onsite, supply_chain, induced or total) and the measure (jobs, earnings, output). Each is JEDI's per-MW figure for the technology and state, times the MW, times the local share, and for construction times the cost as a percent of JEDI's.
+- `impact|...|life:total:<measure>`: the operations figure over the life the reader gives, the yearly total times the years; with no life given there is none.
+- `impact|...|state:<state>:construction:total:jobs`: the same project built in another state, from that state's per-MW figure, in the table of every state.
+- `impact|...|state_rank:construction:jobs`: the state's place among the 51 (1 is the most) by JEDI's per-MW construction jobs for the technology.
+- `impact|...|swing:<lever>:<phase>:jobs`: the total jobs of the phase (construction, operations, or life) when one lever moves: the MW up by half, the cost or the local share up 25 points, or the life up five years.

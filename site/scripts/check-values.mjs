@@ -15,7 +15,8 @@
 // carries 76, and pass): scripts/check-values-floor.json holds, for each page of a passing full run, the smaller of ten
 // and the keys it carried. A page read with fewer keys than its floor fails, with a line that says so. A page not in
 // the file has no floor. CHECK_VALUES_WRITE_FLOOR=1 writes the file again from a run that passes in full (no
-// CHECK_VALUES_PAGES); a page added to the list gets its floor that way.
+// CHECK_VALUES_PAGES); a page added to the list gets its floor that way. Session 403: or from a restricted run that
+// passes in full (CHECK_VALUES_PAGES set), which sets the floors of the pages it read and leaves every other line.
 //
 // Session 72: it cannot hang. Every request has a hard timeout (CHECK_VALUES_REQUEST_S, default 60 s) and the whole run
 // one too (CHECK_VALUES_TIMEOUT_MIN, default 15 minutes): past it the run fails, loudly, with exit 1 (session 71's third
@@ -55,6 +56,10 @@ const wanted = (page) => !ONLY.length || ONLY.some((pre) => page.startsWith(pre)
 const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/ercot%3AHB_HUBAVG", "/data", "/prices?tab=ercot", "/deals", "/deals?tab=tracker", "/deals?tab=companies", "/grid", "/map", "/datacenters", "/roundup",
   // session 18
   "/mix", "/mix?ba=erco&state=TX", "/curtailment", "/demand?view=consumption",
+  // session 404: the demand growth explorer (the default, ERCOT's whole-year average; the peak with the Lower 48's missing
+  // peak; the year so far in PJM; a calendar month and a local hour of the day, whose growth sits on the last whole year)
+  "/explore/demand-growth", "/explore/demand-growth?grid=us48&window=peak", "/explore/demand-growth?grid=pjm&window=ytd",
+  "/explore/demand-growth?grid=caiso&window=m08", "/explore/demand-growth?grid=ercot&window=h17",
   // session 332: every action's significance (event|policy_actions|<id>|significance)
   "/policy",
   // session 19
@@ -72,6 +77,9 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   // session 51: the seller's tab, its defaults and three other assets
   // session 347: the economic impact tool, its defaults and three other views (a size, cost, local content and life given)
   "/map?tab=queues", "/map?tab=queues&iso=ercot", "/map?tab=queues&iso=spp",  // session 349: the map's Queues tab (iso_queue_statistics)
+  // session 405: the interconnection explorer (the default, CAISO in positions; ERCOT in MW over a window; SPP; a held queue)
+  "/explore/interconnection", "/explore/interconnection?queue=ercot&measure=mw&from=2018&to=2025", "/explore/interconnection?queue=spp",
+  "/explore/interconnection?queue=nyiso",
   "/impact", "/impact?tech=utility_pv&state=la&mw=200&life=30", "/impact?tech=natural_gas&state=nm&capex=120&local=80", "/impact?tech=geothermal&state=us&life=25",
   "/cost-of-power/seller", "/cost-of-power/seller?asset=battery", "/cost-of-power/seller?asset=peaker", "/cost-of-power/seller?iso=spp&asset=wind",  // session 145: MISO is blank on the page, so the fourth view is SPP's wind
   // session 38: today's level's price range
@@ -116,12 +124,33 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   ...["ercot", "caiso", "pjm", "miso", "nyiso", "isone", "spp", "us48"].flatMap((g) => [`/grid?grid=${g}`, `/grid?grid=${g}&view=clean`, `/grid?grid=${g}&view=exchange`]),
   "/grid?grid=ercot&view=mix", "/grid?grid=us48&view=mix", "/grid?grid=pjm&view=mix&mix=stress", "/grid?grid=ercot&view=network", "/grid?grid=us48&view=network",
   // session 299: the Gravity tab (the network's gravity shape with the exchange blocks under it)
-  "/grid?grid=ercot&view=gravity&shape=gravity", "/grid?grid=us48&view=gravity&shape=gravity"];  // (the line ended "// session 46: set D" before session 60)
+  "/grid?grid=ercot&view=gravity&shape=gravity", "/grid?grid=us48&view=gravity&shape=gravity",
+  // session 403: the ERCOT peak premium explorer (the thesis's default; another hub and two years; one month across the
+  // years, from the monthly table; Houston's February of Winter Storm Uri against the year before)
+  "/explore/ercot-peak-premium", "/explore/ercot-peak-premium?hub=ercot%3AHB_WEST&from=2018&to=2024", "/explore/ercot-peak-premium?month=8",
+  "/explore/ercot-peak-premium?hub=ercot%3AHB_HOUSTON&month=2&from=2020&to=2021"];  // (the line ended "// session 46: set D" before session 60)
+// session 402: the Energy Digest, today's page and each Digest of the archive whose operating day the live set still holds
+// (its ISO prices are kept 35 days: warehouse/supabase/live_set.yaml). Older Digests are traced by scripts/check_digest.py
+// against the warehouse's CSVs. A held figure (lib/license.ts) carries no key and is not read here.
+PAGES.push("/digest", ...fs.readdirSync(path.join(here, "..", "..", "docs", "digest")).map((f) => /^(\d{4}-\d{2}-\d{2})\.md$/.exec(f)?.[1])
+  .filter((d) => d && Date.now() - Date.parse(`${d}T00:00:00Z`) <= 33 * 86_400_000).sort().reverse().map((d) => `/digest/${d}`));
 // session 48: the draft report behind the internal token (INTERNAL_COSTS_TOKEN, in .env.local or the environment); left
 // out, and said so, where the token is not set (the page answers 404 without it)
 const INTERNAL = ["/reports/draft/shape-premium", "/reports/draft/ai-gigawatts"];  // session 62: the AI gigawatts draft
 // session 35: the grid pages' config, for their news and datacenter keys (the same file the pages read)
 const GRIDS = JSON.parse(fs.readFileSync(path.join(here, "..", "..", "docs", "grids", "grids.json"), "utf-8")).grids;
+
+// Session 408: the routes under app/ that show a warehouse figure (tests/test_session408.py holds the rule: a page whose
+// code renders a Num with a check key, or reads Supabase through lib/supabase.ts) and were not read here: the contract
+// tracker and the battery fleet's awards. Neither draws its figures through Num yet, so each carries no checked number
+// and its floor is 0; it is read so its address answers and is not the in-review page.
+PAGES.push("/contracts", "/cost-of-power/battery/awards");
+// Session 408: `node scripts/check-values.mjs --list` prints the addresses this script reads ({pages, internal}, JSON)
+// and stops, before any variable is read or any request made: tests/test_session408.py holds them against site/app/.
+if (process.argv[2] === "--list") {
+  console.log(JSON.stringify({ pages: PAGES, internal: INTERNAL }));
+  process.exit(0);
+}
 
 function env(name) {
   if (process.env[name]) return process.env[name];
@@ -238,6 +267,36 @@ async function truth(check) {
   if (p[0] === "digest_chart") {
     return JSON.parse(fs.readFileSync(path.join(here, "..", "..", "docs", "digest", "charts", `${p[1]}.json`), "utf-8")).numbers?.[p[3]];
   }
+  // session 402: the Energy Digest's numbers section (lib/digest.ts), recomputed by the Digest's own rule (warehouse/news/brief.py):
+  // digest_dam|<ISO>|<table>|<node>|<day>: the mean of the ISO's local operating day's hourly day-ahead prices, every hour
+  // held, exact and rounded half up to cents (as brief.mean2 and the Roundup's check below); digest_rt|<table>|<node>|
+  // <variable>|<ts_utc>: the real-time price at its interval; digest_fuel|eia_fuel_spot_prices|<entity>|<day>: the close.
+  // A table consolidated since (session 29) is read from its new table. The live set holds ISO prices for 35 days.
+  if (p[0] === "digest_dam") {
+    const [, iso, table, node, d] = p;
+    const tz = HUB[iso]?.[1];
+    if (!tz) throw new Error(`unknown grid in ${check}`);
+    const [y, m, dd] = d.split("-").map(Number);
+    const s0 = localMidnight(y, m - 1, dd, tz), s1 = localMidnight(y, m - 1, dd + 1, tz);
+    const [t, f] = current(table, { node: `eq.${node}`, and: `(ts_utc.gte.${s0.toISOString()},ts_utc.lt.${s1.toISOString()})` });
+    const rows = await all("series", { select: "value", table_name: `eq.${t}`, ...f, order: "ts_utc" });
+    const hours = Math.round((s1 - s0) / 36e5);
+    if (rows.length !== hours) return undefined;   // a day not held whole in the live set: no value to compare
+    const micro = rows.reduce((a, r) => a + Math.round(r.value * 1e6), 0);
+    const x = micro / rows.length / 1e4;
+    return Math.sign(x) * Math.floor(Math.abs(x) + 0.5) / 100;
+  }
+  if (p[0] === "digest_rt") {
+    const [, table, node, variable, ts] = p;
+    const [t, f] = current(table, { node: `eq.${node}`, variable: `eq.${variable}`, ts_utc: `eq.${ts}` });
+    const r = (await q("series", { select: "value", table_name: `eq.${t}`, ...f }))[0];
+    return r ? Number(r.value.toFixed(2)) : undefined;
+  }
+  if (p[0] === "digest_fuel") {
+    const [, table, entity, d] = p;
+    const r = (await q("series", { select: "value", table_name: `eq.${table}`, entity: `eq.${entity}`, ts_utc: `eq.${d}T00:00:00Z` }))[0];
+    return r ? Number(r.value.toFixed(2)) : undefined;
+  }
   // session 300: the home page's count of findings, from the library's own catalogue (site/data/findings/catalogue.json)
   if (p[0] === "findings" && p[1] === "count") {
     return JSON.parse(fs.readFileSync(path.join(here, "..", "data", "findings", "catalogue.json"), "utf-8")).length;
@@ -341,6 +400,14 @@ async function truth(check) {
     if (at === "newest") Object.assign(params, { order: "ts_utc.desc", limit: "1" });
     else params.ts_utc = `eq.${at}`;
     return (await q("series", params))[0]?.value;
+  }
+  // session 405: a count a series table's header states for one name, series_hdr|<table>|<entity naming the grid>|<line
+  // prefix>|<name>: the header line that begins with the prefix, "...: ERCOT 456, CAISO 169", read for "<name> <count>"
+  if (p[0] === "series_hdr") {
+    const [, table, , prefix, name] = p;
+    const line = (await q("headers", { select: "line", table_name: `eq.${table}`, order: "line_no" })).map((r) => r.line).find((l) => l.startsWith(prefix));
+    const item = line?.slice(line.indexOf(":") + 1).split(",").map((s) => s.trim()).find((s) => s.startsWith(`${name} `));
+    return item === undefined ? undefined : Number(item.slice(name.length + 1).replace(/,/g, ""));
   }
   // session 15: /deals and /grid
   if (p[0] === "deals") {
@@ -772,6 +839,13 @@ function usd(v) {
   return v.toLocaleString("en-US");
 }
 
+/** Session 402: the chart-maker's rounding (warehouse/analysis/findings/daily_chart.py nd_for; lib/digest.ts chartText). */
+function digestChartText(v) {
+  const a = Math.abs(v);
+  const nd = a >= 10000 ? 0 : a >= 100 ? 1 : a >= 1 ? 2 : 4;
+  return v.toLocaleString("en-US", { minimumFractionDigits: nd, maximumFractionDigits: nd });
+}
+
 function shown(raw) {
   // how the page writes a raw value: a timestamp as "YYYY-MM-DD HH:MM UTC", a whole number with commas, else 2 decimals
   if (/^\d{4}-\d{2}-\d{2}T/.test(raw)) return new Date(raw).toISOString().slice(0, 16).replace("T", " ") + " UTC";
@@ -970,14 +1044,16 @@ async function main() {
       // session 16: MW sums are written as whole MW (lib/format.ts count)
       // session 90: /storage/buildout writes its MW and MWh whole too (lib/buildout.ts WHOLE; the ratios keep two decimals)
       // session 354: ERCOT's load in each of the four summer peak intervals, written whole (/cost-of-power)
-      const whole = /(^projects\|mw\|)|(^datacenters\|(mw_total|state_mw|operator_mw|status_mw|sites_mw|texas_mw))|(^series\|ercot_large_load_status\|)|(^series\|ercot_4cp_intervals\|)|(^series\|storage_buildout_monthly\|[^|]+\|(battery|solar)_(operating|planned)_(mw|mwh)(?!_per_)(_|\|))/.test(check);
+      const whole = /(^projects\|mw\|)|(^datacenters\|(mw_total|state_mw|operator_mw|status_mw|sites_mw|texas_mw))|(^series\|ercot_large_load_status\|)|(^series\|ercot_4cp_intervals\|)|(^series\|storage_buildout_monthly\|[^|]+\|(battery|solar)_(operating|planned)_(mw|mwh)(?!_per_)(_|\|))|(^series\|eia930_demand_growth\|[^|]+\|(avg_demand_mw|peak_demand_mw|ytd_avg_demand_mw|growth_mw_))/.test(check);
       // session 76: an hour of the day (a variable named ..._hour, a whole number 0 to 23) may be written "09:00" (/shoulder):
       // "16:00" passed the rule below by accident, "09:00" could not
       const hourText = /\|[a-z0-9_]*_hour\|/.test(check) && /^\d{1,2}$/.test(raw) && text.startsWith(`${raw.padStart(2, "0")}:00`);
       // session 315: a figure the page shows as its own raw text (a card's callout "126.6x", a record's figure as written) is its text
       // a card's p value (FindingCard fmtP): "< 0.001" under a thousandth, else three decimals
       const pText = /^finding\|[^|]+\|effect\|\d+\|p\|/.test(check) && (Number(raw) < 0.001 ? text === "< 0.001" : text === Number(raw).toFixed(3));
-      const textOk = hourText || pText || text === raw || text.startsWith(usdFormat ? usd(Number(raw)) : whole ? Math.round(Number(raw)).toLocaleString("en-US") : shown(raw));
+      // session 402: a figure of the Digest's chart of the day is written as the chart-maker rounds it (lib/digest.ts chartText)
+      const chartOk = /^digest_chart\|/.test(check) && text === digestChartText(Number(raw));
+      const textOk = hourText || pText || text === raw || text.startsWith(usdFormat ? usd(Number(raw)) : whole ? Math.round(Number(raw)).toLocaleString("en-US") : shown(raw)) || chartOk;
       let pass = t !== undefined && t !== null && same && textOk;
       // session 369 (todo 008): on an event page, the date the figure belongs to is named on its line; a series figure
       // is compared with the row of that date among its entity's rows (never another day's), an estimate of a day with
@@ -1001,6 +1077,9 @@ async function main() {
       bad++;
       lines.push(`FAIL | ${page} | the floor | the page carries ${count} checked numbers; its floor is ${floor} (scripts/check-values-floor.json): a read failed and the page drew fewer numbers, or a number lost its key`);
     }
+    // session 408: a page read here with no floor is said on its own line (not a failure): a run with
+    // CHECK_VALUES_WRITE_FLOOR=1 that passes in full gives it one
+    if (floor === undefined) lines.push(`note | ${page} | the floor | the page carries ${count} checked numbers and has no floor in scripts/check-values-floor.json`);
   }
   const [wok, wbad] = ONLY.length ? [0, 0] : await checkWeekly(lines);
   ok += wok;
@@ -1011,8 +1090,17 @@ async function main() {
   console.log(`\n${ok} of ${n} values match Supabase${superseded ? `; ${superseded} latest prices superseded by a newer interval within ${LATEST_LAG_MIN} minutes (checked for staleness, not comparable by value)` : ""}${bad ? `; ${bad} FAILED` : ""} (/roundup: ${wok} of ${wok + wbad})`);
   if (n < 10) console.log(`check-values FAILED: ${n} values checked, fewer than the floor of ten a run`);
   if (process.env.CHECK_VALUES_WRITE_FLOOR === "1") {
-    if (bad || n < 10 || ONLY.length) console.log("the floor file was not written: the run is restricted or did not pass");
-    else {
+    if (bad || n < 10) console.log("the floor file was not written: the run did not pass");
+    else if (ONLY.length) {
+      // session 403: a restricted run that passes in full adds (or sets again) the floors of the pages it read and only
+      // those, so a new page gets its floor without a full run moving every other page's; the other lines stay as written
+      const kept = fs.existsSync(FLOOR_FILE) ? JSON.parse(fs.readFileSync(FLOOR_FILE, "utf-8")) : { floor: {} };
+      const merged = { ...kept.floor };
+      for (const [page, count] of perPage) merged[page] = Math.min(10, count);
+      const floor = Object.fromEntries(Object.entries(merged).sort(([a], [b]) => a.localeCompare(b)));
+      fs.writeFileSync(FLOOR_FILE, JSON.stringify({ ...kept, floor }, null, 2) + "\n");
+      console.log(`the floor file was updated for ${perPage.size} pages of a restricted run (${ONLY.join(", ")}); every other page's floor is as it was`);
+    } else {
       const floor = Object.fromEntries([...perPage].sort(([a], [b]) => a.localeCompare(b)).map(([page, count]) => [page, Math.min(10, count)]));
       fs.writeFileSync(FLOOR_FILE, JSON.stringify({ note: "session 268: the smaller of ten and the checked numbers each page carried in a passing full run of check-values.mjs; written with CHECK_VALUES_WRITE_FLOOR=1", written_utc: new Date().toISOString(), base, floor }, null, 2) + "\n");
       console.log(`the floor file was written: ${perPage.size} pages`);

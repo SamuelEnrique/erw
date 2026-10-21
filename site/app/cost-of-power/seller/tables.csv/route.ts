@@ -7,7 +7,7 @@
 // the co-optimized pair at day-ahead prices and the kept row at real-time prices), the stress days (stress_days,
 // ERCOT) and the fleet's hours as EIA reports them (eia_hours). The same read and arithmetic as the page (model.ts). A
 // value not held is blank, with its reason in `note`. In review, the address answers a visitor as the page does.
-import { FUELS, MARKETS, hubName, hubYears, type Fuel, type Market } from "@/lib/capture";
+import { FUELS, MARKETS, hubName, hubYears, type Market } from "@/lib/capture";
 // Session 264: offered where the grid's prices may be redistributed (lib/license.ts, the verdicts of docs/licenses.md,
 // unchanged here): a chosen grid whose prices are "license needed" on the day answers the catalogue's words, and in the
 // table of every public hub the rows of such a grid are blank with those words in `note`.

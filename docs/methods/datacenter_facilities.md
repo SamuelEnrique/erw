@@ -100,3 +100,26 @@ What the page `/datacenters` draws today, after the sessions since 166:
   named with its place on Redivis.
 - Read on 20 October 2026 from the public catalogue: `datacenter_facilities` and `datacenter_projects` were rebuilt that
   day; `datacenter_operator_sites` last on 12 October.
+
+## The figures on the page and their keys
+
+Each number `/datacenters` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The keys the sections above do not name, each counted by the page from `datacenter_facilities`:
+
+- `datacenters|count`: "Facilities held", every row of the table, in the page's first line; the same count opens the paragraph beside ERCOT's large loads.
+- `datacenters|counted`, `datacenters|no_us_state`, `datacenters|cancelled`: under it, the rows in a named US state and not cancelled (the rows the sums count), and the two kinds left out of the sums: the rows with no US state stated and the US rows cancelled (status `withdrawn` or `cancelled`). The paragraph beside ERCOT's large loads shows `no_us_state` too.
+- `datacenters|mw_total`: "Megawatts stated", the sum of the stated MW of every row counted.
+- `datacenters|n_with_mw`, `datacenters|status_mw|<status>`: under it, how many rows counted state a MW, and the stated MW summed by status as the table has it (a blank status reads "status not stated").
+- `datacenters|first_week|<day>`: "First reported this week", the facilities whose first story is dated in the seven UTC days that end on the day the page was drawn (the key holds the first of those days).
+- `datacenters|n_first_story`: in "What changed this week", how many facilities carry a first story's date (those found in the news).
+- `datacenters|state_mw|<state>`, `datacenters|operator_mw|<operator>`: the bars "Stated MW by state" and "Top operators by MW" (the five largest), the stated MW of the rows counted summed by state and by operator. The list grouped by operator shows `operator_mw` again on each operator's line, unfiltered, with `datacenters|operator_count|<operator>`, the operator's number of facilities.
+- `datacenters|sites_us`, `datacenters|sites_texas`: in "Beside it: the facilities the ERW holds", the sites in a named US state and, of those, the sites in Texas (state `TX`).
+- `datacenters|sites_n_with_mw`, `datacenters|sites_mw`: the sites that state a size in MW and the sum of those sizes, every site held counted, the cancelled and those with no US state among them, so more than "Megawatts stated" at the top.
+- `datacenters|texas_n_with_mw`, `datacenters|texas_mw`: the Texas sites that state a size in MW, and the sum of those sizes.
+- `datacenters|kind_count|<kind>`: the sites by where each came from, an operator's own list, news stories or an interconnection queue.
+
+## The figures on the grid page and their keys
+
+Each number `/grid` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The keys the sections above do not name:
+
+- `griddc|<grid>|n`, `griddc|<grid>|mw`: a grid's block "What is being built" (`components/grid/YourGrid.tsx`): the count of the `datacenter_facilities` rows mapped to the grid by the rule of "Grid pages: which grid a facility belongs to" above, and the sum of their MW (`capacity_mw`) where a source states it.
+- `gridnews|<grid>|<since>|n`: the block "In the news" under it: the count of the scored stories of `news_index` dated on or after the day shown (fourteen days back) whose headline names the grid or whose region is one of its states (`site/lib/grid.ts`, `newsMatch`). The block links no note of its own; this note's link stands nearest it.
