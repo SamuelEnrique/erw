@@ -273,6 +273,10 @@ catalogue_hold:
   - eia_state_capacity_annual
   - eia_crude_production_state_monthly
   - eia_gas_production_state_monthly
+  - eia_co2_state_annual
+  - eia_refinery_weekly
+  - eia_state_source_disposition_annual
+  - eia_net_metering_state_annual
   # session 109: EIA's daily demand by balancing authority, a history (190,512 rows). The network's replay reads its own
   # files (site/public/network/daily_<year>.json), built from it; nothing reads it from Supabase
   - eia930_daily_demand
