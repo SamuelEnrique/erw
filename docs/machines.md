@@ -188,6 +188,17 @@ above says otherwise, this section is the newer one.
   The next sync brings a new daily table and leaves the monthly ones again: the two commands are needed after each.
 - **Other checkouts.** Seven worktrees beside the main one (`git worktree list`): `erw-184`, `erw-185`, `erw-185n`,
   `erw-191`, `erw-192`, `erw-193` (all merged) and `erw-200`.
+  A fresh worktree (session 503, 21 October 2026) has no `.venv`, no `site/node_modules`, no `.env`, no
+  `site/.env.local` and none of the files the build generates. Python: the main checkout's interpreter
+  (`.venv\Scripts\python.exe` of the main checkout). The site's packages: `npm ci` in `site/` (a junction to another
+  checkout's `node_modules` is refused by Turbopack). Keys: copy the main checkout's `.env` and, for a build or a
+  check against a local server, `site/.env.local` (never printed, never committed). Without `site/node_modules` every
+  test that runs node skips; with it, the generated `site/content/docs.json` and `site/content/waits.json` write
+  themselves: the alias loader (`site/scripts/alias-loader.mjs`) runs the script `npm run content` runs for a missing
+  one, once, and stops with an error naming `npm run content` if that script fails. `tsc --noEmit` needs the types
+  `next build` writes (`.next/types`): run it after a build. Tests that read `warehouse/output` skip where it is absent.
+  The whole suite in a fresh worktree of `wip/429-combined`, with `npm ci` done and nothing else, is session 503's
+  record.
 - **A test's residue.** `warehouse/output/raw/madeup_as_prices/` (untracked, two files, 112 bytes) was made on
   11 October at 20:22 UTC, while session 198 ran the suite; session 200's run of the suite in a clean worktree made
   the same folder there. `scripts/raw_handover.py` names `tests/test_session85.py` as the writer of a folder of that
