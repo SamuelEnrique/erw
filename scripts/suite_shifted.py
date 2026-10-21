@@ -40,11 +40,18 @@ def child_env(days: int) -> dict[str, str]:
     env = {k: v for k, v in os.environ.items() if not DROP_KEYS.match(k)}
     env["ERW_LOCK_EXEMPT"] = "1"
     env["PYTHONIOENCODING"] = "utf-8"
+    # a runner started under a shifted clock (its own test, in a shifted suite) leaves no shim behind
+    paths = [p for p in env.get("PYTHONPATH", "").split(os.pathsep) if p and Path(p).name != SHIM_DIR.name]
+    node_opts = re.sub(r"--require \S*date_shift\.cjs\s*", "", env.get("NODE_OPTIONS", "")).strip()
     if days:
         env["ERW_CLOCK_SHIFT_SECONDS"] = str(days * 86400)
-        env["PYTHONPATH"] = os.pathsep.join([str(SHIM_DIR)] + ([env["PYTHONPATH"]] if env.get("PYTHONPATH") else []))
-        shim = "--require " + NODE_SHIM.as_posix()
-        env["NODE_OPTIONS"] = (shim + " " + env["NODE_OPTIONS"]) if env.get("NODE_OPTIONS") else shim
+        paths.insert(0, str(SHIM_DIR))
+        node_opts = ("--require " + NODE_SHIM.as_posix() + " " + node_opts).strip()
+    for key, value in (("PYTHONPATH", os.pathsep.join(paths)), ("NODE_OPTIONS", node_opts)):
+        if value:
+            env[key] = value
+        else:
+            env.pop(key, None)
     return env
 
 
