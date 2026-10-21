@@ -72,7 +72,9 @@ eia_crude_imports_by_country,EIA,the source registry
 eia_crude_production_state_monthly,EIA,the source registry
 eia_crude_reserves_annual,EIA,the source registry
 eia_crude_stream_prices,EIA,the source registry
+eia_energy_efficiency_state_annual,EIA,the source registry
 eia_fuel_spot_prices,EIA,the source registry
+eia_gas_balance_annual,EIA,the source registry
 eia_gas_consumption_state_monthly,EIA,the source registry
 eia_gas_interstate_annual,EIA,the source registry
 eia_gas_prices_state_monthly,EIA,the source registry
@@ -87,11 +89,14 @@ eia_nuclear_outages_daily,EIA,the source registry
 eia_nuclear_outages_facility_daily,EIA,the source registry
 eia_nuclear_outages_generator_daily,EIA,the source registry
 eia_padd_crude_pipeline_flows,EIA,the source registry
+eia_petroleum_snd_monthly,EIA,the source registry
+eia_petroleum_stocks_monthly,EIA,the source registry
 eia_petroleum_stocks_weekly,EIA,the source registry
 eia_petroleum_supply_weekly,EIA,the source registry
 eia_petroleum_trade_weekly,EIA,the source registry
 eia_power_plant_fuel_costs,EIA,the source registry
 eia_product_spot_prices,EIA,the source registry
+eia_product_supplied_monthly,EIA,the source registry
 eia_refinery_weekly,EIA,the source registry
 eia_regional_retail_fuel_prices,EIA,the source registry
 eia_retail_electricity_prices,EIA,the source registry
@@ -103,6 +108,7 @@ eia_state_capacity_annual,EIA,the source registry
 eia_state_generation_monthly,EIA,the source registry
 eia_state_source_disposition_annual,EIA,the source registry
 eia_steo_forecasts,EIA,the source registry
+eia_wood_pellets_monthly,EIA,the source registry
 energy_companies,ERW,"by hand: its header: names, one-line descriptions written by the ERW, and links"
 energy_deals,ANS Nuclear Newswire; Bloomberg; Canary Media; DOE newsroom; Data Center Dynamics; Data Center Frontier; Electrek; Energy-Storage.news; Financial Times; Hart Energy; JPT; LNG Prime; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; Rigzone; Utility Dive; WSJ; World Nuclear News; pv magazine USA,the source registry
 energy_deals_evidence,ANS Nuclear Newswire; Bloomberg; Canary Media; DOE newsroom; Data Center Dynamics; Data Center Frontier; Electrek; Energy-Storage.news; Financial Times; Hart Energy; JPT; LNG Prime; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; Rigzone; Utility Dive; WSJ; World Nuclear News; pv magazine USA,the source registry

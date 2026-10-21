@@ -85,7 +85,10 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "eia_gas_production_state_monthly", "eia_co2_state_annual", "eia_refinery_weekly",
            "eia_state_source_disposition_annual", "eia_net_metering_state_annual",
            "eia_nuclear_outages_generator_daily", "eia_gas_interstate_annual", "eia_crude_reserves_annual",
-           "eia_gas_reserves_annual", "eia_coal_delivered_price_annual"):  # 510 to 553 the same way
+           "eia_gas_reserves_annual", "eia_coal_delivered_price_annual", "eia_petroleum_snd_monthly",
+           "eia_product_supplied_monthly", "eia_wood_pellets_monthly",
+           "eia_petroleum_stocks_monthly", "eia_gas_balance_annual",
+           "eia_energy_efficiency_state_annual"):  # 510 to 560 the same way
     STORAGE_HELD[_t] = ("held: not yet on Redivis (written 21 October 2026, session 489; the account's free 10 GB is full, "
                         f"session 363). In v1 by its license once uploaded: python warehouse/redivis/upload.py {_t}, after the "
                         "storage is settled")
