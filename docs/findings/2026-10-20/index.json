@@ -1,7 +1,7 @@
 {
  "day": "2026-10-20",
  "hunt_version": "1.0.0",
- "computed_at": "2026-10-21T02:11:33Z",
+ "computed_at": "2026-10-21T02:24:14Z",
  "summary": {
   "candidates": 27,
   "passing": 17,
@@ -438,7 +438,7 @@
     "reason": "passes",
     "tests": [
      {
-      "name": "holds in more than one year",
+      "name": "holds in more than one month",
       "passed": true
      },
      {
@@ -450,11 +450,11 @@
       "passed": true
      },
      {
-      "name": "half the change remains without the first year",
+      "name": "half the change remains without the first month",
       "passed": true
      },
      {
-      "name": "at least one typical yearly move",
+      "name": "at least one typical monthly move",
       "passed": true
      }
     ]
@@ -492,7 +492,7 @@
     "reason": "passes",
     "tests": [
      {
-      "name": "holds in more than one year",
+      "name": "holds in more than one month",
       "passed": true
      },
      {
@@ -504,11 +504,11 @@
       "passed": true
      },
      {
-      "name": "half the change remains without the first year",
+      "name": "half the change remains without the first month",
       "passed": true
      },
      {
-      "name": "at least one typical yearly move",
+      "name": "at least one typical monthly move",
       "passed": true
      }
     ]
@@ -521,7 +521,7 @@
     "reason": "passes",
     "tests": [
      {
-      "name": "holds in more than one year",
+      "name": "holds in more than one month",
       "passed": true
      },
      {
@@ -533,11 +533,11 @@
       "passed": true
      },
      {
-      "name": "half the change remains without the first year",
+      "name": "half the change remains without the first month",
       "passed": true
      },
      {
-      "name": "at least one typical yearly move",
+      "name": "at least one typical monthly move",
       "passed": true
      }
     ]
@@ -774,7 +774,7 @@
    "rank": 1,
    "state": "new",
    "title": "BATTERY DISCHARGE, MONTH BY MONTH",
-   "fact": "ERCOT: the month's battery discharge in ERCOT, MWh, summed from the daily cycle table, 770,026 MWh in September 2026, up from 338,301 MWh in December 2024. The direction holds in 21 of the 21 complete months after December 2024.",
+   "fact": "ERCOT: the month's battery discharge, MWh, summed from the daily cycle table, 770,026 MWh in September 2026, up from 338,301 MWh in December 2024. The direction holds in 21 of the 21 complete months after December 2024.",
    "kind": "trend",
    "family": "storage_discharge_months",
    "grid": "ercot",
@@ -842,7 +842,7 @@
    "rank": 5,
    "state": "new",
    "title": "BATTERY DISCHARGE, MONTH BY MONTH",
-   "fact": "CAISO: the month's battery discharge in CAISO, MWh, summed from the daily cycle table, 1,335,586 MWh in September 2026, up from 1,105,004 MWh in September 2025. The direction holds in 10 of the 12 complete months after September 2025.",
+   "fact": "CAISO: the month's battery discharge, MWh, summed from the daily cycle table, 1,335,586 MWh in September 2026, up from 1,105,004 MWh in September 2025. The direction holds in 10 of the 12 complete months after September 2025.",
    "kind": "trend",
    "family": "storage_discharge_months",
    "grid": "caiso",

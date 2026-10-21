@@ -10,11 +10,11 @@
  "grid": "caiso",
  "region_words": "CAISO",
  "title": "BATTERY DISCHARGE, MONTH BY MONTH",
- "label": "the month's battery discharge in CAISO, MWh, summed from the daily cycle table",
+ "label": "the month's battery discharge, MWh, summed from the daily cycle table",
  "unit": "MWh",
  "decimals": 0,
  "grain": "month",
- "fact": "CAISO: the month's battery discharge in CAISO, MWh, summed from the daily cycle table, 1,335,586 MWh in September 2026, up from 1,105,004 MWh in September 2025. The direction holds in 10 of the 12 complete months after September 2025.",
+ "fact": "CAISO: the month's battery discharge, MWh, summed from the daily cycle table, 1,335,586 MWh in September 2026, up from 1,105,004 MWh in September 2025. The direction holds in 10 of the 12 complete months after September 2025.",
  "note": "the two ends of the series are different months of the year; every complete month between them is on the chart",
  "shown_before": "",
  "tables": [
@@ -90,7 +90,7 @@
  },
  "tests": [
   {
-   "name": "holds in more than one year",
+   "name": "holds in more than one month",
    "passed": true,
    "words": "10 of the 12 complete months after 2025-09 lie above 2025-09's value"
   },
@@ -105,12 +105,12 @@
    "words": "2025-09 holds 30 and 2026-09 holds 30 observations; the floor is 28"
   },
   {
-   "name": "half the change remains without the first year",
+   "name": "half the change remains without the first month",
    "passed": true,
    "words": "from 2025-10 to 2026-09 the change is 139,752, 60.6 percent of the change from 2025-09"
   },
   {
-   "name": "at least one typical yearly move",
+   "name": "at least one typical monthly move",
    "passed": true,
    "words": "the change is 1.86 typical monthly moves (124,284 MWh a month, the median move between complete months); the floor is 1"
   }
@@ -211,8 +211,8 @@
   "chart_wide": "chart_wide.png"
  },
  "extract_rows": 60,
- "caption": "Battery discharge, month by month. CAISO: the month's battery discharge in CAISO, MWh, summed from the daily cycle table, 1,335,586 MWh in September 2026, up from 1,105,004 MWh in September 2025. The direction holds in 10 of the 12 complete months after September 2025.\n\nChecked five ways before it was drafted: 10 of the 12 complete months after 2025-09 lie above 2025-09's value; from 2025-10 to 2026-09 the change is 139,752, from 2025-09 to 2026-08 it is 357,300; from 2025-10 to 2026-09 the change is 139,752, 60.6 percent of the change from 2025-09; the change is 1.86 typical monthly moves (124,284 MWh a month, the median move between complete months); the floor is 1; 2025-09 holds 30 and 2026-09 holds 30 observations; the floor is 28.\n\nThe claim states a change; it does not say what caused it. the two ends of the series are different months of the year; every complete month between them is on the chart.\n\nSource: storage_daily_cycle, as the ERW holds it. ERW table: storage_daily_cycle.",
- "computed_at": "2026-10-21T02:11:23Z",
+ "caption": "Battery discharge, month by month. CAISO: the month's battery discharge, MWh, summed from the daily cycle table, 1,335,586 MWh in September 2026, up from 1,105,004 MWh in September 2025. The direction holds in 10 of the 12 complete months after September 2025. Every month, more of what was stored came back.\n\nChecked five ways before it was drafted: the direction holds in 10 of the 12 later months; it survives a change of window; 61 percent of the change remains without the first month; the move is 1.9 typical monthly moves of the series; both ends hold at least 30 observations.\n\nThe claim states a change; it does not say what caused it. The two ends of the series are different months of the year; every complete month between them is on the chart.\n\nSource: storage_daily_cycle, as the ERW holds it. ERW table: storage_daily_cycle.",
+ "computed_at": "2026-10-21T02:24:03Z",
  "hunt_version": "1.0.0",
  "method": "docs/methods/automated_analysis_findings.md"
 }

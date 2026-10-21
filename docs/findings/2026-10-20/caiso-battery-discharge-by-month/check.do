@@ -1,6 +1,6 @@
 * ERW findings hunt of 2026-10-20: caiso-battery-discharge-by-month. Reproduces the headline number from extract.csv.
 
-* Expected headline value: 1335586.332000 MWh (the month's battery discharge in CAISO, MWh, summed from the daily cycle table, CAISO, period 202609).
+* Expected headline value: 1335586.332000 MWh (the month's battery discharge, MWh, summed from the daily cycle table, CAISO, period 202609).
 
 * The comparison period 202509 is in the same file; its value is printed after the headline.
 

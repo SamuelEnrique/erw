@@ -1,6 +1,6 @@
 * ERW findings hunt of 2026-10-20: ercot-battery-discharge-by-month. Reproduces the headline number from extract.csv.
 
-* Expected headline value: 770026.000000 MWh (the month's battery discharge in ERCOT, MWh, summed from the daily cycle table, ERCOT, period 202609).
+* Expected headline value: 770026.000000 MWh (the month's battery discharge, MWh, summed from the daily cycle table, ERCOT, period 202609).
 
 * The comparison period 202412 is in the same file; its value is printed after the headline.
 

@@ -15,7 +15,7 @@
  "decimals": 2,
  "grain": "year",
  "fact": "ERCOT, the West hub: share of the 15-minute intervals from 1 January to 25 August with a real-time price below zero at the West hub was 15.95 percent of intervals in 2026, the highest of the 12 complete years held; the previous high was 13.49 percent of intervals in 2022.",
- "note": "the window is 1 January to 2026-08-25 of each year, the last local date the table holds for 2026",
+ "note": "the window is 1 January to 25 August of each year, the last local date the table holds for 2026",
  "shown_before": "",
  "tables": [
   "ercot_all_hub_prices_history"
@@ -179,8 +179,8 @@
   "chart_wide": "chart_wide.png"
  },
  "extract_rows": 45496,
- "caption": "Hours below zero, this year so far. ERCOT, the West hub: share of the 15-minute intervals from 1 January to 25 August with a real-time price below zero at the West hub was 15.95 percent of intervals in 2026, the highest of the 12 complete years held; the previous high was 13.49 percent of intervals in 2022.\n\nChecked before it was drafted: 11 complete years before 2026; the floor is 5; 2026 stands 18.3 percent above 2022, the previous high; the floor is 5 percent; every year from 2015 to 2026 is complete.\n\nThe claim states a change; it does not say what caused it. the window is 1 January to 2026-08-25 of each year, the last local date the table holds for 2026.\n\nSource: ercot_all_hub_prices_history, as the ERW holds it. ERW table: ercot_all_hub_prices_history.",
- "computed_at": "2026-10-21T02:11:29Z",
+ "caption": "Hours below zero, this year so far. ERCOT, the West hub: share of the 15-minute intervals from 1 January to 25 August with a real-time price below zero at the West hub was 15.95 percent of intervals in 2026, the highest of the 12 complete years held; the previous high was 13.49 percent of intervals in 2022. Below zero is no longer a rare quarter hour.\n\nChecked before it was drafted: 11 complete years before 2026; the record period is complete; no gap in the window; it stands 18.3 percent above the previous high (2022).\n\nThe claim states a change; it does not say what caused it. The window is 1 January to 25 August of each year, the last local date the table holds for 2026.\n\nSource: ercot_all_hub_prices_history, as the ERW holds it. ERW table: ercot_all_hub_prices_history.",
+ "computed_at": "2026-10-21T02:24:09Z",
  "hunt_version": "1.0.0",
  "method": "docs/methods/automated_analysis_findings.md"
 }

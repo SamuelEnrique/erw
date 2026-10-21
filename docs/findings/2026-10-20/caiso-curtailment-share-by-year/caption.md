@@ -1,6 +1,6 @@
-Wind and solar curtailed. CAISO: share of the year's wind and solar output that was curtailed: curtailed over curtailed plus generated, 4.53 percent of output in 2025, up from 0.67 percent of output in 2015. The direction holds in 10 of the 10 complete years after 2015.
+Wind and solar curtailed. CAISO: share of the year's wind and solar output that was curtailed: curtailed over curtailed plus generated, 4.53 percent of output in 2025, up from 0.67 percent of output in 2015. The direction holds in 10 of the 10 complete years after 2015. One megawatt-hour in 22 set aside.
 
-Checked five ways before it was drafted: 10 of the 10 full years after 2015 lie above 2015's value; from 2016 to 2025 the change is 3.67, from 2015 to 2024 it is 3.80; from 2016 to 2025 the change is 3.67, 94.9 percent of the change from 2015; the change is 11.23 typical yearly moves (0.34 percent of output a year, the median move between full years); the floor is 1; 2015 holds 365 and 2025 holds 365 observations; the floor is 330.
+Checked five ways before it was drafted: the direction holds in 10 of the 10 later years; it survives a change of window; 95 percent of the change remains without the first year; the move is 11.2 typical yearly moves of the series; both ends hold at least 365 observations.
 
 The claim states a change; it does not say what caused it.
 

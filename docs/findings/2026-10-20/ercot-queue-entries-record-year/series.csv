@@ -1,5 +1,5 @@
 # Energy Research Warehouse (ERW): findings hunt of 2026-10-20, finding ercot-queue-entries-record-year (ERCOT): one row a period: the measure, its observations, whether the period is complete
-# Computed 2026-10-21T02:11:25Z by warehouse/analysis/findings/hunt_oct20.py 1.0.0; method docs/methods/automated_analysis_findings.md
+# Computed 2026-10-21T02:24:05Z by warehouse/analysis/findings/hunt_oct20.py 1.0.0; method docs/methods/automated_analysis_findings.md
 # Sources: ERW table lbnl_interconnection_queue; license public; each table's own header names its publisher's report and retrieval time
 # MW of generation and storage that entered ERCOT's interconnection queue in the year, every status, as LBNL's Queued Up data file records it (MW)
 period,value,n_observations,complete

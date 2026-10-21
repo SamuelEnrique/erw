@@ -294,6 +294,7 @@ def test_trend_months(series, n_floor, decimals, unit, this_month):
     c["first_year"], c["last_year"] = back(c["first_year"]), back(c["last_year"])
     c["years"] = [back(y) for y in c["years"]]
     for t in c["tests"]:
+        t["name"] = t["name"].replace("yearly", "monthly").replace("year", "month")
         t["words"] = re.sub(r"\b(20\d{2})(\d{2})\b", r"\1-\2", t["words"]).replace("full years", "complete months").replace("yearly", "monthly").replace("years", "months").replace("year", "month")
     c["grain"] = "month"
     return c
@@ -373,7 +374,7 @@ def fam_ercot_negative(this_year):
                               "HOURS BELOW ZERO, THIS YEAR SO FAR", f"share of the 15-minute intervals from 1 January to {day_words(cut)} with a real-time price below zero at {HUB_WORDS[node]}",
                               "percent of intervals", 2, windows, r, ["ercot_all_hub_prices_history"], ex,
                               {"op": "share_below", "threshold": 0, "period": r["period"], "compare_period": r["previous_period"]},
-                              note=f"the window is 1 January to {cut} of each year, the last local date the table holds for {this_year}"))
+                              note=f"the window is 1 January to {day_words(cut)} of each year, the last local date the table holds for {this_year}"))
     return out
 
 
@@ -500,7 +501,7 @@ def fam_fuel(this_year):
             out.append(_claim("henry_hub_window", f"henry-hub-this-year-record-{'high' if high else 'low'}", "us", "Henry Hub",
                               "HENRY HUB, THIS YEAR SO FAR", f"the mean daily Henry Hub spot price from 1 January to {day_words(cut)}", "USD per MMBtu", 2, windows, r,
                               ["eia_fuel_spot_prices"], ex, {"op": "mean", "period": r["period"], "compare_period": r["previous_period"]},
-                              note=f"the window is 1 January to {cut} of each year"))
+                              note=f"the window is 1 January to {day_words(cut)} of each year"))
     # Brent minus WTI, by year
     b = d[d["entity"] == "eia:brent"][["date", "year", "value"]].rename(columns={"value": "brent"})
     wti = d[d["entity"] == "eia:wti_cushing"][["date", "value"]].rename(columns={"value": "wti"})
@@ -528,7 +529,7 @@ def fam_fuel(this_year):
             out.append(_claim("brent_wti_window", f"brent-minus-wti-this-year-record-{'high' if high else 'low'}", "world", "Brent against WTI",
                               "BRENT OVER WTI, THIS YEAR SO FAR", f"the mean of the daily Brent spot price minus the WTI Cushing spot price from 1 January to {day_words(cutj)}, on days both are held",
                               "USD per barrel", 2, wsp, r, ["eia_fuel_spot_prices"], ex, {"op": "mean", "column": "spread", "period": r["period"], "compare_period": r["previous_period"]},
-                              note=f"the window is 1 January to {cutj} of each year"))
+                              note=f"the window is 1 January to {day_words(cutj)} of each year"))
     return out
 
 
@@ -562,7 +563,7 @@ def fam_caiso_curtailment(this_year):
         out.append(_claim("curtailment_window", "caiso-curtailment-this-year", "caiso", "CAISO",
                           "CURTAILMENT, THIS YEAR SO FAR", f"curtailed wind and solar output from 1 January to {day_words(cutd)}, MWh", "MWh", 0, windows, r,
                           ["caiso_curtailment_daily"], ex, {"op": "sum", "column": "curtailed", "period": r["period"], "compare_period": r["previous_period"]},
-                          note=f"the window is 1 January to {cutd} of each year"))
+                          note=f"the window is 1 January to {day_words(cutd)} of each year"))
     gen = d[d["variable"].isin(["solar_generation_mwh", "wind_generation_mwh"])].pivot_table(index="date", columns="variable", values="value", aggfunc="sum").dropna().reset_index()
     gen["generation"] = gen["solar_generation_mwh"] + gen["wind_generation_mwh"]
     j = daily.merge(gen[["date", "generation"]], on="date")
@@ -594,7 +595,7 @@ def fam_storage(this_year):
             ex = g[g["month"].isin([r["period"], r["previous_period"]])][["month", "date", "value"]].rename(columns={"month": "period"})
             table = "storage_daily_cycle"
             out.append(_claim("storage_record_month", f"{grid}-battery-discharge-record-month", grid, words,
-                              "THE MOST BATTERY DISCHARGE IN A MONTH", f"the month's battery discharge in {words}, MWh, summed from the daily cycle table", "MWh", 0,
+                              "THE MOST BATTERY DISCHARGE IN A MONTH", "the month's battery discharge, MWh, summed from the daily cycle table", "MWh", 0,
                               monthly, r, [table], ex, {"op": "sum", "period": r["period"], "compare_period": r["previous_period"]}, grain="month"))
         this_month = max(s["period"] for s in monthly)
         c = test_trend_months([x for x in monthly if x["period"] < this_month or x["complete"]], 28, 0, "MWh", this_month if not monthly[-1]["complete"] else "2099-12")
@@ -602,7 +603,7 @@ def fam_storage(this_year):
             m0, m1 = c["first_year"], c["last_year"]
             ex = g[g["month"].isin([m0, m1])][["month", "date", "value"]].rename(columns={"month": "period"})
             out.append(_claim("storage_discharge_months", f"{grid}-battery-discharge-by-month", grid, words,
-                              "BATTERY DISCHARGE, MONTH BY MONTH", f"the month's battery discharge in {words}, MWh, summed from the daily cycle table", "MWh", 0,
+                              "BATTERY DISCHARGE, MONTH BY MONTH", "the month's battery discharge, MWh, summed from the daily cycle table", "MWh", 0,
                               monthly, c, ["storage_daily_cycle"], ex, {"op": "sum", "period": m1, "compare_period": m0}, grain="month",
                               note="the two ends of the series are different months of the year; every complete month between them is on the chart"))
     h = storage_hourly()
@@ -796,24 +797,57 @@ def source_line(f):
     return f"Source: the rows for {f['region_words']} of the ERW table{'s' if len(f['tables']) > 1 else ''} {', '.join(f['tables'])} (license: {f['license']}). Computed by warehouse/analysis/findings/hunt_oct20.py; method {METHOD}."
 
 
-def caption_of(f):
-    """A LinkedIn caption in the ERW's voice: the fact, how it was checked, the source and the table. Under 1,300
-    characters, no em dash, no point of view, no recommendation."""
-    c, g = f["claim"], f["grain"]
-    t = {x["name"]: x["words"] for x in c["tests"]}
+# One light clause a family, written here and not by a model, placed after the fact; each states nothing the numbers do not.
+TAGLINES = {
+    "storage_evening_months": "Dinner time is discharge time.",
+    "storage_discharge_months": "Every month, more of what was stored came back.",
+    "negative_share_window": "Below zero is no longer a rare quarter hour.",
+    "negative_share_year": "Below zero, more often.",
+    "curtailment_window": "What could not be taken, counted.",
+    "curtailment_share_year": "One megawatt-hour in {one_in} set aside.",
+    "curtailment_record_month": "The month the grid had more than it could take.",
+    "queue_entries_year": "Never had so much asked to join the line in one year.",
+    "queue_withdrawn_cohort": "Till queue do us part, less often.",
+    "queue_wait_years": "The line moves; the wait does not.",
+    "peak_premium_year": "The evening charges what the midday no longer does.",
+    "hours_above_100_year": "A hundred dollars an hour, more hours a year.",
+}
+
+
+def tagline(f):
+    t = TAGLINES.get(f["family"])
+    if not t:
+        return ""
+    c = f["claim"]
+    v = c["value"] if c["kind"] == "record" else c["last"]
+    one_in = f"{round(100 / v):,}" if v and 0 < v < 100 else "many"
+    return t.format(one_in=one_in)
+
+
+def checks_words(f):
+    """The checks in one sentence, from the claim's numbers."""
+    c = f["claim"]
     if c["kind"] == "record":
-        head = f"{f['title'].capitalize()}. {fact_of(f)}"
-        checks = [f"Checked before it was drafted: {t['history long enough']}; {t['a margin over the previous record']}; {t['no gap in the window']}."]
-    else:
-        head = f"{f['title'].capitalize()}. {fact_of(f)}"
-        checks = [f"Checked five ways before it was drafted: {t['holds in more than one year']}; {t['survives a change of window']}; {t['half the change remains without the first year']}; "
-                  f"{t['at least one typical yearly move']}; {t['sample large enough']}."]
-    body = [head, *checks, "The claim states a change; it does not say what caused it." + (f" {f['note']}." if f.get("note") else "")]
+        before = c["tests"][0]["words"].split(";")[0]
+        return (f"Checked before it was drafted: {before}; the record period is complete; no gap in the window; it stands "
+                f"{common.fmt(c['margin_pct'], 1)} percent {'above' if c['direction'] == 'high' else 'below'} the previous {c['direction']} ({period_words(c['previous_period'], f['grain'])}).")
+    g = f["grain"]
+    return (f"Checked five ways before it was drafted: the direction holds in {c['years_held']} of the {c['years_after']} later {g}s; it survives a change of window; "
+            f"{common.fmt((c.get('remains_without_first') or 0) * 100, 0)} percent of the change remains without the first {g}; the move is {common.fmt(c['strength'], 1)} typical "
+            f"{g}ly moves of the series; both ends hold at least {common.fmt(min(c['n_first'], c['n_last']), 0)} observations.")
+
+
+def caption_of(f):
+    """A LinkedIn caption in the ERW's voice: the fact, one light clause, how it was checked, the source and the
+    table. Under 1,300 characters, no em dash, no point of view, no recommendation."""
+    tag = tagline(f)
+    head = f"{f['title'].capitalize()}. {fact_of(f)}" + (f" {tag}" if tag else "")
+    note = f" {f['note'][0].upper()}{f['note'][1:]}." if f.get("note") else ""
+    body = [head, checks_words(f), "The claim states a change; it does not say what caused it." + note]
     tail = f"Source: {', '.join(f['tables'])}, as the ERW holds it. ERW table: {f['tables'][0]}."
     text = "\n\n".join(body + [tail])
     if len(text) > 1300:                                # trim the checks first, never the fact or the source
-        short = [head, "Checked against the table's full history before it was drafted; the tests are in the finding's record.", body[2], tail]
-        text = "\n\n".join(short)
+        text = "\n\n".join([head, "Checked against the table's full history before it was drafted; the tests are in the finding's record.", body[2], tail])
     if len(text) > 1300:
         text = "\n\n".join([head, tail])
     assert len(text) <= 1300, len(text)

@@ -1,5 +1,5 @@
 # Energy Research Warehouse (ERW): findings hunt of 2026-10-20, finding caiso-curtailment-this-year (CAISO): the exact rows the headline number comes from, at the table's own grain, for the headline period and the comparison period
-# Computed 2026-10-21T02:11:20Z by warehouse/analysis/findings/hunt_oct20.py 1.0.0; method docs/methods/automated_analysis_findings.md
+# Computed 2026-10-21T02:24:00Z by warehouse/analysis/findings/hunt_oct20.py 1.0.0; method docs/methods/automated_analysis_findings.md
 # Sources: ERW table caiso_curtailment_daily; license public; each table's own header names its publisher's report and retrieval time
 # curtailed wind and solar output from 1 January to 30 September, MWh (MWh)
 period,date,curtailed_solar_mwh,curtailed_wind_mwh,curtailed

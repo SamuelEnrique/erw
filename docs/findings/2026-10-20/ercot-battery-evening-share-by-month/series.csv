@@ -1,5 +1,5 @@
 # Energy Research Warehouse (ERW): findings hunt of 2026-10-20, finding ercot-battery-evening-share-by-month (ERCOT): one row a period: the measure, its observations, whether the period is complete
-# Computed 2026-10-21T02:11:18Z by warehouse/analysis/findings/hunt_oct20.py 1.0.0; method docs/methods/automated_analysis_findings.md
+# Computed 2026-10-21T02:23:59Z by warehouse/analysis/findings/hunt_oct20.py 1.0.0; method docs/methods/automated_analysis_findings.md
 # Sources: ERW table eia930_all_storage; license public; each table's own header names its publisher's report and retrieval time
 # share of the month's battery discharge (hourly net battery output above zero) delivered from 5 PM to 10 PM local (percent of discharge)
 period,value,n_observations,complete

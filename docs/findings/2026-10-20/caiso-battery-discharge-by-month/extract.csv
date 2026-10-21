@@ -1,7 +1,7 @@
 # Energy Research Warehouse (ERW): findings hunt of 2026-10-20, finding caiso-battery-discharge-by-month (CAISO): the exact rows the headline number comes from, at the table's own grain, for the headline period and the comparison period
-# Computed 2026-10-21T02:11:23Z by warehouse/analysis/findings/hunt_oct20.py 1.0.0; method docs/methods/automated_analysis_findings.md
+# Computed 2026-10-21T02:24:03Z by warehouse/analysis/findings/hunt_oct20.py 1.0.0; method docs/methods/automated_analysis_findings.md
 # Sources: ERW table storage_daily_cycle; license public; each table's own header names its publisher's report and retrieval time
-# the month's battery discharge in CAISO, MWh, summed from the daily cycle table (MWh)
+# the month's battery discharge, MWh, summed from the daily cycle table (MWh)
 period,date,value
 202509,2025-09-01,35160.333
 202509,2025-09-02,33779.0
