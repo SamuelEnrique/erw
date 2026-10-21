@@ -5,7 +5,7 @@
 //
 // For "Batteries ate their own lunch? Five grids" and "The peak hour moved: five grids", at desktop width and at a
 // phone's 390 px:
-//   multiples  the small multiples are drawn (one canvas), the axes are stated on the chart, MISO and PJM are greyed
+//   multiples  the small multiples are drawn (one drawing, one SVG panel a grid), the axes are stated on the chart, MISO and PJM are greyed
 //              placeholders, and the page does not scroll sideways
 //   one grid   a click on a grid shows it large: its chart, its three callouts as the card's JSON holds them, its
 //              regression table where the card has one, its words and its caveat; the address keeps the choice
@@ -14,6 +14,9 @@
 // For the hourly curtailment card: drawn, with its effect table, at both widths, no sideways scroll.
 // With --shots, a PNG of each view is written (the phone views are what the report describes). Exit 1 on a failure;
 // 2 when no browser is on the machine.
+// Session 474: sessions 317 and 318 drew the cards' charts in the shared SVG set (components/SvgOption.tsx), so every
+// wait for a canvas waited 30 s for something no page draws any more and the check failed on production; it now waits
+// for the drawing's SVG, and the small multiples are counted as panels (data-panel), one a grid of the card's JSON.
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -47,9 +50,11 @@ const code = await withBrowser(async ({ go, wait, unlock, send, sleep, errors })
       const param = c.chart.param;
       const t = `${id} ${tag}:`;
       await go(`${base}/research/card/${id}`);
-      await wait('!!document.querySelector("[data-finding-chart=\\"multiples\\"] canvas")', 30000, "the small multiples");
+      await wait('!!document.querySelector("[data-finding-chart=\\"multiples\\"] [data-panel] svg")', 30000, "the small multiples");
       await sleep(600);
-      check((await js('document.querySelectorAll("[data-finding-chart=\\"multiples\\"] canvas").length')) === 1, `${t} the small multiples are drawn`);
+      check((await js('document.querySelectorAll("[data-finding-chart=\\"multiples\\"]").length')) === 1
+        && (await js('[...document.querySelectorAll("[data-finding-chart=\\"multiples\\"] [data-panel]")].filter((e) => e.querySelector("svg")).length')) === c.chart.panels.length,
+        `${t} the small multiples are drawn (${c.chart.panels.length} panels, each an SVG)`);
       check((await js('document.querySelector("[data-multi-view]").getAttribute("data-multi-view")')) === "all", `${t} every grid is the first view`);
       const note = await js('document.querySelector("[data-multi-note]").textContent');
       check(note.includes("One timeline for every grid") && note.includes("Left axis") && note.includes("Right axis"), `${t} the axes are stated on the chart`);
@@ -61,7 +66,7 @@ const code = await withBrowser(async ({ go, wait, unlock, send, sleep, errors })
       await shot(`${id}_${tag}_all`);
       for (const p of c.chart.panels) {
         await js(`document.querySelector('[data-multi-pick="${p.grid}"]').click()`);
-        await wait(`!!document.querySelector('[data-multi-grid="${p.grid}"] canvas')`, 20000, `${p.grid} large`);
+        await wait(`!!document.querySelector('[data-multi-grid="${p.grid}"] svg')`, 20000, `${p.grid} large`);
         const got = await js(`(() => { const r = document.querySelector('[data-multi-grid="${p.grid}"]'); return {
           before: [...r.querySelectorAll("[data-grid-before]")].map((e) => e.textContent), after: [...r.querySelectorAll("[data-grid-after]")].map((e) => e.textContent),
           rows: r.querySelectorAll("[data-grid-table] tbody tr").length, words: r.querySelector("[data-grid-words]").textContent, caveat: r.querySelector("[data-grid-caveat]").textContent,
@@ -75,7 +80,7 @@ const code = await withBrowser(async ({ go, wait, unlock, send, sleep, errors })
         if (p.grid === "ercot" || p.grid === "nyiso") await shot(`${id}_${tag}_${p.grid}`);
       }
       await go(`${base}/research/card/${id}?${param}=ercot`);
-      await wait('!!document.querySelector("[data-multi-grid=\\"ercot\\"] canvas")', 20000, "ERCOT from the address");
+      await wait('!!document.querySelector("[data-multi-grid=\\"ercot\\"] svg")', 20000, "ERCOT from the address");
       check(true, `${t} ?${param}=ercot opens ERCOT large`);
       if (id === "batteries_lunch_grids") {
         const old = card("batteries_lunch");
@@ -94,7 +99,7 @@ const code = await withBrowser(async ({ go, wait, unlock, send, sleep, errors })
     }
     const id = "batteries_curtailment_hourly";
     await go(`${base}/research/card/${id}`);
-    await wait(`!!document.querySelector('[data-card="${id}"] canvas')`, 30000, "the hourly card's chart");
+    await wait(`!!document.querySelector('[data-card="${id}"] [data-finding-chart] svg')`, 30000, "the hourly card's chart");
     await sleep(500);
     check((await js('document.querySelectorAll("[data-effect-table] tbody tr").length')) === card(id).effect_table.rows.length, `${id} ${tag}: the effect table`);
     check((await sideways()) <= 0, `${id} ${tag}: no sideways scroll`);
@@ -105,7 +110,7 @@ const code = await withBrowser(async ({ go, wait, unlock, send, sleep, errors })
     for (const [w, h] of [[1080, 1350], [1600, 900]]) {
       await send("Emulation.setDeviceMetricsOverride", { width: w, height: h, deviceScaleFactor: 1, mobile: false });
       await go(`${base}/research/card/${id}?render=1`);
-      await wait('!!document.querySelector("[data-render=\\"1\\"] canvas")', 30000, "the render frame's chart");
+      await wait('!!document.querySelector("[data-render=\\"1\\"] [data-finding-chart] svg")', 30000, "the render frame's chart");
       await sleep(500);
       const m = await js("({ h: document.documentElement.scrollHeight, w: document.documentElement.scrollWidth, foot: Math.round(document.querySelector('.finding-render-foot').getBoundingClientRect().bottom), controls: [...document.querySelectorAll('.multi-controls')].filter((e) => e.offsetParent !== null).length })");
       check(m.foot <= h && m.h <= h && m.w <= w, `${id} ${w} x ${h}: the whole card is on the picture (its last line ends at ${m.foot} of ${h} px)`);

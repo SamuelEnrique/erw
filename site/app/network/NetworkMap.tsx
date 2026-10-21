@@ -114,14 +114,14 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
         </g>
       </svg>
       {hover ? (
-        <div className="pointer-events-none absolute z-10 border border-rule bg-panel px-2 py-0.5 text-xs shadow-sm" data-map-hover={hover.id}
+        <div className="pointer-events-none absolute z-10 border border-rule bg-panel px-2 py-0.5 text-xs" data-map-hover={hover.id}
           style={hover.x < 0 ? { left: 8, top: 8 } : hover.right ? { right: `calc(100% - ${hover.x - 12}px)`, top: hover.y + 12 } : { left: hover.x + 12, top: hover.y + 12 }}>{names.get(hover.id)}</div>
       ) : null}
       {/* the dash runs from the exporter to the importer, faster as the flow is larger; still where the reader asks for less motion */}
       <style>{`@keyframes erw-flow { to { stroke-dashoffset: -12; } } .erw-flow-dash { animation: erw-flow 1.2s linear infinite; } @media (prefers-reduced-motion: reduce) { .erw-flow-dash { animation: none; } }`}</style>
       </div>
       {derived ? (
-        <p className="border-t border-rule bg-panel px-2 py-1 text-[11px] leading-snug text-ink" data-map-derived-label="1">
+        <p className="border-t border-rule bg-panel px-2 py-1 text-xs leading-snug text-ink" data-map-derived-label="1">
           {derived} {held.file.provenance.vintage ? <>Data year: {held.file.provenance.vintage}.</> : null}
         </p>
       ) : null}

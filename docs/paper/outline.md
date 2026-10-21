@@ -161,3 +161,195 @@ was built from. Until the first release, the paper cannot be cited against a fix
 2. A count from `run_status.csv` of what the validator has blocked, or a statement that the log does not record it.
 3. An outside reader for one demonstration's method (the California comparison is the most self-contained).
 4. A ruling on whether section 5.2 may show ERCOT disclosure data resource by resource or only as fleet totals.
+
+## The outline on what the warehouse can show, session 446, 21 October 2026
+
+Written unattended on the portable laptop (chain `queue/done/017-night-21-october-third.md`). Everything above this
+heading is session 139's outline of 7 October and is unchanged. This section lays the same paper out in the shape of
+the IRW paper (the data standard, the harmonization, the coverage, the licensing ledger, the validator, the citable
+release, the uses) and says, section by section, which figures and tables the warehouse can produce today and which
+need work. Where session 139's text already covers a part, it is referred to, not repeated.
+
+**Where the counts come from.** Every count in this section was computed by
+`runs/chain_oct21_third/s446/counts.py` (kept outside git, as `runs/` is; its output `counts.json` beside it) from
+`warehouse/metadata/coverage.csv`, `sources.csv`, `license_status.csv` and `run_status.csv`, `docs/licenses.md`,
+`docs/redivis/release-v1/tables.csv` and `variables.csv`, and `docs/datastandard.md`, as they stand on the branch
+`wip/441-450-third` on 21 October 2026. `coverage.csv`'s newest `last_run` is 2026-10-20 20:21 UTC. The counts of
+session 139's outline (171 tables, 114 publisher names, 145 public and 26 internal) are of 7 October; the ones below
+replace them when the paper is drafted, and are themselves to be read again on the day of the release the paper cites.
+
+**A key, in this section,** is how a figure's numbers are found in a table: the table's key under the standard
+(`(entity, variable, ts_utc)` for a `series` table, `event_id` for an `events` table) and the variables a figure
+reads. Every variable named below is listed for its table in `docs/redivis/release-v1/variables.csv`.
+
+### The warehouse today, in eight numbers
+
+| Count | Value | Source |
+|---|---|---|
+| Tables | 212 | `coverage.csv`, one row a table |
+| Rows | 40,332,903 (37,357,126 in public tables, 2,975,777 in internal) | `coverage.csv`, `n_rows` |
+| Flag | 179 public, 33 internal | `coverage.csv`, `license` |
+| Tier | 125 source, 67 derived, 20 model extracted | `coverage.csv`, `tier` |
+| Validator | 212 of 212 pass (1 with a warning: `census_metro_population`) | `coverage.csv`, `validator_status` |
+| Sources | 338 source rows from 148 publisher names (216 public, 122 internal) | `sources.csv` |
+| Licenses | 84 publishers in the record, 82 requests; ERW verdict 130 public, 33 internal, 49 unsettled; 42 tables "license needed" | `docs/licenses.md` ("Read these first", "Every table"); `license_status.csv` |
+| Release v1 as packaged | 135 tables and 3 metadata tables in; 42 held for a license; 2 held for storage; 28,830,665 rows in the 138 | `docs/redivis/release-v1/tables.csv`, `in_v1` |
+
+### Part 1. The data standard
+
+What the IRW paper's section on its format does, for the ERW: the three shapes, the leading columns, UTC, units, the
+provenance columns and the naming rule. Session 139's 3.1 is the text; this adds what can be shown.
+
+- **Today.** Table A: the 135 tables of v1 by shape (115 `series`, 10 `events`, 10 `entities`) and by tier, from
+  `tables.csv` and `coverage.csv`. The standard's 48 numbered decisions (`docs/datastandard.md`, "Decisions in v0",
+  1 to 48) as a timeline in an appendix: each dated by its session, so a reader sees the standard grow with the
+  sources. One worked example from source file to rows: `caiso_fuel_supply` (key `(entity, variable, ts_utc)`;
+  variables `solar_mw`, `natural_gas_mw`, `imports_mw` and the rest), which is public, in v1, and from one publisher.
+- **Needs work.** The standard is "v0" in its own name (`STANDARD = "ERW Data Standard v0"` in
+  `warehouse/validate/erw_validate.py`). The paper needs a version a reader can cite: the standard numbered and
+  frozen at the release the paper cites. That is a decision (cover note, 4), then a session's work.
+
+### Part 2. The harmonization
+
+The IRW's central claim is that many sources in one shape can be pooled. The ERW's equivalent is that sources of
+different kinds join by key. The figures must show a join, not a table.
+
+- **Today, in v1.** Figure 5 (list below): EIA's two federal series against each other by balancing authority,
+  `eia_annual_crosscheck_ba` (144 rows, 2023 to 2025; key `(entity, variable, ts_utc)`; variables
+  `eia923_net_generation_mwh`, `eia930_net_generation_mwh`, `gap_pct`; method `docs/methods/eia_annual_crosscheck.md`).
+  It needs only public, released tables and shows the point of a common shape in one chart.
+- **Today, in v1.** The three demonstrations of session 139's section 5, where their tables are released:
+  `ba_supply_monthly` (158,503 rows, 2019 to 2026; variables `net_import_share_pct`,
+  `net_import_balance_share_pct`, `net_import_total_interchange_share_pct`), `battery_stack_monthly`,
+  `ercot_storage_dam_awards_monthly`, `ercot_storage_dam_offers_monthly`, `ercot_storage_rt_monthly` and
+  `grid_stress_yearly` (detail under "The uses").
+- **Needs work.** A figure that joins prices across grids. Every table that holds more than one grid's prices in one
+  shape is held out of v1 for a license: `iso_dam_hub_prices` (MISO), `hub_price_comparison` and
+  `cost_of_power_monthly` (ISO-NE, MISO, NYISO), each "license needed from 2026-10-21" in `tables.csv`. Release v1's own
+  ruling 2 (`docs/redivis/release-v1.md`, "For a ruling before the day") asks whether a copy without the held grids'
+  rows could be in v1; until it is ruled, the harmonization of prices can be shown in the paper only for one grid
+  (ERCOT, `ercot_hub_prices_daily`, 346,476 rows from 2015) or for tables a reader cannot download from the release.
+
+### Part 3. The coverage
+
+- **Today.** Figure 1: each table's span, `ts_min` to `ts_max`, grouped by sector, from `coverage.csv` (released as
+  `erw_coverage` in v1). The earliest row is 1920 (`eia_crude_imports_by_country`); power is 173 of the 212 tables'
+  sectors (a table can have several: carbon 16, oil 16, datacenters 13, gas 12, and ten more). Table B: tables and rows
+  by sector and flag.
+- **Needs work.** Two honest statements the figure will force, each needing a sentence and not a session: most hourly
+  ISO tables begin in late August 2026 (for example `iso_dam_hub_prices` from 2026-08-26), and some families are split
+  by period across tables (`caiso_fuel_supply_history` to 2025-06-01, `caiso_fuel_supply` from then). The figure should
+  draw a family as one bar where the method notes say they continue each other; that mapping is not written down
+  anywhere and is a session's work.
+
+### Part 4. The licensing ledger
+
+The part with no counterpart in the IRW paper, and the one the ERW can show best today.
+
+- **Today.** Figure 3: the 212 tables by ERW verdict (130 public, 33 internal, 49 unsettled) and, for the 42 "license
+  needed", by the publisher that decides them (`docs/licenses.md`, "Every table" and "Read these first": NYISO 31,
+  ISO-NE 27, MISO 24, then news and datacenter publishers at 2 to 4 each). Table C: the 84 publishers read, each with
+  the verdict "as the ERW is today" and "if the ERW sells anything". The paused publishers (2: MISO, and the Virginia
+  State Corporation Commission, `paused_sources.csv`) named with their reasons.
+- **Needs work.** The four permission letters (`docs/reviews/licenses/`) are drafted and not sent; the paper reports
+  the ledger as of its release, so whatever the letters bring changes Figure 3 before it is drawn. And
+  `docs/licenses.md` says of itself that no lawyer has read the verdicts; the paper must say so too.
+
+### Part 5. The validator
+
+- **Today.** Table D: the validator's rules from the code (`warehouse/validate/erw_validate.py`: the required
+  columns, the reserved names, the unit set, the key's uniqueness, the three exit codes), as session 139's 3.2 planned.
+  212 of 212 tables pass today. Figure 4: the run log, 6,312 rows from 25 September to 20 October 2026, by day and
+  status (3,868 ok, 2,180 gap, 134 failed, 130 skipped; `run_status.csv`). The checks beyond the validator (session
+  139's 3.3) with today's count of test files: 320 under `tests/`.
+- **Needs work.** Session 139 asked for the number of tables the validator has blocked. The run log cannot give it:
+  no `detail` in `run_status.csv` mentions the validator (0 of 6,312), and a blocked table is recorded as a failed
+  step without saying which check failed it. Either the validator's exit is logged with its rule from now on (a
+  session's work, and then the count starts at that day), or the paper says the log does not record it.
+
+### Part 6. The citable release
+
+- **Today.** Release v1 is packaged and checked, not released (`docs/redivis/release-v1.md`; session 375 spliced it).
+  Table E: what is in it (135 tables, 3 metadata tables, 28,830,665 rows) and what is held (42 for a license, 2 for
+  storage: `node_basis_daily`, `ercot_all_hub_prices_history`), from `tables.csv`.
+- **Needs work.** The click, by a person. Before it: whether the dataset moves under Ben's Redivis organization first
+  (`docs/redivis/organization-move.md`, prepared and not moved), and Redivis's storage (the free 10 GB is full;
+  `docs/state/morning_2026-10-21_day.md`, item 1). The paper cannot be cited against a fixed dataset until v1 exists:
+  this is session 139's "What the outline needs before drafting", item 1, still open.
+
+### Part 7. The uses
+
+Session 139's three demonstrations, each checked against what v1 holds.
+
+- **5.1 California in EIA-930.** Today: the monthly figure (imports as a share of demand by two measures) from
+  `ba_supply_monthly` (variables `net_import_balance_share_pct` and `net_import_total_interchange_share_pct`, key
+  `(entity, variable, ts_utc)`), in v1. Needs work: the hourly offset by day for 1 November 2023 to 2 December 2025.
+  `eia930_all_generation` holds hours from 2026-08-26 only, and `eia930_all_history` from 2018-01-01 to 2018-07-01
+  (`coverage.csv`); the hourly series the finding rests on is not in a held table today. Either it is pulled again
+  into a table (the data machine's work, a pull no chain has approved) or the figure is the monthly one alone.
+- **5.2 What Texas batteries earn.** Today, all in v1: `battery_stack_monthly` (the model, variables of the form
+  `<strategy>_<N>h_revenue_total_usd_per_mw`, Decision 38), `ercot_storage_dam_awards_monthly` (`energy_sold_usd`,
+  `mw`, `days_held`), `ercot_storage_dam_offers_monthly` (the offer by price band) and `ercot_storage_rt_monthly`
+  (`revenue_da_usd_per_mw`, `rt_discharge_mwh`). The awards table holds December 2025 to August 2026. Needs work: none
+  for the figure; the ruling session 139 named (resource by resource or fleet totals) is still open.
+- **5.3 When Texas is tight.** Today, part one: `grid_stress_yearly` (variable `tight_solar_share_of_capacity_pct`,
+  2019 to 2026), in v1. Needs work, part two: the flat and flexible cost per MWh is in `cost_of_power_monthly`, held
+  out of v1 for the other grids' rows; an ERCOT-only copy, or release ruling 2, is needed for the figure to be
+  reproducible from the release.
+- **Section 6, large load in line.** Today: `large_load_public` (341 rows, public, in v1; `event_id`; columns
+  `stage_class`, `entity_group`, `mw_low`, `mw_high`, `wait_basis`). It replaces the pilot session 139 named as the
+  source of Figure 4. The internal `large_load_statements` (798 rows) stays out of the paper.
+- **Faults found.** Table 2 of session 139's section 4 is `known_data_faults` (28 rows, 2018-07-20 to 2026-10-05,
+  `event_id`; columns `x_publisher_source`, `x_evidence`, `x_erw_does`, `x_resolution`), in v1. Today.
+
+### The figure list
+
+| # | Figure | Tables (all in `coverage.csv`) | In v1 | Today or needs work |
+|---|---|---|---|---|
+| 1 | Each table's span by sector | `erw_coverage` (from `coverage.csv`) | yes | today; a family drawn as one bar needs the mapping written |
+| 2 | Tables and rows by shape and tier | `coverage.csv`, `tables.csv` | yes | today |
+| 3 | The licensing ledger: tables by verdict and deciding publisher | `docs/licenses.md`, `license_status.csv` | the ledger is a document | today; redrawn after the letters |
+| 4 | The run log by day and status | `run_status.csv` | not a table of v1 | today; validator blocks need logging |
+| 5 | EIA-923 against EIA-930 by balancing authority | `eia_annual_crosscheck_ba` | yes | today |
+| 6 | California: imports by two measures by month; the hourly offset | `ba_supply_monthly`; the hourly offset needs a table | yes; no | monthly today; hourly needs a pull |
+| 7 | Battery model against day-ahead awards; the offer curve | `battery_stack_monthly`, `ercot_storage_dam_awards_monthly`, `ercot_storage_dam_offers_monthly`, `ercot_storage_rt_monthly` | yes | today |
+| 8 | Solar in Texas's tight hours by year | `grid_stress_yearly` | yes | today |
+| 9 | Flat and flexible cost per MWh by year | `cost_of_power_monthly` | no (held) | needs release ruling 2 or an ERCOT-only table |
+| 10 | Large load statements by entity and stage | `large_load_public` | yes | today |
+
+The tables of the paper: A (v1 by shape and tier), B (tables and rows by sector and flag), C (the publishers and their
+verdicts), D (the validator's rules), E (what v1 holds and holds out), and session 139's Table 2, now
+`known_data_faults`.
+
+### The author roles
+
+**The master plan is not in the repository.** The chain asks for the author roles "as the master plan states them";
+a search of every file for `02_master_plan` and for "master plan" finds only references to it (the chain files of
+20 and 21 October, `docs/reviews/research/ask-the-grid-landscape-2026-10.md`, `site/lib/board4.ts`), not the plan.
+No role is quoted here for that reason. What the repository records, for Samuel's and Ben's ruling:
+
+- Samuel builds and maintains the ERW, "as a Stanford independent study" (`README.md`, "Lineage"); one maintainer
+  (session 139's section 7).
+- Ben Domingue's Item Response Warehouse is the template the ERW copies with its owner's permission (`README.md`,
+  "Lineage"); Ben reviewed the ERW on 28 September 2026 (`docs/feedback/ben-2026-09-28.md`), and the review changed the
+  standard (decision 28) and the store design (`ARCHITECTURE.md`, section 1a); the Redivis dataset is prepared to move
+  under Ben's organization (`docs/redivis/organization-move.md`).
+- `docs/roadmap.md` names Ben and Khalid as giving input ("Input from Ben and Khalid", empty today).
+
+Samuel pastes the master plan's lines on authorship into this file, or rules them here.
+
+### Cover note: five decisions the paper needs from Samuel and Ben
+
+1. **Authors and their order**, with what each did, against the master plan's lines (not in the repository; above).
+2. **Which release the paper cites, and under whose name.** v1 as packaged (135 tables, 42 held for a license), and
+   whether it is released under Ben's Redivis organization or the owner's account (`docs/redivis/release-v1.md`,
+   ruling 3). The citation, every figure's reproduction and section 6 of the paper all wait on this click.
+3. **The held tables.** Whether the paper uses only what v1 holds (then Figure 9 and every cross-grid price figure
+   leave the paper, and harmonization is shown on EIA's series and one grid), or v1 first takes copies without the
+   held grids' rows (release ruling 2).
+4. **The standard as cited.** Whether "ERW Data Standard v0" with its 48 decisions is frozen and numbered at the
+   release, so that the paper and the validator cite one version.
+5. **The demonstrations.** Whether the California demonstration stays with its hourly figure (which needs EIA-930's
+   hourly generation for November 2023 to December 2025 pulled again into a table, a pull no chain has approved) or
+   becomes the monthly figure only; and whether the 20 model-extracted tables (`coverage.csv`, tier) are in the paper's
+   scope at all, given that each depends on a commercial model (session 139's section 7).

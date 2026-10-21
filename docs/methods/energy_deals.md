@@ -53,3 +53,63 @@ Each number `/deals` shows carries its key (`site/components/Num.tsx`), which `s
 - `deals|month_mw|<month>`: the MW announced in that month, the sum of the deals' `mw`, with the number of deals that state MW beside it.
 - `deals|month_ai_pct|<month>`: the share of that month's deals tagged AI or datacenter power, rounded to a whole percent; with no deal in the month the cell says so and shows no number.
 - `event|energy_deals|<deal>|mw` and `event|energy_deals|<deal>|dollars`: a deal's `mw` and its dollars in the table's row, blank where the story states none.
+
+## Master plan tool 6, field by field (session 465)
+
+Master plan tool 6 (`docs/master_plan.md`): "Structured, running database of every deal struck to power AI: nuclear
+restarts, SMR offtakes, gas buildouts, PPAs, behind-the-meter, with counterparties, MW, price where disclosed, and
+status." Each field against `energy_deals` as extracted on 2026-10-20T06:17:34Z (492 rows); the counts are in
+`docs/reviews/deals-tool6-2026-10-21.md`, with the script that made them.
+
+- **Held as a field**: the type (fourteen types, with `ppa`, `offtake`, `project_finance`, `m_and_a`,
+  `nuclear_restart`, `smr` and `behind_the_meter` among them), the buyer, seller and other parties, `mw`, the price
+  (`price` in USD per MWh, `price_value` with `price_unit` otherwise), the status, the AI power tag.
+- **Read from fields already held** (session 465, `kindsOf` in `site/lib/deals2.ts`, nothing written to a table): the
+  four kinds tool 6 names that the tracker's groups gather under Other. Nuclear restart, small modular reactor and
+  behind the meter are the extraction's own type, or the same words in the asset or the technology ("restart",
+  "small modular", "SMR", "microreactor", "behind the meter", "co-located", "on-site"). Gas generation has no type: a
+  deal is of it where the technology names gas and the asset a plant, a turbine or generation, an acquisition or a fuel
+  supply excepted. Whether a plant is new build the table does not say, so the kind is called gas generation, not a
+  buildout. The tracker offers the kinds and the status as two more choices; the AI power subset was already one click.
+- **Needs a pull not approved**: a deal's point of delivery and node, its tenor where the story omits it, and prices the
+  stories do not state (a filing or a press release beyond the news the ERW reads).
+
+## The hold (session 465)
+
+From 21 October 2026 `energy_deals` is "license needed" (`warehouse/metadata/license_status.csv`; the owner's ruling of
+12 October 2026, drawn on the pages by session 215): every deal of the table was extracted from news stories, and the
+outlets' own pages ask for permission. The pages draw the catalogue's words where a deal would be, and say how many
+rows the hold covers: `catalogue|energy_deals|n_rows`, the row count of `energy_deals` in the catalogue, the figure
+`/data` shows. No row of the held table is read for it.
+
+Which rows rest on a source whose terms the ERW reads as public was counted by the third machine's session 441 on the
+files of 20 October (`docs/reviews/sources-by-row-2026-10-21.md`, on `wip/441-450-third` until it lands): 9 of the 492
+rows, all from World Nuclear News, none with a stated MW. Showing those rows alone needs a license column a row (that
+review's method) and a ruling; until then the hold is whole.
+
+## Decisions
+
+The pages list every choice they make about the deals, one line each with its session and ruling, in a block under
+every tab (`site/app/deals/Decisions.tsx`, session 465).
+
+## The comparables view (session 466)
+
+`/deals?view=comparables` (in review, under the tracker's tab) sets the deals' disclosed figures side by side, one
+dimension at a time: the deal type (the extraction's fourteen types, the default), the technology as the story states
+it, the grid (read from the state, as the tracker reads it) or the year (`?by=type`, `technology`, `grid`, `year`). The
+register's folded pairs are counted once, as on the tracker. For each group, a row of one table:
+
+- `deals|comp_deals|<dimension>|<value>`: the deals of the group;
+- `deals|comp_with_price|<dimension>|<value>`: those that state a price in US dollars per MWh;
+- `deals|comp_median_price|<dimension>|<value>`: the median of those prices, only where three or more deals state one;
+- `deals|comp_with_mw|<dimension>|<value>`: those that state a size in MW;
+- `deals|comp_median_mw|<dimension>|<value>`: the median of those sizes, only where three or more deals state one.
+
+The value is the group's own (a type's id, a technology's words, a grid, a year), "-" for the group that does not state
+it. **Nothing is computed from fewer than three disclosed deals**: a group with fewer says "fewer than three". A median
+is of the figures the stories state; a deal that states none is left out, never counted as zero. One chart beside the
+table shows the median price of each group that has one; where no group of the dimension has three deals that state a
+price (every group of the 492 rows of 20 October: none states a price), it shows the median size, and says so. The
+functions are `comparables()`, `medianOf()` and `shown()` of `site/lib/deals2.ts`; `site/scripts/check-values.mjs`
+recomputes every key with the same functions on the live set's rows. Under the hold the view shows the hold's words
+and the rows it covers, and nothing of a row.

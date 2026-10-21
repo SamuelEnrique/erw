@@ -73,7 +73,7 @@ export function NetworkGravity({ gen, net, names, colorOf, pick, neighbours, onP
           })}
         </svg>
         {hover ? (
-          <div className="pointer-events-none absolute z-10 border border-rule bg-panel px-2 py-0.5 text-xs shadow-sm" data-gravity-hover={hover.id}
+          <div className="pointer-events-none absolute z-10 border border-rule bg-panel px-2 py-0.5 text-xs" data-gravity-hover={hover.id}
             style={hover.x < 0 ? { left: 8, top: 8 } : hover.right ? { right: `calc(100% - ${hover.x - 12}px)`, top: hover.y + 12 } : { left: hover.x + 12, top: hover.y + 12 }}>{nameOf(hover.id)}</div>
         ) : null}
       </div>

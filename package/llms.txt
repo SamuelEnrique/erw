@@ -489,6 +489,16 @@ redistribute an internal table; label any number from one as internal. A
 derived table takes the most restrictive license of its inputs. For anything
 public, `erw.filter(license="public")`.
 
+Held: license needed (from 2026-10-21; session 445, docs/guide.md). A table
+flagged public whose publisher's own page asks for permission or a license is
+held unless a permission is recorded: the rows of
+warehouse/metadata/license_status.csv (42 on 21 October 2026, decided mostly
+by NYISO, ISO-NE and MISO; docs/licenses.md). coverage.csv still says `public`
+for them, so `erw.filter(license="public")` returns them: a held table is not
+offered by the site or /api/download and is out of Redivis version 1
+(docs/redivis/release-v1/tables.csv, in_v1 = no). Do not present a number from
+one as republishable; say it is held for a license.
+
 Provenance tier (session 28): every table is `source` (as the publisher
 published it), `derived` (computed by the ERW from other tables, method in
 docs/methods/) or `model_extracted` (at least one field written by a model
@@ -663,3 +673,20 @@ report, then the ERW table and data version as the route:
 names the publisher, report id and title, report page, retrieval date, table
 and data commit. For Redivis, cite the released dataset version. For a
 reproducible result also give `erw.version()`: tables change daily.
+
+The citation form of a Redivis version (docs/redivis/release-v1.md, "How to
+cite v1"; each table's own line is the column citation of
+docs/redivis/release-v1/tables.csv):
+
+    <the publisher>. <the report>. Via the Energy Research Warehouse (ERW),
+    table `<table>`, Redivis dataset `energy_research_warehouse`, version v1
+    (released YYYY-MM-DD).
+
+The dataset is https://redivis.com/datasets/05yh-65frzyhaz (site/data/site.json).
+Version 1 is pending release (session 445): until a person releases it, the
+draft has no version number and is not citable, so cite the table, the data
+commit and the date read, as erw.cite() writes them. A page's own figures are
+rebuilt by its replication files (site/public/<tool>/erw_2026_*_replication.py
+and .do); the site's downloads (/api/download?table=<table>, with &as=py or
+&as=do for a Python or Stata reader; no R reader is offered) are described in
+docs/guide.md, the reader's guide.

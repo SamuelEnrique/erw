@@ -7,6 +7,7 @@ import { Num } from "@/components/Num";
 import { companies, deals, renderTime } from "@/lib/data";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { count } from "@/lib/format";
+import { isLicenseReason } from "@/lib/license";
 import { attempt } from "@/lib/supabase";
 import { Tabs } from "@/components/tool/Tabs";
 import { TableDownloads } from "@/components/tool/TableDownloads";
@@ -15,6 +16,9 @@ import { one, tabOf } from "@/lib/tabs";
 import { CompaniesView } from "../companies/view";
 import { DealsTable, type Deal } from "./DealsTable";
 import { TrackerView } from "./v2/view";
+import { ComparablesView } from "./comparables/view";
+import { DealsDecisions } from "./Decisions";
+import { DealsHeld } from "./Held";
 
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "Deals" };
@@ -25,13 +29,17 @@ export const metadata: Metadata = { title: "Deals" };
 // tracker (?tab=tracker&party=<name>), and each company row links to it.
 export default async function DealsPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const sp = one(await searchParams);
-  const tab = tabOf("/deals", sp.tab);
+  // session 466: /deals?view=comparables, the tracker's disclosed figures side by side, under the tracker's tab
+  const comparablesView = sp.view === "comparables";
+  const tab = comparablesView ? "tracker" : tabOf("/deals", sp.tab);
   return (
     <Brand>
       <ToolPage>
         <div data-deals-tab={tab}>
           <Tabs page="/deals" active={tab} />
-          {tab === "tracker" ? <TrackerView sp={sp} /> : tab === "companies" ? <CompaniesView /> : <DealsView />}
+          {comparablesView ? <ComparablesView sp={sp} /> : tab === "tracker" ? <TrackerView sp={sp} /> : tab === "companies" ? <CompaniesView /> : <DealsView />}
+          {/* session 465: the decisions block, under every tab and under the hold */}
+          <DealsDecisions />
           {/* session 329: each tab's public tables, as CSV with a Python and a Stata reader (session 328's shared line) */}
           <TableDownloads tables={tab === "companies" ? ["energy_companies", "energy_deals"] : ["energy_deals", "news_stories"]} />
           <Related href="/deals" />
@@ -60,7 +68,10 @@ async function DealsView() {
         <Link href="/data/methods/energy_deals">Method</Link>.
       </p>
       {!res.ok ? (
-        <NoData what="deals" reason={res.reason} />
+        <>
+          <NoData what="deals" reason={res.reason} />
+          {isLicenseReason(res.reason) ? <DealsHeld /> : null}
+        </>
       ) : res.data.length === 0 ? (
         <NoData what="deals" reason="energy_deals has no rows in the live set" />
       ) : (

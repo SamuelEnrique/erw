@@ -35,6 +35,14 @@ registry are not in `../metadata/`).
 `internal` tables (PJM data, licensed for internal use only) must never be
 shown publicly: filter with `erw.filter(license="public")`.
 
+From 21 October 2026 a table flagged public whose publisher asks for
+permission is **held: license needed** unless a permission is recorded
+(`warehouse/metadata/license_status.csv`, 42 tables; `docs/licenses.md`).
+`coverage.csv` still says `public` for these, so `erw.filter(license="public")`
+returns them; the site does not offer them and Redivis version 1 leaves them
+out. The reader's guide, [`docs/guide.md`](../docs/guide.md), says what held
+means, how to cite, and how to download a table from the site.
+
 ## Example
 
 ```python
@@ -44,6 +52,12 @@ df = erw.fetch("ercot_dam_hub_prices")      # ts_utc is the interval START, in U
 print(df.attrs["erw"]["sources"])            # the ISO report(s) behind the numbers
 print(erw.cite("ercot_dam_hub_prices"))      # cite the ISO report, and the ERW table
 ```
+
+`erw.cite` names the data commit. For a released Redivis version, cite it as
+`docs/redivis/release-v1.md` ("How to cite v1") gives: the publisher, the
+report, then "Via the Energy Research Warehouse (ERW), table `<table>`, Redivis
+dataset `energy_research_warehouse`, version v1 (released YYYY-MM-DD)". Version
+1 is pending release; the draft is not citable.
 
 ## Functions
 

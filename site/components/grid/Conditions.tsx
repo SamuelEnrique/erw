@@ -248,7 +248,7 @@ export async function GridYesterday({ code }: { code: string }) {
       <div className="mb-4 flex flex-wrap gap-3 text-xs" aria-label="Fuel colors">
         {FUELS.map((f) => (
           <span key={f.key} className="flex items-center gap-1">
-            <span className="inline-block h-3 w-3 rounded-sm" style={{ background: `var(--color-fuel-${f.key})` }} />
+            <span className="inline-block h-3 w-3" style={{ background: `var(--color-fuel-${f.key})` }} />
             {f.label}
           </span>
         ))}

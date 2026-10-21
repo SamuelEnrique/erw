@@ -44,6 +44,7 @@ NYISO N.Y.C. (zone J), MISO INDIANA.HUB, SPP SPPSOUTH_HUB, ISO-NE
 
 import argparse
 import datetime as dt
+import glob
 import json
 import os
 import re
@@ -126,7 +127,8 @@ def build_clusters(stories):
             "sector": lead["sector"], "why": lead["why"], "mw": next((x for x in g["mw"] if x), ""),
             "price": next((x for x in g["price_mentioned"] if x), ""), "parties": lead["parties"],
             "first": g["event_date"].min(), "n": len(g),
-            "links": [(r.source, r.source_url) for r in g.itertuples()][:3],
+            # session 470: one link an address (two stories of a cluster at one address printed it twice)
+            "links": list({r.source_url: (r.source, r.source_url) for r in g.itertuples()}.values())[:3],
             "titles": list(g["title"])[:4], "summary": lead["summary"][:300],
         })
     c = pd.DataFrame(rows)
@@ -233,22 +235,89 @@ def norm_headline(h):
     return re.sub(r"[^a-z0-9 ]+", "", h.lower()).strip()
 
 
+# Session 470 (docs/reviews/digest-audit-2026-10-21.md, fix 5; roundup-audit fix 1): one event, one item. The scorer joins
+# stories only within a scoring batch, so one event scored in two batches is two clusters: Korea's USD 120 billion nuclear
+# framework was top 1 and top 2 on 2 October, the attack on Aramco's headquarters top 6 and top 7 on 14 October.
+STOP = set("""the a an and or of to in on for with from by at as is are was were be been its it this that than into over under
+after before about amid says said say new more most will would could may can has have had not no but up down out off
+us usa per year years week day today report reports jan feb mar apr may jun jul aug sep sept oct nov dec january february march
+april june july august september october november december""".split())
+GENERIC_PARTY = set("department government ministry administration energy company group holdings corp corporation inc llc ltd "
+                    "united states national federal state office agency commission".split())
+
+
+def title_words(t):
+    """The content words of a title, lower case, a plural's s taken off."""
+    w = [x for x in re.findall(r"[a-z0-9]+", str(t).lower()) if len(x) >= 3 and x not in STOP and not x.isdigit()]
+    return {x[:-1] if len(x) > 4 and x.endswith("s") else x for x in w}
+
+
+def event_figures(r):
+    """The amounts that name an event: a sum of money (not a price per unit) and a capacity in MW, as (kind, value)."""
+    out = set()
+    for f in figures(r):
+        f = f.replace(",", "")
+        if re.search(r"\bper\b|/", f):
+            continue
+        m = re.search(r"(\d[\d.]*)\s*(billion|bn|million|mn|mm|trillion|tn|b|m)?\b", f, re.I)
+        if not m:
+            continue
+        try:
+            v = float(m.group(1))
+        except ValueError:
+            continue
+        if re.search(r"\$|USD|EUR|CAD|GBP", f):
+            mult = {"billion": 1e9, "bn": 1e9, "b": 1e9, "million": 1e6, "mn": 1e6, "mm": 1e6, "m": 1e6,
+                    "trillion": 1e12, "tn": 1e12}.get((m.group(2) or "").lower(), 1)
+            if v * mult >= 1e6:
+                out.add(("usd", round(v * mult / 1e6)))
+        elif re.search(r"GW\b", f):
+            out.add(("mw", round(v * 1000)))
+        elif re.search(r"MW\b", f) and v >= 10:
+            out.add(("mw", round(v)))
+    return out
+
+
+def party_words(r):
+    return {w for p in str(r.get("parties") or "").split(";") for w in re.findall(r"[a-z]{4,}", p.lower())} - GENERIC_PARTY
+
+
+def same_event(a, b):
+    """Session 470: two clusters are one event when they name a party in common, are filed in one sector, and either their
+    lead titles share most of their words (four or more, and 0.6 of the smaller set or more) or they share an amount (a
+    sum of money of USD 1 million or more, a capacity of 10 MW or more). Without a party in common two titles of one kind
+    (a day's gas futures report, a company's notice) are not one event; without one sector two stories that name a large
+    party and a round sum (Nvidia and USD 5 billion, on 9 October, in two different stories) are not."""
+    if a.get("sector") != b.get("sector") or not party_words(a) & party_words(b):
+        return False
+    ta, tb = title_words((a.get("titles") or [""])[0]), title_words((b.get("titles") or [""])[0])
+    both = ta & tb
+    if len(both) >= 4 and len(both) / min(len(ta), len(tb)) >= 0.6:
+        return True
+    return bool(event_figures(a) & event_figures(b))
+
+
 def unique_items(sections, heads, log):
     """Session 21, ruling 5: the digest once showed the same event twice with identical wording, because
     each section chose its clusters on its own, so a top-10 cluster came back under By sector and AI and
     power. The sections now take distinct clusters; this also drops a later cluster whose headline, once
-    normalized, or first source link repeats an earlier item's (the same event in two clusters).
+    normalized, or any source link (session 470: any, not only the first) repeats an earlier item's, or that is
+    the same event as an earlier item (session 470, same_event).
     Returns the sections with the repeats removed."""
-    seen_h, seen_u, out = set(), set(), {}
+    seen_h, seen_u, kept, out = set(), set(), [], {}
     for name, df in sections.items():
         keep = []
         for r in df.to_dict("records"):
             h, urls = norm_headline(heads[r["cluster_id"]]), [u for _, u in r["links"]]
-            if h in seen_h or (urls and urls[0] in seen_u):
-                log(f"  dropped a repeat in {name}: {heads[r['cluster_id']]!r} ({r['cluster_id']})")
+            twin = next((k for k in kept if same_event(k, r)), None)
+            if h in seen_h or set(urls) & seen_u or twin is not None:
+                why = (f", the same event as {twin['cluster_id']}" if twin is not None and h not in seen_h
+                       and not set(urls) & seen_u else "")
+                log(f"  dropped a repeat in {name}: {heads[r['cluster_id']]!r} ({r['cluster_id']}{why})")
                 continue
             seen_h.add(h)
             seen_u.update(urls)
+            kept.append(r)
             keep.append(r["cluster_id"])
         out[name] = df[df["cluster_id"].isin(keep)]
     return out
@@ -286,12 +355,100 @@ def without_repeats(new, lines, log):
         if m and (norm_headline(m.group(1) or m.group(2)) in heads or set(link.findall(ln)) & urls):
             log(f"  dropped a repeat of an item above: {ln[:120]!r}")
             continue
+        if m:  # session 470: two new lines that repeat each other (5 October: two policy actions of one title)
+            heads.add(norm_headline(m.group(1) or m.group(2)))
+            urls |= set(link.findall(ln))
         keep.append(ln)
     return keep
 
 
+def drop_repeated_items(lines, log):
+    """Session 470 (digest audit fix 3): the issues of 5 and 6 October were lost to the hard check below, a repeated
+    headline and a repeated DOE address that the sections' own checks did not see (a policy action, then the same
+    address under AI and power). The later item is dropped and named in the log, and the numbered items are numbered
+    again; the hard check still runs after this and still refuses what this cannot place."""
+    item = re.compile(r"^(?:(\d+)\. \*\*(.+?)\*\*|- (.+?) \()")
+    link = re.compile(r"\]\((https?://[^)]+)\)")
+    heads, urls, out, i = set(), set(), [], 0
+    while i < len(lines):
+        ln = lines[i]
+        m = item.match(ln)
+        block = [ln]
+        if m and m.group(1) and i + 1 < len(lines) and lines[i + 1].startswith("   ") and "Sources:" in lines[i + 1]:
+            block.append(lines[i + 1])
+        i += len(block)
+        if not m or ln.startswith("- no "):
+            out += block
+            continue
+        h = norm_headline(m.group(2) or m.group(3))
+        u = {x for b in block for x in link.findall(b)}
+        if h in heads or u & urls:
+            log(f"  dropped a repeated item: {ln[:120]!r}")
+            continue
+        heads.add(h)
+        urls |= u
+        out += block
+    n, fixed = 0, []
+    for ln in out:  # the top items numbered again, 1 to n
+        m = re.match(r"^(\d+)\. (\*\*.*)$", ln)
+        if m:
+            n += 1
+            ln = f"{n}. {m.group(2)}"
+        fixed.append(ln)
+    return fixed
+
+
 def link_text(links):
-    return ", ".join(f"[{src}]({url})" for src, url in links)
+    # session 470 (digest audit fix 7, roundup audit fix 4): a Google News address does not reach the outlet (the ingest
+    # records it in url_resolved), and the reader is told where the link goes
+    return ", ".join(f"[{src}]({url})" + (" (via Google News)" if "news.google.com" in str(url) else "")
+                     for src, url in links)
+
+
+# Session 470 (digest audit fix 9): one style for a sum of money, "USD 45 billion", as docs/voice.md writes it
+CURRENCY = [(r"US\$|USD ?", "USD"), (r"C\$|CAD ?", "CAD"), (r"A\$|AUD ?", "AUD"), (r"\u20ac|EUR ?", "EUR"),
+            (r"\u00a3|GBP ?", "GBP"), (r"\$", "USD")]
+SCALE = {"billion": "billion", "bn": "billion", "b": "billion", "million": "million", "mn": "million", "mm": "million",
+         "m": "million", "trillion": "trillion", "tn": "trillion", "k": "thousand", "thousand": "thousand"}
+MONEY = re.compile(r"(C\$|A\$|US\$|USD ?|CAD ?|AUD ?|EUR ?|GBP ?|\$|\u20ac|\u00a3)\s?(\d[\d,]*(?:\.\d+)?)(?:\s?"
+                   r"(billion|bn|million|mn|mm|trillion|tn|thousand|k|b|m)\b)?", re.I)
+
+
+def money_style(s):
+    """'$45 Billion' to 'USD 45 billion', '$800MM' to 'USD 800 million', 'C$14.3 Billion' to 'CAD 14.3 billion'; a price
+    per unit keeps its unit ('$93.78 per barrel' to 'USD 93.78 per barrel'). Text that is not a sum is returned as it is."""
+    def one(m):
+        cur = next(code for pat, code in CURRENCY if re.fullmatch(pat, m.group(1).strip(), re.I))
+        scale = SCALE.get((m.group(3) or "").lower())
+        return f"{cur} {m.group(2)}" + (f" {scale}" if scale else "")
+    return MONEY.sub(one, str(s))
+
+
+def an_word(word):
+    """Whether a word takes 'an': a vowel sound, by its spelling, with the common exceptions ('a utility', 'a one-off',
+    'an hour', 'an 8 GW')."""
+    w = str(word).lower()
+    if re.match(r"(uni|use|usu|uti|ura|eu|one|once|ubi)", w):
+        return False
+    if re.match(r"(hour|honest|honor|honour|heir|8|11\b|18\b|80)", w):
+        return True
+    return w[:1] in "aeiou"
+
+
+# Session 470 (digest audit fix 8): the why lines are the scorer's reasons; docs/voice.md cuts these adjectives
+HYPE = r"(?:major|massive|significant|significantly|huge)"
+
+
+def plain(text):
+    """The why line without the adjectives docs/voice.md cuts: 'a major 2 GW deal' to 'a 2 GW deal', 'Massive outage' to
+    'Outage'; 'a' and 'an' follow the next word."""
+    def article(m):
+        an = an_word(m.group(2))
+        cap = m.group(1)[0] == "A"
+        return ("An" if cap else "an") + " " + m.group(2) if an else ("A" if cap else "a") + " " + m.group(2)
+    t = re.sub(rf"\b(an|a)\s+{HYPE}\s+(\w+)", article, str(text), flags=re.I)
+    t = re.sub(rf"(^|(?<=[.!?] )){HYPE}\s+(\w)", lambda m: m.group(1) + m.group(2).upper(), t, flags=re.I)
+    return re.sub(rf"\b{HYPE}\s+", "", t, flags=re.I)
 
 
 def detail(r):
@@ -299,7 +456,7 @@ def detail(r):
     if r["mw"]:
         bits.append(f"{float(r['mw']):,.0f} MW")
     if r["price"]:
-        bits.append(r["price"])
+        bits.append(money_style(r["price"]))  # session 470
     if r["parties"]:
         bits.append("parties: " + r["parties"])
     return ("; ".join(bits) + ". ") if bits else ""
@@ -376,6 +533,32 @@ def numbers_summary(client, model, lines, log):
     return None, usages
 
 
+PAUSED_FILE = os.path.join(ROOT, "warehouse", "metadata", "paused_sources.csv")
+
+
+def paused_row(label):
+    """Session 470: the pause of a grid's publisher (warehouse/metadata/paused_sources.csv, the file every connector asks
+    first), as its row, or None. label: "MISO"."""
+    try:
+        rows = pd.read_csv(PAUSED_FILE, dtype=str, keep_default_na=False).to_dict("records")
+    except (OSError, ValueError):
+        return None
+    return next((r for r in rows if r.get("scope") == str(label).lower().replace("-", "")), None)
+
+
+def rt_label(iso, variable):
+    """Session 470 (digest audit fix 12): a reader's name for a real-time price variable. ERCOT's `spp_rtm` is its
+    settlement point price, not the Southwest Power Pool."""
+    name = {"ercot": "ERCOT", "caiso": "CAISO", "nyiso": "NYISO", "isone": "ISO-NE", "spp": "SPP", "miso": "MISO",
+            "pjm": "PJM"}.get(str(iso).lower(), str(iso).upper())
+    v = str(variable)
+    if v.startswith("spp_rtm"):
+        return f"{name}'s real-time settlement point price"
+    if v.startswith("lmp_rtm"):
+        return f"{name}'s real-time locational marginal price"
+    return f"{name}'s real-time price"
+
+
 def cite_short(table):
     s = erw.sources(table)
     return f"`{table}` ({', '.join(r['source'] for r in s['reports'] if r.get('source'))})"
@@ -395,8 +578,12 @@ def numbers_today(digest_date, log):
             log(f"  numbers: {table} unavailable: {exc!r}")
             df = pd.DataFrame()
         n_expected = int((end - start) / pd.Timedelta(hours=1))
+        pause = paused_row(label)
         if len(df) == n_expected:
             lines.append(f"| {label} | {node} | {day.date()} | {mean2(df['value'])} | {notes.ref(table)} |")
+        elif pause:  # session 470 (digest audit fix 12): why the grid is absent, not "not in the warehouse"
+            lines.append(f"| {label} | {node} | {day.date()} | not requested: paused by the ERW since {pause['paused_on']} "
+                         f"({pause['reason']}) | {notes.ref(table)} |")
         else:
             lines.append(f"| {label} | {node} | {day.date()} | not in the warehouse ({len(df)} of "
                          f"{n_expected} hours) | {notes.ref(table)} |")
@@ -426,7 +613,7 @@ def numbers_today(digest_date, log):
         top, table, tz, iso = best
         lines[-1] += (f"{top['value']:.2f} USD/MWh at {top['node']} ({iso.upper()}), "
                       f"interval starting {top['ts_utc'].tz_convert(tz):%Y-%m-%d %H:%M} local "
-                      f"({top['ts_utc']:%Y-%m-%d %H:%M} UTC), {top['freq']} `{top['variable']}`"
+                      f"({top['ts_utc']:%Y-%m-%d %H:%M} UTC), {top['freq']} `{top['variable']}`, {rt_label(iso, top['variable'])}"
                       f"{' (a 15-minute mean of 5-minute prices)' if top['variable'].endswith('_15m_mean') else ''} "
                       f"{notes.ref(table, 'real-time tables read: ' + ', '.join(rt_tables))}.")
     else:
@@ -462,7 +649,7 @@ def policy_actions_lines(start, end, log, n=3):
     a = a.sort_values(["sig", "event_date"], ascending=[False, False]).head(n)
     kinds = {"rule": "final rule", "proposed_rule": "proposed rule", "notice": "notice", "press_release": "news release"}
     log(f"  policy actions: {len(a)} scored 5 or more in the window")
-    return [f"- {r['title']} ({r['agency']} {kinds.get(r['action_type'], r['action_type'])}, policy action): {r['why']} "
+    return [f"- {r['title']} ({r['agency']} {kinds.get(r['action_type'], r['action_type'])}, policy action): {plain(r['why'])} "
             f"[{r['agency']}]({r['source_url']})" for r in a.to_dict("records")]
 
 
@@ -508,6 +695,112 @@ def daily_chart_section(digest_date, log, out=None):
         return []
 
 
+LINK_RE = re.compile(r"\]\((https?://[^)]+)\)")
+
+
+def earlier_issues(digest_date, days=7, folder=None):
+    """The Digests of the `days` days before digest_date, as paths."""
+    day, folder = pd.Timestamp(digest_date), folder or DIGEST_DIR
+    out = []
+    for f in sorted(glob.glob(os.path.join(folder, "????-??-??.md"))):
+        try:
+            t = pd.Timestamp(os.path.basename(f)[:10])
+        except ValueError:
+            continue
+        if day - pd.Timedelta(days=days) <= t < day:
+            out.append(f)
+    return out
+
+
+ITEM_RE = re.compile(r"^(?:\d+\. \*\*(.+?)\*\*|- (.+?) \()")
+
+
+def issue_items(paths):
+    """Session 470: the story items of the issues at `paths`, each as {head, words, figs, urls}: its headline's content
+    words, every word of its lines, the amounts its lines print (event_figures) and its links."""
+    out = []
+    for p in paths:
+        if not os.path.exists(p):
+            continue
+        with open(p, encoding="utf-8") as f:
+            lines = f.read().splitlines()
+        for i, ln in enumerate(lines):
+            m = ITEM_RE.match(ln)
+            if not m or ln.startswith("- no ") or "policy action)" in ln:
+                continue
+            block = ln + (" " + lines[i + 1] if m.group(1) and i + 1 < len(lines) and lines[i + 1].startswith("   ") else "")
+            out.append({"head": title_words(m.group(1) or m.group(2)), "words": set(re.findall(r"[a-z]{4,}", block.lower())),
+                        "figs": event_figures({"why": block, "mw": "", "price": ""}), "urls": set(LINK_RE.findall(block))})
+    return out
+
+
+def repeat_of(r, item):
+    """Session 470: whether cluster r is the story of an earlier issue's item: a link in common; or a party of r named in
+    the item and either an amount in common or a lead title that shares most of its content words (five or more, and 0.6
+    of the smaller set) with the item's headline. A day's market report with no party is never a repeat by its title."""
+    if {u for _, u in r["links"]} & item["urls"]:
+        return True
+    if not party_words(r) & item["words"]:
+        return False
+    if event_figures(r) & item["figs"]:
+        return True
+    t = title_words((r.get("titles") or [""])[0])
+    both = t & item["head"]
+    return len(both) >= 5 and len(both) / min(len(t), len(item["head"])) >= 0.6
+
+
+def not_shown_before(clusters, paths, log, what="an earlier Digest"):
+    """Session 470 (digest audit fix 4, roundup audit fix 1): a cluster that is an earlier issue's story (repeat_of) is
+    left out: Voltus's USD 225 million on 8, 9 and 12 October, Google and Constellation's 890 MW on 7, 8 and 9 October.
+    It is kept when it brings a sum of money none of those issues printed, which makes it news again (a price disclosed
+    after the deal)."""
+    items = issue_items(paths)
+    if not items:
+        return clusters
+    sums = {f for it in items for f in it["figs"] if f[0] == "usd"}
+    keep = []
+    for r in clusters.to_dict("records"):
+        twin = next((it for it in items if repeat_of(r, it)), None)
+        if twin is not None and not {f for f in event_figures(r) if f[0] == "usd"} - sums:
+            log(f"  left out, shown in {what}: {str((r.get('titles') or [''])[0])[:100]!r} ({r['cluster_id']})")
+            continue
+        keep.append(r["cluster_id"])
+    return clusters[clusters["cluster_id"].isin(keep)].reset_index(drop=True)
+
+
+def one_per_event(clusters, log):
+    """Session 470: the clusters in their rank, each event once (same_event): the later twin is left out before the
+    sections are filled, so the top 10 still holds ten items."""
+    kept, keep = [], []
+    for r in clusters.to_dict("records"):
+        twin = next((k for k in kept if same_event(k, r)), None)
+        if twin is not None:
+            log(f"  left out, the same event as {twin['cluster_id']}: {str((r.get('titles') or [''])[0])[:100]!r} "
+                f"({r['cluster_id']})")
+            continue
+        kept.append(r)
+        keep.append(r["cluster_id"])
+    return clusters[clusters["cluster_id"].isin(keep)].reset_index(drop=True)
+
+
+AI_MIN_SIG = 5  # session 470 (digest audit fix 16): the AI section takes no story the scorer called commentary (under 5)
+
+
+def select(clusters, digest_date, log, folder=None):
+    """The issue's sections: (top 10, {group: clusters}, AI and power). Session 21, ruling 5: each cluster appears once;
+    a section takes only clusters not shown above it. Session 470: a story an issue of the last seven days printed is
+    left out first (not_shown_before), and the AI section takes significance 5 or more."""
+    clusters = one_per_event(not_shown_before(clusters, earlier_issues(digest_date, folder=folder), log), log)
+    top10 = clusters.head(10)
+    used = set(top10["cluster_id"])
+    by_group = {}
+    for g, secs in GROUPS.items():
+        by_group[g] = clusters[clusters["sector"].isin(secs) & ~clusters["cluster_id"].isin(used)].head(3)
+        used |= set(by_group[g]["cluster_id"])
+    ai = clusters[(clusters["ai"] >= 7) & (clusters["sig"] >= AI_MIN_SIG) & ~clusters["cluster_id"].isin(used)].head(5)
+    return top10, by_group, ai
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW Energy Digest")
     ap.add_argument("--hours", type=int, default=24)
@@ -546,14 +839,7 @@ def main(argv=None):
         if s.empty:
             raise RuntimeError("no scored stories in the window; not writing an empty digest")
         clusters = build_clusters(s)
-        top10 = clusters.head(10)
-        # session 21, ruling 5: each cluster appears once; a section takes only clusters not shown above it
-        used = set(top10["cluster_id"])
-        by_group = {}
-        for g, secs in GROUPS.items():
-            by_group[g] = clusters[clusters["sector"].isin(secs) & ~clusters["cluster_id"].isin(used)].head(3)
-            used |= set(by_group[g]["cluster_id"])
-        ai = clusters[(clusters["ai"] >= 7) & ~clusters["cluster_id"].isin(used)].head(5)
+        top10, by_group, ai = select(clusters, digest_date, log)
         shown = pd.concat([top10, *by_group.values(), ai]).drop_duplicates("cluster_id")
         if args.no_model:
             client, model = None, NO_MODEL
@@ -589,7 +875,7 @@ def main(argv=None):
              "## Top of the industry", ""]
         for i, r in enumerate(top10.to_dict("records"), 1):
             L.append(f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')})  ")
-            L.append(f"   {r['why']} {detail(r)}Sources: {link_text(r['links'])}")
+            L.append(f"   {plain(r['why'])} {detail(r)}Sources: {link_text(r['links'])}")
         L += ["", "## By sector", ""]
         for g, c in by_group.items():
             L.append(f"**{g}**")
@@ -597,7 +883,7 @@ def main(argv=None):
             if c.empty:
                 L.append("- no scored story in this group today")
             for r in c.to_dict("records"):
-                L.append(f"- {heads[r['cluster_id']]} ({r['sector'].replace('_', ' ')}): {r['why']} {link_text(r['links'][:1])}")
+                L.append(f"- {heads[r['cluster_id']]} ({r['sector'].replace('_', ' ')}): {plain(r['why'])} {link_text(r['links'][:1])}")
             if g == "Policy":
                 L += without_repeats(policy_actions_lines(now - pd.Timedelta(hours=args.hours), now, log), L, log)
             L.append("")
@@ -605,7 +891,7 @@ def main(argv=None):
         if ai.empty:
             L.append("- no further story on AI and power today (any such story is listed above)")
         for r in ai.to_dict("records"):
-            L.append(f"- {heads[r['cluster_id']]} ({r['sector'].replace('_', ' ')}): {r['why']} "
+            L.append(f"- {heads[r['cluster_id']]} ({r['sector'].replace('_', ' ')}): {plain(r['why'])} "
                      f"{link_text(r['links'][:1])}")
         nums = numbers_today(digest_date, log)
         summary, su = (None, []) if args.no_model else numbers_summary(client, model, nums, log)
@@ -623,6 +909,7 @@ def main(argv=None):
               f"<!-- Generated by warehouse/news/brief.py at {now:%Y-%m-%d %H:%M} UTC; run log "
               f"warehouse/output/logs/news_brief_{run_id}.log; model {model}; story data "
               "warehouse/output/news_stories.csv. -->"]
+        L = drop_repeated_items(L, log)  # session 470: a repeat the sections did not see is dropped, not the issue
         n_items = assert_unique(L)  # ruling 5: the hard check; a failure writes nothing
         log(f"  {n_items} items, no two sharing a normalized headline or a source URL")
         text = "\n".join(L) + "\n"

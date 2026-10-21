@@ -8,10 +8,11 @@
 // action is hidden by it; the count beside the filters says how many are listed.
 import { Fragment, useMemo, useState } from "react";
 import type { PolicyAction, PolicyRead } from "@/lib/data";
-import { ANY_TAG, hasTag, tagHref, type TagChip } from "@/lib/policyweek";
+import { ANY_TAG, LOAD_GROUP, LOAD_GROUP_LABEL, LOAD_GROUP_TAGS, hasTag, tagHref, type TagChip } from "@/lib/policyweek";
+import { CITE_WORDS, type ReadCite } from "@/lib/policyreads";
 import { Num } from "@/components/Num";
 
-export type Row = PolicyAction & { read: PolicyRead | null; tags?: TagChip[] };
+export type Row = PolicyAction & { read: PolicyRead | null; cite?: ReadCite | null; tags?: TagChip[] };
 export type TagChoice = { key: string; label: string; why: string };
 
 const TYPE: Record<string, string> = { rule: "Final rule", proposed_rule: "Proposed rule", notice: "Notice", press_release: "News release" };
@@ -65,7 +66,10 @@ export function PolicyTable({ rows, tags = [], tag: tagAtOpen = "", missing = []
         {sel("State", state, setState, [["", "All"], ...states.map((s) => [s, s] as [string, string])])}
         {sel("Significance", minSig, setMinSig, [["5", "5 or more"], ["7", "7 or more"], ["", "All"]])}
         <span data-policy-tag-filter={tag} data-policy-tagged={tagged}>
-          {tags.length ? sel("Tag", tag, setTag, [["", "All"], [ANY_TAG, `Any tag (${tagged})`], ...tags.map((t) => [t.key, t.label] as [string, string])])
+          {tags.length ? sel("Tag", tag, setTag, [["", "All"], [ANY_TAG, `Any tag (${tagged})`],
+            // session 469: one choice for what a large load's cost turns on (lib/policyweek.ts, LOAD_GROUP); not chosen by default
+            ...(tags.some((t) => (LOAD_GROUP_TAGS as readonly string[]).includes(t.key)) ? [[LOAD_GROUP, LOAD_GROUP_LABEL] as [string, string]] : []),
+            ...tags.map((t) => [t.key, t.label] as [string, string])])
             : <span className="cursor-help border-b border-dotted border-muted text-xs italic text-muted" title={missing.map((m) => m.why).join(" ") || "The tag rule is not in this page's files yet."} data-missing="1">tags not held yet</span>}
         </span>
         <label className="flex flex-col text-xs text-muted">
@@ -166,6 +170,15 @@ function Detail({ r }: { r: Row }) {
             Read by {x.model_id} from the action&apos;s own text; fields kept: {x.fields_kept || "none"}
             {x.fields_dropped ? "; dropped (their words or numbers were not found in the text): " + x.fields_dropped : ""}.
           </p>
+          {/* session 469: what the read cites: its figures and their source (the action's own text), or "no figure" */}
+          {r.cite ? (
+            <p className="text-xs" data-read-cites={r.cite.kind} data-read-cites-of={r.event_id}>
+              <span className="text-muted">Figures: </span>
+              {r.cite.kind === "none" ? CITE_WORDS.none
+                : r.cite.kind === "table" ? <>{CITE_WORDS.table} {r.cite.tables.join(", ")}{r.cite.figures.length ? `; figures ${r.cite.figures.join(", ")}` : ""}.</>
+                : <>{r.cite.figures.join(", ")}. {CITE_WORDS.text} Source: <a href={r.source_url}>the action</a>.</>}
+            </p>
+          ) : null}
         </>
       ) : (
         <p className="text-xs text-muted">

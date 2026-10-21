@@ -11,6 +11,13 @@ each figure of the page in page order with its inputs, formula, edge cases and a
 case hour by hour as CSV with a Stata do-file. Where that note and this one differ, that note is the newer and is
 written from the code; its section 9 lists the differences.
 
+**The page as it stands, 21 October 2026** (session 462): one page in the battery page's layout (session 213), its
+sections in order "What will it pay?", "Will the power be there?", "How clean?", "How soon?", "Which option is
+better?" (scenarios A and B) and "What matters most", then the block "Decisions on this page" (every modelling choice
+with the session that made it: `datacenter_pays_algorithm.md`, section 12) and the source line. Passages below that
+name "With your contract" or the folds describe the page before session 213; the contract is two assumptions of each
+scenario, and the folds are the two CSV downloads.
+
 ## The reader's load
 
 | Input | Choices | Default |
@@ -199,7 +206,7 @@ shape, a settlement point, collateral and a term that are not here.
 
 ### Scenarios A and B (session 194)
 
-After "With your contract" the page sets two scenarios side by side, as the battery page (session 179) and the
+After "What will it pay?" and the three answers (since session 213 there is no "With your contract"; the contract is two assumptions of each scenario) the page sets two scenarios side by side, as the battery page (session 179) and the
 generator page (session 186) do. Every formula is in
 [`datacenter_pays_algorithm.md`](datacenter_pays_algorithm.md), section 4.14; this is what the block is.
 
@@ -209,9 +216,10 @@ change of prices, an upfront cost per kW of the load's size, the years counted a
 defaults to "Your load"; power per GPU and the overhead ratio default to the two the page cites, 1.3 kW and 1.56
 (session 195: "Your load" no longer holds those two fields, scenario A does, and scenario A sets the page's three
 headline numbers; an older link's `gpu` and `pue` are read as the scenarios'). A scenario at its defaults shows the
-page's own headline numbers. Four defaults have no
-source in the repository and the page says so beside each: no change of prices, no upfront cost, 20 years, and a
-hurdle rate of 8 percent set equal to the interest rate of Lazard's cost cases. They are the owner's to confirm.
+page's own headline numbers. Three defaults have no
+source in the repository and the page says so beside each: no change of prices, no upfront cost and 20 years. The
+fourth, the cost of capital, was 8 percent here until the owner's ruling of 11 October 2026 (session 196): it is
+9.6 percent, Lazard's weighted cost of a power plant's builder, labelled "a generator's WACC, Lazard" (session 265).
 
 **The rows.** Market energy over the last twelve months; a year's cost; power per GPU-hour; a bad month; the hours off
 with the breakeven value of a GPU-hour (what the power not bought would have cost, per GPU-hour not run); the present

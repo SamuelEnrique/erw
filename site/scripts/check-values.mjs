@@ -53,7 +53,7 @@ const FLOOR = fs.existsSync(FLOOR_FILE) ? JSON.parse(fs.readFileSync(FLOOR_FILE,
 // gate of a landing is the full run, with the variable unset.
 const ONLY = (process.env.CHECK_VALUES_PAGES ?? "").split(",").map((v) => v.trim()).filter(Boolean);
 const wanted = (page) => !ONLY.length || ONLY.some((pre) => page.startsWith(pre));
-const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/ercot%3AHB_HUBAVG", "/data", "/prices?tab=ercot", "/deals", "/deals?tab=tracker", "/deals?tab=companies", "/grid", "/map", "/datacenters", "/roundup",
+const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/ercot%3AHB_HUBAVG", "/data", "/prices?tab=ercot", "/deals", "/deals?tab=tracker", "/deals?view=comparables", "/deals?tab=companies", "/grid", "/map", "/datacenters", "/datacenters?view=grids", "/roundup",
   // session 18
   "/mix", "/mix?ba=erco&state=TX", "/curtailment", "/demand?view=consumption",
   // session 404: the demand growth explorer (the default, ERCOT's whole-year average; the peak with the Lower 48's missing
@@ -62,6 +62,8 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/explore/demand-growth?grid=caiso&window=m08", "/explore/demand-growth?grid=ercot&window=h17",
   // session 332: every action's significance (event|policy_actions|<id>|significance)
   "/policy",
+  // session 471: the licensing record's short reading (lic|held|..., lic|verdict|...), recomputed from warehouse/metadata
+  "/data/licenses",
   // session 19
   // session 35: the seven grid pages
   "/grid/ercot", "/grid/caiso", "/grid/pjm", "/grid/nyiso", "/grid/isone", "/grid/miso", "/grid/spp",
@@ -196,7 +198,30 @@ async function all(table, params) {
 const impactRows = new Map(), impactAll = new Map();   // session 347: /impact's rows, by technology and state, and by technology
 const dcAnswers = new Map();   // session 228: the answers of one address of /cost-of-power, read once
 const dcllRows = new Map();
+const dcqRows = new Map();   // session 468: the view by grid of /datacenters, one grid's groups read once
 let R_statOf = null;
+/** Session 471: a CSV file's rows as objects, by its header (quoted cells, doubled quotes inside them). */
+function licCsv(text) {
+  const rows = [];
+  let row = [], cell = "", q = false;
+  text = text.replace(/\r\n/g, "\n");
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (q) {
+      if (ch === '"' && text[i + 1] === '"') { cell += '"'; i++; }
+      else if (ch === '"') q = false;
+      else cell += ch;
+    } else if (ch === '"') q = true;
+    else if (ch === ",") { row.push(cell); cell = ""; }
+    else if (ch === "\n") { row.push(cell); rows.push(row); row = []; cell = ""; }
+    else cell += ch;
+  }
+  if (cell || row.length) { row.push(cell); rows.push(row); }
+  const [head, ...body] = rows;   // extra cells (an unquoted comma in the last column) are the last column's
+  return body.filter((r) => r.length >= head.length).map((r) => [...r.slice(0, head.length - 1), r.slice(head.length - 1).join(",")])
+    .map((r) => Object.fromEntries(head.map((h, i) => [h, r[i]])));
+}
+
 /** The value Supabase holds for one data-check key. */
 async function truth(check) {
   if (R_statOf === null) R_statOf = (await import("../lib/datacenter/answers.ts")).statOf;
@@ -264,6 +289,24 @@ async function truth(check) {
     return card.numbers?.[p[2]];
   }
   // session 315: the Digest's chart of the day, its record's numbers (docs/digest/charts/<date>.json): digest_chart|<date>|<table>|<key>
+  // session 471: /data/licenses' figures, recomputed from the licensing record's own files, not from lib/ or the page's
+  // bundle: lic|held|count, lic|held|pub|<publisher> (warehouse/metadata/license_status.csv, the rows "license needed");
+  // lic|verdict|both|count and lic|verdict|today_only|count (license_verdicts.csv: "may be public" today, and if the
+  // ERW sold anything, "may be public" or not)
+  if (p[0] === "lic") {
+    const meta = (f) => licCsv(fs.readFileSync(path.join(here, "..", "..", "warehouse", "metadata", f), "utf-8"));
+    if (p[1] === "held") {
+      const held = meta("license_status.csv").filter((r) => r.status === "license needed");
+      if (p[2] === "count") return held.length;
+      if (p[2] === "pub") return held.filter((r) => r.publishers.split(";").map((x) => x.trim()).includes(p[3])).length;
+    }
+    if (p[1] === "verdict") {
+      const today = meta("license_verdicts.csv").filter((r) => r.verdict === "may be public");
+      if (p[2] === "both") return today.filter((r) => r.if_commercial === "may be public").length;
+      if (p[2] === "today_only") return today.filter((r) => r.if_commercial !== "may be public").length;
+    }
+    return undefined;
+  }
   if (p[0] === "digest_chart") {
     return JSON.parse(fs.readFileSync(path.join(here, "..", "..", "docs", "digest", "charts", `${p[1]}.json`), "utf-8")).numbers?.[p[3]];
   }
@@ -410,6 +453,18 @@ async function truth(check) {
     return item === undefined ? undefined : Number(item.slice(name.length + 1).replace(/,/g, ""));
   }
   // session 15: /deals and /grid
+  // session 466: the comparables view, deals|comp_<stat>|<dimension>|<value>: the page's own functions (lib/deals2.ts)
+  // on every row of energy_deals as the page reads it, with the register's folded pairs shown once
+  if (p[0] === "deals" && String(p[1]).startsWith("comp_")) {
+    const D = await import("../lib/deals2.ts");
+    const [, stat, dim, value] = p;
+    const rows = await all("events", { select: "event_id,event_date,status,mw,price,currency,parties,source,source_url,extra", table_name: "eq.energy_deals", order: "event_date.desc,event_id" });
+    const pairs = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "deal_duplicates.json"), "utf-8")).pairs;
+    const cell = D.comparables(D.fold(rows.map(D.toDeal), pairs), dim).find((c) => c.value === (value === "-" ? "" : value));
+    if (!cell) return undefined;
+    const v = { comp_deals: cell.deals, comp_with_price: cell.withPrice, comp_with_mw: cell.withMw, comp_median_price: cell.medianPrice, comp_median_mw: cell.medianMw }[stat];
+    return v ?? undefined;
+  }
   if (p[0] === "deals") {
     const [, what, month] = p;
     const rows = await all("events", { select: "event_date,mw,ai:extra->>ai_power", table_name: "eq.energy_deals" });
@@ -639,6 +694,42 @@ async function truth(check) {
     // session 280: one row's figure, dcll|<the row's grid>|row:<statement_id>:mw or :wait (the list under "How soon?")
     if (p[2]?.startsWith("row:")) return S.rowStat(rows, p.slice(2).join("|"));
     return S.statedStat(S.statedOf(rows), p.slice(2).join("|"));
+  }
+  // session 467: the datacenter tracker's power side, dcpow|<grid>|<region>|per: what a flat load paid at a region under
+  // the cost-of-power calculator's defaults (its last twelve complete months, real time where held, else day-ahead),
+  // recomputed from the page's own price files by the calculator's own steps (scripts/datacenter-ways.mjs, pageOf), so it
+  // is the headline /cost-of-power?grid=<grid>&region=<region> shows
+  if (p[0] === "dcpow") {
+    const W = await import("./datacenter-ways.mjs");
+    if (!W.INDEX.grids[p[1]]) return undefined;
+    const page = W.pageOf({ grid: p[1], region: p[2] });
+    if (page.x.grid !== p[1] || page.x.region !== p[2]) return undefined;
+    if (p[3] === "per") return page.s12?.per ?? undefined;
+    // session 468: dcpow|<grid>|<region>|year|<YYYY>, a complete calendar year in the same market, as the view by grid shows it
+    if (p[3] === "year") {
+      const L = await import("../lib/datacenter.ts");
+      const y = L.years(page.ms).find((r) => r.y === p[4] && r.complete);
+      return y?.per ?? undefined;
+    }
+    return undefined;
+  }
+  // session 468: the datacenter tracker by grid, dcq|<grid>|<zone or ->|<stat>: the queue positions that name a datacenter
+  // or a large load (the builder's pattern, read from the grid's own queue table by name and by fuel field, as
+  // lib/data.ts queueSites reads them) and the grid's active positions, grouped by lib/datacenter/bygrid.ts
+  if (p[0] === "dcq") {
+    const B = await import("../lib/datacenter/bygrid.ts");
+    const table = `${p[1]}_interconnection_queue`;
+    if (!dcqRows.has(p[1])) {
+      dcqRows.set(p[1], (async () => {
+        const sel = "entity_id,table_name,capacity_mw,status,zone:extra->>zone";
+        const byName = await all("entities", { select: sel, table_name: `eq.${table}`, name: `imatch.${B.QUEUE_SITE_PATTERN}`, order: "entity_id" });
+        const byFuel = await all("entities", { select: sel, table_name: `eq.${table}`, "extra->>fuel_technology": `imatch.${B.QUEUE_SITE_PATTERN}`, order: "entity_id" });
+        const sites = [...new Map([...byName, ...byFuel].map((r) => [r.entity_id, r])).values()];
+        const active = await all("entities", { select: "table_name,capacity_mw,status,zone:extra->>zone", table_name: `eq.${table}`, status: "eq.active", order: "entity_id" });
+        return B.groups(sites, active);
+      })());
+    }
+    return B.groupStat(await dcqRows.get(p[1]), p[1], p[2], p[3]);
   }
   if (p[0] === "dcd") {
     const D = await import("../lib/datacenter/delivery.ts");
@@ -1044,7 +1135,8 @@ async function main() {
       // session 16: MW sums are written as whole MW (lib/format.ts count)
       // session 90: /storage/buildout writes its MW and MWh whole too (lib/buildout.ts WHOLE; the ratios keep two decimals)
       // session 354: ERCOT's load in each of the four summer peak intervals, written whole (/cost-of-power)
-      const whole = /(^projects\|mw\|)|(^datacenters\|(mw_total|state_mw|operator_mw|status_mw|sites_mw|texas_mw))|(^series\|ercot_large_load_status\|)|(^series\|ercot_4cp_intervals\|)|(^series\|storage_buildout_monthly\|[^|]+\|(battery|solar)_(operating|planned)_(mw|mwh)(?!_per_)(_|\|))|(^series\|eia930_demand_growth\|[^|]+\|(avg_demand_mw|peak_demand_mw|ytd_avg_demand_mw|growth_mw_))/.test(check);
+      // session 461's landing: the datacenter queue's active MW by grid, written whole (/datacenters?view=grids, session 468)
+      const whole = /(^projects\|mw\|)|(^dcq\|[^|]+\|[^|]+\|active_mw$)|(^datacenters\|(mw_total|state_mw|operator_mw|status_mw|sites_mw|texas_mw))|(^series\|ercot_large_load_status\|)|(^series\|ercot_4cp_intervals\|)|(^series\|storage_buildout_monthly\|[^|]+\|(battery|solar)_(operating|planned)_(mw|mwh)(?!_per_)(_|\|))|(^series\|eia930_demand_growth\|[^|]+\|(avg_demand_mw|peak_demand_mw|ytd_avg_demand_mw|growth_mw_))/.test(check);
       // session 76: an hour of the day (a variable named ..._hour, a whole number 0 to 23) may be written "09:00" (/shoulder):
       // "16:00" passed the rule below by accident, "09:00" could not
       const hourText = /\|[a-z0-9_]*_hour\|/.test(check) && /^\d{1,2}$/.test(raw) && text.startsWith(`${raw.padStart(2, "0")}:00`);
