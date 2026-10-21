@@ -31,6 +31,7 @@ import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { env, unlockPost, withBrowser } from "./browser.mjs";   // session 555: a static import, the door test_session301 reads
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const SITE = path.join(here, "..");
@@ -298,7 +299,6 @@ async function fetchPage(base, url, cookie, ms) {
 
 async function oneGridViews(base, leaks, cardsSeen, held, heldGrids, readCard) {
   // the one-grid view is chosen in the browser (MultiChart reads the address after the page loads)
-  const { withBrowser } = await import("./browser.mjs");
   const out = [];
   const code = await withBrowser(async ({ go, evaluate, wait, unlock }) => {
     await unlock(base);
@@ -345,7 +345,6 @@ async function main() {
   const only = arg("--pages");
   if (only) pages = pages.filter((p) => only.split(",").some((x) => p.startsWith(x)));
   const ms = Number(arg("--timeout") || 90000);
-  const { env, unlockPost } = await import("./browser.mjs");
   const tok = env("INTERNAL_COSTS_TOKEN");
   let cookie = "";
   if (tok) {
