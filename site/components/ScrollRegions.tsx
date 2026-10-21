@@ -27,9 +27,13 @@ export function regionName(el: HTMLElement): string {
 }
 
 export function markScrollers(root: ParentNode = document) {
-  root.querySelectorAll<HTMLElement>(SCROLLERS).forEach((el) => {
+  // session 428: every box's sizes are read first and the attributes written after, so the browser lays the page out
+  // once, not once a box (a write between two reads forced a new layout: Lighthouse's forced reflow)
+  const boxes = [...root.querySelectorAll<HTMLElement>(SCROLLERS)].map((el) => ({
+    el, scrolls: el.scrollWidth > el.clientWidth + 1 || el.scrollHeight > el.clientHeight + 1,
+  }));
+  boxes.forEach(({ el, scrolls }) => {
     const ours = el.dataset.scrollFocus === "1";
-    const scrolls = el.scrollWidth > el.clientWidth + 1 || el.scrollHeight > el.clientHeight + 1;
     const reachable = !!el.querySelector(FOCUSABLE);
     if (scrolls && !reachable && !ours && !el.hasAttribute("tabindex")) {
       el.tabIndex = 0;
