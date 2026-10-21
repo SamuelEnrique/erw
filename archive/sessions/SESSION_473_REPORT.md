@@ -30,7 +30,7 @@ Every gate redirected to a file under `runs/chain_019/s473/` in the worktree, ne
 | `node --import ./scripts/alias-loader.mjs scripts/test-board.mjs` | 1 | "ercot-hb-hubavg-spark is stale: 2026-10-10": the board's data file (`site/data/board.json`, untouched here) is older than the test allows; no file this session changed is read by the failing assertion |
 | `npx tsc --noEmit` | 2 | 13 errors, all generated files a fresh worktree lacks (`PageProps`, `@/content/docs.json`, `@/content/waits.json`); none in a changed file |
 | `scripts/db_probe.py` at 10:24 UTC | 1 | CLOSED, 3.67 s: no build, so no `check-values`, no `test-network.mjs` (it drives a built server) and no after shots |
-| Before shots (`scripts/shot.mjs`, production, internal view) | see "To finish" | taken under the build lock, which session 474 held from 10:13 UTC |
+| Before shots (`scripts/shot.mjs`, production, internal view) | 0 each | 10 shots, `/board` and four Grid views at 1280 and 390, taken at 10:27 UTC under the build lock (session 474 held it from 10:13 UTC); the lock's release then failed on a path Git Bash did not convert and was released by hand at 10:30 |
 
 ## Decisions made without you
 
@@ -63,7 +63,7 @@ for p in "board:/board" "grid:/grid" "grid_mix:/grid?view=mix" "grid_network:/gr
 $PY $L release land473
 ```
 
-Then the chain's combined landing (session 461's second part): freeze status, origin/main merged, the whole suite, snapshot before and after with every difference listed. The values of `/board` and `/grid` before are production's own, read by the same `check-values` (a page in review is read in the internal view). If the before shots below were not taken, take them from production first with the same loop on `https://erw-flame.vercel.app`.
+Then the chain's combined landing (session 461's second part): freeze status, origin/main merged, the whole suite, snapshot before and after with every difference listed. The values of `/board` and `/grid` before are production's own, read by the same `check-values` (a page in review is read in the internal view).
 
 ## Files
 
