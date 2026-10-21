@@ -220,8 +220,12 @@ test("every Digest the site holds has its numbers read: a key for each figure, a
     assert.ok(parts.has("dam") && parts.has("fuel"), `${f}: ${[...parts]}`);
     assert.ok(figs.filter((x) => x.part === "dam").length >= 5, `${f}: five or six grids`);
     // no figure of the numbers section is left without a key: every price-like number of its lines is wrapped
+    // read inside the numbers section only, as lib/digest.ts does (isNumbers): a story's headline can begin "Brent"
+    // (21 October: "Brent crude trades at $110.30 per barrel ...", a story, not the fuel line)
     const t = D.digestMarkdown(md, date, null, BEFORE);
-    const sec = t.md.split("\n").filter((l) => /^\| (ERCOT|CAISO|NYISO|MISO|SPP|ISO-NE) \|/.test(l) || l.startsWith("**Highest real-time") || /^- (Henry Hub|WTI|Brent)/.test(l));
+    const numbers = t.md.split(/\n(?=## )/).find((s) => /^## (ERW's )?Numbers today\s*$/im.test(s.split("\n")[0]));
+    assert.ok(numbers, `${f}: the numbers section`);
+    const sec = numbers.split("\n").filter((l) => /^\| (ERCOT|CAISO|NYISO|MISO|SPP|ISO-NE) \|/.test(l) || l.startsWith("**Highest real-time") || /^- (Henry Hub|WTI|Brent)/.test(l));
     for (const l of sec) assert.ok(!/(?<![\dA-Z.])\d+\.\d{2}(?= |$)(?! UTC)/.test(l.replace(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}/g, "")), `${f}: a bare figure in ${l}`);
   }
 });
