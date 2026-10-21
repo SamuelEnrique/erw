@@ -9,6 +9,7 @@ import {
 } from "@/lib/deals2";
 import { isLicenseReason } from "@/lib/license";
 import { attempt } from "@/lib/supabase";
+import { NoData } from "@/components/NoData";
 import { DealsHeld } from "../Held";
 
 // Session 113: the deals tracker, version 2, in the battery page's layout: the choices in a fog beige panel on the
@@ -181,7 +182,10 @@ export async function TrackerView({ sp }: { sp: Record<string, string | undefine
 
         <div className="min-w-0">
           {!read.ok && isLicenseReason(read.reason) ? (
-            <DealsHeld />
+            <>
+              <p className="mb-3 text-sm"><NoData what="deals" reason={read.reason} /></p>
+              <DealsHeld />
+            </>
           ) : !read.ok ? (
             <p className="mb-6 border border-rule bg-paper px-3 py-2 text-sm" role="status">The table could not be read, so no number is shown: {read.reason}</p>
           ) : !all.length ? (
