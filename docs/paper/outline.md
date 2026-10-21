@@ -195,7 +195,7 @@ reads. Every variable named below is listed for its table in `docs/redivis/relea
 | Licenses | 84 publishers in the record, 82 requests; ERW verdict 130 public, 33 internal, 49 unsettled; 42 tables "license needed" | `docs/licenses.md` ("Read these first", "Every table"); `license_status.csv` |
 | Release v1 as packaged | 135 tables and 3 metadata tables in; 42 held for a license; 2 held for storage; 28,830,665 rows in the 138 | `docs/redivis/release-v1/tables.csv`, `in_v1` |
 
-### 1. The data standard
+### Part 1. The data standard
 
 What the IRW paper's section on its format does, for the ERW: the three shapes, the leading columns, UTC, units, the
 provenance columns and the naming rule. Session 139's 3.1 is the text; this adds what can be shown.
@@ -209,7 +209,7 @@ provenance columns and the naming rule. Session 139's 3.1 is the text; this adds
   `warehouse/validate/erw_validate.py`). The paper needs a version a reader can cite: the standard numbered and
   frozen at the release the paper cites. That is a decision (cover note, 4), then a session's work.
 
-### 2. The harmonization
+### Part 2. The harmonization
 
 The IRW's central claim is that many sources in one shape can be pooled. The ERW's equivalent is that sources of
 different kinds join by key. The figures must show a join, not a table.
@@ -230,7 +230,7 @@ different kinds join by key. The figures must show a join, not a table.
   rows could be in v1; until it is ruled, the harmonization of prices can be shown in the paper only for one grid
   (ERCOT, `ercot_hub_prices_daily`, 346,476 rows from 2015) or for tables a reader cannot download from the release.
 
-### 3. The coverage
+### Part 3. The coverage
 
 - **Today.** Figure 1: each table's span, `ts_min` to `ts_max`, grouped by sector, from `coverage.csv` (released as
   `erw_coverage` in v1). The earliest row is 1920 (`eia_crude_imports_by_country`); power is 173 of the 212 tables'
@@ -242,7 +242,7 @@ different kinds join by key. The figures must show a join, not a table.
   draw a family as one bar where the method notes say they continue each other; that mapping is not written down
   anywhere and is a session's work.
 
-### 4. The licensing ledger
+### Part 4. The licensing ledger
 
 The part with no counterpart in the IRW paper, and the one the ERW can show best today.
 
@@ -255,7 +255,7 @@ The part with no counterpart in the IRW paper, and the one the ERW can show best
   the ledger as of its release, so whatever the letters bring changes Figure 3 before it is drawn. And
   `docs/licenses.md` says of itself that no lawyer has read the verdicts; the paper must say so too.
 
-### 5. The validator
+### Part 5. The validator
 
 - **Today.** Table D: the validator's rules from the code (`warehouse/validate/erw_validate.py`: the required
   columns, the reserved names, the unit set, the key's uniqueness, the three exit codes), as session 139's 3.2 planned.
@@ -267,7 +267,7 @@ The part with no counterpart in the IRW paper, and the one the ERW can show best
   step without saying which check failed it. Either the validator's exit is logged with its rule from now on (a
   session's work, and then the count starts at that day), or the paper says the log does not record it.
 
-### 6. The citable release
+### Part 6. The citable release
 
 - **Today.** Release v1 is packaged and checked, not released (`docs/redivis/release-v1.md`; session 375 spliced it).
   Table E: what is in it (135 tables, 3 metadata tables, 28,830,665 rows) and what is held (42 for a license, 2 for
@@ -277,7 +277,7 @@ The part with no counterpart in the IRW paper, and the one the ERW can show best
   `docs/state/morning_2026-10-21_day.md`, item 1). The paper cannot be cited against a fixed dataset until v1 exists:
   this is session 139's "What the outline needs before drafting", item 1, still open.
 
-### 7. The uses
+### Part 7. The uses
 
 Session 139's three demonstrations, each checked against what v1 holds.
 

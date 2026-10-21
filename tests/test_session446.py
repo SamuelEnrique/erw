@@ -60,8 +60,8 @@ class TheNewSection(unittest.TestCase):
 
     def test_the_irw_papers_sections_are_there(self):
         _, new = split()
-        for h in ("### 1. The data standard", "### 2. The harmonization", "### 3. The coverage", "### 4. The licensing ledger",
-                  "### 5. The validator", "### 6. The citable release", "### 7. The uses", "### The figure list",
+        for h in ("### Part 1. The data standard", "### Part 2. The harmonization", "### Part 3. The coverage", "### Part 4. The licensing ledger",
+                  "### Part 5. The validator", "### Part 6. The citable release", "### Part 7. The uses", "### The figure list",
                   "### The author roles", "### Cover note: five decisions the paper needs from Samuel and Ben"):
             self.assertIn(h, new)
 
