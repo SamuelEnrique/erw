@@ -45,7 +45,7 @@ Every table's metadata, holds and release rows are in the same landing.
 | 553 | 6 | 30 |
 | 554 (routes for the next file; 555's probe; PHMSA, refused, for 560) | 8 | none set |
 
-All requests were to api.eia.gov.
+All requests were to api.eia.gov, except two to www.phmsa.dot.gov, both refused (HTTP 403: an access control, not worked around; noted for session 560).
 
 ## Waiting for Samuel, highest value first
 
