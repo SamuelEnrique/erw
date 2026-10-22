@@ -13,6 +13,7 @@ the carbon file after the hourly CSV and commits it; the review has a row for ea
 the environment, reads a table, makes a request or calls a model.
 """
 
+import json
 import os
 import re
 import shutil
@@ -81,6 +82,31 @@ class TheMirrorsRunAlone(unittest.TestCase):
         self.assertEqual(done.returncode, 0, done.stderr[-2000:])
         self.assertIn("market energy, a flat load, last twelve months, USD per MWh: ", done.stdout)
         self.assertNotIn("tonnes of CO2 a year for 100 MW: ", done.stdout)
+
+
+class ResearchsTenthCard(unittest.TestCase):
+    def test_the_mirror_rebuilds_peak_hour_moved_and_equals_its_json(self):
+        try:
+            import numpy  # noqa: F401  (the mirror's one package beyond the standard library)
+        except ImportError:
+            self.skipTest("numpy is not here")
+        findings = os.path.join(PUBLIC, "findings")
+        with tempfile.TemporaryDirectory() as tmp:
+            for name in os.listdir(findings):
+                if name.endswith(".csv") or name == "erw_2026_research_replication.py":
+                    shutil.copy(os.path.join(findings, name), tmp)
+            done = subprocess.run([sys.executable, "-I", "erw_2026_research_replication.py", tmp, "--json", os.path.join(ROOT, "site", "data", "findings")],
+                                  cwd=tmp, capture_output=True, text=True, encoding="utf-8", timeout=600)
+        self.assertEqual(done.returncode, 0, done.stdout[-2000:] + done.stderr[-2000:])
+        self.assertIn("== peak_hour_moved (erw_2026_peak_hour_solar.csv)", done.stdout)
+        ours = [line for line in done.stdout.splitlines() if line.startswith("same  peak_hour_moved.")]
+        with open(os.path.join(ROOT, "site", "data", "findings", "peak_hour_moved.json"), encoding="utf-8") as f:
+            numbers = json.load(f)["numbers"]
+        self.assertEqual(len(ours), len(numbers))
+        for key in ("ercot_first_median_hour", "ercot_last_median_hour", "ercot_first_evening_pct", "ercot_last_evening_pct",
+                    "ercot_first_solar_mw", "ercot_last_solar_mw"):   # the six callouts /research shows
+            self.assertTrue(any(line.startswith(f"same  peak_hour_moved.{key} = ") for line in ours), key)
+        self.assertNotIn("DIFFERENT", done.stdout)
 
 
 class TheCarbonFile(unittest.TestCase):
