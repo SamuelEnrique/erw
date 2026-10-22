@@ -1,0 +1,77 @@
+{
+ "base": "https://erw-flame.vercel.app",
+ "when": "2026-10-22T19:27:17.082Z",
+ "addresses": 3,
+ "widths": [
+  1280,
+  390
+ ],
+ "results": [
+  {
+   "addr": "/cost-of-power?view=allgrids&rows=nodes&nsort=swing&ndir=desc",
+   "width": 1280,
+   "innerWidth": 1280,
+   "finalUrl": "https://erw-flame.vercel.app/cost-of-power?view=allgrids&rows=nodes&nsort=swing&ndir=desc",
+   "h1": "What a datacenter pays",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/cost-of-power?view=allgrids&rows=nodes&nsort=swing&ndir=desc",
+   "width": 390,
+   "innerWidth": 390,
+   "finalUrl": "https://erw-flame.vercel.app/cost-of-power?view=allgrids&rows=nodes&nsort=swing&ndir=desc",
+   "h1": "What a datacenter pays",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/cost-of-power?view=allgrids&mw=1000&rows=nodes&node=ercot%3AAPPLE_RN",
+   "width": 1280,
+   "innerWidth": 1280,
+   "finalUrl": "https://erw-flame.vercel.app/cost-of-power?view=allgrids&mw=1000&rows=nodes&node=ercot%3AAPPLE_RN",
+   "h1": "What a datacenter pays",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/cost-of-power?view=allgrids&mw=1000&rows=nodes&node=ercot%3AAPPLE_RN",
+   "width": 390,
+   "innerWidth": 390,
+   "finalUrl": "https://erw-flame.vercel.app/cost-of-power?view=allgrids&mw=1000&rows=nodes&node=ercot%3AAPPLE_RN",
+   "h1": "What a datacenter pays",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/cost-of-power?view=allgrids&mw=1000&rows=nodes&nq=RN&nsort=spread&ndir=desc",
+   "width": 1280,
+   "innerWidth": 1280,
+   "finalUrl": "https://erw-flame.vercel.app/cost-of-power?view=allgrids&mw=1000&rows=nodes&nq=RN&nsort=spread&ndir=desc",
+   "h1": "What a datacenter pays",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/cost-of-power?view=allgrids&mw=1000&rows=nodes&nq=RN&nsort=spread&ndir=desc",
+   "width": 390,
+   "innerWidth": 390,
+   "finalUrl": "https://erw-flame.vercel.app/cost-of-power?view=allgrids&mw=1000&rows=nodes&nq=RN&nsort=spread&ndir=desc",
+   "h1": "What a datacenter pays",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  }
+ ]
+}
