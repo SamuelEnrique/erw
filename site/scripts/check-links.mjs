@@ -17,7 +17,8 @@
 // header, the menu or the footer draws on every page is one line, with the count of pages that carry it.
 //
 // WAITS below lists the links whose right target waits for Samuel's ruling: they are printed as "waits", not changed,
-// and do not fail the run. Nothing is written but runs/check-links/links.json (CHECK_LINKS_OUT): every page read, its
+// and do not fail the run; ALIASES the links that answer through a redirect by design ("alias", not failing). A link
+// under /api/ (a download, a reader) is not asked for: check-table-downloads.mjs checks them within their hourly limit. Nothing is written but runs/check-links/links.json (CHECK_LINKS_OUT): every page read, its
 // links and ids, and the findings. The browser never counts a usage (DNT and Sec-GPC are sent, /api/usage and the
 // model's routes are blocked) and every request carries x-erw-check: 1.
 //
@@ -39,8 +40,18 @@ export const BLOCKED = ["*/api/usage*", "*/api/ask*", "*/api/thesis*", "*/api/an
 
 /** The links whose right target is a ruling of Samuel's: listed as "waits", never changed by a session. */
 export const WAITS = [
-  // session 581: none found on the run of 22 October 2026 waits for a ruling; an entry is { href, why }
+  { href: "/data/methods/price_board_v4", why: "/data lists every method document, version 4's note too, and its address redirects to the price board's note (session 132): keep the line or drop it" },
 ];
+
+/** The links that answer through a redirect by design: printed as "alias", not failing. */
+export const ALIASES = [
+  { href: "/ask", why: "the Ask panel's own address, a redirect to the Grid tool's panel (the owner's merge of 18 October 2026)" },
+  { href: "/internal/lock", why: "an action, not a page: it closes the internal view and returns to the home page" },
+];
+
+/** The addresses not asked for: the site's routes under /api/ are not pages. A download is limited to sixty an hour a
+ * visitor and each reads a table from the database (lib/guard.ts): check-table-downloads.mjs is their check. */
+export const notAsked = (address) => address.startsWith("/api/");
 
 /** An href, read in the page as `a.href` (absolute), split into the address asked for and its fragment; null for a
  * link that leaves the site (another origin, mailto:, tel:, javascript:). */
@@ -60,7 +71,7 @@ export function anchorOk(hash, ids) {
 
 /** The findings, from what was read: `pages` [{ page, address, links: [{ href, words }], ids }], `answers` a Map from an
  * address to { status, chain: [addresses], inReview }, `idsOf` a Map from an address to its ids (or null: not read). */
-export function judge(pages, answers, idsOf, base, waits = WAITS) {
+export function judge(pages, answers, idsOf, base, waits = WAITS, aliases = ALIASES) {
   const found = new Map();   // one entry per (kind, href, words)
   const add = (kind, href, words, page, why) => {
     const key = `${kind}\u0000${href}\u0000${words}`;
@@ -75,13 +86,16 @@ export function judge(pages, answers, idsOf, base, waits = WAITS) {
       const shown = t.address + (t.hash !== null ? `#${t.hash}` : "");
       const wait = waits.find((w) => w.href === t.address || w.href === shown);
       if (wait) { add("waits", shown, l.words, p.page, wait.why); continue; }
+      if (notAsked(t.address)) continue;
       const a = answers.get(t.address);
       if (!a) { add("unread", shown, l.words, p.page, "the address was not asked for"); continue; }
       if (a.status !== 200) {
         add("broken", shown, l.words, p.page, `answers ${a.status}${a.chain.length > 1 ? ` (through ${a.chain.join(" -> ")})` : ""}`);
         continue;
       }
-      if (a.chain.length > 1) add("redirect", shown, l.words, p.page, `answers 200 at ${a.chain[a.chain.length - 1]} through ${a.chain.join(" -> ")}`);
+      const alias = aliases.find((w) => w.href === t.address);
+      if (a.chain.length > 1 && alias) add("alias", shown, l.words, p.page, `${alias.why} (${a.chain.join(" -> ")})`);
+      else if (a.chain.length > 1) add("redirect", shown, l.words, p.page, `answers 200 at ${a.chain[a.chain.length - 1]} through ${a.chain.join(" -> ")}`);
       if (a.inReview) add("in-review", shown, l.words, p.page, "answers the in-review page with the internal cookie");
       if (t.hash !== null) {
         const ids = t.address === p.address ? p.ids : idsOf.get(a.chain[a.chain.length - 1]) ?? idsOf.get(t.address);
@@ -90,7 +104,7 @@ export function judge(pages, answers, idsOf, base, waits = WAITS) {
       }
     }
   }
-  const order = { broken: 0, anchor: 1, "in-review": 2, redirect: 3, unread: 4, waits: 5 };
+  const order = { broken: 0, anchor: 1, "in-review": 2, redirect: 3, unread: 4, waits: 5, alias: 6 };
   return [...found.values()].sort((x, y) => order[x.kind] - order[y.kind] || x.href.localeCompare(y.href));
 }
 
@@ -181,8 +195,9 @@ export function pageList() {
 /** The whole check against a running site; `h` is the browser, `cookie` the internal view's for the fetches. */
 export async function check({ h, base, pages, cookie, log = console.log }) {
   const read = await readPages(h, base, pages, log);
-  const addresses = [...new Set(read.flatMap((p) => p.links.map((l) => internalTarget(l.href, base)).filter(Boolean).map((t) => t.address)))].sort();
-  log(`${addresses.length} internal addresses linked from ${read.length} pages: asking for each`);
+  const linked = [...new Set(read.flatMap((p) => p.links.map((l) => internalTarget(l.href, base)).filter(Boolean).map((t) => t.address)))].sort();
+  const addresses = linked.filter((a) => !notAsked(a)), skipped = linked.filter(notAsked);
+  log(`${addresses.length} internal addresses linked from ${read.length} pages: asking for each (${skipped.length} under /api/ not asked)`);
   const answers = new Map();
   await pool(addresses, 4, async (a) => { answers.set(a, await answer(base, a, cookie)); });
   const idsOf = new Map(read.filter((p) => !p.error).map((p) => [p.address, p.ids]));
@@ -194,7 +209,7 @@ export async function check({ h, base, pages, cookie, log = console.log }) {
   }
   const findings = judge(read, answers, idsOf, base);
   const errors = read.filter((p) => p.error || p.inReview || p.gated);
-  return { read, answers: Object.fromEntries(answers), findings, errors };
+  return { read, answers: Object.fromEntries(answers), findings, errors, not_asked: skipped };
 }
 
 async function main() {
@@ -219,9 +234,9 @@ async function main() {
   fs.writeFileSync(out, JSON.stringify({ base, read_utc: new Date().toISOString(), ...result }, null, 1));
   for (const p of result.errors) console.log(`page | ${p.page} | ${p.error ? `not read: ${p.error}` : p.inReview ? "the in-review page was shown in the internal view" : `${p.gated} links still drawn as review spans`}`);
   for (const f of result.findings) console.log(line(f));
-  const failing = result.findings.filter((f) => f.kind !== "waits");
+  const failing = result.findings.filter((f) => f.kind !== "waits" && f.kind !== "alias");
   const nLinks = result.read.reduce((s, p) => s + p.links.length, 0);
-  console.log(`check-links: ${result.read.length} pages, ${nLinks} links, ${Object.keys(result.answers).length} addresses; ${failing.length} findings, ${result.findings.length - failing.length} waiting for a ruling, ${result.errors.length} pages not read cleanly (detail in ${out})`);
+  console.log(`check-links: ${result.read.length} pages, ${nLinks} links, ${Object.keys(result.answers).length} addresses; ${failing.length} findings, ${result.findings.filter((f) => f.kind === "waits").length} waiting for a ruling, ${result.findings.filter((f) => f.kind === "alias").length} aliases, ${result.not_asked.length} addresses under /api/ not asked, ${result.errors.length} pages not read cleanly (detail in ${out})`);
   return failing.length || result.errors.length ? 1 : 0;
 }
 

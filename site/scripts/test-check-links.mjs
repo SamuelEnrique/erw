@@ -19,6 +19,7 @@ const A = page([
   '<a href="/b">to b</a>', '<a href="/c">to c</a>', '<a href="/old">the old address</a>', '<a href="/loop">round</a>',
   '<a href="/review">a page in review</a>', '<a href="/b#here">b, here</a>', '<a href="/b#nowhere">b, nowhere</a>',
   '<a href="#self">this page</a>', '<a href="#top">top</a>', '<a href="/waiting">a ruling</a>', '<a href="/b?x=1&amp;y=2">b with a query</a>',
+  '<a href="/api/download?table=x">CSV</a>', '<a href="/aka">by its other name</a>',
   '<a href="https://example.com/">elsewhere</a>', '<a href="mailto:x@example.com">mail</a>', '<a href="//example.org/c">another site</a>',
 ].join(" "), ["self"]);
 const ROUTES = {
@@ -27,6 +28,7 @@ const ROUTES = {
 };
 const server = http.createServer((req, res) => {
   if (req.url === "/old") { res.writeHead(308, { Location: "/b" }); return res.end(); }
+  if (req.url === "/aka") { res.writeHead(307, { Location: "/b" }); return res.end(); }
   if (req.url === "/loop") { res.writeHead(307, { Location: "/loop" }); return res.end(); }
   const r = ROUTES[req.url] ?? [404, page("not found")];
   res.writeHead(r[0], { "Content-Type": "text/html; charset=utf-8" });
@@ -55,25 +57,28 @@ try {
   // 3. the judging, from pages as the browser reads them (absolute hrefs)
   const links = [...A.matchAll(/<a href="([^"]+)">([^<]+)<\/a>/g)].map((m) => ({ href: new URL(m[1].replace(/&amp;/g, "&"), `${base}/a`).href, words: m[2] }));
   const read = [{ page: "/a", address: "/a", links, ids: ["self"] }];
-  const addresses = [...new Set(links.map((l) => L.internalTarget(l.href, base)).filter(Boolean).map((t) => t.address))];
-  ok(addresses.length === 8 && !addresses.some((x) => x.includes("example")), `the addresses asked for are the eight on the site, /a for its own fragments (${addresses.join(" ")})`);
+  const addresses = [...new Set(links.map((l) => L.internalTarget(l.href, base)).filter(Boolean).map((t) => t.address))].filter((x) => !L.notAsked(x));
+  ok(L.notAsked("/api/download?table=x") && !L.notAsked("/apiary"), "notAsked: a route under /api/ is not asked for, a page is");
+  ok(addresses.length === 9 && !addresses.some((x) => x.includes("example")), `the addresses asked for are the nine on the site, /a for its own fragments, none under /api/ (${addresses.join(" ")})`);
   const answers = new Map();
   await L.pool(addresses, 3, async (x) => answers.set(x, await a(x)));
-  const waits = [{ href: "/waiting", why: "the fixture's ruling" }];
-  const f = L.judge(read, answers, new Map([["/b", ["here"]]]), base, waits);
+  const waits = [{ href: "/waiting", why: "the fixture's ruling" }], aliases = [{ href: "/aka", why: "the fixture's alias" }];
+  const f = L.judge(read, answers, new Map([["/b", ["here"]]]), base, waits, aliases);
   const kinds = (k) => f.filter((x) => x.kind === k).map((x) => x.href).sort().join(" ");
   ok(kinds("broken") === "/c /loop", `broken: /c and /loop (${kinds("broken")})`);
   ok(kinds("anchor") === "/b#nowhere", `anchor: /b#nowhere (${kinds("anchor")})`);
   ok(kinds("redirect") === "/old", `redirect: /old (${kinds("redirect")})`);
   ok(kinds("in-review") === "/review", `in-review: /review (${kinds("in-review")})`);
   ok(kinds("waits") === "/waiting", `waits: /waiting, listed and not failing (${kinds("waits")})`);
-  ok(f.length === 6, `six findings in all, none for /b, /b#here, #self, #top or the query (${f.length})`);
-  ok(f[0].kind === "broken" && f[f.length - 1].kind === "waits", "the findings are ordered: broken first, waits last");
+  ok(kinds("alias") === "/aka", `alias: /aka, listed and not failing (${kinds("alias")})`);
+  ok(f.length === 7, `seven findings in all, none for /b, /b#here, #self, #top, the query or the download (${f.length})`);
+  ok(f[0].kind === "broken" && f[f.length - 1].kind === "alias", "the findings are ordered: broken first, aliases last");
   ok(L.line(f.find((x) => x.href === "/c")) === 'broken | /c | "to c" | on /a | answers 404', "a finding's line names the kind, the href, the words, the page and why");
-  const two = L.judge([...read, { ...read[0], page: "/a2", address: "/a2" }], answers, new Map([["/b", ["here"]]]), base, waits);
+  const two = L.judge([...read, { ...read[0], page: "/a2", address: "/a2" }], answers, new Map([["/b", ["here"]]]), base, waits, aliases);
   ok(two.find((x) => x.href === "/c").pages.length === 2 && L.line(two.find((x) => x.href === "/c")).includes("(and 1 more page)"), "a link on two pages is one finding with the count");
-  ok(L.judge(read, new Map(), new Map(), base, []).every((x) => x.kind === "unread"), "an address not asked for is listed as unread, never as a pass");
-  ok(L.WAITS.every((w) => typeof w.href === "string" && typeof w.why === "string"), "every entry of WAITS names its href and why");
+  ok(L.judge(read, new Map(), new Map(), base, [], []).every((x) => x.kind === "unread"), "an address not asked for is listed as unread, never as a pass");
+  ok([...L.WAITS, ...L.ALIASES].every((w) => typeof w.href === "string" && typeof w.why === "string" && w.why.length > 20), "every entry of WAITS and ALIASES names its href and why");
+  ok(L.ALIASES.some((w) => w.href === "/ask") && L.WAITS.some((w) => w.href === "/data/methods/price_board_v4"), "the run's alias (/ask) and its wait (version 4's method note) are named");
 
   // 4. end to end in a browser, on request (a heavy process: take the build lock first)
   if (process.env.CHECK_LINKS_BROWSER_TEST === "1") {
@@ -81,8 +86,8 @@ try {
     if (r === null) console.log("skip the browser part: no browser on this machine");
     else {
       const k = (kind) => r.findings.filter((x) => x.kind === kind).map((x) => x.href).sort().join(" ");
-      ok(r.read[0].links.length === 14 && r.read[0].ids.includes("self"), `browser: /a read with its 14 links and its id (${r.read[0].links.length})`);
-      ok(k("broken") === "/c /loop /waiting" && k("anchor") === "/b#nowhere" && k("redirect") === "/old" && k("in-review") === "/review", "browser: the same findings as the judging alone (with /waiting broken: the run's WAITS is empty)");
+      ok(r.read[0].links.length === 16 && r.read[0].ids.includes("self") && r.not_asked.join() === "/api/download?table=x", `browser: /a read with its 16 links and its id, the download not asked (${r.read[0].links.length})`);
+      ok(k("broken") === "/c /loop /waiting" && k("anchor") === "/b#nowhere" && k("redirect") === "/aka /old" && k("in-review") === "/review", "browser: the same findings as the judging alone (/waiting broken and /aka a redirect: the run's own WAITS and ALIASES name neither)");
     }
   }
 } finally {

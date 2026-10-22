@@ -159,7 +159,7 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
         </p>
       </Section>
       <Cite tables={[T, "ercot_all_hub_prices_history"]} note="Today's level from the live set; the five famous days frozen from the history (site/data/battery_levels.json, warehouse/derived/battery_levels.py)" />
-      <p className="mt-2 text-xs text-muted">Real batteries on the grid: <Link href="/storage">storage</Link>; ERCOT: <Link href="/grid/ercot">its grid page</Link>.</p>
+      <p className="mt-2 text-xs text-muted">Real batteries on the grid: <Link href="/storage">storage</Link>; ERCOT: <Link href="/grid?grid=ercot">its grid page</Link>.</p>
     </div>
     </Brand>
   );

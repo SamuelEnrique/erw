@@ -47,7 +47,9 @@ class TestCheckLinks(unittest.TestCase):
 
     def test_waits_are_not_failures(self):
         t = src("site", "scripts", "check-links.mjs")
-        self.assertRegex(t, r'filter\(\(f\) => f\.kind !== "waits"\)')
+        self.assertIn('filter((f) => f.kind !== "waits" && f.kind !== "alias")', t)
+        self.assertIn('address.startsWith("/api/")', t)
+        self.assertIn('{ href: "/data/methods/price_board_v4", why:', t)
 
     @unittest.skipUnless(NODE, "node is not on this machine")
     def test_fixture(self):

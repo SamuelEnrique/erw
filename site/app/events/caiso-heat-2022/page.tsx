@@ -77,7 +77,7 @@ export default async function CaisoHeat2022() {
         ) : <p className="text-sm text-muted">The notices of these days could not be read{got.ok ? "" : `: ${got.reason}`}.</p>}
         <p className="mt-2 max-w-3xl text-xs text-muted">
           From the warehouse&apos;s <code className="font-mono">caiso_grid_emergencies</code>, read from the <a href={GEHR}>California ISO, Grid Emergencies History
-          Report</a>. Every notice since 1998: <Link href="/grid/caiso#reliability">CAISO&apos;s grid page, Reliability</Link>.
+          Report</a>. Every notice since 1998: <Link href="/grid?grid=caiso#reliability">CAISO&apos;s grid page, Reliability</Link>.
         </p>
       </section>
       <EventStudy event={EV} grids={[E]} primary={E} />
