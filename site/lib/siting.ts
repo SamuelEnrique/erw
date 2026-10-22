@@ -642,6 +642,44 @@ export function carbonCell(dc: DC, f: Files, r: Row, x: Pick<SitingInputs, "prof
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
+// the utility (session 708): the largest seller to industry in the row's state, inside the grid
+// ---------------------------------------------------------------------------------------------------------------------
+
+/** data/siting/utility.json (warehouse/derived/siting_page.py, from eia861_utility_sales): for each state and grid
+ * (balancing authority) the tab needs, the utility selling most to industry in the newest year held, among the rows
+ * that sell energy (EIA's service types Bundled and Energy; Delivery rows are wires charges, not sales), with its
+ * industrial sales and revenue that year and the year before. */
+export type UtilityRow = { utility: string; number: string; part: string; service: string; sales_mwh: number; revenue_usd: number; sales_prior_mwh: number | null; sellers: number };
+export type UtilityFile = { built: string; table: string; year: number; prior: number; by: Record<string, UtilityRow | null> };
+/** The state a row's utility is read in: the grid's one state, the zone's own, or a hub's (MISO's hubs by their names;
+ * SPP's North hub Kansas, South hub Oklahoma; ISO-NE's hub Massachusetts, its largest state). PJM spans thirteen states
+ * and the District of Columbia: no one state. */
+const ISONE_STATE: Record<string, string> = { ".Z.CONNECTICUT": "CT", ".Z.MAINE": "ME", ".Z.NEMASSBOST": "MA", ".Z.NEWHAMPSHIRE": "NH", ".Z.RHODEISLAND": "RI", ".Z.SEMASS": "MA", ".Z.VERMONT": "VT", ".Z.WCMASS": "MA", ".H.INTERNAL_HUB": "MA" };
+const MISO_STATE: Record<string, string> = { "ARKANSAS.HUB": "AR", "ILLINOIS.HUB": "IL", "INDIANA.HUB": "IN", "LOUISIANA.HUB": "LA", "MICHIGAN.HUB": "MI", "MINN.HUB": "MN", "MS.HUB": "MS", "TEXAS.HUB": "TX" };
+export function stateOf(r: Pick<Row, "grid" | "region">): string | null {
+  switch (r.grid) {
+    case "ercot": return "TX";
+    case "caiso": return "CA";
+    case "nyiso": return "NY";
+    case "isone": return ISONE_STATE[r.region] ?? null;
+    case "spp": return r.region === "SPPSOUTH_HUB" ? "OK" : "KS";
+    case "miso": return MISO_STATE[r.region] ?? null;
+    default: return null;
+  }
+}
+export const UTILITY_STATES: [string, string][] = [["TX", "ERCO"], ["CA", "CISO"], ["NY", "NYIS"], ["CT", "ISNE"], ["ME", "ISNE"], ["MA", "ISNE"], ["NH", "ISNE"], ["RI", "ISNE"], ["VT", "ISNE"],
+  ["KS", "SWPP"], ["OK", "SWPP"], ["AR", "MISO"], ["IL", "MISO"], ["IN", "MISO"], ["LA", "MISO"], ["MI", "MISO"], ["MN", "MISO"], ["MS", "MISO"], ["TX", "MISO"]];
+export type UtilityCell = { state: string; ba: string; u: UtilityRow; year: number; prior: number; rev: number; growth: number | null } | { why: string; words: string };
+export function utilityCell(f: Files, r: Row): UtilityCell {
+  if (r.kind === "node") return { why: "The wires utility (TSP) at an ERCOT node is not named in the node tables (node_basis_daily holds no node's zone, hub or utility); service territories are not held.", words: "not held" };
+  const st = stateOf(r), ba = BA_OF[r.grid];
+  if (!st) return { why: r.grid === "pjm" ? "PJM spans thirteen states and the District of Columbia: no one state's utility is its own. Service territories are not held." : `No state is known for ${r.region}.`, words: "not held" };
+  const u = f.utility?.by[`${st}|${ba}`];
+  if (!f.utility || !u) return { why: `No utility in ${st} selling to industry inside ${GRID_NAMES[r.grid]} (balancing authority ${ba}) is in eia861_utility_sales for ${f.utility?.year ?? "the newest year"}.`, words: "not held" };
+  return { state: st, ba, u, year: f.utility.year, prior: f.utility.prior, rev: u.revenue_usd / u.sales_mwh, growth: u.sales_prior_mwh ? 100 * (u.sales_mwh / u.sales_prior_mwh - 1) : null };
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
 // the all-in column (session 702): drawn only where each part is held or is zero by market design
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -670,7 +708,9 @@ export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFil
   /** session 706: "Your load"'s demand file and the tab's planned generation and state capacity */
   demand?: DemandYears; headroom?: HeadroomFile;
   /** session 707: eGRID's subregions and the grids' hourly intensity (data/siting/carbon.json) */
-  carbon?: CarbonFile };
+  carbon?: CarbonFile;
+  /** session 708: the largest seller to industry by state and grid (data/siting/utility.json) */
+  utility?: UtilityFile };
 /** The figure a check key names, from the files the page reads; undefined when the key names none.
  *   allgrids|rows|hubs, allgrids|rows|nodes                the count of each row set (session 700)
  *   allgrids|energy|<row>|da or rt                         a flat load's price over the last twelve whole months (701);
@@ -687,6 +727,7 @@ export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFil
  *   allgrids|capratio|<row>                                installed capacity over the last whole year's peak, percent (706)
  *   allgrids|carbon|<row>, allgrids|carbonlb|<row>         the eGRID subregion's CO2 rate, kg and lb per MWh (707)
  *   allgrids|carbonh|<row>|<profile key>                   the grid's hourly intensity over the hours the load runs, kg (707)
+ *   allgrids|utilrev|<row>, allgrids|utilgrowth|<row>      the utility's industrial revenue per MWh and sales growth (708)
  *   allgrids|llapproved|<row>                              ERCOT's large loads approved to energize, MW, newest report (705)
  *   (capacity, session 704: zero where there is no market, drawn as a figure of 0 with no key; elsewhere held internal,
  *   "license needed", and computed only where the tables are, by warehouse/derived/siting_page.py --internal) */
@@ -725,6 +766,7 @@ export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
     const c = carbonCell(dc, f, row, x);
     return "kg" in c ? c.hourly?.kg : undefined;
   }
+  if (p[1] === "utilrev" || p[1] === "utilgrowth") { const u = utilityCell(f, row); return "rev" in u ? (p[1] === "utilrev" ? u.rev : u.growth ?? undefined) : undefined; }
   if (p[1] === "demand") { const g = demandGrowth(f.demand, row.grid); return "pct" in g ? g.pct : undefined; }
   if (p[1] === "planned") return f.headroom?.planned[row.grid]?.construction_mw;
   if (p[1] === "capratio") { const c = capacityOverPeak(f.demand, f.headroom, row.grid); return "pct" in c ? c.pct : undefined; }

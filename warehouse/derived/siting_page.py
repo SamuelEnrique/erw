@@ -36,6 +36,10 @@ Files:
                   (ISORTO); and from carbon_intensity_hourly (public), intensity_demand in kg CO2 per MWh, each priced
                   grid's hours of the years its price window covers, in the grid's standard time (as the price files),
                   {"s": the first hour held, "v": the values}, to one decimal; an hour not held is null.
+    utility.json  (session 708) from eia861_utility_sales (public): for each state and balancing authority the tab needs,
+                  the utility with the most industrial sales in the newest year, among the rows of EIA's service types
+                  Bundled and Energy (Delivery rows are wires charges), with its industrial sales and revenue that year
+                  and its sales the year before.
 
 Each file names the table it was read from, the table's first and last day and when it was built. A table that cannot
 be found stops the run (exit 1): no file is written from part of a table.
@@ -60,6 +64,9 @@ CAP_MARKETS = ["pjm_bra", "isone_fca", "miso_pra", "nyiso_icap_spot"]
 LBNL_TABLE = "lbnl_interconnection_queue"
 LBNL_GRIDS = {"ERCOT": "ercot", "CAISO": "caiso", "NYISO": "nyiso", "ISO-NE": "isone", "SPP": "spp", "MISO": "miso", "PJM": "pjm"}
 MIN_N = 5
+UTILITY_TABLE = "eia861_utility_sales"
+UTILITY_STATES = [("TX", "ERCO"), ("CA", "CISO"), ("NY", "NYIS"), ("CT", "ISNE"), ("ME", "ISNE"), ("MA", "ISNE"), ("NH", "ISNE"), ("RI", "ISNE"), ("VT", "ISNE"),
+                  ("KS", "SWPP"), ("OK", "SWPP"), ("AR", "MISO"), ("IL", "MISO"), ("IN", "MISO"), ("LA", "MISO"), ("MI", "MISO"), ("MN", "MISO"), ("MS", "MISO"), ("TX", "MISO")]
 EGRID_TABLE, HOURLY_TABLE, HOURLY_VAR = "egrid_power_plants", "carbon_intensity_hourly", "intensity_demand"
 SUBREGIONS = ["ERCT", "CAMX", "NYUP", "NYCW", "NYLI", "NEWE", "SPNO", "SPSO", "MROW", "SRMW", "RFCW", "RFCM", "SRMV"]
 HOURLY_GRIDS = {"ercot": "ERCO", "caiso": "CISO", "nyiso": "NYIS", "isone": "ISNE", "spp": "SWPP"}
@@ -258,6 +265,36 @@ def carbon_file(epath, hpath, index):
             "data_year": int(e["data_year"].iloc[0]), "areas": areas, "hourly_table": HOURLY_TABLE, "hourly_variable": HOURLY_VAR, "hourly": hourly}
 
 
+def utility_file(path):
+    """utility.json's content (session 708)."""
+    keep = []
+    for ch in pd.read_csv(path, skiprows=header_rows(path), dtype=str, chunksize=500_000,
+                          usecols=["entity", "variable", "ts_utc", "value", "node", "x_utility_number", "x_state", "x_part", "x_service_type", "x_ba_code"]):
+        keep.append(ch[ch["variable"].isin(["industrial_sales", "industrial_revenue"]) & ch["x_service_type"].isin(["Bundled", "Energy"])])
+    d = pd.concat(keep, ignore_index=True)
+    d["v"] = pd.to_numeric(d["value"], errors="coerce")
+    d["y"] = d["ts_utc"].str[:4].astype(int)
+    year = int(d["y"].max())
+    prior = year - 1
+    by = {}
+    for st, ba in UTILITY_STATES:
+        x = d[(d["x_state"] == st) & (d["x_ba_code"] == ba)]
+        s = x[(x["variable"] == "industrial_sales") & (x["y"] == year) & (x["v"] > 0)]
+        if not len(s):
+            by[f"{st}|{ba}"] = None
+            continue
+        top = s.sort_values(["v", "entity"], ascending=[False, True]).iloc[0]
+        rev = x[(x["entity"] == top["entity"]) & (x["variable"] == "industrial_revenue") & (x["y"] == year)]
+        pri = x[(x["entity"] == top["entity"]) & (x["variable"] == "industrial_sales") & (x["y"] == prior)]
+        if not len(rev):
+            by[f"{st}|{ba}"] = None
+            continue
+        by[f"{st}|{ba}"] = {"utility": str(top["node"]), "number": str(top["x_utility_number"]), "part": str(top["x_part"]), "service": str(top["x_service_type"]),
+                            "sales_mwh": float(top["v"]), "revenue_usd": float(rev["v"].iloc[0]),
+                            "sales_prior_mwh": float(pri["v"].iloc[0]) if len(pri) and pri["v"].iloc[0] > 0 else None, "sellers": int(s["entity"].nunique())}
+    return {"built": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "table": UTILITY_TABLE, "year": year, "prior": prior, "by": by}
+
+
 def write(name, obj, out_dir):
     """Write a file, unless it holds the same content but for its build time (no change, no new commit)."""
     os.makedirs(out_dir, exist_ok=True)
@@ -337,6 +374,15 @@ def main(argv=None):
         return 1
     print(f"{EGRID_TABLE}: " + "; ".join(f"{k} {round(v['co2_tons'] * 2000 / v['gen_mwh'], 1) if v['gen_mwh'] else None}" for k, v in cb["areas"].items()))
     write("carbon.json", cb, a.out_dir)
+    try:
+        upath = find(UTILITY_TABLE, a.in_dir)
+        print(f"reading {upath}")
+        ut = utility_file(upath)
+    except Exception as e:
+        print(f"FAILED: {e}", file=sys.stderr)
+        return 1
+    print(f"{UTILITY_TABLE} {ut['year']}: " + "; ".join(f"{k} {v['utility'] if v else None}" for k, v in ut["by"].items()))
+    write("utility.json", ut, a.out_dir)
     if a.internal:
         if not a.rows:
             print("FAILED: --internal needs --rows", file=sys.stderr)

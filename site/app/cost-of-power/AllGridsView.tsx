@@ -3,7 +3,7 @@ import { Num } from "@/components/Num";
 import { InlineSpark } from "@/components/InlineSpark";
 import { InputPanel } from "@/components/tool/ToolPage";
 import type { ReactNode } from "react";
-import { CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, allInCell, capacityCell, capacityOverPeak, carbonCell, connectCell, cpCharge, demandGrowth, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
+import { CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, allInCell, capacityCell, capacityOverPeak, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
 import { CP, NODES, SITING_DC, SITING_FILES } from "@/lib/sitingdata";
 import { AllGridsForm } from "./AllGridsForm";
 
@@ -205,6 +205,22 @@ function CarbonTd({ r, x }: { r: Row; x: SitingInputs }) {
   );
 }
 
+/** Session 708: the utility: the largest seller to industry in the row's state inside the grid, its industrial revenue
+ * per MWh and its industrial sales growth, the newest year held (EIA-861). */
+function UtilityTd({ r }: { r: Row }) {
+  const c = utilityCell(SITING_FILES, r);
+  if ("why" in c) return <Words words={c.words} why={c.why} />;
+  const u = c.u;
+  const tip = `${u.utility} (EIA utility ${u.number}), the largest of ${u.sellers} sellers to industry in ${c.state} inside ${GRID_NAMES[r.grid]} (balancing authority ${c.ba}) in ${c.year}: ${Math.round(u.sales_mwh).toLocaleString("en-US")} MWh to industry for USD ${Math.round(u.revenue_usd).toLocaleString("en-US")} (eia861_utility_sales, ${u.service === "Energy" ? "energy only: the wires utility bills delivery" : "bundled: energy and delivery"}). Service territories are not held, so the row's own utility is not known; this is the state's largest.`;
+  return (
+    <span className="inline-block text-right">
+      <span className="block max-w-[11rem] truncate text-xs" title={tip}>{u.utility}</span>
+      <span className="whitespace-nowrap"><Fig check={`allgrids|utilrev|${r.id}`} v={c.rev} tip={tip} /></span>
+      {c.growth !== null ? <span className="block text-xs" data-util-growth="1"><span title={`Industrial sales ${c.year} over ${c.prior}: ${Math.round(u.sales_mwh).toLocaleString("en-US")} against ${Math.round(u.sales_prior_mwh ?? 0).toLocaleString("en-US")} MWh.`}><Num check={`allgrids|utilgrowth|${r.id}`} raw={c.growth}>{signed2(c.growth)}</Num></span> %</span> : null}
+    </span>
+  );
+}
+
 function RowHead({ r }: { r: Row }) {
   return (
     <th scope="row" className="px-3 py-1.5 text-left font-normal" data-row={r.id}>
@@ -252,7 +268,7 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
                 <tr key={r.id} className="border-b border-rule" data-allgrids-row={r.id}>
                   <RowHead r={r} />
                   {COLUMNS.map((c) => <td key={c.id} className="px-3 py-1.5 text-right" data-cell={c.id}>{c.id === "energy" ? (x.profile === "datacenter" ? <EnergyTd r={r} e={energyCell(SITING_DC, SITING_FILES, r)} /> : <ProfileTd r={r} x={x} />)
-                    : c.id === "transmission" ? <TxTd r={r} x={x} /> : c.id === "capacity" ? <CapTd r={r} x={x} /> : c.id === "connect" ? <ConnectTd r={r} /> : c.id === "headroom" ? <HeadroomTd r={r} /> : c.id === "carbon" ? <CarbonTd r={r} x={x} /> : c.id === "allin" ? <AllInTd r={r} x={x} /> : null}</td>)}
+                    : c.id === "transmission" ? <TxTd r={r} x={x} /> : c.id === "capacity" ? <CapTd r={r} x={x} /> : c.id === "connect" ? <ConnectTd r={r} /> : c.id === "headroom" ? <HeadroomTd r={r} /> : c.id === "carbon" ? <CarbonTd r={r} x={x} /> : c.id === "utility" ? <UtilityTd r={r} /> : c.id === "allin" ? <AllInTd r={r} x={x} /> : null}</td>)}
                 </tr>
               ))}
             </tbody>
