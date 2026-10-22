@@ -69,6 +69,7 @@ ROOT = os.path.abspath(os.path.join(HERE, ".."))
 STEPS = ["freeze", "main_merged", "task_branches", "db_probe", "build_lock", "worktree", "suite", "npm_ci", "build",
          "serve", "check_values", "check_routes", "check_cross_checks", "check_csp", "stop"]
 CHECK_VALUES_TRIES = 3
+STALE_TASK_HOURS = 48   # session 589: a task/ branch quiet this long is left over, not in flight
 SUITE_MIN = 60
 NPM_CI_MIN = 20
 CHECK_MIN = 45
@@ -298,7 +299,7 @@ class Gate:
         c, text = self.ops.output(["git", "ls-remote", "--heads", "origin", "task/*"], self.root)
         if c != 0:
             return "fail", c, "git ls-remote failed"
-        flight, conflict = [], []
+        flight, conflict, stale = [], [], []
         for ln in text.splitlines():
             parts = ln.split()
             if len(parts) != 2:
@@ -309,12 +310,23 @@ class Gate:
                 return "fail", 1, f"git fetch origin {name} failed"
             if self.run("task_branches", ["git", "merge-base", "--is-ancestor", bsha, "origin/main"], self.root) == 0:
                 continue   # already on main
+            # session 589: a task/ branch with no commit for STALE_TASK_HOURS is left over, not in flight (task/198 of
+            # 11 October stopped the first real run); it is named, not trial-merged. An unreadable time counts as fresh.
+            c, when = self.ops.output(["git", "log", "-1", "--format=%ct", bsha], self.root)
+            try:
+                age_h = (time.time() - int(when.strip())) / 3600 if c == 0 else 0
+            except ValueError:
+                age_h = 0
+            if age_h > STALE_TASK_HOURS:
+                stale.append(f"{name} ({age_h / 24:.0f} days)")
+                continue
             flight.append(name)
             if self.run("task_branches", ["git", "merge-tree", "--write-tree", bsha, self.sha], self.root) != 0:
                 conflict.append(name)
+        left = f"; left over, not judged: {', '.join(stale)}" if stale else ""
         if conflict:
-            return "fail", 1, f"conflicts with {', '.join(conflict)} in flight: wait for it to merge, merge main, run again"
-        return "pass", 0, (f"in flight, merging cleanly: {', '.join(flight)}" if flight else "none in flight")
+            return "fail", 1, f"conflicts with {', '.join(conflict)} in flight: wait for it to merge, merge main, run again{left}"
+        return "pass", 0, (f"in flight, merging cleanly: {', '.join(flight)}" if flight else "none in flight") + left
 
     def s_db_probe(self):
         c = self.run("db_probe", [self.py, os.path.join(self.root, "scripts", "db_probe.py")], self.root, timeout=300)

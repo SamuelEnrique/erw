@@ -30,7 +30,7 @@ class FakeOps:
     """Scripted exit codes a step (a list, used in turn; 0 when it runs out) and the text each call writes to its log."""
 
     def __init__(self, codes=None, logs=None, ls_remote="", lock_status=(0, "build.lock is free"), held=None,
-                 branch="wip/579-s", exists=()):
+                 branch="wip/579-s", exists=(), times=None):
         self.codes = {k: list(v) for k, v in (codes or {}).items()}
         self.logs = {k: list(v) for k, v in (logs or {}).items()}
         self.ls_remote, self.lock_status, self.held_map, self.branch = ls_remote, lock_status, held or {}, branch
@@ -39,6 +39,7 @@ class FakeOps:
         self.calls = []
         self.started = self.stopped = 0
         self.held_asked = None
+        self.times = times or {}   # session 589: a branch's last commit time (unix seconds); fresh when absent
 
     def run(self, step, argv, cwd, log, env=None, timeout=None):
         self.calls.append((step, list(argv), cwd, env, timeout))
@@ -58,6 +59,9 @@ class FakeOps:
             return 0, self.branch + "\n"
         if argv[-1] == "status":
             return self.lock_status
+        if argv[:4] == ["git", "log", "-1", "--format=%ct"]:
+            import time as _t
+            return 0, str(int(self.times.get(argv[4], _t.time()))) + "\n"
         raise AssertionError(f"unexpected output call {argv}")
 
     def read(self, path):
@@ -281,6 +285,23 @@ class Gate579(unittest.TestCase):
         ops = FakeOps(ls_remote=ls, codes={"task_branches": [0, 1, 0]})
         self.assertEqual(self.gate(ops), 0)
         self.assertIn("in flight, merging cleanly: task/2-in-flight", self.record())
+
+    def test_a_task_branch_quiet_for_days_is_left_over_not_in_flight(self):
+        # session 589: task/198-battery-data, last commit 11 October, stopped the first real run on 22 October
+        import time as _t
+        ls = f"{'c' * 40}\trefs/heads/task/198-old\n{'b' * 40}\trefs/heads/task/2-in-flight\n"
+        ops = FakeOps(ls_remote=ls, codes={"task_branches": [0, 1, 0, 1, 0]}, times={"c" * 40: _t.time() - 10 * 86400})
+        self.assertEqual(self.gate(ops), 0)
+        rec = self.record()
+        self.assertIn("in flight, merging cleanly: task/2-in-flight", rec)
+        self.assertIn("left over, not judged: task/198-old (10 days)", rec)
+
+    def test_a_fresh_task_branch_with_a_conflict_still_fails(self):
+        import time as _t
+        ls = f"{'b' * 40}\trefs/heads/task/2-in-flight\n"
+        ops = FakeOps(ls_remote=ls, codes={"task_branches": [0, 1, 1]}, times={"b" * 40: _t.time() - 3600})
+        self.assertEqual(self.gate(ops), 1)
+        self.assertIn("conflicts with task/2-in-flight", self.record())
 
     def test_main_not_merged_fails(self):
         ops = FakeOps(codes={"main_merged": [0, 1]})
