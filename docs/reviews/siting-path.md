@@ -69,3 +69,11 @@ The ten steps again on production (`https://erw-flame.vercel.app`, chain 050's s
 | 10 | The same screen from the copied address | The same | |
 
 No step that held at 717 fails now. The walk's open items stay those of the open-items file (`docs/reviews/siting-open-2026-10-23.md`, lines 7, 11, 15 and 16).
+
+## Walked again (session 780, chain 064)
+
+The 11 steps (727's) again on production (chain 064's 766 to 777 served since 21:30 UTC), 22 October 2026 at about 21:38 UTC. Shots: `docs/brand/review-780/`.
+
+- **Every figure the walk reads is the same** as at session 727's walk: each step's figure lines compared, 0 differing.
+- **The headline at HB_WEST**: USD 40.83 per MWh all-in, USD 321,907,123 a year, 45.80 months, as at 717 and 727.
+- **No step fails and no new fault was found.**
