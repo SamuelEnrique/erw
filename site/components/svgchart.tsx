@@ -231,10 +231,17 @@ export function CategoryChart({ id, x, series, unit, unit2 = "", label, height =
             {refLines?.map((r) => (
               <g key={r.name}>
                 <line x1={L} x2={plotR} y1={py(r.value, b1)} y2={py(r.value, b1)} stroke="var(--color-accent)" strokeWidth="1" strokeDasharray={r.dashed ? "4 3" : undefined} />
-                <text x={plotR - 2} y={py(r.value, b1) - 3} textAnchor="end" fontSize="11" fill="var(--color-accent)">{r.name}</text>
+                {/* session 584: a name wider than the plot is drawn in lines that fit it, the last on the line (a
+                    reference's long name ran 120 px past the drawing's left edge on /research at 390 px) */}
+                {(() => { const ls = wrapName(r.name, Math.max(40, plotR - L - 4), 11); return (
+                  <text x={plotR - 2} y={py(r.value, b1) - 3 - 13 * (ls.length - 1)} textAnchor="end" fontSize="11" fill="var(--color-accent)">
+                    {ls.length === 1 ? r.name : ls.map((ln, j) => <tspan key={j} x={plotR - 2} dy={j ? 13 : 0}>{ln}</tspan>)}
+                  </text>); })()}
               </g>
             ))}
-            {x.map((c, i) => (labelled(i) ? <text key={`x${i}`} x={cx(i)} y={height - BOT + 16} textAnchor="middle" fontSize="11" fill="var(--color-ink)">{c}</text> : null))}
+            {/* session 584: a category's name stays inside the drawing (the last month of a small example ran 3 px past
+                its right edge at 390 px); one that fits is drawn at its category's middle as before */}
+            {x.map((c, i) => (labelled(i) ? <text key={`x${i}`} x={Math.max(Math.min(cx(i), W - 1 - textWidth(c, 11) * 0.55), textWidth(c, 11) * 0.55 + 1)} y={height - BOT + 16} textAnchor="middle" fontSize="11" fill="var(--color-ink)">{c}</text> : null))}
             {series.map((s, k) => {
               const b = s.axis === 1 && two ? b2 : b1, color = tokenColor(s.color), kind = s.kind ?? "bar";
               if (kind === "bar") {
@@ -387,7 +394,17 @@ export function HeatChart({ id, rows, cols, cells, unit, label, tips, marks, lo:
   const lo = loGiven ?? (held.length ? Math.min(...held) : 0), hi = hiGiven ?? (held.length ? Math.max(...held) : 1);
   const L = Math.min(110, Math.max(44, Math.max(0, ...rows.map((r) => textWidth(r, 11))) + 10)), R = 10, TOP = 8, BOT = 48;
   const cw = (W - L - R) / Math.max(1, cols.length), ch = 18;
-  const height = TOP + rows.length * ch + BOT;
+  // session 584: the legend's words are measured before the height; where the scale and "no value held" do not fit on one
+  // line even from the left edge (a phone's 390 px: "no value held" ran past the drawing), the key for a blank cell is
+  // drawn on a line of its own below the scale, and the drawing is that line taller
+  const w0 = legend?.[0] ?? `${num(lo)} ${unit}`, w1 = legend?.[1] ?? `${num(hi)} ${unit}`;
+  const span = textWidth(w0, 11) + 8 + 8 * 12 + 6 + textWidth(w1, 11) + 30 + textWidth("no value held", 11);
+  const split = 4 + span > W - 4;
+  // on its own line the scale may still be wider than the drawing (the face's figures run wider than textWidth's
+  // estimate): there the words are measured with a margin and the ramp's eight cells narrow to the room left, 6 px at least
+  const tw = (s: string) => textWidth(s, 11) * (split ? 1.12 : 1);
+  const cell = split ? Math.max(6, Math.min(12, (W - 8 - tw(w0) - 8 - 6 - tw(w1)) / 8)) : 12;
+  const height = TOP + rows.length * ch + BOT + (split ? 16 : 0);
   const strength = (v: number) => (hi > lo ? 0.08 + 0.92 * ((v - lo) / (hi - lo)) : 0.6);
   // session 351 (the owner's ruling of 20 October 2026): one color for a magnitude; where the figure is signed (its values
   // cross zero) a two-hue ramp, the accent above zero and the blue below, each cell's strength its distance from zero
@@ -421,18 +438,17 @@ export function HeatChart({ id, rows, cols, cells, unit, label, tips, marks, lo:
             {/* session 331: the scale starts after its first word (it stood 110 px past the row labels whatever that word's
                 width, and ran past a phone's drawing); the whole legend starts at the left edge where it would not fit */}
             {(() => {
-              const w0 = legend?.[0] ?? `${num(lo)} ${unit}`, w1 = legend?.[1] ?? `${num(hi)} ${unit}`;
-              const span = textWidth(w0, 11) + 8 + 8 * 12 + 6 + textWidth(w1, 11) + 30 + textWidth("no value held", 11);
-              const x0 = L + span <= W - 4 ? L : 4, sx = x0 + textWidth(w0, 11) + 8, hx = sx + 8 * 12 + 6;
+              const x0 = L + span <= W - 4 ? L : 4, sx = x0 + tw(w0) + 8, hx = sx + 8 * cell + 6;
+              const ly = split ? height - 24 : height - 8, bx = split ? 4 : hx + textWidth(w1, 11) + 14, by = split ? height - 8 : ly;
               return (
-                <g data-direct-labels="1">
-                  <text x={x0} y={height - 8} fontSize="11" fill="var(--color-muted)">{w0}</text>
+                <g data-direct-labels="1" data-legend-split={split ? "1" : undefined}>
+                  <text x={x0} y={ly} fontSize="11" fill="var(--color-muted)">{w0}</text>
                   {signed
-                    ? Array.from({ length: 8 }, (_, k) => <rect key={k} x={sx + k * 12} y={height - 17} width="12" height="10" fill={k < 4 ? "var(--chart-blue)" : "var(--color-accent)"} fillOpacity={0.08 + 0.92 * (Math.abs(k - 3.5) - 0.5) / 3} data-diverging="1" />)
-                    : Array.from({ length: 8 }, (_, k) => <rect key={k} x={sx + k * 12} y={height - 17} width="12" height="10" fill="var(--color-accent)" fillOpacity={0.08 + 0.92 * (k / 7)} />)}
-                  <text x={hx} y={height - 8} fontSize="11" fill="var(--color-muted)">{w1}</text>
-                  <rect x={hx + textWidth(w1, 11) + 14} y={height - 17} width="12" height="10" fill={`url(#${id}-blank)`} />
-                  <text x={hx + textWidth(w1, 11) + 30} y={height - 8} fontSize="11" fill="var(--color-muted)">no value held</text>
+                    ? Array.from({ length: 8 }, (_, k) => <rect key={k} x={sx + k * cell} y={ly - 9} width={cell} height="10" fill={k < 4 ? "var(--chart-blue)" : "var(--color-accent)"} fillOpacity={0.08 + 0.92 * (Math.abs(k - 3.5) - 0.5) / 3} data-diverging="1" />)
+                    : Array.from({ length: 8 }, (_, k) => <rect key={k} x={sx + k * cell} y={ly - 9} width={cell} height="10" fill="var(--color-accent)" fillOpacity={0.08 + 0.92 * (k / 7)} />)}
+                  <text x={hx} y={ly} fontSize="11" fill="var(--color-muted)">{w1}</text>
+                  <rect x={bx} y={by - 9} width="12" height="10" fill={`url(#${id}-blank)`} />
+                  <text x={bx + 16} y={by} fontSize="11" fill="var(--color-muted)">no value held</text>
                 </g>
               );
             })()}
@@ -667,9 +683,17 @@ export function ShareSegments({ id, parts, unit, label }: { id: string; parts: {
   const segs = pos.map((p, i) => ({ ...p, x0: widths.slice(0, i).reduce((a, w) => a + w, 0), w: widths[i], share: (100 * p.value) / total }));
   const fits = (s: { name: string; share: number; w: number }) => s.w > textWidth(`${s.name} ${s.share.toFixed(0)}%`, 11) + 6;
   const narrow = segs.filter((s) => !fits(s));
+  // session 584: the parts too narrow for their names are named below the bar in as many lines as the width needs, the
+  // parts kept whole (on a phone's 390 px the one line ran up to 150 px past the drawing); the drawing grows by a line each
+  const notes: string[] = [];
+  for (const t of narrow.map((s) => `${s.name} ${s.share.toFixed(1)}%`)) {
+    const last = notes.length - 1, joined = last >= 0 ? `${notes[last]}; ${t}` : t;
+    if (last >= 0 && textWidth(joined, 10) * 1.1 <= W - 2) notes[last] = joined; else if (last >= 0) { notes[last] += "; "; notes.push(t); } else notes.push(t);
+  }
+  const tall = TOP + H + BOT + 13 * Math.max(0, notes.length - 1);
   return (
     <div ref={wrap} className="relative w-full min-w-0" data-chart={id} data-svg-chart="shares" data-chart-width={W}>
-      <svg viewBox={`0 0 ${W} ${TOP + H + BOT}`} width={W} height={TOP + H + BOT} className="block max-w-full" role="img" aria-label={label} onMouseLeave={() => setHover(null)}>
+      <svg viewBox={`0 0 ${W} ${tall}`} width={W} height={tall} className="block max-w-full" role="img" aria-label={label} onMouseLeave={() => setHover(null)}>
         <title>{label}</title>
         {segs.map((s, i) => (
           <g key={s.name} data-part={s.name} onMouseEnter={() => setHover(i)}>
@@ -678,7 +702,7 @@ export function ShareSegments({ id, parts, unit, label }: { id: string; parts: {
           </g>
         ))}
         <g data-direct-labels="1">
-          {narrow.length ? <text x={0} y={TOP + H + 14} fontSize="10" fill="var(--color-muted)">{narrow.map((s) => `${s.name} ${s.share.toFixed(1)}%`).join("; ")}</text> : null}
+          {notes.length ? <text x={0} y={TOP + H + 14} fontSize="10" fill="var(--color-muted)">{notes.map((ln, j) => <tspan key={j} x={0} dy={j ? 13 : 0}>{ln}</tspan>)}</text> : null}
         </g>
       </svg>
       {hover !== null && segs[hover] ? <Card left={segs[hover].x0 + 8} width={W}><div className="text-ink">{segs[hover].name}: <span className="font-mono">{num(segs[hover].value)} {unit}</span> ({segs[hover].share.toFixed(1)}%)</div></Card> : null}

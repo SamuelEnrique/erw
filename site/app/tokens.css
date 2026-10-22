@@ -1051,3 +1051,16 @@ body:has(.brand-a) > footer :focus-visible {
 .brand-a [data-ask-compact] p.text-base {
   font-size: 14px;
 }
+/* session 584 (390 pixels on every page): a select is never wider than its frame. A select is as wide as its longest
+   choice, and on a phone the demand growth explorer's "Window" (398 px) and /policy's "Tag" (429 px) pushed the page
+   sideways; it now narrows to the frame and shows the chosen words cut at its edge, the list it opens unchanged. The
+   label (and a span around it) that holds it may shrink below the select's own width in a row of filters, which a flex
+   item does not by default; where it already fits nothing changes */
+.brand-a select {
+  max-width: 100%;
+}
+.brand-a :is(label, span, div):has(> select),
+.brand-a :is(span, div):has(> label > select) {
+  min-width: 0;
+  max-width: 100%;
+}
