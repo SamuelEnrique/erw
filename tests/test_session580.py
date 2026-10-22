@@ -136,7 +136,8 @@ class TheCode(unittest.TestCase):
         self.assertIn("const rows = await askAgainOnFailure(() => restPages<T>(table, query, revalidate, max, together));", self.s)
         self.assertIn("const rows = await askAgainOnFailure(() => restPages<T>(table, publicRowsQuery(query), revalidate, max, together));", self.s)
         self.assertIn("return askAgainOnFailure(() => countOf(table, query, revalidate));", self.s)
-        self.assertIn("if (licenseHold(query).byRow) return restCountRaw(table, publicRowsQuery(query), revalidate);", self.s)
+        # session 589: main carries session 562's form of the same count (chain 023 landed by session 563)
+        self.assertIn("return restCountRaw(table, licenseHold(query).byRow ? publicRowsQuery(query) : query, revalidate);", self.s)
 
     def test_the_timing_writes_no_file_and_sends_nothing(self):
         t = self.s[self.s.index("function readLine("):]
