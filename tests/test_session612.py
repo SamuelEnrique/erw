@@ -30,6 +30,9 @@ class TheYear(unittest.TestCase):
             y = h.read()
         self.assertIn("  - eia930_subba_demand_hourly_2025\n", y[y.index("catalogue_hold:"):])
         self.assertIn("upload.py eia930_subba_demand_hourly_2025", R.STORAGE_HELD["eia930_subba_demand_hourly_2025"])
+        # sessions 620 and 621: 2024 the same way
+        self.assertIn("  - eia930_subba_demand_hourly_2024\n", y[y.index("catalogue_hold:"):])
+        self.assertIn("upload.py eia930_subba_demand_hourly_2024", R.STORAGE_HELD["eia930_subba_demand_hourly_2024"])
 
     def test_no_em_dash(self):
         with open(os.path.join(ROOT, "tests", "test_session612.py"), encoding="utf-8") as h:

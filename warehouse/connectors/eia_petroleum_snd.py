@@ -24,7 +24,7 @@ A blank has no row; nothing is filled. A unit, process or area not in the map st
 
     python warehouse/connectors/eia_petroleum_snd.py [--from 2015-01] [--offline | --fresh]
 
-Ceiling: 29 requests a run (pages of 5,000, 3 seconds apart; a page an earlier run saved in warehouse/raw is reused
+Ceiling: 14 requests a run (pages of 5,000, 3 seconds apart; a page an earlier run saved in warehouse/raw is reused
 unless --fresh; --offline asks nothing). License: public (EIA, record 1 of license_reads.csv; cite "U.S. Energy
 Information Administration, Petroleum Supply Monthly").
 """
@@ -48,7 +48,7 @@ CONNECTOR = "eia_petroleum_snd"
 SOURCE = "eia:petroleum/sum/snd"
 API = "https://api.eia.gov/v2/petroleum/sum/snd/"
 PAGE = "https://www.eia.gov/petroleum/supply/monthly/"
-CEILING, PAUSE, RETRY_WAIT = 29, 3, 60   # session 555: one of 30 went to the probe
+CEILING, PAUSE, RETRY_WAIT = 14, 3, 60   # session 617: every group but the asked one is answered by saved pages; one of 15 is left
 FIRST = "2015-01"
 PROCESSES = {"FPF": "field_production", "YPR": "refinery_net_production", "YIR": "refinery_net_input", "IM0": "imports",
              "EEX": "exports", "VNR": "net_receipts", "SCG": "stock_change", "SAE": "ending_stocks", "VPP": "product_supplied",

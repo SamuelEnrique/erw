@@ -6,7 +6,7 @@ battery_sourced_ranges,battery,,18,P1Y,2025-01-01T00:00:00Z,2025-01-01T00:00:00Z
 battery_stack_monthly,CAISO;ERCOT,caiso;ercot,2,P1M,2018-01-01T00:00:00Z,2026-10-01T00:00:00Z,11556,erw:battery_stack,2026-10-21T15:11:50Z,pass,public,power,yes,derived
 battery_stack_review_monthly,NYISO;SPP,nyiso;spp,2,P1M,2024-09-01T00:00:00Z,2026-10-01T00:00:00Z,3744,erw:battery_stack,2026-10-04T17:20:21Z,pass,public,power,yes,derived
 battery_stack_stress_daily,CAISO;ERCOT,caiso;ercot,2,P1D,2021-02-07T00:00:00Z,2026-10-08T00:00:00Z,1890,erw:battery_stack,2026-10-21T15:11:50Z,pass,public,power,yes,derived
-boem_ogor_lease_production_monthly,boem,,214,P1M,2015-01-01T00:00:00Z,2026-06-01T00:00:00Z,245710,boem:ogor_a,2026-10-22T01:41:12Z,pass,public,oil;gas,no,source
+boem_ogor_lease_production_monthly,boem,,1378,P1M,1996-01-01T00:00:00Z,2026-06-01T00:00:00Z,1131562,boem:ogor_a,2026-10-22T02:49:35Z,pass,public,oil;gas,no,source
 boem_renewable_leases,boem,,52,snapshot,2026-10-21T18:33:10Z,2026-10-21T18:33:10Z,52,boem:lease_and_grant_information,2026-10-21T18:33:10Z,pass,public,power,no,source
 caiso_area_load_hourly,CAISO,caiso_load,6,PT1H,2021-09-17T00:00:00Z,2026-10-10T14:00:00Z,266340,caiso:SLD_FCST,2026-10-10T15:02:56Z,pass,public,power,no,source
 caiso_as_prices,CAISO,caiso_dam,2,PT1H,2023-07-14T07:00:00Z,2026-10-22T06:00:00Z,229056,caiso:PRC_AS,2026-10-21T15:11:00Z,pass,public,power,no,source
@@ -61,6 +61,7 @@ eia930_demand_weather,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,P1Y,2019-01-01T00
 eia930_event_hourly_interchange,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,424,PT1H,2021-02-07T06:00:00Z,2025-06-29T03:00:00Z,266833,eia:electricity/rto/interchange-data;eia:electricity/rto/region-data,2026-10-02T22:56:19Z,pass,public,power,no,source
 eia930_generation_latest,GENERATION,,8,PT1H,2026-10-19T14:00:00Z,2026-10-21T05:00:00Z,3166,eia:electricity/rto/fuel-type-data;eia:electricity/rto/region-data,2026-10-21T14:24:50Z,pass,public,power,no,source
 eia930_subba_demand_hourly,SUBBA,,89,PT1H,2026-07-24T00:00:00Z,2026-10-21T06:00:00Z,186177,eia:electricity/rto/region-sub-ba-data,2026-10-22T00:46:07Z,pass,public,power,no,source
+eia930_subba_demand_hourly_2024,SUBBA,,83,PT1H,2024-01-01T00:00:00Z,2024-12-31T23:00:00Z,726716,eia:electricity/rto/region-sub-ba-data,2026-10-22T03:15:28Z,pass,public,power,no,source
 eia930_subba_demand_hourly_2025,SUBBA,,83,PT1H,2025-01-01T00:00:00Z,2025-12-31T23:00:00Z,723617,eia:electricity/rto/region-sub-ba-data,2026-10-22T01:58:55Z,pass,public,power,no,source
 eia_aeo_electricity,none,,111,P1Y,2025-01-01T00:00:00Z,2050-01-01T00:00:00Z,34034,eia:aeo,2026-10-21T18:31:05Z,pass,public,power,no,source
 eia_all_futures_prices,none,nymex,4,P1D,2019-01-01T00:00:00Z,2024-04-05T00:00:00Z,21240,eia:nymex_futures_natural_gas;eia:nymex_futures_petroleum,2026-10-05T23:57:38Z,pass,internal,oil;gas;products,no,source
@@ -98,7 +99,8 @@ eia_nuclear_outages_daily,none,,1,P1D,2007-01-01T00:00:00Z,2026-10-21T00:00:00Z,
 eia_nuclear_outages_facility_daily,none,,66,P1D,2007-01-01T00:00:00Z,2026-10-21T00:00:00Z,1312872,eia:nuclear-outages/facility-nuclear-outages,2026-10-21T20:54:58Z,pass,public,power;uranium,no,source
 eia_nuclear_outages_generator_daily,none,,107,P1D,2007-01-01T00:00:00Z,2026-10-21T00:00:00Z,2141406,eia:nuclear-outages/generator-nuclear-outages,2026-10-21T22:33:55Z,pass,public,power;uranium,no,source
 eia_padd_crude_pipeline_flows,none,,11,P1M,1986-01-01T00:00:00Z,2026-07-01T00:00:00Z,4558,eia:petroleum/move/pipe,2026-10-21T14:36:30Z,pass,public,oil,no,source
-eia_petroleum_snd_monthly,none,,4028,P1M,2015-01-01T00:00:00Z,2026-07-01T00:00:00Z,475869,eia:petroleum/sum/snd,2026-10-22T00:53:32Z,pass,public,oil;products,no,source
+eia_padd_rail_barge_movements_monthly,none,,586,P1M,2010-01-01T00:00:00Z,2026-07-01T00:00:00Z,56182,eia:petroleum/move/rail;eia:petroleum/move/tb,2026-10-22T03:24:50Z,pass,public,oil;products,no,source
+eia_petroleum_snd_monthly,none,,4455,P1M,2015-01-01T00:00:00Z,2026-07-01T00:00:00Z,523835,eia:petroleum/sum/snd,2026-10-22T02:33:32Z,pass,public,oil;products,no,source
 eia_petroleum_stocks_monthly,none,,63,P1M,2001-01-01T00:00:00Z,2026-07-01T00:00:00Z,18247,eia:petroleum/stoc/ts,2026-10-21T23:17:29Z,pass,public,oil;products,no,source
 eia_petroleum_stocks_weekly,none,,8,P1W,1982-08-20T00:00:00Z,2026-10-09T00:00:00Z,16823,eia:petroleum/stoc/wstk,2026-10-21T14:36:30Z,pass,public,oil;products,no,source
 eia_petroleum_supply_weekly,none,,30,P1W,2010-01-01T00:00:00Z,2026-10-02T00:00:00Z,26118,eia:petroleum/move/wkly:supply;eia:petroleum/stoc/wstk:supply;eia:petroleum/sum/sndw,2026-10-10T14:58:19Z,pass,public,oil;products,no,source
@@ -107,8 +109,9 @@ eia_power_co2_state_annual,none,,256,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:0
 eia_power_plant_fuel_costs,none,,58,P1M,2019-01-01T00:00:00Z,2026-07-01T00:00:00Z,12898,eia:electricity/electric-power-operational-data:cost,2026-10-21T15:12:37Z,pass,public,coal;gas;power,no,source
 eia_product_spot_prices,none,,9,P1D,1986-06-02T00:00:00Z,2026-10-14T00:00:00Z,72052,eia:petroleum/pri/spt,2026-10-21T14:36:30Z,pass,public,products,no,source
 eia_product_supplied_monthly,none,,702,P1M,2017-01-01T00:00:00Z,2026-07-01T00:00:00Z,71938,eia:petroleum/cons/psup,2026-10-21T23:04:16Z,pass,public,oil;products,no,source
-eia_refinery_capacity_annual,none,,2009,P1Y,1995-01-01T00:00:00Z,2026-01-01T00:00:00Z,51504,eia:petroleum/pnp/cap1,2026-10-22T02:04:14Z,pass,public,products,no,source
+eia_refinery_capacity_annual,none,,2009,P1Y,1982-01-01T00:00:00Z,2026-01-01T00:00:00Z,62804,eia:petroleum/pnp/cap1,2026-10-22T02:42:37Z,pass,public,products,no,source
 eia_refinery_inputs_monthly,none,,970,P1M,2015-01-01T00:00:00Z,2026-07-01T00:00:00Z,122400,eia:petroleum/pnp/inpt,2026-10-22T02:09:40Z,pass,public,products,no,source
+eia_refinery_production_monthly,none,,1422,P1M,2015-01-01T00:00:00Z,2026-07-01T00:00:00Z,175413,eia:petroleum/pnp/refp,2026-10-22T02:40:03Z,pass,public,products,no,source
 eia_refinery_weekly,none,,59,P1W,2010-01-01T00:00:00Z,2026-10-16T00:00:00Z,50753,eia:petroleum/pnp/wiup,2026-10-21T21:48:04Z,pass,public,oil;products,no,source
 eia_regional_retail_fuel_prices,none,,29,P1W,2019-01-07T00:00:00Z,2026-10-12T00:00:00Z,16239,eia:petroleum/pri/gnd:regional,2026-10-21T15:12:37Z,pass,public,products,no,source
 eia_retail_electricity_prices,none,,372,P1M,2001-01-01T00:00:00Z,2026-07-01T00:00:00Z,114202,eia:electricity/retail-sales,2026-10-20T05:54:37Z,pass,public,power,no,source
