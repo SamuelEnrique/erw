@@ -294,6 +294,7 @@ catalogue_hold:
   - eia_coal_trade_price_annual
   - eia_drilling_monthly
   - eia_gas_wells_annual
+  - eia930_subba_demand_hourly
   # session 109: EIA's daily demand by balancing authority, a history (190,512 rows). The network's replay reads its own
   # files (site/public/network/daily_<year>.json), built from it; nothing reads it from Supabase
   - eia930_daily_demand
