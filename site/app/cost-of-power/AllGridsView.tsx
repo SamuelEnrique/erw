@@ -287,7 +287,7 @@ function AbPanel({ x }: { x: SitingInputs }) {
   return (
     <section className="mb-5" aria-label="A and B" data-allgrids-abpanel="1">
       <h3 className="mb-2 font-serif text-lg">A and B, side by side</h3>
-      <div className="overflow-x-auto" role="region" aria-label="A and B" tabIndex={0}>
+      <div className="overflow-x-auto" role="region" aria-label="A and B, the table" tabIndex={0}>
         <table className="w-full border-collapse text-sm tabular-nums" style={{ minWidth: 520 }}>
           <thead><tr className="bg-accent text-white"><th scope="col" className="px-3 py-1.5 text-left font-normal">USD per MWh unless said</th><th scope="col" className={th}>A: {name(ra)}</th><th scope="col" className={th}>B: {name(rb)}</th><th scope="col" className={th}>B less A</th></tr></thead>
           <tbody>
@@ -328,7 +328,7 @@ function NodePanel({ id }: { id: string }) {
   const close = `?${new URLSearchParams({ view: "allgrids", rows: "nodes" }).toString()}`;
   return (
     <section className="mb-4 border border-rule bg-paper px-4 py-3 text-sm" aria-label={`Node ${n.id}`} data-node-panel={id}>
-      <h3 className="font-serif text-lg">{n.id} <span className="text-sm">({n.cls}{n.types ? `, ERCOT's resource types ${n.types}` : ""})</span> <a href={`/cost-of-power${close}`} className="ml-2 text-xs">Close</a></h3>
+      <h3 className="font-serif text-lg">{n.id} <span className="text-sm">({n.cls}{n.types ? `, ERCOT's resource types ${n.types}` : ""})</span> <a href={`/cost-of-power${close}`} className="ml-2 text-xs underline">Close</a></h3>
       {n.pct ? (
         <p className="mt-1">
           Its daily day-ahead basis to {NODE_HUB}, {NODES.pct_from} to {NODES.pct_to} ({n.pct[3]} days held, node_basis_daily): one day in ten at or below USD{" "}
