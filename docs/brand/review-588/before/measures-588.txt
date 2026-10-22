@@ -1,0 +1,4 @@
+batteries_curtailment_hourly 1600x900: page 900 px, last line 827 px, lowest chart text 511 px, panels 0, callouts top 407 px
+batteries_curtailment_hourly 1080x1350: page 1350 px, last line 1296 px, lowest chart text 575 px, panels 0, callouts top 579 px
+batteries_curtailment 1600x900: page 900 px, last line 781 px, lowest chart text 514 px, panels 0, callouts top 387 px
+batteries_curtailment 1080x1350: page 1350 px, last line 1164 px, lowest chart text 578 px, panels 0, callouts top 599 px

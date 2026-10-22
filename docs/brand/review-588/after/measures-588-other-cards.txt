@@ -1,0 +1,14 @@
+batteries_lunch 1600x900: page 900 px, last line 841 px, lowest chart text 428 px, panels 0, callouts top 447 px
+batteries_lunch 1080x1350: page 1350 px, last line 1105 px, lowest chart text 534 px, panels 0, callouts top 563 px
+gas_sets_price 1600x900: page 900 px, last line 749 px, lowest chart text 428 px, panels 0, callouts top 467 px
+gas_sets_price 1080x1350: page 1350 px, last line 1027 px, lowest chart text 534 px, panels 0, callouts top 583 px
+impact_study 1600x900: page 900 px, last line 823 px, lowest chart text 438 px, panels 0, callouts top 447 px
+impact_study 1080x1350: page 1350 px, last line 1161 px, lowest chart text 598 px, panels 0, callouts top 615 px
+negative_prices_west 1600x900: page 900 px, last line 711 px, lowest chart text 428 px, panels 0, callouts top 447 px
+negative_prices_west 1080x1350: page 1350 px, last line 1014 px, lowest chart text 570 px, panels 0, callouts top 599 px
+peak_hour_moved 1600x900: page 900 px, last line 746 px, lowest chart text 428 px, panels 0, callouts top 447 px
+peak_hour_moved 1080x1350: page 1350 px, last line 1021 px, lowest chart text 534 px, panels 0, callouts top 563 px
+queue_divorce 1600x900: page 900 px, last line 711 px, lowest chart text 428 px, panels 0, callouts top 447 px
+queue_divorce 1080x1350: page 1350 px, last line 1014 px, lowest chart text 570 px, panels 0, callouts top 599 px
+who_rescues_whom 1600x900: page 900 px, last line 729 px, lowest chart text 428 px, panels 0, callouts top 447 px
+who_rescues_whom 1080x1350: page 1350 px, last line 997 px, lowest chart text 570 px, panels 0, callouts top 599 px
