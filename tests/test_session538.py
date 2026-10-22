@@ -30,7 +30,10 @@ SCRIPT = os.path.join(ROOT, "site", "scripts", "check-cross-checks.mjs")
 NODE = shutil.which("node")
 READ = ["docs/methods/grid_network.md", "docs/methods/automated_analysis_findings.md", "docs/methods/ercot_peak_premium.md",
         "site/data/findings/batteries_lunch_grids.json", "site/data/findings/queue_divorce.json",
-        "site/public/grid/erw_2026_grid_replication.csv"]
+        "site/public/grid/erw_2026_grid_replication.csv",
+        # session 681: the three notes it reads since, and the notes their sources name
+        "docs/methods/utility_service_territories.md", "docs/methods/interconnection_durations.md", "docs/methods/grid_peak_vs_capacity.md",
+        "docs/methods/eia861_utility_sales.md", "docs/methods/energy_projects.md", "docs/methods/demand_growth.md"]
 WRITTEN = ["site/scripts/check-cross-checks.mjs", "tests/test_session538.py", "archive/sessions/SESSION_538_REPORT.md"]
 
 

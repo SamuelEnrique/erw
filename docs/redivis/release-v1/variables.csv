@@ -3318,6 +3318,14 @@ grid_network_links,flow_mw,series variable,MW
 grid_network_nodes,demand_mw,series variable,MW
 grid_network_nodes,intensity_generation,series variable,kgCO2/MWh
 grid_network_nodes,interchange_volume_mwh,series variable,MWh
+grid_peak_vs_capacity,capacity_mw,series variable,MW
+grid_peak_vs_capacity,capacity_mw_listed,series variable,MW
+grid_peak_vs_capacity,capacity_over_peak_pct,series variable,pct
+grid_peak_vs_capacity,capacity_solar_mw,series variable,MW
+grid_peak_vs_capacity,capacity_storage_mw,series variable,MW
+grid_peak_vs_capacity,capacity_wind_mw,series variable,MW
+grid_peak_vs_capacity,peak_demand_mw,series variable,MW
+grid_peak_vs_capacity,peak_to_capacity,series variable,ratio
 grid_stress_yearly,calm_hours,series variable,count
 grid_stress_yearly,calm_longest_fleet_energy_multiples,series variable,ratio
 grid_stress_yearly,calm_longest_fleet_full_power_hours,series variable,hour
@@ -3400,6 +3408,39 @@ impact_tax_rules,x_code_url,column,
 impact_tax_rules,x_detail,column,
 impact_tax_rules,x_applies_to,column,
 impact_tax_rules,x_note,column,
+interconnection_durations,entity_id,column,
+interconnection_durations,entity_type,column,
+interconnection_durations,name,column,
+interconnection_durations,geo,column,
+interconnection_durations,lat,column,
+interconnection_durations,lon,column,
+interconnection_durations,capacity_mw,column,
+interconnection_durations,status,column,
+interconnection_durations,status_date,column,
+interconnection_durations,operator,column,
+interconnection_durations,source,column,
+interconnection_durations,source_url,column,
+interconnection_durations,retrieved_at,column,
+interconnection_durations,vintage,column,
+interconnection_durations,queue_id,column,
+interconnection_durations,grid,column,
+interconnection_durations,state,column,
+interconnection_durations,county,column,
+interconnection_durations,utility,column,
+interconnection_durations,transmission_provider,column,
+interconnection_durations,fuel,column,
+interconnection_durations,request_date,column,
+interconnection_durations,operation_date,column,
+interconnection_durations,months_to_operation,column,
+interconnection_durations,request_year,column,
+interconnection_durations,operation_year,column,
+interconnection_durations_summary,median_months,series variable,month
+interconnection_durations_summary,median_months_5y,series variable,month
+interconnection_durations_summary,mw,series variable,MW
+interconnection_durations_summary,p25_months,series variable,month
+interconnection_durations_summary,p75_months,series variable,month
+interconnection_durations_summary,projects,series variable,count
+interconnection_durations_summary,projects_5y,series variable,count
 interconnection_queue_summary,median_years_to_operation,series variable,year
 interconnection_queue_summary,mw_active,series variable,MW
 interconnection_queue_summary,mw_entered,series variable,MW
@@ -4834,6 +4875,26 @@ uswtdb_wind_turbines,offshore,column,
 uswtdb_wind_turbines,faa_ors,column,
 uswtdb_wind_turbines,faa_asn,column,
 uswtdb_wind_turbines,usgs_project_id,column,
+utility_service_territories,entity_id,column,
+utility_service_territories,entity_type,column,
+utility_service_territories,name,column,
+utility_service_territories,geo,column,
+utility_service_territories,lat,column,
+utility_service_territories,lon,column,
+utility_service_territories,capacity_mw,column,
+utility_service_territories,status,column,
+utility_service_territories,status_date,column,
+utility_service_territories,operator,column,
+utility_service_territories,source,column,
+utility_service_territories,source_url,column,
+utility_service_territories,retrieved_at,column,
+utility_service_territories,vintage,column,
+utility_service_territories,x_utility_number,column,
+utility_service_territories,x_state,column,
+utility_service_territories,x_county,column,
+utility_service_territories,x_short_form,column,
+utility_service_territories,x_data_year,column,
+utility_service_territories,x_sheet,column,
 weather_forecast_hourly,temperature_f,series variable,degF
 weather_forecast_hourly,wind_speed_mph,series variable,mph
 weather_obs_hourly,temperature_f,series variable,degF
