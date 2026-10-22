@@ -116,6 +116,31 @@ HEADLINE_SCHEMA = {
 }
 
 
+# Session 814 (docs/reviews/periodicals-plan-2026-10-23.md, Digest change 6): a column, an interview or an analysis piece
+# ranks after a reported event of the same significance. The rubric puts commentary at 1 to 3, but the scorer gave
+# "Brookfield's Teskey sees no slowdown" and "Land & Expand tracks North America's data center pipeline" a 7 on 13 October
+# and "Iran war tilts balance of global oil power" a 7 on 20 October; the score is the model's and is left alone, and the
+# title's own form decides the order among equals. A title is commentary when it reads as one: a quoted or reported
+# opinion ("says", "sees", "warns", "argues", "expects", "predicts"), a format word (Q&A, interview, explainer, opinion,
+# analysis, column, podcast, newsletter, "explained"), a question, or a title that begins with "How", "Why", "What",
+# "Should", "Can" or "Will".
+COMMENTARY_WORDS = re.compile(r"\b(says|said|sees|warns|argues|expects|predicts|thinks|believes|urges|calls for|tells|told|"
+                              r"q&a|q and a|interview|explainer|explained|opinion|analysis|column|podcast|newsletter|"
+                              r"the week ahead|what to watch|takeaways|in charts|tracks)\b", re.I)
+COMMENTARY_START = re.compile(r"^(?:how|why|what|should|can|could|will|is|are|does|do)\b", re.I)
+
+
+def title_kind(title):
+    """'commentary' when the title reads as a column, an interview or an analysis piece (COMMENTARY_WORDS, a question, a
+    title that opens like one); else 'event'."""
+    t = str(title or "").strip()
+    if not t:
+        return "event"
+    if "?" in t or COMMENTARY_WORDS.search(t) or COMMENTARY_START.match(t):
+        return "commentary"
+    return "event"
+
+
 def build_clusters(stories):
     rows = []
     for cid, g in stories.groupby("cluster_id"):
@@ -130,9 +155,13 @@ def build_clusters(stories):
             # session 470: one link an address (two stories of a cluster at one address printed it twice)
             "links": list({r.source_url: (r.source, r.source_url) for r in g.itertuples()}.values())[:3],
             "titles": list(g["title"])[:4], "summary": lead["summary"][:300],
+            "kind": title_kind(lead["title"]),   # session 814: event or commentary, by the title's form
         })
     c = pd.DataFrame(rows)
-    return c.sort_values(["sig", "ai", "n", "first"], ascending=[False, False, False, True]).reset_index(drop=True)
+    # session 814: among equals in significance, a reported event before commentary; then the tie-break as before
+    c["_kind"] = (c["kind"] == "commentary").astype(int)
+    return (c.sort_values(["sig", "_kind", "ai", "n", "first"], ascending=[False, True, False, False, True])
+             .drop(columns="_kind").reset_index(drop=True))
 
 
 FIGURE = re.compile(r"(?:US\$|\$|USD ?)[\d,.]+(?: ?(?:billion|million|bn|mn|m|b)\b)?|"

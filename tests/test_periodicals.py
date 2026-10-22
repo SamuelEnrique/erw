@@ -136,6 +136,32 @@ class OneTopicOneItem(unittest.TestCase):
             brief.assert_unique(L)
 
 
+class CommentaryUnderNews(unittest.TestCase):
+    """Session 814: among equals in significance a reported event ranks before a column, an interview or an analysis."""
+
+    def test_the_kinds(self):
+        for t in ("Brookfield's Teskey sees no slowdown in AI infrastructure build", "Land & Expand tracks North America's data center pipeline",
+                  "Iran war tilts balance of global oil power towards the Americas: analysis", "How Low Can the Strategic Petroleum Reserve Actually Go?",
+                  "Critical Capital: Lara Pierpoint on nuclear costs, hyperscaler contracts and trust in government funding (interview)",
+                  "Why the midterms could swing on diesel", "BlackRock's Fink says slow data-center buildout is inflationary"):
+            self.assertEqual(brief.title_kind(t), "commentary", t)
+        for t in ("UK approves the long-delayed Jackdaw gas field", "DOE announces $967 million in grid resilience funding",
+                  "The Nuclear Company proposes a 6,600 MW campus of six AP1000 reactors in Kentucky", "Brent trades at $110.30 per barrel"):
+            self.assertEqual(brief.title_kind(t), "event", t)
+
+    def test_an_event_ranks_before_commentary_at_the_same_score(self):
+        s = pd.DataFrame([
+            {"cluster_id": "c", "sig": 7, "ai": 9, "sector": "datacenter_power", "why": "Why.", "mw": "", "price_mentioned": "", "parties": "",
+             "event_date": "2026-10-13T01:00:00Z", "source": "O", "source_url": "https://e/c", "title": "Brookfield's Teskey sees no slowdown in AI build", "summary": ""},
+            {"cluster_id": "e", "sig": 7, "ai": 0, "sector": "deal", "why": "Why.", "mw": "600", "price_mentioned": "", "parties": "A",
+             "event_date": "2026-10-13T02:00:00Z", "source": "O", "source_url": "https://e/e", "title": "A signs a 600 MW supply deal with B", "summary": ""},
+            {"cluster_id": "h", "sig": 8, "ai": 0, "sector": "oil", "why": "Why.", "mw": "", "price_mentioned": "", "parties": "",
+             "event_date": "2026-10-13T03:00:00Z", "source": "O", "source_url": "https://e/h", "title": "How low can the reserve go?", "summary": ""}])
+        c = brief.build_clusters(s)
+        self.assertEqual(list(c["cluster_id"]), ["h", "e", "c"])   # a higher score still comes first; among the 7s the event first
+        self.assertEqual(list(c["kind"]), ["commentary", "event", "commentary"])
+
+
 class TheOutlet(unittest.TestCase):
     def test_the_three_forms(self):
         lic = {"Reuters"}
