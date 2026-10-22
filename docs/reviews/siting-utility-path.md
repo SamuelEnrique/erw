@@ -1,0 +1,71 @@
+# A utility planner's path through the All grids tab, walked (22 October 2026)
+
+Energy Research Warehouse (ERW), session 725 of chain 062 (`queue/done/062-day-23-october-code-allgrids-2.md`), on portable-laptop, on **production** (`https://erw-flame.vercel.app`, serving main at `e39de81a`, sessions 700 to 718; 719 to 724 are on `wip/724-allgrids`, unlanded, and none of them changes the columns this path reads) in the internal view, 22 October 2026 at about 14:05 UTC, at 1280 by 900 and at 390 by 844. The load is **1,000 MW** (Size 1000, Show), the size a utility planner is asked about.
+
+The walk is `docs/brand/review-725/walk-725.mjs` (session 723's shape, the planner's clicks): `node docs/brand/review-725/walk-725.mjs https://erw-flame.vercel.app docs/brand/review-725`. It makes every click below in a real browser, takes one shot a step and a width (`<step>_1280.png`, `<step>_390.png`), and writes what each step showed (the address, every checked figure in view, every tip in view with its words, the sort line, the headline, the A and B panel, the first rows, the tracker's links, the gaps page's rows) to `walk-1280.json` and `walk-390.json`, beside the shots.
+
+## The questions
+
+A utility planner opens the tab to see where large loads are going and what they would ask of the grid (the chain prompt, session 725's section).
+
+1. **Which utility serves each row, in which county, and what does it charge industry?**
+2. **Inside ERCOT: the Texas rows' utilities and counties.**
+3. **Where is demand growing, how much generation is coming, and how far is capacity above the peak?**
+4. **A zone's own growth, not its grid's.**
+5. **How long does a connection take, and under which large-load rule, with what waits?**
+6. **Can the rule's document be reached?**
+7. **What does an interruptible load (heavy industry) pay for capacity?**
+8. **Two zones side by side: their utilities, growth and connection.**
+9. **The tracker's facilities, placed on the tab.**
+10. **What the warehouse does not hold, and where it would come from.**
+11. **Can the screen be sent?**
+
+## The walk, step by step
+
+Every address follows `/cost-of-power?view=allgrids`; the clicks are from the tab, in the internal view.
+
+| # | Clicks, from the tab | The address | What the page showed (1280) | Answered? |
+|---|---|---|---|---|
+| 1 | Size 1000, Show | `?view=allgrids&mw=1000` | 48 rows, A to Z; "A datacenter load of 1,000 MW at a load factor of 0.90, never curtails" | **Yes** |
+| 2 | Sort and filter: Sort by the utility's industrial revenue per MWh, largest first, Show | `&sort=utility` | The Utility column drawn first. CAISO NP15 and ZP26: Pacific Gas & Electric, 325.37 ("the largest of 52 sellers to industry in CA inside CAISO ... bundled: energy and delivery. This row's name is not a place, so no county's service territory can be read for it: this is the state's largest seller"); CAISO SP15: "Southern California Edison Co and 6 more", 204.28 (Los Angeles County's seven territories listed, four inside CAISO); NYISO N.Y.C.: Consolidated Edison, 128.79 ("New York County ... delivery only: the charge for the wires, not the energy"); ISO-NE SEMASS and WCMASS: Direct Energy Business, 118.36 ("energy only: the wires utility bills delivery"); Vermont: Green Mountain Power, 114 | **In part.** The column sorts three kinds of figure as one: bundled (energy and delivery), energy only, and delivery only; each tip says which, the cell does not |
+| 3 | Grids shown: ERCOT, Show | `&sort=utility&grid=ercot` | HB_HOUSTON and LZ_HOUSTON: "San Bernard Electric Coop, Inc and 2 more", 89.39, -0.75 percent (Harris County: CenterPoint has no sales row, Entergy Texas bills in MISO, so the county's largest seller inside ERCOT is a cooperative with 219,378 MWh); the other hubs and zones: TXU Energy Retail, 73.57, +9.44 percent, the state's stand-in ("not the county's utility in 4 of 7 hub counties"); LZ_AEN: Austin Energy, 71.32 (Travis County); LZ_CPS: "Guadalupe Valley Elec Coop Inc and 4 more", 56.27 (Bexar County: the City of San Antonio is listed, the cooperative sold more to industry in the state) | **In part.** The county's largest seller to industry in the state is not the county's main utility (Houston, San Antonio); session 718's ruling item |
+| 4 | every grid; Sort by demand growth, largest first, Show | `&sort=headroom` | ERCOT +5.41 on every ERCOT row (58,008 MW against 55,028, October 2025 to September 2026), "24,269 MW coming" (137 generators under construction due by August 2027) and "capacity 97% above peak" (164,685 MW at summer ratings against the 2025 peak of 83,597; "Not a reserve margin"); SPP +5.25, PJM +4.12, CAISO +3.64 (8,276 MW coming, 106 percent above peak), ISO-NE +2.90, MISO +2.80, NYISO +0.52 (1,537 MW coming, 34 percent above peak) | **Yes**, by grid; the planner's zone is the grid's |
+| 5 | Kind: load zones only, Show | `&sort=headroom&kind=zone` | 27 of 48 rows; every ERCOT zone +5.41, every NYISO zone +0.52: the tip says "The grid's own balancing authority, not the row's zone: sub-region demand is not in the tab's files" | **No.** A zone's own growth is not drawn (the open-items table, line 11; session 728) |
+| 6 | Kind: load zones and hubs; Sort by months to connect, smallest first, Show | `&sort=connect&dir=asc` | ERCOT 45.80 months on 14 rows ("227 requests that came online from 2023 to 2025 ... a quarter took under 30 months, a quarter over 56. A generator's wait, not a load's"), under each "load: rule 2026-09, 8,927 MW approved"; MISO 58.4, PJM 71.3, SPP 84.6 ("rule 2026-10", the PUCT's SPS docket), NYISO 87.3 (5 requests; "rule 2026-06", FERC EL26-69; "wait license needed", the measured stages held), CAISO 100.0 ("rule 2026-06", FERC EL26-71); ISO-NE "not held" and "no rule held" ("2 open or undated") | **In part.** A generator's wait stands for a load's; NYISO's waits are held; ISO-NE has neither |
+| 7 | Tab to the first row's "rule 2026-09": its tip opens | the same | The tip, shown on focus: "The newest decided large-load rule held for ERCOT: Public Utility Commission of Texas, docket 58481, 2026-09-18 (large-load interconnection; large-load tariff). A large load customer must sign an intermediate agreement, make disclosures and post financial security of $50,000 per megawatt (MW) before ERCOT can include it in an interconnection study, then sign a standard agreement and pay CIAC. https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF No faster path for a controllable load is stated in the rules held." The address is written as text: **0 links in the tip** | **In part.** The document is named and not reachable by a click |
+| 8 | Profile: Heavy industry | `&profile=industry&...` | "A heavy industry load of 1,000 MW at a load factor of 0.80, off only when the grid interrupts it"; the energy column the flat price (no hour is held as an interruption); the four-peak charge 7.83 (on in all four); capacity "not held" on PJM, ISO-NE, NYISO and MISO rows (an interruptible load's rider) | **In part.** The interruptible rate is the gaps file's row 15; the grid's interruptions are the ruling of session 702 |
+| 9 | A ERCOT LZ_HOUSTON, B ERCOT LZ_NORTH, Show | `&sort=utility&grid=ercot&a=ercot%3ALZ_HOUSTON&b=ercot%3ALZ_NORTH` | The headline: "A datacenter load of 1,000 MW at ERCOT LZ_HOUSTON pays USD 43.31 per MWh all-in, USD 341,441,731 a year; generators there took a median of 45.80 months to connect." The panel: energy 35.48 against 35.33 (-0.16), utility 89.39 against 73.57 (-15.82), headroom 5.41 both, months 45.80 both, the year 341,441,731 against 340,205,905 (-1,235,826), 7,884,000 MWh each. The utility row sets a county's cooperative (Harris) beside the state's stand-in (TXU, since "North load zone" is not a place) and says nothing of the two bases | **In part.** The utility row of the panel compares unlike figures without saying so |
+| 10 | opens the datacenter tracker, `/datacenters` | `/datacenters` | "license needed": the facilities are held whole (`datacenter_facilities`, since 21 October 2026), so no facility and no link "on All grids" shows (0 `data-facility-siting`); the ERCOT approvals (8,927 MW approved, 3,900 observed running) are drawn | **No**, while the hold stands (session 719; the open-items table, line 27) |
+| 11 | opens `/internal/siting-gaps` | `/internal/siting-gaps` | 29 rows (30 on the branch, with 724's real-time row); the Utility rows (a node's TSP; a row whose name is not a place; a Texas wires utility's own revenue), the Time to connect rows (a load's own wait; timelines by utility; ERCOT's 75 MW rule; the controllable path; ISO-NE's median), the Headroom rows (capacity at the peak hour; reserve margins by zone; a zone's own growth; generation with a signed agreement) | **Yes** |
+| 12 | opens step 9's address in a new tab | the same | The same screen | **Yes** |
+
+At 390 by 844: every step was made (12 of 12), no page wider than the window (scroll width 390 at every step), the box folds under its summary, the table scrolls inside its frame, the rule's tip opens on focus (step 7), and the first checked figure is 773 px down on the tab and 1,005 on the tracker. No page logged an error at either width. The tracker's "could not be read" line is the hold's words, not a failed read ("license needed: Amazon Web Services; Bloomberg; ...").
+
+## What broke, or was not held, each with its cause
+
+Fixed by nothing in this session (the chain's rule: 725 fixes nothing; 726 does).
+
+1. **The Utility column sorts three kinds of figure as one** (step 2): a utility's industrial revenue per MWh is bundled (energy and delivery), energy only (a retailer in a choice state: Direct Energy, TXU) or delivery only (Con Edison's wires charge), by EIA-861's `service` field; the tip says which, the cell and the sort do not. A word under the figure ("bundled", "energy only", "delivery only") and the sort line's note would say it. **Inside this chain's files.**
+2. **The rule's document is not reachable** (step 7): `ConnectTd` writes the rule's URL into the tip's words. A link beside the rule's words (the document, opened in a new tab) would reach it; a link inside a hover tip cannot be clicked. **Inside this chain's files.**
+3. **The A and B panel's utility row compares unlike bases without saying so** (step 9): a county's largest seller (Harris) against a state's stand-in (TXU). The panel's row head could carry the basis of each side in its tip, as the column's cells do. **Inside this chain's files.**
+4. **A county's largest seller to industry in the state is not the county's main utility** (steps 3, 9): Houston is San Bernard Electric Coop (CenterPoint files no sales row; Entergy Texas bills in MISO), San Antonio is Guadalupe Valley (the City of San Antonio sold less to industry). Session 718's ruling item (the open-items table, line 25: Texas's wires utilities priced from their tariffs) and the gaps file's row 17. **For the ruling; not changed.**
+5. **A zone's own demand growth is not drawn** (steps 4, 5): `eia930_subba_demand_hourly` is held and not in the tab's files. The open-items table, line 11; **session 728**.
+6. **A load's own wait is a generator's** (step 6) outside NYISO, and NYISO's is held. The gaps file's row 18; the open-items table, line 21. **A gap.**
+7. **ISO-NE has no decided rule and no median** (step 6): "2 open or undated" rules; no request with both dates. The gaps file's rows 22 and 21. **A gap.**
+8. **An interruptible load's capacity charge is not held** (step 8): the utilities' interruptible riders (the gaps file's row 15); and no table holds a grid's interruptions (session 702's ruling, the open-items table line 6). **A gap and a ruling.**
+9. **The tracker places no facility while `datacenter_facilities` is held** (step 10): session 719's link draws for every row the tracker shows, and it shows none. The open-items table, lines 27 and 28 (session 729 places by utility). **A hold.**
+10. **"capacity 97% above peak" is not a reserve margin** (step 4): the tip says so (solar, wind and storage at their ratings; no imports, outages or derates). Reserve margins by zone are the gaps file's row 24; **session 731**.
+
+## What a utility planner would ask that the tab does not answer
+
+Listed, not built.
+
+- **Planned generation by county or zone**, not by grid: `eia860m_planned_generators` holds counties, but no row of the tab has a footprint of counties (the gaps file's row 16).
+- **Load growth by zone and by county**, weather-normalised (the tab says "Weather is not removed").
+- **The large loads in the queue by zone**: ERCOT's approved MW are one grid-wide figure; the tracker's facilities are held.
+- **The open rules, not only the decided ones**: ISO-NE's "2 open or undated" are counted, not named.
+- **A utility's own large-load tariff** (demand charges, minimum terms): the gaps file's rows 1 to 6; session 730 when the table lands.
+
+## What is left, for session 726
+
+Items 1 to 3 above lie inside this chain's files and need no ruling: each is fixed in session 726 with a test, and this file gains an "after" column for the failed steps (2, 7, 9). Items 4 and 8 wait for the owner; items 5 to 7, 9 and 10 are gaps or later sessions of this chain.
