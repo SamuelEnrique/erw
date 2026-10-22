@@ -1,4 +1,58 @@
 {
+ "scan-record-10a7a85479c4": {
+  "fact": "eia_product_supplied:MGAUPP32 product_supplied_per_day: -11.00 kbbl/d in June 2026, the lowest monthly value held since January 2017. The record until now was -1.00 kbbl/d, in November 2023.",
+  "held_on": "2026-10-22",
+  "jump_pct": 1000.0,
+  "old_record": -1.0,
+  "series_key": "entity=eia_product_supplied:MGAUPP32|variable=product_supplied_per_day|market=|node=Gulf Coast (PADD 3) Product Supplied of Aviation Gasoline (Thousand Barrels per Day)|freq=P1M",
+  "table": "eia_product_supplied_monthly",
+  "value": -11.0
+ },
+ "scan-record-18d613604589": {
+  "fact": "eia_padd_movements:MD0MT_R30-R20_1 tanker_barge_receipts: 762.0 kbbl in July 2026, the highest monthly value held since January 2004. The record until now was 601.0 kbbl, in July 2008.",
+  "held_on": "2026-10-22",
+  "jump_pct": 26.8,
+  "old_record": 601.0,
+  "series_key": "entity=eia_padd_movements:MD0MT_R30-R20_1|variable=tanker_barge_receipts|market=|node=Gulf Coast (PADD 3) Receipts by Tanker and Barge from Midwest (PADD 2) of Distillate Fuel Oil, 0 to 15 ppm Sulfur (Thousand Barrels)|freq=P1M",
+  "table": "eia_padd_rail_barge_movements_monthly",
+  "value": 762.0
+ },
+ "scan-record-295925a6435d": {
+  "fact": "eia861m:11251:NE industrial_revenue: USD 6,033,000 in July 2026, the highest monthly value held since January 2017. The record until now was USD 4,719,000, in August 2022.",
+  "held_on": "2026-10-22",
+  "jump_pct": 27.8,
+  "old_record": 4719000.0,
+  "series_key": "entity=eia861m:11251:NE|variable=industrial_revenue|market=|node=Loup River Public Power Dist|freq=P1M",
+  "table": "eia861m_utility_sales_monthly",
+  "value": 6033000.0
+ },
+ "scan-record-35abdf80b717": {
+  "fact": "eia_padd_movements:M_EPOORDO_BMV_R50-R30_MBBL tanker_barge_receipts: 2,332.0 kbbl in July 2026, the highest monthly value held since January 2016. The record until now was 1,602.0 kbbl, in April 2024.",
+  "held_on": "2026-10-22",
+  "jump_pct": 45.6,
+  "old_record": 1602.0,
+  "series_key": "entity=eia_padd_movements:M_EPOORDO_BMV_R50-R30_MBBL|variable=tanker_barge_receipts|market=|node=West Coast (PADD 5) Receipts by Tanker and Barge from Gulf Coast (PADD 3) of Renewable Diesel Fuel (Thousand Barrels)|freq=P1M",
+  "table": "eia_padd_rail_barge_movements_monthly",
+  "value": 2332.0
+ },
+ "scan-record-4591f022577a": {
+  "fact": "eia_petroleum_snd:MO1NR_R10-Z0P_2 net_receipts_per_day: 40.00 kbbl/d in July 2026, the lowest monthly value held since January 2015. The record until now was 167.0 kbbl/d, in March 2021.",
+  "held_on": "2026-10-22",
+  "jump_pct": 76.0,
+  "old_record": 167.0,
+  "series_key": "entity=eia_petroleum_snd:MO1NR_R10-Z0P_2|variable=net_receipts_per_day|market=|node=East Coast (PADD 1) Net Receipts by Pipeline, Tanker, and Barge from Other PADDs of Reformulated Gasoline Blending Components (Thousand Barrels per Day)|freq=P1M",
+  "table": "eia_petroleum_snd_monthly",
+  "value": 40.0
+ },
+ "scan-record-4d79e82c7ab1": {
+  "fact": "eia_product_supplied:MGAUPP12 product_supplied_per_day: 19.00 kbbl/d in June 2026, the highest monthly value held since January 2017. The record until now was 10.00 kbbl/d, in June 2018.",
+  "held_on": "2026-10-22",
+  "jump_pct": 90.0,
+  "old_record": 10.0,
+  "series_key": "entity=eia_product_supplied:MGAUPP12|variable=product_supplied_per_day|market=|node=East Coast (PADD 1) Product Supplied of Aviation Gasoline (Thousand Barrels per Day)|freq=P1M",
+  "table": "eia_product_supplied_monthly",
+  "value": 19.0
+ },
  "scan-record-56b1bf830f57": {
   "fact": "Net generation from other gases in Indiana: 65,787 MWh in June 2026, the lowest monthly value held since January 2001. The record until now was 88,633 MWh, in May 2009.",
   "held_on": "2026-10-14",
@@ -7,5 +61,104 @@
   "series_key": "entity=eia:generation:IN:OOG|variable=net_generation|market=|node=|freq=P1M",
   "table": "eia_state_generation_monthly",
   "value": 65786.94
+ },
+ "scan-record-58e44cb82470": {
+  "fact": "eia861m:20847:WI industrial_revenue: USD 91,379,900 in July 2026, the highest monthly value held since January 2017. The record until now was USD 70,123,971, in August 2023.",
+  "held_on": "2026-10-22",
+  "jump_pct": 30.3,
+  "old_record": 70123971.0,
+  "series_key": "entity=eia861m:20847:WI|variable=industrial_revenue|market=|node=Wisconsin Electric Power Co|freq=P1M",
+  "table": "eia861m_utility_sales_monthly",
+  "value": 91379900.0
+ },
+ "scan-record-5e213a8aa117": {
+  "fact": "eia_padd_movements:MUOMTP5P31 tanker_barge_receipts: 1,120.0 kbbl in June 2026, the highest monthly value held since January 1986. The record until now was 680.0 kbbl, in June 1989.",
+  "held_on": "2026-10-22",
+  "jump_pct": 64.7,
+  "old_record": 680.0,
+  "series_key": "entity=eia_padd_movements:MUOMTP5P31|variable=tanker_barge_receipts|market=|node=West Coast (PADD 5) Receipts by Tanker and Barge from Gulf Coast (PADD 3) of Unfinished Oils (Thousand Barrels)|freq=P1M",
+  "table": "eia_padd_rail_barge_movements_monthly",
+  "value": 1120.0
+ },
+ "scan-record-74ac88139e62": {
+  "fact": "eia_padd_movements:MGAMT1XP31 tanker_barge_receipts: 251.0 kbbl in June 2026, the highest monthly value held since January 1986. The record until now was 100.0 kbbl, in July 2004.",
+  "held_on": "2026-10-22",
+  "jump_pct": 151.0,
+  "old_record": 100.0,
+  "series_key": "entity=eia_padd_movements:MGAMT1XP31|variable=tanker_barge_receipts|market=|node=New England (PADD 1A) Receipts by Tanker and Barge from Gulf Coast (PADD 3) of Aviation Gasoline (Thousand Barrels)|freq=P1M",
+  "table": "eia_padd_rail_barge_movements_monthly",
+  "value": 251.0
+ },
+ "scan-record-77e37d7b2558": {
+  "fact": "eia_petroleum_snd:MO1NR_R10-Z0P_1 net_receipts: 1,253.0 kbbl in July 2026, the lowest monthly value held since January 2015. The record until now was 5,165.0 kbbl, in March 2021.",
+  "held_on": "2026-10-22",
+  "jump_pct": 75.7,
+  "old_record": 5165.0,
+  "series_key": "entity=eia_petroleum_snd:MO1NR_R10-Z0P_1|variable=net_receipts|market=|node=East Coast (PADD 1) Net Receipts by Pipeline, Tanker, and Barge from Other PADDs of Reformulated Gasoline Blending Components (Thousand Barrels)|freq=P1M",
+  "table": "eia_petroleum_snd_monthly",
+  "value": 1253.0
+ },
+ "scan-record-87071d13c5fa": {
+  "fact": "eia_petroleum_snd:MGFSCP21 stock_change: 3,958.0 kbbl in June 2026, the highest monthly value held since January 2015. The record until now was 821.0 kbbl, in June 2015.",
+  "held_on": "2026-10-22",
+  "jump_pct": 382.1,
+  "old_record": 821.0,
+  "series_key": "entity=eia_petroleum_snd:MGFSCP21|variable=stock_change|market=|node=Midwest (PADD 2) Finished Motor Gasoline Stock Change (Thousand Barrels)|freq=P1M",
+  "table": "eia_petroleum_snd_monthly",
+  "value": 3958.0
+ },
+ "scan-record-9243fd884ef7": {
+  "fact": "eia_product_supplied:MGAUPP11 product_supplied: 568.0 kbbl in June 2026, the highest monthly value held since January 2017. The record until now was 290.0 kbbl, in June 2018.",
+  "held_on": "2026-10-22",
+  "jump_pct": 95.9,
+  "old_record": 290.0,
+  "series_key": "entity=eia_product_supplied:MGAUPP11|variable=product_supplied|market=|node=East Coast (PADD 1) Product Supplied of Aviation Gasoline (Thousand Barrels)|freq=P1M",
+  "table": "eia_product_supplied_monthly",
+  "value": 568.0
+ },
+ "scan-record-9a1b7ee468da": {
+  "fact": "boem_lease:G33608 gas_production: 125.6 MMcf in June 2026, the highest monthly value held since March 2012. The record until now was 81.63 MMcf, in June 2023.",
+  "held_on": "2026-10-22",
+  "jump_pct": 53.9,
+  "old_record": 81.631,
+  "series_key": "entity=boem_lease:G33608|variable=gas_production|market=|node=ARENA OFFSHORE LP|freq=P1M",
+  "table": "boem_ogor_lease_production_monthly",
+  "value": 125.592
+ },
+ "scan-record-c6e083697d3b": {
+  "fact": "eia_petroleum_snd:MGFSCP22 stock_change_per_day: 132.0 kbbl/d in June 2026, the highest monthly value held since January 2015. The record until now was 27.00 kbbl/d, in June 2015.",
+  "held_on": "2026-10-22",
+  "jump_pct": 388.9,
+  "old_record": 27.0,
+  "series_key": "entity=eia_petroleum_snd:MGFSCP22|variable=stock_change_per_day|market=|node=Midwest (PADD 2) Finished Motor Gasoline Stock Change (Thousand Barrels per Day)|freq=P1M",
+  "table": "eia_petroleum_snd_monthly",
+  "value": 132.0
+ },
+ "scan-record-cfca2f118304": {
+  "fact": "eia_oxygenate_production:M_EPOOXXFE_YOP_NUS_MBBL oxygenate_plant_production: 0.0000 kbbl in July 2026, the lowest monthly value held since January 2010. The record until now was 1,117.0 kbbl, in November 2014.",
+  "held_on": "2026-10-22",
+  "jump_pct": 100.0,
+  "old_record": 1117.0,
+  "series_key": "entity=eia_oxygenate_production:M_EPOOXXFE_YOP_NUS_MBBL|variable=oxygenate_plant_production|market=|node=U.S. Oxygenate Plant Production of Oxygenates (excluding Fuel Ethanol) (Thousand Barrels)|freq=P1M",
+  "table": "eia_oxygenate_production_monthly",
+  "value": 0.0
+ },
+ "scan-record-d45b0ade948d": {
+  "fact": "eia861m:12341:IA commercial_revenue: USD 73,084,612 in July 2026, the highest monthly value held since January 2017. The record until now was USD 56,080,302, in August 2022.",
+  "held_on": "2026-10-22",
+  "jump_pct": 30.3,
+  "old_record": 56080302.0,
+  "series_key": "entity=eia861m:12341:IA|variable=commercial_revenue|market=|node=MidAmerican Energy Co|freq=P1M",
+  "table": "eia861m_utility_sales_monthly",
+  "value": 73084612.0
+ },
+ "scan-record-fb374da4cb65": {
+  "fact": "eia_product_supplied:MGAUPP31 product_supplied: -338.0 kbbl in June 2026, the lowest monthly value held since January 2017. The record until now was -18.00 kbbl, in November 2023.",
+  "held_on": "2026-10-22",
+  "jump_pct": 1777.8,
+  "old_record": -18.0,
+  "series_key": "entity=eia_product_supplied:MGAUPP31|variable=product_supplied|market=|node=Gulf Coast (PADD 3) Product Supplied of Aviation Gasoline (Thousand Barrels)|freq=P1M",
+  "table": "eia_product_supplied_monthly",
+  "value": -338.0
  }
 }
