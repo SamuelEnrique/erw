@@ -42,6 +42,7 @@ Files:
                   the utility with the most industrial sales in the newest year, among the rows of EIA's service types
                   Bundled and Energy (Delivery rows are wires charges), with its industrial sales and revenue that year
                   and its sales the year before.
+    gaps.json     (session 713) the table of docs/reviews/siting-gaps.md, each cell as written, for /internal/siting-gaps.
 
 Each file names the table it was read from, the table's first and last day and when it was built. A table that cannot
 be found stops the run (exit 1): no file is written from part of a table.
@@ -309,6 +310,25 @@ def utility_file(path):
     return {"built": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "table": UTILITY_TABLE, "year": year, "prior": prior, "by": by}
 
 
+GAPS_MD = os.path.join(ROOT, "docs", "reviews", "siting-gaps.md")
+
+
+def gaps_file(path=GAPS_MD):
+    """gaps.json's content (session 713): the markdown table's rows, each cell as written."""
+    with open(path, encoding="utf-8") as fh:
+        lines = [ln.rstrip("\n") for ln in fh]
+    table = [ln for ln in lines if ln.startswith("| ")]
+    if len(table) < 3:
+        raise ValueError(f"{path} holds no table")
+    cells = lambda ln: [c.strip() for c in ln.strip().strip("|").split(" | ")]
+    columns = cells(table[0])
+    rows = [dict(zip(columns, cells(ln))) for ln in table[2:]]
+    bad = [r for r in rows if len(r) != len(columns)]
+    if bad:
+        raise ValueError(f"{len(bad)} rows of {path} do not have {len(columns)} cells")
+    return {"source": "docs/reviews/siting-gaps.md", "columns": columns, "rows": rows}
+
+
 def write(name, obj, out_dir):
     """Write a file, unless it holds the same content but for its build time (no change, no new commit)."""
     os.makedirs(out_dir, exist_ok=True)
@@ -398,6 +418,13 @@ def main(argv=None):
         return 1
     print(f"{UTILITY_TABLE} {ut['year']}: " + "; ".join(f"{k} {v['utility'] if v else None}" for k, v in ut["by"].items()))
     write("utility.json", ut, a.out_dir)
+    try:
+        gp = gaps_file()
+    except Exception as e:
+        print(f"FAILED: {e}", file=sys.stderr)
+        return 1
+    print(f"siting-gaps.md: {len(gp['rows'])} rows")
+    write("gaps.json", gp, a.out_dir)
     if a.internal:
         if not a.rows:
             print("FAILED: --internal needs --rows", file=sys.stderr)
