@@ -105,7 +105,9 @@ export type NodeRow = { id: string; cls: string; types: string; dam_basis?: Reco
   pct?: [number, number, number, number];
   /** session 746: the day-ahead intraday swing (dam_spread_4h: the four dearest hours' mean less the four cheapest),
    * over pct_from to pct_to: its mean, its 10th and 90th percentile, and the days */
-  swing?: [number, number, number, number] };
+  swing?: [number, number, number, number];
+  /** session 795: the other nodes whose day-ahead basis is the same on every day the table holds, and the same days */
+  same?: string[] };
 export type NodeFile = { table: string; built: string; first: string; last: string; points: number; hubs: number; zones: number; pct_from?: string; pct_to?: string; nodes: NodeRow[] };
 
 /** A region's kind as the index says it; a region of a grid whose index names no kind is a hub when its name says so. */

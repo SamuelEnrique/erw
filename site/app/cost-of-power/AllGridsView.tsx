@@ -418,6 +418,12 @@ function NodePanel({ id, x }: { id: string; x: SitingInputs }) {
           <Num check={`allgrids|nodepct|${id}|10`} raw={n.pct[0]}>{two(n.pct[0])}</Num>, half at or below <Num check={`allgrids|nodepct|${id}|50`} raw={n.pct[1]}>{two(n.pct[1])}</Num>, nine in ten at or below <Num check={`allgrids|nodepct|${id}|90`} raw={n.pct[2]}>{two(n.pct[2])}</Num> per MWh.
         </p>
       ) : <p className="mt-1"><Words words="not held" why="No day of day-ahead basis is held for this node in the twelve months." /></p>}
+      {/* session 795 (chain 065): the nodes that settle alike, a fact of the table */}
+      {n.same ? (
+        <p className="mt-1" data-node-same="1">
+          It settles at the same day-ahead prices as {n.same.join(", ")}: the same basis to {NODE_HUB} on every day node_basis_daily holds for {n.same.length === 1 ? "both" : "them"} ({NODES.first} to {NODES.last}), and the same days. The table does not say why.
+        </p>
+      ) : null}
       {/* session 746 (chain 063): the node's day-ahead intraday swing, the same twelve months */}
       {n.swing ? (
         <p className="mt-1" data-node-swing="1">
