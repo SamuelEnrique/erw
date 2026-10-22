@@ -61,3 +61,14 @@ From `node site/scripts/slow-reads.mjs` on the server's log: 80 requests, 40 dis
 | 20 | 2 | carbon_intensity_hourly | the same | ts_utc | 8000 | 1000 |
 
 Two reads ask a page past the end of the table (offsets 11,000 and 12,000 of the hourly carbon, and 2,000 to 4,000 of the adders, 0 rows): the paging asks once more than it needs. They are "Your load"'s, not this chain's, and are listed for whoever next touches `lib/datacenter/answers.ts`.
+
+## Again (session 739, chain 062)
+
+On a build of `wip/738-allgrids` (chain 062's sessions 722 to 738: the spread, the filter and the download, the kind words, the zone line, the second card, the tip's box in `tokens.css`), 22 October 2026 at about 16:50 UTC, the server started with `ERW_READ_TIMING=1`.
+
+- **The tab still makes no read of the database**: 0 `[erw-read]` lines across ten addresses, three times each (the six of 716 that still exist, and the node list by spread, the link's address, the headroom sort for NYISO). "Your load", asked four times in the same run, wrote 120 lines (40 distinct reads), so the timer was on.
+- **The answers**: the hub table 142 ms warm (1,236 ms the first time after the start), the node list 187 to 230 ms, a node's panel 190 ms. 716 measured 166 to 168 ms for the panel.
+- **The build**: about 70 seconds (compiled in 16.1 s, TypeScript 27.2 s, 282 static pages), as at 716.
+- **The page**: the hub table 1.59 MB of HTML, from 1.82 at 716, after session 737's change.
+
+The twenty slowest reads of "Your load" (`node site/scripts/slow-reads.mjs`, 240 requests, 40 distinct reads): the slowest 27 ms (`scarcity_hours_by_grid`), then 9 and 8 ms (`price_years_by_window`, `ercot_rtm_price_adders`), then the hourly carbon pages at 3 to 5 ms. The same tables as 716's list, none slower than 30 ms. No index is needed; migration 036 stays as it is. The full list: `runs/chain_062/slow739.md` on this machine.
