@@ -47,7 +47,10 @@ const PAGES = [["/cost-of-power/battery", "battery_earns_algorithm"], ["/cost-of
 const COLUMNS = ["Our figure", "Published figure", "Source and date", "Gap", "Reason"];
 
 // ---- session 538: the two notes without a "Checked against" line ----
-const NOTES = [{ note: "grid_network", floor: 11, page: "/grid" }, { note: "automated_analysis_findings", floor: 4, page: "/research" }];
+const NOTES = [{ note: "grid_network", floor: 11, page: "/grid" }, { note: "automated_analysis_findings", floor: 4, page: "/research" },
+  // session 681 (chain 043): the All grids tab's three new tables, each against the figure it stands beside
+  { note: "utility_service_territories", floor: 7, page: "/grid" }, { note: "interconnection_durations", floor: 12, page: "/queues" },
+  { note: "grid_peak_vs_capacity", floor: 7, page: "/grid" }];
 const read = (...p) => fs.readFileSync(path.join(ROOT, ...p), "utf-8");
 /** A markdown cell as the page shows its text: links to their words, no code ticks, no emphasis marks. */
 const plain = (s) => s.replace(/!?\[([^\]]*)\]\([^)]*\)/g, "$1").replace(/`/g, "").replace(/\*\*?/g, "").replace(/\\\|/g, "|").replace(/\s+/g, " ").trim();

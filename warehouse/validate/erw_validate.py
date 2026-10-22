@@ -54,7 +54,9 @@ UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "mph", "
          "USD/kW", "USD/kWh", "USD/kW-year",
          # session 345: JEDI's jobs per MW (job-years of a build, jobs of each operating year) and dollars per MW a year
          # (nlr_jedi_multipliers; Decision 48)
-         "FTE-year/MW", "FTE/MW", "USD/MW-year"}
+         "FTE-year/MW", "FTE/MW", "USD/MW-year",
+         # session 671: a duration in mean months of 30.4375 days (interconnection_durations_summary; Decision 49)
+         "month"}
 NAME_RE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+){2,}$")
 NAME_MAX = 40
 TS_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
