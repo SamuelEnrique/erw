@@ -3,9 +3,10 @@ import { Num } from "@/components/Num";
 import { InlineSpark } from "@/components/InlineSpark";
 import { InputPanel } from "@/components/tool/ToolPage";
 import type { ReactNode } from "react";
-import { CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, allInCell, capacityCell, capacityOverPeak, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
+import { CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, allInCell, capacityCell, capacityOverPeak, nodeTable, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
 import { CP, NODES, SITING_DC, SITING_FILES } from "@/lib/sitingdata";
 import { AllGridsForm } from "./AllGridsForm";
+import { AllGridsNodes } from "./AllGridsNodes";
 
 // Session 700 (chain 050, docs/methods/siting.md): the All grids tab of "What a datacenter pays". The questions "Your
 // load" answers for one region (what a load pays, when it connects, how clean the power is) for every grid, hub and
@@ -230,10 +231,26 @@ function RowHead({ r }: { r: Row }) {
   );
 }
 
+/** Session 709: what every ERCOT node shares, drawn once above the node table: the four-peak charge (paid on the hub's
+ * hours), no capacity market, the grid's time to connect, headroom and carbon, and what the node tables do not hold. */
+function NodeShared({ x }: { x: SitingInputs }) {
+  const hub = hubRows(SITING_FILES.index).find((r) => r.id === `ercot:${NODE_HUB}`)!;
+  return (
+    <div className="mb-3 max-w-4xl text-sm" data-node-shared="1">
+      <p>
+        Every node below is in ERCOT, and shares these, drawn once: the four-peak charge on {NODE_HUB}&apos;s hours, <TxTd r={hub} x={x} />; capacity, <Words words="no capacity market" why="ERCOT is an energy-only market: it has no capacity market and no capacity charge." />;
+        {" "}time to connect, <ConnectTd r={hub} />; headroom, <HeadroomTd r={hub} />; carbon, <CarbonTd r={hub} x={x} />.
+      </p>
+      <p className="mt-1">
+        Not held for any node: its load zone, its settlement hub and its wires utility (TSP). node_basis_daily sets every node against {NODE_HUB} and names no zone or utility; <Words words="not held" why="ERCOT publishes each settlement point's zone and hub in its settlement point mapping, and each node's TSP in its resource registration; neither is a table of the warehouse yet (docs/reviews/siting-gaps.md)." />.
+      </p>
+    </div>
+  );
+}
+
 export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
   const x = sitingInputs(q);
   const hubs = hubRows(SITING_FILES.index), nodes = nodeRows(NODES);
-  const rows = x.rows === "nodes" ? nodes : hubs;
   const p = PROFILES[x.profile];
   return (
     <div className="grid gap-8 lg:grid-cols-[290px_minmax(0,1fr)]" data-no-usage="1" data-allgrids="1">
@@ -250,6 +267,13 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
           {" "}{/^[aeiou]/i.test(p.label) ? "An" : "A"} {p.label.toLowerCase()} load of {x.mw.toLocaleString("en-US")} MW at a load factor of {x.lf.toFixed(2)}, {CURTAIL_WORDS[p.curtail]}{x.strike !== null ? ` (USD ${x.strike.toLocaleString("en-US")} per MWh)` : ""}. Sorted by grid, then by name.
         </p>
         <RowToggle x={x} hubs={hubs.length} nodes={nodes.length} />
+        {x.rows === "nodes" ? (
+          <>
+            <NodeShared x={x} />
+            <AllGridsNodes rows={nodeTable(SITING_DC, SITING_FILES, x)} pkey={profileKey(x)} datacenter={x.profile === "datacenter"}
+              sort={(NODE_SORTS as readonly string[]).includes(q.nsort ?? "") ? (q.nsort as NodeSort) : "node"} dir={q.ndir === "desc" ? "desc" : "asc"} />
+          </>
+        ) : (
         <div className="overflow-x-auto" role="region" aria-label="All grids" tabIndex={0} data-allgrids-table="1">
           <table className="w-full border-collapse text-left text-sm tabular-nums" style={{ minWidth: 960 }}>
             <caption className="sr-only">What a {p.label.toLowerCase()} load pays, when it connects and how clean the power is, {x.rows === "nodes" ? "at every ERCOT node" : "at every hub and zone"}</caption>
@@ -264,7 +288,7 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
               </tr>
             </thead>
             <tbody>
-              {rows.map((r) => (
+              {hubs.map((r) => (
                 <tr key={r.id} className="border-b border-rule" data-allgrids-row={r.id}>
                   <RowHead r={r} />
                   {COLUMNS.map((c) => <td key={c.id} className="px-3 py-1.5 text-right" data-cell={c.id}>{c.id === "energy" ? (x.profile === "datacenter" ? <EnergyTd r={r} e={energyCell(SITING_DC, SITING_FILES, r)} /> : <ProfileTd r={r} x={x} />)
@@ -274,6 +298,7 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
             </tbody>
           </table>
         </div>
+        )}
         <p className="mt-2 max-w-3xl text-xs" data-allgrids-method="1">
           One row a hub, zone or node; one column a question. The columns are filled one session at a time from the warehouse&apos;s own tables, each by the function that computes it for &quot;Your load&quot;.
           {" "}<Link href="/data/methods/siting">Method note</Link>.

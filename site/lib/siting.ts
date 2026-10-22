@@ -680,6 +680,42 @@ export function utilityCell(f: Files, r: Row): UtilityCell {
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
+// the ERCOT node set (session 709): one row a node, the figures that differ from node to node
+// ---------------------------------------------------------------------------------------------------------------------
+
+/** A node's row of the node table: its own figures only. What every ERCOT node shares (the four-peak charge, which a
+ * node pays on its hub's hours; capacity, none; the grid's time to connect, headroom and carbon) is drawn once, above
+ * the table, so that no figure is drawn twice. */
+export type NodeTableRow = { id: string; node: string; cls: string; types: string; per: number | null; basis: number | null; days: number; due: number; allin: number | null; why: string };
+export function nodeTable(dc: DC, f: Files, x: Pick<SitingInputs, "profile" | "lf" | "strike">): NodeTableRow[] {
+  return nodeRows(f.nodes).map((r) => {
+    const n = f.nodes.nodes.find((k) => k.id === r.region)!;
+    const e = energyCell(dc, f, r);
+    const pc = x.profile === "datacenter" ? null : profileCell(dc, f, r, x, f.cp);
+    const per = pc ? ("why" in pc ? null : pc.per) : e.node?.per ?? null;
+    const a = allInCell(dc, f, r, x);
+    return { id: r.id, node: r.region, cls: n.cls, types: n.types, per, basis: e.node?.basis ?? null, days: e.node?.days ?? Object.values(n.dam_basis ?? {}).reduce((s, v) => s + v[1], 0),
+      due: e.node?.due ?? 0, allin: "v" in a ? a.v : null, why: e.node ? (pc && "why" in pc ? pc.why : "") : e.why ?? "not held" };
+  });
+}
+/** The columns a node table sorts by, and the default: by name. */
+export const NODE_SORTS = ["node", "cls", "energy", "basis", "allin", "days"] as const;
+export type NodeSort = (typeof NODE_SORTS)[number];
+export function sortNodes(rows: NodeTableRow[], by: NodeSort, dir: "asc" | "desc"): NodeTableRow[] {
+  const k = dir === "asc" ? 1 : -1;
+  const val = (r: NodeTableRow): number | string | null => (by === "node" ? r.node : by === "cls" ? r.cls : by === "energy" ? r.per : by === "basis" ? r.basis : by === "allin" ? r.allin : r.days);
+  // a row with no figure sorts last either way; ties by name
+  return [...rows].sort((a, b) => {
+    const va = val(a), vb = val(b);
+    if (va === null && vb === null) return a.node.localeCompare(b.node);
+    if (va === null) return 1;
+    if (vb === null) return -1;
+    const c = typeof va === "string" ? va.localeCompare(vb as string) : (va as number) - (vb as number);
+    return c * k || a.node.localeCompare(b.node);
+  });
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
 // the all-in column (session 702): drawn only where each part is held or is zero by market design
 // ---------------------------------------------------------------------------------------------------------------------
 
