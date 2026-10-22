@@ -1,57 +1,99 @@
 # Where can a large load go: the All grids tab of "What a datacenter pays"
 
-Version 0, session 700, 22 October 2026 (chain 050, `queue/done/050-night-23-october-code-allgrids.md`). Internal: the tab is in review, like every page.
+Version 1, session 712, 22 October 2026 (chain 050, `queue/done/050-night-23-october-code-allgrids.md`); version 0 was session 700's. Internal: the tab is in review, like every page.
 
-`/cost-of-power` ("What a datacenter pays") answers, for one chosen region, what a load pays, when it connects and how clean the power is. Its second tab, **All grids** (`/cost-of-power?view=allgrids`), answers the same questions for every grid, hub and zone the warehouse holds a price for, and behind a toggle for every ERCOT node of `node_basis_daily`, in one sortable table. It is the same page and the same model: the rows are "Your load"'s own index, and each column is computed by the library function that computes it for "Your load", so the two views cannot disagree. The tab ranks nothing by a score and expresses no view: it sorts by the column the reader chooses and says what the sort is.
+`/cost-of-power` ("What a datacenter pays") answers, for one chosen region, what a load pays, when it connects and how clean the power is. Its tab **All grids** (`/cost-of-power?view=allgrids`) answers the same questions for every grid, hub and zone the warehouse holds a price for, and behind a toggle for every ERCOT node of `node_basis_daily`, in one sortable table.
 
-Code: `site/lib/siting.ts` (pure: the profiles, the columns, the rows, the inputs, the check keys), `site/lib/sitingdata.ts` (the files, server only), `site/app/cost-of-power/AllGridsView.tsx` and `AllGridsForm.tsx`. Files: `site/data/datacenter/` (the hub and zone prices, `warehouse/derived/datacenter_page.py`) and `site/data/siting/` (`warehouse/derived/siting_page.py`). Nothing is read from the database by the tab.
+It is the same page and the same model. The rows are "Your load"'s own index. Each column is computed by the library function that computes it for "Your load", or by a function of `site/lib/siting.ts` that takes "Your load"'s own functions as an argument, so the two views cannot disagree. The tab ranks nothing by a score and expresses no view: it sorts by the column the reader chooses and says what the sort is.
+
+## Where the code and the files are
+
+- **Code**:
+  - `site/lib/siting.ts`: pure; the profiles, the columns, the rows, the inputs, every figure and its check key;
+  - `site/lib/sitingdata.ts`: the files, server only;
+  - `site/app/cost-of-power/AllGridsView.tsx` (the right side), `AllGridsForm.tsx` (the left box) and `AllGridsNodes.tsx` (the node list).
+- **Files**:
+  - `site/data/datacenter/`: the hub and zone prices, `warehouse/derived/datacenter_page.py`; "Your load"'s rules, waits and delivery files;
+  - `site/data/siting/`: `warehouse/derived/siting_page.py`;
+  - `site/data/demand_growth.json` and `site/data/large_load_status.json`: "Your load"'s own.
+- **No read of the database** is made by the tab.
+- **The check keys**: every figure carries `allgrids|<column>|<row>[|<inputs>]` (the site's form of the prompt's `allgrids_<column>_<row>`). `site/scripts/check-values.mjs` recomputes each from the same files with the same functions (`site/scripts/siting-files.mjs`).
+- **Held figures**: a figure from an internal table is computed where the table is held and drawn as "license needed" in place, with no key, so the value checker passes it by (session 408's rule).
 
 ## The rows
 
-- **Hubs and zones** (the default row set): every region of `site/data/datacenter/index.json`, the index "Your load" reads, which `datacenter_page.py` builds from the hub and zone price tables (`ercot_all_hub_prices_history`, `ercot_zone_prices_history`, `iso_dam_hub_prices`, `iso_rtm_hub_prices`, `iso_hub_prices_history`, `iso_zone_prices_history`, the ISO-NE and NYISO zone tables). On 22 October 2026: ERCOT 14 (6 hubs, 8 load zones), CAISO 3, NYISO 11, ISO-NE 9, SPP 2. Then the regions the index names and does not price: MISO's 8 hubs ("paused while terms are reviewed", `docs/methods/miso_pause.md`). Then a grid with no hub or zone price held as one row of its own: PJM ("licensed source needed"), so that the columns a grid holds without a price (queues, carbon, capacity) have a row. 48 rows.
-- **ERCOT nodes** (the toggle): every settlement point of `node_basis_daily` that is neither a hub nor a load zone, 873 of its 888 points (7 hubs and 8 zones are the others), each with its class (storage, solar, wind, gas, other, mixed, unknown) and ERCOT's resource types at it. The table holds no list of each node's load zone and settlement hub (its own header says so): a node's zone, hub and wires utility are "not held" until a table holds them.
-- The default order: alphabetical by the grid's name, then by the row's name. The row count is a key (`allgrids|rows|hubs`, `allgrids|rows|nodes`).
+- **Hubs and zones** (the default row set): every region of `site/data/datacenter/index.json`, the index "Your load" reads. `datacenter_page.py` builds it from the hub and zone price tables (`ercot_all_hub_prices_history`, `ercot_zone_prices_history`, `iso_dam_hub_prices`, `iso_rtm_hub_prices`, `iso_hub_prices_history`, `iso_zone_prices_history`, the ISO-NE and NYISO zone tables).
+  - On 22 October 2026: ERCOT 14 (6 hubs, 8 load zones), CAISO 3, NYISO 11, ISO-NE 9, SPP 2.
+  - Then MISO's 8 hubs, which the index names and does not price ("paused while terms are reviewed", `docs/methods/miso_pause.md`).
+  - Then PJM as one row of its own, since no PJM hub or zone price is held: its columns held without a price (queues, carbon, capacity) have a row.
+  - 48 rows. The default order is alphabetical by the grid's name, then by the row's name.
+- **ERCOT nodes** (the toggle): every settlement point of `node_basis_daily` that is neither a hub nor a load zone, 873 of its 888 points.
+  - Each node has its class and ERCOT's resource types at it.
+  - The table holds no node's load zone, settlement hub or wires utility, and the tab says so once, above the list.
 
 ## The load's profiles
 
-A profile sets three inputs, the load factor, the curtailment rule and whether the load is interruptible, and nothing else. Each default is shown in grey beside its field with its source on hover, and is editable in place within the profile's range. The size is the reader's (default 100 MW, the size "Your load" opens on).
+A profile sets three inputs (the load factor, the curtailment rule, whether the load is interruptible) and nothing else. Each default is shown in grey beside its field, with its source on hover, and is editable in place within the profile's range. The size is the reader's: default 100 MW, the size "Your load" opens on.
 
 | Profile | Load factor | Curtailment rule | Interruptible | Source of the defaults |
 |---|---|---|---|---|
-| Datacenter (default) | 0.90, flat in every hour | never curtails | no | the owner's chain prompt of 22 October 2026 |
-| Flexible compute | 0.90 while running | off in ERCOT's four summer peak intervals, and in hours at or above a strike of USD 1,000 per MWh | no | the prompt; the strike is the page's scarcity level (`SCARCITY_USD`, `lib/datacenter/answers.ts`) |
-| Electrolyzer | 0.55, editable from 0.40 to 0.70 | runs only in hours below a strike; by default each row's own price at the load factor (the cheapest 55 percent of its hours) | no | the prompt's range 0.40 to 0.70; 0.55 its middle |
-| Heavy industry | 0.80 | off only when the grid interrupts it | yes | the prompt |
+| Datacenter (default) | 0.90: it draws 0.90 of its size in every hour | never curtails | no | the owner's chain prompt of 22 October 2026 |
+| Flexible compute | 0.90 while running | off in the hours of ERCOT's four summer peak intervals, and in hours whose day-ahead price is at or above a strike, USD 1,000 per MWh by default | no | the prompt; the strike is the page's scarcity level (`SCARCITY_USD`) |
+| Electrolyzer | 0.55, editable from 0.40 to 0.70: the share of the hours it runs, at its full size | runs only in hours below a strike. With no strike typed, it runs at or below each row's own k-th cheapest hour of the window, k the load factor's share of the hours | no | the prompt's range; 0.55 its middle |
+| Heavy industry | 0.80 | off only when the grid interrupts it. No table holds those hours, so it runs every hour | yes | the prompt |
 
-## The eight columns
+## The columns, each with its formula
 
-Each column's head carries a one-line source and method in its hover. A cell the warehouse cannot fill says why in its hover, in short words in ink ("not held", "license needed", "no capacity market"); no visible grey text. A figure from a table that is internal, or whose publisher's terms ask for a license (`site/lib/license.ts`), is computed and keyed and drawn as "license needed" in place (session 408's rule).
-
-| Column | Table, filter | Vintage held (22 October 2026) | License | The function that computes it today | Where it cannot be filled |
+| Column | Formula | Table, filter | Vintage (22 October 2026) | License | Where it cannot be filled, the words |
 |---|---|---|---|---|---|
-| Energy, USD per MWh | the page's hourly files (`data/datacenter/<grid>_<year>.json`), day-ahead, real time beside it; ERCOT nodes: `node_basis_daily`, `variable = dam_basis` | ERCOT 2015 to October 2026; CAISO from 2023; NYISO from 2019; ISO-NE from 2024; SPP from 2019; nodes 1 October 2025 to 20 October 2026 (day-ahead), 28 September 2026 on (real time) | public; ISO-NE, MISO and NYISO prices license-held since 20 October 2026 | `lib/datacenter.ts`: `monthsOf`, `lastTwelve`, `span` (the flat price over the last twelve whole months) | MISO "paused while terms are reviewed"; PJM "license needed" (no PJM price is held) |
-| Transmission and 4CP, USD per MWh | `ercot_4cp_intervals` (the four summer intervals), the Commission's rate from `texas_transmission_matrix` | intervals 2018 to summer 2025; matrices of 2025 and 2026 | intervals public; matrix internal | `app/cost-of-power/model.ts`, the `cp` block (summers, rate, avoided share) | every grid but ERCOT: "not held", the utility's large-load tariff would fill it |
-| Capacity, USD per MWh | `iso_all_capacity_prices` (ISO-NE, MISO, NYISO, PJM), `pjm_rpm_capacity_prices` | auctions to delivery year 2028/29 | internal | none yet (the existing tab says "no public figure") | ERCOT, CAISO, SPP: "no capacity market"; the four held grids: computed, "license needed" |
-| Time to connect, months | `lbnl_interconnection_queue` (projects finished in the last three years), `iso_queue_statistics`; `large_load_rules`, `large_load_waits`, `ercot_large_load_status`, `nyiso_load_queue` | Berkeley Lab's snapshot of 2 October 2026; rules to 22 September 2026; waits to 8 October 2026 | queues and rules public; waits internal; NYISO's load queue license-held | `lib/queues.ts` (`viewOf`), `lib/howsoon.ts` (`blockOf`), `lib/rules.ts` | timelines by utility: "not held" |
-| Headroom, percent and MW | `eia930_demand_growth`; `eia860m_planned_generators`; `eia_state_capacity_annual` | demand to 2026; planned generators snapshot of 21 October 2026; state capacity to 2024 | public | `lib/demandgrowth.ts` | reserve margin by zone: "not held" |
-| Carbon, kg CO2 per MWh | `egrid_power_plants` (the row's eGRID subregion); `carbon_intensity_hourly` for a profile that runs in some hours | eGRID snapshot of 21 October 2026; hourly intensity to 18 October 2026 | public | `lib/datacenter/answers.ts` (`l12Carbon`, `windowCarbon`) for the grid's own intensity | a row whose subregion is not known: "not held" |
-| Utility | `eia861_utility_sales` (the largest utility by industrial sales in the row's state) | 2015 to 2025 | public | none yet | service territories: "not held" |
-| All-in, USD per MWh | energy plus transmission plus capacity | as its parts | as its parts | none yet | drawn only where each of the three is held or zero by market design |
+| **Energy**, USD per MWh | the flat load: `span(lastTwelve(months)).flat` over the day-ahead hours, real time beside it (`flatTwelve`, `lib/datacenter.ts`'s own `monthsRuled`, `lastTwelve`, `span`); a month counts when 95 percent of its hours are held. Under a profile: the load-weighted day-ahead price over the hours it runs inside the same twelve months (`profileTwelve`), and the hours off. A node: its hub's figure (HB_HUBAVG) plus its mean daily day-ahead basis over the same months, weighted by days, drawn when it holds 90 percent of the days | `data/datacenter/<grid>_<year>.json` (day-ahead `da`, real time `rt`); `node_basis_daily`, `variable = dam_basis` | October 2025 to September 2026 at most rows; nodes 1 October 2025 to 20 October 2026 | public (ISO-NE, MISO and NYISO prices held since 20 October; see the ruling) | MISO "paused"; PJM "license needed"; ISO-NE's zones "not held" (no twelve whole months in a row) |
+| **Transmission and 4CP**, USD per MWh | ERCOT: rate x 1,000 x share / hours run a year. The share is the load's mean weight in the hours of the four intervals of the newest whole summer; the hours run a year are the profile's hours over its twelve months, scaled to 8,760; the rate is the Commission's newest approved postage stamp rate (matrix A). Drawn three ways: the profile's own, firm (share 1), off (the rule "off at the four peaks", computed) | `ercot_4cp_intervals` (`data/siting/ercot_4cp.json`); `texas_transmission_matrix` (`texas_delivery.json`, as "Your load") | summer 2025; the 2025 rate (USD 68.547301 per kW a year) | intervals public; matrix internal (see the ruling) | every other grid "not held": the utility's large-load tariff |
+| **Capacity**, USD per MWh | the newest cleared delivery period's price for the row's zone, x 365 (USD per MW-day) or x 12,000 (USD per kW-month) to USD per MW a year, over the hours the load runs a year (it is taken to run at the grid's peak) | `iso_all_capacity_prices` (`capacity.json` holds the period, auction and zones, no price) | PJM BRA 2028/29, ISO-NE FCA 18, MISO PRA 2026/27 spring, NYISO spot October 2026 | internal | ERCOT, CAISO, SPP "no capacity market" (zero in the all-in); PJM, ISO-NE, MISO, NYISO "license needed"; an interruptible load "not held" (its utility's interruptible rate) |
+| **Time to connect**, months | the median of (on_date less q_date) / 30.4375 days of the requests operational and online in the newest three whole years, by grid; none under five requests. Under it: the newest decided large-load rule of the grid, ERCOT's MW approved to energize, the measured waits | `lbnl_interconnection_queue` (`connect.json`); `large_load_rules` (`rules.json`); `ercot_large_load_status`; `large_load_waits` (`how_soon.json`) | Berkeley Lab 2026 edition (through 2025); rules to 22 September 2026; ERCOT's report of 19 June 2026 | public; waits internal | ISO-NE "not held" (no request with both dates); "no rule held"; waits "license needed" |
+| **Headroom**, percent; MW | demand growth: the mean demand of the last twelve months over the twelve before, the monthly means weighted by their hours (the grid's balancing authority); generation under construction (EIA status U, V, TS) due in the twelve months after the vintage; installed net summer capacity over the last whole year's peak, for a grid that is whole states | `eia930_demand_growth` (`demand_growth.json`); `eia860m_planned_generators` (`headroom.json`); `eia_state_capacity_annual` | demand through September 2026; EIA-860M vintage August 2026; state capacity 2024 | public | capacity over peak: every grid but NYISO and ISO-NE; reserve margins by zone not held |
+| **Carbon**, kg CO2 per MWh | the row's eGRID subregion's plants' CO2 over their net generation (a plant reporting no CO2 adds generation only, as eGRID sums them); for a profile that runs in some hours, the grid's hourly intensity weighted by the load over the hours it runs, where it covers 90 percent of them | `egrid_power_plants` (`carbon.json`); `carbon_intensity_hourly`, `intensity_demand` | eGRID2023 (data year 2023); hourly to 18 October 2026 | public | none today; MISO and PJM have no hourly figure (no price, so no hours run) |
+| **Utility** | the utility with the most industrial sales in the row's state inside its grid (balancing authority), among EIA's Bundled and Energy rows: its industrial revenue over its industrial sales, and its sales growth on the year before | `eia861_utility_sales` (`utility.json`) | 2025 | public | ERCOT nodes and PJM "not held" (the TSP; PJM spans thirteen states) |
+| **All-in**, USD per MWh | energy + transmission + capacity, each held or zero by market design | as its parts | as its parts | as its parts | "not held", or "license needed" where the missing part is a held figure |
 
-`egrid_power_plants`, `eia861_utility_sales`, `eia_state_capacity_annual` and `node_basis_daily` are not in the live set (held for Redivis's storage, `warehouse/supabase/live_set.yaml`): the tab reads them only through its own files under `site/data/siting/`, built on a machine that holds the tables.
+## The screen
 
-## Check keys
+- **Sort by any column**, largest or smallest first. A row with no figure, or one whose figure is held under a license, sorts last: a held figure is never sorted by its value, which the order would give away.
+- **Filters**: by grid, by kind (load zones or hubs), by an energy band, and to rows whose every cost part is held.
+- **A and B**: two rows side by side, every column's figure and B less A, the load's year all-in in USD and the MWh it uses. The MWh are its draw while running (its size times the load factor; its size for a load that runs below a strike) times the hours it runs a year. A sets one headline line.
+- **Every input is in the address**: a reader can send the screen. The node list sorts in place and keeps its sort in the address (`nsort`, `ndir`), and a node's name opens its panel (`node`).
 
-Every figure is a key of the form `allgrids|<column>|<row>`, with the inputs it depends on after it where it depends on them; `scripts/check-values.mjs` recomputes each from the same files with the same functions (`site/scripts/siting-files.mjs`). The chain prompt's `allgrids_<column>_<row>` is written in the site's form, with `|`.
+## The replication
 
-## Decisions (session 700, each reversible)
+`warehouse/replication/siting.py` (standard library only) computes, for three rows (ERCOT HB_HUBAVG, CAISO SP15, NYISO N.Y.C.) and three ERCOT nodes under each of the four profiles, every figure the tab draws for them, and sets each beside the page's `data-raw`.
 
-1. The tab is a third view of the one page, "All grids", between "Your load" and "Grid by grid"; "Grid by grid" (session 37's tab) stays.
-2. The profile dropdown is in the All grids tab's own input box, not in "Your load"'s: there it would change nothing, and no default figure of "Your load" may move.
-3. PJM is one row of its own ("the grid"), since no PJM hub or zone price is held; MISO's 8 hubs are rows with the existing tab's words.
-4. The flexible profile's strike is the page's scarcity level, USD 1,000 per MWh; the electrolyzer's load factor is 0.55, the middle of the stated range; its strike is each row's own price at that share of hours.
-5. A node's twelve-month price is the hub's twelve-month mean plus the node's mean daily day-ahead basis over the same months (the daily table: `node_basis_daily` holds days, not hours).
+- **What it reads**: the live set with the anon key only for the tables the live set holds (the four peaks, Berkeley Lab's queue, the hourly intensity), and the tab's own files for those it does not (the price history, the node basis, eGRID, EIA-861, the Commission's rate). It ports `lib/datacenter.ts`'s hours, months and twelve-month window to Python.
+- **How to run it**: `python warehouse/replication/siting.py --repo . --page <a build>`. Exit 0 when every figure set beside the page equals it.
 
-## Limits
+## Decisions (each dated, and reversible unless said)
 
-The tab's figures are those of the files on the day they were built. A cell that is empty in version 0 is a column not yet computed; each later session of the chain fills one column.
+1. 2026-10-22, session 700: a third view of the one page, between "Your load" and "Grid by grid". "Grid by grid" stays.
+2. 2026-10-22, 700: the profile dropdown is in the tab's own box, so no default figure of "Your load" moves.
+3. 2026-10-22, 700: PJM is one row; MISO's hubs are rows with the existing tab's words.
+4. 2026-10-22, 700: the flexible strike is USD 1,000 (the scarcity level). The electrolyzer's load factor is 0.55, and its default strike is each row's own k-th cheapest hour.
+5. 2026-10-22, 701: `lib/siting.ts` takes `lib/datacenter.ts`'s functions as an argument (one arithmetic, no import).
+6. 2026-10-22, 701: ISO-NE's and NYISO's prices are drawn as "Your load" draws them (see the ruling).
+7. 2026-10-22, 702: the load factor does not move the price per MWh; heavy industry runs every hour.
+8. 2026-10-22, 703: the four-peak charge: the rate over the hours run; the draw cancels; a node is charged on its hub's hours.
+9. 2026-10-22, 704: no internal price in the public repository (irreversible in effect once pushed, so kept out). Capacity is drawn as "license needed"; a load is taken to run at the grid's peak.
+10. 2026-10-22, 705: the generators' median months to connect stand for the grid's wait. The rule is the newest decided row. ERCOT's approved MW stand where a wait is not held.
+11. 2026-10-22, 706: demand growth is the grid's balancing authority's (not the sub-region's). "Coming" is under construction, not an interconnection agreement (EIA-860M records none). Capacity over peak only where the grid is whole states.
+12. 2026-10-22, 707: each row's eGRID subregion by its geography (written in `subregionOf`); PJM by eGRID's ISO/RTO field; the hourly figure is the balancing authority's intensity, consumed.
+13. 2026-10-22, 708: the state's largest seller to industry stands for the row's utility (territories not held); hubs take a state (ISO-NE's hub Massachusetts, SPP's North Kansas, South Oklahoma).
+14. 2026-10-22, 709: what every node shares is drawn once, above the list; the list is virtual (the first 40 rows on the server).
+15. 2026-10-22, 710: "load band" is read as an energy band, together with a filter by kind. A held figure never sorts by its value.
+16. 2026-10-22, 711: a node's basis spread is the 10th, 50th and 90th percentile of its days over the node file's twelve whole months. Its county, the planned generation near it and the transmission projects there are not held.
+
+## The limits
+
+- **Figures as of the build**: every figure is of the files the build read. The node basis and the eGRID and EIA-861 tables are rebuilt from the archive on a machine that holds them; the tab's files are only as new as their last build.
+- **The energy is wholesale**: no delivery, distribution, ancillary or retail charge is in it, and no hedge.
+- **The "Utility" column is a state's largest seller to industry**, not the row's own utility.
+- **Demand growth is the whole grid's**, and weather is not removed.
+- **Time to connect is a generator's wait**, not a load's: loads are not in Berkeley Lab's file.
+- **Carbon differs between the two measures**: the annual figure is generation in the subregion; the hourly is consumption in the balancing authority. They differ, and each says which it is.
+- **Gaps**: `docs/reviews/siting-gaps.md` lists every cell the warehouse cannot fill, with the source that would.

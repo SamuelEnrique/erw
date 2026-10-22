@@ -42,7 +42,7 @@
 
 ## The landing
 
-With sessions 700 to 705 in one push.
+Landed with sessions 700 to 705 in one push at 10:09 UTC (`b25a5c66`); the gate, the snapshots (0 differences) and the deletion of the merged branches are in `SESSION_705_REPORT.md`, "The landing".
 
 ## Decisions made without you
 
