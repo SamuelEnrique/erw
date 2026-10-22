@@ -6,7 +6,7 @@
 
 - **Every kind of check key the All grids tab draws has its branch in `sitingStat`**: the 25 kinds read from `AllGridsView.tsx` and `AllGridsNodes.tsx` (`allgrids|<kind>|...`), from `allin` to `zonegrowth`. check-values recomputes each figure through it (`S.sitingStat(F.files(), check, await F.dc())`), so no figure the tab draws goes unchecked.
 - **The proof is a test** (`tests/test_session774.py`): a kind drawn and not answered fails it, so the next column cannot ship without its check.
-- **One branch answers a kind no longer drawn**: `txshare`, the transmission charge's share, which the cells stopped drawing when 714 made them tips. It is left in place: harmless, and a ruling on tips (item 10) could bring the figure back.
+- **One branch answers a kind no file draws**: `txshare`, the load's share of the four intervals (listed by 703 in `sitingStat`'s key list). `git log -S` finds it never drawn by `AllGridsView.tsx`. It is left in place: harmless, and a cell could draw it later.
 - **No page changed**, so no build: the test reads the sources.
 
 ## What to review
