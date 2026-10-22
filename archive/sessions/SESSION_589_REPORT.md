@@ -57,7 +57,9 @@ The build lock was held for long stretches by single sessions (583 for 73 minute
 
 The commits after `be0a73d7` (this report and the note) change only `archive/sessions/` and `docs/state/`.
 
-THE_PUSH
+Then, each its own command: freeze status 0; origin/main merged once more (the data machine's `task/617-623-sources`, 29 files, its four new tests OK with 579's, 587's and 408's); every remote `task/` branch on main but `task/198-battery-data` (left over); `node site/scripts/snapshot-live.mjs take s589-before` (04:15 UTC, 25 pages, 0 failed); `git push origin HEAD:refs/heads/task/589-land` (`910d3e25`, 04:15 UTC). GitHub's `code-branch.yml` (run 39721346004) passed and merged it into main at 04:27 UTC: **`5b20c0f1`**.
+
+**Production had not deployed it 20 minutes later**: the home page's style sheets stayed `400q07hjrdmqm.css` and `4031mistz2237.css` (sessions 583 and 584 change `tokens.css`, so the new build's names differ), and GitHub's newest Production deployment record was `5283179e` of 03:46 UTC, the delay session 563 met at 00:12 UTC. A snapshot taken then, `s589-after1` (04:48 UTC), against `s589-before`: **0 differences**, production still serving the build before this landing. The comparison against the new build is session 607's (below).
 
 ## Decisions made without you
 
@@ -75,4 +77,17 @@ THE_PUSH
 
 ## To finish
 
-TO_FINISH_589
+1. **The after snapshot of this landing.** `queue/next/036-night-22-october-code-607.md` (session 607, written by portable-laptop for chain 023's deployment) waits for this machine and is the queue step's next file. When production serves `5b20c0f1` or later (a style sheet name other than the two above in the home page's HTML), `node site/scripts/snapshot-live.mjs take s607-after` and `compare s589-before s607-after` cover this landing and the records pushed after it; every line marked expected or not. Expected: 0 differences (no page is live).
+2. **Chain 023's remote branches** (`wip/429-combined` to `wip/505-check-holds`, `wip/461-combined`, `wip/474-checks`, `wip/475-note`, `wip/562-land-023`, `wip/563-land-023`): session 607 deletes them, as its file says. This session deleted only chain 034's own (below).
+
+## The branches deleted
+
+Once `5b20c0f1` was on main, each checked with `git merge-base --is-ancestor` first: `wip/506-combined`, `wip/577-s` to `wip/588-s`, `wip/589-land` and `task/589-land`.
+
+## Session 506's records
+
+Session 506's "To finish" (its records after portable-laptop's landing) is done by this landing: `wip/506-combined`, merged with main after 563's landing, came in with chain 034, as its report said it would.
+
+## The queue
+
+`python scripts/chain_queue.py list` at 04:13 UTC: 1 waiting for samueloldlaptop, `036-night-22-october-code-607.md` (machine: code, session 607, written by portable-laptop's session 563 at about 00:45 UTC). So no new file was written: the queue step takes 036 next.

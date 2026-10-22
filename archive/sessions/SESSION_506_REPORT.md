@@ -103,3 +103,7 @@ If 563 did not land, `wip/506-combined` is itself a landing of chain 023 through
 - The Digest's real-time price line draws a figure of `iso_rtm_hub_prices`, a held table, on `/digest` and five issues (check-holds): drawn as "license needed", or as is.
 - `/grid?grid=isone` and `/grid/isone` draw 36 figures each of `isone_interconnection_queue`, a held table (check-holds): held, or as is.
 - Whether a landing removes its worktrees from this laptop's disk (session 542's question; this session leaves `erw-506` and `erw-506c`).
+
+## Finished (session 589)
+
+The records landed with chain 034: `wip/506-combined`, merged with main after portable-laptop's 563 had landed chain 023, came in with `task/589-land` (`5b20c0f1`, 04:27 UTC on 22 October). Chain 023's remote branches are left for session 607 to delete, as its file says.
