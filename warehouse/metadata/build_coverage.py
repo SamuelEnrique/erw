@@ -178,6 +178,7 @@ SECTOR_RULES = [
     (r"^eia_refinery_inputs_monthly$", "products"),  # session 615: EIA's refinery and blender net input, a month
     (r"^eia_refinery_production_monthly$", "products"),  # session 618: EIA's refinery and blender net production, a month
     (r"^eia_padd_rail_barge_movements_monthly$", "oil;products"),  # session 622: EIA's movements between PADDs by rail, tanker and barge
+    (r"^eia_gas_trade_country_monthly$", "gas"),  # session 625: EIA's natural gas exports and imports by country, a month
     (r"^pjm_rpm_capacity_prices$", "capacity"),
     # session 65: capacity prices of the four markets that pay capacity apart, and the day-ahead ancillary services
     (r"^iso_all_capacity_prices$", "capacity"),
