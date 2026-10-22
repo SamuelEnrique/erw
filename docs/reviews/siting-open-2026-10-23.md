@@ -31,6 +31,6 @@ Session 722 (chain 062, `queue/done/062-day-23-october-code-allgrids-2.md`). One
 | 22 | Migration 036 (session 580's indexes) written, not applied; the tab needs none | 716, 721 | ruling | |
 | 23 | Production serves 719 to 721 (`0787ad72`, Vercel rate limited at 13:44 UTC on 22 October), and the second after snapshot | 721 | work | 722 |
 | 24 | 721's landing record (`wip/721-records`) and the queue's taking of 062 (a local commit on main) reach main | 721, 722 | work | |
-| 25 | The tracker's facilities not placed by county or state (281 of 422 on the warehouse's copy) | 719 | work | |
+| 25 | The tracker's facilities not placed by county or state (281 of 422 on the warehouse's copy) | 719 | work | 729: explained, nothing placed (153 have no US state; 128 are in states no one grid holds at 85 percent; 3 name a utility, each a holding company's name) |
 
 The walk of session 717 (`docs/reviews/siting-path.md`) left no item of its own beyond 7, 11, 15 and 16; session 727 walks it again.
