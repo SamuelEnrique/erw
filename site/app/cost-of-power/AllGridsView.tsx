@@ -374,10 +374,10 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
         ) : (
         <div className="overflow-x-auto" role="region" aria-label="All grids" tabIndex={0} data-allgrids-table="1">
           <table className="w-full border-collapse text-left text-sm tabular-nums" style={{ minWidth: 960 }}>
-            <caption className="sr-only">What a {p.label.toLowerCase()} load pays, when it connects and how clean the power is, {x.rows === "nodes" ? "at every ERCOT node" : "at every hub and zone"}</caption>
+            <caption className="sr-only">What a {p.label.toLowerCase()} load pays, when it connects and how clean the power is, at every hub and zone</caption>
             <thead>
               <tr className="bg-accent text-white">
-                <th scope="col" className="px-3 py-1.5 font-normal">{x.rows === "nodes" ? "Node" : "Grid and region"}</th>
+                <th scope="col" className="px-3 py-1.5 font-normal">Grid and region</th>
                 {COLUMNS.map((c) => (
                   <th key={c.id} scope="col" className="px-3 py-1.5 text-right font-normal" data-col={c.id}>
                     <span className={tipCls} title={`${c.tip} ${c.unit}.`} tabIndex={0}>{c.head}</span>
