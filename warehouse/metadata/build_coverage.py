@@ -181,6 +181,7 @@ SECTOR_RULES = [
     (r"^eia_gas_trade_country_monthly$", "gas"),  # session 625: EIA's natural gas exports and imports by country, a month
     (r"^eia_gas_storage_capacity_monthly$", "gas"),  # session 626: EIA's underground natural gas storage capacity, a month
     (r"^eia_ngl_production_monthly$", "products"),  # session 629: EIA's natural gas plant field production of NGLs, a month
+    (r"^eia_oxygenate_production_monthly$", "products"),  # session 631: EIA's oxygenate plant production, a month
     (r"^pjm_rpm_capacity_prices$", "capacity"),
     # session 65: capacity prices of the four markets that pay capacity apart, and the day-ahead ancillary services
     (r"^iso_all_capacity_prices$", "capacity"),
