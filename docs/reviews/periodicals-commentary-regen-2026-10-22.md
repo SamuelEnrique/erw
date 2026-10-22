@@ -78,7 +78,7 @@ Left the top ten: Oracle triggers 'force majeure' on data center project over po
 5. South Korea unveils $747 billion energy transition plan through 2035 (policy)
 6. Maryland nets 440 MW/1,760 MWh in first bulk energy storage procurement (storage)
 7. IEA to meet Wednesday over proposed release of oil, diesel stocks, two E (oil)
-8. US gas plant plans jump 44% in just 8 months – here’s why (generation)
+8. US gas plant plans jump 44% in just 8 months - here’s why (generation)
 9. LS Power Raises $6B for Fund Amid AI Boom (capital)
 10. Clearway Starts Construction of 650-MW Solar Facility in Missouri (renewables)
 
