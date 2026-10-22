@@ -18,7 +18,25 @@
 
 ## Checks
 
-PLACEHOLDER
+Every gate redirected into `runs/` of the main checkout (outside git), never piped; the exit code read before the next step.
+
+| Check | Exit | Result |
+|---|---|---|
+| `scripts/precheck.py --what "session 587"` | 0 | passed |
+| `tests.test_session587` (before the build) | 0 | 10 tests, 1 skipped (`Served`, no build yet) |
+| tests of the files touched: 102, 135, 147, 182_flow, 188_waits, 199, 232, 238, 267, 314, 315, 411, 471, 503, 408, 505 | 1, then 0 | first run: 2 failures, both mine (the page's comment named `/internal/waits`, which test 188 holds is named nowhere else; test 408 asked for `/internal/holds` to be read or exempt); after the fix 188, 408 and 587 pass (29 tests) |
+| tests reading `docs/tools.md` and `docs/release-gate.md`: 146_page, 177, 186, 194, 202, 53, 55, 67 | 0 | 166 tests |
+| `scripts/db_probe.py` (twice, its own command) | 0, 0 | 0.70 s and 0.63 s |
+| `scripts/buildlock.py acquire s587` | 0 | waited for s578 from 00:11 to 00:20 UTC; released at the end |
+| `npm ci` | 0 | |
+| `npm run build` | 0 | `build-content: holds.json, 14 pages with held figures shown`; `/internal/holds` built as a dynamic route; no "statement timeout" in the log |
+| `curl /internal/holds` as a visitor | 404 | none of the page's words in the 404's body |
+| `tests.test_session587` with `HOLDS_BASE=http://localhost:3587` | 0 | 10 tests, none skipped: the served page's 14 `data-hold-page` rows equal the CSV's 14 lines in order |
+| `node scripts/check-routes.mjs http://localhost:3587` | 0 | pass 1: 226 of 226 pages; pass 2: 225 in review and 1 live asked as a visitor, 0 failed |
+| `CHECK_VALUES_PAGES=/data/licenses,/digest node scripts/check-values.mjs http://localhost:3587` | 1 | 107 of 107 values match Supabase; the one failure is `/digest`'s floor (0 checked numbers, floor 9). Not this change: at 00:20 UTC on Thursday 22 October `/digest` says "No Digest yet for Thursday 22 October 2026" (session 402's pending day, before the 14:00 UTC run), so it draws no number; `/digest/2026-10-21` carries its 18 keys and every value matches. A second run of `/digest` alone gave the same. `/data/licenses` (which reads `docs.json`, written by the script this session extends): 37 checked numbers, all match |
+| `node scripts/shot.mjs` at 1280 and 390 | 0, 0 | `runs/s587_holds_1280.png`, `runs/s587_holds_390.png`; no before shot: the address did not exist (404 to everyone). At 390 the table scrolls sideways in its own box, as `/internal/health`'s does |
+
+The page itself, with the internal cookie: 14 rows (`data-hold-row`), 26 table records, every one "license needed" from 2026-10-21 with the verdict "needs written permission"; no `data-check` key on it. The server was stopped by the PID on port 3587; no browser left running.
 
 ## Decisions made without you
 
@@ -26,6 +44,7 @@ PLACEHOLDER
 - A missing or misshapen `docs/licenses_holds.csv` is said on the page and does not fail the build (the list is a check's output; `scripts/licenses.py write` treats a missing file the same way).
 - "Verdict" is shown as the table's record in `warehouse/metadata/license_status.csv`: its status and from-day, its `verdict` cell and its publishers. The check's count of figures is shown as written (a count, not a figure of a held table).
 - `/internal/holds` is exempt in test 408's list, with its reason, as the other internal pages are.
+- The "Checked on" date wraps in its narrow column at 1280; left as built (one build), a `whitespace-nowrap` for a later session.
 
 ## For Samuel's ruling
 
@@ -33,7 +52,7 @@ None. (Session 505's two items stay as they were: how a held panel is drawn, and
 
 ## To finish
 
-PLACEHOLDER
+Nothing for this session. For session 589's landing: `/digest`'s floor in check-values fails before the day's Digest is written (14:00 UTC); a landing run before then should read that line as the pending day, not as a regression (a resumed or later run clears it).
 
 ## Files changed
 
