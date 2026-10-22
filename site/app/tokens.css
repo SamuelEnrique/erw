@@ -1064,3 +1064,12 @@ body:has(.brand-a) > footer :focus-visible {
   min-width: 0;
   max-width: 100%;
 }
+/* session 714 (chain 050): a tip's trigger in the All grids tab is a button (a keyboard reaches it; its tip is its
+   description). The rule for the shared Tip's small "i" button above sets the sans and lifts it 2 px; a figure's trigger
+   keeps the cell's face and baseline */
+.brand-a [data-allgrids] .tip > button[data-tip-trigger],
+.brand-a [data-node-shared] .tip > button[data-tip-trigger] {
+  font: inherit;
+  vertical-align: baseline;
+  text-align: inherit;
+}

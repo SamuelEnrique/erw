@@ -24,7 +24,8 @@ class Tips(unittest.TestCase):
 
     def test_the_tip_is_the_site_s_rule(self):
         v = src("site", "app", "cost-of-power", "AllGridsView.tsx")
-        self.assertIn('<span role="tooltip" className="absolute right-0 top-full z-20 hidden', v)
+        self.assertIn('<span role="tooltip" id={id} className="absolute right-0 top-full z-20 hidden', v)
+        self.assertIn('<button type="button" aria-describedby={id}', v)
         self.assertIn("tip relative inline-block", v)
         css = src("site", "app", "tokens.css")
         self.assertIn('.brand-a .tip:focus-within [role="tooltip"]', css)
