@@ -124,7 +124,8 @@ def policy_of_the_week(start, cut, log):
     # session 470 (roundup audit fix 9): a long title as its subject, "docket" once, one date said for what it is
     L = [f"**{policy_title(top['title'])}** ({top['agency']} {TYPE_LABEL.get(top['action_type'], top['action_type'])}, "
          f"{dated(top)}" + (f"; {dockets(top['docket'])}" if top["docket"] else "") + ")", ""]
-    L.append((r.get("plain_read") or brief.plain(top["why"])) + f" [Source]({top['source_url']})")
+    # session 577: brief.why_line, so a read without a final stop does not run into its link
+    L.append(brief.why_line(r.get("plain_read") or top["why"]) + f" [Source]({top['source_url']})")
     if r.get("timeline"):
         L += ["", f"Timeline: {r['timeline']}"]
     also = w.iloc[1:3]
@@ -132,7 +133,7 @@ def policy_of_the_week(start, cut, log):
         L += ["", "Also this week:", ""]
         for x in also.to_dict("records"):
             L.append(f"- {policy_title(x['title'])} ({x['agency']} {TYPE_LABEL.get(x['action_type'], x['action_type'])}, "
-                     f"{dated(x)}): {brief.plain(x['why'])} [source]({x['source_url']})")
+                     f"{dated(x)}): {brief.why_line(x['why'])} [source]({x['source_url']})")
     L += ["", "Table: `policy_actions` (scored with the news rubric) and `policy_reads` (impact reads, each field kept only "
           "when its words are in the action's own text); every action is on [/policy](/policy)."]
     log(f"  policy of the week: {top['event_id']} (significance {top['sig']})")
@@ -426,13 +427,13 @@ def main(argv=None):
         for i, r in enumerate(weekend.to_dict("records"), 1):
             L.append(f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')}, {r['n']} "
                      f"{'story' if r['n'] == 1 else 'stories'})  ")
-            L.append(f"   {brief.plain(r['why'])} Sources: {link_text(r['links'])}")  # session 470: brief.plain
+            L.append(f"   {brief.why_line(r['why'])} Sources: {link_text(r['links'])}")  # session 470: brief.plain; 577: why_line
         L += ["", "## The five stories of the week", ""]
         for i, r in enumerate(top5.to_dict("records"), 1):
             # session 21, ruling 4: the sector label, never the significance score
             L.append(f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')}, {r['n']} "
                      f"{'story' if r['n'] == 1 else 'stories'})  ")
-            L.append(f"   {brief.plain(r['why'])} Sources: {link_text(r['links'])}")
+            L.append(f"   {brief.why_line(r['why'])} Sources: {link_text(r['links'])}")
 
         L += ["", "## Deals of the week", ""]
         deals = read_table("energy_deals")
