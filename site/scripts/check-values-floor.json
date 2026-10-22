@@ -17,6 +17,7 @@
     "/cost-of-power?view=allgrids&rows=nodes": 10,
     "/cost-of-power?view=allgrids&rows=nodes&node=ercot%3A7RNCHSLR_ALL": 10,
     "/cost-of-power?view=allgrids&rows=nodes&nsort=energy&ndir=desc": 10,
+    "/cost-of-power?view=allgrids&rows=nodes&nsort=spread&ndir=desc": 10,
     "/cost-of-power?view=allgrids&sort=allin&a=ercot%3AHB_HUBAVG&b=nyiso%3AN.Y.C.": 10,
     "/cost-of-power?view=grids": 10,
     "/cost-of-power/battery": 10,

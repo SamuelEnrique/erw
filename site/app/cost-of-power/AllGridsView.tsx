@@ -3,7 +3,7 @@ import { Num } from "@/components/Num";
 import { InlineSpark } from "@/components/InlineSpark";
 import { InputPanel } from "@/components/tool/ToolPage";
 import type { ReactNode } from "react";
-import { CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, columnValue, nodeTable, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
+import { nodeShortMonths, shortMonthsWords, CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, columnValue, nodeTable, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
 import { CP, NODES, SITING_DC, SITING_FILES } from "@/lib/sitingdata";
 import { AllGridsForm } from "./AllGridsForm";
 import { AllGridsNodes } from "./AllGridsNodes";
@@ -357,14 +357,17 @@ function Headline({ x }: { x: SitingInputs }) {
 /** Session 711: a node's panel: its basis to the hub over the year (the 10th, 50th and 90th percentile of its days, and
  * each month's mean in the shared chart), its four-peak exposure, and what is not held about its place (county, planned
  * generation near it, transmission projects). */
-function NodePanel({ id }: { id: string }) {
+function NodePanel({ id, x }: { id: string; x: SitingInputs }) {
   const n = NODES.nodes.find((k) => `ercot:${k.id}` === id);
   if (!n) return null;
   const months = Object.entries(n.dam_basis ?? {}).sort(([a], [b]) => a.localeCompare(b));
   const close = `?${new URLSearchParams({ view: "allgrids", rows: "nodes" }).toString()}`;
   return (
     <section className="mb-4 border border-rule bg-paper px-4 py-3 text-sm" aria-label={`Node ${n.id}`} data-node-panel={id}>
-      <h3 className="font-serif text-lg">{n.id} <span className="text-sm">({n.cls}{n.types ? `, ERCOT's resource types ${n.types}` : ""})</span> <a href={`/cost-of-power${close}`} className="ml-2 text-xs underline">Close</a></h3>
+      <h3 className="font-serif text-lg">{n.id} <span className="text-sm">({n.cls}{n.types ? `, ERCOT's resource types ${n.types}` : ""})</span> <a href={`/cost-of-power${close}`} className="ml-2 text-xs underline">Close</a>
+        {/* session 724: a node as A or B of the hub table's panel, from the page (the trader's walk, step 8) */}
+        <a href={sitingHref(x, { rows: "hubs", a: id })} className="ml-3 text-xs underline" data-node-set="a">Set as A</a>
+        <a href={sitingHref(x, { rows: "hubs", b: id })} className="ml-2 text-xs underline" data-node-set="b">Set as B</a></h3>
       {n.pct ? (
         <p className="mt-1">
           Its daily day-ahead basis to {NODE_HUB}, {NODES.pct_from} to {NODES.pct_to} ({n.pct[3]} days held, node_basis_daily): one day in ten at or below USD{" "}
@@ -398,7 +401,9 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
     <div className="grid gap-8 lg:grid-cols-[290px_minmax(0,1fr)]" data-no-usage="1" data-allgrids="1">
       <aside>
         <InputPanel title="Your load">
-          <AllGridsForm x={x} rows={hubs.map((r) => ({ id: r.id, label: `${GRID_NAMES[r.grid]} ${r.label}` }))} />
+          <AllGridsForm x={x} rows={[...hubs.map((r) => ({ id: r.id, label: `${GRID_NAMES[r.grid]} ${r.label}` })),
+            // session 724: a node set as A or B stays in the lists, so Show keeps it
+            ...[...new Set([x.a, x.b])].filter((v): v is string => !!v && nodes.some((r) => r.id === v)).map((v) => ({ id: v, label: `ERCOT ${v.split(":")[1]} (node)` }))]} />
         </InputPanel>
       </aside>
       <div className="min-w-0">
@@ -419,8 +424,12 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
         {x.rows === "nodes" ? (
           <>
             <NodeShared x={x} />
-            {q.node ? <NodePanel id={q.node} /> : null}
+            {q.node ? <NodePanel id={q.node} x={x} /> : null}
             <AllGridsNodes rows={nodeTable(SITING_DC, SITING_FILES, x)} pkey={profileKey(x)} datacenter={x.profile === "datacenter"} open={q.node ?? null}
+              short={shortMonthsWords(nodeShortMonths(NODES))} find={q.nq ?? ""}
+              csvHead={[`Energy Research Warehouse (ERW): the ERCOT nodes of the All grids tab of /cost-of-power ("What a datacenter pays"), ${sitingHref(x, { rows: "nodes" })}`,
+                `${/^[aeiou]/i.test(p.label) ? "An" : "A"} ${p.label.toLowerCase()} load of ${x.mw} MW at a load factor of ${x.lf.toFixed(2)}; energy is ${NODE_HUB}'s day-ahead price over its twelve whole months plus the node's mean daily basis (node_basis_daily, ${NODES.first} to ${NODES.last}); USD per MWh`,
+                "Method: docs/methods/siting.md. Downloaded from the page: the rows shown, in the page's own figures."]}
               sort={(NODE_SORTS as readonly string[]).includes(q.nsort ?? "") ? (q.nsort as NodeSort) : "node"} dir={q.ndir === "desc" ? "desc" : "asc"} />
           </>
         ) : (

@@ -729,7 +729,10 @@ export function utilityCell(f: Files, r: Row): UtilityCell {
 /** A node's row of the node table: its own figures only. What every ERCOT node shares (the four-peak charge, which a
  * node pays on its hub's hours; capacity, none; the grid's time to connect, headroom and carbon) is drawn once, above
  * the table, so that no figure is drawn twice. */
-export type NodeTableRow = { id: string; node: string; cls: string; types: string; per: number | null; basis: number | null; days: number; due: number; allin: number | null; why: string };
+export type NodeTableRow = { id: string; node: string; cls: string; types: string; per: number | null; basis: number | null; days: number; due: number; allin: number | null; why: string;
+  /** session 724: the daily basis's spread, its 90th percentile less its 10th over the file's twelve months (the panel's
+   * own percentiles), USD per MWh: how far the node moves from day to day; null where the file holds no percentiles */
+  spread: number | null };
 export function nodeTable(dc: DC, f: Files, x: Pick<SitingInputs, "profile" | "lf" | "strike">): NodeTableRow[] {
   return nodeRows(f.nodes).map((r) => {
     const n = f.nodes.nodes.find((k) => k.id === r.region)!;
@@ -738,15 +741,35 @@ export function nodeTable(dc: DC, f: Files, x: Pick<SitingInputs, "profile" | "l
     const per = pc ? ("why" in pc ? null : pc.per) : e.node?.per ?? null;
     const a = allInCell(dc, f, r, x);
     return { id: r.id, node: r.region, cls: n.cls, types: n.types, per, basis: e.node?.basis ?? null, days: e.node?.days ?? Object.values(n.dam_basis ?? {}).reduce((s, v) => s + v[1], 0),
-      due: e.node?.due ?? 0, allin: "v" in a ? a.v : null, why: e.node ? (pc && "why" in pc ? pc.why : "") : e.why ?? "not held" };
+      due: e.node?.due ?? 0, allin: "v" in a ? a.v : null, why: e.node ? (pc && "why" in pc ? pc.why : "") : e.why ?? "not held",
+      spread: n.pct ? n.pct[2] - n.pct[0] : null };
   });
 }
+/** Session 724: the months of the node file's percentile window in which no node holds every day, with the most days
+ * any node holds and the days in the month: the days node_basis_daily lacks, named by month (the file counts days by
+ * month, not by date). */
+export function nodeShortMonths(f: Pick<NodeFile, "pct_from" | "pct_to" | "nodes">): { month: string; held: number; of: number }[] {
+  if (!f.pct_from || !f.pct_to) return [];
+  const out: { month: string; held: number; of: number }[] = [];
+  let [y, m] = f.pct_from.split("-").map(Number);
+  const [y1, m1] = f.pct_to.split("-").map(Number);
+  while (y < y1 || (y === y1 && m <= m1)) {
+    const month = `${y}-${String(m).padStart(2, "0")}`, of = new Date(Date.UTC(y, m, 0)).getUTCDate();
+    const held = Math.max(0, ...f.nodes.map((n) => n.dam_basis?.[month]?.[1] ?? 0));
+    if (held < of) out.push({ month, held, of });
+    m += 1; if (m > 12) { m = 1; y += 1; }
+  }
+  return out;
+}
+/** The short months in words, for the node list's tips and its header line. */
+export const shortMonthsWords = (s: { month: string; held: number; of: number }[]) =>
+  s.length ? `node_basis_daily lacks days in ${s.map((v) => `${v.month} (${v.held} of ${v.of} days held)`).join(", ")}, for every node` : "node_basis_daily holds every day of the twelve months";
 /** The columns a node table sorts by, and the default: by name. */
-export const NODE_SORTS = ["node", "cls", "energy", "basis", "allin", "days"] as const;
+export const NODE_SORTS = ["node", "cls", "energy", "basis", "spread", "allin", "days"] as const;
 export type NodeSort = (typeof NODE_SORTS)[number];
 export function sortNodes(rows: NodeTableRow[], by: NodeSort, dir: "asc" | "desc"): NodeTableRow[] {
   const k = dir === "asc" ? 1 : -1;
-  const val = (r: NodeTableRow): number | string | null => (by === "node" ? r.node : by === "cls" ? r.cls : by === "energy" ? r.per : by === "basis" ? r.basis : by === "allin" ? r.allin : r.days);
+  const val = (r: NodeTableRow): number | string | null => (by === "node" ? r.node : by === "cls" ? r.cls : by === "energy" ? r.per : by === "basis" ? r.basis : by === "spread" ? r.spread : by === "allin" ? r.allin : r.days);
   // a row with no figure sorts last either way; ties by name
   return [...rows].sort((a, b) => {
     const va = val(a), vb = val(b);
@@ -898,6 +921,7 @@ export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFil
  *   allgrids|col|<column>|<row>|<profile key>             a row's figure in a column, as the panel draws it (710)
  *   allgrids|yeardiff|<a>|<b>|<year key>                   B's year all-in less A's, USD (710)
  *   allgrids|nodepct|<node>|10, 50 or 90                 a node's daily basis percentile over the file's twelve months (711)
+ *   allgrids|nodespread|<node>                             its 90th percentile less its 10th, the node list's spread (724)
  *   allgrids|llapproved|<row>                              ERCOT's large loads approved to energize, MW, newest report (705)
  *   (capacity, session 704: zero where there is no market, drawn as a figure of 0 with no key; elsewhere held internal,
  *   "license needed", and computed only where the tables are, by warehouse/derived/siting_page.py --internal) */
@@ -938,6 +962,7 @@ export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
     return p[3] === "da" ? e.da?.per : p[3] === "rt" ? e.rt?.per : undefined;
   }
   if (p[1] === "basis") return energyCell(dc, f, row).node?.basis;
+  if (p[1] === "nodespread") { const n = f.nodes.nodes.find((k) => `ercot:${k.id}` === row.id); return n?.pct ? n.pct[2] - n.pct[0] : undefined; }
   if (p[1] === "nodepct") { const n = f.nodes.nodes.find((k) => `ercot:${k.id}` === row.id); const i = ({ "10": 0, "50": 1, "90": 2 } as Record<string, number>)[p[3]]; return n?.pct && i !== undefined ? n.pct[i] : undefined; }
   if (p[1] === "tx" || p[1] === "txshare") {
     const x = profileOfKey(p[1] === "tx" && (p[3] === "firm" || p[3] === "curtailing") ? p[4] ?? "" : p[3]);

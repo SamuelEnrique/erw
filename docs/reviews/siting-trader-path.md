@@ -51,3 +51,15 @@ Left as found, each listed: two nodes with the same figures (step 6: a fact the 
 ## For the data machine
 
 - `node_basis_daily` holds no day from 2026-08-21 to 2026-09-19 for any node (30 days). The tab says "335 of 365"; the gap may be a source gap or a missed backfill.
+
+## After session 724
+
+The failed steps walked again on a local build of `wip/724-allgrids` (shots: `docs/brand/review-724/`).
+
+| # | Before (723) | After (724) |
+|---|---|---|
+| 3 | Energy and basis sort the same; the spread only in a panel | A "Basis spread" column (90th percentile less 10th of the daily basis, the panel's own figures), keyed `allgrids|nodespread|<node>`, sortable. Widest: RUSSEKST_RN 57.55, OLNEYTN_AGR1 57.11, OLNEYTN_RN 55.74 (`after_t03_spread_widest_1280.png`). The basis column's tip says it sorts as Energy does |
+| 5 | "335 of 365", the gap not named | The line above the list: "node_basis_daily lacks days in 2026-08 (20 of 31 days held), 2026-09 (11 of 30 days held), for every node", from the node file's own days by month (`after_t05_days_named_1280.png`) |
+| 8 | A node as A only by editing the address | The node panel has "Set as A" and "Set as B"; the box's A and B lists keep a node set as A or B ("ERCOT BBREEZE_1_2 (node)"), so Show keeps it (`after_t08_panel_set_a_1280.png`, `after_t08_node_as_a_1280.png`) |
+| 14 | No download | "Download these N rows (CSV)" above the list: the rows shown, in the page's own figures, with a header naming the tab, the load, the table and the method; made in the browser, no new route |
+| 16 | No search | "Find a node by name", kept in the address (`nq`): `&nq=SOLAR` shows 3 of 873 nodes (`after_t16_find_1280.png`, and at 390) |
