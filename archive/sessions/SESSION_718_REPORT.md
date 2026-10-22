@@ -44,7 +44,14 @@
 
 ## The landing
 
-With sessions 713 to 718 in one push (below, once done).
+Sessions 713 to 718 landed in one push (`task/713-718-allgrids`, commit `e40ff864`), merged into main at 13:01 UTC (`e39de81a`, run 39781404444).
+
+- **The first gate** (on `b0b571c0`) failed the suite on two tests: `test_session704` pinned the capacity cell's markup from before 714's tips, and `test_session408` found `/internal/siting-gaps` (713) neither read by check-values nor exempt. 704's pin now follows the tip cell, and the page is exempt in 408 with its reason (words only; it reaches the database only through `internalOk`, as `/internal/holds` does). Commit `1d80200e`, then main merged (`e40ff864`).
+- **The second gate** (on `e40ff864`): freeze 0; main in the commit; no `task/` branch in flight; suite 5,928 tests OK (304 skipped); npm ci 0; build 0; check-values 7,553 of 7,553 values equal, with the eleven floors as at the earlier landings (the ten held pages, and `/digest` before the day's Digest; production fails the same).
+- **The steps after check-values**, on a build of the same commit in this worktree (lock `s718b`): check-routes 0 (226 pages, 0 failed), check-cross-checks 0 (92 of 92), check-csp 0 (97 pages, 0 violations).
+- **Before the push**: freeze status 0; two `task/` branches on GitHub, both already on main (`task/638-644-sources`, the data machine's, and this chain's `task/706-712-allgrids`, already deleted).
+- **Snapshots**: `s718-before` at 12:48 UTC; the push at 12:48; Vercel's status on `e39de81a` "Deployment has completed" at 13:04:18 UTC; production showed 718's "above peak" on the headroom sort at 13:04:51; `s718-after` at 13:04 UTC. `compare s718-before s718-after`: **0 differences** on 25 pages, expected (every page is in review).
+- The merged `wip/718-allgrids` was deleted on GitHub; 713 to 717 were never pushed.
 
 ## Decisions made without you
 

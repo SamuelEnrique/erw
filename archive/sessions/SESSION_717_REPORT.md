@@ -38,7 +38,7 @@
 
 ## The landing
 
-With sessions 713 to 721, or the next combined push (see the chain's note).
+Sessions 713 to 718 landed in one push at 13:01 UTC: see `SESSION_718_REPORT.md`, "The landing".
 
 ## Decisions made without you
 
