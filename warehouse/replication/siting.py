@@ -275,7 +275,7 @@ def table_figures(repo, tables, chosen):
     out = {}
     nodes = read_json(repo, "siting", "nodes.json")
     want = {f"ercot:{n}" for n in chosen}
-    days, swing, store = {}, {}, {}
+    days, swing, store, monthly = {}, {}, {}, {}
     for r in table_rows(os.path.join(tables, "node_basis_daily.csv")):
         # session 781: every storage node's swing, for the third card (siting_battery_swing)
         if r["variable"] == "dam_spread_4h" and r.get("x_class") == "storage" and nodes["pct_from"] <= r["ts_utc"][:7] <= nodes["pct_to"] and r["value"] not in ("", None):
@@ -285,6 +285,17 @@ def table_figures(repo, tables, chosen):
                 days.setdefault(r["entity"], []).append(float(r["value"]))
             elif r["variable"] == "dam_spread_4h":
                 swing.setdefault(r["entity"], []).append(float(r["value"]))
+    # session 799 (chain 065): each month's mean daily basis of the first two nodes, and B less A, as 794's panel draws them
+    for r in table_rows(os.path.join(tables, "node_basis_daily.csv")) if len(chosen) >= 2 else []:
+        if r["variable"] == "dam_basis" and r["entity"] in (f"ercot:{chosen[0]}", f"ercot:{chosen[1]}") and r["value"] not in ("", None):
+            monthly.setdefault((r["entity"], r["ts_utc"][:7]), []).append(float(r["value"]))
+    for (e, m), xs in monthly.items():
+        out[f"allgrids|nodemonth|{e}|{m}"] = round(sum(xs) / len(xs), 4)
+    if len(chosen) >= 2:
+        a, b = f"ercot:{chosen[0]}", f"ercot:{chosen[1]}"
+        if a in days and b in days:
+            sp = lambda e: round(quantile(days[e], 0.9), 4) - round(quantile(days[e], 0.1), 4)
+            out[f"allgrids|nodediff|{a}|{b}|spread"] = sp(b) - sp(a)
     # session 746: the intraday swing's mean, rounded as the tab's file writes it
     for e, xs in swing.items():
         out[f"allgrids|nodeswing|{e}"] = round(sum(xs) / len(xs), 4)
@@ -449,7 +460,7 @@ def figures(repo, base, key):
     return out
 
 
-PAGES = ["/cost-of-power?view=allgrids", "/cost-of-power?view=allgrids&profile=flexible", "/cost-of-power?view=allgrids&profile=electrolyzer",
+PAGES = ["/cost-of-power?view=allgrids", "/cost-of-power?view=allgrids&a=ercot%3A7RNCHSLR_ALL&b=ercot%3AA4_DGR1_RN", "/cost-of-power?view=allgrids&profile=flexible", "/cost-of-power?view=allgrids&profile=electrolyzer",
          "/cost-of-power?view=allgrids&profile=industry", "/cost-of-power?view=allgrids&rows=nodes", "/cost-of-power?view=allgrids&rows=nodes&profile=flexible",
          "/cost-of-power?view=allgrids&rows=nodes&profile=electrolyzer", "/cost-of-power?view=allgrids&rows=nodes&profile=industry"]
 
