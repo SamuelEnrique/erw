@@ -856,27 +856,46 @@ export const yearKey = (x: Pick<SitingInputs, "profile" | "lf" | "strike" | "mw"
  * row a county is placed at. Nothing of datacenter_facilities (held whole) is in it: the tracker places the rows it
  * shows, at request time. */
 export type FacilityGridFile = { built: string; year: number; state_share: number; states: Record<string, { grid: string; share: number }>;
-  counties: Record<string, { grid: string; utilities: number }>; county_rows: Record<string, string> };
-export type FacilitySite = { grid: string; row: string; how: "county" | "state"; why: string };
+  counties: Record<string, { grid: string; utilities: number }>; county_rows: Record<string, string>;
+  /** session 729: every utility name EIA-861 gives, normalised (the builder's UTILITY_NORM_RULES, normUtility here), with the one grid its rows sit inside */
+  utilities?: { rules: string[]; names: Record<string, { grid: string; numbers: string[] }>; dropped: number } };
+export type FacilitySite = { grid: string; row: string; how: "county" | "utility" | "state"; why: string };
+const CORPORATE = new Set(["co", "company", "corp", "corporation", "inc", "incorporated", "llc", "lp", "ltd", "plc", "the"]);
+/** Session 729: a utility's name normalised as the builder normalises EIA-861's (warehouse/derived/siting_page.py,
+ * norm_utility: the same rules in the same order), so the tracker's name matches EIA's exactly and nothing fuzzier. */
+export function normUtility(name: string): string {
+  let s = (name ?? "").toLowerCase();
+  s = s.replace(/\s*-\s*\([a-z]{2}\)\s*$/, "");
+  s = s.replace(/&/g, " and ");
+  s = s.replace(/[^a-z0-9 ]/g, " ");
+  const words = s.split(/\s+/).filter(Boolean);
+  while (words.length && CORPORATE.has(words[words.length - 1])) words.pop();
+  if (words.length && words[0] === "the") words.shift();
+  return words.join(" ");
+}
 const countyKey = (state: string, county: string) => `${state.trim().toUpperCase()}|${county.trim().replace(/ (County|Parish)$/i, "").trim().toLowerCase()}`;
 /** The tab's row for a tracked facility: by its county where it names one and the county's utilities bill inside one
  * grid only (the county's own row where the tab places one, else the grid's main region); else by its state where
  * 85 percent or more of the state's retail sales are inside one grid; else none. The tracker names no node. */
-export function facilitySite(f: FacilityGridFile, idx: Pick<Index, "grids" | "blank">, state: string, county: string): FacilitySite | null {
+export function facilitySite(f: FacilityGridFile, idx: Pick<Index, "grids" | "blank">, state: string, county: string, utility: string = ""): FacilitySite | null {
   const main = (grid: string) => idx.grids[grid]?.main ? `${grid}:${idx.grids[grid].main}` : grid === "pjm" ? "pjm:grid" : grid === "miso" ? `miso:${idx.blank.miso?.regions[0] ?? "grid"}` : null;
   const k = state && county ? countyKey(state, county) : "", c = k ? f.counties[k] : undefined, s = state ? f.states[state.trim().toUpperCase()] : undefined;
-  // the grid: the county's where its utilities bill inside one grid only; else the state's, at 85 percent of its sales
-  const grid = c?.grid ?? s?.grid;
+  // session 729: the utility the tracker names, where it is one of EIA-861's exactly (after the written normalisation)
+  const un = utility ? normUtility(utility) : "", u = un ? f.utilities?.names[un] : undefined;
+  // the grid: the county's where its utilities bill inside one grid only; else the named utility's; else the state's, at 85 percent of its sales
+  const grid = c?.grid ?? u?.grid ?? s?.grid;
   if (!grid) return null;
   // the row: the county's own where the tab places the county in that grid; else the grid's main region
   const own = k && f.county_rows[k]?.startsWith(`${grid}:`) ? f.county_rows[k] : null;
   const row = own ?? main(grid);
   if (!row) return null;
-  const byCounty = !!c?.grid;
-  const why = byCounty
+  const how: FacilitySite["how"] = c?.grid ? "county" : u?.grid ? "utility" : "state";
+  const why = how === "county"
     ? `${county}, ${state}: its ${c!.utilities} ${c!.utilities === 1 ? "utility" : "utilities"} (EIA-861's service territories) bill inside ${GRID_NAMES[grid]} only.`
-    : `${state}: ${Math.round((s?.share ?? 0) * 100)} percent of its retail sales in ${f.year} were inside ${GRID_NAMES[grid]} (EIA-861)${county ? `; ${county}'s utilities do not bill inside one grid only, or the territories do not name it` : ""}.`;
-  return { grid, row, how: byCounty ? "county" : "state", why: `${why} ${own ? `The tab's row for ${county}: ${row.split(":")[1]}.` : `The tab has no row of its own for the place: ${GRID_NAMES[grid]}'s main region.`}` };
+    : how === "utility"
+    ? `${utility}: one utility of EIA-861 by that name (utility ${u!.numbers.join(", ")}), whose sales rows sit inside ${GRID_NAMES[grid]} only${county ? `; ${county}'s utilities do not bill inside one grid only, or the territories do not name it` : ""}.`
+    : `${state}: ${Math.round((s?.share ?? 0) * 100)} percent of its retail sales in ${f.year} were inside ${GRID_NAMES[grid]} (EIA-861)${county ? `; ${county}'s utilities do not bill inside one grid only, or the territories do not name it` : ""}${utility ? `; "${utility}" is not one utility of EIA-861 inside one grid` : ""}.`;
+  return { grid, row, how, why: `${why} ${own ? `The tab's row for ${county}: ${row.split(":")[1]}.` : `The tab has no row of its own for the place: ${GRID_NAMES[grid]}'s main region.`}` };
 }
 /** The tab's address for a tracked facility: its grid's row as A and its MW as the load. The facility is named on the
  * tracker, beside the link, and not in the address: the tab draws no name a visitor could type. */

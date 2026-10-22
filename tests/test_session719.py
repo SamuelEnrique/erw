@@ -84,7 +84,7 @@ class Join(unittest.TestCase):
     def test_the_file_holds_nothing_of_the_held_table(self):
         raw = src("site", "data", "siting", "facilities.json")
         f = json.loads(raw)
-        self.assertEqual(set(f), {"built", "tables", "year", "state_share", "states", "counties", "county_rows"})
+        self.assertEqual(set(f), {"built", "tables", "year", "state_share", "states", "counties", "county_rows", "utilities"})   # "utilities" since session 729
         self.assertNotIn("datacenter_facilities", f["tables"])
         self.assertNotIn("datacenter:", raw)
         self.assertGreater(len(f["counties"]), 1000)                  # every county in one grid, not the tracker's counties

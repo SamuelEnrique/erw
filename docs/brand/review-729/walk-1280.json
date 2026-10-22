@@ -1,0 +1,35 @@
+{
+ "steps": [
+  {
+   "step": "10-tracker",
+   "width": 1280,
+   "url": "/datacenters",
+   "found": true,
+   "errorText": "The table could not be read, so no number is shown: license needed: Amazon Web Services; Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Digital Realty; Equinix; Financia",
+   "links": 0,
+   "ways": [],
+   "held": true,
+   "headline": null,
+   "scrollW": 1265,
+   "clientW": 1265,
+   "totalH": 4120,
+   "shot": "10-tracker_1280.png"
+  },
+  {
+   "step": "link-address",
+   "width": 1280,
+   "url": "/cost-of-power?view=allgrids&mw=1400&a=ercot%3ALZ_NORTH",
+   "found": true,
+   "errorText": "",
+   "links": 0,
+   "ways": [],
+   "held": true,
+   "headline": "A datacenter load of 1,400 MW at ERCOT LZ_NORTH pays USD 43.15 per MWh all-in, USD 476,288,267 a year; generators there took a median of 45.80 months to connect.",
+   "scrollW": 1265,
+   "clientW": 1265,
+   "totalH": 5679,
+   "shot": "link-address_1280.png"
+  }
+ ],
+ "pageErrors": []
+}

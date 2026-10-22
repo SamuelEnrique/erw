@@ -57,6 +57,7 @@ import argparse
 import datetime as dt
 import json
 import os
+import re
 import sys
 
 import pandas as pd
@@ -499,10 +500,80 @@ def county_key(state, county):
     return f"{str(state).strip().upper()}|{c.strip().lower()}"
 
 
+# session 729 (chain 062): the tracker names a utility for many facilities ("utility" on its rows). A facility is placed
+# by that name where it matches one utility of eia861_utility_sales exactly after this normalisation, and that utility's
+# sales rows sit inside one grid of the tab. The rules, in order (site/lib/siting.ts, normUtility, applies the same):
+UTILITY_NORM_RULES = [
+    "lower case",
+    "a trailing state in brackets after a dash, as EIA writes municipal names (\"Town of Concord - (MA)\"), is dropped",
+    "\"&\" becomes \"and\"",
+    "every character that is not a letter, a digit or a space becomes a space (so \"Co.\", \"Co,\" and \"Co\" agree)",
+    "trailing corporate words are dropped, as many times as they end the name: co, company, corp, corporation, inc, incorporated, llc, lp, ltd, plc, the",
+    "a leading \"the\" is dropped",
+    "runs of spaces become one; the ends are trimmed",
+    "then the name must be one utility's (or several numbers of the same name in the same grid), whose sales rows sit inside one grid of the tab; a wires utility with no sales row takes the one grid of the counties it serves",
+]
+CORPORATE = {"co", "company", "corp", "corporation", "inc", "incorporated", "llc", "lp", "ltd", "plc", "the"}
+
+
+def norm_utility(name):
+    """A utility's name normalised by UTILITY_NORM_RULES, for an exact match and nothing fuzzier."""
+    s = str(name or "").lower()
+    s = re.sub(r"\s*-\s*\([a-z]{2}\)\s*$", "", s)
+    s = s.replace("&", " and ")
+    s = re.sub(r"[^a-z0-9 ]", " ", s)
+    words = s.split()
+    while words and words[-1] in CORPORATE:
+        words.pop()
+    if words and words[0] == "the":
+        words.pop(0)
+    return " ".join(words)
+
+
+def utility_grids(spath, tpath, counties):
+    """Session 729: every name EIA-861 gives a utility (its sales rows' names over the years, and the service territories'
+    name), normalised, mapped to the one grid its sales rows sit inside; a name that two utilities share in two grids,
+    or a utility whose rows sit in two grids or outside the tab's grids, is left out. A wires utility with no sales row
+    (Oncor, CenterPoint: EIA-861's delivery-only rows name no balancing authority here) takes the one grid of the
+    counties it serves that `counties` places, where they all agree and at least one is placed."""
+    s = pd.read_csv(spath, skiprows=header_rows(spath), dtype=str, usecols=["node", "x_utility_number", "x_ba_code"])
+    s = s.dropna(subset=["x_utility_number"])
+    grids = {}
+    for num, g in s.groupby("x_utility_number")["x_ba_code"]:
+        bas = {b for b in g.dropna().unique()}
+        inside = sorted({BA_GRIDS[b] for b in bas if b in BA_GRIDS})
+        grids[num] = inside[0] if len(inside) == 1 and not (bas - set(BA_GRIDS)) else None
+    names = {}
+    for num, g in s.groupby("x_utility_number")["node"]:
+        for n in g.dropna().unique():
+            names.setdefault(norm_utility(n), set()).add(num)
+    t = pd.read_csv(tpath, skiprows=header_rows(tpath), dtype=str, usecols=["name", "x_utility_number", "x_state", "x_county"]).dropna(subset=["name", "x_utility_number"])
+    for num, g in t.groupby("x_utility_number")["name"]:
+        for n in g.unique():
+            names.setdefault(norm_utility(n), set()).add(num)
+    with_rows = set(s["x_utility_number"].unique())
+    for num, g in t.dropna(subset=["x_state", "x_county"]).groupby("x_utility_number"):
+        if num in with_rows:
+            continue
+        placed = {counties[county_key(st, c)]["grid"] for st, c in zip(g["x_state"], g["x_county"]) if county_key(st, c) in counties}
+        grids[num] = placed.pop() if len(placed) == 1 else None
+    out, dropped = {}, 0
+    for n, nums in sorted(names.items()):
+        if not n:
+            continue
+        gs = {grids.get(num) for num in nums}
+        if len(gs) == 1 and None not in gs:
+            out[n] = {"grid": gs.pop(), "numbers": sorted(nums)}
+        else:
+            dropped += 1
+    return {"rules": UTILITY_NORM_RULES, "names": out, "dropped": dropped}
+
+
 def facilities_file(spath, tpath):
     """facilities.json's content (session 719), from the two public tables only: datacenter_facilities is held whole
     (license needed since 21 October 2026), so nothing of its rows is written here. Every county of the service
-    territories whose utilities' sales rows sit inside one grid only, and each state 85 percent or more inside one."""
+    territories whose utilities' sales rows sit inside one grid only, and each state 85 percent or more inside one.
+    Session 729: and every utility name EIA-861 gives, normalised, with the one grid its rows sit inside."""
     s = pd.read_csv(spath, skiprows=header_rows(spath), dtype=str, usecols=["variable", "ts_utc", "value", "x_utility_number", "x_state", "x_service_type", "x_ba_code"])
     s = s[s["x_ba_code"].notna()]
     year = int(s["ts_utc"].str[:4].max())
@@ -528,7 +599,7 @@ def facilities_file(spath, tpath):
             counties[county_key(st, county)] = {"grid": grids[0], "utilities": len(nums)}
     rows = {county_key(st, c): row for row, (st, c) in ROW_COUNTY.items()}
     return {"built": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "tables": [UTILITY_TABLE, TERRITORY_TABLE],
-            "year": year, "state_share": STATE_SHARE, "states": states, "counties": counties, "county_rows": rows}
+            "year": year, "state_share": STATE_SHARE, "states": states, "counties": counties, "county_rows": rows, "utilities": utility_grids(spath, tpath, counties)}
 
 
 def gaps_file(path=GAPS_MD):
@@ -571,7 +642,19 @@ def main(argv=None):
     ap.add_argument("--internal", help="session 704: write the capacity prices per row to this file (outside the repository)")
     ap.add_argument("--rows", help="with --internal: the tab's rows and their capacity zones as JSON (node scripts/siting-files.mjs capzones)")
     ap.add_argument("--subba", action="store_true", help="session 728: add the sub-region part to the headroom.json already in --out-dir, from the sub-region tables found, and write nothing else")
+    ap.add_argument("--facilities", action="store_true", help="session 729: write facilities.json alone, from eia861_utility_sales and utility_service_territories")
     a = ap.parse_args(argv)
+    if a.facilities:
+        try:
+            spath, tpath = find(UTILITY_TABLE, a.in_dir, a.in_dir_first), find(TERRITORY_TABLE, a.in_dir, a.in_dir_first)
+        except FileNotFoundError as e:
+            print(f"FAILED: {e}", file=sys.stderr)
+            return 1
+        print(f"reading {spath} and {tpath}")
+        fac = facilities_file(spath, tpath)
+        print(f"facilities.json: {len(fac['states'])} states, {len(fac['counties'])} counties in one grid, {len(fac['utilities']['names'])} utility names in one grid ({fac['utilities']['dropped']} left out)")
+        write("facilities.json", fac, a.out_dir)
+        return 0
     if a.subba:
         # session 728: a code machine holds the sub-region tables (rebuilt from the archive) and not every other table the
         # builder reads; this adds the sub-region part to the existing headroom file and leaves every other figure as it is

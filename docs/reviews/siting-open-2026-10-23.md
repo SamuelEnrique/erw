@@ -41,7 +41,7 @@ Three kinds:
 | 25 | Whether Texas's wires utilities (CenterPoint, Oncor, AEP Texas, TNMP) should be priced from their tariffs in the Utility column for ERCOT rows, in place of a retail seller | 718 | ruling | 741 | open |
 | 26 | A Texas wires utility's own revenue (CenterPoint files no sales row in `eia861_utility_sales`) | 718's gaps row | gap | none | open |
 | 27 | Whether the tab may name a tracked facility as A once `datacenter_facilities` is public again (one read of the live set, or a site file built from the public rows) | 719 | ruling | 741 | open |
-| 28 | The tracker's facilities placed by their utility where the tracker names one (141 of 422 were placed by county or state) | 719 | work | 729 | open |
+| 28 | The tracker's facilities placed by their utility where the tracker names one (141 of 422 were placed by county or state) | 719 | work | 729 | closed by 729: the way is built and tested; 3 of 422 rows name a utility and none is EIA's exact name, so 141 stay 141 until the tracker's rows carry EIA's names |
 | 29 | The map: nothing held places a hub or node on a map (ERCOT's resource registration would) | the note | gap | none (733 names what a node's place would allow) | open |
 | 30 | Migration 036 (session 580's two partial indexes) written and not applied: the tab reads no database, so it needs none | 716, the note | ruling | 739 (an index a read needs goes into the file, not applied) | open |
 | 31 | Reserve margins by zone | 706's "not held", the gaps file | gap | 731 | open |

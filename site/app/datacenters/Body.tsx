@@ -44,13 +44,14 @@ export function toFacility(r: EntityRow): Facility {
     mwSpan: x.mw_span ?? "",
     queueMw: x.queue_mw ? Number(x.queue_mw) : null,
     sourceUrls: (x.source_urls ?? r.source_url ?? "").split(";").filter(Boolean),
-    siting: sitingOf(x.state ?? "", x.county ?? "", r.capacity_mw === null ? null : Number(r.capacity_mw)),
+    siting: sitingOf(x.state ?? "", x.county ?? "", r.capacity_mw === null ? null : Number(r.capacity_mw), x.utility ?? ""),
   };
 }
-/** Session 719: the facility's row on the All grids tab of /cost-of-power, by its county, else its state; none where
- *  neither places it in one grid. The tracker names no node, so an ERCOT facility is never placed at a node. */
-function sitingOf(state: string, county: string, mw: number | null): Facility["siting"] {
-  const s = facilitySite(FACILITY_GRID, SITING_FILES.index, state, county);
+/** Session 719: the facility's row on the All grids tab of /cost-of-power, by its county, else (session 729) by the
+ *  utility the tracker names where it is one utility of EIA-861 inside one grid, else its state; none where none places
+ *  it in one grid. The tracker names no node, so an ERCOT facility is never placed at a node. */
+function sitingOf(state: string, county: string, mw: number | null, utility: string): Facility["siting"] {
+  const s = facilitySite(FACILITY_GRID, SITING_FILES.index, state, county, utility);
   return s ? { ...s, href: facilityHref(s, mw) } : null;
 }
 
