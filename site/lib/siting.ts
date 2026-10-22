@@ -903,6 +903,58 @@ export const facilityHref = (s: FacilitySite, mw: number | null) =>
   `/cost-of-power?${new URLSearchParams({ view: "allgrids", ...(mw && mw >= SITING_LIMITS.mw[0] ? { mw: String(Math.min(mw, SITING_LIMITS.mw[1])) } : {}), a: s.row }).toString()}`;
 
 // ---------------------------------------------------------------------------------------------------------------------
+// the large-load tariff (session 730, chain 062): the transmission and delivery charge a large load pays outside ERCOT,
+// by its utility's tariff. Written against the documented shape of utility_large_load_tariffs (the data machine's
+// connector openei_large_load_tariffs.py, session 670 of chain 043), which has NOT landed: not wired to any column, no
+// key drawn; the gaps file's rows 1 to 6 stand. When the table lands, the transmission column reads it for every grid it
+// covers, the all-in column follows, and a license other than public is drawn "license needed" (session 408's rule).
+// ---------------------------------------------------------------------------------------------------------------------
+
+/** One row of utility_large_load_tariffs as the connector documents it (a series row; the x_ columns the tip needs). */
+export type TariffRow = { entity: string; variable: "energy_charge" | "demand_charge" | "fixed_charge" | "min_demand_mw" | "all_in_300mw" | string; ts_utc: string; value: number; unit?: string;
+  node?: string; x_eia_id?: string; x_utility?: string; x_sector?: string; x_uri?: string; x_end_date?: string; x_license?: string };
+export type TariffCharge = {
+  /** USD per MWh of the load's energy: the demand charge and the fixed charge spread over the hours it runs, plus the tariff's energy charge */
+  per: number; demand: number; energy: number; fixed: number;
+  /** the tariff's own terms, as the tip says them */
+  rate: string; utility: string; eiaId: string; effective: string; end: string | null; uri: string; minMw: number | null; demandPerKwMonth: number; fixedPerMonth: number; energyPerMwh: number;
+  /** what the load's energy a year is, MWh, and the hours it runs */
+  mwhYear: number; hoursYear: number; table: string;
+} | { why: string; words: "not held" | "license needed" };
+
+/** The large-load tariff charge for a load at a utility, USD per MWh, by the tariff's own terms: the newest rate of the
+ * utility (EIA id) in force on `today` (start on or before it, no end before it) whose minimum demand the load meets;
+ * the demand charge (USD per kW-month, the load's full size each month: a large load sets its billing demand in every
+ * month) times 12 months times 1,000 kW a MW times the size, plus the fixed charge times 12, over the MWh the load uses
+ * in a year (its size times its load factor times the hours it runs a year, as the four-peak charge is spread), plus
+ * the energy charge per MWh. A rate held under a license other than public is "license needed"; no rate, "not held". */
+export function largeLoadTariff(rows: TariffRow[], eiaId: string, x: { mw: number; lf: number; hoursYear: number }, today: string, table = "utility_large_load_tariffs"): TariffCharge {
+  const mine = rows.filter((r) => r.x_eia_id === eiaId);
+  if (!mine.length) return { why: `No large-load rate of EIA utility ${eiaId} is in ${table}.`, words: "not held" };
+  const day = today.slice(0, 10);
+  // the rates: by entity (one rate label), each with its variables
+  const rates = new Map<string, { start: string; vars: Record<string, number>; row: TariffRow }>();
+  for (const r of mine) {
+    const k = r.entity, e = rates.get(k) ?? { start: r.ts_utc.slice(0, 10), vars: {}, row: r };
+    e.vars[r.variable] = r.value;
+    rates.set(k, e);
+  }
+  const inForce = [...rates.values()].filter((e) => e.start <= day && !(e.row.x_end_date && e.row.x_end_date.slice(0, 10) < day));
+  if (!inForce.length) return { why: `No large-load rate of EIA utility ${eiaId} in ${table} is in force on ${day}.`, words: "not held" };
+  const fits = inForce.filter((e) => e.vars.min_demand_mw === undefined || e.vars.min_demand_mw <= x.mw);
+  if (!fits.length) return { why: `Every large-load rate of EIA utility ${eiaId} in ${table} asks a minimum demand above ${x.mw} MW.`, words: "not held" };
+  const r = fits.sort((a, b) => b.start.localeCompare(a.start) || a.row.entity.localeCompare(b.row.entity))[0];
+  if (r.row.x_license && r.row.x_license !== "public") return { why: `The rate ${r.row.node ?? r.row.entity} of EIA utility ${eiaId} is held under a license (${r.row.x_license}) in ${table}: computed where the table is held, drawn as "license needed".`, words: "license needed" };
+  if (r.vars.demand_charge === undefined && r.vars.energy_charge === undefined) return { why: `The rate ${r.row.node ?? r.row.entity} of EIA utility ${eiaId} carries neither a demand charge nor an energy charge in ${table}.`, words: "not held" };
+  const mwhYear = x.mw * x.lf * x.hoursYear;
+  if (!(mwhYear > 0)) return { why: "The load runs no hour: no energy to spread the charge over.", words: "not held" };
+  const demandPerKwMonth = r.vars.demand_charge ?? 0, fixedPerMonth = r.vars.fixed_charge ?? 0, energyPerMwh = r.vars.energy_charge ?? 0;
+  const demand = (demandPerKwMonth * 1000 * x.mw * 12) / mwhYear, fixed = (fixedPerMonth * 12) / mwhYear;
+  return { per: demand + fixed + energyPerMwh, demand, energy: energyPerMwh, fixed, rate: r.row.node ?? r.row.entity, utility: r.row.x_utility ?? "", eiaId, effective: r.start, end: r.row.x_end_date ? r.row.x_end_date.slice(0, 10) : null,
+    uri: r.row.x_uri ?? "", minMw: r.vars.min_demand_mw ?? null, demandPerKwMonth, fixedPerMonth, energyPerMwh, mwhYear, hoursYear: x.hoursYear, table };
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
 // the all-in column (session 702): drawn only where each part is held or is zero by market design
 // ---------------------------------------------------------------------------------------------------------------------
 
