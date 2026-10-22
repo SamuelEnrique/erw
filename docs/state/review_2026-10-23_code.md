@@ -22,7 +22,7 @@ LANDING_FIRST
 | 581 | `wip/581-s` | `site/scripts/check-links.mjs` on 235 pages: 85 problems, 0 after the fixes (`/curtailment?period=2023` no longer 500; 17 company sites over https; heading ids on rendered markdown; 21 links straight to where they land) | `/deals?tab=companies` |
 | 582 | `wip/582-s` | the five tools' replications in a clean environment: battery 23 of 23, generator 16 of 16, datacenter 36 of 36 after the carbon file, Grid 59 of 60 (a page cache), Research 363 of 363 with its tenth card added | `docs/reviews/replications-2026-10-22.md` |
 | 583 | `wip/583-s` | AccessLint on 151 addresses at 1280 and 390: 271 findings on 73 scans before, 30 on 15 after (scrolling figures reachable by keyboard, links in grey notes underlined, the network's circle names) | `docs/reviews/accessibility-2026-10-22.md` |
-| 584 | `wip/584-s` | SESSION_584 | `docs/brand/review-584/` |
+| 584 | `wip/584-s` | `site/scripts/check-390.mjs` on 151 addresses at 390 by 844: 43 pages with a finding before (the demand growth explorer at 398 px, `/policy` at 429 px, 36 cut chart labels, 4 tables), 5 after, none wider than the window; fixes in tokens.css and five shared chart components, the 1280 layout unchanged | `docs/brand/review-584/` |
 | 585 | `wip/585-s` | the trader path walked, 16 steps at 1280 and 390, every promise held for ERCOT, CAISO and SPP; the battery page's source line names its two ERCOT tables | `docs/reviews/trader-path.md`, last section |
 | 586 | `wip/586-s` | the dependencies: the site's production packages clean; `lxml` the one Python advisory the code reaches (on the runner, held by `gridstatus`); nothing upgraded | `docs/reviews/dependencies-2026-10-22.md` |
 | 587 | `wip/587-s` | `/internal/holds`, in review, one row a line of `docs/licenses_holds.csv` (14) | `/internal/holds` |
@@ -52,7 +52,7 @@ One item a line in each report, and on `/internal/waits` after the landing:
 5. **Words and layout**: "The price board, version 4" on `/data` (581); the battery game's dimmed line (583); the five-grid wide frame's 20 px plots (588); the first checked figure 2,300 px down on a phone (585, from 382).
 6. **The cards' downloads** (582, from 381): the `.py` files exit 1 without `findings_common`.
 7. **The data machine** (585): `site/data/battery_awards_beside.json` ends in July; the table holds August.
-SESSION_584_RULINGS
+8. **Small layout items in pages' own files** (584, listed, not changed): `/shoulder`'s "24:00" tick cut by 4 px; six tables with no scroll container that fit exactly at 390.
 
 ## The queue
 
