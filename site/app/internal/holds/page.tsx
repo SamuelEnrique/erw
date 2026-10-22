@@ -14,7 +14,7 @@ import { internalOk } from "@/lib/thesis/server";
 // figure of a held table: only the addresses, the tables, their verdicts, the grids and the check's count. How a held
 // panel is drawn, and whether the check joins the landing gate, are Samuel's (session 505); this page decides neither.
 // Internal: no nav link, not indexed, never cached (next.config.ts gives every /internal address those headers), and
-// behind the internal view exactly as /internal/waits is: the page answers 404 unless the browser holds the internal
+// behind the internal view exactly as the waits page is: the page answers 404 unless the browser holds the internal
 // cookie (set by the form at /internal/open). It takes no token in its address, reads no database and writes nothing.
 export const dynamic = "force-dynamic";
 
