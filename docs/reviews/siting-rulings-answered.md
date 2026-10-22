@@ -31,3 +31,11 @@ Energy Research Warehouse (ERW), session 745 of chain 063 (`queue/done/063-eveni
 | 19 | Migration 036 (716, 721) | not ruled | |
 
 No item is ruled, so sessions 747 to 750 (rulings 3, 5, 7, 8, 10, 12, 13 and 15) say so and change nothing.
+
+## Read again (session 767, chain 064, 22 October 2026 at 20:28 UTC)
+
+No item is answered. One item is added, from chain 063's session 764:
+
+| # | Item | Answer | Where |
+|---|---|---|---|
+| 20 | Which parts of the personal laptop's run of chain 062 to take (its 728's ERCOT weather zones, its 729's utility rule, its 724 and 726 variants; `docs/state/review_2026-10-22_portable_chain062.md` on `origin/wip/730-allgrids-portable`) | not ruled | |
