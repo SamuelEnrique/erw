@@ -23,7 +23,7 @@ def src(*parts):
 class Note(unittest.TestCase):
     def test_the_note_v1(self):
         n = src("docs", "methods", "siting.md")
-        self.assertTrue("Version 1, session 712" in n or "version 1 was session 712's" in n)   # 740 wrote version 2
+        self.assertTrue("Version 1, session 712" in n or "version 1 was session 712's" in n or "version 1 session 712's" in n)   # 740 wrote version 2, 762 version 3
         for head in ("**Energy**", "**Transmission and 4CP**", "**Capacity**", "**Time to connect**", "**Headroom**", "**Carbon**", "**Utility**", "**All-in**"):
             self.assertIn(head, n)
         for part in ("## The load's profiles", "## The screen", "## The replication", "## Decisions", "## The limits"):
