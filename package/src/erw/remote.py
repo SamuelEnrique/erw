@@ -78,6 +78,25 @@ def _coverage_frame(cov: pd.DataFrame) -> pd.DataFrame:
     return cov[cols].sort_values("table").reset_index(drop=True)
 
 
+def _read_by_export(table, types: Dict[str, Optional[str]]) -> pd.DataFrame:
+    """Session 665: a Redivis table read through its CSV export, as a frame of the stream's types. Errors propagate."""
+    import tempfile
+    d = tempfile.mkdtemp(prefix="erw-redivis-")
+    path = table.download(os.path.join(d, "table.csv"), format="csv", overwrite=True, progress=False)
+    path = path[0] if isinstance(path, list) else path
+    df = pd.read_csv(path, dtype=str, keep_default_na=False)
+    os.remove(path)
+    for c, t in types.items():
+        if c not in df.columns:
+            continue
+        if t == "dateTime":
+            df[c] = pd.to_datetime(df[c].replace("", None), format="ISO8601", utc=True)
+        elif t == "date":
+            df[c] = pd.to_datetime(df[c].replace("", None), format="ISO8601")
+    # numbers stay as the export wrote them (the uploaded CSV's own text), so _as_text must not retype them
+    return df
+
+
 class RedivisBackend(Backend):
     """Reads the ERW from its Redivis dataset: the unreleased draft by default (all tables).
 
@@ -87,13 +106,24 @@ class RedivisBackend(Backend):
 
     name = "redivis"
 
-    def __init__(self, owner: Optional[str] = None, dataset: str = "energy_research_warehouse",
-                 version: str = "next"):
+    def __init__(self, owner: Optional[str] = None, dataset: Optional[str] = None,
+                 version: str = "next", owner_kind: Optional[str] = None):
+        """Session 665 (chain 043): the Stanford dataset is an organization's, Datapages's `erw:b9wm`. Pass
+        owner="datapages", dataset="erw:b9wm", owner_kind="organization", or set ERW_REDIVIS_DATASET=datapages.erw:b9wm
+        (an organization's unless ERW_REDIVIS_OWNER_KIND=user). With neither, the owner's account and
+        energy_research_warehouse, as before."""
         os.environ.setdefault("REDIVIS_API_TOKEN", _secret("REDIVIS_API_TOKEN"))
         import redivis
+        named = os.environ.get("ERW_REDIVIS_DATASET", "").strip()
+        if dataset is None and named and "." in named:
+            owner, dataset = owner or named.split(".", 1)[0], named.split(".", 1)[1]
+            owner_kind = owner_kind or os.environ.get("ERW_REDIVIS_OWNER_KIND", "organization")
+        dataset = dataset or "energy_research_warehouse"
         self.owner = owner or _secret("REDIVIS_OWNER")
+        self.owner_kind = owner_kind or "user"
         self.dataset_name, self.version_tag = dataset, version
-        self.ds = redivis.user(self.owner).dataset(dataset, version=version)
+        account = redivis.organization(self.owner) if self.owner_kind == "organization" else redivis.user(self.owner)
+        self.ds = account.dataset(dataset, version=version)
         if not self.ds.exists():
             raise ERWDataNotFound(f"Redivis dataset {self.owner}.{dataset}:{version} does not exist")
         self._cache: Dict[str, pd.DataFrame] = {}
@@ -107,7 +137,16 @@ class RedivisBackend(Backend):
             if not t.exists():
                 raise ERWDataNotFound(f"No ERW table named {name!r} in {self.describe()}")
             types = {v.name: (v.properties or {}).get("type") for v in t.list_variables()}
-            df = t.to_pandas_dataframe(progress=False, dtype_backend="numpy")
+            try:
+                df = t.to_pandas_dataframe(progress=False, dtype_backend="numpy")
+            except Exception as exc:
+                # session 665: Redivis refuses a stream once a user has streamed 100 GB in 30 days ("Cannot stream more
+                # than 100GB ... Please use the export API instead"); the table is then read through its CSV export,
+                # typed as the stream would have typed it (the uploader's read_frame does the same)
+                if "Cannot stream more than" not in str(exc):
+                    raise
+                df = _read_by_export(t, types)
+                types = {c: v for c, v in types.items() if v in ("dateTime", "date")}  # numbers are text already
             self._cache[name] = _as_text(df, types)
         return self._cache[name].copy()
 
