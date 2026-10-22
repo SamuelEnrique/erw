@@ -22,10 +22,10 @@ Every run of every workflow from 2026-10-14T23:51:46Z to 2026-10-21T23:51:46Z wa
 | Precheck | `.venv/Scripts/python.exe scripts/precheck.py --what "session 578"` | 0 |
 | The earlier failures | `ERW_LOCK_EXEMPT=1 python -m unittest tests.test_session157 tests.test_session207 tests.test_session248 tests.test_session275 tests.test_session166` (77 tests) | 0 |
 | The new test | `ERW_LOCK_EXEMPT=1 python -m unittest tests.test_000_quiet_annotations -v` (5 tests) | 0 |
-| The whole suite as the runner runs it | SUITE_LINE | SUITE_EXIT |
+| The whole suite as the runner runs it | `GITHUB_ACTIONS=true ERW_LOCK_EXEMPT=1 python -m unittest discover -s tests` with the worktree's `.env` set aside (stdout and stderr to `runs/s578/suite_gha.*`; 5,601 tests, 626 s) | 1 (one error, below); `tests.test_session179` alone: 0 |
 | No em dash in the files written | `grep -c` of U+2014 in the three files | 0 matches |
 
-SUITE_NOTE
+The suite's run proves the fix on the whole discovery: the first line of its stdout is `::stop-commands::erw-suite-...`, the last is the same token resumed, and the 25 fixture lines (the same ones the runs of 15 to 21 October show as annotations) are all between them. Its one error is `setUpClass (test_session179.ThePageLibraryIsTheMirror)`: node crashed at its exit on Windows ("Assertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\winsync.c, line 94"), a libuv fault of this machine, not the change; the module run alone passes (32 tests, exit 0). The heavy run held `buildlock.py` as s578 and released it.
 
 ## Decisions made without you
 
@@ -41,7 +41,7 @@ None new. The review lists the items already waiting (pg_cron's background worke
 
 ## To finish
 
-TO_FINISH
+Nothing for this session. The landing is session 589's (the brief: no push to `main` or `task/` here). After it, the first `code-branch` run's annotations should hold none of the fixture lines (`network_hourly FAILED: RuntimeError: boom` and the rest): that is the proof on the runner.
 
 ## Files changed
 
