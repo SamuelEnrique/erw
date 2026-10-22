@@ -105,6 +105,8 @@ export function SeriesChart({ id, title, unit, categories, series, kind, scale, 
   // the labels under the columns: wrapped by words to the column; written on every k-th column when a line is wider
   // than a column (a line chart with many categories writes about ten); a sub-label only where it fits
   const lines = categories.map((c) => wrapLabel(c.label, bw - 4));
+  // session 584: a line of a category's label stays inside the drawing (a word wider than its column, "Columbia" in the
+  // last column of /impact's states, ran 5 px past the right edge at 390 px); one that fits is drawn as before
   const widest = Math.max(1, ...lines.flat().map((s) => textWidth(s)));
   const every = kind === "line" && n > 12 ? Math.ceil(n / 10) : Math.max(1, Math.ceil(widest / bw));
   const labelled = (i: number) => i % every === 0 || (every > 1 && i === n - 1 && (n - 1) % every >= every / 2);
@@ -192,7 +194,7 @@ export function SeriesChart({ id, title, unit, categories, series, kind, scale, 
                 })}
                 {over ? <path d={`M${x0 - 3},${TOP + 14} l${w / 4 + 1.5},-5 l${w / 4},5 l${w / 4},-5 l${w / 4 + 1.5},5`} fill="none" stroke="var(--color-surface)" strokeWidth="3" /> : null}
                 {textWidth(figure) <= bw * 1.5 ? <text x={cx(i)} y={(over ? TOP : y(capped(Math.max(up, useLog ? lo : 0)))) - 6} textAnchor="middle" fontSize="11" fill="var(--color-ink)">{figure}</text> : null}
-                {labelled(i) ? lines[i].map((s, j) => <text key={j} x={cx(i)} y={baseY + 16 + j * LINE} textAnchor="middle" fontSize="11" fill="var(--color-ink)">{s}</text>) : null}
+                {labelled(i) ? lines[i].map((s, j) => <text key={j} x={Math.max(Math.min(cx(i), W - 1 - s.length * 3.4), s.length * 3.4 + 1)} y={baseY + 16 + j * LINE} textAnchor="middle" fontSize="11" fill="var(--color-ink)">{s}</text>) : null}
                 {sub ? <text x={cx(i)} y={baseY + 16 + depth * LINE} textAnchor="middle" fontSize="10" fill="var(--color-muted)">{sub}</text> : null}
                 <title>{says ? says(i) : `${c.label}${c.sub ? ` (${c.sub})` : ""}: ${series.map((s) => `${s.name} ${s.values[i] === null ? "not held" : fmt(s.values[i]!)}`).join(", ")} ${unit}`}</title>
               </g>
@@ -211,7 +213,7 @@ export function SeriesChart({ id, title, unit, categories, series, kind, scale, 
                   </g>
                 );
               })}
-              {categories.map((c, i) => (labelled(i) ? lines[i].map((s, j) => <text key={`${c.label}-${j}`} x={cx(i)} y={baseY + 16 + j * LINE} textAnchor="middle" fontSize="11" fill="var(--color-ink)">{s}</text>) : null))}
+              {categories.map((c, i) => (labelled(i) ? lines[i].map((s, j) => <text key={`${c.label}-${j}`} x={Math.max(Math.min(cx(i), W - 1 - s.length * 3.4), s.length * 3.4 + 1)} y={baseY + 16 + j * LINE} textAnchor="middle" fontSize="11" fill="var(--color-ink)">{s}</text>) : null))}
             </>
           )}
         </svg>

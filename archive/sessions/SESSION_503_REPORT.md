@@ -53,3 +53,12 @@ Then land `wip/503-fresh-suite` with chain 023's other branches (it stands on `w
 - `tests/test_session503.py` (new).
 - This report.
 - Not in git: `runs/chain_023/s503/` (the precheck, the test outputs, the stopped runner).
+
+## Finished (session 506)
+
+Done by session 506 on the old laptop (samueloldlaptop), 21 October 2026, in a fresh worktree `C:\Users\lossa\Documents\erw-506c` of `wip/506-combined` at `4b374862` (chain 023's ten branches on `wip/429-combined` with main of 22:06 UTC merged), `.env` copied, under the build lock, `ERW_LOCK_EXEMPT=1`:
+
+- **With no `node_modules`**: 5,573 tests in 461 s, 295 skipped, **2 failures**; exit 1.
+- **After `npm ci` in `site/`**: 5,585 tests in 553 s, 270 skipped, **the same 2 failures**; exit 1. The node tests ran: the loader wrote `site/content/docs.json` and `waits.json` itself, and no test failed for a generated file.
+- **The two failures were faults of the merge, not of a fresh worktree**, and fail on no other checkout: `test_session301` (`site/scripts/check-holds.mjs`, session 505, imported `unlockPost` by a dynamic import, where session 301 asks every script that opens the internal view to name its door in a static import) and `test_session378` (session 505's section of `docs/licenses.md` came after the publishers' prices, which session 378 requires to close the document). Both fixed on the branch (`0bbe66e7`), their tests OK; the whole suite again in a clean copy before the landing is in session 506's report.
+- This laptop's known blocks (`test_session102`'s scipy, `test_session185`'s temporary `.venv`) did not fail here: they were portable-laptop's.

@@ -53,3 +53,9 @@ Every gate redirected into `runs/chain_023/s501/` (outside git), never piped; th
 - `tests/test_session501.py` (new); `tests/test_session464.py` and `tests/test_session196.py` (their pins follow).
 - This report.
 - Not in git: `runs/chain_023/s501/` (the precheck, the tests, the probe, the build and checks).
+
+## Finished (session 506)
+
+Done by session 506 on the old laptop (samueloldlaptop), 21 October 2026, on `wip/506-combined`: `wip/429-combined` with origin/main (chain 024 landed) merged, then `wip/430-check-values` to `wip/505-check-holds` in session order, three conflicts resolved (`check-values.mjs`'s whole-MW rule, `site/lib/supabase.ts` with session 537's retry, `docs/machines.md`; `energy_deals.md` kept both sections). One build of that branch served every report's checks, not one build a branch: the branch holds each session's work, and a build takes the database's time. `scripts/db_probe.py` 0 (0.63 s), the build lock `scripts/buildlock.py acquire s506` (session 504's, on the branch), the build exit 0 with no statement timeout, served on port 3506. The session tests of 430 to 505 and 531 to 541, with 402, 418, 464, 470 and 196: 258 tests OK.
+
+- check-cross-checks 0 on the build: 77 of 77, the battery page's line reads "Checked against: 25 published figures" and the note's table holds the 25 rows the page counts. check-values on `/cost-of-power/battery` within the full run: every value equal, no value moved.

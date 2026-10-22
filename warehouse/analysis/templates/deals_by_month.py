@@ -10,6 +10,11 @@ ABOUT = "coverage"  # session 119: a count of what the ERW itself has collected,
 PARAMS = {"months": {"default": 12, "choices": [6, 12]}, "ai_power": {"default": "all", "choices": ["all", "ai_power"]}}
 TABLES = ["energy_deals"]
 TYPES = ["m_and_a", "fuel_supply", "equity_raise", "debt", "project_finance", "ppa", "offtake", "joint_venture"]
+# Session 577 (roundup audit fix 10): each type in words, as the deal tracker labels it (site/lib/deals2.ts) and the Roundup's
+# deal table does (warehouse/news/roundup.py DEAL_LABEL); W40's legend and note printed "m and a"
+LABEL = {"m_and_a": "acquisition", "fuel_supply": "fuel supply", "equity_raise": "equity raise", "debt": "debt",
+         "project_finance": "project finance", "ppa": "power purchase agreement", "offtake": "offtake",
+         "joint_venture": "joint venture", "other": "other"}
 METHOD = """The deals in energy_deals (extracted from scored news by warehouse/deals/extract.py, every number checked
 against its story) counted by the calendar month of their event date (UTC) and deal type; types outside the eight most
 common are counted as other. With ai_power, only the deals tagged as AI-power deals. A month counts once it has ended.
@@ -41,9 +46,9 @@ def compute(months=12, ai_power="all", history=True):
     top = max(use, key=lambda m: totals[m])
     lead = ct.loc[use, kinds].sum().idxmax()
     chart = {"kind": "bar", "stacked": True, "x": use, "x_label": "Month (UTC)", "y_label": "Deals",
-             "series": [{"name": k.replace("_", " "), "values": [int(ct.loc[m, k]) for m in use]} for k in kinds]}
+             "series": [{"name": LABEL.get(k, k.replace("_", " ")), "values": [int(ct.loc[m, k]) for m in use]} for k in kinds]}
     facts = [f"From {use[0]} to {use[-1]}, the most deals in a month were {int(totals[top])} in {top}; the most common type "
-             f"was {lead.replace('_', ' ')}, with {int(ct.loc[use, lead].sum())}.",
+             f"was {LABEL.get(lead, lead.replace('_', ' '))}, with {int(ct.loc[use, lead].sum())}.",
              f"Deals in {cur[0]}: {cur[1]}."]
     title = "Energy deals in the news, by month" + (" (AI power)" if ai_power == "ai_power" else "")
     return result(NAME, {"months": months, "ai_power": ai_power}, title,

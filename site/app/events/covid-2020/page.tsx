@@ -118,7 +118,7 @@ export default async function Covid() {
                 const deepAfter = lowest(d.weeks, g.entity, AFTER);
                 return (
                   <div key={g.entity}>
-                    <h3 className="mb-1 text-base">{g.slug ? <Link href={`/grid/${g.slug}`}>{g.name}</Link> : g.name}</h3>
+                    <h3 className="mb-1 text-base">{g.slug ? <Link href={`/grid?grid=${g.slug}`}>{g.name}</Link> : g.name}</h3>
                     <LineChart
                       lines={[
                         { label: "2020", color: "accent", points: points(d.demand, g.entity, in2020) },

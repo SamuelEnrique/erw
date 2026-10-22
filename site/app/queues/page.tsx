@@ -135,7 +135,7 @@ export default async function Queues({ searchParams }: { searchParams: Promise<R
       <ToolHeader title="The interconnection queue"
         lead={<>Before a power plant or a battery can connect to the grid it waits in a queue for a study and an agreement. Choose a grid and a technology: how much capacity is waiting and since when,
           what became of the requests of earlier years, and how long the ones that were built took. From Berkeley Lab and GridTracker&apos;s record of every request, through the end of {file.last_year}.
-          See also <SiteLink href="/storage/buildout">the storage build-out</SiteLink> and <SiteLink href="/map">the project map</SiteLink>.</>} />
+          See also <SiteLink href="/storage?tab=buildout">the storage build-out</SiteLink> and <SiteLink href="/map">the project map</SiteLink>.</>} />
       <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
         <aside>
           <InputPanel title="Choose" note={<>Requests through the end of {file.last_year}. A request is counted once, under the operator whose queue holds it.</>}>

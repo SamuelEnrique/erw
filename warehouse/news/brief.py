@@ -410,7 +410,8 @@ CURRENCY = [(r"US\$|USD ?", "USD"), (r"C\$|CAD ?", "CAD"), (r"A\$|AUD ?", "AUD")
             (r"\u00a3|GBP ?", "GBP"), (r"\$", "USD")]
 SCALE = {"billion": "billion", "bn": "billion", "b": "billion", "million": "million", "mn": "million", "mm": "million",
          "m": "million", "trillion": "trillion", "tn": "trillion", "k": "thousand", "thousand": "thousand"}
-MONEY = re.compile(r"(C\$|A\$|US\$|USD ?|CAD ?|AUD ?|EUR ?|GBP ?|\$|\u20ac|\u00a3)\s?(\d[\d,]*(?:\.\d+)?)(?:\s?"
+# session 577: a currency code is not read inside a word ("amateur 5", "arcade 3"), now that why lines go through this too
+MONEY = re.compile(r"(?<![A-Za-z])(C\$|A\$|US\$|USD ?|CAD ?|AUD ?|EUR ?|GBP ?|\$|\u20ac|\u00a3)\s?(\d[\d,]*(?:\.\d+)?)(?:\s?"
                    r"(billion|bn|million|mn|mm|trillion|tn|thousand|k|b|m)\b)?", re.I)
 
 
@@ -449,6 +450,20 @@ def plain(text):
     t = re.sub(rf"\b(an|a)\s+{HYPE}\s+(\w+)", article, str(text), flags=re.I)
     t = re.sub(rf"(^|(?<=[.!?] )){HYPE}\s+(\w)", lambda m: m.group(1) + m.group(2).upper(), t, flags=re.I)
     return re.sub(rf"\b{HYPE}\s+", "", t, flags=re.I)
+
+
+def why_line(text):
+    """Session 577 (digest audit fixes 8 and 9, as session 470 left them): the scorer's reason as an issue prints it: the
+    adjectives docs/voice.md cuts taken out (plain), each sum of money in the one style (money_style: the "$3.2bn" and
+    "$45 Billion" of the why lines, not only the price field), and a stop at its end, so the figures or the links that
+    follow do not run on from it ("affecting global oil markets and prices parties: Iran.", 20 October, top 8)."""
+    t = money_style(plain(text)).strip()
+    # "an $800MM loan" was right as written; as "USD 800 million" the article follows the code as it is said
+    t = re.sub(r"\b([Aa])n? (USD|CAD|EUR|GBP|AUD)\b",
+               lambda m: m.group(1) + ("n " if m.group(2) == "AUD" else " ") + m.group(2), t)
+    if t and not re.search(r"[.!?][\"'”)\]]*$", t):
+        t += "."
+    return t
 
 
 def detail(r):
@@ -649,7 +664,7 @@ def policy_actions_lines(start, end, log, n=3):
     a = a.sort_values(["sig", "event_date"], ascending=[False, False]).head(n)
     kinds = {"rule": "final rule", "proposed_rule": "proposed rule", "notice": "notice", "press_release": "news release"}
     log(f"  policy actions: {len(a)} scored 5 or more in the window")
-    return [f"- {r['title']} ({r['agency']} {kinds.get(r['action_type'], r['action_type'])}, policy action): {plain(r['why'])} "
+    return [f"- {r['title']} ({r['agency']} {kinds.get(r['action_type'], r['action_type'])}, policy action): {why_line(r['why'])} "
             f"[{r['agency']}]({r['source_url']})" for r in a.to_dict("records")]
 
 
@@ -875,7 +890,7 @@ def main(argv=None):
              "## Top of the industry", ""]
         for i, r in enumerate(top10.to_dict("records"), 1):
             L.append(f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')})  ")
-            L.append(f"   {plain(r['why'])} {detail(r)}Sources: {link_text(r['links'])}")
+            L.append(f"   {why_line(r['why'])} {detail(r)}Sources: {link_text(r['links'])}")
         L += ["", "## By sector", ""]
         for g, c in by_group.items():
             L.append(f"**{g}**")
@@ -883,7 +898,7 @@ def main(argv=None):
             if c.empty:
                 L.append("- no scored story in this group today")
             for r in c.to_dict("records"):
-                L.append(f"- {heads[r['cluster_id']]} ({r['sector'].replace('_', ' ')}): {plain(r['why'])} {link_text(r['links'][:1])}")
+                L.append(f"- {heads[r['cluster_id']]} ({r['sector'].replace('_', ' ')}): {why_line(r['why'])} {link_text(r['links'][:1])}")
             if g == "Policy":
                 L += without_repeats(policy_actions_lines(now - pd.Timedelta(hours=args.hours), now, log), L, log)
             L.append("")
@@ -891,7 +906,7 @@ def main(argv=None):
         if ai.empty:
             L.append("- no further story on AI and power today (any such story is listed above)")
         for r in ai.to_dict("records"):
-            L.append(f"- {heads[r['cluster_id']]} ({r['sector'].replace('_', ' ')}): {plain(r['why'])} "
+            L.append(f"- {heads[r['cluster_id']]} ({r['sector'].replace('_', ' ')}): {why_line(r['why'])} "
                      f"{link_text(r['links'][:1])}")
         nums = numbers_today(digest_date, log)
         summary, su = (None, []) if args.no_model else numbers_summary(client, model, nums, log)

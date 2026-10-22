@@ -65,3 +65,11 @@ Known before the run: `dcq|ercot|-|active_mw` on `/datacenters?view=grids` reads
 - `tests/test_session425.py` (the pin).
 - This report.
 - Not in git: `runs/chain_023/s429/` (the merges, the tests, the suite, the build, the stopped check-values).
+
+## Finished (session 506)
+
+Done by session 506 on the old laptop (samueloldlaptop), 21 October 2026, on `wip/506-combined`: `wip/429-combined` with origin/main (chain 024 landed) merged, then `wip/430-check-values` to `wip/505-check-holds` in session order, three conflicts resolved (`check-values.mjs`'s whole-MW rule, `site/lib/supabase.ts` with session 537's retry, `docs/machines.md`; `energy_deals.md` kept both sections). One build of that branch served every report's checks, not one build a branch: the branch holds each session's work, and a build takes the database's time. `scripts/db_probe.py` 0 (0.63 s), the build lock `scripts/buildlock.py acquire s506` (session 504's, on the branch), the build exit 0 with no statement timeout, served on port 3506. The session tests of 430 to 505 and 531 to 541, with 402, 418, 464, 470 and 196: 258 tests OK.
+
+- The full check-values run on the build (session 430's batched form, now on the branch): **6,457 of 6,457 values match**, 152 of 152 pages read in 6.2 minutes, none timed out; 10 floors fail, exactly session 408's ten held floors (`/deals`, `/map`, `/events` and five event pages, `/learn/bill`, `/research/card/gas_sets_price`), each showing "license needed" in place: a pass for a landing by the chain's rule. Exit 1 for those ten.
+- check-routes 0 (1 live page and 225 in review asked as a visitor, 0 failed); check-cross-checks 0 (77 of 77); check-analysis 0 (279 of 279); check-internal-waits 0 (31 of 31); check-csp 0 (97 pages, 0 violations).
+- The landing: session 506's report (`archive/sessions/SESSION_506_REPORT.md`).
