@@ -23,10 +23,17 @@ the draft is new**:
   `erw_sources` 395 rows): every table whose ERW verdict in `docs/licenses.md` is `public`. The reconcile of this
   session: 188 of 188 match their CSVs (the 186 and `erw_coverage`, `erw_sources`), 45,817,197 rows.
 - **The starter table** stays, as v1.0 held it.
-- **Not in it:** 54 internal tables and 50 unsettled ones (`docs/reviews/redivis-v1-plan-2026-10-23.md` lists them), and
-  the four tables this chain wrote (`utility_service_territories`, `interconnection_durations`,
-  `interconnection_durations_summary`, `grid_peak_vs_capacity`), which session 680 uploads; `tables.csv` marks them
-  `held` until then.
+- **Not in it:** 54 internal tables and 50 unsettled ones (`docs/reviews/redivis-v1-plan-2026-10-23.md` lists them).
+
+**Session 680 added the chain's four public tables**, each proved: `utility_service_territories` (11,893 rows),
+`interconnection_durations` (3,098), `interconnection_durations_summary` (1,365), `grid_peak_vs_capacity` (56), with their
+header lines merged into `erw_headers` (2,736 lines). The draft now holds **190 public tables** (45,833,616 rows by the
+CSVs), and `docs/redivis/release-v1-stanford/` lists 193 in v1 with the metadata tables, none held. **Before the click,
+`erw_coverage` and `erw_sources` need one refresh**: the draft's copies were uploaded before the four tables (290 and 395
+rows against 294 and 398 now; session 680's reconcile names exactly those two), and session 680's ceiling did not allow
+it. After this branch lands, one command does it:
+`python warehouse/redivis/upload.py --target stanford --prove-by-listing grid_peak_vs_capacity` (a plain upload sends the
+metadata tables after the table).
 
 **The daily run the draft holds:** the data machine's tables as of 21 and 22 October 2026 (111 tables last run on 21
 October, 19 on 22 October); 30 were last run here before 15 October (below).
