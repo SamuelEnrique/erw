@@ -41,7 +41,16 @@
 
 ## The landing
 
-Sessions 700 to 705 land in one push from this branch; the landing section follows below once it is done.
+Sessions 700 to 705 landed in one push from this branch (`task/700-705-allgrids`, commit `4ee888a1`).
+
+- **The gate** (`scripts/land_check.py --ref wip/705-allgrids`, at `3bdb8729`):
+  - suite 5,839 tests OK (the first gate, on `wip/702-allgrids`, failed one: `test_session215` did not know the `allgrids` prefix; mended on 702's branch);
+  - build 0;
+  - check-values 12,541 of 12,541 values. The eleven floors that failed are the ten held pages the gate forgives, and `/digest`: no Digest for 22 October before the 14:00 UTC run, and production fails the same (`CHECK_VALUES_PAGES=/digest` against production, exit 1, the same floor).
+  - The gate stops at its first failure, so its last three steps were run on a build of the same commit: check-routes 0 (225 pages in review asked as a visitor, 0 failed), check-cross-checks 0 (77), check-csp 0 (97 pages).
+- **Merged and pushed**: origin/main's two commits since the gate (the personal laptop's periodicals plan: docs only) were merged before the push. The freeze status was 0, and no other `task/` branch was in flight.
+- **Snapshots**: `s705-before` at 09:56 UTC. GitHub merged the branch at 10:09 UTC (`b25a5c66`), and production served the All grids tab at 10:20 UTC. `s705-after` at 10:21 UTC; `compare s705-before s705-after`: **0 differences** on 25 pages (every page is in review, so a visitor sees the in-review page). Expected: nothing a visitor sees changed.
+- The merged `wip/700` to `wip/705` branches were deleted on GitHub.
 
 ## Decisions made without you
 

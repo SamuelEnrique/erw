@@ -21,7 +21,9 @@ export function files() {
       return years.get(grid);
     };
     cached = { index, nodes: read("siting", "nodes.json"), years: yearsOf, cp: read("siting", "ercot_4cp.json"), rate: null, cap: read("siting", "capacity.json"),
-      connect: read("siting", "connect.json"), rules: read("datacenter", "rules.json"), status: read("large_load_status.json"), waits: read("datacenter", "how_soon.json") };
+      connect: read("siting", "connect.json"), rules: read("datacenter", "rules.json"), status: read("large_load_status.json"), waits: read("datacenter", "how_soon.json"),
+      demand: read("demand_growth.json"), headroom: read("siting", "headroom.json"), carbon: read("siting", "carbon.json"),
+      utility: read("siting", "utility.json") };
   }
   return cached;
 }
