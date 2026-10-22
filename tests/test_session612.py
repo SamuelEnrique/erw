@@ -33,6 +33,9 @@ class TheYear(unittest.TestCase):
         # sessions 620 and 621: 2024 the same way
         self.assertIn("  - eia930_subba_demand_hourly_2024\n", y[y.index("catalogue_hold:"):])
         self.assertIn("upload.py eia930_subba_demand_hourly_2024", R.STORAGE_HELD["eia930_subba_demand_hourly_2024"])
+        # sessions 627 and 628: 2023 the same way
+        self.assertIn("  - eia930_subba_demand_hourly_2023\n", y[y.index("catalogue_hold:"):])
+        self.assertIn("upload.py eia930_subba_demand_hourly_2023", R.STORAGE_HELD["eia930_subba_demand_hourly_2023"])
 
     def test_no_em_dash(self):
         with open(os.path.join(ROOT, "tests", "test_session612.py"), encoding="utf-8") as h:
