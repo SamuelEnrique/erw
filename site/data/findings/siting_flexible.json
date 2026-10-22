@@ -1,0 +1,158 @@
+{
+ "id": "siting_flexible",
+ "card_id": "siting_flexible",
+ "title": "WHAT STEPPING OFF SAVES",
+ "kind": "visual",
+ "engine": "site/scripts/siting-card.mjs",
+ "subtitle": "A 1 GW flexible compute load at ERCOT's 14 hubs and load zones: off at the four summer peaks and at or above USD 1,000 per MWh, against a flat load",
+ "params": {
+  "mw": 1000,
+  "profile": "flexible",
+  "strike": 1000
+ },
+ "inputs_words": {
+  "mw": "1,000 MW",
+  "profile": "Flexible compute: 0.90, off in ERCOT's four summer peaks and at or above USD 1,000 per MWh"
+ },
+ "chart": {
+  "kind": "bars_free",
+  "x": [
+   "LZ_SOUTH",
+   "LZ_HOUSTON",
+   "HB_HOUSTON",
+   "HB_SOUTH",
+   "HB_HUBAVG",
+   "HB_BUSAVG",
+   "HB_NORTH",
+   "LZ_RAYBN",
+   "LZ_NORTH",
+   "LZ_LCRA",
+   "HB_WEST",
+   "LZ_WEST",
+   "LZ_AEN",
+   "LZ_CPS"
+  ],
+  "x_label": "ERCOT hub or load zone, by the saving, smallest first",
+  "series": [
+   {
+    "name": "All-in, a flat load (datacenter)",
+    "type": "bar",
+    "unit": "USD per MWh",
+    "values": [
+     42.265250114155265,
+     43.3081850456621,
+     43.04616906392695,
+     42.374707876712336,
+     42.12709029680367,
+     42.22352979452056,
+     42.25699440639271,
+     43.430343721461185,
+     43.151433904109595,
+     46.57294874429223,
+     40.830431621004564,
+     45.20621130136986,
+     46.605199885844755,
+     46.68956289954336
+    ]
+   },
+   {
+    "name": "All-in, flexible compute",
+    "type": "bar",
+    "unit": "USD per MWh",
+    "values": [
+     33.66054711593377,
+     34.17870871900354,
+     33.9059296080448,
+     33.22905496514684,
+     32.24862451406358,
+     32.31910930711183,
+     32.24533844042992,
+     33.37874342556597,
+     33.07735879259089,
+     36.40564943974387,
+     30.643360393322663,
+     34.97051223416419,
+     36.24152201257861,
+     35.91117324185247
+    ]
+   }
+  ],
+  "y_left_label": "USD per MWh",
+  "decimals": 2
+ },
+ "callouts": [
+  {
+   "label": "Saved all-in, USD per MWh, least and most",
+   "before": {
+    "period": "ERCOT LZ_SOUTH",
+    "text": "8.60"
+   },
+   "after": {
+    "period": "ERCOT LZ_CPS",
+    "text": "10.78"
+   },
+   "unit": ""
+  },
+  {
+   "label": "Hours given up in the twelve months, fewest and most",
+   "before": {
+    "period": "ERCOT LZ_SOUTH",
+    "text": "5"
+   },
+   "after": {
+    "period": "ERCOT LZ_CPS",
+    "text": "15"
+   },
+   "unit": ""
+  },
+  {
+   "label": "All-in at HB_HUBAVG, USD per MWh, flat and flexible",
+   "before": {
+    "period": "flat",
+    "text": "42.13"
+   },
+   "after": {
+    "period": "flexible",
+    "text": "32.25"
+   },
+   "unit": ""
+  }
+ ],
+ "why": "A 1 GW load that steps off in ERCOT's four summer peak intervals and in every hour at or above USD 1,000 per MWh gave up 5 to 15 hours of the last twelve whole months, row by row, and paid USD 8.60 (LZ_SOUTH) to USD 10.78 (LZ_CPS) per MWh less all-in than a flat load at the same row. At HB_HUBAVG: USD 32.25 against 42.13. Most of the saving is the four-peak transmission charge, which a load off at the four peaks does not pay; the rest is the dearest hours' energy. All-in is energy over the hours the load runs, the four-peak charge at the Commission's rate, and capacity, of which ERCOT has none.",
+ "footnote": "Data: the All grids tab of \"What a datacenter pays\" (/cost-of-power?view=allgrids&profile=flexible&mw=1000), computed by site/lib/siting.ts from the page's own files: the hourly hub and zone prices (ercot_all_hub_prices_history, ercot_zone_prices_history), ercot_4cp_intervals and the Commission's approved rate (texas_transmission_matrix). Method: docs/methods/siting.md. The replication: warehouse/replication/siting.py.",
+ "numbers": {
+  "rows": 14,
+  "strike": 1000,
+  "saved_least": 8.604702998221498,
+  "saved_least_row": "ercot:LZ_SOUTH",
+  "saved_most": 10.778389657690894,
+  "saved_most_row": "ercot:LZ_CPS",
+  "lost_fewest": 5,
+  "lost_fewest_row": "ercot:LZ_SOUTH",
+  "lost_most": 15,
+  "lost_most_row": "ercot:LZ_CPS",
+  "hub_row": "ercot:HB_HUBAVG",
+  "hub_flat": 42.12709029680367,
+  "hub_flex": 32.24862451406358
+ },
+ "source_line": "Source: ERW, the All grids tab (/cost-of-power?view=allgrids&profile=flexible), from ERCOT's hourly prices and four-peak intervals and the PUCT's transmission matrix.",
+ "tables": [
+  "ercot_all_hub_prices_history",
+  "ercot_zone_prices_history",
+  "ercot_4cp_intervals",
+  "texas_transmission_matrix"
+ ],
+ "computed_at": "2026-10-22T15:36:45Z",
+ "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/siting.md",
+ "downloads": {
+  "csv": "siting_flexible.csv",
+  "python": "",
+  "stata": ""
+ },
+ "csv_sha256": "",
+ "csv_header": [
+  "Energy Research Warehouse (ERW): finding siting_flexible, WHAT STEPPING OFF SAVES",
+  "Computed by site/scripts/siting-card.mjs from site/lib/siting.ts (the All grids tab); method docs/methods/siting.md",
+  "Rows: one per ERCOT hub or load zone, a 1 GW load: the all-in figure flat and flexible (off at the four summer peaks and at or above USD 1000 per MWh), USD per MWh, the saving, the hours given up and run"
+ ]
+}
