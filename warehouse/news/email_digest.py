@@ -295,6 +295,12 @@ def render(path, kind, stories=None, note=None, unsubscribe=None):
         t += [md_inline_text(gate_links(x, gates)), ""]
         h.append(SMALL.format(f"<p style=\"color:#6B665E\">{md_inline_html(gate_links(x, gates))}</p>"))
     if kind == "roundup":  # session 23: the weekend's stories open the Roundup
+        # session 810: the week in five numbers (session 806) opens the email as it opens the page
+        five = [site_links(gate_links(x, gates), site or SITE_DEFAULT) for x in section(lines, ("## The week in five numbers",))]
+        if any(x.strip() for x in five):
+            ft, fh = block(five, img_base=f"docs/{rel}")
+            t += ["The week in five numbers", ""] + ft + [""]
+            h += [H2.format("The week in five numbers"), SMALL.format(fh)]
         wk = numbered(lines, ("## Weekend",), 5)
         wt, wh = story_list(wk)
         t += ["Weekend", ""] + (wt or ["No scored story was published on the weekend."]) + [""]

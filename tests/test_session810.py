@@ -74,6 +74,21 @@ class TheEmailAt390(unittest.TestCase):
         self.assertIn("  ISO: ERCOT; Hub or zone: HB_NORTH; Operating day: 2026-10-20; Average USD/MWh: 28.38; Table: [1]; Day before USD/MWh: 23.41; Change: +4.97 (+21.2%)", text)
         self.assertNotIn("overflow", text)
 
+    def test_the_roundup_email_opens_with_the_week_in_five_numbers(self):
+        md = ("# ERW's Roundup, 2026-W43\n\nERW's weekly roundup for 2026-10-19 to 2026-10-25, from 680 scored stories.\n\n"
+              "## The week in five numbers\n\n- **US48 peak demand:** 519,415 MW in the hour starting 2026-10-20 22:00 UTC [6].\n\n"
+              "## Weekend\n\n- no scored story was published on 2026-10-24 or 2026-10-25 (UTC).\n\n## The five stories of the week\n\n"
+              + "".join(f"{i}. **S{i}** (oil, 1 story)  \n   Why. Sources: [X](https://example.org/{i})\n" for i in range(1, 6))
+              + "\n## ERW's Numbers This Week\n\n**US48 peak demand of the week:** 519,415 MW in the hour starting 2026-10-20 22:00 UTC [6].\n\nTables: [6] `eia930_all_demand` (x).\n\nERW\n\n---\n")
+        with tempfile.TemporaryDirectory() as d:
+            p = os.path.join(d, "roundup.md")
+            with open(p, "w", encoding="utf-8") as f:
+                f.write(md)
+            _, _, text, html = email_digest.render(p, "roundup", unsubscribe="x")
+        self.assertLess(text.index("The week in five numbers"), text.index("Weekend"))
+        self.assertIn("US48 peak demand: 519,415 MW in the hour starting 2026-10-20 22:00 UTC [6].", text)
+        self.assertIn("<h2 style=\"font-size:16px;margin:16px 0 8px\">The week in five numbers</h2>", html)
+
     def test_the_page_s_tables_scroll(self):
         with open(os.path.join(ROOT, "site", "app", "globals.css"), encoding="utf-8") as f:
             css = f.read()
