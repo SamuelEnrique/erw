@@ -130,3 +130,7 @@ The page is `/cost-of-power?view=allgrids` (in review, the internal view). Its m
 All 19 items are **not ruled** (`docs/reviews/siting-rulings-answered.md`, sessions 745 and 747 to 750: no answer in this file, in `docs/state/`, in the owner's commits or in `queue/`). Nothing was done ahead of a ruling. Chain 063 adds no new item: its one new figure, the node's intraday swing (746), is the table's own and needed none.
 
 To answer, write under an item "Answer: ..." in this file (or in a note of yours); the next chain's session 767 reads it there and its sessions 768 to 770 do the answered items in number order.
+
+## The state of each item (session 785, chain 064, 22 October 2026, late)
+
+All 19 items, and the 20th (which parts of the personal laptop's run of chain 062 to take, `docs/reviews/siting-rulings-answered.md`), are **not ruled** (767). Nothing was done ahead of a ruling. Chain 064 adds no new item.
