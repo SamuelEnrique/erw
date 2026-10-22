@@ -14,7 +14,10 @@
 
 ## The landing
 
-On `task/660-683-redivis-gaps` (merged with origin/main at session 705's landing), with rule 8's snapshots: the lines are in the landing's commit message and below once the deployment is read.
+On `task/660-683-redivis-gaps` (merged with origin/main at session 705's landing), pushed at 10:30 UTC; the checks passed (run 39763609984, the whole suite, the site build and check-routes) and merged it as `8eccd1f3` at 10:43 UTC. `scripts/freeze.py status`: no freeze.
+
+- **Vercel did not deploy it:** the merge's commit status reads "Deployment rate limited, retry in 24 hours" (10:42:50 UTC). The site is as it was, and the next push that Vercel takes deploys this chain with it.
+- **Rule 8's snapshots:** the queue file's push (`8b993852`): `q044-before` against `q044-after`, 0 differences (it deployed). The landing: `q044-after` (its before) against `c043-after`, taken after the rate-limited merge, 0 differences, as expected with no deployment. Every page is in review.
 
 ## Decisions made without you
 
