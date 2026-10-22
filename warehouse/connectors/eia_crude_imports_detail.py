@@ -20,7 +20,7 @@ so does a key given twice.
 
     python warehouse/connectors/eia_crude_imports_detail.py [--from 2011-01] [--offline | --fresh]
 
-Ceiling: 37 requests a run (pages of 5,000, 3 seconds apart; a page an earlier run saved in warehouse/raw is reused
+Ceiling: 19 requests a run (pages of 5,000, 3 seconds apart; a page an earlier run saved in warehouse/raw is reused
 unless --fresh; --offline asks nothing). From 2011: the country origins hold 191,815 records from 2009, beyond session
 632's ceiling. License: public (EIA, record 1 of license_reads.csv; cite "U.S. Energy Information Administration,
 Company Level Imports").
@@ -45,7 +45,7 @@ CONNECTOR = "eia_crude_imports_detail"
 SOURCE = "eia:crude-oil-imports"
 API = "https://api.eia.gov/v2/crude-oil-imports/"
 PAGE = "https://www.eia.gov/petroleum/imports/companylevel/"
-CEILING, PAUSE, RETRY_WAIT = 37, 3, 60   # session 632: three of 40 went to the probes
+CEILING, PAUSE, RETRY_WAIT = 19, 3, 60   # session 636: session 632 saved 29 pages; about 6 are left
 FIRST = "2011-01"
 DESTINATIONS = {"US", "PP", "PS", "PT", "RP", "RS", "RF"}   # the U.S., port PADD, port state, port, refinery PADD, state, refinery
 GRADES = {"LSW", "LSO", "MED", "HSW", "HSO"}
@@ -143,18 +143,25 @@ def main(argv=None):
             offset += len(resp["data"])
             if offset >= total or len(resp["data"]) < 5000:
                 break
-        if offset != total:
-            raise RuntimeError(f"{offset:,} rows read of the {total:,} EIA counts")
         s = pd.concat([f for f in frames if len(f)], ignore_index=True)
         if s.duplicated(["entity", "variable", "ts_utc"]).any():
             raise RuntimeError("a row on two pages")
         s = s[ip.SERIES_COLS]
         span = f"{s['ts_utc'].min()[:7]} to {s['ts_utc'].max()[:7]}"
+        # session 636: EIA's total counts more records than its pages hold (160,665 against 154,779 on 22 October 2026, the
+        # last page short and ending at the latest month, as EIA's plant outages route did): a short read is taken only when
+        # every month from the first to the last is there; a month missing stops the run
+        months = pd.period_range(s["ts_utc"].min()[:7], s["ts_utc"].max()[:7], freq="M").strftime("%Y-%m")
+        missing = sorted(set(months) - set(s["ts_utc"].str[:7]))
+        if missing:
+            raise RuntimeError(f"{len(missing)} months with no row, from {missing[0]}: {offset:,} rows read of the {total:,} EIA counts")
+        if offset != total:
+            log(f"  EIA counts {total:,} records; its pages hold {offset:,}, every month from {span} there")
         header = [
             "Energy Research Warehouse (ERW): EIA, crude oil imports by country of origin, destination and grade, a month (session 632)",
             "Shape: series (docs/datastandard.md v0). entity eia_crude_imports:<originId>:<destinationId>:<gradeId>; variable imports (kbbl); ts_utc the month's first day; freq P1M; "
             "node the origin, destination (with its type) and grade in EIA's names. Destinations nest (refinery, state, PADD, the U.S.): a sum takes one destination type. Countries only: EIA's region, OPEC and world origins are their sums.",
-            f"A blank has no row; nothing is filled. Months {span}; {total:,} records of EIA's, {len(s):,} rows.",
+            f"A blank has no row; nothing is filled. Months {span}, every month there; EIA counts {total:,} records and its pages hold {offset:,}; {len(s):,} rows.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/eia_crude_imports_detail.py; {asked[0]} requests of {CEILING}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",

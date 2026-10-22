@@ -1770,6 +1770,7 @@ eia_coal_prices_annual,price,series variable,USD/short_ton
 eia_coal_trade_price_annual,price,series variable,USD/short_ton
 eia_crude_first_purchase_prices,first_purchase_price,series variable,USD/bbl
 eia_crude_imports_by_country,imports,series variable,kbbl/d
+eia_crude_imports_detail_monthly,imports,series variable,kbbl
 eia_crude_production_state_monthly,field_production,series variable,kbbl
 eia_crude_production_state_monthly,field_production_per_day,series variable,kbbl/d
 eia_crude_reserves_annual,acquisitions,series variable,kbbl
