@@ -124,7 +124,7 @@ Four changes, written and tested with no question asked. What each did to the 10
 
 ## Four pages more (session 153, 8 October 2026)
 
-Ask ERCOT reads what stands behind four pages built in the week of 5 October 2026: [What a datacenter pays](/cost-of-power), [Curtailment](/curtailment) with "Where free energy is", [What a generator earns](/cost-of-power/seller) for the capture price, and [Where the resources are](/resources). No table was loaded for it and no page changed.
+Ask ERCOT reads what stands behind four pages built in the week of 5 October 2026: [What a datacenter pays](/cost-of-power), [Curtailment](/curtailment) with "Where free energy is", [What a generator earns](/cost-of-power/seller) for the capture price, and [Where the resources are](/map?tab=resources). No table was loaded for it and no page changed.
 
 **Where each figure is read from.** Everything those pages show comes from one of four kinds of source, and each kind is read in its own way.
 

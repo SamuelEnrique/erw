@@ -15,3 +15,13 @@ export function companyKey(name: string): string {
 export function companyAnchor(name: string): string {
   return "co-" + companyKey(name).replace(/ /g, "-");
 }
+
+/** Session 581: a company's website as the table links it. energy_companies writes most as a bare domain ("amperon.co"),
+ * which a link reads as a page of this site (/amperon.co, a 404): a bare domain is opened over https. A value that is
+ * not an address ("not disclosed") is no link: null. An address with its scheme is kept as written. */
+export function websiteHref(website: string): string | null {
+  const w = website.trim();
+  if (/^https?:\/\/\S+$/i.test(w)) return w;
+  if (/^(?:www\.)?[a-z0-9-]+(?:\.[a-z0-9-]+)*\.[a-z]{2,}(?:\/\S*)?$/i.test(w)) return `https://${w}`;
+  return null;
+}
