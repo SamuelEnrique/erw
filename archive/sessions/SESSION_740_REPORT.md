@@ -30,7 +30,15 @@
 
 ## The landing
 
-Sessions 731 to 740 land together from this branch (below, once done).
+Sessions 731 to 740 landed in one push (`task/731-740-allgrids`, commit `4dee327c`), merged into main at 17:32 UTC (`b747b88d`, run 39821642551).
+
+- **The gate** (on `4dee327c`): freeze 0; main in the commit; no `task/` branch in flight; suite 5,950 tests OK (304 skipped); npm ci 0; build 0; check-values 7,773 of 7,774 values equal. The ten held floors failed, and the 21 October Digest's revised WTI (as at 730's landing; production the same). `/digest` passed: the day's issue was written.
+- **The steps after check-values**, on a build of the same commit (lock `s740`): check-routes 0 (226 pages, 0 failed), check-cross-checks 0 (92 of 92), check-csp 0 (97 pages, 0 violations).
+- **Before the push**: freeze status 0; no other `task/` branch but `task/198-battery-data`; the ancestry of origin/main checked as the push's own condition (0).
+- **Snapshots**: `s740-before` at 17:19 UTC; the push at 17:19:41. Vercel's status on `b747b88d`: "Deployment has completed" (17:35:01). Production showed 724's "Basis spread" and 734's card at 17:35:23. This deploy carries 722 to 730 too, which Vercel had refused at 16:28.
+  - `s740-after` at 17:36; `compare s740-before s740-after`: **0 differences**.
+  - `compare s730-before s740-after` (722 to 730's landing as a whole): **0 differences** on 25 pages, expected, since every page is in review. 730's "To finish" is done by this.
+- The merged `wip/740-allgrids` was deleted on GitHub (session 742).
 
 ## Decisions made without you
 
