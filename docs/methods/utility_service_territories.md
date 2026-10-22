@@ -50,3 +50,19 @@ sales table leaves out.
   three rows and no split among them.
 - No FIPS code, no balancing authority, no retail choice flag.
 - One year only; earlier years are in EIA's archive, which its robots file disallows.
+
+<a id="cross-checks"></a>
+
+## Cross-checks
+
+Session 681 (chain 043): the code machine's stand-in for "which utility serves a site" was the largest industrial utility of the state by `eia861_utility_sales`. For each grid's main hub, a county its name points to (a choice made here: Harris for ERCOT's Houston hub, Los Angeles for SP15, New York for Zone J, Suffolk for the Mass Hub, Allegheny for PJM's Western Hub, Marion for the Indiana Hub, Sedgwick for SPP's North Hub), the utilities this table lists against that stand-in. No figure was moved.
+
+| Our figure | Published figure | Source and date | Gap | Reason |
+|---|---|---|---|---|
+| Harris County, TX (ERCOT's Houston hub): CenterPoint Energy, Entergy Texas Inc., San Bernard Electric Coop, Inc | TXU Energy Retail Co, LLC, the largest industrial seller in TX in 2025 (47,232,447 MWh, part D) | docs/methods/eia861_utility_sales.md, `eia861_utility_sales`, 2025 | a different utility | TXU Energy Retail Co, LLC sells to industry as a retailer or marketer (part D) and holds no franchise territory; the county's wires belong to the utilities in our figure |
+| Los Angeles County, CA (CAISO's SP15): City of Azusa, City of Burbank Water and Power - (CA), City of Glendale - (CA), City of Pasadena - (CA) and others | Pacific Gas & Electric Co., the largest industrial seller in CA in 2025 (18,763,491 MWh, part A, C) | the same | a different utility | Pacific Gas & Electric Co. serves 50 counties of CA, not Los Angeles: the state's largest industrial seller is not the hub county's utility |
+| New York County, NY (NYISO's Zone J): Consolidated Edison Co-NY Inc | Niagara Mohawk Power Corp., the largest industrial seller in NY in 2025 (8,670,545 MWh, part A, C) | the same | a different utility | Niagara Mohawk Power Corp. serves 37 counties of NY, not New York: the state's largest industrial seller is not the hub county's utility |
+| Suffolk County, MA (ISO-NE's Mass Hub): Massachusetts Bay Trans Authority, Massachusetts Electric Co, NSTAR Electric Company | Direct Energy Business, the largest industrial seller in MA in 2025 (2,457,018 MWh, part B) | the same | a different utility | Direct Energy Business sells to industry as a retailer or marketer (part B) and holds no franchise territory; the county's wires belong to the utilities in our figure |
+| Allegheny County, PA (PJM's Western Hub): Borough of Pitcairn - (PA), Borough of Tarentum - (PA), Central Electric Coop, Inc - (PA), Duquesne Light Co and others | FirstEnergy Pennsylvania Electric Co, the largest industrial seller in PA in 2025 (21,055,412 MWh, part A, C) | the same | none: it serves the county | The state's largest industrial seller is among the utilities this table lists for the hub's county (with others), so the stand-in names a utility that serves it |
+| Marion County, IN (MISO's Indiana Hub): AES Indiana, Duke Energy Indiana, LLC | Duke Energy Indiana, LLC, the largest industrial seller in IN in 2025 (9,222,628 MWh, part A) | the same | none: it serves the county | The state's largest industrial seller is among the utilities this table lists for the hub's county (with others), so the stand-in names a utility that serves it |
+| Sedgwick County, KS (SPP's North Hub): Butler Rural El Coop Assn, Inc - (KS), City of Mount Hope - (KS), City of Mulvane - (KS), Evergy Kansas South, Inc and others | Evergy Kansas South, Inc, the largest industrial seller in KS in 2025 (3,257,541 MWh, part A) | the same | none: it serves the county | The state's largest industrial seller is among the utilities this table lists for the hub's county (with others), so the stand-in names a utility that serves it |

@@ -48,6 +48,18 @@ PJM 0.76.
   year is not in it, so the figure can be below what stood that year.
 - **One hour.** The peak is one hour of one year; a hotter or colder year moves it.
 
-## Cross-check
+<a id="cross-checks"></a>
 
-Session 681 compares each grid's peak with the Grid tool's peak for the same grid.
+## Cross-checks
+
+Session 681 (chain 043): this table's peak hour against the peak the site's demand pages draw (the Grid and demand tools' copy of `eia930_demand_growth`, `site/data/demand_growth.json`). A check that the table and the pages agree, not against a publisher's own peak: EIA-930 is the source of both. No figure was moved.
+
+| Our figure | Published figure | Source and date | Gap | Reason |
+|---|---|---|---|---|
+| CAISO: 2025 peak 43,860 MW at 2025-08-22 01:00 UTC | 43,860 MW at 2025-08-22 01:00 UTC | docs/methods/demand_growth.md, the site's copy `site/data/demand_growth.json`, built 2026-10-05 | 0 MW, the same hour | The peak the demand pages show, built on 5 October, is this table's input as rebuilt on 21 October, hour for hour |
+| ERCOT: 2025 peak 83,597 MW at 2025-08-18 22:00 UTC | 83,597 MW at 2025-08-18 22:00 UTC | the same | 0 MW, the same hour | The peak the demand pages show, built on 5 October, is this table's input as rebuilt on 21 October, hour for hour |
+| ISONE: 2025 peak 25,898 MW at 2025-06-24 22:00 UTC | 25,898 MW at 2025-06-24 22:00 UTC | the same | 0 MW, the same hour | The peak the demand pages show, built on 5 October, is this table's input as rebuilt on 21 October, hour for hour |
+| MISO: 2025 peak 120,343 MW at 2025-07-24 20:00 UTC | 120,343 MW at 2025-07-24 20:00 UTC | the same | 0 MW, the same hour | The peak the demand pages show, built on 5 October, is this table's input as rebuilt on 21 October, hour for hour |
+| NYISO: 2025 peak 31,857 MW at 2025-06-24 22:00 UTC | 31,857 MW at 2025-06-24 22:00 UTC | the same | 0 MW, the same hour | The peak the demand pages show, built on 5 October, is this table's input as rebuilt on 21 October, hour for hour |
+| PJM: 2025 peak 160,560 MW at 2025-06-23 21:00 UTC | 160,560 MW at 2025-06-23 21:00 UTC | the same | 0 MW, the same hour | The peak the demand pages show, built on 5 October, is this table's input as rebuilt on 21 October, hour for hour |
+| SPP: 2025 peak 54,411 MW at 2025-07-29 21:00 UTC | 54,411 MW at 2025-07-29 21:00 UTC | the same | 0 MW, the same hour | The peak the demand pages show, built on 5 October, is this table's input as rebuilt on 21 October, hour for hour |

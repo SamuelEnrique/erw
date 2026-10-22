@@ -69,6 +69,23 @@ year is 2024 and 2023), and ISO-NE none at all.
 - No cause of a delay, no stage durations (request to agreement, agreement to operation): the file gives the
   agreement date for some projects only.
 
-## Cross-check
+<a id="cross-checks"></a>
 
-Session 681 compares each grid's median with `iso_queue_statistics`' published median where it holds one.
+## Cross-checks
+
+Session 681 (chain 043): this table's median request-to-operation time against `iso_queue_statistics`' median wait (`wait_years_median`, from each ISO's own queue file: the queue date to the in-service date), for requests entered in 2015 and in 2017. Our months are divided by 12. No figure was moved.
+
+| Our figure | Published figure | Source and date | Gap | Reason |
+|---|---|---|---|---|
+| CAISO, requests of 2015: median 8.48 years to operation (19 projects, Queued Up) | median 8.62 years (22 positions, the ISO's own queue file) | docs/methods/energy_projects.md, `iso_queue_statistics` (the warehouse's own table), 21 October 2026 | -0.14 years | Within a few weeks: the two files time the same projects |
+| CAISO, requests of 2017: median 4.93 years to operation (9 projects, Queued Up) | median 4.93 years (9 positions, the ISO's own queue file) | the same | -0.00 years | Within a few weeks: the two files time the same projects |
+| ERCOT, requests of 2015: median 5.53 years to operation (18 projects, Queued Up) | median 6.85 years (3 positions, the ISO's own queue file) | the same | -1.32 years | Different sets of projects: Berkeley Lab counts 18 completed requests of 2015, the ISO's file 3 positions with a wait, and their dates differ (Berkeley Lab's operation date against the ISO's in-service or commercial operation date) |
+| ERCOT, requests of 2017: median 4.31 years to operation (40 projects, Queued Up) | median 3.36 years (16 positions, the ISO's own queue file) | the same | +0.95 years | Different sets of projects: Berkeley Lab counts 40 completed requests of 2017, the ISO's file 16 positions with a wait, and their dates differ (Berkeley Lab's operation date against the ISO's in-service or commercial operation date) |
+| NYISO, requests of 2015: median 5.34 years to operation (4 projects, Queued Up) | median 4.34 years (6 positions, the ISO's own queue file) | the same | +1.00 years | Different sets of projects: Berkeley Lab counts 4 completed requests of 2015, the ISO's file 6 positions with a wait, and their dates differ (Berkeley Lab's operation date against the ISO's in-service or commercial operation date) |
+| NYISO, requests of 2017: median 4.92 years to operation (1 projects, Queued Up) | median 6.97 years (7 positions, the ISO's own queue file) | the same | -2.05 years | Different sets of projects: Berkeley Lab counts 1 completed requests of 2017, the ISO's file 7 positions with a wait, and their dates differ (Berkeley Lab's operation date against the ISO's in-service or commercial operation date) |
+| PJM, requests of 2015: median 3.83 years to operation (67 projects, Queued Up) | none: `iso_queue_statistics` holds no wait for PJM | the same | not comparable | The ISO's own queue file, as `iso_queue_statistics` reads it, gives no in-service date for PJM, so only Berkeley Lab's file times its projects |
+| PJM, requests of 2017: median 4.99 years to operation (70 projects, Queued Up) | none: `iso_queue_statistics` holds no wait for PJM | the same | not comparable | The ISO's own queue file, as `iso_queue_statistics` reads it, gives no in-service date for PJM, so only Berkeley Lab's file times its projects |
+| SPP, requests of 2015: median 4.4 years to operation (32 projects, Queued Up) | median 4.47 years (33 positions, the ISO's own queue file) | the same | -0.07 years | Within a few weeks: the two files time the same projects |
+| SPP, requests of 2017: median 5.55 years to operation (12 projects, Queued Up) | median 8.01 years (24 positions, the ISO's own queue file) | the same | -2.46 years | Different sets of projects: Berkeley Lab counts 12 completed requests of 2017, the ISO's file 24 positions with a wait, and their dates differ (Berkeley Lab's operation date against the ISO's in-service or commercial operation date) |
+| MISO, requests of 2015: median 3.88 years to operation (41 projects, Queued Up) | none: `iso_queue_statistics` holds no wait for MISO | the same | not comparable | The ISO's own queue file, as `iso_queue_statistics` reads it, gives no in-service date for MISO, so only Berkeley Lab's file times its projects |
+| MISO, requests of 2017: median 3.96 years to operation (33 projects, Queued Up) | none: `iso_queue_statistics` holds no wait for MISO | the same | not comparable | The ISO's own queue file, as `iso_queue_statistics` reads it, gives no in-service date for MISO, so only Berkeley Lab's file times its projects |
