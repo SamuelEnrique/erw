@@ -8,3 +8,7 @@ Draft, written while the build lock was held by session 581; the measures and ch
 - `site/components/svgchart.tsx` (the shared category chart): an area's base is held between the plot's top and floor, so on an axis whose floor is above zero (the right scale of the five-grid cards, 12k on CAISO's) the shading no longer runs below the axis and out of its panel. The line, the points and `data-points` are the series' own: no value moves.
 - `site/scripts/check-findings-grids.mjs`: a new check in every render frame (four cards, two frames: eight checks) that the lowest chart text ends above the callouts' top (the paragraph's on a card without callouts).
 - `tests/test_session588.py`: the rules held in the files.
+
+## The wait for the build lock
+
+The lock was asked for at 00:53 UTC; session 581 held it from 00:49, session 583 from 01:23 (its scan of every page at two widths), and at 02:27 it was still held. The tests, the probe and the code were done in the wait.
