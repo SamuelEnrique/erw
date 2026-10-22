@@ -809,6 +809,42 @@ export function yearOf(dc: DC, f: Files, r: Row, x: Pick<SitingInputs, "profile"
 export const yearKey = (x: Pick<SitingInputs, "profile" | "lf" | "strike" | "mw">) => `${profileKey(x)}&mw=${x.mw}`;
 
 // ---------------------------------------------------------------------------------------------------------------------
+// the tracker joins the tab (session 719): where a tracked datacenter sits, by its county, else its state
+// ---------------------------------------------------------------------------------------------------------------------
+
+/** data/siting/facilities.json (warehouse/derived/siting_page.py), from public tables only: each state whose retail
+ * sales are 85 percent or more inside one grid, every county whose utilities bill inside one grid only, and the tab's
+ * row a county is placed at. Nothing of datacenter_facilities (held whole) is in it: the tracker places the rows it
+ * shows, at request time. */
+export type FacilityGridFile = { built: string; year: number; state_share: number; states: Record<string, { grid: string; share: number }>;
+  counties: Record<string, { grid: string; utilities: number }>; county_rows: Record<string, string> };
+export type FacilitySite = { grid: string; row: string; how: "county" | "state"; why: string };
+const countyKey = (state: string, county: string) => `${state.trim().toUpperCase()}|${county.trim().replace(/ (County|Parish)$/i, "").trim().toLowerCase()}`;
+/** The tab's row for a tracked facility: by its county where it names one and the county's utilities bill inside one
+ * grid only (the county's own row where the tab places one, else the grid's main region); else by its state where
+ * 85 percent or more of the state's retail sales are inside one grid; else none. The tracker names no node. */
+export function facilitySite(f: FacilityGridFile, idx: Pick<Index, "grids" | "blank">, state: string, county: string): FacilitySite | null {
+  const main = (grid: string) => idx.grids[grid]?.main ? `${grid}:${idx.grids[grid].main}` : grid === "pjm" ? "pjm:grid" : grid === "miso" ? `miso:${idx.blank.miso?.regions[0] ?? "grid"}` : null;
+  const k = state && county ? countyKey(state, county) : "", c = k ? f.counties[k] : undefined, s = state ? f.states[state.trim().toUpperCase()] : undefined;
+  // the grid: the county's where its utilities bill inside one grid only; else the state's, at 85 percent of its sales
+  const grid = c?.grid ?? s?.grid;
+  if (!grid) return null;
+  // the row: the county's own where the tab places the county in that grid; else the grid's main region
+  const own = k && f.county_rows[k]?.startsWith(`${grid}:`) ? f.county_rows[k] : null;
+  const row = own ?? main(grid);
+  if (!row) return null;
+  const byCounty = !!c?.grid;
+  const why = byCounty
+    ? `${county}, ${state}: its ${c!.utilities} ${c!.utilities === 1 ? "utility" : "utilities"} (EIA-861's service territories) bill inside ${GRID_NAMES[grid]} only.`
+    : `${state}: ${Math.round((s?.share ?? 0) * 100)} percent of its retail sales in ${f.year} were inside ${GRID_NAMES[grid]} (EIA-861)${county ? `; ${county}'s utilities do not bill inside one grid only, or the territories do not name it` : ""}.`;
+  return { grid, row, how: byCounty ? "county" : "state", why: `${why} ${own ? `The tab's row for ${county}: ${row.split(":")[1]}.` : `The tab has no row of its own for the place: ${GRID_NAMES[grid]}'s main region.`}` };
+}
+/** The tab's address for a tracked facility: its grid's row as A and its MW as the load. The facility is named on the
+ * tracker, beside the link, and not in the address: the tab draws no name a visitor could type. */
+export const facilityHref = (s: FacilitySite, mw: number | null) =>
+  `/cost-of-power?${new URLSearchParams({ view: "allgrids", ...(mw && mw >= SITING_LIMITS.mw[0] ? { mw: String(Math.min(mw, SITING_LIMITS.mw[1])) } : {}), a: s.row }).toString()}`;
+
+// ---------------------------------------------------------------------------------------------------------------------
 // the all-in column (session 702): drawn only where each part is held or is zero by market design
 // ---------------------------------------------------------------------------------------------------------------------
 
