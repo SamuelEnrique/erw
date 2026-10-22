@@ -1076,6 +1076,12 @@ body:has(.brand-a) > footer :focus-visible {
   font-family: var(--font-sans);
   font-size: 14px;
 }
+/* session 726 (chain 062): the basis words under a utility figure (bundled, energy only or delivery only; the county's
+   seller or the state's stand-in) are text: sans, captions size */
+.brand-a [data-allgrids] tbody td.text-right [data-util-basis] {
+  font-family: var(--font-sans);
+  font-size: 12px;
+}
 .brand-a [data-allgrids] [role="tooltip"],
 .brand-a [data-allgrids] [role="tooltip"] span,
 .brand-a [data-node-shared] [role="tooltip"],

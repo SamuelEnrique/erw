@@ -1,0 +1,2966 @@
+{
+ "steps": [
+  {
+   "step": "02-utility-dearest",
+   "width": 1280,
+   "does": "the utility sort (step 2): the sort line and the basis under each figure",
+   "url": "/cost-of-power?view=allgrids&mw=1000&sort=utility",
+   "found": true,
+   "errorText": "",
+   "checksInView": [
+    {
+     "k": "allgrids|utilrev|caiso:TH_NP15_GEN-APND",
+     "raw": "325.3739159213717",
+     "text": "325.37"
+    },
+    {
+     "k": "allgrids|utilgrowth|caiso:TH_NP15_GEN-APND",
+     "raw": "-8.610586520376252",
+     "text": "-8.61"
+    },
+    {
+     "k": "allgrids|energy|caiso:TH_NP15_GEN-APND|da",
+     "raw": "33.434795662100456",
+     "text": "33.43"
+    },
+    {
+     "k": "allgrids|energy|caiso:TH_NP15_GEN-APND|rt",
+     "raw": "32.66798173515983",
+     "text": "32.67"
+    },
+    {
+     "k": "allgrids|connect|caiso:TH_NP15_GEN-APND",
+     "raw": "100",
+     "text": "100.00"
+    },
+    {
+     "k": "allgrids|demand|caiso:TH_NP15_GEN-APND",
+     "raw": "3.640832129058569",
+     "text": "3.64"
+    },
+    {
+     "k": "allgrids|planned|caiso:TH_NP15_GEN-APND",
+     "raw": "8275.6",
+     "text": "8,276"
+    },
+    {
+     "k": "allgrids|capratio|caiso:TH_NP15_GEN-APND",
+     "raw": "105.89",
+     "text": "106"
+    },
+    {
+     "k": "allgrids|carbon|caiso:TH_NP15_GEN-APND",
+     "raw": "194.34801391967784",
+     "text": "194.35"
+    },
+    {
+     "k": "allgrids|carbonlb|caiso:TH_NP15_GEN-APND",
+     "raw": "428.4640279987025",
+     "text": "428.46"
+    },
+    {
+     "k": "allgrids|utilrev|caiso:TH_ZP26_GEN-APND",
+     "raw": "325.3739159213717",
+     "text": "325.37"
+    },
+    {
+     "k": "allgrids|utilgrowth|caiso:TH_ZP26_GEN-APND",
+     "raw": "-8.610586520376252",
+     "text": "-8.61"
+    },
+    {
+     "k": "allgrids|energy|caiso:TH_ZP26_GEN-APND|da",
+     "raw": "29.005219178082193",
+     "text": "29.01"
+    },
+    {
+     "k": "allgrids|energy|caiso:TH_ZP26_GEN-APND|rt",
+     "raw": "27.890472602739738",
+     "text": "27.89"
+    },
+    {
+     "k": "allgrids|connect|caiso:TH_ZP26_GEN-APND",
+     "raw": "100",
+     "text": "100.00"
+    },
+    {
+     "k": "allgrids|demand|caiso:TH_ZP26_GEN-APND",
+     "raw": "3.640832129058569",
+     "text": "3.64"
+    },
+    {
+     "k": "allgrids|planned|caiso:TH_ZP26_GEN-APND",
+     "raw": "8275.6",
+     "text": "8,276"
+    },
+    {
+     "k": "allgrids|capratio|caiso:TH_ZP26_GEN-APND",
+     "raw": "105.89",
+     "text": "106"
+    },
+    {
+     "k": "allgrids|carbon|caiso:TH_ZP26_GEN-APND",
+     "raw": "194.34801391967784",
+     "text": "194.35"
+    },
+    {
+     "k": "allgrids|carbonlb|caiso:TH_ZP26_GEN-APND",
+     "raw": "428.4640279987025",
+     "text": "428.46"
+    },
+    {
+     "k": "allgrids|utilrev|caiso:TH_SP15_GEN-APND",
+     "raw": "204.2781887359761",
+     "text": "204.28"
+    },
+    {
+     "k": "allgrids|utilgrowth|caiso:TH_SP15_GEN-APND",
+     "raw": "0.18873397251237822",
+     "text": "0.19"
+    },
+    {
+     "k": "allgrids|energy|caiso:TH_SP15_GEN-APND|da",
+     "raw": "28.939603881278536",
+     "text": "28.94"
+    },
+    {
+     "k": "allgrids|energy|caiso:TH_SP15_GEN-APND|rt",
+     "raw": "28.59298173515982",
+     "text": "28.59"
+    },
+    {
+     "k": "allgrids|connect|caiso:TH_SP15_GEN-APND",
+     "raw": "100",
+     "text": "100.00"
+    },
+    {
+     "k": "allgrids|demand|caiso:TH_SP15_GEN-APND",
+     "raw": "3.640832129058569",
+     "text": "3.64"
+    },
+    {
+     "k": "allgrids|planned|caiso:TH_SP15_GEN-APND",
+     "raw": "8275.6",
+     "text": "8,276"
+    },
+    {
+     "k": "allgrids|capratio|caiso:TH_SP15_GEN-APND",
+     "raw": "105.89",
+     "text": "106"
+    },
+    {
+     "k": "allgrids|carbon|caiso:TH_SP15_GEN-APND",
+     "raw": "194.34801391967784",
+     "text": "194.35"
+    },
+    {
+     "k": "allgrids|carbonlb|caiso:TH_SP15_GEN-APND",
+     "raw": "428.4640279987025",
+     "text": "428.46"
+    },
+    {
+     "k": "allgrids|utilrev|nyiso:N.Y.C.",
+     "raw": "128.7853018553523",
+     "text": "128.79"
+    },
+    {
+     "k": "allgrids|utilgrowth|nyiso:N.Y.C.",
+     "raw": "0.6665315759987855",
+     "text": "0.67"
+    },
+    {
+     "k": "allgrids|energy|nyiso:N.Y.C.|da",
+     "raw": "73.10109018264843",
+     "text": "73.10"
+    },
+    {
+     "k": "allgrids|energy|nyiso:N.Y.C.|rt",
+     "raw": "68.49208699623244",
+     "text": "68.49"
+    },
+    {
+     "k": "allgrids|connect|nyiso:N.Y.C.",
+     "raw": "87.3",
+     "text": "87.30"
+    },
+    {
+     "k": "allgrids|demand|nyiso:N.Y.C.",
+     "raw": "0.5177652848100012",
+     "text": "0.52"
+    },
+    {
+     "k": "allgrids|planned|nyiso:N.Y.C.",
+     "raw": "1537",
+     "text": "1,537"
+    },
+    {
+     "k": "allgrids|capratio|nyiso:N.Y.C.",
+     "raw": "34.31",
+     "text": "34"
+    },
+    {
+     "k": "allgrids|carbon|nyiso:N.Y.C.",
+     "raw": "392.11655164961445",
+     "text": "392.12"
+    },
+    {
+     "k": "allgrids|carbonlb|nyiso:N.Y.C.",
+     "raw": "864.4690201680738",
+     "text": "864.47"
+    },
+    {
+     "k": "allgrids|utilrev|isone:.Z.SEMASS",
+     "raw": "118.3598980552849",
+     "text": "118.36"
+    },
+    {
+     "k": "allgrids|utilgrowth|isone:.Z.SEMASS",
+     "raw": "18.735813542162493",
+     "text": "18.74"
+    },
+    {
+     "k": "allgrids|demand|isone:.Z.SEMASS",
+     "raw": "2.896717651810743",
+     "text": "2.90"
+    },
+    {
+     "k": "allgrids|planned|isone:.Z.SEMASS",
+     "raw": "1123.5",
+     "text": "1,124"
+    },
+    {
+     "k": "allgrids|capratio|isone:.Z.SEMASS",
+     "raw": "36.69",
+     "text": "37"
+    },
+    {
+     "k": "allgrids|carbon|isone:.Z.SEMASS",
+     "raw": "244.61105983589565",
+     "text": "244.61"
+    },
+    {
+     "k": "allgrids|carbonlb|isone:.Z.SEMASS",
+     "raw": "539.27507606862",
+     "text": "539.28"
+    },
+    {
+     "k": "allgrids|utilrev|isone:.Z.WCMASS",
+     "raw": "118.3598980552849",
+     "text": "118.36"
+    },
+    {
+     "k": "allgrids|utilgrowth|isone:.Z.WCMASS",
+     "raw": "18.735813542162493",
+     "text": "18.74"
+    },
+    {
+     "k": "allgrids|demand|isone:.Z.WCMASS",
+     "raw": "2.896717651810743",
+     "text": "2.90"
+    },
+    {
+     "k": "allgrids|planned|isone:.Z.WCMASS",
+     "raw": "1123.5",
+     "text": "1,124"
+    },
+    {
+     "k": "allgrids|capratio|isone:.Z.WCMASS",
+     "raw": "36.69",
+     "text": "37"
+    },
+    {
+     "k": "allgrids|carbon|isone:.Z.WCMASS",
+     "raw": "244.61105983589565",
+     "text": "244.61"
+    },
+    {
+     "k": "allgrids|carbonlb|isone:.Z.WCMASS",
+     "raw": "539.27507606862",
+     "text": "539.28"
+    },
+    {
+     "k": "allgrids|utilrev|isone:.Z.VERMONT",
+     "raw": "114.4736751207217",
+     "text": "114.47"
+    },
+    {
+     "k": "allgrids|utilgrowth|isone:.Z.VERMONT",
+     "raw": "-0.66807437731351",
+     "text": "-0.67"
+    },
+    {
+     "k": "allgrids|demand|isone:.Z.VERMONT",
+     "raw": "2.896717651810743",
+     "text": "2.90"
+    },
+    {
+     "k": "allgrids|planned|isone:.Z.VERMONT",
+     "raw": "1123.5",
+     "text": "1,124"
+    },
+    {
+     "k": "allgrids|capratio|isone:.Z.VERMONT",
+     "raw": "36.69",
+     "text": "37"
+    },
+    {
+     "k": "allgrids|carbon|isone:.Z.VERMONT",
+     "raw": "244.61105983589565",
+     "text": "244.61"
+    },
+    {
+     "k": "allgrids|carbonlb|isone:.Z.VERMONT",
+     "raw": "539.27507606862",
+     "text": "539.28"
+    },
+    {
+     "k": "allgrids|utilrev|isone:.Z.CONNECTICUT",
+     "raw": "103.96988769662845",
+     "text": "103.97"
+    },
+    {
+     "k": "allgrids|utilgrowth|isone:.Z.CONNECTICUT",
+     "raw": "-1.9606884758638143",
+     "text": "-1.96"
+    },
+    {
+     "k": "allgrids|demand|isone:.Z.CONNECTICUT",
+     "raw": "2.896717651810743",
+     "text": "2.90"
+    },
+    {
+     "k": "allgrids|planned|isone:.Z.CONNECTICUT",
+     "raw": "1123.5",
+     "text": "1,124"
+    },
+    {
+     "k": "allgrids|capratio|isone:.Z.CONNECTICUT",
+     "raw": "36.69",
+     "text": "37"
+    },
+    {
+     "k": "allgrids|carbon|isone:.Z.CONNECTICUT",
+     "raw": "244.61105983589565",
+     "text": "244.61"
+    },
+    {
+     "k": "allgrids|carbonlb|isone:.Z.CONNECTICUT",
+     "raw": "539.27507606862",
+     "text": "539.28"
+    },
+    {
+     "k": "allgrids|utilrev|miso:ILLINOIS.HUB",
+     "raw": "98.93339703326083",
+     "text": "98.93"
+    },
+    {
+     "k": "allgrids|utilgrowth|miso:ILLINOIS.HUB",
+     "raw": "2.436761432834289",
+     "text": "2.44"
+    },
+    {
+     "k": "allgrids|connect|miso:ILLINOIS.HUB",
+     "raw": "58.4",
+     "text": "58.40"
+    },
+    {
+     "k": "allgrids|demand|miso:ILLINOIS.HUB",
+     "raw": "2.797069345936798",
+     "text": "2.80"
+    },
+    {
+     "k": "allgrids|planned|miso:ILLINOIS.HUB",
+     "raw": "8887.4",
+     "text": "8,887"
+    },
+    {
+     "k": "allgrids|capratio|miso:ILLINOIS.HUB",
+     "raw": "62.43",
+     "text": "62"
+    },
+    {
+     "k": "allgrids|carbon|miso:ILLINOIS.HUB",
+     "raw": "562.3814629578097",
+     "text": "562.38"
+    },
+    {
+     "k": "allgrids|carbonlb|miso:ILLINOIS.HUB",
+     "raw": "1239.8388953451965",
+     "text": "1,239.84"
+    }
+   ],
+   "nChecks": 500,
+   "sortLine": "Sorted by the utility's industrial revenue per MWh, largest first; a row with no figure, or one held under a license, last. The figure is a seller's industrial revenue over its sales: bundled, energy only or delivery only, the county's seller or the state's stand-in, as each cell says under it. 48 of 48 rows shown. The order is the column's, not a ranking of sites.",
+   "headline": "Choose A and B under \"A and B, side by side\" in the box to set two rows beside each other; A sets this line.",
+   "abUtilityTip": null,
+   "basisWords": [
+    "bundled; the state's stand-in (CA)",
+    "bundled; the state's stand-in (CA)",
+    "bundled; Los Angeles County, CA",
+    "delivery only; New York County, NY",
+    "energy only; the state's stand-in (MA)",
+    "energy only; the state's stand-in (MA)",
+    "bundled; the state's stand-in (VT)",
+    "energy only; the state's stand-in (CT)",
+    "energy only; the state's stand-in (IL)",
+    "energy only; the state's stand-in (RI)"
+   ],
+   "nBasis": 47,
+   "docLinks": [
+    {
+     "href": "https://www.ferc.gov/sites/default/files/2026-06/EL26-71-000.pdf",
+     "text": "document"
+    },
+    {
+     "href": "https://www.ferc.gov/sites/default/files/2026-06/EL26-71-000.pdf",
+     "text": "document"
+    },
+    {
+     "href": "https://www.ferc.gov/sites/default/files/2026-06/EL26-71-000.pdf",
+     "text": "document"
+    },
+    {
+     "href": "https://www.ferc.gov/sites/default/files/2026-06/EL26-69-000.pdf",
+     "text": "document"
+    },
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    },
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    },
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/60332_9_1689557.PDF",
+     "text": "document"
+    },
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    }
+   ],
+   "nDocLinks": 31,
+   "doc": null,
+   "rows": [
+    {
+     "id": "caiso:TH_NP15_GEN-APND",
+     "text": "CAISO TH_NP15_GEN-APND (hub)Pacific Gas & Electric Co.Pacific Gas & Electric Co. (EIA utility 14328), the largest of 52 sellers to industry in CA inside CAISO (balancing authority CISO) in 2025: 7,161"
+    },
+    {
+     "id": "caiso:TH_ZP26_GEN-APND",
+     "text": "CAISO TH_ZP26_GEN-APND (hub)Pacific Gas & Electric Co.Pacific Gas & Electric Co. (EIA utility 14328), the largest of 52 sellers to industry in CA inside CAISO (balancing authority CISO) in 2025: 7,161"
+    },
+    {
+     "id": "caiso:TH_SP15_GEN-APND",
+     "text": "CAISO TH_SP15_GEN-APND (hub)Southern California Edison Co and 6 moreLos Angeles County, CA, a county this row's name places it in: EIA-861's service territories (utility_service_territories, 2025) lis"
+    },
+    {
+     "id": "nyiso:N.Y.C.",
+     "text": "NYISO N.Y.C. (load zone)Consolidated Edison Co-NY IncNew York County, NY, a county this row's name places it in: EIA-861's service territories (utility_service_territories, 2025) list 1: Consolidated "
+    },
+    {
+     "id": "isone:.Z.SEMASS",
+     "text": "ISO-NE .Z.SEMASS (load zone)Direct Energy BusinessDirect Energy Business (EIA utility 18193), the largest of 32 sellers to industry in MA inside ISO-NE (balancing authority ISNE) in 2025: 2,457,018 MW"
+    },
+    {
+     "id": "isone:.Z.WCMASS",
+     "text": "ISO-NE .Z.WCMASS (load zone)Direct Energy BusinessDirect Energy Business (EIA utility 18193), the largest of 32 sellers to industry in MA inside ISO-NE (balancing authority ISNE) in 2025: 2,457,018 MW"
+    }
+   ],
+   "scrollW": 1265,
+   "clientW": 1265,
+   "totalH": 5182,
+   "shot": "02-utility-dearest_1280.png"
+  },
+  {
+   "step": "03-utility-ercot",
+   "width": 1280,
+   "does": "ERCOT only (step 3)",
+   "url": "/cost-of-power?view=allgrids&mw=1000&sort=utility&grid=ercot",
+   "found": true,
+   "errorText": "",
+   "checksInView": [
+    {
+     "k": "allgrids|utilrev|ercot:HB_HOUSTON",
+     "raw": "89.38681180428301",
+     "text": "89.39"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:HB_HOUSTON",
+     "raw": "-0.75190010857763",
+     "text": "-0.75"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_HOUSTON|da",
+     "raw": "35.221134703196356",
+     "text": "35.22"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_HOUSTON|rt",
+     "raw": "32.90021689497716",
+     "text": "32.90"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HOUSTON|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HOUSTON|firm|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HOUSTON|curtailing|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|connect|ercot:HB_HOUSTON",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:HB_HOUSTON",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|demand|ercot:HB_HOUSTON",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:HB_HOUSTON",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:HB_HOUSTON",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbon|ercot:HB_HOUSTON",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|carbonlb|ercot:HB_HOUSTON",
+     "raw": "733.8621407600489",
+     "text": "733.86"
+    },
+    {
+     "k": "allgrids|allin|ercot:HB_HOUSTON|profile=datacenter&lf=0.9&strike=row",
+     "raw": "43.04616906392695",
+     "text": "43.05"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:LZ_HOUSTON",
+     "raw": "89.38681180428301",
+     "text": "89.39"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:LZ_HOUSTON",
+     "raw": "-0.75190010857763",
+     "text": "-0.75"
+    },
+    {
+     "k": "allgrids|energy|ercot:LZ_HOUSTON|da",
+     "raw": "35.4831506849315",
+     "text": "35.48"
+    },
+    {
+     "k": "allgrids|energy|ercot:LZ_HOUSTON|rt",
+     "raw": "33.43493493150684",
+     "text": "33.43"
+    },
+    {
+     "k": "allgrids|tx|ercot:LZ_HOUSTON|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:LZ_HOUSTON|firm|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:LZ_HOUSTON|curtailing|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|connect|ercot:LZ_HOUSTON",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:LZ_HOUSTON",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|demand|ercot:LZ_HOUSTON",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:LZ_HOUSTON",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:LZ_HOUSTON",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbon|ercot:LZ_HOUSTON",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|carbonlb|ercot:LZ_HOUSTON",
+     "raw": "733.8621407600489",
+     "text": "733.86"
+    },
+    {
+     "k": "allgrids|allin|ercot:LZ_HOUSTON|profile=datacenter&lf=0.9&strike=row",
+     "raw": "43.3081850456621",
+     "text": "43.31"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:HB_BUSAVG",
+     "raw": "73.56793519505776",
+     "text": "73.57"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:HB_BUSAVG",
+     "raw": "9.443553200366427",
+     "text": "9.44"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_BUSAVG|da",
+     "raw": "34.39849543378996",
+     "text": "34.40"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_BUSAVG|rt",
+     "raw": "32.38137557077625",
+     "text": "32.38"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_BUSAVG|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_BUSAVG|firm|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_BUSAVG|curtailing|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|connect|ercot:HB_BUSAVG",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:HB_BUSAVG",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|demand|ercot:HB_BUSAVG",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:HB_BUSAVG",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:HB_BUSAVG",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbon|ercot:HB_BUSAVG",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|carbonlb|ercot:HB_BUSAVG",
+     "raw": "733.8621407600489",
+     "text": "733.86"
+    },
+    {
+     "k": "allgrids|allin|ercot:HB_BUSAVG|profile=datacenter&lf=0.9&strike=row",
+     "raw": "42.22352979452056",
+     "text": "42.22"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:HB_HUBAVG",
+     "raw": "73.56793519505776",
+     "text": "73.57"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:HB_HUBAVG",
+     "raw": "9.443553200366427",
+     "text": "9.44"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_HUBAVG|da",
+     "raw": "34.302055936073074",
+     "text": "34.30"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_HUBAVG|rt",
+     "raw": "32.20163812785388",
+     "text": "32.20"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HUBAVG|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HUBAVG|firm|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HUBAVG|curtailing|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|connect|ercot:HB_HUBAVG",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:HB_HUBAVG",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|demand|ercot:HB_HUBAVG",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:HB_HUBAVG",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:HB_HUBAVG",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbon|ercot:HB_HUBAVG",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|carbonlb|ercot:HB_HUBAVG",
+     "raw": "733.8621407600489",
+     "text": "733.86"
+    },
+    {
+     "k": "allgrids|allin|ercot:HB_HUBAVG|profile=datacenter&lf=0.9&strike=row",
+     "raw": "42.12709029680367",
+     "text": "42.13"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:HB_NORTH",
+     "raw": "73.56793519505776",
+     "text": "73.57"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:HB_NORTH",
+     "raw": "9.443553200366427",
+     "text": "9.44"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_NORTH|da",
+     "raw": "34.43196004566211",
+     "text": "34.43"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_NORTH|rt",
+     "raw": "32.50617922374428",
+     "text": "32.51"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_NORTH|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_NORTH|firm|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_NORTH|curtailing|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|connect|ercot:HB_NORTH",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:HB_NORTH",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|demand|ercot:HB_NORTH",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:HB_NORTH",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:HB_NORTH",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbon|ercot:HB_NORTH",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|carbonlb|ercot:HB_NORTH",
+     "raw": "733.8621407600489",
+     "text": "733.86"
+    },
+    {
+     "k": "allgrids|allin|ercot:HB_NORTH|profile=datacenter&lf=0.9&strike=row",
+     "raw": "42.25699440639271",
+     "text": "42.26"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:HB_SOUTH",
+     "raw": "73.56793519505776",
+     "text": "73.57"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:HB_SOUTH",
+     "raw": "9.443553200366427",
+     "text": "9.44"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_SOUTH|da",
+     "raw": "34.54967351598174",
+     "text": "34.55"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_SOUTH|rt",
+     "raw": "32.737066210045676",
+     "text": "32.74"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_SOUTH|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_SOUTH|firm|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_SOUTH|curtailing|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|connect|ercot:HB_SOUTH",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:HB_SOUTH",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|demand|ercot:HB_SOUTH",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:HB_SOUTH",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:HB_SOUTH",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbon|ercot:HB_SOUTH",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|carbonlb|ercot:HB_SOUTH",
+     "raw": "733.8621407600489",
+     "text": "733.86"
+    },
+    {
+     "k": "allgrids|allin|ercot:HB_SOUTH|profile=datacenter&lf=0.9&strike=row",
+     "raw": "42.374707876712336",
+     "text": "42.37"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:HB_WEST",
+     "raw": "73.56793519505776",
+     "text": "73.57"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:HB_WEST",
+     "raw": "9.443553200366427",
+     "text": "9.44"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_WEST|da",
+     "raw": "33.005397260273966",
+     "text": "33.01"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_WEST|rt",
+     "raw": "30.662884703196347",
+     "text": "30.66"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_WEST|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_WEST|firm|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_WEST|curtailing|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|connect|ercot:HB_WEST",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:HB_WEST",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|demand|ercot:HB_WEST",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:HB_WEST",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:HB_WEST",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbon|ercot:HB_WEST",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|carbonlb|ercot:HB_WEST",
+     "raw": "733.8621407600489",
+     "text": "733.86"
+    },
+    {
+     "k": "allgrids|allin|ercot:HB_WEST|profile=datacenter&lf=0.9&strike=row",
+     "raw": "40.830431621004564",
+     "text": "40.83"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:LZ_LCRA",
+     "raw": "73.56793519505776",
+     "text": "73.57"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:LZ_LCRA",
+     "raw": "9.443553200366427",
+     "text": "9.44"
+    },
+    {
+     "k": "allgrids|energy|ercot:LZ_LCRA|da",
+     "raw": "38.747914383561636",
+     "text": "38.75"
+    },
+    {
+     "k": "allgrids|tx|ercot:LZ_LCRA|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:LZ_LCRA|firm|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:LZ_LCRA|curtailing|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|connect|ercot:LZ_LCRA",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:LZ_LCRA",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|demand|ercot:LZ_LCRA",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:LZ_LCRA",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:LZ_LCRA",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbon|ercot:LZ_LCRA",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|carbonlb|ercot:LZ_LCRA",
+     "raw": "733.8621407600489",
+     "text": "733.86"
+    },
+    {
+     "k": "allgrids|allin|ercot:LZ_LCRA|profile=datacenter&lf=0.9&strike=row",
+     "raw": "46.57294874429223",
+     "text": "46.57"
+    }
+   ],
+   "nChecks": 207,
+   "sortLine": "Sorted by the utility's industrial revenue per MWh, largest first; a row with no figure, or one held under a license, last. The figure is a seller's industrial revenue over its sales: bundled, energy only or delivery only, the county's seller or the state's stand-in, as each cell says under it. 14 of 48 rows shown, in ERCOT. The order is the column's, not a ranking of sites.",
+   "headline": "Choose A and B under \"A and B, side by side\" in the box to set two rows beside each other; A sets this line.",
+   "abUtilityTip": null,
+   "basisWords": [
+    "bundled; Harris County, TX",
+    "bundled; Harris County, TX",
+    "bundled; the state's stand-in (TX)",
+    "bundled; the state's stand-in (TX)",
+    "bundled; the state's stand-in (TX)",
+    "bundled; the state's stand-in (TX)",
+    "bundled; the state's stand-in (TX)",
+    "bundled; the state's stand-in (TX)",
+    "bundled; the state's stand-in (TX)",
+    "bundled; the state's stand-in (TX)"
+   ],
+   "nBasis": 14,
+   "docLinks": [
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    },
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    },
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    },
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    },
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    },
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    },
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    },
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    }
+   ],
+   "nDocLinks": 14,
+   "doc": null,
+   "rows": [
+    {
+     "id": "ercot:HB_HOUSTON",
+     "text": "ERCOT HB_HOUSTON (hub)San Bernard Electric Coop, Inc and 2 moreHarris County, TX, a county this row's name places it in: EIA-861's service territories (utility_service_territories, 2025) list 3: Cente"
+    },
+    {
+     "id": "ercot:LZ_HOUSTON",
+     "text": "ERCOT LZ_HOUSTON, Houston load zone (load zone)San Bernard Electric Coop, Inc and 2 moreHarris County, TX, a county this row's name places it in: EIA-861's service territories (utility_service_territo"
+    },
+    {
+     "id": "ercot:HB_BUSAVG",
+     "text": "ERCOT HB_BUSAVG (hub)TXU Energy Retail Co, LLCTXU Energy Retail Co, LLC (EIA utility 19327), the largest of 69 sellers to industry in TX inside ERCOT (balancing authority ERCO) in 2025: 47,232,447 MWh"
+    },
+    {
+     "id": "ercot:HB_HUBAVG",
+     "text": "ERCOT HB_HUBAVG (hub)TXU Energy Retail Co, LLCTXU Energy Retail Co, LLC (EIA utility 19327), the largest of 69 sellers to industry in TX inside ERCOT (balancing authority ERCO) in 2025: 47,232,447 MWh"
+    },
+    {
+     "id": "ercot:HB_NORTH",
+     "text": "ERCOT HB_NORTH (hub)TXU Energy Retail Co, LLCTXU Energy Retail Co, LLC (EIA utility 19327), the largest of 69 sellers to industry in TX inside ERCOT (balancing authority ERCO) in 2025: 47,232,447 MWh "
+    },
+    {
+     "id": "ercot:HB_SOUTH",
+     "text": "ERCOT HB_SOUTH (hub)TXU Energy Retail Co, LLCTXU Energy Retail Co, LLC (EIA utility 19327), the largest of 69 sellers to industry in TX inside ERCOT (balancing authority ERCO) in 2025: 47,232,447 MWh "
+    }
+   ],
+   "scrollW": 1265,
+   "clientW": 1265,
+   "totalH": 2351,
+   "shot": "03-utility-ercot_1280.png"
+  },
+  {
+   "step": "06-connect",
+   "width": 1280,
+   "does": "the connect sort (step 6): the document link beside each rule",
+   "url": "/cost-of-power?view=allgrids&mw=1000&sort=connect&dir=asc",
+   "found": true,
+   "errorText": "",
+   "checksInView": [
+    {
+     "k": "allgrids|connect|ercot:HB_BUSAVG",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:HB_BUSAVG",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_BUSAVG|da",
+     "raw": "34.39849543378996",
+     "text": "34.40"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_BUSAVG|rt",
+     "raw": "32.38137557077625",
+     "text": "32.38"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_BUSAVG|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_BUSAVG|firm|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_BUSAVG|curtailing|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|demand|ercot:HB_BUSAVG",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:HB_BUSAVG",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:HB_BUSAVG",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbon|ercot:HB_BUSAVG",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|carbonlb|ercot:HB_BUSAVG",
+     "raw": "733.8621407600489",
+     "text": "733.86"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:HB_BUSAVG",
+     "raw": "73.56793519505776",
+     "text": "73.57"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:HB_BUSAVG",
+     "raw": "9.443553200366427",
+     "text": "9.44"
+    },
+    {
+     "k": "allgrids|allin|ercot:HB_BUSAVG|profile=datacenter&lf=0.9&strike=row",
+     "raw": "42.22352979452056",
+     "text": "42.22"
+    },
+    {
+     "k": "allgrids|connect|ercot:HB_HOUSTON",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:HB_HOUSTON",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_HOUSTON|da",
+     "raw": "35.221134703196356",
+     "text": "35.22"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_HOUSTON|rt",
+     "raw": "32.90021689497716",
+     "text": "32.90"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HOUSTON|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HOUSTON|firm|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HOUSTON|curtailing|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|demand|ercot:HB_HOUSTON",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:HB_HOUSTON",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:HB_HOUSTON",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbon|ercot:HB_HOUSTON",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|carbonlb|ercot:HB_HOUSTON",
+     "raw": "733.8621407600489",
+     "text": "733.86"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:HB_HOUSTON",
+     "raw": "89.38681180428301",
+     "text": "89.39"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:HB_HOUSTON",
+     "raw": "-0.75190010857763",
+     "text": "-0.75"
+    },
+    {
+     "k": "allgrids|allin|ercot:HB_HOUSTON|profile=datacenter&lf=0.9&strike=row",
+     "raw": "43.04616906392695",
+     "text": "43.05"
+    },
+    {
+     "k": "allgrids|connect|ercot:HB_HUBAVG",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:HB_HUBAVG",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_HUBAVG|da",
+     "raw": "34.302055936073074",
+     "text": "34.30"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_HUBAVG|rt",
+     "raw": "32.20163812785388",
+     "text": "32.20"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HUBAVG|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HUBAVG|firm|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HUBAVG|curtailing|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|demand|ercot:HB_HUBAVG",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:HB_HUBAVG",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:HB_HUBAVG",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbon|ercot:HB_HUBAVG",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|carbonlb|ercot:HB_HUBAVG",
+     "raw": "733.8621407600489",
+     "text": "733.86"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:HB_HUBAVG",
+     "raw": "73.56793519505776",
+     "text": "73.57"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:HB_HUBAVG",
+     "raw": "9.443553200366427",
+     "text": "9.44"
+    },
+    {
+     "k": "allgrids|allin|ercot:HB_HUBAVG|profile=datacenter&lf=0.9&strike=row",
+     "raw": "42.12709029680367",
+     "text": "42.13"
+    },
+    {
+     "k": "allgrids|connect|ercot:HB_NORTH",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:HB_NORTH",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_NORTH|da",
+     "raw": "34.43196004566211",
+     "text": "34.43"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_NORTH|rt",
+     "raw": "32.50617922374428",
+     "text": "32.51"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_NORTH|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_NORTH|firm|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_NORTH|curtailing|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|demand|ercot:HB_NORTH",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:HB_NORTH",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:HB_NORTH",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbon|ercot:HB_NORTH",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|carbonlb|ercot:HB_NORTH",
+     "raw": "733.8621407600489",
+     "text": "733.86"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:HB_NORTH",
+     "raw": "73.56793519505776",
+     "text": "73.57"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:HB_NORTH",
+     "raw": "9.443553200366427",
+     "text": "9.44"
+    },
+    {
+     "k": "allgrids|allin|ercot:HB_NORTH|profile=datacenter&lf=0.9&strike=row",
+     "raw": "42.25699440639271",
+     "text": "42.26"
+    },
+    {
+     "k": "allgrids|connect|ercot:HB_SOUTH",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:HB_SOUTH",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_SOUTH|da",
+     "raw": "34.54967351598174",
+     "text": "34.55"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_SOUTH|rt",
+     "raw": "32.737066210045676",
+     "text": "32.74"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_SOUTH|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_SOUTH|firm|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_SOUTH|curtailing|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|demand|ercot:HB_SOUTH",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:HB_SOUTH",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:HB_SOUTH",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbon|ercot:HB_SOUTH",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|carbonlb|ercot:HB_SOUTH",
+     "raw": "733.8621407600489",
+     "text": "733.86"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:HB_SOUTH",
+     "raw": "73.56793519505776",
+     "text": "73.57"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:HB_SOUTH",
+     "raw": "9.443553200366427",
+     "text": "9.44"
+    },
+    {
+     "k": "allgrids|allin|ercot:HB_SOUTH|profile=datacenter&lf=0.9&strike=row",
+     "raw": "42.374707876712336",
+     "text": "42.37"
+    },
+    {
+     "k": "allgrids|connect|ercot:HB_WEST",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:HB_WEST",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_WEST|da",
+     "raw": "33.005397260273966",
+     "text": "33.01"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_WEST|rt",
+     "raw": "30.662884703196347",
+     "text": "30.66"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_WEST|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_WEST|firm|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_WEST|curtailing|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|demand|ercot:HB_WEST",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:HB_WEST",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:HB_WEST",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbon|ercot:HB_WEST",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|carbonlb|ercot:HB_WEST",
+     "raw": "733.8621407600489",
+     "text": "733.86"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:HB_WEST",
+     "raw": "73.56793519505776",
+     "text": "73.57"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:HB_WEST",
+     "raw": "9.443553200366427",
+     "text": "9.44"
+    },
+    {
+     "k": "allgrids|allin|ercot:HB_WEST|profile=datacenter&lf=0.9&strike=row",
+     "raw": "40.830431621004564",
+     "text": "40.83"
+    },
+    {
+     "k": "allgrids|connect|ercot:LZ_AEN",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:LZ_AEN",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|energy|ercot:LZ_AEN|da",
+     "raw": "38.78016552511416",
+     "text": "38.78"
+    },
+    {
+     "k": "allgrids|tx|ercot:LZ_AEN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:LZ_AEN|firm|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:LZ_AEN|curtailing|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|demand|ercot:LZ_AEN",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:LZ_AEN",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:LZ_AEN",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbon|ercot:LZ_AEN",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|carbonlb|ercot:LZ_AEN",
+     "raw": "733.8621407600489",
+     "text": "733.86"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:LZ_AEN",
+     "raw": "71.32181052947121",
+     "text": "71.32"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:LZ_AEN",
+     "raw": "2.8714032852807714",
+     "text": "2.87"
+    },
+    {
+     "k": "allgrids|allin|ercot:LZ_AEN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "46.605199885844755",
+     "text": "46.61"
+    },
+    {
+     "k": "allgrids|connect|ercot:LZ_CPS",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:LZ_CPS",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|energy|ercot:LZ_CPS|da",
+     "raw": "38.86452853881277",
+     "text": "38.86"
+    },
+    {
+     "k": "allgrids|tx|ercot:LZ_CPS|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:LZ_CPS|firm|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:LZ_CPS|curtailing|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|demand|ercot:LZ_CPS",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:LZ_CPS",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:LZ_CPS",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbon|ercot:LZ_CPS",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|carbonlb|ercot:LZ_CPS",
+     "raw": "733.8621407600489",
+     "text": "733.86"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:LZ_CPS",
+     "raw": "56.27002778906104",
+     "text": "56.27"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:LZ_CPS",
+     "raw": "1.744315721801648",
+     "text": "1.74"
+    },
+    {
+     "k": "allgrids|allin|ercot:LZ_CPS|profile=datacenter&lf=0.9&strike=row",
+     "raw": "46.68956289954336",
+     "text": "46.69"
+    },
+    {
+     "k": "allgrids|connect|ercot:LZ_HOUSTON",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:LZ_HOUSTON",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|energy|ercot:LZ_HOUSTON|da",
+     "raw": "35.4831506849315",
+     "text": "35.48"
+    },
+    {
+     "k": "allgrids|energy|ercot:LZ_HOUSTON|rt",
+     "raw": "33.43493493150684",
+     "text": "33.43"
+    },
+    {
+     "k": "allgrids|tx|ercot:LZ_HOUSTON|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:LZ_HOUSTON|firm|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:LZ_HOUSTON|curtailing|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|demand|ercot:LZ_HOUSTON",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:LZ_HOUSTON",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:LZ_HOUSTON",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbon|ercot:LZ_HOUSTON",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|carbonlb|ercot:LZ_HOUSTON",
+     "raw": "733.8621407600489",
+     "text": "733.86"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:LZ_HOUSTON",
+     "raw": "89.38681180428301",
+     "text": "89.39"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:LZ_HOUSTON",
+     "raw": "-0.75190010857763",
+     "text": "-0.75"
+    },
+    {
+     "k": "allgrids|allin|ercot:LZ_HOUSTON|profile=datacenter&lf=0.9&strike=row",
+     "raw": "43.3081850456621",
+     "text": "43.31"
+    }
+   ],
+   "nChecks": 500,
+   "sortLine": "Sorted by months to connect, smallest first; a row with no figure, or one held under a license, last. 48 of 48 rows shown. The order is the column's, not a ranking of sites.",
+   "headline": "Choose A and B under \"A and B, side by side\" in the box to set two rows beside each other; A sets this line.",
+   "abUtilityTip": null,
+   "basisWords": [
+    "bundled; the state's stand-in (TX)",
+    "bundled; Harris County, TX",
+    "bundled; the state's stand-in (TX)",
+    "bundled; the state's stand-in (TX)",
+    "bundled; the state's stand-in (TX)",
+    "bundled; the state's stand-in (TX)",
+    "bundled; Travis County, TX",
+    "bundled; Bexar County, TX",
+    "bundled; Harris County, TX",
+    "bundled; the state's stand-in (TX)"
+   ],
+   "nBasis": 47,
+   "docLinks": [
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    },
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    },
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    },
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    },
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    },
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    },
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    },
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    }
+   ],
+   "nDocLinks": 31,
+   "doc": null,
+   "rows": [
+    {
+     "id": "ercot:HB_BUSAVG",
+     "text": "ERCOT HB_BUSAVG (hub)45.80Generation in ERCOT: the median months from queue entry to commercial operation of the 227 requests that came online from 2023 to 2025 (interconnection_durations, from Berkel"
+    },
+    {
+     "id": "ercot:HB_HOUSTON",
+     "text": "ERCOT HB_HOUSTON (hub)45.80Generation in ERCOT: the median months from queue entry to commercial operation of the 227 requests that came online from 2023 to 2025 (interconnection_durations, from Berke"
+    },
+    {
+     "id": "ercot:HB_HUBAVG",
+     "text": "ERCOT HB_HUBAVG (hub)45.80Generation in ERCOT: the median months from queue entry to commercial operation of the 227 requests that came online from 2023 to 2025 (interconnection_durations, from Berkel"
+    },
+    {
+     "id": "ercot:HB_NORTH",
+     "text": "ERCOT HB_NORTH (hub)45.80Generation in ERCOT: the median months from queue entry to commercial operation of the 227 requests that came online from 2023 to 2025 (interconnection_durations, from Berkele"
+    },
+    {
+     "id": "ercot:HB_SOUTH",
+     "text": "ERCOT HB_SOUTH (hub)45.80Generation in ERCOT: the median months from queue entry to commercial operation of the 227 requests that came online from 2023 to 2025 (interconnection_durations, from Berkele"
+    },
+    {
+     "id": "ercot:HB_WEST",
+     "text": "ERCOT HB_WEST (hub)45.80Generation in ERCOT: the median months from queue entry to commercial operation of the 227 requests that came online from 2023 to 2025 (interconnection_durations, from Berkeley"
+    }
+   ],
+   "scrollW": 1265,
+   "clientW": 1265,
+   "totalH": 5162,
+   "shot": "06-connect_1280.png"
+  },
+  {
+   "step": "07-rule-doc",
+   "width": 1280,
+   "does": "puts the keyboard on the first row's document link (step 7)",
+   "act": {
+    "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+    "target": "_blank",
+    "label": "The rule's document, Public Utility Commission of Texas, docket 58481 (opens in a new tab)",
+    "text": "document"
+   },
+   "url": "/cost-of-power?view=allgrids&mw=1000&sort=connect&dir=asc",
+   "found": true,
+   "errorText": "",
+   "checksInView": [
+    {
+     "k": "allgrids|rows|hubs",
+     "raw": "48",
+     "text": "48"
+    },
+    {
+     "k": "allgrids|connect|ercot:HB_BUSAVG",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:HB_BUSAVG",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_BUSAVG|da",
+     "raw": "34.39849543378996",
+     "text": "34.40"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_BUSAVG|rt",
+     "raw": "32.38137557077625",
+     "text": "32.38"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_BUSAVG|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_BUSAVG|firm|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_BUSAVG|curtailing|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|demand|ercot:HB_BUSAVG",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:HB_BUSAVG",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:HB_BUSAVG",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbon|ercot:HB_BUSAVG",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|carbonlb|ercot:HB_BUSAVG",
+     "raw": "733.8621407600489",
+     "text": "733.86"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:HB_BUSAVG",
+     "raw": "73.56793519505776",
+     "text": "73.57"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:HB_BUSAVG",
+     "raw": "9.443553200366427",
+     "text": "9.44"
+    },
+    {
+     "k": "allgrids|allin|ercot:HB_BUSAVG|profile=datacenter&lf=0.9&strike=row",
+     "raw": "42.22352979452056",
+     "text": "42.22"
+    },
+    {
+     "k": "allgrids|connect|ercot:HB_HOUSTON",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:HB_HOUSTON",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_HOUSTON|da",
+     "raw": "35.221134703196356",
+     "text": "35.22"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_HOUSTON|rt",
+     "raw": "32.90021689497716",
+     "text": "32.90"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HOUSTON|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HOUSTON|firm|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HOUSTON|curtailing|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|demand|ercot:HB_HOUSTON",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:HB_HOUSTON",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:HB_HOUSTON",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbon|ercot:HB_HOUSTON",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|carbonlb|ercot:HB_HOUSTON",
+     "raw": "733.8621407600489",
+     "text": "733.86"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:HB_HOUSTON",
+     "raw": "89.38681180428301",
+     "text": "89.39"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:HB_HOUSTON",
+     "raw": "-0.75190010857763",
+     "text": "-0.75"
+    },
+    {
+     "k": "allgrids|allin|ercot:HB_HOUSTON|profile=datacenter&lf=0.9&strike=row",
+     "raw": "43.04616906392695",
+     "text": "43.05"
+    },
+    {
+     "k": "allgrids|connect|ercot:HB_HUBAVG",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:HB_HUBAVG",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_HUBAVG|da",
+     "raw": "34.302055936073074",
+     "text": "34.30"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_HUBAVG|rt",
+     "raw": "32.20163812785388",
+     "text": "32.20"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HUBAVG|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HUBAVG|firm|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HUBAVG|curtailing|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|demand|ercot:HB_HUBAVG",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:HB_HUBAVG",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:HB_HUBAVG",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbon|ercot:HB_HUBAVG",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|carbonlb|ercot:HB_HUBAVG",
+     "raw": "733.8621407600489",
+     "text": "733.86"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:HB_HUBAVG",
+     "raw": "73.56793519505776",
+     "text": "73.57"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:HB_HUBAVG",
+     "raw": "9.443553200366427",
+     "text": "9.44"
+    },
+    {
+     "k": "allgrids|allin|ercot:HB_HUBAVG|profile=datacenter&lf=0.9&strike=row",
+     "raw": "42.12709029680367",
+     "text": "42.13"
+    },
+    {
+     "k": "allgrids|connect|ercot:HB_NORTH",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:HB_NORTH",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_NORTH|da",
+     "raw": "34.43196004566211",
+     "text": "34.43"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_NORTH|rt",
+     "raw": "32.50617922374428",
+     "text": "32.51"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_NORTH|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_NORTH|firm|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_NORTH|curtailing|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|demand|ercot:HB_NORTH",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:HB_NORTH",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:HB_NORTH",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbon|ercot:HB_NORTH",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|carbonlb|ercot:HB_NORTH",
+     "raw": "733.8621407600489",
+     "text": "733.86"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:HB_NORTH",
+     "raw": "73.56793519505776",
+     "text": "73.57"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:HB_NORTH",
+     "raw": "9.443553200366427",
+     "text": "9.44"
+    },
+    {
+     "k": "allgrids|allin|ercot:HB_NORTH|profile=datacenter&lf=0.9&strike=row",
+     "raw": "42.25699440639271",
+     "text": "42.26"
+    },
+    {
+     "k": "allgrids|connect|ercot:HB_SOUTH",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:HB_SOUTH",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_SOUTH|da",
+     "raw": "34.54967351598174",
+     "text": "34.55"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_SOUTH|rt",
+     "raw": "32.737066210045676",
+     "text": "32.74"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_SOUTH|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_SOUTH|firm|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_SOUTH|curtailing|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|demand|ercot:HB_SOUTH",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:HB_SOUTH",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:HB_SOUTH",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbon|ercot:HB_SOUTH",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|carbonlb|ercot:HB_SOUTH",
+     "raw": "733.8621407600489",
+     "text": "733.86"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:HB_SOUTH",
+     "raw": "73.56793519505776",
+     "text": "73.57"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:HB_SOUTH",
+     "raw": "9.443553200366427",
+     "text": "9.44"
+    },
+    {
+     "k": "allgrids|allin|ercot:HB_SOUTH|profile=datacenter&lf=0.9&strike=row",
+     "raw": "42.374707876712336",
+     "text": "42.37"
+    },
+    {
+     "k": "allgrids|connect|ercot:HB_WEST",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:HB_WEST",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_WEST|da",
+     "raw": "33.005397260273966",
+     "text": "33.01"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_WEST|rt",
+     "raw": "30.662884703196347",
+     "text": "30.66"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_WEST|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_WEST|firm|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_WEST|curtailing|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|demand|ercot:HB_WEST",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:HB_WEST",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:HB_WEST",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbon|ercot:HB_WEST",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|carbonlb|ercot:HB_WEST",
+     "raw": "733.8621407600489",
+     "text": "733.86"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:HB_WEST",
+     "raw": "73.56793519505776",
+     "text": "73.57"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:HB_WEST",
+     "raw": "9.443553200366427",
+     "text": "9.44"
+    },
+    {
+     "k": "allgrids|allin|ercot:HB_WEST|profile=datacenter&lf=0.9&strike=row",
+     "raw": "40.830431621004564",
+     "text": "40.83"
+    }
+   ],
+   "nChecks": 500,
+   "sortLine": "Sorted by months to connect, smallest first; a row with no figure, or one held under a license, last. 48 of 48 rows shown. The order is the column's, not a ranking of sites.",
+   "headline": "Choose A and B under \"A and B, side by side\" in the box to set two rows beside each other; A sets this line.",
+   "abUtilityTip": null,
+   "basisWords": [
+    "bundled; the state's stand-in (TX)",
+    "bundled; Harris County, TX",
+    "bundled; the state's stand-in (TX)",
+    "bundled; the state's stand-in (TX)",
+    "bundled; the state's stand-in (TX)",
+    "bundled; the state's stand-in (TX)",
+    "bundled; Travis County, TX",
+    "bundled; Bexar County, TX",
+    "bundled; Harris County, TX",
+    "bundled; the state's stand-in (TX)"
+   ],
+   "nBasis": 47,
+   "docLinks": [
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    },
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    },
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    },
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    },
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    },
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    },
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    },
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    }
+   ],
+   "nDocLinks": 31,
+   "doc": {
+    "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+    "target": "_blank",
+    "label": "The rule's document, Public Utility Commission of Texas, docket 58481 (opens in a new tab)",
+    "text": "document"
+   },
+   "rows": [
+    {
+     "id": "ercot:HB_BUSAVG",
+     "text": "ERCOT HB_BUSAVG (hub)45.80Generation in ERCOT: the median months from queue entry to commercial operation of the 227 requests that came online from 2023 to 2025 (interconnection_durations, from Berkel"
+    },
+    {
+     "id": "ercot:HB_HOUSTON",
+     "text": "ERCOT HB_HOUSTON (hub)45.80Generation in ERCOT: the median months from queue entry to commercial operation of the 227 requests that came online from 2023 to 2025 (interconnection_durations, from Berke"
+    },
+    {
+     "id": "ercot:HB_HUBAVG",
+     "text": "ERCOT HB_HUBAVG (hub)45.80Generation in ERCOT: the median months from queue entry to commercial operation of the 227 requests that came online from 2023 to 2025 (interconnection_durations, from Berkel"
+    },
+    {
+     "id": "ercot:HB_NORTH",
+     "text": "ERCOT HB_NORTH (hub)45.80Generation in ERCOT: the median months from queue entry to commercial operation of the 227 requests that came online from 2023 to 2025 (interconnection_durations, from Berkele"
+    },
+    {
+     "id": "ercot:HB_SOUTH",
+     "text": "ERCOT HB_SOUTH (hub)45.80Generation in ERCOT: the median months from queue entry to commercial operation of the 227 requests that came online from 2023 to 2025 (interconnection_durations, from Berkele"
+    },
+    {
+     "id": "ercot:HB_WEST",
+     "text": "ERCOT HB_WEST (hub)45.80Generation in ERCOT: the median months from queue entry to commercial operation of the 227 requests that came online from 2023 to 2025 (interconnection_durations, from Berkeley"
+    }
+   ],
+   "scrollW": 1265,
+   "clientW": 1265,
+   "totalH": 5162,
+   "shot": "07-rule-doc_1280.png"
+  },
+  {
+   "step": "09-ab-zones",
+   "width": 1280,
+   "does": "A LZ_HOUSTON, B LZ_NORTH (step 9): the utility row's tip",
+   "url": "/cost-of-power?view=allgrids&mw=1000&sort=utility&grid=ercot&a=ercot%3ALZ_HOUSTON&b=ercot%3ALZ_NORTH",
+   "found": true,
+   "errorText": "",
+   "checksInView": [
+    {
+     "k": "allgrids|col|energy|ercot:LZ_HOUSTON|profile=datacenter&lf=0.9&strike=row",
+     "raw": "35.4831506849315",
+     "text": "35.48"
+    },
+    {
+     "k": "allgrids|col|energy|ercot:LZ_NORTH|profile=datacenter&lf=0.9&strike=row",
+     "raw": "35.326399543379",
+     "text": "35.33"
+    },
+    {
+     "k": "allgrids|diff|energy|ercot:LZ_HOUSTON|ercot:LZ_NORTH|profile=datacenter&lf=0.9&strike=row",
+     "raw": "-0.1567511415525047",
+     "text": "-0.16"
+    },
+    {
+     "k": "allgrids|col|transmission|ercot:LZ_HOUSTON|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|col|transmission|ercot:LZ_NORTH|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|diff|transmission|ercot:LZ_HOUSTON|ercot:LZ_NORTH|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|col|capacity|ercot:LZ_HOUSTON|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|col|capacity|ercot:LZ_NORTH|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|diff|capacity|ercot:LZ_HOUSTON|ercot:LZ_NORTH|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|col|connect|ercot:LZ_HOUSTON|profile=datacenter&lf=0.9&strike=row",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|col|connect|ercot:LZ_NORTH|profile=datacenter&lf=0.9&strike=row",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|diff|connect|ercot:LZ_HOUSTON|ercot:LZ_NORTH|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|col|headroom|ercot:LZ_HOUSTON|profile=datacenter&lf=0.9&strike=row",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|col|headroom|ercot:LZ_NORTH|profile=datacenter&lf=0.9&strike=row",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|diff|headroom|ercot:LZ_HOUSTON|ercot:LZ_NORTH|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|col|carbon|ercot:LZ_HOUSTON|profile=datacenter&lf=0.9&strike=row",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|col|carbon|ercot:LZ_NORTH|profile=datacenter&lf=0.9&strike=row",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|diff|carbon|ercot:LZ_HOUSTON|ercot:LZ_NORTH|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|col|utility|ercot:LZ_HOUSTON|profile=datacenter&lf=0.9&strike=row",
+     "raw": "89.38681180428301",
+     "text": "89.39"
+    },
+    {
+     "k": "allgrids|col|utility|ercot:LZ_NORTH|profile=datacenter&lf=0.9&strike=row",
+     "raw": "73.56793519505776",
+     "text": "73.57"
+    },
+    {
+     "k": "allgrids|diff|utility|ercot:LZ_HOUSTON|ercot:LZ_NORTH|profile=datacenter&lf=0.9&strike=row",
+     "raw": "-15.818876609225256",
+     "text": "-15.82"
+    },
+    {
+     "k": "allgrids|col|allin|ercot:LZ_HOUSTON|profile=datacenter&lf=0.9&strike=row",
+     "raw": "43.3081850456621",
+     "text": "43.31"
+    },
+    {
+     "k": "allgrids|col|allin|ercot:LZ_NORTH|profile=datacenter&lf=0.9&strike=row",
+     "raw": "43.151433904109595",
+     "text": "43.15"
+    },
+    {
+     "k": "allgrids|diff|allin|ercot:LZ_HOUSTON|ercot:LZ_NORTH|profile=datacenter&lf=0.9&strike=row",
+     "raw": "-0.1567511415525047",
+     "text": "-0.16"
+    },
+    {
+     "k": "allgrids|year|ercot:LZ_HOUSTON|profile=datacenter&lf=0.9&strike=row&mw=1000",
+     "raw": "341441730.9",
+     "text": "341,441,731"
+    },
+    {
+     "k": "allgrids|year|ercot:LZ_NORTH|profile=datacenter&lf=0.9&strike=row&mw=1000",
+     "raw": "340205904.90000004",
+     "text": "340,205,905"
+    },
+    {
+     "k": "allgrids|yeardiff|ercot:LZ_HOUSTON|ercot:LZ_NORTH|profile=datacenter&lf=0.9&strike=row&mw=1000",
+     "raw": "-1235825.9999999404",
+     "text": "-1,235,826"
+    },
+    {
+     "k": "allgrids|mwh|ercot:LZ_HOUSTON|profile=datacenter&lf=0.9&strike=row&mw=1000",
+     "raw": "7884000",
+     "text": "7,884,000"
+    },
+    {
+     "k": "allgrids|mwh|ercot:LZ_NORTH|profile=datacenter&lf=0.9&strike=row&mw=1000",
+     "raw": "7884000",
+     "text": "7,884,000"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:HB_HOUSTON",
+     "raw": "89.38681180428301",
+     "text": "89.39"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:HB_HOUSTON",
+     "raw": "-0.75190010857763",
+     "text": "-0.75"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_HOUSTON|da",
+     "raw": "35.221134703196356",
+     "text": "35.22"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_HOUSTON|rt",
+     "raw": "32.90021689497716",
+     "text": "32.90"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HOUSTON|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HOUSTON|firm|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HOUSTON|curtailing|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|connect|ercot:HB_HOUSTON",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:HB_HOUSTON",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|demand|ercot:HB_HOUSTON",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:HB_HOUSTON",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:HB_HOUSTON",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbon|ercot:HB_HOUSTON",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|carbonlb|ercot:HB_HOUSTON",
+     "raw": "733.8621407600489",
+     "text": "733.86"
+    },
+    {
+     "k": "allgrids|allin|ercot:HB_HOUSTON|profile=datacenter&lf=0.9&strike=row",
+     "raw": "43.04616906392695",
+     "text": "43.05"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:LZ_HOUSTON",
+     "raw": "89.38681180428301",
+     "text": "89.39"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:LZ_HOUSTON",
+     "raw": "-0.75190010857763",
+     "text": "-0.75"
+    },
+    {
+     "k": "allgrids|energy|ercot:LZ_HOUSTON|da",
+     "raw": "35.4831506849315",
+     "text": "35.48"
+    },
+    {
+     "k": "allgrids|energy|ercot:LZ_HOUSTON|rt",
+     "raw": "33.43493493150684",
+     "text": "33.43"
+    },
+    {
+     "k": "allgrids|tx|ercot:LZ_HOUSTON|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:LZ_HOUSTON|firm|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:LZ_HOUSTON|curtailing|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|connect|ercot:LZ_HOUSTON",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:LZ_HOUSTON",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|demand|ercot:LZ_HOUSTON",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:LZ_HOUSTON",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:LZ_HOUSTON",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbon|ercot:LZ_HOUSTON",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|carbonlb|ercot:LZ_HOUSTON",
+     "raw": "733.8621407600489",
+     "text": "733.86"
+    },
+    {
+     "k": "allgrids|allin|ercot:LZ_HOUSTON|profile=datacenter&lf=0.9&strike=row",
+     "raw": "43.3081850456621",
+     "text": "43.31"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:HB_BUSAVG",
+     "raw": "73.56793519505776",
+     "text": "73.57"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:HB_BUSAVG",
+     "raw": "9.443553200366427",
+     "text": "9.44"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_BUSAVG|da",
+     "raw": "34.39849543378996",
+     "text": "34.40"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_BUSAVG|rt",
+     "raw": "32.38137557077625",
+     "text": "32.38"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_BUSAVG|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_BUSAVG|firm|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_BUSAVG|curtailing|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|connect|ercot:HB_BUSAVG",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:HB_BUSAVG",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|demand|ercot:HB_BUSAVG",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:HB_BUSAVG",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:HB_BUSAVG",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbon|ercot:HB_BUSAVG",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|carbonlb|ercot:HB_BUSAVG",
+     "raw": "733.8621407600489",
+     "text": "733.86"
+    },
+    {
+     "k": "allgrids|allin|ercot:HB_BUSAVG|profile=datacenter&lf=0.9&strike=row",
+     "raw": "42.22352979452056",
+     "text": "42.22"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:HB_HUBAVG",
+     "raw": "73.56793519505776",
+     "text": "73.57"
+    },
+    {
+     "k": "allgrids|connect|ercot:HB_HUBAVG",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|demand|ercot:HB_HUBAVG",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|carbon|ercot:HB_HUBAVG",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    }
+   ],
+   "nChecks": 239,
+   "sortLine": "Sorted by the utility's industrial revenue per MWh, largest first; a row with no figure, or one held under a license, last. The figure is a seller's industrial revenue over its sales: bundled, energy only or delivery only, the county's seller or the state's stand-in, as each cell says under it. 14 of 48 rows shown, in ERCOT. The order is the column's, not a ranking of sites.",
+   "headline": "A datacenter load of 1,000 MW at ERCOT LZ_HOUSTON pays USD 43.31 per MWh all-in, USD 341,441,731 a year; generators there took a median of 45.80 months to connect.",
+   "abUtilityTip": "What each side's figure is (session 726): A bundled; Harris County, TX; B bundled; the state's stand-in (TX). Each is the seller's industrial revenue over its sales (eia861_utility_sales); the two are alike only when both are the same service and the same kind of seller.",
+   "basisWords": [
+    "bundled; Harris County, TX",
+    "bundled; Harris County, TX",
+    "bundled; the state's stand-in (TX)",
+    "bundled; the state's stand-in (TX)",
+    "bundled; the state's stand-in (TX)",
+    "bundled; the state's stand-in (TX)",
+    "bundled; the state's stand-in (TX)",
+    "bundled; the state's stand-in (TX)",
+    "bundled; the state's stand-in (TX)",
+    "bundled; the state's stand-in (TX)"
+   ],
+   "nBasis": 14,
+   "docLinks": [
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    },
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    },
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    },
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    },
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    },
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    },
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    },
+    {
+     "href": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "text": "document"
+    }
+   ],
+   "nDocLinks": 14,
+   "doc": null,
+   "rows": [
+    {
+     "id": "ercot:HB_HOUSTON",
+     "text": "ERCOT HB_HOUSTON (hub)San Bernard Electric Coop, Inc and 2 moreHarris County, TX, a county this row's name places it in: EIA-861's service territories (utility_service_territories, 2025) list 3: Cente"
+    },
+    {
+     "id": "ercot:LZ_HOUSTON",
+     "text": "ERCOT LZ_HOUSTON, Houston load zone (load zone)San Bernard Electric Coop, Inc and 2 moreHarris County, TX, a county this row's name places it in: EIA-861's service territories (utility_service_territo"
+    },
+    {
+     "id": "ercot:HB_BUSAVG",
+     "text": "ERCOT HB_BUSAVG (hub)TXU Energy Retail Co, LLCTXU Energy Retail Co, LLC (EIA utility 19327), the largest of 69 sellers to industry in TX inside ERCOT (balancing authority ERCO) in 2025: 47,232,447 MWh"
+    },
+    {
+     "id": "ercot:HB_HUBAVG",
+     "text": "ERCOT HB_HUBAVG (hub)TXU Energy Retail Co, LLCTXU Energy Retail Co, LLC (EIA utility 19327), the largest of 69 sellers to industry in TX inside ERCOT (balancing authority ERCO) in 2025: 47,232,447 MWh"
+    },
+    {
+     "id": "ercot:HB_NORTH",
+     "text": "ERCOT HB_NORTH (hub)TXU Energy Retail Co, LLCTXU Energy Retail Co, LLC (EIA utility 19327), the largest of 69 sellers to industry in TX inside ERCOT (balancing authority ERCO) in 2025: 47,232,447 MWh "
+    },
+    {
+     "id": "ercot:HB_SOUTH",
+     "text": "ERCOT HB_SOUTH (hub)TXU Energy Retail Co, LLCTXU Energy Retail Co, LLC (EIA utility 19327), the largest of 69 sellers to industry in TX inside ERCOT (balancing authority ERCO) in 2025: 47,232,447 MWh "
+    }
+   ],
+   "scrollW": 1265,
+   "clientW": 1265,
+   "totalH": 2867,
+   "shot": "09-ab-zones_1280.png"
+  }
+ ],
+ "pageErrors": []
+}

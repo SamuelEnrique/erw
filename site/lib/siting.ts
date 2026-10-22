@@ -706,6 +706,15 @@ export const UTILITY_STATES: [string, string][] = [["TX", "ERCO"], ["CA", "CISO"
 export type CountyUtilities = NonNullable<UtilityFile["county"]>[string];
 export type UtilityCell = ({ state: string; ba: string; u: UtilityRow; year: number; prior: number; rev: number; growth: number | null; county?: undefined }
   | { state: string; ba: string; county: CountyUtilities; u: UtilityRow | null; year: number; prior: number; rev: number | null; growth: number | null }) | { why: string; words: string };
+/** Session 726 (the utility planner's walk, docs/reviews/siting-utility-path.md): the basis of a utility figure, in words.
+ * EIA-861's service: bundled (energy and delivery), energy only (a retailer; the wires utility bills delivery) or
+ * delivery only (a wires charge, not energy); and whether the seller is the row's county's or the state's stand-in. */
+export const SERVICE_WORDS: Record<string, string> = { Bundled: "bundled", Energy: "energy only", Delivery: "delivery only" };
+export function utilityBasisWords(c: UtilityCell): string | null {
+  if ("why" in c || !c.u) return null;
+  const service = SERVICE_WORDS[c.u.service] ?? c.u.service.toLowerCase();
+  return c.county ? `${service}; ${c.county.county} County, ${c.county.state}` : `${service}; the state's stand-in (${c.state})`;
+}
 export function utilityCell(f: Files, r: Row): UtilityCell {
   if (r.kind === "node") return { why: "The wires utility (TSP) at an ERCOT node is not named in the node tables (node_basis_daily holds no node's zone, hub or utility), and no county is known for a node, so the service territories cannot be read for it.", words: "not held" };
   // session 718: a row whose name is a place reads its county's utilities from the territories

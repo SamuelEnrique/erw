@@ -3,7 +3,7 @@ import { Num } from "@/components/Num";
 import { InlineSpark } from "@/components/InlineSpark";
 import { InputPanel } from "@/components/tool/ToolPage";
 import type { ReactNode } from "react";
-import { CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, columnValue, nodeTable, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
+import { CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, columnValue, nodeTable, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, utilityBasisWords, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
 import { CP, NODES, SITING_DC, SITING_FILES } from "@/lib/sitingdata";
 import { AllGridsForm } from "./AllGridsForm";
 import { AllGridsNodes } from "./AllGridsNodes";
@@ -174,7 +174,7 @@ function ConnectTd({ r }: { r: Row }) {
             tip={`Generation in ${GRID_NAMES[r.grid]}: the median months from queue entry to commercial operation of the ${g.n} requests that came online from ${g.from} to ${g.to} (${SITING_FILES.connect?.table ?? "interconnection_durations"}, from Berkeley Lab's Queued Up, ${g.vintage}); a quarter took under ${g.p25?.toFixed(0)} months, a quarter over ${g.p75?.toFixed(0)}. A generator's wait, not a load's: loads are not in this file.`} /> mo</span>
         : <Words words="not held" why={"why" in g ? g.why : ""} />}
       <span className="block text-xs" data-connect-load="1">
-        load: {c.rule ? <Tp tip={ruleTip}>rule {c.rule.date.slice(0, 7)}</Tp> : <Words words="no rule held" why={ruleTip} />}
+        load: {c.rule ? <><Tp tip={ruleTip}>rule {c.rule.date.slice(0, 7)}</Tp>{c.rule.url ? <> <a href={c.rule.url} className="underline" target="_blank" rel="noreferrer" data-rule-doc="1" aria-label={`The rule's document, ${c.rule.regulator}, docket ${c.rule.docket} (opens in a new tab)`}>document</a></> : null}</> : <Words words="no rule held" why={ruleTip} />}
         {c.status ? <>, <Tp dotted={false} tip={`ERCOT's large loads approved to energize, MW, its report of ${c.status.day} (${c.status.document}; ercot_large_load_status): approved to connect, not a wait.`}><Num check={`allgrids|llapproved|${r.id}`} raw={c.status.approved}>{c.status.approved.toLocaleString("en-US")}</Num> MW approved</Tp></> : null}
         {"held" in c.wait ? <>, wait <Held table="large_load_waits" why={c.wait.held} /></> : null}
       </span>
@@ -234,8 +234,16 @@ function UtilityTd({ r }: { r: Row }) {
       <Tp tip={tip} className="block max-w-[11rem] text-xs" dotted={false} data={{ "util-name": "1" }}><span className="block truncate">{u.utility}</span></Tp>
       <span className="whitespace-nowrap"><Fig check={`allgrids|utilrev|${r.id}`} v={c.rev} tip={tip} /></span>
       {c.growth !== null ? <span className="block text-xs" data-util-growth="1"><Tp dotted={false} tip={`Industrial sales ${c.year} over ${c.prior}: ${Math.round(u.sales_mwh).toLocaleString("en-US")} against ${Math.round(u.sales_prior_mwh ?? 0).toLocaleString("en-US")} MWh.`}>{c.growth > 0 ? "+" : ""}<Num check={`allgrids|utilgrowth|${r.id}`} raw={c.growth}>{two(c.growth)}</Num></Tp> %</span> : null}
+      <UtilBasis c={c} />
     </span>
   );
+}
+
+/** Session 726: the basis of the figure, under it, so the column's sort is read for what it compares (bundled, energy
+ * only or delivery only; the county's seller or the state's stand-in). The words are utilityBasisWords (lib/siting.ts). */
+function UtilBasis({ c }: { c: ReturnType<typeof utilityCell> }) {
+  const w = utilityBasisWords(c);
+  return w ? <span className="block font-sans text-xs" data-util-basis="1">{w}</span> : null;
 }
 
 /** Session 718: a row whose name is a place: its county's utilities (EIA-861's service territories), the first named, and
@@ -253,6 +261,7 @@ function CountyUtilityTd({ r, c }: { r: Row; c: Extract<ReturnType<typeof utilit
       <Tp tip={tip} className="block max-w-[11rem] text-xs" dotted={false} data={{ "util-name": "1" }}><span className="block truncate">{u?.utility ?? cu.utilities[0]?.name ?? cu.county}{others.length ? ` and ${others.length} more` : ""}</span></Tp>
       {u && c.rev !== null ? <span className="whitespace-nowrap"><Fig check={`allgrids|utilrev|${r.id}`} v={c.rev} tip={tip} /></span> : <Words words="no sales row" why={tip} />}
       {u && c.growth !== null ? <span className="block text-xs" data-util-growth="1"><Tp dotted={false} tip={`Industrial sales ${c.year} over ${c.prior}: ${Math.round(u.sales_mwh).toLocaleString("en-US")} against ${Math.round(u.sales_prior_mwh ?? 0).toLocaleString("en-US")} MWh.`}>{c.growth > 0 ? "+" : ""}<Num check={`allgrids|utilgrowth|${r.id}`} raw={c.growth}>{two(c.growth)}</Num></Tp> %</span> : null}
+      <UtilBasis c={c} />
     </span>
   );
 }
@@ -328,7 +337,9 @@ function AbPanel({ x }: { x: SitingInputs }) {
           <thead><tr className="bg-accent text-white"><th scope="col" className="px-3 py-1.5 text-left font-normal">USD per MWh unless said</th><th scope="col" className={th}>A: {name(ra)}</th><th scope="col" className={th}>B: {name(rb)}</th><th scope="col" className={th}>B less A</th></tr></thead>
           <tbody>
             {COLUMNS.map((c) => (
-              <tr key={c.id} className="border-b border-rule"><th scope="row" className="px-3 py-1.5 text-left font-normal">{c.head} <span className="text-xs text-muted">{c.unit === "USD per MWh" ? "" : c.unit}</span></th>
+              <tr key={c.id} className="border-b border-rule"><th scope="row" className="px-3 py-1.5 text-left font-normal">{c.id === "utility" && (ra || rb)
+                  ? <Tp tip={`What each side's figure is (session 726): A ${ra ? utilityBasisWords(utilityCell(SITING_FILES, ra)) ?? "not held" : "none chosen"}; B ${rb ? utilityBasisWords(utilityCell(SITING_FILES, rb)) ?? "not held" : "none chosen"}. Each is the seller's industrial revenue over its sales (eia861_utility_sales); the two are alike only when both are the same service and the same kind of seller.`} data={{ "ab-utility-basis": "1" }}>{c.head}</Tp>
+                  : c.head} <span className="text-xs text-muted">{c.unit === "USD per MWh" ? "" : c.unit}</span></th>
                 <td className="px-3 py-1.5 text-right">{cell(ra, c)}</td><td className="px-3 py-1.5 text-right">{cell(rb, c)}</td><td className="px-3 py-1.5 text-right">{diff(c)}</td></tr>
             ))}
             <tr className="border-b border-rule bg-paper"><th scope="row" className="px-3 py-1.5 text-left font-normal">A year all-in, USD, {x.mw.toLocaleString("en-US")} MW</th><td className="px-3 py-1.5 text-right">{yr(ra, ya)}</td><td className="px-3 py-1.5 text-right">{yr(rb, yb)}</td><td className="px-3 py-1.5 text-right">{ya && yb && ra && rb ? <>{yb.usd - ya.usd > 0 ? "+" : ""}<Num check={`allgrids|yeardiff|${ra.id}|${rb.id}|${yk}`} raw={yb.usd - ya.usd}>{usdWhole(yb.usd - ya.usd)}</Num></> : ""}</td></tr>
@@ -436,6 +447,7 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
           <p className="mb-2 text-sm" role="status" data-allgrids-sort={`${x.sort}|${x.dir}`}>
             Sorted by {SORT_WORDS[x.sort]}{x.sort === "name" ? (x.dir === "asc" ? ", A to Z" : ", Z to A") : x.dir === "desc" ? ", largest first; a row with no figure, or one held under a license, last" : ", smallest first; a row with no figure, or one held under a license, last"}.
             {x.sort === "transmission" ? " The sort reads the profile's own charge, not the firm figure beside it." : ""}
+            {x.sort === "utility" ? " The figure is a seller's industrial revenue over its sales: bundled, energy only or delivery only, the county's seller or the state's stand-in, as each cell says under it." : ""}
             {" "}{shown.length} of {hubs.length} rows shown{x.grids.length ? `, in ${x.grids.map((g) => GRID_NAMES[g]).join(", ")}` : ""}{x.kind !== "all" ? `, ${x.kind === "zone" ? "load zones" : "hubs"} only` : ""}{x.band ? `, energy from USD ${x.band[0]} to ${x.band[1]} per MWh` : ""}{x.held ? ", every cost part held" : ""}. The order is the column&apos;s, not a ranking of sites.
           </p>
         ) : null}
