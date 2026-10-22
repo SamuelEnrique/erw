@@ -1115,3 +1115,19 @@ body:has(.brand-a) > footer :focus-visible {
   left: 0;
   right: auto;
 }
+/* session 717: the node list's header row (a row of the list, not a table's thead) takes the brand's table header: no
+   band, captions grey, one dark rule under it (docs/brand.md, section 5); its tips' rules in captions grey */
+.brand-a [data-allgrids-nodes] [role="table"] > [role="row"]:first-child {
+  background: transparent;
+  color: var(--color-muted);
+  border-bottom: 1px solid var(--color-ink);
+  font-size: 12px;
+}
+.brand-a [data-allgrids-nodes] [role="table"] > [role="row"]:first-child button,
+.brand-a [data-allgrids-nodes] [role="table"] > [role="row"]:first-child button span {
+  color: var(--color-muted);
+  border-bottom-color: var(--color-muted);
+}
+.brand-a [data-allgrids-nodes] [role="row"] [role="cell"].text-right {
+  font-family: var(--font-mono);
+}

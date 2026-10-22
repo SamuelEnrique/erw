@@ -246,14 +246,28 @@ function RowHead({ r }: { r: Row }) {
 
 /** Session 709: what every ERCOT node shares, drawn once above the node table: the four-peak charge (paid on the hub's
  * hours), no capacity market, the grid's time to connect, headroom and carbon, and what the node tables do not hold. */
+/** Session 717: what every node shares, as one sentence: the walk of the lab's path found the cells drawn here as they
+ * are in the table (each a block of its own) broke the line into pieces. Each figure keeps its key and its tip. */
+function SharedLine({ hub, x }: { hub: Row; x: SitingInputs }) {
+  const k = profileKey(x);
+  const c = cpCharge(SITING_DC, SITING_FILES, hub, x), con = connectCell(SITING_FILES, hub), g = demandGrowth(SITING_FILES.demand, hub.grid), cb = carbonCell(SITING_DC, SITING_FILES, hub, x);
+  return (
+    <p>
+      Every node below is in ERCOT, and shares these, drawn once: the four-peak charge, paid on {NODE_HUB}&apos;s hours,{" "}
+      {"why" in c ? <Words words={c.words} why={c.why} /> : <>USD {c.own === null ? <Words words="not held" why="The price of an interval's hour is not held." /> : <Fig check={`allgrids|tx|${hub.id}|${k}`} v={c.own} tip={`This load's charge: it ran in ${Math.round((c.share ?? 0) * 4)} of the four intervals of ${c.year}, at the Commission's ${c.rate.year} rate.`} />} per MWh for this load (firm <Fig check={`allgrids|tx|${hub.id}|firm|${k}`} v={c.firm} tip="On in all four intervals." />{c.curtailing !== null ? <>, off at the peaks <Fig check={`allgrids|tx|${hub.id}|curtailing|${k}`} v={c.curtailing} tip="Off in the four intervals' hours, computed from its weights." /></> : null})</>};
+      {" "}no capacity market (<Words words="why" why="ERCOT is an energy-only market: it has no capacity market and no capacity charge." />);
+      {" "}generators took a median of {"median" in con.gen && con.gen.median !== null ? <Fig check={`allgrids|connect|${hub.id}`} v={con.gen.median} tip={`From queue entry to operation, ${con.gen.n} requests online from ${con.gen.from} to ${con.gen.to} (lbnl_interconnection_queue).`} /> : <Words words="not held" why={"why" in con.gen ? con.gen.why : ""} />} months to connect;
+      {" "}demand grew {"pct" in g ? <>{g.pct > 0 ? "+" : ""}<Fig check={`allgrids|demand|${hub.id}`} v={g.pct} tip={`ERCOT's mean demand (EIA-930, ERCO), ${monthWords(g.from)} to ${monthWords(g.to)}, over the twelve months before.`} /> percent</> : <Words words="not held" why={g.why} />} on the year;
+      {" "}carbon {"kg" in cb ? <><Fig check={`allgrids|carbon|${hub.id}`} v={cb.kg} tip={`eGRID subregion ERCT, ${cb.year}: the plants' CO2 over their net generation.`} /> kg CO2 per MWh</> : <Words words={cb.words} why={cb.why} />}.
+    </p>
+  );
+}
+
 function NodeShared({ x }: { x: SitingInputs }) {
   const hub = hubRows(SITING_FILES.index).find((r) => r.id === `ercot:${NODE_HUB}`)!;
   return (
     <div className="mb-3 max-w-4xl text-sm" data-node-shared="1">
-      <p>
-        Every node below is in ERCOT, and shares these, drawn once: the four-peak charge on {NODE_HUB}&apos;s hours, <TxTd r={hub} x={x} />; capacity, <Words words="no capacity market" why="ERCOT is an energy-only market: it has no capacity market and no capacity charge." />;
-        {" "}time to connect, <ConnectTd r={hub} />; headroom, <HeadroomTd r={hub} />; carbon, <CarbonTd r={hub} x={x} />.
-      </p>
+      <SharedLine hub={hub} x={x} />
       <p className="mt-1">
         Not held for any node: its load zone, its settlement hub and its wires utility (TSP). node_basis_daily sets every node against {NODE_HUB} and names no zone or utility; <Words words="not held" why="ERCOT publishes each settlement point's zone and hub in its settlement point mapping, and each node's TSP in its resource registration; neither is a table of the warehouse yet (docs/reviews/siting-gaps.md)." />.
       </p>
@@ -355,6 +369,9 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
   const hubs = hubRows(SITING_FILES.index), nodes = nodeRows(NODES);
   const p = PROFILES[x.profile];
   const shown = x.rows === "hubs" ? screen(SITING_DC, SITING_FILES, hubs, x) : [];
+  // session 717: the column the table is sorted by is drawn first, beside the rows' names (the walk found it off the
+  // screen to the right on a laptop); the order of the others is kept
+  const cols = x.sort === "name" ? COLUMNS : [...COLUMNS.filter((c) => c.id === x.sort), ...COLUMNS.filter((c) => c.id !== x.sort)];
   return (
     <div className="grid gap-8 lg:grid-cols-[290px_minmax(0,1fr)]" data-no-usage="1" data-allgrids="1">
       <aside>
@@ -391,7 +408,7 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
             <thead>
               <tr className="bg-accent text-white">
                 <th scope="col" className="px-3 py-1.5 font-normal">Grid and region</th>
-                {COLUMNS.map((c) => (
+                {cols.map((c) => (
                   <th key={c.id} scope="col" className="px-3 py-1.5 text-right font-normal" data-col={c.id}>
                     <Tp tip={`${c.tip} ${c.unit}.`} className="border-white/70">{c.head}</Tp>
                   </th>
@@ -402,7 +419,7 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
               {shown.map((r) => (
                 <tr key={r.id} className="border-b border-rule" data-allgrids-row={r.id}>
                   <RowHead r={r} />
-                  {COLUMNS.map((c, ci) => <td key={c.id} className="px-3 py-1.5 text-right" data-cell={c.id} data-opens={ci < 4 ? "right" : undefined}>{c.id === "energy" ? (x.profile === "datacenter" ? <EnergyTd r={r} e={energyCell(SITING_DC, SITING_FILES, r)} /> : <ProfileTd r={r} x={x} />)
+                  {cols.map((c, ci) => <td key={c.id} className="px-3 py-1.5 text-right" data-cell={c.id} data-opens={ci < 4 ? "right" : undefined}>{c.id === "energy" ? (x.profile === "datacenter" ? <EnergyTd r={r} e={energyCell(SITING_DC, SITING_FILES, r)} /> : <ProfileTd r={r} x={x} />)
                     : c.id === "transmission" ? <TxTd r={r} x={x} /> : c.id === "capacity" ? <CapTd r={r} x={x} /> : c.id === "connect" ? <ConnectTd r={r} /> : c.id === "headroom" ? <HeadroomTd r={r} /> : c.id === "carbon" ? <CarbonTd r={r} x={x} /> : c.id === "utility" ? <UtilityTd r={r} /> : c.id === "allin" ? <AllInTd r={r} x={x} /> : null}</td>)}
                 </tr>
               ))}
