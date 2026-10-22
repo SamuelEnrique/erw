@@ -28,7 +28,7 @@
 
 ## The landing
 
-With 766 to 781, in session 781.
+Sessions 766 to 777 landed in one push at 21:13 UTC: see `SESSION_777_REPORT.md`, "The landing".
 
 ## Decisions made without you
 
