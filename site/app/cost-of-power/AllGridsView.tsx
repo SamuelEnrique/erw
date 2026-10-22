@@ -386,6 +386,13 @@ function NodePanel({ id, x }: { id: string; x: SitingInputs }) {
           <Num check={`allgrids|nodepct|${id}|10`} raw={n.pct[0]}>{two(n.pct[0])}</Num>, half at or below <Num check={`allgrids|nodepct|${id}|50`} raw={n.pct[1]}>{two(n.pct[1])}</Num>, nine in ten at or below <Num check={`allgrids|nodepct|${id}|90`} raw={n.pct[2]}>{two(n.pct[2])}</Num> per MWh.
         </p>
       ) : <p className="mt-1"><Words words="not held" why="No day of day-ahead basis is held for this node in the twelve months." /></p>}
+      {/* session 746 (chain 063): the node's day-ahead intraday swing, the same twelve months */}
+      {n.swing ? (
+        <p className="mt-1" data-node-swing="1">
+          Its day-ahead intraday swing, each day&apos;s four dearest hours&apos; mean less its four cheapest ({n.swing[3]} days, node_basis_daily, dam_spread_4h): USD{" "}
+          <Num check={`allgrids|nodeswing|${id}`} raw={n.swing[0]}>{two(n.swing[0])}</Num> per MWh on a mean day, one day in ten at or below <Num check={`allgrids|nodeswing|${id}|10`} raw={n.swing[1]}>{two(n.swing[1])}</Num>, nine in ten at or below <Num check={`allgrids|nodeswing|${id}|90`} raw={n.swing[2]}>{two(n.swing[2])}</Num>.
+        </p>
+      ) : null}
       {months.length >= 2 ? (
         <div className="mt-2" data-node-chart="1">
           <span className="text-xs">Each month&apos;s mean daily basis, USD per MWh, {months[0][0]} to {months.at(-1)![0]}:</span>

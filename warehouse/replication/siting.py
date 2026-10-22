@@ -275,10 +275,16 @@ def table_figures(repo, tables, chosen):
     out = {}
     nodes = read_json(repo, "siting", "nodes.json")
     want = {f"ercot:{n}" for n in chosen}
-    days = {}
+    days, swing = {}, {}
     for r in table_rows(os.path.join(tables, "node_basis_daily.csv")):
-        if r["variable"] == "dam_basis" and r["entity"] in want and nodes["pct_from"] <= r["ts_utc"][:7] <= nodes["pct_to"] and r["value"] not in ("", None):
-            days.setdefault(r["entity"], []).append(float(r["value"]))
+        if r["entity"] in want and nodes["pct_from"] <= r["ts_utc"][:7] <= nodes["pct_to"] and r["value"] not in ("", None):
+            if r["variable"] == "dam_basis":
+                days.setdefault(r["entity"], []).append(float(r["value"]))
+            elif r["variable"] == "dam_spread_4h":
+                swing.setdefault(r["entity"], []).append(float(r["value"]))
+    # session 746: the intraday swing's mean, rounded as the tab's file writes it
+    for e, xs in swing.items():
+        out[f"allgrids|nodeswing|{e}"] = round(sum(xs) / len(xs), 4)
     for e, xs in days.items():
         # the tab's file rounds each percentile to four decimals; the list draws the 90th less the 10th
         out[f"allgrids|nodespread|{e}"] = round(quantile(xs, 0.9), 4) - round(quantile(xs, 0.1), 4)

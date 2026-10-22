@@ -126,7 +126,7 @@ def nodes_file(path):
     cols = ["entity", "variable", "ts_utc", "value", "x_resource_type", "x_class"]
     keep = []
     for ch in pd.read_csv(path, skiprows=header_rows(path), usecols=cols, dtype={"value": float, "x_resource_type": str}, chunksize=500_000):
-        keep.append(ch[ch["variable"].isin(["dam_basis", "dam_mean"])])
+        keep.append(ch[ch["variable"].isin(["dam_basis", "dam_mean", "dam_spread_4h"])])
     d = pd.concat(keep, ignore_index=True)
     first, last = d["ts_utc"].min()[:10], d["ts_utc"].max()[:10]
     points = d["entity"].nunique()
@@ -142,6 +142,11 @@ def nodes_file(path):
     p_from = (pd.Period(last_whole, "M") - 11).strftime("%Y-%m")
     w = b[(b["m"] >= p_from) & (b["m"] <= p_to)]
     pct = w.groupby("entity")["value"].quantile([0.1, 0.5, 0.9]).unstack()
+    # session 746 (chain 063): the node's intraday swing, dam_spread_4h (each day's four dearest day-ahead hours' mean
+    # less the four cheapest), over the same twelve months: its mean, its 10th and 90th percentile, and its days
+    sw = d[(d["variable"] == "dam_spread_4h") & ~d["x_class"].isin(["hub", "zone"]) & (d["ts_utc"].str[:7] >= p_from) & (d["ts_utc"].str[:7] <= p_to)]
+    swing = sw.groupby("entity")["value"].agg(["mean", "count"])
+    swq = sw.groupby("entity")["value"].quantile([0.1, 0.9]).unstack()
     pdays = w.groupby("entity")["value"].count()
     meta = b.drop_duplicates("entity").set_index("entity")[["x_class", "x_resource_type"]]
     nodes = []
@@ -150,6 +155,7 @@ def nodes_file(path):
             "id": ent.split(":", 1)[1], "cls": str(meta.at[ent, "x_class"]), "types": "" if pd.isna(meta.at[ent, "x_resource_type"]) else str(meta.at[ent, "x_resource_type"]),
             "dam_basis": {r.m: [round(float(r.mean), 4), int(r.count)] for r in rows.itertuples()},
             **({"pct": [round(float(pct.at[ent, 0.1]), 4), round(float(pct.at[ent, 0.5]), 4), round(float(pct.at[ent, 0.9]), 4), int(pdays[ent])]} if ent in pct.index else {}),
+            **({"swing": [round(float(swing.at[ent, "mean"]), 4), round(float(swq.at[ent, 0.1]), 4), round(float(swq.at[ent, 0.9]), 4), int(swing.at[ent, "count"])]} if ent in swing.index else {}),
         })
     # a node with no day-ahead basis day is still a node of the table (a point held only in real time)
     for ent in sorted(set(kinds.index[~kinds.isin(["hub", "zone"])]) - set(g["entity"])):
