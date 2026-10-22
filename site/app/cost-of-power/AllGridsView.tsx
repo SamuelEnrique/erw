@@ -168,7 +168,6 @@ function ConnectTd({ r }: { r: Row }) {
   );
 }
 
-const signed2 = (v: number) => `${v > 0 ? "+" : ""}${two(v)}`;
 /** Session 706: headroom: the grid's demand growth (percent), generation under construction due in the next twelve
  * months (MW), and installed capacity against the last year's peak where the grid is whole states. */
 function HeadroomTd({ r }: { r: Row }) {
@@ -178,7 +177,7 @@ function HeadroomTd({ r }: { r: Row }) {
       {"pct" in g
         ? <span className="whitespace-nowrap"><span className={`group relative inline-block ${tipCls}`} tabIndex={0}
             title={`${GRID_NAMES[r.grid]}'s mean demand (EIA-930, ${g.ba}), ${monthWords(g.from)} to ${monthWords(g.to)}, ${Math.round(g.mw).toLocaleString("en-US")} MW, against the twelve months before, ${Math.round(g.before).toLocaleString("en-US")} MW: each month's mean weighted by its hours (eia930_demand_growth, "Your load"'s file data/demand_growth.json). The grid's own balancing authority, not the row's zone: sub-region demand is not in the tab's files. Weather is not removed.`}>
-            <Num check={`allgrids|demand|${r.id}`} raw={g.pct}>{signed2(g.pct)}</Num></span> %</span>
+            {g.pct > 0 ? "+" : ""}<Num check={`allgrids|demand|${r.id}`} raw={g.pct}>{two(g.pct)}</Num></span> %</span>
         : <Words words="not held" why={g.why} />}
       <span className="block text-xs" data-headroom-planned="1">
         {pl && h ? <span title={`Generators under construction (EIA-860M status U, V or TS) in ${GRID_NAMES[r.grid]} due to operate from ${h.from} to ${h.to}, the twelve months after the table's vintage (${h.vintage}): ${pl.construction_n} generators. Approvals received, not under construction: ${Math.round(pl.approved_mw).toLocaleString("en-US")} MW; planned, approvals pending or not started: ${Math.round(pl.other_mw).toLocaleString("en-US")} MW. EIA-860M records no interconnection agreement; construction is the nearest it states (eia860m_planned_generators).`}><Num check={`allgrids|planned|${r.id}`} raw={pl.construction_mw}>{Math.round(pl.construction_mw).toLocaleString("en-US")}</Num> MW coming</span> : <Words words="no plan held" why={`No planned generator of ${GRID_NAMES[r.grid]} is in eia860m_planned_generators.`} />}
@@ -217,7 +216,7 @@ function UtilityTd({ r }: { r: Row }) {
     <span className="inline-block text-right">
       <span className="block max-w-[11rem] truncate text-xs" title={tip}>{u.utility}</span>
       <span className="whitespace-nowrap"><Fig check={`allgrids|utilrev|${r.id}`} v={c.rev} tip={tip} /></span>
-      {c.growth !== null ? <span className="block text-xs" data-util-growth="1"><span title={`Industrial sales ${c.year} over ${c.prior}: ${Math.round(u.sales_mwh).toLocaleString("en-US")} against ${Math.round(u.sales_prior_mwh ?? 0).toLocaleString("en-US")} MWh.`}><Num check={`allgrids|utilgrowth|${r.id}`} raw={c.growth}>{signed2(c.growth)}</Num></span> %</span> : null}
+      {c.growth !== null ? <span className="block text-xs" data-util-growth="1"><span title={`Industrial sales ${c.year} over ${c.prior}: ${Math.round(u.sales_mwh).toLocaleString("en-US")} against ${Math.round(u.sales_prior_mwh ?? 0).toLocaleString("en-US")} MWh.`}>{c.growth > 0 ? "+" : ""}<Num check={`allgrids|utilgrowth|${r.id}`} raw={c.growth}>{two(c.growth)}</Num></span> %</span> : null}
     </span>
   );
 }
@@ -263,7 +262,7 @@ function AbPanel({ x }: { x: SitingInputs }) {
   const diff = (c: (typeof COLUMNS)[number]) => {
     if (!ra || !rb) return "";
     const va = columnValue(SITING_DC, SITING_FILES, ra, x, c.id), vb = columnValue(SITING_DC, SITING_FILES, rb, x, c.id);
-    return va === null || vb === null ? "" : <Num check={`allgrids|diff|${c.id}|${ra.id}|${rb.id}|${k}`} raw={vb - va}>{signed2(vb - va)}</Num>;
+    return va === null || vb === null ? "" : <>{vb - va > 0 ? "+" : ""}<Num check={`allgrids|diff|${c.id}|${ra.id}|${rb.id}|${k}`} raw={vb - va}>{two(vb - va)}</Num></>;
   };
   const year = (r: Row | undefined) => (r ? yearOf(SITING_DC, SITING_FILES, r, x) : null);
   const ya = year(ra), yb = year(rb);
@@ -282,7 +281,7 @@ function AbPanel({ x }: { x: SitingInputs }) {
               <tr key={c.id} className="border-b border-rule"><th scope="row" className="px-3 py-1.5 text-left font-normal">{c.head} <span className="text-xs text-muted">{c.unit === "USD per MWh" ? "" : c.unit}</span></th>
                 <td className="px-3 py-1.5 text-right">{cell(ra, c)}</td><td className="px-3 py-1.5 text-right">{cell(rb, c)}</td><td className="px-3 py-1.5 text-right">{diff(c)}</td></tr>
             ))}
-            <tr className="border-b border-rule bg-paper"><th scope="row" className="px-3 py-1.5 text-left font-normal">A year all-in, USD, {x.mw.toLocaleString("en-US")} MW</th><td className="px-3 py-1.5 text-right">{yr(ra, ya)}</td><td className="px-3 py-1.5 text-right">{yr(rb, yb)}</td><td className="px-3 py-1.5 text-right">{ya && yb && ra && rb ? <Num check={`allgrids|yeardiff|${ra.id}|${rb.id}|${yk}`} raw={yb.usd - ya.usd}>{`${yb.usd - ya.usd > 0 ? "+" : ""}${usdWhole(yb.usd - ya.usd)}`}</Num> : ""}</td></tr>
+            <tr className="border-b border-rule bg-paper"><th scope="row" className="px-3 py-1.5 text-left font-normal">A year all-in, USD, {x.mw.toLocaleString("en-US")} MW</th><td className="px-3 py-1.5 text-right">{yr(ra, ya)}</td><td className="px-3 py-1.5 text-right">{yr(rb, yb)}</td><td className="px-3 py-1.5 text-right">{ya && yb && ra && rb ? <>{yb.usd - ya.usd > 0 ? "+" : ""}<Num check={`allgrids|yeardiff|${ra.id}|${rb.id}|${yk}`} raw={yb.usd - ya.usd}>{usdWhole(yb.usd - ya.usd)}</Num></> : ""}</td></tr>
             <tr className="border-b border-rule"><th scope="row" className="px-3 py-1.5 text-left font-normal">Energy used a year, MWh</th><td className="px-3 py-1.5 text-right">{mwh(ra, ya)}</td><td className="px-3 py-1.5 text-right">{mwh(rb, yb)}</td><td /></tr>
           </tbody>
         </table>

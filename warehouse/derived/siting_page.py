@@ -90,8 +90,11 @@ def header_rows(path):
     return n
 
 
-def find(table, dirs):
-    for d in [OUTPUT, *dirs]:
+def find(table, dirs, first=False):
+    """The table's file: warehouse/output first, then the --in-dir directories in order; with --in-dir-first (session
+    712), the --in-dir directories before warehouse/output (a copy rebuilt from the archive that is newer than this
+    machine's own)."""
+    for d in ([*dirs, OUTPUT] if first else [OUTPUT, *dirs]):
         p = os.path.join(d, f"{table}.csv")
         if os.path.exists(p):
             return p
@@ -326,11 +329,12 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description="The All grids tab's files for /cost-of-power")
     ap.add_argument("--in-dir", action="append", default=[], help="a directory to read a table from when warehouse/output lacks it")
     ap.add_argument("--out-dir", default=SITE_DIR, help="where the files go (default site/data/siting)")
+    ap.add_argument("--in-dir-first", action="store_true", help="session 712: read the --in-dir directories before warehouse/output")
     ap.add_argument("--internal", help="session 704: write the capacity prices per row to this file (outside the repository)")
     ap.add_argument("--rows", help="with --internal: the tab's rows and their capacity zones as JSON (node scripts/siting-files.mjs capzones)")
     a = ap.parse_args(argv)
     try:
-        path = find(NODE_TABLE, a.in_dir)
+        path = find(NODE_TABLE, a.in_dir, a.in_dir_first)
         print(f"reading {path}")
         f = nodes_file(path)
     except Exception as e:  # loud: no file from part of a table
@@ -338,7 +342,7 @@ def main(argv=None):
         return 1
     print(f"{NODE_TABLE}: {f['points']} points, {f['hubs']} hubs, {f['zones']} zones, {len(f['nodes'])} nodes, {f['first']} to {f['last']}")
     try:
-        cpath = find(CP_TABLE, a.in_dir)
+        cpath = find(CP_TABLE, a.in_dir, a.in_dir_first)
         print(f"reading {cpath}")
         cp = cp_file(cpath)
     except Exception as e:
@@ -346,7 +350,7 @@ def main(argv=None):
         return 1
     print(f"{CP_TABLE}: {len(cp['summers'])} summers, {sum(len(s['intervals']) for s in cp['summers'])} intervals")
     try:
-        kpath = find(CAP_TABLE, a.in_dir)
+        kpath = find(CAP_TABLE, a.in_dir, a.in_dir_first)
         print(f"reading {kpath}")
         cap = cap_file(kpath)
     except Exception as e:
@@ -357,7 +361,7 @@ def main(argv=None):
     write("ercot_4cp.json", cp, a.out_dir)
     write("capacity.json", cap, a.out_dir)
     try:
-        lpath = find(LBNL_TABLE, a.in_dir)
+        lpath = find(LBNL_TABLE, a.in_dir, a.in_dir_first)
         print(f"reading {lpath}")
         con = connect_file(lpath)
     except Exception as e:
@@ -366,7 +370,7 @@ def main(argv=None):
     print(f"{LBNL_TABLE}: " + "; ".join(f"{g} {v['median']} ({v['n']})" for g, v in con["grids"].items()))
     write("connect.json", con, a.out_dir)
     try:
-        ppath, spath = find(PLANNED_TABLE, a.in_dir), find(STATECAP_TABLE, a.in_dir)
+        ppath, spath = find(PLANNED_TABLE, a.in_dir, a.in_dir_first), find(STATECAP_TABLE, a.in_dir, a.in_dir_first)
         print(f"reading {ppath} and {spath}")
         hr = headroom_file(ppath, spath)
     except Exception as e:
@@ -375,7 +379,7 @@ def main(argv=None):
     print(f"{PLANNED_TABLE} {hr['from']} to {hr['to']}: " + "; ".join(f"{g} {v['construction_mw']}" for g, v in hr["planned"].items()))
     write("headroom.json", hr, a.out_dir)
     try:
-        epath, hpath = find(EGRID_TABLE, a.in_dir), find(HOURLY_TABLE, a.in_dir)
+        epath, hpath = find(EGRID_TABLE, a.in_dir, a.in_dir_first), find(HOURLY_TABLE, a.in_dir, a.in_dir_first)
         print(f"reading {epath} and {hpath}")
         with open(os.path.join(ROOT, "site", "data", "datacenter", "index.json"), encoding="utf-8") as fh:
             index = json.load(fh)
@@ -386,7 +390,7 @@ def main(argv=None):
     print(f"{EGRID_TABLE}: " + "; ".join(f"{k} {round(v['co2_tons'] * 2000 / v['gen_mwh'], 1) if v['gen_mwh'] else None}" for k, v in cb["areas"].items()))
     write("carbon.json", cb, a.out_dir)
     try:
-        upath = find(UTILITY_TABLE, a.in_dir)
+        upath = find(UTILITY_TABLE, a.in_dir, a.in_dir_first)
         print(f"reading {upath}")
         ut = utility_file(upath)
     except Exception as e:

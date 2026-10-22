@@ -334,7 +334,8 @@ def figures(repo, base, key):
         months.sort()
         if len(months) >= 5:
             n = len(months)
-            out[f"allgrids|connect|{rid}"] = (months[n // 2] if n % 2 else (months[n // 2 - 1] + months[n // 2]) / 2)
+            # the tab's file writes the median to two decimals (warehouse/derived/siting_page.py, connect_file)
+            out[f"allgrids|connect|{rid}"] = round(months[n // 2] if n % 2 else (months[n // 2 - 1] + months[n // 2]) / 2, 2)
         sub = {"ercot": "ERCT", "caiso": "CAMX", "nyiso": "NYCW"}[grid]
         a = carbon["areas"][sub]
         out[f"allgrids|carbon|{rid}"] = a["co2_tons"] * 2000 / a["gen_mwh"] * 0.45359237
