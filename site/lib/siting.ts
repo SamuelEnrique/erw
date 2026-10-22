@@ -81,7 +81,7 @@ export const COLUMNS: Column[] = [
   { id: "carbon", head: "Carbon", unit: "kg CO2 per MWh", tables: ["egrid_power_plants", "carbon_intensity_hourly"],
     tip: "The generation-weighted CO2 rate of the row's eGRID subregion (egrid_power_plants); hourly where the profile runs in some hours and the grid's hourly intensity is held." },
   { id: "utility", head: "Utility", unit: "USD per MWh", tables: ["utility_service_territories", "eia861_utility_sales"],
-    tip: "Where the row's name is a place, its county's utilities (utility_service_territories) and the largest seller to industry among them; else the state's largest; its industrial revenue per MWh and sales growth (eia861_utility_sales)." },
+    tip: "Where the row's name is a place, its county's utilities (utility_service_territories) and the largest seller to industry among them; else the state's largest; its industrial revenue per MWh and sales growth (eia861_utility_sales), with its kind beside it: bundled (no word), delivery only or energy only." },
   { id: "allin", head: "All-in", unit: "USD per MWh", tables: [],
     tip: "Energy, transmission and capacity added, drawn only where each of the three is held or is zero by market design." },
 ];
@@ -764,6 +764,16 @@ export function nodeShortMonths(f: Pick<NodeFile, "pct_from" | "pct_to" | "nodes
 /** The short months in words, for the node list's tips and its header line. */
 export const shortMonthsWords = (s: { month: string; held: number; of: number }[]) =>
   s.length ? `node_basis_daily lacks days in ${s.map((v) => `${v.month} (${v.held} of ${v.of} days held)`).join(", ")}, for every node` : "node_basis_daily holds every day of the twelve months";
+/** Session 726 (the utility planner's walk): the kind of a utility's revenue per MWh, from EIA-861's service type.
+ * Bundled is energy and wires together; Delivery is the wires only (the energy bought from a retailer); Energy is a
+ * retailer's energy only (the wires billed by the utility). The three are not alike, so the cell names the kind and
+ * the A and B panel subtracts only like from like. */
+export const SERVICE_WORDS: Record<string, string> = { Bundled: "", Delivery: "delivery only", Energy: "energy only" };
+export function utilityKind(f: Files, r: Row): string | null {
+  const c = utilityCell(f, r);
+  return "why" in c || !c.u ? null : c.u.service;
+}
+export const UTILITY_KINDS_LINE = "The column's revenue per MWh is of three kinds, and each cell names its own: bundled (energy and wires together, no word), delivery only (the wires; the energy is bought from a retailer) and energy only (a retailer's energy; the wires are billed apart). Compare like with like.";
 /** The columns a node table sorts by, and the default: by name. */
 export const NODE_SORTS = ["node", "cls", "energy", "basis", "spread", "allin", "days"] as const;
 export type NodeSort = (typeof NODE_SORTS)[number];

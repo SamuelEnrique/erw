@@ -3,7 +3,7 @@ import { Num } from "@/components/Num";
 import { InlineSpark } from "@/components/InlineSpark";
 import { InputPanel } from "@/components/tool/ToolPage";
 import type { ReactNode } from "react";
-import { nodeShortMonths, shortMonthsWords, CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, columnValue, nodeTable, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
+import { SERVICE_WORDS, UTILITY_KINDS_LINE, utilityKind, nodeShortMonths, shortMonthsWords, CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, columnValue, nodeTable, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
 import { CP, NODES, SITING_DC, SITING_FILES } from "@/lib/sitingdata";
 import { AllGridsForm } from "./AllGridsForm";
 import { AllGridsNodes } from "./AllGridsNodes";
@@ -232,7 +232,7 @@ function UtilityTd({ r }: { r: Row }) {
   return (
     <span className="inline-block text-right">
       <Tp tip={tip} className="block max-w-[11rem] text-xs" dotted={false} data={{ "util-name": "1" }}><span className="block truncate">{u.utility}</span></Tp>
-      <span className="whitespace-nowrap"><Fig check={`allgrids|utilrev|${r.id}`} v={c.rev} tip={tip} /></span>
+      <span className="whitespace-nowrap"><Fig check={`allgrids|utilrev|${r.id}`} v={c.rev} tip={tip} />{SERVICE_WORDS[u.service] ? <span className="ml-1 text-xs" data-util-kind={u.service}>{SERVICE_WORDS[u.service]}</span> : null}</span>
       {c.growth !== null ? <span className="block text-xs" data-util-growth="1"><Tp dotted={false} tip={`Industrial sales ${c.year} over ${c.prior}: ${Math.round(u.sales_mwh).toLocaleString("en-US")} against ${Math.round(u.sales_prior_mwh ?? 0).toLocaleString("en-US")} MWh.`}>{c.growth > 0 ? "+" : ""}<Num check={`allgrids|utilgrowth|${r.id}`} raw={c.growth}>{two(c.growth)}</Num></Tp> %</span> : null}
     </span>
   );
@@ -251,7 +251,7 @@ function CountyUtilityTd({ r, c }: { r: Row; c: Extract<ReturnType<typeof utilit
   return (
     <span className="inline-block text-right">
       <Tp tip={tip} className="block max-w-[11rem] text-xs" dotted={false} data={{ "util-name": "1" }}><span className="block truncate">{u?.utility ?? cu.utilities[0]?.name ?? cu.county}{others.length ? ` and ${others.length} more` : ""}</span></Tp>
-      {u && c.rev !== null ? <span className="whitespace-nowrap"><Fig check={`allgrids|utilrev|${r.id}`} v={c.rev} tip={tip} /></span> : <Words words="no sales row" why={tip} />}
+      {u && c.rev !== null ? <span className="whitespace-nowrap"><Fig check={`allgrids|utilrev|${r.id}`} v={c.rev} tip={tip} />{SERVICE_WORDS[u.service] ? <span className="ml-1 text-xs" data-util-kind={u.service}>{SERVICE_WORDS[u.service]}</span> : null}</span> : <Words words="no sales row" why={tip} />}
       {u && c.growth !== null ? <span className="block text-xs" data-util-growth="1"><Tp dotted={false} tip={`Industrial sales ${c.year} over ${c.prior}: ${Math.round(u.sales_mwh).toLocaleString("en-US")} against ${Math.round(u.sales_prior_mwh ?? 0).toLocaleString("en-US")} MWh.`}>{c.growth > 0 ? "+" : ""}<Num check={`allgrids|utilgrowth|${r.id}`} raw={c.growth}>{two(c.growth)}</Num></Tp> %</span> : null}
     </span>
   );
@@ -307,11 +307,16 @@ function AbPanel({ x }: { x: SitingInputs }) {
   const cell = (r: Row | undefined, c: (typeof COLUMNS)[number]) => {
     if (!r) return "";
     const v = columnValue(SITING_DC, SITING_FILES, r, x, c.id);
-    return v === null ? <Words words="not held" why="Not held for this row, or held under a license and drawn in its column as such: see the row in the table." /> : <Num check={`allgrids|col|${c.id}|${r.id}|${k}`} raw={v}>{two(v)}</Num>;
+    if (v === null) return <Words words="not held" why="Not held for this row, or held under a license and drawn in its column as such: see the row in the table." />;
+    const kind = c.id === "utility" ? SERVICE_WORDS[utilityKind(SITING_FILES, r) ?? ""] : "";
+    return <><Num check={`allgrids|col|${c.id}|${r.id}|${k}`} raw={v}>{two(v)}</Num>{kind ? <span className="ml-1 text-xs" data-util-kind="1">{kind}</span> : null}</>;
   };
   const diff = (c: (typeof COLUMNS)[number]) => {
     if (!ra || !rb) return "";
     const va = columnValue(SITING_DC, SITING_FILES, ra, x, c.id), vb = columnValue(SITING_DC, SITING_FILES, rb, x, c.id);
+    // session 726: the utility line subtracts only like from like (bundled, delivery only, energy only)
+    if (c.id === "utility" && va !== null && vb !== null && utilityKind(SITING_FILES, ra) !== utilityKind(SITING_FILES, rb))
+      return <Words words="not alike" why={`A's figure is ${SERVICE_WORDS[utilityKind(SITING_FILES, ra) ?? ""] || "bundled"} and B's ${SERVICE_WORDS[utilityKind(SITING_FILES, rb) ?? ""] || "bundled"}: ${UTILITY_KINDS_LINE}`} />;
     return va === null || vb === null ? "" : <>{vb - va > 0 ? "+" : ""}<Num check={`allgrids|diff|${c.id}|${ra.id}|${rb.id}|${k}`} raw={vb - va}>{two(vb - va)}</Num></>;
   };
   const year = (r: Row | undefined) => (r ? yearOf(SITING_DC, SITING_FILES, r, x) : null);
@@ -419,6 +424,7 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
           <p className="mb-2 text-sm" role="status" data-allgrids-sort={`${x.sort}|${x.dir}`}>
             Sorted by {SORT_WORDS[x.sort]}{x.sort === "name" ? (x.dir === "asc" ? ", A to Z" : ", Z to A") : x.dir === "desc" ? ", largest first; a row with no figure, or one held under a license, last" : ", smallest first; a row with no figure, or one held under a license, last"}.
             {" "}{shown.length} of {hubs.length} rows shown{x.grids.length ? `, in ${x.grids.map((g) => GRID_NAMES[g]).join(", ")}` : ""}{x.kind !== "all" ? `, ${x.kind === "zone" ? "load zones" : "hubs"} only` : ""}{x.band ? `, energy from USD ${x.band[0]} to ${x.band[1]} per MWh` : ""}{x.held ? ", every cost part held" : ""}. The order is the column&apos;s, not a ranking of sites.
+          {x.sort === "utility" ? <> {UTILITY_KINDS_LINE}</> : null}
           </p>
         ) : null}
         {x.rows === "nodes" ? (

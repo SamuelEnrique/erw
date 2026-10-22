@@ -40,3 +40,14 @@ Left as found, for the owner:
 - **Which utility a row names** where the largest seller to industry is an energy-only retailer (step 3). Naming the wires utility instead changes the figure from a retail price to a delivery revenue: a ruling beside chain 050's item 18. Listed in 726's report.
 - Headroom and time to connect by zone (steps 5 and 6): session 728 (zone growth) and the gaps file (a load's own wait).
 - The tracker's facilities (step 7): the hold.
+
+## After session 726
+
+On a local build of `wip/726-allgrids` (shots: `docs/brand/review-726/`):
+
+| # | Before (725) | After (726) |
+|---|---|---|
+| 2 | PJM's USD 11.34 sorted beside bundled prices, its kind in the tip only | "11.34 delivery only" in the cell; N.Y.C.'s "128.79 delivery only"; an energy-only seller's figure reads "energy only"; bundled says nothing. The sort's line, when sorted by the utility, says the column mixes three kinds and how to read them |
+| 8 | "B less A -78.05" between a coop's bundled price and a wires utility's delivery revenue | Each side names its kind ("11.34 delivery only"), and "B less A" reads "not alike", its tip naming both kinds (`after_u05_ab_not_alike_1280.png`) |
+
+Step 3 (a retailer named as the utility) waits on the owner's ruling (725's report).
