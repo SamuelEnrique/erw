@@ -767,7 +767,7 @@ async function truth(check) {
   if (p[0] === "allgrids") {
     const S = await import("../lib/siting.ts");
     const F = await import("./siting-files.mjs");
-    return S.sitingStat(F.files(), check);
+    return S.sitingStat(F.files(), check, await F.dc());
   }
   if (p[0] === "dcd") {
     const D = await import("../lib/datacenter/delivery.ts");

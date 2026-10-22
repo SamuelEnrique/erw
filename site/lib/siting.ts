@@ -7,7 +7,8 @@
 // (data/datacenter), never a second one. This file holds what is pure: the four load profiles, the eight columns with
 // their tips, the row sets, the inputs in the address, and the figure a check key names (scripts/check-values.mjs
 // recomputes every key of the tab here). No imports but types: Node runs it as it is (tests/test_session700.py).
-import type { Index } from "./datacenter";
+import type * as Datacenter from "./datacenter";
+import type { Index, Month, YearFile } from "./datacenter";
 
 // ---------------------------------------------------------------------------------------------------------------------
 // the profiles: a profile sets three inputs (load factor, curtailment rule, interruptible) and nothing else
@@ -98,7 +99,8 @@ export type Row = {
   blank?: { words: string; why: string };
 };
 /** A node of node_basis_daily, as data/siting/nodes.json holds it (warehouse/derived/siting_page.py). */
-export type NodeRow = { id: string; cls: string; types: string };
+/** `dam_basis`: the node's day-ahead basis to HB_HUBAVG by Central month, [mean of the daily basis, days held] (session 701). */
+export type NodeRow = { id: string; cls: string; types: string; dam_basis?: Record<string, [number, number]> };
 export type NodeFile = { table: string; built: string; first: string; last: string; points: number; hubs: number; zones: number; nodes: NodeRow[] };
 
 /** A region's kind as the index says it; a region of a grid whose index names no kind is a hub when its name says so. */
@@ -171,15 +173,95 @@ export function sitingHref(x: SitingInputs, change: Partial<SitingInputs> = {}):
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
+// energy (session 701): the day-ahead price over the last twelve whole months, a flat load, real time beside it
+// ---------------------------------------------------------------------------------------------------------------------
+
+/** The functions of lib/datacenter.ts the tab computes with, handed in by the caller (the page imports them through
+ * "@/lib/datacenter", the scripts through "../lib/datacenter.ts"), so this file stays free of imports and the arithmetic
+ * is that file's own: one function for both views. */
+export type DC = Pick<typeof Datacenter, "monthsRuled" | "lastTwelve" | "span" | "years">;
+export const FLAT_RUN = { run: "flat" as const, n: 0, pct: 0, shift: 0 };
+/** Twelve months of a flat load at one region and market: the price per MWh (lib/datacenter.ts span().flat over
+ * lastTwelve()), the months, each month's price, the hours held, and the newest complete calendar year in the market. */
+export type Twelve = { per: number; from: string; to: string; months: { m: string; per: number }[]; hours: number; year: { y: string; per: number } | null };
+export function flatTwelve(dc: DC, files: YearFile[], region: string, buy: "da" | "rt"): Twelve | null {
+  const ms: Month[] = dc.monthsRuled(files, region, buy, FLAT_RUN, "forecast").months;
+  const l12 = dc.lastTwelve(ms);
+  if (!l12) return null;
+  const s = dc.span(l12);
+  if (s.flat === null) return null;
+  const ys = dc.years(ms).filter((y) => y.complete && y.flat !== null);
+  const y = ys.at(-1);
+  return { per: s.flat, from: l12[0].m, to: l12[11].m, months: l12.map((r) => ({ m: r.m, per: r.flat / r.held })), hours: s.held, year: y ? { y: y.y, per: y.flat as number } : null };
+}
+/** A node's basis to its hub over the hub's twelve months: the mean of its daily day-ahead basis, the days held and the
+ * days in the months. Drawn only when the days held are at least NODE_NEAR of the days due. */
+export const NODE_NEAR = 0.9;
+export const NODE_HUB = "HB_HUBAVG";
+export type NodeEnergy = { hub: Twelve; basis: number; days: number; due: number; per: number };
+const daysIn = (m: string) => new Date(Date.UTC(Number(m.slice(0, 4)), Number(m.slice(5, 7)), 0)).getUTCDate();
+export function nodeEnergy(hub: Twelve | null, node: Pick<NodeRow, "dam_basis">): NodeEnergy | { why: string } {
+  if (!hub) return { why: `Twelve whole months of day-ahead prices are not held for ${NODE_HUB}.` };
+  let sum = 0, days = 0, due = 0;
+  for (const { m } of hub.months) {
+    due += daysIn(m);
+    const b = node.dam_basis?.[m];
+    if (b) { sum += b[0] * b[1]; days += b[1]; }
+  }
+  if (days < NODE_NEAR * due) return { why: `node_basis_daily holds ${days} of the ${due} days from ${hub.from} to ${hub.to} for this node, fewer than ${Math.round(NODE_NEAR * 100)} percent: no twelve-month figure.` };
+  const basis = sum / days;
+  return { hub, basis, days, due, per: hub.per + basis };
+}
+/** What the energy cell holds for a row: the day-ahead and real-time figures, or the words and why when none. */
+export type EnergyCell = { da: Twelve | null; rt: Twelve | null; node?: NodeEnergy; words?: string; why?: string };
+const memo = new WeakMap<Files, Map<string, Twelve | null>>();
+/** flatTwelve once a files object, grid, region and market: the node rows share their hub's. */
+export function twelveOf(dc: DC, f: Files, grid: string, region: string, buy: "da" | "rt"): Twelve | null {
+  let m = memo.get(f);
+  if (!m) { m = new Map(); memo.set(f, m); }
+  const k = `${grid}|${region}|${buy}`;
+  if (!m.has(k)) m.set(k, flatTwelve(dc, f.years(grid), region, buy));
+  return m.get(k) ?? null;
+}
+export function energyCell(dc: DC, f: Files, r: Row): EnergyCell {
+  if (r.blank) return { da: null, rt: null, words: r.grid === "pjm" ? "license needed" : r.grid === "miso" ? "paused" : r.blank.words, why: r.blank.why };
+  if (r.kind === "node") {
+    const hub = twelveOf(dc, f, "ercot", NODE_HUB, "da");
+    const n = f.nodes.nodes.find((x) => x.id === r.region);
+    const e = nodeEnergy(hub, n ?? {});
+    return "why" in e ? { da: null, rt: null, words: "not held", why: e.why } : { da: null, rt: null, node: e };
+  }
+  const da = twelveOf(dc, f, r.grid, r.region, "da"), rt = twelveOf(dc, f, r.grid, r.region, "rt");
+  if (!da && !rt) return { da, rt, words: "not held", why: `Twelve whole months in a row are not held for ${r.region} in either market.` };
+  return { da, rt };
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
 // the check keys: allgrids|<column>|<row>[|<inputs>]
 // ---------------------------------------------------------------------------------------------------------------------
 
-export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFile, "nodes"> };
-/** The figure a check key names, from the files the page reads; undefined when the key names none. Session 700:
- * allgrids|rows|hubs and allgrids|rows|nodes, the count of each row set. */
-export function sitingStat(f: Files, key: string): number | undefined {
+export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFile, "nodes">; years: (grid: string) => YearFile[] };
+/** The figure a check key names, from the files the page reads; undefined when the key names none.
+ *   allgrids|rows|hubs, allgrids|rows|nodes                the count of each row set (session 700)
+ *   allgrids|energy|<row>|da or rt                         a flat load's price over the last twelve whole months (701);
+ *                                                          a node's da is its hub's plus its mean daily basis
+ *   allgrids|basis|<node>                                  that mean daily basis (701) */
+export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
   const p = key.split("|");
   if (p[0] !== "allgrids") return undefined;
   if (p[1] === "rows") return p[2] === "hubs" ? hubRows(f.index).length : p[2] === "nodes" ? nodeRows(f.nodes).length : undefined;
+  if (!dc) return undefined;
+  const row = rowOf(f, p[2]);
+  if (!row) return undefined;
+  if (p[1] === "energy") {
+    const e = energyCell(dc, f, row);
+    if (row.kind === "node") return p[3] === "da" ? e.node?.per : undefined;
+    return p[3] === "da" ? e.da?.per : p[3] === "rt" ? e.rt?.per : undefined;
+  }
+  if (p[1] === "basis") return energyCell(dc, f, row).node?.basis;
   return undefined;
+}
+/** A row by its id, in either row set. */
+export function rowOf(f: Pick<Files, "index" | "nodes">, id: string): Row | undefined {
+  return hubRows(f.index).find((r) => r.id === id) ?? (id.startsWith("ercot:") ? nodeRows(f.nodes).find((r) => r.id === id) : undefined);
 }

@@ -1,8 +1,10 @@
 import { SiteLink as Link } from "@/components/SiteLink";
 import { Num } from "@/components/Num";
+import { InlineSpark } from "@/components/InlineSpark";
 import { InputPanel } from "@/components/tool/ToolPage";
-import { COLUMNS, GRID_NAMES, PROFILES, hubRows, nodeRows, sitingHref, sitingInputs, type Row, type SitingInputs } from "@/lib/siting";
-import { NODES, SITING_FILES } from "@/lib/sitingdata";
+import type { ReactNode } from "react";
+import { COLUMNS, GRID_NAMES, NODE_HUB, PROFILES, energyCell, hubRows, nodeRows, sitingHref, sitingInputs, type EnergyCell, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
+import { NODES, SITING_DC, SITING_FILES } from "@/lib/sitingdata";
 import { AllGridsForm } from "./AllGridsForm";
 
 // Session 700 (chain 050, docs/methods/siting.md): the All grids tab of "What a datacenter pays". The questions "Your
@@ -14,7 +16,54 @@ import { AllGridsForm } from "./AllGridsForm";
 // what the sort is. Every figure is a check key, allgrids|<column>|<row>, recomputed by scripts/check-values.mjs from the
 // same files. Session 700 draws the rows, the toggle, the column heads with their tips, and one number: the row count.
 
-const tipCls = "cursor-help border-b border-dotted border-white/70";
+const tipCls = "cursor-help border-b border-dotted border-muted";
+const two = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const monthWords = (m: string) => new Date(`${m}-15T12:00:00Z`).toLocaleString("en-US", { month: "long", year: "numeric", timeZone: "UTC" });
+
+/** A cell the warehouse cannot fill: short words in ink, the reason on hover and on focus (no visible grey text). */
+function Words({ words, why }: { words: string; why: string }) {
+  return <span className={tipCls} title={why} tabIndex={0} data-cell-words="1">{words}</span>;
+}
+/** One figure with its hover: the reason, the window and its source. */
+function Fig({ check, v, tip, children }: { check: string; v: number; tip: string; children?: ReactNode }) {
+  return (
+    <span className={`group relative inline-block ${tipCls}`} title={tip} tabIndex={0}>
+      <Num check={check} raw={v}>{two(v)}</Num>
+      {children}
+    </span>
+  );
+}
+/** Session 701: the twelve months of a figure, drawn on hover and on focus (the shared inline chart, components/InlineSpark). */
+function Spark({ t, label }: { t: Twelve; label: string }) {
+  return (
+    <span className="pointer-events-none absolute right-0 top-full z-10 hidden border border-rule bg-white p-1 group-hover:block group-focus:block" data-spark="1">
+      <InlineSpark values={t.months.map((r) => ({ t: `${r.m}-01`, v: r.per }))} label={label} width={140} height={32} />
+    </span>
+  );
+}
+function twelveTip(t: Twelve, market: string): string {
+  const last = t.months.at(-1)!;
+  return `${market}, a flat load, ${monthWords(t.from)} to ${monthWords(t.to)}, ${t.hours.toLocaleString("en-US")} hours held: USD ${two(t.per)} per MWh. The last whole month, ${monthWords(last.m)}: USD ${two(last.per)}.${t.year ? ` The last whole year, ${t.year.y}: USD ${two(t.year.per)}.` : ""} From the page's hourly files, as "Your load" computes it (lib/datacenter.ts).`;
+}
+/** Session 701: the energy cell: the day-ahead figure, real time beside it where held; a node's hub plus its basis. */
+function EnergyTd({ r, e }: { r: Row; e: EnergyCell }) {
+  if (e.node) {
+    const n = e.node;
+    return (
+      <Fig check={`allgrids|energy|${r.id}|da`} v={n.per}
+        tip={`${NODE_HUB}'s day-ahead price over ${monthWords(n.hub.from)} to ${monthWords(n.hub.to)}, USD ${two(n.hub.per)} per MWh, plus this node's mean daily day-ahead basis to it, USD ${two(n.basis)}, over ${n.days} of the ${n.due} days (node_basis_daily, daily, not hourly). Real time is not held at the nodes for twelve months.`}>
+        <Spark t={n.hub} label={`${NODE_HUB} day-ahead by month`} />
+      </Fig>
+    );
+  }
+  if (!e.da && !e.rt) return <Words words={e.words ?? "not held"} why={e.why ?? ""} />;
+  return (
+    <span className="whitespace-nowrap">
+      {e.da ? <Fig check={`allgrids|energy|${r.id}|da`} v={e.da.per} tip={twelveTip(e.da, "Day-ahead")}><Spark t={e.da} label={`${r.region} day-ahead by month`} /></Fig> : <Words words="no day-ahead" why={`Twelve whole months of day-ahead prices are not held for ${r.region}.`} />}
+      {e.rt ? <span className="ml-2 text-xs" data-rt="1">rt <Fig check={`allgrids|energy|${r.id}|rt`} v={e.rt.per} tip={twelveTip(e.rt, "Real time")} /></span> : null}
+    </span>
+  );
+}
 
 function RowToggle({ x, hubs, nodes }: { x: SitingInputs; hubs: number; nodes: number }) {
   const item = (rows: SitingInputs["rows"], label: string, n: number) => {
@@ -76,7 +125,7 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
               {rows.map((r) => (
                 <tr key={r.id} className="border-b border-rule" data-allgrids-row={r.id}>
                   <RowHead r={r} />
-                  {COLUMNS.map((c) => <td key={c.id} className="px-3 py-1.5 text-right" data-cell={c.id} />)}
+                  {COLUMNS.map((c) => <td key={c.id} className="px-3 py-1.5 text-right" data-cell={c.id}>{c.id === "energy" ? <EnergyTd r={r} e={energyCell(SITING_DC, SITING_FILES, r)} /> : null}</td>)}
                 </tr>
               ))}
             </tbody>
