@@ -3,7 +3,7 @@ import { Num } from "@/components/Num";
 import { InlineSpark } from "@/components/InlineSpark";
 import { InputPanel } from "@/components/tool/ToolPage";
 import type { ReactNode } from "react";
-import { CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, allInCell, capacityCell, capacityOverPeak, nodeTable, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
+import { CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, columnValue, nodeTable, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
 import { CP, NODES, SITING_DC, SITING_FILES } from "@/lib/sitingdata";
 import { AllGridsForm } from "./AllGridsForm";
 import { AllGridsNodes } from "./AllGridsNodes";
@@ -248,15 +248,73 @@ function NodeShared({ x }: { x: SitingInputs }) {
   );
 }
 
+const usdWhole = (v: number) => Math.round(v).toLocaleString("en-US");
+/** Session 710: A and B side by side, in "Your load"'s form (two columns, B less A, no verdict): every column's figure
+ * where held, the load's year all-in in USD and its MWh, and the months to connect. */
+function AbPanel({ x }: { x: SitingInputs }) {
+  const ra = x.a ? rowOf(SITING_FILES, x.a) : undefined, rb = x.b ? rowOf(SITING_FILES, x.b) : undefined;
+  if (!ra && !rb) return null;
+  const k = profileKey(x), yk = yearKey(x);
+  const cell = (r: Row | undefined, c: (typeof COLUMNS)[number]) => {
+    if (!r) return "";
+    const v = columnValue(SITING_DC, SITING_FILES, r, x, c.id);
+    return v === null ? <Words words="not held" why="Not held for this row, or held under a license and drawn in its column as such: see the row in the table." /> : <Num check={`allgrids|col|${c.id}|${r.id}|${k}`} raw={v}>{two(v)}</Num>;
+  };
+  const diff = (c: (typeof COLUMNS)[number]) => {
+    if (!ra || !rb) return "";
+    const va = columnValue(SITING_DC, SITING_FILES, ra, x, c.id), vb = columnValue(SITING_DC, SITING_FILES, rb, x, c.id);
+    return va === null || vb === null ? "" : <Num check={`allgrids|diff|${c.id}|${ra.id}|${rb.id}|${k}`} raw={vb - va}>{signed2(vb - va)}</Num>;
+  };
+  const year = (r: Row | undefined) => (r ? yearOf(SITING_DC, SITING_FILES, r, x) : null);
+  const ya = year(ra), yb = year(rb);
+  const yr = (r: Row | undefined, y: ReturnType<typeof year>) => (!r ? "" : y ? <Num check={`allgrids|year|${r.id}|${yk}`} raw={y.usd}>{usdWhole(y.usd)}</Num> : <Words words="not held" why="The all-in figure is not drawn for this row: not every cost part is held." />);
+  const mwh = (r: Row | undefined, y: ReturnType<typeof year>) => (!r || !y ? "" : <Num check={`allgrids|mwh|${r.id}|${yk}`} raw={y.mwh}>{usdWhole(y.mwh)}</Num>);
+  const name = (r: Row | undefined) => (r ? `${GRID_NAMES[r.grid]} ${r.region}` : "none chosen");
+  const th = "px-3 py-1.5 text-right font-normal";
+  return (
+    <section className="mb-5" aria-label="A and B" data-allgrids-abpanel="1">
+      <h3 className="mb-2 font-serif text-lg">A and B, side by side</h3>
+      <div className="overflow-x-auto" role="region" aria-label="A and B" tabIndex={0}>
+        <table className="w-full border-collapse text-sm tabular-nums" style={{ minWidth: 520 }}>
+          <thead><tr className="bg-accent text-white"><th scope="col" className="px-3 py-1.5 text-left font-normal">USD per MWh unless said</th><th scope="col" className={th}>A: {name(ra)}</th><th scope="col" className={th}>B: {name(rb)}</th><th scope="col" className={th}>B less A</th></tr></thead>
+          <tbody>
+            {COLUMNS.map((c) => (
+              <tr key={c.id} className="border-b border-rule"><th scope="row" className="px-3 py-1.5 text-left font-normal">{c.head} <span className="text-xs text-muted">{c.unit === "USD per MWh" ? "" : c.unit}</span></th>
+                <td className="px-3 py-1.5 text-right">{cell(ra, c)}</td><td className="px-3 py-1.5 text-right">{cell(rb, c)}</td><td className="px-3 py-1.5 text-right">{diff(c)}</td></tr>
+            ))}
+            <tr className="border-b border-rule bg-paper"><th scope="row" className="px-3 py-1.5 text-left font-normal">A year all-in, USD, {x.mw.toLocaleString("en-US")} MW</th><td className="px-3 py-1.5 text-right">{yr(ra, ya)}</td><td className="px-3 py-1.5 text-right">{yr(rb, yb)}</td><td className="px-3 py-1.5 text-right">{ya && yb && ra && rb ? <Num check={`allgrids|yeardiff|${ra.id}|${rb.id}|${yk}`} raw={yb.usd - ya.usd}>{`${yb.usd - ya.usd > 0 ? "+" : ""}${usdWhole(yb.usd - ya.usd)}`}</Num> : ""}</td></tr>
+            <tr className="border-b border-rule"><th scope="row" className="px-3 py-1.5 text-left font-normal">Energy used a year, MWh</th><td className="px-3 py-1.5 text-right">{mwh(ra, ya)}</td><td className="px-3 py-1.5 text-right">{mwh(rb, yb)}</td><td /></tr>
+          </tbody>
+        </table>
+      </div>
+      <p className="mt-1 text-xs" data-ab-note="1">Each figure is the row&apos;s own in the table below, under the same load. Months to connect are the grid&apos;s generators&apos; (the column &quot;Time to connect&quot;). The year all-in is the all-in figure times the energy the load uses in a year: its draw while running times the hours it runs.</p>
+    </section>
+  );
+}
+/** Session 710: the one headline line A drives, every figure a key, drawn only where held. */
+function Headline({ x }: { x: SitingInputs }) {
+  const r = x.a ? rowOf(SITING_FILES, x.a) : undefined;
+  if (!r) return <p className="mb-3 max-w-3xl text-sm" data-allgrids-headline="0">Choose A and B under &quot;A and B, side by side&quot; in the box to set two rows beside each other; A sets this line.</p>;
+  const y = yearOf(SITING_DC, SITING_FILES, r, x), c = connectCell(SITING_FILES, r), p = PROFILES[x.profile];
+  return (
+    <p className="mb-3 max-w-3xl font-serif text-xl leading-snug" data-allgrids-headline="1">
+      A {p.label.toLowerCase()} load of {x.mw.toLocaleString("en-US")} MW at {GRID_NAMES[r.grid]} {r.region}
+      {y ? <> pays USD <Num check={`allgrids|allin|${r.id}|${profileKey(x)}`} raw={y.allin}>{two(y.allin)}</Num> per MWh all-in, USD <Num check={`allgrids|year|${r.id}|${yearKey(x)}`} raw={y.usd}>{usdWhole(y.usd)}</Num> a year</> : <> has no all-in figure (not every cost part is held)</>}
+      {"median" in c.gen && c.gen.median !== null ? <>; generators there took a median of <Num check={`allgrids|connect|${r.id}`} raw={c.gen.median}>{two(c.gen.median)}</Num> months to connect</> : null}.
+    </p>
+  );
+}
+
 export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
   const x = sitingInputs(q);
   const hubs = hubRows(SITING_FILES.index), nodes = nodeRows(NODES);
   const p = PROFILES[x.profile];
+  const shown = x.rows === "hubs" ? screen(SITING_DC, SITING_FILES, hubs, x) : [];
   return (
     <div className="grid gap-8 lg:grid-cols-[290px_minmax(0,1fr)]" data-no-usage="1" data-allgrids="1">
       <aside>
         <InputPanel title="Your load">
-          <AllGridsForm x={x} />
+          <AllGridsForm x={x} rows={hubs.map((r) => ({ id: r.id, label: `${GRID_NAMES[r.grid]} ${r.label}` }))} />
         </InputPanel>
       </aside>
       <div className="min-w-0">
@@ -264,9 +322,16 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
           {x.rows === "nodes"
             ? <>Every ERCOT node of node_basis_daily that is neither a hub nor a load zone: <Num check="allgrids|rows|nodes" raw={nodes.length}>{nodes.length.toLocaleString("en-US")}</Num> nodes, from {NODES.first} to {NODES.last}.</>
             : <>Every hub and load zone the page&apos;s price files hold, and the grids they do not price: <Num check="allgrids|rows|hubs" raw={hubs.length}>{hubs.length.toLocaleString("en-US")}</Num> rows.</>}
-          {" "}{/^[aeiou]/i.test(p.label) ? "An" : "A"} {p.label.toLowerCase()} load of {x.mw.toLocaleString("en-US")} MW at a load factor of {x.lf.toFixed(2)}, {CURTAIL_WORDS[p.curtail]}{x.strike !== null ? ` (USD ${x.strike.toLocaleString("en-US")} per MWh)` : ""}. Sorted by grid, then by name.
+          {" "}{/^[aeiou]/i.test(p.label) ? "An" : "A"} {p.label.toLowerCase()} load of {x.mw.toLocaleString("en-US")} MW at a load factor of {x.lf.toFixed(2)}, {CURTAIL_WORDS[p.curtail]}{x.strike !== null ? ` (USD ${x.strike.toLocaleString("en-US")} per MWh)` : ""}.
         </p>
         <RowToggle x={x} hubs={hubs.length} nodes={nodes.length} />
+        {x.rows === "hubs" ? <><Headline x={x} /><AbPanel x={x} /></> : null}
+        {x.rows === "hubs" ? (
+          <p className="mb-2 text-sm" role="status" data-allgrids-sort={`${x.sort}|${x.dir}`}>
+            Sorted by {SORT_WORDS[x.sort]}{x.sort === "name" ? (x.dir === "asc" ? ", A to Z" : ", Z to A") : x.dir === "desc" ? ", largest first; a row with no figure, or one held under a license, last" : ", smallest first; a row with no figure, or one held under a license, last"}.
+            {" "}{shown.length} of {hubs.length} rows shown{x.grids.length ? `, in ${x.grids.map((g) => GRID_NAMES[g]).join(", ")}` : ""}{x.kind !== "all" ? `, ${x.kind === "zone" ? "load zones" : "hubs"} only` : ""}{x.band ? `, energy from USD ${x.band[0]} to ${x.band[1]} per MWh` : ""}{x.held ? ", every cost part held" : ""}. The order is the column&apos;s, not a ranking of sites.
+          </p>
+        ) : null}
         {x.rows === "nodes" ? (
           <>
             <NodeShared x={x} />
@@ -288,7 +353,7 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
               </tr>
             </thead>
             <tbody>
-              {hubs.map((r) => (
+              {shown.map((r) => (
                 <tr key={r.id} className="border-b border-rule" data-allgrids-row={r.id}>
                   <RowHead r={r} />
                   {COLUMNS.map((c) => <td key={c.id} className="px-3 py-1.5 text-right" data-cell={c.id}>{c.id === "energy" ? (x.profile === "datacenter" ? <EnergyTd r={r} e={energyCell(SITING_DC, SITING_FILES, r)} /> : <ProfileTd r={r} x={x} />)

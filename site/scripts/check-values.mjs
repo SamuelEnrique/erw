@@ -104,6 +104,9 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/cost-of-power?view=allgrids", "/cost-of-power?view=allgrids&rows=nodes",
   // session 702: the three other profiles, each at its defaults
   "/cost-of-power?view=allgrids&profile=flexible", "/cost-of-power?view=allgrids&profile=electrolyzer", "/cost-of-power?view=allgrids&profile=industry",
+  // session 710: the screen sorted by the all-in figure with A and B set (ERCOT's hub average against CAISO's SP15), and the
+  // node list sorted by energy, largest first
+  "/cost-of-power?view=allgrids&sort=allin&a=ercot%3AHB_HUBAVG&b=nyiso%3AN.Y.C.", "/cost-of-power?view=allgrids&rows=nodes&nsort=energy&ndir=desc",
   // session 51: the seller's tab, its defaults and three other assets
   // session 347: the economic impact tool, its defaults and three other views (a size, cost, local content and life given)
   "/map?tab=queues", "/map?tab=queues&iso=ercot", "/map?tab=queues&iso=spp",  // session 349: the map's Queues tab (iso_queue_statistics)

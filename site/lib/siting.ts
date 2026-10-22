@@ -151,7 +151,11 @@ export function nodeRows(file: Pick<NodeFile, "nodes">): Row[] {
 export type RowSet = "hubs" | "nodes";
 /** `strike` (session 702): USD per MWh, for a profile whose rule has one; null is the profile's default (for the
  * electrolyzer, each row's own price at the load factor). */
-export type SitingInputs = { profile: ProfileId; mw: number; lf: number; rows: RowSet; strike: number | null };
+export type SitingInputs = { profile: ProfileId; mw: number; lf: number; rows: RowSet; strike: number | null;
+  /** session 710: the screen, every part of it in the address. `sort` a column or "name" (grid, then name); `grids` the
+   * grids shown (none: all); `kind` load zones or hubs; `band` an energy band, USD per MWh; `held` only rows whose every
+   * cost part is held; `a`, `b` the two rows set side by side */
+  sort: ColumnId | "name"; dir: "asc" | "desc"; grids: string[]; kind: "all" | "zone" | "hub"; band: [number, number] | null; held: boolean; a: string | null; b: string | null };
 export const SITING_LIMITS = { mw: [1, 10000] as [number, number], lf: [0.05, 1] as [number, number], strike: [-500, 10000] as [number, number] };
 /** Whether a profile's rule has a strike. */
 export const hasStrike = (p: ProfileId) => PROFILES[p].curtail === "peaks_strike" || PROFILES[p].curtail === "below_strike";
@@ -164,7 +168,13 @@ export function sitingInputs(q: Record<string, string | undefined>): SitingInput
   const num = (s: string | undefined, d: number, lim: [number, number]) => { const v = s === undefined || s === "" ? NaN : Number(s); return Number.isFinite(v) ? clampTo(v, lim) : d; };
   const st = q.strike === undefined || q.strike === "" ? NaN : Number(q.strike);
   const strike = hasStrike(profile) && Number.isFinite(st) ? clampTo(st, SITING_LIMITS.strike) : p.strike;
-  return { profile, mw: num(q.mw, SITING_DEFAULTS.mw, SITING_LIMITS.mw), lf: num(q.lf, p.lf, p.lfRange), rows: q.rows === "nodes" ? "nodes" : "hubs", strike };
+  const sort = q.sort === "name" || COLUMNS.some((c) => c.id === q.sort) ? (q.sort as ColumnId | "name") : "name";
+  const grids = (q.grid ?? "").split(",").filter((g) => (GRID_ORDER as readonly string[]).includes(g));
+  const lo = Number(q.lo), hi = Number(q.hi);
+  const band: [number, number] | null = q.lo !== undefined && q.hi !== undefined && q.lo !== "" && q.hi !== "" && Number.isFinite(lo) && Number.isFinite(hi) ? [Math.min(lo, hi), Math.max(lo, hi)] : null;
+  const id = (s: string | undefined) => (s && /^[a-z]+:[^|]{1,60}$/.test(s) ? s : null);
+  return { profile, mw: num(q.mw, SITING_DEFAULTS.mw, SITING_LIMITS.mw), lf: num(q.lf, p.lf, p.lfRange), rows: q.rows === "nodes" ? "nodes" : "hubs", strike,
+    sort, dir: q.dir === "desc" ? "desc" : q.dir === "asc" ? "asc" : sort === "name" ? "asc" : "desc", grids, kind: q.kind === "zone" || q.kind === "hub" ? q.kind : "all", band, held: q.held === "1", a: id(q.a), b: id(q.b) };
 }
 /** The tab's address for its inputs, with a change; a value at its default is left out. */
 export function sitingHref(x: SitingInputs, change: Partial<SitingInputs> = {}): string {
@@ -177,6 +187,14 @@ export function sitingHref(x: SitingInputs, change: Partial<SitingInputs> = {}):
   if (y.lf !== PROFILES[y.profile].lf) q.set("lf", String(y.lf));
   if (y.rows !== SITING_DEFAULTS.rows) q.set("rows", y.rows);
   if (hasStrike(y.profile) && y.strike !== null && y.strike !== PROFILES[y.profile].strike) q.set("strike", String(y.strike));
+  if (y.sort !== "name") q.set("sort", y.sort);
+  if (y.dir !== (y.sort === "name" ? "asc" : "desc")) q.set("dir", y.dir);
+  if (y.grids.length) q.set("grid", y.grids.join(","));
+  if (y.kind !== "all") q.set("kind", y.kind);
+  if (y.band) { q.set("lo", String(y.band[0])); q.set("hi", String(y.band[1])); }
+  if (y.held) q.set("held", "1");
+  if (y.a) q.set("a", y.a);
+  if (y.b) q.set("b", y.b);
   return `/cost-of-power?${q.toString()}`;
 }
 
@@ -716,6 +734,56 @@ export function sortNodes(rows: NodeTableRow[], by: NodeSort, dir: "asc" | "desc
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
+// the screen (session 710): sort by any column, filter, and two rows set side by side as A and B
+// ---------------------------------------------------------------------------------------------------------------------
+
+/** The figure a column sorts by for a row under the inputs: the cell's main figure; null where the cell draws none or
+ * draws "license needed" (a held figure is never sorted by its value, which the order would give away). */
+export function columnValue(dc: DC, f: Files, r: Row, x: Pick<SitingInputs, "profile" | "lf" | "strike">, col: ColumnId): number | null {
+  switch (col) {
+    case "energy": { if (x.profile === "datacenter") { const e = energyCell(dc, f, r); return e.node?.per ?? e.da?.per ?? null; } const c = profileCell(dc, f, r, x, f.cp); return "why" in c ? null : c.per; }
+    case "transmission": { const c = cpCharge(dc, f, r, x); return "why" in c ? null : c.own; }
+    case "capacity": { const c = capacityCell(f, r, x); return "zero" in c ? 0 : null; }
+    case "connect": { const c = connectCell(f, r); return "median" in c.gen ? c.gen.median : null; }
+    case "headroom": { const g = demandGrowth(f.demand, r.grid); return "pct" in g ? g.pct : null; }
+    case "carbon": { const c = carbonCell(dc, f, r, x); return "kg" in c ? c.hourly?.kg ?? c.kg : null; }
+    case "utility": { const u = utilityCell(f, r); return "rev" in u ? u.rev : null; }
+    case "allin": { const a = allInCell(dc, f, r, x); return "v" in a ? a.v : null; }
+  }
+}
+export type SortKey = ColumnId | "name";
+export const SORT_WORDS: Record<SortKey, string> = { name: "grid, then name", energy: "energy", transmission: "transmission and the four peaks", capacity: "capacity", connect: "months to connect", headroom: "demand growth", carbon: "carbon", utility: "the utility's industrial revenue per MWh", allin: "the all-in figure" };
+/** The rows shown: filtered by grid, by kind (load zones or hubs), by an energy band and to rows whose every cost part
+ * is held; then sorted by the chosen column (a row with no figure last, ties by grid and name) or by grid and name. */
+export function screen(dc: DC, f: Files, rows: Row[], x: SitingInputs): Row[] {
+  let out = rows.filter((r) => (!x.grids.length || x.grids.includes(r.grid)) && (x.kind === "all" || r.kind === x.kind));
+  if (x.band) out = out.filter((r) => { const v = columnValue(dc, f, r, x, "energy"); return v !== null && v >= x.band![0] && v <= x.band![1]; });
+  if (x.held) out = out.filter((r) => columnValue(dc, f, r, x, "allin") !== null);
+  if (x.sort === "name") return x.dir === "desc" ? [...out].sort(byGridThenName).reverse() : [...out].sort(byGridThenName);
+  const k = x.dir === "asc" ? 1 : -1, v = new Map(out.map((r) => [r.id, columnValue(dc, f, r, x, x.sort as ColumnId)]));
+  return [...out].sort((a, b) => {
+    const va = v.get(a.id) ?? null, vb = v.get(b.id) ?? null;
+    if (va === null && vb === null) return byGridThenName(a, b);
+    if (va === null) return 1;
+    if (vb === null) return -1;
+    return (va - vb) * k || byGridThenName(a, b);
+  });
+}
+/** A load's year at a row: the energy it uses (its draw while running times the hours it runs in a year) and what it
+ * pays all-in. The draw is the size times the load factor for a load that runs every hour it is not curtailed, and the
+ * size for one that runs only below a strike (its load factor is then the share of hours it runs). */
+export function yearOf(dc: DC, f: Files, r: Row, x: Pick<SitingInputs, "profile" | "lf" | "strike" | "mw">): { mwh: number; usd: number; allin: number } | null {
+  const a = allInCell(dc, f, r, x);
+  if (!("v" in a)) return null;
+  const t = profileTwelve(dc, f, r.grid, r.kind === "node" ? NODE_HUB : r.region, x, f.cp);
+  if (!t || t.held <= 0) return null;
+  const draw = PROFILES[x.profile].curtail === "below_strike" ? x.mw : x.mw * x.lf;
+  const mwh = (draw * t.run * 8760) / t.held;
+  return { mwh, usd: mwh * a.v, allin: a.v };
+}
+export const yearKey = (x: Pick<SitingInputs, "profile" | "lf" | "strike" | "mw">) => `${profileKey(x)}&mw=${x.mw}`;
+
+// ---------------------------------------------------------------------------------------------------------------------
 // the all-in column (session 702): drawn only where each part is held or is zero by market design
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -764,12 +832,33 @@ export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFil
  *   allgrids|carbon|<row>, allgrids|carbonlb|<row>         the eGRID subregion's CO2 rate, kg and lb per MWh (707)
  *   allgrids|carbonh|<row>|<profile key>                   the grid's hourly intensity over the hours the load runs, kg (707)
  *   allgrids|utilrev|<row>, allgrids|utilgrowth|<row>      the utility's industrial revenue per MWh and sales growth (708)
+ *   allgrids|year|<row>|<year key>, allgrids|mwh|<row>|<year key>   the load's year all-in, USD, and its MWh (710)
+ *   allgrids|diff|<column>|<a>|<b>|<profile key>          B's figure less A's, a column of the A and B panel (710)
+ *   allgrids|col|<column>|<row>|<profile key>             a row's figure in a column, as the panel draws it (710)
+ *   allgrids|yeardiff|<a>|<b>|<year key>                   B's year all-in less A's, USD (710)
  *   allgrids|llapproved|<row>                              ERCOT's large loads approved to energize, MW, newest report (705)
  *   (capacity, session 704: zero where there is no market, drawn as a figure of 0 with no key; elsewhere held internal,
  *   "license needed", and computed only where the tables are, by warehouse/derived/siting_page.py --internal) */
 export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
   const p = key.split("|");
   if (p[0] !== "allgrids") return undefined;
+  if (p[1] === "col") {
+    const x = profileOfKey(p[4] ?? ""), r = rowOf(f, p[3]);
+    if (!x || !r || !dc || !COLUMNS.some((c) => c.id === p[2])) return undefined;
+    return columnValue(dc, f, r, x, p[2] as ColumnId) ?? undefined;
+  }
+  if (p[1] === "yeardiff") {
+    const q = Object.fromEntries(new URLSearchParams(p[4] ?? "")), x = profileOfKey(p[4] ?? ""), mw = Number(q.mw), ra = rowOf(f, p[2]), rb = rowOf(f, p[3]);
+    if (!x || !ra || !rb || !dc || !Number.isFinite(mw)) return undefined;
+    const ya = yearOf(dc, f, ra, { ...x, mw }), yb = yearOf(dc, f, rb, { ...x, mw });
+    return ya && yb ? yb.usd - ya.usd : undefined;
+  }
+  if (p[1] === "diff") {
+    const x = profileOfKey(p[5] ?? ""), ra = rowOf(f, p[3]), rb = rowOf(f, p[4]);
+    if (!x || !ra || !rb || !dc || !COLUMNS.some((c) => c.id === p[2])) return undefined;
+    const va = columnValue(dc, f, ra, x, p[2] as ColumnId), vb = columnValue(dc, f, rb, x, p[2] as ColumnId);
+    return va === null || vb === null ? undefined : vb - va;
+  }
   if (p[1] === "rows") return p[2] === "hubs" ? hubRows(f.index).length : p[2] === "nodes" ? nodeRows(f.nodes).length : undefined;
   if (!dc) return undefined;
   const row = rowOf(f, p[2]);
@@ -803,6 +892,12 @@ export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
     return "kg" in c ? c.hourly?.kg : undefined;
   }
   if (p[1] === "utilrev" || p[1] === "utilgrowth") { const u = utilityCell(f, row); return "rev" in u ? (p[1] === "utilrev" ? u.rev : u.growth ?? undefined) : undefined; }
+  if (p[1] === "year" || p[1] === "mwh") {
+    const q = Object.fromEntries(new URLSearchParams(p[3] ?? "")), x = profileOfKey(p[3] ?? ""), mw = Number(q.mw);
+    if (!x || !Number.isFinite(mw)) return undefined;
+    const y = yearOf(dc, f, row, { ...x, mw });
+    return y ? (p[1] === "year" ? y.usd : y.mwh) : undefined;
+  }
   if (p[1] === "demand") { const g = demandGrowth(f.demand, row.grid); return "pct" in g ? g.pct : undefined; }
   if (p[1] === "planned") return f.headroom?.planned[row.grid]?.construction_mw;
   if (p[1] === "capratio") { const c = capacityOverPeak(f.demand, f.headroom, row.grid); return "pct" in c ? c.pct : undefined; }
