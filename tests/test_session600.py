@@ -27,6 +27,9 @@ class TheTables(unittest.TestCase):
         self.assertEqual(len(P.GROUPS[2]), 10)
         self.assertIn("EPL0", P.GROUPS[2])
         self.assertEqual(len(P.GROUPS[3]), 17)
+        # session 610 added the fifth, the last eleven
+        self.assertEqual(len(P.GROUPS[4]), 11)
+        self.assertIn("EPPS", P.GROUPS[4])
         self.assertEqual(len(set(P.PRODUCTS)), len(P.PRODUCTS))
 
     def test_rigs(self):
