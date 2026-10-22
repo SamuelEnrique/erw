@@ -24,7 +24,7 @@ Three kinds:
 | 8 | Whether any capacity figure may be shown (NYISO's spot rows are marked public row by row, its prices held since 20 October) | 704 | ruling | 741 | open |
 | 9 | Whether the computed capacity figures belong in a private place a reviewer can read under the internal cookie | 704 | ruling | 741 | open |
 | 10 | The gaps file gains connection timelines by utility, ERCOT's 75 MW rule as a held row, a controllable load's path | 705 | work | closed by 713 | closed |
-| 11 | A zone's own demand growth from `eia930_subba_demand_hourly` (held, with its yearly tables; not in the tab's files) for NYISO's and ISO-NE's zones and ERCOT's weather zones | 706, the walk's step 4 | work | 728 | open |
+| 11 | A zone's own demand growth from `eia930_subba_demand_hourly` (held, with its yearly tables; not in the tab's files) for NYISO's and ISO-NE's zones and ERCOT's weather zones | 706, the walk's step 4 | work | 728 | closed by 728 (27 zones, the calendar year 2025 over 2024; the grid's twelve-month window waits for a 2026 yearly table) |
 | 12 | Whether the annual carbon figure should be consumption-based too (EIA-930's monthly intensity, as "Your load" draws it), so both figures are of one measure | 707 | ruling | 741 | open |
 | 13 | Service territories, so a row names its own utility | 708, 713's gap 4 | gap | closed by 718 (`utility_service_territories`) | closed |
 | 14 | A node's zone and settlement hub: ERCOT's settlement point mapping (NP4-160) | 709, 713's gap 3, the walk's step 7 | gap | 733 | open |

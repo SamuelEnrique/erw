@@ -3,7 +3,7 @@ import { Num } from "@/components/Num";
 import { InlineSpark } from "@/components/InlineSpark";
 import { InputPanel } from "@/components/tool/ToolPage";
 import type { ReactNode } from "react";
-import { CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, columnValue, nodeTable, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, utilityBasisWords, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
+import { CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, columnValue, nodeTable, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, zoneGrowth, utilityBasisWords, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
 import { CP, NODES, SITING_DC, SITING_FILES } from "@/lib/sitingdata";
 import { AllGridsForm } from "./AllGridsForm";
 import { AllGridsNodes } from "./AllGridsNodes";
@@ -193,12 +193,29 @@ function HeadroomTd({ r }: { r: Row }) {
             tip={`${GRID_NAMES[r.grid]}'s mean demand (EIA-930, ${g.ba}), ${monthWords(g.from)} to ${monthWords(g.to)}, ${Math.round(g.mw).toLocaleString("en-US")} MW, against the twelve months before, ${Math.round(g.before).toLocaleString("en-US")} MW: each month's mean weighted by its hours (eia930_demand_growth, "Your load"'s file data/demand_growth.json). The grid's own balancing authority, not the row's zone: sub-region demand is not in the tab's files. Weather is not removed.`}>
             {g.pct > 0 ? "+" : ""}<Num check={`allgrids|demand|${r.id}`} raw={g.pct}>{two(g.pct)}</Num></Tp> %</span>
         : <Words words="not held" why={g.why} />}
+      <ZoneGrowthLine r={r} />
       <span className="block text-xs" data-headroom-planned="1">
         {pl && h ? <Tp dotted={false} tip={`Generators under construction (EIA-860M status U, V or TS) in ${GRID_NAMES[r.grid]} due to operate from ${h.from} to ${h.to}, the twelve months after the table's vintage (${h.vintage}): ${pl.construction_n} generators. Approvals received, not under construction: ${Math.round(pl.approved_mw).toLocaleString("en-US")} MW; planned, approvals pending or not started: ${Math.round(pl.other_mw).toLocaleString("en-US")} MW. EIA-860M records no interconnection agreement; construction is the nearest it states (eia860m_planned_generators).`}><Num check={`allgrids|planned|${r.id}`} raw={pl.construction_mw}>{Math.round(pl.construction_mw).toLocaleString("en-US")}</Num> MW coming</Tp> : <Words words="no plan held" why={`No planned generator of ${GRID_NAMES[r.grid]} is in eia860m_planned_generators.`} />}
         {"pct" in c ? <>, <Tp dotted={false} tip={c.table === "grid_peak_vs_capacity"
           ? `${GRID_NAMES[r.grid]}'s operating generators' net summer capacity at the end of ${c.year}, ${Math.round(c.mw).toLocaleString("en-US")} MW (solar ${Math.round(c.parts?.solar ?? 0).toLocaleString("en-US")}, wind ${Math.round(c.parts?.wind ?? 0).toLocaleString("en-US")}, storage ${Math.round(c.parts?.storage ?? 0).toLocaleString("en-US")}, at their summer ratings), against its peak hour of ${c.peakYear}, ${Math.round(c.peak).toLocaleString("en-US")} MW: grid_peak_vs_capacity (the data machine's, by each generator's balancing authority, EIA-860M and EIA-930). Not a reserve margin: no imports, outages or derates, and solar and wind at their ratings.`
           : `Installed net summer capacity of ${c.states.join(", ")} in ${c.year} (eia_state_capacity_annual), ${Math.round(c.mw).toLocaleString("en-US")} MW, over ${GRID_NAMES[r.grid]}'s peak demand of ${c.peakYear}, ${Math.round(c.peak).toLocaleString("en-US")} MW. Not a reserve margin.`}>capacity <Num check={`allgrids|capratio|${r.id}`} raw={c.pct}>{Math.round(c.pct).toLocaleString("en-US")}</Num>% above peak</Tp></> : null}
       </span>
+    </span>
+  );
+}
+
+/** Session 728: a zone's own demand growth under the grid's, from EIA-930's sub-regions (lib/siting.ts, zoneGrowth):
+ * the same window as the grid's where every month is held, else the last two whole calendar years, said in the cell;
+ * a zone the mapping does not name says the grid's figure stands for it. A hub draws nothing here. */
+function ZoneGrowthLine({ r }: { r: Row }) {
+  if (r.kind !== "zone") return null;
+  const z = zoneGrowth(SITING_FILES.demand, SITING_FILES.headroom, r);
+  if (!("pct" in z)) return <span className="block text-xs" data-headroom-zone="none"><Words words="zone: the grid's figure" why={z.why} /></span>;
+  const window = z.window === "twelve" ? `${monthWords(z.from)} to ${monthWords(z.to)}, over the twelve months before` : `the calendar year ${z.year} over ${z.year! - 1}`;
+  const tip = `${r.region}'s own demand: ${z.note} (EIA-930 sub-region${z.codes.length > 1 ? "s" : ""} ${z.codes.map((c) => c.split(":")[1]).join(", ")}, ${z.table}). Mean demand ${window}: ${Math.round(z.mw).toLocaleString("en-US")} MW against ${Math.round(z.before).toLocaleString("en-US")} MW, each month's mean weighted by its hours.${z.window === "years" ? " The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above." : " The same window as the grid's figure above."} Weather is not removed.`;
+  return (
+    <span className="block text-xs" data-headroom-zone={z.window}>
+      <Tp dotted={false} tip={tip}>zone {z.pct > 0 ? "+" : ""}<Num check={`allgrids|zdemand|${r.id}`} raw={z.pct}>{two(z.pct)}</Num> % ({z.window === "twelve" ? "twelve months" : `${z.year} over ${z.year! - 1}`})</Tp>
     </span>
   );
 }

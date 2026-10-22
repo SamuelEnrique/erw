@@ -1,0 +1,443 @@
+{
+ "steps": [
+  {
+   "step": "04-headroom",
+   "width": 1280,
+   "url": "/cost-of-power?view=allgrids&mw=1000&sort=headroom",
+   "found": true,
+   "errorText": "",
+   "sortLine": "Sorted by demand growth, largest first; a row with no figure, or one held under a license, last. 48 of 48 rows shown. The order is the column's, not a ranking of sites.",
+   "zones": [
+    {
+     "row": "ercot:LZ_AEN",
+     "kind": "years",
+     "text": "zone +6.43 % (2025 over 2024)LZ_AEN's own demand: the South Central weather zone, which holds Austin Energy's zone: the weather zone's demand, wider than the utility's own (EIA-930 sub-region SCEN, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 9,089 MW against 8,540 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "LZ_AEN's own demand: the South Central weather zone, which holds Austin Energy's zone: the weather zone's demand, wider than the utility's own (EIA-930 sub-region SCEN, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 9,089 MW against 8,540 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "ercot:LZ_CPS",
+     "kind": "years",
+     "text": "zone +6.43 % (2025 over 2024)LZ_CPS's own demand: the South Central weather zone, which holds CPS Energy's zone: the weather zone's demand, wider than the utility's own (EIA-930 sub-region SCEN, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 9,089 MW against 8,540 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "LZ_CPS's own demand: the South Central weather zone, which holds CPS Energy's zone: the weather zone's demand, wider than the utility's own (EIA-930 sub-region SCEN, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 9,089 MW against 8,540 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "ercot:LZ_HOUSTON",
+     "kind": "years",
+     "text": "zone +5.51 % (2025 over 2024)LZ_HOUSTON's own demand: the Coast weather zone, which the Houston load zone is (EIA-930 sub-region COAS, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 14,506 MW against 13,749 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "LZ_HOUSTON's own demand: the Coast weather zone, which the Houston load zone is (EIA-930 sub-region COAS, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 14,506 MW against 13,749 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "ercot:LZ_LCRA",
+     "kind": "years",
+     "text": "zone +6.43 % (2025 over 2024)LZ_LCRA's own demand: the South Central weather zone, which holds most of LCRA's zone: the weather zone's demand, wider than the utility's own (EIA-930 sub-region SCEN, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 9,089 MW against 8,540 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "LZ_LCRA's own demand: the South Central weather zone, which holds most of LCRA's zone: the weather zone's demand, wider than the utility's own (EIA-930 sub-region SCEN, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 9,089 MW against 8,540 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "ercot:LZ_NORTH",
+     "kind": "years",
+     "text": "zone +5.46 % (2025 over 2024)LZ_NORTH's own demand: the North Central, North and East weather zones together, which the North load zone spans (EIA-930 sub-regions NCEN, NRTH, EAST, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 19,287 MW against 18,289 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "LZ_NORTH's own demand: the North Central, North and East weather zones together, which the North load zone spans (EIA-930 sub-regions NCEN, NRTH, EAST, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 19,287 MW against 18,289 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "ercot:LZ_RAYBN",
+     "kind": "years",
+     "text": "zone +0.81 % (2025 over 2024)LZ_RAYBN's own demand: the East weather zone, which holds most of Rayburn's zone: the weather zone's demand, wider than the cooperative's own (EIA-930 sub-region EAST, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,840 MW against 1,825 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "LZ_RAYBN's own demand: the East weather zone, which holds most of Rayburn's zone: the weather zone's demand, wider than the cooperative's own (EIA-930 sub-region EAST, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,840 MW against 1,825 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "ercot:LZ_SOUTH",
+     "kind": "years",
+     "text": "zone +6.84 % (2025 over 2024)LZ_SOUTH's own demand: the South and South Central weather zones together, which the South load zone spans (the South Central zone also holds Austin's, San Antonio's and LCRA's zones) (EIA-930 sub-regions SOUT, SCEN, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 13,578 MW against 12,708 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "LZ_SOUTH's own demand: the South and South Central weather zones together, which the South load zone spans (the South Central zone also holds Austin's, San Antonio's and LCRA's zones) (EIA-930 sub-regions SOUT, SCEN, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 13,578 MW against 12,708 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "ercot:LZ_WEST",
+     "kind": "years",
+     "text": "zone +11.35 % (2025 over 2024)LZ_WEST's own demand: the West and Far West weather zones together, which the West load zone spans (EIA-930 sub-regions WEST, FWES, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 9,049 MW against 8,127 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "LZ_WEST's own demand: the West and Far West weather zones together, which the West load zone spans (EIA-930 sub-regions WEST, FWES, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 9,049 MW against 8,127 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "isone:.Z.CONNECTICUT",
+     "kind": "years",
+     "text": "zone +1.48 % (2025 over 2024).Z.CONNECTICUT's own demand: ISO-NE's Connecticut zone, EIA's sub-region 4004: the same zone (EIA-930 sub-region 4004, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 3,084 MW against 3,039 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": ".Z.CONNECTICUT's own demand: ISO-NE's Connecticut zone, EIA's sub-region 4004: the same zone (EIA-930 sub-region 4004, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 3,084 MW against 3,039 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "isone:.Z.MAINE",
+     "kind": "years",
+     "text": "zone -1.10 % (2025 over 2024).Z.MAINE's own demand: ISO-NE's Maine zone, EIA's sub-region 4001: the same zone (EIA-930 sub-region 4001, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,238 MW against 1,252 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": ".Z.MAINE's own demand: ISO-NE's Maine zone, EIA's sub-region 4001: the same zone (EIA-930 sub-region 4001, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,238 MW against 1,252 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "isone:.Z.NEMASSBOST",
+     "kind": "years",
+     "text": "zone +1.33 % (2025 over 2024).Z.NEMASSBOST's own demand: ISO-NE's Northeast Massachusetts and Boston zone, EIA's sub-region 4008: the same zone (EIA-930 sub-region 4008, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 2,710 MW against 2,674 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": ".Z.NEMASSBOST's own demand: ISO-NE's Northeast Massachusetts and Boston zone, EIA's sub-region 4008: the same zone (EIA-930 sub-region 4008, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 2,710 MW against 2,674 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "isone:.Z.NEWHAMPSHIRE",
+     "kind": "years",
+     "text": "zone +1.84 % (2025 over 2024).Z.NEWHAMPSHIRE's own demand: ISO-NE's New Hampshire zone, EIA's sub-region 4002: the same zone (EIA-930 sub-region 4002, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,319 MW against 1,295 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": ".Z.NEWHAMPSHIRE's own demand: ISO-NE's New Hampshire zone, EIA's sub-region 4002: the same zone (EIA-930 sub-region 4002, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,319 MW against 1,295 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "isone:.Z.RHODEISLAND",
+     "kind": "years",
+     "text": "zone +0.75 % (2025 over 2024).Z.RHODEISLAND's own demand: ISO-NE's Rhode Island zone, EIA's sub-region 4005: the same zone (EIA-930 sub-region 4005, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 876 MW against 870 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": ".Z.RHODEISLAND's own demand: ISO-NE's Rhode Island zone, EIA's sub-region 4005: the same zone (EIA-930 sub-region 4005, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 876 MW against 870 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "isone:.Z.SEMASS",
+     "kind": "years",
+     "text": "zone +0.34 % (2025 over 2024).Z.SEMASS's own demand: ISO-NE's Southeast Massachusetts zone, EIA's sub-region 4006: the same zone (EIA-930 sub-region 4006, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,593 MW against 1,588 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": ".Z.SEMASS's own demand: ISO-NE's Southeast Massachusetts zone, EIA's sub-region 4006: the same zone (EIA-930 sub-region 4006, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,593 MW against 1,588 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "isone:.Z.VERMONT",
+     "kind": "years",
+     "text": "zone +1.39 % (2025 over 2024).Z.VERMONT's own demand: ISO-NE's Vermont zone, EIA's sub-region 4003: the same zone (EIA-930 sub-region 4003, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 552 MW against 544 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": ".Z.VERMONT's own demand: ISO-NE's Vermont zone, EIA's sub-region 4003: the same zone (EIA-930 sub-region 4003, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 552 MW against 544 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "isone:.Z.WCMASS",
+     "kind": "years",
+     "text": "zone +2.00 % (2025 over 2024).Z.WCMASS's own demand: ISO-NE's West/Central Massachusetts zone, EIA's sub-region 4007: the same zone (EIA-930 sub-region 4007, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,823 MW against 1,787 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": ".Z.WCMASS's own demand: ISO-NE's West/Central Massachusetts zone, EIA's sub-region 4007: the same zone (EIA-930 sub-region 4007, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,823 MW against 1,787 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "nyiso:CAPITL",
+     "kind": "years",
+     "text": "zone +1.92 % (2025 over 2024)CAPITL's own demand: NYISO's zone F (Capital), EIA's sub-region ZONF: the same zone (EIA-930 sub-region ZONF, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,322 MW against 1,298 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "CAPITL's own demand: NYISO's zone F (Capital), EIA's sub-region ZONF: the same zone (EIA-930 sub-region ZONF, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,322 MW against 1,298 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "nyiso:CENTRL",
+     "kind": "years",
+     "text": "zone +1.06 % (2025 over 2024)CENTRL's own demand: NYISO's zone C (Central), EIA's sub-region ZONC: the same zone (EIA-930 sub-region ZONC, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,684 MW against 1,666 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "CENTRL's own demand: NYISO's zone C (Central), EIA's sub-region ZONC: the same zone (EIA-930 sub-region ZONC, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,684 MW against 1,666 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "nyiso:DUNWOD",
+     "kind": "years",
+     "text": "zone +2.56 % (2025 over 2024)DUNWOD's own demand: NYISO's zone I (Dunwoodie), EIA's sub-region ZONI: the same zone (EIA-930 sub-region ZONI, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 668 MW against 651 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "DUNWOD's own demand: NYISO's zone I (Dunwoodie), EIA's sub-region ZONI: the same zone (EIA-930 sub-region ZONI, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 668 MW against 651 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "nyiso:GENESE",
+     "kind": "years",
+     "text": "zone +0.60 % (2025 over 2024)GENESE's own demand: NYISO's zone B (Genesee), EIA's sub-region ZONB: the same zone (EIA-930 sub-region ZONB, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,070 MW against 1,063 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "GENESE's own demand: NYISO's zone B (Genesee), EIA's sub-region ZONB: the same zone (EIA-930 sub-region ZONB, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,070 MW against 1,063 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "nyiso:HUD VL",
+     "kind": "years",
+     "text": "zone +2.71 % (2025 over 2024)HUD VL's own demand: NYISO's zone G (Hudson Valley), EIA's sub-region ZONG: the same zone (EIA-930 sub-region ZONG, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,085 MW against 1,057 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "HUD VL's own demand: NYISO's zone G (Hudson Valley), EIA's sub-region ZONG: the same zone (EIA-930 sub-region ZONG, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,085 MW against 1,057 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "nyiso:LONGIL",
+     "kind": "years",
+     "text": "zone +1.05 % (2025 over 2024)LONGIL's own demand: NYISO's zone K (Long Island), EIA's sub-region ZONK: the same zone (EIA-930 sub-region ZONK, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 2,277 MW against 2,254 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "LONGIL's own demand: NYISO's zone K (Long Island), EIA's sub-region ZONK: the same zone (EIA-930 sub-region ZONK, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 2,277 MW against 2,254 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "nyiso:MHK VL",
+     "kind": "years",
+     "text": "zone +1.94 % (2025 over 2024)MHK VL's own demand: NYISO's zone E (Mohawk Valley), EIA's sub-region ZONE: the same zone (EIA-930 sub-region ZONE, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 834 MW against 818 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "MHK VL's own demand: NYISO's zone E (Mohawk Valley), EIA's sub-region ZONE: the same zone (EIA-930 sub-region ZONE, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 834 MW against 818 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "nyiso:MILLWD",
+     "kind": "years",
+     "text": "zone -2.17 % (2025 over 2024)MILLWD's own demand: NYISO's zone H (Millwood), EIA's sub-region ZONH: the same zone (EIA-930 sub-region ZONH, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 307 MW against 314 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "MILLWD's own demand: NYISO's zone H (Millwood), EIA's sub-region ZONH: the same zone (EIA-930 sub-region ZONH, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 307 MW against 314 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "nyiso:N.Y.C.",
+     "kind": "years",
+     "text": "zone +1.08 % (2025 over 2024)N.Y.C.'s own demand: NYISO's zone J (New York City), EIA's sub-region ZONJ: the same zone (EIA-930 sub-region ZONJ, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 5,718 MW against 5,657 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "N.Y.C.'s own demand: NYISO's zone J (New York City), EIA's sub-region ZONJ: the same zone (EIA-930 sub-region ZONJ, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 5,718 MW against 5,657 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "nyiso:NORTH",
+     "kind": "years",
+     "text": "zone -6.69 % (2025 over 2024)NORTH's own demand: NYISO's zone D (North), EIA's sub-region ZOND: the same zone (EIA-930 sub-region ZOND, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 601 MW against 644 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "NORTH's own demand: NYISO's zone D (North), EIA's sub-region ZOND: the same zone (EIA-930 sub-region ZOND, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 601 MW against 644 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "nyiso:WEST",
+     "kind": "years",
+     "text": "zone -1.40 % (2025 over 2024)WEST's own demand: NYISO's zone A (West), EIA's sub-region ZONA: the same zone (EIA-930 sub-region ZONA, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,730 MW against 1,755 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "WEST's own demand: NYISO's zone A (West), EIA's sub-region ZONA: the same zone (EIA-930 sub-region ZONA, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,730 MW against 1,755 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    }
+   ],
+   "nZones": 27,
+   "nKeys": 27,
+   "scrollW": 1265,
+   "clientW": 1265,
+   "totalH": 5183,
+   "shot": "04-headroom_1280.png"
+  },
+  {
+   "step": "05-headroom-zones",
+   "width": 1280,
+   "url": "/cost-of-power?view=allgrids&mw=1000&sort=headroom&kind=zone",
+   "found": true,
+   "errorText": "",
+   "sortLine": "Sorted by demand growth, largest first; a row with no figure, or one held under a license, last. 27 of 48 rows shown, load zones only. The order is the column's, not a ranking of sites.",
+   "zones": [
+    {
+     "row": "ercot:LZ_AEN",
+     "kind": "years",
+     "text": "zone +6.43 % (2025 over 2024)LZ_AEN's own demand: the South Central weather zone, which holds Austin Energy's zone: the weather zone's demand, wider than the utility's own (EIA-930 sub-region SCEN, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 9,089 MW against 8,540 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "LZ_AEN's own demand: the South Central weather zone, which holds Austin Energy's zone: the weather zone's demand, wider than the utility's own (EIA-930 sub-region SCEN, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 9,089 MW against 8,540 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "ercot:LZ_CPS",
+     "kind": "years",
+     "text": "zone +6.43 % (2025 over 2024)LZ_CPS's own demand: the South Central weather zone, which holds CPS Energy's zone: the weather zone's demand, wider than the utility's own (EIA-930 sub-region SCEN, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 9,089 MW against 8,540 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "LZ_CPS's own demand: the South Central weather zone, which holds CPS Energy's zone: the weather zone's demand, wider than the utility's own (EIA-930 sub-region SCEN, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 9,089 MW against 8,540 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "ercot:LZ_HOUSTON",
+     "kind": "years",
+     "text": "zone +5.51 % (2025 over 2024)LZ_HOUSTON's own demand: the Coast weather zone, which the Houston load zone is (EIA-930 sub-region COAS, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 14,506 MW against 13,749 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "LZ_HOUSTON's own demand: the Coast weather zone, which the Houston load zone is (EIA-930 sub-region COAS, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 14,506 MW against 13,749 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "ercot:LZ_LCRA",
+     "kind": "years",
+     "text": "zone +6.43 % (2025 over 2024)LZ_LCRA's own demand: the South Central weather zone, which holds most of LCRA's zone: the weather zone's demand, wider than the utility's own (EIA-930 sub-region SCEN, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 9,089 MW against 8,540 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "LZ_LCRA's own demand: the South Central weather zone, which holds most of LCRA's zone: the weather zone's demand, wider than the utility's own (EIA-930 sub-region SCEN, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 9,089 MW against 8,540 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "ercot:LZ_NORTH",
+     "kind": "years",
+     "text": "zone +5.46 % (2025 over 2024)LZ_NORTH's own demand: the North Central, North and East weather zones together, which the North load zone spans (EIA-930 sub-regions NCEN, NRTH, EAST, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 19,287 MW against 18,289 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "LZ_NORTH's own demand: the North Central, North and East weather zones together, which the North load zone spans (EIA-930 sub-regions NCEN, NRTH, EAST, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 19,287 MW against 18,289 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "ercot:LZ_RAYBN",
+     "kind": "years",
+     "text": "zone +0.81 % (2025 over 2024)LZ_RAYBN's own demand: the East weather zone, which holds most of Rayburn's zone: the weather zone's demand, wider than the cooperative's own (EIA-930 sub-region EAST, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,840 MW against 1,825 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "LZ_RAYBN's own demand: the East weather zone, which holds most of Rayburn's zone: the weather zone's demand, wider than the cooperative's own (EIA-930 sub-region EAST, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,840 MW against 1,825 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "ercot:LZ_SOUTH",
+     "kind": "years",
+     "text": "zone +6.84 % (2025 over 2024)LZ_SOUTH's own demand: the South and South Central weather zones together, which the South load zone spans (the South Central zone also holds Austin's, San Antonio's and LCRA's zones) (EIA-930 sub-regions SOUT, SCEN, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 13,578 MW against 12,708 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "LZ_SOUTH's own demand: the South and South Central weather zones together, which the South load zone spans (the South Central zone also holds Austin's, San Antonio's and LCRA's zones) (EIA-930 sub-regions SOUT, SCEN, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 13,578 MW against 12,708 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "ercot:LZ_WEST",
+     "kind": "years",
+     "text": "zone +11.35 % (2025 over 2024)LZ_WEST's own demand: the West and Far West weather zones together, which the West load zone spans (EIA-930 sub-regions WEST, FWES, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 9,049 MW against 8,127 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "LZ_WEST's own demand: the West and Far West weather zones together, which the West load zone spans (EIA-930 sub-regions WEST, FWES, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 9,049 MW against 8,127 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "isone:.Z.CONNECTICUT",
+     "kind": "years",
+     "text": "zone +1.48 % (2025 over 2024).Z.CONNECTICUT's own demand: ISO-NE's Connecticut zone, EIA's sub-region 4004: the same zone (EIA-930 sub-region 4004, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 3,084 MW against 3,039 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": ".Z.CONNECTICUT's own demand: ISO-NE's Connecticut zone, EIA's sub-region 4004: the same zone (EIA-930 sub-region 4004, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 3,084 MW against 3,039 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "isone:.Z.MAINE",
+     "kind": "years",
+     "text": "zone -1.10 % (2025 over 2024).Z.MAINE's own demand: ISO-NE's Maine zone, EIA's sub-region 4001: the same zone (EIA-930 sub-region 4001, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,238 MW against 1,252 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": ".Z.MAINE's own demand: ISO-NE's Maine zone, EIA's sub-region 4001: the same zone (EIA-930 sub-region 4001, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,238 MW against 1,252 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "isone:.Z.NEMASSBOST",
+     "kind": "years",
+     "text": "zone +1.33 % (2025 over 2024).Z.NEMASSBOST's own demand: ISO-NE's Northeast Massachusetts and Boston zone, EIA's sub-region 4008: the same zone (EIA-930 sub-region 4008, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 2,710 MW against 2,674 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": ".Z.NEMASSBOST's own demand: ISO-NE's Northeast Massachusetts and Boston zone, EIA's sub-region 4008: the same zone (EIA-930 sub-region 4008, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 2,710 MW against 2,674 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "isone:.Z.NEWHAMPSHIRE",
+     "kind": "years",
+     "text": "zone +1.84 % (2025 over 2024).Z.NEWHAMPSHIRE's own demand: ISO-NE's New Hampshire zone, EIA's sub-region 4002: the same zone (EIA-930 sub-region 4002, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,319 MW against 1,295 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": ".Z.NEWHAMPSHIRE's own demand: ISO-NE's New Hampshire zone, EIA's sub-region 4002: the same zone (EIA-930 sub-region 4002, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,319 MW against 1,295 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "isone:.Z.RHODEISLAND",
+     "kind": "years",
+     "text": "zone +0.75 % (2025 over 2024).Z.RHODEISLAND's own demand: ISO-NE's Rhode Island zone, EIA's sub-region 4005: the same zone (EIA-930 sub-region 4005, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 876 MW against 870 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": ".Z.RHODEISLAND's own demand: ISO-NE's Rhode Island zone, EIA's sub-region 4005: the same zone (EIA-930 sub-region 4005, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 876 MW against 870 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "isone:.Z.SEMASS",
+     "kind": "years",
+     "text": "zone +0.34 % (2025 over 2024).Z.SEMASS's own demand: ISO-NE's Southeast Massachusetts zone, EIA's sub-region 4006: the same zone (EIA-930 sub-region 4006, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,593 MW against 1,588 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": ".Z.SEMASS's own demand: ISO-NE's Southeast Massachusetts zone, EIA's sub-region 4006: the same zone (EIA-930 sub-region 4006, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,593 MW against 1,588 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "isone:.Z.VERMONT",
+     "kind": "years",
+     "text": "zone +1.39 % (2025 over 2024).Z.VERMONT's own demand: ISO-NE's Vermont zone, EIA's sub-region 4003: the same zone (EIA-930 sub-region 4003, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 552 MW against 544 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": ".Z.VERMONT's own demand: ISO-NE's Vermont zone, EIA's sub-region 4003: the same zone (EIA-930 sub-region 4003, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 552 MW against 544 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "isone:.Z.WCMASS",
+     "kind": "years",
+     "text": "zone +2.00 % (2025 over 2024).Z.WCMASS's own demand: ISO-NE's West/Central Massachusetts zone, EIA's sub-region 4007: the same zone (EIA-930 sub-region 4007, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,823 MW against 1,787 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": ".Z.WCMASS's own demand: ISO-NE's West/Central Massachusetts zone, EIA's sub-region 4007: the same zone (EIA-930 sub-region 4007, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,823 MW against 1,787 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "nyiso:CAPITL",
+     "kind": "years",
+     "text": "zone +1.92 % (2025 over 2024)CAPITL's own demand: NYISO's zone F (Capital), EIA's sub-region ZONF: the same zone (EIA-930 sub-region ZONF, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,322 MW against 1,298 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "CAPITL's own demand: NYISO's zone F (Capital), EIA's sub-region ZONF: the same zone (EIA-930 sub-region ZONF, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,322 MW against 1,298 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "nyiso:CENTRL",
+     "kind": "years",
+     "text": "zone +1.06 % (2025 over 2024)CENTRL's own demand: NYISO's zone C (Central), EIA's sub-region ZONC: the same zone (EIA-930 sub-region ZONC, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,684 MW against 1,666 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "CENTRL's own demand: NYISO's zone C (Central), EIA's sub-region ZONC: the same zone (EIA-930 sub-region ZONC, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,684 MW against 1,666 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "nyiso:DUNWOD",
+     "kind": "years",
+     "text": "zone +2.56 % (2025 over 2024)DUNWOD's own demand: NYISO's zone I (Dunwoodie), EIA's sub-region ZONI: the same zone (EIA-930 sub-region ZONI, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 668 MW against 651 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "DUNWOD's own demand: NYISO's zone I (Dunwoodie), EIA's sub-region ZONI: the same zone (EIA-930 sub-region ZONI, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 668 MW against 651 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "nyiso:GENESE",
+     "kind": "years",
+     "text": "zone +0.60 % (2025 over 2024)GENESE's own demand: NYISO's zone B (Genesee), EIA's sub-region ZONB: the same zone (EIA-930 sub-region ZONB, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,070 MW against 1,063 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "GENESE's own demand: NYISO's zone B (Genesee), EIA's sub-region ZONB: the same zone (EIA-930 sub-region ZONB, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,070 MW against 1,063 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "nyiso:HUD VL",
+     "kind": "years",
+     "text": "zone +2.71 % (2025 over 2024)HUD VL's own demand: NYISO's zone G (Hudson Valley), EIA's sub-region ZONG: the same zone (EIA-930 sub-region ZONG, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,085 MW against 1,057 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "HUD VL's own demand: NYISO's zone G (Hudson Valley), EIA's sub-region ZONG: the same zone (EIA-930 sub-region ZONG, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,085 MW against 1,057 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "nyiso:LONGIL",
+     "kind": "years",
+     "text": "zone +1.05 % (2025 over 2024)LONGIL's own demand: NYISO's zone K (Long Island), EIA's sub-region ZONK: the same zone (EIA-930 sub-region ZONK, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 2,277 MW against 2,254 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "LONGIL's own demand: NYISO's zone K (Long Island), EIA's sub-region ZONK: the same zone (EIA-930 sub-region ZONK, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 2,277 MW against 2,254 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "nyiso:MHK VL",
+     "kind": "years",
+     "text": "zone +1.94 % (2025 over 2024)MHK VL's own demand: NYISO's zone E (Mohawk Valley), EIA's sub-region ZONE: the same zone (EIA-930 sub-region ZONE, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 834 MW against 818 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "MHK VL's own demand: NYISO's zone E (Mohawk Valley), EIA's sub-region ZONE: the same zone (EIA-930 sub-region ZONE, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 834 MW against 818 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "nyiso:MILLWD",
+     "kind": "years",
+     "text": "zone -2.17 % (2025 over 2024)MILLWD's own demand: NYISO's zone H (Millwood), EIA's sub-region ZONH: the same zone (EIA-930 sub-region ZONH, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 307 MW against 314 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "MILLWD's own demand: NYISO's zone H (Millwood), EIA's sub-region ZONH: the same zone (EIA-930 sub-region ZONH, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 307 MW against 314 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "nyiso:N.Y.C.",
+     "kind": "years",
+     "text": "zone +1.08 % (2025 over 2024)N.Y.C.'s own demand: NYISO's zone J (New York City), EIA's sub-region ZONJ: the same zone (EIA-930 sub-region ZONJ, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 5,718 MW against 5,657 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "N.Y.C.'s own demand: NYISO's zone J (New York City), EIA's sub-region ZONJ: the same zone (EIA-930 sub-region ZONJ, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 5,718 MW against 5,657 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "nyiso:NORTH",
+     "kind": "years",
+     "text": "zone -6.69 % (2025 over 2024)NORTH's own demand: NYISO's zone D (North), EIA's sub-region ZOND: the same zone (EIA-930 sub-region ZOND, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 601 MW against 644 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "NORTH's own demand: NYISO's zone D (North), EIA's sub-region ZOND: the same zone (EIA-930 sub-region ZOND, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 601 MW against 644 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "nyiso:WEST",
+     "kind": "years",
+     "text": "zone -1.40 % (2025 over 2024)WEST's own demand: NYISO's zone A (West), EIA's sub-region ZONA: the same zone (EIA-930 sub-region ZONA, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,730 MW against 1,755 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "WEST's own demand: NYISO's zone A (West), EIA's sub-region ZONA: the same zone (EIA-930 sub-region ZONA, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,730 MW against 1,755 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    }
+   ],
+   "nZones": 27,
+   "nKeys": 27,
+   "scrollW": 1265,
+   "clientW": 1265,
+   "totalH": 3269,
+   "shot": "05-headroom-zones_1280.png"
+  },
+  {
+   "step": "05b-headroom-zones-nyiso",
+   "width": 1280,
+   "url": "/cost-of-power?view=allgrids&mw=1000&sort=headroom&kind=zone&grid=nyiso",
+   "found": true,
+   "errorText": "",
+   "sortLine": "Sorted by demand growth, largest first; a row with no figure, or one held under a license, last. 11 of 48 rows shown, in NYISO, load zones only. The order is the column's, not a ranking of sites.",
+   "zones": [
+    {
+     "row": "nyiso:CAPITL",
+     "kind": "years",
+     "text": "zone +1.92 % (2025 over 2024)CAPITL's own demand: NYISO's zone F (Capital), EIA's sub-region ZONF: the same zone (EIA-930 sub-region ZONF, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,322 MW against 1,298 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "CAPITL's own demand: NYISO's zone F (Capital), EIA's sub-region ZONF: the same zone (EIA-930 sub-region ZONF, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,322 MW against 1,298 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "nyiso:CENTRL",
+     "kind": "years",
+     "text": "zone +1.06 % (2025 over 2024)CENTRL's own demand: NYISO's zone C (Central), EIA's sub-region ZONC: the same zone (EIA-930 sub-region ZONC, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,684 MW against 1,666 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "CENTRL's own demand: NYISO's zone C (Central), EIA's sub-region ZONC: the same zone (EIA-930 sub-region ZONC, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,684 MW against 1,666 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "nyiso:DUNWOD",
+     "kind": "years",
+     "text": "zone +2.56 % (2025 over 2024)DUNWOD's own demand: NYISO's zone I (Dunwoodie), EIA's sub-region ZONI: the same zone (EIA-930 sub-region ZONI, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 668 MW against 651 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "DUNWOD's own demand: NYISO's zone I (Dunwoodie), EIA's sub-region ZONI: the same zone (EIA-930 sub-region ZONI, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 668 MW against 651 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "nyiso:GENESE",
+     "kind": "years",
+     "text": "zone +0.60 % (2025 over 2024)GENESE's own demand: NYISO's zone B (Genesee), EIA's sub-region ZONB: the same zone (EIA-930 sub-region ZONB, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,070 MW against 1,063 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "GENESE's own demand: NYISO's zone B (Genesee), EIA's sub-region ZONB: the same zone (EIA-930 sub-region ZONB, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,070 MW against 1,063 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "nyiso:HUD VL",
+     "kind": "years",
+     "text": "zone +2.71 % (2025 over 2024)HUD VL's own demand: NYISO's zone G (Hudson Valley), EIA's sub-region ZONG: the same zone (EIA-930 sub-region ZONG, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,085 MW against 1,057 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "HUD VL's own demand: NYISO's zone G (Hudson Valley), EIA's sub-region ZONG: the same zone (EIA-930 sub-region ZONG, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,085 MW against 1,057 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "nyiso:LONGIL",
+     "kind": "years",
+     "text": "zone +1.05 % (2025 over 2024)LONGIL's own demand: NYISO's zone K (Long Island), EIA's sub-region ZONK: the same zone (EIA-930 sub-region ZONK, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 2,277 MW against 2,254 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "LONGIL's own demand: NYISO's zone K (Long Island), EIA's sub-region ZONK: the same zone (EIA-930 sub-region ZONK, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 2,277 MW against 2,254 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "nyiso:MHK VL",
+     "kind": "years",
+     "text": "zone +1.94 % (2025 over 2024)MHK VL's own demand: NYISO's zone E (Mohawk Valley), EIA's sub-region ZONE: the same zone (EIA-930 sub-region ZONE, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 834 MW against 818 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "MHK VL's own demand: NYISO's zone E (Mohawk Valley), EIA's sub-region ZONE: the same zone (EIA-930 sub-region ZONE, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 834 MW against 818 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "nyiso:MILLWD",
+     "kind": "years",
+     "text": "zone -2.17 % (2025 over 2024)MILLWD's own demand: NYISO's zone H (Millwood), EIA's sub-region ZONH: the same zone (EIA-930 sub-region ZONH, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 307 MW against 314 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "MILLWD's own demand: NYISO's zone H (Millwood), EIA's sub-region ZONH: the same zone (EIA-930 sub-region ZONH, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 307 MW against 314 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "nyiso:N.Y.C.",
+     "kind": "years",
+     "text": "zone +1.08 % (2025 over 2024)N.Y.C.'s own demand: NYISO's zone J (New York City), EIA's sub-region ZONJ: the same zone (EIA-930 sub-region ZONJ, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 5,718 MW against 5,657 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "N.Y.C.'s own demand: NYISO's zone J (New York City), EIA's sub-region ZONJ: the same zone (EIA-930 sub-region ZONJ, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 5,718 MW against 5,657 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "nyiso:NORTH",
+     "kind": "years",
+     "text": "zone -6.69 % (2025 over 2024)NORTH's own demand: NYISO's zone D (North), EIA's sub-region ZOND: the same zone (EIA-930 sub-region ZOND, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 601 MW against 644 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "NORTH's own demand: NYISO's zone D (North), EIA's sub-region ZOND: the same zone (EIA-930 sub-region ZOND, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 601 MW against 644 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    },
+    {
+     "row": "nyiso:WEST",
+     "kind": "years",
+     "text": "zone -1.40 % (2025 over 2024)WEST's own demand: NYISO's zone A (West), EIA's sub-region ZONA: the same zone (EIA-930 sub-region ZONA, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,730 MW against 1,755 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed.",
+     "tip": "WEST's own demand: NYISO's zone A (West), EIA's sub-region ZONA: the same zone (EIA-930 sub-region ZONA, eia930_subba_demand_hourly). Mean demand the calendar year 2025 over 2024: 1,730 MW against 1,755 MW, each month's mean weighted by its hours. The grid's twelve months are not all held for the sub-regions (the table holds whole years to 2025 and the last 90 days), so the window is the last two whole years both held: a different window from the grid's figure above. Weather is not removed."
+    }
+   ],
+   "nZones": 11,
+   "nKeys": 11,
+   "scrollW": 1265,
+   "clientW": 1265,
+   "totalH": 1861,
+   "shot": "05b-headroom-zones-nyiso_1280.png"
+  }
+ ],
+ "pageErrors": []
+}

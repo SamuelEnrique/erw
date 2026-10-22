@@ -251,6 +251,8 @@ def figures(repo, base, key):
     carbon = read_json(repo, "siting", "carbon.json")
     utility = read_json(repo, "siting", "utility.json")
     delivery = read_json(repo, "datacenter", "texas_delivery.json")
+    headroom = read_json(repo, "siting", "headroom.json")          # session 728: the sub-region months
+    demand_file = read_json(repo, "demand_growth.json")             # "Your load"'s, for the grid's window
     years = {}
 
     def files(grid):
@@ -343,6 +345,41 @@ def figures(repo, base, key):
         u = cu["top"] if cu else utility["by"][{"ercot": "TX|ERCO", "caiso": "CA|CISO", "nyiso": "NY|NYIS"}[grid]]
         if u:
             out[f"allgrids|utilrev|{rid}"] = u["revenue_usd"] / u["sales_mwh"]
+        # session 728: a zone's own demand growth from the tab's headroom file (EIA-930's sub-regions, not in the live set),
+        # the window as lib/siting.ts's zoneGrowth picks it: the grid's twelve months where all held, else two whole years
+        sb = (headroom or {}).get("subba") or {}
+        codes = (sb.get("zone_subba") or {}).get(rid)
+        if codes:
+            def zmonth(m):
+                s = 0.0
+                for c in codes:
+                    v = (sb["months"].get(c) or {}).get(m)
+                    if not v:
+                        return None
+                    s += v[0]
+                return s
+
+            def zmean(end, n):
+                s = h = 0.0
+                for k in range(n):
+                    m = prev(end, k)
+                    v = zmonth(m)
+                    if v is None:
+                        return None
+                    hrs = calendar.monthrange(int(m[:4]), int(m[5:7]))[1] * 24
+                    s += v * hrs
+                    h += hrs
+                return s / h
+            to = demand_file["ytd_through"]
+            now, before = zmean(to, 12), zmean(prev(to, 12), 12)
+            if now is None or before is None:
+                years = sorted({int(m[:4]) for c in codes for m in (sb["months"].get(c) or {})}, reverse=True)
+                for y in years:
+                    now, before = zmean(f"{y}-12", 12), zmean(f"{y - 1}-12", 12)
+                    if now is not None and before is not None:
+                        break
+            if now is not None and before is not None:
+                out[f"allgrids|zdemand|{rid}"] = 100 * (now / before - 1)
     # the carbon over the electrolyzer's hours, from the live set's hourly intensity
     for rid, grid, t in out.pop("_carbonh", []):
         ba = {"ercot": "ERCO", "caiso": "CISO", "nyiso": "NYIS"}[grid]

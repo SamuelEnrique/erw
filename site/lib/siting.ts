@@ -558,6 +558,10 @@ export type HeadroomFile = {
   /** session 718: each grid's peak against its balancing authority's generators (grid_peak_vs_capacity, chain 043) */
   peak_capacity_table?: string;
   peak_capacity?: Record<string, { year: number; peak_mw: number; capacity_mw: number; over_peak_pct: number; solar_mw: number; wind_mw: number; storage_mw: number; list: string; states: string; split_states: string }>;
+  /** session 728: EIA-930's sub-regions mapped to the tab's zones (warehouse/derived/siting_page.py, ZONE_SUBBA): each
+   * sub-region's mean demand by month [MW, hours held, hours in the month], and each zone's sub-regions with the reason */
+  subba?: { table: string; files: string[]; near: number; held_from: string | null; held_to: string | null;
+    months: Record<string, Record<string, [number, number, number]>>; zone_subba: Record<string, string[]>; zone_notes: Record<string, string> };
 };
 export const BA_OF: Record<string, string> = { ercot: "ERCO", caiso: "CISO", nyiso: "NYIS", isone: "ISNE", spp: "SWPP", miso: "MISO", pjm: "PJM" };
 /** The calendar hours of a month label. */
@@ -584,6 +588,29 @@ export function demandGrowth(d: DemandYears | undefined, grid: string): Growth |
   const to = d.ytd_through, now = mean(to), before = mean(monthBack(to, 12));
   if (now === null || before === null) return { why: `Twenty-four months of EIA-930 demand ending ${to} are not all held for ${a.name}.` };
   return { pct: 100 * (now / before - 1), mw: now, before, from: monthBack(to, 11), to, ba };
+}
+/** Session 728: a zone's own demand growth from EIA-930's sub-regions (the headroom file's subba part). The window is
+ * the grid's own (the twelve months ending the demand file's last month, over the twelve before) where every one of the
+ * 24 months is held for every sub-region of the zone; else the last two whole calendar years both held in full, said so
+ * (`window`); else why. A row the mapping does not name (a hub, a grid's row) has no figure of its own. */
+export type ZoneGrowth = { pct: number; mw: number; before: number; from: string; to: string; window: "twelve" | "years"; year?: number; codes: string[]; note: string; table: string };
+export function zoneGrowth(d: DemandYears | undefined, h: HeadroomFile | undefined, r: Row): ZoneGrowth | { why: string; codes?: string[]; note?: string } {
+  const sb = h?.subba, codes = sb?.zone_subba[r.id];
+  if (!sb || !codes) return { why: r.kind === "zone" ? `No sub-region of EIA-930 is mapped to ${r.region}: the grid's figure stands for it.` : "A hub has no demand of its own: the grid's figure stands for it." };
+  const note = sb.zone_notes[r.id] ?? "";
+  const month = (m: string): number | null => { let s = 0; for (const c of codes) { const v = sb.months[c]?.[m]; if (!v) return null; s += v[0]; } return s; };
+  const mean = (end: string, n: number): number | null => { let s = 0, hh = 0; for (let k = 0; k < n; k++) { const m = monthBack(end, k), v = month(m); if (v === null) return null; s += v * hoursOfMonth(m); hh += hoursOfMonth(m); } return s / hh; };
+  if (d) {
+    const to = d.ytd_through, now = mean(to, 12), before = mean(monthBack(to, 12), 12);
+    if (now !== null && before !== null) return { pct: 100 * (now / before - 1), mw: now, before, from: monthBack(to, 11), to, window: "twelve", codes, note, table: sb.table };
+  }
+  // the last two whole calendar years both held in full
+  const years = [...new Set(codes.flatMap((c) => Object.keys(sb.months[c] ?? {}).map((m) => Number(m.slice(0, 4)))))].sort((a, b) => b - a);
+  for (const y of years) {
+    const now = mean(`${y}-12`, 12), before = mean(`${y - 1}-12`, 12);
+    if (now !== null && before !== null) return { pct: 100 * (now / before - 1), mw: now, before, from: `${y}-01`, to: `${y}-12`, window: "years", year: y, codes, note, table: sb.table };
+  }
+  return { why: `Neither the grid's twenty-four months nor two whole calendar years of EIA-930 sub-region demand are held for ${r.region} (${codes.join(", ")}; held ${sb.held_from ?? "none"} to ${sb.held_to ?? "none"}).`, codes, note };
 }
 /** The grid's installed capacity against its last whole year's peak, for a grid that is whole states; else why. */
 /** Session 718: the grid's net summer capacity over its last whole year's peak, percent above it, from
@@ -900,6 +927,7 @@ export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFil
  *   allgrids|allin|<row>|<profile key>                     energy plus transmission plus capacity (703)
  *   allgrids|connect|<row>                                 the grid's median months from queue entry to operation (705)
  *   allgrids|demand|<row>                                  demand growth, percent, last twelve months over the twelve before (706)
+ *   allgrids|zdemand|<row>                                 a zone's own demand growth, percent, from EIA-930's sub-regions (728)
  *   allgrids|planned|<row>                                 MW under construction due in the twelve months after the vintage (706)
  *   allgrids|capratio|<row>                                installed capacity over the last whole year's peak, percent (706)
  *   allgrids|carbon|<row>, allgrids|carbonlb|<row>         the eGRID subregion's CO2 rate, kg and lb per MWh (707)
@@ -976,6 +1004,7 @@ export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
     return y ? (p[1] === "year" ? y.usd : y.mwh) : undefined;
   }
   if (p[1] === "demand") { const g = demandGrowth(f.demand, row.grid); return "pct" in g ? g.pct : undefined; }
+  if (p[1] === "zdemand") { const z = zoneGrowth(f.demand, f.headroom, row); return "pct" in z ? z.pct : undefined; }
   if (p[1] === "planned") return f.headroom?.planned[row.grid]?.construction_mw;
   if (p[1] === "capratio") { const c = capacityOverPeak(f.demand, f.headroom, row.grid); return "pct" in c ? c.pct : undefined; }
   if (p[1] === "connect" || p[1] === "llapproved") {

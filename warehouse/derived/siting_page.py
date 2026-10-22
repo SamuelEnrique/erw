@@ -94,6 +94,44 @@ SUBREGIONS = ["ERCT", "CAMX", "NYUP", "NYCW", "NYLI", "NEWE", "SPNO", "SPSO", "M
 HOURLY_GRIDS = {"ercot": "ERCO", "caiso": "CISO", "nyiso": "NYIS", "isone": "ISNE", "spp": "SWPP"}
 PLANNED_TABLE, STATECAP_TABLE = "eia860m_planned_generators", "eia_state_capacity_annual"
 BA_GRIDS = {"ERCO": "ercot", "CISO": "caiso", "NYIS": "nyiso", "ISNE": "isone", "SWPP": "spp", "MISO": "miso", "PJM": "pjm"}
+# session 728 (chain 062): a zone's own demand from EIA-930's sub-regions (eia930_subba_demand_hourly and its yearly
+# tables, the data machine's connector eia930_subba.py). Each row of the tab that is a load zone is mapped here to the
+# sub-regions whose demand is its own, with the reason written; a row not named keeps its grid's figure, said so on the
+# page. NYISO's and ISO-NE's zones are EIA's sub-regions one to one. ERCOT's load zones are not its weather zones (EIA's
+# sub-regions): the Houston zone is the Coast weather zone; North, South and West span two or three weather zones each;
+# Austin Energy's, CPS Energy's, LCRA's and Rayburn's zones are utilities' footprints inside a weather zone, so they take
+# that weather zone's demand, which is wider than their own. The sums below add weather zones' means (a mean of a sum).
+SUBBA_TABLE = "eia930_subba_demand_hourly"
+SUBBA_NEAR = 0.90   # a month counts when this share of its hours is held: "Your load"'s demand file's own rule (near_cell 0.9); EIA gives ERCOT's December 2025 short by two days
+ZONE_SUBBA = {
+    "ercot:LZ_HOUSTON": (["ERCO:COAS"], "the Coast weather zone, which the Houston load zone is"),
+    "ercot:LZ_NORTH": (["ERCO:NCEN", "ERCO:NRTH", "ERCO:EAST"], "the North Central, North and East weather zones together, which the North load zone spans"),
+    "ercot:LZ_SOUTH": (["ERCO:SOUT", "ERCO:SCEN"], "the South and South Central weather zones together, which the South load zone spans (the South Central zone also holds Austin's, San Antonio's and LCRA's zones)"),
+    "ercot:LZ_WEST": (["ERCO:WEST", "ERCO:FWES"], "the West and Far West weather zones together, which the West load zone spans"),
+    "ercot:LZ_AEN": (["ERCO:SCEN"], "the South Central weather zone, which holds Austin Energy's zone: the weather zone's demand, wider than the utility's own"),
+    "ercot:LZ_CPS": (["ERCO:SCEN"], "the South Central weather zone, which holds CPS Energy's zone: the weather zone's demand, wider than the utility's own"),
+    "ercot:LZ_LCRA": (["ERCO:SCEN"], "the South Central weather zone, which holds most of LCRA's zone: the weather zone's demand, wider than the utility's own"),
+    "ercot:LZ_RAYBN": (["ERCO:EAST"], "the East weather zone, which holds most of Rayburn's zone: the weather zone's demand, wider than the cooperative's own"),
+    "nyiso:WEST": (["NYIS:ZONA"], "NYISO's zone A (West), EIA's sub-region ZONA: the same zone"),
+    "nyiso:GENESE": (["NYIS:ZONB"], "NYISO's zone B (Genesee), EIA's sub-region ZONB: the same zone"),
+    "nyiso:CENTRL": (["NYIS:ZONC"], "NYISO's zone C (Central), EIA's sub-region ZONC: the same zone"),
+    "nyiso:NORTH": (["NYIS:ZOND"], "NYISO's zone D (North), EIA's sub-region ZOND: the same zone"),
+    "nyiso:MHK VL": (["NYIS:ZONE"], "NYISO's zone E (Mohawk Valley), EIA's sub-region ZONE: the same zone"),
+    "nyiso:CAPITL": (["NYIS:ZONF"], "NYISO's zone F (Capital), EIA's sub-region ZONF: the same zone"),
+    "nyiso:HUD VL": (["NYIS:ZONG"], "NYISO's zone G (Hudson Valley), EIA's sub-region ZONG: the same zone"),
+    "nyiso:MILLWD": (["NYIS:ZONH"], "NYISO's zone H (Millwood), EIA's sub-region ZONH: the same zone"),
+    "nyiso:DUNWOD": (["NYIS:ZONI"], "NYISO's zone I (Dunwoodie), EIA's sub-region ZONI: the same zone"),
+    "nyiso:N.Y.C.": (["NYIS:ZONJ"], "NYISO's zone J (New York City), EIA's sub-region ZONJ: the same zone"),
+    "nyiso:LONGIL": (["NYIS:ZONK"], "NYISO's zone K (Long Island), EIA's sub-region ZONK: the same zone"),
+    "isone:.Z.MAINE": (["ISNE:4001"], "ISO-NE's Maine zone, EIA's sub-region 4001: the same zone"),
+    "isone:.Z.NEWHAMPSHIRE": (["ISNE:4002"], "ISO-NE's New Hampshire zone, EIA's sub-region 4002: the same zone"),
+    "isone:.Z.VERMONT": (["ISNE:4003"], "ISO-NE's Vermont zone, EIA's sub-region 4003: the same zone"),
+    "isone:.Z.CONNECTICUT": (["ISNE:4004"], "ISO-NE's Connecticut zone, EIA's sub-region 4004: the same zone"),
+    "isone:.Z.RHODEISLAND": (["ISNE:4005"], "ISO-NE's Rhode Island zone, EIA's sub-region 4005: the same zone"),
+    "isone:.Z.SEMASS": (["ISNE:4006"], "ISO-NE's Southeast Massachusetts zone, EIA's sub-region 4006: the same zone"),
+    "isone:.Z.WCMASS": (["ISNE:4007"], "ISO-NE's West/Central Massachusetts zone, EIA's sub-region 4007: the same zone"),
+    "isone:.Z.NEMASSBOST": (["ISNE:4008"], "ISO-NE's Northeast Massachusetts and Boston zone, EIA's sub-region 4008: the same zone"),
+}
 WHOLE_STATES = {"nyiso": ["NY"], "isone": ["CT", "MA", "ME", "NH", "RI", "VT"]}
 CONSTRUCTION, APPROVED = {"U", "V", "TS"}, {"T"}
 PER_MW_YEAR = {"USD/MW-day": 365.0, "USD/kW-month": 12000.0}   # to USD per MW a year
@@ -259,6 +297,49 @@ def peak_capacity(path):
                                     "storage_mw": v.get("capacity_storage_mw"), "list": str(first.get("x_vintage", "")), "states": str(first.get("x_states", "")),
                                     "split_states": "" if pd.isna(first.get("x_split_states")) else str(first.get("x_split_states"))}
     return out
+
+
+def subba_paths(dirs, first=False):
+    """Session 728: every sub-region demand table on this machine: the rolling one and the yearly ones, in that order."""
+    out = []
+    for name in [SUBBA_TABLE] + [f"{SUBBA_TABLE}_{y}" for y in range(2020, 2041)]:
+        try:
+            out.append(find(name, dirs, first))
+        except FileNotFoundError:
+            pass
+    return out
+
+
+def subba_part(paths):
+    """Session 728: headroom.json's sub-region part: for each sub-region a row of the tab is mapped to (ZONE_SUBBA), its
+    mean demand by month (MW) with the hours held, over every month the tables hold at least SUBBA_NEAR of; and the
+    mapping itself with its reasons. The tab's library picks the window it can fill from these months (lib/siting.ts,
+    zoneGrowth): the grid's own twelve months over the twelve before where every month is held, else the last two whole
+    calendar years, and says which."""
+    want = {c for codes, _ in ZONE_SUBBA.values() for c in codes}
+    sums, hours = {}, {}
+    for path in paths:
+        s = pd.read_csv(path, skiprows=header_rows(path), dtype=str, usecols=["entity", "variable", "ts_utc", "value"])
+        s = s[s["variable"] == "demand_mw"]
+        s["code"] = s["entity"].str.replace("eia930_subba:", "", regex=False)
+        s = s[s["code"].isin(want)]
+        s["m"] = s["ts_utc"].str[:7]
+        s["v"] = pd.to_numeric(s["value"], errors="coerce")
+        s = s.dropna(subset=["v"])
+        # a row given twice (the rolling table and a yearly one overlap at a year's end): the last file read wins
+        for (code, m), g in s.groupby(["code", "m"]):
+            sums[(code, m)] = float(g["v"].sum())
+            hours[(code, m)] = int(len(g))
+    months = {}
+    for (code, m), h in hours.items():
+        y, mo = int(m[:4]), int(m[5:7])
+        due = pd.Period(m, "M").days_in_month * 24
+        if h >= SUBBA_NEAR * due:
+            months.setdefault(code, {})[m] = [round(sums[(code, m)] / h, 1), h, due]
+    held = sorted({m for v in months.values() for m in v})
+    return {"table": SUBBA_TABLE, "files": [os.path.basename(p) for p in paths], "near": SUBBA_NEAR, "held_from": held[0] if held else None, "held_to": held[-1] if held else None,
+            "months": {c: dict(sorted(v.items())) for c, v in sorted(months.items())},
+            "zone_subba": {row: codes for row, (codes, _) in ZONE_SUBBA.items()}, "zone_notes": {row: note for row, (_, note) in ZONE_SUBBA.items()}}
 
 
 def headroom_file(ppath, cpath):
@@ -489,7 +570,23 @@ def main(argv=None):
     ap.add_argument("--in-dir-first", action="store_true", help="session 712: read the --in-dir directories before warehouse/output")
     ap.add_argument("--internal", help="session 704: write the capacity prices per row to this file (outside the repository)")
     ap.add_argument("--rows", help="with --internal: the tab's rows and their capacity zones as JSON (node scripts/siting-files.mjs capzones)")
+    ap.add_argument("--subba", action="store_true", help="session 728: add the sub-region part to the headroom.json already in --out-dir, from the sub-region tables found, and write nothing else")
     a = ap.parse_args(argv)
+    if a.subba:
+        # session 728: a code machine holds the sub-region tables (rebuilt from the archive) and not every other table the
+        # builder reads; this adds the sub-region part to the existing headroom file and leaves every other figure as it is
+        hp = os.path.join(a.out_dir, "headroom.json")
+        with open(hp, encoding="utf-8") as fh:
+            hr = json.load(fh)
+        paths = subba_paths(a.in_dir, a.in_dir_first)
+        if not paths:
+            print(f"FAILED: no {SUBBA_TABLE} table in {', '.join([OUTPUT, *a.in_dir])}", file=sys.stderr)
+            return 1
+        print("reading " + ", ".join(paths))
+        hr["subba"] = subba_part(paths)
+        print(f"{SUBBA_TABLE}: {len(hr['subba']['months'])} sub-regions, months {hr['subba']['held_from']} to {hr['subba']['held_to']}")
+        write("headroom.json", hr, a.out_dir)
+        return 0
     try:
         path = find(NODE_TABLE, a.in_dir, a.in_dir_first)
         print(f"reading {path}")
@@ -545,6 +642,14 @@ def main(argv=None):
     except Exception as e:
         print(f"FAILED: {e}", file=sys.stderr)
         return 1
+    # session 728: a zone's own demand from the sub-region tables, where this machine holds them
+    sub_paths = subba_paths(a.in_dir, a.in_dir_first)
+    if sub_paths:
+        print("reading " + ", ".join(sub_paths))
+        hr["subba"] = subba_part(sub_paths)
+        print(f"{SUBBA_TABLE}: {len(hr['subba']['months'])} sub-regions, months {hr['subba']['held_from']} to {hr['subba']['held_to']}")
+    else:
+        print(f"{SUBBA_TABLE} is not on this machine: a zone's own growth is not written")
     print(f"{PLANNED_TABLE} {hr['from']} to {hr['to']}: " + "; ".join(f"{g} {v['construction_mw']}" for g, v in hr["planned"].items()))
     write("headroom.json", hr, a.out_dir)
     try:
