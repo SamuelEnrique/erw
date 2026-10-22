@@ -67,9 +67,10 @@ class Durations(unittest.TestCase):
     def test_sector_and_holds(self):
         with open(os.path.join(ROOT, "warehouse", "supabase", "live_set.yaml"), encoding="utf-8") as h:
             y = h.read()
+        self.assertIn("'^interconnection_durations(_summary)?$'", y[:y.index("recent:")])  # session 673: the live set
         for t in ("interconnection_durations", "interconnection_durations_summary"):
             self.assertEqual(B.sector_of(t), "power")
-            self.assertIn(f"  - {t}\n", y[y.index("catalogue_hold:"):])
+            self.assertNotIn(f"  - {t}\n", y[y.index("catalogue_hold:"):])
             self.assertIn(f"upload.py {t}", R.STORAGE_HELD[t])
 
     def test_no_em_dash(self):

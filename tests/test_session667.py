@@ -53,7 +53,9 @@ class Territories(unittest.TestCase):
         self.assertEqual(B.sector_of("utility_service_territories"), "power")
         with open(os.path.join(ROOT, "warehouse", "supabase", "live_set.yaml"), encoding="utf-8") as h:
             y = h.read()
-        self.assertIn("  - utility_service_territories\n", y[y.index("catalogue_hold:"):])
+        # session 673: in the live set (loaded whole), no longer held from the catalogue
+        self.assertIn("'^utility_service_territories$'", y[:y.index("recent:")])
+        self.assertNotIn("  - utility_service_territories\n", y[y.index("catalogue_hold:"):])
         self.assertIn("upload.py utility_service_territories", R.STORAGE_HELD["utility_service_territories"])
 
     def test_no_em_dash(self):
