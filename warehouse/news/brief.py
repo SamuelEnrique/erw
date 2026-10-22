@@ -1035,22 +1035,24 @@ def fun_fact_section(digest_date, log):
         return []
 
 
-def daily_chart_section(digest_date, log, out=None):
+def daily_chart_section(digest_date, log, out=None, stories=None):
     """Session 232 (Samuel's ruling of 12 October 2026: the daily chart is fully automatic, a fact and its chart, no
     approval): the day's chart, chosen and drawn by code (warehouse/analysis/findings/daily_chart.py: the day's
     strongest scanner flag no Digest has shown, else the watch list's largest change of the latest period). No model
     is called and none of its words are a model's. Nothing to show, or any failure, gives no section and the reason
     in the log: a digest without a chart ships. out: a check run's path (--out); its picture and record are then
-    written beside that file, the wait for the day's scan is skipped, and docs/digest/charts/ is not touched."""
+    written beside that file, the wait for the day's scan is skipped, and docs/digest/charts/ is not touched.
+    stories (session 805): the day's top ten, so the chart follows the day (daily_chart.relevance)."""
     try:
         sys.path.insert(0, os.path.join(ROOT, "warehouse", "analysis", "findings"))
         import daily_chart
         if out:
             return daily_chart.section(digest_date, log, chart_dir=os.path.join(os.path.dirname(os.path.abspath(out)), "charts"), wait=0,
                                        used=daily_chart.used_keys(but=digest_date),
-                                       waited=daily_chart.held_before(digest_date))   # session 267: the guard's memory is the real one
+                                       waited=daily_chart.held_before(digest_date),   # session 267: the guard's memory is the real one
+                                       stories=stories)
         wait = os.environ.get("DAILY_CHART_WAIT", "")
-        return daily_chart.section(digest_date, log, wait=int(wait) if wait.isdigit() else None)
+        return daily_chart.section(digest_date, log, wait=int(wait) if wait.isdigit() else None, stories=stories)
     except Exception as exc:
         log(f"  daily chart: omitted ({ip.redact(repr(exc))[:200]})")
         return []
@@ -1338,7 +1340,7 @@ def main(argv=None):
             cost = f"{cost} + summary USD {scost:.4f}"
         L += ["", "## ERW's Numbers Today", ""] + ([summary, ""] if summary else []) + nums
         # session 232: the chart of the day, chosen and drawn by code; omitted, with the reason logged, when there is none
-        L += daily_chart_section(digest_date, log, args.out)
+        L += daily_chart_section(digest_date, log, args.out, stories=top10.to_dict("records"))   # session 805: the chart follows the day
         # session 23: the Fun fact, last; re-verified from its stored sources, omitted if it fails
         L += fun_fact_section(digest_date, log)
         # session 21: the method is on /about#digest; the generation record stays in the file, not on the page

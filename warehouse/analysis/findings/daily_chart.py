@@ -17,7 +17,13 @@ Two machines, because the histories are on one and the Digest is written on the 
                      (card_image.render, 1200 x 880) to docs/digest/charts/<date>.png, keeps what it chose in
                      docs/digest/charts/<date>.json, and writes the section "ERW's Chart of the Day".
 
-The rule, in order:
+The rule, in order (session 805, docs/reviews/periodicals-plan-2026-10-23.md, Digest change 5: the day's top stories
+first):
+  0. Among the candidates, the one most related to the day's top stories comes first (relevance: the sector the
+     candidate's table belongs to against each story's sector tag, and the content words of the candidate's fact, its
+     table and its series against the story's title, why line and parties; the top story weighs ten times the tenth).
+     A candidate related to no story ranks after every one related to some. Without the day's stories (a proof, a
+     test) the rule below stands alone.
   1. The day's strongest scanner flag: records and first negative prices first, then by how far past its threshold
      (the flag's strength, in robust standard deviations of the series' own history), ties by the flag's id.
   2. A flag a Digest has already shown is not shown again (docs/digest/charts/*.json is the memory): a monthly record
@@ -466,38 +472,136 @@ def keep_held(day, candidates, used, waited, chart_dir=None):
     return [c["key"] for c in now]
 
 
-def choose(candidates, used, day=None, waited=None):
-    """(candidate, why) by the rule: the strongest scanner flag not shown before; else the watch list's largest change
-    not shown before; else (None, the reason). The same day's own file never blocks its choice (a rerun).
+# ---------------------------------------------------------------------------------------------------------------------
+# session 805: the chart follows the day
+# ---------------------------------------------------------------------------------------------------------------------
+# the sector tags of the scorer (warehouse/news/score.py SECTORS) a table or series belongs to, by the words of its name
+SECTOR_OF = (("datacenter", {"datacenter_power"}), ("deal", {"deal", "capital"}), ("queue", {"interconnection"}),
+             ("interconnection", {"interconnection"}), ("storage", {"storage"}), ("battery", {"storage"}), ("curtail", {"renewables"}),
+             ("solar", {"renewables"}), ("wind", {"renewables"}), ("nuclear", {"nuclear"}), ("lng", {"lng"}), ("crude", {"oil"}),
+             ("petroleum", {"oil"}), ("oil", {"oil"}), ("fuel_spot", {"oil", "gas"}), ("gas", {"gas"}), ("demand", {"grid_conditions"}),
+             ("eia930", {"grid_conditions"}), ("as_prices", {"grid_conditions"}), ("retail_price", {"power_prices"}),
+             ("retail_sales", {"generation", "power_prices"}), ("retail_electricity", {"power_prices"}), ("price", {"power_prices"}),
+             ("generation", {"generation"}), ("emission", {"generation"}), ("transmission", {"transmission"}))
+FUEL_SECTOR = {"NG": {"gas"}, "COW": {"generation"}, "NUC": {"nuclear"}, "WND": {"renewables"}, "SUN": {"renewables"}, "HYC": {"renewables"}}
+# words that say nothing about which story a chart belongs to
+GENERIC = set("""the a an and or of to in on for with from by at as is are was were be been its it this that than into over under
+after before about amid per year years month months week weeks day days value values held since until now record highest lowest
+first price prices power energy electricity monthly weekly daily net total all usd mwh mw gwh kwh percent hour hours the newest
+period change rate rates mean against where fit standard deviations gaps largest week to ago level levels
+january february march april may june july august september october november december jan feb mar apr jun jul aug sep sept oct
+nov dec eia iso state states hub zone dam rtm data series table tables operating added""".split())
+STATE_WORDS = {v.lower().replace("the ", "") for v in STATES.values()}
+TOP_WEIGHT = 10
+
+
+def words_of(text):
+    """The content words of a text, lower case, a plural's s taken off, GENERIC words and numbers left out."""
+    w = [x for x in re.findall(r"[a-z0-9]+", str(text or "").lower()) if len(x) >= 3 and x not in GENERIC and not x.isdigit()]
+    return {x[:-1] if len(x) > 4 and x.endswith("s") else x for x in w}
+
+
+def candidate_sectors(c):
+    """The sector tags a candidate belongs to, by its table's and series' names (SECTOR_OF, FUEL_SECTOR)."""
+    name = f"{c.get('table', '')} {c.get('series_key', '')}".lower()
+    out = set()
+    for word, secs in SECTOR_OF:
+        if word in name:
+            out |= secs
+    ent = str(c.get("series_key", "")).split("|")[0].replace("entity=", "")
+    for p in ent.split(":"):
+        out |= FUEL_SECTOR.get(p, set())
+    return out
+
+
+def candidate_words(c):
+    """The content words of a candidate: its fact (the plain name of its series), its table's name and its series key's
+    codes read as words (a state's name, a fuel's, a sector's, a grid's)."""
+    words = words_of(c.get("fact", "")) | words_of(str(c.get("table", "")).replace("_", " "))
+    ent = str(c.get("series_key", "")).split("|")[0].replace("entity=", "")
+    for p in ent.split(":"):
+        words |= words_of(STATES.get(p, "")) | words_of(FUELS.get(p, "")) | words_of(SECTORS.get(p, ""))
+        if p.lower() in ("pjm", "ercot", "caiso", "miso", "spp", "nyiso", "isone"):
+            words.add(p.lower())
+    return words
+
+
+def relevance(c, stories):
+    """How much a candidate belongs to the day: over the day's top stories (rank 1 weighs TOP_WEIGHT, rank 10 weighs 1),
+    two points where the candidate's sectors hold the story's sector tag, and one a content word the candidate shares
+    with the story's title, why line or parties (at most three), each times the story's weight. Returns (score, the
+    best story's title, the words shared with it); (0, "", []) when nothing of the day touches it."""
+    if not stories:
+        return 0, "", []
+    secs, cw = candidate_sectors(c), candidate_words(c)
+    total, best = 0, (0, "", [])
+    for i, s in enumerate(stories[:TOP_WEIGHT]):
+        w = TOP_WEIGHT - i
+        title = str((s.get("titles") or [s.get("title", "")])[0] if isinstance(s.get("titles"), list) else s.get("title", ""))
+        text = f"{title} {s.get('why', '')} {s.get('parties', '')}"
+        shared = sorted(cw & words_of(text))
+        pts = (2 if str(s.get("sector", "")) in secs else 0) + min(3, len(shared))
+        if pts:
+            total += w * pts
+            if w * pts > best[0]:
+                best = (w * pts, title, shared)
+    return total, best[1], best[2]
+
+
+def ranked(candidates, stories):
+    """The candidates in the rule's order: by relevance to the day's stories first (session 805), then the rule of
+    session 232 (records and negatives first, strength; the watch list by its score). Each gets `_relevance`."""
+    for c in candidates:
+        c["_relevance"] = relevance(c, stories)
+    flags = [c for c in candidates if c.get("source") == "scanner"]
+    watch_c = [c for c in candidates if c.get("source") == "watch"]
+    flags.sort(key=lambda c: (-c["_relevance"][0], 0 if c["flag"]["rule"] in FIRST else 1, -float(c["flag"]["strength"]), c["key"]))
+    watch_c.sort(key=lambda c: (-c["_relevance"][0], -float(c.get("score", 0)), -float(c.get("z", 0)), c["key"]))
+    return flags, watch_c
+
+
+def choose(candidates, used, day=None, waited=None, stories=None):
+    """(candidate, why) by the rule: among the candidates most related to the day's top stories (session 805, when
+    `stories` is given), the strongest scanner flag not shown before; else the watch list's largest change not shown
+    before; else (None, the reason). The same day's own file never blocks its choice (a rerun).
     Session 267: a record more than 25 percent past the old one is passed over unless its key is in `waited` (held on
     an earlier run: held_before); the why says how many were held."""
     waited = set() if waited is None else set(waited)
-    flags = [c for c in candidates if c.get("source") == "scanner"]
-    watch_c = [c for c in candidates if c.get("source") == "watch"]
+    flags, watch_c = ranked(list(candidates), stories)
     held = [c["key"] for c in flags if c["key"] not in used and must_wait(c, waited)]
     note = (f"; {len(held)} record(s) more than {round(100 * RECORD_JUMP)} percent past the old one held a day by the guard"
             if held else "")
+
+    def related(c):
+        score, title, shared = c.get("_relevance", (0, "", []))
+        if not score:
+            return "" if not stories else "; related to none of the day's top stories"
+        return (f"; the most related to the day's top stories (relevance {score}: it shares "
+                f"{', '.join(shared) if shared else 'its sector'} with {title[:80]!r})")
     for c in flags:
         if c["key"] not in used and c["key"] not in held:
             return c, (f"the strongest of the scanner's {len(flags)} flag(s) of the day that no Digest has shown "
-                       f"(rank {c.get('rank', '?')}; rule {c['flag']['rule']}, strength {c['flag']['strength']})" + note)
+                       f"(rank {c.get('rank', '?')}; rule {c['flag']['rule']}, strength {c['flag']['strength']})" + related(c) + note)
     for c in watch_c:
         if c["key"] not in used:
             return c, ((f"the scanner flagged nothing" if not flags else f"all {len(flags)} of the scanner's flags were shown before or held")
                        + f": the watch list's largest change of the latest period not shown before (rank {c.get('rank', '?')}, "
-                       f"larger than {c['score']} percent of its own earlier changes)" + note)
+                       f"larger than {c['score']} percent of its own earlier changes)" + related(c) + note)
     return None, (("the scanner flagged nothing and the watch list has no change" if not candidates
                    else f"every candidate ({len(flags)} flag(s), {len(watch_c)} watch change(s)) was shown in an earlier Digest or held")
                   + note)
 
 
 def how_words(c):
+    score, title, shared = c.get("_relevance", (0, "", []))
+    day_words_ = (f" It is the candidate most related to the day's top stories: it shares {', '.join(shared) if shared else 'its sector'} "
+                  f"with {title[:80]!r}." if score else "")
     if c["source"] == "scanner":
         return ("Chosen by rule, not by a person or a model: the strongest flag of the day's scan that no Digest has shown "
-                f"(rule: {c['flag']['rule']}; {common.fmt(float(c['flag']['strength']), 2)} robust standard deviations past its threshold).")
+                f"(rule: {c['flag']['rule']}; {common.fmt(float(c['flag']['strength']), 2)} robust standard deviations past its threshold)." + day_words_)
     return ("Chosen by rule, not by a person or a model: the scanner had no new flag, so this is the watch list's largest change of the latest period "
             + ("(larger than every one of the measure's own earlier changes)." if float(c["score"]) >= 100
-               else f"(larger than {common.fmt(float(c['score']), 1)} percent of the measure's own earlier changes)."))
+               else f"(larger than {common.fmt(float(c['score']), 1)} percent of the measure's own earlier changes).") + day_words_)
 
 
 def markdown(day, c):
@@ -509,10 +613,13 @@ def markdown(day, c):
             f"[How the chart is chosen](/data/methods/automated_analysis_scanner)."]
 
 
-def section(day, log=print, chart_dir=None, wait=None, local_watch=True, candidates=None, proof=False, used=None, waited=None):
+def section(day, log=print, chart_dir=None, wait=None, local_watch=True, candidates=None, proof=False, used=None, waited=None,
+            stories=None):
     """The Digest's section for `day`: [] when there is nothing to show (the reason is logged). Writes the picture and
     the record of the choice. candidates: given (a test, a proof) instead of read. waited: the keys the guard held on an
-    earlier run (session 267; by default read from chart_dir's held.json); the records it holds now are written there."""
+    earlier run (session 267; by default read from chart_dir's held.json); the records it holds now are written there.
+    stories: the day's top stories (session 805), each with titles or title, sector, why and parties; the candidate most
+    related to them comes first."""
     chart_dir = chart_dir or CHART_DIR
     try:
         why_source = "given"
@@ -527,7 +634,7 @@ def section(day, log=print, chart_dir=None, wait=None, local_watch=True, candida
         used = (used_keys(chart_dir, but=day) if used is None else set(used))   # a rerun of the day chooses as it did the first time
         own = os.path.join(chart_dir, f"{day}.json")
         waited = held_before(day, chart_dir) if waited is None else set(waited)
-        c, why = choose(candidates, used, day, waited)
+        c, why = choose(candidates, used, day, waited, stories)
         for k in ([] if proof else keep_held(day, candidates, used, waited, chart_dir)):   # a proof holds nothing
             log(f"  daily chart: {k} held a day (a record more than {round(100 * RECORD_JUMP)} percent past the old one)")
         if c is None:
@@ -538,6 +645,8 @@ def section(day, log=print, chart_dir=None, wait=None, local_watch=True, candida
         record = {"date": day, "source": c["source"], "key": c["key"], "fact": c["fact"], "table": c["table"], "series_key": c["series_key"],
                   "why": why, "candidates_from": why_source, "title": c["card"]["title"], "numbers": c["card"].get("numbers", {}),
                   "image": os.path.basename(png), "rendered_at": common.now_iso(), "method": METHOD}
+        if c.get("_relevance", (0,))[0]:   # session 805: what of the day the chart follows
+            record["relevance"] = {"score": c["_relevance"][0], "story": c["_relevance"][1], "shared": c["_relevance"][2]}
         if c["source"] == "scanner":
             record["flag"] = c["flag"]
         if proof:
