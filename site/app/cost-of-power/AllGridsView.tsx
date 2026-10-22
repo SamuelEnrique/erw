@@ -25,11 +25,16 @@ const monthWords = (m: string) => new Date(`${m}-15T12:00:00Z`).toLocaleString("
  * only. Now the words sit in a role="tooltip" span inside the thing, which the site's rule shows on hover and on focus
  * (app/tokens.css, ".tip", as components/tool/ToolPage.tsx's Tip), and a screen reader reads with it. `extra` is drawn
  * in the tip under the words (a figure's twelve months). */
+// The trigger is a button described by the tip (as the shared Tip's is), so a keyboard reaches it and a screen reader
+// reads the tip as its description; AccessLint's scan found the focusable spans without a role at first (session 714).
+// The ids number the page's tips in the order drawn: a page is drawn in one pass on the server.
+let tipSeq = 0;
 function Tp({ tip, children, extra, dotted = true, className = "", data }: { tip: string; children: ReactNode; extra?: ReactNode; dotted?: boolean; className?: string; data?: Record<string, string> }) {
+  const id = `ag-tip-${(tipSeq = (tipSeq + 1) % 1_000_000)}`;
   return (
-    <span className={`tip relative inline-block ${dotted ? tipCls : ""} ${className}`.trim()} tabIndex={0} {...Object.fromEntries(Object.entries(data ?? {}).map(([k, v]) => [`data-${k}`, v]))}>
-      {children}
-      <span role="tooltip" className="absolute right-0 top-full z-20 hidden w-72 max-w-[80vw] whitespace-normal border border-rule bg-paper px-2 py-1.5 text-left font-sans text-xs font-normal leading-snug text-ink">
+    <span className={`tip relative inline-block ${className}`.trim()} {...Object.fromEntries(Object.entries(data ?? {}).map(([k, v]) => [`data-${k}`, v]))}>
+      <button type="button" aria-describedby={id} className={`text-inherit ${dotted ? tipCls : ""}`} data-tip-trigger="1">{children}</button>
+      <span role="tooltip" id={id} className="absolute right-0 top-full z-20 hidden w-72 max-w-[80vw] whitespace-normal border border-rule bg-paper px-2 py-1.5 text-left font-sans text-xs font-normal leading-snug text-ink">
         {tip}{extra ? <span className="mt-1 block">{extra}</span> : null}
       </span>
     </span>

@@ -16,7 +16,7 @@ class Brand(unittest.TestCase):
     def test_the_tab_s_rules_are_in_tokens_css(self):
         css = src("site", "app", "tokens.css")
         block = css[css.index("/* session 715 (chain 050)"):]
-        for sel in ("[data-allgrids] tbody td.text-right [data-cell-words]", '[data-allgrids] [role="tooltip"]', "[data-allgrids] thead .tip"):
+        for sel in ("[data-allgrids] tbody td.text-right [data-cell-words]", '[data-allgrids] [role="tooltip"]', "[data-allgrids] thead .tip > button"):
             self.assertIn(sel, block)
         self.assertIn("font-family: var(--font-sans);", block)
         self.assertEqual(block.count("{"), block.count("}"))

@@ -56,7 +56,7 @@ export function AllGridsNodes({ rows, pkey, datacenter, sort, dir, open }: { row
         Sorted by {HEADS[by].toLowerCase()}, {d === "asc" ? "smallest first" : "largest first"}{by === "node" || by === "cls" ? " (alphabetical)" : ""}; a node with no figure last. Click a heading to sort by it, again to turn it round.
       </p>
       <div className="overflow-x-auto" role="region" aria-label="ERCOT nodes" tabIndex={0}>
-        <div style={{ minWidth: 640 }}>
+        <div style={{ minWidth: 640 }} role="table" aria-label="ERCOT nodes" aria-rowcount={sorted.length + 1}>
           <div className={`${cols} bg-accent py-1.5 text-sm text-white`} role="row">
             {NODE_SORTS.map((k) => (
               <span key={k} className={`tip relative ${k === "node" || k === "cls" ? "text-left" : "text-right"}`} role="columnheader" aria-sort={by === k ? (d === "asc" ? "ascending" : "descending") : "none"}>
@@ -67,16 +67,16 @@ export function AllGridsNodes({ rows, pkey, datacenter, sort, dir, open }: { row
               </span>
             ))}
           </div>
-          <div ref={box} className="relative overflow-y-auto border-b border-rule" style={{ height: Math.min(sorted.length, VIEW) * ROW }} onScroll={(e) => setTop(e.currentTarget.scrollTop)} data-node-list="1">
+          <div ref={box} className="relative overflow-y-auto border-b border-rule" style={{ height: Math.min(sorted.length, VIEW) * ROW }} onScroll={(e) => setTop(e.currentTarget.scrollTop)} data-node-list="1" role="rowgroup">
             <div style={{ height: sorted.length * ROW, position: "relative" }}>
               {sorted.slice(start, end).map((r, i) => (
-                <div key={r.id} className={`${cols} absolute left-0 right-0 border-b border-rule text-sm tabular-nums`} style={{ top: (start + i) * ROW, height: ROW }} data-allgrids-row={r.id}>
-                  <button type="button" onClick={() => pick(r.id)} aria-pressed={open === r.id} className={`truncate text-left underline decoration-dotted ${open === r.id ? "font-semibold" : ""}`} aria-label={`${r.node}: open its panel${r.types ? `; ERCOT's resource types ${r.types}` : ""}`} data-node-open={r.id}>{r.node}</button>
-                  <span className="text-xs">{r.cls}</span>
-                  <span className="text-right">{r.per === null ? <span className="tip relative inline-block cursor-help border-b border-dotted border-muted" tabIndex={0}>not held<span role="tooltip" className="absolute right-0 top-full z-20 hidden w-64 max-w-[80vw] whitespace-normal border border-rule bg-paper px-2 py-1.5 text-left text-xs leading-snug text-ink">{r.why}</span></span> : <span data-check={energyKey(r)} data-raw={String(r.per)}>{two(r.per)}</span>}</span>
-                  <span className="text-right">{r.basis === null ? "" : <span data-check={`allgrids|basis|${r.id}`} data-raw={String(r.basis)}>{two(r.basis)}</span>}</span>
-                  <span className="text-right">{r.allin === null ? "" : <span data-check={`allgrids|allin|${r.id}|${pkey}`} data-raw={String(r.allin)}>{two(r.allin)}</span>}</span>
-                  <span className="text-right text-xs">{r.days.toLocaleString("en-US")}{r.due ? ` of ${r.due}` : ""}</span>
+                <div key={r.id} className={`${cols} absolute left-0 right-0 border-b border-rule text-sm tabular-nums`} style={{ top: (start + i) * ROW, height: ROW }} data-allgrids-row={r.id} role="row" aria-rowindex={start + i + 2}>
+                  <span role="cell" className="min-w-0"><button type="button" onClick={() => pick(r.id)} aria-pressed={open === r.id} className={`truncate text-left underline decoration-dotted ${open === r.id ? "font-semibold" : ""}`} aria-label={`${r.node}: open its panel${r.types ? `; ERCOT's resource types ${r.types}` : ""}`} data-node-open={r.id}>{r.node}</button></span>
+                  <span role="cell" className="text-xs">{r.cls}</span>
+                  <span role="cell" className="text-right">{r.per === null ? <span className="tip relative inline-block cursor-help border-b border-dotted border-muted" tabIndex={0}>not held<span role="tooltip" className="absolute right-0 top-full z-20 hidden w-64 max-w-[80vw] whitespace-normal border border-rule bg-paper px-2 py-1.5 text-left text-xs leading-snug text-ink">{r.why}</span></span> : <span data-check={energyKey(r)} data-raw={String(r.per)}>{two(r.per)}</span>}</span>
+                  <span role="cell" className="text-right">{r.basis === null ? "" : <span data-check={`allgrids|basis|${r.id}`} data-raw={String(r.basis)}>{two(r.basis)}</span>}</span>
+                  <span role="cell" className="text-right">{r.allin === null ? "" : <span data-check={`allgrids|allin|${r.id}|${pkey}`} data-raw={String(r.allin)}>{two(r.allin)}</span>}</span>
+                  <span role="cell" className="text-right text-xs">{r.days.toLocaleString("en-US")}{r.due ? ` of ${r.due}` : ""}</span>
                 </div>
               ))}
             </div>
