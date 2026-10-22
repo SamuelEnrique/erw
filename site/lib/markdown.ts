@@ -127,6 +127,22 @@ export function safeHref(href: string): boolean {
   return !/^[a-z][a-z0-9+.-]*:/i.test(href.trim()) || /^(https?:|mailto:)/i.test(href.trim());
 }
 
+/** Session 581: a heading's id as GitHub writes it, from the heading's rendered HTML: its text, in lower case, without
+ * punctuation but the hyphen and the underscore, each space a hyphen; a second heading of the same text gets "-1", a
+ * third "-2" (one counter for each document rendered). */
+export function headingSlugs(): { next: (html: string) => string } {
+  const seen = new Map<string, number>();
+  return {
+    next(html: string): string {
+      const text = html.replace(/<[^>]*>/g, "").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+      const base = text.trim().toLowerCase().replace(/[^\p{L}\p{M}\p{N}\p{Pc}\- ]/gu, "").replace(/ /g, "-");
+      const n = seen.get(base) ?? 0;
+      seen.set(base, n + 1);
+      return n ? `${base}-${n}` : base;
+    },
+  };
+}
+
 /** Render markdown that lives at `repoPath` (for example "docs/digest/2026-09-26.md"). */
 export function render(md: string, repoPath: string): string {
   const dir = path.posix.dirname(repoPath);
@@ -155,8 +171,15 @@ export function render(md: string, repoPath: string): string {
       html(token) {
         return safeHtml(token.raw ?? token.text);   // session 177: a tag in a document is text, not markup
       },
+      // session 581: each heading carries the id GitHub gives it, so a link to a place in a document (the documents'
+      // own links, docs/methods/x.md#y, and the pages' links to /data/methods/x#y) lands where it names
+      heading({ tokens, depth }) {
+        const inner = this.parser.parseInline(tokens);
+        return `<h${depth} id="${slugs.next(inner)}">${inner}</h${depth}>\n`;
+      },
     },
   });
+  const slugs = headingSlugs();
   return gateLinks(marked.parse(md, { async: false }) as string);
 }
 

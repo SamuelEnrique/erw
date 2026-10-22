@@ -163,8 +163,11 @@ export type WorthFile = { built: string; durations_hours: number[]; rules: Recor
 /** The period the worth is shown for: the page's own when the hub's prices hold it, else the newest year they hold. */
 export function worthPeriod(side: Side | undefined, period: string | null): string | null {
   if (!side?.years) return null;
-  if (period && (period.length === 7 ? side.months?.[period] : side.years[period])) return period;
-  return Object.keys(side.years).sort().at(-1) ?? null;
+  // session 581: a period whose record holds no value (2023, written only as { missing }: five of its months) is not held,
+  // as a year with no record is not; /curtailment?period=2023 answered 500 reading the value it did not hold
+  const held = (v: Val | undefined) => v?.usd_per_mwh_curtailed !== undefined;
+  if (period && held(period.length === 7 ? side.months?.[period] : side.years[period])) return period;
+  return Object.keys(side.years).sort().filter((y) => held(side.years![y])).at(-1) ?? null;
 }
 const valOf = (side: Side | undefined, p: string | null): Val | null => (!side || !p ? null : (p.length === 7 ? side.months?.[p] : side.years?.[p]) ?? null);
 const batOf = (g: WorthGrid, p: string | null): Bat | null => (!p ? null : (p.length === 7 ? g.battery?.months?.[p] : g.battery?.years?.[p]) ?? null);
