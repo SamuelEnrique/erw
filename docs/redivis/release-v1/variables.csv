@@ -1902,6 +1902,8 @@ eia_product_supplied_monthly,product_supplied_per_day,series variable,kbbl/d
 eia_refinery_capacity_annual,capacity_per_calendar_day,series variable,kbbl/d
 eia_refinery_capacity_annual,capacity_per_stream_day,series variable,kbbl/d
 eia_refinery_capacity_annual,refineries,series variable,count
+eia_refinery_inputs_monthly,net_input,series variable,kbbl
+eia_refinery_inputs_monthly,net_input_per_day,series variable,kbbl/d
 eia_refinery_weekly,net_input,series variable,kbbl/d
 eia_refinery_weekly,operable_capacity,series variable,kbbl/d
 eia_refinery_weekly,refinery_net_input,series variable,kbbl/d
