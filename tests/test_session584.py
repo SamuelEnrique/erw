@@ -52,6 +52,7 @@ class TheFixes(unittest.TestCase):
     def test_select_narrows_to_its_frame(self):
         css = src("site", "app", "tokens.css")
         self.assertRegex(css, r"\.brand-a select \{\s*max-width: 100%;\s*\}")
+        self.assertRegex(css, r"\.brand-a :is\(label, span, div\):has\(> select\),\s*\.brand-a :is\(span, div\):has\(> label > select\) \{\s*min-width: 0;\s*max-width: 100%;\s*\}")
 
     def test_mix_bar_notes_wrap(self):
         s = src("site", "components", "svgchart.tsx")
@@ -73,7 +74,7 @@ class TheFixes(unittest.TestCase):
         self.assertIn("x={inside(x0 + (bw * n) / 2, g.sub)}", g)
         self.assertIn("x={inside(x0 + (bw * n) / 2, g.label)}", g)
         sc = src("site", "components", "tool", "SeriesChart.tsx")
-        self.assertIn("x={Math.max(Math.min(cx(i), W - 1 - s.length * 3.3), s.length * 3.3 + 1)}", sc)
+        self.assertIn("x={Math.max(Math.min(cx(i), W - 1 - s.length * 3.4), s.length * 3.4 + 1)}", sc)
 
     def test_time_chart_names_stay_above_the_bottom(self):
         t = src("site", "components", "TimeChart.tsx")

@@ -194,7 +194,7 @@ export function SeriesChart({ id, title, unit, categories, series, kind, scale, 
                 })}
                 {over ? <path d={`M${x0 - 3},${TOP + 14} l${w / 4 + 1.5},-5 l${w / 4},5 l${w / 4},-5 l${w / 4 + 1.5},5`} fill="none" stroke="var(--color-surface)" strokeWidth="3" /> : null}
                 {textWidth(figure) <= bw * 1.5 ? <text x={cx(i)} y={(over ? TOP : y(capped(Math.max(up, useLog ? lo : 0)))) - 6} textAnchor="middle" fontSize="11" fill="var(--color-ink)">{figure}</text> : null}
-                {labelled(i) ? lines[i].map((s, j) => <text key={j} x={cx(i)} y={baseY + 16 + j * LINE} textAnchor="middle" fontSize="11" fill="var(--color-ink)">{s}</text>) : null}
+                {labelled(i) ? lines[i].map((s, j) => <text key={j} x={Math.max(Math.min(cx(i), W - 1 - s.length * 3.4), s.length * 3.4 + 1)} y={baseY + 16 + j * LINE} textAnchor="middle" fontSize="11" fill="var(--color-ink)">{s}</text>) : null}
                 {sub ? <text x={cx(i)} y={baseY + 16 + depth * LINE} textAnchor="middle" fontSize="10" fill="var(--color-muted)">{sub}</text> : null}
                 <title>{says ? says(i) : `${c.label}${c.sub ? ` (${c.sub})` : ""}: ${series.map((s) => `${s.name} ${s.values[i] === null ? "not held" : fmt(s.values[i]!)}`).join(", ")} ${unit}`}</title>
               </g>
@@ -213,7 +213,7 @@ export function SeriesChart({ id, title, unit, categories, series, kind, scale, 
                   </g>
                 );
               })}
-              {categories.map((c, i) => (labelled(i) ? lines[i].map((s, j) => <text key={`${c.label}-${j}`} x={Math.max(Math.min(cx(i), W - 1 - s.length * 3.3), s.length * 3.3 + 1)} y={baseY + 16 + j * LINE} textAnchor="middle" fontSize="11" fill="var(--color-ink)">{s}</text>) : null))}
+              {categories.map((c, i) => (labelled(i) ? lines[i].map((s, j) => <text key={`${c.label}-${j}`} x={Math.max(Math.min(cx(i), W - 1 - s.length * 3.4), s.length * 3.4 + 1)} y={baseY + 16 + j * LINE} textAnchor="middle" fontSize="11" fill="var(--color-ink)">{s}</text>) : null))}
             </>
           )}
         </svg>

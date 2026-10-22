@@ -1,6 +1,6 @@
 // Energy Research Warehouse (ERW) site, session 584: every page of check-values' list at 390 by 844, measured.
 //
-//   node scripts/check-390.mjs <base> <out.json> [shots-dir] [--pages a,b,c]
+//   node scripts/check-390.mjs <base> <out.json> [shots-dir] [--pages a,b,c] [--like earlier.json]
 //
 // Opens the internal view (every page is in review), sets the window to 390 by 844 as a phone (mobile emulation, the
 // page's own viewport tag), loads each page of `node scripts/check-values.mjs --list` (pages and internal), and lists:
@@ -24,8 +24,12 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const args = process.argv.slice(2);
 const flag = args.indexOf("--pages");
 const only = flag >= 0 ? args.splice(flag, 2)[1].split(",") : null;
+// --like <earlier.json>: the pictures of an after run are taken where the earlier run took its own (the same pages,
+// scrolled to the same element), so the two folders hold the same views
+const likeAt = args.indexOf("--like");
+const like = likeAt >= 0 ? new Map(JSON.parse(fs.readFileSync(args.splice(likeAt, 2)[1], "utf-8")).pages.filter((r) => r.findings).map((r) => [r.page, r])) : null;
 const [base, out, shots] = args;
-if (!base || !out) { console.error("usage: node scripts/check-390.mjs <base> <out.json> [shots-dir] [--pages a,b,c]"); process.exit(2); }
+if (!base || !out) { console.error("usage: node scripts/check-390.mjs <base> <out.json> [shots-dir] [--pages a,b,c] [--like earlier.json]"); process.exit(2); }
 
 function pageList() {
   if (only) return only;
@@ -147,8 +151,10 @@ const code = await withBrowser(async ({ go, evaluate, unlock, send, sleep }) => 
       const findings = m.wide.length + m.tables.length + m.labels.length;
       results.push({ page: p, ...m, findings });
       console.log(`${findings ? "FIND" : "ok  "} ${p}  scroll ${m.scrollWidth}/${m.W}  wide ${m.wideCount}  tables ${m.tables.length}  labels ${m.labels.length}`);
-      if (shots && findings) {
-        const target = m.wide[0]?.sel ?? m.tables[0]?.sel ?? m.labels[0]?.sel;
+      const before = like?.get(p);
+      if (shots && (findings || before)) {
+        const from = before ?? m;
+        const target = from.wide[0]?.sel ?? from.tables[0]?.sel ?? from.labels[0]?.sel;
         if (target) await evaluate(`(() => { const e = document.querySelector(${JSON.stringify(target.replace(/ > /g, " "))}); if (e) e.scrollIntoView({ block: "center" }); })()`).catch(() => {});
         await sleep(500);
         const shot = await send("Page.captureScreenshot", { format: "png" });
