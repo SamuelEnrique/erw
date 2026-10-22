@@ -854,6 +854,25 @@ export function columnValue(dc: DC, f: Files, r: Row, x: Pick<SitingInputs, "pro
     case "allin": { const a = allInCell(dc, f, r, x); return "v" in a ? a.v : null; }
   }
 }
+/** Session 793 (chain 065): the words a column's cell draws where it draws no figure ("license needed", "not held",
+ * "no capacity market", "paused" and the like, each its cell function's own), or null where it draws a figure. The hub
+ * table's download writes these words, never a number, where the page draws words. */
+export function columnWords(dc: DC, f: Files, r: Row, x: Pick<SitingInputs, "profile" | "lf" | "strike">, col: ColumnId): string | null {
+  const pick = (c: unknown) => (c && typeof c === "object" && "words" in c && typeof (c as { words: unknown }).words === "string" ? (c as { words: string }).words : "not held");
+  if (col === "capacity") {
+    const c = capacityCell(f, r, x);
+    return "zero" in c ? "no capacity market" : "why" in c ? pick(c) : "license needed";
+  }
+  if (columnValue(dc, f, r, x, col) !== null) return null;
+  switch (col) {
+    case "energy": return pick(x.profile === "datacenter" ? energyCell(dc, f, r) : profileCell(dc, f, r, x, f.cp));
+    case "transmission": return pick(cpCharge(dc, f, r, x));
+    case "allin": return pick(allInCell(dc, f, r, x));
+    case "carbon": return pick(carbonCell(dc, f, r, x));
+    case "utility": return pick(utilityCell(f, r));
+    default: return "not held";
+  }
+}
 export type SortKey = ColumnId | "name";
 export const SORT_WORDS: Record<SortKey, string> = { name: "grid, then name", energy: "energy", transmission: "transmission and the four peaks", capacity: "capacity", connect: "months to connect", headroom: "demand growth", carbon: "carbon", utility: "the utility's industrial revenue per MWh", allin: "the all-in figure" };
 /** The rows shown: filtered by grid, by kind (load zones or hubs), by an energy band and to rows whose every cost part
