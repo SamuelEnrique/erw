@@ -1,6 +1,7 @@
 import { SiteLink as Link } from "@/components/SiteLink";
 import { Num } from "@/components/Num";
 import { InlineSpark } from "@/components/InlineSpark";
+import { LineChart } from "@/components/LineChart";
 import { InputPanel } from "@/components/tool/ToolPage";
 import type { ReactNode } from "react";
 import { columnWords, nodeColumns, zoneGrowth, SERVICE_WORDS, UTILITY_KINDS_LINE, utilityKind, nodeShortMonths, shortMonthsWords, CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, columnValue, nodeTable, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
@@ -350,7 +351,37 @@ function AbPanel({ x }: { x: SitingInputs }) {
         </table>
       </div>
       <p className="mt-1 text-xs" data-ab-note="1">Each figure is the row&apos;s own in the table below, under the same load. Months to connect are the grid&apos;s generators&apos; (the column &quot;Time to connect&quot;). The year all-in is the all-in figure times the energy the load uses in a year: its draw while running times the hours it runs.</p>
+      {/* session 794 (chain 065): two ERCOT nodes as A and B, their monthly bases on one chart, each month keyed */}
+      {ra?.kind === "node" && rb?.kind === "node" ? <NodePair a={ra} b={rb} /> : null}
     </section>
+  );
+}
+/** Session 794 (chain 065): two ERCOT nodes side by side: each month's mean daily day-ahead basis to the hub on one chart
+ * and in a table, each figure keyed; B less A for the basis spread (90th less 10th percentile) and the intraday swing. */
+function NodePair({ a, b }: { a: Row; b: Row }) {
+  const na = NODES.nodes.find((k) => `ercot:${k.id}` === a.id), nb = NODES.nodes.find((k) => `ercot:${k.id}` === b.id);
+  if (!na || !nb) return null;
+  const months = [...new Set([...Object.keys(na.dam_basis ?? {}), ...Object.keys(nb.dam_basis ?? {})])].sort();
+  const pts = (n: typeof na) => months.filter((m) => n.dam_basis?.[m]).map((m) => ({ t: Date.UTC(+m.slice(0, 4), +m.slice(5, 7) - 1, 1) / 1000, v: n.dam_basis![m][0] }));
+  const cell = (n: typeof na, r: Row, m: string) => (n.dam_basis?.[m] ? <Num check={`allgrids|nodemonth|${r.id}|${m}`} raw={n.dam_basis[m][0]}>{two(n.dam_basis[m][0])}</Num> : <Words words="not held" why={`No day of ${m} is held for ${r.region} in node_basis_daily.`} />);
+  const spread = na.pct && nb.pct ? (nb.pct[2] - nb.pct[0]) - (na.pct[2] - na.pct[0]) : null;
+  const swing = na.swing && nb.swing ? nb.swing[0] - na.swing[0] : null;
+  const sign = (v: number) => (v > 0 ? "+" : "");
+  return (
+    <div className="mt-4" data-node-pair="1">
+      <h4 className="mb-1 text-sm font-semibold">The two nodes, month by month: mean daily day-ahead basis to {NODE_HUB}, USD per MWh</h4>
+      <LineChart lines={[{ label: `A: ${a.region}`, color: "accent", points: pts(na) }, { label: `B: ${b.region}`, color: "var(--color-fuel-gas)", points: pts(nb) }]}
+        unit="USD/MWh" height={220} x="month" ariaLabel={`${a.region} and ${b.region}: each month's mean daily day-ahead basis to ${NODE_HUB}, ${months[0]} to ${months.at(-1)}`} />
+      <div className="mt-2 overflow-x-auto" role="region" aria-label="The two nodes by month" tabIndex={0}>
+        <table className="w-full border-collapse text-sm tabular-nums" style={{ minWidth: 360 }}>
+          <thead><tr className="border-b border-rule"><th scope="col" className="px-2 py-1 text-left font-normal">Month</th><th scope="col" className="px-2 py-1 text-right font-normal">A: {a.region}</th><th scope="col" className="px-2 py-1 text-right font-normal">B: {b.region}</th></tr></thead>
+          <tbody>{months.map((m) => <tr key={m} className="border-b border-rule"><th scope="row" className="px-2 py-1 text-left font-normal">{m}</th><td className="px-2 py-1 text-right">{cell(na, a, m)}</td><td className="px-2 py-1 text-right">{cell(nb, b, m)}</td></tr>)}</tbody>
+        </table>
+      </div>
+      <p className="mt-1 text-sm" data-node-pair-diff="1">
+        B less A: the basis spread {spread === null ? "not held" : <>{sign(spread)}<Num check={`allgrids|nodediff|${a.id}|${b.id}|spread`} raw={spread}>{two(spread)}</Num></>}, the intraday swing {swing === null ? "not held" : <>{sign(swing)}<Num check={`allgrids|nodediff|${a.id}|${b.id}|swing`} raw={swing}>{two(swing)}</Num></>} USD per MWh (node_basis_daily; a month short of days is the table&apos;s, as the node list says).
+      </p>
+    </div>
   );
 }
 /** Session 710: the one headline line A drives, every figure a key, drawn only where held. */
@@ -387,6 +418,12 @@ function NodePanel({ id, x }: { id: string; x: SitingInputs }) {
           <Num check={`allgrids|nodepct|${id}|10`} raw={n.pct[0]}>{two(n.pct[0])}</Num>, half at or below <Num check={`allgrids|nodepct|${id}|50`} raw={n.pct[1]}>{two(n.pct[1])}</Num>, nine in ten at or below <Num check={`allgrids|nodepct|${id}|90`} raw={n.pct[2]}>{two(n.pct[2])}</Num> per MWh.
         </p>
       ) : <p className="mt-1"><Words words="not held" why="No day of day-ahead basis is held for this node in the twelve months." /></p>}
+      {/* session 795 (chain 065): the nodes that settle alike, a fact of the table */}
+      {n.same ? (
+        <p className="mt-1" data-node-same="1">
+          It settles at the same day-ahead prices as {n.same.join(", ")}: the same basis to {NODE_HUB} on every day node_basis_daily holds for {n.same.length === 1 ? "both" : "them"} ({NODES.first} to {NODES.last}), and the same days. The table does not say why.
+        </p>
+      ) : null}
       {/* session 746 (chain 063): the node's day-ahead intraday swing, the same twelve months */}
       {n.swing ? (
         <p className="mt-1" data-node-swing="1">

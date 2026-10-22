@@ -76,3 +76,7 @@ The 12 steps (758's) again on production (chain 064's 766 to 777 served since 21
 - **Every figure the walk reads is the same** as at session 758's walk: each step's figure lines compared, 0 differing.
 - **726's kinds and 728's zone lines are served** as at 758.
 - **No step fails and no new fault was found.**
+
+## Walked again (session 797, chain 065)
+
+The same steps as session 779, on a local build of `wip/796-allgrids` (chain 065's 788 to 796: the hub table's download, two nodes side by side, nodes that settle alike), 22 October 2026 at about 23:20 UTC. **Every step's figure lines are the same as at 779** (0 differing), no step fails, and no new fault was found.

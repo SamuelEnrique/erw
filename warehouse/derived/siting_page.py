@@ -149,6 +149,16 @@ def nodes_file(path):
     swq = sw.groupby("entity")["value"].quantile([0.1, 0.9]).unstack()
     pdays = w.groupby("entity")["value"].count()
     meta = b.drop_duplicates("entity").set_index("entity")[["x_class", "x_resource_type"]]
+    # session 795 (chain 065): the nodes that settle alike: the same day-ahead basis on every day, and the same days, over
+    # everything the table holds for them (exact equality of the table's values; no reason inferred)
+    srt = b.sort_values(["entity", "ts_utc"])
+    sig = srt.groupby("entity").apply(lambda g: hash(tuple(zip(g["ts_utc"].tolist(), g["value"].tolist()))), include_groups=False)
+    same = {}
+    for _, ents in sig.groupby(sig):
+        ids = sorted(e.split(":", 1)[1] for e in ents.index)
+        if len(ids) > 1:
+            for e in ents.index:
+                same[e] = [i for i in ids if i != e.split(":", 1)[1]]
     nodes = []
     for ent, rows in g.groupby("entity"):
         nodes.append({
@@ -156,6 +166,7 @@ def nodes_file(path):
             "dam_basis": {r.m: [round(float(r.mean), 4), int(r.count)] for r in rows.itertuples()},
             **({"pct": [round(float(pct.at[ent, 0.1]), 4), round(float(pct.at[ent, 0.5]), 4), round(float(pct.at[ent, 0.9]), 4), int(pdays[ent])]} if ent in pct.index else {}),
             **({"swing": [round(float(swing.at[ent, "mean"]), 4), round(float(swq.at[ent, 0.1]), 4), round(float(swq.at[ent, 0.9]), 4), int(swing.at[ent, "count"])]} if ent in swing.index else {}),
+            **({"same": same[ent]} if ent in same else {}),
         })
     # a node with no day-ahead basis day is still a node of the table (a point held only in real time)
     for ent in sorted(set(kinds.index[~kinds.isin(["hub", "zone"])]) - set(g["entity"])):

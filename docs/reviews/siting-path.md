@@ -77,3 +77,7 @@ The 11 steps (727's) again on production (chain 064's 766 to 777 served since 21
 - **Every figure the walk reads is the same** as at session 727's walk: each step's figure lines compared, 0 differing.
 - **The headline at HB_WEST**: USD 40.83 per MWh all-in, USD 321,907,123 a year, 45.80 months, as at 717 and 727.
 - **No step fails and no new fault was found.**
+
+## Walked again (session 797, chain 065)
+
+The same steps as session 780, on a local build of `wip/796-allgrids` (chain 065's 788 to 796: the hub table's download, two nodes side by side, nodes that settle alike), 22 October 2026 at about 23:20 UTC. **Every step's figure lines are the same as at 780** (0 differing), no step fails, and no new fault was found.

@@ -113,6 +113,8 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/cost-of-power?view=allgrids&rows=nodes&nsort=swing&ndir=desc",
   // session 772 (chain 064): the storage nodes alone, by their swing
   "/cost-of-power?view=allgrids&rows=nodes&ncls=storage&nsort=swing&ndir=desc",
+  // session 794 (chain 065): two nodes as A and B, their months side by side
+  "/cost-of-power?view=allgrids&a=ercot%3ABBREEZE_1_2&b=ercot%3APALACIOS_RN",
   // session 711: a node's panel
   "/cost-of-power?view=allgrids&rows=nodes&node=ercot%3A7RNCHSLR_ALL",
   // session 719: the tracker's link's form, a row as A and the facility's MW as the load

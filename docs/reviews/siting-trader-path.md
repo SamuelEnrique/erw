@@ -90,3 +90,7 @@ The 17 steps (757's sixteen and the class filter) again on production (chain 064
 - **Every figure the walk reads is the same** as at session 757's walk: each step's figure lines compared, 0 differing.
 - **757's fix is served**: "Sorted by basis to HB_HUBAVG". **772's class filter**: the storage nodes alone, 238 of 873, by their swing.
 - **No step fails and no new fault was found.**
+
+## Walked again (session 797, chain 065)
+
+The same steps as session 778, on a local build of `wip/796-allgrids` (chain 065's 788 to 796: the hub table's download, two nodes side by side, nodes that settle alike), 22 October 2026 at about 23:20 UTC. **Every step's figure lines are the same as at 778** (0 differing), no step fails, and no new fault was found.
