@@ -15,7 +15,7 @@ Session 722 (chain 062, `queue/done/062-day-23-october-code-allgrids-2.md`). One
 | 6 | Whether any capacity figure may be shown, and whether the computed ones belong in a private place a reviewer can read | 704 | ruling | |
 | 7 | Large-load tariffs outside ERCOT (transmission for six grids, a delivery charge for every grid) | 705, 713 | gap | |
 | 8 | A large load's own wait outside NYISO (utilities' and ISOs' large-load queues) | 705, 713 | gap | |
-| 9 | A zone's own demand growth from `eia930_subba_demand_hourly` (held, not in the tab's files) | 706 | work | |
+| 9 | A zone's own demand growth from `eia930_subba_demand_hourly` (held, not in the tab's files) | 706 | work | 728 (NYISO's and ISO-NE's 19 zones; ERCOT's and CAISO's rows keep the grid's) |
 | 10 | Whether the annual carbon should be consumption-based too | 707 | ruling | |
 | 11 | ERCOT's settlement point mapping and resource registration: a node's zone, hub, wires utility and county | 709, 711, 713 | gap | |
 | 12 | Transmission projects near a node (substations, lines, CCN filings) | 711 | gap | |
@@ -29,7 +29,7 @@ Session 722 (chain 062, `queue/done/062-day-23-october-code-allgrids-2.md`). One
 | 20 | Reserve margins by zone, beside capacity above the peak | 713 (gaps) | gap | |
 | 21 | The map: nothing held places a hub or node on a map | 721 | gap | |
 | 22 | Migration 036 (session 580's indexes) written, not applied; the tab needs none | 716, 721 | ruling | |
-| 23 | Production serves 719 to 721 (`0787ad72`, Vercel rate limited at 13:44 UTC on 22 October), and the second after snapshot | 721 | work | |
+| 23 | Production serves 719 to 721 (`0787ad72`, Vercel rate limited at 13:44 UTC on 22 October), and the second after snapshot | 721 | work | 722 |
 | 24 | 721's landing record (`wip/721-records`) and the queue's taking of 062 (a local commit on main) reach main | 721, 722 | work | |
 | 25 | The tracker's facilities not placed by county or state (281 of 422 on the warehouse's copy) | 719 | work | |
 

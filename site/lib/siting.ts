@@ -557,6 +557,9 @@ export type HeadroomFile = {
   capacity_table: string; capacity: Record<string, { states: string[]; year: number; mw: number }>;
   /** session 718: each grid's peak against its balancing authority's generators (grid_peak_vs_capacity, chain 043) */
   peak_capacity_table?: string;
+  /** session 728: a zone's own demand growth, its EIA-930 sub-region's mean hourly demand in the newest whole year
+   * held against the year before (eia930_subba_demand_hourly_<year>), for the rows whose zone EIA-930 names */
+  zones?: { table: string; year: number; prior: number; rows: Record<string, { subba: string; name: string; year: number; prior: number; mean_mw: number; prior_mean_mw: number; hours: number; prior_hours: number; pct: number }> };
   peak_capacity?: Record<string, { year: number; peak_mw: number; capacity_mw: number; over_peak_pct: number; solar_mw: number; wind_mw: number; storage_mw: number; list: string; states: string; split_states: string }>;
 };
 export const BA_OF: Record<string, string> = { ercot: "ERCO", caiso: "CISO", nyiso: "NYIS", isone: "ISNE", spp: "SWPP", miso: "MISO", pjm: "PJM" };
@@ -774,6 +777,10 @@ export function utilityKind(f: Files, r: Row): string | null {
   return "why" in c || !c.u ? null : c.u.service;
 }
 export const UTILITY_KINDS_LINE = "The column's revenue per MWh is of three kinds, and each cell names its own: bundled (energy and wires together, no word), delivery only (the wires; the energy is bought from a retailer) and energy only (a retailer's energy; the wires are billed apart). Compare like with like.";
+/** Session 728: a row's own zone's demand growth, where EIA-930 names its zone; else null (the grid's figure stands). */
+export function zoneGrowth(h: HeadroomFile | undefined, r: Pick<Row, "id">) {
+  return h?.zones?.rows[r.id] ?? null;
+}
 /** The columns a node table sorts by, and the default: by name. */
 export const NODE_SORTS = ["node", "cls", "energy", "basis", "spread", "allin", "days"] as const;
 export type NodeSort = (typeof NODE_SORTS)[number];
@@ -932,6 +939,7 @@ export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFil
  *   allgrids|yeardiff|<a>|<b>|<year key>                   B's year all-in less A's, USD (710)
  *   allgrids|nodepct|<node>|10, 50 or 90                 a node's daily basis percentile over the file's twelve months (711)
  *   allgrids|nodespread|<node>                             its 90th percentile less its 10th, the node list's spread (724)
+ *   allgrids|zonegrowth|<row>                              its zone's mean demand, newest whole year over the one before, percent (728)
  *   allgrids|llapproved|<row>                              ERCOT's large loads approved to energize, MW, newest report (705)
  *   (capacity, session 704: zero where there is no market, drawn as a figure of 0 with no key; elsewhere held internal,
  *   "license needed", and computed only where the tables are, by warehouse/derived/siting_page.py --internal) */
@@ -972,6 +980,7 @@ export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
     return p[3] === "da" ? e.da?.per : p[3] === "rt" ? e.rt?.per : undefined;
   }
   if (p[1] === "basis") return energyCell(dc, f, row).node?.basis;
+  if (p[1] === "zonegrowth") { const z = zoneGrowth(f.headroom, row); return z ? z.pct : undefined; }
   if (p[1] === "nodespread") { const n = f.nodes.nodes.find((k) => `ercot:${k.id}` === row.id); return n?.pct ? n.pct[2] - n.pct[0] : undefined; }
   if (p[1] === "nodepct") { const n = f.nodes.nodes.find((k) => `ercot:${k.id}` === row.id); const i = ({ "10": 0, "50": 1, "90": 2 } as Record<string, number>)[p[3]]; return n?.pct && i !== undefined ? n.pct[i] : undefined; }
   if (p[1] === "tx" || p[1] === "txshare") {
