@@ -68,6 +68,7 @@ A profile sets three inputs (the load factor, the curtailment rule, whether the 
 
 - **What it reads**: the live set with the anon key only for the tables the live set holds (the four peaks, Berkeley Lab's queue, the hourly intensity), and the tab's own files for those it does not (the price history, the node basis, eGRID, EIA-861, the Commission's rate). It ports `lib/datacenter.ts`'s hours, months and twelve-month window to Python.
 - **How to run it**: `python warehouse/replication/siting.py --repo . --page <a build>`. Exit 0 when every figure set beside the page equals it.
+- **With the warehouse's tables** (session 735, chain 062): `--tables <a folder of the warehouse's CSVs>` adds the node list's basis spread for the three nodes (from `node_basis_daily`'s daily rows) and three zones' demand growth (from `eia930_subba_demand_hourly_<year>`), and the second card's HB_HUBAVG figures are set beside the replication's own. On 22 October 2026 against a build of `wip/735-allgrids`: 89 figures, 77 beside the page, 0 differ.
 
 ## Decisions (each dated, and reversible unless said)
 
