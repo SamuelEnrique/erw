@@ -124,3 +124,9 @@ The page is `/cost-of-power?view=allgrids` (in review, the internal view). Its m
 
 - **What**: session 580's two partial indexes, written and not applied. The tab reads no database, so it needs none.
 - **Recommendation: leave it unapplied** until a page's read is slow.
+
+## The state of each item (session 763, chain 063, 22 October 2026, night)
+
+All 19 items are **not ruled** (`docs/reviews/siting-rulings-answered.md`, sessions 745 and 747 to 750: no answer in this file, in `docs/state/`, in the owner's commits or in `queue/`). Nothing was done ahead of a ruling. Chain 063 adds no new item: its one new figure, the node's intraday swing (746), is the table's own and needed none.
+
+To answer, write under an item "Answer: ..." in this file (or in a note of yours); the next chain's session 767 reads it there and its sessions 768 to 770 do the answered items in number order.
