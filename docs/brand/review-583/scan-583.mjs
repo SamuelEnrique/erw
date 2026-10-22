@@ -18,6 +18,7 @@ const list = await new Promise((res, rej) => execFile(process.execPath, [path.re
 const addrs = [...list.pages, ...list.internal];
 const only = process.env.SCAN_ONLY ? process.env.SCAN_ONLY.split(",") : null;  // a few addresses, for a check
 const todo = [];
+let seq = 0;
 for (const a of only ?? addrs) for (const w of widths) todo.push({ a, w });
 
 const scan = (url) => new Promise((res) => execFile(process.execPath, [cli, "scan", url, "--attach", "--format", "json", "--port", port],
@@ -38,7 +39,10 @@ async function auditOne(addr, w) {
     const phone = w < 600;
     await send("Emulation.setDeviceMetricsOverride", { width: w, height: phone ? 844 : 900, deviceScaleFactor: 1, mobile: phone });
     const b = loads;
-    await send("Page.navigate", { url: base + addr });
+    // a fragment of its own: the scan attaches to the tab whose address is this one, never to the same page open at
+    // the other width in another tab (the first run's findings at 1280 were in part the 390 tab's)
+    seq += 1;
+    await send("Page.navigate", { url: `${base}${addr}#a11y-scan-${seq}` });
     for (let i = 0; i < 600 && loads === b; i += 1) await sleep(100);
     await sleep(Number(process.env.SCAN_SETTLE_MS ?? 1500));
     const info = (await send("Runtime.evaluate", { expression: "JSON.stringify({u: location.href, w: innerWidth, h1: (document.querySelector('h1')?.textContent ?? '').trim().slice(0, 80)})", returnByValue: true }))?.result?.value;
