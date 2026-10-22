@@ -94,7 +94,8 @@ class TheMirrors(unittest.TestCase):
     def test_the_research_mirror_equals_the_cards(self):
         r = run_mirror("findings", "erw_2026_research_replication.py", ["--json", "../../data/findings"])
         self.assertEqual(r.returncode, 0, r.stderr[-800:])
-        self.assertIn("304 figures compared with the cards' JSON, 0 different", r.stdout)
+        # session 582: 363 since the mirror rebuilds a tenth card, peak_hour_moved (59 figures more than 304)
+        self.assertIn("363 figures compared with the cards' JSON, 0 different", r.stdout)
 
 
 class TheAnalysisFailures(unittest.TestCase):

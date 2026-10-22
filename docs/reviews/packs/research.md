@@ -29,6 +29,8 @@ Roadmap item 2 (`docs/roadmap.md`, "Five tools sellable") is done for a tool whe
 
 **On a built site (session 422, 21 October 2026).** A build at 15:22 UTC of `wip/422-tool-checks`, which is main with chain 019's branches not yet landed (`wip/461-combined`), served on localhost; outputs in `runs/chain_021/s422/` (git ignores `runs/`). `check-analysis.mjs` as main holds it, exit 1: 269 of 279; the 10 failures are callouts that the cards now draw as "license needed" (the holds of 21 October), which session 474's version of the check (on `wip/474-checks`, not in this build) reads as held, 279 of 279 on production. `erw_2026_research_replication.py --json ../../data/findings` exit 0: 304 figures compared with the cards' JSON, 0 different.
 
+**Run in a clean environment (session 582, 22 October 2026).** The mirror in a new virtual environment outside the repository with the repository's own requirements (numpy), from a folder of the downloads alone: exit 0. It now rebuilds a tenth card, `peak_hour_moved`, whose six callouts `/research` shows and no mirror rebuilt: 363 figures compared with the cards' JSON, 0 different; the 110 checked figures of `/research` on production equal the same JSON, 110 of 110. The cards' own `.py` downloads still exit 1 from the folder, 11 of 11 (`findings_common`), which waits for Samuel as above. Detail: `docs/reviews/replications-2026-10-22.md`.
+
 ## 1. What it is for, and for whom
 
 - The question: what has the warehouse found in its own tables, how was each finding computed, and can a reader recompute it.
