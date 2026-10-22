@@ -144,6 +144,8 @@ battery_stack_stress_daily,foresight_4h_revenue_total_usd_per_mw,series variable
 battery_stack_stress_daily,foresight_8h_revenue_ancillary_usd_per_mw,series variable,USD/MW
 battery_stack_stress_daily,foresight_8h_revenue_energy_usd_per_mw,series variable,USD/MW
 battery_stack_stress_daily,foresight_8h_revenue_total_usd_per_mw,series variable,USD/MW
+boem_ogor_lease_production_monthly,gas_production,series variable,MMcf
+boem_ogor_lease_production_monthly,oil_production,series variable,kbbl
 boem_renewable_leases,entity_id,column,
 boem_renewable_leases,entity_type,column,
 boem_renewable_leases,name,column,
