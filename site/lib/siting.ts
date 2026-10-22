@@ -807,6 +807,18 @@ export function tariffParts(r: TariffRate, mw: number, lf: number): { energy: nu
   const fixed = r.fixed === null || mwh <= 0 ? null : r.fixed / mwh;
   return { energy: r.energy, demand, fixed, wires: demand === null ? null : demand + (fixed ?? 0) };
 }
+/** Session 777 (chain 064): the node table handed to the browser column by column, not row by row: the same values,
+ * without each field's name repeated on 873 rows, and without the id, which is the node's name after "ercot:". */
+export type NodeColumns = { node: string[]; cls: string[]; types: string[]; per: (number | null)[]; basis: (number | null)[]; days: number[]; due: number[];
+  allin: (number | null)[]; why: string[]; spread: (number | null)[]; swing: (number | null)[] };
+export function nodeColumns(rows: NodeTableRow[]): NodeColumns {
+  return { node: rows.map((r) => r.node), cls: rows.map((r) => r.cls), types: rows.map((r) => r.types), per: rows.map((r) => r.per), basis: rows.map((r) => r.basis),
+    days: rows.map((r) => r.days), due: rows.map((r) => r.due), allin: rows.map((r) => r.allin), why: rows.map((r) => r.why), spread: rows.map((r) => r.spread), swing: rows.map((r) => r.swing) };
+}
+export function nodeRowsOf(c: NodeColumns): NodeTableRow[] {
+  return c.node.map((node, i) => ({ id: `ercot:${node}`, node, cls: c.cls[i], types: c.types[i], per: c.per[i], basis: c.basis[i], days: c.days[i], due: c.due[i],
+    allin: c.allin[i], why: c.why[i], spread: c.spread[i], swing: c.swing[i] }));
+}
 /** The columns a node table sorts by, and the default: by name. */
 export const NODE_SORTS = ["node", "cls", "energy", "basis", "spread", "swing", "allin", "days"] as const;
 export type NodeSort = (typeof NODE_SORTS)[number];

@@ -3,7 +3,7 @@ import { Num } from "@/components/Num";
 import { InlineSpark } from "@/components/InlineSpark";
 import { InputPanel } from "@/components/tool/ToolPage";
 import type { ReactNode } from "react";
-import { zoneGrowth, SERVICE_WORDS, UTILITY_KINDS_LINE, utilityKind, nodeShortMonths, shortMonthsWords, CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, columnValue, nodeTable, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
+import { nodeColumns, zoneGrowth, SERVICE_WORDS, UTILITY_KINDS_LINE, utilityKind, nodeShortMonths, shortMonthsWords, CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, columnValue, nodeTable, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
 import { CP, NODES, SITING_DC, SITING_FILES } from "@/lib/sitingdata";
 import { AllGridsForm } from "./AllGridsForm";
 import { AllGridsNodes } from "./AllGridsNodes";
@@ -445,8 +445,8 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
           <>
             <NodeShared x={x} />
             {q.node ? <NodePanel id={q.node} x={x} /> : null}
-            <AllGridsNodes rows={nodeTable(SITING_DC, SITING_FILES, x)} pkey={profileKey(x)} datacenter={x.profile === "datacenter"} open={q.node ?? null}
-              short={shortMonthsWords(nodeShortMonths(NODES))} find={q.nq ?? ""}
+            <AllGridsNodes columns={nodeColumns(nodeTable(SITING_DC, SITING_FILES, x))} pkey={profileKey(x)} datacenter={x.profile === "datacenter"} open={q.node ?? null}
+              short={shortMonthsWords(nodeShortMonths(NODES))} find={q.nq ?? ""} cls={q.ncls ?? ""}
               csvHead={[`Energy Research Warehouse (ERW): the ERCOT nodes of the All grids tab of /cost-of-power ("What a datacenter pays"), ${sitingHref(x, { rows: "nodes" })}`,
                 `${/^[aeiou]/i.test(p.label) ? "An" : "A"} ${p.label.toLowerCase()} load of ${x.mw} MW at a load factor of ${x.lf.toFixed(2)}; energy is ${NODE_HUB}'s day-ahead price over its twelve whole months plus the node's mean daily basis (node_basis_daily, ${NODES.first} to ${NODES.last}); USD per MWh`,
                 "Method: docs/methods/siting.md. Downloaded from the page: the rows shown, in the page's own figures."]}

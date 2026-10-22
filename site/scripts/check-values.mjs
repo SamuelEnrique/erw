@@ -111,6 +111,8 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/cost-of-power?view=allgrids&rows=nodes&nsort=spread&ndir=desc",
   // session 746 (chain 063): the node list by the intraday swing, widest first
   "/cost-of-power?view=allgrids&rows=nodes&nsort=swing&ndir=desc",
+  // session 772 (chain 064): the storage nodes alone, by their swing
+  "/cost-of-power?view=allgrids&rows=nodes&ncls=storage&nsort=swing&ndir=desc",
   // session 711: a node's panel
   "/cost-of-power?view=allgrids&rows=nodes&node=ercot%3A7RNCHSLR_ALL",
   // session 719: the tracker's link's form, a row as A and the facility's MW as the load
@@ -119,6 +121,8 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/research/card/siting_gigawatt",
   // session 734 (chain 062): the second card, what stepping off saves
   "/research/card/siting_flexible",
+  // session 773 (chain 064): the third card, where a battery's day swings most
+  "/research/card/siting_battery_swing",
   // session 51: the seller's tab, its defaults and three other assets
   // session 347: the economic impact tool, its defaults and three other views (a size, cost, local content and life given)
   "/map?tab=queues", "/map?tab=queues&iso=ercot", "/map?tab=queues&iso=spp",  // session 349: the map's Queues tab (iso_queue_statistics)

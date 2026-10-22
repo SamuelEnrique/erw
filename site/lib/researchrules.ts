@@ -27,7 +27,7 @@ export const TOPIC_RULES: { id: string; label: string; table: RegExp }[] = [
   { id: "generators", label: "Generators", table: /eia860m/ },
   // session 720: ERCOT's four peaks and the PUCT's transmission charge (the All grids tab's card)
   { id: "transmission", label: "Transmission charges", table: /4cp|transmission/ },
-  { id: "power-prices", label: "Power prices", table: /prices/ },
+  { id: "power-prices", label: "Power prices", table: /prices|node_basis/ },   // session 773: the node's prices (node_basis_daily)
 ];
 export const OTHER_TOPIC = { id: "other", label: "Other tables" };
 

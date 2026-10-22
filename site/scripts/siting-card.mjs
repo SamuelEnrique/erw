@@ -118,7 +118,52 @@ const card2 = {
 const csv2 = [...card2.csv_header.map((h) => `# ${h}`), "row,allin_flat_usd_mwh,allin_flexible_usd_mwh,saved_usd_mwh,hours_given_up,hours_run",
   ...ercot.map((v) => [v.r.id, v.flat, v.flex, v.saved, v.lost, v.run].join(","))].join("\n") + "\n";
 
-const out = [[ID, card, csv], [ID2, card2, csv2]];
+// ---- session 773 (chain 064): the third card, siting_battery_swing ----
+const ID3 = "siting_battery_swing";
+const nf = f.nodes;
+const [py, pm] = nf.pct_from.split("-").map(Number), [qy, qm] = nf.pct_to.split("-").map(Number);
+const due = Math.round((Date.UTC(qy, qm, 1) - Date.UTC(py, pm - 1, 1)) / 86400000);
+// the days the table holds in the window: the most any node holds (node_basis_daily lacks 30 days for every node)
+const heldMax = Math.max(...nf.nodes.map((n) => n.swing?.[3] ?? 0));
+const store = nf.nodes.filter((n) => n.cls === "storage" && n.swing && n.swing[3] >= 0.9 * heldMax)
+  .map((n) => ({ id: n.id, mean: n.swing[0], p10: n.swing[1], p90: n.swing[2], days: n.swing[3] }))
+  .sort((a, b) => a.mean - b.mean || a.id.localeCompare(b.id));
+if (!store.length) { console.error("siting-card: no storage node holds 90 percent of its days"); process.exit(1); }
+const b0 = store[0], b1 = store.at(-1);
+const med = store.length % 2 ? store[(store.length - 1) / 2].mean : (store[store.length / 2 - 1].mean + store[store.length / 2].mean) / 2;
+const step = 10, top = Math.ceil(b1.mean / step) * step;
+const bot = Math.floor(b0.mean / step) * step;
+const bins = Array.from({ length: (top - bot) / step }, (_, i) => ({ lo: bot + i * step, hi: bot + (i + 1) * step }));
+const counts = bins.map((b) => store.filter((v) => v.mean >= b.lo && (v.mean < b.hi || (b.hi === top && v.mean <= b.hi))).length);
+const card3 = {
+  id: ID3, card_id: ID3, title: "WHERE A BATTERY'S DAY SWINGS MOST", kind: "visual", engine: "site/scripts/siting-card.mjs",
+  subtitle: `ERCOT's ${store.length} storage nodes by their day-ahead intraday swing, the four dearest hours less the four cheapest, ${nf.pct_from} to ${nf.pct_to}`,
+  params: { class: "storage", min_days: Math.ceil(0.9 * heldMax) }, inputs_words: { class: "storage nodes (ERCOT's disclosures, node_basis_daily x_class)", min_days: `at least 90 percent of the ${heldMax} days the table holds, of ${due}` },
+  chart: {
+    kind: "bars_free", x: bins.map((b) => `${b.lo} to ${b.hi}`), x_label: "Mean intraday swing, USD per MWh",
+    series: [{ name: "Storage nodes", type: "bar", unit: "nodes", values: counts }],
+    y_left_label: "Storage nodes", decimals: 0,
+  },
+  callouts: [
+    { label: "Mean intraday swing, USD per MWh, narrowest and widest", before: { period: b0.id, text: two(b0.mean) }, after: { period: b1.id, text: two(b1.mean) }, unit: "" },
+    { label: "The middle storage node, USD per MWh", before: { period: "median", text: two(med) }, after: { period: "nodes", text: whole(store.length) }, unit: "" },
+    { label: `${b1.id}, one day in ten and nine in ten, USD per MWh`, before: { period: "10th", text: two(b1.p10) }, after: { period: "90th", text: two(b1.p90) }, unit: "" },
+  ],
+  why: `On a mean day from ${nf.pct_from} to ${nf.pct_to}, the four dearest day-ahead hours at ERCOT's storage nodes cost USD ${two(b0.mean)} (${b0.id}) to USD ${two(b1.mean)} (${b1.id}) per MWh more than the four cheapest, with a median of USD ${two(med)} across the ${store.length} storage nodes that hold at least 90 percent of the days. At ${b1.id} one day in ten swung USD ${two(b1.p10)} or less and one in ten USD ${two(b1.p90)} or more${b1.mean > b1.p90 ? `; its mean is above its 90th percentile, so a few days' swing carries it` : ""}. The swing is a day's spread of prices at the node, not a battery's earnings: it leaves out losses, cycling and the ancillary markets.`,
+  footnote: `Data: the All grids tab of "What a datacenter pays" (/cost-of-power?view=allgrids&rows=nodes&ncls=storage&nsort=swing&ndir=desc), from node_basis_daily's dam_spread_4h (each day's four dearest day-ahead hours' mean less its four cheapest), by site/data/siting/nodes.json. node_basis_daily lacks 2026-08-21 to 2026-09-19 for every node. Method: docs/methods/siting.md (decision 24).`,
+  numbers: { nodes: store.length, narrowest: b0.mean, narrowest_node: b0.id, widest: b1.mean, widest_node: b1.id, median: med, widest_p10: b1.p10, widest_p90: b1.p90 },
+  source_line: "Source: ERW, the All grids tab's node list (/cost-of-power?view=allgrids&rows=nodes), from ERCOT's day-ahead settlement point prices as node_basis_daily holds them.",
+  tables: ["node_basis_daily"],
+  computed_at: new Date().toISOString().slice(0, 19) + "Z",
+  method: "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/siting.md",
+  downloads: { csv: `${ID3}.csv`, python: "", stata: "" }, csv_sha256: "",
+  csv_header: [`Energy Research Warehouse (ERW): finding ${ID3}, WHERE A BATTERY'S DAY SWINGS MOST`, "Computed by site/scripts/siting-card.mjs from site/data/siting/nodes.json (node_basis_daily, dam_spread_4h); method docs/methods/siting.md",
+    `Rows: one per ERCOT storage node holding at least 90 percent of the days, its mean day-ahead intraday swing and its 10th and 90th percentile, USD per MWh, and its days`],
+};
+const csv3 = [...card3.csv_header.map((h) => `# ${h}`), "node,swing_mean_usd_mwh,swing_p10_usd_mwh,swing_p90_usd_mwh,days",
+  ...store.map((v) => [v.id, v.mean, v.p10, v.p90, v.days].join(","))].join("\n") + "\n";
+
+const out = [[ID, card, csv], [ID2, card2, csv2], [ID3, card3, csv3]];
 const paths = (id) => [path.join(here, "..", "data", "findings", `${id}.json`), path.join(here, "..", "public", "findings", `${id}.csv`)];
 if (process.argv.includes("--check")) {
   // only the fields this script writes are compared: another step of the pipeline may add its own to the file (the data
@@ -140,4 +185,5 @@ for (const [id, c, v] of out) {
   fs.writeFileSync(vp, v);
 }
 console.log(`siting-card: ${held.length} rows held; least ${lo.r.id} ${two(lo.allin)}, most ${hi.r.id} ${two(hi.allin)}; connect ${cmin.g} ${cmin.m} to ${cmax.g} ${cmax.m}`);
+console.log(`siting-card: battery swing at ${store.length} storage nodes; ${b0.id} ${two(b0.mean)} to ${b1.id} ${two(b1.mean)}, median ${two(med)}`);
 console.log(`siting-card: flexible at ${ercot.length} ERCOT rows; saved ${two(s0.saved)} (${s0.r.id}) to ${two(s1.saved)} (${s1.r.id}); hours given up ${l0.lost} to ${l1.lost}`);
