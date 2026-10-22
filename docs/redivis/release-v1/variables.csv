@@ -1840,6 +1840,8 @@ eia_gas_storage_weekly,working_gas,series variable,bcf
 eia_gas_trade_monthly,export_volume,series variable,MMcf
 eia_gas_trade_monthly,import_volume,series variable,MMcf
 eia_gas_wells_annual,gas_wells,series variable,count
+eia_heating_fuel_prices_weekly,residential_price,series variable,USD/gal
+eia_heating_fuel_prices_weekly,wholesale_price,series variable,USD/gal
 eia_lng_exports_monthly,export_price,series variable,USD/Mcf
 eia_lng_exports_monthly,export_volume,series variable,MMcf
 eia_meters_state_annual,meters,series variable,count
