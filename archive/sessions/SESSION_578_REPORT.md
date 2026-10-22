@@ -25,7 +25,7 @@ Every run of every workflow from 2026-10-14T23:51:46Z to 2026-10-21T23:51:46Z wa
 | The whole suite as the runner runs it | `GITHUB_ACTIONS=true ERW_LOCK_EXEMPT=1 python -m unittest discover -s tests` with the worktree's `.env` set aside (stdout and stderr to `runs/s578/suite_gha.*`; 5,601 tests, 626 s) | 1 (one error, below); `tests.test_session179` alone: 0 |
 | No em dash in the files written | `grep -c` of U+2014 in the three files | 0 matches |
 
-The suite's run proves the fix on the whole discovery: the first line of its stdout is `::stop-commands::erw-suite-...`, the last is the same token resumed, and the 25 fixture lines (the same ones the runs of 15 to 21 October show as annotations) are all between them. Its one error is `setUpClass (test_session179.ThePageLibraryIsTheMirror)`: node crashed at its exit on Windows ("Assertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\winsync.c, line 94"), a libuv fault of this machine, not the change; the module run alone passes (32 tests, exit 0). The heavy run held `buildlock.py` as s578 and released it.
+The suite's run proves the fix on the whole discovery: the first line of its stdout is `::stop-commands::erw-suite-...`, the last is the same token resumed, and the 25 fixture lines (the same ones the runs of 15 to 21 October show as annotations) are all between them. Its one error is `setUpClass (test_session179.ThePageLibraryIsTheMirror)`: node crashed at its exit on Windows ("Assertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src/win/async.c, line 94"), a libuv fault of this machine, not the change; the module run alone passes (32 tests, exit 0). The heavy run held `buildlock.py` as s578 and released it.
 
 ## Decisions made without you
 
