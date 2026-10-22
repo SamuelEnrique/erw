@@ -20,8 +20,9 @@ The U.S. and PADD series of the same products are also in eia_petroleum_snd_mont
 are this route's own.
 
     python warehouse/connectors/eia_ngl_production.py [--from 2015-01] [--offline | --fresh]
+    python warehouse/connectors/eia_ngl_production.py --from 1973-01   # 1973 to 2014 as a window of its own (session 639)
 
-Ceiling: 17 requests a run (pages of 5,000, 3 seconds apart; a page an earlier run saved in warehouse/raw is reused
+Ceiling: 18 requests a run (pages of 5,000, 3 seconds apart; a page an earlier run saved in warehouse/raw is reused
 unless --fresh; --offline asks nothing). License: public (EIA, record 1 of license_reads.csv; cite "U.S. Energy
 Information Administration, Petroleum Supply Monthly").
 """
@@ -45,8 +46,9 @@ CONNECTOR = "eia_ngl_production"
 SOURCE = "eia:petroleum/pnp/gp"
 API = "https://api.eia.gov/v2/petroleum/pnp/gp/"
 PAGE = "https://www.eia.gov/dnav/pet/pet_pnp_gp_dc_nus_mbbl_m.htm"
-CEILING, PAUSE, RETRY_WAIT = 17, 3, 60   # session 629: two of 20 went to the probes, one is left
+CEILING, PAUSE, RETRY_WAIT = 18, 3, 60   # session 639: 2015 on is answered by saved pages; the crude imports' early window shares the session
 FIRST = "2015-01"
+SPLIT, EARLY_END = "2015-01", "2014-12"   # session 639: the first month of the 2015 on window, and the month before
 PROCESSES = {"FPF": "field_production"}
 AREAS = {"NUS", "R10", "R20", "R30", "R40", "R50", "R2A", "R2B", "R2C", "R3A", "R3B", "R3C", "R3D",
          "R3E", "RAP", "REC"}
@@ -123,20 +125,29 @@ def main(argv=None):
         if not key:
             raise RuntimeError("EIA_API_KEY is not set (.env or the environment)")
         retrieved = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-        frames, offset, total = [], 0, None
-        while True:
-            body, url = get({"api_key": key, "frequency": "monthly", "data[]": "value", "facets[process][]": list(PROCESSES),
-                             "start": args.first, "length": 5000, "offset": offset,
-                             "sort[0][column]": "period", "sort[0][direction]": "asc",
-                             "sort[1][column]": "series", "sort[1][direction]": "asc"})
-            resp = body["response"]
-            total = int(resp["total"])
-            frames.append(rows(resp["data"], url.split("&length")[0], retrieved))
-            offset += len(resp["data"])
-            if offset >= total or len(resp["data"]) < 5000:
-                break
-        if offset != total:
-            raise RuntimeError(f"{offset:,} rows read of the {total:,} EIA counts")
+        # session 639: months before SPLIT are a window of their own, so the pages of SPLIT on answer again
+        windows = [(args.first, EARLY_END), (SPLIT, None)] if args.first < SPLIT else [(args.first, None)]
+        frames, records = [], 0
+        for first, last in windows:
+            offset, total = 0, None
+            while True:
+                params = {"api_key": key, "frequency": "monthly", "data[]": "value", "facets[process][]": list(PROCESSES),
+                          "start": first}
+                if last:
+                    params["end"] = last
+                params.update({"length": 5000, "offset": offset, "sort[0][column]": "period", "sort[0][direction]": "asc",
+                               "sort[1][column]": "series", "sort[1][direction]": "asc"})
+                body, url = get(params)
+                resp = body["response"]
+                total = int(resp["total"])
+                frames.append(rows(resp["data"], url.split("&length")[0], retrieved))
+                offset += len(resp["data"])
+                if offset >= total or len(resp["data"]) < 5000:
+                    break
+            if offset != total:
+                raise RuntimeError(f"{first} to {last or 'the latest'}: {offset:,} rows read of the {total:,} EIA counts")
+            records += total
+        total = records
         s = pd.concat([f for f in frames if len(f)], ignore_index=True)
         if s.duplicated(["entity", "variable", "ts_utc"]).any():
             raise RuntimeError("a row on two pages")
@@ -151,7 +162,7 @@ def main(argv=None):
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
             f"Source: {SOURCE} U.S. Energy Information Administration, Petroleum Supply Monthly, natural gas plant field production (API v2, route petroleum/pnp/gp), {PAGE}",
-            f"  access: {API}data/?frequency=monthly&data[]=value&facets[process][]=FPF&start={args.first}",
+            f"  access: {API}data/?frequency=monthly&data[]=value&facets[process][]=FPF&start={args.first}" + (f" (to {EARLY_END}, then from {SPLIT})" if args.first < SPLIT else ""),
             'License: public (a work of the U.S. government; cite "U.S. Energy Information Administration, Petroleum Supply Monthly").',
         ]
         ip.write_snapshot(s, NAME, header, log, ip.SERIES_COLS)

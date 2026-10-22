@@ -19,6 +19,7 @@ A blank has no row; nothing is filled. A unit, origin type, destination type or 
 so does a key given twice.
 
     python warehouse/connectors/eia_crude_imports_detail.py [--from 2011-01] [--offline | --fresh]
+    python warehouse/connectors/eia_crude_imports_detail.py --from 2009-01   # 2009 and 2010 as a window of its own (session 639)
 
 Ceiling: 19 requests a run (pages of 5,000, 3 seconds apart; a page an earlier run saved in warehouse/raw is reused
 unless --fresh; --offline asks nothing). From 2011: the country origins hold 191,815 records from 2009, beyond session
@@ -45,8 +46,9 @@ CONNECTOR = "eia_crude_imports_detail"
 SOURCE = "eia:crude-oil-imports"
 API = "https://api.eia.gov/v2/crude-oil-imports/"
 PAGE = "https://www.eia.gov/petroleum/imports/companylevel/"
-CEILING, PAUSE, RETRY_WAIT = 19, 3, 60   # session 636: session 632 saved 29 pages; about 6 are left
+CEILING, PAUSE, RETRY_WAIT = 19, 3, 60   # session 639: 2011 on is answered by saved pages; 2009 and 2010 are about 5 pages
 FIRST = "2011-01"
+SPLIT, EARLY_END = "2011-01", "2010-12"   # session 639: the first month of session 632's window, and the month before
 DESTINATIONS = {"US", "PP", "PS", "PT", "RP", "RS", "RF"}   # the U.S., port PADD, port state, port, refinery PADD, state, refinery
 GRADES = {"LSW", "LSO", "MED", "HSW", "HSO"}
 UNITS = {"thousand barrels": ("kbbl", 1.0)}
@@ -129,20 +131,30 @@ def main(argv=None):
         if not key:
             raise RuntimeError("EIA_API_KEY is not set (.env or the environment)")
         retrieved = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-        frames, offset, total = [], 0, None
-        while True:
-            body, url = get({"api_key": key, "frequency": "monthly", "data[]": "quantity", "facets[originType][]": "CTY",
-                             "start": args.first, "length": 5000, "offset": offset,
-                             "sort[0][column]": "period", "sort[0][direction]": "asc",
-                             "sort[1][column]": "originId", "sort[1][direction]": "asc",
-                             "sort[2][column]": "destinationId", "sort[2][direction]": "asc",
-                             "sort[3][column]": "gradeId", "sort[3][direction]": "asc"})
-            resp = body["response"]
-            total = int(resp["total"])
-            frames.append(rows(resp["data"], url.split("&length")[0], retrieved))
-            offset += len(resp["data"])
-            if offset >= total or len(resp["data"]) < 5000:
-                break
+        # session 639: months before SPLIT are a window of their own, so sessions 632 and 636's pages of SPLIT on answer again
+        windows = [(args.first, EARLY_END), (SPLIT, None)] if args.first < SPLIT else [(args.first, None)]
+        frames, read, counted = [], 0, 0
+        for first, last in windows:
+            offset, total = 0, None
+            while True:
+                params = {"api_key": key, "frequency": "monthly", "data[]": "quantity", "facets[originType][]": "CTY", "start": first}
+                if last:
+                    params["end"] = last
+                params.update({"length": 5000, "offset": offset,
+                               "sort[0][column]": "period", "sort[0][direction]": "asc",
+                               "sort[1][column]": "originId", "sort[1][direction]": "asc",
+                               "sort[2][column]": "destinationId", "sort[2][direction]": "asc",
+                               "sort[3][column]": "gradeId", "sort[3][direction]": "asc"})
+                body, url = get(params)
+                resp = body["response"]
+                total = int(resp["total"])
+                frames.append(rows(resp["data"], url.split("&length")[0], retrieved))
+                offset += len(resp["data"])
+                if offset >= total or len(resp["data"]) < 5000:
+                    break
+            log(f"  {first} to {last or 'the latest'}: EIA counts {total:,}, its pages hold {offset:,}")
+            read, counted = read + offset, counted + total
+        offset, total = read, counted
         s = pd.concat([f for f in frames if len(f)], ignore_index=True)
         if s.duplicated(["entity", "variable", "ts_utc"]).any():
             raise RuntimeError("a row on two pages")
@@ -166,7 +178,7 @@ def main(argv=None):
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
             f"Source: {SOURCE} U.S. Energy Information Administration, Company Level Imports, crude oil imports by country to destination (API v2, route crude-oil-imports, Form EIA-814), {PAGE}",
-            f"  access: {API}data/?frequency=monthly&data[]=quantity&facets[originType][]=CTY&start={args.first}",
+            f"  access: {API}data/?frequency=monthly&data[]=quantity&facets[originType][]=CTY&start={args.first}" + (f" (to {EARLY_END}, then from {SPLIT})" if args.first < SPLIT else ""),
             'License: public (a work of the U.S. government; cite "U.S. Energy Information Administration, Company Level Imports").',
         ]
         ip.write_snapshot(s, NAME, header, log, ip.SERIES_COLS)
