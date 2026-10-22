@@ -1,0 +1,73 @@
+[
+ {
+  "name": "r01_nodes_cheapest",
+  "path": "/cost-of-power?view=allgrids&mw=1000&rows=nodes&nsort=energy&ndir=asc"
+ },
+ {
+  "name": "r02_nodes_dearest",
+  "path": "/cost-of-power?view=allgrids&mw=1000&rows=nodes&nsort=energy&ndir=desc"
+ },
+ {
+  "name": "r03_basis_lowest",
+  "path": "/cost-of-power?view=allgrids&mw=1000&rows=nodes&nsort=basis&ndir=asc"
+ },
+ {
+  "name": "r04_basis_highest",
+  "path": "/cost-of-power?view=allgrids&mw=1000&rows=nodes&nsort=basis&ndir=desc"
+ },
+ {
+  "name": "r05_hubs_energy",
+  "path": "/cost-of-power?view=allgrids&mw=1000&sort=energy&dir=asc"
+ },
+ {
+  "name": "r06_ab_hubs",
+  "path": "/cost-of-power?view=allgrids&mw=1000&a=ercot%3AHB_WEST&b=ercot%3AHB_HOUSTON"
+ },
+ {
+  "name": "r07_ab_node",
+  "path": "/cost-of-power?view=allgrids&mw=1000&a=ercot%3ABBREEZE_1_2&b=ercot%3AHB_WEST"
+ },
+ {
+  "name": "r08_flexible_hubs",
+  "path": "/cost-of-power?view=allgrids&mw=1000&profile=flexible&sort=allin&dir=asc"
+ },
+ {
+  "name": "r09_flexible_nodes",
+  "path": "/cost-of-power?view=allgrids&mw=1000&profile=flexible&rows=nodes&nsort=allin&ndir=asc"
+ },
+ {
+  "name": "r10_transmission",
+  "path": "/cost-of-power?view=allgrids&mw=1000&sort=transmission&dir=asc"
+ },
+ {
+  "name": "r11_flexible_strike",
+  "path": "/cost-of-power?view=allgrids&mw=1000&profile=flexible&strike=100&sort=allin&dir=asc"
+ },
+ {
+  "name": "r12_nodes_390",
+  "path": "/cost-of-power?view=allgrids&mw=1000&rows=nodes&nsort=basis&ndir=asc",
+  "w": 390,
+  "h": 844
+ },
+ {
+  "name": "r13_hubs_390",
+  "path": "/cost-of-power?view=allgrids&mw=1000&sort=energy&dir=asc",
+  "w": 390,
+  "h": 844
+ },
+ {
+  "name": "r14_swing",
+  "path": "/cost-of-power?view=allgrids&mw=1000&rows=nodes&nsort=swing&ndir=desc",
+  "scroll": "[data-node-find]"
+ },
+ {
+  "name": "r15_find",
+  "path": "/cost-of-power?view=allgrids&mw=1000&rows=nodes&nq=RN&nsort=spread&ndir=desc",
+  "scroll": "[data-node-find]"
+ },
+ {
+  "name": "r16_panel_set",
+  "path": "/cost-of-power?view=allgrids&mw=1000&rows=nodes&node=ercot%3ABBREEZE_1_2",
+  "scroll": "[data-node-panel]"
+ }
+]

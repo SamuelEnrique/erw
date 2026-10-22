@@ -23,7 +23,7 @@
 
 ## The landing
 
-With 745 (below in 745's report).
+Sessions 744 to 756 landed in one push at 19:06 UTC: see `SESSION_756_REPORT.md`, "The landing".
 
 ## Decisions made without you
 

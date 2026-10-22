@@ -53,3 +53,7 @@ Each kind of row above, its state after chain 062's sessions 722 to 740 (`docs/r
 - **Reserve margins**: **open** (731: no table, no connector).
 - **A node's zone, hub, wires utility and county** (ERCOT's settlement point mapping and resource registration): **open** (733: `node_basis_daily` carries none of them).
 - **Substations and transmission lines near a node**: **open** (732).
+
+## State on 22 October 2026, night (chain 063)
+
+Read again by sessions 751 to 756 at 18:35 UTC: **no row changed state.** Large-load tariffs, reserve margins, a load's own wait, a node's place, substations and lines stay open; capacity prices wait on a ruling; utility territories stay filled and a zone's demand growth filled in part. One thing found that was held and unused, now drawn: the node's intraday swing (`node_basis_daily`, `dam_spread_4h`, session 746).

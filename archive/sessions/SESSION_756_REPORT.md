@@ -21,7 +21,13 @@
 
 ## The landing
 
-With the next landing.
+Sessions 744 to 756 landed in one push (`task/744-756-allgrids`, commit `54976fff`), merged into main at 19:18 UTC (`df2368b0`, run 39837213704).
+
+- **The gate** (on `54976fff`): freeze 0; main in the commit; no `task/` branch in flight; suite 5,952 tests OK (304 skipped); npm ci 0; build 0; check-values 7,890 of 7,891 values equal. The ten held floors failed, and the 21 October Digest's revised WTI (production the same).
+- **The steps after check-values**, on a build of the same commit (lock `s756`, built on `db_probe`'s 0): check-routes 0 (226 pages, 0 failed), check-cross-checks 0 (92 of 92), check-csp 0 (97 pages, 0 violations).
+- **Before the push**: freeze status 0; no other `task/` branch but `task/198-battery-data`; the push conditional on the ancestry check (0).
+- **Snapshots**: `s756-before` at 19:06 UTC; the push at 19:06:36. Vercel's status on `df2368b0`: "Deployment has completed" (19:19:41). Production showed 746's "Intraday swing" at 19:20:04. `s756-after`; `compare s756-before s756-after`: **0 differences** on 25 pages, expected (every page is in review).
+- The merged `wip/756-allgrids` and `wip/743-records` were deleted on GitHub; the worktrees of 743r and 744 to 756 removed.
 
 ## Decisions made without you
 

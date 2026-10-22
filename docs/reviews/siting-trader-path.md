@@ -63,3 +63,22 @@ The failed steps walked again on a local build of `wip/724-allgrids` (shots: `do
 | 8 | A node as A only by editing the address | The node panel has "Set as A" and "Set as B"; the box's A and B lists keep a node set as A or B ("ERCOT BBREEZE_1_2 (node)"), so Show keeps it (`after_t08_panel_set_a_1280.png`, `after_t08_node_as_a_1280.png`) |
 | 14 | No download | "Download these N rows (CSV)" above the list: the rows shown, in the page's own figures, with a header naming the tab, the load, the table and the method; made in the browser, no new route |
 | 16 | No search | "Find a node by name", kept in the address (`nq`): `&nq=SOLAR` shows 3 of 873 nodes (`after_t16_find_1280.png`, and at 390) |
+
+## Walked again (session 757, chain 063)
+
+The sixteen steps again on production (chains 050, 062 and 063's 744 to 756 served), 22 October 2026 at about 19:22 UTC, with three steps for what 724 and 746 added. Shots: `docs/brand/review-757/`.
+
+| # | Then (723) | Now (757) |
+|---|---|---|
+| 1, 2 | Cheapest and dearest nodes | The same (BBREEZE_1_2 23.83; PALACIOS_RN 52.48) |
+| 3 | Energy and basis sorted the same; no spread | The basis column's tip says so; "Basis spread" and "Intraday swing" sort the nodes by how they move |
+| 4 | A node's panel | The same, with its intraday swing and "Set as A" and "Set as B" |
+| 5 | "335 of 365", the gap not named | The list's line names 2026-08 and 2026-09 |
+| 6 | Two nodes with the same figures | The same, as left |
+| 7 to 12 | Hub against hub; flexible at the peaks and above a strike; the four-peak charge | The same figures |
+| 8 | A node as A only by the address | Set from the panel, kept by the box's lists |
+| 13 | No sort by real time | As left (rulings item 15, not ruled) |
+| 14 | No download | "Download these N rows (CSV)", with the swing |
+| 15 | The 390 layout | The same |
+| 16 | No search | "Find a node by name": `nq=RN` shows 406 of 873 |
+| new | | **One fault**: the sort line read "Sorted by basis to hb_hubavg", the hub's name lowercased with the heading. Only the first letter is lowered now (test 757) |

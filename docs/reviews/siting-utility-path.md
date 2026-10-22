@@ -51,3 +51,20 @@ On a local build of `wip/726-allgrids` (shots: `docs/brand/review-726/`):
 | 8 | "B less A -78.05" between a coop's bundled price and a wires utility's delivery revenue | Each side names its kind ("11.34 delivery only"), and "B less A" reads "not alike", its tip naming both kinds (`after_u05_ab_not_alike_1280.png`) |
 
 Step 3 (a retailer named as the utility) waits on the owner's ruling (725's report).
+
+## Walked again (session 758, chain 063)
+
+The twelve steps again on production, 22 October 2026 at about 19:25 UTC, with one step for the zone lines (728). Shots: `docs/brand/review-758/`.
+
+| # | Then (725) | Now (758) |
+|---|---|---|
+| 1, 2 | The Utility column mixed bundled, delivery-only and energy-only figures, unsaid | Each figure names its kind ("11.34 delivery only", "118.36 energy only"); the sort's line says the column mixes three kinds and how to read them |
+| 3 | A retailer named as the utility (ISO-NE's Massachusetts zones, MISO's Illinois) | As left: rulings item 13, not ruled |
+| 4 | Texas's wires utilities not priced | As left: rulings item 12, not ruled |
+| 5 | Rows inside a grid tie on headroom | NYISO's and ISO-NE's zones show their own growth under the grid's ("zone -6.70 % in 2025" at NORTH); ERCOT's and CAISO's rows keep the grid's |
+| 6 | Time to connect by grid | As left (a load's own wait is a gap) |
+| 7 | The tracker shows no facility | As left: `datacenter_facilities` is held whole |
+| 8 | "B less A -78.05" across kinds | "not alike", each side's kind named |
+| 9 to 12 | Zones only; heavy industry; 390; the gaps | The same |
+
+No step fails that held before, and no new fault was found.

@@ -80,7 +80,7 @@ export function AllGridsNodes({ rows, pkey, datacenter, sort, dir, open, short, 
         <button type="button" onClick={download} className="border border-rule px-2 py-1 text-sm" data-node-download="1">Download these {sorted.length.toLocaleString("en-US")} rows (CSV)</button>
       </div>
       <p className="mb-2 text-sm" role="status" data-node-sort={`${by}|${d}`}>
-        Sorted by {HEADS[by].toLowerCase()}, {d === "asc" ? "smallest first" : "largest first"}{by === "node" || by === "cls" ? " (alphabetical)" : ""}; a node with no figure last. {sorted.length.toLocaleString("en-US")} of {rows.length.toLocaleString("en-US")} nodes shown{nq.trim() ? ` (names holding "${nq.trim()}")` : ""}. Click a heading to sort by it, again to turn it round. Days held: {short}.
+        Sorted by {HEADS[by].charAt(0).toLowerCase() + HEADS[by].slice(1)}, {d === "asc" ? "smallest first" : "largest first"}{by === "node" || by === "cls" ? " (alphabetical)" : ""}; a node with no figure last. {sorted.length.toLocaleString("en-US")} of {rows.length.toLocaleString("en-US")} nodes shown{nq.trim() ? ` (names holding "${nq.trim()}")` : ""}. Click a heading to sort by it, again to turn it round. Days held: {short}.
       </p>
       <div className="overflow-x-auto" role="region" aria-label="ERCOT nodes" tabIndex={0}>
         <div style={{ minWidth: 740 }} role="table" aria-label="ERCOT nodes" aria-rowcount={sorted.length + 1}>

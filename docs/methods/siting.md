@@ -1,6 +1,13 @@
 # Where can a large load go: the All grids tab of "What a datacenter pays"
 
-Version 2, session 740, 22 October 2026 (chain 062, `queue/done/062-day-23-october-code-allgrids-2.md`); version 1 was session 712's (chain 050), version 0 session 700's. Internal: the tab is in review, like every page.
+Version 3, session 762, 22 October 2026 (chain 063, `queue/done/063-evening-22-october-code-allgrids-3.md`); version 2 was session 740's (chain 062), version 1 session 712's (chain 050), version 0 session 700's. Internal: the tab is in review, like every page.
+
+## What version 3 changed (chain 063, sessions 744 to 762)
+
+- **The node's day-ahead intraday swing** (746): `node_basis_daily`'s `dam_spread_4h`, each day's four dearest hours' mean less its four cheapest, over the node's days in the twelve months: a sortable column of the node list (its mean, in the download too) and a line of the node's panel (its mean, 10th and 90th percentile, its days), keyed `allgrids|nodeswing|<node>`; the replication computes it from the table (decision 24).
+- **The node list's sort line** keeps a heading's case past its first letter ("Sorted by basis to HB_HUBAVG", 757).
+- **The cards' script keeps another step's fields** (the daily run's `statistics`) and checks only its own (756).
+- **Nothing ruled, nothing landed**: no item of the rulings file is answered (745, 747 to 750), and none of the awaited tables has landed (751 to 756); the walks again find no step failing (757, 758).
 
 ## What version 2 changed (chain 062, sessions 722 to 740)
 

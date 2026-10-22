@@ -25,7 +25,7 @@
 
 ## The landing
 
-With 744, from this branch (below, once done).
+Sessions 744 to 756 landed in one push at 19:06 UTC: see `SESSION_756_REPORT.md`, "The landing".
 
 ## Decisions made without you
 
