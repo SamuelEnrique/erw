@@ -168,6 +168,8 @@ SECTOR_RULES = [
     (r"^eia_power_co2_state_annual$", "power;carbon"),  # session 571: EIA's power plants' CO2 by state and fuel, a year
     (r"^eia_coal_price_rank_annual$", "coal"),  # session 572: EIA's coal sales price by state or region and rank, a year
     (r"^eia_coal_trade_price_annual$", "coal"),  # session 573: EIA's price of coal exports and imports, a year
+    (r"^eia_drilling_monthly$", "oil;gas"),  # session 603: EIA's drilling activity, a month
+    (r"^eia_gas_wells_annual$", "gas"),  # session 604: EIA's producing natural gas wells by state, a year
     (r"^pjm_rpm_capacity_prices$", "capacity"),
     # session 65: capacity prices of the four markets that pay capacity apart, and the day-ahead ancillary services
     (r"^iso_all_capacity_prices$", "capacity"),

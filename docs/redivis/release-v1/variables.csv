@@ -1777,6 +1777,8 @@ eia_crude_stream_prices,first_purchase_price,series variable,USD/bbl
 eia_crude_stream_prices,fob_cost,series variable,USD/bbl
 eia_crude_stream_prices,landed_cost,series variable,USD/bbl
 eia_crude_stream_prices,refiner_acquisition_cost,series variable,USD/bbl
+eia_drilling_monthly,rotary_rigs,series variable,count
+eia_drilling_monthly,service_rigs,series variable,count
 eia_energy_efficiency_state_annual,all_other_costs,series variable,USD
 eia_energy_efficiency_state_annual,customer_incentive,series variable,USD
 eia_energy_efficiency_state_annual,energy_savings,series variable,MWh
@@ -1836,6 +1838,7 @@ eia_gas_storage_state_monthly,working_gas,series variable,MMcf
 eia_gas_storage_weekly,working_gas,series variable,bcf
 eia_gas_trade_monthly,export_volume,series variable,MMcf
 eia_gas_trade_monthly,import_volume,series variable,MMcf
+eia_gas_wells_annual,gas_wells,series variable,count
 eia_lng_exports_monthly,export_price,series variable,USD/Mcf
 eia_lng_exports_monthly,export_volume,series variable,MMcf
 eia_meters_state_annual,meters,series variable,count

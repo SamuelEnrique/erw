@@ -13,9 +13,10 @@ import eia_wood_pellets as W  # noqa: E402
 
 
 class TheGroups(unittest.TestCase):
-    def test_two_groups_twenty_products(self):
-        self.assertEqual([len(g) for g in P.GROUPS], [8, 12])
-        self.assertEqual(len(set(P.PRODUCTS)), 20)
+    def test_the_first_two_groups(self):
+        # session 600 added a third group; the first two stay as sessions 555 and 574 read them
+        self.assertEqual([len(g) for g in P.GROUPS[:2]], [8, 12])
+        self.assertEqual(len(set(P.PRODUCTS)), len(P.PRODUCTS))
         for p in ("EPPK", "EPL2", "EPOORDO"):
             self.assertIn(p, P.GROUPS[1])
 

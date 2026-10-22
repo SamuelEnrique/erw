@@ -53,9 +53,11 @@ PROCESSES = {"FPF": "field_production", "YPR": "refinery_net_production", "YIR":
              "EEX": "exports", "VNR": "net_receipts", "SCG": "stock_change", "SAE": "ending_stocks", "VPP": "product_supplied",
              "VUA": "supply_adjustment", "YNP": "renewable_plant_production", "TVP": "transfers_to_crude_supply"}
 # the products, in groups a run reads one after another; the first group is session 555's (its saved pages answer the
-# same addresses), the second session 574's
+# same addresses), the second session 574's, the third session 600's
 GROUPS = [["EP00", "EPC0", "EPM0F", "EPD0", "EPJK", "EPLLPA", "EPPR", "EPOOXE"],
-          ["EPPK", "EPPV", "EPPA", "EPPC", "EPPL", "EPL2", "EPLLEA", "EPLLBAN", "EPLLBAI", "EPPU", "EPOORDB", "EPOORDO"]]
+          ["EPPK", "EPPV", "EPPA", "EPPC", "EPPL", "EPL2", "EPLLEA", "EPLLBAN", "EPLLBAI", "EPPU", "EPOORDB", "EPOORDO"],
+          # session 600: the third group
+          ["EPL0", "EPOL", "EPLLNG", "EPP2", "EPOO", "EPOOR", "EPOBG", "EPOBGC0", "EPM0C", "EPDXL0"]]
 PRODUCTS = [p for g in GROUPS for p in g]
 AREAS = {"NUS", "NUS-Z00", "R10", "R10-Z00", "R10-Z0P", "R20", "R20-Z00", "R20-Z0P", "R30", "R30-Z00", "R30-Z0P",
          "R40", "R40-Z00", "R40-Z0P", "R50", "R50-Z00", "R50-Z0P"}
