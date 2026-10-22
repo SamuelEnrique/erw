@@ -100,7 +100,8 @@ class Tab(unittest.TestCase):
 
     def test_the_cell_draws_license_needed_in_place(self):
         v = src("site", "app", "cost-of-power", "AllGridsView.tsx")
-        self.assertIn('data-license-held={table}>license needed</span>', v)
+        # session 718's gate: since session 714 the cell is a tip (Tp), its data attribute passed through
+        self.assertIn('<Tp tip={why} data={{ "license-held": table }}>license needed</Tp>', v)
         self.assertIn('<Words words="no capacity market"', v)
 
 

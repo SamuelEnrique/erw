@@ -42,6 +42,7 @@ Files:
                   the utility with the most industrial sales in the newest year, among the rows of EIA's service types
                   Bundled and Energy (Delivery rows are wires charges), with its industrial sales and revenue that year
                   and its sales the year before.
+    gaps.json     (session 713) the table of docs/reviews/siting-gaps.md, each cell as written, for /internal/siting-gaps.
 
 Each file names the table it was read from, the table's first and last day and when it was built. A table that cannot
 be found stops the run (exit 1): no file is written from part of a table.
@@ -67,6 +68,20 @@ LBNL_TABLE = "lbnl_interconnection_queue"
 LBNL_GRIDS = {"ERCOT": "ercot", "CAISO": "caiso", "NYISO": "nyiso", "ISO-NE": "isone", "SPP": "spp", "MISO": "miso", "PJM": "pjm"}
 MIN_N = 5
 UTILITY_TABLE = "eia861_utility_sales"
+# session 718: the data machine's tables of chain 043, wired in where they answer a column better
+DURATIONS_TABLE, PEAKCAP_TABLE, TERRITORY_TABLE = "interconnection_durations", "grid_peak_vs_capacity", "utility_service_territories"
+DURATION_GRIDS = {"ercot": "ercot", "caiso": "caiso", "nyiso": "nyiso", "isone": "isone", "spp": "spp", "miso": "miso", "pjm": "pjm"}
+# a county the row's name is a place in, where it names one: the county's own utilities serve the row there. The hubs'
+# counties are the data machine's choice in session 681 (Harris, Los Angeles, New York, Suffolk, Allegheny, Marion,
+# Sedgwick); a zone takes the county of the city it is named for
+ROW_COUNTY = {
+    "ercot:HB_HOUSTON": ("TX", "Harris"), "ercot:LZ_HOUSTON": ("TX", "Harris"), "ercot:LZ_AEN": ("TX", "Travis"), "ercot:LZ_CPS": ("TX", "Bexar"),
+    "caiso:TH_SP15_GEN-APND": ("CA", "Los Angeles"),
+    "nyiso:N.Y.C.": ("NY", "New York"), "nyiso:LONGIL": ("NY", "Suffolk"), "nyiso:CAPITL": ("NY", "Albany"), "nyiso:WEST": ("NY", "Erie"),
+    "nyiso:GENESE": ("NY", "Monroe"), "nyiso:CENTRL": ("NY", "Onondaga"), "nyiso:DUNWOD": ("NY", "Westchester"), "nyiso:MILLWD": ("NY", "Westchester"),
+    "isone:.H.INTERNAL_HUB": ("MA", "Suffolk"), "isone:.Z.NEMASSBOST": ("MA", "Suffolk"),
+    "spp:SPPNORTH_HUB": ("KS", "Sedgwick"), "miso:INDIANA.HUB": ("IN", "Marion"), "pjm:grid": ("PA", "Allegheny"),
+}
 UTILITY_STATES = [("TX", "ERCO"), ("CA", "CISO"), ("NY", "NYIS"), ("CT", "ISNE"), ("ME", "ISNE"), ("MA", "ISNE"), ("NH", "ISNE"), ("RI", "ISNE"), ("VT", "ISNE"),
                   ("KS", "SWPP"), ("OK", "SWPP"), ("AR", "MISO"), ("IL", "MISO"), ("IN", "MISO"), ("LA", "MISO"), ("MI", "MISO"), ("MN", "MISO"), ("MS", "MISO"), ("TX", "MISO")]
 EGRID_TABLE, HOURLY_TABLE, HOURLY_VAR = "egrid_power_plants", "carbon_intensity_hourly", "intensity_demand"
@@ -206,6 +221,41 @@ def connect_file(path):
     return {"table": LBNL_TABLE, "built": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "vintage": vintage, "from": first, "to": last, "min_n": MIN_N, "grids": grids}
 
 
+def connect_from_durations(path):
+    """connect.json's content from interconnection_durations (session 718): the data machine's per-project months to
+    operation (to one decimal), the same requests as connect_file's, pooled over the newest three whole years."""
+    d = pd.read_csv(path, skiprows=header_rows(path), dtype=str, usecols=["grid", "months_to_operation", "operation_year", "vintage"])
+    vintage = str(d["vintage"].dropna().iloc[0])
+    d["y"] = pd.to_numeric(d["operation_year"], errors="coerce")
+    d["m"] = pd.to_numeric(d["months_to_operation"], errors="coerce")
+    d = d.dropna(subset=["y", "m"])
+    last = int(d["y"].max())
+    first = last - 2
+    d = d[(d["y"] >= first) & (d["y"] <= last)]
+    grids = {}
+    for g in DURATION_GRIDS:
+        m = d.loc[d["grid"].str.lower() == g, "m"]
+        n = int(len(m))
+        ok = n >= MIN_N
+        grids[g] = {"n": n, "median": round(float(m.median()), 2) if ok else None, "p25": round(float(m.quantile(0.25)), 2) if ok else None,
+                    "p75": round(float(m.quantile(0.75)), 2) if ok else None}
+    return {"table": DURATIONS_TABLE, "built": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "vintage": vintage, "from": first, "to": last, "min_n": MIN_N, "grids": grids}
+
+
+def peak_capacity(path):
+    """Each grid's peak against its balancing authority's generators (grid_peak_vs_capacity, session 718)."""
+    g = pd.read_csv(path, skiprows=header_rows(path), dtype=str)
+    out = {}
+    for ent, x in g.groupby("entity"):
+        v = {r.variable: float(r.value) for r in x.itertuples()}
+        first = x.iloc[0]
+        out[ent.split(":", 1)[1]] = {"year": int(first["ts_utc"][:4]), "peak_mw": v.get("peak_demand_mw"), "capacity_mw": v.get("capacity_mw"),
+                                    "over_peak_pct": v.get("capacity_over_peak_pct"), "solar_mw": v.get("capacity_solar_mw"), "wind_mw": v.get("capacity_wind_mw"),
+                                    "storage_mw": v.get("capacity_storage_mw"), "list": str(first.get("x_vintage", "")), "states": str(first.get("x_states", "")),
+                                    "split_states": "" if pd.isna(first.get("x_split_states")) else str(first.get("x_split_states"))}
+    return out
+
+
 def headroom_file(ppath, cpath):
     """headroom.json's content (session 706)."""
     with open(ppath, encoding="utf-8") as fh:
@@ -279,6 +329,47 @@ def carbon_file(epath, hpath, index):
             "data_year": int(e["data_year"].iloc[0]), "areas": areas, "hourly_table": HOURLY_TABLE, "hourly_variable": HOURLY_VAR, "hourly": hourly}
 
 
+def county_utilities(tpath, spath):
+    """For each row of ROW_COUNTY, the utilities EIA-861's territories list for the county, and among them the one with
+    the most industrial sales in the state that year, of the rows that bill a customer (Bundled or Delivery: the wires
+    utility; an energy-only retailer has no territory) (session 718)."""
+    t = pd.read_csv(tpath, skiprows=header_rows(tpath), dtype=str, usecols=["name", "x_utility_number", "x_state", "x_county", "x_data_year"])
+    keep = []
+    for ch in pd.read_csv(spath, skiprows=header_rows(spath), dtype=str, chunksize=500_000,
+                          usecols=["variable", "ts_utc", "value", "node", "x_utility_number", "x_state", "x_service_type", "x_ba_code"]):
+        keep.append(ch[ch["variable"].isin(["industrial_sales", "industrial_revenue"]) & ch["x_service_type"].isin(["Bundled", "Delivery"])])
+    s = pd.concat(keep, ignore_index=True)
+    s["v"] = pd.to_numeric(s["value"], errors="coerce")
+    s["y"] = s["ts_utc"].str[:4].astype(int)
+    year = int(s["y"].max())
+    out = {}
+    ba_of = {g: ba for ba, g in BA_GRIDS.items()}
+    for row, (st, county) in ROW_COUNTY.items():
+        c = t[(t["x_state"] == st) & (t["x_county"].str.lower() == county.lower())]
+        nums = sorted(set(c["x_utility_number"]))
+        # inside the row's grid: a county can hold utilities of two grids (Harris: CenterPoint's ERCOT and Entergy Texas's MISO)
+        x = s[(s["x_state"] == st) & s["x_utility_number"].isin(nums) & (s["x_ba_code"] == ba_of[row.split(":")[0]])]
+        sales = x[(x["variable"] == "industrial_sales") & (x["y"] == year) & (x["v"] > 0)].groupby(["x_utility_number", "x_service_type"])["v"].sum().reset_index()
+        # every utility the territories list for the county, with the grid (balancing authority) its sales rows in the
+        # state name, or none where it files no sales row (Texas's wires utilities: CenterPoint in Harris)
+        allrows = s[(s["x_state"] == st) & s["x_utility_number"].isin(nums)]
+        bas = allrows.groupby("x_utility_number")["x_ba_code"].agg(lambda v: sorted(set(v.dropna())))
+        utils = [{"name": str(r.name), "number": str(r.x_utility_number), "ba": bas.get(r.x_utility_number, [])} for r in c.drop_duplicates("x_utility_number").sort_values("name").itertuples()]
+        entry = {"state": st, "county": county, "ba": ba_of[row.split(":")[0]], "territory_year": int(c["x_data_year"].iloc[0]) if len(c) else None,
+                 "utilities": utils, "top": None}
+        if len(sales):
+            top = sales.sort_values(["v", "x_utility_number"], ascending=[False, True]).iloc[0]
+            num, svc = top["x_utility_number"], top["x_service_type"]
+            sel = x[(x["x_utility_number"] == num) & (x["x_service_type"] == svc)]
+            rev = sel[(sel["variable"] == "industrial_revenue") & (sel["y"] == year)]["v"].sum()
+            prior = sel[(sel["variable"] == "industrial_sales") & (sel["y"] == year - 1)]["v"].sum()
+            name = sel["node"].dropna().iloc[0]
+            entry["top"] = {"utility": str(name), "number": str(num), "service": str(svc), "sales_mwh": float(top["v"]), "revenue_usd": float(rev),
+                            "sales_prior_mwh": float(prior) if prior > 0 else None, "year": year}
+        out[row] = entry
+    return out
+
+
 def utility_file(path):
     """utility.json's content (session 708)."""
     keep = []
@@ -307,6 +398,25 @@ def utility_file(path):
                             "sales_mwh": float(top["v"]), "revenue_usd": float(rev["v"].iloc[0]),
                             "sales_prior_mwh": float(pri["v"].iloc[0]) if len(pri) and pri["v"].iloc[0] > 0 else None, "sellers": int(s["entity"].nunique())}
     return {"built": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "table": UTILITY_TABLE, "year": year, "prior": prior, "by": by}
+
+
+GAPS_MD = os.path.join(ROOT, "docs", "reviews", "siting-gaps.md")
+
+
+def gaps_file(path=GAPS_MD):
+    """gaps.json's content (session 713): the markdown table's rows, each cell as written."""
+    with open(path, encoding="utf-8") as fh:
+        lines = [ln.rstrip("\n") for ln in fh]
+    table = [ln for ln in lines if ln.startswith("| ")]
+    if len(table) < 3:
+        raise ValueError(f"{path} holds no table")
+    cells = lambda ln: [c.strip() for c in ln.strip().strip("|").split(" | ")]
+    columns = cells(table[0])
+    rows = [dict(zip(columns, cells(ln))) for ln in table[2:]]
+    bad = [r for r in rows if len(r) != len(columns)]
+    if bad:
+        raise ValueError(f"{len(bad)} rows of {path} do not have {len(columns)} cells")
+    return {"source": "docs/reviews/siting-gaps.md", "columns": columns, "rows": rows}
 
 
 def write(name, obj, out_dir):
@@ -361,9 +471,14 @@ def main(argv=None):
     write("ercot_4cp.json", cp, a.out_dir)
     write("capacity.json", cap, a.out_dir)
     try:
-        lpath = find(LBNL_TABLE, a.in_dir, a.in_dir_first)
-        print(f"reading {lpath}")
-        con = connect_file(lpath)
+        try:
+            dpath = find(DURATIONS_TABLE, a.in_dir, a.in_dir_first)
+            print(f"reading {dpath}")
+            con = connect_from_durations(dpath)
+        except FileNotFoundError:
+            lpath = find(LBNL_TABLE, a.in_dir, a.in_dir_first)
+            print(f"reading {lpath} ({DURATIONS_TABLE} is not on this machine)")
+            con = connect_file(lpath)
     except Exception as e:
         print(f"FAILED: {e}", file=sys.stderr)
         return 1
@@ -373,6 +488,13 @@ def main(argv=None):
         ppath, spath = find(PLANNED_TABLE, a.in_dir, a.in_dir_first), find(STATECAP_TABLE, a.in_dir, a.in_dir_first)
         print(f"reading {ppath} and {spath}")
         hr = headroom_file(ppath, spath)
+        try:
+            gpath = find(PEAKCAP_TABLE, a.in_dir, a.in_dir_first)
+            print(f"reading {gpath}")
+            hr["peak_capacity"] = peak_capacity(gpath)
+            hr["peak_capacity_table"] = PEAKCAP_TABLE
+        except FileNotFoundError:
+            print(f"{PEAKCAP_TABLE} is not on this machine: capacity over peak stays the whole states'")
     except Exception as e:
         print(f"FAILED: {e}", file=sys.stderr)
         return 1
@@ -393,11 +515,25 @@ def main(argv=None):
         upath = find(UTILITY_TABLE, a.in_dir, a.in_dir_first)
         print(f"reading {upath}")
         ut = utility_file(upath)
+        try:
+            tpath = find(TERRITORY_TABLE, a.in_dir, a.in_dir_first)
+            print(f"reading {tpath}")
+            ut["county"] = county_utilities(tpath, upath)
+            ut["territory_table"] = TERRITORY_TABLE
+        except FileNotFoundError:
+            print(f"{TERRITORY_TABLE} is not on this machine: the state's largest seller stands in")
     except Exception as e:
         print(f"FAILED: {e}", file=sys.stderr)
         return 1
     print(f"{UTILITY_TABLE} {ut['year']}: " + "; ".join(f"{k} {v['utility'] if v else None}" for k, v in ut["by"].items()))
     write("utility.json", ut, a.out_dir)
+    try:
+        gp = gaps_file()
+    except Exception as e:
+        print(f"FAILED: {e}", file=sys.stderr)
+        return 1
+    print(f"siting-gaps.md: {len(gp['rows'])} rows")
+    write("gaps.json", gp, a.out_dir)
     if a.internal:
         if not a.rows:
             print("FAILED: --internal needs --rows", file=sys.stderr)
