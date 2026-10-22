@@ -301,6 +301,10 @@ catalogue_hold:
   - eia930_subba_demand_hourly_2024
   - eia930_subba_demand_hourly_2023
   - eia930_subba_demand_hourly_2022
+  - utility_service_territories
+  - interconnection_durations
+  - interconnection_durations_summary
+  - grid_peak_vs_capacity
   - eia_crude_imports_detail_monthly
   - eia_padd_rail_barge_movements_monthly
   - eia_gas_trade_country_monthly
