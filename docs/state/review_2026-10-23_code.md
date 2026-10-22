@@ -4,7 +4,7 @@ Energy Research Warehouse (ERW), session 589, written on the old laptop (samuelo
 
 ## First: what to know
 
-LANDING_FIRST
+1. **Chain 034 lands as one push** (`wip/589-land` to `task/589-land`) after its gate: the suite in a clean worktree 5,762 tests OK; the build 0; check-values 6,456 of 6,456 values equal, the ten held floors and `/digest` (no Digest for 22 October before 14:00 UTC; production fails the same) failing; check-routes, check-cross-checks (77), check-csp, check-findings-grids (173), check-analysis (279) and check-internal-waits (31) all 0. The merge and the snapshots: `archive/sessions/SESSION_589_REPORT.md`, "The landing".
 
 2. **Chain 023 is on main**, landed by portable-laptop's session 563 at 00:12 UTC (`87c343cc`); session 506's records of it (each report's "Finished", the note `docs/state/review_2026-10-22_evening_code.md`) ride with this landing on `wip/506-combined`.
 3. **Two held tables still show on the price board** (585): the week table's NYISO and ISO-NE rows and half the week's top real-time intervals, from `iso_trader_daily` and `iso_rt_top_intervals`, because `build_week` in `warehouse/derived/board_page.py` does not drop held grids. check-holds missed them (it reads `data-check`, not the board's `data-n`). Yours to rule; nothing changed.

@@ -4,7 +4,7 @@
 
 ## Read these first
 
-LANDING_READ_FIRST
+- **Chain 034 lands as one push** of twelve sessions' branches with session 506's records; see "The landing".
 
 - **Sessions 577 to 588 ran as agents**, one worktree each (`C:\Users\lossa\Documents\erw-5NN`), at most four at a time, the heavy steps through `scripts/buildlock.py`. Each pushed its `wip/NNN-s` branch and wrote its report; none landed. This session merged them onto `wip/589-land` with main, in the order they finished, and also `wip/506-combined` (session 506's records of chain 023).
 - **The landing ran through session 579's `scripts/land_check.py`**, its first real run. The first run stopped on `task/198-battery-data` (last commit 11 October, never merged), which the script took for a branch in flight; this session made a branch quiet for 48 hours "left over, not judged", with two tests, and ran it again.
@@ -45,7 +45,19 @@ The build lock was held for long stretches by single sessions (583 for 73 minute
 
 `/digest`'s floor is the day's: before the 14:00 UTC run there is no Digest for 22 October, and production fails the same floor (`CHECK_VALUES_PAGES=/digest` against production at 04:05 UTC: 70 of 70 equal, the same floor). So the run is a pass by the chain's rule with that one named. The gate stops at check-values' exit 1 and did not reach check-routes, check-cross-checks or check-csp; those ran by hand on a fresh build of the branch's head (`runs/s589_rest.sh`):
 
-REST_TABLE
+| Check | Exit | Result |
+|---|---|---|
+| db_probe, npm ci, build | 0, 0, 0 | no statement timeout |
+| check-routes | 0 | 1 live and 225 in review asked as a visitor, 0 failed |
+| check-cross-checks | 0 | 77 of 77 |
+| check-csp | 0 | 97 pages, 0 violations |
+| check-findings-grids | 0 | 173 of 173 (session 588's new checks with the old 163) |
+| check-analysis | 0 | 279 of 279 |
+| check-internal-waits | 0 | 31 of 31 |
+
+The commits after `be0a73d7` (this report and the note) change only `archive/sessions/` and `docs/state/`.
+
+THE_PUSH
 
 ## Decisions made without you
 
