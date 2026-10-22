@@ -84,9 +84,10 @@ class ThePageSaysWhatTheBriefDoes(unittest.TestCase):
         ev = inspect.getsource(brief.event_figures)
         self.assertIn("v * mult >= 1e6", ev)
         self.assertIn("v >= 10", ev)
-        self.assertEqual(brief.link_text([("Reuters", "https://news.google.com/rss/articles/x")]),
+        # session 803: the form without the license hold (with it, a held outlet is named with no link)
+        self.assertEqual(brief.link_text([("Reuters", "https://news.google.com/rss/articles/x")], licensed=set()),
                          "[Reuters](https://news.google.com/rss/articles/x) (via Google News)")
-        self.assertEqual(brief.link_text([("Reuters", "https://reuters.com/x")]), "[Reuters](https://reuters.com/x)")
+        self.assertEqual(brief.link_text([("Reuters", "https://reuters.com/x")], licensed=set()), "[Reuters](https://reuters.com/x)")
 
     def test_no_em_dash(self):
         self.assertNotIn(chr(0x2014), page())

@@ -111,8 +111,13 @@ class TheAlsoLine(unittest.TestCase):
              "links": [("Data Center Dynamics", "https://example.org/d2")], "parties": "Amazon"},
             {"cluster_id": "d3", "title": "Nextdc cuts outlook", "sector": "datacenter_power",
              "links": [("Reuters", "https://news.google.com/rss/articles/x")], "parties": "Nextdc"}])
-        L = brief.item_lines(r, "1. **Head** (datacenter power)  ", "Why. parties: A. ", "Sources: [O](https://example.org/d1)")
+        brief._LICENSED[brief.LICENSE_FILE] = set()   # session 803: the form without the license hold
+        try:
+            L = brief.item_lines(r, "1. **Head** (datacenter power)  ", "Why. parties: A. ", "Sources: [O](https://example.org/d1)")
+        finally:
+            brief._LICENSED.pop(brief.LICENSE_FILE, None)
         self.assertEqual(L[0], "1. **Head** (datacenter power)  ")
+        self.assertEqual(L[1], "   Why. parties: A. Sources: [O](https://example.org/d1)  ")
         self.assertTrue(L[1].endswith("Sources: [O](https://example.org/d1)  "))
         self.assertEqual(L[2], "   Also on this topic: Amazon pledges 16 billion in Germany ([Data Center Dynamics](https://example.org/d2)); "
                                "Nextdc cuts outlook ([Reuters](https://news.google.com/rss/articles/x) (via Google News)).")

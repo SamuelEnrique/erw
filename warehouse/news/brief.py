@@ -406,11 +406,51 @@ def drop_repeated_items(lines, log):
     return fixed
 
 
-def link_text(links):
+LICENSE_FILE = os.path.join(ROOT, "warehouse", "metadata", "license_status.csv")
+_LICENSED = {}
+
+
+def licensed_outlets(path=None):
+    """Session 803 (docs/reviews/periodicals-plan-2026-10-23.md, Digest change 3): the outlets whose stories ask for a
+    license: the publishers of the news index's row in warehouse/metadata/license_status.csv while that row's status is
+    "license needed" (the ruling of 21 October, docs/licenses.md); an empty set once the hold is lifted or the file is not
+    here. Read once a process for each path."""
+    import csv
+    path = path or LICENSE_FILE
+    if path in _LICENSED:
+        return _LICENSED[path]
+    out = set()
+    try:
+        with open(path, encoding="utf-8", newline="") as f:
+            for r in csv.DictReader(ln for ln in f if not ln.startswith("#")):
+                if r.get("table") == "news_index" and r.get("status") == "license needed":
+                    out = {x.strip() for x in str(r.get("publishers", "")).split(";") if x.strip()}
+    except OSError:
+        out = set()
+    _LICENSED[path] = out
+    return out
+
+
+def outlet_key(name):
+    """An outlet's name as the license file and the feeds name it, made one: lower case, ".com" and punctuation off
+    ("Bloomberg.com" in the feed's field is the "Bloomberg" of docs/licenses.md)."""
+    return re.sub(r"[^a-z0-9]+", "", re.sub(r"\.com$", "", str(name).strip().lower()))
+
+
+def source_text(src, url, licensed=None):
+    """One source as an item prints it (session 803): the outlet's name from the feed's own field as the link text, never
+    the address; "(via Google News)" after a Google News address (session 470, kept); an outlet whose stories ask for a
+    license (licensed_outlets) is named with no link, so the item shows the outlet and the title only."""
+    licensed = licensed_outlets() if licensed is None else licensed
+    if outlet_key(src) in {outlet_key(x) for x in licensed}:
+        return str(src)
+    return f"[{src}]({url})" + (" (via Google News)" if "news.google.com" in str(url) else "")
+
+
+def link_text(links, licensed=None):
     # session 470 (digest audit fix 7, roundup audit fix 4): a Google News address does not reach the outlet (the ingest
-    # records it in url_resolved), and the reader is told where the link goes
-    return ", ".join(f"[{src}]({url})" + (" (via Google News)" if "news.google.com" in str(url) else "")
-                     for src, url in links)
+    # records it in url_resolved), and the reader is told where the link goes; session 803: source_text
+    return ", ".join(source_text(src, url, licensed) for src, url in links)
 
 
 # Session 470 (digest audit fix 9): one style for a sum of money, "USD 45 billion", as docs/voice.md writes it
@@ -996,7 +1036,7 @@ def also_line(recs):
 def item_lines(r, head, why, sources):
     """A top item's lines: the headline, the why line with its figures and sources, and the "also" line when the item
     carries folded stories (the line before it ends with two spaces, markdown's line break)."""
-    L = [f"{head}", f"   {why} {sources}"]
+    L = [f"{head}", "   " + " ".join(x for x in (str(why).strip(), str(sources).strip()) if x)]
     if also_of(r):
         L[-1] += "  "
         L.append("   " + also_line(also_of(r)))

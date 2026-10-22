@@ -111,9 +111,12 @@ def numbered(lines, heads, n=5):
             items.append(cur)
         elif cur is not None and ln.startswith("   ") and ln.strip() and not ln.strip().startswith(ALSO_LABEL):
             text = ln.strip()
-            src = LINK.search(text.split("Sources:", 1)[1]) if "Sources:" in text else None
+            after = text.split("Sources:", 1)[1].strip() if "Sources:" in text else ""
+            src = LINK.search(after) if after else None
             cur["why"] = text.split("Sources:", 1)[0].strip()
-            cur["src"] = (src.group(1), src.group(2)) if src else None
+            # session 803: an outlet named with no link (its stories ask for a license) is the source, with no address
+            bare = re.match(r"([^\[\],(]+?)\s*(?:,|$)", after) if after and not after.startswith("[") else None
+            cur["src"] = (src.group(1), src.group(2)) if src and after.startswith("[") else ((bare.group(1).strip(), None) if bare else None)
     return items[:n]
 
 
@@ -224,12 +227,19 @@ def story_list(stories):
         t.append(f"{i}. {s['head']}")
         if s["why"]:
             t.append(f"   {md_inline_text(s['why'])}")
-        via = " (via Google News)" if s["src"] and "news.google.com" in s["src"][1] else ""  # session 470
-        if s["src"]:
-            t.append(f"   {s['src'][0]}{via}: {s['src'][1]}")
+        # session 470: a Google News address says so; session 803: the outlet's name, never the address, in the text part
+        # for a Google News address (it reaches Google's own page), and an outlet with no link is named alone
+        url = s["src"][1] if s["src"] else None
+        google = bool(url and "news.google.com" in url)
+        via = " (via Google News)" if google else ""
+        if s["src"] and url and not google:
+            t.append(f"   {s['src'][0]}: {url}")
+        elif s["src"]:
+            t.append(f"   {s['src'][0]}{via}")
         li.append(f"<li style=\"margin:0 0 8px\"><strong>{html.escape(s['head'])}</strong><br>"
                   + (f"<span style=\"color:#6B665E\">{md_inline_html(s['why'])}</span><br>" if s["why"] else "")
-                  + (f"<a href=\"{html.escape(s['src'][1])}\">{html.escape(s['src'][0])}</a>{via}" if s["src"] else "") + "</li>")
+                  + ((f"<a href=\"{html.escape(url)}\">{html.escape(s['src'][0])}</a>{via}" if url else html.escape(s["src"][0]))
+                     if s["src"] else "") + "</li>")
     return t, ("<ol style=\"padding-left:20px;font-size:14px;font-family:system-ui,sans-serif\">" + "".join(li) + "</ol>")
 
 

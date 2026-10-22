@@ -207,7 +207,7 @@ class TheAISection(unittest.TestCase):
 
 class Wording(unittest.TestCase):
     def test_a_google_news_address_says_where_it_goes(self):
-        t = brief.link_text([("Reuters", GN), ("POWER", "https://www.powermag.com/x")])
+        t = brief.link_text([("Reuters", GN), ("POWER", "https://www.powermag.com/x")], licensed=set())   # 803: no hold
         self.assertIn(f"[Reuters]({GN}) (via Google News)", t)
         self.assertNotIn("powermag.com/x) (via", t)
 
