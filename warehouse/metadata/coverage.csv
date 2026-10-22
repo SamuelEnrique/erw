@@ -107,6 +107,7 @@ eia_power_co2_state_annual,none,,256,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:0
 eia_power_plant_fuel_costs,none,,58,P1M,2019-01-01T00:00:00Z,2026-07-01T00:00:00Z,12898,eia:electricity/electric-power-operational-data:cost,2026-10-21T15:12:37Z,pass,public,coal;gas;power,no,source
 eia_product_spot_prices,none,,9,P1D,1986-06-02T00:00:00Z,2026-10-14T00:00:00Z,72052,eia:petroleum/pri/spt,2026-10-21T14:36:30Z,pass,public,products,no,source
 eia_product_supplied_monthly,none,,702,P1M,2017-01-01T00:00:00Z,2026-07-01T00:00:00Z,71938,eia:petroleum/cons/psup,2026-10-21T23:04:16Z,pass,public,oil;products,no,source
+eia_refinery_capacity_annual,none,,2009,P1Y,1995-01-01T00:00:00Z,2026-01-01T00:00:00Z,51504,eia:petroleum/pnp/cap1,2026-10-22T02:04:14Z,pass,public,products,no,source
 eia_refinery_weekly,none,,59,P1W,2010-01-01T00:00:00Z,2026-10-16T00:00:00Z,50753,eia:petroleum/pnp/wiup,2026-10-21T21:48:04Z,pass,public,oil;products,no,source
 eia_regional_retail_fuel_prices,none,,29,P1W,2019-01-07T00:00:00Z,2026-10-12T00:00:00Z,16239,eia:petroleum/pri/gnd:regional,2026-10-21T15:12:37Z,pass,public,products,no,source
 eia_retail_electricity_prices,none,,372,P1M,2001-01-01T00:00:00Z,2026-07-01T00:00:00Z,114202,eia:electricity/retail-sales,2026-10-20T05:54:37Z,pass,public,power,no,source

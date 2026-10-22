@@ -298,6 +298,7 @@ catalogue_hold:
   - eia_heating_fuel_prices_weekly
   - boem_ogor_lease_production_monthly
   - eia930_subba_demand_hourly_2025
+  - eia_refinery_capacity_annual
   # session 109: EIA's daily demand by balancing authority, a history (190,512 rows). The network's replay reads its own
   # files (site/public/network/daily_<year>.json), built from it; nothing reads it from Supabase
   - eia930_daily_demand
