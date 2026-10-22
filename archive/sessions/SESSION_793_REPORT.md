@@ -33,7 +33,13 @@
 
 ## The landing
 
-Sessions 788 to 793 land together from this branch (below, once done).
+Sessions 788 to 793 landed in one push (`task/788-793-allgrids`, commit `640cc577`), merged into main at 23:14 UTC (`f7e4763f`, run 39868971700).
+
+- **The gate** (on `640cc577`): freeze 0; main in the commit; no `task/` branch in flight; suite 5,962 tests OK (304 skipped); npm ci 0; build 0; check-values 7,990 of 7,991 values equal. The ten held floors failed, and the 21 October Digest's revised WTI (production the same).
+- **The steps after check-values**, on a build of the same commit (lock `s793b`, built on `db_probe`'s 0): check-routes 0 (226 pages, 0 failed), check-cross-checks 0 (92 of 92), check-csp 0 (97 pages, 0 violations).
+- **Before the push**: freeze status 0; no other `task/` branch but `task/198-battery-data`; the push conditional on the ancestry check (0).
+- **Snapshots**: `s793-before` at 23:00 UTC; the push at 23:01:00. Vercel's status on `f7e4763f`: "Deployment has completed" (23:15:51). `compare s793-before s793-after`: **0 differences** on 25 pages, expected (every page is in review).
+- The merged `wip/793-allgrids` and `wip/787-records` were deleted on GitHub; the worktrees of 787r and 788 to 793 removed.
 
 ## Decisions made without you
 
