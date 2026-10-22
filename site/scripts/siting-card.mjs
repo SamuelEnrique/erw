@@ -121,14 +121,23 @@ const csv2 = [...card2.csv_header.map((h) => `# ${h}`), "row,allin_flat_usd_mwh,
 const out = [[ID, card, csv], [ID2, card2, csv2]];
 const paths = (id) => [path.join(here, "..", "data", "findings", `${id}.json`), path.join(here, "..", "public", "findings", `${id}.csv`)];
 if (process.argv.includes("--check")) {
-  const strip = (c) => JSON.stringify({ ...c, computed_at: "" });
+  // only the fields this script writes are compared: another step of the pipeline may add its own to the file (the data
+  // machine's daily run adds session 361's "statistics"), and the time is the run's
+  const mine = (c, keys) => JSON.stringify(Object.fromEntries(keys.filter((k) => k !== "computed_at").map((k) => [k, c[k]])));
   const bad = out.filter(([id, c, v]) => {
     const [cp, vp] = paths(id);
-    return !fs.existsSync(cp) || strip(JSON.parse(fs.readFileSync(cp, "utf-8"))) !== strip(c) || fs.readFileSync(vp, "utf-8") !== v;
+    return !fs.existsSync(cp) || mine(JSON.parse(fs.readFileSync(cp, "utf-8")), Object.keys(c)) !== mine(c, Object.keys(c)) || fs.readFileSync(vp, "utf-8") !== v;
   }).map(([id]) => id);
   console.log(bad.length ? `siting-card: the files differ from the tab's figures: ${bad.join(", ")}` : "siting-card: the files are the tab's figures");
   process.exit(bad.length ? 1 : 0);
 }
-for (const [id, c, v] of out) { const [cp, vp] = paths(id); fs.writeFileSync(cp, JSON.stringify(c, null, 1) + "\n"); fs.writeFileSync(vp, v); }
+// session 756: a field another step added to the file (session 361's "statistics") is kept as it is
+for (const [id, c, v] of out) {
+  const [cp, vp] = paths(id);
+  const old = fs.existsSync(cp) ? JSON.parse(fs.readFileSync(cp, "utf-8")) : {};
+  const kept = Object.fromEntries(Object.entries(old).filter(([k]) => !(k in c)));
+  fs.writeFileSync(cp, JSON.stringify({ ...c, ...kept }, null, 1) + "\n");
+  fs.writeFileSync(vp, v);
+}
 console.log(`siting-card: ${held.length} rows held; least ${lo.r.id} ${two(lo.allin)}, most ${hi.r.id} ${two(hi.allin)}; connect ${cmin.g} ${cmin.m} to ${cmax.g} ${cmax.m}`);
 console.log(`siting-card: flexible at ${ercot.length} ERCOT rows; saved ${two(s0.saved)} (${s0.r.id}) to ${two(s1.saved)} (${s1.r.id}); hours given up ${l0.lost} to ${l1.lost}`);

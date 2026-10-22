@@ -28,7 +28,14 @@
 
 ## The landing
 
-Below, once done.
+Sessions 741 to 743 landed in one push (`task/741-743-allgrids`, commit `c139e857`), merged into main at 18:19 UTC (`14c939a8`, run 39828431345).
+
+- **The gate** (on `c139e857`): freeze 0; main in the commit; no `task/` branch in flight; suite 5,950 tests OK (304 skipped); npm ci 0; build 0; check-values 7,772 of 7,773 values equal. The ten held floors failed, and the 21 October Digest's revised WTI (as at 730's and 740's landings; production the same).
+- **The steps after check-values**, on a build of the same commit (lock `s743`, built only on `db_probe`'s exit 0): check-routes 0 (226 pages, 0 failed), check-cross-checks 0 (92 of 92), check-csp 0 (97 pages, 0 violations).
+- **Before the push**: freeze status 0; no other `task/` branch but `task/198-battery-data`; the push made conditional on the ancestry check (0).
+- **Snapshots**: `s743-before` at 18:05 UTC; the push at 18:06:09. Vercel's status on `14c939a8` reads "Deployment has completed" (18:21:39). These sessions change no page. `s743-after` at 18:22; `compare s743-before s743-after`: **0 differences** on 25 pages, expected.
+- `queue/next/063-evening-22-october-code-allgrids-3.md` is on main with this merge.
+- This record rides on `wip/743-records`; chain 063's session 744 lands it first.
 
 ## Decisions made without you
 

@@ -102,7 +102,10 @@ export type Row = {
 /** `dam_basis`: the node's day-ahead basis to HB_HUBAVG by Central month, [mean of the daily basis, days held] (session 701). */
 export type NodeRow = { id: string; cls: string; types: string; dam_basis?: Record<string, [number, number]>;
   /** session 711: the 10th, 50th and 90th percentile of the daily day-ahead basis over pct_from to pct_to, and the days */
-  pct?: [number, number, number, number] };
+  pct?: [number, number, number, number];
+  /** session 746: the day-ahead intraday swing (dam_spread_4h: the four dearest hours' mean less the four cheapest),
+   * over pct_from to pct_to: its mean, its 10th and 90th percentile, and the days */
+  swing?: [number, number, number, number] };
 export type NodeFile = { table: string; built: string; first: string; last: string; points: number; hubs: number; zones: number; pct_from?: string; pct_to?: string; nodes: NodeRow[] };
 
 /** A region's kind as the index says it; a region of a grid whose index names no kind is a hub when its name says so. */
@@ -735,7 +738,9 @@ export function utilityCell(f: Files, r: Row): UtilityCell {
 export type NodeTableRow = { id: string; node: string; cls: string; types: string; per: number | null; basis: number | null; days: number; due: number; allin: number | null; why: string;
   /** session 724: the daily basis's spread, its 90th percentile less its 10th over the file's twelve months (the panel's
    * own percentiles), USD per MWh: how far the node moves from day to day; null where the file holds no percentiles */
-  spread: number | null };
+  spread: number | null;
+  /** session 746: the mean of the day's four dearest day-ahead hours less its four cheapest, USD per MWh */
+  swing: number | null };
 export function nodeTable(dc: DC, f: Files, x: Pick<SitingInputs, "profile" | "lf" | "strike">): NodeTableRow[] {
   return nodeRows(f.nodes).map((r) => {
     const n = f.nodes.nodes.find((k) => k.id === r.region)!;
@@ -745,7 +750,7 @@ export function nodeTable(dc: DC, f: Files, x: Pick<SitingInputs, "profile" | "l
     const a = allInCell(dc, f, r, x);
     return { id: r.id, node: r.region, cls: n.cls, types: n.types, per, basis: e.node?.basis ?? null, days: e.node?.days ?? Object.values(n.dam_basis ?? {}).reduce((s, v) => s + v[1], 0),
       due: e.node?.due ?? 0, allin: "v" in a ? a.v : null, why: e.node ? (pc && "why" in pc ? pc.why : "") : e.why ?? "not held",
-      spread: n.pct ? n.pct[2] - n.pct[0] : null };
+      spread: n.pct ? n.pct[2] - n.pct[0] : null, swing: n.swing ? n.swing[0] : null };
   });
 }
 /** Session 724: the months of the node file's percentile window in which no node holds every day, with the most days
@@ -803,11 +808,11 @@ export function tariffParts(r: TariffRate, mw: number, lf: number): { energy: nu
   return { energy: r.energy, demand, fixed, wires: demand === null ? null : demand + (fixed ?? 0) };
 }
 /** The columns a node table sorts by, and the default: by name. */
-export const NODE_SORTS = ["node", "cls", "energy", "basis", "spread", "allin", "days"] as const;
+export const NODE_SORTS = ["node", "cls", "energy", "basis", "spread", "swing", "allin", "days"] as const;
 export type NodeSort = (typeof NODE_SORTS)[number];
 export function sortNodes(rows: NodeTableRow[], by: NodeSort, dir: "asc" | "desc"): NodeTableRow[] {
   const k = dir === "asc" ? 1 : -1;
-  const val = (r: NodeTableRow): number | string | null => (by === "node" ? r.node : by === "cls" ? r.cls : by === "energy" ? r.per : by === "basis" ? r.basis : by === "spread" ? r.spread : by === "allin" ? r.allin : r.days);
+  const val = (r: NodeTableRow): number | string | null => (by === "node" ? r.node : by === "cls" ? r.cls : by === "energy" ? r.per : by === "basis" ? r.basis : by === "spread" ? r.spread : by === "swing" ? r.swing : by === "allin" ? r.allin : r.days);
   // a row with no figure sorts last either way; ties by name
   return [...rows].sort((a, b) => {
     const va = val(a), vb = val(b);
@@ -960,6 +965,7 @@ export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFil
  *   allgrids|yeardiff|<a>|<b>|<year key>                   B's year all-in less A's, USD (710)
  *   allgrids|nodepct|<node>|10, 50 or 90                 a node's daily basis percentile over the file's twelve months (711)
  *   allgrids|nodespread|<node>                             its 90th percentile less its 10th, the node list's spread (724)
+ *   allgrids|nodeswing|<node>[|10 or 90]                   its day-ahead intraday swing's mean, or a percentile (746)
  *   allgrids|zonegrowth|<row>                              its zone's mean demand, newest whole year over the one before, percent (728)
  *   allgrids|llapproved|<row>                              ERCOT's large loads approved to energize, MW, newest report (705)
  *   (capacity, session 704: zero where there is no market, drawn as a figure of 0 with no key; elsewhere held internal,
@@ -1002,6 +1008,7 @@ export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
   }
   if (p[1] === "basis") return energyCell(dc, f, row).node?.basis;
   if (p[1] === "zonegrowth") { const z = zoneGrowth(f.headroom, row); return z ? z.pct : undefined; }
+  if (p[1] === "nodeswing") { const n = f.nodes.nodes.find((k) => `ercot:${k.id}` === row.id); if (!n?.swing) return undefined; return p[3] === "10" ? n.swing[1] : p[3] === "90" ? n.swing[2] : n.swing[0]; }
   if (p[1] === "nodespread") { const n = f.nodes.nodes.find((k) => `ercot:${k.id}` === row.id); return n?.pct ? n.pct[2] - n.pct[0] : undefined; }
   if (p[1] === "nodepct") { const n = f.nodes.nodes.find((k) => `ercot:${k.id}` === row.id); const i = ({ "10": 0, "50": 1, "90": 2 } as Record<string, number>)[p[3]]; return n?.pct && i !== undefined ? n.pct[i] : undefined; }
   if (p[1] === "tx" || p[1] === "txshare") {
