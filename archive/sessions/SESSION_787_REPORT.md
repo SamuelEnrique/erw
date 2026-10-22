@@ -27,7 +27,14 @@
 
 ## The landing
 
-Below, once done.
+Sessions 778 to 787 landed in one push (`task/778-787-allgrids`, commit `d238b0e9`), merged into main at 22:21 UTC (`8e3eedc7`, run 39862845114).
+
+- **The gate** (on `d238b0e9`): freeze 0; main in the commit; no `task/` branch in flight; suite 5,960 tests OK (304 skipped); npm ci 0; build 0; check-values 7,990 of 7,991 values equal. The ten held floors failed, and the 21 October Digest's revised WTI (production the same).
+- **The steps after check-values**, on a build of the same commit (lock `s787`, built on `db_probe`'s 0): check-routes 0 (226 pages, 0 failed), check-cross-checks 0 (92 of 92), check-csp 0 (97 pages, 0 violations).
+- **Before the push**: freeze status 0; no other `task/` branch but `task/198-battery-data`; the push conditional on the ancestry check (0).
+- **Snapshots**: `s787-before` at 22:09 UTC; the push at 22:09:31. Vercel's status on `8e3eedc7`: "Deployment has completed" (22:22:01). These sessions change no page. `compare s787-before s787-after`: **0 differences** on 25 pages, expected.
+- `queue/next/065-late-22-october-code-allgrids-5.md` is on main with this merge.
+- This record rides on `wip/787-records`; chain 065's session 788 lands it first.
 
 ## Decisions made without you
 

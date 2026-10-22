@@ -3,10 +3,11 @@ import { Num } from "@/components/Num";
 import { InlineSpark } from "@/components/InlineSpark";
 import { InputPanel } from "@/components/tool/ToolPage";
 import type { ReactNode } from "react";
-import { nodeColumns, zoneGrowth, SERVICE_WORDS, UTILITY_KINDS_LINE, utilityKind, nodeShortMonths, shortMonthsWords, CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, columnValue, nodeTable, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
+import { columnWords, nodeColumns, zoneGrowth, SERVICE_WORDS, UTILITY_KINDS_LINE, utilityKind, nodeShortMonths, shortMonthsWords, CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, columnValue, nodeTable, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
 import { CP, NODES, SITING_DC, SITING_FILES } from "@/lib/sitingdata";
 import { AllGridsForm } from "./AllGridsForm";
 import { AllGridsNodes } from "./AllGridsNodes";
+import { AllGridsDownload } from "./AllGridsDownload";
 
 // Session 700 (chain 050, docs/methods/siting.md): the All grids tab of "What a datacenter pays". The questions "Your
 // load" answers for one region (what a load pays, when it connects, how clean the power is) for every grid, hub and
@@ -440,6 +441,16 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
             {" "}{shown.length} of {hubs.length} rows shown{x.grids.length ? `, in ${x.grids.map((g) => GRID_NAMES[g]).join(", ")}` : ""}{x.kind !== "all" ? `, ${x.kind === "zone" ? "load zones" : "hubs"} only` : ""}{x.band ? `, energy from USD ${x.band[0]} to ${x.band[1]} per MWh` : ""}{x.held ? ", every cost part held" : ""}. The order is the column&apos;s, not a ranking of sites.
           {x.sort === "utility" ? <> {UTILITY_KINDS_LINE}</> : null}
           </p>
+        ) : null}
+        {/* session 793 (chain 065): the rows shown, downloaded in the page's own figures and words */}
+        {x.rows === "hubs" ? (
+          <AllGridsDownload
+            head={[`Energy Research Warehouse (ERW): the All grids tab of /cost-of-power ("What a datacenter pays"), ${sitingHref(x)}`,
+              `${/^[aeiou]/i.test(p.label) ? "An" : "A"} ${p.label.toLowerCase()} load of ${x.mw} MW at a load factor of ${x.lf.toFixed(2)}; USD per MWh unless a column says otherwise; a cell the page draws in words is written as those words`,
+              `Tables: ${[...new Set(COLUMNS.flatMap((c) => c.tables))].join(", ")}. Method: docs/methods/siting.md.`]}
+            columns={["row", "grid", "region", ...COLUMNS.map((c) => ({ energy: "energy_usd_mwh", transmission: "transmission_usd_mwh", capacity: "capacity_usd_mwh", connect: "connect_months", headroom: "demand_growth_pct", carbon: "carbon_kg_mwh", utility: "utility_usd_mwh", allin: "allin_usd_mwh" } as Record<string, string>)[c.id] ?? c.id), "utility_kind"]}
+            rows={shown.map((r) => [r.id, GRID_NAMES[r.grid], r.region, ...COLUMNS.map((c) => columnWords(SITING_DC, SITING_FILES, r, x, c.id) ?? columnValue(SITING_DC, SITING_FILES, r, x, c.id)),
+              ({ Bundled: "bundled", Delivery: "delivery only", Energy: "energy only" } as Record<string, string>)[utilityKind(SITING_FILES, r) ?? ""] ?? ""])} />
         ) : null}
         {x.rows === "nodes" ? (
           <>
