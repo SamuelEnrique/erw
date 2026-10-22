@@ -26,6 +26,11 @@ Files:
     connect.json  (session 705) from lbnl_interconnection_queue (public): by grid, the median, quartiles and count of the
                   months from queue entry (q_date) to commercial operation (on_date) of the requests operational and
                   online in the last three whole years of the file's edition; no median under five requests.
+    headroom.json (session 706) from eia860m_planned_generators (public): by grid (balancing authority), the MW and
+                  count of generators due to operate in the twelve months after the table's vintage month, by EIA's
+                  status: under construction or complete (U, V, TS), approvals received (T), and the rest (P, L); and
+                  from eia_state_capacity_annual (public) the newest year's installed net summer capacity of the grids
+                  that are whole states (NYISO: New York; ISO-NE: the six New England states).
 
 Each file names the table it was read from, the table's first and last day and when it was built. A table that cannot
 be found stops the run (exit 1): no file is written from part of a table.
@@ -50,6 +55,10 @@ CAP_MARKETS = ["pjm_bra", "isone_fca", "miso_pra", "nyiso_icap_spot"]
 LBNL_TABLE = "lbnl_interconnection_queue"
 LBNL_GRIDS = {"ERCOT": "ercot", "CAISO": "caiso", "NYISO": "nyiso", "ISO-NE": "isone", "SPP": "spp", "MISO": "miso", "PJM": "pjm"}
 MIN_N = 5
+PLANNED_TABLE, STATECAP_TABLE = "eia860m_planned_generators", "eia_state_capacity_annual"
+BA_GRIDS = {"ERCO": "ercot", "CISO": "caiso", "NYIS": "nyiso", "ISNE": "isone", "SWPP": "spp", "MISO": "miso", "PJM": "pjm"}
+WHOLE_STATES = {"nyiso": ["NY"], "isone": ["CT", "MA", "ME", "NH", "RI", "VT"]}
+CONSTRUCTION, APPROVED = {"U", "V", "TS"}, {"T"}
 PER_MW_YEAR = {"USD/MW-day": 365.0, "USD/kW-month": 12000.0}   # to USD per MW a year
 
 
@@ -168,6 +177,38 @@ def connect_file(path):
     return {"table": LBNL_TABLE, "built": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "vintage": vintage, "from": first, "to": last, "min_n": MIN_N, "grids": grids}
 
 
+def headroom_file(ppath, cpath):
+    """headroom.json's content (session 706)."""
+    with open(ppath, encoding="utf-8") as fh:
+        head = [ln for ln in fh if ln.startswith("#")]
+    vintage = next((h.split("vintage")[-1].strip() for h in head if "vintage" in h), "")
+    p = pd.read_csv(ppath, skiprows=header_rows(ppath), dtype=str, usecols=["balancing_authority", "eia_status", "planned_operation_date", "nameplate_mw"])
+    v0 = pd.Period(vintage, "M")
+    first, last = (v0 + 1).strftime("%Y-%m"), (v0 + 12).strftime("%Y-%m")
+    p["m"] = p["planned_operation_date"].str[:7]
+    p = p[(p["m"] >= first) & (p["m"] <= last)]
+    p["mw"] = pd.to_numeric(p["nameplate_mw"], errors="coerce").fillna(0.0)
+    planned = {}
+    for ba, g in BA_GRIDS.items():
+        x = p[p["balancing_authority"] == ba]
+        c, a = x[x["eia_status"].isin(CONSTRUCTION)], x[x["eia_status"].isin(APPROVED)]
+        o = x[~x["eia_status"].isin(CONSTRUCTION | APPROVED)]
+        planned[g] = {"construction_mw": round(float(c["mw"].sum()), 1), "construction_n": int(len(c)), "approved_mw": round(float(a["mw"].sum()), 1),
+                      "approved_n": int(len(a)), "other_mw": round(float(o["mw"].sum()), 1), "other_n": int(len(o))}
+    s = pd.read_csv(cpath, skiprows=header_rows(cpath), dtype=str, usecols=["entity", "ts_utc", "value"])
+    s = s[s["entity"].str.endswith(":TOT:ALL")]
+    s["state"] = s["entity"].str.split(":").str[1]
+    year = int(s["ts_utc"].max()[:4])
+    s = s[s["ts_utc"].str[:4] == str(year)]
+    cap = {}
+    for g, states in WHOLE_STATES.items():
+        x = s[s["state"].isin(states)]
+        if len(x) == len(states):
+            cap[g] = {"states": states, "year": year, "mw": round(float(pd.to_numeric(x["value"]).sum()), 1)}
+    return {"built": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "planned_table": PLANNED_TABLE, "vintage": vintage, "from": first, "to": last,
+            "planned": planned, "capacity_table": STATECAP_TABLE, "capacity": cap}
+
+
 def write(name, obj, out_dir):
     """Write a file, unless it holds the same content but for its build time (no change, no new commit)."""
     os.makedirs(out_dir, exist_ok=True)
@@ -227,6 +268,15 @@ def main(argv=None):
         return 1
     print(f"{LBNL_TABLE}: " + "; ".join(f"{g} {v['median']} ({v['n']})" for g, v in con["grids"].items()))
     write("connect.json", con, a.out_dir)
+    try:
+        ppath, spath = find(PLANNED_TABLE, a.in_dir), find(STATECAP_TABLE, a.in_dir)
+        print(f"reading {ppath} and {spath}")
+        hr = headroom_file(ppath, spath)
+    except Exception as e:
+        print(f"FAILED: {e}", file=sys.stderr)
+        return 1
+    print(f"{PLANNED_TABLE} {hr['from']} to {hr['to']}: " + "; ".join(f"{g} {v['construction_mw']}" for g, v in hr["planned"].items()))
+    write("headroom.json", hr, a.out_dir)
     if a.internal:
         if not a.rows:
             print("FAILED: --internal needs --rows", file=sys.stderr)

@@ -518,6 +518,56 @@ export function connectCell(f: Files, r: Row): ConnectCell {
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
+// headroom (session 706): demand growth, generation coming in the next twelve months, capacity against the peak
+// ---------------------------------------------------------------------------------------------------------------------
+
+/** "Your load"'s copy of eia930_demand_growth (data/demand_growth.json, lib/demandgrowth.ts's DemandFile), as the tab
+ * reads it: each balancing authority's mean demand by month and year, the last whole year's peak. */
+export type DemandYears = { ytd_through: string; last_year: number; areas: Record<string, { name: string; years: Record<string, Record<string, number>> }> };
+/** data/siting/headroom.json (warehouse/derived/siting_page.py): planned generators by grid from eia860m_planned_generators
+ * (the twelve months after the table's vintage month, by EIA status), and the installed capacity of the grids that are
+ * whole states (eia_state_capacity_annual). */
+export type HeadroomFile = {
+  built: string; planned_table: string; vintage: string; from: string; to: string;
+  planned: Record<string, { construction_mw: number; construction_n: number; approved_mw: number; approved_n: number; other_mw: number; other_n: number }>;
+  capacity_table: string; capacity: Record<string, { states: string[]; year: number; mw: number }>;
+};
+export const BA_OF: Record<string, string> = { ercot: "ERCO", caiso: "CISO", nyiso: "NYIS", isone: "ISNE", spp: "SWPP", miso: "MISO", pjm: "PJM" };
+/** The calendar hours of a month label. */
+const hoursOfMonth = (m: string) => daysIn(m) * 24;
+const monthBack = (m: string, k: number) => {
+  const d = new Date(Date.UTC(Number(m.slice(0, 4)), Number(m.slice(5, 7)) - 1 - k, 1));
+  return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, "0")}`;
+};
+/** Demand growth: the mean demand of the last twelve months the file holds over the twelve before, from the monthly
+ * means weighted by each month's hours. Null when a month of the 24 is not held. */
+export type Growth = { pct: number; mw: number; before: number; from: string; to: string; ba: string };
+export function demandGrowth(d: DemandYears | undefined, grid: string): Growth | { why: string } {
+  const ba = BA_OF[grid], a = ba ? d?.areas[ba] : undefined;
+  if (!d || !a) return { why: `No EIA-930 demand is held for ${GRID_NAMES[grid]}.` };
+  const mean = (end: string) => {
+    let s = 0, h = 0;
+    for (let k = 0; k < 12; k++) {
+      const m = monthBack(end, k), v = a.years[m.slice(0, 4)]?.[`avg_demand_mw_m${m.slice(5, 7)}`];
+      if (v === undefined) return null;
+      s += v * hoursOfMonth(m); h += hoursOfMonth(m);
+    }
+    return s / h;
+  };
+  const to = d.ytd_through, now = mean(to), before = mean(monthBack(to, 12));
+  if (now === null || before === null) return { why: `Twenty-four months of EIA-930 demand ending ${to} are not all held for ${a.name}.` };
+  return { pct: 100 * (now / before - 1), mw: now, before, from: monthBack(to, 11), to, ba };
+}
+/** The grid's installed capacity against its last whole year's peak, for a grid that is whole states; else why. */
+export function capacityOverPeak(d: DemandYears | undefined, h: HeadroomFile | undefined, grid: string): { pct: number; mw: number; peak: number; year: number; peakYear: number; states: string[] } | { why: string } {
+  const c = h?.capacity[grid], a = d?.areas[BA_OF[grid] ?? ""];
+  if (!c) return { why: `${GRID_NAMES[grid]} is not a set of whole states, so the state capacity table (eia_state_capacity_annual) cannot be read as its own. Reserve margins by zone are not held.` };
+  const peak = a?.years[String(d!.last_year)]?.peak_demand_mw;
+  if (!peak) return { why: `${GRID_NAMES[grid]}'s peak demand of ${d?.last_year} is not held.` };
+  return { pct: (100 * c.mw) / peak, mw: c.mw, peak, year: c.year, peakYear: d!.last_year, states: c.states };
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
 // the all-in column (session 702): drawn only where each part is held or is zero by market design
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -542,7 +592,9 @@ export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFil
   /** session 704: the capacity tables' newest periods and zones, no price (data/siting/capacity.json) */
   cap?: CapFile;
   /** session 705: the queue durations (data/siting/connect.json), the rules, ERCOT's large-load reports and the waits */
-  connect?: ConnectFile; rules?: RulesFile; status?: LoadStatus; waits?: WaitsFile };
+  connect?: ConnectFile; rules?: RulesFile; status?: LoadStatus; waits?: WaitsFile;
+  /** session 706: "Your load"'s demand file and the tab's planned generation and state capacity */
+  demand?: DemandYears; headroom?: HeadroomFile };
 /** The figure a check key names, from the files the page reads; undefined when the key names none.
  *   allgrids|rows|hubs, allgrids|rows|nodes                the count of each row set (session 700)
  *   allgrids|energy|<row>|da or rt                         a flat load's price over the last twelve whole months (701);
@@ -554,6 +606,9 @@ export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFil
  *   allgrids|txshare|<row>|<profile key>                   the load's share of the four intervals it ran in (703)
  *   allgrids|allin|<row>|<profile key>                     energy plus transmission plus capacity (703)
  *   allgrids|connect|<row>                                 the grid's median months from queue entry to operation (705)
+ *   allgrids|demand|<row>                                  demand growth, percent, last twelve months over the twelve before (706)
+ *   allgrids|planned|<row>                                 MW under construction due in the twelve months after the vintage (706)
+ *   allgrids|capratio|<row>                                installed capacity over the last whole year's peak, percent (706)
  *   allgrids|llapproved|<row>                              ERCOT's large loads approved to energize, MW, newest report (705)
  *   (capacity, session 704: zero where there is no market, drawn as a figure of 0 with no key; elsewhere held internal,
  *   "license needed", and computed only where the tables are, by warehouse/derived/siting_page.py --internal) */
@@ -585,6 +640,9 @@ export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
     if (p[1] === "txshare") return c.share ?? undefined;
     return p[3] === "firm" ? c.firm : p[3] === "curtailing" ? c.curtailing ?? undefined : c.own ?? undefined;
   }
+  if (p[1] === "demand") { const g = demandGrowth(f.demand, row.grid); return "pct" in g ? g.pct : undefined; }
+  if (p[1] === "planned") return f.headroom?.planned[row.grid]?.construction_mw;
+  if (p[1] === "capratio") { const c = capacityOverPeak(f.demand, f.headroom, row.grid); return "pct" in c ? c.pct : undefined; }
   if (p[1] === "connect" || p[1] === "llapproved") {
     const c = connectCell(f, row);
     return p[1] === "connect" ? ("median" in c.gen ? c.gen.median ?? undefined : undefined) : c.status?.approved;

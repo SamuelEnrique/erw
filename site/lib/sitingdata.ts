@@ -9,11 +9,13 @@ import howSoonJson from "@/data/datacenter/how_soon.json";
 import rulesJson from "@/data/datacenter/rules.json";
 import capJson from "@/data/siting/capacity.json";
 import connectJson from "@/data/siting/connect.json";
+import demandJson from "@/data/demand_growth.json";
+import headroomJson from "@/data/siting/headroom.json";
 import cpJson from "@/data/siting/ercot_4cp.json";
 import nodesJson from "@/data/siting/nodes.json";
 import * as DCL from "@/lib/datacenter";
 import { DELIVERY, INDEX, yearFiles } from "@/lib/datacenterdata";
-import { newestRate, type CapFile, type ConnectFile, type CpFile, type DC, type Files, type LoadStatus, type NodeFile, type RulesFile, type WaitsFile } from "@/lib/siting";
+import { newestRate, type CapFile, type ConnectFile, type CpFile, type DC, type Files, type LoadStatus, type DemandYears, type HeadroomFile, type NodeFile, type RulesFile, type WaitsFile } from "@/lib/siting";
 
 export const NODES = nodesJson as unknown as NodeFile;
 /** Session 702: ERCOT's four summer peak intervals (data/siting/ercot_4cp.json, from ercot_4cp_intervals). */
@@ -25,6 +27,7 @@ export const CAP = capJson as unknown as CapFile;
 /** Session 705: the queue durations, and "Your load"'s own files of rules, ERCOT's reports and the measured waits. */
 export const CONNECT = connectJson as unknown as ConnectFile;
 export const SITING_FILES: Files = { index: INDEX, nodes: NODES, years: yearFiles, cp: CP, rate: RATE, cap: CAP, connect: CONNECT,
-  rules: rulesJson as unknown as RulesFile, status: loadJson as unknown as LoadStatus, waits: howSoonJson as unknown as WaitsFile };
+  rules: rulesJson as unknown as RulesFile, status: loadJson as unknown as LoadStatus, waits: howSoonJson as unknown as WaitsFile,
+  demand: demandJson as unknown as DemandYears, headroom: headroomJson as unknown as HeadroomFile };
 /** Session 701: lib/datacenter.ts's own functions, for lib/siting.ts (one arithmetic for both views). */
 export const SITING_DC: DC = { monthsRuled: DCL.monthsRuled, lastTwelve: DCL.lastTwelve, span: DCL.span, years: DCL.years, expand: DCL.expand, monthsOfYear: DCL.monthsOfYear, monthStarts: DCL.monthStarts };
