@@ -47,6 +47,7 @@ EXEMPT = {
     "/internal/usage": "the internal view's usage counts (the site's own ledger), not a warehouse figure",
     "/internal/waits": "the internal view's list of what waits for the owner, not a warehouse figure",
     "/internal/holds": "the internal view's list of held figures that show (docs/licenses_holds.csv, session 587): addresses, tables and verdicts, no warehouse figure; it reaches lib/supabase.ts only through lib/thesis/server.ts's internalOk",
+    "/internal/siting-gaps": "the internal view's list of the All grids tab's cells not held (site/data/siting/gaps.json, session 713): words only, no figure; it reaches lib/supabase.ts only through lib/thesis/server.ts's internalOk",
     "/internal/findings": "draft finding cards waiting for review; a card's figures are read once it is published, on /research and /research/card/<id>",
     "/thesis": "internal (the Thesis Builder): the runs of its own tables, checked by scripts/check-thesis.mjs",
     "/severance/lease/real": "internal: the RRC lease table lives on a warehouse machine, not on the site's server; its prices go to the client lease tool, which draws no Num",
