@@ -37,7 +37,7 @@ export const RUNS = {
 export type Run = keyof typeof RUNS;
 export const BUYS = { rt: "Real time", da: "Day-ahead" } as const;
 export type Buy = keyof typeof BUYS;
-export type View = "load" | "grids";
+export type View = "load" | "grids" | "allgrids";  // session 700: "allgrids", the All grids tab (lib/siting.ts)
 export type Inputs = { view: View; grid: string; region: string; mw: number; run: Run; n: number; pct: number; shift: number; buy: Buy; gpu: number; pue: number };
 
 /** The two stated defaults a reader can change, each with its source (shown on hover). */
@@ -63,7 +63,7 @@ export function inputsOf(q: Record<string, string | undefined>, index: Index): I
   const run = (Object.keys(RUNS) as Run[]).includes(q.run as Run) ? (q.run as Run) : "flat";
   const buy: Buy = q.buy === "da" ? "da" : "rt";
   return {
-    view: q.view === "grids" ? "grids" : "load", grid, region, run, buy,
+    view: q.view === "grids" ? "grids" : q.view === "allgrids" ? "allgrids" : "load", grid, region, run, buy,
     mw: numOf(q.mw, DEFAULTS.mw, LIMITS.mw), n: Math.round(numOf(q.n, DEFAULTS.n, LIMITS.n)), pct: numOf(q.pct, DEFAULTS.pct, LIMITS.pct),
     shift: numOf(q.shift, DEFAULTS.shift, LIMITS.shift), gpu: numOf(q.gpu, DEFAULTS.gpu, LIMITS.gpu), pue: numOf(q.pue, DEFAULTS.pue, LIMITS.pue),
   };
@@ -72,6 +72,7 @@ export function hrefOf(x: Inputs, change: Partial<Inputs> = {}): string {
   const y = { ...x, ...change };
   const q = new URLSearchParams();
   if (y.view === "grids") return "/cost-of-power?view=grids";
+  if (y.view === "allgrids") return "/cost-of-power?view=allgrids";
   q.set("grid", y.grid);
   if (y.region) q.set("region", y.region);
   q.set("mw", String(y.mw)); q.set("run", y.run);
