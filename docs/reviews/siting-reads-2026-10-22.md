@@ -81,3 +81,10 @@ On a build of `wip/760-allgrids` (chain 063's 744 to 760: the node's intraday sw
 - **The answers**: the hub table 148 to 175 ms warm (1,179 ms first), the node list 200 to 246 ms, a node's panel 185 to 201 ms, the headroom sort 42 to 52 ms.
 - **The build**: compiled in 14.0 s, TypeScript 29.0 s, about 70 seconds in all.
 - **The pages**: the hub table 1,584,788 bytes, unchanged since 737. The node list 340,129 bytes, from 319,756 at 737: the swing column, 20 KB.
+
+## Again (session 783, chain 064)
+
+On production (chain 064's 766 to 777 served since 21:30 UTC), 22 October 2026 at about 21:43 UTC.
+
+- **The tab still makes no read of the database**: chain 064 added no server read (772's class filter and 777's hand-over work in the browser), `tests/test_session716.py` holds on this branch, and session 761's timed run (0 read lines) stands for the server's code.
+- **The pages**: the hub table 1,585,500 bytes (unchanged since 737); **the node list 226,915 bytes**, from 340,129 at 761, after 777's hand-over column by column; the third card 41,388 bytes.

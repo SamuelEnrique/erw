@@ -82,3 +82,11 @@ The sixteen steps again on production (chains 050, 062 and 063's 744 to 756 serv
 | 15 | The 390 layout | The same |
 | 16 | No search | "Find a node by name": `nq=RN` shows 406 of 873 |
 | new | | **One fault**: the sort line read "Sorted by basis to hb_hubavg", the hub's name lowercased with the heading. Only the first letter is lowered now (test 757) |
+
+## Walked again (session 778, chain 064)
+
+The 17 steps (757's sixteen and the class filter) again on production (chain 064's 766 to 777 served since 21:30 UTC), 22 October 2026 at about 21:33 UTC. Shots: `docs/brand/review-778/`.
+
+- **Every figure the walk reads is the same** as at session 757's walk: each step's figure lines compared, 0 differing.
+- **757's fix is served**: "Sorted by basis to HB_HUBAVG". **772's class filter**: the storage nodes alone, 238 of 873, by their swing.
+- **No step fails and no new fault was found.**

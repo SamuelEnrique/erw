@@ -29,7 +29,13 @@
 
 ## The landing
 
-With 766 to 781, in session 781.
+Sessions 766 to 777 landed in one push (`task/766-777-allgrids`, commit `59ce3050`), merged into main at 21:29 UTC (`587d192e`, run 39855479271). The landing the chain file put at 771 was moved here, so 778 to 780 walk a production that holds 772 to 777.
+
+- **The gate** (on `59ce3050`): freeze 0; main in the commit; no `task/` branch in flight; suite 5,960 tests OK (304 skipped); npm ci 0; build 0; check-values 7,990 of 7,991 values equal. The ten held floors failed, and the 21 October Digest's revised WTI (production the same).
+- **The steps after check-values**, on a build of the same commit (lock `s777b`, built on `db_probe`'s 0): check-routes 0 (226 pages, 0 failed), check-cross-checks 0 (92 of 92), check-csp 0 (97 pages, 0 violations).
+- **Before the push**: freeze status 0; no other `task/` branch but `task/198-battery-data`; the push conditional on the ancestry check (0).
+- **Snapshots**: `s777-before` at 21:13 UTC; the push at 21:13:26. Vercel's status on `587d192e`: "Deployment has completed" (21:30:21). Production showed 773's card at 21:30:43. `compare s777-before s777-after`: **0 differences** on 25 pages, expected (every page is in review).
+- The merged `wip/777-allgrids` and `wip/765-records` were deleted on GitHub; the worktrees of 765r and 766 to 777 removed.
 
 ## Decisions made without you
 

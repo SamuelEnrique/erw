@@ -57,3 +57,7 @@ Each kind of row above, its state after chain 062's sessions 722 to 740 (`docs/r
 ## State on 22 October 2026, night (chain 063)
 
 Read again by sessions 751 to 756 at 18:35 UTC: **no row changed state.** Large-load tariffs, reserve margins, a load's own wait, a node's place, substations and lines stay open; capacity prices wait on a ruling; utility territories stay filled and a zone's demand growth filled in part. One thing found that was held and unused, now drawn: the node's intraday swing (`node_basis_daily`, `dam_spread_4h`, session 746).
+
+## State on 22 October 2026, late (chain 064)
+
+Read again by session 771 at 20:27 UTC: **no row changed state.** The tables chain 064 waited on have not landed.

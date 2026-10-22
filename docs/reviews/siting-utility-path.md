@@ -68,3 +68,11 @@ The twelve steps again on production, 22 October 2026 at about 19:25 UTC, with o
 | 9 to 12 | Zones only; heavy industry; 390; the gaps | The same |
 
 No step fails that held before, and no new fault was found.
+
+## Walked again (session 779, chain 064)
+
+The 12 steps (758's) again on production (chain 064's 766 to 777 served since 21:30 UTC), 22 October 2026 at about 21:36 UTC. Shots: `docs/brand/review-779/`.
+
+- **Every figure the walk reads is the same** as at session 758's walk: each step's figure lines compared, 0 differing.
+- **726's kinds and 728's zone lines are served** as at 758.
+- **No step fails and no new fault was found.**

@@ -275,8 +275,11 @@ def table_figures(repo, tables, chosen):
     out = {}
     nodes = read_json(repo, "siting", "nodes.json")
     want = {f"ercot:{n}" for n in chosen}
-    days, swing = {}, {}
+    days, swing, store = {}, {}, {}
     for r in table_rows(os.path.join(tables, "node_basis_daily.csv")):
+        # session 781: every storage node's swing, for the third card (siting_battery_swing)
+        if r["variable"] == "dam_spread_4h" and r.get("x_class") == "storage" and nodes["pct_from"] <= r["ts_utc"][:7] <= nodes["pct_to"] and r["value"] not in ("", None):
+            store.setdefault(r["entity"], []).append(float(r["value"]))
         if r["entity"] in want and nodes["pct_from"] <= r["ts_utc"][:7] <= nodes["pct_to"] and r["value"] not in ("", None):
             if r["variable"] == "dam_basis":
                 days.setdefault(r["entity"], []).append(float(r["value"]))
@@ -285,6 +288,15 @@ def table_figures(repo, tables, chosen):
     # session 746: the intraday swing's mean, rounded as the tab's file writes it
     for e, xs in swing.items():
         out[f"allgrids|nodeswing|{e}"] = round(sum(xs) / len(xs), 4)
+    # session 781: the third card: storage nodes holding 90 percent of the most days any node holds, their mean swing
+    if store:
+        held = max(n["swing"][3] for n in nodes["nodes"] if n.get("swing"))
+        means = sorted(round(sum(xs) / len(xs), 4) for xs in store.values() if len(xs) >= 0.9 * held)
+        k = len(means)
+        out["card|siting_battery_swing|nodes"] = float(k)
+        out["card|siting_battery_swing|widest"] = means[-1]
+        out["card|siting_battery_swing|narrowest"] = means[0]
+        out["card|siting_battery_swing|median"] = means[(k - 1) // 2] if k % 2 else (means[k // 2 - 1] + means[k // 2]) / 2
     for e, xs in days.items():
         # the tab's file rounds each percentile to four decimals; the list draws the 90th less the 10th
         out[f"allgrids|nodespread|{e}"] = round(quantile(xs, 0.9), 4) - round(quantile(xs, 0.1), 4)
@@ -470,6 +482,12 @@ def main(argv=None):
     try:
         card = read_json(a.repo, "findings", "siting_flexible.json")["numbers"]
         page["card|siting_flexible|hub_flat"], page["card|siting_flexible|hub_flex"] = card["hub_flat"], card["hub_flex"]
+    except (OSError, KeyError):
+        pass
+    try:   # session 781: the third card's figures, from its file
+        b = read_json(a.repo, "findings", "siting_battery_swing.json")["numbers"]
+        page.update({"card|siting_battery_swing|nodes": float(b["nodes"]), "card|siting_battery_swing|widest": b["widest"],
+                     "card|siting_battery_swing|narrowest": b["narrowest"], "card|siting_battery_swing|median": b["median"]})
     except (OSError, KeyError):
         pass
     bad = 0

@@ -1,6 +1,16 @@
 # Where can a large load go: the All grids tab of "What a datacenter pays"
 
-Version 3, session 762, 22 October 2026 (chain 063, `queue/done/063-evening-22-october-code-allgrids-3.md`); version 2 was session 740's (chain 062), version 1 session 712's (chain 050), version 0 session 700's. Internal: the tab is in review, like every page.
+Version 4, session 784, 22 October 2026 (chain 064, `queue/done/064-night-22-october-code-allgrids-4.md`); version 3 was session 762's (chain 063), version 2 session 740's (chain 062), version 1 session 712's (chain 050), version 0 session 700's. Internal: the tab is in review, like every page.
+
+## What version 4 changed (chain 064, sessions 766 to 784)
+
+- **The node list by class** (772): storage, gas, wind, solar, mixed or other, as ERCOT's disclosures settle a node (`node_basis_daily`, `x_class`), kept in the address (`ncls`).
+- **The third card** (773): ERCOT's storage nodes holding 90 percent of the table's days, by their day-ahead intraday swing; the research topic "Power prices" takes `node_basis_daily`.
+- **The tab's keys proved whole** (774): a test that every key kind the tab draws has its branch in `sitingStat`.
+- **The two views side by side** (775): `docs/reviews/siting-two-views.md`; equal, or different by design and said so.
+- **The node list's rows handed over column by column** (777): the same values, the page a third lighter (decision 25).
+- **The replication** computes the third card from the table (781).
+- **Nothing ruled, nothing landed** (767 to 771).
 
 ## What version 3 changed (chain 063, sessions 744 to 762)
 
@@ -114,6 +124,7 @@ A profile sets three inputs (the load factor, the curtailment rule, whether the 
 22. 2026-10-22, 730 (chain 062): a large-load rate is taken as the newest one whose minimum demand the load meets; its demand and fixed charges are spread over the MWh the load draws in a 730-hour month, as the four-peak charge is; its energy charge is kept apart, since a bundled rate's energy is a retail price. Not wired until `utility_large_load_tariffs` lands.
 23. 2026-10-22, 737 (chain 062): the tab's tip box is styled once in `tokens.css` (keyed `data-tp`), not by a class list on each tip; the words and the look are the same.
 24. 2026-10-22, 746 (chain 063): a node's day-ahead intraday swing is `node_basis_daily`'s `dam_spread_4h` (each day's four dearest hours' mean less its four cheapest) over the days the node holds in the node file's twelve months: its mean in the node list (a sortable column, in the download too) and its mean, 10th and 90th percentile in the node's panel. A node with few days held has a swing over those days alone; the panel says how many.
+25. 2026-10-22, 777 (chain 064): the node list's rows reach the browser column by column (`nodeColumns`, `nodeRowsOf`), the id rebuilt from the node's name; every value is the same, held by a test.
 
 ## The limits
 
