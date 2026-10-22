@@ -86,7 +86,7 @@ For each story in the request, return one result with:
 - price_mentioned: a price or dollar amount stated in the title or summary, verbatim, else null. Whenever the title or summary states a price or a dollar amount, you must fill this field with the first one, verbatim; null only when none is stated
 - parties: companies, agencies or governments named as parties to the story (may be empty)
 - headline: a plain headline of at most 14 words stating what happened, no hype, no question marks
-- one_line_why: under 25 words, why an energy professional should care; plain, no hype
+- one_line_why: one sentence, under 25 words: the consequence of the story for the energy system or the market (who pays, what gets built or cancelled, which price or flow moves, what rule changes), not a restatement of the title; no adjective such as massive, unprecedented, significant, major, critical, key or huge; no figure the title already gives; plain, no hype
 - is_duplicate_of: the id of an EARLIER story (from the reference list, or earlier in this request) about the same event, else null
 
 Use only what the title and summary say. Do not invent numbers or parties. The headline and one_line_why must not mention AI, artificial intelligence, datacenters, data centers or compute unless the story's own title or summary does; judge and describe the energy consequences. Return every story exactly once."""

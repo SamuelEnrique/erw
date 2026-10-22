@@ -436,8 +436,11 @@ def an_word(word):
     return w[:1] in "aeiou"
 
 
-# Session 470 (digest audit fix 8): the why lines are the scorer's reasons; docs/voice.md cuts these adjectives
-HYPE = r"(?:major|massive|significant|significantly|huge)"
+# Session 470 (digest audit fix 8): the why lines are the scorer's reasons; docs/voice.md cuts these adjectives.
+# Session 801 (docs/reviews/periodicals-plan-2026-10-23.md, Digest change 1): the list of seven the plan counted over the 13
+# issues (107 of 397 why lines): massive, unprecedented, significant, major, critical, key, huge; and their adverbs.
+WHY_ADJECTIVES = ("massive", "unprecedented", "significant", "major", "critical", "key", "huge")
+HYPE = r"(?:major|massive|significant|significantly|huge|unprecedented|critical|critically|key)"
 
 
 def plain(text):
@@ -452,25 +455,142 @@ def plain(text):
     return re.sub(rf"\b{HYPE}\s+", "", t, flags=re.I)
 
 
-def why_line(text):
-    """Session 577 (digest audit fixes 8 and 9, as session 470 left them): the scorer's reason as an issue prints it: the
-    adjectives docs/voice.md cuts taken out (plain), each sum of money in the one style (money_style: the "$3.2bn" and
-    "$45 Billion" of the why lines, not only the price field), and a stop at its end, so the figures or the links that
-    follow do not run on from it ("affecting global oil markets and prices parties: Iran.", 20 October, top 8)."""
-    t = money_style(plain(text)).strip()
-    # "an $800MM loan" was right as written; as "USD 800 million" the article follows the code as it is said
-    t = re.sub(r"\b([Aa])n? (USD|CAD|EUR|GBP|AUD)\b",
-               lambda m: m.group(1) + ("n " if m.group(2) == "AUD" else " ") + m.group(2), t)
+NUMBER = re.compile(r"\d[\d,]*(?:\.\d+)?")
+# a sentence's end: a stop, then a space and a capital or a digit; not after one capital letter ("U.S. Department"), an
+# initial, or an abbreviation of ABBREVIATIONS ("Oct. 6", "Inc. and", "No. 5")
+SENTENCE_END = re.compile(r"[.!?][\"'”)\]]*\s+(?=[A-Z0-9])")
+ABBREVIATIONS = set("jan feb mar apr jun jul aug sep sept oct nov dec inc corp ltd co no vs mr ms mrs dr st mt approx est "
+                    "fig vol pp".split())
+
+
+def sentence_end(t):
+    """The match of the first sentence's end in t (SENTENCE_END, skipping an abbreviation's stop), or None."""
+    for m in SENTENCE_END.finditer(t):
+        before = re.search(r"([A-Za-z.]+)$", t[:m.start()])
+        w = before.group(1) if before else ""
+        if "." in w or (len(w) == 1 and w.isupper()) or w.lower() in ABBREVIATIONS:
+            continue
+        return m
+    return None
+# a figure as a why line prints it: a sum of money in the one style, or a number with its unit or percent sign
+FIGURE_PHRASE = (r"(?:(?:USD|CAD|AUD|EUR|GBP)\s)?{n}(?:\s?(?:billion|million|trillion|thousand|bn|mn|m|b|k)\b)?"
+                 r"(?:(?:\s|-)?(?:%|percent|GW|MW|GWh|MWh|TWh|kV|bcf|Bcf|mcf|MMcf|mtpa|Mt|MMBtu|bpd|b/d|barrels|tons|tonnes|miles|km)"
+                 r"(?:/d(?:ay)?)?)?")
+
+
+def figures_of(text):
+    """The numbers of a text, as plain strings ("6,600" and "6600" are one), years left out: the figures a headline gives
+    are its amounts, and "by 2032" in a why line adds no figure the headline already holds."""
+    out = set()
+    for n in NUMBER.findall(str(text) or ""):
+        v = n.replace(",", "")
+        if re.fullmatch(r"(19|20)\d\d", v):
+            continue
+        out.add(v)
+    return out
+
+
+def why_check(text, head=""):
+    """Session 801: the rule of the why line, as the brief's gate: one sentence; no adjective of WHY_ADJECTIVES; no figure
+    the headline already gives; not empty. The problems found, as short strings; [] when the line passes. The scorer's
+    prompt asks the model for the same, but a prompt is not a check: a line that fails here is rewritten by why_line."""
+    t = str(text or "").strip()
+    if not t:
+        return ["empty"]
+    out = [f"adjective: {m.lower()}" for m in re.findall(rf"\b{HYPE}\b", t, flags=re.I)]
+    if sentence_end(t):
+        out.append("two sentences")
+    for n in sorted(figures_of(t) & figures_of(head)):
+        out.append(f"figure of the headline: {n}")
+    return out
+
+
+def why_fallback(title):
+    """The title's own clause as the why line, never an invented fact (session 801): the publisher's suffix ("- Reuters",
+    "| Outlet"), a leading "Exclusive:" and a trailing ", Bloomberg reports" taken off, a stop at the end."""
+    t = money_style(nodash(str(title or ""))).strip()
+    t = re.sub(r"^(?:exclusive|breaking|update \d*|analysis|explainer)\s*[:|]\s*", "", t, flags=re.I)
+    t = re.sub(r"\s+[-|]\s+[\w.&' ]{1,40}$", "", t)
+    t = re.sub(r",?\s+(?:[A-Z][\w.]*\s)?(?:reports?|says)$", "", t)
+    t = t.strip(" ,;:")
     if t and not re.search(r"[.!?][\"'”)\]]*$", t):
         t += "."
     return t
 
 
-def detail(r):
+# the words before a figure phrase after which the phrase can go and the sentence still reads ("a 600 MW load" to "a load",
+# "at 11 PJM reactors" to "at PJM reactors"); after a verb or "of" ("totaling 2.1 GW", "a total of 2.1 GW") it cannot
+BEFORE_FIGURE = r"(?:a|an|the|its|their|this|at|for|with|about|over|nearly|some|around|up to|another|new)"
+
+
+def fix_article(t):
+    """'a uprate' to 'an uprate' and 'an load' to 'a load', after a figure between the article and its noun is gone."""
+    def one(m):
+        art, word = m.group(1), m.group(2)
+        want = "an" if an_word(word) else "a"
+        if art.lower() == want:
+            return m.group(0)
+        return (want.capitalize() if art[0] == "A" else want) + " " + word
+    return re.sub(r"\b(an|a|An|A)\s+(\w+)", one, t)
+
+
+def without_figures(t, head):
+    """The line with every figure phrase the headline already gives taken out where the sentence still reads: the phrase
+    follows an article or a preposition (BEFORE_FIGURE) and a word follows it. "" when a phrase cannot go that way, or
+    what is left is not a sentence (under four words, or not starting with a letter): the caller then falls back."""
+    for n in sorted(figures_of(head), key=len, reverse=True):
+        if n not in figures_of(t):
+            continue
+        shown = next((m for m in NUMBER.findall(t) if m.replace(",", "") == n), n)
+        pat = re.compile(r"(?<![\w.,])" + FIGURE_PHRASE.format(n=re.escape(shown)) + r"(?=\s+[A-Za-z])", re.I)
+        m = pat.search(t)
+        if not m or not re.search(r"(?:^|\s)" + BEFORE_FIGURE + r"\s*$", t[:m.start()], re.I):
+            return ""
+        t = (t[:m.start()] + t[m.end():]).replace("  ", " ")
+        t = fix_article(re.sub(r"\s+([,;:.])", r"\1", t).strip(" ,;:"))
+    words = re.findall(r"[A-Za-z]+", t)
+    if len(words) < 4 or not re.match(r"[A-Za-z\"'(]", t):
+        return ""
+    return t[0].upper() + t[1:]
+
+
+def why_line(text, head=""):
+    """Session 577 (digest audit fixes 8 and 9, as session 470 left them): the scorer's reason as an issue prints it: the
+    adjectives docs/voice.md cuts taken out (plain), each sum of money in the one style (money_style: the "$3.2bn" and
+    "$45 Billion" of the why lines, not only the price field), and a stop at its end, so the figures or the links that
+    follow do not run on from it ("affecting global oil markets and prices parties: Iran.", 20 October, top 8).
+    Session 801: with the printed headline (`head`) the line is held to why_check's rule: its first sentence only, and
+    no figure the headline already gives (the phrase is taken out); what fails the check after that, or is left too
+    short, is replaced by the headline's own clause (why_fallback), never by an invented fact."""
+    t = money_style(plain(text)).strip()
+    # "an $800MM loan" was right as written; as "USD 800 million" the article follows the code as it is said
+    t = re.sub(r"\b([Aa])n? (USD|CAD|EUR|GBP|AUD)\b",
+               lambda m: m.group(1) + ("n " if m.group(2) == "AUD" else " ") + m.group(2), t)
+    if head:
+        m = sentence_end(t)
+        if m:
+            t = t[:m.start()] + t[m.start():m.end()].rstrip()
+        if figures_of(t) & figures_of(head):
+            t = without_figures(t, head)
+        if t and not re.search(r"[.!?][\"'”)\]]*$", t):
+            t += "."
+        if why_check(t, head):
+            return why_fallback(head)
+        return t
+    if t and not re.search(r"[.!?][\"'”)\]]*$", t):
+        t += "."
+    return t
+
+
+def detail(r, head=""):
+    """The figures line after the why line: the MW, the price and the parties of the cluster's scored fields. Session 801:
+    a MW or a price whose figure the printed headline already gives is not printed again ("Anthropic may spend $750 Billion
+    ... $750 Billion; parties: Anthropic", 21 October, top 1)."""
     bits = []
-    if r["mw"]:
+    hf = figures_of(head)
+    if r["mw"] and not figures_of(f"{float(r['mw']):,.0f}") & hf:
         bits.append(f"{float(r['mw']):,.0f} MW")
-    if r["price"]:
+    if r["price"] and not (figures_of(r["price"]) and figures_of(r["price"]) <= hf):
         bits.append(money_style(r["price"]))  # session 470
     if r["parties"]:
         bits.append("parties: " + r["parties"])
@@ -664,7 +784,7 @@ def policy_actions_lines(start, end, log, n=3):
     a = a.sort_values(["sig", "event_date"], ascending=[False, False]).head(n)
     kinds = {"rule": "final rule", "proposed_rule": "proposed rule", "notice": "notice", "press_release": "news release"}
     log(f"  policy actions: {len(a)} scored 5 or more in the window")
-    return [f"- {r['title']} ({r['agency']} {kinds.get(r['action_type'], r['action_type'])}, policy action): {why_line(r['why'])} "
+    return [f"- {r['title']} ({r['agency']} {kinds.get(r['action_type'], r['action_type'])}, policy action): {why_line(r['why'], r['title'])} "
             f"[{r['agency']}]({r['source_url']})" for r in a.to_dict("records")]
 
 
@@ -890,7 +1010,8 @@ def main(argv=None):
              "## Top of the industry", ""]
         for i, r in enumerate(top10.to_dict("records"), 1):
             L.append(f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')})  ")
-            L.append(f"   {why_line(r['why'])} {detail(r)}Sources: {link_text(r['links'])}")
+            L.append(f"   {why_line(r['why'], heads[r['cluster_id']])} {detail(r, heads[r['cluster_id']])}Sources: "
+                     f"{link_text(r['links'])}")
         L += ["", "## By sector", ""]
         for g, c in by_group.items():
             L.append(f"**{g}**")
@@ -898,7 +1019,8 @@ def main(argv=None):
             if c.empty:
                 L.append("- no scored story in this group today")
             for r in c.to_dict("records"):
-                L.append(f"- {heads[r['cluster_id']]} ({r['sector'].replace('_', ' ')}): {why_line(r['why'])} {link_text(r['links'][:1])}")
+                L.append(f"- {heads[r['cluster_id']]} ({r['sector'].replace('_', ' ')}): "
+                         f"{why_line(r['why'], heads[r['cluster_id']])} {link_text(r['links'][:1])}")
             if g == "Policy":
                 L += without_repeats(policy_actions_lines(now - pd.Timedelta(hours=args.hours), now, log), L, log)
             L.append("")
@@ -906,7 +1028,7 @@ def main(argv=None):
         if ai.empty:
             L.append("- no further story on AI and power today (any such story is listed above)")
         for r in ai.to_dict("records"):
-            L.append(f"- {heads[r['cluster_id']]} ({r['sector'].replace('_', ' ')}): {why_line(r['why'])} "
+            L.append(f"- {heads[r['cluster_id']]} ({r['sector'].replace('_', ' ')}): {why_line(r['why'], heads[r['cluster_id']])} "
                      f"{link_text(r['links'][:1])}")
         nums = numbers_today(digest_date, log)
         summary, su = (None, []) if args.no_model else numbers_summary(client, model, nums, log)
