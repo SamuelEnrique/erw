@@ -397,7 +397,9 @@ def drop_repeated_items(lines, log):
         urls |= u
         out += block
     n, fixed = 0, []
-    for ln in out:  # the top items numbered again, 1 to n
+    for ln in out:  # the top items numbered again, 1 to n; session 806: each section's list from 1 (the Roundup has two)
+        if ln.startswith("## "):
+            n = 0
         m = re.match(r"^(\d+)\. (\*\*.*)$", ln)
         if m:
             n += 1
