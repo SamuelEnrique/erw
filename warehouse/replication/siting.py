@@ -13,7 +13,13 @@ from its sources and prints it beside the page's own:
                                              the Commission's rate (site/data/siting, site/data/datacenter): tables held
                                              out of the live set for its size or their terms
 
-    python warehouse/replication/siting.py --repo . [--page http://localhost:3000]
+    python warehouse/replication/siting.py --repo . [--page http://localhost:3000] [--tables DIR]
+
+Session 735 (chain 062): with --tables, a folder holding the warehouse's own CSVs (node_basis_daily.csv and
+eia930_subba_demand_hourly_<year>.csv, as warehouse/output or runs/archive_restore hold them), it also computes the node
+list's basis spread (724) for the three nodes, and each named zone's demand growth (728), from the tables' rows. The
+second card (734, site/data/findings/siting_flexible.json) is set beside the replication's own all-in figures at
+HB_HUBAVG, flat and flexible.
 
 SUPABASE_URL and SUPABASE_ANON_KEY are read from the environment (the anon key: what any reader of the site may use).
 With --page, the page's addresses are read with the internal cookie (INTERNAL_COSTS_TOKEN in the environment: the tab is
@@ -245,6 +251,57 @@ def pkey(prof):
     return f"profile={prof}&lf={lf}&strike={'row' if p['strike'] is None else p['strike']}"
 
 
+def table_rows(path):
+    """A warehouse CSV's rows as dicts, its '#' header skipped (standard library only)."""
+    import csv
+    with open(path, encoding="utf-8", newline="") as f:
+        yield from csv.DictReader(line for line in f if not line.startswith("#"))
+
+
+def quantile(xs, q):
+    """The linear-interpolation quantile pandas uses by default."""
+    xs = sorted(xs)
+    pos = (len(xs) - 1) * q
+    lo = math.floor(pos)
+    hi = min(lo + 1, len(xs) - 1)
+    return xs[lo] + (xs[hi] - xs[lo]) * (pos - lo)
+
+
+SUBBA_ROW = {"nyiso:N.Y.C.": "NYIS:ZONJ", "nyiso:NORTH": "NYIS:ZOND", "isone:.Z.SEMASS": "ISNE:4006"}
+
+
+def table_figures(repo, tables, chosen):
+    """Session 735: the node spread and the zone growth from the warehouse's own tables (--tables)."""
+    out = {}
+    nodes = read_json(repo, "siting", "nodes.json")
+    want = {f"ercot:{n}" for n in chosen}
+    days = {}
+    for r in table_rows(os.path.join(tables, "node_basis_daily.csv")):
+        if r["variable"] == "dam_basis" and r["entity"] in want and nodes["pct_from"] <= r["ts_utc"][:7] <= nodes["pct_to"] and r["value"] not in ("", None):
+            days.setdefault(r["entity"], []).append(float(r["value"]))
+    for e, xs in days.items():
+        # the tab's file rounds each percentile to four decimals; the list draws the 90th less the 10th
+        out[f"allgrids|nodespread|{e}"] = round(quantile(xs, 0.9), 4) - round(quantile(xs, 0.1), 4)
+    yrs = sorted(int(n[len("eia930_subba_demand_hourly_"):-4]) for n in os.listdir(tables)
+                 if n.startswith("eia930_subba_demand_hourly_") and n[len("eia930_subba_demand_hourly_"):-4].isdigit())
+    if len(yrs) >= 2:
+        means = {}
+        for y in yrs[-2:]:
+            s = {}
+            for r in table_rows(os.path.join(tables, f"eia930_subba_demand_hourly_{y}.csv")):
+                sub = r["entity"].split(":", 1)[1] if r["entity"].startswith("eia930_subba:") else None
+                if sub in SUBBA_ROW.values() and r["variable"] == "demand_mw" and r["value"] not in ("", None):
+                    a = s.setdefault(sub, [0.0, 0])
+                    a[0] += float(r["value"])
+                    a[1] += 1
+            means[y] = {k: v[0] / v[1] for k, v in s.items() if v[1]}
+        p, y = yrs[-2], yrs[-1]
+        for row, sub in SUBBA_ROW.items():
+            if sub in means[y] and sub in means[p]:
+                out[f"allgrids|zonegrowth|{row}"] = round(100 * (means[y][sub] / means[p][sub] - 1), 4)
+    return out
+
+
 def figures(repo, base, key):
     index = read_json(repo, "datacenter", "index.json")
     nodes = read_json(repo, "siting", "nodes.json")
@@ -367,6 +424,10 @@ def figures(repo, base, key):
                 hours += 1
         if of and hours >= 0.9 * of and e:
             out[f"allgrids|carbonh|{rid}|{pkey('electrolyzer')}"] = s / e
+    # session 735: the second card's HB_HUBAVG figures, the replication's own all-in, flat and flexible
+    out["card|siting_flexible|hub_flat"] = out.get(f"allgrids|allin|ercot:HB_HUBAVG|{pkey('datacenter')}")
+    out["card|siting_flexible|hub_flex"] = out.get(f"allgrids|allin|ercot:HB_HUBAVG|{pkey('flexible')}")
+    out["_chosen"] = [n["id"] for n in chosen]
     return out
 
 
@@ -379,6 +440,7 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description="The All grids tab's figures, a second time")
     ap.add_argument("--repo", default=".", help="the repository's checkout (its site/data files)")
     ap.add_argument("--page", help="a build of the site to set the figures beside (e.g. http://localhost:3000)")
+    ap.add_argument("--tables", help="session 735: a folder of the warehouse's CSVs (node_basis_daily, eia930_subba_demand_hourly_<year>)")
     a = ap.parse_args(argv)
     url, key = os.environ.get("SUPABASE_URL", "").rstrip("/"), os.environ.get("SUPABASE_ANON_KEY", "")
     if not url or not key:
@@ -387,6 +449,9 @@ def main(argv=None):
     base = url if url.endswith("/rest/v1") else f"{url}/rest/v1"
     try:
         got = figures(a.repo, base, key)
+        chosen = got.pop("_chosen", [])
+        if a.tables:
+            got.update(table_figures(a.repo, a.tables, chosen))
     except Exception as e:
         print(f"FAILED: {type(e).__name__}: {e}", file=sys.stderr)
         return 1
@@ -395,6 +460,12 @@ def main(argv=None):
         token = os.environ.get("INTERNAL_COSTS_TOKEN", "")
         for p in PAGES:
             page.update(page_keys(a.page.rstrip("/"), token, p))
+    # session 735: the second card's figures, from its file
+    try:
+        card = read_json(a.repo, "findings", "siting_flexible.json")["numbers"]
+        page["card|siting_flexible|hub_flat"], page["card|siting_flexible|hub_flex"] = card["hub_flat"], card["hub_flex"]
+    except (OSError, KeyError):
+        pass
     bad = 0
     print(f"{'key':<100} {'replication':>16} {'page':>16}  equal")
     for k, v in sorted(got.items()):
