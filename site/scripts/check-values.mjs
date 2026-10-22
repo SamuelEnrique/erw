@@ -104,6 +104,11 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/cost-of-power?view=allgrids", "/cost-of-power?view=allgrids&rows=nodes",
   // session 702: the three other profiles, each at its defaults
   "/cost-of-power?view=allgrids&profile=flexible", "/cost-of-power?view=allgrids&profile=electrolyzer", "/cost-of-power?view=allgrids&profile=industry",
+  // session 710: the screen sorted by the all-in figure with A and B set (ERCOT's hub average against CAISO's SP15), and the
+  // node list sorted by energy, largest first
+  "/cost-of-power?view=allgrids&sort=allin&a=ercot%3AHB_HUBAVG&b=nyiso%3AN.Y.C.", "/cost-of-power?view=allgrids&rows=nodes&nsort=energy&ndir=desc",
+  // session 711: a node's panel
+  "/cost-of-power?view=allgrids&rows=nodes&node=ercot%3A7RNCHSLR_ALL",
   // session 51: the seller's tab, its defaults and three other assets
   // session 347: the economic impact tool, its defaults and three other views (a size, cost, local content and life given)
   "/map?tab=queues", "/map?tab=queues&iso=ercot", "/map?tab=queues&iso=spp",  // session 349: the map's Queues tab (iso_queue_statistics)
@@ -1207,7 +1212,8 @@ async function main() {
       // session 354: ERCOT's load in each of the four summer peak intervals, written whole (/cost-of-power)
       // session 461's landing: the datacenter queue's active MW by grid, written whole (/datacenters?view=grids, session 468)
       // session 497: the queue's active MW on /datacenters?view=grids, written whole (app/datacenters/GridsView.tsx whole())
-      const whole = /(^projects\|mw\|)|(^dcq\|[^|]+\|[^|]+\|active_mw$)|(^datacenters\|(mw_total|state_mw|operator_mw|status_mw|sites_mw|texas_mw))|(^series\|ercot_large_load_status\|)|(^series\|ercot_4cp_intervals\|)|(^series\|storage_buildout_monthly\|[^|]+\|(battery|solar)_(operating|planned)_(mw|mwh)(?!_per_)(_|\|))|(^series\|eia930_demand_growth\|[^|]+\|(avg_demand_mw|peak_demand_mw|ytd_avg_demand_mw|growth_mw_))/.test(check);
+      // session 712: the All grids tab writes MW coming, the year's USD and MWh, B less A in USD and capacity over peak whole
+      const whole = /(^projects\|mw\|)|(^dcq\|[^|]+\|[^|]+\|active_mw$)|(^datacenters\|(mw_total|state_mw|operator_mw|status_mw|sites_mw|texas_mw))|(^series\|ercot_large_load_status\|)|(^series\|ercot_4cp_intervals\|)|(^series\|storage_buildout_monthly\|[^|]+\|(battery|solar)_(operating|planned)_(mw|mwh)(?!_per_)(_|\|))|(^series\|eia930_demand_growth\|[^|]+\|(avg_demand_mw|peak_demand_mw|ytd_avg_demand_mw|growth_mw_))|(^allgrids\|(planned|year|mwh|yeardiff|capratio)\|)/.test(check);
       // session 76: an hour of the day (a variable named ..._hour, a whole number 0 to 23) may be written "09:00" (/shoulder):
       // "16:00" passed the rule below by accident, "09:00" could not
       const hourText = /\|[a-z0-9_]*_hour\|/.test(check) && /^\d{1,2}$/.test(raw) && text.startsWith(`${raw.padStart(2, "0")}:00`);

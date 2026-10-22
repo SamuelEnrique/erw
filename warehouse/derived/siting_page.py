@@ -15,6 +15,8 @@ Files:
                   ERCOT's resource types at it (x_class, x_resource_type), and its day-ahead basis to HB_HUBAVG by Central
                   month, {"YYYY-MM": [mean of the daily basis, days held]}, USD/MWh to four decimals. The node's
                   twelve-month price on the page is the hub's own twelve-month mean plus the mean of these days.
+                  Session 711: "pct", the 10th, 50th and 90th percentile of the node's daily day-ahead basis over the
+                  last twelve whole months the table holds ("pct_from", "pct_to" at the file's top), and the days in it.
     ercot_4cp.json  (session 702) ERCOT's four coincident-peak intervals by summer from ercot_4cp_intervals: each
                   interval's start in UTC, its local time as ERCOT prints it, and ERCOT's load in it (MW); the summers
                   held and the table's own note of what is not held.
@@ -26,6 +28,20 @@ Files:
     connect.json  (session 705) from lbnl_interconnection_queue (public): by grid, the median, quartiles and count of the
                   months from queue entry (q_date) to commercial operation (on_date) of the requests operational and
                   online in the last three whole years of the file's edition; no median under five requests.
+    headroom.json (session 706) from eia860m_planned_generators (public): by grid (balancing authority), the MW and
+                  count of generators due to operate in the twelve months after the table's vintage month, by EIA's
+                  status: under construction or complete (U, V, TS), approvals received (T), and the rest (P, L); and
+                  from eia_state_capacity_annual (public) the newest year's installed net summer capacity of the grids
+                  that are whole states (NYISO: New York; ISO-NE: the six New England states).
+    carbon.json   (session 707) from egrid_power_plants (public): each eGRID subregion's CO2 (tons, CHP-adjusted as eGRID
+                  gives it) and net generation (MWh) summed over its plants, and PJM's over the plants eGRID places in PJM
+                  (ISORTO); and from carbon_intensity_hourly (public), intensity_demand in kg CO2 per MWh, each priced
+                  grid's hours of the years its price window covers, in the grid's standard time (as the price files),
+                  {"s": the first hour held, "v": the values}, to one decimal; an hour not held is null.
+    utility.json  (session 708) from eia861_utility_sales (public): for each state and balancing authority the tab needs,
+                  the utility with the most industrial sales in the newest year, among the rows of EIA's service types
+                  Bundled and Energy (Delivery rows are wires charges), with its industrial sales and revenue that year
+                  and its sales the year before.
 
 Each file names the table it was read from, the table's first and last day and when it was built. A table that cannot
 be found stops the run (exit 1): no file is written from part of a table.
@@ -50,6 +66,16 @@ CAP_MARKETS = ["pjm_bra", "isone_fca", "miso_pra", "nyiso_icap_spot"]
 LBNL_TABLE = "lbnl_interconnection_queue"
 LBNL_GRIDS = {"ERCOT": "ercot", "CAISO": "caiso", "NYISO": "nyiso", "ISO-NE": "isone", "SPP": "spp", "MISO": "miso", "PJM": "pjm"}
 MIN_N = 5
+UTILITY_TABLE = "eia861_utility_sales"
+UTILITY_STATES = [("TX", "ERCO"), ("CA", "CISO"), ("NY", "NYIS"), ("CT", "ISNE"), ("ME", "ISNE"), ("MA", "ISNE"), ("NH", "ISNE"), ("RI", "ISNE"), ("VT", "ISNE"),
+                  ("KS", "SWPP"), ("OK", "SWPP"), ("AR", "MISO"), ("IL", "MISO"), ("IN", "MISO"), ("LA", "MISO"), ("MI", "MISO"), ("MN", "MISO"), ("MS", "MISO"), ("TX", "MISO")]
+EGRID_TABLE, HOURLY_TABLE, HOURLY_VAR = "egrid_power_plants", "carbon_intensity_hourly", "intensity_demand"
+SUBREGIONS = ["ERCT", "CAMX", "NYUP", "NYCW", "NYLI", "NEWE", "SPNO", "SPSO", "MROW", "SRMW", "RFCW", "RFCM", "SRMV"]
+HOURLY_GRIDS = {"ercot": "ERCO", "caiso": "CISO", "nyiso": "NYIS", "isone": "ISNE", "spp": "SWPP"}
+PLANNED_TABLE, STATECAP_TABLE = "eia860m_planned_generators", "eia_state_capacity_annual"
+BA_GRIDS = {"ERCO": "ercot", "CISO": "caiso", "NYIS": "nyiso", "ISNE": "isone", "SWPP": "spp", "MISO": "miso", "PJM": "pjm"}
+WHOLE_STATES = {"nyiso": ["NY"], "isone": ["CT", "MA", "ME", "NH", "RI", "VT"]}
+CONSTRUCTION, APPROVED = {"U", "V", "TS"}, {"T"}
 PER_MW_YEAR = {"USD/MW-day": 365.0, "USD/kW-month": 12000.0}   # to USD per MW a year
 
 
@@ -64,8 +90,11 @@ def header_rows(path):
     return n
 
 
-def find(table, dirs):
-    for d in [OUTPUT, *dirs]:
+def find(table, dirs, first=False):
+    """The table's file: warehouse/output first, then the --in-dir directories in order; with --in-dir-first (session
+    712), the --in-dir directories before warehouse/output (a copy rebuilt from the archive that is newer than this
+    machine's own)."""
+    for d in ([*dirs, OUTPUT] if first else [OUTPUT, *dirs]):
         p = os.path.join(d, f"{table}.csv")
         if os.path.exists(p):
             return p
@@ -86,19 +115,28 @@ def nodes_file(path):
     b = d[(d["variable"] == "dam_basis") & ~d["x_class"].isin(["hub", "zone"])].copy()
     b["m"] = b["ts_utc"].str[:7]
     g = b.groupby(["entity", "m"])["value"].agg(["mean", "count"]).reset_index()
+    # session 711: the last twelve whole months the table holds (a month is whole when the table's last day is past it)
+    months = sorted(b["m"].unique())
+    last_whole = months[-1] if last[8:10] == str(pd.Period(months[-1]).days_in_month) else months[-2]
+    p_to = last_whole
+    p_from = (pd.Period(last_whole, "M") - 11).strftime("%Y-%m")
+    w = b[(b["m"] >= p_from) & (b["m"] <= p_to)]
+    pct = w.groupby("entity")["value"].quantile([0.1, 0.5, 0.9]).unstack()
+    pdays = w.groupby("entity")["value"].count()
     meta = b.drop_duplicates("entity").set_index("entity")[["x_class", "x_resource_type"]]
     nodes = []
     for ent, rows in g.groupby("entity"):
         nodes.append({
             "id": ent.split(":", 1)[1], "cls": str(meta.at[ent, "x_class"]), "types": "" if pd.isna(meta.at[ent, "x_resource_type"]) else str(meta.at[ent, "x_resource_type"]),
             "dam_basis": {r.m: [round(float(r.mean), 4), int(r.count)] for r in rows.itertuples()},
+            **({"pct": [round(float(pct.at[ent, 0.1]), 4), round(float(pct.at[ent, 0.5]), 4), round(float(pct.at[ent, 0.9]), 4), int(pdays[ent])]} if ent in pct.index else {}),
         })
     # a node with no day-ahead basis day is still a node of the table (a point held only in real time)
     for ent in sorted(set(kinds.index[~kinds.isin(["hub", "zone"])]) - set(g["entity"])):
         nodes.append({"id": ent.split(":", 1)[1], "cls": str(kinds[ent]), "types": "", "dam_basis": {}})
     nodes.sort(key=lambda n: n["id"])
     return {"table": NODE_TABLE, "built": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "first": first, "last": last,
-            "points": int(points), "hubs": hubs, "zones": zones, "nodes": nodes}
+            "points": int(points), "hubs": hubs, "zones": zones, "pct_from": p_from, "pct_to": p_to, "nodes": nodes}
 
 
 def cp_file(path):
@@ -168,6 +206,109 @@ def connect_file(path):
     return {"table": LBNL_TABLE, "built": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "vintage": vintage, "from": first, "to": last, "min_n": MIN_N, "grids": grids}
 
 
+def headroom_file(ppath, cpath):
+    """headroom.json's content (session 706)."""
+    with open(ppath, encoding="utf-8") as fh:
+        head = [ln for ln in fh if ln.startswith("#")]
+    vintage = next((h.split("vintage")[-1].strip() for h in head if "vintage" in h), "")
+    p = pd.read_csv(ppath, skiprows=header_rows(ppath), dtype=str, usecols=["balancing_authority", "eia_status", "planned_operation_date", "nameplate_mw"])
+    v0 = pd.Period(vintage, "M")
+    first, last = (v0 + 1).strftime("%Y-%m"), (v0 + 12).strftime("%Y-%m")
+    p["m"] = p["planned_operation_date"].str[:7]
+    p = p[(p["m"] >= first) & (p["m"] <= last)]
+    p["mw"] = pd.to_numeric(p["nameplate_mw"], errors="coerce").fillna(0.0)
+    planned = {}
+    for ba, g in BA_GRIDS.items():
+        x = p[p["balancing_authority"] == ba]
+        c, a = x[x["eia_status"].isin(CONSTRUCTION)], x[x["eia_status"].isin(APPROVED)]
+        o = x[~x["eia_status"].isin(CONSTRUCTION | APPROVED)]
+        planned[g] = {"construction_mw": round(float(c["mw"].sum()), 1), "construction_n": int(len(c)), "approved_mw": round(float(a["mw"].sum()), 1),
+                      "approved_n": int(len(a)), "other_mw": round(float(o["mw"].sum()), 1), "other_n": int(len(o))}
+    s = pd.read_csv(cpath, skiprows=header_rows(cpath), dtype=str, usecols=["entity", "ts_utc", "value"])
+    s = s[s["entity"].str.endswith(":TOT:ALL")]
+    s["state"] = s["entity"].str.split(":").str[1]
+    year = int(s["ts_utc"].max()[:4])
+    s = s[s["ts_utc"].str[:4] == str(year)]
+    cap = {}
+    for g, states in WHOLE_STATES.items():
+        x = s[s["state"].isin(states)]
+        if len(x) == len(states):
+            cap[g] = {"states": states, "year": year, "mw": round(float(pd.to_numeric(x["value"]).sum()), 1)}
+    return {"built": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "planned_table": PLANNED_TABLE, "vintage": vintage, "from": first, "to": last,
+            "planned": planned, "capacity_table": STATECAP_TABLE, "capacity": cap}
+
+
+def carbon_file(epath, hpath, index):
+    """carbon.json's content (session 707)."""
+    e = pd.read_csv(epath, skiprows=header_rows(epath), dtype=str, usecols=["egrid_subregion", "iso_rto", "co2_tons", "net_generation_mwh", "data_year", "vintage"])
+    e["co2"] = pd.to_numeric(e["co2_tons"], errors="coerce")
+    e["gen"] = pd.to_numeric(e["net_generation_mwh"], errors="coerce")
+    # eGRID's own subregion rate is the plants' CO2 summed over their net generation summed: a plant that reports no CO2
+    # (wind, solar, hydro, nuclear: the cell is blank) adds its generation and no CO2. Nothing is filled
+    e = e.dropna(subset=["gen"])
+
+    def area(x):
+        return {"co2_tons": round(float(x["co2"].sum(skipna=True)), 1), "gen_mwh": round(float(x["gen"].sum()), 1), "plants": int(len(x)),
+                "plants_no_co2": int(x["co2"].isna().sum())}
+    areas = {sub: area(e[e["egrid_subregion"] == sub]) for sub in SUBREGIONS}
+    areas["PJM"] = area(e[e["iso_rto"] == "PJM"])
+    hourly = {}
+    want = {f"eia930:{ba}": g for g, ba in HOURLY_GRIDS.items()}
+    keep = []
+    for ch in pd.read_csv(hpath, skiprows=header_rows(hpath), dtype=str, usecols=["entity", "variable", "ts_utc", "value"], chunksize=500_000):
+        keep.append(ch[(ch["variable"] == HOURLY_VAR) & ch["entity"].isin(want)])
+    h = pd.concat(keep, ignore_index=True)
+    h["t"] = pd.to_datetime(h["ts_utc"], utc=True)
+    for ent, g in want.items():
+        gi = index["grids"].get(g)
+        if not gi:
+            continue
+        behind = int(gi["std_hours_behind_utc"])
+        x = h[h["entity"] == ent].copy()
+        x["std"] = x["t"] - pd.Timedelta(hours=behind)
+        x["y"] = x["std"].dt.year
+        x["i"] = ((x["std"] - pd.to_datetime(x["y"].astype(str) + "-01-01", utc=True)) / pd.Timedelta(hours=1)).astype(int)
+        hourly[g] = {}
+        for y in (2025, 2026):
+            z = x[x["y"] == y].drop_duplicates("i").set_index("i")["value"].astype(float)
+            if not len(z):
+                continue
+            s, last = int(z.index.min()), int(z.index.max())
+            hourly[g][str(y)] = {"s": s, "v": [None if pd.isna(z.get(i)) else round(float(z.get(i)), 1) for i in range(s, last + 1)]}
+    return {"built": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "egrid_table": EGRID_TABLE, "vintage": str(e["vintage"].iloc[0]),
+            "data_year": int(e["data_year"].iloc[0]), "areas": areas, "hourly_table": HOURLY_TABLE, "hourly_variable": HOURLY_VAR, "hourly": hourly}
+
+
+def utility_file(path):
+    """utility.json's content (session 708)."""
+    keep = []
+    for ch in pd.read_csv(path, skiprows=header_rows(path), dtype=str, chunksize=500_000,
+                          usecols=["entity", "variable", "ts_utc", "value", "node", "x_utility_number", "x_state", "x_part", "x_service_type", "x_ba_code"]):
+        keep.append(ch[ch["variable"].isin(["industrial_sales", "industrial_revenue"]) & ch["x_service_type"].isin(["Bundled", "Energy"])])
+    d = pd.concat(keep, ignore_index=True)
+    d["v"] = pd.to_numeric(d["value"], errors="coerce")
+    d["y"] = d["ts_utc"].str[:4].astype(int)
+    year = int(d["y"].max())
+    prior = year - 1
+    by = {}
+    for st, ba in UTILITY_STATES:
+        x = d[(d["x_state"] == st) & (d["x_ba_code"] == ba)]
+        s = x[(x["variable"] == "industrial_sales") & (x["y"] == year) & (x["v"] > 0)]
+        if not len(s):
+            by[f"{st}|{ba}"] = None
+            continue
+        top = s.sort_values(["v", "entity"], ascending=[False, True]).iloc[0]
+        rev = x[(x["entity"] == top["entity"]) & (x["variable"] == "industrial_revenue") & (x["y"] == year)]
+        pri = x[(x["entity"] == top["entity"]) & (x["variable"] == "industrial_sales") & (x["y"] == prior)]
+        if not len(rev):
+            by[f"{st}|{ba}"] = None
+            continue
+        by[f"{st}|{ba}"] = {"utility": str(top["node"]), "number": str(top["x_utility_number"]), "part": str(top["x_part"]), "service": str(top["x_service_type"]),
+                            "sales_mwh": float(top["v"]), "revenue_usd": float(rev["v"].iloc[0]),
+                            "sales_prior_mwh": float(pri["v"].iloc[0]) if len(pri) and pri["v"].iloc[0] > 0 else None, "sellers": int(s["entity"].nunique())}
+    return {"built": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "table": UTILITY_TABLE, "year": year, "prior": prior, "by": by}
+
+
 def write(name, obj, out_dir):
     """Write a file, unless it holds the same content but for its build time (no change, no new commit)."""
     os.makedirs(out_dir, exist_ok=True)
@@ -188,11 +329,12 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description="The All grids tab's files for /cost-of-power")
     ap.add_argument("--in-dir", action="append", default=[], help="a directory to read a table from when warehouse/output lacks it")
     ap.add_argument("--out-dir", default=SITE_DIR, help="where the files go (default site/data/siting)")
+    ap.add_argument("--in-dir-first", action="store_true", help="session 712: read the --in-dir directories before warehouse/output")
     ap.add_argument("--internal", help="session 704: write the capacity prices per row to this file (outside the repository)")
     ap.add_argument("--rows", help="with --internal: the tab's rows and their capacity zones as JSON (node scripts/siting-files.mjs capzones)")
     a = ap.parse_args(argv)
     try:
-        path = find(NODE_TABLE, a.in_dir)
+        path = find(NODE_TABLE, a.in_dir, a.in_dir_first)
         print(f"reading {path}")
         f = nodes_file(path)
     except Exception as e:  # loud: no file from part of a table
@@ -200,7 +342,7 @@ def main(argv=None):
         return 1
     print(f"{NODE_TABLE}: {f['points']} points, {f['hubs']} hubs, {f['zones']} zones, {len(f['nodes'])} nodes, {f['first']} to {f['last']}")
     try:
-        cpath = find(CP_TABLE, a.in_dir)
+        cpath = find(CP_TABLE, a.in_dir, a.in_dir_first)
         print(f"reading {cpath}")
         cp = cp_file(cpath)
     except Exception as e:
@@ -208,7 +350,7 @@ def main(argv=None):
         return 1
     print(f"{CP_TABLE}: {len(cp['summers'])} summers, {sum(len(s['intervals']) for s in cp['summers'])} intervals")
     try:
-        kpath = find(CAP_TABLE, a.in_dir)
+        kpath = find(CAP_TABLE, a.in_dir, a.in_dir_first)
         print(f"reading {kpath}")
         cap = cap_file(kpath)
     except Exception as e:
@@ -219,7 +361,7 @@ def main(argv=None):
     write("ercot_4cp.json", cp, a.out_dir)
     write("capacity.json", cap, a.out_dir)
     try:
-        lpath = find(LBNL_TABLE, a.in_dir)
+        lpath = find(LBNL_TABLE, a.in_dir, a.in_dir_first)
         print(f"reading {lpath}")
         con = connect_file(lpath)
     except Exception as e:
@@ -227,6 +369,35 @@ def main(argv=None):
         return 1
     print(f"{LBNL_TABLE}: " + "; ".join(f"{g} {v['median']} ({v['n']})" for g, v in con["grids"].items()))
     write("connect.json", con, a.out_dir)
+    try:
+        ppath, spath = find(PLANNED_TABLE, a.in_dir, a.in_dir_first), find(STATECAP_TABLE, a.in_dir, a.in_dir_first)
+        print(f"reading {ppath} and {spath}")
+        hr = headroom_file(ppath, spath)
+    except Exception as e:
+        print(f"FAILED: {e}", file=sys.stderr)
+        return 1
+    print(f"{PLANNED_TABLE} {hr['from']} to {hr['to']}: " + "; ".join(f"{g} {v['construction_mw']}" for g, v in hr["planned"].items()))
+    write("headroom.json", hr, a.out_dir)
+    try:
+        epath, hpath = find(EGRID_TABLE, a.in_dir, a.in_dir_first), find(HOURLY_TABLE, a.in_dir, a.in_dir_first)
+        print(f"reading {epath} and {hpath}")
+        with open(os.path.join(ROOT, "site", "data", "datacenter", "index.json"), encoding="utf-8") as fh:
+            index = json.load(fh)
+        cb = carbon_file(epath, hpath, index)
+    except Exception as e:
+        print(f"FAILED: {e}", file=sys.stderr)
+        return 1
+    print(f"{EGRID_TABLE}: " + "; ".join(f"{k} {round(v['co2_tons'] * 2000 / v['gen_mwh'], 1) if v['gen_mwh'] else None}" for k, v in cb["areas"].items()))
+    write("carbon.json", cb, a.out_dir)
+    try:
+        upath = find(UTILITY_TABLE, a.in_dir, a.in_dir_first)
+        print(f"reading {upath}")
+        ut = utility_file(upath)
+    except Exception as e:
+        print(f"FAILED: {e}", file=sys.stderr)
+        return 1
+    print(f"{UTILITY_TABLE} {ut['year']}: " + "; ".join(f"{k} {v['utility'] if v else None}" for k, v in ut["by"].items()))
+    write("utility.json", ut, a.out_dir)
     if a.internal:
         if not a.rows:
             print("FAILED: --internal needs --rows", file=sys.stderr)
