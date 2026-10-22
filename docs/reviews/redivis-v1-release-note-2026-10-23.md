@@ -28,12 +28,11 @@ the draft is new**:
 **Session 680 added the chain's four public tables**, each proved: `utility_service_territories` (11,893 rows),
 `interconnection_durations` (3,098), `interconnection_durations_summary` (1,365), `grid_peak_vs_capacity` (56), with their
 header lines merged into `erw_headers` (2,736 lines). The draft now holds **190 public tables** (45,833,616 rows by the
-CSVs), and `docs/redivis/release-v1-stanford/` lists 193 in v1 with the metadata tables, none held. **Before the click,
-`erw_coverage` and `erw_sources` need one refresh**: the draft's copies were uploaded before the four tables (290 and 395
-rows against 294 and 398 now; session 680's reconcile names exactly those two), and session 680's ceiling did not allow
-it. After this branch lands, one command does it:
-`python warehouse/redivis/upload.py --target stanford --prove-by-listing grid_peak_vs_capacity` (a plain upload sends the
-metadata tables after the table).
+CSVs), and `docs/redivis/release-v1-stanford/` lists 193 in v1 with the metadata tables, none held. **Session 687
+refreshed `erw_coverage` and `erw_sources`** (uploaded before the four tables by session 663): `upload.py --target
+stanford --prove-by-listing grid_peak_vs_capacity` sent the table again and then `erw_headers` (2,736 lines),
+`erw_coverage` (294 rows) and `erw_sources` (398 rows), each proved by the draft's own count; session 688's reconcile reads
+the whole draft against the files.
 
 **The daily run the draft holds:** the data machine's tables as of 21 and 22 October 2026 (111 tables last run on 21
 October, 19 on 22 October); 30 were last run here before 15 October (below).
