@@ -87,13 +87,24 @@ class RedivisBackend(Backend):
 
     name = "redivis"
 
-    def __init__(self, owner: Optional[str] = None, dataset: str = "energy_research_warehouse",
-                 version: str = "next"):
+    def __init__(self, owner: Optional[str] = None, dataset: Optional[str] = None,
+                 version: str = "next", owner_kind: Optional[str] = None):
+        """Session 665 (chain 043): the Stanford dataset is an organization's, Datapages's `erw:b9wm`. Pass
+        owner="datapages", dataset="erw:b9wm", owner_kind="organization", or set ERW_REDIVIS_DATASET=datapages.erw:b9wm
+        (an organization's unless ERW_REDIVIS_OWNER_KIND=user). With neither, the owner's account and
+        energy_research_warehouse, as before."""
         os.environ.setdefault("REDIVIS_API_TOKEN", _secret("REDIVIS_API_TOKEN"))
         import redivis
+        named = os.environ.get("ERW_REDIVIS_DATASET", "").strip()
+        if dataset is None and named and "." in named:
+            owner, dataset = owner or named.split(".", 1)[0], named.split(".", 1)[1]
+            owner_kind = owner_kind or os.environ.get("ERW_REDIVIS_OWNER_KIND", "organization")
+        dataset = dataset or "energy_research_warehouse"
         self.owner = owner or _secret("REDIVIS_OWNER")
+        self.owner_kind = owner_kind or "user"
         self.dataset_name, self.version_tag = dataset, version
-        self.ds = redivis.user(self.owner).dataset(dataset, version=version)
+        account = redivis.organization(self.owner) if self.owner_kind == "organization" else redivis.user(self.owner)
+        self.ds = account.dataset(dataset, version=version)
         if not self.ds.exists():
             raise ERWDataNotFound(f"Redivis dataset {self.owner}.{dataset}:{version} does not exist")
         self._cache: Dict[str, pd.DataFrame] = {}
