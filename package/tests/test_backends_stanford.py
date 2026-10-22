@@ -5,9 +5,9 @@ one events, two series): fetch, coverage, sources and cite through RedivisBacken
 owner_kind="organization") against LocalBackend, as test_backends.py does for the owner's account. news_index, the events
 table of that file, is unsettled by its ERW verdict and not in the Stanford dataset; ercot_grid_notices stands in.
 
-On 22 October 2026 the backend opened the draft and listed its 187 tables, but Redivis refused every read of rows: "Cannot
-stream more than 100GB to external environments within a 30 day period" (the token's user, since 15 October, session
-305). These tests skip with that reason until the cap frees; then:
+On 22 October 2026 Redivis refused every streamed read ("Cannot stream more than 100GB to external environments within a
+30 day period", the token's user, since 15 October, session 305); the backend then reads the table's CSV export instead
+(session 665), and two of the five tables were proven that way before the session's ceiling. The whole run:
 
     ERW_REMOTE_TESTS=1 python -m pytest package/tests/test_backends_stanford.py -v -m remote
 """

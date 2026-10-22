@@ -78,6 +78,25 @@ def _coverage_frame(cov: pd.DataFrame) -> pd.DataFrame:
     return cov[cols].sort_values("table").reset_index(drop=True)
 
 
+def _read_by_export(table, types: Dict[str, Optional[str]]) -> pd.DataFrame:
+    """Session 665: a Redivis table read through its CSV export, as a frame of the stream's types. Errors propagate."""
+    import tempfile
+    d = tempfile.mkdtemp(prefix="erw-redivis-")
+    path = table.download(os.path.join(d, "table.csv"), format="csv", overwrite=True, progress=False)
+    path = path[0] if isinstance(path, list) else path
+    df = pd.read_csv(path, dtype=str, keep_default_na=False)
+    os.remove(path)
+    for c, t in types.items():
+        if c not in df.columns:
+            continue
+        if t == "dateTime":
+            df[c] = pd.to_datetime(df[c].replace("", None), format="ISO8601", utc=True)
+        elif t == "date":
+            df[c] = pd.to_datetime(df[c].replace("", None), format="ISO8601")
+    # numbers stay as the export wrote them (the uploaded CSV's own text), so _as_text must not retype them
+    return df
+
+
 class RedivisBackend(Backend):
     """Reads the ERW from its Redivis dataset: the unreleased draft by default (all tables).
 
@@ -118,7 +137,16 @@ class RedivisBackend(Backend):
             if not t.exists():
                 raise ERWDataNotFound(f"No ERW table named {name!r} in {self.describe()}")
             types = {v.name: (v.properties or {}).get("type") for v in t.list_variables()}
-            df = t.to_pandas_dataframe(progress=False, dtype_backend="numpy")
+            try:
+                df = t.to_pandas_dataframe(progress=False, dtype_backend="numpy")
+            except Exception as exc:
+                # session 665: Redivis refuses a stream once a user has streamed 100 GB in 30 days ("Cannot stream more
+                # than 100GB ... Please use the export API instead"); the table is then read through its CSV export,
+                # typed as the stream would have typed it (the uploader's read_frame does the same)
+                if "Cannot stream more than" not in str(exc):
+                    raise
+                df = _read_by_export(t, types)
+                types = {c: v for c, v in types.items() if v in ("dateTime", "date")}  # numbers are text already
             self._cache[name] = _as_text(df, types)
         return self._cache[name].copy()
 
