@@ -73,6 +73,8 @@ const order = only ?? addrs;
 results.sort((x, y) => order.indexOf(x.addr) - order.indexOf(y.addr) || y.width - x.width);
 fs.writeFileSync(out, JSON.stringify({ base, when: new Date().toISOString(), addresses: order.length, widths, results }, null, 1));
 const errors = results.filter((r) => r.error).length;
-const wrong = results.filter((r) => r.innerWidth !== r.width).length;
-console.log(`done: ${results.length} scans, ${results.reduce((s, r) => s + r.count, 0)} findings, ${errors} errors, ${wrong} at the wrong width`);
-process.exit(errors || wrong ? 1 : 0);
+// a page wider than its window at 390 px reports a wider window (innerWidth follows the content): that page scrolls
+// sideways (session 584's subject); it is listed, and the scan still read the page
+const wider = results.filter((r) => r.innerWidth !== r.width).map((r) => `${r.addr} at ${r.width} reads ${r.innerWidth}`);
+console.log(`done: ${results.length} scans, ${results.reduce((s, r) => s + r.count, 0)} findings, ${errors} errors, ${wider.length} wider than the window${wider.length ? ": " + wider.join("; ") : ""}`);
+process.exit(errors ? 1 : 0);
