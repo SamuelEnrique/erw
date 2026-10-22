@@ -20,6 +20,7 @@
     "/cost-of-power?view=allgrids&rows=nodes&nsort=spread&ndir=desc": 10,
     "/cost-of-power?view=allgrids&rows=nodes&nsort=swing&ndir=desc": 10,
     "/cost-of-power?view=allgrids&rows=nodes&ncls=storage&nsort=swing&ndir=desc": 10,
+    "/cost-of-power?view=allgrids&a=ercot%3ABBREEZE_1_2&b=ercot%3APALACIOS_RN": 10,
     "/cost-of-power?view=allgrids&sort=allin&a=ercot%3AHB_HUBAVG&b=nyiso%3AN.Y.C.": 10,
     "/cost-of-power?view=grids": 10,
     "/cost-of-power/battery": 10,

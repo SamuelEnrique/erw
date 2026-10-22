@@ -997,6 +997,8 @@ export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFil
  *   allgrids|nodepct|<node>|10, 50 or 90                 a node's daily basis percentile over the file's twelve months (711)
  *   allgrids|nodespread|<node>                             its 90th percentile less its 10th, the node list's spread (724)
  *   allgrids|nodeswing|<node>[|10 or 90]                   its day-ahead intraday swing's mean, or a percentile (746)
+ *   allgrids|nodemonth|<node>|<YYYY-MM>                    its month's mean daily day-ahead basis (794)
+ *   allgrids|nodediff|<a>|<b>|spread or swing             B's basis spread or intraday swing less A's, two nodes (794)
  *   allgrids|zonegrowth|<row>                              its zone's mean demand, newest whole year over the one before, percent (728)
  *   allgrids|llapproved|<row>                              ERCOT's large loads approved to energize, MW, newest report (705)
  *   (capacity, session 704: zero where there is no market, drawn as a figure of 0 with no key; elsewhere held internal,
@@ -1039,6 +1041,13 @@ export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
   }
   if (p[1] === "basis") return energyCell(dc, f, row).node?.basis;
   if (p[1] === "zonegrowth") { const z = zoneGrowth(f.headroom, row); return z ? z.pct : undefined; }
+  if (p[1] === "nodemonth") { const n = f.nodes.nodes.find((k) => `ercot:${k.id}` === row.id); return n?.dam_basis?.[p[3]]?.[0]; }
+  if (p[1] === "nodediff") {
+    const na = f.nodes.nodes.find((k) => `ercot:${k.id}` === row.id), nb = f.nodes.nodes.find((k) => `ercot:${k.id}` === p[3]);
+    if (p[4] === "spread") return na?.pct && nb?.pct ? (nb.pct[2] - nb.pct[0]) - (na.pct[2] - na.pct[0]) : undefined;
+    if (p[4] === "swing") return na?.swing && nb?.swing ? nb.swing[0] - na.swing[0] : undefined;
+    return undefined;
+  }
   if (p[1] === "nodeswing") { const n = f.nodes.nodes.find((k) => `ercot:${k.id}` === row.id); if (!n?.swing) return undefined; return p[3] === "10" ? n.swing[1] : p[3] === "90" ? n.swing[2] : n.swing[0]; }
   if (p[1] === "nodespread") { const n = f.nodes.nodes.find((k) => `ercot:${k.id}` === row.id); return n?.pct ? n.pct[2] - n.pct[0] : undefined; }
   if (p[1] === "nodepct") { const n = f.nodes.nodes.find((k) => `ercot:${k.id}` === row.id); const i = ({ "10": 0, "50": 1, "90": 2 } as Record<string, number>)[p[3]]; return n?.pct && i !== undefined ? n.pct[i] : undefined; }
