@@ -40,3 +40,16 @@ The method is `docs/methods/siting.md`. `/internal/siting-gaps` (internal view) 
 | MISO | Energy, Carbon (hourly) | every hub price drawn; the carbon over the hours run | MISO's prices are held and paused; with no price, no hours run | MISO: written permission needed; paused | `iso_prices.py` |
 | ISO-NE | Energy | the eight load zones' twelve months | the zone history beyond the tables' recent window (`iso_zone_prices_history`, ISO-NE rows internal) | ISO-NE: permission | `iso_prices.py` |
 | All | Substations and lines | the substations and high-voltage lines near a row | HIFLD's electric substations and transmission lines (now held by the data machine's chain, if it has landed) | HIFLD: not read here | `uswtdb.py` (a federal GIS layer) |
+
+## State on 22 October 2026, evening (chain 062)
+
+Each kind of row above, its state after chain 062's sessions 722 to 740 (`docs/reviews/siting-open-2026-10-23.md` holds the item-by-item list):
+
+- **Large-load tariffs** (transmission rows, every grid but ERCOT): **open**. `utility_large_load_tariffs` has not landed; its connector waits on an `OPENEI_API_KEY`. The tab's side is written and tested, not wired (730).
+- **Capacity prices shown** (PJM, ISO-NE, MISO, NYISO): **open**, a ruling (the rulings file, session 741).
+- **A large load's own wait** (time to connect, every grid but NYISO): **open**.
+- **Utility service territories**: **filled** for the rows named for a place (718); each figure now names its kind (726).
+- **A zone's own demand growth**: **filled in part** (728): NYISO's eleven zones and ISO-NE's eight; ERCOT's and CAISO's rows keep the grid's.
+- **Reserve margins**: **open** (731: no table, no connector).
+- **A node's zone, hub, wires utility and county** (ERCOT's settlement point mapping and resource registration): **open** (733: `node_basis_daily` carries none of them).
+- **Substations and transmission lines near a node**: **open** (732).

@@ -6,8 +6,12 @@
 // verdict. Written, never posted or sent: the card is a file under data/findings/ and its data a CSV under
 // public/findings/.
 //
-//   node scripts/siting-card.mjs            writes data/findings/siting_gigawatt.json and public/findings/siting_gigawatt.csv
-//   node scripts/siting-card.mjs --check    exit 1 when the files on disk differ from a fresh computation (but for the time)
+// Session 734 (chain 062): a second card, siting_flexible: under the flexible compute profile, the hours a 1 GW load gives
+// up at ERCOT's four summer peaks and at or above its strike, at each ERCOT hub and zone, and what it saves per MWh
+// all-in against a flat datacenter load at the same row. The same rules: the tab's functions, no verdict, not sent.
+//
+//   node scripts/siting-card.mjs            writes both cards' JSON under data/findings/ and their CSVs under public/findings/
+//   node scripts/siting-card.mjs --check    exit 1 when a file on disk differs from a fresh computation (but for the time)
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -67,14 +71,64 @@ const card = {
 };
 const csv = [...card.csv_header.map((h) => `# ${h}`), "row,grid,energy_usd_mwh,transmission_usd_mwh,capacity_usd_mwh,allin_usd_mwh,year_usd_1gw",
   ...held.map((v) => [v.r.id, v.r.grid, v.energy, v.tx, 0, v.allin, S.yearOf(d, f, v.r, x).usd].join(","))].join("\n") + "\n";
-const cardPath = path.join(here, "..", "data", "findings", `${ID}.json`), csvPath = path.join(here, "..", "public", "findings", `${ID}.csv`);
+// ---- session 734: the second card, siting_flexible ----
+const ID2 = "siting_flexible";
+const xf = S.sitingInputs({ view: "allgrids", mw: String(MW), profile: "flexible" });
+const ercot = hubs.filter((r) => r.grid === "ercot").map((r) => {
+  const pc = S.profileCell(d, f, r, xf, f.cp);
+  return { r, lost: "why" in pc ? null : pc.t.lost, run: "why" in pc ? null : pc.t.run, flat: S.columnValue(d, f, r, x, "allin"), flex: S.columnValue(d, f, r, xf, "allin") };
+}).filter((v) => v.lost !== null && v.flat !== null && v.flex !== null).map((v) => ({ ...v, saved: v.flat - v.flex }))
+  .sort((a, b) => a.saved - b.saved || a.r.id.localeCompare(b.r.id));
+if (!ercot.length) { console.error("siting-card: no ERCOT row holds both profiles' all-in figures"); process.exit(1); }
+const s0 = ercot[0], s1 = ercot.at(-1);
+const byLost = [...ercot].sort((a, b) => a.lost - b.lost || a.r.id.localeCompare(b.r.id)), l0 = byLost[0], l1 = byLost.at(-1);
+const hub = ercot.find((v) => v.r.id === "ercot:HB_HUBAVG") ?? ercot[0];
+const strike = xf.strike ?? S.PROFILES.flexible.strike;
+const card2 = {
+  id: ID2, card_id: ID2, title: "WHAT STEPPING OFF SAVES", kind: "visual", engine: "site/scripts/siting-card.mjs",
+  subtitle: `A 1 GW flexible compute load at ERCOT's ${ercot.length} hubs and load zones: off at the four summer peaks and at or above USD ${strike.toLocaleString("en-US")} per MWh, against a flat load`,
+  params: { mw: MW, profile: "flexible", strike }, inputs_words: { mw: "1,000 MW", profile: `Flexible compute: 0.90, off in ERCOT's four summer peaks and at or above USD ${strike.toLocaleString("en-US")} per MWh` },
+  chart: {
+    kind: "bars_free", x: ercot.map((v) => v.r.region), x_label: "ERCOT hub or load zone, by the saving, smallest first",
+    series: [
+      { name: "All-in, a flat load (datacenter)", type: "bar", unit: "USD per MWh", values: ercot.map((v) => v.flat) },
+      { name: "All-in, flexible compute", type: "bar", unit: "USD per MWh", values: ercot.map((v) => v.flex) },
+    ],
+    y_left_label: "USD per MWh", decimals: 2,
+  },
+  callouts: [
+    { label: "Saved all-in, USD per MWh, least and most", before: { period: `ERCOT ${s0.r.region}`, text: two(s0.saved) }, after: { period: `ERCOT ${s1.r.region}`, text: two(s1.saved) }, unit: "" },
+    { label: "Hours given up in the twelve months, fewest and most", before: { period: `ERCOT ${l0.r.region}`, text: whole(l0.lost) }, after: { period: `ERCOT ${l1.r.region}`, text: whole(l1.lost) }, unit: "" },
+    { label: `All-in at ${hub.r.region}, USD per MWh, flat and flexible`, before: { period: "flat", text: two(hub.flat) }, after: { period: "flexible", text: two(hub.flex) }, unit: "" },
+  ],
+  why: `A 1 GW load that steps off in ERCOT's four summer peak intervals and in every hour at or above USD ${strike.toLocaleString("en-US")} per MWh gave up ${whole(l0.lost)} to ${whole(l1.lost)} hours of the last twelve whole months, row by row, and paid USD ${two(s0.saved)} (${s0.r.region}) to USD ${two(s1.saved)} (${s1.r.region}) per MWh less all-in than a flat load at the same row. At ${hub.r.region}: USD ${two(hub.flex)} against ${two(hub.flat)}. Most of the saving is the four-peak transmission charge, which a load off at the four peaks does not pay; the rest is the dearest hours' energy. All-in is energy over the hours the load runs, the four-peak charge at the Commission's rate, and capacity, of which ERCOT has none.`,
+  footnote: `Data: the All grids tab of "What a datacenter pays" (/cost-of-power?view=allgrids&profile=flexible&mw=${MW}), computed by site/lib/siting.ts from the page's own files: the hourly hub and zone prices (ercot_all_hub_prices_history, ercot_zone_prices_history), ercot_4cp_intervals and the Commission's approved rate (texas_transmission_matrix). Method: docs/methods/siting.md. The replication: warehouse/replication/siting.py.`,
+  numbers: {
+    rows: ercot.length, strike, saved_least: s0.saved, saved_least_row: s0.r.id, saved_most: s1.saved, saved_most_row: s1.r.id,
+    lost_fewest: l0.lost, lost_fewest_row: l0.r.id, lost_most: l1.lost, lost_most_row: l1.r.id, hub_row: hub.r.id, hub_flat: hub.flat, hub_flex: hub.flex,
+  },
+  source_line: "Source: ERW, the All grids tab (/cost-of-power?view=allgrids&profile=flexible), from ERCOT's hourly prices and four-peak intervals and the PUCT's transmission matrix.",
+  tables: ["ercot_all_hub_prices_history", "ercot_zone_prices_history", "ercot_4cp_intervals", "texas_transmission_matrix"],
+  computed_at: new Date().toISOString().slice(0, 19) + "Z",
+  method: "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/siting.md",
+  downloads: { csv: `${ID2}.csv`, python: "", stata: "" }, csv_sha256: "",
+  csv_header: [`Energy Research Warehouse (ERW): finding ${ID2}, WHAT STEPPING OFF SAVES`, "Computed by site/scripts/siting-card.mjs from site/lib/siting.ts (the All grids tab); method docs/methods/siting.md",
+    `Rows: one per ERCOT hub or load zone, a 1 GW load: the all-in figure flat and flexible (off at the four summer peaks and at or above USD ${strike} per MWh), USD per MWh, the saving, the hours given up and run`],
+};
+const csv2 = [...card2.csv_header.map((h) => `# ${h}`), "row,allin_flat_usd_mwh,allin_flexible_usd_mwh,saved_usd_mwh,hours_given_up,hours_run",
+  ...ercot.map((v) => [v.r.id, v.flat, v.flex, v.saved, v.lost, v.run].join(","))].join("\n") + "\n";
+
+const out = [[ID, card, csv], [ID2, card2, csv2]];
+const paths = (id) => [path.join(here, "..", "data", "findings", `${id}.json`), path.join(here, "..", "public", "findings", `${id}.csv`)];
 if (process.argv.includes("--check")) {
-  const old = JSON.parse(fs.readFileSync(cardPath, "utf-8"));
   const strip = (c) => JSON.stringify({ ...c, computed_at: "" });
-  const same = strip(old) === strip(card) && fs.readFileSync(csvPath, "utf-8") === csv;
-  console.log(same ? "siting-card: the files are the tab's figures" : "siting-card: the files differ from the tab's figures");
-  process.exit(same ? 0 : 1);
+  const bad = out.filter(([id, c, v]) => {
+    const [cp, vp] = paths(id);
+    return !fs.existsSync(cp) || strip(JSON.parse(fs.readFileSync(cp, "utf-8"))) !== strip(c) || fs.readFileSync(vp, "utf-8") !== v;
+  }).map(([id]) => id);
+  console.log(bad.length ? `siting-card: the files differ from the tab's figures: ${bad.join(", ")}` : "siting-card: the files are the tab's figures");
+  process.exit(bad.length ? 1 : 0);
 }
-fs.writeFileSync(cardPath, JSON.stringify(card, null, 1) + "\n");
-fs.writeFileSync(csvPath, csv);
+for (const [id, c, v] of out) { const [cp, vp] = paths(id); fs.writeFileSync(cp, JSON.stringify(c, null, 1) + "\n"); fs.writeFileSync(vp, v); }
 console.log(`siting-card: ${held.length} rows held; least ${lo.r.id} ${two(lo.allin)}, most ${hi.r.id} ${two(hi.allin)}; connect ${cmin.g} ${cmin.m} to ${cmax.g} ${cmax.m}`);
+console.log(`siting-card: flexible at ${ercot.length} ERCOT rows; saved ${two(s0.saved)} (${s0.r.id}) to ${two(s1.saved)} (${s1.r.id}); hours given up ${l0.lost} to ${l1.lost}`);

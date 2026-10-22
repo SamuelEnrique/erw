@@ -34,7 +34,9 @@ function Tp({ tip, children, extra, dotted = true, className = "", data }: { tip
   return (
     <span className={`tip relative inline-block ${className}`.trim()} {...Object.fromEntries(Object.entries(data ?? {}).map(([k, v]) => [`data-${k}`, v]))}>
       <button type="button" aria-describedby={id} className={`text-inherit ${dotted ? tipCls : ""}`} data-tip-trigger="1">{children}</button>
-      <span role="tooltip" id={id} className="absolute right-0 top-full z-20 hidden w-72 max-w-[80vw] whitespace-normal border border-rule bg-paper px-2 py-1.5 text-left font-sans text-xs font-normal leading-snug text-ink">
+      {/* session 737 (chain 062): the tip's box is drawn by app/tokens.css ("the tab's tip"), not by a class list on each
+          of the page's 768 tips: the same look, about a quarter of a megabyte less on the hub table's page */}
+      <span role="tooltip" id={id} data-tp="">
         {tip}{extra ? <span className="mt-1 block">{extra}</span> : null}
       </span>
     </span>

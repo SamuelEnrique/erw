@@ -1,6 +1,17 @@
 # Where can a large load go: the All grids tab of "What a datacenter pays"
 
-Version 1, session 712, 22 October 2026 (chain 050, `queue/done/050-night-23-october-code-allgrids.md`); version 0 was session 700's. Internal: the tab is in review, like every page.
+Version 2, session 740, 22 October 2026 (chain 062, `queue/done/062-day-23-october-code-allgrids-2.md`); version 1 was session 712's (chain 050), version 0 session 700's. Internal: the tab is in review, like every page.
+
+## What version 2 changed (chain 062, sessions 722 to 740)
+
+- **The node list** (724): a column of the basis's spread, the 90th percentile of the daily basis less the 10th (the panel's own figures), sortable and keyed `allgrids|nodespread|<node>`; the months `node_basis_daily` lacks, named above the list from the file's days by month; a filter by name (`nq`); a download of the rows shown, made in the browser; "Set as A" and "Set as B" in a node's panel, and the box's lists keep a node set so.
+- **The Utility column** (726): each figure names its kind, from EIA-861's service type: bundled (no word), delivery only, energy only. The A and B panel subtracts only like from like ("not alike" otherwise).
+- **Headroom** (728): for NYISO's eleven zones and ISO-NE's eight, the zone's own demand growth under the grid's, from EIA-930's sub-regions, the newest whole year over the one before. The sort stays the grid's figure.
+- **Large-load tariffs** (730): the builder's step and the tab's functions, written against the data machine's documented shape and tested; not wired, as the table has not landed.
+- **The second research card** (734): what stepping off saves, a flexible load at ERCOT's fourteen rows.
+- **The replication** (735): `--tables` adds the node spread and the zone growth from the warehouse's own CSVs, and the second card's figures.
+- **The tip's box** (737) is drawn by one rule of `app/tokens.css`: the hub table's page 15 percent lighter, no word changed. The panel heading's links are sans (738).
+- **Nothing held, said so** (729, 731, 732, 733): placing the tracker's facilities by utility, reserve margins, substations and lines near a node, a node's place.
 
 `/cost-of-power` ("What a datacenter pays") answers, for one chosen region, what a load pays, when it connects and how clean the power is. Its tab **All grids** (`/cost-of-power?view=allgrids`) answers the same questions for every grid, hub and zone the warehouse holds a price for, and behind a toggle for every ERCOT node of `node_basis_daily`, in one sortable table.
 
@@ -68,6 +79,7 @@ A profile sets three inputs (the load factor, the curtailment rule, whether the 
 
 - **What it reads**: the live set with the anon key only for the tables the live set holds (the four peaks, Berkeley Lab's queue, the hourly intensity), and the tab's own files for those it does not (the price history, the node basis, eGRID, EIA-861, the Commission's rate). It ports `lib/datacenter.ts`'s hours, months and twelve-month window to Python.
 - **How to run it**: `python warehouse/replication/siting.py --repo . --page <a build>`. Exit 0 when every figure set beside the page equals it.
+- **With the warehouse's tables** (session 735, chain 062): `--tables <a folder of the warehouse's CSVs>` adds the node list's basis spread for the three nodes (from `node_basis_daily`'s daily rows) and three zones' demand growth (from `eia930_subba_demand_hourly_<year>`), and the second card's HB_HUBAVG figures are set beside the replication's own. On 22 October 2026 against a build of `wip/735-allgrids`: 89 figures, 77 beside the page, 0 differ.
 
 ## Decisions (each dated, and reversible unless said)
 
@@ -92,6 +104,8 @@ A profile sets three inputs (the load factor, the curtailment rule, whether the 
 19. 2026-10-22, 724 (chain 062): the node list's basis spread is the node's 90th percentile of daily basis less its 10th over the days it holds in the file's twelve months, the panel's own percentiles; the months node_basis_daily lacks are named from the file's days by month; a node can be set as A or B, and the download is the rows shown in the page's figures, made in the browser.
 20. 2026-10-22, 726 (chain 062): the Utility column's revenue per MWh is of three kinds, from EIA-861's service type (bundled, delivery only, energy only); each cell names its kind, and the A and B panel's utility line subtracts only like from like ("not alike" otherwise). No figure changes; one difference key is no longer drawn where the kinds differ.
 21. 2026-10-22, 728 (chain 062): a zone's own demand growth, for the 19 rows whose zone EIA-930 names as a sub-region (NYISO's eleven zones, ZONA to ZONK; ISO-NE's eight load zones, 4001 to 4008): the sub-region's mean hourly demand in the newest whole year of `eia930_subba_demand_hourly_<year>` against the year before, over the hours each year holds. A calendar year, not the grid's twelve months: the sub-region tables hold no 2026 before late July. ERCOT's sub-regions are weather zones and CAISO's are utilities, so their rows keep the grid's figure. The sort by headroom stays the grid's figure.
+22. 2026-10-22, 730 (chain 062): a large-load rate is taken as the newest one whose minimum demand the load meets; its demand and fixed charges are spread over the MWh the load draws in a 730-hour month, as the four-peak charge is; its energy charge is kept apart, since a bundled rate's energy is a retail price. Not wired until `utility_large_load_tariffs` lands.
+23. 2026-10-22, 737 (chain 062): the tab's tip box is styled once in `tokens.css` (keyed `data-tp`), not by a class list on each tip; the words and the look are the same.
 
 ## The limits
 
