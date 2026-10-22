@@ -1,3 +1,11 @@
+digest 1280x800: page 1265x863 px (viewport 1265); tables 0, in a scroll container 0, widest 0 px; chart image none; links 71, outside the viewport 0
+digest 390x844: page 390x1127 px (viewport 390); tables 0, in a scroll container 0, widest 0 px; chart image none; links 71, outside the viewport 11
+digest-day 1280x800: page 1265x3175 px (viewport 1265); tables 1, in a scroll container 1, widest 1120 px; chart image 653 px wide; links 48, outside the viewport 0
+digest-day 390x844: page 390x4173 px (viewport 390); tables 1, in a scroll container 1, widest 396 px; chart image 358 px wide; links 48, outside the viewport 11
+roundup 1280x800: page 1265x9112 px (viewport 1265); tables 4, in a scroll container 4, widest 864 px; chart image 653 px wide; links 127, outside the viewport 0
+roundup 390x844: page 390x11946 px (viewport 390); tables 4, in a scroll container 4, widest 813 px; chart image 358 px wide; links 127, outside the viewport 73
+roundup-week 1280x800: page 1265x7930 px (viewport 1265); tables 4, in a scroll container 4, widest 1120 px; chart image 653 px wide; links 124, outside the viewport 0
+roundup-week 390x844: page 390x11735 px (viewport 390); tables 4, in a scroll container 4, widest 813 px; chart image 358 px wide; links 124, outside the viewport 73
 email-daily 1280x800: page 1265x2574 px (viewport 1265); tables 2, in a scroll container 1, widest 640 px; chart image 602 px wide; links 2, outside the viewport 0
 email-daily 390x844: page 390x3288 px (viewport 390); tables 2, in a scroll container 1, widest 538 px; chart image 360 px wide; links 2, outside the viewport 0
 email-roundup 1280x800: page 1265x1752 px (viewport 1265); tables 3, in a scroll container 2, widest 640 px; chart image none; links 1, outside the viewport 0
