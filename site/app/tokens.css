@@ -201,6 +201,26 @@ body:has(.brand-a) > footer a {
 body:has(.brand-a) > footer a:hover {
   text-decoration-thickness: 2px;
 }
+/* Session 583 (docs/reviews/accessibility-2026-10-22.md): a note set as a block of captions grey, not a paragraph (the
+   headline number's note in components/tool/ToolPage.tsx, an event's caveat), held links told from its words by their
+   color alone (AccessLint, link-in-text-block, WCAG 1.4.1: "Each neighbour" on every grid page, "Method" on six event
+   pages). They are underlined as the brand's links in running text are. A link with a class of its own (a button, a
+   segment, an ink link) is left as it is drawn. */
+.brand-a div.text-muted > a:not([class]) {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+.brand-a div.text-muted > a:not([class]):hover {
+  text-decoration-thickness: 2px;
+}
+/* Session 583: the 3D network's line of help under the drawing ("Left-click: rotate, ..."), which its library draws in
+   slate grey at 70 percent on the white sheet: 2.48 to 1 (AccessLint, color-contrast, /grid?view=network). In the
+   captions grey, whole: about 5.6 to 1 on white. Its place and size are the library's, unchanged. */
+.brand-a .scene-nav-info {
+  color: var(--color-muted);
+  opacity: 1;
+}
 .brand-a [id] {
   scroll-margin-top: 16px;
 }
@@ -1030,4 +1050,17 @@ body:has(.brand-a) > footer :focus-visible {
 /* session 299: the Ask panel beside the Grid tool's tabs takes the text size, not the lead's */
 .brand-a [data-ask-compact] p.text-base {
   font-size: 14px;
+}
+/* session 584 (390 pixels on every page): a select is never wider than its frame. A select is as wide as its longest
+   choice, and on a phone the demand growth explorer's "Window" (398 px) and /policy's "Tag" (429 px) pushed the page
+   sideways; it now narrows to the frame and shows the chosen words cut at its edge, the list it opens unchanged. The
+   label (and a span around it) that holds it may shrink below the select's own width in a row of filters, which a flex
+   item does not by default; where it already fits nothing changes */
+.brand-a select {
+  max-width: 100%;
+}
+.brand-a :is(label, span, div):has(> select),
+.brand-a :is(span, div):has(> label > select) {
+  min-width: 0;
+  max-width: 100%;
 }

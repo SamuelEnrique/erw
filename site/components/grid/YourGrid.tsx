@@ -345,7 +345,7 @@ function Building({ g, d }: { g: GridConfig; d: GridData }) {
         <div className="text-xs text-muted">Datacenter facilities mapped to {g.iso}<Chip tier="model_extracted" /></div>
         <div className="tabular-nums">
           <Num check={`griddc|${g.slug}|n`} raw={dcN}>{count(dcN)}</Num> facilities; <Num check={`griddc|${g.slug}|mw`} raw={dcMw}>{shown(dcMw)}</Num> MW where a source states it.{" "}
-          <Link href="/datacenters">All datacenters</Link>.
+          <Link href="/datacenters" className="underline">All datacenters</Link>.
         </div>
         <p className="mt-1 text-xs text-muted">
           A facility from {g.iso}&apos;s interconnection queue, or whose utility is one of {g.iso}&apos;s, is counted here; any other is counted by its

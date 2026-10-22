@@ -61,3 +61,10 @@ If the tall frame still overlaps (its `measures.txt` line: lowest chart text abo
 - `docs/brand/review-497/shot-497.mjs` and `before/` (four PNGs, `measures.txt`).
 - This report.
 - Merged: `wip/474-checks` (session 474's files).
+
+## Finished (session 506)
+
+Done by session 506 on the old laptop (samueloldlaptop), 21 October 2026, on `wip/506-combined`: `wip/429-combined` with origin/main (chain 024 landed) merged, then `wip/430-check-values` to `wip/505-check-holds` in session order, three conflicts resolved (`check-values.mjs`'s whole-MW rule, `site/lib/supabase.ts` with session 537's retry, `docs/machines.md`; `energy_deals.md` kept both sections). One build of that branch served every report's checks, not one build a branch: the branch holds each session's work, and a build takes the database's time. `scripts/db_probe.py` 0 (0.63 s), the build lock `scripts/buildlock.py acquire s506` (session 504's, on the branch), the build exit 0 with no statement timeout, served on port 3506. The session tests of 430 to 505 and 531 to 541, with 402, 418, 464, 470 and 196: 258 tests OK.
+
+- check-findings-grids 0: 163 of 163. check-values on `/datacenters?view=grids` within the full run: every `dcq|` key equal (the active MW read whole, the rule main already carried from session 461's landing; 497's comment kept beside it).
+- After shots in `docs/brand/review-497/after/` with `measures.txt` (the shot script now waits for `document.fonts.ready`), and the folder's README. The wide frame: the lowest chart text at 281 and 269 px of 900 (959 before). **The tall frame still overlaps**: five panels in one column end at 870 px and the fifth (SPP) is drawn over the callouts. As this report said, a later session places the tall frame's panels in two columns: session 588 of `queue/next/034-night-22-october-code.md`.

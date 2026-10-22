@@ -37,6 +37,8 @@ The unlock address carries the token in its query, as `/internal/costs` does. Op
 
 Since session 188 `/internal/waits` lists what the session reports leave for the owner's ruling (`docs/machines.md`, "Continuous work"). It opens with the internal cookie only, as `/internal/findings` does: it takes no `?token=`, is linked from nothing, and answers 404 to a visitor.
 
+Since session 587 `/internal/holds` lists the held figures that still show: `docs/licenses_holds.csv`, the list `site/scripts/check-holds.mjs --csv` writes on a build, read when the site is built (`site/scripts/holds-content.mjs`, called by `build-content.mjs`), one row a line with each table's verdict. It is gated exactly as `/internal/waits` is, and draws no figure of a held table. How a held figure is drawn, and whether the check joins the landing gate, wait for the owner's ruling (session 505).
+
 The link above works exactly as before until the owner confirms the form. Retiring it, and rotating the token afterwards, are the owner's steps (`docs/reviews/2026-10-10-security.md`, H1).
 
 ## Not behind the gate

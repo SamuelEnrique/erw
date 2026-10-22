@@ -162,3 +162,25 @@ Each with the file it lives in and the test that would prove it. None was made h
 ## Sources
 
 The issues and emails named above; `warehouse/news/roundup.py`, `brief.py`, `score.py`, `ingest.py`, `email_digest.py`; `warehouse/analysis/templates/peak_premium_block.py`, `deals_by_month.py`; `warehouse/analysis/run.py`; `.github/workflows/roundup.yml`; `archive/sessions/SESSION_305_REPORT.md` and `SESSION_326_REPORT.md`; `docs/voice.md`; the tables `iso_dam_hub_prices`, `nyiso_dam_zone_prices`, `isone_dam_zone_prices`, `iso_rtm_hub_prices`, `nyiso_rtm_zone_prices`, `eia_fuel_spot_prices`, `eia930_all_demand`, `energy_deals`, `datacenter_projects`, `policy_actions`, `news_stories` in `warehouse/output` on portable-laptop; `site/public/findings/erw_2026_peak_hour_solar.csv`. The outputs of every trace are in `runs/chain_oct21_third/s444/` (not in git).
+
+## State on 22 October
+
+Written by session 577 (`archive/sessions/SESSION_577_REPORT.md`), from session 470's report and the branches since. "On main" means the commit is an ancestor of `origin/main` at 00:00 UTC on 22 October.
+
+| Rank | Fix | State | Where |
+|---|---|---|---|
+| 1 | One event once, not the previous Roundup's story | landed (the Digest's functions; the previous ISO week's page as the ledger). Not caught: W40's two OPEC+ weekend items, which share no amount and too few title words | session 470, `239e78cf`, on main; `TheNamedDays` |
+| 2 | The fuel change a week, an outlying close flagged | landed | session 470, `239e78cf`, on main; `TheRoundup` |
+| 3 | A chart of the week must not measure the ERW's coverage | waiting: Samuel's ruling (session 470's list). Note: session 119 (5 October, the day after W40 was written) already keeps every `ABOUT = "coverage"` template, `deals_by_month` and `datacenters_by_state` among them, from being chosen (`warehouse/analysis/run.py`, step 2a; `tests/test_session119.py`); what is left to rule is whether to divide by scored stories | session 119, on main |
+| 4 | Google News links | landed (the Digest's fix 7) | session 470, `63dcc2e3`, on main |
+| 5 | The email carries the page's disclosures | landed | session 470, `239e78cf`, on main; `TheEmail` |
+| 6 | A missed week said | waiting: Samuel's ruling (week 42) | |
+| 7 | Deals and datacenters: a floor, US first | waiting: Samuel's ruling | |
+| 8 | Deal rows extracted twice or wrongly | landed | session 531, `warehouse/deals/deal_parties.py`, on main; `tests/test_session531.py` |
+| 9 | Policy wording | landed; since session 577 the read or why line under the policy of the week ends with a stop before its link and carries the one money style | session 470, `239e78cf`, on main; 577 `wip/577-s`, `EveryWhyLineGoesThroughIt` |
+| 10 | Codes as words | landed: the deal table by session 470 (`roundup.DEAL_LABEL`); the deals-by-month chart's legend and note by session 577 (`deals_by_month.LABEL`, "acquisition" for `m_and_a`, as the tracker and the table say it) | 470 on main; 577 `wip/577-s`; `DealTypesInWordsInTheChart` |
+| 11 | The chart shows the number it calls notable | landed | session 533, on main (`warehouse/analysis/style.py`, `templates/common.py`, `peak_premium_block.py`, `site/components/svgchart.tsx`); `tests/test_session533.py` |
+| 12 | One definition of midday | landed: each block's hours stated in the template's fact | session 470, `a8afc37c`, on main |
+| 13 | Trace W40 and W41 | done: 76 figures equal, 4 revised by the publisher after the issue (W40's highest real-time price, 1372.09, now reads 42.72; the US48 peaks 0.2 to 0.5 percent higher), 4 gaps stated when written, 0 failed | session 498, `scripts/check_roundup.py`, on `wip/506-combined`, landing with chain 023 |
+
+Beside the ranked fixes, left as they are: the email puts the numbers before the policy of the week and does not name the deals and datacenter sections (no fix asked it); W41's no-model headline "massive" is the publisher's own title, said as such on the page and in the email (whether those titles may be edited is in session 577's report, for Samuel).

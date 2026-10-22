@@ -204,7 +204,13 @@ export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false
   };
   const labels = drawn.map((d, k) => ({ k, y: d.endY ?? py(0, b1), n: lines(d.s.name).length })).sort((a, b) => a.y - b.y);
   for (let i = 1; i < labels.length; i++) if (labels[i].y < labels[i - 1].y + 13 * labels[i - 1].n) labels[i].y = labels[i - 1].y + 13 * labels[i - 1].n;
+  // session 584: the last name's last line is kept inside the drawing before the names above it make room (six grids'
+  // names on a phone, or a three-line name at the bottom, ran up to 77 px below the chart and were cut); where all of
+  // them do not fit between the top and the bottom, the first stays in view and the rest follow it down as before
+  const floorY = height - 8;
+  if (labels.length) { const z = labels[labels.length - 1]; if (z.y + 13 * (z.n - 1) > floorY) z.y = floorY - 13 * (z.n - 1); }
   for (let i = labels.length - 2; i >= 0; i--) if (labels[i].y > labels[i + 1].y - 13 * labels[i].n) labels[i].y = labels[i + 1].y - 13 * labels[i].n;
+  if (labels.length && labels[0].y < 10) { labels[0].y = 10; for (let i = 1; i < labels.length; i++) if (labels[i].y < labels[i - 1].y + 13 * labels[i - 1].n) labels[i].y = labels[i - 1].y + 13 * labels[i - 1].n; }
 
   const onMove = (e: React.MouseEvent<SVGSVGElement>) => {
     if (!xs.length) return;

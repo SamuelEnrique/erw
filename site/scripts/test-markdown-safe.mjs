@@ -52,7 +52,14 @@ test("a word in angle brackets is shown as the author wrote it", () => {
 
 test("markdown's own output is as it was", () => {
   const html = render("# Title\n\nSome **bold** and `code <b>` and a [link](https://example.com).\n\n| a | b |\n|---|---|\n| 1 | 2 |\n\n```\n<script>in a code block</script>\n```\n", at);
-  for (const kept of ["<h1>Title</h1>", "<strong>bold</strong>", "<code>code &lt;b&gt;</code>", '<a href="https://example.com">link</a>', "<table>", "&lt;script&gt;in a code block&lt;/script&gt;"]) assert.ok(html.includes(kept), `${kept} in ${html}`);
+  for (const kept of ['<h1 id="title">Title</h1>', "<strong>bold</strong>", "<code>code &lt;b&gt;</code>", '<a href="https://example.com">link</a>', "<table>", "&lt;script&gt;in a code block&lt;/script&gt;"]) assert.ok(html.includes(kept), `${kept} in ${html}`);
+});
+
+test("each heading carries the id GitHub gives it (session 581)", () => {
+  const md = ["## 2. The tax side: severance and property tax", "### What JEDI cannot see", "### Terms", "### Terms", "## The `code` and [a link](https://example.com)"].join("\n\n");
+  const html = render(md, at);
+  for (const id of ["2-the-tax-side-severance-and-property-tax", "what-jedi-cannot-see", "terms", "terms-1", "the-code-and-a-link"]) assert.ok(html.includes(`id="${id}"`), `${id} in ${html}`);
+  assert.ok(html.includes('<h3 id="what-jedi-cannot-see">What JEDI cannot see</h3>'));
 });
 
 test("every document the site holds renders with no tag that is not markdown's own", () => {

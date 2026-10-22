@@ -33,10 +33,14 @@ function E({ ev, r, term, field, v }: { ev: string; r: Row; term: string; field:
 function Plot({ r, label }: { r: Row; label: string }) {
   const d = r.s.days;
   const lo = Math.min(0, ...d.map((x) => x.lo)), hi = Math.max(0, ...d.map((x) => x.hi));
-  const W = 720, H = 240, L = 64, R = 12, top = 12, bot = 28;
+  const ticks = [lo, (lo + hi) / 2, hi];
+  // session 584: the left margin holds the widest figure of the scale (a seven-figure negative ran 2 px past the left
+  // edge, /events/covid-2020), and a day's date stays inside the drawing at the right (it ran up to 9 px past it)
+  const tickW = Math.max(...ticks.map((t) => Math.round(t).toLocaleString("en-US").length * 6.4));
+  const W = 720, H = 240, L = Math.max(64, Math.ceil(tickW) + 10), R = 12, top = 12, bot = 28;
   const x = (i: number) => L + ((i + 0.5) / d.length) * (W - L - R);
   const y = (v: number) => top + ((hi - v) / (hi - lo || 1)) * (H - top - bot);
-  const ticks = [lo, (lo + hi) / 2, hi];
+  const dayX = (i: number) => Math.max(Math.min(x(i), W - 2 - d[i].day.length * 3.3), d[i].day.length * 3.3 + 2);
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img"
       aria-label={`${label}: the estimated effect of each event day, with its 95 percent interval; zero is no effect`}>
@@ -55,7 +59,7 @@ function Plot({ r, label }: { r: Row; label: string }) {
         </g>
       ))}
       {[0, Math.floor((d.length - 1) / 2), d.length - 1].map((i) => (
-        <text key={i} x={x(i)} y={H - 8} textAnchor="middle" fontSize={11} fill="var(--color-muted)">{d[i].day}</text>
+        <text key={i} x={dayX(i)} y={H - 8} textAnchor="middle" fontSize={11} fill="var(--color-muted)">{d[i].day}</text>
       ))}
     </svg>
   );

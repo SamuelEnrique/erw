@@ -67,7 +67,7 @@ Four pages and the Research cards carry a replication package: a CSV of the page
 | What a generator earns, `/cost-of-power/seller` | `seller/erw_2026_generator_hourly.csv`, `seller/erw_2026_generator_replication.do`, `seller/erw_2026_generator_replication.py` | `docs/methods/cost_of_power.md`, `docs/methods/generator_earns_algorithm.md` |
 | What a datacenter pays, `/cost-of-power` | `datacenter/erw_2026_datacenter_hourly.csv`, `datacenter/erw_2026_datacenter_carbon.csv`, `datacenter/erw_2026_datacenter_replication.do`, `datacenter/erw_2026_datacenter_replication.py` | `docs/methods/datacenter_pays_algorithm.md` |
 | The Grid tool, `/grid?view=network` | `grid/erw_2026_grid_replication.csv`, `grid/erw_2026_grid_replication.do`, `grid/erw_2026_grid_replication.py` | `docs/methods/grid_network.md` |
-| Research's cards, `/research` | one `.do` and one `.py` a card, the cards' `erw_2026_*.csv`, and `findings/erw_2026_research_replication.py` for all nine | `docs/methods/automated_analysis_findings.md` |
+| Research's cards, `/research` | one `.do` and one `.py` a card, the cards' `erw_2026_*.csv`, and `findings/erw_2026_research_replication.py` for the ten the library shows (the tenth, `peak_hour_moved`, since session 582) | `docs/methods/automated_analysis_findings.md` |
 
 To rerun one, put the CSV and the file in one folder and run it:
 

@@ -93,6 +93,29 @@ async function turn<T>(f: () => Promise<T>): Promise<T> {
   }
 }
 
+// Session 580: the time of each read, for a measurement (docs/reviews/slow-reads-2026-10-22.md). Off unless the server
+// or the build is started with ERW_READ_TIMING=1. Off, readClock() answers 0 without reading a clock and readLine()
+// returns at once: the request is the one it was, sent and awaited by the same line. On, each request (one page of a
+// read, or a count) prints one line, "[erw-read] " and a JSON object: kind ("rows" or "count"), table, query (the
+// PostgREST parameters as sent), status ("failed" for a request that never answered), range (PostgREST's
+// Content-Range: the rows answered, and the total for a count) and ms, the time from the request to its answer's
+// headers, measured inside the build's turn so a wait for a slot is not counted. A retry is its own line.
+// site/scripts/slow-reads.mjs reads those lines from a build's log. Nothing is written to a file or sent anywhere.
+export function readTiming(v: string | undefined): boolean {
+  return v === "1";
+}
+const READ_TIMING = readTiming(process.env.ERW_READ_TIMING);
+function readClock(): number {
+  return READ_TIMING ? performance.now() : 0;
+}
+function readLine(kind: "rows" | "count", table: string, qs: URLSearchParams, t0: number, r: Response | undefined): void {
+  if (!READ_TIMING) return;
+  const ms = Math.round(performance.now() - t0);
+  const status = r ? String(r.status) : "failed";
+  const range = r?.headers.get("content-range") ?? "";
+  console.log(`[erw-read] ${JSON.stringify({ kind, table, query: qs.toString(), status, range, ms })}`);
+}
+
 function config(): { base: string; key: string } {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_ANON_KEY;
@@ -178,10 +201,16 @@ async function onePage<T>(base: string, key: string, table: string, query: Recor
     try {
       // the body of a failed answer is read inside the turn, so the slot is held until the request is over
       [res, body] = await turn(async () => {
-        const r = await fetch(`${base}/rest/v1/${table}?${qs}`, {
-          headers: { apikey: key, Authorization: `Bearer ${key}` },
-          next: { revalidate, tags: [table] },
-        });
+        const t0 = readClock();   // session 580: 0 and no clock unless ERW_READ_TIMING=1
+        let r: Response | undefined;
+        try {
+          r = await fetch(`${base}/rest/v1/${table}?${qs}`, {
+            headers: { apikey: key, Authorization: `Bearer ${key}` },
+            next: { revalidate, tags: [table] },
+          });
+        } finally {
+          readLine("rows", table, qs, t0, r);
+        }
         return [r, r.ok ? "" : (await r.text()).slice(0, 200)] as [Response, string];
       });
     } catch (e) {
@@ -316,10 +345,20 @@ async function restCountRaw(table: string, query: Record<string, string>, revali
 async function countOf(table: string, query: Record<string, string>, revalidate: number): Promise<number> {
   const { base, key } = config();
   const qs = new URLSearchParams({ ...query, limit: "1" });
-  const res = await turn(() => fetch(`${base}/rest/v1/${table}?${qs}`, {
-    headers: { apikey: key, Authorization: `Bearer ${key}`, Prefer: "count=exact" },
-    next: { revalidate, tags: [table] },
-  }));
+  const url = `${base}/rest/v1/${table}?${qs}`;
+  const res = await turn(async () => {
+    const t0 = readClock();   // session 580: 0 and no clock unless ERW_READ_TIMING=1
+    let r: Response | undefined;
+    try {
+      r = await fetch(url, {
+        headers: { apikey: key, Authorization: `Bearer ${key}`, Prefer: "count=exact" },
+        next: { revalidate, tags: [table] },
+      });
+    } finally {
+      readLine("count", table, qs, t0, r);
+    }
+    return r;
+  });
   if (!res.ok) throw new DataError(`Supabase ${table}: HTTP ${res.status} ${(await res.text()).slice(0, 200)}`);
   const range = res.headers.get("content-range") ?? "";
   const n = Number(range.split("/")[1]);

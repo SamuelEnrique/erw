@@ -63,3 +63,11 @@ curl -s http://localhost:3500/deals | grep -c data-held-rows    # expected 0 tod
 - `site/lib/data.ts`, `site/scripts/check-values.mjs`, `site/app/deals/page.tsx`, `site/app/deals/v2/view.tsx`, `site/app/deals/comparables/view.tsx`, `site/app/datacenters/page.tsx`, `docs/methods/energy_deals.md`, `docs/methods/datacenter_facilities.md` (changed).
 - This report.
 - Not in git: `runs/chain_023/s500/` (precheck, probe, tsc, tests, the stopped job's script and log).
+
+## Finished (session 506)
+
+Done by session 506 on the old laptop (samueloldlaptop), 21 October 2026, on `wip/506-combined`: `wip/429-combined` with origin/main (chain 024 landed) merged, then `wip/430-check-values` to `wip/505-check-holds` in session order, three conflicts resolved (`check-values.mjs`'s whole-MW rule, `site/lib/supabase.ts` with session 537's retry, `docs/machines.md`; `energy_deals.md` kept both sections). One build of that branch served every report's checks, not one build a branch: the branch holds each session's work, and a build takes the database's time. `scripts/db_probe.py` 0 (0.63 s), the build lock `scripts/buildlock.py acquire s506` (session 504's, on the branch), the build exit 0 with no statement timeout, served on port 3506. The session tests of 430 to 505 and 531 to 541, with 402, 418, 464, 470 and 196: 258 tests OK.
+
+- On the build: check-values on `/deals`, `/deals?tab=tracker`, `/deals?view=comparables` and `/datacenters` within the full run, every value equal; `/deals`' floor fails as before (the hold, 1 checked number against 10; the held-rows line is not drawn while no table is held by row). `curl http://localhost:3506/deals | grep -c data-held-rows`: 0, as expected today.
+- The shots of a page with public rows still wait for the data machine's `row_license` and `hold = row`.
+- On the stopped job of 21 October (this report's last line under "To finish"): session 506 could not see portable-laptop's processes; whether another session's `build_check.sh` was stopped with it is not known, and no report of chain 023 names a lost run.

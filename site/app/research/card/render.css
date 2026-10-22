@@ -119,3 +119,32 @@ body:has(.finding-render) > main { max-width: none; padding: 0; margin: 0; }
     align-content: start;
   }
 }
+
+/* Session 588: the tall frame, 1080 x 1350, the same way. Its box above (430 px; 620 on the peak hour card) held the
+   five panels in one column only to 870 px, and the fifth (SPP) was drawn over the callouts' boxes (session 506's shots,
+   docs/brand/review-497/after/). In the tall frame the panels stand in two columns, three rows (SPP alone in the
+   last), and the box is as tall as its panels, so the callouts begin under the lowest axis label: no value, no panel
+   and no label is removed, only placed (scripts/check-findings-grids.mjs measures it in every frame). */
+@media (max-aspect-ratio: 3/2) {
+  .finding-render [data-finding-chart="multiples"][data-option-kind="panels"] {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 12px;
+    align-content: start;
+    height: auto !important;
+  }
+  /* a panel is half as wide: the timeline's labels (a year, or a year and month, 11 px) touched and ran into each
+     other (5 px over on the lunch card); at 9 px, the size of the frame's footnote, each stands clear of the next */
+  .finding-render [data-finding-chart="multiples"][data-option-kind="panels"] svg text[text-anchor="middle"] { font-size: 9px; }
+}
+
+/* Session 588, the check's finding: in the wide frame every card of one chart had the same fault. Its box is the
+   canvas's (280 px; 300 on the hourly curtailment card), the SVG the card draws on the picture is 420 px tall
+   (FindingCard.tsx), so the chart's foot and axis labels ran about 120 px over the callouts on every 1600 x 900
+   picture (docs/brand/review-588/before/). In the wide frame the box is as tall as its drawing, and the drawing is
+   scaled whole to at most 340 px (its proportions, its type and every value as drawn; the lowest last line of the
+   eleven cards then ends near 870 of 900 px). The tall frame, where the drawing fits, is unchanged. */
+@media (min-aspect-ratio: 3/2) {
+  .finding-render [data-finding-chart]:not([data-option-kind="panels"]) { height: auto !important; }
+  .finding-render [data-finding-chart]:not([data-option-kind="panels"]) svg { width: auto; height: auto; max-height: 340px; }
+}

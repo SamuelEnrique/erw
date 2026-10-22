@@ -298,7 +298,10 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
       </BatteryDecisions>
       <SourceLine tables={g.review
         ? [REVIEW_TABLE, "iso_hub_prices_history", ...(x.grid === "nyiso" ? ["nyiso_rtm_zone_prices", "nyiso_dam_zone_prices", "nyiso_as_prices"] : ["iso_rtm_hub_prices", "iso_dam_hub_prices", "spp_as_prices"])]
-        : [TABLE, ...(x.grid === "ercot" ? ["ercot_all_hub_prices_history", "iso_rtm_hub_prices", "iso_dam_hub_prices", "ercot_as_prices"] : ["iso_hub_prices_history", "iso_rtm_hub_prices", "iso_dam_hub_prices", "caiso_as_prices"])]}
+        : [TABLE, ...(x.grid === "ercot" ? ["ercot_all_hub_prices_history", "iso_rtm_hub_prices", "iso_dam_hub_prices", "ercot_as_prices"] : ["iso_hub_prices_history", "iso_rtm_hub_prices", "iso_dam_hub_prices", "caiso_as_prices"]),
+          // session 585 (the trader path's walk): the awards line and the storage nodes' band draw figures from two more
+          // tables, named here whenever they are drawn
+          ...(beside ? [(awardsData as unknown as { fleet_table: string }).fleet_table] : []), ...(nodeMonths ? ["node_basis_summary"] : [])]}
         note={<>Derived by the ERW from {g.name}&apos;s public prices; {g.review ? "the first table is what this page reads, from the site's own copy of it" : "the first table is what this page reads"}. Cost defaults: Lazard, Levelized Cost of Energy+, June 2025, at 2 and 4 hours; at 8 hours <a href={ATB.url} rel="noopener">NREL&apos;s Annual Technology Baseline 2025</a> (session 296). Solar, wind and gas peakers are on <Link href="/cost-of-power/seller">the seller tab</Link>. The default case hour by hour: <a href={DISPATCH} download>CSV</a>, with a <a href={DO_FILE} download>Stata do-file</a> and its <a href={MIRROR} download>Python mirror</a> that rebuild the headline numbers from it. <span data-checked-against="25">Checked against: 25 published figures (Lazard, the Annual Technology Baseline, CAISO&apos;s market monitor, ERCOT&apos;s awards, EIA, and seven comparisons with published ERCOT battery figures). <Link href="/data/methods/battery_earns_algorithm#cross-checks">Each comparison, with its gap and the reason</Link>.</span></>} />
     </ToolPage>
     </Brand>

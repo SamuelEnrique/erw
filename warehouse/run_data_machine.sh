@@ -92,7 +92,7 @@ HISTORIES="ercot_all_hub_prices_history ercot_zone_prices_history iso_zone_price
 ZONES=ercot_zone_prices_history
 PAGE_PATHS=(site/data/datacenter site/data/seller/capture.json site/data/curtailment/shares.json
             site/data/curtailment/free_energy.json site/data/curtailment/worth.json
-            site/public/datacenter/erw_2026_datacenter_hourly.csv
+            site/public/datacenter/erw_2026_datacenter_hourly.csv site/public/datacenter/erw_2026_datacenter_carbon.csv
             site/public/battery/erw_2026_battery_dispatch.csv site/data/battery_scenario_steps.json
             site/data/merchant_snapshot.json site/data/seller/hubs site/public/seller/erw_2026_generator_hourly.csv
             site/data/seller/hybrid.json site/public/seller/prices
@@ -362,6 +362,11 @@ fi
 # and its do-file (tests/test_session190_replication.py holds the CSV to those files). After the files are final:
 # a datacenter file put back above is the one exported. It reads no table and writes nothing but the CSV.
 soft_step dm_datacenter_export "$PYTHON" warehouse/derived/datacenter_hourly_export.py
+# Session 582: the carbon file beside it (the answer "How clean"), read from the live set with the public key. Until
+# now only a session wrote it, so its months and its hourly window fell behind the page's (on 22 October 2026 the
+# tonnes a year read 265,548 against the page's 265,549, and the window 10,160 hours against 10,141). It writes
+# nothing when a read fails.
+soft_step dm_datacenter_carbon "$PYTHON" site/scripts/write-datacenter-carbon.py
 
 # ---- 3b. the battery page's downloads, the generator page's builders and its hourly CSV (session 204) -----------------
 # Each through warehouse/scheduled.py (it skips with the reason where an input is not here), each a soft step. After

@@ -3,7 +3,7 @@
 // description, founders, raised, sources and the confidence clause. A row's anchor (#co-<name>) opens it, so /deals can link here.
 import { Fragment, useEffect, useMemo, useState } from "react";
 import type { Company } from "@/lib/data";
-import { companyAnchor } from "@/lib/companies";
+import { companyAnchor, websiteHref } from "@/lib/companies";
 import { Num } from "@/components/Num";
 
 const STATES: Record<string, string> = {
@@ -136,7 +136,7 @@ export function CompaniesTable({ rows }: { rows: Company[] }) {
                         <dt className="text-muted">Raised</dt>
                         <dd>{r.raised || (/^public company/.test(r.confidence_note) ? "blank: public company" : blank)}</dd>
                         <dt className="text-muted">Website</dt>
-                        <dd>{r.website ? <a href={r.website}>{r.website}</a> : "not stated"}</dd>
+                        <dd>{r.website ? (websiteHref(r.website) ? <a href={websiteHref(r.website)!}>{r.website}</a> : r.website) : "not stated"}</dd>
                         <dt className="text-muted">Confidence</dt>
                         <dd>
                           {r.confidence} of 100: {r.confidence_note}

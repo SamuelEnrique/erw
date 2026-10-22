@@ -12,6 +12,8 @@
 //              (?<param>=<grid>), and opening that address shows the same grid
 //   ERCOT      the one-grid view of ERCOT prints the old ERCOT card's callout numbers
 // For the hourly curtailment card: drawn, with its effect table, at both widths, no sideways scroll.
+// The render frames (1080 x 1350 and 1600 x 900, ?render=1): the whole card on the picture, no control on it, and
+// (session 588) the lowest chart text above the callouts' top.
 // With --shots, a PNG of each view is written (the phone views are what the report describes). Exit 1 on a failure;
 // 2 when no browser is on the machine.
 // Session 474: sessions 317 and 318 drew the cards' charts in the shared SVG set (components/SvgOption.tsx), so every
@@ -115,6 +117,17 @@ const code = await withBrowser(async ({ go, wait, unlock, send, sleep, errors })
       const m = await js("({ h: document.documentElement.scrollHeight, w: document.documentElement.scrollWidth, foot: Math.round(document.querySelector('.finding-render-foot').getBoundingClientRect().bottom), controls: [...document.querySelectorAll('.multi-controls')].filter((e) => e.offsetParent !== null).length })");
       check(m.foot <= h && m.h <= h && m.w <= w, `${id} ${w} x ${h}: the whole card is on the picture (its last line ends at ${m.foot} of ${h} px)`);
       check(m.controls === 0, `${id} ${w} x ${h}: no control on the picture`);
+      // session 588: the chart is not drawn over the card's words; the lowest text of the drawing (an axis label, a
+      // series' name) ends above the callouts' top (the paragraph's, on a card without callouts). In the tall frame the
+      // five panels ran in one column to 870 px, over the callouts' boxes near 830 (docs/brand/review-497/after/)
+      const low = await js("(() => { const t = [...document.querySelectorAll('[data-render=\"1\"] [data-finding-chart] svg text')].map((e) => e.getBoundingClientRect()).filter((r) => r.height > 0); const below = document.querySelector('[data-render=\"1\"] .finding-callouts') ?? document.querySelector('[data-render=\"1\"] .finding-why'); return { text: Math.round(Math.max(0, ...t.map((r) => r.bottom))), top: below ? Math.round(below.getBoundingClientRect().top) : null, n: t.length }; })()");
+      check(low.n > 0 && low.top !== null && low.text <= low.top, `${id} ${w} x ${h}: the lowest chart text ends at ${low.text} px, above the callouts' top at ${low.top} px`);
+      // and in the tall frame's small multiples, no two of a panel's timeline labels run into each other (its two
+      // columns made each panel half as wide). The wide frame's five side by side panels (session 497) are not held to
+      // it: their plots are some 20 px wide and the peak hour card's eight years print over each other there, a layout
+      // choice listed for Samuel in session 588's report
+      const gap = await js("(() => { let worst = null; for (const p of document.querySelectorAll('[data-render=\"1\"] [data-finding-chart=\"multiples\"] [data-panel] svg')) { const t = [...p.querySelectorAll('text[text-anchor=\"middle\"]')].map((e) => e.getBoundingClientRect()).filter((r) => r.width > 0).sort((a, b) => a.left - b.left); for (let i = 1; i < t.length; i++) worst = Math.min(worst ?? 1e9, t[i].left - t[i - 1].right); } return worst; })()");
+      if (gap !== null && h > w) check(gap >= 0, `${id} ${w} x ${h}: the panels' timeline labels stand apart (the closest two ${Math.round(gap * 10) / 10} px)`);
     }
   }
   const errs = errors.filter((e) => !/favicon/.test(String(e)));

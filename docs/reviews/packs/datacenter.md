@@ -191,7 +191,7 @@ Tonight: `check-values` 682 of 682 on the cost-of-power pages, twice; the Python
 
 ## 8. What Samuel's Stata run must reproduce
 
-The files: `site/public/datacenter/erw_2026_datacenter_hourly.csv` (exported 2026-10-11T17:27:06Z), `erw_2026_datacenter_carbon.csv` (rewritten by session 265 from the live set at 2026-10-14, so its hourly window is the page's, 10,160 hours), `erw_2026_datacenter_replication.do` and `.py`. Their defaults are the page's: 100 MW, 1.3 kW per GPU, an overhead ratio of 1.56, the level USD 1,000. The `.py` was run tonight (`runs/session265/replication_py3.out`, exit 0).
+The files: `site/public/datacenter/erw_2026_datacenter_hourly.csv` (exported 2026-10-11T17:27:06Z), `erw_2026_datacenter_carbon.csv` (rewritten by session 265 from the live set at 2026-10-14, so its hourly window is the page's, 10,160 hours), `erw_2026_datacenter_replication.do` and `.py`. Their defaults are the page's: 100 MW, 1.3 kW per GPU, an overhead ratio of 1.56, the level USD 1,000. The `.py` was run tonight (`runs/session265/replication_py3.out`, exit 0). Session 582 (22 October 2026): that carbon file had fallen behind the page (265,548 tonnes a year against 265,549; 10,160 hours against 10,141), was rewritten from the live set, and the data machine's run now rewrites it every day (`dm_datacenter_carbon`); the run in a clean environment, figure by figure: `docs/reviews/replications-2026-10-22.md`.
 
 | Name | The page shows | The .py printed tonight | The do-file's display line |
 |---|---|---|---|

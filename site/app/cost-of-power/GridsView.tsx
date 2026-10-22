@@ -22,12 +22,12 @@ import { CaisoBreakNote } from "@/components/CaisoBreakNote";  // session 73
 
 const M = "cost_of_power_monthly", P = "cost_of_power_hourly_profile", C = "cost_of_power_carbon";
 const ISO: Record<string, { name: string; hub: string; grid: string }> = {
-  ercot: { name: "ERCOT", hub: "HB_HUBAVG", grid: "/grid/ercot" },
-  caiso: { name: "CAISO", hub: "SP15", grid: "/grid/caiso" },
-  isone: { name: "ISO-NE", hub: "Internal Hub", grid: "/grid/isone" },
-  miso: { name: "MISO", hub: "Indiana Hub", grid: "/grid/miso" },
-  nyiso: { name: "NYISO", hub: "N.Y.C. (zone J)", grid: "/grid/nyiso" },
-  spp: { name: "SPP", hub: "SPP North Hub", grid: "/grid/spp" },
+  ercot: { name: "ERCOT", hub: "HB_HUBAVG", grid: "/grid?grid=ercot" },
+  caiso: { name: "CAISO", hub: "SP15", grid: "/grid?grid=caiso" },
+  isone: { name: "ISO-NE", hub: "Internal Hub", grid: "/grid?grid=isone" },
+  miso: { name: "MISO", hub: "Indiana Hub", grid: "/grid?grid=miso" },
+  nyiso: { name: "NYISO", hub: "N.Y.C. (zone J)", grid: "/grid?grid=nyiso" },
+  spp: { name: "SPP", hub: "SPP North Hub", grid: "/grid?grid=spp" },
 };
 const { mw: MW, loadFactor: LF, days: DAYS, share: SHARE } = DEFAULTS;
 

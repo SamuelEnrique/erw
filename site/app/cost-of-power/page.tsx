@@ -277,7 +277,7 @@ async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyG
                   {" "}<Link href={`${ALGORITHM}#cannot-see`}>What else the model cannot see</Link>.
                 </p>
                 <p className="mt-2 max-w-3xl text-xs text-muted" data-grid-links="1">
-                  The grid&apos;s own figures, on their pages: <Link href={`/demand?area=${x.grid}`}>demand growth</Link>, <Link href={`/mix?view=stress&grid=${x.grid}`}>how hard the grid works</Link>, <Link href={`/mix?view=clean&grid=${x.grid}`}>how clean, and when</Link>, <Link href={`/queues?grid=${x.grid}&tech=all`}>interconnection queues</Link>, <Link href="/datacenters">the datacenter tracker</Link>.
+                  The grid&apos;s own figures, on their pages: <Link href={`/demand?area=${x.grid}`}>demand growth</Link>, <Link href={`/grid?view=mix&grid=${x.grid}&mix=stress`}>how hard the grid works</Link>, <Link href={`/grid?view=clean&grid=${x.grid}`}>how clean, and when</Link>, <Link href={`/queues?grid=${x.grid}&tech=all`}>interconnection queues</Link>, <Link href="/datacenters">the datacenter tracker</Link>.
                 </p>
                 <p className="mt-2 max-w-3xl text-xs text-muted" data-months-csv="1">
                   <a href={`${MONTHS_CSV}${suffix}`} download>Every month, CSV</a>: a flat load&apos;s price, this load&apos;s, the foreseen price, the hours off and the cost for {size}, each month and each year held, and the hours at or above the scarcity level and the grid&apos;s carbon intensity in each.
