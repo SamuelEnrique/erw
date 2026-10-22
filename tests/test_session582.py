@@ -9,7 +9,8 @@ data machine's run now rewrites it every day.
 What is held here: each of the four mirrors that claim the standard library only runs with no site-packages (python -I
 -S) from a temporary folder holding only its own files, exits 0 and prints the lines the review compares; the datacenter
 mirror reads the carbon file beside it; the carbon file's header counts its own rows; the data machine's run rewrites
-the carbon file after the hourly CSV and commits it; the review has a row for each of the five tools. Nothing here sets
+the carbon file after the hourly CSV and commits it; Research's mirror rebuilds the tenth card /research shows
+(peak_hour_moved), every figure equal to its JSON; the review has a row for each of the five tools. Nothing here sets
 the environment, reads a table, makes a request or calls a model.
 """
 
