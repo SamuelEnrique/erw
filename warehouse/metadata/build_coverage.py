@@ -171,7 +171,11 @@ SECTOR_RULES = [
     (r"^eia_drilling_monthly$", "oil;gas"),  # session 603: EIA's drilling activity, a month
     (r"^eia_gas_wells_annual$", "gas"),  # session 604: EIA's producing natural gas wells by state, a year
     (r"^eia930_subba_demand_hourly$", "power"),  # session 602: EIA-930's demand by sub-region, hourly
+    (r"^eia930_subba_demand_hourly_\d{4}$", "power"),  # session 612: the same, a whole year a table
     (r"^eia_heating_fuel_prices_weekly$", "products"),  # session 605: EIA's weekly heating oil and propane prices
+    (r"^boem_ogor_lease_production_monthly$", "oil;gas"),  # session 611: BOEM's offshore production by lease, a month
+    (r"^eia_refinery_capacity_annual$", "products"),  # session 614: EIA's refinery capacity, a year
+    (r"^eia_refinery_inputs_monthly$", "products"),  # session 615: EIA's refinery and blender net input, a month
     (r"^pjm_rpm_capacity_prices$", "capacity"),
     # session 65: capacity prices of the four markets that pay capacity apart, and the day-ahead ancillary services
     (r"^iso_all_capacity_prices$", "capacity"),

@@ -16,7 +16,12 @@ The window is the last 90 whole UTC days before the run's day. A blank has no ro
 give for a sub-region is missing, counted in the run log and the header. A unit not in the map stops the run; so does a key
 given twice.
 
+A year (session 612): --year <y> reads the year's hours (hour-ending periods <y>-01-01T01 to <y+1>-01-01T00) in twelve
+monthly windows, each paged on its own, and writes warehouse/output/eia930_subba_demand_hourly_<y>.csv. Its ceiling is 89
+requests a run; a run that reaches it writes nothing, and the pages it saved answer the next run (sessions 612 and 613).
+
     python warehouse/connectors/eia930_subba.py [--days 90] [--offline | --fresh]
+    python warehouse/connectors/eia930_subba.py --year 2025 [--offline | --fresh]
 
 Ceiling: 59 requests a run (pages of 5,000, 3 seconds apart; a page an earlier run saved in warehouse/raw is reused unless
 --fresh; --offline asks nothing). License: public (EIA, record 1 of license_reads.csv; cite "U.S. Energy Information
@@ -43,6 +48,7 @@ SOURCE = "eia:electricity/rto/region-sub-ba-data"
 API = "https://api.eia.gov/v2/electricity/rto/region-sub-ba-data/"
 PAGE = "https://www.eia.gov/electricity/gridmonitor/"
 CEILING, PAUSE, RETRY_WAIT = 59, 3, 60   # session 602: one of 60 went to the probe
+YEAR_CEILING = 89   # session 612: one of 90 is left for a retry
 UNITS = {"megawatthours": ("MW", 1.0)}   # an hour's megawatthours are the hour's mean megawatts
 
 
@@ -82,9 +88,21 @@ def window(days, today=None):
     return f"{first_day:%Y-%m-%d}T01", f"{today:%Y-%m-%d}T00"
 
 
+def year_windows(year):
+    """The year's twelve months as (first period, last period), EIA's hour-ending strings: a month's hours start at its
+    first day's T00, so its periods run from T01 that day to T00 of the next month's first day."""
+    out = []
+    for m in range(1, 13):
+        a = dt.date(year, m, 1)
+        b = dt.date(year + (m == 12), m % 12 + 1, 1)
+        out.append((f"{a:%Y-%m-%d}T01", f"{b:%Y-%m-%d}T00"))
+    return out
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="EIA-930's demand by sub-region, hourly")
     ap.add_argument("--days", type=int, default=90)
+    ap.add_argument("--year", type=int, help="a whole year, in twelve monthly windows, as its own table (session 612)")
     ap.add_argument("--through", help="the run's day (UTC, YYYY-MM-DD): the window ends at its first hour (default today)")
     ap.add_argument("--offline", action="store_true", help="the pages from warehouse/raw only, no request")
     ap.add_argument("--fresh", action="store_true", help="ask every page again, even one saved in warehouse/raw")
@@ -100,6 +118,8 @@ def main(argv=None):
     ip.RAW.open(CONNECTOR, run_id)
     results = []
     asked = [0]
+    ceiling = YEAR_CEILING if args.year else CEILING
+    name = f"{NAME}_{args.year}" if args.year else NAME
 
     def get(params):
         url = requests.Request("GET", API + "data/", params=params).prepare().url
@@ -110,8 +130,8 @@ def main(argv=None):
         if args.offline:
             raise RuntimeError(f"offline: {ip.redact(url)} is not in warehouse/raw/{CONNECTOR}/")
         for attempt in (1, 2):
-            if asked[0] >= CEILING:
-                raise RuntimeError(f"the ceiling of {CEILING} requests is reached")
+            if asked[0] >= ceiling:
+                raise RuntimeError(f"the ceiling of {ceiling} requests is reached")
             asked[0] += 1
             time.sleep(PAUSE)
             r = requests.get(url, timeout=180)
@@ -126,54 +146,64 @@ def main(argv=None):
         key = ip.load_key("EIA_API_KEY", log)
         if not key:
             raise RuntimeError("EIA_API_KEY is not set (.env or the environment)")
-        today = dt.date.fromisoformat(args.through) if args.through else None
-        first, last = window(args.days, today)
+        if args.year:
+            windows = year_windows(args.year)
+            first, last = windows[0][0], windows[-1][1]
+            hours = (dt.date(args.year + 1, 1, 1) - dt.date(args.year, 1, 1)).days * 24
+        else:
+            today = dt.date.fromisoformat(args.through) if args.through else None
+            first, last = window(args.days, today)
+            windows = [(first, last)]
+            hours = args.days * 24
         retrieved = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-        frames, offset, total = [], 0, None
-        while True:
-            body, url = get({"api_key": key, "frequency": "hourly", "data[]": "value", "start": first, "end": last, "length": 5000,
-                             "offset": offset, "sort[0][column]": "period", "sort[0][direction]": "asc",
-                             "sort[1][column]": "subba", "sort[1][direction]": "asc"})
-            resp = body["response"]
-            total = int(resp["total"])
-            frames.append(rows(resp["data"], url.split("&length")[0], retrieved))
-            offset += len(resp["data"])
-            if offset >= total or len(resp["data"]) < 5000:
-                break
-        if offset != total:
-            raise RuntimeError(f"{offset:,} rows read of the {total:,} EIA counts")
+        frames = []
+        for a, b in windows:
+            offset, total = 0, None
+            while True:
+                body, url = get({"api_key": key, "frequency": "hourly", "data[]": "value", "start": a, "end": b, "length": 5000,
+                                 "offset": offset, "sort[0][column]": "period", "sort[0][direction]": "asc",
+                                 "sort[1][column]": "subba", "sort[1][direction]": "asc"})
+                resp = body["response"]
+                total = int(resp["total"])
+                frames.append(rows(resp["data"], url.split("&length")[0], retrieved))
+                offset += len(resp["data"])
+                if offset >= total or len(resp["data"]) < 5000:
+                    break
+            if offset != total:
+                raise RuntimeError(f"{a} to {b}: {offset:,} rows read of the {total:,} EIA counts")
+            log(f"  {a} to {b}: {total:,} records")
         s = pd.concat([f for f in frames if len(f)], ignore_index=True)
         if s.duplicated(["entity", "variable", "ts_utc"]).any():
             raise RuntimeError("a row on two pages")
         s = s[ip.SERIES_COLS]
-        hours = args.days * 24
         n = s.groupby("entity").size()
         short = n[n < hours]
         log(f"{s['entity'].nunique()} sub-regions; {len(short)} with fewer than {hours} hours (missing hours {int((hours - short).sum()):,})")
         span = f"{s['ts_utc'].min()} to {s['ts_utc'].max()}"
         header = [
+            f"Energy Research Warehouse (ERW): EIA-930, demand by sub-region (sub-balancing-authority), hourly, {args.year} (session 612)" if args.year else
             "Energy Research Warehouse (ERW): EIA-930, demand by sub-region (sub-balancing-authority), hourly, the last 90 whole days (session 602)",
             "Shape: series (docs/datastandard.md v0). entity eia930_subba:<parent>:<subba>; variable demand_mw (MW, the hour's mean); ts_utc the hour's start (EIA's hour-ending period less one hour); freq PT1H; node the sub-region's and parent's names.",
             f"A blank has no row; nothing is filled. Hours {span}; {s['entity'].nunique()} sub-regions, {len(short)} of them with fewer than {hours} hours ({int((hours - short).sum()):,} hours missing as EIA gives them).",
-            f"Retrieved: {run_id} (UTC) by warehouse/connectors/eia930_subba.py; {asked[0]} requests of {CEILING}",
+            f"Retrieved: {run_id} (UTC) by warehouse/connectors/eia930_subba.py; {asked[0]} requests of {ceiling}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
             f"Source: {SOURCE} U.S. Energy Information Administration, Hourly Electric Grid Monitor, demand by subregion (API v2, route electricity/rto/region-sub-ba-data), {PAGE}",
-            f"  access: {API}data/?frequency=hourly&data[]=value&start={first}&end={last}",
+            f"  access: {API}data/?frequency=hourly&data[]=value&start={first}&end={last}" + (" (twelve monthly windows)" if args.year else ""),
             'License: public (a work of the U.S. government; cite "U.S. Energy Information Administration, Hourly Electric Grid Monitor").',
         ]
-        ip.write_snapshot(s, NAME, header, log, ip.SERIES_COLS)
+        ip.write_snapshot(s, name, header, log, ip.SERIES_COLS)
         if not args.out_dir:
             ip.update_sources([dict(source=SOURCE, publisher="U.S. Energy Information Administration (EIA)",
                                     report="Form EIA-930, demand by subregion (API v2, hourly)", report_url=PAGE, document_list=API,
-                                    license="public", tables=[NAME])])
-        results.append(dict(table=NAME, market="all", status="ok", detail=f"{len(s):,} rows"))
-        print(f"{NAME}: {len(s):,} rows, {s['entity'].nunique()} sub-regions, {span}; {asked[0]} requests")
+                                    license="public", tables=[name])])
+        results.append(dict(table=name, market="all", status="ok", detail=f"{len(s):,} rows"))
+        print(f"{name}: {len(s):,} rows, {s['entity'].nunique()} sub-regions, {span}; {asked[0]} requests")
     except Exception:
         tb = ip.redact(traceback.format_exc())
         log(f"FAILED, no output file written:\n{tb}")
         print(f"{CONNECTOR} FAILED, no output file written: {tb.strip().splitlines()[-1]}", file=sys.stderr)
-        results.append(dict(table=NAME, market="all", status="failed", detail=tb.strip().splitlines()[-1][:300]))
+        results.append(dict(table=name, market="all", status="failed", detail=tb.strip().splitlines()[-1][:300]))
     if not args.out_dir:
         ip.write_status(CONNECTOR, run_id, results)
     log.close()
