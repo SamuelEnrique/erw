@@ -61,6 +61,7 @@ eia930_demand_weather,EIA,EIA-930 (its name; the registry lists no row for it)
 eia930_event_hourly_interchange,EIA,the source registry
 eia930_generation_latest,EIA,the source registry
 eia930_subba_demand_hourly,EIA,the source registry
+eia930_subba_demand_hourly_2021,EIA,the source registry
 eia930_subba_demand_hourly_2022,EIA,the source registry
 eia930_subba_demand_hourly_2023,EIA,the source registry
 eia930_subba_demand_hourly_2024,EIA,the source registry
