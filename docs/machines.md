@@ -188,6 +188,23 @@ above says otherwise, this section is the newer one.
   The next sync brings a new daily table and leaves the monthly ones again: the two commands are needed after each.
 - **Other checkouts.** Seven worktrees beside the main one (`git worktree list`): `erw-184`, `erw-185`, `erw-185n`,
   `erw-191`, `erw-192`, `erw-193` (all merged) and `erw-200`.
+  A fresh worktree (session 503, 21 October 2026) has no `.venv`, no `site/node_modules`, no `.env`, no
+  `site/.env.local` and none of the files the build generates. Python: the main checkout's interpreter
+  (`.venv\Scripts\python.exe` of the main checkout). The site's packages: `npm ci` in `site/` (a junction to another
+  checkout's `node_modules` is refused by Turbopack). Keys: copy the main checkout's `.env` and, for a build or a
+  check against a local server, `site/.env.local` (never printed, never committed). Without `site/node_modules` every
+  test that runs node skips; with it, the generated `site/content/docs.json` and `site/content/waits.json` write
+  themselves: the alias loader (`site/scripts/alias-loader.mjs`) runs the script `npm run content` runs for a missing
+  one, once, and stops with an error naming `npm run content` if that script fails. `tsc --noEmit` needs the types
+  `next build` writes (`.next/types`): run it after a build. Tests that read `warehouse/output` skip where it is absent.
+  The whole suite in a fresh worktree of `wip/429-combined`, with `npm ci` done and nothing else, is session 503's
+  record.
+- **The build lock** (session 504). One heavy process at a time on a machine (a site build, the whole suite, a browser
+  check, Lighthouse): `python scripts/buildlock.py acquire <who>` waits until it is free (180 minutes by default, then
+  exit 1), `release <who>` frees it only for its holder, `status` says who holds it (exit 1 when held). The lock is
+  `runs/build.lock` in the main checkout, found from any worktree of it, holding "<who> <UTC time>" (the format of
+  chain 019's helper, so either honours the other); a lock older than 3 hours is taken as stale. It takes no path, so
+  Git Bash's `MSYS_NO_PATHCONV=1` cannot hide it.
 - **A test's residue.** `warehouse/output/raw/madeup_as_prices/` (untracked, two files, 112 bytes) was made on
   11 October at 20:22 UTC, while session 198 ran the suite; session 200's run of the suite in a clean worktree made
   the same folder there. `scripts/raw_handover.py` names `tests/test_session85.py` as the writer of a folder of that
@@ -934,7 +951,7 @@ python scripts/duty.py check --dry-run
 - The page checks the internal cookie as the other `/internal` pages do (open `/internal/open` first), is linked from
   nothing, and answers 404 to a visitor.
 - **Each ruling once (session 414).** At the top of the page, the ledger of one run of sessions (`LEDGER` in
-  `build-waits.mjs`, 351 to 413 today): every item of a section for him in those reports, listed once, under what it
+  `build-waits.mjs`, 351 to the newest report present at the build since session 425, 351 to 413 before): every item of a section for him in those reports, listed once, under what it
   blocks (money, a data pull, a ruling on a figure, a public page, or none of the four), with a count at the top and the
   three that the state notes rank highest first. Fixed rules, no model, each printed on the page: two items of
   different reports are one when they match one subject (`SUBJECTS`), or when one names the other's session and they

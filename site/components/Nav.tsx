@@ -93,8 +93,10 @@ export function Nav() {
       })}
       {ASIDE.length ? (
         <span className="nav-aside ml-auto flex flex-wrap gap-x-4" data-nav-aside="1">
+          {/* session 423: 24 px tall (WCAG 2.2, 2.5.8): at 390 px the aside wraps to a row of its own between the menus and
+              the internal line, and its 20 px links' circles met theirs (scripts/check-targets.mjs) */}
           {ASIDE.map((p) => (
-            <Link key={p.href} href={p.href} className="no-underline hover:underline" aria-current={path === p.href ? "page" : undefined}>
+            <Link key={p.href} href={p.href} className="inline-flex min-h-6 items-center no-underline hover:underline" aria-current={path === p.href ? "page" : undefined}>
               {name(p)}
             </Link>
           ))}
@@ -102,7 +104,8 @@ export function Nav() {
       ) : null}
       {internal ? (
         <span className="text-xs text-muted" title="The release gate is open in this browser: every page is reachable (docs/release-gate.md)">
-          internal view <a href="/internal/lock" className="text-muted">lock</a>
+          {/* session 423: underlined, the one thing that tells it from its line (axe link-in-text-block; the internal view only) */}
+          internal view <a href="/internal/lock" className="text-muted underline">lock</a>
         </span>
       ) : null}
     </nav>

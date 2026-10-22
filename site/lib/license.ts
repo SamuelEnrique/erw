@@ -5,8 +5,11 @@
 // warehouse/metadata/license_status.csv, the record the builders read.
 import status from "@/data/license_status.json";
 
-type Row = { status: string; from: string; publishers: string[] };
-const TABLES = status.tables as Record<string, Row>;
+// Session 499: `hold` is "row" for a table held row by row by each row's own license (session 441's method,
+// docs/reviews/sources-by-row-2026-10-21.md); absent, or "table", the table is held whole as before. The data machine
+// writes it (warehouse/metadata/license_status.csv's `hold` column, copied by scripts/licenses.py status).
+export type LicenseStatusRow = { status: string; from: string; publishers: string[]; hold?: string };
+const TABLES = status.tables as Record<string, LicenseStatusRow>;
 
 export const LICENSE_FROM: string = status.from;
 export const LICENSE_NEEDED = "license needed";
@@ -58,10 +61,50 @@ export const isLicenseReason = (reason: string) => reason.startsWith(LICENSE_REA
 const GRID_PREFIX: Record<string, string> = { "ISO-NE": "isone", MISO: "miso", NYISO: "nyiso", PJM: "pjm", SPP: "spp", CAISO: "caiso", ERCOT: "ercot" };
 const GRID_NAME: Record<string, string> = Object.fromEntries(Object.entries(GRID_PREFIX).map(([k, v]) => [v, k]));
 
-/** True when every publisher deciding the table is a grid operator: the hold is by grid, not whole. */
+/** True when every publisher deciding the table is a grid operator: the hold is by grid, not whole. A table held by
+ *  row (session 499) is never also held by grid. */
 export function licenseByGrid(table: string): boolean {
+  if (licenseByRow(table)) return false;
   const who = licensePublishers(table);
   return who.length > 0 && who.every((p) => p in GRID_PREFIX);
+}
+
+// Session 499: the hold by row. Session 441's method gives the four tables whose rows rest on many publishers
+// (datacenter_facilities, datacenter_projects, datacenter_operator_sites, energy_deals) two columns, `publishers` and a
+// row's license, one of the three values below, computed by the data machine from the row's own publishers. The method
+// named the column `license`; the live set's events and entities already carry a `license` column, the table's tier
+// (public or internal, migration 001, read by row-level security), so the row's own is `row_license`, a column of the
+// table's CSV that the loader keeps in `extra` like the table's other own columns. A table the status file marks
+// `hold: "row"` is read for its public rows only (lib/supabase.ts adds the filter) and its held rows are counted, never
+// shown. A table without the mark is held whole, as before: nothing changes until the data machine writes the column
+// and the mark.
+export const ROW_LICENSE_COLUMN = "row_license";
+/** The PostgREST name of the row's license in a live-set row: a key of `extra`. */
+export const ROW_LICENSE_FILTER = `extra->>${ROW_LICENSE_COLUMN}`;
+export const ROW_LICENSE_PUBLIC = "public";
+export const ROW_LICENSES = [ROW_LICENSE_PUBLIC, LICENSE_NEEDED, "unsettled"] as const;
+
+/** Whether a status row marks its table as held by row. */
+export function holdIsByRow(r: LicenseStatusRow | undefined): boolean {
+  return !!r && r.hold === "row";
+}
+
+/** True when the status file marks the table as held row by row by each row's own license. */
+export function licenseByRow(table: string): boolean {
+  return holdIsByRow(TABLES[table]);
+}
+
+/** Whether one row is held by its own license field: every value but "public" holds it, a missing one included. */
+export function rowLicenseHeld(row: Record<string, unknown> | null | undefined): boolean {
+  const extra = (row?.extra ?? {}) as Record<string, unknown>;
+  const v = extra[ROW_LICENSE_COLUMN] ?? row?.[ROW_LICENSE_COLUMN];
+  return String(v ?? "").trim().toLowerCase() !== ROW_LICENSE_PUBLIC;
+}
+
+/** The rows a page may show of a table held by row, and how many are held. Pure: the page's split, tested on fixtures. */
+export function splitByRowLicense<T extends Record<string, unknown>>(rows: T[]): { shown: T[]; held: number } {
+  const shown = rows.filter((r) => !rowLicenseHeld(r));
+  return { shown, held: rows.length - shown.length };
 }
 
 /** The grid prefixes ("isone", "miso", "nyiso") whose prices are held on the day: a grid that decides any held table. */
@@ -71,13 +114,17 @@ export function licenseHeldGrids(now: Date = new Date()): string[] {
   return [...out].sort();
 }
 
-/** The grid an entity belongs to, by its prefix: "isone:.H.INTERNAL_HUB" and "iso:isone" are ISO-NE's; "" when none. */
+/** The grid an entity belongs to, by its prefix: "isone:.H.INTERNAL_HUB" and "iso:isone" are ISO-NE's; "" when none.
+ *  Session 499: an interconnection-queue position's id names its grid as "<grid>_queue:<id>" ("nyiso_queue:1630"), and
+ *  a load queue's as "<grid>_load_queue:<id>"; both are that grid's (session 467 found them read as no grid). */
 export function gridOfEntity(entity: string | undefined | null): string {
   if (!entity) return "";
   const m = /^([a-z0-9_-]+):(.*)$/i.exec(entity);
   if (!m) return "";
   const head = m[1].toLowerCase();
   if (head in GRID_NAME) return head;
+  const q = /^([a-z]+)_(?:load_)?queue$/.exec(head);
+  if (q && q[1] in GRID_NAME) return q[1];
   if (head === "iso" && m[2].toLowerCase() in GRID_NAME) return m[2].toLowerCase();
   return "";
 }
@@ -99,6 +146,9 @@ export function gridEntityOfKey(parts: string[]): string | undefined {
  *  the table whole. */
 export function licenseHeldRow(table: string, entity?: string | null, now: Date = new Date()): boolean {
   if (!licenseNeeded(table, now)) return false;
+  // session 499: a table held by row is read for its public rows only (lib/supabase.ts), so a figure of what a page
+  // was given is of public rows; held rows never reach the page. Asked about the table whole, it is held.
+  if (licenseByRow(table)) return entity === undefined;
   if (!licenseByGrid(table)) return true;
   if (entity === undefined || entity === null) return true;
   const g = gridOfEntity(entity);
@@ -116,4 +166,13 @@ export function licenseHeldGrid(grid: string, now: Date = new Date()): boolean {
 export function licenseGridTitle(grid: string): string {
   const g = (GRID_PREFIX[grid] ?? grid).toLowerCase();
   return `${GRID_NAME[g] ?? grid}: ${LICENSE_TITLE_SUFFIX}`;
+}
+
+/** Session 502: the license words of one table on the day, for a page's license line (components/tool/TableLicenses.tsx):
+ *  "public" when the table is not held (every table a page reads is public in coverage.csv: tests/test_session502.py),
+ *  "held: license needed" when it is held whole, "held for <the grids>: license needed" when it is held by grid. */
+export function licenseWords(table: string, now: Date = new Date()): string {
+  if (!licenseNeeded(table, now)) return "public";
+  if (licenseByGrid(table)) return `held for ${licensePublishers(table).join(", ")}: ${LICENSE_NEEDED}`;
+  return `held: ${LICENSE_NEEDED}`;
 }

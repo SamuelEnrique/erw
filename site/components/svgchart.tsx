@@ -52,7 +52,7 @@ export function bounds(values: number[], scale = false): Bounds {
 }
 export function ticksOf(b: Bounds): number[] {
   const step = nice(b.hi - b.lo), out: number[] = [];
-  for (let t = Math.ceil(b.lo / step) * step; t <= b.hi + 1e-9; t += step) out.push(Math.round(t * 1e6) / 1e6);
+  for (let t = Math.ceil(b.lo / step) * step; t <= b.hi + 1e-9; t += step) out.push(Math.round(t * 1e6) / 1e6 || 0);  // session 416: || 0, so a tick at minus zero reads "0", not "-0" (as session 404 did in GroupedBars)
   return out;
 }
 /** The width of the element, measured, and measured again when it changes. */

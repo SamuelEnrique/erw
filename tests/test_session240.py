@@ -89,8 +89,9 @@ class TheWallFolded(unittest.TestCase):
         self.assertNotRegex(v, r"text-\[\d+px\]")                            # the brand's sizes only
 
     def test_the_page_takes_the_brand(self):
-        # session 328: the board takes its downloads at its foot, inside the brand as before
-        self.assertIn("return <Brand><BoardView file={file} footer={<TableDownloads tables={TABLES} />} /></Brand>;", src("site", "app", "board", "page.tsx"))
+        # session 328: the board takes its downloads at its foot, inside the brand as before; session 502: and the same
+        # list's license line under its title
+        self.assertIn("return <Brand><BoardView file={file} under={<TableLicenses tables={TABLES} />} footer={<TableDownloads tables={TABLES} />} /></Brand>;", src("site", "app", "board", "page.tsx"))
         self.assertIn('"/board": "review"', src("site", "lib", "release.ts"))
 
     def test_the_browser_check_reads_the_top_block_and_the_folds(self):

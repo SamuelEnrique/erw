@@ -18,14 +18,12 @@ import { useScenarios } from "@/components/decisions/ScenarioBlock";
 import { Num } from "@/components/Num";
 import { HeadlineNumber, HeadlineRow, ToolTable } from "@/components/tool/ToolPage";
 import { monthName, two, usdShort, whole } from "@/lib/datacenter";
-import { statOf, type Answers, type Way } from "@/lib/datacenter/answers";
+import { statOf, yearOfThrough, type Answers, type Way } from "@/lib/datacenter/answers";
 import { shown } from "@/lib/format";
 import { FLEX, type Assumptions } from "@/lib/datacenter/finance";
 import { GRID_STATE, leadingNumber, statedStat, stageWords, type Stated, type Statement } from "@/lib/datacenter/statements";
 import type { ReactNode } from "react";
 
-const one = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
-const usd = (v: number) => `USD ${usdShort(Math.round(v))}`;
 const hh = (h: number) => `${String(h).padStart(2, "0")}:00`;
 /** A number of the answers with its check key: the figure is statOf's, by the stat's name, so that the page's raw value
  * and check-values' recomputation are one definition; the text is lib/format's shown (a whole number, else two
@@ -64,7 +62,6 @@ const typeWords = (byType: Record<string, number>) => Object.entries(byType).sor
 export function PowerThere({ a, f, b }: { a: Answers; f: AnswerFacts; b?: SiteB }) {
   const w = useWays(f.own, f.words);
   const s = a.scarcity;
-  const flat = s.flatUsd * a.mw;
   const wayLine = (k: Way, label: string) => (a.held[k] && k !== "flat"
     ? <> {label} ({f.words[k]}) was off in <N pre={f.pre} stat={`scarce:off:${k}`} a={a} /> of them and avoided USD <N pre={f.pre} stat={`scarce:avoided_usd:${k}`} a={a} usd /> of that.</>
     : k === "flat" ? <> {label} runs flat, in every hour.</> : <> {label}&apos;s way ({f.words[k]}) is not held here.</>);
@@ -157,6 +154,8 @@ export function HowClean({ a, f, b }: { a: Answers; f: AnswerFacts; b?: SiteB })
   const c = a.carbon;
   const l = c.l12[w.a], win = c.window;
   const year = (y: number) => c.years.find((r) => r.y === y);
+  // session 419: the year of the page's own twelve months, as the server chose them (the reader's clock can disagree on 1 January)
+  const thisYear = yearOfThrough(c.through);
   // the trend's two ends: the first and the last year with at least ten of its months held
   const first = c.years.find((r) => r.months >= 10), last = [...c.years].reverse().find((r) => r.months >= 10);
   const wayLabel = (k: Way) => (k === "flat" ? "flat" : k === "flex" ? `flexible (${f.words.flex})` : `shifting (${f.words.shift})`);
@@ -180,7 +179,7 @@ export function HowClean({ a, f, b }: { a: Answers; f: AnswerFacts; b?: SiteB })
       <ToolTable caption={`${f.gridName}'s carbon intensity of consumed electricity by year`} minWidth={520} head={["Year", "kg CO2 per MWh, the mean of its months", "Months held"]}
         rows={c.years.map((r) => ({ key: String(r.y), muted: r.months < 12, cells: [String(r.y), <N key="k" pre={f.pre} stat={`co2:year:${r.y}`} a={a} />, `${r.months} of 12`] }))} />
       <p className="mt-2 max-w-3xl text-xs text-muted" data-answer-note="clean">
-        The intensity is the ERW&apos;s from EIA-930&apos;s hourly CO2 estimates (carbon_intensity_monthly and carbon_intensity_hourly, the balancing authority&apos;s consumed electricity: generation plus imports less exports); the hours counted hour by hour are the ones the live set holds of the hourly table, named above. A year&apos;s figure is the mean of its months held; {year(new Date().getUTCFullYear())?.months ?? 0} months of {new Date().getUTCFullYear()} are held.
+        The intensity is the ERW&apos;s from EIA-930&apos;s hourly CO2 estimates (carbon_intensity_monthly and carbon_intensity_hourly, the balancing authority&apos;s consumed electricity: generation plus imports less exports); the hours counted hour by hour are the ones the live set holds of the hourly table, named above. A year&apos;s figure is the mean of its months held{thisYear !== null ? <>; {year(thisYear)?.months ?? 0} months of {thisYear} are held</> : null}.
       </p>
     </>
   );

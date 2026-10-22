@@ -1,0 +1,15 @@
+page,figures,kinds,tables,grids,day
+/digest,1,number,iso_rtm_hub_prices,,2026-10-21
+/digest/2026-10-07,1,number,iso_rtm_hub_prices,,2026-10-21
+/digest/2026-10-08,1,number,iso_rtm_hub_prices,,2026-10-21
+/digest/2026-10-12,1,number,iso_rtm_hub_prices,,2026-10-21
+/digest/2026-10-14,1,number,iso_rtm_hub_prices,,2026-10-21
+/digest/2026-10-21,1,number,iso_rtm_hub_prices,,2026-10-21
+/grid?grid=isone,36,number,isone_interconnection_queue,,2026-10-21
+/grid/isone,36,number,isone_interconnection_queue,,2026-10-21
+/research,4,panel,iso_hub_prices_history; iso_rtm_hub_prices; iso_zone_prices_history,ISO-NE; NYISO,2026-10-21
+/research?lunch_grid=isone,1,view,iso_hub_prices_history; iso_rtm_hub_prices; iso_zone_prices_history,ISO-NE,2026-10-21
+/research?lunch_grid=nyiso,1,view,iso_hub_prices_history; iso_rtm_hub_prices; iso_zone_prices_history,NYISO,2026-10-21
+/research?peak_grid=isone,1,view,iso_hub_prices_history; iso_rtm_hub_prices; iso_zone_prices_history,ISO-NE,2026-10-21
+/research?peak_grid=nyiso,1,view,iso_hub_prices_history; iso_rtm_hub_prices; iso_zone_prices_history,NYISO,2026-10-21
+/research/card/batteries_lunch_grids,2,panel,iso_hub_prices_history; iso_rtm_hub_prices; iso_zone_prices_history,ISO-NE; NYISO,2026-10-21

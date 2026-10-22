@@ -118,7 +118,9 @@ export default function About() {
             {/* session 203: a menu's sub-group (Economics: the five tools of Infrastructure Economics; Grid: the seven grid pages) follows its pages */}
             {[...g.pages, ...(g.sub?.pages ?? [])].map((p) => (
               <dd key={p.href} className="ml-0">
-                <Link href={p.href}>{p.label}</Link>{nameOnly(p.href) ? null : <>: {p.line}</>}
+                {/* session 423: a name alone on its line is a target of its own, 24 px tall (WCAG 2.2, 2.5.8: two such lines
+                    side by side, /battery/customer and /shoulder, met at 18 px); a name followed by its line is inline in text */}
+                <Link href={p.href} className={nameOnly(p.href) ? "inline-flex min-h-6 items-center" : undefined}>{p.label}</Link>{nameOnly(p.href) ? null : <>: {p.line}</>}
               </dd>
             ))}
           </div>

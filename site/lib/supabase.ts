@@ -11,7 +11,7 @@
 // last. The service key is read by writeConfig() only, never for a read, and like the other two variables it is
 // server-side (no NEXT_PUBLIC_ prefix): none reaches a browser.
 import "server-only";
-import { gridOfEntity, licenseByGrid, licenseHeldGrid, licenseHeldRow, licenseNeeded, licenseReason } from "./license";
+import { ROW_LICENSE_FILTER, ROW_LICENSE_PUBLIC, gridOfEntity, licenseByGrid, licenseByRow, licenseHeldGrid, licenseHeldRow, licenseNeeded, licenseReason, rowLicenseHeld } from "./license";
 
 /** A read that failed. Pages show its message as the reason for "no data". */
 export class DataError extends Error {}
@@ -47,9 +47,10 @@ function gridOfQuery(query: Record<string, string>): string {
 
 /** Session 215: whether this read is held whole (throw), and, for a table held by grid with no grid named, that the
  * rows of the held grids are to be left out of what comes back. */
-function licenseHold(query: Record<string, string>): { throw: boolean; filter: boolean } {
+function licenseHold(query: Record<string, string>): { throw: boolean; filter: boolean; byRow?: boolean } {
   const t = tableOf(query);
   if (!t || !licenseNeeded(t)) return { throw: false, filter: false };
+  if (licenseByRow(t)) return { throw: false, filter: false, byRow: true };  // session 499: the public rows only
   if (!licenseByGrid(t)) return { throw: true, filter: false };
   const g = gridOfQuery(query);
   if (g) return { throw: licenseHeldGrid(g), filter: false };
@@ -239,6 +240,11 @@ export async function restPaged<T>(
   // session 215: a held table is not asked for; a table held by grid, read with no grid named, loses the held grids' rows
   const hold = licenseHold(query);
   if (hold.throw) throw new LicenseNeeded(tableOf(query));
+  if (hold.byRow) {
+    // session 499: a table held by row is asked for its public rows only, and what comes back is checked again
+    const rows = await askAgainOnFailure(() => restPages<T>(table, publicRowsQuery(query), revalidate, max, together));
+    return rows.filter((r) => !rowLicenseHeld(r as Record<string, unknown>));
+  }
   const rows = await askAgainOnFailure(() => restPages<T>(table, query, revalidate, max, together));
   if (!hold.filter) return rows;
   const t = tableOf(query);
@@ -278,6 +284,32 @@ async function restPages<T>(table: string, query: Record<string, string>, revali
 /** The number of rows matching `query`, without reading them (PostgREST exact count). */
 export async function restCount(table: string, query: Record<string, string>, revalidate: number): Promise<number> {
   if (licenseHold(query).throw) throw new LicenseNeeded(tableOf(query));  // session 215; a count over a table held by grid is the table's own
+  // session 499: a count over a table held by row counts its public rows
+  return restCountRaw(table, licenseHold(query).byRow ? publicRowsQuery(query) : query, revalidate);
+}
+
+/** Session 499: the query for the public rows of a table held by row (the row's own license, `extra->>row_license`;
+ *  session 441's method, lib/license.ts). */
+export function publicRowsQuery(query: Record<string, string>): Record<string, string> {
+  return { ...query, [ROW_LICENSE_FILTER]: `eq.${ROW_LICENSE_PUBLIC}` };
+}
+
+/** Session 499: the query for the held rows of a table held by row: every row whose license is not public, a missing
+ *  one included. Counted, never read. */
+export function heldRowsQuery(query: Record<string, string>): Record<string, string> {
+  const held = `${ROW_LICENSE_FILTER}.is.null,${ROW_LICENSE_FILTER}.neq.${ROW_LICENSE_PUBLIC}`;
+  if (!query.or) return { ...query, or: `(${held})` };
+  const { or, ...rest } = query;  // a query that has its own `or` keeps it: both must hold
+  return { ...rest, and: `(or${or},or(${held}))` };
+}
+
+/** Session 499: how many rows of a table held by row are held (a count, not a row of it); null for any other table. */
+export async function restHeldRowCount(table: string, query: Record<string, string>, revalidate: number): Promise<number | null> {
+  if (!licenseHold(query).byRow) return null;
+  return restCountRaw(table, heldRowsQuery(query), revalidate);
+}
+
+async function restCountRaw(table: string, query: Record<string, string>, revalidate: number): Promise<number> {
   return askAgainOnFailure(() => countOf(table, query, revalidate));
 }
 

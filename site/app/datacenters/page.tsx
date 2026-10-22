@@ -11,6 +11,8 @@ import { gridOfTable } from "@/lib/datacenter/bygrid";
 import { INDEX } from "@/lib/datacenterdata";
 import { one } from "@/lib/tabs";
 import { attempt } from "@/lib/supabase";
+import { licenseByRow, licenseNeeded } from "@/lib/license";
+import { HeldRows } from "@/components/tool/HeldRows";  // session 500
 import { Body, toFacility } from "./Body";
 import { LargeLoad, LargeLoadSource } from "./LargeLoad";
 import { GridsView } from "./GridsView";
@@ -80,9 +82,18 @@ export default async function DatacentersPage({ searchParams }: { searchParams: 
         {!res.ok ? (
           <><NoData what="datacenters" reason={res.reason} /><LargeLoad read={res} />{words}</>
         ) : res.data.length === 0 ? (
-          <><NoData what="datacenters" reason="datacenter_facilities has no rows in the live set yet" /><LargeLoad read={res} />{words}</>
+          <>
+            {/* session 500: a table held by row with no public row says so, then how many are held */}
+            <NoData what="datacenters" reason={licenseNeeded("datacenter_facilities") && licenseByRow("datacenter_facilities") ? "no row of datacenter_facilities rests on a public source alone" : "datacenter_facilities has no rows in the live set yet"} />
+            <HeldRows shape="entities" table="datacenter_facilities" shown={0} method="/data/methods/datacenter_facilities" />
+            <LargeLoad read={res} />{words}
+          </>
         ) : (
-          <Body rows={res.data.map(toFacility)} today={today}><LargeLoad read={res} />{words}</Body>
+          <>
+            {/* session 500: held by row, the public rows are shown and the held ones counted (nothing here until the mark) */}
+            <HeldRows shape="entities" table="datacenter_facilities" shown={res.data.length} method="/data/methods/datacenter_facilities" />
+            <Body rows={res.data.map(toFacility)} today={today}><LargeLoad read={res} />{words}</Body>
+          </>
         )}
         {/* session 467: on the power side, drawn whether or not the facilities table can be read (it is held since 21 October 2026) */}
         <PowerSide read={queues} />

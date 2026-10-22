@@ -133,7 +133,7 @@ export default async function ResearchPage() {
             {today ? (
               <figure className="lead-chart" data-today-chart={today.date}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={`/digest-charts/${today.image}`} alt={`${today.title}. ${today.fact}`} width={1600} height={900} loading="lazy" />
+                <img src={`/digest-charts/${today.image}`} alt={`${today.title}. ${today.fact}`} width={today.width ?? 1600} height={today.height ?? 900} loading="lazy" />
                 <figcaption>
                   <p className="lead-date">{day(today.date)}</p>
                   <h3>{today.title}</h3>

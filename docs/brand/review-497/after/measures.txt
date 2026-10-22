@@ -1,0 +1,4 @@
+batteries_lunch_grids 1600x900: page 900 px, last line 866 px, lowest chart text 281 px, panels 5
+batteries_lunch_grids 1080x1350: page 1350 px, last line 1306 px, lowest chart text 870 px, panels 5
+peak_hour_grids 1600x900: page 900 px, last line 735 px, lowest chart text 269 px, panels 5
+peak_hour_grids 1080x1350: page 1350 px, last line 1291 px, lowest chart text 870 px, panels 5

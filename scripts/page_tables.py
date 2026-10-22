@@ -125,8 +125,10 @@ def json_tables(path, tables, route=""):
     return named | set(table_re(tables).findall(text))
 
 
-def walk(page_file, tables, depth=3, site=SITE, route=""):
-    """{table: [the files of the site it was found in]} for the code a page reaches."""
+def walk(page_file, tables, depth=3, site=SITE, route="", root_idents=None):
+    """{table: [the files of the site it was found in]} for the code a page reaches. Session 502: `root_idents`, when
+    given, reads only those top-level exports of the first file (a component a page's view draws), as an imported
+    module's are read; the default reads the whole file, as before."""
     rx = table_re(tables)
     found, seen = {}, set()
 
@@ -145,7 +147,7 @@ def walk(page_file, tables, depth=3, site=SITE, route=""):
         src, imps = imports_of(path)
         if key in GENERIC and d < depth:
             return
-        if d == depth or "*" in idents or not idents:
+        if (d == depth and root_idents is None) or "*" in idents or not idents:
             text = src
         else:
             b = blocks(src)
@@ -157,7 +159,7 @@ def walk(page_file, tables, depth=3, site=SITE, route=""):
             if tgt:
                 visit(tgt, ids, d - 1)
 
-    visit(page_file, {"*"}, depth)
+    visit(page_file, set(root_idents) if root_idents else {"*"}, depth)
     return {t: sorted(v) for t, v in sorted(found.items())}
 
 
