@@ -26,7 +26,21 @@
 
 ## The landing
 
-With 722 to 729 (the landing below, in this session's branch, once done).
+Sessions 722 to 730 landed in one push (`task/722-730-allgrids`, commit `b49599ee`), merged into main at 16:28 UTC (`21cec5d1`, run 39812452504).
+
+- **The first gate** (on `b3e60c9b`) failed the suite on one test: `test_session717` counted the table rows of `docs/reviews/siting-path.md`, and 727's second walk added a second table. The test now counts the first walk's section (`b49599ee`); every session test of chains 050 and 062 passed before the second gate.
+- **The second gate** (on `b49599ee`): freeze 0; main in the commit; no `task/` branch in flight; suite 5,947 tests OK (304 skipped); npm ci 0; build 0; check-values 7,758 of 7,759 values equal.
+  - The ten held floors failed, as at every landing.
+  - So did `/digest/2026-10-21`'s WTI for 14 October: the issue prints 101.91 and `eia_fuel_spot_prices` now reads 96.34, a source's revision. Production fails the same.
+- **The steps after check-values**, on a build of the same commit (lock `s730`): check-routes 0 (226 pages, 0 failed), check-cross-checks 0 (92 of 92), check-csp 0 (97 pages, 0 violations).
+- **Before the push**: freeze status 0; no other `task/` branch but `task/198-battery-data`. **Main had moved** between the gate and the push (`bb5d5b11`, the daily run's data, 492 files, 5 under `site/data`). My command did not stop on the ancestry check's 1, and the push went out. No file is common to the two; the branch workflow tested and built the merged result before it merged.
+- **Snapshots**: `s730-before` at 16:15 UTC; the push at 16:15:24. **Vercel did not deploy the merge**: its status on `21cec5d1` reads "Deployment rate limited, retry in 24 hours" (16:28:46). Production was probed for 724's "Basis spread" until 17:06, and it never came.
+  - `s730-after` at 17:06; `compare s730-before s730-after`: **0 differences**, expected, since nothing deployed.
+- The merged `wip/730-allgrids` was deleted on GitHub; 722 to 729 were never pushed but as `wip/721-records`, deleted too.
+
+## To finish
+
+1. Done by session 742: production served 722 to 730 with 740's merge at 17:35 UTC; `compare s730-before s740-after`: 0 differences (`SESSION_740_REPORT.md`, "The landing").
 
 ## Decisions made without you
 

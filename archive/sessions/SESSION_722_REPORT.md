@@ -32,7 +32,7 @@
 
 ## The landing
 
-This branch (721's record, this report and the open items) lands with 723 and 724, after 16:15 UTC.
+Sessions 722 to 730 landed in one push at 16:15 UTC: see `SESSION_730_REPORT.md`, "The landing".
 
 ## Decisions made without you
 

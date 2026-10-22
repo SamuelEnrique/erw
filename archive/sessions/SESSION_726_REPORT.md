@@ -31,7 +31,7 @@
 
 ## The landing
 
-Sessions 722 to 726 land together after 16:15 UTC (below, once done).
+Sessions 722 to 730 landed in one push at 16:15 UTC: see `SESSION_730_REPORT.md`, "The landing".
 
 ## Decisions made without you
 

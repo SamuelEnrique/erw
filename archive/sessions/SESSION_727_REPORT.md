@@ -25,7 +25,7 @@
 
 ## The landing
 
-With 722 to 726 after 16:15 UTC (726's report), or the next landing if this branch is not yet in that push.
+Sessions 722 to 730 landed in one push at 16:15 UTC: see `SESSION_730_REPORT.md`, "The landing".
 
 ## Decisions made without you
 

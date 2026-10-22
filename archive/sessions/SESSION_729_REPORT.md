@@ -26,7 +26,7 @@
 
 ## The landing
 
-With 722 to 728 after 16:15 UTC (728's report).
+Sessions 722 to 730 landed in one push at 16:15 UTC: see `SESSION_730_REPORT.md`, "The landing".
 
 ## Decisions made without you
 

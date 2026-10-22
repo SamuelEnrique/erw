@@ -23,7 +23,7 @@
 
 ## The landing
 
-With the next landing after this session (no page change).
+Sessions 731 to 740 landed in one push at 17:19 UTC: see `SESSION_740_REPORT.md`, "The landing".
 
 ## Decisions made without you
 
