@@ -11,7 +11,7 @@
 // figures (no new route, no read).
 import { useRouter } from "next/navigation";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
-import { NODE_SORTS, sortNodes, type NodeSort, type NodeTableRow } from "@/lib/siting";
+import { NODE_SORTS, nodeRowsOf, sortNodes, type NodeColumns, type NodeSort, type NodeTableRow } from "@/lib/siting";
 
 const ROW = 34, VIEW = 18, PAD = 12, FIRST = 40;
 const two = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -28,9 +28,11 @@ const TIPS: Record<NodeSort, string> = {
 };
 
 // Session 711: a node's name opens its panel (the address's `node`, drawn by the server above the list).
-export function AllGridsNodes({ rows, pkey, datacenter, sort, dir, open, short, find, cls, csvHead }: { rows: NodeTableRow[]; pkey: string; datacenter: boolean; sort: NodeSort; dir: "asc" | "desc"; open: string | null;
+export function AllGridsNodes({ columns, pkey, datacenter, sort, dir, open, short, find, cls, csvHead }: { columns: NodeColumns; pkey: string; datacenter: boolean; sort: NodeSort; dir: "asc" | "desc"; open: string | null;
   short: string; find: string; cls: string; csvHead: string[] }) {
   const router = useRouter();
+  // session 777: the rows arrive column by column (lib/siting.ts, nodeColumns) and are put back together here
+  const rows: NodeTableRow[] = useMemo(() => nodeRowsOf(columns), [columns]);
   const uid = useId();   // session 714: each heading's tip, reachable by the keyboard (app/tokens.css, ".tip")
   const pick = (id: string) => {
     const q = new URLSearchParams(window.location.search);
