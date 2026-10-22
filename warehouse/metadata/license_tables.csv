@@ -61,6 +61,7 @@ eia930_demand_weather,EIA,EIA-930 (its name; the registry lists no row for it)
 eia930_event_hourly_interchange,EIA,the source registry
 eia930_generation_latest,EIA,the source registry
 eia930_subba_demand_hourly,EIA,the source registry
+eia930_subba_demand_hourly_2022,EIA,the source registry
 eia930_subba_demand_hourly_2023,EIA,the source registry
 eia930_subba_demand_hourly_2024,EIA,the source registry
 eia930_subba_demand_hourly_2025,EIA,the source registry
@@ -76,6 +77,7 @@ eia_coal_prices_annual,EIA,the source registry
 eia_coal_trade_price_annual,EIA,the source registry
 eia_crude_first_purchase_prices,EIA,the source registry
 eia_crude_imports_by_country,EIA,the source registry
+eia_crude_imports_detail_monthly,EIA,the source registry
 eia_crude_production_state_monthly,EIA,the source registry
 eia_crude_reserves_annual,EIA,the source registry
 eia_crude_stream_prices,EIA,the source registry
@@ -102,6 +104,7 @@ eia_ngl_production_monthly,EIA,the source registry
 eia_nuclear_outages_daily,EIA,the source registry
 eia_nuclear_outages_facility_daily,EIA,the source registry
 eia_nuclear_outages_generator_daily,EIA,the source registry
+eia_oxygenate_production_monthly,EIA,the source registry
 eia_padd_crude_pipeline_flows,EIA,the source registry
 eia_padd_rail_barge_movements_monthly,EIA,the source registry
 eia_petroleum_snd_monthly,EIA,the source registry

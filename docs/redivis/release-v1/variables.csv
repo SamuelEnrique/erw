@@ -1745,6 +1745,7 @@ eia930_generation_latest,net_generation_unknown_storage_mw,series variable,MW
 eia930_generation_latest,net_generation_wind_mw,series variable,MW
 eia930_generation_latest,net_generation_wind_with_battery_mw,series variable,MW
 eia930_subba_demand_hourly,demand_mw,series variable,MW
+eia930_subba_demand_hourly_2022,demand_mw,series variable,MW
 eia930_subba_demand_hourly_2023,demand_mw,series variable,MW
 eia930_subba_demand_hourly_2024,demand_mw,series variable,MW
 eia930_subba_demand_hourly_2025,demand_mw,series variable,MW
@@ -1769,6 +1770,7 @@ eia_coal_prices_annual,price,series variable,USD/short_ton
 eia_coal_trade_price_annual,price,series variable,USD/short_ton
 eia_crude_first_purchase_prices,first_purchase_price,series variable,USD/bbl
 eia_crude_imports_by_country,imports,series variable,kbbl/d
+eia_crude_imports_detail_monthly,imports,series variable,kbbl
 eia_crude_production_state_monthly,field_production,series variable,kbbl
 eia_crude_production_state_monthly,field_production_per_day,series variable,kbbl/d
 eia_crude_reserves_annual,acquisitions,series variable,kbbl
@@ -1868,6 +1870,10 @@ eia_nuclear_outages_facility_daily,outage_share,series variable,ratio
 eia_nuclear_outages_generator_daily,capacity,series variable,MW
 eia_nuclear_outages_generator_daily,outage,series variable,MW
 eia_nuclear_outages_generator_daily,outage_share,series variable,ratio
+eia_oxygenate_production_monthly,biofuels_plant_net_production,series variable,kbbl
+eia_oxygenate_production_monthly,biofuels_plant_net_production_per_day,series variable,kbbl/d
+eia_oxygenate_production_monthly,oxygenate_plant_production,series variable,kbbl
+eia_oxygenate_production_monthly,oxygenate_plant_production_per_day,series variable,kbbl/d
 eia_padd_crude_pipeline_flows,pipeline_receipts,series variable,kbbl
 eia_padd_rail_barge_movements_monthly,rail_receipts,series variable,kbbl
 eia_padd_rail_barge_movements_monthly,tanker_barge_receipts,series variable,kbbl
