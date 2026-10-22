@@ -171,7 +171,7 @@ function ConnectTd({ r }: { r: Row }) {
     <span className="inline-block text-right">
       {"median" in g && g.median !== null
         ? <span className="whitespace-nowrap"><Fig check={`allgrids|connect|${r.id}`} v={g.median}
-            tip={`Generation in ${GRID_NAMES[r.grid]}: the median months from queue entry to commercial operation of the ${g.n} requests that came online from ${g.from} to ${g.to} (lbnl_interconnection_queue, Berkeley Lab's Queued Up, ${g.vintage}); a quarter took under ${g.p25?.toFixed(0)} months, a quarter over ${g.p75?.toFixed(0)}. A generator's wait, not a load's: loads are not in this file.`} /> mo</span>
+            tip={`Generation in ${GRID_NAMES[r.grid]}: the median months from queue entry to commercial operation of the ${g.n} requests that came online from ${g.from} to ${g.to} (${SITING_FILES.connect?.table ?? "interconnection_durations"}, from Berkeley Lab's Queued Up, ${g.vintage}); a quarter took under ${g.p25?.toFixed(0)} months, a quarter over ${g.p75?.toFixed(0)}. A generator's wait, not a load's: loads are not in this file.`} /> mo</span>
         : <Words words="not held" why={"why" in g ? g.why : ""} />}
       <span className="block text-xs" data-connect-load="1">
         load: {c.rule ? <Tp tip={ruleTip}>rule {c.rule.date.slice(0, 7)}</Tp> : <Words words="no rule held" why={ruleTip} />}
@@ -195,7 +195,9 @@ function HeadroomTd({ r }: { r: Row }) {
         : <Words words="not held" why={g.why} />}
       <span className="block text-xs" data-headroom-planned="1">
         {pl && h ? <Tp dotted={false} tip={`Generators under construction (EIA-860M status U, V or TS) in ${GRID_NAMES[r.grid]} due to operate from ${h.from} to ${h.to}, the twelve months after the table's vintage (${h.vintage}): ${pl.construction_n} generators. Approvals received, not under construction: ${Math.round(pl.approved_mw).toLocaleString("en-US")} MW; planned, approvals pending or not started: ${Math.round(pl.other_mw).toLocaleString("en-US")} MW. EIA-860M records no interconnection agreement; construction is the nearest it states (eia860m_planned_generators).`}><Num check={`allgrids|planned|${r.id}`} raw={pl.construction_mw}>{Math.round(pl.construction_mw).toLocaleString("en-US")}</Num> MW coming</Tp> : <Words words="no plan held" why={`No planned generator of ${GRID_NAMES[r.grid]} is in eia860m_planned_generators.`} />}
-        {"pct" in c ? <>, <Tp dotted={false} tip={`Installed net summer capacity of ${c.states.join(", ")} in ${c.year} (eia_state_capacity_annual), ${Math.round(c.mw).toLocaleString("en-US")} MW, over ${GRID_NAMES[r.grid]}'s peak demand of ${c.peakYear} (EIA-930), ${Math.round(c.peak).toLocaleString("en-US")} MW. Not a reserve margin: imports, outages and derates are not in it, and reserve margins by zone are not held.`}>capacity <Num check={`allgrids|capratio|${r.id}`} raw={c.pct}>{Math.round(c.pct).toLocaleString("en-US")}</Num>% of peak</Tp></> : null}
+        {"pct" in c ? <>, <Tp dotted={false} tip={c.table === "grid_peak_vs_capacity"
+          ? `${GRID_NAMES[r.grid]}'s operating generators' net summer capacity at the end of ${c.year}, ${Math.round(c.mw).toLocaleString("en-US")} MW (solar ${Math.round(c.parts?.solar ?? 0).toLocaleString("en-US")}, wind ${Math.round(c.parts?.wind ?? 0).toLocaleString("en-US")}, storage ${Math.round(c.parts?.storage ?? 0).toLocaleString("en-US")}, at their summer ratings), against its peak hour of ${c.peakYear}, ${Math.round(c.peak).toLocaleString("en-US")} MW: grid_peak_vs_capacity (the data machine's, by each generator's balancing authority, EIA-860M and EIA-930). Not a reserve margin: no imports, outages or derates, and solar and wind at their ratings.`
+          : `Installed net summer capacity of ${c.states.join(", ")} in ${c.year} (eia_state_capacity_annual), ${Math.round(c.mw).toLocaleString("en-US")} MW, over ${GRID_NAMES[r.grid]}'s peak demand of ${c.peakYear}, ${Math.round(c.peak).toLocaleString("en-US")} MW. Not a reserve margin.`}>capacity <Num check={`allgrids|capratio|${r.id}`} raw={c.pct}>{Math.round(c.pct).toLocaleString("en-US")}</Num>% above peak</Tp></> : null}
       </span>
     </span>
   );
@@ -224,13 +226,33 @@ function CarbonTd({ r, x }: { r: Row; x: SitingInputs }) {
 function UtilityTd({ r }: { r: Row }) {
   const c = utilityCell(SITING_FILES, r);
   if ("why" in c) return <Words words={c.words} why={c.why} />;
-  const u = c.u;
-  const tip = `${u.utility} (EIA utility ${u.number}), the largest of ${u.sellers} sellers to industry in ${c.state} inside ${GRID_NAMES[r.grid]} (balancing authority ${c.ba}) in ${c.year}: ${Math.round(u.sales_mwh).toLocaleString("en-US")} MWh to industry for USD ${Math.round(u.revenue_usd).toLocaleString("en-US")} (eia861_utility_sales, ${u.service === "Energy" ? "energy only: the wires utility bills delivery" : "bundled: energy and delivery"}). Service territories are not held, so the row's own utility is not known; this is the state's largest.`;
+  if (c.county) return <CountyUtilityTd r={r} c={c} />;
+  const u = c.u!;
+  const tip = `${u.utility} (EIA utility ${u.number}), the largest of ${u.sellers} sellers to industry in ${c.state} inside ${GRID_NAMES[r.grid]} (balancing authority ${c.ba}) in ${c.year}: ${Math.round(u.sales_mwh).toLocaleString("en-US")} MWh to industry for USD ${Math.round(u.revenue_usd).toLocaleString("en-US")} (eia861_utility_sales, ${u.service === "Energy" ? "energy only: the wires utility bills delivery" : "bundled: energy and delivery"}). This row's name is not a place, so no county's service territory can be read for it: this is the state's largest seller, which the data machine found is not the county's utility in 4 of 7 hub counties (session 681).`;
   return (
     <span className="inline-block text-right">
       <Tp tip={tip} className="block max-w-[11rem] text-xs" dotted={false} data={{ "util-name": "1" }}><span className="block truncate">{u.utility}</span></Tp>
       <span className="whitespace-nowrap"><Fig check={`allgrids|utilrev|${r.id}`} v={c.rev} tip={tip} /></span>
       {c.growth !== null ? <span className="block text-xs" data-util-growth="1"><Tp dotted={false} tip={`Industrial sales ${c.year} over ${c.prior}: ${Math.round(u.sales_mwh).toLocaleString("en-US")} against ${Math.round(u.sales_prior_mwh ?? 0).toLocaleString("en-US")} MWh.`}>{c.growth > 0 ? "+" : ""}<Num check={`allgrids|utilgrowth|${r.id}`} raw={c.growth}>{two(c.growth)}</Num></Tp> %</span> : null}
+    </span>
+  );
+}
+
+/** Session 718: a row whose name is a place: its county's utilities (EIA-861's service territories), the first named, and
+ * the largest seller to industry among them inside the row's grid, its revenue per MWh and growth. */
+function CountyUtilityTd({ r, c }: { r: Row; c: Extract<ReturnType<typeof utilityCell>, { county: object }> }) {
+  const cu = c.county!, u = c.u;
+  const others = cu.utilities.filter((x) => x.name !== u?.utility);
+  const names = cu.utilities.map((x) => `${x.name}${x.ba.length ? ` (${x.ba.join(", ")})` : " (no sales row)"}`).join("; ");
+  const where = `${cu.county} County, ${cu.state}, a county this row's name places it in`;
+  const tip = u
+    ? `${where}: EIA-861's service territories (utility_service_territories, ${cu.territory_year}) list ${cu.utilities.length}: ${names}. Of those that bill customers inside ${GRID_NAMES[r.grid]} (balancing authority ${cu.ba}), ${u.utility} sold most to industry in the state in ${c.year}: ${Math.round(u.sales_mwh).toLocaleString("en-US")} MWh for USD ${Math.round(u.revenue_usd).toLocaleString("en-US")} (${u.service === "Delivery" ? "delivery only: the charge for the wires, not the energy" : "bundled: energy and delivery"}; eia861_utility_sales). A utility with no sales row (a wires company that reports none) is listed and not priced.`
+    : `${where}: EIA-861's service territories list ${names}. None of them bills industry inside ${GRID_NAMES[r.grid]} in eia861_utility_sales, so no revenue per MWh is drawn.`;
+  return (
+    <span className="inline-block text-right">
+      <Tp tip={tip} className="block max-w-[11rem] text-xs" dotted={false} data={{ "util-name": "1" }}><span className="block truncate">{u?.utility ?? cu.utilities[0]?.name ?? cu.county}{others.length ? ` and ${others.length} more` : ""}</span></Tp>
+      {u && c.rev !== null ? <span className="whitespace-nowrap"><Fig check={`allgrids|utilrev|${r.id}`} v={c.rev} tip={tip} /></span> : <Words words="no sales row" why={tip} />}
+      {u && c.growth !== null ? <span className="block text-xs" data-util-growth="1"><Tp dotted={false} tip={`Industrial sales ${c.year} over ${c.prior}: ${Math.round(u.sales_mwh).toLocaleString("en-US")} against ${Math.round(u.sales_prior_mwh ?? 0).toLocaleString("en-US")} MWh.`}>{c.growth > 0 ? "+" : ""}<Num check={`allgrids|utilgrowth|${r.id}`} raw={c.growth}>{two(c.growth)}</Num></Tp> %</span> : null}
     </span>
   );
 }

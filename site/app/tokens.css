@@ -1131,3 +1131,22 @@ body:has(.brand-a) > footer :focus-visible {
 .brand-a [data-allgrids-nodes] [role="row"] [role="cell"].text-right {
   font-family: var(--font-mono);
 }
+/* session 718: a utility's name in the All grids tab (and "and 6 more") is a caption over its figure: sans, one line,
+   cut with an ellipsis at the column's width; its trigger fills the line so the cut can happen */
+.brand-a [data-allgrids] tbody td [data-util-name],
+.brand-a [data-allgrids] tbody td [data-util-name] span:not([role="tooltip"]) {
+  font-family: var(--font-sans);
+  font-size: 12px;
+}
+.brand-a [data-allgrids] tbody td [data-util-name] {
+  display: block;
+  max-width: 11rem;
+  margin-left: auto;
+}
+.brand-a [data-allgrids] tbody td [data-util-name] > button {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

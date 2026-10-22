@@ -54,6 +54,13 @@ class Connect(unittest.TestCase):
         cls.f = json.loads(src("site", "data", "siting", "connect.json"))
 
     def test_the_file_is_the_table_s_where_it_is_here(self):
+        # session 718: from the data machine's interconnection_durations where it is held, else Berkeley Lab's file
+        for d in (os.path.join(ROOT, "runs", "archive_restore"), os.path.join(os.path.dirname(ROOT), "erw", "runs", "archive_restore"), os.path.join(ROOT, "warehouse", "output")):
+            q = os.path.join(d, "interconnection_durations.csv")
+            if os.path.exists(q) and self.f["table"] == "interconnection_durations":
+                again = sp.connect_from_durations(q)
+                self.assertEqual({k: v for k, v in again.items() if k != "built"}, {k: v for k, v in self.f.items() if k != "built"})
+                return
         p = os.path.join(ROOT, "warehouse", "output", "lbnl_interconnection_queue.csv")
         if not os.path.exists(p):
             p = os.path.join(os.path.dirname(ROOT), "erw", "warehouse", "output", "lbnl_interconnection_queue.csv")

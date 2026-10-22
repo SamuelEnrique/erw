@@ -5,8 +5,8 @@ Energy Research Warehouse (ERW). docs/methods/siting.md, "The replication". Stan
 zone rows and three ERCOT nodes, under each of the four profiles at its defaults, this computes every figure of the tab
 from its sources and prints it beside the page's own:
 
-    the live set, with the anon key only     ercot_4cp_intervals (the four peaks), lbnl_interconnection_queue (the months
-                                             to connect), eia930_demand_growth (demand growth), carbon_intensity_hourly
+    the live set, with the anon key only     ercot_4cp_intervals (the four peaks), interconnection_durations (the months
+                                             to connect, session 718), eia930_demand_growth (demand growth), carbon_intensity_hourly
                                              (the carbon over the hours run), ercot_large_load_status (approved MW)
     the tab's own files, in the repository   the hourly hub and zone prices (site/data/datacenter: the history is not in
                                              the live set), the node basis, eGRID's subregions, EIA-861's utilities and
@@ -318,29 +318,31 @@ def figures(repo, base, key):
             if prof == "electrolyzer" and not node:
                 out.setdefault("_carbonh", []).append((rid, grid, t))
     # the grid-level figures of the three rows
-    lbnl = rest(base, key, "entities", {"select": "extra", "table_name": "eq.lbnl_interconnection_queue", "status": "eq.operating"})
-    names = {"ercot": "ERCOT", "caiso": "CAISO", "nyiso": "NYISO"}
+    # session 718: the months to connect from the data machine's interconnection_durations (in the live set), as the
+    # tab's file is built since that session: each request's months to one decimal, the newest three whole years
+    dur = rest(base, key, "entities", {"select": "extra", "table_name": "eq.interconnection_durations"})
+    years = [int(e["extra"]["operation_year"]) for e in dur if (e.get("extra") or {}).get("operation_year")]
+    last = max(years)
+    names = {"ercot": "ercot", "caiso": "caiso", "nyiso": "nyiso"}
     for rid in ROWS:
         grid = rid.split(":")[0]
-        import datetime as dt
-        months = []
-        for e in lbnl:
-            x = e["extra"] or {}
-            if x.get("region") != names[grid] or not x.get("q_date") or not x.get("on_date"):
-                continue
-            on, q = dt.date.fromisoformat(x["on_date"][:10]), dt.date.fromisoformat(x["q_date"][:10])
-            if 2023 <= on.year <= 2025 and on >= q:
-                months.append((on - q).days / 30.4375)
-        months.sort()
+        months = sorted(float(e["extra"]["months_to_operation"]) for e in dur
+                        if (e.get("extra") or {}).get("grid", "").lower() == names[grid] and e["extra"].get("operation_year")
+                        and last - 2 <= int(e["extra"]["operation_year"]) <= last and e["extra"].get("months_to_operation") not in (None, ""))
         if len(months) >= 5:
             n = len(months)
-            # the tab's file writes the median to two decimals (warehouse/derived/siting_page.py, connect_file)
+            # the tab's file writes the median to two decimals (warehouse/derived/siting_page.py, connect_from_durations)
             out[f"allgrids|connect|{rid}"] = round(months[n // 2] if n % 2 else (months[n // 2 - 1] + months[n // 2]) / 2, 2)
+    for rid in ROWS:
+        grid = rid.split(":")[0]
         sub = {"ercot": "ERCT", "caiso": "CAMX", "nyiso": "NYCW"}[grid]
         a = carbon["areas"][sub]
         out[f"allgrids|carbon|{rid}"] = a["co2_tons"] * 2000 / a["gen_mwh"] * 0.45359237
-        u = utility["by"][{"ercot": "TX|ERCO", "caiso": "CA|CISO", "nyiso": "NY|NYIS"}[grid]]
-        out[f"allgrids|utilrev|{rid}"] = u["revenue_usd"] / u["sales_mwh"]
+        # session 718: a row whose name is a place reads its county's largest seller inside the grid; else the state's
+        cu = (utility.get("county") or {}).get(rid)
+        u = cu["top"] if cu else utility["by"][{"ercot": "TX|ERCO", "caiso": "CA|CISO", "nyiso": "NY|NYIS"}[grid]]
+        if u:
+            out[f"allgrids|utilrev|{rid}"] = u["revenue_usd"] / u["sales_mwh"]
     # the carbon over the electrolyzer's hours, from the live set's hourly intensity
     for rid, grid, t in out.pop("_carbonh", []):
         ba = {"ercot": "ERCO", "caiso": "CISO", "nyiso": "NYIS"}[grid]

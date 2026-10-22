@@ -28,7 +28,7 @@ class Gaps(unittest.TestCase):
         for r in g["rows"]:
             self.assertTrue(all(r[c] for c in g["columns"]), r)
             for c in re.findall(r"`([a-z0-9_]+\.py)`", r["The connector it resembles"]):
-                self.assertTrue(os.path.exists(os.path.join(ROOT, "warehouse", "connectors", c)), c)
+                self.assertTrue(any(os.path.exists(os.path.join(ROOT, "warehouse", d, c)) for d in ("connectors", "derived")), c)   # session 718: a derived table's builder too
 
     def test_each_column_of_the_tab_with_a_gap_is_listed(self):
         cols = {r["Column"].split(",")[0].strip() for r in sp.gaps_file()["rows"]}
