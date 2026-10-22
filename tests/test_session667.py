@@ -55,7 +55,9 @@ class Territories(unittest.TestCase):
             y = h.read()
         # session 673: in the live set (loaded whole), no longer held from the catalogue
         self.assertIn("'^utility_service_territories$'", y[:y.index("recent:")])
-        self.assertNotIn("  - utility_service_territories\n", y[y.index("catalogue_hold:"):])
+        self.assertNotIn("  - utility_service_territories\n", y[y.index("catalogue_hold:"):y.index("review_hold:")])
+        # session 683: off /data's public list (it links the old Redivis dataset, which does not hold it)
+        self.assertIn("  - utility_service_territories\n", y[y.index("review_hold:"):y.index("sources_hold:")])
         self.assertIn("upload.py utility_service_territories", R.STORAGE_HELD["utility_service_territories"])
 
     def test_no_em_dash(self):

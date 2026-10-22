@@ -422,6 +422,12 @@ catalogue_hold:
 # the Data page do not hear of them, while the question-answering tools (site/lib/chat/tools.ts) read them. Each needs
 # a live-set rule above. To open one: take its name off this list; the next load writes "yes".
 review_hold:
+  # session 683 (chain 043): the four tables of the All grids tab (/cost-of-power, in review), loaded whole, held off
+  # /data's public list: /data links the old account's Redivis dataset, which does not hold them (they are on the Stanford one)
+  - utility_service_territories
+  - interconnection_durations
+  - interconnection_durations_summary
+  - grid_peak_vs_capacity
   - storage_owners_monthly             # session 87 (/storage/owners) and session 92 (Ask ERCOT); was under catalogue_hold
   - generation_mix_hourly_profile      # session 94, /mix/v2
   - generation_mix_records

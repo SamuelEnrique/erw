@@ -70,7 +70,8 @@ class Durations(unittest.TestCase):
         self.assertIn("'^interconnection_durations(_summary)?$'", y[:y.index("recent:")])  # session 673: the live set
         for t in ("interconnection_durations", "interconnection_durations_summary"):
             self.assertEqual(B.sector_of(t), "power")
-            self.assertNotIn(f"  - {t}\n", y[y.index("catalogue_hold:"):])
+            self.assertNotIn(f"  - {t}\n", y[y.index("catalogue_hold:"):y.index("review_hold:")])  # session 673: loaded
+            self.assertIn(f"  - {t}\n", y[y.index("review_hold:"):y.index("sources_hold:")])  # session 683: off /data's list
             self.assertIn(f"upload.py {t}", R.STORAGE_HELD[t])
 
     def test_no_em_dash(self):
