@@ -22,10 +22,12 @@ WELLS = {"period": "2020", "duoarea": "SPA", "process": "XDG", "series": "NGM_EP
 
 
 class TheTables(unittest.TestCase):
-    def test_the_third_group(self):
-        self.assertEqual(len(P.GROUPS), 3)
+    def test_the_third_and_fourth_groups(self):
+        # session 601 added the fourth group (17 products); the third stays as session 600 read it
         self.assertEqual(len(P.GROUPS[2]), 10)
         self.assertIn("EPL0", P.GROUPS[2])
+        self.assertEqual(len(P.GROUPS[3]), 17)
+        self.assertEqual(len(set(P.PRODUCTS)), len(P.PRODUCTS))
 
     def test_rigs(self):
         r = D.rows([RIGS], "u", "r").iloc[0]
