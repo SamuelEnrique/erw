@@ -100,6 +100,8 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   // session 228: "Your load", the page's own view, with the three answers' keys (dc|...), flat and off in 100 hours
   "/cost-of-power", "/cost-of-power?run=hours",
   "/cost-of-power?grid=caiso",  // session 280: CAISO's hub counts (scarcity_hours_by_grid) and its list of statements (large_load_public)
+  // session 700: the All grids tab (lib/siting.ts), its hub and zone rows and its ERCOT nodes
+  "/cost-of-power?view=allgrids", "/cost-of-power?view=allgrids&rows=nodes",
   // session 51: the seller's tab, its defaults and three other assets
   // session 347: the economic impact tool, its defaults and three other views (a size, cost, local content and life given)
   "/map?tab=queues", "/map?tab=queues&iso=ercot", "/map?tab=queues&iso=spp",  // session 349: the map's Queues tab (iso_queue_statistics)
@@ -759,6 +761,13 @@ async function truth(check) {
       })());
     }
     return B.groupStat(await dcqRows.get(p[1]), p[1], p[2], p[3]);
+  }
+  // session 700: the All grids tab of /cost-of-power, allgrids|<column>|<row>[|<inputs>]: recomputed by lib/siting.ts from
+  // the files the tab reads (data/datacenter/index.json, data/siting/*.json; not Supabase), as the tab computes it
+  if (p[0] === "allgrids") {
+    const S = await import("../lib/siting.ts");
+    const F = await import("./siting-files.mjs");
+    return S.sitingStat(F.files(), check);
   }
   if (p[0] === "dcd") {
     const D = await import("../lib/datacenter/delivery.ts");
