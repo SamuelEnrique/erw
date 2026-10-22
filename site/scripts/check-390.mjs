@@ -5,11 +5,12 @@
 // Opens the internal view (every page is in review), sets the window to 390 by 844 as a phone (mobile emulation, the
 // page's own viewport tag), loads each page of `node scripts/check-values.mjs --list` (pages and internal), and lists:
 //   wide    each element or run of text that reaches past the window's right edge with no ancestor that clips or
-//           scrolls it sideways (the outermost of each nest), and the page's own scroll width
+//           scrolls it sideways (the outermost of each nest; the inside of a closed <details> is not drawn and is
+//           left out), and the page's own scroll width
 //   tables  each table with no ancestor that scrolls it sideways (overflow-x auto or scroll), and whether it is wider
 //           than its frame
 //   labels  each SVG text cut by its own SVG (overflow not visible) or by an ancestor that clips, or past the window's
-//           left or right edge. Labels drawn on a canvas (ECharts) cannot be read from the page and are not judged.
+//           left or right edge (1.5 px at a side; 3.5 px at the top or the bottom, past its em box's empty margin). Labels drawn on a canvas (ECharts) cannot be read from the page and are not judged.
 // With a shots directory, a picture of the window for each page that has a finding, scrolled to its first one.
 // Exit 0 when every page was read and none has a finding, 1 when a page has one, 2 on bad input or a page not read.
 // It reads only; nothing is written but the JSON and the pictures.
@@ -46,7 +47,7 @@ export const MEASURE = String.raw`(() => {
     }
     return parts.join(" > ");
   };
-  const hidden = (el) => { for (let e = el; e; e = e.parentElement) { const cs = getComputedStyle(e); if (cs.display === "none" || cs.visibility === "hidden") return true; if (cs.position === "fixed") return "fixed"; } return false; };
+  const hidden = (el) => { for (let e = el; e; e = e.parentElement) { if (e.parentElement && e.parentElement.tagName === "DETAILS" && !e.parentElement.open && e.tagName !== "SUMMARY") return true; const cs = getComputedStyle(e); if (cs.display === "none" || cs.visibility === "hidden") return true; if (cs.position === "fixed") return "fixed"; } return false; };
   const clipAncestor = (el, stopAt) => {
     for (let p = el.parentElement; p && p !== document.body && p !== document.documentElement; p = p.parentElement) {
       if (p === stopAt) return null;
@@ -119,8 +120,11 @@ export const MEASURE = String.raw`(() => {
       if (tx.closest("[clip-path]")) continue;
       const r = tx.getBoundingClientRect();
       if (r.width === 0) continue;
-      const by = Math.max(box.l - r.left, r.right - box.r, box.t - r.top, r.bottom - box.b);
-      if (by > 1.5) cut.push({ text: tx.textContent.trim().slice(0, 40), by: Math.round(by), side: box.l - r.left > 1.5 ? "left" : r.right - box.r > 1.5 ? "right" : box.t - r.top > 1.5 ? "top" : "bottom" });
+      // a text's box is its font's em box: above and below it holds 3 px or so where no glyph is drawn, so a text is cut
+      // at the top or the bottom only past that; at the sides its box is its advance, and 1.5 px is a cut
+      const sides = { left: box.l - r.left, right: r.right - box.r }, ends = { top: box.t - r.top, bottom: r.bottom - box.b };
+      const hit = Object.entries(sides).find(([, v]) => v > 1.5) ?? Object.entries(ends).find(([, v]) => v > 3.5);
+      if (hit) cut.push({ text: tx.textContent.trim().slice(0, 40), by: Math.round(hit[1]), side: hit[0] });
     }
     if (cut.length) labels.push({ sel: sel(svg), label: (svg.getAttribute("aria-label") || svg.querySelector("title")?.textContent || "").slice(0, 60), cut: cut.slice(0, 6), count: cut.length });
   }
