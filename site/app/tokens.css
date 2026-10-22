@@ -214,6 +214,13 @@ body:has(.brand-a) > footer a:hover {
 .brand-a div.text-muted > a:not([class]):hover {
   text-decoration-thickness: 2px;
 }
+/* Session 583: the 3D network's line of help under the drawing ("Left-click: rotate, ..."), which its library draws in
+   slate grey at 70 percent on the white sheet: 2.48 to 1 (AccessLint, color-contrast, /grid?view=network). In the
+   captions grey, whole: about 5.6 to 1 on white. Its place and size are the library's, unchanged. */
+.brand-a .scene-nav-info {
+  color: var(--color-muted);
+  opacity: 1;
+}
 .brand-a [id] {
   scroll-margin-top: 16px;
 }

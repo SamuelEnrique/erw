@@ -43,6 +43,9 @@ export function markScrollers(root: ParentNode = document) {
     if (scrolls && !reachable && !ours && !el.hasAttribute("tabindex")) {
       el.tabIndex = 0;
       el.dataset.scrollFocus = "1";
+      // session 583: a figure is a stop of the keyboard and nothing more: it is already a figure named by its caption,
+      // and the role of a region is not allowed on it (AccessLint, aria-allowed-role, after the first pass of the fix)
+      if (el.tagName === "FIGURE") return;
       if (!el.hasAttribute("role")) { el.setAttribute("role", "region"); el.dataset.scrollRole = "1"; }
       if (!el.hasAttribute("aria-label") && !el.hasAttribute("aria-labelledby")) { el.setAttribute("aria-label", regionName(el)); el.dataset.scrollLabel = "1"; }
     } else if (ours && (!scrolls || reachable)) {

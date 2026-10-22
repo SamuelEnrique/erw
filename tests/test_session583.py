@@ -96,6 +96,20 @@ class TheSharedFiles(unittest.TestCase):
         # session 428's rule still holds: one read of the sizes, before any write
         self.assertEqual(body.count("el.scrollWidth"), 1)
 
+    def test_a_figure_is_a_stop_of_the_keyboard_but_not_a_region(self):
+        c = site("components", "ScrollRegions.tsx")
+        body = c[c.index("export function markScrollers"):c.index("export function uniqueNames")]
+        stop, figure, role = body.index("el.tabIndex = 0;"), body.index('if (el.tagName === "FIGURE") return;'), body.index('el.setAttribute("role", "region")')
+        self.assertLess(stop, figure)
+        self.assertLess(figure, role)
+
+    def test_the_networks_line_of_help_takes_the_captions_grey(self):
+        css = site("app", "tokens.css")
+        rule = css[css.index(".brand-a .scene-nav-info {"):]
+        rule = rule[:rule.index("}")]
+        self.assertIn("color: var(--color-muted);", rule)
+        self.assertIn("opacity: 1;", rule)
+
     def test_a_link_in_a_grey_note_is_underlined(self):
         css = site("app", "tokens.css")
         rule = css[css.index(".brand-a div.text-muted > a:not([class]) {"):]
