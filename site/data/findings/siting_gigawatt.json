@@ -159,5 +159,19 @@
   "Energy Research Warehouse (ERW): finding siting_gigawatt, WHERE A GIGAWATT PAYS LEAST",
   "Computed by site/scripts/siting-card.mjs from site/lib/siting.ts (the All grids tab); method docs/methods/siting.md",
   "Rows: one per row of the tab whose every cost part is held, a 1 GW datacenter load: energy, transmission, capacity and all-in in USD per MWh, the year in USD"
- ]
+ ],
+ "statistics": {
+  "session": 361,
+  "round": {
+   "name": "the findings library's cards as computed by 2026-10-22",
+   "claims_tested": 26,
+   "claims_passing": 15,
+   "alpha": 0.05,
+   "method": "Benjamini-Hochberg over the round's distinct p-values",
+   "caveat": "Many claims were tested in this round; a claim's q-value is the false discovery rate at which it would still be kept over all of them (Benjamini and Hochberg). A caveat, not a test the card had to pass.",
+   "claims_of_this_card": 0,
+   "q_bh": {},
+   "this_card": "no claim of this card is a test with a p-value: it states figures, and the round's count is the library's"
+  }
+ }
 }
