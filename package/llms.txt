@@ -535,6 +535,10 @@ Backends (`ERW_BACKEND`, or `erw.set_backend(...)`); the calls do not change:
 - `local` (default): the CSVs in the repository's warehouse/output, or ERW_DATA_DIR.
 - `redivis`: the Redivis dataset `energy_research_warehouse`, the store of
   record, every table, full history (REDIVIS_API_TOKEN, REDIVIS_OWNER).
+  Since session 665 also the Stanford dataset, Datapages's `erw` (Redivis reference
+  b9wm, https://stanford.redivis.com/datasets/b9wm-3hb080mtm, DOI 10.57761/4f55-6d55),
+  which holds the public tables only: ERW_REDIVIS_DATASET=datapages.erw:b9wm, or
+  erw.RedivisBackend(owner="datapages", dataset="erw:b9wm", owner_kind="organization").
 - `supabase`: the live set behind the public site: public tables, the last 35
   days of ISO prices and EIA-930 (session 36C; 90 before) (and all eight CO2 variables of
   eia930_all_emissions, session 36A), and the derived, fuel, queue and news
@@ -683,6 +687,14 @@ docs/redivis/release-v1/tables.csv):
     (released YYYY-MM-DD).
 
 The dataset is https://redivis.com/datasets/05yh-65frzyhaz (site/data/site.json).
+The public tables are also in the Stanford dataset (session 665), whose release
+is being prepared (docs/reviews/redivis-v1-release-note-2026-10-23.md). Its citation
+form, once released (each table's own line is in docs/redivis/release-v1-stanford/tables.csv):
+
+    <the publisher>. <the report>. Via the Energy Research Warehouse (ERW),
+    table `<table>`, Redivis dataset `datapages.erw`, version v1 (released
+    YYYY-MM-DD), https://doi.org/10.57761/4f55-6d55.
+
 Version 1 is pending release (session 445): until a person releases it, the
 draft has no version number and is not citable, so cite the table, the data
 commit and the date read, as erw.cite() writes them. A page's own figures are
