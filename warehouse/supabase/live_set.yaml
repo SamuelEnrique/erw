@@ -299,6 +299,7 @@ catalogue_hold:
   - boem_ogor_lease_production_monthly
   - eia930_subba_demand_hourly_2025
   - eia930_subba_demand_hourly_2024
+  - eia_padd_rail_barge_movements_monthly
   - eia_refinery_capacity_annual
   - eia_refinery_inputs_monthly
   - eia_refinery_production_monthly
