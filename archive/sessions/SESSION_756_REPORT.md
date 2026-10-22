@@ -6,6 +6,8 @@
 
 - **None there.** a substation table and a transmission-line table, and a node's place has not landed (coverage on main, read by session 751 at 18:35 UTC, and again at 18:38). Nothing on the page changed; the gaps file's row stays open.
 
+- **Before the landing, one fix outside the session's item**: the data machine's daily run had added a `statistics` block (session 361's pipeline) to both siting cards' files on main. `site/scripts/siting-card.mjs --check` compared the whole file and failed `tests/test_session720`. The script now compares only the fields it writes and keeps another step's fields when it writes; both cards' figures are unchanged.
+
 ## What to review
 
 - Nothing.
@@ -31,4 +33,5 @@ With the next landing.
 
 ## Files
 
+- Changed: `site/scripts/siting-card.mjs` (the check and the write keep another step's fields).
 - New: this report.
