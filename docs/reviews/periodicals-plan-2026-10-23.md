@@ -1,0 +1,77 @@
+# The Digest and the Roundup, read as a sharp reader: the plan of 23 October 2026
+
+Energy Research Warehouse (ERW), session 800, 22 October 2026, about 09:30 to 10:30 UTC, on portable-laptop (code role), the first session of `queue/done/060-night-23-october-code-periodicals.md`. Model spend USD 0; nothing read but the repository. The audits of 21 October (`digest-audit-2026-10-21.md`, `roundup-audit-2026-10-21.md`, "State on 22 October") landed their mechanical fixes; this file goes past them to the four things a reader at a lab or a fund notices first: which stories are chosen, what the why line says, the numbers section, and the charts. Sessions 801 to 806 take the no-ruling items below in order; an item that needs a ruling is listed and not done.
+
+## The counts, over the 13 issues
+
+Script: `runs/periodicals/s800/counts.py` (not in git; its table `counts.csv` beside it). Items are the top ten, the "By sector" bullets (policy actions included) and "AI and power"; the why line of a top-ten item is the line under its headline up to "Sources:", so it holds the figures (`detail()`) that follow the scored reason, as a reader sees them.
+
+| Count | Result |
+|---|---|
+| Issues read | 13 (25 September to 21 October), 397 items, 476 links |
+| Why lines with an adjective of the list (massive, unprecedented, significant, major, critical, key, huge) | **107 of 397** (major 86, significant 20, massive 9, key 6, critical 2, unprecedented 1) |
+| Items whose why line repeats a figure the headline holds | **74 of 397** (the figures line after the reason prints the headline's sum again: "Anthropic may spend $750 Billion ... $750 Billion; parties: Anthropic", 21 October, top 1) |
+| Days with three or more top-ten items in one sector | **7 of 13** (oil 5 on 12 October, datacenter power 5 on 13 October, oil 4 and nuclear 3 on 2 October, lng 3 on 28 September, deal 3 on 8 October, oil 3 on 9 October, datacenter power 3 on 21 October) |
+| Sources shown as a Google News address | **217 of 476 links** (46 percent); every issue from 11 to 22 |
+
+By issue: adjectives 12, 16, 3, 6, 2, 1, 5, 3, 3, 18, 13, 14, 11; repeated figures 7, 7, 0, 1, 9, 11, 8, 6, 1, 3, 7, 6, 8; Google News links 15, 13, 18, 16, 15, 14, 19, 11, 22, 18, 21, 18, 17 (25 September to 21 October in order).
+
+**Why the 21 October issue still reads as before the audits.** Session 470's adjective cut and money style (`63dcc2e3`) and session 577's stop and why-line money style (`49c87898`) reached `origin/main` with chain 023's landing in the night of 21 to 22 October; the issue of 21 October was written at 15:45 UTC that day by the code before them, so it prints "Massive AI compute capex signals unprecedented ...", "$750 Billion" and "$3B". The issue of 22 October is the first the scheduled run writes with those changes. What they do not touch is what this plan is for: `plain` cuts five adjectives and leaves "unprecedented", "key", "critical" and every "signals"; the figures line still repeats the headline's sum; the selection still stacks one topic; the link text is still an outlet's name over a Google address; the numbers section still lists six averages that say nothing about what moved; the chart is still the warehouse's strongest statistic, not the day's.
+
+## What a sharp reader sees, issue of 21 October
+
+1. **Three why lines in ten restate the headline in adjectives.** "Massive AI compute capex signals unprecedented power demand growth and infrastructure investment scale" (top 1) says nothing a reader did not get from "Anthropic may spend $750 Billion on computing costs". "Major datacenter and AI infrastructure expansion signals sustained power demand growth in Europe" (top 2), "Significant federal investment in grid resilience" (top 5). The consequence a lab or fund wants ("USD 750 billion of compute is roughly 15 GW at today's cost per megawatt; the number to watch is who sells it the power") is nowhere, and the rubric asks the scorer for "why an energy professional should care", which the model answers with an adjective.
+2. **The same figure twice in one item.** Eight items print the headline's sum again on the figures line (top 1, 2, 3, 4, 5, 6: "$750 Billion", "€16bn", "$3B", "6,600 MW", "$967 million", "8,200 MW; $12.5 billion").
+3. **Three top-ten items on datacenter power** (top 1, 2, 7) and, under "AI and power", five more; a reader counts eight datacenter items in 33 and reads the Digest as a datacenter letter, which the rubric says it is not.
+4. **Seventeen of 39 links go to Google**, with the outlet's name as the link text and "(via Google News)" nowhere on this issue (the fix landed after it); Bloomberg and Reuters stories reach Google's own page.
+5. **The numbers section does not say what moved.** Six day-ahead averages of one day with no day before, one real-time maximum, three fuel closes a week old (14 October on 21 October) with no change. The reader learns that NYISO was dearest and SPP cheapest; not that WTI fell or rose, nor by how much, nor that the 276 USD/MWh SPP interval was at 09:45.
+6. **The chart is of the warehouse, not of the day.** Iowa's industrial retail price in July 2026, chosen because it is the strongest statistic the scanner raised, on a day whose stories were compute capex, a UK gas field, a 6.6 GW nuclear campus and refiners asked for diesel.
+
+## The Digest: the ten changes, ranked
+
+Each with the function it touches, whether it needs a ruling, and the fixture that proves it. "No ruling" means the change is default-neutral to a visitor (every page is in review) and changes no past issue; the next scheduled issue carries it once it has landed through the gate.
+
+| Rank | Change | Function | Ruling | Fixture that proves it | Session |
+|---|---|---|---|---|---|
+| 1 | **The why line says the consequence.** One sentence on the consequence for the energy system or the market; no adjective of the list (massive, unprecedented, significant, major, critical, key, huge); no figure the headline already gives; the stop before the figures kept. The scorer's prompt asks for it; the brief's check is the gate, and a line that fails is replaced by the fallback (the title's own clause, never an invented fact) | `score.SYSTEM` (the `one_line_why` rule), `rubric.md`, `brief.why_line`, new `brief.why_check` and `brief.why_fallback`; `detail()` prints no figure the headline holds | no | `tests/fixtures/periodicals/why_lines.json`: 20 saved items of the 13 issues (event_id, title, why, mw, price, parties) with the expected printed line; the 21 October top 1 prints no "massive" and no second "USD 750 billion" | 801 |
+| 2 | **One topic, one item, the rest below.** At most one item a topic cluster in "Top of the industry" (`same_event` widened to one topic by the tags and the parties, threshold in a constant with its reasoning); the cluster's other stories fold under it as "also:" lines with their outlets, so no story is lost | `brief.same_topic` (new), `brief.one_per_event` to `one_per_topic`, `select`, the item's lines in `main`; `roundup.py` takes it through `brief` | no | the 13 issues' top tens regenerated by selection alone from `news_stories.csv` (no model), the difference listed issue by issue; 13 October's five datacenter items become one with four "also:" lines | 802 |
+| 3 | **The sources say the outlet.** Where the ingest's resolver failed (18,976 of 18,981), the link text is the feed's own outlet name with "(via Google News)" after it, never the address; the email the same; an outlet in the "license needed" list of `docs/licenses.md` shows outlet and title, no link | `brief.link_text`, `brief.build_clusters` (the outlet beside each link), `email_digest.story_list`; a reader of `docs/licenses.md` | no (session 470's rule kept, not widened) | items whose `source_url` is a Google address and whose `source` is "Bloomberg.com" or "Reuters": the printed line reads "Reuters (via Google News)"; a licensed outlet's item prints no link | 803 |
+| 4 | **The numbers section says what moved.** The five prices that moved most in the 24 hours (the hubs, Henry Hub, WTI, Brent, TTF and JKM where held), each with its level, its change and a one-line reason only when a scored story of the day names that price; held prices under their rule ("licensed source needed", no value); US48 demand's peak against the same weekday a year before. Every figure keeps the key `scripts/check_digest.py` traces (`digest_dam`, `digest_rt`, `digest_fuel`), and the fuel closes say how old they are | `brief.numbers_today`, new `brief.movers` reading `warehouse/derived/board_page.py`'s move functions; `site/lib/digest.ts` reads the new lines | no (held prices follow the board's own rule, which is Samuel's of 21 October) | a saved day's local tables (`warehouse/output`, retrieved to 21 October): the section for 20 October lists its five movers with their changes and the check traces 131 of 131 | 804 |
+| 5 | **The chart of the day follows the day.** `daily_chart.choose` ranks the candidates by their relevance to the day's top stories (the story's sector tags and the series it names) before the existing checks; a candidate with no relevance to any story ranks after every one with some; strength breaks ties | `daily_chart.relevance` (new), `daily_chart.choose`, `brief.daily_chart_section` passes the day's top clusters | no for the ranking; the caveat, the floor and the three ruled drafts stay his (audit fix 10) | the 13 issues: the chart chosen before and after, listed from each day's `docs/digest/charts/<date>.json` candidates where kept, else from the day's own record | 805 |
+| 6 | **Commentary ranks under news at the same significance.** A column, an interview or an analysis piece ("says", "sees", "Q&A", "explainer", a question mark, "how", "why") ranks after a reported event of the same score, so "Brookfield's Teskey sees no slowdown" (13 October, top 5) does not sit above a 600 MW deal | `brief.build_clusters` sort key (a `kind` column: event or commentary, by the title's form) | no (the rubric already puts commentary at 1 to 3; this is a tie-break, and the model's score is untouched) | the 13 October top ten: the two commentary items move below the deals; 20 October's "Iran war tilts balance" moves under the Constitution Pipeline item | a later night |
+| 7 | **The AI tie-break goes.** Clusters sort by significance, then outlets, then time, not by AI relevance | `brief.build_clusters` | **yes** (audit fix 6, session 470's list) | two clusters at 7, one AI 9 with one outlet and one AI 0 with three: the second ranks first | not done |
+| 8 | **The window opens at the previous issue's end**, capped at 96 hours, so a missed weekday is caught up | `brief.main` | **yes** (audit fix 2: it changes what a Monday covers) | two runs at T1 and T2 over a fixture: every story in (T1, T2] a candidate once | not done |
+| 9 | **The two-minute form**: which sections stay above the fold | `brief.main` | **yes** (audit fix 15) | the words above the fold of a built issue are 450 or fewer | not done |
+| 10 | **Held prices**: whether a held ISO price prints at all, and the email while `news_index` is held | `brief.numbers_today`, `email_digest.render` | **yes** (audit fix 1); change 4 prints a held price as the board does ("licensed source needed") until he rules otherwise | a fixture status file holding `nyiso_dam_zone_prices`: the row prints the hold and no digits | not done |
+
+Beside the ten, two small things change 4 and 1 carry: the fuel closes say their age ("EIA's close of 14 October, the newest held on 21 October"), and the figures line prints only what the headline does not.
+
+## The Roundup: the ten changes, ranked
+
+| Rank | Change | Function | Ruling | Fixture that proves it | Session |
+|---|---|---|---|---|---|
+| 1 | **The week in five numbers** opens the Roundup: the week's biggest price move (the board's series, with its change), the US48 peak with its hour, the week's largest deal by MW or USD from the tracker, the week's largest queue or policy figure, and one from the week's chart; each traced to its table through `scripts/check_roundup.py` | `roundup.five_numbers` (new), `roundup.main` | no | W40 and W41 regenerated without the model from the local tables; `check_roundup.py` reads the five | 806 |
+| 2 | **The chart of the week ranked by the week's top stories**, as change 5 of the Digest does for the day; the rule's pick stands when no template is relevant | `roundup.chart_of_the_week`, `warehouse/analysis/run.py`'s candidates read by relevance | no (fix 3's division rule stays his) | W40 and W41: the chart chosen before and after, listed | 806 |
+| 3 | **The why lines say the consequence** (the Digest's change 1, through `brief.why_line`) | `brief.why_line` | no | the W41 weekend's "IEA push for stock releases signals acute distillate tightness" | 801 |
+| 4 | **One topic, one item** in the weekend's three and the week's five, the rest folded (the Digest's change 2, through `brief.one_per_topic`) | `roundup.main` | no | W40's two South Korea items and two OPEC+ items each become one with "also:" lines | 802 |
+| 5 | **The sources say the outlet** (the Digest's change 3) | `brief.link_text` | no | W41's five: "Reuters (via Google News)" | 803 |
+| 6 | **The real-time maximum says its granularity**: a 15-minute series beside an hourly one is said as such, so the week's maximum is not read as one measure across grids | `roundup.numbers` | no | W40's line names the interval length | 806 |
+| 7 | **Deals and datacenters: a floor, US first**, at most 15 a section with a link to the rest | `roundup.main` | **yes** (audit fix 7) | W40's rows: no row with no operator, site and MW; US rows lead | not done |
+| 8 | **A missed week said** under the title | `roundup.main` | **yes** (audit fix 6, week 42) | a run for W43 with no W42 file writes the line | not done |
+| 9 | **The coverage charts' division** by scored stories, or their exclusion kept as session 119 has it | `warehouse/analysis/templates/deals_by_month.py` | **yes** (audit fix 3) | the template is not eligible on W40's data | not done |
+| 10 | **The no-model headlines' adjectives**: whether a publisher's own title may lose "massive" | `brief.own_titles` | **yes** (session 577's question) | W41's item 1 | not done |
+
+Shared through `brief`: changes 1 to 3 of the Digest land in the Roundup with no change of its own (it imports `why_line`, `one_per_event` and `link_text`).
+
+## What every session proves on, and never on
+
+- The saved scored stories: `warehouse/output/news_stories.csv` as the repository holds it (16,247 scored rows to 21 October 15:06 UTC, in git), read as `tests/test_session470.py`'s `TheNamedDays` reads it; a test skips where it is absent.
+- The 13 issues under `docs/digest/` and W39 to W41 under `docs/roundup/`, byte for byte as they are: no past issue is rewritten.
+- Small fixture frames and files written by the test, as session 470's tests do (`rec`, `frame`, `Quiet`).
+- Never a live feed, never the model (sessions 807 and 808 are the only ones that call it, each under its cap, into `runs/periodicals_dryrun/` only).
+
+## For Samuel's ruling (listed here, decided by no session)
+
+- The Digest's changes 7 to 10 and the Roundup's 7 to 10 above, each the audits' own item.
+- Whether the why line's fallback (the title's own clause) is acceptable on the page when the model's line fails the check, or whether the item should print the headline alone.
+- Whether "also:" lines under a top-ten item count toward the two-minute form.
