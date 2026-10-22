@@ -38,8 +38,11 @@ class TheRows(unittest.TestCase):
         self.assertEqual(set(s["entity"]), {"boem_unit:754393006"})
 
     def test_twice_or_another_year_stops(self):
+        # session 619: a line repeated in every field is kept once and counted; the same key with another value stops
+        d = B.records("\n".join([LINES[0], LINES[0]]) + "\n", 2024)
+        self.assertEqual((len(d), d.attrs["repeated"]), (1, 1))
         with self.assertRaises(RuntimeError):
-            self.table([LINES[0], LINES[0]])
+            self.table([LINES[0], LINES[0].replace('"000000018"', '"000000019"')])
         with self.assertRaises(RuntimeError):
             self.table(LINES[:1], year=2025)
 
