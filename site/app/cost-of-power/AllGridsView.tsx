@@ -3,7 +3,7 @@ import { Num } from "@/components/Num";
 import { InlineSpark } from "@/components/InlineSpark";
 import { InputPanel } from "@/components/tool/ToolPage";
 import type { ReactNode } from "react";
-import { COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
+import { COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, allInCell, cpCharge, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
 import { CP, NODES, SITING_DC, SITING_FILES } from "@/lib/sitingdata";
 import { AllGridsForm } from "./AllGridsForm";
 
@@ -104,6 +104,32 @@ function ProfileTd({ r, x }: { r: Row; x: SitingInputs }) {
   );
 }
 
+/** Session 703: the transmission cell. ERCOT: the profile's own four-peak charge, with the firm and the curtailing
+ * charge beside it; elsewhere "not held", the large-load tariff that would fill it named on hover. */
+function TxTd({ r, x }: { r: Row; x: SitingInputs }) {
+  const c = cpCharge(SITING_DC, SITING_FILES, r, x);
+  if ("why" in c) return <Words words={c.words} why={c.why} />;
+  const k = profileKey(x), p = PROFILES[x.profile];
+  const ivs = c.intervals.map((iv) => `${iv.local} (${iv.w === null ? "price not held" : iv.w ? "on" : "off"})`).join("; ");
+  const base = `ERCOT's four summer peak intervals of ${c.year} (ercot_4cp_intervals) at the Commission's ${c.rate.year} rate, USD ${c.rate.value.toFixed(6)} per kW of four-peak demand a year (texas_transmission_matrix), over the ${Math.round(c.hours).toLocaleString("en-US")} hours a year the load runs${r.kind === "node" ? ` (${NODE_HUB}'s hours: the node table is daily)` : ""}. The charge is paid the year after the summer.`;
+  const firmTip = `Firm: the load's full demand in all four intervals. ${base}`;
+  const curtTip = `Curtailing: a load off in the four intervals' hours, computed from its weights in those hours, not assumed. ${base}`;
+  return (
+    <span className="whitespace-nowrap">
+      {c.own === null ? <Words words="not held" why={`The price of an interval's hour is not held, so the load's share in it cannot be computed. ${base}`} />
+        : <Fig check={`allgrids|tx|${r.id}|${k}`} v={c.own} tip={`${p.label}: it ran in ${Math.round((c.share ?? 0) * 4)} of the four intervals of ${c.year} (${ivs}). ${base}`} />}
+      <span className="ml-2 text-xs" data-tx-firm="1">firm <Fig check={`allgrids|tx|${r.id}|firm|${k}`} v={c.firm} tip={firmTip} /></span>
+      {c.curtailing !== null ? <span className="ml-2 text-xs" data-tx-curtailing="1">off <Fig check={`allgrids|tx|${r.id}|curtailing|${k}`} v={c.curtailing} tip={curtTip} /></span> : null}
+    </span>
+  );
+}
+/** Session 703: the all-in cell, drawn only where energy, transmission and capacity are each held or zero by design. */
+function AllInTd({ r, x }: { r: Row; x: SitingInputs }) {
+  const a = allInCell(SITING_DC, SITING_FILES, r, x);
+  if ("missing" in a) return <Words words="not held" why={`Not every part is held: ${a.missing}`} />;
+  return <Fig check={`allgrids|allin|${r.id}|${profileKey(x)}`} v={a.v} tip={`Energy USD ${two(a.parts.energy)}, transmission USD ${two(a.parts.transmission)} and capacity USD ${two(a.parts.capacity)} per MWh${r.grid === "ercot" ? " (ERCOT has no capacity market)" : ""}. No delivery, distribution, ancillary or retail charge is in it.`} />;
+}
+
 function RowHead({ r }: { r: Row }) {
   return (
     <th scope="row" className="px-3 py-1.5 text-left font-normal" data-row={r.id}>
@@ -130,7 +156,7 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
           {x.rows === "nodes"
             ? <>Every ERCOT node of node_basis_daily that is neither a hub nor a load zone: <Num check="allgrids|rows|nodes" raw={nodes.length}>{nodes.length.toLocaleString("en-US")}</Num> nodes, from {NODES.first} to {NODES.last}.</>
             : <>Every hub and load zone the page&apos;s price files hold, and the grids they do not price: <Num check="allgrids|rows|hubs" raw={hubs.length}>{hubs.length.toLocaleString("en-US")}</Num> rows.</>}
-          {" "}A {p.label.toLowerCase()} load of {x.mw.toLocaleString("en-US")} MW at a load factor of {x.lf.toFixed(2)}, {CURTAIL_WORDS[p.curtail]}{x.strike !== null ? ` (USD ${x.strike.toLocaleString("en-US")} per MWh)` : ""}. Sorted by grid, then by name.
+          {" "}{/^[aeiou]/i.test(p.label) ? "An" : "A"} {p.label.toLowerCase()} load of {x.mw.toLocaleString("en-US")} MW at a load factor of {x.lf.toFixed(2)}, {CURTAIL_WORDS[p.curtail]}{x.strike !== null ? ` (USD ${x.strike.toLocaleString("en-US")} per MWh)` : ""}. Sorted by grid, then by name.
         </p>
         <RowToggle x={x} hubs={hubs.length} nodes={nodes.length} />
         <div className="overflow-x-auto" role="region" aria-label="All grids" tabIndex={0} data-allgrids-table="1">
@@ -150,7 +176,8 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
               {rows.map((r) => (
                 <tr key={r.id} className="border-b border-rule" data-allgrids-row={r.id}>
                   <RowHead r={r} />
-                  {COLUMNS.map((c) => <td key={c.id} className="px-3 py-1.5 text-right" data-cell={c.id}>{c.id === "energy" ? (x.profile === "datacenter" ? <EnergyTd r={r} e={energyCell(SITING_DC, SITING_FILES, r)} /> : <ProfileTd r={r} x={x} />) : null}</td>)}
+                  {COLUMNS.map((c) => <td key={c.id} className="px-3 py-1.5 text-right" data-cell={c.id}>{c.id === "energy" ? (x.profile === "datacenter" ? <EnergyTd r={r} e={energyCell(SITING_DC, SITING_FILES, r)} /> : <ProfileTd r={r} x={x} />)
+                    : c.id === "transmission" ? <TxTd r={r} x={x} /> : c.id === "allin" ? <AllInTd r={r} x={x} /> : null}</td>)}
                 </tr>
               ))}
             </tbody>

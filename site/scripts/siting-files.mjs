@@ -20,13 +20,16 @@ export function files() {
       if (!years.has(grid)) years.set(grid, (index.grids[grid]?.years ?? []).map((y) => read("datacenter", `${grid}_${y}.json`)));
       return years.get(grid);
     };
-    cached = { index, nodes: read("siting", "nodes.json"), years: yearsOf, cp: read("siting", "ercot_4cp.json") };
+    cached = { index, nodes: read("siting", "nodes.json"), years: yearsOf, cp: read("siting", "ercot_4cp.json"), rate: null };
   }
   return cached;
 }
 /** lib/datacenter.ts's functions, as lib/sitingdata.ts hands them (session 701). */
 export async function dc() {
   const L = await import("../lib/datacenter.ts");
+  // session 703: the Commission's newest approved rate, by lib/siting.ts's newestRate, as lib/sitingdata.ts takes it
+  const S = await import("../lib/siting.ts");
+  files().rate = S.newestRate(read("datacenter", "texas_delivery.json").matrix ?? []);
   return { monthsRuled: L.monthsRuled, lastTwelve: L.lastTwelve, span: L.span, years: L.years, expand: L.expand, monthsOfYear: L.monthsOfYear, monthStarts: L.monthStarts };
 }
 

@@ -71,7 +71,7 @@ export const COLUMNS: Column[] = [
   { id: "energy", head: "Energy", unit: "USD per MWh", tables: ["iso_dam_hub_prices", "iso_rtm_hub_prices", "iso_hub_prices_history", "ercot_all_hub_prices_history", "ercot_zone_prices_history", "node_basis_daily"],
     tip: "The day-ahead price over the last twelve whole months, a flat load, from the page's own hourly files (lib/datacenter.ts, as \"Your load\" computes it); an ERCOT node is its hub plus its mean daily basis (node_basis_daily)." },
   { id: "transmission", head: "Transmission and 4CP", unit: "USD per MWh", tables: ["ercot_4cp_intervals", "texas_transmission_matrix"],
-    tip: "ERCOT: the load's share of the four summer peak intervals at the Commission's rate (ercot_4cp_intervals), firm and curtailing. Elsewhere the utility's large-load tariff, not held." },
+    tip: "ERCOT: the load's demand in the four summer peak intervals of the newest summer held (ercot_4cp_intervals) at the Commission's approved rate, over its energy: the profile's own, then firm (on in all four) and off (curtailing). Elsewhere the utility's large-load tariff, not held." },
   { id: "capacity", head: "Capacity", unit: "USD per MWh", tables: ["iso_all_capacity_prices", "pjm_rpm_capacity_prices"],
     tip: "The latest cleared capacity price for the zone, over the load's energy (iso_all_capacity_prices, pjm_rpm_capacity_prices). ERCOT, CAISO and SPP have no capacity market." },
   { id: "connect", head: "Time to connect", unit: "months", tables: ["lbnl_interconnection_queue", "iso_queue_statistics", "large_load_rules", "large_load_waits", "ercot_large_load_status", "nyiso_load_queue"],
@@ -252,11 +252,29 @@ export function energyCell(dc: DC, f: Files, r: Row): EnergyCell {
 export type CpFile = { table: string; built: string; note: string; summers: { year: number; intervals: { ts: string; local: string; mw: number }[] }[] };
 /** A profile's twelve months at one region, day-ahead, over the flat load's own twelve whole months: the price per MWh
  * over the hours the load runs, the hours it ran and was off, the strike it used, and the peak hours in the window. */
-export type ProfileTwelve = { per: number; from: string; to: string; run: number; lost: number; held: number; strike: number | null; peaks: number };
-/** The hour of a year file (in the grid's standard time) that holds an instant, or -1 outside the year. */
-export function hourOf(year: number, ts: string, behind: number): number {
-  const i = Math.floor((Date.parse(ts) - Date.UTC(year, 0, 1)) / 3_600_000) - behind;
-  return i >= 0 && i < (year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0) ? 8784 : 8760) ? i : -1;
+export type ProfileTwelve = { per: number; from: string; to: string; run: number; lost: number; held: number; strike: number | null; peaks: number; atOrBelow: boolean };
+/** The year file and hour (in the grid's standard time) that hold an instant: the steps of app/cost-of-power/model.ts's
+ * four-peak block (session 354), so an interval falls in the same hour on both views. */
+export function hourOf(ts: string, behind: number): { y: number; i: number } {
+  const t = Date.parse(ts) - behind * 3_600_000, y = new Date(t).getUTCFullYear();
+  return { y, i: Math.floor((t - Date.UTC(y, 0, 1)) / 3_600_000) };
+}
+/** ERCOT's four-peak intervals as hours of the year files, by year. */
+export function peakHours(cp: CpFile | undefined, behind: number): Map<number, Set<number>> {
+  const peaks = new Map<number, Set<number>>();
+  for (const sm of cp?.summers ?? []) for (const iv of sm.intervals) {
+    const { y, i } = hourOf(iv.ts, behind);
+    if (!peaks.has(y)) peaks.set(y, new Set());
+    peaks.get(y)!.add(i);
+  }
+  return peaks;
+}
+/** The load in one hour under a profile's rule: 1 runs, 0 off (session 702; shared by the energy and the four peaks). */
+export function ruleWeight(curtail: Curtail, v: number | null, peak: boolean, strike: number | null, atOrBelow: boolean): number {
+  if (v === null) return 0;
+  if (curtail === "peaks_strike") return peak || (strike !== null && v >= strike) ? 0 : 1;
+  if (curtail === "below_strike") return strike === null ? 1 : (atOrBelow ? v <= strike : v < strike) ? 1 : 0;
+  return 1;
 }
 /** The k-th cheapest of a list of prices (1 = the cheapest). */
 const kth = (v: number[], k: number) => [...v].sort((a, b) => a - b)[Math.min(v.length, Math.max(1, k)) - 1];
@@ -299,29 +317,20 @@ function profileTwelveOnce(dc: DC, f: Files, grid: string, region: string, x: Pi
   let strike = x.strike, atOrBelow = false;
   if (p.curtail === "below_strike" && strike === null) { strike = kth(prices, Math.round(x.lf * prices.length)); atOrBelow = true; }
   // the peak hours: ERCOT's four intervals of each summer held, as hours of the year files
-  const peaks = new Map<number, Set<number>>();
-  if (p.curtail === "peaks_strike" && grid === "ercot" && cp) {
-    for (const sm of cp.summers) for (const iv of sm.intervals) {
-      const y = Number(iv.ts.slice(0, 4)), h = hourOf(y, iv.ts, behind);
-      if (h >= 0) { if (!peaks.has(y)) peaks.set(y, new Set()); peaks.get(y)!.add(h); }
-    }
-  }
+  const peaks = p.curtail === "peaks_strike" && grid === "ercot" ? peakHours(cp, behind) : new Map<number, Set<number>>();
   let run = 0, lost = 0, held = 0, inPeaks = 0, cost = 0;
   for (const y of years) {
     const w = y.pr.map((v, i) => {
-      if (v === null) return 0;
       const pk = peaks.get(y.yf.year)?.has(i) ?? false;
-      if (pk && y.win[i]) inPeaks++;
-      if (p.curtail === "peaks_strike") return pk || (strike !== null && v >= strike) ? 0 : 1;
-      if (p.curtail === "below_strike") return strike === null ? 1 : (atOrBelow ? v <= strike : v < strike) ? 1 : 0;
-      return 1;
+      if (v !== null && pk && y.win[i]) inPeaks++;
+      return ruleWeight(p.curtail, v, pk, strike, atOrBelow);
     });
     for (const r of dc.monthsOfYear(y.yf.year, y.pr, w)) {
       if (r.m < flat.from || r.m > flat.to) continue;
       held += r.held; lost += r.down; run += r.energy; cost += r.cost;
     }
   }
-  return { per: run > 0 ? cost / run : NaN, from: flat.from, to: flat.to, run, lost, held, strike, peaks: inPeaks };
+  return { per: run > 0 ? cost / run : NaN, from: flat.from, to: flat.to, run, lost, held, strike, peaks: inPeaks, atOrBelow };
 }
 /** The profile's figure for a row: a hub or zone's own; a node's is its hub's (HB_HUBAVG) plus its mean daily basis, the
  * same basis as the flat figure (node_basis_daily is daily: no hour of a node is held for twelve months). */
@@ -352,6 +361,79 @@ export function profileOfKey(s: string): Pick<SitingInputs, "profile" | "lf" | "
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
+// transmission and the four peaks (session 703): ERCOT's four-peak charge for the load; elsewhere not held
+// ---------------------------------------------------------------------------------------------------------------------
+
+/** The Commission's wholesale transmission rate (the postage stamp rate), USD per kW of four-peak demand a year. */
+export type Rate = { year: string; value: number };
+/** The newest approved rate of the matrix rows (matrix A where a year has two), as "Your load"'s four-peak block takes it
+ * (app/cost-of-power/model.ts): texas_transmission_matrix, through data/datacenter/texas_delivery.json. */
+export function newestRate(rows: { quantity: string; status: string; matrix: string; year: string; value: number }[]): Rate | null {
+  const r = rows.filter((x) => x.quantity === "postage_stamp_rate" && x.status === "approved" && x.matrix !== "B").sort((a, b) => a.year.localeCompare(b.year)).at(-1);
+  return r ? { year: r.year, value: r.value } : null;
+}
+/** A row's four-peak charge, USD per MWh of the load's energy: the rate times the load's demand in the four intervals of
+ * the newest summer held, over the energy it uses in a year. A load's demand in an interval is its draw while running
+ * times the share of the interval's hour it runs, and its energy is its draw times the hours it runs, so the draw cancels:
+ * USD per MWh = rate x 1,000 x share / hours run a year.
+ *   firm        the load's full share: it runs in all four intervals (share 1);
+ *   curtailing  a load off for those intervals: the weights of the four intervals' hours under the rule "off at the four
+ *               peaks" (ruleWeight), computed, not assumed;
+ *   own         the profile's own weights in those hours (its rule and strike, the strike of the window's twelve months).
+ * Hours run a year: the profile's hours over its twelve months (ProfileTwelve.run). A node is charged as its hub's hours
+ * (HB_HUBAVG; node_basis_daily is daily). */
+export type CpCharge = { year: number; rate: Rate; hours: number; share: number | null; firm: number; curtailing: number | null; own: number | null;
+  intervals: { ts: string; local: string; w: number | null }[]; region: string };
+export function cpCharge(dc: DC, f: Files, r: Row, x: Pick<SitingInputs, "profile" | "lf" | "strike">): CpCharge | { why: string; words: string } {
+  if (r.blank) return { why: r.blank.why, words: r.grid === "miso" ? "paused" : "not held" };
+  if (r.grid !== "ercot") return { why: `The transmission and delivery charge a large load pays in ${GRID_NAMES[r.grid]} is set by its utility's large-load tariff, and no such tariff is held in the warehouse. Only ERCOT's four-peak charge is held (ercot_4cp_intervals, at the Commission's rate).`, words: "not held" };
+  const rate = f.rate;
+  if (!rate) return { why: "The Commission's approved postage stamp rate is not in the page's files (texas_transmission_matrix).", words: "not held" };
+  const summer = [...(f.cp?.summers ?? [])].filter((s) => s.intervals.length === 4).at(-1);
+  if (!summer) return { why: "ercot_4cp_intervals holds no whole summer.", words: "not held" };
+  const region = r.kind === "node" ? NODE_HUB : r.region;
+  if (r.kind === "node" && !energyCell(dc, f, r).node) return { why: energyCell(dc, f, r).why ?? "not held", words: "not held" };
+  const t = profileTwelve(dc, f, "ercot", region, x, f.cp);
+  if (!t || t.run <= 0) return { why: `Twelve whole months of day-ahead prices in a row are not held for ${region}, or the load never runs.`, words: "not held" };
+  const behind = f.index.grids.ercot?.std_hours_behind_utc ?? 6;
+  const p = PROFILES[x.profile];
+  const files = new Map(f.years("ercot").map((yf) => [yf.year, yf]));
+  const at = (ts: string, curtail: Curtail): number | null => {
+    const { y, i } = hourOf(ts, behind), yf = files.get(y);
+    if (!yf) return null;
+    const v = dc.expand(yf, region, "da")[i];
+    if (v === null || v === undefined) return null;
+    return ruleWeight(curtail, v, true, curtail === p.curtail ? t.strike : null, t.atOrBelow);
+  };
+  const own = summer.intervals.map((iv) => at(iv.ts, p.curtail));
+  const off = summer.intervals.map((iv) => at(iv.ts, "peaks_strike"));
+  const mean = (ws: (number | null)[]) => (ws.every((w) => w !== null) ? (ws as number[]).reduce((a, w) => a + w, 0) / ws.length : null);
+  const hours = (t.run * 8760) / t.held;  // hours run in a year of 8,760 hours held
+  const per = (share: number | null) => (share === null ? null : (rate.value * 1000 * share) / hours);
+  const share = mean(own);
+  return { year: summer.year, rate, hours, share, firm: per(1) as number, curtailing: per(mean(off)), own: per(share),
+    intervals: summer.intervals.map((iv, k) => ({ ts: iv.ts, local: iv.local, w: own[k] })), region };
+}
+/** The capacity part of the all-in figure, until session 704 computes it: zero by market design where a grid has no
+ * capacity market (ERCOT, CAISO, SPP), else not held. */
+export const NO_CAPACITY_MARKET: Record<string, string> = {
+  ercot: "ERCOT is an energy-only market: it has no capacity market and no capacity charge.",
+  caiso: "California has no capacity market: resource adequacy is bought in bilateral contracts, and no public price of it is held.",
+  spp: "SPP has no capacity market: each load-serving entity meets its planning reserve itself.",
+};
+/** A row's all-in figure: the profile's energy, its transmission and its capacity, each held or zero by design. */
+export function allInCell(dc: DC, f: Files, r: Row, x: Pick<SitingInputs, "profile" | "lf" | "strike">): { v: number; parts: Record<string, number> } | { missing: string } {
+  const e = profileCell(dc, f, r, x, f.cp);
+  const energy: Part = "why" in e ? { missing: e.why } : { v: e.per };
+  const c = cpCharge(dc, f, r, x);
+  const transmission: Part = "why" in c ? { missing: c.why } : c.own === null ? { missing: "the load's hours in the four intervals are not held" } : { v: c.own };
+  const capacity: Part = NO_CAPACITY_MARKET[r.grid] ? { v: 0, zero: NO_CAPACITY_MARKET[r.grid] } : { missing: "capacity is computed from the auctions in session 704" };
+  const a = allIn({ energy, transmission, capacity });
+  if ("missing" in a) return a;
+  return { v: a.v, parts: { energy: (energy as { v: number }).v, transmission: (transmission as { v: number }).v, capacity: 0 } };
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
 // the all-in column (session 702): drawn only where each part is held or is zero by market design
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -370,14 +452,19 @@ export function allIn(parts: Record<"energy" | "transmission" | "capacity", Part
 // the check keys: allgrids|<column>|<row>[|<inputs>]
 // ---------------------------------------------------------------------------------------------------------------------
 
-export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFile, "nodes">; years: (grid: string) => YearFile[]; cp?: CpFile };
+export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFile, "nodes">; years: (grid: string) => YearFile[]; cp?: CpFile;
+  /** session 703: the Commission's newest approved postage stamp rate (newestRate over texas_delivery.json's matrix) */
+  rate?: Rate | null };
 /** The figure a check key names, from the files the page reads; undefined when the key names none.
  *   allgrids|rows|hubs, allgrids|rows|nodes                the count of each row set (session 700)
  *   allgrids|energy|<row>|da or rt                         a flat load's price over the last twelve whole months (701);
  *                                                          a node's da is its hub's plus its mean daily basis
  *   allgrids|basis|<node>                                  that mean daily basis (701)
  *   allgrids|energy|<row>|da|<profile key>                 the profile's day-ahead price over the hours it runs (702)
- *   allgrids|lost|<row>|<profile key>                      the hours of the window it was off (702) */
+ *   allgrids|lost|<row>|<profile key>                      the hours of the window it was off (702)
+ *   allgrids|tx|<row>|firm, curtailing or <profile key>    ERCOT's four-peak transmission charge, USD per MWh (703)
+ *   allgrids|txshare|<row>|<profile key>                   the load's share of the four intervals it ran in (703)
+ *   allgrids|allin|<row>|<profile key>                     energy plus transmission plus capacity (703) */
 export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
   const p = key.split("|");
   if (p[0] !== "allgrids") return undefined;
@@ -398,6 +485,20 @@ export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
     return p[3] === "da" ? e.da?.per : p[3] === "rt" ? e.rt?.per : undefined;
   }
   if (p[1] === "basis") return energyCell(dc, f, row).node?.basis;
+  if (p[1] === "tx" || p[1] === "txshare") {
+    const x = profileOfKey(p[1] === "tx" && (p[3] === "firm" || p[3] === "curtailing") ? p[4] ?? "" : p[3]);
+    if (!x) return undefined;
+    const c = cpCharge(dc, f, row, x);
+    if ("why" in c) return undefined;
+    if (p[1] === "txshare") return c.share ?? undefined;
+    return p[3] === "firm" ? c.firm : p[3] === "curtailing" ? c.curtailing ?? undefined : c.own ?? undefined;
+  }
+  if (p[1] === "allin") {
+    const x = profileOfKey(p[3]);
+    if (!x) return undefined;
+    const a = allInCell(dc, f, row, x);
+    return "v" in a ? a.v : undefined;
+  }
   return undefined;
 }
 /** A row by its id, in either row set. */
