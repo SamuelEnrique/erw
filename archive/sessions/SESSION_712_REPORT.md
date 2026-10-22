@@ -51,7 +51,20 @@ Every gate redirected to a file under `runs/chain_050/`, never piped; the exit c
 
 ## The landing
 
-Sessions 706 to 712 land in one push from this branch (below, once done). Sessions 700 to 705 landed at 10:09 UTC: `SESSION_705_REPORT.md`, "The landing".
+Sessions 706 to 712 landed in one push (`task/706-712-allgrids`, commit `a30655e7`), merged into main at 11:24 UTC (`8a54e3b4`, run 39768735713).
+
+- **The gate**: the first gate (on `8cad7704`) passed the suite (5,870), the build and check-values (7,526 of 7,526). Before the push, main had gained the data machine's chain 043 (43 commits: its four tables, its cross-checks, its tests), so the gate was run again on the merged commit `a30655e7`:
+  - suite 5,903 tests OK;
+  - build 0;
+  - check-values 7,526 of 7,526 values, the eleven floors as at the first landing (the ten held pages, and `/digest` before the day's Digest, production the same).
+  - The steps after check-values, on a build of the same commit: check-routes 0, check-cross-checks 0 (92, the data machine's three new ones among them), check-csp 0.
+- **Before the push**: freeze status 0. One other `task/` branch was in flight (`task/638-644-sources`, the data machine's), and a trial merge with it was clean.
+- **Snapshots**: `s712-before` at 11:11 UTC. **Vercel did not deploy the merge**: its status on `8a54e3b4` reads "Deployment rate limited, retry in 24 hours", and production still serves the build of 10:19 UTC (`8b993852`).
+  - `s712-after` at 11:37 UTC; `compare s712-before s712-after`: 0 differences, expected, since nothing deployed.
+  - **To finish**: once production serves `8a54e3b4` or later, take a snapshot and compare it with `s712-before`. Every page is in review, so 0 differences are expected.
+- The merged `wip/712-allgrids` was deleted on GitHub (701 to 705's and 703, 704's were deleted at the first landing; 706 to 711 were never pushed).
+
+Sessions 700 to 705 landed at 10:09 UTC: `SESSION_705_REPORT.md`, "The landing".
 
 ## Decisions made without you
 
