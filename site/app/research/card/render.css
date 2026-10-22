@@ -134,3 +134,14 @@ body:has(.finding-render) > main { max-width: none; padding: 0; margin: 0; }
     height: auto !important;
   }
 }
+
+/* Session 588, the check's finding: in the wide frame every card of one chart had the same fault. Its box is the
+   canvas's (280 px; 300 on the hourly curtailment card), the SVG the card draws on the picture is 420 px tall
+   (FindingCard.tsx), so the chart's foot and axis labels ran about 120 px over the callouts on every 1600 x 900
+   picture (docs/brand/review-588/before/). In the wide frame the box is as tall as its drawing, and the drawing is
+   scaled whole to at most 340 px (its proportions, its type and every value as drawn; the lowest last line of the
+   eleven cards then ends near 870 of 900 px). The tall frame, where the drawing fits, is unchanged. */
+@media (min-aspect-ratio: 3/2) {
+  .finding-render [data-finding-chart]:not([data-option-kind="panels"]) { height: auto !important; }
+  .finding-render [data-finding-chart]:not([data-option-kind="panels"]) svg { width: auto; height: auto; max-height: 340px; }
+}

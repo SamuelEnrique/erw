@@ -55,6 +55,22 @@ class TallFrame(unittest.TestCase):
         self.assertIn("height={Math.max(120, Math.round(height / r.panels.length))}", read(OPTION))
 
 
+class WideFrameOneChart(unittest.TestCase):
+    # the check's finding: every card of one chart drew its 420 px SVG in a 280 px box in the wide frame
+    def test_the_wide_frame_scales_the_one_chart_whole(self):
+        css = read(RENDER)
+        s = css[css.index("the check's finding"):]
+        m = re.search(r"@media \(min-aspect-ratio: 3/2\) \{(.*?)\n\}", s, re.S)
+        self.assertTrue(m)
+        body = m.group(1)
+        self.assertIn('.finding-render [data-finding-chart]:not([data-option-kind="panels"]) { height: auto !important; }', body)
+        self.assertIn('.finding-render [data-finding-chart]:not([data-option-kind="panels"]) svg { width: auto; height: auto; max-height: 340px; }', body)
+        self.assertNotIn("max-aspect-ratio", s)
+
+    def test_the_card_draws_the_same_svg(self):
+        self.assertIn("<CardChart spec={card.chart} label={card.title} height={420} />", read(os.path.join(SITE, "components", "analysis", "FindingCard.tsx")))
+
+
 class AreaInsideThePanel(unittest.TestCase):
     def test_the_area_base_is_held_between_the_plot_top_and_floor(self):
         s = read(CHART)
