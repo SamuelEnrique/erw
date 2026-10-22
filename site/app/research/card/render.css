@@ -119,3 +119,18 @@ body:has(.finding-render) > main { max-width: none; padding: 0; margin: 0; }
     align-content: start;
   }
 }
+
+/* Session 588: the tall frame, 1080 x 1350, the same way. Its box above (430 px; 620 on the peak hour card) held the
+   five panels in one column only to 870 px, and the fifth (SPP) was drawn over the callouts' boxes (session 506's shots,
+   docs/brand/review-497/after/). In the tall frame the panels stand in two columns, three rows (SPP alone in the
+   last), and the box is as tall as its panels, so the callouts begin under the lowest axis label: no value, no panel
+   and no label is removed, only placed (scripts/check-findings-grids.mjs measures it in every frame). */
+@media (max-aspect-ratio: 3/2) {
+  .finding-render [data-finding-chart="multiples"][data-option-kind="panels"] {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 12px;
+    align-content: start;
+    height: auto !important;
+  }
+}

@@ -259,7 +259,11 @@ export function CategoryChart({ id, x, series, unit, unit2 = "", label, height =
               let area = "";
               if (kind === "area") {
                 const held = pts.map((p, i) => (p ? i : -1)).filter((i) => i >= 0);
-                if (held.length) area = `M${cx(held[0]).toFixed(1)},${py(stacked[k].from[held[0]], b).toFixed(1)} ` + held.map((i) => `L${pts[i]![0].toFixed(1)},${pts[i]![1].toFixed(1)}`).join(" ") + " " + [...held].reverse().map((i) => `L${cx(i).toFixed(1)},${py(stacked[k].from[i], b).toFixed(1)}`).join(" ") + " Z";
+                // session 588: the area's base is held inside the plot; on an axis whose floor is above zero (the right
+                // scale of the five-grid cards, 12k on CAISO's) the shading ran from zero, below the axis and out of
+                // its panel. The top line is the series' own; no value moves, only the shading below the floor is not drawn
+                const base = (i: number) => Math.min(height - BOT, Math.max(TOP, py(stacked[k].from[i], b)));
+                if (held.length) area = `M${cx(held[0]).toFixed(1)},${base(held[0]).toFixed(1)} ` + held.map((i) => `L${pts[i]![0].toFixed(1)},${pts[i]![1].toFixed(1)}`).join(" ") + " " + [...held].reverse().map((i) => `L${cx(i).toFixed(1)},${base(i).toFixed(1)}`).join(" ") + " Z";
               }
               const dash = s.dash === true || s.dash === "dashed" ? "4 3" : s.dash === "dotted" ? "1.5 3" : undefined;
               return (
