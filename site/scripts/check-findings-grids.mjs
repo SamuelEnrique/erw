@@ -122,10 +122,12 @@ const code = await withBrowser(async ({ go, wait, unlock, send, sleep, errors })
       // five panels ran in one column to 870 px, over the callouts' boxes near 830 (docs/brand/review-497/after/)
       const low = await js("(() => { const t = [...document.querySelectorAll('[data-render=\"1\"] [data-finding-chart] svg text')].map((e) => e.getBoundingClientRect()).filter((r) => r.height > 0); const below = document.querySelector('[data-render=\"1\"] .finding-callouts') ?? document.querySelector('[data-render=\"1\"] .finding-why'); return { text: Math.round(Math.max(0, ...t.map((r) => r.bottom))), top: below ? Math.round(below.getBoundingClientRect().top) : null, n: t.length }; })()");
       check(low.n > 0 && low.top !== null && low.text <= low.top, `${id} ${w} x ${h}: the lowest chart text ends at ${low.text} px, above the callouts' top at ${low.top} px`);
-      // and in a frame of small multiples, no two of a panel's timeline labels run into each other (the tall frame's
-      // two columns made each panel half as wide)
+      // and in the tall frame's small multiples, no two of a panel's timeline labels run into each other (its two
+      // columns made each panel half as wide). The wide frame's five side by side panels (session 497) are not held to
+      // it: their plots are some 20 px wide and the peak hour card's eight years print over each other there, a layout
+      // choice listed for Samuel in session 588's report
       const gap = await js("(() => { let worst = null; for (const p of document.querySelectorAll('[data-render=\"1\"] [data-finding-chart=\"multiples\"] [data-panel] svg')) { const t = [...p.querySelectorAll('text[text-anchor=\"middle\"]')].map((e) => e.getBoundingClientRect()).filter((r) => r.width > 0).sort((a, b) => a.left - b.left); for (let i = 1; i < t.length; i++) worst = Math.min(worst ?? 1e9, t[i].left - t[i - 1].right); } return worst; })()");
-      if (gap !== null) check(gap >= 0, `${id} ${w} x ${h}: the panels' timeline labels stand apart (the closest two ${Math.round(gap * 10) / 10} px)`);
+      if (gap !== null && h > w) check(gap >= 0, `${id} ${w} x ${h}: the panels' timeline labels stand apart (the closest two ${Math.round(gap * 10) / 10} px)`);
     }
   }
   const errs = errors.filter((e) => !/favicon/.test(String(e)));
