@@ -10,6 +10,7 @@ figure from the warehouse, by the Digest's own rule:
                   exact and rounded half up to cents, as brief.mean2
     digest_rt     the real-time price at its interval, to two decimals
     digest_fuel   the EIA spot close on its trading day, to two decimals
+    digest_demand the US48 demand at its hour, to the megawatt (session 804: the demand line)
     digest_chart  the chart's value and old record at their periods in the chart's table; its other figures are the
                   record's own statistics (the scan's), checked by scripts/check-values.mjs against the record
 
@@ -226,6 +227,15 @@ def check_figure(src, date, f, chart):
         if not rows:
             return "not here", f"no close on {day}"
         got = f"{rows[0][1]:.2f}"
+        return ("ok" if got == f["raw"] else "FAIL"), got
+    if head == "digest_demand":   # session 804: a demand value at its hour (eia930_all_demand, US48)
+        _, table, entity, variable, ts = p
+        rows = src.rows(table, entity, variable=variable, ts=ts)
+        if rows is None:
+            return "not here", f"{table} is not held by {src.name}"
+        if not rows:
+            return "not here", f"no row at {ts}"
+        got = f"{rows[0][1]:.0f}"
         return ("ok" if got == f["raw"] else "FAIL"), got
     if head == "digest_chart":
         k = p[3]

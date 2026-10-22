@@ -743,43 +743,180 @@ def rt_label(iso, variable):
 
 
 def cite_short(table):
-    s = erw.sources(table)
+    """The footnote's words for a table: its name and its source reports. Session 804: a table this machine does not hold
+    (the section already says "not in the warehouse" for its figures) is named alone, so the footnotes never stop the
+    section."""
+    try:
+        s = erw.sources(table)
+    except Exception:
+        return f"`{table}`"
     return f"`{table}` ({', '.join(r['source'] for r in s['reports'] if r.get('source'))})"
 
 
-def numbers_today(digest_date, log):
+# Session 804 (docs/reviews/periodicals-plan-2026-10-23.md, Digest change 4): the numbers section says what moved. The
+# section listed six averages of one day with no day before, one real-time maximum and three fuel closes a week old with
+# no change; a reader learned where power was dearest, not what moved. Now: the day-ahead table carries the day before
+# and the change; "What moved most" ranks the MOVERS_N largest moves in percent among the main hubs' day-ahead averages
+# (against the day before) and EIA's spot closes (against the close before them), each with a reason only when a scored
+# story of the day names that price; a held grid's price is not ranked (the board's own rule for a "license needed"
+# series, warehouse/derived/board_page.py LICENSED); TTF and JKM are not held and say so; the fuel closes say how old
+# they are; US48 demand's peak is set against the same weekday a year before where the warehouse holds it.
+MOVERS_N = 5
+LICENSED_NOTE = "licensed source needed"
+# the words a scored story must name, in its title or its why line, for its why line to be the reason beside a price
+PRICE_WORDS = {"Henry Hub natural gas": ("henry hub",), "WTI Cushing crude": ("wti",), "Brent crude": ("brent",),
+               "ERCOT": ("ercot",), "CAISO": ("caiso",), "NYISO": ("nyiso",), "MISO": ("miso",),
+               "SPP": ("southwest power pool", " spp "), "ISO-NE": ("iso-ne", "iso new england", "new england")}
+NOT_HELD = (("TTF, the Dutch gas benchmark", "not held: its source asks for a license"),
+            ("JKM, the Japan-Korea LNG marker", "not held: its source asks for a license"))
+US48 = "eia930:US48"
+
+
+def held_grids(path=None):
+    """The grids of MAIN_HUBS whose table is "license needed" in warehouse/metadata/license_status.csv (a consolidated
+    table holds a grid only when the row's publishers name it): {"NYISO", "ISO-NE", "MISO"} on 22 October 2026."""
+    import csv
+    rows = []
+    try:
+        with open(path or LICENSE_FILE, encoding="utf-8", newline="") as f:
+            rows = [r for r in csv.DictReader(ln for ln in f if not ln.startswith("#")) if r.get("status") == "license needed"]
+    except OSError:
+        return set()
+    out = set()
+    for label, table, _node, _tz in MAIN_HUBS:
+        for r in rows:
+            if r.get("table") != table:
+                continue
+            pubs = [x.strip() for x in str(r.get("publishers", "")).split(";") if x.strip()]
+            if not pubs or outlet_key(label) in {outlet_key(x) for x in pubs}:
+                out.add(label)
+    return out
+
+
+def dam_mean(label, table, node, tz, day, log):
+    """(mean, hours held, hours expected) of the hub's day-ahead prices over the ISO's local operating day `day`; the
+    mean is None unless every hour is held."""
+    start = pd.Timestamp(day.date()).tz_localize(tz)
+    end = pd.Timestamp((day + pd.Timedelta(days=1)).date()).tz_localize(tz)
+    expected = int((end - start) / pd.Timedelta(hours=1))
+    try:
+        df = erw.fetch(table, start=start, end=end, node=node, market=HUB_MARKET.get(label))
+    except Exception as exc:
+        log(f"  numbers: {table} unavailable: {exc!r}")
+        return None, 0, expected
+    return (mean2(df["value"]) if len(df) == expected else None), len(df), expected
+
+
+def day_move(newest, newest_day, prev, prev_day):
+    """The move of a daily series from the value held before to the newest, as the price board computes it
+    (warehouse/derived/board_page.py, stats: the move of the day): {ch, pct}, pct None when the base is not positive.
+    board_page.stats is used when it imports here; else its formula, which the tests hold equal."""
+    series = {pd.Timestamp(prev_day).date(): float(prev), pd.Timestamp(newest_day).date(): float(newest)}
+    try:
+        sys.path.insert(0, os.path.join(ROOT, "warehouse", "derived"))
+        import board_page
+        m = board_page.stats(series)["moves"]["d"]
+        if m is not None:
+            return {"ch": m["ch"], "pct": m["pct"]}
+    except Exception:
+        pass
+    v0, v = float(newest), float(prev)
+    return {"ch": round(v0 - v, 4), "pct": round(100 * (v0 - v) / v, 2) if v > 0 and v0 >= 0 else None}
+
+
+def price_reason(label, clusters):
+    """The why line of the day's highest-ranked scored story that names the price (PRICE_WORDS), with its outlet, as
+    the reason beside a mover; "" when no story of the day names it (the figure then stands with no reason)."""
+    words = PRICE_WORDS.get(label) or PRICE_WORDS.get(label.split(" ")[0]) or ()
+    if clusters is None or not len(clusters) or not words:
+        return ""
+    for r in clusters.to_dict("records"):
+        title = str((r.get("titles") or [""])[0])
+        text = f" {title} {r.get('why') or ''} ".lower()
+        if any(w in text for w in words):
+            why = why_line(r.get("why") or "", title)
+            if not why:
+                continue
+            return f" Reason, from the day's stories: {why} ({link_text(list(r.get('links') or [])[:1])})"
+    return ""
+
+
+def demand_lines(digest_date, log, notes):
+    """US48 demand's peak hour of yesterday (the UTC day before the issue) and, where the warehouse holds it, the peak of
+    the same weekday a year before (364 days earlier); the two values and their hours, and the change in percent."""
+    day = pd.Timestamp(digest_date).tz_localize("UTC") - pd.Timedelta(days=1)
+    out = ["", "**US48 demand, yesterday:** "]
+
+    def peak(d):
+        df = erw.fetch("eia930_all_demand", start=d, end=d + pd.Timedelta(days=1), ba="us48")
+        df = df[df["variable"] == "demand_mw"]
+        if df.empty:
+            return None
+        top = df.loc[df["value"].idxmax()]
+        return top
+    try:
+        top = peak(day)
+    except Exception as exc:
+        log(f"  numbers: US48 demand unavailable: {exc!r}")
+        out[-1] += "not in the warehouse."
+        return out
+    if top is None:
+        out[-1] += f"not in the warehouse for {day:%Y-%m-%d}."
+        return out
+    ref = notes.ref("eia930_all_demand", "balancing authority us48")
+    out[-1] += f"peaked at {top['value']:,.0f} MW in the hour starting {top['ts_utc']:%Y-%m-%d %H:%M} UTC {ref}; "
+    before = day - pd.Timedelta(days=364)
+    try:
+        old = peak(before)
+    except Exception as exc:
+        log(f"  numbers: US48 demand a year before unavailable: {exc!r}")
+        old = None
+    if old is None:
+        out[-1] += f"the same weekday a year before ({before:%Y-%m-%d}) is not held: the hourly table's window does not reach it."
+        return out
+    pct = 100 * (float(top["value"]) / float(old["value"]) - 1) if float(old["value"]) > 0 else None
+    out[-1] += (f"the same weekday a year before ({before:%Y-%m-%d}) peaked at {old['value']:,.0f} MW in the hour starting "
+                f"{old['ts_utc']:%Y-%m-%d %H:%M} UTC {ref}" + (f", so {pct:+.1f}% on the year." if pct is not None else "."))
+    return out
+
+
+def numbers_today(digest_date, log, clusters=None):
+    """The numbers section (session 804: what moved). clusters: the day's clusters (build_clusters), for the reasons."""
     notes = Notes()
-    lines = ["**Day-ahead average, yesterday, main hub** (mean of the 24 hourly prices of the operating day):", ""]
-    lines += ["| ISO | Hub or zone | Operating day | Average USD/MWh | Table |", "|---|---|---|---|---|"]
+    held = held_grids()
+    day = pd.Timestamp(digest_date) - pd.Timedelta(days=1)
+    before = day - pd.Timedelta(days=1)
+    hubs = []
     for label, table, node, tz in MAIN_HUBS:
-        day = pd.Timestamp(digest_date) - pd.Timedelta(days=1)
-        start = pd.Timestamp(day.date()).tz_localize(tz)
-        end = pd.Timestamp((day + pd.Timedelta(days=1)).date()).tz_localize(tz)
-        try:
-            df = erw.fetch(table, start=start, end=end, node=node, market=HUB_MARKET.get(label))
-        except Exception as exc:
-            log(f"  numbers: {table} unavailable: {exc!r}")
-            df = pd.DataFrame()
-        n_expected = int((end - start) / pd.Timedelta(hours=1))
-        pause = paused_row(label)
-        if len(df) == n_expected:
-            lines.append(f"| {label} | {node} | {day.date()} | {mean2(df['value'])} | {notes.ref(table)} |")
-        elif pause:  # session 470 (digest audit fix 12): why the grid is absent, not "not in the warehouse"
-            lines.append(f"| {label} | {node} | {day.date()} | not requested: paused by the ERW since {pause['paused_on']} "
-                         f"({pause['reason']}) | {notes.ref(table)} |")
+        m1, n1, x1 = dam_mean(label, table, node, tz, day, log)
+        m0, n0, x0 = dam_mean(label, table, node, tz, before, log)
+        hubs.append(dict(label=label, table=table, node=node, day=day, m1=m1, n1=n1, x1=x1, m0=m0, n0=n0, x0=x0,
+                         pause=paused_row(label), held=label in held))
+    lines = ["**Day-ahead average, yesterday, main hub** (mean of the 24 hourly prices of the operating day, and the day before):", "",
+             "| ISO | Hub or zone | Operating day | Average USD/MWh | Table | Day before USD/MWh | Change |", "|---|---|---|---|---|---|---|"]
+    for h in hubs:
+        ref = notes.ref(h["table"])
+        if h["m1"] is not None:
+            cell = f"{h['m1']}"
+        elif h["pause"]:  # session 470 (digest audit fix 12): why the grid is absent, not "not in the warehouse"
+            cell = f"not requested: paused by the ERW since {h['pause']['paused_on']} ({h['pause']['reason']})"
         else:
-            lines.append(f"| {label} | {node} | {day.date()} | not in the warehouse ({len(df)} of "
-                         f"{n_expected} hours) | {notes.ref(table)} |")
-    lines.append("| PJM | | | no PJM price table (no API key) | |")
+            cell = f"not in the warehouse ({h['n1']} of {h['x1']} hours)"
+        prev = f"{h['m0']}" if h["m0"] is not None else ("" if h["pause"] else f"not in the warehouse ({h['n0']} of {h['x0']} hours)")
+        if h["m1"] is not None and h["m0"] is not None:
+            mv = day_move(h["m1"], day, h["m0"], before)
+            chg = f"{mv['ch']:+.2f}" + (f" ({mv['pct']:+.1f}%)" if mv["pct"] is not None else "")
+        else:
+            chg = "not computed"
+        lines.append(f"| {h['label']} | {h['node']} | {day.date()} | {cell} | {ref} | {prev} | {chg} |")
+    lines.append("| PJM | | | no PJM price table (no API key) | | | |")
+
+    # the real-time maximum (session 16; session 30: the consolidated table one ISO at a time)
     best = None
-    # Session 16: only the interval price tables. filter(market="rtm") also names the derived
-    # ercot_peak_premium tables and the yearly ERCOT history, which are not on the CI runner
-    # (coverage carries them over), and fetching one there ended the digest with ERWDataNotFound.
     parts = rt_parts()
     rt_tables = list(dict.fromkeys(t for _, t, _ in parts))
     for iso, table, market in parts:
         tz = RT_TZ.get(iso, "UTC")
-        day = pd.Timestamp(digest_date) - pd.Timedelta(days=1)
         start = pd.Timestamp(day.date()).tz_localize(tz)
         try:
             df = erw.fetch(table, start=start, end=start + pd.Timedelta(days=1), market=market)
@@ -801,17 +938,58 @@ def numbers_today(digest_date, log):
                       f"{notes.ref(table, 'real-time tables read: ' + ', '.join(rt_tables))}.")
     else:
         lines[-1] += "no real-time table covers yesterday."
-    lines += ["", "**Latest fuel spot closes** (EIA, trading dates):", ""]
+
+    # the fuel closes, with their age, and the close before each
+    lines += ["", "**Latest fuel spot closes** (EIA, trading dates; EIA publishes its closes about a week after the day):", ""]
+    fuels = []
     try:
         fuel = erw.fetch("eia_fuel_spot_prices")
         for label, entity in FUELS:
             s = fuel[fuel["entity"] == entity].sort_values("ts_utc")
             last = s.iloc[-1]
+            age = (pd.Timestamp(digest_date).tz_localize("UTC") - last["ts_utc"]).days
+            # a close dated after the issue's day: the table was read later than the issue (a rerun, a check)
+            when = (f"{age} days before this issue" if age >= 0 else "dated after this issue's day: the table was read later")
             lines.append(f"- {label}: {last['value']:.2f} {last['unit']} on {last['ts_utc']:%Y-%m-%d} "
-                         f"{notes.ref('eia_fuel_spot_prices')}")
+                         f"{notes.ref('eia_fuel_spot_prices')}, EIA's newest close when this was written ({when})")
+            if len(s) > 1:
+                prev = s.iloc[-2]
+                fuels.append(dict(label=label, unit=last["unit"], v=float(last["value"]), d=last["ts_utc"], pv=float(prev["value"]),
+                                  pd=prev["ts_utc"], ref=notes.ref("eia_fuel_spot_prices")))
     except Exception as exc:
         log(f"  numbers: fuel prices unavailable: {exc!r}")
         lines.append("- fuel prices: not in the warehouse")
+
+    # what moved most
+    cands = []
+    for h in hubs:
+        if h["held"] or h["pause"] or h["m1"] is None or h["m0"] is None:
+            continue
+        mv = day_move(h["m1"], day, h["m0"], before)
+        if mv["pct"] is None:
+            continue
+        cands.append(dict(label=f"{h['label']} {h['node']} day-ahead", key=h["label"], unit="USD/MWh", v=float(h["m1"]), d=day,
+                          pv=float(h["m0"]), pd=before, ref=notes.ref(h["table"]), **mv))
+    for f in fuels:
+        mv = day_move(f["v"], f["d"], f["pv"], f["pd"])
+        if mv["pct"] is None:
+            continue
+        cands.append(dict(f, key=f["label"], **mv))
+    cands.sort(key=lambda c: (-abs(c["pct"]), c["label"]))
+    movers = ["", f"**What moved most** (the {MOVERS_N} largest moves in percent among the main hubs' day-ahead averages against the "
+              "day before, and EIA's spot closes against the close before them):", ""]
+    for c in cands[:MOVERS_N]:
+        movers.append(f"- {c['label']}: {c['v']:.2f} {c['unit']} on {c['d']:%Y-%m-%d}, {'up' if c['ch'] >= 0 else 'down'} "
+                      f"{abs(c['ch']):.2f} {c['unit']} ({abs(c['pct']):.1f}%) from {c['pv']:.2f} {c['unit']} on {c['pd']:%Y-%m-%d} {c['ref']}."
+                      + price_reason(c["key"], clusters))
+    if not cands:
+        movers.append("- no price with a day before it is held, so no move is ranked.")
+    not_ranked = [f"{h['label']} {h['node']} ({LICENSED_NOTE})" for h in hubs if h["held"] and not h["pause"]]
+    not_ranked += [f"{h['label']} {h['node']} (paused by the ERW since {h['pause']['paused_on']})" for h in hubs if h["pause"]]
+    not_ranked += [f"{name} ({why})" for name, why in NOT_HELD]
+    movers.append("- Not ranked: " + "; ".join(not_ranked) + ".")
+    lines = movers + [""] + lines
+    lines += demand_lines(digest_date, log, notes)
     return lines + notes.lines()
 
 
@@ -1152,7 +1330,7 @@ def main(argv=None):
         for r in ai.to_dict("records"):
             L.append(f"- {heads[r['cluster_id']]} ({r['sector'].replace('_', ' ')}): {why_line(r['why'], heads[r['cluster_id']])} "
                      f"{link_text(r['links'][:1])}")
-        nums = numbers_today(digest_date, log)
+        nums = numbers_today(digest_date, log, clusters)   # session 804: the day's clusters, for the reasons beside the movers
         summary, su = (None, []) if args.no_model else numbers_summary(client, model, nums, log)
         if model in PRICES:
             scost = sum(x.input_tokens * PRICES[model][0] + x.output_tokens * PRICES[model][1] for x in su) / 1e6
