@@ -28,8 +28,8 @@ const TIPS: Record<NodeSort, string> = {
 };
 
 // Session 711: a node's name opens its panel (the address's `node`, drawn by the server above the list).
-export function AllGridsNodes({ rows, pkey, datacenter, sort, dir, open, short, find, csvHead }: { rows: NodeTableRow[]; pkey: string; datacenter: boolean; sort: NodeSort; dir: "asc" | "desc"; open: string | null;
-  short: string; find: string; csvHead: string[] }) {
+export function AllGridsNodes({ rows, pkey, datacenter, sort, dir, open, short, find, cls, csvHead }: { rows: NodeTableRow[]; pkey: string; datacenter: boolean; sort: NodeSort; dir: "asc" | "desc"; open: string | null;
+  short: string; find: string; cls: string; csvHead: string[] }) {
   const router = useRouter();
   const uid = useId();   // session 714: each heading's tip, reachable by the keyboard (app/tokens.css, ".tip")
   const pick = (id: string) => {
@@ -41,25 +41,29 @@ export function AllGridsNodes({ rows, pkey, datacenter, sort, dir, open, short, 
   const [d, setD] = useState<"asc" | "desc">(dir);
   const [top, setTop] = useState(0);
   const [nq, setNq] = useState(find);
+  // session 772 (chain 064): a filter by class (what ERCOT's disclosures say is settled at the node), kept in the address
+  const classes = useMemo(() => [...new Set(rows.map((r) => r.cls))].sort(), [rows]);
+  const [cl, setCl] = useState(classes.includes(cls) ? cls : "");
   const box = useRef<HTMLDivElement>(null);
   const sorted = useMemo(() => {
     const want = nq.trim().toUpperCase();
-    return sortNodes(want ? rows.filter((r) => r.node.toUpperCase().includes(want)) : rows, by, d);
-  }, [rows, by, d, nq]);
+    return sortNodes(rows.filter((r) => (!want || r.node.toUpperCase().includes(want)) && (!cl || r.cls === cl)), by, d);
+  }, [rows, by, d, nq, cl]);
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
     if (by === "node" && d === "asc") { q.delete("nsort"); q.delete("ndir"); } else { q.set("nsort", by); q.set("ndir", d); }
     if (nq.trim()) q.set("nq", nq.trim()); else q.delete("nq");
+    if (cl) q.set("ncls", cl); else q.delete("ncls");
     const s = q.toString();
     window.history.replaceState(null, "", `${window.location.pathname}${s ? `?${s}` : ""}`);
-  }, [by, d, nq]);
+  }, [by, d, nq, cl]);
   const download = () => {
     const cell = (v: number | null) => (v === null ? "" : String(v));
     const lines = [...csvHead.map((h) => `# ${h}`), `# ${short}`, "node,class,energy_usd_mwh,basis_usd_mwh,spread_usd_mwh,swing_usd_mwh,allin_usd_mwh,days_held,days_in_window",
       ...sorted.map((r) => [r.node, r.cls, cell(r.per), cell(r.basis), cell(r.spread), cell(r.swing), cell(r.allin), r.days, r.due].join(","))];
     const url = URL.createObjectURL(new Blob([lines.join("\n") + "\n"], { type: "text/csv" }));
     const a = document.createElement("a");
-    a.href = url; a.download = `erw_allgrids_ercot_nodes${nq.trim() ? `_${nq.trim().replace(/[^A-Za-z0-9_]+/g, "_")}` : ""}.csv`;
+    a.href = url; a.download = `erw_allgrids_ercot_nodes${cl ? `_${cl}` : ""}${nq.trim() ? `_${nq.trim().replace(/[^A-Za-z0-9_]+/g, "_")}` : ""}.csv`;
     document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
   };
   // the server and the first render draw the first FIRST rows; once mounted, the rows in view and PAD around them
@@ -77,10 +81,17 @@ export function AllGridsNodes({ rows, pkey, datacenter, sort, dir, open, short, 
           <input type="search" value={nq} onChange={(e) => { setNq(e.target.value); setTop(0); box.current?.scrollTo({ top: 0 }); }} placeholder="for example RN or SOLAR"
             className="w-64 max-w-full border border-rule bg-panel px-2 py-1 font-mono text-sm text-ink" data-node-find="1" />
         </label>
+        <label className="flex flex-col gap-1">Class
+          <select value={cl} onChange={(e) => { setCl(e.target.value); setTop(0); box.current?.scrollTo({ top: 0 }); }}
+            className="border border-rule bg-panel px-2 py-1 text-sm text-ink" data-node-class="1">
+            <option value="">every class</option>
+            {classes.map((c) => <option key={c} value={c}>{c}</option>)}
+          </select>
+        </label>
         <button type="button" onClick={download} className="border border-rule px-2 py-1 text-sm" data-node-download="1">Download these {sorted.length.toLocaleString("en-US")} rows (CSV)</button>
       </div>
       <p className="mb-2 text-sm" role="status" data-node-sort={`${by}|${d}`}>
-        Sorted by {HEADS[by].charAt(0).toLowerCase() + HEADS[by].slice(1)}, {d === "asc" ? "smallest first" : "largest first"}{by === "node" || by === "cls" ? " (alphabetical)" : ""}; a node with no figure last. {sorted.length.toLocaleString("en-US")} of {rows.length.toLocaleString("en-US")} nodes shown{nq.trim() ? ` (names holding "${nq.trim()}")` : ""}. Click a heading to sort by it, again to turn it round. Days held: {short}.
+        Sorted by {HEADS[by].charAt(0).toLowerCase() + HEADS[by].slice(1)}, {d === "asc" ? "smallest first" : "largest first"}{by === "node" || by === "cls" ? " (alphabetical)" : ""}; a node with no figure last. {sorted.length.toLocaleString("en-US")} of {rows.length.toLocaleString("en-US")} nodes shown{nq.trim() || cl ? ` (${[nq.trim() ? `names holding "${nq.trim()}"` : "", cl ? `class ${cl}` : ""].filter(Boolean).join(", ")})` : ""}. Click a heading to sort by it, again to turn it round. Days held: {short}.
       </p>
       <div className="overflow-x-auto" role="region" aria-label="ERCOT nodes" tabIndex={0}>
         <div style={{ minWidth: 740 }} role="table" aria-label="ERCOT nodes" aria-rowcount={sorted.length + 1}>
