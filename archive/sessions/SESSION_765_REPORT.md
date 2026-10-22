@@ -26,7 +26,16 @@
 
 ## The landing
 
-Below, once done.
+Sessions 757 to 765 landed in one push (`task/757-765-allgrids`, commit `883c4625`), merged into main at 20:09 UTC (`4185f57e`, run 39844933710).
+
+- **The gate** (on `883c4625`): freeze 0; main in the commit; no `task/` branch in flight; suite 5,953 tests OK (304 skipped); npm ci 0; build 0; check-values 7,890 of 7,891 values equal. The ten held floors failed, and the 21 October Digest's revised WTI (production the same).
+- **The steps after check-values**, on a build of the same commit (lock `s765`, built on `db_probe`'s 0): check-routes 0 (226 pages, 0 failed), check-cross-checks 0 (92 of 92), check-csp 0 (97 pages, 0 violations).
+- **Before the push**: freeze status 0; no other `task/` branch but `task/198-battery-data`; the push conditional on the ancestry check (0).
+- **Snapshots**: `s765-before` at 19:59 UTC; the push at 19:59:40. Vercel's status on `4185f57e`: "Deployment has completed" (20:10:54).
+  - The probe for 757's line ("Sorted by basis to HB_HUBAVG") never matched: the server's HTML splits that sentence with React's comment markers, so the mark is not in it whole. The deploy's completion stood instead.
+  - `s765-after` at 20:21; `compare s765-before s765-after`: **0 differences** on 25 pages, expected (every page is in review).
+- `queue/next/064-night-22-october-code-allgrids-4.md` is on main with this merge.
+- This record rides on `wip/765-records`; chain 064's session 766 lands it first.
 
 ## Decisions made without you
 
