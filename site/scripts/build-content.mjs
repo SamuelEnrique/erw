@@ -172,7 +172,8 @@ fs.rmSync(publicDigestCharts, { recursive: true, force: true });
 if (fs.existsSync(digestCharts)) {
   fs.mkdirSync(publicDigestCharts, { recursive: true });
   for (const f of fs.readdirSync(digestCharts).sort()) {
-    if (/^\d{4}-\d{2}-\d{2}\.png$/.test(f)) fs.copyFileSync(path.join(digestCharts, f), path.join(publicDigestCharts, f));
+    // session 815: the phone picture (<date>-600.png) beside the 1200 px one
+    if (/^\d{4}-\d{2}-\d{2}(?:-600)?\.png$/.test(f)) fs.copyFileSync(path.join(digestCharts, f), path.join(publicDigestCharts, f));
   }
 }
 // Session 238: each day's record beside its picture (docs/digest/charts/<date>.json), for /research: the one fact, the
@@ -194,6 +195,8 @@ if (fs.existsSync(digestCharts)) {
       rule: r.flag?.rule ?? "", rendered_at: r.rendered_at ?? "", image: `${m[1]}.png`, proof: r.proof === true,
       numbers: r.numbers && typeof r.numbers === "object" ? r.numbers : {} };   // session 315: the record's own figures, each a Num on /research
     Object.assign(digestChartRecords[m[1]], pngSize(path.join(digestCharts, `${m[1]}.png`)));   // session 411: width and height in pixels
+    // session 815: the phone picture, when the day has one, so the page can offer it under 640 px
+    if (fs.existsSync(path.join(digestCharts, `${m[1]}-600.png`))) digestChartRecords[m[1]].image_600 = `${m[1]}-600.png`;
   }
 }
 

@@ -1,0 +1,2 @@
+digest-day 1280x800: page 1265x3165 px (viewport 1265); tables 1, in a scroll container 1, widest 1120 px; chart image 640 px wide; links 48, outside the viewport 0
+digest-day 390x844: page 390x4364 px (viewport 390); tables 1, in a scroll container 1, widest 396 px; chart image 358 px wide; links 48, outside the viewport 11

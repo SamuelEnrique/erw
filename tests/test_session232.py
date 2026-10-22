@@ -325,7 +325,7 @@ class TheDigestAndTheEmail(unittest.TestCase):
 
     def test_the_site_serves_the_picture(self):
         self.assertIn("/digest-charts/${m[1]}", src("site", "lib", "markdown.ts"))
-        self.assertIn(r"docs\/digest\/charts\/(\d{4}-\d{2}-\d{2}\.png)", src("site", "lib", "markdown.ts"))
+        self.assertIn(r"docs\/digest\/charts\/(\d{4}-\d{2}-\d{2}(?:-600)?\.png)", src("site", "lib", "markdown.ts"))   # session 815: the phone picture too
         build = src("site", "scripts", "build-content.mjs")
         self.assertIn('path.join(here, "..", "public", "digest-charts")', build)
         self.assertIn("/public/digest-charts/", src("site", ".gitignore"))

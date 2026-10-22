@@ -645,6 +645,13 @@ def section(day, log=print, chart_dir=None, wait=None, local_watch=True, candida
         record = {"date": day, "source": c["source"], "key": c["key"], "fact": c["fact"], "table": c["table"], "series_key": c["series_key"],
                   "why": why, "candidates_from": why_source, "title": c["card"]["title"], "numbers": c["card"].get("numbers", {}),
                   "image": os.path.basename(png), "rendered_at": common.now_iso(), "method": METHOD}
+        # session 815: the same card at a phone's width (docs/digest/charts/<date>-600.png); the page serves it under 640 px
+        # (site/lib/markdown.ts, srcset). A failure here never costs the section: the 1200 px picture stands alone.
+        try:
+            phone = card_image.render(c["card"], os.path.join(chart_dir, f"{day}-600.png"), "phone", fact=c["fact"])
+            record["image_phone"] = os.path.basename(phone)
+        except Exception as exc:
+            log(f"  daily chart: the phone picture was not drawn ({type(exc).__name__}: {str(exc)[:120]})")
         if c.get("_relevance", (0,))[0]:   # session 805: what of the day the chart follows
             record["relevance"] = {"score": c["_relevance"][0], "story": c["_relevance"][1], "shared": c["_relevance"][2]}
         if c["source"] == "scanner":

@@ -29,9 +29,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.abspath(os.path.join(HERE, "..")))
 import style  # noqa: E402
 
-SIZES = {"digest": (1200, 880), "linkedin_wide": (1200, 627), "linkedin_square": (1080, 1080)}
-SCALE = {"digest": 1.0, "linkedin_wide": 0.95, "linkedin_square": 1.15}
-CALLOUTS = {"digest": 3, "linkedin_wide": 0, "linkedin_square": 3}   # the wide size has no room below its chart
+# session 815: "phone", 600 by 760, drawn for a 390 px screen (the page serves it under 640 px): the type at 0.8 of the
+# digest's point sizes on a canvas half as wide, so a label reads twice as large on a phone as the 1200 px picture scaled
+SIZES = {"digest": (1200, 880), "linkedin_wide": (1200, 627), "linkedin_square": (1080, 1080), "phone": (600, 760)}
+SCALE = {"digest": 1.0, "linkedin_wide": 0.95, "linkedin_square": 1.15, "phone": 0.8}
+CALLOUTS = {"digest": 3, "linkedin_wide": 0, "linkedin_square": 3, "phone": 3}   # the wide size has no room below its chart
 NAN = float("nan")
 
 
@@ -293,7 +295,9 @@ def render(card, path, size="digest", fact=None, kicker=None):
     x_label = ch.get("x_label", "")
     bottom = yb + (58 if x_label else 40) * scale
     top = y + 16 * scale
-    ax = fig.add_axes([0.095, bottom / h, 0.86 if ch.get("kind") != "line_with_fleet" else 0.80, max(0.12, 1 - (top + bottom) / h)])
+    # session 815: on the phone canvas (600 px) the axis labels need a wider left margin (a seven-digit label was clipped)
+    left_frac = 0.095 if size != "phone" else 0.165
+    ax = fig.add_axes([left_frac, bottom / h, (0.86 if ch.get("kind") != "line_with_fleet" else 0.80) - (left_frac - 0.095), max(0.12, 1 - (top + bottom) / h)])
     ax.set_facecolor(style.PAPER)
     legend, drawn = _draw(ax, ch, pt, sans)
     for side in ("top", "right"):
