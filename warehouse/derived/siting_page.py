@@ -31,6 +31,11 @@ Files:
                   status: under construction or complete (U, V, TS), approvals received (T), and the rest (P, L); and
                   from eia_state_capacity_annual (public) the newest year's installed net summer capacity of the grids
                   that are whole states (NYISO: New York; ISO-NE: the six New England states).
+    carbon.json   (session 707) from egrid_power_plants (public): each eGRID subregion's CO2 (tons, CHP-adjusted as eGRID
+                  gives it) and net generation (MWh) summed over its plants, and PJM's over the plants eGRID places in PJM
+                  (ISORTO); and from carbon_intensity_hourly (public), intensity_demand in kg CO2 per MWh, each priced
+                  grid's hours of the years its price window covers, in the grid's standard time (as the price files),
+                  {"s": the first hour held, "v": the values}, to one decimal; an hour not held is null.
 
 Each file names the table it was read from, the table's first and last day and when it was built. A table that cannot
 be found stops the run (exit 1): no file is written from part of a table.
@@ -55,6 +60,9 @@ CAP_MARKETS = ["pjm_bra", "isone_fca", "miso_pra", "nyiso_icap_spot"]
 LBNL_TABLE = "lbnl_interconnection_queue"
 LBNL_GRIDS = {"ERCOT": "ercot", "CAISO": "caiso", "NYISO": "nyiso", "ISO-NE": "isone", "SPP": "spp", "MISO": "miso", "PJM": "pjm"}
 MIN_N = 5
+EGRID_TABLE, HOURLY_TABLE, HOURLY_VAR = "egrid_power_plants", "carbon_intensity_hourly", "intensity_demand"
+SUBREGIONS = ["ERCT", "CAMX", "NYUP", "NYCW", "NYLI", "NEWE", "SPNO", "SPSO", "MROW", "SRMW", "RFCW", "RFCM", "SRMV"]
+HOURLY_GRIDS = {"ercot": "ERCO", "caiso": "CISO", "nyiso": "NYIS", "isone": "ISNE", "spp": "SWPP"}
 PLANNED_TABLE, STATECAP_TABLE = "eia860m_planned_generators", "eia_state_capacity_annual"
 BA_GRIDS = {"ERCO": "ercot", "CISO": "caiso", "NYIS": "nyiso", "ISNE": "isone", "SWPP": "spp", "MISO": "miso", "PJM": "pjm"}
 WHOLE_STATES = {"nyiso": ["NY"], "isone": ["CT", "MA", "ME", "NH", "RI", "VT"]}
@@ -209,6 +217,47 @@ def headroom_file(ppath, cpath):
             "planned": planned, "capacity_table": STATECAP_TABLE, "capacity": cap}
 
 
+def carbon_file(epath, hpath, index):
+    """carbon.json's content (session 707)."""
+    e = pd.read_csv(epath, skiprows=header_rows(epath), dtype=str, usecols=["egrid_subregion", "iso_rto", "co2_tons", "net_generation_mwh", "data_year", "vintage"])
+    e["co2"] = pd.to_numeric(e["co2_tons"], errors="coerce")
+    e["gen"] = pd.to_numeric(e["net_generation_mwh"], errors="coerce")
+    # eGRID's own subregion rate is the plants' CO2 summed over their net generation summed: a plant that reports no CO2
+    # (wind, solar, hydro, nuclear: the cell is blank) adds its generation and no CO2. Nothing is filled
+    e = e.dropna(subset=["gen"])
+
+    def area(x):
+        return {"co2_tons": round(float(x["co2"].sum(skipna=True)), 1), "gen_mwh": round(float(x["gen"].sum()), 1), "plants": int(len(x)),
+                "plants_no_co2": int(x["co2"].isna().sum())}
+    areas = {sub: area(e[e["egrid_subregion"] == sub]) for sub in SUBREGIONS}
+    areas["PJM"] = area(e[e["iso_rto"] == "PJM"])
+    hourly = {}
+    want = {f"eia930:{ba}": g for g, ba in HOURLY_GRIDS.items()}
+    keep = []
+    for ch in pd.read_csv(hpath, skiprows=header_rows(hpath), dtype=str, usecols=["entity", "variable", "ts_utc", "value"], chunksize=500_000):
+        keep.append(ch[(ch["variable"] == HOURLY_VAR) & ch["entity"].isin(want)])
+    h = pd.concat(keep, ignore_index=True)
+    h["t"] = pd.to_datetime(h["ts_utc"], utc=True)
+    for ent, g in want.items():
+        gi = index["grids"].get(g)
+        if not gi:
+            continue
+        behind = int(gi["std_hours_behind_utc"])
+        x = h[h["entity"] == ent].copy()
+        x["std"] = x["t"] - pd.Timedelta(hours=behind)
+        x["y"] = x["std"].dt.year
+        x["i"] = ((x["std"] - pd.to_datetime(x["y"].astype(str) + "-01-01", utc=True)) / pd.Timedelta(hours=1)).astype(int)
+        hourly[g] = {}
+        for y in (2025, 2026):
+            z = x[x["y"] == y].drop_duplicates("i").set_index("i")["value"].astype(float)
+            if not len(z):
+                continue
+            s, last = int(z.index.min()), int(z.index.max())
+            hourly[g][str(y)] = {"s": s, "v": [None if pd.isna(z.get(i)) else round(float(z.get(i)), 1) for i in range(s, last + 1)]}
+    return {"built": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "egrid_table": EGRID_TABLE, "vintage": str(e["vintage"].iloc[0]),
+            "data_year": int(e["data_year"].iloc[0]), "areas": areas, "hourly_table": HOURLY_TABLE, "hourly_variable": HOURLY_VAR, "hourly": hourly}
+
+
 def write(name, obj, out_dir):
     """Write a file, unless it holds the same content but for its build time (no change, no new commit)."""
     os.makedirs(out_dir, exist_ok=True)
@@ -277,6 +326,17 @@ def main(argv=None):
         return 1
     print(f"{PLANNED_TABLE} {hr['from']} to {hr['to']}: " + "; ".join(f"{g} {v['construction_mw']}" for g, v in hr["planned"].items()))
     write("headroom.json", hr, a.out_dir)
+    try:
+        epath, hpath = find(EGRID_TABLE, a.in_dir), find(HOURLY_TABLE, a.in_dir)
+        print(f"reading {epath} and {hpath}")
+        with open(os.path.join(ROOT, "site", "data", "datacenter", "index.json"), encoding="utf-8") as fh:
+            index = json.load(fh)
+        cb = carbon_file(epath, hpath, index)
+    except Exception as e:
+        print(f"FAILED: {e}", file=sys.stderr)
+        return 1
+    print(f"{EGRID_TABLE}: " + "; ".join(f"{k} {round(v['co2_tons'] * 2000 / v['gen_mwh'], 1) if v['gen_mwh'] else None}" for k, v in cb["areas"].items()))
+    write("carbon.json", cb, a.out_dir)
     if a.internal:
         if not a.rows:
             print("FAILED: --internal needs --rows", file=sys.stderr)

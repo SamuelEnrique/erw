@@ -3,7 +3,7 @@ import { Num } from "@/components/Num";
 import { InlineSpark } from "@/components/InlineSpark";
 import { InputPanel } from "@/components/tool/ToolPage";
 import type { ReactNode } from "react";
-import { CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, allInCell, capacityCell, capacityOverPeak, connectCell, cpCharge, demandGrowth, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
+import { CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, allInCell, capacityCell, capacityOverPeak, carbonCell, connectCell, cpCharge, demandGrowth, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
 import { CP, NODES, SITING_DC, SITING_FILES } from "@/lib/sitingdata";
 import { AllGridsForm } from "./AllGridsForm";
 
@@ -187,6 +187,24 @@ function HeadroomTd({ r }: { r: Row }) {
   );
 }
 
+/** Session 707: carbon: the eGRID subregion's CO2 rate (kg, lb under it); for a profile that runs in some hours, the
+ * grid's hourly intensity over the hours it runs, where held, as the figure, the annual rate under it. */
+function CarbonTd({ r, x }: { r: Row; x: SitingInputs }) {
+  const c = carbonCell(SITING_DC, SITING_FILES, r, x);
+  if ("why" in c) return <Words words={c.words} why={c.why} />;
+  const k = profileKey(x), cf = SITING_FILES.carbon!;
+  const annualTip = `The ${c.sub.words}: its ${c.plants.toLocaleString("en-US")} plants' CO2 over their net generation in ${c.year} (egrid_power_plants, ${cf.vintage}), ${two(c.kg)} kg (${two(c.lb)} lb) per MWh generated, annual.`;
+  return (
+    <span className="inline-block text-right">
+      {c.hourly
+        ? <><span className="whitespace-nowrap"><Fig check={`allgrids|carbonh|${r.id}|${k}`} v={c.hourly.kg} tip={`The grid's hourly intensity (carbon_intensity_hourly, ${cf.hourly_variable}, kg CO2 per MWh consumed), weighted by the load over the ${c.hourly.hours.toLocaleString("en-US")} of the ${c.hourly.of.toLocaleString("en-US")} hours it runs where both are held: hourly, the grid's balancing authority, not the subregion. ${annualTip}`} /> kg</span>
+            <span className="block text-xs" data-carbon-annual="1">annual <span title={annualTip}><Num check={`allgrids|carbon|${r.id}`} raw={c.kg}>{two(c.kg)}</Num></span></span></>
+        : <><span className="whitespace-nowrap"><Fig check={`allgrids|carbon|${r.id}`} v={c.kg} tip={`${annualTip}${c.hourlyWhy ? ` ${c.hourlyWhy}` : ""}`} /> kg</span>
+            <span className="block text-xs" data-carbon-lb="1"><span title={annualTip}><Num check={`allgrids|carbonlb|${r.id}`} raw={c.lb}>{two(c.lb)}</Num></span> lb</span></>}
+    </span>
+  );
+}
+
 function RowHead({ r }: { r: Row }) {
   return (
     <th scope="row" className="px-3 py-1.5 text-left font-normal" data-row={r.id}>
@@ -234,7 +252,7 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
                 <tr key={r.id} className="border-b border-rule" data-allgrids-row={r.id}>
                   <RowHead r={r} />
                   {COLUMNS.map((c) => <td key={c.id} className="px-3 py-1.5 text-right" data-cell={c.id}>{c.id === "energy" ? (x.profile === "datacenter" ? <EnergyTd r={r} e={energyCell(SITING_DC, SITING_FILES, r)} /> : <ProfileTd r={r} x={x} />)
-                    : c.id === "transmission" ? <TxTd r={r} x={x} /> : c.id === "capacity" ? <CapTd r={r} x={x} /> : c.id === "connect" ? <ConnectTd r={r} /> : c.id === "headroom" ? <HeadroomTd r={r} /> : c.id === "allin" ? <AllInTd r={r} x={x} /> : null}</td>)}
+                    : c.id === "transmission" ? <TxTd r={r} x={x} /> : c.id === "capacity" ? <CapTd r={r} x={x} /> : c.id === "connect" ? <ConnectTd r={r} /> : c.id === "headroom" ? <HeadroomTd r={r} /> : c.id === "carbon" ? <CarbonTd r={r} x={x} /> : c.id === "allin" ? <AllInTd r={r} x={x} /> : null}</td>)}
                 </tr>
               ))}
             </tbody>

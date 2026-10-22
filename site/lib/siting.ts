@@ -252,7 +252,9 @@ export function energyCell(dc: DC, f: Files, r: Row): EnergyCell {
 export type CpFile = { table: string; built: string; note: string; summers: { year: number; intervals: { ts: string; local: string; mw: number }[] }[] };
 /** A profile's twelve months at one region, day-ahead, over the flat load's own twelve whole months: the price per MWh
  * over the hours the load runs, the hours it ran and was off, the strike it used, and the peak hours in the window. */
-export type ProfileTwelve = { per: number; from: string; to: string; run: number; lost: number; held: number; strike: number | null; peaks: number; atOrBelow: boolean };
+export type ProfileTwelve = { per: number; from: string; to: string; run: number; lost: number; held: number; strike: number | null; peaks: number; atOrBelow: boolean;
+  /** session 707: each year's load by hour and the window's hours, for the carbon over the hours it runs */
+  weights?: { year: number; w: number[]; win: boolean[] }[] };
 /** The year file and hour (in the grid's standard time) that hold an instant: the steps of app/cost-of-power/model.ts's
  * four-peak block (session 354), so an interval falls in the same hour on both views. */
 export function hourOf(ts: string, behind: number): { y: number; i: number } {
@@ -319,18 +321,20 @@ function profileTwelveOnce(dc: DC, f: Files, grid: string, region: string, x: Pi
   // the peak hours: ERCOT's four intervals of each summer held, as hours of the year files
   const peaks = p.curtail === "peaks_strike" && grid === "ercot" ? peakHours(cp, behind) : new Map<number, Set<number>>();
   let run = 0, lost = 0, held = 0, inPeaks = 0, cost = 0;
+  const kept: { year: number; w: number[]; win: boolean[] }[] = [];
   for (const y of years) {
     const w = y.pr.map((v, i) => {
       const pk = peaks.get(y.yf.year)?.has(i) ?? false;
       if (v !== null && pk && y.win[i]) inPeaks++;
       return ruleWeight(p.curtail, v, pk, strike, atOrBelow);
     });
+    kept.push({ year: y.yf.year, w, win: y.win });
     for (const r of dc.monthsOfYear(y.yf.year, y.pr, w)) {
       if (r.m < flat.from || r.m > flat.to) continue;
       held += r.held; lost += r.down; run += r.energy; cost += r.cost;
     }
   }
-  return { per: run > 0 ? cost / run : NaN, from: flat.from, to: flat.to, run, lost, held, strike, peaks: inPeaks, atOrBelow };
+  return { per: run > 0 ? cost / run : NaN, from: flat.from, to: flat.to, run, lost, held, strike, peaks: inPeaks, atOrBelow, weights: kept };
 }
 /** The profile's figure for a row: a hub or zone's own; a node's is its hub's (HB_HUBAVG) plus its mean daily basis, the
  * same basis as the flat figure (node_basis_daily is daily: no hour of a node is held for twelve months). */
@@ -568,6 +572,76 @@ export function capacityOverPeak(d: DemandYears | undefined, h: HeadroomFile | u
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
+// carbon (session 707): the eGRID subregion's generation-weighted CO2 rate; over the hours run where hourly is held
+// ---------------------------------------------------------------------------------------------------------------------
+
+/** data/siting/carbon.json (warehouse/derived/siting_page.py): from egrid_power_plants, each eGRID subregion's CO2 and
+ * net generation summed over its plants, and PJM's over the plants eGRID places in PJM (ISORTO); and from
+ * carbon_intensity_hourly (intensity_demand, kg CO2 per MWh, as "Your load" reads it) each priced grid's hours of the
+ * years the price window covers, in the grid's standard time as the price files are. */
+export type CarbonArea = { co2_tons: number; gen_mwh: number; plants: number; plants_no_co2: number };
+export type CarbonFile = { built: string; egrid_table: string; vintage: string; data_year: number; areas: Record<string, CarbonArea>;
+  hourly_table: string; hourly_variable: string; hourly: Record<string, Record<string, { s: number; v: (number | null)[] }>> };
+export const LB_PER_KG = 1 / 0.45359237;
+/** The eGRID subregion each row sits in: ERCOT is ERCT; CAISO's hubs CAMX; New York's zones A to G NYUP, H to J (Westchester
+ * and the city) NYCW, K NYLI; ISO-NE NEWE; SPP's North hub SPNO and South hub SPSO; MISO's hubs the subregion of their state;
+ * PJM, which spans several subregions, its own plants (eGRID's ISO/RTO field). */
+const NY_SUB: Record<string, string> = { "N.Y.C.": "NYCW", MILLWD: "NYCW", DUNWOD: "NYCW", LONGIL: "NYLI" };
+const MISO_SUB: Record<string, string> = { "MINN.HUB": "MROW", "ILLINOIS.HUB": "SRMW", "INDIANA.HUB": "RFCW", "MICHIGAN.HUB": "RFCM", "ARKANSAS.HUB": "SRMV", "LOUISIANA.HUB": "SRMV", "MS.HUB": "SRMV", "TEXAS.HUB": "SRMV" };
+export function subregionOf(r: Pick<Row, "grid" | "region">): { id: string; words: string } | null {
+  switch (r.grid) {
+    case "ercot": return { id: "ERCT", words: "eGRID subregion ERCT (ERCOT All)" };
+    case "caiso": return { id: "CAMX", words: "eGRID subregion CAMX (WECC California)" };
+    case "nyiso": { const s = NY_SUB[r.region] ?? "NYUP"; return { id: s, words: `eGRID subregion ${s} (${s === "NYCW" ? "NPCC NYC/Westchester" : s === "NYLI" ? "NPCC Long Island" : "NPCC Upstate NY"})` }; }
+    case "isone": return { id: "NEWE", words: "eGRID subregion NEWE (NPCC New England)" };
+    case "spp": return r.region === "SPPSOUTH_HUB" ? { id: "SPSO", words: "eGRID subregion SPSO (SPP South)" } : { id: "SPNO", words: "eGRID subregion SPNO (SPP North)" };
+    case "miso": { const s = MISO_SUB[r.region]; return s ? { id: s, words: `eGRID subregion ${s}` } : null; }
+    case "pjm": return { id: "PJM", words: "the plants eGRID places in PJM (its ISO/RTO field), which span several subregions" };
+    default: return null;
+  }
+}
+/** A subregion's rate: its plants' CO2 over their net generation, kg and lb per MWh. */
+export function areaRate(c: CarbonFile | undefined, id: string): { kg: number; lb: number; a: CarbonArea } | null {
+  const a = c?.areas[id];
+  if (!a || a.gen_mwh <= 0) return null;
+  const lb = (a.co2_tons * 2000) / a.gen_mwh;
+  return { kg: lb / LB_PER_KG, lb, a };
+}
+/** The load's carbon over the hours it runs: the grid's hourly intensity (kg per MWh) weighted by the load in each hour of
+ * the price window, where both are held; null when the intensity covers under 90 percent of the hours it runs. */
+export function hourlyCarbon(c: CarbonFile | undefined, grid: string, t: ProfileTwelve): { kg: number; hours: number; of: number } | null {
+  const hy = c?.hourly[grid];
+  if (!hy || !t.weights) return null;
+  let s = 0, e = 0, hours = 0, of = 0;
+  for (const y of t.weights) {
+    const ser = hy[String(y.year)];
+    for (let i = 0; i < y.w.length; i++) {
+      if (!y.win[i] || y.w[i] <= 0) continue;
+      of++;
+      const k = ser ? i - ser.s : -1, v = ser && k >= 0 && k < ser.v.length ? ser.v[k] : null;
+      if (v === null || v === undefined) continue;
+      s += v * y.w[i]; e += y.w[i]; hours++;
+    }
+  }
+  return of && hours >= 0.9 * of && e > 0 ? { kg: s / e, hours, of } : null;
+}
+export type CarbonCell = { sub: { id: string; words: string }; kg: number; lb: number; plants: number; year: number;
+  hourly: { kg: number; hours: number; of: number } | null; hourlyWhy: string } | { why: string; words: string };
+export function carbonCell(dc: DC, f: Files, r: Row, x: Pick<SitingInputs, "profile" | "lf" | "strike">): CarbonCell {
+  const sub = subregionOf(r);
+  const rate = sub ? areaRate(f.carbon, sub.id) : null;
+  if (!sub || !rate) return { why: `No eGRID subregion is known for ${r.region} (${GRID_NAMES[r.grid]}).`, words: "not held" };
+  const p = PROFILES[x.profile];
+  let hourly: { kg: number; hours: number; of: number } | null = null, hourlyWhy = "";
+  if (p.curtail === "peaks_strike" || p.curtail === "below_strike") {
+    const t = r.blank ? null : profileTwelve(dc, f, r.grid, r.kind === "node" ? NODE_HUB : r.region, x, f.cp);
+    hourly = t ? hourlyCarbon(f.carbon, r.grid, t) : null;
+    hourlyWhy = hourly ? "" : `The grid's hourly intensity does not cover 90 percent of the hours this load runs, or its prices are not held: the annual rate stands.`;
+  }
+  return { sub, kg: rate.kg, lb: rate.lb, plants: rate.a.plants, year: f.carbon!.data_year, hourly, hourlyWhy };
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
 // the all-in column (session 702): drawn only where each part is held or is zero by market design
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -594,7 +668,9 @@ export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFil
   /** session 705: the queue durations (data/siting/connect.json), the rules, ERCOT's large-load reports and the waits */
   connect?: ConnectFile; rules?: RulesFile; status?: LoadStatus; waits?: WaitsFile;
   /** session 706: "Your load"'s demand file and the tab's planned generation and state capacity */
-  demand?: DemandYears; headroom?: HeadroomFile };
+  demand?: DemandYears; headroom?: HeadroomFile;
+  /** session 707: eGRID's subregions and the grids' hourly intensity (data/siting/carbon.json) */
+  carbon?: CarbonFile };
 /** The figure a check key names, from the files the page reads; undefined when the key names none.
  *   allgrids|rows|hubs, allgrids|rows|nodes                the count of each row set (session 700)
  *   allgrids|energy|<row>|da or rt                         a flat load's price over the last twelve whole months (701);
@@ -609,6 +685,8 @@ export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFil
  *   allgrids|demand|<row>                                  demand growth, percent, last twelve months over the twelve before (706)
  *   allgrids|planned|<row>                                 MW under construction due in the twelve months after the vintage (706)
  *   allgrids|capratio|<row>                                installed capacity over the last whole year's peak, percent (706)
+ *   allgrids|carbon|<row>, allgrids|carbonlb|<row>         the eGRID subregion's CO2 rate, kg and lb per MWh (707)
+ *   allgrids|carbonh|<row>|<profile key>                   the grid's hourly intensity over the hours the load runs, kg (707)
  *   allgrids|llapproved|<row>                              ERCOT's large loads approved to energize, MW, newest report (705)
  *   (capacity, session 704: zero where there is no market, drawn as a figure of 0 with no key; elsewhere held internal,
  *   "license needed", and computed only where the tables are, by warehouse/derived/siting_page.py --internal) */
@@ -639,6 +717,13 @@ export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
     if ("why" in c) return undefined;
     if (p[1] === "txshare") return c.share ?? undefined;
     return p[3] === "firm" ? c.firm : p[3] === "curtailing" ? c.curtailing ?? undefined : c.own ?? undefined;
+  }
+  if (p[1] === "carbon" || p[1] === "carbonlb") { const c = carbonCell(dc, f, row, { profile: "datacenter", lf: 0.9, strike: null }); return "kg" in c ? (p[1] === "carbon" ? c.kg : c.lb) : undefined; }
+  if (p[1] === "carbonh") {
+    const x = profileOfKey(p[3]);
+    if (!x) return undefined;
+    const c = carbonCell(dc, f, row, x);
+    return "kg" in c ? c.hourly?.kg : undefined;
   }
   if (p[1] === "demand") { const g = demandGrowth(f.demand, row.grid); return "pct" in g ? g.pct : undefined; }
   if (p[1] === "planned") return f.headroom?.planned[row.grid]?.construction_mw;
