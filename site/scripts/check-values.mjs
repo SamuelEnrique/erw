@@ -109,6 +109,10 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/cost-of-power?view=allgrids&sort=allin&a=ercot%3AHB_HUBAVG&b=nyiso%3AN.Y.C.", "/cost-of-power?view=allgrids&rows=nodes&nsort=energy&ndir=desc",
   // session 711: a node's panel
   "/cost-of-power?view=allgrids&rows=nodes&node=ercot%3A7RNCHSLR_ALL",
+  // session 719: the tracker's link's form, a row as A and the facility's MW as the load
+  "/cost-of-power?view=allgrids&mw=1400&a=ercot%3ALZ_NORTH",
+  // session 720: the All grids tab's research card (data/findings/siting_gigawatt.json, site/scripts/siting-card.mjs)
+  "/research/card/siting_gigawatt",
   // session 51: the seller's tab, its defaults and three other assets
   // session 347: the economic impact tool, its defaults and three other views (a size, cost, local content and life given)
   "/map?tab=queues", "/map?tab=queues&iso=ercot", "/map?tab=queues&iso=spp",  // session 349: the map's Queues tab (iso_queue_statistics)

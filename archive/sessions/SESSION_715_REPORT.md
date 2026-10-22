@@ -32,7 +32,7 @@
 
 ## The landing
 
-Sessions 713 to 715 land in one push from this branch; see below once done.
+Sessions 713 to 718 landed in one push at 13:01 UTC: see `SESSION_718_REPORT.md`, "The landing".
 
 ## Decisions made without you
 

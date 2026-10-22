@@ -42,6 +42,11 @@ Files:
                   the utility with the most industrial sales in the newest year, among the rows of EIA's service types
                   Bundled and Energy (Delivery rows are wires charges), with its industrial sales and revenue that year
                   and its sales the year before.
+    facilities.json (session 719) where a place sits on the tab, for the datacenter tracker's link: each state whose
+                  retail sales are 85 percent or more inside one grid (eia861_utility_sales, Bundled and Energy rows, by
+                  balancing authority), and every county whose utilities (utility_service_territories) bill inside one
+                  grid only; the tab's row a county is placed at (ROW_COUNTY). Public tables only: nothing of
+                  datacenter_facilities (held whole) is written.
     gaps.json     (session 713) the table of docs/reviews/siting-gaps.md, each cell as written, for /internal/siting-gaps.
 
 Each file names the table it was read from, the table's first and last day and when it was built. A table that cannot
@@ -401,6 +406,48 @@ def utility_file(path):
 
 
 GAPS_MD = os.path.join(ROOT, "docs", "reviews", "siting-gaps.md")
+STATE_SHARE = 0.85
+
+
+def county_key(state, county):
+    """A county's key as the tab matches it: the state, and the county's name without "County" or "Parish", lower case."""
+    c = str(county or "").strip()
+    for suf in (" County", " Parish", " county", " parish"):
+        if c.endswith(suf):
+            c = c[: -len(suf)]
+    return f"{str(state).strip().upper()}|{c.strip().lower()}"
+
+
+def facilities_file(spath, tpath):
+    """facilities.json's content (session 719), from the two public tables only: datacenter_facilities is held whole
+    (license needed since 21 October 2026), so nothing of its rows is written here. Every county of the service
+    territories whose utilities' sales rows sit inside one grid only, and each state 85 percent or more inside one."""
+    s = pd.read_csv(spath, skiprows=header_rows(spath), dtype=str, usecols=["variable", "ts_utc", "value", "x_utility_number", "x_state", "x_service_type", "x_ba_code"])
+    s = s[s["x_ba_code"].notna()]
+    year = int(s["ts_utc"].str[:4].max())
+    tot = s[(s["variable"] == "total_sales") & (s["ts_utc"].str[:4] == str(year)) & s["x_service_type"].isin(["Bundled", "Energy"])].copy()
+    tot["v"] = pd.to_numeric(tot["value"], errors="coerce").fillna(0.0)
+    g = tot.groupby(["x_state", "x_ba_code"])["v"].sum().reset_index()
+    g["share"] = g["v"] / g.groupby("x_state")["v"].transform("sum")
+    states = {}
+    for st, x in g.groupby("x_state"):
+        top = x.sort_values("share", ascending=False).iloc[0]
+        grid = BA_GRIDS.get(top["x_ba_code"])
+        if grid and top["share"] >= STATE_SHARE:
+            states[st] = {"grid": grid, "share": round(float(top["share"]), 4)}
+    t = pd.read_csv(tpath, skiprows=header_rows(tpath), dtype=str, usecols=["x_utility_number", "x_state", "x_county"])
+    t = t.dropna(subset=["x_state", "x_county", "x_utility_number"])
+    bas = s.groupby(["x_state", "x_utility_number"])["x_ba_code"].agg(lambda v: sorted(set(v))).to_dict()
+    counties = {}
+    for (st, county), nums in t.groupby(["x_state", "x_county"])["x_utility_number"]:
+        nums = sorted(set(nums))
+        b = {x for n in nums for x in bas.get((st.strip().upper(), n), [])}
+        grids = sorted({BA_GRIDS[x] for x in b if x in BA_GRIDS})
+        if len(grids) == 1 and not (b - set(BA_GRIDS)):
+            counties[county_key(st, county)] = {"grid": grids[0], "utilities": len(nums)}
+    rows = {county_key(st, c): row for row, (st, c) in ROW_COUNTY.items()}
+    return {"built": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "tables": [UTILITY_TABLE, TERRITORY_TABLE],
+            "year": year, "state_share": STATE_SHARE, "states": states, "counties": counties, "county_rows": rows}
 
 
 def gaps_file(path=GAPS_MD):
@@ -534,6 +581,13 @@ def main(argv=None):
         return 1
     print(f"siting-gaps.md: {len(gp['rows'])} rows")
     write("gaps.json", gp, a.out_dir)
+    try:
+        fac = facilities_file(find(UTILITY_TABLE, a.in_dir, a.in_dir_first), find(TERRITORY_TABLE, a.in_dir, a.in_dir_first))
+    except Exception as e:
+        print(f"FAILED: {e}", file=sys.stderr)
+        return 1
+    print(f"facilities.json: {len(fac['states'])} states, {len(fac['counties'])} counties in one grid")
+    write("facilities.json", fac, a.out_dir)
     if a.internal:
         if not a.rows:
             print("FAILED: --internal needs --rows", file=sys.stderr)
