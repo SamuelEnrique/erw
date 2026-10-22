@@ -61,7 +61,7 @@ Sessions 706 to 712 landed in one push (`task/706-712-allgrids`, commit `a30655e
 - **Before the push**: freeze status 0. One other `task/` branch was in flight (`task/638-644-sources`, the data machine's), and a trial merge with it was clean.
 - **Snapshots**: `s712-before` at 11:11 UTC. **Vercel did not deploy the merge**: its status on `8a54e3b4` reads "Deployment rate limited, retry in 24 hours", and production still serves the build of 10:19 UTC (`8b993852`).
   - `s712-after` at 11:37 UTC; `compare s712-before s712-after`: 0 differences, expected, since nothing deployed.
-  - **To finish**: once production serves `8a54e3b4` or later, take a snapshot and compare it with `s712-before`. Every page is in review, so 0 differences are expected.
+  - Production served the merge at 11:54:59 UTC after all (the tab's A and B panel answered there; Vercel retried on its own). `s712-after2` at 12:05 UTC; `compare s712-before s712-after2`: **0 differences** on 25 pages, expected (every page is in review).
 - The merged `wip/712-allgrids` was deleted on GitHub (701 to 705's and 703, 704's were deleted at the first landing; 706 to 711 were never pushed).
 
 Sessions 700 to 705 landed at 10:09 UTC: `SESSION_705_REPORT.md`, "The landing".
