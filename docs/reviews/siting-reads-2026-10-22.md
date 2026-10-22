@@ -72,3 +72,12 @@ On a build of `wip/738-allgrids` (chain 062's sessions 722 to 738: the spread, t
 - **The page**: the hub table 1.59 MB of HTML, from 1.82 at 716, after session 737's change.
 
 The twenty slowest reads of "Your load" (`node site/scripts/slow-reads.mjs`, 240 requests, 40 distinct reads): the slowest 27 ms (`scarcity_hours_by_grid`), then 9 and 8 ms (`price_years_by_window`, `ercot_rtm_price_adders`), then the hourly carbon pages at 3 to 5 ms. The same tables as 716's list, none slower than 30 ms. No index is needed; migration 036 stays as it is. The full list: `runs/chain_062/slow739.md` on this machine.
+
+## Again (session 761, chain 063)
+
+On a build of `wip/760-allgrids` (chain 063's 744 to 760: the node's intraday swing, the sort line's case), 22 October 2026 at about 19:30 UTC, the server started with `ERW_READ_TIMING=1`.
+
+- **The tab still makes no read of the database**: 0 `[erw-read]` lines across six addresses, three times each (the hub table, the node list, the list by intraday swing, a node's panel, the flexible profile, the headroom sort for NYISO). "Your load", asked three times, wrote 120 lines.
+- **The answers**: the hub table 148 to 175 ms warm (1,179 ms first), the node list 200 to 246 ms, a node's panel 185 to 201 ms, the headroom sort 42 to 52 ms.
+- **The build**: compiled in 14.0 s, TypeScript 29.0 s, about 70 seconds in all.
+- **The pages**: the hub table 1,584,788 bytes, unchanged since 737. The node list 340,129 bytes, from 319,756 at 737: the swing column, 20 KB.
