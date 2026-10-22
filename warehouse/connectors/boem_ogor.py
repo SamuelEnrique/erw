@@ -23,12 +23,12 @@ OGOR-A gives each completion's production as BOEM defines it, and its sum for th
 Offshore Gulf of America crude oil production (January 2024: 54,389 kbbl in both).
 
 Each completion's month is BOEM's own row; a lease, completion, month, producing interval and API number given twice
-stops the run; a completion's zero is kept (a reported month with no production); nothing is filled. Water and
+stops the run (a line repeated in every field is kept once, counted in the header); a completion's zero is kept (a reported month with no production); nothing is filled. Water and
 injection volumes are not taken.
 
     python warehouse/connectors/boem_ogor.py [--from 2015] [--to 2026] [--offline | --fresh]
 
-Ceiling: one file a year, at most 15 a run (3 seconds apart; a file an earlier run saved in warehouse/raw is reused
+Ceiling: 21 requests a run, one a file not yet saved (3 seconds apart; a file an earlier run saved in warehouse/raw is reused
 unless --fresh; --offline asks nothing). License: public (BOEM's copyright page, record 86 of license_reads.csv: works of
 the U.S. government; cite "Bureau of Ocean Energy Management, OGOR-A Well Production").
 """
@@ -57,7 +57,7 @@ LAYOUT = "https://www.data.boem.gov/Main/HtmlPage.aspx?page=ogorA"
 FILE = "https://www.data.boem.gov/Production/Files/ogora{year}delimit.zip"
 # the current year's file has no year in its name (session 611: ogora2026delimit.zip answered an HTML page, HTTP 200)
 CURRENT = "https://www.data.boem.gov/Production/Files/ogoradelimit.zip"
-CEILING, PAUSE = 15, 3
+CEILING, PAUSE = 21, 3   # session 619: requests a run (a saved file is reused, no request)
 FIRST = 2015
 UA = {"User-Agent": "Mozilla/5.0 (compatible; ERW-connector/0.1; +https://github.com/SamuelEnrique/erw)"}
 LICENSE = "public"
@@ -83,9 +83,14 @@ def records(text, year):
             raise RuntimeError(f"{year}: a {c} not read as a whole number")
     if ((d["lease"] == "") & (d["unit_agt"] == "")).any():
         raise RuntimeError(f"{year}: a row with neither a lease nor a unit agreement number")
+    # session 619: a line repeated in every field is kept once and counted (2009 holds one, all zeros); a key given
+    # twice with any field different still stops the run
+    repeated = int(d.duplicated().sum())
+    d = d.drop_duplicates().reset_index(drop=True)
     key = ["lease", "unit_agt", "completion", "month", "interval", "api"]
     if d.duplicated(key).any():
         raise RuntimeError(f"{year}: a completion's interval and month given twice: {d[d.duplicated(key)].iloc[0][key].to_dict()}")
+    d.attrs["repeated"] = repeated
     return d
 
 
@@ -132,12 +137,13 @@ def main(argv=None):
             raise RuntimeError(f"{urlparse(PAGE).hostname} is paused (warehouse/metadata/paused_sources.csv)")
         years = list(range(args.first, args.last + 1))
         this_year = dt.datetime.now(dt.timezone.utc).year  # its file is CURRENT; a month of another year in it stops
-        if len(years) > CEILING:
-            raise RuntimeError(f"{len(years)} files is above the ceiling of {CEILING} a run")
         ip.RAW.open(CONNECTOR, run_id)
-        parts, asked = [], 0
+        parts, asked, repeated = [], 0, 0
         for year in years:
             url = CURRENT if year == this_year else FILE.format(year=year)
+            # session 619: the ceiling counts requests, not files (a saved file is no request)
+            if not args.offline and (args.fresh or not ip.raw_cached(CONNECTOR, url)) and asked >= CEILING:
+                raise RuntimeError(f"the ceiling of {CEILING} requests is reached, at {year}")
             content, rec = ip.fetch_raw(CONNECTOR, url, log, offline=args.offline, fresh=args.fresh, pause=PAUSE, headers=UA)
             asked += 0 if rec.get("cached") else 1
             if content[:2] != b"PK":
@@ -147,6 +153,7 @@ def main(argv=None):
             if len(names) != 1:
                 raise RuntimeError(f"{year}: the zip holds {z.namelist()}, not one text file")
             d = records(z.read(names[0]).decode("latin-1"), year)
+            repeated += d.attrs.get("repeated", 0)
             lm = rec.get("last_modified") or ""
             vintage = email.utils.parsedate_to_datetime(lm).astimezone(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ") if lm else ""
             s = rows(d, url, rec["retrieved_at"], vintage)
@@ -160,7 +167,7 @@ def main(argv=None):
             "Energy Research Warehouse (ERW): BOEM, offshore oil and gas production by lease, a month, the Gulf of America, from OGOR-A well production (session 611)",
             "Shape: series (docs/datastandard.md v0). entity boem_lease:<lease number> (boem_unit:<unit agreement> where BOEM gives no lease); variable oil_production (kbbl) or gas_production (MMcf); "
             "value the sum over the lease's completions and producing intervals of BOEM's monthly oil (barrels) and gas (thousand cubic feet) produced, divided by 1,000; ts_utc the month's first day; freq P1M; node the lease's operators that month.",
-            f"A completion's zero is kept; nothing is filled; water and injection are not taken. Months {span}; {s['entity'].nunique():,} leases; {len(s):,} rows.",
+            f"A completion's zero is kept; nothing is filled; water and injection are not taken; {repeated} lines BOEM repeats in every field are kept once. Months {span}; {s['entity'].nunique():,} leases; {len(s):,} rows.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/boem_ogor.py; {asked} requests of {CEILING}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
