@@ -28,9 +28,10 @@ class TheRows(unittest.TestCase):
         d = t.loc["eia_petroleum_snd:MTTUPUS2"]
         self.assertEqual((d["variable"], d["unit"]), ("product_supplied_per_day", "kbbl/d"))
 
-    def test_eight_products(self):
-        self.assertEqual(len(P.PRODUCTS), 8)
-        self.assertIn("EP00", P.PRODUCTS)
+    def test_eight_products_first(self):
+        # session 574 added a second group of products; session 555's eight are the first group, read as before
+        self.assertEqual(len(P.GROUPS[0]), 8)
+        self.assertIn("EP00", P.GROUPS[0])
 
     def test_an_unknown_process_or_area_stops(self):
         for bad in (dict(MONTH, process="XYZ"), dict(MONTH, duoarea="SCA")):
