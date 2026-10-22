@@ -69,8 +69,10 @@ class TheRule(unittest.TestCase):
     def test_a_line_that_cannot_lose_its_figure_falls_back_to_the_headline(self):
         head = "PJM approves fast-track interconnection for 2.1 GW from Engie, LS Power"
         why = "Storage and a gas uprate totaling 2.1 GW expected online by mid-2029 show the expedited track working."
-        self.assertEqual(brief.why_line(why, head), brief.why_fallback(head))
+        # session 807: the fallback is the headline's own clause, and when that is the headline itself nothing is printed
+        self.assertEqual(brief.why_line(why, head), "")
         self.assertEqual(brief.why_fallback(head), head + ".")
+        self.assertEqual(brief.why_line(why, head + ", Reuters reports"), head + ".")
 
     def test_the_fallback_is_the_title_s_own_clause(self):
         self.assertEqual(brief.why_fallback("NTT to build $6.3bn data center for Anthropic in Japan - report"),

@@ -451,8 +451,9 @@ def source_text(src, url, licensed=None):
 
 def link_text(links, licensed=None):
     # session 470 (digest audit fix 7, roundup audit fix 4): a Google News address does not reach the outlet (the ingest
-    # records it in url_resolved), and the reader is told where the link goes; session 803: source_text
-    return ", ".join(source_text(src, url, licensed) for src, url in links)
+    # records it in url_resolved), and the reader is told where the link goes; session 803: source_text; session 807: a
+    # source printed once (two stories of one cluster at one held outlet printed "POWER Magazine, POWER Magazine")
+    return ", ".join(dict.fromkeys(source_text(src, url, licensed) for src, url in links))
 
 
 # Session 470 (digest audit fix 9): one style for a sum of money, "USD 45 billion", as docs/voice.md writes it
@@ -625,7 +626,10 @@ def why_line(text, head=""):
         if t and not re.search(r"[.!?][\"'”)\]]*$", t):
             t += "."
         if why_check(t, head):
-            return why_fallback(head)
+            fb = why_fallback(head)
+            # session 807: the headline's own clause is no why line when it is the headline (the dry run printed
+            # "Crusoe plans Spark Liquid ... (datacenter power): Crusoe plans Spark Liquid ..."); the item then has none
+            return "" if norm_headline(fb) == norm_headline(head) else fb
         return t
     if t and not re.search(r"[.!?][\"'”)\]]*$", t):
         t += "."
@@ -1251,7 +1255,11 @@ def main(argv=None):
     ap.add_argument("--no-model", action="store_true", help="session 176: no model call (the daily model cap is reached, "
                     "warehouse/health.py budget): each headline is the lead story's own title as its publisher wrote it, "
                     "and the model-written summary of the numbers is left out; the digest still publishes")
+    ap.add_argument("--now", help="session 807: the end of the window, YYYY-MM-DDTHH:MMZ (default: now), for a dry run of a "
+                    "past day on the stories as they were scored; with --out only")
     args = ap.parse_args(argv)
+    if args.now and not args.out:
+        ap.error("--now is for a dry run: give --out too")
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     log = ip.Log(os.path.join(ip.LOG_DIR, f"news_brief_{run_id}.log"))
@@ -1267,10 +1275,11 @@ def main(argv=None):
         log.close()
         return 0
     try:
-        now = pd.Timestamp.now(tz="UTC")
+        now = pd.Timestamp(args.now).tz_localize("UTC") if args.now and pd.Timestamp(args.now).tzinfo is None else (
+            pd.Timestamp(args.now).tz_convert("UTC") if args.now else pd.Timestamp.now(tz="UTC"))
         df = ip.read_series(args.stories or os.path.join(ip.OUT_DIR, NAME + ".csv"), NEWS_COLS)
         when = pd.to_datetime(df["event_date"], utc=True, format="ISO8601")
-        s = df[(df["scored_at"] != "") & (when >= now - pd.Timedelta(hours=args.hours))].copy()
+        s = df[(df["scored_at"] != "") & (when >= now - pd.Timedelta(hours=args.hours)) & (when <= now)].copy()
         s["sig"] = s["significance"].astype(int)
         s["ai"] = s["ai_power_relevance"].astype(int)
         s = s[s["sig"] > 0]  # 0 = not about energy (rubric)
@@ -1314,7 +1323,7 @@ def main(argv=None):
              "## Top of the industry", ""]
         for i, r in enumerate(top10.to_dict("records"), 1):
             L += item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')})  ",
-                            why_line(r['why'], heads[r['cluster_id']]) + " " + detail(r, heads[r['cluster_id']]),
+                            (why_line(r['why'], heads[r['cluster_id']]) + " " + detail(r, heads[r['cluster_id']])).strip(),
                             f"Sources: {link_text(r['links'])}")
         L += ["", "## By sector", ""]
         for g, c in by_group.items():
@@ -1324,7 +1333,7 @@ def main(argv=None):
                 L.append("- no scored story in this group today")
             for r in c.to_dict("records"):
                 L.append(f"- {heads[r['cluster_id']]} ({r['sector'].replace('_', ' ')}): "
-                         f"{why_line(r['why'], heads[r['cluster_id']])} {link_text(r['links'][:1])}")
+                         + " ".join(x for x in (why_line(r['why'], heads[r['cluster_id']]), link_text(r['links'][:1])) if x))
             if g == "Policy":
                 L += without_repeats(policy_actions_lines(now - pd.Timedelta(hours=args.hours), now, log), L, log)
             L.append("")
@@ -1332,8 +1341,8 @@ def main(argv=None):
         if ai.empty:
             L.append("- no further story on AI and power today (any such story is listed above)")
         for r in ai.to_dict("records"):
-            L.append(f"- {heads[r['cluster_id']]} ({r['sector'].replace('_', ' ')}): {why_line(r['why'], heads[r['cluster_id']])} "
-                     f"{link_text(r['links'][:1])}")
+            L.append(f"- {heads[r['cluster_id']]} ({r['sector'].replace('_', ' ')}): "
+                     + " ".join(x for x in (why_line(r['why'], heads[r['cluster_id']]), link_text(r['links'][:1])) if x))
         nums = numbers_today(digest_date, log, clusters)   # session 804: the day's clusters, for the reasons beside the movers
         summary, su = (None, []) if args.no_model else numbers_summary(client, model, nums, log)
         if model in PRICES:
