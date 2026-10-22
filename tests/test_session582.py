@@ -154,7 +154,7 @@ class TheReview(unittest.TestCase):
             row = [line for line in text.splitlines() if line.startswith(f"| {tool} |")]
             self.assertTrue(row, tool)
             self.assertRegex(row[0], r"exit 0")
-        self.assertIn("python -m venv", text)
+        self.assertIn("python.exe -m venv", text)
 
     def test_no_em_dash_in_what_this_session_wrote(self):
         for parts in (("docs", "reviews", "replications-2026-10-22.md"), ("tests", "test_session582.py"),
