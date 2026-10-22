@@ -50,3 +50,22 @@ Each fix was checked: check-values 2,487 of 2,487 on every `/cost-of-power` addr
 - **The node's place and utility** (step 7): ERCOT's settlement point mapping and resource registration.
 - **The row's own utility** (step 8): session 718 wires in the territories the data machine now holds.
 - **The page's weight** (every step): the hub table's page is 1.73 MB (session 716).
+
+## Walked again (session 727, chain 062)
+
+The ten steps again on production (`https://erw-flame.vercel.app`, chain 050's sessions 700 to 721 served whole since 14:56 UTC), 22 October 2026 at about 15:20 UTC, the same addresses at 1 GW. Shots: `docs/brand/review-727/` (`qNN_*_1280.png`).
+
+| # | Then (717) | Now (727) | Changed by |
+|---|---|---|---|
+| 1 | HB_WEST cheapest all-in at 40.83 (14 rows held, all ERCOT), LZ_CPS dearest at 46.69 | The same | |
+| 2 | The headline and the panel, HB_WEST against LZ_NORTH | The same headline (USD 40.83, USD 321,907,123 a year, 45.80 months) | |
+| 3 | ERCOT 45.8 months, MISO 58.4, PJM 71.3, SPP 84.6, NYISO 87.3, CAISO 100.0; ISO-NE not held | The same months, now read from `interconnection_durations` | 718 |
+| 4 | Demand growth by grid; capacity over peak for NYISO and ISO-NE only | Demand growth by grid; **capacity above the peak for every grid** (ERCOT 97 percent, CAISO 106, SPP 78, MISO 62, ISO-NE 37, NYISO 34, PJM 31). Rows inside a grid still tie (session 728) | 718 |
+| 5 | CAISO NP15 92.9 kg over the electrolyzer's hours, annual 194.3 | The same | |
+| 6 | HB_WEST flexible 30.64 against 40.83 flat | The same (off 14 hours; the four-peak charge 0.00 off at the peaks) | |
+| 7 | BBREEZE_1_2 cheapest node, 23.83; its panel | The same. Session 724 adds the spread, the missing days, "Set as A", a filter and a download (on its branch, landing with 722 to 726) | 724 |
+| 8 | The state's largest seller stood in for the row's utility, wrong in 4 of 7 hub counties | **A row named for a place takes its county's utilities** (Consolidated Edison for N.Y.C., Southern California Edison for SP15, CenterPoint named for Houston). Sorted smallest first, PJM's FirstEnergy Pennsylvania leads at 11.34, a delivery figure; session 726 names the kind in the cell (on its branch) | 718, 726 |
+| 9 | 28 rows of gaps | 29 rows (Texas's wires utilities file no sales row, 718) | 718 |
+| 10 | The same screen from the copied address | The same | |
+
+No step that held at 717 fails now. The walk's open items stay those of the open-items file (`docs/reviews/siting-open-2026-10-23.md`, lines 7, 11, 15 and 16).
