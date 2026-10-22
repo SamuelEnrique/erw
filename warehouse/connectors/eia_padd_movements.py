@@ -19,8 +19,10 @@ crude oil are eia_padd_crude_pipeline_flows (eia_series.py). A blank has no row;
 area not in the map stops the run; so does a key given twice.
 
     python warehouse/connectors/eia_padd_movements.py [--from 2010-01] [--offline | --fresh]
+    python warehouse/connectors/eia_padd_movements.py --from 1986-01   # tanker and barge from its first month (session 624;
+                                                                       # rail begins in 2010-01)
 
-Ceiling: 17 requests a run (pages of 5,000, 3 seconds apart; a page an earlier run saved in warehouse/raw is reused
+Ceiling: 20 requests a run (pages of 5,000, 3 seconds apart; a page an earlier run saved in warehouse/raw is reused
 unless --fresh; --offline asks nothing). License: public (EIA, record 1 of license_reads.csv; cite "U.S. Energy
 Information Administration, Petroleum Supply Monthly").
 """
@@ -46,8 +48,9 @@ ROUTES = {"petroleum/move/rail": "RAIL", "petroleum/move/tb": "BMV"}
 SOURCES = {r: f"eia:{r}" for r in ROUTES}
 BASE = "https://api.eia.gov/v2/"
 PAGE = "https://www.eia.gov/petroleum/supply/monthly/"
-CEILING, PAUSE, RETRY_WAIT = 17, 3, 60   # session 622: two of 20 went to the probes, one is left for a retry
+CEILING, PAUSE, RETRY_WAIT = 20, 3, 60   # session 624: 2010 on is answered by saved pages; two of 25 went to the probes
 FIRST = "2010-01"
+SPLIT, EARLY_END = "2010-01", "2009-12"   # session 624: the first month of session 622's window, and the month before
 PROCESSES = {"RAIL": "rail_receipts", "BMV": "tanker_barge_receipts"}
 AREA = re.compile(r"^R(10|20|30|40|50|1X|1Y|1Z)-R(10|20|30|40|50|1X|1Y|1Z)$")
 UNITS = {"mbbl": ("kbbl", 1.0)}
@@ -124,23 +127,30 @@ def main(argv=None):
             raise RuntimeError("EIA_API_KEY is not set (.env or the environment)")
         retrieved = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
         frames, records = [], {}
+        # session 624: months before SPLIT are a window of their own, so session 622's pages of SPLIT on answer again
+        windows = [(args.first, EARLY_END), (SPLIT, None)] if args.first < SPLIT else [(args.first, None)]
         for route in ROUTES:
             api = BASE + route + "/"
-            offset, total = 0, None
-            while True:
-                body, url = get(api, {"api_key": key, "frequency": "monthly", "data[]": "value", "start": args.first,
-                                      "length": 5000, "offset": offset, "sort[0][column]": "period", "sort[0][direction]": "asc",
-                                      "sort[1][column]": "series", "sort[1][direction]": "asc"})
-                resp = body["response"]
-                total = int(resp["total"])
-                frames.append(rows(resp["data"], url.split("&length")[0], retrieved, route))
-                offset += len(resp["data"])
-                if offset >= total or len(resp["data"]) < 5000:
-                    break
-            if offset != total:
-                raise RuntimeError(f"{route}: {offset:,} rows read of the {total:,} EIA counts")
-            records[route] = total
-            log(f"  {route}: {total:,} records")
+            records[route] = 0
+            for first, last in windows:
+                offset, total = 0, None
+                while True:
+                    params = {"api_key": key, "frequency": "monthly", "data[]": "value", "start": first}
+                    if last:
+                        params["end"] = last
+                    params.update({"length": 5000, "offset": offset, "sort[0][column]": "period", "sort[0][direction]": "asc",
+                                   "sort[1][column]": "series", "sort[1][direction]": "asc"})
+                    body, url = get(api, params)
+                    resp = body["response"]
+                    total = int(resp["total"])
+                    frames.append(rows(resp["data"], url.split("&length")[0], retrieved, route))
+                    offset += len(resp["data"])
+                    if offset >= total or len(resp["data"]) < 5000:
+                        break
+                if offset != total:
+                    raise RuntimeError(f"{route}, {first} to {last or 'the latest'}: {offset:,} rows read of the {total:,} EIA counts")
+                records[route] += total
+                log(f"  {route}, {first} to {last or 'the latest'}: {total:,} records")
         s = pd.concat([f for f in frames if len(f)], ignore_index=True)
         if s.duplicated(["entity", "variable", "ts_utc"]).any():
             raise RuntimeError("a row on two pages, or a series in both routes")
@@ -156,7 +166,7 @@ def main(argv=None):
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
             f"Source: {SOURCES['petroleum/move/rail']} U.S. Energy Information Administration, Petroleum Supply Monthly, receipts by rail between PADDs (API v2, route petroleum/move/rail), {PAGE}",
             f"Source: {SOURCES['petroleum/move/tb']} U.S. Energy Information Administration, Petroleum Supply Monthly, movements by tanker and barge between PADDs (API v2, route petroleum/move/tb), {PAGE}",
-            f"  access: {BASE}<route>/data/?frequency=monthly&data[]=value&start={args.first}",
+            f"  access: {BASE}<route>/data/?frequency=monthly&data[]=value&start={args.first}" + (f" (to {EARLY_END}, then from {SPLIT})" if args.first < SPLIT else ""),
             'License: public (a work of the U.S. government; cite "U.S. Energy Information Administration, Petroleum Supply Monthly").',
         ]
         ip.write_snapshot(s, NAME, header, log, ip.SERIES_COLS)
