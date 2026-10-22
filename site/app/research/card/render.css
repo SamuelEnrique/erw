@@ -133,6 +133,9 @@ body:has(.finding-render) > main { max-width: none; padding: 0; margin: 0; }
     align-content: start;
     height: auto !important;
   }
+  /* a panel is half as wide: the timeline's labels (a year, or a year and month, 11 px) touched and ran into each
+     other (5 px over on the lunch card); at 9 px, the size of the frame's footnote, each stands clear of the next */
+  .finding-render [data-finding-chart="multiples"][data-option-kind="panels"] svg text[text-anchor="middle"] { font-size: 9px; }
 }
 
 /* Session 588, the check's finding: in the wide frame every card of one chart had the same fault. Its box is the
