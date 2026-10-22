@@ -18,7 +18,8 @@ Twenty products, in two groups (GROUPS below): session 555's eight (the total, c
 distillate, jet fuel, propane, residual fuel and fuel ethanol) and session 574's twelve (kerosene, aviation gasoline,
 asphalt, petroleum coke, lubricants, natural gas plant liquids, ethane, normal butane, isobutane, unfinished oils,
 biodiesel and renewable diesel), from 2015: the route holds about 40 products and 3,949 records a month, beyond a
-run's ceiling.
+run's ceiling. Sessions 600, 601 and 610 added three more groups (ten, seventeen and eleven products), so the table now
+holds every product of the route; each group is its own request, so a group's saved pages answer it again.
 A blank has no row; nothing is filled. A unit, process or area not in the map stops the run; so does a key given twice.
 
     python warehouse/connectors/eia_petroleum_snd.py [--from 2015-01] [--offline | --fresh]
@@ -53,9 +54,16 @@ PROCESSES = {"FPF": "field_production", "YPR": "refinery_net_production", "YIR":
              "EEX": "exports", "VNR": "net_receipts", "SCG": "stock_change", "SAE": "ending_stocks", "VPP": "product_supplied",
              "VUA": "supply_adjustment", "YNP": "renewable_plant_production", "TVP": "transfers_to_crude_supply"}
 # the products, in groups a run reads one after another; the first group is session 555's (its saved pages answer the
-# same addresses), the second session 574's
+# same addresses), the second session 574's, the third session 600's, the fourth session 601's, the fifth session 610's
 GROUPS = [["EP00", "EPC0", "EPM0F", "EPD0", "EPJK", "EPLLPA", "EPPR", "EPOOXE"],
-          ["EPPK", "EPPV", "EPPA", "EPPC", "EPPL", "EPL2", "EPLLEA", "EPLLBAN", "EPLLBAI", "EPPU", "EPOORDB", "EPOORDO"]]
+          ["EPPK", "EPPV", "EPPA", "EPPC", "EPPL", "EPL2", "EPLLEA", "EPLLBAN", "EPLLBAI", "EPPU", "EPOORDB", "EPOORDO"],
+          # session 600: the third group
+          ["EPL0", "EPOL", "EPLLNG", "EPP2", "EPOO", "EPOOR", "EPOBG", "EPOBGC0", "EPM0C", "EPDXL0"],
+          # session 601: the fourth group
+          ["EPOORXFE", "EPOBGR0", "EPPCM", "EPD00H", "EPDM10", "EPPM", "EPPP0", "EPLOLE", "EPPW", "EPLLPY", "EPOOXXFE",
+           "EPPPO", "EPLLBYN", "EPLLCS", "EPOORO", "EPM0R", "EPPRY"],
+          # session 610: the fifth group, the last eleven small products
+          ["EPPNS", "EPPPN", "EPPRH", "EPPRX", "EPLLBYI", "EPLLEY", "EPOBV", "EPOOOXH", "EPOOOH", "EPPCC", "EPPS"]]
 PRODUCTS = [p for g in GROUPS for p in g]
 AREAS = {"NUS", "NUS-Z00", "R10", "R10-Z00", "R10-Z0P", "R20", "R20-Z00", "R20-Z0P", "R30", "R30-Z00", "R30-Z0P",
          "R40", "R40-Z00", "R40-Z0P", "R50", "R50-Z00", "R50-Z0P"}

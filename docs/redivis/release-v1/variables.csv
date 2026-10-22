@@ -144,6 +144,8 @@ battery_stack_stress_daily,foresight_4h_revenue_total_usd_per_mw,series variable
 battery_stack_stress_daily,foresight_8h_revenue_ancillary_usd_per_mw,series variable,USD/MW
 battery_stack_stress_daily,foresight_8h_revenue_energy_usd_per_mw,series variable,USD/MW
 battery_stack_stress_daily,foresight_8h_revenue_total_usd_per_mw,series variable,USD/MW
+boem_ogor_lease_production_monthly,gas_production,series variable,MMcf
+boem_ogor_lease_production_monthly,oil_production,series variable,kbbl
 boem_renewable_leases,entity_id,column,
 boem_renewable_leases,entity_type,column,
 boem_renewable_leases,name,column,
@@ -1742,6 +1744,8 @@ eia930_generation_latest,net_generation_unknown_mw,series variable,MW
 eia930_generation_latest,net_generation_unknown_storage_mw,series variable,MW
 eia930_generation_latest,net_generation_wind_mw,series variable,MW
 eia930_generation_latest,net_generation_wind_with_battery_mw,series variable,MW
+eia930_subba_demand_hourly,demand_mw,series variable,MW
+eia930_subba_demand_hourly_2025,demand_mw,series variable,MW
 eia_aeo_electricity,value,series variable,MW
 eia_aeo_electricity,value,series variable,MWh
 eia_aeo_electricity,value,series variable,USD/kWh
@@ -1777,6 +1781,8 @@ eia_crude_stream_prices,first_purchase_price,series variable,USD/bbl
 eia_crude_stream_prices,fob_cost,series variable,USD/bbl
 eia_crude_stream_prices,landed_cost,series variable,USD/bbl
 eia_crude_stream_prices,refiner_acquisition_cost,series variable,USD/bbl
+eia_drilling_monthly,rotary_rigs,series variable,count
+eia_drilling_monthly,service_rigs,series variable,count
 eia_energy_efficiency_state_annual,all_other_costs,series variable,USD
 eia_energy_efficiency_state_annual,customer_incentive,series variable,USD
 eia_energy_efficiency_state_annual,energy_savings,series variable,MWh
@@ -1836,6 +1842,9 @@ eia_gas_storage_state_monthly,working_gas,series variable,MMcf
 eia_gas_storage_weekly,working_gas,series variable,bcf
 eia_gas_trade_monthly,export_volume,series variable,MMcf
 eia_gas_trade_monthly,import_volume,series variable,MMcf
+eia_gas_wells_annual,gas_wells,series variable,count
+eia_heating_fuel_prices_weekly,residential_price,series variable,USD/gal
+eia_heating_fuel_prices_weekly,wholesale_price,series variable,USD/gal
 eia_lng_exports_monthly,export_price,series variable,USD/Mcf
 eia_lng_exports_monthly,export_volume,series variable,MMcf
 eia_meters_state_annual,meters,series variable,count
@@ -1890,6 +1899,11 @@ eia_power_plant_fuel_costs,cost_per_short_ton,series variable,USD/short_ton
 eia_product_spot_prices,spot_price,series variable,USD/gal
 eia_product_supplied_monthly,product_supplied,series variable,kbbl
 eia_product_supplied_monthly,product_supplied_per_day,series variable,kbbl/d
+eia_refinery_capacity_annual,capacity_per_calendar_day,series variable,kbbl/d
+eia_refinery_capacity_annual,capacity_per_stream_day,series variable,kbbl/d
+eia_refinery_capacity_annual,refineries,series variable,count
+eia_refinery_inputs_monthly,net_input,series variable,kbbl
+eia_refinery_inputs_monthly,net_input_per_day,series variable,kbbl/d
 eia_refinery_weekly,net_input,series variable,kbbl/d
 eia_refinery_weekly,operable_capacity,series variable,kbbl/d
 eia_refinery_weekly,refinery_net_input,series variable,kbbl/d
