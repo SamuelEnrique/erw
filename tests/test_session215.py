@@ -129,7 +129,10 @@ class TheComponents(unittest.TestCase):
                  # session 461 (merging chain 019): the datacenter page's power side and grids view (dcpow|<grid>|<zone>|<stat>,
                  # dcq|<grid>|<zone>|<stat>, sessions 467 and 468) read only the queues of grids whose tables are not held and ERCOT's
                  # public zone prices; /data/licenses (lic|..., session 471) counts the license records themselves: no held table
-                 "dcpow", "dcq", "lic"}
+                 "dcpow", "dcq", "lic",
+                 # session 700 (chain 050): the All grids tab of /cost-of-power (allgrids|<column>|<row>|...), read from the
+                 # site's own files; a figure of an internal table is drawn as "license needed" by the tab itself, with no key
+                 "allgrids"}
         found = set()
         for dirpath, _, files in os.walk(os.path.join(ROOT, "site", "app")):
             if "_retired" in dirpath:
