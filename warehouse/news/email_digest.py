@@ -190,8 +190,11 @@ def block(body, img_base="docs"):
         for r in rows:
             text.append("  " + "; ".join(f"{h}: {md_inline_text(c)}" for h, c in zip(head, r) if c))
         cells = lambda r, tag: "".join(f"<{tag} style=\"text-align:left;padding:2px 8px;border-bottom:1px solid #D9D2C3\">{md_inline_html(c)}</{tag}>" for c in r)  # noqa: E731
-        parts.append("<table style=\"border-collapse:collapse;font-size:13px\"><tr>" + cells(head, "th") + "</tr>"
-                     + "".join(f"<tr>{cells(r, 'td')}</tr>" for r in rows) + "</table>")
+        # session 810: the table in a scroll container, so a seven-column numbers table at 390 px scrolls instead of
+        # pushing the whole email wider than the screen (the page does the same, .prose-erw table in globals.css)
+        parts.append("<div style=\"overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%\">"
+                     "<table style=\"border-collapse:collapse;font-size:13px\"><tr>" + cells(head, "th") + "</tr>"
+                     + "".join(f"<tr>{cells(r, 'td')}</tr>" for r in rows) + "</table></div>")
         table.clear()
 
     for ln in body:
@@ -324,7 +327,10 @@ def render(path, kind, stories=None, note=None, unsubscribe=None):
         h.append("<p style=\"font-size:12px;font-family:system-ui,sans-serif;color:#6B665E\">"
                  + (f"<a href=\"{html.escape(unsubscribe)}\">Stop these emails</a> (one click)."
                     if unsubscribe.startswith("http") else html.escape(unsubscribe)) + "</p>")
-    body_html = ("<!doctype html><html><body style=\"margin:0;padding:16px;background:#F7F3EA;color:#2E2D29;"
+    # session 810: a head with the viewport, so a phone's mail client lays the email out at the screen's width (without it
+    # a 390 px screen rendered the email 980 px wide and scaled it down); the charset for the names and the euro sign
+    body_html = ("<!doctype html><html><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
+                 "</head><body style=\"margin:0;padding:16px;background:#F7F3EA;color:#2E2D29;"
                  "font-family:Georgia,serif\"><div style=\"max-width:640px;margin:0 auto\">" + "".join(h)
                  + "</div></body></html>")
     return title, label, "\n".join(t) + "\n", body_html

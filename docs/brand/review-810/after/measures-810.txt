@@ -1,0 +1,4 @@
+email-daily 1280x800: page 1265x2574 px (viewport 1265); tables 2, in a scroll container 1, widest 640 px; chart image 602 px wide; links 2, outside the viewport 0
+email-daily 390x844: page 390x3288 px (viewport 390); tables 2, in a scroll container 1, widest 538 px; chart image 360 px wide; links 2, outside the viewport 0
+email-roundup 1280x800: page 1265x1752 px (viewport 1265); tables 3, in a scroll container 2, widest 640 px; chart image none; links 1, outside the viewport 0
+email-roundup 390x844: page 390x2701 px (viewport 390); tables 3, in a scroll container 2, widest 460 px; chart image none; links 1, outside the viewport 0
