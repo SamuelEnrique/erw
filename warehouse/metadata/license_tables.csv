@@ -61,6 +61,7 @@ eia930_demand_weather,EIA,EIA-930 (its name; the registry lists no row for it)
 eia930_event_hourly_interchange,EIA,the source registry
 eia930_generation_latest,EIA,the source registry
 eia930_subba_demand_hourly,EIA,the source registry
+eia930_subba_demand_hourly_2025,EIA,the source registry
 eia_aeo_electricity,EIA,the source registry
 eia_all_futures_prices,"CME Group (NYMEX), whose prices EIA republished; EIA",by hand: its header: EIA names the New York Mercantile Exchange as the source of these prices
 eia_annual_crosscheck_ba,EIA,the source registry and the tables its header derives it from: eia_annual_generation_ba
