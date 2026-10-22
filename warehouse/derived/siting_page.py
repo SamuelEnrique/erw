@@ -18,6 +18,11 @@ Files:
     ercot_4cp.json  (session 702) ERCOT's four coincident-peak intervals by summer from ercot_4cp_intervals: each
                   interval's start in UTC, its local time as ERCOT prints it, and ERCOT's load in it (MW); the summers
                   held and the table's own note of what is not held.
+    capacity.json (session 704) the capacity table's newest delivery period of each market, its auction, unit and
+                  license, and the zones that auction priced; NO PRICE. iso_all_capacity_prices is internal (the
+                  publishers' terms bar republishing) and the repository is public: the tab draws each price as
+                  "license needed". With --internal FILE the prices are computed here, per row of the tab, in USD per
+                  MWh for a load that runs every hour, and written to FILE (outside the repository; never committed).
 
 Each file names the table it was read from, the table's first and last day and when it was built. A table that cannot
 be found stops the run (exit 1): no file is written from part of a table.
@@ -37,6 +42,9 @@ SITE_DIR = os.path.join(ROOT, "site", "data", "siting")
 OUTPUT = os.path.join(ROOT, "warehouse", "output")
 NODE_TABLE = "node_basis_daily"
 CP_TABLE = "ercot_4cp_intervals"
+CAP_TABLE = "iso_all_capacity_prices"
+CAP_MARKETS = ["pjm_bra", "isone_fca", "miso_pra", "nyiso_icap_spot"]
+PER_MW_YEAR = {"USD/MW-day": 365.0, "USD/kW-month": 12000.0}   # to USD per MW a year
 
 
 def header_rows(path):
@@ -101,6 +109,38 @@ def cp_file(path):
             "summers": [{"year": int(y), "intervals": v} for y, v in sorted(summers.items())]}
 
 
+def cap_frame(path):
+    d = pd.read_csv(path, skiprows=header_rows(path), dtype=str)
+    d = d[d["market"].isin(CAP_MARKETS) & (d["variable"] == "capacity_price")]
+    return d
+
+
+def cap_file(path):
+    """capacity.json's content (session 704): the newest period of each market and its zones, no price."""
+    d = cap_frame(path)
+    markets = {}
+    for m in CAP_MARKETS:
+        x = d[d["market"] == m]
+        last = x["ts_utc"].max()
+        y = x[x["ts_utc"] == last]
+        markets[m] = {"market": m, "table": CAP_TABLE, "license": "internal", "unit": str(y["unit"].iloc[0]), "period_start": last,
+                      "period_end": str(y["x_period_end"].iloc[0]), "auction": str(y["x_auction"].iloc[0]), "zones": sorted(y["entity"].unique().tolist())}
+    return {"built": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "tables": [CAP_TABLE], "markets": markets}
+
+
+def cap_internal(path, rows):
+    """The tab's capacity figures, USD per MWh for a load that runs every hour, per row: never written to the site."""
+    d = cap_frame(path)
+    out = {}
+    for r in rows:
+        m = d[(d["market"] == r["market"]) & (d["entity"] == r["entity"]) & (d["ts_utc"] == r["period_start"])]
+        if len(m) != 1:
+            continue
+        v = float(m["value"].iloc[0]) * PER_MW_YEAR[m["unit"].iloc[0]]
+        out[r["row"]] = {"entity": r["entity"], "auction": r["auction"], "as_published": float(m["value"].iloc[0]), "unit": m["unit"].iloc[0], "usd_per_mw_year": v, "usd_per_mwh_every_hour": v / 8760}
+    return out
+
+
 def write(name, obj, out_dir):
     """Write a file, unless it holds the same content but for its build time (no change, no new commit)."""
     os.makedirs(out_dir, exist_ok=True)
@@ -121,6 +161,8 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description="The All grids tab's files for /cost-of-power")
     ap.add_argument("--in-dir", action="append", default=[], help="a directory to read a table from when warehouse/output lacks it")
     ap.add_argument("--out-dir", default=SITE_DIR, help="where the files go (default site/data/siting)")
+    ap.add_argument("--internal", help="session 704: write the capacity prices per row to this file (outside the repository)")
+    ap.add_argument("--rows", help="with --internal: the tab's rows and their capacity zones as JSON (node scripts/siting-files.mjs capzones)")
     a = ap.parse_args(argv)
     try:
         path = find(NODE_TABLE, a.in_dir)
@@ -138,8 +180,27 @@ def main(argv=None):
         print(f"FAILED: {e}", file=sys.stderr)
         return 1
     print(f"{CP_TABLE}: {len(cp['summers'])} summers, {sum(len(s['intervals']) for s in cp['summers'])} intervals")
+    try:
+        kpath = find(CAP_TABLE, a.in_dir)
+        print(f"reading {kpath}")
+        cap = cap_file(kpath)
+    except Exception as e:
+        print(f"FAILED: {e}", file=sys.stderr)
+        return 1
+    print(f"{CAP_TABLE}: " + "; ".join(f"{m['auction']} ({len(m['zones'])} zones)" for m in cap["markets"].values()))
     write("nodes.json", f, a.out_dir)
     write("ercot_4cp.json", cp, a.out_dir)
+    write("capacity.json", cap, a.out_dir)
+    if a.internal:
+        if not a.rows:
+            print("FAILED: --internal needs --rows", file=sys.stderr)
+            return 1
+        with open(a.rows, encoding="utf-8") as fh:
+            rows = json.load(fh)
+        got = cap_internal(kpath, rows)
+        with open(a.internal, "w", encoding="utf-8") as fh:
+            json.dump({"table": CAP_TABLE, "license": "internal: never in the repository", "rows": got}, fh, indent=1)
+        print(f"wrote {a.internal}: {len(got)} rows (internal, outside the repository)")
     return 0
 
 

@@ -3,7 +3,7 @@ import { Num } from "@/components/Num";
 import { InlineSpark } from "@/components/InlineSpark";
 import { InputPanel } from "@/components/tool/ToolPage";
 import type { ReactNode } from "react";
-import { COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, allInCell, cpCharge, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
+import { CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, allInCell, capacityCell, cpCharge, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
 import { CP, NODES, SITING_DC, SITING_FILES } from "@/lib/sitingdata";
 import { AllGridsForm } from "./AllGridsForm";
 
@@ -126,8 +126,24 @@ function TxTd({ r, x }: { r: Row; x: SitingInputs }) {
 /** Session 703: the all-in cell, drawn only where energy, transmission and capacity are each held or zero by design. */
 function AllInTd({ r, x }: { r: Row; x: SitingInputs }) {
   const a = allInCell(SITING_DC, SITING_FILES, r, x);
-  if ("missing" in a) return <Words words="not held" why={`Not every part is held: ${a.missing}`} />;
+  if ("missing" in a) return a.words === "license needed" ? <Held table="iso_all_capacity_prices" why={`Computed where the capacity tables are held and drawn as "license needed" (session 408's rule): ${a.missing}`} /> : <Words words="not held" why={`Not every part is held: ${a.missing}`} />;
   return <Fig check={`allgrids|allin|${r.id}|${profileKey(x)}`} v={a.v} tip={`Energy USD ${two(a.parts.energy)}, transmission USD ${two(a.parts.transmission)} and capacity USD ${two(a.parts.capacity)} per MWh${r.grid === "ercot" ? " (ERCOT has no capacity market)" : ""}. No delivery, distribution, ancillary or retail charge is in it.`} />;
+}
+
+/** A figure computed from an internal table: "license needed" in place, with the table and why on hover (session 408's
+ * rule; the same words and mark as components/Num.tsx's held figures, so the value checker passes it by). */
+function Held({ table, why }: { table: string; why: string }) {
+  return <span className={tipCls} title={why} tabIndex={0} data-license-held={table}>license needed</span>;
+}
+const periodWords = (s: string, e: string) => `${s.slice(0, 10)} to ${e.slice(0, 10)}`;
+/** Session 704: the capacity cell. No market: the words and why. Held: "license needed", with the zone, the auction and
+ * the rule of conversion on hover. */
+function CapTd({ r, x }: { r: Row; x: SitingInputs }) {
+  const c = capacityCell(SITING_FILES, r, x);
+  if ("zero" in c) return <Words words="no capacity market" why={`${c.zero} Counted as zero in the all-in figure.`} />;
+  if ("why" in c) return <Words words={c.words} why={c.why} />;
+  const h = c.held;
+  return <Held table={h.table} why={`The latest cleared capacity price for ${h.entity.split(":")[1]}${h.own ? "" : " (the system-wide price: the newest auction priced no zone of this row's own)"}: ${h.market.auction}, delivery ${periodWords(h.market.period_start, h.market.period_end)}, ${h.market.unit} (${h.table}, internal: ${h.market.license}). ${CAPACITY_RULE} Computed where the table is held; drawn as "license needed".`} />;
 }
 
 function RowHead({ r }: { r: Row }) {
@@ -177,7 +193,7 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
                 <tr key={r.id} className="border-b border-rule" data-allgrids-row={r.id}>
                   <RowHead r={r} />
                   {COLUMNS.map((c) => <td key={c.id} className="px-3 py-1.5 text-right" data-cell={c.id}>{c.id === "energy" ? (x.profile === "datacenter" ? <EnergyTd r={r} e={energyCell(SITING_DC, SITING_FILES, r)} /> : <ProfileTd r={r} x={x} />)
-                    : c.id === "transmission" ? <TxTd r={r} x={x} /> : c.id === "allin" ? <AllInTd r={r} x={x} /> : null}</td>)}
+                    : c.id === "transmission" ? <TxTd r={r} x={x} /> : c.id === "capacity" ? <CapTd r={r} x={x} /> : c.id === "allin" ? <AllInTd r={r} x={x} /> : null}</td>)}
                 </tr>
               ))}
             </tbody>

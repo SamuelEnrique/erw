@@ -100,7 +100,7 @@ class Profiles(unittest.TestCase):
 
     def test_all_in_draws_only_when_every_part_is_held_or_zero_by_design(self):
         self.assertEqual(self.o["allin"][0], {"v": 32})
-        self.assertEqual(self.o["allin"][1], {"missing": "transmission: not held"})
+        self.assertEqual(self.o["allin"][1], {"missing": "transmission: not held", "words": "not held"})  # session 704: the words of the cell
 
     def test_the_key_names_the_inputs_and_reads_back(self):
         self.assertEqual(self.o["key"], "profile=electrolyzer&lf=0.55&strike=row")

@@ -414,37 +414,81 @@ export function cpCharge(dc: DC, f: Files, r: Row, x: Pick<SitingInputs, "profil
   return { year: summer.year, rate, hours, share, firm: per(1) as number, curtailing: per(mean(off)), own: per(share),
     intervals: summer.intervals.map((iv, k) => ({ ts: iv.ts, local: iv.local, w: own[k] })), region };
 }
-/** The capacity part of the all-in figure, until session 704 computes it: zero by market design where a grid has no
- * capacity market (ERCOT, CAISO, SPP), else not held. */
+/** The grids with no capacity market: their capacity part is zero by market design, with why (session 703). */
 export const NO_CAPACITY_MARKET: Record<string, string> = {
   ercot: "ERCOT is an energy-only market: it has no capacity market and no capacity charge.",
   caiso: "California has no capacity market: resource adequacy is bought in bilateral contracts, and no public price of it is held.",
   spp: "SPP has no capacity market: each load-serving entity meets its planning reserve itself.",
 };
 /** A row's all-in figure: the profile's energy, its transmission and its capacity, each held or zero by design. */
-export function allInCell(dc: DC, f: Files, r: Row, x: Pick<SitingInputs, "profile" | "lf" | "strike">): { v: number; parts: Record<string, number> } | { missing: string } {
+export function allInCell(dc: DC, f: Files, r: Row, x: Pick<SitingInputs, "profile" | "lf" | "strike">): { v: number; parts: Record<string, number> } | { missing: string; words: string } {
   const e = profileCell(dc, f, r, x, f.cp);
   const energy: Part = "why" in e ? { missing: e.why } : { v: e.per };
   const c = cpCharge(dc, f, r, x);
   const transmission: Part = "why" in c ? { missing: c.why } : c.own === null ? { missing: "the load's hours in the four intervals are not held" } : { v: c.own };
-  const capacity: Part = NO_CAPACITY_MARKET[r.grid] ? { v: 0, zero: NO_CAPACITY_MARKET[r.grid] } : { missing: "capacity is computed from the auctions in session 704" };
+  const cc = capacityCell(f, r, x);
+  const capacity: Part = "zero" in cc ? { v: 0, zero: cc.zero } : "held" in cc ? { missing: `the zone's capacity price is in ${cc.held.table}, internal`, words: "license needed" } : { missing: cc.why, words: cc.words };
   const a = allIn({ energy, transmission, capacity });
   if ("missing" in a) return a;
   return { v: a.v, parts: { energy: (energy as { v: number }).v, transmission: (transmission as { v: number }).v, capacity: 0 } };
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
+// capacity (session 704): the latest cleared capacity price for the row's zone, held internal; none where no market
+// ---------------------------------------------------------------------------------------------------------------------
+
+/** What data/siting/capacity.json holds of the capacity tables (warehouse/derived/siting_page.py): for each market, its
+ * newest delivery period and auction and the zones it priced, and the license, with no price. The tables are internal
+ * (iso_all_capacity_prices, pjm_rpm_capacity_prices: the publishers' terms bar republishing) and the repository is
+ * public, so no price of them is written into the site's files; the figure is computed where the tables are held
+ * (siting_page.py --internal) and drawn here as "license needed", session 408's rule. */
+export type CapMarket = { market: string; table: string; license: string; unit: string; period_start: string; period_end: string; auction: string; zones: string[] };
+export type CapFile = { built: string; tables: string[]; markets: Record<string, CapMarket> };
+/** The capacity zone each row settles in, by grid: the zone's own entity where the newest auction priced it, else the
+ * grid's system-wide price. MISO's hubs to their local resource zones; New York's zones to their localities; PJM's one
+ * row to the RTO's price. */
+export const CAPACITY_MARKET: Record<string, string> = { pjm: "pjm_bra", isone: "isone_fca", miso: "miso_pra", nyiso: "nyiso_icap_spot" };
+const NY_LOCALITY: Record<string, string> = { "N.Y.C.": "NYC", LONGIL: "LI", "HUD VL": "G-J Locality", MILLWD: "G-J Locality", DUNWOD: "G-J Locality" };
+const MISO_ZONE: Record<string, string> = { "MINN.HUB": "Z1", "ILLINOIS.HUB": "Z4", "INDIANA.HUB": "Z6", "MICHIGAN.HUB": "Z7", "ARKANSAS.HUB": "Z8", "LOUISIANA.HUB": "Z9", "TEXAS.HUB": "Z9", "MS.HUB": "Z10" };
+const ISONE_ZONE: Record<string, string> = { ".Z.NEMASSBOST": "NEMA/Boston", ".Z.SEMASS": "SEMA/RI", ".Z.RHODEISLAND": "SEMA/RI", ".Z.MAINE": "NNE", ".Z.NEWHAMPSHIRE": "NNE", ".Z.VERMONT": "NNE" };
+export function capacityZone(r: Pick<Row, "grid" | "region">, m: CapMarket | undefined): { entity: string; own: boolean } | null {
+  if (!m) return null;
+  const has = (z: string) => m.zones.includes(`${r.grid}:${z}`);
+  const pick = (z: string | undefined, sys: string) => (z && has(z) ? { entity: `${r.grid}:${z}`, own: true } : has(sys) ? { entity: `${r.grid}:${sys}`, own: false } : null);
+  if (r.grid === "nyiso") return pick(NY_LOCALITY[r.region] ?? "NYCA", "NYCA");
+  if (r.grid === "miso") return pick(MISO_ZONE[r.region], "ERZ");
+  if (r.grid === "isone") return pick(ISONE_ZONE[r.region], "System-wide");
+  if (r.grid === "pjm") return pick("RTO", "RTO");
+  return null;
+}
+/** The rule of conversion, for the tip and the offline computation: a capacity price in USD per MW-day is times 365, in
+ * USD per kW-month times 12,000, to USD per MW a year; a load is charged on its demand at the grid's peak, taken as its
+ * draw while running (the peak hours of PJM, ISO-NE, MISO and NYISO are not held, so a load is taken to run at them), and
+ * that over the MWh it uses a year is USD per MW a year over its hours run a year. An interruptible load pays on its firm
+ * demand only, which its utility's interruptible tariff sets; those tariffs are not held. */
+export const CAPACITY_RULE = "A price in USD per MW-day is times 365, in USD per kW-month times 12,000, to USD per MW a year; the load is charged on its demand at the grid's peak, taken as its draw while running (no grid's peak hours are held here), so per MWh it is that over the hours it runs a year.";
+export type CapacityCell = { zero: string } | { held: { table: string; market: CapMarket; entity: string; own: boolean } } | { why: string; words: string };
+export function capacityCell(f: Files, r: Row, x: Pick<SitingInputs, "profile">): CapacityCell {
+  if (NO_CAPACITY_MARKET[r.grid]) return { zero: NO_CAPACITY_MARKET[r.grid] };
+  const m = f.cap?.markets[CAPACITY_MARKET[r.grid] ?? ""];
+  const z = capacityZone(r, m);
+  if (!m || !z) return { why: `No capacity price is held for ${r.region} (${GRID_NAMES[r.grid]}).`, words: "not held" };
+  if (PROFILES[x.profile].interruptible) return { why: `An interruptible load pays capacity on its firm demand only, which its utility's interruptible tariff sets; no such tariff is held. The zone's price is held (${m.table}, ${m.auction}, internal).`, words: "not held" };
+  return { held: { table: m.table, market: m, entity: z.entity, own: z.own } };
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
 // the all-in column (session 702): drawn only where each part is held or is zero by market design
 // ---------------------------------------------------------------------------------------------------------------------
 
-/** One part of the all-in figure: a figure (with `zero`, the reason it is zero by market design), or not held. */
-export type Part = { v: number; zero?: string } | { missing: string };
-export function allIn(parts: Record<"energy" | "transmission" | "capacity", Part>): { v: number } | { missing: string } {
+/** One part of the all-in figure: a figure (with `zero`, the reason it is zero by market design), or not held, with
+ * the cell's words ("not held", or "license needed" where the part is computed from an internal table, session 704). */
+export type Part = { v: number; zero?: string } | { missing: string; words?: string };
+export function allIn(parts: Record<"energy" | "transmission" | "capacity", Part>): { v: number } | { missing: string; words: string } {
   let v = 0;
-  for (const [k, p] of Object.entries(parts)) {
-    if ("missing" in p) return { missing: `${k}: ${p.missing}` };
-    v += p.v;
-  }
+  const gone = Object.entries(parts).filter(([, p]) => "missing" in p) as [string, { missing: string; words?: string }][];
+  if (gone.length) return { missing: gone.map(([k, p]) => `${k}: ${p.missing}`).join(" "), words: gone.every(([, p]) => p.words === "license needed") ? "license needed" : "not held" };
+  for (const p of Object.values(parts)) v += (p as { v: number }).v;
   return { v };
 }
 
@@ -454,7 +498,9 @@ export function allIn(parts: Record<"energy" | "transmission" | "capacity", Part
 
 export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFile, "nodes">; years: (grid: string) => YearFile[]; cp?: CpFile;
   /** session 703: the Commission's newest approved postage stamp rate (newestRate over texas_delivery.json's matrix) */
-  rate?: Rate | null };
+  rate?: Rate | null;
+  /** session 704: the capacity tables' newest periods and zones, no price (data/siting/capacity.json) */
+  cap?: CapFile };
 /** The figure a check key names, from the files the page reads; undefined when the key names none.
  *   allgrids|rows|hubs, allgrids|rows|nodes                the count of each row set (session 700)
  *   allgrids|energy|<row>|da or rt                         a flat load's price over the last twelve whole months (701);
@@ -464,7 +510,9 @@ export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFil
  *   allgrids|lost|<row>|<profile key>                      the hours of the window it was off (702)
  *   allgrids|tx|<row>|firm, curtailing or <profile key>    ERCOT's four-peak transmission charge, USD per MWh (703)
  *   allgrids|txshare|<row>|<profile key>                   the load's share of the four intervals it ran in (703)
- *   allgrids|allin|<row>|<profile key>                     energy plus transmission plus capacity (703) */
+ *   allgrids|allin|<row>|<profile key>                     energy plus transmission plus capacity (703)
+ *   (capacity, session 704: zero where there is no market, drawn as a figure of 0 with no key; elsewhere held internal,
+ *   "license needed", and computed only where the tables are, by warehouse/derived/siting_page.py --internal) */
 export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
   const p = key.split("|");
   if (p[0] !== "allgrids") return undefined;

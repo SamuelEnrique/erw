@@ -20,7 +20,7 @@ export function files() {
       if (!years.has(grid)) years.set(grid, (index.grids[grid]?.years ?? []).map((y) => read("datacenter", `${grid}_${y}.json`)));
       return years.get(grid);
     };
-    cached = { index, nodes: read("siting", "nodes.json"), years: yearsOf, cp: read("siting", "ercot_4cp.json"), rate: null };
+    cached = { index, nodes: read("siting", "nodes.json"), years: yearsOf, cp: read("siting", "ercot_4cp.json"), rate: null, cap: read("siting", "capacity.json") };
   }
   return cached;
 }
@@ -37,6 +37,18 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   const S = await import("../lib/siting.ts");
   const f = files();
   process.stdout.write(JSON.stringify({ hubs: S.hubRows(f.index), nodes: S.nodeRows(f.nodes), stat: { hubs: S.sitingStat(f, "allgrids|rows|hubs"), nodes: S.sitingStat(f, "allgrids|rows|nodes") } }));
+}
+// session 704: node scripts/siting-files.mjs capzones    every hub and zone row's capacity zone and period, as JSON,
+// for warehouse/derived/siting_page.py --internal (the prices are computed there, outside the repository)
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url) && process.argv[2] === "capzones") {
+  const S = await import("../lib/siting.ts");
+  const f = files();
+  const out = [];
+  for (const r of S.hubRows(f.index)) {
+    const c = S.capacityCell(f, r, { profile: "datacenter" });
+    if ("held" in c) out.push({ row: r.id, market: c.held.market.market, entity: c.held.entity, period_start: c.held.market.period_start, auction: c.held.market.auction });
+  }
+  process.stdout.write(JSON.stringify(out));
 }
 // session 701: node scripts/siting-files.mjs energy    every row's energy keys and figures, and "Your load"'s own figure
 // for each grid's main region bought day-ahead (scripts/datacenter-ways.mjs, pageOf), as JSON
