@@ -7,7 +7,7 @@
 // address (nsort, ndir), so a reader can send the screen. The first rows of the default sort are drawn on the server,
 // each figure with its check key.
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { NODE_SORTS, sortNodes, type NodeSort, type NodeTableRow } from "@/lib/siting";
 
 const ROW = 34, VIEW = 18, PAD = 12, FIRST = 40;
@@ -25,6 +25,7 @@ const TIPS: Record<NodeSort, string> = {
 // Session 711: a node's name opens its panel (the address's `node`, drawn by the server above the list).
 export function AllGridsNodes({ rows, pkey, datacenter, sort, dir, open }: { rows: NodeTableRow[]; pkey: string; datacenter: boolean; sort: NodeSort; dir: "asc" | "desc"; open: string | null }) {
   const router = useRouter();
+  const uid = useId();   // session 714: each heading's tip, reachable by the keyboard (app/tokens.css, ".tip")
   const pick = (id: string) => {
     const q = new URLSearchParams(window.location.search);
     if (open === id) q.delete("node"); else q.set("node", id);
@@ -58,19 +59,21 @@ export function AllGridsNodes({ rows, pkey, datacenter, sort, dir, open }: { row
         <div style={{ minWidth: 640 }}>
           <div className={`${cols} bg-accent py-1.5 text-sm text-white`} role="row">
             {NODE_SORTS.map((k) => (
-              <button key={k} type="button" role="columnheader" aria-sort={by === k ? (d === "asc" ? "ascending" : "descending") : "none"} title={TIPS[k]}
-                onClick={() => click(k)} className={`border-b border-dotted border-white/70 text-left ${k === "node" || k === "cls" ? "" : "text-right"}`} data-node-head={k}>
-                <span className="text-white">{HEADS[k]}{by === k ? (d === "asc" ? " (up)" : " (down)") : ""}</span>
-              </button>
+              <span key={k} className={`tip relative ${k === "node" || k === "cls" ? "text-left" : "text-right"}`} role="columnheader" aria-sort={by === k ? (d === "asc" ? "ascending" : "descending") : "none"}>
+                <button type="button" aria-describedby={`${uid}-${k}`} onClick={() => click(k)} className="border-b border-dotted border-white/70" data-node-head={k}>
+                  <span className="text-white">{HEADS[k]}{by === k ? (d === "asc" ? " (up)" : " (down)") : ""}</span>
+                </button>
+                <span role="tooltip" id={`${uid}-${k}`} className="absolute left-0 top-full z-20 hidden w-64 max-w-[80vw] whitespace-normal border border-rule bg-paper px-2 py-1.5 text-left text-xs font-normal leading-snug text-ink">{TIPS[k]} Press to sort by it; again to turn it round.</span>
+              </span>
             ))}
           </div>
           <div ref={box} className="relative overflow-y-auto border-b border-rule" style={{ height: Math.min(sorted.length, VIEW) * ROW }} onScroll={(e) => setTop(e.currentTarget.scrollTop)} data-node-list="1">
             <div style={{ height: sorted.length * ROW, position: "relative" }}>
               {sorted.slice(start, end).map((r, i) => (
                 <div key={r.id} className={`${cols} absolute left-0 right-0 border-b border-rule text-sm tabular-nums`} style={{ top: (start + i) * ROW, height: ROW }} data-allgrids-row={r.id}>
-                  <button type="button" onClick={() => pick(r.id)} aria-pressed={open === r.id} className={`truncate text-left underline decoration-dotted ${open === r.id ? "font-semibold" : ""}`} title={`${r.types ? `${r.node}: ERCOT's resource types ${r.types}. ` : ""}Open its panel`} data-node-open={r.id}>{r.node}</button>
+                  <button type="button" onClick={() => pick(r.id)} aria-pressed={open === r.id} className={`truncate text-left underline decoration-dotted ${open === r.id ? "font-semibold" : ""}`} aria-label={`${r.node}: open its panel${r.types ? `; ERCOT's resource types ${r.types}` : ""}`} data-node-open={r.id}>{r.node}</button>
                   <span className="text-xs">{r.cls}</span>
-                  <span className="text-right">{r.per === null ? <span className="cursor-help border-b border-dotted border-muted" title={r.why}>not held</span> : <span data-check={energyKey(r)} data-raw={String(r.per)}>{two(r.per)}</span>}</span>
+                  <span className="text-right">{r.per === null ? <span className="tip relative inline-block cursor-help border-b border-dotted border-muted" tabIndex={0}>not held<span role="tooltip" className="absolute right-0 top-full z-20 hidden w-64 max-w-[80vw] whitespace-normal border border-rule bg-paper px-2 py-1.5 text-left text-xs leading-snug text-ink">{r.why}</span></span> : <span data-check={energyKey(r)} data-raw={String(r.per)}>{two(r.per)}</span>}</span>
                   <span className="text-right">{r.basis === null ? "" : <span data-check={`allgrids|basis|${r.id}`} data-raw={String(r.basis)}>{two(r.basis)}</span>}</span>
                   <span className="text-right">{r.allin === null ? "" : <span data-check={`allgrids|allin|${r.id}|${pkey}`} data-raw={String(r.allin)}>{two(r.allin)}</span>}</span>
                   <span className="text-right text-xs">{r.days.toLocaleString("en-US")}{r.due ? ` of ${r.due}` : ""}</span>
