@@ -98,6 +98,7 @@ eia_heating_fuel_prices_weekly,EIA,the source registry
 eia_lng_exports_monthly,EIA,the source registry
 eia_meters_state_annual,EIA,the source registry
 eia_net_metering_state_annual,EIA,the source registry
+eia_ngl_production_monthly,EIA,the source registry
 eia_nuclear_outages_daily,EIA,the source registry
 eia_nuclear_outages_facility_daily,EIA,the source registry
 eia_nuclear_outages_generator_daily,EIA,the source registry

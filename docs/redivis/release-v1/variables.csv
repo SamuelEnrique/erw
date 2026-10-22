@@ -1857,6 +1857,8 @@ eia_lng_exports_monthly,export_volume,series variable,MMcf
 eia_meters_state_annual,meters,series variable,count
 eia_net_metering_state_annual,capacity,series variable,MW
 eia_net_metering_state_annual,customers,series variable,count
+eia_ngl_production_monthly,field_production,series variable,kbbl
+eia_ngl_production_monthly,field_production_per_day,series variable,kbbl/d
 eia_nuclear_outages_daily,capacity,series variable,MW
 eia_nuclear_outages_daily,outage,series variable,MW
 eia_nuclear_outages_daily,outage_share,series variable,ratio

@@ -303,6 +303,7 @@ catalogue_hold:
   - eia_padd_rail_barge_movements_monthly
   - eia_gas_trade_country_monthly
   - eia_gas_storage_capacity_monthly
+  - eia_ngl_production_monthly
   - eia_refinery_capacity_annual
   - eia_refinery_inputs_monthly
   - eia_refinery_production_monthly
