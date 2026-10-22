@@ -154,6 +154,7 @@
     "/research": 10,
     "/research/card/batteries_lunch_grids": 10,
     "/research/card/gas_sets_price": 6,
+    "/research/card/siting_battery_swing": 6,
     "/research/card/siting_flexible": 6,
     "/research/card/siting_gigawatt": 6,
     "/roundup": 0,

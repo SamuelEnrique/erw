@@ -24,7 +24,7 @@ ORDER = ['id="ask"', 'id="requests"', 'id="today"', 'id="week"', 'id="library"',
 GRIDS = [("ercot", "ERCOT"), ("caiso", "CAISO"), ("pjm", "PJM"), ("miso", "MISO"), ("spp", "SPP"), ("nyiso", "NYISO"), ("isone", "ISO-NE")]
 TOPICS = [("fuel-prices", r"fuel_spot"), ("curtailment", r"curtailment"), ("batteries", r"storage|battery"), ("generation", r"fuel_supply"),
           ("queue", r"queue|interconnection_durations"), ("demand", r"load|demand"), ("interchange", r"interchange"), ("events", r"^event_"), ("generators", r"eia860m"),
-          ("transmission", r"4cp|transmission"), ("power-prices", r"prices")]   # session 720: the two rules the All grids card needs
+          ("transmission", r"4cp|transmission"), ("power-prices", r"prices|node_basis")]   # session 773: node_basis_daily is a node's prices   # session 720: the two rules the All grids card needs
 FILES = ["site/app/research/page.tsx", "site/app/research/[week]/page.tsx", "site/app/research/card/[id]/page.tsx", "site/components/research/Library.tsx",
          "site/lib/research.ts", "site/lib/researchrules.ts", "site/components/echarts.ts", "site/components/analysis/FindingCard.tsx", "site/app/tokens.css",
          "site/lib/markdown.ts", "site/scripts/build-content.mjs", "site/scripts/check-analysis.mjs", "site/next.config.ts", "site/lib/release.ts", "site/lib/pages.ts",

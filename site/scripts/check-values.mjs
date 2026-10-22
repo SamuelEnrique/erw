@@ -121,6 +121,8 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/research/card/siting_gigawatt",
   // session 734 (chain 062): the second card, what stepping off saves
   "/research/card/siting_flexible",
+  // session 773 (chain 064): the third card, where a battery's day swings most
+  "/research/card/siting_battery_swing",
   // session 51: the seller's tab, its defaults and three other assets
   // session 347: the economic impact tool, its defaults and three other views (a size, cost, local content and life given)
   "/map?tab=queues", "/map?tab=queues&iso=ercot", "/map?tab=queues&iso=spp",  // session 349: the map's Queues tab (iso_queue_statistics)
