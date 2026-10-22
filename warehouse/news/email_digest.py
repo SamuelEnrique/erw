@@ -65,6 +65,7 @@ RAW = "https://raw.githubusercontent.com/SamuelEnrique/erw/main"  # images in th
 RESEND = "https://api.resend.com/emails"
 SITE_DEFAULT = "https://erw-flame.vercel.app"  # the deployed site README.md links; SITE_URL overrides it
 TOP_HEADS = ("## Top of the industry", "## The five stories of the week")
+ALSO_LABEL = "Also on this topic:"   # session 802: the line under an item for the stories folded under it (brief.ALSO_LABEL)
 NUM_HEADS = ("## ERW's Numbers Today", "## ERW's Numbers This Week", "## Numbers today", "## Numbers of the week")
 LINK = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
 IMAGE = re.compile(r"!\[([^\]]*)\]\(([^)]+)\)")
@@ -108,7 +109,7 @@ def numbered(lines, heads, n=5):
         if m:
             cur = {"head": m.group(1), "sector": (m.group(2) or "").strip(), "why": "", "src": None}
             items.append(cur)
-        elif cur is not None and ln.startswith("   ") and ln.strip():
+        elif cur is not None and ln.startswith("   ") and ln.strip() and not ln.strip().startswith(ALSO_LABEL):
             text = ln.strip()
             src = LINK.search(text.split("Sources:", 1)[1]) if "Sources:" in text else None
             cur["why"] = text.split("Sources:", 1)[0].strip()

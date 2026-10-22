@@ -394,9 +394,12 @@ def main(argv=None):
         # stories of the week from the clusters not shown under Weekend
         wk_start = start + pd.Timedelta(days=5)
         wk_s = s[pd.to_datetime(s["event_date"], utc=True, format="ISO8601") >= wk_start]
-        weekend = (brief.one_per_event(brief.not_shown_before(brief.build_clusters(wk_s), prev, log, "the previous Roundup"),
-                                       log).head(WEEKEND_N) if len(wk_s) else clusters.head(0))
-        top5 = clusters[~clusters["cluster_id"].isin(set(weekend["cluster_id"]))].head(5)
+        # session 802: one topic, one item, the rest folded under it, for the weekend's three and the five of the week
+        wk_c = (brief.one_per_event(brief.not_shown_before(brief.build_clusters(wk_s), prev, log, "the previous Roundup"), log)
+                if len(wk_s) else clusters.head(0))
+        weekend, wk_folded = brief.one_per_topic(wk_c, WEEKEND_N, log, "the weekend")
+        rest = clusters[~clusters["cluster_id"].isin(set(weekend["cluster_id"]) | wk_folded)]
+        top5, _ = brief.one_per_topic(rest, 5, log, "the five of the week")
         shown = pd.concat([weekend, top5]).drop_duplicates("cluster_id")
         if args.no_model:
             client, model = None, brief.NO_MODEL
@@ -425,15 +428,15 @@ def main(argv=None):
             L.append(f"- no scored story was published on {wk_start:%Y-%m-%d} or "
                      f"{wk_start + pd.Timedelta(days=1):%Y-%m-%d} (UTC).")
         for i, r in enumerate(weekend.to_dict("records"), 1):
-            L.append(f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')}, {r['n']} "
-                     f"{'story' if r['n'] == 1 else 'stories'})  ")
-            L.append(f"   {brief.why_line(r['why'], heads[r['cluster_id']])} Sources: {link_text(r['links'])}")  # 470: plain; 577: why_line; 801: the headline
+            L += brief.item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')}, {r['n']} "
+                                  f"{'story' if r['n'] == 1 else 'stories'})  ",
+                                  brief.why_line(r['why'], heads[r['cluster_id']]), f"Sources: {link_text(r['links'])}")  # 470, 577, 801, 802
         L += ["", "## The five stories of the week", ""]
         for i, r in enumerate(top5.to_dict("records"), 1):
             # session 21, ruling 4: the sector label, never the significance score
-            L.append(f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')}, {r['n']} "
-                     f"{'story' if r['n'] == 1 else 'stories'})  ")
-            L.append(f"   {brief.why_line(r['why'], heads[r['cluster_id']])} Sources: {link_text(r['links'])}")
+            L += brief.item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')}, {r['n']} "
+                                  f"{'story' if r['n'] == 1 else 'stories'})  ",
+                                  brief.why_line(r['why'], heads[r['cluster_id']]), f"Sources: {link_text(r['links'])}")
 
         L += ["", "## Deals of the week", ""]
         deals = read_table("energy_deals")

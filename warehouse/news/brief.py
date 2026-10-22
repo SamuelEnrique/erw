@@ -317,6 +317,13 @@ def unique_items(sections, heads, log):
                 continue
             seen_h.add(h)
             seen_u.update(urls)
+            # session 802: a folded story at an address shown already is dropped from the item's "also" line
+            for x in list(also_of(r)):
+                if {u for _, u in x["links"]} & seen_u:
+                    log(f"  dropped a folded repeat under {r['cluster_id']}: {x['title'][:80]!r} ({x['cluster_id']})")
+                    r["also"].remove(x)
+                else:
+                    seen_u.update(u for _, u in x["links"])
             kept.append(r)
             keep.append(r["cluster_id"])
         out[name] = df[df["cluster_id"].isin(keep)]
@@ -332,7 +339,7 @@ def assert_unique(lines):
         if m and not ln.startswith("- no "):  # "- no scored story in this group today" is not an item
             heads.append(norm_headline(m.group(1) or m.group(2)))
             urls += re.findall(r"\]\((https?://[^)]+)\)", ln)
-        elif ln.startswith("   ") and "Sources:" in ln:
+        elif ln.startswith("   ") and ("Sources:" in ln or ln.strip().startswith(ALSO_LABEL)):  # 802: the also line too
             urls += re.findall(r"\]\((https?://[^)]+)\)", ln)
     dh = sorted({h for h in heads if heads.count(h) > 1})
     du = sorted({u for u in urls if urls.count(u) > 1})
@@ -374,8 +381,9 @@ def drop_repeated_items(lines, log):
         ln = lines[i]
         m = item.match(ln)
         block = [ln]
-        if m and m.group(1) and i + 1 < len(lines) and lines[i + 1].startswith("   ") and "Sources:" in lines[i + 1]:
-            block.append(lines[i + 1])
+        if m and m.group(1):   # session 802: the why line and, after it, the "also" line
+            while i + len(block) < len(lines) and lines[i + len(block)].startswith("   "):
+                block.append(lines[i + len(block)])
         i += len(block)
         if not m or ln.startswith("- no "):
             out += block
@@ -863,7 +871,11 @@ def issue_items(paths):
             m = ITEM_RE.match(ln)
             if not m or ln.startswith("- no ") or "policy action)" in ln:
                 continue
-            block = ln + (" " + lines[i + 1] if m.group(1) and i + 1 < len(lines) and lines[i + 1].startswith("   ") else "")
+            block = ln
+            if m.group(1):   # session 802: every indented line of the item, the "also" line included
+                for nxt in lines[i + 1:i + 3]:
+                    if nxt.startswith("   "):
+                        block += " " + nxt
             out.append({"head": title_words(m.group(1) or m.group(2)), "words": set(re.findall(r"[a-z]{4,}", block.lower())),
                         "figs": event_figures({"why": block, "mw": "", "price": ""}), "urls": set(LINK_RE.findall(block))})
     return out
@@ -920,14 +932,84 @@ def one_per_event(clusters, log):
 
 AI_MIN_SIG = 5  # session 470 (digest audit fix 16): the AI section takes no story the scorer called commentary (under 5)
 
+# Session 802 (docs/reviews/periodicals-plan-2026-10-23.md, Digest change 2): one topic, one item, the rest below. Seven of
+# the 13 issues held three or more top-ten items of one sector (five on oil on 12 October, five on datacenter power on 13
+# October), and a reader took the Digest for a letter on that one topic. A topic is the scorer's sector tag; two clusters
+# of different sectors are one topic when they name a party in common and their lead titles share TOPIC_WORDS content
+# words (the strike on Aramco's headquarters under oil, the Houthi attacks under geopolitics). At most ALSO_MAX stories
+# fold under an item: an item with three "also" lines still reads in a breath, and a topic that fills more than that is
+# in "By sector" below, so no story is lost (session 470's rule of fix 3).
+TOPIC_WORDS = 2
+ALSO_MAX = 3
+ALSO_LABEL = "Also on this topic:"
+
+
+def same_topic(a, b):
+    """Two clusters are one topic: one sector, or a party in common and TOPIC_WORDS or more content words shared by their
+    lead titles."""
+    if a.get("sector") == b.get("sector"):
+        return True
+    if not party_words(a) & party_words(b):
+        return False
+    return len(title_words((a.get("titles") or [""])[0]) & title_words((b.get("titles") or [""])[0])) >= TOPIC_WORDS
+
+
+def also_of(r):
+    """The stories folded under a record (its `also` column), [] where there are none."""
+    v = r.get("also") if isinstance(r, dict) else None
+    return v if isinstance(v, list) else []
+
+
+def one_per_topic(clusters, n, log, what="the top ten"):
+    """Session 802: the first n clusters in rank with at most one item a topic. A later cluster of a topic already among
+    the n, met before the n are filled, folds under that item (up to ALSO_MAX, in the item's `also` column: its lead
+    title, sector, links, cluster id); past ALSO_MAX it is left for the sections below. Clusters met after the n are
+    filled are left as they are. Returns (the n as a frame with an `also` column, the folded cluster ids)."""
+    top, folded = [], set()
+    for r in clusters.to_dict("records"):
+        if len(top) >= n:
+            break
+        twin = next((k for k in top if same_topic(k, r)), None)
+        if twin is None:
+            top.append(dict(r, also=[]))
+            continue
+        if len(twin["also"]) >= ALSO_MAX:
+            log(f"  {what}: left for the sections below, the topic of {twin['cluster_id']} is full: "
+                f"{str((r.get('titles') or [''])[0])[:80]!r} ({r['cluster_id']})")
+            continue
+        twin["also"].append({"cluster_id": r["cluster_id"], "title": str((r.get("titles") or [""])[0]), "sector": r.get("sector"),
+                             "links": list(r.get("links") or [])[:1], "parties": r.get("parties", "")})
+        folded.add(r["cluster_id"])
+        log(f"  {what}: folded under {twin['cluster_id']} (one topic, {r.get('sector')}): "
+            f"{str((r.get('titles') or [''])[0])[:80]!r} ({r['cluster_id']})")
+    out = pd.DataFrame(top, columns=list(clusters.columns) + ["also"]) if top else clusters.head(0).assign(also=None)
+    return out.reset_index(drop=True), folded
+
+
+def also_line(recs):
+    """The line under an item for the stories folded under it: each its publisher's own title and its first outlet."""
+    parts = [f"{nodash(x['title']).strip().rstrip('.')} ({link_text(x['links'])})" if x.get("links") else nodash(x["title"]).strip()
+             for x in recs]
+    return f"{ALSO_LABEL} " + "; ".join(parts) + "."
+
+
+def item_lines(r, head, why, sources):
+    """A top item's lines: the headline, the why line with its figures and sources, and the "also" line when the item
+    carries folded stories (the line before it ends with two spaces, markdown's line break)."""
+    L = [f"{head}", f"   {why} {sources}"]
+    if also_of(r):
+        L[-1] += "  "
+        L.append("   " + also_line(also_of(r)))
+    return L
+
 
 def select(clusters, digest_date, log, folder=None):
     """The issue's sections: (top 10, {group: clusters}, AI and power). Session 21, ruling 5: each cluster appears once;
     a section takes only clusters not shown above it. Session 470: a story an issue of the last seven days printed is
     left out first (not_shown_before), and the AI section takes significance 5 or more."""
     clusters = one_per_event(not_shown_before(clusters, earlier_issues(digest_date, folder=folder), log), log)
-    top10 = clusters.head(10)
-    used = set(top10["cluster_id"])
+    top10, folded = one_per_topic(clusters, 10, log)   # session 802: one topic, one item, the rest folded under it
+    used = set(top10["cluster_id"]) | folded
     by_group = {}
     for g, secs in GROUPS.items():
         by_group[g] = clusters[clusters["sector"].isin(secs) & ~clusters["cluster_id"].isin(used)].head(3)
@@ -1009,9 +1091,9 @@ def main(argv=None):
              *([NO_MODEL_LINE, ""] if args.no_model else []),
              "## Top of the industry", ""]
         for i, r in enumerate(top10.to_dict("records"), 1):
-            L.append(f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')})  ")
-            L.append(f"   {why_line(r['why'], heads[r['cluster_id']])} {detail(r, heads[r['cluster_id']])}Sources: "
-                     f"{link_text(r['links'])}")
+            L += item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')})  ",
+                            why_line(r['why'], heads[r['cluster_id']]) + " " + detail(r, heads[r['cluster_id']]),
+                            f"Sources: {link_text(r['links'])}")
         L += ["", "## By sector", ""]
         for g, c in by_group.items():
             L.append(f"**{g}**")
