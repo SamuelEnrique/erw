@@ -301,6 +301,7 @@ catalogue_hold:
   - eia930_subba_demand_hourly_2024
   - eia930_subba_demand_hourly_2023
   - eia930_subba_demand_hourly_2022
+  - eia930_subba_demand_hourly_2021
   - eia_crude_imports_detail_monthly
   - eia_padd_rail_barge_movements_monthly
   - eia_gas_trade_country_monthly
