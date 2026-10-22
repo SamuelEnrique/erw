@@ -214,3 +214,29 @@ Each fix names the file it lives in and the test that would prove it. None was m
 ## 14. Requests made in this session
 
 250 requests, all logged in `runs/chain_oct21_third/s442/links.csv`: 24 `robots.txt` files and 226 requests of the issues' own source addresses (203 HEAD, 23 GET whose body was not read). 67 reads of the ERW's own Supabase live set for the trace. No data pull from any publisher; no model call.
+
+## State on 22 October
+
+Written by session 577 (`archive/sessions/SESSION_577_REPORT.md`), from session 470's report and the branches since. "On main" means the commit is an ancestor of `origin/main` at 00:00 UTC on 22 October.
+
+| Rank | Fix | State | Where |
+|---|---|---|---|
+| 1 | Held prices: the license file read before any number | waiting: Samuel's ruling (whether a held ISO price prints at all, and the email while `news_index` is held; session 505's check-holds also names the real-time line) | |
+| 2 | The window opens at the previous issue's end | waiting: Samuel's ruling (it changes what a Monday covers) | |
+| 3 | Never lose an issue to a repeat | landed | session 470, `63dcc2e3`, on main; `tests/test_session470.py` `NoIssueLostToARepeat` |
+| 4 | No earlier issue's story again | landed | session 470, `63dcc2e3`, on main; `NotTheDayBeforeAgain`, `TheNamedDays` |
+| 5 | One event, one item | landed, in the selection (`brief.same_event`, `one_per_event`), not in `score.py` | session 470, `63dcc2e3`, on main; `OneEventOneItem` |
+| 6 | No AI tie-break | waiting: Samuel's ruling | |
+| 7 | Google News links | landed in its no-ruling form: "(via Google News)" beside the link; the outlet's own address cannot be had (the ingest's resolver fails on 18,976 of 18,981) | session 470, `63dcc2e3`, `239e78cf`, on main; `Wording`, `TheEmail` |
+| 8 | Why lines in the voice; a stop before the figures | landed: the adjectives by session 470 (`brief.plain`); the stop by session 577 (`brief.why_line`, every why line of the Digest and the Roundup). "signals" and "boom" stay (470: a verb and a noun) | 470 `63dcc2e3`, on main; 577 `wip/577-s`; `tests/test_session577.py` `AStopBeforeTheFigures` |
+| 9 | One money style | landed: `detail()` by session 470; the why lines by session 577 (`why_line` calls `money_style`, the article follows the code: "a USD 800 million loan") | 470 on main; 577 `wip/577-s`; `OneMoneyStyleInTheWhyLines` |
+| 10 | The chart of the day: caveat, floor, ruled drafts | open, not in `brief.py` but `warehouse/analysis/findings/daily_chart.py`: the caveat needs a source for "EIA's newest state month is preliminary" (none in the repository; `eia861m_sales` carries EIA's own status field for its table only); the floor is a number (Samuel's); the three drafts were ruled by a check, not a person (Samuel's) | |
+| 11 | The fun fact: no deaths or disasters; a pun that states a fact needs a source | the first half landed (session 470, `a8afc37c`, on main; `funfact.GRAVE`); the pun half waits for a ruling (session 577's report: a rule by pattern would also refuse 2 of the bank's other 8 puns) | |
+| 12 | The real-time price named; MISO's pause said | landed | session 470, `63dcc2e3`, on main; `Wording` |
+| 13 | The archive lists a missed weekday | landed | session 402, on main (`site/lib/markdown.ts`) |
+| 14 | The schedule line | landed | session 402, on main (`site/app/about/page.tsx`, `site/app/digest/page.tsx`) |
+| 15 | Two minutes | waiting: Samuel's ruling (which sections stay) | |
+| 16 | The AI section at significance 5 or more | landed | session 470, `brief.AI_MIN_SIG`, on main; `TheAISection` |
+| 17 | The email links no page in review | landed | session 470, `239e78cf`, on main; `TheEmail` |
+
+Beside the ranked fixes: the method on `/about#digest` says what the brief does since session 470 (session 532, on main); every number of the 13 issues on main traces (session 498's `scripts/check_digest.py`, 131 of 131, on `wip/506-combined`, landing with chain 023).
