@@ -15,7 +15,8 @@ def src(*parts):
 class Path(unittest.TestCase):
     def test_the_walk_is_written(self):
         p = src("docs", "reviews", "siting-path.md")
-        self.assertEqual(p.count("\n| "), 11 + 0)   # the header row and ten steps (the separator starts with "|---")
+        first = p.split("\n## Walked again")[0]   # session 727 (chain 062) walked it again, in a section of its own
+        self.assertEqual(first.count("\n| "), 11 + 0)   # the header row and ten steps (the separator starts with "|---")
         for q in range(1, 11):
             self.assertIn(f"\n{q}. **", p)
         self.assertIn("deep-research-report.md", p)
