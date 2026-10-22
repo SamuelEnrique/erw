@@ -3,7 +3,7 @@ import { Num } from "@/components/Num";
 import { InlineSpark } from "@/components/InlineSpark";
 import { InputPanel } from "@/components/tool/ToolPage";
 import type { ReactNode } from "react";
-import { CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, columnValue, nodeTable, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
+import { zoneGrowth, SERVICE_WORDS, UTILITY_KINDS_LINE, utilityKind, nodeShortMonths, shortMonthsWords, CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, columnValue, nodeTable, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
 import { CP, NODES, SITING_DC, SITING_FILES } from "@/lib/sitingdata";
 import { AllGridsForm } from "./AllGridsForm";
 import { AllGridsNodes } from "./AllGridsNodes";
@@ -193,6 +193,11 @@ function HeadroomTd({ r }: { r: Row }) {
             tip={`${GRID_NAMES[r.grid]}'s mean demand (EIA-930, ${g.ba}), ${monthWords(g.from)} to ${monthWords(g.to)}, ${Math.round(g.mw).toLocaleString("en-US")} MW, against the twelve months before, ${Math.round(g.before).toLocaleString("en-US")} MW: each month's mean weighted by its hours (eia930_demand_growth, "Your load"'s file data/demand_growth.json). The grid's own balancing authority, not the row's zone: sub-region demand is not in the tab's files. Weather is not removed.`}>
             {g.pct > 0 ? "+" : ""}<Num check={`allgrids|demand|${r.id}`} raw={g.pct}>{two(g.pct)}</Num></Tp> %</span>
         : <Words words="not held" why={g.why} />}
+      {/* session 728: the zone's own growth, where EIA-930 names the zone (NYISO's and ISO-NE's) */}
+      {(() => {
+        const z = zoneGrowth(h, r);
+        return z ? <span className="block text-xs" data-headroom-zone="1">zone <Tp dotted={false} tip={`${z.name}: its mean hourly demand in ${z.year}, ${Math.round(z.mean_mw).toLocaleString("en-US")} MW over the ${z.hours.toLocaleString("en-US")} hours EIA-930 gives, against ${z.prior}, ${Math.round(z.prior_mean_mw).toLocaleString("en-US")} MW over ${z.prior_hours.toLocaleString("en-US")} hours (eia930_subba_demand_hourly_${z.year} and _${z.prior}, sub-region ${z.subba}). A calendar year over the one before, so not the grid's window above it: the first half of ${z.year + 1} is not held by sub-region.`}>{z.pct > 0 ? "+" : ""}<Num check={`allgrids|zonegrowth|${r.id}`} raw={z.pct}>{two(z.pct)}</Num></Tp> % in {z.year}</span> : null;
+      })()}
       <span className="block text-xs" data-headroom-planned="1">
         {pl && h ? <Tp dotted={false} tip={`Generators under construction (EIA-860M status U, V or TS) in ${GRID_NAMES[r.grid]} due to operate from ${h.from} to ${h.to}, the twelve months after the table's vintage (${h.vintage}): ${pl.construction_n} generators. Approvals received, not under construction: ${Math.round(pl.approved_mw).toLocaleString("en-US")} MW; planned, approvals pending or not started: ${Math.round(pl.other_mw).toLocaleString("en-US")} MW. EIA-860M records no interconnection agreement; construction is the nearest it states (eia860m_planned_generators).`}><Num check={`allgrids|planned|${r.id}`} raw={pl.construction_mw}>{Math.round(pl.construction_mw).toLocaleString("en-US")}</Num> MW coming</Tp> : <Words words="no plan held" why={`No planned generator of ${GRID_NAMES[r.grid]} is in eia860m_planned_generators.`} />}
         {"pct" in c ? <>, <Tp dotted={false} tip={c.table === "grid_peak_vs_capacity"
@@ -232,7 +237,7 @@ function UtilityTd({ r }: { r: Row }) {
   return (
     <span className="inline-block text-right">
       <Tp tip={tip} className="block max-w-[11rem] text-xs" dotted={false} data={{ "util-name": "1" }}><span className="block truncate">{u.utility}</span></Tp>
-      <span className="whitespace-nowrap"><Fig check={`allgrids|utilrev|${r.id}`} v={c.rev} tip={tip} /></span>
+      <span className="whitespace-nowrap"><Fig check={`allgrids|utilrev|${r.id}`} v={c.rev} tip={tip} />{SERVICE_WORDS[u.service] ? <span className="ml-1 text-xs" data-util-kind={u.service}>{SERVICE_WORDS[u.service]}</span> : null}</span>
       {c.growth !== null ? <span className="block text-xs" data-util-growth="1"><Tp dotted={false} tip={`Industrial sales ${c.year} over ${c.prior}: ${Math.round(u.sales_mwh).toLocaleString("en-US")} against ${Math.round(u.sales_prior_mwh ?? 0).toLocaleString("en-US")} MWh.`}>{c.growth > 0 ? "+" : ""}<Num check={`allgrids|utilgrowth|${r.id}`} raw={c.growth}>{two(c.growth)}</Num></Tp> %</span> : null}
     </span>
   );
@@ -251,7 +256,7 @@ function CountyUtilityTd({ r, c }: { r: Row; c: Extract<ReturnType<typeof utilit
   return (
     <span className="inline-block text-right">
       <Tp tip={tip} className="block max-w-[11rem] text-xs" dotted={false} data={{ "util-name": "1" }}><span className="block truncate">{u?.utility ?? cu.utilities[0]?.name ?? cu.county}{others.length ? ` and ${others.length} more` : ""}</span></Tp>
-      {u && c.rev !== null ? <span className="whitespace-nowrap"><Fig check={`allgrids|utilrev|${r.id}`} v={c.rev} tip={tip} /></span> : <Words words="no sales row" why={tip} />}
+      {u && c.rev !== null ? <span className="whitespace-nowrap"><Fig check={`allgrids|utilrev|${r.id}`} v={c.rev} tip={tip} />{SERVICE_WORDS[u.service] ? <span className="ml-1 text-xs" data-util-kind={u.service}>{SERVICE_WORDS[u.service]}</span> : null}</span> : <Words words="no sales row" why={tip} />}
       {u && c.growth !== null ? <span className="block text-xs" data-util-growth="1"><Tp dotted={false} tip={`Industrial sales ${c.year} over ${c.prior}: ${Math.round(u.sales_mwh).toLocaleString("en-US")} against ${Math.round(u.sales_prior_mwh ?? 0).toLocaleString("en-US")} MWh.`}>{c.growth > 0 ? "+" : ""}<Num check={`allgrids|utilgrowth|${r.id}`} raw={c.growth}>{two(c.growth)}</Num></Tp> %</span> : null}
     </span>
   );
@@ -307,11 +312,16 @@ function AbPanel({ x }: { x: SitingInputs }) {
   const cell = (r: Row | undefined, c: (typeof COLUMNS)[number]) => {
     if (!r) return "";
     const v = columnValue(SITING_DC, SITING_FILES, r, x, c.id);
-    return v === null ? <Words words="not held" why="Not held for this row, or held under a license and drawn in its column as such: see the row in the table." /> : <Num check={`allgrids|col|${c.id}|${r.id}|${k}`} raw={v}>{two(v)}</Num>;
+    if (v === null) return <Words words="not held" why="Not held for this row, or held under a license and drawn in its column as such: see the row in the table." />;
+    const kind = c.id === "utility" ? SERVICE_WORDS[utilityKind(SITING_FILES, r) ?? ""] : "";
+    return <><Num check={`allgrids|col|${c.id}|${r.id}|${k}`} raw={v}>{two(v)}</Num>{kind ? <span className="ml-1 text-xs" data-util-kind="1">{kind}</span> : null}</>;
   };
   const diff = (c: (typeof COLUMNS)[number]) => {
     if (!ra || !rb) return "";
     const va = columnValue(SITING_DC, SITING_FILES, ra, x, c.id), vb = columnValue(SITING_DC, SITING_FILES, rb, x, c.id);
+    // session 726: the utility line subtracts only like from like (bundled, delivery only, energy only)
+    if (c.id === "utility" && va !== null && vb !== null && utilityKind(SITING_FILES, ra) !== utilityKind(SITING_FILES, rb))
+      return <Words words="not alike" why={`A's figure is ${SERVICE_WORDS[utilityKind(SITING_FILES, ra) ?? ""] || "bundled"} and B's ${SERVICE_WORDS[utilityKind(SITING_FILES, rb) ?? ""] || "bundled"}: ${UTILITY_KINDS_LINE}`} />;
     return va === null || vb === null ? "" : <>{vb - va > 0 ? "+" : ""}<Num check={`allgrids|diff|${c.id}|${ra.id}|${rb.id}|${k}`} raw={vb - va}>{two(vb - va)}</Num></>;
   };
   const year = (r: Row | undefined) => (r ? yearOf(SITING_DC, SITING_FILES, r, x) : null);
@@ -357,14 +367,17 @@ function Headline({ x }: { x: SitingInputs }) {
 /** Session 711: a node's panel: its basis to the hub over the year (the 10th, 50th and 90th percentile of its days, and
  * each month's mean in the shared chart), its four-peak exposure, and what is not held about its place (county, planned
  * generation near it, transmission projects). */
-function NodePanel({ id }: { id: string }) {
+function NodePanel({ id, x }: { id: string; x: SitingInputs }) {
   const n = NODES.nodes.find((k) => `ercot:${k.id}` === id);
   if (!n) return null;
   const months = Object.entries(n.dam_basis ?? {}).sort(([a], [b]) => a.localeCompare(b));
   const close = `?${new URLSearchParams({ view: "allgrids", rows: "nodes" }).toString()}`;
   return (
     <section className="mb-4 border border-rule bg-paper px-4 py-3 text-sm" aria-label={`Node ${n.id}`} data-node-panel={id}>
-      <h3 className="font-serif text-lg">{n.id} <span className="text-sm">({n.cls}{n.types ? `, ERCOT's resource types ${n.types}` : ""})</span> <a href={`/cost-of-power${close}`} className="ml-2 text-xs underline">Close</a></h3>
+      <h3 className="font-serif text-lg">{n.id} <span className="text-sm">({n.cls}{n.types ? `, ERCOT's resource types ${n.types}` : ""})</span> <a href={`/cost-of-power${close}`} className="ml-2 text-xs underline">Close</a>
+        {/* session 724: a node as A or B of the hub table's panel, from the page (the trader's walk, step 8) */}
+        <a href={sitingHref(x, { rows: "hubs", a: id })} className="ml-3 text-xs underline" data-node-set="a">Set as A</a>
+        <a href={sitingHref(x, { rows: "hubs", b: id })} className="ml-2 text-xs underline" data-node-set="b">Set as B</a></h3>
       {n.pct ? (
         <p className="mt-1">
           Its daily day-ahead basis to {NODE_HUB}, {NODES.pct_from} to {NODES.pct_to} ({n.pct[3]} days held, node_basis_daily): one day in ten at or below USD{" "}
@@ -398,7 +411,9 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
     <div className="grid gap-8 lg:grid-cols-[290px_minmax(0,1fr)]" data-no-usage="1" data-allgrids="1">
       <aside>
         <InputPanel title="Your load">
-          <AllGridsForm x={x} rows={hubs.map((r) => ({ id: r.id, label: `${GRID_NAMES[r.grid]} ${r.label}` }))} />
+          <AllGridsForm x={x} rows={[...hubs.map((r) => ({ id: r.id, label: `${GRID_NAMES[r.grid]} ${r.label}` })),
+            // session 724: a node set as A or B stays in the lists, so Show keeps it
+            ...[...new Set([x.a, x.b])].filter((v): v is string => !!v && nodes.some((r) => r.id === v)).map((v) => ({ id: v, label: `ERCOT ${v.split(":")[1]} (node)` }))]} />
         </InputPanel>
       </aside>
       <div className="min-w-0">
@@ -414,13 +429,18 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
           <p className="mb-2 text-sm" role="status" data-allgrids-sort={`${x.sort}|${x.dir}`}>
             Sorted by {SORT_WORDS[x.sort]}{x.sort === "name" ? (x.dir === "asc" ? ", A to Z" : ", Z to A") : x.dir === "desc" ? ", largest first; a row with no figure, or one held under a license, last" : ", smallest first; a row with no figure, or one held under a license, last"}.
             {" "}{shown.length} of {hubs.length} rows shown{x.grids.length ? `, in ${x.grids.map((g) => GRID_NAMES[g]).join(", ")}` : ""}{x.kind !== "all" ? `, ${x.kind === "zone" ? "load zones" : "hubs"} only` : ""}{x.band ? `, energy from USD ${x.band[0]} to ${x.band[1]} per MWh` : ""}{x.held ? ", every cost part held" : ""}. The order is the column&apos;s, not a ranking of sites.
+          {x.sort === "utility" ? <> {UTILITY_KINDS_LINE}</> : null}
           </p>
         ) : null}
         {x.rows === "nodes" ? (
           <>
             <NodeShared x={x} />
-            {q.node ? <NodePanel id={q.node} /> : null}
+            {q.node ? <NodePanel id={q.node} x={x} /> : null}
             <AllGridsNodes rows={nodeTable(SITING_DC, SITING_FILES, x)} pkey={profileKey(x)} datacenter={x.profile === "datacenter"} open={q.node ?? null}
+              short={shortMonthsWords(nodeShortMonths(NODES))} find={q.nq ?? ""}
+              csvHead={[`Energy Research Warehouse (ERW): the ERCOT nodes of the All grids tab of /cost-of-power ("What a datacenter pays"), ${sitingHref(x, { rows: "nodes" })}`,
+                `${/^[aeiou]/i.test(p.label) ? "An" : "A"} ${p.label.toLowerCase()} load of ${x.mw} MW at a load factor of ${x.lf.toFixed(2)}; energy is ${NODE_HUB}'s day-ahead price over its twelve whole months plus the node's mean daily basis (node_basis_daily, ${NODES.first} to ${NODES.last}); USD per MWh`,
+                "Method: docs/methods/siting.md. Downloaded from the page: the rows shown, in the page's own figures."]}
               sort={(NODE_SORTS as readonly string[]).includes(q.nsort ?? "") ? (q.nsort as NodeSort) : "node"} dir={q.ndir === "desc" ? "desc" : "asc"} />
           </>
         ) : (

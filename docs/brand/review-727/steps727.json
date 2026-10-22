@@ -1,0 +1,13 @@
+[
+  { "name": "q01_allin_cheapest", "path": "/cost-of-power?view=allgrids&mw=1000&sort=allin&dir=asc" },
+  { "name": "q02_ab", "path": "/cost-of-power?view=allgrids&mw=1000&sort=allin&dir=asc&a=ercot%3AHB_WEST&b=ercot%3ALZ_NORTH" },
+  { "name": "q03_connect", "path": "/cost-of-power?view=allgrids&mw=1000&sort=connect&dir=asc" },
+  { "name": "q04_headroom", "path": "/cost-of-power?view=allgrids&mw=1000&sort=headroom" },
+  { "name": "q05_carbon_electrolyzer", "path": "/cost-of-power?view=allgrids&mw=1000&profile=electrolyzer&sort=carbon&dir=asc" },
+  { "name": "q06_flexible", "path": "/cost-of-power?view=allgrids&mw=1000&profile=flexible&sort=allin&dir=asc" },
+  { "name": "q07_nodes_cheapest", "path": "/cost-of-power?view=allgrids&mw=1000&rows=nodes&nsort=energy&ndir=asc" },
+  { "name": "q07b_node_panel", "path": "/cost-of-power?view=allgrids&mw=1000&rows=nodes&nsort=energy&ndir=asc&node=ercot%3ABBREEZE_1_2" },
+  { "name": "q08_utility", "path": "/cost-of-power?view=allgrids&mw=1000&sort=utility&dir=asc" },
+  { "name": "q09_gaps", "path": "/internal/siting-gaps" },
+  { "name": "q10_ab_again", "path": "/cost-of-power?view=allgrids&mw=1000&sort=allin&dir=asc&a=ercot%3AHB_WEST&b=ercot%3ALZ_NORTH" }
+]

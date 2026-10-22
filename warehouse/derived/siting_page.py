@@ -261,6 +261,52 @@ def peak_capacity(path):
     return out
 
 
+SUBBA_TABLE = "eia930_subba_demand_hourly"
+# session 728 (chain 062): the tab's rows whose zone EIA-930 names as a sub-region, by the sub-region's own name. NYISO's
+# eleven zones (ZONA West to ZONK Long Island) and ISO-NE's eight load zones (4001 Maine to 4008 Northeast Mass.) are the
+# same areas under two names. ERCOT's sub-regions are its weather zones, not its load zones, and CAISO's are utilities,
+# not trading hubs: those rows keep their grid's figure.
+SUBBA_ROW = {
+    "nyiso:WEST": "NYIS:ZONA", "nyiso:GENESE": "NYIS:ZONB", "nyiso:CENTRL": "NYIS:ZONC", "nyiso:NORTH": "NYIS:ZOND",
+    "nyiso:MHK VL": "NYIS:ZONE", "nyiso:CAPITL": "NYIS:ZONF", "nyiso:HUD VL": "NYIS:ZONG", "nyiso:MILLWD": "NYIS:ZONH",
+    "nyiso:DUNWOD": "NYIS:ZONI", "nyiso:N.Y.C.": "NYIS:ZONJ", "nyiso:LONGIL": "NYIS:ZONK",
+    "isone:.Z.MAINE": "ISNE:4001", "isone:.Z.NEWHAMPSHIRE": "ISNE:4002", "isone:.Z.VERMONT": "ISNE:4003",
+    "isone:.Z.CONNECTICUT": "ISNE:4004", "isone:.Z.RHODEISLAND": "ISNE:4005", "isone:.Z.SEMASS": "ISNE:4006",
+    "isone:.Z.WCMASS": "ISNE:4007", "isone:.Z.NEMASSBOST": "ISNE:4008",
+}
+
+
+def zone_growth(dirs, first):
+    """headroom.json's `zones` (session 728): for each row of SUBBA_ROW, its sub-region's mean hourly demand in the newest
+    whole year a yearly table holds against the year before, over the hours each year holds (EIA gives some hours
+    blank; nothing is filled). The live table (90 days) is not a year, so the yearly tables are read."""
+    years = sorted(int(n[len(SUBBA_TABLE) + 1:-4]) for d in [*dirs, OUTPUT] if os.path.isdir(d)
+                   for n in os.listdir(d) if n.startswith(SUBBA_TABLE + "_") and n.endswith(".csv") and n[len(SUBBA_TABLE) + 1:-4].isdigit())
+    years = sorted(set(years))
+    if len(years) < 2 or years[-1] - 1 not in years:
+        raise FileNotFoundError(f"two consecutive years of {SUBBA_TABLE}_<year> are not on this machine")
+    y, p = years[-1], years[-1] - 1
+    want = {f"eia930_subba:{v}" for v in SUBBA_ROW.values()}
+    means = {}
+    for yr in (y, p):
+        path = find(f"{SUBBA_TABLE}_{yr}", dirs, first)
+        d = pd.read_csv(path, skiprows=header_rows(path), dtype=str, usecols=["entity", "variable", "value", "node"])
+        d = d[(d["variable"] == "demand_mw") & d["entity"].isin(want)].copy()
+        d["v"] = pd.to_numeric(d["value"], errors="coerce")
+        d = d.dropna(subset=["v"])
+        g = d.groupby("entity").agg(mean=("v", "mean"), hours=("v", "size"), name=("node", "first"))
+        means[yr] = g
+    out = {}
+    for row, sub in SUBBA_ROW.items():
+        e = f"eia930_subba:{sub}"
+        if e in means[y].index and e in means[p].index and means[p].loc[e, "mean"] > 0:
+            a, b = means[y].loc[e], means[p].loc[e]
+            out[row] = {"subba": sub, "name": str(a["name"]), "year": y, "prior": p, "mean_mw": round(float(a["mean"]), 2),
+                        "prior_mean_mw": round(float(b["mean"]), 2), "hours": int(a["hours"]), "prior_hours": int(b["hours"]),
+                        "pct": round(100 * (float(a["mean"]) / float(b["mean"]) - 1), 4)}
+    return {"table": SUBBA_TABLE, "year": y, "prior": p, "rows": out}
+
+
 def headroom_file(ppath, cpath):
     """headroom.json's content (session 706)."""
     with open(ppath, encoding="utf-8") as fh:
@@ -450,6 +496,33 @@ def facilities_file(spath, tpath):
             "year": year, "state_share": STATE_SHARE, "states": states, "counties": counties, "county_rows": rows}
 
 
+TARIFF_TABLE = "utility_large_load_tariffs"
+
+
+def tariffs_file(path):
+    """tariffs.json's content (session 730, chain 062), when the data machine's table has landed: each utility's (EIA
+    id) large-load rates as warehouse/connectors/openei_large_load_tariffs.py documents them, one series row a rate and
+    a variable (energy_charge USD/MWh, demand_charge USD/kW-month, fixed_charge USD a month, min_demand_mw MW), keyed by
+    the rate (entity) and its start (ts_utc). NOT WIRED into the tab: the table had not landed when this was written.
+    Its license is the table's own; a table held under a license is never written to the site's files."""
+    d = pd.read_csv(path, skiprows=header_rows(path), dtype=str)
+    need = {"entity", "variable", "ts_utc", "value", "x_eia_id", "x_utility", "x_sector"}
+    if not need <= set(d.columns):
+        raise ValueError(f"{TARIFF_TABLE} lacks {sorted(need - set(d.columns))}")
+    d["v"] = pd.to_numeric(d["value"], errors="coerce")
+    rates = {}
+    for (ent, start), g in d.groupby(["entity", "ts_utc"]):
+        v = {r.variable: (None if pd.isna(r.v) else float(r.v)) for r in g.itertuples()}
+        first = g.iloc[0]
+        rates.setdefault(str(first["x_eia_id"]), []).append({
+            "rate": ent, "name": str(first.get("node") or ""), "start": str(start)[:10], "utility": str(first["x_utility"]),
+            "sector": str(first["x_sector"]), "energy": v.get("energy_charge"), "demand": v.get("demand_charge"),
+            "fixed": v.get("fixed_charge"), "min_mw": v.get("min_demand_mw")})
+    for k in rates:
+        rates[k].sort(key=lambda r: (r["start"], r["rate"]), reverse=True)
+    return {"table": TARIFF_TABLE, "built": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "utilities": rates}
+
+
 def gaps_file(path=GAPS_MD):
     """gaps.json's content (session 713): the markdown table's rows, each cell as written."""
     with open(path, encoding="utf-8") as fh:
@@ -542,6 +615,11 @@ def main(argv=None):
             hr["peak_capacity_table"] = PEAKCAP_TABLE
         except FileNotFoundError:
             print(f"{PEAKCAP_TABLE} is not on this machine: capacity over peak stays the whole states'")
+        try:
+            hr["zones"] = zone_growth(a.in_dir, a.in_dir_first)
+            print(f"{SUBBA_TABLE}: {len(hr['zones']['rows'])} zones, {hr['zones']['year']} over {hr['zones']['prior']}")
+        except FileNotFoundError as e:
+            print(f"{e}: every row keeps its grid's demand growth")
     except Exception as e:
         print(f"FAILED: {e}", file=sys.stderr)
         return 1
