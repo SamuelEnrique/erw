@@ -29,7 +29,21 @@
 
 ## The landing
 
-Below, once done.
+Sessions 719 to 721 landed in one push (`task/719-721-allgrids`, commit `02664a67`), merged into main at 13:44 UTC (`0787ad72`, run 39788239373).
+
+- **The gate** (on `02664a67`): freeze 0; main in the commit; no `task/` branch in flight; suite 5,936 tests OK (304 skipped); npm ci 0; build 0; check-values 7,569 of 7,569 values equal, with the eleven floors as at the earlier landings (the ten held pages, and `/digest` before the day's Digest; production the same).
+- **The steps after check-values**, on a build of the same commit in this worktree (lock `s721`): check-routes 0 (226 pages, 0 failed), check-cross-checks 0 (92 of 92), check-csp 0 (97 pages, 0 violations).
+- **Before the push**: freeze status 0; the only `task/` branch on GitHub was `task/198-battery-data` (left over, 11 days, not this chain's).
+- **Snapshots**: `s721-before` at 13:35 UTC; the push at 13:35:49.
+  - **Vercel did not deploy the merge.** Its status on `0787ad72` reads "Deployment rate limited, retry in 24 hours" (13:44:45 UTC).
+  - Production was probed for the card's title on `/research/card/siting_gigawatt` until 14:26, and it never came.
+  - `s721-after` at 14:25 UTC; `compare s721-before s721-after`: **0 differences** on 25 pages, expected, since nothing deployed.
+- The merged `wip/721-allgrids` was deleted on GitHub; 719 and 720 were never pushed.
+
+## To finish
+
+1. Once production serves `0787ad72` (the card's title "WHERE A GIGAWATT PAYS LEAST" on `/research/card/siting_gigawatt` in the internal view): `node site/scripts/snapshot-live.mjs take s721-after2`, then `compare s721-before s721-after2`, every difference listed here or in the next session's report.
+2. This record rides on `wip/721-records`; chain 062's session 722 lands it first.
 
 ## Decisions made without you
 
