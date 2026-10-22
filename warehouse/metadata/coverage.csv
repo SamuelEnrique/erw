@@ -87,6 +87,7 @@ eia_gas_interstate_annual,none,,1888,P1Y,1997-01-01T00:00:00Z,2024-01-01T00:00:0
 eia_gas_prices_state_monthly,none,,257,P1M,2001-01-01T00:00:00Z,2026-07-01T00:00:00Z,72550,eia:natural-gas/pri/sum,2026-10-21T20:17:23Z,pass,public,gas,no,source
 eia_gas_production_state_monthly,none,,184,P1M,2001-01-01T00:00:00Z,2026-07-01T00:00:00Z,47805,eia:natural-gas/prod/sum,2026-10-21T21:14:19Z,pass,public,gas,no,source
 eia_gas_reserves_annual,none,,561,P1Y,1977-01-01T00:00:00Z,2021-01-01T00:00:00Z,19232,eia:natural-gas/enr/dry,2026-10-21T22:16:59Z,pass,public,gas,no,source
+eia_gas_storage_capacity_monthly,none,,123,P1M,1989-01-01T00:00:00Z,2026-07-01T00:00:00Z,23980,eia:natural-gas/stor/cap,2026-10-22T03:59:30Z,pass,public,gas,no,source
 eia_gas_storage_state_monthly,none,,205,P1M,2001-01-01T00:00:00Z,2026-07-01T00:00:00Z,55015,eia:natural-gas/stor/sum,2026-10-21T21:13:51Z,pass,public,gas,no,source
 eia_gas_storage_weekly,none,,8,P1W,2010-01-01T00:00:00Z,2026-10-02T00:00:00Z,7000,eia:natural-gas/stor/wkly,2026-10-10T14:58:19Z,pass,public,gas,no,source
 eia_gas_trade_country_monthly,none,,207,P1M,1973-01-01T00:00:00Z,2026-07-01T00:00:00Z,30337,eia:natural-gas/move/expc;eia:natural-gas/move/impc,2026-10-22T03:54:26Z,pass,public,gas,no,source
