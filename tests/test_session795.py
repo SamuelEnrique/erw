@@ -1,6 +1,6 @@
 """Session 795 (chain 065): the nodes that settle alike. The builder groups the nodes whose day-ahead basis is the same on
 every day node_basis_daily holds, with the same days (exact equality of the table's values); a node's panel names the
-others. Session 723's walk found BBREEZE_1_2 and ELSAUZ_ALL alike. No request, no model call."""
+others. Session 723's pair (BBREEZE_1_2, ELSAUZ_ALL) is alike only to two decimals, so it is not grouped. No request, no model call."""
 import json
 import os
 import unittest
@@ -16,8 +16,10 @@ def src(*parts):
 class Alike(unittest.TestCase):
     def test_the_groups_are_symmetric_and_name_the_known_pair(self):
         n = {k["id"]: k for k in json.loads(src("site", "data", "siting", "nodes.json"))["nodes"]}
-        self.assertIn("ELSAUZ_ALL", n["BBREEZE_1_2"].get("same", []))
-        self.assertIn("BBREEZE_1_2", n["ELSAUZ_ALL"].get("same", []))
+        self.assertEqual(sorted(n["AE_RN"].get("same", [])), ["BCH_RN", "MYR_ALL"])
+        # session 723's pair is equal over twelve months to two decimals, not on every day: July 2026's means differ by
+        # 0.0001, so the exact rule leaves them apart
+        self.assertNotIn("ELSAUZ_ALL", n["BBREEZE_1_2"].get("same", []))
         for i, k in n.items():
             for o in k.get("same", []):
                 self.assertIn(i, n[o].get("same", []), (i, o))
