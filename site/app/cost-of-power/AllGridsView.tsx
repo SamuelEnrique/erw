@@ -3,8 +3,8 @@ import { Num } from "@/components/Num";
 import { InlineSpark } from "@/components/InlineSpark";
 import { InputPanel } from "@/components/tool/ToolPage";
 import type { ReactNode } from "react";
-import { COLUMNS, GRID_NAMES, NODE_HUB, PROFILES, energyCell, hubRows, nodeRows, sitingHref, sitingInputs, type EnergyCell, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
-import { NODES, SITING_DC, SITING_FILES } from "@/lib/sitingdata";
+import { COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
+import { CP, NODES, SITING_DC, SITING_FILES } from "@/lib/sitingdata";
 import { AllGridsForm } from "./AllGridsForm";
 
 // Session 700 (chain 050, docs/methods/siting.md): the All grids tab of "What a datacenter pays". The questions "Your
@@ -79,6 +79,31 @@ function RowToggle({ x, hubs, nodes }: { x: SitingInputs; hubs: number; nodes: n
   return <nav aria-label="Rows" className="mb-3 flex flex-wrap gap-1 text-xs" data-allgrids-toggle="1">{item("hubs", "Hubs and zones", hubs)}{item("nodes", "ERCOT nodes", nodes)}</nav>;
 }
 
+const lastCp = () => CP.summers.at(-1);
+/** Session 702: a profile's energy cell: the day-ahead price over the hours the load runs, and the hours it was off. */
+function ProfileTd({ r, x }: { r: Row; x: SitingInputs }) {
+  const c = profileCell(SITING_DC, SITING_FILES, r, x, CP);
+  if ("why" in c) {
+    const e = energyCell(SITING_DC, SITING_FILES, r);
+    return <Words words={e.words ?? (r.blank ? r.blank.words : "not held")} why={c.why} />;
+  }
+  const p = PROFILES[x.profile], t = c.t, k = profileKey(x);
+  const flat = energyCell(SITING_DC, SITING_FILES, r);
+  const flatPer = flat.node?.per ?? flat.da?.per;
+  const rule = p.curtail === "peaks_strike"
+    ? `Off in an hour whose day-ahead price is at or above USD ${two(t.strike ?? 0)} per MWh${r.grid === "ercot" ? `, and in the hours of ERCOT's four summer peak intervals: none of those held falls in these months (ercot_4cp_intervals holds summers to ${lastCp()?.year ?? "none"}; ${CP.note})` : ""}.`
+    : p.curtail === "below_strike"
+      ? `Runs in an hour whose day-ahead price is ${x.strike === null ? `at or below USD ${two(t.strike ?? 0)} per MWh, this row's own price at the load factor ${x.lf.toFixed(2)} (the cheapest ${Math.round(x.lf * 100)} percent of its hours)` : `below USD ${two(t.strike ?? 0)} per MWh`}.`
+      : p.curtail === "interruptible" ? "Runs every hour: no table the warehouse holds names the hours a grid interrupts a heavy load." : "Runs every hour.";
+  const tip = `${p.label}, day-ahead, ${monthWords(t.from)} to ${monthWords(t.to)}: USD ${two(c.per)} per MWh over the ${t.run.toLocaleString("en-US")} hours it ran, off in ${t.lost.toLocaleString("en-US")} of the ${t.held.toLocaleString("en-US")} hours held. ${rule}${flatPer !== undefined ? ` A flat load: USD ${two(flatPer)}.` : ""}${c.daily ? ` A node: ${NODE_HUB}'s figure under the same rule plus the node's mean daily basis, USD ${two(c.basis ?? 0)} (node_basis_daily, daily: the rule reads the hub's hours).` : ""}`;
+  return (
+    <span className="whitespace-nowrap">
+      <Fig check={`allgrids|energy|${r.id}|da|${k}`} v={c.per} tip={tip} />
+      {p.curtail !== "none" && p.curtail !== "interruptible" ? <span className="ml-2 text-xs" data-lost="1">off <span title={`Hours of the ${t.held.toLocaleString("en-US")} held the load was off`}><Num check={`allgrids|lost|${r.id}|${k}`} raw={t.lost}>{t.lost.toLocaleString("en-US")}</Num></span> h</span> : null}
+    </span>
+  );
+}
+
 function RowHead({ r }: { r: Row }) {
   return (
     <th scope="row" className="px-3 py-1.5 text-left font-normal" data-row={r.id}>
@@ -105,7 +130,7 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
           {x.rows === "nodes"
             ? <>Every ERCOT node of node_basis_daily that is neither a hub nor a load zone: <Num check="allgrids|rows|nodes" raw={nodes.length}>{nodes.length.toLocaleString("en-US")}</Num> nodes, from {NODES.first} to {NODES.last}.</>
             : <>Every hub and load zone the page&apos;s price files hold, and the grids they do not price: <Num check="allgrids|rows|hubs" raw={hubs.length}>{hubs.length.toLocaleString("en-US")}</Num> rows.</>}
-          {" "}A {p.label.toLowerCase()} load of {x.mw.toLocaleString("en-US")} MW at a load factor of {x.lf.toFixed(2)}. Sorted by grid, then by name.
+          {" "}A {p.label.toLowerCase()} load of {x.mw.toLocaleString("en-US")} MW at a load factor of {x.lf.toFixed(2)}, {CURTAIL_WORDS[p.curtail]}{x.strike !== null ? ` (USD ${x.strike.toLocaleString("en-US")} per MWh)` : ""}. Sorted by grid, then by name.
         </p>
         <RowToggle x={x} hubs={hubs.length} nodes={nodes.length} />
         <div className="overflow-x-auto" role="region" aria-label="All grids" tabIndex={0} data-allgrids-table="1">
@@ -125,7 +150,7 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
               {rows.map((r) => (
                 <tr key={r.id} className="border-b border-rule" data-allgrids-row={r.id}>
                   <RowHead r={r} />
-                  {COLUMNS.map((c) => <td key={c.id} className="px-3 py-1.5 text-right" data-cell={c.id}>{c.id === "energy" ? <EnergyTd r={r} e={energyCell(SITING_DC, SITING_FILES, r)} /> : null}</td>)}
+                  {COLUMNS.map((c) => <td key={c.id} className="px-3 py-1.5 text-right" data-cell={c.id}>{c.id === "energy" ? (x.profile === "datacenter" ? <EnergyTd r={r} e={energyCell(SITING_DC, SITING_FILES, r)} /> : <ProfileTd r={r} x={x} />) : null}</td>)}
                 </tr>
               ))}
             </tbody>

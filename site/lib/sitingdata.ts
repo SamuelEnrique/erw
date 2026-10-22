@@ -4,12 +4,15 @@
 // warehouse/derived/siting_page.py. Nothing is read from the database. Session 701: a grid's years of hourly prices, read
 // as "Your load" reads them (lib/datacenterdata.ts, yearFiles).
 import "server-only";
+import cpJson from "@/data/siting/ercot_4cp.json";
 import nodesJson from "@/data/siting/nodes.json";
 import * as DCL from "@/lib/datacenter";
 import { INDEX, yearFiles } from "@/lib/datacenterdata";
-import type { DC, Files, NodeFile } from "@/lib/siting";
+import type { CpFile, DC, Files, NodeFile } from "@/lib/siting";
 
 export const NODES = nodesJson as unknown as NodeFile;
-export const SITING_FILES: Files = { index: INDEX, nodes: NODES, years: yearFiles };
+/** Session 702: ERCOT's four summer peak intervals (data/siting/ercot_4cp.json, from ercot_4cp_intervals). */
+export const CP = cpJson as unknown as CpFile;
+export const SITING_FILES: Files = { index: INDEX, nodes: NODES, years: yearFiles, cp: CP };
 /** Session 701: lib/datacenter.ts's own functions, for lib/siting.ts (one arithmetic for both views). */
-export const SITING_DC: DC = { monthsRuled: DCL.monthsRuled, lastTwelve: DCL.lastTwelve, span: DCL.span, years: DCL.years };
+export const SITING_DC: DC = { monthsRuled: DCL.monthsRuled, lastTwelve: DCL.lastTwelve, span: DCL.span, years: DCL.years, expand: DCL.expand, monthsOfYear: DCL.monthsOfYear, monthStarts: DCL.monthStarts };

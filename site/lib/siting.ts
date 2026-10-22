@@ -149,8 +149,12 @@ export function nodeRows(file: Pick<NodeFile, "nodes">): Row[] {
 // ---------------------------------------------------------------------------------------------------------------------
 
 export type RowSet = "hubs" | "nodes";
-export type SitingInputs = { profile: ProfileId; mw: number; lf: number; rows: RowSet };
-export const SITING_LIMITS = { mw: [1, 10000] as [number, number], lf: [0.05, 1] as [number, number] };
+/** `strike` (session 702): USD per MWh, for a profile whose rule has one; null is the profile's default (for the
+ * electrolyzer, each row's own price at the load factor). */
+export type SitingInputs = { profile: ProfileId; mw: number; lf: number; rows: RowSet; strike: number | null };
+export const SITING_LIMITS = { mw: [1, 10000] as [number, number], lf: [0.05, 1] as [number, number], strike: [-500, 10000] as [number, number] };
+/** Whether a profile's rule has a strike. */
+export const hasStrike = (p: ProfileId) => PROFILES[p].curtail === "peaks_strike" || PROFILES[p].curtail === "below_strike";
 export const SITING_DEFAULTS = { profile: "datacenter" as ProfileId, mw: 100, rows: "hubs" as RowSet };
 const clampTo = (v: number, [lo, hi]: [number, number]) => Math.min(hi, Math.max(lo, v));
 /** The tab's inputs from its address; a value it cannot read is the default, a number outside its bounds the nearest. */
@@ -158,17 +162,21 @@ export function sitingInputs(q: Record<string, string | undefined>): SitingInput
   const profile = (PROFILE_ORDER as string[]).includes(q.profile ?? "") ? (q.profile as ProfileId) : SITING_DEFAULTS.profile;
   const p = PROFILES[profile];
   const num = (s: string | undefined, d: number, lim: [number, number]) => { const v = s === undefined || s === "" ? NaN : Number(s); return Number.isFinite(v) ? clampTo(v, lim) : d; };
-  return { profile, mw: num(q.mw, SITING_DEFAULTS.mw, SITING_LIMITS.mw), lf: num(q.lf, p.lf, p.lfRange), rows: q.rows === "nodes" ? "nodes" : "hubs" };
+  const st = q.strike === undefined || q.strike === "" ? NaN : Number(q.strike);
+  const strike = hasStrike(profile) && Number.isFinite(st) ? clampTo(st, SITING_LIMITS.strike) : p.strike;
+  return { profile, mw: num(q.mw, SITING_DEFAULTS.mw, SITING_LIMITS.mw), lf: num(q.lf, p.lf, p.lfRange), rows: q.rows === "nodes" ? "nodes" : "hubs", strike };
 }
 /** The tab's address for its inputs, with a change; a value at its default is left out. */
 export function sitingHref(x: SitingInputs, change: Partial<SitingInputs> = {}): string {
   const y = { ...x, ...change };
   if (change.profile && change.profile !== x.profile && change.lf === undefined) y.lf = PROFILES[change.profile].lf;
+  if (change.profile && change.profile !== x.profile && change.strike === undefined) y.strike = PROFILES[change.profile].strike;
   const q = new URLSearchParams({ view: "allgrids" });
   if (y.profile !== SITING_DEFAULTS.profile) q.set("profile", y.profile);
   if (y.mw !== SITING_DEFAULTS.mw) q.set("mw", String(y.mw));
   if (y.lf !== PROFILES[y.profile].lf) q.set("lf", String(y.lf));
   if (y.rows !== SITING_DEFAULTS.rows) q.set("rows", y.rows);
+  if (hasStrike(y.profile) && y.strike !== null && y.strike !== PROFILES[y.profile].strike) q.set("strike", String(y.strike));
   return `/cost-of-power?${q.toString()}`;
 }
 
@@ -179,7 +187,7 @@ export function sitingHref(x: SitingInputs, change: Partial<SitingInputs> = {}):
 /** The functions of lib/datacenter.ts the tab computes with, handed in by the caller (the page imports them through
  * "@/lib/datacenter", the scripts through "../lib/datacenter.ts"), so this file stays free of imports and the arithmetic
  * is that file's own: one function for both views. */
-export type DC = Pick<typeof Datacenter, "monthsRuled" | "lastTwelve" | "span" | "years">;
+export type DC = Pick<typeof Datacenter, "monthsRuled" | "lastTwelve" | "span" | "years" | "expand" | "monthsOfYear" | "monthStarts">;
 export const FLAT_RUN = { run: "flat" as const, n: 0, pct: 0, shift: 0 };
 /** Twelve months of a flat load at one region and market: the price per MWh (lib/datacenter.ts span().flat over
  * lastTwelve()), the months, each month's price, the hours held, and the newest complete calendar year in the market. */
@@ -237,15 +245,139 @@ export function energyCell(dc: DC, f: Files, r: Row): EnergyCell {
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
+// the profiles' energy (session 702): the time-weighted day-ahead price over the hours the load runs
+// ---------------------------------------------------------------------------------------------------------------------
+
+/** ERCOT's four coincident-peak intervals by summer (data/siting/ercot_4cp.json, from ercot_4cp_intervals). */
+export type CpFile = { table: string; built: string; note: string; summers: { year: number; intervals: { ts: string; local: string; mw: number }[] }[] };
+/** A profile's twelve months at one region, day-ahead, over the flat load's own twelve whole months: the price per MWh
+ * over the hours the load runs, the hours it ran and was off, the strike it used, and the peak hours in the window. */
+export type ProfileTwelve = { per: number; from: string; to: string; run: number; lost: number; held: number; strike: number | null; peaks: number };
+/** The hour of a year file (in the grid's standard time) that holds an instant, or -1 outside the year. */
+export function hourOf(year: number, ts: string, behind: number): number {
+  const i = Math.floor((Date.parse(ts) - Date.UTC(year, 0, 1)) / 3_600_000) - behind;
+  return i >= 0 && i < (year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0) ? 8784 : 8760) ? i : -1;
+}
+/** The k-th cheapest of a list of prices (1 = the cheapest). */
+const kth = (v: number[], k: number) => [...v].sort((a, b) => a - b)[Math.min(v.length, Math.max(1, k)) - 1];
+/** A profile's twelve months under its rule. The load in each hour is 1 (runs) or 0 (off):
+ *   none, interruptible  every hour held (no table holds a grid's interruptions of a heavy load: it runs every hour);
+ *   peaks_strike         off in an hour whose day-ahead price is at or above the strike, or that holds one of ERCOT's
+ *                        four summer peak intervals (ERCOT rows; ercot_4cp_intervals);
+ *   below_strike         runs in an hour whose price is below the strike; with no strike given, the strike is the row's
+ *                        own k-th cheapest price of the window, k the load factor's share of its hours, and the load
+ *                        runs at or below it (the cheapest share of the hours).
+ * The load factor scales the energy and the cost alike, so the price per MWh is the load-weighted price of the hours it
+ * runs. Each month is lib/datacenter.ts's monthsOfYear, over the flat load's own twelve whole months. */
+const pmemo = new WeakMap<Files, Map<string, ProfileTwelve | null>>();
+export function profileTwelve(dc: DC, f: Files, grid: string, region: string, x: Pick<SitingInputs, "profile" | "lf" | "strike">, cp?: CpFile): ProfileTwelve | null {
+  let m = pmemo.get(f);
+  if (!m) { m = new Map(); pmemo.set(f, m); }
+  const k = `${grid}|${region}|${profileKey(x)}|${cp ? "cp" : ""}`;
+  if (!m.has(k)) m.set(k, profileTwelveOnce(dc, f, grid, region, x, cp));
+  return m.get(k) ?? null;
+}
+function profileTwelveOnce(dc: DC, f: Files, grid: string, region: string, x: Pick<SitingInputs, "profile" | "lf" | "strike">, cp?: CpFile): ProfileTwelve | null {
+  const flat = twelveOf(dc, f, grid, region, "da");
+  if (!flat) return null;
+  const p = PROFILES[x.profile];
+  const behind = f.index.grids[grid]?.std_hours_behind_utc ?? 0;
+  const y0 = Number(flat.from.slice(0, 4)), y1 = Number(flat.to.slice(0, 4));
+  const files = f.years(grid).filter((yf) => yf.year >= y0 && yf.year <= y1).sort((a, b) => a.year - b.year);
+  const years = files.map((yf) => {
+    const pr = dc.expand(yf, region, "da"), st = dc.monthStarts(yf.year);
+    const win: boolean[] = pr.map(() => false);
+    for (let m = 0; m < 12; m++) {
+      const lab = `${yf.year}-${String(m + 1).padStart(2, "0")}`;
+      if (lab < flat.from || lab > flat.to) continue;
+      for (let i = st[m]; i < st[m + 1]; i++) win[i] = pr[i] !== null;
+    }
+    return { yf, pr, win };
+  });
+  const prices: number[] = [];
+  for (const y of years) y.pr.forEach((v, i) => { if (y.win[i]) prices.push(v as number); });
+  let strike = x.strike, atOrBelow = false;
+  if (p.curtail === "below_strike" && strike === null) { strike = kth(prices, Math.round(x.lf * prices.length)); atOrBelow = true; }
+  // the peak hours: ERCOT's four intervals of each summer held, as hours of the year files
+  const peaks = new Map<number, Set<number>>();
+  if (p.curtail === "peaks_strike" && grid === "ercot" && cp) {
+    for (const sm of cp.summers) for (const iv of sm.intervals) {
+      const y = Number(iv.ts.slice(0, 4)), h = hourOf(y, iv.ts, behind);
+      if (h >= 0) { if (!peaks.has(y)) peaks.set(y, new Set()); peaks.get(y)!.add(h); }
+    }
+  }
+  let run = 0, lost = 0, held = 0, inPeaks = 0, cost = 0;
+  for (const y of years) {
+    const w = y.pr.map((v, i) => {
+      if (v === null) return 0;
+      const pk = peaks.get(y.yf.year)?.has(i) ?? false;
+      if (pk && y.win[i]) inPeaks++;
+      if (p.curtail === "peaks_strike") return pk || (strike !== null && v >= strike) ? 0 : 1;
+      if (p.curtail === "below_strike") return strike === null ? 1 : (atOrBelow ? v <= strike : v < strike) ? 1 : 0;
+      return 1;
+    });
+    for (const r of dc.monthsOfYear(y.yf.year, y.pr, w)) {
+      if (r.m < flat.from || r.m > flat.to) continue;
+      held += r.held; lost += r.down; run += r.energy; cost += r.cost;
+    }
+  }
+  return { per: run > 0 ? cost / run : NaN, from: flat.from, to: flat.to, run, lost, held, strike, peaks: inPeaks };
+}
+/** The profile's figure for a row: a hub or zone's own; a node's is its hub's (HB_HUBAVG) plus its mean daily basis, the
+ * same basis as the flat figure (node_basis_daily is daily: no hour of a node is held for twelve months). */
+export type ProfileCell = { t: ProfileTwelve; per: number; basis?: number; daily: boolean } | { why: string };
+export function profileCell(dc: DC, f: Files, r: Row, x: Pick<SitingInputs, "profile" | "lf" | "strike">, cp?: CpFile): ProfileCell {
+  if (r.blank) return { why: r.blank.why };
+  const never = "The load does not run in any hour of the window at this strike.";
+  if (r.kind === "node") {
+    const e = energyCell(dc, f, r);
+    if (!e.node) return { why: e.why ?? "not held" };
+    const t = profileTwelve(dc, f, "ercot", NODE_HUB, x, cp);
+    if (!t) return { why: `Twelve whole months of day-ahead prices are not held for ${NODE_HUB}.` };
+    if (!Number.isFinite(t.per)) return { why: never };
+    return { t, per: t.per + e.node.basis, basis: e.node.basis, daily: true };
+  }
+  const t = profileTwelve(dc, f, r.grid, r.region, x, cp);
+  if (!t) return { why: `Twelve whole months of day-ahead prices in a row are not held for ${r.region}.` };
+  if (!Number.isFinite(t.per)) return { why: never };
+  return { t, per: t.per, daily: false };
+}
+/** The inputs a profile's figure depends on, as they stand in its check key. */
+export const profileKey = (x: Pick<SitingInputs, "profile" | "lf" | "strike">) => `profile=${x.profile}&lf=${x.lf}&strike=${x.strike ?? "row"}`;
+export function profileOfKey(s: string): Pick<SitingInputs, "profile" | "lf" | "strike"> | null {
+  const q = Object.fromEntries(new URLSearchParams(s));
+  if (!(PROFILE_ORDER as string[]).includes(q.profile)) return null;
+  const lf = Number(q.lf), strike = q.strike === "row" ? null : Number(q.strike);
+  return Number.isFinite(lf) && (strike === null || Number.isFinite(strike)) ? { profile: q.profile as ProfileId, lf, strike } : null;
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// the all-in column (session 702): drawn only where each part is held or is zero by market design
+// ---------------------------------------------------------------------------------------------------------------------
+
+/** One part of the all-in figure: a figure (with `zero`, the reason it is zero by market design), or not held. */
+export type Part = { v: number; zero?: string } | { missing: string };
+export function allIn(parts: Record<"energy" | "transmission" | "capacity", Part>): { v: number } | { missing: string } {
+  let v = 0;
+  for (const [k, p] of Object.entries(parts)) {
+    if ("missing" in p) return { missing: `${k}: ${p.missing}` };
+    v += p.v;
+  }
+  return { v };
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
 // the check keys: allgrids|<column>|<row>[|<inputs>]
 // ---------------------------------------------------------------------------------------------------------------------
 
-export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFile, "nodes">; years: (grid: string) => YearFile[] };
+export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFile, "nodes">; years: (grid: string) => YearFile[]; cp?: CpFile };
 /** The figure a check key names, from the files the page reads; undefined when the key names none.
  *   allgrids|rows|hubs, allgrids|rows|nodes                the count of each row set (session 700)
  *   allgrids|energy|<row>|da or rt                         a flat load's price over the last twelve whole months (701);
  *                                                          a node's da is its hub's plus its mean daily basis
- *   allgrids|basis|<node>                                  that mean daily basis (701) */
+ *   allgrids|basis|<node>                                  that mean daily basis (701)
+ *   allgrids|energy|<row>|da|<profile key>                 the profile's day-ahead price over the hours it runs (702)
+ *   allgrids|lost|<row>|<profile key>                      the hours of the window it was off (702) */
 export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
   const p = key.split("|");
   if (p[0] !== "allgrids") return undefined;
@@ -253,6 +385,13 @@ export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
   if (!dc) return undefined;
   const row = rowOf(f, p[2]);
   if (!row) return undefined;
+  if ((p[1] === "energy" && p[4]) || p[1] === "lost") {
+    const x = profileOfKey(p[1] === "lost" ? p[3] : p[4]);
+    if (!x) return undefined;
+    const c = profileCell(dc, f, row, x, f.cp);
+    if ("why" in c) return undefined;
+    return p[1] === "lost" ? c.t.lost : p[3] === "da" ? c.per : undefined;
+  }
   if (p[1] === "energy") {
     const e = energyCell(dc, f, row);
     if (row.kind === "node") return p[3] === "da" ? e.node?.per : undefined;

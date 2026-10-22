@@ -15,6 +15,9 @@ Files:
                   ERCOT's resource types at it (x_class, x_resource_type), and its day-ahead basis to HB_HUBAVG by Central
                   month, {"YYYY-MM": [mean of the daily basis, days held]}, USD/MWh to four decimals. The node's
                   twelve-month price on the page is the hub's own twelve-month mean plus the mean of these days.
+    ercot_4cp.json  (session 702) ERCOT's four coincident-peak intervals by summer from ercot_4cp_intervals: each
+                  interval's start in UTC, its local time as ERCOT prints it, and ERCOT's load in it (MW); the summers
+                  held and the table's own note of what is not held.
 
 Each file names the table it was read from, the table's first and last day and when it was built. A table that cannot
 be found stops the run (exit 1): no file is written from part of a table.
@@ -33,6 +36,7 @@ ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 SITE_DIR = os.path.join(ROOT, "site", "data", "siting")
 OUTPUT = os.path.join(ROOT, "warehouse", "output")
 NODE_TABLE = "node_basis_daily"
+CP_TABLE = "ercot_4cp_intervals"
 
 
 def header_rows(path):
@@ -83,9 +87,30 @@ def nodes_file(path):
             "points": int(points), "hubs": hubs, "zones": zones, "nodes": nodes}
 
 
+def cp_file(path):
+    """ercot_4cp.json's content from ercot_4cp_intervals (session 702)."""
+    d = pd.read_csv(path, skiprows=header_rows(path), dtype=str)
+    d = d[d["variable"] == "cp4_load_mw"].sort_values("ts_utc")
+    with open(path, encoding="utf-8") as f:
+        head = [ln[2:].rstrip() for ln in f if ln.startswith("#")]
+    held = next((h for h in head if h.startswith("Years held:")), "")
+    summers = {}
+    for r in d.itertuples():
+        summers.setdefault(str(r.x_year), []).append({"ts": r.ts_utc, "local": r.x_interval_local, "mw": round(float(r.value), 3)})
+    return {"table": CP_TABLE, "built": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "note": held,
+            "summers": [{"year": int(y), "intervals": v} for y, v in sorted(summers.items())]}
+
+
 def write(name, obj, out_dir):
+    """Write a file, unless it holds the same content but for its build time (no change, no new commit)."""
     os.makedirs(out_dir, exist_ok=True)
     p = os.path.join(out_dir, name)
+    if os.path.exists(p):
+        with open(p, encoding="utf-8") as f:
+            old = json.load(f)
+        if {k: v for k, v in old.items() if k != "built"} == {k: v for k, v in obj.items() if k != "built"}:
+            print(f"kept {p}: the same content")
+            return
     with open(p, "w", encoding="utf-8", newline="\n") as f:
         json.dump(obj, f, separators=(",", ":"), ensure_ascii=False)
         f.write("\n")
@@ -105,7 +130,16 @@ def main(argv=None):
         print(f"FAILED: {e}", file=sys.stderr)
         return 1
     print(f"{NODE_TABLE}: {f['points']} points, {f['hubs']} hubs, {f['zones']} zones, {len(f['nodes'])} nodes, {f['first']} to {f['last']}")
+    try:
+        cpath = find(CP_TABLE, a.in_dir)
+        print(f"reading {cpath}")
+        cp = cp_file(cpath)
+    except Exception as e:
+        print(f"FAILED: {e}", file=sys.stderr)
+        return 1
+    print(f"{CP_TABLE}: {len(cp['summers'])} summers, {sum(len(s['intervals']) for s in cp['summers'])} intervals")
     write("nodes.json", f, a.out_dir)
+    write("ercot_4cp.json", cp, a.out_dir)
     return 0
 
 

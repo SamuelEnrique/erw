@@ -93,7 +93,7 @@ class Page(unittest.TestCase):
 
     def test_the_tab_uses_the_page_s_own_functions(self):
         d = src("site", "lib", "sitingdata.ts")
-        self.assertIn("{ monthsRuled: DCL.monthsRuled, lastTwelve: DCL.lastTwelve, span: DCL.span, years: DCL.years }", d)
+        self.assertIn("{ monthsRuled: DCL.monthsRuled, lastTwelve: DCL.lastTwelve, span: DCL.span, years: DCL.years", d)  # session 702 adds three after them
         self.assertNotIn(chr(0x2014), src("site", "lib", "siting.ts") + v_if_exists())
 
 
