@@ -305,6 +305,38 @@ function Headline({ x }: { x: SitingInputs }) {
   );
 }
 
+/** Session 711: a node's panel: its basis to the hub over the year (the 10th, 50th and 90th percentile of its days, and
+ * each month's mean in the shared chart), its four-peak exposure, and what is not held about its place (county, planned
+ * generation near it, transmission projects). */
+function NodePanel({ id }: { id: string }) {
+  const n = NODES.nodes.find((k) => `ercot:${k.id}` === id);
+  if (!n) return null;
+  const months = Object.entries(n.dam_basis ?? {}).sort(([a], [b]) => a.localeCompare(b));
+  const close = `?${new URLSearchParams({ view: "allgrids", rows: "nodes" }).toString()}`;
+  return (
+    <section className="mb-4 border border-rule bg-paper px-4 py-3 text-sm" aria-label={`Node ${n.id}`} data-node-panel={id}>
+      <h3 className="font-serif text-lg">{n.id} <span className="text-sm">({n.cls}{n.types ? `, ERCOT's resource types ${n.types}` : ""})</span> <a href={`/cost-of-power${close}`} className="ml-2 text-xs">Close</a></h3>
+      {n.pct ? (
+        <p className="mt-1">
+          Its daily day-ahead basis to {NODE_HUB}, {NODES.pct_from} to {NODES.pct_to} ({n.pct[3]} days held, node_basis_daily): one day in ten at or below USD{" "}
+          <Num check={`allgrids|nodepct|${id}|10`} raw={n.pct[0]}>{two(n.pct[0])}</Num>, half at or below <Num check={`allgrids|nodepct|${id}|50`} raw={n.pct[1]}>{two(n.pct[1])}</Num>, nine in ten at or below <Num check={`allgrids|nodepct|${id}|90`} raw={n.pct[2]}>{two(n.pct[2])}</Num> per MWh.
+        </p>
+      ) : <p className="mt-1"><Words words="not held" why="No day of day-ahead basis is held for this node in the twelve months." /></p>}
+      {months.length >= 2 ? (
+        <div className="mt-2" data-node-chart="1">
+          <span className="text-xs">Each month&apos;s mean daily basis, USD per MWh, {months[0][0]} to {months.at(-1)![0]}:</span>
+          <InlineSpark values={months.map(([m, v]) => ({ t: `${m}-01`, v: v[0] }))} label={`${n.id}: mean daily day-ahead basis to ${NODE_HUB} by month`} width={320} height={48} />
+        </div>
+      ) : null}
+      <ul className="mt-2 list-disc pl-5">
+        <li>Four peaks: as every node, the charge on {NODE_HUB}&apos;s hours, above the list. Its own price in the four intervals of summer 2025 is <Words words="not held" why="node_basis_daily begins on 1 October 2025, after the summer; and it holds days, not the 15-minute intervals." />.</li>
+        <li>Its county, and so the planned generation near it (eia860m_planned_generators, by county): <Words words="not held" why="No table of the warehouse places an ERCOT settlement point in a county; ERCOT's resource registration does, and is not pulled (docs/reviews/siting-gaps.md)." />.</li>
+        <li>Transmission projects in its county: <Words words="not held" why="texas_transmission_matrix holds each wires utility's transmission cost of service and four-peak charge, not projects by county, and it is internal; no table of projects by county is held." />.</li>
+      </ul>
+    </section>
+  );
+}
+
 export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
   const x = sitingInputs(q);
   const hubs = hubRows(SITING_FILES.index), nodes = nodeRows(NODES);
@@ -335,7 +367,8 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
         {x.rows === "nodes" ? (
           <>
             <NodeShared x={x} />
-            <AllGridsNodes rows={nodeTable(SITING_DC, SITING_FILES, x)} pkey={profileKey(x)} datacenter={x.profile === "datacenter"}
+            {q.node ? <NodePanel id={q.node} /> : null}
+            <AllGridsNodes rows={nodeTable(SITING_DC, SITING_FILES, x)} pkey={profileKey(x)} datacenter={x.profile === "datacenter"} open={q.node ?? null}
               sort={(NODE_SORTS as readonly string[]).includes(q.nsort ?? "") ? (q.nsort as NodeSort) : "node"} dir={q.ndir === "desc" ? "desc" : "asc"} />
           </>
         ) : (

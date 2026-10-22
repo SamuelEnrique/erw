@@ -6,6 +6,7 @@
 // a few dozen rows of the 873 at a time. It sorts by any column, ascending or descending, and keeps the sort in the
 // address (nsort, ndir), so a reader can send the screen. The first rows of the default sort are drawn on the server,
 // each figure with its check key.
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { NODE_SORTS, sortNodes, type NodeSort, type NodeTableRow } from "@/lib/siting";
 
@@ -21,7 +22,14 @@ const TIPS: Record<NodeSort, string> = {
   days: "Days of day-ahead basis held over the hub's twelve months, of the days in them; under 90 percent, no twelve-month figure.",
 };
 
-export function AllGridsNodes({ rows, pkey, datacenter, sort, dir }: { rows: NodeTableRow[]; pkey: string; datacenter: boolean; sort: NodeSort; dir: "asc" | "desc" }) {
+// Session 711: a node's name opens its panel (the address's `node`, drawn by the server above the list).
+export function AllGridsNodes({ rows, pkey, datacenter, sort, dir, open }: { rows: NodeTableRow[]; pkey: string; datacenter: boolean; sort: NodeSort; dir: "asc" | "desc"; open: string | null }) {
+  const router = useRouter();
+  const pick = (id: string) => {
+    const q = new URLSearchParams(window.location.search);
+    if (open === id) q.delete("node"); else q.set("node", id);
+    router.push(`${window.location.pathname}?${q.toString()}`, { scroll: false });
+  };
   const [by, setBy] = useState<NodeSort>(sort);
   const [d, setD] = useState<"asc" | "desc">(dir);
   const [top, setTop] = useState(0);
@@ -60,7 +68,7 @@ export function AllGridsNodes({ rows, pkey, datacenter, sort, dir }: { rows: Nod
             <div style={{ height: sorted.length * ROW, position: "relative" }}>
               {sorted.slice(start, end).map((r, i) => (
                 <div key={r.id} className={`${cols} absolute left-0 right-0 border-b border-rule text-sm tabular-nums`} style={{ top: (start + i) * ROW, height: ROW }} data-allgrids-row={r.id}>
-                  <span className="truncate" title={r.types ? `${r.node}: ERCOT's resource types ${r.types}` : r.node}>{r.node}</span>
+                  <button type="button" onClick={() => pick(r.id)} aria-pressed={open === r.id} className={`truncate text-left underline decoration-dotted ${open === r.id ? "font-semibold" : ""}`} title={`${r.types ? `${r.node}: ERCOT's resource types ${r.types}. ` : ""}Open its panel`} data-node-open={r.id}>{r.node}</button>
                   <span className="text-xs">{r.cls}</span>
                   <span className="text-right">{r.per === null ? <span className="cursor-help border-b border-dotted border-muted" title={r.why}>not held</span> : <span data-check={energyKey(r)} data-raw={String(r.per)}>{two(r.per)}</span>}</span>
                   <span className="text-right">{r.basis === null ? "" : <span data-check={`allgrids|basis|${r.id}`} data-raw={String(r.basis)}>{two(r.basis)}</span>}</span>

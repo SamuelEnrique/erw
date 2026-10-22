@@ -100,8 +100,10 @@ export type Row = {
 };
 /** A node of node_basis_daily, as data/siting/nodes.json holds it (warehouse/derived/siting_page.py). */
 /** `dam_basis`: the node's day-ahead basis to HB_HUBAVG by Central month, [mean of the daily basis, days held] (session 701). */
-export type NodeRow = { id: string; cls: string; types: string; dam_basis?: Record<string, [number, number]> };
-export type NodeFile = { table: string; built: string; first: string; last: string; points: number; hubs: number; zones: number; nodes: NodeRow[] };
+export type NodeRow = { id: string; cls: string; types: string; dam_basis?: Record<string, [number, number]>;
+  /** session 711: the 10th, 50th and 90th percentile of the daily day-ahead basis over pct_from to pct_to, and the days */
+  pct?: [number, number, number, number] };
+export type NodeFile = { table: string; built: string; first: string; last: string; points: number; hubs: number; zones: number; pct_from?: string; pct_to?: string; nodes: NodeRow[] };
 
 /** A region's kind as the index says it; a region of a grid whose index names no kind is a hub when its name says so. */
 function kindOf(grid: string, id: string, kind: string | null | undefined): RowKind {
@@ -836,6 +838,7 @@ export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFil
  *   allgrids|diff|<column>|<a>|<b>|<profile key>          B's figure less A's, a column of the A and B panel (710)
  *   allgrids|col|<column>|<row>|<profile key>             a row's figure in a column, as the panel draws it (710)
  *   allgrids|yeardiff|<a>|<b>|<year key>                   B's year all-in less A's, USD (710)
+ *   allgrids|nodepct|<node>|10, 50 or 90                 a node's daily basis percentile over the file's twelve months (711)
  *   allgrids|llapproved|<row>                              ERCOT's large loads approved to energize, MW, newest report (705)
  *   (capacity, session 704: zero where there is no market, drawn as a figure of 0 with no key; elsewhere held internal,
  *   "license needed", and computed only where the tables are, by warehouse/derived/siting_page.py --internal) */
@@ -876,6 +879,7 @@ export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
     return p[3] === "da" ? e.da?.per : p[3] === "rt" ? e.rt?.per : undefined;
   }
   if (p[1] === "basis") return energyCell(dc, f, row).node?.basis;
+  if (p[1] === "nodepct") { const n = f.nodes.nodes.find((k) => `ercot:${k.id}` === row.id); const i = ({ "10": 0, "50": 1, "90": 2 } as Record<string, number>)[p[3]]; return n?.pct && i !== undefined ? n.pct[i] : undefined; }
   if (p[1] === "tx" || p[1] === "txshare") {
     const x = profileOfKey(p[1] === "tx" && (p[3] === "firm" || p[3] === "curtailing") ? p[4] ?? "" : p[3]);
     if (!x) return undefined;

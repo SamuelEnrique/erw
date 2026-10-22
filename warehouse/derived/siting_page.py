@@ -15,6 +15,8 @@ Files:
                   ERCOT's resource types at it (x_class, x_resource_type), and its day-ahead basis to HB_HUBAVG by Central
                   month, {"YYYY-MM": [mean of the daily basis, days held]}, USD/MWh to four decimals. The node's
                   twelve-month price on the page is the hub's own twelve-month mean plus the mean of these days.
+                  Session 711: "pct", the 10th, 50th and 90th percentile of the node's daily day-ahead basis over the
+                  last twelve whole months the table holds ("pct_from", "pct_to" at the file's top), and the days in it.
     ercot_4cp.json  (session 702) ERCOT's four coincident-peak intervals by summer from ercot_4cp_intervals: each
                   interval's start in UTC, its local time as ERCOT prints it, and ERCOT's load in it (MW); the summers
                   held and the table's own note of what is not held.
@@ -110,19 +112,28 @@ def nodes_file(path):
     b = d[(d["variable"] == "dam_basis") & ~d["x_class"].isin(["hub", "zone"])].copy()
     b["m"] = b["ts_utc"].str[:7]
     g = b.groupby(["entity", "m"])["value"].agg(["mean", "count"]).reset_index()
+    # session 711: the last twelve whole months the table holds (a month is whole when the table's last day is past it)
+    months = sorted(b["m"].unique())
+    last_whole = months[-1] if last[8:10] == str(pd.Period(months[-1]).days_in_month) else months[-2]
+    p_to = last_whole
+    p_from = (pd.Period(last_whole, "M") - 11).strftime("%Y-%m")
+    w = b[(b["m"] >= p_from) & (b["m"] <= p_to)]
+    pct = w.groupby("entity")["value"].quantile([0.1, 0.5, 0.9]).unstack()
+    pdays = w.groupby("entity")["value"].count()
     meta = b.drop_duplicates("entity").set_index("entity")[["x_class", "x_resource_type"]]
     nodes = []
     for ent, rows in g.groupby("entity"):
         nodes.append({
             "id": ent.split(":", 1)[1], "cls": str(meta.at[ent, "x_class"]), "types": "" if pd.isna(meta.at[ent, "x_resource_type"]) else str(meta.at[ent, "x_resource_type"]),
             "dam_basis": {r.m: [round(float(r.mean), 4), int(r.count)] for r in rows.itertuples()},
+            **({"pct": [round(float(pct.at[ent, 0.1]), 4), round(float(pct.at[ent, 0.5]), 4), round(float(pct.at[ent, 0.9]), 4), int(pdays[ent])]} if ent in pct.index else {}),
         })
     # a node with no day-ahead basis day is still a node of the table (a point held only in real time)
     for ent in sorted(set(kinds.index[~kinds.isin(["hub", "zone"])]) - set(g["entity"])):
         nodes.append({"id": ent.split(":", 1)[1], "cls": str(kinds[ent]), "types": "", "dam_basis": {}})
     nodes.sort(key=lambda n: n["id"])
     return {"table": NODE_TABLE, "built": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "first": first, "last": last,
-            "points": int(points), "hubs": hubs, "zones": zones, "nodes": nodes}
+            "points": int(points), "hubs": hubs, "zones": zones, "pct_from": p_from, "pct_to": p_to, "nodes": nodes}
 
 
 def cp_file(path):
