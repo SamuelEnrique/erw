@@ -95,6 +95,7 @@ TIER_RULES = [
     ("derived", r"^known_data_faults$"),  # session 103: the ERW's own register of its sources' faults
     ("derived", r"^grid_stress_days$"),  # session 306: ERW code over the hub prices and CAISO's notices
     ("derived", r"^eia_annual_crosscheck_ba$"),  # session 323: ERW code over EIA-923's sums and EIA-930's hours
+    ("derived", r"^interconnection_durations$"),  # session 671: ERW code over the Queued Up file (an entities table)
     # session 345: NLR's JEDI workbooks' own formulas, evaluated by ERW code for each state the model lists, per MW
     ("derived", r"^nlr_jedi_multipliers$"),
     ("derived", r"^ercot_node_prices_hourly$"),  # session 358: ERCOT's saved price files reshaped by ERW code, internal by the owner's rule
@@ -129,6 +130,9 @@ SECTOR_RULES = [
     (r"^eia930_", "power"),
     (r"^ferc714_area_demand_\d{4}$", "power"),  # session 484: FERC Form 714 hourly demand by planning area (PUDL)
     (r"^eia861_utility_sales$", "power"),  # session 485: EIA-861 retail sales, revenue and customers by utility
+    (r"^utility_service_territories$", "power"),  # session 667: EIA-861 service territories, utility by county
+    (r"^interconnection_durations(_summary)?$", "power"),  # session 671: request to operation, completed projects (Queued Up)
+    (r"^grid_peak_vs_capacity$", "power;capacity"),  # session 672: each grid's peak against its generators' capacity
     (r"^egrid_power_plants$", "power;carbon"),  # session 486: EPA eGRID, every plant's generation and emissions
     (r"^nlr_atb_electricity_costs$", "power"),  # session 487: NLR (NREL) ATB, projected technology costs
     (r"^eia_aeo_electricity$", "power"),  # session 490: EIA's Annual Energy Outlook, electricity Tables 8 and 9
@@ -751,13 +755,50 @@ def carried_over(present):
     return gone, md
 
 
+MD_COLS = ["Table", "ISO", "Market", "Variable", "Nodes", "Interval",
+           "First interval (UTC)", "Last interval (UTC)", "Rows", "Source report",
+           "Last run (UTC)", "Validator", "License", "Sector", "Derived", "Tier",
+           "Method"]  # session 674: the table's method note, linked
+_NOTES = {}
+
+
+def method_notes():
+    """Session 674: {table: its note, relative to docs/}. A note named after its table (docs/methods/<table>.md), else a
+    note whose line beginning "Tables: " names the table in backticks (a note of one source with several tables)."""
+    if not _NOTES:
+        paths = sorted(glob.glob(os.path.join(ROOT, "docs", "methods", "*.md")))
+        for p in paths:
+            _NOTES[os.path.basename(p)[:-3]] = f"methods/{os.path.basename(p)}"
+        for p in paths:
+            with open(p, encoding="utf-8") as f:
+                for ln in f:
+                    if ln.startswith("Tables: "):
+                        for t in re.findall(r"`([a-z0-9_]+)`", ln):
+                            _NOTES.setdefault(t, f"methods/{os.path.basename(p)}")
+    return _NOTES
+
+
+def method_cell(table):
+    note = method_notes().get(table)
+    return f"[{note[len('methods/'):-3]}]({note})" if note else ""
+
+
+def with_method(line):
+    """Session 674: a coverage.md table line written before the Method column, given its cell (other lines unchanged)."""
+    m = re.match(r"^\| `([a-z0-9_]+)` \|", line)
+    if m and len(re.findall(r"(?<!\\)\|", line)) == len(MD_COLS):   # one bar short: no Method cell yet
+        return line + f" {method_cell(m.group(1))} |"
+    return line
+
+
 def md_line(r):
     """A built row as its line of docs/coverage.md."""
     cells = [f"`{r['table']}`", r["iso"], r["market"], r["_variable"],
              f"{r['n_nodes']}: {r['_nodes']}", r["interval"],
              r["ts_min"].replace("T", " ").rstrip("Z"), r["ts_max"].replace("T", " ").rstrip("Z"),
              f"{r['n_rows']:,}", r["source_report"].replace(";", "; "),
-             r["last_run"].replace("T", " ").rstrip("Z"), r["validator_status"], r["license"], r["sector"].replace(";", ", "), r["derived"], r["tier"]]
+             r["last_run"].replace("T", " ").rstrip("Z"), r["validator_status"], r["license"], r["sector"].replace(";", ", "), r["derived"], r["tier"],
+             method_cell(r["table"])]
     return "| " + " | ".join(str(c).replace("|", "\\|") for c in cells) + " |"
 
 
@@ -804,6 +845,14 @@ def main():
         todo = {r["table"]: md_line(r) for r in rows}
         out_doc = []
         gone_for_good = set(MIGRATED) | retired_tables()
+        for i, ln in enumerate(doc):  # session 674: the Method column, once, on a page written before it
+            if ln.startswith("| Table |") and "| Method |" not in ln:
+                doc[i] = "| " + " | ".join(MD_COLS) + " |"
+                doc[i + 1] = "|" + "|".join("---" for _ in MD_COLS) + "|"
+            elif ln.endswith("written by a model reading text)."):
+                doc[i] = ln + " `Method` links the table's method note under `docs/methods/`, where one names it."
+            else:
+                doc[i] = with_method(ln)
         for ln in doc:
             n = name_of(ln)
             if n is not None:
@@ -822,9 +871,7 @@ def main():
               f"{len(out_rows)} tables ({len(rows)} built here, {len(carried)} carried over as they stood)")
         return 0
 
-    md_cols = ["Table", "ISO", "Market", "Variable", "Nodes", "Interval",
-               "First interval (UTC)", "Last interval (UTC)", "Rows", "Source report",
-               "Last run (UTC)", "Validator", "License", "Sector", "Derived", "Tier"]
+    md_cols = MD_COLS
     lines = [
         "# ERW coverage",
         "",
@@ -843,7 +890,7 @@ def main():
         "carbon, capacity, metals, equities, news. `Derived` is yes for a table the ERW computes "
         "from other ERW tables (method in `docs/methods/`). `Tier` is the provenance tier "
         "(`docs/datastandard.md`): `source` (as the publisher published it), `derived` (computed by ERW "
-        "code, no model) or `model_extracted` (at least one column written by a model reading text).",
+        "code, no model) or `model_extracted` (at least one column written by a model reading text). `Method` links the table's method note under `docs/methods/`, where one names it.",
         "",
         "| " + " | ".join(md_cols) + " |",
         "|" + "|".join("---" for _ in md_cols) + "|",
@@ -851,7 +898,7 @@ def main():
     built = {r["table"]: r for r in rows}
     for name in sorted(list(built) + [r["table"] for r in carried]):
         if name not in built:
-            lines.append(carried_md[name])
+            lines.append(with_method(carried_md[name]))
             continue
         lines.append(md_line(built[name]))
     # session 29: a member of a consolidated table counts as present when its consolidated table is

@@ -12,6 +12,7 @@ import { KINDS, KIND_LABELS, conditionOf, deliveryStat, kindOf, slugOf, type Uti
 import { KEYS as SCENARIO_KEYS, SPECS, held as heldWays } from "@/lib/datacenter/finance";
 import { DELIVERY, INDEX, type MatrixRow } from "@/lib/datacenterdata";
 import { shown } from "@/lib/format";
+import { AllGridsView } from "./AllGridsView";
 import { GridsView } from "./GridsView";
 import { YearCost } from "./LoadCharts";
 import { LoadForm } from "./LoadForm";
@@ -91,11 +92,11 @@ function Sub({ children }: { children: ReactNode }) {
 }
 
 function ViewNav({ x }: { x: Inputs }) {
-  const item = (view: "load" | "grids", label: string) => (
+  const item = (view: Inputs["view"], label: string) => (
     <Link href={hrefOf(x, { view })} scroll={false} aria-current={x.view === view ? "page" : undefined} data-view={view} style={{ color: x.view === view ? "var(--color-surface)" : "var(--color-ink)" }}
       className={`border px-2 py-1 no-underline ${x.view === view ? "border-accent bg-accent" : "border-rule bg-white hover:border-accent"}`}>{label}</Link>
   );
-  return <nav aria-label="Views" className="mb-6 flex flex-wrap gap-1 text-xs" data-views="1">{item("load", "Your load")}{item("grids", "Grid by grid")}</nav>;
+  return <nav aria-label="Views" className="mb-6 flex flex-wrap gap-1 text-xs" data-views="1">{item("load", "Your load")}{item("allgrids", "All grids")}{item("grids", "Grid by grid")}</nav>;
 }
 
 export default async function CostOfPower({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
@@ -111,7 +112,8 @@ export default async function CostOfPower({ searchParams }: { searchParams: Prom
         lead={<>What a buyer of power pays at a site, whether the power is there when it is needed, how clean it is and how soon it can be had, each computed for a load you describe; then two sites or two contracts side by side, and what moves the figure most. <Link href={METHOD}>Method note</Link>. <Link href={ALGORITHM}>Every number, step by step</Link>.</>}
       />
       <ViewNav x={x} />
-      {x.view === "grids" ? <GridsView /> : <LoadView asked={x} buyGiven={typeof sp.buy === "string"} gridAsked={typeof sp.grid === "string" ? sp.grid : undefined} q={q} />}
+      {/* session 700: the All grids tab, every grid, hub, zone and ERCOT node in one table (AllGridsView.tsx, lib/siting.ts) */}
+      {x.view === "grids" ? <GridsView /> : x.view === "allgrids" ? <AllGridsView q={q} /> : <LoadView asked={x} buyGiven={typeof sp.buy === "string"} gridAsked={typeof sp.grid === "string" ? sp.grid : undefined} q={q} />}
     </ToolPage>
     </Brand>
   );
