@@ -285,8 +285,7 @@ async function restPages<T>(table: string, query: Record<string, string>, revali
 export async function restCount(table: string, query: Record<string, string>, revalidate: number): Promise<number> {
   if (licenseHold(query).throw) throw new LicenseNeeded(tableOf(query));  // session 215; a count over a table held by grid is the table's own
   // session 499: a count over a table held by row counts its public rows
-  if (licenseHold(query).byRow) return restCountRaw(table, publicRowsQuery(query), revalidate);
-  return askAgainOnFailure(() => countOf(table, query, revalidate));
+  return restCountRaw(table, licenseHold(query).byRow ? publicRowsQuery(query) : query, revalidate);
 }
 
 /** Session 499: the query for the public rows of a table held by row (the row's own license, `extra->>row_license`;
@@ -310,7 +309,6 @@ export async function restHeldRowCount(table: string, query: Record<string, stri
   return restCountRaw(table, heldRowsQuery(query), revalidate);
 }
 
-/** Session 506's merge: session 499's count, asked again on a failure as session 537's counts are. */
 async function restCountRaw(table: string, query: Record<string, string>, revalidate: number): Promise<number> {
   return askAgainOnFailure(() => countOf(table, query, revalidate));
 }
