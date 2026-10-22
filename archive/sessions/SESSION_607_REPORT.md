@@ -4,7 +4,7 @@
 
 ## Read these first
 
-AFTER_TOP
+- **No difference to report.** `s589-before` (04:15 UTC) against `s607-after` (05:03 UTC, production serving session 589's landing `5b20c0f1`): 0 differences on 25 pages, as expected (no page is live).
 
 - **Chain 023 is deployed.** GitHub's Production deployments include `a3043fe1` (02:14 UTC), `95224f02`, `38bebe26` and `5283179e` (03:46 UTC), all after `87c343cc`; in production's internal view (`unlockPost`, the cookie) `/board` shows "Tables read, with their licenses" (session 502) and `/cost-of-power/battery` "25 published figures" (session 501), at 04:49 UTC.
 - **`s563-after` is not on this machine** (portable-laptop took it), so `compare s563-after s607-after` could not be made. The pair this machine holds is `s589-before` (04:15 UTC, production on `5283179e` or later, chain 023 in it) against `s607-after`, which also covers session 589's landing of chain 034.
@@ -22,7 +22,14 @@ AFTER_TOP
 
 ## Step 2: the snapshots
 
-STEP2
+Production began serving a new build at 05:03 UTC (the home page's first style sheet became `0zu7ns7pu9u4d.css`), 36 minutes after `5b20c0f1` merged; in the internal view `/internal/holds` then answered 200 with its 14 rows, so the build holds session 589's landing.
+
+| Command | Exit | Result |
+|---|---|---|
+| `node site/scripts/snapshot-live.mjs take s607-after` | 0 | 25 pages, 0 checked numbers, 0 failed, 05:03:47 UTC |
+| `node site/scripts/snapshot-live.mjs compare s589-before s607-after` | 0 | **0 differences in all** (each of the 25 pages: 0), expected: every page is in review, so a visitor sees the in-review page before and after |
+
+`compare s563-after s607-after` was not made: `s563-after` is on portable-laptop. The pair above spans chain 023's deployment (already served at 04:15) and chain 034's.
 
 ## Step 3: the branches deleted
 
@@ -44,7 +51,7 @@ Each only after `git merge-base --is-ancestor origin/<branch> origin/main` exite
 
 ## To finish
 
-TO_FINISH_607
+Nothing. (The comparison with `s563-after` can be made on portable-laptop, where that snapshot is: `node site/scripts/snapshot-live.mjs compare s563-after s607-after` once `s607-after` is copied there; it is not needed for the landing, which `s589-before` covers.)
 
 ## Files
 

@@ -91,3 +91,7 @@ Session 506's "To finish" (its records after portable-laptop's landing) is done 
 ## The queue
 
 `python scripts/chain_queue.py list` at 04:13 UTC: 1 waiting for samueloldlaptop, `036-night-22-october-code-607.md` (machine: code, session 607, written by portable-laptop's session 563 at about 00:45 UTC). So no new file was written: the queue step takes 036 next.
+
+## Finished (session 607)
+
+Production began serving `5b20c0f1` at 05:03 UTC (36 minutes after the merge); `/internal/holds` answered 200 in the internal view. `compare s589-before s607-after`: **0 differences** on 25 pages, as expected. Chain 023's merged branches were deleted by session 607.
