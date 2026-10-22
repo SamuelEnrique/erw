@@ -214,7 +214,7 @@ class TheNumbersTraced(unittest.TestCase):
         self.assertEqual(len(movers), 5)
         self.assertEqual(sum(1 for ln in self.lines if FUEL_LINE.match(ln) and not MOVER.match(ln)), 3)
         self.assertEqual(sum(1 for ln in self.lines if RT_LINE.match(ln)), 1)
-        self.assertEqual(len(DEMAND.findall("\n".join(self.lines))), 1)
+        self.assertEqual(len(DEMAND.findall("\n".join(self.lines))), 2)   # yesterday, and the same weekday a year before
         rows = [ln for ln in self.lines if re.match(r"^\| (ERCOT|CAISO|NYISO|MISO|SPP|ISO-NE) \|", ln)]
         self.assertEqual(len(rows), 6)
         for r in rows:
