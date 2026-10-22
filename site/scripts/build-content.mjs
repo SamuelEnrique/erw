@@ -10,9 +10,12 @@
 // `next dev` and `next build` (package.json predev and prebuild), so the
 // content is part of the build and no page reads the file system at request
 // time. A missing file fails the build: the site never shows a stand-in.
+// Session 587: it also writes site/content/holds.json for /internal/holds, from docs/licenses_holds.csv and
+// warehouse/metadata/license_status.csv (scripts/holds-content.mjs); that list may be missing, and the page says so.
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { holdsFromRepo } from "./holds-content.mjs";  // session 587
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repo = path.resolve(here, "..", "..");
@@ -241,3 +244,10 @@ const out = {
 fs.mkdirSync(path.join(here, "..", "content"), { recursive: true });
 fs.writeFileSync(path.join(here, "..", "content", "docs.json"), JSON.stringify(out));
 console.log(`build-content: ${Object.keys(grids).length} grid pages, ${Object.keys(digests).length} digests, ${Object.keys(weeklies).length} weekly briefs, ${Object.keys(methods).length} method documents, the data standard, ${Object.keys(analysis.weeks).length} analysis weeks`);
+
+// Session 587: the held figures that show (docs/licenses_holds.csv, written by scripts/check-holds.mjs --csv), with each
+// table's record in warehouse/metadata/license_status.csv, for /internal/holds only (lib/holds.ts). A file of its own,
+// so no page for visitors imports it; a missing list is said on that page and does not stop the build.
+const holds = holdsFromRepo();
+fs.writeFileSync(path.join(here, "..", "content", "holds.json"), JSON.stringify(holds));
+console.log(`build-content: holds.json, ${holds.unread ? `not read (${holds.unread})` : `${holds.rows.length} pages with held figures shown`}`);
