@@ -1758,7 +1758,9 @@ eia_basin_production_monthly,crude_production,series variable,kbbl/d
 eia_basin_production_monthly,gas_marketed_production,series variable,bcf/d
 eia_co2_state_annual,co2,series variable,tCO2
 eia_coal_delivered_price_annual,price,series variable,USD/short_ton
+eia_coal_price_rank_annual,price,series variable,USD/short_ton
 eia_coal_prices_annual,price,series variable,USD/short_ton
+eia_coal_trade_price_annual,price,series variable,USD/short_ton
 eia_crude_first_purchase_prices,first_purchase_price,series variable,USD/bbl
 eia_crude_imports_by_country,imports,series variable,kbbl/d
 eia_crude_production_state_monthly,field_production,series variable,kbbl
@@ -1836,6 +1838,7 @@ eia_gas_trade_monthly,export_volume,series variable,MMcf
 eia_gas_trade_monthly,import_volume,series variable,MMcf
 eia_lng_exports_monthly,export_price,series variable,USD/Mcf
 eia_lng_exports_monthly,export_volume,series variable,MMcf
+eia_meters_state_annual,meters,series variable,count
 eia_net_metering_state_annual,capacity,series variable,MW
 eia_net_metering_state_annual,customers,series variable,count
 eia_nuclear_outages_daily,capacity,series variable,MW
@@ -1879,6 +1882,8 @@ eia_petroleum_supply_weekly,production,series variable,kbbl/d
 eia_petroleum_supply_weekly,stocks,series variable,kbbl
 eia_petroleum_supply_weekly,utilization,series variable,pct
 eia_petroleum_trade_weekly,flow,series variable,kbbl/d
+eia_power_co2_state_annual,co2,series variable,tCO2
+eia_power_co2_state_annual,co2_rate,series variable,kgCO2/MWh
 eia_power_plant_fuel_costs,cost_per_mcf,series variable,USD/Mcf
 eia_power_plant_fuel_costs,cost_per_mmbtu,series variable,USD/MMBtu
 eia_power_plant_fuel_costs,cost_per_short_ton,series variable,USD/short_ton
@@ -1927,6 +1932,7 @@ eia_steo_forecasts,value,series variable,ratio
 eia_wood_pellets_monthly,domestic_price,series variable,USD/short_ton
 eia_wood_pellets_monthly,export_price,series variable,USD/short_ton
 eia_wood_pellets_monthly,facilities,series variable,count
+eia_wood_pellets_monthly,feedstock_cost,series variable,USD/short_ton
 eia_wood_pellets_monthly,fte_employees,series variable,count
 energy_companies,entity_id,column,
 energy_companies,entity_type,column,

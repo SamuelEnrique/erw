@@ -416,8 +416,9 @@ def write(doc=None):
     w("")
     w("No page read states a price. For the letter of intent, a price has to be asked for.")
     w("")
-    # session 505 (placed by session 506 before the prices, which close the document: session 378): the held figures a page still shows, one line a page, from docs/licenses_holds.csv (written by
-    # site/scripts/check-holds.mjs --csv on a build); no file, no section
+    # session 505: the held figures a page still shows, one line a page, from docs/licenses_holds.csv (written by
+    # site/scripts/check-holds.mjs --csv on a build); no file, no section. Before session 378's prices, which close the
+    # document (tests/test_session378.py; session 555)
     if os.path.exists(HOLDS_SHOWN):
         shown = rows(HOLDS_SHOWN)
         day = shown[0]["day"] if shown else ""
@@ -449,7 +450,7 @@ def write(doc=None):
         letter = f"`docs/reviews/licenses/{letters[k]}-permission-letter.md`" if k in letters else ""
         w(f"| {k} | {v['verdict']} | {v['if_commercial']} | {cell(v['price']) or 'none stated'} | {cell(v['contact']) or 'not named'} | {letter} |")
     w("")
-    text = "\n".join(L) + "\n"
+    text ="\n".join(L) + "\n"
     if chr(0x2014) in text:
         text = text.replace(chr(0x2014), ":")     # a publisher's own dash inside a quotation would break the house rule; none is expected
     with open(doc or DOC, "w", encoding="utf-8", newline="\n") as f:

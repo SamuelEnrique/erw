@@ -31,7 +31,7 @@ import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { env, unlockPost, withBrowser } from "./browser.mjs";  // session 506: the door named as session 301 requires
+import { env, unlockPost, withBrowser } from "./browser.mjs";   // session 555: a static import, the door test_session301 reads
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const SITE = path.join(here, "..");
