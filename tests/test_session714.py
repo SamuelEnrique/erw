@@ -24,7 +24,9 @@ class Tips(unittest.TestCase):
 
     def test_the_tip_is_the_site_s_rule(self):
         v = src("site", "app", "cost-of-power", "AllGridsView.tsx")
-        self.assertIn('<span role="tooltip" id={id} className="absolute right-0 top-full z-20 hidden', v)
+        # session 737 (chain 062): the box is styled once in tokens.css, keyed by data-tp, not by a class list on each tip
+        self.assertIn('<span role="tooltip" id={id} data-tp="">', v)
+        self.assertIn('span.tip > [role="tooltip"][data-tp]', src("site", "app", "tokens.css"))
         self.assertIn('<button type="button" aria-describedby={id}', v)
         self.assertIn("tip relative inline-block", v)
         css = src("site", "app", "tokens.css")
