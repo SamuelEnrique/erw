@@ -1064,3 +1064,30 @@ body:has(.brand-a) > footer :focus-visible {
   min-width: 0;
   max-width: 100%;
 }
+/* session 715 (chain 050): the All grids tab of /cost-of-power (app/cost-of-power/AllGridsView.tsx) to the brand. In a
+   figure's cell the words the warehouse writes where it holds no figure ("not held", "license needed", "no capacity
+   market"), a utility's name and every tip are text: sans, the tip in captions size; a figure stays mono. A column
+   head's tip keeps its dotted rule in captions grey on the white header. A tip sits above the row heads that stay in
+   place while the table scrolls. Structure, density and every number are kept */
+.brand-a [data-allgrids] tbody td.text-right [data-cell-words],
+.brand-a [data-allgrids] tbody td.text-right [data-license-held],
+.brand-a [data-allgrids] tbody td.text-right [data-util-name],
+.brand-a [data-allgrids-abpanel] tbody td [data-cell-words] {
+  font-family: var(--font-sans);
+  font-size: 14px;
+}
+.brand-a [data-allgrids] [role="tooltip"],
+.brand-a [data-allgrids] [role="tooltip"] span,
+.brand-a [data-node-shared] [role="tooltip"],
+.brand-a [data-node-shared] [role="tooltip"] span {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  white-space: normal;
+}
+.brand-a [data-allgrids] thead .tip {
+  border-bottom-color: var(--color-muted);
+}
+.brand-a [data-allgrids] .tip:hover,
+.brand-a [data-allgrids] .tip:focus-within {
+  z-index: 3;
+}

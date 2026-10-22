@@ -223,7 +223,7 @@ function UtilityTd({ r }: { r: Row }) {
   const tip = `${u.utility} (EIA utility ${u.number}), the largest of ${u.sellers} sellers to industry in ${c.state} inside ${GRID_NAMES[r.grid]} (balancing authority ${c.ba}) in ${c.year}: ${Math.round(u.sales_mwh).toLocaleString("en-US")} MWh to industry for USD ${Math.round(u.revenue_usd).toLocaleString("en-US")} (eia861_utility_sales, ${u.service === "Energy" ? "energy only: the wires utility bills delivery" : "bundled: energy and delivery"}). Service territories are not held, so the row's own utility is not known; this is the state's largest.`;
   return (
     <span className="inline-block text-right">
-      <Tp tip={tip} className="block max-w-[11rem] text-xs" dotted={false}><span className="block truncate">{u.utility}</span></Tp>
+      <Tp tip={tip} className="block max-w-[11rem] text-xs" dotted={false} data={{ "util-name": "1" }}><span className="block truncate">{u.utility}</span></Tp>
       <span className="whitespace-nowrap"><Fig check={`allgrids|utilrev|${r.id}`} v={c.rev} tip={tip} /></span>
       {c.growth !== null ? <span className="block text-xs" data-util-growth="1"><Tp dotted={false} tip={`Industrial sales ${c.year} over ${c.prior}: ${Math.round(u.sales_mwh).toLocaleString("en-US")} against ${Math.round(u.sales_prior_mwh ?? 0).toLocaleString("en-US")} MWh.`}>{c.growth > 0 ? "+" : ""}<Num check={`allgrids|utilgrowth|${r.id}`} raw={c.growth}>{two(c.growth)}</Num></Tp> %</span> : null}
     </span>
