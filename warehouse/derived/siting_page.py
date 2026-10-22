@@ -496,6 +496,33 @@ def facilities_file(spath, tpath):
             "year": year, "state_share": STATE_SHARE, "states": states, "counties": counties, "county_rows": rows}
 
 
+TARIFF_TABLE = "utility_large_load_tariffs"
+
+
+def tariffs_file(path):
+    """tariffs.json's content (session 730, chain 062), when the data machine's table has landed: each utility's (EIA
+    id) large-load rates as warehouse/connectors/openei_large_load_tariffs.py documents them, one series row a rate and
+    a variable (energy_charge USD/MWh, demand_charge USD/kW-month, fixed_charge USD a month, min_demand_mw MW), keyed by
+    the rate (entity) and its start (ts_utc). NOT WIRED into the tab: the table had not landed when this was written.
+    Its license is the table's own; a table held under a license is never written to the site's files."""
+    d = pd.read_csv(path, skiprows=header_rows(path), dtype=str)
+    need = {"entity", "variable", "ts_utc", "value", "x_eia_id", "x_utility", "x_sector"}
+    if not need <= set(d.columns):
+        raise ValueError(f"{TARIFF_TABLE} lacks {sorted(need - set(d.columns))}")
+    d["v"] = pd.to_numeric(d["value"], errors="coerce")
+    rates = {}
+    for (ent, start), g in d.groupby(["entity", "ts_utc"]):
+        v = {r.variable: (None if pd.isna(r.v) else float(r.v)) for r in g.itertuples()}
+        first = g.iloc[0]
+        rates.setdefault(str(first["x_eia_id"]), []).append({
+            "rate": ent, "name": str(first.get("node") or ""), "start": str(start)[:10], "utility": str(first["x_utility"]),
+            "sector": str(first["x_sector"]), "energy": v.get("energy_charge"), "demand": v.get("demand_charge"),
+            "fixed": v.get("fixed_charge"), "min_mw": v.get("min_demand_mw")})
+    for k in rates:
+        rates[k].sort(key=lambda r: (r["start"], r["rate"]), reverse=True)
+    return {"table": TARIFF_TABLE, "built": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "utilities": rates}
+
+
 def gaps_file(path=GAPS_MD):
     """gaps.json's content (session 713): the markdown table's rows, each cell as written."""
     with open(path, encoding="utf-8") as fh:

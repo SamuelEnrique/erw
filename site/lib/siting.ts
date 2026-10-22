@@ -781,6 +781,27 @@ export const UTILITY_KINDS_LINE = "The column's revenue per MWh is of three kind
 export function zoneGrowth(h: HeadroomFile | undefined, r: Pick<Row, "id">) {
   return h?.zones?.rows[r.id] ?? null;
 }
+/** Session 730 (chain 062): a utility's large-load rate (data/siting/tariffs.json, once utility_large_load_tariffs has
+ * landed; NOT WIRED: the table was not held when this was written). One rate as warehouse/derived/siting_page.py's
+ * tariffs_file writes it. */
+export type TariffRate = { rate: string; name: string; start: string; utility: string; sector: string; energy: number | null; demand: number | null; fixed: number | null; min_mw: number | null };
+/** The rate a load of `mw` takes: among the utility's rates whose minimum demand the load meets, the newest (by its
+ * start, then its label). None where no rate is open to the load. */
+export function tariffFor(rates: TariffRate[] | undefined, mw: number): TariffRate | null {
+  const open = (rates ?? []).filter((r) => r.min_mw === null || r.min_mw <= mw);
+  return open.length ? [...open].sort((a, b) => b.start.localeCompare(a.start) || b.rate.localeCompare(a.rate))[0] : null;
+}
+/** A rate's charges per MWh for a load of `mw` at load factor `lf`, by the tariff's own terms: the demand charge (USD per
+ * kW-month) over the MWh the load draws in a 730-hour month (its size times its load factor times 730), as the
+ * four-peak charge is spread over the hours a load runs; the fixed charge likewise; the energy charge as written. The
+ * parts are returned apart: a bundled rate's energy charge is a retail price, not a wires charge, so which parts a
+ * column adds is the column's rule. */
+export function tariffParts(r: TariffRate, mw: number, lf: number): { energy: number | null; demand: number | null; fixed: number | null; wires: number | null } {
+  const mwh = mw * lf * 730;
+  const demand = r.demand === null || mwh <= 0 ? null : (r.demand * mw * 1000) / mwh;
+  const fixed = r.fixed === null || mwh <= 0 ? null : r.fixed / mwh;
+  return { energy: r.energy, demand, fixed, wires: demand === null ? null : demand + (fixed ?? 0) };
+}
 /** The columns a node table sorts by, and the default: by name. */
 export const NODE_SORTS = ["node", "cls", "energy", "basis", "spread", "allin", "days"] as const;
 export type NodeSort = (typeof NODE_SORTS)[number];
