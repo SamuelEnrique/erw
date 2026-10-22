@@ -1,0 +1,5845 @@
+{
+ "steps": [
+  {
+   "step": "q1_allin_cheapest",
+   "width": 390,
+   "url": "/cost-of-power?view=allgrids&mw=1000&sort=allin&dir=asc",
+   "found": true,
+   "errorText": "",
+   "nChecks": 500,
+   "sortLine": "Sorted by the all-in figure, smallest first; a row with no figure, or one held under a license, last. 48 of 48 rows shown. The order is the column's, not a ranking of sites.",
+   "countLine": "Every hub and load zone the page's price files hold, and the grids they do not price: 48 rows. A datacenter load of 1,000 MW at a load factor of 0.90, never curtails.",
+   "headline": "Choose A and B under \"A and B, side by side\" in the box to set two rows beside each other; A sets this line.",
+   "abPanel": null,
+   "shared": null,
+   "panel": null,
+   "rows": [
+    {
+     "id": "ercot:HB_WEST",
+     "checks": [
+      {
+       "k": "allgrids|allin|ercot:HB_WEST|profile=datacenter&lf=0.9&strike=row",
+       "raw": "40.830431621004564",
+       "text": "40.83"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_WEST|da",
+       "raw": "33.005397260273966",
+       "text": "33.01"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_WEST|rt",
+       "raw": "30.662884703196347",
+       "text": "30.66"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_WEST|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_WEST|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_WEST|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:HB_WEST",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_WEST",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:HB_WEST",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_WEST",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_WEST",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_WEST",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_WEST",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_WEST",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      }
+     ],
+     "text": "ERCOT HB_WEST (hub)40.83Energy USD 33.01, transmission USD 7.83 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No delivery, distribution, ancilla"
+    },
+    {
+     "id": "ercot:HB_HUBAVG",
+     "checks": [
+      {
+       "k": "allgrids|allin|ercot:HB_HUBAVG|profile=datacenter&lf=0.9&strike=row",
+       "raw": "42.12709029680367",
+       "text": "42.13"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_HUBAVG|da",
+       "raw": "34.302055936073074",
+       "text": "34.30"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_HUBAVG|rt",
+       "raw": "32.20163812785388",
+       "text": "32.20"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HUBAVG|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HUBAVG|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HUBAVG|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:HB_HUBAVG",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_HUBAVG",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:HB_HUBAVG",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_HUBAVG",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_HUBAVG",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_HUBAVG",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_HUBAVG",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_HUBAVG",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      }
+     ],
+     "text": "ERCOT HB_HUBAVG (hub)42.13Energy USD 34.30, transmission USD 7.83 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No delivery, distribution, ancil"
+    },
+    {
+     "id": "ercot:HB_BUSAVG",
+     "checks": [
+      {
+       "k": "allgrids|allin|ercot:HB_BUSAVG|profile=datacenter&lf=0.9&strike=row",
+       "raw": "42.22352979452056",
+       "text": "42.22"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_BUSAVG|da",
+       "raw": "34.39849543378996",
+       "text": "34.40"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_BUSAVG|rt",
+       "raw": "32.38137557077625",
+       "text": "32.38"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_BUSAVG|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_BUSAVG|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_BUSAVG|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:HB_BUSAVG",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_BUSAVG",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:HB_BUSAVG",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_BUSAVG",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_BUSAVG",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_BUSAVG",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_BUSAVG",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_BUSAVG",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      }
+     ],
+     "text": "ERCOT HB_BUSAVG (hub)42.22Energy USD 34.40, transmission USD 7.83 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No delivery, distribution, ancil"
+    },
+    {
+     "id": "ercot:HB_NORTH",
+     "checks": [
+      {
+       "k": "allgrids|allin|ercot:HB_NORTH|profile=datacenter&lf=0.9&strike=row",
+       "raw": "42.25699440639271",
+       "text": "42.26"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_NORTH|da",
+       "raw": "34.43196004566211",
+       "text": "34.43"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_NORTH|rt",
+       "raw": "32.50617922374428",
+       "text": "32.51"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_NORTH|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_NORTH|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_NORTH|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:HB_NORTH",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_NORTH",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:HB_NORTH",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_NORTH",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_NORTH",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_NORTH",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_NORTH",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_NORTH",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      }
+     ],
+     "text": "ERCOT HB_NORTH (hub)42.26Energy USD 34.43, transmission USD 7.83 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No delivery, distribution, ancill"
+    },
+    {
+     "id": "ercot:LZ_SOUTH",
+     "checks": [
+      {
+       "k": "allgrids|allin|ercot:LZ_SOUTH|profile=datacenter&lf=0.9&strike=row",
+       "raw": "42.265250114155265",
+       "text": "42.27"
+      },
+      {
+       "k": "allgrids|energy|ercot:LZ_SOUTH|da",
+       "raw": "34.440215753424674",
+       "text": "34.44"
+      },
+      {
+       "k": "allgrids|energy|ercot:LZ_SOUTH|rt",
+       "raw": "33.75205136986302",
+       "text": "33.75"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_SOUTH|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_SOUTH|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_SOUTH|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:LZ_SOUTH",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:LZ_SOUTH",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:LZ_SOUTH",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:LZ_SOUTH",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:LZ_SOUTH",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:LZ_SOUTH",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:LZ_SOUTH",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:LZ_SOUTH",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      }
+     ],
+     "text": "ERCOT LZ_SOUTH, South load zone (load zone)42.27Energy USD 34.44, transmission USD 7.83 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No deliver"
+    },
+    {
+     "id": "ercot:HB_SOUTH",
+     "checks": [
+      {
+       "k": "allgrids|allin|ercot:HB_SOUTH|profile=datacenter&lf=0.9&strike=row",
+       "raw": "42.374707876712336",
+       "text": "42.37"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_SOUTH|da",
+       "raw": "34.54967351598174",
+       "text": "34.55"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_SOUTH|rt",
+       "raw": "32.737066210045676",
+       "text": "32.74"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_SOUTH|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_SOUTH|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_SOUTH|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:HB_SOUTH",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_SOUTH",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:HB_SOUTH",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_SOUTH",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_SOUTH",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_SOUTH",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_SOUTH",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_SOUTH",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      }
+     ],
+     "text": "ERCOT HB_SOUTH (hub)42.37Energy USD 34.55, transmission USD 7.83 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No delivery, distribution, ancill"
+    },
+    {
+     "id": "ercot:HB_HOUSTON",
+     "checks": [
+      {
+       "k": "allgrids|allin|ercot:HB_HOUSTON|profile=datacenter&lf=0.9&strike=row",
+       "raw": "43.04616906392695",
+       "text": "43.05"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_HOUSTON|da",
+       "raw": "35.221134703196356",
+       "text": "35.22"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_HOUSTON|rt",
+       "raw": "32.90021689497716",
+       "text": "32.90"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HOUSTON|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HOUSTON|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HOUSTON|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:HB_HOUSTON",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_HOUSTON",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:HB_HOUSTON",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_HOUSTON",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_HOUSTON",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_HOUSTON",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_HOUSTON",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_HOUSTON",
+       "raw": "89.38681180428301",
+       "text": "89.39"
+      }
+     ],
+     "text": "ERCOT HB_HOUSTON (hub)43.05Energy USD 35.22, transmission USD 7.83 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No delivery, distribution, anci"
+    },
+    {
+     "id": "ercot:LZ_NORTH",
+     "checks": [
+      {
+       "k": "allgrids|allin|ercot:LZ_NORTH|profile=datacenter&lf=0.9&strike=row",
+       "raw": "43.151433904109595",
+       "text": "43.15"
+      },
+      {
+       "k": "allgrids|energy|ercot:LZ_NORTH|da",
+       "raw": "35.326399543379",
+       "text": "35.33"
+      },
+      {
+       "k": "allgrids|energy|ercot:LZ_NORTH|rt",
+       "raw": "33.72888698630137",
+       "text": "33.73"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_NORTH|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_NORTH|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_NORTH|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:LZ_NORTH",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:LZ_NORTH",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:LZ_NORTH",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:LZ_NORTH",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:LZ_NORTH",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:LZ_NORTH",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:LZ_NORTH",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:LZ_NORTH",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      }
+     ],
+     "text": "ERCOT LZ_NORTH, North load zone (load zone)43.15Energy USD 35.33, transmission USD 7.83 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No deliver"
+    }
+   ],
+   "heads": [
+    "allin",
+    "energy",
+    "transmission",
+    "capacity",
+    "connect",
+    "headroom",
+    "carbon",
+    "utility"
+   ],
+   "gaps": null,
+   "tracker": null,
+   "card": null,
+   "scrollW": 390,
+   "clientW": 390,
+   "totalH": 5547,
+   "shot": "q1_allin_cheapest_390.png"
+  },
+  {
+   "step": "q1_energy_cheapest",
+   "width": 390,
+   "url": "/cost-of-power?view=allgrids&mw=1000&sort=energy&dir=asc",
+   "found": true,
+   "errorText": "",
+   "nChecks": 500,
+   "sortLine": "Sorted by energy, smallest first; a row with no figure, or one held under a license, last. 48 of 48 rows shown. The order is the column's, not a ranking of sites.",
+   "countLine": "Every hub and load zone the page's price files hold, and the grids they do not price: 48 rows. A datacenter load of 1,000 MW at a load factor of 0.90, never curtails.",
+   "headline": "Choose A and B under \"A and B, side by side\" in the box to set two rows beside each other; A sets this line.",
+   "abPanel": null,
+   "shared": null,
+   "panel": null,
+   "rows": [
+    {
+     "id": "caiso:TH_SP15_GEN-APND",
+     "checks": [
+      {
+       "k": "allgrids|energy|caiso:TH_SP15_GEN-APND|da",
+       "raw": "28.939603881278536",
+       "text": "28.94"
+      },
+      {
+       "k": "allgrids|energy|caiso:TH_SP15_GEN-APND|rt",
+       "raw": "28.59298173515982",
+       "text": "28.59"
+      },
+      {
+       "k": "allgrids|connect|caiso:TH_SP15_GEN-APND",
+       "raw": "100",
+       "text": "100.00"
+      },
+      {
+       "k": "allgrids|demand|caiso:TH_SP15_GEN-APND",
+       "raw": "3.640832129058569",
+       "text": "3.64"
+      },
+      {
+       "k": "allgrids|planned|caiso:TH_SP15_GEN-APND",
+       "raw": "8275.6",
+       "text": "8,276"
+      },
+      {
+       "k": "allgrids|capratio|caiso:TH_SP15_GEN-APND",
+       "raw": "105.89",
+       "text": "106"
+      },
+      {
+       "k": "allgrids|carbon|caiso:TH_SP15_GEN-APND",
+       "raw": "194.34801391967784",
+       "text": "194.35"
+      },
+      {
+       "k": "allgrids|carbonlb|caiso:TH_SP15_GEN-APND",
+       "raw": "428.4640279987025",
+       "text": "428.46"
+      },
+      {
+       "k": "allgrids|utilrev|caiso:TH_SP15_GEN-APND",
+       "raw": "204.2781887359761",
+       "text": "204.28"
+      },
+      {
+       "k": "allgrids|utilgrowth|caiso:TH_SP15_GEN-APND",
+       "raw": "0.18873397251237822",
+       "text": "0.19"
+      }
+     ],
+     "text": "CAISO TH_SP15_GEN-APND (hub)28.94Day-ahead, a flat load, October 2025 to September 2026, 8,760 hours held: USD 28.94 per MWh. The last whole month, September 20"
+    },
+    {
+     "id": "caiso:TH_ZP26_GEN-APND",
+     "checks": [
+      {
+       "k": "allgrids|energy|caiso:TH_ZP26_GEN-APND|da",
+       "raw": "29.005219178082193",
+       "text": "29.01"
+      },
+      {
+       "k": "allgrids|energy|caiso:TH_ZP26_GEN-APND|rt",
+       "raw": "27.890472602739738",
+       "text": "27.89"
+      },
+      {
+       "k": "allgrids|connect|caiso:TH_ZP26_GEN-APND",
+       "raw": "100",
+       "text": "100.00"
+      },
+      {
+       "k": "allgrids|demand|caiso:TH_ZP26_GEN-APND",
+       "raw": "3.640832129058569",
+       "text": "3.64"
+      },
+      {
+       "k": "allgrids|planned|caiso:TH_ZP26_GEN-APND",
+       "raw": "8275.6",
+       "text": "8,276"
+      },
+      {
+       "k": "allgrids|capratio|caiso:TH_ZP26_GEN-APND",
+       "raw": "105.89",
+       "text": "106"
+      },
+      {
+       "k": "allgrids|carbon|caiso:TH_ZP26_GEN-APND",
+       "raw": "194.34801391967784",
+       "text": "194.35"
+      },
+      {
+       "k": "allgrids|carbonlb|caiso:TH_ZP26_GEN-APND",
+       "raw": "428.4640279987025",
+       "text": "428.46"
+      },
+      {
+       "k": "allgrids|utilrev|caiso:TH_ZP26_GEN-APND",
+       "raw": "325.3739159213717",
+       "text": "325.37"
+      },
+      {
+       "k": "allgrids|utilgrowth|caiso:TH_ZP26_GEN-APND",
+       "raw": "-8.610586520376252",
+       "text": "-8.61"
+      }
+     ],
+     "text": "CAISO TH_ZP26_GEN-APND (hub)29.01Day-ahead, a flat load, October 2025 to September 2026, 8,760 hours held: USD 29.01 per MWh. The last whole month, September 20"
+    },
+    {
+     "id": "spp:SPPSOUTH_HUB",
+     "checks": [
+      {
+       "k": "allgrids|energy|spp:SPPSOUTH_HUB|da",
+       "raw": "29.27157305936072",
+       "text": "29.27"
+      },
+      {
+       "k": "allgrids|connect|spp:SPPSOUTH_HUB",
+       "raw": "84.6",
+       "text": "84.60"
+      },
+      {
+       "k": "allgrids|demand|spp:SPPSOUTH_HUB",
+       "raw": "5.254856285000131",
+       "text": "5.25"
+      },
+      {
+       "k": "allgrids|planned|spp:SPPSOUTH_HUB",
+       "raw": "3870.2",
+       "text": "3,870"
+      },
+      {
+       "k": "allgrids|capratio|spp:SPPSOUTH_HUB",
+       "raw": "78.12",
+       "text": "78"
+      },
+      {
+       "k": "allgrids|carbon|spp:SPPSOUTH_HUB",
+       "raw": "395.5515033814666",
+       "text": "395.55"
+      },
+      {
+       "k": "allgrids|carbonlb|spp:SPPSOUTH_HUB",
+       "raw": "872.0417924610738",
+       "text": "872.04"
+      },
+      {
+       "k": "allgrids|utilrev|spp:SPPSOUTH_HUB",
+       "raw": "59.14730672816207",
+       "text": "59.15"
+      },
+      {
+       "k": "allgrids|utilgrowth|spp:SPPSOUTH_HUB",
+       "raw": "-2.9934045854693836",
+       "text": "-2.99"
+      }
+     ],
+     "text": "SPP SPPSOUTH_HUB (hub)29.27Day-ahead, a flat load, October 2025 to September 2026, 8,760 hours held: USD 29.27 per MWh. The last whole month, September 2026: US"
+    },
+    {
+     "id": "ercot:HB_WEST",
+     "checks": [
+      {
+       "k": "allgrids|energy|ercot:HB_WEST|da",
+       "raw": "33.005397260273966",
+       "text": "33.01"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_WEST|rt",
+       "raw": "30.662884703196347",
+       "text": "30.66"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_WEST|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_WEST|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_WEST|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:HB_WEST",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_WEST",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:HB_WEST",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_WEST",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_WEST",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_WEST",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_WEST",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_WEST",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      },
+      {
+       "k": "allgrids|utilgrowth|ercot:HB_WEST",
+       "raw": "9.443553200366427",
+       "text": "9.44"
+      }
+     ],
+     "text": "ERCOT HB_WEST (hub)33.01Day-ahead, a flat load, October 2025 to September 2026, 8,760 hours held: USD 33.01 per MWh. The last whole month, September 2026: USD 3"
+    },
+    {
+     "id": "caiso:TH_NP15_GEN-APND",
+     "checks": [
+      {
+       "k": "allgrids|energy|caiso:TH_NP15_GEN-APND|da",
+       "raw": "33.434795662100456",
+       "text": "33.43"
+      },
+      {
+       "k": "allgrids|energy|caiso:TH_NP15_GEN-APND|rt",
+       "raw": "32.66798173515983",
+       "text": "32.67"
+      },
+      {
+       "k": "allgrids|connect|caiso:TH_NP15_GEN-APND",
+       "raw": "100",
+       "text": "100.00"
+      },
+      {
+       "k": "allgrids|demand|caiso:TH_NP15_GEN-APND",
+       "raw": "3.640832129058569",
+       "text": "3.64"
+      },
+      {
+       "k": "allgrids|planned|caiso:TH_NP15_GEN-APND",
+       "raw": "8275.6",
+       "text": "8,276"
+      },
+      {
+       "k": "allgrids|capratio|caiso:TH_NP15_GEN-APND",
+       "raw": "105.89",
+       "text": "106"
+      },
+      {
+       "k": "allgrids|carbon|caiso:TH_NP15_GEN-APND",
+       "raw": "194.34801391967784",
+       "text": "194.35"
+      },
+      {
+       "k": "allgrids|carbonlb|caiso:TH_NP15_GEN-APND",
+       "raw": "428.4640279987025",
+       "text": "428.46"
+      },
+      {
+       "k": "allgrids|utilrev|caiso:TH_NP15_GEN-APND",
+       "raw": "325.3739159213717",
+       "text": "325.37"
+      },
+      {
+       "k": "allgrids|utilgrowth|caiso:TH_NP15_GEN-APND",
+       "raw": "-8.610586520376252",
+       "text": "-8.61"
+      }
+     ],
+     "text": "CAISO TH_NP15_GEN-APND (hub)33.43Day-ahead, a flat load, October 2025 to September 2026, 8,760 hours held: USD 33.43 per MWh. The last whole month, September 20"
+    },
+    {
+     "id": "spp:SPPNORTH_HUB",
+     "checks": [
+      {
+       "k": "allgrids|energy|spp:SPPNORTH_HUB|da",
+       "raw": "33.51486149267399",
+       "text": "33.51"
+      },
+      {
+       "k": "allgrids|energy|spp:SPPNORTH_HUB|rt",
+       "raw": "30.796313926940634",
+       "text": "30.80"
+      },
+      {
+       "k": "allgrids|connect|spp:SPPNORTH_HUB",
+       "raw": "84.6",
+       "text": "84.60"
+      },
+      {
+       "k": "allgrids|demand|spp:SPPNORTH_HUB",
+       "raw": "5.254856285000131",
+       "text": "5.25"
+      },
+      {
+       "k": "allgrids|planned|spp:SPPNORTH_HUB",
+       "raw": "3870.2",
+       "text": "3,870"
+      },
+      {
+       "k": "allgrids|capratio|spp:SPPNORTH_HUB",
+       "raw": "78.12",
+       "text": "78"
+      },
+      {
+       "k": "allgrids|carbon|spp:SPPNORTH_HUB",
+       "raw": "390.99614324657375",
+       "text": "391.00"
+      },
+      {
+       "k": "allgrids|carbonlb|spp:SPPNORTH_HUB",
+       "raw": "861.9989424570209",
+       "text": "862.00"
+      },
+      {
+       "k": "allgrids|utilrev|spp:SPPNORTH_HUB",
+       "raw": "77.78769323241058",
+       "text": "77.79"
+      },
+      {
+       "k": "allgrids|utilgrowth|spp:SPPNORTH_HUB",
+       "raw": "-4.654052963970368",
+       "text": "-4.65"
+      }
+     ],
+     "text": "SPP SPPNORTH_HUB (hub)33.51Day-ahead, a flat load, October 2025 to September 2026, 8,736 hours held: USD 33.51 per MWh. The last whole month, September 2026: US"
+    },
+    {
+     "id": "ercot:HB_HUBAVG",
+     "checks": [
+      {
+       "k": "allgrids|energy|ercot:HB_HUBAVG|da",
+       "raw": "34.302055936073074",
+       "text": "34.30"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_HUBAVG|rt",
+       "raw": "32.20163812785388",
+       "text": "32.20"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HUBAVG|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HUBAVG|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HUBAVG|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:HB_HUBAVG",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_HUBAVG",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:HB_HUBAVG",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_HUBAVG",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_HUBAVG",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_HUBAVG",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_HUBAVG",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_HUBAVG",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      },
+      {
+       "k": "allgrids|utilgrowth|ercot:HB_HUBAVG",
+       "raw": "9.443553200366427",
+       "text": "9.44"
+      }
+     ],
+     "text": "ERCOT HB_HUBAVG (hub)34.30Day-ahead, a flat load, October 2025 to September 2026, 8,760 hours held: USD 34.30 per MWh. The last whole month, September 2026: USD"
+    },
+    {
+     "id": "ercot:HB_BUSAVG",
+     "checks": [
+      {
+       "k": "allgrids|energy|ercot:HB_BUSAVG|da",
+       "raw": "34.39849543378996",
+       "text": "34.40"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_BUSAVG|rt",
+       "raw": "32.38137557077625",
+       "text": "32.38"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_BUSAVG|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_BUSAVG|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_BUSAVG|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:HB_BUSAVG",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_BUSAVG",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:HB_BUSAVG",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_BUSAVG",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_BUSAVG",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_BUSAVG",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_BUSAVG",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_BUSAVG",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      },
+      {
+       "k": "allgrids|utilgrowth|ercot:HB_BUSAVG",
+       "raw": "9.443553200366427",
+       "text": "9.44"
+      }
+     ],
+     "text": "ERCOT HB_BUSAVG (hub)34.40Day-ahead, a flat load, October 2025 to September 2026, 8,760 hours held: USD 34.40 per MWh. The last whole month, September 2026: USD"
+    }
+   ],
+   "heads": [
+    "energy",
+    "transmission",
+    "capacity",
+    "connect",
+    "headroom",
+    "carbon",
+    "utility",
+    "allin"
+   ],
+   "gaps": null,
+   "tracker": null,
+   "card": null,
+   "scrollW": 390,
+   "clientW": 390,
+   "totalH": 5547,
+   "shot": "q1_energy_cheapest_390.png"
+  },
+  {
+   "step": "q2_a_b",
+   "width": 390,
+   "url": "/cost-of-power?view=allgrids&mw=1000&sort=allin&dir=asc&a=ercot%3AHB_WEST&b=ercot%3ALZ_NORTH",
+   "found": true,
+   "errorText": "",
+   "nChecks": 532,
+   "sortLine": "Sorted by the all-in figure, smallest first; a row with no figure, or one held under a license, last. 48 of 48 rows shown. The order is the column's, not a ranking of sites.",
+   "countLine": "Every hub and load zone the page's price files hold, and the grids they do not price: 48 rows. A datacenter load of 1,000 MW at a load factor of 0.90, never curtails.",
+   "headline": "A datacenter load of 1,000 MW at ERCOT HB_WEST pays USD 40.83 per MWh all-in, USD 321,907,123 a year; generators there took a median of 45.80 months to connect.",
+   "abPanel": "A and B, side by sideUSD per MWh unless saidA: ERCOT HB_WESTB: ERCOT LZ_NORTHB less AEnergy 33.0135.33+2.32Transmission and 4CP 7.837.830.00Capacity 0.000.000.00Time to connect months45.8045.800.00Headroom percent; MW5.415.410.00Carbon kg CO2 per MWh332.87332.870.00UtilityWhat each side's figure is (session 726): A bundled; the state's stand-in (TX); B bundled; the state's stand-in (TX). Each is the seller's industrial revenue over its sales (eia861_utility_sales); the two are alike only when both are the same service and the same kind of seller. 73.5773.570.00All-in 40.8343.15+2.32A year all-in, USD, 1,000 MW321,907,123340,205,905+18,298,782Energy used a year, MWh7,884,0007,884,000Each figure is the row's own in the table below, under the same load. Months to connect are the grid's generators' (the column \"Time to connect\"). The year all-in is the all-in figure times the energy the load uses in a year: its draw while running times the hours it runs.",
+   "shared": null,
+   "panel": null,
+   "rows": [
+    {
+     "id": "ercot:HB_WEST",
+     "checks": [
+      {
+       "k": "allgrids|allin|ercot:HB_WEST|profile=datacenter&lf=0.9&strike=row",
+       "raw": "40.830431621004564",
+       "text": "40.83"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_WEST|da",
+       "raw": "33.005397260273966",
+       "text": "33.01"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_WEST|rt",
+       "raw": "30.662884703196347",
+       "text": "30.66"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_WEST|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_WEST|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_WEST|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:HB_WEST",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_WEST",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:HB_WEST",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_WEST",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_WEST",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_WEST",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_WEST",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_WEST",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      }
+     ],
+     "text": "ERCOT HB_WEST (hub)40.83Energy USD 33.01, transmission USD 7.83 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No delivery, distribution, ancilla"
+    },
+    {
+     "id": "ercot:HB_HUBAVG",
+     "checks": [
+      {
+       "k": "allgrids|allin|ercot:HB_HUBAVG|profile=datacenter&lf=0.9&strike=row",
+       "raw": "42.12709029680367",
+       "text": "42.13"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_HUBAVG|da",
+       "raw": "34.302055936073074",
+       "text": "34.30"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_HUBAVG|rt",
+       "raw": "32.20163812785388",
+       "text": "32.20"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HUBAVG|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HUBAVG|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HUBAVG|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:HB_HUBAVG",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_HUBAVG",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:HB_HUBAVG",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_HUBAVG",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_HUBAVG",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_HUBAVG",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_HUBAVG",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_HUBAVG",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      }
+     ],
+     "text": "ERCOT HB_HUBAVG (hub)42.13Energy USD 34.30, transmission USD 7.83 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No delivery, distribution, ancil"
+    },
+    {
+     "id": "ercot:HB_BUSAVG",
+     "checks": [
+      {
+       "k": "allgrids|allin|ercot:HB_BUSAVG|profile=datacenter&lf=0.9&strike=row",
+       "raw": "42.22352979452056",
+       "text": "42.22"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_BUSAVG|da",
+       "raw": "34.39849543378996",
+       "text": "34.40"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_BUSAVG|rt",
+       "raw": "32.38137557077625",
+       "text": "32.38"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_BUSAVG|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_BUSAVG|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_BUSAVG|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:HB_BUSAVG",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_BUSAVG",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:HB_BUSAVG",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_BUSAVG",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_BUSAVG",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_BUSAVG",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_BUSAVG",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_BUSAVG",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      }
+     ],
+     "text": "ERCOT HB_BUSAVG (hub)42.22Energy USD 34.40, transmission USD 7.83 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No delivery, distribution, ancil"
+    },
+    {
+     "id": "ercot:HB_NORTH",
+     "checks": [
+      {
+       "k": "allgrids|allin|ercot:HB_NORTH|profile=datacenter&lf=0.9&strike=row",
+       "raw": "42.25699440639271",
+       "text": "42.26"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_NORTH|da",
+       "raw": "34.43196004566211",
+       "text": "34.43"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_NORTH|rt",
+       "raw": "32.50617922374428",
+       "text": "32.51"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_NORTH|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_NORTH|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_NORTH|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:HB_NORTH",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_NORTH",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:HB_NORTH",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_NORTH",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_NORTH",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_NORTH",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_NORTH",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_NORTH",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      }
+     ],
+     "text": "ERCOT HB_NORTH (hub)42.26Energy USD 34.43, transmission USD 7.83 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No delivery, distribution, ancill"
+    },
+    {
+     "id": "ercot:LZ_SOUTH",
+     "checks": [
+      {
+       "k": "allgrids|allin|ercot:LZ_SOUTH|profile=datacenter&lf=0.9&strike=row",
+       "raw": "42.265250114155265",
+       "text": "42.27"
+      },
+      {
+       "k": "allgrids|energy|ercot:LZ_SOUTH|da",
+       "raw": "34.440215753424674",
+       "text": "34.44"
+      },
+      {
+       "k": "allgrids|energy|ercot:LZ_SOUTH|rt",
+       "raw": "33.75205136986302",
+       "text": "33.75"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_SOUTH|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_SOUTH|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_SOUTH|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:LZ_SOUTH",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:LZ_SOUTH",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:LZ_SOUTH",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:LZ_SOUTH",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:LZ_SOUTH",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:LZ_SOUTH",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:LZ_SOUTH",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:LZ_SOUTH",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      }
+     ],
+     "text": "ERCOT LZ_SOUTH, South load zone (load zone)42.27Energy USD 34.44, transmission USD 7.83 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No deliver"
+    },
+    {
+     "id": "ercot:HB_SOUTH",
+     "checks": [
+      {
+       "k": "allgrids|allin|ercot:HB_SOUTH|profile=datacenter&lf=0.9&strike=row",
+       "raw": "42.374707876712336",
+       "text": "42.37"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_SOUTH|da",
+       "raw": "34.54967351598174",
+       "text": "34.55"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_SOUTH|rt",
+       "raw": "32.737066210045676",
+       "text": "32.74"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_SOUTH|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_SOUTH|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_SOUTH|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:HB_SOUTH",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_SOUTH",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:HB_SOUTH",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_SOUTH",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_SOUTH",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_SOUTH",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_SOUTH",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_SOUTH",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      }
+     ],
+     "text": "ERCOT HB_SOUTH (hub)42.37Energy USD 34.55, transmission USD 7.83 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No delivery, distribution, ancill"
+    },
+    {
+     "id": "ercot:HB_HOUSTON",
+     "checks": [
+      {
+       "k": "allgrids|allin|ercot:HB_HOUSTON|profile=datacenter&lf=0.9&strike=row",
+       "raw": "43.04616906392695",
+       "text": "43.05"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_HOUSTON|da",
+       "raw": "35.221134703196356",
+       "text": "35.22"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_HOUSTON|rt",
+       "raw": "32.90021689497716",
+       "text": "32.90"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HOUSTON|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HOUSTON|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HOUSTON|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:HB_HOUSTON",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_HOUSTON",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:HB_HOUSTON",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_HOUSTON",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_HOUSTON",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_HOUSTON",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_HOUSTON",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_HOUSTON",
+       "raw": "89.38681180428301",
+       "text": "89.39"
+      }
+     ],
+     "text": "ERCOT HB_HOUSTON (hub)43.05Energy USD 35.22, transmission USD 7.83 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No delivery, distribution, anci"
+    },
+    {
+     "id": "ercot:LZ_NORTH",
+     "checks": [
+      {
+       "k": "allgrids|allin|ercot:LZ_NORTH|profile=datacenter&lf=0.9&strike=row",
+       "raw": "43.151433904109595",
+       "text": "43.15"
+      },
+      {
+       "k": "allgrids|energy|ercot:LZ_NORTH|da",
+       "raw": "35.326399543379",
+       "text": "35.33"
+      },
+      {
+       "k": "allgrids|energy|ercot:LZ_NORTH|rt",
+       "raw": "33.72888698630137",
+       "text": "33.73"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_NORTH|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_NORTH|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_NORTH|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:LZ_NORTH",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:LZ_NORTH",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:LZ_NORTH",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:LZ_NORTH",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:LZ_NORTH",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:LZ_NORTH",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:LZ_NORTH",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:LZ_NORTH",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      }
+     ],
+     "text": "ERCOT LZ_NORTH, North load zone (load zone)43.15Energy USD 35.33, transmission USD 7.83 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No deliver"
+    }
+   ],
+   "heads": [
+    "allin",
+    "energy",
+    "transmission",
+    "capacity",
+    "connect",
+    "headroom",
+    "carbon",
+    "utility"
+   ],
+   "gaps": null,
+   "tracker": null,
+   "card": null,
+   "scrollW": 390,
+   "clientW": 390,
+   "totalH": 6291,
+   "shot": "q2_a_b_390.png"
+  },
+  {
+   "step": "q3_connect",
+   "width": 390,
+   "url": "/cost-of-power?view=allgrids&mw=1000&sort=connect&dir=asc",
+   "found": true,
+   "errorText": "",
+   "nChecks": 500,
+   "sortLine": "Sorted by months to connect, smallest first; a row with no figure, or one held under a license, last. 48 of 48 rows shown. The order is the column's, not a ranking of sites.",
+   "countLine": "Every hub and load zone the page's price files hold, and the grids they do not price: 48 rows. A datacenter load of 1,000 MW at a load factor of 0.90, never curtails.",
+   "headline": "Choose A and B under \"A and B, side by side\" in the box to set two rows beside each other; A sets this line.",
+   "abPanel": null,
+   "shared": null,
+   "panel": null,
+   "rows": [
+    {
+     "id": "ercot:HB_BUSAVG",
+     "checks": [
+      {
+       "k": "allgrids|connect|ercot:HB_BUSAVG",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_BUSAVG",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_BUSAVG|da",
+       "raw": "34.39849543378996",
+       "text": "34.40"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_BUSAVG|rt",
+       "raw": "32.38137557077625",
+       "text": "32.38"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_BUSAVG|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_BUSAVG|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_BUSAVG|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|demand|ercot:HB_BUSAVG",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_BUSAVG",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_BUSAVG",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_BUSAVG",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_BUSAVG",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_BUSAVG",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      },
+      {
+       "k": "allgrids|utilgrowth|ercot:HB_BUSAVG",
+       "raw": "9.443553200366427",
+       "text": "9.44"
+      }
+     ],
+     "text": "ERCOT HB_BUSAVG (hub)45.80Generation in ERCOT: the median months from queue entry to commercial operation of the 227 requests that came online from 2023 to 2025"
+    },
+    {
+     "id": "ercot:HB_HOUSTON",
+     "checks": [
+      {
+       "k": "allgrids|connect|ercot:HB_HOUSTON",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_HOUSTON",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_HOUSTON|da",
+       "raw": "35.221134703196356",
+       "text": "35.22"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_HOUSTON|rt",
+       "raw": "32.90021689497716",
+       "text": "32.90"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HOUSTON|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HOUSTON|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HOUSTON|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|demand|ercot:HB_HOUSTON",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_HOUSTON",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_HOUSTON",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_HOUSTON",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_HOUSTON",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_HOUSTON",
+       "raw": "89.38681180428301",
+       "text": "89.39"
+      },
+      {
+       "k": "allgrids|utilgrowth|ercot:HB_HOUSTON",
+       "raw": "-0.75190010857763",
+       "text": "-0.75"
+      }
+     ],
+     "text": "ERCOT HB_HOUSTON (hub)45.80Generation in ERCOT: the median months from queue entry to commercial operation of the 227 requests that came online from 2023 to 202"
+    },
+    {
+     "id": "ercot:HB_HUBAVG",
+     "checks": [
+      {
+       "k": "allgrids|connect|ercot:HB_HUBAVG",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_HUBAVG",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_HUBAVG|da",
+       "raw": "34.302055936073074",
+       "text": "34.30"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_HUBAVG|rt",
+       "raw": "32.20163812785388",
+       "text": "32.20"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HUBAVG|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HUBAVG|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HUBAVG|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|demand|ercot:HB_HUBAVG",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_HUBAVG",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_HUBAVG",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_HUBAVG",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_HUBAVG",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_HUBAVG",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      },
+      {
+       "k": "allgrids|utilgrowth|ercot:HB_HUBAVG",
+       "raw": "9.443553200366427",
+       "text": "9.44"
+      }
+     ],
+     "text": "ERCOT HB_HUBAVG (hub)45.80Generation in ERCOT: the median months from queue entry to commercial operation of the 227 requests that came online from 2023 to 2025"
+    },
+    {
+     "id": "ercot:HB_NORTH",
+     "checks": [
+      {
+       "k": "allgrids|connect|ercot:HB_NORTH",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_NORTH",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_NORTH|da",
+       "raw": "34.43196004566211",
+       "text": "34.43"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_NORTH|rt",
+       "raw": "32.50617922374428",
+       "text": "32.51"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_NORTH|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_NORTH|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_NORTH|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|demand|ercot:HB_NORTH",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_NORTH",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_NORTH",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_NORTH",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_NORTH",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_NORTH",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      },
+      {
+       "k": "allgrids|utilgrowth|ercot:HB_NORTH",
+       "raw": "9.443553200366427",
+       "text": "9.44"
+      }
+     ],
+     "text": "ERCOT HB_NORTH (hub)45.80Generation in ERCOT: the median months from queue entry to commercial operation of the 227 requests that came online from 2023 to 2025 "
+    },
+    {
+     "id": "ercot:HB_SOUTH",
+     "checks": [
+      {
+       "k": "allgrids|connect|ercot:HB_SOUTH",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_SOUTH",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_SOUTH|da",
+       "raw": "34.54967351598174",
+       "text": "34.55"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_SOUTH|rt",
+       "raw": "32.737066210045676",
+       "text": "32.74"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_SOUTH|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_SOUTH|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_SOUTH|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|demand|ercot:HB_SOUTH",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_SOUTH",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_SOUTH",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_SOUTH",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_SOUTH",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_SOUTH",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      },
+      {
+       "k": "allgrids|utilgrowth|ercot:HB_SOUTH",
+       "raw": "9.443553200366427",
+       "text": "9.44"
+      }
+     ],
+     "text": "ERCOT HB_SOUTH (hub)45.80Generation in ERCOT: the median months from queue entry to commercial operation of the 227 requests that came online from 2023 to 2025 "
+    },
+    {
+     "id": "ercot:HB_WEST",
+     "checks": [
+      {
+       "k": "allgrids|connect|ercot:HB_WEST",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_WEST",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_WEST|da",
+       "raw": "33.005397260273966",
+       "text": "33.01"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_WEST|rt",
+       "raw": "30.662884703196347",
+       "text": "30.66"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_WEST|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_WEST|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_WEST|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|demand|ercot:HB_WEST",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_WEST",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_WEST",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_WEST",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_WEST",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_WEST",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      },
+      {
+       "k": "allgrids|utilgrowth|ercot:HB_WEST",
+       "raw": "9.443553200366427",
+       "text": "9.44"
+      }
+     ],
+     "text": "ERCOT HB_WEST (hub)45.80Generation in ERCOT: the median months from queue entry to commercial operation of the 227 requests that came online from 2023 to 2025 ("
+    },
+    {
+     "id": "ercot:LZ_AEN",
+     "checks": [
+      {
+       "k": "allgrids|connect|ercot:LZ_AEN",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:LZ_AEN",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|energy|ercot:LZ_AEN|da",
+       "raw": "38.78016552511416",
+       "text": "38.78"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_AEN|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_AEN|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_AEN|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|demand|ercot:LZ_AEN",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:LZ_AEN",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:LZ_AEN",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:LZ_AEN",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:LZ_AEN",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:LZ_AEN",
+       "raw": "71.32181052947121",
+       "text": "71.32"
+      },
+      {
+       "k": "allgrids|utilgrowth|ercot:LZ_AEN",
+       "raw": "2.8714032852807714",
+       "text": "2.87"
+      },
+      {
+       "k": "allgrids|allin|ercot:LZ_AEN|profile=datacenter&lf=0.9&strike=row",
+       "raw": "46.605199885844755",
+       "text": "46.61"
+      }
+     ],
+     "text": "ERCOT LZ_AEN, Austin Energy load zone (load zone)45.80Generation in ERCOT: the median months from queue entry to commercial operation of the 227 requests that c"
+    },
+    {
+     "id": "ercot:LZ_CPS",
+     "checks": [
+      {
+       "k": "allgrids|connect|ercot:LZ_CPS",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:LZ_CPS",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|energy|ercot:LZ_CPS|da",
+       "raw": "38.86452853881277",
+       "text": "38.86"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_CPS|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_CPS|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_CPS|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|demand|ercot:LZ_CPS",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:LZ_CPS",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:LZ_CPS",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:LZ_CPS",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:LZ_CPS",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:LZ_CPS",
+       "raw": "56.27002778906104",
+       "text": "56.27"
+      },
+      {
+       "k": "allgrids|utilgrowth|ercot:LZ_CPS",
+       "raw": "1.744315721801648",
+       "text": "1.74"
+      },
+      {
+       "k": "allgrids|allin|ercot:LZ_CPS|profile=datacenter&lf=0.9&strike=row",
+       "raw": "46.68956289954336",
+       "text": "46.69"
+      }
+     ],
+     "text": "ERCOT LZ_CPS, CPS Energy load zone (San Antonio) (load zone)45.80Generation in ERCOT: the median months from queue entry to commercial operation of the 227 requ"
+    }
+   ],
+   "heads": [
+    "connect",
+    "energy",
+    "transmission",
+    "capacity",
+    "headroom",
+    "carbon",
+    "utility",
+    "allin"
+   ],
+   "gaps": null,
+   "tracker": null,
+   "card": null,
+   "scrollW": 390,
+   "clientW": 390,
+   "totalH": 5547,
+   "shot": "q3_connect_390.png"
+  },
+  {
+   "step": "q4_headroom",
+   "width": 390,
+   "url": "/cost-of-power?view=allgrids&mw=1000&sort=headroom",
+   "found": true,
+   "errorText": "",
+   "nChecks": 500,
+   "sortLine": "Sorted by demand growth, largest first; a row with no figure, or one held under a license, last. 48 of 48 rows shown. The order is the column's, not a ranking of sites.",
+   "countLine": "Every hub and load zone the page's price files hold, and the grids they do not price: 48 rows. A datacenter load of 1,000 MW at a load factor of 0.90, never curtails.",
+   "headline": "Choose A and B under \"A and B, side by side\" in the box to set two rows beside each other; A sets this line.",
+   "abPanel": null,
+   "shared": null,
+   "panel": null,
+   "rows": [
+    {
+     "id": "ercot:HB_BUSAVG",
+     "checks": [
+      {
+       "k": "allgrids|demand|ercot:HB_BUSAVG",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_BUSAVG",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_BUSAVG",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_BUSAVG|da",
+       "raw": "34.39849543378996",
+       "text": "34.40"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_BUSAVG|rt",
+       "raw": "32.38137557077625",
+       "text": "32.38"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_BUSAVG|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_BUSAVG|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_BUSAVG|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:HB_BUSAVG",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_BUSAVG",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_BUSAVG",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_BUSAVG",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_BUSAVG",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      },
+      {
+       "k": "allgrids|utilgrowth|ercot:HB_BUSAVG",
+       "raw": "9.443553200366427",
+       "text": "9.44"
+      }
+     ],
+     "text": "ERCOT HB_BUSAVG (hub)+5.41ERCOT's mean demand (EIA-930, ERCO), October 2025 to September 2026, 58,008 MW, against the twelve months before, 55,028 MW: each mont"
+    },
+    {
+     "id": "ercot:HB_HOUSTON",
+     "checks": [
+      {
+       "k": "allgrids|demand|ercot:HB_HOUSTON",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_HOUSTON",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_HOUSTON",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_HOUSTON|da",
+       "raw": "35.221134703196356",
+       "text": "35.22"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_HOUSTON|rt",
+       "raw": "32.90021689497716",
+       "text": "32.90"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HOUSTON|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HOUSTON|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HOUSTON|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:HB_HOUSTON",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_HOUSTON",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_HOUSTON",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_HOUSTON",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_HOUSTON",
+       "raw": "89.38681180428301",
+       "text": "89.39"
+      },
+      {
+       "k": "allgrids|utilgrowth|ercot:HB_HOUSTON",
+       "raw": "-0.75190010857763",
+       "text": "-0.75"
+      }
+     ],
+     "text": "ERCOT HB_HOUSTON (hub)+5.41ERCOT's mean demand (EIA-930, ERCO), October 2025 to September 2026, 58,008 MW, against the twelve months before, 55,028 MW: each mon"
+    },
+    {
+     "id": "ercot:HB_HUBAVG",
+     "checks": [
+      {
+       "k": "allgrids|demand|ercot:HB_HUBAVG",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_HUBAVG",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_HUBAVG",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_HUBAVG|da",
+       "raw": "34.302055936073074",
+       "text": "34.30"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_HUBAVG|rt",
+       "raw": "32.20163812785388",
+       "text": "32.20"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HUBAVG|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HUBAVG|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HUBAVG|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:HB_HUBAVG",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_HUBAVG",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_HUBAVG",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_HUBAVG",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_HUBAVG",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      },
+      {
+       "k": "allgrids|utilgrowth|ercot:HB_HUBAVG",
+       "raw": "9.443553200366427",
+       "text": "9.44"
+      }
+     ],
+     "text": "ERCOT HB_HUBAVG (hub)+5.41ERCOT's mean demand (EIA-930, ERCO), October 2025 to September 2026, 58,008 MW, against the twelve months before, 55,028 MW: each mont"
+    },
+    {
+     "id": "ercot:HB_NORTH",
+     "checks": [
+      {
+       "k": "allgrids|demand|ercot:HB_NORTH",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_NORTH",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_NORTH",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_NORTH|da",
+       "raw": "34.43196004566211",
+       "text": "34.43"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_NORTH|rt",
+       "raw": "32.50617922374428",
+       "text": "32.51"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_NORTH|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_NORTH|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_NORTH|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:HB_NORTH",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_NORTH",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_NORTH",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_NORTH",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_NORTH",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      },
+      {
+       "k": "allgrids|utilgrowth|ercot:HB_NORTH",
+       "raw": "9.443553200366427",
+       "text": "9.44"
+      }
+     ],
+     "text": "ERCOT HB_NORTH (hub)+5.41ERCOT's mean demand (EIA-930, ERCO), October 2025 to September 2026, 58,008 MW, against the twelve months before, 55,028 MW: each month"
+    },
+    {
+     "id": "ercot:HB_SOUTH",
+     "checks": [
+      {
+       "k": "allgrids|demand|ercot:HB_SOUTH",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_SOUTH",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_SOUTH",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_SOUTH|da",
+       "raw": "34.54967351598174",
+       "text": "34.55"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_SOUTH|rt",
+       "raw": "32.737066210045676",
+       "text": "32.74"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_SOUTH|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_SOUTH|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_SOUTH|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:HB_SOUTH",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_SOUTH",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_SOUTH",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_SOUTH",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_SOUTH",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      },
+      {
+       "k": "allgrids|utilgrowth|ercot:HB_SOUTH",
+       "raw": "9.443553200366427",
+       "text": "9.44"
+      }
+     ],
+     "text": "ERCOT HB_SOUTH (hub)+5.41ERCOT's mean demand (EIA-930, ERCO), October 2025 to September 2026, 58,008 MW, against the twelve months before, 55,028 MW: each month"
+    },
+    {
+     "id": "ercot:HB_WEST",
+     "checks": [
+      {
+       "k": "allgrids|demand|ercot:HB_WEST",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_WEST",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_WEST",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_WEST|da",
+       "raw": "33.005397260273966",
+       "text": "33.01"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_WEST|rt",
+       "raw": "30.662884703196347",
+       "text": "30.66"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_WEST|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_WEST|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_WEST|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:HB_WEST",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_WEST",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_WEST",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_WEST",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_WEST",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      },
+      {
+       "k": "allgrids|utilgrowth|ercot:HB_WEST",
+       "raw": "9.443553200366427",
+       "text": "9.44"
+      }
+     ],
+     "text": "ERCOT HB_WEST (hub)+5.41ERCOT's mean demand (EIA-930, ERCO), October 2025 to September 2026, 58,008 MW, against the twelve months before, 55,028 MW: each month'"
+    },
+    {
+     "id": "ercot:LZ_AEN",
+     "checks": [
+      {
+       "k": "allgrids|demand|ercot:LZ_AEN",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:LZ_AEN",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:LZ_AEN",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|energy|ercot:LZ_AEN|da",
+       "raw": "38.78016552511416",
+       "text": "38.78"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_AEN|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_AEN|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_AEN|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:LZ_AEN",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:LZ_AEN",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|carbon|ercot:LZ_AEN",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:LZ_AEN",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:LZ_AEN",
+       "raw": "71.32181052947121",
+       "text": "71.32"
+      },
+      {
+       "k": "allgrids|utilgrowth|ercot:LZ_AEN",
+       "raw": "2.8714032852807714",
+       "text": "2.87"
+      },
+      {
+       "k": "allgrids|allin|ercot:LZ_AEN|profile=datacenter&lf=0.9&strike=row",
+       "raw": "46.605199885844755",
+       "text": "46.61"
+      }
+     ],
+     "text": "ERCOT LZ_AEN, Austin Energy load zone (load zone)+5.41ERCOT's mean demand (EIA-930, ERCO), October 2025 to September 2026, 58,008 MW, against the twelve months "
+    },
+    {
+     "id": "ercot:LZ_CPS",
+     "checks": [
+      {
+       "k": "allgrids|demand|ercot:LZ_CPS",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:LZ_CPS",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:LZ_CPS",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|energy|ercot:LZ_CPS|da",
+       "raw": "38.86452853881277",
+       "text": "38.86"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_CPS|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_CPS|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_CPS|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:LZ_CPS",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:LZ_CPS",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|carbon|ercot:LZ_CPS",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:LZ_CPS",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:LZ_CPS",
+       "raw": "56.27002778906104",
+       "text": "56.27"
+      },
+      {
+       "k": "allgrids|utilgrowth|ercot:LZ_CPS",
+       "raw": "1.744315721801648",
+       "text": "1.74"
+      },
+      {
+       "k": "allgrids|allin|ercot:LZ_CPS|profile=datacenter&lf=0.9&strike=row",
+       "raw": "46.68956289954336",
+       "text": "46.69"
+      }
+     ],
+     "text": "ERCOT LZ_CPS, CPS Energy load zone (San Antonio) (load zone)+5.41ERCOT's mean demand (EIA-930, ERCO), October 2025 to September 2026, 58,008 MW, against the twe"
+    }
+   ],
+   "heads": [
+    "headroom",
+    "energy",
+    "transmission",
+    "capacity",
+    "connect",
+    "carbon",
+    "utility",
+    "allin"
+   ],
+   "gaps": null,
+   "tracker": null,
+   "card": null,
+   "scrollW": 390,
+   "clientW": 390,
+   "totalH": 5547,
+   "shot": "q4_headroom_390.png"
+  },
+  {
+   "step": "q5_carbon_electrolyzer",
+   "width": 390,
+   "url": "/cost-of-power?view=allgrids&mw=1000&profile=electrolyzer&sort=carbon&dir=asc",
+   "found": true,
+   "errorText": "",
+   "nChecks": 506,
+   "sortLine": "Sorted by carbon, smallest first; a row with no figure, or one held under a license, last. 48 of 48 rows shown. The order is the column's, not a ranking of sites.",
+   "countLine": "Every hub and load zone the page's price files hold, and the grids they do not price: 48 rows. An electrolyzer load of 1,000 MW at a load factor of 0.55, runs only below the strike.",
+   "headline": "Choose A and B under \"A and B, side by side\" in the box to set two rows beside each other; A sets this line.",
+   "abPanel": null,
+   "shared": null,
+   "panel": null,
+   "rows": [
+    {
+     "id": "caiso:TH_NP15_GEN-APND",
+     "checks": [
+      {
+       "k": "allgrids|carbonh|caiso:TH_NP15_GEN-APND|profile=electrolyzer&lf=0.55&strike=row",
+       "raw": "92.90079741379282",
+       "text": "92.90"
+      },
+      {
+       "k": "allgrids|carbon|caiso:TH_NP15_GEN-APND",
+       "raw": "194.34801391967784",
+       "text": "194.35"
+      },
+      {
+       "k": "allgrids|energy|caiso:TH_NP15_GEN-APND|da|profile=electrolyzer&lf=0.55&strike=row",
+       "raw": "21.55553941908714",
+       "text": "21.56"
+      },
+      {
+       "k": "allgrids|lost|caiso:TH_NP15_GEN-APND|profile=electrolyzer&lf=0.55&strike=row",
+       "raw": "3940",
+       "text": "3,940"
+      },
+      {
+       "k": "allgrids|connect|caiso:TH_NP15_GEN-APND",
+       "raw": "100",
+       "text": "100.00"
+      },
+      {
+       "k": "allgrids|demand|caiso:TH_NP15_GEN-APND",
+       "raw": "3.640832129058569",
+       "text": "3.64"
+      },
+      {
+       "k": "allgrids|planned|caiso:TH_NP15_GEN-APND",
+       "raw": "8275.6",
+       "text": "8,276"
+      },
+      {
+       "k": "allgrids|capratio|caiso:TH_NP15_GEN-APND",
+       "raw": "105.89",
+       "text": "106"
+      },
+      {
+       "k": "allgrids|utilrev|caiso:TH_NP15_GEN-APND",
+       "raw": "325.3739159213717",
+       "text": "325.37"
+      },
+      {
+       "k": "allgrids|utilgrowth|caiso:TH_NP15_GEN-APND",
+       "raw": "-8.610586520376252",
+       "text": "-8.61"
+      }
+     ],
+     "text": "CAISO TH_NP15_GEN-APND (hub)92.90The grid's hourly intensity (carbon_intensity_hourly, intensity_demand, kg CO2 per MWh consumed), weighted by the load over the"
+    },
+    {
+     "id": "caiso:TH_ZP26_GEN-APND",
+     "checks": [
+      {
+       "k": "allgrids|carbonh|caiso:TH_ZP26_GEN-APND|profile=electrolyzer&lf=0.55&strike=row",
+       "raw": "94.12716315109738",
+       "text": "94.13"
+      },
+      {
+       "k": "allgrids|carbon|caiso:TH_ZP26_GEN-APND",
+       "raw": "194.34801391967784",
+       "text": "194.35"
+      },
+      {
+       "k": "allgrids|energy|caiso:TH_ZP26_GEN-APND|da|profile=electrolyzer&lf=0.55&strike=row",
+       "raw": "15.502146857498445",
+       "text": "15.50"
+      },
+      {
+       "k": "allgrids|lost|caiso:TH_ZP26_GEN-APND|profile=electrolyzer&lf=0.55&strike=row",
+       "raw": "3939",
+       "text": "3,939"
+      },
+      {
+       "k": "allgrids|connect|caiso:TH_ZP26_GEN-APND",
+       "raw": "100",
+       "text": "100.00"
+      },
+      {
+       "k": "allgrids|demand|caiso:TH_ZP26_GEN-APND",
+       "raw": "3.640832129058569",
+       "text": "3.64"
+      },
+      {
+       "k": "allgrids|planned|caiso:TH_ZP26_GEN-APND",
+       "raw": "8275.6",
+       "text": "8,276"
+      },
+      {
+       "k": "allgrids|capratio|caiso:TH_ZP26_GEN-APND",
+       "raw": "105.89",
+       "text": "106"
+      },
+      {
+       "k": "allgrids|utilrev|caiso:TH_ZP26_GEN-APND",
+       "raw": "325.3739159213717",
+       "text": "325.37"
+      },
+      {
+       "k": "allgrids|utilgrowth|caiso:TH_ZP26_GEN-APND",
+       "raw": "-8.610586520376252",
+       "text": "-8.61"
+      }
+     ],
+     "text": "CAISO TH_ZP26_GEN-APND (hub)94.13The grid's hourly intensity (carbon_intensity_hourly, intensity_demand, kg CO2 per MWh consumed), weighted by the load over the"
+    },
+    {
+     "id": "caiso:TH_SP15_GEN-APND",
+     "checks": [
+      {
+       "k": "allgrids|carbonh|caiso:TH_SP15_GEN-APND|profile=electrolyzer&lf=0.55&strike=row",
+       "raw": "94.93044133476833",
+       "text": "94.93"
+      },
+      {
+       "k": "allgrids|carbon|caiso:TH_SP15_GEN-APND",
+       "raw": "194.34801391967784",
+       "text": "194.35"
+      },
+      {
+       "k": "allgrids|energy|caiso:TH_SP15_GEN-APND|da|profile=electrolyzer&lf=0.55&strike=row",
+       "raw": "14.60946887966805",
+       "text": "14.61"
+      },
+      {
+       "k": "allgrids|lost|caiso:TH_SP15_GEN-APND|profile=electrolyzer&lf=0.55&strike=row",
+       "raw": "3940",
+       "text": "3,940"
+      },
+      {
+       "k": "allgrids|connect|caiso:TH_SP15_GEN-APND",
+       "raw": "100",
+       "text": "100.00"
+      },
+      {
+       "k": "allgrids|demand|caiso:TH_SP15_GEN-APND",
+       "raw": "3.640832129058569",
+       "text": "3.64"
+      },
+      {
+       "k": "allgrids|planned|caiso:TH_SP15_GEN-APND",
+       "raw": "8275.6",
+       "text": "8,276"
+      },
+      {
+       "k": "allgrids|capratio|caiso:TH_SP15_GEN-APND",
+       "raw": "105.89",
+       "text": "106"
+      },
+      {
+       "k": "allgrids|utilrev|caiso:TH_SP15_GEN-APND",
+       "raw": "204.2781887359761",
+       "text": "204.28"
+      },
+      {
+       "k": "allgrids|utilgrowth|caiso:TH_SP15_GEN-APND",
+       "raw": "0.18873397251237822",
+       "text": "0.19"
+      }
+     ],
+     "text": "CAISO TH_SP15_GEN-APND (hub)94.93The grid's hourly intensity (carbon_intensity_hourly, intensity_demand, kg CO2 per MWh consumed), weighted by the load over the"
+    },
+    {
+     "id": "isone:.H.INTERNAL_HUB",
+     "checks": [
+      {
+       "k": "allgrids|carbonh|isone:.H.INTERNAL_HUB|profile=electrolyzer&lf=0.55&strike=row",
+       "raw": "211.6966161511309",
+       "text": "211.70"
+      },
+      {
+       "k": "allgrids|carbon|isone:.H.INTERNAL_HUB",
+       "raw": "244.61105983589565",
+       "text": "244.61"
+      },
+      {
+       "k": "allgrids|energy|isone:.H.INTERNAL_HUB|da|profile=electrolyzer&lf=0.55&strike=row",
+       "raw": "40.03287671232877",
+       "text": "40.03"
+      },
+      {
+       "k": "allgrids|lost|isone:.H.INTERNAL_HUB|profile=electrolyzer&lf=0.55&strike=row",
+       "raw": "3942",
+       "text": "3,942"
+      },
+      {
+       "k": "allgrids|demand|isone:.H.INTERNAL_HUB",
+       "raw": "2.896717651810743",
+       "text": "2.90"
+      },
+      {
+       "k": "allgrids|planned|isone:.H.INTERNAL_HUB",
+       "raw": "1123.5",
+       "text": "1,124"
+      },
+      {
+       "k": "allgrids|capratio|isone:.H.INTERNAL_HUB",
+       "raw": "36.69",
+       "text": "37"
+      },
+      {
+       "k": "allgrids|utilrev|isone:.H.INTERNAL_HUB",
+       "raw": "87.54709051885872",
+       "text": "87.55"
+      },
+      {
+       "k": "allgrids|utilgrowth|isone:.H.INTERNAL_HUB",
+       "raw": "-3.2216447766016065",
+       "text": "-3.22"
+      }
+     ],
+     "text": "ISO-NE .H.INTERNAL_HUB (hub)211.70The grid's hourly intensity (carbon_intensity_hourly, intensity_demand, kg CO2 per MWh consumed), weighted by the load over th"
+    },
+    {
+     "id": "isone:.Z.CONNECTICUT",
+     "checks": [
+      {
+       "k": "allgrids|carbon|isone:.Z.CONNECTICUT",
+       "raw": "244.61105983589565",
+       "text": "244.61"
+      },
+      {
+       "k": "allgrids|carbonlb|isone:.Z.CONNECTICUT",
+       "raw": "539.27507606862",
+       "text": "539.28"
+      },
+      {
+       "k": "allgrids|demand|isone:.Z.CONNECTICUT",
+       "raw": "2.896717651810743",
+       "text": "2.90"
+      },
+      {
+       "k": "allgrids|planned|isone:.Z.CONNECTICUT",
+       "raw": "1123.5",
+       "text": "1,124"
+      },
+      {
+       "k": "allgrids|capratio|isone:.Z.CONNECTICUT",
+       "raw": "36.69",
+       "text": "37"
+      },
+      {
+       "k": "allgrids|utilrev|isone:.Z.CONNECTICUT",
+       "raw": "103.96988769662845",
+       "text": "103.97"
+      },
+      {
+       "k": "allgrids|utilgrowth|isone:.Z.CONNECTICUT",
+       "raw": "-1.9606884758638143",
+       "text": "-1.96"
+      }
+     ],
+     "text": "ISO-NE .Z.CONNECTICUT (load zone)244.61The eGRID subregion NEWE (NPCC New England): its 1,253 plants' CO2 over their net generation in 2023 (egrid_power_plants,"
+    },
+    {
+     "id": "isone:.Z.MAINE",
+     "checks": [
+      {
+       "k": "allgrids|carbon|isone:.Z.MAINE",
+       "raw": "244.61105983589565",
+       "text": "244.61"
+      },
+      {
+       "k": "allgrids|carbonlb|isone:.Z.MAINE",
+       "raw": "539.27507606862",
+       "text": "539.28"
+      },
+      {
+       "k": "allgrids|demand|isone:.Z.MAINE",
+       "raw": "2.896717651810743",
+       "text": "2.90"
+      },
+      {
+       "k": "allgrids|planned|isone:.Z.MAINE",
+       "raw": "1123.5",
+       "text": "1,124"
+      },
+      {
+       "k": "allgrids|capratio|isone:.Z.MAINE",
+       "raw": "36.69",
+       "text": "37"
+      },
+      {
+       "k": "allgrids|utilrev|isone:.Z.MAINE",
+       "raw": "66.18644956340835",
+       "text": "66.19"
+      },
+      {
+       "k": "allgrids|utilgrowth|isone:.Z.MAINE",
+       "raw": "7.90935219811193",
+       "text": "7.91"
+      }
+     ],
+     "text": "ISO-NE .Z.MAINE (load zone)244.61The eGRID subregion NEWE (NPCC New England): its 1,253 plants' CO2 over their net generation in 2023 (egrid_power_plants, eGRID"
+    },
+    {
+     "id": "isone:.Z.NEMASSBOST",
+     "checks": [
+      {
+       "k": "allgrids|carbon|isone:.Z.NEMASSBOST",
+       "raw": "244.61105983589565",
+       "text": "244.61"
+      },
+      {
+       "k": "allgrids|carbonlb|isone:.Z.NEMASSBOST",
+       "raw": "539.27507606862",
+       "text": "539.28"
+      },
+      {
+       "k": "allgrids|demand|isone:.Z.NEMASSBOST",
+       "raw": "2.896717651810743",
+       "text": "2.90"
+      },
+      {
+       "k": "allgrids|planned|isone:.Z.NEMASSBOST",
+       "raw": "1123.5",
+       "text": "1,124"
+      },
+      {
+       "k": "allgrids|capratio|isone:.Z.NEMASSBOST",
+       "raw": "36.69",
+       "text": "37"
+      },
+      {
+       "k": "allgrids|utilrev|isone:.Z.NEMASSBOST",
+       "raw": "87.54709051885872",
+       "text": "87.55"
+      },
+      {
+       "k": "allgrids|utilgrowth|isone:.Z.NEMASSBOST",
+       "raw": "-3.2216447766016065",
+       "text": "-3.22"
+      }
+     ],
+     "text": "ISO-NE .Z.NEMASSBOST (load zone)244.61The eGRID subregion NEWE (NPCC New England): its 1,253 plants' CO2 over their net generation in 2023 (egrid_power_plants, "
+    },
+    {
+     "id": "isone:.Z.NEWHAMPSHIRE",
+     "checks": [
+      {
+       "k": "allgrids|carbon|isone:.Z.NEWHAMPSHIRE",
+       "raw": "244.61105983589565",
+       "text": "244.61"
+      },
+      {
+       "k": "allgrids|carbonlb|isone:.Z.NEWHAMPSHIRE",
+       "raw": "539.27507606862",
+       "text": "539.28"
+      },
+      {
+       "k": "allgrids|demand|isone:.Z.NEWHAMPSHIRE",
+       "raw": "2.896717651810743",
+       "text": "2.90"
+      },
+      {
+       "k": "allgrids|planned|isone:.Z.NEWHAMPSHIRE",
+       "raw": "1123.5",
+       "text": "1,124"
+      },
+      {
+       "k": "allgrids|capratio|isone:.Z.NEWHAMPSHIRE",
+       "raw": "36.69",
+       "text": "37"
+      },
+      {
+       "k": "allgrids|utilrev|isone:.Z.NEWHAMPSHIRE",
+       "raw": "93.6473364582093",
+       "text": "93.65"
+      },
+      {
+       "k": "allgrids|utilgrowth|isone:.Z.NEWHAMPSHIRE",
+       "raw": "9.840026444268467",
+       "text": "9.84"
+      }
+     ],
+     "text": "ISO-NE .Z.NEWHAMPSHIRE (load zone)244.61The eGRID subregion NEWE (NPCC New England): its 1,253 plants' CO2 over their net generation in 2023 (egrid_power_plants"
+    }
+   ],
+   "heads": [
+    "carbon",
+    "energy",
+    "transmission",
+    "capacity",
+    "connect",
+    "headroom",
+    "utility",
+    "allin"
+   ],
+   "gaps": null,
+   "tracker": null,
+   "card": null,
+   "scrollW": 390,
+   "clientW": 390,
+   "totalH": 5567,
+   "shot": "q5_carbon_electrolyzer_390.png"
+  },
+  {
+   "step": "q6_flexible",
+   "width": 390,
+   "url": "/cost-of-power?view=allgrids&mw=1000&profile=flexible&sort=allin&dir=asc&a=ercot%3AHB_WEST&b=ercot%3ALZ_NORTH",
+   "found": true,
+   "errorText": "",
+   "nChecks": 538,
+   "sortLine": "Sorted by the all-in figure, smallest first; a row with no figure, or one held under a license, last. 48 of 48 rows shown. The order is the column's, not a ranking of sites.",
+   "countLine": "Every hub and load zone the page's price files hold, and the grids they do not price: 48 rows. A flexible compute load of 1,000 MW at a load factor of 0.90, off in ERCOT's four summer peaks and at or above the strike (USD 1,000 per MWh).",
+   "headline": "A flexible compute load of 1,000 MW at ERCOT HB_WEST pays USD 30.64 per MWh all-in, USD 241,206,147 a year; generators there took a median of 45.80 months to connect.",
+   "abPanel": "A and B, side by sideUSD per MWh unless saidA: ERCOT HB_WESTB: ERCOT LZ_NORTHB less AEnergy 30.6433.08+2.43Transmission and 4CP 0.000.000.00Capacity 0.000.000.00Time to connect months45.8045.800.00Headroom percent; MW5.415.410.00Carbon kg CO2 per MWh304.95304.950.00UtilityWhat each side's figure is (session 726): A bundled; the state's stand-in (TX); B bundled; the state's stand-in (TX). Each is the seller's industrial revenue over its sales (eia861_utility_sales); the two are alike only when both are the same service and the same kind of seller. 73.5773.570.00All-in 30.6433.08+2.43A year all-in, USD, 1,000 MW241,206,147260,365,122+19,158,975Energy used a year, MWh7,871,4007,871,400Each figure is the row's own in the table below, under the same load. Months to connect are the grid's generators' (the column \"Time to connect\"). The year all-in is the all-in figure times the energy the load uses in a year: its draw while running times the hours it runs.",
+   "shared": null,
+   "panel": null,
+   "rows": [
+    {
+     "id": "ercot:HB_WEST",
+     "checks": [
+      {
+       "k": "allgrids|allin|ercot:HB_WEST|profile=flexible&lf=0.9&strike=1000",
+       "raw": "30.643360393322663",
+       "text": "30.64"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_WEST|da|profile=flexible&lf=0.9&strike=1000",
+       "raw": "30.643360393322663",
+       "text": "30.64"
+      },
+      {
+       "k": "allgrids|lost|ercot:HB_WEST|profile=flexible&lf=0.9&strike=1000",
+       "raw": "14",
+       "text": "14"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_WEST|profile=flexible&lf=0.9&strike=1000",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_WEST|firm|profile=flexible&lf=0.9&strike=1000",
+       "raw": "7.837560141779099",
+       "text": "7.84"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_WEST|curtailing|profile=flexible&lf=0.9&strike=1000",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:HB_WEST",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_WEST",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:HB_WEST",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_WEST",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_WEST",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbonh|ercot:HB_WEST|profile=flexible&lf=0.9&strike=1000",
+       "raw": "304.9521156069364",
+       "text": "304.95"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_WEST",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_WEST",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      }
+     ],
+     "text": "ERCOT HB_WEST (hub)30.64Energy USD 30.64, transmission USD 0.00 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No delivery, distribution, ancilla"
+    },
+    {
+     "id": "ercot:HB_NORTH",
+     "checks": [
+      {
+       "k": "allgrids|allin|ercot:HB_NORTH|profile=flexible&lf=0.9&strike=1000",
+       "raw": "32.24533844042992",
+       "text": "32.25"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_NORTH|da|profile=flexible&lf=0.9&strike=1000",
+       "raw": "32.24533844042992",
+       "text": "32.25"
+      },
+      {
+       "k": "allgrids|lost|ercot:HB_NORTH|profile=flexible&lf=0.9&strike=1000",
+       "raw": "14",
+       "text": "14"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_NORTH|profile=flexible&lf=0.9&strike=1000",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_NORTH|firm|profile=flexible&lf=0.9&strike=1000",
+       "raw": "7.837560141779099",
+       "text": "7.84"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_NORTH|curtailing|profile=flexible&lf=0.9&strike=1000",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:HB_NORTH",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_NORTH",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:HB_NORTH",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_NORTH",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_NORTH",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbonh|ercot:HB_NORTH|profile=flexible&lf=0.9&strike=1000",
+       "raw": "304.9521156069364",
+       "text": "304.95"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_NORTH",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_NORTH",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      }
+     ],
+     "text": "ERCOT HB_NORTH (hub)32.25Energy USD 32.25, transmission USD 0.00 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No delivery, distribution, ancill"
+    },
+    {
+     "id": "ercot:HB_HUBAVG",
+     "checks": [
+      {
+       "k": "allgrids|allin|ercot:HB_HUBAVG|profile=flexible&lf=0.9&strike=1000",
+       "raw": "32.24862451406358",
+       "text": "32.25"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_HUBAVG|da|profile=flexible&lf=0.9&strike=1000",
+       "raw": "32.24862451406358",
+       "text": "32.25"
+      },
+      {
+       "k": "allgrids|lost|ercot:HB_HUBAVG|profile=flexible&lf=0.9&strike=1000",
+       "raw": "14",
+       "text": "14"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HUBAVG|profile=flexible&lf=0.9&strike=1000",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HUBAVG|firm|profile=flexible&lf=0.9&strike=1000",
+       "raw": "7.837560141779099",
+       "text": "7.84"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HUBAVG|curtailing|profile=flexible&lf=0.9&strike=1000",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:HB_HUBAVG",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_HUBAVG",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:HB_HUBAVG",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_HUBAVG",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_HUBAVG",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbonh|ercot:HB_HUBAVG|profile=flexible&lf=0.9&strike=1000",
+       "raw": "304.9521156069364",
+       "text": "304.95"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_HUBAVG",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_HUBAVG",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      }
+     ],
+     "text": "ERCOT HB_HUBAVG (hub)32.25Energy USD 32.25, transmission USD 0.00 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No delivery, distribution, ancil"
+    },
+    {
+     "id": "ercot:HB_BUSAVG",
+     "checks": [
+      {
+       "k": "allgrids|allin|ercot:HB_BUSAVG|profile=flexible&lf=0.9&strike=1000",
+       "raw": "32.31910930711183",
+       "text": "32.32"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_BUSAVG|da|profile=flexible&lf=0.9&strike=1000",
+       "raw": "32.31910930711183",
+       "text": "32.32"
+      },
+      {
+       "k": "allgrids|lost|ercot:HB_BUSAVG|profile=flexible&lf=0.9&strike=1000",
+       "raw": "14",
+       "text": "14"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_BUSAVG|profile=flexible&lf=0.9&strike=1000",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_BUSAVG|firm|profile=flexible&lf=0.9&strike=1000",
+       "raw": "7.837560141779099",
+       "text": "7.84"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_BUSAVG|curtailing|profile=flexible&lf=0.9&strike=1000",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:HB_BUSAVG",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_BUSAVG",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:HB_BUSAVG",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_BUSAVG",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_BUSAVG",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbonh|ercot:HB_BUSAVG|profile=flexible&lf=0.9&strike=1000",
+       "raw": "304.9521156069364",
+       "text": "304.95"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_BUSAVG",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_BUSAVG",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      }
+     ],
+     "text": "ERCOT HB_BUSAVG (hub)32.32Energy USD 32.32, transmission USD 0.00 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No delivery, distribution, ancil"
+    },
+    {
+     "id": "ercot:LZ_NORTH",
+     "checks": [
+      {
+       "k": "allgrids|allin|ercot:LZ_NORTH|profile=flexible&lf=0.9&strike=1000",
+       "raw": "33.07735879259089",
+       "text": "33.08"
+      },
+      {
+       "k": "allgrids|energy|ercot:LZ_NORTH|da|profile=flexible&lf=0.9&strike=1000",
+       "raw": "33.07735879259089",
+       "text": "33.08"
+      },
+      {
+       "k": "allgrids|lost|ercot:LZ_NORTH|profile=flexible&lf=0.9&strike=1000",
+       "raw": "14",
+       "text": "14"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_NORTH|profile=flexible&lf=0.9&strike=1000",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_NORTH|firm|profile=flexible&lf=0.9&strike=1000",
+       "raw": "7.837560141779099",
+       "text": "7.84"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_NORTH|curtailing|profile=flexible&lf=0.9&strike=1000",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:LZ_NORTH",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:LZ_NORTH",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:LZ_NORTH",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:LZ_NORTH",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:LZ_NORTH",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbonh|ercot:LZ_NORTH|profile=flexible&lf=0.9&strike=1000",
+       "raw": "304.9521156069364",
+       "text": "304.95"
+      },
+      {
+       "k": "allgrids|carbon|ercot:LZ_NORTH",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:LZ_NORTH",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      }
+     ],
+     "text": "ERCOT LZ_NORTH, North load zone (load zone)33.08Energy USD 33.08, transmission USD 0.00 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No deliver"
+    },
+    {
+     "id": "ercot:HB_SOUTH",
+     "checks": [
+      {
+       "k": "allgrids|allin|ercot:HB_SOUTH|profile=flexible&lf=0.9&strike=1000",
+       "raw": "33.22905496514684",
+       "text": "33.23"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_SOUTH|da|profile=flexible&lf=0.9&strike=1000",
+       "raw": "33.22905496514684",
+       "text": "33.23"
+      },
+      {
+       "k": "allgrids|lost|ercot:HB_SOUTH|profile=flexible&lf=0.9&strike=1000",
+       "raw": "9",
+       "text": "9"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_SOUTH|profile=flexible&lf=0.9&strike=1000",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_SOUTH|firm|profile=flexible&lf=0.9&strike=1000",
+       "raw": "7.83308204776597",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_SOUTH|curtailing|profile=flexible&lf=0.9&strike=1000",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:HB_SOUTH",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_SOUTH",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:HB_SOUTH",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_SOUTH",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_SOUTH",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbonh|ercot:HB_SOUTH|profile=flexible&lf=0.9&strike=1000",
+       "raw": "305.0363373772387",
+       "text": "305.04"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_SOUTH",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_SOUTH",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      }
+     ],
+     "text": "ERCOT HB_SOUTH (hub)33.23Energy USD 33.23, transmission USD 0.00 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No delivery, distribution, ancill"
+    },
+    {
+     "id": "ercot:LZ_RAYBN",
+     "checks": [
+      {
+       "k": "allgrids|allin|ercot:LZ_RAYBN|profile=flexible&lf=0.9&strike=1000",
+       "raw": "33.37874342556597",
+       "text": "33.38"
+      },
+      {
+       "k": "allgrids|energy|ercot:LZ_RAYBN|da|profile=flexible&lf=0.9&strike=1000",
+       "raw": "33.37874342556597",
+       "text": "33.38"
+      },
+      {
+       "k": "allgrids|lost|ercot:LZ_RAYBN|profile=flexible&lf=0.9&strike=1000",
+       "raw": "14",
+       "text": "14"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_RAYBN|profile=flexible&lf=0.9&strike=1000",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_RAYBN|firm|profile=flexible&lf=0.9&strike=1000",
+       "raw": "7.837560141779099",
+       "text": "7.84"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_RAYBN|curtailing|profile=flexible&lf=0.9&strike=1000",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:LZ_RAYBN",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:LZ_RAYBN",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:LZ_RAYBN",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:LZ_RAYBN",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:LZ_RAYBN",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbonh|ercot:LZ_RAYBN|profile=flexible&lf=0.9&strike=1000",
+       "raw": "304.9521156069364",
+       "text": "304.95"
+      },
+      {
+       "k": "allgrids|carbon|ercot:LZ_RAYBN",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:LZ_RAYBN",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      }
+     ],
+     "text": "ERCOT LZ_RAYBN, Rayburn load zone (load zone)33.38Energy USD 33.38, transmission USD 0.00 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No deliv"
+    },
+    {
+     "id": "ercot:LZ_SOUTH",
+     "checks": [
+      {
+       "k": "allgrids|allin|ercot:LZ_SOUTH|profile=flexible&lf=0.9&strike=1000",
+       "raw": "33.66054711593377",
+       "text": "33.66"
+      },
+      {
+       "k": "allgrids|energy|ercot:LZ_SOUTH|da|profile=flexible&lf=0.9&strike=1000",
+       "raw": "33.66054711593377",
+       "text": "33.66"
+      },
+      {
+       "k": "allgrids|lost|ercot:LZ_SOUTH|profile=flexible&lf=0.9&strike=1000",
+       "raw": "5",
+       "text": "5"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_SOUTH|profile=flexible&lf=0.9&strike=1000",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_SOUTH|firm|profile=flexible&lf=0.9&strike=1000",
+       "raw": "7.829503255282696",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_SOUTH|curtailing|profile=flexible&lf=0.9&strike=1000",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:LZ_SOUTH",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:LZ_SOUTH",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:LZ_SOUTH",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:LZ_SOUTH",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:LZ_SOUTH",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbonh|ercot:LZ_SOUTH|profile=flexible&lf=0.9&strike=1000",
+       "raw": "305.10338376255925",
+       "text": "305.10"
+      },
+      {
+       "k": "allgrids|carbon|ercot:LZ_SOUTH",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:LZ_SOUTH",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      }
+     ],
+     "text": "ERCOT LZ_SOUTH, South load zone (load zone)33.66Energy USD 33.66, transmission USD 0.00 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No deliver"
+    }
+   ],
+   "heads": [
+    "allin",
+    "energy",
+    "transmission",
+    "capacity",
+    "connect",
+    "headroom",
+    "carbon",
+    "utility"
+   ],
+   "gaps": null,
+   "tracker": null,
+   "card": null,
+   "scrollW": 390,
+   "clientW": 390,
+   "totalH": 6331,
+   "shot": "q6_flexible_390.png"
+  },
+  {
+   "step": "q7_nodes_cheapest",
+   "width": 390,
+   "url": "/cost-of-power?view=allgrids&mw=1000&rows=nodes&nsort=energy&ndir=asc",
+   "found": true,
+   "errorText": "",
+   "nChecks": 127,
+   "sortLine": "Sorted by energy, smallest first; a node with no figure last. Click a heading to sort by it, again to turn it round.",
+   "countLine": "Every ERCOT node of node_basis_daily that is neither a hub nor a load zone: 873 nodes, from 2025-10-01 to 2026-10-20. A datacenter load of 1,000 MW at a load factor of 0.90, never curtails.",
+   "headline": "Choose A and B under \"A and B, side by side\" in the box to set two rows beside each other, or open a node's panel (its name in the list) and set it as A or B; A sets this line.",
+   "abPanel": null,
+   "shared": "Every node below is in ERCOT, and shares these, drawn once: the four-peak charge, paid on HB_HUBAVG's hours, USD 7.83This load's charge: it ran in 4 of the four intervals of 2025, at the Commission's 2025 rate. per MWh for this load (firm 7.83On in all four intervals., off at the peaks 0.00Off in the four intervals' hours, computed from its weights.); no capacity market (whyERCOT is an energy-only market: it has no capacity market and no capacity charge.); generators took a median of 45.80From queue entry to operation, 227 requests online from 2023 to 2025 (interconnection_durations, from Berkeley Lab's queue file: the column's figure). months to connect; demand grew +5.41ERCOT's mean demand (EIA-930, ERCO), October 2025 to September 2026, over the twelve months before. percent on the year; carbon 332.87eGRID subregion ERCT, 2023: the plants' CO2 over their net generation. kg CO2 per MWh.Not held for any node: its load zone, its settlement hub and its wires utility (TSP). node_basis_daily sets every node against HB_HUBAVG and names no zone or utility; not heldERCOT publishes each settlement point's zone and hub in its settlement point mapping, and each node's TSP in its resource registration; neither is a table of the warehouse yet (docs/reviews/siting-gaps.md)..",
+   "panel": null,
+   "rows": [
+    {
+     "id": "ercot:BBREEZE_1_2",
+     "checks": [
+      {
+       "k": "allgrids|energy|ercot:BBREEZE_1_2|da",
+       "raw": "23.83399205547606",
+       "text": "23.83"
+      },
+      {
+       "k": "allgrids|basis|ercot:BBREEZE_1_2",
+       "raw": "-10.468063880597015",
+       "text": "-10.47"
+      },
+      {
+       "k": "allgrids|nodespread|ercot:BBREEZE_1_2",
+       "raw": "27.1156",
+       "text": "27.12"
+      },
+      {
+       "k": "allgrids|allin|ercot:BBREEZE_1_2|profile=datacenter&lf=0.9&strike=row",
+       "raw": "31.659026416206654",
+       "text": "31.66"
+      }
+     ],
+     "text": "BBREEZE_1_2wind23.83-10.4727.1231.66335 of 365"
+    },
+    {
+     "id": "ercot:ELSAUZ_ALL",
+     "checks": [
+      {
+       "k": "allgrids|energy|ercot:ELSAUZ_ALL|da",
+       "raw": "23.8340013092074",
+       "text": "23.83"
+      },
+      {
+       "k": "allgrids|basis|ercot:ELSAUZ_ALL",
+       "raw": "-10.468054626865671",
+       "text": "-10.47"
+      },
+      {
+       "k": "allgrids|nodespread|ercot:ELSAUZ_ALL",
+       "raw": "27.1156",
+       "text": "27.12"
+      },
+      {
+       "k": "allgrids|allin|ercot:ELSAUZ_ALL|profile=datacenter&lf=0.9&strike=row",
+       "raw": "31.659035669937996",
+       "text": "31.66"
+      }
+     ],
+     "text": "ELSAUZ_ALLwind23.83-10.4727.1231.66335 of 365"
+    },
+    {
+     "id": "ercot:PENA_ALL",
+     "checks": [
+      {
+       "k": "allgrids|energy|ercot:PENA_ALL|da",
+       "raw": "24.9024741450283",
+       "text": "24.90"
+      },
+      {
+       "k": "allgrids|basis|ercot:PENA_ALL",
+       "raw": "-9.399581791044774",
+       "text": "-9.40"
+      },
+      {
+       "k": "allgrids|nodespread|ercot:PENA_ALL",
+       "raw": "24.625400000000003",
+       "text": "24.63"
+      },
+      {
+       "k": "allgrids|allin|ercot:PENA_ALL|profile=datacenter&lf=0.9&strike=row",
+       "raw": "32.72750850575889",
+       "text": "32.73"
+      }
+     ],
+     "text": "PENA_ALLwind24.90-9.4024.6332.73335 of 365"
+    },
+    {
+     "id": "ercot:TGW_T1_T2",
+     "checks": [
+      {
+       "k": "allgrids|energy|ercot:TGW_T1_T2|da",
+       "raw": "24.9024741450283",
+       "text": "24.90"
+      },
+      {
+       "k": "allgrids|basis|ercot:TGW_T1_T2",
+       "raw": "-9.399581791044774",
+       "text": "-9.40"
+      },
+      {
+       "k": "allgrids|nodespread|ercot:TGW_T1_T2",
+       "raw": "24.625400000000003",
+       "text": "24.63"
+      },
+      {
+       "k": "allgrids|allin|ercot:TGW_T1_T2|profile=datacenter&lf=0.9&strike=row",
+       "raw": "32.72750850575889",
+       "text": "32.73"
+      }
+     ],
+     "text": "TGW_T1_T2wind24.90-9.4024.6332.73335 of 365"
+    },
+    {
+     "id": "ercot:STELLA_RN",
+     "checks": [
+      {
+       "k": "allgrids|energy|ercot:STELLA_RN|da",
+       "raw": "24.902492353983522",
+       "text": "24.90"
+      },
+      {
+       "k": "allgrids|basis|ercot:STELLA_RN",
+       "raw": "-9.399563582089552",
+       "text": "-9.40"
+      },
+      {
+       "k": "allgrids|nodespread|ercot:STELLA_RN",
+       "raw": "24.6261",
+       "text": "24.63"
+      },
+      {
+       "k": "allgrids|allin|ercot:STELLA_RN|profile=datacenter&lf=0.9&strike=row",
+       "raw": "32.72752671471412",
+       "text": "32.73"
+      }
+     ],
+     "text": "STELLA_RNwind24.90-9.4024.6332.73335 of 365"
+    },
+    {
+     "id": "ercot:CORAZON_RN",
+     "checks": [
+      {
+       "k": "allgrids|energy|ercot:CORAZON_RN|da",
+       "raw": "25.52216817487904",
+       "text": "25.52"
+      },
+      {
+       "k": "allgrids|basis|ercot:CORAZON_RN",
+       "raw": "-8.779887761194031",
+       "text": "-8.78"
+      },
+      {
+       "k": "allgrids|nodespread|ercot:CORAZON_RN",
+       "raw": "23.8",
+       "text": "23.80"
+      },
+      {
+       "k": "allgrids|allin|ercot:CORAZON_RN|profile=datacenter&lf=0.9&strike=row",
+       "raw": "33.34720253560964",
+       "text": "33.35"
+      }
+     ],
+     "text": "CORAZON_RNmixed25.52-8.7823.8033.35335 of 365"
+    },
+    {
+     "id": "ercot:TORR_ALL",
+     "checks": [
+      {
+       "k": "allgrids|energy|ercot:TORR_ALL|da",
+       "raw": "25.52270847338651",
+       "text": "25.52"
+      },
+      {
+       "k": "allgrids|basis|ercot:TORR_ALL",
+       "raw": "-8.779347462686568",
+       "text": "-8.78"
+      },
+      {
+       "k": "allgrids|nodespread|ercot:TORR_ALL",
+       "raw": "23.8",
+       "text": "23.80"
+      },
+      {
+       "k": "allgrids|allin|ercot:TORR_ALL|profile=datacenter&lf=0.9&strike=row",
+       "raw": "33.3477428341171",
+       "text": "33.35"
+      }
+     ],
+     "text": "TORR_ALLmixed25.52-8.7823.8033.35335 of 365"
+    },
+    {
+     "id": "ercot:OUTP_SLR_RN",
+     "checks": [
+      {
+       "k": "allgrids|energy|ercot:OUTP_SLR_RN|da",
+       "raw": "25.602349667416355",
+       "text": "25.60"
+      },
+      {
+       "k": "allgrids|basis|ercot:OUTP_SLR_RN",
+       "raw": "-8.699706268656717",
+       "text": "-8.70"
+      },
+      {
+       "k": "allgrids|nodespread|ercot:OUTP_SLR_RN",
+       "raw": "23.5389",
+       "text": "23.54"
+      },
+      {
+       "k": "allgrids|allin|ercot:OUTP_SLR_RN|profile=datacenter&lf=0.9&strike=row",
+       "raw": "33.427384028146946",
+       "text": "33.43"
+      }
+     ],
+     "text": "OUTP_SLR_RNsolar25.60-8.7023.5433.43335 of 365"
+    }
+   ],
+   "heads": [],
+   "gaps": null,
+   "tracker": null,
+   "card": null,
+   "scrollW": 390,
+   "clientW": 390,
+   "totalH": 2097,
+   "shot": "q7_nodes_cheapest_390.png"
+  },
+  {
+   "step": "q7_node_panel",
+   "width": 390,
+   "url": "/cost-of-power?view=allgrids&mw=1000&rows=nodes&nsort=energy&ndir=asc&node=ercot%3ABBREEZE_1_2",
+   "found": true,
+   "errorText": "",
+   "nChecks": 130,
+   "sortLine": "Sorted by energy, smallest first; a node with no figure last. Click a heading to sort by it, again to turn it round.",
+   "countLine": "Every ERCOT node of node_basis_daily that is neither a hub nor a load zone: 873 nodes, from 2025-10-01 to 2026-10-20. A datacenter load of 1,000 MW at a load factor of 0.90, never curtails.",
+   "headline": "Choose A and B under \"A and B, side by side\" in the box to set two rows beside each other, or open a node's panel (its name in the list) and set it as A or B; A sets this line.",
+   "abPanel": null,
+   "shared": "Every node below is in ERCOT, and shares these, drawn once: the four-peak charge, paid on HB_HUBAVG's hours, USD 7.83This load's charge: it ran in 4 of the four intervals of 2025, at the Commission's 2025 rate. per MWh for this load (firm 7.83On in all four intervals., off at the peaks 0.00Off in the four intervals' hours, computed from its weights.); no capacity market (whyERCOT is an energy-only market: it has no capacity market and no capacity charge.); generators took a median of 45.80From queue entry to operation, 227 requests online from 2023 to 2025 (interconnection_durations, from Berkeley Lab's queue file: the column's figure). months to connect; demand grew +5.41ERCOT's mean demand (EIA-930, ERCO), October 2025 to September 2026, over the twelve months before. percent on the year; carbon 332.87eGRID subregion ERCT, 2023: the plants' CO2 over their net generation. kg CO2 per MWh.Not held for any node: its load zone, its settlement hub and its wires utility (TSP). node_basis_daily sets every node against HB_HUBAVG and names no zone or utility; not heldERCOT publishes each settlement point's zone and hub in its settlement point mapping, and each node's TSP in its resource registration; neither is a table of the warehouse yet (docs/reviews/siting-gaps.md)..",
+   "panel": "BBREEZE_1_2 (wind, ERCOT's resource types WIND) CloseSet as A Set as B: the headline and the A and B panel above the list take this node.Its daily day-ahead basis to HB_HUBAVG, 2025-10 to 2026-09 (335 days held, node_basis_daily): one day in ten at or below USD -23.83, half at or below -6.02, nine in ten at or below 3.28 per MWh.Each month's mean daily basis, USD per MWh, 2025-10 to 2026-10:BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2025-10-01 -2.96 to 2026-10-01 -4.66BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2025-10-01 -2.96BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2025-11-01 -12.80BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2025-12-01 -4.38BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2026-01-01 -32.96BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2026-02-01 -8.69BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2026-03-01 -12.36BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2026-04-01 -10.16BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2026-05-01 -4.88BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2026-06-01 -5.77BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2026-07-01 -11.19BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2026-08-01 -10.65BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2026-09-01 -5.25BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2026-10-01 -4.66Four peaks: as every node, the charge on HB_HUBAVG's hours, above the list. Its own price in the four intervals of summer 2025 is not heldnode_basis_daily begins on 1 October 2025, after the summer; and it holds days, not the 15-minute intervals..Its county, and so the planned generation near it (eia860m_planned_generators, by county): not heldNo table of the warehouse places an ERCOT settlement point in a county; ERCOT's resource registration does, and is not pulled (docs/reviews/siting-gaps.md)..Transmission projects in its county: not heldtexas_transmission_matrix holds each wires utility's transmission cost of service and four-peak charge, not projects by county, and it is internal; no table of projects by county is held..",
+   "rows": [
+    {
+     "id": "ercot:BBREEZE_1_2",
+     "checks": [
+      {
+       "k": "allgrids|energy|ercot:BBREEZE_1_2|da",
+       "raw": "23.83399205547606",
+       "text": "23.83"
+      },
+      {
+       "k": "allgrids|basis|ercot:BBREEZE_1_2",
+       "raw": "-10.468063880597015",
+       "text": "-10.47"
+      },
+      {
+       "k": "allgrids|nodespread|ercot:BBREEZE_1_2",
+       "raw": "27.1156",
+       "text": "27.12"
+      },
+      {
+       "k": "allgrids|allin|ercot:BBREEZE_1_2|profile=datacenter&lf=0.9&strike=row",
+       "raw": "31.659026416206654",
+       "text": "31.66"
+      }
+     ],
+     "text": "BBREEZE_1_2wind23.83-10.4727.1231.66335 of 365"
+    },
+    {
+     "id": "ercot:ELSAUZ_ALL",
+     "checks": [
+      {
+       "k": "allgrids|energy|ercot:ELSAUZ_ALL|da",
+       "raw": "23.8340013092074",
+       "text": "23.83"
+      },
+      {
+       "k": "allgrids|basis|ercot:ELSAUZ_ALL",
+       "raw": "-10.468054626865671",
+       "text": "-10.47"
+      },
+      {
+       "k": "allgrids|nodespread|ercot:ELSAUZ_ALL",
+       "raw": "27.1156",
+       "text": "27.12"
+      },
+      {
+       "k": "allgrids|allin|ercot:ELSAUZ_ALL|profile=datacenter&lf=0.9&strike=row",
+       "raw": "31.659035669937996",
+       "text": "31.66"
+      }
+     ],
+     "text": "ELSAUZ_ALLwind23.83-10.4727.1231.66335 of 365"
+    },
+    {
+     "id": "ercot:PENA_ALL",
+     "checks": [
+      {
+       "k": "allgrids|energy|ercot:PENA_ALL|da",
+       "raw": "24.9024741450283",
+       "text": "24.90"
+      },
+      {
+       "k": "allgrids|basis|ercot:PENA_ALL",
+       "raw": "-9.399581791044774",
+       "text": "-9.40"
+      },
+      {
+       "k": "allgrids|nodespread|ercot:PENA_ALL",
+       "raw": "24.625400000000003",
+       "text": "24.63"
+      },
+      {
+       "k": "allgrids|allin|ercot:PENA_ALL|profile=datacenter&lf=0.9&strike=row",
+       "raw": "32.72750850575889",
+       "text": "32.73"
+      }
+     ],
+     "text": "PENA_ALLwind24.90-9.4024.6332.73335 of 365"
+    },
+    {
+     "id": "ercot:TGW_T1_T2",
+     "checks": [
+      {
+       "k": "allgrids|energy|ercot:TGW_T1_T2|da",
+       "raw": "24.9024741450283",
+       "text": "24.90"
+      },
+      {
+       "k": "allgrids|basis|ercot:TGW_T1_T2",
+       "raw": "-9.399581791044774",
+       "text": "-9.40"
+      },
+      {
+       "k": "allgrids|nodespread|ercot:TGW_T1_T2",
+       "raw": "24.625400000000003",
+       "text": "24.63"
+      },
+      {
+       "k": "allgrids|allin|ercot:TGW_T1_T2|profile=datacenter&lf=0.9&strike=row",
+       "raw": "32.72750850575889",
+       "text": "32.73"
+      }
+     ],
+     "text": "TGW_T1_T2wind24.90-9.4024.6332.73335 of 365"
+    },
+    {
+     "id": "ercot:STELLA_RN",
+     "checks": [
+      {
+       "k": "allgrids|energy|ercot:STELLA_RN|da",
+       "raw": "24.902492353983522",
+       "text": "24.90"
+      },
+      {
+       "k": "allgrids|basis|ercot:STELLA_RN",
+       "raw": "-9.399563582089552",
+       "text": "-9.40"
+      },
+      {
+       "k": "allgrids|nodespread|ercot:STELLA_RN",
+       "raw": "24.6261",
+       "text": "24.63"
+      },
+      {
+       "k": "allgrids|allin|ercot:STELLA_RN|profile=datacenter&lf=0.9&strike=row",
+       "raw": "32.72752671471412",
+       "text": "32.73"
+      }
+     ],
+     "text": "STELLA_RNwind24.90-9.4024.6332.73335 of 365"
+    },
+    {
+     "id": "ercot:CORAZON_RN",
+     "checks": [
+      {
+       "k": "allgrids|energy|ercot:CORAZON_RN|da",
+       "raw": "25.52216817487904",
+       "text": "25.52"
+      },
+      {
+       "k": "allgrids|basis|ercot:CORAZON_RN",
+       "raw": "-8.779887761194031",
+       "text": "-8.78"
+      },
+      {
+       "k": "allgrids|nodespread|ercot:CORAZON_RN",
+       "raw": "23.8",
+       "text": "23.80"
+      },
+      {
+       "k": "allgrids|allin|ercot:CORAZON_RN|profile=datacenter&lf=0.9&strike=row",
+       "raw": "33.34720253560964",
+       "text": "33.35"
+      }
+     ],
+     "text": "CORAZON_RNmixed25.52-8.7823.8033.35335 of 365"
+    },
+    {
+     "id": "ercot:TORR_ALL",
+     "checks": [
+      {
+       "k": "allgrids|energy|ercot:TORR_ALL|da",
+       "raw": "25.52270847338651",
+       "text": "25.52"
+      },
+      {
+       "k": "allgrids|basis|ercot:TORR_ALL",
+       "raw": "-8.779347462686568",
+       "text": "-8.78"
+      },
+      {
+       "k": "allgrids|nodespread|ercot:TORR_ALL",
+       "raw": "23.8",
+       "text": "23.80"
+      },
+      {
+       "k": "allgrids|allin|ercot:TORR_ALL|profile=datacenter&lf=0.9&strike=row",
+       "raw": "33.3477428341171",
+       "text": "33.35"
+      }
+     ],
+     "text": "TORR_ALLmixed25.52-8.7823.8033.35335 of 365"
+    },
+    {
+     "id": "ercot:OUTP_SLR_RN",
+     "checks": [
+      {
+       "k": "allgrids|energy|ercot:OUTP_SLR_RN|da",
+       "raw": "25.602349667416355",
+       "text": "25.60"
+      },
+      {
+       "k": "allgrids|basis|ercot:OUTP_SLR_RN",
+       "raw": "-8.699706268656717",
+       "text": "-8.70"
+      },
+      {
+       "k": "allgrids|nodespread|ercot:OUTP_SLR_RN",
+       "raw": "23.5389",
+       "text": "23.54"
+      },
+      {
+       "k": "allgrids|allin|ercot:OUTP_SLR_RN|profile=datacenter&lf=0.9&strike=row",
+       "raw": "33.427384028146946",
+       "text": "33.43"
+      }
+     ],
+     "text": "OUTP_SLR_RNsolar25.60-8.7023.5433.43335 of 365"
+    }
+   ],
+   "heads": [],
+   "gaps": null,
+   "tracker": null,
+   "card": null,
+   "scrollW": 390,
+   "clientW": 390,
+   "totalH": 2584,
+   "shot": "q7_node_panel_390.png"
+  },
+  {
+   "step": "q8_utility",
+   "width": 390,
+   "url": "/cost-of-power?view=allgrids&mw=1000&sort=utility&dir=asc",
+   "found": true,
+   "errorText": "",
+   "nChecks": 500,
+   "sortLine": "Sorted by the utility's industrial revenue per MWh, smallest first; a row with no figure, or one held under a license, last. The figure is a seller's industrial revenue over its sales: bundled, energy only or delivery only, the county's seller or the state's stand-in, as each cell says under it. 48 of 48 rows shown. The order is the column's, not a ranking of sites.",
+   "countLine": "Every hub and load zone the page's price files hold, and the grids they do not price: 48 rows. A datacenter load of 1,000 MW at a load factor of 0.90, never curtails.",
+   "headline": "Choose A and B under \"A and B, side by side\" in the box to set two rows beside each other; A sets this line.",
+   "abPanel": null,
+   "shared": null,
+   "panel": null,
+   "rows": [
+    {
+     "id": "pjm:grid",
+     "checks": [
+      {
+       "k": "allgrids|utilrev|pjm:grid",
+       "raw": "11.339593302705785",
+       "text": "11.34"
+      },
+      {
+       "k": "allgrids|utilgrowth|pjm:grid",
+       "raw": "-6.902141612609913",
+       "text": "-6.90"
+      },
+      {
+       "k": "allgrids|connect|pjm:grid",
+       "raw": "71.3",
+       "text": "71.30"
+      },
+      {
+       "k": "allgrids|demand|pjm:grid",
+       "raw": "4.118936114144667",
+       "text": "4.12"
+      },
+      {
+       "k": "allgrids|planned|pjm:grid",
+       "raw": "7695.5",
+       "text": "7,696"
+      },
+      {
+       "k": "allgrids|capratio|pjm:grid",
+       "raw": "31.21",
+       "text": "31"
+      },
+      {
+       "k": "allgrids|carbon|pjm:grid",
+       "raw": "325.18486307989645",
+       "text": "325.18"
+      },
+      {
+       "k": "allgrids|carbonlb|pjm:grid",
+       "raw": "716.9099054287365",
+       "text": "716.91"
+      }
+     ],
+     "text": "PJM PJM, the grid (no hub or zone price held)No PJM hub or zone price is held: licensed source needed.FirstEnergy Pennsylvania Electric Co and 4 moreAllegheny C"
+    },
+    {
+     "id": "nyiso:CAPITL",
+     "checks": [
+      {
+       "k": "allgrids|utilrev|nyiso:CAPITL",
+       "raw": "17.33991988528628",
+       "text": "17.34"
+      },
+      {
+       "k": "allgrids|utilgrowth|nyiso:CAPITL",
+       "raw": "12.264753927867655",
+       "text": "12.26"
+      },
+      {
+       "k": "allgrids|energy|nyiso:CAPITL|da",
+       "raw": "70.76205479452055",
+       "text": "70.76"
+      },
+      {
+       "k": "allgrids|energy|nyiso:CAPITL|rt",
+       "raw": "65.94712752597326",
+       "text": "65.95"
+      },
+      {
+       "k": "allgrids|connect|nyiso:CAPITL",
+       "raw": "87.3",
+       "text": "87.30"
+      },
+      {
+       "k": "allgrids|demand|nyiso:CAPITL",
+       "raw": "0.5177652848100012",
+       "text": "0.52"
+      },
+      {
+       "k": "allgrids|planned|nyiso:CAPITL",
+       "raw": "1537",
+       "text": "1,537"
+      },
+      {
+       "k": "allgrids|capratio|nyiso:CAPITL",
+       "raw": "34.31",
+       "text": "34"
+      },
+      {
+       "k": "allgrids|carbon|nyiso:CAPITL",
+       "raw": "109.80962879132629",
+       "text": "109.81"
+      },
+      {
+       "k": "allgrids|carbonlb|nyiso:CAPITL",
+       "raw": "242.08879173017456",
+       "text": "242.09"
+      }
+     ],
+     "text": "NYISO CAPITL (load zone)Niagara Mohawk Power Corp. and 2 moreAlbany County, NY, a county this row's name places it in: EIA-861's service territories (utility_se"
+    },
+    {
+     "id": "nyiso:CENTRL",
+     "checks": [
+      {
+       "k": "allgrids|utilrev|nyiso:CENTRL",
+       "raw": "17.33991988528628",
+       "text": "17.34"
+      },
+      {
+       "k": "allgrids|utilgrowth|nyiso:CENTRL",
+       "raw": "12.264753927867655",
+       "text": "12.26"
+      },
+      {
+       "k": "allgrids|energy|nyiso:CENTRL|da",
+       "raw": "66.55813698630135",
+       "text": "66.56"
+      },
+      {
+       "k": "allgrids|energy|nyiso:CENTRL|rt",
+       "raw": "62.41880808311452",
+       "text": "62.42"
+      },
+      {
+       "k": "allgrids|connect|nyiso:CENTRL",
+       "raw": "87.3",
+       "text": "87.30"
+      },
+      {
+       "k": "allgrids|demand|nyiso:CENTRL",
+       "raw": "0.5177652848100012",
+       "text": "0.52"
+      },
+      {
+       "k": "allgrids|planned|nyiso:CENTRL",
+       "raw": "1537",
+       "text": "1,537"
+      },
+      {
+       "k": "allgrids|capratio|nyiso:CENTRL",
+       "raw": "34.31",
+       "text": "34"
+      },
+      {
+       "k": "allgrids|carbon|nyiso:CENTRL",
+       "raw": "109.80962879132629",
+       "text": "109.81"
+      },
+      {
+       "k": "allgrids|carbonlb|nyiso:CENTRL",
+       "raw": "242.08879173017456",
+       "text": "242.09"
+      }
+     ],
+     "text": "NYISO CENTRL (load zone)Niagara Mohawk Power Corp. and 3 moreOnondaga County, NY, a county this row's name places it in: EIA-861's service territories (utility_"
+    },
+    {
+     "id": "nyiso:GENESE",
+     "checks": [
+      {
+       "k": "allgrids|utilrev|nyiso:GENESE",
+       "raw": "17.33991988528628",
+       "text": "17.34"
+      },
+      {
+       "k": "allgrids|utilgrowth|nyiso:GENESE",
+       "raw": "12.264753927867655",
+       "text": "12.26"
+      },
+      {
+       "k": "allgrids|energy|nyiso:GENESE|da",
+       "raw": "63.223277397260276",
+       "text": "63.22"
+      },
+      {
+       "k": "allgrids|energy|nyiso:GENESE|rt",
+       "raw": "59.12035963009476",
+       "text": "59.12"
+      },
+      {
+       "k": "allgrids|connect|nyiso:GENESE",
+       "raw": "87.3",
+       "text": "87.30"
+      },
+      {
+       "k": "allgrids|demand|nyiso:GENESE",
+       "raw": "0.5177652848100012",
+       "text": "0.52"
+      },
+      {
+       "k": "allgrids|planned|nyiso:GENESE",
+       "raw": "1537",
+       "text": "1,537"
+      },
+      {
+       "k": "allgrids|capratio|nyiso:GENESE",
+       "raw": "34.31",
+       "text": "34"
+      },
+      {
+       "k": "allgrids|carbon|nyiso:GENESE",
+       "raw": "109.80962879132629",
+       "text": "109.81"
+      },
+      {
+       "k": "allgrids|carbonlb|nyiso:GENESE",
+       "raw": "242.08879173017456",
+       "text": "242.09"
+      }
+     ],
+     "text": "NYISO GENESE (load zone)Niagara Mohawk Power Corp. and 4 moreMonroe County, NY, a county this row's name places it in: EIA-861's service territories (utility_se"
+    },
+    {
+     "id": "nyiso:WEST",
+     "checks": [
+      {
+       "k": "allgrids|utilrev|nyiso:WEST",
+       "raw": "17.33991988528628",
+       "text": "17.34"
+      },
+      {
+       "k": "allgrids|utilgrowth|nyiso:WEST",
+       "raw": "12.264753927867655",
+       "text": "12.26"
+      },
+      {
+       "k": "allgrids|energy|nyiso:WEST|da",
+       "raw": "60.15883447488586",
+       "text": "60.16"
+      },
+      {
+       "k": "allgrids|energy|nyiso:WEST|rt",
+       "raw": "54.955718689348096",
+       "text": "54.96"
+      },
+      {
+       "k": "allgrids|connect|nyiso:WEST",
+       "raw": "87.3",
+       "text": "87.30"
+      },
+      {
+       "k": "allgrids|demand|nyiso:WEST",
+       "raw": "0.5177652848100012",
+       "text": "0.52"
+      },
+      {
+       "k": "allgrids|planned|nyiso:WEST",
+       "raw": "1537",
+       "text": "1,537"
+      },
+      {
+       "k": "allgrids|capratio|nyiso:WEST",
+       "raw": "34.31",
+       "text": "34"
+      },
+      {
+       "k": "allgrids|carbon|nyiso:WEST",
+       "raw": "109.80962879132629",
+       "text": "109.81"
+      },
+      {
+       "k": "allgrids|carbonlb|nyiso:WEST",
+       "raw": "242.08879173017456",
+       "text": "242.09"
+      }
+     ],
+     "text": "NYISO WEST (load zone)Niagara Mohawk Power Corp. and 4 moreErie County, NY, a county this row's name places it in: EIA-861's service territories (utility_servic"
+    },
+    {
+     "id": "nyiso:DUNWOD",
+     "checks": [
+      {
+       "k": "allgrids|utilrev|nyiso:DUNWOD",
+       "raw": "27.14376402229092",
+       "text": "27.14"
+      },
+      {
+       "k": "allgrids|utilgrowth|nyiso:DUNWOD",
+       "raw": "1.1851258565914513",
+       "text": "1.19"
+      },
+      {
+       "k": "allgrids|energy|nyiso:DUNWOD|da",
+       "raw": "72.7874908675799",
+       "text": "72.79"
+      },
+      {
+       "k": "allgrids|energy|nyiso:DUNWOD|rt",
+       "raw": "68.20277657266811",
+       "text": "68.20"
+      },
+      {
+       "k": "allgrids|connect|nyiso:DUNWOD",
+       "raw": "87.3",
+       "text": "87.30"
+      },
+      {
+       "k": "allgrids|demand|nyiso:DUNWOD",
+       "raw": "0.5177652848100012",
+       "text": "0.52"
+      },
+      {
+       "k": "allgrids|planned|nyiso:DUNWOD",
+       "raw": "1537",
+       "text": "1,537"
+      },
+      {
+       "k": "allgrids|capratio|nyiso:DUNWOD",
+       "raw": "34.31",
+       "text": "34"
+      },
+      {
+       "k": "allgrids|carbon|nyiso:DUNWOD",
+       "raw": "392.11655164961445",
+       "text": "392.12"
+      },
+      {
+       "k": "allgrids|carbonlb|nyiso:DUNWOD",
+       "raw": "864.4690201680738",
+       "text": "864.47"
+      }
+     ],
+     "text": "NYISO DUNWOD (load zone)New York State Elec & Gas Corp and 1 moreWestchester County, NY, a county this row's name places it in: EIA-861's service territories (u"
+    },
+    {
+     "id": "nyiso:MILLWD",
+     "checks": [
+      {
+       "k": "allgrids|utilrev|nyiso:MILLWD",
+       "raw": "27.14376402229092",
+       "text": "27.14"
+      },
+      {
+       "k": "allgrids|utilgrowth|nyiso:MILLWD",
+       "raw": "1.1851258565914513",
+       "text": "1.19"
+      },
+      {
+       "k": "allgrids|energy|nyiso:MILLWD|da",
+       "raw": "72.41599429223746",
+       "text": "72.42"
+      },
+      {
+       "k": "allgrids|energy|nyiso:MILLWD|rt",
+       "raw": "67.15699509076377",
+       "text": "67.16"
+      },
+      {
+       "k": "allgrids|connect|nyiso:MILLWD",
+       "raw": "87.3",
+       "text": "87.30"
+      },
+      {
+       "k": "allgrids|demand|nyiso:MILLWD",
+       "raw": "0.5177652848100012",
+       "text": "0.52"
+      },
+      {
+       "k": "allgrids|planned|nyiso:MILLWD",
+       "raw": "1537",
+       "text": "1,537"
+      },
+      {
+       "k": "allgrids|capratio|nyiso:MILLWD",
+       "raw": "34.31",
+       "text": "34"
+      },
+      {
+       "k": "allgrids|carbon|nyiso:MILLWD",
+       "raw": "392.11655164961445",
+       "text": "392.12"
+      },
+      {
+       "k": "allgrids|carbonlb|nyiso:MILLWD",
+       "raw": "864.4690201680738",
+       "text": "864.47"
+      }
+     ],
+     "text": "NYISO MILLWD (load zone)New York State Elec & Gas Corp and 1 moreWestchester County, NY, a county this row's name places it in: EIA-861's service territories (u"
+    },
+    {
+     "id": "nyiso:HUD VL",
+     "checks": [
+      {
+       "k": "allgrids|utilrev|nyiso:HUD VL",
+       "raw": "50.48627731063236",
+       "text": "50.49"
+      },
+      {
+       "k": "allgrids|utilgrowth|nyiso:HUD VL",
+       "raw": "-3.7591634153311237",
+       "text": "-3.76"
+      },
+      {
+       "k": "allgrids|energy|nyiso:HUD VL|da",
+       "raw": "71.79259817351594",
+       "text": "71.79"
+      },
+      {
+       "k": "allgrids|energy|nyiso:HUD VL|rt",
+       "raw": "66.0341671423678",
+       "text": "66.03"
+      },
+      {
+       "k": "allgrids|connect|nyiso:HUD VL",
+       "raw": "87.3",
+       "text": "87.30"
+      },
+      {
+       "k": "allgrids|demand|nyiso:HUD VL",
+       "raw": "0.5177652848100012",
+       "text": "0.52"
+      },
+      {
+       "k": "allgrids|planned|nyiso:HUD VL",
+       "raw": "1537",
+       "text": "1,537"
+      },
+      {
+       "k": "allgrids|capratio|nyiso:HUD VL",
+       "raw": "34.31",
+       "text": "34"
+      },
+      {
+       "k": "allgrids|carbon|nyiso:HUD VL",
+       "raw": "109.80962879132629",
+       "text": "109.81"
+      },
+      {
+       "k": "allgrids|carbonlb|nyiso:HUD VL",
+       "raw": "242.08879173017456",
+       "text": "242.09"
+      }
+     ],
+     "text": "NYISO HUD VL (load zone)New York Power AuthorityNew York Power Authority (EIA utility 15296), the largest of 29 sellers to industry in NY inside NYISO (balancin"
+    }
+   ],
+   "heads": [
+    "utility",
+    "energy",
+    "transmission",
+    "capacity",
+    "connect",
+    "headroom",
+    "carbon",
+    "allin"
+   ],
+   "gaps": null,
+   "tracker": null,
+   "card": null,
+   "scrollW": 390,
+   "clientW": 390,
+   "totalH": 5627,
+   "shot": "q8_utility_390.png"
+  },
+  {
+   "step": "q9_gaps",
+   "width": 390,
+   "url": "/internal/siting-gaps",
+   "found": true,
+   "errorText": "",
+   "nChecks": 0,
+   "sortLine": null,
+   "countLine": null,
+   "headline": null,
+   "abPanel": null,
+   "shared": null,
+   "panel": null,
+   "rows": [],
+   "heads": [],
+   "gaps": "30",
+   "tracker": null,
+   "card": null,
+   "scrollW": 390,
+   "clientW": 390,
+   "totalH": 3683,
+   "shot": "q9_gaps_390.png"
+  },
+  {
+   "step": "q10_send",
+   "width": 390,
+   "url": "/cost-of-power?view=allgrids&mw=1000&sort=allin&dir=asc&a=ercot%3AHB_WEST&b=ercot%3ALZ_NORTH",
+   "found": true,
+   "errorText": "",
+   "nChecks": 532,
+   "sortLine": "Sorted by the all-in figure, smallest first; a row with no figure, or one held under a license, last. 48 of 48 rows shown. The order is the column's, not a ranking of sites.",
+   "countLine": "Every hub and load zone the page's price files hold, and the grids they do not price: 48 rows. A datacenter load of 1,000 MW at a load factor of 0.90, never curtails.",
+   "headline": "A datacenter load of 1,000 MW at ERCOT HB_WEST pays USD 40.83 per MWh all-in, USD 321,907,123 a year; generators there took a median of 45.80 months to connect.",
+   "abPanel": "A and B, side by sideUSD per MWh unless saidA: ERCOT HB_WESTB: ERCOT LZ_NORTHB less AEnergy 33.0135.33+2.32Transmission and 4CP 7.837.830.00Capacity 0.000.000.00Time to connect months45.8045.800.00Headroom percent; MW5.415.410.00Carbon kg CO2 per MWh332.87332.870.00UtilityWhat each side's figure is (session 726): A bundled; the state's stand-in (TX); B bundled; the state's stand-in (TX). Each is the seller's industrial revenue over its sales (eia861_utility_sales); the two are alike only when both are the same service and the same kind of seller. 73.5773.570.00All-in 40.8343.15+2.32A year all-in, USD, 1,000 MW321,907,123340,205,905+18,298,782Energy used a year, MWh7,884,0007,884,000Each figure is the row's own in the table below, under the same load. Months to connect are the grid's generators' (the column \"Time to connect\"). The year all-in is the all-in figure times the energy the load uses in a year: its draw while running times the hours it runs.",
+   "shared": null,
+   "panel": null,
+   "rows": [
+    {
+     "id": "ercot:HB_WEST",
+     "checks": [
+      {
+       "k": "allgrids|allin|ercot:HB_WEST|profile=datacenter&lf=0.9&strike=row",
+       "raw": "40.830431621004564",
+       "text": "40.83"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_WEST|da",
+       "raw": "33.005397260273966",
+       "text": "33.01"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_WEST|rt",
+       "raw": "30.662884703196347",
+       "text": "30.66"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_WEST|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_WEST|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_WEST|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:HB_WEST",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_WEST",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:HB_WEST",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_WEST",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_WEST",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_WEST",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_WEST",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_WEST",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      }
+     ],
+     "text": "ERCOT HB_WEST (hub)40.83Energy USD 33.01, transmission USD 7.83 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No delivery, distribution, ancilla"
+    },
+    {
+     "id": "ercot:HB_HUBAVG",
+     "checks": [
+      {
+       "k": "allgrids|allin|ercot:HB_HUBAVG|profile=datacenter&lf=0.9&strike=row",
+       "raw": "42.12709029680367",
+       "text": "42.13"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_HUBAVG|da",
+       "raw": "34.302055936073074",
+       "text": "34.30"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_HUBAVG|rt",
+       "raw": "32.20163812785388",
+       "text": "32.20"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HUBAVG|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HUBAVG|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HUBAVG|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:HB_HUBAVG",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_HUBAVG",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:HB_HUBAVG",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_HUBAVG",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_HUBAVG",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_HUBAVG",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_HUBAVG",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_HUBAVG",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      }
+     ],
+     "text": "ERCOT HB_HUBAVG (hub)42.13Energy USD 34.30, transmission USD 7.83 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No delivery, distribution, ancil"
+    },
+    {
+     "id": "ercot:HB_BUSAVG",
+     "checks": [
+      {
+       "k": "allgrids|allin|ercot:HB_BUSAVG|profile=datacenter&lf=0.9&strike=row",
+       "raw": "42.22352979452056",
+       "text": "42.22"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_BUSAVG|da",
+       "raw": "34.39849543378996",
+       "text": "34.40"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_BUSAVG|rt",
+       "raw": "32.38137557077625",
+       "text": "32.38"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_BUSAVG|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_BUSAVG|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_BUSAVG|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:HB_BUSAVG",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_BUSAVG",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:HB_BUSAVG",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_BUSAVG",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_BUSAVG",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_BUSAVG",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_BUSAVG",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_BUSAVG",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      }
+     ],
+     "text": "ERCOT HB_BUSAVG (hub)42.22Energy USD 34.40, transmission USD 7.83 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No delivery, distribution, ancil"
+    },
+    {
+     "id": "ercot:HB_NORTH",
+     "checks": [
+      {
+       "k": "allgrids|allin|ercot:HB_NORTH|profile=datacenter&lf=0.9&strike=row",
+       "raw": "42.25699440639271",
+       "text": "42.26"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_NORTH|da",
+       "raw": "34.43196004566211",
+       "text": "34.43"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_NORTH|rt",
+       "raw": "32.50617922374428",
+       "text": "32.51"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_NORTH|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_NORTH|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_NORTH|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:HB_NORTH",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_NORTH",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:HB_NORTH",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_NORTH",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_NORTH",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_NORTH",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_NORTH",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_NORTH",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      }
+     ],
+     "text": "ERCOT HB_NORTH (hub)42.26Energy USD 34.43, transmission USD 7.83 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No delivery, distribution, ancill"
+    },
+    {
+     "id": "ercot:LZ_SOUTH",
+     "checks": [
+      {
+       "k": "allgrids|allin|ercot:LZ_SOUTH|profile=datacenter&lf=0.9&strike=row",
+       "raw": "42.265250114155265",
+       "text": "42.27"
+      },
+      {
+       "k": "allgrids|energy|ercot:LZ_SOUTH|da",
+       "raw": "34.440215753424674",
+       "text": "34.44"
+      },
+      {
+       "k": "allgrids|energy|ercot:LZ_SOUTH|rt",
+       "raw": "33.75205136986302",
+       "text": "33.75"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_SOUTH|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_SOUTH|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_SOUTH|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:LZ_SOUTH",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:LZ_SOUTH",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:LZ_SOUTH",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:LZ_SOUTH",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:LZ_SOUTH",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:LZ_SOUTH",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:LZ_SOUTH",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:LZ_SOUTH",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      }
+     ],
+     "text": "ERCOT LZ_SOUTH, South load zone (load zone)42.27Energy USD 34.44, transmission USD 7.83 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No deliver"
+    },
+    {
+     "id": "ercot:HB_SOUTH",
+     "checks": [
+      {
+       "k": "allgrids|allin|ercot:HB_SOUTH|profile=datacenter&lf=0.9&strike=row",
+       "raw": "42.374707876712336",
+       "text": "42.37"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_SOUTH|da",
+       "raw": "34.54967351598174",
+       "text": "34.55"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_SOUTH|rt",
+       "raw": "32.737066210045676",
+       "text": "32.74"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_SOUTH|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_SOUTH|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_SOUTH|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:HB_SOUTH",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_SOUTH",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:HB_SOUTH",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_SOUTH",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_SOUTH",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_SOUTH",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_SOUTH",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_SOUTH",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      }
+     ],
+     "text": "ERCOT HB_SOUTH (hub)42.37Energy USD 34.55, transmission USD 7.83 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No delivery, distribution, ancill"
+    },
+    {
+     "id": "ercot:HB_HOUSTON",
+     "checks": [
+      {
+       "k": "allgrids|allin|ercot:HB_HOUSTON|profile=datacenter&lf=0.9&strike=row",
+       "raw": "43.04616906392695",
+       "text": "43.05"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_HOUSTON|da",
+       "raw": "35.221134703196356",
+       "text": "35.22"
+      },
+      {
+       "k": "allgrids|energy|ercot:HB_HOUSTON|rt",
+       "raw": "32.90021689497716",
+       "text": "32.90"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HOUSTON|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HOUSTON|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:HB_HOUSTON|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:HB_HOUSTON",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:HB_HOUSTON",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:HB_HOUSTON",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:HB_HOUSTON",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:HB_HOUSTON",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:HB_HOUSTON",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:HB_HOUSTON",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:HB_HOUSTON",
+       "raw": "89.38681180428301",
+       "text": "89.39"
+      }
+     ],
+     "text": "ERCOT HB_HOUSTON (hub)43.05Energy USD 35.22, transmission USD 7.83 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No delivery, distribution, anci"
+    },
+    {
+     "id": "ercot:LZ_NORTH",
+     "checks": [
+      {
+       "k": "allgrids|allin|ercot:LZ_NORTH|profile=datacenter&lf=0.9&strike=row",
+       "raw": "43.151433904109595",
+       "text": "43.15"
+      },
+      {
+       "k": "allgrids|energy|ercot:LZ_NORTH|da",
+       "raw": "35.326399543379",
+       "text": "35.33"
+      },
+      {
+       "k": "allgrids|energy|ercot:LZ_NORTH|rt",
+       "raw": "33.72888698630137",
+       "text": "33.73"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_NORTH|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_NORTH|firm|profile=datacenter&lf=0.9&strike=row",
+       "raw": "7.825034360730594",
+       "text": "7.83"
+      },
+      {
+       "k": "allgrids|tx|ercot:LZ_NORTH|curtailing|profile=datacenter&lf=0.9&strike=row",
+       "raw": "0",
+       "text": "0.00"
+      },
+      {
+       "k": "allgrids|connect|ercot:LZ_NORTH",
+       "raw": "45.8",
+       "text": "45.80"
+      },
+      {
+       "k": "allgrids|llapproved|ercot:LZ_NORTH",
+       "raw": "8927",
+       "text": "8,927"
+      },
+      {
+       "k": "allgrids|demand|ercot:LZ_NORTH",
+       "raw": "5.414597963715995",
+       "text": "5.41"
+      },
+      {
+       "k": "allgrids|planned|ercot:LZ_NORTH",
+       "raw": "24268.7",
+       "text": "24,269"
+      },
+      {
+       "k": "allgrids|capratio|ercot:LZ_NORTH",
+       "raw": "97",
+       "text": "97"
+      },
+      {
+       "k": "allgrids|carbon|ercot:LZ_NORTH",
+       "raw": "332.8742676806242",
+       "text": "332.87"
+      },
+      {
+       "k": "allgrids|carbonlb|ercot:LZ_NORTH",
+       "raw": "733.8621407600489",
+       "text": "733.86"
+      },
+      {
+       "k": "allgrids|utilrev|ercot:LZ_NORTH",
+       "raw": "73.56793519505776",
+       "text": "73.57"
+      }
+     ],
+     "text": "ERCOT LZ_NORTH, North load zone (load zone)43.15Energy USD 35.33, transmission USD 7.83 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No deliver"
+    }
+   ],
+   "heads": [
+    "allin",
+    "energy",
+    "transmission",
+    "capacity",
+    "connect",
+    "headroom",
+    "carbon",
+    "utility"
+   ],
+   "gaps": null,
+   "tracker": null,
+   "card": null,
+   "scrollW": 390,
+   "clientW": 390,
+   "totalH": 6291,
+   "shot": "q10_send_390.png"
+  },
+  {
+   "step": "q11_tracker",
+   "width": 390,
+   "url": "/datacenters",
+   "found": true,
+   "errorText": "The table could not be read, so no number is shown: license needed: Amazon Web Services; Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Digital Realty; Equinix; Financial Times; Google; Hart Energy; Heatmap News; ISO-NE; Latitude Media; MISO; Meta; Microsoft; NYISO; Natural Gas Intelligence; Oracle; POWER Magazine; Reuters; Switch; Vantage Data Centers; WSJ: the publisher's own page asks for permission; none is recorded yet",
+   "nChecks": 53,
+   "sortLine": null,
+   "countLine": null,
+   "headline": null,
+   "abPanel": null,
+   "shared": null,
+   "panel": null,
+   "rows": [],
+   "heads": [],
+   "gaps": null,
+   "tracker": {
+    "links": 0,
+    "held": true
+   },
+   "card": null,
+   "scrollW": 390,
+   "clientW": 390,
+   "totalH": 6103,
+   "shot": "q11_tracker_390.png"
+  },
+  {
+   "step": "q12_card",
+   "width": 390,
+   "url": "/research/card/siting_gigawatt",
+   "found": true,
+   "errorText": "",
+   "nChecks": 6,
+   "sortLine": null,
+   "countLine": null,
+   "headline": null,
+   "abPanel": null,
+   "shared": null,
+   "panel": null,
+   "rows": [],
+   "heads": [],
+   "gaps": null,
+   "tracker": null,
+   "card": {
+    "title": "WHERE A GIGAWATT PAYS LEAST",
+    "checks": [
+     {
+      "k": "finding|siting_gigawatt|callout|0|before|ercot",
+      "raw": "40.83",
+      "text": "40.83"
+     },
+     {
+      "k": "finding|siting_gigawatt|callout|0|after|ercot",
+      "raw": "46.69",
+      "text": "46.69"
+     },
+     {
+      "k": "finding|siting_gigawatt|callout|1|before|-",
+      "raw": "321,907,123",
+      "text": "321,907,123"
+     },
+     {
+      "k": "finding|siting_gigawatt|callout|1|after|-",
+      "raw": "368,100,514",
+      "text": "368,100,514"
+     },
+     {
+      "k": "finding|siting_gigawatt|callout|2|before|ercot",
+      "raw": "45.80",
+      "text": "45.80"
+     },
+     {
+      "k": "finding|siting_gigawatt|callout|2|after|caiso",
+      "raw": "100.00",
+      "text": "100.00"
+     }
+    ],
+    "text": "body:has(.brand-a) > header, body:has(.brand-a) > footer { font-family: 'IBM Plex Sans', 'IBM Plex Sans Fallback', system-ui, sans-serif; }ResearchWHERE A GIGAWATT PAYS LEASTWHERE A GIGAWATT PAYS LEASTA 1 GW datacenter load, all-in per MWh, at the 14 rows of the All grids tab whose every cost part is heldmw: 1,000 MW | profile: Datacenter: 0.90 in every hour, never curtailsShown asPaired bars (default)Small multiplesChartTableWHERE A GIGAWATT PAYS LEAST010203040USD per MWhHB_WESTLZ_SOUTHLZ_HOUSTONLZ_AENEnergy, day-ahead, twelve monthsFour-peak transmission chargeAll-in, USD per MWh, least and mostERCOT HB_WEST: 40.83ERCOT LZ_CPS: 46.69A year at 1 GW, USDHB_WEST: 321,907,123LZ_CPS: 368,100,514Median months to connect, generatorsERCOT: 45.80CAISO: 100.00A 1 GW datacenter load, drawing 0.90 of its size in every hour, paid least all-in at ERCOT HB_WEST: USD 40.83 per MWh, USD 321,907,123 a year, and most at ERCOT LZ_CPS: USD 46.69 per MWh, USD 368,100,514 a year. All-in is the day-ahead price over the last twelve whole months, the four-peak transmission charge at the Commission's rate, and capacity, of which ERCOT has none. Only 14 of the tab's 48 rows hold every part: elsewhere transmission is not held, or capacity is held under a license (34 rows). Generators took a median of 45.80 months from request to operation in ERCOT and 100.00 in CAISO, over the requests that came online f"
+   },
+   "scrollW": 390,
+   "clientW": 390,
+   "totalH": 1799,
+   "shot": "q12_card_390.png"
+  }
+ ],
+ "pageErrors": []
+}
