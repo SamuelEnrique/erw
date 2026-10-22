@@ -30,7 +30,22 @@ The build lock was held for long stretches by single sessions (583 for 73 minute
 
 ## The landing
 
-LANDING_SECTION
+`scripts/land_check.py --ref wip/589-land --lock-as s589` at `be0a73d7` (all twelve sessions, `wip/506-combined` and main merged), 03:40 to 03:58 UTC; its record is `runs/land_check/be0a73d7d1a5fee09117ad06610769e3f286bc69.txt` in the worktree (not in git):
+
+| Step | Exit | Result |
+|---|---|---|
+| freeze | 0 | no freeze |
+| main merged | 0 | origin/main in the commit |
+| task/ branches | 0 | `task/617-623-sources` (the data machine's) in flight and merging cleanly; `task/198-battery-data` left over (10 days) |
+| db_probe | 0 | |
+| build lock | 0 | held by s589 |
+| the suite in a clean worktree | 0 | 5,762 tests in 466 s, 302 skipped, OK |
+| npm ci, build | 0, 0 | 89 s |
+| check-values, all pages | 1 | 6,456 of 6,456 values equal; 11 floors: session 408's ten held ones and `/digest` (0 against 9) |
+
+`/digest`'s floor is the day's: before the 14:00 UTC run there is no Digest for 22 October, and production fails the same floor (`CHECK_VALUES_PAGES=/digest` against production at 04:05 UTC: 70 of 70 equal, the same floor). So the run is a pass by the chain's rule with that one named. The gate stops at check-values' exit 1 and did not reach check-routes, check-cross-checks or check-csp; those ran by hand on a fresh build of the branch's head (`runs/s589_rest.sh`):
+
+REST_TABLE
 
 ## Decisions made without you
 
