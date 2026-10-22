@@ -21,23 +21,37 @@ const tipCls = "cursor-help border-b border-dotted border-muted";
 const two = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const monthWords = (m: string) => new Date(`${m}-15T12:00:00Z`).toLocaleString("en-US", { month: "long", year: "numeric", timeZone: "UTC" });
 
-/** A cell the warehouse cannot fill: short words in ink, the reason on hover and on focus (no visible grey text). */
-function Words({ words, why }: { words: string; why: string }) {
-  return <span className={tipCls} title={why} tabIndex={0} data-cell-words="1">{words}</span>;
-}
-/** One figure with its hover: the reason, the window and its source. */
-function Fig({ check, v, tip, children }: { check: string; v: number; tip: string; children?: ReactNode }) {
+/** Session 714: a tip a keyboard reaches. Until this session the tab's tips were `title`, which shows on a mouse's hover
+ * only. Now the words sit in a role="tooltip" span inside the thing, which the site's rule shows on hover and on focus
+ * (app/tokens.css, ".tip", as components/tool/ToolPage.tsx's Tip), and a screen reader reads with it. `extra` is drawn
+ * in the tip under the words (a figure's twelve months). */
+// The trigger is a button described by the tip (as the shared Tip's is), so a keyboard reaches it and a screen reader
+// reads the tip as its description; AccessLint's scan found the focusable spans without a role at first (session 714).
+// The ids number the page's tips in the order drawn: a page is drawn in one pass on the server.
+let tipSeq = 0;
+function Tp({ tip, children, extra, dotted = true, className = "", data }: { tip: string; children: ReactNode; extra?: ReactNode; dotted?: boolean; className?: string; data?: Record<string, string> }) {
+  const id = `ag-tip-${(tipSeq = (tipSeq + 1) % 1_000_000)}`;
   return (
-    <span className={`group relative inline-block ${tipCls}`} title={tip} tabIndex={0}>
-      <Num check={check} raw={v}>{two(v)}</Num>
-      {children}
+    <span className={`tip relative inline-block ${className}`.trim()} {...Object.fromEntries(Object.entries(data ?? {}).map(([k, v]) => [`data-${k}`, v]))}>
+      <button type="button" aria-describedby={id} className={`text-inherit ${dotted ? tipCls : ""}`} data-tip-trigger="1">{children}</button>
+      <span role="tooltip" id={id} className="absolute right-0 top-full z-20 hidden w-72 max-w-[80vw] whitespace-normal border border-rule bg-paper px-2 py-1.5 text-left font-sans text-xs font-normal leading-snug text-ink">
+        {tip}{extra ? <span className="mt-1 block">{extra}</span> : null}
+      </span>
     </span>
   );
+}
+/** A cell the warehouse cannot fill: short words in ink, the reason on hover and on focus (no visible grey text). */
+function Words({ words, why }: { words: string; why: string }) {
+  return <Tp tip={why} data={{ "cell-words": "1" }}>{words}</Tp>;
+}
+/** One figure with its tip: the reason, the window and its source; `children` (a figure's twelve months) in the tip. */
+function Fig({ check, v, tip, children }: { check: string; v: number; tip: string; children?: ReactNode }) {
+  return <Tp tip={tip} extra={children}><Num check={check} raw={v}>{two(v)}</Num></Tp>;
 }
 /** Session 701: the twelve months of a figure, drawn on hover and on focus (the shared inline chart, components/InlineSpark). */
 function Spark({ t, label }: { t: Twelve; label: string }) {
   return (
-    <span className="pointer-events-none absolute right-0 top-full z-10 hidden border border-rule bg-white p-1 group-hover:block group-focus:block" data-spark="1">
+    <span className="inline-block bg-white p-1" data-spark="1">
       <InlineSpark values={t.months.map((r) => ({ t: `${r.m}-01`, v: r.per }))} label={label} width={140} height={32} />
     </span>
   );
@@ -100,7 +114,7 @@ function ProfileTd({ r, x }: { r: Row; x: SitingInputs }) {
   return (
     <span className="whitespace-nowrap">
       <Fig check={`allgrids|energy|${r.id}|da|${k}`} v={c.per} tip={tip} />
-      {p.curtail !== "none" && p.curtail !== "interruptible" ? <span className="ml-2 text-xs" data-lost="1">off <span title={`Hours of the ${t.held.toLocaleString("en-US")} held the load was off`}><Num check={`allgrids|lost|${r.id}|${k}`} raw={t.lost}>{t.lost.toLocaleString("en-US")}</Num></span> h</span> : null}
+      {p.curtail !== "none" && p.curtail !== "interruptible" ? <span className="ml-2 text-xs" data-lost="1">off <Tp dotted={false} tip={`Hours of the ${t.held.toLocaleString("en-US")} held the load was off`}><Num check={`allgrids|lost|${r.id}|${k}`} raw={t.lost}>{t.lost.toLocaleString("en-US")}</Num></Tp> h</span> : null}
     </span>
   );
 }
@@ -134,7 +148,7 @@ function AllInTd({ r, x }: { r: Row; x: SitingInputs }) {
 /** A figure computed from an internal table: "license needed" in place, with the table and why on hover (session 408's
  * rule; the same words and mark as components/Num.tsx's held figures, so the value checker passes it by). */
 function Held({ table, why }: { table: string; why: string }) {
-  return <span className={tipCls} title={why} tabIndex={0} data-license-held={table}>license needed</span>;
+  return <Tp tip={why} data={{ "license-held": table }}>license needed</Tp>;
 }
 const periodWords = (s: string, e: string) => `${s.slice(0, 10)} to ${e.slice(0, 10)}`;
 /** Session 704: the capacity cell. No market: the words and why. Held: "license needed", with the zone, the auction and
@@ -157,11 +171,11 @@ function ConnectTd({ r }: { r: Row }) {
     <span className="inline-block text-right">
       {"median" in g && g.median !== null
         ? <span className="whitespace-nowrap"><Fig check={`allgrids|connect|${r.id}`} v={g.median}
-            tip={`Generation in ${GRID_NAMES[r.grid]}: the median months from queue entry to commercial operation of the ${g.n} requests that came online from ${g.from} to ${g.to} (lbnl_interconnection_queue, Berkeley Lab's Queued Up, ${g.vintage}); a quarter took under ${g.p25?.toFixed(0)} months, a quarter over ${g.p75?.toFixed(0)}. A generator's wait, not a load's: loads are not in this file.`} /> mo</span>
+            tip={`Generation in ${GRID_NAMES[r.grid]}: the median months from queue entry to commercial operation of the ${g.n} requests that came online from ${g.from} to ${g.to} (${SITING_FILES.connect?.table ?? "interconnection_durations"}, from Berkeley Lab's Queued Up, ${g.vintage}); a quarter took under ${g.p25?.toFixed(0)} months, a quarter over ${g.p75?.toFixed(0)}. A generator's wait, not a load's: loads are not in this file.`} /> mo</span>
         : <Words words="not held" why={"why" in g ? g.why : ""} />}
       <span className="block text-xs" data-connect-load="1">
-        load: {c.rule ? <span className={tipCls} title={ruleTip} tabIndex={0}>rule {c.rule.date.slice(0, 7)}</span> : <Words words="no rule held" why={ruleTip} />}
-        {c.status ? <>, <span title={`ERCOT's large loads approved to energize, MW, its report of ${c.status.day} (${c.status.document}; ercot_large_load_status): approved to connect, not a wait.`}><Num check={`allgrids|llapproved|${r.id}`} raw={c.status.approved}>{c.status.approved.toLocaleString("en-US")}</Num> MW approved</span></> : null}
+        load: {c.rule ? <Tp tip={ruleTip}>rule {c.rule.date.slice(0, 7)}</Tp> : <Words words="no rule held" why={ruleTip} />}
+        {c.status ? <>, <Tp dotted={false} tip={`ERCOT's large loads approved to energize, MW, its report of ${c.status.day} (${c.status.document}; ercot_large_load_status): approved to connect, not a wait.`}><Num check={`allgrids|llapproved|${r.id}`} raw={c.status.approved}>{c.status.approved.toLocaleString("en-US")}</Num> MW approved</Tp></> : null}
         {"held" in c.wait ? <>, wait <Held table="large_load_waits" why={c.wait.held} /></> : null}
       </span>
     </span>
@@ -175,13 +189,15 @@ function HeadroomTd({ r }: { r: Row }) {
   return (
     <span className="inline-block text-right">
       {"pct" in g
-        ? <span className="whitespace-nowrap"><span className={`group relative inline-block ${tipCls}`} tabIndex={0}
-            title={`${GRID_NAMES[r.grid]}'s mean demand (EIA-930, ${g.ba}), ${monthWords(g.from)} to ${monthWords(g.to)}, ${Math.round(g.mw).toLocaleString("en-US")} MW, against the twelve months before, ${Math.round(g.before).toLocaleString("en-US")} MW: each month's mean weighted by its hours (eia930_demand_growth, "Your load"'s file data/demand_growth.json). The grid's own balancing authority, not the row's zone: sub-region demand is not in the tab's files. Weather is not removed.`}>
-            {g.pct > 0 ? "+" : ""}<Num check={`allgrids|demand|${r.id}`} raw={g.pct}>{two(g.pct)}</Num></span> %</span>
+        ? <span className="whitespace-nowrap"><Tp
+            tip={`${GRID_NAMES[r.grid]}'s mean demand (EIA-930, ${g.ba}), ${monthWords(g.from)} to ${monthWords(g.to)}, ${Math.round(g.mw).toLocaleString("en-US")} MW, against the twelve months before, ${Math.round(g.before).toLocaleString("en-US")} MW: each month's mean weighted by its hours (eia930_demand_growth, "Your load"'s file data/demand_growth.json). The grid's own balancing authority, not the row's zone: sub-region demand is not in the tab's files. Weather is not removed.`}>
+            {g.pct > 0 ? "+" : ""}<Num check={`allgrids|demand|${r.id}`} raw={g.pct}>{two(g.pct)}</Num></Tp> %</span>
         : <Words words="not held" why={g.why} />}
       <span className="block text-xs" data-headroom-planned="1">
-        {pl && h ? <span title={`Generators under construction (EIA-860M status U, V or TS) in ${GRID_NAMES[r.grid]} due to operate from ${h.from} to ${h.to}, the twelve months after the table's vintage (${h.vintage}): ${pl.construction_n} generators. Approvals received, not under construction: ${Math.round(pl.approved_mw).toLocaleString("en-US")} MW; planned, approvals pending or not started: ${Math.round(pl.other_mw).toLocaleString("en-US")} MW. EIA-860M records no interconnection agreement; construction is the nearest it states (eia860m_planned_generators).`}><Num check={`allgrids|planned|${r.id}`} raw={pl.construction_mw}>{Math.round(pl.construction_mw).toLocaleString("en-US")}</Num> MW coming</span> : <Words words="no plan held" why={`No planned generator of ${GRID_NAMES[r.grid]} is in eia860m_planned_generators.`} />}
-        {"pct" in c ? <>, <span title={`Installed net summer capacity of ${c.states.join(", ")} in ${c.year} (eia_state_capacity_annual), ${Math.round(c.mw).toLocaleString("en-US")} MW, over ${GRID_NAMES[r.grid]}'s peak demand of ${c.peakYear} (EIA-930), ${Math.round(c.peak).toLocaleString("en-US")} MW. Not a reserve margin: imports, outages and derates are not in it, and reserve margins by zone are not held.`}>capacity <Num check={`allgrids|capratio|${r.id}`} raw={c.pct}>{Math.round(c.pct).toLocaleString("en-US")}</Num>% of peak</span></> : null}
+        {pl && h ? <Tp dotted={false} tip={`Generators under construction (EIA-860M status U, V or TS) in ${GRID_NAMES[r.grid]} due to operate from ${h.from} to ${h.to}, the twelve months after the table's vintage (${h.vintage}): ${pl.construction_n} generators. Approvals received, not under construction: ${Math.round(pl.approved_mw).toLocaleString("en-US")} MW; planned, approvals pending or not started: ${Math.round(pl.other_mw).toLocaleString("en-US")} MW. EIA-860M records no interconnection agreement; construction is the nearest it states (eia860m_planned_generators).`}><Num check={`allgrids|planned|${r.id}`} raw={pl.construction_mw}>{Math.round(pl.construction_mw).toLocaleString("en-US")}</Num> MW coming</Tp> : <Words words="no plan held" why={`No planned generator of ${GRID_NAMES[r.grid]} is in eia860m_planned_generators.`} />}
+        {"pct" in c ? <>, <Tp dotted={false} tip={c.table === "grid_peak_vs_capacity"
+          ? `${GRID_NAMES[r.grid]}'s operating generators' net summer capacity at the end of ${c.year}, ${Math.round(c.mw).toLocaleString("en-US")} MW (solar ${Math.round(c.parts?.solar ?? 0).toLocaleString("en-US")}, wind ${Math.round(c.parts?.wind ?? 0).toLocaleString("en-US")}, storage ${Math.round(c.parts?.storage ?? 0).toLocaleString("en-US")}, at their summer ratings), against its peak hour of ${c.peakYear}, ${Math.round(c.peak).toLocaleString("en-US")} MW: grid_peak_vs_capacity (the data machine's, by each generator's balancing authority, EIA-860M and EIA-930). Not a reserve margin: no imports, outages or derates, and solar and wind at their ratings.`
+          : `Installed net summer capacity of ${c.states.join(", ")} in ${c.year} (eia_state_capacity_annual), ${Math.round(c.mw).toLocaleString("en-US")} MW, over ${GRID_NAMES[r.grid]}'s peak demand of ${c.peakYear}, ${Math.round(c.peak).toLocaleString("en-US")} MW. Not a reserve margin.`}>capacity <Num check={`allgrids|capratio|${r.id}`} raw={c.pct}>{Math.round(c.pct).toLocaleString("en-US")}</Num>% above peak</Tp></> : null}
       </span>
     </span>
   );
@@ -198,9 +214,9 @@ function CarbonTd({ r, x }: { r: Row; x: SitingInputs }) {
     <span className="inline-block text-right">
       {c.hourly
         ? <><span className="whitespace-nowrap"><Fig check={`allgrids|carbonh|${r.id}|${k}`} v={c.hourly.kg} tip={`The grid's hourly intensity (carbon_intensity_hourly, ${cf.hourly_variable}, kg CO2 per MWh consumed), weighted by the load over the ${c.hourly.hours.toLocaleString("en-US")} of the ${c.hourly.of.toLocaleString("en-US")} hours it runs where both are held: hourly, the grid's balancing authority, not the subregion. ${annualTip}`} /> kg</span>
-            <span className="block text-xs" data-carbon-annual="1">annual <span title={annualTip}><Num check={`allgrids|carbon|${r.id}`} raw={c.kg}>{two(c.kg)}</Num></span></span></>
+            <span className="block text-xs" data-carbon-annual="1">annual <Tp dotted={false} tip={annualTip}><Num check={`allgrids|carbon|${r.id}`} raw={c.kg}>{two(c.kg)}</Num></Tp></span></>
         : <><span className="whitespace-nowrap"><Fig check={`allgrids|carbon|${r.id}`} v={c.kg} tip={`${annualTip}${c.hourlyWhy ? ` ${c.hourlyWhy}` : ""}`} /> kg</span>
-            <span className="block text-xs" data-carbon-lb="1"><span title={annualTip}><Num check={`allgrids|carbonlb|${r.id}`} raw={c.lb}>{two(c.lb)}</Num></span> lb</span></>}
+            <span className="block text-xs" data-carbon-lb="1"><Tp dotted={false} tip={annualTip}><Num check={`allgrids|carbonlb|${r.id}`} raw={c.lb}>{two(c.lb)}</Num></Tp> lb</span></>}
     </span>
   );
 }
@@ -210,13 +226,33 @@ function CarbonTd({ r, x }: { r: Row; x: SitingInputs }) {
 function UtilityTd({ r }: { r: Row }) {
   const c = utilityCell(SITING_FILES, r);
   if ("why" in c) return <Words words={c.words} why={c.why} />;
-  const u = c.u;
-  const tip = `${u.utility} (EIA utility ${u.number}), the largest of ${u.sellers} sellers to industry in ${c.state} inside ${GRID_NAMES[r.grid]} (balancing authority ${c.ba}) in ${c.year}: ${Math.round(u.sales_mwh).toLocaleString("en-US")} MWh to industry for USD ${Math.round(u.revenue_usd).toLocaleString("en-US")} (eia861_utility_sales, ${u.service === "Energy" ? "energy only: the wires utility bills delivery" : "bundled: energy and delivery"}). Service territories are not held, so the row's own utility is not known; this is the state's largest.`;
+  if (c.county) return <CountyUtilityTd r={r} c={c} />;
+  const u = c.u!;
+  const tip = `${u.utility} (EIA utility ${u.number}), the largest of ${u.sellers} sellers to industry in ${c.state} inside ${GRID_NAMES[r.grid]} (balancing authority ${c.ba}) in ${c.year}: ${Math.round(u.sales_mwh).toLocaleString("en-US")} MWh to industry for USD ${Math.round(u.revenue_usd).toLocaleString("en-US")} (eia861_utility_sales, ${u.service === "Energy" ? "energy only: the wires utility bills delivery" : "bundled: energy and delivery"}). This row's name is not a place, so no county's service territory can be read for it: this is the state's largest seller, which the data machine found is not the county's utility in 4 of 7 hub counties (session 681).`;
   return (
     <span className="inline-block text-right">
-      <span className="block max-w-[11rem] truncate text-xs" title={tip}>{u.utility}</span>
+      <Tp tip={tip} className="block max-w-[11rem] text-xs" dotted={false} data={{ "util-name": "1" }}><span className="block truncate">{u.utility}</span></Tp>
       <span className="whitespace-nowrap"><Fig check={`allgrids|utilrev|${r.id}`} v={c.rev} tip={tip} /></span>
-      {c.growth !== null ? <span className="block text-xs" data-util-growth="1"><span title={`Industrial sales ${c.year} over ${c.prior}: ${Math.round(u.sales_mwh).toLocaleString("en-US")} against ${Math.round(u.sales_prior_mwh ?? 0).toLocaleString("en-US")} MWh.`}>{c.growth > 0 ? "+" : ""}<Num check={`allgrids|utilgrowth|${r.id}`} raw={c.growth}>{two(c.growth)}</Num></span> %</span> : null}
+      {c.growth !== null ? <span className="block text-xs" data-util-growth="1"><Tp dotted={false} tip={`Industrial sales ${c.year} over ${c.prior}: ${Math.round(u.sales_mwh).toLocaleString("en-US")} against ${Math.round(u.sales_prior_mwh ?? 0).toLocaleString("en-US")} MWh.`}>{c.growth > 0 ? "+" : ""}<Num check={`allgrids|utilgrowth|${r.id}`} raw={c.growth}>{two(c.growth)}</Num></Tp> %</span> : null}
+    </span>
+  );
+}
+
+/** Session 718: a row whose name is a place: its county's utilities (EIA-861's service territories), the first named, and
+ * the largest seller to industry among them inside the row's grid, its revenue per MWh and growth. */
+function CountyUtilityTd({ r, c }: { r: Row; c: Extract<ReturnType<typeof utilityCell>, { county: object }> }) {
+  const cu = c.county!, u = c.u;
+  const others = cu.utilities.filter((x) => x.name !== u?.utility);
+  const names = cu.utilities.map((x) => `${x.name}${x.ba.length ? ` (${x.ba.join(", ")})` : " (no sales row)"}`).join("; ");
+  const where = `${cu.county} County, ${cu.state}, a county this row's name places it in`;
+  const tip = u
+    ? `${where}: EIA-861's service territories (utility_service_territories, ${cu.territory_year}) list ${cu.utilities.length}: ${names}. Of those that bill customers inside ${GRID_NAMES[r.grid]} (balancing authority ${cu.ba}), ${u.utility} sold most to industry in the state in ${c.year}: ${Math.round(u.sales_mwh).toLocaleString("en-US")} MWh for USD ${Math.round(u.revenue_usd).toLocaleString("en-US")} (${u.service === "Delivery" ? "delivery only: the charge for the wires, not the energy" : "bundled: energy and delivery"}; eia861_utility_sales). A utility with no sales row (a wires company that reports none) is listed and not priced.`
+    : `${where}: EIA-861's service territories list ${names}. None of them bills industry inside ${GRID_NAMES[r.grid]} in eia861_utility_sales, so no revenue per MWh is drawn.`;
+  return (
+    <span className="inline-block text-right">
+      <Tp tip={tip} className="block max-w-[11rem] text-xs" dotted={false} data={{ "util-name": "1" }}><span className="block truncate">{u?.utility ?? cu.utilities[0]?.name ?? cu.county}{others.length ? ` and ${others.length} more` : ""}</span></Tp>
+      {u && c.rev !== null ? <span className="whitespace-nowrap"><Fig check={`allgrids|utilrev|${r.id}`} v={c.rev} tip={tip} /></span> : <Words words="no sales row" why={tip} />}
+      {u && c.growth !== null ? <span className="block text-xs" data-util-growth="1"><Tp dotted={false} tip={`Industrial sales ${c.year} over ${c.prior}: ${Math.round(u.sales_mwh).toLocaleString("en-US")} against ${Math.round(u.sales_prior_mwh ?? 0).toLocaleString("en-US")} MWh.`}>{c.growth > 0 ? "+" : ""}<Num check={`allgrids|utilgrowth|${r.id}`} raw={c.growth}>{two(c.growth)}</Num></Tp> %</span> : null}
     </span>
   );
 }
@@ -225,21 +261,35 @@ function RowHead({ r }: { r: Row }) {
   return (
     <th scope="row" className="px-3 py-1.5 text-left font-normal" data-row={r.id}>
       <span className="text-xs text-muted">{GRID_NAMES[r.grid]}</span>{" "}
-      {r.blank ? <span className="cursor-help border-b border-dotted border-muted" title={r.blank.why} tabIndex={0}>{r.label}</span> : r.label}
+      {r.blank ? <Tp tip={r.blank.why}>{r.label}</Tp> : r.label}
     </th>
   );
 }
 
 /** Session 709: what every ERCOT node shares, drawn once above the node table: the four-peak charge (paid on the hub's
  * hours), no capacity market, the grid's time to connect, headroom and carbon, and what the node tables do not hold. */
+/** Session 717: what every node shares, as one sentence: the walk of the lab's path found the cells drawn here as they
+ * are in the table (each a block of its own) broke the line into pieces. Each figure keeps its key and its tip. */
+function SharedLine({ hub, x }: { hub: Row; x: SitingInputs }) {
+  const k = profileKey(x);
+  const c = cpCharge(SITING_DC, SITING_FILES, hub, x), con = connectCell(SITING_FILES, hub), g = demandGrowth(SITING_FILES.demand, hub.grid), cb = carbonCell(SITING_DC, SITING_FILES, hub, x);
+  return (
+    <p>
+      Every node below is in ERCOT, and shares these, drawn once: the four-peak charge, paid on {NODE_HUB}&apos;s hours,{" "}
+      {"why" in c ? <Words words={c.words} why={c.why} /> : <>USD {c.own === null ? <Words words="not held" why="The price of an interval's hour is not held." /> : <Fig check={`allgrids|tx|${hub.id}|${k}`} v={c.own} tip={`This load's charge: it ran in ${Math.round((c.share ?? 0) * 4)} of the four intervals of ${c.year}, at the Commission's ${c.rate.year} rate.`} />} per MWh for this load (firm <Fig check={`allgrids|tx|${hub.id}|firm|${k}`} v={c.firm} tip="On in all four intervals." />{c.curtailing !== null ? <>, off at the peaks <Fig check={`allgrids|tx|${hub.id}|curtailing|${k}`} v={c.curtailing} tip="Off in the four intervals' hours, computed from its weights." /></> : null})</>};
+      {" "}no capacity market (<Words words="why" why="ERCOT is an energy-only market: it has no capacity market and no capacity charge." />);
+      {" "}generators took a median of {"median" in con.gen && con.gen.median !== null ? <Fig check={`allgrids|connect|${hub.id}`} v={con.gen.median} tip={`From queue entry to operation, ${con.gen.n} requests online from ${con.gen.from} to ${con.gen.to} (lbnl_interconnection_queue).`} /> : <Words words="not held" why={"why" in con.gen ? con.gen.why : ""} />} months to connect;
+      {" "}demand grew {"pct" in g ? <>{g.pct > 0 ? "+" : ""}<Fig check={`allgrids|demand|${hub.id}`} v={g.pct} tip={`ERCOT's mean demand (EIA-930, ERCO), ${monthWords(g.from)} to ${monthWords(g.to)}, over the twelve months before.`} /> percent</> : <Words words="not held" why={g.why} />} on the year;
+      {" "}carbon {"kg" in cb ? <><Fig check={`allgrids|carbon|${hub.id}`} v={cb.kg} tip={`eGRID subregion ERCT, ${cb.year}: the plants' CO2 over their net generation.`} /> kg CO2 per MWh</> : <Words words={cb.words} why={cb.why} />}.
+    </p>
+  );
+}
+
 function NodeShared({ x }: { x: SitingInputs }) {
   const hub = hubRows(SITING_FILES.index).find((r) => r.id === `ercot:${NODE_HUB}`)!;
   return (
     <div className="mb-3 max-w-4xl text-sm" data-node-shared="1">
-      <p>
-        Every node below is in ERCOT, and shares these, drawn once: the four-peak charge on {NODE_HUB}&apos;s hours, <TxTd r={hub} x={x} />; capacity, <Words words="no capacity market" why="ERCOT is an energy-only market: it has no capacity market and no capacity charge." />;
-        {" "}time to connect, <ConnectTd r={hub} />; headroom, <HeadroomTd r={hub} />; carbon, <CarbonTd r={hub} x={x} />.
-      </p>
+      <SharedLine hub={hub} x={x} />
       <p className="mt-1">
         Not held for any node: its load zone, its settlement hub and its wires utility (TSP). node_basis_daily sets every node against {NODE_HUB} and names no zone or utility; <Words words="not held" why="ERCOT publishes each settlement point's zone and hub in its settlement point mapping, and each node's TSP in its resource registration; neither is a table of the warehouse yet (docs/reviews/siting-gaps.md)." />.
       </p>
@@ -273,7 +323,7 @@ function AbPanel({ x }: { x: SitingInputs }) {
   return (
     <section className="mb-5" aria-label="A and B" data-allgrids-abpanel="1">
       <h3 className="mb-2 font-serif text-lg">A and B, side by side</h3>
-      <div className="overflow-x-auto" role="region" aria-label="A and B" tabIndex={0}>
+      <div className="overflow-x-auto" role="region" aria-label="A and B, the table" tabIndex={0}>
         <table className="w-full border-collapse text-sm tabular-nums" style={{ minWidth: 520 }}>
           <thead><tr className="bg-accent text-white"><th scope="col" className="px-3 py-1.5 text-left font-normal">USD per MWh unless said</th><th scope="col" className={th}>A: {name(ra)}</th><th scope="col" className={th}>B: {name(rb)}</th><th scope="col" className={th}>B less A</th></tr></thead>
           <tbody>
@@ -314,7 +364,7 @@ function NodePanel({ id }: { id: string }) {
   const close = `?${new URLSearchParams({ view: "allgrids", rows: "nodes" }).toString()}`;
   return (
     <section className="mb-4 border border-rule bg-paper px-4 py-3 text-sm" aria-label={`Node ${n.id}`} data-node-panel={id}>
-      <h3 className="font-serif text-lg">{n.id} <span className="text-sm">({n.cls}{n.types ? `, ERCOT's resource types ${n.types}` : ""})</span> <a href={`/cost-of-power${close}`} className="ml-2 text-xs">Close</a></h3>
+      <h3 className="font-serif text-lg">{n.id} <span className="text-sm">({n.cls}{n.types ? `, ERCOT's resource types ${n.types}` : ""})</span> <a href={`/cost-of-power${close}`} className="ml-2 text-xs underline">Close</a></h3>
       {n.pct ? (
         <p className="mt-1">
           Its daily day-ahead basis to {NODE_HUB}, {NODES.pct_from} to {NODES.pct_to} ({n.pct[3]} days held, node_basis_daily): one day in ten at or below USD{" "}
@@ -341,6 +391,9 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
   const hubs = hubRows(SITING_FILES.index), nodes = nodeRows(NODES);
   const p = PROFILES[x.profile];
   const shown = x.rows === "hubs" ? screen(SITING_DC, SITING_FILES, hubs, x) : [];
+  // session 717: the column the table is sorted by is drawn first, beside the rows' names (the walk found it off the
+  // screen to the right on a laptop); the order of the others is kept
+  const cols = x.sort === "name" ? COLUMNS : [...COLUMNS.filter((c) => c.id === x.sort), ...COLUMNS.filter((c) => c.id !== x.sort)];
   return (
     <div className="grid gap-8 lg:grid-cols-[290px_minmax(0,1fr)]" data-no-usage="1" data-allgrids="1">
       <aside>
@@ -377,9 +430,9 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
             <thead>
               <tr className="bg-accent text-white">
                 <th scope="col" className="px-3 py-1.5 font-normal">Grid and region</th>
-                {COLUMNS.map((c) => (
+                {cols.map((c) => (
                   <th key={c.id} scope="col" className="px-3 py-1.5 text-right font-normal" data-col={c.id}>
-                    <span className={tipCls} title={`${c.tip} ${c.unit}.`} tabIndex={0}>{c.head}</span>
+                    <Tp tip={`${c.tip} ${c.unit}.`} className="border-white/70">{c.head}</Tp>
                   </th>
                 ))}
               </tr>
@@ -388,7 +441,7 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
               {shown.map((r) => (
                 <tr key={r.id} className="border-b border-rule" data-allgrids-row={r.id}>
                   <RowHead r={r} />
-                  {COLUMNS.map((c) => <td key={c.id} className="px-3 py-1.5 text-right" data-cell={c.id}>{c.id === "energy" ? (x.profile === "datacenter" ? <EnergyTd r={r} e={energyCell(SITING_DC, SITING_FILES, r)} /> : <ProfileTd r={r} x={x} />)
+                  {cols.map((c, ci) => <td key={c.id} className="px-3 py-1.5 text-right" data-cell={c.id} data-opens={ci < 4 ? "right" : undefined}>{c.id === "energy" ? (x.profile === "datacenter" ? <EnergyTd r={r} e={energyCell(SITING_DC, SITING_FILES, r)} /> : <ProfileTd r={r} x={x} />)
                     : c.id === "transmission" ? <TxTd r={r} x={x} /> : c.id === "capacity" ? <CapTd r={r} x={x} /> : c.id === "connect" ? <ConnectTd r={r} /> : c.id === "headroom" ? <HeadroomTd r={r} /> : c.id === "carbon" ? <CarbonTd r={r} x={x} /> : c.id === "utility" ? <UtilityTd r={r} /> : c.id === "allin" ? <AllInTd r={r} x={x} /> : null}</td>)}
                 </tr>
               ))}

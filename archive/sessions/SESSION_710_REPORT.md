@@ -36,7 +36,7 @@
 
 ## The landing
 
-With sessions 706 to 712 in one push.
+Landed with sessions 706 to 712 in one push, merged at 11:24 UTC (`8a54e3b4`); Vercel rate-limited the deploy at first and served it at 11:54 UTC; snapshots 0 differences: `SESSION_712_REPORT.md`, "The landing".
 
 ## Decisions made without you
 

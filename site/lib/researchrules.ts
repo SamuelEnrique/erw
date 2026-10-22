@@ -19,11 +19,14 @@ export const TOPIC_RULES: { id: string; label: string; table: RegExp }[] = [
   { id: "curtailment", label: "Curtailment", table: /curtailment/ },
   { id: "batteries", label: "Batteries", table: /storage|battery/ },
   { id: "generation", label: "Generation by fuel", table: /fuel_supply/ },
-  { id: "queue", label: "Interconnection queue", table: /queue/ },
+  // session 720: the queue's derived durations (interconnection_durations) are the queue's too
+  { id: "queue", label: "Interconnection queue", table: /queue|interconnection_durations/ },
   { id: "demand", label: "Demand", table: /load|demand/ },
   { id: "interchange", label: "Interchange", table: /interchange/ },
   { id: "events", label: "Events", table: /^event_/ },
   { id: "generators", label: "Generators", table: /eia860m/ },
+  // session 720: ERCOT's four peaks and the PUCT's transmission charge (the All grids tab's card)
+  { id: "transmission", label: "Transmission charges", table: /4cp|transmission/ },
   { id: "power-prices", label: "Power prices", table: /prices/ },
 ];
 export const OTHER_TOPIC = { id: "other", label: "Other tables" };
