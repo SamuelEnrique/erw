@@ -292,6 +292,45 @@ class TheFiveNumbers(unittest.TestCase):
         self.assertIn("no chart of the week was picked", text)
 
 
+class TheEmailsRead(unittest.TestCase):
+    """Session 817: the emails as a reader on a phone reads them: the Roundup's blocks in the page's order, the stories
+    folded under an item with it (no address in the text part), the week in five numbers first."""
+
+    ROUNDUP = ("# ERW's Roundup, 2026-W43\n\nERW's weekly roundup for 2026-10-19 to 2026-10-25, from 680 scored stories.\n\n"
+               "## The week in five numbers\n\n- **US48 peak demand:** 519,415 MW in the hour starting 2026-10-20 22:00 UTC [6].\n\n"
+               "## Weekend\n\n- no scored story was published on 2026-10-24 or 2026-10-25 (UTC).\n\n## The five stories of the week\n\n"
+               "1. **S1** (deal, 3 stories)  \n   Why one. Sources: Bloomberg, Reuters  \n"
+               f"   Also on this topic: Anthropic May Spend USD 750 billion ([Bloomberg.com]({GN}) (via Google News)); Second ([X](https://x.org/2)).\n"
+               + "".join(f"{i}. **S{i}** (oil, 1 story)  \n   Why. Sources: [X](https://example.org/{i})\n" for i in range(2, 6))
+               + "\n## Deals of the week\n\n- none\n\n## ERW's Policy of the Week\n\n**A notice** (FERC notice, published 2026-10-20)\n\nThe read. [Source](https://example.org/p)\n\n"
+               "## ERW's Numbers This Week\n\n**US48 peak demand of the week:** 519,415 MW in the hour starting 2026-10-20 22:00 UTC [6].\n\nTables: [6] `eia930_all_demand` (x).\n\n"
+               "## ERW's Chart of the Week\n\n- no chart of the week was picked for this week.\n\nERW\n\n---\n")
+
+    def render(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = os.path.join(d, "roundup.md")
+            with open(p, "w", encoding="utf-8") as f:
+                f.write(self.ROUNDUP)
+            return email_digest.render(p, "roundup", unsubscribe="x")
+
+    def test_the_blocks_in_the_page_s_order(self):
+        _, _, text, html_ = self.render()
+        order = [text.index(x) for x in ("The week in five numbers", "Weekend", "The five stories of the week", "ERW's Policy of the Week",
+                                         "ERW's Numbers This Week", "ERW's Chart of the Week")]
+        self.assertEqual(order, sorted(order))
+        self.assertLess(html_.index("ERW's Policy of the Week</h2>"), html_.index("ERW's Numbers This Week</h2>"))
+
+    def test_the_folded_stories_go_with_their_item(self):
+        _, _, text, html_ = self.render()
+        self.assertIn("   Also on this topic: Anthropic May Spend USD 750 billion (Bloomberg.com (via Google News)); Second (X).", text)
+        self.assertNotIn("news.google.com", text)
+        self.assertIn("Also on this topic: Anthropic May Spend USD 750 billion (<a href=", html_)
+        items = email_digest.numbered(self.ROUNDUP.splitlines(), ("## The five stories of the week",))
+        self.assertEqual(items[0]["why"], "Why one.")
+        self.assertEqual(items[0]["src"], ("Bloomberg", None))
+        self.assertEqual(items[1]["also"], "")
+
+
 def stories():
     path = os.path.join(ROOT, "warehouse", "output", "news_stories.csv")
     if not os.path.exists(path):
