@@ -98,7 +98,9 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "eia_gas_trade_country_monthly", "eia_gas_storage_capacity_monthly",
            "eia930_subba_demand_hourly_2023", "eia_ngl_production_monthly",
            "eia_oxygenate_production_monthly", "eia930_subba_demand_hourly_2022",
-           "eia_crude_imports_detail_monthly", "eia930_subba_demand_hourly_2021"):  # 510 to 641 the same way
+           "eia_crude_imports_detail_monthly", "eia930_subba_demand_hourly_2021", "utility_service_territories",
+           "interconnection_durations", "interconnection_durations_summary",
+           "grid_peak_vs_capacity"):  # 510 to 672 the same way
     STORAGE_HELD[_t] = ("held: not yet on Redivis (written 21 October 2026, session 489; the account's free 10 GB is full, "
                         f"session 363). In v1 by its license once uploaded: python warehouse/redivis/upload.py {_t}, after the "
                         "storage is settled")
@@ -126,6 +128,41 @@ def plan(day=PUBLIC_DAY):
         else:
             out.append((t, "yes", "public, and public on the public day"))
     return out
+
+
+def plan_stanford(day=PUBLIC_DAY):
+    """Session 664 (chain 043): [(table, in_v1, reason)] for the Stanford dataset, datapages.erw:b9wm. A table is in it by its
+    ERW verdict in docs/licenses.md (public), as the uploader's Stanford target sends it; a public table not yet in that
+    draft (the target's manifest) is "held". Tables of any other verdict are never in that dataset, so they are not listed."""
+    sys.path.insert(0, HERE)
+    import upload  # the target's own gate and manifest, so the list is the uploader's
+    erw = upload.erw_verdicts()
+    man = os.path.join(ROOT, upload.CONFIG["targets"]["stanford"]["manifest"])
+    sent = {r["table"] for r in rows(man)} if os.path.exists(man) else set()
+    out = []
+    for r in rows(os.path.join(META, "coverage.csv")):
+        t = r["table"]
+        if erw.get(t) != "public":
+            continue
+        if t in sent:
+            out.append((t, "yes", "public by its ERW verdict (docs/licenses.md), and in the draft"))
+        else:
+            out.append((t, "held", "public by its ERW verdict, not yet in the draft: python warehouse/redivis/upload.py "
+                                   f"--target stanford --prove-by-listing --tables {t}"))
+    return out
+
+
+STANFORD = {"dataset": "datapages.erw", "address": "https://stanford.redivis.com/datasets/b9wm-3hb080mtm",
+            "doi": "10.57761/4f55-6d55", "docs": os.path.join(ROOT, "docs", "redivis", "release-v1-stanford")}
+HELD_WHY = "the account's storage is full, and the table is added once it is settled."
+
+
+def use_stanford():
+    """Session 664: the package for the Stanford dataset, written to docs/redivis/release-v1-stanford/ (the old one stays)."""
+    global DATASET, DOCS, HELD_WHY, plan
+    DATASET, DOCS = STANFORD["dataset"], STANFORD["docs"]
+    HELD_WHY = "it is not yet in the draft, and is added by the uploader's Stanford target before the release."
+    plan = plan_stanford
 
 
 def verdicts(path=os.path.join(ROOT, "docs", "licenses.md")):
@@ -219,8 +256,7 @@ def readme(tables, day=PUBLIC_DAY):
     stored = [t for t in tables if t["in_v1"] == "held"]
     stored_names = ", ".join("`" + t["table"] + "`" for t in stored)
     stored_line = (f" {len(stored)} public table{'s' if len(stored) != 1 else ''} ({stored_names}) "
-                   f"{'are' if len(stored) != 1 else 'is'} in version 1 by license but not yet in the dataset: the account's storage is "
-                   "full, and the table is added once it is settled.") if stored else ""
+                   f"{'are' if len(stored) != 1 else 'is'} in version 1 by license but not yet in the dataset: {HELD_WHY}") if stored else ""
     by_shape = {}
     for t in v1:
         by_shape[t["shape"]] = by_shape.get(t["shape"], 0) + 1
@@ -295,16 +331,21 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--out-dir", default=os.path.join(ROOT, "warehouse", "output"), help="the folder that holds the tables")
     ap.add_argument("--check", action="store_true")
+    ap.add_argument("--target", choices=["stanford"], help="session 664: the package for the Stanford dataset "
+                                                          "(docs/redivis/release-v1-stanford/)")
     a = ap.parse_args(argv)
+    if a.target:
+        use_stanford()
+    where = os.path.relpath(DOCS, ROOT).replace(os.sep, "/")
     if a.check:
-        bad = check()
+        bad = check(DOCS)
         for b in bad:
             print(b)
-        print(f"release v1: {len(bad)} difference(s) between docs/redivis/release-v1/tables.csv and the license record")
+        print(f"release v1: {len(bad)} difference(s) between {where}/tables.csv and the license record")
         return 1 if bad else 0
-    tables, vars_, missing = write(a.out_dir)
+    tables, vars_, missing = write(a.out_dir, DOCS)
     v1 = sum(1 for t in tables if t["in_v1"] == "yes")
-    print(f"docs/redivis/release-v1: {v1} tables in v1 (with the three metadata tables), {len(tables) - v1} public tables held out; "
+    print(f"{where}: {v1} tables in v1 (with the three metadata tables), {len(tables) - v1} public tables held out; "
           f"{len(vars_)} variables and columns; written {dt.datetime.now(dt.timezone.utc):%Y-%m-%dT%H:%MZ}")
     for t in missing:
         print(f"MISSING: {t} is in v1 but not in {a.out_dir}: its variables are not listed")

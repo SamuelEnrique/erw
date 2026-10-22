@@ -28,6 +28,11 @@ full:
   - '^energy_projects$'                         # session 16: the project map (tool 3), with "select" below
   - '^datacenter_projects$'                     # session 16: the datacenter power tracker (tool 4; evidence internal)
   - '^large_load_public$'                       # session 272: the 341 large-load statements on a public document, as facts with a link (events, the owner's ruling of 14 October 2026)
+  # session 673 (chain 043): the All grids tab's new columns, public, small (about 16,000 rows together), whole; no
+  # page reads them yet. Each carries its row-level license from coverage, as every table loaded here does
+  - '^utility_service_territories$'             # session 667: EIA-861's utility by county (entities)
+  - '^interconnection_durations(_summary)?$'    # session 671: request to operation, completed projects (derived)
+  - '^grid_peak_vs_capacity$'                   # session 672: each grid's peak against its capacity (derived)
   - '^datacenter_facilities$'                   # session 22: the tracker's one table (news, operator lists, queues);
                                                  # datacenter_operator_sites reaches Supabase through it
   - '^ercot_large_load_queue$'                  # session 17: only if ERCOT publishes a request-level list
@@ -418,6 +423,12 @@ catalogue_hold:
 # the Data page do not hear of them, while the question-answering tools (site/lib/chat/tools.ts) read them. Each needs
 # a live-set rule above. To open one: take its name off this list; the next load writes "yes".
 review_hold:
+  # session 683 (chain 043): the four tables of the All grids tab (/cost-of-power, in review), loaded whole, held off
+  # /data's public list: /data links the old account's Redivis dataset, which does not hold them (they are on the Stanford one)
+  - utility_service_territories
+  - interconnection_durations
+  - interconnection_durations_summary
+  - grid_peak_vs_capacity
   - storage_owners_monthly             # session 87 (/storage/owners) and session 92 (Ask ERCOT); was under catalogue_hold
   - generation_mix_hourly_profile      # session 94, /mix/v2
   - generation_mix_records
