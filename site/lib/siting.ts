@@ -478,6 +478,46 @@ export function capacityCell(f: Files, r: Row, x: Pick<SitingInputs, "profile">)
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
+// time to connect (session 705): how long a generator took to connect in the grid, and the large-load path
+// ---------------------------------------------------------------------------------------------------------------------
+
+/** data/siting/connect.json (warehouse/derived/siting_page.py, from lbnl_interconnection_queue): by grid, the median
+ * months from queue entry to commercial operation of the requests that came online in the last three whole years the
+ * file holds, with the quartiles and the count. A grid with fewer than `min_n` such requests has no median. */
+export type ConnectGrid = { n: number; median: number | null; p25: number | null; p75: number | null };
+export type ConnectFile = { table: string; built: string; vintage: string; from: number; to: number; min_n: number; grids: Record<string, ConnectGrid> };
+/** The rules in motion for large loads by grid (data/datacenter/rules.json, "Your load"'s own file; large_load_rules). */
+export type RuleRow = { date: string; regulator: string; docket: string; status_class: string; read: string | null; url: string; topic: string };
+export type RulesFile = { as_of: string; grids: Record<string, { state: string; rows?: RuleRow[] }> };
+/** ERCOT's large-load reports (data/large_load_status.json, ercot_large_load_status). */
+export type LoadStatus = { table: string; reports: { day: string; document: string; url: string; approved: number | null; month_as_written?: string }[] };
+/** The large-load waits measured by stage (data/datacenter/how_soon.json, from large_load_waits, internal). */
+export type WaitsFile = { grids: Record<string, { state: string; stages?: { interval: string; measured?: { n: number; form: string } }[] }> };
+export type ConnectCell = {
+  gen: (ConnectGrid & { from: number; to: number; vintage: string }) | { why: string };
+  rule: RuleRow | null; ruleWhy: string;
+  status: { approved: number; day: string; document: string; url: string } | null;
+  wait: { held: string } | { why: string };
+};
+export function connectCell(f: Files, r: Row): ConnectCell {
+  const c = f.connect, g = c?.grids[r.grid];
+  const gen = !c ? { why: "The interconnection queue file is not in the tab's files." }
+    : !g || g.median === null ? { why: `Fewer than ${c.min_n} requests in ${GRID_NAMES[r.grid]} came online from ${c.from} to ${c.to} with both dates in Berkeley Lab's file (${g?.n ?? 0}): no median.` }
+      : { ...g, from: c.from, to: c.to, vintage: c.vintage };
+  const rg = f.rules?.grids[r.grid];
+  const decided = (rg?.rows ?? []).filter((x) => x.status_class === "decided").sort((a, b) => b.date.localeCompare(a.date));
+  const rule = decided[0] ?? null;
+  const ruleWhy = rg?.state === "paused" ? "MISO is paused while its terms are reviewed: no rule is read for it."
+    : rule ? "" : `No decided large-load rule for ${GRID_NAMES[r.grid]} is among the rules held (large_load_rules, as of ${f.rules?.as_of ?? "not held"}): ${(rg?.rows ?? []).length} open or undated.`;
+  const rep = r.grid === "ercot" ? [...(f.status?.reports ?? [])].filter((x) => x.approved !== null).sort((a, b) => a.day.localeCompare(b.day)).at(-1) : undefined;
+  const status = rep ? { approved: rep.approved as number, day: rep.day, document: rep.document, url: rep.url } : null;
+  const w = f.waits?.grids[r.grid];
+  const wait = w?.state === "measured" ? { held: `Measured waits by stage are held for ${GRID_NAMES[r.grid]} (large_load_waits, internal: ${(w.stages ?? []).filter((s) => s.measured && s.measured.n > 0).length} stages measured); computed, and drawn as "license needed".` }
+    : { why: `No large-load wait is measured for ${GRID_NAMES[r.grid]} (large_load_waits): ${w?.state ?? "not held"}.` };
+  return { gen, rule, ruleWhy, status, wait };
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
 // the all-in column (session 702): drawn only where each part is held or is zero by market design
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -500,7 +540,9 @@ export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFil
   /** session 703: the Commission's newest approved postage stamp rate (newestRate over texas_delivery.json's matrix) */
   rate?: Rate | null;
   /** session 704: the capacity tables' newest periods and zones, no price (data/siting/capacity.json) */
-  cap?: CapFile };
+  cap?: CapFile;
+  /** session 705: the queue durations (data/siting/connect.json), the rules, ERCOT's large-load reports and the waits */
+  connect?: ConnectFile; rules?: RulesFile; status?: LoadStatus; waits?: WaitsFile };
 /** The figure a check key names, from the files the page reads; undefined when the key names none.
  *   allgrids|rows|hubs, allgrids|rows|nodes                the count of each row set (session 700)
  *   allgrids|energy|<row>|da or rt                         a flat load's price over the last twelve whole months (701);
@@ -511,6 +553,8 @@ export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFil
  *   allgrids|tx|<row>|firm, curtailing or <profile key>    ERCOT's four-peak transmission charge, USD per MWh (703)
  *   allgrids|txshare|<row>|<profile key>                   the load's share of the four intervals it ran in (703)
  *   allgrids|allin|<row>|<profile key>                     energy plus transmission plus capacity (703)
+ *   allgrids|connect|<row>                                 the grid's median months from queue entry to operation (705)
+ *   allgrids|llapproved|<row>                              ERCOT's large loads approved to energize, MW, newest report (705)
  *   (capacity, session 704: zero where there is no market, drawn as a figure of 0 with no key; elsewhere held internal,
  *   "license needed", and computed only where the tables are, by warehouse/derived/siting_page.py --internal) */
 export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
@@ -540,6 +584,10 @@ export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
     if ("why" in c) return undefined;
     if (p[1] === "txshare") return c.share ?? undefined;
     return p[3] === "firm" ? c.firm : p[3] === "curtailing" ? c.curtailing ?? undefined : c.own ?? undefined;
+  }
+  if (p[1] === "connect" || p[1] === "llapproved") {
+    const c = connectCell(f, row);
+    return p[1] === "connect" ? ("median" in c.gen ? c.gen.median ?? undefined : undefined) : c.status?.approved;
   }
   if (p[1] === "allin") {
     const x = profileOfKey(p[3]);

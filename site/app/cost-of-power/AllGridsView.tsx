@@ -3,7 +3,7 @@ import { Num } from "@/components/Num";
 import { InlineSpark } from "@/components/InlineSpark";
 import { InputPanel } from "@/components/tool/ToolPage";
 import type { ReactNode } from "react";
-import { CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, allInCell, capacityCell, cpCharge, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
+import { CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, allInCell, capacityCell, connectCell, cpCharge, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
 import { CP, NODES, SITING_DC, SITING_FILES } from "@/lib/sitingdata";
 import { AllGridsForm } from "./AllGridsForm";
 
@@ -146,6 +146,27 @@ function CapTd({ r, x }: { r: Row; x: SitingInputs }) {
   return <Held table={h.table} why={`The latest cleared capacity price for ${h.entity.split(":")[1]}${h.own ? "" : " (the system-wide price: the newest auction priced no zone of this row's own)"}: ${h.market.auction}, delivery ${periodWords(h.market.period_start, h.market.period_end)}, ${h.market.unit} (${h.table}, internal: ${h.market.license}). ${CAPACITY_RULE} Computed where the table is held; drawn as "license needed".`} />;
 }
 
+/** Session 705: the time to connect: the grid's median months from queue entry to operation (Berkeley Lab), and the
+ * large-load path under it: the newest decided rule, ERCOT's approved large loads, and the measured waits (held). */
+function ConnectTd({ r }: { r: Row }) {
+  const c = connectCell(SITING_FILES, r);
+  const g = c.gen;
+  const ruleTip = c.rule ? `The newest decided large-load rule held for ${GRID_NAMES[r.grid]}: ${c.rule.regulator}, docket ${c.rule.docket}, ${c.rule.date} (${c.rule.topic}). ${c.rule.read ?? ""} ${c.rule.url}${r.grid === "ercot" ? " No faster path for a controllable load is stated in the rules held." : ""}` : c.ruleWhy;
+  return (
+    <span className="inline-block text-right">
+      {"median" in g && g.median !== null
+        ? <span className="whitespace-nowrap"><Fig check={`allgrids|connect|${r.id}`} v={g.median}
+            tip={`Generation in ${GRID_NAMES[r.grid]}: the median months from queue entry to commercial operation of the ${g.n} requests that came online from ${g.from} to ${g.to} (lbnl_interconnection_queue, Berkeley Lab's Queued Up, ${g.vintage}); a quarter took under ${g.p25?.toFixed(0)} months, a quarter over ${g.p75?.toFixed(0)}. A generator's wait, not a load's: loads are not in this file.`} /> mo</span>
+        : <Words words="not held" why={"why" in g ? g.why : ""} />}
+      <span className="block text-xs" data-connect-load="1">
+        load: {c.rule ? <span className={tipCls} title={ruleTip} tabIndex={0}>rule {c.rule.date.slice(0, 7)}</span> : <Words words="no rule held" why={ruleTip} />}
+        {c.status ? <>, <span title={`ERCOT's large loads approved to energize, MW, its report of ${c.status.day} (${c.status.document}; ercot_large_load_status): approved to connect, not a wait.`}><Num check={`allgrids|llapproved|${r.id}`} raw={c.status.approved}>{c.status.approved.toLocaleString("en-US")}</Num> MW approved</span></> : null}
+        {"held" in c.wait ? <>, wait <Held table="large_load_waits" why={c.wait.held} /></> : null}
+      </span>
+    </span>
+  );
+}
+
 function RowHead({ r }: { r: Row }) {
   return (
     <th scope="row" className="px-3 py-1.5 text-left font-normal" data-row={r.id}>
@@ -193,7 +214,7 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
                 <tr key={r.id} className="border-b border-rule" data-allgrids-row={r.id}>
                   <RowHead r={r} />
                   {COLUMNS.map((c) => <td key={c.id} className="px-3 py-1.5 text-right" data-cell={c.id}>{c.id === "energy" ? (x.profile === "datacenter" ? <EnergyTd r={r} e={energyCell(SITING_DC, SITING_FILES, r)} /> : <ProfileTd r={r} x={x} />)
-                    : c.id === "transmission" ? <TxTd r={r} x={x} /> : c.id === "capacity" ? <CapTd r={r} x={x} /> : c.id === "allin" ? <AllInTd r={r} x={x} /> : null}</td>)}
+                    : c.id === "transmission" ? <TxTd r={r} x={x} /> : c.id === "capacity" ? <CapTd r={r} x={x} /> : c.id === "connect" ? <ConnectTd r={r} /> : c.id === "allin" ? <AllInTd r={r} x={x} /> : null}</td>)}
                 </tr>
               ))}
             </tbody>

@@ -23,6 +23,9 @@ Files:
                   publishers' terms bar republishing) and the repository is public: the tab draws each price as
                   "license needed". With --internal FILE the prices are computed here, per row of the tab, in USD per
                   MWh for a load that runs every hour, and written to FILE (outside the repository; never committed).
+    connect.json  (session 705) from lbnl_interconnection_queue (public): by grid, the median, quartiles and count of the
+                  months from queue entry (q_date) to commercial operation (on_date) of the requests operational and
+                  online in the last three whole years of the file's edition; no median under five requests.
 
 Each file names the table it was read from, the table's first and last day and when it was built. A table that cannot
 be found stops the run (exit 1): no file is written from part of a table.
@@ -44,6 +47,9 @@ NODE_TABLE = "node_basis_daily"
 CP_TABLE = "ercot_4cp_intervals"
 CAP_TABLE = "iso_all_capacity_prices"
 CAP_MARKETS = ["pjm_bra", "isone_fca", "miso_pra", "nyiso_icap_spot"]
+LBNL_TABLE = "lbnl_interconnection_queue"
+LBNL_GRIDS = {"ERCOT": "ercot", "CAISO": "caiso", "NYISO": "nyiso", "ISO-NE": "isone", "SPP": "spp", "MISO": "miso", "PJM": "pjm"}
+MIN_N = 5
 PER_MW_YEAR = {"USD/MW-day": 365.0, "USD/kW-month": 12000.0}   # to USD per MW a year
 
 
@@ -141,6 +147,27 @@ def cap_internal(path, rows):
     return out
 
 
+def connect_file(path):
+    """connect.json's content (session 705)."""
+    d = pd.read_csv(path, skiprows=header_rows(path), dtype=str, usecols=["region", "q_status", "q_date", "on_date", "vintage"])
+    vintage = str(d["vintage"].dropna().iloc[0])
+    o = d[d["q_status"] == "operational"].copy()
+    o["q"], o["on"] = pd.to_datetime(o["q_date"], errors="coerce"), pd.to_datetime(o["on_date"], errors="coerce")
+    o = o.dropna(subset=["q", "on"])
+    last = int(o["on"].dt.year.max())
+    first = last - 2
+    o = o[(o["on"].dt.year >= first) & (o["on"].dt.year <= last) & (o["on"] >= o["q"])]
+    o["months"] = (o["on"] - o["q"]).dt.days / 30.4375
+    grids = {}
+    for region, g in LBNL_GRIDS.items():
+        m = o.loc[o["region"] == region, "months"]
+        n = int(len(m))
+        ok = n >= MIN_N
+        grids[g] = {"n": n, "median": round(float(m.median()), 2) if ok else None, "p25": round(float(m.quantile(0.25)), 2) if ok else None,
+                    "p75": round(float(m.quantile(0.75)), 2) if ok else None}
+    return {"table": LBNL_TABLE, "built": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "vintage": vintage, "from": first, "to": last, "min_n": MIN_N, "grids": grids}
+
+
 def write(name, obj, out_dir):
     """Write a file, unless it holds the same content but for its build time (no change, no new commit)."""
     os.makedirs(out_dir, exist_ok=True)
@@ -191,6 +218,15 @@ def main(argv=None):
     write("nodes.json", f, a.out_dir)
     write("ercot_4cp.json", cp, a.out_dir)
     write("capacity.json", cap, a.out_dir)
+    try:
+        lpath = find(LBNL_TABLE, a.in_dir)
+        print(f"reading {lpath}")
+        con = connect_file(lpath)
+    except Exception as e:
+        print(f"FAILED: {e}", file=sys.stderr)
+        return 1
+    print(f"{LBNL_TABLE}: " + "; ".join(f"{g} {v['median']} ({v['n']})" for g, v in con["grids"].items()))
+    write("connect.json", con, a.out_dir)
     if a.internal:
         if not a.rows:
             print("FAILED: --internal needs --rows", file=sys.stderr)

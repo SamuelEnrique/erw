@@ -20,7 +20,8 @@ export function files() {
       if (!years.has(grid)) years.set(grid, (index.grids[grid]?.years ?? []).map((y) => read("datacenter", `${grid}_${y}.json`)));
       return years.get(grid);
     };
-    cached = { index, nodes: read("siting", "nodes.json"), years: yearsOf, cp: read("siting", "ercot_4cp.json"), rate: null, cap: read("siting", "capacity.json") };
+    cached = { index, nodes: read("siting", "nodes.json"), years: yearsOf, cp: read("siting", "ercot_4cp.json"), rate: null, cap: read("siting", "capacity.json"),
+      connect: read("siting", "connect.json"), rules: read("datacenter", "rules.json"), status: read("large_load_status.json"), waits: read("datacenter", "how_soon.json") };
   }
   return cached;
 }
