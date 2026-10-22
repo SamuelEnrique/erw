@@ -154,7 +154,7 @@ export async function pool(items, n, fn) {
 
 // What the browser reads on a page: every link (as the browser resolves it, and its words) and every id.
 const READ = `(() => ({
-  links: [...document.querySelectorAll('a[href]')].map((a) => ({ href: a.href, words: (a.innerText || a.getAttribute('aria-label') || a.title || '').replace(/\\s+/g, ' ').trim().slice(0, 80) })),
+  links: [...document.querySelectorAll('a[href]')].map((a) => ({ href: a.href, words: (a.innerText || a.textContent || a.getAttribute('aria-label') || a.title || '').replace(/\\s+/g, ' ').trim().slice(0, 80) })),
   ids: [...document.querySelectorAll('[id]')].map((e) => e.id).concat([...document.querySelectorAll('a[name]')].map((a) => a.getAttribute('name'))),
   gated: document.querySelectorAll('.gate-review, .gate-plain').length,
   inReview: !!document.querySelector('[data-in-review="1"]'),
