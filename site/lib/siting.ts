@@ -729,7 +729,7 @@ export function utilityCell(f: Files, r: Row): UtilityCell {
 /** A node's row of the node table: its own figures only. What every ERCOT node shares (the four-peak charge, which a
  * node pays on its hub's hours; capacity, none; the grid's time to connect, headroom and carbon) is drawn once, above
  * the table, so that no figure is drawn twice. */
-export type NodeTableRow = { id: string; node: string; cls: string; types: string; per: number | null; basis: number | null; days: number; due: number; allin: number | null; why: string };
+export type NodeTableRow = { id: string; node: string; cls: string; types: string; per: number | null; basis: number | null; spread: number | null; days: number; due: number; allin: number | null; why: string };
 export function nodeTable(dc: DC, f: Files, x: Pick<SitingInputs, "profile" | "lf" | "strike">): NodeTableRow[] {
   return nodeRows(f.nodes).map((r) => {
     const n = f.nodes.nodes.find((k) => k.id === r.region)!;
@@ -737,16 +737,19 @@ export function nodeTable(dc: DC, f: Files, x: Pick<SitingInputs, "profile" | "l
     const pc = x.profile === "datacenter" ? null : profileCell(dc, f, r, x, f.cp);
     const per = pc ? ("why" in pc ? null : pc.per) : e.node?.per ?? null;
     const a = allInCell(dc, f, r, x);
-    return { id: r.id, node: r.region, cls: n.cls, types: n.types, per, basis: e.node?.basis ?? null, days: e.node?.days ?? Object.values(n.dam_basis ?? {}).reduce((s, v) => s + v[1], 0),
+    // session 724: the basis spread, the 90th percentile of the node's daily basis less the 10th (the panel's percentiles)
+    return { id: r.id, node: r.region, cls: n.cls, types: n.types, per, basis: e.node?.basis ?? null, spread: n.pct ? n.pct[2] - n.pct[0] : null, days: e.node?.days ?? Object.values(n.dam_basis ?? {}).reduce((s, v) => s + v[1], 0),
       due: e.node?.due ?? 0, allin: "v" in a ? a.v : null, why: e.node ? (pc && "why" in pc ? pc.why : "") : e.why ?? "not held" };
   });
 }
 /** The columns a node table sorts by, and the default: by name. */
-export const NODE_SORTS = ["node", "cls", "energy", "basis", "allin", "days"] as const;
+export const NODE_SORTS = ["node", "cls", "energy", "basis", "spread", "allin", "days"] as const;
 export type NodeSort = (typeof NODE_SORTS)[number];
+/** Session 724: each sort's words for the status line, in sentence case (the trader's walk found the hub's name lowercased). */
+export const NODE_SORT_WORDS: Record<NodeSort, string> = { node: "node", cls: "class", energy: "energy", basis: "basis to HB_HUBAVG", spread: "basis spread", allin: "all-in", days: "days held" };
 export function sortNodes(rows: NodeTableRow[], by: NodeSort, dir: "asc" | "desc"): NodeTableRow[] {
   const k = dir === "asc" ? 1 : -1;
-  const val = (r: NodeTableRow): number | string | null => (by === "node" ? r.node : by === "cls" ? r.cls : by === "energy" ? r.per : by === "basis" ? r.basis : by === "allin" ? r.allin : r.days);
+  const val = (r: NodeTableRow): number | string | null => (by === "node" ? r.node : by === "cls" ? r.cls : by === "energy" ? r.per : by === "basis" ? r.basis : by === "spread" ? r.spread : by === "allin" ? r.allin : r.days);
   // a row with no figure sorts last either way; ties by name
   return [...rows].sort((a, b) => {
     const va = val(a), vb = val(b);
@@ -898,6 +901,7 @@ export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFil
  *   allgrids|col|<column>|<row>|<profile key>             a row's figure in a column, as the panel draws it (710)
  *   allgrids|yeardiff|<a>|<b>|<year key>                   B's year all-in less A's, USD (710)
  *   allgrids|nodepct|<node>|10, 50 or 90                 a node's daily basis percentile over the file's twelve months (711)
+ *   allgrids|nodespread|<node>                            its 90th percentile less its 10th: the basis spread (724)
  *   allgrids|llapproved|<row>                              ERCOT's large loads approved to energize, MW, newest report (705)
  *   (capacity, session 704: zero where there is no market, drawn as a figure of 0 with no key; elsewhere held internal,
  *   "license needed", and computed only where the tables are, by warehouse/derived/siting_page.py --internal) */
@@ -939,6 +943,7 @@ export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
   }
   if (p[1] === "basis") return energyCell(dc, f, row).node?.basis;
   if (p[1] === "nodepct") { const n = f.nodes.nodes.find((k) => `ercot:${k.id}` === row.id); const i = ({ "10": 0, "50": 1, "90": 2 } as Record<string, number>)[p[3]]; return n?.pct && i !== undefined ? n.pct[i] : undefined; }
+  if (p[1] === "nodespread") { const n = f.nodes.nodes.find((k) => `ercot:${k.id}` === row.id); return n?.pct ? n.pct[2] - n.pct[0] : undefined; }
   if (p[1] === "tx" || p[1] === "txshare") {
     const x = profileOfKey(p[1] === "tx" && (p[3] === "firm" || p[3] === "curtailing") ? p[4] ?? "" : p[3]);
     if (!x) return undefined;

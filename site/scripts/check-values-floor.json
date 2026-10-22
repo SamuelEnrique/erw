@@ -10,6 +10,7 @@
     "/cost-of-power?grid=caiso": 10,
     "/cost-of-power?run=hours": 10,
     "/cost-of-power?view=allgrids": 10,
+    "/cost-of-power?view=allgrids&rows=nodes&nsort=spread&ndir=desc&a=ercot%3ABBREEZE_1_2&b=ercot%3AELSAUZ_ALL": 10,
     "/cost-of-power?view=allgrids&profile=electrolyzer": 10,
     "/cost-of-power?view=allgrids&profile=flexible": 10,
     "/cost-of-power?view=allgrids&profile=industry": 10,

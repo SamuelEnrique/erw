@@ -8,16 +8,19 @@
 // each figure with its check key.
 import { useRouter } from "next/navigation";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
-import { NODE_SORTS, sortNodes, type NodeSort, type NodeTableRow } from "@/lib/siting";
+import { NODE_SORTS, NODE_SORT_WORDS, sortNodes, type NodeSort, type NodeTableRow } from "@/lib/siting";
 
 const ROW = 34, VIEW = 18, PAD = 12, FIRST = 40;
 const two = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-const HEADS: Record<NodeSort, string> = { node: "Node", cls: "Class", energy: "Energy", basis: "Basis to HB_HUBAVG", allin: "All-in", days: "Days held" };
+// Session 724 (the trader's walk, docs/reviews/siting-trader-path.md): a column for the basis spread, so the nodes sort by
+// how much their basis moves; the status line in sentence case (NODE_SORT_WORDS), not the heading lowercased.
+const HEADS: Record<NodeSort, string> = { node: "Node", cls: "Class", energy: "Energy", basis: "Basis to HB_HUBAVG", spread: "Basis spread", allin: "All-in", days: "Days held" };
 const TIPS: Record<NodeSort, string> = {
   node: "The settlement point's name, as ERCOT gives it.",
   cls: "What ERCOT's disclosures say is settled at the node: storage, solar, wind, gas, other, mixed; unknown where no disclosure names it (node_basis_daily, x_class).",
   energy: "HB_HUBAVG's day-ahead price over its last twelve whole months, under the profile's rule, plus the node's mean daily day-ahead basis: USD per MWh.",
   basis: "The node's mean daily day-ahead price less HB_HUBAVG's, over the hub's twelve months, weighted by the days held (node_basis_daily): USD per MWh.",
+  spread: "The node's 90th percentile daily day-ahead basis to HB_HUBAVG less its 10th, over the node file's twelve whole months (node_basis_daily; the two percentiles are in the node's panel): USD per MWh. The wider, the more its basis moves day to day.",
   allin: "Energy plus the four-peak charge (paid on the hub's hours, the same at every node: above the table) plus capacity, none in ERCOT: USD per MWh.",
   days: "Days of day-ahead basis held over the hub's twelve months, of the days in them; under 90 percent, no twelve-month figure.",
 };
@@ -49,14 +52,15 @@ export function AllGridsNodes({ rows, pkey, datacenter, sort, dir, open }: { row
   const end = Math.min(sorted.length, mounted ? Math.floor(top / ROW) + VIEW + PAD : FIRST);
   const click = (k: NodeSort) => { if (k === by) setD(d === "asc" ? "desc" : "asc"); else { setBy(k); setD(k === "node" || k === "cls" ? "asc" : "desc"); } };
   const energyKey = (r: NodeTableRow) => (datacenter ? `allgrids|energy|${r.id}|da` : `allgrids|energy|${r.id}|da|${pkey}`);
-  const cols = "grid grid-cols-[minmax(11rem,1.6fr)_6rem_6rem_7rem_6rem_6rem] items-center gap-x-3 px-3";
+  // the seven columns fit the list's frame at 1280 (about 800 px beside the box): the last column was clipped with 6rem each
+const cols = "grid grid-cols-[minmax(10rem,1.4fr)_4.5rem_5.5rem_7rem_6rem_5.5rem_5.5rem] items-center gap-x-2 px-3";
   return (
     <div data-allgrids-nodes="1">
       <p className="mb-2 text-sm" role="status" data-node-sort={`${by}|${d}`}>
-        Sorted by {HEADS[by].toLowerCase()}, {d === "asc" ? "smallest first" : "largest first"}{by === "node" || by === "cls" ? " (alphabetical)" : ""}; a node with no figure last. Click a heading to sort by it, again to turn it round.
+        Sorted by {NODE_SORT_WORDS[by]}, {d === "asc" ? "smallest first" : "largest first"}{by === "node" || by === "cls" ? " (alphabetical)" : ""}; a node with no figure last. Click a heading to sort by it, again to turn it round.
       </p>
       <div className="overflow-x-auto" role="region" aria-label="ERCOT nodes" tabIndex={0}>
-        <div style={{ minWidth: 640 }} role="table" aria-label="ERCOT nodes" aria-rowcount={sorted.length + 1}>
+        <div style={{ minWidth: 700 }} role="table" aria-label="ERCOT nodes" aria-rowcount={sorted.length + 1}>
           <div className={`${cols} bg-accent py-1.5 text-sm text-white`} role="row">
             {NODE_SORTS.map((k) => (
               <span key={k} className={`tip relative ${k === "node" || k === "cls" ? "text-left" : "text-right"}`} role="columnheader" aria-sort={by === k ? (d === "asc" ? "ascending" : "descending") : "none"}>
@@ -75,6 +79,7 @@ export function AllGridsNodes({ rows, pkey, datacenter, sort, dir, open }: { row
                   <span role="cell" className="text-xs">{r.cls}</span>
                   <span role="cell" className="text-right">{r.per === null ? <span className="tip relative inline-block"><button type="button" aria-describedby={`${uid}-why-${r.id}`} className="cursor-help border-b border-dotted border-muted" data-tip-trigger="1">not held</button><span role="tooltip" id={`${uid}-why-${r.id}`} className="absolute right-0 top-full z-20 hidden w-64 max-w-[80vw] whitespace-normal border border-rule bg-paper px-2 py-1.5 text-left text-xs leading-snug text-ink">{r.why}</span></span> : <span data-check={energyKey(r)} data-raw={String(r.per)}>{two(r.per)}</span>}</span>
                   <span role="cell" className="text-right">{r.basis === null ? "" : <span data-check={`allgrids|basis|${r.id}`} data-raw={String(r.basis)}>{two(r.basis)}</span>}</span>
+                  <span role="cell" className="text-right">{r.spread === null ? "" : <span data-check={`allgrids|nodespread|${r.id}`} data-raw={String(r.spread)}>{two(r.spread)}</span>}</span>
                   <span role="cell" className="text-right">{r.allin === null ? "" : <span data-check={`allgrids|allin|${r.id}|${pkey}`} data-raw={String(r.allin)}>{two(r.allin)}</span>}</span>
                   <span role="cell" className="text-right text-xs">{r.days.toLocaleString("en-US")}{r.due ? ` of ${r.due}` : ""}</span>
                 </div>

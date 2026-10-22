@@ -278,7 +278,7 @@ function SharedLine({ hub, x }: { hub: Row; x: SitingInputs }) {
       Every node below is in ERCOT, and shares these, drawn once: the four-peak charge, paid on {NODE_HUB}&apos;s hours,{" "}
       {"why" in c ? <Words words={c.words} why={c.why} /> : <>USD {c.own === null ? <Words words="not held" why="The price of an interval's hour is not held." /> : <Fig check={`allgrids|tx|${hub.id}|${k}`} v={c.own} tip={`This load's charge: it ran in ${Math.round((c.share ?? 0) * 4)} of the four intervals of ${c.year}, at the Commission's ${c.rate.year} rate.`} />} per MWh for this load (firm <Fig check={`allgrids|tx|${hub.id}|firm|${k}`} v={c.firm} tip="On in all four intervals." />{c.curtailing !== null ? <>, off at the peaks <Fig check={`allgrids|tx|${hub.id}|curtailing|${k}`} v={c.curtailing} tip="Off in the four intervals' hours, computed from its weights." /></> : null})</>};
       {" "}no capacity market (<Words words="why" why="ERCOT is an energy-only market: it has no capacity market and no capacity charge." />);
-      {" "}generators took a median of {"median" in con.gen && con.gen.median !== null ? <Fig check={`allgrids|connect|${hub.id}`} v={con.gen.median} tip={`From queue entry to operation, ${con.gen.n} requests online from ${con.gen.from} to ${con.gen.to} (lbnl_interconnection_queue).`} /> : <Words words="not held" why={"why" in con.gen ? con.gen.why : ""} />} months to connect;
+      {" "}generators took a median of {"median" in con.gen && con.gen.median !== null ? <Fig check={`allgrids|connect|${hub.id}`} v={con.gen.median} tip={`From queue entry to operation, ${con.gen.n} requests online from ${con.gen.from} to ${con.gen.to} (${SITING_FILES.connect?.table ?? "interconnection_durations"}, from Berkeley Lab's queue file: the column's figure).`} /> : <Words words="not held" why={"why" in con.gen ? con.gen.why : ""} />} months to connect;
       {" "}demand grew {"pct" in g ? <>{g.pct > 0 ? "+" : ""}<Fig check={`allgrids|demand|${hub.id}`} v={g.pct} tip={`ERCOT's mean demand (EIA-930, ERCO), ${monthWords(g.from)} to ${monthWords(g.to)}, over the twelve months before.`} /> percent</> : <Words words="not held" why={g.why} />} on the year;
       {" "}carbon {"kg" in cb ? <><Fig check={`allgrids|carbon|${hub.id}`} v={cb.kg} tip={`eGRID subregion ERCT, ${cb.year}: the plants' CO2 over their net generation.`} /> kg CO2 per MWh</> : <Words words={cb.words} why={cb.why} />}.
     </p>
@@ -343,7 +343,7 @@ function AbPanel({ x }: { x: SitingInputs }) {
 /** Session 710: the one headline line A drives, every figure a key, drawn only where held. */
 function Headline({ x }: { x: SitingInputs }) {
   const r = x.a ? rowOf(SITING_FILES, x.a) : undefined;
-  if (!r) return <p className="mb-3 max-w-3xl text-sm" data-allgrids-headline="0">Choose A and B under &quot;A and B, side by side&quot; in the box to set two rows beside each other; A sets this line.</p>;
+  if (!r) return <p className="mb-3 max-w-3xl text-sm" data-allgrids-headline="0">Choose A and B under &quot;A and B, side by side&quot; in the box to set two rows beside each other{x.rows === "nodes" ? ", or open a node's panel (its name in the list) and set it as A or B" : ""}; A sets this line.</p>;
   const y = yearOf(SITING_DC, SITING_FILES, r, x), c = connectCell(SITING_FILES, r), p = PROFILES[x.profile];
   return (
     <p className="mb-3 max-w-3xl font-serif text-xl leading-snug" data-allgrids-headline="1">
@@ -357,14 +357,23 @@ function Headline({ x }: { x: SitingInputs }) {
 /** Session 711: a node's panel: its basis to the hub over the year (the 10th, 50th and 90th percentile of its days, and
  * each month's mean in the shared chart), its four-peak exposure, and what is not held about its place (county, planned
  * generation near it, transmission projects). */
-function NodePanel({ id }: { id: string }) {
+function NodePanel({ id, q }: { id: string; q: Record<string, string | undefined> }) {
   const n = NODES.nodes.find((k) => `ercot:${k.id}` === id);
   if (!n) return null;
   const months = Object.entries(n.dam_basis ?? {}).sort(([a], [b]) => a.localeCompare(b));
-  const close = `?${new URLSearchParams({ view: "allgrids", rows: "nodes" }).toString()}`;
+  // session 724: "Close" keeps the screen (the sort, the filter, A and B) and drops only the node; "Set as A" and "Set as
+  // B" put the node in the address, since the box's lists hold hubs and zones (and the node once chosen)
+  const keep = (change: Record<string, string | null>) => {
+    const s = new URLSearchParams();
+    for (const [k, v] of Object.entries(q)) if (v !== undefined && k !== "node") s.set(k, v);
+    for (const [k, v] of Object.entries(change)) { if (v === null) s.delete(k); else s.set(k, v); }
+    return `/cost-of-power?${s.toString()}`;
+  };
+  const close = keep({}).slice("/cost-of-power".length);
   return (
     <section className="mb-4 border border-rule bg-paper px-4 py-3 text-sm" aria-label={`Node ${n.id}`} data-node-panel={id}>
-      <h3 className="font-serif text-lg">{n.id} <span className="text-sm">({n.cls}{n.types ? `, ERCOT's resource types ${n.types}` : ""})</span> <a href={`/cost-of-power${close}`} className="ml-2 text-xs underline">Close</a></h3>
+      <h3 className="font-serif text-lg">{n.id} <span className="text-sm">({n.cls}{n.types ? `, ERCOT's resource types ${n.types}` : ""})</span> <a href={`/cost-of-power${close}`} className="ml-2 text-xs underline" data-node-close="1">Close</a></h3>
+      <p className="mt-1 text-xs"><a href={keep({ node: id, a: id })} className="underline" data-node-set="a">Set as A</a> <a href={keep({ node: id, b: id })} className="ml-2 underline" data-node-set="b">Set as B</a>: the headline and the A and B panel above the list take this node.</p>
       {n.pct ? (
         <p className="mt-1">
           Its daily day-ahead basis to {NODE_HUB}, {NODES.pct_from} to {NODES.pct_to} ({n.pct[3]} days held, node_basis_daily): one day in ten at or below USD{" "}
@@ -386,6 +395,18 @@ function NodePanel({ id }: { id: string }) {
   );
 }
 
+/** Session 724: the box's A and B lists: every hub and zone, and a node set as A or B (by its panel or the address), so
+ * the selects show what the address holds; the 873 nodes are not listed (a node is chosen from its panel). */
+function formRows(hubs: Row[], x: SitingInputs): { id: string; label: string }[] {
+  const out = new Map(hubs.map((r) => [r.id, { id: r.id, label: `${GRID_NAMES[r.grid]} ${r.label}` }]));
+  for (const id of [x.a, x.b]) {
+    if (!id || out.has(id)) continue;
+    const r = rowOf(SITING_FILES, id);
+    if (r) out.set(id, { id, label: `${GRID_NAMES[r.grid]} ${r.region} (node)` });
+  }
+  return [...out.values()];
+}
+
 export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
   const x = sitingInputs(q);
   const hubs = hubRows(SITING_FILES.index), nodes = nodeRows(NODES);
@@ -398,7 +419,7 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
     <div className="grid gap-8 lg:grid-cols-[290px_minmax(0,1fr)]" data-no-usage="1" data-allgrids="1">
       <aside>
         <InputPanel title="Your load">
-          <AllGridsForm x={x} rows={hubs.map((r) => ({ id: r.id, label: `${GRID_NAMES[r.grid]} ${r.label}` }))} />
+          <AllGridsForm x={x} rows={formRows(hubs, x)} />
         </InputPanel>
       </aside>
       <div className="min-w-0">
@@ -409,17 +430,19 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
           {" "}{/^[aeiou]/i.test(p.label) ? "An" : "A"} {p.label.toLowerCase()} load of {x.mw.toLocaleString("en-US")} MW at a load factor of {x.lf.toFixed(2)}, {CURTAIL_WORDS[p.curtail]}{x.strike !== null ? ` (USD ${x.strike.toLocaleString("en-US")} per MWh)` : ""}.
         </p>
         <RowToggle x={x} hubs={hubs.length} nodes={nodes.length} />
-        {x.rows === "hubs" ? <><Headline x={x} /><AbPanel x={x} /></> : null}
+        {/* session 724: the headline and the A and B panel in both views (the trader's walk set two nodes as A and B and saw neither beside the node list) */}
+        <Headline x={x} /><AbPanel x={x} />
         {x.rows === "hubs" ? (
           <p className="mb-2 text-sm" role="status" data-allgrids-sort={`${x.sort}|${x.dir}`}>
             Sorted by {SORT_WORDS[x.sort]}{x.sort === "name" ? (x.dir === "asc" ? ", A to Z" : ", Z to A") : x.dir === "desc" ? ", largest first; a row with no figure, or one held under a license, last" : ", smallest first; a row with no figure, or one held under a license, last"}.
+            {x.sort === "transmission" ? " The sort reads the profile's own charge, not the firm figure beside it." : ""}
             {" "}{shown.length} of {hubs.length} rows shown{x.grids.length ? `, in ${x.grids.map((g) => GRID_NAMES[g]).join(", ")}` : ""}{x.kind !== "all" ? `, ${x.kind === "zone" ? "load zones" : "hubs"} only` : ""}{x.band ? `, energy from USD ${x.band[0]} to ${x.band[1]} per MWh` : ""}{x.held ? ", every cost part held" : ""}. The order is the column&apos;s, not a ranking of sites.
           </p>
         ) : null}
         {x.rows === "nodes" ? (
           <>
             <NodeShared x={x} />
-            {q.node ? <NodePanel id={q.node} /> : null}
+            {q.node ? <NodePanel id={q.node} q={q} /> : null}
             <AllGridsNodes rows={nodeTable(SITING_DC, SITING_FILES, x)} pkey={profileKey(x)} datacenter={x.profile === "datacenter"} open={q.node ?? null}
               sort={(NODE_SORTS as readonly string[]).includes(q.nsort ?? "") ? (q.nsort as NodeSort) : "node"} dir={q.ndir === "desc" ? "desc" : "asc"} />
           </>

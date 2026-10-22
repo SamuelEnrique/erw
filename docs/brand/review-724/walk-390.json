@@ -1,0 +1,4374 @@
+{
+ "steps": [
+  {
+   "step": "04-nodes",
+   "width": 390,
+   "does": "the node view (step 4): the shared line's tips",
+   "url": "/cost-of-power?view=allgrids&rows=nodes&sort=energy&dir=asc&grid=ercot",
+   "found": true,
+   "errorText": "",
+   "checksInView": [
+    {
+     "k": "allgrids|tx|ercot:HB_HUBAVG|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HUBAVG|firm|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HUBAVG|curtailing|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|connect|ercot:HB_HUBAVG",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|demand|ercot:HB_HUBAVG",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|carbon|ercot:HB_HUBAVG",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|energy|ercot:7RNCHSLR_ALL|da",
+     "raw": "36.14808288218086",
+     "text": "36.15"
+    },
+    {
+     "k": "allgrids|basis|ercot:7RNCHSLR_ALL",
+     "raw": "1.846026946107784",
+     "text": "1.85"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:7RNCHSLR_ALL",
+     "raw": "7.867900000000001",
+     "text": "7.87"
+    },
+    {
+     "k": "allgrids|allin|ercot:7RNCHSLR_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "43.97311724291146",
+     "text": "43.97"
+    },
+    {
+     "k": "allgrids|energy|ercot:A4_DGR1_RN|da",
+     "raw": "40.20416192409702",
+     "text": "40.20"
+    },
+    {
+     "k": "allgrids|basis|ercot:A4_DGR1_RN",
+     "raw": "5.902105988023951",
+     "text": "5.90"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:A4_DGR1_RN",
+     "raw": "9.8042",
+     "text": "9.80"
+    },
+    {
+     "k": "allgrids|allin|ercot:A4_DGR1_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "48.02919628482762",
+     "text": "48.03"
+    },
+    {
+     "k": "allgrids|energy|ercot:A4_DGR2_RN|da",
+     "raw": "40.20416192409702",
+     "text": "40.20"
+    },
+    {
+     "k": "allgrids|basis|ercot:A4_DGR2_RN",
+     "raw": "5.902105988023951",
+     "text": "5.90"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:A4_DGR2_RN",
+     "raw": "9.8042",
+     "text": "9.80"
+    },
+    {
+     "k": "allgrids|allin|ercot:A4_DGR2_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "48.02919628482762",
+     "text": "48.03"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:ABINDUST_RN",
+     "raw": "17.4107",
+     "text": "17.41"
+    },
+    {
+     "k": "allgrids|energy|ercot:ADL_RN|da",
+     "raw": "36.046618025625314",
+     "text": "36.05"
+    },
+    {
+     "k": "allgrids|basis|ercot:ADL_RN",
+     "raw": "1.744562089552239",
+     "text": "1.74"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:ADL_RN",
+     "raw": "9.2737",
+     "text": "9.27"
+    },
+    {
+     "k": "allgrids|allin|ercot:ADL_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "43.871652386355905",
+     "text": "43.87"
+    },
+    {
+     "k": "allgrids|energy|ercot:AE_RN|da",
+     "raw": "34.25269981667009",
+     "text": "34.25"
+    },
+    {
+     "k": "allgrids|basis|ercot:AE_RN",
+     "raw": "-0.049356119402985225",
+     "text": "-0.05"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:AE_RN",
+     "raw": "7.2972",
+     "text": "7.30"
+    },
+    {
+     "k": "allgrids|allin|ercot:AE_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "42.077734177400686",
+     "text": "42.08"
+    },
+    {
+     "k": "allgrids|energy|ercot:AEEC|da",
+     "raw": "26.416552652490985",
+     "text": "26.42"
+    },
+    {
+     "k": "allgrids|basis|ercot:AEEC",
+     "raw": "-7.885503283582089",
+     "text": "-7.89"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:AEEC",
+     "raw": "16.3976",
+     "text": "16.40"
+    },
+    {
+     "k": "allgrids|allin|ercot:AEEC|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.241587013221576",
+     "text": "34.24"
+    },
+    {
+     "k": "allgrids|energy|ercot:AGUAYO_UNIT1|da",
+     "raw": "29.65266220472979",
+     "text": "29.65"
+    },
+    {
+     "k": "allgrids|basis|ercot:AGUAYO_UNIT1",
+     "raw": "-4.649393731343284",
+     "text": "-4.65"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:AGUAYO_UNIT1",
+     "raw": "14.358",
+     "text": "14.36"
+    },
+    {
+     "k": "allgrids|allin|ercot:AGUAYO_UNIT1|profile=datacenter&lf=0.9&strike=row",
+     "raw": "37.477696565460384",
+     "text": "37.48"
+    },
+    {
+     "k": "allgrids|energy|ercot:AJAXWIND_RN|da",
+     "raw": "29.216142204729792",
+     "text": "29.22"
+    },
+    {
+     "k": "allgrids|basis|ercot:AJAXWIND_RN",
+     "raw": "-5.085913731343283",
+     "text": "-5.09"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:AJAXWIND_RN",
+     "raw": "14.0462",
+     "text": "14.05"
+    },
+    {
+     "k": "allgrids|allin|ercot:AJAXWIND_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "37.04117656546039",
+     "text": "37.04"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:ALAMO_ST_RN",
+     "raw": "23.6733",
+     "text": "23.67"
+    },
+    {
+     "k": "allgrids|energy|ercot:ALGOD_ALL_RN|da",
+     "raw": "29.25620220472979",
+     "text": "29.26"
+    },
+    {
+     "k": "allgrids|basis|ercot:ALGOD_ALL_RN",
+     "raw": "-5.045853731343284",
+     "text": "-5.05"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:ALGOD_ALL_RN",
+     "raw": "13.3093",
+     "text": "13.31"
+    },
+    {
+     "k": "allgrids|allin|ercot:ALGOD_ALL_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "37.08123656546039",
+     "text": "37.08"
+    },
+    {
+     "k": "allgrids|energy|ercot:ALP_BESS_RN|da",
+     "raw": "40.50244310025218",
+     "text": "40.50"
+    },
+    {
+     "k": "allgrids|basis|ercot:ALP_BESS_RN",
+     "raw": "6.200387164179104",
+     "text": "6.20"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:ALP_BESS_RN",
+     "raw": "29.028100000000002",
+     "text": "29.03"
+    },
+    {
+     "k": "allgrids|allin|ercot:ALP_BESS_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "48.32747746098278",
+     "text": "48.33"
+    },
+    {
+     "k": "allgrids|energy|ercot:ALVIN_RN|da",
+     "raw": "35.64105383397097",
+     "text": "35.64"
+    },
+    {
+     "k": "allgrids|basis|ercot:ALVIN_RN",
+     "raw": "1.338997897897898",
+     "text": "1.34"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:ALVIN_RN",
+     "raw": "10.095500000000001",
+     "text": "10.10"
+    },
+    {
+     "k": "allgrids|allin|ercot:ALVIN_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "43.46608819470157",
+     "text": "43.47"
+    },
+    {
+     "k": "allgrids|energy|ercot:AMAD_ESS_RN|da",
+     "raw": "35.62253623458054",
+     "text": "35.62"
+    },
+    {
+     "k": "allgrids|basis|ercot:AMAD_ESS_RN",
+     "raw": "1.3204802985074626",
+     "text": "1.32"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:AMAD_ESS_RN",
+     "raw": "7.8825",
+     "text": "7.88"
+    },
+    {
+     "k": "allgrids|allin|ercot:AMAD_ESS_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "43.447570595311134",
+     "text": "43.45"
+    },
+    {
+     "k": "allgrids|energy|ercot:AMADEUS_ALL|da",
+     "raw": "28.681461906222328",
+     "text": "28.68"
+    },
+    {
+     "k": "allgrids|basis|ercot:AMADEUS_ALL",
+     "raw": "-5.620594029850747",
+     "text": "-5.62"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:AMADEUS_ALL",
+     "raw": "14.651",
+     "text": "14.65"
+    },
+    {
+     "k": "allgrids|allin|ercot:AMADEUS_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "36.50649626695292",
+     "text": "36.51"
+    }
+   ],
+   "tipsInView": [
+    {
+     "on": "7.83",
+     "tip": "This load's charge: it ran in 4 of the four intervals of 2025, at the Commission's 2025 rate."
+    },
+    {
+     "on": "7.83",
+     "tip": "On in all four intervals."
+    },
+    {
+     "on": "0.00",
+     "tip": "Off in the four intervals' hours, computed from its weights."
+    },
+    {
+     "on": "why",
+     "tip": "ERCOT is an energy-only market: it has no capacity market and no capacity charge."
+    },
+    {
+     "on": "45.80",
+     "tip": "From queue entry to operation, 227 requests online from 2023 to 2025 (interconnection_durations, from Berkeley Lab's queue file: the column's figure)."
+    },
+    {
+     "on": "5.41",
+     "tip": "ERCOT's mean demand (EIA-930, ERCO), October 2025 to September 2026, over the twelve months before."
+    },
+    {
+     "on": "332.87",
+     "tip": "eGRID subregion ERCT, 2023: the plants' CO2 over their net generation."
+    },
+    {
+     "on": "not held",
+     "tip": "ERCOT publishes each settlement point's zone and hub in its settlement point mapping, and each node's TSP in its resource registration; neither is a table of the warehouse yet (docs/reviews/siting-gaps.md)."
+    },
+    {
+     "on": "Node (up)",
+     "tip": "The settlement point's name, as ERCOT gives it. Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "Class",
+     "tip": "What ERCOT's disclosures say is settled at the node: storage, solar, wind, gas, other, mixed; unknown where no disclosure names it (node_basis_daily, x_class). Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "Energy",
+     "tip": "HB_HUBAVG's day-ahead price over its last twelve whole months, under the profile's rule, plus the node's mean daily day-ahead basis: USD per MWh. Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "Basis to HB_HUBAVG",
+     "tip": "The node's mean daily day-ahead price less HB_HUBAVG's, over the hub's twelve months, weighted by the days held (node_basis_daily): USD per MWh. Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "Basis spread",
+     "tip": "The node's 90th percentile daily day-ahead basis to HB_HUBAVG less its 10th, over the node file's twelve whole months (node_basis_daily; the two percentiles are in the node's panel): USD per MWh. The wider, the more its basis moves day to day. Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "All-in",
+     "tip": "Energy plus the four-peak charge (paid on the hub's hours, the same at every node: above the table) plus capacity, none in ERCOT: USD per MWh. Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "Days held",
+     "tip": "Days of day-ahead basis held over the hub's twelve months, of the days in them; under 90 percent, no twelve-month figure. Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "not held",
+     "tip": "node_basis_daily holds 204 of the 365 days from 2025-10 to 2026-09 for this node, fewer than 90 percent: no twelve-month figure."
+    },
+    {
+     "on": "not held",
+     "tip": "node_basis_daily holds 297 of the 365 days from 2025-10 to 2026-09 for this node, fewer than 90 percent: no twelve-month figure."
+    }
+   ],
+   "nChecks": 112,
+   "sortLine": "Sorted by node, smallest first (alphabetical); a node with no figure last. Click a heading to sort by it, again to turn it round.",
+   "headline": "Choose A and B under \"A and B, side by side\" in the box to set two rows beside each other, or open a node's panel (its name in the list) and set it as A or B; A sets this line.",
+   "abPanel": null,
+   "shared": "Every node below is in ERCOT, and shares these, drawn once: the four-peak charge, paid on HB_HUBAVG's hours, USD 7.83This load's charge: it ran in 4 of the four intervals of 2025, at the Commission's 2025 rate. per MWh for this load (firm 7.83On in all four intervals., off at the peaks 0.00Off in the four intervals' hours, computed from its weights.); no capacity market (whyERCOT is an energy-only market: it has no capacity market and no capacity charge.); generators took a median of 45.80From queue entry to operation, 227 requests online from 2023 to 2025 (interconnection_durations, from Berkeley Lab's queue file: the column's figure). months to connect; demand grew +5.41ERCOT's mean demand (EIA-930, ERCO), October 2025 to September 2026, over the twelve months before. percent on the year; carbon 332.87eGRID subregion ERCT, 2023: the plants' CO2 over their net generation. kg CO2 per MWh.Not held for any node: its load zone, its settlement hub and its wires utility (TSP). node_basis_daily sets every node against HB_HUBAVG and names no zone or utility; not heldERCOT publishes each settlement point's zone and hub in its settlement point mapping, and each node's TSP in its resource registration; neither is a table of the warehouse yet (docs/reviews/siting-gaps.md)..",
+   "panel": null,
+   "selects": [
+    {
+     "k": "a",
+     "value": "",
+     "chosen": "none",
+     "n": 49
+    },
+    {
+     "k": "b",
+     "value": "",
+     "chosen": "none",
+     "n": 49
+    }
+   ],
+   "rows": [
+    {
+     "id": "ercot:7RNCHSLR_ALL",
+     "text": "7RNCHSLR_ALLsolar36.151.857.8743.97334 of 365"
+    },
+    {
+     "id": "ercot:A4_DGR1_RN",
+     "text": "A4_DGR1_RNgas40.205.909.8048.03334 of 365"
+    },
+    {
+     "id": "ercot:A4_DGR2_RN",
+     "text": "A4_DGR2_RNgas40.205.909.8048.03334 of 365"
+    },
+    {
+     "id": "ercot:ABINDUST_RN",
+     "text": "ABINDUST_RNstoragenot heldnode_basis_daily holds 204 of the 365 days from 2025-10 to 2026-09 for this node, fewer than 90 percent: no twelve-month figure.17.41224"
+    },
+    {
+     "id": "ercot:ADL_RN",
+     "text": "ADL_RNmixed36.051.749.2743.87335 of 365"
+    },
+    {
+     "id": "ercot:AE_RN",
+     "text": "AE_RNstorage34.25-0.057.3042.08335 of 365"
+    }
+   ],
+   "nodeIds": [
+    "ercot:7RNCHSLR_ALL",
+    "ercot:A4_DGR1_RN",
+    "ercot:A4_DGR2_RN"
+   ],
+   "heads": [
+    "node",
+    "cls",
+    "energy",
+    "basis",
+    "spread",
+    "allin",
+    "days"
+   ],
+   "scrollW": 390,
+   "clientW": 390,
+   "totalH": 2137,
+   "shot": "04-nodes_390.png"
+  },
+  {
+   "step": "05-nodes-energy-cheapest",
+   "width": 390,
+   "does": "Energy twice (step 5)",
+   "act": true,
+   "then": true,
+   "url": "/cost-of-power?view=allgrids&rows=nodes&sort=energy&dir=asc&grid=ercot&nsort=energy&ndir=asc",
+   "found": true,
+   "errorText": "",
+   "checksInView": [
+    {
+     "k": "allgrids|energy|ercot:BBREEZE_1_2|da",
+     "raw": "23.83399205547606",
+     "text": "23.83"
+    },
+    {
+     "k": "allgrids|basis|ercot:BBREEZE_1_2",
+     "raw": "-10.468063880597015",
+     "text": "-10.47"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:BBREEZE_1_2",
+     "raw": "27.1156",
+     "text": "27.12"
+    },
+    {
+     "k": "allgrids|allin|ercot:BBREEZE_1_2|profile=datacenter&lf=0.9&strike=row",
+     "raw": "31.659026416206654",
+     "text": "31.66"
+    },
+    {
+     "k": "allgrids|energy|ercot:ELSAUZ_ALL|da",
+     "raw": "23.8340013092074",
+     "text": "23.83"
+    },
+    {
+     "k": "allgrids|basis|ercot:ELSAUZ_ALL",
+     "raw": "-10.468054626865671",
+     "text": "-10.47"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:ELSAUZ_ALL",
+     "raw": "27.1156",
+     "text": "27.12"
+    },
+    {
+     "k": "allgrids|allin|ercot:ELSAUZ_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "31.659035669937996",
+     "text": "31.66"
+    },
+    {
+     "k": "allgrids|energy|ercot:PENA_ALL|da",
+     "raw": "24.9024741450283",
+     "text": "24.90"
+    },
+    {
+     "k": "allgrids|basis|ercot:PENA_ALL",
+     "raw": "-9.399581791044774",
+     "text": "-9.40"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:PENA_ALL",
+     "raw": "24.625400000000003",
+     "text": "24.63"
+    },
+    {
+     "k": "allgrids|allin|ercot:PENA_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "32.72750850575889",
+     "text": "32.73"
+    },
+    {
+     "k": "allgrids|energy|ercot:TGW_T1_T2|da",
+     "raw": "24.9024741450283",
+     "text": "24.90"
+    },
+    {
+     "k": "allgrids|basis|ercot:TGW_T1_T2",
+     "raw": "-9.399581791044774",
+     "text": "-9.40"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:TGW_T1_T2",
+     "raw": "24.625400000000003",
+     "text": "24.63"
+    },
+    {
+     "k": "allgrids|allin|ercot:TGW_T1_T2|profile=datacenter&lf=0.9&strike=row",
+     "raw": "32.72750850575889",
+     "text": "32.73"
+    },
+    {
+     "k": "allgrids|energy|ercot:STELLA_RN|da",
+     "raw": "24.902492353983522",
+     "text": "24.90"
+    },
+    {
+     "k": "allgrids|basis|ercot:STELLA_RN",
+     "raw": "-9.399563582089552",
+     "text": "-9.40"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:STELLA_RN",
+     "raw": "24.6261",
+     "text": "24.63"
+    },
+    {
+     "k": "allgrids|allin|ercot:STELLA_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "32.72752671471412",
+     "text": "32.73"
+    },
+    {
+     "k": "allgrids|energy|ercot:CORAZON_RN|da",
+     "raw": "25.52216817487904",
+     "text": "25.52"
+    },
+    {
+     "k": "allgrids|basis|ercot:CORAZON_RN",
+     "raw": "-8.779887761194031",
+     "text": "-8.78"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:CORAZON_RN",
+     "raw": "23.8",
+     "text": "23.80"
+    },
+    {
+     "k": "allgrids|allin|ercot:CORAZON_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "33.34720253560964",
+     "text": "33.35"
+    },
+    {
+     "k": "allgrids|energy|ercot:TORR_ALL|da",
+     "raw": "25.52270847338651",
+     "text": "25.52"
+    },
+    {
+     "k": "allgrids|basis|ercot:TORR_ALL",
+     "raw": "-8.779347462686568",
+     "text": "-8.78"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:TORR_ALL",
+     "raw": "23.8",
+     "text": "23.80"
+    },
+    {
+     "k": "allgrids|allin|ercot:TORR_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "33.3477428341171",
+     "text": "33.35"
+    },
+    {
+     "k": "allgrids|energy|ercot:OUTP_SLR_RN|da",
+     "raw": "25.602349667416355",
+     "text": "25.60"
+    },
+    {
+     "k": "allgrids|basis|ercot:OUTP_SLR_RN",
+     "raw": "-8.699706268656717",
+     "text": "-8.70"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:OUTP_SLR_RN",
+     "raw": "23.5389",
+     "text": "23.54"
+    },
+    {
+     "k": "allgrids|allin|ercot:OUTP_SLR_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "33.427384028146946",
+     "text": "33.43"
+    },
+    {
+     "k": "allgrids|energy|ercot:BORDAS_345|da",
+     "raw": "25.846266980849194",
+     "text": "25.85"
+    },
+    {
+     "k": "allgrids|basis|ercot:BORDAS_345",
+     "raw": "-8.455788955223879",
+     "text": "-8.46"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:BORDAS_345",
+     "raw": "23.1609",
+     "text": "23.16"
+    },
+    {
+     "k": "allgrids|allin|ercot:BORDAS_345|profile=datacenter&lf=0.9&strike=row",
+     "raw": "33.67130134157979",
+     "text": "33.67"
+    },
+    {
+     "k": "allgrids|energy|ercot:HART_WND_RN|da",
+     "raw": "26.007806383834268",
+     "text": "26.01"
+    },
+    {
+     "k": "allgrids|basis|ercot:HART_WND_RN",
+     "raw": "-8.294249552238806",
+     "text": "-8.29"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:HART_WND_RN",
+     "raw": "18.1554",
+     "text": "18.16"
+    },
+    {
+     "k": "allgrids|allin|ercot:HART_WND_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "33.83284074456486",
+     "text": "33.83"
+    },
+    {
+     "k": "allgrids|energy|ercot:RELOJ_ALL|da",
+     "raw": "26.2101613092074",
+     "text": "26.21"
+    },
+    {
+     "k": "allgrids|basis|ercot:RELOJ_ALL",
+     "raw": "-8.091894626865674",
+     "text": "-8.09"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:RELOJ_ALL",
+     "raw": "22.3362",
+     "text": "22.34"
+    },
+    {
+     "k": "allgrids|allin|ercot:RELOJ_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.03519566993799",
+     "text": "34.04"
+    },
+    {
+     "k": "allgrids|energy|ercot:HRNT_SLR_RN|da",
+     "raw": "26.270892950998448",
+     "text": "26.27"
+    },
+    {
+     "k": "allgrids|basis|ercot:HRNT_SLR_RN",
+     "raw": "-8.031162985074626",
+     "text": "-8.03"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:HRNT_SLR_RN",
+     "raw": "17.5765",
+     "text": "17.58"
+    },
+    {
+     "k": "allgrids|allin|ercot:HRNT_SLR_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.09592731172904",
+     "text": "34.10"
+    },
+    {
+     "k": "allgrids|energy|ercot:ASTRA_RN|da",
+     "raw": "26.290181906222326",
+     "text": "26.29"
+    },
+    {
+     "k": "allgrids|basis|ercot:ASTRA_RN",
+     "raw": "-8.011874029850748",
+     "text": "-8.01"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:ASTRA_RN",
+     "raw": "17.544",
+     "text": "17.54"
+    },
+    {
+     "k": "allgrids|allin|ercot:ASTRA_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.11521626695292",
+     "text": "34.12"
+    },
+    {
+     "k": "allgrids|energy|ercot:HRFDWIND_ALL|da",
+     "raw": "26.290181906222326",
+     "text": "26.29"
+    },
+    {
+     "k": "allgrids|basis|ercot:HRFDWIND_ALL",
+     "raw": "-8.011874029850748",
+     "text": "-8.01"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:HRFDWIND_ALL",
+     "raw": "17.544",
+     "text": "17.54"
+    },
+    {
+     "k": "allgrids|allin|ercot:HRFDWIND_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.11521626695292",
+     "text": "34.12"
+    },
+    {
+     "k": "allgrids|energy|ercot:MARIAH_ALL|da",
+     "raw": "26.290181906222326",
+     "text": "26.29"
+    },
+    {
+     "k": "allgrids|basis|ercot:MARIAH_ALL",
+     "raw": "-8.011874029850748",
+     "text": "-8.01"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:MARIAH_ALL",
+     "raw": "17.544",
+     "text": "17.54"
+    },
+    {
+     "k": "allgrids|allin|ercot:MARIAH_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.11521626695292",
+     "text": "34.12"
+    },
+    {
+     "k": "allgrids|energy|ercot:CEDROHI_CHW1|da",
+     "raw": "26.328834742043224",
+     "text": "26.33"
+    },
+    {
+     "k": "allgrids|basis|ercot:CEDROHI_CHW1",
+     "raw": "-7.97322119402985",
+     "text": "-7.97"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:CEDROHI_CHW1",
+     "raw": "23.1932",
+     "text": "23.19"
+    },
+    {
+     "k": "allgrids|allin|ercot:CEDROHI_CHW1|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.15386910277382",
+     "text": "34.15"
+    },
+    {
+     "k": "allgrids|energy|ercot:EXGNWTL_1|da",
+     "raw": "26.328856533088",
+     "text": "26.33"
+    },
+    {
+     "k": "allgrids|basis|ercot:EXGNWTL_1",
+     "raw": "-7.973199402985073",
+     "text": "-7.97"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:EXGNWTL_1",
+     "raw": "23.1932",
+     "text": "23.19"
+    },
+    {
+     "k": "allgrids|allin|ercot:EXGNWTL_1|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.1538908938186",
+     "text": "34.15"
+    },
+    {
+     "k": "allgrids|energy|ercot:PALE_ESS_EN|da",
+     "raw": "26.414599049845528",
+     "text": "26.41"
+    },
+    {
+     "k": "allgrids|basis|ercot:PALE_ESS_EN",
+     "raw": "-7.887456886227546",
+     "text": "-7.89"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:PALE_ESS_EN",
+     "raw": "16.375500000000002",
+     "text": "16.38"
+    },
+    {
+     "k": "allgrids|allin|ercot:PALE_ESS_EN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.23963341057612",
+     "text": "34.24"
+    },
+    {
+     "k": "allgrids|energy|ercot:COTPLNS_RN|da",
+     "raw": "26.41581205547606",
+     "text": "26.42"
+    },
+    {
+     "k": "allgrids|basis|ercot:COTPLNS_RN",
+     "raw": "-7.886243880597015",
+     "text": "-7.89"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:COTPLNS_RN",
+     "raw": "17.5546",
+     "text": "17.55"
+    },
+    {
+     "k": "allgrids|allin|ercot:COTPLNS_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.24084641620665",
+     "text": "34.24"
+    },
+    {
+     "k": "allgrids|energy|ercot:SPLAIN2_RN|da",
+     "raw": "26.41581205547606",
+     "text": "26.42"
+    },
+    {
+     "k": "allgrids|basis|ercot:SPLAIN2_RN",
+     "raw": "-7.886243880597015",
+     "text": "-7.89"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:SPLAIN2_RN",
+     "raw": "17.5546",
+     "text": "17.55"
+    },
+    {
+     "k": "allgrids|allin|ercot:SPLAIN2_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.24084641620665",
+     "text": "34.24"
+    },
+    {
+     "k": "allgrids|energy|ercot:AEEC|da",
+     "raw": "26.416552652490985",
+     "text": "26.42"
+    },
+    {
+     "k": "allgrids|basis|ercot:AEEC",
+     "raw": "-7.885503283582089",
+     "text": "-7.89"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:AEEC",
+     "raw": "16.3976",
+     "text": "16.40"
+    },
+    {
+     "k": "allgrids|allin|ercot:AEEC|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.241587013221576",
+     "text": "34.24"
+    },
+    {
+     "k": "allgrids|energy|ercot:CN_BRKS_UNT1|da",
+     "raw": "26.441252950998447",
+     "text": "26.44"
+    },
+    {
+     "k": "allgrids|basis|ercot:CN_BRKS_UNT1",
+     "raw": "-7.860802985074628",
+     "text": "-7.86"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:CN_BRKS_UNT1",
+     "raw": "17.4872",
+     "text": "17.49"
+    },
+    {
+     "k": "allgrids|allin|ercot:CN_BRKS_UNT1|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.266287311729045",
+     "text": "34.27"
+    }
+   ],
+   "tipsInView": [
+    {
+     "on": "Node",
+     "tip": "The settlement point's name, as ERCOT gives it. Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "Class",
+     "tip": "What ERCOT's disclosures say is settled at the node: storage, solar, wind, gas, other, mixed; unknown where no disclosure names it (node_basis_daily, x_class). Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "Energy (up)",
+     "tip": "HB_HUBAVG's day-ahead price over its last twelve whole months, under the profile's rule, plus the node's mean daily day-ahead basis: USD per MWh. Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "Basis to HB_HUBAVG",
+     "tip": "The node's mean daily day-ahead price less HB_HUBAVG's, over the hub's twelve months, weighted by the days held (node_basis_daily): USD per MWh. Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "Basis spread",
+     "tip": "The node's 90th percentile daily day-ahead basis to HB_HUBAVG less its 10th, over the node file's twelve whole months (node_basis_daily; the two percentiles are in the node's panel): USD per MWh. The wider, the more its basis moves day to day. Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "All-in",
+     "tip": "Energy plus the four-peak charge (paid on the hub's hours, the same at every node: above the table) plus capacity, none in ERCOT: USD per MWh. Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "Days held",
+     "tip": "Days of day-ahead basis held over the hub's twelve months, of the days in them; under 90 percent, no twelve-month figure. Press to sort by it; again to turn it round."
+    }
+   ],
+   "nChecks": 127,
+   "sortLine": "Sorted by energy, smallest first; a node with no figure last. Click a heading to sort by it, again to turn it round.",
+   "headline": "Choose A and B under \"A and B, side by side\" in the box to set two rows beside each other, or open a node's panel (its name in the list) and set it as A or B; A sets this line.",
+   "abPanel": null,
+   "shared": "Every node below is in ERCOT, and shares these, drawn once: the four-peak charge, paid on HB_HUBAVG's hours, USD 7.83This load's charge: it ran in 4 of the four intervals of 2025, at the Commission's 2025 rate. per MWh for this load (firm 7.83On in all four intervals., off at the peaks 0.00Off in the four intervals' hours, computed from its weights.); no capacity market (whyERCOT is an energy-only market: it has no capacity market and no capacity charge.); generators took a median of 45.80From queue entry to operation, 227 requests online from 2023 to 2025 (interconnection_durations, from Berkeley Lab's queue file: the column's figure). months to connect; demand grew +5.41ERCOT's mean demand (EIA-930, ERCO), October 2025 to September 2026, over the twelve months before. percent on the year; carbon 332.87eGRID subregion ERCT, 2023: the plants' CO2 over their net generation. kg CO2 per MWh.Not held for any node: its load zone, its settlement hub and its wires utility (TSP). node_basis_daily sets every node against HB_HUBAVG and names no zone or utility; not heldERCOT publishes each settlement point's zone and hub in its settlement point mapping, and each node's TSP in its resource registration; neither is a table of the warehouse yet (docs/reviews/siting-gaps.md)..",
+   "panel": null,
+   "selects": [
+    {
+     "k": "a",
+     "value": "",
+     "chosen": "none",
+     "n": 49
+    },
+    {
+     "k": "b",
+     "value": "",
+     "chosen": "none",
+     "n": 49
+    }
+   ],
+   "rows": [
+    {
+     "id": "ercot:BBREEZE_1_2",
+     "text": "BBREEZE_1_2wind23.83-10.4727.1231.66335 of 365"
+    },
+    {
+     "id": "ercot:ELSAUZ_ALL",
+     "text": "ELSAUZ_ALLwind23.83-10.4727.1231.66335 of 365"
+    },
+    {
+     "id": "ercot:PENA_ALL",
+     "text": "PENA_ALLwind24.90-9.4024.6332.73335 of 365"
+    },
+    {
+     "id": "ercot:TGW_T1_T2",
+     "text": "TGW_T1_T2wind24.90-9.4024.6332.73335 of 365"
+    },
+    {
+     "id": "ercot:STELLA_RN",
+     "text": "STELLA_RNwind24.90-9.4024.6332.73335 of 365"
+    },
+    {
+     "id": "ercot:CORAZON_RN",
+     "text": "CORAZON_RNmixed25.52-8.7823.8033.35335 of 365"
+    }
+   ],
+   "nodeIds": [
+    "ercot:BBREEZE_1_2",
+    "ercot:ELSAUZ_ALL",
+    "ercot:PENA_ALL"
+   ],
+   "heads": [
+    "node",
+    "cls",
+    "energy",
+    "basis",
+    "spread",
+    "allin",
+    "days"
+   ],
+   "scrollW": 390,
+   "clientW": 390,
+   "totalH": 2117,
+   "shot": "05-nodes-energy-cheapest_390.png"
+  },
+  {
+   "step": "06b-nodes-spread-widest",
+   "width": 390,
+   "does": "clicks the new heading Basis spread: widest first",
+   "act": true,
+   "url": "/cost-of-power?view=allgrids&rows=nodes&sort=energy&dir=asc&grid=ercot&nsort=spread&ndir=desc",
+   "found": true,
+   "errorText": "",
+   "checksInView": [
+    {
+     "k": "allgrids|energy|ercot:RUSSEKST_RN|da",
+     "raw": "52.31382578681935",
+     "text": "52.31"
+    },
+    {
+     "k": "allgrids|basis|ercot:RUSSEKST_RN",
+     "raw": "18.011769850746273",
+     "text": "18.01"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:RUSSEKST_RN",
+     "raw": "57.5493",
+     "text": "57.55"
+    },
+    {
+     "k": "allgrids|allin|ercot:RUSSEKST_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "60.13886014754995",
+     "text": "60.14"
+    },
+    {
+     "k": "allgrids|energy|ercot:OLNEYTN_AGR1|da",
+     "raw": "42.96613063486825",
+     "text": "42.97"
+    },
+    {
+     "k": "allgrids|basis|ercot:OLNEYTN_AGR1",
+     "raw": "8.66407469879518",
+     "text": "8.66"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:OLNEYTN_AGR1",
+     "raw": "57.1077",
+     "text": "57.11"
+    },
+    {
+     "k": "allgrids|allin|ercot:OLNEYTN_AGR1|profile=datacenter&lf=0.9&strike=row",
+     "raw": "50.79116499559885",
+     "text": "50.79"
+    },
+    {
+     "k": "allgrids|energy|ercot:OLNEYTN_RN|da",
+     "raw": "42.85317981667009",
+     "text": "42.85"
+    },
+    {
+     "k": "allgrids|basis|ercot:OLNEYTN_RN",
+     "raw": "8.551123880597016",
+     "text": "8.55"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:OLNEYTN_RN",
+     "raw": "55.7448",
+     "text": "55.74"
+    },
+    {
+     "k": "allgrids|allin|ercot:OLNEYTN_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "50.67821417740069",
+     "text": "50.68"
+    },
+    {
+     "k": "allgrids|energy|ercot:APPALOSA_ALL|da",
+     "raw": "43.22425683159546",
+     "text": "43.22"
+    },
+    {
+     "k": "allgrids|basis|ercot:APPALOSA_ALL",
+     "raw": "8.922200895522387",
+     "text": "8.92"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:APPALOSA_ALL",
+     "raw": "47.137",
+     "text": "47.14"
+    },
+    {
+     "k": "allgrids|allin|ercot:APPALOSA_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "51.04929119232605",
+     "text": "51.05"
+    },
+    {
+     "k": "allgrids|energy|ercot:JUNCTION_RN|da",
+     "raw": "50.32080429428203",
+     "text": "50.32"
+    },
+    {
+     "k": "allgrids|basis|ercot:JUNCTION_RN",
+     "raw": "16.018748358208956",
+     "text": "16.02"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:JUNCTION_RN",
+     "raw": "45.2448",
+     "text": "45.24"
+    },
+    {
+     "k": "allgrids|allin|ercot:JUNCTION_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "58.145838655012625",
+     "text": "58.15"
+    },
+    {
+     "k": "allgrids|energy|ercot:JUNORTH_RN|da",
+     "raw": "50.277862204729786",
+     "text": "50.28"
+    },
+    {
+     "k": "allgrids|basis|ercot:JUNORTH_RN",
+     "raw": "15.975806268656713",
+     "text": "15.98"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:JUNORTH_RN",
+     "raw": "45.1203",
+     "text": "45.12"
+    },
+    {
+     "k": "allgrids|allin|ercot:JUNORTH_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "58.102896565460384",
+     "text": "58.10"
+    },
+    {
+     "k": "allgrids|energy|ercot:KNAPP_RN|da",
+     "raw": "43.358744294282026",
+     "text": "43.36"
+    },
+    {
+     "k": "allgrids|basis|ercot:KNAPP_RN",
+     "raw": "9.056688358208953",
+     "text": "9.06"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:KNAPP_RN",
+     "raw": "40.081",
+     "text": "40.08"
+    },
+    {
+     "k": "allgrids|allin|ercot:KNAPP_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "51.18377865501262",
+     "text": "51.18"
+    },
+    {
+     "k": "allgrids|energy|ercot:ANTL_ESS_ES1|da",
+     "raw": "39.00561563756561",
+     "text": "39.01"
+    },
+    {
+     "k": "allgrids|basis|ercot:ANTL_ESS_ES1",
+     "raw": "4.703559701492537",
+     "text": "4.70"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:ANTL_ESS_ES1",
+     "raw": "34.5013",
+     "text": "34.50"
+    },
+    {
+     "k": "allgrids|allin|ercot:ANTL_ESS_ES1|profile=datacenter&lf=0.9&strike=row",
+     "raw": "46.83064999829621",
+     "text": "46.83"
+    },
+    {
+     "k": "allgrids|energy|ercot:FERMI_ALL|da",
+     "raw": "39.019505786819344",
+     "text": "39.02"
+    },
+    {
+     "k": "allgrids|basis|ercot:FERMI_ALL",
+     "raw": "4.717449850746268",
+     "text": "4.72"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:FERMI_ALL",
+     "raw": "34.5013",
+     "text": "34.50"
+    },
+    {
+     "k": "allgrids|allin|ercot:FERMI_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "46.844540147549935",
+     "text": "46.84"
+    },
+    {
+     "k": "allgrids|energy|ercot:GUNMTN_NODE|da",
+     "raw": "40.38253474204323",
+     "text": "40.38"
+    },
+    {
+     "k": "allgrids|basis|ercot:GUNMTN_NODE",
+     "raw": "6.08047880597015",
+     "text": "6.08"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:GUNMTN_NODE",
+     "raw": "32.5882",
+     "text": "32.59"
+    },
+    {
+     "k": "allgrids|allin|ercot:GUNMTN_NODE|profile=datacenter&lf=0.9&strike=row",
+     "raw": "48.20756910277382",
+     "text": "48.21"
+    },
+    {
+     "k": "allgrids|energy|ercot:CNLY_ESS_RN|da",
+     "raw": "26.84931563756561",
+     "text": "26.85"
+    },
+    {
+     "k": "allgrids|basis|ercot:CNLY_ESS_RN",
+     "raw": "-7.4527402985074644",
+     "text": "-7.45"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:CNLY_ESS_RN",
+     "raw": "30.174599999999998",
+     "text": "30.17"
+    },
+    {
+     "k": "allgrids|allin|ercot:CNLY_ESS_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.67434999829621",
+     "text": "34.67"
+    },
+    {
+     "k": "allgrids|energy|ercot:CFLATS_UNIT|da",
+     "raw": "34.84233265249098",
+     "text": "34.84"
+    },
+    {
+     "k": "allgrids|basis|ercot:CFLATS_UNIT",
+     "raw": "0.5402767164179099",
+     "text": "0.54"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:CFLATS_UNIT",
+     "raw": "29.3982",
+     "text": "29.40"
+    },
+    {
+     "k": "allgrids|allin|ercot:CFLATS_UNIT|profile=datacenter&lf=0.9&strike=row",
+     "raw": "42.66736701322158",
+     "text": "42.67"
+    },
+    {
+     "k": "allgrids|energy|ercot:SGM_SIGNALMT|da",
+     "raw": "39.94119742861039",
+     "text": "39.94"
+    },
+    {
+     "k": "allgrids|basis|ercot:SGM_SIGNALMT",
+     "raw": "5.6391414925373144",
+     "text": "5.64"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:SGM_SIGNALMT",
+     "raw": "29.0647",
+     "text": "29.06"
+    },
+    {
+     "k": "allgrids|allin|ercot:SGM_SIGNALMT|profile=datacenter&lf=0.9&strike=row",
+     "raw": "47.76623178934098",
+     "text": "47.77"
+    },
+    {
+     "k": "allgrids|energy|ercot:ALP_BESS_RN|da",
+     "raw": "40.50244310025218",
+     "text": "40.50"
+    },
+    {
+     "k": "allgrids|basis|ercot:ALP_BESS_RN",
+     "raw": "6.200387164179104",
+     "text": "6.20"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:ALP_BESS_RN",
+     "raw": "29.028100000000002",
+     "text": "29.03"
+    },
+    {
+     "k": "allgrids|allin|ercot:ALP_BESS_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "48.32747746098278",
+     "text": "48.33"
+    },
+    {
+     "k": "allgrids|energy|ercot:LAMESASLR_G|da",
+     "raw": "40.50244310025218",
+     "text": "40.50"
+    },
+    {
+     "k": "allgrids|basis|ercot:LAMESASLR_G",
+     "raw": "6.200387164179104",
+     "text": "6.20"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:LAMESASLR_G",
+     "raw": "29.028100000000002",
+     "text": "29.03"
+    },
+    {
+     "k": "allgrids|allin|ercot:LAMESASLR_G|profile=datacenter&lf=0.9&strike=row",
+     "raw": "48.32747746098278",
+     "text": "48.33"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:CFLAT_ES_RN",
+     "raw": "28.8271",
+     "text": "28.83"
+    },
+    {
+     "k": "allgrids|energy|ercot:ELB_ELBCREEK|da",
+     "raw": "32.04524399577457",
+     "text": "32.05"
+    },
+    {
+     "k": "allgrids|basis|ercot:ELB_ELBCREEK",
+     "raw": "-2.2568119402985074",
+     "text": "-2.26"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:ELB_ELBCREEK",
+     "raw": "28.3662",
+     "text": "28.37"
+    },
+    {
+     "k": "allgrids|allin|ercot:ELB_ELBCREEK|profile=datacenter&lf=0.9&strike=row",
+     "raw": "39.87027835650517",
+     "text": "39.87"
+    },
+    {
+     "k": "allgrids|energy|ercot:PC_NORTH_1|da",
+     "raw": "32.045190264431284",
+     "text": "32.05"
+    },
+    {
+     "k": "allgrids|basis|ercot:PC_NORTH_1",
+     "raw": "-2.256865671641791",
+     "text": "-2.26"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:PC_NORTH_1",
+     "raw": "28.3662",
+     "text": "28.37"
+    },
+    {
+     "k": "allgrids|allin|ercot:PC_NORTH_1|profile=datacenter&lf=0.9&strike=row",
+     "raw": "39.87022462516188",
+     "text": "39.87"
+    },
+    {
+     "k": "allgrids|energy|ercot:PC_SOUTH_ALL|da",
+     "raw": "32.045190264431284",
+     "text": "32.05"
+    },
+    {
+     "k": "allgrids|basis|ercot:PC_SOUTH_ALL",
+     "raw": "-2.256865671641791",
+     "text": "-2.26"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:PC_SOUTH_ALL",
+     "raw": "28.3662",
+     "text": "28.37"
+    },
+    {
+     "k": "allgrids|allin|ercot:PC_SOUTH_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "39.87022462516188",
+     "text": "39.87"
+    },
+    {
+     "k": "allgrids|energy|ercot:RN_DEC_AGR_B|da",
+     "raw": "27.73373324950591",
+     "text": "27.73"
+    },
+    {
+     "k": "allgrids|basis|ercot:RN_DEC_AGR_B",
+     "raw": "-6.568322686567163",
+     "text": "-6.57"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:RN_DEC_AGR_B",
+     "raw": "28.038400000000003",
+     "text": "28.04"
+    },
+    {
+     "k": "allgrids|allin|ercot:RN_DEC_AGR_B|profile=datacenter&lf=0.9&strike=row",
+     "raw": "35.5587676102365",
+     "text": "35.56"
+    },
+    {
+     "k": "allgrids|energy|ercot:RN_DEC_AGR_C|da",
+     "raw": "27.73432877189397",
+     "text": "27.73"
+    },
+    {
+     "k": "allgrids|basis|ercot:RN_DEC_AGR_C",
+     "raw": "-6.567727164179103",
+     "text": "-6.57"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:RN_DEC_AGR_C",
+     "raw": "28.038400000000003",
+     "text": "28.04"
+    },
+    {
+     "k": "allgrids|allin|ercot:RN_DEC_AGR_C|profile=datacenter&lf=0.9&strike=row",
+     "raw": "35.55936313262457",
+     "text": "35.56"
+    },
+    {
+     "k": "allgrids|energy|ercot:RN_DEC_AGR_D|da",
+     "raw": "27.735056234580536",
+     "text": "27.74"
+    },
+    {
+     "k": "allgrids|basis|ercot:RN_DEC_AGR_D",
+     "raw": "-6.566999701492537",
+     "text": "-6.57"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:RN_DEC_AGR_D",
+     "raw": "28.038400000000003",
+     "text": "28.04"
+    },
+    {
+     "k": "allgrids|allin|ercot:RN_DEC_AGR_D|profile=datacenter&lf=0.9&strike=row",
+     "raw": "35.56009059531113",
+     "text": "35.56"
+    }
+   ],
+   "tipsInView": [
+    {
+     "on": "Node",
+     "tip": "The settlement point's name, as ERCOT gives it. Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "Class",
+     "tip": "What ERCOT's disclosures say is settled at the node: storage, solar, wind, gas, other, mixed; unknown where no disclosure names it (node_basis_daily, x_class). Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "Energy",
+     "tip": "HB_HUBAVG's day-ahead price over its last twelve whole months, under the profile's rule, plus the node's mean daily day-ahead basis: USD per MWh. Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "Basis to HB_HUBAVG",
+     "tip": "The node's mean daily day-ahead price less HB_HUBAVG's, over the hub's twelve months, weighted by the days held (node_basis_daily): USD per MWh. Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "Basis spread (down)",
+     "tip": "The node's 90th percentile daily day-ahead basis to HB_HUBAVG less its 10th, over the node file's twelve whole months (node_basis_daily; the two percentiles are in the node's panel): USD per MWh. The wider, the more its basis moves day to day. Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "All-in",
+     "tip": "Energy plus the four-peak charge (paid on the hub's hours, the same at every node: above the table) plus capacity, none in ERCOT: USD per MWh. Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "Days held",
+     "tip": "Days of day-ahead basis held over the hub's twelve months, of the days in them; under 90 percent, no twelve-month figure. Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "not held",
+     "tip": "node_basis_daily holds 264 of the 365 days from 2025-10 to 2026-09 for this node, fewer than 90 percent: no twelve-month figure."
+    }
+   ],
+   "nChecks": 124,
+   "sortLine": "Sorted by basis spread, largest first; a node with no figure last. Click a heading to sort by it, again to turn it round.",
+   "headline": "Choose A and B under \"A and B, side by side\" in the box to set two rows beside each other, or open a node's panel (its name in the list) and set it as A or B; A sets this line.",
+   "abPanel": null,
+   "shared": "Every node below is in ERCOT, and shares these, drawn once: the four-peak charge, paid on HB_HUBAVG's hours, USD 7.83This load's charge: it ran in 4 of the four intervals of 2025, at the Commission's 2025 rate. per MWh for this load (firm 7.83On in all four intervals., off at the peaks 0.00Off in the four intervals' hours, computed from its weights.); no capacity market (whyERCOT is an energy-only market: it has no capacity market and no capacity charge.); generators took a median of 45.80From queue entry to operation, 227 requests online from 2023 to 2025 (interconnection_durations, from Berkeley Lab's queue file: the column's figure). months to connect; demand grew +5.41ERCOT's mean demand (EIA-930, ERCO), October 2025 to September 2026, over the twelve months before. percent on the year; carbon 332.87eGRID subregion ERCT, 2023: the plants' CO2 over their net generation. kg CO2 per MWh.Not held for any node: its load zone, its settlement hub and its wires utility (TSP). node_basis_daily sets every node against HB_HUBAVG and names no zone or utility; not heldERCOT publishes each settlement point's zone and hub in its settlement point mapping, and each node's TSP in its resource registration; neither is a table of the warehouse yet (docs/reviews/siting-gaps.md)..",
+   "panel": null,
+   "selects": [
+    {
+     "k": "a",
+     "value": "",
+     "chosen": "none",
+     "n": 49
+    },
+    {
+     "k": "b",
+     "value": "",
+     "chosen": "none",
+     "n": 49
+    }
+   ],
+   "rows": [
+    {
+     "id": "ercot:RUSSEKST_RN",
+     "text": "RUSSEKST_RNstorage52.3118.0157.5560.14335 of 365"
+    },
+    {
+     "id": "ercot:OLNEYTN_AGR1",
+     "text": "OLNEYTN_AGR1other42.978.6657.1150.79332 of 365"
+    },
+    {
+     "id": "ercot:OLNEYTN_RN",
+     "text": "OLNEYTN_RNstorage42.858.5555.7450.68335 of 365"
+    },
+    {
+     "id": "ercot:APPALOSA_ALL",
+     "text": "APPALOSA_ALLwind43.228.9247.1451.05335 of 365"
+    },
+    {
+     "id": "ercot:JUNCTION_RN",
+     "text": "JUNCTION_RNstorage50.3216.0245.2458.15335 of 365"
+    },
+    {
+     "id": "ercot:JUNORTH_RN",
+     "text": "JUNORTH_RNstorage50.2815.9845.1258.10335 of 365"
+    }
+   ],
+   "nodeIds": [
+    "ercot:RUSSEKST_RN",
+    "ercot:OLNEYTN_AGR1",
+    "ercot:OLNEYTN_RN"
+   ],
+   "heads": [
+    "node",
+    "cls",
+    "energy",
+    "basis",
+    "spread",
+    "allin",
+    "days"
+   ],
+   "scrollW": 390,
+   "clientW": 390,
+   "totalH": 2137,
+   "shot": "06b-nodes-spread-widest_390.png"
+  },
+  {
+   "step": "07-nodes-basis-lowest",
+   "width": 390,
+   "does": "Basis twice (step 7): the status line",
+   "act": true,
+   "then": true,
+   "url": "/cost-of-power?view=allgrids&rows=nodes&sort=energy&dir=asc&grid=ercot&nsort=basis&ndir=asc",
+   "found": true,
+   "errorText": "",
+   "checksInView": [
+    {
+     "k": "allgrids|energy|ercot:BBREEZE_1_2|da",
+     "raw": "23.83399205547606",
+     "text": "23.83"
+    },
+    {
+     "k": "allgrids|basis|ercot:BBREEZE_1_2",
+     "raw": "-10.468063880597015",
+     "text": "-10.47"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:BBREEZE_1_2",
+     "raw": "27.1156",
+     "text": "27.12"
+    },
+    {
+     "k": "allgrids|allin|ercot:BBREEZE_1_2|profile=datacenter&lf=0.9&strike=row",
+     "raw": "31.659026416206654",
+     "text": "31.66"
+    },
+    {
+     "k": "allgrids|energy|ercot:ELSAUZ_ALL|da",
+     "raw": "23.8340013092074",
+     "text": "23.83"
+    },
+    {
+     "k": "allgrids|basis|ercot:ELSAUZ_ALL",
+     "raw": "-10.468054626865671",
+     "text": "-10.47"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:ELSAUZ_ALL",
+     "raw": "27.1156",
+     "text": "27.12"
+    },
+    {
+     "k": "allgrids|allin|ercot:ELSAUZ_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "31.659035669937996",
+     "text": "31.66"
+    },
+    {
+     "k": "allgrids|energy|ercot:PENA_ALL|da",
+     "raw": "24.9024741450283",
+     "text": "24.90"
+    },
+    {
+     "k": "allgrids|basis|ercot:PENA_ALL",
+     "raw": "-9.399581791044774",
+     "text": "-9.40"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:PENA_ALL",
+     "raw": "24.625400000000003",
+     "text": "24.63"
+    },
+    {
+     "k": "allgrids|allin|ercot:PENA_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "32.72750850575889",
+     "text": "32.73"
+    },
+    {
+     "k": "allgrids|energy|ercot:TGW_T1_T2|da",
+     "raw": "24.9024741450283",
+     "text": "24.90"
+    },
+    {
+     "k": "allgrids|basis|ercot:TGW_T1_T2",
+     "raw": "-9.399581791044774",
+     "text": "-9.40"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:TGW_T1_T2",
+     "raw": "24.625400000000003",
+     "text": "24.63"
+    },
+    {
+     "k": "allgrids|allin|ercot:TGW_T1_T2|profile=datacenter&lf=0.9&strike=row",
+     "raw": "32.72750850575889",
+     "text": "32.73"
+    },
+    {
+     "k": "allgrids|energy|ercot:STELLA_RN|da",
+     "raw": "24.902492353983522",
+     "text": "24.90"
+    },
+    {
+     "k": "allgrids|basis|ercot:STELLA_RN",
+     "raw": "-9.399563582089552",
+     "text": "-9.40"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:STELLA_RN",
+     "raw": "24.6261",
+     "text": "24.63"
+    },
+    {
+     "k": "allgrids|allin|ercot:STELLA_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "32.72752671471412",
+     "text": "32.73"
+    },
+    {
+     "k": "allgrids|energy|ercot:CORAZON_RN|da",
+     "raw": "25.52216817487904",
+     "text": "25.52"
+    },
+    {
+     "k": "allgrids|basis|ercot:CORAZON_RN",
+     "raw": "-8.779887761194031",
+     "text": "-8.78"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:CORAZON_RN",
+     "raw": "23.8",
+     "text": "23.80"
+    },
+    {
+     "k": "allgrids|allin|ercot:CORAZON_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "33.34720253560964",
+     "text": "33.35"
+    },
+    {
+     "k": "allgrids|energy|ercot:TORR_ALL|da",
+     "raw": "25.52270847338651",
+     "text": "25.52"
+    },
+    {
+     "k": "allgrids|basis|ercot:TORR_ALL",
+     "raw": "-8.779347462686568",
+     "text": "-8.78"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:TORR_ALL",
+     "raw": "23.8",
+     "text": "23.80"
+    },
+    {
+     "k": "allgrids|allin|ercot:TORR_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "33.3477428341171",
+     "text": "33.35"
+    },
+    {
+     "k": "allgrids|energy|ercot:OUTP_SLR_RN|da",
+     "raw": "25.602349667416355",
+     "text": "25.60"
+    },
+    {
+     "k": "allgrids|basis|ercot:OUTP_SLR_RN",
+     "raw": "-8.699706268656717",
+     "text": "-8.70"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:OUTP_SLR_RN",
+     "raw": "23.5389",
+     "text": "23.54"
+    },
+    {
+     "k": "allgrids|allin|ercot:OUTP_SLR_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "33.427384028146946",
+     "text": "33.43"
+    },
+    {
+     "k": "allgrids|energy|ercot:BORDAS_345|da",
+     "raw": "25.846266980849194",
+     "text": "25.85"
+    },
+    {
+     "k": "allgrids|basis|ercot:BORDAS_345",
+     "raw": "-8.455788955223879",
+     "text": "-8.46"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:BORDAS_345",
+     "raw": "23.1609",
+     "text": "23.16"
+    },
+    {
+     "k": "allgrids|allin|ercot:BORDAS_345|profile=datacenter&lf=0.9&strike=row",
+     "raw": "33.67130134157979",
+     "text": "33.67"
+    },
+    {
+     "k": "allgrids|energy|ercot:HART_WND_RN|da",
+     "raw": "26.007806383834268",
+     "text": "26.01"
+    },
+    {
+     "k": "allgrids|basis|ercot:HART_WND_RN",
+     "raw": "-8.294249552238806",
+     "text": "-8.29"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:HART_WND_RN",
+     "raw": "18.1554",
+     "text": "18.16"
+    },
+    {
+     "k": "allgrids|allin|ercot:HART_WND_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "33.83284074456486",
+     "text": "33.83"
+    },
+    {
+     "k": "allgrids|energy|ercot:RELOJ_ALL|da",
+     "raw": "26.2101613092074",
+     "text": "26.21"
+    },
+    {
+     "k": "allgrids|basis|ercot:RELOJ_ALL",
+     "raw": "-8.091894626865674",
+     "text": "-8.09"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:RELOJ_ALL",
+     "raw": "22.3362",
+     "text": "22.34"
+    },
+    {
+     "k": "allgrids|allin|ercot:RELOJ_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.03519566993799",
+     "text": "34.04"
+    },
+    {
+     "k": "allgrids|energy|ercot:HRNT_SLR_RN|da",
+     "raw": "26.270892950998448",
+     "text": "26.27"
+    },
+    {
+     "k": "allgrids|basis|ercot:HRNT_SLR_RN",
+     "raw": "-8.031162985074626",
+     "text": "-8.03"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:HRNT_SLR_RN",
+     "raw": "17.5765",
+     "text": "17.58"
+    },
+    {
+     "k": "allgrids|allin|ercot:HRNT_SLR_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.09592731172904",
+     "text": "34.10"
+    },
+    {
+     "k": "allgrids|energy|ercot:ASTRA_RN|da",
+     "raw": "26.290181906222326",
+     "text": "26.29"
+    },
+    {
+     "k": "allgrids|basis|ercot:ASTRA_RN",
+     "raw": "-8.011874029850748",
+     "text": "-8.01"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:ASTRA_RN",
+     "raw": "17.544",
+     "text": "17.54"
+    },
+    {
+     "k": "allgrids|allin|ercot:ASTRA_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.11521626695292",
+     "text": "34.12"
+    },
+    {
+     "k": "allgrids|energy|ercot:HRFDWIND_ALL|da",
+     "raw": "26.290181906222326",
+     "text": "26.29"
+    },
+    {
+     "k": "allgrids|basis|ercot:HRFDWIND_ALL",
+     "raw": "-8.011874029850748",
+     "text": "-8.01"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:HRFDWIND_ALL",
+     "raw": "17.544",
+     "text": "17.54"
+    },
+    {
+     "k": "allgrids|allin|ercot:HRFDWIND_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.11521626695292",
+     "text": "34.12"
+    },
+    {
+     "k": "allgrids|energy|ercot:MARIAH_ALL|da",
+     "raw": "26.290181906222326",
+     "text": "26.29"
+    },
+    {
+     "k": "allgrids|basis|ercot:MARIAH_ALL",
+     "raw": "-8.011874029850748",
+     "text": "-8.01"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:MARIAH_ALL",
+     "raw": "17.544",
+     "text": "17.54"
+    },
+    {
+     "k": "allgrids|allin|ercot:MARIAH_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.11521626695292",
+     "text": "34.12"
+    },
+    {
+     "k": "allgrids|energy|ercot:CEDROHI_CHW1|da",
+     "raw": "26.328834742043224",
+     "text": "26.33"
+    },
+    {
+     "k": "allgrids|basis|ercot:CEDROHI_CHW1",
+     "raw": "-7.97322119402985",
+     "text": "-7.97"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:CEDROHI_CHW1",
+     "raw": "23.1932",
+     "text": "23.19"
+    },
+    {
+     "k": "allgrids|allin|ercot:CEDROHI_CHW1|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.15386910277382",
+     "text": "34.15"
+    },
+    {
+     "k": "allgrids|energy|ercot:EXGNWTL_1|da",
+     "raw": "26.328856533088",
+     "text": "26.33"
+    },
+    {
+     "k": "allgrids|basis|ercot:EXGNWTL_1",
+     "raw": "-7.973199402985073",
+     "text": "-7.97"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:EXGNWTL_1",
+     "raw": "23.1932",
+     "text": "23.19"
+    },
+    {
+     "k": "allgrids|allin|ercot:EXGNWTL_1|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.1538908938186",
+     "text": "34.15"
+    },
+    {
+     "k": "allgrids|energy|ercot:PALE_ESS_EN|da",
+     "raw": "26.414599049845528",
+     "text": "26.41"
+    },
+    {
+     "k": "allgrids|basis|ercot:PALE_ESS_EN",
+     "raw": "-7.887456886227546",
+     "text": "-7.89"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:PALE_ESS_EN",
+     "raw": "16.375500000000002",
+     "text": "16.38"
+    },
+    {
+     "k": "allgrids|allin|ercot:PALE_ESS_EN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.23963341057612",
+     "text": "34.24"
+    },
+    {
+     "k": "allgrids|energy|ercot:COTPLNS_RN|da",
+     "raw": "26.41581205547606",
+     "text": "26.42"
+    },
+    {
+     "k": "allgrids|basis|ercot:COTPLNS_RN",
+     "raw": "-7.886243880597015",
+     "text": "-7.89"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:COTPLNS_RN",
+     "raw": "17.5546",
+     "text": "17.55"
+    },
+    {
+     "k": "allgrids|allin|ercot:COTPLNS_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.24084641620665",
+     "text": "34.24"
+    },
+    {
+     "k": "allgrids|energy|ercot:SPLAIN2_RN|da",
+     "raw": "26.41581205547606",
+     "text": "26.42"
+    },
+    {
+     "k": "allgrids|basis|ercot:SPLAIN2_RN",
+     "raw": "-7.886243880597015",
+     "text": "-7.89"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:SPLAIN2_RN",
+     "raw": "17.5546",
+     "text": "17.55"
+    },
+    {
+     "k": "allgrids|allin|ercot:SPLAIN2_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.24084641620665",
+     "text": "34.24"
+    },
+    {
+     "k": "allgrids|energy|ercot:AEEC|da",
+     "raw": "26.416552652490985",
+     "text": "26.42"
+    },
+    {
+     "k": "allgrids|basis|ercot:AEEC",
+     "raw": "-7.885503283582089",
+     "text": "-7.89"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:AEEC",
+     "raw": "16.3976",
+     "text": "16.40"
+    },
+    {
+     "k": "allgrids|allin|ercot:AEEC|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.241587013221576",
+     "text": "34.24"
+    },
+    {
+     "k": "allgrids|energy|ercot:CN_BRKS_UNT1|da",
+     "raw": "26.441252950998447",
+     "text": "26.44"
+    },
+    {
+     "k": "allgrids|basis|ercot:CN_BRKS_UNT1",
+     "raw": "-7.860802985074628",
+     "text": "-7.86"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:CN_BRKS_UNT1",
+     "raw": "17.4872",
+     "text": "17.49"
+    },
+    {
+     "k": "allgrids|allin|ercot:CN_BRKS_UNT1|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.266287311729045",
+     "text": "34.27"
+    }
+   ],
+   "tipsInView": [
+    {
+     "on": "Node",
+     "tip": "The settlement point's name, as ERCOT gives it. Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "Class",
+     "tip": "What ERCOT's disclosures say is settled at the node: storage, solar, wind, gas, other, mixed; unknown where no disclosure names it (node_basis_daily, x_class). Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "Energy",
+     "tip": "HB_HUBAVG's day-ahead price over its last twelve whole months, under the profile's rule, plus the node's mean daily day-ahead basis: USD per MWh. Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "Basis to HB_HUBAVG (up)",
+     "tip": "The node's mean daily day-ahead price less HB_HUBAVG's, over the hub's twelve months, weighted by the days held (node_basis_daily): USD per MWh. Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "Basis spread",
+     "tip": "The node's 90th percentile daily day-ahead basis to HB_HUBAVG less its 10th, over the node file's twelve whole months (node_basis_daily; the two percentiles are in the node's panel): USD per MWh. The wider, the more its basis moves day to day. Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "All-in",
+     "tip": "Energy plus the four-peak charge (paid on the hub's hours, the same at every node: above the table) plus capacity, none in ERCOT: USD per MWh. Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "Days held",
+     "tip": "Days of day-ahead basis held over the hub's twelve months, of the days in them; under 90 percent, no twelve-month figure. Press to sort by it; again to turn it round."
+    }
+   ],
+   "nChecks": 127,
+   "sortLine": "Sorted by basis to HB_HUBAVG, smallest first; a node with no figure last. Click a heading to sort by it, again to turn it round.",
+   "headline": "Choose A and B under \"A and B, side by side\" in the box to set two rows beside each other, or open a node's panel (its name in the list) and set it as A or B; A sets this line.",
+   "abPanel": null,
+   "shared": "Every node below is in ERCOT, and shares these, drawn once: the four-peak charge, paid on HB_HUBAVG's hours, USD 7.83This load's charge: it ran in 4 of the four intervals of 2025, at the Commission's 2025 rate. per MWh for this load (firm 7.83On in all four intervals., off at the peaks 0.00Off in the four intervals' hours, computed from its weights.); no capacity market (whyERCOT is an energy-only market: it has no capacity market and no capacity charge.); generators took a median of 45.80From queue entry to operation, 227 requests online from 2023 to 2025 (interconnection_durations, from Berkeley Lab's queue file: the column's figure). months to connect; demand grew +5.41ERCOT's mean demand (EIA-930, ERCO), October 2025 to September 2026, over the twelve months before. percent on the year; carbon 332.87eGRID subregion ERCT, 2023: the plants' CO2 over their net generation. kg CO2 per MWh.Not held for any node: its load zone, its settlement hub and its wires utility (TSP). node_basis_daily sets every node against HB_HUBAVG and names no zone or utility; not heldERCOT publishes each settlement point's zone and hub in its settlement point mapping, and each node's TSP in its resource registration; neither is a table of the warehouse yet (docs/reviews/siting-gaps.md)..",
+   "panel": null,
+   "selects": [
+    {
+     "k": "a",
+     "value": "",
+     "chosen": "none",
+     "n": 49
+    },
+    {
+     "k": "b",
+     "value": "",
+     "chosen": "none",
+     "n": 49
+    }
+   ],
+   "rows": [
+    {
+     "id": "ercot:BBREEZE_1_2",
+     "text": "BBREEZE_1_2wind23.83-10.4727.1231.66335 of 365"
+    },
+    {
+     "id": "ercot:ELSAUZ_ALL",
+     "text": "ELSAUZ_ALLwind23.83-10.4727.1231.66335 of 365"
+    },
+    {
+     "id": "ercot:PENA_ALL",
+     "text": "PENA_ALLwind24.90-9.4024.6332.73335 of 365"
+    },
+    {
+     "id": "ercot:TGW_T1_T2",
+     "text": "TGW_T1_T2wind24.90-9.4024.6332.73335 of 365"
+    },
+    {
+     "id": "ercot:STELLA_RN",
+     "text": "STELLA_RNwind24.90-9.4024.6332.73335 of 365"
+    },
+    {
+     "id": "ercot:CORAZON_RN",
+     "text": "CORAZON_RNmixed25.52-8.7823.8033.35335 of 365"
+    }
+   ],
+   "nodeIds": [
+    "ercot:BBREEZE_1_2",
+    "ercot:ELSAUZ_ALL",
+    "ercot:PENA_ALL"
+   ],
+   "heads": [
+    "node",
+    "cls",
+    "energy",
+    "basis",
+    "spread",
+    "allin",
+    "days"
+   ],
+   "scrollW": 390,
+   "clientW": 390,
+   "totalH": 2137,
+   "shot": "07-nodes-basis-lowest_390.png"
+  },
+  {
+   "step": "08-node-panel",
+   "width": 390,
+   "does": "the first node's panel (step 8)",
+   "act": true,
+   "url": "/cost-of-power?view=allgrids&rows=nodes&sort=energy&dir=asc&grid=ercot&nsort=basis&ndir=asc&node=ercot%3ABBREEZE_1_2",
+   "found": true,
+   "errorText": "",
+   "checksInView": [
+    {
+     "k": "allgrids|nodepct|ercot:BBREEZE_1_2|10",
+     "raw": "-23.8339",
+     "text": "-23.83"
+    },
+    {
+     "k": "allgrids|nodepct|ercot:BBREEZE_1_2|50",
+     "raw": "-6.0229",
+     "text": "-6.02"
+    },
+    {
+     "k": "allgrids|nodepct|ercot:BBREEZE_1_2|90",
+     "raw": "3.2817",
+     "text": "3.28"
+    },
+    {
+     "k": "allgrids|energy|ercot:BBREEZE_1_2|da",
+     "raw": "23.83399205547606",
+     "text": "23.83"
+    },
+    {
+     "k": "allgrids|basis|ercot:BBREEZE_1_2",
+     "raw": "-10.468063880597015",
+     "text": "-10.47"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:BBREEZE_1_2",
+     "raw": "27.1156",
+     "text": "27.12"
+    },
+    {
+     "k": "allgrids|allin|ercot:BBREEZE_1_2|profile=datacenter&lf=0.9&strike=row",
+     "raw": "31.659026416206654",
+     "text": "31.66"
+    },
+    {
+     "k": "allgrids|energy|ercot:ELSAUZ_ALL|da",
+     "raw": "23.8340013092074",
+     "text": "23.83"
+    },
+    {
+     "k": "allgrids|basis|ercot:ELSAUZ_ALL",
+     "raw": "-10.468054626865671",
+     "text": "-10.47"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:ELSAUZ_ALL",
+     "raw": "27.1156",
+     "text": "27.12"
+    },
+    {
+     "k": "allgrids|allin|ercot:ELSAUZ_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "31.659035669937996",
+     "text": "31.66"
+    },
+    {
+     "k": "allgrids|energy|ercot:PENA_ALL|da",
+     "raw": "24.9024741450283",
+     "text": "24.90"
+    },
+    {
+     "k": "allgrids|basis|ercot:PENA_ALL",
+     "raw": "-9.399581791044774",
+     "text": "-9.40"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:PENA_ALL",
+     "raw": "24.625400000000003",
+     "text": "24.63"
+    },
+    {
+     "k": "allgrids|allin|ercot:PENA_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "32.72750850575889",
+     "text": "32.73"
+    },
+    {
+     "k": "allgrids|energy|ercot:TGW_T1_T2|da",
+     "raw": "24.9024741450283",
+     "text": "24.90"
+    },
+    {
+     "k": "allgrids|basis|ercot:TGW_T1_T2",
+     "raw": "-9.399581791044774",
+     "text": "-9.40"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:TGW_T1_T2",
+     "raw": "24.625400000000003",
+     "text": "24.63"
+    },
+    {
+     "k": "allgrids|allin|ercot:TGW_T1_T2|profile=datacenter&lf=0.9&strike=row",
+     "raw": "32.72750850575889",
+     "text": "32.73"
+    },
+    {
+     "k": "allgrids|energy|ercot:STELLA_RN|da",
+     "raw": "24.902492353983522",
+     "text": "24.90"
+    },
+    {
+     "k": "allgrids|basis|ercot:STELLA_RN",
+     "raw": "-9.399563582089552",
+     "text": "-9.40"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:STELLA_RN",
+     "raw": "24.6261",
+     "text": "24.63"
+    },
+    {
+     "k": "allgrids|allin|ercot:STELLA_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "32.72752671471412",
+     "text": "32.73"
+    },
+    {
+     "k": "allgrids|energy|ercot:CORAZON_RN|da",
+     "raw": "25.52216817487904",
+     "text": "25.52"
+    },
+    {
+     "k": "allgrids|basis|ercot:CORAZON_RN",
+     "raw": "-8.779887761194031",
+     "text": "-8.78"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:CORAZON_RN",
+     "raw": "23.8",
+     "text": "23.80"
+    },
+    {
+     "k": "allgrids|allin|ercot:CORAZON_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "33.34720253560964",
+     "text": "33.35"
+    },
+    {
+     "k": "allgrids|energy|ercot:TORR_ALL|da",
+     "raw": "25.52270847338651",
+     "text": "25.52"
+    },
+    {
+     "k": "allgrids|basis|ercot:TORR_ALL",
+     "raw": "-8.779347462686568",
+     "text": "-8.78"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:TORR_ALL",
+     "raw": "23.8",
+     "text": "23.80"
+    },
+    {
+     "k": "allgrids|allin|ercot:TORR_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "33.3477428341171",
+     "text": "33.35"
+    }
+   ],
+   "tipsInView": [
+    {
+     "on": "not held",
+     "tip": "node_basis_daily begins on 1 October 2025, after the summer; and it holds days, not the 15-minute intervals."
+    },
+    {
+     "on": "not held",
+     "tip": "No table of the warehouse places an ERCOT settlement point in a county; ERCOT's resource registration does, and is not pulled (docs/reviews/siting-gaps.md)."
+    },
+    {
+     "on": "not held",
+     "tip": "texas_transmission_matrix holds each wires utility's transmission cost of service and four-peak charge, not projects by county, and it is internal; no table of projects by county is held."
+    },
+    {
+     "on": "Node",
+     "tip": "The settlement point's name, as ERCOT gives it. Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "Class",
+     "tip": "What ERCOT's disclosures say is settled at the node: storage, solar, wind, gas, other, mixed; unknown where no disclosure names it (node_basis_daily, x_class). Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "Energy",
+     "tip": "HB_HUBAVG's day-ahead price over its last twelve whole months, under the profile's rule, plus the node's mean daily day-ahead basis: USD per MWh. Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "Basis to HB_HUBAVG (up)",
+     "tip": "The node's mean daily day-ahead price less HB_HUBAVG's, over the hub's twelve months, weighted by the days held (node_basis_daily): USD per MWh. Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "Basis spread",
+     "tip": "The node's 90th percentile daily day-ahead basis to HB_HUBAVG less its 10th, over the node file's twelve whole months (node_basis_daily; the two percentiles are in the node's panel): USD per MWh. The wider, the more its basis moves day to day. Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "All-in",
+     "tip": "Energy plus the four-peak charge (paid on the hub's hours, the same at every node: above the table) plus capacity, none in ERCOT: USD per MWh. Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "Days held",
+     "tip": "Days of day-ahead basis held over the hub's twelve months, of the days in them; under 90 percent, no twelve-month figure. Press to sort by it; again to turn it round."
+    }
+   ],
+   "nChecks": 130,
+   "sortLine": "Sorted by basis to HB_HUBAVG, smallest first; a node with no figure last. Click a heading to sort by it, again to turn it round.",
+   "headline": "Choose A and B under \"A and B, side by side\" in the box to set two rows beside each other, or open a node's panel (its name in the list) and set it as A or B; A sets this line.",
+   "abPanel": null,
+   "shared": "Every node below is in ERCOT, and shares these, drawn once: the four-peak charge, paid on HB_HUBAVG's hours, USD 7.83This load's charge: it ran in 4 of the four intervals of 2025, at the Commission's 2025 rate. per MWh for this load (firm 7.83On in all four intervals., off at the peaks 0.00Off in the four intervals' hours, computed from its weights.); no capacity market (whyERCOT is an energy-only market: it has no capacity market and no capacity charge.); generators took a median of 45.80From queue entry to operation, 227 requests online from 2023 to 2025 (interconnection_durations, from Berkeley Lab's queue file: the column's figure). months to connect; demand grew +5.41ERCOT's mean demand (EIA-930, ERCO), October 2025 to September 2026, over the twelve months before. percent on the year; carbon 332.87eGRID subregion ERCT, 2023: the plants' CO2 over their net generation. kg CO2 per MWh.Not held for any node: its load zone, its settlement hub and its wires utility (TSP). node_basis_daily sets every node against HB_HUBAVG and names no zone or utility; not heldERCOT publishes each settlement point's zone and hub in its settlement point mapping, and each node's TSP in its resource registration; neither is a table of the warehouse yet (docs/reviews/siting-gaps.md)..",
+   "panel": "BBREEZE_1_2 (wind, ERCOT's resource types WIND) CloseSet as A Set as B: the headline and the A and B panel above the list take this node.Its daily day-ahead basis to HB_HUBAVG, 2025-10 to 2026-09 (335 days held, node_basis_daily): one day in ten at or below USD -23.83, half at or below -6.02, nine in ten at or below 3.28 per MWh.Each month's mean daily basis, USD per MWh, 2025-10 to 2026-10:BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2025-10-01 -2.96 to 2026-10-01 -4.66BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2025-10-01 -2.96BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2025-11-01 -12.80BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2025-12-01 -4.38BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2026-01-01 -32.96BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2026-02-01 -8.69BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2026-03-01 -12.36BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2026-04-01 -10.16BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2026-05-01 -4.88BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2026-06-01 -5.77BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2026-07-01 -11.19BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2026-08-01 -10.65BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2026-09-01 -5.25BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2026-10-01 -4.66Four peaks: as every node, the charge on HB_HUBAVG's hours, above the list. Its own price in the four intervals of summer 2025 is not heldnode_basis_daily begins on 1 October 2025, after the summer; and it holds days, not the 15-minute intervals..Its county, and so the planned generation near it (eia860m_planned_generators, by county): not heldNo table of the warehouse places an ERCOT settlement point in a county; ERCOT's resource registration does, and is not pulled (docs/reviews/siting-gaps.md)..Transmission projects in its county: not heldtexas_transmission_matrix holds each wires utility's transmission cost of service and four-peak charge, not projects by county, and it is internal; no table of projects by county is held..",
+   "selects": [
+    {
+     "k": "a",
+     "value": "",
+     "chosen": "none",
+     "n": 49
+    },
+    {
+     "k": "b",
+     "value": "",
+     "chosen": "none",
+     "n": 49
+    }
+   ],
+   "rows": [
+    {
+     "id": "ercot:BBREEZE_1_2",
+     "text": "BBREEZE_1_2wind23.83-10.4727.1231.66335 of 365"
+    },
+    {
+     "id": "ercot:ELSAUZ_ALL",
+     "text": "ELSAUZ_ALLwind23.83-10.4727.1231.66335 of 365"
+    },
+    {
+     "id": "ercot:PENA_ALL",
+     "text": "PENA_ALLwind24.90-9.4024.6332.73335 of 365"
+    },
+    {
+     "id": "ercot:TGW_T1_T2",
+     "text": "TGW_T1_T2wind24.90-9.4024.6332.73335 of 365"
+    },
+    {
+     "id": "ercot:STELLA_RN",
+     "text": "STELLA_RNwind24.90-9.4024.6332.73335 of 365"
+    },
+    {
+     "id": "ercot:CORAZON_RN",
+     "text": "CORAZON_RNmixed25.52-8.7823.8033.35335 of 365"
+    }
+   ],
+   "nodeIds": [
+    "ercot:BBREEZE_1_2",
+    "ercot:ELSAUZ_ALL",
+    "ercot:PENA_ALL"
+   ],
+   "heads": [
+    "node",
+    "cls",
+    "energy",
+    "basis",
+    "spread",
+    "allin",
+    "days"
+   ],
+   "scrollW": 390,
+   "clientW": 390,
+   "totalH": 2624,
+   "shot": "08-node-panel_390.png"
+  },
+  {
+   "step": "08b-set-as-a",
+   "width": 390,
+   "does": "clicks Set as A in the panel: the headline above the list",
+   "act": true,
+   "url": "/cost-of-power?view=allgrids&rows=nodes&sort=energy&dir=asc&grid=ercot&nsort=basis&ndir=asc&node=ercot%3ABBREEZE_1_2&a=ercot%3ABBREEZE_1_2",
+   "found": true,
+   "errorText": "",
+   "checksInView": [
+    {
+     "k": "allgrids|allin|ercot:BBREEZE_1_2|profile=datacenter&lf=0.9&strike=row",
+     "raw": "31.659026416206654",
+     "text": "31.66"
+    },
+    {
+     "k": "allgrids|year|ercot:BBREEZE_1_2|profile=datacenter&lf=0.9&strike=row&mw=100",
+     "raw": "24959976.426537327",
+     "text": "24,959,976"
+    },
+    {
+     "k": "allgrids|connect|ercot:BBREEZE_1_2",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|col|energy|ercot:BBREEZE_1_2|profile=datacenter&lf=0.9&strike=row",
+     "raw": "23.83399205547606",
+     "text": "23.83"
+    },
+    {
+     "k": "allgrids|col|transmission|ercot:BBREEZE_1_2|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|col|capacity|ercot:BBREEZE_1_2|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|col|connect|ercot:BBREEZE_1_2|profile=datacenter&lf=0.9&strike=row",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|col|headroom|ercot:BBREEZE_1_2|profile=datacenter&lf=0.9&strike=row",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|col|carbon|ercot:BBREEZE_1_2|profile=datacenter&lf=0.9&strike=row",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|col|allin|ercot:BBREEZE_1_2|profile=datacenter&lf=0.9&strike=row",
+     "raw": "31.659026416206654",
+     "text": "31.66"
+    },
+    {
+     "k": "allgrids|year|ercot:BBREEZE_1_2|profile=datacenter&lf=0.9&strike=row&mw=100",
+     "raw": "24959976.426537327",
+     "text": "24,959,976"
+    },
+    {
+     "k": "allgrids|mwh|ercot:BBREEZE_1_2|profile=datacenter&lf=0.9&strike=row&mw=100",
+     "raw": "788400",
+     "text": "788,400"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HUBAVG|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HUBAVG|firm|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HUBAVG|curtailing|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|connect|ercot:HB_HUBAVG",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|demand|ercot:HB_HUBAVG",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|carbon|ercot:HB_HUBAVG",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    }
+   ],
+   "tipsInView": [
+    {
+     "on": "",
+     "tip": "Default 0.90, set by the profilei0.90, flat in every hour: the owner's chain prompt of 22 October 2026 (queue/done/050-night-23-october-code-allgrids.md)"
+    },
+    {
+     "on": "i",
+     "tip": "0.90, flat in every hour: the owner's chain prompt of 22 October 2026 (queue/done/050-night-23-october-code-allgrids.md)"
+    },
+    {
+     "on": "not held",
+     "tip": "Not held for this row, or held under a license and drawn in its column as such: see the row in the table."
+    },
+    {
+     "on": "7.83",
+     "tip": "This load's charge: it ran in 4 of the four intervals of 2025, at the Commission's 2025 rate."
+    },
+    {
+     "on": "7.83",
+     "tip": "On in all four intervals."
+    },
+    {
+     "on": "0.00",
+     "tip": "Off in the four intervals' hours, computed from its weights."
+    },
+    {
+     "on": "why",
+     "tip": "ERCOT is an energy-only market: it has no capacity market and no capacity charge."
+    },
+    {
+     "on": "45.80",
+     "tip": "From queue entry to operation, 227 requests online from 2023 to 2025 (interconnection_durations, from Berkeley Lab's queue file: the column's figure)."
+    },
+    {
+     "on": "5.41",
+     "tip": "ERCOT's mean demand (EIA-930, ERCO), October 2025 to September 2026, over the twelve months before."
+    },
+    {
+     "on": "332.87",
+     "tip": "eGRID subregion ERCT, 2023: the plants' CO2 over their net generation."
+    }
+   ],
+   "nChecks": 142,
+   "sortLine": "Sorted by basis to HB_HUBAVG, smallest first; a node with no figure last. Click a heading to sort by it, again to turn it round.",
+   "headline": "A datacenter load of 100 MW at ERCOT BBREEZE_1_2 pays USD 31.66 per MWh all-in, USD 24,959,976 a year; generators there took a median of 45.80 months to connect.",
+   "abPanel": "A and B, side by sideUSD per MWh unless saidA: ERCOT BBREEZE_1_2B: none chosenB less AEnergy 23.83Transmission and 4CP 7.83Capacity 0.00Time to connect months45.80Headroom percent; MW5.41Carbon kg CO2 per MWh332.87Utility not heldNot held for this row, or held under a license and drawn in its column as such: see the row in the table.All-in 31.66A year all-in, USD, 100 MW24,959,976Energy used a year, MWh788,400Each figure is the row's own in the table below, under the same load. Months to connect are the grid's generators' (the column \"Time to connect\"). The year all-in is the all-in figure times the energy the load uses in a year: its draw while running times the hours it runs.",
+   "shared": "Every node below is in ERCOT, and shares these, drawn once: the four-peak charge, paid on HB_HUBAVG's hours, USD 7.83This load's charge: it ran in 4 of the four intervals of 2025, at the Commission's 2025 rate. per MWh for this load (firm 7.83On in all four intervals., off at the peaks 0.00Off in the four intervals' hours, computed from its weights.); no capacity market (whyERCOT is an energy-only market: it has no capacity market and no capacity charge.); generators took a median of 45.80From queue entry to operation, 227 requests online from 2023 to 2025 (interconnection_durations, from Berkeley Lab's queue file: the column's figure). months to connect; demand grew +5.41ERCOT's mean demand (EIA-930, ERCO), October 2025 to September 2026, over the twelve months before. percent on the year; carbon 332.87eGRID subregion ERCT, 2023: the plants' CO2 over their net generation. kg CO2 per MWh.Not held for any node: its load zone, its settlement hub and its wires utility (TSP). node_basis_daily sets every node against HB_HUBAVG and names no zone or utility; not heldERCOT publishes each settlement point's zone and hub in its settlement point mapping, and each node's TSP in its resource registration; neither is a table of the warehouse yet (docs/reviews/siting-gaps.md)..",
+   "panel": "BBREEZE_1_2 (wind, ERCOT's resource types WIND) CloseSet as A Set as B: the headline and the A and B panel above the list take this node.Its daily day-ahead basis to HB_HUBAVG, 2025-10 to 2026-09 (335 days held, node_basis_daily): one day in ten at or below USD -23.83, half at or below -6.02, nine in ten at or below 3.28 per MWh.Each month's mean daily basis, USD per MWh, 2025-10 to 2026-10:BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2025-10-01 -2.96 to 2026-10-01 -4.66BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2025-10-01 -2.96BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2025-11-01 -12.80BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2025-12-01 -4.38BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2026-01-01 -32.96BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2026-02-01 -8.69BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2026-03-01 -12.36BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2026-04-01 -10.16BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2026-05-01 -4.88BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2026-06-01 -5.77BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2026-07-01 -11.19BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2026-08-01 -10.65BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2026-09-01 -5.25BBREEZE_1_2: mean daily day-ahead basis to HB_HUBAVG by month: 2026-10-01 -4.66Four peaks: as every node, the charge on HB_HUBAVG's hours, above the list. Its own price in the four intervals of summer 2025 is not heldnode_basis_daily begins on 1 October 2025, after the summer; and it holds days, not the 15-minute intervals..Its county, and so the planned generation near it (eia860m_planned_generators, by county): not heldNo table of the warehouse places an ERCOT settlement point in a county; ERCOT's resource registration does, and is not pulled (docs/reviews/siting-gaps.md)..Transmission projects in its county: not heldtexas_transmission_matrix holds each wires utility's transmission cost of service and four-peak charge, not projects by county, and it is internal; no table of projects by county is held..",
+   "selects": [
+    {
+     "k": "a",
+     "value": "ercot:BBREEZE_1_2",
+     "chosen": "ERCOT BBREEZE_1_2 (node)",
+     "n": 50
+    },
+    {
+     "k": "b",
+     "value": "",
+     "chosen": "none",
+     "n": 50
+    }
+   ],
+   "rows": [
+    {
+     "id": "ercot:BBREEZE_1_2",
+     "text": "BBREEZE_1_2wind23.83-10.4727.1231.66335 of 365"
+    },
+    {
+     "id": "ercot:ELSAUZ_ALL",
+     "text": "ELSAUZ_ALLwind23.83-10.4727.1231.66335 of 365"
+    },
+    {
+     "id": "ercot:PENA_ALL",
+     "text": "PENA_ALLwind24.90-9.4024.6332.73335 of 365"
+    },
+    {
+     "id": "ercot:TGW_T1_T2",
+     "text": "TGW_T1_T2wind24.90-9.4024.6332.73335 of 365"
+    },
+    {
+     "id": "ercot:STELLA_RN",
+     "text": "STELLA_RNwind24.90-9.4024.6332.73335 of 365"
+    },
+    {
+     "id": "ercot:CORAZON_RN",
+     "text": "CORAZON_RNmixed25.52-8.7823.8033.35335 of 365"
+    }
+   ],
+   "nodeIds": [
+    "ercot:BBREEZE_1_2",
+    "ercot:ELSAUZ_ALL",
+    "ercot:PENA_ALL"
+   ],
+   "heads": [
+    "node",
+    "cls",
+    "energy",
+    "basis",
+    "spread",
+    "allin",
+    "days"
+   ],
+   "scrollW": 390,
+   "clientW": 390,
+   "totalH": 3228,
+   "shot": "08b-set-as-a_390.png"
+  },
+  {
+   "step": "08c-close",
+   "width": 390,
+   "does": "clicks Close: the sort, the filter and A kept",
+   "act": true,
+   "url": "/cost-of-power?view=allgrids&rows=nodes&sort=energy&dir=asc&grid=ercot&nsort=basis&ndir=asc&a=ercot%3ABBREEZE_1_2",
+   "found": true,
+   "errorText": "",
+   "checksInView": [
+    {
+     "k": "allgrids|energy|ercot:BBREEZE_1_2|da",
+     "raw": "23.83399205547606",
+     "text": "23.83"
+    },
+    {
+     "k": "allgrids|basis|ercot:BBREEZE_1_2",
+     "raw": "-10.468063880597015",
+     "text": "-10.47"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:BBREEZE_1_2",
+     "raw": "27.1156",
+     "text": "27.12"
+    },
+    {
+     "k": "allgrids|allin|ercot:BBREEZE_1_2|profile=datacenter&lf=0.9&strike=row",
+     "raw": "31.659026416206654",
+     "text": "31.66"
+    },
+    {
+     "k": "allgrids|energy|ercot:ELSAUZ_ALL|da",
+     "raw": "23.8340013092074",
+     "text": "23.83"
+    },
+    {
+     "k": "allgrids|basis|ercot:ELSAUZ_ALL",
+     "raw": "-10.468054626865671",
+     "text": "-10.47"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:ELSAUZ_ALL",
+     "raw": "27.1156",
+     "text": "27.12"
+    },
+    {
+     "k": "allgrids|allin|ercot:ELSAUZ_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "31.659035669937996",
+     "text": "31.66"
+    },
+    {
+     "k": "allgrids|energy|ercot:PENA_ALL|da",
+     "raw": "24.9024741450283",
+     "text": "24.90"
+    },
+    {
+     "k": "allgrids|basis|ercot:PENA_ALL",
+     "raw": "-9.399581791044774",
+     "text": "-9.40"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:PENA_ALL",
+     "raw": "24.625400000000003",
+     "text": "24.63"
+    },
+    {
+     "k": "allgrids|allin|ercot:PENA_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "32.72750850575889",
+     "text": "32.73"
+    },
+    {
+     "k": "allgrids|energy|ercot:TGW_T1_T2|da",
+     "raw": "24.9024741450283",
+     "text": "24.90"
+    },
+    {
+     "k": "allgrids|basis|ercot:TGW_T1_T2",
+     "raw": "-9.399581791044774",
+     "text": "-9.40"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:TGW_T1_T2",
+     "raw": "24.625400000000003",
+     "text": "24.63"
+    },
+    {
+     "k": "allgrids|allin|ercot:TGW_T1_T2|profile=datacenter&lf=0.9&strike=row",
+     "raw": "32.72750850575889",
+     "text": "32.73"
+    },
+    {
+     "k": "allgrids|energy|ercot:STELLA_RN|da",
+     "raw": "24.902492353983522",
+     "text": "24.90"
+    },
+    {
+     "k": "allgrids|basis|ercot:STELLA_RN",
+     "raw": "-9.399563582089552",
+     "text": "-9.40"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:STELLA_RN",
+     "raw": "24.6261",
+     "text": "24.63"
+    },
+    {
+     "k": "allgrids|allin|ercot:STELLA_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "32.72752671471412",
+     "text": "32.73"
+    },
+    {
+     "k": "allgrids|energy|ercot:CORAZON_RN|da",
+     "raw": "25.52216817487904",
+     "text": "25.52"
+    },
+    {
+     "k": "allgrids|basis|ercot:CORAZON_RN",
+     "raw": "-8.779887761194031",
+     "text": "-8.78"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:CORAZON_RN",
+     "raw": "23.8",
+     "text": "23.80"
+    },
+    {
+     "k": "allgrids|allin|ercot:CORAZON_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "33.34720253560964",
+     "text": "33.35"
+    },
+    {
+     "k": "allgrids|energy|ercot:TORR_ALL|da",
+     "raw": "25.52270847338651",
+     "text": "25.52"
+    },
+    {
+     "k": "allgrids|basis|ercot:TORR_ALL",
+     "raw": "-8.779347462686568",
+     "text": "-8.78"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:TORR_ALL",
+     "raw": "23.8",
+     "text": "23.80"
+    },
+    {
+     "k": "allgrids|allin|ercot:TORR_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "33.3477428341171",
+     "text": "33.35"
+    },
+    {
+     "k": "allgrids|energy|ercot:OUTP_SLR_RN|da",
+     "raw": "25.602349667416355",
+     "text": "25.60"
+    },
+    {
+     "k": "allgrids|basis|ercot:OUTP_SLR_RN",
+     "raw": "-8.699706268656717",
+     "text": "-8.70"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:OUTP_SLR_RN",
+     "raw": "23.5389",
+     "text": "23.54"
+    },
+    {
+     "k": "allgrids|allin|ercot:OUTP_SLR_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "33.427384028146946",
+     "text": "33.43"
+    },
+    {
+     "k": "allgrids|energy|ercot:BORDAS_345|da",
+     "raw": "25.846266980849194",
+     "text": "25.85"
+    },
+    {
+     "k": "allgrids|basis|ercot:BORDAS_345",
+     "raw": "-8.455788955223879",
+     "text": "-8.46"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:BORDAS_345",
+     "raw": "23.1609",
+     "text": "23.16"
+    },
+    {
+     "k": "allgrids|allin|ercot:BORDAS_345|profile=datacenter&lf=0.9&strike=row",
+     "raw": "33.67130134157979",
+     "text": "33.67"
+    },
+    {
+     "k": "allgrids|energy|ercot:HART_WND_RN|da",
+     "raw": "26.007806383834268",
+     "text": "26.01"
+    },
+    {
+     "k": "allgrids|basis|ercot:HART_WND_RN",
+     "raw": "-8.294249552238806",
+     "text": "-8.29"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:HART_WND_RN",
+     "raw": "18.1554",
+     "text": "18.16"
+    },
+    {
+     "k": "allgrids|allin|ercot:HART_WND_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "33.83284074456486",
+     "text": "33.83"
+    },
+    {
+     "k": "allgrids|energy|ercot:RELOJ_ALL|da",
+     "raw": "26.2101613092074",
+     "text": "26.21"
+    },
+    {
+     "k": "allgrids|basis|ercot:RELOJ_ALL",
+     "raw": "-8.091894626865674",
+     "text": "-8.09"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:RELOJ_ALL",
+     "raw": "22.3362",
+     "text": "22.34"
+    },
+    {
+     "k": "allgrids|allin|ercot:RELOJ_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.03519566993799",
+     "text": "34.04"
+    },
+    {
+     "k": "allgrids|energy|ercot:HRNT_SLR_RN|da",
+     "raw": "26.270892950998448",
+     "text": "26.27"
+    },
+    {
+     "k": "allgrids|basis|ercot:HRNT_SLR_RN",
+     "raw": "-8.031162985074626",
+     "text": "-8.03"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:HRNT_SLR_RN",
+     "raw": "17.5765",
+     "text": "17.58"
+    },
+    {
+     "k": "allgrids|allin|ercot:HRNT_SLR_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.09592731172904",
+     "text": "34.10"
+    },
+    {
+     "k": "allgrids|energy|ercot:ASTRA_RN|da",
+     "raw": "26.290181906222326",
+     "text": "26.29"
+    },
+    {
+     "k": "allgrids|basis|ercot:ASTRA_RN",
+     "raw": "-8.011874029850748",
+     "text": "-8.01"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:ASTRA_RN",
+     "raw": "17.544",
+     "text": "17.54"
+    },
+    {
+     "k": "allgrids|allin|ercot:ASTRA_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.11521626695292",
+     "text": "34.12"
+    },
+    {
+     "k": "allgrids|energy|ercot:HRFDWIND_ALL|da",
+     "raw": "26.290181906222326",
+     "text": "26.29"
+    },
+    {
+     "k": "allgrids|basis|ercot:HRFDWIND_ALL",
+     "raw": "-8.011874029850748",
+     "text": "-8.01"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:HRFDWIND_ALL",
+     "raw": "17.544",
+     "text": "17.54"
+    },
+    {
+     "k": "allgrids|allin|ercot:HRFDWIND_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.11521626695292",
+     "text": "34.12"
+    },
+    {
+     "k": "allgrids|energy|ercot:MARIAH_ALL|da",
+     "raw": "26.290181906222326",
+     "text": "26.29"
+    },
+    {
+     "k": "allgrids|basis|ercot:MARIAH_ALL",
+     "raw": "-8.011874029850748",
+     "text": "-8.01"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:MARIAH_ALL",
+     "raw": "17.544",
+     "text": "17.54"
+    },
+    {
+     "k": "allgrids|allin|ercot:MARIAH_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.11521626695292",
+     "text": "34.12"
+    },
+    {
+     "k": "allgrids|energy|ercot:CEDROHI_CHW1|da",
+     "raw": "26.328834742043224",
+     "text": "26.33"
+    },
+    {
+     "k": "allgrids|basis|ercot:CEDROHI_CHW1",
+     "raw": "-7.97322119402985",
+     "text": "-7.97"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:CEDROHI_CHW1",
+     "raw": "23.1932",
+     "text": "23.19"
+    },
+    {
+     "k": "allgrids|allin|ercot:CEDROHI_CHW1|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.15386910277382",
+     "text": "34.15"
+    },
+    {
+     "k": "allgrids|energy|ercot:EXGNWTL_1|da",
+     "raw": "26.328856533088",
+     "text": "26.33"
+    },
+    {
+     "k": "allgrids|basis|ercot:EXGNWTL_1",
+     "raw": "-7.973199402985073",
+     "text": "-7.97"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:EXGNWTL_1",
+     "raw": "23.1932",
+     "text": "23.19"
+    },
+    {
+     "k": "allgrids|allin|ercot:EXGNWTL_1|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.1538908938186",
+     "text": "34.15"
+    },
+    {
+     "k": "allgrids|energy|ercot:PALE_ESS_EN|da",
+     "raw": "26.414599049845528",
+     "text": "26.41"
+    },
+    {
+     "k": "allgrids|basis|ercot:PALE_ESS_EN",
+     "raw": "-7.887456886227546",
+     "text": "-7.89"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:PALE_ESS_EN",
+     "raw": "16.375500000000002",
+     "text": "16.38"
+    },
+    {
+     "k": "allgrids|allin|ercot:PALE_ESS_EN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.23963341057612",
+     "text": "34.24"
+    },
+    {
+     "k": "allgrids|energy|ercot:COTPLNS_RN|da",
+     "raw": "26.41581205547606",
+     "text": "26.42"
+    },
+    {
+     "k": "allgrids|basis|ercot:COTPLNS_RN",
+     "raw": "-7.886243880597015",
+     "text": "-7.89"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:COTPLNS_RN",
+     "raw": "17.5546",
+     "text": "17.55"
+    },
+    {
+     "k": "allgrids|allin|ercot:COTPLNS_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.24084641620665",
+     "text": "34.24"
+    },
+    {
+     "k": "allgrids|energy|ercot:SPLAIN2_RN|da",
+     "raw": "26.41581205547606",
+     "text": "26.42"
+    },
+    {
+     "k": "allgrids|basis|ercot:SPLAIN2_RN",
+     "raw": "-7.886243880597015",
+     "text": "-7.89"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:SPLAIN2_RN",
+     "raw": "17.5546",
+     "text": "17.55"
+    },
+    {
+     "k": "allgrids|allin|ercot:SPLAIN2_RN|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.24084641620665",
+     "text": "34.24"
+    },
+    {
+     "k": "allgrids|energy|ercot:AEEC|da",
+     "raw": "26.416552652490985",
+     "text": "26.42"
+    },
+    {
+     "k": "allgrids|basis|ercot:AEEC",
+     "raw": "-7.885503283582089",
+     "text": "-7.89"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:AEEC",
+     "raw": "16.3976",
+     "text": "16.40"
+    },
+    {
+     "k": "allgrids|allin|ercot:AEEC|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.241587013221576",
+     "text": "34.24"
+    },
+    {
+     "k": "allgrids|energy|ercot:CN_BRKS_UNT1|da",
+     "raw": "26.441252950998447",
+     "text": "26.44"
+    },
+    {
+     "k": "allgrids|basis|ercot:CN_BRKS_UNT1",
+     "raw": "-7.860802985074628",
+     "text": "-7.86"
+    },
+    {
+     "k": "allgrids|nodespread|ercot:CN_BRKS_UNT1",
+     "raw": "17.4872",
+     "text": "17.49"
+    },
+    {
+     "k": "allgrids|allin|ercot:CN_BRKS_UNT1|profile=datacenter&lf=0.9&strike=row",
+     "raw": "34.266287311729045",
+     "text": "34.27"
+    }
+   ],
+   "tipsInView": [
+    {
+     "on": "Node",
+     "tip": "The settlement point's name, as ERCOT gives it. Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "Class",
+     "tip": "What ERCOT's disclosures say is settled at the node: storage, solar, wind, gas, other, mixed; unknown where no disclosure names it (node_basis_daily, x_class). Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "Energy",
+     "tip": "HB_HUBAVG's day-ahead price over its last twelve whole months, under the profile's rule, plus the node's mean daily day-ahead basis: USD per MWh. Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "Basis to HB_HUBAVG (up)",
+     "tip": "The node's mean daily day-ahead price less HB_HUBAVG's, over the hub's twelve months, weighted by the days held (node_basis_daily): USD per MWh. Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "Basis spread",
+     "tip": "The node's 90th percentile daily day-ahead basis to HB_HUBAVG less its 10th, over the node file's twelve whole months (node_basis_daily; the two percentiles are in the node's panel): USD per MWh. The wider, the more its basis moves day to day. Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "All-in",
+     "tip": "Energy plus the four-peak charge (paid on the hub's hours, the same at every node: above the table) plus capacity, none in ERCOT: USD per MWh. Press to sort by it; again to turn it round."
+    },
+    {
+     "on": "Days held",
+     "tip": "Days of day-ahead basis held over the hub's twelve months, of the days in them; under 90 percent, no twelve-month figure. Press to sort by it; again to turn it round."
+    }
+   ],
+   "nChecks": 139,
+   "sortLine": "Sorted by basis to HB_HUBAVG, smallest first; a node with no figure last. Click a heading to sort by it, again to turn it round.",
+   "headline": "A datacenter load of 100 MW at ERCOT BBREEZE_1_2 pays USD 31.66 per MWh all-in, USD 24,959,976 a year; generators there took a median of 45.80 months to connect.",
+   "abPanel": "A and B, side by sideUSD per MWh unless saidA: ERCOT BBREEZE_1_2B: none chosenB less AEnergy 23.83Transmission and 4CP 7.83Capacity 0.00Time to connect months45.80Headroom percent; MW5.41Carbon kg CO2 per MWh332.87Utility not heldNot held for this row, or held under a license and drawn in its column as such: see the row in the table.All-in 31.66A year all-in, USD, 100 MW24,959,976Energy used a year, MWh788,400Each figure is the row's own in the table below, under the same load. Months to connect are the grid's generators' (the column \"Time to connect\"). The year all-in is the all-in figure times the energy the load uses in a year: its draw while running times the hours it runs.",
+   "shared": "Every node below is in ERCOT, and shares these, drawn once: the four-peak charge, paid on HB_HUBAVG's hours, USD 7.83This load's charge: it ran in 4 of the four intervals of 2025, at the Commission's 2025 rate. per MWh for this load (firm 7.83On in all four intervals., off at the peaks 0.00Off in the four intervals' hours, computed from its weights.); no capacity market (whyERCOT is an energy-only market: it has no capacity market and no capacity charge.); generators took a median of 45.80From queue entry to operation, 227 requests online from 2023 to 2025 (interconnection_durations, from Berkeley Lab's queue file: the column's figure). months to connect; demand grew +5.41ERCOT's mean demand (EIA-930, ERCO), October 2025 to September 2026, over the twelve months before. percent on the year; carbon 332.87eGRID subregion ERCT, 2023: the plants' CO2 over their net generation. kg CO2 per MWh.Not held for any node: its load zone, its settlement hub and its wires utility (TSP). node_basis_daily sets every node against HB_HUBAVG and names no zone or utility; not heldERCOT publishes each settlement point's zone and hub in its settlement point mapping, and each node's TSP in its resource registration; neither is a table of the warehouse yet (docs/reviews/siting-gaps.md)..",
+   "panel": null,
+   "selects": [
+    {
+     "k": "a",
+     "value": "ercot:BBREEZE_1_2",
+     "chosen": "ERCOT BBREEZE_1_2 (node)",
+     "n": 50
+    },
+    {
+     "k": "b",
+     "value": "",
+     "chosen": "none",
+     "n": 50
+    }
+   ],
+   "rows": [
+    {
+     "id": "ercot:BBREEZE_1_2",
+     "text": "BBREEZE_1_2wind23.83-10.4727.1231.66335 of 365"
+    },
+    {
+     "id": "ercot:ELSAUZ_ALL",
+     "text": "ELSAUZ_ALLwind23.83-10.4727.1231.66335 of 365"
+    },
+    {
+     "id": "ercot:PENA_ALL",
+     "text": "PENA_ALLwind24.90-9.4024.6332.73335 of 365"
+    },
+    {
+     "id": "ercot:TGW_T1_T2",
+     "text": "TGW_T1_T2wind24.90-9.4024.6332.73335 of 365"
+    },
+    {
+     "id": "ercot:STELLA_RN",
+     "text": "STELLA_RNwind24.90-9.4024.6332.73335 of 365"
+    },
+    {
+     "id": "ercot:CORAZON_RN",
+     "text": "CORAZON_RNmixed25.52-8.7823.8033.35335 of 365"
+    }
+   ],
+   "nodeIds": [
+    "ercot:BBREEZE_1_2",
+    "ercot:ELSAUZ_ALL",
+    "ercot:PENA_ALL"
+   ],
+   "heads": [
+    "node",
+    "cls",
+    "energy",
+    "basis",
+    "spread",
+    "allin",
+    "days"
+   ],
+   "scrollW": 390,
+   "clientW": 390,
+   "totalH": 2741,
+   "shot": "08c-close_390.png"
+  },
+  {
+   "step": "09-two-nodes-ab",
+   "width": 390,
+   "does": "two nodes as A and B, in the node view (step 9): the box's lists, the headline, the panel",
+   "url": "/cost-of-power?view=allgrids&rows=nodes&nsort=basis&ndir=asc&a=ercot%3ABBREEZE_1_2&b=ercot%3AELSAUZ_ALL",
+   "found": true,
+   "errorText": "",
+   "checksInView": [
+    {
+     "k": "allgrids|col|energy|ercot:BBREEZE_1_2|profile=datacenter&lf=0.9&strike=row",
+     "raw": "23.83399205547606",
+     "text": "23.83"
+    },
+    {
+     "k": "allgrids|col|energy|ercot:ELSAUZ_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "23.8340013092074",
+     "text": "23.83"
+    },
+    {
+     "k": "allgrids|diff|energy|ercot:BBREEZE_1_2|ercot:ELSAUZ_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0.000009253731342084848",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|col|transmission|ercot:BBREEZE_1_2|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|col|transmission|ercot:ELSAUZ_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|diff|transmission|ercot:BBREEZE_1_2|ercot:ELSAUZ_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|col|capacity|ercot:BBREEZE_1_2|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|col|capacity|ercot:ELSAUZ_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|diff|capacity|ercot:BBREEZE_1_2|ercot:ELSAUZ_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|col|connect|ercot:BBREEZE_1_2|profile=datacenter&lf=0.9&strike=row",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|col|connect|ercot:ELSAUZ_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|diff|connect|ercot:BBREEZE_1_2|ercot:ELSAUZ_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|col|headroom|ercot:BBREEZE_1_2|profile=datacenter&lf=0.9&strike=row",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|col|headroom|ercot:ELSAUZ_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|diff|headroom|ercot:BBREEZE_1_2|ercot:ELSAUZ_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|col|carbon|ercot:BBREEZE_1_2|profile=datacenter&lf=0.9&strike=row",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|col|carbon|ercot:ELSAUZ_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|diff|carbon|ercot:BBREEZE_1_2|ercot:ELSAUZ_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|col|allin|ercot:BBREEZE_1_2|profile=datacenter&lf=0.9&strike=row",
+     "raw": "31.659026416206654",
+     "text": "31.66"
+    },
+    {
+     "k": "allgrids|col|allin|ercot:ELSAUZ_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "31.659035669937996",
+     "text": "31.66"
+    },
+    {
+     "k": "allgrids|diff|allin|ercot:BBREEZE_1_2|ercot:ELSAUZ_ALL|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0.000009253731342084848",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|year|ercot:BBREEZE_1_2|profile=datacenter&lf=0.9&strike=row&mw=100",
+     "raw": "24959976.426537327",
+     "text": "24,959,976"
+    },
+    {
+     "k": "allgrids|year|ercot:ELSAUZ_ALL|profile=datacenter&lf=0.9&strike=row&mw=100",
+     "raw": "24959983.722179115",
+     "text": "24,959,984"
+    },
+    {
+     "k": "allgrids|yeardiff|ercot:BBREEZE_1_2|ercot:ELSAUZ_ALL|profile=datacenter&lf=0.9&strike=row&mw=100",
+     "raw": "7.295641787350178",
+     "text": "7"
+    },
+    {
+     "k": "allgrids|mwh|ercot:BBREEZE_1_2|profile=datacenter&lf=0.9&strike=row&mw=100",
+     "raw": "788400",
+     "text": "788,400"
+    },
+    {
+     "k": "allgrids|mwh|ercot:ELSAUZ_ALL|profile=datacenter&lf=0.9&strike=row&mw=100",
+     "raw": "788400",
+     "text": "788,400"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HUBAVG|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HUBAVG|firm|profile=datacenter&lf=0.9&strike=row",
+     "raw": "7.825034360730594",
+     "text": "7.83"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HUBAVG|curtailing|profile=datacenter&lf=0.9&strike=row",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|connect|ercot:HB_HUBAVG",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|demand|ercot:HB_HUBAVG",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|carbon|ercot:HB_HUBAVG",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    }
+   ],
+   "tipsInView": [
+    {
+     "on": "not held",
+     "tip": "Not held for this row, or held under a license and drawn in its column as such: see the row in the table."
+    },
+    {
+     "on": "not held",
+     "tip": "Not held for this row, or held under a license and drawn in its column as such: see the row in the table."
+    },
+    {
+     "on": "7.83",
+     "tip": "This load's charge: it ran in 4 of the four intervals of 2025, at the Commission's 2025 rate."
+    },
+    {
+     "on": "7.83",
+     "tip": "On in all four intervals."
+    },
+    {
+     "on": "0.00",
+     "tip": "Off in the four intervals' hours, computed from its weights."
+    },
+    {
+     "on": "why",
+     "tip": "ERCOT is an energy-only market: it has no capacity market and no capacity charge."
+    },
+    {
+     "on": "45.80",
+     "tip": "From queue entry to operation, 227 requests online from 2023 to 2025 (interconnection_durations, from Berkeley Lab's queue file: the column's figure)."
+    },
+    {
+     "on": "5.41",
+     "tip": "ERCOT's mean demand (EIA-930, ERCO), October 2025 to September 2026, over the twelve months before."
+    },
+    {
+     "on": "332.87",
+     "tip": "eGRID subregion ERCT, 2023: the plants' CO2 over their net generation."
+    },
+    {
+     "on": "not held",
+     "tip": "ERCOT publishes each settlement point's zone and hub in its settlement point mapping, and each node's TSP in its resource registration; neither is a table of the warehouse yet (docs/reviews/siting-gaps.md)."
+    }
+   ],
+   "nChecks": 156,
+   "sortLine": "Sorted by basis to HB_HUBAVG, smallest first; a node with no figure last. Click a heading to sort by it, again to turn it round.",
+   "headline": "A datacenter load of 100 MW at ERCOT BBREEZE_1_2 pays USD 31.66 per MWh all-in, USD 24,959,976 a year; generators there took a median of 45.80 months to connect.",
+   "abPanel": "A and B, side by sideUSD per MWh unless saidA: ERCOT BBREEZE_1_2B: ERCOT ELSAUZ_ALLB less AEnergy 23.8323.83+0.00Transmission and 4CP 7.837.830.00Capacity 0.000.000.00Time to connect months45.8045.800.00Headroom percent; MW5.415.410.00Carbon kg CO2 per MWh332.87332.870.00Utility not heldNot held for this row, or held under a license and drawn in its column as such: see the row in the table.not heldNot held for this row, or held under a license and drawn in its column as such: see the row in the table.All-in 31.6631.66+0.00A year all-in, USD, 100 MW24,959,97624,959,984+7Energy used a year, MWh788,400788,400Each figure is the row's own in the table below, under the same load. Months to connect are the grid's generators' (the column \"Time to connect\"). The year all-in is the all-in figure times the energy the load uses in a year: its draw while running times the hours it runs.",
+   "shared": "Every node below is in ERCOT, and shares these, drawn once: the four-peak charge, paid on HB_HUBAVG's hours, USD 7.83This load's charge: it ran in 4 of the four intervals of 2025, at the Commission's 2025 rate. per MWh for this load (firm 7.83On in all four intervals., off at the peaks 0.00Off in the four intervals' hours, computed from its weights.); no capacity market (whyERCOT is an energy-only market: it has no capacity market and no capacity charge.); generators took a median of 45.80From queue entry to operation, 227 requests online from 2023 to 2025 (interconnection_durations, from Berkeley Lab's queue file: the column's figure). months to connect; demand grew +5.41ERCOT's mean demand (EIA-930, ERCO), October 2025 to September 2026, over the twelve months before. percent on the year; carbon 332.87eGRID subregion ERCT, 2023: the plants' CO2 over their net generation. kg CO2 per MWh.Not held for any node: its load zone, its settlement hub and its wires utility (TSP). node_basis_daily sets every node against HB_HUBAVG and names no zone or utility; not heldERCOT publishes each settlement point's zone and hub in its settlement point mapping, and each node's TSP in its resource registration; neither is a table of the warehouse yet (docs/reviews/siting-gaps.md)..",
+   "panel": null,
+   "selects": [
+    {
+     "k": "a",
+     "value": "ercot:BBREEZE_1_2",
+     "chosen": "ERCOT BBREEZE_1_2 (node)",
+     "n": 51
+    },
+    {
+     "k": "b",
+     "value": "ercot:ELSAUZ_ALL",
+     "chosen": "ERCOT ELSAUZ_ALL (node)",
+     "n": 51
+    }
+   ],
+   "rows": [
+    {
+     "id": "ercot:BBREEZE_1_2",
+     "text": "BBREEZE_1_2wind23.83-10.4727.1231.66335 of 365"
+    },
+    {
+     "id": "ercot:ELSAUZ_ALL",
+     "text": "ELSAUZ_ALLwind23.83-10.4727.1231.66335 of 365"
+    },
+    {
+     "id": "ercot:PENA_ALL",
+     "text": "PENA_ALLwind24.90-9.4024.6332.73335 of 365"
+    },
+    {
+     "id": "ercot:TGW_T1_T2",
+     "text": "TGW_T1_T2wind24.90-9.4024.6332.73335 of 365"
+    },
+    {
+     "id": "ercot:STELLA_RN",
+     "text": "STELLA_RNwind24.90-9.4024.6332.73335 of 365"
+    },
+    {
+     "id": "ercot:CORAZON_RN",
+     "text": "CORAZON_RNmixed25.52-8.7823.8033.35335 of 365"
+    }
+   ],
+   "nodeIds": [
+    "ercot:BBREEZE_1_2",
+    "ercot:ELSAUZ_ALL",
+    "ercot:PENA_ALL"
+   ],
+   "heads": [
+    "node",
+    "cls",
+    "energy",
+    "basis",
+    "spread",
+    "allin",
+    "days"
+   ],
+   "scrollW": 390,
+   "clientW": 390,
+   "totalH": 2761,
+   "shot": "09-two-nodes-ab_390.png"
+  },
+  {
+   "step": "13-four-peak",
+   "width": 390,
+   "does": "the transmission sort under the flexible profile (step 13): the sort line's words",
+   "url": "/cost-of-power?view=allgrids&profile=flexible&strike=100&sort=transmission&grid=ercot&a=ercot%3AHB_HUBAVG&b=ercot%3AHB_WEST",
+   "found": true,
+   "errorText": "",
+   "checksInView": [
+    {
+     "k": "allgrids|tx|ercot:HB_BUSAVG|profile=flexible&lf=0.9&strike=100",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_BUSAVG|firm|profile=flexible&lf=0.9&strike=100",
+     "raw": "7.993854344023324",
+     "text": "7.99"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_BUSAVG|curtailing|profile=flexible&lf=0.9&strike=100",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_BUSAVG|da|profile=flexible&lf=0.9&strike=100",
+     "raw": "29.049940524781345",
+     "text": "29.05"
+    },
+    {
+     "k": "allgrids|lost|ercot:HB_BUSAVG|profile=flexible&lf=0.9&strike=100",
+     "raw": "185",
+     "text": "185"
+    },
+    {
+     "k": "allgrids|connect|ercot:HB_BUSAVG",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:HB_BUSAVG",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|demand|ercot:HB_BUSAVG",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:HB_BUSAVG",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:HB_BUSAVG",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbonh|ercot:HB_BUSAVG|profile=flexible&lf=0.9&strike=100",
+     "raw": "303.3726040315927",
+     "text": "303.37"
+    },
+    {
+     "k": "allgrids|carbon|ercot:HB_BUSAVG",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:HB_BUSAVG",
+     "raw": "73.56793519505776",
+     "text": "73.57"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:HB_BUSAVG",
+     "raw": "9.443553200366427",
+     "text": "9.44"
+    },
+    {
+     "k": "allgrids|allin|ercot:HB_BUSAVG|profile=flexible&lf=0.9&strike=100",
+     "raw": "29.049940524781345",
+     "text": "29.05"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HOUSTON|profile=flexible&lf=0.9&strike=100",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HOUSTON|firm|profile=flexible&lf=0.9&strike=100",
+     "raw": "7.963208759293681",
+     "text": "7.96"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HOUSTON|curtailing|profile=flexible&lf=0.9&strike=100",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_HOUSTON|da|profile=flexible&lf=0.9&strike=100",
+     "raw": "30.849077602230487",
+     "text": "30.85"
+    },
+    {
+     "k": "allgrids|lost|ercot:HB_HOUSTON|profile=flexible&lf=0.9&strike=100",
+     "raw": "152",
+     "text": "152"
+    },
+    {
+     "k": "allgrids|connect|ercot:HB_HOUSTON",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:HB_HOUSTON",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|demand|ercot:HB_HOUSTON",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:HB_HOUSTON",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:HB_HOUSTON",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbonh|ercot:HB_HOUSTON|profile=flexible&lf=0.9&strike=100",
+     "raw": "303.66308740601534",
+     "text": "303.66"
+    },
+    {
+     "k": "allgrids|carbon|ercot:HB_HOUSTON",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:HB_HOUSTON",
+     "raw": "89.38681180428301",
+     "text": "89.39"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:HB_HOUSTON",
+     "raw": "-0.75190010857763",
+     "text": "-0.75"
+    },
+    {
+     "k": "allgrids|allin|ercot:HB_HOUSTON|profile=flexible&lf=0.9&strike=100",
+     "raw": "30.849077602230487",
+     "text": "30.85"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HUBAVG|profile=flexible&lf=0.9&strike=100",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HUBAVG|firm|profile=flexible&lf=0.9&strike=100",
+     "raw": "7.990127170998952",
+     "text": "7.99"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_HUBAVG|curtailing|profile=flexible&lf=0.9&strike=100",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_HUBAVG|da|profile=flexible&lf=0.9&strike=100",
+     "raw": "29.068948595407402",
+     "text": "29.07"
+    },
+    {
+     "k": "allgrids|lost|ercot:HB_HUBAVG|profile=flexible&lf=0.9&strike=100",
+     "raw": "181",
+     "text": "181"
+    },
+    {
+     "k": "allgrids|connect|ercot:HB_HUBAVG",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:HB_HUBAVG",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|demand|ercot:HB_HUBAVG",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:HB_HUBAVG",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:HB_HUBAVG",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbonh|ercot:HB_HUBAVG|profile=flexible&lf=0.9&strike=100",
+     "raw": "303.407411334983",
+     "text": "303.41"
+    },
+    {
+     "k": "allgrids|carbon|ercot:HB_HUBAVG",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:HB_HUBAVG",
+     "raw": "73.56793519505776",
+     "text": "73.57"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:HB_HUBAVG",
+     "raw": "9.443553200366427",
+     "text": "9.44"
+    },
+    {
+     "k": "allgrids|allin|ercot:HB_HUBAVG|profile=flexible&lf=0.9&strike=100",
+     "raw": "29.068948595407402",
+     "text": "29.07"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_NORTH|profile=flexible&lf=0.9&strike=100",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_NORTH|firm|profile=flexible&lf=0.9&strike=100",
+     "raw": "8.001319131551302",
+     "text": "8.00"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_NORTH|curtailing|profile=flexible&lf=0.9&strike=100",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_NORTH|da|profile=flexible&lf=0.9&strike=100",
+     "raw": "28.717785689272795",
+     "text": "28.72"
+    },
+    {
+     "k": "allgrids|lost|ercot:HB_NORTH|profile=flexible&lf=0.9&strike=100",
+     "raw": "193",
+     "text": "193"
+    },
+    {
+     "k": "allgrids|connect|ercot:HB_NORTH",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:HB_NORTH",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|demand|ercot:HB_NORTH",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:HB_NORTH",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:HB_NORTH",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbonh|ercot:HB_NORTH|profile=flexible&lf=0.9&strike=100",
+     "raw": "303.31163284568197",
+     "text": "303.31"
+    },
+    {
+     "k": "allgrids|carbon|ercot:HB_NORTH",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:HB_NORTH",
+     "raw": "73.56793519505776",
+     "text": "73.57"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:HB_NORTH",
+     "raw": "9.443553200366427",
+     "text": "9.44"
+    },
+    {
+     "k": "allgrids|allin|ercot:HB_NORTH|profile=flexible&lf=0.9&strike=100",
+     "raw": "28.717785689272795",
+     "text": "28.72"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_SOUTH|profile=flexible&lf=0.9&strike=100",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_SOUTH|firm|profile=flexible&lf=0.9&strike=100",
+     "raw": "7.980824426592154",
+     "text": "7.98"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_SOUTH|curtailing|profile=flexible&lf=0.9&strike=100",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_SOUTH|da|profile=flexible&lf=0.9&strike=100",
+     "raw": "29.849712422866453",
+     "text": "29.85"
+    },
+    {
+     "k": "allgrids|lost|ercot:HB_SOUTH|profile=flexible&lf=0.9&strike=100",
+     "raw": "171",
+     "text": "171"
+    },
+    {
+     "k": "allgrids|connect|ercot:HB_SOUTH",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:HB_SOUTH",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|demand|ercot:HB_SOUTH",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:HB_SOUTH",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:HB_SOUTH",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbonh|ercot:HB_SOUTH|profile=flexible&lf=0.9&strike=100",
+     "raw": "303.51594305212393",
+     "text": "303.52"
+    },
+    {
+     "k": "allgrids|carbon|ercot:HB_SOUTH",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:HB_SOUTH",
+     "raw": "73.56793519505776",
+     "text": "73.57"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:HB_SOUTH",
+     "raw": "9.443553200366427",
+     "text": "9.44"
+    },
+    {
+     "k": "allgrids|allin|ercot:HB_SOUTH|profile=flexible&lf=0.9&strike=100",
+     "raw": "29.849712422866453",
+     "text": "29.85"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_WEST|profile=flexible&lf=0.9&strike=100",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_WEST|firm|profile=flexible&lf=0.9&strike=100",
+     "raw": "8.020980692721741",
+     "text": "8.02"
+    },
+    {
+     "k": "allgrids|tx|ercot:HB_WEST|curtailing|profile=flexible&lf=0.9&strike=100",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|energy|ercot:HB_WEST|da|profile=flexible&lf=0.9&strike=100",
+     "raw": "26.661486075356887",
+     "text": "26.66"
+    },
+    {
+     "k": "allgrids|lost|ercot:HB_WEST|profile=flexible&lf=0.9&strike=100",
+     "raw": "214",
+     "text": "214"
+    },
+    {
+     "k": "allgrids|connect|ercot:HB_WEST",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:HB_WEST",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|demand|ercot:HB_WEST",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:HB_WEST",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:HB_WEST",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbonh|ercot:HB_WEST|profile=flexible&lf=0.9&strike=100",
+     "raw": "303.09310630247137",
+     "text": "303.09"
+    },
+    {
+     "k": "allgrids|carbon|ercot:HB_WEST",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:HB_WEST",
+     "raw": "73.56793519505776",
+     "text": "73.57"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:HB_WEST",
+     "raw": "9.443553200366427",
+     "text": "9.44"
+    },
+    {
+     "k": "allgrids|allin|ercot:HB_WEST|profile=flexible&lf=0.9&strike=100",
+     "raw": "26.661486075356887",
+     "text": "26.66"
+    },
+    {
+     "k": "allgrids|tx|ercot:LZ_AEN|profile=flexible&lf=0.9&strike=100",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|tx|ercot:LZ_AEN|firm|profile=flexible&lf=0.9&strike=100",
+     "raw": "8.053019384398498",
+     "text": "8.05"
+    },
+    {
+     "k": "allgrids|tx|ercot:LZ_AEN|curtailing|profile=flexible&lf=0.9&strike=100",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|energy|ercot:LZ_AEN|da|profile=flexible&lf=0.9&strike=100",
+     "raw": "31.757542293233076",
+     "text": "31.76"
+    },
+    {
+     "k": "allgrids|lost|ercot:LZ_AEN|profile=flexible&lf=0.9&strike=100",
+     "raw": "248",
+     "text": "248"
+    },
+    {
+     "k": "allgrids|connect|ercot:LZ_AEN",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:LZ_AEN",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|demand|ercot:LZ_AEN",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:LZ_AEN",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:LZ_AEN",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbonh|ercot:LZ_AEN|profile=flexible&lf=0.9&strike=100",
+     "raw": "303.049881263358",
+     "text": "303.05"
+    },
+    {
+     "k": "allgrids|carbon|ercot:LZ_AEN",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:LZ_AEN",
+     "raw": "71.32181052947121",
+     "text": "71.32"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:LZ_AEN",
+     "raw": "2.8714032852807714",
+     "text": "2.87"
+    },
+    {
+     "k": "allgrids|allin|ercot:LZ_AEN|profile=flexible&lf=0.9&strike=100",
+     "raw": "31.757542293233076",
+     "text": "31.76"
+    },
+    {
+     "k": "allgrids|tx|ercot:LZ_CPS|profile=flexible&lf=0.9&strike=100",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|tx|ercot:LZ_CPS|firm|profile=flexible&lf=0.9&strike=100",
+     "raw": "8.048291769402372",
+     "text": "8.05"
+    },
+    {
+     "k": "allgrids|tx|ercot:LZ_CPS|curtailing|profile=flexible&lf=0.9&strike=100",
+     "raw": "0",
+     "text": "0.00"
+    },
+    {
+     "k": "allgrids|energy|ercot:LZ_CPS|da|profile=flexible&lf=0.9&strike=100",
+     "raw": "31.42137607138662",
+     "text": "31.42"
+    },
+    {
+     "k": "allgrids|lost|ercot:LZ_CPS|profile=flexible&lf=0.9&strike=100",
+     "raw": "243",
+     "text": "243"
+    },
+    {
+     "k": "allgrids|connect|ercot:LZ_CPS",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|llapproved|ercot:LZ_CPS",
+     "raw": "8927",
+     "text": "8,927"
+    },
+    {
+     "k": "allgrids|demand|ercot:LZ_CPS",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|planned|ercot:LZ_CPS",
+     "raw": "24268.7",
+     "text": "24,269"
+    },
+    {
+     "k": "allgrids|capratio|ercot:LZ_CPS",
+     "raw": "97",
+     "text": "97"
+    },
+    {
+     "k": "allgrids|carbonh|ercot:LZ_CPS|profile=flexible&lf=0.9&strike=100",
+     "raw": "303.08349940688026",
+     "text": "303.08"
+    },
+    {
+     "k": "allgrids|carbon|ercot:LZ_CPS",
+     "raw": "332.8742676806242",
+     "text": "332.87"
+    },
+    {
+     "k": "allgrids|utilrev|ercot:LZ_CPS",
+     "raw": "56.27002778906104",
+     "text": "56.27"
+    },
+    {
+     "k": "allgrids|utilgrowth|ercot:LZ_CPS",
+     "raw": "1.744315721801648",
+     "text": "1.74"
+    },
+    {
+     "k": "allgrids|allin|ercot:LZ_CPS|profile=flexible&lf=0.9&strike=100",
+     "raw": "31.42137607138662",
+     "text": "31.42"
+    },
+    {
+     "k": "allgrids|connect|ercot:LZ_HOUSTON",
+     "raw": "45.8",
+     "text": "45.80"
+    },
+    {
+     "k": "allgrids|demand|ercot:LZ_HOUSTON",
+     "raw": "5.414597963715995",
+     "text": "5.41"
+    },
+    {
+     "k": "allgrids|carbonh|ercot:LZ_HOUSTON|profile=flexible&lf=0.9&strike=100",
+     "raw": "303.66308740601534",
+     "text": "303.66"
+    }
+   ],
+   "tipsInView": [
+    {
+     "on": "Transmission and 4CP",
+     "tip": "ERCOT: the load's demand in the four summer peak intervals of the newest summer held (ercot_4cp_intervals) at the Commission's approved rate, over its energy: the profile's own, then firm (on in all four) and off (curtailing). Elsewhere the utility's large-load tariff, not held. USD per MWh."
+    },
+    {
+     "on": "Energy",
+     "tip": "The day-ahead price over the last twelve whole months, a flat load, from the page's own hourly files (lib/datacenter.ts, as \"Your load\" computes it); an ERCOT node is its hub plus its mean daily basis (node_basis_daily). USD per MWh."
+    },
+    {
+     "on": "Capacity",
+     "tip": "The latest cleared capacity price for the zone, over the load's energy (iso_all_capacity_prices, pjm_rpm_capacity_prices). ERCOT, CAISO and SPP have no capacity market. USD per MWh."
+    },
+    {
+     "on": "Time to connect",
+     "tip": "The median months from queue entry to operation for projects finished in the last three years (interconnection_durations, from Berkeley Lab's queue file), and the grid's large-load rule (large_load_rules). months."
+    },
+    {
+     "on": "Headroom",
+     "tip": "Demand growth over the last twelve months (EIA-930), generation under construction due in the next twelve months (eia860m_planned_generators), and capacity above the grid's peak (grid_peak_vs_capacity). percent; MW."
+    },
+    {
+     "on": "Carbon",
+     "tip": "The generation-weighted CO2 rate of the row's eGRID subregion (egrid_power_plants); hourly where the profile runs in some hours and the grid's hourly intensity is held. kg CO2 per MWh."
+    },
+    {
+     "on": "Utility",
+     "tip": "Where the row's name is a place, its county's utilities (utility_service_territories) and the largest seller to industry among them; else the state's largest; its industrial revenue per MWh and sales growth (eia861_utility_sales). USD per MWh."
+    },
+    {
+     "on": "All-in",
+     "tip": "Energy, transmission and capacity added, drawn only where each of the three is held or is zero by market design. USD per MWh."
+    },
+    {
+     "on": "0.00",
+     "tip": "Flexible compute: it ran in 0 of the four intervals of 2025 (2025-06-19 17:00 (off); 2025-07-30 17:00 (off); 2025-08-18 17:00 (off); 2025-09-04 17:30 (off)). ERCOT's four summer peak intervals of 2025 (ercot_4cp_intervals) at the Commission's 2025 rate, USD 68.547301 per kW of four-peak demand a year (texas_transmission_matrix), over the 8,575 hours a year the load runs. The charge is paid the year after the summer."
+    },
+    {
+     "on": "7.99",
+     "tip": "Firm: the load's full demand in all four intervals. ERCOT's four summer peak intervals of 2025 (ercot_4cp_intervals) at the Commission's 2025 rate, USD 68.547301 per kW of four-peak demand a year (texas_transmission_matrix), over the 8,575 hours a year the load runs. The charge is paid the year after the summer."
+    },
+    {
+     "on": "0.00",
+     "tip": "Curtailing: a load off in the four intervals' hours, computed from its weights in those hours, not assumed. ERCOT's four summer peak intervals of 2025 (ercot_4cp_intervals) at the Commission's 2025 rate, USD 68.547301 per kW of four-peak demand a year (texas_transmission_matrix), over the 8,575 hours a year the load runs. The charge is paid the year after the summer."
+    },
+    {
+     "on": "29.05",
+     "tip": "Flexible compute, day-ahead, October 2025 to September 2026: USD 29.05 per MWh over the 8,575 hours it ran, off in 185 of the 8,760 hours held. Off in an hour whose day-ahead price is at or above USD 100.00 per MWh, and in the hours of ERCOT's four summer peak intervals: none of those held falls in these months (ercot_4cp_intervals holds summers to 2025; Years held: 2018, 2019, 2020, 2022, 2023, 2024, 2025. Not held: 2021 (2021 is on neither ERCOT's list, which keeps four years, nor the zip, which ends with 2020). The summer of 2026 is published by 1 December 2026.). A flat load: USD 34.40."
+    },
+    {
+     "on": "185",
+     "tip": "Hours of the 8,760 held the load was off"
+    },
+    {
+     "on": "no capacity market",
+     "tip": "ERCOT is an energy-only market: it has no capacity market and no capacity charge. Counted as zero in the all-in figure."
+    },
+    {
+     "on": "45.80",
+     "tip": "Generation in ERCOT: the median months from queue entry to commercial operation of the 227 requests that came online from 2023 to 2025 (interconnection_durations, from Berkeley Lab's Queued Up, 2026 edition (through 2025)); a quarter took under 30 months, a quarter over 56. A generator's wait, not a load's: loads are not in this file."
+    },
+    {
+     "on": "rule 2026-09",
+     "tip": "The newest decided large-load rule held for ERCOT: Public Utility Commission of Texas, docket 58481, 2026-09-18 (large-load interconnection; large-load tariff). A large load customer must sign an intermediate agreement, make disclosures and post financial security of $50,000 per megawatt (MW) before ERCOT can include it in an interconnection study, then sign a standard agreement and pay CIAC. https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF No faster path for a controllable load is stated in the rules held."
+    },
+    {
+     "on": "8,927 MW approved",
+     "tip": "ERCOT's large loads approved to energize, MW, its report of 2026-06-19 (June-19-LLWG-Report.pptx; ercot_large_load_status): approved to connect, not a wait."
+    },
+    {
+     "on": "+5.41",
+     "tip": "ERCOT's mean demand (EIA-930, ERCO), October 2025 to September 2026, 58,008 MW, against the twelve months before, 55,028 MW: each month's mean weighted by its hours (eia930_demand_growth, \"Your load\"'s file data/demand_growth.json). The grid's own balancing authority, not the row's zone: sub-region demand is not in the tab's files. Weather is not removed."
+    },
+    {
+     "on": "24,269 MW coming",
+     "tip": "Generators under construction (EIA-860M status U, V or TS) in ERCOT due to operate from 2026-09 to 2027-08, the twelve months after the table's vintage (2026-08): 137 generators. Approvals received, not under construction: 581 MW; planned, approvals pending or not started: 3,449 MW. EIA-860M records no interconnection agreement; construction is the nearest it states (eia860m_planned_generators)."
+    },
+    {
+     "on": "capacity 97% above peak",
+     "tip": "ERCOT's operating generators' net summer capacity at the end of 2025, 164,685 MW (solar 30,052, wind 40,278, storage 13,709, at their summer ratings), against its peak hour of 2025, 83,597 MW: grid_peak_vs_capacity (the data machine's, by each generator's balancing authority, EIA-860M and EIA-930). Not a reserve margin: no imports, outages or derates, and solar and wind at their ratings."
+    },
+    {
+     "on": "303.37",
+     "tip": "The grid's hourly intensity (carbon_intensity_hourly, intensity_demand, kg CO2 per MWh consumed), weighted by the load over the 8,483 of the 8,575 hours it runs where both are held: hourly, the grid's balancing authority, not the subregion. The eGRID subregion ERCT (ERCOT All): its 700 plants' CO2 over their net generation in 2023 (egrid_power_plants, eGRID2023), 332.87 kg (733.86 lb) per MWh generated, annual."
+    },
+    {
+     "on": "332.87",
+     "tip": "The eGRID subregion ERCT (ERCOT All): its 700 plants' CO2 over their net generation in 2023 (egrid_power_plants, eGRID2023), 332.87 kg (733.86 lb) per MWh generated, annual."
+    },
+    {
+     "on": "TXU Energy Retail Co, LLC",
+     "tip": "TXU Energy Retail Co, LLC (EIA utility 19327), the largest of 69 sellers to industry in TX inside ERCOT (balancing authority ERCO) in 2025: 47,232,447 MWh to industry for USD 3,474,793,600 (eia861_utility_sales, bundled: energy and delivery). This row's name is not a place, so no county's service territory can be read for it: this is the state's largest seller, which the data machine found is not the county's utility in 4 of 7 hub counties (session 681)."
+    },
+    {
+     "on": "73.57",
+     "tip": "TXU Energy Retail Co, LLC (EIA utility 19327), the largest of 69 sellers to industry in TX inside ERCOT (balancing authority ERCO) in 2025: 47,232,447 MWh to industry for USD 3,474,793,600 (eia861_utility_sales, bundled: energy and delivery). This row's name is not a place, so no county's service territory can be read for it: this is the state's largest seller, which the data machine found is not the county's utility in 4 of 7 hub counties (session 681)."
+    },
+    {
+     "on": "+9.44",
+     "tip": "Industrial sales 2025 over 2024: 47,232,447 against 43,156,902 MWh."
+    },
+    {
+     "on": "29.05",
+     "tip": "Energy USD 29.05, transmission USD 0.00 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No delivery, distribution, ancillary or retail charge is in it."
+    },
+    {
+     "on": "0.00",
+     "tip": "Flexible compute: it ran in 0 of the four intervals of 2025 (2025-06-19 17:00 (off); 2025-07-30 17:00 (off); 2025-08-18 17:00 (off); 2025-09-04 17:30 (off)). ERCOT's four summer peak intervals of 2025 (ercot_4cp_intervals) at the Commission's 2025 rate, USD 68.547301 per kW of four-peak demand a year (texas_transmission_matrix), over the 8,608 hours a year the load runs. The charge is paid the year after the summer."
+    },
+    {
+     "on": "7.96",
+     "tip": "Firm: the load's full demand in all four intervals. ERCOT's four summer peak intervals of 2025 (ercot_4cp_intervals) at the Commission's 2025 rate, USD 68.547301 per kW of four-peak demand a year (texas_transmission_matrix), over the 8,608 hours a year the load runs. The charge is paid the year after the summer."
+    },
+    {
+     "on": "0.00",
+     "tip": "Curtailing: a load off in the four intervals' hours, computed from its weights in those hours, not assumed. ERCOT's four summer peak intervals of 2025 (ercot_4cp_intervals) at the Commission's 2025 rate, USD 68.547301 per kW of four-peak demand a year (texas_transmission_matrix), over the 8,608 hours a year the load runs. The charge is paid the year after the summer."
+    },
+    {
+     "on": "30.85",
+     "tip": "Flexible compute, day-ahead, October 2025 to September 2026: USD 30.85 per MWh over the 8,608 hours it ran, off in 152 of the 8,760 hours held. Off in an hour whose day-ahead price is at or above USD 100.00 per MWh, and in the hours of ERCOT's four summer peak intervals: none of those held falls in these months (ercot_4cp_intervals holds summers to 2025; Years held: 2018, 2019, 2020, 2022, 2023, 2024, 2025. Not held: 2021 (2021 is on neither ERCOT's list, which keeps four years, nor the zip, which ends with 2020). The summer of 2026 is published by 1 December 2026.). A flat load: USD 35.22."
+    },
+    {
+     "on": "152",
+     "tip": "Hours of the 8,760 held the load was off"
+    },
+    {
+     "on": "no capacity market",
+     "tip": "ERCOT is an energy-only market: it has no capacity market and no capacity charge. Counted as zero in the all-in figure."
+    },
+    {
+     "on": "45.80",
+     "tip": "Generation in ERCOT: the median months from queue entry to commercial operation of the 227 requests that came online from 2023 to 2025 (interconnection_durations, from Berkeley Lab's Queued Up, 2026 edition (through 2025)); a quarter took under 30 months, a quarter over 56. A generator's wait, not a load's: loads are not in this file."
+    },
+    {
+     "on": "rule 2026-09",
+     "tip": "The newest decided large-load rule held for ERCOT: Public Utility Commission of Texas, docket 58481, 2026-09-18 (large-load interconnection; large-load tariff). A large load customer must sign an intermediate agreement, make disclosures and post financial security of $50,000 per megawatt (MW) before ERCOT can include it in an interconnection study, then sign a standard agreement and pay CIAC. https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF No faster path for a controllable load is stated in the rules held."
+    },
+    {
+     "on": "8,927 MW approved",
+     "tip": "ERCOT's large loads approved to energize, MW, its report of 2026-06-19 (June-19-LLWG-Report.pptx; ercot_large_load_status): approved to connect, not a wait."
+    },
+    {
+     "on": "+5.41",
+     "tip": "ERCOT's mean demand (EIA-930, ERCO), October 2025 to September 2026, 58,008 MW, against the twelve months before, 55,028 MW: each month's mean weighted by its hours (eia930_demand_growth, \"Your load\"'s file data/demand_growth.json). The grid's own balancing authority, not the row's zone: sub-region demand is not in the tab's files. Weather is not removed."
+    },
+    {
+     "on": "24,269 MW coming",
+     "tip": "Generators under construction (EIA-860M status U, V or TS) in ERCOT due to operate from 2026-09 to 2027-08, the twelve months after the table's vintage (2026-08): 137 generators. Approvals received, not under construction: 581 MW; planned, approvals pending or not started: 3,449 MW. EIA-860M records no interconnection agreement; construction is the nearest it states (eia860m_planned_generators)."
+    },
+    {
+     "on": "capacity 97% above peak",
+     "tip": "ERCOT's operating generators' net summer capacity at the end of 2025, 164,685 MW (solar 30,052, wind 40,278, storage 13,709, at their summer ratings), against its peak hour of 2025, 83,597 MW: grid_peak_vs_capacity (the data machine's, by each generator's balancing authority, EIA-860M and EIA-930). Not a reserve margin: no imports, outages or derates, and solar and wind at their ratings."
+    },
+    {
+     "on": "303.66",
+     "tip": "The grid's hourly intensity (carbon_intensity_hourly, intensity_demand, kg CO2 per MWh consumed), weighted by the load over the 8,512 of the 8,608 hours it runs where both are held: hourly, the grid's balancing authority, not the subregion. The eGRID subregion ERCT (ERCOT All): its 700 plants' CO2 over their net generation in 2023 (egrid_power_plants, eGRID2023), 332.87 kg (733.86 lb) per MWh generated, annual."
+    },
+    {
+     "on": "332.87",
+     "tip": "The eGRID subregion ERCT (ERCOT All): its 700 plants' CO2 over their net generation in 2023 (egrid_power_plants, eGRID2023), 332.87 kg (733.86 lb) per MWh generated, annual."
+    },
+    {
+     "on": "San Bernard Electric Coop, Inc and 2 more",
+     "tip": "Harris County, TX, a county this row's name places it in: EIA-861's service territories (utility_service_territories, 2025) list 3: CenterPoint Energy (no sales row); Entergy Texas Inc. (MISO); San Bernard Electric Coop, Inc (ERCO). Of those that bill customers inside ERCOT (balancing authority ERCO), San Bernard Electric Coop, Inc sold most to industry in the state in 2025: 219,378 MWh for USD 19,609,500 (bundled: energy and delivery; eia861_utility_sales). A utility with no sales row (a wires company that reports none) is listed and not priced."
+    },
+    {
+     "on": "89.39",
+     "tip": "Harris County, TX, a county this row's name places it in: EIA-861's service territories (utility_service_territories, 2025) list 3: CenterPoint Energy (no sales row); Entergy Texas Inc. (MISO); San Bernard Electric Coop, Inc (ERCO). Of those that bill customers inside ERCOT (balancing authority ERCO), San Bernard Electric Coop, Inc sold most to industry in the state in 2025: 219,378 MWh for USD 19,609,500 (bundled: energy and delivery; eia861_utility_sales). A utility with no sales row (a wires company that reports none) is listed and not priced."
+    },
+    {
+     "on": "-0.75",
+     "tip": "Industrial sales 2025 over 2024: 219,378 against 221,040 MWh."
+    },
+    {
+     "on": "30.85",
+     "tip": "Energy USD 30.85, transmission USD 0.00 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No delivery, distribution, ancillary or retail charge is in it."
+    },
+    {
+     "on": "0.00",
+     "tip": "Flexible compute: it ran in 0 of the four intervals of 2025 (2025-06-19 17:00 (off); 2025-07-30 17:00 (off); 2025-08-18 17:00 (off); 2025-09-04 17:30 (off)). ERCOT's four summer peak intervals of 2025 (ercot_4cp_intervals) at the Commission's 2025 rate, USD 68.547301 per kW of four-peak demand a year (texas_transmission_matrix), over the 8,579 hours a year the load runs. The charge is paid the year after the summer."
+    },
+    {
+     "on": "7.99",
+     "tip": "Firm: the load's full demand in all four intervals. ERCOT's four summer peak intervals of 2025 (ercot_4cp_intervals) at the Commission's 2025 rate, USD 68.547301 per kW of four-peak demand a year (texas_transmission_matrix), over the 8,579 hours a year the load runs. The charge is paid the year after the summer."
+    },
+    {
+     "on": "0.00",
+     "tip": "Curtailing: a load off in the four intervals' hours, computed from its weights in those hours, not assumed. ERCOT's four summer peak intervals of 2025 (ercot_4cp_intervals) at the Commission's 2025 rate, USD 68.547301 per kW of four-peak demand a year (texas_transmission_matrix), over the 8,579 hours a year the load runs. The charge is paid the year after the summer."
+    },
+    {
+     "on": "29.07",
+     "tip": "Flexible compute, day-ahead, October 2025 to September 2026: USD 29.07 per MWh over the 8,579 hours it ran, off in 181 of the 8,760 hours held. Off in an hour whose day-ahead price is at or above USD 100.00 per MWh, and in the hours of ERCOT's four summer peak intervals: none of those held falls in these months (ercot_4cp_intervals holds summers to 2025; Years held: 2018, 2019, 2020, 2022, 2023, 2024, 2025. Not held: 2021 (2021 is on neither ERCOT's list, which keeps four years, nor the zip, which ends with 2020). The summer of 2026 is published by 1 December 2026.). A flat load: USD 34.30."
+    },
+    {
+     "on": "181",
+     "tip": "Hours of the 8,760 held the load was off"
+    },
+    {
+     "on": "no capacity market",
+     "tip": "ERCOT is an energy-only market: it has no capacity market and no capacity charge. Counted as zero in the all-in figure."
+    },
+    {
+     "on": "45.80",
+     "tip": "Generation in ERCOT: the median months from queue entry to commercial operation of the 227 requests that came online from 2023 to 2025 (interconnection_durations, from Berkeley Lab's Queued Up, 2026 edition (through 2025)); a quarter took under 30 months, a quarter over 56. A generator's wait, not a load's: loads are not in this file."
+    },
+    {
+     "on": "rule 2026-09",
+     "tip": "The newest decided large-load rule held for ERCOT: Public Utility Commission of Texas, docket 58481, 2026-09-18 (large-load interconnection; large-load tariff). A large load customer must sign an intermediate agreement, make disclosures and post financial security of $50,000 per megawatt (MW) before ERCOT can include it in an interconnection study, then sign a standard agreement and pay CIAC. https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF No faster path for a controllable load is stated in the rules held."
+    },
+    {
+     "on": "8,927 MW approved",
+     "tip": "ERCOT's large loads approved to energize, MW, its report of 2026-06-19 (June-19-LLWG-Report.pptx; ercot_large_load_status): approved to connect, not a wait."
+    },
+    {
+     "on": "+5.41",
+     "tip": "ERCOT's mean demand (EIA-930, ERCO), October 2025 to September 2026, 58,008 MW, against the twelve months before, 55,028 MW: each month's mean weighted by its hours (eia930_demand_growth, \"Your load\"'s file data/demand_growth.json). The grid's own balancing authority, not the row's zone: sub-region demand is not in the tab's files. Weather is not removed."
+    },
+    {
+     "on": "24,269 MW coming",
+     "tip": "Generators under construction (EIA-860M status U, V or TS) in ERCOT due to operate from 2026-09 to 2027-08, the twelve months after the table's vintage (2026-08): 137 generators. Approvals received, not under construction: 581 MW; planned, approvals pending or not started: 3,449 MW. EIA-860M records no interconnection agreement; construction is the nearest it states (eia860m_planned_generators)."
+    },
+    {
+     "on": "capacity 97% above peak",
+     "tip": "ERCOT's operating generators' net summer capacity at the end of 2025, 164,685 MW (solar 30,052, wind 40,278, storage 13,709, at their summer ratings), against its peak hour of 2025, 83,597 MW: grid_peak_vs_capacity (the data machine's, by each generator's balancing authority, EIA-860M and EIA-930). Not a reserve margin: no imports, outages or derates, and solar and wind at their ratings."
+    },
+    {
+     "on": "303.41",
+     "tip": "The grid's hourly intensity (carbon_intensity_hourly, intensity_demand, kg CO2 per MWh consumed), weighted by the load over the 8,487 of the 8,579 hours it runs where both are held: hourly, the grid's balancing authority, not the subregion. The eGRID subregion ERCT (ERCOT All): its 700 plants' CO2 over their net generation in 2023 (egrid_power_plants, eGRID2023), 332.87 kg (733.86 lb) per MWh generated, annual."
+    },
+    {
+     "on": "332.87",
+     "tip": "The eGRID subregion ERCT (ERCOT All): its 700 plants' CO2 over their net generation in 2023 (egrid_power_plants, eGRID2023), 332.87 kg (733.86 lb) per MWh generated, annual."
+    },
+    {
+     "on": "TXU Energy Retail Co, LLC",
+     "tip": "TXU Energy Retail Co, LLC (EIA utility 19327), the largest of 69 sellers to industry in TX inside ERCOT (balancing authority ERCO) in 2025: 47,232,447 MWh to industry for USD 3,474,793,600 (eia861_utility_sales, bundled: energy and delivery). This row's name is not a place, so no county's service territory can be read for it: this is the state's largest seller, which the data machine found is not the county's utility in 4 of 7 hub counties (session 681)."
+    },
+    {
+     "on": "73.57",
+     "tip": "TXU Energy Retail Co, LLC (EIA utility 19327), the largest of 69 sellers to industry in TX inside ERCOT (balancing authority ERCO) in 2025: 47,232,447 MWh to industry for USD 3,474,793,600 (eia861_utility_sales, bundled: energy and delivery). This row's name is not a place, so no county's service territory can be read for it: this is the state's largest seller, which the data machine found is not the county's utility in 4 of 7 hub counties (session 681)."
+    },
+    {
+     "on": "+9.44",
+     "tip": "Industrial sales 2025 over 2024: 47,232,447 against 43,156,902 MWh."
+    },
+    {
+     "on": "29.07",
+     "tip": "Energy USD 29.07, transmission USD 0.00 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No delivery, distribution, ancillary or retail charge is in it."
+    },
+    {
+     "on": "0.00",
+     "tip": "Flexible compute: it ran in 0 of the four intervals of 2025 (2025-06-19 17:00 (off); 2025-07-30 17:00 (off); 2025-08-18 17:00 (off); 2025-09-04 17:30 (off)). ERCOT's four summer peak intervals of 2025 (ercot_4cp_intervals) at the Commission's 2025 rate, USD 68.547301 per kW of four-peak demand a year (texas_transmission_matrix), over the 8,567 hours a year the load runs. The charge is paid the year after the summer."
+    },
+    {
+     "on": "8.00",
+     "tip": "Firm: the load's full demand in all four intervals. ERCOT's four summer peak intervals of 2025 (ercot_4cp_intervals) at the Commission's 2025 rate, USD 68.547301 per kW of four-peak demand a year (texas_transmission_matrix), over the 8,567 hours a year the load runs. The charge is paid the year after the summer."
+    },
+    {
+     "on": "0.00",
+     "tip": "Curtailing: a load off in the four intervals' hours, computed from its weights in those hours, not assumed. ERCOT's four summer peak intervals of 2025 (ercot_4cp_intervals) at the Commission's 2025 rate, USD 68.547301 per kW of four-peak demand a year (texas_transmission_matrix), over the 8,567 hours a year the load runs. The charge is paid the year after the summer."
+    },
+    {
+     "on": "28.72",
+     "tip": "Flexible compute, day-ahead, October 2025 to September 2026: USD 28.72 per MWh over the 8,567 hours it ran, off in 193 of the 8,760 hours held. Off in an hour whose day-ahead price is at or above USD 100.00 per MWh, and in the hours of ERCOT's four summer peak intervals: none of those held falls in these months (ercot_4cp_intervals holds summers to 2025; Years held: 2018, 2019, 2020, 2022, 2023, 2024, 2025. Not held: 2021 (2021 is on neither ERCOT's list, which keeps four years, nor the zip, which ends with 2020). The summer of 2026 is published by 1 December 2026.). A flat load: USD 34.43."
+    },
+    {
+     "on": "193",
+     "tip": "Hours of the 8,760 held the load was off"
+    },
+    {
+     "on": "no capacity market",
+     "tip": "ERCOT is an energy-only market: it has no capacity market and no capacity charge. Counted as zero in the all-in figure."
+    },
+    {
+     "on": "45.80",
+     "tip": "Generation in ERCOT: the median months from queue entry to commercial operation of the 227 requests that came online from 2023 to 2025 (interconnection_durations, from Berkeley Lab's Queued Up, 2026 edition (through 2025)); a quarter took under 30 months, a quarter over 56. A generator's wait, not a load's: loads are not in this file."
+    },
+    {
+     "on": "rule 2026-09",
+     "tip": "The newest decided large-load rule held for ERCOT: Public Utility Commission of Texas, docket 58481, 2026-09-18 (large-load interconnection; large-load tariff). A large load customer must sign an intermediate agreement, make disclosures and post financial security of $50,000 per megawatt (MW) before ERCOT can include it in an interconnection study, then sign a standard agreement and pay CIAC. https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF No faster path for a controllable load is stated in the rules held."
+    },
+    {
+     "on": "8,927 MW approved",
+     "tip": "ERCOT's large loads approved to energize, MW, its report of 2026-06-19 (June-19-LLWG-Report.pptx; ercot_large_load_status): approved to connect, not a wait."
+    },
+    {
+     "on": "+5.41",
+     "tip": "ERCOT's mean demand (EIA-930, ERCO), October 2025 to September 2026, 58,008 MW, against the twelve months before, 55,028 MW: each month's mean weighted by its hours (eia930_demand_growth, \"Your load\"'s file data/demand_growth.json). The grid's own balancing authority, not the row's zone: sub-region demand is not in the tab's files. Weather is not removed."
+    },
+    {
+     "on": "24,269 MW coming",
+     "tip": "Generators under construction (EIA-860M status U, V or TS) in ERCOT due to operate from 2026-09 to 2027-08, the twelve months after the table's vintage (2026-08): 137 generators. Approvals received, not under construction: 581 MW; planned, approvals pending or not started: 3,449 MW. EIA-860M records no interconnection agreement; construction is the nearest it states (eia860m_planned_generators)."
+    },
+    {
+     "on": "capacity 97% above peak",
+     "tip": "ERCOT's operating generators' net summer capacity at the end of 2025, 164,685 MW (solar 30,052, wind 40,278, storage 13,709, at their summer ratings), against its peak hour of 2025, 83,597 MW: grid_peak_vs_capacity (the data machine's, by each generator's balancing authority, EIA-860M and EIA-930). Not a reserve margin: no imports, outages or derates, and solar and wind at their ratings."
+    },
+    {
+     "on": "303.31",
+     "tip": "The grid's hourly intensity (carbon_intensity_hourly, intensity_demand, kg CO2 per MWh consumed), weighted by the load over the 8,476 of the 8,567 hours it runs where both are held: hourly, the grid's balancing authority, not the subregion. The eGRID subregion ERCT (ERCOT All): its 700 plants' CO2 over their net generation in 2023 (egrid_power_plants, eGRID2023), 332.87 kg (733.86 lb) per MWh generated, annual."
+    },
+    {
+     "on": "332.87",
+     "tip": "The eGRID subregion ERCT (ERCOT All): its 700 plants' CO2 over their net generation in 2023 (egrid_power_plants, eGRID2023), 332.87 kg (733.86 lb) per MWh generated, annual."
+    },
+    {
+     "on": "TXU Energy Retail Co, LLC",
+     "tip": "TXU Energy Retail Co, LLC (EIA utility 19327), the largest of 69 sellers to industry in TX inside ERCOT (balancing authority ERCO) in 2025: 47,232,447 MWh to industry for USD 3,474,793,600 (eia861_utility_sales, bundled: energy and delivery). This row's name is not a place, so no county's service territory can be read for it: this is the state's largest seller, which the data machine found is not the county's utility in 4 of 7 hub counties (session 681)."
+    },
+    {
+     "on": "73.57",
+     "tip": "TXU Energy Retail Co, LLC (EIA utility 19327), the largest of 69 sellers to industry in TX inside ERCOT (balancing authority ERCO) in 2025: 47,232,447 MWh to industry for USD 3,474,793,600 (eia861_utility_sales, bundled: energy and delivery). This row's name is not a place, so no county's service territory can be read for it: this is the state's largest seller, which the data machine found is not the county's utility in 4 of 7 hub counties (session 681)."
+    },
+    {
+     "on": "+9.44",
+     "tip": "Industrial sales 2025 over 2024: 47,232,447 against 43,156,902 MWh."
+    },
+    {
+     "on": "28.72",
+     "tip": "Energy USD 28.72, transmission USD 0.00 and capacity USD 0.00 per MWh (ERCOT has no capacity market). No delivery, distribution, ancillary or retail charge is in it."
+    }
+   ],
+   "nChecks": 243,
+   "sortLine": "Sorted by transmission and the four peaks, largest first; a row with no figure, or one held under a license, last. The sort reads the profile's own charge, not the firm figure beside it. 14 of 48 rows shown, in ERCOT. The order is the column's, not a ranking of sites.",
+   "headline": "A flexible compute load of 100 MW at ERCOT HB_HUBAVG pays USD 29.07 per MWh all-in, USD 22,444,426 a year; generators there took a median of 45.80 months to connect.",
+   "abPanel": "A and B, side by sideUSD per MWh unless saidA: ERCOT HB_HUBAVGB: ERCOT HB_WESTB less AEnergy 29.0726.66-2.41Transmission and 4CP 0.000.000.00Capacity 0.000.000.00Time to connect months45.8045.800.00Headroom percent; MW5.415.410.00Carbon kg CO2 per MWh303.41303.09-0.31Utility 73.5773.570.00All-in 29.0726.66-2.41A year all-in, USD, 100 MW22,444,42620,506,415-1,938,011Energy used a year, MWh772,110769,140Each figure is the row's own in the table below, under the same load. Months to connect are the grid's generators' (the column \"Time to connect\"). The year all-in is the all-in figure times the energy the load uses in a year: its draw while running times the hours it runs.",
+   "shared": null,
+   "panel": null,
+   "selects": [
+    {
+     "k": "a",
+     "value": "ercot:HB_HUBAVG",
+     "chosen": "ERCOT HB_HUBAVG (hub)",
+     "n": 49
+    },
+    {
+     "k": "b",
+     "value": "ercot:HB_WEST",
+     "chosen": "ERCOT HB_WEST (hub)",
+     "n": 49
+    }
+   ],
+   "rows": [
+    {
+     "id": "ercot:HB_BUSAVG",
+     "text": "ERCOT HB_BUSAVG (hub)0.00Flexible compute: it ran in 0 of the four intervals of 2025 (2025-06-19 17:00 (off); 2025-07-30 17:00 (off); 2025-08-18 17:00 (off); 2025-09-04 17:30 (off)). ERCOT's four summer peak intervals of 2025 (ercot_4cp_int"
+    },
+    {
+     "id": "ercot:HB_HOUSTON",
+     "text": "ERCOT HB_HOUSTON (hub)0.00Flexible compute: it ran in 0 of the four intervals of 2025 (2025-06-19 17:00 (off); 2025-07-30 17:00 (off); 2025-08-18 17:00 (off); 2025-09-04 17:30 (off)). ERCOT's four summer peak intervals of 2025 (ercot_4cp_in"
+    },
+    {
+     "id": "ercot:HB_HUBAVG",
+     "text": "ERCOT HB_HUBAVG (hub)0.00Flexible compute: it ran in 0 of the four intervals of 2025 (2025-06-19 17:00 (off); 2025-07-30 17:00 (off); 2025-08-18 17:00 (off); 2025-09-04 17:30 (off)). ERCOT's four summer peak intervals of 2025 (ercot_4cp_int"
+    },
+    {
+     "id": "ercot:HB_NORTH",
+     "text": "ERCOT HB_NORTH (hub)0.00Flexible compute: it ran in 0 of the four intervals of 2025 (2025-06-19 17:00 (off); 2025-07-30 17:00 (off); 2025-08-18 17:00 (off); 2025-09-04 17:30 (off)). ERCOT's four summer peak intervals of 2025 (ercot_4cp_inte"
+    },
+    {
+     "id": "ercot:HB_SOUTH",
+     "text": "ERCOT HB_SOUTH (hub)0.00Flexible compute: it ran in 0 of the four intervals of 2025 (2025-06-19 17:00 (off); 2025-07-30 17:00 (off); 2025-08-18 17:00 (off); 2025-09-04 17:30 (off)). ERCOT's four summer peak intervals of 2025 (ercot_4cp_inte"
+    },
+    {
+     "id": "ercot:HB_WEST",
+     "text": "ERCOT HB_WEST (hub)0.00Flexible compute: it ran in 0 of the four intervals of 2025 (2025-06-19 17:00 (off); 2025-07-30 17:00 (off); 2025-08-18 17:00 (off); 2025-09-04 17:30 (off)). ERCOT's four summer peak intervals of 2025 (ercot_4cp_inter"
+    }
+   ],
+   "nodeIds": [],
+   "heads": [],
+   "scrollW": 390,
+   "clientW": 390,
+   "totalH": 3431,
+   "shot": "13-four-peak_390.png"
+  }
+ ],
+ "pageErrors": []
+}
