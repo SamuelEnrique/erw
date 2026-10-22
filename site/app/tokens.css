@@ -1100,3 +1100,17 @@ body:has(.brand-a) > footer :focus-visible {
   vertical-align: baseline;
   text-align: inherit;
 }
+/* session 715: in the All grids tab a cell's small labels ("rt", "firm", "off", "load:", "MW coming", "annual", "kg")
+   are words, so sans; the figures among them keep the mono of a table's figures. A tip in the first four columns opens
+   to the right (data-opens on the cell), where a tip opening left would be cut by the table's frame */
+.brand-a [data-allgrids] tbody td :is([data-rt], [data-tx-firm], [data-tx-curtailing], [data-connect-load], [data-headroom-planned], [data-carbon-annual], [data-carbon-lb], [data-util-growth], [data-lost]) {
+  font-family: var(--font-sans);
+  font-size: 12px;
+}
+.brand-a [data-allgrids] tbody td [data-check] {
+  font-family: var(--font-mono);
+}
+.brand-a [data-allgrids] td[data-opens="right"] [role="tooltip"] {
+  left: 0;
+  right: auto;
+}

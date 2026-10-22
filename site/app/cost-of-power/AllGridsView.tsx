@@ -402,7 +402,7 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
               {shown.map((r) => (
                 <tr key={r.id} className="border-b border-rule" data-allgrids-row={r.id}>
                   <RowHead r={r} />
-                  {COLUMNS.map((c) => <td key={c.id} className="px-3 py-1.5 text-right" data-cell={c.id}>{c.id === "energy" ? (x.profile === "datacenter" ? <EnergyTd r={r} e={energyCell(SITING_DC, SITING_FILES, r)} /> : <ProfileTd r={r} x={x} />)
+                  {COLUMNS.map((c, ci) => <td key={c.id} className="px-3 py-1.5 text-right" data-cell={c.id} data-opens={ci < 4 ? "right" : undefined}>{c.id === "energy" ? (x.profile === "datacenter" ? <EnergyTd r={r} e={energyCell(SITING_DC, SITING_FILES, r)} /> : <ProfileTd r={r} x={x} />)
                     : c.id === "transmission" ? <TxTd r={r} x={x} /> : c.id === "capacity" ? <CapTd r={r} x={x} /> : c.id === "connect" ? <ConnectTd r={r} /> : c.id === "headroom" ? <HeadroomTd r={r} /> : c.id === "carbon" ? <CarbonTd r={r} x={x} /> : c.id === "utility" ? <UtilityTd r={r} /> : c.id === "allin" ? <AllInTd r={r} x={x} /> : null}</td>)}
                 </tr>
               ))}
