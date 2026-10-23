@@ -1,0 +1,177 @@
+{
+ "id": "siting_gigawatt",
+ "card_id": "siting_gigawatt",
+ "title": "WHERE A GIGAWATT PAYS LEAST",
+ "kind": "visual",
+ "engine": "site/scripts/siting-card.mjs",
+ "subtitle": "A 1 GW datacenter load, all-in per MWh, at the 14 rows of the All grids tab whose every cost part is held",
+ "params": {
+  "mw": 1000,
+  "profile": "datacenter"
+ },
+ "inputs_words": {
+  "mw": "1,000 MW",
+  "profile": "Datacenter: 0.90 in every hour, never curtails"
+ },
+ "chart": {
+  "kind": "bars_free",
+  "x": [
+   "HB_WEST",
+   "HB_HUBAVG",
+   "HB_BUSAVG",
+   "HB_NORTH",
+   "LZ_SOUTH",
+   "HB_SOUTH",
+   "HB_HOUSTON",
+   "LZ_NORTH",
+   "LZ_HOUSTON",
+   "LZ_RAYBN",
+   "LZ_WEST",
+   "LZ_LCRA",
+   "LZ_AEN",
+   "LZ_CPS"
+  ],
+  "x_label": "Row of the All grids tab (ERCOT)",
+  "series": [
+   {
+    "name": "Energy, day-ahead, twelve months",
+    "type": "bar",
+    "unit": "USD per MWh",
+    "values": [
+     33.005397260273966,
+     34.302055936073074,
+     34.39849543378996,
+     34.43196004566211,
+     34.440215753424674,
+     34.54967351598174,
+     35.221134703196356,
+     35.326399543379,
+     35.4831506849315,
+     35.605309360730594,
+     37.38117694063927,
+     38.747914383561636,
+     38.78016552511416,
+     38.86452853881277
+    ]
+   },
+   {
+    "name": "Four-peak transmission charge",
+    "type": "bar",
+    "unit": "USD per MWh",
+    "values": [
+     7.825034360730594,
+     7.825034360730594,
+     7.825034360730594,
+     7.825034360730594,
+     7.825034360730594,
+     7.825034360730594,
+     7.825034360730594,
+     7.825034360730594,
+     7.825034360730594,
+     7.825034360730594,
+     7.825034360730594,
+     7.825034360730594,
+     7.825034360730594,
+     7.825034360730594
+    ]
+   }
+  ],
+  "y_left_label": "USD per MWh",
+  "decimals": 2
+ },
+ "callouts": [
+  {
+   "label": "All-in, USD per MWh, least and most",
+   "before": {
+    "period": "ERCOT HB_WEST",
+    "text": "40.83"
+   },
+   "after": {
+    "period": "ERCOT LZ_CPS",
+    "text": "46.69"
+   },
+   "unit": ""
+  },
+  {
+   "label": "A year at 1 GW, USD",
+   "before": {
+    "period": "HB_WEST",
+    "text": "321,907,123"
+   },
+   "after": {
+    "period": "LZ_CPS",
+    "text": "368,100,514"
+   },
+   "unit": ""
+  },
+  {
+   "label": "Median months to connect, generators",
+   "before": {
+    "period": "ERCOT",
+    "text": "45.80"
+   },
+   "after": {
+    "period": "CAISO",
+    "text": "100.00"
+   },
+   "unit": ""
+  }
+ ],
+ "why": "A 1 GW datacenter load, drawing 0.90 of its size in every hour, paid least all-in at ERCOT HB_WEST: USD 40.83 per MWh, USD 321,907,123 a year, and most at ERCOT LZ_CPS: USD 46.69 per MWh, USD 368,100,514 a year. All-in is the day-ahead price over the last twelve whole months, the four-peak transmission charge at the Commission's rate, and capacity, of which ERCOT has none. Only 14 of the tab's 48 rows hold every part: elsewhere transmission is not held, or capacity is held under a license (34 rows). Generators took a median of 45.80 months from request to operation in ERCOT and 100.00 in CAISO, over the requests that came online from 2023 to 2025.",
+ "footnote": "Data: the All grids tab of \"What a datacenter pays\" (/cost-of-power?view=allgrids&mw=1000), computed by site/lib/siting.ts from the page's own files: the hourly hub and zone prices (ercot_all_hub_prices_history, ercot_zone_prices_history), ercot_4cp_intervals and the Commission's approved rate (texas_transmission_matrix), and interconnection_durations (Berkeley Lab's Queued Up, 2026 edition (through 2025)). Method: docs/methods/siting.md. The replication: warehouse/replication/siting.py.",
+ "numbers": {
+  "rows": 48,
+  "rows_held": 14,
+  "rows_not_held": 34,
+  "least_allin": 40.830431621004564,
+  "least_row": "ercot:HB_WEST",
+  "least_energy": 33.005397260273966,
+  "least_tx": 7.825034360730594,
+  "least_year_usd": 321907122.9,
+  "most_allin": 46.68956289954336,
+  "most_row": "ercot:LZ_CPS",
+  "most_energy": 38.86452853881277,
+  "most_tx": 7.825034360730594,
+  "most_year_usd": 368100513.89999986,
+  "year_mwh": 7884000,
+  "connect_least": 45.8,
+  "connect_least_grid": "ercot",
+  "connect_most": 100,
+  "connect_most_grid": "caiso"
+ },
+ "source_line": "Source: ERW, the All grids tab (/cost-of-power?view=allgrids), from ERCOT's prices and four-peak intervals, the PUCT's transmission matrix and Berkeley Lab's Queued Up (2026 edition (through 2025)).",
+ "tables": [
+  "ercot_all_hub_prices_history",
+  "ercot_zone_prices_history",
+  "ercot_4cp_intervals",
+  "texas_transmission_matrix",
+  "interconnection_durations"
+ ],
+ "computed_at": "2026-10-22T12:13:03Z",
+ "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/siting.md",
+ "downloads": {
+  "csv": "siting_gigawatt.csv",
+  "python": "",
+  "stata": ""
+ },
+ "csv_sha256": "",
+ "csv_header": [
+  "Energy Research Warehouse (ERW): finding siting_gigawatt, WHERE A GIGAWATT PAYS LEAST",
+  "Computed by site/scripts/siting-card.mjs from site/lib/siting.ts (the All grids tab); method docs/methods/siting.md",
+  "Rows: one per row of the tab whose every cost part is held, a 1 GW datacenter load: energy, transmission, capacity and all-in in USD per MWh, the year in USD"
+ ],
+ "statistics": {
+  "session": 361,
+  "round": {
+   "name": "the findings library's cards as computed by 2026-10-22",
+   "claims_tested": 26,
+   "claims_passing": 15,
+   "alpha": 0.05,
+   "method": "Benjamini-Hochberg over the round's distinct p-values",
+   "caveat": "Many claims were tested in this round; a claim's q-value is the false discovery rate at which it would still be kept over all of them (Benjamini and Hochberg). A caveat, not a test the card had to pass.",
+   "claims_of_this_card": 0,
+   "q_bh": {},
+   "this_card": "no claim of this card is a test with a p-value: it states figures, and the round's count is the library's"
+  }
+ }
+}

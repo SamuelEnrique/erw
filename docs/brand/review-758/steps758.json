@@ -1,0 +1,53 @@
+[
+ {
+  "name": "v01_utility_sort",
+  "path": "/cost-of-power?view=allgrids&mw=1000&sort=utility&dir=desc"
+ },
+ {
+  "name": "v02_utility_ercot",
+  "path": "/cost-of-power?view=allgrids&mw=1000&sort=utility&dir=desc&grid=ercot"
+ },
+ {
+  "name": "v03_headroom",
+  "path": "/cost-of-power?view=allgrids&mw=1000&sort=headroom&dir=desc"
+ },
+ {
+  "name": "v04_connect",
+  "path": "/cost-of-power?view=allgrids&mw=1000&sort=connect&dir=asc"
+ },
+ {
+  "name": "v05_ab_utilities",
+  "path": "/cost-of-power?view=allgrids&mw=1000&sort=utility&a=ercot%3ALZ_HOUSTON&b=pjm%3Agrid"
+ },
+ {
+  "name": "v06_zones_only",
+  "path": "/cost-of-power?view=allgrids&mw=1000&sort=utility&kind=zone"
+ },
+ {
+  "name": "v07_tracker",
+  "path": "/datacenters"
+ },
+ {
+  "name": "v08_tracker_grids",
+  "path": "/datacenters?view=grids"
+ },
+ {
+  "name": "v09_industry",
+  "path": "/cost-of-power?view=allgrids&mw=300&profile=industry&sort=allin&dir=asc"
+ },
+ {
+  "name": "v10_utility_390",
+  "path": "/cost-of-power?view=allgrids&mw=1000&sort=utility&dir=desc",
+  "w": 390,
+  "h": 844
+ },
+ {
+  "name": "v11_gaps",
+  "path": "/internal/siting-gaps"
+ },
+ {
+  "name": "v12_headroom_zones",
+  "path": "/cost-of-power?view=allgrids&mw=1000&sort=headroom&grid=nyiso",
+  "scroll": "[data-allgrids-table]"
+ }
+]

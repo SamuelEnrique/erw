@@ -1,0 +1,6 @@
+/cost-of-power?view=allgrids {"html":1860363,"tips":787,"tipBytes":496573,"repeated":285176,"distinct":257,"scripts":1055175,"checks":519}
+/cost-of-power?view=allgrids&rows=nodes {"html":322603,"tips":22,"tipBytes":8087,"repeated":0,"distinct":22,"scripts":243852,"checks":112}
+/cost-of-power?view=allgrids&profile=flexible {"html":1702164,"tips":794,"tipBytes":428823,"repeated":285728,"distinct":263,"scripts":959722,"checks":525}
+--- after
+/cost-of-power?view=allgrids {"html":1584786,"tips":787,"tipBytes":360768,"repeated":193486,"distinct":257,"scripts":915404,"checks":519}
+/cost-of-power?view=allgrids&profile=flexible {"html":1425282,"tips":794,"tipBytes":291980,"repeated":193865,"distinct":263,"scripts":819684,"checks":525}

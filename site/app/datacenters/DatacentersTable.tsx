@@ -34,6 +34,9 @@ export type Facility = {
   mwSpan: string;
   queueMw: number | null;
   sourceUrls: string[];
+  /** session 719: the All grids tab's row for this facility (lib/siting.ts, facilitySite), and its address; none where
+   *  neither its county nor its state places it in one grid */
+  siting?: { grid: string; row: string; how: string; why: string; href: string } | null;
 };
 
 const KIND_LABEL: Record<string, string> = { news: "news", operator: "operator list", queue: "ISO queue" };
@@ -165,6 +168,7 @@ export function DatacentersTable({ rows }: { rows: Facility[] }) {
                   {[f.city, f.county, f.state].filter(Boolean).join(", ") || blank}
                   {f.country ? null : <div className="text-xs text-muted" title={NO_COUNTRY_WHY} data-no-country="1">{NO_COUNTRY}</div>}
                   {f.placed ? <div className="text-xs text-muted">on the map</div> : null}
+                  {f.siting ? <div className="text-xs" data-facility-siting={f.siting.how}><a href={f.siting.href} className="underline" aria-label={`${f.site || f.operator}: what a load of its size pays at ${f.siting.row}, on the All grids tab. ${f.siting.why}`}>on All grids</a>{" "}<span className="text-muted">({f.siting.how === "county" ? "its county" : "its state"})</span></div> : null}
                 </td>
                 <td className="py-1 pr-3 text-right tabular-nums">
                   {f.mw === null ? blank : f.mw.toLocaleString("en-US")}

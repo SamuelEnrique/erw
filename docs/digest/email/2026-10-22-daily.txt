@@ -1,0 +1,56 @@
+ERW's Energy Digest, 2026-10-22
+
+ERW's weekday brief of energy news for the 24 hours to 2026-10-22 15:39 UTC, from 258 scored stories.
+
+Top 5 of the day
+
+1. Cheniere signs long-term LNG deals with QatarEnergy for 4 mtpa through 2054
+   Decade-spanning LNG contract locks in supply volumes and reshapes global LNG trade flows. parties: Cheniere; QatarEnergy.
+   LNG Prime: https://lngprime.com/contracts-and-tenders/cheniere-inks-long-term-lng-supply-deals-with-qatarenergy/198822/
+2. Google and Voltus plan 1 GW of virtual power plant capacity in PJM
+   1 GW VPP to support data center power demand in constrained PJM grid. 1,000 MW; parties: Google; Voltus.
+   Canary Media: https://www.canarymedia.com/articles/virtual-power-plants/google-plans-big-virtual-power-plant-in-energy-strapped-pjm-grid
+3. Rising AI bills are vexing Wall Street executives, Bloomberg reports
+   Data center power costs rising sharply, imposing cost and operational challenges on financial sector.
+   Bloomberg.com (via Google News): https://news.google.com/rss/articles/CBMirAFBVV95cUxOMV9ZUUJjbkZrbGRYOEwwbTVTbml5NGctdUw5OUgzZE5hU2NNVGo2dUtlRTFnaERqaDc2eUxSNTR4eE93empUelRPdDdJMDJNUDV4bENNb21FOFhPT2lQT1lDcnNnVFp5em1PZEZCNDhGd0Q1R3hGM19QdjZheldWdjVRcHkxeDhOQ1E1ZlVNbG93aXJia0dQS2tOMVVfOXRYUVdLSV80WDc4bFdW?oc=5
+4. UK clears gas production from the stalled Jackdaw field in the North Sea
+   Gas project approval addresses European winter supply shortages from Iran tensions.
+   Natural Gas Intelligence: https://naturalgasintel.com/news/uk-revives-stalled-north-sea-natural-gas-project-as-energy-supply-fears-grow/
+5. Three killed in attacks on Aramco oil field and Saudi airport; Brent rises more than 3%
+   Attacks on Saudi oil infrastructure heighten Middle East supply disruption risk. parties: Aramco.
+   Bloomberg.com (via Google News): https://news.google.com/rss/articles/CBMitgFBVV95cUxPMmllOFR3NkgtdHNXaGVEWVJkQ0hxM0NLd2VBREpTc1dFVzhTMllCRnFScFZldU1qMFBHdWlhczdCNWNDNFFUQnQ1X3RhVEZiQXdibC03N0VEY2JaNUVYQXh1ZnRNRXN6NFdMa09DcEFLakxZbzJwUXVJdzkyY05ya1ZFal9IenRza1ZpLUtQVG1YR3R4cEx6c1dkUDhKY2RlY2xfVmpBVUQ3OW5WUlI5MTVjMm9Jdw?oc=5
+
+ERW's Numbers Today
+
+Day-ahead power was dearest at CAISO's TH_SP15_GEN-APND, 51.62 USD/MWh, and cheapest at SPP's SPPSOUTH_HUB, 34.33, on 2026-10-21. The highest real-time price was 1165.64 USD/MWh at LONGIL (NYISO) in the interval starting 2026-10-21 20:00 local. MISO is paused and PJM has no price table, so neither is in the comparison; Henry Hub closed at 3.10 USD/MMBtu on 2026-10-20.
+Day-ahead average, yesterday, main hub (mean of the 24 hourly prices of the operating day):
+  ISO: ERCOT; Hub or zone: HB_NORTH; Operating day: 2026-10-21; Average USD/MWh: 39.85; Table: [1]
+  ISO: CAISO; Hub or zone: TH_SP15_GEN-APND; Operating day: 2026-10-21; Average USD/MWh: 51.62; Table: [1]
+  ISO: NYISO; Hub or zone: N.Y.C.; Operating day: 2026-10-21; Average USD/MWh: 50.31; Table: [2]
+  ISO: MISO; Hub or zone: INDIANA.HUB; Operating day: 2026-10-21; Average USD/MWh: not requested: paused by the ERW since 2026-10-04 (MISO's terms forbid automated access); Table: [1]
+  ISO: SPP; Hub or zone: SPPSOUTH_HUB; Operating day: 2026-10-21; Average USD/MWh: 34.33; Table: [1]
+  ISO: ISO-NE; Hub or zone: .H.INTERNAL_HUB; Operating day: 2026-10-21; Average USD/MWh: 43.74; Table: [3]
+  ISO: PJM; Average USD/MWh: no PJM price table (no API key)
+Highest real-time price, yesterday: 1165.64 USD/MWh at LONGIL (NYISO), interval starting 2026-10-21 20:00 local (2026-10-22 00:00 UTC), PT15M lmp_rtm_15m_mean, NYISO's real-time locational marginal price (a 15-minute mean of 5-minute prices) [4].
+Latest fuel spot closes (EIA, trading dates):
+- Henry Hub natural gas: 3.10 USD/MMBtu on 2026-10-20 [5]
+- WTI Cushing crude: 107.89 USD/bbl on 2026-10-20 [5]
+- Brent crude: 115.22 USD/bbl on 2026-10-20 [5]
+Tables: [1] iso_dam_hub_prices (caiso:PRC_LMP, ercot:NP4-190-CD, miso:da_expost_lmp, spp:DA-LMP-SL); [2] nyiso_dam_zone_prices (nyiso:damlbmp); [3] isone_dam_zone_prices (isone:da_lmp_hourly); [4] nyiso_rtm_zone_prices (nyiso:realtime); real-time tables read: iso_rtm_hub_prices, isone_rtm_zone_prices, isone_rtm_zone_prices_hourly, nyiso_rtm_zone_prices; [5] eia_fuel_spot_prices (eia:natural-gas/pri/fut, eia:petroleum/pri/spt).
+
+ERW's Chart of the Day
+
+[chart: eia861m:4911:NE industrial_sales: 87,866 MWh in July 2026, the highest monthly value held since January 2017. The record until now was 81,361 MWh, in August 2023.] https://raw.githubusercontent.com/SamuelEnrique/erw/main/docs/digest/charts/2026-10-22.png
+eia861m:4911:NE industrial_sales: 87,866 MWh in July 2026, the highest monthly value held since January 2017. The record until now was 81,361 MWh, in August 2023.
+Table eia861m_utility_sales_monthly, series entity=eia861m:4911:NE, variable=industrial_sales, node=Dawson Power District, freq=P1M: the table and its download. Chosen by rule, not by a person or a model: the strongest flag of the day's scan that no Digest has shown (rule: record; 4.13 robust standard deviations past its threshold). How the chart is chosen.
+
+ERW's Fun Fact
+
+In March 1974, OAPEC lifted the embargo, but the price of oil had risen by nearly 300%: from US$3/barrel to nearly US$12/barrel globally. Sadat liked to say that his favourite game was backgammon, making an analogy between how he played backgammon and conducted his diplomacy.
+Sources: Wikipedia, 1973 oil crisis (https://en.wikipedia.org/wiki/1973_oil_crisis).
+
+ERW
+
+All of ERW's Energy Digest: https://github.com/SamuelEnrique/erw/blob/main/docs/digest/2026-10-22.md
+ERW, the live, citable record of the US energy system. Every number names the table it came from.
+Stop these emails: Each recipient's email carries its own signed unsubscribe link.
