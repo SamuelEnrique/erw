@@ -73,7 +73,10 @@ UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "mph", "
          "lb", "SWU", "USD/SWU",
          # session 954: a quantity in metric tons and a price per kilogram, as the USGS's Mineral Commodity Summaries give
          # them (usgs_mcs_critical_minerals; Decision 56)
-         "t", "USD/kg"}
+         "t", "USD/kg",
+         # session 2045: precipitation in inches, as NOAA's nClimDiv gives a state's month (noaa_climdiv_state_monthly;
+         # Decision 60)
+         "in"}
 NAME_RE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+){2,}$")
 NAME_MAX = 40
 TS_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
