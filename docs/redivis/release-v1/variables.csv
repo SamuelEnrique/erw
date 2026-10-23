@@ -2979,6 +2979,13 @@ eia_petroleum_supply_weekly,utilization,series variable,pct
 eia_petroleum_trade_weekly,flow,series variable,kbbl/d
 eia_power_co2_state_annual,co2,series variable,tCO2
 eia_power_co2_state_annual,co2_rate,series variable,kgCO2/MWh
+eia_power_costs_annual,amount,series variable,USD
+eia_power_costs_annual,fuel_expense,series variable,USD/MWh
+eia_power_costs_annual,heat_rate,series variable,MMBtu/MWh
+eia_power_costs_annual,maintenance_expense,series variable,USD/MWh
+eia_power_costs_annual,operation_expense,series variable,USD/MWh
+eia_power_costs_annual,tested_heat_rate,series variable,MMBtu/MWh
+eia_power_costs_annual,total_expense,series variable,USD/MWh
 eia_power_plant_fuel_costs,cost_per_mcf,series variable,USD/Mcf
 eia_power_plant_fuel_costs,cost_per_mmbtu,series variable,USD/MMBtu
 eia_power_plant_fuel_costs,cost_per_short_ton,series variable,USD/short_ton

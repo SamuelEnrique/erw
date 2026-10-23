@@ -148,6 +148,7 @@ eia_petroleum_stocks_weekly,none,,8,P1W,1982-08-20T00:00:00Z,2026-10-16T00:00:00
 eia_petroleum_supply_weekly,none,,30,P1W,2010-01-01T00:00:00Z,2026-10-02T00:00:00Z,26118,eia:petroleum/move/wkly:supply;eia:petroleum/stoc/wstk:supply;eia:petroleum/sum/sndw,2026-10-10T14:58:19Z,pass,public,oil;products,no,source
 eia_petroleum_trade_weekly,none,,7,P1W,1990-01-05T00:00:00Z,2026-10-16T00:00:00Z,12593,eia:petroleum/move/wkly,2026-10-22T14:35:37Z,pass,public,oil;products,no,source
 eia_power_co2_state_annual,none,,256,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,10640,eia:electricity/state-electricity-profiles/emissions-by-state-by-fuel,2026-10-21T23:48:30Z,pass,public,power;carbon,no,source
+eia_power_costs_annual,none,,48,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,550,eia:electric_power_annual:chapter8,2026-10-23T06:57:38Z,pass,public,power,no,source
 eia_power_plant_fuel_costs,none,,58,P1M,2019-01-01T00:00:00Z,2026-07-01T00:00:00Z,13006,eia:electricity/electric-power-operational-data:cost,2026-10-22T15:06:05Z,pass,public,coal;gas;power,no,source
 eia_product_spot_prices,none,,9,P1D,1986-06-02T00:00:00Z,2026-10-20T00:00:00Z,72088,eia:petroleum/pri/spt,2026-10-22T14:35:37Z,pass,public,products,no,source
 eia_product_supplied_monthly,none,,702,P1M,2017-01-01T00:00:00Z,2026-07-01T00:00:00Z,71938,eia:petroleum/cons/psup,2026-10-21T23:04:16Z,pass,public,oil;products,no,source
