@@ -19,7 +19,11 @@
 
 ## The landing
 
-Sessions 1040 and 1041 land together from this branch, with the records of 1020 to 1039.
+Sessions 1040 and 1041 land together from this branch, with the records of 1020 to 1039 (`task/1040-1041-allgrids`).
+
+- **The gate** (09:19 to 09:36, on `4fc219d1`): freeze 0, main in the commit, `task/909-922-data` in flight and merging cleanly; suite 6,224 tests OK (305 skipped); build 0; check-values 8,051 of 8,052, failing only on the ten held floors, `/digest` before the day's issue and the 21 October Digest's WTI. By hand on its kept build (lock `s1041l`): check-routes 0 (226 pages, 0 failed), check-cross-checks 0 (92 of 92), check-csp 0 (97 pages, 0 violations).
+- **Before the push** main had gained the data machine's chain 051 landing (`9f524454`, through its own checks, and the gate's trial merge of its branch was clean), the personal laptop's reports and note, and the queue moves of 073 and 074. Merged without a further gate: this branch changes documents only (session reports and a note), and the suite's eight tests that read `docs/` passed on the merge.
+- The snapshots and the push are recorded on `wip/1041-records` once taken (the push is this branch's last commit).
 
 ## Decisions made without you
 
