@@ -1,19 +1,21 @@
-# EIA-860's owner, energy storage, solar and wind schedules
+# EIA-860's owner, energy storage, solar, wind and multifuel schedules
 
 Energy Research Warehouse (ERW), method note written in session 891 (chain 048) for tables first written on 23 October 2026.
+The multifuel table, added in session 896, was added to the note in session 905 (chain 049).
 
-Tables: `eia860_generator_owners`, `eia860_storage_generators`, `eia860_solar_generators`, `eia860_wind_generators`
+Tables: `eia860_generator_owners`, `eia860_storage_generators`, `eia860_solar_generators`, `eia860_wind_generators`, `eia860_multifuel_generators`
 
 ## Publisher and address
 
-U.S. Energy Information Administration (EIA), Form EIA-860 Annual Electric Generator Report, four files of the annual
+U.S. Energy Information Administration (EIA), Form EIA-860 Annual Electric Generator Report, five files of the annual
 zip: the owner file (`4___Owner_Y2025.xlsx`, sheet Ownership), the energy storage file (`3_4_Energy_Storage_Y2025.xlsx`,
 sheets Operable, Proposed, Retired and Canceled), the solar file (`3_3_Solar_Y2025.xlsx`, sheets Operable, Retired and
-Canceled) and the wind file (`3_2_Wind_Y2025.xlsx`, sheets Operable, Retired and Canceled). The connector reads EIA's
+Canceled), the wind file (`3_2_Wind_Y2025.xlsx`, sheets Operable, Retired and Canceled) and, since session 896, the
+multifuel file (`3_5_Multifuel_Y2025.xlsx`, sheets Operable, Proposed, Retired and Canceled). The connector reads EIA's
 page, `https://www.eia.gov/electricity/data/eia860/`, and takes the newest final year's zip it links outside `/archive/`.
 When written: `https://www.eia.gov/electricity/data/eia860/xls/eia8602025.zip`, the zip session 873 saved in
 `warehouse/raw/eia860_plants/` (retrieved 2026-10-23T03:33:49Z); session 885 made no request. Connector:
-`warehouse/connectors/eia860_schedules.py`, one connector for the four tables, as they come from one zip; it reuses
+`warehouse/connectors/eia860_schedules.py`, one connector for the five tables, as they come from one zip; it reuses
 `eia860_plants.py`'s page, zip and reader helpers (`eia860_plants_annual.md`).
 
 EIA's robots file disallows `/archive/` (session 666), where EIA moves earlier years; they are not asked for. EIA's early
@@ -21,7 +23,8 @@ release (ER) zip is not read: only a final year.
 
 ## Vintage and revision
 
-Data year 2025, EIA-860's final 2025 release (`vintage` 2025 on every row). Written by run `20261023T044808Z`. A
+Data year 2025, EIA-860's final 2025 release (`vintage` 2025 on every row). Written by run `20261023T044808Z`; session
+896's run `20261023T062106Z` wrote session 885's four tables again with the same number of rows, and the multifuel table first. A
 snapshot: each run replaces each table whole with the newest final year the page links, so an earlier year is not kept.
 Ceiling two requests a run (the page and the zip; a zip saved in `warehouse/raw/eia860_plants/` by `eia860_plants.py` is
 reused).
@@ -39,9 +42,11 @@ EIA's sheet, its heading as a name, as EIA gives it. EIA's codes and Y and N fla
 | `eia860_storage_generators` | `eia860_storage:<plant code>:<generator id>` | `generator` | the plant's name | nameplate (MW) | see below |
 | `eia860_solar_generators` | `eia860_solar:<plant code>:<generator id>` | `generator` | the plant's name | nameplate (MW) | see below |
 | `eia860_wind_generators` | `eia860_wind:<plant code>:<generator id>` | `generator` | the plant's name | nameplate (MW) | see below |
+| `eia860_multifuel_generators` | `eia860_multifuel:<plant code>:<generator id>` | `generator` | the plant's name | nameplate (MW) | see below |
 
-In all four, `geo` is `US-<plant state>`, `lat` and `lon` are empty, `operator` is the reporting utility's name (EIA's Utility Name), and
-`source` is `eia:eia860:owner`, `eia:eia860:energy_storage`, `eia:eia860:solar` or `eia:eia860:wind`. A generator
+In all five, `geo` is `US-<plant state>`, `lat` and `lon` are empty, `operator` is the reporting utility's name (EIA's Utility Name), and
+`source` is `eia:eia860:owner`, `eia:eia860:energy_storage`, `eia:eia860:solar`, `eia:eia860:wind` or
+`eia:eia860:multifuel`. A generator
 table's plant and generator are the ones EIA-860M's tables name `eia860:<plant code>:<generator id>`.
 
 `status` is EIA's code as the data standard's word: OP, SB, OA, OS `operating`; P, L, T, OT `planned`; U, V, TS
@@ -55,10 +60,11 @@ EIA's own fields, beyond the five above:
 | Table | Fields |
 |---|---|
 | `eia860_generator_owners` | `x_utility_id` (the reporting utility), `x_owner_street_address`, `x_owner_city`, `x_owner_state`, `x_owner_zip`, `x_percent_owned` (EIA's fraction: 0.6 is 60 percent), `x_plant_name` |
-| all three generator tables | `x_utility_id`, `x_county`, `x_technology`, `x_prime_mover`, `x_sector_name`, `x_sector`, `x_summer_capacity_mw`, `x_winter_capacity_mw`, `x_operating_month`, `x_operating_year`, `x_retirement_month`, `x_retirement_year` |
+| all four generator tables | `x_utility_id`, `x_county`, `x_technology`, `x_prime_mover`, `x_sector_name`, `x_sector`, `x_summer_capacity_mw`, `x_winter_capacity_mw`, `x_operating_month`, `x_operating_year`, `x_retirement_month`, `x_retirement_year` |
 | `eia860_storage_generators` | `x_nameplate_energy_capacity_mwh`, `x_maximum_charge_rate_mw`, `x_maximum_discharge_rate_mw`, `x_storage_technology_1` to `x_storage_technology_4`, `x_nameplate_reactive_power_rating`, `x_storage_enclosure_type`; the uses: `x_arbitrage`, `x_frequency_regulation`, `x_load_following`, `x_ramping_spinning_reserve`, `x_co_located_renewable_firming`, `x_transmission_and_distribution_deferral`, `x_system_peak_shaving`, `x_load_management`, `x_voltage_or_reactive_power_support`, `x_backup_power`, `x_excess_wind_and_solar_generation`; the coupling: `x_ac_coupled`, `x_dc_coupled`, `x_dc_tightly_coupled`, `x_independent`; the units supported: `x_direct_support_of_another_unit`, `x_direct_support_plant_id_1` to `_3`, `x_direct_support_gen_id_1` to `_3`, `x_support_t_d_asset`; `x_current_month`, `x_current_year` |
 | `eia860_solar_generators` | `x_lenses_mirrors`, `x_single_axis_tracking`, `x_dual_axis_tracking`, `x_fixed_tilt`, `x_bifacial`, `x_east_west_fixed_tilt`, `x_parabolic_trough`, `x_linear_fresnel`, `x_power_tower`, `x_dish_engine`, `x_other_solar_technology`, `x_azimuth_angle`, `x_tilt_angle`, `x_dc_net_capacity_mw`, `x_crystalline_silicon`, `x_thin_film_cdte`, `x_thin_film_a_si`, `x_thin_film_cigs`, `x_thin_film_other`, `x_other_materials`, `x_net_metering_agreement`, `x_net_metering_dc_capacity_mw`, `x_virtual_net_metering_agreement`, `x_virtual_net_metering_dc_capacity_mw` |
 | `eia860_wind_generators` | `x_number_of_turbines`, `x_predominant_turbine_manufacturer`, `x_predominant_turbine_model_number`, `x_design_wind_speed_mph`, `x_wind_quality_class`, `x_turbine_hub_height_feet` |
+| `eia860_multifuel_generators` | see "Session 896: the multifuel schedule" below |
 
 When written:
 
@@ -87,7 +93,7 @@ When written:
 ## License
 
 Public: a work of the U.S. government (EIA, record 1 of `license_reads.csv`; `docs/licenses.md`: public, agrees for all
-four tables). Cite "U.S. Energy Information Administration, Form EIA-860".
+five tables). Cite "U.S. Energy Information Administration, Form EIA-860".
 
 ## Cross-check (session 885)
 
@@ -103,10 +109,43 @@ Against `eia860m_operating_generators` (EIA-860M, August 2026), by plant and gen
   generator 11220, whose one owner's share is empty; the two at 0.9 are 69801 LW754 and 69802 BH448; and plant 70387
   BESS1 sums to 1.0009 (0.901 and 0.0999), counted with those that sum to 1.
 
+## Session 896: the multifuel schedule
+
+Session 896 added EIA-860's 3_5 multifuel schedule to the connector as a fifth table, `eia860_multifuel_generators`: the
+generators that can burn more than one fuel, cofire, or switch between oil and gas. Read from the same zip
+(`eia8602025.zip`, retrieved 2026-10-23T03:33:49Z), file `3_5_Multifuel_Y2025.xlsx`, sheets Operable, Proposed, Retired
+and Canceled; no request made. Written by run `20261023T062106Z`.
+
+It is read as the other generator tables are (the sections above): `entity_id`
+`eia860_multifuel:<plant code>:<generator id>`, the same plant and generator EIA-860M's tables name
+`eia860:<plant code>:<generator id>`; `entity_type` `generator`; `name` the plant's name; `capacity_mw` the nameplate;
+`source` `eia:eia860:multifuel`; the same status map, `status_date`, and rules for footnotes, headings and keys.
+
+EIA's own fields, beyond the five every table carries and those of all four generator tables: the fuels,
+`x_energy_source_1`, `x_energy_source_2`, `x_multiple_fuels`; cofiring, `x_cofire_fuels`, `x_cofire_energy_source_1` to
+`_6`; switching, `x_switch_between_oil_and_natural_gas`, `x_switch_when_operating`; the capacity with each fuel,
+`x_net_summer_capacity_with_natural_gas_mw`, `x_net_winter_capacity_with_natural_gas_mw`,
+`x_net_summer_capacity_with_oil_mw`, `x_net_winter_capacity_with_oil_mw`; the time to switch,
+`x_time_to_switch_from_gas_to_oil`, `x_time_to_switch_from_oil_to_gas`; what limits switching,
+`x_factors_that_limit_switching`, `x_storage_limits`, `x_air_permit_limits`, `x_other_limits`; and a proposed
+generator's planned month, `x_current_month`, `x_current_year`. Codes and Y and N flags are kept as EIA gives them.
+
+When written: 3,785 rows at 1,064 plants (Operable 2,847, Proposed 70, Retired and Canceled 868). Operating 2,847,
+retired 835, planned 58, withdrawn 29, under construction 12, suspended 4. The operable hold 208,622.9 MW of nameplate;
+every one is marked Y in `x_multiple_fuels`, 1,876 Y in `x_switch_between_oil_and_natural_gas` (909 N, 62 empty) and
+1,588 Y in `x_cofire_fuels`. No key was given twice.
+
+Each table's header names the session that first wrote it: 885 for the four, 896 for the multifuel table. The first
+multifuel write named session 885, as the connector then wrote it for all five; this note's check found it, and session 905
+wrote the five tables again with the session of each (the same rows).
+
+Cross-check (session 896), against `eia860m_operating_generators` (EIA-860M, August 2026): 2,842 of the 2,847 operable
+multifuel generators are in EIA-860M's list, all 2,842 with the same nameplate.
+
 ## What it does not hold
 
-- EIA-860's other schedules: the 6_1 and 6_2 environmental schedules and 3_5 multifuel (left to chain 049's session
-  896), and the generator file of the zip (generators are in `eia860m_operating_generators` and its siblings). The plant
+- EIA-860's other schedules: the 6_1 and 6_2 environmental schedules (session 896's `eia860_boilers`,
+  `eia860_cooling_systems` and `eia860_emission_controls`, `eia860_environment.md`), and the generator file of the zip (generators are in `eia860m_operating_generators` and its siblings). The plant
   file is in `eia860_plants_annual`.
 - Proposed solar and wind generators: their files, when written, have no Proposed sheet.
 - Coordinates: `lat` and `lon` are empty (the plant's are in `eia860_plants_annual`).
