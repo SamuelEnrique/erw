@@ -174,7 +174,16 @@ def site_json(deals, sorted_deals, deals_path):
         r["other_publishers"] = len(v["held"]) + len(v["unsettled"])  # a count, never a name
         rows.append(r)
     rows.sort(key=lambda r: (r["event_date"], r["event_id"]), reverse=True)
+    # session 823: the held and unsettled deals counted by the month of their date (a count a month, nothing of a row),
+    # so the tracker's chart can hatch the months whose deals are not drawn
+    held_by_month = {}
+    for d in deals:
+        v = sorted_deals.get(d["event_id"])
+        if v and v["sort"] != SHOWN:
+            m = d["event_date"][:7]
+            held_by_month[m] = held_by_month.get(m, 0) + 1
     return {"written_by": "warehouse/deals/public_rows.py --json (session 822)",
+            "held_by_month": held_by_month,
             "retrieved": retrieved_of(deals_path),
             "rule": "shown: at least one evidence row from a publisher whose verdict is 'may be public'; unsettled: none, and one from a publisher not read; held: every evidence row asks for permission",
             "counts": counts(sorted_deals),

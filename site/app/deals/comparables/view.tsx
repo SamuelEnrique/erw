@@ -12,6 +12,13 @@ import { isLicenseReason } from "@/lib/license";
 import { attempt } from "@/lib/supabase";
 import { DealsHeld } from "../Held";
 import { HeldRows } from "@/components/tool/HeldRows";  // session 500
+import { compPubKey, fileIsSound, publicCounts, shownOnlyTip, type PublicDealsFile } from "@/lib/dealspublic";
+import publicFile from "@/data/deals_public.json";
+
+// Session 823: under the hold, the view draws the public rows' file (session 822, lib/dealspublic.ts): every cell is
+// computed over the shown rows only, the held count beside it, each figure a dealpub|comp_ key.
+const PUBLIC_FILE = publicFile as unknown as PublicDealsFile;
+const PUBLIC: PublicDealsFile | undefined = fileIsSound(PUBLIC_FILE) && PUBLIC_FILE.shown.length ? PUBLIC_FILE : undefined;
 
 // Session 466: the comparables view of the deals tracker (/deals?view=comparables, in review, under the tracker's tab).
 // The deals' disclosed figures side by side, one dimension at a time (?by=type, technology, grid or year; the type by
@@ -49,15 +56,20 @@ function Bars({ cells, what }: { cells: Cell[]; what: "price" | "mw" }) {
   );
 }
 
-function Figure({ v, k }: { v: number | null; k: string }) {
-  return v === null ? <span className="text-muted">{FEWER}</span> : <Num check={k} raw={v}>{whole(v)}</Num>;
+function Figure({ v, k, tip }: { v: number | null; k: string; tip?: string }) {
+  return v === null ? <span className="text-muted">{FEWER}</span> : <span title={tip}><Num check={k} raw={v}>{whole(v)}</Num></span>;
 }
 
 export async function ComparablesView({ sp }: { sp: Record<string, string | undefined> }) {
   const read = await attempt(deals);
   const by = DIMENSIONS.some((d) => d.id === sp.by) ? (sp.by as string) : "type";
   const dim = DIMENSIONS.find((d) => d.id === by)!;
-  const all = read.ok ? fold((read.data as unknown as DealRow[]).map(toDeal), PAIRS) : [];
+  // session 823: the table held whole, the public rows' file stands in; every cell is over the shown rows
+  const publicOnly = !read.ok && isLicenseReason(read.reason) && !!PUBLIC;
+  const pc = publicOnly ? publicCounts(PUBLIC!) : null;
+  const tip = pc ? shownOnlyTip(pc) : undefined;
+  const key = publicOnly ? compPubKey : compKey;
+  const all = read.ok ? fold((read.data as unknown as DealRow[]).map(toDeal), PAIRS) : publicOnly ? fold((PUBLIC!.shown as unknown as DealRow[]).map(toDeal), PAIRS) : [];
   const cells = comparables(all, by);
   const what: "price" | "mw" = cells.some((c) => c.medianPrice !== null) ? "price" : "mw";
   const charted = cells.filter((c) => (what === "price" ? c.medianPrice : c.medianMw) !== null).length;
@@ -79,25 +91,26 @@ export async function ComparablesView({ sp }: { sp: Record<string, string | unde
         ))}
       </nav>
 
-      {!read.ok && isLicenseReason(read.reason) ? (
+      {!read.ok && isLicenseReason(read.reason) && !publicOnly ? (
         <>
           <p className="mb-3 text-sm"><NoData what="deals" reason={read.reason} /></p>
           <DealsHeld />
         </>
-      ) : !read.ok ? (
+      ) : !read.ok && !publicOnly ? (
         <p className="mb-6 border border-rule bg-paper px-3 py-2 text-sm" role="status">The table could not be read, so no number is shown: {read.reason}</p>
       ) : !all.length ? (
         <p className="mb-6 border border-rule bg-paper px-3 py-2 text-sm" role="status">No deal is held in the live set.</p>
       ) : (
         <>
-          <HeldRows shape="events" table="energy_deals" shown={all.length} method="/data/methods/energy_deals" />
-          <p className="mb-8 max-w-3xl border-l-2 border-accent bg-paper px-4 py-3 text-sm" data-comp-stated="1">
-            Of the {whole(all.length)} deals held, {whole(withPrice)} state a price in US dollars per MWh and {whole(withMw)} a size in MW.
+          {publicOnly ? <DealsHeld file={PUBLIC} /> : <HeldRows shape="events" table="energy_deals" shown={all.length} method="/data/methods/energy_deals" />}
+          <p className="mb-8 max-w-3xl border-l-2 border-accent bg-paper px-4 py-3 text-sm" data-comp-stated="1" title={tip}>
+            Of the {whole(all.length)} deals {pc ? "shown" : "held"}, {whole(withPrice)} state a price in US dollars per MWh and {whole(withMw)} a size in MW.
+            {pc ? <> Every figure of this view is over the shown deals only; the {whole(pc.held + pc.unsettled)} held or unsettled deals are not counted.</> : null}
             {what === "mw" ? <> No group of this view has {MIN_DISCLOSED} deals that state a price, so the chart shows the median size.</> : null}
           </p>
 
           <ChartFrame title={`The median ${what === "price" ? "price, USD per MWh" : "size, MW"}, by ${dim.label.toLowerCase()}`}
-            note={<>Only the groups in which {MIN_DISCLOSED} or more deals state the figure ({whole(charted)} of {whole(cells.length)}); the others are in the table below. A median is of the figures the stories state; a deal that states none is left out, not counted as zero.</>}>
+            note={<>Only the groups in which {MIN_DISCLOSED} or more deals state the figure ({whole(charted)} of {whole(cells.length)}); the others are in the table below. A median is of the figures the stories state; a deal that states none is left out, not counted as zero.{pc ? <> Over the {whole(pc.shown)} shown deals only; {whole(pc.held + pc.unsettled)} held or unsettled deals are not counted.</> : null}</>}>
             {charted ? <Bars cells={cells} what={what} /> : <p className="text-sm text-muted" role="status">No group has {MIN_DISCLOSED} deals that state a {what === "price" ? "price" : "size"}.</p>}
           </ChartFrame>
 
@@ -115,11 +128,11 @@ export async function ComparablesView({ sp }: { sp: Record<string, string | unde
                   {cells.map((c) => (
                     <tr key={c.value || "-"} className="border-b border-rule" data-comp-cell={c.value || "-"} data-comp-shows={shownOf(c).what}>
                       <th scope="row" className={`${cell} font-normal`}>{c.label}</th>
-                      <td className={`${cell} tabular-nums`}><Num check={compKey("deals", by, c.value)} raw={c.deals}>{whole(c.deals)}</Num></td>
-                      <td className={`${cell} tabular-nums`}><Num check={compKey("with_price", by, c.value)} raw={c.withPrice}>{whole(c.withPrice)}</Num></td>
-                      <td className={`${cell} tabular-nums`}><Figure v={c.medianPrice} k={compKey("median_price", by, c.value)} /></td>
-                      <td className={`${cell} tabular-nums`}><Num check={compKey("with_mw", by, c.value)} raw={c.withMw}>{whole(c.withMw)}</Num></td>
-                      <td className={`${cell} tabular-nums`}><Figure v={c.medianMw} k={compKey("median_mw", by, c.value)} /></td>
+                      <td className={`${cell} tabular-nums`} title={tip}><Num check={key("deals", by, c.value)} raw={c.deals}>{whole(c.deals)}</Num></td>
+                      <td className={`${cell} tabular-nums`} title={tip}><Num check={key("with_price", by, c.value)} raw={c.withPrice}>{whole(c.withPrice)}</Num></td>
+                      <td className={`${cell} tabular-nums`}><Figure v={c.medianPrice} k={key("median_price", by, c.value)} tip={tip} /></td>
+                      <td className={`${cell} tabular-nums`} title={tip}><Num check={key("with_mw", by, c.value)} raw={c.withMw}>{whole(c.withMw)}</Num></td>
+                      <td className={`${cell} tabular-nums`}><Figure v={c.medianMw} k={key("median_mw", by, c.value)} tip={tip} /></td>
                     </tr>
                   ))}
                 </tbody>

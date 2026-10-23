@@ -546,6 +546,27 @@ async function truth(check) {
       if (p[2] === "unsettled") return file.counts.unsettled;
       return undefined;
     }
+    // session 823: the tracker's figures (dealpub|tracker|all|<stat>, |selection|<stat>: the page with no selection) and
+    // the comparables' cells (dealpub|comp_<stat>|<dimension>|<value>), recomputed with lib/deals2.ts's own functions
+    // over the live set's rows whose ids the file lists as shown, the register's folded pairs shown once
+    if (p[1] === "tracker" || String(p[1]).startsWith("comp_")) {
+      const D = await import("../lib/deals2.ts");
+      const ids = new Set(file.shown.map((r) => r.event_id));
+      const rows = (await all("events", { select: "event_id,event_date,status,mw,price,currency,parties,source,source_url,extra", table_name: "eq.energy_deals", order: "event_date.desc,event_id" }))
+        .filter((r) => ids.has(r.event_id));
+      if (rows.length !== ids.size) return undefined;   // a shown id the live set no longer holds: no value to compare
+      const pairs = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "deal_duplicates.json"), "utf-8")).pairs;
+      const deals = D.fold(rows.map(D.toDeal), pairs);
+      if (p[1] === "tracker") {
+        const c = D.counts(deals);
+        return { deals: c.deals, mw: c.mw, with_mw: c.withMw, with_price: c.withPrice, with_dollars: c.withDollars, dollars: c.dollars }[p[3]];
+      }
+      const [, stat, dim, value] = p;
+      const cell = D.comparables(deals, dim).find((c) => c.value === (value === "-" ? "" : value));
+      if (!cell) return undefined;
+      const v = { comp_deals: cell.deals, comp_with_price: cell.withPrice, comp_with_mw: cell.withMw, comp_median_price: cell.medianPrice, comp_median_mw: cell.medianMw }[stat];
+      return v ?? undefined;
+    }
     const [, id, field] = p;
     if (!file.shown.some((r) => r.event_id === id)) return undefined;
     const col = field === "mw" ? "v:mw" : `v:extra->>${field}`;

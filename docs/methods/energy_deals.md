@@ -180,4 +180,14 @@ deals tab draws the shown rows with every column; the line above it counts the h
 - `dealpub|<deal>|mw` and `dealpub|<deal>|dollars`: a shown row's `mw` and its dollars, read again from the live set's
   row by its id, only for an id the file lists as shown.
 
+- `dealpub|tracker|all|<stat>` and `dealpub|tracker|selection|<stat>` (session 823), with the stat one of deals, mw,
+  with_mw, with_price, with_dollars: the tracker's counts over the shown rows only (every shown deal, and the page's
+  selection, which with no selection is the same), the register's folded pairs shown once; each says so in its hover
+  tip with the held count beside it. `check-values` recomputes them with `lib/deals2.ts`'s own functions over the
+  live set's rows whose ids the file lists as shown.
+- `dealpub|comp_<stat>|<dimension>|<value>` (session 823): the comparables' cells over the shown rows, as
+  `deals|comp_<stat>|...` names the held table's; nothing is computed from fewer than three deals that state a figure.
+- The tracker's deals-by-month chart draws the shown deals and, hatched above them, the held or unsettled deals dated
+  in the month (`held_by_month` of the file: a count a month, nothing of a row), with the tip saying so.
+
 Session 828 writes "What is shown and what is held" in full.

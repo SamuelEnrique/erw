@@ -11,6 +11,15 @@ import { attempt } from "@/lib/supabase";
 import { NoData } from "@/components/NoData";
 import { DealsHeld } from "../Held";
 import { HeldRows } from "@/components/tool/HeldRows";  // session 500
+import { Num } from "@/components/Num";
+import { fileIsSound, monthsWithHeld, publicCounts, shownOnlyTip, trackerKey, type PublicDealsFile } from "@/lib/dealspublic";
+import publicFile from "@/data/deals_public.json";
+
+// Session 823: under the hold, the tracker draws the public rows' file (session 822, lib/dealspublic.ts): every figure
+// is computed over the shown rows only, says so in its hover tip with the held count beside it, and carries a
+// dealpub| key; the months whose held deals are not drawn are hatched.
+const PUBLIC_FILE = publicFile as unknown as PublicDealsFile;
+const PUBLIC: PublicDealsFile | undefined = fileIsSound(PUBLIC_FILE) && PUBLIC_FILE.shown.length ? PUBLIC_FILE : undefined;
 
 // Session 113: the deals tracker, version 2, in the battery page's layout: the choices in a fog beige panel on the
 // left, the answer on the right. It reads the deals already extracted (energy_deals, warehouse/deals/extract.py) and
@@ -26,10 +35,13 @@ const field = "w-full border border-rule bg-white px-2 py-1 text-sm";
 const none = <span className="text-muted">{NOT_STATED}</span>;
 const shortMonth = (m: string) => new Date(`${m}-15T12:00:00Z`).toLocaleString("en-US", { month: "short", year: "numeric", timeZone: "UTC" });
 
-/** Deals by month: one bar a month from the first deal held to the last, the count written above it. */
-function MonthBars({ ms }: { ms: { month: string; n: number }[] }) {
+/** Deals by month: one bar a month from the first deal held to the last, the count written above it. Session 823: a
+ * month's held deals (not drawn, license needed) are a hatched bar above the shown count, in the shared hatch style
+ * (components/svgchart.tsx), with the tip saying so. */
+function MonthBars({ ms }: { ms: { month: string; n: number; held?: number }[] }) {
   const W = 760, H = 260, L = 40, R = 10, top = 22, bot = 40;
-  const hi = Math.max(1, ...ms.map((m) => m.n));
+  const anyHeld = ms.some((m) => m.held);
+  const hi = Math.max(1, ...ms.map((m) => m.n + (m.held ?? 0)));
   const step = [1, 2, 5, 10, 20, 25, 50, 100, 200].find((s) => hi / s <= 5) ?? 500;
   const max = Math.ceil(hi / step) * step;
   const y = (v: number) => top + ((max - v) / max) * (H - top - bot);
@@ -37,7 +49,15 @@ function MonthBars({ ms }: { ms: { month: string; n: number }[] }) {
   const ticks: number[] = [];
   for (let t = 0; t <= max; t += step) ticks.push(t);
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label="Deals by month, the number of deals dated in each month">
+    <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label={anyHeld ? "Deals by month: the shown deals dated in each month, and above them, hatched, the held deals not drawn" : "Deals by month, the number of deals dated in each month"}>
+      {anyHeld ? (
+        <defs>
+          <pattern id="deals-held-hatch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <rect width="5" height="5" fill="var(--color-surface)" />
+            <rect width="2.2" height="5" fill="var(--color-accent)" />
+          </pattern>
+        </defs>
+      ) : null}
       {ticks.map((t) => (
         <g key={t}>
           <line x1={L} x2={W - R} y1={y(t)} y2={y(t)} stroke={t === 0 ? "var(--color-ink)" : "var(--color-rule)"} strokeWidth={t === 0 ? 1 : 0.75} />
@@ -47,11 +67,12 @@ function MonthBars({ ms }: { ms: { month: string; n: number }[] }) {
       {ms.map((m, i) => {
         const x0 = L + i * bw + bw * 0.15, w = bw * 0.7;
         return (
-          <g key={m.month} data-deals-month={m.month} data-deals-n={m.n}>
+          <g key={m.month} data-deals-month={m.month} data-deals-n={m.n} data-deals-held={m.held ?? 0}>
             {m.n ? <rect x={x0} width={w} y={y(m.n)} height={Math.max(0.5, y(0) - y(m.n))} fill="var(--color-accent)" /> : null}
-            <text x={x0 + w / 2} y={y(m.n) - 5} textAnchor="middle" fontSize="10" fill={m.n ? "var(--color-ink)" : "var(--color-muted)"}>{m.n}</text>
+            {m.held ? <rect x={x0} width={w} y={y(m.n + m.held)} height={Math.max(0.5, y(m.n) - y(m.n + m.held))} fill="url(#deals-held-hatch)" stroke="var(--color-accent)" strokeWidth="0.5" /> : null}
+            <text x={x0 + w / 2} y={y(m.n + (m.held ?? 0)) - 5} textAnchor="middle" fontSize="10" fill={m.n ? "var(--color-ink)" : "var(--color-muted)"}>{m.n}</text>
             {m.month.endsWith("-01") || i === 0 || i % 3 === 0 ? <text x={x0 + w / 2} y={H - bot + 15} textAnchor="middle" fontSize="10" fill="var(--color-ink)">{shortMonth(m.month)}</text> : null}
-            <title>{`${monthWords(m.month)}: ${m.n} ${m.n === 1 ? "deal" : "deals"}`}</title>
+            <title>{`${monthWords(m.month)}: ${m.n} ${m.n === 1 ? "deal" : "deals"} shown${m.held ? `; ${m.held} held ${m.held === 1 ? "deal" : "deals"} not drawn (license needed)` : ""}`}</title>
           </g>
         );
       })}
@@ -157,7 +178,11 @@ function Choices({ x, all }: { x: Inputs; all: Deal[] }) {
 
 export async function TrackerView({ sp }: { sp: Record<string, string | undefined> }) {
   const read = await attempt(deals);
-  const rows = read.ok ? (read.data as unknown as DealRow[]) : [];
+  // session 823: the table held whole, the public rows' file stands in; every figure below is over the shown rows
+  const publicOnly = !read.ok && isLicenseReason(read.reason) && !!PUBLIC;
+  const pc = publicOnly ? publicCounts(PUBLIC!) : null;
+  const tip = pc ? shownOnlyTip(pc) : undefined;
+  const rows = read.ok ? (read.data as unknown as DealRow[]) : publicOnly ? (PUBLIC!.shown as unknown as DealRow[]) : [];
   const all = fold(rows.map(toDeal), PAIRS);
   const x = inputsOf(sp, all);
   const shown = select(all, x);
@@ -168,6 +193,9 @@ export async function TrackerView({ sp }: { sp: Record<string, string | undefine
   const otherTypes = Object.entries(all.filter((d) => d.group === "other").reduce<Record<string, number>>((a, d) => { a[d.type] = (a[d.type] ?? 0) + 1; return a; }, {})).sort((a, b) => b[1] - a[1]);
   const withState = all.filter((d) => d.state).length, withGrid = all.filter((d) => d.grid).length;
   const cell = "px-3 py-1.5 align-top";
+  // session 823: a headline figure carries its key when the page is the public rows with no selection (what check-values reads)
+  const keyed = (stat: "deals" | "mw" | "with_mw" | "with_price" | "with_dollars", raw: number, text: string) =>
+    pc && !words ? <Num check={trackerKey("selection", stat)} raw={raw}>{text}</Num> : text;
 
   return (
     <>
@@ -181,39 +209,40 @@ export async function TrackerView({ sp }: { sp: Record<string, string | undefine
         </aside>
 
         <div className="min-w-0">
-          {!read.ok && isLicenseReason(read.reason) ? (
+          {!read.ok && isLicenseReason(read.reason) && !publicOnly ? (
             <>
               <p className="mb-3 text-sm"><NoData what="deals" reason={read.reason} /></p>
               <DealsHeld />
             </>
-          ) : !read.ok ? (
+          ) : !read.ok && !publicOnly ? (
             <p className="mb-6 border border-rule bg-paper px-3 py-2 text-sm" role="status">The table could not be read, so no number is shown: {read.reason}</p>
           ) : !all.length ? (
             <p className="mb-6 border border-rule bg-paper px-3 py-2 text-sm" role="status">No deal is held in the live set.</p>
           ) : (
             <>
-              <HeldRows shape="events" table="energy_deals" shown={all.length} method="/data/methods/energy_deals" />
-              <p className="mb-6 max-w-3xl font-serif text-xl leading-snug" data-deals-summary="1">{summary(all, shown, x)}</p>
+              {publicOnly ? <DealsHeld file={PUBLIC} /> : <HeldRows shape="events" table="energy_deals" shown={all.length} method="/data/methods/energy_deals" />}
+              <p className="mb-6 max-w-3xl font-serif text-xl leading-snug" data-deals-summary="1" title={tip}>{summary(all, shown, x)}{pc ? ` These are the ${whole(pc.shown)} shown deals; ${whole(pc.held + pc.unsettled)} held or unsettled deals are not counted.` : ""}</p>
 
               <p className="mb-8 max-w-3xl border-l-2 border-accent bg-paper px-4 py-3 text-sm" data-deals-stated="1">
-                <strong>Most stories give no size and no price.</strong> Of the <span data-deals-all="count">{whole(ca.deals)}</span> deals held,{" "}
-                <span data-deals-all="with_mw">{whole(ca.withMw)}</span> state a size in MW and <span data-deals-all="with_price">{whole(ca.withPrice)}</span> state a price in US dollars per MWh
+                <strong>Most stories give no size and no price.</strong> Of the <span data-deals-all="count" title={tip}>{pc ? <Num check={trackerKey("all", "deals")} raw={ca.deals}>{whole(ca.deals)}</Num> : whole(ca.deals)}</span> deals {pc ? "shown" : "held"},{" "}
+                <span data-deals-all="with_mw" title={tip}>{pc ? <Num check={trackerKey("all", "with_mw")} raw={ca.withMw}>{whole(ca.withMw)}</Num> : whole(ca.withMw)}</span> state a size in MW and <span data-deals-all="with_price" title={tip}>{pc ? <Num check={trackerKey("all", "with_price")} raw={ca.withPrice}>{whole(ca.withPrice)}</Num> : whole(ca.withPrice)}</span> state a price in US dollars per MWh
                 {ca.withOtherPrice ? <> (<span data-deals-all="with_other_price">{whole(ca.withOtherPrice)}</span> more {ca.withOtherPrice === 1 ? "carries a figure" : "carry figures"} in another unit, shown as extracted)</> : null};{" "}
-                <span data-deals-all="with_dollars">{whole(ca.withDollars)}</span> state a value in US dollars. Where a story does not give a figure the table says &quot;{NOT_STATED}&quot;. Nothing is estimated.
+                <span data-deals-all="with_dollars" title={tip}>{pc ? <Num check={trackerKey("all", "with_dollars")} raw={ca.withDollars}>{whole(ca.withDollars)}</Num> : whole(ca.withDollars)}</span> state a value in US dollars.{pc ? <> The {whole(pc.held + pc.unsettled)} held or unsettled deals are not counted here.</> : null} Where a story does not give a figure the table says &quot;{NOT_STATED}&quot;. Nothing is estimated.
               </p>
 
               <HeadlineRow>
-                <HeadlineNumber label={words ? "Deals in this selection" : "Deals held"} value={<span data-deals="count">{whole(c.deals)}</span>}
-                  note={words ? <>of {whole(ca.deals)} held: {words}</> : <>{monthWords(all[all.length - 1].month)} to {monthWords(all[0].month)}</>} />
-                <HeadlineNumber label="Disclosed megawatts" value={c.withMw ? <span data-deals="mw">{whole(c.mw)}</span> : <span className="text-muted" data-deals="mw">{NOT_STATED}</span>} unit={c.withMw ? "MW" : undefined}
-                  note={<>the sum over the <span data-deals="with_mw">{whole(c.withMw)}</span> {c.withMw === 1 ? "deal that states" : "deals that state"} a size; the other {whole(c.deals - c.withMw)} are not counted as zero, they are not known</>} />
-                <HeadlineNumber label="State a price" value={<span data-deals="with_price">{whole(c.withPrice)}</span>} unit={`of ${whole(c.deals)}`}
-                  note={<>in US dollars per MWh. <span data-deals="with_dollars">{whole(c.withDollars)}</span> state a value in US dollars{c.withDollars ? <>, USD {usd(c.dollars)} in all</> : null}.</>} />
+                <HeadlineNumber label={words ? "Deals in this selection" : pc ? "Deals shown" : "Deals held"} value={<span data-deals="count" title={tip}>{keyed("deals", c.deals, whole(c.deals))}</span>}
+                  note={words ? <>of {whole(ca.deals)} {pc ? "shown" : "held"}: {words}</> : <>{monthWords(all[all.length - 1].month)} to {monthWords(all[0].month)}{pc ? <>; {whole(pc.held + pc.unsettled)} held or unsettled deals are not counted</> : null}</>} />
+                <HeadlineNumber label="Disclosed megawatts" value={c.withMw ? <span data-deals="mw" title={tip}>{keyed("mw", c.mw, whole(c.mw))}</span> : <span className="text-muted" data-deals="mw">{NOT_STATED}</span>} unit={c.withMw ? "MW" : undefined}
+                  note={<>the sum over the <span data-deals="with_mw" title={tip}>{keyed("with_mw", c.withMw, whole(c.withMw))}</span> {c.withMw === 1 ? "deal that states" : "deals that state"} a size; the other {whole(c.deals - c.withMw)} are not counted as zero, they are not known{pc ? <>; the held deals are not counted</> : null}</>} />
+                <HeadlineNumber label="State a price" value={<span data-deals="with_price" title={tip}>{keyed("with_price", c.withPrice, whole(c.withPrice))}</span>} unit={`of ${whole(c.deals)}`}
+                  note={<>in US dollars per MWh. <span data-deals="with_dollars" title={tip}>{keyed("with_dollars", c.withDollars, whole(c.withDollars))}</span> state a value in US dollars{c.withDollars ? <>, USD {usd(c.dollars)} in all</> : null}.{pc ? <> Over the shown deals only.</> : null}</>} />
               </HeadlineRow>
 
               <ChartFrame title="Deals by month"
                 note={<>{words ? <>This selection ({words}). </> : null}By the deal&apos;s date: the announced date where a story states it, else the day the first story was published (UTC). A month with 0 has no deal dated in it. Deals are extracted only from stories the ERW has scored: the stories of June to September 2025 are held but not scored, so those months are empty for that reason, not because nothing was reported. The ERW has scored the news daily since 23 September 2026; earlier months come from older stories scored afterwards and are thinner.</>}>
-                <MonthBars ms={months(all, shown)} />
+                <MonthBars ms={pc ? monthsWithHeld(months(all, shown), PUBLIC!.held_by_month) : months(all, shown)} />
+                {pc ? <p className="mt-1 text-xs text-muted">Hatched: the held or unsettled deals dated in the month, not drawn (license needed); the figure above each bar counts the shown deals.</p> : null}
               </ChartFrame>
 
               <ToolSection title={words ? `The ${whole(c.deals)} deals in this selection` : `Every deal held (${whole(c.deals)})`} id="deals"

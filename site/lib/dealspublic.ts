@@ -29,8 +29,45 @@ export type PublicDealsFile = {
   retrieved: string;
   rule: string;
   counts: { shown: number; held: number; unsettled: number };
+  /** session 823: the held and unsettled deals by the month of their date, a count a month and nothing of a row */
+  held_by_month?: Record<string, number>;
   shown: PublicDealRow[];
 };
+
+// Session 823: the tracker's and the comparables' figures over the shown rows only. The keys name the public family so
+// that components/Num.tsx draws them (a deals| key names the held table); scripts/check-values.mjs recomputes each from
+// the live set's rows whose ids the file lists as shown, through lib/deals2.ts's own functions.
+export type TrackerStat = "deals" | "mw" | "with_mw" | "with_price" | "with_dollars" | "dollars";
+/** dealpub|tracker|all|<stat> (every shown deal) and dealpub|tracker|selection|<stat> (the page with no selection: the same). */
+export const trackerKey = (scope: "all" | "selection", stat: TrackerStat): string => `dealpub|tracker|${scope}|${stat}`;
+/** dealpub|comp_<stat>|<dimension>|<value>, as lib/deals2.ts compKey names the held table's. */
+export const compPubKey = (stat: "deals" | "with_price" | "with_mw" | "median_price" | "median_mw", dim: string, value: string): string =>
+  `dealpub|comp_${stat}|${dim}|${value === "" ? "-" : value}`;
+
+/** The words of the hover tip beside a figure computed over the shown rows only. */
+export function shownOnlyTip(c: { shown: number; held: number; unsettled: number }): string {
+  const other = c.held + c.unsettled;
+  return `Computed over the ${c.shown} shown ${c.shown === 1 ? "deal" : "deals"} only; ${other} held or unsettled ${other === 1 ? "deal is" : "deals are"} not counted (license needed).`;
+}
+
+/** The tracker's months with the held counts beside the shown: the range runs from the first month of either to the
+ * last, a month with neither is a zero. `shown` is lib/deals2.ts months() over the shown rows. */
+export function monthsWithHeld(shown: { month: string; n: number }[], held: Record<string, number> | undefined): { month: string; n: number; held: number }[] {
+  const h = held ?? {};
+  const keys = [...shown.map((m) => m.month), ...Object.keys(h)].sort();
+  if (!keys.length) return [];
+  const n = new Map(shown.map((m) => [m.month, m.n]));
+  const out: { month: string; n: number; held: number }[] = [];
+  let [y, m] = keys[0].split("-").map(Number);
+  const last = keys[keys.length - 1];
+  for (;;) {
+    const k = `${y}-${String(m).padStart(2, "0")}`;
+    out.push({ month: k, n: n.get(k) ?? 0, held: h[k] ?? 0 });
+    if (k >= last) break;
+    if (++m > 12) { m = 1; y++; }
+  }
+  return out;
+}
 
 export const SORTS = ["shown", "held", "unsettled"] as const;
 export type Sort = (typeof SORTS)[number];
