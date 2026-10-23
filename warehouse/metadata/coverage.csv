@@ -264,6 +264,7 @@ ferc_eqr_contracts_history,none,,1,event,1924-10-24T00:00:00Z,2223-01-01T00:00:0
 ferc_eqr_party_mw,ferc,,812,snapshot,2026-10-05T16:59:01Z,2026-10-05T16:59:01Z,812,erw:eqr_terms,2026-10-05T16:59:01Z,pass,internal,power,no,source
 ferc_eqr_party_totals,ferc,,12290,snapshot,2026-10-04T17:29:30Z,2026-10-04T17:29:30Z,12290,erw:eqr_buyers,2026-10-04T17:29:30Z,pass,internal,power,no,source
 ferc_eqr_quarter_changes,ferc,,4,P3M,2025-07-01T00:00:00Z,2026-04-01T00:00:00Z,68,erw:eqr_terms,2026-10-05T16:59:01Z,pass,internal,power,yes,derived
+fhwa_motor_fuel_monthly,fhwa,,52,P1M,2020-01-01T00:00:00Z,2026-05-01T00:00:00Z,7998,fhwa:monthly_motor_fuel,2026-10-23T19:44:40Z,pass,public,products,no,source
 flex_alert_effects,flex,,1,P1D;P1Y;PT1H,2018-01-01T00:00:00Z,2024-07-25T06:00:00Z,2973,erw:flex_alert_scorecard,2026-10-19T22:49:51Z,pass,public,power,yes,derived
 flex_alert_model,flex,,1,;P1D,2018-07-01T00:00:00Z,2025-08-24T00:00:00Z,881,erw:flex_alert_scorecard,2026-10-19T22:49:51Z,pass,public,power,yes,derived
 frb_treasury_yields,frb,,3,P1D,2019-01-02T00:00:00Z,2026-10-21T00:00:00Z,5856,frb:h15_treasury_yields,2026-10-23T15:06:55Z,pass,public,equities,no,source

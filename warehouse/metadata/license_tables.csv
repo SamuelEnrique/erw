@@ -264,6 +264,7 @@ ferc_eqr_contracts_history,FERC,the source registry
 ferc_eqr_party_mw,EIA; FERC,"the source registry and the tables its header derives it from: eia860m_operating_generators, ferc_eqr_buyer_names, ferc_eqr_contracts, ferc_eqr_contracts_history"
 ferc_eqr_party_totals,FERC,the source registry and the tables its header derives it from: ferc_eqr_contracts
 ferc_eqr_quarter_changes,EIA; FERC,"the source registry and the tables its header derives it from: eia860m_operating_generators, ferc_eqr_buyer_names, ferc_eqr_contracts, ferc_eqr_contracts_history"
+fhwa_motor_fuel_monthly,"U.S. Department of Transportation, Federal Highway Administration (FHWA)",the source registry
 flex_alert_effects,CAISO; EIA; NOAA NCEI,"the source registry and the tables its header derives it from: caiso_dam_alert_day_hub_prices, caiso_grid_emergencies, eia930_all_demand, noaa_isd_hourly"
 flex_alert_model,CAISO; EIA; NOAA NCEI,"the source registry and the tables its header derives it from: caiso_dam_alert_day_hub_prices, caiso_grid_emergencies, eia930_all_demand, noaa_isd_hourly"
 frb_treasury_yields,FRB,the source registry
