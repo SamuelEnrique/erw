@@ -23,3 +23,8 @@
 - Changed: `package/src/erw/data/tables.csv`, `site/data/table_verdicts.json`, `site/data/table_citations.json`; on main, `queue/next/051-day-23-october-data-world-gas-hydro.md`.
 
 ## Addendum: the landing
+
+- Merged origin/main into the chain's branch; the whole suite from the chain's worktree: 6,201 tests in 634 s, one failure, `test_session705`, the worktree artifact (it passes in the main checkout and skips on GitHub). `package/tools/build_tables.py --check` passes. `scripts/freeze.py status`: no freeze.
+- Before snapshot `c049-land-before`, then `task/895-908-data` pushed at 07:37:55 UTC. Main had gained six commits from the other machines since the merge (deals and queue files, none of this chain's files; a trial merge showed no conflict). The code branch's checks (run 39919055887) passed and merged it as `bd586047` at about 07:47 UTC.
+- Vercel: the deploy of `bd586047` was rate limited ("retry in 24 hours"), as chains 046 to 048's were, so the live pages are the last deployed build. After snapshot `c049-land-after`: compare says 0 differences in all (expected: every page is in review).
+- Then `scripts/chain_queue.py next`.
