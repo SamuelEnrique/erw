@@ -70,3 +70,101 @@ export function ringPath(ring: [number, number][], project: (p: [number, number]
 
 /** A tie's width on the map: the vector view's own rule (0.4 + 3 times the square root of its share of the largest flow). */
 export const flowWidth = (mw: number, maxMw: number) => 0.4 + 3 * Math.sqrt(mw / (maxMw || 1));
+
+// ------------------------------------------------------------------ session 1156 (chain 077): the edges, their words, and a grid clicked
+// The map's edges are the network's own ties in the frame shown (an hour of the live week or of a story, or a day of the
+// replay), from EIA-930's interchange, which is public domain for every grid: no grid operator's own table is read for
+// a line, so every grid's lines are drawn, the held grids' included. A tie with no figure in the frame is not drawn (a
+// zero has no direction and is not drawn either, as the network has always done). A line answers a hover with its
+// direction and its window; its MW only where the panel under the map (components/grid/NetworkFigures.tsx,
+// grid_network_<grid>) holds that same figure, checked: a tie of the grid in view, in the hour that panel is of, in the
+// live week. No other MW is written on the map. One of the seven ISO grids clicked opens its row on the Grid tool.
+
+/** A tie of the network: its two ends and its flow by frame, positive from a to b (lib/network.ts, as the snapshot holds it). */
+export type MapTie = { a: string; b: string; mw: (number | null | undefined)[] };
+/** An edge drawn: from its exporter (source) to its importer (target), its flow in the frame without its sign, its tie's ends. */
+export type MapEdge = { source: string; target: string; mw: number; a: string; b: string };
+
+/** The edges of a frame: one for each tie with a figure in it, from the exporter to the importer; none for a tie with
+ * no figure (null) or a zero. The network's own rule (Network.tsx linksAt). */
+export function edgesAt(links: MapTie[], h: number): MapEdge[] {
+  return links.filter((l) => l.mw[h] !== null && l.mw[h] !== undefined && l.mw[h] !== 0).map((l) => {
+    const v = l.mw[h] as number;
+    return { source: v > 0 ? l.a : l.b, target: v > 0 ? l.b : l.a, mw: Math.abs(v), a: l.a, b: l.b };
+  });
+}
+
+/** The panel under the map: the grid in view's EIA-930 code (null for the Lower 48, whose panel holds no tie) and the hour its figures are of. */
+export type MapPanel = { ba: string | null; hour: string };
+/** The frame a line is drawn for: its start (an hour, UTC, or a day's), the snapshot's refresh for the live week (null
+ * for a story or the replay), and whether the frame is a day of the replay. */
+export type MapWindow = { at: string; refresh: string | null; day: boolean };
+
+/** Whether an edge's MW is a figure the panel under the map holds: one of its ends is the grid in view, and the frame is
+ * the live week's hour that panel is of. Only then is its MW written on the map. */
+export function edgeHeld(e: MapEdge, panel: MapPanel | null, w: MapWindow): boolean {
+  return !!panel && !!panel.ba && (e.a === panel.ba || e.b === panel.ba) && !w.day && w.refresh !== null && w.at === panel.hour;
+}
+
+const hourOf = (t: string) => `${t.slice(0, 10)} ${t.slice(11, 13)}:00 UTC`;
+const minuteOf = (t: string) => `${t.slice(0, 16).replace("T", " ")} UTC`;
+
+/** The window in words, as the gravity shape writes it for the live week: "In the hour from 2026-10-21 23:00 UTC, snapshot
+ * refreshed 2026-10-23 14:36 UTC"; a day of the replay, "On 2021-02-15, EIA's Eastern day (the day's average MW)". */
+export function mapWindowWords(w: MapWindow): string {
+  if (w.day) return `On ${w.at.slice(0, 10)}, EIA's Eastern day (the day's average MW)`;
+  return w.refresh ? `In the hour from ${hourOf(w.at)}, snapshot refreshed ${minuteOf(w.refresh)}` : `In the hour from ${hourOf(w.at)}, as the story's file holds it`;
+}
+
+/** The lines of a line's hover card: its direction, its MW where the panel holds it (else why not), its window and its source.
+ * `fmt` writes a number as the panel writes it (lib/format.ts shown), so the two read alike. */
+export function edgeTip(e: MapEdge, nameOf: (id: string) => string, panel: MapPanel | null, w: MapWindow, fmt: (v: number) => string): string[] {
+  const dir = `From ${nameOf(e.source)} to ${nameOf(e.target)}`;
+  const touches = !!panel && !!panel.ba && (e.a === panel.ba || e.b === panel.ba);
+  const mw = edgeHeld(e, panel, w)
+    ? `${fmt(e.mw)} MW, the figure checked in the panel under the map`
+    : touches
+      ? `Its MW is checked in the panel under the map for the hour from ${hourOf((panel as MapPanel).hour)}; here its width follows the flow`
+      : "Its MW is not written on the map: the panel under it holds the ties of the grid in view only; the width follows the flow";
+  return [dir, mw, mapWindowWords(w), "EIA-930's public interchange"];
+}
+
+/** A grid of the Grid tool's picker (lib/gridtool.ts GRID_CHOICES): its slug and its EIA-930 code. */
+export type MapChoice = { slug: string; ba: string };
+
+/** The Grid tool's slug a region clicked opens, or null: one of the picker's grids other than the grid in view opens
+ * its row; the grid in view, and every other balancing authority, opens the panel as before. */
+export function regionSlug(id: string, choices: readonly MapChoice[], inView: string | null): string | null {
+  if (id === inView) return null;
+  return choices.find((c) => c.ba === id)?.slug ?? null;
+}
+
+/** The moment the map shows, carried onto a grid's address: the network's own view word (as net, unless the live week)
+ * and its t (the hour or the day the reader moved to), from the component's own query (lib/networkV3.ts sharedQuery). */
+export function carryMoment(href: string, own: string): string {
+  const from = new URLSearchParams(own.startsWith("?") ? own.slice(1) : own);
+  const at = href.indexOf("?");
+  const to = new URLSearchParams(at < 0 ? "" : href.slice(at + 1));
+  const view = from.get("view"), t = from.get("t");
+  if (view && view !== "live") to.set("net", view);
+  if (t) to.set("t", t);
+  const q = to.toString();
+  return `${at < 0 ? href : href.slice(0, at)}${q ? `?${q}` : ""}`;
+}
+
+/** The panel under the map on the Grid tool, from the query the page keeps ("?grid=ercot&view=network", lib/gridtool.ts
+ * gridHref) and the hour the component opens on (the newest hour every reporting pair holds, else the week's last): the
+ * hour components/grid/NetworkFigures.tsx draws (lib/gridKeys.ts shownHour). The Lower 48's panel holds no tie (ba null). */
+export function mapPanelOf(keep: string, choices: readonly MapChoice[], complete: string | null, hours: string[]): MapPanel | null {
+  const slug = new URLSearchParams(keep.startsWith("?") ? keep.slice(1) : keep).get("grid");
+  const g = choices.find((c) => c.slug === slug);
+  const hour = complete ?? hours[hours.length - 1];
+  if (!g || !hour) return null;
+  return { ba: g.slug === "us48" ? null : g.ba, hour };
+}
+/** The part of a line that takes the pointer: its middle, from `trim` of its length after the exporter to `trim` before the
+ * importer, so the ends, where a region's ties meet at its point, are left to the region (a click there opens it). */
+export function hitSegment(s: [number, number], t: [number, number], trim = 0.2): [[number, number], [number, number]] {
+  const at = (k: number): [number, number] => [Math.round((s[0] + (t[0] - s[0]) * k) * 10) / 10, Math.round((s[1] + (t[1] - s[1]) * k) * 10) / 10];
+  return [at(trim), at(1 - trim)];
+}
