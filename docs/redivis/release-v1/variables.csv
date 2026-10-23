@@ -5137,6 +5137,7 @@ lbnl_solar_projects,cf_2021,column,
 lbnl_solar_projects,cf_2022,column,
 lbnl_solar_projects,cf_2023,column,
 lbnl_solar_projects,cf_2024,column,
+lbnl_wind_capacity_factors,capacity_factor,series variable,ratio
 nlr_atb_electricity_costs,capacity_factor,series variable,ratio
 nlr_atb_electricity_costs,capex,series variable,USD/kW
 nlr_atb_electricity_costs,fixed_om,series variable,USD/kW-year
