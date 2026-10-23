@@ -23,7 +23,7 @@ caiso_fuel_supply_history,CAISO,,1,PT1H,2018-06-01T07:00:00Z,2025-06-01T06:00:00
 caiso_grid_emergencies,none,,1,event,1998-05-30T00:00:00Z,2026-10-08T00:00:00Z,1906,1 outlets,2026-10-22T17:34:42Z,pass,public,power,no,source
 caiso_interconnection_queue,CAISO,,2278,snapshot,2026-10-19T16:07:19Z,2026-10-19T16:07:19Z,2278,caiso:interconnection_queue,2026-10-19T20:31:01Z,pass,public,power,no,source
 caiso_reliability_daily,CAISO,,2,P1D,1998-05-30T00:00:00Z,2026-10-17T00:00:00Z,20624,erw:caiso_reliability,2026-10-22T17:35:14Z,pass,public,power,yes,derived
-caiso_wind_solar_forecast,CAISO,,3,PT1H,2023-06-01T07:00:00Z,2026-10-22T06:00:00Z,344329,caiso:SLD_REN_FCST,2026-10-22T17:31:42Z,pass,public,power,no,source
+caiso_wind_solar_forecast,CAISO,,3,PT1H,2023-06-01T07:00:00Z,2026-10-23T06:00:00Z,344617,caiso:SLD_REN_FCST,2026-10-23T17:30:48Z,pass,public,power,no,source
 carb_auction_allowance_prices,none,,56,P3M,2012-11-01T00:00:00Z,2026-08-01T00:00:00Z,336,carb:auction-results-summary,2026-10-23T14:45:19Z,pass,public,carbon,no,source
 carb_lcfs_credit_prices,none,,1,P1W,2019-01-07T00:00:00Z,2026-09-14T00:00:00Z,1124,carb:lcfs_weekly_credit_price,2026-10-12T23:44:54Z,pass,public,carbon,no,source
 carbon_intensity_daily,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,8,P1D,2018-07-02T00:00:00Z,2026-10-20T00:00:00Z,46980,erw:carbon_intensity;erw:carbon_intensity_caiso,2026-10-23T14:36:08Z,pass,public,power;carbon,yes,derived
