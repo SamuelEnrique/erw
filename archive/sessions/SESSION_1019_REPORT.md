@@ -12,7 +12,7 @@
 
 ## What to review
 
-1. `docs/state/review_2026-10-25_code.md`.
+1. `docs/state/review_2026-10-25_code_chain070.md`.
 
 ## Checks
 
@@ -35,4 +35,4 @@ Sessions 1015 to 1019 land together from this branch (below, once done).
 
 ## Files
 
-- New: `docs/state/review_2026-10-25_code.md`, this report. On main: `queue/next/071-...` updated.
+- New: `docs/state/review_2026-10-25_code_chain070.md`, this report. Restored: `docs/state/review_2026-10-25_code.md` (session 743's, unchanged). On main: `queue/next/071-...` updated.
