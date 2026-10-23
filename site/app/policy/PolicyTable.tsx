@@ -91,6 +91,8 @@ export function PolicyTable({ rows, tags = [], tag: tagAtOpen = "", missing = []
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
+          {/* session 2403: the table's name for a screen reader (the accessibility pass found it had none) */}
+          <caption className="sr-only">Every action of the live table policy_actions that the filters leave: date, agency, type, title, sector and significance; a row opens to its read and sources</caption>
           <thead>
             <tr className="border-b border-rule text-left text-xs text-muted">
               <th className="py-1 pr-3">Date</th>
