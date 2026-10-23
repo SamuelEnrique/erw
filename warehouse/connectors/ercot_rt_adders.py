@@ -12,7 +12,8 @@ table, warehouse/output/ercot_rtm_price_adders.csv:
                 rtorpa    Real-Time On-Line Reserve Price Adder (the ORDC adder),  1 June 2014 to 4 December 2025
                 rtoffpa   Real-Time Off-Line Reserve Price Adder,                  1 June 2014 to 4 December 2025
                 rtordpa   Real-Time On-Line Reliability Deployment Price Adder,    June 2015 to 4 December 2025
-                rtrdpa    Real-Time Reliability Deployment Price Adder for energy, from 5 December 2025
+                rtrdpa    Real-Time Reliability Deployment Price Adder for energy, from 5 December 2025 (its first hour
+                          begins at 01:00 CST: the hour from midnight has no adder of either file, session 2124)
     unit      USD/MWh
     freq      PT1H; ts_utc is the start of the hour, UTC
     market    ercot_rtm
