@@ -205,8 +205,10 @@ energy_deals_evidence,internal,,,ANS Nuclear Newswire; Bloomberg; Canary Media; 
 energy_projects,unsettled,license needed,2026-10-21,ISO-NE,CAISO; Census Bureau; EIA; ERCOT; ISO-NE; SPP,"ISO-NE's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",some rows
 epa_ghgrp_facility_emissions,public,,,,EPA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 epa_ghgrp_power_co2,public,,,,EPA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+epa_lmop_landfill_projects,public,,,,EPA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 epa_rfs_fuel_annual,public,,,,EPA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 epa_rfs_rins_monthly,public,,,,EPA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+epa_tri_energy_releases_annual,public,,,,EPA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ercot_4cp_intervals,public,,,,ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ercot_all_hub_prices_history,public,,,,ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ercot_as_prices,public,,,,ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
@@ -243,6 +245,7 @@ ercot_wind_solar_hsl_hourly,public,,,,ERCOT,"Public: every publisher's terms the
 ercot_wind_solar_output_hourly,public,,,,ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ercot_zone_load_hourly,public,,,,ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ercot_zone_prices_history,public,,,,ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eurostat_renewable_capacity_annual,public,,,,Eurostat (Statistical Office of the European Union),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 event_study_estimates,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
 event_window_daily,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",whole
 fema_disaster_declarations,public,,,,Federal Emergency Management Agency (FEMA),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -375,6 +378,7 @@ ornl_hydropower_pipeline,public,,,,"Oak Ridge National Laboratory (ORNL), HydroS
 ornl_hydropower_relicensing,public,,,,"Oak Ridge National Laboratory (ORNL), HydroSource","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ornl_npd_potential,public,,,,"Oak Ridge National Laboratory (ORNL), HydroSource","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ornl_tedb_transportation_annual,internal,,,,"Oak Ridge National Laboratory (ORNL), Transportation Energy Data Book",The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
+owid_ember_electricity_annual,public,,,,Ember; Our World in Data,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 pjm_rpm_capacity_prices,internal,,,PJM,PJM,The ERW holds it for its own use only (needs a paid license); it is never redistributed.,none
 policy_action_tags,unsettled,,,,California Public Utilities Commission; NRC; Office of the Federal Register (NARA); Public Utility Commission of Texas; U.S. Department of Energy (DOE),"The terms of Public Utility Commission of Texas have not been read or settled, so the ERW does not redistribute it until they are.",none
 policy_actions,unsettled,,,,California Public Utilities Commission; NRC; Office of the Federal Register (NARA); Public Utility Commission of Texas; U.S. Department of Energy (DOE),"The terms of Public Utility Commission of Texas have not been read or settled, so the ERW does not redistribute it until they are.",whole
@@ -405,6 +409,7 @@ texas_transmission_matrix,internal,,,,Public Utility Commission of Texas,The ERW
 usace_nid_dams,unsettled,,,,U.S. Army Corps of Engineers (USACE),"The terms of U.S. Army Corps of Engineers (USACE) have not been read or settled, so the ERW does not redistribute it until they are.",none
 usbr_hydropower_monthly,public,,,,U.S. Bureau of Reclamation (USBR),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 usdm_drought_state_weekly,unsettled,,,,"U.S. Drought Monitor (National Drought Mitigation Center, USDA, NOAA)","The terms of U.S. Drought Monitor (National Drought Mitigation Center, USDA, NOAA) have not been read or settled, so the ERW does not redistribute it until they are.",none
+usgs_comcat_earthquakes_south_central,public,,,,U.S. Geological Survey (USGS),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 usgs_mcs_critical_minerals,public,,,,U.S. Geological Survey (USGS),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 uspvdb_solar_facilities,public,,,,U.S. Geological Survey (USGS),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 uswtdb_wind_turbines,public,,,,U.S. Geological Survey (USGS),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none

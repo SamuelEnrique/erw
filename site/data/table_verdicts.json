@@ -803,11 +803,19 @@
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
+ "epa_lmop_landfill_projects": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
  "epa_rfs_fuel_annual": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
  "epa_rfs_rins_monthly": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
+ "epa_tri_energy_releases_annual": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
@@ -948,6 +956,10 @@
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
  "ercot_zone_prices_history": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
+ "eurostat_renewable_capacity_annual": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
@@ -1303,6 +1315,10 @@
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
+ "owid_ember_electricity_annual": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
  "policy_action_tags": [
   "unsettled",
   "The terms of Public Utility Commission of Texas have not been read or settled, so the ERW does not redistribute it until they are."
@@ -1394,6 +1410,10 @@
  "usdm_drought_state_weekly": [
   "unsettled",
   "The terms of U.S. Drought Monitor (National Drought Mitigation Center, USDA, NOAA) have not been read or settled, so the ERW does not redistribute it until they are."
+ ],
+ "usgs_comcat_earthquakes_south_central": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
  "usgs_mcs_critical_minerals": [
   "public",
