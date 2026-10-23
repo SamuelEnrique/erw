@@ -194,12 +194,26 @@ The operating counts and the waits agree within a few positions and about a mont
 
 ## The figures on the page and their keys
 
-Each number `/map` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The keys the sections above do not name:
+Each number `/map` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409), or, where the figure is computed in the browser from the page's own copy of the tables and cannot be read back from the live set, a `data-source` attribute and a hover tip (session 2300, chain 087, 23 October 2026; below). The keys the sections above do not name:
 
 - `projects|count|queue|none`: under the map, the queue positions the ERW holds (withdrawn ones among them) that are not on the map, because their county words name no county, city or town of their state, or they state no county or no state.
 - `iso_queue_statistics`, `positions_operating`, `positions_withdrawn`, `positions_waiting`: on the Queues tab, in the table "Every entry year", the positions of the entry year that reached operation, were withdrawn and are still waiting (the columns Operating, Withdrawn and Still waiting).
 - `iso_queue_statistics`, `wait_years_median`: the column "Median wait, years", the median years from entry to operation of the year's positions that reached it.
 - `iso_queue_statistics`, `mw_entered`: the column "MW entered", the MW of the positions that entered the queue that year.
+
+### The figures computed from the page's copy, and their sources (session 2300, 23 October 2026)
+
+The Projects tab's figures are summed in the browser from `site/data/map.json` ("What the page reads", above), so a check key would be compared with a live table the copy lags by design. Each such figure carries instead `data-source="<tables>|<vintage>|<rule>"` (`site/lib/projectmap.ts`, `sourceOf`) and stands beside a hover tip (`site/components/tool/ToolPage.tsx`, `Tip`) whose words name the same three things and say that nothing is read from the live set for it. The tables are the file's own (`eia860m_operating_generators` and `eia860m_planned_generators` for the units, `energy_projects` for the queue positions, `datacenter_facilities` for the datacenters); the vintage is EIA's month for the units, the day of the queue's or the tracker's rows for the others, the file's build day for a figure over every kind; the rules are three:
+
+- `summed over the rows chosen`: the summary sentence's figures (the units and their MW, the queue positions and the MW requested, the datacenters, their MW and how many state one), every total by status (its tip says what the MW of its kind is: nameplate, the MW asked to connect, or the MW stated), and every count and MW of "By technology" (`data-tech-count`, `data-tech-mw`).
+- `counted over the whole file`: the unit count in the lead (`data-map-units`).
+- `the rows chosen whose source gives no place on the drawing`: the rows not drawn, in the line under "The map" (`data-map-not-drawn`); and `the row's own fields` on the unit card's list, with the row's table and vintage.
+
+The Queues tab's three charts each stand in a frame with `data-source="iso_queue_statistics|<iso>_interconnection_queue|<the variables drawn>, one row a year entered"`, and each chart's note names the table, the ISO's queue table and the variable; the table "Every entry year" carries a tip saying every figure is a row of the live set with its check key. The Resources tab's seven counts (operating units, planned units, queue rows drawn, their counties, queue rows not drawn, facilities drawn and not drawn) carry `data-source` with the layer's own vintage and a hover. `site/scripts/test-map-sources.mjs` holds the rule on the file and on a fixture without a browser; `site/scripts/check-map.mjs` reads the page for a figure without a source.
+
+### The hover (session 2301, 23 October 2026)
+
+Every mark on the map shows the brand's hover card (`docs/brand.md`, section 6): the name, then the kind and the figure in mono ("1,400.0 MW requested"; "MW not stated"), then the status, state, grid and date in captions grey with "Click for its card", then the source line, the table the row is read from (the operating or planned EIA table, `energy_projects` or `datacenter_facilities`), its vintage and the copy's build day (`site/lib/projectmap.ts`, `hoverOf`). A state's hover says how many rows chosen it holds and what a click does (`stateHover`). The marks are drawn on a canvas, so no mark is focusable: the same figures stand in the totals, in "By technology" and on the unit card. The Queues tab's charts (the shared `SeriesChart`) name in each hover the entry year, the figures and the table's entity (`ercot:queue_2019`) with the variable; their "Table" toggle holds the same figures by keyboard.
 
 ## The figures on the grid page and their keys
 
