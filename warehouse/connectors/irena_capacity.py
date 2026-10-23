@@ -92,23 +92,31 @@ def parse(answer, meta, base):
     return pd.DataFrame(rows), empty
 
 
-def post(url, body, log, offline, name):
-    """The query's answer: offline, the copy saved under its own name (the metadata shares the address, so the raw store's
-    lookup by address cannot tell them apart); else a POST, saved there with its time."""
-    path = os.path.join(ip.RAW_DIR, CONNECTOR, name)
-    if offline:
-        if not os.path.exists(path):
-            raise RuntimeError(f"offline: no saved answer at {path}")
-        saved = json.load(open(path, encoding="utf-8"))
-        log(f"  saved answer reused: {path} (retrieved {saved['retrieved_at']})")
-        return json.dumps(saved["answer"]).encode("utf-8"), {"retrieved_at": saved["retrieved_at"], "last_modified": ""}
+def saved_path(name):
+    return os.path.join(ip.RAW_DIR, CONNECTOR, name)
+
+
+def load_saved(name, log):
+    """Offline: the metadata and the answer from the file a run saved them in (they share one address, so the raw store's
+    lookup by address cannot tell them apart)."""
+    path = saved_path(name)
+    if not os.path.exists(path):
+        raise RuntimeError(f"offline: no saved query at {path}")
+    saved = json.load(open(path, encoding="utf-8"))
+    log(f"  saved metadata and answer reused: {path} (retrieved {saved['retrieved_at']})")
+    return saved["meta"], json.dumps(saved["answer"]).encode("utf-8"), {"retrieved_at": saved["retrieved_at"], "last_modified": ""}
+
+
+def post(url, body, meta, log, name):
+    """The query's answer by POST (captured by the raw store), saved with the metadata under its own name."""
     r = requests.post(url, json=body, headers=UA, timeout=180)
     if r.status_code != 200:
         raise RuntimeError(f"HTTP {r.status_code} for the query")
     rec = {"retrieved_at": ip.utc_iso(pd.Timestamp.now(tz="UTC")), "last_modified": r.headers.get("Last-Modified") or ""}
+    path = saved_path(name)
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    json.dump({"retrieved_at": rec["retrieved_at"], "query": body, "answer": r.json()}, open(path, "w", encoding="utf-8"))
-    log(f"  POST {url}: {len(r.content)} bytes, saved as {path}")
+    json.dump({"retrieved_at": rec["retrieved_at"], "query": body, "meta": meta, "answer": r.json()}, open(path, "w", encoding="utf-8"))
+    log(f"  POST {url}: {len(r.content)} bytes, saved with the metadata as {path}")
     return r.content, rec
 
 
@@ -129,9 +137,14 @@ def main(argv=None):
     ip.RAW.open(CONNECTOR, run_id)
     results = []
     try:
-        mcontent, _ = ip.fetch_raw(CONNECTOR, TABLE_URL, log, offline=args.offline, fresh=not args.offline, headers=UA, timeout=60, pause=1)
-        meta = json.loads(mcontent.decode("utf-8"))
-        content, rec = post(TABLE_URL, query(meta, y0, y1), log, args.offline, f"capacity_query_{y0}_{y1}.json")
+        name = f"capacity_query_{y0}_{y1}.json"
+        if args.offline:
+            meta, content, rec = load_saved(name, log)
+            query(meta, y0, y1)  # the saved metadata still holds the variables and years asked
+        else:
+            mcontent, _ = ip.fetch_raw(CONNECTOR, TABLE_URL, log, fresh=True, headers=UA, timeout=60, pause=1)
+            meta = json.loads(mcontent.decode("utf-8"))
+            content, rec = post(TABLE_URL, query(meta, y0, y1), meta, log, name)
         base = dict(source=SOURCE, source_url=TABLE_URL, retrieved_at=rec.get("retrieved_at") or "", vintage=ip.vintage_of(rec))
         s, empty = parse(json.loads(content.decode("utf-8")), meta, base)
         if s.empty:
