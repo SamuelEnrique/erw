@@ -189,6 +189,7 @@ eia_seds_state_energy,none,,27,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,491
 eia_state_capacity_annual,none,,2671,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,56719,eia:electricity/state-electricity-profiles/capability,2026-10-21T21:14:01Z,pass,public,power,no,source
 eia_state_generation_monthly,none,,759,P1M,2001-01-01T00:00:00Z,2026-08-01T00:00:00Z,201076,eia:electricity/electric-power-operational-data,2026-10-23T14:37:50Z,pass,public,power,no,source
 eia_state_source_disposition_annual,none,,52,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,37738,eia:electricity/state-electricity-profiles/source-disposition,2026-10-21T21:48:14Z,pass,public,power,no,source
+eia_state_to_state_capacity,none,,173,P1Y,1990-01-01T00:00:00Z,2025-01-01T00:00:00Z,19311,eia:state_to_state_capacity,2026-10-23T21:24:19Z,pass,public,gas,no,source
 eia_steo_forecasts,none,,53,P1M,2020-01-01T00:00:00Z,2027-12-01T00:00:00Z,5088,eia:steo,2026-10-21T18:32:37Z,pass,public,power;gas,no,source
 eia_uranium_facilities,none,,24,snapshot,2026-10-23T12:52:16Z,2026-10-23T12:52:16Z,24,eia:uranium_production_quarterly,2026-10-23T12:55:03Z,pass,public,uranium,no,source
 eia_uranium_marketing_annual,none,,31,P1Y,2003-01-01T00:00:00Z,2025-01-01T00:00:00Z,763,eia:uranium_marketing_annual,2026-10-23T07:01:36Z,pass,public,power;uranium,no,source
@@ -296,6 +297,8 @@ interconnection_agreements_signed,interconnection,,2522,snapshot,2026-10-02T09:1
 interconnection_durations,interconnection,,3098,snapshot,2026-10-02T09:16:25Z,2026-10-02T09:16:25Z,3098,erw:interconnection_durations,2026-10-22T09:46:56Z,pass,public,power,no,derived
 interconnection_durations_summary,interconnection,,9,P1Y,1999-01-01T00:00:00Z,2025-01-01T00:00:00Z,1365,erw:interconnection_durations,2026-10-22T09:46:56Z,pass,public,power,yes,derived
 interconnection_queue_summary,interconnection,,76,P1Y,1995-01-01T00:00:00Z,2025-01-01T00:00:00Z,17246,erw:interconnection_queue_summary,2026-10-04T17:29:25Z,pass,public,power,yes,derived
+irena_capacity_annual,irena,,224,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,20662,irena:irenastat_elecstat,2026-10-23T21:09:48Z,pass,internal,power,no,source
+irs_soi_energy_credits_annual,irs,,54,P1Y,2015-01-01T00:00:00Z,2023-01-01T00:00:00Z,1074,irs:soi_historic_table_2,2026-10-23T21:16:06Z,pass,public,power,no,source
 iso_all_capacity_prices,ISO-NE;MISO;NYISO;PJM,isone_fca;miso_pra;nyiso_icap_spot;pjm_bra,39,P1M;P1Y;P3M,2007-06-01T00:00:00Z,2028-06-01T00:00:00Z,814,isone:fca-results;miso:pra-results-posting;nyiso:icap-spot-auction;pjm:rpm-clearing-price-summary,2026-10-02T19:47:50Z,pass,internal,capacity,no,source
 iso_curtailment_monthly,iso,,2,P1M,2014-03-01T00:00:00Z,2026-09-01T00:00:00Z,3232,erw:iso_curtailment_monthly,2026-10-23T14:45:58Z,pass,public,power,yes,derived
 iso_dam_hub_prices,CAISO;ERCOT;MISO;SPP,caiso_dam;ercot_dam;miso_dam;spp_dam,19,PT1H,2026-08-26T05:00:00Z,2026-10-24T06:00:00Z,23016,caiso:PRC_LMP;ercot:NP4-190-CD;miso:da_expost_lmp;spp:DA-LMP-SL,2026-10-23T14:18:24Z,pass,public,power,no,source
@@ -344,6 +347,7 @@ nlr_atb_electricity_costs,nlr,,183,P1Y,2023-01-01T00:00:00Z,2060-01-01T00:00:00Z
 nlr_jedi_multipliers,nlr,,2266,P1Y,2010-01-01T00:00:00Z,2017-01-01T00:00:00Z,5562,nlr:jedi,2026-10-20T08:43:20Z,pass,public,power,no,derived
 noaa_climdiv_state_monthly,noaa,,49,P1M,2000-01-01T00:00:00Z,2026-09-01T00:00:00Z,31458,noaa:climdiv,2026-10-23T18:52:22Z,pass,public,power;gas,no,source
 noaa_cpc_degree_days_daily,noaa,,58,P1D,2024-01-01T00:00:00Z,2026-10-21T00:00:00Z,118900,noaa:cpc_degree_days,2026-10-23T16:30:23Z,pass,public,power;gas,no,source
+noaa_cpc_oni_monthly,noaa,,1,P1M,1950-01-01T00:00:00Z,2026-08-01T00:00:00Z,1840,noaa:cpc_oni,2026-10-23T21:32:08Z,pass,public,power;gas,no,source
 noaa_grid_weather_daily,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,P1D,2019-01-01T00:00:00Z,2026-10-17T00:00:00Z,118630,noaa:isd_lite;noaa:lcd_v2,2026-10-21T08:45:57Z,pass,public,power,no,source
 noaa_grid_weather_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,PT1H,2019-01-01T00:00:00Z,2026-10-18T03:00:00Z,1907625,noaa:isd_lite;noaa:lcd_v2,2026-10-21T08:45:57Z,pass,public,power,no,source
 noaa_grid_weather_stations,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,,2019-01-01T00:00:00Z,2019-01-01T00:00:00Z,245,noaa:isd_lite,2026-10-21T08:45:57Z,pass,public,power,no,source

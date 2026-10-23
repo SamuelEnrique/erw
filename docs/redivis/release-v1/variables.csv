@@ -3373,6 +3373,7 @@ eia_state_source_disposition_annual,total_international_imports,series variable,
 eia_state_source_disposition_annual,total_net_generation,series variable,MWh
 eia_state_source_disposition_annual,total_supply,series variable,MWh
 eia_state_source_disposition_annual,unaccounted,series variable,MWh
+eia_state_to_state_capacity,capacity,series variable,bcf/d
 eia_steo_forecasts,value,series variable,USD/MMBtu
 eia_steo_forecasts,value,series variable,USD/kWh
 eia_steo_forecasts,value,series variable,ratio
@@ -5269,6 +5270,12 @@ interconnection_queue_summary,total_requests,series variable,count
 interconnection_queue_summary,total_suspended_mw,series variable,MW
 interconnection_queue_summary,total_suspended_requests,series variable,count
 interconnection_queue_summary,years_to_operation_n,series variable,count
+irs_soi_energy_credits_annual,energy_efficient_home_improvement_credit_amount,series variable,USD
+irs_soi_energy_credits_annual,energy_efficient_home_improvement_credit_returns,series variable,count
+irs_soi_energy_credits_annual,residential_clean_energy_credit_amount,series variable,USD
+irs_soi_energy_credits_annual,residential_clean_energy_credit_returns,series variable,count
+irs_soi_energy_credits_annual,residential_energy_credit_amount,series variable,USD
+irs_soi_energy_credits_annual,residential_energy_credit_returns,series variable,count
 iso_curtailment_monthly,curtailed_solar_economic_mwh,series variable,MWh
 iso_curtailment_monthly,curtailed_solar_local_mwh,series variable,MWh
 iso_curtailment_monthly,curtailed_solar_manual_mwh,series variable,MWh
@@ -5640,6 +5647,8 @@ noaa_climdiv_state_monthly,precip,series variable,in
 noaa_climdiv_state_monthly,temp_avg,series variable,degF
 noaa_cpc_degree_days_daily,cdd,series variable,degF-day
 noaa_cpc_degree_days_daily,hdd,series variable,degF-day
+noaa_cpc_oni_monthly,nino34_sst,series variable,degC
+noaa_cpc_oni_monthly,oni_anomaly,series variable,degC
 noaa_grid_weather_daily,cooling_degree_days,series variable,degF-day
 noaa_grid_weather_daily,dew_point_f,series variable,degF
 noaa_grid_weather_daily,heating_degree_days,series variable,degF-day
