@@ -241,16 +241,20 @@ SECTOR_RULES = [
     (r"^noaa_climdiv_state_monthly$", "power;gas"),  # session 2045: NOAA's statewide climate
     (r"^ornl_tedb_transportation_annual$", "oil;products;power"),  # session 2048: ORNL's Transportation Energy Data Book
     (r"^doe_grip_selections$", "power"),  # session 2050: DOE's GRIP selections
-    (r"^eia_ice_electricity_daily$", "power"),  # session 2014: ICE's hub indices as EIA republishes them (internal)
-    (r"^eia_mecs_manufacturing$", "power;gas;oil;coal"),  # session 2016: EIA's manufacturing survey (MECS)
+    (r"^aeso_alberta_load_hourly$", "power"),  # session 2071: the AESO's Alberta internal load
     (r"^eia_cbecs_commercial_buildings$", "power;gas;oil"),  # session 2017: EIA's commercial buildings survey (CBECS 2018)
-    (r"^eia_recs_households$", "power;gas;oil"),  # session 2017: EIA's residential survey (RECS 2020)
-    (r"^lbnl_tracking_the_sun$", "power"),  # session 2015: Berkeley Lab's Tracking the Sun, summarised (written in session 2020)
+    (r"^eia_ice_electricity_daily$", "power"),  # session 2014: ICE's hub indices as EIA republishes them (internal)
     (r"^eia_lng_liquefaction_projects$", "gas"),  # session 2021: EIA's U.S. liquefaction capacity (LNG export projects)
+    (r"^eia_mecs_manufacturing$", "power;gas;oil;coal"),  # session 2016: EIA's manufacturing survey (MECS)
+    (r"^eia_recs_households$", "power;gas;oil"),  # session 2017: EIA's residential survey (RECS 2020)
+    (r"^epa_ghgrp_facility_emissions$", "carbon;power;oil;gas"),  # session 2072: EPA's GHGRP, every sector
     (r"^fema_disaster_declarations$", "power;gas;oil"),  # session 2056: FEMA's disaster declarations (OpenFEMA)
-    (r"^usdm_drought_state_weekly$", "power"),  # session 2058: the U.S. Drought Monitor by state
+    (r"^ieso_ontario_demand_hourly$", "power"),  # session 2070: the IESO's Ontario demand
+    (r"^lbnl_tracking_the_sun$", "power"),  # session 2015: Berkeley Lab's Tracking the Sun, summarised (written in session 2020)
     (r"^nhc_hurdat2_track_points$", "power;oil;gas"),  # session 2059: NHC's HURDAT2 best tracks
+    (r"^noaa_ncei_billion_disasters$", "power"),  # session 2073: NOAA's billion-dollar disasters
     (r"^nrc_license_actions$", "power;uranium"),  # session 2064: the NRC's renewed licenses and power uprates
+    (r"^usdm_drought_state_weekly$", "power"),  # session 2058: the U.S. Drought Monitor by state
     (r"^blm_oil_gas_statistics_annual$", "oil;gas"),  # session 2106: BLM's federal onshore leases, permits and wells by state and fiscal year
     (r"^noaa_uscrn_solar_monthly$", "power"),  # session 2107: NOAA USCRN's monthly solar radiation near CAISO's and ERCOT's solar
     (r"^eia_seds_residential_annual$", "power;gas;oil"),  # session 2108: SEDS's residential expenditures by source and state

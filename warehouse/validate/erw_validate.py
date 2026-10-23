@@ -80,6 +80,9 @@ UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "mph", "
          # session 2045: precipitation in inches, as NOAA's nClimDiv gives a state's month (noaa_climdiv_state_monthly;
          # Decision 60)
          "in",
+         # session 2072: metric tons of CO2 equivalent, as EPA's GHGRP reports a facility's total (AR4 global warming
+         # potentials; epa_ghgrp_facility_emissions; Decision 61)
+         "tCO2e",
          # session 2106: an area in acres (43,560 square feet), as BLM counts federal land under oil and gas lease
          # (blm_oil_gas_statistics_annual; Decision 62)
          "acre",
