@@ -6,13 +6,14 @@ import { SiteLink as Link } from "@/components/SiteLink";
 import { ExploreFrame, FilterForm } from "@/components/explore/Explore";
 import { HeldFreshness } from "@/components/explore/HeldFreshness";
 import { GroupedBars } from "@/components/tool/GroupedBars";
-import { ChartFrame, HeadlineNumber, HeadlineRow, ToolSection, ToolTable } from "@/components/tool/ToolPage";
+import { ChartFrame, HeadlineNumber, HeadlineRow, Tip, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { headers } from "@/lib/data";
 import { choose, isoKey, type Params } from "@/lib/explore";
 import {
   BASE, DEFAULT_GRID, DEFAULT_WINDOW, GRIDS, TABLE, WINDOWS, entityOf, lastWhole, latestOf, monthName, newest, valueOf, variablesOf,
   viewHref, windowOf, yearTs, yearsOf, ytdThrough, type Row,
 } from "@/lib/explore/demandgrowth";
+import { sourceOf } from "@/lib/explore/source";
 import { shown } from "@/lib/format";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
 
@@ -24,6 +25,9 @@ import { HOURLY, attempt, rest } from "@/lib/supabase";
 // so every figure is drawn on the server from one row of the table and carries that row's check key
 // (scripts/check-values.mjs reads it again). Nothing is computed here. The same table is drawn on /demand (as metered),
 // with its month-and-hour map and its ranking; that page is left as it is.
+// Session 2201 (chain 086): every figure carries its source in its hover (Num's `source`, the words of
+// lib/explore/source.ts read from the figure's own key: the table, the grid, the variable, the year and EIA-930), each
+// headline number a Tip with the same words, and the three bar charts the brand's hover card (components/tool/BarsHover.tsx).
 export const metadata: Metadata = { title: "Demand growth explorer" };
 export const dynamic = "force-dynamic";
 
@@ -84,13 +88,16 @@ export default async function DemandGrowthExplorer({ searchParams }: { searchPar
   const whole = lastWhole(rows, e);
   const recent = newest(rows, e);
   const key = (entity: string, variable: string, y: number) => `series|${TABLE}|${entity}|${variable}|${isoKey(yearTs(y))}`;
+  const gridName = (entity: string) => GRIDS.find((g) => entityOf(g.ba) === entity)?.name ?? entity;
+  // the tip beside a headline's label: the figure's source, in the brand's keyboard-reachable tip
+  const tipOf = (slot: string, label: string, entity: string, v: string, y: number | undefined) => (y === undefined ? undefined : <Tip id={`source-${slot}`} label={`where ${label} comes from`}>{sourceOf(key(entity, v, y), gridName(entity))}</Tip>);
   const val = (entity: string, variable: string, y: number | undefined) => (y === undefined ? undefined : valueOf(rows, entity, variable, y));
   // a figure: MW written whole (check-values reads this table's MW keys as whole); a growth (percent or MW) with its sign outside the number
   const n = (entity: string, v: string, y: number | undefined, pct?: boolean): ReactNode => {
     const x = val(entity, v, y);
     if (x === undefined || y === undefined) return <span className="text-muted">not held</span>;
     const text = pct || v.startsWith("growth_pct") ? shown(x) : Math.round(x).toLocaleString("en-US");
-    return <>{(pct || v.startsWith("growth_")) && x > 0 ? "+" : ""}<Num check={key(entity, v, y)} raw={x}>{text}</Num></>;
+    return <>{(pct || v.startsWith("growth_")) && x > 0 ? "+" : ""}<Num check={key(entity, v, y)} raw={x} source={sourceOf(key(entity, v, y), gridName(entity))}>{text}</Num></>;
   };
   const when = (y: number | undefined) => (y === undefined ? "" : `${y}${win.latest === "newest" ? so(y) : ""}`);
   const ytdWords = (y: number | undefined) => (y === undefined ? "" : `${y}${so(y) || (through ? ` (January to ${monthName(through.month)})` : "")}`);
@@ -102,11 +109,11 @@ export default async function DemandGrowthExplorer({ searchParams }: { searchPar
     return { g, y, v: val(ge, win.growth, y) };
   });
   const ordered = [...byGrid].sort((a, b) => (a.v === undefined ? 1 : b.v === undefined ? -1 : b.v - a.v));
-  const third: { label: string; value: ReactNode; unit: string } = win.growthMw
-    ? { label: `Change since ${BASE}, ${win.short}, ${grid.name}, ${when(latest)}`, value: n(e, win.growthMw, latest), unit: "MW" }
+  const third: { label: string; value: ReactNode; unit: string; tip: ReactNode } = win.growthMw
+    ? { label: `Change since ${BASE}, ${win.short}, ${grid.name}, ${when(latest)}`, value: n(e, win.growthMw, latest), unit: "MW", tip: tipOf("third", "the change", e, win.growthMw, latest) }
     : win.slug === "ytd"
-      ? { label: `Average demand growth since ${BASE}, whole year, ${grid.name}, ${whole ?? ""}`, value: n(e, "avg_demand_growth_since_2019_pct", whole, true), unit: "percent" }
-      : { label: `The year so far: growth since ${BASE}, ${grid.name}, ${ytdWords(recent)}`, value: n(e, "ytd_avg_demand_growth_since_2019_pct", recent, true), unit: "percent" };
+      ? { label: `Average demand growth since ${BASE}, whole year, ${grid.name}, ${whole ?? ""}`, value: n(e, "avg_demand_growth_since_2019_pct", whole, true), unit: "percent", tip: tipOf("third", "the whole year's growth", e, "avg_demand_growth_since_2019_pct", whole) }
+      : { label: `The year so far: growth since ${BASE}, ${grid.name}, ${ytdWords(recent)}`, value: n(e, "ytd_avg_demand_growth_since_2019_pct", recent, true), unit: "percent", tip: tipOf("third", "the year so far's growth", e, "ytd_avg_demand_growth_since_2019_pct", recent) };
   // the grid's growth by window along the years: one group a year, one bar a window (the site's bar chart, whose year
   // labels are the years themselves); a window without a row that year has no bar
   const GROWTH = [
@@ -128,10 +135,12 @@ export default async function DemandGrowthExplorer({ searchParams }: { searchPar
       ) : null}
       <HeadlineRow>
         <HeadlineNumber label={`Growth since ${BASE}, ${win.short}, ${grid.name}, ${when(latest)}`} value={n(e, win.growth, latest, true)} unit="percent"
+          tip={tipOf("growth", "the growth", e, win.growth, latest)}
           note={<>{BASE}{win.latest === "newest" && through ? `, January to ${monthName(through.month)}` : ""}: {n(e, win.mw, BASE)} MW; {latest ?? ""}: {n(e, win.mw, latest)} MW</>} />
         <HeadlineNumber label={`${win.short[0].toUpperCase()}${win.short.slice(1)}, ${grid.name}, ${when(latest)}`} value={n(e, win.mw, latest)} unit="MW"
+          tip={tipOf("mw", "the demand", e, win.mw, latest)}
           note={<>{BASE}: {n(e, win.mw, BASE)} MW</>} />
-        <HeadlineNumber label={third.label} value={third.value} unit={third.unit} />
+        <HeadlineNumber label={third.label} value={third.value} unit={third.unit} tip={third.tip} />
       </HeadlineRow>
 
       <ChartFrame title={`The headline chart: growth since ${BASE} by grid, ${win.short}`}
