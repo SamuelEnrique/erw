@@ -12,6 +12,8 @@ On 22 October 2026 Redivis refused every streamed read ("Cannot stream more than
     ERW_REMOTE_TESTS=1 python -m pytest package/tests/test_backends_stanford.py -v -m remote
 """
 
+import re
+
 import pandas as pd
 import pytest
 
@@ -70,8 +72,22 @@ def same_as_local(rem, loc, keys):
     kr = rem[keys].astype(str).agg("|".join, axis=1)
     assert not kr.duplicated().any() and kr.isin(set(k)).all(), "a row of the draft is not in the local table"
     part = loc[k.isin(set(kr))]
-    pd.testing.assert_frame_equal(_norm(rem[cols], keys), _norm(part[cols], keys), check_dtype=False)
-    return f"rewritten since the upload: {len(loc) - len(rem):,} rows newer here"
+    a, b = _norm(rem[cols], keys), _norm(part[cols], keys)
+    # session 864: a publisher revises a few recent values between two runs (EIA's spot prices: one of 27,754 on
+    # 23 October 2026); the rows that differ must be under REVISED_SHARE of the rows in common, and are counted
+    diff = (a.astype(str) != b.astype(str)).any(axis=1)
+    assert diff.mean() <= REVISED_SHARE, f"{int(diff.sum()):,} of {len(a):,} rows differ"
+    return f"rewritten since the upload: {len(loc) - len(rem):,} rows newer here, {int(diff.sum()):,} revised"
+
+
+def undated(citation):
+    """A citation without its "Retrieved <date>": the date moves with every run that rewrites the table (session 864)."""
+    return re.sub(r"\. Retrieved \d{4}-\d{2}-\d{2}", ".", citation)
+
+
+# coverage's columns that a daily run's rewrite moves (session 864): compared only for a table as uploaded
+RUN_COVERAGE = ["ts_min", "ts_max", "n_rows", "last_run", "n_nodes", "validator_status"]
+REVISED_SHARE = 0.001
 
 
 @pytest.mark.parametrize("name", FIVE)
@@ -90,7 +106,7 @@ def test_cite_names_the_table(stanford, name):
     erw.set_backend(stanford)
     rem = erw.cite(name)
     cut = " via the Energy Research Warehouse (ERW)"
-    assert rem.split(cut)[0] == loc.split(cut)[0]
+    assert undated(rem.split(cut)[0]) == undated(loc.split(cut)[0])
     assert f"table {name}" in rem
 
 
@@ -99,5 +115,7 @@ def test_filter_and_coverage_match_local(stanford):
     loc_cov = erw.coverage().set_index("table").loc[FIVE]
     loc_f = set(erw.filter(sector="oil")) & set(FIVE)
     erw.set_backend(stanford)
-    pd.testing.assert_frame_equal(erw.coverage().set_index("table").loc[FIVE], loc_cov, check_dtype=False)
+    rem_cov = erw.coverage().set_index("table").loc[FIVE]
+    stable = [c for c in loc_cov.columns if c not in RUN_COVERAGE]
+    pd.testing.assert_frame_equal(rem_cov[stable], loc_cov[stable], check_dtype=False)
     assert set(erw.filter(sector="oil")) & set(FIVE) == loc_f

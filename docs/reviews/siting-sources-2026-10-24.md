@@ -29,3 +29,12 @@ Requests: 10 of 12, at most two a host, one a line, no retry (`runs/c045/s691/pr
 
 - **A publisher of record**, if one is known to you: a DHS, DOE or EIA page that releases substations and transmission lines today with a license line. Two leads not followed for the ceiling: the federal GeoPlatform (`geoplatform.gov`, which now holds FGDC's National Geospatial Data Asset lists; the "Utilities" theme may name the lines' lead agency) and data.gov's new catalogue interface.
 - **Esri's archive** of the lines is under Esri's license: using it would be a license question, not a public source.
+
+## The second try (session 858, 23 October 2026, 02:11 UTC)
+
+Four requests of 12, each host's robots file asked alone and read before anything else (`runs/c046/s858/`, bodies under `runs/license_reads/s858/`):
+
+- `www.geoplatform.gov`: the robots file disallows every address with a query string (`Disallow: /*?`), so no search. Its NGDA page (`/ngda/`, no query) is drawn by script: the text served holds only the site's title, no theme and no dataset.
+- `catalog.data.gov`: the robots file disallows nothing (crawl delay 10 s, kept). The catalogue's search page (`/dataset?q="electric power transmission lines"`) answered with its popular datasets (electric vehicles, lottery numbers), not the query's: the new interface does not read `q` as the old one did, and the old API answers 404 (session 691).
+
+**Verdict unchanged:** no publisher of record found; `hifld_substations` and `hifld_transmission_lines` are not written. The question stays with the owner.

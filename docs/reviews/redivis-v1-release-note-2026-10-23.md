@@ -39,6 +39,17 @@ and `erw_sources` 399 against 398); 2 are chain 041's tables, public and never u
 (`eia930_subba_demand_hourly_2021`, 710,831 rows; `eia_coal_production_annual`, 22,630). Nothing is wrong in the draft: it
 is the warehouse as of 21 and 22 October. The list: `runs/c045/s688/redivis_reconcile_stanford.csv` on the data machine.
 
+**Session 863 (23 October 2026, 02:23 UTC)** uploaded 14 public tables with the true replace, each proved by the draft's
+count (`upload.py --target stanford --prove-by-listing --tables`, which merges their header lines into `erw_headers`,
+2,866 lines, and touches no other table): chain 041's `eia930_subba_demand_hourly_2021` and `eia_coal_production_annual`;
+chain 045's `eia_coal_mine_production_annual`, `eia861_utility_reliability`, `eia930_subba_demand_hourly_2020` and the
+rewritten `eia861m_utility_sales_monthly` (1,051,488 rows, EIA's aggregates out); chain 046's `ercot_cdr_reserve_margins`,
+`ercot_transmission_projects`, `eia861_delivery_only`, `interconnection_agreements_signed`,
+`interconnection_agreements_by_grid`, `eia930_subba_demand_hourly_2019`, `eia_petroleum_exports_by_destination`,
+`eia_gas_consumers_state_annual`. The reconcile after it: 160 of 205 match; the 45 that differ are the 43 tables a daily
+run has grown since their upload and `erw_coverage` (296 rows here, 294 in the draft) and `erw_sources` (407 against 398),
+which a plain upload refreshes. 100 requests in all (`runs/c046/s863/`).
+
 **The daily run the draft holds:** the data machine's tables as of 21 and 22 October 2026 (111 tables last run on 21
 October, 19 on 22 October); 30 were last run here before 15 October (below).
 
