@@ -2,7 +2,7 @@
 
 machine: data
 
-Written by session 937, the first session of `queue/done/053-day-23-october-data-world-energy-dams-solar-projects.md`, under chain 045's rule ("the next file is written and pushed to `queue/next` at the START of the chain"), at the owner's instruction for chain 045 ("at least twelve sessions, machine: data, ... the sources and gaps ... in chain 040's form"). The next free number in `queue/next` and `queue/done` was 054. Sessions 951 to 964 were free in every queue file and branch when this was written (the code machine holds 700 to 749, the laptop 800 to 849, the old laptop 1000 on). Session 950 of chain 053 updates it at chain 053's end. Model: Opus 5.5, high effort.
+Written by session 937, the first session of `queue/done/053-day-23-october-data-world-energy-dams-solar-projects.md`, under chain 045's rule ("the next file is written and pushed to `queue/next` at the START of the chain"), at the owner's instruction for chain 045 ("at least twelve sessions, machine: data, ... the sources and gaps ... in chain 040's form"). The next free number in `queue/next` and `queue/done` was 054. Sessions 951 to 964 were free in every queue file and branch when this was written (the code machine holds 700 to 749, the laptop 800 to 849, the old laptop 1000 on). Session 950 of chain 053 updated it at chain 053's end (the BLS added to the hosts not asked, session 952's sheets narrowed to those not taken, session 959's open rows). Model: Opus 5.5, high effort.
 
 Each source session follows chain 040's form:
 
@@ -19,7 +19,7 @@ Default-neutral: no page's default figure moves, no ruling is made, nothing is r
 The rules of `queue/done/053-day-23-october-data-world-energy-dams-solar-projects.md` hold, word for word, among them:
 
 - **ERCOT's robots file disallows `/misapp` and `/misdownload`**, and **EIA's disallows `/archive/`**: neither is asked.
-- **Hosts that refused the ERW's reader, or whose robots file disallows its paths, are not asked again without a ruling:** api.census.gov, www.phmsa.dot.gov, FERC's policy page, EPA's bulk file API without a key, apps.cer-rec.gc.ca, files.ember-energy.org.
+- **Hosts that refused the ERW's reader, or whose robots file disallows its paths, are not asked again without a ruling:** api.census.gov, www.phmsa.dot.gov, FERC's policy page, EPA's bulk file API without a key, apps.cer-rec.gc.ca, files.ember-energy.org, www.bls.gov (HTTP 403 to its robots file, session 941: its API is a question for the owner).
 - **Keys not held:** `EPA_CAMD_API_KEY`, `NREL_API_KEY` or `DATA_GOV_API_KEY`; a session that needs one stops and says so, without signing up.
 - **HydroSource's download form is not filled**; ORNL's files are taken by their public links, pending the owner's word.
 - **A push to main is never piped, and is followed by `git status -sb`** showing nothing ahead (session 923's push was refused unseen).
@@ -28,7 +28,7 @@ The rules of `queue/done/053-day-23-october-data-world-energy-dams-solar-project
 - **A request cap on the Redivis uploader stops between tables, never inside one**, budgeted by session 892's measure (session 933: 86 Redivis requests for seven tables and the metadata in a plain upload).
 - **Session 951 begins by writing `queue/next/<next free number>-<slug>.md`** for this machine (at least twelve sessions, machine: data, numbered from 965), commits it alone and pushes it to main before any other work; session 964 updates it.
 
-Read first: chain 053's note (written by session 950), sessions 937 to 950's reports, `docs/state/note_2026-10-31_data.md`, `docs/reviews/siting-gaps.md`.
+Read first: chain 053's note (`docs/state/note_2026-11-01_data.md`, written by session 950), sessions 937 to 950's reports, `docs/state/note_2026-10-31_data.md`, `docs/reviews/siting-gaps.md`.
 
 ## Session 951: federal oil and gas production and royalties (the Office of Natural Resources Revenue)
 
@@ -36,7 +36,7 @@ Long end 1:30. Pulls: at most 15 requests. ONRR's public data (onrr.gov): federa
 
 ## Session 952: wind turbine prices, capital and operating costs (Berkeley Lab)
 
-Long end 1:30. Pulls: none (the 2026 wind data file session 915 saved, `warehouse/raw/lbnl_ppa_prices/`). Its sheets "Wind Turbine Prices", "CapEx Over Time", "Recent CapEx by Region", "O&M Over Time" and "Wind LCOE Over Time", as series tables of their own; cross-check: the capital costs against `nlr_atb_electricity_costs`' land-based wind for the years both hold.
+Long end 1:30. Pulls: none (the 2026 wind data file session 915 saved, `warehouse/raw/lbnl_ppa_prices/`). Its sheets "Wind Turbine Prices", "CapEx Over Time", "Recent CapEx by Region", "O&M Over Time" and "Wind LCOE Over Time", as series tables of their own; cross-check: the capital costs against `nlr_atb_electricity_costs`' land-based wind for the years both hold. The file's "Capacity Factor in 2025 by COD" is held (`lbnl_wind_capacity_factors`, session 944) and its "REC Prices" (Marex Spectron's, a broker's) waits on the owner (session 940): neither is taken again.
 
 ## Session 953: the primary energy overview (EIA's Monthly Energy Review)
 
@@ -60,7 +60,7 @@ Long end 1:30 each. Pulls: at most 20 requests each. A public source the ERW doe
 
 ## Session 959: a gap of the siting review
 
-Long end 1:30. Pulls: at most 10 requests. One open row of `docs/reviews/siting-gaps.md` that a public table can close without a ruling, read after the code machine's latest state section; else the session says why none can.
+Long end 1:30. Pulls: at most 10 requests. One open row of `docs/reviews/siting-gaps.md` that a public table can close without a ruling, read after the code machine's latest state section; else the session says why none can. After chain 053 the open rows are substations and lines, large-load tariffs, a 2026 sub-region table and a node's bus; a node's wires utility is held by county (`ercot_node_wires_utilities`, session 945), not the owner of the line a generator ties into.
 
 ## Session 960: method notes for this chain's tables
 
@@ -68,7 +68,7 @@ Long end 1:00. Pulls: none. As session 932: each note's checks against the code 
 
 ## Session 961: the Stanford draft
 
-Long end 1:30. Pulls: Redivis's API only, at most 150 requests, in whole runs under the cap. First any table of chain 053 not yet in the draft or stale there (session 947's report names them); then this chain's public tables, in a plain upload that refreshes the metadata tables; `--reconcile`; the release note extended. Nothing released.
+Long end 1:30. Pulls: Redivis's API only, at most 150 requests, in whole runs under the cap. First any table of chain 053 not yet in the draft or stale there (session 947 put all eight in the draft, with `uswtdb_wind_turbines`); then this chain's public tables, in a plain upload that refreshes the metadata tables; `--reconcile`; the release note extended. Nothing released.
 
 ## Session 962: seven days of the data jobs
 
