@@ -145,6 +145,7 @@ eia_ice_electricity_daily,none,Midwest;New England;Northern California;Northwest
 eia_ieo_projections,none,,574,P1Y,2020-01-01T00:00:00Z,2050-01-01T00:00:00Z,17856,eia:ieo/2023,2026-10-23T13:46:53Z,pass,public,power;carbon,no,source
 eia_international_electricity_annual,none,,51,P1Y,1980-01-01T00:00:00Z,2024-01-01T00:00:00Z,4131,eia:international,2026-10-23T04:55:57Z,pass,public,power,no,source
 eia_lng_exports_monthly,none,,17,P1M,2013-11-01T00:00:00Z,2026-07-01T00:00:00Z,1083,eia:natural-gas/move/poe2,2026-10-23T14:37:50Z,pass,public,lng,no,source
+eia_lng_liquefaction_projects,none,,48,snapshot,2026-10-23T18:59:44Z,2026-10-23T18:59:44Z,48,eia:us_liquefaction_capacity,2026-10-23T19:02:57Z,pass,public,gas,no,source
 eia_mecs_manufacturing,none,,82,P1Y,2022-01-01T00:00:00Z,2022-01-01T00:00:00Z,5363,eia:mecs,2026-10-23T18:33:31Z,pass,public,power;gas;oil;coal,no,source
 eia_meters_state_annual,none,,1040,P1Y,2013-01-01T00:00:00Z,2024-01-01T00:00:00Z,8578,eia:electricity/state-electricity-profiles/meters,2026-10-21T23:48:23Z,pass,public,power,no,source
 eia_net_metering_state_annual,none,,1031,P1Y,2013-01-01T00:00:00Z,2024-01-01T00:00:00Z,16226,eia:electricity/state-electricity-profiles/net-metering,2026-10-21T21:48:23Z,pass,public,power,no,source
