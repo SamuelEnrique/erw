@@ -69,6 +69,7 @@ eia861_utility_data,EIA,the source registry
 eia861_utility_reliability,EIA,the source registry
 eia861_utility_sales,EIA,the source registry
 eia861m_utility_sales_monthly,EIA,the source registry
+eia923_fuel_receipts,EIA,the source registry
 eia923_plant_fuel_annual,EIA,the source registry
 eia923_plant_fuel_monthly,EIA,the source registry
 eia930_all_demand,EIA,EIA-930 (its name; the registry lists no row for it)

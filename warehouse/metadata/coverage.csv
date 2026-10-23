@@ -69,6 +69,7 @@ eia861_utility_data,eia861,,22716,snapshot,2026-10-21T16:56:34Z,2026-10-21T17:49
 eia861_utility_reliability,eia861,,1316,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,90705,eia:eia861:reliability,2026-10-23T00:44:10Z,pass,public,power,no,source
 eia861_utility_sales,eia861,,3529,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,433115,eia:eia861,2026-10-23T00:24:36Z,pass,public,power,no,source
 eia861m_utility_sales_monthly,eia861m,,402,P1M,2017-01-01T00:00:00Z,2026-07-01T00:00:00Z,1051488,eia:eia861m,2026-10-23T00:18:08Z,pass,public,power,no,source
+eia923_fuel_receipts,none,,1,event,2025-01-01T00:00:00Z,2025-12-01T00:00:00Z,36733,1 outlets,2026-10-23T06:41:21Z,pass,public,power,no,source
 eia923_plant_fuel_annual,eia923,,44192,P1Y,2001-01-01T00:00:00Z,2024-01-01T00:00:00Z,872492,eia:electricity/facility-fuel,2026-10-21T21:13:02Z,pass,public,power;gas;oil;coal,no,source
 eia923_plant_fuel_monthly,eia923,,14088,P1M,2025-01-01T00:00:00Z,2025-12-01T00:00:00Z,660531,eia:eia923:monthly,2026-10-23T06:32:07Z,pass,public,power,no,source
 eia930_all_demand,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,8,PT1H,2026-08-26T00:00:00Z,2026-10-21T23:00:00Z,21408,eia:electricity/rto/region-data,2026-10-22T14:26:31Z,pass,public,power,no,source

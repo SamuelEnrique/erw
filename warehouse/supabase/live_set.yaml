@@ -328,6 +328,7 @@ catalogue_hold:
   - eia860_plants_annual
   - eia_coal_receipts_annual
   - eia861_short_form
+  - eia923_fuel_receipts
   - eia_gas_pipeline_projects
   - eia923_plant_fuel_monthly
   - eia860_emission_controls
