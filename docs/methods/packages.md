@@ -121,9 +121,11 @@ Each failure a reader can hit answers with one sentence that says what to do, th
 - empty_window: "No rows of {table} start in [{start}, {end}); its rows run from {ts_min} to {ts_max}."
 - redivis_token: "Set REDIVIS_API_TOKEN to a token from https://redivis.com/workspace/settings/tokens, then try again."
 - live_keys: "Set ERW_LIVE_URL and ERW_LIVE_KEY to the live set's address and key (the ERW gives them on request), then try again."
+- bad_date (session 1056): "The {side} {value} is not a date the ERW reads: write it as YYYY-MM-DD, or YYYY-MM-DDTHH:MM:SSZ in UTC, then try again."
+- bad_window (session 1056): "The start {start} is not before the end {end}, so the window [start, end) holds no time: give a start before the end, then try again."
 - row_limit: "The live set answered a page of {got} rows where {page} were asked for: a fault of the package, not of your call; please tell the ERW (https://github.com/SamuelEnrique/erw/issues)."
 
-A held table and a table not found stop the call. An empty window does not: the frame (or dataset) comes back empty, with the sentence as a warning (Python, `erw.api.ERWEmptyWindow`), a note (Stata) or a message (R).
+A held table, a table not found, a date that cannot be read and a start not before the end stop the call (the last two before any request: Python's `erw.ERWBadWindow`, Stata's error 198, R's `stop`). An empty window does not: the frame (or dataset) comes back empty, with the sentence as a warning (Python, `erw.api.ERWEmptyWindow`), a note (Stata) or a message (R).
 
 ## Requests
 
@@ -171,6 +173,8 @@ What `package/src/erw/` did on 23 October 2026 before session 1001, call by call
 | the table list of the record | 1 of 1 | not run | not run |
 
 The fetch of `eia930_all_demand` for 18 October 2026 is in the live set's 35 days until about 22 November 2026; after that the live set no longer holds it, and the file is made again (`python packages/conformance/make.py`, then `write_runners.py`).
+
+**Version 2 of the file (session 1055, chain 072, 23 October 2026).** Call 7 now fetches `carbon_intensity_hourly` (ERCOT's `intensity_demand`, the same 24 hours of 18 October), which the live set keeps 430 days (`warehouse/supabase/live_set.yaml`), so no call leaves the live set's window before 2027: the next to go are the daily intensity of 1 to 7 October (100 days, about 9 January 2027) and call 7 itself (about 22 December 2027). Every other call and every expected answer is as version 1's (the remake changed only call 7's table and variable; its 24 rows, first and last hour are the same). `make.py` now carries the errors block (session 1013's sentences) over from the file as it stands: a remake without it would have dropped them. No call was added for the data machine's chain 049 tables: they are on the live set's hold list (`catalogue_hold`), with no live window. The Python runner passed call 7 (`--only 7`); the Stata and R runners were written again (`write_runners.py`), for the owner to run. Requests: 53 to the live set (two makes of 25, the first lost the errors block and was made again; 3 for the runner).
 
 ## The package reads what the pages read (session 1012)
 

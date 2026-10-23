@@ -1,6 +1,6 @@
 {
-  "made_by": "session 1003's fixtures' calls and session 1006 (chain 070), the Python package on the live set",
-  "made_at": "2026-10-23T03:11:54Z",
+  "made_by": "session 1003's fixtures' calls and session 1006 (chain 070), the Python package on the live set; version 2, session 1055 (chain 072): call 7 on a table the live set keeps 430 days",
+  "made_at": "2026-10-23T07:56:19Z",
   "via": "Via the Energy Research Warehouse (ERW), table",
   "calls": [
     {
@@ -105,12 +105,12 @@
       "n": 7,
       "call": "fetch",
       "args": {
-        "table": "eia930_all_demand",
+        "table": "carbon_intensity_hourly",
         "entity": [
           "eia930:ERCO"
         ],
         "variable": [
-          "demand_mw"
+          "intensity_demand"
         ],
         "start": "2026-10-18",
         "end": "2026-10-19"
@@ -283,7 +283,7 @@
   ],
   "requests": {
     "redivis": 0,
-    "live": 26
+    "live": 25
   },
   "errors": {
     "templates": {
@@ -293,6 +293,8 @@
       "empty_window": "No rows of {table} start in [{start}, {end}); its rows run from {ts_min} to {ts_max}.",
       "redivis_token": "Set REDIVIS_API_TOKEN to a token from https://redivis.com/workspace/settings/tokens, then try again.",
       "live_keys": "Set ERW_LIVE_URL and ERW_LIVE_KEY to the live set's address and key (the ERW gives them on request), then try again.",
+      "bad_date": "The {side} {value} is not a date the ERW reads: write it as YYYY-MM-DD, or YYYY-MM-DDTHH:MM:SSZ in UTC, then try again.",
+      "bad_window": "The start {start} is not before the end {end}, so the window [start, end) holds no time: give a start before the end, then try again.",
       "row_limit": "The live set answered a page of {got} rows where {page} were asked for: a fault of the package, not of your call; please tell the ERW (https://github.com/SamuelEnrique/erw/issues)."
     },
     "tables_call": {
