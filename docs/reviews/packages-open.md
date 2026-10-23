@@ -34,3 +34,7 @@ Energy Research Warehouse (ERW), written by session 1039 (chain 071, `queue/done
 
 - The six calls in three packages, the conformance file, `/data`'s panels and lines, the download route and `/llms.txt` behind the internal cookie, the release package's three languages (chain 070).
 - The package reproduces the All grids tab's figures (1032); the install from a clean venv (1035); the data pages' accessibility and 390 (1036).
+
+## State (session 1043, chain 072, 23 October 2026 at about 07:50 UTC)
+
+No item answered: no "Answer:" line under items 1 to 9, and no `docs/reviews/packages-owner-run.md`. Sessions 1054 and 1058 read this file again.
