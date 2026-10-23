@@ -51,6 +51,7 @@ eia861_demand_response,eia861,,569,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z
 eia861_dynamic_pricing,eia861,,974,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,33157,eia:eia861:dynamic_pricing,2026-10-23T03:12:59Z,pass,public,power,no,source
 eia861_energy_efficiency,eia861,,801,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,187850,eia:eia861:energy_efficiency,2026-10-23T04:27:16Z,pass,public,power,no,source
 eia861_net_metering,eia861,,1443,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,507206,eia:eia861:net_metering,2026-10-23T03:20:05Z,pass,public,power,no,source
+eia861_operational_data,eia861,,3770,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,367768,eia:eia861:operational_data,2026-10-23T04:31:23Z,pass,public,power,no,source
 eia861_short_form,eia861,,1777,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,44170,eia:eia861:short_form,2026-10-23T03:43:23Z,pass,public,power,no,source
 eia861_utility_data,eia861,,22716,snapshot,2026-10-21T16:56:34Z,2026-10-21T17:49:02Z,22716,eia:eia861:utility_data,2026-10-23T03:05:50Z,pass,public,power,no,source
 eia861_utility_reliability,eia861,,1316,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,90705,eia:eia861:reliability,2026-10-23T00:44:10Z,blocked (1 errors),public,power,no,source
