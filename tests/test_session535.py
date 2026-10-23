@@ -62,7 +62,7 @@ class TheRoute(unittest.TestCase):
         at = ROUTE.index('if (as === "r") return reader(table, as, new URL(req.url).origin);')
         self.assertGreater(at, ROUTE.index('if (as === "py" || as === "do") return reader(table, as, new URL(req.url).origin);'))
         self.assertGreater(at, ROUTE.index("is not in the site's live set"))
-        self.assertGreater(at, ROUTE.index('const lim = await limited(req, "download", 60, 3600);'))
+        self.assertGreater(at, ROUTE.index('const lim = await limited(req, "download", PER_HOUR, 3600);'))  # session 1009: the limit from the environment, 60 by default
         self.assertGreater(at, ROUTE.index("if (licenseNeeded(table))"))
         self.assertIn('type Reader = "py" | "do" | "r";', ROUTE)
         # the same attachment header as the other two: erw_<table>.r

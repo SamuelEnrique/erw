@@ -3,10 +3,6 @@
   "unsettled",
   "ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21)."
  ],
- "api_cost_ledger": [
-  "internal",
-  "The ERW holds it for its own use only; it is never redistributed."
- ],
  "ba_supply_monthly": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
@@ -151,10 +147,6 @@
   "unsettled",
   "Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; Hart Energy; Heatmap News; Latitude Media; Natural Gas Intelligence; POWER Magazine; Reuters; WSJ's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21)."
  ],
- "datacenter_projects_evidence": [
-  "internal",
-  "The ERW holds it for its own use only (needs written permission); it is never redistributed."
- ],
  "datacenter_queue_positions": [
   "unsettled",
   "ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21)."
@@ -286,10 +278,6 @@
  "eia_aeo_electricity": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
- ],
- "eia_all_futures_prices": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
  ],
  "eia_annual_crosscheck_ba": [
   "public",
@@ -571,10 +559,6 @@
   "unsettled",
   "ANS Nuclear Newswire; Bloomberg; Canary Media; Data Center Dynamics; Data Center Frontier; Financial Times; Hart Energy; JPT; LNG Prime; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; Rigzone; Utility Dive; WSJ; pv magazine USA's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21)."
  ],
- "energy_deals_evidence": [
-  "internal",
-  "The ERW holds it for its own use only (needs written permission); it is never redistributed."
- ],
  "energy_projects": [
   "unsettled",
   "ISO-NE's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21)."
@@ -634,10 +618,6 @@
  "ercot_large_load_status": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
- ],
- "ercot_node_prices_hourly": [
-  "internal",
-  "The ERW holds it for its own use only; it is never redistributed."
  ],
  "ercot_peak_premium_annual": [
   "public",
@@ -715,122 +695,6 @@
   "unsettled",
   "ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21)."
  ],
- "ferc714_area_demand_2006": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
- ],
- "ferc714_area_demand_2007": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
- ],
- "ferc714_area_demand_2008": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
- ],
- "ferc714_area_demand_2009": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
- ],
- "ferc714_area_demand_2010": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
- ],
- "ferc714_area_demand_2011": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
- ],
- "ferc714_area_demand_2012": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
- ],
- "ferc714_area_demand_2013": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
- ],
- "ferc714_area_demand_2014": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
- ],
- "ferc714_area_demand_2015": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
- ],
- "ferc714_area_demand_2016": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
- ],
- "ferc714_area_demand_2017": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
- ],
- "ferc714_area_demand_2018": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
- ],
- "ferc714_area_demand_2019": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
- ],
- "ferc714_area_demand_2020": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
- ],
- "ferc714_area_demand_2021": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
- ],
- "ferc714_area_demand_2022": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
- ],
- "ferc714_area_demand_2023": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
- ],
- "ferc714_area_demand_2024": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
- ],
- "ferc714_area_demand_2025": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
- ],
- "ferc714_respondents": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
- ],
- "ferc_eqr_buyer_doubtful": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
- ],
- "ferc_eqr_buyer_names": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
- ],
- "ferc_eqr_contract_terms": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
- ],
- "ferc_eqr_contracts": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
- ],
- "ferc_eqr_contracts_history": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
- ],
- "ferc_eqr_party_mw": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
- ],
- "ferc_eqr_party_totals": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
- ],
- "ferc_eqr_quarter_changes": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
- ],
  "flex_alert_effects": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
@@ -903,10 +767,6 @@
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
- "iso_all_capacity_prices": [
-  "internal",
-  "The ERW holds it for its own use only (needs a paid license); it is never redistributed."
- ],
  "iso_curtailment_monthly": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
@@ -939,21 +799,9 @@
   "unsettled",
   "NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21)."
  ],
- "isone_as_prices": [
-  "internal",
-  "The ERW holds it for its own use only (needs written permission); it is never redistributed."
- ],
- "isone_dam_cleared_energy": [
-  "internal",
-  "The ERW holds it for its own use only (needs written permission); it is never redistributed."
- ],
  "isone_dam_zone_prices": [
   "unsettled",
   "ISO-NE's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21)."
- ],
- "isone_ddg_undelivered_monthly": [
-  "internal",
-  "The ERW holds it for its own use only (needs written permission); it is never redistributed."
  ],
  "isone_interconnection_queue": [
   "unsettled",
@@ -967,21 +815,9 @@
   "unsettled",
   "ISO-NE's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21)."
  ],
- "isone_zone_load_hourly": [
-  "internal",
-  "The ERW holds it for its own use only (needs written permission); it is never redistributed."
- ],
- "isone_zone_prices_history": [
-  "internal",
-  "The ERW holds it for its own use only (needs written permission); it is never redistributed."
- ],
  "known_data_faults": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
- ],
- "large_load_document_verdicts": [
-  "internal",
-  "The ERW holds it for its own use only (needs written permission); it is never redistributed."
  ],
  "large_load_public": [
   "unsettled",
@@ -995,18 +831,6 @@
   "unsettled",
   "The terms of Arizona Corporation Commission; Illinois Commerce Commission; Oregon Public Utility Commission and others have not been read or settled, so the ERW does not redistribute it until they are."
  ],
- "large_load_rules_internal": [
-  "internal",
-  "The ERW holds it for its own use only (needs written permission); it is never redistributed."
- ],
- "large_load_statements": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
- ],
- "large_load_waits": [
-  "internal",
-  "The ERW holds it for its own use only (needs written permission); it is never redistributed."
- ],
  "lbnl_interconnection_queue": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
@@ -1015,10 +839,6 @@
   "unsettled",
   "ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21)."
  ],
- "miso_as_prices": [
-  "internal",
-  "The ERW holds it for its own use only (needs written permission); it is never redistributed."
- ],
  "miso_interconnection_queue": [
   "unsettled",
   "MISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21)."
@@ -1026,14 +846,6 @@
  "news_index": [
   "unsettled",
   "ANS Nuclear Newswire; Bloomberg; Canary Media; CivicPlus; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; Hart Energy; Heatmap News; Hydrogen Insight; ISO-NE; JPT; LNG Prime; Latitude Media; MISO; NYISO; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; Rigzone; Utility Dive; WSJ; pv magazine USA's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21)."
- ],
- "news_scores_shadow": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
- ],
- "news_stories": [
-  "internal",
-  "The ERW holds it for its own use only (needs written permission); it is never redistributed."
  ],
  "nlr_atb_electricity_costs": [
   "public",
@@ -1103,10 +915,6 @@
   "unsettled",
   "NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21)."
  ],
- "pjm_rpm_capacity_prices": [
-  "internal",
-  "The ERW holds it for its own use only (needs a paid license); it is never redistributed."
- ],
  "policy_action_tags": [
   "unsettled",
   "The terms of Public Utility Commission of Texas have not been read or settled, so the ERW does not redistribute it until they are."
@@ -1118,18 +926,6 @@
  "policy_reads": [
   "unsettled",
   "The terms of Public Utility Commission of Texas have not been read or settled, so the ERW does not redistribute it until they are."
- ],
- "policy_reads_evidence": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
- ],
- "portwatch_chokepoint_transits": [
-  "internal",
-  "The ERW holds it for its own use only; it is never redistributed."
- ],
- "price_board_carbon": [
-  "internal",
-  "The ERW holds it for its own use only (needs written permission); it is never redistributed."
  ],
  "price_board_latest": [
   "unsettled",
@@ -1146,10 +942,6 @@
  "price_years_by_window": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
- ],
- "rggi_auction_allowance_prices": [
-  "internal",
-  "The ERW holds it for its own use only (needs written permission); it is never redistributed."
  ],
  "rrc_lease_production_monthly": [
   "public",
@@ -1202,14 +994,6 @@
  "storage_owners_monthly": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
- ],
- "texas_delivery_charges": [
-  "internal",
-  "The ERW holds it for its own use only (needs written permission); it is never redistributed."
- ],
- "texas_transmission_matrix": [
-  "internal",
-  "The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed."
  ],
  "uswtdb_wind_turbines": [
   "unsettled",

@@ -16,6 +16,13 @@
   - Python alone names the close tables when one is not found.
 - **Unproven, said so**: the export path. Your token is over Redivis's streaming cap, which is the path's own case, and no session of this chain has a Redivis request for an export in Stata's or R's form. Your run proves it.
 
+## The first gate's three failures, fixed here
+
+The gate on `wip/1012-packages` (1000 to 1012) failed its suite: 6,082 tests, 2 failures and 1 error, all from this chain.
+
+- **Tests 535 and 177 also pinned the download's old limit line** (`"download", 60, 3600`); session 1009 had updated 328, 368 and 445 and missed these two. They now pin `PER_HOUR`.
+- **Test 149 failed**: no file of the site may name the internal table `isone_ddg_undelivered_monthly`, and session 1008's `site/data/table_verdicts.json` and session 1009's `table_citations.json` named every table. Both files now hold only the tables coverage flags public. The site needs no other: `/data` lists public tables, and the download route answers an internal one 404 before any refusal. Test 1008 now also holds that no internal table is in them.
+
 ## What to review
 
 1. `docs/methods/packages.md`, "Where the three still differ".
@@ -45,5 +52,5 @@ With 1013 onward.
 
 ## Files
 
-- Changed: `packages/stata/erw.ado`, `erw.sthlp`, `README.md`; `packages/r/erw/R/erw.R`, `DESCRIPTION`, `README.md`; `packages/r/check_r.py`; `docs/methods/packages.md`.
+- Changed: `packages/stata/erw.ado`, `erw.sthlp`, `README.md`; `packages/r/erw/R/erw.R`, `DESCRIPTION`, `README.md`; `packages/r/check_r.py`; `docs/methods/packages.md`; and, for the gate, `package/tools/build_tables.py`, `site/data/table_verdicts.json`, `table_citations.json`, `tests/test_session535.py`, `test_session177.py`, `test_session1008.py`.
 - New: `tests/test_session1014.py`, this report.

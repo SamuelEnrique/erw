@@ -48,6 +48,9 @@ class OneLine(unittest.TestCase):
         self.assertIn(f'LICENSE_RECORD = "{licenses.LICENSES_URL}"', LIB)
         verdicts = json.loads(src("site", "data", "table_verdicts.json"))
         for t in TEN:
+            if t not in verdicts:   # an internal table is never named on the site (session 1014, test 149)
+                self.assertEqual(erw.license(t)["verdict"], "internal", t)
+                continue
             v, words = verdicts[t]
             self.assertEqual(v, erw.license(t)["verdict"], t)
             if v != "public":
@@ -61,7 +64,11 @@ class OneLine(unittest.TestCase):
         # a table the record has and the site's file not yet (a new table of the data machine's) is listed, not failed
         stale = sorted(t for t in verdicts if record.get(t) != verdicts[t])
         self.assertEqual(stale, [], "run python package/tools/build_tables.py")
-        new = sorted(set(record) - set(verdicts))
+        import csv
+        with open(os.path.join(ROOT, "warehouse", "metadata", "coverage.csv"), encoding="utf-8") as f:
+            public = {r["table"] for r in csv.DictReader(f) if r["license"] == "public"}
+        self.assertFalse(set(verdicts) - public, "an internal table is never named on the site (test 149)")
+        new = sorted((set(record) & public) - set(verdicts))
         if new:
             print(f"site/data/table_verdicts.json lacks {len(new)} new table(s): {', '.join(new[:10])}")
 

@@ -25,6 +25,13 @@ sys.path.insert(0, str(HERE.parent / "src"))
 from erw import licenses  # noqa: E402
 
 
+def flagged_public(root):
+    """The tables coverage.csv flags public."""
+    import csv
+    with open(root / "warehouse" / "metadata" / "coverage.csv", encoding="utf-8", newline="") as f:
+        return {r["table"] for r in csv.DictReader(f) if r.get("license") == "public"}
+
+
 def citation_heads(root, names):
     """{table: the citation's words before "Via the Energy Research Warehouse (ERW), table"}, by the package's own cite
     on the clone's record (no request)."""
@@ -42,10 +49,14 @@ def main(argv=None) -> int:
     fresh = licenses.build(root)
     path = licenses.shipped_path()
     site = root / "site" / "data" / "table_verdicts.json"
-    verdicts = json.dumps({r["table"]: [r["verdict"], r["words"]] for r in sorted(fresh, key=lambda r: r["table"])},
-                          indent=1, ensure_ascii=False) + "\n"
+    # the site's two files hold the tables coverage flags public only: an internal table is never named on the site
+    # (tests/test_session149.py), and the download route answers it 404 before any refusal
+    shown = flagged_public(root)
+    verdicts = json.dumps({r["table"]: [r["verdict"], r["words"]] for r in sorted(fresh, key=lambda r: r["table"])
+                           if r["table"] in shown}, indent=1, ensure_ascii=False) + "\n"
     cites_path = root / "site" / "data" / "table_citations.json"
-    cites = json.dumps(citation_heads(root, [r["table"] for r in fresh]), indent=1, ensure_ascii=False) + "\n"
+    cites = json.dumps(citation_heads(root, [r["table"] for r in fresh if r["table"] in shown]), indent=1,
+                       ensure_ascii=False) + "\n"
     if a.check:
         old = {r["table"]: r for r in licenses._csv(path)}
         new = {r["table"]: {k: r.get(k, "") for k in licenses.FIELDS} for r in fresh}
