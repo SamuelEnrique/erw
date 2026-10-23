@@ -120,7 +120,7 @@ def main(argv=None):
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
             f"Source: {SOURCE} GFZ Potsdam, Kp_ap_since_1932.txt, {URL} (listed on {PAGE})",
         ] + [f"  the file: {x}" for x in lic[:4]] + [
-            'License: CC BY 4.0, as the file\'s header states it (cite Matzka, J., Stolle, C., Yamazaki, Y., Bronkalla, O. and Morschhauser, A., '
+            'License: public (CC BY 4.0, as the file\'s header states it; cite Matzka, J., Stolle, C., Yamazaki, Y., Bronkalla, O. and Morschhauser, A., '
             '2021, Space Weather, doi:10.1029/2020SW002641, and the data publication, GFZ Data Services, doi:10.5880/Kp.0001).',
         ]
         ip.write_snapshot(s, TABLE, head, log, cols)
@@ -135,7 +135,7 @@ def main(argv=None):
         if results and results[0]["status"] == "ok":
             ip.update_sources([dict(source=SOURCE, publisher="GFZ Helmholtz Centre for Geosciences (Potsdam)",
                                     report="Geomagnetic Kp index (Kp and ap since 1932)", report_url=PAGE, document_list=URL,
-                                    license="CC BY 4.0", tables=[TABLE])])
+                                    license="public", tables=[TABLE])])  # CC BY 4.0: the registry's word for an open license
         ip.write_status(CONNECTOR, run_id, results)
     log.close()
     return 0 if all(r["status"] == "ok" for r in results) else 1
