@@ -6399,6 +6399,9 @@ utility_service_territories,x_county,column,
 utility_service_territories,x_short_form,column,
 utility_service_territories,x_data_year,column,
 utility_service_territories,x_sheet,column,
+wb_commodity_prices_monthly,price,series variable,USD/MMBtu
+wb_commodity_prices_monthly,price,series variable,USD/bbl
+wb_commodity_prices_monthly,price,series variable,USD/t
 weather_forecast_hourly,temperature_f,series variable,degF
 weather_forecast_hourly,wind_speed_mph,series variable,mph
 weather_obs_hourly,temperature_f,series variable,degF

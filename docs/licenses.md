@@ -10,8 +10,8 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 ## Read these first
 
-- **348 tables.** The flag and the verdict agree on 262; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 41 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
-- **The ERW's verdict (session 378): 245 public, 54 internal, 49 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
+- **349 tables.** The flag and the verdict agree on 262; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 42 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
+- **The ERW's verdict (session 378): 245 public, 54 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
 - **131 publishers in the record: 129 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 80 pages read, 49 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **0 tables are flagged internal where the sentence read allows them.**
@@ -235,7 +235,7 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | California Public Advocates Office (.gov) | #50: read | "Ownership In general, information presented on this web site, unless otherwise indicated, is considered in the public domain. [...] It may be distributed or copied as permitted by law." | may be public | may be public | not named | none stated | Session 914. The Office is part of the CPUC; its home page (read 127) links the CPUC's conditions of use, read 50, the CPUC's verdict. |
 | T&D World | #131: read | "Copying or storing of any Content for other than User's legitimate non-commercial business end-use is expressly prohibited without the prior written permission of Endeavor or the copyright holder identified in the individual Content's copyright notice." | needs written permission | needs written permission | none named for permissions in the sentences read | none stated | Session 914. Endeavor Business Media's terms, linked from T&D World's footer. They also forbid, without Endeavor's prior written consent, the use of robots, spiders or scripts to collect the Content from the Services by automated means (a ruling: the news feed reads T&D World's RSS). |
 
-**Publishers no read of this sweep covers (27):** Arizona Corporation Commission; Bonneville Power Administration (BPA); CME Group (NYMEX), whose prices EIA republished; CTVC; Catalyst Cooperative (PUDL), from FERC Form 714; Electrek; Energy-Storage.news; FERC; Georgia Public Service Commission; Illinois Commerce Commission; Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department; OPEC: Publications; Oregon Public Utility Commission; Organization of the Petroleum Exporting Countries; PJM (its news releases); Pennsylvania Public Utility Commission; Public Utilities Commission of Ohio; Public Utility Commission of Texas; Public Utility District No. 2 of Grant County, Washington (Grant PUD); Texas Comptroller of Public Accounts; Texas-New Mexico Power Company; Texas.gov; Virginia State Corporation Commission; the outlets of news_stories; utilities and operators, each row's own document (not listed one by one).
+**Publishers no read of this sweep covers (28):** Arizona Corporation Commission; Bonneville Power Administration (BPA); CME Group (NYMEX), whose prices EIA republished; CTVC; Catalyst Cooperative (PUDL), from FERC Form 714; Electrek; Energy-Storage.news; FERC; Georgia Public Service Commission; Illinois Commerce Commission; Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department; OPEC: Publications; Oregon Public Utility Commission; Organization of the Petroleum Exporting Countries; PJM (its news releases); Pennsylvania Public Utility Commission; Public Utilities Commission of Ohio; Public Utility Commission of Texas; Public Utility District No. 2 of Grant County, Washington (Grant PUD); Texas Comptroller of Public Accounts; Texas-New Mexico Power Company; Texas.gov; Virginia State Corporation Commission; World Bank; the outlets of news_stories; utilities and operators, each row's own document (not listed one by one).
 
 ## Every table
 
@@ -591,6 +591,7 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | `uspvdb_solar_facilities` | U.S. Geological Survey (USGS) | may be public |  |  | public | agrees | may be public | public |
 | `uswtdb_wind_turbines` | U.S. Geological Survey (USGS) | may be public |  |  | public | agrees | may be public | public |
 | `utility_service_territories` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `wb_commodity_prices_monthly` | World Bank | not settled (needs written permission by default) |  | World Bank | public | not settled | may be public | unsettled |
 | `weather_forecast_hourly` | NWS | may be public |  |  | public | agrees | may be public | public |
 | `weather_obs_hourly` | NWS | may be public |  |  | public | agrees | may be public | public |
 
@@ -696,6 +697,7 @@ None of these was changed. Each is a ruling.
 - `policy_reads` (flag public): not read: Public Utility Commission of Texas.
 - `policy_reads_evidence` (flag internal): not read: Public Utility Commission of Texas.
 - `texas_transmission_matrix` (flag internal): not read: Public Utility Commission of Texas.
+- `wb_commodity_prices_monthly` (flag public): not read: World Bank.
 
 ## Three lists
 

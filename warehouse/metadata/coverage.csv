@@ -345,5 +345,6 @@ texas_transmission_matrix,none,,1,event,2025-03-20T00:00:00Z,2026-03-16T00:00:00
 uspvdb_solar_facilities,uspvdb,,6611,snapshot,2026-10-23T05:19:06Z,2026-10-23T05:19:06Z,6611,usgs:uspvdb,2026-10-23T05:35:32Z,pass,public,power,no,source
 uswtdb_wind_turbines,uswtdb,,77839,snapshot,2026-10-21T18:33:12Z,2026-10-21T18:33:12Z,77839,usgs:uswtdb,2026-10-21T18:33:12Z,pass,public,power,no,source
 utility_service_territories,utility,,11893,snapshot,2026-10-21T16:56:34Z,2026-10-21T16:56:34Z,11893,eia:eia861_territory,2026-10-22T09:46:54Z,pass,public,power,no,source
+wb_commodity_prices_monthly,wb,,15,P1M,1960-01-01T00:00:00Z,2026-09-01T00:00:00Z,11139,worldbank:pink_sheet,2026-10-23T10:00:26Z,pass,public,oil;gas;coal;metals,no,source
 weather_forecast_hourly,weather,,7,PT1H,2026-09-28T09:00:00Z,2026-10-29T01:00:00Z,10278,nws:forecast_hourly,2026-10-22T14:33:59Z,pass,public,power,no,source
 weather_obs_hourly,weather,,7,PT1H,2026-09-21T09:00:00Z,2026-10-22T13:00:00Z,10422,nws:observations,2026-10-22T14:33:59Z,pass,public,power,no,source
