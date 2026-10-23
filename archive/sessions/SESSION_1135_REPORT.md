@@ -1,6 +1,6 @@
 # Session 1135 report: CARB's allowance auctions, a quarterly row
 
-23 October 2026, 20:14 to 20:20 UTC, on samueloldlaptop, unattended, on `wip/1135-board` (cut from `wip/1139-board`). Chain `queue/done/076-day-24-october-code-ask-board-2.md`. Model spend USD 0. (The chain file's first plan for this session, on-peak and off-peak rows, was dropped by session 1125: the board draws them.)
+23 October 2026, 20:13 to 20:16 UTC, on samueloldlaptop, unattended, on `wip/1135-board` (cut from `wip/1139-board`). Chain `queue/done/076-day-24-october-code-ask-board-2.md`. Model spend USD 0. (The chain file's first plan for this session, on-peak and off-peak rows, was dropped by session 1125: the board draws them.)
 
 ## What was done
 

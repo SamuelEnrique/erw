@@ -1,6 +1,6 @@
 # Session 1122 report: Ask reads the board
 
-23 October 2026, 19:05 to 19:15 UTC, on samueloldlaptop, unattended, on `wip/1122-ask` (cut from `wip/1118-board`). Chain `queue/done/075-morning-23-october-code-ask-board.md`. Model spend USD 0. Reads of the live set with the anon key only (the fixture), no write.
+23 October 2026, 19:00 to 19:03 UTC, on samueloldlaptop, unattended, on `wip/1122-ask` (cut from `wip/1118-board`). Chain `queue/done/075-morning-23-october-code-ask-board.md`. Model spend USD 0. Reads of the live set with the anon key only (the fixture), no write.
 
 ## Read these first
 

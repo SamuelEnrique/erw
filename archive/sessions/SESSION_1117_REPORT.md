@@ -1,6 +1,6 @@
 # Session 1117 report: all the prices on the board
 
-23 October 2026, 18:41 to 18:55 UTC, on samueloldlaptop, unattended, on `wip/1117-board` (cut from `wip/1116-board`). Chain `queue/done/075-morning-23-october-code-ask-board.md`. Model spend USD 0. No warehouse data written; reads of the ERW's own archive bucket only (below).
+23 October 2026, 18:41 to 18:52 UTC, on samueloldlaptop, unattended, on `wip/1117-board` (cut from `wip/1116-board`). Chain `queue/done/075-morning-23-october-code-ask-board.md`. Model spend USD 0. No warehouse data written; reads of the ERW's own archive bucket only (below).
 
 ## Read these first
 
