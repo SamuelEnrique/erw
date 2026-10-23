@@ -1,4 +1,5 @@
 table,name,kind,unit
+aeso_alberta_load_hourly,ail_demand,series variable,MW
 ba_supply_monthly,balance_all_days_mwh,series variable,MWh
 ba_supply_monthly,balance_days,series variable,count
 ba_supply_monthly,days_held,series variable,count
