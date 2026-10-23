@@ -15,7 +15,7 @@ workbook (www.eia.gov/naturalgas/data.php, "Pipelines"; the newest issue is take
                                   the same five, as EIA lists them, since a pipeline can cross the same counties on two
                                   lines); variable capacity; unit bcf/d (EIA's MMcf a day over 1,000); ts_utc the year's
                                   first day; freq P1Y; geo US-<state to> where it is a state or DC, else empty (Canada
-                                  and Mexico's provinces and states); node the pipeline as EIA names it; x_ the regions,
+                                  and Mexico's provinces and states, and the Gulf of America); node the pipeline as EIA names it; x_ the regions,
                                   states and counties from and to, the capacity in MMcf a day as published, and EIA's notes
 
 A sheet without these columns, a year not a year or a capacity not a number stops the run. Nothing is filled; a row EIA
@@ -134,7 +134,7 @@ def main(argv=None):
             f"the {y}-{mo:02d} issue, sheet \"{SHEET}\": each pipeline's capacity at each state border it crosses, a year (session 2090)",
             "Shape: series (docs/datastandard.md v0). entity eia_s2s:<pipeline>:<state from>:<county from>:<state to>:<county to>:<n> (n the "
             "crossing's place among the year's rows with the same five); variable capacity; unit bcf/d (EIA's MMcf a day over 1,000, kept as "
-            "published in x_capacity_mmcfd); ts_utc the year's first day; freq P1Y; geo US-<state to>, empty for Canada and Mexico; node the "
+            "published in x_capacity_mmcfd); ts_utc the year's first day; freq P1Y; geo US-<state to>, empty for Canada, Mexico and the Gulf of America; node the "
             "pipeline; x_ the regions, states, counties and EIA's notes.",
             f"{len(s)} rows, {s.entity.nunique()} crossings, {s.ts_utc.min()[:4]} to {s.ts_utc.max()[:4]}. A row EIA lists twice is kept twice. "
             "Nothing is filled.",

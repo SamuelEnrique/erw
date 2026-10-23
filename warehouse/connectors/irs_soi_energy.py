@@ -11,8 +11,8 @@ CSV a tax year, all states and the nation, by size of adjusted gross income; the
                                                                               16in54cmcsv.csv, 17in54cmcsv.csv,
                                                                               18in55cmagi.csv, 19in55cmcsv.csv)
 
-    irs_soi_energy_credits_annual   entity irs_soi:<SOI's state code> (the states, DC, US for SOI's own national row, OA
-                                    for its other areas); variables, as SOI's workbooks name them:
+    irs_soi_energy_credits_annual   entity irs_soi:<SOI's state code> (the states, DC, Puerto Rico from 2018, US for SOI's
+                                    own national row, OA for its other areas); variables, as SOI's workbooks name them:
                                     residential_energy_credit_returns and _amount (N07260, A07260, "Residential energy
                                     tax credit", 2015 to 2022), and from 2023, when the credit was split,
                                     residential_clean_energy_credit_returns and _amount (N07262, A07262) and
