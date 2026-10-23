@@ -86,7 +86,7 @@ The same steps as session 780, on a local build of `wip/796-allgrids` (chain 065
 
 The same steps as session 780, on a local build of `wip/1028-allgrids` (chain 071's 1020 to 1028: ERCOT's planning reserve margin in the Headroom column, session 1027; no ruling answered, no other table wired), 23 October 2026 at about 06:55 UTC. Production still served chain 070's 1014 landing (Vercel "rate limited"), so the build, not production. Compared with session 797's walk (`runs/chain_062/walk797_780`) by each step's figure lines (`runs/walkcmp.py`):
 
-- **11 steps; 8 differ, and only by lines added**: "reserve margin 11.4%, summer 2027" on each ERCOT hub and zone row the step shows (14 on a full hub table, 8 on the zones-only step). No figure line is gone or changed.
+- **11 steps; 8 differ, and only by lines added**: "reserve margin 11.4%, summer 2027" on each ERCOT hub and zone row the step shows (14 on each step that shows the hub table). No figure line is gone or changed.
 - **The CAISO, NYISO, ISO-NE, MISO, PJM and SPP rows read "reserve margin not held"**, a word cell (no digit, so outside the comparison).
 - **The three siting cards** in their render frames and at 390 (`runs/chain_062/frames970.mjs` on the build): 10 of 12 views pass; the two that do not are session 970's, unchanged (two region names touch on the gigawatt card at 390 by 2 px and on the flexible card at 1280 by 6 px, the shared renderer's x labels, rulings item 22).
 - **No step fails and no new fault was found.**

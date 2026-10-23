@@ -99,6 +99,6 @@ The same steps as session 778, on a local build of `wip/796-allgrids` (chain 065
 
 The same steps as session 778, on a local build of `wip/1028-allgrids` (chain 071's 1020 to 1028: ERCOT's planning reserve margin in the Headroom column, session 1027; no ruling answered, no other table wired), 23 October 2026 at about 06:55 UTC. Production still served chain 070's 1014 landing (Vercel "rate limited"), so the build, not production. Compared with session 797's walk (`runs/chain_062/walk797_778`) by each step's figure lines (`runs/walkcmp.py`):
 
-- **17 steps; 7 differ, and only by lines added**: "reserve margin 11.4%, summer 2027" on each ERCOT hub and zone row the step shows (14 on a full hub table, 8 on the zones-only step). No figure line is gone or changed.
+- **17 steps; 7 differ, and only by lines added**: "reserve margin 11.4%, summer 2027" on each ERCOT hub and zone row the step shows (14 on each step that shows the hub table). No figure line is gone or changed.
 - **The CAISO, NYISO, ISO-NE, MISO, PJM and SPP rows read "reserve margin not held"**, a word cell (no digit, so outside the comparison).
 - **No step fails and no new fault was found.**
