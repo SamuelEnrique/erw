@@ -26,7 +26,7 @@ computed from the numbers.
                      same numbers are drafted once. What is left out stays in runs/hunt/<date>/hunt.json, with its reason
 
 Only public-licensed publishers: a region of a grid that license_status.csv marks "license needed" (ISO-NE, MISO,
-NYISO) or that a ruling holds (daily_chart.HELD: NYISO, SPP) is never drafted. The module may read those tables to
+NYISO) or whose grid the license file holds (daily_chart.HELD, read from license_status.csv since session 2306) is never drafted. The module may read those tables to
 compute its other regions; nothing of them leaves the machine.
 
 A draft is a row of public.scanner_drafts (rule "hunt", migration 031) with its card (chart, callouts, numbers,
@@ -222,7 +222,7 @@ def grid_of(region):
 
 
 def blocked_grids(meta_dir=None):
-    """The grids whose publisher needs a license (license_status.csv) or is held by a ruling (daily_chart.HELD)."""
+    """The grids whose publisher needs a license (license_status.csv): by the publishers column here, and by the tables' names through daily_chart.HELD (held_grids, the same file, since session 2306; a fixed line of a ruling before)."""
     out = set(daily_chart.HELD)
     for r in daily_chart._csv(os.path.join(meta_dir or daily_chart.META_DIR, "license_status.csv")):
         if r.get("status") == "license needed":

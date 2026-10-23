@@ -178,9 +178,10 @@ review list: a flag needs no ruling to be the day's chart, and being the day's c
   generation 34 percent past its old record, and the proof of 7 October one 103 percent past. A proof holds nothing; a
   check run (`brief.py --out`) reads the real file and writes beside its own output.
 - **Only public-licensed tables.** A table whose license in `coverage.csv` is not public, or that
-  `license_status.csv` marks "license needed", is never a candidate; nor is a table or a series of NYISO or SPP, which the
-  ruling of 12 October 2026 holds until their licenses are answered (`HELD` in `daily_chart.py`; a person lifts it by
-  editing that line). A paused publisher's series is never flagged at all.
+  `license_status.csv` marks "license needed", is never a candidate; nor is a table or a series of a grid that file holds
+  (`held_grids` in `daily_chart.py`, session 2306: the grids whose tables the file marks "license needed", ISO-NE, MISO and
+  NYISO on 21 October 2026; until that session a fixed line held NYISO and SPP by the ruling of 12 October 2026 and
+  disagreed with the file; a person changes the file, not a line of code). A paused publisher's series is never flagged at all.
 - **Two machines.** The histories are on the data machine and the Digest is written on GitHub's runner. After each
   daily scan the data machine ranks the day's flags, computes each one's card, adds the watch list's changes, keeps them
   in `runs/scanner/<date>/daily_chart.json` and writes one row for the day to the internal table

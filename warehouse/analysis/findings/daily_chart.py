@@ -27,7 +27,8 @@ The rule, in order:
      the change in robust standard deviations; again never one already shown.
   4. If neither: no section, and the reason is logged, as the fun fact does.
 Only public-licensed tables: a table whose license in coverage.csv is not public, or that license_status.csv marks
-"license needed", is never a candidate; nor is a table or a series of a publisher held by a ruling (HELD: NYISO, SPP).
+"license needed", is never a candidate; nor is a table or a series of a grid that file holds (held_grids, HELD: the
+grids whose tables it marks "license needed"; a fixed line, NYISO and SPP, until session 2306).
 
     python warehouse/analysis/findings/daily_chart.py --candidates --date 2026-10-13 [--no-publish]   # the data machine
     python warehouse/analysis/findings/daily_chart.py --section --date 2026-10-13                      # what brief.py runs
@@ -62,9 +63,11 @@ MAX_FLAGS, MAX_WATCH = 25, 12           # the candidates published a day
 RECORD_JUMP = 0.25
 HELD_FILE = "held.json"
 WATCH_MAX_AGE = {"week": 14, "month": 100}   # days since the period ended: older is not "the latest period"
-# Roadmap, Rulings, 12 October 2026: "NYISO and SPP tables stay held until their licenses are answered." Their tables and
-# their series in consolidated tables are never the Digest's chart until a person removes them from this line.
-HELD = ("nyiso", "spp")
+# The grids held by their license (HELD, below) are read from warehouse/metadata/license_status.csv since session 2306:
+# until then this line held ("nyiso", "spp"), the roadmap's ruling of 12 October 2026 ("NYISO and SPP tables stay held
+# until their licenses are answered"), and disagreed with the file, which marks ISO-NE's, MISO's and NYISO's tables
+# "license needed" since 21 October 2026 and no SPP table. A person changes the file, not a line here.
+GRIDS = ("ercot", "caiso", "pjm", "nyiso", "miso", "spp", "isone")
 DEFAULT_WAIT = 420                      # seconds the Digest waits for today's candidates before using yesterday's
 METHOD = "docs/methods/automated_analysis_scanner.md"
 MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
@@ -166,18 +169,39 @@ def _csv(path):
         return list(csv.DictReader(ln for ln in f if not ln.startswith("#")))
 
 
+def held_grids(meta_dir=None):
+    """Session 2306: the grids whose publisher needs a license, read from license_status.csv: a grid is held when a table
+    whose name begins with it (nyiso_dam_zone_prices is NYISO's) is marked "license needed". A tuple, sorted, so that
+    hunt.py and the tests read it as the fixed line they read before."""
+    meta_dir = meta_dir or META_DIR
+    out = set()
+    for r in _csv(os.path.join(meta_dir, "license_status.csv")):
+        if r.get("status") != "license needed":
+            continue
+        g = str(r.get("table", "")).split("_")[0].lower()
+        if g in GRIDS:
+            out.add(g)
+    return tuple(sorted(out))
+
+
 def public_tables(meta_dir=None):
     """The tables a chart may read: license public in coverage.csv, not marked "license needed" in license_status.csv,
-    and not a table of a publisher held by a ruling (HELD)."""
+    and not a table of a grid the license file holds (held_grids)."""
     meta_dir = meta_dir or META_DIR
     held = {r["table"] for r in _csv(os.path.join(meta_dir, "license_status.csv")) if r.get("status") == "license needed"}
+    grids = held_grids(meta_dir)
     return {r["table"] for r in _csv(os.path.join(meta_dir, "coverage.csv"))
-            if r.get("license") == "public" and str(r.get("iso", "")).lower() not in HELD} - held
+            if r.get("license") == "public" and str(r.get("iso", "")).lower() not in grids} - held
 
 
-def held_series(entity):
-    """Is this series a held publisher's (a consolidated table holds several grids: the entity names the grid)?"""
-    return str(entity).split(":")[0].lower() in HELD
+def held_series(entity, held=None):
+    """Is this series a held grid's (a consolidated table holds several grids: the entity names the grid)? `held` is
+    held_grids() of the metadata read (None: the repository's own file, HELD)."""
+    return str(entity).split(":")[0].lower() in (HELD if held is None else held)
+
+
+# The grids held today, from the repository's own license file (session 2306; a fixed tuple until then).
+HELD = held_grids()
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -191,10 +215,10 @@ def rank(flags):
 def from_flags(raised, card_of, meta_dir=None):
     """The scanner's flags of the day as candidates, ranked: [{source, key, rank, fact, table, series_key, flag, card}].
     card_of(flag) -> the flag's finding card (findings_scanner.flag_card)."""
-    ok = public_tables(meta_dir)
+    ok, grids = public_tables(meta_dir), held_grids(meta_dir)
     out = []
     for fl in rank(raised):
-        if fl["table"] not in ok or held_series(fl["series"].get("entity", "")) or (fl["rule"] == "pair" and fl["compared"].get("x_table") not in ok):
+        if fl["table"] not in ok or held_series(fl["series"].get("entity", ""), grids) or (fl["rule"] == "pair" and fl["compared"].get("x_table") not in ok):
             continue
         card = card_of(fl)
         flag = {k: v for k, v in fl.items() if not k.startswith("_")}
@@ -268,12 +292,12 @@ def watch_candidates(now=None, meta_dir=None, log=None, fetch=None):
     eng = _engine()
     now = pd.Timestamp.now(tz="UTC") if now is None else pd.Timestamp(now)
     now = now.tz_localize("UTC") if now.tzinfo is None else now.tz_convert("UTC")
-    ok = public_tables(meta_dir)
+    ok, grids = public_tables(meta_dir), held_grids(meta_dir)
     say = log or (lambda m: None)
     out = []
     for spec in watch.WATCH:
         ents = spec["entity"] if isinstance(spec["entity"], (list, tuple)) else [spec["entity"]]
-        if spec["table"] not in ok or any(held_series(e) for e in ents):
+        if spec["table"] not in ok or any(held_series(e, grids) for e in ents):
             continue
         try:
             t = watch.WatchTemplate(spec)

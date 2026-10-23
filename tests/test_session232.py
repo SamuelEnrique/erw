@@ -93,8 +93,10 @@ class OnlyPublicTables(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             with open(os.path.join(d, "coverage.csv"), "w", encoding="utf-8") as f:
                 f.write("table,iso,license\nopen_table,EIA,public\ninternal_table,EIA,internal\nheld_table,EIA,public\nspp_table,SPP,public\n")
+            # session 2306: the held grids are read from the license file (SPP's and NYISO's tables marked here), not a fixed line
             with open(os.path.join(d, "license_status.csv"), "w", encoding="utf-8") as f:
-                f.write("table,status\nheld_table,license needed\n")
+                f.write("table,status\nheld_table,license needed\nspp_prices,license needed\nnyiso_dam_zone_prices,license needed\n")
+            self.assertEqual(daily_chart.held_grids(d), ("nyiso", "spp"))
             self.assertEqual(daily_chart.public_tables(d), {"open_table"})
             base = candidates()[0]["flag"]
             flags = [dict(base, id=f"scan-record-{i:012x}", table=t) for i, t in enumerate(("open_table", "internal_table", "held_table", "spp_table"))]
@@ -102,7 +104,9 @@ class OnlyPublicTables(unittest.TestCase):
             got = daily_chart.from_flags(flags, lambda fl: {"title": "T", "subtitle": "s"}, d)
             self.assertEqual([(c["table"], c["flag"]["series"]["entity"]) for c in got], [("open_table", base["series"]["entity"])])
             self.assertEqual(got[0]["rank"], 1)
-        self.assertEqual(daily_chart.HELD, ("nyiso", "spp"))
+        # session 2306: HELD is the repository's own license file read at import, no longer ("nyiso", "spp") by a line
+        self.assertEqual(daily_chart.HELD, daily_chart.held_grids())
+        self.assertIn("nyiso", daily_chart.HELD)
 
 
 class TheFact(unittest.TestCase):
