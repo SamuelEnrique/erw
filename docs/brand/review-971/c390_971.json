@@ -1,0 +1,46 @@
+{
+ "base": "https://erw-flame.vercel.app",
+ "at": "2026-10-23T00:09:35.692Z",
+ "pages": [
+  {
+   "page": "/cost-of-power?view=allgrids",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/cost-of-power?view=allgrids&a=ercot%3ABBREEZE_1_2&b=ercot%3APALACIOS_RN",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/cost-of-power?view=allgrids&a=ercot%3A7RNCHSLR_ALL&b=ercot%3AA4_DGR1_RN",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  },
+  {
+   "page": "/research/card/siting_battery_swing",
+   "W": 390,
+   "scrollWidth": 390,
+   "wide": [],
+   "wideCount": 0,
+   "tables": [],
+   "labels": [],
+   "findings": 0
+  }
+ ]
+}
