@@ -124,7 +124,10 @@ export function BillCalc({ rules, wholesale }: { rules: any; wholesale: Record<s
         </div>
 
         <div className="text-sm">
+          {/* session 2403: the table in its own scroll container, as every table of the site at 390 px (check-390.mjs) */}
+          <div className="overflow-x-auto">
           <table className="w-full">
+            <caption className="sr-only">The bill, line by line, with its total</caption>
             <tbody>
               {Object.entries(groups).map(([g, ls]) => (
                 <Fragment key={g}>
@@ -147,6 +150,7 @@ export function BillCalc({ rules, wholesale }: { rules: any; wholesale: Record<s
               <tr><td className="text-xs text-muted">Per kWh, all in</td><td className="text-right font-mono text-xs text-muted">{bill.kwh ? usd(bill.total / bill.kwh) : ""}</td></tr>
             </tbody>
           </table>
+          </div>
           {share !== null && wholesaleUsd !== null && w ? (
             <div className="mt-4">
               <div className="mb-1 flex h-5 w-full overflow-hidden border border-rule" role="img" aria-label={`Wholesale energy ${Math.round(share * 100)} percent of the bill`}>
