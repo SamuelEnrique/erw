@@ -17,6 +17,7 @@ import { CaisoBreakNote } from "@/components/CaisoBreakNote";  // session 73
 // the denominators are the workbooks' own Demand and Net generation, so every table reaches back to 2018.
 // Session 237: this file was app/emissions/page.tsx. /emissions redirects to the Clean view of the Grid tool (/grid,
 // next.config.ts), which draws these three blocks as they were, the grid in view marked in the ranking.
+import { lastDayFigures, type Fig } from "@/lib/gridKeys";  // session 1151
 import { carbonLeftOut, carbonLeftOutMonths, monthRuns, CARBON_HYDRO_GAP } from "@/lib/carbonLeftOut";  // session 118
 
 const T = "carbon_intensity_hourly";
@@ -93,7 +94,12 @@ function Monthly({ rows }: { rows: SeriesRow[] }) {
   );
 }
 
-export async function EmissionsParts({ focus = null }: { focus?: string | null }) {
+// Session 1151 (chain 077): a figure of "The last 24 hours" with its one-line source as the hover tip
+function F({ f }: { f: Fig }) {
+  return <span title={f.tip} className="cursor-help border-b border-dotted border-muted"><Num check={f.check} raw={f.raw}>{shown(f.raw)}</Num></span>;
+}
+
+export async function EmissionsParts({ focus = null, grid }: { focus?: string | null; /** session 1151: the Grid tool's grid in view, which names the keyed panel under the chart */ grid?: string }) {
   const [got, monthly] = await Promise.all([
     attempt(() => series(T, { since: daysAgo(LOOK_BACK_DAYS) })),
     attempt(() => series(TM, { variable: "intensity_generation" })),
@@ -163,7 +169,34 @@ export async function EmissionsParts({ focus = null }: { focus?: string | null }
 
       <Section title="The last 24 hours" aside={<Tier />}>
         {got.ok && newest ? (
-          <LineChart lines={lines} unit="kg CO2/MWh" height={260} ariaLabel="Carbon intensity of generation per ISO, the last 24 hours" />
+          <>
+            <LineChart lines={lines} unit="kg CO2/MWh" height={260} ariaLabel="Carbon intensity of generation per ISO, the last 24 hours" />
+            {/* session 1151: the chart's headline figures, each a key of carbon_intensity_hourly with its source in the tip */}
+            <div className="mt-3 overflow-x-auto" data-grid-panel={`grid_clean24_${grid ?? "all"}`}>
+              <table className="w-full min-w-[520px] text-sm tabular-nums">
+                <caption className="sr-only">Latest, lowest and highest intensity of generation per ISO in the 24 hours drawn</caption>
+                <thead>
+                  <tr className="border-b border-rule text-left text-xs text-muted">
+                    <th className="py-0.5 font-normal">ISO</th>
+                    <th className="pr-2 text-right font-normal">Latest hour, kg CO2/MWh</th>
+                    <th className="pr-2 text-right font-normal">Lowest of the 24 hours</th>
+                    <th className="pr-2 text-right font-normal">Highest of the 24 hours</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {lastDayFigures(rows, ISOS.map((i) => i.entity), newest).map((d) => (
+                    <tr key={d.entity} className={`border-b border-rule ${d.entity === focus ? "bg-paper font-semibold" : ""}`} data-focus={d.entity === focus ? "1" : undefined}>
+                      <td className="py-0.5 pr-2">{ISOS.find((i) => i.entity === d.entity)!.label}</td>
+                      <td className="pr-2 text-right"><F f={d.latest} /> <span className="text-xs text-muted">{d.latest.ts.slice(11, 16)}</span></td>
+                      <td className="pr-2 text-right"><F f={d.low} /> <span className="text-xs text-muted">{d.low.ts.slice(11, 16)}</span></td>
+                      <td className="pr-2 text-right"><F f={d.high} /> <span className="text-xs text-muted">{d.high.ts.slice(11, 16)}</span></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <p className="mt-1 text-xs text-muted">The hour beside each figure is its hour start, UTC. Hover a figure for its table, entity and hour.</p>
+            </div>
+          </>
         ) : (
           <NoData what="the last 24 hours" reason={got.ok ? `${T} has no row in the last ${LOOK_BACK_DAYS} days` : got.reason} />
         )}
