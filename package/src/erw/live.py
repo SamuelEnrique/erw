@@ -47,8 +47,7 @@ class LiveBackend(SupabaseBackend):
         return "the live set (anon key)"
 
     def _get(self, table: str, params: List[Tuple[str, str]]) -> List[dict]:
-        q = urllib.parse.urlencode(params, safe=",.():*")
-        req = urllib.request.Request(f"{self.url}/rest/v1/{table}?{q}",
+        req = urllib.request.Request(live_url(self.url, table, params),
                                      headers={"apikey": self.key, "Authorization": f"Bearer {self.key}",
                                               "Accept": "application/json"})
         counter.add("live")
@@ -64,12 +63,8 @@ class LiveBackend(SupabaseBackend):
 
     def _select(self, table: str, filters: Optional[List[Tuple[str, str]]] = None, **eq) -> List[dict]:
         rows, start = [], 0
-        base = [("select", "*")] + [(k, f"eq.{v}") for k, v in eq.items()] + list(filters or [])
-        order = self.ORDER.get(table, [])
-        if order:
-            base.append(("order", ",".join(order)))
         while True:
-            batch = self._get(table, base + [("limit", str(PAGE)), ("offset", str(start))])
+            batch = self._get(table, page_params(table, filters, start, **eq))
             rows += batch
             if len(batch) < PAGE:
                 return rows
@@ -119,6 +114,23 @@ class LiveBackend(SupabaseBackend):
     def version(self) -> Dict[str, Optional[str]]:
         return {"backend": self.name, "data_commit": None, "role": "anon",
                 "note": "The live set is derived from the ERW tables and rebuilt daily; cite Redivis."}
+
+
+def page_params(table: str, filters: Optional[List[Tuple[str, str]]] = None, offset: int = 0,
+                **eq) -> List[Tuple[str, str]]:
+    """The query of one page of a read, in the order the package sends it: select, the equalities (table_name), the
+    filters, the order, the limit and the offset. Session 1003: the Stata and R packages send the same."""
+    base = [("select", "*")] + [(k, f"eq.{v}") for k, v in eq.items()] + list(filters or [])
+    order = SupabaseBackend.ORDER.get(table, [])
+    if order:
+        base.append(("order", ",".join(order)))
+    return base + [("limit", str(PAGE)), ("offset", str(offset))]
+
+
+def live_url(base: str, table: str, params: List[Tuple[str, str]]) -> str:
+    """The address of one request to the live set (session 1003: pure, so another package's addresses can be compared
+    with it): `<base>/rest/v1/<table>?<query>`, the query encoded as urllib encodes it, with , . ( ) : * left as they are."""
+    return f"{base}/rest/v1/{table}?{urllib.parse.urlencode(params, safe=',.():*')}"
 
 
 def _utc_text(ts) -> str:
