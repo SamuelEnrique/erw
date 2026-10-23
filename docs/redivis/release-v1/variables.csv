@@ -174,6 +174,42 @@ blm_ca_renewable_rows,x_blm_acres,column,
 blm_ca_renewable_rows,x_data_source,column,
 blm_ca_renewable_rows,x_remarks,column,
 blm_ca_renewable_rows,x_in_time,column,
+boem_offshore_platforms,entity_id,column,
+boem_offshore_platforms,entity_type,column,
+boem_offshore_platforms,name,column,
+boem_offshore_platforms,geo,column,
+boem_offshore_platforms,lat,column,
+boem_offshore_platforms,lon,column,
+boem_offshore_platforms,capacity_mw,column,
+boem_offshore_platforms,status,column,
+boem_offshore_platforms,status_date,column,
+boem_offshore_platforms,operator,column,
+boem_offshore_platforms,source,column,
+boem_offshore_platforms,source_url,column,
+boem_offshore_platforms,retrieved_at,column,
+boem_offshore_platforms,vintage,column,
+boem_offshore_platforms,x_complex_id,column,
+boem_offshore_platforms,x_structure_number,column,
+boem_offshore_platforms,x_area_code,column,
+boem_offshore_platforms,x_block_number,column,
+boem_offshore_platforms,x_district,column,
+boem_offshore_platforms,x_structure_type,column,
+boem_offshore_platforms,x_install_date,column,
+boem_offshore_platforms,x_removal_date,column,
+boem_offshore_platforms,x_deck_count,column,
+boem_offshore_platforms,x_slot_count,column,
+boem_offshore_platforms,x_major_structure,column,
+boem_offshore_platforms,x_authority_status,column,
+boem_offshore_platforms,x_company_num,column,
+boem_offshore_platforms,x_water_depth_ft,column,
+boem_offshore_platforms,x_distance_to_shore_nmi,column,
+boem_offshore_platforms,x_lease_number,column,
+boem_offshore_platforms,x_field_name_code,column,
+boem_offshore_platforms,x_production,column,
+boem_offshore_platforms,x_oil_production,column,
+boem_offshore_platforms,x_gas_production,column,
+boem_offshore_platforms,x_manned_24h,column,
+boem_offshore_platforms,x_to_be_removed,column,
 boem_ogor_lease_production_monthly,gas_production,series variable,MMcf
 boem_ogor_lease_production_monthly,oil_production,series variable,kbbl
 boem_renewable_leases,entity_id,column,
@@ -473,6 +509,7 @@ cftc_cot_positions,managed_money_long,series variable,count
 cftc_cot_positions,managed_money_net,series variable,count
 cftc_cot_positions,managed_money_short,series variable,count
 cftc_cot_positions,open_interest,series variable,count
+doe_useer_employment,employment,series variable,count
 egrid_power_plants,entity_id,column,
 egrid_power_plants,entity_type,column,
 egrid_power_plants,name,column,
@@ -5285,6 +5322,8 @@ nlr_jedi_multipliers,local_share,series variable,ratio
 nlr_jedi_multipliers,output,series variable,USD/MW
 nlr_jedi_multipliers,output,series variable,USD/MW-year
 nlr_jedi_multipliers,project_mw,series variable,MW
+noaa_cpc_degree_days_daily,cdd,series variable,degF-day
+noaa_cpc_degree_days_daily,hdd,series variable,degF-day
 noaa_grid_weather_daily,cooling_degree_days,series variable,degF-day
 noaa_grid_weather_daily,dew_point_f,series variable,degF
 noaa_grid_weather_daily,heating_degree_days,series variable,degF-day
@@ -5480,6 +5519,51 @@ node_basis_summary,rtm_zone_spread_4h_p25,series variable,USD/MWh
 node_basis_summary,rtm_zone_spread_4h_p50,series variable,USD/MWh
 node_basis_summary,rtm_zone_spread_4h_p75,series variable,USD/MWh
 node_basis_summary,rtm_zone_spread_4h_p90,series variable,USD/MWh
+nrc_advanced_reactor_preapplicants,entity_id,column,
+nrc_advanced_reactor_preapplicants,entity_type,column,
+nrc_advanced_reactor_preapplicants,name,column,
+nrc_advanced_reactor_preapplicants,geo,column,
+nrc_advanced_reactor_preapplicants,lat,column,
+nrc_advanced_reactor_preapplicants,lon,column,
+nrc_advanced_reactor_preapplicants,capacity_mw,column,
+nrc_advanced_reactor_preapplicants,status,column,
+nrc_advanced_reactor_preapplicants,status_date,column,
+nrc_advanced_reactor_preapplicants,operator,column,
+nrc_advanced_reactor_preapplicants,source,column,
+nrc_advanced_reactor_preapplicants,source_url,column,
+nrc_advanced_reactor_preapplicants,retrieved_at,column,
+nrc_advanced_reactor_preapplicants,vintage,column,
+nrc_advanced_reactor_preapplicants,x_technology,column,
+nrc_advanced_reactor_preapplicants,x_microreactor,column,
+nrc_advanced_reactor_preapplicants,x_active,column,
+nrc_advanced_reactor_preapplicants,x_page,column,
+nrc_new_reactor_applications,event_id,column,
+nrc_new_reactor_applications,event_date,column,
+nrc_new_reactor_applications,event_type,column,
+nrc_new_reactor_applications,parties,column,
+nrc_new_reactor_applications,entity_ids,column,
+nrc_new_reactor_applications,mw,column,
+nrc_new_reactor_applications,price,column,
+nrc_new_reactor_applications,currency,column,
+nrc_new_reactor_applications,status,column,
+nrc_new_reactor_applications,source,column,
+nrc_new_reactor_applications,source_url,column,
+nrc_new_reactor_applications,retrieved_at,column,
+nrc_new_reactor_applications,vintage,column,
+nrc_new_reactor_applications,x_project,column,
+nrc_new_reactor_applications,x_when,column,
+nrc_new_reactor_applications,x_place,column,
+nrc_new_reactor_applications,x_state,column,
+nrc_new_reactor_applications,x_what,column,
+nrc_new_reactor_applications,x_reactor_type,column,
+nrc_new_reactor_applications,x_power_level,column,
+nrc_new_reactor_applications,x_fuel,column,
+nrc_new_reactor_applications,x_status_date,column,
+nrc_new_reactor_applications,x_next_milestone,column,
+nrc_new_reactor_applications,x_next_target,column,
+nrc_new_reactor_applications,x_decision,column,
+nrc_new_reactor_applications,x_decision_target,column,
+nrc_new_reactor_applications,x_page,column,
 nrc_power_reactors,entity_id,column,
 nrc_power_reactors,entity_type,column,
 nrc_power_reactors,name,column,
@@ -6712,6 +6796,10 @@ usace_nid_dams,locks_n,column,
 usace_nid_dams,source_agency,column,
 usace_nid_dams,record_updated,column,
 usace_nid_dams,coordinate_given,column,
+usbr_hydropower_monthly,auxiliary_use,series variable,MWh
+usbr_hydropower_monthly,gross_generation,series variable,MWh
+usbr_hydropower_monthly,installed_capacity,series variable,MW
+usbr_hydropower_monthly,net_generation,series variable,MWh
 usgs_mcs_critical_minerals,consumption,series variable,t
 usgs_mcs_critical_minerals,employment,series variable,count
 usgs_mcs_critical_minerals,export,series variable,t
