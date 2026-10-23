@@ -27,3 +27,7 @@
 - New: `tests/test_session923.py` (3 tests), this report; on main, `queue/next/053-day-23-october-data-world-energy-dams-solar-projects.md`.
 - Changed: `warehouse/connectors/eia_intl_bulk.py` (the second table), `build_coverage.py`, `release_v1.py`, `live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
 - On the data machine only: `runs/c052/s923/`, `runs/s923*`.
+
+## Corrected by session 936
+
+- The push of `21185a08` (the 052 queue move and the 053 file) did not reach main: main had moved, the fast-forward failed and the push was refused, and the command's piped output hid it. Session 936 found it at 10:32 UTC, merged origin/main into the main checkout and pushed both (`f5e438e3`), with a snapshot pair (`c052-fix-before`, `-after`: 0 differences). Until then, 052 stood in `queue/next` on main while this chain ran it, and 053 was not there.
