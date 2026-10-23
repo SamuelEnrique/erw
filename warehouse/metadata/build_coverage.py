@@ -152,11 +152,18 @@ SECTOR_RULES = [
     (r"^eia_gas_consumption_state_monthly$", "gas"),  # session 518: EIA's natural gas consumption by state, a month
     (r"^eia_coal_prices_annual$", "coal"),  # session 519: EIA's coal market sales price by state or region, a year
     (r"^eia_coal_production_annual$", "coal"),  # session 685: EIA's coal production by state, rank and mine type, a year
-    (r"^eia_coal_mine_production_annual$", "coal"),  # session 694: EIA's coal production and employees by mine, a year
+    (r"^eia_coal_mine_production_annual$", "coal"),
+    (r"^eia_coal_receipts_annual$", "coal;power"),  # session 875: coal receipts at power plants, mine to plant  # session 694: EIA's coal production and employees by mine, a year
     (r"^ercot_cdr_reserve_margins$", "power"),  # session 851: ERCOT's CDR, load, capacity and reserve margin by season
-    (r"^ercot_transmission_projects$", "power"),  # session 852: ERCOT's TPIT, every transmission project
+    (r"^ercot_transmission_projects$", "power"),
+    (r"^ercot_cdr_units$", "power"),
+    (r"^eia860_plants_annual$", "power"),  # session 873: EIA-860's plants: place, BA, grid voltage, wires owner  # session 872: the CDR's unit details: code, county, zone, capacity  # session 852: ERCOT's TPIT, every transmission project
     (r"^eia861_utility_reliability$", "power"),
-    (r"^eia861_delivery_only$", "power"),  # session 853: EIA-861's delivery-only companies (Texas's wires utilities)  # session 695: EIA-861's distribution reliability (SAIDI, SAIFI, CAIDI) by utility
+    (r"^eia861_delivery_only$", "power"),
+    (r"^eia861_utility_data$", "power"),
+    (r"^eia861_(demand_response|dynamic_pricing)$", "power"),
+    (r"^eia861_(advanced_meters|net_metering)$", "power"),
+    (r"^eia861_short_form$", "power"),  # session 876: EIA-861S, the small utilities' sales  # session 869: EIA-861's meters and net metering by utility  # session 868: EIA-861's programs by utility  # session 867: EIA-861's utility data: NERC region, RTOs, activities  # session 853: EIA-861's delivery-only companies (Texas's wires utilities)  # session 695: EIA-861's distribution reliability (SAIDI, SAIFI, CAIDI) by utility
     (r"^eia_gas_storage_state_monthly$", "gas"),  # session 525: EIA's natural gas in underground storage by state, a month
     (r"^eia_state_capacity_annual$", "power"),  # session 526: EIA's state electricity profiles, net summer capacity
     (r"^eia_crude_production_state_monthly$", "oil"),  # session 527: EIA's crude oil field production by state, a month
