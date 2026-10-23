@@ -77,3 +77,7 @@ Read again by session 1059 (chain 072) at about 08:10 UTC on 23 October: **two r
 ## State on 23 October 2026, morning (chain 051)
 
 Read again by session 917 at 08:40 UTC. **The same row as a warehouse table:** "ERCOT nodes | Node panel | transmission projects by county", which chain 072's session 1048 draws on the tab from TPIT, is also held as `ercot_node_transmission` (derived, method `docs/methods/ercot_node_transmission.md`) for the 569 nodes `ercot_node_places` places: each node's county with ERCOT's TPIT project phases counted by status, their circuit miles, highest kV and next projected in-service date. Its counts equal the tab's (`site/data/siting/nodes.json`) in all 137 counties the tab lists; the other 11 have no TPIT phase (zeros in the table, absent from the tab). The other rows stay as chain 072 left them.
+
+## State on 23 October 2026, morning (chain 052)
+
+Read again by session 931 at 10:20 UTC. **One row's second half built as a table:** "a node's county, so the planned generation near it", which chain 072 left open ("the county is known; the sum by county is not built"), is held as `ercot_node_planned_generation` (derived, method `docs/methods/ercot_node_planned_generation.md`) for the 569 nodes `ercot_node_places` places: ERCOT's active queue projects in the node's county (count, MW by solar, wind, storage, gas and other, the earliest proposed in-service date) and EIA-860M's planned generators there. Not yet drawn on the tab. A project in the county is not a project at the node. The other rows stay as chain 072 left them.
