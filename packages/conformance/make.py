@@ -27,7 +27,9 @@ FETCH = [
     {"table": "ercot_peak_premium_annual", "entity": ["HB_HUBAVG"], "end": "2026-01-01"},
     {"table": "caiso_grid_emergencies", "start": "2022-09-01", "end": "2022-09-15"},
     {"table": "eia860m_retired_generators", "variable": ["generator"]},
-    {"table": "eia930_all_demand", "entity": ["eia930:ERCO"], "variable": ["demand_mw"], "start": "2026-10-18", "end": "2026-10-19"},
+    # session 1055 (chain 072): call 7 was eia930_all_demand on 18 October, which leaves the live set's 35 days about 22
+    # November; the hourly intensity of the same hours is kept 430 days (live_set.yaml), so the file holds until 2027
+    {"table": "carbon_intensity_hourly", "entity": ["eia930:ERCO"], "variable": ["intensity_demand"], "start": "2026-10-18", "end": "2026-10-19"},
     {"table": "state_generation_mix_monthly", "entity": ["eia:TX"], "start": "2025-01-01", "end": "2026-01-01"},
     {"table": "iso_curtailment_monthly", "start": "2025-01-01", "end": "2026-01-01"},
     {"table": "carbon_intensity_daily", "entity": ["eia930:ERCO"], "start": "2026-10-01", "end": "2026-10-08"},
@@ -76,9 +78,14 @@ def main() -> int:
     t = erw.tables(backend="local").set_index("table").loc["eia_fuel_spot_prices"]
     calls.append({"n": len(calls) + 1, "call": "tables", "args": {"backend": "local", "table": "eia_fuel_spot_prices"},
                   "expect": {"shape": t["shape"], "verdict": t["verdict"], "in_live": t["in_live"], "at_least": 299}})
-    out = {"made_by": "session 1003's fixtures' calls and session 1006 (chain 070), the Python package on the live set",
+    out = {"made_by": "session 1003's fixtures' calls and session 1006 (chain 070), the Python package on the live set; version 2, session 1055 (chain 072): call 7 on a table the live set keeps 430 days",
            "made_at": stamp(__import__("pandas").Timestamp.now(tz="UTC")), "via": VIA.strip(),
            "calls": calls, "requests": erw.requests()}
+    # session 1055 (chain 072): the errors block (session 1013's sentences, which the runners read) is carried over from
+    # the file as it stands; this script does not make it, and a remake that dropped it lost them once
+    old = HERE / "conformance.json"
+    if old.exists() and "errors" in json.loads(old.read_text(encoding="utf-8")):
+        out["errors"] = json.loads(old.read_text(encoding="utf-8"))["errors"]
     (HERE / "conformance.json").write_text(json.dumps(out, indent=2) + "\n", encoding="utf-8", newline="\n")
     print(f"{len(calls)} calls written; requests {erw.requests()}")
     return 0

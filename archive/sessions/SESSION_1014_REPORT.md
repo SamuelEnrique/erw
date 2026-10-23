@@ -39,7 +39,13 @@ The gate on `wip/1012-packages` (1000 to 1012) failed its suite: 6,082 tests, 2 
 
 ## The landing
 
-With 1013 onward.
+Sessions 1000 to 1014 landed in one push (`task/1000-1014-packages`, commit `8cd5244b`), merged into main at 04:30 UTC (`3617f6f5`, run 39899858859).
+
+- **The gates**: on `173309dc` (1000 to 1012) the suite failed (2 failures, 1 error, all this chain's; fixed in 1014). On `cf4d833a` (1000 to 1014): freeze 0, main in the commit, no `task/` branch in flight; suite 6,093 tests OK (305 skipped); npm ci 0, build 0; check-values 8,046 of 8,047 values equal, failing only on the ten held floors, `/digest` before the day's issue and the 21 October Digest's revised WTI.
+- **By hand on a build of `cf4d833a`** (lock `s1014l`, on `db_probe`'s 0): check-routes 0 (226 pages, 0 failed), check-cross-checks 0 (92 of 92), check-csp 0 (97 pages, 0 violations).
+- **Before the push**: main had gained one commit touching `queue/` alone (`f549b631`), merged without a third gate (`8cd5244b` differs from `cf4d833a` by that file); the data machine's `task/867-880-data` was in flight, and a trial merge with it was clean.
+- **Snapshots**: `s1014-before` at 04:20 UTC; the push at 04:21. Vercel's status on `3617f6f5`: "rate limited" (04:30:57), yet production served `/data`'s new section by 05:05. `s1014-after` then; `compare s1014-before s1014-after`: **0 differences** on 25 pages, expected (every page is in review).
+- The merged `wip/` branches of 1000 to 1014 were deleted on GitHub (the task branch had gone with its merge).
 
 ## Decisions made without you
 
