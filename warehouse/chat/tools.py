@@ -594,6 +594,32 @@ def per_kw(out, table, env=None):
     return out
 
 
+def holds_line(c):
+    """Session 1146, as site/lib/chat/tools.ts holdsLine: what a table holds, from its catalogue row, never a figure."""
+    span = f"{str(c.get('ts_min') or '')[:10]} to {str(c.get('ts_max') or '')[:10]}" if c.get("ts_min") and c.get("ts_max") else ""
+    iso = ", ".join(str(c.get("iso")).split(";")) if c.get("iso") and c.get("iso") != "none" else ""
+    parts = [f"{c['sector']} data" if c.get("sector") else "", iso, f"step {c['interval']}" if c.get("interval") else "", span,
+             f"from {c['source_report']}" if c.get("source_report") else ""]
+    return "; ".join(p for p in parts if p)
+
+
+def nearest_for(tables):
+    """Session 1146, as site/lib/chat/tools.ts nearestFor: up to three tables looked at, with what each holds."""
+    out = []
+    for t in list(dict.fromkeys(tables)):
+        try:
+            row = _cov_row(t)
+        except Exception:  # noqa: BLE001: a table the catalogue does not hold is left out
+            row = None
+        if row is None:
+            continue
+        row = {k: (None if isinstance(v, float) and v != v else v) for k, v in dict(row).items()}   # a blank of the coverage file is no value
+        out.append({"table": t, "holds": holds_line(row)})
+        if len(out) == 3:
+            break
+    return out
+
+
 def compare(a, b):
     ra, rb = query(**a), query(**b)
     out = {"a": ra, "b": rb}

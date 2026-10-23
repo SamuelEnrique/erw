@@ -269,6 +269,53 @@ def why_refused(bad=(), units=(), uncited=(), no_cite=False, more=()):
     return f"Why: the draft was checked twice and {body}."
 
 
+# Session 1146: the general chat's conversation, read lines and refusal's nearest tables, as the site's
+# (site/lib/chat/history.ts, ask.ts readsOf, tools.ts nearestFor), so the CLI and the evaluation's own loop answer as
+# the site does. The conversation's words are Ask ERCOT's (warehouse/chat/ercot.py HISTORY_HEAD, HISTORY_TURN).
+GENERAL_HISTORY_HEAD = "The conversation so far, oldest first. The new question continues it."
+GENERAL_HISTORY_TURN = "Earlier question {n}: {question}\nYour answer: {answer}\nQueries you ran: {queries}"
+GENERAL_MAX_HISTORY, GENERAL_MAX_ANSWER = 3, 1500
+READ_KEYS = ("entity", "variable", "start", "end", "aggregation", "group_by", "tz")
+
+
+def clean_turns(raw):
+    """As site/lib/chat/history.ts cleanTurns: the last three turns with a question and an answer, their reads as
+    compact queries, their cited tables."""
+    if not isinstance(raw, list):
+        return []
+    out = []
+    for h in raw[-GENERAL_MAX_HISTORY:]:
+        if not isinstance(h, dict):
+            continue
+        q, a = str(h.get("question") or "").strip()[:500], str(h.get("answer") or "").strip()[:GENERAL_MAX_ANSWER]
+        if not q or not a:
+            continue
+        queries = []
+        for x in (h.get("reads") if isinstance(h.get("reads"), list) else [])[:8]:
+            if isinstance(x, dict) and isinstance(x.get("table"), str):
+                j = json.dumps(x, sort_keys=True, separators=(",", ":"))
+                if len(j) <= 1200:
+                    queries.append(f"query {j}")
+        tables = [str((c or {}).get("table") or "") for c in (h.get("citations") or []) if isinstance(c, dict)]
+        out.append({"question": q, "answer": a, "queries": queries, "tables": [t for t in tables if re.fullmatch(r"[a-z][a-z0-9_]*", t)]})
+    return out
+
+
+def reads_of(name, args):
+    """As site/lib/chat/ask.ts readsOf: what one query or compare read, never a figure."""
+    def one(a):
+        if not isinstance(a, dict) or not isinstance(a.get("table"), str):
+            return []
+        r = {"table": a["table"]}
+        r.update({k: a[k] for k in READ_KEYS if isinstance(a.get(k), str) and a[k]})
+        return [r]
+    if name == "query":
+        return one(args)
+    if name == "compare":
+        return one((args or {}).get("a")) + one((args or {}).get("b"))
+    return []
+
+
 def nodash(text):
     return text.replace(chr(0x2014), " - ").replace("  -  ", " - ")
 
@@ -308,9 +355,15 @@ class Asker:
         return tools.TOOLS
 
     def opening(self, question, today, context=None, history=None):
-        """The first message. `context` is the view a reader opened the chat from, `history` the conversation so far
-        (only a profile uses either)."""
-        return f"Today is {today} (UTC).\n\nQuestion: {question}"
+        """The first message. `context` is the view a reader opened the chat from (a profile's), `history` the
+        conversation so far (session 1146: the general chat's too, as the site's); with none, as it always was."""
+        now = f"Today is {today} (UTC).\n\nQuestion: {question}"
+        past = clean_turns(history)
+        if not past:
+            return now
+        parts = [GENERAL_HISTORY_HEAD] + [GENERAL_HISTORY_TURN.format(n=i + 1, question=t["question"], answer=t["answer"], queries="; ".join(t["queries"]) or "none")
+                                          for i, t in enumerate(past)]
+        return "\n\n".join(parts) + "\n\n" + now
 
     def tag(self, name, args, out, n):
         """Called with every tool result before the model sees it; a profile may mark it (a result id)."""
@@ -321,12 +374,13 @@ class Asker:
         return []
 
     def extra_sources(self, context, history=None):
-        """Texts whose numbers count as given, beside the question and the tool results."""
-        return []
+        """Texts whose numbers count as given, beside the question and the tool results (session 1146: an earlier
+        answer's, checked when it was written)."""
+        return [x for t in clean_turns(history) for x in [t["answer"], *t["queries"]]]
 
     def known_tables(self, history):
         """Tables an earlier answer of the conversation read and cited: citing one again is not citing a table unread."""
-        return set()
+        return {x for t in clean_turns(history) for x in t["tables"]}
 
     def finish(self, record, results):
         """Called once with the final record; a profile adds to it (the series behind a chart)."""
@@ -478,6 +532,20 @@ class Asker:
                 record[k] = nodash(record[k])
         if self.record_tools:
             record["trace"] = results
+        # session 1146: what each query read, and on a refusal the tables it looked at with what each holds, as the site
+        reads = []
+        for r in results:
+            if not r.get("is_error") and not (isinstance(r.get("out"), dict) and r["out"].get("held")):
+                for x in reads_of(r["tool"], r["input"]):
+                    if x not in reads:
+                        reads.append(x)
+        if reads:
+            record["reads"] = reads
+        if record.get("status") in ("not_in_warehouse", "refused_unverified") and type(self) is Asker:
+            looked = list(dict.fromkeys([x["table"] for x in reads] + [r["input"].get("table") for r in results if r["tool"] == "describe_table" and isinstance(r.get("input"), dict)]))
+            near = tools.nearest_for([t for t in looked if t])
+            if near:
+                record["nearest"] = near
         record.update({"tool_calls": len(calls), "calls": calls, "usage": usage,
                        "cost_usd": cost_usd(self.model, usage), "seconds": round(time.time() - t0, 1), "seconds_first": seconds_first})
         self.finish(record, results)
