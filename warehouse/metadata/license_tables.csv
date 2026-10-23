@@ -44,9 +44,11 @@ eia860m_operating_generators,EIA,the source registry
 eia860m_planned_generators,EIA,the source registry
 eia860m_retired_generators,EIA,the source registry
 eia860m_retired_generators_all,EIA,the source registry
+eia861_advanced_meters,EIA,the source registry
 eia861_delivery_only,EIA,the source registry
 eia861_demand_response,EIA,the source registry
 eia861_dynamic_pricing,EIA,the source registry
+eia861_net_metering,EIA,the source registry
 eia861_utility_data,EIA,the source registry
 eia861_utility_reliability,EIA,the source registry
 eia861_utility_sales,EIA,the source registry

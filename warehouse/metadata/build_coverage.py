@@ -158,7 +158,8 @@ SECTOR_RULES = [
     (r"^eia861_utility_reliability$", "power"),
     (r"^eia861_delivery_only$", "power"),
     (r"^eia861_utility_data$", "power"),
-    (r"^eia861_(demand_response|dynamic_pricing)$", "power"),  # session 868: EIA-861's programs by utility  # session 867: EIA-861's utility data: NERC region, RTOs, activities  # session 853: EIA-861's delivery-only companies (Texas's wires utilities)  # session 695: EIA-861's distribution reliability (SAIDI, SAIFI, CAIDI) by utility
+    (r"^eia861_(demand_response|dynamic_pricing)$", "power"),
+    (r"^eia861_(advanced_meters|net_metering)$", "power"),  # session 869: EIA-861's meters and net metering by utility  # session 868: EIA-861's programs by utility  # session 867: EIA-861's utility data: NERC region, RTOs, activities  # session 853: EIA-861's delivery-only companies (Texas's wires utilities)  # session 695: EIA-861's distribution reliability (SAIDI, SAIFI, CAIDI) by utility
     (r"^eia_gas_storage_state_monthly$", "gas"),  # session 525: EIA's natural gas in underground storage by state, a month
     (r"^eia_state_capacity_annual$", "power"),  # session 526: EIA's state electricity profiles, net summer capacity
     (r"^eia_crude_production_state_monthly$", "oil"),  # session 527: EIA's crude oil field production by state, a month

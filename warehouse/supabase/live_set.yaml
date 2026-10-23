@@ -322,6 +322,8 @@ catalogue_hold:
   - eia861_utility_data
   - eia861_demand_response
   - eia861_dynamic_pricing
+  - eia861_advanced_meters
+  - eia861_net_metering
   - eia_crude_imports_detail_monthly
   - eia_padd_rail_barge_movements_monthly
   - eia_gas_trade_country_monthly
