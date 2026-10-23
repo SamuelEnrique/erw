@@ -79,7 +79,8 @@ export const COLUMNS: Column[] = [
   { id: "headroom", head: "Headroom", unit: "percent; MW", tables: ["eia930_demand_growth", "eia860m_planned_generators", "grid_peak_vs_capacity", "eia_state_capacity_annual", "ercot_cdr_reserve_margins"],
     tip: "Demand growth over the last twelve months (EIA-930), generation under construction due in the next twelve months (eia860m_planned_generators), capacity above the grid's peak (grid_peak_vs_capacity), and ERCOT's planning reserve margin for the coming summer (ercot_cdr_reserve_margins)." },
   { id: "carbon", head: "Carbon", unit: "kg CO2 per MWh", tables: ["egrid_power_plants", "carbon_intensity_hourly"],
-    tip: "The generation-weighted CO2 rate of the row's eGRID subregion (egrid_power_plants); hourly where the profile runs in some hours and the grid's hourly intensity is held." },
+    // session 2306: the measure differs by profile, and the two are not the same quantity; the head says which (columnHead)
+    tip: "Two measures, by profile. Datacenter (a flat load): eGRID's generation-based annual rate of the row's subregion (egrid_power_plants, eGRID 2023: the plants' CO2 over their net generation). Flexible and electrolyzer: EIA-930's hourly consumption-based intensity of the grid (carbon_intensity_hourly, intensity_demand: CO2 generated plus imported less exported, over demand), weighted by the load over the hours it runs, where held; else the annual rate stands. For CAISO, EIA-930's generation series breaks on 16 December 2025 (its solar and wind read below CAISO's own after it; docs/methods/eia930_caiso_break.md): the consumed intensity keeps EIA's rows on both sides of that day and its fall across it is partly the reporting change." },
   { id: "utility", head: "Utility", unit: "USD per MWh", tables: ["utility_service_territories", "eia861_utility_sales"],
     tip: "Where the row's name is a place, its county's utilities (utility_service_territories) and the largest seller to industry among them; else the state's largest; its industrial revenue per MWh and sales growth (eia861_utility_sales), with its kind beside it: bundled (no word), delivery only or energy only." },
   { id: "allin", head: "All-in", unit: "USD per MWh", tables: [],
@@ -373,6 +374,15 @@ function profileTwelveOnce(dc: DC, f: Files, grid: string, region: string, x: Pi
     }
   }
   return { per: run > 0 ? cost / run : NaN, from: flat.from, to: flat.to, run, lost, held, strike, peaks: inPeaks, atOrBelow, weights: kept };
+}
+/** Session 2306: a column's head for the profile shown. The carbon column names its measure: eGRID's generation-based
+ * annual rate for the datacenter profile (a flat load); EIA-930's hourly consumption-based intensity, where held, for
+ * the flexible and electrolyzer profiles (the two are not the same quantity). */
+export function columnHead(c: Pick<Column, "id" | "head">, profile: ProfileId): string {
+  const curtail = PROFILES[profile].curtail;
+  const hourly = curtail === "peaks_strike" || curtail === "below_strike";
+  if (c.id === "carbon") return hourly ? "Carbon (EIA-930 hourly, consumed, where held)" : "Carbon (eGRID 2023, generated)";
+  return c.head;
 }
 /** Session 2306: the words for ERCOT's four summer peak intervals in a flexible profile's rule, from the count the model
  * made (ProfileTwelve.peaks: the intervals' hours with a price inside the twelve months), never a fixed sentence. */

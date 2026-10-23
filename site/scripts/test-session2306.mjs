@@ -22,8 +22,16 @@ check(peakWords(4, 2026, note) === `4 of their hours held fall in these months a
 check(peakWords(0, undefined, note).includes("holds summers to none"), "no summer held: \"none\"");
 check(!/—/.test(peakWords(3, 2026, note)), "no em dash");
 
-export { check, bad, n };
-if (!process.env.SESSION2306_MORE) {
-  console.log(`${n - bad} of ${n} passed`);
-  process.exit(bad ? 1 : 0);
+// 2. the carbon column names its measure by profile (fix 2)
+{
+  const { columnHead, COLUMNS } = await import("../lib/siting.ts");
+  const carbon = COLUMNS.find((c) => c.id === "carbon");
+  check(columnHead(carbon, "datacenter") === "Carbon (eGRID 2023, generated)", "datacenter: eGRID's generation-based annual rate");
+  check(columnHead(carbon, "flexible") === "Carbon (EIA-930 hourly, consumed, where held)" && columnHead(carbon, "electrolyzer") === "Carbon (EIA-930 hourly, consumed, where held)", "flexible and electrolyzer: EIA-930's hourly consumption-based intensity");
+  check(/eGRID 2023/.test(carbon.tip) && /intensity_demand/.test(carbon.tip) && /16 December 2025/.test(carbon.tip) && /eia930_caiso_break/.test(carbon.tip), "the head's tip states both measures and names the CAISO reporting break");
+  const other = COLUMNS.find((c) => c.id === "capacity");
+  check(columnHead(other, "flexible") === other.head, "another column's head is unchanged");
 }
+
+console.log(`${n - bad} of ${n} passed`);
+process.exit(bad ? 1 : 0);

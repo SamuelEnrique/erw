@@ -4,7 +4,7 @@ import { InlineSpark } from "@/components/InlineSpark";
 import { LineChart } from "@/components/LineChart";
 import { InputPanel } from "@/components/tool/ToolPage";
 import type { ReactNode } from "react";
-import { columnWords, nodeColumns, zoneGrowth, SERVICE_WORDS, UTILITY_KINDS_LINE, utilityKind, nodeShortMonths, shortMonthsWords, CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, reserveMargin, columnValue, nodeTable, peakWords, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
+import { columnWords, nodeColumns, zoneGrowth, SERVICE_WORDS, UTILITY_KINDS_LINE, utilityKind, nodeShortMonths, shortMonthsWords, CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, reserveMargin, columnHead, columnValue, nodeTable, peakWords, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
 import { CP, NODES, SITING_DC, SITING_FILES } from "@/lib/sitingdata";
 import { AllGridsForm } from "./AllGridsForm";
 import { AllGridsNodes } from "./AllGridsNodes";
@@ -224,13 +224,16 @@ function CarbonTd({ r, x }: { r: Row; x: SitingInputs }) {
   const c = carbonCell(SITING_DC, SITING_FILES, r, x);
   if ("why" in c) return <Words words={c.words} why={c.why} />;
   const k = profileKey(x), cf = SITING_FILES.carbon!;
-  const annualTip = `The ${c.sub.words}: its ${c.plants.toLocaleString("en-US")} plants' CO2 over their net generation in ${c.year} (egrid_power_plants, ${cf.vintage}), ${two(c.kg)} kg (${two(c.lb)} lb) per MWh generated, annual.`;
+  // session 2306: each tip names its measure (eGRID's generation-based annual rate; EIA-930's hourly consumption-based
+  // intensity) and, for CAISO, the break in EIA-930's generation series of 16 December 2025 (docs/methods/eia930_caiso_break.md)
+  const annualTip = `The ${c.sub.words}: its ${c.plants.toLocaleString("en-US")} plants' CO2 over their net generation in ${c.year} (egrid_power_plants, ${cf.vintage}), ${two(c.kg)} kg (${two(c.lb)} lb) per MWh generated, annual: eGRID's generation-based measure.`;
+  const breakNote = r.grid === "caiso" ? " EIA-930's California generation series breaks on 16 December 2025 (its solar and wind read below CAISO's own after it; docs/methods/eia930_caiso_break.md): the consumed intensity keeps EIA's rows on both sides of that day, and its fall across it is partly the reporting change." : "";
   return (
     <span className="inline-block text-right">
       {c.hourly
-        ? <><span className="whitespace-nowrap"><Fig check={`allgrids|carbonh|${r.id}|${k}`} v={c.hourly.kg} tip={`The grid's hourly intensity (carbon_intensity_hourly, ${cf.hourly_variable}, kg CO2 per MWh consumed), weighted by the load over the ${c.hourly.hours.toLocaleString("en-US")} of the ${c.hourly.of.toLocaleString("en-US")} hours it runs where both are held: hourly, the grid's balancing authority, not the subregion. ${annualTip}`} /> kg</span>
+        ? <><span className="whitespace-nowrap"><Fig check={`allgrids|carbonh|${r.id}|${k}`} v={c.hourly.kg} tip={`EIA-930's hourly consumption-based intensity of the grid (carbon_intensity_hourly, ${cf.hourly_variable}, kg CO2 per MWh consumed: CO2 generated plus imported less exported, over demand), weighted by the load over the ${c.hourly.hours.toLocaleString("en-US")} of the ${c.hourly.of.toLocaleString("en-US")} hours it runs where both are held: hourly, the grid's balancing authority, not the subregion. Not the same quantity as the annual rate under it.${breakNote} ${annualTip}`} /> kg</span>
             <span className="block text-xs" data-carbon-annual="1">annual <Tp dotted={false} tip={annualTip}><Num check={`allgrids|carbon|${r.id}`} raw={c.kg}>{two(c.kg)}</Num></Tp></span></>
-        : <><span className="whitespace-nowrap"><Fig check={`allgrids|carbon|${r.id}`} v={c.kg} tip={`${annualTip}${c.hourlyWhy ? ` ${c.hourlyWhy}` : ""}`} /> kg</span>
+        : <><span className="whitespace-nowrap"><Fig check={`allgrids|carbon|${r.id}`} v={c.kg} tip={`${annualTip}${c.hourlyWhy ? ` ${c.hourlyWhy}` : ""}${c.hourlyWhy ? breakNote : ""}`} /> kg</span>
             <span className="block text-xs" data-carbon-lb="1"><Tp dotted={false} tip={annualTip}><Num check={`allgrids|carbonlb|${r.id}`} raw={c.lb}>{two(c.lb)}</Num></Tp> lb</span></>}
     </span>
   );
@@ -348,7 +351,7 @@ function AbPanel({ x }: { x: SitingInputs }) {
           <thead><tr className="bg-accent text-white"><th scope="col" className="px-3 py-1.5 text-left font-normal">USD per MWh unless said</th><th scope="col" className={th}>A: {name(ra)}</th><th scope="col" className={th}>B: {name(rb)}</th><th scope="col" className={th}>B less A</th></tr></thead>
           <tbody>
             {COLUMNS.map((c) => (
-              <tr key={c.id} className="border-b border-rule"><th scope="row" className="px-3 py-1.5 text-left font-normal">{c.head} <span className="text-xs text-muted">{c.unit === "USD per MWh" ? "" : c.unit}</span></th>
+              <tr key={c.id} className="border-b border-rule"><th scope="row" className="px-3 py-1.5 text-left font-normal">{columnHead(c, x.profile)} <span className="text-xs text-muted">{c.unit === "USD per MWh" ? "" : c.unit}</span></th>
                 <td className="px-3 py-1.5 text-right">{cell(ra, c)}</td><td className="px-3 py-1.5 text-right">{cell(rb, c)}</td><td className="px-3 py-1.5 text-right">{diff(c)}</td></tr>
             ))}
             <tr className="border-b border-rule bg-paper"><th scope="row" className="px-3 py-1.5 text-left font-normal">A year all-in, USD, {x.mw.toLocaleString("en-US")} MW</th><td className="px-3 py-1.5 text-right">{yr(ra, ya)}</td><td className="px-3 py-1.5 text-right">{yr(rb, yb)}</td><td className="px-3 py-1.5 text-right">{ya && yb && ra && rb ? <>{yb.usd - ya.usd > 0 ? "+" : ""}<Num check={`allgrids|yeardiff|${ra.id}|${rb.id}|${yk}`} raw={yb.usd - ya.usd}>{usdWhole(yb.usd - ya.usd)}</Num></> : ""}</td></tr>
@@ -534,7 +537,7 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
                 <th scope="col" className="px-3 py-1.5 font-normal">Grid and region</th>
                 {cols.map((c) => (
                   <th key={c.id} scope="col" className="px-3 py-1.5 text-right font-normal" data-col={c.id}>
-                    <Tp tip={`${c.tip} ${c.unit}.`} className="border-white/70">{c.head}</Tp>
+                    <Tp tip={`${c.tip} ${c.unit}.`} className="border-white/70">{columnHead(c, x.profile)}</Tp>
                   </th>
                 ))}
               </tr>
