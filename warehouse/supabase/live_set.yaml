@@ -339,6 +339,7 @@ catalogue_hold:
   - eia_primary_energy_monthly
   - usgs_mcs_critical_minerals
   - blm_ca_renewable_rows
+  - eia_coal_distribution_quarterly
   - lbnl_hybrid_ppa_prices
   - lbnl_solar_projects
   - ornl_npd_potential
