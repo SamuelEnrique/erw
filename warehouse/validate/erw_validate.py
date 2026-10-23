@@ -64,7 +64,10 @@ UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "mph", "
          # (eia861_utility_reliability; Decision 51)
          "minute/customer", "interruption/customer", "minute/interruption",
          # session 870: coal's heat content in Btu per pound, as Form EIA-923 gives it (eia_coal_shipments_annual; Decision 52)
-         "Btu/lb"}
+         "Btu/lb",
+         # session 889: an index number on its source's base period, as the Federal Reserve's G.17 gives industrial
+         # production (2017 = 100) (frb_utility_output_monthly; Decision 53)
+         "index"}
 NAME_RE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+){2,}$")
 NAME_MAX = 40
 TS_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")

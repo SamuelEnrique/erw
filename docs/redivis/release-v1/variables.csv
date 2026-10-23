@@ -3901,6 +3901,8 @@ flex_alert_model,variant_minimal_pooled_reduction_mw,series variable,MW
 flex_alert_model,variant_minimal_pooled_reduction_mw_hi,series variable,MW
 flex_alert_model,variant_minimal_pooled_reduction_mw_lo,series variable,MW
 frb_treasury_yields,yield,series variable,pct
+frb_utility_output_monthly,production,series variable,index
+frb_utility_output_monthly,utilization,series variable,pct
 generation_mix_hourly_profile,avg_coal_mw_h00,series variable,MW
 generation_mix_hourly_profile,avg_coal_mw_h01,series variable,MW
 generation_mix_hourly_profile,avg_coal_mw_h02,series variable,MW
