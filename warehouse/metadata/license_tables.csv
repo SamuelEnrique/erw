@@ -343,6 +343,7 @@ node_basis_daily,ERCOT,"the source registry and the tables its header derives it
 node_basis_summary,ERCOT,"the source registry and the tables its header derives it from: ercot_all_hub_prices_history, ercot_zone_prices_history"
 nrc_advanced_reactor_preapplicants,NRC,the source registry
 nrc_event_notifications,NRC,the source registry
+nrc_license_actions,NRC,the source registry
 nrc_new_reactor_applications,NRC,the source registry
 nrc_power_reactors,NRC,the source registry
 nrc_reactor_status,NRC,the source registry
