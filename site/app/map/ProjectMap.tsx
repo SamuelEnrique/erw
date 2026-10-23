@@ -186,12 +186,13 @@ export function ProjectMap({ file: f, statesGeo }: { file: MapFace; statesGeo: u
             if (!tiles.length) return null;
             return (
               <div key={group}>
-                <h3 className="mb-2 text-xs uppercase tracking-wide text-muted">
+                {/* session 2303 (chain 087): a second-level heading (it follows the page's h1 with no h2 between), in the same small face */}
+                <h2 className="mb-2 text-xs uppercase tracking-wide text-muted">
                   {group === 0 ? "Generating units, by EIA's status" : group === KIND.queue ? "Queue positions, by status (MW requested)" : "Datacenters, by status (MW where stated)"}
                   <Tip id={`map-totals-${group}`} label={`the totals of ${KIND_WORD[group].toLowerCase()}`}>
                     {sourceWords(f, SOURCE_KIND[group], SOURCE_RULE.chosen)} {group === KIND.datacenter ? "The MW is summed over the facilities that state one; the count under it says how many do." : group === KIND.queue ? "The MW is what each position asks to connect, not a load." : "The MW is nameplate capacity, summed over the units of the status."}
                   </Tip>
-                </h3>
+                </h2>
                 <div className="grid grid-cols-2 gap-x-5 gap-y-4 sm:grid-cols-3 xl:grid-cols-4">
                   {tiles.map(({ s, t }) => (
                     <Tile key={s.slug} label={s.name} value={<span data-map-total={s.slug} data-source={srcOf(f, s.kind)}>{t.withMw ? whole(t.mw) : "not stated"}</span>} unit={t.withMw ? "MW" : undefined}

@@ -79,7 +79,7 @@ export function PowerSide({ read }: { read: Read }) {
                   </span>,
                   gridName(gridOf(r)),
                   [r.extra?.county, r.extra?.state].filter(Boolean).join(", ") || "not stated",
-                  <span key="q">{r.extra?.queue_id ?? r.entity_id}: {r.extra?.iso_status ?? r.status ?? "status not stated"}{r.source_url ? <> (<a href={r.source_url} className="underline" rel="noopener">report</a>, read {day(r.vintage ?? undefined)})</> : null}</span>,
+                  <span key="q">{r.extra?.queue_id ?? r.entity_id}: {r.extra?.iso_status ?? r.status ?? "status not stated"}{r.source_url ? <> (<a href={r.source_url} className="underline" rel="noopener">{gridName(gridOf(r))}&apos;s queue report</a>, read {day(r.vintage ?? undefined)})</> : null}</span>,
                   r.capacity_mw === null ? "not stated" : (
                     <span key="mw" title={`${Number(r.capacity_mw).toLocaleString("en-US")} MW the position asks to connect, not the site's load. Read from ${r.table_name} (${r.extra?.queue_id ?? r.entity_id}), the queue report read ${day(r.vintage ?? undefined)}.`} data-power-mw={r.entity_id}>
                       <Num check={`entity|${r.table_name}|${r.entity_id}|capacity_mw`} raw={Number(r.capacity_mw)}>{Number(r.capacity_mw).toLocaleString("en-US")}</Num>
