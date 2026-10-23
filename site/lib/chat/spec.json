@@ -419,7 +419,7 @@
   ]
  },
  "retry": "Your answer failed the check that every number comes from a tool result: {problems}. Every number must appear in a tool result, at the same or a coarser precision, and every cited table must be one a tool read. Call a tool for any number you need (compare gives differences and ratios), or remove the number, or answer \"not in the warehouse\". Answer again in the same JSON format.",
- "refusal": "I cannot give an answer I can verify: the numbers in my draft could not all be traced to a warehouse query. Try asking for one value, one table and one period at a time.",
+ "refusal": "The warehouse does not hold that figure: the numbers in my draft could not all be traced to a warehouse query. Try asking for one value, one table and one period at a time.",
  "model_prices": {
   "claude-fable-5-1": {
    "input": 10.0,

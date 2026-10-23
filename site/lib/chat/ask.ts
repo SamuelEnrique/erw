@@ -130,6 +130,7 @@ export function numbers(text: string): [number, number][] {
     let sign = m[1];
     const whole = m[2], frac = m[3] ?? "";
     const at = m.index ?? 0;
+    if (isName(t, at + sign.length)) continue;
     if (sign) {
       const before = at > 0 ? t[at - 1] : " ";
       if (!(/\s/.test(before) || "([:,=".includes(before) || at === 0)) sign = "";
@@ -137,6 +138,11 @@ export function numbers(text: string): [number, number][] {
     out.push([parseFloat(sign + whole.replace(/,/g, "") + frac), frac ? frac.length - 1 : 0]);
   }
   return out;
+}
+
+/** Session 1110, as ask.py is_name: digits after a letter and a hyphen are a name, not a figure (EIA-930, EIA-860M). */
+export function isName(text: string, at: number): boolean {
+  return at >= 2 && text[at - 1] === "-" && /[A-Za-z]/.test(text[at - 2]);
 }
 
 function listMarkers(text: string): Set<number> {
@@ -152,6 +158,65 @@ export function unverified(answer: string, sources: string[]): string[] {
     const tol = 0.5 * 10 ** -d + 1e-9;
     if (!pool.some((p) => Math.abs(Math.abs(p) - Math.abs(v)) <= tol)) {
       const s = v.toFixed(d);
+      if (!bad.includes(s)) bad.push(s);
+    }
+  }
+  return bad;
+}
+
+// Session 1110, as ask.py unit_mismatches: a figure stated in a money unit (USD per MWh, per MW, per kW, per kWh) must be
+// one a tool returned in that unit. A tool number takes its unit from its own key (..._usd_per_mw, value_usd_per_kw),
+// else from the nearest unit or single units above it; a number no result places in a unit is not judged. A draft is
+// sent back only when every returned number it matches is in another unit.
+const UNIT_AFTER = /^\s*(USD|US dollars|dollars)?\s*(?:\/|per\s+)(kWh|kW|MWh|MW)(?![\w-])/i;
+const MONEY_BEFORE = /(?:\$|USD\s)\s*$/;  // "$81.40/kW", "USD 81.40 per kW": the money is written before the figure
+const UNIT_NAMES: Record<string, string> = { kwh: "kWh", kw: "kW", mwh: "MWh", mw: "MW" };
+export function normUnit(u: unknown): string | null {
+  if (typeof u !== "string") return null;
+  const t = u.trim().toLowerCase().replace(/ per /g, "/").replace(/ /g, "").replace(/\$/g, "usd");
+  const m = /^usd\/(kwh|kw|mwh|mw)$/.exec(t);
+  return m ? `USD/${UNIT_NAMES[m[1]]}` : `other:${t}`;
+}
+const keyUnit = (key: string | null): string | null => {
+  const m = /_usd_per_(kwh|kw|mwh|mw)$/i.exec(key ?? "");
+  return m ? `USD/${UNIT_NAMES[m[1].toLowerCase()]}` : null;
+};
+export function placedNumbers(sources: string[]): [number, string | null][] {
+  const out: [number, string | null][] = [];
+  const walk = (x: unknown, unit: string | null, key: string | null) => {
+    if (x === null || x === undefined || typeof x === "boolean") return;
+    if (typeof x === "number") { out.push([x, keyUnit(key) ?? unit]); return; }
+    if (Array.isArray(x)) { for (const v of x) walk(v, unit, key); return; }
+    if (typeof x === "object") {
+      const o = x as Record<string, unknown>;
+      let own: string | null = null;
+      if (typeof o.unit === "string") own = normUnit(o.unit);
+      else if (Array.isArray(o.units) && o.units.length) own = o.units.length === 1 ? normUnit(o.units[0]) : "mixed";
+      for (const [k, v] of Object.entries(o)) walk(v, own ?? unit, k);
+    }
+  };
+  for (const s of sources) {
+    try { walk(JSON.parse(s), null, null); } catch { /* not JSON: its numbers are placed in no unit */ }
+  }
+  return out;
+}
+export function unitMismatches(answer: string, sources: string[]): string[] {
+  const t = answer.replace(/−/g, "-");
+  const placed = placedNumbers(sources);
+  const bad: string[] = [];
+  for (const m of t.matchAll(NUM)) {
+    const at = (m.index ?? 0) + m[1].length;
+    if (isName(t, at)) continue;
+    const u = UNIT_AFTER.exec(t.slice((m.index ?? 0) + m[0].length, (m.index ?? 0) + m[0].length + 40));
+    if (!u || !(u[1] || MONEY_BEFORE.test(t.slice(Math.max(0, (m.index ?? 0) - 5), m.index ?? 0)))) continue;  // MWh per MW, USD per MW-month: not judged here
+    const frac = m[3] ?? "";
+    const v = parseFloat(m[2].replace(/,/g, "") + frac), d = frac ? frac.length - 1 : 0;
+    const said = `USD/${UNIT_NAMES[u[2].toLowerCase()]}`;
+    const tol = 0.5 * 10 ** -d + 1e-9;
+    const hits = placed.filter(([p]) => Math.abs(Math.abs(p) - Math.abs(v)) <= tol).map(([, unit]) => unit);
+    if (hits.length && hits.every((h) => h !== null && h !== "mixed") && !hits.includes(said)) {
+      const gave = Array.from(new Set(hits.map((h) => h!.replace("other:", "")))).sort().join(", ");
+      const s = `${v.toFixed(d)} ${said} (the tools gave it in ${gave})`;
       if (!bad.includes(s)) bad.push(s);
     }
   }
@@ -311,16 +376,17 @@ export async function ask(question: string, today = new Date().toISOString().sli
   const check = (draft: Draft) => {
     const tCheck = Date.now();
     const bad = unverified(draft.answer, sources);
+    const units = unitMismatches(draft.answer, sources);  // session 1110
     const uncited = draft.citations.map((c) => c.table).filter((t) => !tablesRead.has(t));
     // session 35, as ask.py: an empty or uncited answer is sent back; "not in the warehouse" needs no citation
     const noCite = !draft.not_in_warehouse && (!draft.citations.length || !draft.answer.trim());
     const more = profile ? profile.extraProblems(draft, records, given) : [];
     clock.add("writing", "check", Date.now() - tCheck);
-    const ok = !bad.length && !uncited.length && !noCite && !more.length;
-    return { ok, bad, uncited, noCite, more };
+    const ok = !bad.length && !units.length && !uncited.length && !noCite && !more.length;
+    return { ok, bad, units, uncited, noCite, more };
   };
   // session 137: what a draft is sent back for goes to the server's log, never to the reader
-  const logCheck = (c: ReturnType<typeof check>, where: string) => console.log(JSON.stringify({ erw_ask_check: { question_id: opts.questionId ?? null, attempt: attempts + 1, where, untraced_numbers: c.bad.slice(0, 12), uncited_tables: c.uncited.slice(0, 6), no_citation: c.noCite, problems: c.more.slice(0, 6) } }));
+  const logCheck = (c: ReturnType<typeof check>, where: string) => console.log(JSON.stringify({ erw_ask_check: { question_id: opts.questionId ?? null, attempt: attempts + 1, where, untraced_numbers: c.bad.slice(0, 12), unit_mismatches: c.units.slice(0, 6), uncited_tables: c.uncited.slice(0, 6), no_citation: c.noCite, problems: c.more.slice(0, 6) } }));
   const accept = (draft: Draft) => {
     // no em dashes in ERW copy (CLAUDE.md): model text is normalised, as in ask.py
     const answer = plain(nodash(draft.answer));
@@ -341,7 +407,7 @@ export async function ask(question: string, today = new Date().toISOString().sli
     const c = check(draft);
     if (c.ok) return { c, answer: accept(draft) };
     logCheck(c, where);
-    if (!c.bad.length && !c.uncited.length && !c.noCite && profile?.mend && profile.tailOnly?.(c.more)) return { c, answer: accept(profile.mend(draft, records)) };
+    if (!c.bad.length && !c.units.length && !c.uncited.length && !c.noCite && profile?.mend && profile.tailOnly?.(c.more)) return { c, answer: accept(profile.mend(draft, records)) };
     return { c, answer: null };
   };
 
@@ -401,6 +467,7 @@ export async function ask(question: string, today = new Date().toISOString().sli
       retried = true;
       const problems: string[] = [];
       if (s.c.bad.length) problems.push(`numbers in no tool result: ${s.c.bad.join(", ")}`);
+      if (s.c.units.length) problems.push(`numbers stated in a unit no tool result gives them in: ${s.c.units.join(", ")}`);
       if (s.c.uncited.length) problems.push(`cited tables no tool read: ${s.c.uncited.join(", ")}`);
       if (s.c.noCite) problems.push("an empty answer, or no citations");
       problems.push(...s.c.more);
@@ -515,6 +582,7 @@ export async function ask(question: string, today = new Date().toISOString().sli
       retried = true;
       const problems: string[] = [];
       if (c.bad.length) problems.push(`numbers in no tool result: ${c.bad.join(", ")}`);
+      if (c.units.length) problems.push(`numbers stated in a unit no tool result gives them in: ${c.units.join(", ")}`);
       if (c.uncited.length) problems.push(`cited tables no tool read: ${c.uncited.join(", ")}`);
       if (c.noCite) problems.push("an empty answer, or no citations");
       problems.push(...c.more);

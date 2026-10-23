@@ -49,7 +49,8 @@ MAX_TOKENS = 16000
 EFFORT = "high"
 # USD per million tokens (input, output), from the claude-api skill model table, cached 2026-06-24
 PRICES = {m: (p["input"], p["output"]) for m, p in llm.prices()["models"].items()}  # session 30: warehouse/config/model_prices.yaml
-REFUSAL = ("I cannot give an answer I can verify: the numbers in my draft could not all be traced "
+# session 1110: the refusal begins with the words the chain of 23 October names
+REFUSAL = ("The warehouse does not hold that figure: the numbers in my draft could not all be traced "
            "to a warehouse query. Try asking for one value, one table and one period at a time.")
 
 BRIEFING = open(os.path.join(ROOT, "package", "llms.txt"), encoding="utf-8").read().strip()
@@ -113,12 +114,20 @@ def numbers(text):
     out = []
     for m in NUM.finditer(text):
         sign, whole, frac = m.group(1), m.group(2), m.group(3) or ""
+        if is_name(text, m.start(2)):
+            continue
         if sign:
             before = text[m.start() - 1] if m.start() > 0 else " "
             if not (before.isspace() or before in "([:,=" or m.start() == 0):
                 sign = ""
         out.append((float(sign + whole.replace(",", "") + frac), len(frac) - 1 if frac else 0))
     return out
+
+
+def is_name(text, at):
+    """Session 1110: digits after a letter and a hyphen are a name, not a figure (EIA-930, EIA-860M, COVID-19).
+    Session 320's run sent four right first drafts back for an untraced 930, the form EIA-930."""
+    return at >= 2 and text[at - 1] == "-" and text[at - 2].isalpha()
 
 
 def list_markers(text):
@@ -140,6 +149,83 @@ def unverified(answer, sources):
         # the magnitude must match: a sign may be stated in words ("fell by 3.2" for a result of -3.2)
         if not any(abs(abs(p) - abs(v)) <= tol for p in pool):
             s = f"{v:.{d}f}"
+            if s not in bad:
+                bad.append(s)
+    return bad
+
+
+# Session 1110: a figure stated in a money unit (USD per MWh, per MW, per kW, per kWh) must be one a tool returned in
+# that unit. A tool result's number takes its unit from its own key (..._usd_per_mw, value_usd_per_kw), else from the
+# nearest unit or single units above it; a number no result places in a unit is not judged (the question's text, a
+# count). A draft is sent back only when every returned number it matches is in another unit: 81,402.19 written as
+# USD per kW when the tool gave it in USD/MW.
+UNIT_AFTER = re.compile(r"^\s*(USD|US dollars|dollars)?\s*(?:/|per\s+)(kWh|kW|MWh|MW)(?![\w-])", re.I)
+MONEY_BEFORE = re.compile(r"(?:\$|USD\s)\s*$")   # "$81.40/kW", "USD 81.40 per kW": the money is written before the figure
+UNIT_NAMES = {"kwh": "kWh", "kw": "kW", "mwh": "MWh", "mw": "MW"}
+
+
+def norm_unit(u):
+    """USD/kW, USD/MW, USD/MWh or USD/kWh for a money unit however written; other:<it> for any other unit."""
+    if not isinstance(u, str):
+        return None
+    t = u.strip().lower().replace(" per ", "/").replace(" ", "").replace("$", "usd")
+    m = re.fullmatch(r"usd/(kwh|kw|mwh|mw)", t)
+    return f"USD/{UNIT_NAMES[m.group(1)]}" if m else f"other:{t}"
+
+
+def key_unit(key):
+    m = re.search(r"_usd_per_(kwh|kw|mwh|mw)$", key or "", re.I)
+    return f"USD/{UNIT_NAMES[m.group(1).lower()]}" if m else None
+
+
+def placed_numbers(sources):
+    """(value, unit or None, or "mixed") for every number of every source that parses as JSON."""
+    out = []
+
+    def walk(x, unit, key):
+        if isinstance(x, bool) or x is None:
+            return
+        if isinstance(x, (int, float)):
+            out.append((float(x), key_unit(key) or unit))
+        elif isinstance(x, dict):
+            own = None
+            if isinstance(x.get("unit"), str):
+                own = norm_unit(x["unit"])
+            elif isinstance(x.get("units"), list) and x["units"]:
+                own = norm_unit(x["units"][0]) if len(x["units"]) == 1 else "mixed"
+            for k, v in x.items():
+                walk(v, own or unit, k)
+        elif isinstance(x, list):
+            for v in x:
+                walk(v, unit, key)
+
+    for s in sources:
+        try:
+            walk(json.loads(s), None, None)
+        except (ValueError, TypeError):
+            continue
+    return out
+
+
+def unit_mismatches(answer, sources):
+    """Figures stated in a money unit that every matching tool number gives in another unit."""
+    text = answer.replace("−", "-")
+    placed = placed_numbers(sources)
+    bad = []
+    for m in NUM.finditer(text):
+        if is_name(text, m.start(2)):
+            continue
+        u = UNIT_AFTER.match(text[m.end():m.end() + 40])
+        if not u or not (u.group(1) or MONEY_BEFORE.search(text[max(0, m.start() - 5):m.start()])):
+            continue   # a unit with no money in it (MWh per MW, USD per MW-month) is not judged here
+        whole, frac = m.group(2), m.group(3) or ""
+        v, d = float(whole.replace(",", "") + frac), (len(frac) - 1 if frac else 0)
+        said = f"USD/{UNIT_NAMES[u.group(2).lower()]}"
+        tol = 0.5 * 10 ** (-d) + 1e-9
+        hits = [unit for p, unit in placed if abs(abs(p) - abs(v)) <= tol]
+        if hits and all(h not in (None, "mixed") for h in hits) and said not in hits:
+            gave = ", ".join(sorted({h.replace("other:", "") for h in hits}))
+            s = f"{v:.{d}f} {said} (the tools gave it in {gave})"
             if s not in bad:
                 bad.append(s)
     return bad
@@ -308,25 +394,28 @@ class Asker:
             except json.JSONDecodeError:
                 raise RuntimeError(f"final message is not JSON: {text[:200]}")
             bad = unverified(draft["answer"], sources)
+            units = unit_mismatches(draft["answer"], sources)   # session 1110
             cited = [c["table"] for c in draft.get("citations", [])]
             uncited_tables = [t for t in cited if t not in tables_read]
             # session 35: an answer that is empty, or cites nothing, is not an answer (the grid check's CAISO question
             # came back empty and uncited after eight tool calls, and passed); "not in the warehouse" needs no citation
             no_cite = not draft.get("not_in_warehouse") and (not cited or not draft["answer"].strip())
             more = self.extra_problems(draft, results)
-            if not bad and not uncited_tables and not no_cite and not more:
+            if not bad and not units and not uncited_tables and not no_cite and not more:
                 final = draft
                 record["status"] = "not_in_warehouse" if draft.get("not_in_warehouse") else "answered"
                 break
             attempts += 1
             if attempts == 1:
                 record["retried"] = True
-                record["first_violations"] = bad + [f"cited table not read: {t}" for t in uncited_tables] \
+                record["first_violations"] = bad + [f"unit: {u}" for u in units] + [f"cited table not read: {t}" for t in uncited_tables] \
                     + (["empty or uncited answer"] if no_cite else []) + more
                 record["first_answer"] = draft["answer"]
                 problems = []
                 if bad:
                     problems.append("numbers in no tool result: " + ", ".join(bad))
+                if units:
+                    problems.append("numbers stated in a unit no tool result gives them in: " + ", ".join(units))
                 if uncited_tables:
                     problems.append("cited tables no tool read: " + ", ".join(uncited_tables))
                 if no_cite:
@@ -336,7 +425,7 @@ class Asker:
                 continue
             final = {"answer": REFUSAL, "citations": [], "not_in_warehouse": False}
             record["status"] = "refused_unverified"
-            record["second_violations"] = bad + [f"cited table not read: {t}" for t in uncited_tables] + more
+            record["second_violations"] = bad + [f"unit: {u}" for u in units] + [f"cited table not read: {t}" for t in uncited_tables] + more
             record["second_answer"] = draft["answer"]
             break
         # session 28: each citation's tier is the warehouse's, whatever the model copied
