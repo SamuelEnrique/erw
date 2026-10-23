@@ -314,6 +314,8 @@ catalogue_hold:
   - ercot_cdr_reserve_margins
   - ercot_transmission_projects
   - eia861_delivery_only
+  - interconnection_agreements_signed
+  - interconnection_agreements_by_grid
   - eia_crude_imports_detail_monthly
   - eia_padd_rail_barge_movements_monthly
   - eia_gas_trade_country_monthly

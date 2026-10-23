@@ -96,6 +96,7 @@ TIER_RULES = [
     ("derived", r"^grid_stress_days$"),  # session 306: ERW code over the hub prices and CAISO's notices
     ("derived", r"^eia_annual_crosscheck_ba$"),  # session 323: ERW code over EIA-923's sums and EIA-930's hours
     ("derived", r"^interconnection_durations$"),  # session 671: ERW code over the Queued Up file (an entities table)
+    ("derived", r"^interconnection_agreements_signed$"),  # session 854: the same, the requests with a signed agreement
     # session 345: NLR's JEDI workbooks' own formulas, evaluated by ERW code for each state the model lists, per MW
     ("derived", r"^nlr_jedi_multipliers$"),
     ("derived", r"^ercot_node_prices_hourly$"),  # session 358: ERCOT's saved price files reshaped by ERW code, internal by the owner's rule
@@ -131,6 +132,7 @@ SECTOR_RULES = [
     (r"^ferc714_area_demand_\d{4}$", "power"),  # session 484: FERC Form 714 hourly demand by planning area (PUDL)
     (r"^eia861_utility_sales$", "power"),  # session 485: EIA-861 retail sales, revenue and customers by utility
     (r"^utility_service_territories$", "power"),  # session 667: EIA-861 service territories, utility by county
+    (r"^interconnection_agreements_(signed|by_grid)$", "power"),  # session 854: signed agreements, not yet operating (Queued Up)
     (r"^interconnection_durations(_summary)?$", "power"),  # session 671: request to operation, completed projects (Queued Up)
     (r"^grid_peak_vs_capacity$", "power;capacity"),  # session 672: each grid's peak against its generators' capacity
     (r"^egrid_power_plants$", "power;carbon"),  # session 486: EPA eGRID, every plant's generation and emissions

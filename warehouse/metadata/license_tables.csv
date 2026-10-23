@@ -217,6 +217,8 @@ grid_stress_yearly,CAISO; EIA,"the source registry and the tables its header der
 hub_price_comparison,CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: carbon_intensity_daily, ercot_all_hub_prices_history, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices, isone_dam_zone_prices, isone_rtm_zone_prices, isone_rtm_zone_prices_hourly, nyiso_dam_zone_prices, nyiso_rtm_zone_prices"
 imf_commodity_prices,IMF,the source registry
 impact_tax_rules,Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department; Texas Comptroller of Public Accounts,the source registry
+interconnection_agreements_by_grid,Berkeley Lab,the source registry and the tables its header derives it from: lbnl_interconnection_queue
+interconnection_agreements_signed,Berkeley Lab,the source registry and the tables its header derives it from: lbnl_interconnection_queue
 interconnection_durations,Berkeley Lab,the source registry and the tables its header derives it from: lbnl_interconnection_queue
 interconnection_durations_summary,Berkeley Lab,the source registry and the tables its header derives it from: lbnl_interconnection_queue
 interconnection_queue_summary,Berkeley Lab,the source registry and the tables its header derives it from: lbnl_interconnection_queue
