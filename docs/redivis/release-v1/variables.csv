@@ -3303,6 +3303,10 @@ energy_companies,confidence_note,column,
 energy_companies,first_seen,column,
 epa_ghgrp_power_co2,co2_biogenic,series variable,tCO2
 epa_ghgrp_power_co2,co2_non_biogenic,series variable,tCO2
+epa_rfs_fuel_annual,batch_volume,series variable,gal
+epa_rfs_fuel_annual,rins_generated,series variable,count
+epa_rfs_rins_monthly,batch_volume,series variable,gal
+epa_rfs_rins_monthly,rins_generated,series variable,count
 ercot_4cp_intervals,cp4_load_mw,series variable,MW
 ercot_all_hub_prices_history,spp_dam,series variable,USD/MWh
 ercot_all_hub_prices_history,spp_rtm,series variable,USD/MWh
