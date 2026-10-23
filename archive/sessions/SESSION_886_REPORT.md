@@ -9,7 +9,7 @@
 - **The cross-checks:**
   - imports less exports equal net imports in 45 of 45 years for each country, and nuclear, fossil fuels and renewables sum to the total within 2 percent in every year;
   - the U.S.'s generation here against `eia_state_generation_monthly`'s states summed with their small-scale solar: 4,092.9 TWh against 4,092.8 in 2015, 4,256.7 against 4,274.2 in 2023, 4,392.6 against 4,408.9 in 2024 (within 0.4 percent; EIA's two products are revised at different times);
-  - Canada's exports against the U.S.'s imports, two countries' reports of one flow: 43.6 and 45.1 TWh in 2010, 68.3 and 75.8 in 2015, 49.3 and 38.9 in 2023, 35.6 and 33.3 in 2024. Canada's exports fell by half from 2015 as its hydro droughts cut its surplus.
+  - Canada's exports against the U.S.'s imports, two countries' reports of one flow: 43.6 and 45.1 TWh in 2010, 68.3 and 75.8 in 2015, 49.3 and 38.9 in 2023, 35.6 and 33.3 in 2024. Canada's exports in 2024 were about half of 2015's.
 - **Not taken:** EIA's copies of the same energy in quadrillion Btu, terajoules and tonnes of oil equivalent. A value EIA marks has no row; where EIA flags a value that rounds to zero, its flag is kept in `x_data_flag` (313 rows).
 
 ## Decisions made without you
