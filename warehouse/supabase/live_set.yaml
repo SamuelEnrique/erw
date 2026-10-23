@@ -336,6 +336,7 @@ catalogue_hold:
   - onrr_revenue_monthly
   - lbnl_wind_costs
   - lbnl_wind_turbine_orders
+  - eia_primary_energy_monthly
   - lbnl_hybrid_ppa_prices
   - lbnl_solar_projects
   - ornl_npd_potential

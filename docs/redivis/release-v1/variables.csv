@@ -3000,6 +3000,13 @@ eia_power_fuel_stocks_monthly,stocks,series variable,short_ton
 eia_power_plant_fuel_costs,cost_per_mcf,series variable,USD/Mcf
 eia_power_plant_fuel_costs,cost_per_mmbtu,series variable,USD/MMBtu
 eia_power_plant_fuel_costs,cost_per_short_ton,series variable,USD/short_ton
+eia_primary_energy_monthly,consumption,series variable,TBtu
+eia_primary_energy_monthly,consumption_production,series variable,TBtu
+eia_primary_energy_monthly,exports,series variable,TBtu
+eia_primary_energy_monthly,imports,series variable,TBtu
+eia_primary_energy_monthly,net_imports,series variable,TBtu
+eia_primary_energy_monthly,production,series variable,TBtu
+eia_primary_energy_monthly,stock_change_and_other,series variable,TBtu
 eia_product_spot_prices,spot_price,series variable,USD/gal
 eia_product_supplied_monthly,product_supplied,series variable,kbbl
 eia_product_supplied_monthly,product_supplied_per_day,series variable,kbbl/d
