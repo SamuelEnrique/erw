@@ -1,0 +1,198 @@
+{
+  "package": "python",
+  "passed": 20,
+  "of": 20,
+  "results": [
+    {
+      "n": 1,
+      "call": "fetch",
+      "pass": true,
+      "got": {
+        "rows": 247,
+        "first": "2025-01-02T00:00:00Z",
+        "last": "2025-12-31T00:00:00Z"
+      }
+    },
+    {
+      "n": 2,
+      "call": "fetch",
+      "pass": true,
+      "got": {
+        "rows": 44,
+        "first": "2026-09-01T00:00:00Z",
+        "last": "2026-09-30T00:00:00Z"
+      }
+    },
+    {
+      "n": 3,
+      "call": "fetch",
+      "pass": true,
+      "got": {
+        "rows": 71,
+        "first": "2018-08-01T00:00:00Z",
+        "last": "2026-09-01T00:00:00Z"
+      }
+    },
+    {
+      "n": 4,
+      "call": "fetch",
+      "pass": true,
+      "got": {
+        "rows": 308,
+        "first": "2015-01-01T00:00:00Z",
+        "last": "2025-01-01T00:00:00Z"
+      }
+    },
+    {
+      "n": 5,
+      "call": "fetch",
+      "pass": true,
+      "got": {
+        "rows": 40,
+        "first": "2022-09-01T00:00:00Z",
+        "last": "2022-09-09T00:00:00Z"
+      }
+    },
+    {
+      "n": 6,
+      "call": "fetch",
+      "pass": true,
+      "got": {
+        "rows": 249,
+        "first": "2025-01-01T00:00:00Z",
+        "last": "2026-08-01T00:00:00Z"
+      }
+    },
+    {
+      "n": 7,
+      "call": "fetch",
+      "pass": true,
+      "got": {
+        "rows": 24,
+        "first": "2026-10-18T00:00:00Z",
+        "last": "2026-10-18T23:00:00Z"
+      }
+    },
+    {
+      "n": 8,
+      "call": "fetch",
+      "pass": true,
+      "got": {
+        "rows": 98,
+        "first": "2025-01-01T00:00:00Z",
+        "last": "2025-12-01T00:00:00Z"
+      }
+    },
+    {
+      "n": 9,
+      "call": "fetch",
+      "pass": true,
+      "got": {
+        "rows": 312,
+        "first": "2025-01-01T00:00:00Z",
+        "last": "2025-12-01T00:00:00Z"
+      }
+    },
+    {
+      "n": 10,
+      "call": "fetch",
+      "pass": true,
+      "got": {
+        "rows": 14,
+        "first": "2026-10-01T00:00:00Z",
+        "last": "2026-10-07T00:00:00Z"
+      }
+    },
+    {
+      "n": 11,
+      "call": "cite",
+      "pass": true,
+      "got": {
+        "before_clause": "U.S. Energy Information Administration (EIA). Natural Gas Spot and Futures Prices (NYMEX), daily; Spot Prices for Crude Oil and Petroleum Products. Via the Energy Research Warehouse (ERW), table `eia_fuel_spot_prices`,"
+      }
+    },
+    {
+      "n": 12,
+      "call": "cite",
+      "pass": true,
+      "got": {
+        "before_clause": "Energy Research Warehouse (ERW), derived. California's carbon intensity of generation from the join of 16 December 2025 (docs/methods/eia930_caiso_break.md); Carbon intensity per balancing authority (docs/methods/emissions.md). Via the Energy Research Warehouse (ERW), table `carbon_intensity_monthly`,"
+      }
+    },
+    {
+      "n": 13,
+      "call": "cite",
+      "pass": true,
+      "got": {
+        "before_clause": "U.S. Energy Information Administration (EIA). Form EIA-860M, Monthly Update to the Annual Electric Generator Report. Via the Energy Research Warehouse (ERW), table `eia860m_retired_generators`,"
+      }
+    },
+    {
+      "n": 14,
+      "call": "cite",
+      "pass": true,
+      "got": {
+        "before_clause": "California Independent System Operator (CAISO). Grid Emergencies History Report (1998 to present). Via the Energy Research Warehouse (ERW), table `caiso_grid_emergencies`,"
+      }
+    },
+    {
+      "n": 15,
+      "call": "license",
+      "pass": true,
+      "got": {
+        "verdict": "public",
+        "words": "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+      }
+    },
+    {
+      "n": 16,
+      "call": "license",
+      "pass": true,
+      "got": {
+        "verdict": "unsettled",
+        "words": "MISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21)."
+      }
+    },
+    {
+      "n": 17,
+      "call": "license",
+      "pass": true,
+      "got": {
+        "verdict": "internal",
+        "words": "The ERW holds it for its own use only (needs a paid license); it is never redistributed."
+      }
+    },
+    {
+      "n": 18,
+      "call": "refusal",
+      "pass": true,
+      "got": {
+        "message": "iso_rtm_hub_prices is not public: unsettled. MISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21). The ERW's license record: https://github.com/SamuelEnrique/erw/blob/main/docs/licenses.md"
+      }
+    },
+    {
+      "n": 19,
+      "call": "standard",
+      "pass": true,
+      "got": {
+        "shape": "entities",
+        "key": [
+          "entity_id"
+        ]
+      }
+    },
+    {
+      "n": 20,
+      "call": "tables",
+      "pass": true,
+      "got": {
+        "tables": 299,
+        "public": 195
+      }
+    }
+  ],
+  "requests": {
+    "redivis": 0,
+    "live": 21
+  }
+}

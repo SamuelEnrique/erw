@@ -128,6 +128,21 @@ What `package/src/erw/` did on 23 October 2026 before session 1001, call by call
 - Five tables through the three backends (`package/tests/test_backends_three.py`): every row both backends hold agrees before the table's newest 92 days; inside them, the rows a publisher revises differ (18 of `carbon_intensity_monthly`'s, its newest two months; 114 of `ercot_peak_premium_annual`'s, the current year's rows, recomputed each day). The counts: `package/tests/three_backends.json`.
 - Not done here: the distribution name `erw-energy` (session 1002).
 
+## The conformance file (session 1006)
+
+`packages/conformance/conformance.json` holds twenty calls and the answers the Python package gave on 23 October 2026 (the fetches, the refusal and the standard on the live set; the citations, the licenses and the table list from the record). Each package's runner makes the same calls: `run_python.py`, `run_stata.do` and `run_r.R`, the last two written from the file by `write_runners.py`. Where the packages say something another way (the clause naming where the rows came from; the fetch time's clock), a runner compares what this note fixes: the words before the clause, the refusal's words (Python, R) or its code, 498 (Stata).
+
+| Calls | Python | Stata | R |
+|---|---|---|---|
+| 10 fetches (rows, first and last time) | 10 of 10 | not run (no Stata here); the ten addresses equal Python's (`check_ado.py`) | not run (no R here); the ten addresses equal Python's (`check_r.py`) |
+| 4 citations (the words before the clause) | 4 of 4 | not run | not run |
+| 3 licenses (verdict and words) | 3 of 3 | not run | not run |
+| 1 refusal of a held table | 1 of 1 | not run | not run |
+| 1 standard (shape and key) | 1 of 1 | not run | not run |
+| the table list of the record | 1 of 1 | not run | not run |
+
+The fetch of `eia930_all_demand` for 18 October 2026 is in the live set's 35 days until about 22 November 2026; after that the live set no longer holds it, and the file is made again (`python packages/conformance/make.py`, then `write_runners.py`).
+
 ## Decisions (each dated, and reversible unless said)
 
 1. 2026-10-23, session 1000: six calls, the same names in the three packages (R with an `erw_` prefix, Stata as subcommands). `list_tables`, `filter`, `sources`, `info` and `version` stay in Python as they are.
