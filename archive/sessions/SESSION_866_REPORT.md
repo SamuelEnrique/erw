@@ -21,3 +21,7 @@
 - New: `docs/state/note_2026-10-26_data.md`, this report. Changed (on main): `queue/next/047-night-23-october-data-utilities-plants.md`.
 
 ## Addendum: the landing
+
+- `wip/850-866-data` merged with origin/main; the whole suite in the branch's worktree with `GITHUB_ACTIONS=true`: 6,017 tests, 2 failures, 317 skipped (579 s). One was this chain's: session 859's reads 92 and 93 used the names of publishers already in the record, which keeps one row a publisher (`test_session205`); they were labelled apart, the license record regenerated, and that test passes. The other is the code machine's `test_session705`, which fails only from a worktree (it passes in the main checkout and skips on GitHub).
+- `task/850-866-data` (head `dd5e90ac`) pushed at 02:46 UTC after the before snapshot `c046-land-before`; the code-branch run 39891415730 completed with success and merged it at about 03:00 UTC: main `9d3acd7c`.
+- Vercel rate-limited the merge's deployment ("retry in 24 hours"), so the site did not change; the after snapshot `c046-land-after` (03:01 UTC) against the before: **0 differences in 25 pages** (expected: no table a page reads changed).
