@@ -5,6 +5,7 @@ import "server-only";
 import { HOURLY, rest } from "@/lib/supabase";
 import { DOCS, type GridConfig } from "@/lib/markdown";
 import { daysAgo, series, storageUnits, type SeriesRow, type StorageUnit } from "@/lib/data";
+import { shownQueue } from "@/lib/gridHeld";  // session 1167
 
 export const GRIDS: GridConfig[] = DOCS.grid_config;
 export const gridOf = (slug: string) => GRIDS.find((g) => g.slug === slug) ?? null;
@@ -32,13 +33,15 @@ export type NewsRow = { event_id: string; event_date: string; source: string; so
 
 /** The grid's queue positions in energy_projects (the live set leaves out withdrawn ones). */
 async function queue(table: string): Promise<QueueRow[]> {
-  return rest<QueueRow>("entities", {
+  // session 1167: a held grid's positions are left out here (lib/gridHeld.ts): the read names its rows by entity_id,
+  // which the live set's hold by `entity` (lib/supabase.ts) does not see, so ISO-NE's rows reached the page
+  return shownQueue(await rest<QueueRow>("entities", {
     select: "entity_id,capacity_mw,status,tech:extra->>technology_group",
     table_name: "eq.energy_projects",
     // the queue rows' ids share a prefix (ercot_queue:...), which the primary key serves; a filter on extra timed out
     entity_id: `like.${table.replace(/_interconnection_queue$/, "_queue")}:*`,
     order: "entity_id",
-  }, HOURLY);
+  }, HOURLY));
 }
 
 /** Scored news of the last `days` days (news_index), newest first. */

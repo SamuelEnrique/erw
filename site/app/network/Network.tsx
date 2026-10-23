@@ -30,6 +30,8 @@ import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore
 import { Num } from "@/components/Num";
 import { shown } from "@/lib/format";
 import { HEADLINE, MEASURES, SPREAD, type Measure, type Supply } from "@/lib/basupply";
+import { HUB_PRICE_TABLE, heldHubPrice } from "@/lib/gridHeld";  // session 1167
+import { LICENSE_NEEDED } from "@/lib/license";  // session 1167
 import { clampDay, dayFrame, easternHours, parseShared, priceWeight, sharedQuery, trace as tracePower, type Daily, type DailyIndex, type ViewKey, PAUSED_PRICE, PAUSED_WORDS, monthSpan, type Complete } from "@/lib/networkV3";
 import { carryMoment, edgesAt, mapPanelOf, parseShape, regionSlug, withShape, type Shape } from "@/lib/networkMap";
 import { GRID_CHOICES, gridHref, netFromPage, netToPage } from "@/lib/gridtool";
@@ -97,6 +99,10 @@ type View = {
 
 /** Session 124 (v3 only): a hub price a new page does not show (MISO, paused) reads as not held; without v3 the price is the view's own. */
 const priceOf = (view: View, v3on: boolean, id: string, h: number) => (v3on && PAUSED_PRICE[id] ? null : view.price(id, h));
+// Session 1167: a grid held for a license (lib/gridHeld.ts, iso_hub_prices_history: ISO-NE, MISO, NYISO since 21 October
+// 2026) has no price drawn, ring or card, whatever the view: the replay's and the stories' files hold those grids'
+// prices, so each view's own price leaves them out (the live week's are refused by the read already, app/network/data.ts).
+const shownPrice = (id: string, p: number | null | undefined): number | null => (heldHubPrice(id) ? null : p ?? null);
 
 /** Session 237: the canvas takes its colors from the token file (app/tokens.css), read where the canvas stands, so a
  * page under the brand draws the brand's. A canvas cannot read a CSS variable itself, so readPalette puts the tokens'
@@ -141,7 +147,7 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
       return n.demand_ts === ts ? n.demand_mw : null;
     },
     battery: (id, h) => live.batteries[id]?.[h] ?? null, batteryReported: (id) => !!live.batteries[id], batterySource: (id) => live.batterySource[id] ?? "",
-    price: (id, h) => live.prices[id]?.[h] ?? null, priceKind: (id) => live.priceKind[id] ?? "",
+    price: (id, h) => shownPrice(id, live.prices[id]?.[h]), priceKind: (id) => live.priceKind[id] ?? "",
   }), [snap, live]);
   const [view, setView] = useState<View>(liveView);
   const [range, setRange] = useState<[number, number]>([0, snap.hours.length]);
@@ -369,7 +375,7 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
       intensity: (id, h) => s.intensity[id]?.[dayOf(s.hours[h])] ?? null,
       demand: (id, h) => s.demand[id]?.[h] ?? null,
       battery: (id, h) => s.batteries[id]?.[h] ?? null, batteryReported: (id) => !!s.batteries[id], batterySource: () => "EIA-930",
-      price: (id, h) => s.hub_prices[id]?.[h] ?? null, priceKind: () => "real time",
+      price: (id, h) => shownPrice(id, s.hub_prices[id]?.[h]), priceKind: () => "real time",
       note: `${s.missing.link_hours.toLocaleString("en-US")} pair-hours not reported by either side (left blank); ${s.missing.link_hours_from_other_side.toLocaleString("en-US")} read from the other side's report; ${s.missing.demand_hours.toLocaleString("en-US")} hours of demand not reported. Batteries reported for this period: ${s.missing.batteries_reported.length ? s.missing.batteries_reported.join(", ") : "none"}. Not drawn (no place in today's network): ${s.missing.left_out_bas.filter((b) => !EIA_REGIONS.has(b)).join(", ") || "none"}.`,
     };
     setView(v); setRange([0, s.hours.length]); setHour(0); setPick(snap.nodes.find((n) => n.id === s.focus) ?? null); focusOn(s.focus); setPlaying(play);
@@ -405,7 +411,7 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
       pairsHeld: f.pairs_held, pairsUsual: f.pairs_usual,
       intensity: (id, h) => f.intensity[id]?.[h] ?? null, demand: (id, h) => f.demand?.[id]?.[h] ?? null,   // session 109: EIA's daily demand, the day's average MW
       battery: () => null, batteryReported: () => false, batterySource: () => "",
-      price: (id, h) => f.hub_prices[id]?.[h] ?? null, priceKind: () => "real time, the mean of the day's hours",
+      price: (id, h) => shownPrice(id, f.hub_prices[id]?.[h]), priceKind: () => "real time, the mean of the day's hours",
       note: `Each day is EIA's Eastern day; a flow is the day's MWh over its hours, the day's average MW. ${f.missing.pair_days.toLocaleString("en-US")} pair-days of ${y} not reported by either side (left blank); ${f.missing.pair_days_screened.toLocaleString("en-US")} screened out as days no tie can carry (the monthly supply table's rule); ${f.missing.pair_days_from_other_side.toLocaleString("en-US")} read from the other side's report. Demand and batteries are not held by day. Not drawn (no place in today's network): ${v3.index.left_out_bas.join(", ") || "none"}.`,
     };
     const i = Math.max(0, f.days.indexOf(d));
@@ -591,7 +597,7 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
               </div>
               <div>
                 <dt className="text-xs text-muted">Hub price this {unit}</dt>
-                <dd>{v3 && PAUSED_PRICE[pick.id] ? <span data-price-paused={pick.id} title={PAUSED_PRICE[pick.id]} className="cursor-help border-b border-dotted border-muted italic text-muted">{PAUSED_WORDS}</span> : pick.id === "PJM" ? "Not shown: PJM's prices are licensed" : (() => { const p = priceOf(view, !!v3, pick.id, hour); return p !== null ? <>{p.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD/MWh <span className="text-xs text-muted">({view.priceKind(pick.id)})</span></> : (pick.iso ? `Not held for this ${unit}` : "No public hub price in the warehouse"); })()}
+                <dd>{v3 && PAUSED_PRICE[pick.id] ? <span data-price-paused={pick.id} title={PAUSED_PRICE[pick.id]} className="cursor-help border-b border-dotted border-muted italic text-muted">{PAUSED_WORDS}</span> : pick.id === "PJM" ? "Not shown: PJM's prices are licensed" : heldHubPrice(pick.id) ? <span data-license-held={HUB_PRICE_TABLE} data-price-held={pick.id} title={heldHubPrice(pick.id)!.why} className="cursor-help border-b border-dotted border-muted italic text-muted">{LICENSE_NEEDED}</span> : (() => { const p = priceOf(view, !!v3, pick.id, hour); return p !== null ? <>{p.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD/MWh <span className="text-xs text-muted">({view.priceKind(pick.id)})</span></> : (pick.iso ? `Not held for this ${unit}` : "No public hub price in the warehouse"); })()}
                   {pricesOn && pick.id !== "PJM" && priceRange ? <span className="block text-xs text-muted" data-price-range="1">Over the period shown: {priceRange.lo.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} to {priceRange.hi.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD/MWh, {priceRange.n.toLocaleString("en-US")} {unit}s held.</span> : null}</dd>
               </div>
               <div>

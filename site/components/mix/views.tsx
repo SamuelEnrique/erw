@@ -14,6 +14,7 @@ import { Missing } from "@/components/mix/Now";
 import { Num } from "@/components/Num";  // session 1166: the committed files' headline figures, keyed
 import * as clean from "@/lib/clean";
 import { LICENSE_NEEDED, licenseHeldRow, licenseTitle } from "@/lib/license";  // session 215
+import { heldGridPrice } from "@/lib/gridHeld";  // session 1167
 import * as mix from "@/lib/mix2";
 import { CLEAN, FORECAST, HISTORY, MIX, PLUS, STRESS, type Hourly, type Slug } from "@/lib/mixdata";
 import { DASHES, FUEL_COLOR, FUEL_WORDS, GRID_COLORS, HOURS, SEASON_NAMES, n0, n1, n2, ofPeak, peakOf, yearShade, type Choice } from "@/lib/mixpage";
@@ -89,6 +90,10 @@ function factorLines(g: Slug, c: Choice, period: string, demand: (number | null)
   const gone = (h: Hourly, what: string) => ({ lines: [], missing: h.status === "paused" ? { words: "paused while terms are reviewed", why: h.note ?? "" } : h.status === "licensed" ? { words: "licensed source needed", why: h.note ?? "" }
     : { words: "not held yet", why: `${what} is not held for ${nameOf(g)} in ${mix.periodName(period)}: a period is drawn when every hour of the day holds enough days.` } });
   if (c.factor === "price") {
+    // session 1167: a held grid's hub price (the file's copy of iso_hub_prices_history, lib/gridHeld.ts) reads "license
+    // needed" in place of its lines; a paused grid's file holds none and keeps its words
+    const hp = f.price_da.status === "paused" ? null : heldGridPrice(g);
+    if (hp) return { lines: [], missing: hp };
     const da = at(f.price_da), rt = at(f.price_rt);
     if (!da && !rt) return gone(f.price_da, "The hub price");
     return { unit2: "USD/MWh", lines: [...(da ? [{ name: "Price, day-ahead", color: "var(--color-ink)", values: da, axis: 1 as const, dash: "dashed" as const, unit: "USD/MWh" }] : []),
@@ -299,9 +304,12 @@ export function CleanView({ c }: { c: Choice }) {
       })}
       <Block title={`The seven grids, ${year}`}>
         <Table caption="The seven grids" head={["Grid", "Months held", "Carbon-free share", "Hours at least half carbon-free", "100% purchase: energy met in its hour", "20% moved: carbon", "20% moved: cost"]}
-          rows={clean.GRIDS.map((g) => { const f = CLEAN[g]; if (!f.years[year]) return { key: g, cells: [nameOf(g), ...Array.from({ length: 6 }, (_, i) => <NH key={i} why={notWritten(g)} />)] };
+          rows={clean.GRIDS.map((g) => { const f = CLEAN[g];
+            // session 1167 (the standing rule, lib/license.ts): a held grid's cells read "license needed", as every other block of the view
+            if (held(g)) return { key: g, on: c.grids.includes(g), cells: [nameOf(g), ...Array.from({ length: 6 }, (_, i) => <LW key={i} />)] };
+            if (!f.years[year]) return { key: g, cells: [nameOf(g), ...Array.from({ length: 6 }, (_, i) => <NH key={i} why={notWritten(g)} />)] };
             const v = clean.yearView(f, year); const noPrice = f.no_price ?? "No hub price is held for this grid in this year.";
-            // session 1166: keyed for the grids not held; a held grid's cells are as they were (unkeyed: listed in session 1166's report)
+            // session 1166: keyed for the grids not held (session 1167: a held grid no longer reaches this line)
             const cf = `clean/${g}.json`, y = `years.${year}`, key = !held(g);
             const kp = (x: number | null | undefined, at: string, form: Form = "n1") => (key ? kv(x, form, cf, `${y}.${at}`, "%") : val(x, (z) => `${FORM[form](z)}%`));
             return { key: g, on: c.grids.includes(g), cells: [nameOf(g), `${v.months ?? 0} of ${v.due ?? 12}`, kp(v.share, "carbon_free_share_pct"), kp(v.ge[50], "hours_cf_ge50_pct"), kp(v.match.mix?.[100]?.energy, "match_mix_100_energy_pct"),

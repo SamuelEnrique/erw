@@ -29,6 +29,14 @@ const base = (process.argv[2] ?? "http://localhost:3093").replace(/\/$/, "");
 let bad = 0, n = 0;
 const check = (ok, what) => { n += 1; if (!ok) { bad += 1; console.log(`FAIL ${what}`); } else console.log(`ok   ${what}`); };
 const year = (y) => JSON.parse(fs.readFileSync(new URL(`../public/network/daily_${y}.json`, import.meta.url), "utf-8"));
+// session 1167: a grid held for a license (lib/gridHeld.ts, iso_hub_prices_history in data/license_status.json) has no
+// price ring and no price in its panel, though the file holds its price: the same rule, read from the same file
+const HELD_BA = (() => {
+  const r = JSON.parse(fs.readFileSync(new URL("../data/license_status.json", import.meta.url), "utf-8")).tables.iso_hub_prices_history;
+  const BA = { CAISO: "CISO", ERCOT: "ERCO", "ISO-NE": "ISNE", MISO: "MISO", NYISO: "NYIS", PJM: "PJM", SPP: "SWPP" };
+  const on = r && r.status === "license needed" && new Date().toISOString().slice(0, 10) >= r.from;
+  return new Set(on ? r.publishers.map((p) => BA[p]).filter(Boolean) : []);
+})();
 const STATE = `(() => { const d = document.querySelector('[data-network-view]'); return d ? { view: d.getAttribute('data-network-view'), frame: d.getAttribute('data-frame'), t: d.getAttribute('data-t'),
   playing: d.getAttribute('data-playing'), rings: Number(d.getAttribute('data-price-rings')), frames: Number(d.getAttribute('data-frames')), restored: d.getAttribute('data-restored'),
   panel: document.querySelector('[data-panel]')?.getAttribute('data-panel') ?? null, search: ${OWN}(window.location.search) } : null; })()`;
@@ -105,7 +113,7 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, error
   check((await evaluate(STATE)).rings === 0 && !(await evaluate(`!!document.querySelector('[data-price-legend]')`)), "prices are off by default: no ring, no legend");
   await evaluate(click(button("Prices: off")));
   s = await wait(`(() => { const s = ${STATE}; return s.rings > 0 ? s : null; })()`, 10000, "the price rings");
-  const priced = Object.keys(y21.hub_prices).filter((b) => y21.hub_prices[b][i] !== null && b !== "PJM");
+  const priced = Object.keys(y21.hub_prices).filter((b) => y21.hub_prices[b][i] !== null && b !== "PJM" && !HELD_BA.has(b));
   check(s.rings === priced.length && priced.includes("ERCO"), `with prices on, a ring on each grid with a public price held that day: ${s.rings} (the file: ${priced.join(", ")})`);
   const p2 = await evaluate(`document.querySelector('[data-panel]').innerText`);
   const price = p2.match(/Hub price this day\s+([\d,.]+) USD\/MWh/);
@@ -119,9 +127,11 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, error
   await wait(`document.querySelector('[data-network-view]').getAttribute('data-t') === '2025-07-15'`, 20000, "a day of 2025");
   const y25 = year(2025), j = y25.days.indexOf("2025-07-15");
   // session 124: a paused publisher's hub (MISO) has no ring on this page, though the file still holds its price
-  const priced25 = Object.keys(y25.hub_prices).filter((b) => y25.hub_prices[b][j] !== null && b !== "PJM" && !PAUSED_PRICE[b]);
+  const priced25 = Object.keys(y25.hub_prices).filter((b) => y25.hub_prices[b][j] !== null && b !== "PJM" && !PAUSED_PRICE[b] && !HELD_BA.has(b));
   const scene25 = await wait(`(() => { const s = ${RINGS}; return s.rings === ${priced25.length} ? s : null; })()`, 10000, "the rings of a day of 2025");
-  check(scene25.rings === priced25.length && priced25.length >= 5, `a day of 2025 has a ring on ${scene25.rings} grids (${priced25.join(", ")})`);
+  check(scene25.rings === priced25.length && priced25.length >= 5 - [...HELD_BA].filter((b) => !PAUSED_PRICE[b]).length, `a day of 2025 has a ring on ${scene25.rings} grids (${priced25.join(", ")})`);
+  // session 1167: and none on a grid held for a license, though the file holds its price that day
+  check([...HELD_BA].every((b) => !priced25.includes(b)) && (HELD_BA.size === 0 || [...HELD_BA].some((b) => y25.hub_prices[b]?.[j] != null)), `no ring on a grid held for a license (${[...HELD_BA].join(", ") || "none held"}), whose prices the file holds`);
   const shot = await send("Page.captureScreenshot", { format: "png" });
   fs.mkdirSync(new URL("../../runs/session93/", import.meta.url), { recursive: true });
   fs.writeFileSync(new URL("../../runs/session93/v3_prices_2025-07-15.png", import.meta.url), Buffer.from(shot.data, "base64"));

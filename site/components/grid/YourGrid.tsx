@@ -17,6 +17,9 @@ import { Reliability } from "./Reliability";
 import { CaisoBreakNote } from "@/components/CaisoBreakNote";  // session 73
 import { CaisoMixWithheld } from "@/components/CaisoMixWithheld";  // session 118
 import { carbonLeftOut, carbonLeftOutMonths, monthRuns } from "@/lib/carbonLeftOut";  // session 118
+import { Missing } from "@/components/mix/Now";  // session 1167: "license needed", the tool's one look (session 1159)
+import { heldQueue, type Held } from "@/lib/gridHeld";  // session 1167
+import { licenseHeldRow, licenseTitle, LICENSE_NEEDED } from "@/lib/license";  // session 1167
 
 // Session 35: "Ask your grid". One template, seven pages (docs/grids/grids.json), for a student in a first energy
 // course: who runs the grid, where the power comes from now, what it costs, how clean it is, what is being built,
@@ -52,6 +55,11 @@ function NotYet({ what, where, href }: { what: string; where: string; href: stri
       <span className="font-semibold text-ink">Not in the warehouse yet:</span> {what}. {where}: <a href={href} className="break-all">{href}</a>.
     </p>
   );
+}
+
+/** Session 1167: a block of a grid held for a license, its words in the tool's one look, the publishers on hover. */
+function HeldLine({ what, held }: { what: string; held: Held }) {
+  return <p className="text-sm text-muted" role="status" data-grid-held={what}>{what}: <Missing why={held.why} words={held.words} /></p>;
 }
 
 const key = (t: string, r: SeriesRow) => `series|${t}|${r.entity}|${r.variable}|${r.ts_utc}`;
@@ -269,6 +277,8 @@ function Clean({ g, d }: { g: GridConfig; d: GridData }) {
 function Cost({ g, d }: { g: GridConfig; d: GridData }) {
   const T = "price_board_latest", TP = "price_board_peak_offpeak";
   if (!g.prices_public) return <NotYet what={`${g.iso}'s prices: ${(g.prices_note ?? "not public here").replace(/[.]$/, "")}`} where={`${g.iso} publishes them`} href={g.prices_url ?? "https://www.eia.gov/electricity/wholesale/"} />;
+  // session 1167: a held grid's prices read "license needed" (the read is refused by lib/supabase.ts; until now the block said "not in the warehouse yet")
+  if (g.hub && licenseHeldRow(T, g.hub.entity)) return <HeldLine what={`${g.iso}'s hub prices`} held={{ words: LICENSE_NEEDED, why: licenseTitle(T) }} />;
   if (!g.hub || !d.prices.length) return <NotYet what={`${g.iso}'s hub prices`} where="EIA summarizes wholesale prices" href="https://www.eia.gov/electricity/wholesale/" />;
   const daMean = latestOf(d.prices, "da_latest_day_mean"), rtMean = latestOf(d.prices, "rt_latest_day_mean"), avg30 = latestOf(d.prices, "da_avg_30d");
   const daily = d.prices.filter((r) => r.variable === "da_daily_mean").sort((a, b) => a.ts_utc.localeCompare(b.ts_utc));
@@ -305,6 +315,9 @@ function Building({ g, d }: { g: GridConfig; d: GridData }) {
   let queue: React.ReactNode;
   if (!g.queue_table) {
     queue = <NotYet what={`${g.iso}'s interconnection queue`} where={`${g.iso} publishes it`} href={g.queue_url ?? "https://www.eia.gov/electricity/data/eia860m/"} />;
+  } else if (heldQueue(g.queue_table)) {
+    // session 1167: a held grid's queue positions are left out of the read (lib/grid.ts) and read "license needed" here
+    queue = <HeldLine what={`${g.iso}'s interconnection queue`} held={heldQueue(g.queue_table)!} />;
   } else if (!d.queue.length) {
     queue = <NotYet what={`${g.iso}'s interconnection queue in the live set`} where={`${g.iso} publishes it`} href="https://www.eia.gov/electricity/data/eia860m/" />;
   } else {
