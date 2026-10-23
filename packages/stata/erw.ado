@@ -119,7 +119,7 @@ program define _erw_shape, rclass
 end
 
 program define _erw_live_url, rclass
-    syntax anything(name=table), BASE(string) SHAPE(string) [ENTity(string) VARiable(string) Start(string) End(string) OFFset(integer 0) LIMit(integer 1000)]
+    syntax anything(name=table), BASE(string) SHAPE(string) [ENTity(string) VARiable(string) Start(string) End(string) MARKet(string) BA(string) YEAR(string) OFFset(integer 0) LIMit(integer 1000)]
 
     if "`shape'" == "series" {
         local tcol "ts_utc"
@@ -199,13 +199,25 @@ program define _erw_live_url, rclass
         local q "`q'&`tcol'=lt.`t'"
     }
 
+    if "`market'" != "" {
+        local q "`q'&market=eq.`market'"
+    }
+
+    if "`ba'" != "" {
+        local q "`q'&ba=eq.`ba'"
+    }
+
+    if "`year'" != "" {
+        local q "`q'&year=eq.`year'"
+    }
+
     local q "`q'&order=`order'&limit=`limit'&offset=`offset'"
 
     return local url "`base'/rest/v1/`shape'?`q'"
 end
 
 program define _erw_live_read
-    syntax anything(name=table), SHAPE(string) [ENTity(string) VARiable(string) Start(string) End(string) LIMit(integer 0)]
+    syntax anything(name=table), SHAPE(string) [ENTity(string) VARiable(string) Start(string) End(string) MARKet(string) BA(string) YEAR(string) LIMit(integer 0)]
 
     if `"$ERW_LIVE_URL"' == "" | `"$ERW_LIVE_KEY"' == "" {
         display as error "Set ERW_LIVE_URL and ERW_LIVE_KEY to the live set's address and key (the ERW gives them on request), then try again."
@@ -233,7 +245,7 @@ program define _erw_live_read
     local first 1
 
     while `more' {
-        _erw_live_url `table', base(`"`base'"') shape(`shape') entity(`entity') variable(`variable') start(`start') end(`end') offset(`offset') limit(`page_rows')
+        _erw_live_url `table', base(`"`base'"') shape(`shape') entity(`entity') variable(`variable') start(`start') end(`end') market(`market') ba(`ba') year(`year') offset(`offset') limit(`page_rows')
         local url `"`r(url)'"'
         capture erase `"`page'"'
         shell curl -sS -f -H "apikey: $ERW_LIVE_KEY" -H "Authorization: Bearer $ERW_LIVE_KEY" -H "Accept: text/csv" -o "`page'" "`url'"
@@ -595,7 +607,7 @@ program define _erw_route, rclass
 end
 
 program define _erw_fetch, rclass
-    syntax anything(name=table) [, ENTity(string) VARiable(string) Start(string) End(string) BACKend(string) CLEAR]
+    syntax anything(name=table) [, ENTity(string) VARiable(string) Start(string) End(string) MARKet(string) BA(string) YEAR(string) BACKend(string) CLEAR]
 
     local table `table'
 
@@ -649,7 +661,7 @@ program define _erw_fetch, rclass
         _erw_import using `"$ERW_DATA_DIR/`table'.csv"'
     }
     else if "`backend'" == "live" {
-        _erw_live_read `table', shape(`shape') entity(`entity') variable(`variable') start(`start') end(`end')
+        _erw_live_read `table', shape(`shape') entity(`entity') variable(`variable') start(`start') end(`end') market(`market') ba(`ba') year(`year')
     }
     else {
         _erw_redivis_read `table'
@@ -658,6 +670,15 @@ program define _erw_fetch, rclass
     _erw_types, shape(`shape')
 
     _erw_filter, shape(`shape') entity(`entity') variable(`variable') start(`start') end(`end')
+
+    foreach p in market ba year {
+        if "``p''" != "" {
+            capture confirm variable `p'
+            if _rc == 0 {
+                quietly keep if `p' == "``p''"
+            }
+        }
+    }
 
     if _N == 0 & ("`start'" != "" | "`end'" != "") {
         _erw_row `table', file(`"`cov'"') key(table) fields(ts_min ts_max)

@@ -233,7 +233,8 @@ def stata_url(body, call, shape):
     block, _ = parse_block(body)
     locs = {"table": call["table"], "base": "<ERW_LIVE_URL>", "shape": shape, "offset": "0", "limit": "1000",
             "entity": " ".join(call.get("entity", [])), "variable": " ".join(call.get("variable", [])),
-            "start": call.get("start", ""), "end": call.get("end", "")}
+            "start": call.get("start", ""), "end": call.get("end", ""),
+            "market": call.get("market", ""), "ba": call.get("ba", ""), "year": str(call.get("year", ""))}
     result = {}
     run(block, locs, result)
     return result.get("url", "")

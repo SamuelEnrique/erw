@@ -278,7 +278,8 @@ def r_url(src, call, shape):
     params, body = function_body(src, ".erw_live_url")
     env = {"table": call["table"], "base": "<ERW_LIVE_URL>", "shape": shape, "offset": 0, "limit": 1000,
            "entity": call.get("entity"), "variable": call.get("variable"), "start": call.get("start"),
-           "end": call.get("end")}
+           "end": call.get("end"), "market": call.get("market"), "ba": call.get("ba"),
+           "year": str(call["year"]) if call.get("year") is not None else None}
     return run(statements(body), env)
 
 

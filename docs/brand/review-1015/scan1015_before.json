@@ -1,0 +1,99 @@
+{
+ "base": "https://erw-flame.vercel.app",
+ "when": "2026-10-23T03:55:35.676Z",
+ "addresses": 4,
+ "widths": [
+  1280,
+  390
+ ],
+ "results": [
+  {
+   "addr": "/data",
+   "width": 1280,
+   "innerWidth": 1280,
+   "finalUrl": "https://erw-flame.vercel.app/data#a11y-scan-2",
+   "h1": "Data",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/data",
+   "width": 390,
+   "innerWidth": 390,
+   "finalUrl": "https://erw-flame.vercel.app/data#a11y-scan-3",
+   "h1": "Data",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/data/methods/packages",
+   "width": 1280,
+   "innerWidth": 1280,
+   "finalUrl": "https://erw-flame.vercel.app/data/methods/packages#a11y-scan-1",
+   "h1": "No page at this address",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/data/methods/packages",
+   "width": 390,
+   "innerWidth": 390,
+   "finalUrl": "https://erw-flame.vercel.app/data/methods/packages#a11y-scan-4",
+   "h1": "No page at this address",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/data/methods/ercot_peak_premium",
+   "width": 1280,
+   "innerWidth": 1280,
+   "finalUrl": "https://erw-flame.vercel.app/data/methods/ercot_peak_premium#a11y-scan-5",
+   "h1": "ERCOT peak premium: method",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/data/methods/ercot_peak_premium",
+   "width": 390,
+   "innerWidth": 390,
+   "finalUrl": "https://erw-flame.vercel.app/data/methods/ercot_peak_premium#a11y-scan-6",
+   "h1": "ERCOT peak premium: method",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/data/methods/stress_days",
+   "width": 1280,
+   "innerWidth": 1280,
+   "finalUrl": "https://erw-flame.vercel.app/data/methods/stress_days#a11y-scan-7",
+   "h1": "Stress days of the grids (session 306)",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/data/methods/stress_days",
+   "width": 390,
+   "innerWidth": 390,
+   "finalUrl": "https://erw-flame.vercel.app/data/methods/stress_days#a11y-scan-8",
+   "h1": "Stress days of the grids (session 306)",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  }
+ ]
+}

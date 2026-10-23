@@ -42,7 +42,8 @@ class TheCheckerCatches(unittest.TestCase):
         bad = SRC.replace('items <- paste0(items, sep, "%22", v, "%22")', 'items <- paste0(items, sep, v)', 1)
         body = C.function_body(bad, ".erw_live_url")[1]
         got = C.run(C.statements(body), {"table": "t", "base": "<B>", "shape": "series", "offset": 0, "limit": 1000,
-                                          "entity": ["eia:x"], "variable": None, "start": None, "end": None})
+                                          "entity": ["eia:x"], "variable": None, "start": None, "end": None,
+                                          "market": None, "ba": None, "year": None})   # session 1017
         self.assertNotIn("%22eia:x%22", got)
 
 
