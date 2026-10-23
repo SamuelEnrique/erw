@@ -35,11 +35,19 @@ After the second failure the answer is: "The warehouse does not hold that figure
 
 ## A held grid (23 October 2026, session 1112)
 
-The rows of ISO-NE, NYISO and MISO in the tables the status file holds by grid (`site/data/license_status.json`; the owner's ruling of 12 October 2026) are never read for an answer. A query that asks for a held grid's rows, by its entity or, with none, by the chat's own grid, returns no figure of it: the grid named, "its rows are held for a license: license needed", the hold's words, and the same query's figure for each public grid of the table (one read by entity), so the answer can say what the warehouse does hold in the same sentence: "NYISO's rows are held for a license (license needed). For the public grids, the flat price in July 2026: ERCOT 29.17 USD/MWh, CAISO 39.43 USD/MWh, SPP 53.79 USD/MWh (merchant_revenue_monthly)." The hold itself is unchanged by this. MISO's rows are also paused (its own message stands first).
+The rows of ISO-NE, NYISO and MISO in the tables the status file holds by grid (`site/data/license_status.json`; the owner's ruling of 12 October 2026) are never read for an answer. A query that asks for a held grid's rows, by its entity or, with none, by the chat's own grid, returns no figure of it: the grid named, "its rows are held for a license: license needed", the hold's words, and the same query's figure for each public grid of the table (one read by entity), so the answer can say what the warehouse does hold in the same sentence: "NYISO's rows are held for a license (license needed). For the public grids, the flat price in July 2026: ERCOT 29.17 USD/MWh, CAISO 39.43 USD/MWh, SPP 53.79 USD/MWh (merchant_revenue_monthly)." The hold itself is unchanged by this. MISO's rows are also paused, and its pause says more than its license: a question of MISO's rows, by its entity or in MISO's scoped chat, is refused with the pause's words (23 October 2026, session 1126; session 1113's run found MISO's chat answered the held grid's way). A `compare` with a held grid's side returns both sides and makes no difference or ratio with the held one (session 1126; it crashed the loop before).
 
 ## What an answer shows (23 October 2026, session 1115)
 
 Under the answer and its sources, one line for each query or compare it read: the table, the entity, the variable, the window (the end not included) and the aggregation, never a figure; and how long it took, with how many reads of the warehouse.
+
+## A conversation (23 October 2026, session 1129)
+
+The general chat and a grid's scoped chat hold the last three turns, as Ask ERCOT has since session 121: each turn's question, its answer (to 1,500 characters) and what its queries read go into the first message before the new question, in Ask ERCOT's own words; an earlier answer's numbers count as given (they were checked when it was written) and its cited tables as read; every new number is still fetched and checked. With no earlier turn the first message is what it was (`site/lib/chat/history.ts`).
+
+## A refusal names what it looked at (23 October 2026, session 1132)
+
+On "not in the warehouse" and on the fixed refusal, the general chat names up to three of the tables the question queried or described, each with what the catalogue says it holds (its sector, its grids, its step, its span, its source report; never a figure of its rows). A table only listed is not one it looked at.
 
 ## Prepared and off
 
@@ -49,8 +57,8 @@ Under the answer and its sources, one line for each query or compare it read: th
 
 | Set | Questions | Keys | Runs |
 |---|---|---|---|
-| `questions_s320.yaml` | 30 on the three economics pages | computed from the live set before any model call; again by `eval_s1113.py --keys` the hour of an asking | 17 of 30 (20 October 2026), 14 of 30 under the hold (session 539); session 1113, below |
-| `questions_s1114.yaml` | 30 a trading, an infrastructure-finance and a policy lead would ask, ERCOT, CAISO, SPP and national series only | `expected_s1114.py`, from the live set the hour of the asking | session 1114, below |
+| `questions_s320.yaml` | 30 on the three economics pages | computed from the live set before any model call; again by `eval_s1113.py --keys` the hour of an asking | 17 of 30 (20 October 2026), 14 of 30 under the hold (session 539); **19 of 30 under the hold on 23 October 2026** (session 1113's asking, run by session 1126; 30 of 30 if session 320's three rulings went the answers' way): `docs/reviews/ask-thirty-2026-10-23.md` |
+| `questions_s1114.yaml` | 30 a trading, an infrastructure-finance and a policy lead would ask, ERCOT, CAISO, SPP and national series only | `expected_s1114.py`, from the live set the hour of the asking | **24 of 30 on 23 October 2026** (four of the six wrong state the right figure from another table): `docs/reviews/ask-sixty-2026-10-23.md` |
 | `questions_s1122.yaml` | 5 on the price board | `expected_s1122.py`, from recorded rows of the board's tables | not yet asked |
 
 `python warehouse/chat/eval/eval_s1113.py --keys`, then `--ask --base <a local server> --cap <USD>` (with `--set s1114` for the second set), then `--grade`: the asking runs through the site's route as an evaluation, under its own ledger step, the spend checked before each question.
@@ -65,3 +73,6 @@ Each dated, with the session that made it; the reports in `archive/sessions/` ca
 - 23 October 2026, session 1111: 12 tool calls, not a measured number (the stored run cannot say what a question needs past 8).
 - 23 October 2026, session 1112: a held grid's question is answered with the public grids' figures, not refused.
 - 23 October 2026, session 1122: the board's questions are answered from the board's derived tables, the tables the live set holds.
+- 23 October 2026, session 1126: MISO's pause refuses before the held-grid answer; a compare makes no difference with a held side.
+- 23 October 2026, session 1129: the conversation's words are Ask ERCOT's.
+- 23 October 2026, session 1132: the tables a refusal names are those the loop read, not ones the model proposes.
