@@ -21,7 +21,7 @@ on (entity, variable, ts_utc), so a later run adds days and replaces revised hou
 written. Nothing is filled.
 
 Ceiling: 2,000,000 rows for session 133's forecast pulls in all (CAISO and ERCOT); this pull reads about 420,000. The
-run stops if the rows read would pass the ceiling. License: public (CAISO OASIS public data; cite "California ISO,
+run stops once the rows kept from the three hubs, counted after each answer, pass the ceiling (session 2060). License: public (CAISO OASIS public data; cite "California ISO,
 OASIS").
 """
 

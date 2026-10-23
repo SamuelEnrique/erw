@@ -30,5 +30,5 @@ The table's 2025, Alberta's local year (8,760 hours), against the AESO's 2025 An
 ## Files
 
 - New: `warehouse/connectors/aeso_load.py`, `tests/test_session2071.py` (3 tests), this report.
-- Changed: `build_coverage.py`, `release_v1.py`, `live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_reads.csv` (219, 220), `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
+- Changed: `build_coverage.py`, `release_v1.py`, `live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_reads.csv` (226, 227), `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
 - On the data machine only: `runs/c067/s2071/`, `runs/license_reads/s2071/`, `runs/s2071*`, `warehouse/raw/aeso_load/`.

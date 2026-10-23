@@ -6,7 +6,7 @@
 
 - **Origin's main merged into this branch first** (chain 057 had landed after the branch was cut): eight files in conflict, resolved.
   - The coverage builder's rules, the holds and the siting review took both sides' lines.
-  - The license reads took main's 192 to 195 (chain 057's), and this chain's became 196 to 209 (216 to 229 after chain 058 landed, session 2083), with the two verdicts that cite them (the IESO's read 218, JODI's 229) and the reports of sessions 2070 to 2077 corrected.
+  - The license reads took main's 192 to 195 (chain 057's), and this chain's became 196 to 209 (216 to 229 after chain 058 landed, and 223 to 236 after chain 066 landed, session 2083), with the two verdicts that cite them (the IESO's read 225, JODI's 236) and the reports of sessions 2070 to 2077 corrected.
   - The release README's list of tables held from the dataset became the union of both sides with its true count, 167: main's line said 158 but listed 163, chain 057's merge having joined the lists without the count.
   - The release check, the license check and the package records agree after.
 - **The upload** (`runs/c067/s2080/run.sh`, in the foreground, under the data lock from 20:30 to 20:33 UTC, the main checkout pulled to origin's main first): this chain's four public tables, each proved by the draft's own count: `ieso_ontario_demand_hourly` (31,680), `aeso_alberta_load_hourly` (15,853), `epa_ghgrp_facility_emissions` (70,338), `noaa_ncei_billion_disasters` (403). The run also refreshed the metadata tables from this branch's files: **`erw_coverage` now holds 401 rows, chains 057, 059 and 067's tables among them** (chain 059's upload had left main's 385), `erw_sources` 489, `erw_headers` 3,860 lines. The upload record (4 rows) is carried to the branch.

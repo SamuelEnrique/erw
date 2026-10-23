@@ -33,11 +33,11 @@ Series, 31,680 rows: two variables of 15,840 hours each, entity `ieso:ontario`, 
 - The IESO's hour is an hour ending, 1 to 24, in Eastern Standard Time all year (no daylight saving): the hour's start in UTC is the date's midnight plus the hour less one, plus five hours.
 - A header not the one above, an hour outside 1 to 24, a date not `YYYY-MM-DD`, a value that is not a number, or an hour given twice stops the run. Values as the IESO publishes them; nothing is filled.
 - Not taken: the Hourly Ontario Energy Price (it ends with April 2025; the Ontario zonal price that replaced it is published only as daily and hourly files) and any price, for want of a Canadian dollar unit (a standing question for the owner).
-- Ceiling: one request a year's file. reports-public.ieso.ca has no robots file (read 216, HTTP 404).
+- Ceiling: one request a year's file. reports-public.ieso.ca has no robots file (read 223, HTTP 404).
 
 ## License
 
-`license_verdicts.csv` records the IESO, read 218 (its Terms of Use): "may be public", for public and for commercial use: "you are granted a limited, non-exclusive, non-sublicensable, non-transferrable licence to use and reproduce the Content", provided each reproduction carries the IESO's copyright notice, which the table's header carries word for word. `license_tables.csv` maps the table to the IESO (the source registry), and `docs/licenses.md` gives it "may be public", flagged public, agreeing; `sources.csv` names the source's license as public.
+`license_verdicts.csv` records the IESO, read 225 (its Terms of Use): "may be public", for public and for commercial use: "you are granted a limited, non-exclusive, non-sublicensable, non-transferrable licence to use and reproduce the Content", provided each reproduction carries the IESO's copyright notice, which the table's header carries word for word. `license_tables.csv` maps the table to the IESO (the source registry), and `docs/licenses.md` gives it "may be public", flagged public, agreeing; `sources.csv` names the source's license as public.
 
 ## Cross-checks (session 2079)
 

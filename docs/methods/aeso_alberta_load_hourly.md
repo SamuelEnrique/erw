@@ -32,7 +32,7 @@ Series, 15,853 rows, one an hour: entity `aeso:alberta`, variable `ail_demand` (
 - The AESO's hour is an hour ending in Alberta's local time with daylight saving: the spring day has 23 lines (no `02`), the autumn day 25 (`02`, then `02*`). Each hour is placed by its order within its local day: the day's local midnight in UTC (through America/Edmonton) plus one hour a line before it. So `02*` is the standard time hour. A day whose lines are not its hours ending in order stops the run; only the report's last day may stop short.
 - An hour the report lists as `-` (not yet reached) is no row. A time not in the AESO's form, a load that is not a number, or an hour given twice stops the run. Values as published; nothing is filled.
 - Not taken: the pool price and its 30-day average, for want of a Canadian dollar unit (the standing question of session 2070).
-- Ceiling: two requests. ets.aeso.ca has no robots file (read 219, HTTP 404).
+- Ceiling: two requests. ets.aeso.ca has no robots file (read 226, HTTP 404).
 
 ## License
 

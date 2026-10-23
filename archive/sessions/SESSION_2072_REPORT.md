@@ -31,5 +31,5 @@ The direct emitters against `epa_ghgrp_power_co2`'s non-biogenic CO2 for the sam
 ## Files
 
 - New: `warehouse/connectors/ghgrp_facilities.py`, `tests/test_session2072.py` (3 tests), this report.
-- Changed: `docs/datastandard.md` (Decision 61), `warehouse/validate/erw_validate.py`, `build_coverage.py`, `release_v1.py`, `live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_reads.csv` (221), `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
+- Changed: `docs/datastandard.md` (Decision 61), `warehouse/validate/erw_validate.py`, `build_coverage.py`, `release_v1.py`, `live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_reads.csv` (228), `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
 - On the data machine only: `runs/c067/s2072/`, `runs/license_reads/s2072/`, `runs/s2072*`, `warehouse/raw/ghgrp/` (the page's copy of today).
