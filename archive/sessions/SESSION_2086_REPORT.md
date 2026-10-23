@@ -4,7 +4,7 @@
 
 ## Read these first
 
-- **www.rd.usda.gov refused the reader at its robots file:** HTTP 403, "Access Denied" from its Akamai edge (reference `18.e5a5dc17.1792789853.517adf3e`), on `/robots.txt` itself (read 228). Under the chain's rule a host that refused the ERW's reader is not asked again without a ruling, so the Electric Infrastructure Loan list and the New ERA and PACE selections were not read and no table was written.
+- **www.rd.usda.gov refused the reader at its robots file:** HTTP 403, "Access Denied" from its Akamai edge (reference `18.e5a5dc17.1792789853.517adf3e`), on `/robots.txt` itself (read 242). Under the chain's rule a host that refused the ERW's reader is not asked again without a ruling, so the Electric Infrastructure Loan list and the New ERA and PACE selections were not read and no table was written.
 - **Added to the refused hosts** for the next file (session 2097 updates it): www.rd.usda.gov.
 
 ## Decisions made without you
@@ -18,5 +18,5 @@
 ## Files
 
 - New: this report.
-- Changed: `warehouse/metadata/license_reads.csv` (228).
+- Changed: `warehouse/metadata/license_reads.csv` (242).
 - On the data machine only: `runs/c068/s2086/`, `runs/license_reads/s2086/`.

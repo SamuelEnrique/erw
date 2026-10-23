@@ -1,4 +1,5 @@
 table,name,kind,unit
+aeso_alberta_load_hourly,ail_demand,series variable,MW
 afdc_vehicle_registrations_annual,registrations_biodiesel,series variable,count
 afdc_vehicle_registrations_annual,registrations_cng,series variable,count
 afdc_vehicle_registrations_annual,registrations_diesel,series variable,count
@@ -3497,6 +3498,12 @@ energy_companies,sources,column,
 energy_companies,confidence,column,
 energy_companies,confidence_note,column,
 energy_companies,first_seen,column,
+epa_ghgrp_facility_emissions,emissions_direct,series variable,tCO2e
+epa_ghgrp_facility_emissions,emissions_gathering_boosting,series variable,tCO2e
+epa_ghgrp_facility_emissions,emissions_ldc,series variable,tCO2e
+epa_ghgrp_facility_emissions,emissions_onshore_production,series variable,tCO2e
+epa_ghgrp_facility_emissions,emissions_sf6_equipment,series variable,tCO2e
+epa_ghgrp_facility_emissions,emissions_transmission_pipelines,series variable,tCO2e
 epa_ghgrp_power_co2,co2_biogenic,series variable,tCO2
 epa_ghgrp_power_co2,co2_non_biogenic,series variable,tCO2
 epa_rfs_fuel_annual,batch_volume,series variable,gal
@@ -5129,6 +5136,8 @@ grid_stress_yearly,tight_wind_share_of_capacity_pct,series variable,pct
 grid_stress_yearly,wind_reported,series variable,count
 grid_stress_yearly,wind_solar_capacity_mw,series variable,MW
 grid_stress_yearly,wind_solar_mean_mw,series variable,MW
+ieso_ontario_demand_hourly,market_demand,series variable,MW
+ieso_ontario_demand_hourly,ontario_demand,series variable,MW
 imf_commodity_prices,price,series variable,USD/lb
 imf_commodity_prices,price,series variable,USD/t
 impact_tax_rules,event_id,column,
@@ -5659,6 +5668,24 @@ noaa_grid_weather_stations,population_base_2020,series variable,count
 noaa_grid_weather_stations,weight,series variable,ratio
 noaa_isd_hourly,dew_point_f,series variable,degF
 noaa_isd_hourly,temperature_f,series variable,degF
+noaa_ncei_billion_disasters,event_id,column,
+noaa_ncei_billion_disasters,event_date,column,
+noaa_ncei_billion_disasters,event_type,column,
+noaa_ncei_billion_disasters,parties,column,
+noaa_ncei_billion_disasters,entity_ids,column,
+noaa_ncei_billion_disasters,mw,column,
+noaa_ncei_billion_disasters,price,column,
+noaa_ncei_billion_disasters,currency,column,
+noaa_ncei_billion_disasters,status,column,
+noaa_ncei_billion_disasters,source,column,
+noaa_ncei_billion_disasters,source_url,column,
+noaa_ncei_billion_disasters,retrieved_at,column,
+noaa_ncei_billion_disasters,x_name,column,
+noaa_ncei_billion_disasters,x_disaster,column,
+noaa_ncei_billion_disasters,x_end_date,column,
+noaa_ncei_billion_disasters,x_cost_cpi_adjusted_usd,column,
+noaa_ncei_billion_disasters,x_cost_unadjusted_usd,column,
+noaa_ncei_billion_disasters,x_deaths,column,
 noaa_ncei_storm_events,event_id,column,
 noaa_ncei_storm_events,event_date,column,
 noaa_ncei_storm_events,event_type,column,
