@@ -21,9 +21,10 @@ service's maximum), ordered by ObjectId. Completeness: every calendar day
 from each chokepoint's first date to its last must be present exactly once,
 or the table is not written. The newest date must be within 10 days.
 
-License: internal. Citation "IMF PortWatch"; the IMF terms page returned 403
-and commercial reuse is unconfirmed (docs/price-sources.md; session 8
-ruling: internal until the terms are confirmed). PortWatch is its own
+License: internal. Citation "IMF PortWatch". Session 8 ruled it internal while the
+IMF's terms page answered 403; the page was read on 12 October 2026 (read 13, HTTP 200),
+and since session 311 PortWatch is held to that verdict (may be public; a commercial
+reuse needs the IMF's permission). The table stays internal until a ruling changes it. PortWatch is its own
 connector because it is its own source (CLAUDE.md: one connector per source).
 """
 
@@ -126,14 +127,14 @@ def main():
             "Suez Canal, Panama Canal",
             "Shape: series (docs/datastandard.md v0). freq P1D: ts_utc is PortWatch's date at 00:00:00Z. "
             "n_* are vessel transits per day (count); capacity* the deadweight tonnage of those transits (dwt).",
-            "Window: the full history the service offers (from 2019-01-01); every run replaces all of it.",
+            "Window: the full history the service offers (from 2019-01-01); each run merges into the file by key (ip.write_csv), so a day the service stops serving keeps its row.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/portwatch.py",
             f"Run log: warehouse/output/logs/portwatch_{run_id}.log",
             f"Raw files: warehouse/raw/portwatch/{run_id}/ (not in git)",
             f"Source: {SOURCE} IMF PortWatch Daily Chokepoints Data (ArcGIS FeatureServer), {URL}",
             f"  portal: {PAGE}",
-            "License: internal. Cite \"IMF PortWatch\"; IMF terms unconfirmed (terms page 403), so internal "
-            "until confirmed (session 8 ruling).",
+            "License: internal. Cite \"IMF PortWatch\"; internal by the session 8 ruling; the IMF's terms page, read 13 of license_reads.csv, "
+            "allows reuse with attribution and asks permission for a commercial one.",
         ]
         ip.write_csv(s[ip.SERIES_COLS], NAME, header, log)
         ip.update_sources([dict(source=SOURCE, publisher="International Monetary Fund (IMF PortWatch)",

@@ -11,7 +11,7 @@ NOAA National Weather Service, National Hurricane Center (NHC), HURDAT2, the bes
 - Atlantic, 1851 to 2025: `hurdat2-1851-2025-092326.txt`
 - Northeast and North Central Pacific, 1949 to 2025: `hurdat2-nepac-1949-2025-092926.txt`
 
-Source id `nhc:hurdat2`. Connector: `warehouse/connectors/nhc_hurdat2.py` (session 2059). www.nhc.noaa.gov's robots file (read 202) disallows nothing.
+Source id `nhc:hurdat2`. Connector: `warehouse/connectors/nhc_hurdat2.py` (session 2059). www.nhc.noaa.gov's robots file (read 222) disallows nothing.
 
 ## Vintage and revision
 

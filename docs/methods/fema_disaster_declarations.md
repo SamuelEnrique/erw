@@ -6,7 +6,7 @@ Tables: `fema_disaster_declarations`
 
 ## Publisher and address
 
-Federal Emergency Management Agency (FEMA), OpenFEMA Dataset: Disaster Declarations Summaries, version 2 (`https://www.fema.gov/openfema-data-page/disaster-declarations-summaries-v2`), the whole data set as one CSV: `https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv`. Source id `fema:openfema_disaster_declarations_v2`. Connector: `warehouse/connectors/fema_disasters.py` (session 2056). www.fema.gov's robots file (read 196) disallows no path under `/api/open/` and asks a crawl delay of 15 seconds.
+Federal Emergency Management Agency (FEMA), OpenFEMA Dataset: Disaster Declarations Summaries, version 2 (`https://www.fema.gov/openfema-data-page/disaster-declarations-summaries-v2`), the whole data set as one CSV: `https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv`. Source id `fema:openfema_disaster_declarations_v2`. Connector: `warehouse/connectors/fema_disasters.py` (session 2056). www.fema.gov's robots file (read 216) disallows no path under `/api/open/` and asks a crawl delay of 15 seconds.
 
 ## Vintage and revision
 
@@ -50,7 +50,7 @@ Rows a year of declaration: 963 (2015), 1,194, 1,668, 1,184, 1,666, 9,712 (2020)
 
 ## License
 
-May be public, with FEMA's statement. OpenFEMA's terms (read 197, FEMA's own verdict in `license_verdicts.csv`, session 2061) ask the endpoint and the time retrieved to be cited and the statement "This product uses the Federal Emergency Management Agency's OpenFEMA API, but is not endorsed by FEMA. The Federal Government or FEMA cannot vouch for the data or analyses derived from these data after the data have been retrieved from the Agency's website(s).", and forbid FEMA's and DHS's logos and seals; the terms also let FEMA ask a user to cease using the data. The table's header: "License: public (OpenFEMA's terms)." followed by the statement. `license_tables.csv` maps the table to FEMA through the source registry.
+May be public, with FEMA's statement. OpenFEMA's terms (read 217, FEMA's own verdict in `license_verdicts.csv`, session 2061) ask the endpoint and the time retrieved to be cited and the statement "This product uses the Federal Emergency Management Agency's OpenFEMA API, but is not endorsed by FEMA. The Federal Government or FEMA cannot vouch for the data or analyses derived from these data after the data have been retrieved from the Agency's website(s).", and forbid FEMA's and DHS's logos and seals; the terms also let FEMA ask a user to cease using the data. The table's header: "License: public (OpenFEMA's terms)." followed by the statement. `license_tables.csv` maps the table to FEMA through the source registry.
 
 ## Cross-checks (session 2066)
 
