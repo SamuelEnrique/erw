@@ -24,7 +24,7 @@
 //
 // 2. A figure. Each key is split at "|". A key that reads a warehouse table names the table and the variable (or field):
 //      series|<table>|<entity>|<variable>|<time>, series_esum|<table>|<entity>|<variable>|..., series_max and series_sum
-//      |<table>|<variable>|..., event and entity|<table>|<id>|<field>, latest_prices|<entity>|<variable>|<time>,
+//      |<table>|<variable>|... (and series_n, session 1154), event and entity|<table>|<id>|<field>, latest_prices|<entity>|<variable>|<time>,
 //      catalogue|<table>|n_rows (and catalogue|<count>).
 //    Its figure is that table and that variable. Every other key is a figure of the page's own arithmetic (the battery's
 //    bs|, the datacenter's dc|, the capture prices' cap|, ...): its figure is its first word, the family, and one more word,
@@ -61,7 +61,7 @@ const KEYS_FILE = path.join(here, "check-methods-keys.json");
 
 const TABLE_KEY = {
   // family: [index of the table (or null: the family is the table), index of the variable (-1: the last part)]
-  series: [1, 3], series_esum: [1, 3], series_max: [1, 2], series_sum: [1, 2], event: [1, 3], entity: [1, 3],
+  series: [1, 3], series_esum: [1, 3], series_max: [1, 2], series_sum: [1, 2], series_n: [1, 2], event: [1, 3], entity: [1, 3],   // session 1154: series_n
   latest_prices: [null, 2], catalogue: [null, -1],
 };
 // the families whose measure is not the first part after the family that is not an instance: the part to take

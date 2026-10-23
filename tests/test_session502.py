@@ -30,7 +30,8 @@ NEW = [("site", "components", "tool", "TableLicenses.tsx"), ("site", "lib", "gri
 VIEWS = {
     "network": [("components/grid/NetworkView.tsx", "NetworkView")],
     "mix": [("components/grid/NowView.tsx", "NowView"), ("components/grid/MixView.tsx", "MixView"),
-            ("components/grid/YourGrid.tsx", "GridMixParts"), ("components/grid/Conditions.tsx", "MixTable"), ("lib/grid.ts", "load")],
+            ("components/grid/YourGrid.tsx", "GridMixParts"), ("components/grid/Conditions.tsx", "MixTable"), ("lib/grid.ts", "load"),
+            ("components/grid/ScarcityPanel.tsx", "ScarcityPanel")],  # session 1154: the scarcity hours
     "clean": [("components/grid/YourGrid.tsx", "GridCleanParts"), ("components/grid/Emissions.tsx", "EmissionsParts"),
               ("components/grid/MixView.tsx", "MixClean"), ("lib/grid.ts", "load")],
     "gravity": [("components/grid/NetworkView.tsx", "NetworkView"), ("components/grid/ExchangeView.tsx", "ExchangeView")],

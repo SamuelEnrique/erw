@@ -30,6 +30,7 @@ OWN = {
     "app/network/NetworkGravity.tsx": 0,
     "components/StackedArea.tsx": 0,
     "components/grid/MixFigures.tsx": 1,  # session 1152: the energy mix panel (grid_mix_<grid>); its one F writes every key
+    "components/grid/ScarcityPanel.tsx": 1,  # session 1154: the scarcity hours (grid_scarcity_<grid>); its one F writes every key
 }
 FORBIDDEN = {
     "type under 12 px": re.compile(r"text-\[(?:[0-9]|1[01])(?:\.\d+)?px\]"),
@@ -71,7 +72,8 @@ class TheOwnComponents(unittest.TestCase):
         """A change here reaches the Grid page and the board only (the battery page is the reference and does not move)."""
         allowed = {"app/grid/page.tsx", "app/board/page.tsx", "components/board/BoardView.tsx", "components/grid/MixView.tsx",
                    "components/grid/YourGrid.tsx", "components/grid/NowView.tsx", "components/grid/NetworkView.tsx",
-                   "components/mix/Now.tsx", "components/mix/views.tsx", "app/network/Network.tsx"}
+                   "components/mix/Now.tsx", "components/mix/views.tsx", "app/network/Network.tsx",
+                   "components/grid/ScarcityPanel.tsx"}  # session 1154: drawn by the Grid page only; it takes Missing from mix/Now.tsx
         for dirpath, dirs, files in os.walk(SITE):
             dirs[:] = [d for d in dirs if d not in ("node_modules", ".next", "_retired", "public")]
             for fn in files:

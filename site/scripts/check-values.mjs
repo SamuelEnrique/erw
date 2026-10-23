@@ -583,6 +583,16 @@ async function truth(check) {
     if (!rows.length) return undefined;
     return rows.reduce((a, r) => a + r.value, 0);
   }
+  // session 1154: the hours one entity's variable holds in a time range, series_n|<table>|<variable>|<start>|<end>|<entity>
+  // (the Grid tool's scarcity hours, grid_scarcity_<grid>: "of N hours held"): the distinct hours of the rows, an hour
+  // written twice held once, counted by the page's own function (lib/scarcityStrip.ts heldHours)
+  if (p[0] === "series_n") {
+    const S = await import("../lib/scarcityStrip.ts");
+    const [, table, variable, start, end, entity] = p;
+    const rows = await all("series", { select: "ts_utc", table_name: `eq.${table}`, entity: `eq.${entity}`, variable: `eq.${variable}`,
+      and: `(ts_utc.gte.${start},ts_utc.lt.${end})`, order: "ts_utc" });
+    return S.heldHours(rows);
+  }
   // session 16: /map (energy_projects, and datacenter_facilities as the kind datacenter; session 22) and /datacenters
   if (p[0] === "projects") {
     const [, what, kind, arg] = p;
