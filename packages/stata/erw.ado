@@ -620,6 +620,29 @@ program define _erw_fetch, rclass
         local backend "auto"
     }
 
+    * session 1056 (chain 072): a start or end that is not a date, or a start not before the end, said before any request
+    foreach side in start end {
+        tempname t`side'
+        scalar `t`side'' = .
+        if "``side''" != "" {
+            scalar `t`side'' = clock(substr(subinstr("``side''", "T", " ", 1), 1, 19), "YMDhms")
+            if missing(`t`side'') {
+                scalar `t`side'' = clock(substr("``side''", 1, 10) + " 00:00:00", "YMDhms")
+            }
+            if missing(`t`side'') | (strlen("``side''") > 10 & !inlist(substr("``side''", 11, 1), "T", " ")) {
+                display as error "The `side' ``side'' is not a date the ERW reads: write it as YYYY-MM-DD, or YYYY-MM-DDTHH:MM:SSZ in UTC, then try again."
+                exit 198
+            }
+        }
+    }
+
+    if "`start'" != "" & "`end'" != "" {
+        if `tstart' >= `tend' {
+            display as error "The start `start' is not before the end `end', so the window [start, end) holds no time: give a start before the end, then try again."
+            exit 198
+        }
+    }
+
     tempfile lic cov
 
     _erw_record licenses, saving(`"`lic'"')

@@ -560,7 +560,27 @@ def fetch(name: Union[str, Iterable[str]], start=None, end=None,
     return {n: _fetch_one(n, start, end, nodes, variable, where, backend) for n in list(name)}
 
 
+class ERWBadWindow(ValueError):
+    """Session 1056 (chain 072): a start or end that is not a date, or a start not before the end; raised before any
+    request, with one sentence that says what to write."""
+
+
+def _check_window(start, end):
+    from .errors import say
+    ts = {}
+    for side, v in (("start", start), ("end", end)):
+        if v is None:
+            continue
+        try:
+            ts[side] = _utc(v)
+        except (ValueError, TypeError):
+            raise ERWBadWindow(say("bad_date", side=side, value=v)) from None
+    if len(ts) == 2 and ts["start"] >= ts["end"]:
+        raise ERWBadWindow(say("bad_window", start=start, end=end))
+
+
 def _fetch_one(name, start, end, nodes, variable, where, backend):
+    _check_window(start, end)
     b = _route(name, backend, start)
     lic = _license_check(name, b)
     filters = None

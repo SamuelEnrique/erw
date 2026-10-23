@@ -14,6 +14,11 @@ WORDS = {
     "redivis_token": "Set REDIVIS_API_TOKEN to a token from https://redivis.com/workspace/settings/tokens, then try again.",
     "live_keys": "Set ERW_LIVE_URL and ERW_LIVE_KEY to the live set's address and key (the ERW gives them on request), "
                  "then try again.",
+    # session 1056 (chain 072): a date that cannot be read, and a window with no time in it, said before any request
+    "bad_date": "The {side} {value} is not a date the ERW reads: write it as YYYY-MM-DD, or YYYY-MM-DDTHH:MM:SSZ in UTC, "
+                "then try again.",
+    "bad_window": "The start {start} is not before the end {end}, so the window [start, end) holds no time: give a start "
+                  "before the end, then try again.",
     "row_limit": "The live set answered a page of {got} rows where {page} were asked for: a fault of the package, not of "
                  "your call; please tell the ERW (https://github.com/SamuelEnrique/erw/issues).",
 }
