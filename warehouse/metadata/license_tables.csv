@@ -109,6 +109,7 @@ eia_annual_generation_ba,EIA,the source registry
 eia_basin_production_monthly,EIA,the source registry
 eia_capacity_factors_annual,EIA,the source registry
 eia_capacity_factors_monthly,EIA,the source registry
+eia_cbecs_commercial_buildings,EIA,the source registry
 eia_co2_state_annual,EIA,the source registry
 eia_coal_delivered_price_annual,EIA,the source registry
 eia_coal_distribution_quarterly,EIA,the source registry
@@ -143,9 +144,12 @@ eia_gas_trade_monthly,EIA,the source registry
 eia_gas_wells_annual,EIA,the source registry
 eia_heat_rates_annual,EIA,the source registry
 eia_heating_fuel_prices_weekly,EIA,the source registry
+eia_ice_electricity_daily,"EIA; ICE, whose prices EIA republishes",by hand: its header: EIA republishes these prices with ICE's permission
 eia_ieo_projections,EIA,the source registry
 eia_international_electricity_annual,EIA,the source registry
 eia_lng_exports_monthly,EIA,the source registry
+eia_lng_liquefaction_projects,EIA,the source registry
+eia_mecs_manufacturing,EIA,the source registry
 eia_meters_state_annual,EIA,the source registry
 eia_net_metering_state_annual,EIA,the source registry
 eia_ngl_production_monthly,EIA,the source registry
@@ -168,6 +172,7 @@ eia_power_plant_fuel_costs,EIA,the source registry
 eia_primary_energy_monthly,EIA,the source registry
 eia_product_spot_prices,EIA,the source registry
 eia_product_supplied_monthly,EIA,the source registry
+eia_recs_households,EIA,the source registry
 eia_refinery_capacity_annual,EIA,the source registry
 eia_refinery_inputs_monthly,EIA,the source registry
 eia_refinery_production_monthly,EIA,the source registry
@@ -315,6 +320,7 @@ lbnl_hybrid_ppa_prices,Berkeley Lab,the source registry
 lbnl_interconnection_queue,Berkeley Lab,the source registry
 lbnl_ppa_prices,Berkeley Lab,the source registry
 lbnl_solar_projects,Berkeley Lab,the source registry
+lbnl_tracking_the_sun,"Berkeley Lab, Tracking the Sun on OEDI","by hand: its submission on the Open Energy Data Initiative states CC BY 4.0 (session 2019, read 193)"
 lbnl_wind_capacity_factors,Berkeley Lab,the source registry
 lbnl_wind_costs,Berkeley Lab,the source registry
 lbnl_wind_turbine_orders,Berkeley Lab,the source registry

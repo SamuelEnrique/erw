@@ -109,6 +109,7 @@ eia_annual_generation_ba,none,,68,P1Y,2023-01-01T00:00:00Z,2025-01-01T00:00:00Z,
 eia_basin_production_monthly,none,,12,P1M,2015-01-01T00:00:00Z,2026-07-01T00:00:00Z,1668,eia:steo:basin_production,2026-10-10T14:58:19Z,pass,public,oil;gas,no,source
 eia_capacity_factors_annual,none,,17,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,374,eia:electric_power_annual,2026-10-23T14:09:41Z,pass,public,power,no,source
 eia_capacity_factors_monthly,none,,17,P1M,2023-01-01T00:00:00Z,2025-12-01T00:00:00Z,1224,eia:electric_power_annual,2026-10-23T14:09:50Z,pass,public,power,no,source
+eia_cbecs_commercial_buildings,none,,231,P1Y,2018-01-01T00:00:00Z,2018-01-01T00:00:00Z,5944,eia:cbecs_2018,2026-10-23T19:27:40Z,pass,public,power;gas;oil,no,source
 eia_co2_state_annual,none,,1248,P1Y,1970-01-01T00:00:00Z,2022-01-01T00:00:00Z,66144,eia:co2-emissions/co2-emissions-aggregates,2026-10-21T21:47:54Z,pass,public,power;gas;oil;coal;carbon,no,source
 eia_coal_delivered_price_annual,none,,228,P1Y,2000-01-01T00:00:00Z,2025-01-01T00:00:00Z,3213,eia:coal/consumption-and-quality,2026-10-21T22:17:07Z,pass,public,coal,no,source
 eia_coal_distribution_quarterly,none,,351,P3M,2024-01-01T00:00:00Z,2024-10-01T00:00:00Z,1207,eia:coal_distribution,2026-10-23T12:51:14Z,pass,public,coal,no,source
@@ -143,9 +144,12 @@ eia_gas_trade_monthly,none,,36,P1M,2015-01-01T00:00:00Z,2026-07-01T00:00:00Z,197
 eia_gas_wells_annual,none,,36,P1Y,1989-01-01T00:00:00Z,2020-01-01T00:00:00Z,1062,eia:natural-gas/prod/wells,2026-10-22T00:37:07Z,pass,public,gas,no,source
 eia_heat_rates_annual,none,,4,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,44,eia:electric_power_annual,2026-10-23T14:09:59Z,pass,public,power,no,source
 eia_heating_fuel_prices_weekly,none,,140,P1W,2012-01-02T00:00:00Z,2026-10-19T00:00:00Z,48534,eia:petroleum/pri/wfr,2026-10-22T00:51:42Z,pass,public,products,no,source
+eia_ice_electricity_daily,none,Midwest;New England;Northern California;Northwest;PJM;Southern California;Southwest,7,P1D,2025-12-29T00:00:00Z,2026-10-14T00:00:00Z,7056,eia:ice_wholesale_electricity,2026-10-23T18:18:26Z,pass,internal,power,no,source
 eia_ieo_projections,none,,574,P1Y,2020-01-01T00:00:00Z,2050-01-01T00:00:00Z,17856,eia:ieo/2023,2026-10-23T13:46:53Z,pass,public,power;carbon,no,source
 eia_international_electricity_annual,none,,51,P1Y,1980-01-01T00:00:00Z,2024-01-01T00:00:00Z,4131,eia:international,2026-10-23T04:55:57Z,pass,public,power,no,source
 eia_lng_exports_monthly,none,,17,P1M,2013-11-01T00:00:00Z,2026-07-01T00:00:00Z,1083,eia:natural-gas/move/poe2,2026-10-23T14:37:50Z,pass,public,lng,no,source
+eia_lng_liquefaction_projects,none,,48,snapshot,2026-10-23T18:59:44Z,2026-10-23T18:59:44Z,48,eia:us_liquefaction_capacity,2026-10-23T19:02:57Z,pass,public,gas,no,source
+eia_mecs_manufacturing,none,,82,P1Y,2022-01-01T00:00:00Z,2022-01-01T00:00:00Z,5363,eia:mecs,2026-10-23T18:33:31Z,pass,public,power;gas;oil;coal,no,source
 eia_meters_state_annual,none,,1040,P1Y,2013-01-01T00:00:00Z,2024-01-01T00:00:00Z,8578,eia:electricity/state-electricity-profiles/meters,2026-10-21T23:48:23Z,pass,public,power,no,source
 eia_net_metering_state_annual,none,,1031,P1Y,2013-01-01T00:00:00Z,2024-01-01T00:00:00Z,16226,eia:electricity/state-electricity-profiles/net-metering,2026-10-21T21:48:23Z,pass,public,power,no,source
 eia_ngl_production_monthly,none,,283,P1M,1973-01-01T00:00:00Z,2026-07-01T00:00:00Z,110896,eia:petroleum/pnp/gp,2026-10-22T06:55:02Z,pass,public,products,no,source
@@ -168,6 +172,7 @@ eia_power_plant_fuel_costs,none,,58,P1M,2019-01-01T00:00:00Z,2026-08-01T00:00:00
 eia_primary_energy_monthly,none,,24,P1M,1973-01-01T00:00:00Z,2026-06-01T00:00:00Z,15156,eia:total-energy,2026-10-23T14:37:50Z,pass,public,power;gas;oil;coal,no,source
 eia_product_spot_prices,none,,9,P1D,1986-06-02T00:00:00Z,2026-10-20T00:00:00Z,72088,eia:petroleum/pri/spt,2026-10-23T14:37:50Z,pass,public,products,no,source
 eia_product_supplied_monthly,none,,702,P1M,2017-01-01T00:00:00Z,2026-07-01T00:00:00Z,71938,eia:petroleum/cons/psup,2026-10-21T23:04:16Z,pass,public,oil;products,no,source
+eia_recs_households,none,,73,P1Y,2020-01-01T00:00:00Z,2020-01-01T00:00:00Z,2802,eia:recs_2020,2026-10-23T19:27:40Z,pass,public,power;gas;oil,no,source
 eia_refinery_capacity_annual,none,,2009,P1Y,1982-01-01T00:00:00Z,2026-01-01T00:00:00Z,62804,eia:petroleum/pnp/cap1,2026-10-22T02:42:37Z,pass,public,products,no,source
 eia_refinery_inputs_monthly,none,,1056,P1M,2005-01-01T00:00:00Z,2026-07-01T00:00:00Z,216010,eia:petroleum/pnp/inpt,2026-10-22T06:14:25Z,pass,public,products,no,source
 eia_refinery_production_monthly,none,,1488,P1M,2005-01-01T00:00:00Z,2026-07-01T00:00:00Z,326819,eia:petroleum/pnp/refp,2026-10-22T06:49:09Z,pass,public,products,no,source
@@ -315,6 +320,7 @@ lbnl_hybrid_ppa_prices,none,,1,event,2015-09-09T00:00:00Z,2025-06-13T00:00:00Z,1
 lbnl_interconnection_queue,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,38201,snapshot,2026-10-02T09:16:25Z,2026-10-02T09:16:25Z,38201,lbnl:queued_up,,pass,public,power,no,source
 lbnl_ppa_prices,none,,1,event,1996-09-06T00:00:00Z,2025-06-13T00:00:00Z,1133,1 outlets,2026-10-23T08:31:18Z,pass,public,power,no,source
 lbnl_solar_projects,lbnl,,1775,snapshot,2026-10-23T08:30:21Z,2026-10-23T08:30:21Z,1775,lbnl:solar_projects,2026-10-23T11:11:04Z,pass,public,power,no,source
+lbnl_tracking_the_sun,lbnl,,7,P1Y,1983-01-01T00:00:00Z,2024-01-01T00:00:00Z,8762,lbnl:tracking_the_sun,2026-10-23T18:53:21Z,pass,public,power,no,source
 lbnl_wind_capacity_factors,lbnl,,1210,P1Y,2025-01-01T00:00:00Z,2025-01-01T00:00:00Z,1210,lbnl:wind_capacity_factors,2026-10-23T11:24:31Z,pass,public,power,no,source
 lbnl_wind_costs,lbnl,,35,P1Y,1983-01-01T00:00:00Z,2025-06-30T00:00:00Z,119,lbnl:wind_costs,2026-10-23T12:23:01Z,pass,public,power,no,source
 lbnl_wind_turbine_orders,none,,1,event,1997-02-01T00:00:00Z,2016-07-01T00:00:00Z,122,1 outlets,2026-10-23T12:23:12Z,pass,public,power,no,source

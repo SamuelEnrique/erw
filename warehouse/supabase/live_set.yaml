@@ -361,9 +361,15 @@ catalogue_hold:
   - noaa_climdiv_state_monthly
   - ornl_tedb_transportation_annual
   - doe_grip_selections
-  - ieso_ontario_demand_hourly
   - aeso_alberta_load_hourly
+  - eia_cbecs_commercial_buildings
+  - eia_ice_electricity_daily
+  - eia_lng_liquefaction_projects
+  - eia_mecs_manufacturing
+  - eia_recs_households
   - epa_ghgrp_facility_emissions
+  - ieso_ontario_demand_hourly
+  - lbnl_tracking_the_sun
   - noaa_ncei_billion_disasters
   - lbnl_hybrid_ppa_prices
   - lbnl_solar_projects

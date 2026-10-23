@@ -232,9 +232,15 @@ SECTOR_RULES = [
     (r"^noaa_climdiv_state_monthly$", "power;gas"),  # session 2045: NOAA's statewide climate
     (r"^ornl_tedb_transportation_annual$", "oil;products;power"),  # session 2048: ORNL's Transportation Energy Data Book
     (r"^doe_grip_selections$", "power"),  # session 2050: DOE's GRIP selections
-    (r"^ieso_ontario_demand_hourly$", "power"),  # session 2070: the IESO's Ontario demand
     (r"^aeso_alberta_load_hourly$", "power"),  # session 2071: the AESO's Alberta internal load
+    (r"^eia_cbecs_commercial_buildings$", "power;gas;oil"),  # session 2017: EIA's commercial buildings survey (CBECS 2018)
+    (r"^eia_ice_electricity_daily$", "power"),  # session 2014: ICE's hub indices as EIA republishes them (internal)
+    (r"^eia_lng_liquefaction_projects$", "gas"),  # session 2021: EIA's U.S. liquefaction capacity (LNG export projects)
+    (r"^eia_mecs_manufacturing$", "power;gas;oil;coal"),  # session 2016: EIA's manufacturing survey (MECS)
+    (r"^eia_recs_households$", "power;gas;oil"),  # session 2017: EIA's residential survey (RECS 2020)
     (r"^epa_ghgrp_facility_emissions$", "carbon;power;oil;gas"),  # session 2072: EPA's GHGRP, every sector
+    (r"^ieso_ontario_demand_hourly$", "power"),  # session 2070: the IESO's Ontario demand
+    (r"^lbnl_tracking_the_sun$", "power"),  # session 2015: Berkeley Lab's Tracking the Sun, summarised (written in session 2020)
     (r"^noaa_ncei_billion_disasters$", "power"),  # session 2073: NOAA's billion-dollar disasters
     (r"^eia861_short_form$", "power"),  # session 876: EIA-861S, the small utilities' sales  # session 869: EIA-861's meters and net metering by utility  # session 868: EIA-861's programs by utility  # session 867: EIA-861's utility data: NERC region, RTOs, activities  # session 853: EIA-861's delivery-only companies (Texas's wires utilities)  # session 695: EIA-861's distribution reliability (SAIDI, SAIFI, CAIDI) by utility
     (r"^eia_gas_storage_state_monthly$", "gas"),  # session 525: EIA's natural gas in underground storage by state, a month
