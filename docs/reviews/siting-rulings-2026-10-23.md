@@ -152,3 +152,7 @@ All 19 items above, and the 20th (`docs/reviews/siting-rulings-answered.md`), ar
 - **Yes**: the renderer thins its labels (every other one) or turns them when they would touch. Every card's picture can change where labels are crowded; no figure changes.
 - **No**: the cards stay as they are; the touching names are still read in the card's table.
 - **Recommendation: yes, turn rather than thin**, since a thinned label drops a region's name from the picture.
+
+## The state of each item (session 1039, chain 071, 23 October 2026, morning)
+
+All 21 items of this file (1 to 19, 21 and 22) and the 20th (`docs/reviews/siting-rulings-answered.md`) are **not ruled**: session 1021 read none answered at about 06:45 UTC, and main again at about 07:40 holds no "Answer:" line here or in the answered file. Chain 071 changed no item's subject: ERCOT's reserve margin (1027) is drawn as open items line 20 asked, not by a ruling. The packages' items are in `docs/reviews/packages-open.md`.

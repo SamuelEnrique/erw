@@ -28,7 +28,7 @@
 
 ## The landing
 
-With 1015 onward.
+Sessions 1015 to 1019 landed in one push: see `SESSION_1019_REPORT.md`, "The landing".
 
 ## Decisions made without you
 

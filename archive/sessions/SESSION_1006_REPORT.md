@@ -43,7 +43,7 @@ In Stata, with the command installed and the two globals set (session 1003's rep
 
 ## The landing
 
-Sessions 1000 to 1006 land together from this branch (below, once done).
+Sessions 1000 to 1014 landed in one push: see `SESSION_1014_REPORT.md`, "The landing".
 
 ## Decisions made without you
 

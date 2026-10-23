@@ -1,6 +1,15 @@
 # The ERW in Python, Stata and R: one specification for three packages
 
-Version 0, session 1000, 23 October 2026 (chain 070, `queue/done/070-evening-22-october-code-packages.md`); session 1001 closed the Python package's gaps and settled two points while doing so (decisions 6 and 7). The one specification the three packages follow: the Python package `erw` (`package/`), the Stata command `erw` (`packages/stata/`, from session 1003) and the R package `erw` (`packages/r/`, from session 1005). A call, a word or a column type that one package does differently from this note is a fault of that package. Internal: the site is in review, like every page, and nothing here is published to PyPI, CRAN or SSC (the owner's).
+Version 1, session 1038, 23 October 2026 (chain 071, `queue/done/071-night-23-october-code-allgrids-packages.md`): "What version 1 changed" below. Version 0 was session 1000's (chain 070, `queue/done/070-evening-22-october-code-packages.md`); session 1001 closed the Python package's gaps and settled two points while doing so (decisions 6 and 7). The one specification the three packages follow: the Python package `erw` (`package/`), the Stata command `erw` (`packages/stata/`, from session 1003) and the R package `erw` (`packages/r/`, from session 1005). A call, a word or a column type that one package does differently from this note is a fault of that package. Internal: the site is in review, like every page, and nothing here is published to PyPI, CRAN or SSC (the owner's).
+
+## What version 1 changed (chain 071, sessions 1032 to 1037)
+
+- **The All grids tab's figures** (1032): four reproduced by the Python package's `fetch` from the tables the tab's files were built from, with each figure's window and order of tables written beside it; the fifth (the second card's all-in) rests on an internal table and is named. Section "The package reads the All grids tab's figures".
+- **The owner's Stata and R run**: not yet there (1033); the three commands are in `SESSION_1033_REPORT.md`. The Stata and R packages' Redivis export path stays unproven until then.
+- **The conformance file against the live set of 23 October** (1034): 20 of 20, no answer moved (each call reads a fixed window), 21 requests. Call 7 leaves the live set's 35 days about 22 November.
+- **The install, again** (1035): the wheel rebuilt offline and installed in a clean venv answers every call; the README's example runs as written; the record now lists 328 tables. The README now says its test line wants the tables `docs/coverage.md` describes (on this code machine 108 of 799 fail by older local tables, none by the package).
+- **The data pages** (1036): AccessLint and the 390 check, 0 findings. **The downloads and `/llms.txt`** (1037): not ruled, both still answer the internal view only.
+- **No call, word or column type changed** in any of the three packages.
 
 ## What a reader gets
 
@@ -181,6 +190,20 @@ Ten figures of the site, each with the check key the page writes (the key check-
 | `/cost-of-power/battery` | `series|price_years_by_window|ercot:HB_HUBAVG|battery_foresight_4h_year_2025|2025-01-01T00:00:00+00:00` | 87.439609 | local | reproduced |
 
 Eight of ten are reproduced exactly; no fault was found in the package or in the pages' library. The two others are the price board's tables (`price_board_latest`, `price_board_peak_offpeak`), whose license verdict is `unsettled` (held whole for their ISO-NE, MISO and NYISO rows). The package refuses them on the live set, as this note says it must, while the Grid tool shows their ERCOT figures. Whether a held table's public rows may be shown is the owner's ruling (`docs/licenses.md`, "Held figures that still show").
+
+## The package reads the All grids tab's figures (session 1032)
+
+Four figures of the All grids tab of `/cost-of-power` reproduced by the Python package's `fetch` (local backend) from the tables the tab's files were built from, and a fifth named (`package/tests/test_tab_figures.py`, run with `ERW_DATA_DIR` pointing at the tables; each test skips when its table is not there; the figures in `tab_figures.json`, the values production showed on 23 October 2026 at about 06:30 UTC).
+
+| Key | Shown | Tables | Result |
+|---|---|---|---|
+| `allgrids|energy|ercot:HB_HUBAVG|da` | 34.302056 | `ercot_all_hub_prices_history`, then `iso_dam_hub_prices` | reproduced: 8,760 hours, October 2025 to September 2026 in Central standard time; an hour is the first table's that holds it, as the price files are built (this machine's copy of the history ends 26 August 2026, the day-ahead table holds the rest) |
+| `allgrids|nodespread|ercot:7RNCHSLR_ALL` | 7.8679 | `node_basis_daily` | reproduced: the 90th percentile less the 10th of the daily basis, each rounded to four decimals, over the node file's twelve months |
+| `allgrids|nodeswing|ercot:7RNCHSLR_ALL` | 48.1828 | `node_basis_daily` | reproduced: the mean daily `dam_spread_4h` |
+| `allgrids|zonegrowth|nyiso:N.Y.C.` | 1.0759 | `eia930_subba_demand_hourly_2024`, `_2025` | reproduced: NYIS:ZONJ's mean hourly demand, 2025 over 2024 |
+| `card|siting_flexible|hub_flat` | 42.12709 | the first figure plus the four-peak charge | not reproduced: the charge's rate is `texas_delivery_charges`'s, internal; the test checks the package's record says so |
+
+What it shows: a figure of the tab is the table's arithmetic once the window and the order of tables are known, and both are now written beside the figure. No fault was found in the package. No request was made: `node_basis_daily` is out of the live set (session 483) and not in the released Stanford dataset, so a researcher reads it from the Stanford draft once released, or from a clone's tables.
 
 ## Where the three still differ (session 1014)
 
