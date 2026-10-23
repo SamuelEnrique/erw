@@ -1,0 +1,38 @@
+{
+ "_about": "Session 1300 (chain 093): scripted model turns for the general chat, run through both loops (warehouse/chat/ask.py and site/lib/chat/ask.ts) over the rows of tests/fixtures/session1112/held_reads.json, by tests/test_session1300.py and site/scripts/test-ask-1300.mjs. Each turn is what the model returns: tool calls, or the answer as JSON text. The figures are the fixture's rows (cost_of_power_monthly, January 2026, rt_load_weighted: ERCOT's hub average 54.481, CAISO SP15 32.694), and the wrong ones are written wrong on purpose.",
+ "today": "2026-10-23",
+ "scenarios": [
+  {"id": "answered", "question": "What was ERCOT's hub average real-time load-weighted price in January 2026?",
+   "turns": [
+    {"tools": [{"name": "query", "input": {"table": "cost_of_power_monthly", "aggregation": "mean", "entity": "ercot:HB_HUBAVG", "variable": "rt_load_weighted", "start": "2026-01-01", "end": "2026-02-01"}}]},
+    {"text": {"answer": "ERCOT's hub average real-time load-weighted price was 54.481 USD/MWh in January 2026 (cost_of_power_monthly).", "citations": [{"table": "cost_of_power_monthly", "source_report": "erw:cost_of_power", "data_version": "fixture", "tier": "derived"}], "not_in_warehouse": false}}
+   ]},
+  {"id": "a_figure_in_no_result", "question": "What was ERCOT's hub average real-time load-weighted price in January 2026?",
+   "turns": [
+    {"tools": [{"name": "query", "input": {"table": "cost_of_power_monthly", "aggregation": "mean", "entity": "ercot:HB_HUBAVG", "variable": "rt_load_weighted", "start": "2026-01-01", "end": "2026-02-01"}}]},
+    {"text": {"answer": "ERCOT's hub average real-time load-weighted price was 61.25 USD/MWh in January 2026 (cost_of_power_monthly).", "citations": [{"table": "cost_of_power_monthly", "source_report": "erw:cost_of_power", "data_version": "fixture", "tier": "derived"}], "not_in_warehouse": false}},
+    {"text": {"answer": "ERCOT's hub average real-time load-weighted price was 61.25 USD/MWh in January 2026 (cost_of_power_monthly).", "citations": [{"table": "cost_of_power_monthly", "source_report": "erw:cost_of_power", "data_version": "fixture", "tier": "derived"}], "not_in_warehouse": false}}
+   ]},
+  {"id": "a_compare", "question": "How did CAISO SP15's real-time load-weighted price compare with ERCOT's hub average in January 2026?",
+   "turns": [
+    {"tools": [{"name": "compare", "input": {"a": {"table": "cost_of_power_monthly", "aggregation": "mean", "entity": "ercot:HB_HUBAVG", "variable": "rt_load_weighted", "start": "2026-01-01", "end": "2026-02-01"}, "b": {"table": "cost_of_power_monthly", "aggregation": "mean", "entity": "caiso:TH_SP15_GEN-APND", "variable": "rt_load_weighted", "start": "2026-01-01", "end": "2026-02-01"}}}]},
+    {"text": {"answer": "CAISO SP15's real-time load-weighted price was 32.694 USD/MWh in January 2026, 21.787 USD/MWh below ERCOT's hub average of 54.481 USD/MWh (cost_of_power_monthly).", "citations": [{"table": "cost_of_power_monthly", "source_report": "erw:cost_of_power", "data_version": "fixture", "tier": "derived"}], "not_in_warehouse": false}}
+   ]},
+  {"id": "not_in_the_warehouse", "question": "What was ERCOT's hub average real-time load-weighted price in January 1990?",
+   "turns": [
+    {"tools": [{"name": "query", "input": {"table": "cost_of_power_monthly", "aggregation": "mean", "entity": "ercot:HB_HUBAVG", "variable": "rt_load_weighted", "start": "1990-01-01", "end": "1990-02-01"}}]},
+    {"text": {"answer": "Not in the warehouse: cost_of_power_monthly holds no row for that month.", "citations": [{"table": "cost_of_power_monthly", "source_report": "erw:cost_of_power", "data_version": "fixture", "tier": "derived"}], "not_in_warehouse": true}}
+   ]},
+  {"id": "a_table_cited_unread", "question": "What was ERCOT's hub average real-time load-weighted price in January 2026?",
+   "turns": [
+    {"tools": [{"name": "query", "input": {"table": "cost_of_power_monthly", "aggregation": "mean", "entity": "ercot:HB_HUBAVG", "variable": "rt_load_weighted", "start": "2026-01-01", "end": "2026-02-01"}}]},
+    {"text": {"answer": "ERCOT's hub average real-time load-weighted price was 54.481 USD/MWh in January 2026.", "citations": [{"table": "merchant_revenue_monthly", "source_report": "erw:merchant_revenue", "data_version": "fixture", "tier": "derived"}], "not_in_warehouse": false}},
+    {"text": {"answer": "ERCOT's hub average real-time load-weighted price was 54.481 USD/MWh in January 2026.", "citations": [{"table": "merchant_revenue_monthly", "source_report": "erw:merchant_revenue", "data_version": "fixture", "tier": "derived"}], "not_in_warehouse": false}}
+   ]},
+  {"id": "a_held_grid", "question": "What was NYISO's New York City real-time load-weighted price in January 2026?", "hold": true,
+   "turns": [
+    {"tools": [{"name": "query", "input": {"table": "cost_of_power_monthly", "aggregation": "mean", "entity": "nyiso:N.Y.C.", "variable": "rt_load_weighted", "start": "2026-01-01", "end": "2026-02-01"}}]},
+    {"text": {"answer": "NYISO's rows of cost_of_power_monthly are held for a license (license needed). For the public grids in January 2026: ERCOT's hub average was 54.481 USD/MWh and CAISO SP15 32.694 USD/MWh (cost_of_power_monthly).", "citations": [{"table": "cost_of_power_monthly", "source_report": "erw:cost_of_power", "data_version": "fixture", "tier": "derived"}], "not_in_warehouse": false}}
+   ]}
+ ]
+}
