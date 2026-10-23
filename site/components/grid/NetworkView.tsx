@@ -11,6 +11,9 @@ import type { Shape } from "@/lib/networkMap";
 import { HOURLY, attempt } from "@/lib/supabase";
 import { Network, type Snapshot } from "@/app/network/Network";
 import { ISO_BA, liveExtras, supplyRows } from "@/app/network/data";
+import { GravityFigures, NetworkFigures } from "@/components/grid/NetworkFigures";
+import type { GridChoice } from "@/lib/gridtool";
+import { shownHour } from "@/lib/gridKeys";
 
 // Session 168 (the owner's instruction of 8 October 2026): version 3 is the network page. This file is version 3's page
 // (app/network/v3/page.tsx, sessions 93, 109 and 124), moved to the tool's own address; /network/v3 redirects here
@@ -37,8 +40,13 @@ const ET = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", mont
 const utc = (t: string) => `${t.slice(0, 16).replace("T", " ")} UTC`;
 const both = (t: string) => `${utc(t)} (${ET.format(new Date(t))} Eastern)`;
 
-export async function NetworkView({ keep, node, shape }: { /** the page's own query, kept in the address: "?grid=ercot&view=network" */ keep: string; /** the balancing authority whose panel opens when the address names none */ node: string | null;
-  /** session 299: the shape the page's tab is (the Gravity tab passes "gravity"); the address's, else the network, when absent */ shape?: Shape }) {
+// Session 1151 (chain 077): under the component, the figures it draws for the grid in view in the hour it opens on,
+// drawn on the server with their check keys and a one-line source each (components/grid/NetworkFigures.tsx): the
+// grid's ties, net and demand on the Network tab (the seven grids' net exchange for the Lower 48), what the gravity
+// shape draws on the Gravity tab.
+export async function NetworkView({ keep, node, shape, grid }: { /** the page's own query, kept in the address: "?grid=ercot&view=network" */ keep: string; /** the balancing authority whose panel opens when the address names none */ node: string | null;
+  /** session 299: the shape the page's tab is (the Gravity tab passes "gravity"); the address's, else the network, when absent */ shape?: Shape;
+  /** session 1151: the grid in view, whose figures are drawn under the component; none given, none drawn */ grid?: GridChoice }) {
   const { snap, from } = pickSnapshot(await fetchHourly(HOURLY), committed);
   const isos = Object.entries(ISO_BA);
   const [reads, extras] = await Promise.all([Promise.all(isos.map(([, ba]) => attempt(() => supplyRows(ba)))), liveExtras(snap)]);
@@ -62,6 +70,9 @@ export async function NetworkView({ keep, node, shape }: { /** the page's own qu
         <p className="mt-3 max-w-3xl text-sm" data-network-lag={lag} data-network-clock-lag={clockLag}>The newest hour shown, {hourName(shownHour)}, began <Num check={`net|lag|${shownHour}|${snap.built}`} raw={lag}>{shown(lag)}</Num> hours before
           this week&apos;s latest hourly refresh ({utc(snap.built)}), and {shown(clockLag)} hours before this page was drawn ({utc(drawn.toISOString())}): EIA-930 publishes a balancing authority&apos;s interchange for a local day on the second morning after it, so the network runs about two days behind the clock.</p>
       ); })()}
+      {grid ? (shape === "gravity"
+        ? <GravityFigures snap={snap} hour={shownHour(snap, complete)} grid={grid} live={extras} />
+        : <NetworkFigures snap={snap} hour={shownHour(snap, complete)} grid={grid} live={extras} />) : null}
       <p className="mt-3 max-w-3xl text-xs text-muted" data-network-source={from}>
         The live week: refreshed {utc(snap.built)}. <span data-newest-complete={complete.hour ?? "none"}>{complete.hour
           ? <>Newest hour complete for every reporting pair: {hourName(complete.hour)} ({complete.reporting} of the week&apos;s {complete.pairs} pairs report; the newest hour of all, {hourName(complete.newest)}, holds {complete.newestPairs} of them).</>
