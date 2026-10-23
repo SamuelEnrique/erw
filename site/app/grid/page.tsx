@@ -9,6 +9,7 @@ import { ToolPicker, ToolTabs } from "@/components/tool/Choose";
 import { KEEP_DAY } from "@/lib/carry";
 import { AskView } from "@/components/grid/AskView";
 import { MixTable } from "@/components/grid/Conditions";
+import { ScarcityPanel } from "@/components/grid/ScarcityPanel";
 import { EmissionsParts } from "@/components/grid/Emissions";
 import { ExchangeView } from "@/components/grid/ExchangeView";
 import { MixClean, MixView } from "@/components/grid/MixView";
@@ -105,6 +106,8 @@ export default async function GridTool({ searchParams }: { searchParams: Promise
                   {grid.slug === "us48" && mix.view !== "now" && mix.view !== "history" ? <p className="mb-3 max-w-3xl text-sm text-muted">This view is by grid, and the Lower 48 is not one of its grids: it opens on ERCOT. Choose grids below, or a grid above.</p> : null}
                   <MixView c={mix} />
                   {cfg && data ? <div className="mt-10"><GridMixParts g={cfg} d={data} /></div> : null}
+                  {/* session 1154: the scarcity hours (scarcity_hours_by_grid), after the mix blocks, before the table of every region */}
+                  <div className="mt-10"><ScarcityPanel grid={grid.slug} label={grid.label} /></div>
                   <div className="mt-10"><MixTable /></div>
                 </div>
               ) : null}

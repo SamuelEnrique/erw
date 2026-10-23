@@ -76,6 +76,16 @@ One row per grid, hour and variable. `entity` is `iso:<grid>`; `ts_utc` is the h
 - **ERCOT's twelve months of the page** (October 2025 to September 2026): 1,558 hours of the adder held, 1 October to 4 December 2025, the figure the datacenter page prints; 44 of them above zero.
 - **CAISO.** One hour at or above USD 1,000 in 25 months of prices (27 August 2026), and one EEA in 36 months. The two do not overlap: the EEA Watch of 24 July 2024 is before CAISO's prices are held.
 
+## On the Grid tool (session 1154, 23 October 2026)
+
+The table's second reader: the Mix tab of `/grid`, the panel `grid_scarcity_<grid>` (`site/components/grid/ScarcityPanel.tsx`, `site/lib/scarcityStrip.ts`).
+
+- **The window is the latest 30 days the table holds, not the 30 days before today** (session 1150's decision): the 30 standard-time days that end with the day of the newest hour held. For the run of October 2026 that is 1 to 30 September 2026 for both grids. The page names the newest hour and how many days before the page was drawn it was.
+- **The strip:** the days across, the hour of day in the grid's standard time down. A cell for each hour with a `rt_hour_ge_1000` or `da_hour_ge_1000` row: filled where either is 1, faint where both are 0, hatched where neither is held. A square where `own_signal` is 1 (an hour whose own signal alone is held keeps a hatched cell and its square).
+- **The hover:** the hour in standard time and in UTC, the variables at 1, `rt_intervals_ge_1000`, `own_signal`, and the highest price of the hour: the highest of the hub's 15-minute real-time prices in `iso_rtm_hub_prices` (variable `spp_rtm` for ERCOT's `HB_HUBAVG`, `lmp_rtm_15m_mean` for CAISO's `TH_SP15_GEN-APND`), where the live set holds them (about 35 days, so from 18 September 2026 for this window); for ERCOT, where it does not, the highest real-time price of ERCOT's local day, `rt_max` of `ercot_hub_prices_daily`, said as the day's; else none, said so. Each tip ends with the level and its source.
+- **The figures under it**, each a check key: `series_sum|scarcity_hours_by_grid|<variable>|<start>|<end>|iso:<grid>` for the hours at 1 of `rt_hour_ge_1000`, `da_hour_ge_1000` and `own_signal` and for the intervals of `rt_intervals_ge_1000`; `series_n|scarcity_hours_by_grid|<variable>|<start>|<end>|iso:<grid>` (a key kind added in this session: the distinct hours the rows hold) for the hours held of each; `series_max|iso_rtm_hub_prices|<variable>|<start>|<end>|<hub>` for the highest 15-minute price held; and for ERCOT `series_max|ercot_hub_prices_daily|rt_max|<first day>|<day after the last>|ercot:HB_HUBAVG`.
+- **The other grids** are not in the table, and the panel says why in one line: PJM "license needed" (no PJM price is held); MISO "paused" (since 4 October 2026, `miso_pause.md`); NYISO and ISO-NE "license needed" (their prices need a license from 21 October 2026); SPP "not in the table yet" (its hub prices are public; its own signal is not held as a table). The Lower 48 links ERCOT's and CAISO's.
+
 ## Checks
 
 - The validator: `python warehouse/validate/erw_validate.py warehouse/output/scarcity_hours_by_grid.csv`, pass.

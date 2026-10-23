@@ -14,7 +14,9 @@ export const GRID_VIEW_TABLES: Record<GridView, readonly string[]> = {
     "carbon_intensity_monthly", "clean_energy_hourly", "clean_energy_summary", "datacenter_facilities", "eia930_all_demand",
     "eia930_all_generation", "eia930_all_interchange", "eia930_generation_latest", "energy_projects", "generation_mix_hourly_profile",
     "generation_mix_records", "grid_stress_yearly", "known_data_faults", "news_index", "price_board_latest", "price_board_peak_offpeak",
-    "state_generation_mix_monthly", "storage_capacity", "storage_daily_cycle"],
+    "state_generation_mix_monthly", "storage_capacity", "storage_daily_cycle",
+    // session 1154: the scarcity hours (components/grid/ScarcityPanel.tsx)
+    "scarcity_hours_by_grid", "iso_rtm_hub_prices", "ercot_hub_prices_daily"],
   clean: ["caiso_battery_storage", "caiso_grid_emergencies", "caiso_reliability_daily", "carbon_intensity_daily", "carbon_intensity_hourly",
     "carbon_intensity_monthly", "clean_energy_hourly", "clean_energy_summary", "datacenter_facilities", "eia930_all_demand",
     "eia930_all_emissions", "eia930_all_generation", "eia930_generation_latest", "energy_projects", "generation_mix_hourly_profile",
