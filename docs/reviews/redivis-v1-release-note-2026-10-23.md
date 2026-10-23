@@ -31,8 +31,13 @@ header lines merged into `erw_headers` (2,736 lines). The draft now holds **190 
 CSVs), and `docs/redivis/release-v1-stanford/` lists 193 in v1 with the metadata tables, none held. **Session 687
 refreshed `erw_coverage` and `erw_sources`** (uploaded before the four tables by session 663): `upload.py --target
 stanford --prove-by-listing grid_peak_vs_capacity` sent the table again and then `erw_headers` (2,736 lines),
-`erw_coverage` (294 rows) and `erw_sources` (398 rows), each proved by the draft's own count; session 688's reconcile reads
-the whole draft against the files.
+`erw_coverage` (294 rows) and `erw_sources` (398 rows), each proved by the draft's own count. **Session 688's reconcile**
+(23 October 2026, 00:08 UTC, 5 requests) read the whole draft against this machine's files: 147 of 194 match; 45 differ,
+every one because a daily run has added rows here since its upload (the files hold more, never fewer: `ercot_rtm_node_prices`
++29,952, `eia930_all_interchange` +8,112, `ercot_dam_esr_awards` +8,040, the rest smaller, `erw_coverage` 296 against 294
+and `erw_sources` 399 against 398); 2 are chain 041's tables, public and never uploaded here
+(`eia930_subba_demand_hourly_2021`, 710,831 rows; `eia_coal_production_annual`, 22,630). Nothing is wrong in the draft: it
+is the warehouse as of 21 and 22 October. The list: `runs/c045/s688/redivis_reconcile_stanford.csv` on the data machine.
 
 **The daily run the draft holds:** the data machine's tables as of 21 and 22 October 2026 (111 tables last run on 21
 October, 19 on 22 October); 30 were last run here before 15 October (below).
@@ -61,7 +66,9 @@ October, 19 on 22 October); 30 were last run here before 15 October (below).
 
 ## The click, in order
 
-1. `python warehouse/redivis/upload.py --target stanford --reconcile` (read only): every row `match`.
+1. `python warehouse/redivis/upload.py --target stanford --reconcile` (read only): every row `match`, or a table that
+   differs only because the daily run has grown it since its upload (session 688: 45 such, and 2 not uploaded). To release
+   the newest copy instead, upload those first (`--target stanford --prove-by-listing <tables>`, about 5 requests a table).
 2. On `stanford.redivis.com`, signed in with edit access to `datapages.erw`, open the draft (`next`).
 3. Decide item 2 above; paste `docs/redivis/release-v1-stanford/README.md` into the description.
 4. Click Release, with a note naming the ERW commit and the date of the run it holds.
