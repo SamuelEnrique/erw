@@ -23,6 +23,7 @@ export const DECISIONS: { choice: string; session: string; ruling?: string }[] =
   { choice: "The comparables view computes nothing from fewer than three deals that state a figure: such a cell says so.", session: "466" },
   { choice: "Each tab offers its public tables as the live set's CSV with a Python and a Stata reader; the evidence sentences are outlet text and stay internal.", session: "328 and 329" },
   { choice: "From 21 October 2026 energy_deals is held for a license: the page shows the catalogue's words where a deal would be, and how many rows the hold covers.", session: "215 and 465", ruling: "the owner's ruling of 12 October 2026" },
+  { choice: "A held deal is shown when at least one of its evidence rows comes from a publisher whose terms the ERW reads as public, with that evidence as its source and no held outlet named or linked; a deal every evidence row of which asks for permission is counted as held, \"license needed\", and one resting on a publisher not read is counted as unsettled. The sort is read from the archive's copy of the evidence table, not the live set.", session: "821 and 822" },
 ];
 
 export function DealsDecisions() {

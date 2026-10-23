@@ -20,6 +20,13 @@ import { TrackerView } from "./v2/view";
 import { ComparablesView } from "./comparables/view";
 import { DealsDecisions } from "./Decisions";
 import { DealsHeld } from "./Held";
+import { fileIsSound, type PublicDealRow, type PublicDealsFile } from "@/lib/dealspublic";
+import publicFile from "@/data/deals_public.json";
+
+// Session 822: the public rows of the held table (lib/dealspublic.ts): the file warehouse/deals/public_rows.py writes
+// from the archive's copy of energy_deals and its evidence rows. Read once; a file that is not sound (a row without
+// public evidence, a source outside it) is not drawn, and the page shows the whole-table hold as before.
+const PUBLIC: PublicDealsFile | undefined = fileIsSound(publicFile as PublicDealsFile) ? (publicFile as PublicDealsFile) : undefined;
 
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "Deals" };
@@ -69,10 +76,23 @@ async function DealsView() {
         <Link href="/data/methods/energy_deals">Method</Link>.
       </p>
       {!res.ok ? (
-        <>
-          <NoData what="deals" reason={res.reason} />
-          {isLicenseReason(res.reason) ? <DealsHeld /> : null}
-        </>
+        isLicenseReason(res.reason) && PUBLIC && PUBLIC.shown.length ? (
+          <>
+            {/* session 822: the table is held whole; the rows a public source stands behind are drawn from the public rows' file,
+                the held and the unsettled counted in the line above them */}
+            <DealsHeld file={PUBLIC} />
+            <DealsTable rows={PUBLIC.shown.map(toPublicDeal)} companies={cos.ok ? cos.data.map((c) => c.name) : []} />
+            <Cite
+              tables={["energy_deals"]}
+              note="The rows shown are those of energy_deals at least one evidence row of which comes from a publisher whose terms the ERW reads as public (warehouse/deals/public_rows.py); every other row is counted and held"
+            />
+          </>
+        ) : (
+          <>
+            <NoData what="deals" reason={res.reason} />
+            {isLicenseReason(res.reason) ? <DealsHeld /> : null}
+          </>
+        )
       ) : res.data.length === 0 ? (
         <>
           {/* session 500: a table held by row with no public row says so, then how many are held */}
@@ -88,6 +108,13 @@ async function DealsView() {
       )}
     </>
   );
+}
+
+/** Session 822: a shown row of the public rows' file, as the table draws it: the live set's row shape, with the public
+ * evidence as its sources and the other publishers as a count. */
+function toPublicDeal(r: PublicDealRow): Deal {
+  const d = toDeal({ ...r, extra: r.extra });
+  return { ...d, source: r.source, storyUrls: r.public_evidence.map((e) => e.url), publicEvidence: r.public_evidence, otherPublishers: r.other_publishers };
 }
 
 function toDeal(r: Awaited<ReturnType<typeof deals>>[number]): Deal {

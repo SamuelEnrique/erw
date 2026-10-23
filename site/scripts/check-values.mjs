@@ -529,6 +529,29 @@ async function truth(check) {
     // flag, two spellings. The page has read both since session 114; the check read only "true" and so undercounted.
     if (what === "month_ai_pct") return m.length ? Math.round((100 * m.filter((r) => String(r.ai ?? "").toLowerCase() === "true").length) / m.length) : null;
   }
+  // session 822: the deal tracker's public rows (lib/dealspublic.ts; site/data/deals_public.json, written by
+  // warehouse/deals/public_rows.py from the archive's copy of energy_deals and its evidence rows). The counts are read
+  // against the live set: dealpub|counts|shown is the live set's row count of energy_deals less the file's held and
+  // unsettled counts (a file older than the table fails here); |held and |unsettled are the file's, read only when the
+  // file's total is the live set's count. A shown row's figure, dealpub|<id>|mw and |dollars, is the live set's row by
+  // its id, as event| reads it, and only for an id the file lists as shown.
+  if (p[0] === "dealpub") {
+    const file = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "deals_public.json"), "utf-8"));
+    const total = await q("events", { select: "table_name", table_name: "eq.energy_deals" }, true);
+    if (p[1] === "counts") {
+      const fileTotal = file.shown.length + file.counts.held + file.counts.unsettled;
+      if (p[2] === "shown") return total - file.counts.held - file.counts.unsettled;
+      if (fileTotal !== total) return undefined;   // the file no longer describes the table: no value to compare
+      if (p[2] === "held") return file.counts.held;
+      if (p[2] === "unsettled") return file.counts.unsettled;
+      return undefined;
+    }
+    const [, id, field] = p;
+    if (!file.shown.some((r) => r.event_id === id)) return undefined;
+    const col = field === "mw" ? "v:mw" : `v:extra->>${field}`;
+    const r = (await q("events", { select: col, table_name: "eq.energy_deals", event_id: `eq.${id}` }))[0];
+    return r ? Number(r.v) : undefined;
+  }
   if (p[0] === "event") {
     const [, table, id, field] = p;
     const col = field === "mw" ? "v:mw" : `v:extra->>${field}`;

@@ -136,6 +136,51 @@ def shown_table(deals, sorted_deals):
     return sorted(lines, reverse=True)
 
 
+# The events shape's own columns (warehouse/supabase/load.py EVENT_COLS): every other column of the CSV is `extra`
+EVENT_COLS = ["event_id", "event_date", "event_type", "parties", "entity_ids", "mw", "price", "currency", "status", "source", "source_url"]
+# Session 822: the columns of a shown row that would carry a held outlet's address or name: each is set from the public
+# evidence alone (source and source_url are the first story's in the table, which may be a held outlet's)
+TRACED = ("source", "source_url", "story_ids", "story_urls")
+
+
+def retrieved_of(path):
+    with open(path, encoding="utf-8") as f:
+        for ln in f:
+            if ln.startswith("# Retrieved:"):
+                return ln.split("Retrieved:")[1].split("(")[0].strip()
+            if not ln.startswith("#"):
+                break
+    return ""
+
+
+def site_json(deals, sorted_deals, deals_path):
+    """The file site/data/deals_public.json (session 822): the counts, and each shown deal as the live set would serve
+    its row (the events columns, then `extra` with the table's other columns, a blank left out as the loader leaves it),
+    with source, source_url, story_ids and story_urls set from the public evidence rows alone, so that no held outlet's
+    address or name is in the file. Held and unsettled deals are counted and not listed: nothing of a held row is here."""
+    rows = []
+    for d in deals:
+        v = sorted_deals.get(d["event_id"])
+        if not v or v["sort"] != SHOWN:
+            continue
+        pub = [e for e in v["evidence"] if e["kind"] == SHOWN]
+        r = {c: (None if c in ("mw", "price") and d[c] == "" else (float(d[c]) if c in ("mw", "price") else d[c])) for c in EVENT_COLS}
+        r["source"], r["source_url"] = pub[0]["publisher"], pub[0]["url"]
+        extra = {c: d[c] for c in d if c not in EVENT_COLS and d[c] != "" and c not in TRACED}
+        extra["story_ids"] = ";".join(e["story_id"] for e in pub)
+        extra["story_urls"] = ";".join(e["url"] for e in pub)
+        r["extra"] = extra
+        r["public_evidence"] = [{"publisher": e["publisher"], "url": e["url"], "date": e["date"]} for e in pub]
+        r["other_publishers"] = len(v["held"]) + len(v["unsettled"])  # a count, never a name
+        rows.append(r)
+    rows.sort(key=lambda r: (r["event_date"], r["event_id"]), reverse=True)
+    return {"written_by": "warehouse/deals/public_rows.py --json (session 822)",
+            "retrieved": retrieved_of(deals_path),
+            "rule": "shown: at least one evidence row from a publisher whose verdict is 'may be public'; unsettled: none, and one from a publisher not read; held: every evidence row asks for permission",
+            "counts": counts(sorted_deals),
+            "shown": rows}
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--deals")
@@ -147,17 +192,12 @@ def main(argv=None):
     s = sort_deals(deals, evidence, registry, verdicts)
     c = counts(s)
     if a.json:
-        out = {"retrieved": next((ln.split("Retrieved:")[1].split("(")[0].strip() for ln in open(a.deals or os.path.join(OUT, "energy_deals.csv"), encoding="utf-8") if ln.startswith("# Retrieved:")), ""),
-               "rule": "shown: an evidence row from a publisher whose verdict is 'may be public'; unsettled: none, and one from a publisher not read; held: every row asks for permission",
-               "counts": c,
-               "deals": {k: {"sort": v["sort"], "public": v["public"], "held": v["held"], "unsettled": v["unsettled"],
-                             "public_evidence": [{"publisher": e["publisher"], "url": e["url"], "date": e["date"]} for e in v["evidence"] if e["kind"] == SHOWN]}
-                         for k, v in s.items()}}
+        out = site_json(deals, s, a.deals or os.path.join(OUT, "energy_deals.csv"))
         os.makedirs(os.path.dirname(os.path.abspath(a.json)), exist_ok=True)
         with open(a.json, "w", encoding="utf-8") as f:
-            json.dump(out, f, indent=1, sort_keys=True)
+            json.dump(out, f, indent=1, sort_keys=True, ensure_ascii=False)
             f.write("\n")
-        print(f"wrote {a.json}: {len(out['deals'])} deals, {c}")
+        print(f"wrote {a.json}: {len(out['shown'])} shown rows, {c}")
         return 0
     print(f"{len(deals)} deals, {len(evidence)} evidence rows: shown {c[SHOWN]}, held {c[HELD]}, unsettled {c[UNSETTLED]}")
     if a.markdown:

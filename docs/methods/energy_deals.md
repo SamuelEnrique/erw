@@ -162,3 +162,22 @@ as the extraction left it, so the tracker's counts did not move. Run over the 49
 first rule finds four repeats: the audit's two, session 113's folded Prysmian and Atkore pair, and its doubtful Lynas
 pair (the Pentagon and "US" are one party for the rule). Folding the held rows is the register's (`duplicates.csv`), a
 person's choice.
+
+## The public rows, keyed (session 822)
+
+Chain 080 sorts the deals by the publishers of their evidence rows (`warehouse/deals/public_rows.py`, session 821;
+`docs/reviews/deals-public-rows-2026-10-23.md`): a deal at least one of whose evidence rows comes from a publisher
+whose terms the ERW reads as public ("may be public" in `license_verdicts.csv`) is shown; a deal every evidence row of
+which asks for permission is held; a deal resting on a publisher whose page was not read is unsettled. The reader
+writes `site/data/deals_public.json` from the archive's copy of the two tables (the live set is not asked for a held
+table's rows): the counts, and each shown row as the live set would serve it, with its source, source_url and
+story_urls set from the public evidence alone, so no held outlet's name or address is in the file. The table on the
+deals tab draws the shown rows with every column; the line above it counts the held and the unsettled.
+
+- `dealpub|counts|shown`, `dealpub|counts|held`, `dealpub|counts|unsettled`: the three counts of the line above the
+  table. `check-values` reads the live set's row count of `energy_deals` against the file: shown is the live count
+  less the file's held and unsettled, so a file older than the table fails the check.
+- `dealpub|<deal>|mw` and `dealpub|<deal>|dollars`: a shown row's `mw` and its dollars, read again from the live set's
+  row by its id, only for an id the file lists as shown.
+
+Session 828 writes "What is shown and what is held" in full.

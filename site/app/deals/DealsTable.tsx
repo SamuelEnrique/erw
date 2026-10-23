@@ -27,7 +27,15 @@ export type Deal = {
   confidence: number | null;
   storyUrls: string[];
   source: string;
+  /** session 822: a shown row of a held table (lib/dealspublic.ts): the public evidence it rests on, and how many other
+   * publishers (whose terms ask for permission or are not read) also carry it, a count and never a name */
+  publicEvidence?: { publisher: string; url: string; date: string }[];
+  otherPublishers?: number;
 };
+
+/** The check key of a row's figure: event|energy_deals|<id>|<field> for a row the live set served; dealpub|<id>|<field>
+ * for a shown row of the held table (session 822; lib/dealspublic.ts rowKey). */
+const keyOf = (d: Deal, field: "mw" | "dollars") => (d.publicEvidence ? `dealpub|${d.id}|${field}` : `event|energy_deals|${d.id}|${field}`);
 
 const TYPE_LABEL: Record<string, string> = {
   ppa: "PPA", offtake: "Offtake", m_and_a: "M&A", project_finance: "Project finance", tax_equity: "Tax equity", debt: "Debt",
@@ -179,12 +187,12 @@ export function DealsTable({ rows, companies = [] }: { rows: Deal[]; companies?:
                     <td className="py-1 pr-3">{d.technology}</td>
                     <td className="py-1 pr-3 whitespace-nowrap">{[d.state, d.country].filter(Boolean).join(", ")}</td>
                     <td className="py-1 pr-3 text-right tabular-nums">
-                      {d.mw !== null ? <Num check={`event|energy_deals|${d.id}|mw`} raw={d.mw}>{n(d.mw)}</Num> : ""}
+                      {d.mw !== null ? <Num check={keyOf(d, "mw")} raw={d.mw}>{n(d.mw)}</Num> : ""}
                     </td>
                     <td className="py-1 pr-3 text-right tabular-nums whitespace-nowrap">
                       {d.dollars !== null ? (
                         <span data-format="usd">
-                          <Num check={`event|energy_deals|${d.id}|dollars`} raw={d.dollars}>{usd(d.dollars)}</Num>
+                          <Num check={keyOf(d, "dollars")} raw={d.dollars}>{usd(d.dollars)}</Num>
                         </span>
                       ) : (
                         ""
@@ -221,19 +229,41 @@ export function DealsTable({ rows, companies = [] }: { rows: Deal[]; companies?:
                         <dd>{d.confidence !== null ? n(d.confidence) : ""}</dd>
                         <dt className="text-muted">Sources</dt>
                         <dd>
-                          {d.storyUrls.map((u, i) => (
-                            <span key={u}>
-                              {i ? ", " : ""}
-                              <a href={u} rel="noopener noreferrer" target="_blank">
-                                {i === 0 ? d.source : `story ${i + 1}`}
-                              </a>
+                          {d.publicEvidence ? (
+                            // session 822: a shown row of the held table names its public evidence only, the publisher as the link's text
+                            <span data-public-evidence={d.publicEvidence.length}>
+                              {d.publicEvidence.map((e, i) => (
+                                <span key={e.url}>
+                                  {i ? ", " : ""}
+                                  <a href={e.url} rel="noopener noreferrer" target="_blank">
+                                    {e.publisher}
+                                  </a>{" "}
+                                  <span className="text-xs text-muted">({e.date.slice(0, 10)})</span>
+                                </span>
+                              ))}
+                              {d.otherPublishers ? (
+                                <span className="text-xs text-muted">
+                                  {" "}
+                                  {d.otherPublishers === 1 ? "One other outlet, whose terms ask for permission or are not read, also reports it; it is not linked." : `${d.otherPublishers} other outlets, whose terms ask for permission or are not read, also report it; they are not linked.`}
+                                </span>
+                              ) : null}
                             </span>
-                          ))}
+                          ) : (
+                            d.storyUrls.map((u, i) => (
+                              <span key={u}>
+                                {i ? ", " : ""}
+                                <a href={u} rel="noopener noreferrer" target="_blank">
+                                  {i === 0 ? d.source : `story ${i + 1}`}
+                                </a>
+                              </span>
+                            ))
+                          )}
                         </dd>
                         <dt className="text-muted">Evidence</dt>
                         <dd className="text-muted">
-                          The sentence each deal was read from is outlet text, which the ERW does not republish; it is kept in the internal table
-                          energy_deals_evidence. Read it in the stories above.
+                          {d.publicEvidence
+                            ? "Shown because a source whose terms the ERW reads as public reports it (the sources above). The sentence it was read from is kept in the internal table energy_deals_evidence."
+                            : "The sentence each deal was read from is outlet text, which the ERW does not republish; it is kept in the internal table energy_deals_evidence. Read it in the stories above."}
                         </dd>
                       </dl>
                     </td>

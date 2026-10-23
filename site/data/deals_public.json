@@ -1,0 +1,595 @@
+{
+ "counts": {
+  "held": 486,
+  "shown": 16,
+  "unsettled": 3
+ },
+ "retrieved": "20261022T150219Z",
+ "rule": "shown: at least one evidence row from a publisher whose verdict is 'may be public'; unsettled: none, and one from a publisher not read; held: every evidence row asks for permission",
+ "shown": [
+  {
+   "currency": "",
+   "entity_ids": "",
+   "event_date": "2026-10-22T12:02:58Z",
+   "event_id": "deal:2eafe13b10e3f733",
+   "event_type": "deal",
+   "extra": {
+    "ai_power": "false",
+    "asset": "planned UK BWRX-300 fleet",
+    "confidence": "0.8",
+    "date_basis": "first_story_published",
+    "deal_type": "joint_venture",
+    "extracted_at": "2026-10-22T15:02:19Z",
+    "model_id": "claude-sonnet-5-5",
+    "n_stories": "1",
+    "other_parties": "SGE;Origin Nuclear;Ontario Power Generation",
+    "story_ids": "news:add7dd58c1b5ca3e",
+    "story_urls": "https://www.world-nuclear-news.org/articles/joint-venture-to-operate-planned-uk-bwrx-300-fleet",
+    "technology": "nuclear"
+   },
+   "mw": null,
+   "other_publishers": 0,
+   "parties": "SGE;Origin Nuclear;Ontario Power Generation",
+   "price": null,
+   "public_evidence": [
+    {
+     "date": "2026-10-22T12:02:58Z",
+     "publisher": "World Nuclear News",
+     "url": "https://www.world-nuclear-news.org/articles/joint-venture-to-operate-planned-uk-bwrx-300-fleet"
+    }
+   ],
+   "source": "World Nuclear News",
+   "source_url": "https://www.world-nuclear-news.org/articles/joint-venture-to-operate-planned-uk-bwrx-300-fleet",
+   "status": "signed"
+  },
+  {
+   "currency": "",
+   "entity_ids": "",
+   "event_date": "2026-10-22T11:00:53Z",
+   "event_id": "deal:db1f505b8bd9ed04",
+   "event_type": "deal",
+   "extra": {
+    "ai_power": "false",
+    "asset": "Kaleidos microreactor at Naval Weapons Station Crane",
+    "buyer": "US Navy",
+    "confidence": "0.6",
+    "date_basis": "first_story_published",
+    "deal_type": "other",
+    "extracted_at": "2026-10-22T15:02:19Z",
+    "model_id": "claude-sonnet-5-5",
+    "n_stories": "1",
+    "seller": "Radiant",
+    "state": "IN",
+    "story_ids": "news:c6675e4f9396e1d4",
+    "story_urls": "https://www.world-nuclear-news.org/articles/radiant-microreactor-selected-for-deployment-by-us-navy",
+    "technology": "nuclear"
+   },
+   "mw": null,
+   "other_publishers": 0,
+   "parties": "US Navy;Radiant",
+   "price": null,
+   "public_evidence": [
+    {
+     "date": "2026-10-22T11:00:53Z",
+     "publisher": "World Nuclear News",
+     "url": "https://www.world-nuclear-news.org/articles/radiant-microreactor-selected-for-deployment-by-us-navy"
+    }
+   ],
+   "source": "World Nuclear News",
+   "source_url": "https://www.world-nuclear-news.org/articles/radiant-microreactor-selected-for-deployment-by-us-navy",
+   "status": "signed"
+  },
+  {
+   "currency": "",
+   "entity_ids": "",
+   "event_date": "2026-10-19T12:15:00Z",
+   "event_id": "deal:d6eda0ffd6db76cd",
+   "event_type": "deal",
+   "extra": {
+    "ai_power": "false",
+    "asset": "960 MW project at a former coal plant site in Sullivan County, Indiana",
+    "buyer": "Amazon",
+    "confidence": "0.8",
+    "date_basis": "first_story_published",
+    "deal_type": "smr",
+    "extracted_at": "2026-10-19T16:22:30Z",
+    "model_id": "claude-sonnet-5-5",
+    "n_stories": "7",
+    "other_parties": "X-energy",
+    "seller": "AEP",
+    "state": "IN",
+    "story_ids": "news:ea68ebe1d13353f6",
+    "story_urls": "https://www.world-nuclear-news.org/articles/aep-amazon-and-x-energy-plan-12-smr-plant",
+    "technology": "nuclear"
+   },
+   "mw": 960.0,
+   "other_publishers": 0,
+   "parties": "Amazon;AEP;X-energy",
+   "price": null,
+   "public_evidence": [
+    {
+     "date": "2026-10-19T13:35:54Z",
+     "publisher": "World Nuclear News",
+     "url": "https://www.world-nuclear-news.org/articles/aep-amazon-and-x-energy-plan-12-smr-plant"
+    }
+   ],
+   "source": "World Nuclear News",
+   "source_url": "https://www.world-nuclear-news.org/articles/aep-amazon-and-x-energy-plan-12-smr-plant",
+   "status": "signed"
+  },
+  {
+   "currency": "",
+   "entity_ids": "",
+   "event_date": "2026-10-19T11:40:56Z",
+   "event_id": "deal:b2f3d832a4fa0f52",
+   "event_type": "deal",
+   "extra": {
+    "ai_power": "false",
+    "asset": "floating nuclear power plants",
+    "buyer": "PT Pembangkit Listrik Nuklir",
+    "confidence": "0.6",
+    "date_basis": "first_story_published",
+    "deal_type": "ppa",
+    "extracted_at": "2026-10-19T16:22:30Z",
+    "model_id": "claude-sonnet-5-5",
+    "n_stories": "1",
+    "seller": "Rosatom",
+    "story_ids": "news:54fe2882a934b603",
+    "story_urls": "https://www.world-nuclear-news.org/articles/rosatom-signs-floating-nuclear-power-deal-for-indonesia",
+    "technology": "nuclear"
+   },
+   "mw": null,
+   "other_publishers": 0,
+   "parties": "PT Pembangkit Listrik Nuklir;Rosatom",
+   "price": null,
+   "public_evidence": [
+    {
+     "date": "2026-10-19T11:40:56Z",
+     "publisher": "World Nuclear News",
+     "url": "https://www.world-nuclear-news.org/articles/rosatom-signs-floating-nuclear-power-deal-for-indonesia"
+    }
+   ],
+   "source": "World Nuclear News",
+   "source_url": "https://www.world-nuclear-news.org/articles/rosatom-signs-floating-nuclear-power-deal-for-indonesia",
+   "status": "signed"
+  },
+  {
+   "currency": "",
+   "entity_ids": "",
+   "event_date": "2026-10-15T12:39:52Z",
+   "event_id": "deal:22af83288d1df241",
+   "event_type": "deal",
+   "extra": {
+    "ai_power": "false",
+    "asset": "nuclear power plant in Pątnów",
+    "buyer": "SGE",
+    "confidence": "0.85",
+    "date_basis": "first_story_published",
+    "deal_type": "joint_venture",
+    "extracted_at": "2026-10-15T15:43:19Z",
+    "model_id": "claude-sonnet-5-5",
+    "n_stories": "1",
+    "seller": "ZE Pak",
+    "story_ids": "news:af8af4bdd8b01640",
+    "story_urls": "https://www.world-nuclear-news.org/articles/joint-venture-formed-for-six-unit-smr-plant-in-poland",
+    "technology": "nuclear"
+   },
+   "mw": null,
+   "other_publishers": 0,
+   "parties": "SGE;ZE Pak",
+   "price": null,
+   "public_evidence": [
+    {
+     "date": "2026-10-15T12:39:52Z",
+     "publisher": "World Nuclear News",
+     "url": "https://www.world-nuclear-news.org/articles/joint-venture-formed-for-six-unit-smr-plant-in-poland"
+    }
+   ],
+   "source": "World Nuclear News",
+   "source_url": "https://www.world-nuclear-news.org/articles/joint-venture-formed-for-six-unit-smr-plant-in-poland",
+   "status": "signed"
+  },
+  {
+   "currency": "",
+   "entity_ids": "",
+   "event_date": "2026-10-14T11:49:10Z",
+   "event_id": "deal:6daa5127a8a81cab",
+   "event_type": "deal",
+   "extra": {
+    "ai_power": "false",
+    "asset": "safety-related modules for Poland's first nuclear power plant",
+    "buyer": "Westinghouse",
+    "confidence": "0.6",
+    "date_basis": "first_story_published",
+    "deal_type": "other",
+    "extracted_at": "2026-10-14T15:34:53Z",
+    "model_id": "claude-sonnet-5-5",
+    "n_stories": "1",
+    "seller": "four Polish companies",
+    "story_ids": "news:8fef270a2f8cfcc4",
+    "story_urls": "https://www.world-nuclear-news.org/articles/westinghouse-places-initial-orders-for-polish-plant",
+    "technology": "nuclear"
+   },
+   "mw": null,
+   "other_publishers": 0,
+   "parties": "Westinghouse;four Polish companies",
+   "price": null,
+   "public_evidence": [
+    {
+     "date": "2026-10-14T11:49:10Z",
+     "publisher": "World Nuclear News",
+     "url": "https://www.world-nuclear-news.org/articles/westinghouse-places-initial-orders-for-polish-plant"
+    }
+   ],
+   "source": "World Nuclear News",
+   "source_url": "https://www.world-nuclear-news.org/articles/westinghouse-places-initial-orders-for-polish-plant",
+   "status": "signed"
+  },
+  {
+   "currency": "",
+   "entity_ids": "",
+   "event_date": "2026-10-13T13:46:42Z",
+   "event_id": "deal:12f09b2267a3d2ef",
+   "event_type": "deal",
+   "extra": {
+    "ai_power": "false",
+    "asset": "second Polish nuclear power plant",
+    "confidence": "0.5",
+    "date_basis": "first_story_published",
+    "deal_type": "other",
+    "extracted_at": "2026-10-13T14:59:51Z",
+    "model_id": "claude-sonnet-5-5",
+    "n_stories": "1",
+    "other_parties": "Poland's Ministry of Energy;Polskie Elektrownie Jądrowe;Polska Grupa Energetyczna",
+    "story_ids": "news:0dc5f3c4b7b3862f",
+    "story_urls": "https://www.world-nuclear-news.org/articles/agreement-signed-on-second-polish-nuclear-power-plant",
+    "technology": "nuclear"
+   },
+   "mw": null,
+   "other_publishers": 0,
+   "parties": "Poland's Ministry of Energy;Polskie Elektrownie Jądrowe;Polska Grupa Energetyczna",
+   "price": null,
+   "public_evidence": [
+    {
+     "date": "2026-10-13T13:46:42Z",
+     "publisher": "World Nuclear News",
+     "url": "https://www.world-nuclear-news.org/articles/agreement-signed-on-second-polish-nuclear-power-plant"
+    }
+   ],
+   "source": "World Nuclear News",
+   "source_url": "https://www.world-nuclear-news.org/articles/agreement-signed-on-second-polish-nuclear-power-plant",
+   "status": "signed"
+  },
+  {
+   "currency": "",
+   "entity_ids": "",
+   "event_date": "2026-10-08T16:16:41Z",
+   "event_id": "deal:3e77f0878dee58f3",
+   "event_type": "deal",
+   "extra": {
+    "ai_power": "false",
+    "asset": "long-lead items for the first unit of Poland's first nuclear power plant, three AP1000 reactors",
+    "buyer": "Polskie Elektrownie Jądrowe",
+    "confidence": "0.6",
+    "date_basis": "first_story_published",
+    "deal_type": "other",
+    "extracted_at": "2026-10-08T15:01:01Z",
+    "model_id": "claude-sonnet-5-5",
+    "n_stories": "1",
+    "seller": "Westinghouse",
+    "story_ids": "news:284ca75c70f955e1",
+    "story_urls": "https://www.world-nuclear-news.org/articles/poland-begins-ordering-long-lead-components-for-first-ap1000",
+    "technology": "nuclear"
+   },
+   "mw": null,
+   "other_publishers": 0,
+   "parties": "Polskie Elektrownie Jądrowe;Westinghouse",
+   "price": null,
+   "public_evidence": [
+    {
+     "date": "2026-10-08T16:16:41Z",
+     "publisher": "World Nuclear News",
+     "url": "https://www.world-nuclear-news.org/articles/poland-begins-ordering-long-lead-components-for-first-ap1000"
+    }
+   ],
+   "source": "World Nuclear News",
+   "source_url": "https://www.world-nuclear-news.org/articles/poland-begins-ordering-long-lead-components-for-first-ap1000",
+   "status": "signed"
+  },
+  {
+   "currency": "",
+   "entity_ids": "",
+   "event_date": "2026-10-08T11:48:24Z",
+   "event_id": "deal:2049dd8e3a5413cf",
+   "event_type": "deal",
+   "extra": {
+    "ai_power": "false",
+    "asset": "JESS",
+    "confidence": "0.85",
+    "date_basis": "first_story_published",
+    "deal_type": "m_and_a",
+    "dollars": "211000000",
+    "extracted_at": "2026-10-09T14:54:18Z",
+    "model_id": "claude-sonnet-5-5",
+    "n_stories": "1",
+    "seller": "ČEZ",
+    "story_ids": "news:a4f3d313f6519774",
+    "story_urls": "https://www.world-nuclear-news.org/articles/slovakia-buys-out-czech-stake-in-new-nuclear-project",
+    "technology": "nuclear"
+   },
+   "mw": null,
+   "other_publishers": 0,
+   "parties": "ČEZ",
+   "price": null,
+   "public_evidence": [
+    {
+     "date": "2026-10-08T11:48:24Z",
+     "publisher": "World Nuclear News",
+     "url": "https://www.world-nuclear-news.org/articles/slovakia-buys-out-czech-stake-in-new-nuclear-project"
+    }
+   ],
+   "source": "World Nuclear News",
+   "source_url": "https://www.world-nuclear-news.org/articles/slovakia-buys-out-czech-stake-in-new-nuclear-project",
+   "status": "closed"
+  },
+  {
+   "currency": "",
+   "entity_ids": "",
+   "event_date": "2026-10-08T11:04:41Z",
+   "event_id": "deal:01b0163eef7a0337",
+   "event_type": "deal",
+   "extra": {
+    "ai_power": "false",
+    "asset": "FEED studies for two AP1000 nuclear plants in the Netherlands",
+    "buyer": "Westinghouse",
+    "confidence": "0.7",
+    "date_basis": "first_story_published",
+    "deal_type": "other",
+    "extracted_at": "2026-10-08T15:01:01Z",
+    "model_id": "claude-sonnet-5-5",
+    "n_stories": "2",
+    "seller": "Hyundai Engineering & Construction",
+    "story_ids": "news:8acd7a45d534845f",
+    "story_urls": "https://www.world-nuclear-news.org/articles/westinghouse-teams-up-with-hyundai-ec-for-dutch-feed-studies",
+    "technology": "nuclear"
+   },
+   "mw": null,
+   "other_publishers": 1,
+   "parties": "Westinghouse;Hyundai Engineering & Construction",
+   "price": null,
+   "public_evidence": [
+    {
+     "date": "2026-10-08T11:04:41Z",
+     "publisher": "World Nuclear News",
+     "url": "https://www.world-nuclear-news.org/articles/westinghouse-teams-up-with-hyundai-ec-for-dutch-feed-studies"
+    }
+   ],
+   "source": "World Nuclear News",
+   "source_url": "https://www.world-nuclear-news.org/articles/westinghouse-teams-up-with-hyundai-ec-for-dutch-feed-studies",
+   "status": "signed"
+  },
+  {
+   "currency": "",
+   "entity_ids": "",
+   "event_date": "2026-10-05T16:05:00Z",
+   "event_id": "deal:70bf30d372e1d674",
+   "event_type": "deal",
+   "extra": {
+    "ai_power": "false",
+    "asset": "Beaver Valley, Davis-Besse and Perry nuclear plants",
+    "buyer": "Department of Energy",
+    "confidence": "0.85",
+    "date_basis": "first_story_published",
+    "deal_type": "debt",
+    "dollars": "4200000000",
+    "extracted_at": "2026-10-06T14:44:03Z",
+    "model_id": "claude-sonnet-5-5",
+    "n_stories": "6",
+    "seller": "Vistra",
+    "state": "PA",
+    "story_ids": "news:88a4ca0b0483ced9",
+    "story_urls": "https://www.world-nuclear-news.org/articles/doe-offers-vistra-loan-for-reactor-upgrades-and-uprates",
+    "technology": "nuclear"
+   },
+   "mw": 433.0,
+   "other_publishers": 1,
+   "parties": "Department of Energy;Vistra",
+   "price": null,
+   "public_evidence": [
+    {
+     "date": "2026-10-06T14:03:53Z",
+     "publisher": "World Nuclear News",
+     "url": "https://www.world-nuclear-news.org/articles/doe-offers-vistra-loan-for-reactor-upgrades-and-uprates"
+    }
+   ],
+   "source": "World Nuclear News",
+   "source_url": "https://www.world-nuclear-news.org/articles/doe-offers-vistra-loan-for-reactor-upgrades-and-uprates",
+   "status": "announced"
+  },
+  {
+   "currency": "",
+   "entity_ids": "",
+   "event_date": "2026-10-02T07:04:24Z",
+   "event_id": "deal:47c4c339a9ef5a9d",
+   "event_type": "deal",
+   "extra": {
+    "ai_power": "false",
+    "asset": "BWRX-300 small modular reactor projects",
+    "buyer": "Polish business people",
+    "confidence": "0.8",
+    "country": "Poland",
+    "date_basis": "first_story_published",
+    "deal_type": "equity_raise",
+    "dollars": "128000000",
+    "extracted_at": "2026-10-03T14:45:09Z",
+    "model_id": "claude-sonnet-5-5",
+    "n_stories": "1",
+    "seller": "SGE",
+    "story_ids": "news:a7d2c8d81a011328",
+    "story_urls": "https://www.world-nuclear-news.org/articles/polish-entrepreneurs-invest-in-sges-bwrx-300-projects",
+    "technology": "nuclear"
+   },
+   "mw": null,
+   "other_publishers": 0,
+   "parties": "Polish business people;SGE",
+   "price": null,
+   "public_evidence": [
+    {
+     "date": "2026-10-02T07:04:24Z",
+     "publisher": "World Nuclear News",
+     "url": "https://www.world-nuclear-news.org/articles/polish-entrepreneurs-invest-in-sges-bwrx-300-projects"
+    }
+   ],
+   "source": "World Nuclear News",
+   "source_url": "https://www.world-nuclear-news.org/articles/polish-entrepreneurs-invest-in-sges-bwrx-300-projects",
+   "status": "closed"
+  },
+  {
+   "currency": "",
+   "entity_ids": "",
+   "event_date": "2026-09-30T22:18:00Z",
+   "event_id": "deal:c2360f3ea399a2c9",
+   "event_type": "deal",
+   "extra": {
+    "ai_power": "false",
+    "asset": "Project Star",
+    "buyer": "The United States Department of Commerce and the Government of the Republic of Korea",
+    "confidence": "0.6",
+    "date_basis": "first_story_published",
+    "deal_type": "project_finance",
+    "dollars": "22300000000",
+    "extracted_at": "2026-09-30T23:39:40Z",
+    "model_id": "claude-sonnet-5-5",
+    "n_stories": "3",
+    "other_parties": "Next",
+    "seller": "Related Companies",
+    "state": "TX",
+    "story_ids": "news:ec41f0a2f9b34be4",
+    "story_urls": "https://www.world-nuclear-news.org/articles/usa-south-korea-targeting-six-ap1000-two-apr1400-units"
+   },
+   "mw": null,
+   "other_publishers": 2,
+   "parties": "The United States Department of Commerce and the Government of the Republic of Korea;Related Companies;Next",
+   "price": null,
+   "public_evidence": [
+    {
+     "date": "2026-10-01T12:08:45Z",
+     "publisher": "World Nuclear News",
+     "url": "https://www.world-nuclear-news.org/articles/usa-south-korea-targeting-six-ap1000-two-apr1400-units"
+    }
+   ],
+   "source": "World Nuclear News",
+   "source_url": "https://www.world-nuclear-news.org/articles/usa-south-korea-targeting-six-ap1000-two-apr1400-units",
+   "status": "announced"
+  },
+  {
+   "currency": "",
+   "entity_ids": "",
+   "event_date": "2026-09-30T21:24:49Z",
+   "event_id": "deal:6d416fb10be3a6f0",
+   "event_type": "deal",
+   "extra": {
+    "ai_power": "False",
+    "asset": "Maryland nuclear plant",
+    "buyer": "Amazon",
+    "confidence": "0.85",
+    "date_basis": "first_story_published",
+    "deal_type": "ppa",
+    "extracted_at": "2026-09-30T23:39:40Z",
+    "model_id": "claude-sonnet-5-5",
+    "n_stories": "6",
+    "seller": "Constellation",
+    "state": "MD",
+    "story_ids": "news:5c74aa13511a4cac",
+    "story_urls": "https://www.world-nuclear-news.org/articles/constellation-amazon-agree-nuclear-focused-power-purchase-deal",
+    "technology": "nuclear",
+    "term_years": "20"
+   },
+   "mw": 190.0,
+   "other_publishers": 2,
+   "parties": "Amazon;Constellation",
+   "price": null,
+   "public_evidence": [
+    {
+     "date": "2026-10-01T10:32:26Z",
+     "publisher": "World Nuclear News",
+     "url": "https://www.world-nuclear-news.org/articles/constellation-amazon-agree-nuclear-focused-power-purchase-deal"
+    }
+   ],
+   "source": "World Nuclear News",
+   "source_url": "https://www.world-nuclear-news.org/articles/constellation-amazon-agree-nuclear-focused-power-purchase-deal",
+   "status": "signed"
+  },
+  {
+   "currency": "",
+   "entity_ids": "",
+   "event_date": "2026-09-30T14:11:29Z",
+   "event_id": "deal:3c1f461ac1000983",
+   "event_type": "deal",
+   "extra": {
+    "ai_power": "false",
+    "asset": "asset care framework at Sellafield site",
+    "buyer": "Sellafield",
+    "confidence": "0.4",
+    "date_basis": "first_story_published",
+    "deal_type": "other",
+    "extracted_at": "2026-09-30T19:57:09Z",
+    "model_id": "claude-sonnet-5-5",
+    "n_stories": "1",
+    "story_ids": "news:f26abf1c5c49a563",
+    "story_urls": "https://www.world-nuclear-news.org/articles/sellafield-selects-partners-for-asset-care-framework",
+    "technology": "nuclear"
+   },
+   "mw": null,
+   "other_publishers": 0,
+   "parties": "Sellafield",
+   "price": null,
+   "public_evidence": [
+    {
+     "date": "2026-09-30T14:11:29Z",
+     "publisher": "World Nuclear News",
+     "url": "https://www.world-nuclear-news.org/articles/sellafield-selects-partners-for-asset-care-framework"
+    }
+   ],
+   "source": "World Nuclear News",
+   "source_url": "https://www.world-nuclear-news.org/articles/sellafield-selects-partners-for-asset-care-framework",
+   "status": "announced"
+  },
+  {
+   "currency": "",
+   "entity_ids": "",
+   "event_date": "2026-09-29T13:44:42Z",
+   "event_id": "deal:ea783b38ea44bf8f",
+   "event_type": "deal",
+   "extra": {
+    "ai_power": "false",
+    "asset": "EPZ",
+    "buyer": "Dutch government",
+    "confidence": "0.75",
+    "date_basis": "first_story_published",
+    "deal_type": "m_and_a",
+    "extracted_at": "2026-09-30T19:57:09Z",
+    "model_id": "claude-sonnet-5-5",
+    "n_stories": "1",
+    "story_ids": "news:66652bbe92d88233",
+    "story_urls": "https://www.world-nuclear-news.org/articles/legislative-amendment-paves-way-for-continued-operation-of-borssele",
+    "technology": "nuclear"
+   },
+   "mw": null,
+   "other_publishers": 0,
+   "parties": "Dutch government",
+   "price": null,
+   "public_evidence": [
+    {
+     "date": "2026-09-29T13:44:42Z",
+     "publisher": "World Nuclear News",
+     "url": "https://www.world-nuclear-news.org/articles/legislative-amendment-paves-way-for-continued-operation-of-borssele"
+    }
+   ],
+   "source": "World Nuclear News",
+   "source_url": "https://www.world-nuclear-news.org/articles/legislative-amendment-paves-way-for-continued-operation-of-borssele",
+   "status": "signed"
+  }
+ ],
+ "written_by": "warehouse/deals/public_rows.py --json (session 822)"
+}
