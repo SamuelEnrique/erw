@@ -270,7 +270,10 @@ def test_cite_names_the_iso_the_table_and_the_commit(name):
     # 65) names its four publishers, PJM among them
     # a derived table's source line is worded one of two ways in sources.csv: "Energy Research Warehouse (ERW), derived."
     # or "Energy Research Warehouse (ERW). <report>: ERW derived table, ..."
-    named = publisher in c or (derived and "Energy Research Warehouse (ERW). " in c and ": ERW derived table" in c)
+    # session 1001: a third wording, "Energy Research Warehouse (ERW). ERW derived stress days ..." (grid_stress_days),
+    # which the citation drawn from the rows' sources (until session 1001) passed by the rows' other sources
+    named = publisher in c or (derived and "Energy Research Warehouse (ERW). " in c and (
+        ": ERW derived table" in c or "Energy Research Warehouse (ERW). ERW derived " in c))
     assert named and name in c and "Energy Research Warehouse (ERW)" in c
     commit = erw.version()["data_commit"]
     assert commit and commit[:12] in c

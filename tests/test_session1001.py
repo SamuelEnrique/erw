@@ -103,6 +103,12 @@ class Citation(Base):
         import release_v1 as R
         sources = R.rows(os.path.join(R.META, "sources.csv"))
         pubs = {r["table"]: r["publishers"] for r in R.rows(os.path.join(R.META, "license_tables.csv"))}
+        # the package takes a consolidated table's old members' entries as its own (table_migrations.csv): the
+        # release's function is given the same, by naming the table beside its members
+        moved = {o: n for o, (n, _) in erw.migrations().items()}
+        for r in sources:
+            names = [x.strip() for x in re.split(r"[;,]", r.get("tables", "")) if x.strip()]
+            r["tables"] = ";".join(names + sorted({moved[x] for x in names if x in moved}))
         cov = pd.read_csv(ROOT / "warehouse" / "metadata" / "coverage.csv", dtype=str, keep_default_na=False)
         via = " Via the Energy Research Warehouse (ERW), table "
         for t in cov["table"]:

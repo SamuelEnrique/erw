@@ -33,10 +33,12 @@
 | Check | Exit | Result |
 |---|---|---|
 | precheck | 0 | |
-| `tests.test_session1001`, `tests.test_session1000`, `tests.test_session445` | 0 | 26 tests OK |
+| `tests.test_session1001`, `tests.test_session1000`, `tests.test_session445` | 0 | 26 tests OK (and 1001 again after the fix: 12 OK) |
 | `tests.test_session536` (the wheel built and installed in a new venv) | 0 | 11 tests OK |
 | `package/tests/test_backends_three.py`, remote | 0 | 1 passed (counts above) |
-| `package/tests/test_erw.py` with this code, and with main's, on this machine's tables | see below | |
+| `package/tests/test_erw.py` with this code, and with main's, on this machine's tables (the scratch tree `runs/t1001root`, its `warehouse/output` the main checkout's) | 1 and 1 | 110 failures with main's code, all of them this code machine's older or retired tables against coverage; with this code the same 110 and no other, after one fix (below) |
+
+The first run with this code failed 7 more, all `test_cite_names_the_iso_the_table_and_the_commit` on consolidated tables (`iso_dam_hub_prices`, `eia930_all_demand` and five others): the source registry names them only by their old members. `cite` now takes a consolidated table's members' entries as its own (as the old `cite` did through the rows), and the session's test gives `release_v1.py`'s `citation()` the same mapping. `grid_stress_days`'s registry entry is worded a third way ("ERW derived stress days ..."); the test now accepts it.
 
 ## The landing
 
@@ -49,7 +51,8 @@ With 1000, in this session (below, once done).
 3. **`auto` is the default only where no local tables are found**, so the ERW's own code and tests never reach the network unasked.
 4. **A held table read from local files is warned, not refused**: the ERW's chat, news and analysis code read internal tables through the package.
 5. **The remote test reads the Stanford draft** (`version="next"`), since the released v1.0 holds one table.
-6. **Recent rows may differ between backends** (92 days of each table's own time, counted); older ones may not.
+6. **A consolidated table's citation takes its old members' registry entries**, which `release_v1.py` does not yet do (its citations of those tables fall back to the short publisher list): session 1010 is to give the release the same rule.
+7. **Recent rows may differ between backends** (92 days of each table's own time, counted); older ones may not.
 
 ## For Samuel's ruling
 

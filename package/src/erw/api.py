@@ -892,7 +892,7 @@ def cite(name: str, backend: Optional[str] = None) -> str:
         `datapages.erw`, version <tag> (released <date>).
 
     The publishers and reports are the source registry's entries that name the table (sources.csv, its `tables`
-    column; an old name's entries too). The last clause is where the rows were read: a released Redivis version, the
+    column), or, for a consolidated table, any of its old members (table_migrations.csv). The last clause is where the rows were read: a released Redivis version, the
     live set with its fetch time, or local files with the ERW commit. Session 1001; until then the citation was
     "Retrieved <date> via the Energy Research Warehouse (ERW), table <table>, data commit <12>." with the provenance
     tier (now in coverage() and tier()).
@@ -905,7 +905,8 @@ def cite(name: str, backend: Optional[str] = None) -> str:
         except Exception:  # noqa: BLE001 - the session's backend below
             b = get_backend()
     reg = b.source_registry()
-    wanted = {cur, name}
+    # a consolidated table (session 29) is named in the registry by its old members: their entries are its own
+    wanted = {cur, name} if cur != name else {cur} | {o for o, (n, _) in migrations().items() if n == cur}
     reps = [r for r in reg.to_dict("records")
             if wanted & {x.strip() for x in re.split(r"[;,]", str(r.get("tables", ""))) if x.strip()}]
     fallback = licenses.rows().get(cur, {}).get("publishers", "")
