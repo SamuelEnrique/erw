@@ -20,6 +20,11 @@
 
 In Stata, with the command installed and the two globals set (session 1003's report): `do packages/conformance/run_stata.do`. In R, with the package installed and the two variables set: `source("packages/conformance/run_r.R")`. Each prints a line a call and the count that pass.
 
+- **After merging main** (the data machine's chain 046 landed 8 tables, `ercot_cdr_reserve_margins` and `ercot_transmission_projects` among them):
+  - the shipped license record was written again: 307 tables, from 299;
+  - the two remote tests that compare citations (`package/tests/test_backends.py`, `test_backends_stanford.py`) now cut at the release's words ("Via", and the table in backticks);
+  - they run in session 1010, which has Redivis requests.
+
 ## What to review
 
 1. `docs/methods/packages.md`, "The conformance file (session 1006)".
@@ -52,4 +57,4 @@ Sessions 1000 to 1006 land together from this branch (below, once done).
 ## Files
 
 - New: `packages/conformance/` (`make.py`, `conformance.json`, `run_python.py`, `results_python.json`, `write_runners.py`, `run_stata.do`, `run_r.R`); `tests/test_session1006.py`; this report.
-- Changed: `docs/methods/packages.md`.
+- Changed: `docs/methods/packages.md`; `package/src/erw/data/tables.csv` (307 tables); `package/tests/test_backends.py` and `test_backends_stanford.py` (the citation's cut).

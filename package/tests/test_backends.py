@@ -89,9 +89,9 @@ def test_sources_and_cite_match_local(remote, name):
     assert s_rem["source_urls"] == s_loc["source_urls"]
     # the citation of the source and table is identical; the closing words name the
     # data version, which differs by design (a git commit locally, a Redivis version remotely)
-    cut = " via the Energy Research Warehouse (ERW)"
+    cut = " Via the Energy Research Warehouse (ERW)"  # session 1001: the release's words
     assert c_rem.split(cut)[0] == c_loc.split(cut)[0]
-    assert f"table {name}" in c_rem
+    assert f"table `{name}`" in c_rem
 
 
 @pytest.mark.parametrize("query", [dict(sector="oil"), dict(sector="power"), dict(license="public"),

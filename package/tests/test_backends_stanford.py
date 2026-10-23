@@ -105,9 +105,9 @@ def test_cite_names_the_table(stanford, name):
     loc = erw.cite(name)
     erw.set_backend(stanford)
     rem = erw.cite(name)
-    cut = " via the Energy Research Warehouse (ERW)"
+    cut = " Via the Energy Research Warehouse (ERW)"  # session 1001: the release's words
     assert undated(rem.split(cut)[0]) == undated(loc.split(cut)[0])
-    assert f"table {name}" in rem
+    assert f"table `{name}`" in rem
 
 
 def test_filter_and_coverage_match_local(stanford):
