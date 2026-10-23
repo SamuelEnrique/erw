@@ -86,6 +86,19 @@ const FIGURES = ["last", "moves", "range", "avg7", "avg30", "lo30", "hi30", "spa
 export function heldNote(grid: string): string {
   return `${grid}'s own terms ask for permission to republish its prices, and none is recorded yet (docs/licenses.md, site/data/license_status.json): license needed. This row is held, not shown, until a permission is recorded.`;
 }
+/** Session 1193: a group's rows split for drawing: the rows shown in place (every row but a held grid's), and the held
+ *  grids' rows by grid, in the order each grid first appears. The rows themselves are not changed. Pure. */
+export function heldLines(rows: Row[]): { shown: Row[]; held: { grid: string; rows: Row[] }[] } {
+  const shown: Row[] = [];
+  const held = new Map<string, Row[]>();
+  for (const r of rows) {
+    if (r.status !== "license") { shown.push(r); continue; }
+    const g = gridOfRow(r) || "Held";
+    held.set(g, [...(held.get(g) ?? []), r]);
+  }
+  return { shown, held: [...held].map(([grid, rs]) => ({ grid, rows: rs })) };
+}
+
 export function holdRows(file: BoardFile, heldGrids: string[]): BoardFile {
   const held = new Set(heldGrids.filter((g) => g !== "MISO" && g !== "PJM"));
   if (!held.size) return { ...file, held: [] };

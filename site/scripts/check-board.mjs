@@ -101,6 +101,15 @@ check(!Object.keys(got).some((k) => /^(miso|pjm)-/.test(k)) && !file.rows.some((
   check((file.held ?? []).length >= 1 && leak.length === 0 && shownHeld.length === 0,
     `the held grids (${(file.held ?? []).join(", ")}): ${heldRows.length} rows that carried figures are "license needed" in place, none of their figures in the page${leak.length ? `; in the page: ${leak.slice(0, 5).join(", ")}` : ""}${shownHeld.length ? `; not blank: ${shownHeld.slice(0, 5).join(", ")}` : ""}`);
   check((file.held ?? []).every((g) => html.includes(`data-held-grid="${g}"`)), "the week by hub names each held grid on one line, \"license needed\"");
+  // session 1193: in each group, a held grid's rows are one line under the public rows (its count, the hold's words), the
+  // rows themselves in the page, blank and hidden until the line's toggle shows their names
+  const lines = file.groups.flatMap((g) => b.heldLines(b.rowsOf(file, g, {})).held.map((h) => ({ g: g.id, grid: h.grid, rows: h.rows })));
+  const badLine = lines.filter(({ g, grid, rows }) => {
+    const m = html.match(new RegExp(`<tr[^>]*data-held-line="${g}\\|${grid}"[^>]*>[\\s\\S]*?</tr>`));
+    return !m || !m[0].includes(`data-held-count="${rows.length}"`) || !m[0].includes("license needed") || !m[0].includes('aria-expanded="false"')
+      || rows.some((r) => !new RegExp(`<tr[^>]*data-row="${r.id}"[^>]*hidden`).test(html));
+  }).map(({ g, grid }) => `${g}|${grid}`);
+  check(lines.length >= 1 && badLine.length === 0, `${lines.length} held lines, one for each held grid of a group, its count and "license needed", its rows hidden until asked${badLine.length ? `; wrong: ${badLine.slice(0, 5).join(", ")}` : ""}`);
   const staleRows = file.rows.filter((r) => r.status === "ok" && rowsDefault.has(r.id) && b.closeAge(r, file.built)?.stale).map((r) => r.id);
   check(staleRows.every((id) => html.includes(`data-stale="${id}"`)), `${staleRows.length} rows shown are past the stale threshold, each marked stale`);
 }
