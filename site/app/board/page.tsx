@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { BoardView } from "@/components/board/BoardView";
 import { Brand } from "@/components/Brand";
+import { SiteLink } from "@/components/SiteLink";
 import { TableDownloads } from "@/components/tool/TableDownloads";
 import { TableLicenses } from "@/components/tool/TableLicenses";
 import fileJson from "@/data/board.json";
@@ -32,5 +33,6 @@ const TABLES = ["ercot_all_hub_prices_history", "iso_hub_prices_history", "caiso
 export default function Board() {
   const file = holdRows(raw, licenseHeldGrids().map(gridName));
   // session 502: the same list, with each table's license, under the title
-  return <Brand><BoardView file={file} under={<TableLicenses tables={TABLES} />} footer={<TableDownloads tables={TABLES} />} /></Brand>;
+  // session 1137: the rows drawn here, as one CSV (app/board/rows/route.ts), beside each table's own download
+  return <Brand><BoardView file={file} under={<TableLicenses tables={TABLES} />} footer={<><p className="mb-2 text-sm" data-board-rows="1"><SiteLink href="/board/rows">The rows drawn here, as one CSV</SiteLink> (every figure of this page, each with its source; a held row with none)</p><TableDownloads tables={TABLES} /></>} /></Brand>;
 }

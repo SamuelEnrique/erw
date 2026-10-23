@@ -287,6 +287,26 @@ export function csv(head: string[], rows: (string | number | null)[][]): string 
   return [head, ...rows].map((r) => r.map(cell).join(",")).join("\n") + "\n";
 }
 
+// Session 1137: the rows the board draws, as a CSV, from the file the page draws (after holdRows, so a held row carries
+// no figure): a "#" header as the data standard writes one (what it is, where each row comes from, when it was built,
+// the license), then one line a row. Every figure is the file's, as the page shows it; nothing is read again.
+export const ROWS_HEAD = ["id", "group", "label", "at", "code", "unit", "freq", "status", "latest_date", "latest", "day_move", "week_move", "month_move", "year_move",
+  "avg_7d", "avg_30d", "low_365d", "high_365d", "source"];
+export function rowsCsv(file: BoardFile): string {
+  const header = [
+    "# Energy Research Warehouse (ERW): the price board's rows as /board draws them, one line a row (site/lib/board.ts rowsCsv)",
+    `# Built: ${file.built} (the board's file, site/data/board.json, written by warehouse/derived/board_page.py from the ERW's tables)`,
+    "# Source: each row's source column names the publisher and the ERW table; the method: docs/methods/price_board.md",
+    "# License: every row with a value is public; a row whose status is license, licensed, paused or not_held carries no figure",
+    ...(file.held?.length ? [`# Held for a license on the day the page was built: ${file.held.join(", ")} (license needed)`] : []),
+  ];
+  const n = (v: number | null | undefined) => (typeof v === "number" ? v : null);
+  const rows = file.rows.map((r) => [r.id, r.group, r.label, r.at, r.code, r.unit, r.freq, r.status, r.last?.t ?? null, n(r.last?.v),
+    n(r.moves?.d?.ch), n(r.moves?.w?.ch), n(r.moves?.m?.ch), n(r.moves?.y?.ch), n(r.avg7?.v), n(r.avg30?.v), n(r.range?.lo), n(r.range?.hi),
+    r.source !== undefined ? file.sources[r.source] ?? null : null]);
+  return `${header.join("\n")}\n${csv(ROWS_HEAD, rows)}`;
+}
+
 // The workbench's state, kept in the address so a view can be shared.
 export type Bench = {
   s: string | null;        // the row opened
