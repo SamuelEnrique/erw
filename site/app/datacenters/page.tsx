@@ -13,6 +13,7 @@ import { one } from "@/lib/tabs";
 import { attempt } from "@/lib/supabase";
 import { licenseByRow, licenseNeeded } from "@/lib/license";
 import { HeldRows } from "@/components/tool/HeldRows";  // session 500
+import { DatacentersPublicLine } from "./PublicLine";  // session 827
 import { Body, toFacility } from "./Body";
 import { LargeLoad, LargeLoadSource } from "./LargeLoad";
 import { GridsView } from "./GridsView";
@@ -80,7 +81,7 @@ export default async function DatacentersPage({ searchParams }: { searchParams: 
         {header}
         <Tabs page="/datacenters" active="facilities" />
         {!res.ok ? (
-          <><NoData what="datacenters" reason={res.reason} /><LargeLoad read={res} />{words}</>
+          <><NoData what="datacenters" reason={res.reason} /><DatacentersPublicLine /><LargeLoad read={res} />{words}</>
         ) : res.data.length === 0 ? (
           <>
             {/* session 500: a table held by row with no public row says so, then how many are held */}

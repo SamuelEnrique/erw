@@ -159,3 +159,16 @@ rows are held (check key `held|entities|datacenter_facilities|rows`, a count of 
 public). The top block's counts and megawatts are then of the public rows only. Session 441 counted 2 such rows on 20
 October, both from ERCOT's queue. The power side and the view by grid (sessions 467 and 468) read the grids' own queues
 and are unchanged.
+
+## The rows by who stands behind them, keyed (session 827)
+
+The deal tracker's sort (`docs/methods/energy_deals.md`, "The public rows, keyed"; `warehouse/deals/public_rows.py
+--datacenters`) run on `datacenter_projects` and `datacenter_projects_evidence`: a facility at least one of whose
+evidence rows comes from a publisher whose terms the ERW reads as public is shown, with its power-side fields only;
+one every evidence row of which asks for permission is held; one resting on a publisher not read is unsettled. The
+counts are `site/data/datacenters_public.json` and the line above the held table on `/datacenters` draws them:
+`dcpub|counts|shown`, `dcpub|counts|held`, `dcpub|counts|unsettled` (`check-values` reads the live set's row count of
+`datacenter_projects` against the file). On 23 October 2026 every one of the 168 evidence rows rests on a news outlet
+that asks for permission, so 0 are shown and 150 held (`docs/reviews/datacenters-public-rows-2026-10-23.md`). The
+sites a public source names are the interconnection-queue positions, which "On the power side" draws from the queue
+tables themselves (session 467). Session 828 writes "What is shown and what is held" in full.

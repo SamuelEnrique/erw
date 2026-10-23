@@ -23,14 +23,16 @@ def contract(i, seller, buyer, date, product="ENERGY", rate="42.1", quarter=None
 
 class KeyTest(unittest.TestCase):
     def test_key(self):
-        self.assertEqual(J.key("Constellation Energy Generation, LLC"), "CONSTELLATION GENERATION")
+        self.assertEqual(J.key("Constellation Energy Generation, LLC"), "CONSTELLATION ENERGY GENERATION")
         self.assertEqual(J.key("Amazon"), "AMAZON")
-        self.assertEqual(J.key("The Energy Company, Inc."), "THE ENERGY COMPANY INC")   # nothing would be left: the words stay
+        self.assertEqual(J.key("The Energy Company, Inc."), "ENERGY")   # the corporate words dropped; a one-word key still needs four letters and a whole word
         self.assertEqual(J.key("AEP Texas Inc."), "AEP TEXAS")
 
     def test_matches(self):
-        self.assertTrue(J.matches("CONSTELLATION", "CONSTELLATION GENERATION"))
-        self.assertTrue(J.matches("CONSTELLATION GENERATION", "CONSTELLATION"))
+        self.assertTrue(J.matches("CONSTELLATION", "CONSTELLATION ENERGY GENERATION"))
+        self.assertFalse(J.matches("CONSTELLATION GENERATION", "CONSTELLATION"))   # one direction: the story's name is the shorter
+        self.assertFalse(J.matches("MONOMOY CAPITAL", "CAPITAL ENERGY"))
+        self.assertTrue(J.matches("VISTRA", "VISTRA ENERGY"))
         self.assertFalse(J.matches("CON", "CONSTELLATION GENERATION"))   # under four characters: whole key only
         self.assertTrue(J.matches("US", "US"))
         self.assertFalse(J.matches("US", "US NAVY"))

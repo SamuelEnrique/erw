@@ -531,6 +531,16 @@ async function truth(check) {
     // flag, two spellings. The page has read both since session 114; the check read only "true" and so undercounted.
     if (what === "month_ai_pct") return m.length ? Math.round((100 * m.filter((r) => String(r.ai ?? "").toLowerCase() === "true").length) / m.length) : null;
   }
+  // session 827: the datacenter tracker's rows by the same sort (site/data/datacenters_public.json): dcpub|counts|shown
+  // is the live set's row count of datacenter_projects less the file's held and unsettled; |held and |unsettled the
+  // file's, read only when the file's total is the live count
+  if (p[0] === "dcpub" && p[1] === "counts") {
+    const file = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "datacenters_public.json"), "utf-8"));
+    const total = await q("entities", { select: "table_name", table_name: "eq.datacenter_projects" }, true);
+    if (p[2] === "shown") return total - file.counts.held - file.counts.unsettled;
+    if (file.shown.length + file.counts.held + file.counts.unsettled !== total) return undefined;
+    return p[2] === "held" ? file.counts.held : p[2] === "unsettled" ? file.counts.unsettled : undefined;
+  }
   // session 822: the deal tracker's public rows (lib/dealspublic.ts; site/data/deals_public.json, written by
   // warehouse/deals/public_rows.py from the archive's copy of energy_deals and its evidence rows). The counts are read
   // against the live set: dealpub|counts|shown is the live set's row count of energy_deals less the file's held and

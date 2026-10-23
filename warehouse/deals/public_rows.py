@@ -57,17 +57,18 @@ def verdict_of(publisher, verdicts):
     return verdicts.get(publisher)
 
 
-def sort_deals(deals, evidence, registry, verdicts):
+def sort_deals(deals, evidence, registry, verdicts, id_col="event_id", ev_col="deal_id"):
     """{deal_id: {"sort", "public": [publishers], "held": [publishers], "unsettled": [publishers], "evidence": [...]}}.
 
-    The rule in the module's docstring. Publishers are listed once each, in the order met."""
+    The rule in the module's docstring. Publishers are listed once each, in the order met. Session 827: the same sort
+    serves datacenter_projects (an entities table: id_col entity_id) and its evidence rows (ev_col facility_id)."""
     by_deal = {}
     for e in evidence:
-        by_deal.setdefault(e["deal_id"], []).append(e)
+        by_deal.setdefault(e[ev_col], []).append(e)
     out = {}
     for d in deals:
         pubs, public, held, unsettled, ev = [], [], [], [], []
-        for e in by_deal.get(d["event_id"], []):
+        for e in by_deal.get(d[id_col], []):
             p = publisher_of(e["source"], registry)
             v = verdict_of(p, verdicts)
             kind = SHOWN if v == PUBLIC else (UNSETTLED if v is None else HELD)
@@ -77,8 +78,33 @@ def sort_deals(deals, evidence, registry, verdicts):
                 pubs.append(p)
                 {SHOWN: public, HELD: held, UNSETTLED: unsettled}[kind].append(p)
         sort = SHOWN if public else (UNSETTLED if unsettled else HELD)
-        out[d["event_id"]] = {"sort": sort, "public": public, "held": held, "unsettled": unsettled, "evidence": ev}
+        out[d[id_col]] = {"sort": sort, "public": public, "held": held, "unsettled": unsettled, "evidence": ev}
     return out
+
+
+def datacenters_json(projects_path=None, evidence_path=None):
+    """Session 827: the counts of datacenter_projects by the same sort (site/data/datacenters_public.json): the shown
+    rows with their power-side fields only (name, state, MW, utility, power source; the queue's fields are the queue
+    tables' own), the held and the unsettled counted. Today every evidence row rests on a publisher who asks for
+    permission, so the file holds counts and no row."""
+    projects = rows(projects_path or os.path.join(OUT, "datacenter_projects.csv"))
+    evidence = rows(evidence_path or os.path.join(OUT, "datacenter_projects_evidence.csv"))
+    registry = {r["source"]: r["publisher"] for r in rows(os.path.join(META, "sources.csv"))}
+    verdicts = {r["key"]: r["verdict"] for r in rows(os.path.join(META, "license_verdicts.csv"))}
+    s = sort_deals(projects, evidence, registry, verdicts, id_col="entity_id", ev_col="facility_id")
+    shown = []
+    for p in projects:
+        v = s[p["entity_id"]]
+        if v["sort"] != SHOWN:
+            continue
+        pub = [e for e in v["evidence"] if e["kind"] == SHOWN]
+        shown.append({"entity_id": p["entity_id"], "name": p["name"], "state": p["state"], "county": p["county"], "city": p["city"], "mw": p["mw"] or None,
+                      "utility": p["utility"], "power_source": p["power_source"], "project_status": p["project_status"], "planned_year": p["planned_year"],
+                      "public_evidence": [{"publisher": e["publisher"], "url": e["url"], "date": e["date"]} for e in pub],
+                      "other_publishers": len(v["held"]) + len(v["unsettled"])})
+    return {"written_by": "warehouse/deals/public_rows.py --datacenters (session 827)", "retrieved": retrieved_of(projects_path or os.path.join(OUT, "datacenter_projects.csv")),
+            "rule": "the same sort as the deals' (shown: an evidence row from a publisher whose verdict is 'may be public'; unsettled: none, and one not read; held: every row asks)",
+            "counts": counts(s), "held_publishers": [list(x) for x in held_publishers(s)], "shown": shown}
 
 
 def load(deals_path=None, evidence_path=None):
@@ -196,7 +222,15 @@ def main(argv=None):
     ap.add_argument("--evidence")
     ap.add_argument("--json", help="write the sort, one entry a deal, to this path")
     ap.add_argument("--markdown", action="store_true", help="print the review's tables")
+    ap.add_argument("--datacenters", help="session 827: write datacenter_projects' sort to this path (site/data/datacenters_public.json)")
     a = ap.parse_args(argv)
+    if a.datacenters:
+        out = datacenters_json(a.deals, a.evidence)
+        with open(a.datacenters, "w", encoding="utf-8") as f:
+            json.dump(out, f, indent=1, sort_keys=True, ensure_ascii=False)
+            f.write("\n")
+        print(f"wrote {a.datacenters}: {len(out['shown'])} shown rows, {out['counts']}; held publishers {out['held_publishers'][:5]}")
+        return 0
     deals, evidence, registry, verdicts = load(a.deals, a.evidence)
     s = sort_deals(deals, evidence, registry, verdicts)
     c = counts(s)

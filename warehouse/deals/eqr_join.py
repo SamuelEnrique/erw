@@ -9,10 +9,10 @@ terms would be; the terms themselves stay in runs/ (never committed).
 
 The names. A party of a deal is the model's words from a story ("Constellation", "Amazon"); an EQR name is the filer's
 ("Constellation Energy Generation, LLC"). Both go through key(): upper case, punctuation dropped, the corporate words
-(LLC, INC, CORP, CORPORATION, CO, COMPANY, LP, LTD, PLC, HOLDINGS, ENERGY where it is not the whole name) dropped, spaces
-folded; the buyer's filed name is first read through ferc_eqr_buyer_names (name to x_key, the group's key after
-session 99's rules) where it is listed. A party matches a filed name when the keys are equal, or one key is a whole
-word (or words) of the other and at least four characters long. A row matches a deal when one party matches the
+(LLC, INC, CORP, CORPORATION, CO, COMPANY, LP, LTD, PLC, HOLDINGS) dropped unless nothing would be left, spaces folded; the buyer's filed name is first read through ferc_eqr_buyer_names (name to x_key, the group's key after
+session 99's rules) where it is listed. A party matches a filed name when the keys are equal, or the party's key is a
+whole word (or words) of the filed name's key and at least four characters long (one direction: the story's name is
+the shorter form). A row matches a deal when one party matches the
 seller and another the buyer (either way round); a deal with one named party matches on that party as seller or
 buyer, said so. Nothing is matched on a guess: a party of fewer than four letters ("US") matches only as a whole key.
 
@@ -35,7 +35,7 @@ sys.path.insert(0, HERE)
 import public_rows as P  # noqa: E402
 
 RESTORE = os.path.join(ROOT, "runs", "archive_restore")
-CORPORATE = {"LLC", "INC", "CORP", "CORPORATION", "CO", "COMPANY", "LP", "LTD", "PLC", "HOLDINGS", "THE", "L", "P", "LIMITED", "PARTNERSHIP", "ENERGY"}
+CORPORATE = {"LLC", "INC", "CORP", "CORPORATION", "CO", "COMPANY", "LP", "LTD", "PLC", "HOLDINGS", "THE", "L", "P", "LIMITED", "PARTNERSHIP"}
 MIN = 4
 
 
@@ -47,15 +47,16 @@ def key(name):
 
 
 def matches(party_key, filed_key):
-    """True when the keys are equal, or one is whole words of the other and at least MIN characters long."""
+    """True when the keys are equal, or the party's key is whole words of the filed name's key and at least MIN
+    characters long. One direction only (session 825's hand check): a filed name that is a word of the party's name
+    ("Capital Energy" against "Monomoy Capital") is not a match."""
     if not party_key or not filed_key:
         return False
     if party_key == filed_key:
         return True
-    short, long_ = (party_key, filed_key) if len(party_key) <= len(filed_key) else (filed_key, party_key)
-    if len(short) < MIN:
+    if len(party_key) < MIN:
         return False
-    return re.search(r"(?<![A-Z0-9])" + re.escape(short) + r"(?![A-Z0-9])", long_) is not None
+    return re.search(r"(?<![A-Z0-9])" + re.escape(party_key) + r"(?![A-Z0-9])", filed_key) is not None
 
 
 def quarter_of(date):

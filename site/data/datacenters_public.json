@@ -1,0 +1,63 @@
+{
+ "counts": {
+  "held": 150,
+  "shown": 0,
+  "unsettled": 0
+ },
+ "held_publishers": [
+  [
+   "Data Center Dynamics",
+   80,
+   81
+  ],
+  [
+   "Reuters",
+   39,
+   41
+  ],
+  [
+   "Bloomberg",
+   16,
+   17
+  ],
+  [
+   "WSJ",
+   10,
+   10
+  ],
+  [
+   "Financial Times",
+   3,
+   3
+  ],
+  [
+   "Hart Energy",
+   3,
+   4
+  ],
+  [
+   "Heatmap News",
+   3,
+   3
+  ],
+  [
+   "Data Center Frontier",
+   2,
+   2
+  ],
+  [
+   "Data Center Knowledge",
+   2,
+   2
+  ],
+  [
+   "Latitude Media",
+   2,
+   2
+  ]
+ ],
+ "retrieved": "20261022T150250Z",
+ "rule": "the same sort as the deals' (shown: an evidence row from a publisher whose verdict is 'may be public'; unsettled: none, and one not read; held: every row asks)",
+ "shown": [],
+ "written_by": "warehouse/deals/public_rows.py --datacenters (session 827)"
+}
