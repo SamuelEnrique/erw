@@ -453,6 +453,9 @@ export const misoOwn = (v: unknown): boolean => typeof v === "string" && /^miso[
 export function heldGridOf(a: { table: string; entity?: string }, scope: Scope = null): string {
   if (!licenseNeeded(a.table) || !licenseByGrid(a.table)) return "";
   const g = gridOfEntity(a.entity) || (a.entity ? "" : scope ? (scope.market_prefix ? gridOfEntity(`${scope.market_prefix}:x`) : gridPrefix(scope.iso)) : "");
+  // session 1126: MISO's pause says more than its license: a question of MISO's rows is refused with the pause's words
+  // (session 1113's run: MISO's scoped chat answered the held grid's way where its key is a refusal)
+  if (g === "miso") throw new ToolError(MISO_PAUSED);
   return g && licenseHeldRow(a.table, `${g}:x`) ? g : "";
 }
 
@@ -796,8 +799,9 @@ async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
 async function compare(a: { a: QueryArgs; b: QueryArgs }, scope: Scope = null): Promise<Json> {
   const [ra, rb] = await Promise.all([query(a.a, scope), query(a.b, scope)]);
   const single = (r: Json) => {
-    const res = r.result as Json[];
-    if (res.length !== 1) return null;
+    // session 1126: a held grid's side (session 1112's heldAnswer) has no result: no difference is made with it
+    const res = r.result as Json[] | undefined;
+    if (!res || res.length !== 1) return null;
     const v = res[0].value ?? res[0].count;
     return typeof v === "number" ? v : null;
   };

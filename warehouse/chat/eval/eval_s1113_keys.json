@@ -1,6 +1,6 @@
 {
  "_about": "Session 1113 (with session 539's code): the expected numbers of questions_s320.yaml computed again from the live set (Supabase, the anon key, reads only, no model call) by warehouse/chat/eval/eval_s1113.py --keys; each key by the aggregation its note names over the months its question names. table_unit_value is the figure in the table's own unit (USD per MW for the battery revenues asked per kW).",
- "computed_at_utc": "2026-10-23T19:16:05Z",
+ "computed_at_utc": "2026-10-23T19:29:50Z",
  "source": "the live set's series view, read with the anon key: table_name in (battery_stack_monthly, merchant_revenue_monthly, cost_of_power_monthly)",
  "keys": {
   "b01": {
