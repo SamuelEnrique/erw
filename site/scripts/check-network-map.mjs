@@ -23,8 +23,10 @@
 //             smaller on top of the larger it sits inside, each tie that has both ends drawn from its exporter to its
 //             importer; hovering a region names it; clicking it opens the same panel the network opens for that grid,
 //             word for word; a day of the replay with another carbon intensity changes the region's color, and a grid
-//             with no intensity that day is grey
-//   phone     at 390 px: the toggle is reachable, nothing is wider than the screen, the panel is under the map
+//             with no intensity that day is grey; session 1156: on the Lower 48 one of the seven ISO grids is a link to
+//             its row on the Grid tool (the map and the day carried), followed by a click, and that row opens on the
+//             same panel; any other balancing authority is a button that opens its panel
+//   phone    at 390 px: the toggle is reachable, nothing is wider than the screen, the panel is under the map
 // Exit 1 on a failure; "not proven" (exit 0) without a browser.
 import fs from "node:fs";
 import { withBrowser } from "./browser.mjs";
@@ -193,10 +195,21 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, error
   c = await evaluate(centre("SWPP"));
   await send("Input.dispatchMouseEvent", { type: "mouseMoved", x: c.x, y: c.y });
   const hov = await wait(`(() => { const h = document.querySelector('[data-map-hover]'); return h ? { id: h.getAttribute('data-map-hover'), text: h.innerText } : null; })()`, 5000, "the hover");
-  check(hov.id === "SWPP" && hov.text === snap.nodes.find((x) => x.id === "SWPP").name, `hovering a region names the grid (${hov.text})`);
-  // a click opens the same panel
+  check(hov.id === "SWPP" && hov.text.split("\n")[0] === snap.nodes.find((x) => x.id === "SWPP").name, `hovering a region names the grid (${hov.text})`);
+  // session 1156: on the Lower 48 (this address names no grid) each of the seven ISO grids is a link to its row on the
+  // Grid tool, the map and the day carried; its hover says so. Any other balancing authority opens its panel, as before.
+  check(hov.text.includes("Click to open its row on the Grid tool"), "the hover of one of the seven ISO grids says a click opens its row");
+  const ercoHref = await evaluate(`document.querySelector('[data-region="ERCO"]')?.getAttribute('data-region-href') ?? null`);
+  check(ercoHref === "/grid?grid=ercot&view=network&shape=map&net=day&t=2021-02-15", `ERCOT's region links to its row on the Grid tool, the map and the day carried (${ercoHref})`);
+  check(await evaluate(`(() => { const b = document.querySelector('[data-region="BPAT"]'); return !!b && !b.getAttribute('data-region-href') && b.getAttribute('role') === 'button' && !b.closest('a'); })()`),
+    "a balancing authority that is none of the eight is no link: a button that opens its panel");
+  c = await evaluate(centre("BPAT"));
+  for (const type of ["mousePressed", "mouseReleased"]) await send("Input.dispatchMouseEvent", { type, x: c.x, y: c.y, button: "left", clickCount: 1 });
+  await wait(`document.querySelector('[data-panel]')?.getAttribute('data-panel') === 'BPAT'`, 10000, "BPAT's panel from a click on its region");
+  // a click on ERCOT follows its link: ERCOT's row of the Grid tool, on the map, the same day, and its panel open
   c = await evaluate(centre("ERCO"));
   for (const type of ["mousePressed", "mouseReleased"]) await send("Input.dispatchMouseEvent", { type, x: c.x, y: c.y, button: "left", clickCount: 1 });
+  await wait(`new URLSearchParams(location.search).get('grid') === 'ercot' && ${READY} && document.querySelector('[data-map-state]')?.getAttribute('data-map-state') === 'held'`, 30000, "ERCOT's row of the Grid tool from a click on its region");
   await wait(`document.querySelector('[data-panel]')?.getAttribute('data-panel') === 'ERCO'`, 10000, "ERCOT's panel from a click on its region");
   const mapPanel = await evaluate(`document.querySelector('[data-panel]').innerText`);
   check(mapPanel === netPanel, `clicking a region opens the same panel the network opens for that grid and day, word for word (${mapPanel.length} characters)`);

@@ -31,8 +31,8 @@ import { Num } from "@/components/Num";
 import { shown } from "@/lib/format";
 import { HEADLINE, MEASURES, SPREAD, type Measure, type Supply } from "@/lib/basupply";
 import { clampDay, dayFrame, easternHours, parseShared, priceWeight, sharedQuery, trace as tracePower, type Daily, type DailyIndex, type ViewKey, PAUSED_PRICE, PAUSED_WORDS, monthSpan, type Complete } from "@/lib/networkV3";
-import { parseShape, withShape, type Shape } from "@/lib/networkMap";
-import { netFromPage, netToPage } from "@/lib/gridtool";
+import { carryMoment, edgesAt, mapPanelOf, parseShape, regionSlug, withShape, type Shape } from "@/lib/networkMap";
+import { GRID_CHOICES, gridHref, netFromPage, netToPage } from "@/lib/gridtool";
 import { GRAVITY_CENTER, GRAVITY_GRIDS, netImportAt } from "@/lib/networkGravity";
 
 // session 180: the map is loaded when it is first shown, so the network's own load is what it was
@@ -198,10 +198,8 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
     return m;
   }, [view, range, snap.nodes, pricesOn]);
 
-  const linksAt = useCallback((h: number) => view.links.filter((l) => l.mw[h] !== null && l.mw[h] !== undefined && l.mw[h] !== 0).map((l) => {
-    const v = l.mw[h] as number;
-    return { source: v > 0 ? l.a : l.b, target: v > 0 ? l.b : l.a, mw: Math.abs(v), a: l.a, b: l.b };
-  }), [view]);
+  // session 1156: the rule moved, unchanged, to lib/networkMap.ts edgesAt (a tie with a figure in the frame, from its exporter to its importer)
+  const linksAt = useCallback((h: number) => edgesAt(view.links, h), [view]);
 
   // the node's own object: the same sphere 3d-force-graph draws (radius cube root of the value times 4), with its own
   // opacity so the rest can be dimmed without changing a color, and the battery ring when the switch is on
@@ -472,6 +470,9 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
   }, [v3, restored, playing, shared, shape, page]);
   // session 180: what the map draws, from the same view, hour and selection as the network
   const mapFlows = useMemo(() => (shape === "map" ? linksAt(hour) : []), [shape, linksAt, hour]);
+  // session 1156: the panel under the component on the Grid tool (grid_network_<grid>, components/grid/NetworkFigures.tsx):
+  // the page's grid (from the query it keeps) and the hour the component opens on; the map writes a line's MW only where it holds it
+  const mapPanel = useMemo(() => (page ? mapPanelOf(page.keep, GRID_CHOICES, v3?.complete?.hour ?? null, snap.hours) : null), [page, v3, snap.hours]);
   const mapNeighbours = useMemo(() => new Set(pick && shape !== "network" ? view.links.filter((l) => l.a === pick.id || l.b === pick.id).map((l) => (l.a === pick.id ? l.b : l.a)) : []), [pick, view, shape]);
   // session 266: what the gravity shape draws, from the same view, hour and ties as the panel
   const gravity = useMemo(() => {
@@ -550,6 +551,8 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
       <div className={`grid grid-cols-[minmax(0,1fr)] gap-3 ${pick ? "lg:grid-cols-[minmax(0,1fr)_340px]" : ""}`}>
         {shape === "map" ? (
           <NetworkMap nodes={snap.nodes} flows={mapFlows} maxMw={maxMw} colorOf={(id) => colorOf(view.intensity(id, hour), lo, hi)} pick={pick?.id ?? null} neighbours={mapNeighbours}
+            panel={mapPanel} win={{ at: ts, refresh: view.kind === "live" && view.key === "live" ? snap.built : null, day: isDayView }}
+            linkOf={page ? (id) => { const slug = regionSlug(id, GRID_CHOICES, mapPanel ? mapPanel.ba : page.node); return slug ? carryMoment(gridHref(slug, "network", { shape: "map" }), shared) : null; } : undefined}
             onPick={(id) => setPick(snap.nodes.find((n) => n.id === id) ?? null)} />
         ) : shape === "gravity" && gravity ? (
           <NetworkGravity gen={gravity.gen} net={gravity.net} held={gravity.held} names={new Map(snap.nodes.map((n) => [n.id, n.name]))} colorOf={(id) => colorOf(view.intensity(id, hour), lo, hi)}
@@ -663,12 +666,14 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
         ) : null}
       </div>
       <div className="mt-2 flex flex-wrap items-center gap-4 text-xs text-muted">
-        <span>{shape === "map" ? "Hover a region for its name, click it for its panel. A tie's dash runs from the exporter to the importer; it is wider as the flow is larger." : shape === "gravity" ? "Hover a circle or its line for its figures and their hour (a line is drawn only where the grid has a net figure in the hour), click a circle for its panel." : "Drag to rotate, scroll to zoom, click a grid; it turns slowly until touched."}</span>
+        <span>{shape === "map" ? `Hover a region for its name, a line for its direction and window. ${page ? "Click one of the seven ISO grids to open its row on the Grid tool, any other region for its panel" : "Click a region for its panel"}. A tie's dash runs from the exporter to the importer; it is wider as the flow is larger.` : shape === "gravity" ? "Hover a circle or its line for its figures and their hour (a line is drawn only where the grid has a net figure in the hour), click a circle for its panel." : "Drag to rotate, scroll to zoom, click a grid; it turns slowly until touched."}</span>
         <span className="flex items-center gap-1">Carbon intensity of generation:
           <span className="inline-block h-2 w-24" style={{ background: "linear-gradient(90deg, var(--color-down), var(--color-up))" }} /> {fmt(lo)} to {fmt(hi)} kg CO2/MWh; grey: not held.
           {view.kind === "live" ? <> The color updates daily (latest hour {ciTs.slice(0, 13).replace("T", " ")}:00 UTC); the links and demand, hourly.</> : <> In a story, each day&apos;s own.</>}</span>
         {shape === "gravity" ? <span data-gravity-key="1">Circle: the grid&apos;s net generation in the hour shown (EIA-930), its area to scale with the Lower 48&apos;s at the center. Nearer the center: a net importer; farther out: a net exporter, by its net imports as a share of its generation (a quarter or more is the full pull); on the dashed ring: neither. The other {snap.nodes.length - GRAVITY_GRIDS.length} balancing authorities are drawn in the Network and Map shapes: their generation is not in the live set. A dashed outline: generation not held for the hour.</span>
-          : shape === "map" ? <span data-map-key="1">Region: the balancing authority&apos;s area as the boundary file gives it; the line on the map says what that file is. The batteries&apos; and prices&apos; rings are drawn in the Network view; the panel holds their numbers here.</span>
+          : shape === "map" ? <span data-map-key="1">Region: the balancing authority&apos;s area as the boundary file gives it; the line on the map says what that file is. The batteries&apos; and prices&apos; rings are drawn in the Network view; the panel holds their numbers here.
+            {" "}<span data-map-public="1">The lines are EIA-930&apos;s public interchange, for every grid, PJM, MISO, ISO-NE and NYISO included, whose own tables are held or paused here; no price is drawn on the map. The state outlines are the project map&apos;s (us-atlas, the Census Bureau&apos;s), on its projection.</span>
+            {mapPanel ? <>{" "}<span data-map-checked="1">The panel under the map carries the checked figures: a line&apos;s MW is written on hover only for a tie of the grid in view, in the hour that panel holds.</span></> : null}</span>
           : <span>Sphere: demand (the seven ISOs) or interchange volume (the others)</span>}
         {batteriesOn && shape === "network" ? <span>Ring: batteries reported for the hour, fuller as they discharge, emptier as they charge.</span> : null}
         {pricesOn && shape === "network" ? <span data-price-legend="1">Outer ring: the hub price, heavier as it is higher, on the grids with a public price held for the {unit} shown ({priceRings}); the heaviest is {priceMax.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD/MWh, the highest of the period shown.</span> : null}
