@@ -6738,6 +6738,10 @@ usace_nid_dams,locks_n,column,
 usace_nid_dams,source_agency,column,
 usace_nid_dams,record_updated,column,
 usace_nid_dams,coordinate_given,column,
+usbr_hydropower_monthly,auxiliary_use,series variable,MWh
+usbr_hydropower_monthly,gross_generation,series variable,MWh
+usbr_hydropower_monthly,installed_capacity,series variable,MW
+usbr_hydropower_monthly,net_generation,series variable,MWh
 usgs_mcs_critical_minerals,consumption,series variable,t
 usgs_mcs_critical_minerals,employment,series variable,count
 usgs_mcs_critical_minerals,export,series variable,t
