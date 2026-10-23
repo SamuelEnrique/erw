@@ -86,7 +86,7 @@ export function AllGridsNodes({ columns, pkey, datacenter, sort, dir, open, shor
   const end = Math.min(sorted.length, mounted ? Math.floor(top / ROW) + VIEW + PAD : FIRST);
   const click = (k: NodeSort) => { if (k === by) setD(d === "asc" ? "desc" : "asc"); else { setBy(k); setD(k === "node" || k === "cls" || k === "county" || k === "zone" ? "asc" : "desc"); } };
   const energyKey = (r: NodeTableRow) => (datacenter ? `allgrids|energy|${r.id}|da` : `allgrids|energy|${r.id}|da|${pkey}`);
-  const cols = "grid grid-cols-[minmax(8rem,1.4fr)_4.5rem_6.5rem_5.5rem_5rem_5.5rem_5rem_5rem_5rem_5rem] items-center gap-x-2 px-3";
+  const cols = "grid grid-cols-[minmax(8rem,1.4fr)_4.5rem_5rem_5.5rem_5rem_5rem_5rem_5rem_7rem_5.5rem] items-center gap-x-2 px-3";
   return (
     <div data-allgrids-nodes="1">
       <div className="mb-2 flex flex-wrap items-end gap-3 text-sm">
@@ -124,7 +124,7 @@ export function AllGridsNodes({ columns, pkey, datacenter, sort, dir, open, shor
         <div style={{ minWidth: 900 }} role="table" aria-label="ERCOT nodes" aria-rowcount={sorted.length + 1}>
           <div className={`${cols} bg-accent py-1.5 text-sm text-white`} role="row">
             {NODE_SORTS.map((k) => (
-              <span key={k} className={`tip relative ${k === "node" || k === "cls" || k === "county" || k === "zone" ? "text-left" : "text-right"}`} role="columnheader" aria-sort={by === k ? (d === "asc" ? "ascending" : "descending") : "none"}>
+              <span key={k} className={`tip relative ${k === "node" || k === "cls" || k === "county" || k === "zone" ? "text-left" : "text-right"}${k === "county" ? " pl-2" : ""}`} role="columnheader" aria-sort={by === k ? (d === "asc" ? "ascending" : "descending") : "none"}>
                 <button type="button" aria-describedby={`${uid}-${k}`} onClick={() => click(k)} className="border-b border-dotted border-white/70" data-node-head={k}>
                   <span className="text-white">{HEADS[k]}{by === k ? (d === "asc" ? " (up)" : " (down)") : ""}</span>
                 </button>
@@ -138,14 +138,14 @@ export function AllGridsNodes({ columns, pkey, datacenter, sort, dir, open, shor
                 <div key={r.id} className={`${cols} absolute left-0 right-0 border-b border-rule text-sm tabular-nums`} style={{ top: (start + i) * ROW, height: ROW }} data-allgrids-row={r.id} role="row" aria-rowindex={start + i + 2}>
                   <span role="cell" className="min-w-0"><button type="button" onClick={() => pick(r.id)} aria-pressed={open === r.id} className={`truncate text-left underline decoration-dotted ${open === r.id ? "font-semibold" : ""}`} aria-label={`${r.node}: open its panel${r.types ? `; ERCOT's resource types ${r.types}` : ""}`} data-node-open={r.id}>{r.node}</button></span>
                   <span role="cell" className="text-xs">{r.cls}</span>
-                  <span role="cell" className="truncate text-xs" data-node-county-cell="1">{r.county}</span>
-                  <span role="cell" className="text-xs">{r.zone}</span>
                   <span role="cell" className="text-right">{r.per === null ? <span className="tip relative inline-block"><button type="button" aria-describedby={`${uid}-why-${r.id}`} className="cursor-help border-b border-dotted border-muted" data-tip-trigger="1">not held</button><span role="tooltip" id={`${uid}-why-${r.id}`} className="absolute right-0 top-full z-20 hidden w-64 max-w-[80vw] whitespace-normal border border-rule bg-paper px-2 py-1.5 text-left text-xs leading-snug text-ink">{r.why}</span></span> : <span data-check={energyKey(r)} data-raw={String(r.per)}>{two(r.per)}</span>}</span>
                   <span role="cell" className="text-right">{r.basis === null ? "" : <span data-check={`allgrids|basis|${r.id}`} data-raw={String(r.basis)}>{two(r.basis)}</span>}</span>
                   <span role="cell" className="text-right">{r.spread === null ? "" : <span data-check={`allgrids|nodespread|${r.id}`} data-raw={String(r.spread)}>{two(r.spread)}</span>}</span>
                   <span role="cell" className="text-right">{r.swing === null ? "" : <span data-check={`allgrids|nodeswing|${r.id}`} data-raw={String(r.swing)}>{two(r.swing)}</span>}</span>
                   <span role="cell" className="text-right">{r.allin === null ? "" : <span data-check={`allgrids|allin|${r.id}|${pkey}`} data-raw={String(r.allin)}>{two(r.allin)}</span>}</span>
                   <span role="cell" className="text-right text-xs">{r.days.toLocaleString("en-US")}{r.due ? ` of ${r.due}` : ""}</span>
+                  <span role="cell" className="truncate pl-2 text-xs" data-node-county-cell="1">{r.county}</span>
+                  <span role="cell" className="text-xs">{r.zone}</span>
                 </div>
               ))}
             </div>

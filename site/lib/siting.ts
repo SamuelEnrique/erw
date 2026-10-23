@@ -848,7 +848,8 @@ export function nodeRowsOf(c: NodeColumns): NodeTableRow[] {
     allin: c.allin[i], why: c.why[i], spread: c.spread[i], swing: c.swing[i] }));
 }
 /** The columns a node table sorts by, and the default: by name. */
-export const NODE_SORTS = ["node", "cls", "county", "zone", "energy", "basis", "spread", "swing", "allin", "days"] as const;
+// session 1048: county and zone last, so that the figures stay in view at 1280 and the place scrolls into it
+export const NODE_SORTS = ["node", "cls", "energy", "basis", "spread", "swing", "allin", "days", "county", "zone"] as const;
 export type NodeSort = (typeof NODE_SORTS)[number];
 export function sortNodes(rows: NodeTableRow[], by: NodeSort, dir: "asc" | "desc"): NodeTableRow[] {
   const k = dir === "asc" ? 1 : -1;
@@ -989,7 +990,7 @@ export function allIn(parts: Record<"energy" | "transmission" | "capacity", Part
 // the check keys: allgrids|<column>|<row>[|<inputs>]
 // ---------------------------------------------------------------------------------------------------------------------
 
-export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFile, "nodes">; years: (grid: string) => YearFile[]; cp?: CpFile;
+export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFile, "nodes" | "projects">; years: (grid: string) => YearFile[]; cp?: CpFile;
   /** session 703: the Commission's newest approved postage stamp rate (newestRate over texas_delivery.json's matrix) */
   rate?: Rate | null;
   /** session 704: the capacity tables' newest periods and zones, no price (data/siting/capacity.json) */

@@ -110,7 +110,7 @@ def run():
 class TheList(unittest.TestCase):
     def test_county_and_zone_sort_with_the_unplaced_last(self):
         o = run()
-        self.assertEqual(o["sorts"][:4], ["node", "cls", "county", "zone"])
+        self.assertEqual(o["sorts"][-2:], ["county", "zone"])                # last: the figures stay in view at 1280
         self.assertEqual(o["county"], ["C", "A", "B"])
         self.assertEqual(o["zoneDesc"], ["C", "A", "B"])          # blank last either way
         self.assertEqual(o["back"], [["HARRIS", "HOUSTON"], ["", ""], ["BEXAR", "SOUTH"]])
