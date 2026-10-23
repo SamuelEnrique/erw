@@ -155,7 +155,8 @@ SECTOR_RULES = [
     (r"^eia_coal_mine_production_annual$", "coal"),  # session 694: EIA's coal production and employees by mine, a year
     (r"^ercot_cdr_reserve_margins$", "power"),  # session 851: ERCOT's CDR, load, capacity and reserve margin by season
     (r"^ercot_transmission_projects$", "power"),
-    (r"^ercot_cdr_units$", "power"),  # session 872: the CDR's unit details: code, county, zone, capacity  # session 852: ERCOT's TPIT, every transmission project
+    (r"^ercot_cdr_units$", "power"),
+    (r"^eia860_plants_annual$", "power"),  # session 873: EIA-860's plants: place, BA, grid voltage, wires owner  # session 872: the CDR's unit details: code, county, zone, capacity  # session 852: ERCOT's TPIT, every transmission project
     (r"^eia861_utility_reliability$", "power"),
     (r"^eia861_delivery_only$", "power"),
     (r"^eia861_utility_data$", "power"),

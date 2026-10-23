@@ -325,6 +325,7 @@ catalogue_hold:
   - eia861_advanced_meters
   - eia861_net_metering
   - ercot_cdr_units
+  - eia860_plants_annual
   - eia_crude_imports_detail_monthly
   - eia_padd_rail_barge_movements_monthly
   - eia_gas_trade_country_monthly
