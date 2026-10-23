@@ -328,6 +328,18 @@ catalogue_hold:
   - eia860_plants_annual
   - eia_coal_receipts_annual
   - eia861_short_form
+  - uspvdb_solar_facilities
+  - frb_utility_output_monthly
+  - cer_electricity_trade
+  - eia_international_electricity_annual
+  - eia860_wind_generators
+  - eia860_solar_generators
+  - eia860_storage_generators
+  - eia860_generator_owners
+  - eia861_distributed_generation
+  - eia861_distribution_systems
+  - eia861_operational_data
+  - eia861_energy_efficiency
   - eia_crude_imports_detail_monthly
   - eia_padd_rail_barge_movements_monthly
   - eia_gas_trade_country_monthly

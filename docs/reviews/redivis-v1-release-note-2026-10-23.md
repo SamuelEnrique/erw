@@ -54,6 +54,8 @@ which a plain upload refreshes. 100 requests in all (`runs/c046/s863/`).
 
 **Session 880 (23 October 2026, 03:54 UTC):** five small grown tables, the coal receipts' header lines, `erw_coverage` (316 rows) and `erw_sources` (416 rows) refreshed; reconcile 176 of 214 match. **`ercot_wind_solar_hsl_hourly` is empty in the draft** (its replace was cut off by a request cap): upload it again before the click.
 
+**Session 892 (23 October 2026, 05:22 to 05:27 UTC):** `ercot_wind_solar_hsl_hourly` uploaded again and proved (8,760 rows); the draft no longer holds an empty table. A second request cap fell inside `erw_headers`' true replace (its estimate of 12, then 30, requests for one table and the header merge was too low), which left it empty for four minutes; it was rebuilt in full from this machine's 212 public tables (2,958 lines, proved; every table in the draft is on this machine, so no line was lost). Reconcile: 176 of 214 match; the 38 that differ are tables a daily run has grown since their upload. Chain 048's thirteen new or changed public tables were not uploaded (63 of the session's 100 requests spent): chain 049's session 906 uploads them. Nothing released.
+
 **The daily run the draft holds:** the data machine's tables as of 21 and 22 October 2026 (111 tables last run on 21
 October, 19 on 22 October); 30 were last run here before 15 October (below).
 
