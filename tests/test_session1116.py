@@ -32,7 +32,7 @@ class TheBoard(unittest.TestCase):
         for words in ("past 10 days for a daily series", "17 for a weekly one", "132 for a monthly one", "license needed"):
             self.assertIn(words, note)
         board = src("site", "lib", "board.ts")
-        self.assertIn('export const STALE_DAYS: Record<"D" | "W" | "M", number> = { D: 10, W: 17, M: 132 };', board)
+        self.assertIn('export const STALE_DAYS: Record<"D" | "W" | "M" | "Q", number> = { D: 10, W: 17, M: 132, Q: 135 };', board)   # Q: session 1135
 
     def test_the_node_tests(self):
         exe = shutil.which("node")
