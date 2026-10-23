@@ -443,7 +443,9 @@ PRICE_BOARD = {
     "eia_petroleum_stocks_weekly": ({"kbbl"}, {"P1W"}, "public", "oil;products", "eia:W"),
     "eia_lng_exports_monthly": ({"MMcf", "USD/Mcf"}, {"P1M"}, "public", "lng", "eia:NGM_EPG0_"),
     "pjm_rpm_capacity_prices": ({"USD/MW-day"}, {"P1Y"}, "internal", "capacity", "pjm:"),
-    "carb_auction_allowance_prices": ({"USD/tCO2", "count"}, {"P3M"}, "internal", "carbon", "carb:"),
+    # session 893: public since session 324 (carbon_auctions.py; CARB's verdict "may be public", docs/licenses.md); the
+    # daily run's coverage took the flag on 22 October 2026 and this line, still "internal", failed its package test
+    "carb_auction_allowance_prices": ({"USD/tCO2", "count"}, {"P3M"}, "public", "carbon", "carb:"),
     "rggi_auction_allowance_prices": ({"USD/short_ton", "count"}, {"P3M"}, "internal", "carbon", "rggi:"),
     # session 207: the two FRED tables are retired (warehouse/metadata/retired_tables.csv)
     # session 8
