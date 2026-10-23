@@ -299,6 +299,7 @@ large_load_rules,Arizona Corporation Commission; California Public Utilities Com
 large_load_rules_internal,FERC; Georgia Public Service Commission; Indiana Utility Regulatory Commission; Public Utilities Commission of Ohio; Public Utility Commission of Texas; Virginia State Corporation Commission,the source registry
 large_load_statements,"utilities and operators, each row's own document (not listed one by one)",by hand: its header: each row's source is the utility's or operator's own document
 large_load_waits,"Alberta Electric System Operator (AESO), Canada; Bonneville Power Administration (BPA); NYISO; Public Utility District No. 2 of Grant County, Washington (Grant PUD)",the source registry
+lbnl_hybrid_plants,Berkeley Lab,the source registry
 lbnl_hybrid_ppa_prices,Berkeley Lab,the source registry
 lbnl_interconnection_queue,Berkeley Lab,the source registry
 lbnl_ppa_prices,Berkeley Lab,the source registry

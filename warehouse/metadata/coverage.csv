@@ -299,6 +299,7 @@ large_load_rules,none,,5,event,2024-01-25T00:00:00Z,2026-09-22T00:00:00Z,43,5 ou
 large_load_rules_internal,none,,6,event,2024-05-13T00:00:00Z,2026-10-15T00:00:00Z,74,6 outlets,2026-10-08T05:09:36Z,pass,internal,power;datacenters,no,model_extracted
 large_load_statements,none,,1,event,2024-05-01T00:00:00Z,2026-10-08T00:00:00Z,798,1 outlets,2026-10-19T09:42:07Z,pass,internal,power,no,model_extracted
 large_load_waits,none,,4,event,2010-05-27T00:00:00Z,2026-10-08T00:00:00Z,2622,4 outlets,2026-10-09T01:14:33Z,pass,internal,power;datacenters,no,derived
+lbnl_hybrid_plants,lbnl,,1068,snapshot,2026-10-23T13:49:06Z,2026-10-23T13:49:06Z,1068,lbnl:hybrid_plants,2026-10-23T13:51:53Z,pass,internal,power,no,source
 lbnl_hybrid_ppa_prices,none,,1,event,2015-09-09T00:00:00Z,2025-06-13T00:00:00Z,113,1 outlets,2026-10-23T11:14:25Z,pass,public,power,no,source
 lbnl_interconnection_queue,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,38201,snapshot,2026-10-02T09:16:25Z,2026-10-02T09:16:25Z,38201,lbnl:queued_up,,pass,public,power,no,source
 lbnl_ppa_prices,none,,1,event,1996-09-06T00:00:00Z,2025-06-13T00:00:00Z,1133,1 outlets,2026-10-23T08:31:18Z,pass,public,power,no,source
