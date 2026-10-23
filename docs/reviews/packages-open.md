@@ -46,3 +46,7 @@ No item answered: no "Answer:" line under items 1 to 9, and no `docs/reviews/pac
 - Item 11 (`ferc_eqr_contracts_history`'s partition test): open; not read by this chain.
 - Item 12 (`node_basis_daily` for researchers): open, with item 5. Chain 049's new public tables (`ercot_node_places`, `eia411_capacity_margins_annual` and four more) are in the same state: not in the live set, in the Stanford draft only (1053).
 - New: the package's three new error sentences (1056) are in the Stata and R packages too, unproven there until item 1's run.
+
+## State (session 1076, chain 073, 23 October 2026 at about 09:45 UTC)
+
+The conformance file's version 2: 20 of 20 against today's live set. The earliest call to leave the live set's window is call 10 (the daily intensity of 1 to 7 October), about 9 January 2027; the file is made again before then. Items 1 to 9: none answered.

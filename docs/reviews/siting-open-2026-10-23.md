@@ -106,3 +106,12 @@ Every other line stands as session 975's table above says: 1 to 6, 10, 13 to 15,
 | 33 | open, proposed | 1061: `docs/reviews/digest-revisions-proposal.md` for `/digest`'s owner |
 
 Every other line stands as session 1039's section says. Of the 33 lines, 4 are closed and 3 closed in part (11, 12, 20); 26 stay open.
+
+## State after chain 073 (session 1082, 23 October 2026 at about 09:55 UTC)
+
+| Line | State | Since |
+|---|---|---|
+| 11 | closed in part (unchanged) | 1048: county and zone; the hub and wires utility wait on `ercot_settlement_points` and a plant number |
+| 12 | closed in part, more | 1048: projects by county; 1069: the planned generation in the county; substations and lines wait on HIFLD |
+
+Every other line stands as chain 072's section says. No ruling was answered and no awaited table landed during chain 073 (1065, 1068). Of the 33 lines, 4 are closed and 3 closed in part; 26 stay open.

@@ -98,3 +98,11 @@ Walked again on a local build of `wip/1042-allgrids` (chain 072's 1042 to 1049: 
 - **No figure line is gone or changed otherwise.** The tips of the other grids' "reserve margin not held" now name EIA-411 (no digit in the cell, so outside the comparison).
 - **A fault seen, not new**: when the hub table is scrolled sideways (a tip focused at the far right), a right-aligned cell's second line spills left under the row's name (session 1027's screenshot shows the same); not this chain's change, listed for a session of its own.
 - **No step fails and no new fault was found.**
+
+## Walked again (session 1072, chain 073)
+
+Walked again on a local build of `wip/1064-allgrids` (chain 073: the planned generation in a node's county, session 1069; the hub table's name column above the cells that scroll under it, session 1072), 23 October 2026 at about 09:50 UTC, with `runs/chain_062/walk.mjs` and the steps of session 779; each step's figure lines against chain 072's walk (`runs/chain_072/walk1050_779`).
+
+- **12 steps; 0 differ, and only by 1069's line**: on the step that opens BBREEZE_1_2's panel, "ERCOT's generators due to operate in WILLACY County from 2026-09 to 2027-08: none in eia860m_planned_generators" in place of "not drawn".
+- **The spill seen by 1050 to 1052 is gone** (1072's fix, `docs/brand/review-1072/s01_spill_tip_1280.png`).
+- **No step fails and no new fault was found.**

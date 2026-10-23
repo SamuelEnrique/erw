@@ -457,7 +457,15 @@ function NodePanel({ id, x }: { id: string; x: SitingInputs }) {
             <li data-node-projects="1">ERCOT&apos;s transmission project phases with an end in {n.county} County ({NODES.projects.table}, the owners&apos; report {NODES.projects.workbook.replace(/^.*AS OF (\d{1,2})\/(\d{1,2})\/(\d{4}).*$/, (_, m: string, d: string, y: string) => `of ${y}-${m.padStart(2, "0")}-${d.padStart(2, "0")}`)}): <Num check={`allgrids|nodeprojects|${id}|future`} raw={pj.future}>{pj.future}</Num> future, <Num check={`allgrids|nodeprojects|${id}|planned`} raw={pj.planned}>{pj.planned}</Num> planned, <Num check={`allgrids|nodeprojects|${id}|completed`} raw={pj.completed}>{pj.completed}</Num> completed.{pj.next ? <> The earliest in-service date among the future and planned: {pj.next.date}, {pj.next.title || "a phase with no title"}{pj.next.kv ? ` (${pj.next.kv} kV` : " ("}{pj.next.owner ? `${pj.next.kv ? ", " : ""}${pj.next.owner})` : ")"}.</> : null} A project in the county is not a project at the node.</li>
           ) : <li data-node-projects="0">ERCOT&apos;s transmission projects in {n.county} County: none in {NODES.projects.table}.</li>;
         })() : null}
-        <li>The planned generation in its county (eia860m_planned_generators, by county): <Words words="not drawn" why="The county is known where ercot_node_places places the node; summing the planned generators by county for the panel is not built yet." />.</li>
+        {/* session 1069 (chain 073): ERCOT's planned generation in the node's county */}
+        {n.county && NODES.planned?.counties[n.county] ? (() => {
+          const pg = NODES.planned!.counties[n.county!], w = (v: number) => Math.round(v).toLocaleString("en-US");
+          return pg.construction_n + pg.approved_n + pg.other_n ? (
+            <li data-node-planned="1">ERCOT&apos;s generators due to operate in {n.county} County from {NODES.planned!.from} to {NODES.planned!.to} ({NODES.planned!.table}, EIA-860M of {NODES.planned!.vintage}, nameplate MW): <Num check={`allgrids|nodeplanned|${id}|construction`} raw={pg.construction_mw}>{w(pg.construction_mw)}</Num> MW under construction ({pg.construction_n}), <Num check={`allgrids|nodeplanned|${id}|approved`} raw={pg.approved_mw}>{w(pg.approved_mw)}</Num> MW with approvals ({pg.approved_n}), <Num check={`allgrids|nodeplanned|${id}|other`} raw={pg.other_mw}>{w(pg.other_mw)}</Num> MW planned otherwise ({pg.other_n}). Generation in the county is not generation at the node.</li>
+          ) : <li data-node-planned="0">ERCOT&apos;s generators due to operate in {n.county} County from {NODES.planned!.from} to {NODES.planned!.to}: none in {NODES.planned!.table} (EIA-860M of {NODES.planned!.vintage}).</li>;
+        })() : (
+          <li data-node-planned="-">The planned generation in its county (eia860m_planned_generators): <Words words="not placed" why="The node has no county in ercot_node_places, so no county's generators can be counted for it." />.</li>
+        )}
       </ul>
     </section>
   );
