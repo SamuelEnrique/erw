@@ -357,6 +357,8 @@ catalogue_hold:
   - boem_offshore_platforms
   - eia_ice_electricity_daily
   - eia_mecs_manufacturing
+  - eia_cbecs_commercial_buildings
+  - eia_recs_households
   - lbnl_hybrid_ppa_prices
   - lbnl_solar_projects
   - ornl_npd_potential

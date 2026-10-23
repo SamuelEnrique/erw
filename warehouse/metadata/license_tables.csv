@@ -106,6 +106,7 @@ eia_annual_generation_ba,EIA,the source registry
 eia_basin_production_monthly,EIA,the source registry
 eia_capacity_factors_annual,EIA,the source registry
 eia_capacity_factors_monthly,EIA,the source registry
+eia_cbecs_commercial_buildings,EIA,the source registry
 eia_co2_state_annual,EIA,the source registry
 eia_coal_delivered_price_annual,EIA,the source registry
 eia_coal_distribution_quarterly,EIA,the source registry
@@ -167,6 +168,7 @@ eia_power_plant_fuel_costs,EIA,the source registry
 eia_primary_energy_monthly,EIA,the source registry
 eia_product_spot_prices,EIA,the source registry
 eia_product_supplied_monthly,EIA,the source registry
+eia_recs_households,EIA,the source registry
 eia_refinery_capacity_annual,EIA,the source registry
 eia_refinery_inputs_monthly,EIA,the source registry
 eia_refinery_production_monthly,EIA,the source registry
