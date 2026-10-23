@@ -9,7 +9,7 @@
 
 ## What was done
 
-- **The set**, written by a background agent of this session from the brief of the chain file and the live set's own names, and run once here (exit 0, all thirty computed at 23 October 2026). Grids ERCOT, CAISO and SPP and national series only: no key is a row of a grid held for a license (ISO-NE, NYISO, MISO), none is PJM's. No question asks in USD per kW. Every period was checked whole: a missing month, day or hour, a partial month or a tie at a high or low stops the run. Eight are single months, ten sums or means, twelve highs, lows or differences.
+- **The set**, written by a background agent of this session from the brief of the chain file and the live set's own names, and run again here at 19:20 UTC (exit 0, all thirty computed; every key the same as the agent's run, only the computed time moved). Grids ERCOT, CAISO and SPP and national series only: no key is a row of a grid held for a license (ISO-NE, NYISO, MISO), none is PJM's. No question asks in USD per kW. Every period was checked whole: a missing month, day or hour, a partial month or a tie at a high or low stops the run. Eight are single months, ten sums or means, twelve highs, lows or differences.
 - **What the agent found**: the hourly price and demand tables of the live set start on 18 September 2026 (not 26 August), so their two questions (t07, p09) use stated UTC ranges in October; their rows leave the live set's 35-day window from about 5 November, so those two keys are to be kept, not computed again, after that. SPP North's day-ahead lacks 15 October, and ERCOT's real-time and demand have gaps: no question uses them.
 - **The grading** (`eval_s1113.py --grade --set s1114`): session 267's grader on each key, a date in a question's required words accepted either way ("September 3" or "3 September").
 - `expected_s1114.py` reads the keys from this checkout's `.env`, else the main checkout's beside it (it named this machine's path first).
@@ -17,7 +17,7 @@
 
 ## Checks
 
-- `python warehouse/chat/eval/expected_s1114.py`: exit 0 when run by the agent at 23 October 2026 (its output `runs`, not in git).
+- `python warehouse/chat/eval/expected_s1114.py`: exit 0 (the agent's run, then this session's at 19:20 UTC: the same thirty keys).
 - Em dashes in the three files: 0.
 
 ## To finish
@@ -26,7 +26,7 @@
 
 ## Decisions made without you
 
-1. **The set was written by an agent** of this session, its keys computed by code from the live set and checked here by running the script once more. Reversible.
+1. **The set was written by an agent** of this session, its keys computed by code from the live set and checked here by running the script once more (the same keys). Reversible.
 
 ## For Samuel's ruling
 
