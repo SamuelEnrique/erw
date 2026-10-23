@@ -282,9 +282,29 @@ def reserve_figures(repo, rows):
     return {f"allgrids|reservemargin|{rid}": float(nxt[0]["value"]) for rid in ROWS if rid.startswith("ercot:")} if nxt else {}
 
 
+PANEL_NODE = "7RNCHSLR_ALL"   # session 1048: the node whose panel the replication reads (check-values reads it too)
+
+
+def project_figures(places_rows, project_rows, node=PANEL_NODE):
+    """Session 1048 (chain 072): the transmission project phases of the node's county by ERCOT's status, counted a
+    second time from the two tables' rows: the node's county from ercot_node_places, a phase counted once when either
+    end's county is that county (case aside). A node the table does not place: none."""
+    county = next((r["x_county"] for r in places_rows if r["entity_id"] == f"ercot_node:{node}" and r.get("x_county")), None)
+    if not county:
+        return {}
+    n = {"future": 0, "planned": 0, "completed": 0}
+    for r in project_rows:
+        if county.upper() in ((r.get("x_county_start") or "").upper(), (r.get("x_county_end") or "").upper()) and r["status"] in n:
+            n[r["status"]] += 1
+    return {f"allgrids|nodeprojects|ercot:{node}|{k}": float(v) for k, v in n.items()}
+
+
 def table_figures(repo, tables, chosen):
     """Session 735: the node spread and the zone growth from the warehouse's own tables (--tables)."""
     out = {}
+    lp, tp = os.path.join(tables, "ercot_node_places.csv"), os.path.join(tables, "ercot_transmission_projects.csv")
+    if os.path.exists(lp) and os.path.exists(tp):   # session 1048
+        out.update(project_figures(list(table_rows(lp)), list(table_rows(tp))))
     # session 1027: ERCOT's reserve margin from the table's own CSV, where the live set does not hold it yet
     rpath = os.path.join(tables, "ercot_cdr_reserve_margins.csv")
     if os.path.exists(rpath):
@@ -482,7 +502,9 @@ def figures(repo, base, key):
 
 PAGES = ["/cost-of-power?view=allgrids", "/cost-of-power?view=allgrids&a=ercot%3A7RNCHSLR_ALL&b=ercot%3AA4_DGR1_RN", "/cost-of-power?view=allgrids&profile=flexible", "/cost-of-power?view=allgrids&profile=electrolyzer",
          "/cost-of-power?view=allgrids&profile=industry", "/cost-of-power?view=allgrids&rows=nodes", "/cost-of-power?view=allgrids&rows=nodes&profile=flexible",
-         "/cost-of-power?view=allgrids&rows=nodes&profile=electrolyzer", "/cost-of-power?view=allgrids&rows=nodes&profile=industry"]
+         "/cost-of-power?view=allgrids&rows=nodes&profile=electrolyzer", "/cost-of-power?view=allgrids&rows=nodes&profile=industry",
+         # session 1048: a placed node's panel (its county's transmission projects)
+         "/cost-of-power?view=allgrids&rows=nodes&node=ercot%3A" + PANEL_NODE]
 
 
 def main(argv=None):

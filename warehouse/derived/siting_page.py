@@ -17,6 +17,11 @@ Files:
                   twelve-month price on the page is the hub's own twelve-month mean plus the mean of these days.
                   Session 711: "pct", the 10th, 50th and 90th percentile of the node's daily day-ahead basis over the
                   last twelve whole months the table holds ("pct_from", "pct_to" at the file's top), and the days in it.
+                  Session 1048 (chain 072): "county" and "zone", from ercot_node_places (public: the county and load
+                  zone ERCOT's CDR gives every unit at the node's station), on the nodes it places; "places" at the
+                  file's top says how many it places and the table's own words for the rest. And "projects": by county
+                  of a placed node, ERCOT's transmission project phases in it (ercot_transmission_projects, public, by
+                  either end's county), counted by ERCOT's status, and the next one due. No node is placed by a guess.
     ercot_4cp.json  (session 702) ERCOT's four coincident-peak intervals by summer from ercot_4cp_intervals: each
                   interval's start in UTC, its local time as ERCOT prints it, and ERCOT's load in it (MW); the summers
                   held and the table's own note of what is not held.
@@ -279,6 +284,47 @@ def peak_capacity(path):
                                     "storage_mw": v.get("capacity_storage_mw"), "list": str(first.get("x_vintage", "")), "states": str(first.get("x_states", "")),
                                     "split_states": "" if pd.isna(first.get("x_split_states")) else str(first.get("x_split_states"))}
     return out
+
+
+PLACES_TABLE, TPIT_TABLE = "ercot_node_places", "ercot_transmission_projects"
+
+
+def node_places(path):
+    """Session 1048 (chain 072): {node id: (county, zone)} from ercot_node_places, as the table gives them (the CDR's
+    upper case), and the table's own line on what it places and leaves out (its header line beginning "Placed")."""
+    with open(path, encoding="utf-8") as fh:
+        head = [ln[1:].strip() for ln in fh if ln.startswith("#")]
+    p = pd.read_csv(path, skiprows=header_rows(path), dtype=str, usecols=["entity_id", "x_county", "x_zone", "retrieved_at"])
+    p = p.dropna(subset=["x_county", "x_zone"])
+    out = {e.split(":", 1)[1]: (c, z) for e, c, z in zip(p["entity_id"], p["x_county"], p["x_zone"])}
+    words = next((h for h in head if h.startswith("Placed ")), "")
+    return out, {"table": PLACES_TABLE, "retrieved": str(p["retrieved_at"].max()), "placed": len(out), "words": words}
+
+
+def county_projects(path, counties):
+    """Session 1048: for each county (upper case, as ercot_node_places writes it), ERCOT's transmission project phases
+    whose start or end is in it (ercot_transmission_projects): the count by ERCOT's status (future, planned, completed,
+    cancelled), and the next phase due, future or planned, by its in-service date (actual, else projected; ERCOT's
+    9999-01-01 is no date and is not a next date). A phase with both ends in the county is counted once."""
+    with open(path, encoding="utf-8") as fh:
+        head = [ln[1:].strip() for ln in fh if ln.startswith("#")]
+    t = pd.read_csv(path, skiprows=header_rows(path), dtype=str,
+                    usecols=["event_id", "event_date", "status", "x_title", "x_kv", "x_owner", "x_county_start", "x_county_end"])
+    out = {}
+    for c in sorted(counties):
+        x = t[(t["x_county_start"].str.upper() == c) | (t["x_county_end"].str.upper() == c)]
+        if x.empty:
+            continue
+        n = {s: int((x["status"] == s).sum()) for s in ("future", "planned", "completed", "cancelled")}
+        due = x[x["status"].isin(["future", "planned"]) & x["event_date"].notna() & (x["event_date"] < "9999")].sort_values(["event_date", "event_id"])
+        nxt = None
+        if not due.empty:
+            r = due.iloc[0]
+            nxt = {"date": str(r["event_date"])[:10], "title": "" if pd.isna(r["x_title"]) else str(r["x_title"]),
+                   "kv": "" if pd.isna(r["x_kv"]) else str(r["x_kv"]), "owner": "" if pd.isna(r["x_owner"]) else str(r["x_owner"]), "id": str(r["event_id"])}
+        out[c] = {**n, "next": nxt}
+    workbook = next((h.split(";")[0][len("Workbook: "):] for h in head if h.startswith("Workbook: ")), "")
+    return {"table": TPIT_TABLE, "workbook": workbook, "counties": out}
 
 
 RESERVE_TABLE = "ercot_cdr_reserve_margins"
@@ -644,6 +690,28 @@ def main(argv=None):
         print(f"FAILED: {e}", file=sys.stderr)
         return 1
     print(f"{CAP_TABLE}: " + "; ".join(f"{m['auction']} ({len(m['zones'])} zones)" for m in cap["markets"].values()))
+    try:   # session 1048 (chain 072): a node's county and zone, and the transmission projects in its county
+        lpath = find(PLACES_TABLE, a.in_dir, a.in_dir_first)
+        print(f"reading {lpath}")
+        places, f["places"] = node_places(lpath)
+        for n in f["nodes"]:
+            if n["id"] in places:
+                n["county"], n["zone"] = places[n["id"]]
+        f["places"]["of"] = len(f["nodes"])
+        f["places"]["matched"] = sum(1 for n in f["nodes"] if "county" in n)
+        print(f"{PLACES_TABLE}: {f['places']['matched']} of {len(f['nodes'])} nodes placed by county and zone")
+        try:
+            tpath = find(TPIT_TABLE, a.in_dir, a.in_dir_first)
+            print(f"reading {tpath}")
+            f["projects"] = county_projects(tpath, {c for c, _ in places.values()})
+            print(f"{TPIT_TABLE}: projects in {len(f['projects']['counties'])} of {len({c for c, _ in places.values()})} counties")
+        except FileNotFoundError:
+            print(f"{TPIT_TABLE} is not on this machine: no county's projects are named")
+    except FileNotFoundError:
+        print(f"{PLACES_TABLE} is not on this machine: no node is placed")
+    except Exception as e:
+        print(f"FAILED: {e}", file=sys.stderr)
+        return 1
     write("nodes.json", f, a.out_dir)
     write("ercot_4cp.json", cp, a.out_dir)
     write("capacity.json", cap, a.out_dir)

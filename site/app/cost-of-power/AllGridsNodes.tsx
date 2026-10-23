@@ -9,16 +9,20 @@
 // Session 724 (chain 062, the trader's walk): the basis's spread as a column; the months node_basis_daily lacks, named;
 // a filter by name, kept in the address (nq); and the rows shown, downloaded as a CSV made here from the page's own
 // figures (no new route, no read).
+// Session 1048 (chain 072): each node's county and load zone, where ercot_node_places places it (ERCOT's CDR), as two
+// columns that sort and filter (the address's ncounty and nzone) and go into the download.
 import { useRouter } from "next/navigation";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { NODE_SORTS, nodeRowsOf, sortNodes, type NodeColumns, type NodeSort, type NodeTableRow } from "@/lib/siting";
 
 const ROW = 34, VIEW = 18, PAD = 12, FIRST = 40;
 const two = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-const HEADS: Record<NodeSort, string> = { node: "Node", cls: "Class", energy: "Energy", basis: "Basis to HB_HUBAVG", spread: "Basis spread", swing: "Intraday swing", allin: "All-in", days: "Days held" };
+const HEADS: Record<NodeSort, string> = { node: "Node", cls: "Class", county: "County", zone: "Zone", energy: "Energy", basis: "Basis to HB_HUBAVG", spread: "Basis spread", swing: "Intraday swing", allin: "All-in", days: "Days held" };
 const TIPS: Record<NodeSort, string> = {
   node: "The settlement point's name, as ERCOT gives it.",
   cls: "What ERCOT's disclosures say is settled at the node: storage, solar, wind, gas, other, mixed; unknown where no disclosure names it (node_basis_daily, x_class).",
+  county: "The county ERCOT's Capacity, Demand and Reserves report gives every unit at the node's station (ercot_node_places, the ERW's match of the report's unit codes to the settlement point's name). Blank where the table does not place the node: no unit of the report at its station, or units in two counties.",
+  zone: "The load zone the same report gives those units (ercot_node_places): COASTAL, HOUSTON, NORTH, PANHANDLE, SOUTH or WEST. Blank where the table does not place the node.",
   energy: "HB_HUBAVG's day-ahead price over its last twelve whole months, under the profile's rule, plus the node's mean daily day-ahead basis: USD per MWh.",
   basis: "The node's mean daily day-ahead price less HB_HUBAVG's, over the hub's twelve months, weighted by the days held (node_basis_daily): USD per MWh. Every node is set against the same hub, so this sorts the nodes as Energy does.",
   spread: "How far the node's daily basis moves: the day at nine in ten less the day at one in ten (its 90th percentile less its 10th) over the days the node holds in the file's twelve months (the panel says how many; a node under 90 percent of days has a spread but no energy figure), the panel's own percentiles: USD per MWh.",
@@ -28,8 +32,8 @@ const TIPS: Record<NodeSort, string> = {
 };
 
 // Session 711: a node's name opens its panel (the address's `node`, drawn by the server above the list).
-export function AllGridsNodes({ columns, pkey, datacenter, sort, dir, open, short, find, cls, csvHead }: { columns: NodeColumns; pkey: string; datacenter: boolean; sort: NodeSort; dir: "asc" | "desc"; open: string | null;
-  short: string; find: string; cls: string; csvHead: string[] }) {
+export function AllGridsNodes({ columns, pkey, datacenter, sort, dir, open, short, find, cls, county, zone, csvHead }: { columns: NodeColumns; pkey: string; datacenter: boolean; sort: NodeSort; dir: "asc" | "desc"; open: string | null;
+  short: string; find: string; cls: string; county: string; zone: string; csvHead: string[] }) {
   const router = useRouter();
   // session 777: the rows arrive column by column (lib/siting.ts, nodeColumns) and are put back together here
   const rows: NodeTableRow[] = useMemo(() => nodeRowsOf(columns), [columns]);
@@ -46,26 +50,33 @@ export function AllGridsNodes({ columns, pkey, datacenter, sort, dir, open, shor
   // session 772 (chain 064): a filter by class (what ERCOT's disclosures say is settled at the node), kept in the address
   const classes = useMemo(() => [...new Set(rows.map((r) => r.cls))].sort(), [rows]);
   const [cl, setCl] = useState(classes.includes(cls) ? cls : "");
+  // session 1048: filters by county and by zone, of the nodes the table places
+  const counties = useMemo(() => [...new Set(rows.map((r) => r.county).filter(Boolean))].sort(), [rows]);
+  const zones = useMemo(() => [...new Set(rows.map((r) => r.zone).filter(Boolean))].sort(), [rows]);
+  const [co, setCo] = useState(counties.includes(county) ? county : "");
+  const [zo, setZo] = useState(zones.includes(zone) ? zone : "");
   const box = useRef<HTMLDivElement>(null);
   const sorted = useMemo(() => {
     const want = nq.trim().toUpperCase();
-    return sortNodes(rows.filter((r) => (!want || r.node.toUpperCase().includes(want)) && (!cl || r.cls === cl)), by, d);
-  }, [rows, by, d, nq, cl]);
+    return sortNodes(rows.filter((r) => (!want || r.node.toUpperCase().includes(want)) && (!cl || r.cls === cl) && (!co || r.county === co) && (!zo || r.zone === zo)), by, d);
+  }, [rows, by, d, nq, cl, co, zo]);
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
     if (by === "node" && d === "asc") { q.delete("nsort"); q.delete("ndir"); } else { q.set("nsort", by); q.set("ndir", d); }
     if (nq.trim()) q.set("nq", nq.trim()); else q.delete("nq");
     if (cl) q.set("ncls", cl); else q.delete("ncls");
+    if (co) q.set("ncounty", co); else q.delete("ncounty");
+    if (zo) q.set("nzone", zo); else q.delete("nzone");
     const s = q.toString();
     window.history.replaceState(null, "", `${window.location.pathname}${s ? `?${s}` : ""}`);
-  }, [by, d, nq, cl]);
+  }, [by, d, nq, cl, co, zo]);
   const download = () => {
     const cell = (v: number | null) => (v === null ? "" : String(v));
-    const lines = [...csvHead.map((h) => `# ${h}`), `# ${short}`, "node,class,energy_usd_mwh,basis_usd_mwh,spread_usd_mwh,swing_usd_mwh,allin_usd_mwh,days_held,days_in_window",
-      ...sorted.map((r) => [r.node, r.cls, cell(r.per), cell(r.basis), cell(r.spread), cell(r.swing), cell(r.allin), r.days, r.due].join(","))];
+    const lines = [...csvHead.map((h) => `# ${h}`), `# ${short}`, "node,class,county,zone,energy_usd_mwh,basis_usd_mwh,spread_usd_mwh,swing_usd_mwh,allin_usd_mwh,days_held,days_in_window",
+      ...sorted.map((r) => [r.node, r.cls, r.county, r.zone, cell(r.per), cell(r.basis), cell(r.spread), cell(r.swing), cell(r.allin), r.days, r.due].join(","))];
     const url = URL.createObjectURL(new Blob([lines.join("\n") + "\n"], { type: "text/csv" }));
     const a = document.createElement("a");
-    a.href = url; a.download = `erw_allgrids_ercot_nodes${cl ? `_${cl}` : ""}${nq.trim() ? `_${nq.trim().replace(/[^A-Za-z0-9_]+/g, "_")}` : ""}.csv`;
+    a.href = url; a.download = `erw_allgrids_ercot_nodes${cl ? `_${cl}` : ""}${zo ? `_${zo}` : ""}${co ? `_${co.replace(/[^A-Za-z0-9_]+/g, "_")}` : ""}${nq.trim() ? `_${nq.trim().replace(/[^A-Za-z0-9_]+/g, "_")}` : ""}.csv`;
     document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
   };
   // the server and the first render draw the first FIRST rows; once mounted, the rows in view and PAD around them
@@ -73,9 +84,9 @@ export function AllGridsNodes({ columns, pkey, datacenter, sort, dir, open, shor
   useEffect(() => setMounted(true), []);
   const start = mounted ? Math.max(0, Math.floor(top / ROW) - PAD) : 0;
   const end = Math.min(sorted.length, mounted ? Math.floor(top / ROW) + VIEW + PAD : FIRST);
-  const click = (k: NodeSort) => { if (k === by) setD(d === "asc" ? "desc" : "asc"); else { setBy(k); setD(k === "node" || k === "cls" ? "asc" : "desc"); } };
+  const click = (k: NodeSort) => { if (k === by) setD(d === "asc" ? "desc" : "asc"); else { setBy(k); setD(k === "node" || k === "cls" || k === "county" || k === "zone" ? "asc" : "desc"); } };
   const energyKey = (r: NodeTableRow) => (datacenter ? `allgrids|energy|${r.id}|da` : `allgrids|energy|${r.id}|da|${pkey}`);
-  const cols = "grid grid-cols-[minmax(8rem,1.4fr)_4.5rem_5rem_5.5rem_5rem_5rem_5rem_5rem] items-center gap-x-2 px-3";
+  const cols = "grid grid-cols-[minmax(8rem,1.4fr)_4.5rem_6.5rem_5.5rem_5rem_5.5rem_5rem_5rem_5rem_5rem] items-center gap-x-2 px-3";
   return (
     <div data-allgrids-nodes="1">
       <div className="mb-2 flex flex-wrap items-end gap-3 text-sm">
@@ -90,16 +101,30 @@ export function AllGridsNodes({ columns, pkey, datacenter, sort, dir, open, shor
             {classes.map((c) => <option key={c} value={c}>{c}</option>)}
           </select>
         </label>
+        <label className="flex flex-col gap-1">Zone
+          <select value={zo} onChange={(e) => { setZo(e.target.value); setTop(0); box.current?.scrollTo({ top: 0 }); }}
+            className="border border-rule bg-panel px-2 py-1 text-sm text-ink" data-node-zone="1">
+            <option value="">every zone</option>
+            {zones.map((c) => <option key={c} value={c}>{c}</option>)}
+          </select>
+        </label>
+        <label className="flex flex-col gap-1">County
+          <select value={co} onChange={(e) => { setCo(e.target.value); setTop(0); box.current?.scrollTo({ top: 0 }); }}
+            className="border border-rule bg-panel px-2 py-1 text-sm text-ink" data-node-county="1">
+            <option value="">every county</option>
+            {counties.map((c) => <option key={c} value={c}>{c}</option>)}
+          </select>
+        </label>
         <button type="button" onClick={download} className="border border-rule px-2 py-1 text-sm" data-node-download="1">Download these {sorted.length.toLocaleString("en-US")} rows (CSV)</button>
       </div>
       <p className="mb-2 text-sm" role="status" data-node-sort={`${by}|${d}`}>
-        Sorted by {HEADS[by].charAt(0).toLowerCase() + HEADS[by].slice(1)}, {d === "asc" ? "smallest first" : "largest first"}{by === "node" || by === "cls" ? " (alphabetical)" : ""}; a node with no figure last. {sorted.length.toLocaleString("en-US")} of {rows.length.toLocaleString("en-US")} nodes shown{nq.trim() || cl ? ` (${[nq.trim() ? `names holding "${nq.trim()}"` : "", cl ? `class ${cl}` : ""].filter(Boolean).join(", ")})` : ""}. Click a heading to sort by it, again to turn it round. Days held: {short}.
+        Sorted by {HEADS[by].charAt(0).toLowerCase() + HEADS[by].slice(1)}, {d === "asc" ? "smallest first" : "largest first"}{by === "node" || by === "cls" || by === "county" || by === "zone" ? " (alphabetical)" : ""}; a node with no figure last. {sorted.length.toLocaleString("en-US")} of {rows.length.toLocaleString("en-US")} nodes shown{nq.trim() || cl || zo || co ? ` (${[nq.trim() ? `names holding "${nq.trim()}"` : "", cl ? `class ${cl}` : "", zo ? `zone ${zo}` : "", co ? `county ${co}` : ""].filter(Boolean).join(", ")})` : ""}. Click a heading to sort by it, again to turn it round. Days held: {short}.
       </p>
       <div className="overflow-x-auto" role="region" aria-label="ERCOT nodes" tabIndex={0}>
-        <div style={{ minWidth: 740 }} role="table" aria-label="ERCOT nodes" aria-rowcount={sorted.length + 1}>
+        <div style={{ minWidth: 900 }} role="table" aria-label="ERCOT nodes" aria-rowcount={sorted.length + 1}>
           <div className={`${cols} bg-accent py-1.5 text-sm text-white`} role="row">
             {NODE_SORTS.map((k) => (
-              <span key={k} className={`tip relative ${k === "node" || k === "cls" ? "text-left" : "text-right"}`} role="columnheader" aria-sort={by === k ? (d === "asc" ? "ascending" : "descending") : "none"}>
+              <span key={k} className={`tip relative ${k === "node" || k === "cls" || k === "county" || k === "zone" ? "text-left" : "text-right"}`} role="columnheader" aria-sort={by === k ? (d === "asc" ? "ascending" : "descending") : "none"}>
                 <button type="button" aria-describedby={`${uid}-${k}`} onClick={() => click(k)} className="border-b border-dotted border-white/70" data-node-head={k}>
                   <span className="text-white">{HEADS[k]}{by === k ? (d === "asc" ? " (up)" : " (down)") : ""}</span>
                 </button>
@@ -113,6 +138,8 @@ export function AllGridsNodes({ columns, pkey, datacenter, sort, dir, open, shor
                 <div key={r.id} className={`${cols} absolute left-0 right-0 border-b border-rule text-sm tabular-nums`} style={{ top: (start + i) * ROW, height: ROW }} data-allgrids-row={r.id} role="row" aria-rowindex={start + i + 2}>
                   <span role="cell" className="min-w-0"><button type="button" onClick={() => pick(r.id)} aria-pressed={open === r.id} className={`truncate text-left underline decoration-dotted ${open === r.id ? "font-semibold" : ""}`} aria-label={`${r.node}: open its panel${r.types ? `; ERCOT's resource types ${r.types}` : ""}`} data-node-open={r.id}>{r.node}</button></span>
                   <span role="cell" className="text-xs">{r.cls}</span>
+                  <span role="cell" className="truncate text-xs" data-node-county-cell="1">{r.county}</span>
+                  <span role="cell" className="text-xs">{r.zone}</span>
                   <span role="cell" className="text-right">{r.per === null ? <span className="tip relative inline-block"><button type="button" aria-describedby={`${uid}-why-${r.id}`} className="cursor-help border-b border-dotted border-muted" data-tip-trigger="1">not held</button><span role="tooltip" id={`${uid}-why-${r.id}`} className="absolute right-0 top-full z-20 hidden w-64 max-w-[80vw] whitespace-normal border border-rule bg-paper px-2 py-1.5 text-left text-xs leading-snug text-ink">{r.why}</span></span> : <span data-check={energyKey(r)} data-raw={String(r.per)}>{two(r.per)}</span>}</span>
                   <span role="cell" className="text-right">{r.basis === null ? "" : <span data-check={`allgrids|basis|${r.id}`} data-raw={String(r.basis)}>{two(r.basis)}</span>}</span>
                   <span role="cell" className="text-right">{r.spread === null ? "" : <span data-check={`allgrids|nodespread|${r.id}`} data-raw={String(r.spread)}>{two(r.spread)}</span>}</span>
