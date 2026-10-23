@@ -101,6 +101,8 @@ eia_all_futures_prices,none,nymex,4,P1D,2019-01-01T00:00:00Z,2024-04-05T00:00:00
 eia_annual_crosscheck_ba,none,,8,P1Y,2023-01-01T00:00:00Z,2025-01-01T00:00:00Z,144,erw:eia_annual_crosscheck_ba,2026-10-19T23:00:42Z,pass,public,power,yes,derived
 eia_annual_generation_ba,none,,68,P1Y,2023-01-01T00:00:00Z,2025-01-01T00:00:00Z,515,eia:eia923_annual,2026-10-19T22:59:37Z,pass,public,power,no,source
 eia_basin_production_monthly,none,,12,P1M,2015-01-01T00:00:00Z,2026-07-01T00:00:00Z,1668,eia:steo:basin_production,2026-10-10T14:58:19Z,pass,public,oil;gas,no,source
+eia_capacity_factors_annual,none,,17,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,374,eia:electric_power_annual,2026-10-23T14:09:41Z,pass,public,power,no,source
+eia_capacity_factors_monthly,none,,17,P1M,2023-01-01T00:00:00Z,2025-12-01T00:00:00Z,1224,eia:electric_power_annual,2026-10-23T14:09:50Z,pass,public,power,no,source
 eia_co2_state_annual,none,,1248,P1Y,1970-01-01T00:00:00Z,2022-01-01T00:00:00Z,66144,eia:co2-emissions/co2-emissions-aggregates,2026-10-21T21:47:54Z,pass,public,power;gas;oil;coal;carbon,no,source
 eia_coal_delivered_price_annual,none,,228,P1Y,2000-01-01T00:00:00Z,2025-01-01T00:00:00Z,3213,eia:coal/consumption-and-quality,2026-10-21T22:17:07Z,pass,public,coal,no,source
 eia_coal_distribution_quarterly,none,,351,P3M,2024-01-01T00:00:00Z,2024-10-01T00:00:00Z,1207,eia:coal_distribution,2026-10-23T12:51:14Z,pass,public,coal,no,source
@@ -133,6 +135,7 @@ eia_gas_storage_weekly,none,,8,P1W,2010-01-01T00:00:00Z,2026-10-02T00:00:00Z,700
 eia_gas_trade_country_monthly,none,,207,P1M,1973-01-01T00:00:00Z,2026-07-01T00:00:00Z,30337,eia:natural-gas/move/expc;eia:natural-gas/move/impc,2026-10-22T03:54:26Z,pass,public,gas,no,source
 eia_gas_trade_monthly,none,,36,P1M,2015-01-01T00:00:00Z,2026-07-01T00:00:00Z,1979,eia:natural-gas/move/poe1:supply;eia:natural-gas/move/poe2:supply,2026-10-10T14:58:19Z,pass,public,gas;lng,no,source
 eia_gas_wells_annual,none,,36,P1Y,1989-01-01T00:00:00Z,2020-01-01T00:00:00Z,1062,eia:natural-gas/prod/wells,2026-10-22T00:37:07Z,pass,public,gas,no,source
+eia_heat_rates_annual,none,,4,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,44,eia:electric_power_annual,2026-10-23T14:09:59Z,pass,public,power,no,source
 eia_heating_fuel_prices_weekly,none,,140,P1W,2012-01-02T00:00:00Z,2026-10-19T00:00:00Z,48534,eia:petroleum/pri/wfr,2026-10-22T00:51:42Z,pass,public,products,no,source
 eia_ieo_projections,none,,574,P1Y,2020-01-01T00:00:00Z,2050-01-01T00:00:00Z,17856,eia:ieo/2023,2026-10-23T13:46:53Z,pass,public,power;carbon,no,source
 eia_international_electricity_annual,none,,51,P1Y,1980-01-01T00:00:00Z,2024-01-01T00:00:00Z,4131,eia:international,2026-10-23T04:55:57Z,pass,public,power,no,source

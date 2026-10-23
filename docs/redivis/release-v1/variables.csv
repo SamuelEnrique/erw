@@ -2806,6 +2806,10 @@ eia_annual_generation_ba,plants,series variable,count
 eia_annual_generation_ba,storage_net_generation_mwh,series variable,MWh
 eia_basin_production_monthly,crude_production,series variable,kbbl/d
 eia_basin_production_monthly,gas_marketed_production,series variable,bcf/d
+eia_capacity_factors_annual,capacity_factor,series variable,ratio
+eia_capacity_factors_annual,time_adjusted_capacity,series variable,MW
+eia_capacity_factors_monthly,capacity_factor,series variable,ratio
+eia_capacity_factors_monthly,time_adjusted_capacity,series variable,MW
 eia_co2_state_annual,co2,series variable,tCO2
 eia_coal_delivered_price_annual,price,series variable,USD/short_ton
 eia_coal_distribution_quarterly,shipments,series variable,short_ton
@@ -2952,6 +2956,7 @@ eia_gas_trade_country_monthly,volume,series variable,MMcf
 eia_gas_trade_monthly,export_volume,series variable,MMcf
 eia_gas_trade_monthly,import_volume,series variable,MMcf
 eia_gas_wells_annual,gas_wells,series variable,count
+eia_heat_rates_annual,heat_rate,series variable,MMBtu/MWh
 eia_heating_fuel_prices_weekly,residential_price,series variable,USD/gal
 eia_heating_fuel_prices_weekly,wholesale_price,series variable,USD/gal
 eia_ieo_projections,capacity,series variable,MW
