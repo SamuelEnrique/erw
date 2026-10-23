@@ -249,6 +249,7 @@ SECTOR_RULES = [
     (r"^eia_recs_households$", "power;gas;oil"),  # session 2017: EIA's residential survey (RECS 2020)
     (r"^epa_ghgrp_facility_emissions$", "carbon;power;oil;gas"),  # session 2072: EPA's GHGRP, every sector
     (r"^epa_tri_energy_releases_annual$", "power;oil;gas;coal"),  # session 2121: EPA's Toxics Release Inventory, the energy industries
+    (r"^eurostat_renewable_capacity_annual$", "power"),  # session 2123: Eurostat's renewable and waste capacity by European country
     (r"^fema_disaster_declarations$", "power;gas;oil"),  # session 2056: FEMA's disaster declarations (OpenFEMA)
     (r"^ieso_ontario_demand_hourly$", "power"),  # session 2070: the IESO's Ontario demand
     (r"^lbnl_tracking_the_sun$", "power"),  # session 2015: Berkeley Lab's Tracking the Sun, summarised (written in session 2020)

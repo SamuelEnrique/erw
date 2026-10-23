@@ -244,6 +244,7 @@ ercot_wind_solar_hsl_hourly,ERCOT,the source registry
 ercot_wind_solar_output_hourly,ERCOT,the source registry
 ercot_zone_load_hourly,ERCOT,the source registry
 ercot_zone_prices_history,ERCOT,the source registry
+eurostat_renewable_capacity_annual,Eurostat (Statistical Office of the European Union),the source registry
 event_study_estimates,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,the source registry and the tables its header derives it from: event_window_daily
 event_window_daily,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"the source registry and the tables its header derives it from: eia930_all_emissions, eia930_all_history, ercot_all_hub_prices_history, iso_hub_prices_history, noaa_isd_hourly"
 fema_disaster_declarations,Federal Emergency Management Agency (FEMA),the source registry
