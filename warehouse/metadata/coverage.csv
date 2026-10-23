@@ -321,6 +321,7 @@ nyiso_load_queue,NYISO,,74,snapshot,2026-10-07T09:09:14Z,2026-10-07T09:09:14Z,74
 nyiso_rtm_zone_prices,NYISO,nyiso_rtm,11,PT15M,2026-08-26T04:00:00Z,2026-10-22T03:45:00Z,59136,nyiso:realtime,2026-10-22T14:14:46Z,pass,public,power,no,source
 nyiso_zone_load_hourly,NYISO,nyiso_load,11,PT1H,2019-01-01T05:00:00Z,2026-10-10T13:00:00Z,749595,nyiso:palIntegrated,2026-10-10T15:02:25Z,pass,public,power,no,source
 ornl_eha_hydropower_plants,ornl,,2257,snapshot,2026-10-23T08:09:05Z,2026-10-23T08:09:05Z,2257,ornl:eha_plant,2026-10-23T08:11:07Z,pass,public,power,no,source
+ornl_eha_hydropower_units,ornl,,5362,snapshot,2026-10-23T11:18:37Z,2026-10-23T11:18:37Z,5362,ornl:eha_unit,2026-10-23T11:19:46Z,pass,public,power,no,source
 ornl_hydropower_pipeline,ornl,,196,snapshot,2026-10-23T08:33:21Z,2026-10-23T08:33:21Z,196,ornl:hydro_pipeline,2026-10-23T08:35:11Z,pass,public,power,no,source
 ornl_hydropower_relicensing,none,,1,event,2001-08-30T00:00:00Z,2025-12-23T00:00:00Z,559,1 outlets,2026-10-23T10:16:07Z,pass,public,power,no,source
 ornl_npd_potential,ornl,,597,snapshot,2026-10-23T11:05:59Z,2026-10-23T11:05:59Z,597,ornl:npd_potential,2026-10-23T11:07:46Z,pass,public,power,no,source

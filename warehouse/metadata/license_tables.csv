@@ -321,6 +321,7 @@ nyiso_load_queue,NYISO,the source registry
 nyiso_rtm_zone_prices,NYISO,the source registry
 nyiso_zone_load_hourly,NYISO,the source registry
 ornl_eha_hydropower_plants,"Oak Ridge National Laboratory (ORNL), HydroSource",the source registry
+ornl_eha_hydropower_units,"Oak Ridge National Laboratory (ORNL), HydroSource",the source registry
 ornl_hydropower_pipeline,"Oak Ridge National Laboratory (ORNL), HydroSource",the source registry
 ornl_hydropower_relicensing,"Oak Ridge National Laboratory (ORNL), HydroSource",the source registry
 ornl_npd_potential,"Oak Ridge National Laboratory (ORNL), HydroSource",the source registry
