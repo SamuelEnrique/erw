@@ -363,6 +363,7 @@ catalogue_hold:
   - msha_coal_mines
   - msha_coal_production_quarterly
   - fhwa_motor_fuel_monthly
+  - afdc_vehicle_registrations_annual
   - lbnl_hybrid_ppa_prices
   - lbnl_solar_projects
   - ornl_npd_potential
