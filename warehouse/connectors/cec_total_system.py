@@ -25,10 +25,10 @@ filled.
 
     python warehouse/connectors/cec_total_system.py [--offline] [--out-dir DIR]
 
-Ceiling: two requests (the page and the workbook, saved in warehouse/raw/cec_total_system/ and reused offline). The
+Ceiling: two requests (the page and the workbook, saved in warehouse/raw/cec_total_system/ and reused offline; asked again unless --offline, since the page keeps its address). The
 Commission's robots file disallows /core/, /profiles/, /search/, /admin/ and the user pages, not /media/ or
-/sites/default/files/. License: the State of California's conditions of use (read 10: information on state websites is
-in general in the public domain); see license_verdicts.csv.
+/sites/default/files/. License: may be public, noncommercial with credit (the Commission's Conditions of Use, read 245: its
+materials are free for public use crediting the Commission; commercial or profit-making use is prohibited).
 """
 
 import argparse
@@ -170,10 +170,10 @@ def main(argv=None):
     try:
         if ip.paused(CONNECTOR) or ip.paused_host(HOST):
             raise RuntimeError(f"{HOST} is paused (warehouse/metadata/paused_sources.csv): no request made")
-        page, _ = ip.fetch_raw(CONNECTOR, PAGE, log, offline=args.offline, headers=UA, timeout=120, pause=1)
+        page, _ = ip.fetch_raw(CONNECTOR, PAGE, log, offline=args.offline, fresh=not args.offline, headers=UA, timeout=120, pause=1)
         url = workbook_url(page.decode("utf-8", errors="replace"))
         log(f"  workbook: {url}")
-        content, rec = ip.fetch_raw(CONNECTOR, url, log, offline=args.offline, headers=UA, timeout=120, pause=1)
+        content, rec = ip.fetch_raw(CONNECTOR, url, log, offline=args.offline, fresh=not args.offline, headers=UA, timeout=120, pause=1)
         base = dict(source=SOURCE, source_url=url, retrieved_at=rec.get("retrieved_at") or "", vintage=ip.vintage_of(rec))
         rows, totals, years, dashes = parse(content, base)
         check(rows, totals, years)
@@ -199,8 +199,9 @@ def main(argv=None):
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
             f"Source: {SOURCE} California Energy Commission, Energy Almanac, Total System Electric Generation, {PAGE}",
             f"  access: {url}",
-            "License: the State of California's conditions of use (information on state websites is in general in the public domain); see "
-            "license_verdicts.csv. Cite the California Energy Commission.",
+            "License: may be public, noncommercial with credit (the Commission's Conditions of Use: its materials are free for public use "
+            "crediting the Commission; commercial or profit-making use is prohibited; see license_verdicts.csv). Cite the California Energy "
+            "Commission.",
         ]
         ip.write_snapshot(s, TABLE, head, log, cols)
         results.append(dict(table=TABLE, market="all", status="ok", detail=f"{len(s)} rows"))
@@ -214,7 +215,7 @@ def main(argv=None):
         if results and results[0]["status"] == "ok":
             ip.update_sources([dict(source=SOURCE, publisher="California Energy Commission (CEC)",
                                     report="Total System Electric Generation (Energy Almanac), the workbook of all years with totals",
-                                    report_url=PAGE, document_list=PAGE, license="may be public", tables=[TABLE])])
+                                    report_url=PAGE, document_list=PAGE, license="public", tables=[TABLE])])
         ip.write_status(CONNECTOR, run_id, results)
     log.close()
     return 0 if all(r["status"] == "ok" for r in results) else 1

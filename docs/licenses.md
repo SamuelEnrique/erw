@@ -11,7 +11,7 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 ## Read these first
 
 - **419 tables.** The flag and the verdict agree on 329; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 45 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
-- **The ERW's verdict (session 378): 310 public, 57 internal, 52 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
+- **The ERW's verdict (session 378): 310 public, 58 internal, 51 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
 - **253 publishers in the record: 251 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 101 pages read, 150 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **0 tables are flagged internal where the sentence read allows them.**
@@ -792,7 +792,7 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | `storage_owners_monthly` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `texas_delivery_charges` | AEP Texas Inc.; CenterPoint Energy Houston Electric, LLC; Oncor Electric Delivery Company LLC; Public Utility Commission of Texas; Texas-New Mexico Power Company | needs written permission | AEP Texas Inc.; CenterPoint Energy Houston Electric, LLC; Oncor Electric Delivery Company LLC | Public Utility Commission of Texas; Texas-New Mexico Power Company | internal | agrees | needs written permission | internal |
 | `texas_transmission_matrix` | Public Utility Commission of Texas | not settled (needs written permission by default) |  | Public Utility Commission of Texas | internal | not settled | may be public | internal |
-| `treasury_1603_awards` | U.S. Department of the Treasury | not settled (needs written permission by default) |  | U.S. Department of the Treasury | public | not settled | may be public | unsettled |
+| `treasury_1603_awards` | U.S. Department of the Treasury | not settled (needs written permission by default) |  | U.S. Department of the Treasury | internal | not settled | may be public | internal |
 | `usace_nid_dams` | U.S. Army Corps of Engineers (USACE) | not settled (needs written permission by default) |  | U.S. Army Corps of Engineers (USACE) | public | not settled | may be public | unsettled |
 | `usbr_hydropower_monthly` | U.S. Bureau of Reclamation (USBR) | may be public |  |  | public | agrees | may be public | public |
 | `usdm_drought_state_weekly` | U.S. Drought Monitor (National Drought Mitigation Center, USDA, NOAA) | not settled (needs written permission by default) |  | U.S. Drought Monitor (National Drought Mitigation Center, USDA, NOAA) | public | not settled | may be public | unsettled |
@@ -908,7 +908,7 @@ None of these was changed. Each is a ruling.
 - `policy_reads` (flag public): not read: Public Utility Commission of Texas.
 - `policy_reads_evidence` (flag internal): not read: Public Utility Commission of Texas.
 - `texas_transmission_matrix` (flag internal): not read: Public Utility Commission of Texas.
-- `treasury_1603_awards` (flag public): not read: U.S. Department of the Treasury.
+- `treasury_1603_awards` (flag internal): not read: U.S. Department of the Treasury.
 - `usace_nid_dams` (flag public): not read: U.S. Army Corps of Engineers (USACE).
 - `usdm_drought_state_weekly` (flag public): not read: U.S. Drought Monitor (National Drought Mitigation Center, USDA, NOAA).
 

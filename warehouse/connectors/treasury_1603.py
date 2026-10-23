@@ -23,8 +23,9 @@ holds awards, not projects, and an award can cover several projects. Nothing is 
     python warehouse/connectors/treasury_1603.py [--offline] [--out-dir DIR]
 
 Ceiling: two requests (the program page, read for the list's address, and the list; both saved in
-warehouse/raw/treasury_1603/ and reused offline). home.treasury.gov's robots file allows /. License: not settled (the
-Treasury's site states no terms of reuse; session 2111, reads 247 and 248); see license_verdicts.csv.
+warehouse/raw/treasury_1603/ and reused offline; asked again unless --offline). home.treasury.gov's robots file allows /. License: not settled (the
+Treasury's site states no terms of reuse; session 2111, reads 247 and 248; no verdict row yet), so internal in
+sources.csv until a ruling.
 """
 
 import argparse
@@ -133,10 +134,10 @@ def main(argv=None):
     try:
         if ip.paused(CONNECTOR) or ip.paused_host(HOST):
             raise RuntimeError(f"{HOST} is paused (warehouse/metadata/paused_sources.csv): no request made")
-        page, _ = ip.fetch_raw(CONNECTOR, PAGE, log, offline=args.offline, headers=UA, timeout=120, pause=1)
+        page, _ = ip.fetch_raw(CONNECTOR, PAGE, log, offline=args.offline, fresh=not args.offline, headers=UA, timeout=120, pause=1)
         url = list_url(page.decode("utf-8", errors="replace"))
         log(f"  awardee list: {url}")
-        content, rec = ip.fetch_raw(CONNECTOR, url, log, offline=args.offline, headers=UA, timeout=120, pause=1)
+        content, rec = ip.fetch_raw(CONNECTOR, url, log, offline=args.offline, fresh=not args.offline, headers=UA, timeout=120, pause=1)
         base = dict(source=SOURCE, source_url=url)
         rows, when, serials, total = parse(content, base)
         t = pd.DataFrame(rows)
@@ -157,7 +158,8 @@ def main(argv=None):
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
             f"Source: {SOURCE} U.S. Department of the Treasury, 1603 Program, {PAGE}",
             f"  access: {url}",
-            "License: not settled (the Treasury's site states no terms of reuse; see license_verdicts.csv). Cite the U.S. Department of the Treasury.",
+            "License: not settled (the Treasury's site states no terms of reuse, session 2111; no verdict yet), held internal until a ruling. "
+            "Cite the U.S. Department of the Treasury.",
         ]
         ip.write_snapshot(t, TABLE, head, log, cols)
         results.append(dict(table=TABLE, market="all", status="ok", detail=f"{len(t)} rows"))
@@ -171,7 +173,7 @@ def main(argv=None):
         if results and results[0]["status"] == "ok":
             ip.update_sources([dict(source=SOURCE, publisher="U.S. Department of the Treasury",
                                     report="Section 1603 Program: the awardee list", report_url=PAGE, document_list=PAGE,
-                                    license="not settled", tables=[TABLE])])
+                                    license="internal", tables=[TABLE])])
         ip.write_status(CONNECTOR, run_id, results)
     log.close()
     return 0 if all(r["status"] == "ok" for r in results) else 1

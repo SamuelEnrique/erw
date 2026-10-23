@@ -22,7 +22,7 @@ within its file, or a month given twice stops the run. Nothing is filled.
     python warehouse/connectors/noaa_uscrn.py [--offline] [--out-dir DIR]
 
 Ceiling: nine requests (headers.txt and the eight stations' files, saved in warehouse/raw/noaa_uscrn/ and reused
-offline). NCEI's robots file disallows /data* and /orders* and some /access/crn/ paths, not /pub/. License: may be public
+offline; asked again unless --offline, since each file keeps its address as its months are added). NCEI's robots file disallows /data* and /orders* and some /access/crn/ paths, not /pub/. License: may be public
 (NOAA NCEI, read 9: its restriction applies to the non-U.S. data in ISD; USCRN is NOAA's own U.S. network).
 """
 
@@ -111,12 +111,12 @@ def main(argv=None):
     try:
         if ip.paused(CONNECTOR) or ip.paused_host(HOST):
             raise RuntimeError(f"{HOST} is paused (warehouse/metadata/paused_sources.csv): no request made")
-        heads, _ = ip.fetch_raw(CONNECTOR, BASE + "headers.txt", log, offline=args.offline, headers=UA, timeout=60, pause=1)
+        heads, _ = ip.fetch_raw(CONNECTOR, BASE + "headers.txt", log, offline=args.offline, fresh=not args.offline, headers=UA, timeout=60, pause=1)
         check_heads(heads.decode("utf-8"))
         rows, counts, latest, urls = [], {}, "", []
         for station in STATIONS:
             url = f"{BASE}CRNM0102-{station}.txt"
-            content, rec = ip.fetch_raw(CONNECTOR, url, log, offline=args.offline, headers=UA, timeout=60, pause=1)
+            content, rec = ip.fetch_raw(CONNECTOR, url, log, offline=args.offline, fresh=not args.offline, headers=UA, timeout=60, pause=1)
             base = dict(source=SOURCE, source_url=url, retrieved_at=rec.get("retrieved_at") or "", vintage=ip.vintage_of(rec))
             got = parse(content.decode("utf-8"), station, base, counts)
             log(f"  {station}: {len(got)} months, {counts.get(station, 0)} missing")
@@ -159,7 +159,7 @@ def main(argv=None):
         if results and results[0]["status"] == "ok":
             ip.update_sources([dict(source=SOURCE, publisher="NOAA NCEI",
                                     report="U.S. Climate Reference Network (USCRN), monthly01 product: SOLRAD_MONTHLY_AVG",
-                                    report_url=BASE, document_list=BASE, license="may be public", tables=[TABLE])])
+                                    report_url=BASE, document_list=BASE, license="public", tables=[TABLE])])
         ip.write_status(CONNECTOR, run_id, results)
     log.close()
     return 0 if all(r["status"] == "ok" for r in results) else 1

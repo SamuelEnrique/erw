@@ -74,7 +74,7 @@ class Parse(unittest.TestCase):
 class Registered(unittest.TestCase):
     def test_sector_and_holds(self):
         self.assertEqual(B.sector_of(T.TABLE), "power;deals")
-        self.assertIn(T.TABLE, R.STORAGE_HELD)
+        self.assertNotIn(T.TABLE, R.STORAGE_HELD)  # session 2116: internal until its license is settled
         with open(os.path.join(ROOT, "warehouse", "supabase", "live_set.yaml"), encoding="utf-8") as f:
             self.assertIn(f"  - {T.TABLE}\n", f.read().replace("\r\n", "\n"))
 

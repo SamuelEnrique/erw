@@ -199,7 +199,6 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "noaa_uscrn_solar_monthly",
            "eia_seds_residential_annual",
            "cec_total_system_generation_annual",
-           "treasury_1603_awards",
            "usgs_streamflow_daily",
            "interconnection_durations", "interconnection_durations_summary",
            "grid_peak_vs_capacity"):  # 510 to 672 the same way

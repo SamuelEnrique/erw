@@ -22,7 +22,7 @@ filled.
     python warehouse/connectors/usgs_streamflow.py [--offline] [--out-dir DIR]
 
 Ceiling: one request a gauge, eight a run, two seconds apart (saved in warehouse/raw/usgs_streamflow/ and reused
-offline). waterservices.usgs.gov has no robots file (HTTP 404). License: may be public (USGS, read 87: USGS-authored or
+offline; asked again unless --offline, since each gauge's address stays as its days are added). waterservices.usgs.gov has no robots file (HTTP 404). License: may be public (USGS, read 87: USGS-authored or
 produced data and information are in the public domain); cite the U.S. Geological Survey.
 """
 
@@ -114,7 +114,7 @@ def main(argv=None):
             raise RuntimeError(f"{HOST} is paused (warehouse/metadata/paused_sources.csv): no request made")
         rows, codes, latest, gauges = [], {}, "", []
         for site in GAUGES:
-            content, rec = ip.fetch_raw(CONNECTOR, url_of(site), log, offline=args.offline, headers=UA, timeout=120, pause=2)
+            content, rec = ip.fetch_raw(CONNECTOR, url_of(site), log, offline=args.offline, fresh=not args.offline, headers=UA, timeout=120, pause=2)
             base = dict(source=SOURCE, source_url=url_of(site), retrieved_at=rec.get("retrieved_at") or "", vintage=ip.vintage_of(rec))
             got, name = parse(content.decode("utf-8"), site, base, codes)
             log(f"  {site} {name}: {len(got)} days")
@@ -156,7 +156,7 @@ def main(argv=None):
         if results and results[0]["status"] == "ok":
             ip.update_sources([dict(source=SOURCE, publisher="U.S. Geological Survey (USGS)",
                                     report="National Water Information System, daily values (discharge, daily mean)", report_url=BASE,
-                                    document_list=BASE, license="may be public", tables=[TABLE])])
+                                    document_list=BASE, license="public", tables=[TABLE])])
         ip.write_status(CONNECTOR, run_id, results)
     log.close()
     return 0 if all(r["status"] == "ok" for r in results) else 1

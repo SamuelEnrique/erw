@@ -26,7 +26,7 @@ a cell that is not a number stops the run. Nothing is filled.
     python warehouse/connectors/blm_oil_gas_stats.py [--offline] [--out-dir DIR]
 
 Ceiling: two requests (the statistics page, read for the workbook's address, and the workbook; both saved in
-warehouse/raw/blm_oil_gas_stats/ and reused offline). BLM's robots file disallows /core/, /profiles/, /search/, /admin/
+warehouse/raw/blm_oil_gas_stats/ and reused offline; asked again unless --offline, since the page and the workbook keep their addresses). BLM's robots file disallows /core/, /profiles/, /search/, /admin/
 and the user pages, not /programs/ or /sites/default/files/. License: may be public (the Department of the Interior's
 notice, read 159: materials produced by federal agencies are generally in the public domain); cite BLM as the source.
 """
@@ -197,10 +197,10 @@ def main(argv=None):
     try:
         if ip.paused(CONNECTOR) or ip.paused_host(HOST):
             raise RuntimeError(f"{HOST} is paused (warehouse/metadata/paused_sources.csv): no request made")
-        page, prec = ip.fetch_raw(CONNECTOR, PAGE, log, offline=args.offline, headers=UA, timeout=120, pause=1)
+        page, prec = ip.fetch_raw(CONNECTOR, PAGE, log, offline=args.offline, fresh=not args.offline, headers=UA, timeout=120, pause=1)
         url, fy = workbook_url(page.decode("utf-8", errors="replace"))
         log(f"  workbook for FY {fy}: {url}")
-        content, rec = ip.fetch_raw(CONNECTOR, url, log, offline=args.offline, headers=UA, timeout=180, pause=1)
+        content, rec = ip.fetch_raw(CONNECTOR, url, log, offline=args.offline, fresh=not args.offline, headers=UA, timeout=180, pause=1)
         base = dict(source=SOURCE, source_url=url, retrieved_at=rec.get("retrieved_at") or "", vintage=ip.vintage_of(rec))
         x = pd.ExcelFile(io.BytesIO(content))
         totals, _ = summary(x)
@@ -252,7 +252,7 @@ def main(argv=None):
         if results and results[0]["status"] == "ok":
             ip.update_sources([dict(source=SOURCE, publisher="U.S. Department of the Interior, Bureau of Land Management (BLM)",
                                     report="Oil and Gas Statistics: All Federal Oil and Gas Statistics by Year by State (Tables 1 to 10)",
-                                    report_url=PAGE, document_list=PAGE, license="may be public", tables=[TABLE])])
+                                    report_url=PAGE, document_list=PAGE, license="public", tables=[TABLE])])
         ip.write_status(CONNECTOR, run_id, results)
     log.close()
     return 0 if all(r["status"] == "ok" for r in results) else 1

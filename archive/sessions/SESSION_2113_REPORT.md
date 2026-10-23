@@ -35,3 +35,8 @@
 - New: `warehouse/connectors/usgs_streamflow.py`, `tests/test_session2113.py`, this report.
 - Changed: `docs/datastandard.md`, `warehouse/validate/erw_validate.py`, `warehouse/metadata/build_coverage.py`, `warehouse/supabase/live_set.yaml`, `warehouse/redivis/release_v1.py`, `docs/coverage.md`, `coverage.csv`, `sources.csv`, `archive_manifest.csv`, `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
 - On the data machine only: `runs/c069/s2113/`.
+
+## Addendum (session 2116)
+
+- **Corrected:** the report says some gauges have fewer rows because of days with no line. In fact Oroville, Hells Canyon and Hoover miss no day inside their spans: each series ends early (30 September 2025, 9 October 2025 and 5 February 2026). The gaps inside a span are at Glen Canyon (3 days), Grand Coulee (2) and The Dalles (2). Found by session 2116's method note.
+- **The connector now asks for each gauge again unless `--offline`** (session 2116), so a rerun gains new days and revised values.

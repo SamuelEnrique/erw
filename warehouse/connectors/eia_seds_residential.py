@@ -25,8 +25,8 @@ does not repeat eia_seds_state_energy's series (ESTCV and TETCV, all sectors, ar
 
     python warehouse/connectors/eia_seds_residential.py [--offline | --fresh] [--out-dir DIR]
 
-Ceiling: 10 requests a run (pages of 5,000, 3 seconds apart; a 429 or a 5xx asked once more after 60 seconds; a saved
-page reused unless --fresh). api.eia.gov has no robots file (every path answers a missing key). License: public (EIA,
+Ceiling: 10 requests a run (pages of 5,000, 3 seconds apart; a 429 or a 5xx asked once more after 60 seconds, and a
+second stops the run; a saved page reused unless --fresh, its rows citing when EIA first answered it). api.eia.gov has no robots file (every path answers a missing key). License: public (EIA,
 record 1 of license_reads.csv; cite "U.S. Energy Information Administration, State Energy Data System").
 """
 
@@ -107,6 +107,7 @@ def main(argv=None):
     ip.RAW.open(CONNECTOR, run_id)
     results = []
     asked = [0]
+    when = []  # the time each page was answered by EIA (a reused page: its first download's)
 
     class Saved:   # a saved page, answering as a response does
         def __init__(self, content, url):
@@ -120,6 +121,7 @@ def main(argv=None):
         hit = None if args.fresh else ip.raw_cached(CONNECTOR, url)
         if hit:
             log(f"  raw file reused: {ip.redact(url)}")
+            when.append(str(hit[1].get("retrieved_at") or ""))
             return Saved(hit[0], url)
         if args.offline:
             raise RuntimeError(f"offline: {ip.redact(url)} is not in warehouse/raw/{CONNECTOR}/")
@@ -131,9 +133,11 @@ def main(argv=None):
             r = requests.get(url, timeout=120)
             if r.status_code < 500 and r.status_code != 429:
                 r.raise_for_status()
+                when.append(dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"))
                 return r
             log(f"  {ip.redact(r.url)}: HTTP {r.status_code}; " + (f"asked once more in {RETRY_WAIT} s" if attempt == 1 else "not asked again"))
-            time.sleep(RETRY_WAIT)
+            if attempt == 1:
+                time.sleep(RETRY_WAIT)
         raise RuntimeError(f"HTTP {r.status_code} twice for {ip.redact(r.url)}")
 
     try:
@@ -142,7 +146,6 @@ def main(argv=None):
         key = ip.load_key("EIA_API_KEY", log)
         if not key:
             raise RuntimeError("EIA_API_KEY is not set (.env or the environment)")
-        retrieved = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
         frames, offset = [], 0
         while True:
             r = get({"api_key": key, "frequency": "annual", "data[]": "value", "facets[seriesId][]": list(SERIES), "start": FIRST,
@@ -150,7 +153,7 @@ def main(argv=None):
                      "sort[1][direction]": "asc", "sort[2][column]": "stateId", "sort[2][direction]": "asc",
                      "length": 5000, "offset": offset})
             resp = r.json()["response"]
-            frames.append(rows(resp["data"], ip.redact(r.url.split("&offset")[0]), retrieved))
+            frames.append(rows(resp["data"], ip.redact(r.url.split("&offset")[0]), ip.utc_iso(pd.Timestamp(when[-1]))))
             offset += len(resp["data"])
             if offset >= int(resp["total"]) or not resp["data"]:
                 break

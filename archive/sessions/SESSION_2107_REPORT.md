@@ -30,3 +30,8 @@
 - New: `warehouse/connectors/noaa_uscrn.py`, `tests/test_session2107.py`, this report.
 - Changed: `docs/datastandard.md`, `warehouse/validate/erw_validate.py`, `warehouse/metadata/build_coverage.py`, `warehouse/supabase/live_set.yaml`, `warehouse/redivis/release_v1.py`, `docs/coverage.md`, `coverage.csv`, `sources.csv`, `archive_manifest.csv`, `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
 - On the data machine only: `runs/c069/s2107/`.
+
+## Addendum (session 2116)
+
+- **The range, gauge by gauge:** the table runs to September 2026 overall, but Edinburg's last row is June 2026 (NOAA writes -9999.0 for its July to October 2026). Found by session 2116's method note.
+- **The connector now asks for its files again unless `--offline`** (session 2116); as written here, a rerun reused the saved files.
