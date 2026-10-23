@@ -73,6 +73,7 @@ eia_annual_generation_ba,none,,68,P1Y,2023-01-01T00:00:00Z,2025-01-01T00:00:00Z,
 eia_basin_production_monthly,none,,12,P1M,2015-01-01T00:00:00Z,2026-07-01T00:00:00Z,1668,eia:steo:basin_production,2026-10-10T14:58:19Z,pass,public,oil;gas,no,source
 eia_co2_state_annual,none,,1248,P1Y,1970-01-01T00:00:00Z,2022-01-01T00:00:00Z,66144,eia:co2-emissions/co2-emissions-aggregates,2026-10-21T21:47:54Z,pass,public,power;gas;oil;coal;carbon,no,source
 eia_coal_delivered_price_annual,none,,228,P1Y,2000-01-01T00:00:00Z,2025-01-01T00:00:00Z,3213,eia:coal/consumption-and-quality,2026-10-21T22:17:07Z,pass,public,coal,no,source
+eia_coal_mine_production_annual,none,,5529,P1Y,2001-01-01T00:00:00Z,2024-01-01T00:00:00Z,72852,eia:coal/mine-production,2026-10-23T00:35:18Z,pass,public,coal,no,source
 eia_coal_price_rank_annual,none,,128,P1Y,2001-01-01T00:00:00Z,2024-01-01T00:00:00Z,2843,eia:coal/price-by-rank,2026-10-21T23:48:37Z,pass,public,coal,no,source
 eia_coal_prices_annual,none,,145,P1Y,2001-01-01T00:00:00Z,2024-01-01T00:00:00Z,2781,eia:coal/market-sales-price,2026-10-21T20:21:08Z,pass,public,coal,no,source
 eia_coal_production_annual,none,,422,P1Y,2001-01-01T00:00:00Z,2024-01-01T00:00:00Z,22630,eia:coal/aggregate-production,2026-10-22T10:51:47Z,pass,public,coal,no,source
