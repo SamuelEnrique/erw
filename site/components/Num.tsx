@@ -14,6 +14,9 @@ const KEY_TABLE: Record<string, string> = {
   deals: "energy_deals", event: "", es: "event_window_daily", griddc: "datacenter_facilities", datacenters: "datacenter_facilities",
   bill: "cost_of_power_monthly", cop: "cost_of_power_monthly", mr: "merchant_revenue_monthly", ms: "merchant_revenue_monthly", projects: "energy_projects",
   gridnews: "news_index",
+  // session 822 and 827: the deal tracker's and the datacenter tracker's public rows (lib/dealspublic.ts): the family
+  // names no held table; each figure is of the public subset and check-values reads it from the live set by the row's id
+  dealpub: "", dcpub: "",
   // session 264 added ms| (the generator page's month spans of merchant_revenue_monthly); the chain's landing of 14 October maps it as mr|
 };
 

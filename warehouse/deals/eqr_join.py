@@ -17,7 +17,7 @@ seller and another the buyer (either way round); a deal with one named party mat
 buyer, said so. Nothing is matched on a guess: a party of fewer than four letters ("US") matches only as a whole key.
 
     python warehouse/deals/eqr_join.py                              # the counts, one line a shown deal
-    python warehouse/deals/eqr_join.py --json site/data/deals_eqr.json   # the counts for the site (no filed term in it)
+    python warehouse/deals/eqr_join.py --json site/data/deals_filed_terms.json   # the counts for the site (no filed term in it)
     python warehouse/deals/eqr_join.py --terms runs/s825/eqr_terms.json  # the matched rows' terms, for the review (runs/ only)
     python warehouse/deals/eqr_join.py --contracts runs/archive_restore/ferc_eqr_contracts.csv --names runs/archive_restore/ferc_eqr_buyer_names.csv
 """

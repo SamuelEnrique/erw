@@ -69,7 +69,7 @@ export function monthsWithHeld(shown: { month: string; n: number }[], held: Reco
   return out;
 }
 
-// Session 825: the FERC EQR rows beside a shown deal (warehouse/deals/eqr_join.py, site/data/deals_eqr.json): the
+// Session 825: the FERC EQR rows beside a shown deal (warehouse/deals/eqr_join.py, site/data/deals_filed_terms.json): the
 // count of filed contracts whose seller and buyer are the deal's parties, in the deal's quarter and in any quarter the
 // warehouse holds. ferc_eqr_contracts is internal by the ERW's own record, so the file carries counts and words only
 // (no filed term), and the panel on the row draws "license needed" where the terms would be. The count's key is

@@ -23,7 +23,7 @@ import { DealsHeld } from "./Held";
 import { DealsCompare } from "./Compare";
 import { fileIsSound, type PublicDealRow, type PublicDealsFile } from "@/lib/dealspublic";
 import publicFile from "@/data/deals_public.json";
-import eqrFile from "@/data/deals_eqr.json";
+import eqrFile from "@/data/deals_filed_terms.json";   // session 833: named for what it holds, counts of filed terms (a file named "eqr" is kept out of git by tests/test_session99)
 import { type EqrFile } from "@/lib/dealspublic";
 
 // session 825: the FERC EQR counts beside each shown deal (lib/dealspublic.ts EqrFile); counts and words, no filed term

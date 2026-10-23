@@ -73,7 +73,7 @@ class JoinTest(unittest.TestCase):
 
 class CommittedFileTest(unittest.TestCase):
     def test_counts_only(self):
-        with open(os.path.join(SITE, "data", "deals_eqr.json"), encoding="utf-8") as f:
+        with open(os.path.join(SITE, "data", "deals_filed_terms.json"), encoding="utf-8") as f:
             file = json.load(f)
         with open(os.path.join(SITE, "data", "deals_public.json"), encoding="utf-8") as f:
             shown = {r["event_id"] for r in json.load(f)["shown"]}
@@ -96,7 +96,7 @@ class PageCodeTest(unittest.TestCase):
         t = self.read("site", "app", "deals", "DealsTable.tsx")
         for s in ("Filed terms (FERC EQR)", 'eqrKey(d.id, "in_quarter")', 'eqrKey(d.id, "any_quarter")', 'data-license-held="ferc_eqr_contracts"'):
             self.assertIn(s, t, s)
-        self.assertIn("deals_eqr.json", self.read("site", "app", "deals", "page.tsx"))
+        self.assertIn("deals_filed_terms.json", self.read("site", "app", "deals", "page.tsx"))
         self.assertIn('p[1] === "eqr"', self.read("site", "scripts", "check-values.mjs"))
         self.assertIn("dealpub|eqr|<deal>|in_quarter", self.read("docs", "methods", "energy_deals.md"))
 

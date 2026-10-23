@@ -132,7 +132,10 @@ class TheComponents(unittest.TestCase):
                  "dcpow", "dcq", "lic",
                  # session 700 (chain 050): the All grids tab of /cost-of-power (allgrids|<column>|<row>|...), read from the
                  # site's own files; a figure of an internal table is drawn as "license needed" by the tab itself, with no key
-                 "allgrids"}
+                 "allgrids",
+                 # session 822 and 827 (chain 080): the deal tracker's and the datacenter tracker's public rows (dealpub|..., dcpub|...),
+                 # the rows a public source stands behind, read by check-values from the live set by the row's id; in Num's map as no table
+                 "dealpub", "dcpub"}
         found = set()
         for dirpath, _, files in os.walk(os.path.join(ROOT, "site", "app")):
             if "_retired" in dirpath:

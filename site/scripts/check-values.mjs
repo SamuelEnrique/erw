@@ -568,10 +568,10 @@ async function truth(check) {
       return Number(r.dollars) / Number(r.mw);
     }
     // session 825: the FERC EQR counts beside a shown deal, dealpub|eqr|<deal>|in_quarter and |any_quarter, from
-    // site/data/deals_eqr.json (warehouse/deals/eqr_join.py): read only when the live set's internal summary says the
+    // site/data/deals_filed_terms.json (warehouse/deals/eqr_join.py): read only when the live set's internal summary says the
     // contracts table has the row count the file was joined against (the internal token; without it, not read)
     if (p[1] === "eqr") {
-      const eqr = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "deals_eqr.json"), "utf-8"));
+      const eqr = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "deals_filed_terms.json"), "utf-8"));
       const e = eqr.deals[p[2]];
       if (!e) return undefined;
       const tok = process.env.INTERNAL_COSTS_TOKEN ?? "";

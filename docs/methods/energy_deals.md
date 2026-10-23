@@ -194,7 +194,7 @@ deals tab draws the shown rows with every column; the line above it counts the h
   whose filed seller and buyer are two of the shown deal's parties (by name key: upper case, punctuation and the
   corporate words dropped, a whole-word match of four characters or more; the buyer's filed name read through
   `ferc_eqr_buyer_names`), in the deal's quarter and in any quarter the warehouse holds; `warehouse/deals/eqr_join.py`,
-  the counts in `site/data/deals_eqr.json`. The EQR table is internal by the ERW's own record, so the panel draws the
+  the counts in `site/data/deals_filed_terms.json`. The EQR table is internal by the ERW's own record, so the panel draws the
   filed terms as "license needed"; the counts are read against the live set's summary row count.
 
 - `dealpub|ab|<deal>|usd_per_mw` (session 826): on the A and B comparison of the deals tab (`/deals?a=<deal>&b=<deal>`,

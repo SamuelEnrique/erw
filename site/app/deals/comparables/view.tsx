@@ -68,7 +68,8 @@ export async function ComparablesView({ sp }: { sp: Record<string, string | unde
   const publicOnly = !read.ok && isLicenseReason(read.reason) && !!PUBLIC;
   const pc = publicOnly ? publicCounts(PUBLIC!) : null;
   const tip = pc ? shownOnlyTip(pc) : undefined;
-  const key = publicOnly ? compPubKey : compKey;
+  // session 833: the key's head is rewritten for the public rows (compPubKey names the same stat, dimension and value)
+  const K = (k: string) => (publicOnly ? compPubKey(k.split("|")[1].replace(/^comp_/, "") as "deals", by, k.split("|")[3] === "-" ? "" : k.split("|")[3]) : k);
   const all = read.ok ? fold((read.data as unknown as DealRow[]).map(toDeal), PAIRS) : publicOnly ? fold((PUBLIC!.shown as unknown as DealRow[]).map(toDeal), PAIRS) : [];
   const cells = comparables(all, by);
   const what: "price" | "mw" = cells.some((c) => c.medianPrice !== null) ? "price" : "mw";
@@ -128,11 +129,11 @@ export async function ComparablesView({ sp }: { sp: Record<string, string | unde
                   {cells.map((c) => (
                     <tr key={c.value || "-"} className="border-b border-rule" data-comp-cell={c.value || "-"} data-comp-shows={shownOf(c).what}>
                       <th scope="row" className={`${cell} font-normal`}>{c.label}</th>
-                      <td className={`${cell} tabular-nums`} title={tip}><Num check={key("deals", by, c.value)} raw={c.deals}>{whole(c.deals)}</Num></td>
-                      <td className={`${cell} tabular-nums`} title={tip}><Num check={key("with_price", by, c.value)} raw={c.withPrice}>{whole(c.withPrice)}</Num></td>
-                      <td className={`${cell} tabular-nums`}><Figure v={c.medianPrice} k={key("median_price", by, c.value)} tip={tip} /></td>
-                      <td className={`${cell} tabular-nums`} title={tip}><Num check={key("with_mw", by, c.value)} raw={c.withMw}>{whole(c.withMw)}</Num></td>
-                      <td className={`${cell} tabular-nums`}><Figure v={c.medianMw} k={key("median_mw", by, c.value)} tip={tip} /></td>
+                      <td className={`${cell} tabular-nums`} title={tip}><Num check={K(compKey("deals", by, c.value))} raw={c.deals}>{whole(c.deals)}</Num></td>
+                      <td className={`${cell} tabular-nums`} title={tip}><Num check={K(compKey("with_price", by, c.value))} raw={c.withPrice}>{whole(c.withPrice)}</Num></td>
+                      <td className={`${cell} tabular-nums`}><Figure v={c.medianPrice} k={K(compKey("median_price", by, c.value))} tip={tip} /></td>
+                      <td className={`${cell} tabular-nums`} title={tip}><Num check={K(compKey("with_mw", by, c.value))} raw={c.withMw}>{whole(c.withMw)}</Num></td>
+                      <td className={`${cell} tabular-nums`}><Figure v={c.medianMw} k={K(compKey("median_mw", by, c.value))} tip={tip} /></td>
                     </tr>
                   ))}
                 </tbody>
