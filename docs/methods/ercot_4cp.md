@@ -23,7 +23,7 @@ peak. Key `(entity, variable, ts_utc)`.
 | `x_year` | the year, `YYYY` |
 | `x_month` | the month, `YYYY-MM` (June to September) |
 | `x_interval_local` | the interval as ERCOT prints it (its date and interval ending, Central) |
-| `x_published` | the date ERCOT published the interval, `YYYY-MM-DD`, as the document states it, or empty where it states none |
+| `x_published` | the date ERCOT posted the workbook, `YYYY-MM-DD`, from the report list's PublishDate (as `pull()` records it in the manifest), or empty where the list gives none (corrected by session 2088) |
 
 Years from 2018 to the newest summer ERCOT has published. A month ERCOT has not published has no row.
 

@@ -32,8 +32,8 @@ is not a year, a value that is not a number or a key given twice stops the run.
     python warehouse/connectors/owid_energy.py [--offline] [--out-dir DIR]
 
 Ceiling: two requests (the codebook and the data), reused from warehouse/raw/owid_energy/ with --offline.
-catalog.ourworldindata.org's robots file allows every path (session 2125, read 249). License: Our World in Data's own work
-is CC BY 4.0 and its third-party data keep their producers' terms (record 248); Ember's are CC BY 4.0 (record 133). Cite
+catalog.ourworldindata.org's robots file allows every path (session 2125, read 285). License: Our World in Data's own work
+is CC BY 4.0 and its third-party data keep their producers' terms (record 284); Ember's are CC BY 4.0 (record 133). Cite
 both: "Ember (2026); Our World in Data, energy dataset".
 """
 

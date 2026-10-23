@@ -35,7 +35,7 @@ Eurostat's `TIME_PERIOD` is a year; `ts_utc` is that year's 1 January, UTC. The 
 
 ## License
 
-Header: "License: public with acknowledgement (Eurostat's copyright notice, https://ec.europa.eu/eurostat/web/main/help/copyright-notice). Cite: Eurostat, nrg_inf_epcrw. Eurostat bears no responsibility for this reshaping (the rows filtered by country and renamed, the values unchanged)." `license_verdicts.csv` records Eurostat, read 244: "may be public" for public and for commercial use. `docs/licenses.md`: "may be public", flag public, ERW verdict public.
+Header: "License: public with acknowledgement (Eurostat's copyright notice, https://ec.europa.eu/eurostat/web/main/help/copyright-notice). Cite: Eurostat, nrg_inf_epcrw. Eurostat bears no responsibility for this reshaping (the rows filtered by country and renamed, the values unchanged)." `license_verdicts.csv` records Eurostat, read 280: "may be public" for public and for commercial use. `docs/licenses.md`: "may be public", flag public, ERW verdict public.
 
 ## Checks (session 2129)
 

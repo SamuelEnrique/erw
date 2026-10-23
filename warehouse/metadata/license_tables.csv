@@ -9,6 +9,7 @@ battery_stack_monthly,CAISO; ERCOT,"the source registry and the tables its heade
 battery_stack_review_monthly,NYISO; SPP,"the source registry and the tables its header derives it from: iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices, nyiso_as_prices, nyiso_dam_zone_prices, nyiso_rtm_zone_prices, spp_as_prices"
 battery_stack_stress_daily,CAISO; ERCOT,"the source registry and the tables its header derives it from: caiso_as_prices, ercot_all_hub_prices_history, ercot_as_prices, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices"
 blm_ca_renewable_rows,"U.S. Department of the Interior, Bureau of Land Management (BLM)",the source registry
+blm_oil_gas_statistics_annual,"U.S. Department of the Interior, Bureau of Land Management (BLM)",the source registry
 boem_offshore_platforms,Bureau of Ocean Energy Management (BOEM),the source registry
 boem_ogor_lease_production_monthly,Bureau of Ocean Energy Management (BOEM),the source registry
 boem_renewable_leases,Bureau of Ocean Energy Management (BOEM),the source registry
@@ -31,6 +32,7 @@ carb_lcfs_credit_prices,CARB,the source registry
 carbon_intensity_daily,EIA,the source registry and the tables its header derives it from: eia930_all_emissions
 carbon_intensity_hourly,EIA,the source registry and the tables its header derives it from: eia930_all_emissions
 carbon_intensity_monthly,EIA,the source registry and the tables its header derives it from: eia930_all_emissions
+cec_total_system_generation_annual,California Energy Commission (CEC),the source registry
 census_metro_population,Census Bureau,the source registry
 cer_electricity_trade,Canada Energy Regulator (CER),the source registry
 cer_gas_trade,Canada Energy Regulator (CER),the source registry
@@ -185,10 +187,12 @@ eia_retail_electricity_prices,EIA,the source registry
 eia_retail_fuel_prices,EIA,the source registry
 eia_retail_sales_monthly,EIA,the source registry
 eia_sector_energy_consumption_monthly,EIA,the source registry
+eia_seds_residential_annual,EIA,the source registry
 eia_seds_state_energy,EIA,the source registry
 eia_state_capacity_annual,EIA,the source registry
 eia_state_generation_monthly,EIA,the source registry
 eia_state_source_disposition_annual,EIA,the source registry
+eia_state_to_state_capacity,EIA,the source registry
 eia_steo_forecasts,EIA,the source registry
 eia_uranium_facilities,EIA,the source registry
 eia_uranium_marketing_annual,EIA,the source registry
@@ -299,6 +303,8 @@ interconnection_agreements_signed,Berkeley Lab,the source registry and the table
 interconnection_durations,Berkeley Lab,the source registry and the tables its header derives it from: lbnl_interconnection_queue
 interconnection_durations_summary,Berkeley Lab,the source registry and the tables its header derives it from: lbnl_interconnection_queue
 interconnection_queue_summary,Berkeley Lab,the source registry and the tables its header derives it from: lbnl_interconnection_queue
+irena_capacity_annual,International Renewable Energy Agency (IRENA),the source registry
+irs_soi_energy_credits_annual,"Internal Revenue Service (IRS), Statistics of Income",the source registry
 iso_all_capacity_prices,ISO-NE; MISO; NYISO; PJM,the source registry
 iso_curtailment_monthly,CAISO; ERCOT; SPP,"the source registry and the tables its header derives it from: caiso_curtailment_daily, ercot_wind_solar_hsl_daily, spp_curtailment_daily"
 iso_dam_hub_prices,CAISO; ERCOT; MISO; SPP,the grids its coverage row lists (a table of several operators' own prices)
@@ -347,6 +353,7 @@ nlr_atb_electricity_costs,"National Laboratory of the Rockies (NLR, formerly NRE
 nlr_jedi_multipliers,"National Laboratory of the Rockies (NLR, formerly NREL)",the source registry
 noaa_climdiv_state_monthly,NOAA NCEI,the source registry
 noaa_cpc_degree_days_daily,NWS,the source registry
+noaa_cpc_oni_monthly,NWS,the source registry
 noaa_grid_weather_daily,NOAA NCEI,the source registry
 noaa_grid_weather_hourly,NOAA NCEI,the source registry
 noaa_grid_weather_stations,NOAA NCEI,the source registry
@@ -354,6 +361,7 @@ noaa_isd_hourly,NOAA NCEI,the source registry
 noaa_ncei_billion_disasters,NOAA NCEI,the source registry
 noaa_ncei_storm_events,NOAA NCEI,the source registry
 noaa_station_weather_hourly,NOAA NCEI,the source registry
+noaa_uscrn_solar_monthly,NOAA NCEI,the source registry
 node_basis_daily,ERCOT,"the source registry and the tables its header derives it from: ercot_all_hub_prices_history, ercot_zone_prices_history"
 node_basis_summary,ERCOT,"the source registry and the tables its header derives it from: ercot_all_hub_prices_history, ercot_zone_prices_history"
 nrc_advanced_reactor_preapplicants,NRC,the source registry
@@ -406,11 +414,13 @@ storage_daily_cycle,CAISO; EIA,"the source registry and the tables its header de
 storage_owners_monthly,EIA,"the source registry and the tables its header derives it from: eia860m_operating_generators, eia860m_planned_generators"
 texas_delivery_charges,"AEP Texas Inc.; CenterPoint Energy Houston Electric, LLC; Oncor Electric Delivery Company LLC; Public Utility Commission of Texas; Texas-New Mexico Power Company",the source registry
 texas_transmission_matrix,Public Utility Commission of Texas,the source registry
+treasury_1603_awards,U.S. Department of the Treasury,the source registry
 usace_nid_dams,U.S. Army Corps of Engineers (USACE),the source registry
 usbr_hydropower_monthly,U.S. Bureau of Reclamation (USBR),the source registry
 usdm_drought_state_weekly,"U.S. Drought Monitor (National Drought Mitigation Center, USDA, NOAA)",the source registry
 usgs_comcat_earthquakes_south_central,U.S. Geological Survey (USGS),the source registry
 usgs_mcs_critical_minerals,U.S. Geological Survey (USGS),the source registry
+usgs_streamflow_daily,U.S. Geological Survey (USGS),the source registry
 uspvdb_solar_facilities,U.S. Geological Survey (USGS),the source registry
 uswtdb_wind_turbines,U.S. Geological Survey (USGS),the source registry
 utility_service_territories,EIA,the source registry

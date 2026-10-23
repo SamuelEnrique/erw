@@ -16,7 +16,7 @@
 
 ## The pulls
 
-1. `earthquake.usgs.gov/robots.txt` (read 237): HTTP 404, the host has no robots file.
+1. `earthquake.usgs.gov/robots.txt` (read 273): HTTP 404, the host has no robots file.
 2. The count for the box (all event types): 16,050.
 3. The service's parameter list (`application.json`).
 4. The count, earthquakes only: 16,000.
@@ -27,7 +27,7 @@ The USGS's terms are the record's (read 87, may be public: USGS-authored data ar
 ## Errors
 
 - **The first trial left 34 places blank** that end in a postal code ("2 km E of Choctaw, OK"); the codes were added and the trial run again offline (5 left blank: three border regions, the "Texas Panhandle region" and one named event; corrected in session 2129, which found the Panhandle place among them).
-- **This chain's first read was numbered 255** at chain 069's request, to keep clear of its reads; `tests/test_session152` requires the record numbered without a gap, so it is 237 and the chain that lands second renumbers. Chain 069's agent was told.
+- **This chain's first read was numbered 255** at chain 069's request, to keep clear of its reads; `tests/test_session152` requires the record numbered without a gap, so it is 237 (273 after chain 069 landed first, session 2133) and the chain that lands second renumbers. Chain 069's agent was told.
 
 ## Decisions made without you
 
@@ -44,5 +44,5 @@ The USGS's terms are the record's (read 87, may be public: USGS-authored data ar
 ## Files
 
 - New: `warehouse/connectors/usgs_earthquakes.py`, `tests/test_session2120.py`, this report; on main, `queue/next/090-day-29-october-data-wildfires-geomagnetic-inventory-carbon.md`.
-- Changed: `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`, `warehouse/metadata/license_reads.csv` (237), the coverage, sources, archive manifest and license files, `docs/redivis/release-v1/`.
+- Changed: `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`, `warehouse/metadata/license_reads.csv` (273), the coverage, sources, archive manifest and license files, `docs/redivis/release-v1/`.
 - On the data machine only: `runs/c079/` (the probe, the trial, the cross-check), `runs/license_reads/s2120/`, `runs/s2120_*`, `warehouse/raw/usgs_earthquakes/`.

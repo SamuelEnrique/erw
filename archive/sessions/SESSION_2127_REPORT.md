@@ -15,7 +15,7 @@
 
 ## The pulls
 
-1. `www.epa.gov/robots.txt` (read 253, read again: read 228 is session 2072's): Drupal's paths and search pages only.
+1. `www.epa.gov/robots.txt` (read 289, read again: read 228 is session 2072's): Drupal's paths and search pages only.
 2. LMOP's database page, for the file's address.
 3. The composite data file (1.5 MB), seeded into the raw store and reused by the trial and the write (`--offline`).
 
@@ -38,5 +38,5 @@ EPA's terms are the record's (read 55, may be public).
 ## Files
 
 - New: `warehouse/connectors/epa_lmop.py`, `tests/test_session2127.py`, this report.
-- Changed: `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`, `warehouse/metadata/license_reads.csv` (253), the coverage, sources, archive manifest and license files, `docs/redivis/release-v1/`.
+- Changed: `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`, `warehouse/metadata/license_reads.csv` (289), the coverage, sources, archive manifest and license files, `docs/redivis/release-v1/`.
 - On the data machine only: `runs/c079/s2127/`, `runs/license_reads/s2127/`, `runs/s2127_*`, `warehouse/raw/epa_lmop/`.

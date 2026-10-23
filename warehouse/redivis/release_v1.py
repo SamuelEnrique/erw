@@ -176,6 +176,10 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "msha_coal_production_quarterly",
            "fhwa_motor_fuel_monthly",
            "afdc_vehicle_registrations_annual",
+           "irena_capacity_annual",
+           "irs_soi_energy_credits_annual",
+           "eia_state_to_state_capacity",
+           "noaa_cpc_oni_monthly",
            "noaa_ncei_storm_events",
            "nrc_event_notifications",
            "doe_lng_export_applications",
@@ -199,7 +203,12 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "nrc_license_actions",
            "owid_ember_electricity_annual",
            "usdm_drought_state_weekly",
+           "blm_oil_gas_statistics_annual",
+           "cec_total_system_generation_annual",
+           "eia_seds_residential_annual",
+           "noaa_uscrn_solar_monthly",
            "usgs_comcat_earthquakes_south_central",
+           "usgs_streamflow_daily",
            "interconnection_durations", "interconnection_durations_summary",
            "grid_peak_vs_capacity"):  # 510 to 672 the same way
     STORAGE_HELD[_t] = ("held: not yet on Redivis (written 21 October 2026, session 489; the account's free 10 GB is full, "

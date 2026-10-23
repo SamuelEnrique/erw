@@ -38,7 +38,7 @@ Demand rows a year: 35 from 1990 to 1999 (European countries and aggregates), 23
 
 ## License
 
-Header: "License: public: Our World in Data's work is CC BY 4.0; Ember's data are CC BY 4.0. Cite: Ember (2026), Yearly Electricity Data; processed by Our World in Data." `license_verdicts.csv` records Ember (read 133) and Our World in Data (read 248), both "may be public". `docs/licenses.md`: "may be public", flag public, ERW verdict public.
+Header: "License: public: Our World in Data's work is CC BY 4.0; Ember's data are CC BY 4.0. Cite: Ember (2026), Yearly Electricity Data; processed by Our World in Data." `license_verdicts.csv` records Ember (read 133) and Our World in Data (read 284), both "may be public". `docs/licenses.md`: "may be public", flag public, ERW verdict public.
 
 ## Checks (session 2129)
 

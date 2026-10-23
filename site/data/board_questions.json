@@ -1,0 +1,25 @@
+{
+ "_about": "Session 1145: the five board questions of warehouse/chat/eval/questions_s1122.yaml, the board's Ask examples, written by expected_s1122.py.",
+ "questions": [
+  {
+   "id": "k01",
+   "question": "On the price board's newest day for each hub, which hub had the highest day-ahead daily mean, and what was it in USD per MWh?"
+  },
+  {
+   "id": "k02",
+   "question": "What moved most on the price board: which hub's day-ahead daily mean changed most, in percent, on its newest day against the day before, and by how much?"
+  },
+  {
+   "id": "k03",
+   "question": "Where is the spark spread widest on the price board (each hub's newest day, at the board's stated heat rate), and what is it in USD per MWh?"
+  },
+  {
+   "id": "k04",
+   "question": "Which hub on the price board had the lowest real-time daily mean on its newest day, and what was it in USD per MWh?"
+  },
+  {
+   "id": "k05",
+   "question": "On the price board, which hub's day-ahead price ran furthest from real time (day-ahead minus real time, either sign) on its newest day, and by how much in USD per MWh?"
+  }
+ ]
+}

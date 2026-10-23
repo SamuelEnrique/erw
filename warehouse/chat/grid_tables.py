@@ -15,6 +15,9 @@ of each table with the anon key (a public read of the live set; no publisher is 
            ercot:HB_HUBAVG), the rule session 302 ran by hand; a table named for another grid is not asked
   ba       a series table with a ba column holds a row of the grid's balancing authority (eia930_all_demand, whose
            entities are eia930:ERCO); asked after the entity rule, so a hub-keyed table is kept by its prefix
+  isoentity  a series table holds a row whose entity is iso:<slug> (storage_buildout_monthly: iso:ercot), asked after
+           the two above, so a table either admits keeps its rule (session 1142: session 1114's f06, ERCOT's chat could
+           not read the storage buildout and rebuilt a year's change from a snapshot)
   queue    energy_projects, when the grid has a queue: a row whose entity_id begins with <iso>_queue:
   iso      storage_capacity, the national EIA-860M inventory: a row whose extra->>iso is the grid's ISO
 
@@ -50,7 +53,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 GRIDS = os.path.join(ROOT, "docs", "grids", "grids.json")
 OUT = os.path.join(ROOT, "docs", "grids", "grid_tables.json")
-RULES = ("name", "entity", "ba", "queue", "iso")
+RULES = ("name", "entity", "ba", "isoentity", "queue", "iso")
 UTC = dt.timezone.utc
 
 
@@ -121,6 +124,8 @@ def admit(reader, grid, table, columns, slugs=()):
             return "entity"
         if "ba" in columns and reader.one("series", table, ba=f"eq.{grid['ba']}"):
             return "ba"
+        if reader.one("series", table, entity=f"eq.iso:{slug}"):
+            return "isoentity"
         return None
     if table == "energy_projects" and grid.get("queue_table"):
         q = grid["queue_table"].replace("_interconnection_queue", "_queue")

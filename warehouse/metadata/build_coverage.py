@@ -235,6 +235,10 @@ SECTOR_RULES = [
     (r"^msha_coal_production_quarterly$", "coal"),  # session 2034: MSHA's coal production, hours and employees a quarter
     (r"^fhwa_motor_fuel_monthly$", "products"),  # session 2035: FHWA's monthly motor fuel by state
     (r"^afdc_vehicle_registrations_annual$", "power;products"),  # session 2036: AFDC's vehicle registrations by state and fuel
+    (r"^irena_capacity_annual$", "power"),  # session 2085: IRENA's installed capacity by country and technology
+    (r"^irs_soi_energy_credits_annual$", "power"),  # session 2087: the IRS's residential energy credits by state
+    (r"^eia_state_to_state_capacity$", "gas"),  # session 2090: EIA's state-to-state pipeline capacity
+    (r"^noaa_cpc_oni_monthly$", "power;gas"),  # session 2092: NOAA CPC's Oceanic Nino Index
     (r"^noaa_ncei_storm_events$", "power"),  # session 2042: NOAA's storm events
     (r"^nrc_event_notifications$", "power;uranium"),  # session 2043: the NRC's event reports
     (r"^doe_lng_export_applications$", "gas;lng"),  # session 2044: DOE's LNG export applications
@@ -259,7 +263,13 @@ SECTOR_RULES = [
     (r"^nrc_license_actions$", "power;uranium"),  # session 2064: the NRC's renewed licenses and power uprates
     (r"^owid_ember_electricity_annual$", "power;carbon"),  # session 2126: Ember's electricity demand and emissions through Our World in Data
     (r"^usdm_drought_state_weekly$", "power"),  # session 2058: the U.S. Drought Monitor by state
+    (r"^blm_oil_gas_statistics_annual$", "oil;gas"),  # session 2106: BLM's federal onshore leases, permits and wells by state and fiscal year
+    (r"^cec_total_system_generation_annual$", "power"),  # session 2109: the Energy Commission's in-state generation, imports and total system power
+    (r"^eia_seds_residential_annual$", "power;gas;oil"),  # session 2108: SEDS's residential expenditures by source and state
+    (r"^noaa_uscrn_solar_monthly$", "power"),  # session 2107: NOAA USCRN's monthly solar radiation near CAISO's and ERCOT's solar
+    (r"^treasury_1603_awards$", "power;deals"),  # session 2112: the Treasury's Section 1603 awards
     (r"^usgs_comcat_earthquakes_south_central$", "oil;gas"),  # session 2120: the USGS earthquake catalog, OK, KS, TX and NM
+    (r"^usgs_streamflow_daily$", "power"),  # session 2113: the USGS's daily mean discharge below large hydropower plants
     (r"^eia861_short_form$", "power"),  # session 876: EIA-861S, the small utilities' sales  # session 869: EIA-861's meters and net metering by utility  # session 868: EIA-861's programs by utility  # session 867: EIA-861's utility data: NERC region, RTOs, activities  # session 853: EIA-861's delivery-only companies (Texas's wires utilities)  # session 695: EIA-861's distribution reliability (SAIDI, SAIFI, CAIDI) by utility
     (r"^eia_gas_storage_state_monthly$", "gas"),  # session 525: EIA's natural gas in underground storage by state, a month
     (r"^eia_state_capacity_annual$", "power"),  # session 526: EIA's state electricity profiles, net summer capacity

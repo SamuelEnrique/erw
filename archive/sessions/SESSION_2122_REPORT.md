@@ -14,7 +14,7 @@
 
 ## The pulls
 
-1. `eta-publications.lbl.gov/robots.txt` (read 241): disallows Drupal's own paths and `/search/`.
+1. `eta-publications.lbl.gov/robots.txt` (read 277): disallows Drupal's own paths and `/search/`.
 2. The 2024 Update's publication page.
 3 and 4. Two guesses at a later edition's page (`-0`, `-1`): HTTP 404.
 5. The research area page "Retail Electricity Price Trends".
@@ -38,5 +38,5 @@
 ## Files
 
 - New: this report.
-- Changed: `warehouse/metadata/license_reads.csv` (241), `docs/licenses.md`.
+- Changed: `warehouse/metadata/license_reads.csv` (277), `docs/licenses.md`.
 - On the data machine only: `runs/c079/s2122/`, `runs/license_reads/s2122/`.
