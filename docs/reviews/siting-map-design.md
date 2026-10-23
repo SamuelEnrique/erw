@@ -18,7 +18,7 @@ Session 1049 (chain 072, `queue/done/072-day-23-october-code-allgrids-packages-2
 
 `docs/brand/review-1049/frame_counties_1280.png` and `frame_counties_390.png` (with `frame_counties.svg`), drawn by `docs/brand/review-1049/frame1049.mjs` (`node frame1049.mjs <site-dir> <out-dir>`) (d3-geo's Albers projection on us-atlas, the counties of Texas; the node file `site/data/siting/nodes.json` as session 1048 wrote it):
 
-- Texas's counties, white for none placed and six steps of the brand's blue for 1 to 2, 3 to 5, 6 to 10, 11 to 20 and 21 or more nodes. Counties outside ERCOT (the Panhandle's north, El Paso, the northeast) are drawn unshaded, as "none placed"; a wired map would grey them as "not ERCOT" from a table that says which counties ERCOT serves (none held: `utility_service_territories` gives a county's utilities by balancing authority, which session 719 already reads, and could).
+- Texas's counties, white for none placed and five steps of blue for 1 to 2, 3 to 5, 6 to 10, 11 to 20 and 21 or more nodes. Counties outside ERCOT (the Panhandle's north, El Paso, the northeast) are drawn unshaded, as "none placed"; a wired map would grey them as "not ERCOT" from a table that says which counties ERCOT serves (none held: `utility_service_territories` gives a county's utilities by balancing authority, which session 719 already reads, and could).
 - The title, the count line ("569 of 873 resource nodes ... 304 are not placed and not drawn") and a line saying a shade is a count, not a location.
 - Each county's tip: its name and its count. A wired map would add its zone, its nodes' names (each a link to the node's panel) and its transmission project phases by status (1048's figures).
 
