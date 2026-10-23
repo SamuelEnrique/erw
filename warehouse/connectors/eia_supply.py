@@ -169,8 +169,8 @@ def name_of(description):
 
 
 def shape(part, rows, freq, last_month=None):
-    """One route's rows as the table's rows; a date with no value is left out and counted, and so is a series not asked
-    for or, for the Outlook, a month after the last month of history."""
+    """One route's rows as the table's rows; a date with no value is left out and counted, and so is, for the Outlook, a
+    month after the last month of history; a series not asked for is left out without a count (session 2018)."""
     out, empty, forecast = [], 0, 0
     for r in rows:
         sid = r.get("seriesId") if part.get("steo") else r.get("series")
