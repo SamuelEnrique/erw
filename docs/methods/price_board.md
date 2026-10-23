@@ -314,6 +314,10 @@ The owner's ruling of 5 October 2026: "pretty much all energy prices". Every pri
 
 Within a group, the rows of a grid held for a license on the day are one line under the public rows: the grid, its count of rows, "license needed" with the hold's words on hover and, for a screen reader, in the line itself, and a toggle ("Show the rows' names") that shows the rows, blank as before. The rows stay in the page, hidden until asked, so every row is in the page either way; nothing about the hold or its words changes. `heldLines` in `site/lib/board.ts` splits a group's rows; `site/scripts/check-board.mjs` checks each line on a build. On the file of 23 October: 10 lines in the groups' default views (NYISO's and ISO-NE's in five power groups), for 20 rows.
 
+## The rows' CSV and the held rows (session 1311, 23 October 2026)
+
+The rows' CSV (`/board/rows`, session 1137) counts the held rows by grid in its header ("Held rows by grid: ISO-NE 54, NYISO 81" on the file of 23 October) and carries the hold's words in a last column, `hold`, on each held line; every other line leaves it empty.
+
 ## The figures on the page and their keys
 
 Each number `/grid` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The keys the sections above do not name:

@@ -77,6 +77,14 @@ The Python loop and the site's are held to give a reader the same thing: `tests/
 
 `python warehouse/chat/eval/replay.py` runs every stored answer the loop let through, with its tool record, through the number check, the unit check and the citations as they now stand, and writes `docs/reviews/ask-replay.md`; `--check` fails when an answer graded right would now be sent back. On 23 October: 157 answers of six runs, none.
 
+## The replay in the landing gate (23 October 2026, session 1308)
+
+`scripts/land_check.py` runs `replay.py --check` as a step of its own (`ask_replay`), after the suite and before `npm ci`: a commit whose checks would send back an answer graded right does not reach the build.
+
+## Both loops' checks on the stored answers (23 October 2026, session 1309)
+
+`tests/test_session1309.py` runs every replayed answer, and a copy of each with one figure moved, through the number check and the unit check of both loops: 284 cases on 23 October, the same verdict in every one.
+
 ## The refusals, classed (23 October 2026, session 1304)
 
 `python warehouse/chat/eval/refusals.py` classes every stored refusal from its tool record (MISO's pause, a license hold, the call limit of its day, the warehouse lacking the figure, rows read and still refused, the number check's refusal) and writes `docs/reviews/ask-refusals.md`. On 23 October: 10 refusals, 3 MISO's pause and 7 the warehouse lacking the figure; none is the loop's fault (the two graded wrong are PJM's d10, session 320's ruling 3).
@@ -127,3 +135,4 @@ Each dated, with the session that made it; the reports in `archive/sessions/` ca
 - 23 October 2026, session 1194: one component for every chat's sources and reads, the general form's "Sources" heading dropped.
 - 23 October 2026, session 1301: only the answers the loop let through are replayed (a refused draft is not stored).
 - 23 October 2026, session 1304: a refusal is classed from its record alone, the first class it shows.
+- 23 October 2026, session 1308: the replay a step of the gate beside the suite's own run of it.
