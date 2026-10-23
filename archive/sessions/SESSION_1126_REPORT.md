@@ -1,6 +1,6 @@
 # Session 1126 report: the next file, then what chain 075 left
 
-23 October 2026, 19:25 to 20:00 UTC, on samueloldlaptop, unattended, on `wip/1126-ask` (cut from `wip/1128-ask`, which holds chain 075's sessions and session 1128). Chain `queue/done/076-day-24-october-code-ask-board-2.md`. Model spend USD 5.73 through the evaluation's own ledger step (`site_ask_eval`), under the session's cap of USD 12 (chain 075's two askings, USD 6 each), the spend read back from the ledger before every question.
+23 October 2026, 19:25 to 19:58 UTC, on samueloldlaptop, unattended, on `wip/1126-ask` (cut from `wip/1128-ask`, which holds chain 075's sessions and session 1128). Chain `queue/done/076-day-24-october-code-ask-board-2.md`. Model spend USD 5.73 through the evaluation's own ledger step (`site_ask_eval`), under the session's cap of USD 12 (chain 075's two askings, USD 6 each), the spend read back from the ledger before every question.
 
 ## Read these first
 
