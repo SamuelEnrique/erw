@@ -1,0 +1,138 @@
+{
+ "contracts_rows": 186873,
+ "deals": {
+  "deal:01b0163eef7a0337": {
+   "any_quarter": 0,
+   "how": "two parties",
+   "in_quarter": 0,
+   "products": [],
+   "quarter": "2026_Q4",
+   "quarters": []
+  },
+  "deal:12f09b2267a3d2ef": {
+   "any_quarter": 0,
+   "how": "two parties",
+   "in_quarter": 0,
+   "products": [],
+   "quarter": "2026_Q4",
+   "quarters": []
+  },
+  "deal:2049dd8e3a5413cf": {
+   "any_quarter": 0,
+   "how": "one party",
+   "in_quarter": 0,
+   "products": [],
+   "quarter": "2026_Q4",
+   "quarters": []
+  },
+  "deal:22af83288d1df241": {
+   "any_quarter": 0,
+   "how": "two parties",
+   "in_quarter": 0,
+   "products": [],
+   "quarter": "2026_Q4",
+   "quarters": []
+  },
+  "deal:2eafe13b10e3f733": {
+   "any_quarter": 0,
+   "how": "two parties",
+   "in_quarter": 0,
+   "products": [],
+   "quarter": "2026_Q4",
+   "quarters": []
+  },
+  "deal:3c1f461ac1000983": {
+   "any_quarter": 0,
+   "how": "one party",
+   "in_quarter": 0,
+   "products": [],
+   "quarter": "2026_Q3",
+   "quarters": []
+  },
+  "deal:3e77f0878dee58f3": {
+   "any_quarter": 0,
+   "how": "two parties",
+   "in_quarter": 0,
+   "products": [],
+   "quarter": "2026_Q4",
+   "quarters": []
+  },
+  "deal:47c4c339a9ef5a9d": {
+   "any_quarter": 0,
+   "how": "two parties",
+   "in_quarter": 0,
+   "products": [],
+   "quarter": "2026_Q4",
+   "quarters": []
+  },
+  "deal:6d416fb10be3a6f0": {
+   "any_quarter": 0,
+   "how": "two parties",
+   "in_quarter": 0,
+   "products": [],
+   "quarter": "2026_Q3",
+   "quarters": []
+  },
+  "deal:6daa5127a8a81cab": {
+   "any_quarter": 0,
+   "how": "two parties",
+   "in_quarter": 0,
+   "products": [],
+   "quarter": "2026_Q4",
+   "quarters": []
+  },
+  "deal:70bf30d372e1d674": {
+   "any_quarter": 0,
+   "how": "two parties",
+   "in_quarter": 0,
+   "products": [],
+   "quarter": "2026_Q4",
+   "quarters": []
+  },
+  "deal:b2f3d832a4fa0f52": {
+   "any_quarter": 0,
+   "how": "two parties",
+   "in_quarter": 0,
+   "products": [],
+   "quarter": "2026_Q4",
+   "quarters": []
+  },
+  "deal:c2360f3ea399a2c9": {
+   "any_quarter": 0,
+   "how": "two parties",
+   "in_quarter": 0,
+   "products": [],
+   "quarter": "2026_Q3",
+   "quarters": []
+  },
+  "deal:d6eda0ffd6db76cd": {
+   "any_quarter": 0,
+   "how": "two parties",
+   "in_quarter": 0,
+   "products": [],
+   "quarter": "2026_Q4",
+   "quarters": []
+  },
+  "deal:db1f505b8bd9ed04": {
+   "any_quarter": 0,
+   "how": "two parties",
+   "in_quarter": 0,
+   "products": [],
+   "quarter": "2026_Q4",
+   "quarters": []
+  },
+  "deal:ea783b38ea44bf8f": {
+   "any_quarter": 0,
+   "how": "one party",
+   "in_quarter": 0,
+   "products": [],
+   "quarter": "2026_Q3",
+   "quarters": []
+  }
+ },
+ "quarters_held": [
+  "2026_Q2"
+ ],
+ "rule": "a row matches a deal when one party matches the filed seller and another the filed buyer (either way round) by name key; in the deal's quarter",
+ "written_by": "warehouse/deals/eqr_join.py --json (session 825)"
+}

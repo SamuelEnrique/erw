@@ -190,4 +190,11 @@ deals tab draws the shown rows with every column; the line above it counts the h
 - The tracker's deals-by-month chart draws the shown deals and, hatched above them, the held or unsettled deals dated
   in the month (`held_by_month` of the file: a count a month, nothing of a row), with the tip saying so.
 
+- `dealpub|eqr|<deal>|in_quarter` and `dealpub|eqr|<deal>|any_quarter` (session 825): the rows of `ferc_eqr_contracts`
+  whose filed seller and buyer are two of the shown deal's parties (by name key: upper case, punctuation and the
+  corporate words dropped, a whole-word match of four characters or more; the buyer's filed name read through
+  `ferc_eqr_buyer_names`), in the deal's quarter and in any quarter the warehouse holds; `warehouse/deals/eqr_join.py`,
+  the counts in `site/data/deals_eqr.json`. The EQR table is internal by the ERW's own record, so the panel draws the
+  filed terms as "license needed"; the counts are read against the live set's summary row count.
+
 Session 828 writes "What is shown and what is held" in full.

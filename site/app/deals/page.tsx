@@ -22,6 +22,11 @@ import { DealsDecisions } from "./Decisions";
 import { DealsHeld } from "./Held";
 import { fileIsSound, type PublicDealRow, type PublicDealsFile } from "@/lib/dealspublic";
 import publicFile from "@/data/deals_public.json";
+import eqrFile from "@/data/deals_eqr.json";
+import { type EqrFile } from "@/lib/dealspublic";
+
+// session 825: the FERC EQR counts beside each shown deal (lib/dealspublic.ts EqrFile); counts and words, no filed term
+const EQR = eqrFile as unknown as EqrFile;
 
 // Session 822: the public rows of the held table (lib/dealspublic.ts): the file warehouse/deals/public_rows.py writes
 // from the archive's copy of energy_deals and its evidence rows. Read once; a file that is not sound (a row without
@@ -115,7 +120,11 @@ async function DealsView() {
  * evidence as its sources and the other publishers as a count. */
 function toPublicDeal(r: PublicDealRow): Deal {
   const d = toDeal({ ...r, extra: r.extra });
-  return { ...d, source: r.source, storyUrls: r.public_evidence.map((e) => e.url), publicEvidence: r.public_evidence, otherPublishers: r.other_publishers };
+  const e = EQR.deals[r.event_id];
+  return {
+    ...d, source: r.source, storyUrls: r.public_evidence.map((e) => e.url), publicEvidence: r.public_evidence, otherPublishers: r.other_publishers,
+    eqr: e ? { ...e, quartersHeld: EQR.quarters_held } : undefined,
+  };
 }
 
 function toDeal(r: Awaited<ReturnType<typeof deals>>[number]): Deal {

@@ -546,6 +546,21 @@ async function truth(check) {
       if (p[2] === "unsettled") return file.counts.unsettled;
       return undefined;
     }
+    // session 825: the FERC EQR counts beside a shown deal, dealpub|eqr|<deal>|in_quarter and |any_quarter, from
+    // site/data/deals_eqr.json (warehouse/deals/eqr_join.py): read only when the live set's internal summary says the
+    // contracts table has the row count the file was joined against (the internal token; without it, not read)
+    if (p[1] === "eqr") {
+      const eqr = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "deals_eqr.json"), "utf-8"));
+      const e = eqr.deals[p[2]];
+      if (!e) return undefined;
+      const tok = process.env.INTERNAL_COSTS_TOKEN ?? "";
+      if (tok.length < 24) return undefined;
+      const res = await fetch(`${origin}/rest/v1/rpc/internal_eqr_summary`, { method: "POST", headers: { apikey: key, Authorization: `Bearer ${key}`, "Content-Type": "application/json" }, body: JSON.stringify({ p_token: tok }) });
+      if (!res.ok) return undefined;
+      const summary = await res.json();
+      if (Number(summary?.rows) !== Number(eqr.contracts_rows)) return undefined;   // the file was joined against another copy of the table
+      return p[3] === "in_quarter" ? e.in_quarter : p[3] === "any_quarter" ? e.any_quarter : undefined;
+    }
     // session 823: the tracker's figures (dealpub|tracker|all|<stat>, |selection|<stat>: the page with no selection) and
     // the comparables' cells (dealpub|comp_<stat>|<dimension>|<value>), recomputed with lib/deals2.ts's own functions
     // over the live set's rows whose ids the file lists as shown, the register's folded pairs shown once

@@ -69,6 +69,28 @@ export function monthsWithHeld(shown: { month: string; n: number }[], held: Reco
   return out;
 }
 
+// Session 825: the FERC EQR rows beside a shown deal (warehouse/deals/eqr_join.py, site/data/deals_eqr.json): the
+// count of filed contracts whose seller and buyer are the deal's parties, in the deal's quarter and in any quarter the
+// warehouse holds. ferc_eqr_contracts is internal by the ERW's own record, so the file carries counts and words only
+// (no filed term), and the panel on the row draws "license needed" where the terms would be. The count's key is
+// dealpub|eqr|<deal>|in_quarter or |any_quarter; scripts/check-values.mjs reads it from the file once the live set's
+// summary says the table is the one the file was joined against (its row count).
+export type EqrDealRow = { quarter: string; how: string; in_quarter: number; any_quarter: number; products: string[]; quarters: string[] };
+export type EqrFile = { written_by: string; contracts_rows: number; quarters_held: string[]; rule: string; deals: Record<string, EqrDealRow> };
+export const eqrKey = (id: string, scope: "in_quarter" | "any_quarter"): string => `dealpub|eqr|${id}|${scope}`;
+
+/** The panel's sentence for one deal: what was looked for, what was found, and that the terms are held. */
+export function eqrWords(e: EqrDealRow, quartersHeld: string[]): string {
+  const q = e.quarter.replace("_", " ");
+  const held = quartersHeld.map((x) => x.replace("_", " ")).join(", ") || "none";
+  const looked = e.how === "two parties" ? "a filed contract whose seller and buyer are two of this deal's parties" : "a filed contract naming this deal's one party as seller or buyer";
+  const inQ = quartersHeld.includes(e.quarter)
+    ? `${e.in_quarter} ${e.in_quarter === 1 ? "row matches" : "rows match"} in ${q}`
+    : `${q}'s filings are not held yet (a quarter's reports are filed after it ends)`;
+  const any = `${e.any_quarter} ${e.any_quarter === 1 ? "row matches" : "rows match"} in the ${quartersHeld.length === 1 ? "quarter" : "quarters"} held (${held})`;
+  return `Looked for ${looked}: ${inQ}; ${any}.`;
+}
+
 export const SORTS = ["shown", "held", "unsettled"] as const;
 export type Sort = (typeof SORTS)[number];
 

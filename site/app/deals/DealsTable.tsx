@@ -3,6 +3,7 @@
 import { Fragment, useEffect, useMemo, useState } from "react";
 import { Num } from "@/components/Num";
 import { companyAnchor, companyKey } from "@/lib/companies";
+import { type EqrDealRow, eqrKey, eqrWords } from "@/lib/dealspublic";
 
 export type Deal = {
   id: string;
@@ -31,7 +32,11 @@ export type Deal = {
    * publishers (whose terms ask for permission or are not read) also carry it, a count and never a name */
   publicEvidence?: { publisher: string; url: string; date: string }[];
   otherPublishers?: number;
+  /** session 825: the FERC EQR rows that match the deal's parties, as counts (the terms are internal: "license needed") */
+  eqr?: EqrDealRow & { quartersHeld: string[] };
 };
+
+const LICENSE_NEEDED = "license needed";
 
 /** The check key of a row's figure: event|energy_deals|<id>|<field> for a row the live set served; dealpub|<id>|<field>
  * for a shown row of the held table (session 822; lib/dealspublic.ts rowKey). */
@@ -259,6 +264,24 @@ export function DealsTable({ rows, companies = [] }: { rows: Deal[]; companies?:
                             ))
                           )}
                         </dd>
+                        {d.eqr ? (
+                          // session 825: the filed terms beside the deal. The join is done (warehouse/deals/eqr_join.py); the
+                          // terms are drawn as the catalogue's words while ferc_eqr_contracts is internal
+                          <>
+                            <dt className="text-muted">Filed terms (FERC EQR)</dt>
+                            <dd data-deal-eqr={d.eqr.any_quarter}>
+                              {eqrWords(d.eqr, d.eqr.quartersHeld)}{" "}
+                              <Num check={eqrKey(d.id, "in_quarter")} raw={d.eqr.in_quarter}>{String(d.eqr.in_quarter)}</Num>
+                              <span className="text-xs text-muted"> in the quarter, </span>
+                              <Num check={eqrKey(d.id, "any_quarter")} raw={d.eqr.any_quarter}>{String(d.eqr.any_quarter)}</Num>
+                              <span className="text-xs text-muted"> in any.</span>{" "}
+                              <span className="text-muted">
+                                The filed product, rate, quantity, delivery point and dates:{" "}
+                                <span data-license-held="ferc_eqr_contracts" title="ferc_eqr_contracts is internal by the ERW's own record: FERC's page has not been read for the Electric Quarterly Reports">{LICENSE_NEEDED}</span>.
+                              </span>
+                            </dd>
+                          </>
+                        ) : null}
                         <dt className="text-muted">Evidence</dt>
                         <dd className="text-muted">
                           {d.publicEvidence
