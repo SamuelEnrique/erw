@@ -165,6 +165,7 @@ ercot_storage_dam_offers_daily,ERCOT,the source registry and the tables its head
 ercot_storage_dam_offers_monthly,ERCOT,"the source registry and the tables its header derives it from: ercot_storage_dam_awards_monthly, ercot_storage_dam_offers_daily"
 ercot_storage_node_basis,ERCOT,"the source registry and the tables its header derives it from: ercot_dam_esr_awards, ercot_rtm_node_prices"
 ercot_storage_rt_monthly,ERCOT,"the source registry and the tables its header derives it from: ercot_all_hub_prices_history, ercot_dam_esr_awards, ercot_sced_esr_hourly, iso_dam_hub_prices, iso_rtm_hub_prices"
+ercot_transmission_projects,ERCOT,the source registry
 ercot_wind_solar_forecast,ERCOT,the source registry
 ercot_wind_solar_hsl_daily,ERCOT,the source registry
 ercot_wind_solar_hsl_hourly,ERCOT,the source registry

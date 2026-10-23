@@ -165,6 +165,7 @@ ercot_storage_dam_offers_daily,ERCOT,ercot_dam,1,P1D,2025-12-06T00:00:00Z,2026-0
 ercot_storage_dam_offers_monthly,ERCOT,ercot_dam,1,P1M,2025-12-01T00:00:00Z,2026-08-01T00:00:00Z,819,erw:ercot_storage_dam_offers,2026-10-22T15:17:37Z,pass,public,power,yes,derived
 ercot_storage_node_basis,ERCOT,ercot_rtm,293,P1W,2026-09-28T00:00:00Z,2026-09-28T00:00:00Z,2064,erw:ercot_storage_realtime,2026-10-19T17:22:33Z,pass,public,power,yes,derived
 ercot_storage_rt_monthly,ERCOT,,1,P1M,2026-02-01T00:00:00Z,2026-08-01T00:00:00Z,329,erw:ercot_storage_realtime,2026-10-19T17:22:33Z,pass,public,power,yes,derived
+ercot_transmission_projects,none,,1,event,2023-05-25T00:00:00Z,2033-12-15T00:00:00Z,2122,1 outlets,2026-10-23T01:45:24Z,pass,public,power,no,source
 ercot_wind_solar_forecast,ERCOT,,1,PT1H,2026-09-27T05:00:00Z,2026-10-29T15:00:00Z,2634,ercot:NP4-732-CD;ercot:NP4-745-CD,2026-10-22T17:32:57Z,pass,public,power,no,source
 ercot_wind_solar_hsl_daily,ERCOT,,1,P1D,2026-09-19T00:00:00Z,2026-10-21T00:00:00Z,192,ercot:np4_732_745,2026-10-22T14:49:08Z,pass,public,power,no,source
 ercot_wind_solar_hsl_hourly,ERCOT,,11,PT1H,2026-09-28T05:00:00Z,2026-10-22T12:00:00Z,8760,ercot:np4_742_745_region,2026-10-22T14:51:02Z,pass,public,power,no,source

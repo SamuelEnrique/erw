@@ -152,6 +152,7 @@ SECTOR_RULES = [
     (r"^eia_coal_production_annual$", "coal"),  # session 685: EIA's coal production by state, rank and mine type, a year
     (r"^eia_coal_mine_production_annual$", "coal"),  # session 694: EIA's coal production and employees by mine, a year
     (r"^ercot_cdr_reserve_margins$", "power"),  # session 851: ERCOT's CDR, load, capacity and reserve margin by season
+    (r"^ercot_transmission_projects$", "power"),  # session 852: ERCOT's TPIT, every transmission project
     (r"^eia861_utility_reliability$", "power"),  # session 695: EIA-861's distribution reliability (SAIDI, SAIFI, CAIDI) by utility
     (r"^eia_gas_storage_state_monthly$", "gas"),  # session 525: EIA's natural gas in underground storage by state, a month
     (r"^eia_state_capacity_annual$", "power"),  # session 526: EIA's state electricity profiles, net summer capacity
