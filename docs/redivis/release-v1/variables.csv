@@ -4084,6 +4084,29 @@ ercot_wind_solar_output_hourly,wind_generation_mw,series variable,MW
 ercot_zone_load_hourly,load,series variable,MW
 ercot_zone_prices_history,spp_dam,series variable,USD/MWh
 ercot_zone_prices_history,spp_rtm,series variable,USD/MWh
+fema_disaster_declarations,event_id,column,
+fema_disaster_declarations,event_date,column,
+fema_disaster_declarations,event_type,column,
+fema_disaster_declarations,parties,column,
+fema_disaster_declarations,entity_ids,column,
+fema_disaster_declarations,mw,column,
+fema_disaster_declarations,price,column,
+fema_disaster_declarations,currency,column,
+fema_disaster_declarations,status,column,
+fema_disaster_declarations,source,column,
+fema_disaster_declarations,source_url,column,
+fema_disaster_declarations,x_incident_type,column,
+fema_disaster_declarations,x_title,column,
+fema_disaster_declarations,x_state,column,
+fema_disaster_declarations,x_designated_area,column,
+fema_disaster_declarations,x_incident_begin,column,
+fema_disaster_declarations,x_incident_end,column,
+fema_disaster_declarations,x_programs,column,
+fema_disaster_declarations,x_disaster_number,column,
+fema_disaster_declarations,x_region,column,
+fema_disaster_declarations,x_tribal,column,
+fema_disaster_declarations,retrieved_at,column,
+fema_disaster_declarations,vintage,column,
 flex_alert_effects,actual_mw,series variable,MW
 flex_alert_effects,actual_mwh,series variable,MWh
 flex_alert_effects,alert_first_hour,series variable,hour
