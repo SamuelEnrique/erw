@@ -359,6 +359,7 @@ catalogue_hold:
   - eaglei_county_outages_daily
   - epa_rfs_rins_monthly
   - epa_rfs_fuel_annual
+  - eia_biofuel_plants
   - lbnl_hybrid_ppa_prices
   - lbnl_solar_projects
   - ornl_npd_potential
