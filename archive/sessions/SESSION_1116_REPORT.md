@@ -1,6 +1,6 @@
 # Session 1116 report: the price board's held rows and stale closes
 
-23 October 2026, 18:29 to 18:45 UTC, on samueloldlaptop, unattended, on `wip/1116-board` (cut from `wip/1112-ask`, while the landing gate of sessions 1108 to 1112 ran). Chain `queue/done/075-morning-23-october-code-ask-board.md`. Taken before sessions 1113 to 1115, which need a build and a model run after that landing. Model spend USD 0. No database read, no web request.
+23 October 2026, 18:29 to 18:40 UTC, on samueloldlaptop, unattended, on `wip/1116-board` (cut from `wip/1112-ask`, while the landing gate of sessions 1108 to 1112 ran). Chain `queue/done/075-morning-23-october-code-ask-board.md`. Taken before sessions 1113 to 1115, which need a build and a model run after that landing. Model spend USD 0. No database read, no web request.
 
 ## Read these first
 
