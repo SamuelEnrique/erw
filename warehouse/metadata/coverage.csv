@@ -304,6 +304,7 @@ noaa_isd_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,4,,2018-03-04T05:51:00Z,2
 noaa_station_weather_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,35,PT1H,2019-01-01T00:00:00Z,2026-10-18T03:00:00Z,4747179,noaa:isd_lite;noaa:lcd_v2,2026-10-21T08:45:57Z,pass,public,power,no,source
 node_basis_daily,ERCOT,ercot_dam;ercot_rtm,888,P1D,2025-10-01T00:00:00Z,2026-10-21T00:00:00Z,963285,erw:node_basis,2026-10-22T17:25:22Z,pass,public,power,yes,derived
 node_basis_summary,ERCOT,ercot_dam;ercot_rtm,1,P1M,2025-10-01T00:00:00Z,2026-10-01T00:00:00Z,1260,erw:node_basis,2026-10-22T17:25:22Z,pass,public,power,yes,derived
+nrc_power_reactors,nrc,,130,snapshot,2026-10-23T09:52:20Z,2026-10-23T09:53:52Z,130,nrc:power_reactors,2026-10-23T09:55:24Z,pass,public,power;uranium,no,source
 nrc_reactor_status,nrc,,99,P1D,2020-01-01T00:00:00Z,2026-10-22T00:00:00Z,234910,nrc:power_reactor_status,2026-10-22T17:33:58Z,pass,public,power;uranium,no,source
 nyiso_as_prices,NYISO,nyiso_dam,6,PT1H,2024-09-01T04:00:00Z,2026-10-05T03:00:00Z,293376,nyiso:damasp,2026-10-04T04:09:15Z,pass,public,power,no,source
 nyiso_dam_cleared_energy,NYISO,nyiso_dam,1,PT1H,2025-09-01T04:00:00Z,2026-10-12T03:00:00Z,9744,nyiso:damenergy,2026-10-10T15:00:04Z,pass,public,power,no,source
