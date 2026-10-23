@@ -25,7 +25,9 @@ const raw = fileJson as unknown as BoardFile;
 // those in the public catalogue, each as its CSV with a Python and a Stata reader
 const TABLES = ["ercot_all_hub_prices_history", "iso_hub_prices_history", "caiso_as_prices", "ercot_as_prices", "nyiso_as_prices", "spp_as_prices",
   "eia_fuel_spot_prices", "eia_product_spot_prices", "eia_crude_stream_prices", "eia_power_plant_fuel_costs", "eia_regional_retail_fuel_prices",
-  "eia_retail_electricity_prices", "carb_lcfs_credit_prices", "frb_treasury_yields", "imf_commodity_prices"];
+  "eia_retail_electricity_prices", "carb_lcfs_credit_prices", "frb_treasury_yields", "imf_commodity_prices",
+  // session 1117: three public price tables the board did not draw
+  "wb_commodity_prices_monthly", "eia_gas_prices_state_monthly", "eia_heating_fuel_prices_weekly"];
 
 export default function Board() {
   const file = holdRows(raw, licenseHeldGrids().map(gridName));
