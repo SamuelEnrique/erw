@@ -81,3 +81,7 @@ Read again by session 917 at 08:40 UTC. **The same row as a warehouse table:** "
 ## State on 23 October 2026, mid-morning (chain 073)
 
 Read again by session 1081 (chain 073) at about 09:55 UTC: **one row changed state.** A node's county, so the planned generation near it (row 23): **filled** for a placed node's county (1069, `eia860m_planned_generators` by county, ERCOT's generators due in the twelve months after the vintage). No table the other open rows wait on has landed (1068). The table's rows are left as written; this section says what changed.
+
+## State on 23 October 2026, morning (chain 052)
+
+Read again by session 931 at 10:20 UTC. **The same row as a warehouse table, wider:** "a node's county, so the planned generation near it", which chain 073's session 1069 draws on the tab from EIA-860M's generators due in the next twelve months, is also held as `ercot_node_planned_generation` (derived, method `docs/methods/ercot_node_planned_generation.md`) for the 569 nodes `ercot_node_places` places: ERCOT's active queue projects in the node's county (count, MW by solar, wind, storage, gas and other, the earliest proposed in-service date) and EIA-860M's planned generators there. The tab's twelve-month EIA-860M figure is within this table's all-planned figure in all 148 counties (session 936). A project in the county is not a project at the node. The other rows stay as chain 073 left them.
