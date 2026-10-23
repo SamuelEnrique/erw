@@ -10,8 +10,8 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 ## Read these first
 
-- **368 tables.** The flag and the verdict agree on 279; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 44 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
-- **The ERW's verdict (session 378): 262 public, 54 internal, 52 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
+- **369 tables.** The flag and the verdict agree on 279; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 45 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
+- **The ERW's verdict (session 378): 262 public, 54 internal, 53 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
 - **148 publishers in the record: 146 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 83 pages read, 63 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **0 tables are flagged internal where the sentence read allows them.**
@@ -255,7 +255,7 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | Ember | #133: read | "All content is released under a Creative Commons Attribution Licence (CC-BY-4.0)." | may be public | may be public | not named | none stated | Session 928 (read by session 924). The license allows the data, but the data files sit on files.ember-energy.org, whose robots file disallows every path but PDFs (read 134): no ERW table holds Ember's data. |
 | Texas Comptroller of Public Accounts | #148: read | "Information on CPA's sites is public domain and may be copied and used as permitted by law, with the exception of pictures, official symbols, and registered service marked names and logos." | may be public | may be public | not named | none stated | Session 942. Read in the policy's 'Policy Disclaimer and Limitation of Liability'; its policies page (read 143) states no terms of its own. |
 
-**Publishers no read of this sweep covers (27):** Arizona Corporation Commission; Bonneville Power Administration (BPA); CME Group (NYMEX), whose prices EIA republished; CTVC; Catalyst Cooperative (PUDL), from FERC Form 714; Electrek; Energy-Storage.news; FERC; Georgia Public Service Commission; Illinois Commerce Commission; Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department; OPEC: Publications; Oregon Public Utility Commission; Organization of the Petroleum Exporting Countries; PJM (its news releases); Pennsylvania Public Utility Commission; Public Utilities Commission of Ohio; Public Utility Commission of Texas; Public Utility District No. 2 of Grant County, Washington (Grant PUD); Texas-New Mexico Power Company; Texas.gov; U.S. Department of the Interior, Office of Natural Resources Revenue (ONRR); Virginia State Corporation Commission; the outlets of news_stories; utilities and operators, each row's own document (not listed one by one).
+**Publishers no read of this sweep covers (28):** Arizona Corporation Commission; Bonneville Power Administration (BPA); CME Group (NYMEX), whose prices EIA republished; CTVC; Catalyst Cooperative (PUDL), from FERC Form 714; Electrek; Energy-Storage.news; FERC; Georgia Public Service Commission; Illinois Commerce Commission; Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department; OPEC: Publications; Oregon Public Utility Commission; Organization of the Petroleum Exporting Countries; PJM (its news releases); Pennsylvania Public Utility Commission; Public Utilities Commission of Ohio; Public Utility Commission of Texas; Public Utility District No. 2 of Grant County, Washington (Grant PUD); Texas-New Mexico Power Company; Texas.gov; U.S. Department of the Interior, Bureau of Land Management (BLM); U.S. Department of the Interior, Office of Natural Resources Revenue (ONRR); Virginia State Corporation Commission; the outlets of news_stories; utilities and operators, each row's own document (not listed one by one).
 
 ## Every table
 
@@ -272,6 +272,7 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | `battery_stack_monthly` | CAISO; ERCOT | may be public |  |  | public | agrees | may be public | public |
 | `battery_stack_review_monthly` | NYISO; SPP | needs written permission | NYISO |  | public | ruled: license needed from 2026-10-21 | needs written permission | unsettled |
 | `battery_stack_stress_daily` | CAISO; ERCOT | may be public |  |  | public | agrees | may be public | public |
+| `blm_ca_renewable_rows` | U.S. Department of the Interior, Bureau of Land Management (BLM) | not settled (needs written permission by default) |  | U.S. Department of the Interior, Bureau of Land Management (BLM) | public | not settled | may be public | unsettled |
 | `boem_ogor_lease_production_monthly` | Bureau of Ocean Energy Management (BOEM) | may be public |  |  | public | agrees | may be public | public |
 | `boem_renewable_leases` | Bureau of Ocean Energy Management (BOEM) | may be public |  |  | public | agrees | may be public | public |
 | `caiso_area_load_hourly` | CAISO | may be public |  |  | public | agrees | may be public | public |
@@ -695,6 +696,7 @@ None of these was changed. Each is a ruling.
 
 ### Not settled: a publisher was not read
 
+- `blm_ca_renewable_rows` (flag public): not read: U.S. Department of the Interior, Bureau of Land Management (BLM).
 - `eia_all_futures_prices` (flag internal): not read: CME Group (NYMEX), whose prices EIA republished.
 - `ferc714_area_demand_2006` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
 - `ferc714_area_demand_2007` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
