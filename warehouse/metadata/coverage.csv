@@ -292,6 +292,7 @@ interconnection_agreements_signed,interconnection,,2522,snapshot,2026-10-02T09:1
 interconnection_durations,interconnection,,3098,snapshot,2026-10-02T09:16:25Z,2026-10-02T09:16:25Z,3098,erw:interconnection_durations,2026-10-22T09:46:56Z,pass,public,power,no,derived
 interconnection_durations_summary,interconnection,,9,P1Y,1999-01-01T00:00:00Z,2025-01-01T00:00:00Z,1365,erw:interconnection_durations,2026-10-22T09:46:56Z,pass,public,power,yes,derived
 interconnection_queue_summary,interconnection,,76,P1Y,1995-01-01T00:00:00Z,2025-01-01T00:00:00Z,17246,erw:interconnection_queue_summary,2026-10-04T17:29:25Z,pass,public,power,yes,derived
+irena_capacity_annual,irena,,224,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,20662,irena:irenastat_elecstat,2026-10-23T21:09:48Z,pass,internal,power,no,source
 iso_all_capacity_prices,ISO-NE;MISO;NYISO;PJM,isone_fca;miso_pra;nyiso_icap_spot;pjm_bra,39,P1M;P1Y;P3M,2007-06-01T00:00:00Z,2028-06-01T00:00:00Z,814,isone:fca-results;miso:pra-results-posting;nyiso:icap-spot-auction;pjm:rpm-clearing-price-summary,2026-10-02T19:47:50Z,pass,internal,capacity,no,source
 iso_curtailment_monthly,iso,,2,P1M,2014-03-01T00:00:00Z,2026-09-01T00:00:00Z,3232,erw:iso_curtailment_monthly,2026-10-23T14:45:58Z,pass,public,power,yes,derived
 iso_dam_hub_prices,CAISO;ERCOT;MISO;SPP,caiso_dam;ercot_dam;miso_dam;spp_dam,19,PT1H,2026-08-26T05:00:00Z,2026-10-24T06:00:00Z,23016,caiso:PRC_LMP;ercot:NP4-190-CD;miso:da_expost_lmp;spp:DA-LMP-SL,2026-10-23T14:18:24Z,pass,public,power,no,source

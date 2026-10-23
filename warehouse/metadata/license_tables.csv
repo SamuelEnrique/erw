@@ -292,6 +292,7 @@ interconnection_agreements_signed,Berkeley Lab,the source registry and the table
 interconnection_durations,Berkeley Lab,the source registry and the tables its header derives it from: lbnl_interconnection_queue
 interconnection_durations_summary,Berkeley Lab,the source registry and the tables its header derives it from: lbnl_interconnection_queue
 interconnection_queue_summary,Berkeley Lab,the source registry and the tables its header derives it from: lbnl_interconnection_queue
+irena_capacity_annual,International Renewable Energy Agency (IRENA),the source registry
 iso_all_capacity_prices,ISO-NE; MISO; NYISO; PJM,the source registry
 iso_curtailment_monthly,CAISO; ERCOT; SPP,"the source registry and the tables its header derives it from: caiso_curtailment_daily, ercot_wind_solar_hsl_daily, spp_curtailment_daily"
 iso_dam_hub_prices,CAISO; ERCOT; MISO; SPP,the grids its coverage row lists (a table of several operators' own prices)
