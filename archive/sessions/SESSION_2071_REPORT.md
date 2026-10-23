@@ -7,7 +7,7 @@
 - **One table written, validated, archived, in coverage (sector power, public), in the release package, both holds:** `aeso_alberta_load_hourly`, 15,853 rows: Alberta internal load (AIL) in MW, an hour, from 1 January 2025 (07:00 UTC, Alberta's midnight) to 23 October 2026, continuous.
 - **The pool price is not taken,** for want of a Canadian dollar unit (the standing question, as in session 2070); the saved reports hold it.
 - **Alberta's hours:** the report gives an hour ending in local time with daylight saving: the spring day has 23 lines (no "02") and the autumn day 25 ("02" then "02*"). Each hour is placed by its order within its local day, from the day's local midnight in UTC; a day whose hours are not the AESO's 23, 24 or 25 in order stops the run (only the report's last day may stop short, its future hours written "-").
-- **The AESO's verdict stands** (read 46): may be public for non-commercial and educational use, unmodified, with its copyright notices; a commercial use needs its written permission. The table's flag is public, as the AESO's other table is.
+- **The AESO's verdict stands** (read 46): may be public for non-commercial and educational use, unmodified, with its copyright notices; a commercial use needs its written permission. The table's flag is public. (Session 2079's note corrected an earlier line here, which said "as the AESO's other table is": the AESO's other source feeds `large_load_waits`, which is held internal.)
 
 ## The cross-check
 

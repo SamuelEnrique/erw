@@ -6,7 +6,7 @@
 
 - **One table written, validated, archived, in coverage (sectors carbon, power, oil and gas, public), in the release package, both holds:** `epa_ghgrp_facility_emissions`, 70,338 rows: every reporting facility's total reported emissions a year, 2015 to 2023, in metric tons of CO2 equivalent, from the six emitting segments of EPA's by-year workbook: direct point emitters (8,205 facilities: power plants, refineries, chemicals, waste, metals and the rest), onshore oil and gas production (830), gathering and boosting (476), transmission pipelines (240 facility-states), local distribution companies (189) and SF6 from electrical equipment (137). Each row carries the facility's FRS id, NAICS code, industry types by subpart and sector, basin and county.
 - **A new unit, `tCO2e`** (metric tons of CO2 equivalent, AR4 global warming potentials, Decision 61), added to `docs/datastandard.md` and the validator together; the write ran with the branch's validator, kept through the coverage step (the row reads "pass"). The held power table, `epa_ghgrp_power_co2`, kept CO2 alone for want of this unit (session 492); it is not changed.
-- **Pipelines and distribution companies are listed a row a state** where the emissions occur: their entity is `ghgrp:<facility id>:<state>`, with `x_emission_state`; seven distribution companies name no such state and keep `ghgrp:<facility id>`, their geo the reported state.
+- **Pipelines and distribution companies are listed a row a state** where the emissions occur: their entity is `ghgrp:<facility id>:<state>`, with `x_emission_state`; a distribution company that names no such state keeps `ghgrp:<facility id>`, its geo the reported state: one row of the table, `ghgrp:1008674` in 2015 (seven rows of the workbook name no state; the others have no value from 2015, found by session 2079).
 - **Not taken:** the suppliers' sheet (the greenhouse gas in fuels and gases supplied, not emitted), CO2 injection and geologic sequestration (quantities, not emissions), and the years before 2015 (the workbook holds 2011 on).
 
 ## The cross-check
@@ -15,7 +15,7 @@ The direct emitters against `epa_ghgrp_power_co2`'s non-biogenic CO2 for the sam
 
 ## Errors
 
-- **Three trials stopped before the fourth wrote:** a transmission pipeline given a row a state (the key now includes the state), a state written as a code where the others give names (both accepted now), and seven distribution companies that name no state (they keep the facility's id).
+- **Three trials stopped before the fourth wrote:** a transmission pipeline given a row a state (the key now includes the state), a state written as a code where the others give names (both accepted now), and the distribution companies that name no state (they keep the facility's id; one row of the table, session 2079).
 
 ## Decisions made without you
 

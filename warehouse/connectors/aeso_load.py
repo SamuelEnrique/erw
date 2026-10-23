@@ -23,8 +23,8 @@ stops the run.
 
     python warehouse/connectors/aeso_load.py [--offline] [--out-dir DIR]
 
-Ceiling: two requests, last year (1 January to 31 December) and this year to tomorrow (31 December of last year to
-tomorrow, the end not included): the AESO's report is asked for at most a year at a time. ets.aeso.ca has no robots file
+Ceiling: two requests, last year (1 January to 30 December: the report's end date, 31 December, is not included) and
+this year to tomorrow (31 December of last year to tomorrow, the end again not included): the AESO's report is asked for at most a year at a time. ets.aeso.ca has no robots file
 (HTTP 404, session 2071). License: the AESO's legal page: "The material may be used and copied for non-commercial,
 personal or educational purposes, provided that the material is not modified and that copyright notices are not
 deleted" (read 46; commercial use needs the AESO's written permission).

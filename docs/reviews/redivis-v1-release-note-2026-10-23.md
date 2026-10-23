@@ -147,3 +147,11 @@ What session 1010 found on the way (23 October 2026, 11 of its 100 Redivis reque
 - **Two of the five were written again after the upload** (session 2052's corrections): `noaa_ncei_storm_events` now codes the territories' 690 rows, and `nrc_event_notifications` gives every last update as a date. Their row counts are unchanged, so a reconcile counts them as matching; the draft holds the versions before the corrections until a later upload.
 - **No reconcile after the upload:** 80 of the session's 150 requests were spent (6 and 74); the last reconcile was part of the run the system stopped.
 - Nothing released. **Samuel: do not click before chains 057, 058 and 059 have landed and a full upload has refreshed `erw_coverage` with their tables** (chain 058's session 2038 or chain 066's session 2066).
+
+## Chain 067's upload (session 2080, 23 October 2026, 20:30 to 20:33 UTC)
+
+- **Four public tables uploaded to the Stanford draft, each proved by the draft's count:** `ieso_ontario_demand_hourly` (31,680), `aeso_alberta_load_hourly` (15,853), `epa_ghgrp_facility_emissions` (70,338) and `noaa_ncei_billion_disasters` (403).
+- **The metadata tables refreshed from a branch that holds chains 057, 059 and 067's tables:** `erw_coverage` 401 rows (chain 059's upload had left main's 385), `erw_sources` 489, `erw_headers` 3,860 lines.
+- **A reconcile:** 292 tables, 248 match, 44 differ (tables daily runs have grown since their upload), none missing.
+- **Two tables' headers in the draft are their earlier ones** (`epa_ghgrp_facility_emissions`, `noaa_ncei_billion_disasters`, written again for their headers' words after the upload; same rows).
+- Nothing released. **Samuel: do not click before chains 058 and 066 have landed and uploaded their tables.**

@@ -131,7 +131,8 @@ def main(argv=None):
             "disaster type in snake case; x_cost_cpi_adjusted_usd and x_cost_unadjusted_usd NCEI's millions written as dollars; x_deaths as published.",
             f"{len(t)} events, CPI-adjusted cost USD {cost:,.0f}: " + "; ".join(f"{k} {v}" for k, v in by.items())
             + ". The file names no state; the product's maps are not taken. Values as published; nothing is filled.",
-            f"Retrieved: {run_id} (UTC) by warehouse/connectors/noaa_billion_disasters.py; the file retrieved {rec.get('retrieved_at') or ''}, last modified {ip.vintage_of(rec)}",
+            f"Retrieved: {run_id} (UTC) by warehouse/connectors/noaa_billion_disasters.py; the file retrieved {rec.get('retrieved_at') or ''}"
+            + (f", last modified {ip.vintage_of(rec)}" if ip.vintage_of(rec) else " (NCEI gave no last-modified time)"),
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
             f"Source: {SOURCE} NOAA National Centers for Environmental Information (NCEI) U.S. Billion-Dollar Weather and Climate Disasters (2025), {PAGE}, DOI: {DOI}",

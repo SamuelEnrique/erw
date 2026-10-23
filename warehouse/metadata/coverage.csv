@@ -200,7 +200,7 @@ energy_companies,none,,488,snapshot,2026-09-28T17:04:21Z,2026-10-23T15:01:53Z,48
 energy_deals,none,,24,event,2025-01-05T08:00:00Z,2026-10-23T13:10:41Z,514,24 outlets,2026-10-23T15:01:15Z,pass,public,deals,no,model_extracted
 energy_deals_evidence,none,,26,event,2025-01-05T08:00:00Z,2026-10-23T13:10:41Z,568,26 outlets,2026-10-23T15:01:15Z,pass,internal,deals,no,model_extracted
 energy_projects,none,,39786,snapshot,2026-09-26T00:04:26Z,2026-10-19T20:31:58Z,39786,erw:energy_projects,2026-10-19T20:35:19Z,pass,public,power,no,derived
-epa_ghgrp_facility_emissions,epa,,9721,P1Y,2015-01-01T00:00:00Z,2023-01-01T00:00:00Z,70338,epa:ghgrp_facilities,2026-10-23T20:17:08Z,pass,public,carbon;power;oil;gas,no,source
+epa_ghgrp_facility_emissions,epa,,9721,P1Y,2015-01-01T00:00:00Z,2023-01-01T00:00:00Z,70338,epa:ghgrp_facilities,2026-10-23T20:36:05Z,pass,public,carbon;power;oil;gas,no,source
 epa_ghgrp_power_co2,epa,,1509,P1Y,2010-01-01T00:00:00Z,2023-01-01T00:00:00Z,17035,epa:ghgrp,2026-10-21T18:32:52Z,pass,public,power;carbon,no,source
 ercot_4cp_intervals,ERCOT,ercot_4cp,1,PT15M,2018-06-27T21:45:00Z,2025-09-04T22:15:00Z,28,ercot:NP9-83-M,2026-10-20T10:23:19Z,pass,public,power,no,source
 ercot_all_hub_prices_history,ERCOT,ercot_dam;ercot_rtm,6,PT15M;PT1H,2015-01-01T06:00:00Z,2026-10-23T04:00:00Z,3104178,ercot:NP4-180-ER;ercot:NP4-190-CD;ercot:NP6-785-ER;ercot:NP6-905-CD,2026-09-26T00:09:58Z,pass,public,power,no,source
@@ -338,7 +338,7 @@ noaa_grid_weather_daily,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,P1D,2019-01-01T
 noaa_grid_weather_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,PT1H,2019-01-01T00:00:00Z,2026-10-18T03:00:00Z,1907625,noaa:isd_lite;noaa:lcd_v2,2026-10-21T08:45:57Z,pass,public,power,no,source
 noaa_grid_weather_stations,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,,2019-01-01T00:00:00Z,2019-01-01T00:00:00Z,245,noaa:isd_lite,2026-10-21T08:45:57Z,pass,public,power,no,source
 noaa_isd_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,4,,2018-03-04T05:51:00Z,2025-08-27T06:53:00Z,412435,noaa:isd_global_hourly,2026-10-01T03:54:43Z,pass,public,power,no,source
-noaa_ncei_billion_disasters,none,,1,event,1980-04-10T00:00:00Z,2024-10-09T00:00:00Z,403,1 outlets,2026-10-23T20:20:30Z,pass,public,power,no,source
+noaa_ncei_billion_disasters,none,,1,event,1980-04-10T00:00:00Z,2024-10-09T00:00:00Z,403,1 outlets,2026-10-23T20:36:19Z,pass,public,power,no,source
 noaa_ncei_storm_events,none,,1,event,2015-01-01T06:00:00Z,2026-07-01T05:49:00Z,411139,1 outlets,2026-10-23T19:33:10Z,pass,public,power,no,source
 noaa_station_weather_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,35,PT1H,2019-01-01T00:00:00Z,2026-10-18T03:00:00Z,4747179,noaa:isd_lite;noaa:lcd_v2,2026-10-21T08:45:57Z,pass,public,power,no,source
 node_basis_daily,ERCOT,ercot_dam;ercot_rtm,888,P1D,2025-10-01T00:00:00Z,2026-10-21T00:00:00Z,963285,erw:node_basis,2026-10-22T17:25:22Z,pass,public,power,yes,derived

@@ -66,6 +66,7 @@ COLS = ["entity", "variable", "ts_utc", "value", "unit", "freq", "geo", "market"
 SEGMENTS = {"Direct Point Emitters": "direct", "Onshore Oil & Gas Prod.": "onshore_production",
             "Gathering & Boosting": "gathering_boosting", "Transmission Pipelines": "transmission_pipelines",
             "LDC - Direct Emissions": "ldc", "SF6 from Elec. Equip.": "sf6_equipment"}
+BY_STATE = ("Transmission Pipelines", "LDC - Direct Emissions")
 YEAR_RE = re.compile(r"^(\d{4}) Total reported (?:direct )?emissions")
 STATE_RE = re.compile(r"^[A-Z]{2}$")
 NAMES = {"Alabama": "AL", "Alaska": "AK", "Arizona": "AZ", "Arkansas": "AR", "California": "CA", "Colorado": "CO",
@@ -208,9 +209,9 @@ def main(argv=None):
         header = [
             f"Energy Research Warehouse (ERW): U.S. EPA, Greenhouse Gas Reporting Program, data summary {year}: every reporting facility's total reported emissions by year, "
             f"{args.first_year} to {year}, in the six emitting segments of the summary (session 2072)",
-            "Shape: series (docs/datastandard.md v0). entity ghgrp:<facility id>; variable emissions_<segment> (direct, onshore_production, gathering_boosting, "
+            "Shape: series (docs/datastandard.md v0). entity ghgrp:<facility id>, or ghgrp:<facility id>:<state> for transmission pipelines and local distribution companies (a row a state where the emissions occur); variable emissions_<segment> (direct, onshore_production, gathering_boosting, "
             "transmission_pipelines, ldc, sf6_equipment); unit tCO2e (metric tons of CO2 equivalent, AR4 global warming potentials, Decision 61); ts_utc the year's 1 January; freq P1Y.",
-            f"{len(t)} rows: " + "; ".join(f"{s} {r.facilities} facilities, {r.rows} rows" for s, r in by.iterrows())
+            f"{len(t)} rows: " + "; ".join(f"{s} {r.facilities} {'facility-states' if s in BY_STATE else 'facilities'}, {r.rows} rows" for s, r in by.iterrows())
             + ". Suppliers, CO2 injection and sequestration are quantities, not emissions, and are not taken. A blank cell has no row; nothing is filled.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/ghgrp_facilities.py; the zip retrieved {rec.get('retrieved_at') or ''}, last modified {ip.vintage_of(rec)}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
