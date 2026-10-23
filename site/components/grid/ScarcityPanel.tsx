@@ -8,6 +8,9 @@
 // grids are not in the table: one line each says why (license needed, paused, or not yet held), and the Lower 48 links
 // the two grids it holds. Every figure is a lib/scarcityStrip.ts figure: a key check-values recomputes and a one-line
 // source in its hover tip.
+// Session 1155: for CAISO, the days of the window with an Energy Emergency Alert or a Flex Alert in force
+// (caiso_grid_emergencies, lib/caisoAlerts.ts alertDays) are marked on the day axis, a triangle under the day, each
+// cell's hover naming the day's notices; the counts of alert days and restricted maintenance days (not alerts) keyed.
 import { HeatChart } from "@/components/svgchart";
 import { Missing } from "@/components/mix/Now";
 import { Num } from "@/components/Num";
@@ -15,9 +18,11 @@ import { Section } from "@/components/Section";
 import { SiteLink } from "@/components/SiteLink";
 import { newest, renderTime } from "@/lib/data";
 import { shown } from "@/lib/format";
+import { ALERT_TABLE, alertDays, shortName, type AlertDays } from "@/lib/caisoAlerts";
 import { gridHref } from "@/lib/gridtool";
 import { LICENSE_FROM, LICENSE_NEEDED, licenseHeldGrid } from "@/lib/license";
 import { DAILY_PRICE_TABLE, RT_PRICE_TABLE, SCARCITY_GRIDS, SCARCITY_LEVEL, SCARCITY_TABLE, isScarcityGrid, scarcityStrip, windowOf, type Fig, type ScarcityGrid } from "@/lib/scarcityStrip";
+import { gridNotices } from "@/lib/reliability";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
 
 const METHOD = "/data/methods/scarcity_hours_by_grid";
@@ -35,6 +40,9 @@ function F({ f }: { f: Fig }) {
   );
 }
 
+/** A count of days of lib/caisoAlerts.ts, drawn as the panel's own figures (session 1155). */
+const days = (f: AlertDays["signal"]): Fig => ({ check: f.check, raw: Number(f.raw), tip: f.tip });
+
 /** Why a grid is not in the table, in the brand's words: the word on the face, the reason beside it. */
 function notHeld(grid: string, label: string): { words: string; why: string } {
   if (grid === "pjm") return { words: LICENSE_NEEDED, why: `No PJM price is held, so ${SCARCITY_TABLE} cannot count PJM's hours at or above ${LEVEL}; PJM's own signal is not held as a table either.` };
@@ -48,15 +56,27 @@ async function stripOf(g: ScarcityGrid) {
   if (!top) return null;
   const w = windowOf(top.ts_utc, g.behind);
   const span = `(ts_utc.gte.${w.start},ts_utc.lt.${w.end})`;
-  const [rows, prices, daily] = await Promise.all([
+  const [rows, prices, daily, notices] = await Promise.all([
     rest<{ variable: string; ts_utc: string; value: number }>("series", { select: "variable,ts_utc,value", table_name: `eq.${SCARCITY_TABLE}`, entity: `eq.${g.entity}`, and: span, order: "ts_utc,variable" }, HOURLY),
     attempt(() => rest<{ ts_utc: string; value: number }>("series", { select: "ts_utc,value", table_name: `eq.${RT_PRICE_TABLE}`, entity: `eq.${g.price.entity}`, variable: `eq.${g.price.variable}`, and: span, order: "ts_utc" }, HOURLY)),
     g.daily ? attempt(() => rest<{ ts_utc: string; value: number }>("series", { select: "ts_utc,value", table_name: `eq.${DAILY_PRICE_TABLE}`, entity: `eq.${g.daily!.entity}`, variable: `eq.${g.daily!.variable}`,
       and: `(ts_utc.gte.${w.days[0]}T00:00:00Z,ts_utc.lte.${w.days[w.days.length - 1]}T00:00:00Z)`, order: "ts_utc" }, HOURLY)) : Promise.resolve(null),
+    // session 1155: CAISO's notices, the same read as the Reliability section above (lib/reliability.ts, one request)
+    g.slug === "caiso" ? attempt(() => gridNotices()) : Promise.resolve(null),
   ]);
+  const s = scarcityStrip(g, { rows, prices: prices.ok ? prices.data : [], daily: daily && daily.ok ? daily.data : [], newest: top.ts_utc });
+  const alerts = notices && notices.ok ? alertDays(notices.data, w.days) : null;
+  if (alerts) {
+    // each cell of an alert day names the day's notices in its hover
+    for (const [d, ts] of alerts.byDay) {
+      const j = w.days.indexOf(d);
+      if (j >= 0) for (const row of s.tips) row[j] = `${row[j]} CAISO's notices that Pacific day (${ALERT_TABLE}): ${ts.map(shortName).join(", ")}.`;
+    }
+  }
   return {
-    s: scarcityStrip(g, { rows, prices: prices.ok ? prices.data : [], daily: daily && daily.ok ? daily.data : [], newest: top.ts_utc }),
-    failed: [...(prices.ok ? [] : [`${RT_PRICE_TABLE}: ${prices.reason}`]), ...(daily && !daily.ok ? [`${DAILY_PRICE_TABLE}: ${daily.reason}`] : [])],
+    s, alerts,
+    failed: [...(prices.ok ? [] : [`${RT_PRICE_TABLE}: ${prices.reason}`]), ...(daily && !daily.ok ? [`${DAILY_PRICE_TABLE}: ${daily.reason}`] : []),
+      ...(notices && !notices.ok ? [`${ALERT_TABLE}: ${notices.reason}`] : [])],
   };
 }
 
@@ -64,7 +84,7 @@ async function Strip({ g }: { g: ScarcityGrid }) {
   const read = await attempt(() => stripOf(g));
   if (!read.ok) return <Missing why={`${SCARCITY_TABLE} could not be read just now: ${read.reason}`} words="working on it" />;
   if (!read.data) return <Missing why={`${SCARCITY_TABLE} holds no hour of ${g.label}.`} />;
-  const { s, failed } = read.data;
+  const { s, alerts, failed } = read.data;
   const w = s.window;
   const ago = Math.floor((renderTime() - (Date.parse(s.newest) + 3_600_000)) / D);
   const label = `${g.label}: the hours at or above ${LEVEL}, ${dayName(w.days[0])} to ${dayName(w.days[w.days.length - 1])}, by day and hour of day (${g.zone})`;
@@ -75,12 +95,23 @@ async function Strip({ g }: { g: ScarcityGrid }) {
         The table&apos;s newest hour starts {utc(s.newest)}, {ago} {ago === 1 ? "day" : "days"} before this page was drawn: it is rebuilt each month on the data machine, so these are not the 30 days before today.
         A filled cell is an hour whose real-time or day-ahead price at {g.hub} was at or above {LEVEL}; a square marks an hour of the grid&apos;s own signal ({g.own}). Hover a cell for its hour, its variables and its highest price.
       </p>
-      <HeatChart id={`scarcity-${g.slug}`} rows={s.rows} cols={s.cols} cells={s.cells} tips={s.tips} marks={s.marks} unit="" lo={0} hi={1} label={label}
+      <HeatChart id={`scarcity-${g.slug}`} rows={s.rows} cols={s.cols} cells={s.cells} tips={s.tips} marks={s.marks} colMarks={alerts?.cols} unit="" lo={0} hi={1} label={label}
         legend={["held, below USD 1,000", "at or above USD 1,000"]} />
       <p className="mt-1 text-xs text-muted" data-scarcity-marks={s.marks.length}>
         <span className="mr-1 inline-block h-2 w-2 align-middle" style={{ background: "var(--color-ink)" }} aria-hidden="true" />
         the grid&apos;s own signal in force ({g.own}){s.own ? "" : `: not held for these days (${g.ownMissing})`}.
       </p>
+      {g.slug === "caiso" ? (
+        <p className="mt-1 text-xs text-muted" data-scarcity-alert-days={alerts ? alerts.cols.length : "unread"}>
+          <svg width="10" height="8" className="mr-1 inline-block align-middle" aria-hidden="true"><path d="M1 7L9 7L5 1Z" fill="var(--color-ink)" /></svg>
+          {alerts ? <>
+            under a day: an Energy Emergency Alert or a Flex Alert in force that Pacific day ({ALERT_TABLE}; the notice&apos;s Pacific day set on the
+            same date of the strip&apos;s standard-time days): <F f={days(alerts.signal)} /> days of these 30{alerts.cols.length ? ` (${[...alerts.byDay.keys()].join(", ")})` : ""}.
+            {" "}Restricted maintenance, not an alert and not marked: <F f={days(alerts.rmoFig)} /> days{alerts.rmo.length ? ` (${alerts.rmo.join(", ")})` : ""}{alerts.tx.length ? `; a transmission emergency, not an alert, on ${alerts.tx.join(", ")}` : ""}.
+            {" "}<SiteLink href={`${gridHref("caiso", "mix")}#caiso-alerts`}>CAISO&apos;s alerts today</SiteLink>.
+          </> : <>under a day: an alert day; {ALERT_TABLE} could not be read just now{failed.length ? ` (${failed.filter((x) => x.startsWith(ALERT_TABLE)).join("; ")})` : ""}.</>}
+        </p>
+      ) : null}
       <ul className="mt-3 max-w-3xl list-disc space-y-1 pl-5 text-sm" data-scarcity-counts={g.slug}>
         {s.rt ? <li>Real time: <F f={s.rt.hours} /> of <F f={s.rt.held} /> hours held at or above {LEVEL} (the hour&apos;s mean at {g.hub}); <F f={s.rt.intervals} /> 15-minute intervals at or above it.</li> : <li>Real time: no hour of these days is held.</li>}
         {s.da ? <li>Day ahead: <F f={s.da.hours} /> of <F f={s.da.held} /> hours held at or above {LEVEL}.</li> : <li>Day ahead: no hour of these days is held.</li>}

@@ -380,10 +380,13 @@ export function CategoryChart({ id, x, series, unit, unit2 = "", label, height =
 // ---------------------------------------------------------------------------------------------------------------------
 // HeatChart
 // ---------------------------------------------------------------------------------------------------------------------
-export function HeatChart({ id, rows, cols, cells, unit, label, tips, marks, lo: loGiven, hi: hiGiven, legend, table: tableFirst = false }: {
+export function HeatChart({ id, rows, cols, cells, unit, label, tips, marks, colMarks, lo: loGiven, hi: hiGiven, legend, table: tableFirst = false }: {
   id: string; rows: string[]; cols: string[]; cells: (number | null)[][]; unit: string; label: string;
   /** [row][col]: the cell's own words for the hover (else "row, col: value unit") */
-  tips?: string[][]; marks?: [number, number][]; lo?: number; hi?: number;
+  tips?: string[][]; marks?: [number, number][];
+  /** session 1155: columns marked on the column axis, a small triangle under the column (the scarcity strip's CAISO alert
+   *  days); off by default, so no other chart changes. The caller says what the mark means beside the chart. */
+  colMarks?: number[]; lo?: number; hi?: number;
   /** the words at the two ends of the scale */
   legend?: [string, string]; table?: boolean;
 }) {
@@ -434,6 +437,7 @@ export function HeatChart({ id, rows, cols, cells, unit, label, tips, marks, lo:
                 fillOpacity={v === null || v === undefined ? 1 : opacityOf(v)} stroke="var(--color-surface)" strokeWidth="0.75" data-cell={`${i}-${j}`} />
             )))}
             {marks?.map(([r, c]) => <rect key={`m${r}-${c}`} x={L + c * cw + cw / 2 - 3} y={TOP + r * ch + ch / 2 - 3} width="6" height="6" fill="var(--color-ink)" />)}
+            {colMarks?.map((c) => { const x = L + c * cw + cw / 2, y = TOP + rows.length * ch + 1; return <path key={`c${c}`} d={`M${x - 4} ${y + 4.5}L${x + 4} ${y + 4.5}L${x} ${y}Z`} fill="var(--color-ink)" data-col-mark={c} />; })}
             {hover ? <rect x={L + hover[1] * cw} y={TOP + hover[0] * ch} width={cw} height={ch} fill="none" stroke="var(--color-ink)" strokeWidth="1.5" /> : null}
             {/* session 331: the scale starts after its first word (it stood 110 px past the row labels whatever that word's
                 width, and ran past a phone's drawing); the whole legend starts at the left edge where it would not fit */}

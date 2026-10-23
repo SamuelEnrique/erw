@@ -253,6 +253,7 @@ async function all(table, params) {
 const impactRows = new Map(), impactAll = new Map();   // session 347: /impact's rows, by technology and state, and by technology
 const dcAnswers = new Map();   // session 228: the answers of one address of /cost-of-power, read once
 const dcllRows = new Map();
+let aweRows = null;   // session 1155: caiso_grid_emergencies, every row (event_date, event_type), read once for the awe|last and awe|ndays keys
 const dcqRows = new Map();   // session 468: the view by grid of /datacenters, one grid's groups read once
 let R_statOf = null;
 /** Session 471: a CSV file's rows as objects, by its header (quoted cells, doubled quotes inside them). */
@@ -325,6 +326,15 @@ async function truth(check) {
   }
   // session 58: /grid/caiso's Reliability timeline, awe|days|<type>|<year>: the distinct local days with a CAISO notice of the
   // type in the year (caiso_grid_emergencies, the events table)
+  // session 1155: the Grid tool's CAISO alert state and alert days (grid_caisoalert_caiso, the scarcity strip, the monthly
+  // mix): awe|last|<group>|<day> (the newest Pacific day on or before <day> with a notice of the group, as text) and
+  // awe|ndays|<group>|<from>|<to> (the distinct days with one), recomputed by the page's own rule (lib/caisoAlerts.ts
+  // aweValue) on every row of the table, read once a run
+  if (p[0] === "awe" && (p[1] === "last" || p[1] === "ndays")) {
+    const A = await import("../lib/caisoAlerts.ts");
+    if (!aweRows) aweRows = all("events", { select: "event_date,event_type", table_name: `eq.${A.ALERT_TABLE}`, order: "event_date,event_id" });
+    return A.aweValue((await aweRows).map((r) => ({ event_date: String(r.event_date), event_type: r.event_type })), check);
+  }
   if (p[0] === "awe") {
     const rows = await all("events", { select: "event_date", table_name: "eq.caiso_grid_emergencies", event_type: `eq.${p[2]}`,
       and: `(event_date.gte.${p[3]}-01-01,event_date.lte.${p[3]}-12-31T23:59:59Z)` });

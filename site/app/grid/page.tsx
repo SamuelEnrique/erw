@@ -11,6 +11,7 @@ import { AskView } from "@/components/grid/AskView";
 import { AskExamples } from "@/components/grid/AskExamples";
 import { MixTable } from "@/components/grid/Conditions";
 import { ScarcityPanel } from "@/components/grid/ScarcityPanel";
+import { CaisoAlertState } from "@/components/grid/CaisoAlertState";
 import { EmissionsParts } from "@/components/grid/Emissions";
 import { ExchangeView } from "@/components/grid/ExchangeView";
 import { MixClean, MixView } from "@/components/grid/MixView";
@@ -102,6 +103,8 @@ export default async function GridTool({ searchParams }: { searchParams: Promise
               {view === "network" ? <NetworkView keep={keep} node={p.node} grid={grid} /> : null}
               {view === "mix" ? (
                 <div data-grid-view="mix">
+                  {/* session 1155: CAISO's alerts today (caiso_grid_emergencies), first on the CAISO view, linked to /grid/caiso/alerts */}
+                  {grid.slug === "caiso" ? <CaisoAlertState /> : null}
                   {/* session 299: the Now view's blocks, the grid's latest hour, open the tab */}
                   <div data-grid-now="1"><NowView grid={grid} cfg={cfg} data={data} /></div>
                   {grid.slug === "us48" && mix.view !== "now" && mix.view !== "history" ? <p className="mb-3 max-w-3xl text-sm text-muted">This view is by grid, and the Lower 48 is not one of its grids: it opens on ERCOT. Choose grids below, or a grid above.</p> : null}

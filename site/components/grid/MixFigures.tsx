@@ -6,7 +6,11 @@
 //   fuel's MWh and share on hover, the newest month and the last twelve months as keyed figures.
 // Every figure is a lib/mixHourly.ts figure: a check key scripts/check-values.mjs recomputes, and a one-line source in
 // its hover tip. California's hourly mix stays withheld (the session 118 ruling, said once by the block below).
+// Session 1155: on CAISO's monthly view, the months with an Energy Emergency Alert or a Flex Alert day are marked on the
+// chart (a dashed line at the month, its days on hover), and the alert days of the months drawn are one keyed count
+// (lib/caisoAlerts.ts alertMonths). The hourly mix has nothing to mark: it is withheld for CAISO.
 import { Num } from "@/components/Num";
+import { ALERT_TABLE, alertMonths, type NoticeLike } from "@/lib/caisoAlerts";
 import { TimeChart } from "@/components/TimeChart";
 import { shown } from "@/lib/format";
 import { hourAge, mixMonthly, PROFILE, type Fig, type MixHourly, type MonthFuel } from "@/lib/mixHourly";
@@ -75,9 +79,12 @@ export const MONTH_FUELS: MonthFuel[] = [
 export const MONTH_VARIABLES = [...MONTH_FUELS.flatMap((f) => [`${f.stem}_mwh`, `${f.stem}_share_pct`]), "net_generation_mwh", "days_held", "days_in_month"];
 
 /** The monthly view: the grid's months from generation_mix_hourly_profile (rows read by the caller). */
-export function MonthlyFigures({ rows, label, caiso }: { rows: { entity: string; variable: string; ts_utc: string; value: number }[]; label: string; caiso: boolean }) {
+export function MonthlyFigures({ rows, label, caiso, notices }: { rows: { entity: string; variable: string; ts_utc: string; value: number }[]; label: string; caiso: boolean;
+  /** session 1155: CAISO's notices (caiso_grid_emergencies), read or failed; absent for another grid */
+  notices?: { ok: true; data: NoticeLike[] } | { ok: false; reason: string } | null }) {
   const m = mixMonthly(rows, MONTH_FUELS);
   if (!m) return <p className="text-sm italic text-muted" data-missing="1">No month of {label} is held in {PROFILE}.</p>;
+  const al = notices && notices.ok ? alertMonths(notices.data, m.months) : null;
   const name = (d: string) => d.slice(0, 7);
   const x = m.months.map((d) => Date.parse(`${d}T00:00:00Z`));
   return (
@@ -89,6 +96,7 @@ export function MonthlyFigures({ rows, label, caiso }: { rows: { entity: string;
         {m.notBuilt.length ? <> Not built in the twelve months to {name(m.newest)}: {m.notBuilt.join(", ")} (too few complete days, or the month of a change of source).</> : null}
       </p>
       <TimeChart stack share x="month" unit="MWh" height={300}
+        marks={al?.months.length ? al.months.map((a) => ({ t: Date.parse(`${a.month}T00:00:00Z`), name: `EEA or Flex Alert: ${a.days.join(", ")}` })) : undefined}
         ariaLabel={`${label} monthly net generation by fuel, ${name(m.months[0])} to ${name(m.newest)}`}
         series={m.fuels.map((f) => ({ name: f.label, color: `var(--color-fuel-${f.key})`, points: x.map((t, i) => [t, f.values[i]] as [number, number | null]) }))} />
       <div className="mt-3 overflow-x-auto">
@@ -114,6 +122,13 @@ export function MonthlyFigures({ rows, label, caiso }: { rows: { entity: string;
           </tbody>
         </table>
       </div>
+      {notices ? (
+        <p className="mt-1 text-xs text-muted" data-mix-alert-months={al ? al.months.length : "unread"}>
+          {al ? <>Days with an Energy Emergency Alert or a Flex Alert in force, {al.from} to {al.to} ({ALERT_TABLE}): <F f={{ check: al.signal.check, raw: Number(al.signal.raw), tip: al.signal.tip }} />
+            {al.months.length ? `; each month that holds one is marked on the chart (${al.months.map((a) => a.month.slice(0, 7)).join(", ")}).` : ", so no month of the chart is marked."}</>
+            : <>The alert days could not be read just now ({ALERT_TABLE}: {notices.ok ? "" : notices.reason}).</>}
+        </p>
+      ) : null}
       <p className="mt-1 text-xs text-muted">A share is of the sum of the eight sources over the month&apos;s complete days; storage is negative when it charges more than it discharges. Hover the chart for each fuel&apos;s MWh and share in a month.</p>
     </div>
   );

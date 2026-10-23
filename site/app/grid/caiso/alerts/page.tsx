@@ -148,6 +148,10 @@ export default async function FlexAlertScorecard() {
     <Brand>
     <div>
       <p className="mb-1 text-xs text-muted"><Link href="/grid?grid=caiso">CAISO</Link> / <Link href="/grid?grid=caiso#reliability">Reliability</Link> / Flex Alert scorecard</p>
+      {/* session 1155: back to the Grid tool, where CAISO's alert state and its alert days are drawn; nothing else on this page changed */}
+      <p className="mb-1 text-xs text-muted" data-alerts-back="1">
+        On the Grid tool: <Link href="/grid?grid=caiso#caiso-alerts">whether an alert is in force today</Link>, and <Link href="/grid?grid=caiso#scarcity">the alert days on the scarcity strip</Link>.
+      </p>
       <h1 className="mb-2 text-3xl">The Flex Alert scorecard: CAISO, 2018 to 2024</h1>
       <p className="mb-4 max-w-3xl">
         When California&apos;s grid runs short, CAISO asks people to use less power: a <strong>Flex Alert</strong>, and in worse hours an Energy Emergency

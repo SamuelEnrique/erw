@@ -1,0 +1,868 @@
+{
+ "_note": "Session 1155 (chain 077): real rows of caiso_grid_emergencies (events), every notice from 2022-01-01 to the newest held, read once with the anon key from the Supabase live set on 2026-10-23 (select event_id, event_date, event_type, extra x_region and x_time_frame). The table then held 1,906 notices, 1998-05-30 to 2026-10-08. Read by scripts/test-caiso-alerts.mjs.",
+ "table": "caiso_grid_emergencies",
+ "read_at": "2026-10-23",
+ "rows": [
+  {
+   "event_id": "caiso_awe:2022-06-10:transmission_emergency:b029de7eaf",
+   "event_date": "2022-06-10",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "20:20 - 21:12"
+  },
+  {
+   "event_id": "caiso_awe:2022-06-25:rmo:0a8860fb2d",
+   "event_date": "2022-06-25",
+   "event_type": "rmo",
+   "region": "Northern CA",
+   "time_frame": "16:00 - 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-08-15:rmo:9269d8bdc1",
+   "event_date": "2022-08-15",
+   "event_type": "rmo",
+   "region": "ISO",
+   "time_frame": "12:00 - 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-08-16:rmo:c919bcc72e",
+   "event_date": "2022-08-16",
+   "event_type": "rmo",
+   "region": "ISO",
+   "time_frame": "12:00 - 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-08-17:flex_alert:b47bbf581d",
+   "event_date": "2022-08-17",
+   "event_type": "flex_alert",
+   "region": "ISO",
+   "time_frame": "August 17 at 4:00 PM to August 17 at 9:00 PM"
+  },
+  {
+   "event_id": "caiso_awe:2022-08-17:rmo:41d8e641fc",
+   "event_date": "2022-08-17",
+   "event_type": "rmo",
+   "region": "ISO",
+   "time_frame": "12:00 - 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-08-18:rmo:bd76c923d8",
+   "event_date": "2022-08-18",
+   "event_type": "rmo",
+   "region": "ISO",
+   "time_frame": "12:00 - 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-08-19:rmo:962f38d85e",
+   "event_date": "2022-08-19",
+   "event_type": "rmo",
+   "region": "ISO",
+   "time_frame": "12:00 - 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-08-31:eea_watch:127097df37",
+   "event_date": "2022-08-31",
+   "event_type": "eea_watch",
+   "region": "ISO",
+   "time_frame": "08/31/2022 17:00 through 08/31/2022 20:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-08-31:eea1:8f75f586ab",
+   "event_date": "2022-08-31",
+   "event_type": "eea1",
+   "region": "ISO",
+   "time_frame": "08/31/2022 17:00 through 08/31/2022 20:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-08-31:flex_alert:2975b5dec4",
+   "event_date": "2022-08-31",
+   "event_type": "flex_alert",
+   "region": "ISO",
+   "time_frame": "August 31 at 4:00 PM to August 31 at 9:00 PM"
+  },
+  {
+   "event_id": "caiso_awe:2022-08-31:rmo:8daccea2dc",
+   "event_date": "2022-08-31",
+   "event_type": "rmo",
+   "region": "ISO",
+   "time_frame": "08/31/2022 12:00 through 08/31/2022 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-01:eea_watch:c54c746710",
+   "event_date": "2022-09-01",
+   "event_type": "eea_watch",
+   "region": "ISO",
+   "time_frame": "09/01/2022 18:00 through 09/01/2022 19:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-01:flex_alert:49ed5032c5",
+   "event_date": "2022-09-01",
+   "event_type": "flex_alert",
+   "region": "ISO",
+   "time_frame": "September 1 at 4:00 PM to September 1 at 9:00 PM"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-01:rmo:f01b469290",
+   "event_date": "2022-09-01",
+   "event_type": "rmo",
+   "region": "ISO",
+   "time_frame": "09/01/2022 12:00 through 09/01/2022 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-02:flex_alert:9e174e9aa0",
+   "event_date": "2022-09-02",
+   "event_type": "flex_alert",
+   "region": "ISO",
+   "time_frame": "September 2 at 4:00 PM to September 2 at 9:00 PM"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-02:rmo:917f228d0e",
+   "event_date": "2022-09-02",
+   "event_type": "rmo",
+   "region": "ISO",
+   "time_frame": "09/02/2022 12:00 through 09/02/2022 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-03:eea_watch:cb7b94bb7c",
+   "event_date": "2022-09-03",
+   "event_type": "eea_watch",
+   "region": "ISO",
+   "time_frame": "09/03/2022 18:00 through 09/03/2022 20:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-03:flex_alert:8158f5c3f5",
+   "event_date": "2022-09-03",
+   "event_type": "flex_alert",
+   "region": "ISO",
+   "time_frame": "September 3 at 4:00 PM to September 3 at 9:00 PM"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-03:rmo:dd3303cece",
+   "event_date": "2022-09-03",
+   "event_type": "rmo",
+   "region": "ISO",
+   "time_frame": "09/03/2022 12:00 through 09/03/2022 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-04:eea_watch:348fe5c740",
+   "event_date": "2022-09-04",
+   "event_type": "eea_watch",
+   "region": "ISO",
+   "time_frame": "09/04/2022 17:00 through 09/04/2022 20:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-04:flex_alert:8286fb5ba3",
+   "event_date": "2022-09-04",
+   "event_type": "flex_alert",
+   "region": "ISO",
+   "time_frame": "September 4 at 4:00 PM to September 4 at 9:00 PM"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-04:rmo:36210df881",
+   "event_date": "2022-09-04",
+   "event_type": "rmo",
+   "region": "ISO",
+   "time_frame": "09/04/2022 12:00 through 09/04/2022 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-05:eea_watch:3b497b29f6",
+   "event_date": "2022-09-05",
+   "event_type": "eea_watch",
+   "region": "ISO",
+   "time_frame": "09/05/2022 17:00 through 09/05/2022 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-05:eea1:b6cfe3eb06",
+   "event_date": "2022-09-05",
+   "event_type": "eea1",
+   "region": "ISO",
+   "time_frame": "09/05/2022 17:00 through 09/05/2022 21:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-05:eea2:f2af6750ef",
+   "event_date": "2022-09-05",
+   "event_type": "eea2",
+   "region": "ISO",
+   "time_frame": "09/05/2022 18:30 through 09/05/2022 20:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-05:flex_alert:709181be15",
+   "event_date": "2022-09-05",
+   "event_type": "flex_alert",
+   "region": "ISO",
+   "time_frame": "September 5 at 4:00 PM to September 5 at 10:00 PM"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-05:rmo:7e268047e9",
+   "event_date": "2022-09-05",
+   "event_type": "rmo",
+   "region": "ISO",
+   "time_frame": "09/05/2022 12:00 through 09/05/2022 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-05:transmission_emergency:d0aab3b5c6",
+   "event_date": "2022-09-05",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "09/05/2022 17:58 through 09/05/2022 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-06:eea_watch:8f9c38b579",
+   "event_date": "2022-09-06",
+   "event_type": "eea_watch",
+   "region": "ISO",
+   "time_frame": "09/06/2022 17:00 through 09/06/2022 21:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-06:eea1:f1cf0380ee",
+   "event_date": "2022-09-06",
+   "event_type": "eea1",
+   "region": "ISO",
+   "time_frame": "09/06/2022 16:00 through 09/06/2022 21:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-06:eea2:a5dc1ce9dc",
+   "event_date": "2022-09-06",
+   "event_type": "eea2",
+   "region": "ISO",
+   "time_frame": "09/06/2022 16:00 through 09/06/2022 21:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-06:eea3:c0d3598540",
+   "event_date": "2022-09-06",
+   "event_type": "eea3",
+   "region": "ISO",
+   "time_frame": "09/06/2022 17:17 through 09/06/2022 20:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-06:flex_alert:bcd72f85fb",
+   "event_date": "2022-09-06",
+   "event_type": "flex_alert",
+   "region": "ISO",
+   "time_frame": "September 6 at 4:00 PM to September 6 at 9:00 PM"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-06:rmo:7dc27d96f3",
+   "event_date": "2022-09-06",
+   "event_type": "rmo",
+   "region": "ISO",
+   "time_frame": "09/06/2022 12:00 through 09/06/2022 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-06:transmission_emergency:0b16a9ff9d",
+   "event_date": "2022-09-06",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "09/06/2022 13:29 through 09/06/2022 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-07:eea_watch:d5d7bee4dd",
+   "event_date": "2022-09-07",
+   "event_type": "eea_watch",
+   "region": "ISO",
+   "time_frame": "09/07/2022 16:00 through 09/07/2022 21:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-07:eea1:2d32f518cb",
+   "event_date": "2022-09-07",
+   "event_type": "eea1",
+   "region": "ISO",
+   "time_frame": "09/07/2022 16:00 through 09/07/2022 21:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-07:eea2:b6ca9e8369",
+   "event_date": "2022-09-07",
+   "event_type": "eea2",
+   "region": "ISO",
+   "time_frame": "09/07/2022 16:00 through 09/07/2022 21:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-07:flex_alert:78f888caf6",
+   "event_date": "2022-09-07",
+   "event_type": "flex_alert",
+   "region": "ISO",
+   "time_frame": "September 7 at 4:00 PM to September 7 at 9:00 PM"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-07:rmo:c7e9e72dc6",
+   "event_date": "2022-09-07",
+   "event_type": "rmo",
+   "region": "ISO",
+   "time_frame": "09/07/2022 12:00 through 09/07/2022 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-07:transmission_emergency:2438644a3b",
+   "event_date": "2022-09-07",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "09/07/2022 15:25 through 09/07/2022 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-08:eea_watch:798e6a9223",
+   "event_date": "2022-09-08",
+   "event_type": "eea_watch",
+   "region": "ISO",
+   "time_frame": "09/08/2022 15:00 through 09/08/2022 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-08:eea1:c900707047",
+   "event_date": "2022-09-08",
+   "event_type": "eea1",
+   "region": "ISO",
+   "time_frame": "09/08/2022 15:00 through 09/08/2022 21:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-08:eea2:1618f600bb",
+   "event_date": "2022-09-08",
+   "event_type": "eea2",
+   "region": "ISO",
+   "time_frame": "09/08/2022 16:00 through 09/08/2022 21:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-08:flex_alert:76d11c30ad",
+   "event_date": "2022-09-08",
+   "event_type": "flex_alert",
+   "region": "ISO",
+   "time_frame": "September 8 at 3:00 PM to September 8 at 10:00 PM"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-08:rmo:f857b47ac6",
+   "event_date": "2022-09-08",
+   "event_type": "rmo",
+   "region": "ISO",
+   "time_frame": "09/08/2022 12:00 through 09/08/2022 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-08:transmission_emergency:01bc3a2bc1",
+   "event_date": "2022-09-08",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "09/08/2022 14:49 through 09/08/2022 21:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-09:eea_watch:5ea869ca47",
+   "event_date": "2022-09-09",
+   "event_type": "eea_watch",
+   "region": "ISO",
+   "time_frame": "09/09/2022 17:00 through 09/09/2022 18:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-09:eea1:9401718956",
+   "event_date": "2022-09-09",
+   "event_type": "eea1",
+   "region": "ISO",
+   "time_frame": "09/09/2022 16:00 through 09/09/2022 20:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-09:flex_alert:f4c2be5eac",
+   "event_date": "2022-09-09",
+   "event_type": "flex_alert",
+   "region": "ISO",
+   "time_frame": "September 9 at 4:00 PM to September 9 at 9:00 PM"
+  },
+  {
+   "event_id": "caiso_awe:2022-09-09:rmo:f87703e5e6",
+   "event_date": "2022-09-09",
+   "event_type": "rmo",
+   "region": "ISO",
+   "time_frame": "09/09/2022 12:00 through 09/09/2022 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-11-01:transmission_emergency:baa1025df0",
+   "event_date": "2022-11-01",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "11/01/2022 12:56 through 11/01/2022 23:59"
+  },
+  {
+   "event_id": "caiso_awe:2022-11-02:transmission_emergency:dd3f82b04d",
+   "event_date": "2022-11-02",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "11/02/2022 00:00 through 11/02/2022 04:00"
+  },
+  {
+   "event_id": "caiso_awe:2022-12-10:transmission_emergency:404f02f474",
+   "event_date": "2022-12-10",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "12/10/2022 09:15 through 12/11/2022 00:18"
+  },
+  {
+   "event_id": "caiso_awe:2022-12-11:transmission_emergency:dd7cb35041",
+   "event_date": "2022-12-11",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "12/10/2022 09:15 through 12/11/2022 00:18"
+  },
+  {
+   "event_id": "caiso_awe:2022-12-20:transmission_emergency:3937ebe2ea",
+   "event_date": "2022-12-20",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "12/20/2022 03:21 through 12/21/2022 17:00 (12.21.2022)"
+  },
+  {
+   "event_id": "caiso_awe:2022-12-20:transmission_emergency:e888df86cd",
+   "event_date": "2022-12-20",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "12/20/2022 03:21 through 12/21/2022 17:00 (12.20,2022)"
+  },
+  {
+   "event_id": "caiso_awe:2022-12-21:transmission_emergency:497988cdd4",
+   "event_date": "2022-12-21",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "12/20/2022 03:21 through 12/21/2022 17:00 (12.21.2022)"
+  },
+  {
+   "event_id": "caiso_awe:2022-12-21:transmission_emergency:b2265529bc",
+   "event_date": "2022-12-21",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "12/20/2022 03:21 through 12/21/2022 17:00 (12.20,2022)"
+  },
+  {
+   "event_id": "caiso_awe:2023-03-10:transmission_emergency:4589e84ee9",
+   "event_date": "2023-03-10",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "03/10/2023 09:21 through 03/10/2023 23:59"
+  },
+  {
+   "event_id": "caiso_awe:2023-03-11:transmission_emergency:a1c3f4296a",
+   "event_date": "2023-03-11",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "03/11/2023 00:03 through 03/11/2023 23:59"
+  },
+  {
+   "event_id": "caiso_awe:2023-07-20:eea1:5a0b4a36c2",
+   "event_date": "2023-07-20",
+   "event_type": "eea1",
+   "region": "ISO",
+   "time_frame": "07/20/2023 19:30 through 07/20/2023 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2023-07-25:eea_watch:711a737f5c",
+   "event_date": "2023-07-25",
+   "event_type": "eea_watch",
+   "region": "ISO",
+   "time_frame": "07/25/2023 19:26 through 07/25/2023 23:59"
+  },
+  {
+   "event_id": "caiso_awe:2023-07-26:eea_watch:2dad025f51",
+   "event_date": "2023-07-26",
+   "event_type": "eea_watch",
+   "region": "ISO",
+   "time_frame": "07/26/2023 18:00 through 07/26/2023 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2023-08-15:rmo:b423dd454c",
+   "event_date": "2023-08-15",
+   "event_type": "rmo",
+   "region": "ISO",
+   "time_frame": "08/15/2023 12:00 through 08/15/2023 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2023-08-16:rmo:44940215a9",
+   "event_date": "2023-08-16",
+   "event_type": "rmo",
+   "region": "ISO",
+   "time_frame": "08/16/2023 12:00 through 08/16/2023 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2023-08-17:rmo:f1a41e4366",
+   "event_date": "2023-08-17",
+   "event_type": "rmo",
+   "region": "ISO",
+   "time_frame": "08/17/2023 12:00 through 08/17/2023 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2023-08-28:rmo:9d96888eb3",
+   "event_date": "2023-08-28",
+   "event_type": "rmo",
+   "region": "ISO",
+   "time_frame": "08/28/2023 12:00 through 08/28/2023 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2023-08-29:rmo:637689012f",
+   "event_date": "2023-08-29",
+   "event_type": "rmo",
+   "region": "ISO",
+   "time_frame": "08/29/2023 12:00 through 08/29/2023 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2023-08-30:rmo:708c739c35",
+   "event_date": "2023-08-30",
+   "event_type": "rmo",
+   "region": "ISO",
+   "time_frame": "08/30/2023 12:00 through 08/30/2023 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2024-02-04:transmission_emergency:3419fb6b59",
+   "event_date": "2024-02-04",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "02/04/2024 17:05 through 02/04/2024 23:00"
+  },
+  {
+   "event_id": "caiso_awe:2024-03-01:transmission_emergency:09a93801b3",
+   "event_date": "2024-03-01",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "03/01/2024 08:50 through 03/04/2024 20:44"
+  },
+  {
+   "event_id": "caiso_awe:2024-03-02:transmission_emergency:706212481f",
+   "event_date": "2024-03-02",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "03/01/2024 08:50 through 03/04/2024 20:44"
+  },
+  {
+   "event_id": "caiso_awe:2024-03-03:transmission_emergency:012d025437",
+   "event_date": "2024-03-03",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "03/01/2024 08:50 through 03/04/2024 20:44"
+  },
+  {
+   "event_id": "caiso_awe:2024-03-04:transmission_emergency:c16a11c614",
+   "event_date": "2024-03-04",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "03/01/2024 08:50 through 03/04/2024 20:44"
+  },
+  {
+   "event_id": "caiso_awe:2024-07-02:transmission_emergency:92b892017a",
+   "event_date": "2024-07-02",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "07/02/2024 13:41 through 07/03/2024 23:59"
+  },
+  {
+   "event_id": "caiso_awe:2024-07-03:rmo:bf9ef32641",
+   "event_date": "2024-07-03",
+   "event_type": "rmo",
+   "region": "CAISO Grid",
+   "time_frame": "07/03/2024 00:01 through 07/07/2024 23:59"
+  },
+  {
+   "event_id": "caiso_awe:2024-07-03:transmission_emergency:5812a16bdb",
+   "event_date": "2024-07-03",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "07/02/2024 13:41 through 07/03/2024 23:59"
+  },
+  {
+   "event_id": "caiso_awe:2024-07-04:rmo:4b4a1eef96",
+   "event_date": "2024-07-04",
+   "event_type": "rmo",
+   "region": "CAISO Grid",
+   "time_frame": "07/03/2024 00:01 through 07/07/2024 23:59"
+  },
+  {
+   "event_id": "caiso_awe:2024-07-04:transmission_emergency:53bed5c940",
+   "event_date": "2024-07-04",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "07/04/2024 00:00 through 07/10/2024 23:59"
+  },
+  {
+   "event_id": "caiso_awe:2024-07-05:rmo:4b058a037a",
+   "event_date": "2024-07-05",
+   "event_type": "rmo",
+   "region": "CAISO Grid",
+   "time_frame": "07/03/2024 00:01 through 07/07/2024 23:59"
+  },
+  {
+   "event_id": "caiso_awe:2024-07-05:transmission_emergency:5db60062fe",
+   "event_date": "2024-07-05",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "07/04/2024 00:00 through 07/10/2024 23:59"
+  },
+  {
+   "event_id": "caiso_awe:2024-07-06:rmo:db6d2fc17c",
+   "event_date": "2024-07-06",
+   "event_type": "rmo",
+   "region": "CAISO Grid",
+   "time_frame": "07/03/2024 00:01 through 07/07/2024 23:59"
+  },
+  {
+   "event_id": "caiso_awe:2024-07-06:transmission_emergency:e89c3dfc9f",
+   "event_date": "2024-07-06",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "07/04/2024 00:00 through 07/10/2024 23:59"
+  },
+  {
+   "event_id": "caiso_awe:2024-07-07:rmo:43999c6888",
+   "event_date": "2024-07-07",
+   "event_type": "rmo",
+   "region": "CAISO Grid",
+   "time_frame": "07/03/2024 00:01 through 07/07/2024 23:59"
+  },
+  {
+   "event_id": "caiso_awe:2024-07-07:transmission_emergency:1b747bb62b",
+   "event_date": "2024-07-07",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "07/04/2024 00:00 through 07/10/2024 23:59"
+  },
+  {
+   "event_id": "caiso_awe:2024-07-08:rmo:4f4f142ae1",
+   "event_date": "2024-07-08",
+   "event_type": "rmo",
+   "region": "CAISO Grid",
+   "time_frame": "07/08/2024 00:01 through 07/11/2024 23:59"
+  },
+  {
+   "event_id": "caiso_awe:2024-07-08:transmission_emergency:d2be4d4aac",
+   "event_date": "2024-07-08",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "07/04/2024 00:00 through 07/10/2024 23:59"
+  },
+  {
+   "event_id": "caiso_awe:2024-07-09:rmo:46be837f6b",
+   "event_date": "2024-07-09",
+   "event_type": "rmo",
+   "region": "CAISO Grid",
+   "time_frame": "07/08/2024 00:01 through 07/11/2024 23:59"
+  },
+  {
+   "event_id": "caiso_awe:2024-07-09:transmission_emergency:58b7f22d99",
+   "event_date": "2024-07-09",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "07/04/2024 00:00 through 07/10/2024 23:59"
+  },
+  {
+   "event_id": "caiso_awe:2024-07-10:rmo:df73d00171",
+   "event_date": "2024-07-10",
+   "event_type": "rmo",
+   "region": "CAISO Grid",
+   "time_frame": "07/08/2024 00:01 through 07/11/2024 23:59"
+  },
+  {
+   "event_id": "caiso_awe:2024-07-10:transmission_emergency:3b0cda7f51",
+   "event_date": "2024-07-10",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "07/04/2024 00:00 through 07/10/2024 23:59"
+  },
+  {
+   "event_id": "caiso_awe:2024-07-11:rmo:630d8be027",
+   "event_date": "2024-07-11",
+   "event_type": "rmo",
+   "region": "CAISO Grid",
+   "time_frame": "07/08/2024 00:01 through 07/11/2024 23:59"
+  },
+  {
+   "event_id": "caiso_awe:2024-07-11:transmission_emergency:6f85bb8ace",
+   "event_date": "2024-07-11",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "07/11/2024 15:50 through 07/11/2024 23:59"
+  },
+  {
+   "event_id": "caiso_awe:2024-07-12:transmission_emergency:d95f8f3e66",
+   "event_date": "2024-07-12",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "07/12/2024 15:55 through 07/12/2024 23:59"
+  },
+  {
+   "event_id": "caiso_awe:2024-07-15:rmo:6a04fcd120",
+   "event_date": "2024-07-15",
+   "event_type": "rmo",
+   "region": "Northern CA",
+   "time_frame": "07/15/2024 07:45 through 07/15/2024 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2024-07-15:transmission_emergency:c02753a11a",
+   "event_date": "2024-07-15",
+   "event_type": "transmission_emergency",
+   "region": "CAISO Grid",
+   "time_frame": "07/15/2024 05:00 through 07/15/2024 20:00"
+  },
+  {
+   "event_id": "caiso_awe:2024-07-18:transmission_emergency:4ae507bf77",
+   "event_date": "2024-07-18",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "07/18/2024 14:35 through 07/18/2024 23:59"
+  },
+  {
+   "event_id": "caiso_awe:2024-07-19:transmission_emergency:221498c6f8",
+   "event_date": "2024-07-19",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA",
+   "time_frame": "07/19/2024 16:45 through 07/19/2024 23:59"
+  },
+  {
+   "event_id": "caiso_awe:2024-07-24:eea_watch:accc0af052",
+   "event_date": "2024-07-24",
+   "event_type": "eea_watch",
+   "region": "CAISO Grid",
+   "time_frame": "07/24/2024 17:25 through 07/24/2024 23:59"
+  },
+  {
+   "event_id": "caiso_awe:2024-07-25:rmo:bcaffe79ee",
+   "event_date": "2024-07-25",
+   "event_type": "rmo",
+   "region": "CAISO Grid",
+   "time_frame": "07/25/2024 06:00 through 07/25/2024 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2024-08-05:rmo:89d203dd88",
+   "event_date": "2024-08-05",
+   "event_type": "rmo",
+   "region": "CAISO Grid",
+   "time_frame": "08/05/2024 12:00 through 08/05/2024 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2024-08-06:rmo:4941b377f7",
+   "event_date": "2024-08-06",
+   "event_type": "rmo",
+   "region": "CAISO Grid",
+   "time_frame": "08/06/2024 12:00 through 08/06/2024 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2024-08-07:rmo:367e055456",
+   "event_date": "2024-08-07",
+   "event_type": "rmo",
+   "region": "CAISO Grid",
+   "time_frame": "08/07/2024 12:00 through 08/07/2024 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2024-09-04:rmo:f3445c1a49",
+   "event_date": "2024-09-04",
+   "event_type": "rmo",
+   "region": "CAISO Grid",
+   "time_frame": "09/04/2024 12:00 through 09/04/2024 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2024-09-05:rmo:686a4d4454",
+   "event_date": "2024-09-05",
+   "event_type": "rmo",
+   "region": "CAISO Grid",
+   "time_frame": "09/05/2024 12:00 through 09/05/2024 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2024-09-06:rmo:fff22680bf",
+   "event_date": "2024-09-06",
+   "event_type": "rmo",
+   "region": "CAISO Grid",
+   "time_frame": "09/06/2024 12:00 through 09/06/2024 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2024-09-06:transmission_emergency:cb88a9a74b",
+   "event_date": "2024-09-06",
+   "event_type": "transmission_emergency",
+   "region": "Southern CA Region",
+   "time_frame": "09/06/2024 17:24 through 09/07/2024 01:27"
+  },
+  {
+   "event_id": "caiso_awe:2024-09-07:transmission_emergency:36034d656c",
+   "event_date": "2024-09-07",
+   "event_type": "transmission_emergency",
+   "region": "Southern CA Region",
+   "time_frame": "09/06/2024 17:24 through 09/07/2024 01:27"
+  },
+  {
+   "event_id": "caiso_awe:2024-09-09:rmo:50d36a9e5b",
+   "event_date": "2024-09-09",
+   "event_type": "rmo",
+   "region": "CAISO Grid",
+   "time_frame": "09/09/2024 12:00 through 09/09/2024 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2024-11-05:transmission_emergency:665f09eee1",
+   "event_date": "2024-11-05",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA Region",
+   "time_frame": "11/05/2024 17:00 through 11/07/2024 07:00"
+  },
+  {
+   "event_id": "caiso_awe:2024-11-06:transmission_emergency:a64ae09e99",
+   "event_date": "2024-11-06",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA Region",
+   "time_frame": "11/05/2024 17:00 through 11/07/2024 07:00"
+  },
+  {
+   "event_id": "caiso_awe:2024-11-07:transmission_emergency:554c405fb8",
+   "event_date": "2024-11-07",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA Region",
+   "time_frame": "11/05/2024 17:00 through 11/07/2024 07:00"
+  },
+  {
+   "event_id": "caiso_awe:2025-01-20:rmo:71dbd6dc3f",
+   "event_date": "2025-01-20",
+   "event_type": "rmo",
+   "region": "CAISO Grid",
+   "time_frame": "01/20/2025 06:00 through 01/21/2025 23:59"
+  },
+  {
+   "event_id": "caiso_awe:2025-01-21:rmo:90da369150",
+   "event_date": "2025-01-21",
+   "event_type": "rmo",
+   "region": "CAISO Grid",
+   "time_frame": "01/20/2025 06:00 through 01/21/2025 23:59"
+  },
+  {
+   "event_id": "caiso_awe:2025-04-30:transmission_emergency:36f4b2cc65",
+   "event_date": "2025-04-30",
+   "event_type": "transmission_emergency",
+   "region": "Northern CA Region",
+   "time_frame": "04/30/2025 18:42 through 04/30/2025 20:00"
+  },
+  {
+   "event_id": "caiso_awe:2026-09-09:rmo:8497dc8c48",
+   "event_date": "2026-09-09",
+   "event_type": "rmo",
+   "region": "Southern CA Region",
+   "time_frame": "09/09/2026 10:00 through 09/09/2026 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2026-09-10:rmo:6bc27d19dd",
+   "event_date": "2026-09-10",
+   "event_type": "rmo",
+   "region": "CAISO Grid",
+   "time_frame": "09/10/2026 10:00 through 09/10/2026 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2026-10-05:rmo:0daba07580",
+   "event_date": "2026-10-05",
+   "event_type": "rmo",
+   "region": "CAISO Grid",
+   "time_frame": "10/05/2026 10:00 through 10/05/2026 22:00."
+  },
+  {
+   "event_id": "caiso_awe:2026-10-06:rmo:bdb822b0e3",
+   "event_date": "2026-10-06",
+   "event_type": "rmo",
+   "region": "CAISO Grid",
+   "time_frame": "10/06/2026 10:00 through 10/06/2026 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2026-10-07:rmo:d3dbaba2ea",
+   "event_date": "2026-10-07",
+   "event_type": "rmo",
+   "region": "CAISO Grid",
+   "time_frame": "10/07/2026 10:00 through 10/07/2026 22:00"
+  },
+  {
+   "event_id": "caiso_awe:2026-10-08:rmo:0b6b6765ad",
+   "event_date": "2026-10-08",
+   "event_type": "rmo",
+   "region": "CAISO Grid",
+   "time_frame": "10/08/2026 10:00 through 10/08/2026 22:00"
+  }
+ ]
+}
