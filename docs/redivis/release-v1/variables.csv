@@ -435,6 +435,10 @@ census_metro_population,population_2025,series variable,count
 census_metro_population,population_base_2020,series variable,count
 cer_electricity_trade,exports,series variable,MWh
 cer_electricity_trade,imports,series variable,MWh
+cer_gas_trade,export_price,series variable,USD/MMBtu
+cer_gas_trade,exports,series variable,Mcf
+cer_gas_trade,import_price,series variable,USD/MMBtu
+cer_gas_trade,imports,series variable,Mcf
 cftc_cot_positions,managed_money_long,series variable,count
 cftc_cot_positions,managed_money_net,series variable,count
 cftc_cot_positions,managed_money_short,series variable,count
