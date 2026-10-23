@@ -1,6 +1,14 @@
 # The ERW in Python, Stata and R: one specification for three packages
 
-Version 1, session 1038, 23 October 2026 (chain 071, `queue/done/071-night-23-october-code-allgrids-packages.md`): "What version 1 changed" below. Version 0 was session 1000's (chain 070, `queue/done/070-evening-22-october-code-packages.md`); session 1001 closed the Python package's gaps and settled two points while doing so (decisions 6 and 7). The one specification the three packages follow: the Python package `erw` (`package/`), the Stata command `erw` (`packages/stata/`, from session 1003) and the R package `erw` (`packages/r/`, from session 1005). A call, a word or a column type that one package does differently from this note is a fault of that package. Internal: the site is in review, like every page, and nothing here is published to PyPI, CRAN or SSC (the owner's).
+Version 2, session 1059, 23 October 2026 (chain 072, `queue/done/072-day-23-october-code-allgrids-packages-2.md`): "What version 2 changed" below. Version 1 was session 1038's (chain 071). Version 0 was session 1000's (chain 070, `queue/done/070-evening-22-october-code-packages.md`); session 1001 closed the Python package's gaps and settled two points while doing so (decisions 6 and 7). The one specification the three packages follow: the Python package `erw` (`package/`), the Stata command `erw` (`packages/stata/`, from session 1003) and the R package `erw` (`packages/r/`, from session 1005). A call, a word or a column type that one package does differently from this note is a fault of that package. Internal: the site is in review, like every page, and nothing here is published to PyPI, CRAN or SSC (the owner's).
+
+## What version 2 changed (chain 072, sessions 1053 to 1058)
+
+- **Three new sentences, the same in the three packages** (1056): a start or end that is not a date (`bad_date`) and a start not before the end (`bad_window`), both raised before any request (Python `erw.ERWBadWindow`); and a table of the record that the live set does not hold, asked of the live set (`not_live`): Python said "No ERW table named", which was wrong, and Stata and R returned an empty dataset. Section "Errors, in words".
+- **The conformance file's version 2** (1055): call 7 on `carbon_intensity_hourly` (kept 430 days), so no call leaves the live set before 2027; `make.py` keeps the errors block. Section "The conformance file".
+- **The new tables read** (1053): chain 049's public tables are listed by `tables()` and `coverage()` with their windows, none in the live set; the All grids tab's county and projects figures reproduced from a clone's tables.
+- **Not yet**: the owner's Stata and R run (1054), the downloads and `/llms.txt` rulings (1058).
+- **No call or column type changed.**
 
 ## What version 1 changed (chain 071, sessions 1032 to 1037)
 

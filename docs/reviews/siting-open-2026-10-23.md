@@ -94,3 +94,15 @@ Read against chain 071's sessions 1020 to 1038 (`queue/done/071-night-23-october
 | 21 | open | a node's county (line 11), at the county's resolution (chain 072, session 1049) |
 
 Every other line stands as session 975's table above says: 1 to 6, 10, 13 to 15, 17 to 19, 22 and 26 to 32 wait on their rulings, 7 on the owner's OpenEI key, 8 and 28 on a table, 16 on its ruling part, 33 on `/digest`'s owner (chain 072's session 1061 writes a proposal for it). Of the 33 lines, 4 are closed and 1 closed in part (20); 28 stay open.
+
+## State after chain 072 (session 1060, 23 October 2026 at about 08:10 UTC)
+
+| Line | State | Since |
+|---|---|---|
+| 11 | **closed in part** | 1048: a node's county and load zone for 569 of 873 nodes (`ercot_node_places`); its hub and wires utility stay open (`ercot_settlement_points` not landed; the CDR names no plant number) |
+| 12 | **closed in part** | 1048: ERCOT's transmission project phases in a placed node's county, counted by status, the earliest named; substations and lines wait on the HIFLD tables (not landed) |
+| 20 | **closed for ERCOT**; the rest wait on a ruling | 1047: the data machine's table is EIA-411's of 2016, named and not drawn; rulings item 23 |
+| 21 | open, designed | 1049: a county map, no node as a point; rulings item 24 |
+| 33 | open, proposed | 1061: `docs/reviews/digest-revisions-proposal.md` for `/digest`'s owner |
+
+Every other line stands as session 1039's section says. Of the 33 lines, 4 are closed and 3 closed in part (11, 12, 20); 26 stay open.

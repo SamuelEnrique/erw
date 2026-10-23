@@ -1,6 +1,13 @@
 # Where can a large load go: the All grids tab of "What a datacenter pays"
 
-Version 6, session 1038, 23 October 2026 (chain 071, `queue/done/071-night-23-october-code-allgrids-packages.md`); version 5 was session 973's (chain 065), version 4 session 784's (chain 064), version 3 session 762's (chain 063), version 2 session 740's (chain 062), version 1 session 712's (chain 050), version 0 session 700's. Internal: the tab is in review, like every page.
+Version 7, session 1059, 23 October 2026 (chain 072, `queue/done/072-day-23-october-code-allgrids-packages-2.md`); version 6 was session 1038's (chain 071), version 5 was session 973's (chain 065), version 4 session 784's (chain 064), version 3 session 762's (chain 063), version 2 session 740's (chain 062), version 1 session 712's (chain 050), version 0 session 700's. Internal: the tab is in review, like every page.
+
+## What version 7 changed (chain 072, sessions 1042 to 1063)
+
+- **A node's county and load zone** (1048, decision 31): from the data machine's `ercot_node_places` (chain 049, public), 569 of the 873 nodes; two columns of the node list that sort, filter (`ncounty`, `nzone`) and download; the panel names them, or "not placed" with the table's own words; the wires utility stays "not held". With the county, the panel counts ERCOT's transmission project phases with an end in it (`ercot_transmission_projects`), keyed `allgrids|nodeprojects`, and names the earliest due. The replication counts them again for the panel's node (7RNCHSLR_ALL: Fayette, 7 future, 0 planned, 1 completed).
+- **Reserve margins for the other grids: named, not drawn** (1047, decision 30): the data machine's table is EIA-411's last release (November 2016); its summer 2027 figures are projections made then (ERCOT 38.07% against its own CDR's 11.43%). Each grid's tip names its EIA-411 area and why it is not drawn. No figure moved.
+- **A node on a map** (1049): designed at the county's resolution (a shade by count, no node as a point), one frame, not wired (`docs/reviews/siting-map-design.md`).
+- **Not landed, so not wired**: `ercot_settlement_points`, the HIFLD substations and lines, `utility_large_load_tariffs`, a 2026 sub-region table (1046). No ruling was answered (1043 to 1045).
 
 ## What version 6 changed (chain 071, sessions 1020 to 1041)
 
