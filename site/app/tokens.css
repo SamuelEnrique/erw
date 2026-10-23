@@ -342,6 +342,11 @@ body:has(.brand-a) > footer :focus-visible {
 .brand-a [data-scenario-table] tbody td[colspan] span {
   font-size: 14px;
 }
+/* session 1016 (chain 070): the code a cell holds (/data's "In your tools", session 1008) stays in the mono face; the rule
+   above sets a cell's small words in the sans, and these lines are code, not words */
+.brand-a tbody td[data-tool-lines] pre {
+  font-family: var(--font-mono);
+}
 .brand-a tbody tr.font-semibold th {
   font-weight: 600;
 }
