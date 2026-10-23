@@ -6,7 +6,7 @@
 
 - **No table written.** EPA's Clean Air Markets bulk files (each unit's SO2, NOx, CO2 and heat input) are listed by `https://api.epa.gov/easey/camd-services/bulk-files`, which answers HTTP 403 "API_KEY_MISSING: An API Key is required but was not provided. Get one at https://www.epa.gov/airmarkets/cam-api-portal." The data machine's `.env` holds no EPA or api.data.gov key. The queue file says that in this case the session stops and says so, without signing up; it did.
 - **Read:** api.epa.gov has no robots file (HTTP 404); EPA's terms already have a verdict in the record ("may be public", read 55).
-- **What the ERW holds of EPA's emissions meanwhile:** `epa_ghgrp_power_co2` (the greenhouse gas reporting program) and eGRID's plant tables; EIA's `eia930_all_emissions` and `eia_power_co2_state_annual`.
+- **What the ERW holds of EPA's emissions meanwhile:** `epa_ghgrp_power_co2` (the greenhouse gas reporting program) and eGRID's plants (`egrid_power_plants`); EIA's `eia930_all_emissions` and `eia_power_co2_state_annual`.
 
 ## Decisions made without you
 
