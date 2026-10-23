@@ -153,9 +153,10 @@ class TheSection(unittest.TestCase):
             self.assertEqual(L[1], "## ERW's Chart of the Day")
             self.assertTrue(L[3].startswith("![") and L[3].endswith("](charts/2026-10-13.png)"))
             self.assertEqual(L[5], c[0]["fact"])
-            self.assertIn(f"`{c[0]['table']}`", L[7])
-            self.assertIn(f"(/data#{c[0]['table']})", L[7])
-            self.assertIn("not by a person or a model", L[7])
+            self.assertTrue(L[6].startswith("The table holds ") and L[6].endswith("; the last is July 2026."))   # session 2206: what is held
+            self.assertIn(f"`{c[0]['table']}`", L[8])
+            self.assertIn(f"(/data#{c[0]['table']})", L[8])
+            self.assertIn("not by a person or a model", L[8])
             self.assertNotIn(EM, "\n".join(L))
             with open(os.path.join(d, "2026-10-13.png"), "rb") as f:
                 head = f.read(24)
