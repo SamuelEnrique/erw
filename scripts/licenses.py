@@ -72,6 +72,9 @@ BY_HAND = {
     # session 991: the hybrid plants file carries its own notice (the DOE contract notice, no CC BY), read 167
     "lbnl_hybrid_plants": (["Berkeley Lab, hybrid plants file"], "its own file's notice (session 991): the Department of Energy's contract notice, without the CC BY 4.0 statement of LBNL's other data files"),
     "eia930_demand_growth": (["EIA"], "its header: EIA publications"),
+    # session 2014: EIA's page says the wholesale market data are "republished, with permission, from data collected by the
+    # Intercontinental Exchange (ICE)": ICE's data, so ICE's verdict as well as EIA's (as the NYMEX futures EIA republished)
+    "eia_ice_electricity_daily": (["EIA", "ICE, whose prices EIA republishes"], "its header: EIA republishes these prices with ICE's permission"),
     "eia_all_futures_prices": (["EIA", "CME Group (NYMEX), whose prices EIA republished"], "its header: EIA names the New York Mercantile Exchange as the source of these prices"),
     "ercot_peak_premium_annual": (["ERCOT"], "its header: derived from ERCOT's hub prices (reports NP6-785-ER and NP6-905-CD)"),
     "ercot_peak_premium_monthly": (["ERCOT"], "its header: derived from ERCOT's hub prices (reports NP6-785-ER and NP6-905-CD)"),

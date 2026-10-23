@@ -140,6 +140,7 @@ eia_gas_trade_monthly,none,,36,P1M,2015-01-01T00:00:00Z,2026-07-01T00:00:00Z,197
 eia_gas_wells_annual,none,,36,P1Y,1989-01-01T00:00:00Z,2020-01-01T00:00:00Z,1062,eia:natural-gas/prod/wells,2026-10-22T00:37:07Z,pass,public,gas,no,source
 eia_heat_rates_annual,none,,4,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,44,eia:electric_power_annual,2026-10-23T14:09:59Z,pass,public,power,no,source
 eia_heating_fuel_prices_weekly,none,,140,P1W,2012-01-02T00:00:00Z,2026-10-19T00:00:00Z,48534,eia:petroleum/pri/wfr,2026-10-22T00:51:42Z,pass,public,products,no,source
+eia_ice_electricity_daily,none,Midwest;New England;Northern California;Northwest;PJM;Southern California;Southwest,7,P1D,2025-12-29T00:00:00Z,2026-10-14T00:00:00Z,7056,eia:ice_wholesale_electricity,2026-10-23T18:18:26Z,pass,internal,power,no,source
 eia_ieo_projections,none,,574,P1Y,2020-01-01T00:00:00Z,2050-01-01T00:00:00Z,17856,eia:ieo/2023,2026-10-23T13:46:53Z,pass,public,power;carbon,no,source
 eia_international_electricity_annual,none,,51,P1Y,1980-01-01T00:00:00Z,2024-01-01T00:00:00Z,4131,eia:international,2026-10-23T04:55:57Z,pass,public,power,no,source
 eia_lng_exports_monthly,none,,17,P1M,2013-11-01T00:00:00Z,2026-07-01T00:00:00Z,1083,eia:natural-gas/move/poe2,2026-10-23T14:37:50Z,pass,public,lng,no,source

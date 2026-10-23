@@ -140,6 +140,7 @@ eia_gas_trade_monthly,EIA,the source registry
 eia_gas_wells_annual,EIA,the source registry
 eia_heat_rates_annual,EIA,the source registry
 eia_heating_fuel_prices_weekly,EIA,the source registry
+eia_ice_electricity_daily,"EIA; ICE, whose prices EIA republishes",by hand: its header: EIA republishes these prices with ICE's permission
 eia_ieo_projections,EIA,the source registry
 eia_international_electricity_annual,EIA,the source registry
 eia_lng_exports_monthly,EIA,the source registry
