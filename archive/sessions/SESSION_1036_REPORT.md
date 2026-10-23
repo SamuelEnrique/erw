@@ -21,7 +21,7 @@ The browser and the server were stopped by their process ids; the lock released.
 
 ## The landing
 
-Lands with the next landing of this chain.
+Sessions 1020 to 1039 landed in one push: see `SESSION_1039_REPORT.md`, "The landing".
 
 ## Decisions made without you
 

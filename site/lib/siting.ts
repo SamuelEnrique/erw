@@ -117,7 +117,11 @@ export type CountyProjects = { future: number; planned: number; completed: numbe
   next: { date: string; title: string; kv: string; owner: string; id: string } | null };
 export type NodeFile = { table: string; built: string; first: string; last: string; points: number; hubs: number; zones: number; pct_from?: string; pct_to?: string; nodes: NodeRow[];
   places?: { table: string; retrieved: string; placed: number; words: string; of: number; matched: number };
-  projects?: { table: string; workbook: string; counties: Record<string, CountyProjects> } };
+  projects?: { table: string; workbook: string; counties: Record<string, CountyProjects> };
+  /** session 1069 (chain 073): ERCOT's generators due in a placed node's county in the twelve months after EIA-860M's
+   * vintage (eia860m_planned_generators), MW and count by EIA's status, as the Headroom column counts them */
+  planned?: { table: string; vintage: string; from: string; to: string;
+    counties: Record<string, { construction_mw: number; construction_n: number; approved_mw: number; approved_n: number; other_mw: number; other_n: number }> } };
 
 /** A region's kind as the index says it; a region of a grid whose index names no kind is a hub when its name says so. */
 function kindOf(grid: string, id: string, kind: string | null | undefined): RowKind {
@@ -990,7 +994,7 @@ export function allIn(parts: Record<"energy" | "transmission" | "capacity", Part
 // the check keys: allgrids|<column>|<row>[|<inputs>]
 // ---------------------------------------------------------------------------------------------------------------------
 
-export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFile, "nodes" | "projects">; years: (grid: string) => YearFile[]; cp?: CpFile;
+export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFile, "nodes" | "projects" | "planned">; years: (grid: string) => YearFile[]; cp?: CpFile;
   /** session 703: the Commission's newest approved postage stamp rate (newestRate over texas_delivery.json's matrix) */
   rate?: Rate | null;
   /** session 704: the capacity tables' newest periods and zones, no price (data/siting/capacity.json) */
@@ -1076,6 +1080,11 @@ export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
   if (p[1] === "nodeprojects") {
     const n = f.nodes.nodes.find((k) => `ercot:${k.id}` === row.id), c = n?.county ? f.nodes.projects?.counties[n.county] : undefined;
     return c && (p[3] === "future" || p[3] === "planned" || p[3] === "completed") ? c[p[3]] : undefined;
+  }
+  // session 1069 (chain 073): ERCOT's planned generation in a placed node's county, MW by EIA's status
+  if (p[1] === "nodeplanned") {
+    const n = f.nodes.nodes.find((k) => `ercot:${k.id}` === row.id), c = n?.county ? f.nodes.planned?.counties[n.county] : undefined;
+    return c && (p[3] === "construction" || p[3] === "approved" || p[3] === "other") ? c[`${p[3]}_mw`] : undefined;
   }
   if (p[1] === "nodediff") {
     const na = f.nodes.nodes.find((k) => `ercot:${k.id}` === row.id), nb = f.nodes.nodes.find((k) => `ercot:${k.id}` === p[3]);

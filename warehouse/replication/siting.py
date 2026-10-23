@@ -279,7 +279,9 @@ def reserve_figures(repo, rows):
     headroom.json's build day, for the hub table's ERCOT rows (the node list has no headroom column). None held: none."""
     as_of = (read_json(repo, "siting", "headroom.json").get("reserve") or {}).get("as_of")
     nxt = sorted((r for r in rows if as_of and r["ts_utc"][:10] > as_of and r["value"] not in ("", None)), key=lambda r: r["ts_utc"])
-    return {f"allgrids|reservemargin|{rid}": float(nxt[0]["value"]) for rid in ROWS if rid.startswith("ercot:")} if nxt else {}
+    # session 1042 (chain 072): rounded to six decimals, as the builder writes it (siting_page.reserve_margins); unrounded,
+    # the comparison failed on a difference below a millionth
+    return {f"allgrids|reservemargin|{rid}": round(float(nxt[0]["value"]), 6) for rid in ROWS if rid.startswith("ercot:")} if nxt else {}
 
 
 PANEL_NODE = "7RNCHSLR_ALL"   # session 1048: the node whose panel the replication reads (check-values reads it too)
@@ -299,12 +301,39 @@ def project_figures(places_rows, project_rows, node=PANEL_NODE):
     return {f"allgrids|nodeprojects|ercot:{node}|{k}": float(v) for k, v in n.items()}
 
 
+def planned_figures(places_rows, planned_rows, vintage, node=PANEL_NODE):
+    """Session 1069 (chain 073): ERCOT's planned generators in the node's county, nameplate MW by EIA's status, due in
+    the twelve months after the vintage month ("YYYY-MM"), counted a second time from the two tables' rows (state TX,
+    balancing authority ERCO), each rounded to one decimal as the tab's file writes it. A node not placed: none."""
+    county = next((r["x_county"] for r in places_rows if r["entity_id"] == f"ercot_node:{node}" and r.get("x_county")), None)
+    if not county:
+        return {}
+    y, m = int(vintage[:4]), int(vintage[5:7])
+    first = f"{y + (m // 12)}-{m % 12 + 1:02d}"
+    last = f"{y + 1}-{m:02d}"
+    mw = {"construction": 0.0, "approved": 0.0, "other": 0.0}
+    for r in planned_rows:
+        if r.get("state") != "TX" or r.get("balancing_authority") != "ERCO" or (r.get("county") or "").upper() != county.upper():
+            continue
+        if not first <= (r.get("planned_operation_date") or "")[:7] <= last:
+            continue
+        st = r.get("eia_status")
+        k = "construction" if st in ("U", "V", "TS") else "approved" if st == "T" else "other"
+        mw[k] += float(r["nameplate_mw"]) if r.get("nameplate_mw") not in ("", None) else 0.0
+    return {f"allgrids|nodeplanned|ercot:{node}|{k}": round(v, 1) for k, v in mw.items()}
+
+
 def table_figures(repo, tables, chosen):
     """Session 735: the node spread and the zone growth from the warehouse's own tables (--tables)."""
     out = {}
     lp, tp = os.path.join(tables, "ercot_node_places.csv"), os.path.join(tables, "ercot_transmission_projects.csv")
     if os.path.exists(lp) and os.path.exists(tp):   # session 1048
         out.update(project_figures(list(table_rows(lp)), list(table_rows(tp))))
+    gp = os.path.join(tables, "eia860m_planned_generators.csv")
+    if os.path.exists(lp) and os.path.exists(gp):   # session 1069: the vintage the tab's file names
+        vintage = (read_json(repo, "siting", "nodes.json").get("planned") or {}).get("vintage")
+        if vintage:
+            out.update(planned_figures(list(table_rows(lp)), list(table_rows(gp)), vintage))
     # session 1027: ERCOT's reserve margin from the table's own CSV, where the live set does not hold it yet
     rpath = os.path.join(tables, "ercot_cdr_reserve_margins.csv")
     if os.path.exists(rpath):
