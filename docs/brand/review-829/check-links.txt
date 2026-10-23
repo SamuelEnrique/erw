@@ -1,0 +1,18 @@
+check-links: 351 pages at http://localhost:3828, in the internal view
+1770 internal addresses linked from 351 pages: asking for each (93 under /api/ not asked)
+79 pages linked with a fragment and not on the list: reading their anchors
+broken | /findings/ | "Python" | on /research/card/siting_gigawatt (and 2 more pages) | answers 404 (through /findings/ -> /findings)
+broken | /findings/ | "Stata do-file" | on /research/card/siting_gigawatt (and 2 more pages) | answers 404 (through /findings/ -> /findings)
+broken | /findings/siting_battery_swing_1080x1350.png | "1080 x 1350" | on /research/card/siting_battery_swing (and 1 more page) | answers 404
+broken | /findings/siting_battery_swing_1600x900.png | "1600 x 900" | on /research/card/siting_battery_swing (and 1 more page) | answers 404
+broken | /findings/siting_flexible_1080x1350.png | "1080 x 1350" | on /research/card/siting_flexible (and 1 more page) | answers 404
+broken | /findings/siting_flexible_1600x900.png | "1600 x 900" | on /research/card/siting_flexible (and 1 more page) | answers 404
+broken | /findings/siting_gigawatt_1080x1350.png | "1080 x 1350" | on /research/card/siting_gigawatt (and 1 more page) | answers 404
+broken | /findings/siting_gigawatt_1600x900.png | "1600 x 900" | on /research/card/siting_gigawatt (and 1 more page) | answers 404
+anchor | /data#eia861m_utility_sales_monthly | "the table and its download" | on /digest/2026-10-22 | /data holds no id "eia861m_utility_sales_monthly"
+waits | /data/methods/price_board_v4 | "The price board, version 4" | on /data | /data lists every method document, version 4's note too, and its address redirects to the price board's note (session 132): keep the line or drop it
+alias | /ask | "Ask" | on / (and 350 more pages) | the Ask panel's own address, a redirect to the Grid tool's panel (the owner's merge of 18 October 2026) (/ask -> /grid?grid=us48&ask=1)
+alias | /ask | "Ask about the whole warehouse" | on /emissions (and 42 more pages) | the Ask panel's own address, a redirect to the Grid tool's panel (the owner's merge of 18 October 2026) (/ask -> /grid?grid=us48&ask=1)
+alias | /internal/lock | "lock" | on / (and 350 more pages) | an action, not a page: it closes the internal view and returns to the home page (/internal/lock -> /)
+check-links: 351 pages, 22067 links, 1770 addresses; 9 findings, 1 waiting for a ruling, 3 aliases, 93 addresses under /api/ not asked, 0 pages not read cleanly (detail in ../../erw/runs/s820/links.json)
+exit=1

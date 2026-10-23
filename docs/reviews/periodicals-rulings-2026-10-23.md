@@ -65,3 +65,7 @@ Nineteen open, none answered, none done. `docs/reviews/deals-rulings-2026-10-23.
 ## State after session 843 (23 October 2026, about 08:15 UTC)
 
 Session 843 of chain 082 (`queue/done/082-night-25-october-portable-deals-3.md`). The same places were looked in as at 07:55 UTC (above) and main has moved only by chain 081's own documents since: every one of the 19 items is open, none answered, none done. `docs/reviews/deals-rulings-2026-10-23.md` still does not exist (chain 080's session 832).
+
+## State after session 832 (23 October 2026, about 09:30 UTC)
+
+Session 832 of chain 080 (`queue/done/080-night-23-october-portable-landing-deals-.md`), after the periodicals' landing was tried in sessions 820 and 822 (six gate runs: the probe closed four times, main moved twice; the full run of 08:15 to 09:06 UTC passed the suite and the build and failed `check_values` on `/roundup` "fetch failed" and on the 21 October issue's WTI figure for 14 October, which the warehouse revised after the issue was written; `check_digest.py --supabase --then-csv`: 138 ok, 2 FAILED, the same figure in the issues of 20 and 21 October). Nothing of sessions 801 to 817 is on main; `wip/818-periodicals` holds them over main as of 09:10 UTC. Every one of the 19 items is open, none answered, none done; item 19 (the ten floors) was met by this gate too, and a twentieth question joins it in `deals-rulings-2026-10-23.md` (item 7 there): whether a past issue's figure the warehouse revised fails the gate.

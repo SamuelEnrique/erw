@@ -29,6 +29,7 @@ carbon_intensity_hourly,EIA,the source registry and the tables its header derive
 carbon_intensity_monthly,EIA,the source registry and the tables its header derives it from: eia930_all_emissions
 census_metro_population,Census Bureau,the source registry
 cer_electricity_trade,Canada Energy Regulator (CER),the source registry
+cer_gas_trade,Canada Energy Regulator (CER),the source registry
 cftc_cot_positions,CFTC,the source registry
 clean_energy_hourly,CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: caiso_fuel_supply, carbon_intensity_hourly, ercot_all_hub_prices_history, iso_dam_hub_prices, iso_hub_prices_history"
 clean_energy_summary,CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: caiso_fuel_supply, carbon_intensity_hourly, ercot_all_hub_prices_history, iso_dam_hub_prices, iso_hub_prices_history"
@@ -94,6 +95,7 @@ eia930_subba_demand_hourly_2023,EIA,the source registry
 eia930_subba_demand_hourly_2024,EIA,the source registry
 eia930_subba_demand_hourly_2025,EIA,the source registry
 eia_aeo_electricity,EIA,the source registry
+eia_aeo_emm_regions,EIA,the source registry
 eia_all_futures_prices,"CME Group (NYMEX), whose prices EIA republished; EIA",by hand: its header: EIA names the New York Mercantile Exchange as the source of these prices
 eia_annual_crosscheck_ba,EIA,the source registry and the tables its header derives it from: eia_annual_generation_ba
 eia_annual_generation_ba,EIA,the source registry
@@ -168,6 +170,7 @@ eia_state_source_disposition_annual,EIA,the source registry
 eia_steo_forecasts,EIA,the source registry
 eia_uranium_marketing_annual,EIA,the source registry
 eia_wood_pellets_monthly,EIA,the source registry
+eia_world_electricity_annual,EIA,the source registry
 energy_companies,ERW,"by hand: its header: names, one-line descriptions written by the ERW, and links"
 energy_deals,ANS Nuclear Newswire; Bloomberg; Canary Media; DOE newsroom; Data Center Dynamics; Data Center Frontier; Electrek; Energy-Storage.news; Financial Times; Hart Energy; Heatmap News; JPT; LNG Prime; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; Rigzone; Utility Dive; WSJ; World Nuclear News; pv magazine USA,the source registry
 energy_deals_evidence,ANS Nuclear Newswire; Bloomberg; Canary Media; DOE newsroom; Data Center Dynamics; Data Center Frontier; Electrek; Energy-Storage.news; Financial Times; Hart Energy; Heatmap News; JPT; LNG Prime; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; Rigzone; Utility Dive; WSJ; World Nuclear News; pv magazine USA,the source registry
@@ -189,6 +192,7 @@ ercot_interconnection_queue,ERCOT,the source registry
 ercot_large_load_status,ERCOT,the source registry
 ercot_node_places,ERCOT,"the source registry and the tables its header derives it from: ercot_cdr_units, node_basis_daily"
 ercot_node_prices_hourly,ERCOT,"by hand: its header: ERCOT's prices read from the saved files of NP3-966-ER, NP4-190-CD and NP6-905-CD (session 378)"
+ercot_node_transmission,ERCOT,"the source registry and the tables its header derives it from: ercot_node_places, ercot_transmission_projects"
 ercot_peak_premium_annual,ERCOT,by hand: its header: derived from ERCOT's hub prices (reports NP6-785-ER and NP6-905-CD)
 ercot_peak_premium_monthly,ERCOT,by hand: its header: derived from ERCOT's hub prices (reports NP6-785-ER and NP6-905-CD)
 ercot_rtm_node_prices,ERCOT,the source registry
@@ -283,6 +287,7 @@ large_load_rules_internal,FERC; Georgia Public Service Commission; Indiana Utili
 large_load_statements,"utilities and operators, each row's own document (not listed one by one)",by hand: its header: each row's source is the utility's or operator's own document
 large_load_waits,"Alberta Electric System Operator (AESO), Canada; Bonneville Power Administration (BPA); NYISO; Public Utility District No. 2 of Grant County, Washington (Grant PUD)",the source registry
 lbnl_interconnection_queue,Berkeley Lab,the source registry
+lbnl_ppa_prices,Berkeley Lab,the source registry
 merchant_revenue_monthly,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"the source registry and the tables its header derives it from: eia860m_operating_generators, eia860m_retired_generators, eia_fuel_spot_prices, ercot_all_hub_prices_history, event_window_daily, iso_hub_prices_history, iso_rtm_hub_prices, isone_rtm_zone_prices_hourly, nyiso_rtm_zone_prices"
 miso_as_prices,MISO,the source registry
 miso_interconnection_queue,MISO,the source registry
@@ -306,6 +311,8 @@ nyiso_interconnection_queue,NYISO,the source registry
 nyiso_load_queue,NYISO,the source registry
 nyiso_rtm_zone_prices,NYISO,the source registry
 nyiso_zone_load_hourly,NYISO,the source registry
+ornl_eha_hydropower_plants,"Oak Ridge National Laboratory (ORNL), HydroSource",the source registry
+ornl_hydropower_pipeline,"Oak Ridge National Laboratory (ORNL), HydroSource",the source registry
 pjm_rpm_capacity_prices,PJM,the source registry
 policy_action_tags,California Public Utilities Commission; NRC; Office of the Federal Register (NARA); Public Utility Commission of Texas; U.S. Department of Energy (DOE),the source registry and the tables its header derives it from: policy_actions
 policy_actions,California Public Utilities Commission; NRC; Office of the Federal Register (NARA); Public Utility Commission of Texas; U.S. Department of Energy (DOE),the source registry
