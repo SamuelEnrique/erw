@@ -180,6 +180,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "irs_soi_energy_credits_annual",
            "eia_state_to_state_capacity",
            "noaa_cpc_oni_monthly",
+           "wfigs_wildfires",
            "noaa_ncei_storm_events",
            "nrc_event_notifications",
            "doe_lng_export_applications",
