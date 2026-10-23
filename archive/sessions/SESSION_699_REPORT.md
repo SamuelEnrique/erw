@@ -23,3 +23,8 @@
 - New: `docs/state/note_2026-10-25_data.md`, this report. Changed (on main): `queue/next/046-night-22-october-data-sources-gaps.md`. On the data machine only: `runs/c045/` (the suite's output, the snapshots' comparisons, `update_046.py`).
 
 ## Addendum: the landing
+
+- `task/687-699-data` (head `72ecfef9`) pushed at 01:18:52 UTC after the before snapshot `c045-land-before` (01:18:44 UTC, 25 pages, 0 failed).
+- The code-branch run 39883283495 completed with success and merged the branch at 01:32 UTC: main `9e92caa9`.
+- Vercel deployed `9e92caa9` (pending 01:32:03, success 01:33:57 UTC); the after snapshot `c045-land-after` was taken at 01:34:00 UTC.
+- `compare c045-land-before c045-land-after`: **0 differences in all 25 pages** (expected: the chain moves no page's figure; every new table is held from the live set).
