@@ -3225,6 +3225,27 @@ ercot_large_load_status,new_submissions_count,series variable,count
 ercot_large_load_status,new_submissions_mw,series variable,MW
 ercot_large_load_status,observed_nonsimultaneous_peak_mw,series variable,MW
 ercot_large_load_status,observed_simultaneous_peak_mw,series variable,MW
+ercot_node_places,entity_id,column,
+ercot_node_places,entity_type,column,
+ercot_node_places,name,column,
+ercot_node_places,geo,column,
+ercot_node_places,lat,column,
+ercot_node_places,lon,column,
+ercot_node_places,capacity_mw,column,
+ercot_node_places,status,column,
+ercot_node_places,status_date,column,
+ercot_node_places,operator,column,
+ercot_node_places,source,column,
+ercot_node_places,source_url,column,
+ercot_node_places,retrieved_at,column,
+ercot_node_places,vintage,column,
+ercot_node_places,x_station,column,
+ercot_node_places,x_county,column,
+ercot_node_places,x_zone,column,
+ercot_node_places,x_class,column,
+ercot_node_places,x_resource_type,column,
+ercot_node_places,x_cdr_units,column,
+ercot_node_places,x_cdr_units_n,column,
 ercot_peak_premium_annual,all_iqr,series variable,USD/MWh
 ercot_peak_premium_annual,all_max,series variable,USD/MWh
 ercot_peak_premium_annual,all_median,series variable,USD/MWh
