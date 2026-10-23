@@ -192,6 +192,7 @@ ercot_interconnection_queue,ERCOT,the source registry
 ercot_large_load_status,ERCOT,the source registry
 ercot_node_places,ERCOT,"the source registry and the tables its header derives it from: ercot_cdr_units, node_basis_daily"
 ercot_node_prices_hourly,ERCOT,"by hand: its header: ERCOT's prices read from the saved files of NP3-966-ER, NP4-190-CD and NP6-905-CD (session 378)"
+ercot_node_transmission,ERCOT,"the source registry and the tables its header derives it from: ercot_node_places, ercot_transmission_projects"
 ercot_peak_premium_annual,ERCOT,by hand: its header: derived from ERCOT's hub prices (reports NP6-785-ER and NP6-905-CD)
 ercot_peak_premium_monthly,ERCOT,by hand: its header: derived from ERCOT's hub prices (reports NP6-785-ER and NP6-905-CD)
 ercot_rtm_node_prices,ERCOT,the source registry
