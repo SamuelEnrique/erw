@@ -3080,6 +3080,13 @@ eia_wood_pellets_monthly,export_price,series variable,USD/short_ton
 eia_wood_pellets_monthly,facilities,series variable,count
 eia_wood_pellets_monthly,feedstock_cost,series variable,USD/short_ton
 eia_wood_pellets_monthly,fte_employees,series variable,count
+eia_world_electricity_annual,capacity,series variable,MW
+eia_world_electricity_annual,consumption,series variable,MWh
+eia_world_electricity_annual,distribution_losses,series variable,MWh
+eia_world_electricity_annual,exports,series variable,MWh
+eia_world_electricity_annual,generation,series variable,MWh
+eia_world_electricity_annual,imports,series variable,MWh
+eia_world_electricity_annual,net_imports,series variable,MWh
 energy_companies,entity_id,column,
 energy_companies,entity_type,column,
 energy_companies,name,column,
