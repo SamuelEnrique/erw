@@ -235,6 +235,7 @@ SECTOR_RULES = [
     (r"^msha_coal_production_quarterly$", "coal"),  # session 2034: MSHA's coal production, hours and employees a quarter
     (r"^fhwa_motor_fuel_monthly$", "products"),  # session 2035: FHWA's monthly motor fuel by state
     (r"^afdc_vehicle_registrations_annual$", "power;products"),  # session 2036: AFDC's vehicle registrations by state and fuel
+    (r"^irena_capacity_annual$", "power"),  # session 2085: IRENA's installed capacity by country and technology
     (r"^noaa_ncei_storm_events$", "power"),  # session 2042: NOAA's storm events
     (r"^nrc_event_notifications$", "power;uranium"),  # session 2043: the NRC's event reports
     (r"^doe_lng_export_applications$", "gas;lng"),  # session 2044: DOE's LNG export applications
