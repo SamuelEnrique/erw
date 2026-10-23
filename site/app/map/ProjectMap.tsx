@@ -12,9 +12,11 @@ import { baseStyle, token, useEChart } from "@/components/echarts";
 import { InputPanel, Tip, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { STATES } from "@/lib/regions";
 import {
-  COLOR, COLOR_KEY, EVERYTHING, KIND, SOURCE_RULE, cardOf, clickState, dateOf, one, optionsOf, parseChoice, queryOf, select, sizeOf, sourceOf, sourceWords, tidy, toggle, totals, whole,
+  COLOR, COLOR_KEY, EVERYTHING, KIND, SOURCE_RULE, cardOf, clickState, hoverOf, optionsOf, parseChoice, queryOf, select, sizeOf, sourceOf, sourceWords, stateHover, tidy, toggle, totals, whole,
   type CardPart, type Choice, type Filter, type MapFace, type MapFile, type SourceKind,
 } from "@/lib/projectmap";
+
+const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
 
 // Session 2300 (chain 087): every figure this component computes carries data-source (lib/projectmap.ts, sourceOf) and
 // sits beside a hover tip with the same words: the tables, the vintage and the rule. The kind of a status group or a
@@ -71,6 +73,8 @@ export function ProjectMap({ file: f, statesGeo }: { file: MapFace; statesGeo: u
   const picked = useMemo(() => select(f, choice), [f, choice]);
   const sum = useMemo(() => totals(f, picked), [f, picked]);
   const drawn = useMemo(() => picked.filter((i) => xy.x[i] !== null), [picked, xy]);
+  // session 2301: the rows chosen in each state, for a state's hover
+  const perState = useMemo(() => { const m = new Map<number, number>(); for (const i of picked) m.set(f.s[i], (m.get(f.s[i]) ?? 0) + 1); return m; }, [picked, f]);
   const kindOn = (k: number) => choice.kind === null || choice.kind.includes(k);
 
   // the chart's handlers read the newest setters through refs (the chart is built once and redrawn)
@@ -99,19 +103,23 @@ export function ProjectMap({ file: f, statesGeo }: { file: MapFace; statesGeo: u
       chart.setOption({
         animation: false, textStyle: st.textStyle,
         toolbox: { ...st.toolbox("erw-project-map"), feature: { restore: { title: "Reset zoom" }, saveAsImage: st.toolbox("erw-project-map").feature.saveAsImage } },
+        // session 2301 (chain 087): the hover card in the brand's form (docs/brand.md, section 6: fog with a rule-colored
+        // edge, the name in sans, the figure in mono, the source line under it). The words are lib/projectmap.ts, hoverOf;
+        // a state's hover counts the rows chosen in it. The same figures stand in the totals, the table and the unit card.
         tooltip: {
           ...st.tooltip, trigger: "item",
           formatter: (p: { componentType: string; name?: string; value?: number[] }) => {
-            if (p.componentType === "geo") return `${p.name}: click to choose it, click again to take it away`;
+            if (p.componentType === "geo") {
+              const code = NAME_TO_CODE[p.name as string];
+              const s = code ? f.states.indexOf(code) : -1;
+              return esc(stateHover(p.name as string, s >= 0 ? perState.get(s) ?? 0 : 0, s >= 0 && (chosenStates ?? []).includes(s)));
+            }
             const i = (p.value as number[])[2];
-            const kind = f.k[i], mw = f.mw[i];
-            const name = (f.names[f.n[i]] || "No name in the source").replace(/</g, "&lt;");
-            const what = kind === KIND.datacenter ? "Datacenter" : f.techs[f.t[i]].name;
-            const st2 = f.statuses[f.st[i]].name;
-            const grid = f.grids[f.g[i]];
-            return `<div style="max-width:17rem;white-space:normal"><strong>${name}</strong><br/>`
-              + `${what}, ${mw === null ? "MW not stated" : `${one(mw)} MW${kind === KIND.queue ? " requested" : ""}`}<br/>`
-              + `<span style="color:${muted}">${kind === KIND.queue ? "Queue position, " : ""}${st2}, ${f.states[f.s[i]] || "state not stated"}${grid.slug === "none" ? "" : `, ${grid.name}`}${f.d[i] ? `, ${dateOf(f.d[i])}` : ""}. Click for its card.</span></div>`;
+            const h = hoverOf(f, i);
+            return `<div style="max-width:18rem;white-space:normal;font-size:12px"><strong>${esc(h.name)}</strong><br/>`
+              + `${esc(h.what)}, <span style="font-family:var(--font-mono)">${esc(h.figure)}</span><br/>`
+              + `<span style="color:${muted}">${esc(h.where)}. ${h.click}</span><br/>`
+              + `<span style="color:${muted};font-size:11px">${esc(h.source)}.</span></div>`;
           },
         },
         geo: {
@@ -131,7 +139,7 @@ export function ProjectMap({ file: f, statesGeo }: { file: MapFace; statesGeo: u
         if (s >= 0) act.current.change((c) => ({ ...c, state: clickState(c.state, s, f.states.length) }));
       });
     },
-    [drawn, chosenStates, xy, f, statesGeo],
+    [drawn, chosenStates, xy, f, statesGeo, perState],
   );
 
   const cardBox = useRef<HTMLDivElement>(null);

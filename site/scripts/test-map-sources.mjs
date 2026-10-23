@@ -60,5 +60,23 @@ check(qv.includes("iso={iso}") && qv.includes('id="queue-table"'), "QueuesView: 
 check((rm.match(/data-count-value="[a-z_]+" data-source=/g) ?? []).length === 7, "ResourceMap: the seven counts carry data-source");
 for (const [name, text] of [["ProjectMap", pm], ["page", pg], ["QueueCharts", qc], ["QueuesView", qv], ["projectmap.ts", read("../lib/projectmap.ts")]]) check(!/—/.test(text), `${name}: no em dash`);
 
+// session 2301: the hover card's words of a mark, one row of each kind of the file, and a state's
+{
+  const { hoverOf, stateHover, KIND } = await import("../lib/projectmap.ts");
+  for (const k of f.kinds) {
+    if (!k.rows) continue;
+    const i = k.start;
+    const h = hoverOf(f, i);
+    const kind = f.k[i];
+    const table = kind === KIND.operating ? "eia860m_operating_generators" : kind === KIND.planned ? "eia860m_planned_generators" : kind === KIND.queue ? "energy_projects" : "datacenter_facilities";
+    const when = kind <= KIND.planned ? f.vintage : kind === KIND.queue ? f.vintages.queue : f.vintages.datacenter;
+    check(h.name.length > 0 && h.source.includes(table) && h.source.includes(when) && h.source.includes(f.built.slice(0, 10)) && h.click === "Click for its card."
+      && (f.mw[i] === null ? h.figure === "MW not stated" : /\d MW/.test(h.figure)) && (kind !== KIND.queue || (h.figure.endsWith(" requested") && h.where.startsWith("Queue position, "))),
+      `hover (${k.slug}): "${h.name}", ${h.figure}; ${h.where}; ${h.source}`);
+  }
+  check(stateHover("Texas", 1, false) === "Texas: 1 row chosen in it. Click to choose it." && stateHover("Texas", 1200, true) === "Texas: 1,200 rows chosen in it. Click to take it away.", "a state's hover counts the rows chosen and says what a click does");
+  check(/hoverOf\(f, i\)/.test(pm) && /stateHover\(/.test(pm) && /font-family:var\(--font-mono\)/.test(pm) && !/one\(mw\)/.test(pm), "ProjectMap: the tooltip draws hoverOf's words with the figure in mono, and a state's hover from stateHover");
+}
+
 console.log(`${n - bad} of ${n} passed`);
 process.exit(bad ? 1 : 0);

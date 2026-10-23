@@ -9,7 +9,7 @@
 // same months and rule as the calculator's headline for that region): no figure the calculator shows moves.
 import { Num } from "@/components/Num";
 import { SiteLink as Link } from "@/components/SiteLink";
-import { ToolSection, ToolTable } from "@/components/tool/ToolPage";
+import { Tip, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import type { EntityRow } from "@/lib/data";
 import { BUYS, regionCosts, shortMonth, two, type RegionCost } from "@/lib/datacenter";
 import { INDEX, yearFiles } from "@/lib/datacenterdata";
@@ -61,7 +61,9 @@ export function PowerSide({ read }: { read: Read }) {
           <p className="text-sm text-muted">No position in the queues read names a datacenter or a large load.</p>
         ) : (
           <ToolTable caption="Sites from the interconnection queues" minWidth={760} words
-            head={["Site", "Grid", "County, state", "Queue position", "MW asked to connect", "Point of interconnection", "Load zone", "Queue date, in service"]}
+            head={["Site", "Grid", "County, state", "Queue position",
+              <span key="mw">MW asked to connect<Tip id="power-mw" label="the MW asked to connect">The generation or storage the position asks to connect, as the grid operator&apos;s queue states it (the column capacity_mw of the queue&apos;s table, read from the live set with its check key). It is not the site&apos;s load: no queue states that. Hover a figure for its row&apos;s table and the day it was read.</Tip></span>,
+              "Point of interconnection", "Load zone", "Queue date, in service"]}
             rows={rows.map((r) => {
               const z = zoneOf(r);
               return {
@@ -71,7 +73,10 @@ export function PowerSide({ read }: { read: Read }) {
                   gridName(gridOf(r)),
                   [r.extra?.county, r.extra?.state].filter(Boolean).join(", ") || "not stated",
                   <span key="q">{r.extra?.queue_id ?? r.entity_id}: {r.extra?.iso_status ?? r.status ?? "status not stated"}{r.source_url ? <> (<a href={r.source_url} className="underline" rel="noopener">report</a>, read {day(r.vintage ?? undefined)})</> : null}</span>,
-                  r.capacity_mw === null ? "not stated" : <Num key="mw" check={`entity|${r.table_name}|${r.entity_id}|capacity_mw`} raw={Number(r.capacity_mw)}>{Number(r.capacity_mw).toLocaleString("en-US")}</Num>,
+                  r.capacity_mw === null ? "not stated" : (
+                    <span key="mw" title={`${Number(r.capacity_mw).toLocaleString("en-US")} MW the position asks to connect, not the site's load. Read from ${r.table_name} (${r.extra?.queue_id ?? r.entity_id}), the queue report read ${day(r.vintage ?? undefined)}.`} data-power-mw={r.entity_id}>
+                      <Num check={`entity|${r.table_name}|${r.entity_id}|capacity_mw`} raw={Number(r.capacity_mw)}>{Number(r.capacity_mw).toLocaleString("en-US")}</Num>
+                    </span>),
                   firstLine(r.extra?.poi) || "not stated",
                   z ? <Link key="z" href={calcHref(gridOf(r), z.id)}>{z.name}</Link> : <span key="z" className="text-muted">not stated by the queue</span>,
                   `${day(r.extra?.queue_date)}; ${r.extra?.actual_in_service_date ? `in service ${day(r.extra.actual_in_service_date)}` : `proposed ${day(r.extra?.proposed_in_service_date)}`}`,

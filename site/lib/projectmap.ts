@@ -194,6 +194,28 @@ export function sourceWords(f: SourceFace, kind: SourceKind, rule: string): stri
   return `Computed in your browser from the page's own copy of ${what} (${tables}, ${when}, the copy built ${f.built.slice(0, 10)}), ${rule}. Nothing is read from the live set for this figure.`;
 }
 
+// Session 2301 (chain 087): the hover card of a mark on the map, as words (the chart draws them in the brand's card:
+// the name, then the figure in mono, then the grey line with the status, the place and the date, then the source line).
+// Pure, so a test can read a row of the file without a browser. `source` names the table the row is read from and its
+// vintage, as the unit card's last line does.
+export type Hover = { name: string; what: string; figure: string; where: string; source: string; click: string };
+export function hoverOf(f: Pick<MapFile, "k" | "n" | "t" | "st" | "s" | "g" | "d" | "mw" | "names" | "techs" | "statuses" | "states" | "grids" | "tables" | "vintage" | "vintages" | "built">, i: number): Hover {
+  const kind = f.k[i], mw = f.mw[i];
+  const name = f.names[f.n[i]] || "No name in the source";
+  const what = kind === KIND.datacenter ? "Datacenter" : f.techs[f.t[i]].name;
+  const figure = mw === null ? "MW not stated" : `${one(mw)} MW${kind === KIND.queue ? " requested" : kind === KIND.datacenter ? " stated" : ""}`;
+  const grid = f.grids[f.g[i]];
+  const where = `${kind === KIND.queue ? "Queue position, " : ""}${f.statuses[f.st[i]].name}, ${f.states[f.s[i]] || "state not stated"}${grid.slug === "none" ? "" : `, ${grid.name}`}${f.d[i] ? `, ${dateOf(f.d[i])}` : ""}`;
+  const sk: SourceKind = kind === KIND.queue ? "queue" : kind === KIND.datacenter ? "datacenter" : "units";
+  const table = kind === KIND.operating ? f.tables.find((t) => t.includes("operating")) ?? sourceTables(f, sk)[0] : kind === KIND.planned ? f.tables.find((t) => t.includes("planned")) ?? sourceTables(f, sk)[0] : sourceTables(f, sk)[0];
+  const source = `Read from ${table}, ${kind <= KIND.planned ? `EIA's inventory of ${f.vintage}` : `vintage ${sourceVintage(f, sk)}`}, in the page's own copy built ${f.built.slice(0, 10)}`;
+  return { name, what, figure, where, source, click: "Click for its card." };
+}
+/** The hover of a state on the map: how many rows chosen it holds, and the click. */
+export function stateHover(name: string, rows: number, chosen: boolean): string {
+  return `${name}: ${rows.toLocaleString("en-US")} ${rows === 1 ? "row" : "rows"} chosen in it. ${chosen ? "Click to take it away." : "Click to choose it."}`;
+}
+
 /** The fuel color of a technology of the map: the site's eight, the rest share "other" (a ninth hue is never made). */
 export const COLOR: Record<string, string> = {
   solar: "--color-fuel-solar", wind: "--color-fuel-wind", battery: "--color-fuel-storage", storage: "--color-fuel-storage", queue_storage: "--color-fuel-storage",

@@ -22,14 +22,14 @@ export function QueueCharts({ label, iso, years, entered, operating, rate, wait 
       <div data-source={sourceOf(iso, "positions_entered and positions_operating")}>
         <SeriesChart id="queue-entered" title="Entered and reached operation" unit="positions" kind="line" scale="linear" categories={cats}
           series={[{ name: "Entered", color: "var(--color-ink)", values: entered }, { name: "Operating", color: "var(--color-accent)", values: operating }]}
-          says={(i) => `${years[i]}: ${entered[i] ?? "not held"} entered, ${operating[i] ?? "not held"} operating`}
+          says={(i) => `${years[i]}: ${entered[i] ?? "not held"} entered, ${operating[i] ?? "not held"} operating (${TABLE}, ${iso}:queue_${years[i]})`}
           note={`${label}: positions by the year they entered the queue, and how many of them reached operation. ${from(label, iso)}: positions_entered and positions_operating by entry year; the same figures are in the table below, each with its check key.`} />
       </div>
       {rate.some((v) => v !== null) ? (
         <div data-source={sourceOf(iso, "withdrawal_rate")}>
           <SeriesChart id="queue-withdrawn" title="Withdrawn, share of entered" unit="share" kind="line" scale="linear" categories={cats} fmt={two}
             series={[{ name: "Withdrawn", color: "var(--color-accent)", values: rate }]}
-            says={(i) => `${years[i]}: ${rate[i] === null ? "not held" : two(rate[i]!)} of the positions entered were withdrawn`}
+            says={(i) => `${years[i]}: ${rate[i] === null ? "not held" : two(rate[i]!)} of the positions entered were withdrawn (${TABLE}, ${iso}:queue_${years[i]}, withdrawal_rate)`}
             note={`${from(label, iso)}: withdrawal_rate by entry year, the positions withdrawn over the positions entered (a recent year's share is not final). The same figures are in the table below.`} />
         </div>
       ) : null}
@@ -37,7 +37,7 @@ export function QueueCharts({ label, iso, years, entered, operating, rate, wait 
         <div data-source={sourceOf(iso, "wait_years_median")}>
           <SeriesChart id="queue-wait" title="Median wait, entry to operation" unit="years" kind="line" scale="linear" categories={cats} fmt={two}
             series={[{ name: "Median wait", color: "var(--color-accent)", values: wait }]}
-            says={(i) => `${years[i]}: ${wait[i] === null ? "no wait held" : `${two(wait[i]!)} years`}`}
+            says={(i) => `${years[i]}: ${wait[i] === null ? "no wait held" : `${two(wait[i]!)} years`} (${TABLE}, ${iso}:queue_${years[i]}, wait_years_median)`}
             note={`${from(label, iso)}: wait_years_median by entry year, over the year's positions that reached operation (the column "Waits counted" below says how many). The same figures are in the table below.`} />
         </div>
       ) : null}

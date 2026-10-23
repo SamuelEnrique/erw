@@ -100,8 +100,11 @@ export function GridsView({ sites, active }: { sites: SitesRead; active: Read<Qu
               <GroupedBars id={`dc-years-${g}`} unit="USD per MWh" label={`${gridName(g)}: a flat load's price by year at the cheapest load zone, ${main.name} and the dearest load zone, USD per MWh`}
                 series={[{ name: "Cheapest load zone", tone: "muted" }, { name: `${main.name} (the calculator's default)`, tone: "accent" }, { name: "Dearest load zone", tone: "ink" }]}
                 fmt={(v) => two(v)}
-                groups={[...yearRows.map((r) => ({ label: r.y, values: [r.e ? r.e[0].per : null, r.main, r.e ? r.e[1].per : null] })),
-                  { label: "Last 12 months", sub: `${shortMonth(main.from)} to ${shortMonth(main.to)}`, values: [l12 ? l12[0].per : null, main.per, l12 ? l12[1].per : null] }]} />
+                groups={[...yearRows.map((r) => ({ label: r.y, values: [r.e ? r.e[0].per : null, r.main, r.e ? r.e[1].per : null],
+                    // session 2301 (chain 087): the group's hover words, with the zones named and the source; the fold under the chart holds the same figures
+                    title: `${r.y}: cheapest load zone ${r.e ? `${r.e[0].name} ${two(r.e[0].per)}` : "not held"}; ${main.name} ${r.main === null ? "not held" : two(r.main)}; dearest ${r.e ? `${r.e[1].name} ${two(r.e[1].per)}` : "not held"} USD per MWh. A flat load at the calculator's defaults, from the ERW's hourly prices (the cost-of-power calculator's own figures, check keys dcpow|${g}|<zone>|year|${r.y}).` })),
+                  { label: "Last 12 months", sub: `${shortMonth(main.from)} to ${shortMonth(main.to)}`, values: [l12 ? l12[0].per : null, main.per, l12 ? l12[1].per : null],
+                    title: `Last 12 months (${shortMonth(main.from)} to ${shortMonth(main.to)}): cheapest load zone ${l12 ? `${l12[0].name} ${two(l12[0].per)}` : "not held"}; ${main.name} ${two(main.per)}; dearest ${l12 ? `${l12[1].name} ${two(l12[1].per)}` : "not held"} USD per MWh. The calculator's own last twelve months (check keys dcpow|${g}|<zone>|per).` }]} />
             </ChartFrame>
             <Fold title="The chart's figures">
               <ToolTable caption={`${gridName(g)}: the chart's figures, USD per MWh`} minWidth={620} head={["Year", "Cheapest load zone", `${main.name}`, "Dearest load zone"]}

@@ -8,9 +8,9 @@
 // datacenters keys (scripts/check-values.mjs).
 import { SiteLink as Link } from "@/components/SiteLink";
 import type { ReactNode } from "react";
-import { LineChart } from "@/components/LineChart";
 import { Num } from "@/components/Num";
-import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, SourceLine, ToolSection, ToolTable } from "@/components/tool/ToolPage";
+import { SeriesChart } from "@/components/tool/SeriesChart";
+import { Fold, HeadlineNumber, HeadlineRow, SourceLine, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import loadJson from "@/data/large_load_status.json";
 import type { EntityRow } from "@/lib/data";
 import { countryOf, dayWords, facilityCounts, impossible, monthMismatch, span, summary, whole, type Facility, type LoadFile, type Report } from "@/lib/largeload";
@@ -44,8 +44,6 @@ export function LargeLoad({ read }: { read: Read }) {
   const c = facilityCounts(facilities);
   const vintage = read.ok ? read.data.map((r) => r.vintage ?? "").sort().at(-1) ?? "" : "";
   const texas = facilities.filter((r) => r.state === "TX").sort((a, b) => (b.capacity_mw ?? -1) - (a.capacity_mw ?? -1) || (a.name ?? "").localeCompare(b.name ?? ""));
-  const t = (d: string) => Date.parse(`${d}T00:00:00Z`) / 1000;
-  const line = (k: Figure) => f.reports.filter((r) => r[k] !== undefined).map((r) => ({ t: t(r.day), v: r[k] as number }));
   const cell = (r: Report, k: Figure): ReactNode => (r[k] !== undefined ? <Mw f={f} r={r} k={k} /> : <span className="text-muted">not stated</span>);
 
   return (
@@ -71,11 +69,18 @@ export function LargeLoad({ read }: { read: Read }) {
           virtual currency mining facilities of 75 MW or more, and its Batch Zero study, and no status update since states these figures (ERCOT&apos;s deck to TAC of
           26 August 2026, <span className="font-mono">Batch_Zero_Update_TAC_08262026.pptx</span>; <Link href="/data/methods/ercot_large_load_status">method</Link>).
         </p>
-        <ChartFrame title="MW, by report" legend={[{ label: "Approved to energize", color: "var(--color-accent)" }, { label: "Observed running (each load's own peak, summed)", color: "var(--color-fuel-storage)" }, { label: "Served at one moment", color: "var(--color-muted)" }]}
-          note={<>A point is one report. ERCOT published no report in the months without a point, or none that the ERW found on its meeting pages.</>}>
-          <LineChart unit="MW" height={280} x="month" ariaLabel="ERCOT large load approved to energize and observed running, by report"
-            lines={[{ label: "Approved to energize", color: "accent", points: line("approved") }, { label: "Observed running", color: "var(--color-fuel-storage)", points: line("nonsimultaneous") }, { label: "Served at one moment", color: "muted", points: line("simultaneous") }]} />
-        </ChartFrame>
+        {/* session 2301 (chain 087): the shared chart (SeriesChart) in place of the plain line chart, so each report has a
+            hover with its three figures and the source, and the Chart | Table toggle holds the same figures by keyboard. One
+            category a report, in order; the series are the three figures as ERCOT states them. */}
+        <div data-source={`${f.table}|${f.retrieved.slice(0, 10)}|one row a report, the three figures as ERCOT states them`}>
+          <SeriesChart id="large-load" title="MW, by report" unit="MW" kind="line" scale="linear"
+            categories={f.reports.map((r) => ({ label: dayWords(r.day).split(" ").slice(1).join(" "), sub: dayWords(r.day).split(" ")[0] }))}
+            series={[{ name: "Approved to energize", color: "var(--color-accent)", values: f.reports.map((r) => r.approved ?? null) },
+              { name: "Observed running", color: "var(--color-fuel-storage)", values: f.reports.map((r) => r.nonsimultaneous ?? null) },
+              { name: "Served at one moment", color: "var(--color-muted)", values: f.reports.map((r) => r.simultaneous ?? null) }]}
+            says={(i) => { const r = f.reports[i]; return `ERCOT's report of ${dayWords(r.day)}: approved to energize ${r.approved === undefined ? "not stated" : `${whole(r.approved)} MW`}, observed running ${r.nonsimultaneous === undefined ? "not stated" : `${whole(r.nonsimultaneous)} MW`} (each load's own peak, summed), served at one moment ${r.simultaneous === undefined ? "not stated" : `${whole(r.simultaneous)} MW`} (${f.table}, ${r.day})`; }}
+            note={<>A point is one report. ERCOT published no report in the months without a point, or none that the ERW found on its meeting pages. Read from {f.table} (the site&apos;s copy, retrieved {f.retrieved.slice(0, 10)}); the table below holds the same figures, each with its check key.</>} />
+        </div>
         <ToolTable caption="ERCOT's large-load status, by report" minWidth={680} head={["Report", "Approved to energize, MW", "Observed running, MW", "Served at one moment, MW", "The month as ERCOT wrote it"]}
           rows={[...f.reports].reverse().map((r) => ({
             key: r.day,

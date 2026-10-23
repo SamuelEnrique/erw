@@ -57,6 +57,15 @@ const VOCAB = new Set(["planned", "under construction", "operating", "withdrawn"
   check(firmusRows.length >= 1 && firmusRows.every((r) => /data-no-country="1"/.test(r)) && barItems.length > 0 && !barItems.some((t) => /Firmus/.test(t)),
     `Firmus's ${firmusRows.length} rows stay in the table without a country, and none of the ${barItems.length} bars names Firmus`);
   check(/Stated MW by state[^<]*US rows not cancelled/.test(text) && /Top operators by MW \(US rows not cancelled\)/.test(text), "the two bars say they count US rows not cancelled");
+  // session 2301 (chain 087): every bar's figure has a hover card (a focusable trigger and its tooltip, naming the facilities counted and the source), and the fold under the bars holds the same figures as a table
+  const tips = [...barsHtml.matchAll(/data-bar-tip="([^"]+)"[\s\S]*?<button[^>]*data-tip-trigger[^>]*aria-describedby="([^"]+)"[\s\S]*?role="tooltip" id="([^"]+)"[^>]*>([\s\S]*?)<\/span>\s*<\/span>\s*<\/li>/g)].map((m) => ({ bar: m[1], by: m[2], id: m[3], words: plain(m[4]) }));
+  const barCount = (barsHtml.match(/data-bar-tip="/g) ?? []).length;
+  check(barCount > 0 && tips.length === barCount && tips.every((t) => t.by === t.id && /MW, \d[\d,]* (facility|facilities)/.test(t.words) && /datacenter_facilities/.test(t.words)),
+    `each of the ${barCount} bars has a hover card its figure describes, naming the facilities counted and datacenter_facilities (${tips.length} read)`);
+  const barRows = (p.html.match(/data-bar-row="/g) ?? []).length;
+  check(p.html.includes('data-bars-table="1"') && barRows === barCount && /The bars&#x27; figures|The bars' figures/.test(p.html), `the fold under the bars holds the same ${barCount} figures as a table (${barRows} rows)`);
+  check(p.html.includes('data-tip="bars-state"') && p.html.includes('data-tip="bars-operator"') && p.html.includes('data-tip="power-mw"'), "the source tips stand by the two bars and the power side's MW column");
+  check(p.html.includes('data-series-chart="large-load"') && /data-source="ercot_large_load_status\|/.test(p.html), "ERCOT's large-load figures are drawn by the shared chart, framed with their source");
   const v = await get("/datacenters", false);
   check(!v.html.includes('aria-label="Summary"') && /in review/i.test(plain(v.html)), "without the cookie a visitor gets the in-review page");
 }
