@@ -71,7 +71,7 @@ class ThePicker(unittest.TestCase):
     def test_the_gravity_tab_carries_the_day(self):
         page = src("site", "app", "grid", "page.tsx")
         self.assertIn('<ToolPicker label="Grid"', page)
-        self.assertIn('const pickerCarry = view === "gravity" ? KEEP_DAY : undefined;', page)
+        self.assertIn('const pickerCarry = view === "gravity" || view === "network" ? KEEP_DAY : undefined;', page)
         self.assertIn("carry={pickerCarry} />", page)
         self.assertEqual(page.count("<ToolPicker "), 1)
         carry = src("site", "lib", "carry.ts")

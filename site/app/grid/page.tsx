@@ -88,7 +88,7 @@ export default async function GridTool({ searchParams }: { searchParams: Promise
   // the page's own words the network component keeps in the address; on the Gravity tab the shape word is the component's own
   const keep = view === "gravity" ? `?grid=${grid.slug}&view=gravity` : gridHref(grid.slug, "network").slice("/grid".length);
   // session 1153: the Gravity tab's picker carries the replay's day from the address (lib/carry.ts)
-  const pickerCarry = view === "gravity" ? KEEP_DAY : undefined;
+  const pickerCarry = view === "gravity" || view === "network" ? KEEP_DAY : undefined;
   const tabName = GRID_VIEWS.find(([k]) => k === view)![1];
   return (
     <Brand>
