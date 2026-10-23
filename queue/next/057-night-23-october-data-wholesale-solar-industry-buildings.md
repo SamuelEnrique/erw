@@ -2,7 +2,7 @@
 
 machine: data
 
-Written by session 2000, the first session of `queue/done/056-evening-23-october-data-jobs-reactors-large-loads-hydro.md`, under chain 045's rule ("the next file is written and pushed to `queue/next` at the START of the chain"), at the owner's instruction for chain 045 ("at least twelve sessions, machine: data, ... the sources and gaps ... in chain 040's form"). The next free number in `queue/next` and `queue/done` was 057. Chain 056 asked for sessions numbered from 2014; 2014 to 2027 were free in every queue file, report and branch when this was written (a search for "session 2014" and the rest found none; the bare numbers 2014 to 2027 in other files are years). Session 2013 of chain 056 updates it at chain 056's end. Model: Opus 5.5, high effort.
+Written by session 2000, the first session of `queue/done/056-evening-23-october-data-jobs-reactors-large-loads-hydro.md`, under chain 045's rule ("the next file is written and pushed to `queue/next` at the START of the chain"), at the owner's instruction for chain 045 ("at least twelve sessions, machine: data, ... the sources and gaps ... in chain 040's form"). The next free number in `queue/next` and `queue/done` was 057. Chain 056 asked for sessions numbered from 2014; 2014 to 2027 were free in every queue file, report and branch when this was written (a search for "session 2014" and the rest found none; the bare numbers 2014 to 2027 in other files are years). Session 2013 of chain 056 updated it at chain 056's end (the RISE paths, this machine's own daily lock, reads numbered across two chains); chain 056 found ERCOT's large load status only as a chart image, so no session here repeats it. Model: Opus 5.5, high effort.
 
 Each source session follows chain 040's form:
 
@@ -19,12 +19,13 @@ Default-neutral: no page's default figure moves, no ruling is made, nothing is r
 The rules of `queue/done/056-evening-23-october-data-jobs-reactors-large-loads-hydro.md` hold, word for word, among them:
 
 - **ERCOT's robots file disallows `/misapp` and `/misdownload`**, and **EIA's disallows `/archive/`**: neither is asked.
-- **Hosts that refused the ERW's reader, or whose robots file disallows its paths, are not asked again without a ruling:** api.census.gov, www.phmsa.dot.gov, FERC's policy page, EPA's bulk file API without a key, apps.cer-rec.gc.ca, files.ember-energy.org, www.bls.gov, and any host chain 056 adds (its note says which).
+- **Hosts that refused the ERW's reader, or whose robots file disallows its paths, are not asked again without a ruling:** api.census.gov, www.phmsa.dot.gov, FERC's policy page, EPA's bulk file API without a key, apps.cer-rec.gc.ca, files.ember-energy.org, www.bls.gov, and data.usbr.gov's `/rise/api` and time series queries (chain 056, session 2003: RISE serves its data only there; Reclamation's plant workbook on www.usbr.gov is held instead).
 - **Keys not held:** `EPA_CAMD_API_KEY`, `NREL_API_KEY` or `DATA_GOV_API_KEY`, `OPENEI_API_KEY`; a session that needs one stops and says so, without signing up.
 - **Every session runs `scripts/precheck.py` first.**
 - **A redirect to a new host is a new host:** its robots file is asked before the next request to it.
 - **A new unit or entity type is added to `docs/datastandard.md` and the validator together**, and until the chain lands the main checkout's validator does not know it: a write, a Method-cell run or an upload of that table runs with the branch's validator copied in for the one run, and main's put back.
-- **The data lock:** the daily run holds it from about 14:10 to about 16:20 UTC; a write waits for it, and the session does its lock-free steps meanwhile.
+- **The data lock:** GitHub's daily run holds it from about 14:10 to about 16:20 UTC, and this machine's own daily task ("ERW data machine daily") from 17:00 UTC for up to two hours; a write or an upload waits for it, and the session does its lock-free steps meanwhile. Never copy a branch's metadata into the main checkout while this machine's daily task runs there (chain 056, session 2010).
+- **Two chains' reads:** a chain whose branch is cut from another unlanded chain's numbers its `license_reads.csv` rows after that chain's last; if both add the same number, the later chain's rows are renumbered at the merge and its reports corrected (chain 056).
 - **No character typed as an escape:** a dash or quote the code must match is written by code point (`chr(0x2014)`), and every file's em dashes are counted before a commit.
 - **A push to main is never piped, and is followed by `git status -sb`** showing nothing ahead.
 - **A new read of a publisher already in `license_reads.csv` gets a label of its own**; a session checks `license_verdicts.csv` before reading a publisher's terms.
