@@ -11,7 +11,7 @@
 - **Why this source:** the platform's cost of power tools have had no federal series of what it costs to run each kind of plant, and of a utility's costs by function. In 2025, a nuclear plant's total expense was 23.89 USD/MWh, a fossil steam plant's 42.12, a gas turbine's 28.22.
 - **The cross-checks:**
   - Table 8.3's parts sum to their totals in all 11 years: revenues, electric expenses, and production.
-  - Table 8.1's 2025 heat rates against EIA-923's 2025 plants (session 897's table), fuel used for electricity over net generation: nuclear 10.443 against 10.445 MMBtu/MWh; natural gas 7.781 against 7.636, about 2 percent apart. The plant-level fuel for electricity includes the combined heat and power plants' allocation, and EIA does not give the annual's own weighting.
+  - Table 8.1's 2025 heat rates against EIA-923's 2025 plants (session 897's table), fuel used for electricity over net generation: nuclear 10.443 against 10.445 MMBtu/MWh; natural gas 7.781 against 7.636, about 2 percent apart. EIA does not state how it weights the annual figure, so the gap is reported as found.
 
 ## Decisions made without you
 
