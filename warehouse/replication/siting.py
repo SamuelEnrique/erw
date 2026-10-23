@@ -203,11 +203,15 @@ def profile_twelve(files, region, prof, behind, cp, grid):
 # the reads
 # ---------------------------------------------------------------------------------------------------------------------
 
+LIVE_REQUESTS = [0]   # session 1020: every request to the live set, counted (a chain session's ceiling is in requests)
+
+
 def rest(base, key, table, params):
     q = urllib.parse.urlencode(params)
     out, start = [], 0
     while True:
         req = urllib.request.Request(f"{base}/{table}?{q}", headers={"apikey": key, "Authorization": f"Bearer {key}", "Range": f"{start}-{start + 999}"})
+        LIVE_REQUESTS[0] += 1
         with urllib.request.urlopen(req, timeout=120) as r:
             page = json.load(r)
         out += page
@@ -515,6 +519,7 @@ def main(argv=None):
         print(f"{k:<100} {'' if v is None else f'{v:.6f}':>16} {'' if pv is None else f'{pv:.6f}':>16}  {eq}")
     n = sum(1 for k in got if k in page)
     print(f"{len(got)} figures computed; {n} set beside the page; {bad} differ")
+    print(f"{LIVE_REQUESTS[0]} requests to the live set")
     return 1 if bad else 0
 
 
