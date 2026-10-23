@@ -2,7 +2,7 @@
 
 machine: data
 
-Written by session 923, the first session of `queue/done/052-day-23-october-data-world-oil-reactors-stocks.md`, under chain 045's rule ("the next file is written and pushed to `queue/next` at the START of the chain"), at the owner's instruction for chain 045 ("at least twelve sessions, machine: data, ... the sources and gaps ... in chain 040's form"). The next free number in `queue/next` and `queue/done` was 053. Sessions 937 to 950 were free in every queue file and branch when this was written (the code machine holds 700 to 749, the laptop 800 to 849, the old laptop 1000 on). Session 936 of chain 052 updates it at chain 052's end. Model: Opus 5.5, high effort.
+Written by session 923, the first session of `queue/done/052-day-23-october-data-world-oil-reactors-stocks.md`, under chain 045's rule ("the next file is written and pushed to `queue/next` at the START of the chain"), at the owner's instruction for chain 045 ("at least twelve sessions, machine: data, ... the sources and gaps ... in chain 040's form"). The next free number in `queue/next` and `queue/done` was 053. Sessions 937 to 950 were free in every queue file and branch when this was written (the code machine holds 700 to 749, the laptop 800 to 849, the old laptop 1000 on). Session 936 of chain 052 updated it at chain 052's end (23 October, about 10:35 UTC): the license record's bound comes first in session 942, Ember and the Texas Comptroller are named, and session 945 reads the code machine's chain 073 before it builds. Model: Opus 5.5, high effort.
 
 Each source session follows chain 040's form:
 
@@ -21,13 +21,16 @@ The rules of `queue/done/052-day-23-october-data-world-oil-reactors-stocks.md` h
 - **ERCOT's robots file disallows `/misapp` and `/misdownload`**, and **EIA's disallows `/archive/`**: neither is asked.
 - **Hosts that refused the ERW's reader are not asked again without a ruling:** api.census.gov, www.phmsa.dot.gov, FERC's policy page, EPA's bulk file API without a key, and apps.cer-rec.gc.ca (it reset the connection to its robots file, session 910).
 - **Keys not held:** `EPA_CAMD_API_KEY`, `NREL_API_KEY` or `DATA_GOV_API_KEY`; a session that needs one stops and says so, without signing up.
+- **files.ember-energy.org's robots file disallows every path but PDFs** (session 924): Ember's data is not asked for without a ruling, though its license (CC BY 4.0) allows it.
+- **A new host's robots file is asked in a call of its own and read before any other request to it is written** (session 924 fetched a file in the same command as the robots file that disallowed it).
+- **After `runs/union_resolve.py`, look for a source row twice in `sources.csv`** (`cut -d, -f1 | sort | uniq -d`) and join it (session 929).
 - **HydroSource's download form is not filled**; ORNL's files are taken by their public links, pending the owner's word. HydroSource asks a crawl delay of 10 s.
 - **A new read of a publisher already in `license_reads.csv` gets a label of its own**; a session checks `license_verdicts.csv` before reading a publisher's terms.
 - **A table that a page reads is never rewritten to add rows from another file.**
 - **A request cap on the Redivis uploader stops between tables, never inside one**, budgeted by session 892's measure (about 28 a run and 6 a table; session 919: 98 for fifteen tables); an empty `erw_headers` is rebuilt in full from disk, never merged.
 - **Session 937 begins by writing `queue/next/<next free number>-<slug>.md`** for this machine (at least twelve sessions, machine: data, numbered from 951), commits it alone and pushes it to main before any other work; session 950 updates it.
 
-Read first: chain 052's note (written by session 936), sessions 923 to 936's reports, `docs/state/note_2026-10-30_data.md`, `docs/reviews/siting-gaps.md`.
+Read first: chain 052's note (`docs/state/note_2026-10-31_data.md`, written by session 936), sessions 923 to 936's reports, `docs/state/note_2026-10-30_data.md`, `docs/reviews/siting-gaps.md`.
 
 ## Session 937: the world's coal, total energy and emissions (EIA's International Energy Statistics)
 
@@ -51,7 +54,7 @@ Long end 1:30. Pulls: at most 15 requests. BLS's Producer Price Index series for
 
 ## Session 942: the licenses' seventh round
 
-Long end 1:30. Pulls: at most 20 requests, two a host. The publishers chains 046 to 052 did not reach, those of sessions 937 to 941 first; `license_verdicts.csv` read first.
+Long end 1:30. Pulls: at most 20 requests, two a host. First raise `tests/test_session205.py`'s bound on the record (it stands at its limit, 102 reads after session 205's 41, after session 928). Then the publishers chains 046 to 052 did not reach, those of sessions 937 to 941 first (the Bureau of Labor Statistics); `license_verdicts.csv` read first. Then the Texas Comptroller's privacy and security policy (`https://comptroller.texas.gov/about/policies/privacy.php`; its policies page, read 143, states no terms).
 
 ## Sessions 943 and 944: two more sources
 
@@ -59,7 +62,7 @@ Long end 1:30 each. Pulls: at most 20 requests each. A public source the ERW doe
 
 ## Session 945: a gap of the siting review
 
-Long end 1:30. Pulls: at most 10 requests. One open row of `docs/reviews/siting-gaps.md` that a public table can close without a ruling (not substations and lines, not ERCOT's robots-held paths), as a derived table with its method note; read the code machine's latest state sections first, since it may have drawn the row on the tab (session 917 met chain 072's); else the session says why none can.
+Long end 1:30. Pulls: at most 10 requests. One open row of `docs/reviews/siting-gaps.md` that a public table can close without a ruling (not substations and lines, not ERCOT's robots-held paths), as a derived table with its method note; read the code machine's latest state sections first, since it may have drawn the row on the tab (session 917 met chain 072's, session 936 chain 073's: a node's planned generation is drawn and held); the rows still open after chain 073 are a node's wires utility, substations and lines, large-load tariffs, a 2026 sub-region table and a node's bus; else the session says why none can.
 
 ## Session 946: method notes for this chain's tables
 
@@ -67,7 +70,7 @@ Long end 1:00. Pulls: none. As session 918: each note's checks against the code 
 
 ## Session 947: the Stanford draft
 
-Long end 1:30. Pulls: Redivis's API only, at most 150 requests, in whole runs under the cap. First any table of chain 052 not yet in the draft or stale there (session 933's report names them); then this chain's public tables; `--reconcile`; the release note extended. Nothing released.
+Long end 1:30. Pulls: Redivis's API only, at most 150 requests, in whole runs under the cap. Session 933 put chain 052's seven tables in the draft and refreshed its metadata tables; first any table a later chain left out; then this chain's public tables; `--reconcile`; the release note extended. Nothing released.
 
 ## Session 948: seven days of the data jobs
 
