@@ -24,3 +24,10 @@
 - Changed: `docs/reviews/siting-gaps.md` (the merge); on main, `queue/next/052-day-23-october-data-world-oil-reactors-stocks.md`.
 
 ## Addendum: the landing
+
+- `scripts/freeze.py status`: no freeze. Before snapshot `c051-land-before`, then `task/909-922-data` pushed at 09:01:53 UTC.
+- The first check run (39928894186) passed its tests and the site's checks, but its merge step failed: main had gained chain 072's landing (the old laptop) in the meantime, and both added a state section at the same place of `docs/reviews/siting-gaps.md`. Merged origin/main into the branch again (`8663501c`), both sections kept, chain 072's first.
+- Chain 072's session 1048 draws the same siting row on the tab (TPIT's phases by a placed node's county). The two counts, made apart, agree in all 137 counties the tab lists (`site/data/siting/nodes.json`); the other 11 are this table's zero counties. Session 917's report has an addendum, and this chain's state section says the table is the warehouse's copy of the tab's figures.
+- The second run (39930669345) passed and merged the branch as `9f524454` at about 09:29 UTC.
+- Vercel: the deploy of `9f524454` was rate limited ("retry in 24 hours"), as chains 046 to 049's were, so the live pages are the last deployed build. After snapshot `c051-land-after`: compare says 0 differences in all (expected: every page is in review).
+- Then `scripts/chain_queue.py next`.
