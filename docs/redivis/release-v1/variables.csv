@@ -570,6 +570,26 @@ egrid_power_plants,gen_solar_mwh,column,
 egrid_power_plants,gen_geothermal_mwh,column,
 egrid_power_plants,gen_other_fossil_mwh,column,
 egrid_power_plants,gen_other_purchased_mwh,column,
+egrid_subregions_annual,co2_emissions,series variable,tCO2
+egrid_subregions_annual,co2_rate,series variable,kgCO2/MWh
+egrid_subregions_annual,co2_rate_nonbaseload,series variable,kgCO2/MWh
+egrid_subregions_annual,co2e_emissions,series variable,tCO2
+egrid_subregions_annual,co2e_rate,series variable,kgCO2/MWh
+egrid_subregions_annual,nameplate_capacity,series variable,MW
+egrid_subregions_annual,net_generation,series variable,MWh
+egrid_subregions_annual,share_biomass,series variable,ratio
+egrid_subregions_annual,share_coal,series variable,ratio
+egrid_subregions_annual,share_gas,series variable,ratio
+egrid_subregions_annual,share_geothermal,series variable,ratio
+egrid_subregions_annual,share_hydro,series variable,ratio
+egrid_subregions_annual,share_nonrenewables,series variable,ratio
+egrid_subregions_annual,share_nuclear,series variable,ratio
+egrid_subregions_annual,share_oil,series variable,ratio
+egrid_subregions_annual,share_other_fossil,series variable,ratio
+egrid_subregions_annual,share_other_unknown,series variable,ratio
+egrid_subregions_annual,share_renewables,series variable,ratio
+egrid_subregions_annual,share_solar,series variable,ratio
+egrid_subregions_annual,share_wind,series variable,ratio
 eia411_capacity_margins_annual,summer_capacity_margin,series variable,pct
 eia411_capacity_margins_annual,summer_capacity_resources,series variable,MW
 eia411_capacity_margins_annual,summer_net_internal_demand,series variable,MW

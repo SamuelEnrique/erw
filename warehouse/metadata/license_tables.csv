@@ -45,6 +45,7 @@ datacenter_projects_evidence,Bloomberg; Data Center Dynamics; Data Center Fronti
 datacenter_queue_positions,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,by hand: its header: rows of the six operators' queue tables
 doe_useer_employment,U.S. Department of Energy (DOE),the source registry
 egrid_power_plants,EPA,the source registry
+egrid_subregions_annual,EPA,the source registry
 eia411_capacity_margins_annual,EIA,the source registry
 eia860_boilers,EIA,the source registry
 eia860_cooling_systems,EIA,the source registry
@@ -304,7 +305,7 @@ large_load_rules,Arizona Corporation Commission; California Public Utilities Com
 large_load_rules_internal,FERC; Georgia Public Service Commission; Indiana Utility Regulatory Commission; Public Utilities Commission of Ohio; Public Utility Commission of Texas; Virginia State Corporation Commission,the source registry
 large_load_statements,"utilities and operators, each row's own document (not listed one by one)",by hand: its header: each row's source is the utility's or operator's own document
 large_load_waits,"Alberta Electric System Operator (AESO), Canada; Bonneville Power Administration (BPA); NYISO; Public Utility District No. 2 of Grant County, Washington (Grant PUD)",the source registry
-lbnl_hybrid_plants,Berkeley Lab,the source registry
+lbnl_hybrid_plants,"Berkeley Lab, hybrid plants file","by hand: its own file's notice (session 991): the Department of Energy's contract notice, without the CC BY 4.0 statement of LBNL's other data files"
 lbnl_hybrid_ppa_prices,Berkeley Lab,the source registry
 lbnl_interconnection_queue,Berkeley Lab,the source registry
 lbnl_ppa_prices,Berkeley Lab,the source registry

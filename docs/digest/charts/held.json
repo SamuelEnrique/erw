@@ -1,4 +1,13 @@
 {
+ "scan-record-0e43863943af": {
+  "fact": "onrr_revenue:federal:onshore:40047_garfield:royalties:oil_gas:oil:oil revenue: USD 5,461.2 in July 2026, the highest monthly value held since January 2003. The record until now was USD 720.4, in February 2009.",
+  "held_on": "2026-10-23",
+  "jump_pct": 658.1,
+  "old_record": 720.4,
+  "series_key": "entity=onrr_revenue:federal:onshore:40047_garfield:royalties:oil_gas:oil:oil|variable=revenue|market=|node=Garfield, Oklahoma: Royalties, Oil, Oil|freq=P1M",
+  "table": "onrr_revenue_monthly",
+  "value": 5461.2
+ },
  "scan-record-10a7a85479c4": {
   "fact": "eia_product_supplied:MGAUPP32 product_supplied_per_day: -11.00 kbbl/d in June 2026, the lowest monthly value held since January 2017. The record until now was -1.00 kbbl/d, in November 2023.",
   "held_on": "2026-10-22",
@@ -7,6 +16,15 @@
   "series_key": "entity=eia_product_supplied:MGAUPP32|variable=product_supplied_per_day|market=|node=Gulf Coast (PADD 3) Product Supplied of Aviation Gasoline (Thousand Barrels per Day)|freq=P1M",
   "table": "eia_product_supplied_monthly",
   "value": -11.0
+ },
+ "scan-record-1866f27ef040": {
+  "fact": "onrr_revenue:federal:onshore:56043_washakie:royalties:oil_gas:gas:unprocessed_gas revenue: USD -174,643 in August 2026, the lowest monthly value held since January 2005. The record until now was USD -18,084, in November 2013.",
+  "held_on": "2026-10-23",
+  "jump_pct": 865.7,
+  "old_record": -18084.46,
+  "series_key": "entity=onrr_revenue:federal:onshore:56043_washakie:royalties:oil_gas:gas:unprocessed_gas|variable=revenue|market=|node=Washakie, Wyoming: Royalties, Gas, Unprocessed Gas|freq=P1M",
+  "table": "onrr_revenue_monthly",
+  "value": -174643.09
  },
  "scan-record-18d613604589": {
   "fact": "eia_padd_movements:MD0MT_R30-R20_1 tanker_barge_receipts: 762.0 kbbl in July 2026, the highest monthly value held since January 2004. The record until now was 601.0 kbbl, in July 2008.",
@@ -44,6 +62,15 @@
   "table": "eia_petroleum_snd_monthly",
   "value": 40.0
  },
+ "scan-record-471057df956d": {
+  "fact": "onrr_revenue:federal:onshore:49047_uintah:rents:oil_gas:oil_gas_pre_production:none revenue: USD 407,768 in July 2026, the highest monthly value held since January 2003. The record until now was USD 237,673, in June 2003.",
+  "held_on": "2026-10-23",
+  "jump_pct": 71.6,
+  "old_record": 237673.04,
+  "series_key": "entity=onrr_revenue:federal:onshore:49047_uintah:rents:oil_gas:oil_gas_pre_production:none|variable=revenue|market=|node=Uintah, Utah: Rents, Oil & gas (pre-production)|freq=P1M",
+  "table": "onrr_revenue_monthly",
+  "value": 407768.47
+ },
  "scan-record-4d79e82c7ab1": {
   "fact": "eia_product_supplied:MGAUPP12 product_supplied_per_day: 19.00 kbbl/d in June 2026, the highest monthly value held since January 2017. The record until now was 10.00 kbbl/d, in June 2018.",
   "held_on": "2026-10-22",
@@ -71,6 +98,24 @@
   "table": "eia861m_utility_sales_monthly",
   "value": 91379900.0
  },
+ "scan-record-5c2546cca358": {
+  "fact": "onrr_revenue:federal:onshore:38023_divide:royalties:oil_gas:gas:pipeline_fuel_loss revenue: USD -441.2 in August 2026, the lowest monthly value held since January 2020. The record until now was USD 0.2400, in December 2020.",
+  "held_on": "2026-10-23",
+  "jump_pct": 183950.0,
+  "old_record": 0.24,
+  "series_key": "entity=onrr_revenue:federal:onshore:38023_divide:royalties:oil_gas:gas:pipeline_fuel_loss|variable=revenue|market=|node=Divide, North Dakota: Royalties, Gas, Pipeline Fuel/Loss|freq=P1M",
+  "table": "onrr_revenue_monthly",
+  "value": -441.24
+ },
+ "scan-record-5e072224b708": {
+  "fact": "onrr_revenue:federal:onshore:08029_delta:royalties:oil_gas:gas:unprocessed_gas revenue: USD -73,794 in June 2026, the lowest monthly value held since April 2005. The record until now was USD -26,202, in February 2016.",
+  "held_on": "2026-10-23",
+  "jump_pct": 181.6,
+  "old_record": -26201.71,
+  "series_key": "entity=onrr_revenue:federal:onshore:08029_delta:royalties:oil_gas:gas:unprocessed_gas|variable=revenue|market=|node=Delta, Colorado: Royalties, Gas, Unprocessed Gas|freq=P1M",
+  "table": "onrr_revenue_monthly",
+  "value": -73793.7
+ },
  "scan-record-5e213a8aa117": {
   "fact": "eia_padd_movements:MUOMTP5P31 tanker_barge_receipts: 1,120.0 kbbl in June 2026, the highest monthly value held since January 1986. The record until now was 680.0 kbbl, in June 1989.",
   "held_on": "2026-10-22",
@@ -79,6 +124,51 @@
   "series_key": "entity=eia_padd_movements:MUOMTP5P31|variable=tanker_barge_receipts|market=|node=West Coast (PADD 5) Receipts by Tanker and Barge from Gulf Coast (PADD 3) of Unfinished Oils (Thousand Barrels)|freq=P1M",
   "table": "eia_padd_rail_barge_movements_monthly",
   "value": 1120.0
+ },
+ "scan-record-631a46066fb2": {
+  "fact": "onrr_revenue:federal:onshore:38053_mckenzie:bonus:oil_gas:oil_gas_pre_production:none revenue: USD 47,575,506 in July 2026, the highest monthly value held since January 2003. The record until now was USD 26,724,350, in September 2013.",
+  "held_on": "2026-10-23",
+  "jump_pct": 78.0,
+  "old_record": 26724350.0,
+  "series_key": "entity=onrr_revenue:federal:onshore:38053_mckenzie:bonus:oil_gas:oil_gas_pre_production:none|variable=revenue|market=|node=Mckenzie, North Dakota: Bonus, Oil & gas (pre-production)|freq=P1M",
+  "table": "onrr_revenue_monthly",
+  "value": 47575506.0
+ },
+ "scan-record-637bb0a0e27a": {
+  "fact": "eia_petroleum_exports:NUS-NDR:EPLLPA exports: 3,243.0 kbbl in July 2026, the highest monthly value held since January 2015. The record until now was 1,856.0 kbbl, in December 2020.",
+  "held_on": "2026-10-23",
+  "jump_pct": 74.7,
+  "old_record": 1856.0,
+  "series_key": "entity=eia_petroleum_exports:NUS-NDR:EPLLPA|variable=exports|market=|node=DOM, Propane|freq=P1M",
+  "table": "eia_petroleum_exports_by_destination",
+  "value": 3243.0
+ },
+ "scan-record-669808fa949e": {
+  "fact": "onrr_revenue:federal:onshore:39155_trumbull:royalties:oil_gas:oil:oil revenue: USD 7,794.5 in June 2026, the highest monthly value held since January 2003. The record until now was USD 2,544.1, in September 2008.",
+  "held_on": "2026-10-23",
+  "jump_pct": 206.4,
+  "old_record": 2544.07,
+  "series_key": "entity=onrr_revenue:federal:onshore:39155_trumbull:royalties:oil_gas:oil:oil|variable=revenue|market=|node=Trumbull, Ohio: Royalties, Oil, Oil|freq=P1M",
+  "table": "onrr_revenue_monthly",
+  "value": 7794.49
+ },
+ "scan-record-6db88727a0a0": {
+  "fact": "onrr_revenue:federal:onshore:22085_sabine:other_revenues:oil_gas:oil_gas_pre_production:none revenue: USD -1,974.5 in August 2026, the lowest monthly value held since February 2014. The record until now was USD -1,357.0, in May 2023.",
+  "held_on": "2026-10-23",
+  "jump_pct": 45.5,
+  "old_record": -1357.02,
+  "series_key": "entity=onrr_revenue:federal:onshore:22085_sabine:other_revenues:oil_gas:oil_gas_pre_production:none|variable=revenue|market=|node=Sabine, Louisiana: Other revenues, Oil & gas (pre-production)|freq=P1M",
+  "table": "onrr_revenue_monthly",
+  "value": -1974.48
+ },
+ "scan-record-6e2a43b7de22": {
+  "fact": "onrr_revenue:federal:onshore:22081_red_river:other_revenues:oil_gas:oil_gas_pre_production:none revenue: USD -29,834 in August 2026, the lowest monthly value held since August 2010. The record until now was USD -1,720.2, in January 2022.",
+  "held_on": "2026-10-23",
+  "jump_pct": 1634.4,
+  "old_record": -1720.17,
+  "series_key": "entity=onrr_revenue:federal:onshore:22081_red_river:other_revenues:oil_gas:oil_gas_pre_production:none|variable=revenue|market=|node=Red River, Louisiana: Other revenues, Oil & gas (pre-production)|freq=P1M",
+  "table": "onrr_revenue_monthly",
+  "value": -29834.4
  },
  "scan-record-74ac88139e62": {
   "fact": "eia_padd_movements:MGAMT1XP31 tanker_barge_receipts: 251.0 kbbl in June 2026, the highest monthly value held since January 1986. The record until now was 100.0 kbbl, in July 2004.",
@@ -125,6 +215,15 @@
   "table": "boem_ogor_lease_production_monthly",
   "value": 125.592
  },
+ "scan-record-c042c99bf3cf": {
+  "fact": "eia_petroleum_exports:NUS-NDR:EPLLPA exports_per_day: 105.0 kbbl/d in July 2026, the highest monthly value held since January 2015. The record until now was 60.00 kbbl/d, in December 2020.",
+  "held_on": "2026-10-23",
+  "jump_pct": 75.0,
+  "old_record": 60.0,
+  "series_key": "entity=eia_petroleum_exports:NUS-NDR:EPLLPA|variable=exports_per_day|market=|node=DOM, Propane|freq=P1M",
+  "table": "eia_petroleum_exports_by_destination",
+  "value": 105.0
+ },
  "scan-record-c6e083697d3b": {
   "fact": "eia_petroleum_snd:MGFSCP22 stock_change_per_day: 132.0 kbbl/d in June 2026, the highest monthly value held since January 2015. The record until now was 27.00 kbbl/d, in June 2015.",
   "held_on": "2026-10-22",
@@ -151,6 +250,33 @@
   "series_key": "entity=eia861m:12341:IA|variable=commercial_revenue|market=|node=MidAmerican Energy Co|freq=P1M",
   "table": "eia861m_utility_sales_monthly",
   "value": 73084612.0
+ },
+ "scan-record-dd1846b47741": {
+  "fact": "onrr_revenue:federal:onshore:35025_lea:other_revenues:oil_gas:oil_gas_pre_production:none revenue: USD -55,775,828 in July 2026, the lowest monthly value held since January 2003. The record until now was USD -28,216,197, in March 2023.",
+  "held_on": "2026-10-23",
+  "jump_pct": 97.7,
+  "old_record": -28216196.53,
+  "series_key": "entity=onrr_revenue:federal:onshore:35025_lea:other_revenues:oil_gas:oil_gas_pre_production:none|variable=revenue|market=|node=Lea, New Mexico: Other revenues, Oil & gas (pre-production)|freq=P1M",
+  "table": "onrr_revenue_monthly",
+  "value": -55775828.08
+ },
+ "scan-record-ddc9b4044a39": {
+  "fact": "onrr_revenue:federal:onshore:35015_eddy:royalties:oil_gas:oil:inlet_scrubber revenue: USD 987,691 in August 2026, the highest monthly value held since March 2014. The record until now was USD 716,219, in August 2023.",
+  "held_on": "2026-10-23",
+  "jump_pct": 37.9,
+  "old_record": 716219.37,
+  "series_key": "entity=onrr_revenue:federal:onshore:35015_eddy:royalties:oil_gas:oil:inlet_scrubber|variable=revenue|market=|node=Eddy, New Mexico: Royalties, Oil, Inlet Scrubber|freq=P1M",
+  "table": "onrr_revenue_monthly",
+  "value": 987691.47
+ },
+ "scan-record-e2ab5adc1817": {
+  "fact": "onrr_revenue:federal:onshore:39155_trumbull:royalties:oil_gas:gas:unprocessed_gas revenue: USD 65,332 in June 2026, the highest monthly value held since January 2005. The record until now was USD 23,871, in July 2008.",
+  "held_on": "2026-10-23",
+  "jump_pct": 173.7,
+  "old_record": 23871.37,
+  "series_key": "entity=onrr_revenue:federal:onshore:39155_trumbull:royalties:oil_gas:gas:unprocessed_gas|variable=revenue|market=|node=Trumbull, Ohio: Royalties, Gas, Unprocessed Gas|freq=P1M",
+  "table": "onrr_revenue_monthly",
+  "value": 65332.43
  },
  "scan-record-fb374da4cb65": {
   "fact": "eia_product_supplied:MGAUPP31 product_supplied: -338.0 kbbl in June 2026, the lowest monthly value held since January 2017. The record until now was -18.00 kbbl, in November 2023.",

@@ -26,7 +26,7 @@ Series, 31,702 rows, 55 plants, 220 series. `entity` `usbr_plant:<facility>`; va
 
 ## License
 
-Public: Reclamation's Disclaimer page defers to the Department of the Interior's notice (reads 172 and 159 of `license_reads.csv`): "materials produced by federal agencies are in the public domain".
+Public: Reclamation's Disclaimer page defers to the Department of the Interior's notice (reads 173 and 159 of `license_reads.csv`): "materials produced by federal agencies are in the public domain".
 
 ## Cross-checks (sessions 2003 and 2009)
 
