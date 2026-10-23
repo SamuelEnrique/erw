@@ -1,0 +1,23 @@
+# Ask and the price board: what waits for Samuel (23 October 2026)
+
+Energy Research Warehouse (ERW), chain 075 (sessions 1108 to 1125, the old laptop, unattended). Every item of this chain that waits for the owner, one a line, in plain words, with a recommendation. Nothing here was done by the chain; where the chain prepared a change, it is off, and the item says how to turn it on.
+
+## Ask
+
+1. **USD per kW in Ask's answers** (session 320's open ruling 1; 8 of the 13 wrong answers of 20 October). The tools hold battery revenue in USD per MW; the battery page shows USD per kW. Prepared and off: `ASK_PER_KW=on` makes the query tool hand back the per-kW figure beside the per-MW one for `battery_stack_monthly`, the method note's own conversion (session 1109). **Recommended: turn it on** (one setting on Vercel and on the evaluation's server), so a reader asking as the page writes is answered in the page's unit.
+2. **The evaluation's tolerance for large figures** (open ruling 2; 3 answers: g03, g06, g09 wrote "about 50,424" for 50,424.07). **Recommended: accept a figure of 1,000 or more rounded to the unit** (a tolerance of 0.5), which is how a reader writes such a figure.
+3. **The evaluation's tables and refusals** (open ruling 3; g08 and d10). **Recommended: a key accepts every table that holds the figure, and a refusal is graded on refusing and stating no figure**, not on a cited table.
+4. **The four held questions' keys** (g07, g08, d05, d07: ISO-NE and NYISO rows held since 21 October). Since session 1112 Ask answers them by naming the grid, saying "license needed" and giving the public grids' figures. **Recommended: grade them so** (as session 1113 does: "license needed", the grid named, no figure of it), and keep the hold as ruled.
+5. **The evaluation's day ceiling**: `ASK_EVAL_DAILY_USD` is USD 5 in `site/.env.local`; sessions 1113 and 1114 ran on a local server with it raised for the run, under each session's own cap of USD 6 checked before every question (their reports). **Recommended: keep 5 as the standing value**; a chain that asks sixty questions in a day states its own ceiling, as these did.
+
+## The price board
+
+6. **The held grids' series files** (session 1116). The board no longer draws a figure of ISO-NE or NYISO, but the builder still writes their whole-history series files (`site/public/board/s/isone-*.json`, `nyiso-*.json`), which stand at their addresses though no row opens them. **Recommended: the builder writes no series file for a grid the status file holds** (`warehouse/derived/board_page.py`, the data machine's).
+7. **The words of a held grid's row**: the board said "licensed source needed" for ISO-NE's and NYISO's hub rows and drew their other rows; since session 1116 every row of a held grid says "license needed" (the catalogue's words), and PJM's keep "licensed source needed". **Recommended: keep it so**: "license needed" is the site's word for a hold that a permission would lift; PJM's is a source the ERW does not hold at all.
+8. **The rows the board grew by** (session 1117): the World Bank's nine monthly energy benchmarks, EIA's natural gas prices by sector for the United States and every state (255 rows, the states behind a filter) and EIA's heating oil and propane (140 rows). **Recommended: keep them**, under the ruling of 5 October ("pretty much all energy prices"); say if the state rows are more than you want.
+9. **CARB's allowance auctions**: public in the catalogue, not drawn (a quarterly series needs a fourth frequency on the board). **Recommended: draw them** in chain 076.
+
+## Found on the way, not this chain's to change
+
+10. **A Digest figure the live set no longer holds**: `/digest/2026-10-21` shows WTI at 101.91 USD a barrel for 14 October; the live set now holds 96.34 for that day (check-values, on this chain's build and on production). The issue was written from the table as it then stood. **Recommended: a ruling on whether a past issue keeps its figures as written** (the record of what was said) or is redrawn (the record of the data); the check fails until then.
+11. **Floors that fail on production** (check-values, 23 October, 19:00 UTC): `/map`, `/events` and four of its pages, `/learn/bill` and `/research/card/gas_sets_price` carry fewer checked numbers than their floors, on production as on this chain's build. **Recommended: a session of the code machine reads why** (a read that fails, or a figure that lost its key) before the floors are set again.
