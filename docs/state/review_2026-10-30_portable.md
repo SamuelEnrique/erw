@@ -35,8 +35,9 @@ Energy Research Warehouse (ERW), session 2405, written on portable-laptop on 23 
 ## For Samuel's ruling
 
 - Item 7 of `docs/reviews/deals-rulings-2026-10-23.md`, which blocks every landing from every machine.
-- The hovers a keyboard cannot reach on the policy, bill and problem pages (about 200 dotted spans): (a) leave them, the Method note holding every hover's sentence; (b) a focusable span with its title drawn on focus (one session of shared-component work). Recommendation: (a) until a reader asks.
-- Session 583's question on the dimmed line is answered by choice (b) unless you prefer (a): one class on two spans.
+- The hovers a keyboard cannot reach on the policy, bill and problem pages (about 200 dotted spans): (a) leave them, the Method note holding every hover's sentence; (b) a focusable span with its title drawn on focus (one session of shared-component work). Recommendation: (a) until a reader asks. **Ruled, 23 October 2026 (14:30 Pacific, Samuel): (a), the hovers stay as they are** (recorded by session 2207).
+- Session 583's question on the dimmed line is answered by choice (b) unless you prefer (a): one class on two spans. **Ruled, 23 October 2026 (14:30 Pacific, Samuel): (b), the dimmed line in the battery game stays** (recorded by session 2207).
+- Item 7 above: **ruled 23 October 2026, as recommended** (see `docs/reviews/deals-rulings-2026-10-23.md`, item 7; recorded by session 2207).
 
 ## To finish
 
