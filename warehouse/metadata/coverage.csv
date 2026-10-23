@@ -205,6 +205,7 @@ energy_deals_evidence,none,,26,event,2025-01-05T08:00:00Z,2026-10-23T13:10:41Z,5
 energy_projects,none,,39786,snapshot,2026-09-26T00:04:26Z,2026-10-19T20:31:58Z,39786,erw:energy_projects,2026-10-19T20:35:19Z,pass,public,power,no,derived
 epa_ghgrp_facility_emissions,epa,,9721,P1Y,2015-01-01T00:00:00Z,2023-01-01T00:00:00Z,70338,epa:ghgrp_facilities,2026-10-23T20:36:05Z,pass,public,carbon;power;oil;gas,no,source
 epa_ghgrp_power_co2,epa,,1509,P1Y,2010-01-01T00:00:00Z,2023-01-01T00:00:00Z,17035,epa:ghgrp,2026-10-21T18:32:52Z,pass,public,power;carbon,no,source
+epa_lmop_landfill_projects,epa,,3399,snapshot,2026-10-23T23:11:19Z,2026-10-23T23:11:19Z,3399,epa:lmop,2026-10-23T23:13:39Z,pass,public,power;gas,no,source
 epa_rfs_fuel_annual,epa,,23,P1Y,2010-01-01T00:00:00Z,2026-01-01T00:00:00Z,568,epa:rfs_emts,2026-10-23T18:46:31Z,pass,public,products;carbon,no,source
 epa_rfs_rins_monthly,epa,,5,P1M,2010-07-01T00:00:00Z,2026-09-01T00:00:00Z,1632,epa:rfs_emts,2026-10-23T18:46:31Z,pass,public,products;carbon,no,source
 epa_tri_energy_releases_annual,epa,,2624,P1Y,2015-01-01T00:00:00Z,2023-01-01T00:00:00Z,384483,epa:tri_basic,2026-10-23T22:44:55Z,pass,public,power;oil;gas;coal,no,source

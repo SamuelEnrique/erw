@@ -205,6 +205,7 @@ energy_deals_evidence,ANS Nuclear Newswire; Bloomberg; Canary Media; DOE newsroo
 energy_projects,CAISO; Census Bureau; EIA; ERCOT; ISO-NE; SPP,"the source registry and the tables its header derives it from: caiso_interconnection_queue, eia860m_operating_generators, eia860m_planned_generators, ercot_interconnection_queue, isone_interconnection_queue, spp_interconnection_queue"
 epa_ghgrp_facility_emissions,EPA,the source registry
 epa_ghgrp_power_co2,EPA,the source registry
+epa_lmop_landfill_projects,EPA,the source registry
 epa_rfs_fuel_annual,EPA,the source registry
 epa_rfs_rins_monthly,EPA,the source registry
 epa_tri_energy_releases_annual,EPA,the source registry

@@ -188,6 +188,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "eia_mecs_manufacturing",
            "eia_recs_households",
            "epa_ghgrp_facility_emissions",
+           "epa_lmop_landfill_projects",
            "epa_tri_energy_releases_annual",
            "eurostat_renewable_capacity_annual",
            "fema_disaster_declarations",
