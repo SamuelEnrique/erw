@@ -30,6 +30,9 @@ export type Choice = {
    *  under there ("mix"), or null where the view is fixed (the Clean view draws "How clean, and when" and no other).
    *  Without it the addresses are /mix's own, as they were. */
   base?: { href: string; viewKey: string | null; grid: string };
+  /** Session 1152: the energy mix panel's second view on "Now and by state", the grid's monthly mix (mixp=month); absent
+   *  for the hourly view, the default, so the opening addresses are as they were. */
+  mixp?: "month";
 };
 /** Session 168: "Select grids" stands on every view. What each view does with the choice:
  *    compare  draws the grids chosen side by side, four at most (the seven views that always had the control);
@@ -68,6 +71,7 @@ export function choiceOf(q: Query): Choice {
     cal: /^(0[1-9]|1[0-2])$/.test(one(q.cal) ?? "") ? one(q.cal)! : null, year: /^\d{4}$/.test(one(q.year) ?? "") ? one(q.year)! : null,
     season: SEASON_NAMES.some(([k]) => k === one(q.season)) ? one(q.season)! : "all", norm: one(q.norm) === "peak" ? "peak" : "mw", factor,
     src: one(q.src) === "solar" ? "solar" : "wind", states: states.length ? states : ["US"], ba: one(q.ba) ?? null, state: one(q.state) ?? null, shown,
+    ...(view === "now" && one(q.mixp) === "month" ? { mixp: "month" as const } : {}),
   };
 }
 /** The address of a choice: only what is not the default is written. */
@@ -78,7 +82,7 @@ export function hrefOf(c: Choice, patch: Partial<Choice> = {}): string {
   // session 168: the grids chosen are carried to every view that uses them. Nothing chosen (every grid on the two
   // views that open with every grid, ERCOT alone on the others) writes nothing, so the opening addresses are as they were
   const every = n.shown.length === ALL_GRIDS.length;
-  if (n.view === "now") { if (n.ba && every) q.set("ba", n.ba); if (n.state) q.set("state", n.state); }
+  if (n.view === "now") { if (n.ba && every) q.set("ba", n.ba); if (n.state) q.set("state", n.state); if (n.mixp === "month") q.set("mixp", "month"); }
   else if (n.view === "history") { if (n.states.join(",") !== "US") q.set("states", n.states.join(",")); }
   if (gridUse(n.view) === "filter") { if (!every) q.set("grids", n.shown.join(",")); }
   else if (gridUse(n.view) === "compare" && (n.grids.join(",") !== "ercot" || !every)) q.set("grids", n.grids.join(","));

@@ -93,12 +93,14 @@ export function Today({ rows, label }: { rows: SeriesRow[]; label: string }) {
   );
 }
 
-export function Hourly({ rows, table, label }: { rows: SeriesRow[]; table: string; label: string }) {
+// session 1152: share and marks for the Grid tool's energy mix panel (each fuel's share on hover, the peak hour named),
+// and `through`, the newest hour held, so the chart runs on to it where it is later than the last complete day
+export function Hourly({ rows, table, label, share, marks, through }: { rows: SeriesRow[]; table: string; label: string; share?: boolean; marks?: { t: number; name: string }[]; through?: number }) {
   const nh = new Map<string, number>();
   for (const r of rows) if (r.variable === "net_generation_mw") nh.set(r.ts_utc.slice(0, 10), (nh.get(r.ts_utc.slice(0, 10)) ?? 0) + 1);
   const days = Array.from(nh.entries()).filter(([, n]) => n === 24).map(([d]) => d).sort().slice(-7);
   if (days.length === 0) return <Missing why={`No complete day of ${label} is held in the last 9 days.`} />;
-  const t0 = Date.parse(`${days[0]}T00:00:00Z`), t1 = Date.parse(`${days[days.length - 1]}T00:00:00Z`) + 24 * H;
+  const t0 = Date.parse(`${days[0]}T00:00:00Z`), t1 = Math.max(Date.parse(`${days[days.length - 1]}T00:00:00Z`) + 24 * H, through === undefined ? 0 : through + H);
   const x: number[] = [];
   for (let t = t0; t < t1; t += H) x.push(t);
   const idx = new Map(x.map((t, i) => [t, i])); // by parsed time: Supabase writes "+00:00", not "Z"
@@ -121,6 +123,8 @@ export function Hourly({ rows, table, label }: { rows: SeriesRow[]; table: strin
         ariaLabel={`${label} hourly net generation by fuel, ${days[0]} to ${days[days.length - 1]}`}
         tick={(t) => new Date(t).toISOString().slice(5, 10)}
         ticks={ticks}
+        share={share}
+        marks={marks}
       />
     </>
   );

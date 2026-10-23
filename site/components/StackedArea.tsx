@@ -5,12 +5,14 @@ import { TimeChart } from "./TimeChart";
 
 export type Layer = { key: string; label: string; color: string; values: (number | null)[] };
 
-export function StackedArea({ x, layers, unit, ariaLabel, height = 260 }: {
+export function StackedArea({ x, layers, unit, ariaLabel, height = 260, share, marks }: {
   x: number[];
   layers: Layer[];
   unit: string;
   ariaLabel: string;
   height?: number;
+  share?: boolean; // session 1152: each layer's share of the stack in the hover card (TimeChart share)
+  marks?: { t: number; name: string }[]; // session 1152: named times, a vertical line each (TimeChart marks)
   tick?: (t: number) => string; // no longer used: the time axis labels itself
   ticks?: number[];
 }) {
@@ -21,6 +23,8 @@ export function StackedArea({ x, layers, unit, ariaLabel, height = 260 }: {
   return (
     <TimeChart
       stack
+      share={share}
+      marks={marks}
       unit={unit}
       height={height + 60}
       ariaLabel={ariaLabel}

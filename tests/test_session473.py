@@ -29,6 +29,7 @@ OWN = {
     "app/network/NetworkMap.tsx": 0,
     "app/network/NetworkGravity.tsx": 0,
     "components/StackedArea.tsx": 0,
+    "components/grid/MixFigures.tsx": 1,  # session 1152: the energy mix panel (grid_mix_<grid>); its one F writes every key
 }
 FORBIDDEN = {
     "type under 12 px": re.compile(r"text-\[(?:[0-9]|1[01])(?:\.\d+)?px\]"),

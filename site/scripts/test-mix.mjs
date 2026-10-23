@@ -99,4 +99,15 @@ test("nine views, the first the original; six factors; five seasons", () => {
   assert.deepEqual(m.SEASON_NAMES.map((s) => s[0]), ["all", "winter", "spring", "summer", "autumn"]);
   assert.equal(m.HOURS.length, 24);
 });
+test("session 1152: the energy mix panel's monthly view is in the address (mixp=month), the hourly view writes nothing", () => {
+  assert.equal(m.choiceOf({}).mixp, undefined);
+  assert.equal("mixp" in m.choiceOf({}), false);                                  // the opening choice is as it was
+  assert.equal(m.choiceOf({ mixp: "month" }).mixp, "month");
+  assert.equal(m.choiceOf({ mixp: "year" }).mixp, undefined);
+  assert.equal(m.choiceOf({ view: "day", mixp: "month" }).mixp, undefined);       // only "Now and by state" has the panel
+  assert.equal(m.hrefOf(m.choiceOf({ ba: "erco", mixp: "month" })), "/mix?ba=erco&mixp=month");
+  const c = m.choiceOf({ grids: "ercot", mixp: "month" });
+  assert.deepEqual(m.choiceOf(Object.fromEntries(new URLSearchParams(m.hrefOf(c).split("?")[1] ?? ""))), c);
+  assert.equal(m.hrefOf({ ...c, mixp: undefined }), "/mix?grids=ercot");
+});
 console.log(`${n} tests pass`);

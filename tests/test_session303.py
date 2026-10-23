@@ -49,9 +49,12 @@ class TheChart(unittest.TestCase):
         for words in ("export type TimeSeries = {", "points: [number, number | null][];", "step?: boolean;", "dashed?: boolean;", "y2?: boolean;",
                       "series: TimeSeries[];", "unit: string;", "ariaLabel: string;", "height?: number;", "stack?: boolean;",
                       'x?: "minute" | "day" | "month" | "year" | "hour_of_day";', "mini?: boolean;", "file?: string;", "unit2?: string;",
-                      "export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false, x = \"minute\", mini = false, unit2 = \"\", refLines }: Props) {"):   # session 318: refLines, a named line
+                      "export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false, x = \"minute\", mini = false, unit2 = \"\", refLines, share = false, marks }: Props) {"):   # session 318: refLines, a named line; session 1152: share (the hover card's share of the stack) and marks (a named time), both off by default
             self.assertIn(words, c, words)
         self.assertIn('const hod = x === "hour_of_day";', c)
+        # session 1152: the two props are optional and off by default, so no chart drawn before changes
+        self.assertIn("share?: boolean;", c)
+        self.assertIn("marks?: { t: number; name: string }[];", c)
         self.assertIn("const xTicks = hod ? [0, 4, 8, 12, 16, 20, 23] :", c)
         for wrapper in (("site", "components", "LineChart.tsx"), ("site", "components", "StackedArea.tsx"), ("site", "components", "Sparkline.tsx")):
             self.assertIn('from "./TimeChart"', src(*wrapper), wrapper)

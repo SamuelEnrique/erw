@@ -4,13 +4,15 @@ import { Legend } from "@/components/StackedArea";
 import { HOURLY_FUELS, Hourly, LATEST, MONTHLY, Missing, Monthly, Today } from "@/components/mix/Now";
 import { Chips, CleanView, DayView, DuckView, ForecastView, HistoryView, RecordsView, StressView, SupplyView } from "@/components/mix/views";
 import { caisoJoinDay } from "@/lib/caisoJoin";
-import { daysAgo, series } from "@/lib/data";
+import { daysAgo, renderTime, series, type SeriesRow } from "@/lib/data";
 import { GRIDS, calName, periodOf } from "@/lib/mix2";
 import { CLEAN, HISTORY, MIX, PLUS, STRESS } from "@/lib/mixdata";
 import { ALL_GRIDS, FACTORS, MAX_GRIDS, NO_GRID_CHOICE, SEASON_NAMES, VIEWS, filtered, gridUse, hrefOf, toggled, type Choice } from "@/lib/mixpage";
 import { gridHref } from "@/lib/gridtool";
 import { BAS, STATES } from "@/lib/regions";
-import { attempt } from "@/lib/supabase";
+import { attempt, HOURLY, rest } from "@/lib/supabase";
+import { HourlyFigures, MONTH_VARIABLES, MonthlyFigures } from "@/components/grid/MixFigures";
+import { DEMAND, PROFILE, mixHourly } from "@/lib/mixHourly";
 
 // Session 133: the energy mix, one page at one address. It holds what /mix (session 18), /mix/v2 (94), /mix/clean (122)
 // and /mix/stress (123) showed, as views of this page (those addresses redirect here: next.config.ts; their pages are
@@ -83,6 +85,20 @@ function Controls({ c }: { c: Choice }) {
 
 /** Session 168: the EIA-930 balancing authority of each grid of "Select grids" (lib/regions.ts BAS). */
 const GRID_BA: Record<string, string> = { ercot: "erco", caiso: "ciso", pjm: "pjm", miso: "miso", spp: "swpp", nyiso: "nyis", isone: "isne" };
+/** Session 1152: the grid of each operator of the list (the Grid tool's slug), for the energy mix panel's name. */
+const BA_GRID: Record<string, string> = { ...Object.fromEntries(Object.entries(GRID_BA).map(([g, b]) => [b, g])), us48: "us48" };
+
+/** Session 1152: the energy mix panel's two views, as chips; the choice is in the address (mixp=month). */
+function PanelToggle({ c, month }: { c: Choice; month: boolean }) {
+  return (
+    <div className="mb-2" data-mix-panel-toggle={month ? "month" : "hour"}>
+      <Chips label="View" items={[
+        { key: "hour", label: "Hourly, last 7 days", on: !month, href: `${hrefOf({ ...c, mixp: undefined })}#hourly`, title: "EIA-930's hourly generation by fuel (eia930_all_generation)" },
+        { key: "month", label: "By month", on: month, href: `${hrefOf({ ...c, mixp: "month" })}#hourly`, title: "The grid's monthly mix (generation_mix_hourly_profile)" },
+      ]} />
+    </div>
+  );
+}
 
 async function NowView({ c }: { c: Choice }) {
   // session 168: with every grid on (as the view opens) the operator list chooses the one drawn, as before; once grids
@@ -92,10 +108,21 @@ async function NowView({ c }: { c: Choice }) {
   const ba = bas[0];
   const st = c.state && c.state in STATES ? c.state : "US";
   const table = "eia930_all_generation";
-  const [reads, monthly] = await Promise.all([
+  // session 1152: the energy mix panel's view (hourly, the default, or by month) and its own read: the demand of the
+  // same days (the peak hour), or the grid's months of generation_mix_hourly_profile (none for the Lower 48)
+  const month = c.mixp === "month";
+  const extra = (b: (typeof BAS)[number]) => {
+    const g = BA_GRID[b.code];
+    if (month) return g && g !== "us48" ? attempt(() => rest<SeriesRow>("series", { select: "entity,variable,ts_utc,value,unit", table_name: `eq.${PROFILE}`, entity: `eq.iso:${g}`,
+      variable: `in.(${MONTH_VARIABLES.join(",")})`, ts_utc: `gte.${daysAgo(800).slice(0, 7)}-01T00:00:00Z`, order: "entity,variable,ts_utc" }, HOURLY)) : Promise.resolve(null);
+    return b.code === "ciso" ? Promise.resolve(null) : attempt(() => series(DEMAND, { entity: b.entity, variable: "demand_mw", since: daysAgo(9) }));
+  };
+  const [reads, monthly, extras] = await Promise.all([
     Promise.all(bas.map((b) => Promise.all([attempt(() => series(LATEST, { entity: b.entity })), attempt(() => series(table, { entity: b.entity, since: daysAgo(9) }))]))),
     attempt(() => series(MONTHLY, { entity: `eia:${st}` })),
+    Promise.all(bas.map(extra)),
   ]);
+  const now = renderTime();
   // session 118: EIA-930's generation for California is the series the faults register calls changed; it is not drawn
   const caiso = `EIA's hourly generation series for California changed on ${caisoJoinDay()} and is not drawn. California's mix from CAISO's own data is in the views beside this one.`;
   const failed = (reason: string) => <Missing why={`The table could not be read just now: ${reason}`} words="working on it" />;
@@ -104,6 +131,7 @@ async function NowView({ c }: { c: Choice }) {
     <>
       <form method="get" className="mb-6 flex flex-wrap items-end gap-4" data-now-form="1">
         {c.base ? <><input type="hidden" name="view" value="mix" />{chosen ? <input type="hidden" name="grid" value={c.base.grid} /> : null}</> : null}
+        {month ? <input type="hidden" name="mixp" value="month" /> : null}
         {chosen ? (
           <>
             <input type="hidden" name="grids" value={c.shown.join(",")} />
@@ -117,6 +145,9 @@ async function NowView({ c }: { c: Choice }) {
       {bas.map((b, i) => {
         const [latest, hourly] = reads[i];
         const withheld = b.code === "ciso";
+        const more = extras[i];
+        const grid = BA_GRID[b.code] ?? b.code;
+        const figures = !month && !withheld && hourly.ok ? mixHourly(hourly.data, more && more.ok ? more.data : [], HOURLY_FUELS) : null;
         return (
           <div key={b.code} data-now-ba={b.code}>
             <section id={i ? `today-${b.code}` : "today"} className="mb-8">
@@ -124,9 +155,23 @@ async function NowView({ c }: { c: Choice }) {
               {withheld ? <Missing why={caiso} /> : latest.ok ? <Today rows={latest.data} label={b.label} /> : failed(latest.reason)}
             </section>
             <section id={i ? `hourly-${b.code}` : "hourly"} className="mb-8">
-              <h2 className={h2}>{b.label}: hourly mix, last 7 days</h2>
-              <Legend items={HOURLY_FUELS.map((f) => ({ key: f.key, label: f.label, color: `var(--color-fuel-${f.key})` }))} />
-              {withheld ? <Missing why={caiso} /> : hourly.ok ? <Hourly rows={hourly.data} table={table} label={b.label} /> : failed(hourly.reason)}
+              <h2 className={h2}>{month ? `${b.label}: monthly mix, by grid` : <>{b.label}: hourly mix, last 7 days</>}</h2>
+              {/* session 1152: the energy mix panel, its figures keyed (lib/mixHourly.ts), its two views in the address */}
+              <div data-grid-panel={`grid_mix_${grid}`}>
+                <PanelToggle c={c} month={month} />
+                {month ? (
+                  grid === "us48" ? <Missing why="generation_mix_hourly_profile is built for the seven ISO grids, not for the Lower 48: its monthly mix by state is below." words="not built for the Lower 48" />
+                    : more && more.ok ? <MonthlyFigures rows={more.data} label={b.label} caiso={withheld} /> : failed(more && !more.ok ? more.reason : "no read")
+                ) : figures ? <HourlyFigures m={figures} label={b.label} now={now} /> : null}
+                {!month && withheld ? <p className="mb-2 text-xs text-muted">California&apos;s monthly mix, from CAISO&apos;s own data since January 2026, is under &quot;By month&quot;.</p> : null}
+              </div>
+              {month ? null : (
+                <>
+                  <Legend items={HOURLY_FUELS.map((f) => ({ key: f.key, label: f.label, color: `var(--color-fuel-${f.key})` }))} />
+                  {withheld ? <Missing why={caiso} /> : hourly.ok ? <Hourly rows={hourly.data} table={table} label={b.label} share through={figures?.newest.t}
+                    marks={figures?.peak ? [{ t: figures.peak.t, name: `Peak demand, ${new Date(figures.peak.t).toISOString().slice(11, 16)} UTC` }] : undefined} /> : failed(hourly.reason)}
+                </>
+              )}
             </section>
           </div>
         );

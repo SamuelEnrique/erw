@@ -35,6 +35,8 @@ type Props = {
   file?: string; // kept for the pages that name one (the PNG download the canvas had is not drawn here)
   unit2?: string; // session 24: the unit of the y2 series
   refLines?: { value: number; name: string; dashed?: boolean }[];   // session 318: horizontal lines on the left axis, named (the board's average)
+  share?: boolean;   // session 1152: the hover card gives each series' share of the sum of the series at that time (a stacked mix)
+  marks?: { t: number; name: string }[];   // session 1152: vertical lines at a time, named at the top (the energy mix's peak hour)
 };
 
 const FMT: Record<string, (t: number) => string> = {
@@ -107,7 +109,7 @@ const ticksOf = (b: Bounds) => { const out: number[] = []; for (let v = b.lo; v 
 
 const PAGE = 500;
 
-export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false, x = "minute", mini = false, unit2 = "", refLines }: Props) {
+export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false, x = "minute", mini = false, unit2 = "", refLines, share = false, marks }: Props) {
   const wrap = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(760);
   const [table, setTable] = useState(false);
@@ -222,6 +224,8 @@ export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false
     setHover({ t: xs[i], px: px(xs[i]) });
   };
   const unitOf = (s: TimeSeries) => (s.y2 && has2 ? unit2 : unit);
+  // session 1152: a value's share of the sum of every series at the time (negative values, a battery charging, count as they are)
+  const shareOf = (v: number, t: number) => { const sum = at.reduce((a, m) => a + (m.get(t) ?? 0), 0); return sum ? `, ${((v / sum) * 100).toFixed(1)}%` : ""; };
   const pages = Math.ceil(xs.length / PAGE);
 
   if (mini) {
@@ -292,14 +296,21 @@ export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false
             <g data-direct-labels="1">
               {labels.map(({ k, y }) => <text key={drawn[k].s.name} x={plotR + (has2 ? 50 : 6)} y={y + 4} fontSize="12" fill={drawn[k].color}>{lines(drawn[k].s.name).map((ln, j) => <tspan key={j} x={plotR + (has2 ? 50 : 6)} dy={j ? 13 : 0}>{ln}</tspan>)}</text>)}
             </g>
+            {marks?.filter((m) => m.t >= t0 && m.t <= t1).map((m) => (
+              <g key={`m${m.t}`} data-chart-mark={m.name}>
+                <line x1={px(m.t)} x2={px(m.t)} y1={TOP} y2={height - BOT} stroke="var(--color-accent)" strokeWidth="1" strokeDasharray="2 2" />
+                <text x={px(m.t)} y={TOP - 4} textAnchor={px(m.t) > (L + plotR) / 2 ? "end" : "start"} fontSize="12" fill="var(--color-accent)">{m.name}</text>
+              </g>
+            ))}
             {hover ? <line x1={hover.px} x2={hover.px} y1={TOP} y2={height - BOT} stroke="var(--color-muted)" strokeWidth="1" strokeDasharray="3 3" /> : null}
           </svg>
           {hover ? (
             <div className="pointer-events-none absolute top-6 z-10 border border-rule bg-paper px-3 py-2 text-xs" style={{ left: Math.min(Math.max(0, hover.px + 10), Math.max(0, W - 230)) }} data-chart-card="1">
               <div className="text-ink">{fmt(hover.t)}</div>
               {series.map((s, k) => { const v = at[k].get(hover.t); return (
-                <div key={s.name} className="flex justify-between gap-4"><span style={{ color: tokenColor(s.color) }}>{s.name}</span><span className="font-mono text-ink">{v === null || v === undefined ? "not held" : `${num(v)} ${unitOf(s)}`}</span></div>
+                <div key={s.name} className="flex justify-between gap-4"><span style={{ color: tokenColor(s.color) }}>{s.name}</span><span className="font-mono text-ink">{v === null || v === undefined ? "not held" : `${num(v)} ${unitOf(s)}${share ? shareOf(v, hover.t) : ""}`}</span></div>
               ); })}
+              {marks?.filter((m) => m.t === hover.t).map((m) => <div key={`m${m.t}`} className="text-accent" data-chart-card-mark="1">{m.name}</div>)}
             </div>
           ) : null}
         </>

@@ -177,6 +177,9 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   // session 1151: CAISO's Network tab (the keyed panel of a grid other than ERCOT under the network component); /grid?view=network
   // is the Lower 48's, read as /grid?grid=us48&view=network above
   "/grid?grid=caiso&view=network",
+  // session 1152: the energy mix panel's second view, the grid's monthly mix (mixp=month), for ERCOT and for CAISO (whose
+  // hourly view is withheld by the session 118 ruling and whose monthly build is drawn)
+  "/grid?grid=ercot&mixp=month", "/grid?grid=caiso&mixp=month",
   // session 299: the Gravity tab (the network's gravity shape with the exchange blocks under it)
   "/grid?grid=ercot&view=gravity&shape=gravity", "/grid?grid=us48&view=gravity&shape=gravity",
   // session 403: the ERCOT peak premium explorer (the thesis's default; another hub and two years; one month across the
@@ -564,8 +567,10 @@ async function truth(check) {
   }
   if (p[0] === "series_max" || p[0] === "series_sum") {
     // session 29: an optional sixth part names the entity (one BA of the consolidated EIA-930 tables)
+    // session 1152: the variable part may name several variables, comma separated (a fuel group of EIA-930's sources, the
+    // Grid tool's energy mix panel, lib/mixHourly.ts): their rows are summed together. No variable name holds a comma
     const [, table, variable, start, end, entity] = p;
-    const rows = await all("series", { select: "value", table_name: `eq.${table}`, variable: `eq.${variable}`,
+    const rows = await all("series", { select: "value", table_name: `eq.${table}`, variable: variable.includes(",") ? `in.(${variable})` : `eq.${variable}`,
       and: `(ts_utc.gte.${start},ts_utc.lt.${end})`, order: "entity,ts_utc", ...(entity ? { entity: `eq.${entity}` } : {}) });
     if (!rows.length) return undefined;
     return p[0] === "series_max" ? Math.max(...rows.map((r) => r.value)) : rows.reduce((a, r) => a + r.value, 0);
