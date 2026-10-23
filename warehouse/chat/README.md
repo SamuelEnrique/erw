@@ -22,6 +22,7 @@ A question-answering layer over the Energy Research Warehouse (ERW) that never s
   - **`group_by` (optional):** `year`, `month`, `day` or `hour` of the row time in a time zone `tz`; `entity`; or one of the table's text columns.
   - **Result:** at most 60 rows. `min` and `max` also say when, and for which entity.
 - **`compare(a, b)`:** two queries side by side, with the difference and the ratio when both are single values.
+- **`board_rank(measure, order)`** (session 1122): the price board's questions ("which hub is highest", "what moved most", "where is the spark spread widest"): every hub's newest value of one of the board's measures in `price_board_latest` or `price_board_spreads`, ranked highest, lowest or by the size of the move, each with its own date. Built on `query` (latest by entity), so it agrees with the board's tables; on the site the held grids' rows are left out as every read leaves them. Five questions with their keys: `eval/questions_s1122.yaml` (`eval/expected_s1122.py`).
 
 Every result carries `table`, `data_version` (backend, data commit, the table's last run), `source_report`, `license` and the `erw` citation.
 

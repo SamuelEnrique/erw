@@ -335,6 +335,43 @@
     ],
     "additionalProperties": false
    }
+  },
+  {
+   "name": "board_rank",
+   "description": "The price board's questions (session 1122): rank every hub of the board's own derived tables by one measure on its newest day, highest first, lowest first or by the size of the move. For 'which hub is highest', 'what moved most today', 'where is the spark spread widest'. Each hub's value carries its own date. Built on query (latest by entity), so it agrees with the board.",
+   "input_schema": {
+    "type": "object",
+    "properties": {
+     "measure": {
+      "type": "string",
+      "enum": [
+       "da_latest_day_mean",
+       "rt_latest_day_mean",
+       "da_day_change",
+       "rt_day_change",
+       "da_day_change_pct",
+       "rt_day_change_pct",
+       "da_minus_rt",
+       "spark_spread_7",
+       "implied_heat_rate"
+      ],
+      "description": "da_ or rt_latest_day_mean: the day's mean price; da_ or rt_day_change and _day_change_pct: the move on the day before; da_minus_rt: day-ahead less real time; spark_spread_7 and implied_heat_rate: the spreads against Henry Hub."
+     },
+     "order": {
+      "type": "string",
+      "enum": [
+       "highest",
+       "lowest",
+       "largest_move"
+      ],
+      "description": "highest (default) or lowest by value; largest_move by the size of the value whatever its sign (for a change)."
+     }
+    },
+    "required": [
+     "measure"
+    ],
+    "additionalProperties": false
+   }
   }
  ],
  "answer_schema": {

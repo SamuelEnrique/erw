@@ -829,6 +829,30 @@ export function perKw(out: Json, table: string, env: Record<string, string | und
   return out;
 }
 
+/** Session 1122, as warehouse/chat/tools.py board_rank: every hub's newest value of one of the board's measures, ranked.
+ *  Built on query (latest by entity), so its rows are the board's derived tables as query reads them, the held grids'
+ *  rows left out by lib/supabase.ts. */
+export const BOARD_MEASURES: Record<string, string> = {
+  da_latest_day_mean: "price_board_latest", rt_latest_day_mean: "price_board_latest", da_day_change: "price_board_latest", rt_day_change: "price_board_latest",
+  da_day_change_pct: "price_board_latest", rt_day_change_pct: "price_board_latest", da_minus_rt: "price_board_latest",
+  spark_spread_7: "price_board_spreads", implied_heat_rate: "price_board_spreads",
+};
+export function rankRows(rows: Json[], order: string): Json[] {
+  const vs = rows.filter((r) => typeof r.value === "number");
+  const key = order === "largest_move" ? (r: Json) => -Math.abs(r.value as number) : order === "lowest" ? (r: Json) => r.value as number : (r: Json) => -(r.value as number);
+  return vs.slice().sort((a, b) => key(a) - key(b)).map((r, i) => ({ rank: i + 1, entity: r.entity, value: r.value, at: r.at }));
+}
+async function boardRank(a: { measure?: string; order?: string }, scope: Scope = null): Promise<Json> {
+  const measure = a.measure ?? "", order = a.order ?? "highest";
+  if (!BOARD_MEASURES[measure]) throw new ToolError(`measure must be one of ${Object.keys(BOARD_MEASURES).sort().join(", ")}`);
+  if (!["highest", "lowest", "largest_move"].includes(order)) throw new ToolError("order must be highest, lowest or largest_move");
+  const table = BOARD_MEASURES[measure];
+  const q = await query({ table, aggregation: "latest", variable: measure, group_by: "entity" } as QueryArgs, scope);
+  const ranked = rankRows((q.result as Json[] | undefined) ?? [], order);
+  return { table, measure, order, units: q.units, n: ranked.length, ranked,
+    note: "each hub's newest value of the measure, with its own date; a hub whose rows are held is not in the table read", ...(await provenance(table)) };
+}
+
 /** Session 35: a grid page's written layer, as warehouse/chat/tools.py grid_notes. */
 function gridNotes(a: { grid?: string }, scope: Scope): Json {
   const g = scopeOf(a.grid);
@@ -848,6 +872,7 @@ export async function runTool(name: string, input: unknown, scope: Scope = null)
     if (name === "query") return { out: await query(a as unknown as QueryArgs, scope), isError: false };
     if (name === "compare") return { out: await compare(a as unknown as { a: QueryArgs; b: QueryArgs }, scope), isError: false };
     if (name === "grid_notes") return { out: gridNotes(a as { grid?: string }, scope), isError: false };
+    if (name === "board_rank") return { out: await boardRank(a as { measure?: string; order?: string }, scope), isError: false };  // session 1122
     return { out: { error: `unknown tool ${JSON.stringify(name)}` }, isError: true };
   } catch (e) {
     if (e instanceof ToolError || e instanceof DataError) return { out: { error: e.message }, isError: true };
