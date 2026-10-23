@@ -279,7 +279,9 @@ def reserve_figures(repo, rows):
     headroom.json's build day, for the hub table's ERCOT rows (the node list has no headroom column). None held: none."""
     as_of = (read_json(repo, "siting", "headroom.json").get("reserve") or {}).get("as_of")
     nxt = sorted((r for r in rows if as_of and r["ts_utc"][:10] > as_of and r["value"] not in ("", None)), key=lambda r: r["ts_utc"])
-    return {f"allgrids|reservemargin|{rid}": float(nxt[0]["value"]) for rid in ROWS if rid.startswith("ercot:")} if nxt else {}
+    # session 1042 (chain 072): rounded to six decimals, as the builder writes it (siting_page.reserve_margins); unrounded,
+    # the comparison failed on a difference below a millionth
+    return {f"allgrids|reservemargin|{rid}": round(float(nxt[0]["value"]), 6) for rid in ROWS if rid.startswith("ercot:")} if nxt else {}
 
 
 PANEL_NODE = "7RNCHSLR_ALL"   # session 1048: the node whose panel the replication reads (check-values reads it too)
