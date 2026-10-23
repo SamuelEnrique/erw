@@ -7,6 +7,7 @@ import { GRID_VIEW_TABLES } from "@/lib/gridtables";
 import { licenseNeededTables } from "@/lib/license";
 import { ToolPicker, ToolTabs } from "@/components/tool/Choose";
 import { AskView } from "@/components/grid/AskView";
+import { AskExamples } from "@/components/grid/AskExamples";
 import { MixTable } from "@/components/grid/Conditions";
 import { EmissionsParts } from "@/components/grid/Emissions";
 import { ExchangeView } from "@/components/grid/ExchangeView";
@@ -93,7 +94,7 @@ export default async function GridTool({ searchParams }: { searchParams: Promise
           <ToolTabs label="Views" items={GRID_VIEWS.map(([k, label]) => ({ key: k, label, href: gridHref(grid.slug, k), on: k === view }))} />
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
             <div className="min-w-0">
-              {view === "network" ? <NetworkView keep={keep} node={p.node} /> : null}
+              {view === "network" ? <NetworkView keep={keep} node={p.node} grid={grid} /> : null}
               {view === "mix" ? (
                 <div data-grid-view="mix">
                   {/* session 299: the Now view's blocks, the grid's latest hour, open the tab */}
@@ -107,14 +108,14 @@ export default async function GridTool({ searchParams }: { searchParams: Promise
               {view === "clean" ? (
                 <div data-grid-view="clean">
                   {cfg && data ? <GridCleanParts g={cfg} d={data} /> : null}
-                  <EmissionsParts focus={`eia930:${grid.ba}`} />
+                  <EmissionsParts focus={`eia930:${grid.ba}`} grid={grid.slug} />
                   <div className="mt-10"><MixClean c={mix} /></div>
                 </div>
               ) : null}
               {view === "gravity" ? (
                 <div data-grid-view="gravity">
                   {/* session 299: the network component in its gravity shape (the address carries shape=gravity), the Exchange view's blocks under it */}
-                  <NetworkView keep={keep} node={p.node} shape="gravity" />
+                  <NetworkView keep={keep} node={p.node} shape="gravity" grid={grid} />
                   <div className="mt-10"><ExchangeView grid={grid} /></div>
                 </div>
               ) : null}
@@ -129,6 +130,8 @@ export default async function GridTool({ searchParams }: { searchParams: Promise
                 Tables read, with their licenses: the public tables of the site&apos;s live set, through the panel&apos;s tools; the {licenseNeededTables().length} tables held for a license are refused by name or, for a table held by grid, read without the held grids&apos; rows.
               </p>
               <AskView grid={grid} question={one(sp.q) ?? ""} tab={view} compact />
+              {/* session 1157: the grid's stored example answers, folded under the live box (lib/gridask.ts): no model call, no figure keyed */}
+              <AskExamples grid={grid} />
             </aside>
           </div>
           <Related href="/grid" />
