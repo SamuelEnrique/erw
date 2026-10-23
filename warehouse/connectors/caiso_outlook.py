@@ -12,7 +12,7 @@ table, caiso_battery_storage:
     variable  batteries_mw (CAISO's "Total batteries" column),
               standalone_batteries_mw, hybrid_batteries_mw
               Positive is discharge to the grid, negative is charging, as CAISO publishes them.
-    freq      PT5M; ts_utc is the interval start (CAISO's "Interval Start", Pacific time, converted)
+    freq      PT5M; ts_utc is the interval start (CAISO's "Time" column, the interval's start in Pacific time, converted; session 2060)
 
     python warehouse/connectors/caiso_outlook.py              # the last 30 complete days
     python warehouse/connectors/caiso_outlook.py --days 3

@@ -161,6 +161,9 @@ def main(argv=None):
     ip.RAW.open(CONNECTOR, run_id)
     results = []
     try:
+        # session 2066: the pause list first (CLAUDE.md), as boem_ogor.py asks it
+        if ip.paused(CONNECTOR) or ip.paused_host("www.eia.gov"):
+            raise RuntimeError("www.eia.gov is paused (warehouse/metadata/paused_sources.csv): no request made")
         rows, latest, counts, urls = [], "", {}, []
         for name, (fname, _, _, _) in TABLES.items():
             url = BASE + fname
