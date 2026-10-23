@@ -374,6 +374,13 @@ function profileTwelveOnce(dc: DC, f: Files, grid: string, region: string, x: Pi
   }
   return { per: run > 0 ? cost / run : NaN, from: flat.from, to: flat.to, run, lost, held, strike, peaks: inPeaks, atOrBelow, weights: kept };
 }
+/** Session 2306: the words for ERCOT's four summer peak intervals in a flexible profile's rule, from the count the model
+ * made (ProfileTwelve.peaks: the intervals' hours with a price inside the twelve months), never a fixed sentence. */
+export function peakWords(peaks: number, lastYear: number | string | undefined, note: string): string {
+  const to = `ercot_4cp_intervals holds summers to ${lastYear ?? "none"}; ${note}`;
+  if (peaks <= 0) return `none of those held falls in these months (${to})`;
+  return `${peaks.toLocaleString("en-US")} of their hours held ${peaks === 1 ? "falls" : "fall"} in these months and the load is off in ${peaks === 1 ? "it" : "them"} (${to})`;
+}
 /** The profile's figure for a row: a hub or zone's own; a node's is its hub's (HB_HUBAVG) plus its mean daily basis, the
  * same basis as the flat figure (node_basis_daily is daily: no hour of a node is held for twelve months). */
 export type ProfileCell = { t: ProfileTwelve; per: number; basis?: number; daily: boolean } | { why: string };

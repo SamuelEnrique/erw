@@ -4,7 +4,7 @@ import { InlineSpark } from "@/components/InlineSpark";
 import { LineChart } from "@/components/LineChart";
 import { InputPanel } from "@/components/tool/ToolPage";
 import type { ReactNode } from "react";
-import { columnWords, nodeColumns, zoneGrowth, SERVICE_WORDS, UTILITY_KINDS_LINE, utilityKind, nodeShortMonths, shortMonthsWords, CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, reserveMargin, columnValue, nodeTable, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
+import { columnWords, nodeColumns, zoneGrowth, SERVICE_WORDS, UTILITY_KINDS_LINE, utilityKind, nodeShortMonths, shortMonthsWords, CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, reserveMargin, columnValue, nodeTable, peakWords, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
 import { CP, NODES, SITING_DC, SITING_FILES } from "@/lib/sitingdata";
 import { AllGridsForm } from "./AllGridsForm";
 import { AllGridsNodes } from "./AllGridsNodes";
@@ -110,7 +110,7 @@ function ProfileTd({ r, x }: { r: Row; x: SitingInputs }) {
   const flat = energyCell(SITING_DC, SITING_FILES, r);
   const flatPer = flat.node?.per ?? flat.da?.per;
   const rule = p.curtail === "peaks_strike"
-    ? `Off in an hour whose day-ahead price is at or above USD ${two(t.strike ?? 0)} per MWh${r.grid === "ercot" ? `, and in the hours of ERCOT's four summer peak intervals: none of those held falls in these months (ercot_4cp_intervals holds summers to ${lastCp()?.year ?? "none"}; ${CP.note})` : ""}.`
+    ? `Off in an hour whose day-ahead price is at or above USD ${two(t.strike ?? 0)} per MWh${r.grid === "ercot" ? `, and in the hours of ERCOT's four summer peak intervals: ${peakWords(t.peaks, lastCp()?.year, CP.note)}` : ""}.`
     : p.curtail === "below_strike"
       ? `Runs in an hour whose day-ahead price is ${x.strike === null ? `at or below USD ${two(t.strike ?? 0)} per MWh, this row's own price at the load factor ${x.lf.toFixed(2)} (the cheapest ${Math.round(x.lf * 100)} percent of its hours)` : `below USD ${two(t.strike ?? 0)} per MWh`}.`
       : p.curtail === "interruptible" ? "Runs every hour: no table the warehouse holds names the hours a grid interrupts a heavy load." : "Runs every hour.";
