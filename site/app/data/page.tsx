@@ -13,7 +13,7 @@ import site from "@/data/site.json";
 import { PAGES } from "@/lib/pages";
 import { TIER_LABEL, TIER_TITLE, isModelExtracted } from "@/lib/tiers";
 import { LICENSE_NEEDED, licenseNeeded, licensePublishers } from "@/lib/license";  // session 207: "license needed" from 20 October 2026
-import { PACKAGES_CITATION, PACKAGES_HELD, PACKAGES_LEAD, PANELS } from "@/lib/packages";  // session 1007
+import { PACKAGES_CITATION, PACKAGES_HELD, PACKAGES_LEAD, PANELS, oneLineCalls, refusal, shapeOf } from "@/lib/packages";  // sessions 1007, 1008
 
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "Data" };
@@ -59,6 +59,7 @@ export default async function Data() {
                   <th className="py-1 pr-3 font-normal">License</th>
                   <th className="py-1 pr-3 font-normal">Tier</th>
                   <th className="py-1 pr-3 font-normal">Download</th>
+                  <th className="py-1 pr-3 font-normal">In your tools</th>
                 </tr>
               </thead>
               <tbody>
@@ -103,6 +104,22 @@ export default async function Data() {
                         <a href={site.redivis.url} title="On Redivis; version 1 is pending release">
                           Redivis
                         </a>
+                      )}
+                    </td>
+                    {/* session 1008: the three one-line calls (lib/packages.ts), or the packages' refusal of a table not public */}
+                    <td className="py-1 pr-3 text-xs" data-tool-lines={r.table_name}>
+                      {refusal(r.table_name) ? (
+                        <details>
+                          <summary className="cursor-pointer text-muted">Not public</summary>
+                          <p className="mt-1 max-w-xs">{refusal(r.table_name)}</p>
+                        </details>
+                      ) : (
+                        <details>
+                          <summary className="cursor-pointer">Python, Stata, R ({shapeOf(r.interval)})</summary>
+                          <pre className="mt-1 overflow-x-auto border border-rule bg-panel p-1 font-mono text-xs">
+                            {[oneLineCalls(r.table_name).python, oneLineCalls(r.table_name).stata, oneLineCalls(r.table_name).r].join("\n")}
+                          </pre>
+                        </details>
                       )}
                     </td>
                   </tr>

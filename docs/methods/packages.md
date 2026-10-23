@@ -57,6 +57,16 @@ The table's license: `verdict` (`public`, `internal`, `unsettled`), `status` (`l
 
 The table's shape and its columns: `name`, `type` (below), `required` (`yes`, `reserved`, `partition` or `extra`), in the table's own order, and the key (`entity, variable, ts_utc` for a series, plus `vintage` where the table keeps revisions; `entity_id`; `event_id`), from `docs/datastandard.md`.
 
+## One line a table (session 1008)
+
+Each table's row on `/data` gives the one line that fetches it in each package, from the table's name:
+
+- Python: `erw.fetch("<table>")`
+- Stata: `erw fetch <table>, clear`
+- R: `erw_fetch("<table>")`
+
+and its shape (series, entities or events). A table whose verdict is not `public` gives, in place of the three lines, the refusal the packages give for it (`<table> is not public: <verdict>. <words> The ERW's license record: <address>`). The verdicts reach the site in `site/data/table_verdicts.json`, which `package/tools/build_tables.py` writes with the package's own copy of the record.
+
 ## The column types, by shape
 
 One rule in all three packages. Every column not named here stays text as the table writes it; an empty cell is missing (Python `NaN` or `NaT`, Stata `.` or `""`, R `NA`).

@@ -71,3 +71,34 @@ export const PANELS: PackagePanel[] = [
     source: "packages/r/erw/README.md",
   },
 ];
+
+// Session 1008 (chain 070): each table's three one-line calls on /data, from its name and shape, or, for a table that is
+// not public, the refusal the packages give (docs/methods/packages.md, "One line a table"). The verdicts are the license
+// record's (site/data/table_verdicts.json, written by package/tools/build_tables.py with the package's own copy).
+import verdictFile from "@/data/table_verdicts.json";
+
+const VERDICTS = verdictFile as unknown as Record<string, [string, string]>;
+
+export const LICENSE_RECORD = "https://github.com/SamuelEnrique/erw/blob/main/docs/licenses.md";
+
+/** A table's shape from its coverage interval: snapshot is entities, event is events, any other a series. */
+export function shapeOf(interval: string | null | undefined): "series" | "entities" | "events" {
+  return interval === "snapshot" ? "entities" : interval === "event" ? "events" : "series";
+}
+
+/** The license record's verdict for a table: public, internal, unsettled, or "" when the record has not reached it. */
+export function verdictOf(table: string): string {
+  return VERDICTS[table]?.[0] ?? "";
+}
+
+/** The three one-line calls that fetch a table, in Python, Stata and R. */
+export function oneLineCalls(table: string): { python: string; stata: string; r: string } {
+  return { python: `erw.fetch("${table}")`, stata: `erw fetch ${table}, clear`, r: `erw_fetch("${table}")` };
+}
+
+/** The refusal the packages give for a table that is not public, or null for a public one. */
+export function refusal(table: string): string | null {
+  const v = VERDICTS[table];
+  if (!v || v[0] === "public") return null;
+  return `${table} is not public: ${v[0]}. ${v[1]} The ERW's license record: ${LICENSE_RECORD}`;
+}
