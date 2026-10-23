@@ -368,6 +368,7 @@ catalogue_hold:
   - lbnl_tracking_the_sun
   - eia_lng_liquefaction_projects
   - fema_disaster_declarations
+  - usdm_drought_state_weekly
   - lbnl_hybrid_ppa_prices
   - lbnl_solar_projects
   - ornl_npd_potential

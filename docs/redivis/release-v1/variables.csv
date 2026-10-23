@@ -7068,6 +7068,12 @@ usbr_hydropower_monthly,auxiliary_use,series variable,MWh
 usbr_hydropower_monthly,gross_generation,series variable,MWh
 usbr_hydropower_monthly,installed_capacity,series variable,MW
 usbr_hydropower_monthly,net_generation,series variable,MWh
+usdm_drought_state_weekly,d0,series variable,pct
+usdm_drought_state_weekly,d1,series variable,pct
+usdm_drought_state_weekly,d2,series variable,pct
+usdm_drought_state_weekly,d3,series variable,pct
+usdm_drought_state_weekly,d4,series variable,pct
+usdm_drought_state_weekly,none,series variable,pct
 usgs_mcs_critical_minerals,consumption,series variable,t
 usgs_mcs_critical_minerals,employment,series variable,count
 usgs_mcs_critical_minerals,export,series variable,t

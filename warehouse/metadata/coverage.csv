@@ -390,6 +390,7 @@ texas_delivery_charges,none,,5,event,2020-09-01T00:00:00Z,2026-10-07T00:00:00Z,7
 texas_transmission_matrix,none,,1,event,2025-03-20T00:00:00Z,2026-03-16T00:00:00Z,855,1 outlets,2026-10-07T09:49:32Z,pass,internal,power,no,model_extracted
 usace_nid_dams,usace,,92788,snapshot,2026-10-23T13:59:04Z,2026-10-23T13:59:04Z,92788,usace:nid,2026-10-23T14:01:30Z,pass,public,power,no,source
 usbr_hydropower_monthly,usbr,,55,P1M,2013-10-01T00:00:00Z,2025-10-01T00:00:00Z,31702,usbr:power_plant_data,2026-10-23T16:28:01Z,pass,public,power,no,source
+usdm_drought_state_weekly,usdm,,48,P1W,2014-12-30T00:00:00Z,2026-10-20T00:00:00Z,177696,usdm:state_statistics,2026-10-23T20:19:05Z,pass,public,power,no,source
 usgs_mcs_critical_minerals,usgs,,653,P1Y;P4Y,2021-01-01T00:00:00Z,2025-01-01T00:00:00Z,1600,usgs:mcs_2026_data,2026-10-23T13:56:54Z,pass,public,metals,no,source
 uspvdb_solar_facilities,uspvdb,,6611,snapshot,2026-10-23T05:19:06Z,2026-10-23T05:19:06Z,6611,usgs:uspvdb,2026-10-23T05:35:32Z,pass,public,power,no,source
 uswtdb_wind_turbines,uswtdb,,77839,snapshot,2026-10-21T18:33:12Z,2026-10-21T18:33:12Z,77839,usgs:uswtdb,2026-10-21T18:33:12Z,pass,public,power,no,source
