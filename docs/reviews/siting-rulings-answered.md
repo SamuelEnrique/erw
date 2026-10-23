@@ -55,3 +55,7 @@ No item is answered: 1 to 19, 21 and 22 in `docs/reviews/siting-rulings-2026-10-
 ## Read again (session 1043, chain 072, 23 October 2026 at about 07:50 UTC)
 
 No item is answered: 1 to 19, 21 and 22 in `docs/reviews/siting-rulings-2026-10-23.md` and the 20th here (no "Answer:" under any; chain 071's session 1039 added only the state section). Read: both files; `docs/state/` (no note of the owner's since 1021); the owner's commits on main since 1021 (none a ruling: the queue moves of 072, 073, 051 and 081, and a merge); `queue/next/` (073 for this machine, 052 for the data machine). The packages' items (`docs/reviews/packages-open.md`, items 1 to 9) are not answered either, and `docs/reviews/packages-owner-run.md` does not exist. So sessions 1044 and 1045 change nothing.
+
+## Read again (session 1065, chain 073, 23 October 2026 at about 09:40 UTC)
+
+No item is answered: 1 to 24 in the rulings file (23 and 24 added by chain 072) and the 20th here. The packages' items and chain 072's proposals are not answered either.

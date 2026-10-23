@@ -77,3 +77,23 @@ Read again by session 1059 (chain 072) at about 08:10 UTC on 23 October: **two r
 ## State on 23 October 2026, morning (chain 051)
 
 Read again by session 917 at 08:40 UTC. **The same row as a warehouse table:** "ERCOT nodes | Node panel | transmission projects by county", which chain 072's session 1048 draws on the tab from TPIT, is also held as `ercot_node_transmission` (derived, method `docs/methods/ercot_node_transmission.md`) for the 569 nodes `ercot_node_places` places: each node's county with ERCOT's TPIT project phases counted by status, their circuit miles, highest kV and next projected in-service date. Its counts equal the tab's (`site/data/siting/nodes.json`) in all 137 counties the tab lists; the other 11 have no TPIT phase (zeros in the table, absent from the tab). The other rows stay as chain 072 left them.
+
+## State on 23 October 2026, mid-morning (chain 073)
+
+Read again by session 1081 (chain 073) at about 09:55 UTC: **one row changed state.** A node's county, so the planned generation near it (row 23): **filled** for a placed node's county (1069, `eia860m_planned_generators` by county, ERCOT's generators due in the twelve months after the vintage). No table the other open rows wait on has landed (1068). The table's rows are left as written; this section says what changed.
+
+## State on 23 October 2026, morning (chain 052)
+
+Read again by session 931 at 10:20 UTC. **The same row as a warehouse table, wider:** "a node's county, so the planned generation near it", which chain 073's session 1069 draws on the tab from EIA-860M's generators due in the next twelve months, is also held as `ercot_node_planned_generation` (derived, method `docs/methods/ercot_node_planned_generation.md`) for the 569 nodes `ercot_node_places` places: ERCOT's active queue projects in the node's county (count, MW by solar, wind, storage, gas and other, the earliest proposed in-service date) and EIA-860M's planned generators there. The tab's twelve-month EIA-860M figure is within this table's all-planned figure in all 148 counties (session 936). A project in the county is not a project at the node. The other rows stay as chain 073 left them.
+
+## State on 23 October 2026, midday (chain 053)
+
+Read again by session 945 at 11:28 UTC, after the code machine's session 1086 (chain 074 withdrawn; no row of its changed). **One row filled in part, as a warehouse table:** a node's wires utility, which chain 072 left open because the CDR names no EIA plant number, is held by county as `ercot_node_wires_utilities` (derived, method `docs/methods/ercot_node_wires_utilities.md`) for the 569 nodes `ercot_node_places` places: the utilities EIA-861 lists in the node's county, the delivery-only companies among them (Oncor, CenterPoint, AEP Texas Central and North, Texas-New Mexico Power, Nueces and Lubbock) named apart, and those outside Texas RE. 517 nodes have a delivery-only company in their county, 287 exactly one; 52 (21 in Bexar) are served only by municipal utilities and cooperatives. A utility serving the county may not serve the node's site, and a transmission-only company is in no territory, so the owner of the line a generator ties into is still not given. Substations and lines, large-load tariffs, a 2026 sub-region table and a node's bus stay open.
+
+## State on 23 October 2026, afternoon (chain 054)
+
+Read again by session 959 at 12:58 UTC, after main's last state section (session 945's, chain 053); no code chain has moved a row since. **No row changed state, and none can without a ruling or a key:** a 2026 sub-region table waits on ruling 16 (`siting-rulings-2026-10-23.md`, not ruled); large-load tariffs outside ERCOT wait on `OPENEI_API_KEY`; substations and lines wait on a publisher of record for them (the standing question); a node's hub and bus need ERCOT's settlement point and bus mapping, which ERCOT serves only under `/misdownload`, a path its robots file disallows; a large load's own wait outside NYISO has no public source found. The wires utility stays held by county (`ercot_node_wires_utilities`, session 945).
+
+## State on 23 October 2026, afternoon (chain 055)
+
+Read again by session 986 at 14:13 UTC: no code chain has moved a row since session 959's section, and ruling 16 is not ruled. **No row changed state, and none can without a ruling or a key,** for session 959's reasons. Chain 055's tables (the world outlook, Berkeley Lab's hybrid plants, the National Inventory of Dams, EIA's fleet capacity factors and heat rates, eGRID's subregions) fill no open row.

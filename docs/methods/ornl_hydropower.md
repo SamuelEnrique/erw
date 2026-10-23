@@ -2,7 +2,7 @@
 
 Energy Research Warehouse (ERW), method note written in session 918 (chain 051) for tables first written on 23 October 2026.
 
-Tables: `ornl_eha_hydropower_plants`, `ornl_hydropower_pipeline`
+Tables: `ornl_eha_hydropower_plants`, `ornl_hydropower_pipeline`, `ornl_hydropower_relicensing`, `ornl_npd_potential`, `ornl_eha_hydropower_units`
 
 ## Publisher and address
 
@@ -45,4 +45,28 @@ HydroSource's Data Use Policy (read 116 of `license_reads.csv`): "Data hosted on
 
 ## What they do not hold
 
-- ORNL's unit database (EHA Unit, each turbine), its generation and capacity factor time series, and capacity additions at existing plants (ORNL leaves them out of the pipeline: they rest on a proprietary source).
+- EHA's generation and capacity factor time series, and capacity additions at existing plants (ORNL leaves them out of the pipeline: they rest on a proprietary source). ORNL's unit database is `ornl_eha_hydropower_units` (session 943, below).
+
+## The relicensing and surrender records (session 930; added by session 932)
+
+`ornl_hydropower_relicensing`: ORNL's U.S. Hydropower Relicensing and License Surrender Data, 2026 (M.M. Johnson and R. Uria-Martinez; published May 2026; DOI 10.21951/HMR_RelicenseSurrender/3031244), sheets "Relicenses" and "Surrenders" of the workbook its landing page links (`https://hydrosource.ornl.gov/data/datasets/us-hydropower-relicensing-and-license-surrender-data-2026/`). Connector: `warehouse/connectors/ornl_hydro_relicensing.py`. A snapshot of 31 December 2025, retrieved 2026-10-23T10:14:02Z (last modified 6 May 2026); ceiling one request.
+
+Events, 559 records. `event_id` `ornl_relicense:<FERC docket>:<relicense|surrender>` (one surrender docket the sheet gives twice keeps `-2`); `event_date` FERC's issuance where given (313), else the application's (194), else the notice of intent's (52), with `x_date_kind`; `event_type` `hydro_relicense` (407) or `hydro_license_surrender` (152); `parties` the licensee; `entity_ids` `ornl_eha:<EHA_PtID>` where ORNL gives the plant (548); `mw` the new license's capacity (relicense) or the surrendered project's (surrender); `status` ORNL's own (Issued Relicense 198, Pending Relicense 160, Submitted NOI to Relicense 40, Converted to Exemption 9; Issued Surrender 82, Pending Surrender 31, Submitted NOI to Surrender 9, Issued License Termination 15, Issued Exemption Termination 15). `x_*` the other fields: the old capacity, the dates, the process (TLP 219, ILP 157, ALP 22), the new mode, the settlement (57), construction and turbine-generator flags, the dam's removal (28 surrenders) and the reason. A heading not in the map or a record without a date stops the run.
+
+Cross-checks against `ornl_eha_hydropower_plants` (session 930): of the 405 relicensing records that name a plant, 401 are in the fleet table and 396 carry its docket; 193 of 197 issued relicenses give the fleet table's FERC expiry; the new capacity equals the fleet table's within 1 MW for 130 of 197; 46 of the 143 surrenders that name a plant are still in the fleet table.
+
+## The potential at non-powered dams (session 938; added by session 946)
+
+`ornl_npd_potential`: ORNL's U.S. Hydropower Potential from Existing Non-powered Dams (greater than 1MW), the dataset of the 2012 national assessment (B. Hadjerioua, Y. Wei and S.-C. Kao, An Assessment of Energy Potential at Non-Powered Dams in the United States, DOE/EE-0711), sheet "NPD" of the workbook `NHAAP_NPD_FY11_1MW.XLS` its landing page links (`https://hydrosource.ornl.gov/data/datasets/us-hydropower-potential-existing-non-powered-dams-greater-1mw/`). Connector: `warehouse/connectors/ornl_npd.py`. Retrieved 2026-10-23T11:05:59Z (last modified 29 August 2024; the data created April 2012); ceiling one request.
+
+Entities, 597 dams, 10,801 MW of potential (median 4.5 MW; 23 above 100 MW, the largest the Ohio River's Locks and Dams 53 and 52, 496 and 495 MW, and John T. Myers, 395 MW, all Corps of Engineers navigation dams). `entity_id` `ornl_npd:<National Inventory of Dams id>`; `entity_type` `project` (a potential site, not a plan; `status` empty); `geo` `US-<state>`, empty for the 36 dams on a state border, whose pair (IL/KY and the like) stays in `state` (44 single states and 12 pairs); `operator` the dam's owner (Corps of Engineers districts and the Bureau of Reclamation the most frequent); `capacity_mw` ORNL's potential capacity, its potential annual energy over a regional capacity factor; the rest ORNL's fields: county, city, river, `year_built` (0 for 21 dams, as ORNL writes it), storage (acre-feet), federal regulator (Corps 233, Reclamation 22, empty 321), estimated head (ft) and its source, the hydrologic region, annual mean flow (cfs), `potential_mwh_year` and `capacity_factor_pct`. The monthly flows and energies are not taken.
+
+ORNL's caution, carried in the header: the flows and heads are estimates not measured at the dams, and "do not represent the actual numbers for engineering design". Cross-check (session 938): of `ornl_hydropower_pipeline`'s 92 non-powered dam projects, 67 have a dam of this table in the same state sharing a word of its name, read by hand in part (Tygart, 30 MW proposed against 47 of potential; Demopolis, 48 and 238). Session 946, against the code: the header's three largest gave an empty state for the border dams; the header now gives ORNL's pair (IL/KY), and the table was written again (the rows unchanged).
+
+## The units (session 943; added by session 946)
+
+`ornl_eha_hydropower_units`: ORNL's Existing Hydropower Assets (EHA) Unit Database, 2026 (M.M. Johnson, S.-C. Kao and R. Uria-Martinez; DOI 10.21951/FY2026/3374522), sheet "Data" of `ORNL_EHAHydroUnit_PublicFY2026.xlsx`, linked from `https://hydrosource.ornl.gov/data/datasets/eha-unit-2026/`. Connector: `warehouse/connectors/ornl_eha_units.py`. Ceiling one request.
+
+Entities, 5,362 units (5,204 hydro, 158 pumped storage: `unit_type` HY or PS, as ORNL writes them), 102,688 MW in 2,258 plants. `entity_id` `ornl_eha_unit:<EHA_PtGnID>`; `entity_type` `generator`; `name` "<plant>, unit <EHA unit id>"; `geo` empty (the sheet gives a county FIPS code, no state; the plant's state is in `ornl_eha_hydropower_plants`, by `eha_plant_id`); `lat`, `lon` the plant's; `capacity_mw` the unit's; the rest ORNL's: owner, EIA plant and generator ids, FERC id, first and refurbishment years, turbine type (Francis 2,347, Kaplan 1,282, Pelton 342, pumps 170, Unknown 1,213) and maker, speed (rpm), rated head (ft), power (hp), minimum load (MW, given for 4,121 units) and start time from cold shutdown (given for 4,116: 10M 2,879, 1H 1,037, 12H 194, OVER 4), hydrologic unit and county FIPS code. "Unknown" is kept as ORNL writes it.
+
+Cross-check (session 943): every plant of `ornl_eha_hydropower_plants` has units here; the units summed equal the plant's capacity within 1 MW at 2,247 of 2,257 plants, and their count the plant's number of units at 2,246 of 2,255. One plant of the unit table is not in the plant table. Session 946, against the code: the connector's description gave the pumped storage type as PSH; ORNL writes PS, and the description is corrected.

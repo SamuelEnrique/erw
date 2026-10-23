@@ -193,6 +193,34 @@ SECTOR_RULES = [
     (r"^lbnl_ppa_prices$", "power"),  # session 915
     (r"^ornl_hydropower_pipeline$", "power"),  # session 916
     (r"^ercot_node_transmission$", "power"),  # session 917
+    (r"^eia_world_oil_gas_annual$", "oil;gas"),  # session 923
+    (r"^nrc_power_reactors$", "power;uranium"),  # session 925
+    (r"^wb_commodity_prices_monthly$", "oil;gas;coal;metals"),  # session 926
+    (r"^eia_power_fuel_stocks_monthly$", "power;coal;oil"),  # session 927
+    (r"^eia_world_oil_monthly$", "oil"),  # session 929
+    (r"^ornl_hydropower_relicensing$", "power"),  # session 930
+    (r"^ercot_node_planned_generation$", "power"),  # session 931
+    (r"^eia_world_coal_annual$", "coal"),  # session 937
+    (r"^eia_world_energy_co2_annual$", "carbon"),  # session 937
+    (r"^ornl_npd_potential$", "power"),  # session 938
+    (r"^lbnl_solar_projects$", "power"),  # session 939
+    (r"^lbnl_hybrid_ppa_prices$", "power"),  # session 940
+    (r"^ornl_eha_hydropower_units$", "power"),  # session 943
+    (r"^lbnl_wind_capacity_factors$", "power"),  # session 944
+    (r"^ercot_node_wires_utilities$", "power"),  # session 945
+    (r"^onrr_production_(monthly|annual)$", "oil;gas;coal"),  # session 951
+    (r"^onrr_revenue_monthly$", "oil;gas;coal"),  # session 951
+    (r"^lbnl_wind_(costs|turbine_orders)$", "power"),  # session 952
+    (r"^eia_primary_energy_monthly$", "power;gas;oil;coal"),  # session 953
+    (r"^usgs_mcs_critical_minerals$", "metals"),  # session 954
+    (r"^blm_ca_renewable_rows$", "power"),  # session 955
+    (r"^eia_coal_distribution_quarterly$", "coal"),  # session 957
+    (r"^eia_uranium_(production_quarterly|facilities)$", "uranium"),  # session 958
+    (r"^eia_ieo_projections$", "power;carbon"),  # session 978
+    (r"^lbnl_hybrid_plants$", "power"),  # session 979 (internal: its file states no CC BY)
+    (r"^usace_nid_dams$", "power"),  # session 982
+    (r"^eia_(capacity_factors_(annual|monthly)|heat_rates_annual)$", "power"),  # session 984
+    (r"^egrid_subregions_annual$", "power;carbon"),  # session 985
     (r"^eia861_short_form$", "power"),  # session 876: EIA-861S, the small utilities' sales  # session 869: EIA-861's meters and net metering by utility  # session 868: EIA-861's programs by utility  # session 867: EIA-861's utility data: NERC region, RTOs, activities  # session 853: EIA-861's delivery-only companies (Texas's wires utilities)  # session 695: EIA-861's distribution reliability (SAIDI, SAIFI, CAIDI) by utility
     (r"^eia_gas_storage_state_monthly$", "gas"),  # session 525: EIA's natural gas in underground storage by state, a month
     (r"^eia_state_capacity_annual$", "power"),  # session 526: EIA's state electricity profiles, net summer capacity
