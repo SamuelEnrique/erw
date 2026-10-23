@@ -1,6 +1,23 @@
 # The ERW in Python, Stata and R: one specification for three packages
 
-Version 0, session 1000, 23 October 2026 (chain 070, `queue/done/070-evening-22-october-code-packages.md`); session 1001 closed the Python package's gaps and settled two points while doing so (decisions 6 and 7). The one specification the three packages follow: the Python package `erw` (`package/`), the Stata command `erw` (`packages/stata/`, from session 1003) and the R package `erw` (`packages/r/`, from session 1005). A call, a word or a column type that one package does differently from this note is a fault of that package. Internal: the site is in review, like every page, and nothing here is published to PyPI, CRAN or SSC (the owner's).
+Version 2, session 1059, 23 October 2026 (chain 072, `queue/done/072-day-23-october-code-allgrids-packages-2.md`): "What version 2 changed" below. Version 1 was session 1038's (chain 071). Version 0 was session 1000's (chain 070, `queue/done/070-evening-22-october-code-packages.md`); session 1001 closed the Python package's gaps and settled two points while doing so (decisions 6 and 7). The one specification the three packages follow: the Python package `erw` (`package/`), the Stata command `erw` (`packages/stata/`, from session 1003) and the R package `erw` (`packages/r/`, from session 1005). A call, a word or a column type that one package does differently from this note is a fault of that package. Internal: the site is in review, like every page, and nothing here is published to PyPI, CRAN or SSC (the owner's).
+
+## What version 2 changed (chain 072, sessions 1053 to 1058)
+
+- **Three new sentences, the same in the three packages** (1056): a start or end that is not a date (`bad_date`) and a start not before the end (`bad_window`), both raised before any request (Python `erw.ERWBadWindow`); and a table of the record that the live set does not hold, asked of the live set (`not_live`): Python said "No ERW table named", which was wrong, and Stata and R returned an empty dataset. Section "Errors, in words".
+- **The conformance file's version 2** (1055): call 7 on `carbon_intensity_hourly` (kept 430 days), so no call leaves the live set before 2027; `make.py` keeps the errors block. Section "The conformance file".
+- **The new tables read** (1053): chain 049's public tables are listed by `tables()` and `coverage()` with their windows, none in the live set; the All grids tab's county and projects figures reproduced from a clone's tables.
+- **Not yet**: the owner's Stata and R run (1054), the downloads and `/llms.txt` rulings (1058).
+- **No call or column type changed.**
+
+## What version 1 changed (chain 071, sessions 1032 to 1037)
+
+- **The All grids tab's figures** (1032): four reproduced by the Python package's `fetch` from the tables the tab's files were built from, with each figure's window and order of tables written beside it; the fifth (the second card's all-in) rests on an internal table and is named. Section "The package reads the All grids tab's figures".
+- **The owner's Stata and R run**: not yet there (1033); the three commands are in `SESSION_1033_REPORT.md`. The Stata and R packages' Redivis export path stays unproven until then.
+- **The conformance file against the live set of 23 October** (1034): 20 of 20, no answer moved (each call reads a fixed window), 21 requests. Call 7 leaves the live set's 35 days about 22 November.
+- **The install, again** (1035): the wheel rebuilt offline and installed in a clean venv answers every call; the README's example runs as written; the record now lists 328 tables. The README now says its test line wants the tables `docs/coverage.md` describes (on this code machine 108 of 799 fail by older local tables, none by the package).
+- **The data pages** (1036): AccessLint and the 390 check, 0 findings. **The downloads and `/llms.txt`** (1037): not ruled, both still answer the internal view only.
+- **No call, word or column type changed** in any of the three packages.
 
 ## What a reader gets
 
@@ -112,9 +129,12 @@ Each failure a reader can hit answers with one sentence that says what to do, th
 - empty_window: "No rows of {table} start in [{start}, {end}); its rows run from {ts_min} to {ts_max}."
 - redivis_token: "Set REDIVIS_API_TOKEN to a token from https://redivis.com/workspace/settings/tokens, then try again."
 - live_keys: "Set ERW_LIVE_URL and ERW_LIVE_KEY to the live set's address and key (the ERW gives them on request), then try again."
+- bad_date (session 1056): "The {side} {value} is not a date the ERW reads: write it as YYYY-MM-DD, or YYYY-MM-DDTHH:MM:SSZ in UTC, then try again."
+- bad_window (session 1056): "The start {start} is not before the end {end}, so the window [start, end) holds no time: give a start before the end, then try again."
+- not_live (session 1056): "{table} is not in the live set: {tables_call} says which tables are (in_live); read it from the Stanford dataset or a clone's tables instead." (Before it, Python said "No ERW table named ...", which is wrong for a table of the record, and Stata and R returned an empty dataset.)
 - row_limit: "The live set answered a page of {got} rows where {page} were asked for: a fault of the package, not of your call; please tell the ERW (https://github.com/SamuelEnrique/erw/issues)."
 
-A held table and a table not found stop the call. An empty window does not: the frame (or dataset) comes back empty, with the sentence as a warning (Python, `erw.api.ERWEmptyWindow`), a note (Stata) or a message (R).
+A held table, a table not found, a date that cannot be read and a start not before the end stop the call (the last two before any request: Python's `erw.ERWBadWindow`, Stata's error 198, R's `stop`). An empty window does not: the frame (or dataset) comes back empty, with the sentence as a warning (Python, `erw.api.ERWEmptyWindow`), a note (Stata) or a message (R).
 
 ## Requests
 
@@ -163,6 +183,8 @@ What `package/src/erw/` did on 23 October 2026 before session 1001, call by call
 
 The fetch of `eia930_all_demand` for 18 October 2026 is in the live set's 35 days until about 22 November 2026; after that the live set no longer holds it, and the file is made again (`python packages/conformance/make.py`, then `write_runners.py`).
 
+**Version 2 of the file (session 1055, chain 072, 23 October 2026).** Call 7 now fetches `carbon_intensity_hourly` (ERCOT's `intensity_demand`, the same 24 hours of 18 October), which the live set keeps 430 days (`warehouse/supabase/live_set.yaml`), so no call leaves the live set's window before 2027: the next to go are the daily intensity of 1 to 7 October (100 days, about 9 January 2027) and call 7 itself (about 22 December 2027). Every other call and every expected answer is as version 1's (the remake changed only call 7's table and variable; its 24 rows, first and last hour are the same). `make.py` now carries the errors block (session 1013's sentences) over from the file as it stands: a remake without it would have dropped them. No call was added for the data machine's chain 049 tables: they are on the live set's hold list (`catalogue_hold`), with no live window. The Python runner passed call 7 (`--only 7`); the Stata and R runners were written again (`write_runners.py`), for the owner to run. Requests: 53 to the live set (two makes of 25, the first lost the errors block and was made again; 3 for the runner).
+
 ## The package reads what the pages read (session 1012)
 
 Ten figures of the site, each with the check key the page writes (the key check-values reads), recomputed by the Python package's `fetch` from the same table, entity, variable and window (`package/tests/test_page_figures.py`, remote; the figures in `page_figures.json`, recorded from a build of `wip/1011-packages` in the internal view on 23 October 2026). A key `series|...` is the value at a time; `series_max|...` and `series_sum|...` the largest value and the sum over a window.
@@ -181,6 +203,20 @@ Ten figures of the site, each with the check key the page writes (the key check-
 | `/cost-of-power/battery` | `series|price_years_by_window|ercot:HB_HUBAVG|battery_foresight_4h_year_2025|2025-01-01T00:00:00+00:00` | 87.439609 | local | reproduced |
 
 Eight of ten are reproduced exactly; no fault was found in the package or in the pages' library. The two others are the price board's tables (`price_board_latest`, `price_board_peak_offpeak`), whose license verdict is `unsettled` (held whole for their ISO-NE, MISO and NYISO rows). The package refuses them on the live set, as this note says it must, while the Grid tool shows their ERCOT figures. Whether a held table's public rows may be shown is the owner's ruling (`docs/licenses.md`, "Held figures that still show").
+
+## The package reads the All grids tab's figures (session 1032)
+
+Four figures of the All grids tab of `/cost-of-power` reproduced by the Python package's `fetch` (local backend) from the tables the tab's files were built from, and a fifth named (`package/tests/test_tab_figures.py`, run with `ERW_DATA_DIR` pointing at the tables; each test skips when its table is not there; the figures in `tab_figures.json`, the values production showed on 23 October 2026 at about 06:30 UTC).
+
+| Key | Shown | Tables | Result |
+|---|---|---|---|
+| `allgrids|energy|ercot:HB_HUBAVG|da` | 34.302056 | `ercot_all_hub_prices_history`, then `iso_dam_hub_prices` | reproduced: 8,760 hours, October 2025 to September 2026 in Central standard time; an hour is the first table's that holds it, as the price files are built (this machine's copy of the history ends 26 August 2026, the day-ahead table holds the rest) |
+| `allgrids|nodespread|ercot:7RNCHSLR_ALL` | 7.8679 | `node_basis_daily` | reproduced: the 90th percentile less the 10th of the daily basis, each rounded to four decimals, over the node file's twelve months |
+| `allgrids|nodeswing|ercot:7RNCHSLR_ALL` | 48.1828 | `node_basis_daily` | reproduced: the mean daily `dam_spread_4h` |
+| `allgrids|zonegrowth|nyiso:N.Y.C.` | 1.0759 | `eia930_subba_demand_hourly_2024`, `_2025` | reproduced: NYIS:ZONJ's mean hourly demand, 2025 over 2024 |
+| `card|siting_flexible|hub_flat` | 42.12709 | the first figure plus the four-peak charge | not reproduced: the charge's rate is `texas_delivery_charges`'s, internal; the test checks the package's record says so |
+
+What it shows: a figure of the tab is the table's arithmetic once the window and the order of tables are known, and both are now written beside the figure. No fault was found in the package. No request was made: `node_basis_daily` is out of the live set (session 483) and not in the released Stanford dataset, so a researcher reads it from the Stanford draft once released, or from a clone's tables.
 
 ## Where the three still differ (session 1014)
 

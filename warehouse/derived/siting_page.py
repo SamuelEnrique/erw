@@ -17,6 +17,11 @@ Files:
                   twelve-month price on the page is the hub's own twelve-month mean plus the mean of these days.
                   Session 711: "pct", the 10th, 50th and 90th percentile of the node's daily day-ahead basis over the
                   last twelve whole months the table holds ("pct_from", "pct_to" at the file's top), and the days in it.
+                  Session 1048 (chain 072): "county" and "zone", from ercot_node_places (public: the county and load
+                  zone ERCOT's CDR gives every unit at the node's station), on the nodes it places; "places" at the
+                  file's top says how many it places and the table's own words for the rest. And "projects": by county
+                  of a placed node, ERCOT's transmission project phases in it (ercot_transmission_projects, public, by
+                  either end's county), counted by ERCOT's status, and the next one due. No node is placed by a guess.
     ercot_4cp.json  (session 702) ERCOT's four coincident-peak intervals by summer from ercot_4cp_intervals: each
                   interval's start in UTC, its local time as ERCOT prints it, and ERCOT's load in it (MW); the summers
                   held and the table's own note of what is not held.
@@ -33,6 +38,9 @@ Files:
                   status: under construction or complete (U, V, TS), approvals received (T), and the rest (P, L); and
                   from eia_state_capacity_annual (public) the newest year's installed net summer capacity of the grids
                   that are whole states (NYISO: New York; ISO-NE: the six New England states).
+                  Session 1027: "reserve", ERCOT's planning reserve margin from ercot_cdr_reserve_margins (public): the
+                  first summer after the build's day at the report's peak load and peak net load hours, and the
+                  report's first season below zero at the peak load hour. No other grid's margin is held.
     carbon.json   (session 707) from egrid_power_plants (public): each eGRID subregion's CO2 (tons, CHP-adjusted as eGRID
                   gives it) and net generation (MWh) summed over its plants, and PJM's over the plants eGRID places in PJM
                   (ISORTO); and from carbon_intensity_hourly (public), intensity_demand in kg CO2 per MWh, each priced
@@ -276,6 +284,84 @@ def peak_capacity(path):
                                     "storage_mw": v.get("capacity_storage_mw"), "list": str(first.get("x_vintage", "")), "states": str(first.get("x_states", "")),
                                     "split_states": "" if pd.isna(first.get("x_split_states")) else str(first.get("x_split_states"))}
     return out
+
+
+PLACES_TABLE, TPIT_TABLE = "ercot_node_places", "ercot_transmission_projects"
+
+
+def node_places(path):
+    """Session 1048 (chain 072): {node id: (county, zone)} from ercot_node_places, as the table gives them (the CDR's
+    upper case), and the table's own line on what it places and leaves out (its header line beginning "Placed")."""
+    with open(path, encoding="utf-8") as fh:
+        head = [ln[1:].strip() for ln in fh if ln.startswith("#")]
+    p = pd.read_csv(path, skiprows=header_rows(path), dtype=str, usecols=["entity_id", "x_county", "x_zone", "retrieved_at"])
+    p = p.dropna(subset=["x_county", "x_zone"])
+    out = {e.split(":", 1)[1]: (c, z) for e, c, z in zip(p["entity_id"], p["x_county"], p["x_zone"])}
+    words = next((h for h in head if h.startswith("Placed ")), "")
+    return out, {"table": PLACES_TABLE, "retrieved": str(p["retrieved_at"].max()), "placed": len(out), "words": words}
+
+
+def county_projects(path, counties):
+    """Session 1048: for each county (upper case, as ercot_node_places writes it), ERCOT's transmission project phases
+    whose start or end is in it (ercot_transmission_projects): the count by ERCOT's status (future, planned, completed,
+    cancelled), and the next phase due, future or planned, by its in-service date (actual, else projected; ERCOT's
+    9999-01-01 is no date and is not a next date). A phase with both ends in the county is counted once."""
+    with open(path, encoding="utf-8") as fh:
+        head = [ln[1:].strip() for ln in fh if ln.startswith("#")]
+    t = pd.read_csv(path, skiprows=header_rows(path), dtype=str,
+                    usecols=["event_id", "event_date", "status", "x_title", "x_kv", "x_owner", "x_county_start", "x_county_end"])
+    out = {}
+    for c in sorted(counties):
+        x = t[(t["x_county_start"].str.upper() == c) | (t["x_county_end"].str.upper() == c)]
+        if x.empty:
+            continue
+        n = {s: int((x["status"] == s).sum()) for s in ("future", "planned", "completed", "cancelled")}
+        due = x[x["status"].isin(["future", "planned"]) & x["event_date"].notna() & (x["event_date"] < "9999")].sort_values(["event_date", "event_id"])
+        nxt = None
+        if not due.empty:
+            r = due.iloc[0]
+            nxt = {"date": str(r["event_date"])[:10], "title": "" if pd.isna(r["x_title"]) else str(r["x_title"]),
+                   "kv": "" if pd.isna(r["x_kv"]) else str(r["x_kv"]), "owner": "" if pd.isna(r["x_owner"]) else str(r["x_owner"]), "id": str(r["event_id"])}
+        out[c] = {**n, "next": nxt}
+    workbook = next((h.split(";")[0][len("Workbook: "):] for h in head if h.startswith("Workbook: ")), "")
+    return {"table": TPIT_TABLE, "workbook": workbook, "counties": out}
+
+
+RESERVE_TABLE = "ercot_cdr_reserve_margins"
+
+
+def reserve_margins(path, today=None):
+    """headroom.json's `reserve` (session 1027, chain 071): ERCOT's planning reserve margin from its Capacity, Demand and
+    Reserves report (ercot_cdr_reserve_margins, public): the first summer that begins after `today` (the build's day),
+    at the report's peak load hour and at its peak net load hour, with the total capacity and firm peak load behind it;
+    and the first season of the report whose margin at the peak load hour is below zero, if any. ERCOT's figures as
+    printed; no other grid's margin is held."""
+    today = today or dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d")
+    r = pd.read_csv(path, skiprows=header_rows(path), dtype=str)
+    r["season"] = r["entity"].str.split(":").str[1]
+    r["hour"] = r["entity"].str.split(":").str[2]
+    v = r[r["variable"].isin(["reserve_margin", "total_capacity", "firm_peak_load"])].copy()
+    v["value"] = pd.to_numeric(v["value"])
+
+    def at(ts, hour):
+        x = v[(v["ts_utc"] == ts) & (v["hour"] == hour)]
+        if x.empty:
+            return None
+        d = dict(zip(x["variable"], x["value"]))
+        return {"label": str(x.iloc[0]["node"]).split(",")[0], "x_hour": int(x.iloc[0]["x_hour"]), "pct": round(d["reserve_margin"], 6),
+                "capacity_mw": round(d["total_capacity"], 1), "firm_peak_mw": round(d["firm_peak_load"], 1)}
+    summers = sorted(t for t in v.loc[v["season"] == "summer", "ts_utc"].unique() if t[:10] > today)
+    if not summers:
+        raise ValueError(f"{RESERVE_TABLE}: no summer after {today}")
+    first_low = None
+    for ts in sorted(v["ts_utc"].unique()):
+        a = at(ts, "peak_load")
+        if a and a["pct"] < 0:
+            first_low = {"start": ts[:10], **a}
+            break
+    return {"table": RESERVE_TABLE, "as_of": today, "report": str(r.iloc[0]["x_report"]), "vintage": str(r.iloc[0]["vintage"]),
+            "retrieved": str(r.iloc[0]["retrieved_at"]), "first": r["ts_utc"].min()[:10], "last": r["ts_utc"].max()[:10],
+            "grids": {"ercot": {"start": summers[0][:10], "peak": at(summers[0], "peak_load"), "net": at(summers[0], "peak_net_load"), "first_below_zero": first_low}}}
 
 
 SUBBA_TABLE = "eia930_subba_demand_hourly"
@@ -604,6 +690,28 @@ def main(argv=None):
         print(f"FAILED: {e}", file=sys.stderr)
         return 1
     print(f"{CAP_TABLE}: " + "; ".join(f"{m['auction']} ({len(m['zones'])} zones)" for m in cap["markets"].values()))
+    try:   # session 1048 (chain 072): a node's county and zone, and the transmission projects in its county
+        lpath = find(PLACES_TABLE, a.in_dir, a.in_dir_first)
+        print(f"reading {lpath}")
+        places, f["places"] = node_places(lpath)
+        for n in f["nodes"]:
+            if n["id"] in places:
+                n["county"], n["zone"] = places[n["id"]]
+        f["places"]["of"] = len(f["nodes"])
+        f["places"]["matched"] = sum(1 for n in f["nodes"] if "county" in n)
+        print(f"{PLACES_TABLE}: {f['places']['matched']} of {len(f['nodes'])} nodes placed by county and zone")
+        try:
+            tpath = find(TPIT_TABLE, a.in_dir, a.in_dir_first)
+            print(f"reading {tpath}")
+            f["projects"] = county_projects(tpath, {c for c, _ in places.values()})
+            print(f"{TPIT_TABLE}: projects in {len(f['projects']['counties'])} of {len({c for c, _ in places.values()})} counties")
+        except FileNotFoundError:
+            print(f"{TPIT_TABLE} is not on this machine: no county's projects are named")
+    except FileNotFoundError:
+        print(f"{PLACES_TABLE} is not on this machine: no node is placed")
+    except Exception as e:
+        print(f"FAILED: {e}", file=sys.stderr)
+        return 1
     write("nodes.json", f, a.out_dir)
     write("ercot_4cp.json", cp, a.out_dir)
     write("capacity.json", cap, a.out_dir)
@@ -637,6 +745,14 @@ def main(argv=None):
             print(f"{SUBBA_TABLE}: {len(hr['zones']['rows'])} zones, {hr['zones']['year']} over {hr['zones']['prior']}")
         except FileNotFoundError as e:
             print(f"{e}: every row keeps its grid's demand growth")
+        try:   # session 1027: ERCOT's planning reserve margin (its CDR report)
+            rpath = find(RESERVE_TABLE, a.in_dir, a.in_dir_first)
+            print(f"reading {rpath}")
+            hr["reserve"] = reserve_margins(rpath)
+            e = hr["reserve"]["grids"]["ercot"]
+            print(f"{RESERVE_TABLE}: ERCOT {e['peak']['label']} {e['peak']['pct']:.2f} % at the peak load hour")
+        except FileNotFoundError:
+            print(f"{RESERVE_TABLE} is not on this machine: no grid's reserve margin is drawn")
     except Exception as e:
         print(f"FAILED: {e}", file=sys.stderr)
         return 1

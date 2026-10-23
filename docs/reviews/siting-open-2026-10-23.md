@@ -81,3 +81,28 @@ Each line above, read against chains 062 (722 to 743), 063 (744 to 765), 064 (76
 | 33 | The 21 October Digest's WTI for 14 October: the issue prints 101.91 and `eia_fuel_spot_prices` now reads 96.34, a source's revision; check-values fails it on production and on every build since | 730 | not this tab's page | the owner of `/digest` (a note of the revision, or a check that knows of revisions) |
 
 Of the 33 lines, 4 are closed (9, 23, 24, 25) and 29 open: 22 wait on a ruling (16 for its ruling part only; 15 on a permission too; 28 on a table after it), 6 on a table (7, 8, 11, 12, 20, 21; 7 through the owner's key), 1 on another page's owner (33).
+
+## State after chain 071 (session 1039, 23 October 2026 at about 07:40 UTC)
+
+Read against chain 071's sessions 1020 to 1038 (`queue/done/071-night-23-october-code-allgrids-packages.md`). No ruling is answered (1021). Two of the tables the open lines waited on have landed (`ercot_cdr_reserve_margins`, `ercot_transmission_projects`, the data machine's chain 046); the others have not (1025).
+
+| # | State | Closed by, or what it waits on |
+|---|---|---|
+| 11 | open | a table: a node's zone and hub (`ercot_settlement_points`, not landed, 1026), or a node's county and zone from the data machine's chain 049 session 901 (chain 072, session 1048) |
+| 12 | open | a node's county first (line 11), then ERCOT's transmission projects in that county (landed, by county, 1028) and the HIFLD substations and lines (not landed) |
+| 20 | **closed for ERCOT** | 1027 (ERCOT's Capacity, Demand and Reserves report, summer 2027 at the peak load hour); the other grids wait on the data machine's chain 049 session 895 (EIA's margins by NERC assessment area; chain 072, session 1047) |
+| 21 | open | a node's county (line 11), at the county's resolution (chain 072, session 1049) |
+
+Every other line stands as session 975's table above says: 1 to 6, 10, 13 to 15, 17 to 19, 22 and 26 to 32 wait on their rulings, 7 on the owner's OpenEI key, 8 and 28 on a table, 16 on its ruling part, 33 on `/digest`'s owner (chain 072's session 1061 writes a proposal for it). Of the 33 lines, 4 are closed and 1 closed in part (20); 28 stay open.
+
+## State after chain 072 (session 1060, 23 October 2026 at about 08:10 UTC)
+
+| Line | State | Since |
+|---|---|---|
+| 11 | **closed in part** | 1048: a node's county and load zone for 569 of 873 nodes (`ercot_node_places`); its hub and wires utility stay open (`ercot_settlement_points` not landed; the CDR names no plant number) |
+| 12 | **closed in part** | 1048: ERCOT's transmission project phases in a placed node's county, counted by status, the earliest named; substations and lines wait on the HIFLD tables (not landed) |
+| 20 | **closed for ERCOT**; the rest wait on a ruling | 1047: the data machine's table is EIA-411's of 2016, named and not drawn; rulings item 23 |
+| 21 | open, designed | 1049: a county map, no node as a point; rulings item 24 |
+| 33 | open, proposed | 1061: `docs/reviews/digest-revisions-proposal.md` for `/digest`'s owner |
+
+Every other line stands as session 1039's section says. Of the 33 lines, 4 are closed and 3 closed in part (11, 12, 20); 26 stay open.

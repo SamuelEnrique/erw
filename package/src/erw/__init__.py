@@ -23,6 +23,7 @@ iso_dam_hub_prices in session 29 (warehouse/metadata/table_migrations.csv).
 __version__ = "0.1.0"
 
 from .api import (  # noqa: E402
+    ERWBadWindow,
     cite,
     coverage,
     fetch,
@@ -49,6 +50,6 @@ from .remote import RedivisBackend, SupabaseBackend  # noqa: E402
 __all__ = [
     "tables", "coverage", "fetch", "cite", "license", "standard", "requests",
     "info", "list_tables", "filter", "sources", "tier", "version", "migrations",
-    "get_backend", "set_backend", "Backend", "LocalBackend", "ERWDataNotFound", "ERWLicenseHeld", "ERWLicenseWarning",
+    "get_backend", "set_backend", "Backend", "LocalBackend", "ERWDataNotFound", "ERWLicenseHeld", "ERWLicenseWarning", "ERWBadWindow",
     "RedivisBackend", "SupabaseBackend", "LiveBackend",
 ]
