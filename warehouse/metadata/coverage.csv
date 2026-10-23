@@ -328,6 +328,7 @@ miso_interconnection_queue,MISO,,3881,snapshot,2026-09-30T23:33:22Z,2026-09-30T2
 news_index,none,,77,event,2025-01-01T08:00:00Z,2026-12-01T12:00:00Z,17047,77 outlets,2026-10-23T14:59:12Z,pass,public,news,no,model_extracted
 news_scores_shadow,none,,62,event,2026-08-31T07:00:00Z,2026-10-05T14:39:55Z,4748,62 outlets,2026-10-04T14:36:49Z,pass,internal,news,no,model_extracted
 news_stories,none,,79,event,2025-01-01T08:00:00Z,2026-12-01T12:00:00Z,22693,79 outlets,2026-10-23T14:48:52Z,pass,internal,news,no,model_extracted
+nhc_hurdat2_track_points,none,,1,event,2000-05-22T00:00:00Z,2025-11-01T00:00:00Z,27812,1 outlets,2026-10-23T20:22:01Z,pass,public,power;oil;gas,no,source
 nlr_atb_electricity_costs,nlr,,183,P1Y,2023-01-01T00:00:00Z,2060-01-01T00:00:00Z,95000,nlr:atb_electricity,2026-10-21T18:31:00Z,pass,public,power,no,source
 nlr_jedi_multipliers,nlr,,2266,P1Y,2010-01-01T00:00:00Z,2017-01-01T00:00:00Z,5562,nlr:jedi,2026-10-20T08:43:20Z,pass,public,power,no,derived
 noaa_climdiv_state_monthly,noaa,,49,P1M,2000-01-01T00:00:00Z,2026-09-01T00:00:00Z,31458,noaa:climdiv,2026-10-23T18:52:22Z,pass,public,power;gas,no,source
