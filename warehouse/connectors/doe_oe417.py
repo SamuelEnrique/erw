@@ -295,8 +295,8 @@ def main(argv=None):
         results.append(dict(table=TABLE, market="all", status="failed", detail=tb.strip().splitlines()[-1][:300]))
     if not args.out_dir:
         if results and results[0]["status"] == "ok":
-            ip.update_sources([dict(source=SOURCE, publisher="U.S. Department of Energy (DOE), Office of Cybersecurity, Energy Security, and Emergency Response",
-                                    report="Electric Emergency Incident and Disturbance Reports (Form DOE-417): Annual Summaries", report_url=HOST + "/",
+            ip.update_sources([dict(source=SOURCE, publisher="U.S. Department of Energy (DOE)",
+                                    report="Office of Cybersecurity, Energy Security, and Emergency Response (CESER), Electric Emergency Incident and Disturbance Reports (Form DOE-417): Annual Summaries", report_url=HOST + "/",
                                     document_list=HOST + "/summaries/", license="public", tables=[TABLE])])
         ip.write_status(CONNECTOR, run_id, results)
     log.close()

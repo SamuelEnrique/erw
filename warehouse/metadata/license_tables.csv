@@ -43,7 +43,7 @@ datacenter_operator_sites,Amazon Web Services; Digital Realty; Equinix; Google; 
 datacenter_projects,Bloomberg; Census Bureau; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; Hart Energy; Heatmap News; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; WSJ,the source registry
 datacenter_projects_evidence,Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; Hart Energy; Heatmap News; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; WSJ,the source registry
 datacenter_queue_positions,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,by hand: its header: rows of the six operators' queue tables
-doe_oe417_events,"U.S. Department of Energy (DOE), Office of Cybersecurity, Energy Security, and Emergency Response",the source registry
+doe_oe417_events,U.S. Department of Energy (DOE),the source registry
 doe_useer_employment,U.S. Department of Energy (DOE),the source registry
 egrid_power_plants,EPA,the source registry
 egrid_subregions_annual,EPA,the source registry
