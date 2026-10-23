@@ -69,7 +69,8 @@ function Select({ name, value, set, options }: { name: string; value: string; se
   return (
     <label className="flex flex-col gap-1 text-xs text-muted">
       {name}
-      <select value={value} onChange={(e) => set(e.target.value)} className="border border-rule bg-panel px-2 py-1 text-sm text-ink">
+      {/* session 2304 (chain 087), the brand pass: a field's edge is the captions grey, not the rule color (docs/brand.md section 2) */}
+      <select value={value} onChange={(e) => set(e.target.value)} className="border border-muted bg-panel px-2 py-1 text-sm text-ink">
         <option value="">All</option>
         {options.map((o) => (
           <option key={o} value={o}>
@@ -121,22 +122,23 @@ export function DatacentersTable({ rows }: { rows: Facility[] }) {
             onChange={(e) => setMinMw(e.target.value.replace(/[^0-9.]/g, ""))}
             inputMode="decimal"
             placeholder="any"
-            className="w-24 border border-rule bg-panel px-2 py-1 text-sm text-ink"
+            className="w-24 border border-muted bg-panel px-2 py-1 text-sm text-ink"
           />
         </label>
         <span className="pb-1 text-sm text-muted">
           {shown.length} of {rows.length} facilities, {groups.length} {groups.length === 1 ? "operator" : "operators"}
         </span>
         {/* session 282: every filter back to its default, "any" */}
-        <button type="button" data-reset="1" onClick={() => { setCountry(""); setState(""); setStatus(""); setOperator(""); setKind(""); setMinMw(""); }} className="border border-rule px-2 py-1 text-sm">Reset the filters</button>
-        <button type="button" data-fold-all="1" aria-pressed={allOpen} onClick={() => setToggled(Object.fromEntries(groups.map((g) => [g.operator, !allOpen])))} className="border border-rule px-2 py-1 text-sm">
+        <button type="button" data-reset="1" onClick={() => { setCountry(""); setState(""); setStatus(""); setOperator(""); setKind(""); setMinMw(""); }} className="border border-muted px-2 py-1 text-sm">Reset the filters</button>
+        <button type="button" data-fold-all="1" aria-pressed={allOpen} onClick={() => setToggled(Object.fromEntries(groups.map((g) => [g.operator, !allOpen])))} className="border border-muted px-2 py-1 text-sm">
           {allOpen ? "Close every operator" : "Open every operator"}
         </button>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full border-collapse text-sm">
           <thead>
-            <tr className="border-b border-rule text-left text-xs text-muted">
+            {/* session 2304 (chain 087), the brand pass: one dark rule under a table's header (docs/brand.md section 4, rule 1), as ToolTable draws it */}
+            <tr className="border-b border-ink text-left text-xs text-muted">
               <th className="py-1 pr-3 font-normal">First reported</th>
               <th className="py-1 pr-3 font-normal">Operator, site</th>
               <th className="py-1 pr-3 font-normal">Place</th>

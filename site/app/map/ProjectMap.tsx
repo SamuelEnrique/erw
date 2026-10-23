@@ -119,7 +119,7 @@ export function ProjectMap({ file: f, statesGeo }: { file: MapFace; statesGeo: u
             return `<div style="max-width:18rem;white-space:normal;font-size:12px"><strong>${esc(h.name)}</strong><br/>`
               + `${esc(h.what)}, <span style="font-family:var(--font-mono)">${esc(h.figure)}</span><br/>`
               + `<span style="color:${muted}">${esc(h.where)}. ${h.click}</span><br/>`
-              + `<span style="color:${muted};font-size:11px">${esc(h.source)}.</span></div>`;
+              + `<span style="color:${muted};font-size:12px">${esc(h.source)}.</span></div>`;
           },
         },
         geo: {
@@ -164,15 +164,17 @@ export function ProjectMap({ file: f, statesGeo }: { file: MapFace; statesGeo: u
             shown={f.statuses.map((s) => kindOn(s.kind))} groups={f.statuses.map((s) => KIND_WORD[s.kind])} />
           <Multi which="state" label="State (or click one on the map)" names={f.states.map((s) => s || "Not stated")} list={choice.state} set={set} columns
             titles={f.states.map((s) => STATES[s] ?? "No state in the source")} />
-          <div className="mt-3 text-xs uppercase tracking-wide text-muted">Size, MW</div>
+          {/* session 2304 (chain 087), the brand pass: labels in sentence case without letter-spacing (docs/brand.md section 1), a
+              field's and a control's edge in the captions grey, not the rule color (section 2); nothing the reader chooses changes */}
+          <div className="mt-3 text-xs font-medium text-muted">Size, MW</div>
           <div className="mt-1 flex items-center gap-2 text-sm">
-            <input className="w-20 border border-rule bg-white px-2 py-1" inputMode="decimal" placeholder="from" aria-label="Smallest size, MW" value={choice.min}
+            <input className="w-20 border border-muted bg-white px-2 py-1" inputMode="decimal" placeholder="from" aria-label="Smallest size, MW" value={choice.min}
               onChange={(e) => { const v = e.target.value; change((c) => ({ ...c, min: v })); }} data-map-choice="min" />
             <span className="text-muted">to</span>
-            <input className="w-20 border border-rule bg-white px-2 py-1" inputMode="decimal" placeholder="to" aria-label="Largest size, MW" value={choice.max}
+            <input className="w-20 border border-muted bg-white px-2 py-1" inputMode="decimal" placeholder="to" aria-label="Largest size, MW" value={choice.max}
               onChange={(e) => { const v = e.target.value; change((c) => ({ ...c, max: v })); }} data-map-choice="max" />
           </div>
-          <button type="button" onClick={reset} className="mt-4 border border-rule bg-white px-3 py-1 text-sm hover:text-accent" data-map-reset="1">Reset</button>
+          <button type="button" onClick={reset} className="mt-4 border border-muted bg-white px-3 py-1 text-sm hover:text-accent" data-map-reset="1">Reset</button>
         </InputPanel>
       </aside>
 
@@ -187,7 +189,7 @@ export function ProjectMap({ file: f, statesGeo }: { file: MapFace; statesGeo: u
             return (
               <div key={group}>
                 {/* session 2303 (chain 087): a second-level heading (it follows the page's h1 with no h2 between), in the same small face */}
-                <h2 className="mb-2 text-xs uppercase tracking-wide text-muted">
+                <h2 className="mb-2 text-xs font-medium text-muted">
                   {group === 0 ? "Generating units, by EIA's status" : group === KIND.queue ? "Queue positions, by status (MW requested)" : "Datacenters, by status (MW where stated)"}
                   <Tip id={`map-totals-${group}`} label={`the totals of ${KIND_WORD[group].toLowerCase()}`}>
                     {sourceWords(f, SOURCE_KIND[group], SOURCE_RULE.chosen)} {group === KIND.datacenter ? "The MW is summed over the facilities that state one; the count under it says how many do." : group === KIND.queue ? "The MW is what each position asks to connect, not a load." : "The MW is nameplate capacity, summed over the units of the status."}
@@ -236,7 +238,7 @@ const count = (n: number, word: string, words = `${word}s`) => `${whole(n)} ${n 
 function Tile({ label, value, unit, note }: { label: string; value: ReactNode; unit?: string; note: ReactNode }) {
   return (
     <div className="border-t-2 border-accent pt-1.5">
-      <div className="text-[11px] uppercase leading-snug tracking-wide text-muted">{label}</div>
+      <div className="text-xs leading-snug text-muted">{label}</div>
       <div className="mt-0.5 font-serif text-xl tabular-nums text-ink sm:text-2xl">{value}{unit ? <span className="ml-1 font-sans text-xs text-muted">{unit}</span> : null}</div>
       <div className="text-xs leading-snug text-muted">{note}</div>
     </div>
@@ -256,11 +258,11 @@ function Multi({ which, label, names, list, set, open, shown, groups, columns, t
     if (shown && !shown[i]) return;
     if (groups && groups[i] !== group) {
       group = groups[i];
-      items.push(<li key={`g-${group}`} className="col-span-full mt-1 text-[11px] uppercase tracking-wide text-muted">{group}</li>);
+      items.push(<li key={`g-${group}`} className="col-span-full mt-1 text-xs font-medium text-muted">{group}</li>);
     }
     items.push(
       <li key={i}>
-        <label className="flex items-start gap-1.5 py-0.5 text-sm normal-case tracking-normal text-ink" title={titles?.[i]}>
+        <label className="flex items-start gap-1.5 py-0.5 text-sm font-normal text-ink" title={titles?.[i]}>
           <input type="checkbox" className="mt-1" checked={on(i)} onChange={() => set(which, toggle(list, i, names.length))} data-map-option={`${which}|${i}`} />
           <span>{name}</span>
         </label>
@@ -269,8 +271,8 @@ function Multi({ which, label, names, list, set, open, shown, groups, columns, t
   });
   return (
     <details className="mt-3 border-t border-rule pt-2" open={open} data-map-filter={which}>
-      <summary className="cursor-pointer text-xs uppercase tracking-wide text-muted">
-        {label}: <span className="normal-case tracking-normal text-ink" data-map-said={which}>{said}</span>
+      <summary className="cursor-pointer text-xs font-medium text-muted">
+        {label}: <span className="font-normal text-ink" data-map-said={which}>{said}</span>
       </summary>
       <div className="mt-1 flex gap-3 text-xs">
         <button type="button" className="underline hover:text-accent" onClick={() => set(which, null)} data-map-all={which}>Select all</button>
@@ -326,7 +328,7 @@ function Key({ f, picked }: { f: MapFace; picked: number[] }) {
       </ul>
       <ul className="mt-1 flex flex-wrap gap-x-4 gap-y-1">
         {COLOR_KEY.filter((c) => hues.has(c.color)).map((c) => (
-          <li key={c.color} className="inline-flex items-center gap-1.5"><span aria-hidden="true" className="inline-block h-2.5 w-2.5 rounded-full" style={{ background: `var(${c.color})` }} />{c.label}</li>
+          <li key={c.color} className="inline-flex items-center gap-1.5"><span aria-hidden="true" className="inline-block h-2.5 w-2.5" style={{ background: `var(${c.color})` }} />{c.label}</li>
         ))}
       </ul>
     </div>
@@ -396,7 +398,7 @@ function ByTechnology({ f, sum, kindOn }: { f: MapFace; sum: ReturnType<typeof t
           rows={rows.map((r) => ({
             key: r.t.slug,
             cells: [
-              <span key="t" className="inline-flex items-center gap-2"><span aria-hidden="true" className="inline-block h-2.5 w-2.5 rounded-full" style={{ background: `var(${COLOR[r.t.slug] ?? "--color-fuel-other"})` }} />{r.t.name}</span>,
+              <span key="t" className="inline-flex items-center gap-2"><span aria-hidden="true" className="inline-block h-2.5 w-2.5" style={{ background: `var(${COLOR[r.t.slug] ?? "--color-fuel-other"})` }} />{r.t.name}</span>,
               ...r.cells.flatMap((c, j) => [
                 <span key={`n${j}`} data-tech-count={`${r.t.slug}|${f.kinds[kinds[j]].slug}`} data-source={srcOf(f, kinds[j])}>{c.rows ? whole(c.rows) : <span className="text-muted">0</span>}</span>,
                 <span key={`m${j}`} className="text-muted" data-tech-mw={`${r.t.slug}|${f.kinds[kinds[j]].slug}`} data-source={srcOf(f, kinds[j])}>{c.rows ? whole(c.mw) : ""}</span>,
