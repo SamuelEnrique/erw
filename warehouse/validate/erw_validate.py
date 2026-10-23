@@ -79,7 +79,10 @@ UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "mph", "
          "gal",
          # session 2045: precipitation in inches, as NOAA's nClimDiv gives a state's month (noaa_climdiv_state_monthly;
          # Decision 60)
-         "in"}
+         "in",
+         # session 2106: an area in acres (43,560 square feet), as BLM counts federal land under oil and gas lease
+         # (blm_oil_gas_statistics_annual; Decision 62)
+         "acre"}
 NAME_RE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+){2,}$")
 NAME_MAX = 40
 TS_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")

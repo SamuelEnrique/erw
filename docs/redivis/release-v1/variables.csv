@@ -186,6 +186,16 @@ blm_ca_renewable_rows,x_blm_acres,column,
 blm_ca_renewable_rows,x_data_source,column,
 blm_ca_renewable_rows,x_remarks,column,
 blm_ca_renewable_rows,x_in_time,column,
+blm_oil_gas_statistics_annual,acres_newly_leased,series variable,acre
+blm_oil_gas_statistics_annual,acres_under_lease,series variable,acre
+blm_oil_gas_statistics_annual,apds_approved,series variable,count
+blm_oil_gas_statistics_annual,leases_in_effect,series variable,count
+blm_oil_gas_statistics_annual,new_leases_issued,series variable,count
+blm_oil_gas_statistics_annual,producible_service_completions,series variable,count
+blm_oil_gas_statistics_annual,producible_service_well_bores,series variable,count
+blm_oil_gas_statistics_annual,producing_acres,series variable,acre
+blm_oil_gas_statistics_annual,producing_leases,series variable,count
+blm_oil_gas_statistics_annual,wells_spud,series variable,count
 boem_offshore_platforms,entity_id,column,
 boem_offshore_platforms,entity_type,column,
 boem_offshore_platforms,name,column,
@@ -4149,8 +4159,6 @@ ercot_wind_solar_output_hourly,wind_generation_mw,series variable,MW
 ercot_zone_load_hourly,load,series variable,MW
 ercot_zone_prices_history,spp_dam,series variable,USD/MWh
 ercot_zone_prices_history,spp_rtm,series variable,USD/MWh
-fhwa_motor_fuel_monthly,gasoline_volume,series variable,gal
-fhwa_motor_fuel_monthly,special_fuel_volume,series variable,gal
 fema_disaster_declarations,event_id,column,
 fema_disaster_declarations,event_date,column,
 fema_disaster_declarations,event_type,column,
@@ -4174,6 +4182,8 @@ fema_disaster_declarations,x_region,column,
 fema_disaster_declarations,x_tribal,column,
 fema_disaster_declarations,retrieved_at,column,
 fema_disaster_declarations,vintage,column,
+fhwa_motor_fuel_monthly,gasoline_volume,series variable,gal
+fhwa_motor_fuel_monthly,special_fuel_volume,series variable,gal
 flex_alert_effects,actual_mw,series variable,MW
 flex_alert_effects,actual_mwh,series variable,MWh
 flex_alert_effects,alert_first_hour,series variable,hour

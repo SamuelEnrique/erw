@@ -380,6 +380,7 @@ catalogue_hold:
   - usdm_drought_state_weekly
   - nhc_hurdat2_track_points
   - nrc_license_actions
+  - blm_oil_gas_statistics_annual
   - lbnl_hybrid_ppa_prices
   - lbnl_solar_projects
   - ornl_npd_potential
