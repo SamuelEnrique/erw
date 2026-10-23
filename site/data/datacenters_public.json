@@ -1,14 +1,14 @@
 {
  "counts": {
-  "held": 150,
+  "held": 154,
   "shown": 0,
   "unsettled": 0
  },
  "held_publishers": [
   [
    "Data Center Dynamics",
-   80,
-   81
+   84,
+   85
   ],
   [
    "Reuters",
@@ -56,7 +56,7 @@
    2
   ]
  ],
- "retrieved": "20261022T150250Z",
+ "retrieved": "20261023T150156Z",
  "rule": "the same sort as the deals' (shown: an evidence row from a publisher whose verdict is 'may be public'; unsettled: none, and one not read; held: every row asks)",
  "shown": [],
  "written_by": "warehouse/deals/public_rows.py --datacenters (session 827)"
