@@ -134,3 +134,21 @@ To answer, write under an item "Answer: ..." in this file (or in a note of yours
 ## The state of each item (session 785, chain 064, 22 October 2026, late)
 
 All 19 items, and the 20th (which parts of the personal laptop's run of chain 062 to take, `docs/reviews/siting-rulings-answered.md`), are **not ruled** (767). Nothing was done ahead of a ruling. Chain 064 adds no new item.
+
+## The state of each item (session 974, chain 065, 23 October 2026, after midnight)
+
+All 19 items above, and the 20th (`docs/reviews/siting-rulings-answered.md`), are **not ruled**: session 789 read none answered at 22:28 UTC, and session 974 read main again at 00:16 UTC on 23 October (no "Answer:" line in this file or the answered file; the owner's one commit since, `a42d280a`, is the data machine's queue file 045, which rules none of these). Nothing was done ahead of a ruling. Chain 065 adds two items, 21 and 22 below, each about a shared component the tab uses and does not own.
+
+## 21. The shared time chart's month labels (798)
+
+- **What**: on a monthly chart, `components/TimeChart.tsx` lets the chart library place its time labels, so a label can sit near the next month's point (794's two-node chart: "2025-12" near January's point). "Grid by grid" draws the same chart.
+- **Yes**: the shared chart places a monthly chart's labels at each month's first day. Every page with a monthly time chart changes the place of its labels, no figure.
+- **No**: the labels stay where the library puts them; the table under 794's chart keys each month.
+- **Recommendation: yes**, in a session of its own that reads every page drawing the chart before and after.
+
+## 22. The shared card renderer's x labels on a narrow chart (970)
+
+- **What**: `lib/findingchart.ts` draws every x label at 11 px. At 390 two region names of 720's gigawatt card touch by 2 px, and at 1280 two of 734's flexible card by 6 px (HB_HOUSTON beside LZ_HOUSTON). The render frames (1080 by 1350, 1600 by 900) are clear.
+- **Yes**: the renderer thins its labels (every other one) or turns them when they would touch. Every card's picture can change where labels are crowded; no figure changes.
+- **No**: the cards stay as they are; the touching names are still read in the card's table.
+- **Recommendation: yes, turn rather than thin**, since a thinned label drops a region's name from the picture.

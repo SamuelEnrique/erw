@@ -43,3 +43,7 @@ No item is answered. One item is added, from chain 063's session 764:
 ## Read again (session 789, chain 065, 22 October 2026 at 22:28 UTC)
 
 No item is answered, the 20th included.
+
+## Read again (session 974, chain 065, 23 October 2026 at 00:16 UTC)
+
+No item is answered, the 20th included. Two items are added to the rulings file (21, the shared time chart's month labels; 22, the shared card renderer's x labels), neither answered.
