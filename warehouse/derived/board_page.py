@@ -55,7 +55,7 @@ HEAT_RATE = 7.0                  # MMBtu/MWh: the spark spread's stated assumpti
 COAL_HEAT_RATE = 10.5            # MMBtu/MWh: the dark spread's stated assumption, about the US coal fleet's average
 GAS_BACK = 4                     # days: the newest gas trading day up to this many days before the operating day
 SLACK = 6                        # days: how much older than asked the value compared with may be
-RANGE_MIN = {"D": 180, "W": 26, "M": 9}     # values held of the 365 days for a range to be written
+RANGE_MIN = {"D": 180, "W": 26, "M": 9, "Q": 4}     # values held of the 365 days for a range to be written (Q: session 1135)
 SPARK_POINTS = 30
 ISO = {"ercot": ("ERCOT", "America/Chicago"), "caiso": ("CAISO", "America/Los_Angeles"), "nyiso": ("NYISO", "America/New_York"),
        "isone": ("ISO-NE", "America/New_York"), "spp": ("SPP", "America/Chicago")}
@@ -120,7 +120,8 @@ def day_of(ts_utc):
 # ---------------------------------------------------------------------------
 
 def stats(series, freq="D"):
-    """The figures of one series, {date: value}, freq D, W or M. None for an empty series."""
+    """The figures of one series, {date: value}, freq D, W, M or Q (session 1135: a quarterly series has a move over a
+    year only). None for an empty series."""
     if not series:
         return None
     days = sorted(series)
@@ -138,7 +139,7 @@ def stats(series, freq="D"):
         return dict(t=d.isoformat(), v=round(v, 4), ch=round(v0 - v, 4), pct=round(100 * (v0 - v) / v, 2) if v > 0 and v0 >= 0 else None)
     prev = days[-2] if freq == "D" and len(days) > 1 and (d0 - days[-2]).days <= 1 + SLACK else None
     moves = {"d": move(prev), "w": move(back(7)) if freq in ("D", "W") else None,
-             "m": move(back(30) if freq != "M" else back(28)), "y": move(back(365))}
+             "m": None if freq == "Q" else move(back(30) if freq != "M" else back(28)), "y": move(back(365))}
     window = [series[d] for d in days if d0 - dt.timedelta(days=365) < d <= d0]
     rng = None
     if len(window) >= RANGE_MIN[freq]:
@@ -566,8 +567,16 @@ def build_fuels(b, log):
               source="Board of Governors of the Federal Reserve System, release H.15, the Board's Data Download Program (frb_treasury_yields)")
     # carbon and credits
     build_lcfs(b, log)
-    # session 1117: CARB's auction results are public in the catalogue now (carb_auction_allowance_prices, docs/licenses.md); the board does not draw a quarterly series yet
-    b.grey("carbon", "cca|auction", "California carbon allowance, quarterly auction", "not_held", "The auction settlement prices are public (carb_auction_allowance_prices); the board does not yet draw a quarterly series, so they are not shown here.", unit="USD/t CO2e")
+    # session 1135: CARB's auction settlement prices, public (carb_auction_allowance_prices, docs/licenses.md), a quarterly
+    # row each; the current auction's row keeps the id of the grey row it replaces, so page_keep.py keeps no stale twin
+    if here("carb_auction_allowance_prices"):
+        s, meta = table_daily("carb_auction_allowance_prices")
+        src = "California Air Resources Board, Summary of California and Joint Auction Settlement Prices and Results (carb_auction_allowance_prices)"
+        for key, entity, at in (("cca|auction", "carb:current_auction", "current auction, settlement price, quarterly"),
+                                ("cca|advance", "carb:advance_auction", "advance auction, settlement price, quarterly")):
+            b.add("carbon", key, "California carbon allowance", "USD/t CO2e", "Q", s.get((entity, "settlement_price"), {}), at=at, code=entity.split(":")[1], source=src)
+    else:
+        log("  California carbon allowances: carb_auction_allowance_prices not on this machine, skipped (page_keep.py keeps the held rows)")
     b.grey("carbon", "rggi|auction", "RGGI carbon allowance, quarterly auction", "not_held", "The auction results are held internal while the publisher's terms are reviewed; not shown.", unit="USD/short ton CO2")
     b.grey("carbon", "eua", "European carbon allowance (EUA)", "licensed", "Source that would supply it: ICE Endex.", unit="EUR/t CO2e")
     b.grey("carbon", "rec", "Renewable energy credits", "licensed", "Source that would supply them: S&P Global Commodity Insights or ICE.", unit="USD/MWh")

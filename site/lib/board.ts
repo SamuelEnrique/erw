@@ -10,7 +10,7 @@ export type Move = { t: string; v: number; ch: number; pct: number | null };
 // session 1116: "license" is a row of a grid whose own prices are held for a license on the day (holdRows, below)
 export type Status = "ok" | "paused" | "licensed" | "license" | "not_held" | "working";
 export type Row = {
-  id: string; group: string; label: string; at: string; code: string; unit: string; freq: "D" | "W" | "M" | "";
+  id: string; group: string; label: string; at: string; code: string; unit: string; freq: "D" | "W" | "M" | "Q" | "";
   tags: Record<string, string>; status: Status; note?: string; source?: number; formula?: string; also?: string[];
   curve?: { status: Status; note: string }; hourly?: string; hub?: string;
   last?: { t: string; v: number }; moves?: Record<"d" | "w" | "m" | "y", Move | null>;
@@ -34,7 +34,9 @@ export type BoardFile = {
   /** session 1116: the grids held for a license on the day, by name, set by holdRows; their week rows and spikes are left out */
   held?: string[];
 };
-export type SeriesFile = { id: string; label: string; at: string; unit: string; freq: "D" | "W" | "M"; t0: string; d: number[]; v: number[] };
+export type SeriesFile = { id: string; label: string; at: string; unit: string; freq: "D" | "W" | "M" | "Q"; t0: string; d: number[]; v: number[] };
+/** Session 1135: the workbench's charts draw a quarterly series on the months' axis, each point at its own month. */
+export const chartFreq = (f: "D" | "W" | "M" | "Q"): "D" | "W" | "M" => (f === "Q" ? "M" : f);
 export type HourlyFile = { id: string; tz: string; t0: number; n: number; pk: string; da?: (number | null)[]; rt?: (number | null)[] };
 export type Point = { t: number; v: number };
 
@@ -44,9 +46,9 @@ export const MOVES = [["d", "Day"], ["w", "Week"], ["m", "Month"], ["y", "Year"]
 export const PLACEHOLDER: Record<Exclude<Status, "ok">, string> = {
   paused: "paused while terms are reviewed", licensed: "licensed source needed", license: "license needed", not_held: "not held yet", working: "working on it",
 };
-export const FREQ_WORDS: Record<string, string> = { D: "daily", W: "weekly", M: "monthly", "": "" };
+export const FREQ_WORDS: Record<string, string> = { D: "daily", W: "weekly", M: "monthly", Q: "quarterly", "": "" };
 /** Why a move is blank on a series that is not daily: a weekly series has no daily move, a monthly one no daily or weekly move. */
-export const noMove = (freq: string, k: string) => (freq === "W" && k === "d") || (freq === "M" && (k === "d" || k === "w"));
+export const noMove = (freq: string, k: string) => (freq === "W" && k === "d") || (freq === "M" && (k === "d" || k === "w")) || (freq === "Q" && k !== "y");
 
 /** Decimals a unit is written with: gallons to a tenth of a cent, large prices whole, everything else to the cent. */
 export function places(unit: string, v = 0): number {
@@ -61,9 +63,9 @@ const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct
 /** "29 Sep 2026" from a day; a monthly value is written "Sep 2026". */
 export function dateWords(t: string, freq = "D"): string {
   const [y, m, d] = t.slice(0, 10).split("-").map(Number);
-  return freq === "M" ? `${MON[m - 1]} ${y}` : `${d} ${MON[m - 1]} ${y}`;
+  return freq === "M" || freq === "Q" ? `${MON[m - 1]} ${y}` : `${d} ${MON[m - 1]} ${y}`;
 }
-export const shortDate = (t: string, freq = "D") => (freq === "M" ? dateWords(t, "M") : dateWords(t).replace(/ \d{4}$/, ""));
+export const shortDate = (t: string, freq = "D") => (freq === "M" || freq === "Q" ? dateWords(t, "M") : dateWords(t).replace(/ \d{4}$/, ""));
 export const isoDay = (ms: number) => new Date(ms).toISOString().slice(0, 10);
 export const isoHour = (ms: number) => new Date(ms).toISOString().slice(0, 13).replace("T", " ") + ":00 UTC";
 /** A UTC hour in a grid's local time, "03 Oct 14:00". */
@@ -102,13 +104,13 @@ export function holdRows(file: BoardFile, heldGrids: string[]): BoardFile {
 // 18 October 2026: EIA posts spot prices weekly and late), a weekly one past a week more, and a monthly one (dated the
 // first day of its month) past four months and the same 10 days: EIA's monthly series come about two months after
 // their month. The one function every row and tile reads.
-export const STALE_DAYS: Record<"D" | "W" | "M", number> = { D: 10, W: 17, M: 132 };
+export const STALE_DAYS: Record<"D" | "W" | "M" | "Q", number> = { D: 10, W: 17, M: 132, Q: 135 };   // Q (session 1135): a quarter, a month, and the 10 days
 /** Session 1134: by the publisher's calendar. A power market posts every day, weekends and holidays included (its
  *  day-ahead prices the day before), so a daily row of the power groups is stale past 3 days; EIA's daily fuel closes
  *  are trading days, posted weekly and late, and keep the 10 days of session 304's ruling. */
 export const POWER_GROUPS = new Set(["power", "peak", "spark", "da_rt", "battery", "as"]);
 export const STALE_POWER_DAYS = 3;
-export const staleDays = (row: Pick<Row, "freq" | "group">): number => (row.freq === "D" && POWER_GROUPS.has(row.group) ? STALE_POWER_DAYS : STALE_DAYS[row.freq as "D" | "W" | "M"]);
+export const staleDays = (row: Pick<Row, "freq" | "group">): number => (row.freq === "D" && POWER_GROUPS.has(row.group) ? STALE_POWER_DAYS : STALE_DAYS[row.freq as "D" | "W" | "M" | "Q"]);
 export function ageDays(t: string, built: string): number {
   return Math.round((Date.parse(`${built.slice(0, 10)}T00:00:00Z`) - Date.parse(`${t.slice(0, 10)}T00:00:00Z`)) / DAY);
 }
