@@ -23,7 +23,7 @@ stops the run; nothing is filled.
 
     python warehouse/connectors/eia_uranium_production.py [--offline]
 
-Ceiling: five requests (the page and the four workbooks, saved in warehouse/raw/eia_uranium_production/ and reused
+Ceiling: four requests (the four workbooks, saved in warehouse/raw/eia_uranium_production/ and reused
 offline). EIA's robots file allows /uranium/production/. License: public (EIA, record 1 of license_reads.csv).
 """
 
