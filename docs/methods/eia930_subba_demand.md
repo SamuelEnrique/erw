@@ -2,7 +2,7 @@
 
 Energy Research Warehouse (ERW), method note written in session 675 (chain 043) for tables first written on 21 or 22 October 2026.
 
-Tables: `eia930_subba_demand_hourly`, `eia930_subba_demand_hourly_2022`, `eia930_subba_demand_hourly_2023`, `eia930_subba_demand_hourly_2024`, `eia930_subba_demand_hourly_2025`
+Tables: `eia930_subba_demand_hourly`, `eia930_subba_demand_hourly_2021`, `eia930_subba_demand_hourly_2022`, `eia930_subba_demand_hourly_2023`, `eia930_subba_demand_hourly_2024`, `eia930_subba_demand_hourly_2025`
 
 Connector: `warehouse/connectors/eia930_subba.py` (session 602 for the rolling table, session 612 for the yearly tables).
 
@@ -17,7 +17,7 @@ in pages of 5,000 records, sorted by period and sub-region, 3 seconds apart. A 4
 ## Vintage and revision rule
 
 - `eia930_subba_demand_hourly`: the last 90 whole UTC days before the run's day (`--days`, default 90; `--through` sets the run's day). The table on the data machine holds hours 2026-07-24T00:00:00Z to 2026-10-21T06:00:00Z, retrieved 2026-10-22 00:46 UTC.
-- `eia930_subba_demand_hourly_<year>`: with `--year <y>`, the year's hours (EIA's hour-ending periods `<y>-01-01T01` to `<y+1>-01-01T00`), read in twelve monthly windows, each paged on its own. 2022, 2023, 2024 and 2025 are held, each covering `<y>-01-01T00:00:00Z` to `<y>-12-31T23:00:00Z`.
+- `eia930_subba_demand_hourly_<year>`: with `--year <y>`, the year's hours (EIA's hour-ending periods `<y>-01-01T01` to `<y+1>-01-01T00`), read in twelve monthly windows, each paged on its own. 2021 (session 684, chain 044), 2022, 2023, 2024 and 2025 are held, each covering `<y>-01-01T00:00:00Z` to `<y>-12-31T23:00:00Z`.
 - Every table is written with `ip.write_snapshot`: a run replaces the whole table. Nothing from an earlier run is kept in the file, so a figure EIA revises is replaced at the next run of that window.
 - Ceiling: 59 requests a run for the rolling table, 89 for a year. A run that reaches the ceiling writes nothing; the pages it saved in `warehouse/raw/eia930_subba/` answer the next run. A saved page is reused unless `--fresh`; `--offline` asks nothing.
 
@@ -30,7 +30,7 @@ Series shape. Columns: `entity, variable, ts_utc, value, unit, freq, geo, market
 - `ts_utc`: the hour's start. EIA's period is the hour's end, so `ts_utc` is the period less one hour, as `warehouse/connectors/eia930.py` does.
 - `freq` `PT1H`; `geo` `US`; `market` empty; `node` the sub-region's name and its parent's name, for example "Zone 1 (Midcontinent Independent System Operator, Inc.)"; `vintage` empty.
 
-Sub-regions in the rolling table: 89, under ten parents (BHBA 3, CISO 4, ERCO 8, ISNE 8, MISO 6, NYIS 11, PJM 20, PNM 9, SWPP 17, SWPW 3). The yearly tables hold 82 (2022 and 2023) and 83 (2024 and 2025).
+Sub-regions in the rolling table: 89, under ten parents (BHBA 3, CISO 4, ERCO 8, ISNE 8, MISO 6, NYIS 11, PJM 20, PNM 9, SWPP 17, SWPW 3). The yearly tables hold 82 (2021, 2022 and 2023) and 83 (2024 and 2025).
 
 ## License
 
