@@ -134,6 +134,7 @@ eia_gas_trade_country_monthly,none,,207,P1M,1973-01-01T00:00:00Z,2026-07-01T00:0
 eia_gas_trade_monthly,none,,36,P1M,2015-01-01T00:00:00Z,2026-07-01T00:00:00Z,1979,eia:natural-gas/move/poe1:supply;eia:natural-gas/move/poe2:supply,2026-10-10T14:58:19Z,pass,public,gas;lng,no,source
 eia_gas_wells_annual,none,,36,P1Y,1989-01-01T00:00:00Z,2020-01-01T00:00:00Z,1062,eia:natural-gas/prod/wells,2026-10-22T00:37:07Z,pass,public,gas,no,source
 eia_heating_fuel_prices_weekly,none,,140,P1W,2012-01-02T00:00:00Z,2026-10-19T00:00:00Z,48534,eia:petroleum/pri/wfr,2026-10-22T00:51:42Z,pass,public,products,no,source
+eia_ieo_projections,none,,574,P1Y,2020-01-01T00:00:00Z,2050-01-01T00:00:00Z,17856,eia:ieo/2023,2026-10-23T13:46:53Z,pass,public,power;carbon,no,source
 eia_international_electricity_annual,none,,51,P1Y,1980-01-01T00:00:00Z,2024-01-01T00:00:00Z,4131,eia:international,2026-10-23T04:55:57Z,pass,public,power,no,source
 eia_lng_exports_monthly,none,,17,P1M,2013-11-01T00:00:00Z,2026-07-01T00:00:00Z,1083,eia:natural-gas/move/poe2,2026-10-10T14:33:59Z,pass,public,lng,no,source
 eia_meters_state_annual,none,,1040,P1Y,2013-01-01T00:00:00Z,2024-01-01T00:00:00Z,8578,eia:electricity/state-electricity-profiles/meters,2026-10-21T23:48:23Z,pass,public,power,no,source

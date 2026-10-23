@@ -342,6 +342,7 @@ catalogue_hold:
   - eia_coal_distribution_quarterly
   - eia_uranium_production_quarterly
   - eia_uranium_facilities
+  - eia_ieo_projections
   - lbnl_hybrid_ppa_prices
   - lbnl_solar_projects
   - ornl_npd_potential
