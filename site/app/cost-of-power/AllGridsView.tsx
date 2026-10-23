@@ -405,8 +405,8 @@ function Headline({ x }: { x: SitingInputs }) {
 }
 
 /** Session 711: a node's panel: its basis to the hub over the year (the 10th, 50th and 90th percentile of its days, and
- * each month's mean in the shared chart), its four-peak exposure, and what is not held about its place (county, planned
- * generation near it, transmission projects). */
+ * each month's mean in the shared chart), its four-peak exposure, and its place: since session 1048 its county and zone
+ * where ercot_node_places places it, and ERCOT's transmission projects in that county; its wires utility is not held. */
 function NodePanel({ id, x }: { id: string; x: SitingInputs }) {
   const n = NODES.nodes.find((k) => `ercot:${k.id}` === id);
   if (!n) return null;
@@ -445,8 +445,19 @@ function NodePanel({ id, x }: { id: string; x: SitingInputs }) {
       ) : null}
       <ul className="mt-2 list-disc pl-5">
         <li>Four peaks: as every node, the charge on {NODE_HUB}&apos;s hours, above the list. Its own price in the four intervals of summer 2025 is <Words words="not held" why="node_basis_daily begins on 1 October 2025, after the summer; and it holds days, not the 15-minute intervals." />.</li>
-        <li>Its county, and so the planned generation near it (eia860m_planned_generators, by county): <Words words="not held" why="No table of the warehouse places an ERCOT settlement point in a county; ERCOT's resource registration does, and is not pulled (docs/reviews/siting-gaps.md)." />.</li>
-        <li>Transmission projects in its county: <Words words="not held" why="texas_transmission_matrix holds each wires utility's transmission cost of service and four-peak charge, not projects by county, and it is internal; no table of projects by county is held." />.</li>
+        {/* session 1048 (chain 072): its county and zone where ercot_node_places places it, and ERCOT's projects in that county */}
+        {n.county && n.zone ? (
+          <li data-node-place="1">Its county and load zone: {n.county} County, {n.zone} zone, as ERCOT&apos;s Capacity, Demand and Reserves report gives every unit at its station ({NODES.places?.table ?? "ercot_node_places"}; the match of the report&apos;s unit codes to the node&apos;s name is the ERW&apos;s). Its wires utility: <Words words="not held" why="The CDR names no EIA plant number, so the plant's owner and wires utility cannot be joined without a guess (docs/methods/ercot_node_places.md)." />.</li>
+        ) : (
+          <li data-node-place="0">Its county and load zone: <Words words="not placed" why={`ercot_node_places does not place this node. ${NODES.places?.words ?? "No table of the warehouse places it."}`} />.</li>
+        )}
+        {n.county && NODES.projects ? (() => {
+          const pj = NODES.projects.counties[n.county];
+          return pj ? (
+            <li data-node-projects="1">ERCOT&apos;s transmission project phases with an end in {n.county} County ({NODES.projects.table}, the owners&apos; report {NODES.projects.workbook.replace(/^.*AS OF (\d{1,2})\/(\d{1,2})\/(\d{4}).*$/, (_, m: string, d: string, y: string) => `of ${y}-${m.padStart(2, "0")}-${d.padStart(2, "0")}`)}): <Num check={`allgrids|nodeprojects|${id}|future`} raw={pj.future}>{pj.future}</Num> future, <Num check={`allgrids|nodeprojects|${id}|planned`} raw={pj.planned}>{pj.planned}</Num> planned, <Num check={`allgrids|nodeprojects|${id}|completed`} raw={pj.completed}>{pj.completed}</Num> completed.{pj.next ? <> The earliest in-service date among the future and planned: {pj.next.date}, {pj.next.title || "a phase with no title"}{pj.next.kv ? ` (${pj.next.kv} kV` : " ("}{pj.next.owner ? `${pj.next.kv ? ", " : ""}${pj.next.owner})` : ")"}.</> : null} A project in the county is not a project at the node.</li>
+          ) : <li data-node-projects="0">ERCOT&apos;s transmission projects in {n.county} County: none in {NODES.projects.table}.</li>;
+        })() : null}
+        <li>The planned generation in its county (eia860m_planned_generators, by county): <Words words="not drawn" why="The county is known where ercot_node_places places the node; summing the planned generators by county for the panel is not built yet." />.</li>
       </ul>
     </section>
   );
@@ -500,10 +511,10 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
             <NodeShared x={x} />
             {q.node ? <NodePanel id={q.node} x={x} /> : null}
             <AllGridsNodes columns={nodeColumns(nodeTable(SITING_DC, SITING_FILES, x))} pkey={profileKey(x)} datacenter={x.profile === "datacenter"} open={q.node ?? null}
-              short={shortMonthsWords(nodeShortMonths(NODES))} find={q.nq ?? ""} cls={q.ncls ?? ""}
+              short={shortMonthsWords(nodeShortMonths(NODES))} find={q.nq ?? ""} cls={q.ncls ?? ""} county={q.ncounty ?? ""} zone={q.nzone ?? ""}
               csvHead={[`Energy Research Warehouse (ERW): the ERCOT nodes of the All grids tab of /cost-of-power ("What a datacenter pays"), ${sitingHref(x, { rows: "nodes" })}`,
                 `${/^[aeiou]/i.test(p.label) ? "An" : "A"} ${p.label.toLowerCase()} load of ${x.mw} MW at a load factor of ${x.lf.toFixed(2)}; energy is ${NODE_HUB}'s day-ahead price over its twelve whole months plus the node's mean daily basis (node_basis_daily, ${NODES.first} to ${NODES.last}); USD per MWh`,
-                "Method: docs/methods/siting.md. Downloaded from the page: the rows shown, in the page's own figures."]}
+                `${NODES.places ? `County and zone: ${NODES.places.table}, ERCOT's Capacity, Demand and Reserves report's units at the node's station; ${NODES.places.matched} of ${NODES.places.of} nodes placed, the rest blank. ` : ""}Method: docs/methods/siting.md. Downloaded from the page: the rows shown, in the page's own figures.`]}
               sort={(NODE_SORTS as readonly string[]).includes(q.nsort ?? "") ? (q.nsort as NodeSort) : "node"} dir={q.ndir === "desc" ? "desc" : "asc"} />
           </>
         ) : (

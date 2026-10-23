@@ -29,3 +29,7 @@
 - New: `warehouse/derived/ercot_node_transmission.py`, `docs/methods/ercot_node_transmission.md`, `tests/test_session917.py` (3 tests), this report.
 - Changed: `docs/reviews/siting-gaps.md` (a state section), `archive/sessions/SESSION_911_REPORT.md` (its cross-check), `build_coverage.py`, `release_v1.py`, `live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
 - On the data machine only: `runs/c051/s917/`, `runs/c051/readt.py`, `runs/c051/write_derived.sh`, `runs/s917*`.
+
+## Addendum by session 922
+
+- Chain 072 (the old laptop, session 1048, landed at about 08:10 UTC while this chain ran) draws the same gap row on the tab, counting TPIT's phases by a placed node's county in `warehouse/derived/siting_page.py`. The two counts were made apart and agree: the table equals the tab's `site/data/siting/nodes.json` in all 137 counties the tab lists by future, planned and completed phases; the 11 others are this table's zero counties. The table is the warehouse's copy of the same figures, for the package and Redivis; the siting gaps' state section says so.

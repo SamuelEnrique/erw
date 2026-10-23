@@ -91,3 +91,13 @@ The same steps as session 780, on a local build of `wip/1028-allgrids` (chain 07
 - **The three siting cards** in their render frames and at 390 (`runs/chain_062/frames970.mjs` on the build): 10 of 12 views pass; the two that do not are session 970's, unchanged (two region names touch on the gigawatt card at 390 by 2 px and on the flexible card at 1280 by 6 px, the shared renderer's x labels, rulings item 22).
 - **After the walk**: The landing gate's check-values (07:29 UTC) failed that line: it showed one decimal where every checked figure shows two. It now reads "reserve margin 11.43%, summer 2027", the same figure (11.428383).
 - **No step fails and no new fault was found.**
+
+## Walked again (session 1052, chain 072)
+
+Walked again on a local build of `wip/1042-allgrids` (chain 072's 1042 to 1049: a node's county and zone with its county's ERCOT transmission projects, session 1048; EIA-411 named and not drawn in the reserve margin's tip, session 1047), 23 October 2026 at about 08:35 UTC, with `runs/chain_062/walk.mjs` and the steps of session 780; each step's figure lines against session 1029's walk (`runs/walkcmp.py`).
+
+- **11 steps; 9 differ, and every difference is expected**: each ERCOT row's "reserve margin 11.4%" of 1029's walk reads "11.43%" (chain 071's landing fix, two decimals as every checked figure); and y07b (a node's panel) names its county and zone and its county's projects in place of the county "not held".
+- **No figure line is gone or changed otherwise.** The tips of the other grids' "reserve margin not held" now name EIA-411 (no digit in the cell, so outside the comparison).
+- **A fault seen, not new**: when the hub table is scrolled sideways (a tip focused at the far right), a right-aligned cell's second line spills left under the row's name (session 1027's screenshot shows the same); not this chain's change, listed for a session of its own.
+- **No step fails and no new fault was found.**
+- **The three siting cards** in their render frames and at 390 (`runs/chain_062/frames970.mjs` on the build): the same 10 of 12 views pass as at 1031; the two that do not are session 970's (rulings item 22).
