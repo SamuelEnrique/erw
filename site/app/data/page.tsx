@@ -212,15 +212,15 @@ export default async function Data() {
         <p className="mb-3 max-w-3xl text-sm">
           {PACKAGES_LEAD} The specification: <Link href="/data/methods/packages">the packages&apos; method note</Link>.
         </p>
-        <div className="grid gap-6 md:grid-cols-3 [&>*]:min-w-0" data-tools="1">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3 [&>*]:min-w-0" data-tools="1">
           {PANELS.map((p) => (
             <div key={p.name}>
               <h3 className="mb-1 text-lg">{p.name}</h3>
               {/* session 1015: each line with a control that copies it (components/CopyLine.tsx) */}
-              <div className="grid gap-1 border border-rule bg-panel p-2">
+              <div className="grid grid-cols-1 gap-1 border border-rule bg-panel p-2">
                 {p.install.map((ln) => <CopyLine key={ln} line={ln} />)}
               </div>
-              <div className="mt-2 grid gap-1 border border-rule bg-panel p-2">
+              <div className="mt-2 grid grid-cols-1 gap-1 border border-rule bg-panel p-2">
                 {p.calls.map((ln) => <CopyLine key={ln} line={ln} />)}
               </div>
               <p className="mt-2 text-xs text-muted">
