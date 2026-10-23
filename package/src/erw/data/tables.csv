@@ -28,6 +28,7 @@ carbon_intensity_daily,public,,,,EIA,"Public: every publisher's terms the ERW re
 carbon_intensity_hourly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",430 days
 carbon_intensity_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 census_metro_population,public,,,,Census Bureau,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+cer_electricity_trade,public,,,,Canada Energy Regulator (CER),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 cftc_cot_positions,public,,,,CFTC,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 clean_energy_hourly,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
 clean_energy_summary,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
@@ -40,11 +41,26 @@ datacenter_projects,unsettled,license needed,2026-10-21,Bloomberg; Data Center D
 datacenter_projects_evidence,internal,,,Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; and 9 more,Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; Hart Energy; Heatmap News; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; WSJ,The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 datacenter_queue_positions,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
 egrid_power_plants,public,,,,EPA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia860_generator_owners,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia860_plants_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia860_solar_generators,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia860_storage_generators,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia860_wind_generators,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia860m_operating_generators,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia860m_planned_generators,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia860m_retired_generators,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 eia860m_retired_generators_all,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia861_advanced_meters,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia861_delivery_only,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia861_demand_response,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia861_distributed_generation,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia861_distribution_systems,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia861_dynamic_pricing,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia861_energy_efficiency,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia861_net_metering,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia861_operational_data,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia861_short_form,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia861_utility_data,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia861_utility_reliability,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia861_utility_sales,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia861m_utility_sales_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -81,6 +97,7 @@ eia_coal_mine_production_annual,public,,,,EIA,"Public: every publisher's terms t
 eia_coal_price_rank_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_coal_prices_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_coal_production_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia_coal_receipts_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_coal_trade_price_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_crude_first_purchase_prices,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_crude_imports_by_country,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -105,6 +122,7 @@ eia_gas_trade_country_monthly,public,,,,EIA,"Public: every publisher's terms the
 eia_gas_trade_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_gas_wells_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_heating_fuel_prices_weekly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia_international_electricity_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_lng_exports_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_meters_state_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_net_metering_state_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -152,6 +170,7 @@ ercot_as_prices_daily,public,,,,ERCOT,"Public: every publisher's terms the ERW r
 ercot_as_prices_monthly,public,,,,ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ercot_as_quantities,public,,,,ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ercot_cdr_reserve_margins,public,,,,ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+ercot_cdr_units,public,,,,ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ercot_dam_cleared_energy,public,,,,ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ercot_dam_esr_awards,public,,,,ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ercot_grid_notices,public,,,,ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -210,6 +229,7 @@ ferc_eqr_quarter_changes,internal,,,,EIA; FERC,The ERW holds it for its own use 
 flex_alert_effects,public,,,,CAISO; EIA; NOAA NCEI,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 flex_alert_model,public,,,,CAISO; EIA; NOAA NCEI,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 frb_treasury_yields,public,,,,FRB,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+frb_utility_output_monthly,public,,,,FRB,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 generation_mix_hourly_profile,public,,,,CAISO; EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 generation_mix_records,public,,,,CAISO; EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 grid_network_links,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -302,7 +322,8 @@ storage_daily_cycle,public,,,,CAISO; EIA,"Public: every publisher's terms the ER
 storage_owners_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 texas_delivery_charges,internal,,,"AEP Texas Inc.; CenterPoint Energy Houston Electric, LLC; Oncor Electric Delivery Company LLC","AEP Texas Inc.; CenterPoint Energy Houston Electric, LLC; Oncor Electric Delivery Company LLC; Public Utility Commission of Texas; Texas-New Mexico Power Company",The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 texas_transmission_matrix,internal,,,,Public Utility Commission of Texas,The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
-uswtdb_wind_turbines,unsettled,,,,"U.S. Geological Survey (USGS), with LBNL and ACP","The terms of U.S. Geological Survey (USGS), with LBNL and ACP have not been read or settled, so the ERW does not redistribute it until they are.",none
+uspvdb_solar_facilities,public,,,,U.S. Geological Survey (USGS),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+uswtdb_wind_turbines,public,,,,U.S. Geological Survey (USGS),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 utility_service_territories,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 weather_forecast_hourly,public,,,,NWS,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 weather_obs_hourly,public,,,,NWS,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
