@@ -61,3 +61,7 @@ Session 836 of chain 081 (`queue/done/081-night-24-october-portable-deals-2.md`)
 | 19 | The ten floors under the license holds | open |
 
 Nineteen open, none answered, none done. `docs/reviews/deals-rulings-2026-10-23.md` did not exist yet (chain 080's session 832 writes it); its state section is for the session that next reads the rulings (839 of this chain, or 843 of the next file).
+
+## State after session 843 (23 October 2026, about 08:15 UTC)
+
+Session 843 of chain 082 (`queue/done/082-night-25-october-portable-deals-3.md`). The same places were looked in as at 07:55 UTC (above) and main has moved only by chain 081's own documents since: every one of the 19 items is open, none answered, none done. `docs/reviews/deals-rulings-2026-10-23.md` still does not exist (chain 080's session 832).
