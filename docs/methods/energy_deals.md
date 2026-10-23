@@ -202,3 +202,49 @@ deals tab draws the shown rows with every column; the line above it counts the h
   of the comparison carry the table's own keys.
 
 Session 828 writes "What is shown and what is held" in full.
+
+## What is shown and what is held (chain 080, 23 October 2026)
+
+`energy_deals` is "license needed" as a whole (above, "The hold"). From chain 080 the pages sort its rows by the
+publishers of their evidence rows (`energy_deals_evidence`, one row a deal and story) and show the rows a public source
+stands behind. The rule, in three sorts:
+
+1. **Shown.** At least one evidence row of the deal comes from a publisher whose verdict in
+   `warehouse/metadata/license_verdicts.csv` (the file `docs/licenses.md` is written from) is "may be public": a
+   government page (the DOE newsroom), a regulator's or an ISO's filing, a company's own announcement, or an outlet whose
+   terms allow it (World Nuclear News). The row is drawn with every column; its sources are the public evidence only,
+   the publisher as the link's text; the other outlets that carry it are a count, never a name or an address.
+2. **Held.** Every evidence row of the deal rests on a publisher whose verdict asks for permission (or a paid
+   license). The row is counted, in the line above the table ("N deals rest on publishers whose terms ask for
+   permission; license needed"), and drawn as nothing else: no name, no date, no figure. (The chain allows a held row's
+   name and date where the name comes from a public filing; no held row has one, by definition.)
+3. **Unsettled.** No public evidence row, and at least one from a publisher whose page has not been read. Counted
+   beside the held.
+
+A deal with no evidence row is held. The sort is `warehouse/deals/public_rows.py` (session 821), run on the archive's
+copy of the two tables, never on the live set: the site's reader refuses a held table whole, and the by-row path of
+session 499 waits for the data machine's `row_license` column. The reader writes `site/data/deals_public.json`: the
+counts, the held deals by month (a count a month), and each shown row as the live set would serve it with its
+`source`, `source_url`, `story_ids` and `story_urls` set from the public evidence alone. The file is as of the
+extraction it was run on (its `retrieved`); `check-values` fails the counts once the live table has more rows than the
+file counts, so the data machine's daily run is to write the file again (for the owner's ruling).
+
+What the pages draw from the file, every figure keyed (the keys above): the deals tab's table of shown rows, with the
+line above it (822); the tracker's and the comparables' figures over the shown rows only, each with the held count in
+its hover tip, and the deals-by-month chart with the held months hatched (823); the FERC EQR panel on a shown row, the
+filed terms "license needed" while the EQR tables are internal (825); two shown deals side by side, A and B (826).
+
+### Decisions (chain 080)
+
+- The evidence table is the rule's input, not the deals' `story_ids`; the story-only outlets are listed in the review
+  (session 821). The stricter rule, every story public (session 441's), shows 11 of 505 rather than 16; which the owner
+  wants is in `docs/reviews/deals-rulings-2026-10-23.md`.
+- A new key family, `dealpub|`, names the public subset (`components/Num.tsx` draws a key naming the held table as the
+  catalogue's words); `check-values` reads each figure from the live set by the row's id, and the counts against the
+  live set's row count (822).
+- The tracker's selection figures are keyed only with no selection; the all-deals figures always (823).
+- The held count beside a figure is in its hover tip and its note, not a second number in the cell (823).
+- The EQR join's name rule is one direction: the story's name must be whole words of the filed name, at least four
+  characters, the corporate words dropped; a filed name that is a word of the story's name is not a match (825, 827).
+- The A and B comparison is a GET form over the shown rows; a held id in the address is refused with a sentence (826).
+- The reviews: `docs/reviews/deals-public-rows-2026-10-23.md`, `deals-gaps-2026-10-23.md`, `deals-rulings-2026-10-23.md`.

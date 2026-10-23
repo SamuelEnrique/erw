@@ -172,3 +172,28 @@ counts are `site/data/datacenters_public.json` and the line above the held table
 that asks for permission, so 0 are shown and 150 held (`docs/reviews/datacenters-public-rows-2026-10-23.md`). The
 sites a public source names are the interconnection-queue positions, which "On the power side" draws from the queue
 tables themselves (session 467). Session 828 writes "What is shown and what is held" in full.
+
+## What is shown and what is held (chain 080, 23 October 2026)
+
+The same three sorts as the deal tracker's (`docs/methods/energy_deals.md`, "What is shown and what is held"), run on
+`datacenter_projects` and `datacenter_projects_evidence` by `warehouse/deals/public_rows.py --datacenters` (session
+827): shown, at least one evidence row from a publisher whose terms the ERW reads as public (an operator's own
+announcement, a utility's or an ISO's filing, a government page, an outlet whose terms allow it); held, every evidence
+row asks for permission; unsettled, a publisher not read. A shown row would be drawn with its power-side fields only
+(the MW asked for, the grid, the utility, the power source, the queue position where its evidence is an ISO's own
+list); a held row is counted, "license needed", in place. On 23 October 2026 every one of the 168 evidence rows is a
+news outlet's that asks for permission: 0 shown, 150 held, 0 unsettled (`docs/reviews/datacenters-public-rows-2026-10-23.md`).
+
+The other three tables of the tracker stay held whole. `datacenter_facilities` (426 rows) rests on the nine operators'
+own site lists (275 rows, each operator's page "needs written permission" by its sentence in `docs/licenses.md`), on
+the news rows (148) and on the queue positions (3). The rows a public source names are the interconnection-queue
+positions, which "On the power side" has drawn from the queue tables themselves since session 467 (ERCOT's two; the
+NYISO one is held with its grid's queue).
+
+### Decisions (chain 080)
+
+- One sort for the two trackers: the reader takes the table's id columns (`entity_id`, `facility_id`).
+- With no shown row, the page's change is the counting line and its keys (`dcpub|counts|shown`, `|held`,
+  `|unsettled`); the power side's public rows were not redrawn.
+- `datacenter_facilities` is not re-sorted row by row: its members' publishers are session 441's method, and a ruling
+  that an operator's own list is public would show 275 of its rows (that review's variant B).
