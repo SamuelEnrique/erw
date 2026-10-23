@@ -4152,6 +4152,29 @@ ercot_zone_prices_history,spp_dam,series variable,USD/MWh
 ercot_zone_prices_history,spp_rtm,series variable,USD/MWh
 fhwa_motor_fuel_monthly,gasoline_volume,series variable,gal
 fhwa_motor_fuel_monthly,special_fuel_volume,series variable,gal
+fema_disaster_declarations,event_id,column,
+fema_disaster_declarations,event_date,column,
+fema_disaster_declarations,event_type,column,
+fema_disaster_declarations,parties,column,
+fema_disaster_declarations,entity_ids,column,
+fema_disaster_declarations,mw,column,
+fema_disaster_declarations,price,column,
+fema_disaster_declarations,currency,column,
+fema_disaster_declarations,status,column,
+fema_disaster_declarations,source,column,
+fema_disaster_declarations,source_url,column,
+fema_disaster_declarations,x_incident_type,column,
+fema_disaster_declarations,x_title,column,
+fema_disaster_declarations,x_state,column,
+fema_disaster_declarations,x_designated_area,column,
+fema_disaster_declarations,x_incident_begin,column,
+fema_disaster_declarations,x_incident_end,column,
+fema_disaster_declarations,x_programs,column,
+fema_disaster_declarations,x_disaster_number,column,
+fema_disaster_declarations,x_region,column,
+fema_disaster_declarations,x_tribal,column,
+fema_disaster_declarations,retrieved_at,column,
+fema_disaster_declarations,vintage,column,
 flex_alert_effects,actual_mw,series variable,MW
 flex_alert_effects,actual_mwh,series variable,MWh
 flex_alert_effects,alert_first_hour,series variable,hour
@@ -5573,6 +5596,29 @@ msha_coal_mines,x_nearest_town,column,
 msha_coal_production_quarterly,average_employees,series variable,count
 msha_coal_production_quarterly,coal_production,series variable,short_ton
 msha_coal_production_quarterly,employee_hours,series variable,count
+nhc_hurdat2_track_points,event_id,column,
+nhc_hurdat2_track_points,event_date,column,
+nhc_hurdat2_track_points,event_type,column,
+nhc_hurdat2_track_points,parties,column,
+nhc_hurdat2_track_points,entity_ids,column,
+nhc_hurdat2_track_points,mw,column,
+nhc_hurdat2_track_points,price,column,
+nhc_hurdat2_track_points,currency,column,
+nhc_hurdat2_track_points,status,column,
+nhc_hurdat2_track_points,source,column,
+nhc_hurdat2_track_points,source_url,column,
+nhc_hurdat2_track_points,x_storm_id,column,
+nhc_hurdat2_track_points,x_storm_name,column,
+nhc_hurdat2_track_points,x_basin,column,
+nhc_hurdat2_track_points,x_time_utc,column,
+nhc_hurdat2_track_points,x_record,column,
+nhc_hurdat2_track_points,x_landfall,column,
+nhc_hurdat2_track_points,x_lat,column,
+nhc_hurdat2_track_points,x_lon,column,
+nhc_hurdat2_track_points,x_max_wind_kt,column,
+nhc_hurdat2_track_points,x_min_pressure_mb,column,
+nhc_hurdat2_track_points,retrieved_at,column,
+nhc_hurdat2_track_points,vintage,column,
 nlr_atb_electricity_costs,capacity_factor,series variable,ratio
 nlr_atb_electricity_costs,capex,series variable,USD/kW
 nlr_atb_electricity_costs,fixed_om,series variable,USD/kW-year
@@ -5884,6 +5930,28 @@ nrc_event_notifications,x_initial_mode,column,
 nrc_event_notifications,x_current_power_pct,column,
 nrc_event_notifications,x_current_mode,column,
 nrc_event_notifications,x_read_from,column,
+nrc_license_actions,event_id,column,
+nrc_license_actions,event_date,column,
+nrc_license_actions,event_type,column,
+nrc_license_actions,parties,column,
+nrc_license_actions,entity_ids,column,
+nrc_license_actions,mw,column,
+nrc_license_actions,price,column,
+nrc_license_actions,currency,column,
+nrc_license_actions,status,column,
+nrc_license_actions,source,column,
+nrc_license_actions,source_url,column,
+nrc_license_actions,x_plant,column,
+nrc_license_actions,x_application_received,column,
+nrc_license_actions,x_extended_operation,column,
+nrc_license_actions,x_note,column,
+nrc_license_actions,x_uprate_type,column,
+nrc_license_actions,x_uprate_pct,column,
+nrc_license_actions,x_uprate_mwt,column,
+nrc_license_actions,x_accession,column,
+nrc_license_actions,x_link,column,
+nrc_license_actions,retrieved_at,column,
+nrc_license_actions,vintage,column,
 nrc_new_reactor_applications,event_id,column,
 nrc_new_reactor_applications,event_date,column,
 nrc_new_reactor_applications,event_type,column,
@@ -7147,6 +7215,12 @@ usbr_hydropower_monthly,auxiliary_use,series variable,MWh
 usbr_hydropower_monthly,gross_generation,series variable,MWh
 usbr_hydropower_monthly,installed_capacity,series variable,MW
 usbr_hydropower_monthly,net_generation,series variable,MWh
+usdm_drought_state_weekly,d0,series variable,pct
+usdm_drought_state_weekly,d1,series variable,pct
+usdm_drought_state_weekly,d2,series variable,pct
+usdm_drought_state_weekly,d3,series variable,pct
+usdm_drought_state_weekly,d4,series variable,pct
+usdm_drought_state_weekly,none,series variable,pct
 usgs_mcs_critical_minerals,consumption,series variable,t
 usgs_mcs_critical_minerals,employment,series variable,count
 usgs_mcs_critical_minerals,export,series variable,t

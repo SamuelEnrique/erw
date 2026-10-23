@@ -145,7 +145,7 @@ class TheFiles(unittest.TestCase):
         # once more); chain 059's session 2047 adds 13 with chain 059's robots reads (session 2047 raised it again);
         # chain 056's sessions 2000 to 2005 add 7 (168 to 174) and chain 058's sessions 2028 to 2036 add 20, renumbered 192 to 211
         # at its merge after chain 059's (session 2041 raised it once more), and 196 to 215 after chain 057's; chain 068's sessions
-        # 2084 to 2092 add 19 (216 to 234), each under its own ceiling (session 2089 raised it by 40, with room for chains 066 and
+        # 2084 to 2092 add 19 (216 to 234, renumbered 223 to 241 after chain 066's at the merge), each under its own ceiling (session 2089 raised it by 40, with room for chains 066 and
         # 067's reads at their merges)
         self.assertLessEqual(len(reads) - 41, 2 + 60 + 20 + 20 + 20 + 20 + 20 + 20 + 40)
         self.assertEqual(len({r["publisher"] for r in reads}), len(reads))          # one page a publisher

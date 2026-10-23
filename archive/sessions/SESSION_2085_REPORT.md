@@ -11,7 +11,7 @@
 
 ## The pulls
 
-1. `www.irena.org/robots.txt` (read 218): disallows `/DocumentDownloads/` and two other paths. 2. The Renewable Capacity Statistics 2026 page (read 219): HTTP 403, a challenge. 3. `pxweb.irena.org/robots.txt` (read 220): 404. 4 and 5. IRENASTAT's folder listings. 6. The table's metadata. 7 and 8. The connector's trial: the metadata again and the query (3.3 MB).
+1. `www.irena.org/robots.txt` (read 225): disallows `/DocumentDownloads/` and two other paths. 2. The Renewable Capacity Statistics 2026 page (read 226): HTTP 403, a challenge. 3. `pxweb.irena.org/robots.txt` (read 227): 404. 4 and 5. IRENASTAT's folder listings. 6. The table's metadata. 7 and 8. The connector's trial: the metadata again and the query (3.3 MB).
 
 ## Decisions made without you
 
@@ -26,5 +26,5 @@
 ## Files
 
 - New: `warehouse/connectors/irena_capacity.py`, `tests/test_session2085.py` (4 tests), this report.
-- Changed: `build_coverage.py`, `release_v1.py`, `live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_reads.csv` (218 to 220), `license_tables.csv`, `docs/licenses.md`.
+- Changed: `build_coverage.py`, `release_v1.py`, `live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_reads.csv` (225 to 227), `license_tables.csv`, `docs/licenses.md`.
 - On the data machine only: `runs/c068/s2085/`, `runs/license_reads/s2085/`, `runs/s2085*`, `warehouse/raw/irena_capacity/`.

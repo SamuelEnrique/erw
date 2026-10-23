@@ -10,7 +10,7 @@
 
 ## The pulls
 
-1. `www.eia.gov/robots.txt` (read 223). 2. The natural gas data page (its "Pipelines" links). 3. The January 2026 workbook. 4. The connector's trial: the data page again (asked fresh), the workbook reused.
+1. `www.eia.gov/robots.txt` (read 230). 2. The natural gas data page (its "Pipelines" links). 3. The January 2026 workbook. 4. The connector's trial: the data page again (asked fresh), the workbook reused.
 
 ## Decisions made without you
 
@@ -25,5 +25,5 @@
 ## Files
 
 - New: `warehouse/connectors/eia_state_to_state.py`, `tests/test_session2090.py` (4 tests), this report.
-- Changed: `build_coverage.py`, `release_v1.py`, `live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_reads.csv` (223), `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
+- Changed: `build_coverage.py`, `release_v1.py`, `live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_reads.csv` (230), `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
 - On the data machine only: `runs/c068/s2090/`, `runs/license_reads/s2090/`, `runs/s2090*`, `warehouse/raw/eia_state_to_state/`.

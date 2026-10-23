@@ -11,7 +11,7 @@
 
 ## The pulls
 
-1. `www.irs.gov/robots.txt` (read 222): disallows its statistics index search and site paths, not `/pub/irs-soi` or `/statistics`. 2. Historic Table 2's page (2020 to 2023). 3. The 2023 workbook, for the columns' labels. 4. `15in55cmcsv.csv`: HTTP 404 (the 2015 to 2019 files are named otherwise). 5 to 8. The 2020 to 2023 CSV files. 9. The 2015 to 2019 page. 10 to 14. The 2015 to 2019 CSV files. 15. The 2022 workbook, for its label. All saved in `warehouse/raw/irs_soi_energy/` and reused by the write (`--offline`).
+1. `www.irs.gov/robots.txt` (read 229): disallows its statistics index search and site paths, not `/pub/irs-soi` or `/statistics`. 2. Historic Table 2's page (2020 to 2023). 3. The 2023 workbook, for the columns' labels. 4. `15in55cmcsv.csv`: HTTP 404 (the 2015 to 2019 files are named otherwise). 5 to 8. The 2020 to 2023 CSV files. 9. The 2015 to 2019 page. 10 to 14. The 2015 to 2019 CSV files. 15. The 2022 workbook, for its label. All saved in `warehouse/raw/irs_soi_energy/` and reused by the write (`--offline`).
 
 ## Decisions made without you
 
@@ -26,5 +26,5 @@
 ## Files
 
 - New: `warehouse/connectors/irs_soi_energy.py`, `tests/test_session2087.py` (4 tests), this report.
-- Changed: `build_coverage.py`, `release_v1.py`, `live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_reads.csv` (222), `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
+- Changed: `build_coverage.py`, `release_v1.py`, `live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_reads.csv` (229), `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
 - On the data machine only: `runs/c068/s2087/`, `runs/license_reads/s2087/`, `runs/s2087*`, `warehouse/raw/irs_soi_energy/`.

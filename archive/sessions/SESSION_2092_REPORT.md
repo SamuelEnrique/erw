@@ -22,5 +22,5 @@
 ## Files
 
 - New: `warehouse/connectors/noaa_cpc_oni.py`, `tests/test_session2092.py` (3 tests), this report.
-- Changed: `docs/datastandard.md` (Decision 62), `warehouse/validate/erw_validate.py`, `build_coverage.py`, `release_v1.py`, `live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_reads.csv` (228), `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
+- Changed: `docs/datastandard.md` (Decision 62), `warehouse/validate/erw_validate.py`, `build_coverage.py`, `release_v1.py`, `live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_reads.csv` (235), `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
 - On the data machine only: `runs/c068/s2092/`, `runs/license_reads/s2092/`, `runs/s2092*`, `warehouse/raw/noaa_cpc_oni/`.

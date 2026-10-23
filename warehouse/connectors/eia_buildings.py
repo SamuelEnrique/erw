@@ -224,6 +224,9 @@ def main(argv=None):
     for survey, sv in SURVEYS.items():
         table = sv["table"]
         try:
+            # session 2066: the pause list first (CLAUDE.md), as boem_ogor.py asks it
+            if ip.paused(CONNECTOR) or ip.paused_host("www.eia.gov"):
+                raise RuntimeError("www.eia.gov is paused (warehouse/metadata/paused_sources.csv): no request made")
             rows, latest, counts, urls = [], "", {}, []
             for name, (s_, url, _, _, _, _) in TABLES.items():
                 if s_ != survey:
