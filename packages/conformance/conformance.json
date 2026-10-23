@@ -284,5 +284,22 @@
   "requests": {
     "redivis": 0,
     "live": 26
+  },
+  "errors": {
+    "templates": {
+      "no_network": "The ERW's {where} could not be reached ({reason}). Check the network connection, then try again.",
+      "not_found": "No ERW table named {table}. {tables_call} lists every table{near}.",
+      "held": "{table} is not public: {verdict}. {words} The ERW's license record: {url}",
+      "empty_window": "No rows of {table} start in [{start}, {end}); its rows run from {ts_min} to {ts_max}.",
+      "redivis_token": "Set REDIVIS_API_TOKEN to a token from https://redivis.com/workspace/settings/tokens, then try again.",
+      "live_keys": "Set ERW_LIVE_URL and ERW_LIVE_KEY to the live set's address and key (the ERW gives them on request), then try again.",
+      "row_limit": "The live set answered a page of {got} rows where {page} were asked for: a fault of the package, not of your call; please tell the ERW (https://github.com/SamuelEnrique/erw/issues)."
+    },
+    "tables_call": {
+      "python": "erw.tables()",
+      "stata": "erw tables",
+      "r": "erw_tables()"
+    },
+    "note": "session 1013: one sentence a failure, the same in the three packages; {tables_call} is each language's call"
   }
 }

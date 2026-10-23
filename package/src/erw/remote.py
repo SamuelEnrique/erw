@@ -25,7 +25,7 @@ from typing import Dict, List, Optional, Tuple
 
 import pandas as pd
 
-from .backends import COVERAGE_COLS, OPTIONAL_COVERAGE_COLS, SOURCE_COLS, Backend, ERWDataNotFound
+from .backends import not_found, COVERAGE_COLS, OPTIONAL_COVERAGE_COLS, SOURCE_COLS, Backend, ERWDataNotFound
 
 REDIVIS_META = {"erw_headers", "erw_coverage", "erw_sources"}
 
@@ -43,7 +43,8 @@ def _secret(name: str, required: bool = True) -> str:
             pass
     v = (v or "").strip()
     if required and not v:
-        raise ERWDataNotFound(f"{name} is not set (environment or .env)")
+        from .errors import missing_key   # session 1013: the sentence says what to do
+        raise ERWDataNotFound(missing_key(name))
     return v
 
 
@@ -154,10 +155,13 @@ class RedivisBackend(Backend):
                         f"{self.owner}.{self.dataset_name} version {v.get('version') or self.version_tag} holds no {name} "
                         "table: the ERW's first full release waits for its release on Redivis. An editor of the dataset "
                         "can read the draft with erw.RedivisBackend(version='next').")
-                raise ERWDataNotFound(f"No ERW table named {name!r} in {self.describe()}")
+                raise ERWDataNotFound(not_found(name, self.list_tables()))   # session 1013
             types = {v.name: (v.properties or {}).get("type") for v in t.list_variables()}
             try:
                 df = t.to_pandas_dataframe(progress=False, dtype_backend="numpy")
+            except OSError as exc:   # session 1013: no network (requests' ConnectionError is an OSError)
+                from .errors import say
+                raise ConnectionError(say("no_network", where="Redivis", reason=type(exc).__name__)) from None
             except Exception as exc:
                 # session 665: Redivis refuses a stream once a user has streamed 100 GB in 30 days ("Cannot stream more
                 # than 100GB ... Please use the export API instead"); the table is then read through its CSV export,
@@ -185,7 +189,7 @@ class RedivisBackend(Backend):
     def columns(self, name: str) -> List[str]:
         t = self.ds.table(name)
         if not t.exists():
-            raise ERWDataNotFound(f"No ERW table named {name!r} in {self.describe()}")
+            raise ERWDataNotFound(not_found(name, self.list_tables()))   # session 1013
         return [v.name for v in t.list_variables()]
 
     def titles(self) -> Dict[str, str]:
@@ -284,7 +288,7 @@ class SupabaseBackend(Backend):
 
     def read_table(self, name: str) -> Tuple[List[str], pd.DataFrame]:
         if name not in self.list_tables():
-            raise ERWDataNotFound(f"No ERW table named {name!r} in {self.describe()}")
+            raise ERWDataNotFound(not_found(name, self.list_tables()))   # session 1013
         if name not in self._cache:
             interval = self._catalogue().set_index("table_name").loc[name, "interval"]
             shape = "entities" if interval == "snapshot" else ("events" if interval == "event" else "series")
@@ -314,7 +318,7 @@ class SupabaseBackend(Backend):
     def columns(self, name: str) -> List[str]:
         cat = self._catalogue().set_index("table_name")
         if name not in cat.index:
-            raise ERWDataNotFound(f"No ERW table named {name!r} in {self.describe()}")
+            raise ERWDataNotFound(not_found(name, self.list_tables()))   # session 1013
         cols_json = cat.get("columns", pd.Series(dtype=object)).get(name)
         return json.loads(cols_json) if isinstance(cols_json, str) and cols_json else []
 

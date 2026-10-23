@@ -104,7 +104,17 @@ Read from local files, a held table is the reader's own copy under its own licen
 
 ## Errors, in words
 
-Each failure a reader can hit answers with one sentence that says what to do, the same sentence in the three packages (session 1013 writes them all; the conformance file of session 1006 holds them): no network; a table not found; a held table (above); an empty window ("no rows of <table> start in [start, end); its rows run from <ts_min> to <ts_max>"); a Redivis token missing ("set REDIVIS_API_TOKEN to a token from https://redivis.com/workspace/settings/tokens"); the live set's address or key missing; the live set's row limit reached (the package pages, so this is a fault, not a reader's error).
+Each failure a reader can hit answers with one sentence that says what to do, the same in the three packages (session 1013: `package/src/erw/errors.py`, the Stata command's and the R package's messages, and `packages/conformance/conformance.json`, `errors`). `{tables_call}` is each language's own call (`erw.tables()`, `erw tables`, `erw_tables()`); the other placeholders are filled the same way in the three.
+
+- no_network: "The ERW's {where} could not be reached ({reason}). Check the network connection, then try again."
+- not_found: "No ERW table named {table}. {tables_call} lists every table{near}."
+- held: "{table} is not public: {verdict}. {words} The ERW's license record: {url}"
+- empty_window: "No rows of {table} start in [{start}, {end}); its rows run from {ts_min} to {ts_max}."
+- redivis_token: "Set REDIVIS_API_TOKEN to a token from https://redivis.com/workspace/settings/tokens, then try again."
+- live_keys: "Set ERW_LIVE_URL and ERW_LIVE_KEY to the live set's address and key (the ERW gives them on request), then try again."
+- row_limit: "The live set answered a page of {got} rows where {page} were asked for: a fault of the package, not of your call; please tell the ERW (https://github.com/SamuelEnrique/erw/issues)."
+
+A held table and a table not found stop the call. An empty window does not: the frame (or dataset) comes back empty, with the sentence as a warning (Python, `erw.api.ERWEmptyWindow`), a note (Stata) or a message (R).
 
 ## Requests
 

@@ -39,7 +39,7 @@
 .erw_shape <- function(table) {
   cov <- .erw_record("coverage")
   row <- cov[cov$table == table, , drop = FALSE]
-  if (nrow(row) == 0) stop(sprintf("erw: no ERW table named %s (erw_tables() lists them)", table), call. = FALSE)
+  if (nrow(row) == 0) stop(sprintf("No ERW table named %s. erw_tables() lists every table.", table), call. = FALSE)
   if (row$interval[1] == "snapshot") "entities" else if (row$interval[1] == "event") "events" else "series"
 }
 
@@ -47,7 +47,7 @@
   base <- Sys.getenv("ERW_LIVE_URL", Sys.getenv("SUPABASE_URL"))
   key <- Sys.getenv("ERW_LIVE_KEY", Sys.getenv("SUPABASE_ANON_KEY"))
   if (!nzchar(base) || !nzchar(key)) {
-    stop("erw: the live set needs its address and key: ERW_LIVE_URL and ERW_LIVE_KEY (the ERW gives them on request)",
+    stop("Set ERW_LIVE_URL and ERW_LIVE_KEY to the live set's address and key (the ERW gives them on request), then try again.",
          call. = FALSE)
   }
   base <- sub("/rest/v1/?$", "", base)
@@ -139,8 +139,8 @@
     TRUE
   }, error = function(e) FALSE, warning = function(w) FALSE)
   if (!ok || !file.exists(path)) {
-    stop(sprintf("erw: %s did not answer. Check the network and %s.", if (kind == "live") "the live set" else "Redivis",
-                 if (kind == "live") "ERW_LIVE_URL and ERW_LIVE_KEY" else "REDIVIS_API_TOKEN"), call. = FALSE)
+    stop(sprintf("The ERW's %s could not be reached (the download wrote no file). Check the network connection, then try again.",
+                 if (kind == "live") "live set" else "Redivis"), call. = FALSE)
   }
   path
 }
@@ -155,6 +155,10 @@
     url <- .erw_live_url(table, live$base, shape, entity, variable, start, end, offset, page)
     path <- .erw_get(url, headers, "live")
     part <- if (file.info(path)$size > 0) .erw_read_csv(path) else data.frame()
+    if (nrow(part) > page) {
+      stop(sprintf("The live set answered a page of %d rows where %d were asked for: a fault of the package, not of your call; please tell the ERW (https://github.com/SamuelEnrique/erw/issues).",
+                   nrow(part), as.integer(page)), call. = FALSE)
+    }
     parts[[length(parts) + 1L]] <- part
     if (nrow(part) < page || limit > 0) break
     offset <- offset + page
@@ -166,7 +170,7 @@
 .erw_redivis_read <- function(table, limit = 0L) {
   token <- Sys.getenv("REDIVIS_API_TOKEN")
   if (!nzchar(token)) {
-    stop("erw: set REDIVIS_API_TOKEN to a token from https://redivis.com/workspace/settings/tokens", call. = FALSE)
+    stop("Set REDIVIS_API_TOKEN to a token from https://redivis.com/workspace/settings/tokens, then try again.", call. = FALSE)
   }
   url <- paste0("https://redivis.com/api/v1/tables/datapages.erw:b9wm.", table, "/rows?format=csv")
   if (limit > 0) url <- paste0(url, "&maxResults=", as.integer(limit))
@@ -281,7 +285,7 @@ erw_coverage <- function(table = NULL) {
   for (c in c("ts_min", "ts_max", "last_run")) out[[c]] <- .erw_time(out[[c]])
   if (!is.null(table)) {
     out <- out[out$table == table, , drop = FALSE]
-    if (nrow(out) == 0) stop(sprintf("erw: no ERW table named %s (erw_tables() lists them)", table), call. = FALSE)
+    if (nrow(out) == 0) stop(sprintf("No ERW table named %s. erw_tables() lists every table.", table), call. = FALSE)
   }
   rownames(out) <- NULL
   out
@@ -292,7 +296,7 @@ erw_coverage <- function(table = NULL) {
 #' @export
 erw_license <- function(table) {
   row <- .erw_license_row(table)
-  if (nrow(row) == 0) stop(sprintf("erw: no ERW table named %s (erw_tables() lists them)", table), call. = FALSE)
+  if (nrow(row) == 0) stop(sprintf("No ERW table named %s. erw_tables() lists every table.", table), call. = FALSE)
   split <- function(x) if (nzchar(x)) trimws(strsplit(x, ";", fixed = TRUE)[[1]]) else character(0)
   list(table = table, verdict = row$verdict[1], status = row$status[1], status_from = row$status_from[1],
        decided_by = split(row$decided_by[1]), publishers = split(row$publishers[1]), words = row$words[1])
@@ -326,6 +330,13 @@ erw_fetch <- function(table, entity = NULL, variable = NULL, start = NULL, end =
                live = .erw_live_read(table, shape, entity, variable, start, end),
                redivis = .erw_redivis_read(table))
   df <- .erw_filter(.erw_types(df, shape), shape, entity, variable, start, end)
+  if (nrow(df) == 0 && (length(start) > 0 || length(end) > 0)) {
+    cov <- .erw_record("coverage")
+    row <- cov[cov$table == table, , drop = FALSE]
+    message(sprintf("No rows of %s start in [%s, %s); its rows run from %s to %s.", table,
+                    if (length(start)) start else "the first row", if (length(end)) end else "the last row",
+                    row$ts_min[1], row$ts_max[1]))
+  }
   where <- switch(backend, local = "local files", live = "the live set", redivis = "Redivis datapages.erw:b9wm latest release")
   fetched <- format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
   attr(df, "erw_version") <- sprintf("ERW %s: %s; ERW commit unknown; fetched %s; %d rows", table, where, fetched, nrow(df))

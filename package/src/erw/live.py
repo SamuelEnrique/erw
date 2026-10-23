@@ -18,7 +18,8 @@ from typing import Dict, List, Optional, Tuple
 
 import pandas as pd
 
-from .backends import ERWDataNotFound
+from .backends import not_found, ERWDataNotFound
+from .errors import say
 from .remote import SupabaseBackend, _as_text, _secret
 from . import counter
 
@@ -34,8 +35,7 @@ class LiveBackend(SupabaseBackend):
         url = url or _secret("ERW_LIVE_URL", required=False) or _secret("SUPABASE_URL", required=False)
         key = key or _secret("ERW_LIVE_KEY", required=False) or _secret("SUPABASE_ANON_KEY", required=False)
         if not url or not key:
-            raise ERWDataNotFound("The live set needs its address and key: set ERW_LIVE_URL and ERW_LIVE_KEY "
-                                  "(the ERW gives them on request; the site reads them on its server only).")
+            raise ERWDataNotFound(say("live_keys"))   # session 1013
         u = urllib.parse.urlparse(url.strip())
         self.url = f"{u.scheme}://{u.netloc}"
         self.key = key.strip()
@@ -58,13 +58,14 @@ class LiveBackend(SupabaseBackend):
             body = e.read().decode("utf-8", "replace")[:300]
             raise ERWDataNotFound(f"the live set answered HTTP {e.code} for {table}: {body}") from None
         except urllib.error.URLError as e:
-            raise ConnectionError(f"The live set could not be reached ({e.reason}); check the network and "
-                                  "ERW_LIVE_URL.") from None
+            raise ConnectionError(say("no_network", where="live set", reason=e.reason)) from None   # session 1013
 
     def _select(self, table: str, filters: Optional[List[Tuple[str, str]]] = None, **eq) -> List[dict]:
         rows, start = [], 0
         while True:
             batch = self._get(table, page_params(table, filters, start, **eq))
+            if len(batch) > PAGE:   # session 1013: the server's row limit is the package's to keep, not the reader's
+                raise RuntimeError(say("row_limit", got=len(batch), page=PAGE))
             rows += batch
             if len(batch) < PAGE:
                 return rows
@@ -74,7 +75,7 @@ class LiveBackend(SupabaseBackend):
         """The table's rows, with optional PostgREST filters on its shape table (`entity=in.(...)`,
         `ts_utc=gte....`), applied by the server."""
         if name not in self.list_tables():
-            raise ERWDataNotFound(f"No ERW table named {name!r} in {self.describe()}")
+            raise ERWDataNotFound(not_found(name, self.list_tables()))   # session 1013
         cat = self._catalogue().set_index("table_name")
         interval = cat.loc[name, "interval"]
         shape = "entities" if interval == "snapshot" else ("events" if interval == "event" else "series")
@@ -99,7 +100,7 @@ class LiveBackend(SupabaseBackend):
     def columns(self, name: str) -> List[str]:
         cat = self._catalogue().set_index("table_name")
         if name not in cat.index:
-            raise ERWDataNotFound(f"No ERW table named {name!r} in {self.describe()}")
+            raise ERWDataNotFound(not_found(name, self.list_tables()))   # session 1013
         cols_json = cat.get("columns", pd.Series(dtype=object)).get(name)
         return json.loads(cols_json) if isinstance(cols_json, str) and cols_json else []
 

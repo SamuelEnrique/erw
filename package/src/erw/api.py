@@ -264,9 +264,10 @@ def coverage(table: Optional[str] = None, backend: Optional[str] = None) -> pd.D
 
 
 def _not_found(name: str, names: List[str]) -> str:
+    """Session 1013: the sentence of errors.WORDS["not_found"], with the tables of a close name."""
     import difflib
-    near = difflib.get_close_matches(name, names, n=3, cutoff=0.6)
-    return f"No ERW table named {name!r}." + (f" Tables with a close name: {', '.join(near)}." if near else "")
+    from . import errors
+    return errors.say("not_found", table=name, near=errors.near(difflib.get_close_matches(name, names, n=3, cutoff=0.6)))
 
 
 def tables(backend: Optional[str] = None) -> pd.DataFrame:
@@ -568,6 +569,8 @@ def _fetch_one(name, start, end, nodes, variable, where, backend):
         shape = _live_shape(b, name)
         filters = series_filters(nodes, variable, start, end, shape)
     df = _subset(_read(name, where or None, b, filters), start, end, nodes, variable)
+    if df.empty and (start is not None or end is not None):
+        _empty_window(name, start, end)
     meta = dict(df.attrs["erw"])
     if where:
         meta["partition"] = where
@@ -577,6 +580,24 @@ def _fetch_one(name, start, end, nodes, variable, where, backend):
     meta["version_line"] = _version_line(name, b, fetched, len(df))
     df.attrs["erw"] = meta
     return df
+
+
+class ERWEmptyWindow(UserWarning):
+    """Session 1013: a window of a table with no rows in it; the frame is returned, empty, with this sentence."""
+
+
+def _empty_window(name, start, end):
+    from .errors import say
+    span = ("", "")
+    try:
+        row = coverage(name).iloc[0]
+        span = tuple(t.strftime(TS_FMT) if pd.notna(t) else "?" for t in (row["ts_min"], row["ts_max"]))
+    except Exception:  # noqa: BLE001 - the sentence without the table's span
+        span = ("?", "?")
+    s = _utc(start).strftime(TS_FMT) if start is not None else "the first row"
+    e = _utc(end).strftime(TS_FMT) if end is not None else "the last row"
+    warnings.warn(ERWEmptyWindow(say("empty_window", table=name, start=s, end=e, ts_min=span[0], ts_max=span[1])),
+                  stacklevel=4)
 
 
 def _live_shape(b, name: str) -> str:
@@ -601,8 +622,8 @@ def _serves_publicly(b: Backend) -> bool:
 def refusal(name: str) -> str:
     """Session 1001: the words a held table is refused with (docs/methods/packages.md, "What a held table does")."""
     lic = license(name)
-    return (f"{name} is not public: {lic['verdict']}. {lic['words']} The ERW's license record: "
-            f"{licenses.LICENSES_URL}")
+    from .errors import say   # session 1013: the one wording, errors.WORDS["held"]
+    return say("held", table=name, verdict=lic["verdict"], words=lic["words"], url=licenses.LICENSES_URL)
 
 
 def _license_check(name: str, b: Backend) -> Dict:

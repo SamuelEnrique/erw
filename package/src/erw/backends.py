@@ -40,6 +40,13 @@ class ERWLicenseWarning(UserWarning):
     own license). The message is the license's words."""
 
 
+def not_found(name: str, names) -> str:
+    """Session 1013: errors.WORDS["not_found"], with the tables of a close name (difflib)."""
+    import difflib
+    from . import errors
+    return errors.say("not_found", table=name, near=errors.near(difflib.get_close_matches(name, list(names), n=3, cutoff=0.6)))
+
+
 class Backend(ABC):
     """What any ERW storage backend must provide.
 
@@ -121,9 +128,7 @@ class LocalBackend(Backend):
     def _path(self, name: str) -> Path:
         path = self.data_dir / f"{name}.csv"
         if not path.is_file():
-            raise ERWDataNotFound(
-                f"No ERW table named {name!r} in {self.data_dir}. "
-                f"Available: {', '.join(self.list_tables())}")
+            raise ERWDataNotFound(not_found(name, self.list_tables()))   # session 1013: the one sentence
         return path
 
     def list_tables(self) -> List[str]:

@@ -106,7 +106,7 @@ program define _erw_shape, rclass
     _erw_row `table', file(`"`file'"') key(table) fields(interval)
 
     if r(found) == 0 {
-        display as error "erw: no ERW table named `table' (erw tables lists them)"
+        display as error "No ERW table named `table'. erw tables lists every table."
         exit 111
     }
 
@@ -205,7 +205,7 @@ program define _erw_live_read
     syntax anything(name=table), SHAPE(string) [ENTity(string) VARiable(string) Start(string) End(string) LIMit(integer 0)]
 
     if `"$ERW_LIVE_URL"' == "" | `"$ERW_LIVE_KEY"' == "" {
-        display as error "erw: the live set needs its address and key: global ERW_LIVE_URL and global ERW_LIVE_KEY (the ERW gives them on request)"
+        display as error "Set ERW_LIVE_URL and ERW_LIVE_KEY to the live set's address and key (the ERW gives them on request), then try again."
         exit 198
     }
 
@@ -236,7 +236,7 @@ program define _erw_live_read
         shell curl -sS -f -H "apikey: $ERW_LIVE_KEY" -H "Authorization: Bearer $ERW_LIVE_KEY" -H "Accept: text/csv" -o "`page'" "`url'"
         capture confirm file `"`page'"'
         if _rc {
-            display as error "erw: the live set did not answer (curl wrote no file). Check the network, ERW_LIVE_URL and ERW_LIVE_KEY."
+            display as error "The ERW's live set could not be reached (curl wrote no file). Check the network connection, then try again."
             exit 631
         }
         capture quietly _erw_import using `"`page'"'
@@ -244,6 +244,10 @@ program define _erw_live_read
             quietly drop _all
         }
         local got = _N
+        if `got' > `page_rows' {
+            display as error "The live set answered a page of `got' rows where `page_rows' were asked for: a fault of the package, not of your call; please tell the ERW (https://github.com/SamuelEnrique/erw/issues)."
+            exit 459
+        }
         tempfile p
         quietly save `"`p'"', emptyok
         if `first' {
@@ -270,7 +274,7 @@ program define _erw_redivis_read
     syntax anything(name=table) [, LIMit(integer 0)]
 
     if `"$REDIVIS_API_TOKEN"' == "" {
-        display as error "erw: set global REDIVIS_API_TOKEN to a token from https://redivis.com/workspace/settings/tokens"
+        display as error "Set REDIVIS_API_TOKEN to a token from https://redivis.com/workspace/settings/tokens, then try again."
         exit 198
     }
 
@@ -287,7 +291,7 @@ program define _erw_redivis_read
     capture confirm file `"`page'"'
 
     if _rc {
-        display as error "erw: Redivis did not answer (curl wrote no file). Check the network and REDIVIS_API_TOKEN."
+        display as error "The ERW's Redivis could not be reached (curl wrote no file). Check the network connection, then try again."
         exit 631
     }
 
@@ -515,6 +519,13 @@ program define _erw_fetch, rclass
 
     _erw_filter, shape(`shape') entity(`entity') variable(`variable') start(`start') end(`end')
 
+    if _N == 0 & ("`start'" != "" | "`end'" != "") {
+        _erw_row `table', file(`"`cov'"') key(table) fields(ts_min ts_max)
+        local s = cond("`start'" == "", "the first row", "`start'")
+        local e = cond("`end'" == "", "the last row", "`end'")
+        display as text "No rows of `table' start in [`s', `e'); its rows run from `r(ts_min)' to `r(ts_max)'."
+    }
+
     local where = cond("`backend'" == "local", "local files", cond("`backend'" == "live", "the live set", "Redivis datapages.erw:b9wm latest release"))
 
     local stamp "`c(current_date)' `c(current_time)'"
@@ -604,7 +615,7 @@ program define _erw_coverage
     if `"`table'"' != "" {
         quietly keep if table == `"`table'"'
         if _N == 0 {
-            display as error "erw: no ERW table named `table' (erw tables lists them)"
+            display as error "No ERW table named `table'. erw tables lists every table."
             exit 111
         }
     }
@@ -620,7 +631,7 @@ program define _erw_license, rclass
     _erw_row `table', file(`"`lic'"') key(table) fields(verdict status status_from decided_by publishers words)
 
     if r(found) == 0 {
-        display as error "erw: no ERW table named `table' (erw tables lists them)"
+        display as error "No ERW table named `table'. erw tables lists every table."
         exit 111
     }
 
