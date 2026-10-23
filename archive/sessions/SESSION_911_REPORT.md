@@ -15,7 +15,7 @@
 ## Decisions made without you
 
 - **The workbook, not the CSV:** the same 2,257 rows, but in clean UTF-8 text (the CSV is Windows-1252) and with ORNL's field descriptions, which name each column's unit and meaning.
-- **The workbook taken by its link on the landing page.** The page also shows a form (name, e-mail, organization) beside the download links; the links themselves are public addresses on ORNL's S3 bucket, and the policy says the data are shared without restriction. No form was filled.
+- **The workbook taken by its link on the landing page.** The page also shows a form (a required name and other fields) beside the download links; the links themselves are public addresses on ORNL's S3 bucket, and the policy says the data are shared without restriction. No form was filled.
 - **`capacity_mw` is hydro and pumped storage capacity summed;** each is also in its own column. `status` and `operator` are left empty: the database lists plants in operation and names owners, not operators.
 - **The table flagged `public`** by the policy above.
 
