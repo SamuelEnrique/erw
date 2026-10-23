@@ -88,3 +88,13 @@ On production (chain 064's 766 to 777 served since 21:30 UTC), 22 October 2026 a
 
 - **The tab still makes no read of the database**: chain 064 added no server read (772's class filter and 777's hand-over work in the browser), `tests/test_session716.py` holds on this branch, and session 761's timed run (0 read lines) stands for the server's code.
 - **The pages**: the hub table 1,585,500 bytes (unchanged since 737); **the node list 226,915 bytes**, from 340,129 at 761, after 777's hand-over column by column; the third card 41,388 bytes.
+
+## Again (session 972, chain 065)
+
+On production (chain 065's 788 to 799 served since 23:59 UTC), 23 October 2026 at about 00:45 UTC.
+
+- **The tab still makes no read of the database**: chain 065 added no server read (793's download works in the browser from the props the table already had; 794's pair and 795's "settles at the same prices" line read `site/data/siting/nodes.json`, a file of the build), `tests/test_session716.py` holds on this branch, and session 761's timed run (0 read lines) stands for the server's code.
+- **The pages**:
+  - the hub table 1,596,087 bytes, from 1,585,500 at 783: 793's download, 10.6 KB;
+  - the node list 226,920 bytes, unchanged;
+  - two nodes as A and B (BBREEZE_1_2 with PALACIOS_RN) 1,642,603 bytes: the hub table's page and the two panels with 794's chart and month table, 46.5 KB more.
