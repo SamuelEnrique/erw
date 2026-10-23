@@ -21,3 +21,8 @@
 - New: `docs/state/note_2026-10-27_data.md`, this report. Changed (on main): `queue/next/048-night-23-october-data-utility-files-products.md`.
 
 ## Addendum: the landing
+
+- Merged origin/main into the chain's branch (`756649b6`); the whole suite from the chain's worktree: 6,042 tests in 580 s, one failure, `test_session705`, the worktree artifact (it passes in the main checkout and skips on GitHub). `scripts/freeze.py status`: no freeze.
+- Before snapshot `c047-land-before`, then `task/867-880-data` pushed at 04:11:58 UTC; the code branch's checks (run 39899039013) passed and merged it as `2f416111` at about 04:21 UTC.
+- Vercel: the deploy of `2f416111` was rate limited ("retry in 24 hours"), as chain 046's was, so the live pages are the last deployed build. After snapshot `c047-land-after`: compare says 0 differences in all (expected: every page is in review and no page's read changed).
+- Then `scripts/chain_queue.py next`, which takes chain 048.
