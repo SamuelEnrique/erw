@@ -30,8 +30,12 @@ license record come from `global ERW_REPO` (a clone) or else from GitHub.
 ```stata
 global ERW_LIVE_URL "the address the ERW gave you"
 global ERW_LIVE_KEY "the key the ERW gave you"
+erw tables, clear
+erw coverage eia_fuel_spot_prices, clear
 erw fetch eia_fuel_spot_prices, entity(eia:henry_hub) start(2025-01-01) end(2026-01-01) clear
 erw cite eia_fuel_spot_prices
+erw license iso_rtm_hub_prices
+erw standard eia860m_retired_generators, clear
 ```
 
 The fetch says 247 rows (fixture 01 of `fixtures/`, recorded from the live set on 23 October 2026). `examples.do`

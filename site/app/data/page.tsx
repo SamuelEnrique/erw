@@ -13,6 +13,7 @@ import site from "@/data/site.json";
 import { PAGES } from "@/lib/pages";
 import { TIER_LABEL, TIER_TITLE, isModelExtracted } from "@/lib/tiers";
 import { LICENSE_NEEDED, licenseNeeded, licensePublishers } from "@/lib/license";  // session 207: "license needed" from 20 October 2026
+import { PACKAGES_CITATION, PACKAGES_HELD, PACKAGES_LEAD, PANELS } from "@/lib/packages";  // session 1007
 
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "Data" };
@@ -185,6 +186,34 @@ export default async function Data() {
             <pre className="mt-1 overflow-x-auto border border-rule bg-panel p-2 font-mono text-xs">{site.package.clone_install.join("\n")}</pre>
           </div>
         </div>
+      </Section>
+
+      {/* session 1007 (chain 070): the three packages, every line the specification's or a package README's (lib/packages.ts) */}
+      <Section title="Use the ERW in your tools" id="tools">
+        <p className="mb-3 max-w-3xl text-sm">
+          {PACKAGES_LEAD} The specification: <Link href="/data/methods/packages">the packages&apos; method note</Link>.
+        </p>
+        <div className="grid gap-6 md:grid-cols-3 [&>*]:min-w-0" data-tools="1">
+          {PANELS.map((p) => (
+            <div key={p.name}>
+              <h3 className="mb-1 text-lg">{p.name}</h3>
+              <pre className="overflow-x-auto border border-rule bg-panel p-2 font-mono text-xs">{p.install.join("\n")}</pre>
+              <pre className="mt-2 overflow-x-auto border border-rule bg-panel p-2 font-mono text-xs">{p.calls.join("\n")}</pre>
+              <p className="mt-2 text-xs text-muted">
+                <a href={p.readme}>The {p.name} package&apos;s README</a>
+              </p>
+            </div>
+          ))}
+        </div>
+        <p className="mt-3 max-w-3xl text-xs text-muted">
+          The citation each package writes: <code className="font-mono">{PACKAGES_CITATION}</code> {PACKAGES_HELD}
+        </p>
+        <p className="mt-2 max-w-3xl text-xs text-muted">
+          The site&apos;s own download (Download CSV, above) opens with the table&apos;s provenance header, each line beginning with{" "}
+          <code className="font-mono">#</code> (the source report, its address, when it was retrieved), then the line{" "}
+          <code className="font-mono"># Downloaded from the ERW site&apos;s live set (Supabase) at</code> the time, with the rows counted, and then the
+          table&apos;s columns in their CSV order. The three packages skip the <code className="font-mono">#</code> lines as they read.
+        </p>
       </Section>
 
       <Section title="Data dictionary" id="dictionary">

@@ -29,11 +29,14 @@ for, else Redivis. The record files come from `ERW_REPO` (a clone) or else from 
 ```r
 library(erw)
 Sys.setenv(ERW_LIVE_URL = "the address the ERW gave you", ERW_LIVE_KEY = "the key the ERW gave you")
+erw_tables()
+erw_coverage("eia_fuel_spot_prices")
 h <- erw_fetch("eia_fuel_spot_prices", entity = "eia:henry_hub", start = "2025-01-01", end = "2026-01-01")
 nrow(h)                      # 247 (fixture 01, recorded from the live set on 23 October 2026)
 attr(h, "erw_version")
 erw_cite("eia_fuel_spot_prices", h)
 erw_license("iso_rtm_hub_prices")$words
+erw_standard("eia860m_retired_generators")$columns
 ```
 
 `vignette("erw")` reproduces two of the site's charts (the Grid tool's ERCOT demand, the price board's Henry Hub).
