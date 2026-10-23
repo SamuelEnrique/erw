@@ -361,6 +361,7 @@ catalogue_hold:
   - noaa_climdiv_state_monthly
   - ornl_tedb_transportation_annual
   - doe_grip_selections
+  - ieso_ontario_demand_hourly
   - lbnl_hybrid_ppa_prices
   - lbnl_solar_projects
   - ornl_npd_potential
