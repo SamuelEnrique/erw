@@ -229,6 +229,7 @@ eia:uranium_marketing_annual,U.S. Energy Information Administration (EIA),"Urani
 eia:uranium_production_quarterly,U.S. Energy Information Administration (EIA),Domestic Uranium Production Report (Quarterly),https://www.eia.gov/uranium/production/quarterly/,https://www.eia.gov/uranium/production/quarterly/,public,eia_uranium_facilities;eia_uranium_production_quarterly,2026-10-23,2026-10-23
 ep.ft.com,ep.ft.com,news stories,,,internal,news_index;news_stories,2026-09-26,2026-10-22
 epa:egrid,U.S. Environmental Protection Agency (EPA),Emissions & Generation Resource Integrated Database (eGRID),https://www.epa.gov/egrid/download-data,https://www.epa.gov/egrid/download-data,public,egrid_power_plants,2026-10-21,2026-10-21
+epa:egrid_subregions,U.S. Environmental Protection Agency (EPA),eGRID2023 (subregion sheet),https://www.epa.gov/egrid/download-data,https://www.epa.gov/system/files/documents/2025-06/egrid2023_data_rev2.xlsx,public,egrid_subregions_annual,2026-10-23,2026-10-23
 epa:ghgrp,U.S. Environmental Protection Agency (EPA),"Greenhouse Gas Reporting Program, data summary spreadsheets",https://www.epa.gov/ghgreporting/data-sets,https://www.epa.gov/ghgreporting/data-sets,public,epa_ghgrp_power_co2,2026-10-21,2026-10-21
 equinix:us-data-centers,Equinix,Equinix public list of data center sites and regions,https://www.equinix.com/data-centers/americas-colocation/united-states-colocation,,public,datacenter_operator_sites,2026-09-28,2026-10-12
 ercot.com,ercot.com,news stories,,,internal,news_index;news_stories,2026-09-25,2026-10-22
