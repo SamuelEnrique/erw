@@ -15,6 +15,7 @@
 // carries its name and no role: AccessLint allows no "group" on an svg (aria/aria-allowed-role); its own role, a graphics
 // document, keeps the circles a keyboard reaches.
 import { useMemo, useState, type PointerEvent } from "react";
+import { caisoJoinDay } from "@/lib/caisoJoin";
 import { cardWidth } from "@/lib/networkMap";
 import { GRAVITY, gravityEdges, gravityLayout, gravityTip, type GravityLayout, type GravityWindow } from "@/lib/networkGravity";
 
@@ -105,7 +106,7 @@ export function NetworkGravity({ gen, net, names, colorOf, at, pick, neighbours,
       <p className="border-t border-rule px-3 py-2 text-xs text-muted" data-gravity-note="1">
         Every circle is EIA-930&apos;s net generation, one source for all eight; CAISO&apos;s reads smaller and more pulled in since December 2025, when its EIA-930 generation by fuel broke (the Mix and Clean views draw California from CAISO&apos;s own supply by fuel from mid-December 2025; this shape does not).
         A circle&apos;s pull follows the square root of its net imports over its generation, full at {Math.round(GRAVITY.S_FULL * 100)} percent (session 299; a straight line until then), so a small importer moves visibly. The 63 other balancing authorities are not drawn.
-        {" "}<span data-gravity-public="1">Every place and size is drawn from EIA-930&apos;s public interchange and net generation only, for every grid, PJM, MISO, ISO-NE and NYISO included, whose own tables are held or paused here: no grid operator&apos;s own table places or sizes a circle. The color is carbon intensity (carbon_intensity_hourly): EIA-930&apos;s emissions over its net generation, and for California since 16 December 2025 over CAISO&apos;s own generation.</span>
+        {" "}<span data-gravity-public="1">Every place and size is drawn from EIA-930&apos;s public interchange and net generation only, for every grid, PJM, MISO, ISO-NE and NYISO included, whose own tables are held or paused here: no grid operator&apos;s own table places or sizes a circle. The color is carbon intensity (carbon_intensity_hourly): EIA-930&apos;s emissions over its net generation, and for California since {caisoJoinDay()} over CAISO&apos;s own generation.</span>
       </p>
     </div>
   );

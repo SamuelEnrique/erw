@@ -52,7 +52,7 @@ class TheShape(unittest.TestCase):
         g = src("site", "app", "network", "NetworkGravity.tsx")
         block = g[g.index('data-gravity-public="1"'):]
         for words in ("EIA-930&apos;s public interchange and net generation only, for every grid", "PJM, MISO, ISO-NE and NYISO",
-                      "no grid operator&apos;s own table places or sizes a circle", "carbon_intensity_hourly", "16 December 2025"):
+                      "no grid operator&apos;s own table places or sizes a circle", "carbon_intensity_hourly", "for California since {caisoJoinDay()}"):
             self.assertIn(words, block)
         f = src("site", "components", "grid", "NetworkFigures.tsx")
         self.assertIn('data-gravity-public="1"', f)
