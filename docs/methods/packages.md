@@ -123,6 +123,7 @@ Each failure a reader can hit answers with one sentence that says what to do, th
 - live_keys: "Set ERW_LIVE_URL and ERW_LIVE_KEY to the live set's address and key (the ERW gives them on request), then try again."
 - bad_date (session 1056): "The {side} {value} is not a date the ERW reads: write it as YYYY-MM-DD, or YYYY-MM-DDTHH:MM:SSZ in UTC, then try again."
 - bad_window (session 1056): "The start {start} is not before the end {end}, so the window [start, end) holds no time: give a start before the end, then try again."
+- not_live (session 1056): "{table} is not in the live set: {tables_call} says which tables are (in_live); read it from the Stanford dataset or a clone's tables instead." (Before it, Python said "No ERW table named ...", which is wrong for a table of the record, and Stata and R returned an empty dataset.)
 - row_limit: "The live set answered a page of {got} rows where {page} were asked for: a fault of the package, not of your call; please tell the ERW (https://github.com/SamuelEnrique/erw/issues)."
 
 A held table, a table not found, a date that cannot be read and a start not before the end stop the call (the last two before any request: Python's `erw.ERWBadWindow`, Stata's error 198, R's `stop`). An empty window does not: the frame (or dataset) comes back empty, with the sentence as a warning (Python, `erw.api.ERWEmptyWindow`), a note (Stata) or a message (R).

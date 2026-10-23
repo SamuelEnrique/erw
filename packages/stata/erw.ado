@@ -676,6 +676,11 @@ program define _erw_fetch, rclass
         exit 498
     }
 
+    if "`backend'" == "live" & "`window'" == "none" {
+        display as error "`table' is not in the live set: erw tables says which tables are (in_live); read it from the Stanford dataset or a clone's tables instead."
+        exit 601
+    }
+
     if "`verdict'" != "" & "`verdict'" != "public" {
         display as text `"(`table' is not public (`verdict'): `macval(words)' Read from local files, your own copy under its own license.)"'
     }

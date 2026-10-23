@@ -407,6 +407,9 @@ erw_fetch <- function(table, entity = NULL, variable = NULL, start = NULL, end =
   words <- if (nrow(lic)) lic$words[1] else ""
   if (backend == "auto") backend <- .erw_route(table, if (nrow(lic)) lic$live_window[1] else "", start)
   if (!backend %in% c("local", "live", "redivis")) stop("erw: backend is auto, local, live or redivis", call. = FALSE)
+  if (backend == "live" && nrow(lic) && identical(lic$live_window[1], "none")) {
+    stop(sprintf("%s is not in the live set: erw_tables() says which tables are (in_live); read it from the Stanford dataset or a clone's tables instead.", table), call. = FALSE)
+  }
   if (nzchar(verdict) && verdict != "public") {
     if (backend != "local") {
       stop(sprintf("%s is not public: %s. %s The ERW's license record: %s", table, verdict, words,

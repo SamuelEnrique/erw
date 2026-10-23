@@ -583,6 +583,10 @@ def _fetch_one(name, start, end, nodes, variable, where, backend):
     _check_window(start, end)
     b = _route(name, backend, start)
     lic = _license_check(name, b)
+    from .live import LiveBackend
+    if isinstance(b, LiveBackend) and licenses.rows().get(_current(name), {}).get("live_window") == "none":
+        from .errors import say
+        raise ERWDataNotFound(say("not_live", table=name))   # session 1056: an ERW table, not in the live set
     filters = None
     from .live import LiveBackend, series_filters
     if isinstance(b, LiveBackend) and name not in migrations():

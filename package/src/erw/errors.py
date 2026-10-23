@@ -19,6 +19,9 @@ WORDS = {
                 "then try again.",
     "bad_window": "The start {start} is not before the end {end}, so the window [start, end) holds no time: give a start "
                   "before the end, then try again.",
+    # session 1056: a table of the record that the live set does not hold (it said "No ERW table named", which is wrong)
+    "not_live": "{table} is not in the live set: {tables_call} says which tables are (in_live); read it from the Stanford "
+                "dataset or a clone's tables instead.",
     "row_limit": "The live set answered a page of {got} rows where {page} were asked for: a fault of the package, not of "
                  "your call; please tell the ERW (https://github.com/SamuelEnrique/erw/issues).",
 }
