@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { Cite } from "@/components/Cite";
+import { CopyLine } from "@/components/CopyLine";  // session 1015
 import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";
 import { Section } from "@/components/Section";
@@ -215,8 +216,13 @@ export default async function Data() {
           {PANELS.map((p) => (
             <div key={p.name}>
               <h3 className="mb-1 text-lg">{p.name}</h3>
-              <pre className="overflow-x-auto border border-rule bg-panel p-2 font-mono text-xs">{p.install.join("\n")}</pre>
-              <pre className="mt-2 overflow-x-auto border border-rule bg-panel p-2 font-mono text-xs">{p.calls.join("\n")}</pre>
+              {/* session 1015: each line with a control that copies it (components/CopyLine.tsx) */}
+              <div className="grid gap-1 border border-rule bg-panel p-2">
+                {p.install.map((ln) => <CopyLine key={ln} line={ln} />)}
+              </div>
+              <div className="mt-2 grid gap-1 border border-rule bg-panel p-2">
+                {p.calls.map((ln) => <CopyLine key={ln} line={ln} />)}
+              </div>
               <p className="mt-2 text-xs text-muted">
                 <a href={p.readme}>The {p.name} package&apos;s README</a>
               </p>
