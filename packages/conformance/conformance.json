@@ -1,0 +1,305 @@
+{
+  "made_by": "session 1003's fixtures' calls and session 1006 (chain 070), the Python package on the live set",
+  "made_at": "2026-10-23T03:11:54Z",
+  "via": "Via the Energy Research Warehouse (ERW), table",
+  "calls": [
+    {
+      "n": 1,
+      "call": "fetch",
+      "args": {
+        "table": "eia_fuel_spot_prices",
+        "entity": [
+          "eia:henry_hub"
+        ],
+        "start": "2025-01-01",
+        "end": "2026-01-01"
+      },
+      "expect": {
+        "rows": 247,
+        "first": "2025-01-02T00:00:00Z",
+        "last": "2025-12-31T00:00:00Z"
+      }
+    },
+    {
+      "n": 2,
+      "call": "fetch",
+      "args": {
+        "table": "eia_fuel_spot_prices",
+        "entity": [
+          "eia:wti_cushing",
+          "eia:brent"
+        ],
+        "start": "2026-09-01",
+        "end": "2026-10-01"
+      },
+      "expect": {
+        "rows": 44,
+        "first": "2026-09-01T00:00:00Z",
+        "last": "2026-09-30T00:00:00Z"
+      }
+    },
+    {
+      "n": 3,
+      "call": "fetch",
+      "args": {
+        "table": "carbon_intensity_monthly",
+        "entity": [
+          "eia930:CISO"
+        ],
+        "variable": [
+          "intensity_demand"
+        ]
+      },
+      "expect": {
+        "rows": 71,
+        "first": "2018-08-01T00:00:00Z",
+        "last": "2026-09-01T00:00:00Z"
+      }
+    },
+    {
+      "n": 4,
+      "call": "fetch",
+      "args": {
+        "table": "ercot_peak_premium_annual",
+        "entity": [
+          "HB_HUBAVG"
+        ],
+        "end": "2026-01-01"
+      },
+      "expect": {
+        "rows": 308,
+        "first": "2015-01-01T00:00:00Z",
+        "last": "2025-01-01T00:00:00Z"
+      }
+    },
+    {
+      "n": 5,
+      "call": "fetch",
+      "args": {
+        "table": "caiso_grid_emergencies",
+        "start": "2022-09-01",
+        "end": "2022-09-15"
+      },
+      "expect": {
+        "rows": 40,
+        "first": "2022-09-01T00:00:00Z",
+        "last": "2022-09-09T00:00:00Z"
+      }
+    },
+    {
+      "n": 6,
+      "call": "fetch",
+      "args": {
+        "table": "eia860m_retired_generators",
+        "variable": [
+          "generator"
+        ]
+      },
+      "expect": {
+        "rows": 249,
+        "first": "2025-01-01T00:00:00Z",
+        "last": "2026-08-01T00:00:00Z"
+      }
+    },
+    {
+      "n": 7,
+      "call": "fetch",
+      "args": {
+        "table": "eia930_all_demand",
+        "entity": [
+          "eia930:ERCO"
+        ],
+        "variable": [
+          "demand_mw"
+        ],
+        "start": "2026-10-18",
+        "end": "2026-10-19"
+      },
+      "expect": {
+        "rows": 24,
+        "first": "2026-10-18T00:00:00Z",
+        "last": "2026-10-18T23:00:00Z"
+      }
+    },
+    {
+      "n": 8,
+      "call": "fetch",
+      "args": {
+        "table": "state_generation_mix_monthly",
+        "entity": [
+          "eia:TX"
+        ],
+        "start": "2025-01-01",
+        "end": "2026-01-01"
+      },
+      "expect": {
+        "rows": 98,
+        "first": "2025-01-01T00:00:00Z",
+        "last": "2025-12-01T00:00:00Z"
+      }
+    },
+    {
+      "n": 9,
+      "call": "fetch",
+      "args": {
+        "table": "iso_curtailment_monthly",
+        "start": "2025-01-01",
+        "end": "2026-01-01"
+      },
+      "expect": {
+        "rows": 312,
+        "first": "2025-01-01T00:00:00Z",
+        "last": "2025-12-01T00:00:00Z"
+      }
+    },
+    {
+      "n": 10,
+      "call": "fetch",
+      "args": {
+        "table": "carbon_intensity_daily",
+        "entity": [
+          "eia930:ERCO"
+        ],
+        "start": "2026-10-01",
+        "end": "2026-10-08"
+      },
+      "expect": {
+        "rows": 14,
+        "first": "2026-10-01T00:00:00Z",
+        "last": "2026-10-07T00:00:00Z"
+      }
+    },
+    {
+      "n": 11,
+      "call": "cite",
+      "args": {
+        "table": "eia_fuel_spot_prices"
+      },
+      "expect": {
+        "before_clause": "U.S. Energy Information Administration (EIA). Natural Gas Spot and Futures Prices (NYMEX), daily; Spot Prices for Crude Oil and Petroleum Products. Via the Energy Research Warehouse (ERW), table `eia_fuel_spot_prices`,"
+      }
+    },
+    {
+      "n": 12,
+      "call": "cite",
+      "args": {
+        "table": "carbon_intensity_monthly"
+      },
+      "expect": {
+        "before_clause": "Energy Research Warehouse (ERW), derived. California's carbon intensity of generation from the join of 16 December 2025 (docs/methods/eia930_caiso_break.md); Carbon intensity per balancing authority (docs/methods/emissions.md). Via the Energy Research Warehouse (ERW), table `carbon_intensity_monthly`,"
+      }
+    },
+    {
+      "n": 13,
+      "call": "cite",
+      "args": {
+        "table": "eia860m_retired_generators"
+      },
+      "expect": {
+        "before_clause": "U.S. Energy Information Administration (EIA). Form EIA-860M, Monthly Update to the Annual Electric Generator Report. Via the Energy Research Warehouse (ERW), table `eia860m_retired_generators`,"
+      }
+    },
+    {
+      "n": 14,
+      "call": "cite",
+      "args": {
+        "table": "caiso_grid_emergencies"
+      },
+      "expect": {
+        "before_clause": "California Independent System Operator (CAISO). Grid Emergencies History Report (1998 to present). Via the Energy Research Warehouse (ERW), table `caiso_grid_emergencies`,"
+      }
+    },
+    {
+      "n": 15,
+      "call": "license",
+      "args": {
+        "table": "eia_fuel_spot_prices"
+      },
+      "expect": {
+        "verdict": "public",
+        "words": "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+      }
+    },
+    {
+      "n": 16,
+      "call": "license",
+      "args": {
+        "table": "iso_rtm_hub_prices"
+      },
+      "expect": {
+        "verdict": "unsettled",
+        "words": "MISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21)."
+      }
+    },
+    {
+      "n": 17,
+      "call": "license",
+      "args": {
+        "table": "pjm_rpm_capacity_prices"
+      },
+      "expect": {
+        "verdict": "internal",
+        "words": "The ERW holds it for its own use only (needs a paid license); it is never redistributed."
+      }
+    },
+    {
+      "n": 18,
+      "call": "refusal",
+      "args": {
+        "table": "iso_rtm_hub_prices",
+        "backend": "live"
+      },
+      "expect": {
+        "message": "iso_rtm_hub_prices is not public: unsettled. MISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21). The ERW's license record: https://github.com/SamuelEnrique/erw/blob/main/docs/licenses.md"
+      }
+    },
+    {
+      "n": 19,
+      "call": "standard",
+      "args": {
+        "table": "eia860m_retired_generators"
+      },
+      "expect": {
+        "shape": "entities",
+        "key": [
+          "entity_id"
+        ]
+      }
+    },
+    {
+      "n": 20,
+      "call": "tables",
+      "args": {
+        "backend": "local",
+        "table": "eia_fuel_spot_prices"
+      },
+      "expect": {
+        "shape": "series",
+        "verdict": "public",
+        "in_live": "yes",
+        "at_least": 299
+      }
+    }
+  ],
+  "requests": {
+    "redivis": 0,
+    "live": 26
+  },
+  "errors": {
+    "templates": {
+      "no_network": "The ERW's {where} could not be reached ({reason}). Check the network connection, then try again.",
+      "not_found": "No ERW table named {table}. {tables_call} lists every table{near}.",
+      "held": "{table} is not public: {verdict}. {words} The ERW's license record: {url}",
+      "empty_window": "No rows of {table} start in [{start}, {end}); its rows run from {ts_min} to {ts_max}.",
+      "redivis_token": "Set REDIVIS_API_TOKEN to a token from https://redivis.com/workspace/settings/tokens, then try again.",
+      "live_keys": "Set ERW_LIVE_URL and ERW_LIVE_KEY to the live set's address and key (the ERW gives them on request), then try again.",
+      "row_limit": "The live set answered a page of {got} rows where {page} were asked for: a fault of the package, not of your call; please tell the ERW (https://github.com/SamuelEnrique/erw/issues)."
+    },
+    "tables_call": {
+      "python": "erw.tables()",
+      "stata": "erw tables",
+      "r": "erw_tables()"
+    },
+    "note": "session 1013: one sentence a failure, the same in the three packages; {tables_call} is each language's call"
+  }
+}

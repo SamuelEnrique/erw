@@ -88,3 +88,39 @@ October, 19 on 22 October); 30 were last run here before 15 October (below).
 3. Decide item 2 above; paste `docs/redivis/release-v1-stanford/README.md` into the description.
 4. Click Release, with a note naming the ERW commit and the date of the run it holds.
 5. Record the release date in `docs/redivis/release-v1-stanford/README.md`'s citation, and the label Redivis gave it.
+
+## After the click: prove the release in each language (session 1010, chain 070)
+
+Once the version is released, each package reads it by default (Redivis's latest released version), and the version line and the citation name its tag. Set your Redivis token first (`REDIVIS_API_TOKEN`). The three fetches below should each give 247 rows, Henry Hub's daily price in 2025 (conformance call 1, `packages/conformance/conformance.json`), and each citation should end with the tag Redivis shows.
+
+Python (`pip install "erw-energy[redivis] @ git+https://github.com/SamuelEnrique/erw.git#subdirectory=package"`):
+
+```python
+import erw
+df = erw.fetch("eia_fuel_spot_prices", entity="eia:henry_hub", start="2025-01-01", end="2026-01-01", backend="redivis")
+print(len(df), df.attrs["erw"]["version_line"]); print(erw.cite("eia_fuel_spot_prices", backend="redivis"))
+```
+
+Stata (`net install erw, from("https://raw.githubusercontent.com/SamuelEnrique/erw/main/packages/stata/") replace`):
+
+```stata
+global REDIVIS_API_TOKEN "your token"
+erw fetch eia_fuel_spot_prices, entity(eia:henry_hub) start(2025-01-01) end(2026-01-01) backend(redivis) clear
+erw cite eia_fuel_spot_prices
+```
+
+R (`remotes::install_github("SamuelEnrique/erw", subdir = "packages/r/erw")`):
+
+```r
+Sys.setenv(REDIVIS_API_TOKEN = "your token")
+h <- erw::erw_fetch("eia_fuel_spot_prices", entity = "eia:henry_hub", start = "2025-01-01", end = "2026-01-01", backend = "redivis")
+print(c(nrow(h), attr(h, "erw_version"))); print(erw::erw_cite("eia_fuel_spot_prices", h))
+```
+
+What session 1010 found on the way (23 October 2026, 11 of its 100 Redivis requests outside the remote test, all reads):
+
+- **The Stata and R packages read Redivis through `https://redivis.com/api/v1/tables/<reference>/rows?format=csv`**, the address Redivis's own client reads small tables with. Redivis answered on it. For the draft, though, the answer was the 100 GB streaming cap of the token's user ("Cannot stream more than 100GB to external environments within a 30 day period. Please use the export API instead."), so the CSV form itself is not yet proven. A reader under the cap is not affected. The Python package falls back to the export when the cap answers (session 665), and the Stata and R packages do not yet.
+- **The released v1.0 holds no ERW table** (404 on `datapages.erw:b9wm.eia_fuel_spot_prices`), as this note says: until the click, the packages' default reads find only the starter table, and they say so.
+- **The draft against the record**: 207 tables listed. Of the 203 in `coverage.csv`, 160 have its row count, and 43 have fewer rows than the record, each a table that grew after its upload. None has more.
+- **`docs/redivis/release-v1-stanford/tables.csv`** now carries each table's fetch line in each package (`fetch_python`, `fetch_stata`, `fetch_r`), and the dataset's `README.md` a section "Read it in Python, Stata or R" (`python warehouse/redivis/release_v1.py --target stanford --calls-only`). `release_v1.py --check` reports 13 tables the record now puts in version 1 that the table list lacks (the data machine's new tables since session 664). A rebuild of the list on the data machine, which holds the tables, adds them: `python warehouse/redivis/release_v1.py --target stanford`.
+

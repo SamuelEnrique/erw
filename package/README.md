@@ -1,121 +1,96 @@
-# `erw`: a Python client for the Energy Research Warehouse (ERW)
+# `erw`: the Energy Research Warehouse in Python
 
-`erw` reads the tables of the Energy Research Warehouse (ERW): day-ahead and
-real-time power prices from six US ISOs (ERCOT back to 2015), EIA-930 hourly
-demand and generation, EIA petroleum, gas and retail series, generator and
-interconnection-queue entities, news events and derived tables, every row
-traceable to the report it came from. It is modeled on the IRW's Python package
-([itemresponsewarehouse/Python-pkg](https://github.com/itemresponsewarehouse/Python-pkg)).
-For AI assistants, read [`llms.txt`](llms.txt) first.
+`erw` reads the tables of the Energy Research Warehouse (ERW): power prices from the US grid operators (ERCOT back to
+2015), EIA's hourly demand and generation, fuel, retail and petroleum series, generators, interconnection queues,
+deals and derived tables, every row traceable to the report it came from. The same six calls exist in Stata and R
+(`packages/stata/`, `packages/r/`); all three follow one specification,
+[`docs/methods/packages.md`](../docs/methods/packages.md). For AI assistants, read [`llms.txt`](llms.txt) first.
 
 ## Install
 
-The repository is public, so the package installs straight from GitHub:
-
 ```bash
 pip install "git+https://github.com/SamuelEnrique/erw.git#subdirectory=package"
-pip install "erw[redivis] @ git+https://github.com/SamuelEnrique/erw.git#subdirectory=package"   # with a backend extra
+pip install "erw-energy[redivis] @ git+https://github.com/SamuelEnrique/erw.git#subdirectory=package"   # to read Redivis
 ```
 
-An install from GitHub has the code but not the tables: point it at data with
-`ERW_BACKEND=redivis` or `ERW_BACKEND=supabase` (below; each needs its extra),
-or with `ERW_DATA_DIR`. With none of them, `erw.info()` stops with "No ERW data
-directory found". The Supabase live set reads with the anon key, public rows
-only:
+pandas is the only dependency. The distribution is named `erw-energy` and imported as `erw`; it is not on PyPI yet.
 
-```bash
-pip install "erw[supabase] @ git+https://github.com/SamuelEnrique/erw.git#subdirectory=package"
-export ERW_BACKEND=supabase ERW_SUPABASE_ROLE=anon
-export SUPABASE_URL=<the project's address> SUPABASE_ANON_KEY=<its anon key>
-```
+## Where the tables come from
 
-The address and the anon key are not published: the site reads them on its
-server only (`docs/reviews/2026-10-10-security.md`), so a reader outside the
-project asks the ERW for them, or reads Redivis or a clone's tables.
+| Backend | What it holds | What it needs |
+|---|---|---|
+| `redivis` | the record: every public table, each released version kept, in the Stanford dataset `datapages.erw:b9wm` (DOI `10.57761/4f55-6d55`) | a Redivis account's token in `REDIVIS_API_TOKEN`, and the `redivis` extra |
+| `live` | the latest rows: a public subset, the price and demand tables for their last 35 days, some small tables whole | the live set's address and anon key in `ERW_LIVE_URL` and `ERW_LIVE_KEY` (the ERW gives them on request) |
+| `local` | the CSV files of a clone's `warehouse/output`, or of `ERW_DATA_DIR` | the files |
 
-From a clone of the erw repository, which reads the clone's tables:
+Each call takes `backend=`: `"auto"`, `"local"`, `"live"` or `"redivis"`. `auto` reads a table from local files when its
+CSV is on disk, else from the live set when the live set holds the window asked for, else from Redivis's latest
+released version. Without `backend=`, a call uses the session's backend: `ERW_BACKEND` (`local`, `live`, `redivis`,
+`supabase` or `auto`) picks one on first use; else local files in a clone; else `auto`. `erw.SupabaseBackend` reads the
+live set through the `supabase` client with the service key, or with `SUPABASE_ANON_KEY` and `ERW_SUPABASE_ROLE=anon`.
 
-```bash
-python -m pip install -e package          # pandas is the only dependency
-python -m pip install -e "package[test]"  # adds pytest, to run the tests
-```
-
-The client reads the CSV tables in the repository's `warehouse/output/`. To
-read them from somewhere else, set `ERW_DATA_DIR` to that directory (and
-`ERW_COVERAGE_CSV` and `ERW_SOURCES_CSV` if the coverage table and source
-registry are not in `../metadata/`).
-
-`internal` tables (PJM data, licensed for internal use only) must never be
-shown publicly: filter with `erw.filter(license="public")`.
-
-From 21 October 2026 a table flagged public whose publisher asks for
-permission is **held: license needed** unless a permission is recorded
-(`warehouse/metadata/license_status.csv`, 42 tables; `docs/licenses.md`).
-`coverage.csv` still says `public` for these, so `erw.filter(license="public")`
-returns them; the site does not offer them and Redivis version 1 leaves them
-out. The reader's guide, [`docs/guide.md`](../docs/guide.md), says what held
-means, how to cite, and how to download a table from the site.
+Until the ERW's first full release is clicked on Redivis, its latest released version (`v1.0`) holds one starter
+table; the editors of the dataset read the draft with `erw.RedivisBackend(version="next")`, which is never citable.
 
 ## Example
 
+The six calls, each once:
+
 ```python
 import erw
-erw.info()                                   # what the warehouse holds, and its data commit
-df = erw.fetch("iso_dam_hub_prices", market="ercot_dam")   # ts_utc is the interval START, in UTC
-print(df.attrs["erw"]["sources"])            # the ISO report(s) behind the numbers
-print(erw.cite("iso_dam_hub_prices"))        # cite the ISO report, and the ERW table
+
+erw.tables()                     # every table: shape, interval, first and last time, rows, license verdict, in the live set, title
+erw.coverage("eia_fuel_spot_prices")   # one table's coverage row, with its verdict and what the live set keeps of it
+
+df = erw.fetch("eia_fuel_spot_prices", entity="eia:henry_hub", start="2025-01-01", end="2026-01-01")
+df.attrs["erw"]["version_line"]  # 'ERW eia_fuel_spot_prices: local files; ERW commit ...; fetched ...Z; 247 rows'
+
+erw.cite("eia_fuel_spot_prices")
+# 'U.S. Energy Information Administration (EIA). Natural Gas Spot and Futures Prices (NYMEX), daily; Spot Prices for
+#  Crude Oil and Petroleum Products. Via the Energy Research Warehouse (ERW), table `eia_fuel_spot_prices`, ...'
+
+erw.license("eia_fuel_spot_prices")["verdict"]   # 'public'
+erw.standard("eia_fuel_spot_prices")["columns"]  # each column: its type (number, utc time, date, text) and whether it is required
 ```
 
-Session 29 moved 54 tables into 6 with the partition in a column
-(`market`, `ba`, `year`): `ercot_dam_hub_prices` is now the `ercot_dam`
-partition of `iso_dam_hub_prices`. An old name still reads, with a
-DeprecationWarning, wherever `warehouse/metadata/table_migrations.csv` is
-found (beside the tables' directory, as `coverage.csv` is, or in the clone).
-Every example of this README, of `docs/guide.md` and of `llms.txt` was run in a
-new virtual environment in session 536, each with its exit code, in
-`archive/sessions/SESSION_536_REPORT.md`.
+- **`fetch(table, entity=, variable=, start=, end=, backend=)`**: `entity` is an entity (`ercot:HB_NORTH`) or a node as
+  the grid operator writes it (`HB_NORTH`); `variable` a series variable, an entity type or an event type; `start`
+  and `end` a window of interval starts in UTC, `[start, end)`. The partitioned tables also take `market=`, `ba=` and
+  `year=` (`erw.fetch("eia930_all_demand", ba="ciso")`). `ts_utc` is a timezone-aware UTC time marking the START of
+  each interval; `value` is a float.
+- **A table that is not public** (`erw.license(t)["verdict"]` is `internal` or `unsettled`) is refused on the live set
+  and on Redivis with the license's words (`erw.ERWLicenseHeld`); read from your own local files, it is returned with an
+  `erw.ERWLicenseWarning` in the same words. `erw.tables()` lists every table, held ones too, with its verdict.
+- **The citation** names the publishers and reports, then the ERW table and where the rows came from: the Redivis
+  version, the live set with its fetch time, or the ERW commit of local files. Cite a released Redivis version, in the
+  release's words: "\<the publishers\>. \<the reports\>. Via the Energy Research Warehouse (ERW), table `<table>`,
+  Redivis dataset `datapages.erw`, version <tag> (released <YYYY-MM-DD>)."
+- **`erw.requests()`** counts the requests the package has made to Redivis and the live set.
 
-`erw.cite` names the data commit. For a released Redivis version, cite it as
-`docs/redivis/release-v1.md` ("How to cite v1") gives: the publisher, the
-report, then "Via the Energy Research Warehouse (ERW), table `<table>`, Redivis
-dataset `energy_research_warehouse`, version v1 (released YYYY-MM-DD)". Version
-1 is pending release; the draft is not citable.
+## Older calls, kept
 
-## Functions
+`erw.info()`, `erw.list_tables()`, `erw.filter(iso=, market=, variable=, node=, start=, end=, license=, sector=)`,
+`erw.sources(table)`, `erw.tier(table)`, `erw.version()` and `erw.migrations()` work as before. An old table name
+(`ercot_dam_hub_prices`, now the `ercot_dam` partition of `iso_dam_hub_prices`) still reads, with a
+DeprecationWarning, through `warehouse/metadata/table_migrations.csv`.
 
-| Function | Returns |
-|---|---|
-| `erw.info(name=None)` | Summary of the warehouse, or of one table (dict; prints unless `quiet=True`) |
-| `erw.list_tables()` | Every table name |
-| `erw.coverage()` | The coverage table as a DataFrame, one row per table, with `license` (`public` or `internal`) |
-| `erw.fetch(name, start=, end=, node=)` | One table as a DataFrame, provenance header in `df.attrs["erw"]`; optional row subset by interval start in [start, end) and node or entity |
-| `erw.fetch([names])` | A dict of name to DataFrame |
-| `erw.filter(iso=, market=, variable=, node=, start=, end=, license=)` | Names of matching tables. With `variable=` or `node=` on local files it reads each table's distinct values once and keeps them on disk (session 34: `ERW_CACHE_DIR`, default `~/.cache/erw`; valid while the file's modification time and size are unchanged; `ERW_FACTS_CACHE=0` turns it off; since session 536 with or without pyarrow, which the package does not require) |
-| `erw.sources(name)` | Source reports, report pages and every file URL behind a table |
-| `erw.cite(name)` | A citation for the source report(s), from the source registry, naming the ERW table and data commit |
-| `erw.version()` | The git commit of the data directory, and whether it has uncommitted changes |
+## The license record
 
-## Tests
-
-`python -m pytest package/tests` runs the tests against the local tables. The Redivis and Supabase backend tests (`tests/test_backends.py`, marker `remote`) query the network and are skipped by default since session 34; run them with `-m remote` or `ERW_REMOTE_TESTS=1`.
-
-## Storage backends
-
-Every function reads through `erw.get_backend()`. Today that is
-`erw.LocalBackend` (CSV files on disk) and, since session 10:
-
-- **`erw.RedivisBackend`** reads the Redivis dataset `energy_research_warehouse` (every table). It needs `REDIVIS_API_TOKEN` and `REDIVIS_OWNER` (`pip install -e "package[redivis]"`).
-- **`erw.SupabaseBackend`** reads the Supabase live set (`warehouse/supabase/live_set.yaml`). It needs `SUPABASE_URL` with `SUPABASE_SERVICE_KEY`. With `SUPABASE_ANON_KEY` and `ERW_SUPABASE_ROLE=anon`, it reads public rows only (`pip install -e "package[supabase]"`).
-
-`ERW_BACKEND=local|redivis|supabase` picks one on first use (since session 536; before, only for
-`erw.set_backend()`) and for `erw.set_backend()`. Any other backend subclasses `erw.Backend` and is passed to `erw.set_backend(...)`. The public functions do not change. `erw.set_backend("/path/to/output")` points the local
-backend at another directory.
+Inside a clone the package reads the repository's own license record (`docs/licenses.md`,
+`warehouse/metadata/license_status.csv`); an installed package reads the copy it carries, `erw/data/tables.csv`,
+written by `python package/tools/build_tables.py` before a build. `internal` tables (PJM's data among them, licensed
+for internal use only) are never shown publicly. From 21 October 2026 a table flagged public whose publisher asks for
+permission is **held: license needed** unless a permission is recorded (42 tables in
+`warehouse/metadata/license_status.csv`). The reader's guide, [`docs/guide.md`](../docs/guide.md), says what held
+means and how to download a table from the site.
 
 ## Tests
 
 ```bash
-python -m pytest package/tests -v
+python -m pytest package/tests -v                                   # against the clone's tables, no network
+ERW_REMOTE_TESTS=1 python -m pytest package/tests -m remote -v      # Redivis and the live set, over the network
 ```
 
-The tests run against the real files in `warehouse/output`, including a check
-that every table's row count equals the count in `docs/coverage.md`.
+`package/tests/test_backends_three.py` reads five tables through the three backends and writes what it found to
+`package/tests/three_backends.json`. The repository's own suite (`python -m unittest discover -s tests`) holds the
+specification's checks without the network (`tests/test_session1001.py`).

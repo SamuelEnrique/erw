@@ -24,7 +24,20 @@
 
 ## The landing
 
-Sessions 970 to 977 land together from this branch (below, once done).
+Sessions 970 to 977 landed in one push (`task/970-977-allgrids`, commit `86dd4ea7`), merged into main at 01:25 UTC (`69a3b9d2`, run 39882656009).
+
+- **The gate**, run twice, because main gained your queue file 070 between the first gate and its push:
+  - on `790080c1` and again on `55e5cab2`: freeze 0; main in the commit; no `task/` branch in flight;
+  - suite 5,966 tests OK (304 skipped) both times; npm ci 0; build 0;
+  - check-values 8,045 of 8,046 values equal. It failed only on the ten held floors, `/digest` before the day's issue (0 of its floor 9), and the 21 October Digest's revised WTI (production the same).
+- **The steps after check-values**, by hand on a build of each commit (locks `s977b`, `s977c`, each on `db_probe`'s 0): check-routes 0 (226 pages, 0 failed), check-cross-checks 0 (92 of 92), check-csp 0 (97 pages, 0 violations).
+- **One merge after the gate**: at 01:11 UTC main held the data machine's update of its own queue file 046 (`a2c3abf1`, `queue/next/046-...` only). It was merged without a third gate (`86dd4ea7` differs from `55e5cab2` by that one file), and GitHub's checks passed on it.
+- **Before the push**: freeze status 0; no other `task/` branch but `task/198-battery-data`; the push conditional on the ancestry check (0).
+- **Snapshots**: `s977b-before` at 01:12 UTC; the push at 01:12:17.
+  - Vercel's status on `69a3b9d2`: "Deployment rate limited, retry in 24 hours" (01:25:59), yet production served 970's card labels by 02:12. The probe read the chart's labels "30", "40", "50" and no "30 to 40".
+  - `s977b-after` at 02:12. `compare s977b-before s977b-after`: **0 differences** on 25 pages, expected (every page is in review).
+- The merged `task/970-977-allgrids` and `wip/977-allgrids` are gone from GitHub; the worktrees of 977 and of the two local builds removed.
+- This record rides on `wip/977-records` and lands with chain 070's first landing.
 
 ## Decisions made without you
 

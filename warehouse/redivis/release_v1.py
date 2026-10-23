@@ -7,6 +7,9 @@ the repository and this machine hold, makes no request and writes nothing to Red
     python warehouse/redivis/release_v1.py                     docs/redivis/release-v1/: tables.csv, variables.csv, README.md
     python warehouse/redivis/release_v1.py --out-dir DIR       read the tables from DIR (a worktree reads the main checkout's)
     python warehouse/redivis/release_v1.py --check             the files agree with coverage and the license record (exit 1 if not)
+    python warehouse/redivis/release_v1.py --target stanford --calls-only
+                                                               session 1010: the README written again and the fetch columns
+                                                               added to tables.csv, from the files as they are (no table read)
 
 Which tables are in v1: every table that coverage.csv flags public and that is public on 21 October 2026, the public
 day: not "license needed" in warehouse/metadata/license_status.csv without a recorded permission, not retired
@@ -15,7 +18,8 @@ draft is named in tables.csv with its reason, so the person removes exactly thos
 the uploader adds (erw_coverage, erw_sources, erw_headers) are in v1 too.
 
     tables.csv     table, in_v1, reason, shape, rows, first, last, interval, description (the header's title line),
-                   license_line (the header's own "License:" line), citation, publishers
+                   license_line (the header's own "License:" line), citation, publishers, and (session 1010) fetch_python,
+                   fetch_stata, fetch_r: the one line that fetches the table in each of the ERW's packages
     variables.csv  table, name, kind (series variable or column), unit
     README.md      the dataset's README, for Redivis's dataset description
 """
@@ -292,6 +296,28 @@ def readme(tables, day=PUBLIC_DAY):
         "",
         "Each table's own citation is in `docs/redivis/release-v1/tables.csv` in the repository.",
         "",
+        "## Read it in Python, Stata or R",
+        "",
+        "The ERW's three packages read this dataset with the same six calls (tables, coverage, fetch, cite, license, standard), the same "
+        "column types and the same citation (https://github.com/SamuelEnrique/erw/blob/main/docs/methods/packages.md). Each needs a Redivis "
+        "token in `REDIVIS_API_TOKEN`. Install:",
+        "",
+        "```",
+        'pip install "erw-energy[redivis] @ git+https://github.com/SamuelEnrique/erw.git#subdirectory=package"',
+        'net install erw, from("https://raw.githubusercontent.com/SamuelEnrique/erw/main/packages/stata/") replace',
+        'remotes::install_github("SamuelEnrique/erw", subdir = "packages/r/erw")',
+        "```",
+        "",
+        "Then, for example, Henry Hub's daily price in 2025:",
+        "",
+        "```",
+        'erw.fetch("eia_fuel_spot_prices", entity="eia:henry_hub", start="2025-01-01", end="2026-01-01", backend="redivis")',
+        "erw fetch eia_fuel_spot_prices, entity(eia:henry_hub) start(2025-01-01) end(2026-01-01) backend(redivis) clear",
+        'erw_fetch("eia_fuel_spot_prices", entity = "eia:henry_hub", start = "2025-01-01", end = "2026-01-01", backend = "redivis")',
+        "```",
+        "",
+        "Each table's own line in each package is in `tables.csv` (`fetch_python`, `fetch_stata`, `fetch_r`).",
+        "",
         "## How it is made",
         "",
         "One connector per source pulls, reshapes and validates; the validator is the gate a table passes before upload. Uploads write a draft only; "
@@ -306,12 +332,36 @@ def readme(tables, day=PUBLIC_DAY):
     ])
 
 
+# Session 1010 (chain 070): the one line that fetches a table in each package (docs/methods/packages.md, "One line a table")
+FETCH = {"fetch_python": 'erw.fetch("{t}")', "fetch_stata": "erw fetch {t}, clear", "fetch_r": 'erw_fetch("{t}")'}
+COLS = ["table", "in_v1", "reason", "shape", "rows", "first", "last", "interval", "description", "license_line", "citation",
+        "publishers", *FETCH]
+
+
+def with_calls(t):
+    """A tables.csv row with its fetch lines; a metadata table's are empty (it is read as any table, by its name)."""
+    return {**t, **{k: (v.format(t=t["table"]) if t.get("shape") != "metadata" else "") for k, v in FETCH.items()}}
+
+
+def calls_only(docs=DOCS):
+    """Session 1010: the README written again and the fetch columns added, from tables.csv as it is (no table read)."""
+    tables = rows(os.path.join(docs, "tables.csv"))
+    out = [with_calls({k: t.get(k, "") for k in COLS[:12]}) for t in tables]
+    with open(os.path.join(docs, "tables.csv"), "w", encoding="utf-8", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=COLS, lineterminator="\n")
+        w.writeheader()
+        w.writerows(out)
+    with open(os.path.join(docs, "README.md"), "w", encoding="utf-8", newline="\n") as f:
+        f.write(readme(out))
+    return out
+
+
 def write(out_dir, docs=DOCS):
     tables, vars_, missing = build(out_dir)
+    tables = [with_calls(t) for t in tables]   # session 1010
     os.makedirs(docs, exist_ok=True)
-    cols = ["table", "in_v1", "reason", "shape", "rows", "first", "last", "interval", "description", "license_line", "citation", "publishers"]
     with open(os.path.join(docs, "tables.csv"), "w", encoding="utf-8", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=cols, lineterminator="\n")
+        w = csv.DictWriter(f, fieldnames=COLS, lineterminator="\n")
         w.writeheader()
         w.writerows(tables)
     with open(os.path.join(docs, "variables.csv"), "w", encoding="utf-8", newline="") as f:
@@ -336,9 +386,14 @@ def main(argv=None):
     ap.add_argument("--check", action="store_true")
     ap.add_argument("--target", choices=["stanford"], help="session 664: the package for the Stanford dataset "
                                                           "(docs/redivis/release-v1-stanford/)")
+    ap.add_argument("--calls-only", action="store_true", help="session 1010: the README and the fetch columns, from tables.csv")
     a = ap.parse_args(argv)
     if a.target:
         use_stanford()
+    if a.calls_only:
+        out = calls_only(DOCS)
+        print(f"{os.path.relpath(DOCS, ROOT)}: README.md written again; tables.csv has the fetch lines of {len(out)} tables")
+        return 0
     where = os.path.relpath(DOCS, ROOT).replace(os.sep, "/")
     if a.check:
         bad = check(DOCS)
