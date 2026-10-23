@@ -12,7 +12,7 @@
 
 ## Errors
 
-- **The verdict's read first carried a descriptive outcome** ("read: ..."); `test_session205` requires a read behind a quoted sentence to be exactly "read". Reads 172 and 173 are "read"; the robots reads keep their descriptions, as reads 161 and 162 do.
+- **The verdict's read first carried a descriptive outcome** ("read: ..."); `test_session205` requires a read behind a quoted sentence to be exactly "read". Reads 173 and 174 are "read"; the robots reads keep their descriptions, as reads 161 and 162 do.
 
 ## Decisions made without you
 
@@ -25,5 +25,5 @@
 ## Files
 
 - New: this report.
-- Changed: `warehouse/metadata/license_reads.csv` (167 to 173), `license_verdicts.csv` (Reclamation), `docs/licenses.md`.
+- Changed: `warehouse/metadata/license_reads.csv` (168 to 174), `license_verdicts.csv` (Reclamation), `docs/licenses.md`.
 - On the data machine only: `runs/c056/s2005/`, `runs/license_reads/s2005/`.
