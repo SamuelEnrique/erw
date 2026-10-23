@@ -79,7 +79,10 @@ UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "mph", "
          "gal",
          # session 2045: precipitation in inches, as NOAA's nClimDiv gives a state's month (noaa_climdiv_state_monthly;
          # Decision 60)
-         "in"}
+         "in",
+         # session 2092: degrees Celsius, the Oceanic Nino Index and the Nino 3.4 sea surface temperature as NOAA CPC gives them
+         # (noaa_cpc_oni_monthly; Decision 62)
+         "degC"}
 NAME_RE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+){2,}$")
 NAME_MAX = 40
 TS_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
