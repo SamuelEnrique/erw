@@ -141,8 +141,9 @@ class TheFiles(unittest.TestCase):
         # session 311's sweep may add up to 60; the licenses' later rounds (sessions 484 to 874) fitted within it, and
         # chain 048's sessions 887 and 888 add 12 and chain 049's session 902 adds 8, each session under its own ceiling of 20
         # (session 888 raised the bound); chain 051's sessions 911 and 914 add 3 and 14, each under its own ceiling (session
-        # 914 raised the bound again)
-        self.assertLessEqual(len(reads) - 41, 2 + 60 + 20 + 20)
+        # 914 raised the bound again); chain 052's session 928 adds 12 and chain 053's session 942 adds 5 (session 942 raised it
+        # once more)
+        self.assertLessEqual(len(reads) - 41, 2 + 60 + 20 + 20 + 20)
         self.assertEqual(len({r["publisher"] for r in reads}), len(reads))          # one page a publisher
         miso = [r for r in reads if "MISO" in r["publisher"]]
         self.assertEqual(len(miso), 1)
