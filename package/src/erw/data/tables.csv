@@ -171,7 +171,9 @@ eia_state_source_disposition_annual,public,,,,EIA,"Public: every publisher's ter
 eia_steo_forecasts,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_uranium_marketing_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_wood_pellets_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia_world_coal_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_world_electricity_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia_world_energy_co2_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_world_oil_gas_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_world_oil_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 energy_companies,public,,,,ERW,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
@@ -197,6 +199,7 @@ ercot_node_places,public,,,,ERCOT,"Public: every publisher's terms the ERW read 
 ercot_node_planned_generation,public,,,,EIA; ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ercot_node_prices_hourly,internal,,,,ERCOT,The ERW holds it for its own use only; it is never redistributed.,none
 ercot_node_transmission,public,,,,ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+ercot_node_wires_utilities,public,,,,EIA; ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ercot_peak_premium_annual,public,,,,ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 ercot_peak_premium_monthly,public,,,,ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 ercot_rtm_node_prices,public,,,,ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -258,7 +261,7 @@ grid_stress_days,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; 
 grid_stress_yearly,public,,,,CAISO; EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 hub_price_comparison,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
 imf_commodity_prices,public,,,,IMF,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
-impact_tax_rules,unsettled,,,,Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department; Texas Comptroller of Public Accounts,"The terms of Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department and others have not been read or settled, so the ERW does not redistribute it until they are.",none
+impact_tax_rules,unsettled,,,,Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department; Texas Comptroller of Public Accounts,"The terms of Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department have not been read or settled, so the ERW does not redistribute it until they are.",none
 interconnection_agreements_by_grid,public,,,,Berkeley Lab,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 interconnection_agreements_signed,public,,,,Berkeley Lab,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 interconnection_durations,public,,,,Berkeley Lab,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -290,8 +293,11 @@ large_load_rules,unsettled,,,,Arizona Corporation Commission; California Public 
 large_load_rules_internal,internal,,,Indiana Utility Regulatory Commission,FERC; Georgia Public Service Commission; Indiana Utility Regulatory Commission; Public Utilities Commission of Ohio; Public Utility Commission of Texas; Virginia State Corporation Commission,The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 large_load_statements,internal,,,,"utilities and operators, each row's own document (not listed one by one)",The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 large_load_waits,internal,,,NYISO,"Alberta Electric System Operator (AESO), Canada; Bonneville Power Administration (BPA); NYISO; Public Utility District No. 2 of Grant County, Washington (Grant PUD)",The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
+lbnl_hybrid_ppa_prices,public,,,,Berkeley Lab,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 lbnl_interconnection_queue,public,,,,Berkeley Lab,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 lbnl_ppa_prices,public,,,,Berkeley Lab,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+lbnl_solar_projects,public,,,,Berkeley Lab,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+lbnl_wind_capacity_factors,public,,,,Berkeley Lab,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 merchant_revenue_monthly,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",whole
 miso_as_prices,internal,,,MISO,MISO,The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 miso_interconnection_queue,unsettled,license needed,2026-10-21,MISO,MISO,"MISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",whole
@@ -317,8 +323,10 @@ nyiso_load_queue,unsettled,license needed,2026-10-21,NYISO,NYISO,"NYISO's terms 
 nyiso_rtm_zone_prices,unsettled,license needed,2026-10-21,NYISO,NYISO,"NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",35 days
 nyiso_zone_load_hourly,unsettled,license needed,2026-10-21,NYISO,NYISO,"NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
 ornl_eha_hydropower_plants,public,,,,"Oak Ridge National Laboratory (ORNL), HydroSource","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+ornl_eha_hydropower_units,public,,,,"Oak Ridge National Laboratory (ORNL), HydroSource","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ornl_hydropower_pipeline,public,,,,"Oak Ridge National Laboratory (ORNL), HydroSource","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ornl_hydropower_relicensing,public,,,,"Oak Ridge National Laboratory (ORNL), HydroSource","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+ornl_npd_potential,public,,,,"Oak Ridge National Laboratory (ORNL), HydroSource","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 pjm_rpm_capacity_prices,internal,,,PJM,PJM,The ERW holds it for its own use only (needs a paid license); it is never redistributed.,none
 policy_action_tags,unsettled,,,,California Public Utilities Commission; NRC; Office of the Federal Register (NARA); Public Utility Commission of Texas; U.S. Department of Energy (DOE),"The terms of Public Utility Commission of Texas have not been read or settled, so the ERW does not redistribute it until they are.",none
 policy_actions,unsettled,,,,California Public Utilities Commission; NRC; Office of the Federal Register (NARA); Public Utility Commission of Texas; U.S. Department of Energy (DOE),"The terms of Public Utility Commission of Texas have not been read or settled, so the ERW does not redistribute it until they are.",whole
