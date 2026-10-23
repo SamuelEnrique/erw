@@ -171,7 +171,9 @@ eia_state_source_disposition_annual,none,,52,P1Y,1990-01-01T00:00:00Z,2024-01-01
 eia_steo_forecasts,none,,53,P1M,2020-01-01T00:00:00Z,2027-12-01T00:00:00Z,5088,eia:steo,2026-10-21T18:32:37Z,pass,public,power;gas,no,source
 eia_uranium_marketing_annual,none,,31,P1Y,2003-01-01T00:00:00Z,2025-01-01T00:00:00Z,763,eia:uranium_marketing_annual,2026-10-23T07:01:36Z,pass,public,power;uranium,no,source
 eia_wood_pellets_monthly,none,,9,P1M,2016-01-01T00:00:00Z,2026-05-01T00:00:00Z,2090,eia:densified-biomass,2026-10-21T23:57:46Z,pass,public,power,no,source
+eia_world_coal_annual,none,,1798,P1Y,1980-01-01T00:00:00Z,2024-01-01T00:00:00Z,317307,eia:international_bulk,2026-10-23T11:02:08Z,pass,public,coal,no,source
 eia_world_electricity_annual,none,,4285,P1Y,1980-01-01T00:00:00Z,2024-01-01T00:00:00Z,332254,eia:international_bulk,2026-10-23T07:57:52Z,pass,public,power,no,source
+eia_world_energy_co2_annual,none,,3589,P1Y,1949-01-01T00:00:00Z,2025-01-01T00:00:00Z,246988,eia:international_bulk,2026-10-23T11:02:32Z,pass,public,carbon,no,source
 eia_world_oil_gas_annual,none,,6992,P1Y,1973-01-01T00:00:00Z,2025-01-01T00:00:00Z,448267,eia:international_bulk,2026-10-23T09:47:04Z,pass,public,oil;gas,no,source
 eia_world_oil_monthly,none,,1507,P1M,1973-01-01T00:00:00Z,2026-07-01T00:00:00Z,541215,eia:international_bulk,2026-10-23T10:10:51Z,pass,public,oil,no,source
 energy_companies,none,,480,snapshot,2026-09-28T17:04:21Z,2026-10-22T15:02:48Z,480,erw:energy_deals;erw:thesis_builder,2026-10-22T15:02:47Z,pass,public,deals,no,model_extracted

@@ -37,6 +37,14 @@ series (.M) of petroleum production (crude oil, NGPL, other liquids, refinery ga
 consumption (thousand barrels a day, as kbbl/d) and stocks (million barrels, as kbbl times 1,000); ts_utc the month's
 first day. The OECD's imports by source and the tonne copies are not taken.
 
+Two more tables (session 937, chain 053), from the same file: warehouse/output/eia_world_coal_annual.csv (--table
+eia_world_coal_annual: coal and its kinds' production, consumption, imports and exports in thousand short tons, as
+short_ton times 1,000, and coal reserves in million short tons, as short_ton times 1,000,000) and
+warehouse/output/eia_world_energy_co2_annual.csv (--table eia_world_energy_co2_annual: total primary energy production and
+consumption, in all and by source, in quadrillion Btu, as TBtu times 1,000, and energy-related CO2 emissions by fuel in
+million metric tonnes, as tCO2 times 1,000,000). In these two, a series whose product or activity is not the table's
+(the same units hold other products' copies) is passed over, not an error; the products' maps are below.
+
     python warehouse/connectors/eia_intl_bulk.py [--offline | --fresh] [--out-dir DIR] [--table NAME]
 
 Ceiling: one request (the file, saved in warehouse/raw/eia_intl_bulk/ and reused unless --fresh; --offline asks
@@ -89,10 +97,26 @@ OIL_GAS = "eia_world_oil_gas_annual"
 OIL_MONTHLY = "eia_world_oil_monthly"
 IMPORTS_BY_SOURCE = {"78", "781", "782", "783", "784", "785", "786", "787", "788", "789"}  # the OECD's and seven importers' gross imports, by source: not taken
 MONTHLY_PRODUCTS = {k: OIL_GAS_PRODUCTS[k] for k in ("5", "53", "54", "55", "56", "57", "58", "59")}
+COAL = "eia_world_coal_annual"
+COAL_PRODUCTS = {"7": "Coal", "11": "Anthracite", "12": "Bituminous", "14": "Lignite", "119": "Subbituminous", "130": "Metallurgical coal",
+                 "21": "Metallurgical coke"}
+ENERGY = "eia_world_energy_co2_annual"
+ENERGY_PRODUCTS = {"44": "Total energy", "4411": "Total energy from coal", "4413": "Total energy from natural gas",
+                   "4415": "Total energy from petroleum and other liquids", "4417": "Total energy from nuclear",
+                   "4418": "Total energy from renewables and other", "4419": "Total energy from nuclear, renewables, and other",
+                   "4008": "CO2 emissions, all fuels", "4002": "CO2 emissions, coal and coke", "4006": "CO2 emissions, petroleum and other liquids",
+                   "4010": "CO2 emissions, consumed natural gas", "1": "CO2 emissions, coal and coke (by product)",
+                   "5": "CO2 emissions, petroleum and other liquids (by product)", "3002": "CO2 emissions, natural gas"}
+# the tables whose units other products share: a series not of the table's products or activities is passed over
+LOOSE = {COAL, ENERGY}
 # (activities, units, products, the series' frequency letter)
 SPECS = {NAME: (ACTIVITIES, UNITS, PRODUCTS, "A"), OIL_GAS: (OIL_GAS_ACTIVITIES, OIL_GAS_UNITS, OIL_GAS_PRODUCTS, "A"),
          OIL_MONTHLY: ({"1": "production", "2": "consumption", "5": "stocks"}, {"TBPD": ("kbbl/d", 1.0), "MBBL": ("kbbl", 1e3)},
-                       MONTHLY_PRODUCTS, "M")}
+                       MONTHLY_PRODUCTS, "M"),
+         COAL: ({"1": "production", "2": "consumption", "3": "imports", "4": "exports", "6": "reserves"},
+                {"TST": ("short_ton", 1e3), "MST": ("short_ton", 1e6)}, COAL_PRODUCTS, "A"),
+         ENERGY: ({"1": "production", "2": "consumption", "8": "emissions"}, {"QBTU": ("TBtu", 1e3), "MMTCD": ("tCO2", 1e6)},
+                  ENERGY_PRODUCTS, "A")}
 # EIA's codes of four letters are its regions and groups, but for these former countries and parts of one
 FORMER = {"CSK", "DDR", "DEUW", "SCG", "SUN", "YUG", "NLDA"}
 PARTS = {"DEUO", "GBRO", "NLDO", "HITZ", "USIQ"}
@@ -148,6 +172,8 @@ def rows(series, url, retrieved, vintage, table=NAME):
         if u not in units or freq != want:
             continue
         if table == OIL_MONTHLY and product in IMPORTS_BY_SOURCE:
+            continue
+        if table in LOOSE and (product not in products or act not in activities):
             continue
         if act not in activities:
             raise RuntimeError(f"an activity not in the map: {sid} {d['name']}")
@@ -225,6 +251,30 @@ def main(argv=None):
             f"  access: {URL}",
             'License: public (a work of the U.S. government; cite "U.S. Energy Information Administration, International Energy Statistics").',
         ]
+        if name in (COAL, ENERGY):
+            kinds_text = f"{s['entity'].str.split(':').str[1].nunique()} areas ({', '.join(f'{v} {k}' for k, v in kinds.items())})"
+            if name == COAL:
+                header[:3] = [
+                    "Energy Research Warehouse (ERW): EIA, International Energy Statistics, coal of every country and region, a year, from EIA's bulk file (session 937)",
+                    "Shape: series (docs/datastandard.md v0). entity eia_intl:<EIA country or region code>:<EIA product id: 7 coal, 11 anthracite, 12 "
+                    "bituminous, 14 lignite, 119 subbituminous, 130 metallurgical coal, 21 metallurgical coke>; variables production, consumption, imports, "
+                    "exports (short_ton, EIA's thousand short tons times 1,000) and reserves (short_ton, EIA's million short tons times 1,000,000; product 7 "
+                    "only); coal holds its kinds: a sum takes one level; ts_utc the year's 1 January; freq P1Y; geo empty; x_area as in "
+                    "eia_world_electricity_annual: a sum over countries takes country and former only.",
+                    f"Years {span}; {n_series:,} series of EIA's, {len(s):,} rows; {kinds_text}. Only annual series in thousand and million short tons "
+                    "are taken (EIA's tonne, Btu, terajoule and oil-equivalent copies are not). A value EIA leaves empty or marks has no row; nothing is filled.",
+                ]
+            else:
+                header[:3] = [
+                    "Energy Research Warehouse (ERW): EIA, International Energy Statistics, total primary energy and energy-related CO2 emissions of every country and region, a year, from EIA's bulk file (session 937)",
+                    "Shape: series (docs/datastandard.md v0). entity eia_intl:<EIA country or region code>:<EIA product id: 44 total energy, 4411 to 4419 "
+                    "total energy by source; 4008 CO2 from all fuels, 4002 coal and coke, 4006 petroleum and other liquids, 4010 consumed natural gas, and "
+                    "EIA's by-product copies 1, 5 and 3002>; variables production and consumption (TBtu, EIA's quadrillion Btu times 1,000) and emissions "
+                    "(tCO2, EIA's million metric tonnes of CO2 times 1,000,000); a total holds its parts: a sum takes one level; ts_utc the year's 1 January; "
+                    "freq P1Y; geo empty; x_area as in eia_world_electricity_annual: a sum over countries takes country and former only.",
+                    f"Years {span}; {n_series:,} series of EIA's, {len(s):,} rows; {kinds_text}. Only annual series in quadrillion Btu and million metric "
+                    "tonnes of CO2 of these products are taken. A value EIA leaves empty or marks has no row; nothing is filled.",
+                ]
         if name == OIL_MONTHLY:
             kinds_text = f"{s['entity'].str.split(':').str[1].nunique()} areas ({', '.join(f'{v} {k}' for k, v in kinds.items())})"
             span = f"{s['ts_utc'].min()[:7]} to {s['ts_utc'].max()[:7]}"

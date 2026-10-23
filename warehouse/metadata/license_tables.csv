@@ -171,7 +171,9 @@ eia_state_source_disposition_annual,EIA,the source registry
 eia_steo_forecasts,EIA,the source registry
 eia_uranium_marketing_annual,EIA,the source registry
 eia_wood_pellets_monthly,EIA,the source registry
+eia_world_coal_annual,EIA,the source registry
 eia_world_electricity_annual,EIA,the source registry
+eia_world_energy_co2_annual,EIA,the source registry
 eia_world_oil_gas_annual,EIA,the source registry
 eia_world_oil_monthly,EIA,the source registry
 energy_companies,ERW,"by hand: its header: names, one-line descriptions written by the ERW, and links"

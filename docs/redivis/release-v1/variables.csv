@@ -3091,6 +3091,11 @@ eia_wood_pellets_monthly,export_price,series variable,USD/short_ton
 eia_wood_pellets_monthly,facilities,series variable,count
 eia_wood_pellets_monthly,feedstock_cost,series variable,USD/short_ton
 eia_wood_pellets_monthly,fte_employees,series variable,count
+eia_world_coal_annual,consumption,series variable,short_ton
+eia_world_coal_annual,exports,series variable,short_ton
+eia_world_coal_annual,imports,series variable,short_ton
+eia_world_coal_annual,production,series variable,short_ton
+eia_world_coal_annual,reserves,series variable,short_ton
 eia_world_electricity_annual,capacity,series variable,MW
 eia_world_electricity_annual,consumption,series variable,MWh
 eia_world_electricity_annual,distribution_losses,series variable,MWh
@@ -3098,6 +3103,9 @@ eia_world_electricity_annual,exports,series variable,MWh
 eia_world_electricity_annual,generation,series variable,MWh
 eia_world_electricity_annual,imports,series variable,MWh
 eia_world_electricity_annual,net_imports,series variable,MWh
+eia_world_energy_co2_annual,consumption,series variable,TBtu
+eia_world_energy_co2_annual,emissions,series variable,tCO2
+eia_world_energy_co2_annual,production,series variable,TBtu
 eia_world_oil_gas_annual,bunker_consumption,series variable,kbbl/d
 eia_world_oil_gas_annual,consumption,series variable,bcf
 eia_world_oil_gas_annual,consumption,series variable,kbbl/d
