@@ -105,6 +105,7 @@ eia_all_futures_prices,"CME Group (NYMEX), whose prices EIA republished; EIA",by
 eia_annual_crosscheck_ba,EIA,the source registry and the tables its header derives it from: eia_annual_generation_ba
 eia_annual_generation_ba,EIA,the source registry
 eia_basin_production_monthly,EIA,the source registry
+eia_biofuel_plants,EIA,the source registry
 eia_capacity_factors_annual,EIA,the source registry
 eia_capacity_factors_monthly,EIA,the source registry
 eia_co2_state_annual,EIA,the source registry

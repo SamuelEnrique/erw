@@ -2890,6 +2890,28 @@ eia_annual_generation_ba,plants,series variable,count
 eia_annual_generation_ba,storage_net_generation_mwh,series variable,MWh
 eia_basin_production_monthly,crude_production,series variable,kbbl/d
 eia_basin_production_monthly,gas_marketed_production,series variable,bcf/d
+eia_biofuel_plants,entity_id,column,
+eia_biofuel_plants,entity_type,column,
+eia_biofuel_plants,name,column,
+eia_biofuel_plants,geo,column,
+eia_biofuel_plants,lat,column,
+eia_biofuel_plants,lon,column,
+eia_biofuel_plants,capacity_mw,column,
+eia_biofuel_plants,status,column,
+eia_biofuel_plants,status_date,column,
+eia_biofuel_plants,operator,column,
+eia_biofuel_plants,source,column,
+eia_biofuel_plants,source_url,column,
+eia_biofuel_plants,retrieved_at,column,
+eia_biofuel_plants,vintage,column,
+eia_biofuel_plants,x_year,column,
+eia_biofuel_plants,x_fuel,column,
+eia_biofuel_plants,x_facility_type,column,
+eia_biofuel_plants,x_padd,column,
+eia_biofuel_plants,x_city,column,
+eia_biofuel_plants,x_capacity_mmgal_per_year,column,
+eia_biofuel_plants,x_capacity_kbbl_per_day,column,
+eia_biofuel_plants,x_coprocessing,column,
 eia_capacity_factors_annual,capacity_factor,series variable,ratio
 eia_capacity_factors_annual,time_adjusted_capacity,series variable,MW
 eia_capacity_factors_monthly,capacity_factor,series variable,ratio
