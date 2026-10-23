@@ -4,7 +4,7 @@
 
 ## Read these first
 
-- **No new verdict.** Twenty-seven publishers have none (counted from `license_tables.csv` against `license_verdicts.csv`), led by PUDL's FERC Form 714 (21 tables, waiting on FERC), FERC (11) and the Public Utility Commission of Texas (9). To avoid guessed addresses, the round read only where a page the ERW already saved links a terms page. That held for two:
+- **No new verdict.** Twenty-eight publishers have none (counted from `license_tables.csv` against `license_verdicts.csv`), led by PUDL's FERC Form 714 (21 tables, waiting on FERC), FERC (11) and the Public Utility Commission of Texas (9). To avoid guessed addresses, the round read only where a page the ERW already saved links a terms page. That held for two:
   - TNMP's "terms of use and linking policy" and Texas.gov's "legal notice": both addresses answer HTTP 404, as the sites have moved since the pages were saved.
   - BPA's and Grant PUD's home pages (their robots files allow them), read to find a terms page in their footers: BPA links only a privacy page, Grant PUD a statement of privacy. Neither grants or forbids reuse.
 - **EPA was not read again:** it already has a verdict (read 55). Session 898 found its unit data behind a key, not behind terms.
