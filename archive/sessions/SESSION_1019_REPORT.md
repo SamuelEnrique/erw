@@ -29,6 +29,7 @@ Sessions 1015 to 1019 landed in one push (`task/1015-1019-packages`), merged int
 - **By hand on a build of `2bd5ca26`** (its own lock, on `db_probe`'s 0): check-routes 0, check-cross-checks 0, check-csp 0.
 - **Snapshots**: `s1019-before` at 05:29:40 UTC; the push at 05:29:48. Vercel's status on `2e31b027`: "rate limited". The probe (`data-copy-line` in `/data`'s HTML, internal view) read production every two minutes from 05:45 to 06:27 and **did not find it**: production still serves the commit before. `s1019-after` at 06:27; `compare s1019-before s1019-after`: **0 differences** on 25 pages, expected (every page is in review, and nothing new was served).
 - **Not yet served**: the copy controls of 1015 and the work of 1016 to 1019 reach production with Vercel's next deploy. Chain 071's first landing probes for `data-copy-line` with its own mark and says when it was served.
+- **Served by 08:34** (added by session 1040): `data-copy-line` was not on `/data` at 06:47 and was at 08:34, the next probe; no deployment record shows when in between.
 - The merged `wip/` branches of 1015 to 1019 were deleted on GitHub (the task branch had gone with its merge); the worktrees of 1000 to 1019 were removed.
 
 ## Decisions made without you
