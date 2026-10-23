@@ -8,7 +8,7 @@ publishes (ReportDt|Unit|Power):
     the last 365 days   https://www.nrc.gov/reading-rm/doc-collections/event-status/reactor-status/powerreactorstatusforlast365days.txt
     a whole year        https://www.nrc.gov/reading-rm/doc-collections/event-status/reactor-status/<YYYY>/<YYYY>powerstatus.txt
 
-    entity    nrc:<unit>, the NRC's unit name lower-cased with its spaces as underscores (nrc:comanche_peak_1)
+    entity    nrc:<unit>, the NRC's unit name lower-cased, each run of other characters one underscore (nrc:comanche_peak_1, nrc:d_c_cook_1)
     variable  power_pct: the reactor's power as a percent of its licensed power on the report's morning (0 to 100)
     freq      P1D; ts_utc is the report date at 00:00:00Z; node is the NRC's unit name as written
 
@@ -18,7 +18,9 @@ publishes (ReportDt|Unit|Power):
 The energy mix uses this for one thing: the note on nuclear's row, saying which reactors were off or reduced.
 
 A file the NRC's server refuses (it answered HTTP 403 and 503 to some yearly files on 6 October 2026) is logged and
-skipped: the table then holds the days of the files that were read, and its header says which. Rows are merged on
+skipped: the table then holds the days of the files that were read, and the header says which of that run's files were refused.
+A year refused in an earlier run is not named by a later run's header (2019, refused in session 133, has no row; a --recent
+run's header says only "Files read this run: 1 of 1"). Rows are merged on
 (entity, variable, ts_utc). A line whose power is not a number from 0 to 100 stops the run. Nothing is filled.
 
 Ceiling: 300,000 rows (the approved pull): about 34,500 a year, so the last 365 days and seven whole years are about
