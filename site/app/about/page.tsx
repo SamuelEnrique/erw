@@ -110,6 +110,13 @@ export default function About() {
         {DOCS.platform.partial} partial), {DOCS.platform.no} are not built and {DOCS.platform.planned} are planned. The list, with each tool&apos;s tables and
         gaps, is <a href={`${site.repository}/blob/main/docs/platform-tools.md`}>docs/platform-tools.md</a>.
       </p>
+      {/* session 1123: Ask's rule and its evaluation's score, with the date it was measured (docs/methods/ask.md) */}
+      <p className="mb-6 text-sm leading-relaxed" data-about-ask="1">
+        <strong>Ask the warehouse.</strong> The question-answering tool states no number a query of the warehouse did not return: every figure of an
+        answer is checked against what its tools read, in its unit, and an answer that fails twice says the warehouse does not hold that figure (<Link href="/data/methods/ask">its
+        method</Link>). Its evaluation: 17 of 30 hard questions right when last asked, on 20 October 2026, and 14 of 30 when those answers are graded
+        under the license hold of 21 October; the wrong answers wait on three rulings on units and on how the questions are scored, not on the figures.
+      </p>
       <h2 className="mb-2 mt-6 text-xl">The site</h2>
       <dl className="mb-6 text-sm">
         {GROUPS.map((g) => (
