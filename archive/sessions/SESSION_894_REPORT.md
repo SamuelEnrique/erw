@@ -25,3 +25,10 @@
 - New: `docs/state/note_2026-10-28_data.md`, this report. Changed (on main): `queue/next/049-day-23-october-data-margins-schedules-emissions.md`.
 
 ## Addendum: the landing
+
+- Merged origin/main into the chain's branch (the old laptop's sessions 1001 to 1018 came in clean). The whole suite from the chain's worktree: 6,170 tests in 612 s, two failures:
+  - `test_session705`, the worktree artifact (passes in the main checkout, skips on GitHub);
+  - `test_session1008`: the site's table verdicts (`site/data/table_verdicts.json`, written by the old laptop's sessions) were stale for `uswtdb_wind_turbines`, which session 888 settled. Rebuilt with `package/tools/build_tables.py` (the package's `tables.csv`, the site's verdicts and citations, chain 048's tables with them); tests 1001, 1008 and 1009 pass.
+- `scripts/freeze.py status`: no freeze. Before snapshot `c048-land-before`, then `task/881-894-data` pushed at 05:57:30 UTC; the code branch's checks (run 39908648018) passed and merged it as `f9367c4d` at about 06:08 UTC.
+- Vercel: the deploy of `f9367c4d` was rate limited ("retry in 24 hours"), as chains 046's and 047's were, so the live pages are the last deployed build. After snapshot `c048-land-after`: compare says 0 differences in all (expected: every page is in review).
+- Then `scripts/chain_queue.py next`.
