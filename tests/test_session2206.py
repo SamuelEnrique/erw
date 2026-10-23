@@ -86,6 +86,47 @@ class AdjectivesAtTheEnd(unittest.TestCase):
         self.assertEqual(brief.why_line("Escalation affecting global oil markets is significant"), "Escalation affecting global oil markets is.")
 
 
+class TheWindowEndsAtTheRun(unittest.TestCase):
+    """Fix 3: the window had no upper bound, so a story dated after the run was taken and the stamp was false."""
+
+    def rows(self):
+        return pd.DataFrame([
+            {"event_date": "2026-10-23T15:00:00Z", "scored_at": "x", "significance": "7", "ai_power_relevance": "0", "title": "in the window"},
+            {"event_date": "2026-10-22T16:00:00Z", "scored_at": "x", "significance": "6", "ai_power_relevance": "0", "title": "at the start"},
+            {"event_date": "2026-10-22T15:44:00Z", "scored_at": "x", "significance": "8", "ai_power_relevance": "0", "title": "before the start"},
+            {"event_date": "2026-10-23T15:46:00Z", "scored_at": "x", "significance": "9", "ai_power_relevance": "0", "title": "after the run"},
+            {"event_date": "2026-10-23T12:00:00Z", "scored_at": "", "significance": "9", "ai_power_relevance": "0", "title": "not scored"},
+            {"event_date": "2026-10-23T12:00:00Z", "scored_at": "x", "significance": "0", "ai_power_relevance": "0", "title": "not energy"},
+        ])
+
+    def test_a_story_dated_after_the_run_is_left_for_the_next_issue(self):
+        now = pd.Timestamp("2026-10-23T15:45:00Z")
+        s, start, bounds = brief.window_rows(self.rows(), now, 24)
+        self.assertEqual(sorted(s["title"]), ["at the start", "in the window"])
+        self.assertEqual(start, pd.Timestamp("2026-10-22T15:45:00Z"))
+        self.assertEqual(bounds, (pd.Timestamp("2026-10-22T16:00:00Z"), pd.Timestamp("2026-10-23T15:00:00Z")))
+        self.assertEqual(list(s["sig"]), [7, 6])
+
+    def test_no_rows_gives_no_bounds(self):
+        s, start, bounds = brief.window_rows(self.rows().iloc[:0], pd.Timestamp("2026-10-23T15:45:00Z"), 24)
+        self.assertEqual(len(s), 0)
+        self.assertIsNone(bounds)
+
+    def test_the_stamp_reads_both_bounds_and_the_old_form_first(self):
+        line = brief.stamp_line(24, pd.Timestamp("2026-10-22T15:45:00Z"), pd.Timestamp("2026-10-23T15:45:00Z"), 212)
+        self.assertEqual(line, "ERW's weekday brief of energy news for the 24 hours to 2026-10-23 15:45 UTC, from 2026-10-22 15:45 UTC, from 212 scored stories.")
+        import re
+        m = re.search(r"for the (\d+) hours to (\d{4}-\d{2}-\d{2} \d{2}:\d{2}) UTC", line)   # tests/test_session470.py's reader
+        self.assertEqual((m.group(1), m.group(2)), ("24", "2026-10-23 15:45"))
+
+    def test_main_uses_them(self):
+        b = src("warehouse", "news", "brief.py")
+        body = b[b.index("def main(argv=None):"):]
+        self.assertIn("s, start, bounds = window_rows(df, now, args.hours)", body)
+        self.assertIn("stamp_line(args.hours, start, now, len(s)), \"\",", body)
+        self.assertNotIn("when >= now - pd.Timedelta(hours=args.hours)", body)
+
+
 class NoDash(unittest.TestCase):
     def test_no_em_dash_in_the_files(self):
         for parts in (("warehouse", "news", "brief.py"), ("scripts", "check_digest.py"), ("warehouse", "analysis", "findings", "daily_chart.py"),
