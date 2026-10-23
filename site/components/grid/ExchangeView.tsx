@@ -3,6 +3,10 @@
 // (lib/network.ts: the newest hour every reporting pair holds, and the week before it) and ba_supply_monthly (the last
 // twelve months, lib/basupply.ts). Every figure carries a check key that scripts/check-values.mjs recomputes from the
 // snapshot or the table (net|..., bsup|...). A tie's flow is signed from the grid's side: positive, it sent power out.
+// Session 1167 (chain 078): each neighbour's flow in the hour shown answers a hover with its tie, its hour and the week's
+// mean, lowest and highest; beside it the same tie over the snapshot's week, keyed nettie|<stat>|... (lib/gridKeys.ts
+// exchangeTies, recomputed by check-values with nettieValue); the direction in words ("sends to", "takes from"); the
+// hour's age against the snapshot's refresh said once in each branch (net|lag), not in every row. No figure that stood moved.
 import snapJson from "@/data/grid_network.json";
 import type { Snapshot } from "@/app/network/Network";
 import { ISO_BA, supplyRows } from "@/app/network/data";
@@ -14,12 +18,21 @@ import { ChartFrame, HeadlineNumber, HeadlineRow, SourceLine, ToolSection, ToolT
 import { HEADLINE, MEASURES, TABLE as SUPPLY_TABLE, supplyOf } from "@/lib/basupply";
 import { shown } from "@/lib/format";
 import { GRID_CHOICES, gridHref, type GridChoice } from "@/lib/gridtool";
+import { directionWords, exchangeTies, type Fig } from "@/lib/gridKeys";  // session 1167
 import { fetchHourly, netExports, pickSnapshot, tiesAt, topExporter } from "@/lib/network";
 import { completeHour } from "@/lib/networkV3";
 import { attempt } from "@/lib/supabase";
 
 const committed = snapJson as unknown as Snapshot;
 const hourName = (t: string) => `${t.slice(0, 10)} ${t.slice(11, 13)}:00 UTC`;
+const refreshName = (t: string) => `${t.slice(0, 16).replace("T", " ")} UTC`;
+/** Session 1167: a keyed figure with its one-line source on hover (the tool's dotted rule), or the words "none". */
+const Tip = ({ f }: { f: Fig | null }) => (f ? <span title={f.tip} className="cursor-help border-b border-dotted border-muted"><Num check={f.check} raw={f.raw}>{shown(f.raw)}</Num></span> : <span className="text-muted">none</span>);
+/** Session 1167: the hour's age against the snapshot's refresh, said once (net|lag, lib/network.ts netValue). */
+function Age({ hour, built }: { hour: string; built: string }) {
+  const lag = Math.round((Date.parse(built) - Date.parse(hour)) / 3_600_000);
+  return <>The hour starting {hourName(hour)} began <Num check={`net|lag|${hour}|${built}`} raw={lag}>{shown(lag)}</Num> hours before the snapshot&apos;s hourly refresh ({refreshName(built)}): EIA-930 publishes interchange about two days behind the clock.</>;
+}
 
 export async function ExchangeView({ grid }: { grid: GridChoice }) {
   // read on each request: the hourly refresh may revise an hour, and a number shown must be the object's own
@@ -42,6 +55,7 @@ export async function ExchangeView({ grid }: { grid: GridChoice }) {
           The Lower 48 is the sum of its grids, so its exchange is theirs: what each of the seven grids sent out or took in over its ties in the hour starting {hourName(hour)}.
           {top ? <> The largest net exporter among all {snap.nodes.length} balancing authorities was {nameOf(top.id)}, with <Num check={`net|topexport|${hour}`} raw={top.mw}>{shown(top.mw)}</Num> MW.</> : null}
         </p>
+        <p className="-mt-3 mb-6 max-w-3xl text-sm text-muted" data-exchange-age="us48"><Age hour={hour} built={snap.built} /></p>
         <ToolSection title="The seven grids, that hour" note="Net export, MW: the sum of a grid's reporting ties, signed from its side. A negative number is a net import.">
           <ToolTable caption="Net export of the seven grids in the hour" minWidth={360} head={["Grid", "Net export, MW", "Ties reporting"]}
             rows={isos.map((g) => ({ key: g.slug, cells: [
@@ -72,6 +86,8 @@ export async function ExchangeView({ grid }: { grid: GridChoice }) {
   }).filter((p): p is { t: number; v: number } => p !== null);
   const sup = Object.values(ISO_BA).includes(ba) ? await attempt(() => supplyRows(ba)) : null;
   const s = sup && sup.ok ? supplyOf(sup.data, ba) : null;
+  // session 1167: the same ties over the snapshot's week, in the table's order, and each flow's hover line
+  const wk = new Map(exchangeTies(snap, ba, hour, ties).map((w) => [w.other, w]));
 
   return (
     <div data-grid-view="exchange">
@@ -89,14 +105,16 @@ export async function ExchangeView({ grid }: { grid: GridChoice }) {
         </HeadlineRow>
       ) : null}
 
-      <ToolSection title="Each neighbour, that hour" note="Flow over the tie, MW, signed from this grid's side: a positive number left the grid, a negative one came in.">
+      <ToolSection title="Each neighbour, that hour" note={`Flow over the tie, MW, signed from this grid's side: a positive number left the grid, a negative one came in. The week's columns are the same tie over the snapshot's week, ${hourName(snap.hours[0])} to ${hourName(snap.hours[snap.hours.length - 1])}, in the hours that hold a flow; hover a flow for its source and the week in words.`}>
+        <p className="mb-3 max-w-3xl text-sm" data-exchange-age={ba}><Age hour={hour} built={snap.built} /></p>
         {ties.length ? (
-          <ToolTable caption={`${grid.label}'s ties in the hour`} minWidth={420} head={["Neighbour", "Flow, MW", "Direction"]}
-            rows={ties.map((t) => ({ key: t.other, cells: [
+          <ToolTable caption={`${grid.label}'s ties in the hour`} minWidth={680} head={["Neighbour", "Flow, MW", "Direction", "Week's mean, MW", "Week's lowest, MW", "Week's highest, MW", "Hours with a flow"]}
+            rows={ties.map((t) => { const w = wk.get(t.other); return { key: t.other, cells: [
               <>{nameOf(t.other)} <span className="font-mono text-xs text-muted">{t.other}</span></>,
-              <Num key="v" check={`net|tie|${ba}|${t.other}|${hour}`} raw={t.mw}>{shown(t.mw)}</Num>,
-              t.mw > 0 ? "out" : t.mw < 0 ? "in" : "none",
-            ] }))} />
+              <span key="v" title={w?.tip} className="cursor-help border-b border-dotted border-muted" data-exchange-tie={t.other}><Num check={`net|tie|${ba}|${t.other}|${hour}`} raw={t.mw}>{shown(t.mw)}</Num></span>,
+              <span key="d" data-exchange-dir={directionWords(t.mw)}>{t.mw === 0 ? "none" : `${grid.label} ${directionWords(t.mw)} ${t.other}`}</span>,
+              <Tip key="m" f={w?.mean ?? null} />, <Tip key="l" f={w?.min ?? null} />, <Tip key="h" f={w?.max ?? null} />, <Tip key="n" f={w?.hours ?? null} />,
+            ] }; })} />
         ) : <NoData what={`${grid.label}'s ties`} reason={`the snapshot holds no flow for ${ba} in the hour starting ${hourName(hour)}`} />}
       </ToolSection>
 
@@ -118,11 +136,13 @@ export async function ExchangeView({ grid }: { grid: GridChoice }) {
                 <Num check={`bsup|${ba}|mwh:${HEADLINE}`} raw={Math.round(s.mwh[HEADLINE] ?? 0)}>{shown(Math.round(s.mwh[HEADLINE] ?? 0))}</Num> MWh over{" "}
                 <Num check={`bsup|${ba}|days_held`} raw={s.daysHeld}>{shown(s.daysHeld)}</Num> days.
               </p>
-              <ToolTable caption={`${grid.label}'s neighbours over twelve months`} minWidth={460} head={["Neighbour", "Net import, MWh", "Percent of demand"]}
+              <ToolTable caption={`${grid.label}'s neighbours over twelve months`} minWidth={560} head={["Neighbour", "Net import, MWh", "Percent of demand", "Direction"]}
                 rows={s.neighbours.map((n) => ({ key: n.id, cells: [
                   <>{nameOf(n.id)} <span className="font-mono text-xs text-muted">{n.id}</span></>,
                   <Num key="m" check={`bsup|${ba}|neighbour_mwh:${n.id}`} raw={Math.round(n.mwh)}>{shown(Math.round(n.mwh))}</Num>,
                   n.share !== null ? <Num key="s" check={`bsup|${ba}|neighbour:${n.id}`} raw={n.share}>{shown(n.share)}</Num> : <span className="text-muted">no share</span>,
+                  // session 1167: the direction in words; here a positive number is a net import, so the grid takes from the neighbour
+                  <span key="d" data-exchange-dir={directionWords(-Math.round(n.mwh))}>{Math.round(n.mwh) === 0 ? "none" : `${grid.label} ${directionWords(-Math.round(n.mwh))} ${n.id}, net`}</span>,
                 ] }))} />
             </>
           )}

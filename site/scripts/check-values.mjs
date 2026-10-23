@@ -437,6 +437,17 @@ async function truth(check) {
     const [gen, dem] = await Promise.all([read("eia930_all_generation", "net_generation_mw"), read("eia930_all_demand", "demand_mw")]);
     return K.netbalValue(check, snaps, gen, dem);
   }
+  // session 1167 (chain 078): the Exchange blocks' week by tie, nettie|<mean|min|max|hours>|<BA>|<other>|<from>|<to>: one
+  // tie's flow signed from the grid's side over the hours of the window that hold one (its mean in whole MW, lowest,
+  // highest, the count), the page's rule (lib/gridKeys.ts nettieValue) on the snapshots as the net| keys read them
+  if (p[0] === "nettie") {
+    const K = await import("../lib/gridKeys.ts");
+    const N = await import("../lib/network.ts");
+    const res = await fetch(`${origin}/${N.NETWORK_OBJECT}`, { cache: "no-store" });
+    const stored = res.ok ? await res.json() : null;
+    const committed = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "grid_network.json"), "utf-8"));
+    return K.nettieValue(check, [stored, committed].filter((s) => s && N.isSnapshot(s)));
+  }
   // session 43: the bill explainer's default bills, recomputed here from data/bill_rules.json (California by the tariff's
   // total rates, not its unbundled lines; Texas by its charges), and the wholesale share from cost_of_power_monthly
   // session 315: a finding card's figures, from the card's own JSON (site/data/findings/<card>.json): a callout's text

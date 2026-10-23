@@ -522,6 +522,44 @@ Decisions (chain 078):
   before. check-methods reads a calc key as the figures of all its operands (two, as before, or three).
 - **No figure in the block's words**: where each gap sits is said in words; the figures are the keyed ones.
 
+### The Exchange blocks under the gravity shape (session 1167)
+
+Session 1167: in "Each neighbour, that hour" (`components/grid/ExchangeView.tsx`, on the Gravity tab under the shape)
+each neighbour's flow in the hour shown keeps its key (`net|tie|<BA>|<other>|<hour>`) and now answers a hover with its
+tie, its hour and the snapshot's refresh, and the same tie over the snapshot's week in words; beside it, four keyed
+columns of that week: the mean flow (whole MW), the lowest, the highest and the hours that hold a flow, signed from the
+grid's side, keyed `nettie|<mean|min|max|hours>|<BA>|<other>|<from>|<to>` (`from` and `to` the snapshot's first and
+last hour), a new key kind: check-values recomputes it with the page's rule (`nettieValue` in `site/lib/gridKeys.ts`,
+the window by `windowOf`) on the snapshots it reads for the `net|` keys, the hourly one in Storage first, then the
+committed one, each hour from the first that holds it. The direction is said in words, "<grid> sends to <code>" above
+zero and "<grid> takes from <code>" below (it was "out" and "in"); the twelve months' table gains the same words (its
+positive number is a net import, so "takes from", "net"). The hour's age against the snapshot's refresh is said once
+in each branch of the block, the Lower 48's and a grid's, keyed `net|lag|<hour>|<refresh>` as under the network, and
+not in any row. On the committed snapshot (refreshed 2026-10-23 14:36 UTC, the hour shown 21 October 23:00 UTC, 40
+hours before it): ERCOT takes 51 MW from SPP in the hour, a mean of -96 MW over 144 hours, from -804 to 722 MW.
+
+The same session, the standing rule (`site/lib/license.ts`: no held grid's rows are drawn): the replay's and the
+stories' files (`public/network/daily_<year>.json`, `story_<event>.json`) hold ISO-NE's, MISO's and NYISO's hub
+prices from `iso_hub_prices_history`, held by grid since 21 October 2026, and the Prices switch drew them. Each view's
+price now leaves a held grid out (`shownPrice` in `app/network/Network.tsx`, the rule in `site/lib/gridHeld.ts`): no
+ring, and the panel reads "license needed" with the publishers on hover (MISO keeps "paused while terms are reviewed"
+in version 3). The live week's prices were already refused by the read. `iso_hub_prices_history` joins the Network and
+Gravity tabs' list of tables read (`site/lib/gridtables.ts`), so their license line names it.
+
+Decisions (session 1167):
+
+- **The week's figures are written in the table, each with its key, and in words in the hour's hover line**: a figure
+  only in a hover could not be keyed, and "keys for every figure" asks that each one shown be checked.
+- **A new kind, `nettie|`, not a `netbal|` window**: the balance's window is the grid's, the tie's is one pair; its
+  recomputation and its test (`site/scripts/test-grid-exchange.mjs`) came with it.
+- **The mean is rounded to whole MW in the rule itself**, so the key's value, the page's raw value and the text agree;
+  the lowest and highest are the flows as the snapshot holds them.
+- **The week is every hour of the snapshot that holds a flow on the tie**, not only hours with every tie: a tie's own
+  figures need only its own hours.
+- **The age is said once in the Exchange block** even though the network above it on the Gravity tab says it for its
+  own read: each block reads the snapshot on its own (the Exchange block on every request), so each says the hour it
+  shows. Whether the tab should say it once only is put to the owner.
+
 ## Not here
 
 - The published boundaries of the balancing authorities: not held after three pulls. The Map draws the ERW's own derivation from counties, labeled as derived (see "The map", "The derived map: counties").
@@ -736,3 +774,4 @@ Each number `/grid` shows carries its key (`site/components/Num.tsx`), which `si
 - `net|topexport|<hour>`: the Exchange view of the Lower 48, in its first paragraph: the largest net export of any balancing authority in the hour shown, in MW, its reporting ties summed and signed from its side (`netExports` and `topExporter` in `site/lib/network.ts`), from the same snapshot; two authorities with the same net export give it to the first by its id.
 - Chain 077 (23 October 2026), the server panels of the Network and Gravity tabs (the section "The Grid tool's panels, every figure keyed" above): `net|tie|<BA>|<other>|<hour>`, each reporting tie of the grid in view in the hour the network opens on, MW, signed from the grid's side; `net|export|<BA>|<hour>` and `net|import|<BA>|<hour>`, the sum of those ties as a net export or a net import; `net|ties|<BA>|<hour>`, how many ties reported; `netsnap|<BA>|demand_mw|<hour>`, the grid's demand in that hour where the hourly snapshot holds it (else the `series` key of `eia930_all_demand`, `demand_mw`); on the Gravity tab, `eia930_all_generation`, `net_generation_mw` (a `series` key) and `calc|pct|` of the import over it. On the Clean tab, `carbon_intensity_hourly`, `intensity_generation` (`series` keys, the latest, lowest and highest of the 24 hours).
 - Chain 078 (24 October 2026), the Network tab's balance (the section "The balance, said where the figures are" above): `calc|bal|<G>|<D>|<X>`, the gap in the hour shown, net generation less demand less net export, from the `series` key of `eia930_all_generation` (`net_generation_mw`), the panel's demand key and `net|export|<BA>|<hour>`; `netbal|absmean|<BA>|<from>|<to>`, the mean size of the gap (its absolute value) over the snapshot's week, MW; `netbal|hours|<BA>|<from>|<to>`, the count of hours of the week that hold every tie, the net generation and the demand.
+- Chain 078 (24 October 2026), session 1167, the Exchange blocks under the gravity shape (the section "The Exchange blocks under the gravity shape" above): `nettie|mean|<BA>|<other>|<from>|<to>`, one tie's mean flow over the snapshot's week, whole MW, signed from the grid's side; `nettie|min|...` and `nettie|max|...`, its lowest and highest flow, MW; `nettie|hours|...`, the count of hours of the week that hold a flow on the tie; `net|lag|<hour>|<refresh>`, the hour's age in hours before the snapshot's refresh, said once in the block.

@@ -255,3 +255,64 @@ export function lastDayFigures(rows: IntensityRow[], entities: string[], newest:
   }
   return out;
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Session 1167 (chain 078): the Exchange blocks under the gravity shape (components/grid/ExchangeView.tsx). Each
+// neighbour's flow in the hour shown keeps its key (net|tie|<BA>|<other>|<hour>); beside it, the same tie over the
+// snapshot's week, keyed by a new kind, nettie|<stat>|<BA>|<other>|<from>|<to> with stat mean, min, max or hours: the
+// tie's flow signed from the grid's side in every hour of the window that holds one, its mean (whole MW), its lowest and
+// highest, and the count of those hours. check-values recomputes it with nettieValue below on the snapshots the net| keys
+// read (the hourly one in Storage first, then the committed one, each hour from the first that holds it: windowOf). The
+// direction in words is the sign's: "sends to" above zero, "takes from" below, "none" at zero.
+
+export type TieWeek = { mean: number; min: number; max: number; hours: number };
+export type TieStat = keyof TieWeek;
+export const TIE_STATS: readonly TieStat[] = ["mean", "min", "max", "hours"];
+
+/** One tie of the grid over the window's hours, signed from the grid's side: its mean (rounded to whole MW), lowest,
+ * highest and the count of hours that hold a flow; null when the window holds no flow on the tie. */
+export function tieWeek(links: { a: string; b: string; mw: (number | null)[] }[], ba: string, other: string): TieWeek | null {
+  const l = links.find((x) => (x.a === ba && x.b === other) || (x.a === other && x.b === ba));
+  if (!l) return null;
+  const s = l.a === ba ? 1 : -1;
+  const vs = l.mw.filter((v): v is number => v !== null && v !== undefined && Number.isFinite(v)).map((v) => z(s * v));
+  if (!vs.length) return null;
+  return { mean: z(Math.round(vs.reduce((a, v) => a + v, 0) / vs.length)), min: z(Math.min(...vs)), max: z(Math.max(...vs)), hours: vs.length };
+}
+
+/** check-values' nettie|<stat>|<BA>|<other>|<from>|<to>: on the snapshots it reads. Undefined when the key is not one,
+ * the window is not held, or the tie holds no flow in it. */
+export function nettieValue(check: string, snaps: Snapshot[]): number | undefined {
+  const [head, stat, ba, other, from, to] = check.split("|");
+  if (head !== "nettie" || !TIE_STATS.includes(stat as TieStat) || !ba || !other || !from || !to) return undefined;
+  const w = windowOf(snaps, ba, from, to);
+  if (!w) return undefined;
+  const t = tieWeek(w.links, ba, other);
+  return t ? t[stat as TieStat] : undefined;
+}
+
+/** The direction of a flow signed from the grid's side, in words. */
+export function directionWords(mw: number): "sends to" | "takes from" | "none" {
+  return mw > 0 ? "sends to" : mw < 0 ? "takes from" : "none";
+}
+
+export type ExchangeTie = { other: string; dir: "sends to" | "takes from" | "none"; mean: Fig | null; min: Fig | null; max: Fig | null; hours: Fig | null; tip: string };
+
+/** The Exchange block's week for each neighbour of the hour shown (`others`, in the block's order): the four keyed
+ * figures and the hover line of the hour's flow, which names the tie, the hour and the refresh, and gives the week's
+ * mean, lowest and highest in words. The hour's age is not repeated here: the block says it once (net|lag). */
+export function exchangeTies(snap: Snapshot, ba: string, hour: string, ties: { other: string; mw: number }[]): ExchangeTie[] {
+  const from = snap.hours[0], to = snap.hours[snap.hours.length - 1];
+  const w = windowOf([snap], ba, from, to);
+  const span = `${hourName(from)} to ${hourName(to)}`;
+  return ties.map((t) => {
+    const week = w ? tieWeek(w.links, ba, t.other) : null;
+    const f = (stat: TieStat, what: string): Fig | null => (week ? { check: `nettie|${stat}|${ba}|${t.other}|${from}|${to}`, raw: week[stat],
+      tip: `eia930_all_interchange (the hourly network snapshot refreshed ${refreshName(snap.built)}), ${ba}'s tie with ${t.other}, ${what}, signed from ${ba}'s side, over the hours from ${span} that hold a flow` } : null);
+    const mw = (v: number) => v.toLocaleString("en-US");
+    const weekWords = week ? ` Over the week (${span}, ${mw(week.hours)} hours with a flow): mean ${mw(week.mean)} MW, lowest ${mw(week.min)} MW, highest ${mw(week.max)} MW.` : " The week holds no flow on this tie.";
+    return { other: t.other, dir: directionWords(t.mw), mean: f("mean", "the mean flow, MW, rounded to whole MW"), min: f("min", "the lowest flow, MW"),
+      max: f("max", "the highest flow, MW"), hours: f("hours", "the count of hours"),
+      tip: `eia930_all_interchange (the hourly network snapshot refreshed ${refreshName(snap.built)}), ${ba}'s tie with ${t.other}, MW signed from ${ba}'s side, hour ${hourName(hour)}.${weekWords}` };
+  });
+}

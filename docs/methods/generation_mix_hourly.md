@@ -438,6 +438,14 @@ Decisions (chain 078):
 - **The headline tables, not every cell**: a view's top numbers and its first tables are keyed; the large tables below
   them wait for a pass of their own.
 
+Session 1167 (the standing rule, `site/lib/license.ts`: no held grid's rows are drawn): the clean view's table of the
+seven grids now draws ISO-NE's, MISO's and NYISO's six cells as "license needed", in the view's own placeholder (the
+publishers on hover), as every other block of the view already did; the four other grids' figures and keys are as they
+were. The hub price beside the mix (the average day and year after year, "Price"; `data/mixplus`, built from
+`iso_hub_prices_history` for every grid but ERCOT) reads "license needed" for ISO-NE and NYISO, whose prices the file
+holds; MISO keeps "paused while terms are reviewed" (its file holds none). The rule is `site/lib/gridHeld.ts`, its test
+`site/scripts/test-grid-held.mjs`.
+
 ## The figures on the page and their keys
 
 Each number `/grid` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The keys the sections above do not name:
