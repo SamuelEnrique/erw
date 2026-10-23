@@ -45,4 +45,4 @@ Public: a work of the U.S. government (record 1 of `license_reads.csv`).
 
 ## What they do not hold
 
-- Reserves; the OECD's imports by source; coal, total energy and emissions (chain 053's session 937 is to take them from the same file).
+- Reserves; the OECD's imports by source. Coal, total energy and emissions are in `eia_world_coal_energy.md` (session 937, from the same file).

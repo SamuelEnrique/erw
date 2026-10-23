@@ -6,8 +6,8 @@
 
 - **Chain 054 written and pushed first:** `queue/next/054-day-23-october-data-federal-royalties-wind-costs-minerals.md` (sessions 951 to 964, machine: data), committed alone and pushed to main with the queue move of 053 (`e2d5d45c`; `git status -sb` showed nothing ahead), with a snapshot pair (`c053-054-before`, `-after`: 0 differences; Vercel rate-limited the deploy).
 - **Two tables written, validated, archived, in coverage (sectors coal and carbon, public), in the release package, both holds,** from the bulk file chain 051 saved, the fourth and fifth tables of `eia_intl_bulk.py`; the three earlier tables, run again from the new code, are the same row for row:
-  - `eia_world_coal_annual`: 317,307 rows, 1,854 series, 1980 to 2024: each area's coal and its kinds' (anthracite, bituminous, subbituminous, lignite, metallurgical coal, coke) production, consumption, imports and exports, and coal reserves; in short tons.
-  - `eia_world_energy_co2_annual`: 246,988 rows, 3,701 series, 1949 to 2025: total primary energy production and consumption, in all and by source (TBtu), and energy-related CO2 emissions by fuel (tCO2). Before 1980 only the U.S. and the groups that hold it have rows.
+  - `eia_world_coal_annual`: 317,307 rows, 1,854 area and product pairs (7,685 of EIA's series), 1980 to 2024: each area's coal and its kinds' (anthracite, bituminous, subbituminous, lignite, metallurgical coal, coke) production, consumption, imports and exports, and coal reserves; in short tons.
+  - `eia_world_energy_co2_annual`: 246,988 rows, 3,701 area and product pairs (5,819 of EIA's series), 1949 to 2025: total primary energy production and consumption, in all and by source (TBtu), and energy-related CO2 emissions by fuel (tCO2). Before 1980 only the U.S. and the groups that hold it have rows.
 - **The cross-checks:**
   - **The U.S. against EIA's U.S. tables:** coal production against `eia_coal_production_annual` equal in 24 of 24 years (2024: 512,540,324 short tons in both); CO2 from all fuels against `eia_co2_state_annual`'s U.S. total within 0.7 percent in 53 of 53 years (2022: 4,938 and 4,934 million tonnes); total energy consumption against SEDS's (`eia_seds_state_energy`) within 0.2 percent in 35 of 35 years (2024: 94,556 and 94,543 TBtu).
   - **The world against the countries summed:** coal production and consumption, total energy consumption and CO2 within 0.04 percent in every year (2023: 9,589 million short tons of coal produced; 592,033 TBtu of energy consumed; 37,315 million tonnes of CO2).
@@ -30,3 +30,7 @@
 - New: `tests/test_session937.py` (2 tests), this report; on main, `queue/next/054-day-23-october-data-federal-royalties-wind-costs-minerals.md`.
 - Changed: `warehouse/connectors/eia_intl_bulk.py` (two tables), `build_coverage.py`, `release_v1.py`, `live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
 - On the data machine only: `runs/c053/s937/`, `runs/license_reads/s937/`, `runs/s937*`.
+
+## Corrected by session 946
+
+- The two tables' counts called "series" (1,854 and 3,701) were the area and product pairs, the entities; the tables hold 7,685 and 5,819 of EIA's series (7,671 and 5,817 entity and variable pairs with a figure), as their headers say. The lines above are corrected.

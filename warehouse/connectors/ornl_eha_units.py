@@ -12,7 +12,7 @@ Unit Database, 2026 (HydroSource, ORNL; DOI 10.21951/FY2026/3374522), the workbo
     name         "<plant name>, unit <EHA unit id>"; geo empty (the sheet gives a county FIPS code, not a state; the plant's
                  state is in ornl_eha_hydropower_plants, joined by eha_plant_id); lat, lon the plant's
     capacity_mw  the unit's capacity (MW); status and operator empty (the plant's owner is in plant_owner)
-    the rest     the database's fields, renamed with their units: the EHA plant id, owner, type (HY or PSH), the EIA plant and
+    the rest     the database's fields, renamed with their units: the EHA plant id, owner, type (HY or PS, as ORNL writes them), the EIA plant and
                  generator ids, the EHA and FERC ids, first year of operation and refurbishment year, turbine type and maker,
                  speed (rpm), rated head (ft), power (hp), minimum load (MW), start time from cold shutdown (as given: 10M,
                  2H), hydrologic unit code and county FIPS code

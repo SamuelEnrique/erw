@@ -134,7 +134,7 @@ def main(argv=None):
             "(empty for a dam on a border: its states, as ORNL writes them, IL/KY, are in state); capacity_mw ORNL's potential capacity (the potential annual energy over a regional capacity factor); "
             "status empty (a potential, not a plan); operator the dam's owner; head_ft, flow_cfs (annual mean), potential_mwh_year, capacity_factor_pct, "
             "storage_acre_ft as ORNL estimates them.",
-            f"{len(t)} dams, {cap.sum():,.0f} MW of potential in all; the largest: " + "; ".join(f"{r['name']} ({r.geo}, {r.c:,.0f} MW)" for _, r in top.iterrows())
+            f"{len(t)} dams, {cap.sum():,.0f} MW of potential in all; the largest: " + "; ".join(f"{r['name']} ({r.geo or r['state']}, {r.c:,.0f} MW)" for _, r in top.iterrows())
             + ". Estimates from flows and heads not measured at the dams (ORNL's caution); the monthly flows and energies are not taken. Nothing is filled.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/ornl_npd.py; the workbook retrieved {retrieved}, last modified {vintage}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",

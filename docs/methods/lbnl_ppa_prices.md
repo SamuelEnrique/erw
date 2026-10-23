@@ -2,7 +2,7 @@
 
 Energy Research Warehouse (ERW), method note written in session 918 (chain 051) for a table first written on 23 October 2026.
 
-Tables: `lbnl_ppa_prices`
+Tables: `lbnl_ppa_prices`, `lbnl_hybrid_ppa_prices`
 
 ## Publisher and address
 
@@ -44,5 +44,15 @@ Each file's copyright notice: "This work is openly licensed via CC BY 4.0" (Copy
 
 ## What it does not hold
 
-- PV+battery PPAs ("PV+Battery Hybrid PPA Price"), concentrating solar ("PPA Price for CSP Plants"), and LevelTen's and Trio's price indices, which the same files hold.
-- The projects' names or places.
+- Concentrating solar ("PPA Price for CSP Plants"), and LevelTen's and Trio's price indices, which the same files hold. The PV+battery PPAs are `lbnl_hybrid_ppa_prices` (session 940, below); the solar projects and the wind plants' capacity factors are in `lbnl_projects.md`.
+- The PPAs' projects (LBNL names none in the PV-only and wind sheets).
+
+## The PV+battery PPAs (session 940; added by session 946)
+
+`lbnl_hybrid_ppa_prices`: the "PV+Battery Hybrid PPA Price" sheet of the solar file above (Utility-Scale Solar, 2025 Data Update), read from the file `lbnl_ppa_prices.py` saves. Connector: `warehouse/connectors/lbnl_hybrid_ppa_prices.py`; ceiling one request, none while the saved file is on the machine.
+
+Events, 113 PPAs executed from 9 September 2015 to 13 June 2025: 102 greenfield (PV and battery contracted together) and 11 retrofits (a battery added to an operating PV plant), in ten states (California 39, Hawaii 24, Nevada 17, New Mexico 16, Arizona 8, and five with three or fewer). `event_id` `lbnl_hybrid:<EIA ID, or the plant's name as a slug>:<greenfield|retrofit>`; `event_date` the PPA's execution (greenfield) or the retrofit's; `event_type` `ppa_hybrid`; `entity_ids` `lbnl_solar:<EIA ID>` for each id the row names (a retrofit names the PV plant and the battery, "58542/65857"); `mw` the PV capacity (MW-AC); `price` the PV+battery price levelized over the term, in real 2024 USD per MWh of PV output (the sheet's `PV+BESS_$_per_MWh-PV_real`); `x_*` the kind, state, plant, LBNL's year added, PV MWh a year, battery MW, MWh, duration and its ratio to PV, the PV-equivalent duration, the PV and battery executions and CODs, the retrofit's, and the price's parts: the PV price, the battery adder per MWh of PV, per MWh stored and per MW-month; `x_dollar_year` 2024.
+
+The median combined price was 29.4 USD/MWh-PV for 2019's PPAs, 40.6 for 2021's, 70.0 for 2024's and 77.9 for 2025's. A heading not as read, or a row with a price and no date, stops the run; nothing is filled.
+
+Cross-checks (session 940): the combined price equals the sheet's own price column for its chart in all 113 rows; of the 114 EIA ids the rows name, 73 are projects of `lbnl_solar_projects`, and of 63 greenfield PPAs matched there 39 give the same battery MW and PV MW-AC. Session 946, against the table: every row has an `entity_ids`; the counts above computed from the rows.

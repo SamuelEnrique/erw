@@ -20,6 +20,10 @@
 
 - None new.
 
+## Errors
+
+- **This session's precheck was not run** (added by session 946, which found the missing `runs/c053_pre945.out`): session 944's precheck had put the machine on duty until 03:30 UTC on 24 October, so the duty held, but the session did not ask. Session 946's ran first and passed.
+
 ## Files
 
 - New: `warehouse/derived/ercot_node_wires_utilities.py`, `docs/methods/ercot_node_wires_utilities.md`, `tests/test_session945.py` (3 tests), this report.
