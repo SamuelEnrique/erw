@@ -63,6 +63,9 @@ CANON = [
     (r"(?i)^WSJ$|wsj\.com$", "WSJ"), (r"(?i)reuters", "Reuters"), (r"(?i)hydrogen ?insight", "Hydrogen Insight"), (r"(?i)^JPT Homepage$|jpt\.spe\.org", "JPT"),
     (r"IEA .* International Energy Agency", "IEA"), (r"(?i)cpuc\.ca\.gov|California Public Utilities Commission", "California Public Utilities Commission"),
     (r"Public Utility Commission of Texas|PUC Interchange", "Public Utility Commission of Texas"), (r"(?i)epa\.gov|Environmental Protection Agency|EPA's", "EPA"),
+    # session 888: the U.S. Wind Turbine Database is a USGS data release, made with LBNL and ACP and distributed by USGS (its
+    # header: USGS's public domain). PUDL's FERC Form 714 tables are left unmatched on purpose: they wait on FERC's own page
+    (r"^U\.S\. Geological Survey", "U.S. Geological Survey (USGS)"),
 ]
 # tables no rule resolves, or resolves wrongly: their publishers by hand, each with the reason
 BY_HAND = {
