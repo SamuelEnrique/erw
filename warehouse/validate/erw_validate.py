@@ -161,7 +161,8 @@ ENTITIES_COLS = ["entity_id", "entity_type", "name", "geo", "lat", "lon", "capac
 ENTITIES_REQUIRED = ["entity_id", "entity_type", "name", "source"]
 ENTITY_TYPES = {"plant", "generator", "project", "datacenter", "substation", "utility", "company",
                 "counterparty",
-                "equipment"}  # session 896: a plant's boiler, cooling system or emissions control (EIA-860; Decision 54)
+                "equipment",  # session 896: a plant's boiler, cooling system or emissions control (EIA-860; Decision 54)
+                "dam"}  # session 982: a dam and its reservoir, the National Inventory of Dams (usace_nid_dams; Decision 57)
 # docs/datastandard.md shape (b) and Decision 20: the source's own status stays in its own column
 ENTITY_STATUS = {"operating", "planned", "under_construction", "retired", "withdrawn", "active",
                  "completed", "suspended"}
