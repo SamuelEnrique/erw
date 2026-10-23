@@ -212,6 +212,7 @@ SECTOR_RULES = [
     (r"^onrr_revenue_monthly$", "oil;gas;coal"),  # session 951
     (r"^lbnl_wind_(costs|turbine_orders)$", "power"),  # session 952
     (r"^eia_primary_energy_monthly$", "power;gas;oil;coal"),  # session 953
+    (r"^usgs_mcs_critical_minerals$", "metals"),  # session 954
     (r"^eia861_short_form$", "power"),  # session 876: EIA-861S, the small utilities' sales  # session 869: EIA-861's meters and net metering by utility  # session 868: EIA-861's programs by utility  # session 867: EIA-861's utility data: NERC region, RTOs, activities  # session 853: EIA-861's delivery-only companies (Texas's wires utilities)  # session 695: EIA-861's distribution reliability (SAIDI, SAIFI, CAIDI) by utility
     (r"^eia_gas_storage_state_monthly$", "gas"),  # session 525: EIA's natural gas in underground storage by state, a month
     (r"^eia_state_capacity_annual$", "power"),  # session 526: EIA's state electricity profiles, net summer capacity

@@ -6592,6 +6592,18 @@ storage_owners_monthly,us_planned_mw,series variable,MW
 storage_owners_monthly,us_planned_units,series variable,count
 storage_owners_monthly,us_top10_share_pct,series variable,pct
 storage_owners_monthly,us_top5_share_pct,series variable,pct
+usgs_mcs_critical_minerals,consumption,series variable,t
+usgs_mcs_critical_minerals,employment,series variable,count
+usgs_mcs_critical_minerals,export,series variable,t
+usgs_mcs_critical_minerals,import,series variable,t
+usgs_mcs_critical_minerals,import_share,series variable,pct
+usgs_mcs_critical_minerals,net_import_reliance,series variable,pct
+usgs_mcs_critical_minerals,price,series variable,USD/kg
+usgs_mcs_critical_minerals,price,series variable,USD/lb
+usgs_mcs_critical_minerals,price,series variable,USD/t
+usgs_mcs_critical_minerals,production,series variable,t
+usgs_mcs_critical_minerals,reserves,series variable,t
+usgs_mcs_critical_minerals,stock,series variable,t
 uspvdb_solar_facilities,entity_id,column,
 uspvdb_solar_facilities,entity_type,column,
 uspvdb_solar_facilities,name,column,
