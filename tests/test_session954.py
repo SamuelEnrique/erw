@@ -49,7 +49,7 @@ class Build(unittest.TestCase):
     def test_rows(self):
         t, marks = U.build(frame(), BASE)
         t = t.set_index("entity")
-        self.assertEqual(len(t), 9)
+        self.assertEqual(len(t), len(U.CHAPTERS) + 3)  # one production row a chapter, and three of the rows below (session 981: 16 chapters)
         self.assertFalse(any(e.startswith("usgs_mcs:zinc") for e in t.index))
         self.assertAlmostEqual(t.loc["usgs_mcs:copper:united_states:price_cents_per_pound"].value, 4.15)
         self.assertEqual(t.loc["usgs_mcs:copper:united_states:price_cents_per_pound"].unit, "USD/lb")
