@@ -2,7 +2,7 @@
 
 Energy Research Warehouse (ERW), method note written in session 918 (chain 051) for tables first written on 23 October 2026.
 
-Tables: `ornl_eha_hydropower_plants`, `ornl_hydropower_pipeline`
+Tables: `ornl_eha_hydropower_plants`, `ornl_hydropower_pipeline`, `ornl_hydropower_relicensing`
 
 ## Publisher and address
 
@@ -46,3 +46,11 @@ HydroSource's Data Use Policy (read 116 of `license_reads.csv`): "Data hosted on
 ## What they do not hold
 
 - ORNL's unit database (EHA Unit, each turbine), its generation and capacity factor time series, and capacity additions at existing plants (ORNL leaves them out of the pipeline: they rest on a proprietary source).
+
+## The relicensing and surrender records (session 930; added by session 932)
+
+`ornl_hydropower_relicensing`: ORNL's U.S. Hydropower Relicensing and License Surrender Data, 2026 (M.M. Johnson and R. Uria-Martinez; published May 2026; DOI 10.21951/HMR_RelicenseSurrender/3031244), sheets "Relicenses" and "Surrenders" of the workbook its landing page links (`https://hydrosource.ornl.gov/data/datasets/us-hydropower-relicensing-and-license-surrender-data-2026/`). Connector: `warehouse/connectors/ornl_hydro_relicensing.py`. A snapshot of 31 December 2025, retrieved 2026-10-23T10:14:02Z (last modified 6 May 2026); ceiling one request.
+
+Events, 559 records. `event_id` `ornl_relicense:<FERC docket>:<relicense|surrender>` (one surrender docket the sheet gives twice keeps `-2`); `event_date` FERC's issuance where given (313), else the application's (194), else the notice of intent's (52), with `x_date_kind`; `event_type` `hydro_relicense` (407) or `hydro_license_surrender` (152); `parties` the licensee; `entity_ids` `ornl_eha:<EHA_PtID>` where ORNL gives the plant (548); `mw` the new license's capacity (relicense) or the surrendered project's (surrender); `status` ORNL's own (Issued Relicense 198, Pending Relicense 160, Submitted NOI to Relicense 40, Converted to Exemption 9; Issued Surrender 82, Pending Surrender 31, Submitted NOI to Surrender 9, Issued License Termination 15, Issued Exemption Termination 15). `x_*` the other fields: the old capacity, the dates, the process (TLP 219, ILP 157, ALP 22), the new mode, the settlement (57), construction and turbine-generator flags, the dam's removal (28 surrenders) and the reason. A heading not in the map or a record without a date stops the run.
+
+Cross-checks against `ornl_eha_hydropower_plants` (session 930): of the 405 relicensing records that name a plant, 401 are in the fleet table and 396 carry its docket; 193 of 197 issued relicenses give the fleet table's FERC expiry; the new capacity equals the fleet table's within 1 MW for 130 of 197; 46 of the 143 surrenders that name a plant are still in the fleet table.
