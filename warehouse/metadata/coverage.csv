@@ -199,6 +199,7 @@ ercot_node_places,ERCOT,,569,snapshot,2026-10-23T06:46:36Z,2026-10-23T06:46:36Z,
 ercot_node_planned_generation,ERCOT,,569,snapshot,2026-10-23T10:20:32Z,2026-10-23T10:20:32Z,569,erw:ercot_node_planned_generation,2026-10-23T10:20:32Z,pass,public,power,no,source
 ercot_node_prices_hourly,ERCOT,ercot_dam;ercot_rtm,236,PT1H,2026-07-18T05:00:00Z,2026-10-22T04:00:00Z,499512,erw:node_basis_hourly,2026-10-22T17:25:22Z,pass,internal,power,no,derived
 ercot_node_transmission,ERCOT,,569,snapshot,2026-10-23T08:41:17Z,2026-10-23T08:41:17Z,569,erw:ercot_node_transmission,2026-10-23T08:41:17Z,pass,public,power,no,source
+ercot_node_wires_utilities,ERCOT,,569,snapshot,2026-10-23T11:28:45Z,2026-10-23T11:28:45Z,569,erw:ercot_node_wires_utilities,2026-10-23T11:28:45Z,pass,public,power,no,source
 ercot_peak_premium_annual,ERCOT,ercot_rtm,6,P1Y,2015-01-01T00:00:00Z,2026-01-01T00:00:00Z,2016,erw:ercot_peak_premium,2026-10-21T08:42:56Z,pass,public,power,yes,derived
 ercot_peak_premium_monthly,ERCOT,ercot_rtm,6,P1M,2015-01-01T00:00:00Z,2026-10-01T00:00:00Z,23856,erw:ercot_peak_premium,2026-10-21T08:42:56Z,pass,public,power,yes,derived
 ercot_rtm_node_prices,ERCOT,ercot_rtm,312,PT15M,2026-09-28T04:45:00Z,2026-10-22T17:00:00Z,734448,ercot:NP6-905-CD,2026-10-22T17:20:29Z,pass,public,power,no,source

@@ -330,6 +330,7 @@ catalogue_hold:
   - eia861_short_form
   - ornl_eha_hydropower_units
   - lbnl_wind_capacity_factors
+  - ercot_node_wires_utilities
   - lbnl_hybrid_ppa_prices
   - lbnl_solar_projects
   - ornl_npd_potential
