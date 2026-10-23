@@ -8,7 +8,7 @@
 - **One table written, validated, archived, in coverage (sectors power and gas, public), in the release package, both holds:** `noaa_climdiv_state_monthly`, 31,458 rows: the 48 contiguous states' and the contiguous nation's monthly average temperature (degF) and precipitation (inches), January 2000 to September 2026, each with **the 1901 to 2000 mean NCEI publishes** for that state and calendar month (the normals file's period 0031, the 20th century base Climate at a Glance's anomalies use). Hawaii, Alaska and the regions are not taken.
 - **A new unit, `in`** (precipitation in inches, Decision 60), added to `docs/datastandard.md` and the validator together. Chain 058 has taken Decision 59 (`gal`) on its own branch, so this one is numbered 60; until this chain lands, writes, Method-cell runs and uploads of the table run with the branch's validator copied in.
 - **NCEI's state codes are its own,** 001 Alabama to 048 Wyoming and 110 the contiguous United States (not FIPS); the entity keeps NCEI's code (`noaa_climdiv:041`, Texas), `node` the state's name and `geo` its ISO code.
-- **The latest year's unprocessed months** (-99.90 and -9.99 in NCEI's files) are omitted rows; a missing value in any earlier month stops the run.
+- **The latest year's unprocessed months** (-99.90 and -9.99 in NCEI's files) are omitted rows; a month marked missing in any year would be omitted too (no month before them is), and any other value below the marks stops the run (session 2052 corrected an earlier line here).
 
 ## The cross-check
 

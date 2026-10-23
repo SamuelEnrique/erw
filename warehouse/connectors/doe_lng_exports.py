@@ -14,8 +14,9 @@ U.S. gas as LNG from Canada and Mexico (canada_mexico), and the small-scale appl
 notes are not taken. One row an application as the summary lists it (a row of the table).
 
     entity_id    doe_lng:<docket>, the first docket the row names (FTA, else non-FTA), with -2 for a docket a second row
-                 names first; entity_type project; name the applicant as printed, the summary's footnote letters
-                 ("(d)", "(h) (w)") moved to x_footnotes
+                 names first; entity_type project; name the applicant as printed; a footnote letter printed in the name's own size ("(g)")
+                 would go to x_footnotes, but in the summary of 30 September 2026 every marker is 7-point text, so the
+                 column is empty
     status       active when either part is approved, planned when a part is under review and none is approved,
                  withdrawn when every part is vacated, withdrawn, dismissed or expired; x_fta_status and
                  x_non_fta_status keep the Department's words ("Approved (F)", "Under DOE Review")

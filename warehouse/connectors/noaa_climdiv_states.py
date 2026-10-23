@@ -14,15 +14,16 @@ files of NCEI's nClimDiv directory (https://www.ncei.noaa.gov/pub/data/cirs/clim
 The record format is state-readme.txt's and normals-readme.txt's: a 3-digit state code (NCEI's own numbering, 001
 Alabama to 048 Wyoming, 110 the contiguous United States), a division digit (0, the state's area average), a 2-digit
 element code (01 precipitation, 02 average temperature), a 4-digit year (in the normals files, the period's code), then
-twelve 7-character monthly values. A month the latest year has not reached (-99.90 for temperature, -9.99 for
-precipitation) is an omitted row.
+twelve 7-character monthly values. A month marked missing (-99.90 for temperature, -9.99 for precipitation; NCEI
+marks the months the latest year has not reached) is an omitted row in whatever year it falls; any other value below
+those marks stops the run.
 
     entity      noaa_climdiv:<state code>, e.g. noaa_climdiv:041 (Texas); node the state's name; geo its ISO 3166-2 code
     variable    temp_avg (degF) or precip (in), a calendar month: ts_utc the month's first day, freq P1M
     x_mean_1901_2000   the 1901 to 2000 mean of that state, element and calendar month, from the normals file
 
-Values as NCEI publishes them; nothing is filled. A line not 94 characters, a state code outside the map or a missing
-1901 to 2000 mean stops the run.
+Values as NCEI publishes them; nothing is filled. A line not 94 characters, an element or division not the file's, or a missing 1901 to 2000
+mean stops the run; a state code outside the map (Hawaii, Alaska, the regions) is not taken.
 
     python warehouse/connectors/noaa_climdiv_states.py [--offline] [--first-year 2000] [--out-dir DIR]
 

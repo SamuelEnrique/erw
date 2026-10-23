@@ -8,7 +8,7 @@
   - Table 2.2, the four end-use sectors' and the nation's energy consumption, 1950 to 2024 (175 rows; TEDB's quadrillion Btu written as TBtu, x 1,000);
   - Table 2.4, transportation's energy use and each source's share (petroleum, natural gas, coal, renewables, electricity), 1950 to 2024 (234 rows; a share in percent, TEDB's fraction x 100);
   - Table 2.7, transportation's energy use by mode and fuel in 2023, 28 modes from cars to commuter rail (103 rows, TBtu);
-  - Table 2.8, the same modes' totals, 2022 and 2023 (58 rows);
+  - Table 2.8, the same 28 modes' totals and off-highway equipment (29 rows a year), 2022 and 2023 (58 rows);
   - Table 6.2, light-duty sales of hybrids, plug-in hybrids and battery electric vehicles, and all light-duty sales, 1999 to 2024 (104 rows; TEDB's thousands written as a count).
 - **Each mode is a path** (`ornl_tedb:t2_7:highway.light_duty.cars`, `t2_8:nonhighway.rail.passenger.transit`), read from the row's capitals and indentation against a closed map of labels; a footnote letter in a label ("Light-duty trucksb") is dropped, and a label not in the map stops the run.
 - **Flagged internal until a ruling:** the book's pages state no terms of reuse (its citation page, read 189), and Table 6.2 is compiled by Argonne's Transportation Research Center from sales it does not name; other tables of the book draw on licensed sources. The table's verdict is "not settled".

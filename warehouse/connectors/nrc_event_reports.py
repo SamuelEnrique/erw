@@ -8,7 +8,8 @@ of the NRC's own publications of the same reports:
 
     the raw data file  https://www.nrc.gov/sites/default/files/doc_library/reading-rm/doc-collections/event-status/event/
                        event-notification-rpt-lastmonth.txt (pipe separated, the fields of the NRC's data dictionary;
-                       its Last-Modified was 5 August 2025 when session 2043 read it, and it holds June and July 2025)
+                       its Last-Modified was 5 August 2025 when session 2043 read it; its reports were notified in June and July
+                       2025, of events from May to July)
     the daily pages    https://www.nrc.gov/documents-reports/document-collections/events-reports-associated-with/
                        event-notification-reports/<YEAR>/<YYYYMMDD>en, listed by the year's index page
 
@@ -20,7 +21,9 @@ reports are not. One row a report and unit (a report about two units is two rows
                  the rest); x_event_local and x_event_tz keep the NRC's
     event_type   reactor_scram when the unit's scram code is not N (A/R automatic, M/R manual) or the report is made
                  under 50.72(b)(2)(iv)(B) (the reactor protection system actuated while critical), else reactor_event
-    parties      the licensee where the NRC names one; x_facility the site
+    parties      the licensee where the report names one (the raw file names it; the daily pages' power reactor reports
+                 name none, and those rows' parties are empty);
+                 x_facility the site; x_last_update the date of the report's last update
     x_*          the event number, unit, region, state, county, docket, reactor type, the notification's time (the NRC's
                  Eastern time and UTC), the last update, the emergency class, every 10 CFR section and its words, the
                  scram code, whether the reactor was critical, the initial and current power in percent and modes, and
@@ -32,8 +35,9 @@ ZONES, a page without its event numbers or a report given twice with different c
     python warehouse/connectors/nrc_event_reports.py [--offline] [--no-refresh] [--pages N] [--year 2026] [--out-dir DIR]
 
 Ceiling: the raw file and the year's index (fresh each run unless --no-refresh), and at most N daily pages a run
-(--pages, default 10), the newest first; a page saved by an earlier run is reused from warehouse/raw/nrc_event_reports/
-and not counted, so later runs reach further back. The NRC's robots file disallows only its search pages, ads.txt and
+(--pages, default 10), the newest first, of the year --year names (the current year by default); a page saved by an
+earlier run is reused from warehouse/raw/nrc_event_reports/ and not counted, so later runs reach further back within that
+year, and an earlier year is read with --year. The table is rewritten whole from every saved page each run. The NRC's robots file disallows only its search pages, ads.txt and
 autodiscover for every reader. License: the NRC's site disclaimer, a U.S. Government work, "no restrictions on use"
 (read 16).
 """
@@ -163,7 +167,7 @@ def raw_events(content, url, retrieved):
                         x_state=text(r["State Cd"]), x_county=text(r["County Name"]), x_docket=text(r["Docket No"]),
                         x_reactor_type=text(r["Reactor Type"]), x_notification_et=note_local, x_notification_utc=note_utc,
                         x_event_local=event_local, x_event_tz=text(r["Time Zone"]),
-                        x_last_update=text(r["Last Updated Dt"]), x_emergency_class=text(r["Emergency Class"]),
+                        x_last_update=mdy(r["Last Updated Dt"]), x_emergency_class=text(r["Emergency Class"]),
                         x_cfr="; ".join(c for c, _ in cfr if c), x_cfr_words="; ".join(d for c, d in cfr if c),
                         x_read_from="raw_file")
         units = []
@@ -310,7 +314,7 @@ def main(argv=None):
             "with the unit's power before and after and the 10 CFR sections it was reported under (session 2043)",
             "Shape: events (docs/datastandard.md v0). event_id nrc_en:<event number>:<unit>; event_date the event's time in UTC (the NRC's date, time and zone; "
             "x_event_local and x_event_tz keep them); event_type reactor_scram (the unit's scram code not N: A/R automatic, M/R manual; or reported under 50.72(b)(2)(iv)(B)) or reactor_event; "
-            "parties the licensee; x_initial_power_pct and x_current_power_pct the unit's power in percent before and at the report.",
+            "parties the licensee where the report names one; x_initial_power_pct and x_current_power_pct the unit's power in percent before and at the report.",
             f"{len(t)} rows: " + "; ".join(f"{a} {b} {n}" for (a, b), n in by.items()) + f". The raw file's last modification: {raw_vintage}; "
             f"the daily pages read: {len(read)}" + (f", {read[-1]} to {read[0]}" if read else "") + ". Only reports filed under Power Reactor; the event text is not taken. "
             "Values as published; a blank stays blank; nothing is filled.",

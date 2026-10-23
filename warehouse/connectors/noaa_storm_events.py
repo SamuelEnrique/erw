@@ -12,9 +12,10 @@ lines down or strain the grid are kept (TYPES below: wind, winter, tropical, tor
 and storm surge); hail, floods, marine and the rest are not taken. The narratives are not taken.
 
     event_id     noaa_storm:<EVENT_ID>, NCEI's own identifier
-    event_date   the event's begin time in UTC: NCEI's BEGIN_YEARMONTH, BEGIN_DAY and BEGIN_TIME are local standard
-                 time in the zone CZ_TIMEZONE names (EST-5, CST-6 and the rest: the offset is the zone's own number of
-                 hours from UTC, with no daylight saving), and the offset is subtracted. x_begin_local keeps NCEI's time
+    event_date   the event's begin time in UTC: NCEI's BEGIN_YEARMONTH, BEGIN_DAY and BEGIN_TIME are local time in the
+                 zone CZ_TIMEZONE names, its own number of hours from UTC (EST-5, CST-6 and the rest; a few rows name a
+                 daylight zone, PDT-7, EDT-4, CDT-5, and Guam's is GST10), and that offset is subtracted. x_begin_local
+                 keeps NCEI's time
     event_type   NCEI's EVENT_TYPE in snake case (thunderstorm_wind, ice_storm, hurricane_typhoon); x_noaa_event_type
                  keeps NCEI's words
     status       empty; parties, entity_ids, mw, price and currency empty
@@ -80,12 +81,13 @@ NOT_TAKEN = {"YEAR", "MONTH_NAME", "BEGIN_DATE_TIME", "END_DATE_TIME", "SOURCE",
              "EVENT_NARRATIVE"}
 X_COLS = ["x_noaa_event_type", "x_geo", "x_begin_local", "x_end_local", "x_end_utc", "x_damage_property_usd",
           "x_damage_crops_usd"] + list(FIELDS.values()) + ["x_file_created"]
-# state FIPS to ISO 3166-2 (the 50 states, DC and the territories NCEI reports); a code not here leaves x_geo empty
+# NCEI's STATE_FIPS to ISO 3166-2: the 50 states' and DC's FIPS codes, and NCEI's own codes for the territories (96 the
+# Virgin Islands, 97 American Samoa, 98 Guam, 99 Puerto Rico; session 2052); a code not here (a marine area) leaves x_geo empty
 FIPS = {1: "AL", 2: "AK", 4: "AZ", 5: "AR", 6: "CA", 8: "CO", 9: "CT", 10: "DE", 11: "DC", 12: "FL", 13: "GA", 15: "HI",
         16: "ID", 17: "IL", 18: "IN", 19: "IA", 20: "KS", 21: "KY", 22: "LA", 23: "ME", 24: "MD", 25: "MA", 26: "MI",
         27: "MN", 28: "MS", 29: "MO", 30: "MT", 31: "NE", 32: "NV", 33: "NH", 34: "NJ", 35: "NM", 36: "NY", 37: "NC",
         38: "ND", 39: "OH", 40: "OK", 41: "OR", 42: "PA", 44: "RI", 45: "SC", 46: "SD", 47: "TN", 48: "TX", 49: "UT",
-        50: "VT", 51: "VA", 53: "WA", 54: "WV", 55: "WI", 56: "WY", 60: "AS", 66: "GU", 69: "MP", 72: "PR", 78: "VI"}
+        50: "VT", 51: "VA", 53: "WA", 54: "WV", 55: "WI", 56: "WY", 96: "VI", 97: "AS", 98: "GU", 99: "PR"}
 ZONE_RE = re.compile(r"^([A-Z]{2,5})(-?\d{1,2})$")
 DAMAGE_RE = re.compile(r"^(\d+(?:\.\d+)?)?([KMB]?)$")
 SCALE = {"": 1, "K": 1_000, "M": 1_000_000, "B": 1_000_000_000}
@@ -113,7 +115,7 @@ def damage(v):
 
 
 def offset(zone):
-    """Hours east of UTC of NCEI's zone (EST-5 is -5); no daylight saving: NCEI's times are local standard time."""
+    """Hours east of UTC of NCEI's zone, as the zone's name gives them (EST-5 is -5, PDT-7 is -7, GST10 is +10)."""
     m = ZONE_RE.match(text(zone).upper())
     if not m:
         raise RuntimeError(f"a time zone not in NCEI's form: {zone!r}")
@@ -223,9 +225,9 @@ def main(argv=None):
         by = t.groupby("event_type").size().sort_values(ascending=False)
         header = [
             f"Energy Research Warehouse (ERW): NOAA NCEI Storm Events Database, the event types that take power lines down or strain the grid, {years.min()} to {years.max()} (session 2042)",
-            "Shape: events (docs/datastandard.md v0). event_id noaa_storm:<EVENT_ID>; event_date the begin time in UTC (NCEI's local standard time less the "
-            "offset its CZ_TIMEZONE names, no daylight saving; x_begin_local keeps NCEI's); event_type NCEI's EVENT_TYPE in snake case (x_noaa_event_type its "
-            "words); x_damage_property_usd and x_damage_crops_usd NCEI's K, M and B figures in dollars; x_geo the state's ISO 3166-2 code from its FIPS.",
+            "Shape: events (docs/datastandard.md v0). event_id noaa_storm:<EVENT_ID>; event_date the begin time in UTC (NCEI's local time less the "
+            "offset its CZ_TIMEZONE names; x_begin_local keeps NCEI's); event_type NCEI's EVENT_TYPE in snake case (x_noaa_event_type its "
+            "words); x_damage_property_usd and x_damage_crops_usd NCEI's K, M and B figures in dollars; x_geo the state's ISO 3166-2 code from NCEI's state code (96 to 99 the territories).",
             f"{len(t)} events of {len(TYPES)} types: " + "; ".join(f"{k} {v}" for k, v in by.items()) + ". Hail, floods, marine and the other types, "
             "and the narratives, are not taken. Values as published; a blank stays blank; nothing is filled.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/noaa_storm_events.py; the files: "

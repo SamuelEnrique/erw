@@ -63,6 +63,15 @@ class Build(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             S.build([(f, "u", "r", "20260918")])
 
+    def test_territories_and_daylight_zones(self):
+        # session 2052: NCEI codes the territories 96 to 99, not by FIPS; a row may name a daylight zone
+        t = S.build([(frame(row("5", fips="99", zone="AST-4"), row("6", fips="98", zone="GST10"), row("7", zone="PDT-7"),
+                            row("8", fips="72")), "u", "r", "20260918")]).set_index("event_id")
+        self.assertEqual(t.loc["noaa_storm:5"].x_geo, "US-PR")
+        self.assertEqual((t.loc["noaa_storm:6"].x_geo, t.loc["noaa_storm:6"].event_date), ("US-GU", "2021-02-15T13:30:00Z"))
+        self.assertEqual(t.loc["noaa_storm:7"].event_date, "2021-02-16T06:30:00Z")
+        self.assertEqual(t.loc["noaa_storm:8"].x_geo, "")  # 72 is not NCEI's code for Puerto Rico
+
     def test_damage_and_listing(self):
         self.assertEqual([S.damage(v) for v in ("10.00K", "2B", "K", "0", "")], ["10000", "2000000000", "0", "0", ""])
         html = ('<a href="StormEvents_details-ftp_v1.0_d2024_c20260323.csv.gz">x</a>'
