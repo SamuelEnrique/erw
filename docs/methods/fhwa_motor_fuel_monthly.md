@@ -50,9 +50,9 @@ Gas Holiday is Georgia's April and May 2026, the months its gasoline tax was sus
 
 ## License
 
-Public. `sources.csv` has `public` for `fhwa:monthly_motor_fuel`; the header: "License: public (each dataset's metadata: "Public Domain"; cite "FHWA, Office of Highway Policy Information")." `license_verdicts.csv`, U.S. Department of Transportation, Federal Highway Administration (FHWA), read 210 (the special fuel dataset's record on DOT DataHub, `https://data.transportation.gov/api/views/5n49-mh85.json`, read 23 October 2026): "Public Domain U.S. Government". Verdict: may be public, and may be public for commercial use. Its note: the record's terms link is `https://www.usa.gov/government-works`; the gasoline dataset's record gives "Public Domain"; attribution to FHWA, Office of Highway Policy Information.
+Public. `sources.csv` has `public` for `fhwa:monthly_motor_fuel`; the header: "License: public (each dataset's metadata: "Public Domain"; cite "FHWA, Office of Highway Policy Information")." `license_verdicts.csv`, U.S. Department of Transportation, Federal Highway Administration (FHWA), read 214 (the special fuel dataset's record on DOT DataHub, `https://data.transportation.gov/api/views/5n49-mh85.json`, read 23 October 2026): "Public Domain U.S. Government". Verdict: may be public, and may be public for commercial use. Its note: the record's terms link is `https://www.usa.gov/government-works`; the gasoline dataset's record gives "Public Domain"; attribution to FHWA, Office of Highway Policy Information.
 
-Robots (session 2035): read 208, `www.fhwa.dot.gov`'s file, a one-second crawl delay, `/policyinformation/travel_monitoring/` and other paths disallowed, not `/policyinformation/motorfuel`; read 209, `data.transportation.gov`'s file, a one-second crawl delay, only its browse, search and facet paths disallowed.
+Robots (session 2035): read 212, `www.fhwa.dot.gov`'s file, a one-second crawl delay, `/policyinformation/travel_monitoring/` and other paths disallowed, not `/policyinformation/motorfuel`; read 213, `data.transportation.gov`'s file, a one-second crawl delay, only its browse, search and facet paths disallowed.
 
 ## Cross-checks (session 2038)
 

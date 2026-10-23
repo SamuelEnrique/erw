@@ -64,9 +64,9 @@ Mines with a production row a quarter: 1,007 in the first quarter of 2025, 950 i
 
 ## License
 
-Public. `sources.csv` has `public` for `msha:open_government_data`, naming both tables; the headers: "License: public (a work of the U.S. Department of Labor; cite "Mine Safety and Health Administration, Open Government Data")." `license_verdicts.csv`, U.S. Department of Labor, Mine Safety and Health Administration (MSHA), read 207 (the Department of Labor's Copyright page, `https://www.dol.gov/general/aboutdol/copyright`, read 23 October 2026): "Materials created by the federal government are generally part of the public domain and may be used, reproduced and distributed without permission. Therefore, content on this website which is in the public domain may be used without the prior permission of the U.S. Department of Labor (DOL)." Verdict: may be public, and may be public for commercial use. Its note: credit is asked to the U.S. Department of Labor; the data files carry no notice of others' copyright.
+Public. `sources.csv` has `public` for `msha:open_government_data`, naming both tables; the headers: "License: public (a work of the U.S. Department of Labor; cite "Mine Safety and Health Administration, Open Government Data")." `license_verdicts.csv`, U.S. Department of Labor, Mine Safety and Health Administration (MSHA), read 211 (the Department of Labor's Copyright page, `https://www.dol.gov/general/aboutdol/copyright`, read 23 October 2026): "Materials created by the federal government are generally part of the public domain and may be used, reproduced and distributed without permission. Therefore, content on this website which is in the public domain may be used without the prior permission of the U.S. Department of Labor (DOL)." Verdict: may be public, and may be public for commercial use. Its note: credit is asked to the U.S. Department of Labor; the data files carry no notice of others' copyright.
 
-Robots: read 205, `arlweb.msha.gov` has no robots file (HTTP 404); read 206, `www.dol.gov`'s file disallows only site machinery, admin, user and search paths (session 2034).
+Robots: read 209, `arlweb.msha.gov` has no robots file (HTTP 404); read 210, `www.dol.gov`'s file disallows only site machinery, admin, user and search paths (session 2034).
 
 ## Cross-checks (session 2038)
 

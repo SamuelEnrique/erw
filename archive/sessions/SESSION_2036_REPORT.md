@@ -12,7 +12,7 @@
 
 ## The pulls
 
-1. `afdc.energy.gov/robots.txt` (read 211): a comment, no rule. 2. Electric Vehicle Registrations by State (data 10962). 3. Vehicle Registration Counts by State (the 2025 table). 4. The 10962 workbook. 5 to 14. The connector's trial, the ten years' pages, saved in `warehouse/raw/afdc_registrations/` and reused by the write (`--offline`).
+1. `afdc.energy.gov/robots.txt` (read 215): a comment, no rule. 2. Electric Vehicle Registrations by State (data 10962). 3. Vehicle Registration Counts by State (the 2025 table). 4. The 10962 workbook. 5 to 14. The connector's trial, the ten years' pages, saved in `warehouse/raw/afdc_registrations/` and reused by the write (`--offline`).
 
 ## Decisions made without you
 
@@ -27,5 +27,5 @@
 ## Files
 
 - New: `warehouse/connectors/afdc_registrations.py`, `tests/test_session2036.py` (3 tests), this report.
-- Changed: `build_coverage.py`, `release_v1.py`, `live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_reads.csv` (211), `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
+- Changed: `build_coverage.py`, `release_v1.py`, `live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_reads.csv` (215), `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
 - On the data machine only: `runs/c058/s2036/`, `runs/license_reads/s2036/`, `runs/s2036*`, `warehouse/raw/afdc_registrations/`.

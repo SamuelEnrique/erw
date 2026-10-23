@@ -15,7 +15,7 @@
 
 1. `figshare.com/robots.txt`: HTTP 202, empty. 2. `api.figshare.com/robots.txt`: 404. 3. The dataset's record, `api.figshare.com/v2/articles/24237376`. 4. `ndownloader.figshare.com/robots.txt`: 404. 5. A HEAD of the 2023 file's address, not followed: 302 to the S3 bucket. 6. `s3-eu-west-1.amazonaws.com/robots.txt`: 403. 7. The bucket's robots path: 403. 8 and 9. The 2023 file: ndownloader's redirect and the bucket's answer. 10. The 2024 file's request, stopped with the run.
 
-Reads 195 to 200 of `license_reads.csv` (the robots answers and the record, whose license field says CC BY 4.0). Session 2033's licenses round reads figshare's terms and gives EAGLE-I its verdict.
+Reads 199 to 204 of `license_reads.csv` (the robots answers and the record, whose license field says CC BY 4.0). Session 2033's licenses round reads figshare's terms and gives EAGLE-I its verdict.
 
 ## To finish
 
@@ -47,5 +47,5 @@ The trial asks for the 2024 and 2025 files (four requests, through the redirect)
 ## Files
 
 - New: `warehouse/connectors/eaglei_outages.py`, `tests/test_session2029.py` (5 tests), this report.
-- Changed: `build_coverage.py` (the sector rule), `release_v1.py`, `live_set.yaml`, `license_reads.csv` (195 to 200), `docs/licenses.md`.
+- Changed: `build_coverage.py` (the sector rule), `release_v1.py`, `live_set.yaml`, `license_reads.csv` (199 to 204), `docs/licenses.md`.
 - On the data machine only: `runs/c058/s2029/` (the probe, the HEAD script, the cross-check script), `runs/license_reads/s2029/`, `warehouse/raw/eaglei_outages/` (the 2023 file).

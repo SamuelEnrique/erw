@@ -8,11 +8,11 @@
 - **FHWA's own site stopped the Monthly Motor Fuel Reports after December 2023.** Its page sends readers to DOT's DataHub (`data.transportation.gov`), where FHWA's Office of Highway Policy Information publishes the reports' source data as two datasets, "Monthly Motor Fuel - Gasoline Volumes Distributed" (`5qxh-t94v`) and "Monthly Special Fuel Volumes Distributed" (`5n49-mh85`), from 2020. The older reports (January 2012 to December 2023, one workbook a month) were not taken.
 - **Rows not written, counted in the header:** North Carolina's five months of 2026 marked "Not Published" (a 0 that measures nothing), and the months June to December 2026, in which every place reads 0 (the datasets carry the rest of the year before the states report).
 - **The cross-check against `eia_product_supplied_monthly`** (thousand barrels at 42 gallons), the 50 states and DC summed, whole years: FHWA's gasoline is 1.027 to 1.037 of EIA's U.S. product supplied of finished motor gasoline every year from 2020 to 2025 (141.35 against 136.97 billion gallons in 2025); FHWA's special fuels are 0.72 to 0.78 of EIA's distillate fuel oil, which also counts heating oil and the rail, marine and off-road diesel the states' highway taxes do not.
-- **FHWA's verdict: "U.S. Department of Transportation, Federal Highway Administration (FHWA)", may be public** (read 210): the dataset's own record gives its license as "Public Domain U.S. Government", with the terms link usa.gov/government-works; the gasoline dataset's says "Public Domain".
+- **FHWA's verdict: "U.S. Department of Transportation, Federal Highway Administration (FHWA)", may be public** (read 214): the dataset's own record gives its license as "Public Domain U.S. Government", with the terms link usa.gov/government-works; the gasoline dataset's says "Public Domain".
 
 ## The pulls
 
-1. `www.fhwa.dot.gov/robots.txt` (read 208): a one-second crawl delay; `/policyinformation/travel_monitoring/` and other paths disallowed, not `/policyinformation/motorfuel`. 2. The motor fuel index (an empty stub). 3. The motor fuel data page. 4. The fuel quick-find page. 5. The Monthly Motor Fuel Reports page. 6. `data.transportation.gov/robots.txt` (read 209): a one-second crawl delay, only its browse, search and facet paths disallowed. 7. The DataHub story "Monthly Motor Fuel Report", for the datasets' ids. 8 and 9. The two datasets' metadata (read 210 is the first). 10 and 11. The two CSV files, saved in `warehouse/raw/fhwa_motor_fuel/` and reused by the write (`--offline`). Requests to each host were at least a second apart.
+1. `www.fhwa.dot.gov/robots.txt` (read 212): a one-second crawl delay; `/policyinformation/travel_monitoring/` and other paths disallowed, not `/policyinformation/motorfuel`. 2. The motor fuel index (an empty stub). 3. The motor fuel data page. 4. The fuel quick-find page. 5. The Monthly Motor Fuel Reports page. 6. `data.transportation.gov/robots.txt` (read 213): a one-second crawl delay, only its browse, search and facet paths disallowed. 7. The DataHub story "Monthly Motor Fuel Report", for the datasets' ids. 8 and 9. The two datasets' metadata (read 214 is the first). 10 and 11. The two CSV files, saved in `warehouse/raw/fhwa_motor_fuel/` and reused by the write (`--offline`). Requests to each host were at least a second apart.
 
 ## Decisions made without you
 
@@ -28,5 +28,5 @@
 ## Files
 
 - New: `warehouse/connectors/fhwa_motor_fuel.py`, `tests/test_session2035.py` (3 tests), this report.
-- Changed: `build_coverage.py`, `release_v1.py`, `live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_reads.csv` (208 to 210), `license_verdicts.csv` (FHWA), `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
+- Changed: `build_coverage.py`, `release_v1.py`, `live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_reads.csv` (212 to 214), `license_verdicts.csv` (FHWA), `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
 - On the data machine only: `runs/c058/s2035/`, `runs/license_reads/s2035/`, `runs/s2035*`, `warehouse/raw/fhwa_motor_fuel/`.

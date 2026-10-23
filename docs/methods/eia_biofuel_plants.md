@@ -71,7 +71,7 @@ Plants by PADD:
 
 Public. `sources.csv` has `public` for `eia:biofuels_capacity`; the header: "License: public (EIA: "U.S. government publications are in the public domain"; cite "U.S. Energy Information Administration")." `license_verdicts.csv`, EIA, read 1 (EIA's copyrights and reuse page, `https://www.eia.gov/about/copyrights_reuse.php`, read 12 October 2026): "U.S. government publications are in the public domain and are not subject to copyright protection. You may use and/or distribute any of our data, files, databases, reports, graphs, charts, and other information products that are on our website or that you receive through our email distribution service." Verdict: may be public, and may be public for commercial use.
 
-Robots: read 202 (session 2031), `www.eia.gov`'s file, which disallows `/archive/` and site machinery; the capacity pages and workbooks are allowed.
+Robots: read 206 (session 2031), `www.eia.gov`'s file, which disallows `/archive/` and site machinery; the capacity pages and workbooks are allowed.
 
 ## Cross-checks (session 2038)
 
