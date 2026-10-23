@@ -127,7 +127,7 @@ eia_nuclear_outages_generator_daily,none,,107,P1D,2007-01-01T00:00:00Z,2026-10-2
 eia_oxygenate_production_monthly,none,,30,P1M,1981-01-01T00:00:00Z,2026-07-01T00:00:00Z,6006,eia:petroleum/pnp/oxy,2026-10-22T05:07:00Z,pass,public,products,no,source
 eia_padd_crude_pipeline_flows,none,,11,P1M,1986-01-01T00:00:00Z,2026-07-01T00:00:00Z,4558,eia:petroleum/move/pipe,2026-10-22T14:35:37Z,pass,public,oil,no,source
 eia_padd_rail_barge_movements_monthly,none,,689,P1M,1986-01-01T00:00:00Z,2026-07-01T00:00:00Z,120742,eia:petroleum/move/rail;eia:petroleum/move/tb,2026-10-22T03:50:28Z,pass,public,oil;products,no,source
-eia_petroleum_exports_by_destination,none,,258,P1M,2015-01-01T00:00:00Z,2026-07-01T00:00:00Z,45058,eia:petroleum/move/expc,2026-10-23T02:17:24Z,pass,public,oil;products,no,source
+eia_petroleum_exports_by_destination,none,,1098,P1M,2015-01-01T00:00:00Z,2026-07-01T00:00:00Z,112478,eia:petroleum/move/expc,2026-10-23T04:43:26Z,pass,public,oil;products,no,source
 eia_petroleum_snd_monthly,none,,4455,P1M,2015-01-01T00:00:00Z,2026-07-01T00:00:00Z,523835,eia:petroleum/sum/snd,2026-10-22T02:33:32Z,pass,public,oil;products,no,source
 eia_petroleum_stocks_monthly,none,,63,P1M,2001-01-01T00:00:00Z,2026-07-01T00:00:00Z,18247,eia:petroleum/stoc/ts,2026-10-21T23:17:29Z,pass,public,oil;products,no,source
 eia_petroleum_stocks_weekly,none,,8,P1W,1982-08-20T00:00:00Z,2026-10-16T00:00:00Z,16831,eia:petroleum/stoc/wstk,2026-10-22T14:35:37Z,pass,public,oil;products,no,source
