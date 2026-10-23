@@ -40,7 +40,11 @@ datacenter_projects,Bloomberg; Census Bureau; Data Center Dynamics; Data Center 
 datacenter_projects_evidence,Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; Hart Energy; Heatmap News; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; WSJ,the source registry
 datacenter_queue_positions,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,by hand: its header: rows of the six operators' queue tables
 egrid_power_plants,EPA,the source registry
+eia860_generator_owners,EIA,the source registry
 eia860_plants_annual,EIA,the source registry
+eia860_solar_generators,EIA,the source registry
+eia860_storage_generators,EIA,the source registry
+eia860_wind_generators,EIA,the source registry
 eia860m_operating_generators,EIA,the source registry
 eia860m_planned_generators,EIA,the source registry
 eia860m_retired_generators,EIA,the source registry

@@ -106,6 +106,10 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "eia861_operational_data",
            "eia861_distribution_systems",
            "eia861_distributed_generation",
+           "eia860_generator_owners",
+           "eia860_storage_generators",
+           "eia860_solar_generators",
+           "eia860_wind_generators",
            "interconnection_durations", "interconnection_durations_summary",
            "grid_peak_vs_capacity"):  # 510 to 672 the same way
     STORAGE_HELD[_t] = ("held: not yet on Redivis (written 21 October 2026, session 489; the account's free 10 GB is full, "
