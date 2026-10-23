@@ -8,6 +8,7 @@ import { licenseNeededTables } from "@/lib/license";
 import { ToolPicker, ToolTabs } from "@/components/tool/Choose";
 import { KEEP_DAY } from "@/lib/carry";
 import { AskView } from "@/components/grid/AskView";
+import { AskExamples } from "@/components/grid/AskExamples";
 import { MixTable } from "@/components/grid/Conditions";
 import { ScarcityPanel } from "@/components/grid/ScarcityPanel";
 import { EmissionsParts } from "@/components/grid/Emissions";
@@ -136,6 +137,8 @@ export default async function GridTool({ searchParams }: { searchParams: Promise
                 Tables read, with their licenses: the public tables of the site&apos;s live set, through the panel&apos;s tools; the {licenseNeededTables().length} tables held for a license are refused by name or, for a table held by grid, read without the held grids&apos; rows.
               </p>
               <AskView grid={grid} question={one(sp.q) ?? ""} tab={view} compact />
+              {/* session 1157: the grid's stored example answers, folded under the live box (lib/gridask.ts): no model call, no figure keyed */}
+              <AskExamples grid={grid} />
             </aside>
           </div>
           <Related href="/grid" />

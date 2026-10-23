@@ -221,6 +221,17 @@ SECTOR_RULES = [
     (r"^usace_nid_dams$", "power"),  # session 982
     (r"^eia_(capacity_factors_(annual|monthly)|heat_rates_annual)$", "power"),  # session 984
     (r"^egrid_subregions_annual$", "power;carbon"),  # session 985
+    (r"^doe_useer_employment$", "power;gas;oil;coal"),  # session 2000: energy jobs (USEER)
+    (r"^nrc_(new_reactor_applications|advanced_reactor_preapplicants)$", "power;uranium"),  # session 2001
+    (r"^usbr_hydropower_monthly$", "power"),  # session 2003: Reclamation's plants
+    (r"^noaa_cpc_degree_days_daily$", "power;gas"),  # session 2006: CPC's degree days
+    (r"^boem_offshore_platforms$", "oil;gas"),  # session 2007: BOEM's platforms
+    (r"^noaa_ncei_storm_events$", "power"),  # session 2042: NOAA's storm events
+    (r"^nrc_event_notifications$", "power;uranium"),  # session 2043: the NRC's event reports
+    (r"^doe_lng_export_applications$", "gas;lng"),  # session 2044: DOE's LNG export applications
+    (r"^noaa_climdiv_state_monthly$", "power;gas"),  # session 2045: NOAA's statewide climate
+    (r"^ornl_tedb_transportation_annual$", "oil;products;power"),  # session 2048: ORNL's Transportation Energy Data Book
+    (r"^doe_grip_selections$", "power"),  # session 2050: DOE's GRIP selections
     (r"^eia861_short_form$", "power"),  # session 876: EIA-861S, the small utilities' sales  # session 869: EIA-861's meters and net metering by utility  # session 868: EIA-861's programs by utility  # session 867: EIA-861's utility data: NERC region, RTOs, activities  # session 853: EIA-861's delivery-only companies (Texas's wires utilities)  # session 695: EIA-861's distribution reliability (SAIDI, SAIFI, CAIDI) by utility
     (r"^eia_gas_storage_state_monthly$", "gas"),  # session 525: EIA's natural gas in underground storage by state, a month
     (r"^eia_state_capacity_annual$", "power"),  # session 526: EIA's state electricity profiles, net summer capacity

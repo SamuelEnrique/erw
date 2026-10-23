@@ -23,9 +23,9 @@ RGGI). freq P3M: the auctions are quarterly. ts_utc is the auction date at
 at the first of the auction month. A cell RGGI shows as "--" is not a value
 and is omitted.
 
-License: internal. CARB's terms for the summary are unconfirmed and RGGI's
-page says only "(c) RGGI" (docs/price-sources.md); both stay internal until
-confirmed. The CARB numbers come from a PDF: every auction line must parse
+License: CARB's auction results are public (session 324: sources.csv and the
+table's header); RGGI's page says only "(c) RGGI" (docs/price-sources.md), and
+RGGI's table stays internal. The CARB numbers come from a PDF: every auction line must parse
 into exactly six numbers or the run fails.
 """
 
