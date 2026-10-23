@@ -10,14 +10,15 @@ saved): the generators on customers' or the utility's distribution system that a
                                     technologies pv, battery, wind, hydro, fuel_cell, internal_combustion,
                                     combustion_turbine, steam, other and total, the sectors residential, commercial,
                                     industrial, transportation, direct_connected and total; battery_energy_<sector>
-                                    (MWh, 2025 on)
+                                    (MWh, 2023 on)
 
     entity    eia861_dg:<utility>:<state>:<ba>; ts_utc the data year's 1 January; freq P1Y; geo US-<state>; node the
-              utility's name; x_utility_number, x_state, x_ba_code and x_data_type (A actual, E estimated) as EIA gives them
+              utility's name; x_utility_number, x_state, x_ba_code and x_capacity_type (AC or DC: EIA's column "Type", whether
+              the utility gives the capacity in alternating or direct current) as EIA gives them
 
 Every column is found by its stacked headings (a technology, a sector), not by position, with the reader of
-eia861_programs.py: EIA's 2016 file has a title row over the headings, its "Storage" became "Battery" in 2025 beside a
-new "Battery Energy (MWh)", and 2025 adds a state-level sheet with no utility (not read). 2015's file is of another form
+eia861_programs.py: EIA's 2016 file has a title row over the headings, its "Storage" became "Battery" in 2023 beside a
+new "Battery Energy (MWh)", and 2023 on add a state-level sheet with no utility (not read). 2015's file is of another form
 (technology totals without sectors, and dispersed generation) and is not taken. A heading the map does not know stops the
 run. EIA's aggregates 88888 and 99999 are left out, as eia861_sales.py leaves them; a "." cell has no row; nothing is
 filled. Two rows EIA gives under one utility, state and balancing authority with different values have no key: both are
@@ -59,7 +60,7 @@ COUNTS = {"number of generators": ("number_of_generators", "count"), "total capa
           "capacity back-up only": ("capacity_backup_only", "MW"), "capacity utility owned": ("capacity_utility_owned", "MW")}
 CHARS = {"data year": "data year", "year": "data year", "utility number": "utility number", "utility name": "utility name",
          "state": "state", "ba code": "ba code", "ba_code": "ba code"}
-X = ["x_utility_number", "x_state", "x_ba_code", "x_data_type"]
+X = ["x_utility_number", "x_state", "x_ba_code", "x_capacity_type"]
 
 
 def tech_of(p):
@@ -78,8 +79,8 @@ def sheet_rows(frame, year, url, retrieved, skipped):
         head = p[-1]
         if head in CHARS:
             chars[CHARS[head]] = c
-        elif head in ("type", "data type", "data_type") or head.startswith("estimated or actual"):
-            chars["data type"] = c
+        elif head == "type":                    # AC or DC (session 891: read before as a data type, which it is not)
+            chars["capacity type"] = c
         elif head == "short form":
             continue
         elif head in COUNTS:
@@ -107,7 +108,7 @@ def sheet_rows(frame, year, url, retrieved, skipped):
         base = dict(entity=f"{PREFIX}:{util}:{state}:{ba}", ts_utc=f"{year}-01-01T00:00:00Z", freq="P1Y",
                     geo=f"US-{state}" if state else "US", market="", node=text(r[chars["utility name"]]), source=SOURCE,
                     source_url=url, retrieved_at=retrieved, vintage="", x_utility_number=util, x_state=state, x_ba_code=ba,
-                    x_data_type=text(r[chars["data type"]]) if "data type" in chars else "")
+                    x_capacity_type=text(r[chars["capacity type"]]) if "capacity type" in chars else "")
         for var, (c, unit) in figs.items():
             v = pd.to_numeric(r[c], errors="coerce")
             if pd.isna(v):
@@ -176,11 +177,11 @@ def main(argv=None):
             "Energy Research Warehouse (ERW): EIA-861 distributed generation not net metered, each utility by state, technology and sector, a year (session 883)",
             f"Shape: series (docs/datastandard.md v0). entity {PREFIX}:<utility>:<state>:<balancing authority>; variables number_of_generators (count), "
             "total_capacity, capacity_backup_only, capacity_utility_owned (MW), <technology>_capacity_<sector> (MW; technologies pv, battery (EIA's "
-            "Storage to 2024), wind, hydro, fuel_cell, internal_combustion, combustion_turbine, steam, other, total; sectors residential, commercial, "
-            "industrial, transportation, direct_connected, total: a sum leaves total out) and battery_energy_<sector> (MWh, 2025 on); ts_utc the "
-            "data year's 1 January; freq P1Y; node the utility's name; x_data_type A actual, E estimated.",
+            "Storage to 2022), wind, hydro, fuel_cell, internal_combustion, combustion_turbine, steam, other, total; sectors residential, commercial, "
+            "industrial, transportation, direct_connected, total: a sum leaves total out) and battery_energy_<sector> (MWh, 2023 on); ts_utc the "
+            "data year's 1 January; freq P1Y; node the utility's name; x_capacity_type AC or DC, as EIA's column Type gives the capacity.",
             f"Years held: {held_text(years)}; {len(s):,} rows, {s['x_utility_number'].nunique():,} utilities. EIA's aggregates 88888 and 99999 left out; "
-            "a '.' cell has no row; nothing is filled. 2015's file, of another form, not taken; 2025's state-level sheet not read."
+            "a '.' cell has no row; nothing is filled. 2015's file, of another form, not taken; the state-level sheets of 2023 on not read."
             + (f" Rows EIA gives twice with two values, left out (no key): {', '.join(nokey)}." if nokey else ""),
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/eia861_distributed_generation.py (the zips as saved by earlier runs)",
             f"Run log: warehouse/output/logs/eia861_distributed_generation_{run_id}.log",

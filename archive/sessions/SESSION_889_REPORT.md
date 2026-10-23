@@ -36,3 +36,11 @@
 - New: `warehouse/connectors/frb_utility_output.py`, `tests/test_session889.py` (3 tests), this report.
 - Changed: `warehouse/validate/erw_validate.py` and `docs/datastandard.md` (Decision 53); `build_coverage.py`, `release_v1.py`, `live_set.yaml`; `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`; `license_tables.csv`, `docs/licenses.md`; `docs/redivis/release-v1/`.
 - On the data machine only: `runs/c048/s889/`, `runs/license_reads/s889/`.
+
+## Corrected by session 891
+
+The method notes' checks (session 891) found these against the code, the tables and EIA's files:
+
+- The utilization figures are those of `G2211`, electric power: 72.96 percent in September 2026 against 77.53 in 2017's average. The utilities' series `G2211A2` reads 73.84 and 77.39.
+- "To September 2026" holds for the aggregates and utilization; the detailed N series end in July 2026. The header now gives each series' last month.
+- The header's code list did not name `G221111A4T8` (hydroelectric, renewables and other, taken by the prefix rule) and called `N2212T` a sale, though it is gas transmission. Corrected in the docstring and the header; the table was written again, the same rows.

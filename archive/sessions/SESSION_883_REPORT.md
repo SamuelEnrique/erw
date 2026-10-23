@@ -27,3 +27,10 @@
 ## Files
 
 - New: `warehouse/connectors/eia861_distribution_systems.py`, `warehouse/connectors/eia861_distributed_generation.py`, `tests/test_session883.py` (6 tests), this report. Changed: `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`. On the data machine only: `runs/c048/`, `runs/s883*`.
+
+## Corrected by session 891
+
+The method notes' checks (session 891) found these against the code, the tables and EIA's files:
+
+- `x_data_type`, described as A actual and E estimated, holds EIA's column "Type": AC (130,236 rows), DC (19,872) or nothing (29,053), whether the capacity is given in alternating or direct current. Session 891 renamed it `x_capacity_type`, corrected the docstring, the header and the test, and wrote the table again (same rows).
+- EIA's "Storage" became "Battery", beside the new "Battery Energy (MWh)" and a state-level sheet, in 2023, not 2025: `battery_energy_<sector>` holds 2023 to 2025, and the state-level sheets of 2023, 2024 and 2025 are not read. Corrected in the docstring and the header.

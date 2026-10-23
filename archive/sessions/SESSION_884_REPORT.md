@@ -21,3 +21,10 @@
 ## Files
 
 - New: `tests/test_session884.py` (3 tests), this report. Changed: `warehouse/connectors/eia_petroleum_exports.py`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `docs/redivis/release-v1/tables.csv`, `variables.csv`. On the data machine only: `runs/c048/`, `runs/s884*`.
+
+## Corrected by session 891
+
+The method notes' checks (session 891) found these against the code, the tables and EIA's files:
+
+- The 12,311 destination-months include the U.S. total's own 139 (EIA's area NUS-Z00). The seven exceed EIA's total in 88 destination-months by any amount, in 73 by more than 0.05 percent and half a thousand barrels (the check's tolerance).
+- The write (run 20261023T044326Z) read the pages the trial saved, with the connector's default ceiling (its header: 0 requests of 30); the trial ran with 18. That write stamped every row's `retrieved_at` with its own time, the crude oil and total rows included. Session 891 corrected the connector (a page reused from warehouse/raw carries the time it was really fetched), added a test, and wrote the table again.

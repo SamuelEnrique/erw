@@ -37,3 +37,9 @@
 - On the data machine only:
   - `runs/c048/s890/`
   - `runs/license_reads/s890/`
+
+## Corrected by session 891
+
+The method notes' checks (session 891) found these against the code, the tables and EIA's files:
+
+- The database is not "every ground-mounted facility of 1 MW (AC) and more": as written, 52 facilities are under 1 MW AC (each 1 MW DC or more) and 619 have a system type that is not ground (rooftop 407, canopy 148, canopy and rooftop 62, floating 2). Session 891 corrected the docstring and the header, which now count both, and wrote the table again, the same rows.

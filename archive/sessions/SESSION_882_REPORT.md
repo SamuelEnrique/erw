@@ -21,3 +21,9 @@
 ## Files
 
 - New: `warehouse/connectors/eia861_operations.py`, `tests/test_session882.py` (5 tests), this report. Changed: `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`. On the data machine only: `runs/c048/`, `runs/s882*`.
+
+## Corrected by session 891
+
+The method notes' checks (session 891) found these against the code, the tables and EIA's files:
+
+- "Ownership, NERC region and EIA's observed or imputed flag on every row" holds for ownership (72 rows "Unknown") and the flag (every row "O"), not for the NERC region: `x_nerc_region` is empty in 44,256 rows, and EIA's spellings vary ("RFC" and "RF", "wecc", combined values such as "SERC & RFC"), kept as EIA gives them.

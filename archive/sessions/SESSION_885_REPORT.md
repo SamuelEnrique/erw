@@ -26,3 +26,11 @@
 ## Files
 
 - New: `warehouse/connectors/eia860_schedules.py`, `tests/test_session885.py` (5 tests), this report. Changed: `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`. On the data machine only: `runs/c048/write_tables.sh`, `runs/c048/`, `runs/s885*`.
+
+## Corrected by session 891
+
+The method notes' checks (session 891) found these against the code, the tables and EIA's files:
+
+- The owners' shares: 4,014 of the 4,018 generators sum to 1 within half a percent (plant 70387 BESS1 sums to 1.0009). The generator that "sums to 0" (plant 69201, generator 11220) has one owner whose share EIA leaves empty.
+- `x_owner_zip` has lost the leading zeros of some ZIP codes (8540, 2458), as the workbook's cells are numbers; kept as read, named in the method note.
+- `status_date` is empty for the suspended (IP) generators as well as the proposed and the canceled.

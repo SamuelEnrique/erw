@@ -109,7 +109,7 @@ def main(argv=None):
         hit = None if args.fresh else ip.raw_cached(CONNECTOR, url)
         if hit:
             log(f"  raw file reused: {ip.redact(url)}")
-            return json.loads(hit[0]), ip.redact(url)
+            return json.loads(hit[0]), ip.redact(url), hit[1]["retrieved_at"]   # session 891: when the page was really fetched
         if args.offline:
             raise Ceiling(f"offline: {ip.redact(url)} is not in warehouse/raw/{CONNECTOR}/")
         for attempt in (1, 2):
@@ -120,7 +120,7 @@ def main(argv=None):
             r = requests.get(url, timeout=180)
             if r.status_code < 500 and r.status_code != 429:
                 r.raise_for_status()
-                return r.json(), ip.redact(r.url)
+                return r.json(), ip.redact(r.url), dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
             log(f"  {ip.redact(r.url)}: HTTP {r.status_code}; " + (f"asked once more in {RETRY_WAIT} s" if attempt == 1 else "not asked again"))
             time.sleep(RETRY_WAIT)
         raise RuntimeError(f"HTTP {r.status_code} twice for {ip.redact(r.url)}")
@@ -129,10 +129,9 @@ def main(argv=None):
         key = ip.load_key("EIA_API_KEY", log)
         if not key:
             raise RuntimeError("EIA_API_KEY is not set (.env or the environment)")
-        retrieved = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
         frames, offset, total = [], 0, None
         while True:
-            body, url = get({"api_key": key, "frequency": "monthly", "data[]": "value", "start": FIRST,
+            body, url, retrieved = get({"api_key": key, "frequency": "monthly", "data[]": "value", "start": FIRST,
                              "facets[product][]": PRODUCTS, "length": 5000, "offset": offset,
                              "sort[0][column]": "period", "sort[0][direction]": "asc",
                              "sort[1][column]": "series", "sort[1][direction]": "asc"})
@@ -148,7 +147,7 @@ def main(argv=None):
         more, offset2, total2, cut = [], 0, None, None
         while True:
             try:
-                body, url = get({"api_key": key, "frequency": "monthly", "data[]": "value", "start": FIRST,
+                body, url, retrieved = get({"api_key": key, "frequency": "monthly", "data[]": "value", "start": FIRST,
                                  "facets[product][]": MORE, "length": 5000, "offset": offset2,
                                  "sort[0][column]": "product", "sort[0][direction]": "asc",
                                  "sort[1][column]": "period", "sort[1][direction]": "asc",

@@ -10,10 +10,13 @@ whole-release text files:
     https://www.federalreserve.gov/releases/g17/ipdisk/utl_sa.txt    capacity utilization, seasonally adjusted
 
     entity    frb_g17:<G.17 series code>: the utilities (NAICS 2211 and 2212: G2211A2 electric and gas utilities, G2211
-              electric power, G22111 generation, N221112 fossil fuel, N221113 nuclear, N221111 hydroelectric, N221114T8
-              renewables and other, G22112 transmission and distribution, N22112R, N22112C, N22112M residential,
-              commercial and other, and industrial electricity sales, G2212 natural gas distribution and its sales), and
-              for comparison B50001 (all industrial production) and B50089 (energy, total)
+              electric power, G22111 generation, N221112 fossil fuel, N221113 nuclear, G221111A4T8 hydroelectric,
+              renewables and other, with its parts N221111 hydroelectric and N221114T8 renewables and other, G22112
+              transmission and distribution, N22112R, N22112C, N22112M residential, commercial and other, and
+              industrial electricity sales, G2212 natural gas distribution, N2212R, N2212C, N2212M its residential,
+              commercial and other, and industrial sales, N2212T gas transmission), and for comparison B50001 (all
+              industrial production) and B50089 (energy, total); the detailed N series can end a few months before
+              the aggregates
     variable  production (unit index: the G.17 release's base, 2017 = 100; Decision 53) or utilization (pct of capacity)
     ts_utc    the month's first day; freq P1M; geo US; node the series' title as the file gives it
 
@@ -108,14 +111,19 @@ def main(argv=None):
             raise RuntimeError("a row in both files")
         s = s[ip.SERIES_COLS].sort_values(["entity", "variable", "ts_utc"]).reset_index(drop=True)
         last = s["ts_utc"].max()[:7]
+        ends = s.groupby("entity")["ts_utc"].max().str[:7]
+        last_by = "; ".join(f"{m}: {', '.join(sorted(e.split(':')[1] for e in ends.index[ends == m]))}" for m in sorted(ends.unique(), reverse=True))
         header = [
             "Energy Research Warehouse (ERW): the Federal Reserve's G.17, industrial production and capacity utilization of electric and gas utilities, a month (session 889)",
             "Shape: series (docs/datastandard.md v0). entity frb_g17:<G.17 series code>; variable production (unit index, the G.17 release's base 2017 = 100; "
             "Decision 53) or utilization (pct of capacity); seasonally adjusted; ts_utc the month's first day; freq P1M; geo US; node the series' title. "
-            "Codes: G2211A2 electric and gas utilities; G2211 electric power; G22111 generation (N221112 fossil fuel, N221113 nuclear, N221111 hydroelectric, "
-            "N221114T8 renewables and other); G22112 transmission and distribution (N22112R residential, N22112C commercial and other, N22112M industrial "
-            "electricity sales); G2212 natural gas distribution (N2212R, N2212C, N2212M, N2212T); B50001 all industrial production and B50089 energy, total, for comparison.",
-            f"Months to {last}; {s['entity'].nunique()} series, {len(s):,} rows. A month the file leaves empty has no row; nothing is filled. An index is never summed. "
+            "Codes: G2211A2 electric and gas utilities; G2211 electric power; G22111 generation (N221112 fossil fuel, N221113 nuclear, G221111A4T8 "
+            "hydroelectric, renewables and other, with N221111 hydroelectric and N221114T8 renewables and other); G22112 transmission and distribution "
+            "(N22112R residential, N22112C commercial and other, N22112M industrial electricity sales); G2212 natural gas distribution (N2212R, N2212C, "
+            "N2212M its residential, commercial and other, and industrial sales; N2212T gas transmission); B50001 all industrial production and B50089 "
+            "energy, total, for comparison.",
+            f"Months to {last} (each series' last month: {last_by}); {s['entity'].nunique()} series, {len(s):,} rows. A month the file leaves empty has no row; "
+            "nothing is filled. An index is never summed. "
             "Each release revises earlier months: this is the release read.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/frb_utility_output.py",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",

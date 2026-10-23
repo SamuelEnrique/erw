@@ -80,6 +80,25 @@ class SevenProducts(unittest.TestCase):
         self.assertEqual(int((products == "EPD0").sum()), 3000)
         self.assertIn("left out whole, the ceiling reached: EPM0F, EPJK, EPLLPA, EPPR, EPLLEA, EPPC", " ".join(w["header"]))
 
+    def test_a_saved_page_keeps_its_own_retrieval_time(self):
+        # session 891: a page reused from warehouse/raw carries the time it was really fetched, not the run's
+        import json
+        saved = json.dumps({"response": {"total": 2, "data": recs("EPC0", 1) + recs("EPP0", 1)}}).encode()
+        hit = lambda c, url: (saved, {"retrieved_at": "2026-10-23T02:17:24Z"}) if "EPC0" in url else None  # noqa: E731
+        written = {}
+        with tempfile.TemporaryDirectory() as tmp, \
+                mock.patch.object(E.ip, "raw_cached", side_effect=hit), \
+                mock.patch.object(E.ip, "load_key", return_value="k"), \
+                mock.patch.object(E.ip.RAW, "open"), \
+                mock.patch.object(E.ip, "write_snapshot", side_effect=lambda s, *a, **k: written.update(s=s)), \
+                mock.patch.object(E.time, "sleep"), \
+                mock.patch.object(E.requests, "get", side_effect=fake_get([recs("EPD0", 3)], 3)):
+            self.assertEqual(E.main(["--out-dir", tmp, "--ceiling", "5"]), 0)
+        s = written["s"]
+        crude = s[s["entity"].str.endswith(":EPC0")]
+        self.assertEqual(set(crude["retrieved_at"]), {"2026-10-23T02:17:24Z"})
+        self.assertNotIn("2026-10-23T02:17:24Z", set(s[s["entity"].str.endswith(":EPD0")]["retrieved_at"]))
+
     def test_the_seven(self):
         self.assertEqual(E.MORE, ["EPD0", "EPM0F", "EPJK", "EPLLPA", "EPPR", "EPLLEA", "EPPC"])
         self.assertTrue(set(E.MORE).isdisjoint(E.PRODUCTS))

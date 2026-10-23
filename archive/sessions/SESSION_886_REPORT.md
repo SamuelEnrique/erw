@@ -24,3 +24,9 @@
 ## Files
 
 - New: `warehouse/connectors/eia_international_electricity.py`, `tests/test_session886.py` (4 tests), this report. Changed: `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`. On the data machine only: `runs/c048/`, `runs/s886*`.
+
+## Corrected by session 891
+
+The method notes' checks (session 891) found these against the code, the tables and EIA's files:
+
+- `x_data_flag` is set on 315 rows: 313 "rounds to zero", one "SMR estimation" (Canada's fossil fuel capacity, 2024) and one flagged preliminary, EIA spelling it "perliminary" (Mexico's fossil fuel capacity, 2024).

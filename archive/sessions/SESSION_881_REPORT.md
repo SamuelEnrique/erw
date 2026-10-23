@@ -22,3 +22,9 @@
 ## Files
 
 - New: `queue/next/049-day-23-october-data-margins-schedules-emissions.md` (on main), `warehouse/connectors/eia861_efficiency.py`, `tests/test_session881.py` (5 tests), this report. Changed: `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`. On the data machine only: `runs/c048/`, `runs/s881*`.
+
+## Corrected by session 891
+
+The method notes' checks (session 891) found these against the code, the tables and EIA's files:
+
+- The peak savings check names three state-years among the four apart by more than 1 percent; the fourth is Montana 2017 (1.276 MW against the state table's 1.3, 1.8 percent).

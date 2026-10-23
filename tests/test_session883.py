@@ -48,7 +48,7 @@ def dg_sheet(rows, title=False, battery_energy=False):
 
 
 def dg_row(util, state, v, ntech):
-    return [2024, state, util, f"U{util}", "PJM", 3, 2.0 * v, 0, ".", "A"] + [v, v, 0, 0, 0, 2.0 * v] * ntech
+    return [2024, state, util, f"U{util}", "PJM", 3, 2.0 * v, 0, ".", "AC"] + [v, v, 0, 0, 0, 2.0 * v] * ntech
 
 
 class DistributionSystems(unittest.TestCase):
@@ -78,7 +78,7 @@ class DistributedGeneration(unittest.TestCase):
         self.assertEqual(g.loc["battery_capacity_total", "value"], 3.0)
         self.assertEqual(g.loc["combustion_turbine_capacity_direct_connected", "value"], 0.0)
         self.assertNotIn("capacity_utility_owned", g.index)                 # a "." cell has no row
-        self.assertEqual(t.x_data_type.iloc[0], "A")
+        self.assertEqual(t.x_capacity_type.iloc[0], "AC")         # EIA's column Type: AC or DC (session 891)
 
     def test_battery_energy_in_mwh(self):
         s, n = dg_sheet([], battery_energy=True)

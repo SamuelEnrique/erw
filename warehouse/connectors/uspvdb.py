@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
-"""USGS's U.S. Large-Scale Solar Photovoltaic Database: every ground-mounted solar facility of 1 MW (AC) and more in
-the United States, its outline's place, capacity and design (session 890, chain 048: the solar sibling of the U.S. Wind
-Turbine Database, uswtdb.py).
+"""USGS's U.S. Large-Scale Solar Photovoltaic Database: the large-scale solar facilities of the United States as the
+database selects them (most ground-mounted and of 1 MW AC or more; it also holds some under 1 MW AC that are 1 MW DC or
+more, and some rooftop, canopy and floating ones, counted in the header), each outline's place, capacity and design
+(session 890, chain 048: the solar sibling of the U.S. Wind Turbine Database, uswtdb.py; session 891 corrected the
+scope, which the first header gave as "every ground-mounted facility of 1 MW (AC) and more").
 
 Energy Research Warehouse (ERW) connector. One entities table, warehouse/output/uspvdb_solar_facilities.csv, from the
 U.S. Large-Scale Solar Photovoltaic Database (USPVDB) of the U.S. Geological Survey and Lawrence Berkeley National
@@ -135,11 +137,13 @@ def main(argv=None):
             offset += PER_PAGE
         t = facilities(records, API, retrieved)
         header = [
-            "Energy Research Warehouse (ERW): USGS U.S. Large-Scale Solar Photovoltaic Database, every ground-mounted solar facility of 1 MW (AC) and more (session 890)",
+            "Energy Research Warehouse (ERW): USGS U.S. Large-Scale Solar Photovoltaic Database, the large-scale solar facilities as the database selects them (session 890)",
             "Shape: entities (docs/datastandard.md v0). entity_id uspvdb:<case_id>; entity_type plant; capacity_mw the facility's AC capacity (DC in capacity_dc_mw); "
             "lat, lon the outline's centroid; status empty (the database lists facilities in operation); the database's own fields after, renamed with their units.",
             f"Facilities: {len(t):,}; AC capacity {t['capacity_mw'].sum():,.0f} MW; with an EIA plant id {int((t['eia_plant_id'] != '').sum()):,}; "
-            f"with a battery {int((t['battery'] != '').sum()):,}. A blank stays blank; nothing is filled. image_date is USGS's image date as a date; "
+            f"with a battery {int((t['battery'] != '').sum()):,}; under 1 MW AC {int((t['capacity_mw'] < 1).sum()):,}; with a system type that is not ground "
+            f"(rooftop, canopy, floating) {int(((t['system_type'] != '') & ~t['system_type'].str.contains('ground')).sum()):,}. "
+            "A blank stays blank; nothing is filled. image_date is USGS's image date as a date; "
             "image_date_usgs as USGS gives it (YYYYMMDD)"
             + (f"; given as no calendar date, so image_date left empty: {', '.join(t.attrs['no_date'])}." if t.attrs.get("no_date") else "."),
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/uspvdb.py; {asked} pages of {CEILING}",
