@@ -209,6 +209,30 @@ test("the days: a Digest, a weekend, today before it is written, a weekday witho
   assert.equal(D.dayWords("2026-10-21"), "Wednesday 21 October 2026");
 });
 
+// session 2207 (Samuel's ruling of 23 October 2026, item 7): a figure the warehouse revised after the issue was written
+// is said in one line under the numbers, the issue's own figure and its key kept
+test("a revised figure keeps its span and gains one note line at the end of the numbers, at the value held now", () => {
+  const fuel = D.digestFigures(MD, "2026-10-20", null, BEFORE).find((f) => f.part === "fuel");
+  assert.ok(fuel, "the fixture holds a fuel close");
+  const t = D.digestMarkdown(MD, "2026-10-20", CHART, BEFORE, { [fuel.key]: { key: fuel.key, value: 96.34, retrieved: "2026-10-22T06:00:00Z" } });
+  const html = t.spans.join("\n");
+  assert.ok(html.includes(`<span data-check="${fuel.key}" data-raw="${fuel.raw}"`), "the figure's own span and key stay");
+  const note = t.spans.find((x) => x.includes(`data-revised="${fuel.key}"`));
+  assert.ok(note, "the note's span");
+  assert.ok(note.includes('data-revised-value="96.34"') && note.includes(`data-revised-printed="${fuel.raw}"`), note);
+  assert.ok(note.includes("EIA revised the") && note.includes("after this issue was written: the warehouse now holds 96.34") && note.includes(`the issue printed ${fuel.text}`), note);
+  // the note's token sits in the numbers section, after its last line and before the next section
+  const lines = t.md.split("\n"), from = lines.findIndex((l) => l.startsWith("## ERW's Numbers")), to = lines.findIndex((l, k) => k > from && l.startsWith("## "));
+  const at = lines.findIndex((l) => l === `ERWDIGESTFIG${t.spans.indexOf(note)}Z`);
+  assert.ok(at > from && (to < 0 || at < to), `the note at line ${at}, the section ${from} to ${to}`);
+  // no revision given, or a value equal to the one printed, or a chart key: no note
+  assert.equal(D.digestMarkdown(MD, "2026-10-20", CHART, BEFORE).spans.filter((x) => x.includes("data-revised=")).length, 0);
+  assert.equal(D.digestMarkdown(MD, "2026-10-20", CHART, BEFORE, { "digest_chart|2026-10-20|x|value": { key: "x", value: 1, retrieved: null } }).spans.filter((x) => x.includes("data-revised=")).length, 0);
+  // a held figure's revision is not said (its value is not shown at all)
+  assert.equal(D.digestMarkdown(MD, "2026-10-20", CHART, HELD, { [fuel.key]: { key: fuel.key, value: 96.34, retrieved: null } }).spans.filter((x) => x.includes("data-revised=")).length,
+    D.digestFigures(MD, "2026-10-20", null, HELD).find((f) => f.key === fuel.key).held ? 0 : 1);
+});
+
 test("every Digest the site holds has its numbers read: a key for each figure, and none left as a bare number", () => {
   const dir = path.join(here, "..", "..", "docs", "digest");
   const files = fs.readdirSync(dir).filter((f) => /^\d{4}-\d{2}-\d{2}\.md$/.test(f));

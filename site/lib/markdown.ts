@@ -7,7 +7,7 @@ import { Marked, type Tokens } from "marked";
 import docs from "@/content/docs.json";
 import site from "@/data/site.json";
 import { gated } from "@/lib/release";
-import { archiveOf, digestMarkdown, fillDigest, type DayKind } from "@/lib/digest";
+import { archiveOf, digestMarkdown, fillDigest, type DayKind, type Revision } from "@/lib/digest";
 
 export type Docs = {
   built_at: string;
@@ -263,8 +263,8 @@ export function archiveDays(today: string = new Date().toISOString().slice(0, 10
  * the chart of the day is a span with data-check and data-raw, as components/Num.tsx draws one, or "license needed"
  * where its table is held (lib/license.ts); while news_index is held, the sections of stories read as held.
  */
-export function renderDigest(md: string, date: string, now: Date = new Date()): string {
+export function renderDigest(md: string, date: string, now: Date = new Date(), revisions: Record<string, Revision> = {}): string {
   const chart = DOCS.digest_charts?.[date] ?? null;
-  const t = digestMarkdown(md, date, chart ? { table: chart.table, numbers: chart.numbers } : null, now);
+  const t = digestMarkdown(md, date, chart ? { table: chart.table, numbers: chart.numbers } : null, now, revisions);
   return fillDigest(render(t.md, `docs/digest/${date}.md`), t.spans);
 }

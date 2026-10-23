@@ -4,6 +4,7 @@ import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every 
 import { notFound } from "next/navigation";
 import { DOCS, digestDates, isoWeek, renderDigest, weeklyWeeks } from "@/lib/markdown";
 import { dayKind, dayWords } from "@/lib/digest";
+import { digestRevisions } from "@/lib/digestLive";
 import { utcDay } from "@/lib/license";
 
 export const revalidate = 3600;
@@ -59,10 +60,12 @@ export default async function DigestDay({ params }: PageProps<"/digest/[date]">)
       </Brand>
     );
   }
+  // session 2207: a figure the warehouse revised after the issue was written is said in one line under the numbers
+  const revisions = await digestRevisions(DOCS.digests[date], date);
   return (
     <Brand>
       {nav}
-      <article className="prose-erw" data-digest-day={date} dangerouslySetInnerHTML={{ __html: renderDigest(DOCS.digests[date], date) }} />
+      <article className="prose-erw" data-digest-day={date} dangerouslySetInnerHTML={{ __html: renderDigest(DOCS.digests[date], date, new Date(), revisions) }} />
     </Brand>
   );
 }
