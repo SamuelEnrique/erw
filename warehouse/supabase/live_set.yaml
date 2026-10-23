@@ -356,6 +356,7 @@ catalogue_hold:
   - noaa_cpc_degree_days_daily
   - boem_offshore_platforms
   - doe_oe417_events
+  - eaglei_county_outages_daily
   - lbnl_hybrid_ppa_prices
   - lbnl_solar_projects
   - ornl_npd_potential
