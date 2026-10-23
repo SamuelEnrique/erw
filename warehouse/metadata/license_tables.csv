@@ -411,6 +411,7 @@ usace_nid_dams,U.S. Army Corps of Engineers (USACE),the source registry
 usbr_hydropower_monthly,U.S. Bureau of Reclamation (USBR),the source registry
 usdm_drought_state_weekly,"U.S. Drought Monitor (National Drought Mitigation Center, USDA, NOAA)",the source registry
 usgs_mcs_critical_minerals,U.S. Geological Survey (USGS),the source registry
+usgs_streamflow_daily,U.S. Geological Survey (USGS),the source registry
 uspvdb_solar_facilities,U.S. Geological Survey (USGS),the source registry
 uswtdb_wind_turbines,U.S. Geological Survey (USGS),the source registry
 utility_service_territories,EIA,the source registry

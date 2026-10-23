@@ -7284,6 +7284,7 @@ usgs_mcs_critical_minerals,price,series variable,USD/t
 usgs_mcs_critical_minerals,production,series variable,t
 usgs_mcs_critical_minerals,reserves,series variable,t
 usgs_mcs_critical_minerals,stock,series variable,t
+usgs_streamflow_daily,discharge,series variable,ft3/s
 uspvdb_solar_facilities,entity_id,column,
 uspvdb_solar_facilities,entity_type,column,
 uspvdb_solar_facilities,name,column,
