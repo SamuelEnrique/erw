@@ -355,6 +355,7 @@ catalogue_hold:
   - usbr_hydropower_monthly
   - noaa_cpc_degree_days_daily
   - boem_offshore_platforms
+  - noaa_ncei_storm_events
   - lbnl_hybrid_ppa_prices
   - lbnl_solar_projects
   - ornl_npd_potential
