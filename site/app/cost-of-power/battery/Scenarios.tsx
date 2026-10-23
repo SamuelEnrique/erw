@@ -372,7 +372,8 @@ export function Scenarios({ x }: { x: Inputs }) {
       (c) => (c.r ? (c.r.irr === null ? { v: "none", raw: null, note: "no rate from -99 to 1,000 percent sets NPV to zero" } : { v: `${num(c.r.irr, 1)} percent`, raw: c.r.irr }) : none)),
     row("toll", "Breakeven toll", "a toll on the whole battery: the price at which coverage reaches 1.25 times, USD per kW-month",
       (c) => (c.r ? (c.r.toll === null ? { v: "no debt", raw: null } : { v: `USD ${num(c.r.toll)}`, raw: c.r.toll }) : none)),
-    row("tail", "Merchant tail after the contract", `the years after the debt's term, for ${size}, at the hurdle rate`,
+    // session 2306: the tail is the years after the debt's term (the arithmetic, c.r.tail.from), not after the contract
+    row("tail", "Merchant tail after the debt", `the years after the debt's term, for ${size}, at the hurdle rate`,
       (c) => (c.r ? { v: usd(c.r.tail.pv * scale), raw: c.r.tail.pv, note: c.r.tail.years > 0 ? `years ${c.r.tail.from} to ${c.r.tail.to}` : c.y.term > c.y.life ? `0 years: the term of ${plain(c.y.term)} years is cut to the life, ${plain(c.y.life)} years` : `0 years: the term and the life are both ${plain(c.y.life)} years` } : none)),
   ];
 
