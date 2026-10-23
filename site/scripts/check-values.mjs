@@ -46,6 +46,8 @@ import { unlockPost } from "./browser.mjs";   // session 301: the internal view 
 import * as ED from "./event-dates.mjs";   // session 369: the date of every event-page figure (todo 008)
 import * as RUN from "./check-values-run.mjs";   // session 430: the pages in batches, each under its own timeout
 import * as CALC from "./check-calc.mjs";   // session 1165: the arithmetic of the calc| keys, with its test
+import * as FMT from "./check-format.mjs";   // session 1166: fmt|<form>|<key>, a figure written in a form of the page's own
+import * as FILE from "./check-file.mjs";   // session 1166: file|<data file>|<path>, a figure of a committed file of site/data/
 
 const REQUEST_MS = Number(process.env.CHECK_VALUES_REQUEST_S ?? 60) * 1000;
 const RUN_MIN = Number(process.env.CHECK_VALUES_TIMEOUT_MIN ?? 15);
@@ -254,6 +256,25 @@ async function all(table, params) {
 const impactRows = new Map(), impactAll = new Map();   // session 347: /impact's rows, by technology and state, and by technology
 const dcAnswers = new Map();   // session 228: the answers of one address of /cost-of-power, read once
 const dcllRows = new Map();
+// session 1166: the committed files of site/data/ a file| key reads, each parsed once a run; and the live-set rows the
+// files were built from (scripts/check-file.mjs tableRow), one read a table, entity, period and frequency
+const dataFiles = new Map(), fileTableRows = new Map();
+function dataFile(f) {
+  if (!dataFiles.has(f)) dataFiles.set(f, JSON.parse(fs.readFileSync(path.join(here, "..", "data", f), "utf-8")));
+  return dataFiles.get(f);
+}
+/** The table row a file| key's value was built from and its value: { row: null } when the file is not a build of one. */
+async function fileTable({ file, path: at }) {
+  const row = FILE.tableRow(file, at, dataFile(file));
+  if (!row) return { row: null };
+  const k = `${row.table}|${row.entity}|${row.ts_utc}|${row.freq ?? ""}`;
+  if (!fileTableRows.has(k)) {
+    fileTableRows.set(k, all("series", { select: "variable,value", table_name: `eq.${row.table}`, entity: `eq.${row.entity}`, ts_utc: `eq.${row.ts_utc}`,
+      ...(row.freq ? { freq: `eq.${row.freq}` } : {}), order: "variable" }).catch((e) => { fileTableRows.delete(k); throw e; }));
+  }
+  const hit = (await fileTableRows.get(k)).find((r) => r.variable === row.variable);
+  return { row, value: hit ? hit.value : undefined };
+}
 let aweRows = null;   // session 1155: caiso_grid_emergencies, every row (event_date, event_type), read once for the awe|last and awe|ndays keys
 const dcqRows = new Map();   // session 468: the view by grid of /datacenters, one grid's groups read once
 let R_statOf = null;
@@ -331,6 +352,13 @@ async function truth(check) {
   // mix): awe|last|<group>|<day> (the newest Pacific day on or before <day> with a notice of the group, as text) and
   // awe|ndays|<group>|<from>|<to> (the distinct days with one), recomputed by the page's own rule (lib/caisoAlerts.ts
   // aweValue) on every row of the table, read once a run
+  // session 1166: awe|rows|<group> (the rows of the group) and awe|newest|<group> (its newest day), the Reliability
+  // section's "The table holds N notices, the latest on <day>", by the same rule on the same rows
+  if (p[0] === "awe" && (p[1] === "rows" || p[1] === "newest")) {
+    const A = await import("../lib/caisoAlerts.ts");
+    if (!aweRows) aweRows = all("events", { select: "event_date,event_type", table_name: `eq.${A.ALERT_TABLE}`, order: "event_date,event_id" });
+    return A.aweValue((await aweRows).map((r) => ({ event_date: String(r.event_date), event_type: r.event_type })), check);
+  }
   if (p[0] === "awe" && (p[1] === "last" || p[1] === "ndays")) {
     const A = await import("../lib/caisoAlerts.ts");
     if (!aweRows) aweRows = all("events", { select: "event_date,event_type", table_name: `eq.${A.ALERT_TABLE}`, order: "event_date,event_id" });
@@ -340,6 +368,46 @@ async function truth(check) {
     const rows = await all("events", { select: "event_date", table_name: "eq.caiso_grid_emergencies", event_type: `eq.${p[2]}`,
       and: `(event_date.gte.${p[3]}-01-01,event_date.lte.${p[3]}-12-31T23:59:59Z)` });
     return new Set(rows.map((r) => String(r.event_date).slice(0, 10))).size;
+  }
+  // session 1166 (chain 078): fmt|<form>|<key>, a figure the page writes in a form of its own (a percent to one decimal,
+  // a signed whole number: scripts/check-format.mjs). Its value is the inner key's, recomputed as it would be alone;
+  // readOne holds the page's text to that recomputed value written in the form, exactly
+  if (p[0] === "fmt") {
+    const f = FMT.fmtParts(check);
+    if (!f) throw new Error(`unknown form in ${check}`);
+    return truth(f.inner);
+  }
+  // session 1166: file|<data file>|<path>, a figure the page reads from a committed file of site/data/ (lib/mixdata.ts:
+  // the energy mix views, "How clean, and when"): the file in the repository, read here, the path followed
+  // (scripts/check-file.mjs). Where the file is a build of a live-set row, readOne compares the two on a line of its own
+  if (p[0] === "file") {
+    const f = FILE.fileParts(check);
+    if (!f) throw new Error(`bad file key ${check}`);
+    const v = FILE.readPath(dataFile(f.file), f.path);
+    return v === null || v === undefined || typeof v === "object" ? undefined : v;
+  }
+  // session 1166: the Mix tab's "Yesterday" (components/grid/Conditions.tsx): fcerr|mape|<entity>|<from>|<to>, the day's
+  // mean absolute miss of EIA's day-ahead demand forecast in percent of demand, and fcerr|hours|..., the hours that hold
+  // both; recomputed by the page's own rule (lib/gridYesterday.ts forecastMiss) on eia930_all_demand's rows in [from, to)
+  if (p[0] === "fcerr") {
+    const Y = await import("../lib/gridYesterday.ts");
+    const [, what, entity, from, to] = p;
+    const read = (variable) => all("series", { select: "ts_utc,value", table_name: "eq.eia930_all_demand", entity: `eq.${entity}`, variable: `eq.${variable}`,
+      and: `(ts_utc.gte.${from},ts_utc.lt.${to})`, order: "ts_utc" });
+    const [d, f] = await Promise.all([read("demand_mw"), read("demand_forecast_mw")]);
+    const m = Y.forecastMiss(d, f);
+    return what === "mape" ? (m.mape ?? undefined) : what === "hours" ? m.hours : undefined;
+  }
+  // session 1166: degday|<cdd|hdd>|<entity>|<day>, a UTC day's degree days at a station (weather_obs_hourly,
+  // temperature_f), base 65 F, from its 24 hourly rows; no value for a day with another count or the other side of the base
+  if (p[0] === "degday") {
+    const Y = await import("../lib/gridYesterday.ts");
+    const [, kind, entity, d] = p;
+    const to = new Date(Date.parse(`${d}T00:00:00Z`) + 86_400_000).toISOString();
+    const rows = await all("series", { select: "ts_utc,value", table_name: "eq.weather_obs_hourly", entity: `eq.${entity}`, variable: "eq.temperature_f",
+      and: `(ts_utc.gte.${d}T00:00:00Z,ts_utc.lt.${to})`, order: "ts_utc" });
+    const dd = Y.degreeDay(rows);
+    return dd && dd.kind === kind ? dd.value : undefined;
   }
   // session 44: a derived answer of the problem sets, calc|<op>|<A>|<B>: A and B are check keys with "~" for "|", each
   // recomputed here on its own, then combined
@@ -1207,7 +1275,7 @@ async function main() {
   const truths = new Map();   // one query a key, whichever page it is judged on
 
   async function readOne({ page, url, internal }, signal) {
-    const out = { page, lines: [], ok: 0, bad: 0, superseded: 0, n: 0, keys: [], count: 0 };
+    const out = { page, lines: [], ok: 0, bad: 0, superseded: 0, n: 0, keys: [], count: 0, fileSame: 0, fileDiff: 0 };
     const res = await fetch(base + url, { headers: cookie ? { Cookie: cookie } : {} });
     if (internal && res.status === 404) {  // the server has no INTERNAL_COSTS_TOKEN (or another): the page is off there
       out.skipped = `internal page not checked: ${page} answers 404 at ${base} (its INTERNAL_COSTS_TOKEN is not this one)`;
@@ -1289,7 +1357,10 @@ async function main() {
       // session 402: a figure of the Digest's chart of the day is written as the chart-maker rounds it (lib/digest.ts chartText)
       const chartOk = /^digest_chart\|/.test(check) && text === digestChartText(Number(raw));
       const textOk = hourText || pText || text === raw || text.startsWith(usdFormat ? usd(Number(raw)) : whole ? Math.round(Number(raw)).toLocaleString("en-US") : shown(raw)) || chartOk;
-      let pass = t !== undefined && t !== null && same && textOk;
+      // session 1166: a fmt|<form>|... figure's text is the recomputed value written in its form, exactly, and nothing else
+      const fp = FMT.fmtParts(check);
+      const textHolds = fp ? text === FMT.formText(fp.form, t) : textOk;
+      let pass = t !== undefined && t !== null && same && textHolds;
       // session 369 (todo 008): on an event page, the date the figure belongs to is named on its line; a series figure
       // is compared with the row of that date among its entity's rows (never another day's), an estimate of a day with
       // that day's, and a date the page writes beside the figure must be the same date
@@ -1304,7 +1375,26 @@ async function main() {
       }
       pass ? out.ok++ : out.bad++;
       out.n++;
-      out.lines.push(`${pass ? "ok  " : "FAIL"} | ${page} | ${check} |${of} page shows "${text}" | page read ${raw} | Supabase ${t}`);
+      out.lines.push(`${pass ? "ok  " : "FAIL"} | ${page} | ${check} |${of} page shows "${text}" | page read ${raw} | ${FILE.fileParts(fp ? fp.inner : check) ? "the committed file" : "Supabase"} ${t}`);
+      // session 1166: a figure of a committed file that is a build of a live-set row, against that row, on its own line:
+      // "same" within the rounding of the less precise of the two, "DIFF" else (counted apart; not a failure of the run)
+      const fk = FILE.fileParts(fp ? fp.inner : check);
+      if (fk) {
+        let ft;
+        try {
+          ft = await fileTable(fk);
+        } catch (e) {
+          if (RUN.isTimeout(e)) throw e;
+          ft = { row: undefined, error: e.message };
+        }
+        if (ft.error) { out.fileDiff++; out.lines.push(`DIFF | ${page} | ${check} | the file's table row could not be read: ${ft.error}`); }
+        else if (!ft.row) out.lines.push(`file | ${page} | ${check} | ${fk.file} at ${fk.path} is not a build of a live-set row: checked against the file alone`);
+        else {
+          const eq = ft.value !== undefined && FILE.sameWithin(t, ft.value);
+          eq ? out.fileSame++ : out.fileDiff++;
+          out.lines.push(`${eq ? "same" : "DIFF"} | ${page} | ${check} | the file's ${t} | ${ft.row.table}, ${ft.row.entity}, ${ft.row.variable}, ${ft.row.ts_utc}${ft.row.freq ? ` (${ft.row.freq})` : ""}: ${ft.value === undefined ? "no row" : ft.value}`);
+        }
+      }
     }
     const floor = FLOOR[page];
     if (floor !== undefined && out.count < floor) {
@@ -1360,8 +1450,8 @@ async function main() {
   const done = ids.filter((p) => state.pages[p]).map((p) => state.pages[p]);
   for (const r of done) if (r.skipped) console.log(r.skipped);
   const lines = done.flatMap((r) => r.lines);
-  let ok = 0, bad = 0, superseded = 0, n = 0;
-  for (const r of done) { ok += r.ok; bad += r.bad; superseded += r.superseded; n += r.n; }
+  let ok = 0, bad = 0, superseded = 0, n = 0, fileSame = 0, fileDiff = 0;
+  for (const r of done) { ok += r.ok; bad += r.bad; superseded += r.superseded; n += r.n; fileSame += r.fileSame ?? 0; fileDiff += r.fileDiff ?? 0; }
   const wk = state.pages[WEEKLY];
   const [wok, wbad] = [wk?.ok ?? 0, wk?.bad ?? 0];
   // session 430: what this run could not read, a page a line; their floors are not judged and the run is not a pass
@@ -1371,6 +1461,8 @@ async function main() {
   console.log(lines.join("\n"));
   if (ONLY.length) console.log(`\nRESTRICTED RUN (CHECK_VALUES_PAGES): only the pages starting with ${ONLY.join(", ")}; not the gate of a landing`);
   console.log(`\n${ok} of ${n} values match Supabase${superseded ? `; ${superseded} latest prices superseded by a newer interval within ${LATEST_LAG_MIN} minutes (checked for staleness, not comparable by value)` : ""}${bad ? `; ${bad} FAILED` : ""} (/roundup: ${wok} of ${wok + wbad})${missing.length ? `; ${missing.length} of ${ids.length} pages NOT READ` : ""}`);
+  // session 1166: the committed files' figures against the live-set rows they were built from (not a failure of the run)
+  if (fileSame + fileDiff) console.log(`committed files against their live-set tables: ${fileSame} of ${fileSame + fileDiff} the same${fileDiff ? `; ${fileDiff} DIFF (the lines marked DIFF: a file built before its table was, or a row the table no longer holds)` : ""}`);
   if (n < 10) console.log(`check-values FAILED: ${n} values checked, fewer than the floor of ten a run`);
   const perPage = new Map(done.filter((r) => !r.weekly && !r.skipped && r.count !== undefined).map((r) => [r.page, r.count]));
   if (process.env.CHECK_VALUES_WRITE_FLOOR === "1") {

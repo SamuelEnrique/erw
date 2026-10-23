@@ -356,6 +356,88 @@ Decisions (chain 077):
   changes what it computes. `site/scripts/check-methods.mjs` reads such a key as a figure of each variable (session
   1162).
 
+## The Mix tab's last unkeyed figures, and the views drawn from committed files (chain 078, 24 October 2026)
+
+Session 1166 keyed what session 1151 listed as still without a key on `/grid`. No figure's text moved: each figure is
+wrapped in its key, with a one-line source in its hover tip (dotted, as the tool's panels write theirs).
+
+**The Mix tab's "Yesterday"** (`components/grid/Conditions.tsx`, the arithmetic moved as it stood into
+`lib/gridYesterday.ts`, which `site/scripts/check-values.mjs` imports to recompute the keys):
+
+- The forecast's miss at the peak, MW: `fmt|pm0|calc|diff|<demand>|<forecast>`, the two `series` keys of
+  `eia930_all_demand`'s `demand_mw` and `demand_forecast_mw` in the peak hour ("~" for "|"); written "+" at or above
+  zero, else a minus sign, then the whole size (`pm0`, `site/scripts/check-format.mjs`).
+- Its percent of demand: `fmt|f1|calc|diffpct|<demand>|<forecast>`, a new op of calc, (A less B) over A, times 100,
+  written to one decimal (`f1`, `toFixed(1)`).
+- The day's mean absolute miss: `fmt|f1|fcerr|mape|eia930:<BA>|<from>|<to>`, and its hours `fcerr|hours|eia930:<BA>|<from>|<to>`
+  (a new kind `fcerr|`: the mean over the hours that hold both of the miss's size over demand, in percent; the UTC day
+  from `<from>` to `<to>`).
+- The degree days: `fmt|f1|degday|cdd|nws:<station>|<day>` and `fmt|f1|degday|hdd|nws:<station>|<day>` (a new kind
+  `degday|`: the UTC day's mean of its 24 hourly `weather_obs_hourly` `temperature_f` rows, less 65 F, or 65 F less it; a
+  day with another count of hours has none, as the page writes "not computed").
+
+**"Generation mix, as a table"** (`Conditions.tsx`, `MixTable`): each fuel's share of the day,
+`fmt|f1|calc|pct|series_sum~eia930_all_generation~<the group's variables, comma separated>~<day>~<next day>~eia930:<BA>|series_sum~...~net_generation_mw~...`:
+the group's variables are those the day's rows hold (Other: every variable no other group takes).
+
+**"Hours held"** (`components/grid/YourGrid.tsx`, the 30-day mix table): `series_n|eia930_all_generation|<variable>|<start>|<end>|eia930:<BA>`
+(session 1154's kind: the distinct hours of the rows).
+
+**CAISO's notices** (`components/grid/Reliability.tsx`): "The table holds N notices" is `awe|rows|any` and "the latest
+on <day>" is `awe|newest|any` (two new forms of the `awe|` kind, `lib/caisoAlerts.ts` `aweValue`: every row of
+`caiso_grid_emergencies`, and the newest `event_date` of any).
+
+**The views drawn from committed files** (`components/mix/views.tsx`, the Mix tab's views and the Clean tab's "How clean,
+and when"): a new kind `file|<data file>|<path>` (`site/scripts/check-file.mjs`), always behind `fmt|<form>|` (`n0`,
+`n1`, `n2`, `sn0`, `sn1`: the page's own functions, `lib/mixpage.ts`, with a sign above zero for the last two). The
+recomputation reads the file in the repository (`site/data/`), not the database; where the file is a build of a
+live-set table, check-values then compares the file's value with that table's row on a line of its own, "same" or
+"DIFF", counted apart and not a failure of the run (`grid_stress.md` gives the decision). The figures keyed:
+
+- "How clean, and when" (`site/data/clean/<grid>.json`, `clean_energy_summary`, the year's row `year_<variable>`, P1Y):
+  the table "Carbon-free share and hours" (`year_carbon_free_share_pct`, `year_carbon_free_share_flat_pct`,
+  `year_hours_cf_ge<50, 75, 90>_pct`) and "The seven grids" (`year_carbon_free_share_pct`, `year_hours_cf_ge50_pct`,
+  `year_match_mix_100_energy_pct`, `year_shift20_carbon_change_pct`, `year_shift20_cost_change_pct`). A grid held for a
+  license (ISO-NE, MISO and NYISO, `lib/license.ts`) is not keyed: its blocks say "license needed" as before.
+- "The average day" (`site/data/mix/<grid>.json`, `generation_mix_hourly_profile` for a month; a year is the builder's
+  sum of its months and is checked against the file alone): the table "Shares of generation by source"
+  (`<coal, hydro, natural_gas, nuclear, other, solar, storage, wind>_share_pct` and `_mwh`), and in "Solar and wind at
+  their peak hour" the largest source's share, solar's and wind's shares and `days_held`.
+- "Records" (`generation_mix_records`, by the record's variable and hour): `<solar_share_max_pct, wind_share_max_pct,
+  wind_solar_share_max_pct, cleanest_hour_kgco2_per_mwh, dirtiest_hour_kgco2_per_mwh>`, since the first year and in the
+  year chosen (`year_<solar_share_max_pct, wind_share_max_pct, wind_solar_share_max_pct, cleanest_hour_kgco2_per_mwh,
+  dirtiest_hour_kgco2_per_mwh>`); and the records of `site/data/mixplus/<grid>.json` (`warehouse/derived/mix_views.py`,
+  a file only: `file|` records `<demand_hour_max, gas_share_min, no_coal_run, solar_day_max, solar_hour_max,
+  wind_day_max, wind_hour_max>`).
+- "Wind and solar forecasts" (`site/data/mix_forecast.json`, a file only): the hours held, and in the table by month
+  the hours, the mean actual and forecast, the mean error and the mean absolute error (`file|` `n`, `actual`,
+  `forecast`, `bias`, `mae`).
+- "How hard the system works" and the tightest hours of "Availability by source": `grid_stress.md`.
+
+Not keyed, and why: figures the page computes from the files' arrays rather than reads (the duck curve's midday low,
+evening high and ramp, solar's and wind's peak MW and hour, the availability's daily mean, lowest and highest hour,
+the cleanest and dirtiest hour of each month, the history by state's shares and million MWh): each needs the page's
+own rule as a key kind (a later session); the clean view's large tables (the annual purchase against the hours, moving
+a flat load by year: up to nine columns a year); the error as a share of the mean actual (a ratio the page computes).
+On 24 October 2026, for ERCOT and CAISO, 573 keys were drawn by these views on a server render
+(`site/scripts/test-grid-file-keys.mjs` recomputes every one from the files); 370 of them are builds of a live-set
+row, and all 370 were the same as the table.
+
+Every chart of these views answers a hover with its value, unit and hour or period (`components/svgchart.tsx`: the
+category charts name the hour or the year and each series' value and unit; the heat maps "row, column: value unit").
+
+Decisions (chain 078):
+
+- **A form in the key, rather than a looser text rule**: a figure written to one decimal or with a sign is keyed as
+  `fmt|<form>|<key>`, and check-values holds its text to the recomputed value in that form, exactly. No existing key
+  changes what it computes or how its text is read.
+- **The arithmetic moved, not copied**: the page and check-values call the same functions (`lib/gridYesterday.ts`,
+  `aweValue`), so the key is the page's rule; the node test holds them to the expressions that stood in the page.
+- **The clean view's table of the seven grids keys only the grids not held**: it drew, and still draws, the held grids'
+  figures, which the license rule says should read "license needed" (a ruling for the owner; no figure was moved).
+- **The headline tables, not every cell**: a view's top numbers and its first tables are keyed; the large tables below
+  them wait for a pass of their own.
+
 ## The figures on the page and their keys
 
 Each number `/grid` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The keys the sections above do not name:

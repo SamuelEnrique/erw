@@ -149,7 +149,8 @@ function Power({ g, d }: { g: GridConfig; d: GridData }) {
               <tr key={s.v} className="border-b border-rule">
                 <td className="py-0.5 pr-2">{fuelName(s.v)}</td>
                 <td className="pr-2 text-right"><Num check={`series_sum|${T}|${s.v}|${s0}|${s1}|${g.entity}`} raw={s.mwh}>{shown(s.mwh)}</Num></td>
-                <td className="pr-2 text-right text-muted">{count(s.n)}</td>
+                <td className="pr-2 text-right text-muted">{/* session 1166: the hours held, keyed (series_n, session 1154: the distinct hours of the rows) */}
+                  <span title={`${T}, ${g.entity}, ${s.v}: the hours it holds from ${s0} to ${s1} (hour starts, UTC)`} className="cursor-help border-b border-dotted border-muted"><Num check={`series_n|${T}|${s.v}|${s0}|${s1}|${g.entity}`} raw={s.n}>{count(s.n)}</Num></span></td>
               </tr>
             ))}
           </tbody>

@@ -34,7 +34,11 @@
 //    is a date or time, a number, a setting string (a=b&c=d), an id (a part that begins with one of the prefixes in
 //    instance() below, eia930:ERCO, deal:..., erwco:..., or an upper-case name, HB_HUBAVG), a grid's name, a two-letter
 //    state, "-" or "newest"; a part cut at ":" keeps its pieces that are not (neighbour_mwh:SWPP is neighbour_mwh).
-//    calc|<op>|<A>|<B> is the two figures of A and B (calc|bal|<A>|<B>|<C>, session 1165, the three). The Digest's chart of the day, digest_chart|<date>|<table>|<figure>,
+//    calc|<op>|<A>|<B> is the two figures of A and B (calc|bal|<A>|<B>|<C>, session 1165, the three). Session 1166:
+//    fmt|<form>|<key> is the figures of its key; file|<data file>|<path> is the figure of the live-set table the file is a
+//    build of, by the row it was built from (scripts/check-file.mjs tableRow: clean_energy_summary year_<v>, ...), and of
+//    a file that is a build of none, the family file| and the path's last name (its selector's value when that name is
+//    "value": records.all[key=<k>].value is <k>). The Digest's chart of the day, digest_chart|<date>|<table>|<figure>,
 //    is a family: its table is the day's.
 //
 // 3. Named. A note names a table figure when its text holds both the table's name and the variable's, each as a whole
@@ -53,6 +57,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { unlockPost } from "./browser.mjs";   // the internal view by the form's door, no token in an address
+import * as FILE from "./check-file.mjs";   // session 1166: a file| key's table row
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const SITE = path.join(here, "..");
@@ -90,6 +95,18 @@ export function figures(key) {
   const head = p[0];
   // session 1165: every operand, so calc|bal|<A>|<B>|<C> is the three figures (a two-operand key is its two, as before)
   if (head === "calc" && p.length >= 4) return p.slice(2).flatMap((x) => figures(x.replaceAll("~", "|")));
+  // session 1166: a figure in a form of the page's own is its key's figures; a committed file's figure is its table's
+  if (head === "fmt" && p.length >= 3) return figures(p.slice(2).join("|"));
+  const fk = head === "file" ? FILE.fileParts(key) : null;
+  if (fk) {
+    let row = null;
+    try { row = FILE.tableRow(fk.file, fk.path, JSON.parse(fs.readFileSync(path.join(SITE, "data", fk.file), "utf-8"))); } catch { row = null; }
+    if (row) return [{ kind: "table", table: row.table, measure: row.variable, id: `${row.table} ${shape(row.variable)}` }];
+    const seg = FILE.segments(fk.path);
+    const last = seg[seg.length - 1], prev = seg[seg.length - 2];
+    const measure = last.key === "value" && prev?.where ? Object.values(prev.where)[0] : last.key;
+    return [{ kind: "family", table: "file", measure, id: `file| ${shape(measure)}` }];
+  }
   if (head in TABLE_KEY) {
     const [ti, vi] = TABLE_KEY[head];
     const table = ti === null ? head : p[ti];

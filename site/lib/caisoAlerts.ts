@@ -17,6 +17,10 @@
 // The keys (scripts/check-values.mjs, family awe, with session 58's awe|days|<type>|<year>):
 //   awe|last|<group>|<day>          the newest day on or before <day> with a notice of the group, YYYY-MM-DD (text)
 //   awe|ndays|<group>|<from>|<to>   the distinct days from <from> to <to>, both included, with a notice of the group
+//   awe|rows|<group>                the rows of the group, every day (session 1166: the Reliability section's "The table
+//                                   holds N notices", components/grid/Reliability.tsx)
+//   awe|newest|<group>              the newest day of any row of the group, YYYY-MM-DD (text; session 1166: its "the
+//                                   latest on <day>")
 // A group is one of GROUPS below; "any" is every type, so awe|last|any|<today> is the table's newest notice day.
 
 export const ALERT_TABLE = "caiso_grid_emergencies";
@@ -89,6 +93,9 @@ export function aweValue(rows: NoticeLike[], check: string): string | number | n
   if (p[0] !== "awe" || !(p[2] in GROUPS)) return undefined;
   if (p[1] === "last" && p.length === 4) return lastDay(rows, p[2], p[3]);
   if (p[1] === "ndays" && p.length === 5) return nDays(rows, p[2], p[3], p[4]);
+  // session 1166: every row of the group, and its newest day (no bound: the section counts the whole table)
+  if (p[1] === "rows" && p.length === 3) return rows.filter((r) => inGroup(r.event_type, p[2])).length;
+  if (p[1] === "newest" && p.length === 3) return lastDay(rows, p[2], "9999-12-31");
   return undefined;
 }
 

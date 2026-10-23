@@ -11,6 +11,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { Bars, Heat, HourStack, Lines, type Series } from "@/components/mix/Charts";
 import { Missing } from "@/components/mix/Now";
+import { Num } from "@/components/Num";  // session 1166: the committed files' headline figures, keyed
 import * as clean from "@/lib/clean";
 import { LICENSE_NEEDED, licenseHeldRow, licenseTitle } from "@/lib/license";  // session 215
 import * as mix from "@/lib/mix2";
@@ -23,6 +24,29 @@ const nameOf = (g: Slug) => mix.GRIDS.find((x) => x.slug === g)!.name;
 const NH = ({ why, words }: { why: string; words?: string }) => <Missing why={why} words={words} />;
 const val = (v: number | null | undefined, f: (n: number) => string, why = "This figure is not in the table for this grid and period.") => (v === null || v === undefined ? <NH why={why} /> : <>{f(v)}</>);
 const cols = (n: number) => (n <= 1 ? "" : "grid gap-4 lg:grid-cols-2");
+
+// Session 1166 (chain 078): the views' headline figures, keyed. Each is a value of a committed file (lib/mixdata.ts),
+// keyed fmt|<form>|file|<data file>|<path>: scripts/check-values.mjs reads the file in the repository and follows the
+// path (scripts/check-file.mjs), holds the text to the value in the form (scripts/check-format.mjs), and, where the file
+// is a build of a live-set table, compares the value with that table's row on a line of its own. The text is the page's
+// own, written by the same functions as before (n0, n1, n2 and a sign); the tip names the table, the row and the file.
+const FORM: Record<"n0" | "n1" | "n2" | "sn0" | "sn1", (x: number) => string> = {
+  n0, n1, n2, sn0: (x) => `${x > 0 ? "+" : ""}${n0(x)}`, sn1: (x) => `${x > 0 ? "+" : ""}${n1(x)}`,
+};
+type Form = keyof typeof FORM;
+function tipOf(file: string, at: string): string {
+  const [kind, g] = file.replace(/\.json$/, "").split("/");
+  const table = kind === "mix" ? (at.startsWith("records") ? "generation_mix_records" : "generation_mix_hourly_profile") : kind === "clean" ? "clean_energy_summary" : kind === "stress" ? "grid_stress_yearly" : null;
+  return `${table ? `${table}, iso:${g}` : "warehouse/derived/mix_views.py"}: ${at} (the committed file site/data/${file})`;
+}
+/** A keyed figure: the value in its form, the key, the tip (a note first when the cell had one). */
+function K({ v, form, file, at, note }: { v: number; form: Form; file: string; at: string; note?: string }) {
+  return <span title={note ? `${note}\n${tipOf(file, at)}` : tipOf(file, at)} className="cursor-help border-b border-dotted border-muted"><Num check={`fmt|${form}|file|${file}|${at}`} raw={v}>{FORM[form](v)}</Num></span>;
+}
+/** As val, keyed: the value in its form with its unit after it, or the placeholder with its reason. */
+const kv = (v: number | null | undefined, form: Form, file: string, at: string, unit = "", why = "This figure is not in the table for this grid and period.") =>
+  (v === null || v === undefined ? <NH why={why} /> : <><K v={v} form={form} file={file} at={at} />{unit}</>);
+const held1 = (p: Record<string, unknown> | null | undefined, k: string) => typeof p?.[k] === "number";
 
 export function Chips({ label, items }: { label: string; items: { key: string; label: string; href: string; on: boolean; title?: string; off?: boolean }[] }) {
   return (
@@ -105,7 +129,9 @@ export function DayView({ c }: { c: Choice }) {
       <Block title={`Shares of generation by source, ${mix.periodName(period)}`}>
         <Table caption="Shares of generation by source" head={["Source", ...held.flatMap(({ g }) => [`${nameOf(g)}, share`, `${nameOf(g)}, MWh`])]}
           rows={sources.map((s) => ({ key: s.key, cells: [<span key="n"><span className="mr-1.5 inline-block h-2.5 w-2.5" style={{ background: s.color }} />{s.label}</span>,
-            ...held.flatMap(({ g, p }) => { const sh = p ? mix.shares(p).find((x) => x.key === s.key) : undefined; return [val(sh?.share, (v) => `${n1(v)}%`), val(sh?.mwh, n0)]; })] }))} />
+            ...held.flatMap(({ g, p }) => { const sh = p ? mix.shares(p).find((x) => x.key === s.key) : undefined; const at = `${period.length === 7 ? "months" : "years"}.${period}`;
+              return [held1(p, `${s.key}_share_pct`) ? kv(sh?.share, "n1", `mix/${g}.json`, `${at}.${s.key}_share_pct`, "%") : val(sh?.share, (v) => `${n1(v)}%`),
+                held1(p, `${s.key}_mwh`) ? kv(sh?.mwh, "n0", `mix/${g}.json`, `${at}.${s.key}_mwh`) : val(sh?.mwh, n0)]; })] }))} />
       </Block>
       <Block title="Solar and wind at their peak hour of the average day">
         <Table caption="Largest source, and solar and wind at their peak" head={["Grid", "Largest source", "Its share", "Solar, share", "Solar at its peak, MW", "Hour", "Wind, share", "Wind at its peak, MW", "Hour", "Days held"]}
@@ -113,8 +139,10 @@ export function DayView({ c }: { c: Choice }) {
             if (!p) return { key: g, cells: [nameOf(g), ...Array.from({ length: 9 }, (_, i) => <NH key={i} why={`${nameOf(g)} holds no ${mix.periodName(period)}.`} />)] };
             const sh = mix.shares(p), top = sh[0], sol = mix.highest(p.avg.solar ?? []), wnd = mix.highest(p.avg.wind ?? []);
             const share = (k: string) => sh.find((x) => x.key === k)?.share;
-            return { key: g, cells: [nameOf(g), top.label, `${n1(top.share)}%`, val(share("solar"), (v) => `${n1(v)}%`), val(sol && sol.value > 0 ? sol.value : null, n0, "The grid's file reports no solar output."), sol && sol.value > 0 ? mix.hourName(sol.hour) : "",
-              val(share("wind"), (v) => `${n1(v)}%`), val(wnd && wnd.value > 0 ? wnd.value : null, n0, "The grid's file reports no wind output."), wnd && wnd.value > 0 ? mix.hourName(wnd.hour) : "", n0(p.days_held)] };
+            const at = `${period.length === 7 ? "months" : "years"}.${period}`, file = `mix/${g}.json`;
+            const ks = (k: string) => (held1(p, `${k}_share_pct`) ? kv(share(k), "n1", file, `${at}.${k}_share_pct`, "%") : val(share(k), (v) => `${n1(v)}%`));
+            return { key: g, cells: [nameOf(g), top.label, held1(p, `${top.key}_share_pct`) ? <>{kv(top.share, "n1", file, `${at}.${top.key}_share_pct`)}%</> : `${n1(top.share)}%`, ks("solar"), val(sol && sol.value > 0 ? sol.value : null, n0, "The grid's file reports no solar output."), sol && sol.value > 0 ? mix.hourName(sol.hour) : "",
+              ks("wind"), val(wnd && wnd.value > 0 ? wnd.value : null, n0, "The grid's file reports no wind output."), wnd && wnd.value > 0 ? mix.hourName(wnd.hour) : "", held1(p, "days_held") ? kv(p.days_held, "n0", file, `${at}.days_held`) : n0(p.days_held)] };
           })} />
       </Block>
     </>
@@ -195,15 +223,19 @@ export function RecordsView({ c }: { c: Choice }) {
         const years = Object.keys(plus.records).filter((y) => y !== "all").sort();
         const year = c.year && years.includes(c.year) ? c.year : years.at(-1)!;
         const when = (ts: string, kind: string) => (kind === "day" ? new Date(`${ts}T12:00:00Z`).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }) : mix.localHour(ts, file.tz));
-        const share = mix.RECORD_ROWS.map((r) => ({ key: r.variable, label: r.label, unit: r.unit, all: mix.recordOf(file, r.variable, "all"), yr: mix.recordOf(file, r.variable, year), kind: "hour" }));
+        // session 1166: each record's file and the paths of its two figures, for their keys
+        const share = mix.RECORD_ROWS.map((r) => ({ key: r.variable, label: r.label, unit: r.unit, all: mix.recordOf(file, r.variable, "all"), yr: mix.recordOf(file, r.variable, year), kind: "hour",
+          src: `mix/${g}.json`, atAll: `records[variable=${r.variable},period=all].value`, atYr: `records[variable=year_${r.variable},period=${year}].value` }));
         const extra = (plus.records.all ?? []).map((r) => ({ key: r.key, label: r.label, unit: r.unit === "pct" ? "percent of generation" : r.unit, kind: r.kind,
+          src: `mixplus/${g}.json`, atAll: `records.all[key=${r.key}].value`, atYr: `records.${year}[key=${r.key}].value`,
           all: { value: r.value, ts_utc: r.at }, yr: (plus.records[year] ?? []).find((x) => x.key === r.key) ? { value: plus.records[year].find((x) => x.key === r.key)!.value, ts_utc: plus.records[year].find((x) => x.key === r.key)!.at } : undefined }));
         const why = "The grid's file reports nothing to rank for this record (a source it does not report, or no hour that passes the tests).";
         return (
           <Block key={g} title={`${nameOf(g)}: the records`}>
             <Table caption={`${nameOf(g)}, records`} head={["Record", "Unit", `Since ${file.first.slice(0, 4)}`, "When, local time", `In ${year}`, "When, local time"]}
-              rows={[...share, ...extra].map((r) => ({ key: r.key, cells: [r.label, r.unit, val(r.all?.value, r.unit === "hours" || r.unit === "MW" || r.unit === "MWh" ? n0 : n1, why), r.all ? when(r.all.ts_utc, r.kind) : "",
-                val(r.yr?.value, r.unit === "hours" || r.unit === "MW" || r.unit === "MWh" ? n0 : n1, why), r.yr ? when(r.yr.ts_utc, r.kind) : ""] }))} />
+              rows={[...share, ...extra].map((r) => { const form: Form = r.unit === "hours" || r.unit === "MW" || r.unit === "MWh" ? "n0" : "n1";
+                return { key: r.key, cells: [r.label, r.unit, kv(r.all?.value, form, r.src, r.atAll, "", why), r.all ? when(r.all.ts_utc, r.kind) : "",
+                  kv(r.yr?.value, form, r.src, r.atYr, "", why), r.yr ? when(r.yr.ts_utc, r.kind) : ""] }; })} />
           </Block>
         );
       })}
@@ -234,7 +266,8 @@ export function CleanView({ c }: { c: Choice }) {
         <Table caption="Carbon-free share and hours" head={["Grid", `Carbon-free share, ${year}`, "For a flat load", "Hours at least 50% carbon-free", "At least 75%", "At least 90%", "Months held"]}
           rows={c.grids.map((g) => { const f = CLEAN[g]; if (held(g)) return { key: g, cells: [nameOf(g), ...Array.from({ length: 6 }, (_, i) => <LW key={i} />)] };
             if (!f.years[year]) return { key: g, cells: [nameOf(g), ...Array.from({ length: 6 }, (_, i) => <NH key={i} why={notWritten(g)} />)] };
-            const v = clean.yearView(f, year); return { key: g, cells: [nameOf(g), val(v.share, (x) => `${n1(x)}%`), val(v.flat, (x) => `${n1(x)}%`), ...f.levels.map((l) => val(v.ge[l], (x) => `${n1(x)}%`)), `${v.months ?? 0} of ${v.due ?? 12}`] }; })} />
+            const v = clean.yearView(f, year), cf = `clean/${g}.json`, y = `years.${year}`;
+            return { key: g, cells: [nameOf(g), kv(v.share, "n1", cf, `${y}.carbon_free_share_pct`, "%"), kv(v.flat, "n1", cf, `${y}.carbon_free_share_flat_pct`, "%"), ...f.levels.map((l) => kv(v.ge[l], "n1", cf, `${y}.hours_cf_ge${l}_pct`, "%")), `${v.months ?? 0} of ${v.due ?? 12}`] }; })} />
       </Block>
       {c.grids.map((g) => {
         const f = CLEAN[g];
@@ -268,9 +301,12 @@ export function CleanView({ c }: { c: Choice }) {
         <Table caption="The seven grids" head={["Grid", "Months held", "Carbon-free share", "Hours at least half carbon-free", "100% purchase: energy met in its hour", "20% moved: carbon", "20% moved: cost"]}
           rows={clean.GRIDS.map((g) => { const f = CLEAN[g]; if (!f.years[year]) return { key: g, cells: [nameOf(g), ...Array.from({ length: 6 }, (_, i) => <NH key={i} why={notWritten(g)} />)] };
             const v = clean.yearView(f, year); const noPrice = f.no_price ?? "No hub price is held for this grid in this year.";
-            return { key: g, on: c.grids.includes(g), cells: [nameOf(g), `${v.months ?? 0} of ${v.due ?? 12}`, val(v.share, (x) => `${n1(x)}%`), val(v.ge[50], (x) => `${n1(x)}%`), val(v.match.mix?.[100]?.energy, (x) => `${n1(x)}%`),
-              val(v.carbon.change[20], (x) => `${x > 0 ? "+" : ""}${n1(x)}%`), v.cost.change[20] === null || v.cost.change[20] === undefined
-                ? <NH key="p" why={noPrice} words={/paused/.test(noPrice) ? "paused while terms are reviewed" : /PJM/.test(noPrice) ? "licensed source needed" : "not held yet"} /> : `${v.cost.change[20]! > 0 ? "+" : ""}${n1(v.cost.change[20]!)}%`] }; })} />
+            // session 1166: keyed for the grids not held; a held grid's cells are as they were (unkeyed: listed in session 1166's report)
+            const cf = `clean/${g}.json`, y = `years.${year}`, key = !held(g);
+            const kp = (x: number | null | undefined, at: string, form: Form = "n1") => (key ? kv(x, form, cf, `${y}.${at}`, "%") : val(x, (z) => `${FORM[form](z)}%`));
+            return { key: g, on: c.grids.includes(g), cells: [nameOf(g), `${v.months ?? 0} of ${v.due ?? 12}`, kp(v.share, "carbon_free_share_pct"), kp(v.ge[50], "hours_cf_ge50_pct"), kp(v.match.mix?.[100]?.energy, "match_mix_100_energy_pct"),
+              kp(v.carbon.change[20], "shift20_carbon_change_pct", "sn1"), v.cost.change[20] === null || v.cost.change[20] === undefined
+                ? <NH key="p" why={noPrice} words={/paused/.test(noPrice) ? "paused while terms are reviewed" : /PJM/.test(noPrice) ? "licensed source needed" : "not held yet"} /> : kp(v.cost.change[20]!, "shift20_cost_change_pct", "sn1")] }; })} />
       </Block>
     </>
   );
@@ -313,9 +349,10 @@ export function StressView({ c }: { c: Choice }) {
           <div key={g}>
             <Block title={`${nameOf(g)}: the evening ramp and the lowest net load, by year`}>
               <Table caption="Evening ramp and lowest net load" head={["Year", "Peak demand, MW", "Largest ramp in one hour, MW", "Share of peak", "When it started", "Largest over three hours, MW", "Lowest net load, MW", "Share of peak", "When", "Hours held"]}
-                rows={ys.map((y) => ({ key: y, on: y === year, cells: [`${y}${stress.wholeYear(f, y) ? "" : " to date"}`, val(stress.get(f, y, "peak_demand_mw"), n0), val(stress.get(f, y, "evening_ramp_max_mw_per_h"), n0), val(stress.get(f, y, "evening_ramp_max_share_of_peak_pct"), (x) => `${n1(x)}%`),
-                  whenOf(y, "evening_ramp_max_mw_per_h"), val(stress.get(f, y, "evening_ramp_3h_max_mw"), n0), val(stress.get(f, y, "net_load_min_mw"), n0), val(stress.get(f, y, "net_load_min_share_of_peak_pct"), (x) => `${n1(x)}%`), whenOf(y, "net_load_min_mw"),
-                  val(stress.get(f, y, "hours_held"), n0)] }))} />
+                rows={ys.map((y) => { const sk = (k: string, form: Form, unit = "") => kv(stress.get(f, y, k), form, `stress/${g}.json`, `years.${y}.${k}`, unit);
+                  return { key: y, on: y === year, cells: [`${y}${stress.wholeYear(f, y) ? "" : " to date"}`, sk("peak_demand_mw", "n0"), sk("evening_ramp_max_mw_per_h", "n0"), sk("evening_ramp_max_share_of_peak_pct", "n1", "%"),
+                  whenOf(y, "evening_ramp_max_mw_per_h"), sk("evening_ramp_3h_max_mw", "n0"), sk("net_load_min_mw", "n0"), sk("net_load_min_share_of_peak_pct", "n1", "%"), whenOf(y, "net_load_min_mw"),
+                  sk("hours_held", "n0")] }; })} />
             </Block>
             <Block title={`${nameOf(g)}: what each fuel gave in the ${f.tight} tightest hours, ${year}`}>
               {f.years[year] ? <Table caption="Fuels in the tightest hours" head={["Fuel", "Mean output, MW", "Installed capacity, MW", "Output as a share of installed capacity"]}
@@ -335,8 +372,9 @@ export function StressView({ c }: { c: Choice }) {
       <Block title={`The seven grids, ${year}`}>
         <Table caption="The seven grids" head={["Grid", "Largest evening ramp, share of peak", "Over three hours", "Lowest net load, share of peak", "Wind in the tightest hours, share of capacity", "Solar in the tightest hours, share of capacity", "Longest dark, calm stretch"]}
           rows={stress.GRIDS.map((g) => { const f = STRESS[g]; const k = (name: string) => (f.years[year] ? stress.get(f, year, name) : null);
-            return { key: g, on: c.grids.includes(g), cells: [nameOf(g), val(k("evening_ramp_max_share_of_peak_pct"), (x) => `${n1(x)}%`, why), val(k("evening_ramp_3h_max_share_of_peak_pct"), (x) => `${n1(x)}%`, why), val(k("net_load_min_share_of_peak_pct"), (x) => `${n1(x)}%`, why),
-              val(k("tight_wind_share_of_capacity_pct"), (x) => `${n1(x)}%`, "The grid's file reports no wind for this year, or the year is not held."), val(k("tight_solar_share_of_capacity_pct"), (x) => `${n1(x)}%`, "The grid's file reports no solar for this year, or the year is not held."),
+            const sk = (name: string, w: string) => kv(k(name), "n1", `stress/${g}.json`, `years.${year}.${name}`, "%", w);
+            return { key: g, on: c.grids.includes(g), cells: [nameOf(g), sk("evening_ramp_max_share_of_peak_pct", why), sk("evening_ramp_3h_max_share_of_peak_pct", why), sk("net_load_min_share_of_peak_pct", why),
+              sk("tight_wind_share_of_capacity_pct", "The grid's file reports no wind for this year, or the year is not held."), sk("tight_solar_share_of_capacity_pct", "The grid's file reports no solar for this year, or the year is not held."),
               k("calm_longest_hours") === null ? <NH key="s" why={why} /> : stress.span(k("calm_longest_hours"))] }; })} />
       </Block>
     </>
@@ -374,7 +412,8 @@ export function SupplyView({ c }: { c: Choice }) {
               rows={["natural_gas", "coal", "nuclear", "wind", "solar", "hydro_storage"].map((fuel) => ({ key: fuel, cells: [FUEL_WORDS[fuel], ...tightYears.map((y) => {
                 const v = f.years[y] ? stress.get(f, y, `tight_${fuel}_share_of_capacity_pct`) : null;
                 if (v === null) return <NH key={y} why="The grid's file does not report this source in that year, the year is not held, or no installed capacity is held for it." />;
-                return fuel === "nuclear" ? <span key={y} className="cursor-help border-b border-dotted border-muted" title={nuclearNote(g, y)}>{n1(v)}%</span> : `${n1(v)}%`; })] }))} />
+                // session 1166: keyed; nuclear's cell keeps the NRC's note first in its tip
+                return <span key={y}><K v={v} form="n1" file={`stress/${g}.json`} at={`years.${y}.tight_${fuel}_share_of_capacity_pct`} note={fuel === "nuclear" ? nuclearNote(g, y) : undefined} />%</span>; })] }))} />
           </Block>
         );
       })}
@@ -418,7 +457,7 @@ export function ForecastView({ c }: { c: Choice }) {
         return (
           <div key={slug}>
             <Block title={`${g.name}: ${src}, forecast a day ahead against actual, by hour of the day`} id={`forecast-${slug}`}>
-              <p className="mb-1 text-xs text-muted">{n0(s.all.n)} hours, {local(s.first)} to {local(s.last)}</p>
+              <p className="mb-1 text-xs text-muted"><K v={s.all.n} form="n0" file="mix_forecast.json" at={`grids.${slug}.sources.${src}.all.n`} /> hours, {local(s.first)} to {local(s.last)}</p>
               <Lines x={HOURS} unit="MW" zero name={`erw-mix-forecast-${slug}-${src}`} label={`${g.name} ${src}, local hour`}
                 series={[{ name: "Actual, mean", color: "var(--color-accent)", values: s.hours.map((h) => h?.actual ?? null), width: 2.2 }, { name: "Forecast, mean", color: "var(--color-fuel-gas)", values: s.hours.map((h) => h?.forecast ?? null), width: 2 },
                   { name: "Mean absolute error", color: "var(--color-ink)", values: s.hours.map((h) => h?.mae ?? null), dash: "dashed" }, { name: "Mean error (forecast less actual)", color: "var(--color-muted)", values: s.hours.map((h) => h?.bias ?? null), dash: "dotted" }]} />
@@ -428,7 +467,9 @@ export function ForecastView({ c }: { c: Choice }) {
                 series={[{ name: "Mean absolute error", color: "var(--color-accent)", values: months.map((m) => s.months[m].mae) }, { name: "Mean error (forecast less actual)", color: "var(--color-ink)", values: months.map((m) => s.months[m].bias) }]} /> : null}
               {months.length > 1 ? <Heat rows={months} cols={HOURS} unit="MW mean absolute error" name={`erw-mix-forecast-heat-${slug}-${src}`} label={`${g.name} ${src}, mean absolute error`} cells={months.map((m) => s.months[m].mae_by_hour)} /> : null}
               <Table caption="Forecast error by month" head={["Month", "Hours", "Actual, mean MW", "Forecast, mean MW", "Mean error, MW", "Mean absolute error, MW", "Error as a share of mean actual"]}
-                rows={[...months].reverse().map((m) => { const r = s.months[m]; return { key: m, cells: [m, n0(r.n), n0(r.actual), n0(r.forecast), `${r.bias > 0 ? "+" : ""}${n0(r.bias)}`, n0(r.mae), r.actual > 0 ? `${n1((100 * r.mae) / r.actual)}%` : ""] }; })} />
+                rows={[...months].reverse().map((m) => { const r = s.months[m]; const at = `grids.${slug}.sources.${src}.months.${m}`;
+                  const fk = (x: number, f: string, form: Form = "n0") => <K v={x} form={form} file="mix_forecast.json" at={`${at}.${f}`} />;
+                  return { key: m, cells: [m, fk(r.n, "n"), fk(r.actual, "actual"), fk(r.forecast, "forecast"), fk(r.bias, "bias", "sn0"), fk(r.mae, "mae"), r.actual > 0 ? `${n1((100 * r.mae) / r.actual)}%` : ""] }; })} />
             </Block>
           </div>
         );

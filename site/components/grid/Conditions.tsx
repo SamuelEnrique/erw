@@ -9,6 +9,7 @@ import { daysAgo, renderTime, series, type SeriesRow } from "@/lib/data";
 import { count } from "@/lib/format";
 import { DOCS } from "@/lib/markdown";
 import { attempt } from "@/lib/supabase";
+import { dayMean, forecastMiss } from "@/lib/gridYesterday";  // session 1166: the arithmetic the new keys recompute
 import { CaisoMixWithheld } from "@/components/CaisoMixWithheld";  // session 118
 
 // Session 237: this file holds what app/grid/page.tsx ("Grid conditions", sessions 15 to 118) drew. The Grid tool is the
@@ -28,7 +29,7 @@ export const BAS = [
   { code: "isne", entity: "eia930:ISNE", label: "ISO-NE", tz: "America/New_York", station: "KBOS" },
 ];
 const WX = "weather_obs_hourly";
-const BASE_F = 65; // degree days: the US convention, base 65 degrees F
+const BASE_F = 65; // degree days: the US convention, base 65 degrees F (lib/gridYesterday.ts BASE_F, the same)
 
 // fuel groups in the fixed order of the token file; anything else is "other"
 const FUELS: { key: string; label: string; vars: string[] }[] = [
@@ -115,6 +116,13 @@ export async function loadConditions(ba: (typeof BAS)[number], yesterday: string
   return { ba, day, note, demand: d.data, gen, genDay, genNote, error: null, weather: w && w.ok ? w.data : [] };
 }
 
+/** Session 1166 (chain 078): a figure of "Yesterday" or of the mix table with its check-values key and a one-line source
+ * in its tip, dotted as the Grid tool's panels write theirs. The text is the page's own, as it was; the key recomputes it
+ * (fmt|<form>|... holds the text to the form, scripts/check-format.mjs). */
+function F({ check, raw, tip, children }: { check: string; raw: number | string; tip: string; children: React.ReactNode }) {
+  return <span title={tip} className="cursor-help border-b border-dotted border-muted"><Num check={check} raw={raw}>{children}</Num></span>;
+}
+
 function Block({ r }: { r: BAResult }) {
   const table = DEMAND;
   const gtable = GEN;
@@ -126,8 +134,8 @@ function Block({ r }: { r: BAResult }) {
   const peak = dem.reduce((a, b) => (b.value > a.value ? b : a));
   const peakT = Date.parse(peak.ts_utc);
   const fAtPeak = fc.get(peak.ts_utc);
-  const pairs = dem.filter((x) => fc.has(x.ts_utc));
-  const mape = pairs.length ? (100 * pairs.reduce((a, x) => a + Math.abs(x.value - fc.get(x.ts_utc)!) / x.value, 0)) / pairs.length : null;
+  // session 1166: the day's mean absolute miss by lib/gridYesterday.ts forecastMiss (the arithmetic that stood here, moved)
+  const { mape, hours: paired } = forecastMiss(dem, dayRows.filter((x) => x.variable === "demand_forecast_mw"));
   // 7-day chart: the 7 UTC days ending with the day shown
   const c0 = d1 - 7 * 24 * H;
   const toLine = (v: string) => r.demand.filter((x) => x.variable === v && Date.parse(x.ts_utc) >= c0 && Date.parse(x.ts_utc) < d1).map((x) => ({ t: Date.parse(x.ts_utc) / 1000, v: x.value }));
@@ -142,9 +150,13 @@ function Block({ r }: { r: BAResult }) {
   for (let t = c0; t < d1; t += 24 * H) {
     const day = iso(t).slice(0, 10);
     const h = temps.filter((x) => x.ts_utc.slice(0, 10) === day);
-    dd.push({ day, n: h.length, mean: h.length ? h.reduce((a, x) => a + x.value, 0) / h.length : 0 });
+    dd.push({ day, ...dayMean(h) });   // session 1166: lib/gridYesterday.ts dayMean, the arithmetic that stood here
   }
   const range = `${iso(d0)}|${iso(d1)}`;
+  // session 1166: the keys of the forecast's miss and the degree days (lib/gridYesterday.ts, scripts/check-format.mjs)
+  const dk = `series~${table}~${r.ba.entity}~demand_mw~${peak.ts_utc}`, fk = `series~${table}~${r.ba.entity}~demand_forecast_mw~${peak.ts_utc}`;
+  const dayWin = `${r.ba.entity}|${iso(d0)}|${iso(d1)}`;
+  const at = `${table}, ${r.ba.entity}, the hour starting ${peak.ts_utc.slice(0, 16).replace("T", " ")} UTC`;
   return (
     <div className="grid gap-6 lg:grid-cols-[18rem_1fr]">
       <div>
@@ -160,15 +172,17 @@ function Block({ r }: { r: BAResult }) {
         {fAtPeak !== undefined ? (
           <div className="mb-3 tabular-nums">
             <Num check={`series|${table}|${r.ba.entity}|demand_forecast_mw|${peak.ts_utc}`} raw={fAtPeak}>{count(fAtPeak)}</Num> MW; error{" "}
-            {peak.value - fAtPeak >= 0 ? "+" : "−"}
-            {count(Math.abs(peak.value - fAtPeak))} MW ({(((peak.value - fAtPeak) / peak.value) * 100).toFixed(1)}% of demand)
+            <F check={`fmt|pm0|calc|diff|${dk}|${fk}`} raw={peak.value - fAtPeak} tip={`Demand less the day-ahead forecast (demand_mw less demand_forecast_mw), ${at}`}>{peak.value - fAtPeak >= 0 ? "+" : "−"}{count(Math.abs(peak.value - fAtPeak))}</F> MW (<F check={`fmt|f1|calc|diffpct|${dk}|${fk}`} raw={((peak.value - fAtPeak) / peak.value) * 100} tip={`The miss over demand, in percent, one decimal, ${at}`}>{(((peak.value - fAtPeak) / peak.value) * 100).toFixed(1)}</F>% of demand)
           </div>
         ) : (
           <div className="mb-3 text-xs text-muted">no data: no forecast for that hour in {table}. Why: {reason(table, r.day)}</div>
         )}
         <div className="text-xs text-muted">Forecast error over the day (mean absolute, % of demand)</div>
         <div className="tabular-nums">
-          {mape !== null ? `${mape.toFixed(1)}% over ${pairs.length} hours` : `no data: no forecast hours on ${r.day}`}
+          {mape !== null
+            ? <><F check={`fmt|f1|fcerr|mape|${dayWin}`} raw={mape} tip={`${table}, ${r.ba.entity}, UTC day ${r.day}: the mean over the hours that hold both of |demand_mw less demand_forecast_mw| over demand_mw, in percent`}>{mape.toFixed(1)}</F>% over{" "}
+              <F check={`fcerr|hours|${dayWin}`} raw={paired} tip={`${table}, ${r.ba.entity}, UTC day ${r.day}: the hours that hold both demand_mw and demand_forecast_mw`}>{paired}</F> hours</>
+            : `no data: no forecast hours on ${r.day}`}
         </div>
       </div>
       <div className="min-w-0">
@@ -183,8 +197,8 @@ function Block({ r }: { r: BAResult }) {
                 {x.day.slice(5)}{" "}
                 {x.n === 24
                   ? x.mean >= BASE_F
-                    ? `CDD ${(x.mean - BASE_F).toFixed(1)}`
-                    : `HDD ${(BASE_F - x.mean).toFixed(1)}`
+                    ? <>CDD <F check={`fmt|f1|degday|cdd|nws:${r.ba.station}|${x.day}`} raw={x.mean - BASE_F} tip={`${WX}, nws:${r.ba.station}, temperature_f, UTC day ${x.day}: the mean of its 24 hourly rows less ${BASE_F} F`}>{(x.mean - BASE_F).toFixed(1)}</F></>
+                    : <>HDD <F check={`fmt|f1|degday|hdd|nws:${r.ba.station}|${x.day}`} raw={BASE_F - x.mean} tip={`${WX}, nws:${r.ba.station}, temperature_f, UTC day ${x.day}: ${BASE_F} F less the mean of its 24 hourly rows`}>{(BASE_F - x.mean).toFixed(1)}</F></>
                   : `not computed (${x.n} of 24 hours in ${WX})`}
               </span>
             ))}
@@ -261,6 +275,17 @@ export async function GridYesterday({ code }: { code: string }) {
   );
 }
 
+/** Session 1166: a fuel's share of the day in the mix table, keyed as the percent of two sums of the day's rows: the
+ * fuel group's variables as the day's rows hold them (a comma list, series_sum, session 1152) over net_generation_mw. */
+const groupVars = (r: BAResult, fuel: string) =>
+  [...new Set(r.gen.filter((x) => x.variable !== "net_generation_mw" && fuelOf(x.variable) === fuel).map((x) => x.variable))].sort();
+function shareKey(r: BAResult, fuel: string): string {
+  const s0 = `${r.genDay}T00:00:00Z`, s1 = iso(Date.parse(s0) + 24 * H);
+  return `fmt|f1|calc|pct|series_sum~${GEN}~${groupVars(r, fuel).join(",")}~${s0}~${s1}~${r.ba.entity}|series_sum~${GEN}~net_generation_mw~${s0}~${s1}~${r.ba.entity}`;
+}
+const shareTip = (r: BAResult, fuel: string) =>
+  `${GEN}, ${r.ba.entity}, UTC day ${r.genDay}: the day's MWh of ${groupVars(r, fuel).join(", ")} over its net_generation_mw, in percent, one decimal`;
+
 /** Session 237: "Generation mix, as a table", every region's day side by side, as the page had it. */
 export async function MixTable() {
   const yesterday = conditionsDay();
@@ -288,7 +313,7 @@ export async function MixTable() {
                     {hoursTotal === 24
                       ? FUELS.map((f) => (
                           <td key={f.key} className="py-1 pr-3 text-right tabular-nums">
-                            {by.has(f.key) ? `${((by.get(f.key)! / total) * 100).toFixed(1)}%` : ""}
+                            {by.has(f.key) ? <><F check={shareKey(r, f.key)} raw={(by.get(f.key)! / total) * 100} tip={shareTip(r, f.key)}>{((by.get(f.key)! / total) * 100).toFixed(1)}</F>%</> : ""}
                           </td>
                         ))
                       : <td colSpan={FUELS.length} className="py-1 pr-3 text-xs text-muted">no data for this day</td>}

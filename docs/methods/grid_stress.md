@@ -118,3 +118,37 @@ Decisions (chain 077):
 
 - **The panel's peak is demand's, not net load's**, as a trader reads a peak (prices, reserves and the four coincident peaks key off demand); this note's net load stays the measure of the tightest hours. The owner may ask the panel to name the net load peak beside it; that would be a new key, and no figure of this note would move.
 - **No figure of this note was changed by the chain**; the section only says which of the three a figure on the page is.
+
+## The views' figures, keyed from the committed files (chain 078, 24 October 2026)
+
+Session 1166 keyed the figures this note's tables put on the Grid tool's Mix tab (`components/mix/views.tsx`, the view
+"How hard the system works" and the tightest hours of "Availability by source"). The page reads the site's copy of
+`grid_stress_yearly`, `site/data/stress/<grid>.json` (`warehouse/derived/mix_stress.py`); each figure is keyed
+`fmt|<form>|file|stress/<grid>.json|years.<year>.<variable>`: `site/scripts/check-values.mjs` reads the committed file
+in the repository, follows the path (`site/scripts/check-file.mjs`), holds the page's text to that value written in its
+form (`n0` whole, `n1` one decimal: `site/scripts/check-format.mjs`), and then compares the file's value with the row of
+`grid_stress_yearly` it was built from (entity `iso:<grid>`, the variable, `<year>-01-01`), on a line of its own
+("same" within the rounding of the less precise of the two, "DIFF" else).
+
+The variables keyed, each a `grid_stress_yearly` variable as the table writes it: `peak_demand_mw`,
+`evening_ramp_max_mw_per_h`, `evening_ramp_max_share_of_peak_pct`, `evening_ramp_3h_max_mw`,
+`evening_ramp_3h_max_share_of_peak_pct`, `net_load_min_mw`, `net_load_min_share_of_peak_pct`, `hours_held` (the
+table "the evening ramp and the lowest net load, by year", every year), the five shares of "The seven grids"
+(`evening_ramp_max_share_of_peak_pct`, `evening_ramp_3h_max_share_of_peak_pct`, `net_load_min_share_of_peak_pct`,
+`tight_wind_share_of_capacity_pct`, `tight_solar_share_of_capacity_pct`), and the tightest hours by source of
+"Availability by source", `tight_<natural_gas, coal, nuclear, wind, solar, hydro_storage>_share_of_capacity_pct`.
+On 24 October 2026 the 272 such figures the two views draw for ERCOT and CAISO were the same in the file and in the table.
+
+Not keyed, and why: the hours of each record ("When it started", "When", "It began": a time, written by the grid's
+clock, not a value), the tightest hours' fuel table (mean MW, capacity, share; the dark and calm stretches' table): left
+for a later pass, a table of up to ten columns a year; "The longest" stretch, written in words (`stress.span`).
+
+Decisions (chain 078):
+
+- **A figure of a committed file is recomputed from the file, and the file from the table**, as two lines: the page
+  reads the file, so the first check is the page's own reading; the second says whether the file still matches the
+  live set. A "DIFF" is counted apart and does not fail the run: the files are rebuilt by hand
+  (`mix_stress.py --snapshot`), the table by its job, and a difference says the file is behind, which is a finding for
+  the owner, not a page fault. The owner may make it a failure.
+- **The form is part of the key** (`fmt|n1|...`), so the text is recomputed exactly, not only the number; no figure's
+  text moved.

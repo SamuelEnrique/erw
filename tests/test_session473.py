@@ -20,11 +20,11 @@ SITE = os.path.join(ROOT, "site")
 OWN = {
     "components/board/BoardView.tsx": 0,
     "components/board/Workbench.tsx": 0,
-    "components/grid/Conditions.tsx": 3,
+    "components/grid/Conditions.tsx": 11,  # session 1166: eight more, the F of "Yesterday" and the mix table, and its seven uses
     "components/grid/Emissions.tsx": 4,  # session 1151: one more, the last 24 hours' figures (F, grid_clean24_<grid>)
-    "components/grid/YourGrid.tsx": 17,
+    "components/grid/YourGrid.tsx": 18,  # session 1166: one more, "Hours held" (series_n)
     "components/mix/Now.tsx": 2,
-    "components/mix/views.tsx": 0,
+    "components/mix/views.tsx": 1,  # session 1166: the committed files' figures; its one K writes every key
     "app/network/Network.tsx": 2,
     "app/network/NetworkMap.tsx": 0,
     "app/network/NetworkGravity.tsx": 0,
