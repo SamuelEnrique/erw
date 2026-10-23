@@ -78,7 +78,10 @@ export type BAResult = {
 const DEMAND = "eia930_all_demand";
 const GEN = "eia930_all_generation";
 
-export async function loadConditions(ba: (typeof BAS)[number], yesterday: string): Promise<BAResult> {
+// Session 1160: `weather` false leaves out the station's temperature read: "Generation mix, as a table" (MixTable)
+// draws each region's mix only, and read every region's station temperatures for nothing (the grid's own block,
+// GridYesterday, still reads its station). Every other caller reads it, as before.
+export async function loadConditions(ba: (typeof BAS)[number], yesterday: string, { weather = true }: { weather?: boolean } = {}): Promise<BAResult> {
   const dt = DEMAND;
   const dRun = `eia930_${ba.code}_demand`;
   const d = await attempt(() => series(dt, { entity: ba.entity, since: daysAgo(10) }));
@@ -108,7 +111,7 @@ export async function loadConditions(ba: (typeof BAS)[number], yesterday: string
     genNote = `${gt} ${gh.has(day) ? `holds ${gh.get(day)} of 24 hours of ${day}` : `does not hold ${day}`}${genDay ? `; the mix shown is ${genDay}, its latest complete day` : ""}. Why: ${reason(gRun, day)}`;
   }
   const gen = genDay ? g.data.filter((r) => r.ts_utc.slice(0, 10) === genDay) : [];
-  const w = ba.station ? await attempt(() => series(WX, { entity: `nws:${ba.station}`, variable: "temperature_f", since: daysAgo(10) })) : null;
+  const w = weather && ba.station ? await attempt(() => series(WX, { entity: `nws:${ba.station}`, variable: "temperature_f", since: daysAgo(10) })) : null;
   return { ba, day, note, demand: d.data, gen, genDay, genNote, error: null, weather: w && w.ok ? w.data : [] };
 }
 
@@ -261,7 +264,7 @@ export async function GridYesterday({ code }: { code: string }) {
 /** Session 237: "Generation mix, as a table", every region's day side by side, as the page had it. */
 export async function MixTable() {
   const yesterday = conditionsDay();
-  const results = await Promise.all(BAS.map((b) => loadConditions(b, yesterday)));
+  const results = await Promise.all(BAS.map((b) => loadConditions(b, yesterday, { weather: false })));
   return (
       <Section title="Generation mix, as a table" id="mix-table">
         <div className="overflow-x-auto">

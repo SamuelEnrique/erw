@@ -16,6 +16,7 @@ import { HeadlineNumber, HeadlineRow, SourceLine, ToolSection, ToolTable } from 
 import { daysAgo, series, type SeriesRow } from "@/lib/data";
 import { shown } from "@/lib/format";
 import { FUELS, fuelName, fuelOf, type GridData } from "@/lib/grid";
+import { latestHour } from "@/lib/gridReads";
 import { gridHref, type GridChoice } from "@/lib/gridtool";
 import type { GridConfig } from "@/lib/markdown";
 import { fetchHourly, pickSnapshot, tiesAt } from "@/lib/network";
@@ -42,9 +43,13 @@ const byTime = (a: SeriesRow, b: SeriesRow) => a.ts_utc.localeCompare(b.ts_utc);
 export async function NowView({ grid, cfg, data }: { grid: GridChoice; /** the grid's page config and reads (lib/grid.ts), null for the Lower 48 */ cfg: GridConfig | null; data: GridData | null }) {
   const entity = `eia930:${grid.ba}`;
   const tz = cfg?.tz ?? null;
+  const withheld = grid.slug === "caiso";  // session 118: EIA-930's generation for California is not drawn
+  // session 1160: the mix's read is the newest hour of the total in the last 34 days and that hour's rows
+  // (lib/gridReads.ts latestHour: the rows drawn are the ones the 34-day read gave), and none for California, whose
+  // EIA-930 generation is not drawn
   const [dem, gen, ci, fetched] = await Promise.all([
     attempt(() => series(DEMAND, { entity, variable: "demand_mw", since: daysAgo(9) })),
-    attempt(() => series(GEN, { entity, since: daysAgo(34) })),
+    withheld ? Promise.resolve({ ok: true as const, data: [] as SeriesRow[] }) : attempt(() => latestHour(GEN, entity, "net_generation_mw", daysAgo(34))),
     attempt(() => series(CARBON, { entity, since: daysAgo(7) })),
     fetchHourly(FRESH),
   ]);
@@ -53,7 +58,6 @@ export async function NowView({ grid, cfg, data }: { grid: GridChoice; /** the g
   const d = demand.at(-1);
   const dWeek = d ? demand.find((r) => Date.parse(r.ts_utc) === Date.parse(d.ts_utc) - 7 * 24 * H) : undefined;
   // the mix: the latest hour that holds the total, its fuels largest first
-  const withheld = grid.slug === "caiso";  // session 118: EIA-930's generation for California is not drawn
   const rows = gen.ok && !withheld ? gen.data : [];
   const total = rows.filter((r) => r.variable === "net_generation_mw").sort(byTime).at(-1);
   const fuels = total ? rows.filter((r) => r.ts_utc === total.ts_utc && r.variable !== "net_generation_mw" && r.variable.startsWith("net_generation_")).sort((a, b) => b.value - a.value) : [];

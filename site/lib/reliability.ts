@@ -2,6 +2,7 @@
 // caiso_grid_emergencies (events: every CAISO notice since 1998, from its Grid Emergencies History Report) and
 // caiso_reliability_daily (derived series: peak demand, the evening ramp, batteries at the evening peak, the day's notices),
 // both in the Supabase live set. docs/methods/california_reliability.md.
+import { cache } from "react";
 import type { SeriesRow } from "@/lib/data";
 import { HOURLY, rest } from "@/lib/supabase";
 
@@ -13,10 +14,23 @@ export type Notice = { event_id: string; event_date: string; event_type: string;
 
 /** CAISO's notices, oldest first; between two local days when given. */
 export async function gridNotices(from?: string, to?: string): Promise<Notice[]> {
+  return from && to ? noticesBetween(from, to) : everyNotice();
+}
+
+function noticesQuery(from?: string, to?: string): Record<string, string> {
   const q: Record<string, string> = { select: "event_id,event_date,event_type,extra", table_name: `eq.${EMERGENCIES}`, order: "event_date,event_id" };
   if (from && to) q.and = `(event_date.gte.${from},event_date.lte.${to}T23:59:59Z)`;
-  return rest<Notice>("events", q, HOURLY, 20_000);
+  return q;
 }
+async function noticesBetween(from: string, to: string): Promise<Notice[]> {
+  return rest<Notice>("events", noticesQuery(from, to), HOURLY, 20_000);
+}
+// Session 1160: every notice is read once per render of a page (React's cache: one request for the page, kept only
+// while it renders). CAISO's Mix tab asks for them three times (the alert state, the scarcity strip, the Reliability
+// section) and four with the monthly mix; Next's fetch cache already sent one request each time, and each caller parsed
+// the two pages of 1,906 notices again. The same rows, the same request and the same failure; outside a render (a node
+// script, a test) React's cache calls the read each time, as before. The callers do not change the rows they are given.
+const everyNotice = cache(async (): Promise<Notice[]> => rest<Notice>("events", noticesQuery(), HOURLY, 20_000));
 
 /** The notice types, in the order of severity the page lists them, with their names. */
 export const TYPES: { id: string; name: string; group: "conserve" | "maintenance" | "emergency" | "transmission" }[] = [
