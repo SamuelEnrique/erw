@@ -157,6 +157,7 @@ ercot_as_prices_daily,ERCOT,ercot_dam,5,P1D,2018-01-01T00:00:00Z,2026-10-22T00:0
 ercot_as_prices_monthly,ERCOT,ercot_dam,5,P1M,2018-01-01T00:00:00Z,2026-10-01T00:00:00Z,2325,erw:ercot_as_prices_rollup,2026-10-22T15:04:35Z,pass,public,power,yes,derived
 ercot_as_quantities,ERCOT,ercot_dam,5,PT1H,2026-09-03T05:00:00Z,2026-10-13T04:00:00Z,4800,ercot:np4-33-cd,2026-10-11T20:02:29Z,pass,public,power,no,source
 ercot_cdr_reserve_margins,ERCOT,ercot,40,P3M,2026-03-01T00:00:00Z,2030-12-01T00:00:00Z,1600,ercot:cdr,2026-10-23T01:40:45Z,pass,public,power,no,source
+ercot_cdr_units,ERCOT,,1772,snapshot,2026-10-23T01:40:30Z,2026-10-23T01:40:30Z,1772,ercot:cdr:unit_details,2026-10-23T03:30:49Z,pass,public,power,no,source
 ercot_dam_cleared_energy,ERCOT,ercot_dam,1,PT1H,2026-09-23T05:00:00Z,2026-10-11T04:00:00Z,432,ercot:NP4-192-CD,2026-10-10T14:59:04Z,pass,public,power,no,source
 ercot_dam_esr_awards,ERCOT,ercot_dam,295,PT1H,2025-12-06T06:00:00Z,2026-08-22T04:00:00Z,1961757,ercot:NP3-966-ER,2026-10-22T15:16:56Z,pass,public,power,no,source
 ercot_grid_notices,none,,2,event,2011-02-02T00:00:00Z,2026-10-15T00:00:00Z,178,2 outlets,,pass,public,power,no,source
