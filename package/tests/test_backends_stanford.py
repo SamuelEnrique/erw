@@ -40,10 +40,38 @@ def stanford():
     erw.set_backend(erw.LocalBackend())
 
 
-def _norm(df, name):
-    d = df[sorted(df.columns)].sort_values(KEYS[name]).reset_index(drop=True)
+def _norm(df, keys):
+    d = df[sorted(df.columns)].sort_values(keys).reset_index(drop=True)
     d.attrs = {}
     return d
+
+
+# Session 688: what a run of the daily refresh changes in a row it rewrites without a new value
+RUN_COLUMNS = ["retrieved_at", "vintage"]
+
+
+def title(header):
+    return next((ln for ln in header if ln.startswith("Energy Research Warehouse (ERW):")), None)
+
+
+def same_as_local(rem, loc, keys):
+    """The draft's copy of a table against the local one. While the table is as uploaded (one header), every row and
+    the header are equal. Once a daily run has rewritten it after the upload (session 688: eia_fuel_spot_prices, 27,754
+    rows in the draft, 27,766 here, every row's retrieved_at new), the draft must still be a part of the local table:
+    each of its keys held here, with the same values apart from the run's own columns, and the same title."""
+    hr, hl = rem.attrs["erw"]["header"], loc.attrs["erw"]["header"]
+    if hr == hl:
+        pd.testing.assert_frame_equal(_norm(rem, keys), _norm(loc, keys), check_dtype=False)
+        return "as uploaded"
+    assert title(hr) is not None and title(hr) == title(hl)
+    assert sorted(rem.columns) == sorted(loc.columns)
+    cols = [c for c in sorted(rem.columns) if c not in RUN_COLUMNS]
+    k = loc[keys].astype(str).agg("|".join, axis=1)
+    kr = rem[keys].astype(str).agg("|".join, axis=1)
+    assert not kr.duplicated().any() and kr.isin(set(k)).all(), "a row of the draft is not in the local table"
+    part = loc[k.isin(set(kr))]
+    pd.testing.assert_frame_equal(_norm(rem[cols], keys), _norm(part[cols], keys), check_dtype=False)
+    return f"rewritten since the upload: {len(loc) - len(rem):,} rows newer here"
 
 
 @pytest.mark.parametrize("name", FIVE)
@@ -52,8 +80,7 @@ def test_fetch_matches_local(stanford, name):
     loc = erw.fetch(name)
     erw.set_backend(stanford)
     rem = erw.fetch(name)
-    pd.testing.assert_frame_equal(_norm(rem, name), _norm(loc, name), check_dtype=False)
-    assert rem.attrs["erw"]["header"] == loc.attrs["erw"]["header"]
+    print(name, same_as_local(rem, loc, KEYS[name]))
 
 
 @pytest.mark.parametrize("name", FIVE)

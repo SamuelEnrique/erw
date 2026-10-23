@@ -58,7 +58,11 @@ UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "mph", "
          # session 671: a duration in mean months of 30.4375 days (interconnection_durations_summary; Decision 49)
          "month",
          # session 685: a quantity of coal in short tons (2,000 lb), as EIA publishes it (eia_coal_production_annual; Decision 50)
-         "short_ton"}
+         "short_ton",
+         # session 695: a distribution utility's reliability as EIA-861 publishes it: SAIDI in minutes of interruption per
+         # customer, SAIFI in interruptions per customer, CAIDI in minutes per interruption, each over the row's period
+         # (eia861_utility_reliability; Decision 51)
+         "minute/customer", "interruption/customer", "minute/interruption"}
 NAME_RE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+){2,}$")
 NAME_MAX = 40
 TS_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")

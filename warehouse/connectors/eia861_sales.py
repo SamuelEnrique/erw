@@ -31,6 +31,7 @@ cite "U.S. Energy Information Administration, Form EIA-861").
 """
 
 import argparse
+import csv
 import datetime as dt
 import io
 import os
@@ -125,6 +126,26 @@ def sheet_rows(frame, year, url, retrieved):
     return t
 
 
+def years_held(path, year):
+    """Session 690: the data years the table will hold once this run's year is merged in: the years of the file as it
+    stands (its rows read whole, the header skipped by its leading "#" and never cut at a "#" inside a row: the names
+    "Vera Irrigation District #15" and "Maricopa County M W C Dist #1" hold one) and this run's."""
+    years = {year}
+    if os.path.exists(path):
+        with open(path, encoding="utf-8", newline="") as f:
+            rows = csv.reader(ln for ln in f if not ln.startswith("#"))
+            i = next(rows).index("ts_utc")
+            years |= {int(r[i][:4]) for r in rows if r}
+    return sorted(years)
+
+
+def held_text(years):
+    """'2015 to 2025' for a run of years without a gap, else the years listed."""
+    if years == list(range(years[0], years[-1] + 1)):
+        return f"{years[0]} to {years[-1]}" if len(years) > 1 else str(years[0])
+    return ", ".join(str(y) for y in years)
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="EIA-861 utility sales, revenue and customers by state and sector")
     ap.add_argument("--year", type=int, help="the data year (default: the newest the page links)")
@@ -158,7 +179,7 @@ def main(argv=None):
         header = [
             "Energy Research Warehouse (ERW): EIA-861 retail sales, revenue and customers, each utility by state, part and sector, a year (session 485)",
             "Shape: series (docs/datastandard.md v0). entity eia861:<utility>:<state>:<part>:<balancing authority>; variables <sector>_sales (MWh), <sector>_revenue (USD, EIA's thousand dollars times 1,000), <sector>_customers (count), sectors residential, commercial, industrial, transportation and total; ts_utc the data year's 1 January; freq P1Y; node the utility's name.",
-            f"Years held: {year} (this run; earlier runs' years are kept, merged on entity, variable, ts_utc). Observed rows only: EIA's imputed rows (data type I), its 88888 Withheld and 99999 Adjustment aggregates and its '.' cells are not taken; nothing is filled.",
+            f"Years held: {held_text(years_held(os.path.join(ip.OUT_DIR, NAME + '.csv'), year))} (this run wrote {year}; earlier runs' years are kept, merged on entity, variable, ts_utc). Observed rows only: EIA's imputed rows (data type I), its 88888 Withheld and 99999 Adjustment aggregates and its '.' cells are not taken; nothing is filled.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/eia861_sales.py",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
