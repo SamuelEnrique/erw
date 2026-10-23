@@ -2,7 +2,7 @@
 
 Energy Research Warehouse (ERW), method note written in session 946 (chain 053) for tables first written on 23 October 2026.
 
-Tables: `lbnl_solar_projects`, `lbnl_wind_capacity_factors`
+Tables: `lbnl_solar_projects`, `lbnl_wind_capacity_factors`, `lbnl_wind_costs`, `lbnl_wind_turbine_orders`
 
 ## Publisher and address
 
@@ -41,6 +41,27 @@ Each file's copyright notice: "This work is openly licensed via CC BY 4.0"; Berk
 
 ## What they do not hold
 
-- The wind file's other sheets (turbine sizes, costs, O&M, curtailment) and its "REC Prices" sheet, monthly certificate prices by state from Marex Spectron, a broker: whether LBNL's license covers a broker's prices is a question for the owner (session 940).
+- The wind file's other sheets (turbine sizes, curtailment, the regional costs and the O&M points; its prices and costs are `lbnl_wind_costs`, below) and its "REC Prices" sheet, monthly certificate prices by state from Marex Spectron, a broker: whether LBNL's license covers a broker's prices is a question for the owner (session 940).
 - Wind capacity factors of years before 2025, or by project name.
 - The solar file's PV+battery PPAs, which are `lbnl_hybrid_ppa_prices` (`lbnl_ppa_prices.md`).
+
+## Wind turbine prices and project costs (session 952; added by session 960)
+
+`lbnl_wind_costs` and `lbnl_wind_turbine_orders`, from the same 2026 wind data file, sheets "Wind Turbine Prices", "CapEx Over Time" and "Wind LCOE Over Time". Connector: `warehouse/connectors/lbnl_wind_costs.py` (`--table` each); no request while `lbnl_ppa_prices`' saved file is on the machine. All in real 2025 dollars (`x_dollar_year` 2025).
+
+`lbnl_wind_costs` (series, 119 rows): `entity` `lbnl_wind_cost:<what>:<whose>`.
+
+| Entity | Rows | What |
+|---|---|---|
+| `turbine_price:vestas`, `:sgre`, `:nordex` | 21, 9, 10 | the makers' global average turbine prices (USD/kW) at LBNL's mid-year dates (30 June; Vestas from 2005, the others from 2016); `geo` empty |
+| `turbine_price:lbnl` | 20 | LBNL's average turbine price a year, 2006 to 2025 (1,751 to 1,101 USD/kW, its low 990 in 2020); `geo` US |
+| `capex:us` | 31 | the capacity-weighted installed cost of each commercial operation year's projects, 1983 to 2025 (USD/kW; 2,133 in 2015, 1,583 in 2022, 2,096 in 2025), `x_sample` the projects |
+| `lcoe:us` | 28 | the generation-weighted levelized cost, 1998 to 2025 (USD/MWh; 107 in 1998, 39.8 in 2022, 52.1 in 2025), `x_sample` and `x_sample_mw` |
+
+A year LBNL gives a sample but no cost has no row. LBNL calls EIA's 2024 and 2025 cost estimates preliminary.
+
+`lbnl_wind_turbine_orders` (events, 122): the reported U.S. turbine orders, February 1997 to July 2016, each with its price (USD/kW; median 1,741). `event_id` `lbnl_turbine_order:<12 hex of the date and price>`, a second identical row `-2`; `event_type` `turbine_order`; LBNL names no buyer, maker or size.
+
+Not taken: "Recent CapEx by Region" (it does not say which years' projects it averages) and "O&M Over Time" (about 215 projects' average O&M costs, with no project and no date beyond the COD year, some suppressed by LBNL).
+
+Cross-checks (sessions 952 and 960): the installed cost against `nlr_atb_electricity_costs`' land-based wind (moderate case, dollars of 2023): 2023's 6 percent under the ATB's base year, 2024's within 2 percent of its class 4 default, 2025's 9 percent over its projection; LBNL's LCOE of 2023 to 2025 inside the ATB's range across wind classes. Session 960, against the code: `TURBINE_BLOCKS` gives the four price blocks; the counts computed from the rows.

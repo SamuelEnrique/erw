@@ -144,6 +144,36 @@ battery_stack_stress_daily,foresight_4h_revenue_total_usd_per_mw,series variable
 battery_stack_stress_daily,foresight_8h_revenue_ancillary_usd_per_mw,series variable,USD/MW
 battery_stack_stress_daily,foresight_8h_revenue_energy_usd_per_mw,series variable,USD/MW
 battery_stack_stress_daily,foresight_8h_revenue_total_usd_per_mw,series variable,USD/MW
+blm_ca_renewable_rows,entity_id,column,
+blm_ca_renewable_rows,entity_type,column,
+blm_ca_renewable_rows,name,column,
+blm_ca_renewable_rows,geo,column,
+blm_ca_renewable_rows,lat,column,
+blm_ca_renewable_rows,lon,column,
+blm_ca_renewable_rows,capacity_mw,column,
+blm_ca_renewable_rows,status,column,
+blm_ca_renewable_rows,status_date,column,
+blm_ca_renewable_rows,operator,column,
+blm_ca_renewable_rows,source,column,
+blm_ca_renewable_rows,source_url,column,
+blm_ca_renewable_rows,retrieved_at,column,
+blm_ca_renewable_rows,vintage,column,
+blm_ca_renewable_rows,x_layer,column,
+blm_ca_renewable_rows,x_serial_number,column,
+blm_ca_renewable_rows,x_disposition,column,
+blm_ca_renewable_rows,x_case_type,column,
+blm_ca_renewable_rows,x_case_type_code,column,
+blm_ca_renewable_rows,x_commodity,column,
+blm_ca_renewable_rows,x_project_type,column,
+blm_ca_renewable_rows,x_application_date,column,
+blm_ca_renewable_rows,x_effective_date,column,
+blm_ca_renewable_rows,x_expiration_date,column,
+blm_ca_renewable_rows,x_expiration_year,column,
+blm_ca_renewable_rows,x_project_acres,column,
+blm_ca_renewable_rows,x_blm_acres,column,
+blm_ca_renewable_rows,x_data_source,column,
+blm_ca_renewable_rows,x_remarks,column,
+blm_ca_renewable_rows,x_in_time,column,
 boem_ogor_lease_production_monthly,gas_production,series variable,MMcf
 boem_ogor_lease_production_monthly,oil_production,series variable,kbbl
 boem_renewable_leases,entity_id,column,
@@ -2778,6 +2808,7 @@ eia_basin_production_monthly,crude_production,series variable,kbbl/d
 eia_basin_production_monthly,gas_marketed_production,series variable,bcf/d
 eia_co2_state_annual,co2,series variable,tCO2
 eia_coal_delivered_price_annual,price,series variable,USD/short_ton
+eia_coal_distribution_quarterly,shipments,series variable,short_ton
 eia_coal_mine_production_annual,employees,series variable,count
 eia_coal_mine_production_annual,production,series variable,short_ton
 eia_coal_price_rank_annual,price,series variable,USD/short_ton
@@ -3000,6 +3031,13 @@ eia_power_fuel_stocks_monthly,stocks,series variable,short_ton
 eia_power_plant_fuel_costs,cost_per_mcf,series variable,USD/Mcf
 eia_power_plant_fuel_costs,cost_per_mmbtu,series variable,USD/MMBtu
 eia_power_plant_fuel_costs,cost_per_short_ton,series variable,USD/short_ton
+eia_primary_energy_monthly,consumption,series variable,TBtu
+eia_primary_energy_monthly,consumption_production,series variable,TBtu
+eia_primary_energy_monthly,exports,series variable,TBtu
+eia_primary_energy_monthly,imports,series variable,TBtu
+eia_primary_energy_monthly,net_imports,series variable,TBtu
+eia_primary_energy_monthly,production,series variable,TBtu
+eia_primary_energy_monthly,stock_change_and_other,series variable,TBtu
 eia_product_spot_prices,spot_price,series variable,USD/gal
 eia_product_supplied_monthly,product_supplied,series variable,kbbl
 eia_product_supplied_monthly,product_supplied_per_day,series variable,kbbl/d
@@ -3049,6 +3087,29 @@ eia_state_source_disposition_annual,unaccounted,series variable,MWh
 eia_steo_forecasts,value,series variable,USD/MMBtu
 eia_steo_forecasts,value,series variable,USD/kWh
 eia_steo_forecasts,value,series variable,ratio
+eia_uranium_facilities,entity_id,column,
+eia_uranium_facilities,entity_type,column,
+eia_uranium_facilities,name,column,
+eia_uranium_facilities,geo,column,
+eia_uranium_facilities,lat,column,
+eia_uranium_facilities,lon,column,
+eia_uranium_facilities,capacity_mw,column,
+eia_uranium_facilities,status,column,
+eia_uranium_facilities,status_date,column,
+eia_uranium_facilities,operator,column,
+eia_uranium_facilities,source,column,
+eia_uranium_facilities,source_url,column,
+eia_uranium_facilities,retrieved_at,column,
+eia_uranium_facilities,vintage,column,
+eia_uranium_facilities,x_kind,column,
+eia_uranium_facilities,x_location,column,
+eia_uranium_facilities,x_capacity,column,
+eia_uranium_facilities,x_capacity_unit,column,
+eia_uranium_facilities,x_status_2025,column,
+eia_uranium_facilities,x_status_first_quarter_2026,column,
+eia_uranium_facilities,x_status_second_quarter_2026,column,
+eia_uranium_facilities,x_status_third_quarter_2026,column,
+eia_uranium_facilities,x_status_fourth_quarter_2026,column,
 eia_uranium_marketing_annual,broker_purchases_from_foreign,series variable,lb
 eia_uranium_marketing_annual,enrichment_foreign_origin,series variable,SWU
 eia_uranium_marketing_annual,enrichment_price,series variable,USD/SWU
@@ -3086,6 +3147,8 @@ eia_uranium_marketing_annual,purchased_spot,series variable,lb
 eia_uranium_marketing_annual,purchased_total,series variable,lb
 eia_uranium_marketing_annual,purchased_us_origin,series variable,lb
 eia_uranium_marketing_annual,uranium_loaded,series variable,lb
+eia_uranium_production_quarterly,facilities_producing,series variable,count
+eia_uranium_production_quarterly,production,series variable,lb
 eia_wood_pellets_monthly,domestic_price,series variable,USD/short_ton
 eia_wood_pellets_monthly,export_price,series variable,USD/short_ton
 eia_wood_pellets_monthly,facilities,series variable,count
@@ -5161,6 +5224,23 @@ lbnl_solar_projects,cf_2022,column,
 lbnl_solar_projects,cf_2023,column,
 lbnl_solar_projects,cf_2024,column,
 lbnl_wind_capacity_factors,capacity_factor,series variable,ratio
+lbnl_wind_costs,capex,series variable,USD/kW
+lbnl_wind_costs,lcoe,series variable,USD/MWh
+lbnl_wind_costs,turbine_price,series variable,USD/kW
+lbnl_wind_turbine_orders,event_id,column,
+lbnl_wind_turbine_orders,event_date,column,
+lbnl_wind_turbine_orders,event_type,column,
+lbnl_wind_turbine_orders,parties,column,
+lbnl_wind_turbine_orders,entity_ids,column,
+lbnl_wind_turbine_orders,mw,column,
+lbnl_wind_turbine_orders,price,column,
+lbnl_wind_turbine_orders,currency,column,
+lbnl_wind_turbine_orders,status,column,
+lbnl_wind_turbine_orders,source,column,
+lbnl_wind_turbine_orders,source_url,column,
+lbnl_wind_turbine_orders,retrieved_at,column,
+lbnl_wind_turbine_orders,x_price_unit,column,
+lbnl_wind_turbine_orders,x_dollar_year,column,
 nlr_atb_electricity_costs,capacity_factor,series variable,ratio
 nlr_atb_electricity_costs,capex,series variable,USD/kW
 nlr_atb_electricity_costs,fixed_om,series variable,USD/kW-year
@@ -5411,6 +5491,14 @@ nrc_power_reactors,x_renewed_license,column,
 nrc_power_reactors,x_shut_down,column,
 nrc_power_reactors,x_subsequent_renewal,column,
 nrc_reactor_status,power_pct,series variable,pct
+onrr_production_annual,production,series variable,MWh
+onrr_production_annual,production,series variable,Mcf
+onrr_production_annual,production,series variable,bbl
+onrr_production_annual,production,series variable,short_ton
+onrr_production_monthly,production,series variable,Mcf
+onrr_production_monthly,production,series variable,bbl
+onrr_production_monthly,production,series variable,short_ton
+onrr_revenue_monthly,revenue,series variable,USD
 ornl_eha_hydropower_plants,entity_id,column,
 ornl_eha_hydropower_plants,entity_type,column,
 ornl_eha_hydropower_plants,name,column,
@@ -6560,6 +6648,18 @@ storage_owners_monthly,us_planned_mw,series variable,MW
 storage_owners_monthly,us_planned_units,series variable,count
 storage_owners_monthly,us_top10_share_pct,series variable,pct
 storage_owners_monthly,us_top5_share_pct,series variable,pct
+usgs_mcs_critical_minerals,consumption,series variable,t
+usgs_mcs_critical_minerals,employment,series variable,count
+usgs_mcs_critical_minerals,export,series variable,t
+usgs_mcs_critical_minerals,import,series variable,t
+usgs_mcs_critical_minerals,import_share,series variable,pct
+usgs_mcs_critical_minerals,net_import_reliance,series variable,pct
+usgs_mcs_critical_minerals,price,series variable,USD/kg
+usgs_mcs_critical_minerals,price,series variable,USD/lb
+usgs_mcs_critical_minerals,price,series variable,USD/t
+usgs_mcs_critical_minerals,production,series variable,t
+usgs_mcs_critical_minerals,reserves,series variable,t
+usgs_mcs_critical_minerals,stock,series variable,t
 uspvdb_solar_facilities,entity_id,column,
 uspvdb_solar_facilities,entity_type,column,
 uspvdb_solar_facilities,name,column,
