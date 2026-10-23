@@ -16,11 +16,13 @@ workbooks of https://www.eia.gov/electricity/annual/ :
     variable  heat_rate (MMBtu/MWh: EIA's Btu per kWh divided by 1,000), tested_heat_rate (the same), amount (USD: EIA's
               million dollars times 1,000,000), operation_expense, maintenance_expense, fuel_expense and total_expense
               (USD/MWh: EIA's mills per kWh, the same number)
-    ts_utc    the year's 1 January; freq P1Y; geo US; node the line as EIA words it
+    ts_utc    the year's 1 January; freq P1Y; geo US; node table 8.3's line as EIA words it, or for the other tables a
+              label of the column and line (for example "Coal, average operating heat rate")
 
 A value EIA withholds ("W") or does not have ("--", "NA") has no row; nothing is filled. A table's lines are found by
-their headings and indentation (the dots before a line of table 8.3 give its depth); a heading or a line not in the form
-read stops the run. EIA notes that missing or erroneous respondent data may leave table 8.3's subtotals slightly out.
+their headings and indentation (the dots before a line of table 8.3 give its depth). Tables 8.1, 8.2 and 8.4 stop the
+run at a heading (8.2 and 8.4 also at a line) not in the form read; table 8.3's lines are taken as EIA gives them, not
+checked against a list. EIA notes that missing or erroneous respondent data may leave table 8.3's subtotals slightly out.
 
     python warehouse/connectors/eia_epa_costs.py [--offline]
 

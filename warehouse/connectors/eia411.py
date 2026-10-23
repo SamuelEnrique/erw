@@ -11,7 +11,8 @@ the program's last release (November 2016), linked from https://www.eia.gov/elec
     xls/winter_capacity_2016.xls   Table 4.B: the same for winter
 
     entity    eia411:<assessment area> (frcc, npcc, mro, serc, spp, tre, wecc, the regions dissolved since (ecar, maac, main,
-              mapp), rfc, pjm, miso, balance_of_eastern_region and contiguous_us as EIA gives them)
+              mapp), rfc, pjm, miso, balance_of_eastern_region and contiguous_u_s as EIA names them; a footnote mark on a name
+              ("RFC[5]") is not part of it)
     variable  <season>_peak_load, <season>_net_internal_demand, <season>_capacity_resources (MW), <season>_capacity_margin
               (pct: unused capability at peak as a share of capacity resources); season summer or winter
     ts_utc    the peak period's first day as EIA defines it: summer 1 June of the year, winter 1 October of the season's
@@ -92,7 +93,8 @@ def blocks(frame, season_of_file):
             while k < n and text(frame.iloc[k, 1]) and text(frame.iloc[k, 0]) != "Interconnection":
                 if text(frame.iloc[k, 0]):
                     inter = text(frame.iloc[k, 0])
-                rows.append((k, text(frame.iloc[k, 1]), inter))
+                # session 905: EIA marks a name with a footnote ("RFC[5]" in the winter file); the mark is not part of the area
+                rows.append((k, re.sub(r"\[\d+\]", "", text(frame.iloc[k, 1])).strip(), inter))
                 k += 1
             out.append((f"{season}_{hit[1]}", hit[2], season, years, rows))
             r = k

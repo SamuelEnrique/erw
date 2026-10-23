@@ -35,3 +35,10 @@
   - `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`
   - session 903's report (one sentence)
 - On the data machine only: `runs/c049/`, `runs/license_reads/s904/`, `runs/s904*`.
+
+## Corrected by session 905
+
+The method notes' checks (session 905) found these against the code and the tables:
+
+- Spot and long-term contracts exceed the total once: 2021, 46.8 against 46.7 million lb (9.0 spot, 37.8 long-term).
+- Inventories sum to the total within 0.1 million lb (five years are off by exactly 0.1); enrichment within 0.001 million SWU.

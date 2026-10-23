@@ -5,8 +5,9 @@ Energy Research Warehouse (ERW) connector. One events table, warehouse/output/ei
 Energy Information Administration's Form EIA-923 yearly zip (the workbook EIA923_Schedules_2_3_4_5_M_<month>_<year>_<date>
 .xlsx, sheet "Page 5 Fuel Receipts and Costs"), saved by eia923_monthly.py in warehouse/raw/eia923_monthly/:
 
-    event_id    eia923r:<plant id>:<year>-<month>:<the first 12 characters of the SHA-1 of the row's fields as EIA gives
-                them, joined with "|">; a delivery has no id of EIA's
+    event_id    eia923r:<plant id>:<year>-<month>:<the first 12 characters of the SHA-1 of the row's fields as read (runs
+                of spaces made one, a whole number without its decimal), YEAR included, joined with "|">; a delivery has no
+                id of EIA's
     event_date  the receipt month's first day; event_type fuel_receipt; parties the supplier as EIA names it
     x_*         EIA's columns, headings as names: the plant, its state, operator and balancing authority, the purchase type
                 (C contract, S spot, ...), the contract's expiry, the energy source and fuel group, the coal mine (type, state,

@@ -38,3 +38,13 @@
   - `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`
   - `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`
 - On the data machine only: `runs/c049/`, `runs/s896*`.
+
+## Corrected by session 905
+
+The method notes' checks (session 905) found these against the code and the tables:
+
+- The example key `eia860_control:3:SR:nox_1` does not exist; plant 3's keys are of the form `eia860_control:3:SN:nox_1` or `eia860_control:3:SR:nox_5+mercury_5`.
+- "The 3,034 operating boilers name 4,741 generators" counts each generator once for every boiler that names it: they are 2,296 distinct plant and generator pairs, 2,132 of them in EIA-860M's operating list. The 91.8 percent (4,352 of 4,741) is a share of the mentions.
+- The control with no status also has no equipment type and no control ids (`eia860_control:50118::`); 23 other controls carry no control id, so their keys end in `:`. 27 controls have no plant name or state (`geo` US).
+- Retired cooling systems have no `status_date`: the cooling sheet gives no retirement date. The docstring now says so.
+- The multifuel table's header named session 885; session 905 wrote the five schedules again, each naming its own session.

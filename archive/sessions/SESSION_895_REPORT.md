@@ -32,3 +32,9 @@
   - `license_tables.csv`, `docs/licenses.md`
   - `docs/redivis/release-v1/` (the README regenerated)
 - On the data machine only: `runs/c049/`, `runs/license_reads/s895/`, `runs/s895*`.
+
+## Corrected by session 905
+
+The method notes' checks (session 905) found these against the code and the tables:
+
+- EIA's winter file names RFC with a footnote mark (`RFC[5]`), which the first write kept: RFC's winter figures for 2005 to 2009 stood under a second entity, and "17 assessment areas" were 16. Session 905 strips the mark and wrote the table again; its header now counts 16 areas. The contiguous U.S. is `eia411:contiguous_u_s`, as the slug writes it.

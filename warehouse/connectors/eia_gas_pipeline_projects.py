@@ -9,8 +9,10 @@ links (EIA-NaturalGasPipelineProjects<Mon><year>.xlsx, sheets "Natural Gas Pipel
 
     page   https://www.eia.gov/naturalgas/data.php
 
-    event_id    eia_gas_pipeline:<the project's name as a slug>:<year in service>
-    event_date  the completed date where EIA gives one, else the year in service's 1 January (a planned year), else the
+    event_id    eia_gas_pipeline:<the project's name as a slug>:<EIA's year in service as a slug, none if empty> (EIA writes
+                na, or a range such as "2020-2027 (phased)", for some)
+    event_date  the completed date where EIA gives one (kept as EIA gives it: one historical project's is 1903-11-05
+                against a year in service of 2003), else the year in service's 1 January, else the
                 date EIA last updated the record; x_date_basis says which (completed, year_in_service, last_updated)
     event_type  pipeline_project; parties the pipeline operator; status EIA's status in lower case
     x_*         EIA's columns, headings as names: the project type, completed date, year in service, states and regions
@@ -68,7 +70,7 @@ EVENT_COLS = ["event_id", "event_date", "event_type", "parties", "entity_ids", "
 def text(v):
     if v is None or (isinstance(v, float) and pd.isna(v)):
         return ""
-    if isinstance(v, pd.Timestamp):
+    if isinstance(v, (pd.Timestamp, dt.datetime)):                 # session 905: the cells come as datetime, not Timestamp
         return v.strftime("%Y-%m-%d")
     if isinstance(v, float) and v.is_integer():
         return str(int(v))
@@ -119,7 +121,7 @@ def sheet_rows(frame, which, url, retrieved):
             date, basis = upd[:10], "last_updated"                      # no date of its own: when EIA last updated it
         else:
             date, basis = "", ""
-        out.append(dict(event_id=f"eia_gas_pipeline:{slug(x['name'])}:{year or 'none'}", event_date=date, event_type="pipeline_project",
+        out.append(dict(event_id=f"eia_gas_pipeline:{slug(x['name'])}:{slug(year) or 'none'}", event_date=date, event_type="pipeline_project",
                         parties=x.get("parties", ""), entity_ids="", mw="", price="", currency="",
                         status=x.get("status", "").lower(), source=SOURCE, source_url=url, retrieved_at=retrieved,
                         x_project_name=x["name"], x_sheet=which, x_date_basis=basis,

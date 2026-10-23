@@ -10,7 +10,9 @@ linked from https://www.eia.gov/electricity/data/eia923/ :
     variable  net_generation (MWh), fuel_consumed and fuel_consumed_electric (TBtu: EIA's MMBtu times 0.000001, the
               second the part consumed to make electricity, as eia923_plant_fuel_annual gives fuel in TBtu)
     ts_utc    the month's first day; freq P1M; geo US-<plant state> (PR for Puerto Rico); node the plant's name;
-              x_operator_id, x_operator_name, x_nerc_region, x_ba_code, x_sector_name, x_chp, x_mer_fuel_type as EIA gives them
+              x_operator_id, x_operator_name, x_nerc_region, x_ba_code, x_sector_name, x_chp, x_mer_fuel_type and
+              x_respondent_frequency (EIA's M, A or AM) as EIA gives them; a row with no state has geo US, and with no
+              name an empty node
 
 A month EIA has not yet reported ("."), or leaves empty, has no row; nothing is filled. Plant 99999, EIA's state-level
 increment (an aggregate by state and fuel, not a plant), is left out. The physical quantities (in each
@@ -134,7 +136,7 @@ def sheet_rows(frame, year, url, retrieved, skipped):
 def main(argv=None):
     ap = argparse.ArgumentParser(description="EIA-923: each plant's monthly net generation and fuel consumed")
     ap.add_argument("--years", type=int, nargs="+", required=True)
-    ap.add_argument("--offline", action="store_true", help="the saved page and zips only, no request")
+    ap.add_argument("--offline", action="store_true", help="the saved zips only, no request")
     ap.add_argument("--out-dir", help="a trial: the table under this folder, not warehouse/output")
     args = ap.parse_args(argv)
     if args.out_dir:

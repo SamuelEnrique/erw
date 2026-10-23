@@ -58,16 +58,16 @@ STATUS = {"OP": "operating", "SB": "operating", "OA": "operating", "OS": "operat
           "U": "under_construction", "V": "under_construction", "TS": "under_construction",
           "RE": "retired", "CN": "withdrawn", "IP": "suspended"}
 TABLES = {
-    "4___Owner": dict(name="eia860_generator_owners", prefix="eia860_owner", source="eia:eia860:owner",
+    "4___Owner": dict(name="eia860_generator_owners", prefix="eia860_owner", source="eia:eia860:owner", session=885,
                       what="the owners of jointly owned generators"),
-    "3_4_Energy_Storage": dict(name="eia860_storage_generators", prefix="eia860_storage", source="eia:eia860:energy_storage",
+    "3_4_Energy_Storage": dict(name="eia860_storage_generators", prefix="eia860_storage", source="eia:eia860:energy_storage", session=885,
                                what="energy storage generators' details"),
-    "3_3_Solar": dict(name="eia860_solar_generators", prefix="eia860_solar", source="eia:eia860:solar",
+    "3_3_Solar": dict(name="eia860_solar_generators", prefix="eia860_solar", source="eia:eia860:solar", session=885,
                       what="solar generators' details"),
-    "3_2_Wind": dict(name="eia860_wind_generators", prefix="eia860_wind", source="eia:eia860:wind",
+    "3_2_Wind": dict(name="eia860_wind_generators", prefix="eia860_wind", source="eia:eia860:wind", session=885,
                      what="wind generators' details"),
     # session 896: the generators that can burn more than one fuel, cofire, or switch between oil and gas
-    "3_5_Multifuel": dict(name="eia860_multifuel_generators", prefix="eia860_multifuel", source="eia:eia860:multifuel",
+    "3_5_Multifuel": dict(name="eia860_multifuel_generators", prefix="eia860_multifuel", source="eia:eia860:multifuel", session=896,
                           what="multifuel generators' fuels and switching"),
 }
 MAIN = {"plant code": "plant", "plant name": "plant_name", "state": "state", "generator id": "generator",
@@ -140,7 +140,7 @@ def keyed(t, skipped, name):
 
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(description="EIA-860's owner, energy storage, solar and wind schedules")
+    ap = argparse.ArgumentParser(description="EIA-860's owner, energy storage, solar, wind and multifuel schedules")
     ap.add_argument("--offline", action="store_true", help="the saved page and zip only, no request")
     ap.add_argument("--out-dir", help="a trial: the tables under this folder, not warehouse/output")
     args = ap.parse_args(argv)
@@ -178,7 +178,7 @@ def main(argv=None):
             t = t.fillna("")[cols]
             gone = skipped.get(meta["name"], [])
             header = [
-                f"Energy Research Warehouse (ERW): EIA-860, {meta['what']}, data year {year} (session 885)",
+                f"Energy Research Warehouse (ERW): EIA-860, {meta['what']}, data year {year} (session {meta['session']})",
                 ("Shape: entities (docs/datastandard.md v0). entity_id eia860_owner:<plant code>:<generator id>:<ownership id>; entity_type company "
                  "(an owner's share of one generator); name the owner's name; operator the reporting utility's name; geo US-<plant state>; "
                  "x_percent_owned EIA's fraction (0.6 is 60 percent); status the generator's, from EIA's code."

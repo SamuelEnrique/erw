@@ -33,3 +33,10 @@
   - `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`
   - `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`
 - On the data machine only: `runs/c049/`, `runs/license_reads/s897/`, `runs/s897*`.
+
+## Corrected by session 905
+
+The method notes' checks (session 905) found these against the code and the tables:
+
+- `x_respondent_frequency` holds M (210,003 rows), A (106,407) and AM (344,121), not only monthly or annual.
+- One entity (`eia923m:8825:ST:RFO:`, 36 rows) has no state and no name in EIA's file, so its `geo` is US and its `node` empty. The docstring now says so.

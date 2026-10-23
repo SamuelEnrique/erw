@@ -27,3 +27,9 @@
 - New: `warehouse/connectors/eia_epa_costs.py`, `tests/test_session903.py` (4 tests), this report.
 - Changed: `build_coverage.py`, `release_v1.py`, `live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
 - On the data machine only: `runs/c049/`, `runs/s903*`.
+
+## Corrected by session 905
+
+The method notes' checks (session 905) found these against the code and the tables:
+
+- Table 8.3's lines are not checked against a list: only tables 8.1, 8.2 and 8.4 stop at a heading not in the form read. Its parts sum to their totals within 1 million dollars, not exactly. `node` is EIA's wording only for 8.3; for the other tables it is a label the connector builds. The docstring now says so.

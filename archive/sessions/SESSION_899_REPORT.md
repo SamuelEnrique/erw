@@ -31,3 +31,12 @@
 - New: `warehouse/connectors/eia_gas_pipeline_projects.py`, `tests/test_session899.py` (4 tests), this report.
 - Changed: `build_coverage.py`, `release_v1.py`, `live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`. Session 898's report (one wording).
 - On the data machine only: `runs/c049/`, `runs/license_reads/s899/`, `runs/s899*`.
+
+## Corrected by session 905
+
+The method notes' checks (session 905) found these against the code and the tables:
+
+- The completed and last-updated dates carried a time (`1996-06-01 00:00:00`): the cells come as dates the reader did not catch. Session 905 writes them as YYYY-MM-DD and wrote the table again.
+- An id's last part was EIA's year text as given (`none` for 29, `na` for 39, one `2020-2027 (phased)`); it is now a slug (`2020_2027_phased`).
+- One historical project (SONAT South Sys Expansion II Phase 1A*) gives a completed date of 1903-11-05 against a year in service of 2003; kept as EIA gives it, so the table runs from 1903, not 1996.
+- The project types also include Reversal (42), Upgrade (24) and Abandonment (2).

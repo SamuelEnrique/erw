@@ -41,16 +41,16 @@ datacenter_projects,none,,150,snapshot,2026-09-27T04:31:06Z,2026-10-22T15:02:51Z
 datacenter_projects_evidence,none,,13,event,2025-01-07T08:00:00Z,2026-10-22T11:16:47Z,168,13 outlets,2026-10-22T15:02:50Z,pass,internal,power;datacenters,no,model_extracted
 datacenter_queue_positions,none,,3,snapshot,2026-09-26T00:06:50Z,2026-10-12T14:47:44Z,3,ercot:interconnection_queue;nyiso:interconnection_queue,,pass,public,power;datacenters,no,derived
 egrid_power_plants,egrid,,12612,snapshot,2026-10-21T16:59:48Z,2026-10-21T16:59:48Z,12612,epa:egrid,2026-10-21T18:30:52Z,pass,public,power;carbon,no,source
-eia411_capacity_margins_annual,eia411,,18,P1Y,1990-06-01T00:00:00Z,2027-10-01T00:00:00Z,2924,eia:eia411,2026-10-23T06:15:06Z,pass,public,power,no,source
+eia411_capacity_margins_annual,eia411,,17,P1Y,1990-06-01T00:00:00Z,2027-10-01T00:00:00Z,2924,eia:eia411,2026-10-23T07:12:56Z,pass,public,power,no,source
 eia860_boilers,eia860,,4384,snapshot,2026-10-23T03:33:49Z,2026-10-23T03:33:49Z,4384,eia:eia860:boilers,2026-10-23T06:21:30Z,pass,public,power,no,source
 eia860_cooling_systems,eia860,,1797,snapshot,2026-10-23T03:33:49Z,2026-10-23T03:33:49Z,1797,eia:eia860:cooling,2026-10-23T06:21:30Z,pass,public,power,no,source
 eia860_emission_controls,eia860,,5375,snapshot,2026-10-23T03:33:49Z,2026-10-23T03:33:49Z,5375,eia:eia860:emission_controls,2026-10-23T06:21:30Z,pass,public,power,no,source
-eia860_generator_owners,eia860,,5680,snapshot,2026-10-23T03:33:49Z,2026-10-23T03:33:49Z,5680,eia:eia860:owner,2026-10-23T06:21:06Z,pass,public,power,no,source
-eia860_multifuel_generators,eia860,,3785,snapshot,2026-10-23T03:33:49Z,2026-10-23T03:33:49Z,3785,eia:eia860:multifuel,2026-10-23T06:21:06Z,pass,public,power,no,source
+eia860_generator_owners,eia860,,5680,snapshot,2026-10-23T03:33:49Z,2026-10-23T03:33:49Z,5680,eia:eia860:owner,2026-10-23T07:13:56Z,pass,public,power,no,source
+eia860_multifuel_generators,eia860,,3785,snapshot,2026-10-23T03:33:49Z,2026-10-23T03:33:49Z,3785,eia:eia860:multifuel,2026-10-23T07:13:56Z,pass,public,power,no,source
 eia860_plants_annual,eia860,,17349,snapshot,2026-10-23T03:33:49Z,2026-10-23T03:33:49Z,17349,eia:eia860:plant,2026-10-23T03:34:16Z,pass,public,power,no,source
-eia860_solar_generators,eia860,,8520,snapshot,2026-10-23T03:33:49Z,2026-10-23T03:33:49Z,8520,eia:eia860:solar,2026-10-23T06:21:06Z,pass,public,power,no,source
-eia860_storage_generators,eia860,,1782,snapshot,2026-10-23T03:33:49Z,2026-10-23T03:33:49Z,1782,eia:eia860:energy_storage,2026-10-23T06:21:06Z,pass,public,power,no,source
-eia860_wind_generators,eia860,,1745,snapshot,2026-10-23T03:33:49Z,2026-10-23T03:33:49Z,1745,eia:eia860:wind,2026-10-23T06:21:06Z,pass,public,power,no,source
+eia860_solar_generators,eia860,,8520,snapshot,2026-10-23T03:33:49Z,2026-10-23T03:33:49Z,8520,eia:eia860:solar,2026-10-23T07:13:56Z,pass,public,power,no,source
+eia860_storage_generators,eia860,,1782,snapshot,2026-10-23T03:33:49Z,2026-10-23T03:33:49Z,1782,eia:eia860:energy_storage,2026-10-23T07:13:56Z,pass,public,power,no,source
+eia860_wind_generators,eia860,,1745,snapshot,2026-10-23T03:33:49Z,2026-10-23T03:33:49Z,1745,eia:eia860:wind,2026-10-23T07:13:56Z,pass,public,power,no,source
 eia860m_operating_generators,none,,28605,snapshot,2026-10-22T14:51:34Z,2026-10-22T14:51:34Z,28605,eia:860m,2026-10-22T14:51:33Z,pass,public,power,no,source
 eia860m_planned_generators,none,,2316,snapshot,2026-10-22T14:51:34Z,2026-10-22T14:51:34Z,2316,eia:860m,2026-10-22T14:51:33Z,pass,public,power,no,source
 eia860m_retired_generators,none,,249,snapshot,2026-10-22T14:51:34Z,2026-10-22T14:51:34Z,249,eia:860m,2026-10-22T14:51:33Z,pass,public,power,no,source
@@ -119,7 +119,7 @@ eia_gas_balance_annual,none,,460,P1Y,1997-01-01T00:00:00Z,2025-01-01T00:00:00Z,1
 eia_gas_consumers_state_annual,none,,444,P1Y,1986-01-01T00:00:00Z,2024-01-01T00:00:00Z,12864,eia:natural-gas/cons/num,2026-10-23T02:20:47Z,pass,public,gas,no,source
 eia_gas_consumption_state_monthly,none,,208,P1M,2001-01-01T00:00:00Z,2026-07-01T00:00:00Z,63420,eia:natural-gas/cons/sum,2026-10-21T20:22:19Z,pass,public,gas,no,source
 eia_gas_interstate_annual,none,,1888,P1Y,1997-01-01T00:00:00Z,2024-01-01T00:00:00Z,29470,eia:natural-gas/move/ist,2026-10-21T22:16:43Z,pass,public,gas,no,source
-eia_gas_pipeline_projects,none,,1,event,1903-11-05T00:00:00Z,2031-01-01T00:00:00Z,1334,1 outlets,2026-10-23T06:37:43Z,pass,public,gas,no,source
+eia_gas_pipeline_projects,none,,1,event,1903-11-05T00:00:00Z,2031-01-01T00:00:00Z,1334,1 outlets,2026-10-23T07:13:04Z,pass,public,gas,no,source
 eia_gas_prices_state_monthly,none,,257,P1M,2001-01-01T00:00:00Z,2026-07-01T00:00:00Z,72550,eia:natural-gas/pri/sum,2026-10-21T20:17:23Z,pass,public,gas,no,source
 eia_gas_production_state_monthly,none,,184,P1M,2001-01-01T00:00:00Z,2026-07-01T00:00:00Z,47805,eia:natural-gas/prod/sum,2026-10-21T21:14:19Z,pass,public,gas,no,source
 eia_gas_reserves_annual,none,,561,P1Y,1977-01-01T00:00:00Z,2021-01-01T00:00:00Z,19232,eia:natural-gas/enr/dry,2026-10-21T22:16:59Z,pass,public,gas,no,source

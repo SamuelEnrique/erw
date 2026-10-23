@@ -17,13 +17,13 @@ EIA-860 annual zip (the newest final year the page links outside /archive/; sess
     entity_id   eia860_boiler:<plant>:<boiler id>, eia860_cooling:<plant>:<cooling id>,
                 eia860_control:<plant>:<equipment type>:<its control ids joined with "+">; entity_type equipment (Decision
                 54); name the plant's name and the part; geo US-<state> (the plant's state; the association and control
-                sheets give none, so it is taken from the plant's other rows, empty if none); capacity_mw empty
+                sheets give none, so it is taken from the plant's other rows; US where none gives one); capacity_mw empty
     status      EIA's code as the data standard's word (as eia860_schedules.py maps it: OP, SB, OA, OS operating; P, L, T,
                 OT planned; U, V, TS under_construction; RE retired; CN withdrawn; IP suspended; and the environmental
                 schedules' own: SC cold standby and OZ ozone season only operating, CO under_construction, PL planned),
                 read in capitals (EIA writes a few in lower case), the code kept as given in x_eia_status; an empty code
                 stays empty; a code not in the map stops the run; status_date the month in service (operating) or
-                retired (retired), else empty
+                retired (retired, where the sheet gives a retirement date: the cooling sheet gives none), else empty
     x_*         every other column of EIA's sheets, its heading as a name, as EIA gives it (costs in EIA's thousand dollars,
                 named so)
 
