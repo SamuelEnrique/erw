@@ -1,6 +1,6 @@
 # Session 972 report: the reads and the weight
 
-23 October 2026, from about 00:42 UTC, on samueloldlaptop, unattended, in the worktree `C:\Users\lossa\Documents\erw-972` on `wip/972-allgrids` (cut from `wip/971-allgrids`). Chain `queue/done/065-late-22-october-code-allgrids-5.md`, session 972. Model spend USD 0. No warehouse data written; no request to a publisher. The reads: production's pages.
+23 October 2026, from about 00:09 UTC, on samueloldlaptop, unattended, in the worktree `C:\Users\lossa\Documents\erw-972` on `wip/972-allgrids` (cut from `wip/971-allgrids`). Chain `queue/done/065-late-22-october-code-allgrids-5.md`, session 972. Model spend USD 0. No warehouse data written; no request to a publisher. The reads: production's pages.
 
 ## Read these first
 

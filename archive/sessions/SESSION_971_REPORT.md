@@ -1,6 +1,6 @@
 # Session 971 report: 390 pixels and accessibility
 
-23 October 2026, from about 00:35 UTC, on samueloldlaptop, unattended, in the worktree `C:\Users\lossa\Documents\erw-971` on `wip/971-allgrids` (cut from `wip/970-allgrids`). Chain `queue/done/065-late-22-october-code-allgrids-5.md`, session 971. Model spend USD 0. No warehouse data written; no request to a publisher. The reads: production's pages in the internal view (production serves 788 to 799 since 23:59 UTC).
+23 October 2026, from about 00:05 UTC, on samueloldlaptop, unattended, in the worktree `C:\Users\lossa\Documents\erw-971` on `wip/971-allgrids` (cut from `wip/970-allgrids`). Chain `queue/done/065-late-22-october-code-allgrids-5.md`, session 971. Model spend USD 0. No warehouse data written; no request to a publisher. The reads: production's pages in the internal view (production serves 788 to 799 since 23:59 UTC).
 
 ## Read these first
 

@@ -91,7 +91,7 @@ On production (chain 064's 766 to 777 served since 21:30 UTC), 22 October 2026 a
 
 ## Again (session 972, chain 065)
 
-On production (chain 065's 788 to 799 served since 23:59 UTC), 23 October 2026 at about 00:45 UTC.
+On production (chain 065's 788 to 799 served since 23:59 UTC), 23 October 2026 at about 00:10 UTC.
 
 - **The tab still makes no read of the database**: chain 065 added no server read (793's download works in the browser from the props the table already had; 794's pair and 795's "settles at the same prices" line read `site/data/siting/nodes.json`, a file of the build), `tests/test_session716.py` holds on this branch, and session 761's timed run (0 read lines) stands for the server's code.
 - **The pages**:
