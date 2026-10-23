@@ -6,10 +6,10 @@ import { Brand } from "@/components/Brand";
 import { Related } from "@/components/Related";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { Tabs } from "@/components/tool/Tabs";
-import { SourceLine, ToolHeader, ToolPage } from "@/components/tool/ToolPage";
+import { SourceLine, Tip, ToolHeader, ToolPage } from "@/components/tool/ToolPage";
 import { TableDownloads } from "@/components/tool/TableDownloads";
 import mapJson from "@/data/map.json";
-import { faceOf, whole, type MapFile } from "@/lib/projectmap";
+import { SOURCE_RULE, faceOf, sourceOf, sourceWords, whole, type MapFile } from "@/lib/projectmap";
 import { one, tabOf } from "@/lib/tabs";
 import { ResourcesView } from "../resources/view";
 import { Num } from "@/components/Num";
@@ -63,7 +63,7 @@ async function ProjectsView() {
   return (
     <>
       <ToolHeader title="The project map"
-        lead={<>Every generating unit in EIA&apos;s monthly inventory, operating and planned (<span data-map-units="1">{whole(c.units)}</span> units as of {f.vintage}), the interconnection queue positions that are not withdrawn, and the datacenters the ERW holds, on one map. Choose any grids, technologies, statuses, states, kinds and sizes; click a unit for its card. <Link href={METHOD}>Method</Link>.</>} />
+        lead={<>Every generating unit in EIA&apos;s monthly inventory, operating and planned (<span data-map-units="1" data-source={sourceOf(f, "units", SOURCE_RULE.file)}>{whole(c.units)}</span> units as of {f.vintage}<Tip id="map-units" label="the unit count">{sourceWords(f, "units", SOURCE_RULE.file)} Every row of the two tables is one unit, whatever its status.</Tip>), the interconnection queue positions that are not withdrawn, and the datacenters the ERW holds, on one map. Choose any grids, technologies, statuses, states, kinds and sizes; click a unit for its card. <Link href={METHOD}>Method</Link>.</>} />
       {unplaced.ok ? (
         <p className="mb-3 max-w-3xl text-sm" data-unplaced="queue">
           <Num check="projects|count|queue|none" raw={unplaced.data}>{unplaced.data.toLocaleString("en-US")}</Num> queue positions the ERW holds (withdrawn ones among them) are not on the map: their county words name no county, city or town the Census Bureau lists in their state, or they state no county or no state. <Link href={`${METHOD}#coordinates`}>How a position is placed</Link>.

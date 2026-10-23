@@ -818,15 +818,16 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
           ))}
           {plantsOn && plants ? (
             <p className="mt-2 text-xs text-muted" data-count="plants">
-              {on.includes("plants_operating") ? <><span data-count-value="plants_operating">{whole(plantCount(true))}</span> operating units</> : null}
+              {/* session 2300 (chain 087): each count carries data-source, the tables, the vintage and the rule, as the Projects tab's figures do */}
+              {on.includes("plants_operating") ? <><span data-count-value="plants_operating" data-source={`eia860m_operating_generators|${plants.vintage}|the units drawn on this map, of the layers on`} title={`EIA-860M's operating generators, ${plants.vintage}: the units with a place on this map.`}>{whole(plantCount(true))}</span> operating units</> : null}
               {on.includes("plants_operating") && on.includes("plants_planned") ? ", " : null}
-              {on.includes("plants_planned") ? <><span data-count-value="plants_planned">{whole(plantCount(false))}</span> planned or under construction</> : null}
+              {on.includes("plants_planned") ? <><span data-count-value="plants_planned" data-source={`eia860m_planned_generators|${plants.vintage}|the units drawn on this map, of the layers on`} title={`EIA-860M's planned generators, ${plants.vintage}: the units with a place on this map.`}>{whole(plantCount(false))}</span> planned or under construction</> : null}
             </p>
           ) : null}
           {on.includes("queue") && queue ? (
             <p className="mt-2 text-xs text-muted" data-count="queue">
-              <span data-count-value="queue_drawn">{whole(queue.drawn)}</span> queue rows in <span data-count-value="queue_counties">{whole(queue.counties)}</span> counties;{" "}
-              <span className={hint} title="These rows name neither a county the Census Bureau's county outlines hold nor coordinates, so they have no place on the map."><span data-count-value="queue_not_drawn">{whole(queue.not_placed + queue.no_shape)}</span> not drawn</span>
+              <span data-count-value="queue_drawn" data-source={`energy_projects|${queue.vintage_last}|the queue rows drawn, at a county or at their own coordinates`} title={`The ISOs' queues as energy_projects holds them, reports of ${queue.vintage_first === queue.vintage_last ? queue.vintage_last : `${queue.vintage_first} to ${queue.vintage_last}`}: the rows with a place on this map.`}>{whole(queue.drawn)}</span> queue rows in <span data-count-value="queue_counties" data-source={`energy_projects|${queue.vintage_last}|the counties the drawn rows name`} title="The counties the drawn queue rows name, one each.">{whole(queue.counties)}</span> counties;{" "}
+              <span className={hint} title="These rows name neither a county the Census Bureau's county outlines hold nor coordinates, so they have no place on the map."><span data-count-value="queue_not_drawn" data-source={`energy_projects|${queue.vintage_last}|the queue rows with no county the outlines hold and no coordinates`}>{whole(queue.not_placed + queue.no_shape)}</span> not drawn</span>
             </p>
           ) : null}
           {on.includes("queue") && queue?.grids ? (
@@ -848,8 +849,8 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
           ) : null}
           {on.includes("datacenters") && centers ? (
             <p className="mt-2 text-xs text-muted" data-count="datacenters">
-              <span data-count-value="datacenters_drawn">{whole(centers.drawn)}</span> facilities;{" "}
-              <span className={hint} title="The table states no place for these facilities, so they have no place on the map."><span data-count-value="datacenters_not_drawn">{whole(centers.not_placed)}</span> not drawn</span>
+              <span data-count-value="datacenters_drawn" data-source={`datacenter_facilities|${centers.vintage}|the facilities with a place on this map`} title={`The datacenter tracker's table of ${centers.vintage}: the facilities with a place on this map, at the operator's coordinates or at a county or city point.`}>{whole(centers.drawn)}</span> facilities;{" "}
+              <span className={hint} title="The table states no place for these facilities, so they have no place on the map."><span data-count-value="datacenters_not_drawn" data-source={`datacenter_facilities|${centers.vintage}|the facilities the table gives no place`}>{whole(centers.not_placed)}</span> not drawn</span>
             </p>
           ) : null}
         </section>
