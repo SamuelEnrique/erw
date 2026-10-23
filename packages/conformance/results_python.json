@@ -186,13 +186,16 @@
       "call": "tables",
       "pass": true,
       "got": {
-        "tables": 299,
-        "public": 195
-      }
+        "shape": "series",
+        "verdict": "public",
+        "in_live": "yes",
+        "at_least": 299
+      },
+      "rerun_alone": true
     }
   ],
   "requests": {
     "redivis": 0,
-    "live": 21
+    "live": 0
   }
 }

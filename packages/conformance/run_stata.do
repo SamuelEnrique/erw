@@ -320,11 +320,11 @@ local pass = `pass' + `ok'
 
 erw tables, clear
 
-quietly count if verdict == "public"
+quietly count if table == "eia_fuel_spot_prices" & shape == "series" & verdict == "public" & in_live == "yes"
 
-local ok = (_N == 299) & (r(N) == 195)
+local ok = (r(N) == 1) & (_N >= 299)
 
-display as text cond(`ok', "ok   ", "FAIL ") + "20 tables "
+display as text cond(`ok', "ok   ", "FAIL ") + "20 tables eia_fuel_spot_prices"
 
 local pass = `pass' + `ok'
 

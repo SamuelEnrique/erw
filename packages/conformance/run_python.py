@@ -49,16 +49,23 @@ def answer(c, live):
     if c["call"] == "tables":
         erw.set_backend()
         t = erw.tables(backend="local")
-        return {"tables": len(t), "public": int((t["verdict"] == "public").sum())}
+        row = t.set_index("table").loc[a["table"]]
+        return {"shape": row["shape"], "verdict": row["verdict"], "in_live": row["in_live"],
+                "at_least": 299 if len(t) >= 299 else len(t)}
     raise ValueError(c["call"])
 
 
 def main() -> int:
     rec = json.loads((HERE / "conformance.json").read_text(encoding="utf-8"))
+    # --only N [N ...]: those calls alone, their results written over the same calls' in results_python.json (a call
+    # that needs no request, run again without the twenty's requests)
+    only = {int(x) for x in sys.argv[sys.argv.index("--only") + 1:]} if "--only" in sys.argv else None
     erw.requests(reset=True)
     live = erw.LiveBackend()
     results, passed = [], 0
     for c in rec["calls"]:
+        if only is not None and c["n"] not in only:
+            continue
         try:
             got = answer(c, live)
             ok = got == c["expect"]
@@ -68,6 +75,13 @@ def main() -> int:
         results.append({"n": c["n"], "call": c["call"], "pass": ok, "got": got})
         print(f"{'ok  ' if ok else 'FAIL'} {c['n']:02d} {c['call']} {c['args'].get('table', '')}"
               + ("" if ok else f"  got {json.dumps(got)[:160]}"))
+    if only is not None:
+        prev = json.loads((HERE / "results_python.json").read_text(encoding="utf-8"))
+        by = {r["n"]: r for r in prev["results"]}
+        for r in results:
+            by[r["n"]] = dict(r, rerun_alone=True)
+        results = [by[k] for k in sorted(by)]
+        passed = sum(r["pass"] for r in results)
     out = {"package": "python", "passed": passed, "of": len(rec["calls"]), "results": results,
            "requests": erw.requests()}
     (HERE / "results_python.json").write_text(json.dumps(out, indent=2) + "\n", encoding="utf-8", newline="\n")

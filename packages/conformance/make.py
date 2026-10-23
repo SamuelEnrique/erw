@@ -4,7 +4,7 @@
 Energy Research Warehouse (ERW), docs/methods/packages.md. Twenty calls with the answers the Python package gave on
 the live set (anon key): ten fetches (rows, first and last time), four citations (the words before the clause that
 says where the rows came from), three licenses (verdict and words), one refusal of a held table (its exact words), one
-standard (shape and key) and the table list (tables and public tables). Each package's runner (run_python.py,
+standard (shape and key) and the table list of the record (one table's row; at least 299 tables). Each package's runner (run_python.py,
 run_stata.do, run_r.R) makes the same calls and compares. The live set's address and key come from the environment
 and are not written.
 
@@ -71,9 +71,11 @@ def main() -> int:
     s = erw.standard("eia860m_retired_generators")
     calls.append({"n": len(calls) + 1, "call": "standard", "args": {"table": "eia860m_retired_generators"},
                   "expect": {"shape": s["shape"], "key": s["key"]}})
-    t = erw.tables(backend="local")   # the record (coverage.csv), as the Stata and R packages read it
-    calls.append({"n": len(calls) + 1, "call": "tables", "args": {"backend": "local"},
-                  "expect": {"tables": len(t), "public": int((t["verdict"] == "public").sum())}})
+    # the record (coverage.csv), as the Stata and R packages read it: one table's row, and a floor for the count (the
+    # record grows; a count would fail at each new table)
+    t = erw.tables(backend="local").set_index("table").loc["eia_fuel_spot_prices"]
+    calls.append({"n": len(calls) + 1, "call": "tables", "args": {"backend": "local", "table": "eia_fuel_spot_prices"},
+                  "expect": {"shape": t["shape"], "verdict": t["verdict"], "in_live": t["in_live"], "at_least": 299}})
     out = {"made_by": "session 1003's fixtures' calls and session 1006 (chain 070), the Python package on the live set",
            "made_at": stamp(__import__("pandas").Timestamp.now(tz="UTC")), "via": VIA.strip(),
            "calls": calls, "requests": erw.requests()}

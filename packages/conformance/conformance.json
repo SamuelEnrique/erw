@@ -270,11 +270,14 @@
       "n": 20,
       "call": "tables",
       "args": {
-        "backend": "local"
+        "backend": "local",
+        "table": "eia_fuel_spot_prices"
       },
       "expect": {
-        "tables": 299,
-        "public": 195
+        "shape": "series",
+        "verdict": "public",
+        "in_live": "yes",
+        "at_least": 299
       }
     }
   ],

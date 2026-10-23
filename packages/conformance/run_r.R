@@ -53,5 +53,6 @@ report(m == "iso_rtm_hub_prices is not public: unsettled. MISO's terms ask for w
 s <- erw_standard("eia860m_retired_generators", backend = "live")
 report(s$shape == "entities" && identical(s$key, c("entity_id")), "19 standard eia860m_retired_generators")
 t <- erw_tables()
-report(nrow(t) == 299 && sum(t$verdict == "public") == 195, "20 tables ")
+r <- t[t$table == "eia_fuel_spot_prices", ]
+report(nrow(r) == 1 && r$shape == "series" && r$verdict == "public" && r$in_live == "yes" && nrow(t) >= 299, "20 tables eia_fuel_spot_prices")
 cat(pass, "of 20 pass\n")

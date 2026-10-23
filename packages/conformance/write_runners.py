@@ -64,8 +64,10 @@ def stata(calls):
             out += [f"erw standard {a['table']}, backend(live) clear", "",
                     f"local ok = (\"`r(shape)'\" == \"{e['shape']}\") & (\"`r(key)'\" == \"{' '.join(e['key'])}\")", ""]
         elif c["call"] == "tables":
-            out += ["erw tables, clear", "", "quietly count if verdict == \"public\"", "",
-                    f"local ok = (_N == {e['tables']}) & (r(N) == {e['public']})", ""]
+            out += ["erw tables, clear", "",
+                    f"quietly count if table == \"{a['table']}\" & shape == \"{e['shape']}\" & verdict == "
+                    f"\"{e['verdict']}\" & in_live == \"{e['in_live']}\"", "",
+                    f"local ok = (r(N) == 1) & (_N >= {e['at_least']})", ""]
         label = a.get("table", "")
         out += [f"display as text cond(`ok', \"ok   \", \"FAIL \") + \"{n:02d} {c['call']} {label}\"", "",
                 "local pass = `pass' + `ok'", ""]
@@ -118,7 +120,9 @@ def r(calls):
                     f"report(s$shape == {rq(e['shape'])} && identical(s$key, c({', '.join(rq(k) for k in e['key'])})), {label})"]
         elif c["call"] == "tables":
             out += ["t <- erw_tables()",
-                    f"report(nrow(t) == {e['tables']} && sum(t$verdict == \"public\") == {e['public']}, {label})"]
+                    f"r <- t[t$table == {rq(a['table'])}, ]",
+                    f"report(nrow(r) == 1 && r$shape == {rq(e['shape'])} && r$verdict == {rq(e['verdict'])} && "
+                    f"r$in_live == {rq(e['in_live'])} && nrow(t) >= {e['at_least']}, {label})"]
     out += [f"cat(pass, \"of {len(calls)} pass\\n\")"]
     return "\n".join(out) + "\n"
 
