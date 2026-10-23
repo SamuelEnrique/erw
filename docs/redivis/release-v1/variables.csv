@@ -499,6 +499,196 @@ egrid_power_plants,gen_solar_mwh,column,
 egrid_power_plants,gen_geothermal_mwh,column,
 egrid_power_plants,gen_other_fossil_mwh,column,
 egrid_power_plants,gen_other_purchased_mwh,column,
+eia411_capacity_margins_annual,summer_capacity_margin,series variable,pct
+eia411_capacity_margins_annual,summer_capacity_resources,series variable,MW
+eia411_capacity_margins_annual,summer_net_internal_demand,series variable,MW
+eia411_capacity_margins_annual,summer_peak_load,series variable,MW
+eia411_capacity_margins_annual,winter_capacity_margin,series variable,pct
+eia411_capacity_margins_annual,winter_capacity_resources,series variable,MW
+eia411_capacity_margins_annual,winter_net_internal_demand,series variable,MW
+eia411_capacity_margins_annual,winter_peak_load,series variable,MW
+eia860_boilers,entity_id,column,
+eia860_boilers,entity_type,column,
+eia860_boilers,name,column,
+eia860_boilers,geo,column,
+eia860_boilers,lat,column,
+eia860_boilers,lon,column,
+eia860_boilers,capacity_mw,column,
+eia860_boilers,status,column,
+eia860_boilers,status_date,column,
+eia860_boilers,operator,column,
+eia860_boilers,source,column,
+eia860_boilers,source_url,column,
+eia860_boilers,retrieved_at,column,
+eia860_boilers,vintage,column,
+eia860_boilers,x_plant_code,column,
+eia860_boilers,x_state,column,
+eia860_boilers,x_eia_status,column,
+eia860_boilers,x_utility_id,column,
+eia860_boilers,x_plant_name,column,
+eia860_boilers,x_boiler_id,column,
+eia860_boilers,x_hrsg,column,
+eia860_boilers,x_boiler_status,column,
+eia860_boilers,x_type_of_boiler,column,
+eia860_boilers,x_inservice_month,column,
+eia860_boilers,x_inservice_year,column,
+eia860_boilers,x_retirement_month,column,
+eia860_boilers,x_retirement_year,column,
+eia860_boilers,x_firing_type_1,column,
+eia860_boilers,x_firing_type_2,column,
+eia860_boilers,x_firing_type_3,column,
+eia860_boilers,x_max_steam_flow_thousand_pounds_per_hour,column,
+eia860_boilers,x_firing_rate_using_coal_0_1_tons_per_hour,column,
+eia860_boilers,x_firing_rate_using_petroleum_0_1_barrels_per_hour,column,
+eia860_boilers,x_firing_rate_using_gas_0_1_mcf_per_hour,column,
+eia860_boilers,x_firing_rate_using_other_fuels,column,
+eia860_boilers,x_waste_heat_input_million_btu_per_hour,column,
+eia860_boilers,x_primary_fuel_1,column,
+eia860_boilers,x_primary_fuel_2,column,
+eia860_boilers,x_primary_fuel_3,column,
+eia860_boilers,x_primary_fuel_4,column,
+eia860_boilers,x_turndown_ratio,column,
+eia860_boilers,x_efficiency_100_load,column,
+eia860_boilers,x_efficiency_50_load,column,
+eia860_boilers,x_air_flow_100_load_cubic_feet_per_minute,column,
+eia860_boilers,x_wet_dry_bottom,column,
+eia860_boilers,x_fly_ash_reinjection,column,
+eia860_boilers,x_steam_plant_type,column,
+eia860_boilers,x_new_source_review,column,
+eia860_boilers,x_new_source_review_permit,column,
+eia860_boilers,x_new_source_review_month,column,
+eia860_boilers,x_new_source_review_year,column,
+eia860_boilers,x_regulation_sulfur,column,
+eia860_boilers,x_standard_sulfur_rate,column,
+eia860_boilers,x_standard_sulfur_percent_scrubbed,column,
+eia860_boilers,x_unit_sulfur,column,
+eia860_boilers,x_period_sulfur,column,
+eia860_boilers,x_compliance_year_sulfur,column,
+eia860_boilers,x_sulfur_dioxide_control_existing_strategy_1,column,
+eia860_boilers,x_sulfur_dioxide_control_existing_strategy_2,column,
+eia860_boilers,x_sulfur_dioxide_control_existing_strategy_3,column,
+eia860_boilers,x_sulfur_dioxide_control_proposed_strategy_1,column,
+eia860_boilers,x_sulfur_dioxide_control_proposed_strategy_2,column,
+eia860_boilers,x_sulfur_dioxide_control_proposed_strategy_3,column,
+eia860_boilers,x_regulation_nitrogen,column,
+eia860_boilers,x_standard_nitrogen_rate,column,
+eia860_boilers,x_unit_nitrogen,column,
+eia860_boilers,x_period_nitrogen,column,
+eia860_boilers,x_compliance_year_nitrogen,column,
+eia860_boilers,x_nitrogen_oxide_control_existing_strategy_1,column,
+eia860_boilers,x_nitrogen_oxide_control_existing_strategy_2,column,
+eia860_boilers,x_nitrogen_oxide_control_existing_strategy_3,column,
+eia860_boilers,x_nitrogen_oxide_control_proposed_strategy_1,column,
+eia860_boilers,x_nitrogen_oxide_control_proposed_strategy_2,column,
+eia860_boilers,x_nitrogen_oxide_control_proposed_strategy_3,column,
+eia860_boilers,x_regulation_particulate,column,
+eia860_boilers,x_standard_particulate_rate,column,
+eia860_boilers,x_unit_particulate,column,
+eia860_boilers,x_period_particulate,column,
+eia860_boilers,x_compliance_year_particulate,column,
+eia860_boilers,x_regulation_mercury,column,
+eia860_boilers,x_compliance_year_mercury,column,
+eia860_boilers,x_mercury_control_existing_strategy_1,column,
+eia860_boilers,x_mercury_control_existing_strategy_2,column,
+eia860_boilers,x_mercury_control_existing_strategy_3,column,
+eia860_boilers,x_mercury_control_proposed_strategy_1,column,
+eia860_boilers,x_mercury_control_proposed_strategy_2,column,
+eia860_boilers,x_mercury_control_proposed_strategy_3,column,
+eia860_boilers,x_generator_ids,column,
+eia860_boilers,x_cooling_ids,column,
+eia860_boilers,x_pm_control_ids,column,
+eia860_boilers,x_so2_control_ids,column,
+eia860_boilers,x_nox_control_ids,column,
+eia860_boilers,x_mercury_control_ids,column,
+eia860_boilers,x_stack_flue_ids,column,
+eia860_cooling_systems,entity_id,column,
+eia860_cooling_systems,entity_type,column,
+eia860_cooling_systems,name,column,
+eia860_cooling_systems,geo,column,
+eia860_cooling_systems,lat,column,
+eia860_cooling_systems,lon,column,
+eia860_cooling_systems,capacity_mw,column,
+eia860_cooling_systems,status,column,
+eia860_cooling_systems,status_date,column,
+eia860_cooling_systems,operator,column,
+eia860_cooling_systems,source,column,
+eia860_cooling_systems,source_url,column,
+eia860_cooling_systems,retrieved_at,column,
+eia860_cooling_systems,vintage,column,
+eia860_cooling_systems,x_plant_code,column,
+eia860_cooling_systems,x_state,column,
+eia860_cooling_systems,x_eia_status,column,
+eia860_cooling_systems,x_utility_id,column,
+eia860_cooling_systems,x_plant_name,column,
+eia860_cooling_systems,x_cooling_id,column,
+eia860_cooling_systems,x_cooling_status,column,
+eia860_cooling_systems,x_inservice_month,column,
+eia860_cooling_systems,x_inservice_year,column,
+eia860_cooling_systems,x_cooling_type_1,column,
+eia860_cooling_systems,x_cooling_type_2,column,
+eia860_cooling_systems,x_cooling_type_3,column,
+eia860_cooling_systems,x_cooling_type_4,column,
+eia860_cooling_systems,x_percent_dry_cooling,column,
+eia860_cooling_systems,x_cooling_water_source,column,
+eia860_cooling_systems,x_cooling_water_discharge,column,
+eia860_cooling_systems,x_water_source_code,column,
+eia860_cooling_systems,x_water_type_code,column,
+eia860_cooling_systems,x_intake_rate_at_100_gallons_per_minute,column,
+eia860_cooling_systems,x_chlorine_inservice_month,column,
+eia860_cooling_systems,x_chlorine_inservice_year,column,
+eia860_cooling_systems,x_pond_inservice_month,column,
+eia860_cooling_systems,x_pond_inservice_year,column,
+eia860_cooling_systems,x_pond_surface_area_acres,column,
+eia860_cooling_systems,x_pond_volume_acre_feet,column,
+eia860_cooling_systems,x_tower_inservice_month,column,
+eia860_cooling_systems,x_tower_inservice_year,column,
+eia860_cooling_systems,x_tower_type_1,column,
+eia860_cooling_systems,x_tower_type_2,column,
+eia860_cooling_systems,x_tower_type_3,column,
+eia860_cooling_systems,x_tower_type_4,column,
+eia860_cooling_systems,x_tower_water_rate_gallons_per_minute,column,
+eia860_cooling_systems,x_power_requirement_mw,column,
+eia860_cooling_systems,x_cost_total_thousand_dollars,column,
+eia860_cooling_systems,x_cost_ponds_thousand_dollars,column,
+eia860_cooling_systems,x_cost_towers_thousand_dollars,column,
+eia860_cooling_systems,x_cost_chlorine_equipment_thousand_dollars,column,
+eia860_cooling_systems,x_intake_distance_shore_feet,column,
+eia860_cooling_systems,x_outlet_distance_shore_feet,column,
+eia860_cooling_systems,x_intake_distance_surface_feet,column,
+eia860_cooling_systems,x_outlet_distance_surface_feet,column,
+eia860_cooling_systems,x_steam_plant_type,column,
+eia860_emission_controls,entity_id,column,
+eia860_emission_controls,entity_type,column,
+eia860_emission_controls,name,column,
+eia860_emission_controls,geo,column,
+eia860_emission_controls,lat,column,
+eia860_emission_controls,lon,column,
+eia860_emission_controls,capacity_mw,column,
+eia860_emission_controls,status,column,
+eia860_emission_controls,status_date,column,
+eia860_emission_controls,operator,column,
+eia860_emission_controls,source,column,
+eia860_emission_controls,source_url,column,
+eia860_emission_controls,retrieved_at,column,
+eia860_emission_controls,vintage,column,
+eia860_emission_controls,x_plant_code,column,
+eia860_emission_controls,x_state,column,
+eia860_emission_controls,x_eia_status,column,
+eia860_emission_controls,x_utility_id,column,
+eia860_emission_controls,x_plant_name,column,
+eia860_emission_controls,x_equipment_type,column,
+eia860_emission_controls,x_particulate_matter_control_id,column,
+eia860_emission_controls,x_so2_control_id,column,
+eia860_emission_controls,x_nox_control_id,column,
+eia860_emission_controls,x_mercury_control_id,column,
+eia860_emission_controls,x_acid_gas_control,column,
+eia860_emission_controls,x_status,column,
+eia860_emission_controls,x_inservice_month,column,
+eia860_emission_controls,x_inservice_year,column,
+eia860_emission_controls,x_retirement_month,column,
+eia860_emission_controls,x_retirement_year,column,
+eia860_emission_controls,x_total_cost_thousand_dollars,column,
+eia860_emission_controls,x_steam_plant_type,column,
 eia860_generator_owners,entity_id,column,
 eia860_generator_owners,entity_type,column,
 eia860_generator_owners,name,column,
@@ -525,6 +715,61 @@ eia860_generator_owners,x_owner_state,column,
 eia860_generator_owners,x_owner_zip,column,
 eia860_generator_owners,x_percent_owned,column,
 eia860_generator_owners,x_plant_name,column,
+eia860_multifuel_generators,entity_id,column,
+eia860_multifuel_generators,entity_type,column,
+eia860_multifuel_generators,name,column,
+eia860_multifuel_generators,geo,column,
+eia860_multifuel_generators,lat,column,
+eia860_multifuel_generators,lon,column,
+eia860_multifuel_generators,capacity_mw,column,
+eia860_multifuel_generators,status,column,
+eia860_multifuel_generators,status_date,column,
+eia860_multifuel_generators,operator,column,
+eia860_multifuel_generators,source,column,
+eia860_multifuel_generators,source_url,column,
+eia860_multifuel_generators,retrieved_at,column,
+eia860_multifuel_generators,vintage,column,
+eia860_multifuel_generators,x_plant_code,column,
+eia860_multifuel_generators,x_generator_id,column,
+eia860_multifuel_generators,x_state,column,
+eia860_multifuel_generators,x_eia_status,column,
+eia860_multifuel_generators,x_sheet,column,
+eia860_multifuel_generators,x_utility_id,column,
+eia860_multifuel_generators,x_county,column,
+eia860_multifuel_generators,x_technology,column,
+eia860_multifuel_generators,x_prime_mover,column,
+eia860_multifuel_generators,x_sector_name,column,
+eia860_multifuel_generators,x_sector,column,
+eia860_multifuel_generators,x_summer_capacity_mw,column,
+eia860_multifuel_generators,x_winter_capacity_mw,column,
+eia860_multifuel_generators,x_operating_month,column,
+eia860_multifuel_generators,x_operating_year,column,
+eia860_multifuel_generators,x_energy_source_1,column,
+eia860_multifuel_generators,x_energy_source_2,column,
+eia860_multifuel_generators,x_multiple_fuels,column,
+eia860_multifuel_generators,x_cofire_fuels,column,
+eia860_multifuel_generators,x_cofire_energy_source_1,column,
+eia860_multifuel_generators,x_cofire_energy_source_2,column,
+eia860_multifuel_generators,x_cofire_energy_source_3,column,
+eia860_multifuel_generators,x_cofire_energy_source_4,column,
+eia860_multifuel_generators,x_cofire_energy_source_5,column,
+eia860_multifuel_generators,x_cofire_energy_source_6,column,
+eia860_multifuel_generators,x_switch_between_oil_and_natural_gas,column,
+eia860_multifuel_generators,x_switch_when_operating,column,
+eia860_multifuel_generators,x_net_summer_capacity_with_natural_gas_mw,column,
+eia860_multifuel_generators,x_net_winter_capacity_with_natural_gas_mw,column,
+eia860_multifuel_generators,x_net_summer_capacity_with_oil_mw,column,
+eia860_multifuel_generators,x_net_winter_capacity_with_oil_mw,column,
+eia860_multifuel_generators,x_time_to_switch_from_gas_to_oil,column,
+eia860_multifuel_generators,x_time_to_switch_from_oil_to_gas,column,
+eia860_multifuel_generators,x_factors_that_limit_switching,column,
+eia860_multifuel_generators,x_storage_limits,column,
+eia860_multifuel_generators,x_air_permit_limits,column,
+eia860_multifuel_generators,x_other_limits,column,
+eia860_multifuel_generators,x_current_month,column,
+eia860_multifuel_generators,x_current_year,column,
+eia860_multifuel_generators,x_retirement_month,column,
+eia860_multifuel_generators,x_retirement_year,column,
 eia860_plants_annual,entity_id,column,
 eia860_plants_annual,entity_type,column,
 eia860_plants_annual,name,column,
@@ -1377,8 +1622,55 @@ eia861m_utility_sales_monthly,total_sales,series variable,MWh
 eia861m_utility_sales_monthly,transportation_customers,series variable,count
 eia861m_utility_sales_monthly,transportation_revenue,series variable,USD
 eia861m_utility_sales_monthly,transportation_sales,series variable,MWh
+eia923_fuel_receipts,event_id,column,
+eia923_fuel_receipts,event_date,column,
+eia923_fuel_receipts,event_type,column,
+eia923_fuel_receipts,parties,column,
+eia923_fuel_receipts,entity_ids,column,
+eia923_fuel_receipts,mw,column,
+eia923_fuel_receipts,price,column,
+eia923_fuel_receipts,currency,column,
+eia923_fuel_receipts,status,column,
+eia923_fuel_receipts,source,column,
+eia923_fuel_receipts,source_url,column,
+eia923_fuel_receipts,retrieved_at,column,
+eia923_fuel_receipts,x_quantity_unit,column,
+eia923_fuel_receipts,x_month,column,
+eia923_fuel_receipts,x_plant_id,column,
+eia923_fuel_receipts,x_plant_name,column,
+eia923_fuel_receipts,x_plant_state,column,
+eia923_fuel_receipts,x_purchase_type,column,
+eia923_fuel_receipts,x_contract_expiration_date,column,
+eia923_fuel_receipts,x_energy_source,column,
+eia923_fuel_receipts,x_fuel_group,column,
+eia923_fuel_receipts,x_coalmine_type,column,
+eia923_fuel_receipts,x_coalmine_state,column,
+eia923_fuel_receipts,x_coalmine_county,column,
+eia923_fuel_receipts,x_coalmine_msha_id,column,
+eia923_fuel_receipts,x_coalmine_name,column,
+eia923_fuel_receipts,x_supplier,column,
+eia923_fuel_receipts,x_quantity,column,
+eia923_fuel_receipts,x_average_heat_content,column,
+eia923_fuel_receipts,x_average_sulfur_content,column,
+eia923_fuel_receipts,x_average_ash_content,column,
+eia923_fuel_receipts,x_average_mercury_content,column,
+eia923_fuel_receipts,x_fuel_cost,column,
+eia923_fuel_receipts,x_regulated,column,
+eia923_fuel_receipts,x_operator_name,column,
+eia923_fuel_receipts,x_operator_id,column,
+eia923_fuel_receipts,x_reporting_frequency,column,
+eia923_fuel_receipts,x_primary_transportation_mode,column,
+eia923_fuel_receipts,x_secondary_transportation_mode,column,
+eia923_fuel_receipts,x_natural_gas_supply_contract_type,column,
+eia923_fuel_receipts,x_natural_gas_delivery_contract_type,column,
+eia923_fuel_receipts,x_moisture_content,column,
+eia923_fuel_receipts,x_chlorine_content,column,
+eia923_fuel_receipts,x_balancing_authority_code,column,
 eia923_plant_fuel_annual,fuel_consumed,series variable,TBtu
 eia923_plant_fuel_annual,net_generation,series variable,MWh
+eia923_plant_fuel_monthly,fuel_consumed,series variable,TBtu
+eia923_plant_fuel_monthly,fuel_consumed_electric,series variable,TBtu
+eia923_plant_fuel_monthly,net_generation,series variable,MWh
 eia930_all_demand,demand_forecast_mw,series variable,MW
 eia930_all_demand,demand_mw,series variable,MW
 eia930_all_emissions,co2_emissions_coal,series variable,tCO2
@@ -2548,6 +2840,43 @@ eia_gas_interstate_annual,net_receipts,series variable,MMcf
 eia_gas_interstate_annual,net_receipts_imports,series variable,MMcf
 eia_gas_interstate_annual,receipts,series variable,MMcf
 eia_gas_interstate_annual,receipts_imports,series variable,MMcf
+eia_gas_pipeline_projects,event_id,column,
+eia_gas_pipeline_projects,event_date,column,
+eia_gas_pipeline_projects,event_type,column,
+eia_gas_pipeline_projects,parties,column,
+eia_gas_pipeline_projects,entity_ids,column,
+eia_gas_pipeline_projects,mw,column,
+eia_gas_pipeline_projects,price,column,
+eia_gas_pipeline_projects,currency,column,
+eia_gas_pipeline_projects,status,column,
+eia_gas_pipeline_projects,source,column,
+eia_gas_pipeline_projects,source_url,column,
+eia_gas_pipeline_projects,retrieved_at,column,
+eia_gas_pipeline_projects,x_project_name,column,
+eia_gas_pipeline_projects,x_project_type,column,
+eia_gas_pipeline_projects,x_completed_date,column,
+eia_gas_pipeline_projects,x_year_in_service,column,
+eia_gas_pipeline_projects,x_states,column,
+eia_gas_pipeline_projects,x_beg_state,column,
+eia_gas_pipeline_projects,x_end_state,column,
+eia_gas_pipeline_projects,x_regions,column,
+eia_gas_pipeline_projects,x_beg_region,column,
+eia_gas_pipeline_projects,x_end_region,column,
+eia_gas_pipeline_projects,x_thru_region,column,
+eia_gas_pipeline_projects,x_cost_million_usd,column,
+eia_gas_pipeline_projects,x_miles,column,
+eia_gas_pipeline_projects,x_capacity_mmcfd,column,
+eia_gas_pipeline_projects,x_diameter_inches,column,
+eia_gas_pipeline_projects,x_pipeline_type,column,
+eia_gas_pipeline_projects,x_authority,column,
+eia_gas_pipeline_projects,x_docket,column,
+eia_gas_pipeline_projects,x_crosses_state_border,column,
+eia_gas_pipeline_projects,x_notes,column,
+eia_gas_pipeline_projects,x_demand_served,column,
+eia_gas_pipeline_projects,x_website,column,
+eia_gas_pipeline_projects,x_last_updated,column,
+eia_gas_pipeline_projects,x_sheet,column,
+eia_gas_pipeline_projects,x_date_basis,column,
 eia_gas_prices_state_monthly,price_citygate,series variable,USD/Mcf
 eia_gas_prices_state_monthly,price_commercial,series variable,USD/Mcf
 eia_gas_prices_state_monthly,price_electric_power,series variable,USD/Mcf
@@ -2650,6 +2979,13 @@ eia_petroleum_supply_weekly,utilization,series variable,pct
 eia_petroleum_trade_weekly,flow,series variable,kbbl/d
 eia_power_co2_state_annual,co2,series variable,tCO2
 eia_power_co2_state_annual,co2_rate,series variable,kgCO2/MWh
+eia_power_costs_annual,amount,series variable,USD
+eia_power_costs_annual,fuel_expense,series variable,USD/MWh
+eia_power_costs_annual,heat_rate,series variable,MMBtu/MWh
+eia_power_costs_annual,maintenance_expense,series variable,USD/MWh
+eia_power_costs_annual,operation_expense,series variable,USD/MWh
+eia_power_costs_annual,tested_heat_rate,series variable,MMBtu/MWh
+eia_power_costs_annual,total_expense,series variable,USD/MWh
 eia_power_plant_fuel_costs,cost_per_mcf,series variable,USD/Mcf
 eia_power_plant_fuel_costs,cost_per_mmbtu,series variable,USD/MMBtu
 eia_power_plant_fuel_costs,cost_per_short_ton,series variable,USD/short_ton
@@ -2702,6 +3038,43 @@ eia_state_source_disposition_annual,unaccounted,series variable,MWh
 eia_steo_forecasts,value,series variable,USD/MMBtu
 eia_steo_forecasts,value,series variable,USD/kWh
 eia_steo_forecasts,value,series variable,ratio
+eia_uranium_marketing_annual,broker_purchases_from_foreign,series variable,lb
+eia_uranium_marketing_annual,enrichment_foreign_origin,series variable,SWU
+eia_uranium_marketing_annual,enrichment_price,series variable,USD/SWU
+eia_uranium_marketing_annual,enrichment_total,series variable,SWU
+eia_uranium_marketing_annual,enrichment_us_origin,series variable,SWU
+eia_uranium_marketing_annual,feed_deliveries,series variable,lb
+eia_uranium_marketing_annual,foreign_purchases_owners,series variable,lb
+eia_uranium_marketing_annual,foreign_purchases_total,series variable,lb
+eia_uranium_marketing_annual,foreign_purchases_us_suppliers,series variable,lb
+eia_uranium_marketing_annual,foreign_sales,series variable,lb
+eia_uranium_marketing_annual,inventories_owners,series variable,lb
+eia_uranium_marketing_annual,inventories_total,series variable,lb
+eia_uranium_marketing_annual,inventories_us_suppliers,series variable,lb
+eia_uranium_marketing_annual,price_broker_purchases_from_foreign,series variable,USD/lb
+eia_uranium_marketing_annual,price_foreign_purchases_owners,series variable,USD/lb
+eia_uranium_marketing_annual,price_foreign_purchases_total,series variable,USD/lb
+eia_uranium_marketing_annual,price_foreign_purchases_us_suppliers,series variable,USD/lb
+eia_uranium_marketing_annual,price_foreign_sales,series variable,USD/lb
+eia_uranium_marketing_annual,price_purchased_foreign_origin,series variable,USD/lb
+eia_uranium_marketing_annual,price_purchased_from_foreign_suppliers,series variable,USD/lb
+eia_uranium_marketing_annual,price_purchased_from_other_owners_suppliers,series variable,USD/lb
+eia_uranium_marketing_annual,price_purchased_from_us_brokers_traders,series variable,USD/lb
+eia_uranium_marketing_annual,price_purchased_from_us_producers,series variable,USD/lb
+eia_uranium_marketing_annual,price_purchased_long_term,series variable,USD/lb
+eia_uranium_marketing_annual,price_purchased_spot,series variable,USD/lb
+eia_uranium_marketing_annual,price_purchased_total,series variable,USD/lb
+eia_uranium_marketing_annual,price_purchased_us_origin,series variable,USD/lb
+eia_uranium_marketing_annual,purchased_foreign_origin,series variable,lb
+eia_uranium_marketing_annual,purchased_from_foreign_suppliers,series variable,lb
+eia_uranium_marketing_annual,purchased_from_other_owners_suppliers,series variable,lb
+eia_uranium_marketing_annual,purchased_from_us_brokers_traders,series variable,lb
+eia_uranium_marketing_annual,purchased_from_us_producers,series variable,lb
+eia_uranium_marketing_annual,purchased_long_term,series variable,lb
+eia_uranium_marketing_annual,purchased_spot,series variable,lb
+eia_uranium_marketing_annual,purchased_total,series variable,lb
+eia_uranium_marketing_annual,purchased_us_origin,series variable,lb
+eia_uranium_marketing_annual,uranium_loaded,series variable,lb
 eia_wood_pellets_monthly,domestic_price,series variable,USD/short_ton
 eia_wood_pellets_monthly,export_price,series variable,USD/short_ton
 eia_wood_pellets_monthly,facilities,series variable,count
@@ -2896,6 +3269,27 @@ ercot_large_load_status,new_submissions_count,series variable,count
 ercot_large_load_status,new_submissions_mw,series variable,MW
 ercot_large_load_status,observed_nonsimultaneous_peak_mw,series variable,MW
 ercot_large_load_status,observed_simultaneous_peak_mw,series variable,MW
+ercot_node_places,entity_id,column,
+ercot_node_places,entity_type,column,
+ercot_node_places,name,column,
+ercot_node_places,geo,column,
+ercot_node_places,lat,column,
+ercot_node_places,lon,column,
+ercot_node_places,capacity_mw,column,
+ercot_node_places,status,column,
+ercot_node_places,status_date,column,
+ercot_node_places,operator,column,
+ercot_node_places,source,column,
+ercot_node_places,source_url,column,
+ercot_node_places,retrieved_at,column,
+ercot_node_places,vintage,column,
+ercot_node_places,x_station,column,
+ercot_node_places,x_county,column,
+ercot_node_places,x_zone,column,
+ercot_node_places,x_class,column,
+ercot_node_places,x_resource_type,column,
+ercot_node_places,x_cdr_units,column,
+ercot_node_places,x_cdr_units_n,column,
 ercot_peak_premium_annual,all_iqr,series variable,USD/MWh
 ercot_peak_premium_annual,all_max,series variable,USD/MWh
 ercot_peak_premium_annual,all_median,series variable,USD/MWh
