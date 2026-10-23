@@ -37,7 +37,7 @@
 
 ## The landing
 
-With 1001, in session 1001: a document alone would spend a deployment, and Vercel has been rate limiting this account's deployments since 01:25 UTC.
+Sessions 1000 to 1014 landed in one push: see `SESSION_1014_REPORT.md`, "The landing".
 
 ## Decisions made without you
 
