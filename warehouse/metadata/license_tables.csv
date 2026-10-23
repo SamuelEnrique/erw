@@ -283,6 +283,7 @@ frb_treasury_yields,FRB,the source registry
 frb_utility_output_monthly,FRB,the source registry
 generation_mix_hourly_profile,CAISO; EIA,"the source registry and the tables its header derives it from: caiso_fuel_supply, caiso_fuel_supply_history, carbon_intensity_hourly"
 generation_mix_records,CAISO; EIA,"the source registry and the tables its header derives it from: caiso_fuel_supply, caiso_fuel_supply_history, carbon_intensity_hourly"
+gfz_kp_index_3h,GFZ Helmholtz Centre for Geosciences (Potsdam),the source registry
 grid_network_links,EIA,"the source registry and the tables its header derives it from: carbon_intensity_hourly, eia930_all_demand, eia930_all_interchange"
 grid_network_nodes,EIA,"the source registry and the tables its header derives it from: carbon_intensity_hourly, eia930_all_demand, eia930_all_interchange"
 grid_peak_vs_capacity,EIA,"the source registry and the tables its header derives it from: eia860m_operating_generators, eia930_demand_growth"

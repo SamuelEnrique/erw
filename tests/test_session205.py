@@ -147,8 +147,10 @@ class TheFiles(unittest.TestCase):
         # at its merge after chain 059's (session 2041 raised it once more); chain 067's sessions 2070 to 2075 add 14,
         # renumbered 216 to 229 at its merge after chain 058's (session 2083 raised it once more);
         # chain 068's sessions 2084 to 2092 add 19, renumbered 223 to 241 after chain 066's and 237 to 255 after chain 067's (session
-        # 2089 raised it by 40, with room for the chains' reads at their merges)
-        self.assertLessEqual(len(reads) - 41, 2 + 60 + 20 + 20 + 20 + 20 + 20 + 20 + 40)
+        # 2089 raised it by 40, with room for the chains' reads at their merges);
+        # chain 090's sessions 2134 to 2141 add their reads from 256, renumbered at its merge after the chains that land first
+        # (session 2135 raised it by 40, with room for the licenses' nineteenth round)
+        self.assertLessEqual(len(reads) - 41, 2 + 60 + 20 + 20 + 20 + 20 + 20 + 20 + 40 + 40)
         self.assertEqual(len({r["publisher"] for r in reads}), len(reads))          # one page a publisher
         miso = [r for r in reads if "MISO" in r["publisher"]]
         self.assertEqual(len(miso), 1)
