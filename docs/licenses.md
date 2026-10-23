@@ -114,8 +114,8 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | 89 | North American Electric Reliability Corporation (NERC) | https://www.nerc.com/terms-of-use-policy | 09:15:51 | 200 | 55125 | not read: the page's text is loaded by script; the page served holds only its footer (session 666) |
 | 90 | Homeland Infrastructure Foundation-Level Data (HIFLD), DHS | https://hifld-geoplatform.hub.arcgis.com/ | 09:14:45 | 404 | 30 | not read: HTTP 404 (session 666: the HIFLD Open hub no longer answers) |
 | 91 | U.S. Government Publishing Office (GPO), govinfo: the Federal Register's printer and joint publisher | https://www.govinfo.gov/about/policies | 02:12:46 | 200 | 64169 | read |
-| 92 | Office of the Federal Register (NARA) | https://www.federalregister.gov/developers/documentation/api/v1 | 02:12:46 | 200 | 31918 | not read: the API documentation page states no terms of reuse (session 859) |
-| 93 | CME Group (NYMEX), whose prices EIA republished | https://www.cmegroup.com/robots.txt | 02:12:33 | no request |  | not read: the connection was reset by the host, not asked again (session 859) |
+| 92 | Office of the Federal Register (NARA), its API documentation page (session 859) | https://www.federalregister.gov/developers/documentation/api/v1 | 02:12:46 | 200 | 31918 | not read: the API documentation page states no terms of reuse (session 859) |
+| 93 | CME Group (NYMEX), its robots file (session 859) | https://www.cmegroup.com/robots.txt | 02:12:33 | no request |  | not read: the connection was reset by the host, not asked again (session 859) |
 
 ## The publishers: the sentence and the verdict
 
