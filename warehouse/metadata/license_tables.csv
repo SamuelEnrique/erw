@@ -172,7 +172,9 @@ eia_state_capacity_annual,EIA,the source registry
 eia_state_generation_monthly,EIA,the source registry
 eia_state_source_disposition_annual,EIA,the source registry
 eia_steo_forecasts,EIA,the source registry
+eia_uranium_facilities,EIA,the source registry
 eia_uranium_marketing_annual,EIA,the source registry
+eia_uranium_production_quarterly,EIA,the source registry
 eia_wood_pellets_monthly,EIA,the source registry
 eia_world_coal_annual,EIA,the source registry
 eia_world_electricity_annual,EIA,the source registry

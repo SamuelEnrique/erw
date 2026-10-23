@@ -3087,6 +3087,29 @@ eia_state_source_disposition_annual,unaccounted,series variable,MWh
 eia_steo_forecasts,value,series variable,USD/MMBtu
 eia_steo_forecasts,value,series variable,USD/kWh
 eia_steo_forecasts,value,series variable,ratio
+eia_uranium_facilities,entity_id,column,
+eia_uranium_facilities,entity_type,column,
+eia_uranium_facilities,name,column,
+eia_uranium_facilities,geo,column,
+eia_uranium_facilities,lat,column,
+eia_uranium_facilities,lon,column,
+eia_uranium_facilities,capacity_mw,column,
+eia_uranium_facilities,status,column,
+eia_uranium_facilities,status_date,column,
+eia_uranium_facilities,operator,column,
+eia_uranium_facilities,source,column,
+eia_uranium_facilities,source_url,column,
+eia_uranium_facilities,retrieved_at,column,
+eia_uranium_facilities,vintage,column,
+eia_uranium_facilities,x_kind,column,
+eia_uranium_facilities,x_location,column,
+eia_uranium_facilities,x_capacity,column,
+eia_uranium_facilities,x_capacity_unit,column,
+eia_uranium_facilities,x_status_2025,column,
+eia_uranium_facilities,x_status_first_quarter_2026,column,
+eia_uranium_facilities,x_status_second_quarter_2026,column,
+eia_uranium_facilities,x_status_third_quarter_2026,column,
+eia_uranium_facilities,x_status_fourth_quarter_2026,column,
 eia_uranium_marketing_annual,broker_purchases_from_foreign,series variable,lb
 eia_uranium_marketing_annual,enrichment_foreign_origin,series variable,SWU
 eia_uranium_marketing_annual,enrichment_price,series variable,USD/SWU
@@ -3124,6 +3147,8 @@ eia_uranium_marketing_annual,purchased_spot,series variable,lb
 eia_uranium_marketing_annual,purchased_total,series variable,lb
 eia_uranium_marketing_annual,purchased_us_origin,series variable,lb
 eia_uranium_marketing_annual,uranium_loaded,series variable,lb
+eia_uranium_production_quarterly,facilities_producing,series variable,count
+eia_uranium_production_quarterly,production,series variable,lb
 eia_wood_pellets_monthly,domestic_price,series variable,USD/short_ton
 eia_wood_pellets_monthly,export_price,series variable,USD/short_ton
 eia_wood_pellets_monthly,facilities,series variable,count

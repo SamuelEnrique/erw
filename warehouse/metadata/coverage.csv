@@ -172,7 +172,9 @@ eia_state_capacity_annual,none,,2671,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:0
 eia_state_generation_monthly,none,,760,P1M,2001-01-01T00:00:00Z,2026-07-01T00:00:00Z,200363,eia:electricity/electric-power-operational-data,2026-10-22T14:35:37Z,pass,public,power,no,source
 eia_state_source_disposition_annual,none,,52,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,37738,eia:electricity/state-electricity-profiles/source-disposition,2026-10-21T21:48:14Z,pass,public,power,no,source
 eia_steo_forecasts,none,,53,P1M,2020-01-01T00:00:00Z,2027-12-01T00:00:00Z,5088,eia:steo,2026-10-21T18:32:37Z,pass,public,power;gas,no,source
+eia_uranium_facilities,none,,24,snapshot,2026-10-23T12:52:16Z,2026-10-23T12:52:16Z,24,eia:uranium_production_quarterly,2026-10-23T12:55:03Z,pass,public,uranium,no,source
 eia_uranium_marketing_annual,none,,31,P1Y,2003-01-01T00:00:00Z,2025-01-01T00:00:00Z,763,eia:uranium_marketing_annual,2026-10-23T07:01:36Z,pass,public,power;uranium,no,source
+eia_uranium_production_quarterly,none,,144,P1Y;P3M,2000-01-01T00:00:00Z,2026-04-01T00:00:00Z,171,eia:uranium_production_quarterly,2026-10-23T12:54:55Z,pass,public,uranium,no,source
 eia_wood_pellets_monthly,none,,9,P1M,2016-01-01T00:00:00Z,2026-05-01T00:00:00Z,2090,eia:densified-biomass,2026-10-21T23:57:46Z,pass,public,power,no,source
 eia_world_coal_annual,none,,1798,P1Y,1980-01-01T00:00:00Z,2024-01-01T00:00:00Z,317307,eia:international_bulk,2026-10-23T11:02:08Z,pass,public,coal,no,source
 eia_world_electricity_annual,none,,4285,P1Y,1980-01-01T00:00:00Z,2024-01-01T00:00:00Z,332254,eia:international_bulk,2026-10-23T07:57:52Z,pass,public,power,no,source
