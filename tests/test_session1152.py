@@ -55,6 +55,13 @@ class ThePanel(unittest.TestCase):
         self.assertIn("{share ? shareOf(v, hover.t) : \"\"}", t)
         self.assertIn("data-chart-mark={m.name}", t)
 
+    def test_a_mixed_sign_stack_draws_each_band_from_its_own_side(self):
+        t = src("site", "components", "TimeChart.tsx")
+        self.assertIn("if (v >= 0) { bases![k][i] = up[i]; up[i] += v; return up[i]; }", t)
+        self.assertIn("bases![k][i] = down[i]; down[i] += v; return down[i];", t)
+        self.assertIn("const base = (i: number) => `${px(xs[i]).toFixed(1)},${py(bases[k][i], b).toFixed(1)}`;", t)
+        self.assertNotIn("const below = k === 0 ? null : stacked[k - 1];", t)
+
     def test_the_monthly_view_is_in_the_address(self):
         lib = src("site", "lib", "mixpage.ts")
         self.assertIn('...(view === "now" && one(q.mixp) === "month" ? { mixp: "month" as const } : {}),', lib)

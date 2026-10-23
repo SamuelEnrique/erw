@@ -136,22 +136,28 @@ export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false
     const xs = [...new Set(series.flatMap((s) => s.points.map((p) => p[0])))].sort((a, b) => a - b);
     const at = series.map((s) => new Map<number, number | null>(s.points.map((p) => [p[0], p[1]])));
     let stacked: (number | null)[][] | null = null;
+    // session 1152: each stacked value's base, the running sum of its own side (above or below zero) before it. A band
+    // was drawn from the series below it, which on a mixed-sign stack (a battery charging) is on the other side of zero:
+    // the band above a negative one ran from below zero to its top. Where every value is held and positive, the base is
+    // the series below's top, as before
+    let bases: number[][] | null = null;
     if (stack) {
       const up = new Array<number>(xs.length).fill(0), down = new Array<number>(xs.length).fill(0);
+      bases = series.map(() => new Array<number>(xs.length).fill(0));
       stacked = series.map((_, k) => xs.map((t, i) => {
         const v = at[k].get(t);
         if (v === null || v === undefined) return null;
-        if (v >= 0) { up[i] += v; return up[i]; }
-        down[i] += v; return down[i];
+        if (v >= 0) { bases![k][i] = up[i]; up[i] += v; return up[i]; }
+        bases![k][i] = down[i]; down[i] += v; return down[i];
       }));
     }
     const vals = (k: number): (number | null)[] => (stacked ? stacked[k] : xs.map((t) => at[k].get(t) ?? null));
     const left = series.flatMap((s, k) => (s.y2 && has2 ? [] : vals(k))).filter((v): v is number => v !== null);
     const right = series.flatMap((s, k) => (s.y2 && has2 ? vals(k) : [])).filter((v): v is number => v !== null);
-    return { xs, at, stacked, b1: bounds(left, stack), b2: bounds(right, false) };
+    return { xs, at, stacked, bases, b1: bounds(left, stack), b2: bounds(right, false) };
   }, [series, stack, has2]);
 
-  const { xs, at, stacked, b1, b2 } = model;
+  const { xs, at, stacked, bases, b1, b2 } = model;
   const t0 = hod ? 0 : xs[0] ?? 0, t1 = hod ? 23 : xs[xs.length - 1] ?? 1;
   const px = (t: number) => L + ((t - t0) / (t1 - t0 || 1)) * (plotR - L);
   const py = (v: number, b: Bounds) => TOP + ((b.hi - v) / (b.hi - b.lo || 1)) * (height - TOP - BOT);
@@ -173,20 +179,19 @@ export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false
       prevY = Y;
     }
     let area = "";
-    if (stacked) {
-      const below = k === 0 ? null : stacked[k - 1];
+    if (stacked && bases) {
       const held = xs.map((_, i) => (stacked[k][i] === null ? -1 : i)).filter((i) => i >= 0);
       if (held.length) {
         const top = (i: number) => `${px(xs[i]).toFixed(1)},${py(stacked[k][i]!, b).toFixed(1)}`;
-        const base = (i: number) => `${px(xs[i]).toFixed(1)},${py(below && below[i] !== null ? below[i]! : 0, b).toFixed(1)}`;
+        const base = (i: number) => `${px(xs[i]).toFixed(1)},${py(bases[k][i], b).toFixed(1)}`;
         area = `M${base(held[0])} ` + held.map((i) => `L${top(i)}`).join(" ") + " " + [...held].reverse().map((i) => `L${base(i)}`).join(" ") + " Z";
       }
     }
     const lastHeld = [...pts].reverse().find((p) => p[1] !== null);
     let endY: number | null = lastHeld ? py(lastHeld[1]!, b) : null;
-    if (stacked && lastHeld && endY !== null) {
+    if (stacked && bases && lastHeld && endY !== null) {
       const i = xs.indexOf(lastHeld[0]);
-      const bl = k === 0 ? 0 : stacked[k - 1][i] ?? 0;
+      const bl = bases[k][i];
       endY = (endY + py(bl, b)) / 2;   // the name at the middle of the band's right edge
     }
     return { s, d: segs.join(" "), area, endY, color: tokenColor(s.color) };
