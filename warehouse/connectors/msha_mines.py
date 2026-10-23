@@ -12,7 +12,8 @@ Energy Research Warehouse (ERW) connector. Two tables from the pipe-delimited fi
 
     msha_coal_mines            entities: every coal mine (COAL_METAL_IND C). entity_id msha_mine:<MINE_ID>, the
                                seven digits MSHA writes (EIA's tables drop the leading zero); entity_type plant; name the
-                               current mine name; geo US-<STATE>; lat, lon as MSHA gives them; status from MSHA's current
+                               current mine name; geo US-<STATE>; lat, lon as MSHA gives them, a zero, out-of-range or
+                               unpaired one left empty; status from MSHA's current
                                status (Active and New Mine active; Temporarily Idled and NonProducing suspended; Abandoned
                                and Abandoned and Sealed retired), its words in x_mine_status; status_date the current
                                status date; operator the current operator's name; x_ the mine type, controller, county,
@@ -174,7 +175,8 @@ def main(argv=None):
     try:
         frames, bases = {}, {}
         for kind, (url, _) in FILES.items():
-            content, rec = ip.fetch_raw(CONNECTOR, url, log, offline=args.offline, headers=UA, timeout=300, pause=1)
+            content, rec = ip.fetch_raw(CONNECTOR, url, log, offline=args.offline, fresh=not args.offline, headers=UA, timeout=300,
+                                        pause=1)  # MSHA refreshes the files each week at the same addresses
             frames[kind] = read(content, kind)
             bases[kind] = dict(source=SOURCE, source_url=url, retrieved_at=rec.get("retrieved_at") or "", vintage=ip.vintage_of(rec))
             del content

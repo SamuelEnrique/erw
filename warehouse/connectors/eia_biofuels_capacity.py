@@ -21,7 +21,8 @@ Energy Research Warehouse (ERW) connector. One entities table from EIA's yearly 
                          state, in the workbook's order); entity_type plant; name the facility (2026) or the city (2025,
                          whose sheets name no facility); geo US-<state>; capacity_mw empty; status active; status_date
                          the 1 January the capacity is as of; operator the entity or respondent as EIA writes it; x_year,
-                         x_fuel (ethanol, biodiesel, renewable_diesel_and_other), x_facility_type as published, x_padd,
+                         x_fuel (ethanol, biodiesel, renewable_diesel_and_other), x_facility_type as published (2026; for 2025, whose
+                         workbooks have no such column, the workbook's fuel in the combined report's words), x_padd,
                          x_city (2025), x_capacity_mmgal_per_year and x_capacity_kbbl_per_day as published ("(s)", less
                          than 0.5, kept), x_coprocessing yes where EIA's footnote 1 marks a refinery co-processing renewable
                          feedstock and petroleum
@@ -183,13 +184,15 @@ def main(argv=None):
     results = []
     try:
         out, counts = [], {}
-        content, rec = ip.fetch_raw(CONNECTOR, COMBINED, log, offline=args.offline, headers=UA, timeout=120, pause=1)
+        content, rec = ip.fetch_raw(CONNECTOR, COMBINED, log, offline=args.offline, fresh=not args.offline, headers=UA, timeout=120,
+                                    pause=1)  # each new issue keeps the address
         base = dict(source=SOURCE, source_url=COMBINED, retrieved_at=rec.get("retrieved_at") or "", vintage=ip.vintage_of(rec))
         rows = read_combined(content)
         out += build(rows, args.combined_year, base)
         counts[args.combined_year] = len(rows)
         for fuel, url in SINGLES.items():
-            content, rec = ip.fetch_raw(CONNECTOR, url, log, offline=args.offline, headers=UA, timeout=120, pause=1)
+            content, rec = ip.fetch_raw(CONNECTOR, url, log, offline=args.offline, fresh=not args.offline, headers=UA, timeout=120,
+                                        pause=1)
             base = dict(source=SOURCE, source_url=url, retrieved_at=rec.get("retrieved_at") or "", vintage=ip.vintage_of(rec))
             ftype = {"ethanol": "Ethanol", "biodiesel": "Biodiesel", "renewable_diesel_and_other": "Renewable Diesel Fuel and Other Biofuels"}[fuel]
             rows = read_single(content, fuel, ftype)

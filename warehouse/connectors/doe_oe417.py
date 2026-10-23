@@ -14,7 +14,7 @@ the old host, www.oe.netl.doe.gov, no longer answers):
 
     doe_oe417_events   event_id doe417:<year>-<row in the year's summary>; event_date the day the event began; event_type
                        the first event type the summary lists, lower case with underscores (x_event_types all it
-                       lists, x_event_type_as_published its words); parties empty; entity_ids empty; mw the demand lost in MW where the summary gives a
+                       lists, x_event_type_as_published its words; not_given where a row lists none but the form's comment label); parties empty; entity_ids empty; mw the demand lost in MW where the summary gives a
                        number; status restored where a restoration day is given, else empty; x_ the begin and
                        restoration day and time as printed (local, the summaries name no zone), the area affected, the
                        NERC region, the alert criteria and the customers affected as printed

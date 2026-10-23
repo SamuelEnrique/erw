@@ -21,7 +21,7 @@ allowed) or a year whose table is not the year asked stops the run. Nothing is f
     python warehouse/connectors/afdc_registrations.py [--offline] [--out-dir DIR] [--years 2016-2025]
 
 Ceiling: one request a year (ten), saved in warehouse/raw/afdc_registrations/ and reused offline. afdc.energy.gov's
-robots file holds no rule. License: public (DOE, read 54; AFDC's own disclaimer read in session 2036).
+robots file holds no rule. License: public (DOE, read 54: AFDC's pages link DOE's web policies and name no terms of their own).
 """
 
 import argparse
@@ -119,7 +119,8 @@ def main(argv=None):
     try:
         per_year, recs = [], {}
         for year in range(y0, y1 + 1):
-            content, rec = ip.fetch_raw(CONNECTOR, url_of(year), log, offline=args.offline, headers=UA, timeout=60, pause=1)
+            content, rec = ip.fetch_raw(CONNECTOR, url_of(year), log, offline=args.offline, fresh=not args.offline, headers=UA,
+                                        timeout=60, pause=1)  # a year's page can be revised at the same address
             recs[year] = rec
             per_year.append((year, parse(content.decode("utf-8", errors="replace"), year)))
 
