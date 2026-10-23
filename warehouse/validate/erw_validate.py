@@ -83,14 +83,17 @@ UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "mph", "
          # session 2072: metric tons of CO2 equivalent, as EPA's GHGRP reports a facility's total (AR4 global warming
          # potentials; epa_ghgrp_facility_emissions; Decision 61)
          "tCO2e",
+         # session 2092: degrees Celsius, the Oceanic Nino Index and the Nino 3.4 sea surface temperature as NOAA CPC gives them
+         # (noaa_cpc_oni_monthly; Decision 62)
+         "degC",
          # session 2106: an area in acres (43,560 square feet), as BLM counts federal land under oil and gas lease
-         # (blm_oil_gas_statistics_annual; Decision 62)
+         # (blm_oil_gas_statistics_annual; Decision 63)
          "acre",
          # session 2107: solar radiation in megajoules per square meter a day, as NOAA's USCRN gives a month's average daily
-         # total (noaa_uscrn_solar_monthly; Decision 63)
+         # total (noaa_uscrn_solar_monthly; Decision 64)
          "MJ/m2-day",
          # session 2113: a river's discharge in cubic feet a second, as the USGS gives a gauge's daily mean
-         # (usgs_streamflow_daily; Decision 64)
+         # (usgs_streamflow_daily; Decision 65)
          "ft3/s"}
 NAME_RE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+){2,}$")
 NAME_MAX = 40

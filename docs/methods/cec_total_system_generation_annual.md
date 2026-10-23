@@ -51,15 +51,15 @@ Session 2109 set in-state generation against EIA's California net generation sum
 
 ## License
 
-The header: "License: the State of California's conditions of use (information on state websites is in general in the public domain); see license_verdicts.csv. Cite the California Energy Commission." Session 2109's report: the Commission then had no verdict of its own, and the header rests on the State's notice (read 10). Since session 2111 `license_verdicts.csv` gives the Commission its own verdict, "may be public", and "needs written permission" if the ERW sells anything (read 245: its materials are free for public use with credit to the Commission; commercial or profit-making use is prohibited). `docs/licenses.md` gives the ERW verdict public; `coverage.csv`: public; `sources.csv`: may be public. Session 2109's report holds the table in the live set's catalogue hold and the release's storage hold.
+The header: "License: the State of California's conditions of use (information on state websites is in general in the public domain); see license_verdicts.csv. Cite the California Energy Commission." Session 2109's report: the Commission then had no verdict of its own, and the header rests on the State's notice (read 10). Since session 2111 `license_verdicts.csv` gives the Commission its own verdict, "may be public", and "needs written permission" if the ERW sells anything (read 264: its materials are free for public use with credit to the Commission; commercial or profit-making use is prohibited). `docs/licenses.md` gives the ERW verdict public; `coverage.csv`: public; `sources.csv`: may be public. Session 2109's report holds the table in the live set's catalogue hold and the release's storage hold.
 
 Since session 2116 the header reads: "License: may be public, noncommercial with credit (the Commission's Conditions of Use: its materials are free for public use crediting the Commission; commercial or profit-making use is prohibited; see license_verdicts.csv). Cite the California Energy Commission."
 
 ## Found while writing this note
 
-- The docstring and the header name the State of California's conditions of use (read 10) as the table's license. `license_verdicts.csv` now holds the Commission's own verdict (read 245, session 2111), which adds that commercial or profit-making use is prohibited; the header does not say so.
+- The docstring and the header name the State of California's conditions of use (read 10) as the table's license. `license_verdicts.csv` now holds the Commission's own verdict (read 264, session 2111), which adds that commercial or profit-making use is prohibited; the header does not say so.
 - The docstring says the page and the workbook are "saved in warehouse/raw/cec_total_system/ and reused offline". The code calls `ip.fetch_raw` without `fresh`, which reuses a saved copy on every run, offline or not, so a later run reads the workbook of October 2026 again and does not find a newer one until the raw files are moved.
-**Acted on in session 2116:** the connector now asks for its documents again unless `--offline` (`fresh=not args.offline`), so a later run sees a newer workbook; the docstring and the header now name the Commission's own verdict (read 245: noncommercial with credit), and the table was written again offline; the source registry's license word is now `public`.
+**Acted on in session 2116:** the connector now asks for its documents again unless `--offline` (`fresh=not args.offline`), so a later run sees a newer workbook; the docstring and the header now name the Commission's own verdict (read 264: noncommercial with credit), and the table was written again offline; the source registry's license word is now `public`.
 
 ## What it does not hold
 

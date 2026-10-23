@@ -195,7 +195,7 @@ class TheGridsTablesByRule(unittest.TestCase):
         hand = {g["slug"]: g for g in json.load(open(os.path.join(ROOT, "docs", "grids", "grids.json"), encoding="utf-8"))["grids"]}
         self.assertEqual(sorted(ruled["grids"]), sorted(hand))
         self.assertEqual(ruled["errors"], {})                      # an unread table is never a finding
-        self.assertEqual(ruled["rules"], ["name", "entity", "ba", "queue", "iso"])   # the market rule is a fallback in the tools, not asked
+        self.assertEqual(ruled["rules"], ["name", "entity", "ba", "isoentity", "queue", "iso"])   # the market rule is a fallback in the tools, not asked; isoentity: session 1142
         for slug, g in ruled["grids"].items():
             self.assertEqual(g["tables"], sorted(g["by"]), slug)
             self.assertEqual(sorted(set(hand[slug]["tables"]) - set(g["tables"])), g["grids_json_not_found"], slug)

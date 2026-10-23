@@ -11,7 +11,7 @@
   - the Snake at Hells Canyon Dam;
   - the Sacramento at Keswick (below Shasta);
   - the Feather at Oroville.
-- **A new unit, `ft3/s` (Decision 64),** in the standard and the validator together; the write ran with the branch's validator. Chain 079's agent numbers its Decisions from 65.
+- **A new unit, `ft3/s` (Decision 65),** in the standard and the validator together; the write ran with the branch's validator. Chain 079's agent numbers its Decisions from 65.
 - **The USGS's codes kept** in `x_qual`: A approved (24,772), A:R approved and revised (6,074), P provisional (1,240), A:e approved and estimated (1,232), P:e (103). Provisional values are released by the USGS without liability and may be revised; the header says so. No day was written as a code (Ice, Eqp and the like); the parser counts them if they come. Some gauges have days with no line at all, so they have fewer rows: Oroville 3,926, Hells Canyon 3,935, Hoover 4,054, of 4,313 days.
 - **The cross-check** (`runs/c069/s2113/cross.py`), each gauge's yearly mean flow against the yearly net generation of the Reclamation plant above it (`usbr_hydropower_monthly`, full years 2015 to 2024): Hoover Pearson 0.96 (Spearman 0.95), Glen Canyon 0.96 (0.95), Grand Coulee 0.98 (0.95), Shasta 0.94 (0.89). Wetter years are bigger years: Glen Canyon's 2022 (9,727 cfs, 2,540 GWh) and Shasta's 2022 (3,691 cfs, 766 GWh) are each plant's lowest of the ten. The other four plants (The Dalles, Garrison, Hells Canyon, Oroville) are not Reclamation's and were not checked here.
 - **Geo:** Hoover's gauge is on the Arizona and Nevada line and Hells Canyon's on the Idaho and Oregon line; each is given one state (US-AZ and US-OR), and the gauge's name in `node` says both.

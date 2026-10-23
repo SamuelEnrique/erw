@@ -112,7 +112,7 @@ class Registered(unittest.TestCase):
     def test_unit(self):
         self.assertIn("acre", V.UNITS)
         with open(os.path.join(ROOT, "docs", "datastandard.md"), encoding="utf-8") as f:
-            self.assertIn("(Decision 62) `acre`", f.read())
+            self.assertIn("(Decision 63) `acre`", f.read())
 
     def test_sector_and_holds(self):
         self.assertEqual(B.sector_of(M.TABLE), "oil;gas")

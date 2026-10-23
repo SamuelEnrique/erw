@@ -57,7 +57,7 @@ class Registered(unittest.TestCase):
     def test_unit(self):
         self.assertIn("ft3/s", V.UNITS)
         with open(os.path.join(ROOT, "docs", "datastandard.md"), encoding="utf-8") as f:
-            self.assertIn("(Decision 64) `ft3/s`", f.read())
+            self.assertIn("(Decision 65) `ft3/s`", f.read())
 
     def test_sector_and_holds(self):
         self.assertEqual(B.sector_of(U.TABLE), "power")

@@ -66,6 +66,7 @@ Rules:
 6. You have at most 12 tool calls. Call list_tables (with a filter) to find the table, describe_table only when you need entity, variable or column names, then query or compare.
 7. Keep the answer short: the number or numbers with units, the time or period, and the table. Say what the number is (for example "mean of 96 fifteen-minute intervals").
 8. Provenance tier: every tool result gives the table's tier: source (as the publisher published it), derived (computed by the ERW from other tables) or model_extracted (at least one field written by a model reading news, filings or the web, not published by a source). When a number comes from a model_extracted table, say so next to it in the answer, for example "USD 1.2 billion (energy_deals, model-extracted from news)".
+9. The site's economics pages and the tables behind them: the battery page (/cost-of-power/battery) reads battery_stack_monthly; the generator page (/cost-of-power/seller) reads merchant_revenue_monthly, whose battery rows (battery_4h_revenue_per_mw and its kin) are the generator page's rule for a battery; the datacenter page (/cost-of-power) reads cost_of_power_monthly. A question that names one of these pages is answered from that page's table.
 
 Your final message is JSON with: answer (plain text), citations (one per table used: table, source_report, data_version, tier), not_in_warehouse (true or false)."""
 
@@ -162,6 +163,12 @@ def unverified(answer, sources):
 UNIT_AFTER = re.compile(r"^\s*(USD|US dollars|dollars)?\s*(?:/|per\s+)(kWh|kW|MWh|MW)(?![\w-])", re.I)
 MONEY_BEFORE = re.compile(r"(?:\$|USD\s)\s*$")   # "$81.40/kW", "USD 81.40 per kW": the money is written before the figure
 UNIT_NAMES = {"kwh": "kWh", "kw": "kW", "mwh": "MWh", "mw": "MW"}
+# Session 1144: two units with no money in them, measured first on the 119 stored answers with their tool records
+# (sessions 267, 302, 1113, 1114): 19 figures in percent and 17 in MW were judged and no right answer was sent back;
+# MWh is not judged (four right answers wrote "MWh" before "per MW", a unit written apart).
+PHYS_AFTER = re.compile(r"^\s*(percent|pct|%|MW)(?![\w-])", re.I)
+PHYS_NAMES = {"percent": "pct", "pct": "pct", "%": "pct", "mw": "MW"}
+KNOWN_UNITS = {"pct", "MW", "USD/kW", "USD/MW", "USD/MWh", "USD/kWh"}
 
 
 def norm_unit(u):
@@ -170,6 +177,8 @@ def norm_unit(u):
         return None
     t = u.strip().lower().replace(" per ", "/").replace(" ", "").replace("$", "usd")
     m = re.fullmatch(r"usd/(kwh|kw|mwh|mw)", t)
+    if not m and t in PHYS_NAMES:
+        return PHYS_NAMES[t]
     return f"USD/{UNIT_NAMES[m.group(1)]}" if m else f"other:{t}"
 
 
@@ -216,13 +225,20 @@ def unit_mismatches(answer, sources):
         if is_name(text, m.start(2)):
             continue
         u = UNIT_AFTER.match(text[m.end():m.end() + 40])
-        if not u or not (u.group(1) or MONEY_BEFORE.search(text[max(0, m.start() - 5):m.start()])):
-            continue   # a unit with no money in it (MWh per MW, USD per MW-month) is not judged here
+        p = PHYS_AFTER.match(text[m.end():m.end() + 12])
+        if u and (u.group(1) or MONEY_BEFORE.search(text[max(0, m.start() - 5):m.start()])):
+            said = f"USD/{UNIT_NAMES[u.group(2).lower()]}"
+        elif p and not MONEY_BEFORE.search(text[max(0, m.start() - 5):m.start()]):
+            said = PHYS_NAMES[p.group(1).lower()]   # session 1144: percent and MW
+        else:
+            continue   # no unit judged here (MWh, MWh per MW, USD per MW-month)
         whole, frac = m.group(2), m.group(3) or ""
         v, d = float(whole.replace(",", "") + frac), (len(frac) - 1 if frac else 0)
-        said = f"USD/{UNIT_NAMES[u.group(2).lower()]}"
         tol = 0.5 * 10 ** (-d) + 1e-9
         hits = [unit for p, unit in placed if abs(abs(p) - abs(v)) <= tol]
+        # session 1144: a percent or an MW figure is judged only against tool numbers in a unit the check knows
+        if said in ("pct", "MW") and not all(h in KNOWN_UNITS for h in hits):
+            continue
         if hits and all(h not in (None, "mixed") for h in hits) and said not in hits:
             gave = ", ".join(sorted({h.replace("other:", "") for h in hits}))
             s = f"{v:.{d}f} {said} (the tools gave it in {gave})"
@@ -251,6 +267,53 @@ def why_refused(bad=(), units=(), uncited=(), no_cite=False, more=()):
         return ""
     body = parts[0] if len(parts) == 1 else ", ".join(parts[:-1]) + " and " + parts[-1]
     return f"Why: the draft was checked twice and {body}."
+
+
+# Session 1146: the general chat's conversation, read lines and refusal's nearest tables, as the site's
+# (site/lib/chat/history.ts, ask.ts readsOf, tools.ts nearestFor), so the CLI and the evaluation's own loop answer as
+# the site does. The conversation's words are Ask ERCOT's (warehouse/chat/ercot.py HISTORY_HEAD, HISTORY_TURN).
+GENERAL_HISTORY_HEAD = "The conversation so far, oldest first. The new question continues it."
+GENERAL_HISTORY_TURN = "Earlier question {n}: {question}\nYour answer: {answer}\nQueries you ran: {queries}"
+GENERAL_MAX_HISTORY, GENERAL_MAX_ANSWER = 3, 1500
+READ_KEYS = ("entity", "variable", "start", "end", "aggregation", "group_by", "tz")
+
+
+def clean_turns(raw):
+    """As site/lib/chat/history.ts cleanTurns: the last three turns with a question and an answer, their reads as
+    compact queries, their cited tables."""
+    if not isinstance(raw, list):
+        return []
+    out = []
+    for h in raw[-GENERAL_MAX_HISTORY:]:
+        if not isinstance(h, dict):
+            continue
+        q, a = str(h.get("question") or "").strip()[:500], str(h.get("answer") or "").strip()[:GENERAL_MAX_ANSWER]
+        if not q or not a:
+            continue
+        queries = []
+        for x in (h.get("reads") if isinstance(h.get("reads"), list) else [])[:8]:
+            if isinstance(x, dict) and isinstance(x.get("table"), str):
+                j = json.dumps(x, sort_keys=True, separators=(",", ":"))
+                if len(j) <= 1200:
+                    queries.append(f"query {j}")
+        tables = [str((c or {}).get("table") or "") for c in (h.get("citations") or []) if isinstance(c, dict)]
+        out.append({"question": q, "answer": a, "queries": queries, "tables": [t for t in tables if re.fullmatch(r"[a-z][a-z0-9_]*", t)]})
+    return out
+
+
+def reads_of(name, args):
+    """As site/lib/chat/ask.ts readsOf: what one query or compare read, never a figure."""
+    def one(a):
+        if not isinstance(a, dict) or not isinstance(a.get("table"), str):
+            return []
+        r = {"table": a["table"]}
+        r.update({k: a[k] for k in READ_KEYS if isinstance(a.get(k), str) and a[k]})
+        return [r]
+    if name == "query":
+        return one(args)
+    if name == "compare":
+        return one((args or {}).get("a")) + one((args or {}).get("b"))
+    return []
 
 
 def nodash(text):
@@ -292,9 +355,15 @@ class Asker:
         return tools.TOOLS
 
     def opening(self, question, today, context=None, history=None):
-        """The first message. `context` is the view a reader opened the chat from, `history` the conversation so far
-        (only a profile uses either)."""
-        return f"Today is {today} (UTC).\n\nQuestion: {question}"
+        """The first message. `context` is the view a reader opened the chat from (a profile's), `history` the
+        conversation so far (session 1146: the general chat's too, as the site's); with none, as it always was."""
+        now = f"Today is {today} (UTC).\n\nQuestion: {question}"
+        past = clean_turns(history)
+        if not past:
+            return now
+        parts = [GENERAL_HISTORY_HEAD] + [GENERAL_HISTORY_TURN.format(n=i + 1, question=t["question"], answer=t["answer"], queries="; ".join(t["queries"]) or "none")
+                                          for i, t in enumerate(past)]
+        return "\n\n".join(parts) + "\n\n" + now
 
     def tag(self, name, args, out, n):
         """Called with every tool result before the model sees it; a profile may mark it (a result id)."""
@@ -305,12 +374,13 @@ class Asker:
         return []
 
     def extra_sources(self, context, history=None):
-        """Texts whose numbers count as given, beside the question and the tool results."""
-        return []
+        """Texts whose numbers count as given, beside the question and the tool results (session 1146: an earlier
+        answer's, checked when it was written)."""
+        return [x for t in clean_turns(history) for x in [t["answer"], *t["queries"]]]
 
     def known_tables(self, history):
         """Tables an earlier answer of the conversation read and cited: citing one again is not citing a table unread."""
-        return set()
+        return {x for t in clean_turns(history) for x in t["tables"]}
 
     def finish(self, record, results):
         """Called once with the final record; a profile adds to it (the series behind a chart)."""
@@ -462,6 +532,20 @@ class Asker:
                 record[k] = nodash(record[k])
         if self.record_tools:
             record["trace"] = results
+        # session 1146: what each query read, and on a refusal the tables it looked at with what each holds, as the site
+        reads = []
+        for r in results:
+            if not r.get("is_error") and not (isinstance(r.get("out"), dict) and r["out"].get("held")):
+                for x in reads_of(r["tool"], r["input"]):
+                    if x not in reads:
+                        reads.append(x)
+        if reads:
+            record["reads"] = reads
+        if record.get("status") in ("not_in_warehouse", "refused_unverified") and type(self) is Asker:
+            looked = list(dict.fromkeys([x["table"] for x in reads] + [r["input"].get("table") for r in results if r["tool"] == "describe_table" and isinstance(r.get("input"), dict)]))
+            near = tools.nearest_for([t for t in looked if t])
+            if near:
+                record["nearest"] = near
         record.update({"tool_calls": len(calls), "calls": calls, "usage": usage,
                        "cost_usd": cost_usd(self.model, usage), "seconds": round(time.time() - t0, 1), "seconds_first": seconds_first})
         self.finish(record, results)

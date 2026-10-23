@@ -61,7 +61,7 @@ class Registered(unittest.TestCase):
     def test_unit(self):
         self.assertIn("MJ/m2-day", V.UNITS)
         with open(os.path.join(ROOT, "docs", "datastandard.md"), encoding="utf-8") as f:
-            self.assertIn("(Decision 63) `MJ/m2-day`", f.read())
+            self.assertIn("(Decision 64) `MJ/m2-day`", f.read())
 
     def test_sector_and_holds(self):
         self.assertEqual(B.sector_of(N.TABLE), "power")

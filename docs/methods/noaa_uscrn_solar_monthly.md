@@ -23,7 +23,7 @@ Each run writes the whole table again (`ip.write_snapshot`). NOAA's months are l
 
 ## Shape and variables
 
-Series, 2,025 rows, eight stations, one variable. `entity` `uscrn:<WBAN number>`; `variable` `solar_radiation`; `unit` `MJ/m2-day` (megajoules a square meter a day, Decision 63; 1 MJ/m2-day is 0.2778 kWh/m2-day), NOAA's unit kept, not converted; `freq` P1M; `geo` US-CA or US-TX; `ba` the grid the station sits in (`ciso` or `erco`); `node` the station's name; `x_station` the file's name; `x_lat`, `x_lon` (WGS-84, one place a station); `x_logger` the datalogger program's version.
+Series, 2,025 rows, eight stations, one variable. `entity` `uscrn:<WBAN number>`; `variable` `solar_radiation`; `unit` `MJ/m2-day` (megajoules a square meter a day, Decision 64; 1 MJ/m2-day is 0.2778 kWh/m2-day), NOAA's unit kept, not converted; `freq` P1M; `geo` US-CA or US-TX; `ba` the grid the station sits in (`ciso` or `erco`); `node` the station's name; `x_station` the file's name; `x_lat`, `x_lon` (WGS-84, one place a station); `x_logger` the datalogger program's version.
 
 | Station (`entity`, `ba`) | Months | First | Last | Mean | Lowest | Highest |
 |---|---|---|---|---|---|---|

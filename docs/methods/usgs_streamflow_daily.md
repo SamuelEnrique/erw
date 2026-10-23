@@ -22,7 +22,7 @@ Each run writes the whole table again (`ip.write_snapshot`). Provisional values 
 
 ## Shape and variables
 
-Series, 33,421 rows, eight gauges, one variable. `entity` `usgs_gauge:<site number>`; `variable` `discharge`; `unit` `ft3/s` (cubic feet a second, Decision 64; a day's volume is the rate times 86,400 seconds); `freq` P1D; `geo` US-<state> (Hoover's gauge, on the Arizona and Nevada line, is US-AZ; Hells Canyon's, on the Idaho and Oregon line, US-OR; the gauge's name in `node` says both); `market` empty; `node` the gauge's name as the USGS gives it; `x_site`; `x_plant` the plant above the gauge; `x_qual` the USGS's codes.
+Series, 33,421 rows, eight gauges, one variable. `entity` `usgs_gauge:<site number>`; `variable` `discharge`; `unit` `ft3/s` (cubic feet a second, Decision 65; a day's volume is the rate times 86,400 seconds); `freq` P1D; `geo` US-<state> (Hoover's gauge, on the Arizona and Nevada line, is US-AZ; Hells Canyon's, on the Idaho and Oregon line, US-OR; the gauge's name in `node` says both); `market` empty; `node` the gauge's name as the USGS gives it; `x_site`; `x_plant` the plant above the gauge; `x_qual` the USGS's codes.
 
 | Gauge (`x_plant`) | Days | First | Last | Mean ft3/s | Lowest | Highest |
 |---|---|---|---|---|---|---|

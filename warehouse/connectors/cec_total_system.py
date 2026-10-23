@@ -27,7 +27,7 @@ filled.
 
 Ceiling: two requests (the page and the workbook, saved in warehouse/raw/cec_total_system/ and reused offline; asked again unless --offline, since the page keeps its address). The
 Commission's robots file disallows /core/, /profiles/, /search/, /admin/ and the user pages, not /media/ or
-/sites/default/files/. License: may be public, noncommercial with credit (the Commission's Conditions of Use, read 245: its
+/sites/default/files/. License: may be public, noncommercial with credit (the Commission's Conditions of Use, read 264: its
 materials are free for public use crediting the Commission; commercial or profit-making use is prohibited).
 """
 
