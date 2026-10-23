@@ -94,7 +94,10 @@ UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "mph", "
          "MJ/m2-day",
          # session 2113: a river's discharge in cubic feet a second, as the USGS gives a gauge's daily mean
          # (usgs_streamflow_daily; Decision 65)
-         "ft3/s"}
+         "ft3/s",
+         # session 2150: electricity used a person in a year, in kWh, as the World Bank republishes the IEA's figure
+         # (wb_iea_electricity_annual; Decision 68)
+         "kWh/person"}
 NAME_RE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+){2,}$")
 NAME_MAX = 40
 TS_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")

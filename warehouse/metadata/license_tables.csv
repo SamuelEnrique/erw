@@ -422,5 +422,7 @@ uspvdb_solar_facilities,U.S. Geological Survey (USGS),the source registry
 uswtdb_wind_turbines,U.S. Geological Survey (USGS),the source registry
 utility_service_territories,EIA,the source registry
 wb_commodity_prices_monthly,World Bank,the source registry
+wb_electricity_access_annual,World Bank,the source registry
+wb_iea_electricity_annual,World Bank,the source registry
 weather_forecast_hourly,NWS,the source registry
 weather_obs_hourly,NWS,the source registry
