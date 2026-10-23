@@ -177,10 +177,15 @@ export function unverified(answer: string, sources: string[]): string[] {
 const UNIT_AFTER = /^\s*(USD|US dollars|dollars)?\s*(?:\/|per\s+)(kWh|kW|MWh|MW)(?![\w-])/i;
 const MONEY_BEFORE = /(?:\$|USD\s)\s*$/;  // "$81.40/kW", "USD 81.40 per kW": the money is written before the figure
 const UNIT_NAMES: Record<string, string> = { kwh: "kWh", kw: "kW", mwh: "MWh", mw: "MW" };
+// Session 1144, as ask.py PHYS_AFTER: percent and MW judged too (measured on the stored answers first); MWh is not
+const PHYS_AFTER = /^\s*(percent|pct|%|MW)(?![\w-])/i;
+const PHYS_NAMES: Record<string, string> = { percent: "pct", pct: "pct", "%": "pct", mw: "MW" };
+const KNOWN_UNITS = new Set(["pct", "MW", "USD/kW", "USD/MW", "USD/MWh", "USD/kWh"]);
 export function normUnit(u: unknown): string | null {
   if (typeof u !== "string") return null;
   const t = u.trim().toLowerCase().replace(/ per /g, "/").replace(/ /g, "").replace(/\$/g, "usd");
   const m = /^usd\/(kwh|kw|mwh|mw)$/.exec(t);
+  if (!m && t in PHYS_NAMES) return PHYS_NAMES[t];
   return m ? `USD/${UNIT_NAMES[m[1]]}` : `other:${t}`;
 }
 const keyUnit = (key: string | null): string | null => {
@@ -213,13 +218,19 @@ export function unitMismatches(answer: string, sources: string[]): string[] {
   for (const m of t.matchAll(NUM)) {
     const at = (m.index ?? 0) + m[1].length;
     if (isName(t, at)) continue;
-    const u = UNIT_AFTER.exec(t.slice((m.index ?? 0) + m[0].length, (m.index ?? 0) + m[0].length + 40));
-    if (!u || !(u[1] || MONEY_BEFORE.test(t.slice(Math.max(0, (m.index ?? 0) - 5), m.index ?? 0)))) continue;  // MWh per MW, USD per MW-month: not judged here
+    const after = t.slice((m.index ?? 0) + m[0].length, (m.index ?? 0) + m[0].length + 40);
+    const u = UNIT_AFTER.exec(after), p = PHYS_AFTER.exec(after.slice(0, 12));
+    const money = MONEY_BEFORE.test(t.slice(Math.max(0, (m.index ?? 0) - 5), m.index ?? 0));
+    let said: string;
+    if (u && (u[1] || money)) said = `USD/${UNIT_NAMES[u[2].toLowerCase()]}`;
+    else if (p && !money) said = PHYS_NAMES[p[1].toLowerCase()];   // session 1144: percent and MW
+    else continue;   // no unit judged here (MWh, MWh per MW, USD per MW-month)
     const frac = m[3] ?? "";
     const v = parseFloat(m[2].replace(/,/g, "") + frac), d = frac ? frac.length - 1 : 0;
-    const said = `USD/${UNIT_NAMES[u[2].toLowerCase()]}`;
     const tol = 0.5 * 10 ** -d + 1e-9;
     const hits = placed.filter(([p]) => Math.abs(Math.abs(p) - Math.abs(v)) <= tol).map(([, unit]) => unit);
+    // session 1144: a percent or an MW figure is judged only against tool numbers in a unit the check knows
+    if ((said === "pct" || said === "MW") && !hits.every((h) => h !== null && KNOWN_UNITS.has(h))) continue;
     if (hits.length && hits.every((h) => h !== null && h !== "mixed") && !hits.includes(said)) {
       const gave = Array.from(new Set(hits.map((h) => h!.replace("other:", "")))).sort().join(", ");
       const s = `${v.toFixed(d)} ${said} (the tools gave it in ${gave})`;

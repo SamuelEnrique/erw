@@ -163,6 +163,12 @@ def unverified(answer, sources):
 UNIT_AFTER = re.compile(r"^\s*(USD|US dollars|dollars)?\s*(?:/|per\s+)(kWh|kW|MWh|MW)(?![\w-])", re.I)
 MONEY_BEFORE = re.compile(r"(?:\$|USD\s)\s*$")   # "$81.40/kW", "USD 81.40 per kW": the money is written before the figure
 UNIT_NAMES = {"kwh": "kWh", "kw": "kW", "mwh": "MWh", "mw": "MW"}
+# Session 1144: two units with no money in them, measured first on the 119 stored answers with their tool records
+# (sessions 267, 302, 1113, 1114): 19 figures in percent and 17 in MW were judged and no right answer was sent back;
+# MWh is not judged (four right answers wrote "MWh" before "per MW", a unit written apart).
+PHYS_AFTER = re.compile(r"^\s*(percent|pct|%|MW)(?![\w-])", re.I)
+PHYS_NAMES = {"percent": "pct", "pct": "pct", "%": "pct", "mw": "MW"}
+KNOWN_UNITS = {"pct", "MW", "USD/kW", "USD/MW", "USD/MWh", "USD/kWh"}
 
 
 def norm_unit(u):
@@ -171,6 +177,8 @@ def norm_unit(u):
         return None
     t = u.strip().lower().replace(" per ", "/").replace(" ", "").replace("$", "usd")
     m = re.fullmatch(r"usd/(kwh|kw|mwh|mw)", t)
+    if not m and t in PHYS_NAMES:
+        return PHYS_NAMES[t]
     return f"USD/{UNIT_NAMES[m.group(1)]}" if m else f"other:{t}"
 
 
@@ -217,13 +225,20 @@ def unit_mismatches(answer, sources):
         if is_name(text, m.start(2)):
             continue
         u = UNIT_AFTER.match(text[m.end():m.end() + 40])
-        if not u or not (u.group(1) or MONEY_BEFORE.search(text[max(0, m.start() - 5):m.start()])):
-            continue   # a unit with no money in it (MWh per MW, USD per MW-month) is not judged here
+        p = PHYS_AFTER.match(text[m.end():m.end() + 12])
+        if u and (u.group(1) or MONEY_BEFORE.search(text[max(0, m.start() - 5):m.start()])):
+            said = f"USD/{UNIT_NAMES[u.group(2).lower()]}"
+        elif p and not MONEY_BEFORE.search(text[max(0, m.start() - 5):m.start()]):
+            said = PHYS_NAMES[p.group(1).lower()]   # session 1144: percent and MW
+        else:
+            continue   # no unit judged here (MWh, MWh per MW, USD per MW-month)
         whole, frac = m.group(2), m.group(3) or ""
         v, d = float(whole.replace(",", "") + frac), (len(frac) - 1 if frac else 0)
-        said = f"USD/{UNIT_NAMES[u.group(2).lower()]}"
         tol = 0.5 * 10 ** (-d) + 1e-9
         hits = [unit for p, unit in placed if abs(abs(p) - abs(v)) <= tol]
+        # session 1144: a percent or an MW figure is judged only against tool numbers in a unit the check knows
+        if said in ("pct", "MW") and not all(h in KNOWN_UNITS for h in hits):
+            continue
         if hits and all(h not in (None, "mixed") for h in hits) and said not in hits:
             gave = ", ".join(sorted({h.replace("other:", "") for h in hits}))
             s = f"{v:.{d}f} {said} (the tools gave it in {gave})"
