@@ -31,3 +31,9 @@ Energy Research Warehouse (ERW), session 2207, portable-laptop, 23 October 2026,
 - check-values passes a revised figure only when the page's note holds the live set's value; a note with another value, or none, still fails.
 - The gate was tried six times over seven minutes, within the 20-minute wait; the probe's 3 s line was not lowered.
 - The pre-existing lint error in `site/lib/digest.ts` (`summary` prefer-const, line 98) was left as it was.
+
+## The gate, second round (22:21 to 22:27 UTC, after the usage limit reset)
+
+- The standalone probe read 6.63, 3.04 and 3.38 s at 22:21 to 22:23 (three tries a minute apart); the data branch `task/2070-2083-data` had merged by then. One more round: at 22:25 the probe read 2.54 s, and the gate stopped at `main_merged` (main had moved); origin/main merged into the branch again (`36cd8c53`, pushed); the next try's probe read 1.67 s, the gate took the lock at 22:25:52, made its clean worktree and started the test suite.
+- At 22:26 Claude Code stopped the gate's process (and session 2208's memory read beside it) because the machine was critically low on memory (0.8 GB of 16 free at 22:26; the other session on this machine was building). The gate's line reads "suite failed" with the killed process's exit; nothing was built, pushed or snapshotted. The lock was released by hand, the worktree `erw-land-36cd8c53` removed, no server left on port 3207. Claude Code's notice says not to start it again unasked, so the gate was not restarted.
+- The remaining commands are those above ("The gate (D)"), on a machine with memory; the branch stands at `36cd8c53`, merged with main.
