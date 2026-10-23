@@ -6872,6 +6872,8 @@ rrc_lease_production_monthly,casinghead_gas_mcf,series variable,Mcf
 rrc_lease_production_monthly,condensate_bbl,series variable,bbl
 rrc_lease_production_monthly,gas_mcf,series variable,Mcf
 rrc_lease_production_monthly,oil_bbl,series variable,bbl
+scripps_co2_mlo_monthly,co2,series variable,ppm
+scripps_co2_mlo_monthly,co2_seasonally_adjusted,series variable,ppm
 shoulder_hours_monthly,avg_battery_mw_h00,series variable,MW
 shoulder_hours_monthly,avg_battery_mw_h01,series variable,MW
 shoulder_hours_monthly,avg_battery_mw_h02,series variable,MW
