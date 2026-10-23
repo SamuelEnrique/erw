@@ -279,7 +279,16 @@ def event_figures(r):
 
 
 def party_words(r):
-    return {w for p in str(r.get("parties") or "").split(";") for w in re.findall(r"[a-z]{4,}", p.lower())} - GENERIC_PARTY
+    """The words of a cluster's parties that may name one event in common with another cluster, lower case, the generic
+    words taken out. Session 2206 (digest audit, one-event matching): a whole word of two or more letters that is
+    capitalized or all capitals ("Eni", "DOE", "SPP", "NextEra"), as the scorer writes a party's name; until then only
+    runs of four or more letters counted, so a short name was never matched. A word of four or more letters still counts
+    whatever its case, as before."""
+    out = set()
+    for p in str(r.get("parties") or "").split(";"):
+        out |= {w.lower() for w in re.findall(r"\b(?:[A-Z][A-Za-z]+|[A-Z]{2,})\b", p)}
+        out |= set(re.findall(r"[a-z]{4,}", p.lower()))
+    return out - GENERIC_PARTY
 
 
 def same_event(a, b):
