@@ -16,7 +16,7 @@ import { SiteLink } from "@/components/SiteLink";
 import { Workbench } from "@/components/board/Workbench";
 import { GroupFold, NumberTile, NumberTileGrid } from "@/components/tool/ToolPage";
 import {
-  FREQ_WORDS, MOVES, PLACEHOLDER, benchOf, benchQuery, closeAge, dateWords, fmt, gridExtremes, heldNote, leadRow, noMove, pct, rangeExtremes, rowsOf, shortDate, signed, sparkOf, topRows,
+  FREQ_WORDS, MOVES, PLACEHOLDER, benchOf, benchQuery, closeAge, dateWords, fmt, gridExtremes, heldNote, inputsWords, leadRow, noMove, pct, rangeExtremes, rowsOf, shortDate, signed, sparkOf, topRows,
   type Bench, type BoardFile, type Group, type Row, type WeekRow,
 } from "@/lib/board";
 
@@ -158,7 +158,7 @@ function PriceRow({ row, group, open, onOpen, file }: { row: Row; group: Group; 
     <tr className={`cursor-pointer border-b border-rule/70 hover:bg-paper ${open ? "bg-paper outline outline-1 -outline-offset-1 outline-accent" : ""}`} data-row={row.id}
       onClick={() => onOpen(row.id)}>
       {name}
-      <td className="py-1 pr-3 text-right font-semibold"><span data-n={`${row.id}|last`}>{fmt(last.v, row.unit)}</span><span className="ml-1 text-xs font-normal text-muted">{row.unit}</span></td>
+      <td className="py-1 pr-3 text-right font-semibold" title={inputsWords(row) ?? undefined} {...(row.inputs ? { "data-inputs": row.id } : {})}><span data-n={`${row.id}|last`}>{fmt(last.v, row.unit)}</span><span className="ml-1 text-xs font-normal text-muted">{row.unit}</span></td>
       <td className="whitespace-nowrap py-1 pr-3 text-right text-xs text-muted" title={`${dateWords(last.t, row.freq)}${row.freq !== "D" ? `, a ${FREQ_WORDS[row.freq]} series` : ""}${age ? `: ${age.words}` : ""}`}
         {...(age?.stale ? { "data-stale": row.id } : {})}>
         {shortDate(last.t, row.freq)}{row.freq !== "D" ? <span className="ml-1 border border-rule px-0.5 text-xs">{FREQ_WORDS[row.freq]}</span> : null}

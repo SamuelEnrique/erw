@@ -17,6 +17,8 @@ export type Row = {
   range?: { lo: number; hi: number; n: number; pos: number | null } | null;
   avg7?: { v: number; n: number }; avg30?: { v: number; n: number }; lo30?: number; hi30?: number;
   spark?: { t0: string; d: number[]; v: number[] };
+  /** session 1118: what a spread's newest value was made of (the builder's spark_inputs, dark_inputs, crack_inputs) */
+  inputs?: { t: string; hub?: number; gas?: number; gas_t?: string; coal?: number; coal_t?: string; heat_rate?: number; gasoline?: number; diesel?: number; crude?: number };
 };
 export type Filter = { key: string; label: string; options: [string, string][]; default: string };
 export type Group = { id: string; title: string; filters: Filter[]; curve?: boolean; extra?: string };
@@ -78,7 +80,7 @@ export function localHour(ms: number, tz: string): string {
 // says more than its license) and PJM's "licensed source needed". Pure: the held grids are given (lib/license.ts).
 const GRID_OF_ID: Record<string, string> = { isone: "ISO-NE", nyiso: "NYISO", miso: "MISO", pjm: "PJM", ercot: "ERCOT", caiso: "CAISO", spp: "SPP" };
 export const gridOfRow = (r: { id: string; tags?: Record<string, string> }): string => r.tags?.grid ?? GRID_OF_ID[r.id.split("-")[0]] ?? "";
-const FIGURES = ["last", "moves", "range", "avg7", "avg30", "lo30", "hi30", "spark", "hourly"] as const;
+const FIGURES = ["last", "moves", "range", "avg7", "avg30", "lo30", "hi30", "spark", "hourly", "inputs"] as const;
 export function heldNote(grid: string): string {
   return `${grid}'s own terms ask for permission to republish its prices, and none is recorded yet (docs/licenses.md, site/data/license_status.json): license needed. This row is held, not shown, until a permission is recorded.`;
 }
@@ -112,6 +114,25 @@ export function closeAge(row: Row, built: string): { days: number; stale: boolea
     : days === 0 ? `the day the board was built (${when})` : `${-days} ${days === -1 ? "day" : "days"} after the board was built on ${when}: a day-ahead price for a coming day`;
   const stale = days > STALE_DAYS[row.freq];
   return { days, stale, words: stale ? `${words}. Stale: a ${FREQ_WORDS[row.freq]} series is marked stale past ${STALE_DAYS[row.freq]} days (docs/methods/price_board.md)` : words };
+}
+
+/** Session 1118: the hover words of a spread's newest value, from its inputs: the hub's day-ahead mean and its day, the
+ *  gas or coal price and its own day or month, the stated heat rate; the crack's three prices. Null for any other row. */
+export function inputsWords(row: Row): string | null {
+  const i = row.inputs;
+  if (!i) return null;
+  const two = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 3 });
+  if (i.gas !== undefined && i.gas_t && i.hub !== undefined) {
+    const gas = `Henry Hub ${two(i.gas)} USD/MMBtu on ${dateWords(i.gas_t)}`;
+    return i.heat_rate !== undefined
+      ? `Made of: the hub's day-ahead mean ${two(i.hub)} USD/MWh on ${dateWords(i.t)}, less ${i.heat_rate} MMBtu/MWh (the stated heat rate) times ${gas}`
+      : `Made of: the hub's day-ahead mean ${two(i.hub)} USD/MWh on ${dateWords(i.t)}, over ${gas}`;
+  }
+  if (i.coal !== undefined && i.coal_t && i.hub !== undefined && i.heat_rate !== undefined)
+    return `Made of: the hub's day-ahead mean ${two(i.hub)} USD/MWh over ${dateWords(i.t, "M")}, less ${i.heat_rate} MMBtu/MWh (the stated heat rate) times US coal delivered to power plants, ${two(i.coal)} USD/MMBtu in ${dateWords(i.coal_t, "M")}`;
+  if (i.gasoline !== undefined && i.diesel !== undefined && i.crude !== undefined)
+    return `Made of, on ${dateWords(i.t)}: gasoline ${two(i.gasoline)} and diesel ${two(i.diesel)} USD/gal, crude ${two(i.crude)} USD/bbl`;
+  return null;
 }
 
 /** The rows of a group that the chosen filters let through, in the file's order. */

@@ -269,6 +269,35 @@ def crack(gasoline, diesel, crude):
     return {d: (2 * gasoline[d] + diesel[d]) * 42 / 3 - crude[d] for d in gasoline if d in diesel and d in crude}
 
 
+# Session 1118: what the newest value of a spread was made of, for its hover: each input's value and its own date, and
+# the stated heat rate. The same rules as the spreads themselves (gas_on, month_means), on the spread's newest date.
+def spark_inputs(da, gas, heat_rate=HEAT_RATE):
+    gas_days = sorted(gas)
+    days = [d for d in sorted(da) if gas_on(d, gas, gas_days) is not None]
+    if not days:
+        return None
+    d = days[-1]
+    g = max(x for x in gas_days if d - dt.timedelta(days=GAS_BACK) <= x <= d)
+    return dict(t=d.isoformat(), hub=round(da[d], 4), gas=round(gas[g], 4), gas_t=g.isoformat(), heat_rate=heat_rate)
+
+
+def dark_inputs(da, coal, heat_rate=COAL_HEAT_RATE):
+    mm = month_means(da)
+    months = [m for m in sorted(mm) if m in coal]
+    if not months:
+        return None
+    m = months[-1]
+    return dict(t=m.isoformat(), hub=round(mm[m], 4), coal=round(coal[m], 4), coal_t=m.isoformat(), heat_rate=heat_rate)
+
+
+def crack_inputs(gasoline, diesel, crude):
+    days = [d for d in sorted(gasoline) if d in diesel and d in crude]
+    if not days:
+        return None
+    d = days[-1]
+    return dict(t=d.isoformat(), gasoline=round(gasoline[d], 4), diesel=round(diesel[d], 4), crude=round(crude[d], 4))
+
+
 def minus(a, b):
     return {d: a[d] - b[d] for d in a if d in b}
 
@@ -656,15 +685,23 @@ def build_spreads(b, daily, fuels, us_coal):
         entity, words = f"{iso}:{MAIN[iso]}", HUB_WORDS[MAIN[iso]]
         d = daily.get((entity, "da"))
         da = col(d, "mean") if d is not None else {}
-        b.add("spark", f"{entity}|spark", f"{grid} {words}", "USD/MWh", "D", spark(da, gas), at="spark spread, indicative", code=MAIN[iso], tags=dict(grid=grid), formula=FORMULAS["spark"], source="the hub's day-ahead row and Henry Hub")
-        b.add("spark", f"{entity}|heat", f"{grid} {words}", "MMBtu/MWh", "D", implied_heat_rate(da, gas), at="implied heat rate", code=MAIN[iso], tags=dict(grid=grid), formula=FORMULAS["heat"], source="the hub's day-ahead row and Henry Hub")
-        b.add("spark", f"{entity}|dark", f"{grid} {words}", "USD/MWh", "M", dark(da, us_coal), at="dark spread, indicative, monthly", code=MAIN[iso], tags=dict(grid=grid), formula=FORMULAS["dark"], source="the hub's day-ahead row and eia_power_plant_fuel_costs")
+        si, di = spark_inputs(da, gas), dark_inputs(da, us_coal)   # session 1118: the newest value's inputs, for its hover
+        b.add("spark", f"{entity}|spark", f"{grid} {words}", "USD/MWh", "D", spark(da, gas), at="spark spread, indicative", code=MAIN[iso], tags=dict(grid=grid), formula=FORMULAS["spark"], source="the hub's day-ahead row and Henry Hub",
+              extra=dict(inputs=si) if si else None)
+        b.add("spark", f"{entity}|heat", f"{grid} {words}", "MMBtu/MWh", "D", implied_heat_rate(da, gas), at="implied heat rate", code=MAIN[iso], tags=dict(grid=grid), formula=FORMULAS["heat"], source="the hub's day-ahead row and Henry Hub",
+              extra=dict(inputs={k: v for k, v in si.items() if k != "heat_rate"}) if si else None)
+        b.add("spark", f"{entity}|dark", f"{grid} {words}", "USD/MWh", "M", dark(da, us_coal), at="dark spread, indicative, monthly", code=MAIN[iso], tags=dict(grid=grid), formula=FORMULAS["dark"], source="the hub's day-ahead row and eia_power_plant_fuel_costs",
+              extra=dict(inputs=di) if di else None)
     for grid, status, note in (("MISO", "paused", MISO_NOTE), ("PJM", "licensed", PJM_NOTE)):
         b.grey("spark", f"{grid}|spark", f"{grid} spark and dark spreads", status, note, tags=dict(grid=grid), unit="USD/MWh")
     g, d = fuels.get("eia:EER_EPMRU_PF4_RGC_DPG", {}), fuels.get("eia:EER_EPD2DXL0_PF4_RGC_DPG", {})
-    b.add("oilspreads", "erw:crack_321_gulf_coast", "3-2-1 crack spread", "USD/bbl", "D", crack(g, d, fuels.get("eia:wti_cushing", {})), at="Gulf Coast products, WTI", formula=FORMULAS["crack_gc"], source="EIA's daily spot prices")
+    ci = crack_inputs(g, d, fuels.get("eia:wti_cushing", {}))
+    b.add("oilspreads", "erw:crack_321_gulf_coast", "3-2-1 crack spread", "USD/bbl", "D", crack(g, d, fuels.get("eia:wti_cushing", {})), at="Gulf Coast products, WTI", formula=FORMULAS["crack_gc"], source="EIA's daily spot prices",
+          extra=dict(inputs=ci) if ci else None)
     g, d = fuels.get("eia:EER_EPMRU_PF4_Y35NY_DPG", {}), fuels.get("eia:EER_EPD2DXL0_PF4_Y35NY_DPG", {})
-    b.add("oilspreads", "erw:crack_321_new_york", "3-2-1 crack spread", "USD/bbl", "D", crack(g, d, fuels.get("eia:brent", {})), at="New York Harbor products, Brent", formula=FORMULAS["crack_ny"], source="EIA's daily spot prices")
+    ci = crack_inputs(g, d, fuels.get("eia:brent", {}))
+    b.add("oilspreads", "erw:crack_321_new_york", "3-2-1 crack spread", "USD/bbl", "D", crack(g, d, fuels.get("eia:brent", {})), at="New York Harbor products, Brent", formula=FORMULAS["crack_ny"], source="EIA's daily spot prices",
+          extra=dict(inputs=ci) if ci else None)
 
 
 def build_week(log):
