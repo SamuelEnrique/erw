@@ -21,7 +21,7 @@ Default-neutral: no page's default figure moves, no ruling is made, nothing is r
 The rules of `queue/done/067-day-25-october-data-neighbours-emitters-disasters-world-oil.md` hold, word for word, among them:
 
 - **ERCOT's robots file disallows `/misapp` and `/misdownload`**, and **EIA's disallows `/archive/`**: neither is asked.
-- **Hosts that refused the ERW's reader, or whose robots file disallows its paths, are not asked again without a ruling:** api.census.gov, www.phmsa.dot.gov, FERC's policy page, EPA's bulk file API without a key, apps.cer-rec.gc.ca, files.ember-energy.org, www.bls.gov, data.usbr.gov's `/rise/api` and time series queries, www.sec.gov and data.sec.gov, comptroller.texas.gov below its root, and any host chains 058 to 067 add to the list.
+- **Hosts that refused the ERW's reader, or whose robots file disallows its paths, are not asked again without a ruling:** api.census.gov, www.phmsa.dot.gov, FERC's policy page, EPA's bulk file API without a key, apps.cer-rec.gc.ca, files.ember-energy.org, www.bls.gov, data.usbr.gov's `/rise/api` and time series queries, www.sec.gov and data.sec.gov, comptroller.texas.gov below its root, www.energyinst.org (session 2075: HTTP 403), and any host chains 058 and 066 add to the list. **JODI (jodidata.org) is not pulled:** its host the IEF's terms forbid robots without written permission (session 2075's verdict, a question for the owner).
 - **Keys not held:** `EPA_CAMD_API_KEY`, `NREL_API_KEY` or `DATA_GOV_API_KEY`, `OPENEI_API_KEY`; a session that needs one stops and says so, without signing up.
 - **Every session runs `scripts/precheck.py` first, from the main checkout** (from a worktree it finds no ledger file and may fail).
 - **A redirect to a new host is a new host:** its robots file is asked before the next request to it.
@@ -34,14 +34,16 @@ The rules of `queue/done/067-day-25-october-data-neighbours-emitters-disasters-w
 - **A push to main is never piped, and is followed by `git status -sb`** showing nothing ahead.
 - **A new read of a publisher already in `license_reads.csv` gets a label of its own**; a session checks `license_verdicts.csv` (and the reads, for a page already read) before reading a publisher's terms.
 - **A table that a page reads is never rewritten to add rows from another file.**
-- **A request cap on the Redivis uploader stops between tables, never inside one**, and leaves room for the whole run.
+- **A request cap on the Redivis uploader stops between tables, never inside one**, and leaves room for the whole run; a reconcile now needs 7 requests (cap it at 10 or more, session 2080).
+- **A currency unit (`CAD`, `MXN`) is a standing question for the owner:** a session takes what needs none (load, demand, capacity) and says so, as sessions 2070 and 2071 did.
+- **Merging main into a chain's branch:** a generated line (the release README's list of held tables) is merged as the union of both sides with its true count, never by taking one side (session 2080 found main's count stale).
 - **Session 2084 begins by writing `queue/next/<next free number>-<slug>.md`** for this machine (at least twelve sessions, machine: data, numbered from 2098, a number found taken skipped upward and said so), commits it alone and pushes it to main before any other work; session 2097 updates it.
 
-Read first: chain 067's note (`docs/state/note_2026-11-09_data.md`, written by session 2083), sessions 2070 to 2083's reports, chain 066's note (`docs/state/note_2026-11-08_data.md`), `docs/reviews/siting-gaps.md`.
+(Updated by session 2083 at chain 067's end: the hosts refused or held, the reconcile's cap, the currency units, the merge of generated lines.) Read first: chain 067's note (`docs/state/note_2026-11-09_data.md`, written by session 2083), sessions 2070 to 2083's reports, chain 066's note (`docs/state/note_2026-11-08_data.md`), `docs/reviews/siting-gaps.md`.
 
 ## Session 2084: Mexico's grid beside ERCOT (CENACE's prices and demand)
 
-Long end 1:30. Pulls: at most 15 requests. The Centro Nacional de Control de Energia's public market data (www.cenace.gob.mx, robots and its terms of use first; its pages are in Spanish): the day-ahead local marginal prices of the Baja California and national systems' zones or nodes nearest the U.S. border, or the system demand by region, a day or an hour, for the latest full year and this year, in as few files as its reports allow; a series table (MXN, a new unit, added to the standard and the validator together, or the session says why not); if the terms forbid reuse or the files are reached only through a form, the session stops and says so. Cross-check: the border days of ERCOT's and CAISO's highest prices against Mexico's.
+Long end 1:30. Pulls: at most 15 requests. (Updated by session 2083: the prices need a currency unit the owner has not ruled on; take the demand, and the prices only if a ruling has come.) The Centro Nacional de Control de Energia's public market data (www.cenace.gob.mx, robots and its terms of use first; its pages are in Spanish): the day-ahead local marginal prices of the Baja California and national systems' zones or nodes nearest the U.S. border, or the system demand by region, a day or an hour, for the latest full year and this year, in as few files as its reports allow; a series table (MXN, a new unit, added to the standard and the validator together, or the session says why not); if the terms forbid reuse or the files are reached only through a form, the session stops and says so. Cross-check: the border days of ERCOT's and CAISO's highest prices against Mexico's.
 
 ## Session 2085: the world's renewable capacity (IRENA's statistics)
 

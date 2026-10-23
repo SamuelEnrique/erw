@@ -1,0 +1,43 @@
+# Chain 086 on the personal laptop (23 October 2026, 20:03 to about 20:55 UTC): the note for Samuel
+
+Energy Research Warehouse (ERW), session 2205, written on portable-laptop on 23 October 2026. Chain 086 (`queue/done/086-day-23-october-portable-explorers.md`, sessions 2200 to 2205) was written by session 2200 on your instruction of 23 October ("the three explorers ... every figure a check-values key with its source in a hover tip; every chart responds to hover with values; 390 px layout; AccessLint and check-links; the brand pass ... a method note per explorer ... land each through land_check.py"), committed alone (`3d8de0cc`), pushed, taken (`c2771c27`) and run with a commit and a push after every step. Model Fable 5.1. Model spend USD 0. No warehouse data written; nothing sent or posted; web requests to the ERW's own site (production's internal view, for session 2203's before shots and checks) and GitHub only; the site is in review and nothing of this chain is on production.
+
+## First: what to know
+
+1. **The work is done on one stacked branch, `wip/2204-explorers`** (`c21c8d0d`, merged with main at 20:43 UTC and pushed): sessions 2200 to 2204 each cut a branch from the one before (`wip/2200-explorers` to `wip/2204-explorers`), so the last holds everything. 74 tests of the chain's five test files and sessions 403, 404, 405 and 409's pass together; `eslint` is clean on every changed file; `tsc` shows only a fresh worktree's missing generated files; `check-methods.mjs` names 553 of 553 figures.
+2. **Nothing was built and nothing landed.** Two other Claude Code sessions ran on this laptop the whole time (their duty marks: "session 2301" to "2304", "2400", "2403"); the free memory stayed between 0.85 and 3.5 GB of 16, under the chain's line of 4,000,000 KB, and the build lock was held by another session (`s2403`) when session 2205 reached the gate. So no `npm run build`, no gate, no after shots. The gate and every after check are queued as `queue/next/087-day-24-october-portable-explorers-gate.md` (sessions 2206 and 2207, this machine), to run when the laptop has memory; it was not taken by this chain (below). The push to `task/` would in any case stop at `check_values` on rulings item 7 (chain 084's note).
+3. **Every figure of the four pages now carries its source in its hover** (`/explore/ercot-peak-premium`, `/explore/demand-growth`, `/explore/interconnection`, and the ERCOT tab of `/prices`): the table, the entity, the variable, the period, the source report the method note names and the note's own name, read from the figure's existing check key by `site/lib/explore/source.ts` and drawn as the figure's title by `site/components/Num.tsx` (`source`, absent on every other page). Each headline number also has the brand's keyboard-reachable tip with the same words.
+4. **Every chart answers the pointer and the keyboard with its values.** The thesis chart and the line charts already did (`svgchart.tsx`, `TimeChart.tsx`); the brand's bar chart (`GroupedBars.tsx`, server-drawn) now has a client wrapper, `BarsHover.tsx`, that draws the brand's card, and the tool pages' stacked chart (`SeriesChart.tsx`) draws its own. Both reach the other pages that draw those charts (`/cost-of-power/seller`, `/datacenters?view=grids`, `/cost-of-power/battery`'s income chart and the tool pages of sessions 296 onward) in the hover only; nothing drawn and no figure changed. `site/scripts/check-explorers.mjs` (new) proves the tips, the cards and the 390 px width in a real browser; its test passes on a fixture page (14 of 14, the browser part included).
+5. **390 px, links and accessibility.** On production (main, before the chain): 0 findings at 390 on the four pages, 0 link findings (206 links, 55 addresses). AccessLint is not on this machine; the mechanical pass was by reading (labels, captions, header cells, SVG roles, keyboard reach, focus), and the one fix is the shared tip mark's 24 px target. The after state waits for the build (chain 087).
+6. **The brand pass by reading** found one breach: the ERCOT tab's headline tiles at 18 px, now the headline number's 24 px serif. `site/app/tokens.css` already carries the explorers' frame to `docs/brand.md`. The eight before shots are `docs/brand/review-2203/`; the after shots wait for the build (`review-2204/` is not created until they exist).
+7. **The method notes** `ercot_peak_premium.md`, `demand_growth.md` and `energy_projects.md` (the interconnection explorer's, under "Queue statistics") each end their explorer part with a dated decisions block in the shape of `packages.md`'s.
+8. **The queue step was not run as a take.** `queue/next/087-...` is this machine's and `chain_queue.py next` would take it at once and run it here, where the memory is still under the line; your instruction read "stop when the chain is done", so session 2205 ran the dry run, left the file waiting, and stopped. `python scripts/chain_queue.py next --file 087-day-24-october-portable-explorers-gate.md` from the main checkout starts it, on a laptop with the other sessions closed.
+
+## What each session did
+
+| Session | Branch | What it did |
+|---|---|---|
+| 2200 | `wip/2200-explorers` (`f446539c`); main (the chain file, the report) | the chain file; `Num`'s `source` and `source.ts`; the two ERCOT pages' sources and tips; `check-explorers.mjs` and its test; `test_session2200.py` |
+| 2201 | `wip/2201-explorers` (`e94f0ab7`) | the demand growth explorer's sources and tips; `BarsHover.tsx` around `GroupedBars`; the check's fixture; `test_session2201.py` |
+| 2202 | `wip/2202-explorers` (`2c4fa213`) | the interconnection explorer's sources and tips (the header's count named); `SeriesChart`'s card; sessions 403 to 405's tests read the new markup; `test_session2202.py` |
+| 2203 | `wip/2203-explorers` (`fd74509b`) | the before shots and the 390 and links listings from production under `docs/brand/review-2203/`; the accessibility pass by reading; the tip mark's target; `test_session2203.py` |
+| 2204 | `wip/2204-explorers` (`df900e6f`, then `c21c8d0d` with main) | the brand pass by reading (one change); the three decisions blocks; `check-methods` 553 of 553; `test_session2204.py` |
+| 2205 | main (documents) | main merged into the stacked branch; this note; chain 087 written; the dry run |
+
+## Decisions made without you
+
+- 2200: the chain file's six sessions and its three changes to chain 080's rules (the other sessions on the machine, the memory line at 4,000,000 KB, the gate run for its steps before `check_values`); the source words' one-line form; a title on every figure and the brand's tip on the headline numbers only; `HeadlineNumber`'s `tip` slot; the worktrees' `site/node_modules` as a junction to the main checkout's (no install).
+- 2201: the bar chart's card as a wrapper around the unchanged SVG, the card placed by the group's share of the width, the keyboard as one focusable group with the arrows; the three pages that draw the chart named for the shots (the chain file had named the battery page, which does not draw it).
+- 2202: the stacked card's category from the pointer's share of the plot; the total only where more than one series stacks; the three earlier tests' assertions updated to the new markup.
+- 2203: the before state read from production rather than a build of main; the tip's target as a pseudo-element; the checks' JSON under `runs/s2203/` on this machine.
+- 2204: the pass by reading against the token file's rules; the decisions blocks placed at the end of each explorer's part; the tiles' size as the one brand change.
+- 2205: no gate (the memory line and the lock held by another session), the exact commands in chain 087; chain 087 written and left waiting, not taken (item 8); the note's name is the next free one.
+
+## For Samuel's ruling
+
+- Item 7 of `docs/reviews/deals-rulings-2026-10-23.md`, which blocks every landing's `check_values` (unchanged from chain 084).
+- Whether to start chain 087 on this laptop with the other sessions closed, or on the desktop (its `machine:` line would need changing to `code` for another code machine to take it; the shots and checks read the main checkout's `.env.local`).
+
+## To finish
+
+Chain 087's two sessions, word for word (`queue/next/087-day-24-october-portable-explorers-gate.md`), on a machine with 4,000,000 KB free and the build lock free: the merge of main into `wip/2204-explorers`, the probe, `land_check.py --ref wip/2204-explorers --lock-as s2206 --port 3206 --keep-worktree` with the timeouts, `check-explorers.mjs`, `check-390.mjs --like`, `check-links.mjs` and the shots on the build, and the push commands only if the gate passes outright and no `task/` branch is in flight.
