@@ -2,7 +2,8 @@
 """EIA's Wholesale Electricity and Natural Gas Market Data: the Intercontinental Exchange's (ICE) day-ahead on-peak
 electricity indices at the hubs EIA republishes with ICE's permission, a delivery day (session 2014, chain 057: the
 hubs outside the ISOs' own price tables, Mid-Columbia and Palo Verde, beside those the ISO tables also price; EIA's page
-names eight hubs, and its 2026 file holds seven: ERCOT North has no row in it).
+lists eight hubs in its table (its text says "seven major electricity hubs"), and its 2026 file holds seven: ERCOT North
+has no row in it).
 
 Energy Research Warehouse (ERW) connector. One series table from EIA's current-year workbook:
 

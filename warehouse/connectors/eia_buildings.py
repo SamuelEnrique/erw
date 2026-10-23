@@ -10,8 +10,10 @@ Energy Research Warehouse (ERW) connector. Two series tables, each a survey's cr
     eia_recs_households              RECS 2020, Tables CE4.1 (site consumption by fuel and end use) and CE4.11
                                      (expenditures by fuel and end use)
 
-    entity cbecs:<heading>_<category> or recs:<heading>_<category> (each slugged, as the table prints them; cbecs:all
-    and recs:all for all buildings and all homes); variables named for the table's column (below); ts_utc 1 January of
+    entity cbecs:<heading>_<category> or recs:<heading>_<category> (each slugged, as the table prints them, except a
+    footnote letter two of the survey's tables print differently, which is set aside so the category joins across them:
+    "Climate zonec" and "Climate Zonea" are cbecs:climate_zone_..., session 2023; cbecs:all and recs:all for all
+    buildings and all homes); variables named for the table's column (below); ts_utc 1 January of
     the survey year; freq P1Y; geo US (every figure is national or a part of the nation); node the category as printed;
     x_heading the heading it sits under (Principal building activity, Census region and division, Housing unit type,
     ...); x_level its indent (0 a category, 1 a part of the category above it, 2 a part of that), so a heading's level-0
@@ -20,9 +22,10 @@ Energy Research Warehouse (ERW) connector. Two series tables, each a survey's cr
 The tables' units are converted to the ERW's: trillion Btu is TBtu; million or billion dollars, and thousand or million
 buildings and housing units, are multiplied out to USD and count. A cell EIA writes as a code has no row, and the codes
 are counted in each table's header: "Q" withheld (relative standard error of 50 percent or more, or fewer than 20
-cases), "N" no cases in the sample, "*" or "(*)" less than 0.5 of the unit. Nothing is filled. Each column's header must
-read as below, the first data row must be All buildings or All homes, and a category given twice under one heading, a
-row with a figure before any heading, or text where a figure belongs stops the run.
+cases), "N" no cases in the sample, "*" or "(*)" less than 0.5 of the unit, and "NA" or "W" if a table writes them.
+Nothing is filled. Each column's header (the rows above the table's All buildings or All homes row, which must be in it,
+and where its figures begin) must read as below, and a category given twice under one heading, a row with a figure
+before any heading, or text where a figure belongs stops the run.
 
     python warehouse/connectors/eia_buildings.py [--offline] [--out-dir DIR]
 
@@ -163,10 +166,45 @@ def parse(content, name, base, counts):
                     continue
                 raise RuntimeError(f"{name} {label!r} {var}: not a number: {v!r}")
             out.append(dict(base, entity=ent, variable=var, ts_utc=f"{sv['year']}-01-01T00:00:00Z", value=round(float(v) * factor, 6), unit=unit,
-                            freq="P1Y", geo="US", market="", node=label, x_heading=h, x_level=level, x_parent=parent, x_table=name))
+                            freq="P1Y", geo="US", market="", node=label, x_heading=h, x_level=level, x_parent=parent, x_table=name,
+                            _path=tuple(path) if i != first else ()))
     if not out:
         raise RuntimeError(f"{name}: no row")
     return out
+
+
+def footnotes(rows):
+    """Session 2023: {printed text: text without its footnote letter} for the headings and labels two of a survey's tables
+    print with different footnote letters (CBECS's "Climate zonec" in C1, "Climate Zonea" in C2 and E1; "Other sourcesd"
+    and "Other sourcesb"). Only a text ending in a lowercase letter, matched case-blind on everything but that letter by a
+    text of another table, is changed, so a category joins across the tables; any other text is kept as printed."""
+    where = {}
+    for r in rows:
+        for t in (r["x_heading"],) + tuple(r["_path"]):
+            if t:
+                where.setdefault(t, set()).add(r["x_table"])
+    out, by_base = {}, {}
+    for t in where:
+        if t[-1].islower():
+            by_base.setdefault(t[:-1].lower(), []).append(t)
+    for base, texts in by_base.items():
+        tables = [where[t] for t in texts]
+        if len(texts) > 1 and any(a.isdisjoint(b) for k, a in enumerate(tables) for b in tables[k + 1:]):
+            for t in texts:
+                out[t] = texts[0][:-1].rstrip()
+    return out
+
+
+def rename(rows, survey):
+    """Each row's entity and heading from the texts without the letters footnotes() found; node stays as printed."""
+    canon = footnotes(rows)
+    for r in rows:
+        path = r.pop("_path")
+        r["x_heading"] = canon.get(r["x_heading"], r["x_heading"])
+        r["x_parent"] = canon.get(r["x_parent"], r["x_parent"])
+        if path:
+            r["entity"] = f"{survey}:{slug(r['x_heading'])}_" + "_".join(slug(canon.get(x, x)) for x in path)
+    return rows, canon
 
 
 def main(argv=None):
@@ -197,7 +235,12 @@ def main(argv=None):
                 rows += got
                 urls.append(url)
                 latest = max(latest, base["retrieved_at"])
+            rows, canon = rename(rows, survey)
+            if canon:
+                log(f"  footnote letters set aside for the entity ids: {sorted(canon.items())}")
             s = pd.DataFrame(rows)
+            if s.duplicated(["entity", "variable", "x_table"]).any():
+                raise RuntimeError("a footnote letter set aside made two categories of one table one")
             # a column two tables share (RECS's housing units) must agree, and is kept once
             dup = s.duplicated(["entity", "variable", "ts_utc"], keep=False)
             if dup.any():
@@ -213,7 +256,7 @@ def main(argv=None):
                 f"EIA's tables {', '.join(n for n, t in TABLES.items() if t[0] == survey)} print them (session 2017)",
                 "Shape: series (docs/datastandard.md v0). entity <survey>:<heading>_<category>, or <survey>:all; variables named for the table's "
                 "columns; units TBtu, USD and count (EIA's trillion Btu; its million or billion dollars and thousand or million buildings or housing "
-                "units multiplied out); freq P1Y; ts_utc 1 January of the survey year; geo US; node the category; x_heading its heading; x_level its "
+                "units multiplied out); freq P1Y; ts_utc 1 January of the survey year; geo US; node the category as printed; x_heading its heading (a footnote letter two tables print differently set aside, as in the entity); x_level its "
                 "indent (a level-1 row is a part of its x_parent: add level-0 rows only); x_table the table.",
                 f"{s.entity.nunique()} categories. Cells EIA writes as codes have no row: {coded} (Q withheld; N no cases; * or (*) less than 0.5). "
                 "Nothing is filled. A survey estimate: each figure has a relative standard error, in EIA's rse sheets, not taken.",

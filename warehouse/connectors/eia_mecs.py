@@ -22,7 +22,7 @@ Energy Research Warehouse (ERW) connector. One series table from three of the 20
 Each table's sheet must hold a header row whose first cell is "codea" (EIA's "NAICS code" with its footnote letter), the
 columns read below, and region blocks headed "Total United States" and "<Region> Census Region". A cell EIA writes as a
 code has no row, and the codes are counted in the header: "*" an estimate less than 0.5, "D" withheld to avoid disclosing
-an establishment's data, "Q" withheld because its relative standard error is above 50 percent, "NA" not available.
+an establishment's data, "Q" withheld because its relative standard error is above 50 percent, "NA" not available, and "W" or "X" if a table writes them.
 Nothing is filled. Hydrogen is shown at the national level only: in a region it is inside Other (Table 3.2's note f).
 Table 11.3's total onsite generation must equal Table 11.1's wherever both are figures, or the run stops. A column not
 found, an industry given twice in a region, or a figure that is not a number stops the run.

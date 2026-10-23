@@ -106,7 +106,7 @@ eia_annual_generation_ba,none,,68,P1Y,2023-01-01T00:00:00Z,2025-01-01T00:00:00Z,
 eia_basin_production_monthly,none,,12,P1M,2015-01-01T00:00:00Z,2026-07-01T00:00:00Z,1668,eia:steo:basin_production,2026-10-10T14:58:19Z,pass,public,oil;gas,no,source
 eia_capacity_factors_annual,none,,17,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,374,eia:electric_power_annual,2026-10-23T14:09:41Z,pass,public,power,no,source
 eia_capacity_factors_monthly,none,,17,P1M,2023-01-01T00:00:00Z,2025-12-01T00:00:00Z,1224,eia:electric_power_annual,2026-10-23T14:09:50Z,pass,public,power,no,source
-eia_cbecs_commercial_buildings,none,,231,P1Y,2018-01-01T00:00:00Z,2018-01-01T00:00:00Z,5944,eia:cbecs_2018,2026-10-23T18:41:25Z,pass,public,power;gas;oil,no,source
+eia_cbecs_commercial_buildings,none,,231,P1Y,2018-01-01T00:00:00Z,2018-01-01T00:00:00Z,5944,eia:cbecs_2018,2026-10-23T19:27:40Z,pass,public,power;gas;oil,no,source
 eia_co2_state_annual,none,,1248,P1Y,1970-01-01T00:00:00Z,2022-01-01T00:00:00Z,66144,eia:co2-emissions/co2-emissions-aggregates,2026-10-21T21:47:54Z,pass,public,power;gas;oil;coal;carbon,no,source
 eia_coal_delivered_price_annual,none,,228,P1Y,2000-01-01T00:00:00Z,2025-01-01T00:00:00Z,3213,eia:coal/consumption-and-quality,2026-10-21T22:17:07Z,pass,public,coal,no,source
 eia_coal_distribution_quarterly,none,,351,P3M,2024-01-01T00:00:00Z,2024-10-01T00:00:00Z,1207,eia:coal_distribution,2026-10-23T12:51:14Z,pass,public,coal,no,source
@@ -169,7 +169,7 @@ eia_power_plant_fuel_costs,none,,58,P1M,2019-01-01T00:00:00Z,2026-08-01T00:00:00
 eia_primary_energy_monthly,none,,24,P1M,1973-01-01T00:00:00Z,2026-06-01T00:00:00Z,15156,eia:total-energy,2026-10-23T14:37:50Z,pass,public,power;gas;oil;coal,no,source
 eia_product_spot_prices,none,,9,P1D,1986-06-02T00:00:00Z,2026-10-20T00:00:00Z,72088,eia:petroleum/pri/spt,2026-10-23T14:37:50Z,pass,public,products,no,source
 eia_product_supplied_monthly,none,,702,P1M,2017-01-01T00:00:00Z,2026-07-01T00:00:00Z,71938,eia:petroleum/cons/psup,2026-10-21T23:04:16Z,pass,public,oil;products,no,source
-eia_recs_households,none,,73,P1Y,2020-01-01T00:00:00Z,2020-01-01T00:00:00Z,2802,eia:recs_2020,2026-10-23T18:41:41Z,pass,public,power;gas;oil,no,source
+eia_recs_households,none,,73,P1Y,2020-01-01T00:00:00Z,2020-01-01T00:00:00Z,2802,eia:recs_2020,2026-10-23T19:27:40Z,pass,public,power;gas;oil,no,source
 eia_refinery_capacity_annual,none,,2009,P1Y,1982-01-01T00:00:00Z,2026-01-01T00:00:00Z,62804,eia:petroleum/pnp/cap1,2026-10-22T02:42:37Z,pass,public,products,no,source
 eia_refinery_inputs_monthly,none,,1056,P1M,2005-01-01T00:00:00Z,2026-07-01T00:00:00Z,216010,eia:petroleum/pnp/inpt,2026-10-22T06:14:25Z,pass,public,products,no,source
 eia_refinery_production_monthly,none,,1488,P1M,2005-01-01T00:00:00Z,2026-07-01T00:00:00Z,326819,eia:petroleum/pnp/refp,2026-10-22T06:49:09Z,pass,public,products,no,source

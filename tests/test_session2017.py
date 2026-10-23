@@ -80,6 +80,30 @@ class Parse(unittest.TestCase):
             E.parse(book([ACT, office], head=HEAD[:3] + ["Coal"] + HEAD[4:]), "C2", BASE, {})
 
 
+class Footnotes(unittest.TestCase):
+    """Session 2023: a footnote letter two tables print differently is set aside, so a category joins across them."""
+
+    def row(self, table, heading, *path):
+        return {"x_table": table, "x_heading": heading, "x_parent": path[-2] if len(path) > 1 else "", "_path": tuple(path),
+                "entity": "x"}
+
+    def test_letters_set_aside_across_tables_only(self):
+        rows = [self.row("C1", "Climate zonec", "Cool"), self.row("C2", "Climate Zonea", "Cool"),
+                self.row("C1", "Primary source", "Other sourcesd"), self.row("C2", "Primary source", "Other sourcesb"),
+                self.row("C1", "Heated", "Gas"), self.row("C1", "Heated", "Gal"),        # one table: not footnotes, kept
+                self.row("C1", "Activity", "Health care", "Inpatient")]
+        out, canon = E.rename(rows, "cbecs")
+        ids = [r["entity"] for r in out]
+        self.assertEqual(ids[0], ids[1])
+        self.assertEqual(ids[0], "cbecs:climate_zone_cool")
+        self.assertEqual(ids[2], ids[3])
+        self.assertEqual(ids[2], "cbecs:primary_source_other_sources")
+        self.assertNotEqual(ids[4], ids[5])
+        self.assertEqual(ids[6], "cbecs:activity_health_care_inpatient")
+        self.assertEqual(out[1]["x_heading"], "Climate zone")
+        self.assertNotIn("_path", out[0])
+
+
 class Registered(unittest.TestCase):
     def test_sectors_and_holds(self):
         with open(os.path.join(ROOT, "warehouse", "supabase", "live_set.yaml"), encoding="utf-8") as f:
