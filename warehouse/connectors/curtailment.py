@@ -16,8 +16,8 @@ Writes three `series` tables, one row per day and variable, MWh, through the mer
 Sources:
 - CAISO, to 2025-12-31: "Production and curtailments data" (www.caiso.com/library/
   production-curtailments-data), one workbook per period, 5-minute MW: sheet Curtailments
-  (wind and solar curtailment, only the intervals with one; since 2024 a Reason, Local or
-  System) and sheet Production (load, solar, wind, ...; the June to December 2025 file has none, and repeats the 2025
+  (wind and solar curtailment, only the intervals with one; from the 2022 workbook a Reason, Local or
+  System: session 2060 found it in the rows from 1 January 2022) and sheet Production (load, solar, wind, ...; the June to December 2025 file has none, and repeats the 2025
   workbook's curtailment rows).
   MWh = MW x 5/60 per interval, summed over the local (Pacific) day of the Date column.
 - CAISO, from 2026-01-01: the Daily Renewable Report (www.caiso.com/library/
@@ -131,7 +131,7 @@ def caiso_legacy(log, retrieved):
     # the workbooks overlap (the "June to December 2025" file starts on 2025-01-01): each
     # 5-minute curtailment interval is counted once, from the first workbook (in name order) that lists it
     seen_c, dup_c = set(), 0
-    reason_days = set()  # days of a workbook that gives each curtailment's reason (2024 on)
+    reason_days = set()  # days of a workbook that gives each curtailment's reason (2022 on, session 2060)
     for f in files:
         url = CAISO + f
         r = get(url, log, f"CAISO {f}")
@@ -307,7 +307,7 @@ def run_caiso(history, log, run_id):
         f"Source: caiso:daily_renewable_report {SOURCES['caiso:daily_renewable_report'][1]}, {CAISO_DRR_PAGE} "
         f"(days from {CAISO_DRR_FROM})",
         "Variables: curtailed_<fuel>_mwh (all curtailment), curtailed_<fuel>_local_mwh and _system_mwh (by "
-        "CAISO's reason, where published: 2024 on), <fuel>_generation_mwh (ISO output). Curtailment is not in the output figures.",
+        "CAISO's reason, where published: 2022 on), <fuel>_generation_mwh (ISO output). Curtailment is not in the output figures.",
     ]
     ip.write_csv(s, "caiso_curtailment_daily", header, log)
     return len(s)

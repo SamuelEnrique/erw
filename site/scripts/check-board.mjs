@@ -21,11 +21,14 @@
 import fs from "node:fs";
 import { env, withBrowser, unlockPost } from "./browser.mjs";
 import * as b from "../lib/board.ts";
+import { gridName, licenseHeldGrids } from "../lib/license.ts";
 
 const base = (process.argv[2] ?? "http://localhost:3132").replace(/\/$/, "");
 let bad = 0, n = 0;
 const check = (ok, what) => { n += 1; if (!ok) { bad += 1; console.log(`FAIL ${what}`); } else console.log(`ok   ${what}`); };
-const file = JSON.parse(fs.readFileSync(new URL("../data/board.json", import.meta.url), "utf-8"));
+// session 1116: the page holds the rows of the grids held for a license on the day (lib/board.ts, holdRows), on the server
+const rawFile = JSON.parse(fs.readFileSync(new URL("../data/board.json", import.meta.url), "utf-8"));
+const file = b.holdRows(rawFile, licenseHeldGrids().map(gridName));
 const unlock = await unlockPost(base, env("INTERNAL_COSTS_TOKEN") ?? "");
 const cookie = (unlock.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ");
 if (!cookie) { console.log(`FAILED: ${base}/internal/unlock gave no cookie (INTERNAL_COSTS_TOKEN missing or not the server's)`); process.exit(1); }
@@ -38,6 +41,7 @@ check(status === 200 && html.includes('data-board="1"') && !html.includes('data-
 const got = marked(html), wrong = [];
 const want = (k, val) => { if (got[k] !== val) wrong.push(`${k}: page ${got[k]}, file ${val}`); };
 let shown = 0, sparks = 0, ranges = 0;
+const rowsDefault = new Set(file.groups.flatMap((g) => b.rowsOf(file, g, {}).map((r) => r.id)));
 for (const g of file.groups) {
   const rows = b.rowsOf(file, g, {});
   const m = html.match(new RegExp(`data-count="${g.id}"[^>]*>(\\d+)`));
@@ -87,6 +91,19 @@ const miso = blank("miso-indiana-hub-da"), pjm = blank("pjm-western-hub-da");
 check(miso.includes("paused while terms are reviewed") && !/data-n=/.test(miso) && t.includes("MISO Indiana hub"), "MISO's rows are on the page, blank, with \"paused while terms are reviewed\"");
 check(pjm.includes("licensed source needed") && !/data-n=/.test(pjm) && t.includes("PJM Western hub"), "PJM's rows are on the page, blank, with \"licensed source needed\"");
 check(!Object.keys(got).some((k) => /^(miso|pjm)-/.test(k)) && !file.rows.some((r) => /^(miso|pjm)-/.test(r.id) && (r.last || r.spark)), "no figure of MISO's or PJM's prices, on the page or in the file");
+// session 1116: ISO-NE's and NYISO's rows are on the page, blank, with "license needed", and none of their figures is in
+// the page's HTML (its payload included): the hold is applied on the server
+{
+  const heldRows = rawFile.rows.filter((r) => (file.held ?? []).includes(b.gridOfRow(r)) && r.status === "ok" && r.last);
+  // a row's figure as the file writes it ("v":54.46), plain or escaped inside the page's payload, or its mark
+  const leak = heldRows.filter((r) => html.includes(`"v":${r.last.v}}`) || html.includes(`\\"v\\":${r.last.v}}`) || html.includes(`data-n="${r.id}|last"`)).map((r) => r.id);
+  const shownHeld = file.rows.filter((r) => r.status === "license" && rowsDefault.has(r.id) && !blank(r.id).includes("license needed")).map((r) => r.id);
+  check((file.held ?? []).length >= 1 && leak.length === 0 && shownHeld.length === 0,
+    `the held grids (${(file.held ?? []).join(", ")}): ${heldRows.length} rows that carried figures are "license needed" in place, none of their figures in the page${leak.length ? `; in the page: ${leak.slice(0, 5).join(", ")}` : ""}${shownHeld.length ? `; not blank: ${shownHeld.slice(0, 5).join(", ")}` : ""}`);
+  check((file.held ?? []).every((g) => html.includes(`data-held-grid="${g}"`)), "the week by hub names each held grid on one line, \"license needed\"");
+  const staleRows = file.rows.filter((r) => r.status === "ok" && rowsDefault.has(r.id) && b.closeAge(r, file.built)?.stale).map((r) => r.id);
+  check(staleRows.every((id) => html.includes(`data-stale="${id}"`)), `${staleRows.length} rows shown are past the stale threshold, each marked stale`);
+}
 const greyed = file.rows.filter((r) => r.status === "licensed" && !/^(miso|pjm)-/.test(r.id));
 check(greyed.length >= 14 && greyed.every((r) => r.note && /supply|Source|permission/.test(r.note)), `${greyed.length} greyed rows, each naming the source that would supply it`);
 check([...html.matchAll(/data-curve="/g)].length >= 4 && html.includes("5 April 2024"), "the futures curve beside the spot rows is greyed, with its reason on hover");
