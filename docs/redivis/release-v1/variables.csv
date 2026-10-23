@@ -187,6 +187,16 @@ blm_ca_renewable_rows,x_blm_acres,column,
 blm_ca_renewable_rows,x_data_source,column,
 blm_ca_renewable_rows,x_remarks,column,
 blm_ca_renewable_rows,x_in_time,column,
+blm_oil_gas_statistics_annual,acres_newly_leased,series variable,acre
+blm_oil_gas_statistics_annual,acres_under_lease,series variable,acre
+blm_oil_gas_statistics_annual,apds_approved,series variable,count
+blm_oil_gas_statistics_annual,leases_in_effect,series variable,count
+blm_oil_gas_statistics_annual,new_leases_issued,series variable,count
+blm_oil_gas_statistics_annual,producible_service_completions,series variable,count
+blm_oil_gas_statistics_annual,producible_service_well_bores,series variable,count
+blm_oil_gas_statistics_annual,producing_acres,series variable,acre
+blm_oil_gas_statistics_annual,producing_leases,series variable,count
+blm_oil_gas_statistics_annual,wells_spud,series variable,count
 boem_offshore_platforms,entity_id,column,
 boem_offshore_platforms,entity_type,column,
 boem_offshore_platforms,name,column,
@@ -510,6 +520,9 @@ carbon_intensity_hourly,intensity_demand,series variable,kgCO2/MWh
 carbon_intensity_hourly,intensity_generation,series variable,kgCO2/MWh
 carbon_intensity_monthly,intensity_demand,series variable,kgCO2/MWh
 carbon_intensity_monthly,intensity_generation,series variable,kgCO2/MWh
+cec_total_system_generation_annual,imports,series variable,MWh
+cec_total_system_generation_annual,in_state_generation,series variable,MWh
+cec_total_system_generation_annual,total_system_power,series variable,MWh
 census_metro_population,population_2025,series variable,count
 census_metro_population,population_base_2020,series variable,count
 cer_electricity_trade,exports,series variable,MWh
@@ -3347,6 +3360,10 @@ eia_retail_fuel_prices,retail_price,series variable,USD/gal
 eia_retail_sales_monthly,customers,series variable,count
 eia_retail_sales_monthly,retail_sales,series variable,MWh
 eia_sector_energy_consumption_monthly,energy_consumption,series variable,TBtu
+eia_seds_residential_annual,consumption,series variable,TBtu
+eia_seds_residential_annual,expenditures,series variable,USD
+eia_seds_residential_annual,population,series variable,count
+eia_seds_residential_annual,price,series variable,USD/MMBtu
 eia_seds_state_energy,value,series variable,TBtu
 eia_seds_state_energy,value,series variable,USD
 eia_seds_state_energy,value,series variable,USD/MMBtu
@@ -4157,8 +4174,6 @@ ercot_wind_solar_output_hourly,wind_generation_mw,series variable,MW
 ercot_zone_load_hourly,load,series variable,MW
 ercot_zone_prices_history,spp_dam,series variable,USD/MWh
 ercot_zone_prices_history,spp_rtm,series variable,USD/MWh
-fhwa_motor_fuel_monthly,gasoline_volume,series variable,gal
-fhwa_motor_fuel_monthly,special_fuel_volume,series variable,gal
 fema_disaster_declarations,event_id,column,
 fema_disaster_declarations,event_date,column,
 fema_disaster_declarations,event_type,column,
@@ -4182,6 +4197,8 @@ fema_disaster_declarations,x_region,column,
 fema_disaster_declarations,x_tribal,column,
 fema_disaster_declarations,retrieved_at,column,
 fema_disaster_declarations,vintage,column,
+fhwa_motor_fuel_monthly,gasoline_volume,series variable,gal
+fhwa_motor_fuel_monthly,special_fuel_volume,series variable,gal
 flex_alert_effects,actual_mw,series variable,MW
 flex_alert_effects,actual_mwh,series variable,MWh
 flex_alert_effects,alert_first_hour,series variable,hour
@@ -5730,6 +5747,7 @@ noaa_ncei_storm_events,x_data_source,column,
 noaa_ncei_storm_events,x_file_created,column,
 noaa_station_weather_hourly,dew_point_f,series variable,degF
 noaa_station_weather_hourly,temperature_f,series variable,degF
+noaa_uscrn_solar_monthly,solar_radiation,series variable,MJ/m2-day
 node_basis_daily,dam_basis,series variable,USD/MWh
 node_basis_daily,dam_mean,series variable,USD/MWh
 node_basis_daily,dam_spread_4h,series variable,USD/MWh
@@ -7260,6 +7278,7 @@ usgs_mcs_critical_minerals,price,series variable,USD/t
 usgs_mcs_critical_minerals,production,series variable,t
 usgs_mcs_critical_minerals,reserves,series variable,t
 usgs_mcs_critical_minerals,stock,series variable,t
+usgs_streamflow_daily,discharge,series variable,ft3/s
 uspvdb_solar_facilities,entity_id,column,
 uspvdb_solar_facilities,entity_type,column,
 uspvdb_solar_facilities,name,column,

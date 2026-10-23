@@ -61,3 +61,8 @@ Internal: the table is not published, in no public dataset and no download (Deci
 - Years before 2025, and the hours ISO-NE has not yet added to its 2026 workbook (September on, as read).
 - The workbook's day-ahead demand, prices and temperatures.
 - A public copy: the table is internal.
+
+## Found by session 2110 (chain 069), which described this table the same evening
+
+- The usage line and the frame's help give `--days N` as "how many days back to ask for", and the frame's "stale at source" test looks for no hour on or after that first day. For ISO-NE the days only choose which years' workbooks are read: every hour of each workbook is written, so that test can fire only on a workbook with no hour at all.
+- Neither docstring says what becomes of text where a number should be: the code drops such a cell without a word (`pd.to_numeric(..., errors="coerce")`), where the other ISO-NE connectors stop the run.
