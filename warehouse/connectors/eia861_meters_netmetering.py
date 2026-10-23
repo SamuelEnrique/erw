@@ -13,7 +13,7 @@ EIA-861 annual files (in f861<year>.zip; the zips eia861_sales.py saved):
     variable  EIA's own headings joined: the group (a meter kind, or a technology and its measure) and the sector, for
               example number_ami_advanced_metering_infrastructure_residential, photovoltaic_capacity_mw_total,
               battery_pv_paired_energy_capacity_mwh_total; the names follow EIA's, which changed over the years (EIA's
-              "customers" became "installations" in 2023)
+              "customers" became "installations" in 2021)
     unit      MW where the heading names MW, MWh where it names MWh, else count
     ts_utc    the data year's 1 January; freq P1Y; geo US-<state>; node the utility's name
 

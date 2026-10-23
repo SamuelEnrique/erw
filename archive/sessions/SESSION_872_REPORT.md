@@ -7,7 +7,7 @@
 - **ERCOT's resource lists are posted under `/misapp`, which its robots file disallows; none was asked for** (chain 046's rule). The CDR workbook session 851 saved (posted under `/files/docs/`, allowed) holds a "Unit Details" sheet with each unit's ERCOT unit code, county and zone.
 - **`ercot_cdr_units` is written: 1,772 units in 184 Texas counties**, each with its unit code (or its interconnection request number while planned), technology, fuel, CDR status (operating 1,442, planned 313, suspended 17; ERCOT's own code kept in `x_cdr_status`), resource attribute, county, zone, in-service date, installed capacity and the seasonal capability ERCOT counts for each season to 2030/2031. Validated, archived, in coverage (sector power, public), in the release package, both holds. No request.
 - **What it fills:** "a node's county" for most ERCOT nodes: by station prefix (the part of a name before its first "_"), 65 percent of `node_basis_daily`'s 888 nodes and 78 percent of the 339 storage resources of `ercot_dam_esr_awards` find a CDR unit. "A node's wires utility (TSP)" stays open: the CDR does not name it.
-- **The cross-check:** every county is a Texas county of `utility_service_territories` but ERCOT's "Hill & Limestone" (one unit on the line between two).
+- **The cross-check:** every county is a Texas county of `utility_service_territories` but ERCOT's "Hill & Limestone" (four units, Aquilla Lake Wind and Aquilla Lake 2 Wind, on the line between two; session 877's count; the header's "185 counties" counts one empty value).
 
 ## Decisions made without you
 
