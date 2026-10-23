@@ -41,7 +41,12 @@ datacenter_projects,Bloomberg; Census Bureau; Data Center Dynamics; Data Center 
 datacenter_projects_evidence,Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; Hart Energy; Heatmap News; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; WSJ,the source registry
 datacenter_queue_positions,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,by hand: its header: rows of the six operators' queue tables
 egrid_power_plants,EPA,the source registry
+eia411_capacity_margins_annual,EIA,the source registry
+eia860_boilers,EIA,the source registry
+eia860_cooling_systems,EIA,the source registry
+eia860_emission_controls,EIA,the source registry
 eia860_generator_owners,EIA,the source registry
+eia860_multifuel_generators,EIA,the source registry
 eia860_plants_annual,EIA,the source registry
 eia860_solar_generators,EIA,the source registry
 eia860_storage_generators,EIA,the source registry
@@ -64,7 +69,9 @@ eia861_utility_data,EIA,the source registry
 eia861_utility_reliability,EIA,the source registry
 eia861_utility_sales,EIA,the source registry
 eia861m_utility_sales_monthly,EIA,the source registry
+eia923_fuel_receipts,EIA,the source registry
 eia923_plant_fuel_annual,EIA,the source registry
+eia923_plant_fuel_monthly,EIA,the source registry
 eia930_all_demand,EIA,EIA-930 (its name; the registry lists no row for it)
 eia930_all_emissions,EIA,the source registry
 eia930_all_generation,EIA,EIA-930 (its name; the registry lists no row for it)
@@ -112,6 +119,7 @@ eia_gas_balance_annual,EIA,the source registry
 eia_gas_consumers_state_annual,EIA,the source registry
 eia_gas_consumption_state_monthly,EIA,the source registry
 eia_gas_interstate_annual,EIA,the source registry
+eia_gas_pipeline_projects,EIA,the source registry
 eia_gas_prices_state_monthly,EIA,the source registry
 eia_gas_production_state_monthly,EIA,the source registry
 eia_gas_reserves_annual,EIA,the source registry
@@ -140,6 +148,7 @@ eia_petroleum_stocks_weekly,EIA,the source registry
 eia_petroleum_supply_weekly,EIA,the source registry
 eia_petroleum_trade_weekly,EIA,the source registry
 eia_power_co2_state_annual,EIA,the source registry
+eia_power_costs_annual,EIA,the source registry
 eia_power_plant_fuel_costs,EIA,the source registry
 eia_product_spot_prices,EIA,the source registry
 eia_product_supplied_monthly,EIA,the source registry
@@ -157,6 +166,7 @@ eia_state_capacity_annual,EIA,the source registry
 eia_state_generation_monthly,EIA,the source registry
 eia_state_source_disposition_annual,EIA,the source registry
 eia_steo_forecasts,EIA,the source registry
+eia_uranium_marketing_annual,EIA,the source registry
 eia_wood_pellets_monthly,EIA,the source registry
 energy_companies,ERW,"by hand: its header: names, one-line descriptions written by the ERW, and links"
 energy_deals,ANS Nuclear Newswire; Bloomberg; Canary Media; DOE newsroom; Data Center Dynamics; Data Center Frontier; Electrek; Energy-Storage.news; Financial Times; Hart Energy; Heatmap News; JPT; LNG Prime; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; Rigzone; Utility Dive; WSJ; World Nuclear News; pv magazine USA,the source registry
@@ -177,6 +187,7 @@ ercot_grid_notices,ERCOT,the source registry
 ercot_hub_prices_daily,ERCOT,"the source registry and the tables its header derives it from: iso_dam_hub_prices, iso_rtm_hub_prices"
 ercot_interconnection_queue,ERCOT,the source registry
 ercot_large_load_status,ERCOT,the source registry
+ercot_node_places,ERCOT,"the source registry and the tables its header derives it from: ercot_cdr_units, node_basis_daily"
 ercot_node_prices_hourly,ERCOT,"by hand: its header: ERCOT's prices read from the saved files of NP3-966-ER, NP4-190-CD and NP6-905-CD (session 378)"
 ercot_peak_premium_annual,ERCOT,by hand: its header: derived from ERCOT's hub prices (reports NP6-785-ER and NP6-905-CD)
 ercot_peak_premium_monthly,ERCOT,by hand: its header: derived from ERCOT's hub prices (reports NP6-785-ER and NP6-905-CD)

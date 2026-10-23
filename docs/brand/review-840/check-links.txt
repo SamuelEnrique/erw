@@ -1,0 +1,11 @@
+check-links: 4 pages at https://erw-flame.vercel.app, in the internal view
+read /deals: 50 links, 2 ids
+read /deals?view=comparables: 55 links, 2 ids
+read /datacenters: 73 links, 5 ids
+read /contracts: 78 links, 2 ids
+88 internal addresses linked from 4 pages: asking for each (0 under /api/ not asked)
+1 pages linked with a fragment and not on the list: reading their anchors
+read /data: 336 links, 111 ids
+alias | /ask | "Ask" | on /deals (and 3 more pages) | the Ask panel's own address, a redirect to the Grid tool's panel (the owner's merge of 18 October 2026) (/ask -> /grid?grid=us48&ask=1)
+alias | /internal/lock | "lock" | on /deals (and 3 more pages) | an action, not a page: it closes the internal view and returns to the home page (/internal/lock -> /)
+check-links: 4 pages, 256 links, 88 addresses; 0 findings, 0 waiting for a ruling, 2 aliases, 0 addresses under /api/ not asked, 0 pages not read cleanly (detail in C:\Users\samen\Documents\erw\runs\check-links\links.json)
