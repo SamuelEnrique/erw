@@ -320,6 +320,8 @@ catalogue_hold:
   - eia_petroleum_exports_by_destination
   - eia_gas_consumers_state_annual
   - eia861_utility_data
+  - eia861_demand_response
+  - eia861_dynamic_pricing
   - eia_crude_imports_detail_monthly
   - eia_padd_rail_barge_movements_monthly
   - eia_gas_trade_country_monthly
