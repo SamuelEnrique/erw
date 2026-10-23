@@ -23,6 +23,10 @@
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
+ "blm_ca_renewable_rows": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
  "boem_ogor_lease_production_monthly": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
@@ -399,6 +403,10 @@
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
+ "eia_coal_distribution_quarterly": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
  "eia_coal_mine_production_annual": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
@@ -603,6 +611,10 @@
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
+ "eia_primary_energy_monthly": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
  "eia_product_spot_prices": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
@@ -667,7 +679,15 @@
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
+ "eia_uranium_facilities": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
  "eia_uranium_marketing_annual": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
+ "eia_uranium_production_quarterly": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
@@ -1019,6 +1039,14 @@
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
+ "lbnl_wind_costs": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
+ "lbnl_wind_turbine_orders": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
  "merchant_revenue_monthly": [
   "unsettled",
   "ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21)."
@@ -1102,6 +1130,18 @@
  "nyiso_zone_load_hourly": [
   "unsettled",
   "NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21)."
+ ],
+ "onrr_production_annual": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
+ "onrr_production_monthly": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
+ "onrr_revenue_monthly": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
  "ornl_eha_hydropower_plants": [
   "public",
@@ -1200,6 +1240,10 @@
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
  "storage_owners_monthly": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
+ "usgs_mcs_critical_minerals": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],

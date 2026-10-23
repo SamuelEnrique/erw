@@ -6,6 +6,7 @@ battery_sourced_ranges,public,,,,"National Laboratory of the Rockies (NLR, forme
 battery_stack_monthly,public,,,,CAISO; ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 battery_stack_review_monthly,unsettled,license needed,2026-10-21,NYISO,NYISO; SPP,"NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
 battery_stack_stress_daily,public,,,,CAISO; ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
+blm_ca_renewable_rows,public,,,,"U.S. Department of the Interior, Bureau of Land Management (BLM)","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 boem_ogor_lease_production_monthly,public,,,,Bureau of Ocean Energy Management (BOEM),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 boem_renewable_leases,public,,,,Bureau of Ocean Energy Management (BOEM),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 caiso_area_load_hourly,public,,,,CAISO,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -102,6 +103,7 @@ eia_annual_generation_ba,public,,,,EIA,"Public: every publisher's terms the ERW 
 eia_basin_production_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_co2_state_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_coal_delivered_price_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia_coal_distribution_quarterly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_coal_mine_production_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_coal_price_rank_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_coal_prices_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -153,6 +155,7 @@ eia_power_co2_state_annual,public,,,,EIA,"Public: every publisher's terms the ER
 eia_power_costs_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_power_fuel_stocks_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_power_plant_fuel_costs,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia_primary_energy_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_product_spot_prices,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_product_supplied_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_refinery_capacity_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -169,7 +172,9 @@ eia_state_capacity_annual,public,,,,EIA,"Public: every publisher's terms the ERW
 eia_state_generation_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_state_source_disposition_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_steo_forecasts,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia_uranium_facilities,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_uranium_marketing_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia_uranium_production_quarterly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_wood_pellets_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_world_coal_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_world_electricity_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -298,6 +303,8 @@ lbnl_interconnection_queue,public,,,,Berkeley Lab,"Public: every publisher's ter
 lbnl_ppa_prices,public,,,,Berkeley Lab,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 lbnl_solar_projects,public,,,,Berkeley Lab,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 lbnl_wind_capacity_factors,public,,,,Berkeley Lab,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+lbnl_wind_costs,public,,,,Berkeley Lab,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+lbnl_wind_turbine_orders,public,,,,Berkeley Lab,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 merchant_revenue_monthly,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",whole
 miso_as_prices,internal,,,MISO,MISO,The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 miso_interconnection_queue,unsettled,license needed,2026-10-21,MISO,MISO,"MISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",whole
@@ -322,6 +329,9 @@ nyiso_interconnection_queue,unsettled,license needed,2026-10-21,NYISO,NYISO,"NYI
 nyiso_load_queue,unsettled,license needed,2026-10-21,NYISO,NYISO,"NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
 nyiso_rtm_zone_prices,unsettled,license needed,2026-10-21,NYISO,NYISO,"NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",35 days
 nyiso_zone_load_hourly,unsettled,license needed,2026-10-21,NYISO,NYISO,"NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
+onrr_production_annual,public,,,,"U.S. Department of the Interior, Office of Natural Resources Revenue (ONRR)","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+onrr_production_monthly,public,,,,"U.S. Department of the Interior, Office of Natural Resources Revenue (ONRR)","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+onrr_revenue_monthly,public,,,,"U.S. Department of the Interior, Office of Natural Resources Revenue (ONRR)","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ornl_eha_hydropower_plants,public,,,,"Oak Ridge National Laboratory (ORNL), HydroSource","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ornl_eha_hydropower_units,public,,,,"Oak Ridge National Laboratory (ORNL), HydroSource","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ornl_hydropower_pipeline,public,,,,"Oak Ridge National Laboratory (ORNL), HydroSource","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -354,6 +364,7 @@ storage_daily_cycle,public,,,,CAISO; EIA,"Public: every publisher's terms the ER
 storage_owners_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 texas_delivery_charges,internal,,,"AEP Texas Inc.; CenterPoint Energy Houston Electric, LLC; Oncor Electric Delivery Company LLC","AEP Texas Inc.; CenterPoint Energy Houston Electric, LLC; Oncor Electric Delivery Company LLC; Public Utility Commission of Texas; Texas-New Mexico Power Company",The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 texas_transmission_matrix,internal,,,,Public Utility Commission of Texas,The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
+usgs_mcs_critical_minerals,public,,,,U.S. Geological Survey (USGS),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 uspvdb_solar_facilities,public,,,,U.S. Geological Survey (USGS),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 uswtdb_wind_turbines,public,,,,U.S. Geological Survey (USGS),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 utility_service_territories,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
