@@ -21,3 +21,11 @@
 - New: `docs/state/note_2026-11-02_data.md`, this report.
 - On main: `queue/next/055-afternoon-23-october-data-outlook-hybrids-loans-dams.md` (six lines).
 - On the data machine only: `runs/c054_*`, `runs/snapshots/c054-055u-before`, `c054-055u-after`.
+
+## Addendum: the landing
+
+- **Merged origin/main** into `wip/951-964-data` (chain 055's file; no conflict). `build_tables.py --check` 0, `scripts/licenses.py check` 0 (372 tables, 0 problems), `release_v1.py --check` 0, `scripts/freeze.py status` 0 (no freeze).
+- **The whole suite** from the worktree, 13:14 to 13:21 UTC: 6,320 tests, 318 skipped, 1 failure, `test_session705`, the known worktree artifact (it passes in the main checkout and skips on GitHub).
+- **Pushed `task/951-964-data`** at 13:21 UTC (`bf7ffbad`); the check run 39960532971 passed and merged it (`c8b9ad05`). Vercel deployed the merge (13:37 UTC, "success").
+- **Rule 8's snapshots:** `c054-land-before` (13:21 UTC) and `c054-land-after` (13:37 UTC): **0 differences on 25 pages**, expected (every page is in review; the chain changed tables, records, documents and the validator's vocabulary, no page's code).
+- **Main's validator now knows `t` and `USD/kg`,** so `usgs_mcs_critical_minerals` passes on main too.
