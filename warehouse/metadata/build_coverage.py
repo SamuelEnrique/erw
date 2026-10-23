@@ -977,6 +977,9 @@ def main():
                 elif n in gone_for_good and n not in {r["table"] for r in carried}:  # session 207: a retired table's line goes with its row
                     continue
             out_doc.append(ln)
+        last = max((i for i, ln in enumerate(out_doc) if name_of(ln) is not None), default=None)
+        if last is not None and todo:  # session 2134: a table after the alphabet's last goes in after the last line
+            out_doc[last + 1:last + 1] = [todo.pop(k) for k in sorted(todo)]
         if todo:
             raise ValueError(f"--only: no place in {os.path.relpath(DOC, ROOT)} for {sorted(todo)}")
         with open(DOC, "w", encoding="utf-8", newline="\n") as f:
