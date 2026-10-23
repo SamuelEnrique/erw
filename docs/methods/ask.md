@@ -45,6 +45,26 @@ Under the answer and its sources, one line for each query or compare it read: th
 
 The general chat and a grid's scoped chat hold the last three turns, as Ask ERCOT has since session 121: each turn's question, its answer (to 1,500 characters) and what its queries read go into the first message before the new question, in Ask ERCOT's own words; an earlier answer's numbers count as given (they were checked when it was written) and its cited tables as read; every new number is still fetched and checked. With no earlier turn the first message is what it was (`site/lib/chat/history.ts`).
 
+## A chart under an answer (23 October 2026, session 1142)
+
+An answer of the general chat that rests on a series carries it, as Ask ERCOT's has since session 92: the last result grouped by time (year, month, day or hour) of a table the answer cites, at least three rows, its rows the tool's own, key by key and value by value (`site/lib/chat/generalseries.ts`, checked by `series.ts`). An answer that cites no such result carries none.
+
+## Which table stands behind a page (23 October 2026, session 1142)
+
+The model is told which table each economics page reads (rule 9 of the system prompt): the battery page `battery_stack_monthly`, the generator page `merchant_revenue_monthly` (whose battery rows are the generator page's rule for a battery), the datacenter page `cost_of_power_monthly`. Session 1114's f08, asked "on the generator page's rule", had read the battery page's table.
+
+## A grid's tables by rule (23 October 2026, session 1142)
+
+The rule file (`warehouse/chat/grid_tables.py`, session 314) admits a sixth way a table holds a grid's rows: an entity `iso:<grid>` (`isoentity`), asked after the entity and ba rules, so no table changed its rule. It admitted seven to nine more tables a grid, the storage buildout among them (session 1114's f06).
+
+## Where the answers are drawn (23 October 2026, session 1145)
+
+Ask ERCOT is drawn by `components/ask/AskPanel.tsx`; the general chat and the six other grids' chats by `app/ask/AskForm.tsx`. Both draw the read lines, the time, the nearest tables, the series and the refusal's words, and both keep the conversation. The board asks its own five questions with the general form (`/board`, "Ask the board").
+
+## The Python loop (23 October 2026, session 1146)
+
+The CLI's and the evaluation's own loop (`warehouse/chat/ask.py`) holds the conversation, records its reads and names a refusal's nearest tables as the site's does; the license hold stays the site's.
+
 ## A refusal names what it looked at (23 October 2026, session 1132)
 
 On "not in the warehouse" and on the fixed refusal, the general chat names up to three of the tables the question queried or described, each with what the catalogue says it holds (its sector, its grids, its step, its span, its source report; never a figure of its rows). A table only listed is not one it looked at.
@@ -59,7 +79,9 @@ On "not in the warehouse" and on the fixed refusal, the general chat names up to
 |---|---|---|---|
 | `questions_s320.yaml` | 30 on the three economics pages | computed from the live set before any model call; again by `eval_s1113.py --keys` the hour of an asking | 17 of 30 (20 October 2026), 14 of 30 under the hold (session 539); **19 of 30 under the hold on 23 October 2026** (session 1113's asking, run by session 1126; 30 of 30 if session 320's three rulings went the answers' way): `docs/reviews/ask-thirty-2026-10-23.md` |
 | `questions_s1114.yaml` | 30 a trading, an infrastructure-finance and a policy lead would ask, ERCOT, CAISO, SPP and national series only | `expected_s1114.py`, from the live set the hour of the asking | **24 of 30 on 23 October 2026** (four of the six wrong state the right figure from another table): `docs/reviews/ask-sixty-2026-10-23.md` |
-| `questions_s1122.yaml` | 5 on the price board | `expected_s1122.py`, from recorded rows of the board's tables | not yet asked |
+| `questions_s1122.yaml` | 5 on the price board | `expected_s1122.py`, from recorded rows of the board's tables | not yet asked; the board's Ask examples (session 1145) |
+
+Every run, one row a run: `docs/reviews/ask-history.md` (session 1147, written by `history.py` from the stored runs).
 
 `python warehouse/chat/eval/eval_s1113.py --keys`, then `--ask --base <a local server> --cap <USD>` (with `--set s1114` for the second set), then `--grade`: the asking runs through the site's route as an evaluation, under its own ledger step, the spend checked before each question.
 
@@ -76,3 +98,7 @@ Each dated, with the session that made it; the reports in `archive/sessions/` ca
 - 23 October 2026, session 1126: MISO's pause refuses before the held-grid answer; a compare makes no difference with a held side.
 - 23 October 2026, session 1129: the conversation's words are Ask ERCOT's.
 - 23 October 2026, session 1132: the tables a refusal names are those the loop read, not ones the model proposes.
+- 23 October 2026, session 1143: Ask ERCOT's prompt says 12 tool calls, as its loop allows.
+- 23 October 2026, session 1144: percent and MW judged by the unit check, MWh not.
+- 23 October 2026, session 1145: the general chat's form, not a new component, draws the new fields.
+- 23 October 2026, session 1146: the license hold is not mirrored in the CLI.
