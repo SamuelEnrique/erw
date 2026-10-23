@@ -356,6 +356,7 @@ catalogue_hold:
   - noaa_cpc_degree_days_daily
   - boem_offshore_platforms
   - eia_ice_electricity_daily
+  - eia_mecs_manufacturing
   - lbnl_hybrid_ppa_prices
   - lbnl_solar_projects
   - ornl_npd_potential
