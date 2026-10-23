@@ -1624,6 +1624,9 @@ eia861m_utility_sales_monthly,transportation_revenue,series variable,USD
 eia861m_utility_sales_monthly,transportation_sales,series variable,MWh
 eia923_plant_fuel_annual,fuel_consumed,series variable,TBtu
 eia923_plant_fuel_annual,net_generation,series variable,MWh
+eia923_plant_fuel_monthly,fuel_consumed,series variable,TBtu
+eia923_plant_fuel_monthly,fuel_consumed_electric,series variable,TBtu
+eia923_plant_fuel_monthly,net_generation,series variable,MWh
 eia930_all_demand,demand_forecast_mw,series variable,MW
 eia930_all_demand,demand_mw,series variable,MW
 eia930_all_emissions,co2_emissions_coal,series variable,tCO2

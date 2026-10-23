@@ -180,6 +180,7 @@ SECTOR_RULES = [
     (r"^eia860_boilers$", "power"),  # session 896
     (r"^eia860_cooling_systems$", "power"),  # session 896
     (r"^eia860_emission_controls$", "power"),  # session 896
+    (r"^eia923_plant_fuel_monthly$", "power"),  # session 897
     (r"^eia861_short_form$", "power"),  # session 876: EIA-861S, the small utilities' sales  # session 869: EIA-861's meters and net metering by utility  # session 868: EIA-861's programs by utility  # session 867: EIA-861's utility data: NERC region, RTOs, activities  # session 853: EIA-861's delivery-only companies (Texas's wires utilities)  # session 695: EIA-861's distribution reliability (SAIDI, SAIFI, CAIDI) by utility
     (r"^eia_gas_storage_state_monthly$", "gas"),  # session 525: EIA's natural gas in underground storage by state, a month
     (r"^eia_state_capacity_annual$", "power"),  # session 526: EIA's state electricity profiles, net summer capacity
