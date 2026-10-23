@@ -127,6 +127,44 @@ class TheWindowEndsAtTheRun(unittest.TestCase):
         self.assertNotIn("when >= now - pd.Timedelta(hours=args.hours)", body)
 
 
+class TheCaptionSaysWhatIsHeld(unittest.TestCase):
+    """Fix 4: the chart of the day's caption states how many periods of the series are held and the last one held."""
+
+    def setUp(self):
+        import json
+        import daily_chart
+        self.dc = daily_chart
+        with open(os.path.join(ROOT, "tests", "fixtures", "session232", "candidates.json"), encoding="utf-8") as f:
+            self.cands = {c["key"]: c for c in json.load(f)["candidates"]}
+
+    def test_a_monthly_record_counts_its_history_and_the_months_to_the_flag(self):
+        c = self.cands["scan-record-483f592bf064"]   # history 305 months to May 2026, flagged July 2026
+        self.assertEqual(self.dc.periods_held(c), (307, "2026-07-01", "months"))
+        self.assertEqual(self.dc.held_words(c), "The table holds 307 months of this series; the last is July 2026.")
+
+    def test_a_daily_spike_and_a_weekly_change(self):
+        self.assertEqual(self.dc.periods_held(self.cands["scan-spike-4c52d4239fe9"]), (761, "2026-10-06", "days"))
+        self.assertEqual(self.dc.held_words(self.cands["scan-spike-4c52d4239fe9"]), "The table holds 761 days of this series; the last is 6 October 2026.")
+        self.assertEqual(self.dc.periods_held(self.cands["scan-weekly-33b8c62e9e29"]), (261, "2026-10-05", "weeks"))
+
+    def test_a_watch_card_counts_the_periods_its_engine_ordered(self):
+        c = self.cands["watch|watch_caiso_regup|2026-10-05 to 2026-10-11"]
+        self.assertEqual(self.dc.periods_held(c), (108, "2026-10-05", "weeks"))
+        self.assertEqual(self.dc.held_words(c), "The table holds 108 weeks of this series; the last is the week starting 5 October 2026.")
+
+    def test_a_card_that_does_not_say_adds_nothing(self):
+        self.assertIsNone(self.dc.periods_held({"source": "scanner", "flag": {"history": {}, "date": "2026-07-01"}, "card": {}}))
+        self.assertEqual(self.dc.held_words({"source": "watch", "card": {"chart": {}, "numbers": {}}}), "")
+
+    def test_the_section_carries_the_line_after_the_fact_and_the_fact_line_is_unchanged(self):
+        c = self.cands["scan-record-483f592bf064"]
+        lines = self.dc.markdown("2026-10-13", c)
+        i = lines.index(c["fact"])
+        self.assertEqual(lines[i + 1], "The table holds 307 months of this series; the last is July 2026.")
+        self.assertEqual(lines[i + 2], "")
+        self.assertTrue(lines[i + 3].startswith("Table `"))
+
+
 class NoDash(unittest.TestCase):
     def test_no_em_dash_in_the_files(self):
         for parts in (("warehouse", "news", "brief.py"), ("scripts", "check_digest.py"), ("warehouse", "analysis", "findings", "daily_chart.py"),
