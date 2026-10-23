@@ -12,7 +12,7 @@
 - **The cross-checks, against `ornl_eha_hydropower_plants`:**
   - Of the 405 relicensing records that name a plant, 401 are in the fleet table, and 396 of those carry the same FERC docket there.
   - Of the 197 issued relicenses with an expiry, 193 give the same expiry as the fleet table's FERC expiry.
-  - The new license's capacity equals the plant's capacity in the fleet table within 1 MW for 130 of 197 issued relicenses; the others are relicenses with changed capacity, the change the table records.
+  - The new license's capacity equals the plant's capacity in the fleet table within 1 MW for 130 of 197 issued relicenses; the others differ, where the new license changes the capacity or ORNL counts the plant otherwise.
   - Of the 143 surrenders that name a plant, 46 are still in the fleet table, the others gone from the fleet as surrendered plants are.
 
 ## Decisions made without you
