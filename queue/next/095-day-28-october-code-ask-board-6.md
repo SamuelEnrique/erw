@@ -10,19 +10,23 @@ Read first: chains 089's and 093's notes (`docs/state/review_2026-10-27_code_ask
 
 ## Rules for every session
 
-As chain 085's, section "Rules for every session", word for word, with this chain's numbers (a build only with 3 GB of memory free; the build lock waited for at most 20 minutes; a landing's check-values failures read against production's; the snapshots before and after every push to main, each as its own command; model spend USD 0).
+As chain 085's, section "Rules for every session", word for word, with this chain's numbers (a build only with 3 GB of memory free; the build lock waited for at most 20 minutes; a landing's check-values failures read against production's; the snapshots before and after every push to main, each as its own command; model spend USD 0 except session 1307's item 2, cap USD 2.50).
 
 ## Session 1307: the next file, then what chain 093 left
 
-Long end 2:00. First the next file. Then every item chain 093's sessions left under "To finish", in order, each said in the report; a landing that waited for memory first.
+Long end 2:00. First the next file. Then every item chain 093's sessions left under "To finish", in order, each said in the report; a landing that waited for memory first. Updated by session 1306 (`docs/state/review_2026-10-28_code_ask_board.md`), they are:
+1. **Land `wip/1300-ask`** (chain 089's `wip/1190-ask` is in it: sessions 1190 to 1195 and 1300 to 1305), when 3 GB are free: merged with main, `python scripts/land_check.py --ref wip/1300-ask --task 1190-1305-ask-board --port 3708`, check-values' failures read against production's; on the same build `check-board.mjs` (with session 1193's check of the held lines), `check-links.mjs` with `CHECK_LINKS_PAGES=/board,/ask`, the board at 390 and 1280 with a held line closed and opened (`docs/brand/review-1307/`), and the keyboard walk of the board (chain 093's session 1303: the filters, a held line's toggle and its `aria-expanded`, the focus order, a row into the workbench); snapshots before and after.
+2. **The second set's rest** (chain 093's session 1302) on the same build's server: `eval_s1133_s1114_run.json` read first so the asking goes on at t09, the keys computed again the same hour; spend cap USD 2.50 for this item only; `docs/reviews/ask-sixty-2026-10-25.md` extended, `warehouse/chat/eval/history.py`'s row brought to the whole set, `replay.py` and `refusals.py` written again.
+3. **Chain 085's after snapshot**, once production carries `1ccf3c5e` or later.
+4. **The board's new rows**, once a daily run's `board` step has built them (089's session 1192).
 
 ## Session 1308: the stored answers' replay in the gate
 
 Long end 1:30. Spend USD 0. Chain 093's session 1301 replays the stored answers through today's checks with no model: its script run by `scripts/land_check.py` as a step of its own (after the suite, before the build), its failure a gate failure, with a test; `docs/methods/ask.md` says so.
 
-## Session 1309: Ask's refusals at their causes
+## Session 1309: the site's checks on the stored answers
 
-Long end 2:00. Spend USD 0. From chain 093's session 1304 table (`docs/reviews/ask-refusals.md`), the largest class of refusals that are the code's (not "the warehouse lacks the figure" and not a held grid) fixed at its cause, each with a test on the stored answer and tool record that showed it; the table written again.
+Long end 2:00. Spend USD 0. Changed by session 1306: chain 093's session 1304 found no refusal that is the loop's to fix (`docs/reviews/ask-refusals.md`). Instead: the site's number check, unit check and citations (`site/lib/chat/ask.ts`) run over the same stored answers `warehouse/chat/eval/replay.py` reads (157 on 23 October), each answer's verdict held equal to the Python checks' by a test, every difference said with its cause and fixed on the side that is wrong.
 
 ## Session 1310: Ask's panel and form at phone width
 
