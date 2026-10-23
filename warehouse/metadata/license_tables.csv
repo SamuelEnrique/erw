@@ -48,6 +48,8 @@ eia860m_retired_generators_all,EIA,the source registry
 eia861_advanced_meters,EIA,the source registry
 eia861_delivery_only,EIA,the source registry
 eia861_demand_response,EIA,the source registry
+eia861_distributed_generation,EIA,the source registry
+eia861_distribution_systems,EIA,the source registry
 eia861_dynamic_pricing,EIA,the source registry
 eia861_energy_efficiency,EIA,the source registry
 eia861_net_metering,EIA,the source registry

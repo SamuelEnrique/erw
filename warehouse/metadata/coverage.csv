@@ -48,6 +48,8 @@ eia860m_retired_generators_all,none,,7334,snapshot,2026-10-06T09:55:47Z,2026-10-
 eia861_advanced_meters,eia861,,3110,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,497838,eia:eia861:advanced_meters,2026-10-23T03:20:05Z,pass,public,power,no,source
 eia861_delivery_only,eia861,,7,P1Y,2020-01-01T00:00:00Z,2025-01-01T00:00:00Z,546,eia:eia861:delivery_companies,2026-10-23T02:33:45Z,pass,public,power,no,source
 eia861_demand_response,eia861,,569,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,77073,eia:eia861:demand_response,2026-10-23T03:12:59Z,pass,public,power,no,source
+eia861_distributed_generation,eia861,,741,P1Y,2016-01-01T00:00:00Z,2025-01-01T00:00:00Z,179161,eia:eia861:distributed_generation,2026-10-23T04:37:44Z,pass,public,power,no,source
+eia861_distribution_systems,eia861,,2999,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,34947,eia:eia861:distribution_systems,2026-10-23T04:36:27Z,pass,public,power,no,source
 eia861_dynamic_pricing,eia861,,974,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,33157,eia:eia861:dynamic_pricing,2026-10-23T03:12:59Z,pass,public,power,no,source
 eia861_energy_efficiency,eia861,,801,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,187850,eia:eia861:energy_efficiency,2026-10-23T04:27:16Z,pass,public,power,no,source
 eia861_net_metering,eia861,,1443,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,507206,eia:eia861:net_metering,2026-10-23T03:20:05Z,pass,public,power,no,source
