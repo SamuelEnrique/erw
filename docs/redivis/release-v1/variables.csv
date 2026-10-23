@@ -5360,6 +5360,32 @@ lbnl_wind_turbine_orders,source_url,column,
 lbnl_wind_turbine_orders,retrieved_at,column,
 lbnl_wind_turbine_orders,x_price_unit,column,
 lbnl_wind_turbine_orders,x_dollar_year,column,
+msha_coal_mines,entity_id,column,
+msha_coal_mines,entity_type,column,
+msha_coal_mines,name,column,
+msha_coal_mines,geo,column,
+msha_coal_mines,lat,column,
+msha_coal_mines,lon,column,
+msha_coal_mines,capacity_mw,column,
+msha_coal_mines,status,column,
+msha_coal_mines,status_date,column,
+msha_coal_mines,operator,column,
+msha_coal_mines,source,column,
+msha_coal_mines,source_url,column,
+msha_coal_mines,retrieved_at,column,
+msha_coal_mines,vintage,column,
+msha_coal_mines,x_mine_status,column,
+msha_coal_mines,x_mine_type,column,
+msha_coal_mines,x_controller,column,
+msha_coal_mines,x_county_fips,column,
+msha_coal_mines,x_county,column,
+msha_coal_mines,x_district,column,
+msha_coal_mines,x_primary_sic,column,
+msha_coal_mines,x_employees,column,
+msha_coal_mines,x_nearest_town,column,
+msha_coal_production_quarterly,average_employees,series variable,count
+msha_coal_production_quarterly,coal_production,series variable,short_ton
+msha_coal_production_quarterly,employee_hours,series variable,count
 nlr_atb_electricity_costs,capacity_factor,series variable,ratio
 nlr_atb_electricity_costs,capex,series variable,USD/kW
 nlr_atb_electricity_costs,fixed_om,series variable,USD/kW-year
