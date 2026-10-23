@@ -11,7 +11,8 @@ Energy Research Warehouse (ERW) connector. One series table from CPC's degree da
     noaa_cpc_degree_days_daily   entity cpc_dd:<region>; variables hdd and cdd (unit degF-day: degree days at 65 F, CPC's
                                  population-weighted figure); ts_utc the day (00:00 UTC of the calendar day CPC labels);
                                  freq P1D; geo US-<state> for a state, US for the contiguous states, empty for a census
-                                 division; node CPC's region; x_regions StatesCONUS or Population (CPC's region set)
+                                 division (cpc_dd:division_<n>, the number as CPC's file writes it, 1 to 9); node CPC's
+                                 region as written; x_regions StatesCONUS or Population (CPC's region set)
 
 Each file's first three lines must name the product ("Daily Heating Degree Days" or "Daily Cooling Degree Days"), the
 region set (StatesCONUS, or CensusDivisions in the Population files) and the weights ("Population"); the fourth is "Region|YYYYMMDD|...". A line of a region repeated, a date not
@@ -92,7 +93,8 @@ def parse(text, region_set, kind, base):
             geo, ent = f"US-{region}", f"cpc_dd:{region}"
         else:
             geo = "US" if region.upper() == "CONUS" else ""
-            ent = f"cpc_dd:{slug(region)}"
+            # the Population files number the census divisions (1 to 9) and name CONUS; a number is written division_<n>
+            ent = f"cpc_dd:division_{region}" if region.isdigit() else f"cpc_dd:{slug(region)}"
         for ts, v in zip(days, cells[1:]):
             v = v.strip()
             if ts is None or v == "":
@@ -142,7 +144,7 @@ def main(argv=None):
         head = [
             "Energy Research Warehouse (ERW): NOAA, National Weather Service, Climate Prediction Center, population-weighted heating and cooling degree "
             "days, a day, for the 48 contiguous states and for CPC's population regions (session 2006)",
-            "Shape: series (docs/datastandard.md v0). entity cpc_dd:<state, or the region's name>; variables hdd and cdd; unit degF-day (degree days at "
+            "Shape: series (docs/datastandard.md v0). entity cpc_dd:<state>, cpc_dd:division_<n> (a census division as CPC numbers it, 1 to 9) or cpc_dd:conus; variables hdd and cdd; unit degF-day (degree days at "
             "65 F, weighted by population as CPC computes them); freq P1D; ts_utc the day CPC labels; geo US-<state>, US for CONUS, empty for a census "
             "division; x_regions StatesCONUS or Population.",
             f"{s.entity.nunique()} regions; {s.ts_utc.min()[:10]} to {s.ts_utc.max()[:10]}; years {', '.join(str(y) for y in sorted(args.years))}. "

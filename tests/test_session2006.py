@@ -39,9 +39,9 @@ class Parse(unittest.TestCase):
         self.assertEqual(got[("cpc_dd:TX", "2026-01-02")]["value"], 19.0)
         self.assertEqual((got[("cpc_dd:TX", "2026-01-01")]["variable"], got[("cpc_dd:TX", "2026-01-01")]["unit"]), ("hdd", "degF-day"))
         self.assertEqual(got[("cpc_dd:CA", "2026-01-01")]["geo"], "US-CA")
-        d = C.parse(divisions("NEW ENGLAND|0|1|\nCONUS|2|3|\n"), "Population", "Cooling", BASE)
+        d = C.parse(divisions("1|0|1|\nCONUS|2|3|\n"), "Population", "Cooling", BASE)
         got = {x["entity"]: x for x in d}
-        self.assertEqual((got["cpc_dd:new_england"]["geo"], got["cpc_dd:conus"]["geo"]), ("", "US"))
+        self.assertEqual((got["cpc_dd:division_1"]["geo"], got["cpc_dd:conus"]["geo"]), ("", "US"))
         self.assertEqual(got["cpc_dd:conus"]["variable"], "cdd")
 
     def test_stops(self):
