@@ -4,7 +4,8 @@ import { Brand } from "@/components/Brand";
 import { TableDownloads } from "@/components/tool/TableDownloads";
 import { TableLicenses } from "@/components/tool/TableLicenses";
 import fileJson from "@/data/board.json";
-import type { BoardFile } from "@/lib/board";
+import { holdRows, type BoardFile } from "@/lib/board";
+import { gridName, licenseHeldGrids } from "@/lib/license";
 
 // Session 132: the price board and its markets workbench, one page at one address. It holds what the first board,
 // version 3, the version 4 work and /markets showed (those addresses now redirect here: next.config.ts; their pages
@@ -16,7 +17,9 @@ import type { BoardFile } from "@/lib/board";
 // (lib/board.ts, TOP_TWELVE: the one list), then the wall as it was, folded by group, with the workbench beside it.
 export const metadata: Metadata = { title: "Price board", robots: { index: false, follow: false } };
 
-const file = fileJson as unknown as BoardFile;
+// session 1116: the rows of the grids held for a license on the day are made "license needed" here, on the server, so no
+// held figure is in what the browser receives (lib/board.ts, holdRows)
+const raw = fileJson as unknown as BoardFile;
 
 // Session 328: the tables board_page.py reads (scripts/page_tables.py on this page and its builder); the downloads keep
 // those in the public catalogue, each as its CSV with a Python and a Stata reader
@@ -25,6 +28,7 @@ const TABLES = ["ercot_all_hub_prices_history", "iso_hub_prices_history", "caiso
   "eia_retail_electricity_prices", "carb_lcfs_credit_prices", "frb_treasury_yields", "imf_commodity_prices"];
 
 export default function Board() {
+  const file = holdRows(raw, licenseHeldGrids().map(gridName));
   // session 502: the same list, with each table's license, under the title
   return <Brand><BoardView file={file} under={<TableLicenses tables={TABLES} />} footer={<TableDownloads tables={TABLES} />} /></Brand>;
 }
