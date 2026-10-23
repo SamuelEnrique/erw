@@ -10,6 +10,7 @@
 // chart (a dashed line at the month, its days on hover), and the alert days of the months drawn are one keyed count
 // (lib/caisoAlerts.ts alertMonths). The hourly mix has nothing to mark: it is withheld for CAISO.
 import { Num } from "@/components/Num";
+import { scrollRegion } from "@/lib/cells";
 import { ALERT_TABLE, alertMonths, type NoticeLike } from "@/lib/caisoAlerts";
 import { TimeChart } from "@/components/TimeChart";
 import { shown } from "@/lib/format";
@@ -40,7 +41,8 @@ export function HourlyFigures({ m, label, now }: { m: MixHourly; label: string; 
       <p className="mb-2 text-xs text-muted" data-mix-age={age}>
         Newest hour held: from {hourName(m.newest.t)}, <F f={m.newest.fig} /> MW net generation. It ended {age} {age === 1 ? "hour" : "hours"} before this page was drawn ({new Date(now).toISOString().slice(0, 16).replace("T", " ")} UTC); EIA publishes fuel data a day or more after the hour.
       </p>
-      <div className="overflow-x-auto">
+      {/* session 1158: the frame a keyboard can reach and scroll at 390 px (lib/cells.ts scrollRegion, as ToolTable draws it) */}
+      <div className="overflow-x-auto" {...scrollRegion(`${label}: net generation by fuel over the 24 hours to the newest hour held`)}>
         <table className="w-full border-collapse text-sm tabular-nums" style={{ minWidth: 320 }}>
           <caption className="sr-only">{label}: net generation by fuel over the 24 hours to the newest hour held</caption>
           <thead>
@@ -53,7 +55,7 @@ export function HourlyFigures({ m, label, now }: { m: MixHourly; label: string; 
           <tbody>
             {m.fuels.map((f) => (
               <tr key={f.key} className="border-b border-rule/60" data-mix-fuel={f.key}>
-                <td className="py-1 pr-3"><span className="mr-1 inline-block h-2.5 w-2.5" style={{ background: `var(--color-fuel-${f.key})` }} />{f.label}</td>
+                <th scope="row" className="py-1 pr-3 text-left font-normal"><span aria-hidden="true" className="mr-1 inline-block h-2.5 w-2.5" style={{ background: `var(--color-fuel-${f.key})` }} />{f.label}</th>
                 <td className="py-1 pr-3 text-right"><F f={f.mwh} /></td>
                 <td className="py-1 pr-3 text-right">{f.share ? <F f={f.share} unit="%" /> : ""}</td>
               </tr>
@@ -99,7 +101,7 @@ export function MonthlyFigures({ rows, label, caiso, notices }: { rows: { entity
         marks={al?.months.length ? al.months.map((a) => ({ t: Date.parse(`${a.month}T00:00:00Z`), name: `EEA or Flex Alert: ${a.days.join(", ")}` })) : undefined}
         ariaLabel={`${label} monthly net generation by fuel, ${name(m.months[0])} to ${name(m.newest)}`}
         series={m.fuels.map((f) => ({ name: f.label, color: `var(--color-fuel-${f.key})`, points: x.map((t, i) => [t, f.values[i]] as [number, number | null]) }))} />
-      <div className="mt-3 overflow-x-auto">
+      <div className="mt-3 overflow-x-auto" {...scrollRegion(`${label}: generation by fuel in ${name(m.newest)} and over the twelve months to it`)}>
         <table className="w-full border-collapse text-sm tabular-nums" style={{ minWidth: 380 }}>
           <caption className="sr-only">{label}: generation by fuel in {name(m.newest)} and over the twelve months to it</caption>
           <thead>
@@ -113,7 +115,7 @@ export function MonthlyFigures({ rows, label, caiso, notices }: { rows: { entity
           <tbody>
             {m.fuels.map((f) => (
               <tr key={f.key} className="border-b border-rule/60" data-mix-fuel={f.key}>
-                <td className="py-1 pr-3"><span className="mr-1 inline-block h-2.5 w-2.5" style={{ background: `var(--color-fuel-${f.key})` }} />{f.label}</td>
+                <th scope="row" className="py-1 pr-3 text-left font-normal"><span aria-hidden="true" className="mr-1 inline-block h-2.5 w-2.5" style={{ background: `var(--color-fuel-${f.key})` }} />{f.label}</th>
                 <td className="py-1 pr-3 text-right">{f.mwh ? <F f={f.mwh} /> : ""}</td>
                 <td className="py-1 pr-3 text-right">{f.share ? <F f={f.share} unit="%" /> : ""}</td>
                 <td className="py-1 pr-3 text-right">{f.year ? <F f={f.year} /> : ""}</td>

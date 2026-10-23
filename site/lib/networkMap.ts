@@ -168,3 +168,13 @@ export function hitSegment(s: [number, number], t: [number, number], trim = 0.2)
   const at = (k: number): [number, number] => [Math.round((s[0] + (t[0] - s[0]) * k) * 10) / 10, Math.round((s[1] + (t[1] - s[1]) * k) * 10) / 10];
   return [at(trim), at(1 - trim)];
 }
+
+/** Session 1158 (chain 077, 390 pixels): the widest a hover card may be, drawn at `x` px from the left of the drawing and
+ *  anchored on its left (`right` false: the card starts at x + 12) or on its right (`right` true: it ends at x - 12), so
+ *  that it stays inside the frame, which clips it (overflow-hidden), on a phone as on a wide screen: at most 20rem (the
+ *  max-w-xs the cards had), and never past the frame less 8 px. x below 0 (a card opened by the keyboard, drawn at the
+ *  top left, 8 px in): the frame less 16 px. A CSS length, for the card's style. */
+export function cardWidth(x: number, right: boolean): string {
+  if (x < 0) return "min(20rem, calc(100% - 16px))";
+  return right ? `min(20rem, ${Math.max(0, Math.round(x - 20))}px)` : `min(20rem, calc(100% - ${Math.round(x + 20)}px))`;
+}

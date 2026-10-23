@@ -10,7 +10,12 @@
 // window and answers a hover with it, its share of the grid's generation and its window (the hour shown, the snapshot's
 // refresh); a grid with no tie reported in the window has no edge. A circle's hover card adds its generation. The note
 // under the frame says the shape is drawn from EIA-930's public interchange and generation only, for every grid.
+// Session 1158 (chain 077, 390 pixels): on a phone a tap on a line or a circle shows its card (pointerdown), and the
+// touch's pointerleave, which follows the tap at once, no longer takes it away; a tap on the empty drawing does. The svg
+// carries its name and no role: AccessLint allows no "group" on an svg (aria/aria-allowed-role); its own role, a graphics
+// document, keeps the circles a keyboard reaches.
 import { useMemo, useState, type PointerEvent } from "react";
+import { cardWidth } from "@/lib/networkMap";
 import { GRAVITY, gravityEdges, gravityLayout, gravityTip, type GravityLayout, type GravityWindow } from "@/lib/networkGravity";
 
 export function NetworkGravity({ gen, net, names, colorOf, at, pick, neighbours, onPick, held }: {
@@ -48,23 +53,25 @@ export function NetworkGravity({ gen, net, names, colorOf, at, pick, neighbours,
     const b = (e.currentTarget.ownerSVGElement as SVGSVGElement).getBoundingClientRect();
     setHover({ id, kind, x: e.clientX - b.left, y: e.clientY - b.top, right: e.clientX - b.left > b.width / 2 });
   };
+  // session 1158: a mouse leaving takes the card away; a finger lifting does not (its card stays until the next tap)
+  const leave = (e: PointerEvent<SVGElement>) => { if (e.pointerType !== "touch") setHover(null); };
   const hovered = hover ? lay.places.find((p) => p.id === hover.id) ?? null : null;
   return (
     <div className={`${frame} self-start bg-paper`} data-gravity-state="held" data-gravity-center={lay.center.gen ?? ""}>
       <div className="relative mx-auto" style={style}>
-        <svg viewBox={`0 0 ${SIZE} ${SIZE}`} className="h-full w-full" role="group" preserveAspectRatio="xMidYMid meet"
+        <svg viewBox={`0 0 ${SIZE} ${SIZE}`} className="h-full w-full" preserveAspectRatio="xMidYMid meet" onPointerDown={(e) => { if (e.target === e.currentTarget) setHover(null); }}
           aria-label="The seven ISO grids around the Lower 48: each circle's area is its net generation in the hour shown; a net importer sits nearer the center, a net exporter farther out; hover a circle or its line for its figures and their hour, click a circle for its panel">
           {/* the middle ring: no net exchange */}
           <circle cx={c} cy={c} r={D_MID} fill="none" stroke="var(--color-rule)" strokeDasharray="4 6" data-gravity-ring="1" />
           {/* session 1153: an edge only where the grid has a net figure in the window; a wide clear stroke takes the hover */}
           {gravityEdges(lay).map((p) => (
-            <g key={`s-${p.id}`} data-gravity-edge={p.id} data-mw={p.net ?? ""} onPointerMove={hoverAt(p.id, "edge")} onPointerLeave={() => setHover(null)}>
+            <g key={`s-${p.id}`} data-gravity-edge={p.id} data-mw={p.net ?? ""} onPointerMove={hoverAt(p.id, "edge")} onPointerDown={hoverAt(p.id, "edge")} onPointerLeave={leave}>
               <line x1={c} y1={c} x2={p.x} y2={p.y} stroke="var(--color-rule)" strokeWidth={1.2}
                 strokeOpacity={pick !== null && pick !== p.id && !neighbours.has(p.id) ? 0.3 : 0.9} />
               <line x1={c} y1={c} x2={p.x} y2={p.y} stroke="var(--color-ink)" strokeOpacity={0} strokeWidth={16} pointerEvents="stroke" />
             </g>
           ))}
-          <g data-gravity-grid="US48" onPointerMove={hoverAt("US48")} onPointerLeave={() => setHover(null)}>
+          <g data-gravity-grid="US48" onPointerMove={hoverAt("US48")} onPointerDown={hoverAt("US48")} onPointerLeave={leave}>
             <circle cx={c} cy={c} r={lay.center.r} fill="var(--color-panel)" stroke="var(--color-ink)" strokeWidth={1.2} strokeDasharray={lay.center.gen === null ? "3 4" : undefined} />
             <text x={c} y={c + 9} textAnchor="middle" fontSize={26} fontFamily="var(--font-sans)" fill="var(--color-ink)">Lower 48</text>
           </g>
@@ -78,7 +85,7 @@ export function NetworkGravity({ gen, net, names, colorOf, at, pick, neighbours,
               <g key={p.id} data-gravity-grid={p.id} data-gravity-state={p.state} data-gen={p.gen ?? ""} data-net={p.net ?? ""} data-share={p.share ?? ""}
                 data-d={Math.round(p.d * 10) / 10} data-r={Math.round(p.r * 10) / 10} data-dim={dim ? "1" : "0"} className="cursor-pointer" tabIndex={0} role="button" aria-label={nameOf(p.id).includes(p.label) ? nameOf(p.id) : `${p.label}, ${nameOf(p.id)}`}
                 onClick={() => onPick(p.id)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onPick(p.id); } }}
-                onPointerMove={hoverAt(p.id)} onPointerLeave={() => setHover(null)} onFocus={() => setHover({ id: p.id, kind: "circle", x: -1, y: -1, right: false })} onBlur={() => setHover(null)}>
+                onPointerMove={hoverAt(p.id)} onPointerDown={hoverAt(p.id)} onPointerLeave={leave} onFocus={() => setHover({ id: p.id, kind: "circle", x: -1, y: -1, right: false })} onBlur={() => setHover(null)}>
                 <circle cx={p.x} cy={p.y} r={p.r} fill={fill} fillOpacity={dim ? 0.22 : 0.9} stroke={pick === p.id ? "var(--color-ink)" : hollow ? "var(--color-muted)" : "var(--color-panel)"}
                   strokeWidth={pick === p.id ? 2.4 : 1.2} strokeDasharray={hollow ? "3 3" : undefined} />
                 <text x={p.x} y={p.y + p.r + 26} textAnchor="middle" fontSize={26} fontFamily="var(--font-sans)" fill="var(--color-ink)" fillOpacity={dim ? 0.4 : 1}>{p.label}</text>
@@ -87,8 +94,8 @@ export function NetworkGravity({ gen, net, names, colorOf, at, pick, neighbours,
           })}
         </svg>
         {hover ? (
-          <div className="pointer-events-none absolute z-10 max-w-xs border border-rule bg-panel px-2 py-0.5 text-xs" data-gravity-hover={hover.id} data-gravity-hover-kind={hover.kind}
-            style={hover.x < 0 ? { left: 8, top: 8 } : hover.right ? { right: `calc(100% - ${hover.x - 12}px)`, top: hover.y + 12 } : { left: hover.x + 12, top: hover.y + 12 }}>
+          <div className="pointer-events-none absolute z-10 border border-rule bg-panel px-2 py-0.5 text-xs" data-gravity-hover={hover.id} data-gravity-hover-kind={hover.kind}
+            style={{ ...(hover.x < 0 ? { left: 8, top: 8 } : hover.right ? { right: `calc(100% - ${hover.x - 12}px)`, top: hover.y + 12 } : { left: hover.x + 12, top: hover.y + 12 }), maxWidth: cardWidth(hover.x, hover.right) }}>
             <div className="text-ink">{nameOf(hover.id)}</div>
             {hovered ? gravityTip(hovered, at, hover.kind).map((line) => <div key={line} className="text-muted">{line}</div>) : null}
           </div>

@@ -22,7 +22,8 @@ export function AskExamples({ grid, now = new Date() }: { grid: GridChoice; now?
         {examplesLine(shown.length, label)} Each is the text a recorded evaluation of this box stored, with the table and filter behind each figure and the day it was asked; nothing here is sent or asked again, so the figures are as of that day.
       </p>
       {shown.map((e) => (
-        <details key={e.id} className="border-b border-rule py-2 text-sm" data-ask-example={e.id} data-ask-example-held={e.held ? e.held.table : undefined}>
+        // session 1158: break-words, so a filter written without a space (where={...}) wraps in the 390 px column, not past it
+        <details key={e.id} className="border-b border-rule py-2 text-sm break-words" data-ask-example={e.id} data-ask-example-held={e.held ? e.held.table : undefined}>
           <summary className="cursor-pointer text-accent">{e.question}</summary>
           {e.held ? (
             <p className="mt-2 leading-relaxed" data-ask-held={e.held.table}>

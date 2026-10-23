@@ -17,13 +17,18 @@
 // its window, and its MW only where the panel under the map (grid_network_<grid>) holds that figure, checked
 // (lib/networkMap.ts edgeTip, edgeHeld); one of the seven ISO grids clicked opens its row on the Grid tool (linkOf).
 // No price is drawn here: the lines are EIA-930's public interchange, for every grid.
+// Session 1158 (chain 077, 390 pixels and accessibility): the drawing is no longer an image, since it holds the regions a
+// keyboard reaches and the grids' links (an image's children are presentational: AccessLint,
+// aria/presentational-children-focusable): an svg with its name and no role (its own, a graphics document; AccessLint
+// does not allow "group" on an svg, aria/aria-allowed-role, so the gravity shape drops it too); a tap on a line shows its card
+// (pointerdown), and a touch's pointerleave, which follows the tap at once, no longer takes the card away.
 import { geoAlbersUsa, geoPath } from "d3-geo";
 import { useEffect, useMemo, useState, type KeyboardEvent, type PointerEvent } from "react";
 import { feature, mesh } from "topojson-client";
 import type { GeometryCollection, Topology } from "topojson-specification";
 import statesTopo from "us-atlas/states-albers-10m.json";
 import { shown } from "@/lib/format";
-import { derivedLabel, edgeHeld, edgeTip, flowWidth, hitSegment, readBoundaries, ringPath, type Held, type MapPanel, type MapWindow } from "@/lib/networkMap";
+import { cardWidth, derivedLabel, edgeHeld, edgeTip, flowWidth, hitSegment, readBoundaries, ringPath, type Held, type MapPanel, type MapWindow } from "@/lib/networkMap";
 
 export const BOUNDARY_FILE = "/network/ba_boundaries.json";
 const W = 975, H = 610;
@@ -65,6 +70,8 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
     const b = (e.currentTarget.ownerSVGElement as SVGSVGElement).getBoundingClientRect();
     setHover({ id, kind, x: e.clientX - b.left, y: e.clientY - b.top, right: e.clientX - b.left > b.width / 2 });
   };
+  // session 1158: a mouse leaving takes the card away; a finger lifting does not (its card stays until the next tap)
+  const leave = (e: PointerEvent<SVGElement>) => { if (e.pointerType !== "touch") setHover(null); };
   useEffect(() => {
     let alive = true;
     fetch(BOUNDARY_FILE)
@@ -113,7 +120,7 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
       data-map-held-edges={win ? drawnFlows.filter((f) => edgeHeld(f, panel, win)).length : 0}>
       {/* the map keeps its own proportions; a derived file's label stands under it, inside the frame, and covers no region */}
       <div className="relative" style={style}>
-      <svg viewBox={`0 0 ${W} ${H}`} className="h-full w-full" role="img" preserveAspectRatio="xMidYMid meet"
+      <svg viewBox={`0 0 ${W} ${H}`} className="h-full w-full" preserveAspectRatio="xMidYMid meet" onPointerDown={(e) => { if (e.target === e.currentTarget) setHover(null); }}
         aria-label={`A map of the US balancing authorities on the state outlines, each region colored by the carbon intensity of its generation, with the power they exchange (EIA-930's public interchange); hover a region for its name, a line for its direction and window; ${linkOf ? "click one of the seven ISO grids to open its row on the Grid tool, any other region for its panel" : "click a region for its panel"}`}>
         <defs>
           <marker id="erw-flow-head" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0L8,4L0,8Z" fill="var(--color-accent)" /></marker>
@@ -132,7 +139,7 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
               <path key={r.id} d={r.d} fillRule="evenodd" fill={fill} fillOpacity={dim ? 0.22 : 0.9} stroke={pick === r.id ? "var(--color-ink)" : "var(--color-panel)"} strokeWidth={pick === r.id ? 1.6 : 0.6}
                 data-region={r.id} data-fill={fill} data-dim={dim ? "1" : "0"} data-region-href={href ?? undefined} className="cursor-pointer" {...pressed}
                 onPointerMove={hoverAt(r.id, "region")}
-                onPointerLeave={() => setHover(null)} onFocus={() => setHover({ id: r.id, kind: "region", x: -1, y: -1, right: false })} onBlur={() => setHover(null)} />
+                onPointerLeave={leave} onFocus={() => setHover({ id: r.id, kind: "region", x: -1, y: -1, right: false })} onBlur={() => setHover(null)} />
             );
             // session 1156: one of the seven ISO grids is a link to its row on the Grid tool (the map, its ties keyed in the panel under it)
             return href ? <a key={r.id} href={href} aria-label={`${names.get(r.id)}: open its row on the Grid tool`}
@@ -161,7 +168,7 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
             {drawnFlows.map((f) => {
               const [s, t] = hitSegment(point(f.source), point(f.target));
               return <line key={`hit-${f.a}-${f.b}`} x1={s[0]} y1={s[1]} x2={t[0]} y2={t[1]} stroke="var(--color-ink)" strokeOpacity={0} strokeWidth={Math.max(10, flowWidth(f.mw, maxMw) + 6)}
-                pointerEvents="stroke" data-edge={`${f.a}-${f.b}`} onPointerMove={hoverAt(`${f.a}-${f.b}`, "edge")} onPointerLeave={() => setHover(null)} />;
+                pointerEvents="stroke" data-edge={`${f.a}-${f.b}`} onPointerMove={hoverAt(`${f.a}-${f.b}`, "edge")} onPointerDown={hoverAt(`${f.a}-${f.b}`, "edge")} onPointerLeave={leave} />;
             })}
           </g>
         ) : null}
@@ -172,9 +179,9 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
           {linkOf && linkOf(hover.id) ? <span className="block text-muted">Click to open its row on the Grid tool</span> : null}</div>
       ) : null}
       {hoveredEdge && win && hover ? (
-        <div className="pointer-events-none absolute z-10 max-w-xs border border-rule bg-panel px-2 py-0.5 text-xs" data-map-hover={hover.id} data-map-hover-kind="edge"
+        <div className="pointer-events-none absolute z-10 border border-rule bg-panel px-2 py-0.5 text-xs" data-map-hover={hover.id} data-map-hover-kind="edge"
           data-map-hover-held={edgeHeld(hoveredEdge, panel, win) ? "1" : "0"}
-          style={hover.right ? { right: `calc(100% - ${hover.x - 12}px)`, top: hover.y + 12 } : { left: hover.x + 12, top: hover.y + 12 }}>
+          style={{ ...(hover.right ? { right: `calc(100% - ${hover.x - 12}px)`, top: hover.y + 12 } : { left: hover.x + 12, top: hover.y + 12 }), maxWidth: cardWidth(hover.x, hover.right) }}>
           {edgeTip(hoveredEdge, nameOf, panel, win, shown).map((line, i) => <div key={line} className={i === 0 ? "text-ink" : "text-muted"}>{line}</div>)}
         </div>
       ) : null}
