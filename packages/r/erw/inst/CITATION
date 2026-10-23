@@ -1,0 +1,11 @@
+bibentry(
+  bibtype = "Manual",
+  title = "Energy Research Warehouse (ERW)",
+  author = person("ERW", "research project"),
+  organization = "Datapages, Stanford University",
+  note = paste("Redivis dataset datapages.erw:b9wm, DOI 10.57761/4f55-6d55.",
+               "Cite the publisher of the data first, then the ERW table and the version read: erw_cite(table)."),
+  url = "https://stanford.redivis.com/datasets/b9wm-3hb080mtm",
+  textVersion = paste("Energy Research Warehouse (ERW). Redivis dataset datapages.erw:b9wm, DOI 10.57761/4f55-6d55.",
+                      "Cite the publisher of the data first, then the ERW table and the version read: erw_cite(table).")
+)

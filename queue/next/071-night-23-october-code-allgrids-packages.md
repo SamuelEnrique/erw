@@ -8,7 +8,19 @@ Session numbers 1020 to 1041 are this chain's; 1042 to 1049 and then 1050 upward
 
 **The next file is written first.** Session 1020 begins by writing `queue/next/072-<slug>.md` for this machine (`machine: samueloldlaptop`, at least twenty sessions, from this file's open items and the answers and tables as they stand), commits it alone and pushes it to main before any other work. Session 1041 updates that file from this chain's results instead of writing one from nothing.
 
-Read first: `docs/state/review_2026-10-28_code.md` (chain 065's note) and chain 070's note when it exists (`docs/state/review_2026-10-25_code.md`); `docs/reviews/siting-open-2026-10-23.md` ("State after chains 062 to 065": 33 lines, each with what it waits on); `docs/reviews/siting-rulings-2026-10-23.md` (items 1 to 19, 21 and 22) and `docs/reviews/siting-rulings-answered.md` (item 20); `docs/reviews/siting-gaps.md`; `docs/methods/siting.md` (version 5); `docs/methods/packages.md` (chain 070's specification); `queue/done/046-night-22-october-data-sources-gaps.md` and `queue/done/047-*.md` (the data machine's chains: which of the tab's awaited tables they land).
+Read first: `docs/state/review_2026-10-28_code.md` (chain 065's note) and chain 070's note (`docs/state/review_2026-10-25_code_chain070.md`); `docs/reviews/siting-open-2026-10-23.md` ("State after chains 062 to 065": 33 lines, each with what it waits on); `docs/reviews/siting-rulings-2026-10-23.md` (items 1 to 19, 21 and 22) and `docs/reviews/siting-rulings-answered.md` (item 20); `docs/reviews/siting-gaps.md`; `docs/methods/siting.md` (version 5); `docs/methods/packages.md` (chain 070's specification); `queue/done/046-night-22-october-data-sources-gaps.md` and `queue/done/047-*.md` (the data machine's chains: which of the tab's awaited tables they land).
+
+## Updated by session 1019 (chain 070's end, 23 October 2026 at about 05:05 UTC)
+
+What chain 070 left, and what has changed since session 1000 wrote this file:
+
+- **Two of the tab's awaited tables have landed** (the data machine's chain 046): `ercot_cdr_reserve_margins` (public, 1,600 rows, March 2026 to December 2030) and `ercot_transmission_projects` (public, events, 2,122 rows). So session 1027 has its table, and session 1028 can read ERCOT's transmission projects (by county or by name, never placed by a guess). `ercot_settlement_points` (session 1026's) and the HIFLD lines and substations have not landed: 1026 and the substation half of 1028 are a few lines unless they land meanwhile.
+- **The packages** (chain 070's sessions 1000 to 1018) are on main: the specification `docs/methods/packages.md`, the Python package's six calls, the Stata command (`packages/stata/`), the R package (`packages/r/erw/`), the conformance file (`packages/conformance/`), `/data`'s three panels and per-table lines, the download route, `/llms.txt`, and the release package's three languages.
+  - **Session 1033 reads the owner's results**: the three commands of sessions 1003 and 1005, and the runners `run_stata.do` and `run_r.R`. The Stata and R packages' Redivis export path (session 1014) is unproven until then.
+  - **Session 1034**: call 7 of the conformance file (ERCOT's demand on 18 October) leaves the live set's 35 days about 22 November; make the file again then (`make.py`, `write_runners.py`).
+  - **Session 1036** reads `/data`'s copy controls (session 1015) as well.
+  - **Session 1037**: two rulings now wait, not one: whether the downloads are public, and whether `/llms.txt` may be (both answer the internal view only until then).
+- **Open for the owner from chain 070**: the package's license (session 1002) and the R package's license and maintainer (1005); the PyPI upload; the Redivis click (the researcher's path, session 1017, waits on it); the price board tables' ERCOT figures the Grid tool shows while the record holds the tables whole (1012); the guide's account of the downloads (1009); the release's number.
 
 ## Rules for every session
 

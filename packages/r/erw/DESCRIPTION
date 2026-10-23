@@ -1,0 +1,18 @@
+Package: erw
+Type: Package
+Title: The Energy Research Warehouse (ERW) in R
+Version: 0.1.0
+Authors@R: person("ERW", "research project", role = c("aut", "cre"), comment = "github.com/SamuelEnrique/erw")
+Description: Reads the tables of the Energy Research Warehouse (ERW): US power prices, demand, generation, fuel and
+    project tables, each row traceable to the report it came from. The six calls of the ERW packages
+    (erw_tables, erw_coverage, erw_fetch, erw_cite, erw_license, erw_standard) over three backends: the
+    Stanford Redivis dataset, the live set and local files. Base R only.
+License: file LICENSE
+URL: https://github.com/SamuelEnrique/erw
+BugReports: https://github.com/SamuelEnrique/erw/issues
+Depends: R (>= 3.6.0)
+Imports: utils, stats
+Suggests: testthat (>= 3.0.0), knitr, rmarkdown
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+Encoding: UTF-8
