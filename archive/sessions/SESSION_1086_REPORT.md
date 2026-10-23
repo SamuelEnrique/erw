@@ -12,16 +12,16 @@
 ## Chain 073's landing (`task/1042-1085-allgrids`, merged `c2113da8` at 10:25:59 UTC, run 39937457682)
 
 - **Vercel**: the merge commit's status is "Deployment rate limited, retry in 24 hours" (10:26:04 UTC), and so is main's next commit `22319291` (10:34). Production did not serve the landing at 10:48 UTC: the mark of session 1069 (`data-node-planned` on `/cost-of-power?view=allgrids&rows=nodes&node=ercot%3A7RNCHSLR_ALL`, read through the internal view) was absent.
-- The wait and the snapshots are under "The push" below.
+- **Served at 10:57:03 UTC** (the mark present, 31 minutes after the merge, despite the status's words). After snapshot `c073a-after` at 10:57:13; `compare c073a-before c073a-after`: **0 differences** on 25 pages, 0 checked number keys, expected (every page is in review, so a visitor sees the in-review page before and after).
 
 ## The push
 
-Filled in below once taken.
+This session's records (the report, the note's addendum, the merge of `wip/1041-records` and the queue move `fcb88fa3`) go to main in one push, documents only. Before snapshot `s1086-before` taken as its own command just before the push. The push's time, the after snapshot `s1086-after` and its comparison are recorded on `wip/1086-records` once taken (as chain 072's `wip/1041-records`), for this machine's next chain to land first.
 
 ## Clean-up
 
 - Worktrees `erw-1042` (`wip/1042-allgrids`) and `erw-1064` (`wip/1064-allgrids`), both on main, removed; `erw-1064` held only an untracked `package/build/`.
-- Remote `wip/1063-records` and `wip/1041-records` (both on main after this push) deleted.
+- Remote `wip/1063-records` and `wip/1041-records` (both on main after this push) deleted; `wip/1086-records` stays until it lands.
 - The build lock was free; no server or browser of this session ran. Chain 073's probe process was left to end by its own 40-minute limit (about 11:06 UTC).
 
 ## Decisions made without you
@@ -36,4 +36,4 @@ Filled in below once taken.
 
 ## To finish
 
-See "The push".
+- Land `wip/1086-records` (this push's after snapshot and comparison) at this machine's next chain's start.
