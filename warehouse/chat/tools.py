@@ -41,6 +41,9 @@ ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 sys.path.insert(0, os.path.join(ROOT, "package", "src"))
 import erw  # noqa: E402
 
+sys.path.insert(0, HERE)
+import license_hold as hold  # noqa: E402  (session 1191: the site's license hold, with ASK_HOLD=on)
+
 AGGREGATIONS = ["latest", "mean", "median", "min", "max", "percentile", "count", "sum"]
 TIME_GROUPS = ["year", "month", "day", "hour"]
 MAX_GROUPS = 60        # rows returned by one query; more are counted and cut
@@ -241,6 +244,35 @@ def _coverage():
 
 
 def _table(name):
+    """A table's frame, kept for the session. Session 1191: with ASK_HOLD=on, read as the site reads it (lib/chat/tools.ts
+    tableInfo, lib/supabase.ts): a table held whole is refused by name, a table held by grid comes without the held
+    grids' rows, a table held by row with its public rows only."""
+    df = _table_read(name)
+    if not hold.on():
+        return df
+    if hold.held_whole(name):
+        raise ToolError(f"table {name} is {hold.LICENSE_NEEDED}: {hold.title(name)}. State no figure of it: answer with "
+                        f"not_in_warehouse true and say that it is \"{hold.LICENSE_NEEDED}\"")
+    key = ("_held", name)
+    if key not in _frames:
+        kept = df
+        if hold.license_needed(name) and hold.by_row(name):
+            col = df[hold.ROW_LICENSE_COLUMN] if hold.ROW_LICENSE_COLUMN in df.columns else pd.Series("", index=df.index)
+            kept = df[col.fillna("").astype(str).str.strip().str.lower() == "public"]
+        elif hold.license_needed(name) and "entity" in df.columns:
+            ents = df["entity"].dropna().unique()
+            out = [e for e in ents if hold.held_row(name, e)]
+            if out:
+                kept = df[~df["entity"].isin(out)]
+        if kept is not df:
+            attrs = df.attrs
+            kept = kept.copy()
+            kept.attrs = attrs
+        _frames[key] = kept
+    return _frames[key]
+
+
+def _table_read(name):
     _ready()
     if name not in _frames:
         if name not in set(_coverage()["table"]):
@@ -510,13 +542,59 @@ def _aggregate(g, agg, vcol, tcol, pct, shape):
     return {"value": _num(fn(v.to_numpy(dtype=float))), "n": int(len(v))}
 
 
+def _where_values(where):
+    for v in (where or {}).values():
+        for x in (v if isinstance(v, list) else [v]):
+            yield x
+
+
+def held_answer(args, grid):
+    """Session 1191, as site/lib/chat/tools.ts heldAnswer: a question of a held grid's rows is answered with the hold's
+    words and the same query over the table's public grids (one read by entity); a grouped query gets the words only."""
+    table = args["table"]
+    name = hold.grid_name(grid)
+    out = {"held": True, "grid": name, "grid_license": hold.LICENSE_NEEDED, "title": hold.title(table),
+           "words": f"{name}'s rows of {table} are held for a license: {hold.LICENSE_NEEDED}",
+           "note": (f"State no figure of {name}. Answer with not_in_warehouse false: say first that {name}'s rows are held for a license "
+                    f"(\"{hold.LICENSE_NEEDED}\"), then give the same figure for each grid under public_grids, in the same sentence structure, with this table cited")}
+    if not args.get("group_by"):
+        pub = query(**{**args, "entity": None, "group_by": "entity"})
+        rows = [r for r in pub.get("result") or [] if hold.grid_of_entity(r.get("entity")) and not hold.miso_own(r.get("entity"))
+                and not hold.held_row(table, r.get("entity"))]
+        out["public_grids"] = [{"grid": hold.grid_name(hold.grid_of_entity(r["entity"])), **r} for r in rows]
+        out["public_query"] = {k: pub.get(k) for k in ("aggregation", "filters", "units", "variables", "rows_matched")}
+        if not rows:
+            out["public_grids_note"] = "no public grid holds a row for these filters"
+    else:
+        out["public_grids_note"] = f"a grouped query names no public grid's figure: ask again with entity set to a public grid's hub (group_by {args['group_by']})"
+    out.update(provenance(table))
+    return out
+
+
 def query(table, aggregation, entity=None, variable=None, start=None, end=None, where=None,
           percentile=None, value_column=None, group_by=None, tz="UTC"):
     if aggregation not in AGGREGATIONS:
         raise ToolError(f"aggregation must be one of {AGGREGATIONS}")
+    held_on = hold.on()
+    if held_on and (hold.miso_own(table) or hold.miso_own(entity) or any(hold.miso_own(x) for x in _where_values(where))):
+        raise ToolError(hold.MISO_PAUSED)
     df = _table(table)
+    if held_on:
+        try:
+            grid = hold.held_grid_of(table, entity, SCOPE)
+        except ValueError as exc:
+            raise ToolError(str(exc))
+        if grid:
+            return held_answer(dict(table=table, aggregation=aggregation, entity=entity, variable=variable, start=start, end=end, where=where,
+                                    percentile=percentile, value_column=value_column, group_by=group_by, tz=tz), grid)
     shape = _shape(df)
     sel, tcol = _select(df, shape, entity, variable, start, end, where, tz or "UTC")
+    if held_on and "entity" in sel.columns and len(sel):
+        # session 1191, as the site's read: MISO's own rows are left out, and a read that held only MISO's rows is refused
+        own = sel["entity"].map(hold.miso_own).astype(bool)
+        if own.all():
+            raise ToolError(hold.MISO_PAUSED)
+        sel = sel[~own]
     vcol = value_column or {"series": "value", "entities": "capacity_mw", "events": "mw"}[shape]
     if aggregation not in ("count",) and vcol not in df.columns:
         raise ToolError(f"no column {vcol!r}; numeric columns: "
