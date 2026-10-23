@@ -24,3 +24,7 @@
 - New: the six notes above, this report.
 - Changed: `docs/methods/lbnl_projects.md`, `warehouse/connectors/eia_uranium_production.py` (its description), `docs/coverage.md`, `warehouse/metadata/coverage.csv` (the Method cells).
 - On the data machine only: `runs/c054/s960/`.
+
+## Corrected by session 983
+
+- This session's Method-cell run rebuilt `usgs_mcs_critical_minerals`' coverage row in the main checkout with main's validator, which did not then know the unit `t` (Decision 56 was on the branch), and wrote it "blocked (1 errors)"; it landed so with chain 054. Chain 055's session 981 wrote the table again (pass), and session 983 removed the stale rows. A Method-cell run of a table with a new unit needs the branch's validator copied in, as a write does.
