@@ -258,6 +258,104 @@ The grids chosen go in the address (`grids=`) and are carried from view to view;
 every opening address is as it was. With every grid on, each of the three views shows exactly what it showed before
 (compared as text before and after, 9 October 2026: only the control's row was added).
 
+## The Mix tab's energy mix, keyed, hourly and by month (chain 077, 23 October 2026)
+
+Sessions 1152, 1155, 1158, 1159 and 1160 of chain 077. The block "<grid>: hourly mix, last 7 days" on the Mix tab of
+`/grid` opens with a server-drawn panel, `data-grid-panel="grid_mix_<grid>"` (`site/components/grid/MixFigures.tsx`,
+the figures computed by `site/lib/mixHourly.ts`, read in `site/components/grid/MixView.tsx`). Every figure in it is a
+check key that `site/scripts/check-values.mjs` recomputes, and each has a one-line hover tip naming its table, entity,
+variables and window.
+
+**The hourly view (the opening one).**
+
+- **The tables.** `eia930_all_generation` (EIA-930 by balancing authority, `eia930:<BA>`, nine days read from the live
+  set's 35-day window) and `eia930_all_demand`. There is no hourly generation by sub-region: EIA-930 publishes
+  sub-region (sub-BA) data for demand only (`eia930_subba_demand_hourly`, not in the live set), and generation by
+  balancing authority only. "generation_mix_hourly" is the name of this note and of its builder, not of a table.
+- **The window of the headline: the 24 hours that end with the newest hour held.** An hour is held when its
+  `net_generation_mw` is. The panel says how many of the 24 are held ("24 of 24 hours held"). The table is loaded by
+  whole UTC days, so the newest hour is the last hour of the newest complete day; the chart runs on to it when it is
+  later than the last complete day.
+- **Net generation and each fuel.** The 24 hours' net generation in MWh,
+  `series_sum|eia930_all_generation|net_generation_mw|<start>|<end>|eia930:<BA>`; each fuel group's MWh,
+  `series_sum|eia930_all_generation|<variables>|<start>|<end>|eia930:<BA>`, where `<variables>` is every EIA variable
+  of the group that the window holds, sorted and comma separated (wind is `net_generation_wind_mw` and
+  `net_generation_wind_with_battery_mw`; check-values reads a comma list with `in.(...)`; a key without a comma reads
+  as it always did); and its share, `calc|pct|<the fuel's key>|<the net generation key>` (each inner `|` written `~`).
+  The groups are the Grid tool's (`components/mix/Now.tsx`): natural gas, coal, nuclear, wind, solar, hydro, storage
+  and other.
+- **The share's two denominators.** The headline's share is of `net_generation_mw` over the same hours, as the task
+  asked; the chart's hover card gives each fuel's MW and its share of the sum of the fuels drawn at that hour (this
+  note's rule for a share since session 133). The two can differ by the gap between EIA's total and its sources (on
+  ERCOT's fixture of 20 October 2026 the eight headline shares add to 99.9997 percent).
+- **The peak hour is the demand peak.** The hour of highest `demand_mw` in the same 24 hours,
+  `series_max|eia930_all_demand|demand_mw|<start>|<end>|eia930:<BA>` (check-values proves it is the highest of the
+  window), named with its MW in the panel and marked on the chart by a dashed accent line ("Peak demand, HH:MM UTC",
+  also in the hover card). It is not the peak of net generation, and not the "tightest hours" of `grid_stress.md`
+  (the highest net load): see that note's chain 077 section.
+- **The newest hour, and its age said against the drawing clock.** The newest hour held is a key,
+  `series|eia930_all_generation|eia930:<BA>|net_generation_mw|<hour>`; its age is whole hours from the hour's end to
+  the time the page was drawn (`renderTime()`; the page is cached up to an hour, so the age can be up to an hour
+  short). The age is not a key: the clock is not a table.
+- **The chart's stack.** Since session 1152 each stacked band is drawn from the running sum of its own side of zero
+  (`site/components/TimeChart.tsx`): when batteries charge (storage below zero) the band is drawn below the axis and
+  the bands above start from zero, where until then the band after storage started from storage's negative value and
+  drew a wedge across the axis. A stack whose values are all held and positive draws as before; only the Grid tool's
+  stacked charts use `stack`. `tests/test_session1152.py` pins the base.
+
+**The monthly view (`mixp=month`, the chips "Hourly, last 7 days" and "By month").**
+
+- **The table.** `generation_mix_hourly_profile` (this note, above), entity `iso:<grid>`: the grid's last 24 months,
+  stacked, each fuel's MWh and share on hover. Under it, the newest month's MWh and stored share,
+  `series|generation_mix_hourly_profile|iso:<grid>|<coal, hydro, natural_gas, nuclear, other, solar, storage, wind>_mwh|<month>`
+  and `series|generation_mix_hourly_profile|iso:<grid>|<coal, hydro, natural_gas, nuclear, other, solar, storage, wind>_share_pct|<month>`
+  (and `net_generation_mwh`, `days_held`, `days_in_month` for the month), and the MWh of the twelve calendar months to
+  it, `series_esum|generation_mix_hourly_profile|iso:<grid>|<fuel>_mwh|<from>|<to>`. A month of the twelve that the
+  build did not write is named on the face (ERCOT: 2025-12). No twelve-month share is drawn.
+- **The Lower 48** has no monthly view by grid (the table holds the seven ISO grids): its panel says "not built for the
+  Lower 48", and the state monthly view below it is its monthly mix.
+- **`mixp` in the address** is a field of the mix page's choice (`site/lib/mixpage.ts`), written only on "Now and by
+  state" and only when it is `month`, so every older address opens as it did.
+- **CAISO's alert months** (session 1155): a month of the chart that holds an Energy Emergency Alert or a Flex Alert day
+  is marked, with one count of the alert days of the months drawn; the rule and the keys are in
+  `california_reliability.md`, "On the Grid tool: the alert state".
+
+**California's hourly mix stays withheld, said as the session 118 ruling.** EIA-930's generation for California is not
+the series it was since the join day (`eia930_caiso_break.md`), and the hourly view reads only EIA-930, so for CAISO
+the panel draws no hourly figure: it carries the two chips and a line that the monthly mix, CAISO's own data since
+January 2026, is under "By month". The Now block says it in the withheld panel's words ("Not shown: ...",
+`site/components/CaisoMixWithheld.tsx`); it is not "license needed": no grid of these tables is held for a license.
+
+**The tables at 390 pixels, and the brand (sessions 1158, 1159).** The panel's two tables scroll inside a named frame a
+keyboard can reach (`scrollRegion`, `site/lib/cells.ts`, as `ToolTable` draws it); each fuel's name is its row's header
+cell; the colour swatch is hidden from a screen reader. Their rows are the shared table's (about 33 px) by one rule in
+`site/app/tokens.css` scoped to `[data-grid-panel]`. A fuel with no share leaves its cell blank (a ruling is asked:
+"not held").
+
+**The reads made smaller (session 1160), the same rows drawn.** The Now view's mix (the first block of every Mix tab)
+reads the newest hour holding the grid's total in its 34-day window (one row), then the grid's rows from that hour on
+(`site/lib/gridReads.ts`, `latestHour`), where it read every variable of the 34 days; for CAISO, whose EIA-930
+generation the view does not draw, nothing is read. "Generation mix, as a table" (`components/grid/Conditions.tsx`,
+`MixTable`) no longer reads each region's station temperatures, which it does not draw (`loadConditions(ba, day,
+{ weather: false })`). A grid's Mix tab went from 66 to 90 requests to 54 to 76. The node test
+`site/scripts/test-grid-reads.mjs` proves on real rows that the same hour, total and fuels are drawn.
+
+Decisions (chain 077):
+
+- **The peak is demand's, not net generation's**: a trader's peak is the load peak (prices, reserves, the four
+  coincident peaks and the evening ramp key off demand), and net generation differs from it by the grid's net imports.
+  The owner may ask for the net load peak (demand less wind and solar) instead; it would be a new key, not a change.
+- **The headline ends with the newest hour held, not with the clock**, and says how many of its hours are held; no hour
+  is filled. The owner may ask for "yesterday, local day" instead.
+- **The age is said against the drawing clock, not as a key**, as session 266 did for the network (`data-network-clock-lag`).
+- **The monthly view shows the newest month's stored share and the twelve months' MWh, no twelve-month share**: the
+  table's shares are of the sum of its eight sources, and a share of two sums would be a third convention.
+- **The stacking fault was fixed in `TimeChart`, not around it**: the look on production was a drawing fault, not a
+  design.
+- **`series_sum` takes a comma list, rather than a new key kind**: no existing key holds a comma, so no existing key
+  changes what it computes. `site/scripts/check-methods.mjs` reads such a key as a figure of each variable (session
+  1162).
+
 ## The figures on the page and their keys
 
 Each number `/grid` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The keys the sections above do not name:
@@ -266,3 +364,4 @@ Each number `/grid` shows carries its key (`site/components/Num.tsx`), which `si
 - `state_generation_mix_monthly`, `net_generation_<natural_gas, coal, nuclear, wind, solar, hydro, other_renewables, oil_and_other, not_itemized>_mwh`: the block "monthly mix since 2001", the table's last column: each fuel group's MWh in the newest month held for the state chosen (the United States, `eia:US`, unless another is chosen).
 - `eia930_all_generation`, `net_generation_<coal, geothermal, hydro, natural_gas, nuclear, oil, other, other_storage, pumped_storage, solar, solar_with_battery, unknown, unknown_storage, wind, wind_with_battery, battery>_mw`: the latest hour's blocks that open the Mix tab (`components/grid/NowView.tsx`), "The mix in that hour": each source's net generation in MW, as EIA names it, in the latest hour that holds the total; the largest of them is also named in the tab's first sentence.
 - `eia930_all_demand`, `demand_forecast_mw`: the block "yesterday" under them (`components/grid/Conditions.tsx`): EIA's day-ahead demand forecast for the hour of the day's peak demand; the error beside it is the peak demand less that forecast.
+- Chain 077 (23 October 2026), the panel `grid_mix_<grid>` above the hourly chart of the Mix tab: `eia930_all_generation`, `net_generation_mw` (a `series_sum` key, the 24 hours' net generation; and a `series` key, the newest hour held); each fuel group's `series_sum` over its variables, comma separated, and its share as `calc|pct|` of the two sums; `eia930_all_demand`, `demand_mw` (a `series_max` key, the peak demand hour). With `mixp=month`: `generation_mix_hourly_profile`, `<coal, hydro, natural_gas, nuclear, other, solar, storage, wind>_mwh` and `<coal, hydro, natural_gas, nuclear, other, solar, storage, wind>_share_pct` (`series` keys, the newest month; `series_esum` keys, the twelve months). The section "The Mix tab's energy mix, keyed, hourly and by month" above gives each rule.

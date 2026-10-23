@@ -345,6 +345,118 @@ no number moved. The rulings the page carries, said on the page in its decisions
 - **6a, the 63 other balancing authorities.** Not drawn on the gravity shape: their net generation is not in the live
   set. The line under the frame counts them.
 
+## The Grid tool's panels, every figure keyed (chain 077, 23 October 2026)
+
+Chain 077 (sessions 1150 to 1161, `queue/done/077-day-23-october-code-grid-tool.md`) set out to make every figure of
+`/grid` traceable. Session 1150's review (`docs/reviews/grid-tool-2026-10-23.md`) found that the Network tab carried
+one check key and the Gravity shape five: the network component draws its figures in the browser, where none can be
+checked. The rule the chain set: **every figure the tool draws in the browser has a twin drawn on the server**, in a
+panel wrapped in `data-grid-panel="grid_<panel>_<grid>"`, each figure drawn through `site/components/Num.tsx` with a
+key `site/scripts/check-values.mjs` recomputes and a one-line hover tip (its table, filter, hour or window, and the
+snapshot's refresh). The panels, by tab:
+
+- **`grid_network_<grid>`, the Network tab (session 1151, `site/components/grid/NetworkFigures.tsx`, the figures in
+  `site/lib/gridKeys.ts`).** The grid in view in the hour the network component opens on, the newest hour that every
+  reporting pair holds, so the panel and the drawing show the same hour: each reporting tie's MW and direction
+  (`net|tie|<BA>|<other>|<hour>`), the net export or import (`net|export|<BA>|<hour>`, `net|import|<BA>|<hour>`), the
+  number of ties (`net|ties|<BA>|<hour>`) and the grid's demand in that hour, read as the component reads it (the
+  week's `eia930_all_demand` first, else the hourly snapshot's), keyed `netsnap|<BA>|demand_mw|<hour>` when the hourly
+  snapshot holds that figure and `series|eia930_all_demand|eia930:<BA>|demand_mw|<hour>` otherwise (`demandAt`). For
+  the Lower 48, the seven grids' net export and ties.
+- **`grid_gravity_<grid>`, the Gravity tab (sessions 1151 and 1153).** What the gravity shape draws: each of the seven
+  grids' net generation (`series|eia930_all_generation|eia930:<BA>|net_generation_mw|<hour>`), net import
+  (`net|import|...`) and the import as a percent of generation (`calc|pct|<the import key>|<the generation key>`),
+  the grid in view highlighted, the Lower 48's generation (the shape's scale) in the note. The section "The gravity
+  shape" above gives its edges, its one public source and the replayed day.
+- **`grid_clean24_<grid>`, the Clean tab (session 1151, `site/components/grid/Emissions.tsx`).** Under "The last 24
+  hours": each of the seven ISOs' latest hour, and the lowest and highest of the 24 hours drawn, each
+  `series|carbon_intensity_hourly|<entity>|intensity_generation|<hour>`, the grid in view highlighted. The table is
+  `emissions.md`'s.
+- **`grid_mix_<grid>`, the Mix tab (session 1152).** The energy mix's 24 hours and the monthly view:
+  `generation_mix_hourly.md`, "The Mix tab's energy mix, keyed, hourly and by month".
+- **`grid_scarcity_<grid>`, the Mix tab (session 1154).** `scarcity_hours_by_grid.md`, "On the Grid tool".
+- **`grid_caisoalert_caiso`, CAISO's Mix tab (session 1155).** `california_reliability.md`, "On the Grid tool: the
+  alert state".
+- **`grid_ask_<grid>`, the Ask panel (session 1157).** Stored answers, no key: below.
+
+**The keys.** Every key of these panels is of a kind check-values knew, with three changes. Session 1152 let `series_sum`'s
+variable part name several variables, comma separated (a fuel group), recomputed with `in.(...)`; no earlier key holds
+a comma, so none changes what it computes. Session 1154 added `series_n|<table>|<variable>|<start>|<end>|<entity>`,
+the distinct hours the rows hold. Session 1155 added two forms of session 58's `awe` family, `awe|last|<group>|<day>`
+and `awe|ndays|<group>|<from>|<to>`. `site/scripts/check-methods.mjs` names each (session 1162: a comma list is a
+figure of each of its variables).
+
+**The map and the gravity shape, after the chain (sessions 1156, 1158).** A line of the map gives its MW only where the
+panel under it holds the figure (the section "The map", session 1156's paragraph). On a phone a tap on a line, the
+Lower 48 or a circle opens its card, which stays until the next tap, and a card is never wider than the frame
+(`cardWidth` in `site/lib/networkMap.ts`, at most 20rem); the mouse's hover is as before. Neither drawing takes an ARIA
+role: the svg's own, with its name, since an image role hides the regions and links a keyboard reaches and a group role
+is not allowed on an svg. A line answers a pointer, not the keyboard; its figure is in the keyed panel, which does.
+
+**The day in the picker.** On the Network and Gravity tabs the grid picker carries the replay's day: `grid_network_v3.md`,
+"The day carried from grid to grid".
+
+**California's join date, in one place.** The gravity shape's note writes the day California's generation joined
+CAISO's own (`carbon_intensity_hourly`'s color) through `caisoJoinDay()` (`site/lib/caisoJoin.ts`), not as a date
+(the orchestrator's fix after session 1159, commit `169e537a`): `tests/test_session78.py` allows the date in that one
+file.
+
+**The stored answers of the Ask panel (session 1157, `site/components/grid/AskExamples.tsx`, `site/lib/gridask.ts`).**
+Under the live Ask box, for the grid on screen, up to five answers of past evaluations, each a closed `<details>` with
+the question as its summary, holding the answer as stored, each figure's table and filter and the day it was asked,
+and the run it came from (file, question id). No model is called, and the live box is not changed (chain 075's). The
+selection, made by `site/scripts/build-grid-ask-examples.mjs` into `site/data/grid_ask_examples.json`:
+
+- **Only runs that kept every tool call's result:** `warehouse/chat/eval/eval_s302_fixtures.json` (19 October 2026)
+  and `eval_s267_fixtures.json` (14 October). `eval_s320_first_run.json` kept the count of calls only, so none of its
+  figures can be traced, and it is left out whole; the data file says so.
+- **Kept:** graded right by its run (verdict right, grade ok); about one grid (a comparison of two grids is shown for
+  neither); every figure of the answer found in a non-error tool result of its own run at the rounding it is written
+  to (the number check of `lib/chat/ask.ts`, ported). Dates, clock times, years, list markers and the question's own
+  numbers are not figures. Refusals graded right ("not in the warehouse") are kept, after the answers with figures.
+- **Order:** the route the panel itself sends first (ERCOT its profile, the Lower 48 the general chat, the others the
+  grid's own chat), then the newest run, then answers with figures before refusals. At most five; fewer is said in
+  words ("Four stored answers for NYISO so far").
+- **Held tables, on the day the page is drawn:** an answer any figure of which comes from a table held for its grid
+  (`site/lib/license.ts`, `licenseHeldRow`; the figure's entity, or the answer's grid when the call named none) is not
+  shown; in its place, the words the live Ask's tools receive for that read (`licenseReason(table)`) and the table's
+  name.
+- **No check key:** these are stored texts of a past evaluation, not figures read from the database; the panel carries
+  `data-ask-stored="1"` and says the figures are as of the day asked.
+
+**Not keyed yet (session 1151's list).** Each draws a number from the database that would need a new key kind or a
+change to how it is written: on the Mix tab, "Yesterday"'s forecast error at the peak, its mean absolute error and the
+degree days (`components/grid/Conditions.tsx`); each fuel's share in "Generation mix, as a table" (one decimal, a
+share over several variables); "Hours held" in the grid's 30-day mix table (`components/grid/YourGrid.tsx`); "The
+table holds N notices" (`components/grid/Reliability.tsx`); and the network component's own side panel (the hub
+price, the batteries, the replay's days), drawn in the browser.
+
+**The reads (session 1160).** Every read of `/grid`, `/grid/caiso/alerts` and `/network` was timed three times
+(`site/scripts/time-grid-reads.mjs`, which calls the pages as Next renders them): the slowest median 117 ms, none over
+a second, each served by an index the live set has, so no index was added. Three reads were made smaller with the same
+rows drawn (`generation_mix_hourly.md` and `california_reliability.md` say which). Left as they are: the network
+snapshot is read twice on the Gravity tab on purpose, by the network (cached an hour) and by the Exchange blocks
+(fresh).
+
+Decisions (chain 077):
+
+- **A server twin, not a key inside the browser drawing**: the drawings are drawn after the page is served, so
+  check-values cannot read them; the twin is what the reader can trace and the checker can recompute. The drawings'
+  hover cards stay unkeyed, as the shared charts' cards are.
+- **The Gravity tab's panel shows what the shape draws**, not a second copy of the grid's ties: the Exchange blocks under
+  it already key the ties, the net and their count in the same hour.
+- **The Clean tab's panel shows all seven ISOs**, as its chart draws seven lines, the grid in view highlighted.
+- **The hub price stays in the browser**: a price key needs the price board's interval rules or the market table's
+  hourly mean; left for a later session.
+- **A line of the map gives its MW only for the grid in view's ties in the panel's hour**; whether every tie's MW may be
+  written is put to the owner (`docs/reviews/grid-rulings-2026-10-23.md`).
+- **No keyboard stop on each line** of the map (about a hundred) or the gravity shape: it would bury the regions; the
+  same figures are in the panel, which a keyboard reaches. Put to the owner as a design choice.
+- **Stored answers only from runs that kept their tool results**, so that each figure shown can be traced to the call
+  that returned it; a held table's answer is replaced by its license words, never drawn.
+- **No index added**: the slow days of 21 and 22 October were the whole database (a primary-key read was slow too),
+  not a missing index.
+
 ## Not here
 
 - The published boundaries of the balancing authorities: not held after three pulls. The Map draws the ERW's own derivation from counties, labeled as derived (see "The map", "The derived map: counties").
@@ -557,3 +669,4 @@ Each number `/grid` shows carries its key (`site/components/Num.tsx`), which `si
 - `bsup|<BA>|neighbour_mwh:<ID>`, `bsup|<BA>|neighbour:<ID>`: the table of the grid's neighbours over the same twelve months: each neighbour's net import into the grid in MWh, and its percent of the grid's demand.
 - `net|maxflow|<BA>|<hour>`: the Exchange view's headline "Largest flow": the largest flow, either way, over the grid's reporting ties in the hour shown, in MW, read from the network's snapshot of `eia930_all_interchange`.
 - `net|topexport|<hour>`: the Exchange view of the Lower 48, in its first paragraph: the largest net export of any balancing authority in the hour shown, in MW, its reporting ties summed and signed from its side (`netExports` and `topExporter` in `site/lib/network.ts`), from the same snapshot; two authorities with the same net export give it to the first by its id.
+- Chain 077 (23 October 2026), the server panels of the Network and Gravity tabs (the section "The Grid tool's panels, every figure keyed" above): `net|tie|<BA>|<other>|<hour>`, each reporting tie of the grid in view in the hour the network opens on, MW, signed from the grid's side; `net|export|<BA>|<hour>` and `net|import|<BA>|<hour>`, the sum of those ties as a net export or a net import; `net|ties|<BA>|<hour>`, how many ties reported; `netsnap|<BA>|demand_mw|<hour>`, the grid's demand in that hour where the hourly snapshot holds it (else the `series` key of `eia930_all_demand`, `demand_mw`); on the Gravity tab, `eia930_all_generation`, `net_generation_mw` (a `series` key) and `calc|pct|` of the import over it. On the Clean tab, `carbon_intensity_hourly`, `intensity_generation` (`series` keys, the latest, lowest and highest of the 24 hours).

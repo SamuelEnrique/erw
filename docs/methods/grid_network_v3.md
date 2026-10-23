@@ -219,3 +219,17 @@ Not done: `/network` is as it was. If the live page passed the `v3` prop, a visi
 The checked numbers of the live page (demand, carbon, the twelve months) are read the same way by both. The one
 figure a visitor would lose is MISO's price; the one that would differ on opening is every flow, because the hour
 differs.
+
+## The day carried from grid to grid (chain 077, 23 October 2026)
+
+On the Grid tool the replay lives on the Network tab of `/grid`, and its address words are kept there as `net` (the view: `day`, a story, California's evening) and `t` (the day or hour), beside the tool's own `grid`, `view` and `shape`. Until chain 077 a reader who picked a day and then another grid lost the day: the picker's links were the grid's bare address. Now:
+
+- **The grid picker carries the replay's day** on the Gravity tab (session 1153) and on the Network tab (the orchestrator's fix after session 1161's walk, commit `35d2c31c`): when the address holds `net=day`, each grid's link carries `net=day` and its `t` (`site/lib/carry.ts`, `KEEP_DAY`; drawn by `site/components/tool/CarryLink.tsx` through the shared `ToolPicker`'s optional `carry`, which follows the component's `replaceState` through `useSearchParams`; the server's first render carries it too). The network reads `net=day&t` at load and opens on that day; the gravity shape draws no day (it holds no generation by day) but keeps it in the address. The Mix and Clean tabs' pickers carry nothing.
+- **Only a day is carried by the picker**, not an hour of the live week nor a story (session 1153's choice; the map's links below carry both).
+- **A grid clicked on the map carries the whole moment** (session 1156): one of the seven ISO grids is a link to its own Network tab in the Map shape, with `net` set to the view shown (any view but the live week) and `t` to its day or hour (`carryMoment` in `site/lib/networkMap.ts`).
+
+Decisions (chain 077):
+
+- **The day, not the hour or the story, is what a picker carries**: a day since 2019 is the replay's shareable moment and the same day for every grid, and an hour of the live week leaves the rolling week within days ("The address" above). The owner may ask for the hour and the story too; it is a change of the carry's rule (`KEEP_DAY`), not of the page.
+- **The carry is a shared piece** (`ToolPicker`'s `carry`), set on two tabs only; a picker without it draws as before.
+- **The map's link carries more than the picker** because a click on the map is a move inside the same moment; the picker is a change of grid, read as a new start except for the day.

@@ -105,3 +105,16 @@ The battery fleet in the dark, calm measure is `storage_buildout_monthly`'s oper
   (New York); Texas 31.7, and 39.9 in 2026 to date.
 - The longest dark, calm stretch of 2025: Texas 18 hours (322,188 MWh missing; 37.8 hours of its battery fleet at
   full power), California 18 hours, MISO 16, PJM 20, SPP 15, New England 62, New York 101 (wind only).
+
+## Three different "tight" hours on the Grid tool (chain 077, 23 October 2026)
+
+Chain 077 put two more measures of a hard hour on the Mix tab of `/grid`, beside this note's. They are not the same hours, and the page does not mix them:
+
+- **The tightest hours (this note):** the 100 used hours of a year with the highest net load (demand less wind less solar), in `grid_stress_yearly`, drawn by the view "How hard the system works".
+- **The peak demand hour (session 1152):** in the energy mix panel `grid_mix_<grid>`, the hour of highest EIA-930 demand (`eia930_all_demand`, `demand_mw`) in the 24 hours that end with the newest hour held, keyed `series_max|eia930_all_demand|demand_mw|<start>|<end>|eia930:<BA>` and marked on the hourly chart. Demand, not net load: wind and solar are not taken off. `generation_mix_hourly.md` gives the rule.
+- **The scarcity hours (session 1154):** in the panel `grid_scarcity_<grid>`, the hours of the latest 30 days `scarcity_hours_by_grid` holds in which the hub's price reached USD 1,000 per MWh or the grid's own scarcity signal was in force (ERCOT and CAISO only). A price and a notice, not a load. `scarcity_hours_by_grid.md` gives the rule.
+
+Decisions (chain 077):
+
+- **The panel's peak is demand's, not net load's**, as a trader reads a peak (prices, reserves and the four coincident peaks key off demand); this note's net load stays the measure of the tightest hours. The owner may ask the panel to name the net load peak beside it; that would be a new key, and no figure of this note would move.
+- **No figure of this note was changed by the chain**; the section only says which of the three a figure on the page is.

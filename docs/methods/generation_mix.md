@@ -50,3 +50,16 @@ The EIA-930 generation tables hold only complete UTC days (session 16), so the h
 - **Today so far**: the latest UTC day in `eia930_generation_latest` for the selected grid operator. It shows the hours it holds, the net generation in MWh (the sum of hourly MW), and the share by fuel group, grouped as on `/grid`.
 - **Hourly mix, last 7 days**: the 7 latest complete UTC days of `eia930_<ba>_generation`, stacked by fuel group. Negative values (storage charging) are not stacked.
 - **Monthly mix since 2001**: `state_generation_mix_monthly` for the selected state, stacked. The fuel-share table gives each group's share of net generation for whole calendar years (2001, 2010, 2020 and the latest full year) and the latest 12 months, and each group's MWh in the latest month.
+
+## On the Grid tool's Mix tab (chain 077, 23 October 2026)
+
+The page these blocks stood on is now the Mix tab of `/grid` ("Now and by state", session 133 and session 299). Chain 077 changed three things about them; the rules are in `generation_mix_hourly.md`, section "The Mix tab's energy mix, keyed, hourly and by month".
+
+- **The hourly mix on the Mix tab reads `eia930_all_generation`**, the live set's table of EIA-930 generation by balancing authority (nine days of its 35-day window), and it opens with a keyed panel, `grid_mix_<grid>`: the 24 hours that end with the newest hour held, their net generation, each fuel group's MWh and share, the peak demand hour and the newest hour's age.
+- **Negative values are now stacked below zero.** Storage charging is drawn as a band under the axis, each band from the running sum of its own side of zero (session 1152's fix in `site/components/TimeChart.tsx`); the line above, "Negative values (storage charging) are not stacked", described the chart before that session, which drew the band after storage from storage's negative value. A stack of positive values draws as before.
+- **A second view by month by grid** (`mixp=month`): `generation_mix_hourly_profile`, the seven ISO grids' last 24 months. The monthly mix by state below it (`state_generation_mix_monthly`) is unchanged, and it is the Lower 48's only monthly view: the profile table is by grid.
+
+Decisions (chain 077):
+
+- **The state monthly view was kept as it was**, below the grid's monthly view, rather than replaced: a state and a grid are different areas (the note's "Two sources, two geographies"), and the owner's rule that no default figure moves holds for it. The owner may ask for one of the two to be dropped.
+- **The line about negative values was left as written and corrected here**, as this note's form keeps what the page said; the page now draws what this section says.

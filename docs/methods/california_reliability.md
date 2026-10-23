@@ -98,3 +98,21 @@ The Mix tab of `/grid?grid=caiso` opens on the panel `grid_caisoalert_caiso` (`s
 - **The links:** to the Flex Alert scorecard (`/grid/caiso/alerts`), which links back to this panel and to the scarcity strip; to the alert days on the strip; to the Reliability section.
 - **The alert days on the scarcity strip** (CAISO): a triangle under each day of the strip with a `signal` notice that Pacific day, each cell's hover naming the day's notices; the counts `awe|ndays|signal|<first day>|<last day>` and `awe|ndays|rmo|...` under it. A notice's day is CAISO's Pacific day, set on the strip's column of the same date (the strip's days are standard-time days: in summer the two share 23 of their 24 hours). The window of 1 to 30 September 2026 holds no alert day, so nothing is marked; restricted maintenance on 9 and 10 September is named, not marked.
 - **The monthly mix** (`mixp=month`, CAISO): a month with an alert day is marked on the chart, its days in the mark's name; the alert days of the months drawn are one count (`awe|ndays|signal|<first month>|<last day of the newest month>`). The 24 months drawn on 23 October 2026 (September 2024 to September 2026) hold none, so nothing is marked. The hourly mix is withheld for CAISO (the session 118 ruling) and is not drawn, so it has nothing to mark.
+
+## The alert state's decisions, and what came after it (chain 077, 23 October 2026)
+
+What sessions 1158 to 1160 changed in the panel `grid_caisoalert_caiso` above, and the decisions behind session 1155's rules:
+
+- **One read of the notices a page (session 1160).** `gridNotices()` in `site/lib/reliability.ts`, called with no bounds by the alert state, the scarcity strip, the Reliability section and the monthly mix, is read and parsed once per render (React's `cache`); Next's fetch cache already sent one request. The bounded form (the alerts page, the heat event page) is unchanged.
+- **The face (session 1159).** The panel's dates and counts are set in the text's face, as the other panels' figures in running text; mono stays for figures in table cells and hover cards. No figure or word moved.
+- **The scorecard links back.** `/grid/caiso/alerts` carries one line under its breadcrumb, linking this panel (`/grid?grid=caiso#caiso-alerts`) and the scarcity strip (`/grid?grid=caiso#scarcity`); nothing else on it changed.
+
+Decisions (chain 077):
+
+- **The state stands first on CAISO's Mix tab**, above the latest hour: a trader opening CAISO reads whether the grid is on alert before anything else. It moves the blocks below it down the page; no figure's value or key changes.
+- **No line in the grid picker**: the picker is shared by the four tabs, and a CAISO line there would read the notices on every tab. The owner may ask for a static link there.
+- **"Today" is the Pacific day the page was drawn** (`renderTime()`, the page is cached up to an hour), and the key carries the day (`awe|last|signal|<day>`), so check-values recomputes the same question whenever it runs.
+- **A day is a key written as text** (`data-raw="2024-07-24"`): check-values already compares a figure that is not a number as text (session 315's rule).
+- **"No alert today" is never said past the table**: a day after the newest notice is "not held yet", with the newest notice day beside it. The report's revision date (9 October 2026) is only in the CSV's header, not in the live set, so the page gives the newest notice day.
+- **An alert is the scarcity table's own signal set**, so the strip's squares (by hour) and its triangles (by day) mean the same notices.
+- **The scorecard's "Limits" line "CAISO's Grid Emergencies History Report runs to 2025-04-30" is stale** since the report's revision of 9 October 2026 (notices to 2026-10-08, none an alert after 2024); it was left as written, since session 1155 changed nothing else on that page, and is put to the owner (`docs/reviews/grid-rulings-2026-10-23.md`).

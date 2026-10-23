@@ -87,6 +87,26 @@ The table's second reader: the Mix tab of `/grid`, the panel `grid_scarcity_<gri
 - **CAISO's alert days** (session 1155): a triangle under each day of the strip with an Energy Emergency Alert or a Flex Alert in `caiso_grid_emergencies` that Pacific day (the notices this table's `own_signal` counts, by day rather than by hour), named in the cells' hover; restricted maintenance and transmission emergencies named under the strip and not marked. The keys and the day rule are in `california_reliability.md`, "On the Grid tool: the alert state".
 - **The other grids** are not in the table, and the panel says why in one line: PJM "license needed" (no PJM price is held); MISO "paused" (since 4 October 2026, `miso_pause.md`); NYISO and ISO-NE "license needed" (their prices need a license from 21 October 2026); SPP "not in the table yet" (its hub prices are public; its own signal is not held as a table). The Lower 48 links ERCOT's and CAISO's.
 
+## The panel's rules and decisions (chain 077, 23 October 2026)
+
+What sessions 1155 to 1160 changed in the panel above, and the decisions behind it and behind session 1154's rules:
+
+- **The look (session 1159).** The panel's title is drawn with the tool's `ToolSection`, as every other panel of the chain; "license needed", "paused" and "not in the table yet" have the Grid tool's one look for a held or missing figure (captions grey, upright, a dotted rule under words that hold a reason on hover), by a rule in `site/app/tokens.css` scoped to the tool. No word or figure moved.
+- **The strip's day marks (session 1155)** are drawn by the shared `HeatChart` (`site/components/svgchart.tsx`) through an optional `colMarks`, off by default, so no other chart changes.
+- **One read of CAISO's notices a page (session 1160).** The strip's alert days, the alert state, the Reliability section and the monthly mix all call `gridNotices()` (`site/lib/reliability.ts`); its rows are read and parsed once per render (React's `cache`), the same request and rows as before.
+- **At 390 pixels (session 1158)** the strip keeps its hover (a tap is a pointer move) and its Chart | Table toggle carries every value; the table view scrolls in its own frame.
+
+Decisions (chain 077):
+
+- **The window is the latest 30 days held, not the 30 days before today**, because no warehouse data is written by the chain and the table's newest hour is 1 October 2026: a strip of the 30 days before 23 October would hold its first eight days and draw the rest as not held. The page names the newest hour and its age in days so the gap is read. The owner may ask for the last 30 days with the empty days drawn as not held, once the table is refreshed.
+- **The days are the grid's standard-time days** (1 to 30 September 2026, not 2 September to 1 October in UTC days), because the table's own clock is standard time.
+- **The price on hover is the hour's highest 15-minute real-time price** from `iso_rtm_hub_prices` where the live set holds it (from 18 September 2026), else for ERCOT the local day's highest (`ercot_hub_prices_daily`, said as the day's), else "no price of this hour is in the live set". No other table was read.
+- **A cell is the price count and the own signal a square on it**, so an hour with only its own signal held keeps a hatched cell and its square.
+- **`series_n` counts distinct hours**, as an hour written twice is one hour; the counts are `series_sum` of 0 or 1 values, which equal the per-hour reading while the table writes each hour once.
+- **The constants are the panel's own** (`SCARCITY_TABLE`, `SCARCITY_LEVEL` and the hubs in `site/lib/scarcityStrip.ts`, held equal to `lib/datacenter/answers.ts`'s by the node test), so the Mix tab's license line does not gain that file's other tables.
+- **The newest hour's age in days is not a key**: it is the clock against the page's drawing time, as the energy mix panel's age in hours.
+- **SPP is "not in the table yet"**, not "license needed": its hub prices are public, and the table leaves it out because its own signal (reserve shortage pricing) is not held as a table ("Not in the table" above). Adding a grid is one entry in `GRIDS`, a builder change left for a later chain.
+
 ## Checks
 
 - The validator: `python warehouse/validate/erw_validate.py warehouse/output/scarcity_hours_by_grid.csv`, pass.
