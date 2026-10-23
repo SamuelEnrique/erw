@@ -16,6 +16,26 @@ Cite the organization that published the data, then the ERW table and this versi
 
 Each table's own citation is in `docs/redivis/release-v1/tables.csv` in the repository.
 
+## Read it in Python, Stata or R
+
+The ERW's three packages read this dataset with the same six calls (tables, coverage, fetch, cite, license, standard), the same column types and the same citation (https://github.com/SamuelEnrique/erw/blob/main/docs/methods/packages.md). Each needs a Redivis token in `REDIVIS_API_TOKEN`. Install:
+
+```
+pip install "erw-energy[redivis] @ git+https://github.com/SamuelEnrique/erw.git#subdirectory=package"
+net install erw, from("https://raw.githubusercontent.com/SamuelEnrique/erw/main/packages/stata/") replace
+remotes::install_github("SamuelEnrique/erw", subdir = "packages/r/erw")
+```
+
+Then, for example, Henry Hub's daily price in 2025:
+
+```
+erw.fetch("eia_fuel_spot_prices", entity="eia:henry_hub", start="2025-01-01", end="2026-01-01", backend="redivis")
+erw fetch eia_fuel_spot_prices, entity(eia:henry_hub) start(2025-01-01) end(2026-01-01) backend(redivis) clear
+erw_fetch("eia_fuel_spot_prices", entity = "eia:henry_hub", start = "2025-01-01", end = "2026-01-01", backend = "redivis")
+```
+
+Each table's own line in each package is in `tables.csv` (`fetch_python`, `fetch_stata`, `fetch_r`).
+
 ## How it is made
 
 One connector per source pulls, reshapes and validates; the validator is the gate a table passes before upload. Uploads write a draft only; a version is released by a person after reading what the draft changes. Code, methods and the session reports: https://github.com/SamuelEnrique/erw
