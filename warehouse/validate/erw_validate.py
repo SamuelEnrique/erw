@@ -74,6 +74,9 @@ UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "mph", "
          # session 954: a quantity in metric tons and a price per kilogram, as the USGS's Mineral Commodity Summaries give
          # them (usgs_mcs_critical_minerals; Decision 56)
          "t", "USD/kg",
+         # session 2030: a volume in U.S. gallons, as EPA's Renewable Fuel Standard data give batch volumes (epa_rfs_rins_monthly;
+         # Decision 59)
+         "gal",
          # session 2045: precipitation in inches, as NOAA's nClimDiv gives a state's month (noaa_climdiv_state_monthly;
          # Decision 60)
          "in"}
