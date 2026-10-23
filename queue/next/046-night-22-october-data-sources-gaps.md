@@ -1,8 +1,8 @@
-# Chain of the night of 22 October 2026: sessions 850 to 864, data machine (lab-desktop), unattended: the siting gaps a public source can fill, EIA-930's early sub-regions, the licenses a read can settle
+# Chain of the night of 22 October 2026: sessions 850 to 866, data machine (lab-desktop), unattended: the siting gaps a public source can fill, EIA-930's early sub-regions, the licenses a read can settle
 
 machine: data
 
-Written by session 688, the first session of `queue/done/045-evening-22-october-data-resumed.md`, under that file's added rule ("the next file is written and pushed to `queue/next` at the START of the chain, not at its end"), at the owner's instruction for it ("at least twelve sessions, machine: data, numbered from 850, the sources and gaps chain 044's reports leave open, in chain 040's form"). Sessions 850 to 864 were free in every queue file and branch when this was written (the code machine holds 700 to 749, the laptop 800 to 849). Session 699 of chain 045 updates this file if its results change what it should hold. Model: Opus 5.5, high effort.
+Written by session 688, the first session of `queue/done/045-evening-22-october-data-resumed.md`, under that file's added rule ("the next file is written and pushed to `queue/next` at the START of the chain, not at its end"), at the owner's instruction for it ("at least twelve sessions, machine: data, numbered from 850, the sources and gaps chain 044's reports leave open, in chain 040's form"). Sessions 850 to 866 were free in every queue file and branch when this was written (the code machine holds 700 to 749, the laptop 800 to 849, the old laptop 1000 on). Session 699 of chain 045 updated it at chain 045's end (23 October, about 01:15 UTC): sessions 864 and 865 added, the note and the landing moved to 866, session 858's leads and session 863's uploads named. Model: Opus 5.5, high effort.
 
 Each source session follows chain 040's form:
 
@@ -16,7 +16,7 @@ Default-neutral: no page's default figure moves, no ruling is made, nothing is r
 
 ## Rules for every session
 
-The rules of `queue/done/045-evening-22-october-data-resumed.md` hold, word for word, with chain 043's and 044's lessons and chain 045's added rule: **session 850 begins by writing `queue/next/047-<slug>.md` for this machine (at least twelve sessions, machine: data, numbered from the next free numbers above 864, below 700 or from 865 on), commits it alone and pushes it to main before any other work**; session 864 updates that file instead of writing one from nothing.
+The rules of `queue/done/045-evening-22-october-data-resumed.md` hold, word for word, with chain 043's and 044's lessons and chain 045's added rule: **session 850 begins by writing `queue/next/047-<slug>.md` for this machine (at least twelve sessions, machine: data, numbered from the next free numbers above 866, from 867 on, below 1000), commits it alone and pushes it to main before any other work**; session 866 updates that file instead of writing one from nothing.
 
 Read first: `docs/state/note_2026-10-25_data.md` (chain 045's note), sessions 684 to 699's reports, `docs/reviews/siting-gaps.md` and `docs/reviews/siting-open-2026-10-23.md` (the code machine's open items), `docs/reviews/siting-sources-2026-10-24.md` (session 691's findings) and `docs/state/unsettled_licenses_2026-10-19.md`.
 
@@ -48,7 +48,7 @@ Long end 2:00. Pulls: ERCOT, at most 8 requests.
 
 Long end 1:30. Pulls: none (the saved EIA-861 zips).
 
-- The Delivery_Only_Service sheet of every saved EIA-861 year, as `eia861_delivery_only` (utility, state, balancing authority, customers, MWh delivered, by sector), from `eia861_sales.py`'s reader, with chain 045's session 690 fix for empty provenance carried.
+- The Delivery_Only_Service sheet of every saved EIA-861 year, as `eia861_delivery_only` (utility, state, balancing authority, customers, MWh delivered, by sector), from `eia861_sales.py`'s reader and its `years_held` (session 690); its rows read whole, never with `comment="#"` (two utilities' names hold a "#").
 - Cross-check: CenterPoint, Oncor and AEP Texas present for Texas; the delivery-only MWh by state against `eia861_utility_sales`' energy-only rows for the same state and year.
 - This fills "a Texas wires utility's own revenue" (the ERCOT row of `siting-gaps.md`).
 
@@ -78,7 +78,7 @@ Long end 1:30. Pulls: at most 60 requests.
 
 Long end 2:00. Pulls: at most 12 requests, two a host, only if session 691 to 693 did not write both tables.
 
-- The federal hosts session 691 did not read (the Department of Energy's or a national laboratory's republication of the electric layers), their robots file and terms first; a layer whose license line says public is written as `hifld_substations` or `hifld_transmission_lines` (the names the code machine reads).
+- The leads session 691 left unread (`docs/reviews/siting-sources-2026-10-24.md`): the federal GeoPlatform (`geoplatform.gov`, which holds FGDC's National Geospatial Data Asset lists; its Utilities theme may name the lines' lead agency) and data.gov's new catalogue interface (the old CKAN API answers 404), their robots file and terms first. Esri's archive of the lines is under Esri's license and is not a public source; a layer whose license line says public is written as `hifld_substations` or `hifld_transmission_lines` (the names the code machine reads).
 - A refusal or no public layer: the session writes what it found in `docs/reviews/siting-sources-2026-10-24.md` and probes nothing else.
 
 ## Session 859: the unsettled licenses a read can settle
@@ -103,9 +103,22 @@ Long end 1:00. Pulls: none. A note for each table this chain wrote, in the form 
 Long end 1:30. Pulls: Redivis's API only, at most 100 requests.
 
 - No new table enters the live set unless a ruling names it.
-- The public tables of this chain up to the Stanford draft with the true replace and the proof (`upload.py --target stanford --prove-by-listing`), then `--reconcile`; the release note extended. Nothing released.
+- Up to the Stanford draft with the true replace and the proof (`upload.py --target stanford --prove-by-listing`), about 5 requests a table: chain 045's new public tables (`eia_coal_mine_production_annual`, `eia861_utility_reliability`, `eia930_subba_demand_hourly_2020`), `eia861m_utility_sales_monthly` (rewritten by session 689 without EIA's aggregates), chain 041's two never uploaded there (`eia930_subba_demand_hourly_2021`, `eia_coal_production_annual`), then this chain's public tables; then `--reconcile`; the release note extended. The 45 tables that only grew since their upload (session 688's reconcile) wait for the owner's answer on the click. Nothing released.
 
-## Session 864: the note, the next file updated, the landing and the queue
+## Session 864: the package's remote test, the rest
+
+Long end 1:30. Pulls: Redivis's API only, at most 100 requests.
+
+- `ERW_REMOTE_TESTS=1 python -m pytest package/tests/test_backends_stanford.py -v -m remote -k "eia_fuel_spot_prices or eia_drilling_monthly or cite or coverage"`: the eight tests session 688's ceiling left (`same_as_local` holds a table a daily run rewrote after its upload). Count the requests (`runs/c045/s688/counted_pytest.py`, `ERW_CAP`). A failure is fixed in the package with its test, or written down with its cause.
+
+## Session 865: the headers that say less than their files
+
+Long end 1:30. Pulls: none (each table written again from its saved pages, `--offline`, under the lock, where its connector allows).
+
+- Session 696's notes found: `eia_series.py`'s tables say a run "replaces all of it" while the connector merges; `rrc_lease_production_monthly`'s first header line says "internal" (public, noncommercial, since session 324); `battery_sourced_ranges`' header names a builder that does not exist (`sourced_ranges.py` builds it); `news_scores_shadow`'s header counts 4,348 rows of a file holding 4,748. Each connector's header text made true, with a test.
+- `nyiso_interconnection_queue`'s header says public while its ERW verdict is "license needed": listed for the owner, not changed.
+
+## Session 866: the note, the next file updated, the landing and the queue
 
 Long end 1:00.
 
