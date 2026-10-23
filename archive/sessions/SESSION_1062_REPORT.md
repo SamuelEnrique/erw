@@ -17,7 +17,14 @@
 
 ## The landing
 
-See session 1063's commit message and the note: gated by `land_check.py`, pushed to `task/1042-1063-allgrids`.
+**Not landed.** The gate (`scripts/land_check.py --ref wip/1042-allgrids`) was started at about 09:27 UTC behind chain 071's landing, which held the build lock, and Claude Code stopped it because the machine was critically low on memory (0.52 GB free): it left no lock, worktree or server. A stopped gate is not restarted unattended, so the branch is pushed as `wip/1063-records` (at `1d15e2c7` and this report's commit), and chain 073's session 1064 lands it first.
+
+## To finish
+
+1. On a pulled main: `git fetch origin && git checkout -b wip/1064-allgrids origin/wip/1063-records && git merge origin/main`.
+2. `.venv\Scripts\python.exe scripts/land_check.py --ref wip/1064-allgrids` (the known three check-values failures are handled as this chain's first landing did: the same commit built locally, check-routes, check-cross-checks and check-csp by hand).
+3. `node site/scripts/snapshot-live.mjs take c072b-before` as its own command; then the push to `task/` only when `git merge-base --is-ancestor origin/main HEAD` passes in the same command; the probe for a mark (the note's file, `docs/state/review_2026-10-23_code_chain072.md`, has none on a page: the replication fix and the reports change no page, so the after snapshot is taken once the merge's deploy is read, and `compare` should show 0).
+4. Delete `wip/1063-records` from the remote once merged.
 
 ## Decisions made without you
 

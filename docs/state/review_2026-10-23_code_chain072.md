@@ -24,7 +24,7 @@ Written by session 1063 of `queue/done/072-day-23-october-code-allgrids-packages
 | 1062 | | the clean-up (report) | |
 | 1063 | | this note; `queue/next/073-...` updated (on main) | |
 
-Landings: 1043 to 1061 merged as `cbf8662e` (served 09:18 UTC, 0 differences); 1042, 1062 and 1063 land with this note.
+Landings: 1043 to 1061 merged as `cbf8662e` (served 09:18 UTC, 0 differences); 1042, 1062 and 1063 are on `wip/1063-records`: their gate was stopped by Claude Code for low memory and is not restarted unattended; chain 073's session 1064 lands them first (session 1062's report, "To finish").
 
 ## Decisions made without you
 
