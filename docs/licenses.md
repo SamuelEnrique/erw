@@ -10,11 +10,11 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 ## Read these first
 
-- **379 tables.** The flag and the verdict agree on 291; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 1; 42 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
+- **379 tables.** The flag and the verdict agree on 292; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 42 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
 - **The ERW's verdict (session 378): 274 public, 55 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
-- **166 publishers in the record: 164 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 86 pages read, 78 that could not be read, 2 not asked (paused).**
+- **167 publishers in the record: 165 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 87 pages read, 78 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
-- **1 tables are flagged internal where the sentence read allows them:** `lbnl_hybrid_plants`.
+- **0 tables are flagged internal where the sentence read allows them.**
 - **12 tables that may be public today would need permission if the ERW sells anything** (SPP 7; Canada Energy Regulator (CER) 2; IMF 1; IMF PortWatch 1; RRC 1).
 
 ## The reads
@@ -189,6 +189,7 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | 164 | U.S. Army Corps of Engineers (USACE), nid.sec.usace.army.mil's robots file (session 982) | https://nid.sec.usace.army.mil/robots.txt | 13:58:36 | 404 | 0 | no robots file: HTTP 404 |
 | 165 | U.S. Army Corps of Engineers (USACE), www.usace.army.mil's robots file (session 983) | https://www.usace.army.mil/robots.txt | 14:03:53 | 403 | 390 | not read: HTTP 403, Access Denied (the edge server refuses the ERW's reader; not asked again) |
 | 166 | U.S. Army Corps of Engineers (USACE), the National Inventory of Dams' home page (session 983) | https://nid.sec.usace.army.mil/ | 14:04:22 | 200 | 6026 | read: a page drawn in the browser, no notice or terms in it |
+| 167 | Berkeley Lab, the hybrid power plants data file's Introduction sheet (saved by session 979, read by session 991) | https://eta-publications.lbl.gov/sites/default/files/2026-09/lbnl_hybrid_data_file_thru2025.xlsx | 13:49:06 | 200 | 11404235 | read |
 
 ## The publishers: the sentence and the verdict
 
@@ -274,6 +275,7 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | Texas Comptroller of Public Accounts | #148: read | "Information on CPA's sites is public domain and may be copied and used as permitted by law, with the exception of pictures, official symbols, and registered service marked names and logos." | may be public | may be public | not named | none stated | Session 942. Read in the policy's 'Policy Disclaimer and Limitation of Liability'; its policies page (read 143) states no terms of its own. |
 | U.S. Department of the Interior, Office of Natural Resources Revenue (ONRR) | #159: read | "Generally, materials produced by federal agencies are in the public domain and may be reproduced without permission. However, not all materials appearing on this web site are in the public domain. Some materials have been donated or obtained from individuals or organizations and may be subject to restrictions on use." | may be public | may be public | not named | none stated | Session 956. The Department's notice, which covers its bureaus (BOEM's verdict, read 86, rests on the same text); ONRR's production and revenue data are its own records, a federal agency's materials. ONRR's own site states no other terms that this round found. |
 | U.S. Department of the Interior, Bureau of Land Management (BLM) | #159: read | "Generally, materials produced by federal agencies are in the public domain and may be reproduced without permission. However, not all materials appearing on this web site are in the public domain. Some materials have been donated or obtained from individuals or organizations and may be subject to restrictions on use." | may be public | may be public | not named | none stated | Session 956. The Department's notice, which covers its bureaus; the BLM California service's own notice (read 156) adds: data provided as is, BLM to be cited as the source, modifications described, not represented as approved by BLM. Each header says so. |
+| Berkeley Lab, hybrid plants file | #167: read | "This dataset has been authored by an author at Lawrence Berkeley National Laboratory under Contract No. DE-AC02-05CH11231 with the U.S. Department of Energy. The U.S. Government retains, and the publisher, by accepting the article for publication, acknowledges, that the U.S. Government retains a non-exclusive, paid-up, irrevocable, worldwide license to publish or reproduce the published form of this dataset, or allow others to do so, for U.S. Government purposes." | needs written permission | needs written permission | not named | none stated | Session 991. This file's own notice is the Department of Energy's contract notice only: a license to the U.S. Government, none to others, and not the CC BY 4.0 statement of LBNL's wind, solar and Queued Up files on which Berkeley Lab's verdict (read 14) rests. The table stays internal (session 979); whether it may be published is Samuel's question. |
 
 **Publishers no read of this sweep covers (27):** Arizona Corporation Commission; Bonneville Power Administration (BPA); CME Group (NYMEX), whose prices EIA republished; CTVC; Catalyst Cooperative (PUDL), from FERC Form 714; Electrek; Energy-Storage.news; FERC; Georgia Public Service Commission; Illinois Commerce Commission; Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department; OPEC: Publications; Oregon Public Utility Commission; Organization of the Petroleum Exporting Countries; PJM (its news releases); Pennsylvania Public Utility Commission; Public Utilities Commission of Ohio; Public Utility Commission of Texas; Public Utility District No. 2 of Grant County, Washington (Grant PUD); Texas-New Mexico Power Company; Texas.gov; U.S. Army Corps of Engineers (USACE); Virginia State Corporation Commission; the outlets of news_stories; utilities and operators, each row's own document (not listed one by one).
 
@@ -589,7 +591,7 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | `large_load_rules_internal` | FERC; Georgia Public Service Commission; Indiana Utility Regulatory Commission; Public Utilities Commission of Ohio; Public Utility Commission of Texas; Virginia State Corporation Commission | needs written permission | Indiana Utility Regulatory Commission | FERC; Georgia Public Service Commission; Public Utilities Commission of Ohio; and 2 more | internal | agrees | needs written permission | internal |
 | `large_load_statements` | utilities and operators, each row's own document (not listed one by one) | not settled (needs written permission by default) |  | utilities and operators, each row's own document (not listed one by one) | internal | not settled | may be public | internal |
 | `large_load_waits` | Alberta Electric System Operator (AESO), Canada; Bonneville Power Administration (BPA); NYISO; Public Utility District No. 2 of Grant County, Washington (Grant PUD) | needs written permission | NYISO | Bonneville Power Administration (BPA); Public Utility District No. 2 of Grant County, Washington (Grant PUD) | internal | agrees | needs written permission | internal |
-| `lbnl_hybrid_plants` | Berkeley Lab | may be public |  |  | internal | DISAGREES: the flag is stricter | may be public | internal |
+| `lbnl_hybrid_plants` | Berkeley Lab, hybrid plants file | needs written permission | Berkeley Lab, hybrid plants file |  | internal | agrees | needs written permission | internal |
 | `lbnl_hybrid_ppa_prices` | Berkeley Lab | may be public |  |  | public | agrees | may be public | public |
 | `lbnl_interconnection_queue` | Berkeley Lab | may be public |  |  | public | agrees | may be public | public |
 | `lbnl_ppa_prices` | Berkeley Lab | may be public |  |  | public | agrees | may be public | public |
@@ -723,7 +725,6 @@ None of these was changed. Each is a ruling.
 
 ### Flagged internal; the sentence read allows it
 
-- `lbnl_hybrid_plants`: may be public (Berkeley Lab).
 
 ### Not settled: a publisher was not read
 
@@ -819,6 +820,7 @@ By publisher: the tables its sentence decides, and who to write to where the pag
 - **T&D World** (2 tables). Write to: none named for permissions in the sentences read. Tables: `news_index`, `news_stories`.
 - **RGGI** (2 tables). Write to: none named on the page. Tables: `price_board_carbon`, `rggi_auction_allowance_prices`.
 - **Indiana Utility Regulatory Commission** (1 tables). Write to: no person or address on the page read. Tables: `large_load_rules_internal`.
+- **Berkeley Lab, hybrid plants file** (1 tables). Write to: no person or address on the page read. Tables: `lbnl_hybrid_plants`.
 - **AEP Texas Inc.** (1 tables). Write to: no person or address on the page read. Tables: `texas_delivery_charges`.
 - **CenterPoint Energy Houston Electric, LLC** (1 tables). Write to: CenterPointEnergy.com/en-us/corporate/contact-us/. Tables: `texas_delivery_charges`.
 - **Oncor Electric Delivery Company LLC** (1 tables). Write to: no person or address on the page read. Tables: `texas_delivery_charges`.
@@ -872,6 +874,7 @@ What each page read says of a price, for every publisher whose sentence asks for
 | Alberta Electric System Operator (AESO), Canada | may be public | needs written permission | none stated | not named |  |
 | Amazon Web Services | needs written permission | needs written permission | none stated | not named |  |
 | ANS Nuclear Newswire | needs written permission | needs written permission | none stated | not named |  |
+| Berkeley Lab, hybrid plants file | needs written permission | needs written permission | none stated | not named |  |
 | Bloomberg | needs written permission | needs written permission | none stated | none named for permissions in the sentences read |  |
 | Canada Energy Regulator (CER) | may be public | needs written permission | none stated | Canada Energy Regulator Library, info@cer-rec.gc.ca, 403-299-3561 (on the same page) |  |
 | Canary Media | needs written permission | needs written permission | none stated | not named |  |

@@ -303,7 +303,7 @@ large_load_rules,unsettled,,,,Arizona Corporation Commission; California Public 
 large_load_rules_internal,internal,,,Indiana Utility Regulatory Commission,FERC; Georgia Public Service Commission; Indiana Utility Regulatory Commission; Public Utilities Commission of Ohio; Public Utility Commission of Texas; Virginia State Corporation Commission,The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 large_load_statements,internal,,,,"utilities and operators, each row's own document (not listed one by one)",The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 large_load_waits,internal,,,NYISO,"Alberta Electric System Operator (AESO), Canada; Bonneville Power Administration (BPA); NYISO; Public Utility District No. 2 of Grant County, Washington (Grant PUD)",The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
-lbnl_hybrid_plants,internal,,,,Berkeley Lab,The ERW holds it for its own use only; it is never redistributed.,none
+lbnl_hybrid_plants,internal,,,"Berkeley Lab, hybrid plants file","Berkeley Lab, hybrid plants file",The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 lbnl_hybrid_ppa_prices,public,,,,Berkeley Lab,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 lbnl_interconnection_queue,public,,,,Berkeley Lab,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 lbnl_ppa_prices,public,,,,Berkeley Lab,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
