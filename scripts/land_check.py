@@ -66,7 +66,9 @@ import urllib.request
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, ".."))
 
-STEPS = ["freeze", "main_merged", "task_branches", "db_probe", "build_lock", "worktree", "suite", "npm_ci", "build",
+# session 1308: ask_replay, Ask's stored answers through the checks of the commit (warehouse/chat/eval/replay.py), its
+# own line after the suite (whose test_session1301 runs it too), so a check that would send back a right answer is named
+STEPS = ["freeze", "main_merged", "task_branches", "db_probe", "build_lock", "worktree", "suite", "ask_replay", "npm_ci", "build",
          "serve", "check_values", "check_routes", "check_cross_checks", "check_csp", "stop"]
 CHECK_VALUES_TRIES = 3
 STALE_TASK_HOURS = 48   # session 589: a task/ branch quiet this long is left over, not in flight
@@ -360,6 +362,14 @@ class Gate:
             return "fail", None, f"stopped after {SUITE_MIN} minutes"
         tail = [x for x in self.ops.read(self.log("suite")).splitlines() if x.startswith(("Ran ", "OK", "FAILED"))]
         return ("pass" if c == 0 else "fail"), c, "; ".join(tail[-2:])
+
+    def s_ask_replay(self):
+        script = os.path.join(self.wt, "warehouse", "chat", "eval", "replay.py")
+        if not self.ops.exists(script):
+            return "pass", 0, "no replay.py in this commit"
+        c = self.run("ask_replay", [self.py, script, "--check"], self.wt, timeout=CHECK_MIN * 60)
+        return ("pass" if c == 0 else "fail"), c, ("" if c == 0 else "a stored answer graded right would now be sent back, "
+                                                    "or docs/reviews/ask-replay.md is not what the runs give")
 
     def s_npm_ci(self):
         src = os.path.join(self.main, "site", ".env.local")
