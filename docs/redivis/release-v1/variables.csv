@@ -5161,6 +5161,23 @@ lbnl_solar_projects,cf_2022,column,
 lbnl_solar_projects,cf_2023,column,
 lbnl_solar_projects,cf_2024,column,
 lbnl_wind_capacity_factors,capacity_factor,series variable,ratio
+lbnl_wind_costs,capex,series variable,USD/kW
+lbnl_wind_costs,lcoe,series variable,USD/MWh
+lbnl_wind_costs,turbine_price,series variable,USD/kW
+lbnl_wind_turbine_orders,event_id,column,
+lbnl_wind_turbine_orders,event_date,column,
+lbnl_wind_turbine_orders,event_type,column,
+lbnl_wind_turbine_orders,parties,column,
+lbnl_wind_turbine_orders,entity_ids,column,
+lbnl_wind_turbine_orders,mw,column,
+lbnl_wind_turbine_orders,price,column,
+lbnl_wind_turbine_orders,currency,column,
+lbnl_wind_turbine_orders,status,column,
+lbnl_wind_turbine_orders,source,column,
+lbnl_wind_turbine_orders,source_url,column,
+lbnl_wind_turbine_orders,retrieved_at,column,
+lbnl_wind_turbine_orders,x_price_unit,column,
+lbnl_wind_turbine_orders,x_dollar_year,column,
 nlr_atb_electricity_costs,capacity_factor,series variable,ratio
 nlr_atb_electricity_costs,capex,series variable,USD/kW
 nlr_atb_electricity_costs,fixed_om,series variable,USD/kW-year
