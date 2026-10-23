@@ -1,11 +1,13 @@
 "use client";
 // The ERCOT peak-premium explorer: year and hub selectors over the derived tables
-// ercot_peak_premium_annual and ercot_peak_premium_monthly (docs/methods/ercot_peak_premium.md).
+// ercot_peak_premium_annual and ercot_peak_premium_monthly (docs/methods/ercot_peak_premium.md). Session 2200 (chain
+// 086): every figure carries its source in its hover (Num's `source`, from lib/explore/source.ts and the figure's key).
 import { useMemo, useState } from "react";
 import { BoxChart } from "@/components/BoxChart";
 import { LineChart, type Line } from "@/components/LineChart";
 import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";
+import { sourceOf } from "@/lib/explore/source";
 
 /** One row of a derived table: entity, variable, period (YYYY-MM), value. */
 export type Row = { e: string; v: string; t: string; x: number };
@@ -139,7 +141,7 @@ export function Explorer({
                 <div className="text-xs text-muted">{h.label}</div>
                 {val !== undefined ? (
                   <div className="text-lg tabular-nums">
-                    <Num check={`series|ercot_peak_premium_annual|${hub}|${h.v}|${year}-01-01T00:00:00Z`} raw={val}>
+                    <Num check={`series|ercot_peak_premium_annual|${hub}|${h.v}|${year}-01-01T00:00:00Z`} raw={val} source={sourceOf(`series|ercot_peak_premium_annual|${hub}|${h.v}|${year}-01-01T00:00:00Z`, hubName)}>
                       {fmt(val, h.unit)}
                     </Num>{" "}
                     {h.unit !== "count" ? <span className="text-xs text-muted">{h.unit}</span> : null}
@@ -174,7 +176,7 @@ export function Explorer({
                     <div key={k}>
                       <div className="text-muted">{k === "q1" ? "Q1" : k === "q3" ? "Q3" : k}</div>
                       {k in s ? (
-                        <Num check={`series|ercot_peak_premium_annual|${hub}|${b.key}_${k}|${year}-01-01T00:00:00Z`} raw={s[k]}>
+                        <Num check={`series|ercot_peak_premium_annual|${hub}|${b.key}_${k}|${year}-01-01T00:00:00Z`} raw={s[k]} source={sourceOf(`series|ercot_peak_premium_annual|${hub}|${b.key}_${k}|${year}-01-01T00:00:00Z`, hubName)}>
                           {fmt(s[k], "USD/MWh")}
                         </Num>
                       ) : null}

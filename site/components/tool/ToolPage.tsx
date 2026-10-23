@@ -63,11 +63,13 @@ export function ToolSection({ title, children, id, note }: { title: string; chil
   );
 }
 
-/** One headline number: a label above, the number large, one line of what it is below. */
-export function HeadlineNumber({ label, value, unit, note }: { label: string; value: ReactNode; unit?: string; note?: ReactNode }) {
+/** One headline number: a label above, the number large, one line of what it is below. Session 2200: `tip`, when
+ *  given, is drawn after the label (a Tip with the figure's source, on the explorers); the label's capitals and
+ *  letter-spacing stop at it, so the tip's words read as written. No page without it changes. */
+export function HeadlineNumber({ label, value, unit, note, tip }: { label: string; value: ReactNode; unit?: string; note?: ReactNode; tip?: ReactNode }) {
   return (
     <div className="border-t-2 border-accent pt-2">
-      <div className="text-xs uppercase tracking-wide text-muted">{label}</div>
+      <div className="text-xs uppercase tracking-wide text-muted">{label}{tip ? <span className="normal-case tracking-normal">{tip}</span> : null}</div>
       <div className="mt-1 font-serif text-3xl tabular-nums text-ink">{value}{unit ? <span className="ml-1 font-sans text-sm text-muted">{unit}</span> : null}</div>
       {note ? <div className="mt-1 text-xs leading-snug text-muted">{note}</div> : null}
     </div>
