@@ -188,6 +188,7 @@ eia_seds_state_energy,EIA,the source registry
 eia_state_capacity_annual,EIA,the source registry
 eia_state_generation_monthly,EIA,the source registry
 eia_state_source_disposition_annual,EIA,the source registry
+eia_state_to_state_capacity,EIA,the source registry
 eia_steo_forecasts,EIA,the source registry
 eia_uranium_facilities,EIA,the source registry
 eia_uranium_marketing_annual,EIA,the source registry

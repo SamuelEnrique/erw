@@ -3372,6 +3372,7 @@ eia_state_source_disposition_annual,total_international_imports,series variable,
 eia_state_source_disposition_annual,total_net_generation,series variable,MWh
 eia_state_source_disposition_annual,total_supply,series variable,MWh
 eia_state_source_disposition_annual,unaccounted,series variable,MWh
+eia_state_to_state_capacity,capacity,series variable,bcf/d
 eia_steo_forecasts,value,series variable,USD/MMBtu
 eia_steo_forecasts,value,series variable,USD/kWh
 eia_steo_forecasts,value,series variable,ratio
