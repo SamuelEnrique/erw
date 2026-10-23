@@ -1,6 +1,6 @@
 # Session 2077 report: the Statistical Review of World Energy (the Energy Institute): not taken
 
-23 October 2026, from 20:27 UTC, on lab-desktop (the data machine), the eighth session of `queue/done/067-day-25-october-data-neighbours-emitters-disasters-world-oil.md`. Model spend USD 0. Pulls: none of 15.
+23 October 2026, from 20:24 UTC, on lab-desktop (the data machine), the eighth session of `queue/done/067-day-25-october-data-neighbours-emitters-disasters-world-oil.md`. Model spend USD 0. Pulls: none of 15.
 
 ## Read these first
 

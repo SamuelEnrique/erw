@@ -1,6 +1,6 @@
 # Session 2078 report: a gap of the siting review: none can close
 
-23 October 2026, from 20:28 UTC, on lab-desktop (the data machine), the ninth session of `queue/done/067-day-25-october-data-neighbours-emitters-disasters-world-oil.md`. Model spend USD 0. Pulls: none of 10.
+23 October 2026, from 20:25 UTC, on lab-desktop (the data machine), the ninth session of `queue/done/067-day-25-october-data-neighbours-emitters-disasters-world-oil.md`. Model spend USD 0. Pulls: none of 10.
 
 ## Read these first
 

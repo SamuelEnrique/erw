@@ -1,6 +1,6 @@
 # Session 2076 report: the world's oil balances (JODI): not taken
 
-23 October 2026, from 20:26 UTC, on lab-desktop (the data machine), the seventh session of `queue/done/067-day-25-october-data-neighbours-emitters-disasters-world-oil.md`. Model spend USD 0. Pulls: none of 20.
+23 October 2026, from 20:24 UTC, on lab-desktop (the data machine), the seventh session of `queue/done/067-day-25-october-data-neighbours-emitters-disasters-world-oil.md`. Model spend USD 0. Pulls: none of 20.
 
 ## Read these first
 
