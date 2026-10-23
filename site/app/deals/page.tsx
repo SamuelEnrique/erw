@@ -26,7 +26,8 @@ import publicFile from "@/data/deals_public.json";
 // Session 822: the public rows of the held table (lib/dealspublic.ts): the file warehouse/deals/public_rows.py writes
 // from the archive's copy of energy_deals and its evidence rows. Read once; a file that is not sound (a row without
 // public evidence, a source outside it) is not drawn, and the page shows the whole-table hold as before.
-const PUBLIC: PublicDealsFile | undefined = fileIsSound(publicFile as PublicDealsFile) ? (publicFile as PublicDealsFile) : undefined;
+const PUBLIC_FILE = publicFile as unknown as PublicDealsFile;
+const PUBLIC: PublicDealsFile | undefined = fileIsSound(PUBLIC_FILE) ? PUBLIC_FILE : undefined;
 
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "Deals" };
