@@ -18,8 +18,9 @@ and a status such as Candidate or Low Potential):
                   with the same capacity (project 1016-0, 22.5 MW, on three New Jersey landfills), so capacity is never
                   summed over rows: one row a project id counts it once
     status        operating (Operational), under_construction (Construction), planned (Planned), retired (Shutdown); blank
-                  for Candidate, Future Potential, Low Potential and Unknown, which are landfills, not projects. lmop_status
-                  keeps EPA's word
+                  for Candidate, Future Potential, Low Potential and Unknown, which EPA uses for landfills without a project
+                  in operation or in view (20 of those rows carry a project name and one a capacity, 0.06 MW, as EPA gives
+                  them); lmop_status keeps EPA's word
     status_date   blank; project_start_date and project_shutdown_date keep EPA's dates
     operator      the project's owner(s) as EPA writes them
     geo           US-<state>; lat and lon as EPA gives them

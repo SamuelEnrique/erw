@@ -14,8 +14,10 @@ The box is the four states' bounding box, so it also holds parts of Colorado, Ar
 other neighbours and northern Mexico; nothing is cut from it, because an event's place names its nearest town, which can
 lie across a state line. x_place_state is the state or country the place names after its last comma, in full where the
 catalog gives a postal code ("2 km E of Choctaw, OK"); a place such as "western Texas" is read as the state it names, and
-one that names no single state ("Texas-Chihuahua border region") is blank. The service answers
-at most 20,000 events a query; the count for the box was 16,050 on 23 October 2026, and an answer of 20,000 rows stops
+any other is blank: a border region ("Texas-Chihuahua border region"), and a place whose state is neither after a comma
+nor after a direction word ("Texas Panhandle region", "2024 North of Tarzan, Texas Earthquake"). The service answers
+at most 20,000 events a query; the count of earthquakes for the box was 16,000 on 23 October 2026 (16,050 with the quarry
+blasts and explosions the query leaves out), and an answer of 20,000 rows stops
 the run (the box would need splitting).
 
     event_id     usgs_comcat:<the catalog's event id> (the preferred id, stable while the USGS keeps it)
@@ -160,7 +162,7 @@ def main(argv=None):
             "Shape: events (docs/datastandard.md v0). event_id usgs_comcat:<catalog id>; event_date the origin time in UTC to the second; event_type earthquake; status the "
             "catalog's review status; x_latitude and x_longitude degrees, x_depth_km km, x_magnitude with x_magnitude_type; x_place_state the state or country the place names.",
             f"{len(t)} earthquakes, magnitude {pd.to_numeric(t.x_magnitude).min():.2f} to {pd.to_numeric(t.x_magnitude).max():.2f}; by the place's state: "
-            + "; ".join(f"{k} {v}" for k, v in by.head(10).items())
+            + "; ".join(f"{k} {v}" for k, v in by.items())
             + (f". Oklahoma's most in one year: {ok.max()} in {peak}" if len(ok) else "")
             + ". The box (latitude 25.8 to 40.0, longitude -109.06 to -93.5) also holds parts of the neighbouring states and northern Mexico; nothing is cut. Values as published; nothing is filled.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/usgs_earthquakes.py; the answer retrieved {rec.get('retrieved_at') or ''}"

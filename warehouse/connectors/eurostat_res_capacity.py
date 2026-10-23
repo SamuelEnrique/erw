@@ -20,9 +20,10 @@ the fuels and technologies:
     node        the SIEC code's English name
     x_*         Eurostat's geo code, SIEC code and plant technology code, the observation's flag and confidentiality status
 
-Countries kept: the European Union's member states, EFTA's (Iceland, Liechtenstein, Norway) and the official candidate
-countries (Albania, Bosnia and Herzegovina, Georgia, Moldova, Montenegro, North Macedonia, Serbia, Turkey, Ukraine), with
-the two EU aggregates. Eurostat's copyright notice allows reuse with acknowledgement, but data for other countries "may not
+Countries kept: the European Union's member states, EFTA's (Iceland, Liechtenstein, Norway and Switzerland, which the
+file does not hold) and the official candidate countries (Albania, Bosnia and Herzegovina, Georgia, Moldova, Montenegro,
+North Macedonia, Serbia, Turkey, Ukraine), with Eurostat's aggregates of the EU and the euro area (the file holds EU27_2020
+and EA21; EA20 and EA19 are kept too should it give them). Eurostat's copyright notice allows reuse with acknowledgement, but data for other countries "may not
 be reused for commercial purposes", so the United Kingdom and Kosovo (a potential candidate, not an official one) are left
 out. Values as published, zeros kept; a blank value has no row; nothing is filled. A header not Eurostat's, a unit not
 MW, a frequency not annual, a value that is not a number or a key given twice stops the run.

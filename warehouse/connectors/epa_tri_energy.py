@@ -11,8 +11,9 @@ the TRI's basic data file of each reporting year on data.epa.gov (one form a fac
 
 Rows are kept where the form's "INDUSTRY SECTOR CODE" is one of SECTORS (EPA's TRI sectors, from the form's primary
 NAICS code): 2211 Electric Utilities, 324 Petroleum, 211 Natural Gas Processing, 2121 Coal Mining, 4247 Petroleum Bulk
-Terminals. Natural gas processing plants (NAICS 211130) report from reporting year 2022, when EPA added them to the
-inventory; the few forms of earlier years are those of plants under another code. Three of the form's totals are taken, as EPA computes them:
+Terminals. Natural gas processing plants (NAICS 211130) were added to the inventory from reporting year 2022, and the
+sector's forms rise from 4 to 35 a year to about 1,700; the 134 forms of 2015 to 2021 are those of plants that reported
+before (65 of them under 211130 itself, session 2129). Three of the form's totals are taken, as EPA computes them:
 
     total_releases           "TOTAL RELEASES": on-site and off-site disposal or other releases
     on_site_release_total    "ON-SITE RELEASE TOTAL": to air (fugitive and stack), water, underground injection and land
@@ -170,7 +171,7 @@ def main(argv=None):
             "Shape: series (docs/datastandard.md v0). entity tri:<TRIFD>:<TRI chemical id>:<document control number>, one form (x_trifd and x_chemical_id group a site's forms of a chemical; no sum is made); variable total_releases, on_site_release_total or off_site_release_total, EPA's totals of the form; "
             "unit lb, or g for dioxins (Decision 66), as printed, never converted or summed across units; ts_utc the year's 1 January; freq P1Y; node the facility's name.",
             f"{len(t)} rows, {len(forms)} forms: " + "; ".join(f"{s} {r.forms} forms ({r.facilities} facilities)" for s, r in by.iterrows())
-            + ". Sectors by EPA's TRI industry sector code: 2211, 324, 211, 2121, 4247; natural gas processing plants report from 2022, when EPA added them. Zeros kept as reported; a blank cell has no row; nothing is filled.",
+            + ". Sectors by EPA's TRI industry sector code: 2211, 324, 211, 2121, 4247; natural gas processing plants were added to the inventory from 2022 (the sector's earlier forms are of plants that reported before). Zeros kept as reported; a blank cell has no row; nothing is filled.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/epa_tri_energy.py; the files retrieved "
             + "; ".join(f"{y} {r}" + (f" (last modified {v})" if v else "") for y, r, v in got),
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",

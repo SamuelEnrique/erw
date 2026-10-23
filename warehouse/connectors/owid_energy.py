@@ -10,8 +10,8 @@ World in Data's catalog (no key):
     https://catalog.ourworldindata.org/energy/owid_energy/owid_energy.codebook.csv   each column's unit and sources
 
 Of the dataset's 130 columns, most draw on the Energy Institute's Statistical Review, a population series or historical
-sources the record holds no verdict for (session 2125). Two draw on Ember alone (its yearly electricity data, global and
-European, CC BY 4.0, record 133) and are taken:
+sources the record holds no verdict for (session 2125). Three draw on Ember alone (its yearly electricity data, global
+and European, CC BY 4.0, record 133), and two of them are taken:
 
     electricity_demand_twh       -> electricity_demand, MWh (Our World in Data's TWh times 1,000,000)
     electricity_emissions_mtco2eq -> electricity_emissions, tCO2e (its million tonnes of CO2 equivalent times 1,000,000)
@@ -20,8 +20,9 @@ The third Ember-only column, electricity_carbon_intensity_gco2eq_per_kwh, needs 
 standard does not hold (kgCO2/MWh is CO2 alone), and is not taken. Every run reads the codebook first: a taken column
 whose sources are no longer exactly Ember's two data sets, or whose unit is no longer TWh or million tonnes, stops the run.
 
-    entity      owid_energy:<ISO 3166-1 alpha-3 code>, or owid_energy:<the region's name in snake case> for a region or
-                aggregate (Our World in Data's own, such as World and Europe, or Ember's, named "(Ember)")
+    entity      owid_energy:<ISO 3166-1 alpha-3 code>, or owid_energy:<the name in snake case> for a row with no ISO code:
+                a region or aggregate (Our World in Data's own, such as World and Europe, or Ember's, named "(Ember)"),
+                and Kosovo (owid_energy:kosovo), which the file gives no code
     ts_utc      the year's 1 January; freq P1Y; geo blank (the codes are alpha-3; node names the country or region)
     x_*         the ISO code and Our World in Data's column name
 
@@ -139,7 +140,7 @@ def main(argv=None):
             "Shape: series (docs/datastandard.md v0). entity owid_energy:<ISO alpha-3>, or owid_energy:<region in snake case>; variable electricity_demand (MWh, Our World in Data's TWh times 1,000,000) "
             "or electricity_emissions (tCO2e, its million tonnes of CO2 equivalent times 1,000,000); ts_utc the year's 1 January; freq P1Y; geo blank; node the country or region's name.",
             f"{len(t)} rows: " + "; ".join(f"{v} {r.entities} countries and regions, {r.start[:4]} to {r.end[:4]}, {r.rows} rows" for v, r in by.iterrows())
-            + ". The dataset's other columns draw on sources the license record holds no verdict for and are not taken. A blank cell has no row; nothing is filled.",
+            + ". The dataset's other columns draw on sources the license record holds no verdict for and are not taken, but for Ember's carbon intensity, left for its unit (gCO2e/kWh, not in the data standard). A blank cell has no row; nothing is filled.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/owid_energy.py; the data retrieved {rec.get('retrieved_at') or ''}"
             + (f", last modified {ip.vintage_of(rec)}" if ip.vintage_of(rec) else ""),
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
