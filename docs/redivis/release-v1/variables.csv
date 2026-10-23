@@ -954,6 +954,9 @@ eia861_net_metering,wind_installations_industrial,series variable,count
 eia861_net_metering,wind_installations_residential,series variable,count
 eia861_net_metering,wind_installations_total,series variable,count
 eia861_net_metering,wind_installations_transportation,series variable,count
+eia861_short_form,total_customers,series variable,count
+eia861_short_form,total_revenue,series variable,USD
+eia861_short_form,total_sales,series variable,MWh
 eia861_utility_data,entity_id,column,
 eia861_utility_data,entity_type,column,
 eia861_utility_data,name,column,

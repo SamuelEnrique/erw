@@ -50,6 +50,7 @@ eia861_delivery_only,EIA,the source registry
 eia861_demand_response,EIA,the source registry
 eia861_dynamic_pricing,EIA,the source registry
 eia861_net_metering,EIA,the source registry
+eia861_short_form,EIA,the source registry
 eia861_utility_data,EIA,the source registry
 eia861_utility_reliability,EIA,the source registry
 eia861_utility_sales,EIA,the source registry
