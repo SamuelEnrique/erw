@@ -416,3 +416,4 @@ utility_service_territories,EIA,the source registry
 wb_commodity_prices_monthly,World Bank,the source registry
 weather_forecast_hourly,NWS,the source registry
 weather_obs_hourly,NWS,the source registry
+wfigs_wildfires,National Interagency Fire Center (NIFC),the source registry
