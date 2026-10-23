@@ -1,6 +1,15 @@
 # The ERW in Python, Stata and R: one specification for three packages
 
-Version 0, session 1000, 23 October 2026 (chain 070, `queue/done/070-evening-22-october-code-packages.md`); session 1001 closed the Python package's gaps and settled two points while doing so (decisions 6 and 7). The one specification the three packages follow: the Python package `erw` (`package/`), the Stata command `erw` (`packages/stata/`, from session 1003) and the R package `erw` (`packages/r/`, from session 1005). A call, a word or a column type that one package does differently from this note is a fault of that package. Internal: the site is in review, like every page, and nothing here is published to PyPI, CRAN or SSC (the owner's).
+Version 1, session 1038, 23 October 2026 (chain 071, `queue/done/071-night-23-october-code-allgrids-packages.md`): "What version 1 changed" below. Version 0 was session 1000's (chain 070, `queue/done/070-evening-22-october-code-packages.md`); session 1001 closed the Python package's gaps and settled two points while doing so (decisions 6 and 7). The one specification the three packages follow: the Python package `erw` (`package/`), the Stata command `erw` (`packages/stata/`, from session 1003) and the R package `erw` (`packages/r/`, from session 1005). A call, a word or a column type that one package does differently from this note is a fault of that package. Internal: the site is in review, like every page, and nothing here is published to PyPI, CRAN or SSC (the owner's).
+
+## What version 1 changed (chain 071, sessions 1032 to 1037)
+
+- **The All grids tab's figures** (1032): four reproduced by the Python package's `fetch` from the tables the tab's files were built from, with each figure's window and order of tables written beside it; the fifth (the second card's all-in) rests on an internal table and is named. Section "The package reads the All grids tab's figures".
+- **The owner's Stata and R run**: not yet there (1033); the three commands are in `SESSION_1033_REPORT.md`. The Stata and R packages' Redivis export path stays unproven until then.
+- **The conformance file against the live set of 23 October** (1034): 20 of 20, no answer moved (each call reads a fixed window), 21 requests. Call 7 leaves the live set's 35 days about 22 November.
+- **The install, again** (1035): the wheel rebuilt offline and installed in a clean venv answers every call; the README's example runs as written; the record now lists 328 tables. The README now says its test line wants the tables `docs/coverage.md` describes (on this code machine 108 of 799 fail by older local tables, none by the package).
+- **The data pages** (1036): AccessLint and the 390 check, 0 findings. **The downloads and `/llms.txt`** (1037): not ruled, both still answer the internal view only.
+- **No call, word or column type changed** in any of the three packages.
 
 ## What a reader gets
 

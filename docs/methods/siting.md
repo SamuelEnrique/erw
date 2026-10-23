@@ -1,6 +1,14 @@
 # Where can a large load go: the All grids tab of "What a datacenter pays"
 
-Version 5, session 973, 23 October 2026 (chain 065, `queue/done/065-late-22-october-code-allgrids-5.md`); version 4 was session 784's (chain 064), version 3 session 762's (chain 063), version 2 session 740's (chain 062), version 1 session 712's (chain 050), version 0 session 700's. Internal: the tab is in review, like every page.
+Version 6, session 1038, 23 October 2026 (chain 071, `queue/done/071-night-23-october-code-allgrids-packages.md`); version 5 was session 973's (chain 065), version 4 session 784's (chain 064), version 3 session 762's (chain 063), version 2 session 740's (chain 062), version 1 session 712's (chain 050), version 0 session 700's. Internal: the tab is in review, like every page.
+
+## What version 6 changed (chain 071, sessions 1020 to 1041)
+
+- **ERCOT's planning reserve margin** (1027): under the Headroom column's capacity line, ERCOT's Capacity, Demand and Reserves report's first summer after the tab file's build day at the peak load hour, "reserve margin 11.4%, summer 2027", keyed `allgrids|reservemargin`; the tip gives the peak net load hour's figure and the report's first season below zero (spring 2028). The other grids read "reserve margin not held" (decision 29). The first of the tab's awaited tables wired; open items line 20 closed for ERCOT.
+- **The replication counts its requests** (1020): its last line names the requests made to the live set (about 32 a run, the hourly intensity's three grids). It reads the reserve margin from the live set, or from the table's CSV with `--tables` while the live set does not hold it yet (1027).
+- **Not landed, so not wired**: a node's zone and hub (1026: `ercot_settlement_points`), substations and lines near a node (1028: the HIFLD tables; ERCOT's transmission projects have landed, by county, and wait for a node's county). No ruling was answered (1021 to 1024).
+- **Read again, no change but 1027's line**: the three paths (1029 to 1031: every added figure line is the reserve margin's, none gone), the cards (1031: the two label faults of session 970, unchanged), accessibility and 390 (1036: 10 scans, 0 findings; 5 pages, 0 with a finding).
+- **The package reads the tab** (1032): four of its figures reproduced by the Python package from their tables (`package/tests/test_tab_figures.py`), the card's all-in named (an internal table).
 
 ## What version 5 changed (chain 065, sessions 788 to 799 and 970 to 977)
 
