@@ -194,6 +194,8 @@ def scope_rows(name, df):
         return df[df["ba"] == g["ba"]]
     if by == "entity" and "entity" in df.columns:
         return df[df["entity"].fillna("").str.startswith(g["slug"] + ":")]
+    if by == "isoentity" and "entity" in df.columns:   # session 1142: storage_buildout_monthly's iso:<slug>
+        return df[df["entity"] == "iso:" + g["slug"]]
     if by == "market" and "market" in df.columns and g.get("market_prefix"):
         return df[df["market"].fillna("").str.startswith(g["market_prefix"])]  # as the site: market like <prefix>*
     if by == "queue" and "source_table" in df.columns:
