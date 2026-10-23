@@ -182,6 +182,20 @@ Ten figures of the site, each with the check key the page writes (the key check-
 
 Eight of ten are reproduced exactly; no fault was found in the package or in the pages' library. The two others are the price board's tables (`price_board_latest`, `price_board_peak_offpeak`), whose license verdict is `unsettled` (held whole for their ISO-NE, MISO and NYISO rows). The package refuses them on the live set, as this note says it must, while the Grid tool shows their ERCOT figures. Whether a held table's public rows may be shown is the owner's ruling (`docs/licenses.md`, "Held figures that still show").
 
+## The package reads the All grids tab's figures (session 1032)
+
+Four figures of the All grids tab of `/cost-of-power` reproduced by the Python package's `fetch` (local backend) from the tables the tab's files were built from, and a fifth named (`package/tests/test_tab_figures.py`, run with `ERW_DATA_DIR` pointing at the tables; each test skips when its table is not there; the figures in `tab_figures.json`, the values production showed on 23 October 2026 at about 06:30 UTC).
+
+| Key | Shown | Tables | Result |
+|---|---|---|---|
+| `allgrids|energy|ercot:HB_HUBAVG|da` | 34.302056 | `ercot_all_hub_prices_history`, then `iso_dam_hub_prices` | reproduced: 8,760 hours, October 2025 to September 2026 in Central standard time; an hour is the first table's that holds it, as the price files are built (this machine's copy of the history ends 26 August 2026, the day-ahead table holds the rest) |
+| `allgrids|nodespread|ercot:7RNCHSLR_ALL` | 7.8679 | `node_basis_daily` | reproduced: the 90th percentile less the 10th of the daily basis, each rounded to four decimals, over the node file's twelve months |
+| `allgrids|nodeswing|ercot:7RNCHSLR_ALL` | 48.1828 | `node_basis_daily` | reproduced: the mean daily `dam_spread_4h` |
+| `allgrids|zonegrowth|nyiso:N.Y.C.` | 1.0759 | `eia930_subba_demand_hourly_2024`, `_2025` | reproduced: NYIS:ZONJ's mean hourly demand, 2025 over 2024 |
+| `card|siting_flexible|hub_flat` | 42.12709 | the first figure plus the four-peak charge | not reproduced: the charge's rate is `texas_delivery_charges`'s, internal; the test checks the package's record says so |
+
+What it shows: a figure of the tab is the table's arithmetic once the window and the order of tables are known, and both are now written beside the figure. No fault was found in the package. No request was made: `node_basis_daily` is out of the live set (session 483) and not in the released Stanford dataset, so a researcher reads it from the Stanford draft once released, or from a clone's tables.
+
 ## Where the three still differ (session 1014)
 
 Session 1014 read the Stata command and the R package line by line against this note and the conformance file (no result of the owner's run in Stata or R was there yet: `docs/reviews/packages-owner-run.md` does not exist). Three divergences were fixed:
