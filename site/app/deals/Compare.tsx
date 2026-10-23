@@ -39,7 +39,8 @@ function label(d: Deal): string {
 export function DealsCompare({ rows, sp }: { rows: Deal[]; sp: Record<string, string | undefined> }) {
   const pair = abPair(sp, rows.map((d) => d.id));
   const a = rows.find((d) => d.id === pair.a), b = rows.find((d) => d.id === pair.b);
-  const field = "max-w-full border border-rule bg-panel px-2 py-1 text-sm text-ink";
+  // session 830: a select takes its longest option's width and would run to the page's edge; it stops at the panel's measure
+  const field = "w-full max-w-md border border-rule bg-panel px-2 py-1 text-sm text-ink";
   const cell = "px-3 py-1.5 align-top";
   const lines: { label: string; note?: string; of: (d: Deal) => React.ReactNode; differs?: (x: Deal, y: Deal) => string }[] = [
     { label: "Date", note: "the announced date where a story states it, else the first story's publish date", of: (d) => d.date.slice(0, 10) },
@@ -62,15 +63,15 @@ export function DealsCompare({ rows, sp }: { rows: Deal[]; sp: Record<string, st
         Two of the shown deals side by side on the same rows, the figures as the stories state them. No sentence here judges; the last row states what differs.
         The pair is kept in the address, so a comparison can be shared as a link.
       </p>
-      <form method="get" action="/deals" className="mb-4 flex flex-wrap items-end gap-3 text-xs text-muted">
-        <label className="flex min-w-0 max-w-full flex-col gap-1">
+      <form method="get" action="/deals" className="mb-4 flex max-w-3xl flex-wrap items-end gap-3 text-xs text-muted">
+        <label className="flex min-w-0 flex-1 basis-64 flex-col gap-1">
           A
           <select name="a" defaultValue={pair.a ?? ""} className={field} aria-label="Deal A">
             <option value="">choose a deal</option>
             {rows.map((d) => <option key={d.id} value={d.id}>{label(d)}</option>)}
           </select>
         </label>
-        <label className="flex min-w-0 max-w-full flex-col gap-1">
+        <label className="flex min-w-0 flex-1 basis-64 flex-col gap-1">
           B
           <select name="b" defaultValue={pair.b ?? ""} className={field} aria-label="Deal B">
             <option value="">choose a deal</option>
