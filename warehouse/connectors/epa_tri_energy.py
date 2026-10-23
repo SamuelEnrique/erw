@@ -23,7 +23,7 @@ inventory; the few forms of earlier years are those of plants under another code
                 terminal's under two NAICS codes: BP Whiting, Phillips 66 Ponca City), so the form's document control
                 number keeps each as EPA published it; x_trifd and x_chemical_id group the forms, and no sum is made here.
                 node the facility's name
-    unit        lb, or g for dioxin and dioxin-like compounds (Decision 65), the unit EPA printed on the form; never
+    unit        lb, or g for dioxin and dioxin-like compounds (Decision 66), the unit EPA printed on the form; never
                 converted or summed across units
     ts_utc      the reporting year's 1 January; freq P1Y; geo US-<state> (the facility's state, territories included)
     x_*         the TRIFD, the FRS id (EPA's Facility Registry Service, which epa_ghgrp_facility_emissions' x_frs_id
@@ -168,7 +168,7 @@ def main(argv=None):
         header = [
             f"Energy Research Warehouse (ERW): U.S. EPA, Toxics Release Inventory, basic data files, reporting years {args.first_year} to {args.last_year}: the energy industries' releases by facility, chemical and year (session 2121)",
             "Shape: series (docs/datastandard.md v0). entity tri:<TRIFD>:<TRI chemical id>:<document control number>, one form (x_trifd and x_chemical_id group a site's forms of a chemical; no sum is made); variable total_releases, on_site_release_total or off_site_release_total, EPA's totals of the form; "
-            "unit lb, or g for dioxins (Decision 65), as printed, never converted or summed across units; ts_utc the year's 1 January; freq P1Y; node the facility's name.",
+            "unit lb, or g for dioxins (Decision 66), as printed, never converted or summed across units; ts_utc the year's 1 January; freq P1Y; node the facility's name.",
             f"{len(t)} rows, {len(forms)} forms: " + "; ".join(f"{s} {r.forms} forms ({r.facilities} facilities)" for s, r in by.iterrows())
             + ". Sectors by EPA's TRI industry sector code: 2211, 324, 211, 2121, 4247; natural gas processing plants report from 2022, when EPA added them. Zeros kept as reported; a blank cell has no row; nothing is filled.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/epa_tri_energy.py; the files retrieved "

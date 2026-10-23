@@ -84,7 +84,7 @@ UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "mph", "
          # potentials; epa_ghgrp_facility_emissions; Decision 61)
          "tCO2e",
          # session 2121: a mass in grams, as EPA's Toxics Release Inventory reports dioxins (epa_tri_energy_releases_annual;
-         # Decision 65)
+         # Decision 66)
          "g"}
 NAME_RE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+){2,}$")
 NAME_MAX = 40

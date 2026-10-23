@@ -10,7 +10,7 @@
 - **One table written, validated, archived, in coverage (sectors power, oil, gas and coal), in the release package, both holds:** `epa_tri_energy_releases_annual`, the Toxics Release Inventory's forms of the energy industries, reporting years 2015 to 2023: 384,483 rows, 128,161 forms. Each form is one facility's report of one chemical, with three of EPA's totals: total releases, on-site releases and off-site releases.
   - By sector over the nine years: electric utilities 36,480 forms (637 facilities), petroleum 50,078 (1,014), petroleum bulk terminals 37,195 (837), natural gas processing 3,594 (342), coal mining 814 (54).
   - **Natural gas processing appears from 2022** (4 to 35 forms a year before, 1,714 in 2022 and 1,746 in 2023): EPA added natural gas processing plants to the inventory from reporting year 2022. The header says so.
-  - **A new unit, `g` (Decision 65):** EPA reports dioxins in grams and every other chemical in pounds (`lb`); each form keeps the unit EPA printed, and the two are never converted or summed. Chain 069 holds Decisions 62 to 64 on its branch, so this chain's numbering starts at 65, as agreed with its agent.
+  - **A new unit, `g` (Decision 66):** EPA reports dioxins in grams and every other chemical in pounds (`lb`); each form keeps the unit EPA printed, and the two are never converted or summed. Chain 068's Decision 62 (`degC`) landed during the session and chain 069 holds three units more (63 to 65), so this one is 66, as the agents of chains 069 and 090 agreed (first written as 65 and renumbered in session 2125); the table's header, written with 65, is written again in session 2129.
   - **A form is the entity** (`tri:<TRIFD>:<chemical id>:<document control number>`): some sites file several forms of one chemical in a year (for one establishment each, or a refinery's and its terminal's under two NAICS codes, BP Whiting and Phillips 66 Ponca City among them: 132 to 201 such pairs a year). Each is kept as EPA published it; `x_trifd` and `x_chemical_id` group them, and no sum is made here.
 - **The cross-check** (`runs/c079/s2121/cross.py`):
   - EPA's arithmetic holds on every form: total releases equal on-site plus off-site on all 128,161.
@@ -38,7 +38,7 @@ EPA's terms are the record's (read 55, may be public).
 - **The five energy sectors** by EPA's TRI industry sector code (2211, 324, 211, 2121, 4247); the chemical, metal and other industries are not taken.
 - **Three totals of the form** (total, on site, off site), not its 70 detailed quantities, to keep the table at 384,483 rows; a later session can add the air and water columns.
 - **A form as the entity,** never a sum of a site's forms.
-- **`g` as a unit of its own** (Decision 65), rather than grams converted to pounds.
+- **`g` as a unit of its own** (Decision 66), rather than grams converted to pounds.
 - **ScienceBase's robots file read as disallowing** the ERW's reader: its last group for every reader disallows `/`.
 
 ## For Samuel's ruling
@@ -48,5 +48,5 @@ EPA's terms are the record's (read 55, may be public).
 ## Files
 
 - New: `warehouse/connectors/epa_tri_energy.py`, `tests/test_session2121.py`, this report.
-- Changed: `docs/datastandard.md` (Decision 65), `warehouse/validate/erw_validate.py` (`g`), `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`, `warehouse/metadata/license_reads.csv` (238 to 240), the coverage, sources, archive manifest and license files, `docs/redivis/release-v1/`.
+- Changed: `docs/datastandard.md` (Decision 66), `warehouse/validate/erw_validate.py` (`g`), `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`, `warehouse/metadata/license_reads.csv` (238 to 240), the coverage, sources, archive manifest and license files, `docs/redivis/release-v1/`.
 - On the data machine only: `runs/c079/s2121/`, `runs/license_reads/s2121/`, `runs/s2121_*`, `warehouse/raw/epa_tri_energy/`.

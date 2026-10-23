@@ -4,7 +4,7 @@ Energy Research Warehouse (ERW). Tests warehouse/connectors/epa_tri_energy.py on
 file's form (made up for the test, not EPA's): only the energy sectors kept, a form an entity with its document control
 number, two forms of one site and chemical kept apart, grams written as g and pounds as lb, zeros kept and blanks
 left out; a missing column, a year not the file's, a unit not Pounds or Grams, a value that is not a number and a form
-given twice stopping the run; the unit g in the validator and the data standard (Decision 65); the sector rule and the
+given twice stopping the run; the unit g in the validator and the data standard (Decision 66); the sector rule and the
 holds. No network.
 
     python -m unittest tests.test_session2121 -v
@@ -87,8 +87,8 @@ class Registered(unittest.TestCase):
         self.assertIn("g", V.UNITS)
         with open(os.path.join(ROOT, "docs", "datastandard.md"), encoding="utf-8") as f:
             text = f.read()
-        self.assertIn("65. **Session 2121: g.**", text)
-        self.assertIn("(Decision 65) `g`, a mass in grams", text)
+        self.assertIn("66. **Session 2121: g.**", text)
+        self.assertIn("(Decision 66) `g`, a mass in grams", text)
 
     def test_sector_and_holds(self):
         self.assertEqual(B.sector_of(T.NAME), "power;oil;gas;coal")
