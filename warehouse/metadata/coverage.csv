@@ -314,6 +314,7 @@ lbnl_hybrid_ppa_prices,none,,1,event,2015-09-09T00:00:00Z,2025-06-13T00:00:00Z,1
 lbnl_interconnection_queue,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,38201,snapshot,2026-10-02T09:16:25Z,2026-10-02T09:16:25Z,38201,lbnl:queued_up,,pass,public,power,no,source
 lbnl_ppa_prices,none,,1,event,1996-09-06T00:00:00Z,2025-06-13T00:00:00Z,1133,1 outlets,2026-10-23T08:31:18Z,pass,public,power,no,source
 lbnl_solar_projects,lbnl,,1775,snapshot,2026-10-23T08:30:21Z,2026-10-23T08:30:21Z,1775,lbnl:solar_projects,2026-10-23T11:11:04Z,pass,public,power,no,source
+lbnl_tracking_the_sun,lbnl,,7,P1Y,1983-01-01T00:00:00Z,2024-01-01T00:00:00Z,8762,lbnl:tracking_the_sun,2026-10-23T18:53:21Z,pass,public,power,no,source
 lbnl_wind_capacity_factors,lbnl,,1210,P1Y,2025-01-01T00:00:00Z,2025-01-01T00:00:00Z,1210,lbnl:wind_capacity_factors,2026-10-23T11:24:31Z,pass,public,power,no,source
 lbnl_wind_costs,lbnl,,35,P1Y,1983-01-01T00:00:00Z,2025-06-30T00:00:00Z,119,lbnl:wind_costs,2026-10-23T12:23:01Z,pass,public,power,no,source
 lbnl_wind_turbine_orders,none,,1,event,1997-02-01T00:00:00Z,2016-07-01T00:00:00Z,122,1 outlets,2026-10-23T12:23:12Z,pass,public,power,no,source

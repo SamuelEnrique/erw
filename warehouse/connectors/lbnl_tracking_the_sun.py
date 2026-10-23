@@ -19,9 +19,11 @@ large to hold whole, so the table is its summary, as its header says:
                             installed price over its DC size, unscreened); ts_utc 1 January of the year of installation;
                             freq P1Y; geo US-<ST>; node the segment as written; x_segment the same
 
-A system with no installation date, or one after its file's own Last-Modified day (one in the 2024 edition's Arizona
-file reads 2038-03-29), has no year and no row (each state's count is in the run log, the total in the header); a size or price of zero or less (the file writes -1 for missing) is missing: such a system counts in systems,
-not in capacity_dc or the price. A system is priced when both its price and its size are above zero. A battery is a
+A system with no installation date, one after its file's own Last-Modified day (one in the 2024 edition's Arizona file
+reads 2038-03-29) or one before 1980 (eight in the 2024 edition, 1899 to 1905 and 1971: no grid-connected solar system
+is that old) has no year and no row (each state's count is in the run log, the total in the header); a size or price of
+zero or less (the file writes -1 for missing) is missing: such a system counts in systems, not in capacity_dc or the
+price. A system is priced when both its price and its size are above zero. A battery is a
 battery_rated_capacity_kwh above zero. The price is not Berkeley Lab's: its report screens outliers and third-party-owned
 systems' appraised values, and this table does not. A file whose columns lack those read, a listing that is truncated or
 names a state twice, or an (entity, variable, ts_utc) given twice stops the run; nothing is filled.
@@ -59,6 +61,7 @@ EDITION = "2024"
 COLS = ["installation_date", "pv_system_size_dc", "total_installed_price", "customer_segment", "battery_rated_capacity_kwh"]
 UNITS = {"systems": "count", "systems_priced": "count", "systems_battery": "count", "capacity_dc": "MW", "price_median": "USD/kW"}
 X_COLS = ["x_segment"]
+FLOOR = pd.Timestamp("1980-01-01")  # session 2020: a date before it is no installation's (1899 to 1905 and 1971 in 2024's file)
 
 
 def slug(s):
@@ -85,11 +88,12 @@ def listing(edition, log, offline):
 
 def summarise(d, state, base, cutoff=None):
     """One state's systems (a frame of COLS): its rows by segment and year, and the count of systems without a year. A
-    date after cutoff (the file's own Last-Modified day) cannot be an installation's and counts as no date."""
+    date after cutoff (the file's own Last-Modified day) or before FLOOR cannot be an installation's and counts as no date."""
     missing = [c for c in COLS if c not in d.columns]
     if missing:
         raise RuntimeError(f"{state}: no column {missing}; the file's columns are {list(d.columns)[:20]} ...")
     when = pd.to_datetime(d.installation_date, errors="coerce")
+    when = when.where(when >= FLOOR)
     if cutoff is not None:
         when = when.where(when <= cutoff)
     year = when.dt.year
@@ -182,7 +186,7 @@ def main(argv=None):
                 "reported figure); freq P1Y; ts_utc 1 January of the year of installation; geo US-<ST>; node and x_segment the customer segment as "
                 "the file writes it (unknown for its -1).",
                 f"A summary: the file holds one row a system ({n_sys:,} systems in {len(states)} states: {' '.join(states)}), too large to hold whole. "
-                f"{n_noyear:,} systems have no installation date, or one after their file's own date, and no row. A size or price of zero or less is missing. Nothing is filled.",
+                f"{n_noyear:,} systems have no installation date, one after their file's own date or one before 1980, and no row. A size or price of zero or less is missing. Nothing is filled.",
                 f"Retrieved: {run_id} (UTC) by warehouse/connectors/lbnl_tracking_the_sun.py; the latest file retrieved {latest}",
                 f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
                 f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",

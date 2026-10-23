@@ -35,9 +35,10 @@ class Summary(unittest.TestCase):
             ["2022-01-15", 100.0, 200000.0, "-1", -1.0],  # the file's missing segment
             [None, 7.0, 21000.0, "COM", -1.0],           # no date: no row
             ["2038-03-29", 7.0, 21000.0, "COM", -1.0],   # after the file's date: no row
+            ["1899-12-31", 7.0, 21000.0, "COM", -1.0],   # before 1980 (session 2020): no row
         ])
         rows, no_year = T.summarise(d, "AZ", BASE, cutoff=pd.Timestamp("2025-02-28"))
-        self.assertEqual(no_year, 2)
+        self.assertEqual(no_year, 3)
         got = {(r["entity"], r["variable"], r["ts_utc"][:4]): r for r in rows}
         res = lambda v: got[("tts:az_res", v, "2023")]["value"]  # noqa: E731
         self.assertEqual((res("systems"), res("systems_priced"), res("systems_battery")), (4, 2, 1))

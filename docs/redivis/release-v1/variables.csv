@@ -5369,6 +5369,11 @@ lbnl_solar_projects,cf_2021,column,
 lbnl_solar_projects,cf_2022,column,
 lbnl_solar_projects,cf_2023,column,
 lbnl_solar_projects,cf_2024,column,
+lbnl_tracking_the_sun,capacity_dc,series variable,MW
+lbnl_tracking_the_sun,price_median,series variable,USD/kW
+lbnl_tracking_the_sun,systems,series variable,count
+lbnl_tracking_the_sun,systems_battery,series variable,count
+lbnl_tracking_the_sun,systems_priced,series variable,count
 lbnl_wind_capacity_factors,capacity_factor,series variable,ratio
 lbnl_wind_costs,capex,series variable,USD/kW
 lbnl_wind_costs,lcoe,series variable,USD/MWh

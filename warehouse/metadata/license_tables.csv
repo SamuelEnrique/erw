@@ -314,6 +314,7 @@ lbnl_hybrid_ppa_prices,Berkeley Lab,the source registry
 lbnl_interconnection_queue,Berkeley Lab,the source registry
 lbnl_ppa_prices,Berkeley Lab,the source registry
 lbnl_solar_projects,Berkeley Lab,the source registry
+lbnl_tracking_the_sun,"Berkeley Lab, Tracking the Sun on OEDI","by hand: its submission on the Open Energy Data Initiative states CC BY 4.0 (session 2019, read 176)"
 lbnl_wind_capacity_factors,Berkeley Lab,the source registry
 lbnl_wind_costs,Berkeley Lab,the source registry
 lbnl_wind_turbine_orders,Berkeley Lab,the source registry
