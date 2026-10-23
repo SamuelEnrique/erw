@@ -328,6 +328,7 @@ catalogue_hold:
   - eia860_plants_annual
   - eia_coal_receipts_annual
   - eia861_short_form
+  - eia861_energy_efficiency
   - eia_crude_imports_detail_monthly
   - eia_padd_rail_barge_movements_monthly
   - eia_gas_trade_country_monthly

@@ -102,6 +102,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "eia_coal_production_annual", "eia_coal_mine_production_annual", "eia861_utility_reliability", "ercot_cdr_reserve_margins", "ercot_transmission_projects", "eia861_delivery_only",
            "interconnection_agreements_signed", "interconnection_agreements_by_grid", "eia_petroleum_exports_by_destination", "eia_gas_consumers_state_annual", "eia861_utility_data", "eia861_demand_response", "eia861_dynamic_pricing",
            "eia861_advanced_meters", "eia861_net_metering", "ercot_cdr_units", "eia860_plants_annual", "eia_coal_receipts_annual", "eia861_short_form",
+           "eia861_energy_efficiency",
            "interconnection_durations", "interconnection_durations_summary",
            "grid_peak_vs_capacity"):  # 510 to 672 the same way
     STORAGE_HELD[_t] = ("held: not yet on Redivis (written 21 October 2026, session 489; the account's free 10 GB is full, "
