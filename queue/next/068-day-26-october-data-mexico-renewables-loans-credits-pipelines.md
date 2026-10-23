@@ -21,7 +21,7 @@ Default-neutral: no page's default figure moves, no ruling is made, nothing is r
 The rules of `queue/done/067-day-25-october-data-neighbours-emitters-disasters-world-oil.md` hold, word for word, among them:
 
 - **ERCOT's robots file disallows `/misapp` and `/misdownload`**, and **EIA's disallows `/archive/`**: neither is asked.
-- **Hosts that refused the ERW's reader, or whose robots file disallows its paths, are not asked again without a ruling:** api.census.gov, www.phmsa.dot.gov, FERC's policy page, EPA's bulk file API without a key, apps.cer-rec.gc.ca, files.ember-energy.org, www.bls.gov, data.usbr.gov's `/rise/api` and time series queries, www.sec.gov and data.sec.gov, comptroller.texas.gov below its root, www.energyinst.org (session 2075: HTTP 403), and any host chains 058 and 066 add to the list. **JODI (jodidata.org) is not pulled:** its host the IEF's terms forbid robots without written permission (session 2075's verdict, a question for the owner).
+- **Hosts that refused the ERW's reader, or whose robots file disallows its paths, are not asked again without a ruling:** api.census.gov, www.phmsa.dot.gov, FERC's policy page, EPA's bulk file API without a key, apps.cer-rec.gc.ca, files.ember-energy.org, www.bls.gov, data.usbr.gov's `/rise/api` and time series queries, www.sec.gov and data.sec.gov, comptroller.texas.gov below its root, www.energyinst.org (session 2075: HTTP 403), www.fueleconomy.gov (chain 066's session 2063: the connection reset on its robots file twice), and any host chains 058 and 066 add to the list. **JODI (jodidata.org) is not pulled:** its host the IEF's terms forbid robots without written permission (session 2075's verdict, a question for the owner).
 - **Keys not held:** `EPA_CAMD_API_KEY`, `NREL_API_KEY` or `DATA_GOV_API_KEY`, `OPENEI_API_KEY`; a session that needs one stops and says so, without signing up.
 - **Every session runs `scripts/precheck.py` first, from the main checkout** (from a worktree it finds no ledger file and may fail).
 - **A redirect to a new host is a new host:** its robots file is asked before the next request to it.
@@ -63,7 +63,7 @@ Long end 1:30. Pulls: none. The tables in `warehouse/metadata/coverage.csv` with
 
 ## Session 2089: the licenses' sixteenth round
 
-Long end 1:30. Pulls: at most 20 requests, two pages a host beside its robots file. The publishers chains 046 to 067 did not reach, those of sessions 2084 to 2087 and 2090 to 2092 first; `license_verdicts.csv` read first; `tests/test_session205.py`'s bound raised if the round needs it.
+Long end 1:30. Pulls: at most 20 requests, two pages a host beside its robots file. The publishers chains 046 to 067 did not reach, those of sessions 2084 to 2087 and 2090 to 2092 first, and the U.S. Drought Monitor's Permission page (https://droughtmonitor.unl.edu/About/Permission.aspx, which its robots file allows; chain 066's `usdm_drought_state_weekly` waits on it); `license_verdicts.csv` read first; `tests/test_session205.py`'s bound raised if the round needs it.
 
 ## Session 2090: the gas pipelines between states (EIA's state-to-state capacity)
 
