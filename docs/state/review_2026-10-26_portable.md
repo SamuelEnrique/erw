@@ -47,3 +47,19 @@ Energy Research Warehouse (ERW), session 841, written on portable-laptop on 23 O
 - The branches `wip/801-periodicals` to `wip/818-periodicals` and `task/818-periodicals` deleted once each is an ancestor of origin/main and chain 080 has ended.
 - AccessLint `audit_live` on the four tracker pages (its MCP tool is not on this machine's session), the browser stopped after.
 - `deals-path.md` re-walked once it exists.
+
+## Chain 082 (sessions 842 to 844), the same morning
+
+Written by session 844 at about 08:20 UTC on 23 October 2026. Chain 082 (`queue/done/082-night-25-october-portable-deals-3.md`, the three-session file session 841 rewrote) was taken by chain 081's queue step at 08:11 UTC and run at once, still beside chain 080. Model spend USD 0. Nothing landed; no page changed; no build.
+
+| Session | Branch | What it did |
+|---|---|---|
+| 842 | `wip/842-deals` | chain 080's state checked again: nothing of it on main beyond 820 and 821; its two newest gates (`wip/818-periodicals` at 08:09 UTC, `wip/822-deals` at 08:12 UTC) failed at `main_merged` because chain 081's eleven document pushes moved main under them; nothing of the "To finish" doable |
+| 843 | `wip/842-deals` | the rulings read again: 19 open, none answered; a three-line dated section |
+| 844 | `wip/842-deals` | this section; one push to main; the queue step |
+
+Decisions of chain 082: no push to main until the last session, then one fast-forward push, so chain 080's gates have a still main (842); no merge of origin/main into chain 080's branches on its behalf (842); the state section kept to three lines (843).
+
+For Samuel's ruling, new in chain 082: whether a documents-only push to main should wait while another chain's `land_check` run is in progress on the machine (session 842's item). The rest is as above.
+
+To finish: unchanged from chain 081's list above. The night of 24 October has no file in `queue/next` for this machine: chain 080's session 833 writes it (its instruction names 081, which is in `queue/done/`), or the owner does.
