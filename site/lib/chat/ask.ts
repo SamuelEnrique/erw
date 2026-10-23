@@ -16,6 +16,7 @@ import { callKey, partialDraft, stageClock, type StageMs, type Step } from "./st
 import { readerEffort, rulePlanOn } from "./switches";
 import { plainTimes } from "./plaintime";
 import { cleanTurns, generalOpening } from "./history";  // session 1129: the general chat's conversation
+import { answerSeries } from "./generalseries";  // session 1142: the general chat's chart
 
 export type Citation = { table: string; source_report: string; data_version: string; tier: string };
 export type AskResult = {
@@ -410,6 +411,8 @@ export async function ask(question: string, today = new Date().toISOString().sli
   const readsLog: Read[] = [];
   // session 1132: the tables a question queried or described, the nearest a refusal of the general chat names
   const looked = new Set<string>();
+  // session 1142: the general chat's query results, for the series an answer rests on (lib/chat/generalseries.ts)
+  const generalResults: { tool: string; input: Record<string, unknown>; out: Record<string, unknown> }[] = [];
   const base = () => ({ model: writer, ...(planner ? { planner } : {}), tool_calls: calls, retried, usage, cost_usd: spent, ...(tracing ? { trace: traced } : {}), ...(readsLog.length ? { reads: readsLog } : {}) });
   const textOf = (resp: Anthropic.Message) => resp.content.map((b) => (b.type === "text" ? b.text : "")).join("");
   // The check of a whole draft, as it always was: every number in a tool result, every cited table read, an answer and
@@ -439,6 +442,11 @@ export async function ask(question: string, today = new Date().toISOString().sli
     if (typeof drawn.premise === "string") drawn.premise = plain(drawn.premise);
     clock.add("drawing", "series", Date.now() - tDraw);
     // session 1132: the general chat's "not in the warehouse" names what it did look at, as Ask ERCOT's does
+    // session 1142: an answer of the general chat that rests on a series carries it, as Ask ERCOT's does
+    if (!profile && status === "answered") {
+      const series = answerSeries(generalResults, citations.map((c) => c.table));
+      if (series.length) return done({ ...draft, answer, citations, status, ...base(), ...drawn, series });
+    }
     if (!profile && status === "not_in_warehouse" && looked.size)
       return nearestFor([...looked]).then((nearest) => done({ ...draft, answer, citations, status, ...base(), ...drawn, ...(nearest.length ? { nearest } : {}) }));
     return done({ ...draft, answer, citations, status, ...base(), ...drawn });
@@ -470,6 +478,7 @@ export async function ask(question: string, today = new Date().toISOString().sli
     if (!isError && !out.held) for (const r of readsOf(name, input)) if (!readsLog.some((x) => JSON.stringify(x) === JSON.stringify(r))) readsLog.push(r);
     if (!isError && name === "describe_table" && typeof input.table === "string") looked.add(input.table);
     for (const r of readsOf(name, input)) looked.add(r.table);
+    if (!profile && !isError && !out.held && (name === "query" || name === "compare")) generalResults.push({ tool: name, input, out });
     if (profile) {
       out = profile.tag(name, input, out, n);
       records.push({ tool: name, input, out, isError });

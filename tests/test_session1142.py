@@ -8,6 +8,8 @@ environment at import.
 """
 import json
 import os
+import shutil
+import subprocess
 import sys
 import unittest
 
@@ -58,6 +60,23 @@ class ThePagesTables(unittest.TestCase):
         self.assertIn(rule, spec["system"])
         self.assertIn("the battery page (/cost-of-power/battery) reads battery_stack_monthly", spec["system"])
         self.assertIn("the datacenter page (/cost-of-power) reads cost_of_power_monthly", spec["system"])
+
+
+class TheGeneralChart(unittest.TestCase):
+    """Chain 076's session 1130: the general chat's answer carries the series it rests on (site/lib/chat/generalseries.ts)."""
+    def test_the_node_tests(self):
+        site = os.path.join(ROOT, "site")
+        exe = shutil.which("node")
+        if not exe:
+            raise unittest.SkipTest("node is not on this machine")
+        if not os.path.isdir(os.path.join(site, "node_modules")):
+            raise unittest.SkipTest("the site's packages are not installed in this copy")
+        r = subprocess.run([exe, "--import", "./scripts/alias-register.mjs", "scripts/test-ask-1142.mjs"], cwd=site,
+                           capture_output=True, text=True, timeout=300, encoding="utf-8")
+        if r.returncode != 0 and "Unknown file extension" in r.stderr:
+            raise unittest.SkipTest("this node does not read TypeScript files")
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertIn("4 of 4 passed", r.stdout)
 
 
 if __name__ == "__main__":
