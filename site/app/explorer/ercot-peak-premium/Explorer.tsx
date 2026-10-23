@@ -140,7 +140,7 @@ export function Explorer({
               <div key={h.v} className="bg-panel p-2">
                 <div className="text-xs text-muted">{h.label}</div>
                 {val !== undefined ? (
-                  <div className="text-lg tabular-nums">
+                  <div className="font-serif text-3xl tabular-nums">{/* session 2204: a headline number's size (docs/brand.md, the scale); 18 px was not in it */}
                     <Num check={`series|ercot_peak_premium_annual|${hub}|${h.v}|${year}-01-01T00:00:00Z`} raw={val} source={sourceOf(`series|ercot_peak_premium_annual|${hub}|${h.v}|${year}-01-01T00:00:00Z`, hubName)}>
                       {fmt(val, h.unit)}
                     </Num>{" "}

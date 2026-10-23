@@ -192,6 +192,19 @@ The operating counts and the waits agree within a few positions and about a mont
 - **Freshness:** the catalogue's line for this table and for the chosen queue's table (the shared frame), and the header's build time and the queue's retrieval date under it. On 21 October the live catalogue did not list `iso_queue_statistics`, and the line says so.
 - **The figures in MW and their keys:** with the measure MW (`measure=mw`), `iso_queue_statistics`, `mw_operating`, `mw_withdrawn`, `mw_waiting` and `mw_status_not_stated` are the MW, as the queue states them, of the entry year's positions that reached operation, were withdrawn, are still waiting and have no status stated: the parts of the stacked bars, the columns of the table of every entry year and of the six queues side by side, and the headline "Reached operation" (and, for ERCOT, "Still waiting"). Each is one row of the table; a position with no MW is counted in the positions and not in the MW (finished on the combined branch of chain 015, 21 October 2026).
 
+
+### Decisions of the explorer (each dated, and reversible unless said)
+
+The choices made on `/explore/interconnection`, one line each with its session; session 405's are gathered here from "The explorer" above.
+
+1. 2026-10-21, session 405: four filters in the address, `queue`, `measure`, `from` and `to`; CAISO in positions by default, every entry year to the newest whose year is over; a value the table does not hold falls back to the default and the page says so.
+2. 2026-10-21, 405: the stacked bars are the four statuses this section defines, each a row of the table, never a sum the page makes; an entry year at or after the queue's retrieval year is partial and hatched.
+3. 2026-10-21, 405: while the header says the table is the first build's, the page says so in one line and shows the counts as the table holds them, never a corrected figure.
+4. 2026-10-21, 405: a queue whose publisher asks for permission (NYISO, MISO, ISO-NE from 21 October 2026) is not read and shows "license needed" in its place, on the page and in the six-queue table.
+5. 2026-10-23, session 2202: every figure carries its source in its hover (the table, the queue and its entry year, the variable, the year, the ISO's own queue table and this note), read from the figure's key by `site/lib/explore/source.ts`; the header's count names the header line it is read from; the three headline numbers carry the same words in the brand's tip; a held queue's figures carry no source words, the hold being drawn first.
+6. 2026-10-23, 2202: the tool pages' stacked and line chart (`site/components/tool/SeriesChart.tsx`) draws the brand's hover card for the entry year under the pointer or the keyboard's arrows, with the total under a rule where more than one series stacks; its `<title>` a category stays. Every tool page that draws the chart gains the card.
+7. 2026-10-23, session 2204: on reading, nothing of the page's type, color, tables or charts stood outside `docs/brand.md`; no change.
+
 ## The figures on the page and their keys
 
 Each number `/map` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The keys the sections above do not name:
