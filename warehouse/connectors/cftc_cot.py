@@ -9,7 +9,7 @@ public reporting service (https://publicreporting.cftc.gov/resource/72hh-3qpy.js
               023651 Henry Hub natural gas (NYMEX), 111659 RBOB gasoline (NYMEX)
     variable  managed_money_long, managed_money_short, managed_money_net (long less short), open_interest
     value     contracts, as the CFTC reports them; managed_money_net is the one figure computed here
-    freq      P1W; ts_utc is the report's "as of" date (a Tuesday) at 00:00:00Z; node is the CFTC's market name
+    freq      P1W; ts_utc is the report's "as of" date (a Tuesday; a Monday in six holiday weeks, 2017 to 2025, as the CFTC dates them) at 00:00:00Z; node is the CFTC's market name
 
     python warehouse/connectors/cftc_cot.py [--out-dir DIR]
 
@@ -106,7 +106,7 @@ def main(argv=None):
         header = [
             "Energy Research Warehouse (ERW): CFTC Commitments of Traders, managed money positions in WTI, Brent Last Day, Henry Hub and RBOB futures (NYMEX), weekly from 2015 (session 134)",
             "Shape: series (docs/datastandard.md v0). managed_money_long, managed_money_short and open_interest are the CFTC's figures, contracts, futures only (Disaggregated report); managed_money_net is long less short, computed here. "
-            "freq P1W; ts_utc is the report's as-of date (a Tuesday) at 00:00:00Z; the CFTC publishes it on the Friday after. node is the CFTC's market name.",
+            "freq P1W; ts_utc is the report's as-of date (a Tuesday, or the Monday the CFTC gives in a holiday week) at 00:00:00Z; the CFTC publishes it on the Friday after. node is the CFTC's market name.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/cftc_cot.py",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",

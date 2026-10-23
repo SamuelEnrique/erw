@@ -6,7 +6,8 @@ workbook the California Air Resources Board (CARB) publishes every Tuesday with 
 Activity Report (https://ww2.arb.ca.gov/resources/documents/weekly-lcfs-credit-transfer-activity-reports), sheet
 "Weekly Average Credit Price", from the week of 2019-01-07. The workbook's address changes each week (its name carries
 the date), so the connector reads the page and follows the one .xlsx link on it. Entity carb:lcfs_credit; a week is
-Monday to Sunday and sits at 00:00:00Z of its Monday. Variables:
+Monday to Sunday and sits at 00:00:00Z of its Monday, as CARB dates it (one week, 2021-09-07, the day after Labor Day,
+CARB dates by its Tuesday, and it is kept so). Variables:
 
     credit_price_weekly_avg         CARB's volume-weighted average price of all non-zero transfers, USD per credit
                                     (one credit is one metric ton of CO2 equivalent)

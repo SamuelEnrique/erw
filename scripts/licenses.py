@@ -75,8 +75,8 @@ BY_HAND = {
     # session 2014: EIA's page says the wholesale market data are "republished, with permission, from data collected by the
     # Intercontinental Exchange (ICE)": ICE's data, so ICE's verdict as well as EIA's (as the NYMEX futures EIA republished)
     "eia_ice_electricity_daily": (["EIA", "ICE, whose prices EIA republishes"], "its header: EIA republishes these prices with ICE's permission"),
-    # session 2020: Tracking the Sun as OEDI publishes it, by its own record's license (read 176), not Berkeley Lab's other files' (read 14)
-    "lbnl_tracking_the_sun": (["Berkeley Lab, Tracking the Sun on OEDI"], "its submission on the Open Energy Data Initiative states CC BY 4.0 (session 2019, read 176)"),
+    # session 2020: Tracking the Sun as OEDI publishes it, by its own record's license (read 193), not Berkeley Lab's other files' (read 14)
+    "lbnl_tracking_the_sun": (["Berkeley Lab, Tracking the Sun on OEDI"], "its submission on the Open Energy Data Initiative states CC BY 4.0 (session 2019, read 193)"),
     "eia_all_futures_prices": (["EIA", "CME Group (NYMEX), whose prices EIA republished"], "its header: EIA names the New York Mercantile Exchange as the source of these prices"),
     "ercot_peak_premium_annual": (["ERCOT"], "its header: derived from ERCOT's hub prices (reports NP6-785-ER and NP6-905-CD)"),
     "ercot_peak_premium_monthly": (["ERCOT"], "its header: derived from ERCOT's hub prices (reports NP6-785-ER and NP6-905-CD)"),

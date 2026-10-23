@@ -2,7 +2,7 @@
 
 Energy Research Warehouse (ERW). The table built by warehouse/connectors/lbnl_tracking_the_sun.py (sessions 2015 and
 2020; its summary is tested in tests/test_session2015.py): the sector rule, the holds (public, so in the release package
-while Redivis's storage is settled, and out of the live set), its own verdict (read 176) by hand, and the 1980 floor.
+while Redivis's storage is settled, and out of the live set), its own verdict (read 193) by hand, and the 1980 floor.
 No network.
 
     python -m unittest tests.test_session2020 -v
@@ -36,7 +36,7 @@ class Registered(unittest.TestCase):
         self.assertEqual(key, ["Berkeley Lab, Tracking the Sun on OEDI"])
         with open(os.path.join(ROOT, "warehouse", "metadata", "license_verdicts.csv"), encoding="utf-8") as f:
             v = {r["key"]: r for r in csv.DictReader(f)}
-        self.assertEqual((v[key[0]]["read"], v[key[0]]["verdict"]), ("176", "may be public"))
+        self.assertEqual((v[key[0]]["read"], v[key[0]]["verdict"]), ("193", "may be public"))
 
     def test_floor(self):
         self.assertEqual(T.FLOOR, pd.Timestamp("1980-01-01"))

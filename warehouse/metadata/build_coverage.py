@@ -226,6 +226,12 @@ SECTOR_RULES = [
     (r"^usbr_hydropower_monthly$", "power"),  # session 2003: Reclamation's plants
     (r"^noaa_cpc_degree_days_daily$", "power;gas"),  # session 2006: CPC's degree days
     (r"^boem_offshore_platforms$", "oil;gas"),  # session 2007: BOEM's platforms
+    (r"^noaa_ncei_storm_events$", "power"),  # session 2042: NOAA's storm events
+    (r"^nrc_event_notifications$", "power;uranium"),  # session 2043: the NRC's event reports
+    (r"^doe_lng_export_applications$", "gas;lng"),  # session 2044: DOE's LNG export applications
+    (r"^noaa_climdiv_state_monthly$", "power;gas"),  # session 2045: NOAA's statewide climate
+    (r"^ornl_tedb_transportation_annual$", "oil;products;power"),  # session 2048: ORNL's Transportation Energy Data Book
+    (r"^doe_grip_selections$", "power"),  # session 2050: DOE's GRIP selections
     (r"^eia_ice_electricity_daily$", "power"),  # session 2014: ICE's hub indices as EIA republishes them (internal)
     (r"^eia_mecs_manufacturing$", "power;gas;oil;coal"),  # session 2016: EIA's manufacturing survey (MECS)
     (r"^eia_cbecs_commercial_buildings$", "power;gas;oil"),  # session 2017: EIA's commercial buildings survey (CBECS 2018)

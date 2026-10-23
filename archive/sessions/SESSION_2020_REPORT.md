@@ -6,7 +6,7 @@
 
 - **Why this source:** session 2015 found Berkeley Lab's Tracking the Sun as 27 state files, past its ceiling of 15, and fetched eight. The ERW held distributed solar only as EIA-861's capacity by state and utility, with no size, price, segment, battery or year of installation. Taking the other nineteen under this session's ceiling finishes the one table the chain asked for, rather than starting a second source and leaving the first half-held.
 - **One table written, validated, archived, in coverage (sector power, public), in the release package, both holds:** `lbnl_tracking_the_sun`, 8,762 rows: 3,426,466 systems in 27 states (AR, AZ, CA, CO, CT, DC, DE, FL, IL, MA, MD, ME, MN, NH, NJ, NM, NY, OH, OR, PA, RI, TX, UT, VA, VT, WA, WI), summarised by state, customer segment and year of installation, 1983 to 2024: systems, systems priced, systems with a battery (count), DC capacity (MW) and the median installed price per kW (USD/kW, unscreened). 19,162 systems have no year (no date, a date after their file's own, or one before 1980) and no row. The 2024 edition holds systems installed to 2023; its 2024 rows are few (a partial year).
-- **Its license:** its own verdict, "Berkeley Lab, Tracking the Sun on OEDI" (session 2019, read 176): may be public, CC BY 4.0; `scripts/licenses.py` maps the table to it by hand.
+- **Its license:** its own verdict, "Berkeley Lab, Tracking the Sun on OEDI" (session 2019, read 193): may be public, CC BY 4.0; `scripts/licenses.py` maps the table to it by hand.
 
 ## The cross-check
 

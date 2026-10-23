@@ -48,7 +48,7 @@ In all 3,407,304 systems with a year, 46,757.6 MW DC, 2,533,285 priced and 107,7
 
 ## License
 
-Public: CC BY 4.0, cite Berkeley Lab, Tracking the Sun. The table's header: "License: CC BY 4.0, as the OEDI submission states; cite Berkeley Lab, Tracking the Sun." `license_tables.csv` maps the table by hand to its own verdict, "Berkeley Lab, Tracking the Sun on OEDI" (`license_verdicts.csv`, read 176, the submission's record `"license": "https://creativecommons.org/licenses/by/4.0/"` and OEDI's footer), may be public.
+Public: CC BY 4.0, cite Berkeley Lab, Tracking the Sun. The table's header: "License: CC BY 4.0, as the OEDI submission states; cite Berkeley Lab, Tracking the Sun." `license_tables.csv` maps the table by hand to its own verdict, "Berkeley Lab, Tracking the Sun on OEDI" (`license_verdicts.csv`, read 193, the submission's record `"license": "https://creativecommons.org/licenses/by/4.0/"` and OEDI's footer), may be public.
 
 ## Cross-checks (sessions 2015, 2020 and 2023)
 

@@ -47,7 +47,7 @@ A trade for more than one delivery day (a weekend or holiday package) is one row
 
 ## License
 
-Internal, held from publication. The table's header: "License: internal. EIA: "The market data provided here are republished, with permission, from data collected by the Intercontinental Exchange (ICE)"; the data are ICE's, not EIA's own work, and are held from publication pending a ruling." `license_tables.csv` maps the table by hand to "EIA; ICE, whose prices EIA republishes", and `license_verdicts.csv` gives "ICE, whose prices EIA republishes" (read 175, EIA's page) the verdict needs written permission; session 2019 added ICE's own Terms of Use (read 178), which license the site's content, its pricing and market data included, for personal, non-commercial use only. Whether to ask ICE is for a person to rule.
+Internal, held from publication. The table's header: "License: internal. EIA: "The market data provided here are republished, with permission, from data collected by the Intercontinental Exchange (ICE)"; the data are ICE's, not EIA's own work, and are held from publication pending a ruling." `license_tables.csv` maps the table by hand to "EIA; ICE, whose prices EIA republishes", and `license_verdicts.csv` gives "ICE, whose prices EIA republishes" (read 192, EIA's page) the verdict needs written permission; session 2019 added ICE's own Terms of Use (read 195), which license the site's content, its pricing and market data included, for personal, non-commercial use only. Whether to ask ICE is for a person to rule.
 
 ## Cross-checks (sessions 2014 and 2023)
 
