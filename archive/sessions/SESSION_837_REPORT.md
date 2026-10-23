@@ -1,6 +1,6 @@
 # Session 837 report: no answered ruling, no build
 
-23 October 2026, 07:59 to about 08:02 UTC, unattended, on portable-laptop (the code machine), from the worktree `erw-836` (`wip/836-deals`, documents only, pushed to main as a fast-forward). Chain `queue/done/081-night-24-october-portable-deals-2.md`, session 837 (the second "answered rulings" session). Model Fable 5.1. Precheck 0 (on duty until 23:52 UTC). Model spend USD 0. No warehouse data written; no web request but GitHub.
+23 October 2026, 07:51 to about 07:53 UTC, unattended, on portable-laptop (the code machine), from the worktree `erw-836` (`wip/836-deals`, documents only, pushed to main as a fast-forward). Chain `queue/done/081-night-24-october-portable-deals-2.md`, session 837 (the second "answered rulings" session). Model Fable 5.1. Precheck 0 (on duty until 23:52 UTC). Model spend USD 0. No warehouse data written; no web request but GitHub.
 
 ## Read these first
 
