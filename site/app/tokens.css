@@ -1106,11 +1106,11 @@ body:has(.brand-a) > footer :focus-visible {
   text-align: inherit;
 }
 /* session 715: in the All grids tab a cell's small labels ("rt", "firm", "off", "load:", "MW coming", "annual", "kg";
-   session 728 of chain 062: "zone ... in 2025" and 726's "delivery only", "energy only")
+   session 728 of chain 062: "zone ... in 2025" and 726's "delivery only", "energy only"; session 1027: "reserve margin")
    are words, so sans; the figures among them keep the mono of a table's figures. A tip in the first four columns opens
    to the right (data-opens on the cell), where a tip opening left would be cut by the table's frame */
-.brand-a [data-allgrids] tbody td :is([data-rt], [data-tx-firm], [data-tx-curtailing], [data-connect-load], [data-headroom-planned], [data-carbon-annual], [data-carbon-lb], [data-util-growth], [data-lost], [data-headroom-zone], [data-util-kind]),
-.brand-a [data-allgrids] tbody td :is([data-rt], [data-tx-firm], [data-tx-curtailing], [data-connect-load], [data-headroom-planned], [data-carbon-annual], [data-carbon-lb], [data-util-growth], [data-lost], [data-headroom-zone], [data-util-kind]) span:not([data-check]):not([role="tooltip"]) {
+.brand-a [data-allgrids] tbody td :is([data-rt], [data-tx-firm], [data-tx-curtailing], [data-connect-load], [data-headroom-planned], [data-carbon-annual], [data-carbon-lb], [data-util-growth], [data-lost], [data-headroom-zone], [data-util-kind], [data-headroom-reserve]),
+.brand-a [data-allgrids] tbody td :is([data-rt], [data-tx-firm], [data-tx-curtailing], [data-connect-load], [data-headroom-planned], [data-carbon-annual], [data-carbon-lb], [data-util-growth], [data-lost], [data-headroom-zone], [data-util-kind], [data-headroom-reserve]) span:not([data-check]):not([role="tooltip"]) {
   font-family: var(--font-sans);
   font-size: 12px;
 }
