@@ -2760,6 +2760,11 @@ eia930_subba_demand_hourly_2025,demand_mw,series variable,MW
 eia_aeo_electricity,value,series variable,MW
 eia_aeo_electricity,value,series variable,MWh
 eia_aeo_electricity,value,series variable,USD/kWh
+eia_aeo_emm_regions,value,series variable,MW
+eia_aeo_emm_regions,value,series variable,MWh
+eia_aeo_emm_regions,value,series variable,TBtu
+eia_aeo_emm_regions,value,series variable,USD/MMBtu
+eia_aeo_emm_regions,value,series variable,USD/kWh
 eia_annual_crosscheck_ba,eia923_net_generation_mwh,series variable,MWh
 eia_annual_crosscheck_ba,eia930_hours,series variable,count
 eia_annual_crosscheck_ba,eia930_net_generation_mwh,series variable,MWh

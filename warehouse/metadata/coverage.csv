@@ -95,6 +95,7 @@ eia930_subba_demand_hourly_2023,SUBBA,,82,PT1H,2023-01-01T00:00:00Z,2023-12-31T2
 eia930_subba_demand_hourly_2024,SUBBA,,83,PT1H,2024-01-01T00:00:00Z,2024-12-31T23:00:00Z,726716,eia:electricity/rto/region-sub-ba-data,2026-10-22T03:15:28Z,pass,public,power,no,source
 eia930_subba_demand_hourly_2025,SUBBA,,83,PT1H,2025-01-01T00:00:00Z,2025-12-31T23:00:00Z,723617,eia:electricity/rto/region-sub-ba-data,2026-10-22T01:58:55Z,pass,public,power,no,source
 eia_aeo_electricity,none,,111,P1Y,2025-01-01T00:00:00Z,2050-01-01T00:00:00Z,34034,eia:aeo,2026-10-21T18:31:05Z,pass,public,power,no,source
+eia_aeo_emm_regions,none,,2600,P1Y,2025-01-01T00:00:00Z,2050-01-01T00:00:00Z,75712,eia:aeo_regions,2026-10-23T08:17:25Z,pass,public,power,no,source
 eia_all_futures_prices,none,nymex,4,P1D,2019-01-01T00:00:00Z,2024-04-05T00:00:00Z,21240,eia:nymex_futures_natural_gas;eia:nymex_futures_petroleum,2026-10-05T23:57:38Z,pass,internal,oil;gas;products,no,source
 eia_annual_crosscheck_ba,none,,8,P1Y,2023-01-01T00:00:00Z,2025-01-01T00:00:00Z,144,erw:eia_annual_crosscheck_ba,2026-10-19T23:00:42Z,pass,public,power,yes,derived
 eia_annual_generation_ba,none,,68,P1Y,2023-01-01T00:00:00Z,2025-01-01T00:00:00Z,515,eia:eia923_annual,2026-10-19T22:59:37Z,pass,public,power,no,source

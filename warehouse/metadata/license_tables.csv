@@ -95,6 +95,7 @@ eia930_subba_demand_hourly_2023,EIA,the source registry
 eia930_subba_demand_hourly_2024,EIA,the source registry
 eia930_subba_demand_hourly_2025,EIA,the source registry
 eia_aeo_electricity,EIA,the source registry
+eia_aeo_emm_regions,EIA,the source registry
 eia_all_futures_prices,"CME Group (NYMEX), whose prices EIA republished; EIA",by hand: its header: EIA names the New York Mercantile Exchange as the source of these prices
 eia_annual_crosscheck_ba,EIA,the source registry and the tables its header derives it from: eia_annual_generation_ba
 eia_annual_generation_ba,EIA,the source registry
