@@ -445,20 +445,28 @@ def an_word(word):
     return w[:1] in "aeiou"
 
 
-# Session 470 (digest audit fix 8): the why lines are the scorer's reasons; docs/voice.md cuts these adjectives
-HYPE = r"(?:major|massive|significant|significantly|huge)"
+# Session 470 (digest audit fix 8): the why lines are the scorer's reasons; docs/voice.md cuts these adjectives.
+# Session 2206: unprecedented, critical and key join the list. "key" and "critical" are also plain words of the trade
+# ("the key to", "critical minerals"): TERM says where they stand, and plain() leaves those.
+HYPE = r"(?:major|massive|significant|significantly|huge|unprecedented|critical|key)"
+TERM = r"(?!\s+(?:to|of|for|in|on|is|was|are|were|minerals?|infrastructure|mass|path|peak)\b)"
 
 
 def plain(text):
     """The why line without the adjectives docs/voice.md cuts: 'a major 2 GW deal' to 'a 2 GW deal', 'Massive outage' to
-    'Outage'; 'a' and 'an' follow the next word."""
+    'Outage'; 'a' and 'an' follow the next word. Session 2206: an adjective at the end of a sentence or a clause ("The
+    deal is significant.", "Prices rose, significantly") goes too; until then only one followed by a space did."""
     def article(m):
         an = an_word(m.group(2))
         cap = m.group(1)[0] == "A"
         return ("An" if cap else "an") + " " + m.group(2) if an else ("A" if cap else "a") + " " + m.group(2)
-    t = re.sub(rf"\b(an|a)\s+{HYPE}\s+(\w+)", article, str(text), flags=re.I)
-    t = re.sub(rf"(^|(?<=[.!?] )){HYPE}\s+(\w)", lambda m: m.group(1) + m.group(2).upper(), t, flags=re.I)
-    return re.sub(rf"\b{HYPE}\s+", "", t, flags=re.I)
+    t = re.sub(rf"\b(an|a)\s+{HYPE}{TERM}\s+(\w+)", article, str(text), flags=re.I)
+    t = re.sub(rf"(^|(?<=[.!?] )){HYPE}{TERM}\s+(\w)", lambda m: m.group(1) + m.group(2).upper(), t, flags=re.I)
+    t = re.sub(rf"\b{HYPE}{TERM}\s+", "", t, flags=re.I)
+    # at a stop, a comma, a semicolon or the end: the word and the space before it go, the mark stays; between two
+    # commas (", significantly,") the comma before it goes too
+    t = re.sub(rf",\s*\b{HYPE}\b(?=\s*[.,;:!?])", "", t, flags=re.I)
+    return re.sub(rf"\s*\b{HYPE}\b(?=\s*(?:[.,;:!?]|$))", "", t, flags=re.I)
 
 
 def why_line(text):

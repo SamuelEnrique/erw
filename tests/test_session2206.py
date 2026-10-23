@@ -57,6 +57,35 @@ class ShortPartyNames(unittest.TestCase):
         self.assertFalse(brief.same_event(a, c))
 
 
+class AdjectivesAtTheEnd(unittest.TestCase):
+    """Fix 2: plain required a space after the adjective, so one at a stop or a comma stayed."""
+
+    def test_at_a_stop_a_comma_or_the_end(self):
+        self.assertEqual(brief.plain("The deal is significant."), "The deal is.")
+        self.assertEqual(brief.plain("Prices rose, significantly, on the news"), "Prices rose, on the news")
+        self.assertEqual(brief.plain("Output fell; the loss is massive"), "Output fell; the loss is")
+        self.assertEqual(brief.plain("A rise that is huge!"), "A rise that is!")
+
+    def test_the_three_new_words(self):
+        self.assertEqual(brief.plain("An unprecedented 2 GW deal"), "A 2 GW deal")
+        self.assertEqual(brief.plain("A critical step for the grid"), "A step for the grid")
+        self.assertEqual(brief.plain("Key approval for the pipeline."), "Approval for the pipeline.")
+        self.assertEqual(brief.plain("The outage was unprecedented."), "The outage was.")
+
+    def test_the_trade_words_stay(self):
+        for t in ("The key to the deal is price.", "Critical minerals supply tightens.", "Critical infrastructure protected.",
+                  "The key of the vault.", "A key for each lock."):
+            self.assertEqual(brief.plain(t), t)
+
+    def test_session_470s_cases_still_hold(self):
+        self.assertEqual(brief.plain("A major 2 GW deal."), "A 2 GW deal.")
+        self.assertEqual(brief.plain("Massive outage hits Texas. A significant expansion of a major utility."),
+                         "Outage hits Texas. An expansion of a utility.")
+        self.assertEqual(brief.plain("It significantly raises costs"), "It raises costs")
+        self.assertEqual(brief.plain("No adjective here."), "No adjective here.")
+        self.assertEqual(brief.why_line("Escalation affecting global oil markets is significant"), "Escalation affecting global oil markets is.")
+
+
 class NoDash(unittest.TestCase):
     def test_no_em_dash_in_the_files(self):
         for parts in (("warehouse", "news", "brief.py"), ("scripts", "check_digest.py"), ("warehouse", "analysis", "findings", "daily_chart.py"),
