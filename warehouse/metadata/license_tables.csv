@@ -44,6 +44,7 @@ eia860m_operating_generators,EIA,the source registry
 eia860m_planned_generators,EIA,the source registry
 eia860m_retired_generators,EIA,the source registry
 eia860m_retired_generators_all,EIA,the source registry
+eia861_delivery_only,EIA,the source registry
 eia861_utility_reliability,EIA,the source registry
 eia861_utility_sales,EIA,the source registry
 eia861m_utility_sales_monthly,EIA,the source registry
@@ -62,6 +63,7 @@ eia930_demand_weather,EIA,EIA-930 (its name; the registry lists no row for it)
 eia930_event_hourly_interchange,EIA,the source registry
 eia930_generation_latest,EIA,the source registry
 eia930_subba_demand_hourly,EIA,the source registry
+eia930_subba_demand_hourly_2019,EIA,the source registry
 eia930_subba_demand_hourly_2020,EIA,the source registry
 eia930_subba_demand_hourly_2021,EIA,the source registry
 eia930_subba_demand_hourly_2022,EIA,the source registry
@@ -90,6 +92,7 @@ eia_drilling_monthly,EIA,the source registry
 eia_energy_efficiency_state_annual,EIA,the source registry
 eia_fuel_spot_prices,EIA,the source registry
 eia_gas_balance_annual,EIA,the source registry
+eia_gas_consumers_state_annual,EIA,the source registry
 eia_gas_consumption_state_monthly,EIA,the source registry
 eia_gas_interstate_annual,EIA,the source registry
 eia_gas_prices_state_monthly,EIA,the source registry
@@ -112,6 +115,7 @@ eia_nuclear_outages_generator_daily,EIA,the source registry
 eia_oxygenate_production_monthly,EIA,the source registry
 eia_padd_crude_pipeline_flows,EIA,the source registry
 eia_padd_rail_barge_movements_monthly,EIA,the source registry
+eia_petroleum_exports_by_destination,EIA,the source registry
 eia_petroleum_snd_monthly,EIA,the source registry
 eia_petroleum_stocks_monthly,EIA,the source registry
 eia_petroleum_stocks_weekly,EIA,the source registry
@@ -147,6 +151,7 @@ ercot_as_prices,ERCOT,the source registry
 ercot_as_prices_daily,ERCOT,the source registry and the tables its header derives it from: ercot_as_prices
 ercot_as_prices_monthly,ERCOT,the source registry and the tables its header derives it from: ercot_as_prices
 ercot_as_quantities,ERCOT,the source registry
+ercot_cdr_reserve_margins,ERCOT,the source registry
 ercot_dam_cleared_energy,ERCOT,the source registry
 ercot_dam_esr_awards,ERCOT,the source registry
 ercot_grid_notices,ERCOT,the source registry
@@ -164,6 +169,7 @@ ercot_storage_dam_offers_daily,ERCOT,the source registry and the tables its head
 ercot_storage_dam_offers_monthly,ERCOT,"the source registry and the tables its header derives it from: ercot_storage_dam_awards_monthly, ercot_storage_dam_offers_daily"
 ercot_storage_node_basis,ERCOT,"the source registry and the tables its header derives it from: ercot_dam_esr_awards, ercot_rtm_node_prices"
 ercot_storage_rt_monthly,ERCOT,"the source registry and the tables its header derives it from: ercot_all_hub_prices_history, ercot_dam_esr_awards, ercot_sced_esr_hourly, iso_dam_hub_prices, iso_rtm_hub_prices"
+ercot_transmission_projects,ERCOT,the source registry
 ercot_wind_solar_forecast,ERCOT,the source registry
 ercot_wind_solar_hsl_daily,ERCOT,the source registry
 ercot_wind_solar_hsl_hourly,ERCOT,the source registry
@@ -214,6 +220,8 @@ grid_stress_yearly,CAISO; EIA,"the source registry and the tables its header der
 hub_price_comparison,CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: carbon_intensity_daily, ercot_all_hub_prices_history, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices, isone_dam_zone_prices, isone_rtm_zone_prices, isone_rtm_zone_prices_hourly, nyiso_dam_zone_prices, nyiso_rtm_zone_prices"
 imf_commodity_prices,IMF,the source registry
 impact_tax_rules,Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department; Texas Comptroller of Public Accounts,the source registry
+interconnection_agreements_by_grid,Berkeley Lab,the source registry and the tables its header derives it from: lbnl_interconnection_queue
+interconnection_agreements_signed,Berkeley Lab,the source registry and the tables its header derives it from: lbnl_interconnection_queue
 interconnection_durations,Berkeley Lab,the source registry and the tables its header derives it from: lbnl_interconnection_queue
 interconnection_durations_summary,Berkeley Lab,the source registry and the tables its header derives it from: lbnl_interconnection_queue
 interconnection_queue_summary,Berkeley Lab,the source registry and the tables its header derives it from: lbnl_interconnection_queue

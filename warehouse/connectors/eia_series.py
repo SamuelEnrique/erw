@@ -338,7 +338,8 @@ def build(name, cfg, key, run_id, log):
         f"Energy Research Warehouse (ERW): {cfg['title']}",
         f"Shape: series (docs/datastandard.md v0). freq {FREQ[cfg['freq']]}: ts_utc is the date EIA "
         "reports at 00:00:00Z (weekly: week-ending date; monthly: first of the month).",
-        "Window: the full history the EIA API v2 offers; every run replaces all of it.",
+        "Window: the full history the EIA API v2 offers; each run asks for all of it and merges it on (entity, variable, ts_utc), "
+        "so a row EIA stops giving is kept from an earlier run (session 865: this line once said every run replaces it).",
         f"Retrieved: {run_id} (UTC) by warehouse/connectors/eia_series.py via the EIA API v2",
         f"Run log: warehouse/output/logs/eia_series_{run_id}.log (every API request, key removed)",
         f"Raw files: warehouse/raw/eia_series/{run_id}/ (not in git; manifest.csv lists each file and URL)",
