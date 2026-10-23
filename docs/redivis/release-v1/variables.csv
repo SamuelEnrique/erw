@@ -7212,6 +7212,21 @@ storage_owners_monthly,us_planned_mw,series variable,MW
 storage_owners_monthly,us_planned_units,series variable,count
 storage_owners_monthly,us_top10_share_pct,series variable,pct
 storage_owners_monthly,us_top5_share_pct,series variable,pct
+treasury_1603_awards,event_id,column,
+treasury_1603_awards,event_date,column,
+treasury_1603_awards,event_type,column,
+treasury_1603_awards,parties,column,
+treasury_1603_awards,entity_ids,column,
+treasury_1603_awards,mw,column,
+treasury_1603_awards,price,column,
+treasury_1603_awards,currency,column,
+treasury_1603_awards,status,column,
+treasury_1603_awards,source,column,
+treasury_1603_awards,source_url,column,
+treasury_1603_awards,x_state,column,
+treasury_1603_awards,x_technology,column,
+treasury_1603_awards,x_funded_usd,column,
+treasury_1603_awards,x_as_of,column,
 usace_nid_dams,entity_id,column,
 usace_nid_dams,entity_type,column,
 usace_nid_dams,name,column,
