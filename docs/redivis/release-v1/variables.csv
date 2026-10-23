@@ -2583,6 +2583,13 @@ eia_gas_trade_monthly,import_volume,series variable,MMcf
 eia_gas_wells_annual,gas_wells,series variable,count
 eia_heating_fuel_prices_weekly,residential_price,series variable,USD/gal
 eia_heating_fuel_prices_weekly,wholesale_price,series variable,USD/gal
+eia_international_electricity_annual,capacity,series variable,MW
+eia_international_electricity_annual,consumption,series variable,MWh
+eia_international_electricity_annual,distribution_losses,series variable,MWh
+eia_international_electricity_annual,exports,series variable,MWh
+eia_international_electricity_annual,generation,series variable,MWh
+eia_international_electricity_annual,imports,series variable,MWh
+eia_international_electricity_annual,net_imports,series variable,MWh
 eia_lng_exports_monthly,export_price,series variable,USD/Mcf
 eia_lng_exports_monthly,export_volume,series variable,MMcf
 eia_meters_state_annual,meters,series variable,count
