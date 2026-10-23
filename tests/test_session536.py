@@ -95,7 +95,7 @@ class CleanInstall(unittest.TestCase):
         p = subprocess.run([sys.executable, "-m", "pip", "wheel", "-q", "--no-deps", "--no-index",
                             "--no-build-isolation", "-w", str(wheels), str(src)],
                            capture_output=True, text=True, timeout=600, cwd=str(cls.tmp))
-        built = sorted(wheels.glob("erw-*.whl")) if wheels.is_dir() else []
+        built = sorted(wheels.glob("erw_energy-*.whl")) if wheels.is_dir() else []  # session 1002: the distribution is erw-energy
         if p.returncode != 0 or not built:
             raise unittest.SkipTest("cannot build the wheel offline here: "
                                     + (p.stderr.strip().splitlines() or ["no wheel written"])[-1])
@@ -141,7 +141,7 @@ class CleanInstall(unittest.TestCase):
         # fault 1: before session 536 this raised ERWDataNotFound (a LocalBackend), never reading ERW_BACKEND
         p = self.run_py("import erw\nerw.info()\n", {"ERW_BACKEND": "nowhere"})
         self.assertEqual(p.returncode, 1)
-        self.assertIn("ERW_BACKEND='nowhere': use local, redivis or supabase", p.stderr)
+        self.assertIn("ERW_BACKEND='nowhere': use local, live, redivis, supabase or auto", p.stderr)
 
     def test_migrations_beside_the_data_directory(self):
         # fault 2: the map beside the tables, as coverage.csv and sources.csv are

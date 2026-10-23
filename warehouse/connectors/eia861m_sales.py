@@ -17,8 +17,10 @@ U.S. Energy Information Administration's Form EIA-861M monthly files (sales_ult_
 
 Real data only: the form is a monthly sample. EIA estimates the utilities outside it as one row a state, "State
 Adjustment <year>", and adds "State Total" and "US Total" rows that hold those estimates; none of the three is a utility
-and none is taken. A sampled utility's figures are its own report. Every column is found by its heading (session 495's
-lesson); a cell EIA leaves blank or "." has no row; a key given twice stops the run.
+and none is taken. The 2017 to 2021 files name the same aggregates otherwise: "Adjustment <year>" (utility number 0) and
+"Total EPM" (88888); since session 689 a row is left out by EIA's aggregate numbers (0, 88888, 99999) as well as by name.
+A sampled utility's figures are its own report. Every column is found by its heading (session 495's lesson); a cell EIA
+leaves blank or "." has no row; a key given twice stops the run.
 
     python warehouse/connectors/eia861m_sales.py                 # 2025 and the current year
     python warehouse/connectors/eia861m_sales.py --years 2026    # the years asked
@@ -50,6 +52,10 @@ UA = {"User-Agent": "Mozilla/5.0 (compatible; ERW-connector/0.1; +https://github
 SECTORS = ["residential", "commercial", "industrial", "transportation", "total"]
 MEASURES = [("revenue", "USD", 1000.0), ("sales", "MWh", 1.0), ("customers", "count", 1.0)]
 NOT_UTILITIES = re.compile(r"^(state adjustment|state total|us total)", re.I)
+# session 689: EIA's aggregate rows by utility number, whatever their name. Every file 2017 to 2026 numbers its
+# adjustment 0 and its totals 88888 (named "Adjustment <year>" and "Total EPM" to 2021); 99999, EIA's number for an
+# aggregate in other forms, is in none of them and is left out should it come
+NOT_UTILITY_NUMBERS = {0, 88888, 99999}
 CEILING = 11   # session 520: the page and ten years
 X_COLS = ["x_utility_number", "x_state", "x_ownership", "x_data_status"]
 CHARACTERISTICS = {"year": "year", "month": "month", "utility number": "utility", "utility name": "name", "state": "state",
@@ -96,6 +102,7 @@ def sheet_rows(frame, year, url, retrieved):
     d = frame.iloc[3:]
     d = d[pd.to_numeric(d[ch["year"]], errors="coerce").eq(year)]
     d = d[~d[ch["name"]].astype(str).str.strip().str.match(NOT_UTILITIES)]
+    d = d[~pd.to_numeric(d[ch["utility"]], errors="coerce").isin(NOT_UTILITY_NUMBERS)]
     text = lambda r, k: "" if pd.isna(r[ch[k]]) else str(r[ch[k]]).strip()  # noqa: E731
     out = []
     for _, r in d.iterrows():
@@ -158,7 +165,8 @@ def main(argv=None):
             "Energy Research Warehouse (ERW): Form EIA-861M, each sampled utility's retail sales, revenue and customers by state and sector, a month (session 511)",
             "Shape: series (docs/datastandard.md v0). entity eia861m:<utility number>:<state>; variable <sector>_sales (MWh), <sector>_revenue (USD, EIA's thousand dollars times 1,000) "
             "or <sector>_customers (count); ts_utc the month's first day; freq P1M; node the utility's name; x_* EIA's own fields.",
-            f"The monthly sample's utilities only: EIA's State Adjustment (its estimate of the utilities outside the sample), State Total and US Total rows are not taken. Months {span}.",
+            f"The monthly sample's utilities only: EIA's State Adjustment (its estimate of the utilities outside the sample), State Total and US Total rows are not taken, "
+            f"nor, by their utility numbers 0 and 88888, the same aggregates of 2017 to 2021 named \"Adjustment <year>\" and \"Total EPM\" (session 689). Months {span}.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/eia861m_sales.py; files' Last-Modified {'; '.join(vintages)}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",

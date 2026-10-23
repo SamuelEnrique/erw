@@ -1,0 +1,99 @@
+{
+ "base": "https://erw-flame.vercel.app",
+ "when": "2026-10-23T00:09:18.863Z",
+ "addresses": 4,
+ "widths": [
+  1280,
+  390
+ ],
+ "results": [
+  {
+   "addr": "/cost-of-power?view=allgrids",
+   "width": 1280,
+   "innerWidth": 1280,
+   "finalUrl": "https://erw-flame.vercel.app/cost-of-power?view=allgrids#a11y-scan-2",
+   "h1": "What a datacenter pays",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/cost-of-power?view=allgrids",
+   "width": 390,
+   "innerWidth": 390,
+   "finalUrl": "https://erw-flame.vercel.app/cost-of-power?view=allgrids#a11y-scan-3",
+   "h1": "What a datacenter pays",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/cost-of-power?view=allgrids&a=ercot%3ABBREEZE_1_2&b=ercot%3APALACIOS_RN",
+   "width": 1280,
+   "innerWidth": 1280,
+   "finalUrl": "https://erw-flame.vercel.app/cost-of-power?view=allgrids&a=ercot%3ABBREEZE_1_2&b=ercot%3APALACIOS_RN#a11y-scan-1",
+   "h1": "What a datacenter pays",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/cost-of-power?view=allgrids&a=ercot%3ABBREEZE_1_2&b=ercot%3APALACIOS_RN",
+   "width": 390,
+   "innerWidth": 390,
+   "finalUrl": "https://erw-flame.vercel.app/cost-of-power?view=allgrids&a=ercot%3ABBREEZE_1_2&b=ercot%3APALACIOS_RN#a11y-scan-4",
+   "h1": "What a datacenter pays",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/cost-of-power?view=allgrids&a=ercot%3A7RNCHSLR_ALL&b=ercot%3AA4_DGR1_RN",
+   "width": 1280,
+   "innerWidth": 1280,
+   "finalUrl": "https://erw-flame.vercel.app/cost-of-power?view=allgrids&a=ercot%3A7RNCHSLR_ALL&b=ercot%3AA4_DGR1_RN#a11y-scan-5",
+   "h1": "What a datacenter pays",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/cost-of-power?view=allgrids&a=ercot%3A7RNCHSLR_ALL&b=ercot%3AA4_DGR1_RN",
+   "width": 390,
+   "innerWidth": 390,
+   "finalUrl": "https://erw-flame.vercel.app/cost-of-power?view=allgrids&a=ercot%3A7RNCHSLR_ALL&b=ercot%3AA4_DGR1_RN#a11y-scan-6",
+   "h1": "What a datacenter pays",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/research/card/siting_battery_swing",
+   "width": 1280,
+   "innerWidth": 1280,
+   "finalUrl": "https://erw-flame.vercel.app/research/card/siting_battery_swing#a11y-scan-7",
+   "h1": "WHERE A BATTERY'S DAY SWINGS MOST",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/research/card/siting_battery_swing",
+   "width": 390,
+   "innerWidth": 390,
+   "finalUrl": "https://erw-flame.vercel.app/research/card/siting_battery_swing#a11y-scan-8",
+   "h1": "WHERE A BATTERY'S DAY SWINGS MOST",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  }
+ ]
+}

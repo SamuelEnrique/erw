@@ -115,7 +115,9 @@ def test_coverage_has_one_row_per_table_and_the_documented_columns():
     cov = erw.coverage()
     assert list(cov.columns) == ["table", "iso", "market", "n_nodes", "interval", "ts_min",
                                  "ts_max", "n_rows", "source_report", "last_run",
-                                 "validator_status", "license", "sector", "derived", "tier"]  # tier: session 28
+                                 "validator_status", "license", "sector", "derived", "tier",  # tier: session 28
+                                 "verdict", "live_window"]  # session 1001: the license verdict, the live set's window
+    assert set(cov["verdict"]) <= {"public", "internal", "unsettled"}
     assert set(cov["license"]) <= {"public", "internal"}
     assert sorted(cov["table"]) == sorted(TABLES + CARRIED)  # session 45: CARRIED, absent from this machine
     assert str(cov["ts_min"].dtype).startswith("datetime64") and cov["ts_min"].dt.tz is not None
@@ -268,7 +270,10 @@ def test_cite_names_the_iso_the_table_and_the_commit(name):
     # 65) names its four publishers, PJM among them
     # a derived table's source line is worded one of two ways in sources.csv: "Energy Research Warehouse (ERW), derived."
     # or "Energy Research Warehouse (ERW). <report>: ERW derived table, ..."
-    named = publisher in c or (derived and "Energy Research Warehouse (ERW). " in c and ": ERW derived table" in c)
+    # session 1001: a third wording, "Energy Research Warehouse (ERW). ERW derived stress days ..." (grid_stress_days),
+    # which the citation drawn from the rows' sources (until session 1001) passed by the rows' other sources
+    named = publisher in c or (derived and "Energy Research Warehouse (ERW). " in c and (
+        ": ERW derived table" in c or "Energy Research Warehouse (ERW). ERW derived " in c))
     assert named and name in c and "Energy Research Warehouse (ERW)" in c
     commit = erw.version()["data_commit"]
     assert commit and commit[:12] in c
@@ -443,7 +448,9 @@ PRICE_BOARD = {
     "eia_petroleum_stocks_weekly": ({"kbbl"}, {"P1W"}, "public", "oil;products", "eia:W"),
     "eia_lng_exports_monthly": ({"MMcf", "USD/Mcf"}, {"P1M"}, "public", "lng", "eia:NGM_EPG0_"),
     "pjm_rpm_capacity_prices": ({"USD/MW-day"}, {"P1Y"}, "internal", "capacity", "pjm:"),
-    "carb_auction_allowance_prices": ({"USD/tCO2", "count"}, {"P3M"}, "internal", "carbon", "carb:"),
+    # session 893: public since session 324 (carbon_auctions.py; CARB's verdict "may be public", docs/licenses.md); the
+    # daily run's coverage took the flag on 22 October 2026 and this line, still "internal", failed its package test
+    "carb_auction_allowance_prices": ({"USD/tCO2", "count"}, {"P3M"}, "public", "carbon", "carb:"),
     "rggi_auction_allowance_prices": ({"USD/short_ton", "count"}, {"P3M"}, "internal", "carbon", "rggi:"),
     # session 207: the two FRED tables are retired (warehouse/metadata/retired_tables.csv)
     # session 8
@@ -778,7 +785,7 @@ def test_peak_premium_structure():
 
 
 def test_tier_column_cite_and_info():
-    """Session 28: every table has a provenance tier, and cite() and info() carry it."""
+    """Session 28: every table has a provenance tier, and info() carries it (session 1001: cite() no longer does)."""
     cov = erw.coverage()
     assert "tier" in cov.columns
     assert set(cov["tier"]) <= {"source", "derived", "model_extracted"} and (cov["tier"] != "").all()
@@ -787,7 +794,8 @@ def test_tier_column_cite_and_info():
         if name in CARRIED:  # session 45: its header is not on this machine
             continue
         assert erw.tier(name) == by[name]
-        assert erw.cite(name).endswith(f"Provenance tier: {by[name]} ({erw.api.TIER_NOTE[by[name]]}).")
+        # session 1001: the citation is the release's words (docs/methods/packages.md); the tier is in coverage and tier()
+        assert f"table `{name}`" in erw.cite(name) and "Provenance tier" not in erw.cite(name)
     if "energy_deals" in by.index:
         assert by["energy_deals"] == "model_extracted"
     if "ercot_dam_hub_prices" in by.index:

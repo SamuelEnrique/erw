@@ -1,0 +1,99 @@
+{
+ "base": "http://localhost:3793",
+ "when": "2026-10-23T04:25:05.179Z",
+ "addresses": 4,
+ "widths": [
+  1280,
+  390
+ ],
+ "results": [
+  {
+   "addr": "/data",
+   "width": 1280,
+   "innerWidth": 1280,
+   "finalUrl": "http://localhost:3793/data#a11y-scan-2",
+   "h1": "Data",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/data",
+   "width": 390,
+   "innerWidth": 390,
+   "finalUrl": "http://localhost:3793/data#a11y-scan-3",
+   "h1": "Data",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/data/methods/packages",
+   "width": 1280,
+   "innerWidth": 1280,
+   "finalUrl": "http://localhost:3793/data/methods/packages#a11y-scan-1",
+   "h1": "The ERW in Python, Stata and R: one specification for three packages",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/data/methods/packages",
+   "width": 390,
+   "innerWidth": 390,
+   "finalUrl": "http://localhost:3793/data/methods/packages#a11y-scan-4",
+   "h1": "The ERW in Python, Stata and R: one specification for three packages",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/data/methods/ercot_peak_premium",
+   "width": 1280,
+   "innerWidth": 1280,
+   "finalUrl": "http://localhost:3793/data/methods/ercot_peak_premium#a11y-scan-5",
+   "h1": "ERCOT peak premium: method",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/data/methods/ercot_peak_premium",
+   "width": 390,
+   "innerWidth": 390,
+   "finalUrl": "http://localhost:3793/data/methods/ercot_peak_premium#a11y-scan-6",
+   "h1": "ERCOT peak premium: method",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/data/methods/stress_days",
+   "width": 1280,
+   "innerWidth": 1280,
+   "finalUrl": "http://localhost:3793/data/methods/stress_days#a11y-scan-7",
+   "h1": "Stress days of the grids (session 306)",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  },
+  {
+   "addr": "/data/methods/stress_days",
+   "width": 390,
+   "innerWidth": 390,
+   "finalUrl": "http://localhost:3793/data/methods/stress_days#a11y-scan-8",
+   "h1": "Stress days of the grids (session 306)",
+   "code": 0,
+   "error": null,
+   "count": 0,
+   "violations": []
+  }
+ ]
+}

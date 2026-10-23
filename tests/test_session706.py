@@ -81,14 +81,16 @@ class Headroom(unittest.TestCase):
             self.assertAlmostEqual(self.o[g]["g"]["pct"], want, places=9)
             self.assertAlmostEqual(self.o[g]["key"], want, places=9)
 
-    def test_capacity_over_peak_only_for_whole_states(self):
-        for g in ("ercot", "caiso", "spp", "miso", "pjm"):
-            self.assertIn("why", self.o[g]["c"], g)
-            self.assertIsNone(self.o[g]["ratio"], g)
-        for g in ("nyiso", "isone"):
+    def test_capacity_over_peak_every_grid_from_the_data_machine_s_table(self):
+        # session 718: grid_peak_vs_capacity (chain 043) gives every grid; before it, only the whole states (NYISO, ISO-NE)
+        pc = self.h.get("peak_capacity")
+        if not pc:
+            raise unittest.SkipTest("grid_peak_vs_capacity was not in this file's build")
+        for g in ("ercot", "caiso", "nyiso", "isone", "spp", "miso", "pjm"):
             c = self.o[g]["c"]
-            peak = self.d["areas"]["NYIS" if g == "nyiso" else "ISNE"]["years"][str(self.d["last_year"])]["peak_demand_mw"]
-            self.assertAlmostEqual(c["pct"], 100 * self.h["capacity"][g]["mw"] / peak, places=9)
+            self.assertAlmostEqual(c["pct"], pc[g]["over_peak_pct"], places=9)
+            self.assertEqual(self.o[g]["ratio"], pc[g]["over_peak_pct"])
+            self.assertAlmostEqual(pc[g]["over_peak_pct"], 100 * (pc[g]["capacity_mw"] / pc[g]["peak_mw"] - 1), places=1)
         self.assertEqual(self.h["capacity"]["isone"]["states"], ["CT", "MA", "ME", "NH", "RI", "VT"])
 
     def test_planned_generation_matches_the_table_where_it_is_here(self):
@@ -102,7 +104,8 @@ class Headroom(unittest.TestCase):
         if not (os.path.exists(p) and os.path.exists(c)):
             raise unittest.SkipTest("the planned generators or the state capacity table is not on this machine")
         again = sp.headroom_file(p, c)
-        self.assertEqual({k: v for k, v in again.items() if k != "built"}, {k: v for k, v in self.h.items() if k != "built"})
+        own = ("built", "peak_capacity", "peak_capacity_table", "zones")   # session 718 adds the data machine's table to the file; 728 the zones
+        self.assertEqual({k: v for k, v in again.items() if k not in own}, {k: v for k, v in self.h.items() if k not in own})
         self.assertEqual(self.o["ercot"]["planned"], self.h["planned"]["ercot"]["construction_mw"])
 
     def test_the_tab_draws_the_keys(self):

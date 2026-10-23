@@ -249,7 +249,7 @@ class Site(unittest.TestCase):
             play = src("site", "app", "api", "play", route, "route.ts")
             self.assertIn('limited(req, "play", 30, 3600)', play)
             self.assertIn("sameOrigin(req)", play)
-        self.assertIn('limited(req, "download", 60, 3600)', src("site", "app", "api", "download", "route.ts"))
+        self.assertIn('limited(req, "download", PER_HOUR, 3600)', src("site", "app", "api", "download", "route.ts"))  # session 1009
         self.assertIn('limited(req, "pitchbook", 60, 3600)', src("site", "app", "api", "thesis", "pitchbook", "route.ts"))
         for parts in (("thesis", "run"), ("thesis", "provider"), ("analysis",)):
             text = src("site", "app", "api", *parts, "route.ts")

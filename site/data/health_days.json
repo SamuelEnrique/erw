@@ -1,8 +1,8 @@
 {
  "about": "Written by warehouse/health.py from the table erw_health: per UTC day, each scheduled job's steps by outcome, and the failures that count. green_days is the number of days in a row, back from counted_to, without a failed step.",
- "written": "2026-10-21T16:24Z",
- "green_days": 0,
- "counted_to": "2026-10-20",
+ "written": "2026-10-22T16:21Z",
+ "green_days": 1,
+ "counted_to": "2026-10-21",
  "days": {
   "2026-10-02": {
    "rows": 91,
@@ -1568,6 +1568,78 @@
      "workflow": "local:SU-4QC3QR3",
      "step": "dm_carb_lcfs",
      "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 36 days old (limit 28)"
+    }
+   ]
+  },
+  "2026-10-21": {
+   "rows": 572,
+   "failed": 0,
+   "missing": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 385,
+     "skipped": 6,
+     "retried": 0,
+     "failed": 0,
+     "runs": 83
+    },
+    "daily prices": {
+     "ok": 21,
+     "skipped": 3,
+     "retried": 1,
+     "failed": 0,
+     "runs": 2
+    },
+    "hourly network": {
+     "ok": 17,
+     "skipped": 7,
+     "retried": 0,
+     "failed": 0,
+     "runs": 24
+    },
+    "latest prices": {
+     "ok": 78,
+     "skipped": 4,
+     "retried": 0,
+     "failed": 0,
+     "runs": 82
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 48,
+     "skipped": 2,
+     "retried": 0,
+     "failed": 0,
+     "runs": 50
+    },
+    "local:lab-desktop": {
+     "ok": 8,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 8
+    },
+    "local:portable-laptop": {
+     "ok": 22,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 22
+    },
+    "local:samueloldlaptop": {
+     "ok": 20,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 20
+    }
+   },
+   "failures": [],
+   "stale": [
+    {
+     "at": "2026-10-21T17:29",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 37 days old (limit 28)"
     }
    ]
   }

@@ -17,6 +17,68 @@ daily: check `erw.coverage()` (or the list_tables tool) before answering from
 memory or from this file.
 
 
+## 0. Read it in Python, Stata or R (docs/methods/packages.md, session 1011)
+
+A researcher who works in Python, Stata or R reads any public table of the
+Energy Research Warehouse (ERW) with the same six calls, gets the same rows in
+the same column types, and cites the same line. The one specification:
+docs/methods/packages.md. The six calls, in each language:
+
+    Python (package/)            Stata (packages/stata/)          R (packages/r/erw/)
+    erw.tables()                 erw tables, clear                erw_tables()
+    erw.coverage(t)              erw coverage t, clear            erw_coverage(t)
+    erw.fetch(t, entity=,        erw fetch t, entity() variable() erw_fetch(t, entity =, variable =,
+      variable=, start=, end=,     start() end() backend() clear    start =, end =, backend =)
+      backend=)
+    erw.cite(t)                  erw cite t                       erw_cite(t, data)
+    erw.license(t)               erw license t                    erw_license(t)
+    erw.standard(t)              erw standard t, clear            erw_standard(t)
+
+Install:
+
+    pip install "git+https://github.com/SamuelEnrique/erw.git#subdirectory=package"     (the distribution erw-energy, imported as erw)
+    net install erw, from("https://raw.githubusercontent.com/SamuelEnrique/erw/main/packages/stata/") replace
+    remotes::install_github("SamuelEnrique/erw", subdir = "packages/r/erw")
+
+Three backends hold the tables: `redivis`, the record (the Stanford dataset
+`datapages.erw:b9wm`, its latest released version; a token in
+REDIVIS_API_TOKEN); `live`, the latest rows, a public subset (the price and
+demand tables for their last 35 days; ERW_LIVE_URL and ERW_LIVE_KEY); `local`,
+the CSV files of a clone or of ERW_DATA_DIR. `auto` takes local files when the
+table's CSV is on disk, else the live set when it holds the window asked for,
+else Redivis.
+
+Types, in all three: a series' `value` is a number and `ts_utc` a UTC time;
+an entities table's `lat`, `lon`, `capacity_mw` and every `*_mw` are numbers
+and every `*_date` a date; an events table's `event_date` is a UTC time.
+Every other column is text.
+
+A table whose verdict is not `public` is never served by Redivis or the live
+set: asked for one there, a package stops with the license's words
+("<table> is not public: <verdict>. <words> The ERW's license record: ...").
+`license(t)` gives the verdict (public, internal or unsettled) and its words.
+
+The citation each package writes:
+
+    <publishers>. <reports>. Via the Energy Research Warehouse (ERW), table
+    `<table>`, Redivis dataset `datapages.erw`, version <tag> (released
+    <YYYY-MM-DD>).
+
+The ten tables most readers want first (each public; the live set's window
+after it):
+
+- `eia_fuel_spot_prices`: Henry Hub gas, WTI and Brent crude, daily (whole)
+- `eia930_all_demand`: hourly demand of every balancing authority (35 days live; the history on Redivis)
+- `eia930_all_generation`: hourly generation by fuel (35 days live)
+- `carbon_intensity_hourly`: the carbon intensity of each grid's power, hourly (430 days live)
+- `state_generation_mix_monthly`: each state's generation by fuel, monthly (whole)
+- `eia_retail_electricity_prices`: the retail price of power by state and sector, monthly (Redivis)
+- `eia860m_operating_generators`: every operating generator of EIA-860M (Redivis)
+- `lbnl_interconnection_queue`: Berkeley Lab's national interconnection queue (whole)
+- `ercot_all_hub_prices_history`: ERCOT's hub prices since 2015 (Redivis)
+- `node_basis_daily`: each ERCOT node's daily basis to its hub (Redivis)
+
+
 ## 1. Three shapes
 
 **series**: one row per observation, key (entity, variable, ts_utc).
@@ -527,18 +589,22 @@ source's figure: say "model-extracted" next to it.
     erw.filter(iso="ERCOT", market="rtm") # table names; also variable, node,
     erw.filter(sector="oil", license="public")   # start, end, license, sector
     erw.sources("iso_dam_hub_prices")     # reports, report pages, file URLs
-    erw.cite("iso_dam_hub_prices")        # citation: publisher, report, table, version, tier
+    erw.cite("iso_dam_hub_prices")        # citation: publishers, reports, table, version (section 0)
     erw.tier("energy_deals")              # source, derived or model_extracted
     erw.version()                         # which data you read
 
-Backends (`ERW_BACKEND`, or `erw.set_backend(...)`); the calls do not change:
-- `local` (default): the CSVs in the repository's warehouse/output, or ERW_DATA_DIR.
-- `redivis`: the Redivis dataset `energy_research_warehouse`, the store of
-  record, every table, full history (REDIVIS_API_TOKEN, REDIVIS_OWNER).
-  Since session 665 also the Stanford dataset, Datapages's `erw` (Redivis reference
+Backends (`ERW_BACKEND`, `erw.set_backend(...)`, or `backend=` on each call since session 1001; section 0):
+- `local` (the default in a clone): the CSVs in the repository's warehouse/output, or ERW_DATA_DIR.
+- `redivis`: since session 1001 the Stanford dataset, Datapages's `erw` (Redivis reference
   b9wm, https://stanford.redivis.com/datasets/b9wm-3hb080mtm, DOI 10.57761/4f55-6d55),
-  which holds the public tables only: ERW_REDIVIS_DATASET=datapages.erw:b9wm, or
-  erw.RedivisBackend(owner="datapages", dataset="erw:b9wm", owner_kind="organization").
+  which holds the public tables only, at its latest released version
+  (REDIVIS_API_TOKEN); erw.RedivisBackend(version="next") reads its draft (its
+  editors only, never citable). The owner's account's dataset
+  `energy_research_warehouse` is read with ERW_REDIVIS_DATASET or
+  erw.RedivisBackend(dataset="energy_research_warehouse").
+- `live`: the live set through its REST address with the anon key (ERW_LIVE_URL,
+  ERW_LIVE_KEY), the filters sent to the server.
+- `auto`: each table from local files, else the live set, else Redivis.
 - `supabase`: the live set behind the public site: public tables, the last 35
   days of ISO prices and EIA-930 (session 36C; 90 before) (and all eight CO2 variables of
   eia930_all_emissions, session 36A), and the derived, fuel, queue and news
@@ -674,8 +740,10 @@ report, then the ERW table and data version as the route:
 
     print(erw.cite("ercot_all_hub_prices_history"))
 
-names the publisher, report id and title, report page, retrieval date, table
-and data commit. For Redivis, cite the released dataset version. For a
+names the publishers and reports, then the table and where its rows came from
+(since session 1001, in the release's words, section 0): a Redivis version, the
+live set with its fetch time, or the ERW commit of local files. For Redivis,
+cite the released dataset version. For a
 reproducible result also give `erw.version()`: tables change daily.
 
 The citation form of a Redivis version (docs/redivis/release-v1.md, "How to

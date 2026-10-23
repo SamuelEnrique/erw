@@ -96,6 +96,7 @@ TIER_RULES = [
     ("derived", r"^grid_stress_days$"),  # session 306: ERW code over the hub prices and CAISO's notices
     ("derived", r"^eia_annual_crosscheck_ba$"),  # session 323: ERW code over EIA-923's sums and EIA-930's hours
     ("derived", r"^interconnection_durations$"),  # session 671: ERW code over the Queued Up file (an entities table)
+    ("derived", r"^interconnection_agreements_signed$"),  # session 854: the same, the requests with a signed agreement
     # session 345: NLR's JEDI workbooks' own formulas, evaluated by ERW code for each state the model lists, per MW
     ("derived", r"^nlr_jedi_multipliers$"),
     ("derived", r"^ercot_node_prices_hourly$"),  # session 358: ERCOT's saved price files reshaped by ERW code, internal by the owner's rule
@@ -131,6 +132,7 @@ SECTOR_RULES = [
     (r"^ferc714_area_demand_\d{4}$", "power"),  # session 484: FERC Form 714 hourly demand by planning area (PUDL)
     (r"^eia861_utility_sales$", "power"),  # session 485: EIA-861 retail sales, revenue and customers by utility
     (r"^utility_service_territories$", "power"),  # session 667: EIA-861 service territories, utility by county
+    (r"^interconnection_agreements_(signed|by_grid)$", "power"),  # session 854: signed agreements, not yet operating (Queued Up)
     (r"^interconnection_durations(_summary)?$", "power"),  # session 671: request to operation, completed projects (Queued Up)
     (r"^grid_peak_vs_capacity$", "power;capacity"),  # session 672: each grid's peak against its generators' capacity
     (r"^egrid_power_plants$", "power;carbon"),  # session 486: EPA eGRID, every plant's generation and emissions
@@ -150,6 +152,30 @@ SECTOR_RULES = [
     (r"^eia_gas_consumption_state_monthly$", "gas"),  # session 518: EIA's natural gas consumption by state, a month
     (r"^eia_coal_prices_annual$", "coal"),  # session 519: EIA's coal market sales price by state or region, a year
     (r"^eia_coal_production_annual$", "coal"),  # session 685: EIA's coal production by state, rank and mine type, a year
+    (r"^eia_coal_mine_production_annual$", "coal"),
+    (r"^eia_coal_receipts_annual$", "coal;power"),  # session 875: coal receipts at power plants, mine to plant  # session 694: EIA's coal production and employees by mine, a year
+    (r"^ercot_cdr_reserve_margins$", "power"),  # session 851: ERCOT's CDR, load, capacity and reserve margin by season
+    (r"^ercot_transmission_projects$", "power"),
+    (r"^ercot_cdr_units$", "power"),
+    (r"^eia860_plants_annual$", "power"),  # session 873: EIA-860's plants: place, BA, grid voltage, wires owner  # session 872: the CDR's unit details: code, county, zone, capacity  # session 852: ERCOT's TPIT, every transmission project
+    (r"^eia861_utility_reliability$", "power"),
+    (r"^eia861_delivery_only$", "power"),
+    (r"^eia861_utility_data$", "power"),
+    (r"^eia861_(demand_response|dynamic_pricing)$", "power"),
+    (r"^eia861_(advanced_meters|net_metering)$", "power"),
+    (r"^eia861_energy_efficiency$", "power"),  # session 881
+    (r"^eia861_operational_data$", "power"),  # session 882
+    (r"^eia861_distribution_systems$", "power"),  # session 883
+    (r"^eia861_distributed_generation$", "power"),  # session 883
+    (r"^eia860_generator_owners$", "power"),  # session 885
+    (r"^eia860_storage_generators$", "power"),  # session 885
+    (r"^eia860_solar_generators$", "power"),  # session 885
+    (r"^eia860_wind_generators$", "power"),  # session 885
+    (r"^eia_international_electricity_annual$", "power"),  # session 886
+    (r"^cer_electricity_trade$", "power"),  # session 887
+    (r"^frb_utility_output_monthly$", "power"),  # session 889
+    (r"^uspvdb_solar_facilities$", "power"),  # session 890
+    (r"^eia861_short_form$", "power"),  # session 876: EIA-861S, the small utilities' sales  # session 869: EIA-861's meters and net metering by utility  # session 868: EIA-861's programs by utility  # session 867: EIA-861's utility data: NERC region, RTOs, activities  # session 853: EIA-861's delivery-only companies (Texas's wires utilities)  # session 695: EIA-861's distribution reliability (SAIDI, SAIFI, CAIDI) by utility
     (r"^eia_gas_storage_state_monthly$", "gas"),  # session 525: EIA's natural gas in underground storage by state, a month
     (r"^eia_state_capacity_annual$", "power"),  # session 526: EIA's state electricity profiles, net summer capacity
     (r"^eia_crude_production_state_monthly$", "oil"),  # session 527: EIA's crude oil field production by state, a month
@@ -187,6 +213,8 @@ SECTOR_RULES = [
     (r"^eia_gas_storage_capacity_monthly$", "gas"),  # session 626: EIA's underground natural gas storage capacity, a month
     (r"^eia_ngl_production_monthly$", "products"),  # session 629: EIA's natural gas plant field production of NGLs, a month
     (r"^eia_oxygenate_production_monthly$", "products"),  # session 631: EIA's oxygenate plant production, a month
+    (r"^eia_petroleum_exports_by_destination$", "oil;products"),
+    (r"^eia_gas_consumers_state_annual$", "gas"),  # session 861: EIA's number of natural gas consumers by state and sector  # session 860: EIA's crude and product exports by destination
     (r"^eia_crude_imports_detail_monthly$", "oil"),  # session 636: EIA's crude oil imports by origin, destination and grade
     (r"^pjm_rpm_capacity_prices$", "capacity"),
     # session 65: capacity prices of the four markets that pay capacity apart, and the day-ahead ancillary services

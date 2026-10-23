@@ -6,6 +6,7 @@
 //   docs/methods/*.md                                      method documents
 //   warehouse/metadata/sources.csv                         the source registry (session 21, /terms)
 //   docs/licenses.md, warehouse/metadata/license_verdicts.csv  the licenses and each publisher's verdict (session 471, /data/licenses)
+//   package/llms.txt                                       the briefing for AI readers (session 1011, /llms.txt)
 // and writes site/content/docs.json, which the pages import. Runs before
 // `next dev` and `next build` (package.json predev and prebuild), so the
 // content is part of the build and no page reads the file system at request
@@ -247,6 +248,11 @@ const out = {
 fs.mkdirSync(path.join(here, "..", "content"), { recursive: true });
 fs.writeFileSync(path.join(here, "..", "content", "docs.json"), JSON.stringify(out));
 console.log(`build-content: ${Object.keys(grids).length} grid pages, ${Object.keys(digests).length} digests, ${Object.keys(weeklies).length} weekly briefs, ${Object.keys(methods).length} method documents, the data standard, ${Object.keys(analysis.weeks).length} analysis weeks`);
+
+// Session 1011 (chain 070): package/llms.txt, the briefing for AI readers, for the route /llms.txt (app/llms.txt/route.ts),
+// in a file of its own and as it is (only its line ends made LF, as every file read here)
+fs.writeFileSync(path.join(here, "..", "content", "llms.json"), JSON.stringify({ text: read(path.join(repo, "package", "llms.txt")) }));
+console.log("build-content: llms.json, package/llms.txt for /llms.txt");
 
 // Session 587: the held figures that show (docs/licenses_holds.csv, written by scripts/check-holds.mjs --csv), with each
 // table's record in warehouse/metadata/license_status.csv, for /internal/holds only (lib/holds.ts). A file of its own,

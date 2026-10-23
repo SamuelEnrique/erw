@@ -78,7 +78,7 @@ class Nodes(unittest.TestCase):
         self.assertIn('q.set("nsort", by); q.set("ndir", d);', n)
         v = src("site", "app", "cost-of-power", "AllGridsView.tsx")
         self.assertIn("<NodeShared x={x} />", v)
-        self.assertEqual(v.count("<TxTd r={hub} x={x} />"), 1)
+        self.assertEqual(v.count("<SharedLine hub={hub} x={x} />"), 1)   # session 717: one sentence, each figure once
 
 
 if __name__ == "__main__":

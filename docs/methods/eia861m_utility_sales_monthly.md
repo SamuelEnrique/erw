@@ -45,8 +45,8 @@ None in the connector. Session 511 (2025) and session 520 (every year) compared 
 
 ## What it does not hold
 
-- The utilities outside EIA's monthly sample. EIA estimates them as one row a state; the connector leaves out rows whose name begins "State Adjustment", "State Total" or "US Total", none of them a utility.
-- A caution, read in the file and not in the header: in the 2017 to 2021 files the estimate is named "Adjustment <year>" (utility number 0) and a second aggregate "Total EPM" (utility number 88888). Neither name matches the connector's rule, so the table holds them: 9,360 rows of each a year, 2017 to 2021, as `eia861m:0:<state>` and `eia861m:88888:<state>`. A sum over utilities of those years should leave both out.
+- The utilities outside EIA's monthly sample. EIA estimates them as one row a state; the connector leaves out rows whose name begins "State Adjustment", "State Total" or "US Total", none of them a utility, and since session 689 (23 October 2026) every row numbered 0, 88888 or 99999, whatever its name. The 2017 to 2021 files name the same aggregates "Adjustment <year>" (utility number 0) and "Total EPM" (88888); until session 689 the table held them, 9,360 rows of each a year (93,600 in all), and session 689's write took them out (1,145,088 rows to 1,051,488; the archive records the 93,600 keys deleted). The saved files 2017 to 2026 number every aggregate 0 or 88888; 99999 is in none of them.
+- Session 689's cross-check of the rewritten table: in every month from January 2017 to July 2026, the sampled utilities of the 50 states and the District of Columbia plus EIA's adjustment rows equal EIA's own U.S. total row for total sales, revenue and customers (to the rounding of the file).
 - A cell EIA leaves blank or "." has no row; nothing is filled.
 - A state or national total: a sum over sampled utilities is not EIA's state total, which includes its estimate.
 - The annual form's parts (bundled, energy only, delivery only): the monthly form has none, so this table cannot separate them.

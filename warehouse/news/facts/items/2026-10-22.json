@@ -1,0 +1,27 @@
+{
+ "date": "2026-10-22",
+ "fact_id": "ff_c38645deec",
+ "kind": "history",
+ "fact": "In March 1974, OAPEC lifted the embargo, but the price of oil had risen by nearly 300%: from US$3/barrel to nearly US$12/barrel globally.",
+ "second": "Sadat liked to say that his favourite game was backgammon, making an analogy between how he played backgammon and conducted his diplomacy.",
+ "structure": "cross_field",
+ "conjecture": "False",
+ "sources": [
+  {
+   "label": "Wikipedia, 1973 oil crisis",
+   "url": "https://en.wikipedia.org/wiki/1973_oil_crisis",
+   "raw": "warehouse/news/facts/raw/wikipedia/1973_oil_crisis_20261009T153406Z.txt",
+   "retrieved_at": "20261009T153406Z",
+   "part": "fact",
+   "span": "In March 1974, OAPEC lifted the embargo, but the price of oil had risen by nearly 300%: from US$3/barrel to nearly US$12/barrel globally."
+  },
+  {
+   "label": "Wikipedia, 1973 oil crisis",
+   "url": "https://en.wikipedia.org/wiki/1973_oil_crisis",
+   "raw": "warehouse/news/facts/raw/wikipedia/1973_oil_crisis_20261009T153406Z.txt",
+   "retrieved_at": "20261009T153406Z",
+   "part": "second",
+   "span": "Sadat liked to say that his favourite game was backgammon, a game where skill and persistence was rewarded, but was best won by sudden gambles, making an analogy between how he played backgammon and conducted his diplomacy."
+  }
+ ]
+}

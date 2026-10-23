@@ -36,7 +36,8 @@ class TheDownloads(unittest.TestCase):
         r = self.r
         at = r.index('if (as === "py" || as === "do") return reader(table, as, new URL(req.url).origin);')
         self.assertGreater(at, r.index("is not in the site's live set"))      # the license, the limit, public and live first
-        self.assertGreater(at, r.index('const lim = await limited(req, "download", 60, 3600);'))
+        # session 1009: the limit read from the environment, 60 by default
+        self.assertGreater(at, r.index('const lim = await limited(req, "download", PER_HOUR, 3600);'))
         self.assertNotIn("export function readerText", r)                      # a route file exports route fields only
         self.assertIn('"Content-Disposition": `attachment; filename="erw_${table}.${as}"`', r)
 

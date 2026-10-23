@@ -62,7 +62,8 @@ class Utility(unittest.TestCase):
         else:
             raise unittest.SkipTest("eia861_utility_sales is not on this machine")
         again = sp.utility_file(p)
-        self.assertEqual({k: v for k, v in again.items() if k != "built"}, {k: v for k, v in self.u.items() if k != "built"})
+        own = ("built", "county", "territory_table")   # session 718 adds the counties' utilities to the file
+        self.assertEqual({k: v for k, v in again.items() if k not in own}, {k: v for k, v in self.u.items() if k not in own})
 
     def test_no_delivery_row_is_chosen(self):
         for k, v in self.u["by"].items():
@@ -82,7 +83,7 @@ class Utility(unittest.TestCase):
 
     def test_nodes_and_pjm_say_why(self):
         self.assertIn("TSP", self.o["ercot:7RNCHSLR_ALL"]["why"])
-        self.assertIn("thirteen states", self.o["pjm:grid"]["why"])
+        self.assertEqual(self.o["pjm:grid"]["state"], "PA")   # session 718: PJM's row reads Allegheny County's utilities
 
     def test_the_tab_draws_the_keys(self):
         v = src("site", "app", "cost-of-power", "AllGridsView.tsx")

@@ -1,0 +1,116 @@
+{
+ "id": "siting_battery_swing",
+ "card_id": "siting_battery_swing",
+ "title": "WHERE A BATTERY'S DAY SWINGS MOST",
+ "kind": "visual",
+ "engine": "site/scripts/siting-card.mjs",
+ "subtitle": "ERCOT's 195 storage nodes by their day-ahead intraday swing, the four dearest hours less the four cheapest, 2025-10 to 2026-09",
+ "params": {
+  "class": "storage",
+  "min_days": 302
+ },
+ "inputs_words": {
+  "class": "storage nodes (ERCOT's disclosures, node_basis_daily x_class)",
+  "min_days": "at least 90 percent of the 335 days the table holds, of 365"
+ },
+ "chart": {
+  "kind": "bars_free",
+  "x": [
+   "30",
+   "40",
+   "50",
+   "60",
+   "70",
+   "80",
+   "90",
+   "100"
+  ],
+  "x_label": "Mean intraday swing, USD per MWh: each bar from its label to 10 more",
+  "series": [
+   {
+    "name": "Storage nodes",
+    "type": "bar",
+    "unit": "nodes",
+    "values": [
+     41,
+     62,
+     33,
+     49,
+     4,
+     2,
+     3,
+     1
+    ]
+   }
+  ],
+  "y_left_label": "Storage nodes",
+  "decimals": 0
+ },
+ "callouts": [
+  {
+   "label": "Mean intraday swing, USD per MWh, narrowest and widest",
+   "before": {
+    "period": "MOORE_FL_RN",
+    "text": "34.22"
+   },
+   "after": {
+    "period": "PALACIOS_RN",
+    "text": "105.86"
+   },
+   "unit": ""
+  },
+  {
+   "label": "The middle storage node, USD per MWh",
+   "before": {
+    "period": "median",
+    "text": "49.31"
+   },
+   "after": {
+    "period": "nodes",
+    "text": "195"
+   },
+   "unit": ""
+  },
+  {
+   "label": "PALACIOS_RN, one day in ten and nine in ten, USD per MWh",
+   "before": {
+    "period": "10th",
+    "text": "20.04"
+   },
+   "after": {
+    "period": "90th",
+    "text": "85.57"
+   },
+   "unit": ""
+  }
+ ],
+ "why": "On a mean day from 2025-10 to 2026-09, the four dearest day-ahead hours at ERCOT's storage nodes cost USD 34.22 (MOORE_FL_RN) to USD 105.86 (PALACIOS_RN) per MWh more than the four cheapest, with a median of USD 49.31 across the 195 storage nodes that hold at least 90 percent of the days. At PALACIOS_RN one day in ten swung USD 20.04 or less and one in ten USD 85.57 or more; its mean is above its 90th percentile, so a few days' swing carries it. The swing is a day's spread of prices at the node, not a battery's earnings: it leaves out losses, cycling and the ancillary markets.",
+ "footnote": "Data: the All grids tab of \"What a datacenter pays\" (/cost-of-power?view=allgrids&rows=nodes&ncls=storage&nsort=swing&ndir=desc), from node_basis_daily's dam_spread_4h (each day's four dearest day-ahead hours' mean less its four cheapest), by site/data/siting/nodes.json. node_basis_daily lacks 2026-08-21 to 2026-09-19 for every node. Method: docs/methods/siting.md (decision 24).",
+ "numbers": {
+  "nodes": 195,
+  "narrowest": 34.2165,
+  "narrowest_node": "MOORE_FL_RN",
+  "widest": 105.8621,
+  "widest_node": "PALACIOS_RN",
+  "median": 49.3103,
+  "widest_p10": 20.0415,
+  "widest_p90": 85.574
+ },
+ "source_line": "Source: ERW, the All grids tab's node list (/cost-of-power?view=allgrids&rows=nodes), from ERCOT's day-ahead settlement point prices as node_basis_daily holds them.",
+ "tables": [
+  "node_basis_daily"
+ ],
+ "computed_at": "2026-10-23T00:05:36Z",
+ "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/siting.md",
+ "downloads": {
+  "csv": "siting_battery_swing.csv",
+  "python": "",
+  "stata": ""
+ },
+ "csv_sha256": "",
+ "csv_header": [
+  "Energy Research Warehouse (ERW): finding siting_battery_swing, WHERE A BATTERY'S DAY SWINGS MOST",
+  "Computed by site/scripts/siting-card.mjs from site/data/siting/nodes.json (node_basis_daily, dam_spread_4h); method docs/methods/siting.md",
+  "Rows: one per ERCOT storage node holding at least 90 percent of the days, its mean day-ahead intraday swing and its 10th and 90th percentile, USD per MWh, and its days"
+ ]
+}

@@ -107,8 +107,24 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   // session 710: the screen sorted by the all-in figure with A and B set (ERCOT's hub average against CAISO's SP15), and the
   // node list sorted by energy, largest first
   "/cost-of-power?view=allgrids&sort=allin&a=ercot%3AHB_HUBAVG&b=nyiso%3AN.Y.C.", "/cost-of-power?view=allgrids&rows=nodes&nsort=energy&ndir=desc",
+  // session 724: the node list by the basis's spread, widest first (the trader's walk)
+  "/cost-of-power?view=allgrids&rows=nodes&nsort=spread&ndir=desc",
+  // session 746 (chain 063): the node list by the intraday swing, widest first
+  "/cost-of-power?view=allgrids&rows=nodes&nsort=swing&ndir=desc",
+  // session 772 (chain 064): the storage nodes alone, by their swing
+  "/cost-of-power?view=allgrids&rows=nodes&ncls=storage&nsort=swing&ndir=desc",
+  // session 794 (chain 065): two nodes as A and B, their months side by side
+  "/cost-of-power?view=allgrids&a=ercot%3ABBREEZE_1_2&b=ercot%3APALACIOS_RN",
   // session 711: a node's panel
   "/cost-of-power?view=allgrids&rows=nodes&node=ercot%3A7RNCHSLR_ALL",
+  // session 719: the tracker's link's form, a row as A and the facility's MW as the load
+  "/cost-of-power?view=allgrids&mw=1400&a=ercot%3ALZ_NORTH",
+  // session 720: the All grids tab's research card (data/findings/siting_gigawatt.json, site/scripts/siting-card.mjs)
+  "/research/card/siting_gigawatt",
+  // session 734 (chain 062): the second card, what stepping off saves
+  "/research/card/siting_flexible",
+  // session 773 (chain 064): the third card, where a battery's day swings most
+  "/research/card/siting_battery_swing",
   // session 51: the seller's tab, its defaults and three other assets
   // session 347: the economic impact tool, its defaults and three other views (a size, cost, local content and life given)
   "/map?tab=queues", "/map?tab=queues&iso=ercot", "/map?tab=queues&iso=spp",  // session 349: the map's Queues tab (iso_queue_statistics)

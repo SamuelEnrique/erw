@@ -74,14 +74,14 @@ export const COLUMNS: Column[] = [
     tip: "ERCOT: the load's demand in the four summer peak intervals of the newest summer held (ercot_4cp_intervals) at the Commission's approved rate, over its energy: the profile's own, then firm (on in all four) and off (curtailing). Elsewhere the utility's large-load tariff, not held." },
   { id: "capacity", head: "Capacity", unit: "USD per MWh", tables: ["iso_all_capacity_prices", "pjm_rpm_capacity_prices"],
     tip: "The latest cleared capacity price for the zone, over the load's energy (iso_all_capacity_prices, pjm_rpm_capacity_prices). ERCOT, CAISO and SPP have no capacity market." },
-  { id: "connect", head: "Time to connect", unit: "months", tables: ["lbnl_interconnection_queue", "iso_queue_statistics", "large_load_rules", "large_load_waits", "ercot_large_load_status", "nyiso_load_queue"],
-    tip: "The median months from queue entry to operation for projects finished in the last three years (lbnl_interconnection_queue), and the grid's large-load rule (large_load_rules)." },
-  { id: "headroom", head: "Headroom", unit: "percent; MW", tables: ["eia930_demand_growth", "eia860m_planned_generators", "eia_state_capacity_annual"],
-    tip: "Demand growth over the last twelve months (EIA-930), and generation planned in the next twelve months with an interconnection agreement (eia860m_planned_generators)." },
+  { id: "connect", head: "Time to connect", unit: "months", tables: ["interconnection_durations", "lbnl_interconnection_queue", "large_load_rules", "large_load_waits", "ercot_large_load_status", "nyiso_load_queue"],
+    tip: "The median months from queue entry to operation for projects finished in the last three years (interconnection_durations, from Berkeley Lab's queue file), and the grid's large-load rule (large_load_rules)." },
+  { id: "headroom", head: "Headroom", unit: "percent; MW", tables: ["eia930_demand_growth", "eia860m_planned_generators", "grid_peak_vs_capacity", "eia_state_capacity_annual"],
+    tip: "Demand growth over the last twelve months (EIA-930), generation under construction due in the next twelve months (eia860m_planned_generators), and capacity above the grid's peak (grid_peak_vs_capacity)." },
   { id: "carbon", head: "Carbon", unit: "kg CO2 per MWh", tables: ["egrid_power_plants", "carbon_intensity_hourly"],
     tip: "The generation-weighted CO2 rate of the row's eGRID subregion (egrid_power_plants); hourly where the profile runs in some hours and the grid's hourly intensity is held." },
-  { id: "utility", head: "Utility", unit: "USD per MWh", tables: ["eia861_utility_sales"],
-    tip: "The largest utility by industrial sales in the row's state, its industrial revenue per MWh and its sales growth (eia861_utility_sales). Service territories are not held." },
+  { id: "utility", head: "Utility", unit: "USD per MWh", tables: ["utility_service_territories", "eia861_utility_sales"],
+    tip: "Where the row's name is a place, its county's utilities (utility_service_territories) and the largest seller to industry among them; else the state's largest; its industrial revenue per MWh and sales growth (eia861_utility_sales), with its kind beside it: bundled (no word), delivery only or energy only." },
   { id: "allin", head: "All-in", unit: "USD per MWh", tables: [],
     tip: "Energy, transmission and capacity added, drawn only where each of the three is held or is zero by market design." },
 ];
@@ -102,7 +102,12 @@ export type Row = {
 /** `dam_basis`: the node's day-ahead basis to HB_HUBAVG by Central month, [mean of the daily basis, days held] (session 701). */
 export type NodeRow = { id: string; cls: string; types: string; dam_basis?: Record<string, [number, number]>;
   /** session 711: the 10th, 50th and 90th percentile of the daily day-ahead basis over pct_from to pct_to, and the days */
-  pct?: [number, number, number, number] };
+  pct?: [number, number, number, number];
+  /** session 746: the day-ahead intraday swing (dam_spread_4h: the four dearest hours' mean less the four cheapest),
+   * over pct_from to pct_to: its mean, its 10th and 90th percentile, and the days */
+  swing?: [number, number, number, number];
+  /** session 795: the other nodes whose day-ahead basis is the same on every day the table holds, and the same days */
+  same?: string[] };
 export type NodeFile = { table: string; built: string; first: string; last: string; points: number; hubs: number; zones: number; pct_from?: string; pct_to?: string; nodes: NodeRow[] };
 
 /** A region's kind as the index says it; a region of a grid whose index names no kind is a hub when its name says so. */
@@ -555,6 +560,12 @@ export type HeadroomFile = {
   built: string; planned_table: string; vintage: string; from: string; to: string;
   planned: Record<string, { construction_mw: number; construction_n: number; approved_mw: number; approved_n: number; other_mw: number; other_n: number }>;
   capacity_table: string; capacity: Record<string, { states: string[]; year: number; mw: number }>;
+  /** session 718: each grid's peak against its balancing authority's generators (grid_peak_vs_capacity, chain 043) */
+  peak_capacity_table?: string;
+  /** session 728: a zone's own demand growth, its EIA-930 sub-region's mean hourly demand in the newest whole year
+   * held against the year before (eia930_subba_demand_hourly_<year>), for the rows whose zone EIA-930 names */
+  zones?: { table: string; year: number; prior: number; rows: Record<string, { subba: string; name: string; year: number; prior: number; mean_mw: number; prior_mean_mw: number; hours: number; prior_hours: number; pct: number }> };
+  peak_capacity?: Record<string, { year: number; peak_mw: number; capacity_mw: number; over_peak_pct: number; solar_mw: number; wind_mw: number; storage_mw: number; list: string; states: string; split_states: string }>;
 };
 export const BA_OF: Record<string, string> = { ercot: "ERCO", caiso: "CISO", nyiso: "NYIS", isone: "ISNE", spp: "SWPP", miso: "MISO", pjm: "PJM" };
 /** The calendar hours of a month label. */
@@ -583,12 +594,18 @@ export function demandGrowth(d: DemandYears | undefined, grid: string): Growth |
   return { pct: 100 * (now / before - 1), mw: now, before, from: monthBack(to, 11), to, ba };
 }
 /** The grid's installed capacity against its last whole year's peak, for a grid that is whole states; else why. */
-export function capacityOverPeak(d: DemandYears | undefined, h: HeadroomFile | undefined, grid: string): { pct: number; mw: number; peak: number; year: number; peakYear: number; states: string[] } | { why: string } {
+/** Session 718: the grid's net summer capacity over its last whole year's peak, percent above it, from
+ * grid_peak_vs_capacity (the data machine's, by each generator's balancing authority: every grid, no state mapped);
+ * before that table, session 706's whole states (NYISO and ISO-NE only). `pct` is capacity over peak less 100. */
+export function capacityOverPeak(d: DemandYears | undefined, h: HeadroomFile | undefined, grid: string): { pct: number; mw: number; peak: number; year: number; peakYear: number; states: string[]; table: string; parts?: { solar: number; wind: number; storage: number }; split?: string } | { why: string } {
+  const pc = h?.peak_capacity?.[grid];
+  if (pc) return { pct: pc.over_peak_pct, mw: pc.capacity_mw, peak: pc.peak_mw, year: pc.year, peakYear: pc.year, states: pc.states.split(/[;,]\s*/).filter(Boolean), table: h!.peak_capacity_table ?? "grid_peak_vs_capacity",
+    parts: { solar: pc.solar_mw, wind: pc.wind_mw, storage: pc.storage_mw }, split: pc.split_states };
   const c = h?.capacity[grid], a = d?.areas[BA_OF[grid] ?? ""];
   if (!c) return { why: `${GRID_NAMES[grid]} is not a set of whole states, so the state capacity table (eia_state_capacity_annual) cannot be read as its own. Reserve margins by zone are not held.` };
   const peak = a?.years[String(d!.last_year)]?.peak_demand_mw;
   if (!peak) return { why: `${GRID_NAMES[grid]}'s peak demand of ${d?.last_year} is not held.` };
-  return { pct: (100 * c.mw) / peak, mw: c.mw, peak, year: c.year, peakYear: d!.last_year, states: c.states };
+  return { pct: (100 * c.mw) / peak - 100, mw: c.mw, peak, year: c.year, peakYear: d!.last_year, states: c.states, table: "eia_state_capacity_annual" };
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -670,7 +687,12 @@ export function carbonCell(dc: DC, f: Files, r: Row, x: Pick<SitingInputs, "prof
  * that sell energy (EIA's service types Bundled and Energy; Delivery rows are wires charges, not sales), with its
  * industrial sales and revenue that year and the year before. */
 export type UtilityRow = { utility: string; number: string; part: string; service: string; sales_mwh: number; revenue_usd: number; sales_prior_mwh: number | null; sellers: number };
-export type UtilityFile = { built: string; table: string; year: number; prior: number; by: Record<string, UtilityRow | null> };
+export type UtilityFile = { built: string; table: string; year: number; prior: number; by: Record<string, UtilityRow | null>;
+  /** session 718: for a row whose name is a place, its county's utilities (utility_service_territories, chain 043), each
+   * with the grids its sales rows name, and the largest seller to industry among them inside the row's grid */
+  territory_table?: string;
+  county?: Record<string, { state: string; county: string; ba: string; territory_year: number | null; utilities: { name: string; number: string; ba: string[] }[];
+    top: { utility: string; number: string; service: string; sales_mwh: number; revenue_usd: number; sales_prior_mwh: number | null; year: number } | null }> };
 /** The state a row's utility is read in: the grid's one state, the zone's own, or a hub's (MISO's hubs by their names;
  * SPP's North hub Kansas, South hub Oklahoma; ISO-NE's hub Massachusetts, its largest state). PJM spans thirteen states
  * and the District of Columbia: no one state. */
@@ -689,9 +711,18 @@ export function stateOf(r: Pick<Row, "grid" | "region">): string | null {
 }
 export const UTILITY_STATES: [string, string][] = [["TX", "ERCO"], ["CA", "CISO"], ["NY", "NYIS"], ["CT", "ISNE"], ["ME", "ISNE"], ["MA", "ISNE"], ["NH", "ISNE"], ["RI", "ISNE"], ["VT", "ISNE"],
   ["KS", "SWPP"], ["OK", "SWPP"], ["AR", "MISO"], ["IL", "MISO"], ["IN", "MISO"], ["LA", "MISO"], ["MI", "MISO"], ["MN", "MISO"], ["MS", "MISO"], ["TX", "MISO"]];
-export type UtilityCell = { state: string; ba: string; u: UtilityRow; year: number; prior: number; rev: number; growth: number | null } | { why: string; words: string };
+export type CountyUtilities = NonNullable<UtilityFile["county"]>[string];
+export type UtilityCell = ({ state: string; ba: string; u: UtilityRow; year: number; prior: number; rev: number; growth: number | null; county?: undefined }
+  | { state: string; ba: string; county: CountyUtilities; u: UtilityRow | null; year: number; prior: number; rev: number | null; growth: number | null }) | { why: string; words: string };
 export function utilityCell(f: Files, r: Row): UtilityCell {
-  if (r.kind === "node") return { why: "The wires utility (TSP) at an ERCOT node is not named in the node tables (node_basis_daily holds no node's zone, hub or utility); service territories are not held.", words: "not held" };
+  if (r.kind === "node") return { why: "The wires utility (TSP) at an ERCOT node is not named in the node tables (node_basis_daily holds no node's zone, hub or utility), and no county is known for a node, so the service territories cannot be read for it.", words: "not held" };
+  // session 718: a row whose name is a place reads its county's utilities from the territories
+  const cu = f.utility?.county?.[r.id];
+  if (cu && f.utility) {
+    const t = cu.top;
+    const u: UtilityRow | null = t ? { utility: t.utility, number: t.number, part: "", service: t.service, sales_mwh: t.sales_mwh, revenue_usd: t.revenue_usd, sales_prior_mwh: t.sales_prior_mwh, sellers: cu.utilities.length } : null;
+    return { state: cu.state, ba: cu.ba, county: cu, u, year: f.utility.year, prior: f.utility.prior, rev: u ? u.revenue_usd / u.sales_mwh : null, growth: u && u.sales_prior_mwh ? 100 * (u.sales_mwh / u.sales_prior_mwh - 1) : null };
+  }
   const st = stateOf(r), ba = BA_OF[r.grid];
   if (!st) return { why: r.grid === "pjm" ? "PJM spans thirteen states and the District of Columbia: no one state's utility is its own. Service territories are not held." : `No state is known for ${r.region}.`, words: "not held" };
   const u = f.utility?.by[`${st}|${ba}`];
@@ -706,7 +737,12 @@ export function utilityCell(f: Files, r: Row): UtilityCell {
 /** A node's row of the node table: its own figures only. What every ERCOT node shares (the four-peak charge, which a
  * node pays on its hub's hours; capacity, none; the grid's time to connect, headroom and carbon) is drawn once, above
  * the table, so that no figure is drawn twice. */
-export type NodeTableRow = { id: string; node: string; cls: string; types: string; per: number | null; basis: number | null; days: number; due: number; allin: number | null; why: string };
+export type NodeTableRow = { id: string; node: string; cls: string; types: string; per: number | null; basis: number | null; days: number; due: number; allin: number | null; why: string;
+  /** session 724: the daily basis's spread, its 90th percentile less its 10th over the file's twelve months (the panel's
+   * own percentiles), USD per MWh: how far the node moves from day to day; null where the file holds no percentiles */
+  spread: number | null;
+  /** session 746: the mean of the day's four dearest day-ahead hours less its four cheapest, USD per MWh */
+  swing: number | null };
 export function nodeTable(dc: DC, f: Files, x: Pick<SitingInputs, "profile" | "lf" | "strike">): NodeTableRow[] {
   return nodeRows(f.nodes).map((r) => {
     const n = f.nodes.nodes.find((k) => k.id === r.region)!;
@@ -715,15 +751,82 @@ export function nodeTable(dc: DC, f: Files, x: Pick<SitingInputs, "profile" | "l
     const per = pc ? ("why" in pc ? null : pc.per) : e.node?.per ?? null;
     const a = allInCell(dc, f, r, x);
     return { id: r.id, node: r.region, cls: n.cls, types: n.types, per, basis: e.node?.basis ?? null, days: e.node?.days ?? Object.values(n.dam_basis ?? {}).reduce((s, v) => s + v[1], 0),
-      due: e.node?.due ?? 0, allin: "v" in a ? a.v : null, why: e.node ? (pc && "why" in pc ? pc.why : "") : e.why ?? "not held" };
+      due: e.node?.due ?? 0, allin: "v" in a ? a.v : null, why: e.node ? (pc && "why" in pc ? pc.why : "") : e.why ?? "not held",
+      spread: n.pct ? n.pct[2] - n.pct[0] : null, swing: n.swing ? n.swing[0] : null };
   });
 }
+/** Session 724: the months of the node file's percentile window in which no node holds every day, with the most days
+ * any node holds and the days in the month: the days node_basis_daily lacks, named by month (the file counts days by
+ * month, not by date). */
+export function nodeShortMonths(f: Pick<NodeFile, "pct_from" | "pct_to" | "nodes">): { month: string; held: number; of: number }[] {
+  if (!f.pct_from || !f.pct_to) return [];
+  const out: { month: string; held: number; of: number }[] = [];
+  let [y, m] = f.pct_from.split("-").map(Number);
+  const [y1, m1] = f.pct_to.split("-").map(Number);
+  while (y < y1 || (y === y1 && m <= m1)) {
+    const month = `${y}-${String(m).padStart(2, "0")}`, of = new Date(Date.UTC(y, m, 0)).getUTCDate();
+    const held = Math.max(0, ...f.nodes.map((n) => n.dam_basis?.[month]?.[1] ?? 0));
+    if (held < of) out.push({ month, held, of });
+    m += 1; if (m > 12) { m = 1; y += 1; }
+  }
+  return out;
+}
+/** The short months in words, for the node list's tips and its header line. */
+export const shortMonthsWords = (s: { month: string; held: number; of: number }[]) =>
+  s.length ? `node_basis_daily lacks days in ${s.map((v) => `${v.month} (${v.held} of ${v.of} days held)`).join(", ")}, for every node` : "node_basis_daily holds every day of the twelve months";
+/** Session 726 (the utility planner's walk): the kind of a utility's revenue per MWh, from EIA-861's service type.
+ * Bundled is energy and wires together; Delivery is the wires only (the energy bought from a retailer); Energy is a
+ * retailer's energy only (the wires billed by the utility). The three are not alike, so the cell names the kind and
+ * the A and B panel subtracts only like from like. */
+export const SERVICE_WORDS: Record<string, string> = { Bundled: "", Delivery: "delivery only", Energy: "energy only" };
+export function utilityKind(f: Files, r: Row): string | null {
+  const c = utilityCell(f, r);
+  return "why" in c || !c.u ? null : c.u.service;
+}
+export const UTILITY_KINDS_LINE = "The column's revenue per MWh is of three kinds, and each cell names its own: bundled (energy and wires together, no word), delivery only (the wires; the energy is bought from a retailer) and energy only (a retailer's energy; the wires are billed apart). Compare like with like.";
+/** Session 728: a row's own zone's demand growth, where EIA-930 names its zone; else null (the grid's figure stands). */
+export function zoneGrowth(h: HeadroomFile | undefined, r: Pick<Row, "id">) {
+  return h?.zones?.rows[r.id] ?? null;
+}
+/** Session 730 (chain 062): a utility's large-load rate (data/siting/tariffs.json, once utility_large_load_tariffs has
+ * landed; NOT WIRED: the table was not held when this was written). One rate as warehouse/derived/siting_page.py's
+ * tariffs_file writes it. */
+export type TariffRate = { rate: string; name: string; start: string; utility: string; sector: string; energy: number | null; demand: number | null; fixed: number | null; min_mw: number | null };
+/** The rate a load of `mw` takes: among the utility's rates whose minimum demand the load meets, the newest (by its
+ * start, then its label). None where no rate is open to the load. */
+export function tariffFor(rates: TariffRate[] | undefined, mw: number): TariffRate | null {
+  const open = (rates ?? []).filter((r) => r.min_mw === null || r.min_mw <= mw);
+  return open.length ? [...open].sort((a, b) => b.start.localeCompare(a.start) || b.rate.localeCompare(a.rate))[0] : null;
+}
+/** A rate's charges per MWh for a load of `mw` at load factor `lf`, by the tariff's own terms: the demand charge (USD per
+ * kW-month) over the MWh the load draws in a 730-hour month (its size times its load factor times 730), as the
+ * four-peak charge is spread over the hours a load runs; the fixed charge likewise; the energy charge as written. The
+ * parts are returned apart: a bundled rate's energy charge is a retail price, not a wires charge, so which parts a
+ * column adds is the column's rule. */
+export function tariffParts(r: TariffRate, mw: number, lf: number): { energy: number | null; demand: number | null; fixed: number | null; wires: number | null } {
+  const mwh = mw * lf * 730;
+  const demand = r.demand === null || mwh <= 0 ? null : (r.demand * mw * 1000) / mwh;
+  const fixed = r.fixed === null || mwh <= 0 ? null : r.fixed / mwh;
+  return { energy: r.energy, demand, fixed, wires: demand === null ? null : demand + (fixed ?? 0) };
+}
+/** Session 777 (chain 064): the node table handed to the browser column by column, not row by row: the same values,
+ * without each field's name repeated on 873 rows, and without the id, which is the node's name after "ercot:". */
+export type NodeColumns = { node: string[]; cls: string[]; types: string[]; per: (number | null)[]; basis: (number | null)[]; days: number[]; due: number[];
+  allin: (number | null)[]; why: string[]; spread: (number | null)[]; swing: (number | null)[] };
+export function nodeColumns(rows: NodeTableRow[]): NodeColumns {
+  return { node: rows.map((r) => r.node), cls: rows.map((r) => r.cls), types: rows.map((r) => r.types), per: rows.map((r) => r.per), basis: rows.map((r) => r.basis),
+    days: rows.map((r) => r.days), due: rows.map((r) => r.due), allin: rows.map((r) => r.allin), why: rows.map((r) => r.why), spread: rows.map((r) => r.spread), swing: rows.map((r) => r.swing) };
+}
+export function nodeRowsOf(c: NodeColumns): NodeTableRow[] {
+  return c.node.map((node, i) => ({ id: `ercot:${node}`, node, cls: c.cls[i], types: c.types[i], per: c.per[i], basis: c.basis[i], days: c.days[i], due: c.due[i],
+    allin: c.allin[i], why: c.why[i], spread: c.spread[i], swing: c.swing[i] }));
+}
 /** The columns a node table sorts by, and the default: by name. */
-export const NODE_SORTS = ["node", "cls", "energy", "basis", "allin", "days"] as const;
+export const NODE_SORTS = ["node", "cls", "energy", "basis", "spread", "swing", "allin", "days"] as const;
 export type NodeSort = (typeof NODE_SORTS)[number];
 export function sortNodes(rows: NodeTableRow[], by: NodeSort, dir: "asc" | "desc"): NodeTableRow[] {
   const k = dir === "asc" ? 1 : -1;
-  const val = (r: NodeTableRow): number | string | null => (by === "node" ? r.node : by === "cls" ? r.cls : by === "energy" ? r.per : by === "basis" ? r.basis : by === "allin" ? r.allin : r.days);
+  const val = (r: NodeTableRow): number | string | null => (by === "node" ? r.node : by === "cls" ? r.cls : by === "energy" ? r.per : by === "basis" ? r.basis : by === "spread" ? r.spread : by === "swing" ? r.swing : by === "allin" ? r.allin : r.days);
   // a row with no figure sorts last either way; ties by name
   return [...rows].sort((a, b) => {
     const va = val(a), vb = val(b);
@@ -751,6 +854,25 @@ export function columnValue(dc: DC, f: Files, r: Row, x: Pick<SitingInputs, "pro
     case "carbon": { const c = carbonCell(dc, f, r, x); return "kg" in c ? c.hourly?.kg ?? c.kg : null; }
     case "utility": { const u = utilityCell(f, r); return "rev" in u ? u.rev : null; }
     case "allin": { const a = allInCell(dc, f, r, x); return "v" in a ? a.v : null; }
+  }
+}
+/** Session 793 (chain 065): the words a column's cell draws where it draws no figure ("license needed", "not held",
+ * "no capacity market", "paused" and the like, each its cell function's own), or null where it draws a figure. The hub
+ * table's download writes these words, never a number, where the page draws words. */
+export function columnWords(dc: DC, f: Files, r: Row, x: Pick<SitingInputs, "profile" | "lf" | "strike">, col: ColumnId): string | null {
+  const pick = (c: unknown) => (c && typeof c === "object" && "words" in c && typeof (c as { words: unknown }).words === "string" ? (c as { words: string }).words : "not held");
+  if (col === "capacity") {
+    const c = capacityCell(f, r, x);
+    return "zero" in c ? "no capacity market" : "why" in c ? pick(c) : "license needed";
+  }
+  if (columnValue(dc, f, r, x, col) !== null) return null;
+  switch (col) {
+    case "energy": return pick(x.profile === "datacenter" ? energyCell(dc, f, r) : profileCell(dc, f, r, x, f.cp));
+    case "transmission": return pick(cpCharge(dc, f, r, x));
+    case "allin": return pick(allInCell(dc, f, r, x));
+    case "carbon": return pick(carbonCell(dc, f, r, x));
+    case "utility": return pick(utilityCell(f, r));
+    default: return "not held";
   }
 }
 export type SortKey = ColumnId | "name";
@@ -784,6 +906,42 @@ export function yearOf(dc: DC, f: Files, r: Row, x: Pick<SitingInputs, "profile"
   return { mwh, usd: mwh * a.v, allin: a.v };
 }
 export const yearKey = (x: Pick<SitingInputs, "profile" | "lf" | "strike" | "mw">) => `${profileKey(x)}&mw=${x.mw}`;
+
+// ---------------------------------------------------------------------------------------------------------------------
+// the tracker joins the tab (session 719): where a tracked datacenter sits, by its county, else its state
+// ---------------------------------------------------------------------------------------------------------------------
+
+/** data/siting/facilities.json (warehouse/derived/siting_page.py), from public tables only: each state whose retail
+ * sales are 85 percent or more inside one grid, every county whose utilities bill inside one grid only, and the tab's
+ * row a county is placed at. Nothing of datacenter_facilities (held whole) is in it: the tracker places the rows it
+ * shows, at request time. */
+export type FacilityGridFile = { built: string; year: number; state_share: number; states: Record<string, { grid: string; share: number }>;
+  counties: Record<string, { grid: string; utilities: number }>; county_rows: Record<string, string> };
+export type FacilitySite = { grid: string; row: string; how: "county" | "state"; why: string };
+const countyKey = (state: string, county: string) => `${state.trim().toUpperCase()}|${county.trim().replace(/ (County|Parish)$/i, "").trim().toLowerCase()}`;
+/** The tab's row for a tracked facility: by its county where it names one and the county's utilities bill inside one
+ * grid only (the county's own row where the tab places one, else the grid's main region); else by its state where
+ * 85 percent or more of the state's retail sales are inside one grid; else none. The tracker names no node. */
+export function facilitySite(f: FacilityGridFile, idx: Pick<Index, "grids" | "blank">, state: string, county: string): FacilitySite | null {
+  const main = (grid: string) => idx.grids[grid]?.main ? `${grid}:${idx.grids[grid].main}` : grid === "pjm" ? "pjm:grid" : grid === "miso" ? `miso:${idx.blank.miso?.regions[0] ?? "grid"}` : null;
+  const k = state && county ? countyKey(state, county) : "", c = k ? f.counties[k] : undefined, s = state ? f.states[state.trim().toUpperCase()] : undefined;
+  // the grid: the county's where its utilities bill inside one grid only; else the state's, at 85 percent of its sales
+  const grid = c?.grid ?? s?.grid;
+  if (!grid) return null;
+  // the row: the county's own where the tab places the county in that grid; else the grid's main region
+  const own = k && f.county_rows[k]?.startsWith(`${grid}:`) ? f.county_rows[k] : null;
+  const row = own ?? main(grid);
+  if (!row) return null;
+  const byCounty = !!c?.grid;
+  const why = byCounty
+    ? `${county}, ${state}: its ${c!.utilities} ${c!.utilities === 1 ? "utility" : "utilities"} (EIA-861's service territories) bill inside ${GRID_NAMES[grid]} only.`
+    : `${state}: ${Math.round((s?.share ?? 0) * 100)} percent of its retail sales in ${f.year} were inside ${GRID_NAMES[grid]} (EIA-861)${county ? `; ${county}'s utilities do not bill inside one grid only, or the territories do not name it` : ""}.`;
+  return { grid, row, how: byCounty ? "county" : "state", why: `${why} ${own ? `The tab's row for ${county}: ${row.split(":")[1]}.` : `The tab has no row of its own for the place: ${GRID_NAMES[grid]}'s main region.`}` };
+}
+/** The tab's address for a tracked facility: its grid's row as A and its MW as the load. The facility is named on the
+ * tracker, beside the link, and not in the address: the tab draws no name a visitor could type. */
+export const facilityHref = (s: FacilitySite, mw: number | null) =>
+  `/cost-of-power?${new URLSearchParams({ view: "allgrids", ...(mw && mw >= SITING_LIMITS.mw[0] ? { mw: String(Math.min(mw, SITING_LIMITS.mw[1])) } : {}), a: s.row }).toString()}`;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // the all-in column (session 702): drawn only where each part is held or is zero by market design
@@ -839,6 +997,11 @@ export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFil
  *   allgrids|col|<column>|<row>|<profile key>             a row's figure in a column, as the panel draws it (710)
  *   allgrids|yeardiff|<a>|<b>|<year key>                   B's year all-in less A's, USD (710)
  *   allgrids|nodepct|<node>|10, 50 or 90                 a node's daily basis percentile over the file's twelve months (711)
+ *   allgrids|nodespread|<node>                             its 90th percentile less its 10th, the node list's spread (724)
+ *   allgrids|nodeswing|<node>[|10 or 90]                   its day-ahead intraday swing's mean, or a percentile (746)
+ *   allgrids|nodemonth|<node>|<YYYY-MM>                    its month's mean daily day-ahead basis (794)
+ *   allgrids|nodediff|<a>|<b>|spread or swing             B's basis spread or intraday swing less A's, two nodes (794)
+ *   allgrids|zonegrowth|<row>                              its zone's mean demand, newest whole year over the one before, percent (728)
  *   allgrids|llapproved|<row>                              ERCOT's large loads approved to energize, MW, newest report (705)
  *   (capacity, session 704: zero where there is no market, drawn as a figure of 0 with no key; elsewhere held internal,
  *   "license needed", and computed only where the tables are, by warehouse/derived/siting_page.py --internal) */
@@ -879,6 +1042,16 @@ export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
     return p[3] === "da" ? e.da?.per : p[3] === "rt" ? e.rt?.per : undefined;
   }
   if (p[1] === "basis") return energyCell(dc, f, row).node?.basis;
+  if (p[1] === "zonegrowth") { const z = zoneGrowth(f.headroom, row); return z ? z.pct : undefined; }
+  if (p[1] === "nodemonth") { const n = f.nodes.nodes.find((k) => `ercot:${k.id}` === row.id); return n?.dam_basis?.[p[3]]?.[0]; }
+  if (p[1] === "nodediff") {
+    const na = f.nodes.nodes.find((k) => `ercot:${k.id}` === row.id), nb = f.nodes.nodes.find((k) => `ercot:${k.id}` === p[3]);
+    if (p[4] === "spread") return na?.pct && nb?.pct ? (nb.pct[2] - nb.pct[0]) - (na.pct[2] - na.pct[0]) : undefined;
+    if (p[4] === "swing") return na?.swing && nb?.swing ? nb.swing[0] - na.swing[0] : undefined;
+    return undefined;
+  }
+  if (p[1] === "nodeswing") { const n = f.nodes.nodes.find((k) => `ercot:${k.id}` === row.id); if (!n?.swing) return undefined; return p[3] === "10" ? n.swing[1] : p[3] === "90" ? n.swing[2] : n.swing[0]; }
+  if (p[1] === "nodespread") { const n = f.nodes.nodes.find((k) => `ercot:${k.id}` === row.id); return n?.pct ? n.pct[2] - n.pct[0] : undefined; }
   if (p[1] === "nodepct") { const n = f.nodes.nodes.find((k) => `ercot:${k.id}` === row.id); const i = ({ "10": 0, "50": 1, "90": 2 } as Record<string, number>)[p[3]]; return n?.pct && i !== undefined ? n.pct[i] : undefined; }
   if (p[1] === "tx" || p[1] === "txshare") {
     const x = profileOfKey(p[1] === "tx" && (p[3] === "firm" || p[3] === "curtailing") ? p[4] ?? "" : p[3]);
@@ -895,7 +1068,7 @@ export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
     const c = carbonCell(dc, f, row, x);
     return "kg" in c ? c.hourly?.kg : undefined;
   }
-  if (p[1] === "utilrev" || p[1] === "utilgrowth") { const u = utilityCell(f, row); return "rev" in u ? (p[1] === "utilrev" ? u.rev : u.growth ?? undefined) : undefined; }
+  if (p[1] === "utilrev" || p[1] === "utilgrowth") { const u = utilityCell(f, row); return "rev" in u ? (p[1] === "utilrev" ? u.rev ?? undefined : u.growth ?? undefined) : undefined; }
   if (p[1] === "year" || p[1] === "mwh") {
     const q = Object.fromEntries(new URLSearchParams(p[3] ?? "")), x = profileOfKey(p[3] ?? ""), mw = Number(q.mw);
     if (!x || !Number.isFinite(mw)) return undefined;

@@ -1,4 +1,4 @@
-# The chain of 22 October 2026 on the personal laptop (060): the note for Samuel
+# The chains of 22 October 2026 on the personal laptop (060 and 061): the note for Samuel
 
 Energy Research Warehouse (ERW), session 813, written on portable-laptop on 22 October 2026. Chain 060 (`queue/done/060-night-23-october-code-periodicals.md`, sessions 800 to 813: the Daily Digest and the Weekly Roundup made better) was dated the night of 23 October and run from 09:28 UTC on 22 October, on the owner's instruction to take the queue's next file. Model Fable 5.1. Model spend for the chain: USD 0.0394 (two dry runs; cap USD 8). No warehouse data written; no past issue rewritten; nothing sent or posted.
 
@@ -6,7 +6,7 @@ Energy Research Warehouse (ERW), session 813, written on portable-laptop on 22 O
 
 1. **Read `docs/reviews/periodicals-rulings-2026-10-23.md` first**: 19 items wait for you, one a line, each with a recommendation. Eight are the Digest audit's, four the Roundup audit's, seven this chain's (the topic key, the held outlets' links, the chart of the week re-drawn, US48 demand a year before, the ten floors under the holds, and two smaller ones).
 2. **Tomorrow's Digest, before it is written**: `docs/reviews/periodicals-dryrun-2026-10-23.md` sets the 21 October issue beside a dry run of the same window with this chain's code (adjectives 11 to 0, repeated figures 9 to 2, one-topic top tens 1 to 0, Google addresses 17 to 0, 25 of 25 figures traced), and this week's Roundup beside W41. The three the owner should read are at its top.
-3. **What landed and what did not**: nothing of the code has landed yet. Sessions 800 and 812 (documents) are on main. Sessions 801 to 811 are on `wip/811-periodicals` (each session's own branch under it), gated twice on `wip/807-periodicals` with the suite and the build green and check-values at 12,412 of 12,423 values equal; the gate is not a pass by its own rule because `/digest` fails its floor until the day's issue exists (about 15:45 UTC) and two pages timed out on the slow database. The landing is the next chain's session 818, after 16:15 UTC (`queue/next/061-day-22-october-code-periodicals-2.md`). Until it lands, the scheduled Digest and Roundup are written by main's code (sessions 470 and 577 included).
+3. **What landed and what did not**: nothing of the code has landed yet (chain 061, below, added four sessions to the same branch line and left the push under "To finish" too). Sessions 800 and 812 (documents) are on main. Sessions 801 to 811 are on `wip/811-periodicals` (each session's own branch under it), gated twice on `wip/807-periodicals` with the suite and the build green and check-values at 12,412 of 12,423 values equal; the gate is not a pass by its own rule because `/digest` fails its floor until the day's issue exists (about 15:45 UTC) and two pages timed out on the slow database. The landing is the next chain's session 818, after 16:15 UTC (`queue/next/061-day-22-october-code-periodicals-2.md`). Until it lands, the scheduled Digest and Roundup are written by main's code (sessions 470 and 577 included).
 4. **The next scheduled issue** carries the chain's changes once `wip/807-periodicals` is on main; the Roundup's five numbers, the emails at 390 and the method on the page follow with `wip/811-periodicals`.
 5. **The database was slow all morning** (the probe at 2 to 3.3 s, the gate's limit 3 s): the first gate stopped on it, the second on check-values' 15-minute limit with 109 pages unread, the third on main having moved; the fourth ran with a 45-minute check-values limit.
 
@@ -28,6 +28,21 @@ Energy Research Warehouse (ERW), session 813, written on portable-laptop on 22 O
 | 811 | `wip/811-periodicals` | `/about#digest` and the Roundup page say the rules | `/about#digest` |
 | 812 | main (documents) | the rulings in plain words | the rulings |
 | 813 | main (documents) | this note; the queue step | |
+
+## Chain 061 (sessions 814 to 819), the same day
+
+Written by session 813 from chain 060's open items and run at once (the time was before 07:00 Pacific). Model spend USD 0.0520 (session 816). The landing session (818) was placed last so that it would fall after the 14:00 to 16:15 UTC window; it began at 12:12 UTC and, by the chain's own rule against a wait over 20 minutes, left the push under "To finish".
+
+| Session | Branch | What it did | Address to open after the landing |
+|---|---|---|---|
+| 814 | `wip/814-periodicals` | commentary ranks under news at the same significance (a kind column by the title's form); the 13 issues regenerated (`periodicals-commentary-regen-2026-10-22.md`): the order changes on 4 of 13 days; "Iran war tilts balance" stays, its title having no mark of commentary | `/digest/<next>` |
+| 815 | `wip/815-periodicals` | the chart of the day at a phone's width: a 600 by 760 picture beside the 1200 px one, served under 640 px through srcset; `docs/brand/review-815/` (390 loads the 600 px picture) | `/digest/<next>` on a phone |
+| 816 | `wip/816-periodicals` | 25 stories of the 21 October window scored again under session 801's prompt (`periodicals-whyline-2026-10-22.md`): 13 of 25 lines failed the check before, 5 after; the prompt stays | the review |
+| 817 | `wip/817-periodicals` | the Roundup's email in the page's order; the stories folded under an item go with it in the email (no address in the text part) | the next emails |
+| 818 | `wip/818-periodicals` | the branch holding sessions 801 to 817 over main, tests green; the gate and the push under "To finish" | |
+| 819 | main (documents) | this note extended; the queue step | |
+
+Decisions of chain 061: the kind is read from the title's form (814); the phone picture is a second file and the page chooses by srcset (815); the 25 are the window's highest-scored stories, the first run's wrong 25 discarded, the prompt kept at 5 of 25 failing (816); the Roundup's email order follows the page and the "also" line sits under the source (817); the push waits rather than the session (818).
 
 ## Decisions made without you
 
@@ -56,21 +71,20 @@ Every item is in `docs/reviews/periodicals-rulings-2026-10-23.md` (19). The ones
 
 ## To finish
 
-After 16:15 UTC, on this machine, from the main checkout (each command its own, its exit read):
+The landing of everything, from `wip/818-periodicals` (sessions 801 to 817 over `origin/main` at 12:13 UTC), after 16:15 UTC, on this machine, from the main checkout (each command its own, its exit read):
 
 ```
-cd C:/Users/samen/Documents/erw-811
-git fetch origin && git merge --no-edit origin/main && git push origin wip/811-periodicals
+cd C:/Users/samen/Documents/erw-818
+git fetch origin && git merge --no-edit origin/main && git push origin wip/818-periodicals
 cd C:/Users/samen/Documents/erw
 .venv/Scripts/python.exe scripts/db_probe.py
-set CHECK_VALUES_TIMEOUT_MIN=45 and CHECK_VALUES_REQUEST_S=120 in the environment
-.venv/Scripts/python.exe scripts/land_check.py --ref wip/811-periodicals --lock-as s818 --port 3811
-   (a pass: every failure among the ten license-hold floors of session 408's list; the /digest floor is met once the day's issue exists)
+CHECK_VALUES_TIMEOUT_MIN=45 CHECK_VALUES_REQUEST_S=120 .venv/Scripts/python.exe scripts/land_check.py --ref wip/818-periodicals --lock-as s818 --port 3818
+   (a pass: every failure among the ten license-hold floors of session 408's list; /digest's floor is met once the day's issue is in main and the branch has merged it)
 node site/scripts/snapshot-live.mjs take s818-before
-git push origin wip/811-periodicals:refs/heads/task/811-periodicals
-   (GitHub's code-branch.yml runs the tests and the build and merges into main)
+git push origin wip/818-periodicals:refs/heads/task/818-periodicals
 node site/scripts/snapshot-live.mjs take s818-after        (once production serves the merge; at most 20 minutes)
 node site/scripts/snapshot-live.mjs compare s818-before s818-after   (expected: 0 differences, every page is in review)
+.venv/Scripts/python.exe scripts/check_digest.py --supabase --then-csv   (131 of 131 must hold on the archive)
 ```
 
-Then the "Not landed by this chain" paragraph of each report of sessions 801 to 811 is replaced by the outcome, and the branches `wip/801-periodicals` to `wip/811-periodicals` and `task/811-periodicals` are deleted once `git merge-base --is-ancestor origin/<branch> origin/main` exits 0 for each.
+Then the "Not landed by this chain" paragraph of each report of sessions 801 to 811 and the "LANDING_PENDING" line of 814 to 817 are replaced by the outcome; the branches `wip/801-periodicals` to `wip/818-periodicals` and `task/818-periodicals` are deleted once `git merge-base --is-ancestor origin/<branch> origin/main` exits 0 for each; the first scheduled Digest after the landing is read against the dry run of session 807 and the differences listed. Until the landing, the scheduled Digest and Roundup are written by main's code.

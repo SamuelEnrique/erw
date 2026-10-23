@@ -1,0 +1,171 @@
+{
+  "eia860m_retired_generators": {
+    "rows": {
+      "local": 249,
+      "live": 249,
+      "redivis": 249
+    },
+    "version_lines": {
+      "local": "ERW eia860m_retired_generators: local files; ERW commit bb5d5b11f50b; fetched 2026-10-23T02:35:57Z; 249 rows",
+      "live": "ERW eia860m_retired_generators: the live set; ERW commit unknown; fetched 2026-10-23T02:35:58Z; 249 rows",
+      "redivis": "ERW eia860m_retired_generators: Redivis datapages.erw:b9wm draft (not citable); ERW commit unknown; fetched 2026-10-23T02:36:04Z; 249 rows"
+    },
+    "local|live": {
+      "left": 249,
+      "right": 249,
+      "both": 249,
+      "differ_recent": 0,
+      "differ_before": 0
+    },
+    "local|redivis": {
+      "left": 249,
+      "right": 249,
+      "both": 249,
+      "differ_recent": 0,
+      "differ_before": 0
+    },
+    "live|redivis": {
+      "left": 249,
+      "right": 249,
+      "both": 249,
+      "differ_recent": 0,
+      "differ_before": 0
+    }
+  },
+  "caiso_grid_emergencies": {
+    "rows": {
+      "local": 1906,
+      "live": 1906,
+      "redivis": 1906
+    },
+    "version_lines": {
+      "local": "ERW caiso_grid_emergencies: local files; ERW commit bb5d5b11f50b; fetched 2026-10-23T02:36:04Z; 1906 rows",
+      "live": "ERW caiso_grid_emergencies: the live set; ERW commit unknown; fetched 2026-10-23T02:36:05Z; 1906 rows",
+      "redivis": "ERW caiso_grid_emergencies: Redivis datapages.erw:b9wm draft (not citable); ERW commit unknown; fetched 2026-10-23T02:36:07Z; 1906 rows"
+    },
+    "local|live": {
+      "left": 1906,
+      "right": 1906,
+      "both": 1906,
+      "differ_recent": 0,
+      "differ_before": 0
+    },
+    "local|redivis": {
+      "left": 1906,
+      "right": 1906,
+      "both": 1906,
+      "differ_recent": 0,
+      "differ_before": 0
+    },
+    "live|redivis": {
+      "left": 1906,
+      "right": 1906,
+      "both": 1906,
+      "differ_recent": 0,
+      "differ_before": 0
+    }
+  },
+  "carbon_intensity_monthly": {
+    "rows": {
+      "local": 1275,
+      "live": 1275,
+      "redivis": 1275
+    },
+    "version_lines": {
+      "local": "ERW carbon_intensity_monthly: local files; ERW commit bb5d5b11f50b; fetched 2026-10-23T02:36:08Z; 1275 rows",
+      "live": "ERW carbon_intensity_monthly: the live set; ERW commit unknown; fetched 2026-10-23T02:36:08Z; 1275 rows",
+      "redivis": "ERW carbon_intensity_monthly: Redivis datapages.erw:b9wm draft (not citable); ERW commit unknown; fetched 2026-10-23T02:36:11Z; 1275 rows"
+    },
+    "local|live": {
+      "left": 1275,
+      "right": 1275,
+      "both": 1275,
+      "differ_recent": 18,
+      "differ_before": 0
+    },
+    "local|redivis": {
+      "left": 1275,
+      "right": 1275,
+      "both": 1275,
+      "differ_recent": 18,
+      "differ_before": 0
+    },
+    "live|redivis": {
+      "left": 1275,
+      "right": 1275,
+      "both": 1275,
+      "differ_recent": 2,
+      "differ_before": 0
+    }
+  },
+  "ercot_peak_premium_annual": {
+    "rows": {
+      "local": 2016,
+      "live": 2016,
+      "redivis": 2016
+    },
+    "version_lines": {
+      "local": "ERW ercot_peak_premium_annual: local files; ERW commit bb5d5b11f50b; fetched 2026-10-23T02:36:11Z; 2016 rows",
+      "live": "ERW ercot_peak_premium_annual: the live set; ERW commit unknown; fetched 2026-10-23T02:36:12Z; 2016 rows",
+      "redivis": "ERW ercot_peak_premium_annual: Redivis datapages.erw:b9wm draft (not citable); ERW commit unknown; fetched 2026-10-23T02:36:15Z; 2016 rows"
+    },
+    "local|live": {
+      "left": 2016,
+      "right": 2016,
+      "both": 2016,
+      "differ_recent": 114,
+      "differ_before": 0
+    },
+    "local|redivis": {
+      "left": 2016,
+      "right": 2016,
+      "both": 2016,
+      "differ_recent": 114,
+      "differ_before": 0
+    },
+    "live|redivis": {
+      "left": 2016,
+      "right": 2016,
+      "both": 2016,
+      "differ_recent": 0,
+      "differ_before": 0
+    }
+  },
+  "eia_fuel_spot_prices": {
+    "rows": {
+      "local": 247,
+      "live": 247,
+      "redivis": 247
+    },
+    "version_lines": {
+      "local": "ERW eia_fuel_spot_prices: local files; ERW commit bb5d5b11f50b; fetched 2026-10-23T02:36:16Z; 247 rows",
+      "live": "ERW eia_fuel_spot_prices: the live set; ERW commit unknown; fetched 2026-10-23T02:36:16Z; 247 rows",
+      "redivis": "ERW eia_fuel_spot_prices: Redivis datapages.erw:b9wm draft (not citable); ERW commit unknown; fetched 2026-10-23T02:36:20Z; 247 rows"
+    },
+    "local|live": {
+      "left": 247,
+      "right": 247,
+      "both": 247,
+      "differ_recent": 0,
+      "differ_before": 0
+    },
+    "local|redivis": {
+      "left": 247,
+      "right": 247,
+      "both": 247,
+      "differ_recent": 0,
+      "differ_before": 0
+    },
+    "live|redivis": {
+      "left": 247,
+      "right": 247,
+      "both": 247,
+      "differ_recent": 0,
+      "differ_before": 0
+    }
+  },
+  "_requests": {
+    "redivis": 44,
+    "live": 15
+  }
+}
