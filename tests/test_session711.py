@@ -41,7 +41,7 @@ class Panel(unittest.TestCase):
 
     def test_the_panel_draws_its_keys_and_says_what_is_not_held(self):
         v = src("site", "app", "cost-of-power", "AllGridsView.tsx")
-        for k in ("check={`allgrids|nodepct|${id}|10`}", "check={`allgrids|nodepct|${id}|90`}", "<InlineSpark values={months.map", "No table of the warehouse places an ERCOT settlement point in a county"):
+        for k in ("check={`allgrids|nodepct|${id}|10`}", "check={`allgrids|nodepct|${id}|90`}", "<InlineSpark values={months.map", 'words="not placed"'):   # session 1048: the county is placed where ercot_node_places places it
             self.assertIn(k, v)
         self.assertIn('"/cost-of-power?view=allgrids&rows=nodes&node=ercot%3A7RNCHSLR_ALL"', src("site", "scripts", "check-values.mjs"))
         self.assertIn("data-node-open={r.id}", src("site", "app", "cost-of-power", "AllGridsNodes.tsx"))

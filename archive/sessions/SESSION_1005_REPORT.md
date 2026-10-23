@@ -42,7 +42,7 @@ The last command should print 247. `R CMD check` will warn on two things that ar
 
 ## The landing
 
-With 1000 to 1006, in session 1006: the gate on 1000 and 1001 passed its suite (6,008 tests) and failed check-values only on the allowed exceptions, and one landing for 1000 to 1006 spares Vercel's deployments.
+Sessions 1000 to 1014 landed in one push: see `SESSION_1014_REPORT.md`, "The landing".
 
 ## Decisions made without you
 

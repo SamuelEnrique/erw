@@ -42,7 +42,7 @@ The first run with this code failed 7 more, all `test_cite_names_the_iso_the_tab
 
 ## The landing
 
-With 1000, in this session (below, once done).
+Sessions 1000 to 1014 landed in one push: see `SESSION_1014_REPORT.md`, "The landing".
 
 ## Decisions made without you
 

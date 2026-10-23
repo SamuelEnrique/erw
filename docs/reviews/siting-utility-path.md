@@ -80,3 +80,29 @@ The 12 steps (758's) again on production (chain 064's 766 to 777 served since 21
 ## Walked again (session 797, chain 065)
 
 The same steps as session 779, on a local build of `wip/796-allgrids` (chain 065's 788 to 796: the hub table's download, two nodes side by side, nodes that settle alike), 22 October 2026 at about 23:20 UTC. **Every step's figure lines are the same as at 779** (0 differing), no step fails, and no new fault was found.
+
+## Walked again (session 1030, chain 071)
+
+The same steps as session 779, on a local build of `wip/1028-allgrids` (chain 071's 1020 to 1028: ERCOT's planning reserve margin in the Headroom column, session 1027; no ruling answered, no other table wired), 23 October 2026 at about 06:55 UTC. Production still served chain 070's 1014 landing (Vercel "rate limited"), so the build, not production. Compared with session 797's walk (`runs/chain_062/walk797_779`) by each step's figure lines (`runs/walkcmp.py`):
+
+- **12 steps; 8 differ, and only by lines added**: "reserve margin 11.4%, summer 2027" on each ERCOT hub and zone row the step shows (14 on a full hub table, 8 on the zones-only step). No figure line is gone or changed.
+- **The CAISO, NYISO, ISO-NE, MISO, PJM and SPP rows read "reserve margin not held"**, a word cell (no digit, so outside the comparison).
+- **After the walk**: The landing gate's check-values (07:29 UTC) failed that line: it showed one decimal where every checked figure shows two. It now reads "reserve margin 11.43%, summer 2027", the same figure (11.428383).
+- **No step fails and no new fault was found.**
+
+## Walked again (session 1051, chain 072)
+
+Walked again on a local build of `wip/1042-allgrids` (chain 072's 1042 to 1049: a node's county and zone with its county's ERCOT transmission projects, session 1048; EIA-411 named and not drawn in the reserve margin's tip, session 1047), 23 October 2026 at about 08:35 UTC, with `runs/chain_062/walk.mjs` and the steps of session 779; each step's figure lines against session 1029's walk (`runs/walkcmp.py`).
+
+- **12 steps; 8 differ, and every difference is expected**: each ERCOT row's "reserve margin 11.4%" of 1029's walk reads "11.43%" (chain 071's landing fix, two decimals as every checked figure); and no step opens a node's panel; the utility's walk reads the hub table, whose figures are unchanged.
+- **No figure line is gone or changed otherwise.** The tips of the other grids' "reserve margin not held" now name EIA-411 (no digit in the cell, so outside the comparison).
+- **A fault seen, not new**: when the hub table is scrolled sideways (a tip focused at the far right), a right-aligned cell's second line spills left under the row's name (session 1027's screenshot shows the same); not this chain's change, listed for a session of its own.
+- **No step fails and no new fault was found.**
+
+## Walked again (session 1072, chain 073)
+
+Walked again on a local build of `wip/1064-allgrids` (chain 073: the planned generation in a node's county, session 1069; the hub table's name column above the cells that scroll under it, session 1072), 23 October 2026 at about 09:50 UTC, with `runs/chain_062/walk.mjs` and the steps of session 779; each step's figure lines against chain 072's walk (`runs/chain_072/walk1050_779`).
+
+- **12 steps; 0 differ, and only by 1069's line**: on the step that opens BBREEZE_1_2's panel, "ERCOT's generators due to operate in WILLACY County from 2026-09 to 2027-08: none in eia860m_planned_generators" in place of "not drawn".
+- **The spill seen by 1050 to 1052 is gone** (1072's fix, `docs/brand/review-1072/s01_spill_tip_1280.png`).
+- **No step fails and no new fault was found.**

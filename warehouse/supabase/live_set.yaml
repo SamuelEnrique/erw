@@ -328,6 +328,46 @@ catalogue_hold:
   - eia860_plants_annual
   - eia_coal_receipts_annual
   - eia861_short_form
+  - ornl_eha_hydropower_units
+  - lbnl_wind_capacity_factors
+  - ercot_node_wires_utilities
+  - onrr_production_monthly
+  - onrr_production_annual
+  - onrr_revenue_monthly
+  - lbnl_wind_costs
+  - lbnl_wind_turbine_orders
+  - eia_primary_energy_monthly
+  - usgs_mcs_critical_minerals
+  - blm_ca_renewable_rows
+  - eia_coal_distribution_quarterly
+  - eia_uranium_production_quarterly
+  - eia_uranium_facilities
+  - eia_ieo_projections
+  - lbnl_hybrid_plants
+  - usace_nid_dams
+  - eia_capacity_factors_annual
+  - eia_capacity_factors_monthly
+  - eia_heat_rates_annual
+  - egrid_subregions_annual
+  - lbnl_hybrid_ppa_prices
+  - lbnl_solar_projects
+  - ornl_npd_potential
+  - eia_world_coal_annual
+  - eia_world_energy_co2_annual
+  - ercot_node_planned_generation
+  - ornl_hydropower_relicensing
+  - eia_world_oil_monthly
+  - eia_power_fuel_stocks_monthly
+  - wb_commodity_prices_monthly
+  - nrc_power_reactors
+  - eia_world_oil_gas_annual
+  - ercot_node_transmission
+  - ornl_hydropower_pipeline
+  - lbnl_ppa_prices
+  - eia_aeo_emm_regions
+  - ornl_eha_hydropower_plants
+  - cer_gas_trade
+  - eia_world_electricity_annual
   - eia_uranium_marketing_annual
   - eia_power_costs_annual
   - ercot_node_places

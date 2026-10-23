@@ -150,7 +150,7 @@ display as text cond(`ok', "ok   ", "FAIL ") + "06 fetch eia860m_retired_generat
 
 local pass = `pass' + `ok'
 
-erw fetch eia930_all_demand, entity(eia930:ERCO) variable(demand_mw) start(2026-10-18) end(2026-10-19) backend(live) clear
+erw fetch carbon_intensity_hourly, entity(eia930:ERCO) variable(intensity_demand) start(2026-10-18) end(2026-10-19) backend(live) clear
 
 capture confirm variable event_date
 
@@ -170,7 +170,7 @@ local t1 = cond("`tvar'" == "status_date", date("2026-10-18", "YMD"), clock("202
 
 local ok = (_N == 24) & (r(min) == `t0') & (r(max) == `t1')
 
-display as text cond(`ok', "ok   ", "FAIL ") + "07 fetch eia930_all_demand"
+display as text cond(`ok', "ok   ", "FAIL ") + "07 fetch carbon_intensity_hourly"
 
 local pass = `pass' + `ok'
 

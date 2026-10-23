@@ -70,7 +70,10 @@ UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "mph", "
          "index",
          # session 904: a quantity in pounds (EIA's uranium in pounds of U3O8 equivalent, named in the header), enrichment
          # in separative work units and its price per unit (eia_uranium_marketing_annual; Decision 55)
-         "lb", "SWU", "USD/SWU"}
+         "lb", "SWU", "USD/SWU",
+         # session 954: a quantity in metric tons and a price per kilogram, as the USGS's Mineral Commodity Summaries give
+         # them (usgs_mcs_critical_minerals; Decision 56)
+         "t", "USD/kg"}
 NAME_RE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+){2,}$")
 NAME_MAX = 40
 TS_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
@@ -158,7 +161,8 @@ ENTITIES_COLS = ["entity_id", "entity_type", "name", "geo", "lat", "lon", "capac
 ENTITIES_REQUIRED = ["entity_id", "entity_type", "name", "source"]
 ENTITY_TYPES = {"plant", "generator", "project", "datacenter", "substation", "utility", "company",
                 "counterparty",
-                "equipment"}  # session 896: a plant's boiler, cooling system or emissions control (EIA-860; Decision 54)
+                "equipment",  # session 896: a plant's boiler, cooling system or emissions control (EIA-860; Decision 54)
+                "dam"}  # session 982: a dam and its reservoir, the National Inventory of Dams (usace_nid_dams; Decision 57)
 # docs/datastandard.md shape (b) and Decision 20: the source's own status stays in its own column
 ENTITY_STATUS = {"operating", "planned", "under_construction", "retired", "withdrawn", "active",
                  "completed", "suspended"}
