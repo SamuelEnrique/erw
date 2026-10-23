@@ -319,6 +319,7 @@ news_scores_shadow,the outlets of news_stories,by hand: its header: scores of th
 news_stories,ANS Nuclear Newswire; Bloomberg; CAISO; CTVC; California Public Advocates Office (.gov); California Public Utilities Commission; California State Portal | CA.gov; Canary Media; CivicPlus; DOE newsroom; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; EIA; EPA; ERCOT; Electrek; Energy-Storage.news; FERC; Financial Times; Hart Energy; Heatmap News; Hydrogen Insight; IEA; ISO-NE; JPT; LNG Prime; Latitude Media; MISO; NYISO; Natural Gas Intelligence; OPEC: Publications; OilPrice.com; Organization of the Petroleum Exporting Countries; PJM (its news releases); POWER Magazine; Public Utility Commission of Texas; Reuters; Rigzone; SPP; T&D World; Texas.gov; Utility Dive; WSJ; World Nuclear News; pv magazine USA,the source registry
 nlr_atb_electricity_costs,"National Laboratory of the Rockies (NLR, formerly NREL)",the source registry
 nlr_jedi_multipliers,"National Laboratory of the Rockies (NLR, formerly NREL)",the source registry
+noaa_cpc_degree_days_daily,NWS,the source registry
 noaa_grid_weather_daily,NOAA NCEI,the source registry
 noaa_grid_weather_hourly,NOAA NCEI,the source registry
 noaa_grid_weather_stations,NOAA NCEI,the source registry

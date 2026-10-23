@@ -5266,6 +5266,8 @@ nlr_jedi_multipliers,local_share,series variable,ratio
 nlr_jedi_multipliers,output,series variable,USD/MW
 nlr_jedi_multipliers,output,series variable,USD/MW-year
 nlr_jedi_multipliers,project_mw,series variable,MW
+noaa_cpc_degree_days_daily,cdd,series variable,degF-day
+noaa_cpc_degree_days_daily,hdd,series variable,degF-day
 noaa_grid_weather_daily,cooling_degree_days,series variable,degF-day
 noaa_grid_weather_daily,dew_point_f,series variable,degF
 noaa_grid_weather_daily,heating_degree_days,series variable,degF-day
