@@ -8,7 +8,7 @@ Session numbers 1064 to 1085 are this chain's: they were free in every queue fil
 
 **The next file is written first.** Session 1064 begins by writing `queue/next/074-<slug>.md` for this machine (`machine: samueloldlaptop`, at least twenty sessions, numbered 1086 upward), commits it alone and pushes it to main before any other work. Session 1085 updates that file from this chain's results instead of writing one from nothing. If another machine's chain has taken 074 by then, the next free number is used and said so.
 
-**When nothing has moved.** If, when session 1063 updates this file, no item of the rulings file or of `docs/reviews/packages-open.md` is answered and no table the tab waits on has landed since chain 071, session 1063 cuts this file to the sessions that need neither (1064, 1065, 1072 to 1074, 1077, 1079, 1083 to 1085) and says so here: a chain of "not ruled" and "none there" sessions costs deployments for nothing (chain 065's rule at its session 977).
+**When nothing has moved.** Session 1063 found two tables landed during chain 072 (chain 049's, both wired or named by 072), so this file stands whole. The check moves to session 1065: if no item of the rulings file or of `docs/reviews/packages-open.md` is answered and no table the tab waits on has landed since chain 072's end, sessions 1066, 1067, 1069 (its first part), 1070, 1071, 1074, 1075, 1078 and 1080 each write a few lines and no build, and the chain lands only at 1072 (if its fault fix is made) and 1085: a chain of "not ruled" and "none there" sessions costs deployments for nothing (chain 065's rule at its session 977).
 
 Read first: chain 072's note (in `docs/state/`, the name session 1063 chose) and its sessions' reports (`archive/sessions/SESSION_1042_REPORT.md` to `SESSION_1063_REPORT.md`); chain 071's note; `docs/reviews/siting-open-2026-10-23.md` (its latest state section); `docs/reviews/siting-rulings-2026-10-23.md` and `docs/reviews/siting-rulings-answered.md`; `docs/reviews/packages-open.md`; `docs/methods/siting.md` and `docs/methods/packages.md` (their latest versions); `docs/reviews/digest-revisions-proposal.md` (session 1061's); `docs/reviews/siting-map-design.md` if session 1049 wrote it; `queue/done/049-*.md`, `queue/done/051-*.md` and any later data chain's file with its sessions' reports: which of the tab's awaited tables they landed.
 
@@ -17,6 +17,13 @@ Read first: chain 072's note (in `docs/state/`, the name session 1063 chose) and
 - **Chain 071** (sessions 1020 to 1041) was landing 1020 to 1039 when this was written; its note and last landing come with 1040 and 1041. None of the 22 rulings items was answered at 07:40 UTC (1039's state section); `docs/reviews/packages-open.md` holds 13 items, nine waiting on the owner.
 - **Chain 072** (sessions 1042 to 1063) wires chain 049's reserve margins by assessment area (1047) and a node's county, zone and wires utility (1048) if they land, decides whether a node can be drawn on a map (1049), and makes the conformance file's second version (1055).
 - **The data machine's chain 051** (world gas and hydro, sessions 909 to 922) and any chain after it may land tables the package's conformance file can use; nothing of 051 is awaited by the tab.
+
+## Updated by session 1063 (chain 072's end, 23 October 2026 at about 09:25 UTC)
+
+- **Chain 072 landed sessions 1043 to 1061 in one push** (`cbf8662e`, run 39928557187; served at 09:18 UTC; snapshots `c072a-before` and `c072a-after`, 0 differences). Its 1042, 1062 and 1063 records land with 1063's push. Chain 071's 1020 to 1039 are on main (`3e64f694`) and served; its 1040 and 1041 were still running.
+- **Wired by 072**: a node's county and zone for 569 of 873 nodes (`ercot_node_places`) as two columns, two filters and the panel, with ERCOT's transmission project phases in the node's county (1048). **Named, not drawn**: EIA-411's reserve margins (the data machine's table is its November 2016 release; rulings item 23). **Designed, not wired**: a county map (rulings item 24). **Proposed**: the Digest's revisions (`docs/reviews/digest-revisions-proposal.md`). **Package**: three new error sentences in Python, Stata and R (1056); the conformance file's version 2, no call leaving the live set before 2027 (1055).
+- **Still not landed**: `ercot_settlement_points`, `hifld_substations`, `hifld_transmission_lines`, `utility_large_load_tariffs`, a 2026 sub-region table. **No ruling answered**: rulings 1 to 24, packages-open 1 to 9.
+- **So, in this file**: 1069's first part waits on a table 072 could not wire (none is left: both of chain 049's were wired or named), and its second part is new: **the planned generation in a placed node's county** (`eia860m_planned_generators`, public and held, summed by county for the panel's line that now says "not drawn"; 1048's decision 4). 1070 is the substations half only (1048 did the projects by county). 1072 also fixes the old fault the walks saw (a right-aligned cell's second line spilling left under the row's name when the hub table is scrolled sideways; session 1027's shot shows it). 1076 reads the conformance file's version 2. 1078 reads rulings item 23 and 24's answers as well as the Digest's.
 
 ## Rules for every session
 
@@ -41,21 +48,21 @@ Long end 2:00 each. One answered item each, as chain 071's 1022 to 1024. No answ
 
 Long end 1:00. Requests: none. Coverage on main for the tables the tab still waits on after chain 072's 1046: chain 049's reserve margins by assessment area and a node's county and zone if 072 found them missing, `ercot_settlement_points`, `hifld_substations` and `hifld_transmission_lines`, `utility_large_load_tariffs`, a 2026 sub-region table, and any table of chain 051 or later that the open items name. Each landed one named with its license word, rows and window; sessions 1069 to 1071 wire them.
 
-## Session 1069: what chain 072 could not wire, wired
+## Session 1069: the planned generation in a node's county
 
-Long end 2:00. The first table 1068 found landed that chain 072's 1047 or 1048 waited on, wired as that session describes (test, replication, screenshots at 1280 and 390, the open items' line closed with this session's number). Nothing landed: a few lines.
+Long end 2:00. Updated by 1063: chain 072 wired or named both of chain 049's tables. First, any table 1068 found landed that 072's 1047 or 1048 waited on, wired as that session describes. Then, whatever else: the builder sums `eia860m_planned_generators` (public) by the county of each placed node (MW and count by EIA status, due in the twelve months after the table's vintage, as the Headroom column counts them), and the panel's line "The planned generation in its county: not drawn" draws it, keyed and replicated; a county with none says so. Test, screenshots at 1280 and 390, the gaps file's row 23 closed with this session's number.
 
 ## Session 1070: lines and substations near a node, again
 
-Long end 2:00. If the substations and lines tables have landed with a public license and a node can be placed (by its county from chain 072's 1048, or its electrical bus through the settlement points): a node's panel names the substations of its county or bus and their voltage. Nothing placed by a guess. Not landed or not placeable: a few lines, with what would place one.
+Long end 2:00. If the substations and lines tables have landed with a public license: a placed node's panel names the substations of its county (chain 072's 1048) and their voltage, beside the county's transmission projects 1048 already counts. Nothing placed by a guess. Not landed: a few lines, with what would place one.
 
 ## Session 1071: a large load's tariff
 
 Long end 2:00. If `utility_large_load_tariffs` has landed with a public license: a zone's or a utility's large load tariff named beside "what a datacenter pays", the tariff's filing and date named, a utility without one said so. Not landed: a few lines.
 
-## Session 1072: the three paths, walked again
+## Session 1072: the three paths, walked again, and the spill fixed
 
-Long end 2:00. Requests: none. The trader's, the utility's and the lab's walks (`docs/reviews/siting-trader-path.md`, `siting-utility-path.md`, `siting-path.md`) with `runs/chain_062/walk.mjs`, each step's figure lines against chain 072's 1050 to 1052; every new fault fixed when it needs no ruling.
+Long end 2:00. Requests: none. The trader's, the utility's and the lab's walks (`docs/reviews/siting-trader-path.md`, `siting-utility-path.md`, `siting-path.md`) with `runs/chain_062/walk.mjs`, each step's figure lines against chain 072's 1050 to 1052 (`runs/chain_072/walk1050_*`); every new fault fixed when it needs no ruling. And the old one the walks saw: when the hub table is scrolled sideways, a right-aligned cell's second line ("load: rule 2026-06") spills left under the row's name; each such cell keeps its lines inside its own width (tokens.css or the cell's classes), screenshots at 1280 and 390 before and after, no figure moved.
 
 ## Session 1073: the cards and the map frame
 
