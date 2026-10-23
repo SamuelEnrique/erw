@@ -10,3 +10,5 @@ Energy Research Warehouse (ERW). Written by `python warehouse/chat/eval/history.
 | 2026-10-21 | `questions_s320.yaml` | session 320's answers graded again on the keys of the day, under the license hold | 14 of 30 (17 on the figure keys) | none (no model) | `docs/reviews/ask-thirty-2026-10-21.md` |
 | 2026-10-23 | `questions_s320.yaml` | asked again, graded under the hold | 19 of 30 (15 on the figure keys; 30 if session 320's rulings went the answers' way) | USD 2.76 | `docs/reviews/ask-thirty-2026-10-23.md` |
 | 2026-10-23 | `questions_s1114.yaml` | thirty a trading, a finance and a policy lead ask, first asking | 24 of 30 | USD 2.84 | `docs/reviews/ask-sixty-2026-10-23.md` |
+| 2026-10-23 | `questions_s320.yaml` | asked again after chains 076 and 085, graded under the hold | 19 of 30 (15 on the figure keys; 30 if session 320's rulings went the answers' way) | USD 2.90 | `docs/reviews/ask-sixty-2026-10-25.md` |
+| 2026-10-23 | `questions_s1114.yaml` | asked again after chains 076 and 085, 8 of the thirty (the cap) | 8 of 8 | USD 0.63 | `docs/reviews/ask-sixty-2026-10-25.md` |

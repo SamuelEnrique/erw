@@ -65,6 +65,14 @@ Ask ERCOT is drawn by `components/ask/AskPanel.tsx`; the general chat and the si
 
 The CLI's and the evaluation's own loop (`warehouse/chat/ask.py`) holds the conversation, records its reads and names a refusal's nearest tables as the site's does; the license hold stays the site's.
 
+## The license hold in the Python loop (23 October 2026, session 1191)
+
+With `ASK_HOLD=on` the Python tools hold what the site holds (`warehouse/chat/license_hold.py`, the decisions of `site/lib/license.ts` and `site/lib/chat/tools.ts`, read from the same `site/data/license_status.json`): a table held whole is refused by name; a table held by grid is read without the held grids' rows; MISO's rows are refused with the pause's words; a question of a held grid's rows is answered with the hold's words and the public grids' figures. Off by default, so the CLI reads every row as before (for Samuel's ruling: `docs/reviews/ask-board-rulings-2026-10-23.md`, item 13). `tests/test_session1191.py` holds the decisions equal to the site's own over every table of the status file.
+
+## An answer's sources (23 October 2026, session 1194)
+
+Under every chat's answer, the sources and the reads are one component in the brand's source line (`site/components/ask/AnswerSources.tsx`: 12 px, grey, a rule above): each source its table with a link, its tier, its source report and, on hover, the data's version; each read what one query read.
+
 ## A refusal names what it looked at (23 October 2026, session 1132)
 
 On "not in the warehouse" and on the fixed refusal, the general chat names up to three of the tables the question queried or described, each with what the catalogue says it holds (its sector, its grids, its step, its span, its source report; never a figure of its rows). A table only listed is not one it looked at.
@@ -77,8 +85,8 @@ On "not in the warehouse" and on the fixed refusal, the general chat names up to
 
 | Set | Questions | Keys | Runs |
 |---|---|---|---|
-| `questions_s320.yaml` | 30 on the three economics pages | computed from the live set before any model call; again by `eval_s1113.py --keys` the hour of an asking | 17 of 30 (20 October 2026), 14 of 30 under the hold (session 539); **19 of 30 under the hold on 23 October 2026** (session 1113's asking, run by session 1126; 30 of 30 if session 320's three rulings went the answers' way): `docs/reviews/ask-thirty-2026-10-23.md` |
-| `questions_s1114.yaml` | 30 a trading, an infrastructure-finance and a policy lead would ask, ERCOT, CAISO, SPP and national series only | `expected_s1114.py`, from the live set the hour of the asking | **24 of 30 on 23 October 2026** (four of the six wrong state the right figure from another table): `docs/reviews/ask-sixty-2026-10-23.md` |
+| `questions_s320.yaml` | 30 on the three economics pages | computed from the live set before any model call; again by `eval_s1113.py --keys` the hour of an asking | 17 of 30 (20 October 2026), 14 of 30 under the hold (session 539); **19 of 30 under the hold on 23 October 2026** (session 1113's asking, run by session 1126; 30 of 30 if session 320's three rulings went the answers' way): `docs/reviews/ask-thirty-2026-10-23.md`; asked again after chains 076 and 085 (session 1149): 19 of 30, the same eleven wrong, `docs/reviews/ask-sixty-2026-10-25.md` |
+| `questions_s1114.yaml` | 30 a trading, an infrastructure-finance and a policy lead would ask, ERCOT, CAISO, SPP and national series only | `expected_s1114.py`, from the live set the hour of the asking | **24 of 30 on 23 October 2026** (four of the six wrong state the right figure from another table): `docs/reviews/ask-sixty-2026-10-23.md`; asked again (session 1149): t01 to t08, 8 of 8, the rest stopped by the cap, `docs/reviews/ask-sixty-2026-10-25.md` |
 | `questions_s1122.yaml` | 5 on the price board | `expected_s1122.py`, from recorded rows of the board's tables | not yet asked; the board's Ask examples (session 1145) |
 
 Every run, one row a run: `docs/reviews/ask-history.md` (session 1147, written by `history.py` from the stored runs).
@@ -102,3 +110,6 @@ Each dated, with the session that made it; the reports in `archive/sessions/` ca
 - 23 October 2026, session 1144: percent and MW judged by the unit check, MWh not.
 - 23 October 2026, session 1145: the general chat's form, not a new component, draws the new fields.
 - 23 October 2026, session 1146: the license hold is not mirrored in the CLI.
+- 23 October 2026, session 1149: the sixty asked again into files of their own (`eval_s1133_*`), the stored runs left as they are; the first set made whole within the cap before the second.
+- 23 October 2026, session 1191: the hold mirrored in the Python tools behind `ASK_HOLD=on`, off by default (session 1146's decision kept for the CLI until the ruling).
+- 23 October 2026, session 1194: one component for every chat's sources and reads, the general form's "Sources" heading dropped.
