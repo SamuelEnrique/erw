@@ -177,6 +177,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "fhwa_motor_fuel_monthly",
            "afdc_vehicle_registrations_annual",
            "irena_capacity_annual",
+           "irs_soi_energy_credits_annual",
            "noaa_ncei_storm_events",
            "nrc_event_notifications",
            "doe_lng_export_applications",
