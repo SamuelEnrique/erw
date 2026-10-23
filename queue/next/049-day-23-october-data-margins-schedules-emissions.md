@@ -2,7 +2,7 @@
 
 machine: data
 
-Written by session 881, the first session of `queue/done/048-night-23-october-data-utility-files-products.md`, under chain 045's rule ("the next file is written and pushed to `queue/next` at the START of the chain"), at the owner's instruction for chain 045 ("at least twelve sessions, machine: data, ... the sources and gaps ... in chain 040's form"). Sessions 895 to 908 were free in every queue file and branch when this was written (the code machine holds 700 to 749, the laptop 800 to 849, the old laptop 1000 on). Session 894 of chain 048 updates this file if its results change what it should hold. Model: Opus 5.5, high effort.
+Written by session 881, the first session of `queue/done/048-night-23-october-data-utility-files-products.md`, under chain 045's rule ("the next file is written and pushed to `queue/next` at the START of the chain"), at the owner's instruction for chain 045 ("at least twelve sessions, machine: data, ... the sources and gaps ... in chain 040's form"). Sessions 895 to 908 were free in every queue file and branch when this was written (the code machine holds 700 to 749, the laptop 800 to 849, the old laptop 1000 on). Session 894 of chain 048 updated it at chain 048's end (23 October, about 05:50 UTC): session 906 uploads chain 048's thirteen tables first, with the request costs measured by session 892; session 900 takes EIA-923's fuel receipts and costs, as the ERW already holds BOEM's leases (`boem_renewable_leases`); hosts that refused the ERW are named. Model: Opus 5.5, high effort.
 
 Each source session follows chain 040's form:
 
@@ -22,7 +22,8 @@ The rules of `queue/done/048-night-23-october-data-utility-files-products.md` ho
 - **EIA's robots file disallows `/archive/`**: a file there is read only from a zip already saved.
 - **A new read of a publisher already in `license_reads.csv` gets a label of its own** (one row a publisher, `test_session205`).
 - **A table that a page reads is never rewritten to add rows from another file**: a new file of the same form is a table of its own (session 853).
-- **A request cap on the Redivis uploader stops between tables, never inside one** (session 880).
+- **A request cap on the Redivis uploader stops between tables, never inside one** (sessions 880 and 892). Measured by session 892: `--prove-by-listing --tables` costs about 28 requests of setup, listing polls and the header merge, plus about 6 a table; a plain upload adds `erw_coverage` and `erw_sources`. If `erw_headers` is ever empty, rebuild it in full from disk (`runs/c048/s892/headers_full.py`), never by a merge.
+- **Hosts that refused the ERW's reader in chain 048** are not asked again without a ruling: api.census.gov ("Request Rejected" to its robots file), www.phmsa.dot.gov (HTTP 403 to its robots file); FERC's policy page (HTTP 403).
 - **Session 895 begins by writing `queue/next/050-<slug>.md`** for this machine (at least twelve sessions, machine: data, numbered from 909), commits it alone and pushes it to main before any other work; session 908 updates it.
 
 Read first: chain 048's note (`docs/state/note_2026-10-28_data.md`, written by session 894), sessions 881 to 894's reports, `docs/state/note_2026-10-27_data.md`, `docs/reviews/siting-gaps.md`.
@@ -47,9 +48,9 @@ Long end 1:30. Pulls: at most 20 requests. EPA's CAMPD bulk files (annual, then 
 
 Long end 1:30. Pulls: EIA, at most 6 requests. EIA's natural gas pipeline projects tracker (each project's capacity, miles, cost, states, status and dates), an events table; cross-check: the projects in service by year against `eia_gas_interstate_annual`'s capacity changes where they overlap.
 
-## Session 900: offshore wind leases (BOEM)
+## Session 900: each plant's fuel receipts and costs (EIA-923)
 
-Long end 1:30. Pulls: at most 15 requests. BOEM's renewable energy lease list (lease, lessee, area, state, date, status), an entities table, robots and terms first; cross-check: the leases named against the offshore wind projects in `eia860m_planned_generators`.
+Long end 1:30. Pulls: EIA, at most 4 requests (none if session 897 saved the zip). Schedule 2's fuel receipts and costs by plant, month, fuel and supplier, from 2020, a table of its own; cross-check: the coal rows against `eia_coal_receipts_annual` (session 875) by plant and year. (BOEM's offshore wind leases, first planned here, are held: `boem_renewable_leases`.)
 
 ## Session 901: an ERCOT node's county and zone (a derived table)
 
@@ -57,7 +58,7 @@ Long end 1:30. Pulls: none. The siting gaps' "A node's zone, hub, wires utility 
 
 ## Session 902: the licenses' fourth round
 
-Long end 1:30. Pulls: at most 20 requests, two a host. The publishers chains 046 to 048 did not reach, EPA's and BOEM's first if sessions 898 and 900 found no terms page.
+Long end 1:30. Pulls: at most 20 requests, two a host. The publishers chains 046 to 048 did not reach, EPA's first if session 898 found no terms page.
 
 ## Sessions 903 and 904: two more sources
 
@@ -69,7 +70,7 @@ Long end 1:00. Pulls: none.
 
 ## Session 906: the Stanford draft
 
-Long end 1:30. Pulls: Redivis's API only, at most 100 requests. This chain's public tables, uploaded with the true replace and the proof, in whole tables under the cap; any table chain 048 left out; `--reconcile`; the release note extended. Nothing released.
+Long end 1:30. Pulls: Redivis's API only, at most 150 requests (raised from 100 by session 894: chain 048's thirteen tables alone need about 106 by session 892's measure, 28 for setup, polls and the header merge and about 6 a table). First chain 048's thirteen public tables in one `--prove-by-listing --tables` run (`eia861_energy_efficiency`, `eia861_operational_data`, `eia861_distribution_systems`, `eia861_distributed_generation`, `eia_petroleum_exports_by_destination`, `eia860_generator_owners`, `eia860_storage_generators`, `eia860_solar_generators`, `eia860_wind_generators`, `eia_international_electricity_annual`, `cer_electricity_trade`, `frb_utility_output_monthly`, `uspvdb_solar_facilities`), with the branch's `docs/licenses.md` and validator copied into the main checkout for the run if chain 048 has not landed; then this chain's public tables if whole runs still fit under the cap, else they wait for chain 050; `--reconcile`; the release note extended. Nothing released.
 
 ## Session 907: seven days of the data jobs
 
