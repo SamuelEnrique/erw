@@ -59,7 +59,7 @@ test("MISO stays paused and PJM licensed; no grid held leaves the file as it is"
 });
 
 test("a close's age and the stale thresholds", () => {
-  const row = (t, freq) => ({ id: "x", freq, last: { t, v: 1 } });
+  const row = (t, freq) => ({ id: "x", freq, group: "gas", last: { t, v: 1 } });
   const built = "2026-10-23T15:07:43Z";
   assert.equal(b.ageDays("2026-10-13", built), 10);
   assert.equal(b.closeAge(row("2026-10-13", "D"), built).stale, false);
@@ -72,6 +72,11 @@ test("a close's age and the stale thresholds", () => {
   assert.match(b.closeAge(row("2026-10-24", "D"), built).words, /^1 day after the board was built/);
   assert.match(b.closeAge(row("2026-10-03", "D"), built).words, /Stale: a daily series is marked stale past 10 days/);
   assert.equal(b.closeAge({ id: "x", freq: "" }, built), null);
+  // session 1134: a market's daily price, by its calendar (every day posted): stale past 3 days
+  const power = (t) => ({ id: "x", freq: "D", group: "power", last: { t, v: 1 } });
+  assert.equal(b.closeAge(power("2026-10-20"), built).stale, false);
+  assert.equal(b.closeAge(power("2026-10-19"), built).stale, true);
+  assert.match(b.closeAge(power("2026-10-19"), built).words, /Stale: a market's daily price is marked stale past 3 days/);
 });
 
 test("on the file: SPP's ancillary prices of 3 October and CARB's weekly credits are stale; none of the top twelve is", () => {

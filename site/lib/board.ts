@@ -103,6 +103,12 @@ export function holdRows(file: BoardFile, heldGrids: string[]): BoardFile {
 // first day of its month) past four months and the same 10 days: EIA's monthly series come about two months after
 // their month. The one function every row and tile reads.
 export const STALE_DAYS: Record<"D" | "W" | "M", number> = { D: 10, W: 17, M: 132 };
+/** Session 1134: by the publisher's calendar. A power market posts every day, weekends and holidays included (its
+ *  day-ahead prices the day before), so a daily row of the power groups is stale past 3 days; EIA's daily fuel closes
+ *  are trading days, posted weekly and late, and keep the 10 days of session 304's ruling. */
+export const POWER_GROUPS = new Set(["power", "peak", "spark", "da_rt", "battery", "as"]);
+export const STALE_POWER_DAYS = 3;
+export const staleDays = (row: Pick<Row, "freq" | "group">): number => (row.freq === "D" && POWER_GROUPS.has(row.group) ? STALE_POWER_DAYS : STALE_DAYS[row.freq as "D" | "W" | "M"]);
 export function ageDays(t: string, built: string): number {
   return Math.round((Date.parse(`${built.slice(0, 10)}T00:00:00Z`) - Date.parse(`${t.slice(0, 10)}T00:00:00Z`)) / DAY);
 }
@@ -112,8 +118,10 @@ export function closeAge(row: Row, built: string): { days: number; stale: boolea
   const when = dateWords(built);
   const words = days > 0 ? `${days} ${days === 1 ? "day" : "days"} before the board was built on ${when}`
     : days === 0 ? `the day the board was built (${when})` : `${-days} ${days === -1 ? "day" : "days"} after the board was built on ${when}: a day-ahead price for a coming day`;
-  const stale = days > STALE_DAYS[row.freq];
-  return { days, stale, words: stale ? `${words}. Stale: a ${FREQ_WORDS[row.freq]} series is marked stale past ${STALE_DAYS[row.freq]} days (docs/methods/price_board.md)` : words };
+  const limit = staleDays(row);
+  const stale = days > limit;
+  const what = row.freq === "D" && POWER_GROUPS.has(row.group) ? "a market's daily price" : `a ${FREQ_WORDS[row.freq]} series`;
+  return { days, stale, words: stale ? `${words}. Stale: ${what} is marked stale past ${limit} days (docs/methods/price_board.md)` : words };
 }
 
 /** Session 1118: the hover words of a spread's newest value, from its inputs: the hub's day-ahead mean and its day, the
