@@ -69,6 +69,18 @@ The CLI's and the evaluation's own loop (`warehouse/chat/ask.py`) holds the conv
 
 With `ASK_HOLD=on` the Python tools hold what the site holds (`warehouse/chat/license_hold.py`, the decisions of `site/lib/license.ts` and `site/lib/chat/tools.ts`, read from the same `site/data/license_status.json`): a table held whole is refused by name; a table held by grid is read without the held grids' rows; MISO's rows are refused with the pause's words; a question of a held grid's rows is answered with the hold's words and the public grids' figures. Off by default, so the CLI reads every row as before (for Samuel's ruling: `docs/reviews/ask-board-rulings-2026-10-23.md`, item 13). `tests/test_session1191.py` holds the decisions equal to the site's own over every table of the status file.
 
+## Both loops, turn by turn (23 October 2026, session 1300)
+
+The Python loop and the site's are held to give a reader the same thing: `tests/test_session1300.py` runs six scenarios of scripted model turns (`tests/fixtures/session1300/turns.json`: an answer, a figure in no result, a compare, a refusal, a table cited but never read, a held grid's question) through both over the same fixture rows, and compares each scenario's status, whether it was sent back, its tool and model calls, its cited tables, its answer and its reason.
+
+## The stored answers through today's checks (23 October 2026, session 1301)
+
+`python warehouse/chat/eval/replay.py` runs every stored answer the loop let through, with its tool record, through the number check, the unit check and the citations as they now stand, and writes `docs/reviews/ask-replay.md`; `--check` fails when an answer graded right would now be sent back. On 23 October: 157 answers of six runs, none.
+
+## The refusals, classed (23 October 2026, session 1304)
+
+`python warehouse/chat/eval/refusals.py` classes every stored refusal from its tool record (MISO's pause, a license hold, the call limit of its day, the warehouse lacking the figure, rows read and still refused, the number check's refusal) and writes `docs/reviews/ask-refusals.md`. On 23 October: 10 refusals, 3 MISO's pause and 7 the warehouse lacking the figure; none is the loop's fault (the two graded wrong are PJM's d10, session 320's ruling 3).
+
 ## An answer's sources (23 October 2026, session 1194)
 
 Under every chat's answer, the sources and the reads are one component in the brand's source line (`site/components/ask/AnswerSources.tsx`: 12 px, grey, a rule above): each source its table with a link, its tier, its source report and, on hover, the data's version; each read what one query read.
@@ -113,3 +125,5 @@ Each dated, with the session that made it; the reports in `archive/sessions/` ca
 - 23 October 2026, session 1149: the sixty asked again into files of their own (`eval_s1133_*`), the stored runs left as they are; the first set made whole within the cap before the second.
 - 23 October 2026, session 1191: the hold mirrored in the Python tools behind `ASK_HOLD=on`, off by default (session 1146's decision kept for the CLI until the ruling).
 - 23 October 2026, session 1194: one component for every chat's sources and reads, the general form's "Sources" heading dropped.
+- 23 October 2026, session 1301: only the answers the loop let through are replayed (a refused draft is not stored).
+- 23 October 2026, session 1304: a refusal is classed from its record alone, the first class it shows.
