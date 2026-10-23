@@ -19,7 +19,9 @@ const TYPE: Record<string, string> = { rule: "Final rule", proposed_rule: "Propo
 const split = (s: string | null | undefined) => (s ? s.split(";").filter(Boolean) : []);
 const uniq = (xs: string[]) => Array.from(new Set(xs)).sort();
 
-export function PolicyTable({ rows, tags = [], tag: tagAtOpen = "", missing = [] }: { rows: Row[]; tags?: TagChoice[]; tag?: string; missing?: { what: string; why: string }[] }) {
+// session 2401: pausedAgencies maps an agency code of the table to the paused record's words when that regulator is paused
+// (data/policy/paused.json through lib/policyweekdata.ts); its option reads "(paused)" and choosing it says so beside the count.
+export function PolicyTable({ rows, tags = [], tag: tagAtOpen = "", missing = [], pausedAgencies = {} }: { rows: Row[]; tags?: TagChoice[]; tag?: string; missing?: { what: string; why: string }[]; pausedAgencies?: Record<string, string> }) {
   // session 304 (the ruling of 18 October 2026, item 5): a date after today is shown as the filing wrote it, with the words "as filed"
   const today = new Date().toISOString().slice(0, 10);
   const [agency, setAgency] = useState("");
@@ -60,7 +62,8 @@ export function PolicyTable({ rows, tags = [], tag: tagAtOpen = "", missing = []
   return (
     <div>
       <div className="mb-3 flex flex-wrap items-end gap-3">
-        {sel("Agency", agency, setAgency, [["", "All"], ...uniq(rows.map((r) => r.agency)).map((a) => [a, a] as [string, string])])}
+        {sel("Agency", agency, setAgency, [["", "All"], ...uniq(rows.map((r) => r.agency)).map((a) => [a, pausedAgencies[a] ? `${a} (paused)` : a] as [string, string])])}
+        {agency && pausedAgencies[agency] ? <span className="cursor-help border-b border-dotted border-muted text-xs italic text-muted" title={pausedAgencies[agency]} data-policy-paused-filter={agency}>paused: the rows held stay, nothing new is read</span> : null}
         {sel("Type", type, setType, [["", "All"], ...Object.entries(TYPE)])}
         {sel("Sector", sector, setSector, [["", "All"], ...sectors.map((s) => [s, s] as [string, string])])}
         {sel("State", state, setState, [["", "All"], ...states.map((s) => [s, s] as [string, string])])}

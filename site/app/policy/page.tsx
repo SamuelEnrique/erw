@@ -7,7 +7,8 @@ import { Section } from "@/components/Section";
 import { SiteLink } from "@/components/SiteLink";
 import { policyActions, policyReads, renderTime } from "@/lib/data";
 import { FIRST_VIEW_METHOD, METHOD, VIEWS, chosenOf, tagOf, viewHref, viewOf, type View } from "@/lib/policyweek";
-import { allTags, weekData } from "@/lib/policyweekdata";
+import { allTags, pausedSources, weekData } from "@/lib/policyweekdata";
+import { PausedLine } from "./Paused";
 import { attempt } from "@/lib/supabase";
 import { PolicyTable, type Row } from "./PolicyTable";
 import { TableDownloads } from "@/components/tool/TableDownloads";
@@ -47,9 +48,11 @@ async function Week({ q }: { q: Record<string, string | undefined> }) {
   const chosen = chosenOf(q, { bodies: d.bodies.map((b) => b.key), topics: d.topics.map((t) => t.key), grids: d.grids.map((g) => g.key) });
   return (
     <>
-      <p className="mb-5 max-w-3xl">
+      <p className="mb-2 max-w-3xl">
         The regulatory actions of the last seven and thirty days, by agency and topic: federal regulators, state commissions and grid operators.
       </p>
+      {/* session 2401: the paused sources, named in place with the record's words on hover */}
+      <PausedLine file={d.paused.file} names={d.paused.names} />
       <Section title="What changed this week">
         <WeekView today={d.today} rows={d.rows} bodies={d.bodies} topics={d.topics} grids={d.grids} dropped={d.dropped.length} missing={d.missing} droppedWhy={d.droppedWhy} held={d.held} chosen={chosen} />
         <Cite tables={["policy_actions", "policy_reads"]} note="Proceedings and orders of FERC and the state commissions from the site's own file, data/policy/state_rules.json" />
@@ -86,6 +89,8 @@ export default async function PolicyPage({ searchParams }: { searchParams: Promi
   const rows: Row[] = a.data.map((x) => { const read = reads.get(x.event_id) ?? null;
     return { ...x, event_date: x.event_date.slice(0, 10), read, cite: read ? citeOf(read, TABLES) : null, tags: tagged.chips[x.event_id] ?? [] }; });
   const tag = tagOf(q, tagged.topics.map((t) => t.key));
+  // session 2401: the paused sources (data/policy/paused.json): the line under the lead, and the filter's option where a paused regulator has an agency code
+  const paused = pausedSources();
   const since = new Date(now - 7 * 86_400_000).toISOString().slice(0, 10);
   const week = rows.filter((x) => x.event_date >= since && Number(x.significance) >= 5).sort((p, q) => Number(q.significance) - Number(p.significance)).slice(0, 6);
   return (
@@ -95,11 +100,12 @@ export default async function PolicyPage({ searchParams }: { searchParams: Promi
       <Views view={view} />
       {/* Session 164: the method paragraph that stood here is off the face. Each of its three sentences is the hover of
           the words it explains (lib/policyweek.ts, FIRST_VIEW_METHOD) and stands in the Method note. */}
-      <p className="mb-5 max-w-3xl" data-policy-lead="1">
+      <p className="mb-2 max-w-3xl" data-policy-lead="1">
         Energy rules, proposed rules and notices of DOE, <span className={dotted} title={FIRST_VIEW_METHOD.ferc} data-policy-hover="ferc">FERC</span>, EPA, NRC, BLM and Interior from the Federal Register, and news releases of the NRC, DOE,
         the Texas PUC and the CPUC, since 2025-10-01, each <span className={dotted} title={FIRST_VIEW_METHOD.scored} data-policy-hover="scored">scored for significance</span> and, when it scores 5 or more,{" "}
         <span className={dotted} title={FIRST_VIEW_METHOD.read} data-policy-hover="read">read for its impact</span>.
       </p>
+      <PausedLine file={paused.file} names={paused.names} />
       <Section title="This week in policy">
         {week.length === 0 ? (
           <p className="text-sm text-muted">No action scored 5 or more since {since}.</p>
@@ -118,7 +124,7 @@ export default async function PolicyPage({ searchParams }: { searchParams: Promi
         )}
       </Section>
       <Section title="Every action">
-        <PolicyTable rows={rows} tags={tagged.topics.map((t) => ({ key: t.key, label: t.label, why: t.why }))} tag={tag} missing={tagged.missing} />
+        <PolicyTable rows={rows} tags={tagged.topics.map((t) => ({ key: t.key, label: t.label, why: t.why }))} tag={tag} missing={tagged.missing} pausedAgencies={paused.agencies} />
         <Cite tables={["policy_actions", "policy_reads"]} note="Scores from warehouse/policy/score.py (the news rubric); reads from warehouse/policy/reads.py; the evidence spans are kept in the internal policy_reads_evidence" />
       </Section>
       {/* session 332: the two public tables, as CSV with a Python and a Stata reader (session 328's shared line) */}

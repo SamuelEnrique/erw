@@ -274,5 +274,27 @@ const ROWS = [
   ok(tip.includes("12 actions of the live table policy_actions dated 8 Sep 2026 or later") && tip.includes("10 are shown and 2 are not") && tip.includes("3 proceedings and orders") && tip.includes("thirty days to 8 Oct 2026"), "the foot's hover: the rows read, the window's first day, what is shown and not, the dockets, today");
 }
 
+// 12. session 2401: the paused sources (data/policy/paused.json, from warehouse/metadata/paused_sources.csv)
+{
+  const PAUSED = { from: "a made-up record", sources: [
+    { key: "muno", publisher: "Made-up Refusing Commission", paused_on: "2026-10-02", reason: "Its made-up robots file disallows every request", ruled_by: "a made-up ruling", until: "a made-up permission" },
+    { key: "mugrid", publisher: "Made-up Grid Operator", paused_on: "2026-10-01", reason: "Its made-up terms forbid automated access" } ] };
+  const bodies = W.bodiesOf(REFRESH, ["MUA", "MUS", "MUC"], PAUSED);
+  const no = bodies.find((b) => b.key === "muno");
+  ok(no.mark.kind === "paused" && no.mark.words === "paused since 2 Oct 2026" && no.mark.why.startsWith("Its made-up robots file disallows every request. Paused since 2 Oct 2026 (a made-up ruling). Lifted by a made-up permission."), "a paused regulator is marked paused with its day, before any refresh mark; the hover is the record's reason, day, ruling and condition");
+  ok(bodies.filter((b) => b.key !== "muno").every((b) => same(b, BODIES.find((x) => x.key === b.key))) && bodies.length === BODIES.length, "the other bodies are as without the record");
+  ok(W.bodiesOf(REFRESH, ["MUA", "MUS", "MUC"], null).find((b) => b.key === "muno").mark.kind === "not refreshed", "no paused record: the refresh file's mark stands");
+  const line = W.pausedLine(PAUSED, { mugrid: "MUG" });
+  ok(line.words === "2 sources paused" && line.items.map((i) => i.name).join("|") === "Made-up Refusing Commission|MUG" && line.items[1].words === "paused since 1 Oct 2026" && line.items[1].why.endsWith("Nothing is requested of it; every row already held stays as it is."), "the line names each paused source by the page's name for it, with its day and the record's hover");
+  ok(W.pausedLine(null).items.length === 0 && W.pausedLine({ sources: [] }).words === "" && W.pausedLine({ sources: [{ key: "x", publisher: "X", paused_on: "2026-10-01", reason: "r" }] }).words === "1 source paused", "no record, or none paused: no line; one: singular");
+  const real = json("..", "data", "policy", "paused.json");
+  const csvAt = path.join(here, "..", "..", "warehouse", "metadata", "paused_sources.csv");
+  if (real) {
+    ok(real.sources.some((s) => s.key === "miso") && real.sources.some((s) => s.key === "vascc") && real.sources.every((s) => /^\d{4}-\d{2}-\d{2}$/.test(s.paused_on) && s.reason.length > 10), `paused.json: ${real.sources.map((s) => s.key).join(", ")}, each with its day and reason`);
+    if (fs.existsSync(csvAt)) { const B = await import("./build-paused.mjs"); ok(same(B.pausedFromCsv(fs.readFileSync(csvAt, "utf8")), real), "paused.json is the CSV's rows, as the build writes them"); }
+    else console.log("skip paused_sources.csv: not on this machine");
+  } else console.log("skip paused.json: not on this machine");
+}
+
 console.log(failed ? `${failed} of ${n} FAILED` : `all ${n} passed`);
 process.exit(failed ? 1 : 0);

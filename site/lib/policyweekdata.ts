@@ -15,8 +15,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { HOURLY, attempt, rest } from "./supabase";
 import {
-  actionRow, bodiesOf, chipsOf, dayOf, docketRow, droppedTip, gridsOfAction, inWindow, sinceDay, tagAction, topicsOf, uniteTags,
-  type Action, type ActionRead, type ActionTagsFile, type Body, type Dropped, type GridsFile, type Held, type RefreshFile, type StateFile, type TagChip, type TagRules, type Topic, type WeekRow,
+  actionRow, bodiesOf, chipsOf, dayOf, docketRow, droppedTip, gridsOfAction, inWindow, pausedByKey, pausedTip, pausedWords, sinceDay, tagAction, topicsOf, uniteTags,
+  type Action, type ActionRead, type ActionTagsFile, type Body, type Dropped, type GridsFile, type Held, type PausedFile, type RefreshFile, type StateFile, type TagChip, type TagRules, type Topic, type WeekRow,
 } from "./policyweek";
 
 /** The longest window the view offers, in days: the rows read. */
@@ -43,6 +43,26 @@ const obj = (v: unknown): v is Record<string, unknown> => !!v && typeof v === "o
 /** The rule file and the file of the tags the warehouse's run gave: read by both views. */
 const rulesFile = () => siteFile<TagRules>(path.join(process.cwd(), "data", "policy", "tag_rules.json"), (v) => obj(v) && obj(v.tags) && Array.isArray(v.fields_matched) && obj(v.municipal) && obj(v.agencies_in_scope));
 const tagsFile = () => siteFile<ActionTagsFile>(path.join(process.cwd(), "data", "policy", "action_tags.json"), (v) => obj(v) && obj(v.tags));
+/** Session 2401: the paused publishers, the site's own file built from warehouse/metadata/paused_sources.csv (scripts/build-paused.mjs). */
+const pausedFile = () => siteFile<PausedFile>(path.join(process.cwd(), "data", "policy", "paused.json"), (v) => obj(v) && Array.isArray(v.sources));
+const refreshFile = () => siteFile<RefreshFile>(path.join(process.cwd(), "data", "policy", "refresh.json"), (v) => obj(v) && Array.isArray(v.regulators));
+const gridsFile = () => siteFile<GridsFile>(path.join(process.cwd(), "data", "policy", "grids.json"), (v) => obj(v) && Array.isArray(v.grids));
+
+/** Session 2401: the paused sources for the page's line, with the page's name for each (the refresh file's short name
+ * for a regulator, the grids file's name for a grid, else the record's publisher), and the agency codes of the paused
+ * regulators (for the first view's filter); read by both views. */
+export function pausedSources(): { file: PausedFile | null; names: Record<string, string>; agencies: Record<string, string>; error: string | null } {
+  const at = pausedFile();
+  const refresh = refreshFile().file, grids = gridsFile().file;
+  const names: Record<string, string> = {}, agencies: Record<string, string> = {};
+  for (const r of refresh?.regulators ?? []) if (r && typeof r.key === "string") names[r.key] = (r.short ?? "").trim() || r.regulator;
+  for (const g of grids?.grids ?? []) if (g && typeof g.key === "string" && !(g.key in names)) names[g.key] = g.name;
+  for (const [key, s] of pausedByKey(at.file)) {
+    const reg = refresh?.regulators?.find((r) => r && r.key === key);
+    if (reg?.agency) agencies[reg.agency] = pausedTip(s);
+  }
+  return { file: at.file, names, agencies, error: at.error };
+}
 
 /** The rule that tags nothing: what stands in when the rule file is not there. */
 const NO_RULES: TagRules = { version: "", fields_matched: [], strip: [], agencies_in_scope: { federal: [], state: [] }, action_types_in_scope: [], municipal: { terms: [] }, tags: {} };
@@ -52,7 +72,9 @@ export type WeekData = {
   today: string;
   /** the rows of the last thirty days, of both kinds, already worded */
   rows: WeekRow[];
-  bodies: Body[]; topics: Topic[]; grids: { key: string; name: string; why: string }[];
+  bodies: Body[]; topics: Topic[]; grids: { key: string; name: string; why: string; paused?: { words: string; why: string } }[];
+  /** session 2401: the paused sources' file and the page's names for them, for the line and the marks */
+  paused: { file: PausedFile | null; names: Record<string, string> };
   /** rows held in the window that the view does not show, each with why */
   dropped: Dropped[];
   /** the hover of their count */
@@ -68,9 +90,11 @@ export async function weekData(now: number): Promise<WeekData> {
   const today = dayOf(now), since = sinceDay(today, LONGEST);
   const rulesAt = rulesFile();
   const tagsAt = tagsFile();
-  const gridsAt = siteFile<GridsFile>(path.join(process.cwd(), "data", "policy", "grids.json"), (v) => obj(v) && Array.isArray(v.grids));
+  const gridsAt = gridsFile();
   const stateAt = siteFile<StateFile>(path.join(process.cwd(), "data", "policy", "state_rules.json"), (v) => obj(v) && Array.isArray(v.rows));
-  const refreshAt = siteFile<RefreshFile>(path.join(process.cwd(), "data", "policy", "refresh.json"), (v) => obj(v) && Array.isArray(v.regulators));
+  const refreshAt = refreshFile();
+  const pausedAt = pausedFile();
+  const pausedOf = pausedByKey(pausedAt.file);
   const missing: WeekData["missing"] = [];
   const note = (what: string, name: string, error: string | null) => { if (error) missing.push({ what, why: error === "not there" ? `The site's file ${name} is not in this page's files yet.` : `The site's file ${name} could not be read: ${error}.` }); };
   note("the tag rule", "data/policy/tag_rules.json", rulesAt.error);
@@ -78,6 +102,7 @@ export async function weekData(now: number): Promise<WeekData> {
   note("the grids", "data/policy/grids.json", gridsAt.error);
   note("the proceedings and orders of FERC and the state commissions", "data/policy/state_rules.json", stateAt.error);
   note("the regulators' lists", "data/policy/refresh.json", refreshAt.error);
+  note("the paused sources", "data/policy/paused.json", pausedAt.error);
   const rules = rulesAt.file ?? NO_RULES;
 
   const fields = ["agency", "action_type", "title", "abstract", "docket", "fr_document_number", "why", "model_id", "first_paragraph", "model_recheck", "model_rechecked_at"];
@@ -91,7 +116,7 @@ export async function weekData(now: number): Promise<WeekData> {
   const reads = new Map((r.ok ? r.data : []).map((x) => [x.action_event_id, x]));
 
   const stateRows = (stateAt.file?.rows ?? []).filter((s) => obj(s) && inWindow(String(s.date ?? ""), today, LONGEST));
-  const bodies = bodiesOf(refreshAt.file, [...new Set(actions.map((x) => (x.agency ?? "").trim()).filter(Boolean))]);
+  const bodies = bodiesOf(refreshAt.file, [...new Set(actions.map((x) => (x.agency ?? "").trim()).filter(Boolean))], pausedAt.file);
   const topics = topicsOf(rules, stateAt.file?.topics ?? []);
   const rows: WeekRow[] = [], dropped: Dropped[] = [];
   let nActions = 0, nDockets = 0;
@@ -108,9 +133,14 @@ export async function weekData(now: number): Promise<WeekData> {
     if (got.row) { rows.push(got.row); nDockets += 1; } else if (got.dropped) dropped.push(got.dropped);
   }
   const grids = (gridsAt.file?.grids ?? []).filter((g) => obj(g) && typeof g.key === "string" && typeof g.name === "string")
-    .map((g) => ({ key: g.key, name: g.name, why: `Actions and dockets that name ${g.name}, and those that name no grid operator.` }));
+    .map((g) => ({ key: g.key, name: g.name, why: `Actions and dockets that name ${g.name}, and those that name no grid operator.`,
+      // session 2401: a paused grid operator's mark, from the record (MISO keeps the page's own words on its chip and in its empty state)
+      ...(pausedOf.has(g.key) ? { paused: { words: pausedWords(pausedOf.get(g.key)!), why: pausedTip(pausedOf.get(g.key)!) } } : {}) }));
+  const names: Record<string, string> = {};
+  for (const b of bodies) names[b.key] = b.label;
+  for (const g of grids) if (!(g.key in names)) names[g.key] = g.name;
   return {
-    today, rows, bodies, topics, grids, dropped, droppedWhy: dropped.length ? droppedTip(dropped, rules) : "", missing,
+    today, rows, bodies, topics, grids, dropped, droppedWhy: dropped.length ? droppedTip(dropped, rules) : "", missing, paused: { file: pausedAt.file, names },
     held: { read: actions.length, since, actions: nActions, dockets: nDockets, ruleVersion: rules.version, docketsBuilt: (stateAt.file?.built_at_utc ?? "").slice(0, 10) || null, docketsInFile: stateAt.file?.rows?.length ?? 0 },
   };
 }

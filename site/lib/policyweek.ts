@@ -180,13 +180,42 @@ export type RefreshRegulator = {
 export type RefreshFeed = { agency: string; name: string; list_name?: string | null; refreshed: boolean; reason: string | null };
 export type RefreshFile = { built_at_utc?: string; scope?: string; regulators: RefreshRegulator[]; federal_feeds?: RefreshFeed[] };
 
+// ---- the paused publishers (data/policy/paused.json, built by scripts/build-paused.mjs from the repository's own
+// warehouse/metadata/paused_sources.csv; session 2401) -----------------------------------------------------------------
+// A paused publisher is one the ERW never requests (MISO since 4 October 2026, the Virginia State Corporation Commission
+// since 10 October 2026); only a person adds or removes a row. The page says so in place: a mark beside the source's
+// name in the filters, a line naming every paused source, and the words in an empty state, each with the record's
+// reason, day, ruling and condition on hover. The rows already held of a paused source stay as they are.
+
+export type PausedSource = { key: string; publisher: string; paused_on: string; reason: string; terms_url?: string | null; terms_quoted?: string | null; ruled_by?: string | null; until?: string | null; note?: string | null };
+export type PausedFile = { from?: string; sources: PausedSource[] };
+export const PAUSED_MARK = "paused";
+/** The paused sources by key (the record's scope: miso, vascc), as the refresh file keys its regulators and the grids file its grids. */
+export const pausedByKey = (file: PausedFile | null): Map<string, PausedSource> => new Map(list<PausedSource>(file?.sources).filter((s) => s && text(s.key)).map((s) => [text(s.key), s]));
+/** The hover of a paused source's mark: the record's reason, the day, who ruled it and what lifts it, in the record's words. */
+export function pausedTip(s: PausedSource): string {
+  const day = dayWords(text(s.paused_on)) ?? text(s.paused_on);
+  const parts = [sentence(text(s.reason) || "Its pulls are paused"), `Paused since ${day}${text(s.ruled_by) ? ` (${text(s.ruled_by)})` : ""}.`];
+  if (text(s.until)) parts.push(`Lifted by ${text(s.until)}.`);
+  parts.push("Nothing is requested of it; every row already held stays as it is.");
+  return parts.join(" ");
+}
+/** The short words of the mark beside a paused source's name. */
+export const pausedWords = (s: PausedSource): string => `${PAUSED_MARK} since ${dayWords(text(s.paused_on)) ?? text(s.paused_on)}`;
+/** The line both views carry: each paused source by the page's name for it (the filter's short name, else the record's), with its day. Empty when none is paused. */
+export function pausedLine(file: PausedFile | null, names: Record<string, string> = {}): { words: string; items: { key: string; name: string; words: string; why: string }[] } {
+  const items = [...pausedByKey(file).values()].map((s) => ({ key: text(s.key), name: names[text(s.key)] ?? text(s.publisher), words: pausedWords(s), why: pausedTip(s) }));
+  return { words: items.length ? `${items.length} ${items.length === 1 ? "source" : "sources"} paused` : "", items };
+}
+
 /** A choice of the agency filter: a federal agency, FERC or a state commission. */
 export type Body = {
   key: string; label: string; name: string; jurisdiction: "federal" | "state";
   /** the same body's code in policy_actions, where it has one */
   agency: string | null;
-  /** the short mark beside its name, and its hover: why its list is not refreshed, in the file's own words */
-  mark: { words: string; why: string; kind: "not refreshed" | "in part" } | null;
+  /** the short mark beside its name, and its hover: why its list is not refreshed, in the file's own words; or, session
+   * 2401, "paused since <day>" with the paused record's words, which stands before any refresh mark */
+  mark: { words: string; why: string; kind: "not refreshed" | "in part" | "paused" } | null;
   /** the hover of its name */
   why: string;
 };
@@ -197,8 +226,9 @@ const sentence = (s: string): string => (/[.!?]$/.test(s) ? s : `${s}.`);
 
 /** The choices of the agency filter: the eleven regulators of the refresh file and the federal agencies of its feeds and
  * of the rows read, federal first. A regulator whose list refuses a plain request keeps its place, with its mark. */
-export function bodiesOf(refresh: RefreshFile | null, agencies: string[]): Body[] {
+export function bodiesOf(refresh: RefreshFile | null, agencies: string[], pausedFile: PausedFile | null = null): Body[] {
   const out: Body[] = [], seen = new Set<string>(), codes = new Set<string>();
+  const pausedOf = pausedByKey(pausedFile);
   const regs = list<RefreshRegulator>(refresh?.regulators).filter((r) => r && text(r.key) && SCOPE.includes(text(r.jurisdiction)));
   const feeds = list<RefreshFeed>(refresh?.federal_feeds).filter((f) => f && text(f.agency));
   const feedMark = (code: string): Body["mark"] => {
@@ -213,8 +243,10 @@ export function bodiesOf(refresh: RefreshFile | null, agencies: string[]): Body[
   const ofReg = (r: RefreshRegulator): Body => {
     const refused = list<{ host: string; what: string }>(r.refused).filter((x) => x && text(x.host));
     const reason = text(r.reason);
-    // a list that refuses a plain request: the file's reason, word for word; a host of it that does: what it answered
-    const mark: Body["mark"] = r.refreshed === false
+    const off = pausedOf.get(text(r.key));
+    // session 2401: a paused source is marked paused whatever the refresh file says of it (the record is the pause's);
+    // else a list that refuses a plain request: the file's reason, word for word; a host of it that does: what it answered
+    const mark: Body["mark"] = off ? { words: pausedWords(off), kind: "paused", why: pausedTip(off) } : r.refreshed === false
       ? { words: NOT_REFRESHED, kind: "not refreshed", why: reason || "Its list is not refreshed; the file gives no reason." }
       : refused.length ? { words: IN_PART, kind: "in part", why: refused.map((x) => `${text(x.host)}: ${sentence(text(x.what) || "refuses a plain request")}`).join(" ") }
         : feedMark(text(r.agency));

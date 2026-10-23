@@ -364,3 +364,31 @@ The table `policy_action_tags` is not in the live set and the page does not need
   `transmission_cost` tags. "Tariffs" are the `transmission_cost` tag (transmission rates, formula rates, transmission
   service rates, network upgrades, cost allocation), the charges a tariff sets; tax credits are not in it. Not chosen,
   the page is as it was; chosen, it lifts the significance floor as any tag does.
+
+## 12. Paused sources, said in place (session 2401, 23 October 2026)
+
+- **What is paused.** `warehouse/metadata/paused_sources.csv` is the record of the publishers the ERW never requests:
+  MISO since 4 October 2026 (its terms forbid automated access; the closing ruling of session 89) and the Virginia State
+  Corporation Commission since 10 October 2026 (its robots file disallows every automated request; the ruling of
+  9 October 2026, session 172; `vascc_pause.md`). Only a person adds or removes a row. The daily refresh asks
+  `iso_prices.paused()` before every request and sends a paused publisher nothing; its rows already held stay as they are.
+- **How the page knows.** The site builds its own copy, `site/data/policy/paused.json`, from the CSV before every build
+  (`site/scripts/build-paused.mjs`, in `package.json`'s `prebuild`): the key is the record's scope (`miso`, `vascc`), as
+  `refresh.json` keys its regulators and `grids.json` its grids. Until this session the page knew only MISO, by its own
+  rule, and `refresh.json` (the data machine's file) marked the Virginia commission `refreshed: true`, so the page said
+  nothing of its pause; the record, not the refresh file, decides now.
+- **How the page says it.** In both views, a line under the lead: "N sources paused: MISO, paused since 4 Oct 2026;
+  Virginia SCC, paused since 10 Oct 2026", each mark with the record's reason, day, ruling and condition on hover. In
+  "What changed this week", the agency chip of a paused regulator carries the mark "paused since <day>" in place of any
+  refresh mark (the pause stands before "not refreshed" or "in part"), and so does the grid chip of a paused operator;
+  a paused agency chosen with nothing in the window shows the mark's words before "none in this window", never the
+  count alone. In "Every action, scored", a paused regulator with an agency code in `policy_actions` would read
+  "<code> (paused)" in the Agency filter, with the words "paused: the rows held stay, nothing new is read" when chosen
+  (today no paused source has rows in that table: the Virginia commission's rows are dockets of the week view).
+- **What does not change.** MISO's chip and its empty state keep the page's own words, "paused while terms are
+  reviewed" (`site/lib/rules.ts`), with the record's mark beside the chip. No row is deleted or hidden: the 18 Virginia
+  dockets of `state_rules.json` are listed whenever their dates fall in the window. Lifting a pause is deleting its row
+  of the CSV; the next build drops the mark.
+- **Checks.** `site/scripts/test-policy-week.mjs`, section 12: a paused regulator's mark and hover, the other bodies
+  unchanged, the refresh mark standing when there is no record, the line's words, and that the committed
+  `paused.json` is the CSV's rows as the build writes them.

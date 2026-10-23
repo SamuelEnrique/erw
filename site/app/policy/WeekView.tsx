@@ -85,7 +85,7 @@ function Rows({ rows, topics, caption }: { rows: WeekRow[]; topics: Map<string, 
 }
 
 export type WeekProps = {
-  today: string; rows: WeekRow[]; bodies: Body[]; topics: Topic[]; grids: { key: string; name: string; why: string }[];
+  today: string; rows: WeekRow[]; bodies: Body[]; topics: Topic[]; grids: { key: string; name: string; why: string; paused?: { words: string; why: string } }[];
   dropped: number; droppedWhy: string; missing: { what: string; why: string }[];
   held: Held;
   chosen: Chosen;
@@ -99,6 +99,8 @@ export function WeekView({ today, rows, bodies, topics, grids, dropped, droppedW
   const byKey = new Map(topics.map((t) => [t.key, t]));
   const names = Object.fromEntries(grids.map((g) => [g.key, g.name]));
   const off = paused(c.grid);
+  /** session 2401: the chosen agency's paused mark, when it is paused (its rows already held are still shown) */
+  const pausedBody = bodies.find((b) => b.key === c.agency)?.mark?.kind === "paused" ? bodies.find((b) => b.key === c.agency)!.mark : null;
   const shown = shownRows(rows, c, today);
   const groups = groupsOf(shown, bodies);
   const counts = countsOf(rows, c, today, bodies, topics);
@@ -135,7 +137,13 @@ export function WeekView({ today, rows, bodies, topics, grids, dropped, droppedW
         </Filter>
         <Filter label="Grid" data-week-filter="grid">
           <Chip on={!c.grid} onClick={() => set({ grid: "" })} data-week-grid="">All</Chip>
-          {grids.length ? grids.map((g) => <Chip key={g.key} on={c.grid === g.key} onClick={() => set({ grid: c.grid === g.key ? "" : g.key })} title={paused(g.key) ? PAUSE_WHY : g.why} data-week-grid={g.key}>{g.name}</Chip>)
+          {grids.length ? grids.map((g) => (
+            <span key={g.key} className="inline-flex items-baseline gap-1" data-week-grid-choice={g.key}>
+              <Chip on={c.grid === g.key} onClick={() => set({ grid: c.grid === g.key ? "" : g.key })} title={paused(g.key) ? PAUSE_WHY : g.why} data-week-grid={g.key}>{g.name}</Chip>
+              {/* session 2401: a paused grid operator's mark, from the record (data/policy/paused.json) */}
+              {g.paused ? <span className={`${dotted} text-[10px] italic text-muted`} title={g.paused.why} data-week-mark-paused={g.key}>{g.paused.words}</span> : null}
+            </span>
+          ))
             : <span className="text-xs"><Missing words="not held yet" why="The file that says which grid an action is under is not in this page's files yet." /></span>}
         </Filter>
         <Filter label="Loads" data-week-filter="large">
@@ -213,7 +221,11 @@ export function WeekView({ today, rows, bodies, topics, grids, dropped, droppedW
                 </details>
               ) : null}
             </div>
-          )) : <p className="text-sm" data-week-empty="1"><Missing words={NONE_WORDS} why={emptyWhy(c, today, bodies, topics, names)} /></p>}
+          )) : <p className="text-sm" data-week-empty="1">
+            {/* session 2401: a paused agency chosen and nothing in the window: the pause is said first, never the count alone */}
+            {pausedBody ? <><Missing words={pausedBody.words} why={pausedBody.why} /><span className="text-muted">; </span></> : null}
+            <Missing words={NONE_WORDS} why={emptyWhy(c, today, bodies, topics, names)} />
+          </p>}
         </>
       )}
 
