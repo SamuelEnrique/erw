@@ -22,6 +22,9 @@ Files:
                   file's top says how many it places and the table's own words for the rest. And "projects": by county
                   of a placed node, ERCOT's transmission project phases in it (ercot_transmission_projects, public, by
                   either end's county), counted by ERCOT's status, and the next one due. No node is placed by a guess.
+                  Session 1069 (chain 073): "planned", by county of a placed node, ERCOT's generators (EIA-860M,
+                  eia860m_planned_generators, public: Texas, balancing authority ERCO) due to operate in the twelve
+                  months after the table's vintage, by EIA's status as headroom.json counts them.
     ercot_4cp.json  (session 702) ERCOT's four coincident-peak intervals by summer from ercot_4cp_intervals: each
                   interval's start in UTC, its local time as ERCOT prints it, and ERCOT's load in it (MW); the summers
                   held and the table's own note of what is not held.
@@ -325,6 +328,33 @@ def county_projects(path, counties):
         out[c] = {**n, "next": nxt}
     workbook = next((h.split(";")[0][len("Workbook: "):] for h in head if h.startswith("Workbook: ")), "")
     return {"table": TPIT_TABLE, "workbook": workbook, "counties": out}
+
+
+def county_planned(path, counties):
+    """Session 1069 (chain 073): for each county (upper case, as ercot_node_places writes it), ERCOT's planned
+    generators in it (eia860m_planned_generators: state TX, balancing authority ERCO) due to operate in the twelve months
+    after the table's vintage month, MW (nameplate) and count by EIA's status, as headroom_file counts them: under
+    construction or complete (U, V, TS), approvals received (T), the rest. A county with none is written with zeros."""
+    with open(path, encoding="utf-8") as fh:
+        head = [ln for ln in fh if ln.startswith("#")]
+    vintage = next((h.split("vintage")[-1].strip() for h in head if "vintage" in h), "")
+    p = pd.read_csv(path, skiprows=header_rows(path), dtype=str,
+                    usecols=["state", "county", "balancing_authority", "eia_status", "planned_operation_date", "nameplate_mw"])
+    v0 = pd.Period(vintage, "M")
+    first, last = (v0 + 1).strftime("%Y-%m"), (v0 + 12).strftime("%Y-%m")
+    p = p[(p["state"] == "TX") & (p["balancing_authority"] == "ERCO")].copy()
+    p["m"] = p["planned_operation_date"].str[:7]
+    p = p[(p["m"] >= first) & (p["m"] <= last)]
+    p["mw"] = pd.to_numeric(p["nameplate_mw"], errors="coerce").fillna(0.0)
+    p["c"] = p["county"].fillna("").str.upper()
+    out = {}
+    for c in sorted(counties):
+        x = p[p["c"] == c]
+        k, a = x[x["eia_status"].isin(CONSTRUCTION)], x[x["eia_status"].isin(APPROVED)]
+        o = x[~x["eia_status"].isin(CONSTRUCTION | APPROVED)]
+        out[c] = {"construction_mw": round(float(k["mw"].sum()), 1), "construction_n": int(len(k)), "approved_mw": round(float(a["mw"].sum()), 1),
+                  "approved_n": int(len(a)), "other_mw": round(float(o["mw"].sum()), 1), "other_n": int(len(o))}
+    return {"table": PLANNED_TABLE, "vintage": vintage, "from": first, "to": last, "counties": out}
 
 
 RESERVE_TABLE = "ercot_cdr_reserve_margins"
@@ -707,6 +737,12 @@ def main(argv=None):
             print(f"{TPIT_TABLE}: projects in {len(f['projects']['counties'])} of {len({c for c, _ in places.values()})} counties")
         except FileNotFoundError:
             print(f"{TPIT_TABLE} is not on this machine: no county's projects are named")
+        try:   # session 1069 (chain 073): ERCOT's planned generation in a placed node's county
+            ppath = find(PLANNED_TABLE, a.in_dir, a.in_dir_first)
+            f["planned"] = county_planned(ppath, {c for c, _ in places.values()})
+            print(f"{PLANNED_TABLE}: planned generation in {sum(1 for v in f['planned']['counties'].values() if v['construction_n'] + v['approved_n'] + v['other_n'])} of {len(f['planned']['counties'])} counties")
+        except FileNotFoundError:
+            print(f"{PLANNED_TABLE} is not on this machine: no county's planned generation is drawn")
     except FileNotFoundError:
         print(f"{PLACES_TABLE} is not on this machine: no node is placed")
     except Exception as e:

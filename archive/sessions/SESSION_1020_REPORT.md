@@ -33,7 +33,7 @@
 
 ## The landing
 
-Lands with the next landing of this chain (with `wip/1019-records`, from which this branch was cut).
+Sessions 1020 to 1039 landed in one push: see `SESSION_1039_REPORT.md`, "The landing".
 
 ## Decisions made without you
 

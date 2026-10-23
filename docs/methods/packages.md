@@ -2,6 +2,10 @@
 
 Version 2, session 1059, 23 October 2026 (chain 072, `queue/done/072-day-23-october-code-allgrids-packages-2.md`): "What version 2 changed" below. Version 1 was session 1038's (chain 071). Version 0 was session 1000's (chain 070, `queue/done/070-evening-22-october-code-packages.md`); session 1001 closed the Python package's gaps and settled two points while doing so (decisions 6 and 7). The one specification the three packages follow: the Python package `erw` (`package/`), the Stata command `erw` (`packages/stata/`, from session 1003) and the R package `erw` (`packages/r/`, from session 1005). A call, a word or a column type that one package does differently from this note is a fault of that package. Internal: the site is in review, like every page, and nothing here is published to PyPI, CRAN or SSC (the owner's).
 
+## Read again by chain 073 (23 October 2026): no change
+
+Session 1081 (chain 073): version 2 stands. The package read 1069's new figure from a clone's tables (1074); the conformance file's version 2 passed 20 of 20 against the live set (1076, 21 requests; the earliest call leaves the window about 9 January 2027); the wheel installs clean and the README's example runs as written (1077). No call, word or column type changed.
+
 ## What version 2 changed (chain 072, sessions 1053 to 1058)
 
 - **Three new sentences, the same in the three packages** (1056): a start or end that is not a date (`bad_date`) and a start not before the end (`bad_window`), both raised before any request (Python `erw.ERWBadWindow`); and a table of the record that the live set does not hold, asked of the live set (`not_live`): Python said "No ERW table named", which was wrong, and Stata and R returned an empty dataset. Section "Errors, in words".

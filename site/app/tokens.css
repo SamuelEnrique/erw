@@ -1186,3 +1186,10 @@ body:has(.brand-a) > footer :focus-visible {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+/* session 1072 (chain 073): in the All grids hub table the sticky first column ("its first column stays in place") is drawn above the
+   cells that scroll under it; without a level, a right-aligned cell's second line ("load: rule 2026-06") was drawn over
+   the row's name when the table was scrolled sideways */
+.brand-a [data-allgrids-table] table th:first-child {
+  z-index: 1;
+}

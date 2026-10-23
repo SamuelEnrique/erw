@@ -175,3 +175,7 @@ All 21 items of this file (1 to 19, 21 and 22) and the 20th (`docs/reviews/sitin
 ## The state of each item (session 1060, chain 072, 23 October 2026, day)
 
 No item is ruled: main read again at about 08:10 UTC holds no "Answer:" line under 1 to 24 or in the answered file (20). Chain 072 adds two items, 23 and 24, neither answered. The Digest's revisions (open items line 33) are proposed in `docs/reviews/digest-revisions-proposal.md` for `/digest`'s owner, not here.
+
+## The state of each item (session 1082, chain 073, 23 October 2026, mid-morning)
+
+No item is ruled: main read again at about 09:55 UTC holds no "Answer:" line under 1 to 24 or in the answered file (20). Chain 073 adds no item.
