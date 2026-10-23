@@ -57,7 +57,7 @@
 }
 
 .erw_live_url <- function(table, base, shape, entity = NULL, variable = NULL, start = NULL, end = NULL,
-                          offset = 0L, limit = 1000L) {
+                          offset = 0L, limit = 1000L, market = NULL, ba = NULL, year = NULL) {
   if (shape == "series") {
     tcol <- "ts_utc"
     vcol <- "variable"
@@ -123,6 +123,15 @@
     }
     q <- paste0(q, "&", tcol, "=lt.", t)
   }
+  if (length(market) > 0) {
+    q <- paste0(q, "&market=eq.", market)
+  }
+  if (length(ba) > 0) {
+    q <- paste0(q, "&ba=eq.", ba)
+  }
+  if (length(year) > 0) {
+    q <- paste0(q, "&year=eq.", year)
+  }
   q <- paste0(q, "&order=", order, "&limit=", as.integer(limit), "&offset=", as.integer(offset))
   paste0(base, "/rest/v1/", shape, "?", q)
 }
@@ -146,14 +155,15 @@
   path
 }
 
-.erw_live_read <- function(table, shape, entity = NULL, variable = NULL, start = NULL, end = NULL, limit = 0L) {
+.erw_live_read <- function(table, shape, entity = NULL, variable = NULL, start = NULL, end = NULL, limit = 0L,
+                           market = NULL, ba = NULL, year = NULL) {
   live <- .erw_live_base()
   page <- if (limit > 0) limit else 1000L
   headers <- c(apikey = live$key, Authorization = paste("Bearer", live$key), Accept = "text/csv")
   parts <- list()
   offset <- 0L
   repeat {
-    url <- .erw_live_url(table, live$base, shape, entity, variable, start, end, offset, page)
+    url <- .erw_live_url(table, live$base, shape, entity, variable, start, end, offset, page, market, ba, year)
     path <- .erw_get(url, headers, "live")
     part <- if (file.info(path)$size > 0) .erw_read_csv(path) else data.frame()
     if (nrow(part) > page) {
@@ -375,9 +385,12 @@ erw_license <- function(table) {
 #' @param variable variables, entity types or event types
 #' @param start,end a UTC window of interval starts, [start, end), as "YYYY-MM-DD" or "YYYY-MM-DDThh:mm:ssZ"
 #' @param backend "auto", "local", "live" or "redivis"
+#' @param market,ba,year one partition of a table that holds several in a column (session 1017):
+#'   erw_fetch("ercot_all_hub_prices_history", market = "ercot_dam", year = 2025)
 #' @return a data frame with the attributes erw_version and erw_license
 #' @export
-erw_fetch <- function(table, entity = NULL, variable = NULL, start = NULL, end = NULL, backend = "auto") {
+erw_fetch <- function(table, entity = NULL, variable = NULL, start = NULL, end = NULL, backend = "auto",
+                      market = NULL, ba = NULL, year = NULL) {
   shape <- .erw_shape(table)
   lic <- .erw_license_row(table)
   verdict <- if (nrow(lic)) lic$verdict[1] else ""
@@ -394,9 +407,14 @@ erw_fetch <- function(table, entity = NULL, variable = NULL, start = NULL, end =
   }
   df <- switch(backend,
                local = .erw_read_csv(file.path(Sys.getenv("ERW_DATA_DIR"), paste0(table, ".csv"))),
-               live = .erw_live_read(table, shape, entity, variable, start, end),
+               live = .erw_live_read(table, shape, entity, variable, start, end, market = market, ba = ba, year = year),
                redivis = .erw_redivis_read(table))
   df <- .erw_filter(.erw_types(df, shape), shape, entity, variable, start, end)
+  for (p in c("market", "ba", "year")) {
+    v <- get(p)
+    if (length(v) > 0 && p %in% names(df)) df <- df[df[[p]] == as.character(v), , drop = FALSE]
+  }
+  rownames(df) <- NULL
   if (nrow(df) == 0 && (length(start) > 0 || length(end) > 0)) {
     cov <- .erw_record("coverage")
     row <- cov[cov$table == table, , drop = FALSE]

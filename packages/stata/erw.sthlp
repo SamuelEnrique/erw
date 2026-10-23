@@ -26,7 +26,7 @@ project tables, each row traceable to the report it came from
 
 {p 8 17 2}
 {cmd:erw fetch} {it:table} [{cmd:,} {opt ent:ity(list)} {opt var:iable(list)} {opt s:tart(time)} {opt e:nd(time)}
-{opt back:end(name)} {opt clear}]
+{opt mark:et(name)} {opt ba(code)} {opt year(yyyy)} {opt back:end(name)} {opt clear}]
 
 {p 8 17 2}
 {cmd:erw cite} {it:table}
@@ -95,6 +95,11 @@ operator writes them ({cmd:HB_NORTH}); for an events table, these sources; for a
 {opt start(time)} and {opt end(time)} keep the rows whose interval starts in [start, end), in UTC, written
 {cmd:YYYY-MM-DD} or {cmd:YYYY-MM-DDThh:mm:ssZ}. An entities table is filtered on {cmd:status_date}, an events table on
 {cmd:event_date}.
+
+{phang}
+{opt market(name)}, {opt ba(code)} and {opt year(yyyy)} keep one partition of a table that holds several in a column
+({cmd:erw fetch ercot_all_hub_prices_history, market(ercot_dam) year(2025) clear}; {cmd:ba(ciso)} for
+{cmd:eia930_all_demand}).
 
 {phang}
 {opt backend(name)} is {cmd:auto} (the default), {cmd:local}, {cmd:live} or {cmd:redivis}. {cmd:auto} reads local
