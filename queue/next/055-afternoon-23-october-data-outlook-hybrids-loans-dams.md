@@ -1,8 +1,8 @@
-# Chain of the afternoon of 23 October 2026: sessions 978 to 991, data machine (lab-desktop), unattended: the world's energy outlook, hybrid power plants, the federal energy loans, utilities' industrial output, the nation's dams, the licenses' ninth round
+# Chain of the afternoon of 23 October 2026: sessions 978 to 991, data machine (lab-desktop), unattended: the world's energy outlook, hybrid power plants, the federal energy loans, the other minerals of energy, the nation's dams, the licenses' ninth round
 
 machine: data
 
-Written by session 951, the first session of `queue/done/054-day-23-october-data-federal-royalties-wind-costs-minerals.md`, under chain 045's rule ("the next file is written and pushed to `queue/next` at the START of the chain"), at the owner's instruction for chain 045 ("at least twelve sessions, machine: data, ... the sources and gaps ... in chain 040's form"). The next free number in `queue/next` and `queue/done` was 055. Chain 054 asked for sessions numbered from 965; 970 to 977 are chain 065's (the old laptop's, `queue/done/065-late-22-october-code-allgrids-5.md`), so this chain takes the first free block of fourteen, 978 to 991, free in every queue file, report and branch when this was written (the code machine holds 700 to 749, the laptop 800 to 849, the old laptop 1000 on). Session 964 of chain 054 updates it at chain 054's end. Model: Opus 5.5, high effort.
+Written by session 951, the first session of `queue/done/054-day-23-october-data-federal-royalties-wind-costs-minerals.md`, under chain 045's rule ("the next file is written and pushed to `queue/next` at the START of the chain"), at the owner's instruction for chain 045 ("at least twelve sessions, machine: data, ... the sources and gaps ... in chain 040's form"). The next free number in `queue/next` and `queue/done` was 055. Chain 054 asked for sessions numbered from 965; 970 to 977 are chain 065's (the old laptop's, `queue/done/065-late-22-october-code-allgrids-5.md`), so this chain takes the first free block of fourteen, 978 to 991, free in every queue file, report and branch when this was written (the code machine holds 700 to 749, the laptop 800 to 849, the old laptop 1000 on). Session 964 of chain 054 updated it at chain 054's end (session 981's G.17 replaced, since it is held; sessions 986 and 988 told what chain 054 left). Model: Opus 5.5, high effort.
 
 Each source session follows chain 040's form:
 
@@ -43,9 +43,9 @@ Long end 1:30. Pulls: at most 10 requests. Berkeley Lab's "Hybrid Power Plants: 
 
 Long end 1:30. Pulls: at most 15 requests. The Loan Programs Office's public portfolio (energy.gov, robots and terms first): each loan or guarantee's project, borrower, technology, place, amount and date, as an events table; cross-check: the projects' places and capacities against `eia860m_operating_generators` and `eia860m_planned_generators` where an EIA plant can be named.
 
-## Session 981: the utilities' industrial output (the Federal Reserve's G.17)
+## Session 981: the other minerals of energy (the USGS's Mineral Commodity Summaries, the saved file)
 
-Long end 1:30. Pulls: at most 10 requests. The Federal Reserve Board's Industrial Production and Capacity Utilization (G.17) through its Data Download Program (federalreserve.gov, robots and terms first): the electric and gas utilities' output index and capacity utilization, monthly, with the total index beside them; a series table; cross-check: the electric utilities' index against `eia_retail_sales_monthly`'s U.S. sales, year on year.
+Long end 1:30. Pulls: none (the 2026 data release session 954 saved, `warehouse/raw/usgs_mcs/`). The Federal Reserve's G.17, first planned here, is held (`frb_utility_output_monthly`, session 889). In its place, the chapters of the energy transition `usgs_mcs_critical_minerals` leaves out (manganese, vanadium, silicon, gallium, germanium, indium, tellurium, the platinum-group metals, aluminum, the heavy rare earths), added to that table through its connector's chapter list, a unit or statistic not in its maps added with a test; cross-check: the prices against `imf_commodity_prices` and `wb_commodity_prices_monthly` where they overlap.
 
 ## Session 982: the nation's dams (the U.S. Army Corps of Engineers' National Inventory of Dams)
 
@@ -61,7 +61,7 @@ Long end 1:30 each. Pulls: at most 20 requests each. A public source the ERW doe
 
 ## Session 986: a gap of the siting review
 
-Long end 1:30. Pulls: at most 10 requests. One open row of `docs/reviews/siting-gaps.md` that a public table can close without a ruling, read after the code machine's latest state section; else the session says why none can. After chain 053 the open rows were substations and lines, large-load tariffs, a 2026 sub-region table and a node's bus (chain 054's session 959 may have moved one).
+Long end 1:30. Pulls: at most 10 requests. One open row of `docs/reviews/siting-gaps.md` that a public table can close without a ruling, read after the code machine's latest state section; else the session says why none can. After chain 054 the open rows are substations and lines, large-load tariffs, a 2026 sub-region table and a node's bus, none closable without a ruling or a key (session 959); ruling 16 would let the 2026 sub-region table be kept from data already held.
 
 ## Session 987: method notes for this chain's tables
 
@@ -69,7 +69,7 @@ Long end 1:00. Pulls: none. As session 946: each note's checks against the code 
 
 ## Session 988: the Stanford draft
 
-Long end 1:30. Pulls: Redivis's API only, at most 150 requests, in whole runs under the cap. A first `--reconcile` for any table of chain 054 not yet in the draft or stale there; then those and this chain's public tables, in a plain upload that refreshes the metadata tables; `--reconcile`; the release note extended. Nothing released.
+Long end 1:30. Pulls: Redivis's API only, at most 150 requests, in whole runs under the cap. A first `--reconcile` for any table of chain 054 not yet in the draft or stale there (session 961 put all eleven in; the USGS table needed the branch's validator until chain 054 landed); then those and this chain's public tables, in a plain upload that refreshes the metadata tables; `--reconcile`; the release note extended. Nothing released.
 
 ## Session 989: seven days of the data jobs
 
