@@ -280,6 +280,27 @@ no drawing) and `site/app/network/NetworkGravity.tsx` (the SVG).
 - **Checked.** `site/public/grid/erw_2026_grid_replication.py` rebuilds every circle's generation, net imports, share,
   radius and distance from `erw_2026_grid_replication.csv`; `site/scripts/check-grid-replication.mjs` compares them
   with the page, value by value.
+- **Edges and their hover (session 1153).** The lines from the Lower 48 to the grids are the shape's edges. Each carries
+  the grid's net exchange in the hour shown (the sum of its reporting ties, as above), and a grid with no tie reported
+  in the hour has no edge: no line is drawn without a figure. Hovering an edge gives its net import or export in whole
+  MW, its share of the grid's net generation and its window, the hour shown and the snapshot's refresh ("In the hour
+  from 2026-10-21 23:00 UTC, snapshot refreshed 2026-10-23 14:36 UTC"); hovering a circle adds the grid's net
+  generation. The words are `gravityTip` in `site/lib/networkGravity.ts`, tested by `site/scripts/test-gravity.mjs`.
+- **One public source, for every grid (session 1153).** Every place and size is drawn from EIA-930's interchange and
+  net generation, which are public domain, for every grid, PJM, MISO, ISO-NE and NYISO included, whose own tables are
+  held or paused (`site/lib/license.ts`): no grid operator's own table places or sizes a circle, and the note under the
+  frame says so. The color is not EIA-930's alone: it is `carbon_intensity_hourly`, EIA-930's emissions over net
+  generation, and for California since 16 December 2025 over CAISO's own generation (the join,
+  `docs/methods/eia930_caiso_break.md`).
+- **A replayed day (session 1153).** The replay's files (`site/public/network/daily_<year>.json`, from
+  `eia930_daily_interchange` and `eia930_daily_demand`) hold each day's interchange and demand but no generation, so the
+  shape draws nothing for a replayed day and says so; the day stays in the address (`net=day&t=<day>`), and on the
+  Gravity tab the grid picker carries it (`site/lib/carry.ts`), so picking another grid keeps the day. The panel under
+  the shape (`grid_gravity_<grid>`) draws the live week's hour only, and says that no figure in it is the day's.
+- **The nodes.** The shape's grids are the seven ISOs of `GRAVITY_GRIDS`; their names come from the snapshot's `nodes`
+  (`site/data/grid_network.json`, or the hourly snapshot in Storage), which `warehouse/derived/grid_network.py` writes
+  beside the warehouse table `grid_network_nodes`. That table is not in the live set: the page reads no
+  `grid_network_nodes` rows.
 
 ## The two-day lag, said under the chart (session 266)
 

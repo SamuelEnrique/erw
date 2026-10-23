@@ -553,7 +553,7 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
             onPick={(id) => setPick(snap.nodes.find((n) => n.id === id) ?? null)} />
         ) : shape === "gravity" && gravity ? (
           <NetworkGravity gen={gravity.gen} net={gravity.net} held={gravity.held} names={new Map(snap.nodes.map((n) => [n.id, n.name]))} colorOf={(id) => colorOf(view.intensity(id, hour), lo, hi)}
-            pick={pick?.id ?? null} neighbours={mapNeighbours} onPick={(id) => setPick(snap.nodes.find((n) => n.id === id) ?? null)} />
+            at={{ hour: ts, refresh: snap.built }} pick={pick?.id ?? null} neighbours={mapNeighbours} onPick={(id) => setPick(snap.nodes.find((n) => n.id === id) ?? null)} />
         ) : noGl ? (
           <p className="border border-rule bg-panel p-4 text-sm">
             This browser cannot draw 3D (WebGL is not available), so the network is not shown. The table of balancing authorities below, and{" "}
@@ -663,7 +663,7 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
         ) : null}
       </div>
       <div className="mt-2 flex flex-wrap items-center gap-4 text-xs text-muted">
-        <span>{shape === "map" ? "Hover a region for its name, click it for its panel. A tie's dash runs from the exporter to the importer; it is wider as the flow is larger." : shape === "gravity" ? "Hover a circle for its name, click it for its panel." : "Drag to rotate, scroll to zoom, click a grid; it turns slowly until touched."}</span>
+        <span>{shape === "map" ? "Hover a region for its name, click it for its panel. A tie's dash runs from the exporter to the importer; it is wider as the flow is larger." : shape === "gravity" ? "Hover a circle or its line for its figures and their hour (a line is drawn only where the grid has a net figure in the hour), click a circle for its panel." : "Drag to rotate, scroll to zoom, click a grid; it turns slowly until touched."}</span>
         <span className="flex items-center gap-1">Carbon intensity of generation:
           <span className="inline-block h-2 w-24" style={{ background: "linear-gradient(90deg, var(--color-down), var(--color-up))" }} /> {fmt(lo)} to {fmt(hi)} kg CO2/MWh; grey: not held.
           {view.kind === "live" ? <> The color updates daily (latest hour {ciTs.slice(0, 13).replace("T", " ")}:00 UTC); the links and demand, hourly.</> : <> In a story, each day&apos;s own.</>}</span>

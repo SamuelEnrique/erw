@@ -6,6 +6,7 @@ import { TableLicenses } from "@/components/tool/TableLicenses";
 import { GRID_VIEW_TABLES } from "@/lib/gridtables";
 import { licenseNeededTables } from "@/lib/license";
 import { ToolPicker, ToolTabs } from "@/components/tool/Choose";
+import { KEEP_DAY } from "@/lib/carry";
 import { AskView } from "@/components/grid/AskView";
 import { MixTable } from "@/components/grid/Conditions";
 import { EmissionsParts } from "@/components/grid/Emissions";
@@ -83,13 +84,16 @@ export default async function GridTool({ searchParams }: { searchParams: Promise
   const mix = { ...choiceOf(mixQuery), base: { href: gridHref(grid.slug, view === "clean" ? "clean" : "mix"), viewKey: view === "clean" ? null : "mix", grid: grid.slug } };
   // the page's own words the network component keeps in the address; on the Gravity tab the shape word is the component's own
   const keep = view === "gravity" ? `?grid=${grid.slug}&view=gravity` : gridHref(grid.slug, "network").slice("/grid".length);
+  // session 1153: the Gravity tab's picker carries the replay's day from the address (lib/carry.ts)
+  const pickerCarry = view === "gravity" ? KEEP_DAY : undefined;
   const tabName = GRID_VIEWS.find(([k]) => k === view)![1];
   return (
     <Brand>
       <ToolPage>
         <div data-grid-tool={grid.slug} data-grid-tool-view={view} data-grid-ask={p.ask ? "open" : "panel"}>
           <ToolHeader crumb="The grid" title={grid.slug === "us48" ? "The Lower 48 states" : `${grid.label}: ${grid.name}`} lead={LEAD[view]} under={<TableLicenses tables={GRID_VIEW_TABLES[view]} />} />
-          <ToolPicker label="Grid" items={GRID_CHOICES.map((g) => ({ key: g.slug, label: g.label, href: gridHref(g.slug, view), on: g.slug === grid.slug, title: g.name }))} />
+          {/* session 1153: on the Gravity tab the picker carries the replay's day (net=day, t), so a day picked stays in the address */}
+          <ToolPicker label="Grid" items={GRID_CHOICES.map((g) => ({ key: g.slug, label: g.label, href: gridHref(g.slug, view), on: g.slug === grid.slug, title: g.name }))} carry={pickerCarry} />
           <ToolTabs label="Views" items={GRID_VIEWS.map(([k, label]) => ({ key: k, label, href: gridHref(grid.slug, k), on: k === view }))} />
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
             <div className="min-w-0">

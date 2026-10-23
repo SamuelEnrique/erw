@@ -84,3 +84,46 @@ export function netImportAt(links: { a: string; b: string; mw: (number | null)[]
   }
   return n ? sum : null;
 }
+
+// ------------------------------------------------------------------ session 1153: the edges, and every figure's window
+// The shape's edges are the lines from the Lower 48 to each grid. Each carries the grid's net exchange in the window (the
+// sum of its reporting ties, EIA-930's interchange), so a grid with no tie reported in the window has no figure and no
+// edge. A hover card names the figure and its window: the hour shown and the snapshot's refresh.
+
+/** The window a figure of the shape belongs to: the hour shown (its start, UTC) and the snapshot's refresh. */
+export type GravityWindow = { hour: string; refresh: string };
+
+const hourWords = (t: string) => `${t.slice(0, 10)} ${t.slice(11, 13)}:00 UTC`;
+const refreshWords = (t: string) => `${t.slice(0, 16).replace("T", " ")} UTC`;
+/** Whole MW, without its sign (the words say which way), never "-0". */
+const mwWords = (v: number) => Math.abs(Math.round(v)).toLocaleString("en-US");
+
+/** The window in words: "the hour from 2026-10-21 23:00 UTC, snapshot refreshed 2026-10-23 14:36 UTC". */
+export function windowWords(w: GravityWindow): string {
+  return `the hour from ${hourWords(w.hour)}, snapshot refreshed ${refreshWords(w.refresh)}`;
+}
+
+/** The edges drawn: one from the Lower 48 to each grid that has a net figure in the window, none for a grid without. */
+export function gravityEdges(lay: GravityLayout): GravityPlace[] {
+  return lay.places.filter((p) => p.net !== null);
+}
+
+/** The grid's net exchange in words: "Net import 1,234 MW", "Net export 1,234 MW", "No net exchange (0 MW)"; null with no tie. */
+export function netWords(p: GravityPlace): string | null {
+  if (p.net === null) return null;
+  const r = Math.round(p.net);
+  return r > 0 ? `Net import ${mwWords(p.net)} MW` : r < 0 ? `Net export ${mwWords(p.net)} MW` : "No net exchange (0 MW)";
+}
+
+/** The lines of a hover card under the grid's name: for an edge, its net exchange, its share of the grid's generation and
+ * its window; for a circle, the generation, the net exchange and the window. */
+export function gravityTip(p: GravityPlace, w: GravityWindow, kind: "edge" | "circle"): string[] {
+  const net = netWords(p);
+  const share = p.share !== null && Math.round(p.net ?? 0) !== 0
+    ? `${(Math.abs(p.share) * 100).toFixed(1)} percent of its net generation` : null;
+  const ties = net ? `${net}, over its reporting ties (EIA-930 interchange)` : "No tie reported in the hour";
+  const lines = kind === "edge"
+    ? [ties, ...(share ? [share] : [])]
+    : [p.gen === null ? "Net generation not held for the hour" : `Net generation ${(Math.round(p.gen) || 0).toLocaleString("en-US")} MW (EIA-930)`, ties, ...(share ? [share] : [])];
+  return [...lines, `In ${windowWords(w)}`];
+}

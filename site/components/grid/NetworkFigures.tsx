@@ -74,7 +74,9 @@ export function GravityFigures({ snap, hour, grid, live }: { snap: Snapshot; hou
   return (
     <div data-grid-panel={`grid_gravity_${grid.slug}`} className="mt-8">
       <ToolSection title={`What the gravity shape draws, the hour shown (${hourName(hour)})`}
-        note={<>Each circle&apos;s area follows the grid&apos;s net generation; its pull toward the center, its net import over its reporting ties as a percent of that generation (a negative number: a net export, pushed out). The Lower 48&apos;s generation sets the scale{g.center ? <>: <F f={g.center} /> MW</> : <>; it is not held for the hour</>}. Hover a figure for its table, filter, hour and the snapshot&apos;s refresh.</>}>
+        note={<>Each circle&apos;s area follows the grid&apos;s net generation; its pull toward the center, its net import over its reporting ties as a percent of that generation (a negative number: a net export, pushed out). The Lower 48&apos;s generation sets the scale{g.center ? <>: <F f={g.center} /> MW</> : <>; it is not held for the hour</>}. Hover a figure for its table, filter, hour and the snapshot&apos;s refresh.
+          {" "}<span data-gravity-window="live">These are the figures of the hour the shape opens on, in the live week. A day picked in the replay stays in the address, but neither the shape nor this table draws it: net generation is held by hour for the live week only, not by day, so no figure here is that day&apos;s.</span>
+          {" "}<span data-gravity-public="1">Every figure here, for every grid, is EIA-930&apos;s public interchange and net generation; no grid operator&apos;s own table is read, so no grid is held here.</span></>}>
         <ToolTable caption="The seven grids in the gravity shape, the hour shown" minWidth={460} head={["Grid", "Net generation, MW", "Net import, MW", "Import, percent of generation"]}
           rows={g.rows.map((r) => ({ key: r.ba, highlight: r.ba === grid.ba, cells: [
             GRAVITY_GRIDS.find((x) => x.id === r.ba)!.label,
