@@ -1,0 +1,19 @@
+{
+ "date": "2026-10-23",
+ "fact_id": "ff_85d03fb363",
+ "kind": "history",
+ "fact": "The term duck curve was coined in 2012 by the California Independent System Operator, and the curve is named for its visual similarity to the outline of a duck.",
+ "second": "Grid operators hope batteries help the duck keep its neck in check.",
+ "structure": "pun",
+ "conjecture": "False",
+ "sources": [
+  {
+   "label": "Wikipedia, Duck curve",
+   "url": "https://en.wikipedia.org/wiki/Duck_curve",
+   "raw": "warehouse/news/facts/raw/wikipedia/duck_curve_20261020T013205Z.txt",
+   "retrieved_at": "20261020T013205Z",
+   "part": "fact",
+   "span": "The curve is named for its visual similarity to the outline of a duck. Used in utility-scale electricity generation, the term was coined in 2012 by the California Independent System Operator."
+  }
+ ]
+}
