@@ -14,7 +14,7 @@ export function CopyLine({ line }: { line: string }) {
   };
   return (
     <div className="flex items-start gap-2" data-copy-line="">
-      <code className="block min-w-0 flex-1 overflow-x-auto whitespace-pre font-mono text-xs">{line}</code>
+      <code tabIndex={0} className="block min-w-0 flex-1 overflow-x-auto whitespace-pre font-mono text-xs">{line}</code>
       <button type="button" onClick={copy} aria-label={`Copy: ${line}`} className="shrink-0 border border-muted bg-white px-1 text-xs text-ink hover:border-accent">
         {done ? "Copied" : "Copy"}
       </button>
