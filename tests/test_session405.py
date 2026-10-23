@@ -56,8 +56,8 @@ class ThePage(unittest.TestCase):
         p = self.p
         self.assertIn("const key = (q: string, y: number, v: string) => `series|${TABLE}|${entityOf(q, y)}|${v}|${isoKey(yearTs(y))}`;", p)
         self.assertEqual(p.count("<Num "), 2)       # the row writer N, and the header's one count
-        self.assertIn("<Num check={key(q, y, v)} raw={x}>{shown(x)}</Num>", p)
-        self.assertIn("<Num check={headerKey(iso, UNDATED, name)} raw={undated}>{shown(undated)}</Num>", p)
+        self.assertIn("<Num check={key(q, y, v)} raw={x} source={sourceWords(q, y, v)}>{shown(x)}</Num>", p)  # session 2202: the source words in the hover
+        self.assertIn("<Num check={headerKey(iso, UNDATED, name)} raw={undated} source={`${TABLE}: the header line", p)  # session 2202: the header count names its header line
         self.assertEqual(set(re.findall(r'table_name: `eq\.\$\{(\w+)\}`', p)), {"TABLE"})
         self.assertIn('export const TABLE = "iso_queue_statistics";', src(*LIB))
         # no sum: the page adds no figure up (the parts of a bar are the table's own rows)

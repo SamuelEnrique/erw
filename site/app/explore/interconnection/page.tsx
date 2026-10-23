@@ -5,13 +5,14 @@ import { Num } from "@/components/Num";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ExploreFrame, FilterForm, Freshness } from "@/components/explore/Explore";
 import { SeriesChart } from "@/components/tool/SeriesChart";
-import { ChartFrame, HeadlineNumber, HeadlineRow, ToolSection, ToolTable } from "@/components/tool/ToolPage";
+import { ChartFrame, HeadlineNumber, HeadlineRow, Tip, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { headers } from "@/lib/data";
 import { choose, isoKey, longDay, longTime, type Params } from "@/lib/explore";
 import {
   MEASURES, METHOD, NOT_HELD, QUEUES, STATUSES, TABLE, UNDATED, builtAt, entityOf, faultyBuild, headerCount, headerKey,
   inputRetrieved, partialYear, valueOf, yearOf, yearTs, type Measure, type Row,
 } from "@/lib/explore/interconnection";
+import { sourceOf } from "@/lib/explore/source";
 import { shown } from "@/lib/format";
 import { LICENSE_NEEDED, licenseHeldGrid, licenseTitle } from "@/lib/license";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
@@ -25,6 +26,11 @@ import { HOURLY, attempt, rest } from "@/lib/supabase";
 // header, and shows the counts the table holds, never a corrected guess. A queue whose publisher asks for permission
 // (NYISO, MISO, ISO-NE from 21 October 2026, lib/license.ts) is held by grid, as the map's Queues tab holds it: not read,
 // its figures not shown. The same table is drawn one queue at a time on the map's Queues tab (app/map/QueuesView.tsx).
+// Session 2202 (chain 086): every figure carries its source in its hover (Num's `source`, the words of
+// lib/explore/source.ts read from the figure's own key: the table, the queue and its entry year, the variable, the ISO's
+// own queue table and the method note; the header's count names the header line it is read from), each headline number a
+// Tip with the same words, and the stacked chart (SeriesChart) the brand's hover card. A held queue's figures stay
+// "license needed", with no source words: Num draws the hold before the source.
 export const metadata: Metadata = { title: "Interconnection queue explorer" };
 export const dynamic = "force-dynamic";
 
@@ -130,10 +136,14 @@ export default async function InterconnectionExplorer({ searchParams }: { search
   const acrossRows = across.ok ? across.data : [];
 
   const key = (q: string, y: number, v: string) => `series|${TABLE}|${entityOf(q, y)}|${v}|${isoKey(yearTs(y))}`;
+  const queueName = (q: string) => QUEUES.find(([k]) => k === q)?.[1] ?? q.toUpperCase();
+  const sourceWords = (q: string, y: number, v: string) => sourceOf(key(q, y, v), `${queueName(q)}'s queue, entry year ${y}`);
   const N = ({ q = iso, y, v, from = rows }: { q?: string; y: number; v: string; from?: Row[] }) => {
     const x = valueOf(from, q, y, v);
-    return x === undefined ? <span className="text-muted">not held</span> : <Num check={key(q, y, v)} raw={x}>{shown(x)}</Num>;
+    return x === undefined ? <span className="text-muted">not held</span> : <Num check={key(q, y, v)} raw={x} source={sourceWords(q, y, v)}>{shown(x)}</Num>;
   };
+  // the tip beside a headline's label: the figure's source, in the brand's keyboard-reachable tip
+  const tipOf = (v: string, label: string) => <Tip id={`source-${v}`} label={`where ${label.toLowerCase()} comes from`}>{sourceWords(iso, hi, v)}</Tip>;
   const has = (v: string) => rows.some((r) => r.variable === v);
   const prefix = measure === "mw" ? "mw" : "positions";
   const third: [string, string] = has("withdrawal_rate") ? ["withdrawal_rate", "Withdrawn, share of positions entered"] : [`${prefix}_waiting`, `Still waiting, ${unit}`];
@@ -148,7 +158,7 @@ export default async function InterconnectionExplorer({ searchParams }: { search
       {notHeld}
       <HeadlineRow>
         {([[`${prefix}_entered`, `Entered, ${unit}`], [`${prefix}_operating`, `Reached operation, ${unit}`], third] as [string, string][]).map(([v, label]) => (
-          <HeadlineNumber key={v} label={`${label}, ${name}, entered ${hi}`} value={<N y={hi} v={v} />}
+          <HeadlineNumber key={v} label={`${label}, ${name}, entered ${hi}`} value={<N y={hi} v={v} />} tip={tipOf(v, label)}
             note={lo !== hi ? <>Entered {lo}: <N y={lo} v={v} /></> : undefined} />
         ))}
       </HeadlineRow>
@@ -174,7 +184,7 @@ export default async function InterconnectionExplorer({ searchParams }: { search
       ) : null}
 
       <ToolSection title={`Every entry year, ${lo} to ${hi}, ${unit}`}
-        note={<>Each figure is one row of the table; the page adds none up. {undated !== null ? <>The table&apos;s header counts <Num check={headerKey(iso, UNDATED, name)} raw={undated}>{shown(undated)}</Num> of {name}&apos;s positions with no queue date, in no year.</> : null}</>}>
+        note={<>Each figure is one row of the table; the page adds none up. {undated !== null ? <>The table&apos;s header counts <Num check={headerKey(iso, UNDATED, name)} raw={undated} source={`${TABLE}: the header line "${UNDATED}", ${name}. Source: the table's own header, written when the table was built from ${name}'s queue (${iso}_interconnection_queue). Method: Energy projects, Queue statistics.`}>{shown(undated)}</Num> of {name}&apos;s positions with no queue date, in no year.</> : null}</>}>
         <ToolTable caption={`${name}'s queue by entry year and status, ${unit}`} minWidth={measure === "mw" ? 640 : 820}
           head={measure === "mw"
             ? ["Entry year", "Entered", ...statusHead]

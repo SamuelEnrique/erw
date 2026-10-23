@@ -52,7 +52,7 @@ class ThePage(unittest.TestCase):
         self.assertIn("const table = month ? MONTHLY : ANNUAL;", p)
         self.assertIn("const key = (variable: string, y: number) => `series|${table}|${hub}|${variable}|${isoKey(periodTs(y, month))}`;", p)
         self.assertEqual(p.count("<Num "), 1)                                   # one figure writer, N, keyed by the row it shows
-        self.assertIn("<Num check={key(v, y)} raw={x}>{fig(x, unit)}</Num>", p)
+        self.assertIn("<Num check={key(v, y)} raw={x} source={sourceOf(key(v, y), node(hub))}>{fig(x, unit)}</Num>", p)  # session 2200: the source words in the hover
         tables = set(re.findall(r'table_name: `eq\.\$\{(\w+)\}`', p))
         self.assertEqual(tables, {"ANNUAL", "table", "MONTHLY"})
         pp = src("site", "lib", "explore", "peakpremium.ts")
