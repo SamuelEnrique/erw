@@ -4,13 +4,16 @@
 // net, the number of ties, the demand where held); for the Lower 48, the seven grids' net exchange. The Gravity tab:
 // what the gravity shape draws (each grid's net generation, net import and the import as a share). Every figure is a
 // lib/gridKeys.ts figure: a check key check-values already recomputes, and a one-line source in its hover tip.
+// Session 1165 (chain 078): under the ties, the grid's balance (Balance below): the Grid pack's item 3, said where the
+// figures are.
 import { Num } from "@/components/Num";
+import { SiteLink as Link } from "@/components/SiteLink";
 import { NoData } from "@/components/NoData";
 import { ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import type { LiveExtras, Snapshot } from "@/app/network/Network";
 import { shown } from "@/lib/format";
 import { GRID_CHOICES, type GridChoice } from "@/lib/gridtool";
-import { gravityPanel, lower48Panel, networkPanel, type Fig } from "@/lib/gridKeys";
+import { balancePanel, gravityPanel, lower48Panel, networkPanel, type BalancePanel, type Fig } from "@/lib/gridKeys";
 import { GRAVITY_CENTER, GRAVITY_GRIDS } from "@/lib/networkGravity";
 
 const hourName = (t: string) => `${t.slice(0, 10)} ${t.slice(11, 13)}:00 UTC`;
@@ -64,6 +67,36 @@ export function NetworkFigures({ snap, hour, grid, live }: { snap: Snapshot; hou
               ] }))} />
           </>
         ) : <NoData what={`${grid.label}'s ties`} reason={`the snapshot holds no flow for ${grid.ba} in the hour starting ${hourName(hour)}`} />}
+      </ToolSection>
+      <Balance b={balancePanel(snap, grid.ba, hour, live.generation?.[grid.ba], live.demand[grid.ba], p.demand)} label={grid.label} />
+    </div>
+  );
+}
+
+/** Session 1165: whether the grid's balance closes, in the hour shown and over the week. Net generation less demand
+ * less the net export over the ties: zero where EIA-930's figures close. CAISO's net generation is EIA-930's total, the
+ * figure the gravity shape draws (the section "The gravity shape" of the method note, ruling 1a); the session 118
+ * ruling withholds California's hourly mix by fuel, not this total. */
+function Balance({ b, label }: { b: BalancePanel; label: string }) {
+  const hourName = (t: string) => `${t.slice(0, 10)} ${t.slice(11, 13)}:00 UTC`;
+  const not = <span className="text-muted">not held</span>;
+  return (
+    <div data-grid-balance={b.ba}>
+      <ToolSection title={`Does ${label}'s balance close? The hour shown, and the week`}
+        note={<>A grid&apos;s net generation less its demand less its net export over its ties is zero when EIA-930&apos;s figures close. For {label}, session 360 found the gap {b.where} (<Link href="/data/methods/eia930_balance">the method note on EIA-930&apos;s balance</Link>; EIA&apos;s adjusted series do not close it). The week&apos;s figure is the mean size of the gap, its absolute value, over the hours from {hourName(b.from)} to {hourName(b.to)} that hold every one of {label}&apos;s ties, its net generation and its demand.
+          {b.ba === "CISO" ? <> {label}&apos;s net generation here is EIA-930&apos;s total, the figure the gravity shape draws; since December 2025 it reads below CAISO&apos;s own, and California&apos;s hourly mix by fuel stays withheld.</> : null} Hover a figure for its table, filter and hour, and for where session 360 found each grid&apos;s gap.</>}>
+        <ToolTable caption={`${label}'s balance in the hour the network shows`} minWidth={420} head={["In the hour shown", "MW", "Source"]}
+          rows={[
+            { key: "gen", cells: ["Net generation", b.gen ? <F key="v" f={b.gen} /> : not, "eia930_all_generation"] },
+            { key: "dem", cells: ["Demand", b.demand ? <F key="v" f={b.demand} /> : not, "eia930_all_demand"] },
+            { key: "net", cells: ["Net export over the ties (negative: a net import)", b.net ? <F key="v" f={b.net} /> : <span key="v" className="text-muted">no tie reported</span>, "the network snapshot"] },
+            { key: "gap", highlight: true, cells: ["The gap: net generation less demand less net export", b.gap ? <F key="v" f={b.gap} /> : <span key="v" className="text-muted">not computed: a part is not held</span>, "the three above"] },
+          ]} />
+        <p className="mt-3 max-w-3xl text-sm">
+          {b.absmean && b.hours
+            ? <>Over the <F f={b.hours} /> hours of the week that hold all three, the gap&apos;s mean size is <F f={b.absmean} /> MW.</>
+            : <>No hour of the week holds all three, so the week&apos;s gap is not computed.</>}
+        </p>
       </ToolSection>
     </div>
   );

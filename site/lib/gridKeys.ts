@@ -12,6 +12,9 @@
 // - series|eia930_all_generation|eia930:<BA>|net_generation_mw|<hour>, the gravity shape's circles;
 // - calc|pct|<A>|<B> with A the net import key and B the generation key ("~" for "|"), the shape's pull as a share;
 // - series|carbon_intensity_hourly|<entity>|intensity_generation|<hour>, the last 24 hours' latest, lowest and highest.
+// Session 1165 (chain 078), the Network tab's balance: calc|bal|<G>|<D>|<X> (a new op of calc: G less D less X, its
+// arithmetic in scripts/check-calc.mjs) and a new kind, netbal|absmean|<BA>|<from>|<to> and netbal|hours|<BA>|<from>|<to>
+// (netbalValue below, run by check-values on the snapshot and the two tables' rows).
 // A tie's flow is signed from the grid's side (positive: power left the grid), as ExchangeView and netValue sign it.
 import type { Snapshot } from "../app/network/Network";
 
@@ -90,17 +93,136 @@ export function lower48Panel(snap: Snapshot, bas: string[], hour: string): GridN
   });
 }
 
-export type GravityRow = { ba: string; gen: Fig | null; net: Fig | null; share: Fig | null };
+/** A grid's net generation in the hour (eia930_all_generation, the week's hourly values aligned to the snapshot's
+ * hours), the figure the gravity shape sizes a circle by; null where the hour is not held. */
+export function generationAt(snap: Snapshot, ba: string, hour: string, week: (number | null)[] | undefined): Fig | null {
+  const h = snap.hours.indexOf(hour);
+  const v = h >= 0 ? week?.[h] : null;
+  return v === null || v === undefined ? null
+    : { check: `series|eia930_all_generation|eia930:${ba}|net_generation_mw|${hour}`, raw: v, tip: `eia930_all_generation, entity eia930:${ba}, net_generation_mw, hour ${hourName(hour)}, read with the snapshot refreshed ${refreshName(snap.built)}` };
+}
+
+// ------------------------------------------------------------------ the balance (session 1165, chain 078)
+// The Grid pack's item 3 (docs/reviews/packs/grid.md, section 6): for CAISO, PJM, MISO and SPP the ties do not sum to net
+// generation minus demand. Session 360 (docs/methods/eia930_balance.md) split the gap in two; the panel states it for the
+// grid in view from the tables the tab already reads: in the hour shown, net generation (eia930_all_generation), demand
+// (the panel's own demand figure), the net export over the reporting ties (the snapshot) and the gap, generation less
+// demand less net export, keyed calc|bal|<G>|<D>|<X> ("~" for "|"), which check-values recomputes from the three keys;
+// over the snapshot's week, the mean of the gap's absolute value (session 360's measure) and the count of hours that hold
+// all three, keyed netbal|absmean|<BA>|<from>|<to> and netbal|hours|<BA>|<from>|<to>, recomputed by netbalValue below on
+// the snapshot check-values reads and the two tables' rows. An hour holds the ties when every tie of the grid that holds
+// a flow in some hour of the window holds one in it (as session 360 took PJM's "hours all seven ties are held").
+
+/** The split session 360 found, in one line: the hover tip of the gap and of its mean. */
+export const BALANCE_SPLIT = "Session 360 (docs/methods/eia930_balance.md): CAISO's and MISO's ties sum to their own total interchange, and their gap is that total against net generation minus demand; SPP's total interchange closes against net generation minus demand, and its ties do not sum to it; PJM has both; ERCOT, NYISO and ISO-NE close.";
+
+/** Where session 360 found each grid's gap, in words, no figure. */
+export const BALANCE_WHERE: Record<string, string> = {
+  CISO: "its ties sum to its own total interchange, and the gap sits between that total and net generation minus demand",
+  MISO: "its ties sum to its own total interchange, and the gap sits between that total and net generation minus demand",
+  PJM: "in both places: its ties do not sum to its own total interchange, and that total does not equal net generation minus demand, the two partly offsetting",
+  SWPP: "between its ties and its own total interchange: the total closes against net generation minus demand, the ties do not sum to it",
+  ERCO: "nowhere of note: its ties, its total interchange and net generation minus demand agree",
+  NYIS: "nowhere of note: its ties, its total interchange and net generation minus demand agree",
+  ISNE: "nowhere of note: its ties, its total interchange and net generation minus demand agree",
+};
+
+/** The window's hours and one grid's links, each hour taken from the first snapshot that holds it (the hourly one first,
+ * then the committed one, as check-values reads them); null when no snapshot holds an hour from `from` to `to`, or
+ * none holds `from` or `to`. A link a snapshot lacks is null in that snapshot's hours. */
+export function windowOf(snaps: Snapshot[], ba: string, from: string, to: string): { hours: string[]; links: { a: string; b: string; mw: (number | null)[] }[] } | null {
+  const hours = [...new Set(snaps.flatMap((s) => s.hours.filter((h) => h >= from && h <= to)))].sort();
+  if (!hours.length || hours[0] !== from || hours[hours.length - 1] !== to) return null;
+  const own = (l: { a: string; b: string }) => l.a === ba || l.b === ba;
+  const keys = [...new Set(snaps.flatMap((s) => s.links.filter(own).map((l) => `${l.a}|${l.b}`)))].sort();
+  const src = hours.map((h) => { const s = snaps.find((x) => x.hours.includes(h))!; return { s, i: s.hours.indexOf(h) }; });
+  const links = keys.map((k) => {
+    const [a, b] = k.split("|");
+    return { a, b, mw: src.map(({ s, i }) => { const v = s.links.find((l) => l.a === a && l.b === b)?.mw[i]; return v === undefined ? null : v; }) };
+  });
+  return { hours, links };
+}
+
+/** Rows of an hourly series ([ts_utc, value] or {ts_utc, value}) aligned to the hours, as the page aligns them
+ * (app/network/data.ts liveExtras: an hour held by exactly one row, its value rounded to 0.1 MW); null where not held. */
+export function alignHours(rows: ([string, number] | { ts_utc: string; value: number })[], hours: string[]): (number | null)[] {
+  const by = new Map<string, { s: number; n: number }>();
+  for (const r of rows) {
+    const [ts, v] = Array.isArray(r) ? r : [r.ts_utc, r.value];
+    const h = new Date(Math.floor(new Date(ts).getTime() / 3_600_000) * 3_600_000).toISOString().replace(".000Z", "Z");
+    const a = by.get(h) ?? { s: 0, n: 0 };
+    a.s += Number(v); a.n += 1; by.set(h, a);
+  }
+  return hours.map((h) => { const a = by.get(h); return a && a.n === 1 ? Math.round(a.s * 10) / 10 : null; });
+}
+
+/** The gap in each hour of the window that holds all three: every tie of the grid (each one with a flow in some hour of
+ * the window), its net generation and its demand. Gap = net generation less demand less net export, MW. */
+export function balanceGaps(hours: string[], links: { a: string; b: string; mw: (number | null)[] }[], ba: string,
+  generation: (number | null)[] | undefined, demand: (number | null)[] | undefined): { hour: string; gap: number }[] {
+  const held = (v: number | null | undefined): v is number => v !== null && v !== undefined && Number.isFinite(v);
+  const ties = links.filter((l) => (l.a === ba || l.b === ba) && l.mw.some(held));
+  if (!ties.length || !generation || !demand) return [];
+  const out: { hour: string; gap: number }[] = [];
+  hours.forEach((hour, i) => {
+    const g = generation[i], d = demand[i];
+    if (!held(g) || !held(d) || !ties.every((l) => held(l.mw[i]))) return;
+    const x = ties.reduce((a, l) => a + (l.a === ba ? 1 : -1) * (l.mw[i] as number), 0);
+    out.push({ hour, gap: z(g - d - x) });
+  });
+  return out;
+}
+
+/** The week's figures of the balance: the mean of the gap's absolute value and the count of hours. */
+export function balanceWeek(gaps: { gap: number }[]): { absmean: number; hours: number } | null {
+  if (!gaps.length) return null;
+  return { absmean: gaps.reduce((a, x) => a + Math.abs(x.gap), 0) / gaps.length, hours: gaps.length };
+}
+
+/** check-values' netbal|absmean|<BA>|<from>|<to> and netbal|hours|<BA>|<from>|<to>: on the snapshots it reads (the
+ * hourly one first) and the grid's rows of eia930_all_generation (net_generation_mw) and eia930_all_demand (demand_mw)
+ * in the window. Undefined when the window or its hours are not held. */
+export function netbalValue(check: string, snaps: Snapshot[], generation: ([string, number] | { ts_utc: string; value: number })[],
+  demand: ([string, number] | { ts_utc: string; value: number })[]): number | undefined {
+  const [head, what, ba, from, to] = check.split("|");
+  if (head !== "netbal" || (what !== "absmean" && what !== "hours")) return undefined;
+  const w = windowOf(snaps, ba, from, to);
+  if (!w) return undefined;
+  const week = balanceWeek(balanceGaps(w.hours, w.links, ba, alignHours(generation, w.hours), alignHours(demand, w.hours)));
+  return week ? week[what] : undefined;
+}
+
+export type BalancePanel = { ba: string; hour: string; gen: Fig | null; demand: Fig | null; net: Fig | null; gap: Fig | null;
+  absmean: Fig | null; hours: Fig | null; from: string; to: string; where: string };
+
+/** The Network tab's balance for one grid: in the hour shown, net generation, demand (the panel's own figure, `demand`),
+ * the net export over the reporting ties and the gap; over the snapshot's week, the gap's mean size and its hours. */
+export function balancePanel(snap: Snapshot, ba: string, hour: string, generation: (number | null)[] | undefined,
+  demandWeek: (number | null)[] | undefined, demand: Fig | null): BalancePanel {
+  const from = snap.hours[0], to = snap.hours[snap.hours.length - 1];
+  const gen = generationAt(snap, ba, hour, generation);
+  const t = tiesOf(snap, ba, hour);
+  const sum = z(t.reduce((a, x) => a + x.mw, 0));
+  const net = t.length ? { check: `net|export|${ba}|${hour}`, raw: sum, tip: `eia930_all_interchange (the hourly network snapshot), ${ba}'s ${t.length} reporting ties summed, net export MW (negative: a net import), hour ${hourName(hour)}, refreshed ${refreshName(snap.built)}` } : null;
+  const k = (f: Fig) => f.check.replaceAll("|", "~");
+  const gap = gen && demand && net
+    ? { check: `calc|bal|${k(gen)}|${k(demand)}|${k(net)}`, raw: z(gen.raw - demand.raw - net.raw), tip: `Net generation less demand less net export, the three figures beside it, hour ${hourName(hour)}. ${BALANCE_SPLIT}` }
+    : null;
+  const w = windowOf([snap], ba, from, to);
+  const week = w ? balanceWeek(balanceGaps(w.hours, w.links, ba, generation, demandWeek)) : null;
+  const span = `${hourName(from)} to ${hourName(to)}`;
+  const weekTip = (what: string) => `${what}, over the hours from ${span} of the snapshot refreshed ${refreshName(snap.built)} that hold every tie of ${ba}, its net generation (eia930_all_generation) and its demand (eia930_all_demand). ${BALANCE_SPLIT}`;
+  return { ba, hour, gen, demand, net, gap, from, to, where: BALANCE_WHERE[ba] ?? "",
+    absmean: week ? { check: `netbal|absmean|${ba}|${from}|${to}`, raw: week.absmean, tip: weekTip("The mean of the gap's absolute value, MW") } : null,
+    hours: week ? { check: `netbal|hours|${ba}|${from}|${to}`, raw: week.hours, tip: weekTip("The count of hours") } : null };
+}
+
+export type GravityRow ={ ba: string; gen: Fig | null; net: Fig | null; share: Fig | null };
 
 /** The Gravity tab's panel: what the gravity shape draws for each grid in the hour, its net generation (the circle's
  * size), its net import (the pull) and the import as a percent of generation; the Lower 48's generation as the scale. */
 export function gravityPanel(snap: Snapshot, bas: string[], center: string, hour: string, generation: Record<string, (number | null)[]> | undefined): { center: Fig | null; rows: GravityRow[] } {
-  const h = snap.hours.indexOf(hour);
-  const genOf = (ba: string): Fig | null => {
-    const v = h >= 0 ? generation?.[ba]?.[h] : null;
-    return v === null || v === undefined ? null
-      : { check: `series|eia930_all_generation|eia930:${ba}|net_generation_mw|${hour}`, raw: v, tip: `eia930_all_generation, entity eia930:${ba}, net_generation_mw, hour ${hourName(hour)}, read with the snapshot refreshed ${refreshName(snap.built)}` };
-  };
+  const genOf = (ba: string): Fig | null => generationAt(snap, ba, hour, generation?.[ba]);
   const rows = bas.map((ba): GravityRow => {
     const gen = genOf(ba);
     const t = tiesOf(snap, ba, hour);

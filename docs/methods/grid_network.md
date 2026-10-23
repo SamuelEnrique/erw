@@ -457,6 +457,71 @@ Decisions (chain 077):
 - **No index added**: the slow days of 21 and 22 October were the whole database (a primary-key read was slow too),
   not a missing index.
 
+## The balance, said where the figures are (chain 078, 24 October 2026)
+
+Session 1165 (`queue/done/078-day-24-october-code-grid-tool-2.md`), the Grid pack's blind spot 3
+(`docs/reviews/packs/grid.md`, section 6): for CAISO, PJM, MISO and SPP the ties do not sum to net generation minus
+demand. The Network tab's panel `grid_network_<grid>` now says so for the grid in view, under its ties, in a block
+`data-grid-balance="<BA>"` ("Does <grid>'s balance close?"), for each of the seven ISO grids, the ones that close
+included. In the hour the panel shows: the grid's net generation (`eia930_all_generation`, `net_generation_mw`, keyed
+`series|eia930_all_generation|eia930:<BA>|net_generation_mw|<hour>` as the Gravity tab keys it), its demand (the
+panel's own demand figure, `eia930_all_demand` `demand_mw` or the hourly snapshot's, `demandAt`), the net export over
+its reporting ties (`net|export|<BA>|<hour>`, negative a net import) and **the gap**, net generation less demand less
+net export, keyed `calc|bal|<G>|<D>|<X>` (the three keys with "~" for "|"): a new op of session 44's calc,
+recomputed by check-values from its three operands (the arithmetic in `site/scripts/check-calc.mjs`). Over the
+snapshot's week: **the mean size of the gap**, the mean of its absolute value (session 360's measure in
+`eia930_balance.md`), `netbal|absmean|<BA>|<from>|<to>`, and **the count of hours** it is taken over,
+`netbal|hours|<BA>|<from>|<to>`, a new key kind: `from` and `to` are the snapshot's first and last hour, and an hour
+counts when every tie of the grid that holds a flow in some hour of the window holds one in it, and both the net
+generation and the demand (`eia930_all_demand`) are held. check-values recomputes it with the page's rule
+(`netbalValue` in `site/lib/gridKeys.ts`) on the snapshots it reads for the `net|` keys (the hourly one in Storage,
+then the committed one, each hour from the first that holds it) and the grid's rows of the two tables in the window;
+no value where neither snapshot holds the window's first or last hour. The block's note says, in words and no figure,
+where session 360 found the grid's gap (`BALANCE_WHERE`); the hover tip of the gap and of the week's figures names the
+split in one line (`BALANCE_SPLIT`): CAISO's and MISO's ties sum to their own total interchange and the gap is that
+total against net generation minus demand; SPP's total closes and its ties do not sum to it; PJM has both; ERCOT,
+NYISO and ISO-NE close.
+
+On the fixture of the test (`site/scripts/fixtures/grid_balance.json`: the committed snapshot built 2026-10-23 14:36
+UTC, the week of 15 to 21 October, and the seven grids' rows of the two tables read from Supabase with the anon key at
+2026-10-23 22:37 UTC), in the hour the panel shows (21 October, 23:00 UTC) and over the 144 hours that hold all three:
+
+| Grid | Net generation | Demand | Net export | The gap, the hour | Mean size, the week | Of mean demand |
+|---|---|---|---|---|---|---|
+| CAISO | 24,241 | 29,340 | -2,081 | -3,018 | 2,705.76 | 10.0 percent |
+| MISO | 68,240 | 76,710 | -9,723 | 1,253 | 1,598.32 | 2.3 percent |
+| PJM | 94,215 | 93,776 | 672 | -233 | 544.07 | 0.6 percent |
+| SPP | 35,354 | 34,680 | 821 | -147 | 192.49 | 0.6 percent |
+| NYISO | 15,074 | 17,501 | -2,428 | 1 | 2.38 | 0.0 percent |
+| ERCOT | 61,094 | 61,145 | -49 | -2 | 1.40 | 0.0 percent |
+| ISO-NE | 14,662 | 14,120 | 542 | 0 | 0.00 | 0.0 percent |
+
+MW. The order and the sizes are session 360's (its 840 hours: CAISO 9.6 percent, MISO 1.9; SPP's 978.1 MW then
+carried two impossible hours). A page shows the week its snapshot holds, so its figures move with the hourly refresh;
+these are the fixture's.
+
+**California.** CAISO's net generation in the block is EIA-930's total, the figure the gravity shape already draws for
+CAISO (ruling 1a above: one source for every grid). The session 118 ruling withholds California's hourly mix by fuel
+(`generation_mix_hourly.md`), not this total, so the block draws it, and its note says that since December 2025 it
+reads below CAISO's own (`eia930_caiso_break.md`): most of CAISO's gap is that shortfall.
+
+Decisions (chain 078):
+
+- **The gap is net generation less demand less net export**, signed: negative where generation reads short of demand
+  and exports (CAISO), positive where it reads over (MISO). Session 360's tests are written the other way (ties less
+  net generation minus demand); the mean size is the same either way.
+- **The week's figure is the mean absolute gap**, as session 360 measured it, not the signed mean: a gap that changes
+  sign through the day would read near zero signed.
+- **An hour of the week needs every tie of the grid**, not only the ties reporting in it: a partial sum of ties would
+  read as a gap. The hour shown keeps the panel's own net export over its reporting ties (the hour the network opens
+  on is complete for every pair still reporting), so no figure that stands moves.
+- **The demand of the hour is the panel's demand figure**, keyed as it already was; the week's demand is
+  `eia930_all_demand` alone (no fallback to the hourly snapshot's), so check-values reads one table.
+- **A new op `bal` of calc, three operands**, rather than a nested calc (a nested key cannot be told apart once its
+  "|" are "~"). The arithmetic moved to `site/scripts/check-calc.mjs` with its test; ratio, diff and pct compute as
+  before. check-methods reads a calc key as the figures of all its operands (two, as before, or three).
+- **No figure in the block's words**: where each gap sits is said in words; the figures are the keyed ones.
+
 ## Not here
 
 - The published boundaries of the balancing authorities: not held after three pulls. The Map draws the ERW's own derivation from counties, labeled as derived (see "The map", "The derived map: counties").
@@ -670,3 +735,4 @@ Each number `/grid` shows carries its key (`site/components/Num.tsx`), which `si
 - `net|maxflow|<BA>|<hour>`: the Exchange view's headline "Largest flow": the largest flow, either way, over the grid's reporting ties in the hour shown, in MW, read from the network's snapshot of `eia930_all_interchange`.
 - `net|topexport|<hour>`: the Exchange view of the Lower 48, in its first paragraph: the largest net export of any balancing authority in the hour shown, in MW, its reporting ties summed and signed from its side (`netExports` and `topExporter` in `site/lib/network.ts`), from the same snapshot; two authorities with the same net export give it to the first by its id.
 - Chain 077 (23 October 2026), the server panels of the Network and Gravity tabs (the section "The Grid tool's panels, every figure keyed" above): `net|tie|<BA>|<other>|<hour>`, each reporting tie of the grid in view in the hour the network opens on, MW, signed from the grid's side; `net|export|<BA>|<hour>` and `net|import|<BA>|<hour>`, the sum of those ties as a net export or a net import; `net|ties|<BA>|<hour>`, how many ties reported; `netsnap|<BA>|demand_mw|<hour>`, the grid's demand in that hour where the hourly snapshot holds it (else the `series` key of `eia930_all_demand`, `demand_mw`); on the Gravity tab, `eia930_all_generation`, `net_generation_mw` (a `series` key) and `calc|pct|` of the import over it. On the Clean tab, `carbon_intensity_hourly`, `intensity_generation` (`series` keys, the latest, lowest and highest of the 24 hours).
+- Chain 078 (24 October 2026), the Network tab's balance (the section "The balance, said where the figures are" above): `calc|bal|<G>|<D>|<X>`, the gap in the hour shown, net generation less demand less net export, from the `series` key of `eia930_all_generation` (`net_generation_mw`), the panel's demand key and `net|export|<BA>|<hour>`; `netbal|absmean|<BA>|<from>|<to>`, the mean size of the gap (its absolute value) over the snapshot's week, MW; `netbal|hours|<BA>|<from>|<to>`, the count of hours of the week that hold every tie, the net generation and the demand.

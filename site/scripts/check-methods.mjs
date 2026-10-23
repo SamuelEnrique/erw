@@ -34,7 +34,7 @@
 //    is a date or time, a number, a setting string (a=b&c=d), an id (a part that begins with one of the prefixes in
 //    instance() below, eia930:ERCO, deal:..., erwco:..., or an upper-case name, HB_HUBAVG), a grid's name, a two-letter
 //    state, "-" or "newest"; a part cut at ":" keeps its pieces that are not (neighbour_mwh:SWPP is neighbour_mwh).
-//    calc|<op>|<A>|<B> is the two figures of A and B. The Digest's chart of the day, digest_chart|<date>|<table>|<figure>,
+//    calc|<op>|<A>|<B> is the two figures of A and B (calc|bal|<A>|<B>|<C>, session 1165, the three). The Digest's chart of the day, digest_chart|<date>|<table>|<figure>,
 //    is a family: its table is the day's.
 //
 // 3. Named. A note names a table figure when its text holds both the table's name and the variable's, each as a whole
@@ -88,7 +88,8 @@ export function instance(x) {
 export function figures(key) {
   const p = key.split("|");
   const head = p[0];
-  if (head === "calc" && p.length >= 4) return [...figures(p[2].replaceAll("~", "|")), ...figures(p[3].replaceAll("~", "|"))];
+  // session 1165: every operand, so calc|bal|<A>|<B>|<C> is the three figures (a two-operand key is its two, as before)
+  if (head === "calc" && p.length >= 4) return p.slice(2).flatMap((x) => figures(x.replaceAll("~", "|")));
   if (head in TABLE_KEY) {
     const [ti, vi] = TABLE_KEY[head];
     const table = ti === null ? head : p[ti];

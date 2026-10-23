@@ -45,6 +45,15 @@ reading is the one under which most grids would be published as they are.
 - SPP's two impossible hours enter any sum of its interchange taken over them. A screen of impossible values for an
   hour of interchange (the pack's item 10) would remove them; nothing was changed tonight.
 
+## On the Grid tool (session 1165, chain 078)
+
+The Network tab of `/grid` states the gap for the grid in view, each of the seven: in the hour the panel shows, net
+generation, demand, the net export over the ties and the gap (net generation less demand less net export, the sign
+the other way from the pack's test), and over the snapshot's week the mean of the gap's absolute value and the count
+of hours that hold every tie and both series. It reads the live tables the tab already reads, not EIA's workbooks, so
+the gap there is the total of the two parts above; its note says where this note found each grid's gap, and its hover
+tip the split in one line. The keys and their rule: `grid_network.md`, "The balance, said where the figures are".
+
 ## The pull
 
 EIA's API (`/v2/electricity/rto/region-data`) offers the region data as four types only (its facet "type", read on 20

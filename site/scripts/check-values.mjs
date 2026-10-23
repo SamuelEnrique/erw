@@ -45,6 +45,7 @@ import { fileURLToPath } from "node:url";
 import { unlockPost } from "./browser.mjs";   // session 301: the internal view by the form's door, no token in an address
 import * as ED from "./event-dates.mjs";   // session 369: the date of every event-page figure (todo 008)
 import * as RUN from "./check-values-run.mjs";   // session 430: the pages in batches, each under its own timeout
+import * as CALC from "./check-calc.mjs";   // session 1165: the arithmetic of the calc| keys, with its test
 
 const REQUEST_MS = Number(process.env.CHECK_VALUES_REQUEST_S ?? 60) * 1000;
 const RUN_MIN = Number(process.env.CHECK_VALUES_TIMEOUT_MIN ?? 15);
@@ -342,11 +343,31 @@ async function truth(check) {
   }
   // session 44: a derived answer of the problem sets, calc|<op>|<A>|<B>: A and B are check keys with "~" for "|", each
   // recomputed here on its own, then combined
+  // session 1165: and calc|bal|<A>|<B>|<C>, A less B less C (the Grid tool's balance); the arithmetic is in
+  // scripts/check-calc.mjs (ratio, diff and pct as before, two operands each)
   if (p[0] === "calc") {
-    const [, op, a, b] = p;
-    const x = Number(await truth(a.replaceAll("~", "|"))), y = Number(await truth(b.replaceAll("~", "|")));
-    if (!Number.isFinite(x) || !Number.isFinite(y)) return undefined;
-    return op === "ratio" ? x / y : op === "diff" ? x - y : op === "pct" ? (x / y) * 100 : undefined;
+    const [, op, ...parts] = p;
+    const xs = [];
+    for (const k of CALC.calcOperands(parts)) xs.push(Number(await truth(k)));
+    return CALC.calcOf(op, xs);
+  }
+  // session 1165 (chain 078): the Network tab's balance over the snapshot's week, netbal|absmean|<BA>|<from>|<to> (the
+  // mean of the gap's absolute value, MW: net generation less demand less net export) and netbal|hours|<BA>|<from>|<to>
+  // (the hours that hold every tie, the net generation and the demand): the page's rule (lib/gridKeys.ts netbalValue) on
+  // the snapshots as the net| keys read them (the hourly one in Storage first, then the committed one, each hour from the
+  // first that holds it) and the grid's rows of eia930_all_generation and eia930_all_demand in the window, read here
+  if (p[0] === "netbal") {
+    const K = await import("../lib/gridKeys.ts");
+    const N = await import("../lib/network.ts");
+    const [, , ba, from, to] = p;
+    const res = await fetch(`${origin}/${N.NETWORK_OBJECT}`, { cache: "no-store" });
+    const stored = res.ok ? await res.json() : null;
+    const committed = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "grid_network.json"), "utf-8"));
+    const snaps = [stored, committed].filter((s) => s && N.isSnapshot(s));
+    const read = (table, variable) => all("series", { select: "ts_utc,value", table_name: `eq.${table}`, entity: `eq.eia930:${ba}`,
+      variable: `eq.${variable}`, and: `(ts_utc.gte.${from},ts_utc.lte.${to})`, order: "ts_utc" });
+    const [gen, dem] = await Promise.all([read("eia930_all_generation", "net_generation_mw"), read("eia930_all_demand", "demand_mw")]);
+    return K.netbalValue(check, snaps, gen, dem);
   }
   // session 43: the bill explainer's default bills, recomputed here from data/bill_rules.json (California by the tariff's
   // total rates, not its unbundled lines; Texas by its charges), and the wholesale share from cost_of_power_monthly

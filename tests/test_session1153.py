@@ -60,7 +60,11 @@ class TheShape(unittest.TestCase):
         self.assertIn('data-gravity-window="live"', f)
         self.assertIn("no figure here is that day&apos;s", f)
         # the panel adds no figure: its count of F stays as session 1151 left it
-        self.assertEqual(f.count("<F "), 10)
+        # session 1165: outside the Network tab's balance (function Balance, its six figures), which the gravity panel
+        # does not draw
+        bal = f[f.index("function Balance("):f.index("export function GravityFigures")]
+        self.assertEqual(bal.count("<F "), 6)
+        self.assertEqual(f.count("<F ") - bal.count("<F "), 10)
 
     def test_the_replayed_day_is_said(self):
         g = src("site", "app", "network", "NetworkGravity.tsx")
