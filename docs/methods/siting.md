@@ -1,6 +1,12 @@
 # Where can a large load go: the All grids tab of "What a datacenter pays"
 
-Version 7, session 1059, 23 October 2026 (chain 072, `queue/done/072-day-23-october-code-allgrids-packages-2.md`); version 6 was session 1038's (chain 071), version 5 was session 973's (chain 065), version 4 session 784's (chain 064), version 3 session 762's (chain 063), version 2 session 740's (chain 062), version 1 session 712's (chain 050), version 0 session 700's. Internal: the tab is in review, like every page.
+Version 8, session 1081, 23 October 2026 (chain 073, `queue/done/073-evening-23-october-code-allgrids-packages-3.md`); version 7 was session 1059's (chain 072), version 6 was session 1038's (chain 071), version 5 was session 973's (chain 065), version 4 session 784's (chain 064), version 3 session 762's (chain 063), version 2 session 740's (chain 062), version 1 session 712's (chain 050), version 0 session 700's. Internal: the tab is in review, like every page.
+
+## What version 8 changed (chain 073, sessions 1064 to 1085)
+
+- **The planned generation in a node's county** (1069, decision 32): a placed node's panel counts ERCOT's generators due in its county in the twelve months after EIA-860M's vintage, MW and count by EIA's status, keyed `allgrids|nodeplanned`, written whole, replicated. 65 of the 148 counties hold some.
+- **The hub table's name column stays above the cells that scroll under it** (1072): a right-aligned cell's second line no longer draws over a row's name when the table is scrolled sideways (`tokens.css`, the All grids hub table only). No figure moved.
+- **No ruling answered and no awaited table landed** (1065, 1068): every other session of the chain wrote a few lines, as its file says.
 
 ## What version 7 changed (chain 072, sessions 1042 to 1063)
 
