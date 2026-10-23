@@ -473,6 +473,7 @@ cftc_cot_positions,managed_money_long,series variable,count
 cftc_cot_positions,managed_money_net,series variable,count
 cftc_cot_positions,managed_money_short,series variable,count
 cftc_cot_positions,open_interest,series variable,count
+doe_useer_employment,employment,series variable,count
 egrid_power_plants,entity_id,column,
 egrid_power_plants,entity_type,column,
 egrid_power_plants,name,column,
