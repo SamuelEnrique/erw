@@ -394,6 +394,7 @@ catalogue_hold:
   - cec_total_system_generation_annual
   - treasury_1603_awards
   - usgs_streamflow_daily
+  - bpa_ba_hourly
   - lbnl_hybrid_ppa_prices
   - lbnl_solar_projects
   - ornl_npd_potential

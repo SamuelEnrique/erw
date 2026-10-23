@@ -255,6 +255,13 @@ boem_renewable_leases,authorization,column,
 boem_renewable_leases,resource_type,column,
 boem_renewable_leases,effective_year,column,
 boem_renewable_leases,boem_status,column,
+bpa_ba_hourly,hydro_generation,series variable,MW
+bpa_ba_hourly,load,series variable,MW
+bpa_ba_hourly,net_interchange,series variable,MW
+bpa_ba_hourly,nuclear_generation,series variable,MW
+bpa_ba_hourly,solar_generation,series variable,MW
+bpa_ba_hourly,thermal_generation,series variable,MW
+bpa_ba_hourly,wind_generation,series variable,MW
 caiso_area_load_hourly,load,series variable,MW
 caiso_as_prices,as_price_dam_nr,series variable,USD/MW-hour
 caiso_as_prices,as_price_dam_rd,series variable,USD/MW-hour

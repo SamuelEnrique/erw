@@ -265,6 +265,7 @@ SECTOR_RULES = [
     (r"^cec_total_system_generation_annual$", "power"),  # session 2109: the Energy Commission's in-state generation, imports and total system power
     (r"^treasury_1603_awards$", "power;deals"),  # session 2112: the Treasury's Section 1603 awards
     (r"^usgs_streamflow_daily$", "power"),  # session 2113: the USGS's daily mean discharge below large hydropower plants
+    (r"^bpa_ba_hourly$", "power"),  # session 2148: BPA's balancing authority load and generation, five-minute values to the hour
     (r"^eia861_short_form$", "power"),  # session 876: EIA-861S, the small utilities' sales  # session 869: EIA-861's meters and net metering by utility  # session 868: EIA-861's programs by utility  # session 867: EIA-861's utility data: NERC region, RTOs, activities  # session 853: EIA-861's delivery-only companies (Texas's wires utilities)  # session 695: EIA-861's distribution reliability (SAIDI, SAIFI, CAIDI) by utility
     (r"^eia_gas_storage_state_monthly$", "gas"),  # session 525: EIA's natural gas in underground storage by state, a month
     (r"^eia_state_capacity_annual$", "power"),  # session 526: EIA's state electricity profiles, net summer capacity
