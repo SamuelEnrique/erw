@@ -55,6 +55,7 @@ function scopeFilter(scope: Scope, name: string, shape: Shape, columns: string[]
   if (by === "name") return {};
   if (by === "ba" && shape === "series") return { ba: `eq.${scope.ba}` };
   if (by === "entity" && shape === "series") return { entity: `like.${scope.slug}:*` };
+  if (by === "isoentity" && shape === "series") return { entity: `eq.iso:${scope.slug}` };   // session 1142: storage_buildout_monthly
   if (by === "market" && shape === "series" && scope.market_prefix) return { market: `like.${scope.market_prefix}*` };
   if (by === "queue") return { entity_id: `like.${(scope.queue_table ?? "none").replace(/_interconnection_queue$/, "_queue")}:*` };
   if (by === "iso") return { "extra->>iso": `eq.${scope.iso}` };

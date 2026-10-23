@@ -3,7 +3,9 @@ price_board_latest and price_board_spreads recorded from the live set (tests/fix
 independently of the tools: for each measure, every public hub's newest row (ISO-NE's, NYISO's and MISO's rows are held
 for a license and left out, as the site's reads leave them), ranked as the question asks. No model, no network.
 
-    python warehouse/chat/eval/expected_s1122.py      writes expected_s1122.json and questions_s1122.yaml beside itself
+    python warehouse/chat/eval/expected_s1122.py      writes expected_s1122.json and questions_s1122.yaml beside itself, and
+                                                      site/data/board_questions.json (the questions alone, the board's
+                                                      Ask examples, session 1145)
 
 The keys are the board on the day the rows were recorded: asked on a later day, compute them again from the day's rows.
 """
@@ -77,6 +79,10 @@ def main():
         f.write("\n")
     with open(os.path.join(HERE, "questions_s1122.yaml"), "w", encoding="utf-8", newline="\n") as f:
         f.write(yaml_of(doc))
+    with open(os.path.join(ROOT, "site", "data", "board_questions.json"), "w", encoding="utf-8", newline="\n") as f:
+        json.dump({"_about": "Session 1145: the five board questions of warehouse/chat/eval/questions_s1122.yaml, the board's Ask examples, written by expected_s1122.py.",
+                   "questions": [{"id": q["id"], "question": q["question"]} for q in doc["questions"]]}, f, indent=1)
+        f.write("\n")
     for q in doc["questions"]:
         print(q["id"], q["measure"], q["order"], q["entity"], q["value"], q["at"][:10])
     return 0
