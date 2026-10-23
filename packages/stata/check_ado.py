@@ -9,6 +9,8 @@ checked without it, and the owner runs the three commands of the session's repor
   style       the owner's Stata: one empty line between commands outside a block, none inside a block (a comment line
               belongs to the command under it)
   help        erw.sthlp has its sections, names the six subcommands and every option of `erw fetch`
+  install     stata.toc names the package erw, and erw.pkg lists files that exist (session 1004)
+  examples    examples.do in the same style, every erw call in it one of the six, no line continuation (session 1004)
   addresses   `_erw_live_url`, run by a small interpreter of the Stata it is written in (locals, `subinstr`, `if`,
               `foreach`, `strpos`, `strlen`), gives for each call of fixtures/calls.json the address the Python package
               requested for it, string for string
@@ -26,6 +28,9 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 ADO = HERE / "erw.ado"
 HLP = HERE / "erw.sthlp"
+TOC = HERE / "stata.toc"
+PKG = HERE / "erw.pkg"
+DO = HERE / "examples.do"
 CALLS = HERE / "fixtures" / "calls.json"
 SUBCOMMANDS = ("tables", "coverage", "fetch", "cite", "license", "standard")
 
@@ -122,7 +127,7 @@ def check_style(progs):
 
 def check_help(text, ado):
     problems = []
-    for marker in ("syntax", "description", "options", "held", "examples", "results", "citation"):
+    for marker in ("syntax", "description", "install", "options", "held", "examples", "results", "citation"):
         if f"{{marker {marker}}}" not in text:
             problems.append(f"help: no section {marker}")
     for sub in SUBCOMMANDS:
@@ -252,12 +257,48 @@ def check_addresses(progs):
     return problems, lines
 
 
+def check_install():
+    problems = []
+    toc = TOC.read_text(encoding="utf-8").splitlines()
+    if not toc or toc[0] != "v 3" or not any(ln.startswith("p erw ") for ln in toc):
+        problems.append("stata.toc: no 'v 3' first line or no 'p erw' line")
+    pkg = PKG.read_text(encoding="utf-8").splitlines()
+    files = [ln[2:].strip() for ln in pkg if ln.startswith("f ")]
+    if not pkg or pkg[0] != "v 3" or not files:
+        problems.append("erw.pkg: no 'v 3' first line or no file")
+    for f in files:
+        if not (HERE / f).is_file():
+            problems.append(f"erw.pkg lists {f}, which does not exist")
+    for need in ("erw.ado", "erw.sthlp"):
+        if need not in files:
+            problems.append(f"erw.pkg does not list {need}")
+    return problems
+
+
+def check_do(text):
+    problems = []
+    if "///" in text:
+        problems.append("examples.do: a line continuation (///)")
+    for ch in (chr(0x2014), chr(0x2013)):
+        if ch in text:
+            problems.append("examples.do: an em or en dash")
+    body = [ln for ln in text.splitlines()]
+    start = next((i for i, ln in enumerate(body) if ln.strip() and not ln.strip().startswith("*")), 0)
+    problems += [p.replace("examples", "examples.do", 1) for p in check_style({"examples": body[start:]})]
+    for sub in re.findall(r"^\s*erw (\w+)", text, re.M):
+        if sub not in SUBCOMMANDS:
+            problems.append(f"examples.do: erw {sub} is not one of the six")
+    return problems
+
+
 def main() -> int:
     ado = ADO.read_text(encoding="utf-8")
     progs, problems = programs(ado)
     problems += check_structure(ado, progs)
     problems += check_style(progs)
     problems += check_help(HLP.read_text(encoding="utf-8"), ado)
+    problems += check_install()
+    problems += check_do(DO.read_text(encoding="utf-8"))
     p, lines = check_addresses(progs)
     problems += p
     for ln in lines:

@@ -2,6 +2,7 @@
 {* *! version 0.1.0  23oct2026}{...}
 {viewerjumpto "Syntax" "erw##syntax"}{...}
 {viewerjumpto "Description" "erw##description"}{...}
+{viewerjumpto "Install" "erw##install"}{...}
 {viewerjumpto "Options" "erw##options"}{...}
 {viewerjumpto "Held tables" "erw##held"}{...}
 {viewerjumpto "Examples" "erw##examples"}{...}
@@ -63,6 +64,20 @@ Three places hold the tables:
 The live set and Redivis are read with {cmd:curl}, which Windows 10 and later, macOS and Linux carry, since Stata's
 own {cmd:copy} cannot send the headers they ask for. The record files (the coverage table, the source registry, the
 license record) are read from {cmd:global ERW_REPO}, a clone of the repository, or else from GitHub.
+
+
+{marker install}{...}
+{title:Install}
+
+{pstd}
+From the repository on GitHub (the files {cmd:stata.toc} and {cmd:erw.pkg} of {cmd:packages/stata}):
+
+{phang2}{cmd:. net install erw, from("https://raw.githubusercontent.com/SamuelEnrique/erw/main/packages/stata/") replace}{p_end}
+
+{pstd}
+Or from a clone: {cmd:adopath + "}{it:the clone}{cmd:/packages/stata"}. The do-file {cmd:examples.do} reproduces two of
+the site's charts (the Grid tool's ERCOT demand, the price board's Henry Hub) and displays the figures each shows, so
+they can be checked against the page.
 
 
 {marker options}{...}
