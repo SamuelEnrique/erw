@@ -391,12 +391,25 @@ erw_license <- function(table) {
 #' @export
 erw_fetch <- function(table, entity = NULL, variable = NULL, start = NULL, end = NULL, backend = "auto",
                       market = NULL, ba = NULL, year = NULL) {
+  # session 1056 (chain 072): a start or end that is not a date, or a start not before the end, said before any request
+  for (side in c("start", "end")) {
+    v <- get(side)
+    if (length(v) > 0 && is.na(.erw_time(as.character(v)))) {
+      stop(sprintf("The %s %s is not a date the ERW reads: write it as YYYY-MM-DD, or YYYY-MM-DDTHH:MM:SSZ in UTC, then try again.", side, v), call. = FALSE)
+    }
+  }
+  if (length(start) > 0 && length(end) > 0 && .erw_time(as.character(start)) >= .erw_time(as.character(end))) {
+    stop(sprintf("The start %s is not before the end %s, so the window [start, end) holds no time: give a start before the end, then try again.", start, end), call. = FALSE)
+  }
   shape <- .erw_shape(table)
   lic <- .erw_license_row(table)
   verdict <- if (nrow(lic)) lic$verdict[1] else ""
   words <- if (nrow(lic)) lic$words[1] else ""
   if (backend == "auto") backend <- .erw_route(table, if (nrow(lic)) lic$live_window[1] else "", start)
   if (!backend %in% c("local", "live", "redivis")) stop("erw: backend is auto, local, live or redivis", call. = FALSE)
+  if (backend == "live" && nrow(lic) && identical(lic$live_window[1], "none")) {
+    stop(sprintf("%s is not in the live set: erw_tables() says which tables are (in_live); read it from the Stanford dataset or a clone's tables instead.", table), call. = FALSE)
+  }
   if (nzchar(verdict) && verdict != "public") {
     if (backend != "local") {
       stop(sprintf("%s is not public: %s. %s The ERW's license record: %s", table, verdict, words,

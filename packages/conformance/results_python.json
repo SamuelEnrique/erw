@@ -71,7 +71,8 @@
         "rows": 24,
         "first": "2026-10-18T00:00:00Z",
         "last": "2026-10-18T23:00:00Z"
-      }
+      },
+      "rerun_alone": true
     },
     {
       "n": 8,
@@ -195,6 +196,6 @@
   ],
   "requests": {
     "redivis": 0,
-    "live": 21
+    "live": 3
   }
 }
