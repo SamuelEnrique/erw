@@ -3321,6 +3321,12 @@ energy_companies,sources,column,
 energy_companies,confidence,column,
 energy_companies,confidence_note,column,
 energy_companies,first_seen,column,
+epa_ghgrp_facility_emissions,emissions_direct,series variable,tCO2e
+epa_ghgrp_facility_emissions,emissions_gathering_boosting,series variable,tCO2e
+epa_ghgrp_facility_emissions,emissions_ldc,series variable,tCO2e
+epa_ghgrp_facility_emissions,emissions_onshore_production,series variable,tCO2e
+epa_ghgrp_facility_emissions,emissions_sf6_equipment,series variable,tCO2e
+epa_ghgrp_facility_emissions,emissions_transmission_pipelines,series variable,tCO2e
 epa_ghgrp_power_co2,co2_biogenic,series variable,tCO2
 epa_ghgrp_power_co2,co2_non_biogenic,series variable,tCO2
 ercot_4cp_intervals,cp4_load_mw,series variable,MW
