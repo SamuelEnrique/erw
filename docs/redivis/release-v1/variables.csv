@@ -3096,6 +3096,16 @@ eia_world_electricity_annual,exports,series variable,MWh
 eia_world_electricity_annual,generation,series variable,MWh
 eia_world_electricity_annual,imports,series variable,MWh
 eia_world_electricity_annual,net_imports,series variable,MWh
+eia_world_oil_gas_annual,bunker_consumption,series variable,kbbl/d
+eia_world_oil_gas_annual,consumption,series variable,bcf
+eia_world_oil_gas_annual,consumption,series variable,kbbl/d
+eia_world_oil_gas_annual,exports,series variable,bcf
+eia_world_oil_gas_annual,exports,series variable,kbbl/d
+eia_world_oil_gas_annual,imports,series variable,bcf
+eia_world_oil_gas_annual,imports,series variable,kbbl/d
+eia_world_oil_gas_annual,production,series variable,bcf
+eia_world_oil_gas_annual,production,series variable,kbbl/d
+eia_world_oil_gas_annual,stocks,series variable,kbbl
 energy_companies,entity_id,column,
 energy_companies,entity_type,column,
 energy_companies,name,column,

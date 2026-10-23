@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """EIA's International Energy Statistics for every country and region, read from EIA's bulk file: each year's electricity
 generation and capacity by source, consumption, imports, exports, net imports and distribution losses (session 909,
-chain 051).
+chain 051), and each year's petroleum and natural gas production, consumption, trade and stocks (session 923, chain 052).
 
 Energy Research Warehouse (ERW) connector. One series table, warehouse/output/eia_world_electricity_annual.csv, from the
 U.S. Energy Information Administration's bulk download of its International Energy Statistics:
@@ -26,7 +26,13 @@ A country or region's name is the part every one of its series' names ends with 
 a code with fewer than two series names, a product, activity or unit not in the maps, or a key given twice stops the run.
 A value EIA leaves empty or marks ("NA", "--", "ie") has no row; nothing is filled.
 
-    python warehouse/connectors/eia_intl_bulk.py [--offline | --fresh] [--out-dir DIR]
+A second table, warehouse/output/eia_world_oil_gas_annual.csv (--table eia_world_oil_gas_annual), from the same file: the
+annual series in thousand barrels a day (TBPD, as kbbl/d), billion cubic feet (BCF, as bcf) and million barrels (MBBL,
+stocks, as kbbl times 1,000), with the activities production, consumption, imports, exports, stocks and bunker consumption
+(13) and the products in OIL_GAS_PRODUCTS. EIA's copies of the same quantities in cubic metres, tonnes, Btu, terajoules and
+oil equivalent are not taken. The file holds no reserves.
+
+    python warehouse/connectors/eia_intl_bulk.py [--offline | --fresh] [--out-dir DIR] [--table NAME]
 
 Ceiling: one request (the file, saved in warehouse/raw/eia_intl_bulk/ and reused unless --fresh; --offline asks
 nothing). EIA's robots file allows /opendata/ (it disallows /archive/). License: public (EIA, record 1 of
@@ -62,6 +68,20 @@ PRODUCTS = {"2": "Electricity", "27": "Nuclear", "28": "Fossil fuels", "29": "Re
             "32": "Oil", "33": "Hydroelectricity", "34": "Non-hydroelectric renewables", "35": "Geothermal",
             "36": "Solar, tide, wave, fuel cell", "37": "Wind", "38": "Biomass and waste", "82": "Hydroelectric pumped storage",
             "116": "Solar", "117": "Tide and wave", "2890": "Other gases"}
+OIL_GAS_ACTIVITIES = {"1": "production", "2": "consumption", "3": "imports", "4": "exports", "5": "stocks",
+                      "13": "bunker_consumption"}
+OIL_GAS_UNITS = {"TBPD": ("kbbl/d", 1.0), "BCF": ("bcf", 1.0), "MBBL": ("kbbl", 1e3)}
+# EIA's product names (the API's productName, as its series names give them)
+OIL_GAS_PRODUCTS = {"3": "Gross natural gas", "26": "Dry natural gas", "43": "Vented and flared natural gas", "48": "Reinjected natural gas",
+                    "5": "Petroleum and other liquids", "53": "Total petroleum and other liquids", "54": "Refined petroleum products",
+                    "55": "Crude oil, NGPL, and other liquids", "56": "Refinery processing gain", "57": "Crude oil including lease condensate",
+                    "58": "NGPL", "59": "Other liquids", "62": "Motor gasoline", "63": "Jet fuel", "64": "Kerosene",
+                    "65": "Distillate fuel oil", "66": "Residual fuel oil", "67": "Liquefied petroleum gases (LPG)",
+                    "68": "Other refined products", "79": "Biofuels", "80": "Ethanol", "81": "Biodiesel", "13": "LPG and ethane",
+                    "6798": "LPG and ethane, refinery", "6799": "LPG, non-refinery", "6899": "LPG", "8399": "Ethane, non-refinery",
+                    "8499": "Ethane"}
+OIL_GAS = "eia_world_oil_gas_annual"
+SPECS = {NAME: (ACTIVITIES, UNITS, PRODUCTS), OIL_GAS: (OIL_GAS_ACTIVITIES, OIL_GAS_UNITS, OIL_GAS_PRODUCTS)}
 # EIA's codes of four letters are its regions and groups, but for these former countries and parts of one
 FORMER = {"CSK", "DDR", "DEUW", "SCG", "SUN", "YUG", "NLDA"}
 PARTS = {"DEUO", "GBRO", "NLDO", "HITZ", "USIQ"}
@@ -103,7 +123,8 @@ def read_series(content):
     return out
 
 
-def rows(series, url, retrieved, vintage):
+def rows(series, url, retrieved, vintage, table=NAME):
+    activities, units, products = SPECS[table]
     names, keep = defaultdict(set), []
     for d in series:
         sid = d["series_id"]
@@ -113,24 +134,24 @@ def rows(series, url, retrieved, vintage):
             raise RuntimeError(f"a series id not of four parts: {sid}")
         product, act, area, u = parts
         names[area].add(d["name"].rsplit(", ", 1)[0])
-        if u not in UNITS or freq != "A":
+        if u not in units or freq != "A":
             continue
-        if act not in ACTIVITIES:
+        if act not in activities:
             raise RuntimeError(f"an activity not in the map: {sid} {d['name']}")
-        if product not in PRODUCTS:
+        if product not in products:
             raise RuntimeError(f"a product not in the map: {sid} {d['name']}")
         keep.append((product, act, area, u, d))
     area_name = {a: common_name(n) for a, n in names.items()}
     out = []
     for product, act, area, u, d in keep:
-        unit, scale = UNITS[u]
+        unit, scale = units[u]
         for period, v in d["data"]:
             v = pd.to_numeric(v, errors="coerce")
             if pd.isna(v):
                 continue
-            out.append(dict(entity=f"eia_intl:{area}:{product}", variable=ACTIVITIES[act], ts_utc=f"{period}-01-01T00:00:00Z",
+            out.append(dict(entity=f"eia_intl:{area}:{product}", variable=activities[act], ts_utc=f"{period}-01-01T00:00:00Z",
                             value=float(v) * scale, unit=unit, freq="P1Y", geo="", market="",
-                            node=f"{area_name[area]}, {PRODUCTS[product]}", source=SOURCE, source_url=url,
+                            node=f"{area_name[area]}, {products[product]}", source=SOURCE, source_url=url,
                             retrieved_at=retrieved, vintage=vintage, x_area=area_kind(area)))
     t = pd.DataFrame(out)
     if len(t) and t.duplicated(["entity", "variable", "ts_utc"]).any():
@@ -143,7 +164,9 @@ def main(argv=None):
     ap.add_argument("--offline", action="store_true", help="the saved file only, no request")
     ap.add_argument("--fresh", action="store_true", help="ask for the file again, even one saved in warehouse/raw")
     ap.add_argument("--out-dir", help="a trial: the table under this folder, not warehouse/output")
+    ap.add_argument("--table", default=NAME, choices=sorted(SPECS), help=f"the table to write (default {NAME})")
     args = ap.parse_args(argv)
+    name = args.table
     if args.out_dir:
         raw_dir = ip.RAW_DIR
         ip.set_out_dir(args.out_dir)
@@ -157,7 +180,7 @@ def main(argv=None):
         content, rec = ip.fetch_raw(CONNECTOR, URL, log, offline=args.offline, fresh=args.fresh, headers=UA, timeout=600)
         retrieved, vintage = rec.get("retrieved_at") or "", ip.vintage_of(rec)
         series = read_series(content)
-        s, n_series = rows(series, URL, retrieved, vintage)
+        s, n_series = rows(series, URL, retrieved, vintage, name)
         cols = ip.SERIES_COLS + ["x_area"]
         s = s[cols].sort_values(["entity", "variable", "ts_utc"]).reset_index(drop=True)
         span = f"{s['ts_utc'].min()[:4]} to {s['ts_utc'].max()[:4]}"
@@ -183,18 +206,34 @@ def main(argv=None):
             f"  access: {URL}",
             'License: public (a work of the U.S. government; cite "U.S. Energy Information Administration, International Energy Statistics").',
         ]
-        ip.write_snapshot(s, NAME, header, log, cols)
+        if name == OIL_GAS:
+            kinds_text = f"{s['entity'].str.split(':').str[1].nunique()} areas ({', '.join(f'{v} {k}' for k, v in kinds.items())})"
+            header[:3] = [
+                "Energy Research Warehouse (ERW): EIA, International Energy Statistics, petroleum and natural gas of every country and region, a year, from EIA's bulk file (session 923)",
+                "Shape: series (docs/datastandard.md v0). entity eia_intl:<EIA country or region code>:<EIA product id: 57 crude oil including lease "
+                "condensate, 53 total petroleum and other liquids, 5 petroleum and other liquids (consumption, stocks), 54 refined petroleum products and "
+                "62 to 68 each product, 79 to 81 biofuels, 13 and 6798 to 8499 LPG and ethane, 26 dry natural gas, 3 gross natural gas, 43 vented and "
+                "flared, 48 reinjected, as node names them>; variables production, consumption, imports, exports, bunker_consumption (kbbl/d for liquids, "
+                "EIA's thousand barrels a day; bcf for gas, EIA's billion cubic feet a year) and stocks (kbbl, EIA's million barrels times 1,000); a "
+                "product's parts overlap (55 holds 57, 58 and 59; 53 holds 55 and 56): a sum takes one level; ts_utc the year's 1 January; freq P1Y; "
+                "geo empty (no ISO code is guessed from EIA's); x_area country, former, part or region, as in eia_world_electricity_annual: a sum over "
+                "countries takes country and former only.",
+                f"Years {span}; {n_series:,} series of EIA's, {len(s):,} rows; {kinds_text}. Only annual series in thousand barrels a day, billion cubic "
+                "feet and million barrels are taken (EIA's cubic metre, tonne, Btu, terajoule and oil-equivalent copies are not); the file holds no "
+                "reserves. A value EIA leaves empty or marks (NA, --, ie) has no row; nothing is filled.",
+            ]
+        ip.write_snapshot(s, name, header, log, cols)
         if not args.out_dir:
             ip.update_sources([dict(source=SOURCE, publisher="U.S. Energy Information Administration (EIA)",
                                     report="International Energy Statistics (bulk download)", report_url=PAGE,
-                                    document_list=URL, license="public", tables=[NAME])])
-        results.append(dict(table=NAME, market="all", status="ok", detail=f"{len(s):,} rows"))
-        print(f"{NAME}: {len(s):,} rows, {s['entity'].nunique()} series, {span}")
+                                    document_list=URL, license="public", tables=[name])])
+        results.append(dict(table=name, market="all", status="ok", detail=f"{len(s):,} rows"))
+        print(f"{name}: {len(s):,} rows, {s['entity'].nunique()} series, {span}")
     except Exception:
         tb = ip.redact(traceback.format_exc())
         log(f"FAILED, no output file written:\n{tb}")
         print(f"{CONNECTOR} FAILED, no output file written: {tb.strip().splitlines()[-1]}", file=sys.stderr)
-        results.append(dict(table=NAME, market="all", status="failed", detail=tb.strip().splitlines()[-1][:300]))
+        results.append(dict(table=args.table, market="all", status="failed", detail=tb.strip().splitlines()[-1][:300]))
     if not args.out_dir:
         ip.write_status(CONNECTOR, run_id, results)
     log.close()
