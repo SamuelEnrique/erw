@@ -66,6 +66,26 @@ const VOCAB = new Set(["planned", "under construction", "operating", "withdrawn"
   check(p.html.includes('data-bars-table="1"') && barRows === barCount && /The bars&#x27; figures|The bars' figures/.test(p.html), `the fold under the bars holds the same ${barCount} figures as a table (${barRows} rows)`);
   check(p.html.includes('data-tip="bars-state"') && p.html.includes('data-tip="bars-operator"') && p.html.includes('data-tip="power-mw"'), "the source tips stand by the two bars and the power side's MW column");
   check(p.html.includes('data-series-chart="large-load"') && /data-source="ercot_large_load_status\|/.test(p.html), "ERCOT's large-load figures are drawn by the shared chart, framed with their source");
+  // session 2302 (chain 087): the ERCOT positions whose operator alone names a data center (Bullock Gas, Liberty Thermal
+  // Energy Center: docs/reviews/datacenters-power-side-2026-10-23.md) are on the power side when the live set holds them,
+  // read here from the live set itself with the page's own pattern; when it does not, the check says so and passes
+  {
+    const url = (env("SUPABASE_URL") ?? "").replace(/\/+$/, ""), key = env("SUPABASE_ANON_KEY") ?? "";
+    let live = null;
+    if (url && key) {
+      try {
+        const r = await fetch(`${url}/rest/v1/entities?table_name=eq.ercot_interconnection_queue&operator=imatch.data%20%3Fcent(%3F%3Aer%7Cre)s%3F%7Cdatacenter&select=entity_id,operator`, { headers: { apikey: key, Authorization: `Bearer ${key}` } });
+        if (r.ok) live = await r.json();
+      } catch { live = null; }
+    }
+    if (live === null) console.log("skip the operator-named positions: the live set could not be read here (SUPABASE_URL and SUPABASE_ANON_KEY)");
+    else if (!live.length) console.log("skip the operator-named positions: the live set's ERCOT queue holds no position whose operator names a data center");
+    else {
+      const shown = live.filter((x) => new RegExp(`data-power-site="${x.entity_id.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"[^>]*data-matched-by="operator"`).test(p.html));
+      check(shown.length === live.length, `the ${live.length} ERCOT positions named a data center by their operator alone are on the power side, marked so (${shown.length} shown: ${live.map((x) => x.entity_id).join(", ")})`);
+      check(/named a data center by its operator&#x27;s name|named a data center by its operator's name/.test(p.html), "a row named by its operator says so under its name");
+    }
+  }
   const v = await get("/datacenters", false);
   check(!v.html.includes('aria-label="Summary"') && /in review/i.test(plain(v.html)), "without the cookie a visitor gets the in-review page");
 }

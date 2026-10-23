@@ -8,6 +8,27 @@
  *  (tests/test_session467.py holds the two equal). A queue position whose name or fuel field matches is one the
  *  datacenter tracker counts as naming a datacenter or a large load. */
 export const QUEUE_SITE_PATTERN = "data ?cent(?:er|re)s?|datacenter|large load|co-?located load|digital campus|hyperscale|crypto|bitcoin";
+/** Session 2302 (chain 087): the fields of a queue row the pattern is matched against, as the live set names them (the
+ *  PostgREST column or JSON path), in the order they are read. The operator is the third: session 2102 found two ERCOT
+ *  positions (Bullock Gas, Liberty Thermal Energy Center; 1,400 MW of combined-cycle each, Hill County, Texas) whose only
+ *  data-center word is their owner's name (Bullock Data Center, LLC; Liberty Data Center I, LLC). The derived table
+ *  datacenter_queue_positions still reads the name and fuel fields alone (the data machine's change); the site's read
+ *  layer reads the operator too, so the tracker's power side shows them. The same list serves scripts/check-values.mjs. */
+export const QUEUE_SITE_FIELDS = ["name", "extra->>fuel_technology", "operator"] as const;
+export type QueueSiteField = (typeof QUEUE_SITE_FIELDS)[number];
+const SITE_RE = new RegExp(QUEUE_SITE_PATTERN, "i");
+/** The first field of a row (in QUEUE_SITE_FIELDS' order) that names a datacenter or a large load, or null: the pure
+ *  rule behind lib/data.ts queueSites, so a fixture can test it (scripts/test-queue-sites.mjs). A point of
+ *  interconnection is never read: "load" in a substation's name is not a large load. */
+export function queueSiteMatch(row: { name?: string | null; operator?: string | null; extra?: { fuel_technology?: string | null } | null }): QueueSiteField | null {
+  if (SITE_RE.test(row.name ?? "")) return "name";
+  if (SITE_RE.test(row.extra?.fuel_technology ?? "")) return "extra->>fuel_technology";
+  if (SITE_RE.test(row.operator ?? "")) return "operator";
+  return null;
+}
+/** The words of a match, for a row's hover ("named a data center by its operator's name"). */
+export const matchWords = (field: QueueSiteField | null): string =>
+  field === "name" ? "named in the position's own name" : field === "extra->>fuel_technology" ? "named in the position's fuel or type field" : field === "operator" ? "named by its operator's name" : "not matched";
 /** The six queues the builder reads (warehouse/derived/energy_projects.py, QUEUE_ISOS), in its order. */
 export const QUEUE_GRIDS = ["ercot", "caiso", "nyiso", "miso", "spp", "isone"] as const;
 /** The zone of a site or a position whose queue names none: one group a grid, compared with the grid's whole queue. */

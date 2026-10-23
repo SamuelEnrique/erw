@@ -12,6 +12,7 @@ import { SiteLink as Link } from "@/components/SiteLink";
 import { Tip, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import type { EntityRow } from "@/lib/data";
 import { BUYS, regionCosts, shortMonth, two, type RegionCost } from "@/lib/datacenter";
+import { matchWords, type QueueSiteField } from "@/lib/datacenter/bygrid";
 import { INDEX, yearFiles } from "@/lib/datacenterdata";
 import { licenseHeldGrid } from "@/lib/license";
 
@@ -69,7 +70,13 @@ export function PowerSide({ read }: { read: Read }) {
               return {
                 key: r.entity_id,
                 cells: [
-                  <span key="n" data-power-site={r.entity_id}>{r.name ?? "not named"}{r.operator ? <span className="text-muted">, {r.operator}</span> : null}</span>,
+                  // session 2302 (chain 087): which field named the site (lib/data.ts queueSites, extra.matched_by); a site named by its
+                  // operator alone is in the tracker's derived table only after the data machine's next run (session 2102's review)
+                  <span key="n" data-power-site={r.entity_id} data-matched-by={r.extra?.matched_by ?? ""}
+                    title={`${matchWords((r.extra?.matched_by as QueueSiteField | undefined) ?? null)}${r.extra?.matched_by === "operator" ? ` (${r.operator}). The derived table datacenter_queue_positions reads the name and fuel fields alone, so this position joins the tracker's own table at the data machine's next run; it is read here from ${r.table_name} directly.` : "."}`}>
+                    {r.name ?? "not named"}{r.operator ? <span className="text-muted">, {r.operator}</span> : null}
+                    {r.extra?.matched_by === "operator" ? <span className="block text-xs text-muted">named a data center by its operator&apos;s name</span> : null}
+                  </span>,
                   gridName(gridOf(r)),
                   [r.extra?.county, r.extra?.state].filter(Boolean).join(", ") || "not stated",
                   <span key="q">{r.extra?.queue_id ?? r.entity_id}: {r.extra?.iso_status ?? r.status ?? "status not stated"}{r.source_url ? <> (<a href={r.source_url} className="underline" rel="noopener">report</a>, read {day(r.vintage ?? undefined)})</> : null}</span>,

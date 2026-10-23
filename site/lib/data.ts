@@ -2,7 +2,7 @@
 import "server-only";
 import { DataError, HOURLY, LATEST, rest, restHeldRowCount } from "./supabase";
 import { licenseNeeded } from "./license";
-import { QUEUE_GRIDS, QUEUE_SITE_PATTERN, type QueueRow } from "./datacenter/bygrid";
+import { QUEUE_GRIDS, QUEUE_SITE_FIELDS, QUEUE_SITE_PATTERN, queueSiteMatch, type QueueRow } from "./datacenter/bygrid";
 import markets from "@/data/markets.json";
 
 export type CatalogueRow = {
@@ -359,7 +359,9 @@ export { QUEUE_GRIDS, QUEUE_SITE_PATTERN } from "./datacenter/bygrid";
 /** Session 467: the queue positions that name a datacenter or a large load, read from each ISO's own queue table in the
  *  live set: the facilities of datacenter_facilities that rest on a public source, without reading that table, which
  *  is held whole while its other rows rest on publishers who ask for permission (lib/license.ts). A queue table held
- *  itself is not asked for; its grid is named in `held`. Two reads a table, the name and the fuel field, joined by id. */
+ *  itself is not asked for; its grid is named in `held`. One read a field of QUEUE_SITE_FIELDS (the name, the fuel
+ *  field and, since session 2302, the operator), joined by id; each row's `extra.matched_by` says which field named it
+ *  (lib/datacenter/bygrid.ts, queueSiteMatch), so the page can say "named by its operator's name". */
 export async function queueSites(): Promise<{ rows: EntityRow[]; held: string[] }> {
   const rows = new Map<string, EntityRow>();
   const held: string[] = [];
@@ -367,9 +369,9 @@ export async function queueSites(): Promise<{ rows: EntityRow[]; held: string[] 
   for (const grid of QUEUE_GRIDS) {
     const table = `${grid}_interconnection_queue`;
     if (licenseNeeded(table)) { held.push(grid); continue; }
-    for (const field of ["name", "extra->>fuel_technology"]) {
+    for (const field of QUEUE_SITE_FIELDS) {
       const got = await rest<EntityRow>("entities", { select, table_name: `eq.${table}`, [field]: `imatch.${QUEUE_SITE_PATTERN}`, order: "entity_id" }, HOURLY, 2_000);
-      for (const r of got) rows.set(r.entity_id, r);
+      for (const r of got) rows.set(r.entity_id, { ...r, extra: { ...(r.extra ?? {}), matched_by: queueSiteMatch(r) ?? field } });
     }
   }
   return { rows: [...rows.values()].sort((a, b) => a.entity_id.localeCompare(b.entity_id)), held };

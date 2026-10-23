@@ -771,17 +771,18 @@ async function truth(check) {
     return undefined;
   }
   // session 468: the datacenter tracker by grid, dcq|<grid>|<zone or ->|<stat>: the queue positions that name a datacenter
-  // or a large load (the builder's pattern, read from the grid's own queue table by name and by fuel field, as
-  // lib/data.ts queueSites reads them) and the grid's active positions, grouped by lib/datacenter/bygrid.ts
+  // or a large load (the builder's pattern, read from the grid's own queue table by each field of B.QUEUE_SITE_FIELDS:
+  // the name, the fuel field and, since session 2302, the operator, as lib/data.ts queueSites reads them) and the grid's
+  // active positions, grouped by lib/datacenter/bygrid.ts
   if (p[0] === "dcq") {
     const B = await import("../lib/datacenter/bygrid.ts");
     const table = `${p[1]}_interconnection_queue`;
     if (!dcqRows.has(p[1])) {
       dcqRows.set(p[1], (async () => {
         const sel = "entity_id,table_name,capacity_mw,status,zone:extra->>zone";
-        const byName = await all("entities", { select: sel, table_name: `eq.${table}`, name: `imatch.${B.QUEUE_SITE_PATTERN}`, order: "entity_id" });
-        const byFuel = await all("entities", { select: sel, table_name: `eq.${table}`, "extra->>fuel_technology": `imatch.${B.QUEUE_SITE_PATTERN}`, order: "entity_id" });
-        const sites = [...new Map([...byName, ...byFuel].map((r) => [r.entity_id, r])).values()];
+        const found = [];
+        for (const field of B.QUEUE_SITE_FIELDS) found.push(...(await all("entities", { select: sel, table_name: `eq.${table}`, [field]: `imatch.${B.QUEUE_SITE_PATTERN}`, order: "entity_id" })));
+        const sites = [...new Map(found.map((r) => [r.entity_id, r])).values()];
         const active = await all("entities", { select: "table_name,capacity_mw,status,zone:extra->>zone", table_name: `eq.${table}`, status: "eq.active", order: "entity_id" });
         return B.groups(sites, active);
       })());
