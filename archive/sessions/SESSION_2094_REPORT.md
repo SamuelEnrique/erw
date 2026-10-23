@@ -4,7 +4,7 @@
 
 ## Read these first
 
-- **Four method notes, one a table of this chain's,** each count recomputed by this session from the tables read past their header lines:
+- **Four method notes, one for each of this chain's tables,** each count recomputed by this session from the tables read past their header lines:
   - `docs/methods/irena_capacity_annual.md` (20,662 rows, 224 countries and areas, 1,962 series, 2015 to 2025; IRENA's totals equal their parts: the non-renewable total with pumped hydro, the renewable total with mixed and pure hydropower)
   - `docs/methods/irs_soi_energy_credits_annual.md` (1,074 rows, 54 places, 2015 to 2023; Puerto Rico from 2018)
   - `docs/methods/eia_state_to_state_capacity.md` (19,311 rows, 686 crossings, 33 years from 1990, 1991 to 1993 absent; `value` is `x_capacity_mmcfd` over 1,000 on every row)
