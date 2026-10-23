@@ -12,7 +12,7 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 - **415 tables.** The flag and the verdict agree on 326; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 44 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
 - **The ERW's verdict (session 378): 307 public, 57 internal, 51 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
-- **240 publishers in the record: 238 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 99 pages read, 139 that could not be read, 2 not asked (paused).**
+- **241 publishers in the record: 239 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 99 pages read, 140 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **0 tables are flagged internal where the sentence read allows them.**
 - **13 tables that may be public today would need permission if the ERW sells anything** (SPP 7; Canada Energy Regulator (CER) 2; Alberta Electric System Operator (AESO), Canada 1; IMF 1; IMF PortWatch 1; RRC 1).
@@ -263,6 +263,7 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | 238 | Federal Emergency Management Agency (FEMA), hazards.fema.gov's robots file (session 2121) | https://hazards.fema.gov/robots.txt | 22:32:39 | no request |  | not read: the host reset the connection; not asked again |
 | 239 | U.S. Geological Survey (USGS), www.sciencebase.gov's robots file (session 2121) | https://www.sciencebase.gov/robots.txt | 22:33:06 | 200 | 4383 | read: allows / for every reader, then disallows / for every reader by default and names AI agents; taken as disallowed, not asked further |
 | 240 | U.S. Environmental Protection Agency (EPA), data.epa.gov's robots file (session 2121) | https://data.epa.gov/robots.txt | 22:33:41 | 200 | 31 | read: no rules (a welcome line), no path disallowed |
+| 241 | Lawrence Berkeley National Laboratory (Berkeley Lab), eta-publications.lbl.gov's robots file (session 2122) | https://eta-publications.lbl.gov/robots.txt | 22:48:08 | 200 | 2027 | read: disallows Drupal's own paths and /search/; publication pages and files not disallowed |
 
 ## The publishers: the sentence and the verdict
 
