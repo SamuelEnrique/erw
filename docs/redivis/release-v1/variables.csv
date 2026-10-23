@@ -1917,6 +1917,8 @@ eia_oxygenate_production_monthly,oxygenate_plant_production_per_day,series varia
 eia_padd_crude_pipeline_flows,pipeline_receipts,series variable,kbbl
 eia_padd_rail_barge_movements_monthly,rail_receipts,series variable,kbbl
 eia_padd_rail_barge_movements_monthly,tanker_barge_receipts,series variable,kbbl
+eia_petroleum_exports_by_destination,exports,series variable,kbbl
+eia_petroleum_exports_by_destination,exports_per_day,series variable,kbbl/d
 eia_petroleum_snd_monthly,ending_stocks,series variable,kbbl
 eia_petroleum_snd_monthly,exports,series variable,kbbl
 eia_petroleum_snd_monthly,exports_per_day,series variable,kbbl/d
