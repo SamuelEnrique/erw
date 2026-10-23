@@ -18,7 +18,7 @@ class TheHistory(unittest.TestCase):
     def test_every_run_is_a_row(self):
         with open(os.path.join(ROOT, "docs", "reviews", "ask-history.md"), encoding="utf-8") as f:
             body = f.read()
-        self.assertEqual(body.count("\n| 2026-"), 6)
+        self.assertEqual(body.count("\n| 2026-"), 8)   # session 1190: six, and session 1149's two runs
         self.assertIn("| 19 of 30 (15 on the figure keys; 30 if session 320's rulings went the answers' way) |", body)
         self.assertIn("| 24 of 30 |", body)
 

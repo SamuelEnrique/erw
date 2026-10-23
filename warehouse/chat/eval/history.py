@@ -59,6 +59,13 @@ def rows():
     g = load("eval_s1114_grades.json")
     run = load("eval_s1114_run.json")["questions"]
     out.append([asked_day(run), "`questions_s1114.yaml`", "thirty a trading, a finance and a policy lead ask, first asking", f"{g['right']} of {g['asked']}", f"USD {g['cost_usd']:.2f}", "`docs/reviews/ask-sixty-2026-10-23.md`"])
+    # session 1190: session 1149's asking again after chains 076 and 085 (eval_s1133_*), the second set stopped by its cap
+    g = load("eval_s1133_s320_grades.json")
+    run = load("eval_s1133_s320_run.json")["questions"]
+    out.append([asked_day(run), "`questions_s320.yaml`", "asked again after chains 076 and 085, graded under the hold", f"{g['right_under_hold']} of {g['asked']} ({g['right_now']} on the figure keys; {g['right_if_ruled']} if session 320's rulings went the answers' way)", f"USD {g['cost_usd']:.2f}", "`docs/reviews/ask-sixty-2026-10-25.md`"])
+    g = load("eval_s1133_s1114_grades.json")
+    run = load("eval_s1133_s1114_run.json")["questions"]
+    out.append([asked_day(run), "`questions_s1114.yaml`", f"asked again after chains 076 and 085, {g['asked']} of the thirty (the cap)", f"{g['right']} of {g['asked']}", f"USD {g['cost_usd']:.2f}", "`docs/reviews/ask-sixty-2026-10-25.md`"])
     return out
 
 
