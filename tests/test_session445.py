@@ -59,7 +59,9 @@ class Guide(unittest.TestCase):
         self.assertIn("&as=r", GUIDE)
         self.assertIn("The R reader (session 535) is checked by its text", GUIDE)
         self.assertIn("MAX_ROWS = 500_000", route)
-        self.assertIn('"download", 60, 3600', route)
+        # session 1009: the hourly limit is read from the environment, 60 when it is not set (the guide's figure)
+        self.assertIn('"download", PER_HOUR, 3600', route)
+        self.assertIn("const PER_HOUR = Number(process.env.ERW_DOWNLOAD_PER_HOUR) || 60;", route)
         self.assertIn("500,000 rows", GUIDE)
         self.assertIn("60 downloads an hour", GUIDE)
 

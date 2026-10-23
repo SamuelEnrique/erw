@@ -42,6 +42,7 @@ next-env.d.ts
 
 # generated from ../docs by scripts/build-content.mjs
 /content/docs.json
+/content/llms.json
 # session 188: generated from ../archive/sessions by scripts/build-waits.mjs (/internal/waits)
 /content/waits.json
 # session 587: generated from ../docs/licenses_holds.csv by scripts/build-content.mjs (/internal/holds)
