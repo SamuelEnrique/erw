@@ -35,6 +35,9 @@ type Result = {
   answer: string; citations: Citation[]; status: string; model: string; tool_calls: number; retried: boolean; cost_usd: number | null; form?: Form;
   series?: Series[]; followups?: string[];
   seconds?: number; calls?: { tool: string; input: Record<string, unknown> }[]; nearest?: { table: string; holds: string }[]; premise?: string;
+  /** session 1115: what each query read (lib/chat/ask.ts readsOf), drawn under the sources */
+  reads?: { table: string; entity?: string; variable?: string; start?: string; end?: string; aggregation?: string; group_by?: string; tz?: string }[];
+  why?: string;
 };
 type Turn = { question: string; res: Result };
 const MAX_HISTORY = 3; // earlier turns sent with a question (lib/chat/spec_ercot.json max_history)
@@ -44,7 +47,7 @@ export type Context = { view: string; title?: string; settings?: Record<string, 
 const PROFILES = new Set(["ercot"]);
 const NOT_ANSWERED: Record<string, string> = {
   not_in_warehouse: "Not in the warehouse",
-  refused_unverified: "No answer: its numbers could not all be traced to a query",
+  refused_unverified: "The warehouse does not hold that figure",  // session 1110: the refusal's own words
   model_refusal: "No answer",
 };
 const SHOWN = 24; // rows of a table shown before the fold
@@ -147,6 +150,18 @@ function Answer({ turn, n, last, busy, onAsk }: { turn: Turn; n: number; last: b
           })}
         </ul>
       ) : null}
+      {(res.reads ?? []).length ? (
+        <ul className="mt-1 text-xs text-muted" data-reads={res.reads!.length}>
+          {res.reads!.map((r, i) => (
+            <li key={i} className="py-0.5">
+              Read: <span className="font-mono">{r.table}</span>{r.entity ? <>, <span className="font-mono">{r.entity}</span></> : null}{r.variable ? <>, <span className="font-mono">{r.variable}</span></> : null}
+              {r.start || r.end ? `, ${r.start ?? "the first row"} to ${r.end ?? "the newest row"}${r.end ? " (the end not included)" : ""}${r.tz && r.tz !== "UTC" ? `, ${r.tz} time` : ""}` : ", every row held"}
+              {r.aggregation ? `, ${r.aggregation}${r.group_by ? ` by ${r.group_by}` : ""}` : ""}
+            </li>
+          ))}
+        </ul>
+      ) : null}
+      {typeof res.seconds === "number" ? <p className="mt-1 text-xs text-muted" data-answered-in={res.seconds.toFixed(1)}>Answered in {res.seconds.toFixed(1)} seconds{res.tool_calls ? `, ${res.tool_calls} ${res.tool_calls === 1 ? "read" : "reads"} of the warehouse` : ""}.</p> : null}
       {last && (res.followups ?? []).length ? (
         <div className="mt-4" data-followups={res.followups!.length}>
           <div className="mb-1 text-xs uppercase tracking-wide text-muted">Ask next</div>

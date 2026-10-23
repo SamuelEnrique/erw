@@ -227,6 +227,21 @@ export function unitMismatches(answer: string, sources: string[]): string[] {
   return bad;
 }
 
+/** Session 1115: what one query or compare read, for the line under an answer: the table, the rows asked for and the
+ * window, never a figure (the figures are the answer's own, checked). A failed call reads nothing and is not listed. */
+export type Read = { table: string; entity?: string; variable?: string; start?: string; end?: string; aggregation?: string; group_by?: string; tz?: string };
+export function readsOf(name: string, input: Record<string, unknown>): Read[] {
+  const one = (a: Record<string, unknown> | undefined): Read[] => {
+    if (!a || typeof a.table !== "string") return [];
+    const r: Read = { table: a.table };
+    for (const k of ["entity", "variable", "start", "end", "aggregation", "group_by", "tz"] as const) if (typeof a[k] === "string" && a[k]) r[k] = a[k] as string;
+    return [r];
+  };
+  if (name === "query") return one(input);
+  if (name === "compare") return [...one(input.a as Record<string, unknown>), ...one(input.b as Record<string, unknown>)];
+  return [];
+}
+
 /** Session 1111, as ask.py why_refused: why a draft was refused, in one sentence with no figure in it. */
 export function whyRefused(c: { bad: string[]; units: string[]; uncited: string[]; noCite: boolean; more: string[] }): string {
   const parts: string[] = [];
@@ -387,7 +402,9 @@ export async function ask(question: string, today = new Date().toISOString().sli
   const traced: { tool: string; input: unknown; out: unknown; isError: boolean }[] = [];
   // session 1111: an evaluation admitted by its own token records them too (opts.record, set by the route); a visitor never
   const tracing = process.env.ASK_RECORD_TOOLS === "1" || opts.record === true;
-  const base = () => ({ model: writer, ...(planner ? { planner } : {}), tool_calls: calls, retried, usage, cost_usd: spent, ...(tracing ? { trace: traced } : {}) });
+  // session 1115: what each query read, shown under the answer (readsOf); every answer carries it when there is one
+  const readsLog: Read[] = [];
+  const base = () => ({ model: writer, ...(planner ? { planner } : {}), tool_calls: calls, retried, usage, cost_usd: spent, ...(tracing ? { trace: traced } : {}), ...(readsLog.length ? { reads: readsLog } : {}) });
   const textOf = (resp: Anthropic.Message) => resp.content.map((b) => (b.type === "text" ? b.text : "")).join("");
   // The check of a whole draft, as it always was: every number in a tool result, every cited table read, an answer and
   // a citation, and the profile's own reasons.
@@ -441,6 +458,7 @@ export async function ask(question: string, today = new Date().toISOString().sli
       else if (v && typeof v === "object") words(v); } };
     if (profile?.zone) words(out);
     if (tracing) traced.push({ tool: name, input, out, isError });
+    if (!isError && !out.held) for (const r of readsOf(name, input)) if (!readsLog.some((x) => JSON.stringify(x) === JSON.stringify(r))) readsLog.push(r);
     if (profile) {
       out = profile.tag(name, input, out, n);
       records.push({ tool: name, input, out, isError });
