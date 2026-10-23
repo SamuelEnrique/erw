@@ -274,9 +274,21 @@ def quantile(xs, q):
 SUBBA_ROW = {"nyiso:N.Y.C.": "NYIS:ZONJ", "nyiso:NORTH": "NYIS:ZOND", "isone:.Z.SEMASS": "ISNE:4006"}
 
 
+def reserve_figures(repo, rows):
+    """Session 1027: ERCOT's summer reserve margin at the peak load hour (rows of ts_utc and value), the first summer after
+    headroom.json's build day, for the hub table's ERCOT rows (the node list has no headroom column). None held: none."""
+    as_of = (read_json(repo, "siting", "headroom.json").get("reserve") or {}).get("as_of")
+    nxt = sorted((r for r in rows if as_of and r["ts_utc"][:10] > as_of and r["value"] not in ("", None)), key=lambda r: r["ts_utc"])
+    return {f"allgrids|reservemargin|{rid}": float(nxt[0]["value"]) for rid in ROWS if rid.startswith("ercot:")} if nxt else {}
+
+
 def table_figures(repo, tables, chosen):
     """Session 735: the node spread and the zone growth from the warehouse's own tables (--tables)."""
     out = {}
+    # session 1027: ERCOT's reserve margin from the table's own CSV, where the live set does not hold it yet
+    rpath = os.path.join(tables, "ercot_cdr_reserve_margins.csv")
+    if os.path.exists(rpath):
+        out.update(reserve_figures(repo, [r for r in table_rows(rpath) if r["entity"] == "ercot_cdr:summer:peak_load" and r["variable"] == "reserve_margin"]))
     nodes = read_json(repo, "siting", "nodes.json")
     want = {f"ercot:{n}" for n in chosen}
     days, swing, store, monthly = {}, {}, {}, {}
@@ -460,6 +472,10 @@ def figures(repo, base, key):
     # session 735: the second card's HB_HUBAVG figures, the replication's own all-in, flat and flexible
     out["card|siting_flexible|hub_flat"] = out.get(f"allgrids|allin|ercot:HB_HUBAVG|{pkey('datacenter')}")
     out["card|siting_flexible|hub_flex"] = out.get(f"allgrids|allin|ercot:HB_HUBAVG|{pkey('flexible')}")
+    # session 1027: ERCOT's planning reserve margin, its first summer after the tab file's build day, from the live set
+    if (read_json(repo, "siting", "headroom.json").get("reserve") or {}).get("as_of"):
+        out.update(reserve_figures(repo, rest(base, key, "series", {"select": "ts_utc,value", "table_name": "eq.ercot_cdr_reserve_margins",
+                                                                     "entity": "eq.ercot_cdr:summer:peak_load", "variable": "eq.reserve_margin", "order": "ts_utc"})))
     out["_chosen"] = [n["id"] for n in chosen]
     return out
 

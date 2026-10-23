@@ -4,7 +4,7 @@ import { InlineSpark } from "@/components/InlineSpark";
 import { LineChart } from "@/components/LineChart";
 import { InputPanel } from "@/components/tool/ToolPage";
 import type { ReactNode } from "react";
-import { columnWords, nodeColumns, zoneGrowth, SERVICE_WORDS, UTILITY_KINDS_LINE, utilityKind, nodeShortMonths, shortMonthsWords, CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, columnValue, nodeTable, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
+import { columnWords, nodeColumns, zoneGrowth, SERVICE_WORDS, UTILITY_KINDS_LINE, utilityKind, nodeShortMonths, shortMonthsWords, CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, reserveMargin, columnValue, nodeTable, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
 import { CP, NODES, SITING_DC, SITING_FILES } from "@/lib/sitingdata";
 import { AllGridsForm } from "./AllGridsForm";
 import { AllGridsNodes } from "./AllGridsNodes";
@@ -189,7 +189,7 @@ function ConnectTd({ r }: { r: Row }) {
 /** Session 706: headroom: the grid's demand growth (percent), generation under construction due in the next twelve
  * months (MW), and installed capacity against the last year's peak where the grid is whole states. */
 function HeadroomTd({ r }: { r: Row }) {
-  const g = demandGrowth(SITING_FILES.demand, r.grid), h = SITING_FILES.headroom, pl = h?.planned[r.grid], c = capacityOverPeak(SITING_FILES.demand, h, r.grid);
+  const g = demandGrowth(SITING_FILES.demand, r.grid), h = SITING_FILES.headroom, pl = h?.planned[r.grid], c = capacityOverPeak(SITING_FILES.demand, h, r.grid), m = reserveMargin(h, r.grid);
   return (
     <span className="inline-block text-right">
       {"pct" in g
@@ -207,6 +207,12 @@ function HeadroomTd({ r }: { r: Row }) {
         {"pct" in c ? <>, <Tp dotted={false} tip={c.table === "grid_peak_vs_capacity"
           ? `${GRID_NAMES[r.grid]}'s operating generators' net summer capacity at the end of ${c.year}, ${Math.round(c.mw).toLocaleString("en-US")} MW (solar ${Math.round(c.parts?.solar ?? 0).toLocaleString("en-US")}, wind ${Math.round(c.parts?.wind ?? 0).toLocaleString("en-US")}, storage ${Math.round(c.parts?.storage ?? 0).toLocaleString("en-US")}, at their summer ratings), against its peak hour of ${c.peakYear}, ${Math.round(c.peak).toLocaleString("en-US")} MW: grid_peak_vs_capacity (the data machine's, by each generator's balancing authority, EIA-860M and EIA-930). Not a reserve margin: no imports, outages or derates, and solar and wind at their ratings.`
           : `Installed net summer capacity of ${c.states.join(", ")} in ${c.year} (eia_state_capacity_annual), ${Math.round(c.mw).toLocaleString("en-US")} MW, over ${GRID_NAMES[r.grid]}'s peak demand of ${c.peakYear}, ${Math.round(c.peak).toLocaleString("en-US")} MW. Not a reserve margin.`}>capacity <Num check={`allgrids|capratio|${r.id}`} raw={c.pct}>{Math.round(c.pct).toLocaleString("en-US")}</Num>% above peak</Tp></> : null}
+      </span>
+      {/* session 1027: the grid's own planning reserve margin, where its report is held (ERCOT's CDR) */}
+      <span className="block text-xs" data-headroom-reserve="1">
+        {"peak" in m
+          ? <Tp dotted={false} tip={`ERCOT's planning reserve margin for ${m.peak.label.toLowerCase()} at the report's peak load hour (hour ending ${m.peak.x_hour}): total capacity, ${Math.round(m.peak.capacity_mw).toLocaleString("en-US")} MW, less firm peak load, ${Math.round(m.peak.firm_peak_mw).toLocaleString("en-US")} MW, over firm peak load. ${m.net ? `At the peak net load hour (hour ending ${m.net.x_hour}), ${m.net.pct.toFixed(1)}%. ` : ""}Wind, solar and storage at ERCOT's ELCCs, not at nameplate. ${m.first_below_zero ? `The report's first season below zero at the peak load hour: ${m.first_below_zero.label.toLowerCase()}, ${m.first_below_zero.pct.toFixed(1)}%. ` : ""}A forecast: ERCOT's Capacity, Demand and Reserves report posted ${m.vintage} (${m.table}).`}>reserve margin <Num check={`allgrids|reservemargin|${r.id}`} raw={m.peak.pct}>{m.peak.pct.toFixed(1)}</Num>%, {m.peak.label.toLowerCase()}</Tp>
+          : <Words words="reserve margin not held" why={m.why} />}
       </span>
     </span>
   );
