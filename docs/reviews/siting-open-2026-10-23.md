@@ -35,7 +35,7 @@ Session 722 (chain 062, `queue/done/062-day-23-october-code-allgrids-2.md`). One
 
 The walk of session 717 (`docs/reviews/siting-path.md`) left no item of its own beyond 7, 11, 15 and 16; session 727 walks it again.
 
-## State after chains 062 to 065 (session 975, 23 October 2026 at 00:20 UTC)
+## State after chains 062 to 065 (session 975, 23 October 2026 at about 00:15 UTC)
 
 Each line above, read against chains 062 (722 to 743), 063 (744 to 765), 064 (766 to 787) and 065 (788 to 799, 970 to 977). A ruling's number in `docs/reviews/siting-rulings-2026-10-23.md` is given as "rulings 1"; none of them is answered (session 974). "Data chain 045" and "data chain 046" are the data machine's queue files of 22 October evening and night (`queue/done/045-evening-22-october-data-resumed.md`, `queue/next/046-night-22-october-data-sources-gaps.md`); neither has landed a table the tab waits on.
 

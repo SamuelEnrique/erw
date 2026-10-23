@@ -137,7 +137,7 @@ All 19 items, and the 20th (which parts of the personal laptop's run of chain 06
 
 ## The state of each item (session 974, chain 065, 23 October 2026, after midnight)
 
-All 19 items above, and the 20th (`docs/reviews/siting-rulings-answered.md`), are **not ruled**: session 789 read none answered at 22:28 UTC, and session 974 read main again at 00:16 UTC on 23 October (no "Answer:" line in this file or the answered file; the owner's one commit since, `a42d280a`, is the data machine's queue file 045, which rules none of these). Nothing was done ahead of a ruling. Chain 065 adds two items, 21 and 22 below, each about a shared component the tab uses and does not own.
+All 19 items above, and the 20th (`docs/reviews/siting-rulings-answered.md`), are **not ruled**: session 789 read none answered at 22:28 UTC, and session 974 read main again at about 00:13 UTC on 23 October (no "Answer:" line in this file or the answered file; the owner's one commit since, `a42d280a`, is the data machine's queue file 045, which rules none of these). Nothing was done ahead of a ruling. Chain 065 adds two items, 21 and 22 below, each about a shared component the tab uses and does not own.
 
 ## 21. The shared time chart's month labels (798)
 

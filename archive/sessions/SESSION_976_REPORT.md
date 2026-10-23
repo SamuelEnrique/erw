@@ -1,6 +1,6 @@
 # Session 976 report: the clean-up
 
-23 October 2026, from 00:24 UTC, on samueloldlaptop, unattended, in the worktree `C:\Users\lossa\Documents\erw-976` on `wip/976-allgrids` (cut from `wip/975-allgrids`). Chain `queue/done/065-late-22-october-code-allgrids-5.md`, session 976. Model spend USD 0. No warehouse data written; no request to a publisher.
+23 October 2026, from 00:16 UTC, on samueloldlaptop, unattended, in the worktree `C:\Users\lossa\Documents\erw-976` on `wip/976-allgrids` (cut from `wip/975-allgrids`). Chain `queue/done/065-late-22-october-code-allgrids-5.md`, session 976. Model spend USD 0. No warehouse data written; no request to a publisher.
 
 ## Read these first
 

@@ -1,10 +1,10 @@
 # Session 974 report: the rulings still open
 
-23 October 2026, from 00:16 UTC, on samueloldlaptop, unattended, in the worktree `C:\Users\lossa\Documents\erw-974` on `wip/974-allgrids` (cut from `wip/973-allgrids`). Chain `queue/done/065-late-22-october-code-allgrids-5.md`, session 974. Model spend USD 0. No warehouse data written; no request to a publisher.
+23 October 2026, from 00:13 UTC, on samueloldlaptop, unattended, in the worktree `C:\Users\lossa\Documents\erw-974` on `wip/974-allgrids` (cut from `wip/973-allgrids`). Chain `queue/done/065-late-22-october-code-allgrids-5.md`, session 974. Model spend USD 0. No warehouse data written; no request to a publisher.
 
 ## Read these first
 
-- **All 20 items are not ruled**, read on main at 00:16 UTC.
+- **All 20 items are not ruled**, read on main at about 00:13 UTC.
   - There is no "Answer:" line in `docs/reviews/siting-rulings-2026-10-23.md` or in `siting-rulings-answered.md`.
   - The owner's one commit since 789's reading (`a42d280a`, 23:58 UTC) is the data machine's queue file 045, which rules none of them.
 - **Two new items from this chain, added at the rulings file's end** in the items' form (what, yes, no, recommendation). Each is about a shared component the tab uses and does not own:
