@@ -362,6 +362,7 @@ catalogue_hold:
   - eia_biofuel_plants
   - msha_coal_mines
   - msha_coal_production_quarterly
+  - fhwa_motor_fuel_monthly
   - lbnl_hybrid_ppa_prices
   - lbnl_solar_projects
   - ornl_npd_potential
