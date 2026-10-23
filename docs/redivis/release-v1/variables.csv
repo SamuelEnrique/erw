@@ -1762,6 +1762,7 @@ eia930_generation_latest,net_generation_unknown_storage_mw,series variable,MW
 eia930_generation_latest,net_generation_wind_mw,series variable,MW
 eia930_generation_latest,net_generation_wind_with_battery_mw,series variable,MW
 eia930_subba_demand_hourly,demand_mw,series variable,MW
+eia930_subba_demand_hourly_2020,demand_mw,series variable,MW
 eia930_subba_demand_hourly_2021,demand_mw,series variable,MW
 eia930_subba_demand_hourly_2022,demand_mw,series variable,MW
 eia930_subba_demand_hourly_2023,demand_mw,series variable,MW

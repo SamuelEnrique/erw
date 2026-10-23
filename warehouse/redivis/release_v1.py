@@ -98,7 +98,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "eia_gas_trade_country_monthly", "eia_gas_storage_capacity_monthly",
            "eia930_subba_demand_hourly_2023", "eia_ngl_production_monthly",
            "eia_oxygenate_production_monthly", "eia930_subba_demand_hourly_2022",
-           "eia_crude_imports_detail_monthly", "eia930_subba_demand_hourly_2021", "utility_service_territories",
+           "eia_crude_imports_detail_monthly", "eia930_subba_demand_hourly_2021", "eia930_subba_demand_hourly_2020", "utility_service_territories",
            "eia_coal_production_annual", "eia_coal_mine_production_annual", "eia861_utility_reliability",
            "interconnection_durations", "interconnection_durations_summary",
            "grid_peak_vs_capacity"):  # 510 to 672 the same way
