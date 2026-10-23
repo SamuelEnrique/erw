@@ -1,6 +1,6 @@
 # Session 1158 report: 390 pixels, accessibility, links
 
-23 October 2026, from about 21:00 UTC, on samueloldlaptop (the code machine, the old laptop), session 1158 of `queue/done/077-day-23-october-code-grid-tool.md`, beside chain 075/076. Branch `wip/1158-grid`, cut from `wip/c077-land2` (sessions 1150 to 1156 merged with main), worktree `C:\Users\lossa\Documents\erw-1158`. Model spend USD 0. No warehouse data written, no Supabase read or write, no request to any publisher.
+23 October 2026, from about 20:40 UTC, on samueloldlaptop (the code machine, the old laptop), session 1158 of `queue/done/077-day-23-october-code-grid-tool.md`, beside chain 075/076. Branch `wip/1158-grid`, cut from `wip/c077-land2` (sessions 1150 to 1156 merged with main), worktree `C:\Users\lossa\Documents\erw-1158`. Model spend USD 0. No warehouse data written, no Supabase read or write, no request to any publisher.
 
 **The machine was short of memory** (1.6 GB free of 7.5 GB; the harness had stopped a landing gate): on the orchestrator's instruction, no `next build`, no `next start`, no browser for pages (no screenshots, no `audit_live`, no check-390, no check-links), no whole python suite. Every check below ran without a server. `site/node_modules` was a junction to the main checkout's (the same `package-lock.json`), not an `npm ci`, and was taken down before the hand-over.
 
@@ -75,6 +75,7 @@ After the chain's combined landing, on production:
 - The source link check (scratch script, routes and ids): exit 0, 32 links, 0 unresolved.
 - `npm run content`, `npx next typegen`, `npx tsc --noEmit -p .` in `site/`: exit 0 each.
 - No `db_probe`, no build lock, no build (the orchestrator's memory instruction).
+- `audit_html` starts a headless Chrome of its own (AccessLint's, a debugging port, launched 20:46 UTC): stopped by its PID at 21:00 UTC; no Chrome left running.
 
 ## The landing
 
