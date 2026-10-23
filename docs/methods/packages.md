@@ -1,6 +1,6 @@
 # The ERW in Python, Stata and R: one specification for three packages
 
-Version 0, session 1000, 23 October 2026 (chain 070, `queue/done/070-evening-22-october-code-packages.md`). The one specification the three packages follow: the Python package `erw` (`package/`), the Stata command `erw` (`packages/stata/`, from session 1003) and the R package `erw` (`packages/r/`, from session 1005). A call, a word or a column type that one package does differently from this note is a fault of that package. Internal: the site is in review, like every page, and nothing here is published to PyPI, CRAN or SSC (the owner's).
+Version 0, session 1000, 23 October 2026 (chain 070, `queue/done/070-evening-22-october-code-packages.md`); session 1001 closed the Python package's gaps and settled two points while doing so (decisions 6 and 7). The one specification the three packages follow: the Python package `erw` (`package/`), the Stata command `erw` (`packages/stata/`, from session 1003) and the R package `erw` (`packages/r/`, from session 1005). A call, a word or a column type that one package does differently from this note is a fault of that package. Internal: the site is in review, like every page, and nothing here is published to PyPI, CRAN or SSC (the owner's).
 
 ## What a reader gets
 
@@ -18,11 +18,11 @@ Python names them as below; Stata as subcommands (`erw tables`, `erw coverage <t
 
 ### `tables()`
 
-Every table of the warehouse, one row each: `table`, `shape` (`series`, `entities` or `events`), `interval`, `ts_min`, `ts_max`, `n_rows`, `license` (the ERW's verdict: `public`, `internal` or `unsettled`), `in_live` (`yes` or `no`) and `title` (the provenance header's first line). Read from the coverage table of the backend the call uses (Redivis's `erw_coverage`, the live set's `catalogue`, a clone's `warehouse/metadata/coverage.csv`). A held table is listed, with its verdict, so a reader learns it exists and why it is not served.
+Every table of the warehouse, one row each: `table`, `shape` (`series`, `entities` or `events`), `interval`, `ts_min`, `ts_max`, `n_rows`, `verdict` (the ERW's one word for its license: `public`, `internal` or `unsettled`), `in_live` (`yes` or `no`) and `title` (the provenance header's first line, where the backend can say it without reading the rows). Read from the coverage table of the backend the call uses (Redivis's `erw_coverage`, the live set's `catalogue`, a clone's `warehouse/metadata/coverage.csv`). A held table is listed, with its verdict, so a reader learns it exists and why it is not served.
 
 ### `coverage(table)`
 
-The coverage row of one table (with no table, every row): `table`, `iso`, `market`, `n_nodes`, `interval`, `ts_min`, `ts_max` (the first and last interval starts, UTC), `n_rows`, `source_report`, `last_run`, `license`, `tier` (`source`, `derived` or `model_extracted`), `sector`, and `live_window` (`whole`, `35 days`, or `none`). An unknown table is an error (below).
+The coverage row of one table (with no table, every row): `table`, `iso`, `market`, `n_nodes`, `interval`, `ts_min`, `ts_max` (the first and last interval starts, UTC), `n_rows`, `source_report`, `last_run`, `validator_status`, `license` (the flag: `public` or `internal`), `sector`, `derived`, `tier` (`source`, `derived` or `model_extracted`), `verdict` (as in `tables()`) and `live_window` (`whole`, `<N> days`, `some rows` or `none`). An unknown table is an error that names the tables with a close name.
 
 ### `fetch(table, entity=, variable=, start=, end=, backend=)`
 
@@ -64,14 +64,14 @@ One rule in all three packages. Every column not named here stays text as the ta
 | Shape | Column | Type | Python | Stata | R |
 |---|---|---|---|---|---|
 | series | `value` | number | `float64` | `double` | `double` |
-| series | `ts_utc`, `retrieved_at`, `vintage` | UTC time | `datetime64[ns, UTC]` | `double`, format `%tc` (milliseconds since 1960, UTC) | `POSIXct`, `tz = "UTC"` |
+| series | `ts_utc` | UTC time | `datetime64[ns, UTC]` | `double`, format `%tc` (milliseconds since 1960, UTC) | `POSIXct`, `tz = "UTC"` |
 | entities | `lat`, `lon`, `capacity_mw`, every `*_mw` | number | `float64` | `double` | `double` |
 | entities | `status_date`, every `*_date` | date | `datetime64[ns]` | `long`, format `%td` | `Date` |
 | entities | `retrieved_at` | UTC time | as series | as series | as series |
 | events | `event_date` | UTC time (a bare date is midnight UTC) | as series | as series | as series |
 | events | `mw`, `price`, `significance`, `ai_power_relevance` | number | `float64` | `double` | `double` |
 
-Stata reads every column with `import delimited ..., stringcols(_all)` and then `destring ..., replace force` the number columns only, so that a code such as `0102` stays text; a time is read with `clock(..., "YMDhms")`.
+A series table's `retrieved_at` and `vintage` stay text (decision 7). Stata reads every column with `import delimited ..., stringcols(_all)` and then `destring ..., replace force` the number columns only, so that a code such as `0102` stays text; a time is read with `clock(..., "YMDhms")`.
 
 ## The version line
 
@@ -102,7 +102,7 @@ Every call that reaches Redivis or the live set is counted by the package (Pytho
 
 ## The Python package against this note (session 1000)
 
-What `package/src/erw/` does on 23 October 2026, call by call. Session 1001 closes each gap.
+What `package/src/erw/` did on 23 October 2026 before session 1001, call by call, and (below the table) what session 1001 did about each gap.
 
 | Call | Today | Gap |
 |---|---|---|
@@ -117,6 +117,17 @@ What `package/src/erw/` does on 23 October 2026, call by call. Session 1001 clos
 | Requests | not counted | `erw.requests()` |
 | Distribution | `pyproject.toml` names the package `erw`, version `0.1.0` | the distribution name `erw-energy` (the import stays `erw`), session 1002 |
 
+### What session 1001 did, gap by gap
+
+- `tables()`, `license()`, `standard()` and `requests()` added; `coverage(table)` takes a table and gains `verdict` and `live_window`.
+- `fetch` takes `entity=`, `variable=` and `backend=` (`auto`, `local`, `live`, `redivis`); `auto` routes each table (local, then the live set within its window, then Redivis). Every frame carries `attrs["erw"]["version_line"]` and its license.
+- A table that is not public is refused with the license's words (`ERWLicenseHeld`) on the live set and the Stanford dataset, and read with an `ERWLicenseWarning` from local files.
+- `cite` gives the release's words (tested for every table of coverage against `release_v1.py`'s own `citation()`); the last clause names the Redivis version, the live set's fetch time, or the ERW commit.
+- `RedivisBackend()` reads `datapages.erw:b9wm` at its latest released version (`version="next"` for the draft); its requests are counted.
+- `LiveBackend` reads the live set's REST address with the anon key and sends the filters to the server; `ERW_LIVE_URL` and `ERW_LIVE_KEY` (or `SUPABASE_URL` and `SUPABASE_ANON_KEY`). `SupabaseBackend` stays for the service key.
+- Five tables through the three backends (`package/tests/test_backends_three.py`): every row both backends hold agrees before the table's newest 92 days; inside them, the rows a publisher revises differ (18 of `carbon_intensity_monthly`'s, its newest two months; 114 of `ercot_peak_premium_annual`'s, the current year's rows, recomputed each day). The counts: `package/tests/three_backends.json`.
+- Not done here: the distribution name `erw-energy` (session 1002).
+
 ## Decisions (each dated, and reversible unless said)
 
 1. 2026-10-23, session 1000: six calls, the same names in the three packages (R with an `erw_` prefix, Stata as subcommands). `list_tables`, `filter`, `sources`, `info` and `version` stay in Python as they are.
@@ -124,3 +135,7 @@ What `package/src/erw/` does on 23 October 2026, call by call. Session 1001 clos
 3. 2026-10-23, 1000: `auto` prefers local, then the live set for a window within its last 30 days (the live set keeps 35, so a day or two of lag never reaches its edge), then Redivis's latest released version. A reader names a backend to override it.
 4. 2026-10-23, 1000: the citation follows Redivis's tag (`v1.0`, `v2.0`), not the ERW's "version 1", until the owner settles the release's number (the release note's item 1).
 5. 2026-10-23, 1000: Stata reads every column as text and destrings the number columns with `force`, as the owner writes Stata; no line continuation.
+6. 2026-10-23, 1001: the verdict is its own column, `verdict`, in `tables()` and `coverage()`; `coverage()`'s `license` stays the flag (`public` or `internal`), which `filter(license=)`, the chat's tools and the package's tests read.
+7. 2026-10-23, 1001: a series table's `retrieved_at` and `vintage` stay text: the tables write `vintage` in more than one form (a month, `2026-08`; a time), and the ERW's own code reads them as text.
+8. 2026-10-23, 1001: the default backend is the session's (local files in a clone, or `ERW_BACKEND`), as before; `auto` is the default only where no local tables are found and `ERW_DATA_DIR` names none, so the ERW's own code and tests never reach the network unasked. `backend="auto"` routes any call.
+9. 2026-10-23, 1001: the license record is read from the clone's own files when the package runs in one, else from `erw/data/tables.csv`, which `python package/tools/build_tables.py` writes before a build of the package.

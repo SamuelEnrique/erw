@@ -31,5 +31,9 @@ package-dir = {"" = "src"}
 [tool.setuptools.packages.find]
 where = ["src"]
 
+# session 1001: the license and live-window record an installed package reads (package/tools/build_tables.py)
+[tool.setuptools.package-data]
+erw = ["data/*.csv"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]

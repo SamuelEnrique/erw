@@ -141,7 +141,7 @@ class CleanInstall(unittest.TestCase):
         # fault 1: before session 536 this raised ERWDataNotFound (a LocalBackend), never reading ERW_BACKEND
         p = self.run_py("import erw\nerw.info()\n", {"ERW_BACKEND": "nowhere"})
         self.assertEqual(p.returncode, 1)
-        self.assertIn("ERW_BACKEND='nowhere': use local, redivis or supabase", p.stderr)
+        self.assertIn("ERW_BACKEND='nowhere': use local, live, redivis, supabase or auto", p.stderr)
 
     def test_migrations_beside_the_data_directory(self):
         # fault 2: the map beside the tables, as coverage.csv and sources.csv are

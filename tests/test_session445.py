@@ -100,7 +100,9 @@ class PackageAgrees(unittest.TestCase):
         self.assertIn("held: license needed", readme)
         self.assertIn("warehouse/metadata/license_status.csv", readme)
         self.assertIn("[`docs/guide.md`](../docs/guide.md)", readme)
-        self.assertIn("Redivis dataset `energy_research_warehouse`, version v1 (released YYYY-MM-DD)", readme)
+        # session 1001 (chain 070): the package's citation is the specification's (docs/methods/packages.md), on the
+        # Stanford dataset; the guide and llms.txt keep the release-v1.md form until they are rewritten (session 1011)
+        self.assertIn("Via the Energy Research Warehouse (ERW), table `<table>`, Redivis dataset `datapages.erw`, version <tag> (released <YYYY-MM-DD>)", readme)
 
     def test_the_held_count_agrees(self):
         with open(os.path.join(ROOT, "warehouse", "metadata", "license_status.csv"), encoding="utf-8") as f:

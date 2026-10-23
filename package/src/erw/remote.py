@@ -5,8 +5,10 @@ interface of erw.backends, so every public function (fetch, filter, coverage,
 sources, cite, info) works unchanged. Select one with ERW_BACKEND:
 
     ERW_BACKEND=local      the CSV files (default)
-    ERW_BACKEND=redivis    the Redivis draft of energy_research_warehouse, all tables
-                           (REDIVIS_API_TOKEN and REDIVIS_OWNER, from the environment or .env)
+    ERW_BACKEND=redivis    the Stanford dataset datapages.erw:b9wm, its latest released version (session 1001;
+                           REDIVIS_API_TOKEN, from the environment or .env)
+    ERW_BACKEND=live       the live set through its REST address with the anon key (erw.live, session 1001)
+    ERW_BACKEND=auto       each table from local files, else the live set, else Redivis (docs/methods/packages.md)
     ERW_BACKEND=supabase   the Supabase live set (SUPABASE_URL with SUPABASE_SERVICE_KEY; or
                            with SUPABASE_ANON_KEY, public rows only, when ERW_SUPABASE_ROLE=anon)
 
@@ -97,36 +99,47 @@ def _read_by_export(table, types: Dict[str, Optional[str]]) -> pd.DataFrame:
     return df
 
 
-class RedivisBackend(Backend):
-    """Reads the ERW from its Redivis dataset: the unreleased draft by default (all tables).
+STANFORD = ("datapages", "erw:b9wm", "organization")  # session 1001: Datapages's dataset, DOI 10.57761/4f55-6d55
 
-    version="next" is the draft the uploader writes; pass a released version tag
-    (for example "v1.0") to read what the public reads.
+
+class RedivisBackend(Backend):
+    """Reads the ERW from its Redivis dataset.
+
+    Session 1001 (docs/methods/packages.md): by default the Stanford dataset, `datapages.erw:b9wm`, at its latest
+    released version, which any Redivis account can read and cite. version="next" reads the unreleased draft (its
+    editors only; never citable); a tag ("v1.0") reads that version.
     """
 
     name = "redivis"
 
     def __init__(self, owner: Optional[str] = None, dataset: Optional[str] = None,
-                 version: str = "next", owner_kind: Optional[str] = None):
-        """Session 665 (chain 043): the Stanford dataset is an organization's, Datapages's `erw:b9wm`. Pass
-        owner="datapages", dataset="erw:b9wm", owner_kind="organization", or set ERW_REDIVIS_DATASET=datapages.erw:b9wm
-        (an organization's unless ERW_REDIVIS_OWNER_KIND=user). With neither, the owner's account and
-        energy_research_warehouse, as before."""
+                 version: Optional[str] = None, owner_kind: Optional[str] = None):
+        """Session 665 (chain 043): the Stanford dataset is an organization's, Datapages's `erw:b9wm`. ERW_REDIVIS_DATASET
+        (owner.dataset, an organization's unless ERW_REDIVIS_OWNER_KIND=user) names another. Session 1001: with neither,
+        the Stanford dataset (until then, the owner's account and energy_research_warehouse); the latest released
+        version unless version= or ERW_REDIVIS_VERSION names one (until then, always the draft)."""
         os.environ.setdefault("REDIVIS_API_TOKEN", _secret("REDIVIS_API_TOKEN"))
+        from . import counter
+        counter.wrap_redivis()
         import redivis
         named = os.environ.get("ERW_REDIVIS_DATASET", "").strip()
         if dataset is None and named and "." in named:
             owner, dataset = owner or named.split(".", 1)[0], named.split(".", 1)[1]
             owner_kind = owner_kind or os.environ.get("ERW_REDIVIS_OWNER_KIND", "organization")
+        if dataset is None and owner is None:
+            owner, dataset, owner_kind = STANFORD
         dataset = dataset or "energy_research_warehouse"
         self.owner = owner or _secret("REDIVIS_OWNER")
         self.owner_kind = owner_kind or "user"
-        self.dataset_name, self.version_tag = dataset, version
+        version = version or os.environ.get("ERW_REDIVIS_VERSION", "").strip() or None
+        self.dataset_name, self.version_tag = dataset, version or "latest release"
         account = redivis.organization(self.owner) if self.owner_kind == "organization" else redivis.user(self.owner)
-        self.ds = account.dataset(dataset, version=version)
+        self.ds = account.dataset(dataset, version=version) if version else account.dataset(dataset)
         if not self.ds.exists():
-            raise ERWDataNotFound(f"Redivis dataset {self.owner}.{dataset}:{version} does not exist")
+            raise ERWDataNotFound(f"Redivis dataset {self.owner}.{dataset}:{self.version_tag} does not exist, or this "
+                                  "token cannot read it")
         self._cache: Dict[str, pd.DataFrame] = {}
+        self._version: Optional[Dict[str, Optional[str]]] = None
 
     def describe(self) -> str:
         return f"Redivis dataset {self.owner}.{self.dataset_name}, version {self.version_tag}"
@@ -135,6 +148,12 @@ class RedivisBackend(Backend):
         if name not in self._cache:
             t = self.ds.table(name)
             if not t.exists():
+                if name in REDIVIS_META:
+                    v = self.version()
+                    raise ERWDataNotFound(
+                        f"{self.owner}.{self.dataset_name} version {v.get('version') or self.version_tag} holds no {name} "
+                        "table: the ERW's first full release waits for its release on Redivis. An editor of the dataset "
+                        "can read the draft with erw.RedivisBackend(version='next').")
                 raise ERWDataNotFound(f"No ERW table named {name!r} in {self.describe()}")
             types = {v.name: (v.properties or {}).get("type") for v in t.list_variables()}
             try:
@@ -155,11 +174,25 @@ class RedivisBackend(Backend):
 
     def read_table(self, name: str) -> Tuple[List[str], pd.DataFrame]:
         df = self._read(name)
+        return self.header(name), df.reset_index(drop=True)
+
+    def header(self, name: str) -> List[str]:
         h = self._read("erw_headers")
         h = h[h["table"] == name].copy()
         h["n"] = h["line_no"].astype(int)
-        header = h.sort_values("n")["line"].tolist()
-        return header, df.reset_index(drop=True)
+        return h.sort_values("n")["line"].tolist()
+
+    def columns(self, name: str) -> List[str]:
+        t = self.ds.table(name)
+        if not t.exists():
+            raise ERWDataNotFound(f"No ERW table named {name!r} in {self.describe()}")
+        return [v.name for v in t.list_variables()]
+
+    def titles(self) -> Dict[str, str]:
+        h = self._read("erw_headers")
+        h = h[h["line"].str.startswith("Energy Research Warehouse (ERW):")].copy()
+        h["n"] = h["line_no"].astype(int)
+        return {t: g.sort_values("n")["line"].iloc[0].split(":", 1)[1].strip() for t, g in h.groupby("table")}
 
     def coverage(self) -> pd.DataFrame:
         return _coverage_frame(self._read("erw_coverage"))
@@ -168,13 +201,16 @@ class RedivisBackend(Backend):
         return self._read("erw_sources")[SOURCE_COLS].sort_values("source").reset_index(drop=True)
 
     def version(self) -> Dict[str, Optional[str]]:
-        p = self.ds.get().properties
-        v = p.get("version") or {}
-        return {"backend": self.name, "dataset": p.get("qualifiedReference"),
-                "version": v.get("tag"), "released": v.get("isReleased"),
-                "data_commit": None,
-                "note": "An unreleased Redivis draft is not citable; cite a released version."
-                        if not v.get("isReleased") else None}
+        if self._version is None:
+            p = self.ds.get().properties
+            v = p.get("version") or {}
+            released = bool(v.get("isReleased"))
+            self._version = {"backend": self.name, "dataset": p.get("qualifiedReference"),
+                             "version": v.get("tag"), "released": released,
+                             "released_on": (v.get("releasedAt") or "")[:10] or None,
+                             "doi": p.get("doi"), "data_commit": None,
+                             "note": None if released else "An unreleased Redivis draft is not citable; cite a released version."}
+        return dict(self._version)
 
 
 class SupabaseBackend(Backend):
@@ -275,6 +311,13 @@ class SupabaseBackend(Backend):
         header = hdr.sort_values("line_no")["line"].tolist() if len(hdr) else []
         return header, self._cache[name].copy()
 
+    def columns(self, name: str) -> List[str]:
+        cat = self._catalogue().set_index("table_name")
+        if name not in cat.index:
+            raise ERWDataNotFound(f"No ERW table named {name!r} in {self.describe()}")
+        cols_json = cat.get("columns", pd.Series(dtype=object)).get(name)
+        return json.loads(cols_json) if isinstance(cols_json, str) and cols_json else []
+
     def coverage(self) -> pd.DataFrame:
         cat = self._catalogue()
         cat = _as_text(cat, {"ts_min": "dateTime", "ts_max": "dateTime", "last_run": "dateTime"})
@@ -290,12 +333,17 @@ class SupabaseBackend(Backend):
 
 
 def backend_from_env():
-    """The backend ERW_BACKEND names: local (default), redivis or supabase."""
+    """The backend ERW_BACKEND names: local (default), live, redivis or supabase; "auto" for per-table routing."""
     kind = os.environ.get("ERW_BACKEND", "local").strip().lower()
     if kind == "redivis":
         return RedivisBackend()
     if kind == "supabase":
         return SupabaseBackend()
+    if kind == "live":  # session 1001: the live set through its REST address, anon key
+        from .live import LiveBackend
+        return LiveBackend()
     if kind in ("", "local"):
         return None
-    raise ValueError(f"ERW_BACKEND={kind!r}: use local, redivis or supabase")
+    if kind == "auto":
+        return "auto"
+    raise ValueError(f"ERW_BACKEND={kind!r}: use local, live, redivis, supabase or auto")

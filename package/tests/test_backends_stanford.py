@@ -29,7 +29,7 @@ KEYS = {"ercot_peak_premium_annual": ["entity", "variable", "ts_utc"], "eia860m_
 @pytest.fixture(scope="module")
 def stanford():
     try:
-        b = erw.RedivisBackend(owner="datapages", dataset="erw:b9wm", owner_kind="organization")
+        b = erw.RedivisBackend(owner="datapages", dataset="erw:b9wm", owner_kind="organization", version="next")  # session 1001: the draft, named
         missing = [t for t in FIVE if t not in b.list_tables()]
         b.coverage()  # a read of rows: refused while Redivis's 30-day streaming cap stands
     except Exception as exc:

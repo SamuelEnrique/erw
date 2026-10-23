@@ -32,7 +32,8 @@ KEYS = {"ercot_peak_premium_annual": ["entity", "variable", "ts_utc"],
 
 def _remote(kind):
     try:
-        b = erw.RedivisBackend() if kind == "redivis" else erw.SupabaseBackend()
+        b = (erw.RedivisBackend(owner=None, dataset="energy_research_warehouse", version="next") if kind == "redivis"  # session 1001: the owner's draft, named
+             else erw.SupabaseBackend())
         missing = [t for t in FIVE if t not in b.list_tables()]
     except Exception as exc:
         pytest.skip(f"{kind} backend not available: {type(exc).__name__}: {str(exc)[:200]}")

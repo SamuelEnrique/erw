@@ -7,19 +7,31 @@ filter, version. Every function reads through the active backend
 """
 
 import os
+import re
+import time
 import warnings
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Tuple, Union
 
 import pandas as pd
 
-from .backends import Backend, LocalBackend
+from . import counter, licenses
+from .backends import Backend, ERWDataNotFound, ERWLicenseHeld, ERWLicenseWarning, LocalBackend
 from .provenance import PUBLISHERS, parse_header
 
 SECTORS = ["power", "gas", "oil", "products", "lng", "coal", "uranium", "carbon", "capacity",
            "metals", "equities", "news", "deals", "datacenters", "platform"]  # session 30: platform (operating tables)
 
 _backend: Optional[Backend] = None
+# Session 1001 (docs/methods/packages.md): the backends a call names (backend="local", "live", "redivis"), made once a
+# session, and whether the session routes each table itself (backend "auto": ERW_BACKEND=auto, or no local tables and
+# no ERW_DATA_DIR)
+_instances: Dict[str, Backend] = {}
+_auto = False
+BACKENDS = ("auto", "local", "live", "redivis")
+NO_DATA = ("No ERW data found. Set ERW_DATA_DIR to a directory of ERW tables (the warehouse/output folder of a clone of "
+           "the erw repository), or ERW_LIVE_URL and ERW_LIVE_KEY for the live set, or REDIVIS_API_TOKEN for the "
+           "Redivis dataset.")
 
 TS_FMT = "%Y-%m-%dT%H:%M:%SZ"
 ISO_ALIASES = {"ercot": "ERCOT", "caiso": "CAISO", "nyiso": "NYISO", "miso": "MISO",
@@ -40,9 +52,94 @@ def get_backend() -> Backend:
     """
     global _backend
     if _backend is None:
-        from .remote import backend_from_env
-        _backend = backend_from_env() or LocalBackend()
+        _backend = _default_backend()
     return _backend
+
+
+def _default_backend() -> Backend:
+    """Session 1001: ERW_BACKEND's backend; else local files; else, when no local tables are found and ERW_DATA_DIR does
+    not name a directory, the first of the live set and Redivis that answers, each table routed by fetch (auto)."""
+    global _auto
+    from .remote import backend_from_env
+    _auto = False
+    b = backend_from_env()
+    if b == "auto":
+        _auto = True
+        return _first_available()
+    if b is not None:
+        return b
+    if os.environ.get("ERW_DATA_DIR"):
+        return LocalBackend()   # a directory named and not found is an error, never a quiet change of backend
+    try:
+        return LocalBackend()
+    except ERWDataNotFound as local_error:
+        _auto = True
+        try:
+            return _first_available(skip_local=True)
+        except ERWDataNotFound as e:
+            raise ERWDataNotFound(f"{local_error} {e}") from None
+
+
+def _make(kind: str) -> Backend:
+    """The backend a call names, made once a session."""
+    if kind not in _instances:
+        if kind == "local":
+            _instances[kind] = LocalBackend()
+        elif kind == "live":
+            from .live import LiveBackend
+            _instances[kind] = LiveBackend()
+        elif kind == "redivis":
+            from .remote import RedivisBackend
+            _instances[kind] = RedivisBackend()
+        else:
+            raise ValueError(f"backend={kind!r}: use one of {', '.join(BACKENDS)}")
+    return _instances[kind]
+
+
+def _first_available(skip_local: bool = False) -> Backend:
+    errors = []
+    for kind in (("live", "redivis") if skip_local else ("local", "live", "redivis")):
+        try:
+            return _make(kind)
+        except Exception as e:  # noqa: BLE001 - each reason is reported together below
+            errors.append(f"{kind}: {e}")
+    raise ERWDataNotFound(NO_DATA + " (" + "; ".join(errors) + ")")
+
+
+def _live_covers(window: str, start) -> bool:
+    """Session 1001: the live set holds the rows a fetch asks for: a table it keeps whole, or a window that starts within
+    its last days less five (the live set keeps 35 days of prices; auto reads it for 30)."""
+    if window in ("whole", "some rows"):
+        return True
+    m = re.match(r"^(\d+) days$", window or "")
+    if not m or start is None:
+        return False
+    return _utc(start) >= pd.Timestamp.now(tz="UTC") - pd.Timedelta(days=int(m.group(1)) - 5)
+
+
+def _route(name: str, backend: Optional[str] = None, start=None) -> Backend:
+    """The backend a table is read from: the one named; the session's; or, routed (auto), local files when the table's
+    CSV is on disk, else the live set when it holds the window, else Redivis's latest release."""
+    if backend is None:
+        b = get_backend()
+        if not _auto:
+            return b
+        backend = "auto"
+    if backend != "auto":
+        return _make(backend)
+    cur = _current(name)
+    try:
+        loc = _make("local")
+        if (loc.data_dir / f"{cur}.csv").is_file():
+            return loc
+    except ERWDataNotFound:
+        pass
+    if _live_covers(licenses.rows().get(cur, {}).get("live_window", ""), start):
+        try:
+            return _make("live")
+        except Exception:  # noqa: BLE001 - no live set configured: Redivis below
+            pass
+    return _make("redivis")
 
 
 def set_backend(backend: Union[Backend, str, None] = None) -> Backend:
@@ -51,15 +148,22 @@ def set_backend(backend: Union[Backend, str, None] = None) -> Backend:
     set_backend() with no argument resets to the default (ERW_DATA_DIR, else
     the repository's warehouse/output).
     """
-    global _backend, _MIGRATIONS
+    global _backend, _MIGRATIONS, _auto
     _MIGRATIONS = None  # session 536: the map is read again for the new backend's data directory
+    _instances.clear()  # session 1001: the backends a call names are made again, with the environment as it is now
+    _VERSIONS.clear()
+    licenses.reset()
     if backend is None:
         # session 10: ERW_BACKEND=redivis or supabase selects a remote backend
-        from .remote import backend_from_env
-        _backend = backend_from_env() or LocalBackend()
+        _backend = _default_backend()
+    elif isinstance(backend, str) and backend in BACKENDS:
+        _auto = backend == "auto"   # session 1001: set_backend("live"), set_backend("auto")
+        _backend = _first_available() if _auto else _make(backend)
     elif isinstance(backend, str):
+        _auto = False
         _backend = LocalBackend(backend)
     else:
+        _auto = False
         _backend = backend
     return _backend
 
@@ -131,56 +235,194 @@ def list_tables() -> List[str]:
     return get_backend().list_tables()
 
 
-def coverage() -> pd.DataFrame:
+def coverage(table: Optional[str] = None, backend: Optional[str] = None) -> pd.DataFrame:
     """The coverage table: one row per table (the ERW's metadata.csv).
 
     Columns: table, iso, market, n_nodes, interval, ts_min, ts_max, n_rows,
     source_report, last_run, validator_status, license, sector, derived, and (session 28) tier,
     the provenance tier: source, derived or model_extracted (docs/datastandard.md). ts_min and
     ts_max are the first and last interval starts in UTC.
+
+    Session 1001 (docs/methods/packages.md): `verdict`, the ERW's one word for the table's license (public, internal
+    or unsettled; `license` stays the flag, public or internal), and `live_window`, what the live set keeps of it
+    (whole, <N> days, some rows, none). With a table, its one row (an old name, its table's); an unknown table raises
+    ERWDataNotFound. backend: the coverage of that backend (the session's when None).
     """
-    cov = get_backend().coverage().copy()
+    b = get_backend() if backend in (None, "auto") else _make(backend)
+    cov = b.coverage().copy()
     for c in ("ts_min", "ts_max", "last_run"):
         cov[c] = pd.to_datetime(cov[c], utc=True, errors="coerce")
-    return cov
+    lic = licenses.rows()
+    cov["verdict"] = cov["table"].map(lambda t: lic.get(t, {}).get("verdict", ""))
+    cov["live_window"] = cov["table"].map(lambda t: lic.get(t, {}).get("live_window", ""))
+    if table is None:
+        return cov
+    row = cov[cov["table"] == _current(table)].reset_index(drop=True)
+    if row.empty:
+        raise ERWDataNotFound(_not_found(table, list(cov["table"])))
+    return row
+
+
+def _not_found(name: str, names: List[str]) -> str:
+    import difflib
+    near = difflib.get_close_matches(name, names, n=3, cutoff=0.6)
+    return f"No ERW table named {name!r}." + (f" Tables with a close name: {', '.join(near)}." if near else "")
+
+
+def tables(backend: Optional[str] = None) -> pd.DataFrame:
+    """Session 1001 (docs/methods/packages.md): every table of the warehouse, one row each: table, shape (series,
+    entities, events), interval, ts_min, ts_max, n_rows, verdict (public, internal, unsettled), in_live (yes or no) and
+    title (its provenance header's first line, where the backend can say it without reading the rows). A table that is
+    not public is listed with its verdict, so a reader learns that it exists and why it is not served."""
+    b = get_backend() if backend in (None, "auto") else _make(backend)
+    cov = coverage(backend=backend)
+    try:
+        titles = b.titles()
+    except Exception:  # noqa: BLE001 - a title is a convenience; the table list stands without it
+        titles = {}
+    shape = cov["interval"].map(lambda i: "entities" if i == "snapshot" else ("events" if i == "event" else "series"))
+    out = pd.DataFrame({"table": cov["table"], "shape": shape, "interval": cov["interval"], "ts_min": cov["ts_min"],
+                        "ts_max": cov["ts_max"], "n_rows": cov["n_rows"], "verdict": cov["verdict"],
+                        "in_live": cov["live_window"].map(lambda w: "yes" if w not in ("", "none") else "no"),
+                        "title": cov["table"].map(lambda t: titles.get(t, ""))})
+    return out.reset_index(drop=True)
+
+
+def license(name: str) -> Dict:
+    """Session 1001 (docs/methods/packages.md): the table's license. verdict (public, internal, unsettled: the ERW's one
+    word, docs/licenses.md), status ("license needed" from status_from, or ""), decided_by (the publishers whose terms
+    decide it), publishers (every publisher of the table), words (one sentence a reader can act on) and record (the
+    license record read: the clone's files, or the copy shipped with the package)."""
+    cur = _current(name)
+    row = licenses.rows().get(cur)
+    if row is None:
+        raise ERWDataNotFound(_not_found(name, sorted(licenses.rows())))
+    return {"table": cur, "verdict": row["verdict"], "status": row["status"], "status_from": row["status_from"],
+            "decided_by": [x.strip() for x in row["decided_by"].split(";") if x.strip()],
+            "publishers": [x.strip() for x in row["publishers"].split(";") if x.strip()],
+            "words": row["words"], "record": licenses.read_from()}
+
+
+# Session 1001: the column rules of docs/datastandard.md, by shape, for standard()
+SHAPE_RULES = {
+    "series": {"required": ["entity", "variable", "ts_utc", "value"],
+               "reserved": ["unit", "freq", "geo", "market", "node", "source", "source_url", "retrieved_at", "vintage"],
+               "partition": ["ba", "year", "event"], "key": ["entity", "variable", "ts_utc"]},
+    "entities": {"required": ["entity_id", "entity_type", "name", "source"],
+                 "reserved": ["geo", "lat", "lon", "capacity_mw", "status", "status_date", "operator", "source_url",
+                              "retrieved_at", "vintage"], "partition": [], "key": ["entity_id"]},
+    "events": {"required": ["event_id", "event_date", "event_type", "source", "source_url"],
+               "reserved": ["parties", "entity_ids", "mw", "price", "currency", "status"], "partition": [],
+               "key": ["event_id"]},
+}
+
+
+def column_type(shape: str, column: str) -> str:
+    """number, utc time, date or text: the one rule of docs/methods/packages.md, "The column types, by shape"."""
+    if shape == "series":
+        return {"value": "number", "ts_utc": "utc time"}.get(column, "text")
+    if shape == "entities":
+        if column in ("lat", "lon", "capacity_mw") or column.endswith("_mw"):
+            return "number"
+        if column == "status_date" or column.endswith("_date"):
+            return "date"
+        return "utc time" if column == "retrieved_at" else "text"
+    if shape == "events":
+        if column == "event_date":
+            return "utc time"
+        return "number" if column in ("mw", "price", "significance", "ai_power_relevance") else "text"
+    return "text"
+
+
+def shape_of(columns: List[str]) -> str:
+    if list(columns[:4]) == ["entity", "variable", "ts_utc", "value"]:
+        return "series"
+    if list(columns[:2]) == ["entity_id", "entity_type"]:
+        return "entities"
+    if list(columns[:1]) == ["event_id"]:
+        return "events"
+    return "other"
+
+
+def standard(name: str, backend: Optional[str] = None) -> Dict:
+    """Session 1001 (docs/methods/packages.md): the table's shape and its columns, each with its type (number, utc time,
+    date, text) and whether the data standard requires it (yes, reserved, partition, extra), in the table's own order,
+    and its key. Read from the table's header row where the backend can (local files, the live set's catalogue,
+    Redivis's variables), never from its rows."""
+    cur = _current(name)
+    b = _route(name, backend)
+    cols = b.columns(cur)
+    shape = shape_of(cols)
+    rules = SHAPE_RULES.get(shape, {"required": [], "reserved": [], "partition": [], "key": []})
+
+    def need(c):
+        if c in rules["required"]:
+            return "yes"
+        if c in rules["reserved"]:
+            return "reserved"
+        return "partition" if c in rules["partition"] else "extra"
+    key = list(rules["key"]) + (["vintage"] if shape == "series" and "vintage" in cols and _keeps_revisions(cur) else [])
+    return {"table": cur, "shape": shape,
+            "columns": [{"name": c, "type": column_type(shape, c), "required": need(c)} for c in cols],
+            "key": key}
+
+
+def _keeps_revisions(name: str) -> bool:
+    """A series table whose key includes vintage: the data standard says so where a table keeps more than one revision;
+    the package cannot tell without the rows, so it says so only for the tables whose header says it."""
+    return False
+
+
+def requests(reset: bool = False) -> Dict[str, int]:
+    """Session 1001: the requests this package has made to Redivis and the live set since it was imported (or since
+    the last reset)."""
+    return counter.counts(reset)
 
 
 def _is_entities(df: pd.DataFrame) -> bool:
     return list(df.columns[:2]) == ["entity_id", "entity_type"]
 
 
-def _backend_read(name: str, where: Optional[Dict[str, str]]):
-    b = get_backend()
+def _backend_read(name: str, where: Optional[Dict[str, str]], b: Optional[Backend] = None,
+                  filters: Optional[List[Tuple[str, str]]] = None):
+    b = b or get_backend()
     if where and isinstance(b, LocalBackend):
         return b.read_table(name, where=where)
-    header, df = b.read_table(name)
+    if filters is not None:  # session 1001: the live set filters on the server (filters are made for it alone)
+        header, df = b.read_table(name, filters=filters + [(c, f"eq.{v}") for c, v in (where or {}).items()])
+    else:
+        header, df = b.read_table(name)
     for c, v in (where or {}).items():
         df = df[df[c] == str(v)] if c in df.columns else df.iloc[0:0]
     return header, df.reset_index(drop=True)
 
 
-def _read(name: str, where: Optional[Dict[str, str]] = None) -> pd.DataFrame:
+def _read(name: str, where: Optional[Dict[str, str]] = None, b: Optional[Backend] = None,
+          filters: Optional[List[Tuple[str, str]]] = None) -> pd.DataFrame:
     """One table as typed frame. Session 29: where={partition column: value} keeps one partition; an old table
-    name is read from its consolidated table (DeprecationWarning), with its own columns and header."""
+    name is read from its consolidated table (DeprecationWarning), with its own columns and header. Session 1001: b,
+    the backend it is read from (the session's when None); filters, the live set's server-side filters."""
+    b = b or get_backend()
     moved = migrations().get(name)
-    if moved is not None and name not in set(get_backend().list_tables()):
+    if moved is not None and name not in set(b.list_tables()):
         new, part = moved
         warnings.warn(f"erw: table {name!r} is now part of {new!r} (session 29, "
                       f"docs/migrations/2026-09-29-consolidation.md); reading {new} where "
                       + ", ".join(f"{k}={v}" for k, v in part.items())
                       + ". Old names work until the first monthly release.", DeprecationWarning, stacklevel=3)
-        header, df = _backend_read(new, {**part, **(where or {})})
+        header, df = _backend_read(new, {**part, **(where or {})}, b)
         added = [c for c in part if c != "market"]
         df = df.drop(columns=[c for c in added if c in df.columns])
         block = [h.split(": ", 1)[1] for h in header if h.startswith(f"Member {name}: ")]
         block = [h for h in block if not h.endswith("(its rows; its own provenance header follows)")]
         header = block or header
-        return _typed(name, header, df, migrated_to=new)
-    header, df = _backend_read(name, where)
-    return _typed(name, header, df)
+        return _typed(name, header, df, migrated_to=new, b=b)
+    header, df = _backend_read(name, where, b, filters)
+    return _typed(name, header, df, b=b)
 
 
-def _typed(name: str, header: List[str], df: pd.DataFrame, migrated_to: Optional[str] = None) -> pd.DataFrame:
+def _typed(name: str, header: List[str], df: pd.DataFrame, migrated_to: Optional[str] = None,
+           b: Optional[Backend] = None) -> pd.DataFrame:
     if _is_entities(df):  # entities shape (session 8): numbers and dates typed, the rest strings
         for c in [c for c in df.columns if c in ("lat", "lon", "capacity_mw") or c.endswith("_mw")]:
             df[c] = pd.to_numeric(df[c].replace("", None), errors="raise").astype(float)
@@ -202,16 +444,16 @@ def _typed(name: str, header: List[str], df: pd.DataFrame, migrated_to: Optional
     meta["table"] = name
     if migrated_to:
         meta["migrated_to"] = migrated_to
-    meta["backend"] = get_backend().describe()
+    meta["backend"] = (b or get_backend()).describe()
     df.attrs["erw"] = meta
     return df
 
 
-def _subset(df: pd.DataFrame, start=None, end=None, node=None) -> pd.DataFrame:
+def _subset(df: pd.DataFrame, start=None, end=None, node=None, variable=None) -> pd.DataFrame:
     attrs = df.attrs
     events = "event_id" in df.columns
     if _is_entities(df):
-        return _subset_entities(df, start, end, node)
+        return _subset_entities(df, start, end, node, variable)
     t = df["event_date"] if events else df["ts_utc"]
     keep = pd.Series(True, index=df.index)
     if start is not None:
@@ -220,19 +462,30 @@ def _subset(df: pd.DataFrame, start=None, end=None, node=None) -> pd.DataFrame:
         keep &= t < _utc(end)
     nodes = _as_list(node)
     if nodes:
-        keep &= df["source"].isin(nodes) if events else (df["node"].isin(nodes) | df["entity"].isin(nodes))
+        keep &= df["source"].isin(nodes) if events else (
+            (df["node"].isin(nodes) if "node" in df.columns else False) | df["entity"].isin(nodes))
+    variables = _as_list(variable)  # session 1001: variable, or an events table's event_type
+    if variables:
+        keep &= df["event_type" if events else "variable"].isin(variables)
     out = df[keep].reset_index(drop=True)
     out.attrs = attrs
-    if start is not None or end is not None or nodes:
-        out.attrs["erw"] = dict(attrs["erw"], subset={"start": start, "end": end, "node": nodes})
+    if start is not None or end is not None or nodes or variables:
+        sub = {"start": start, "end": end, "node": nodes}
+        if variables:
+            sub["variable"] = variables
+        out.attrs["erw"] = dict(attrs["erw"], subset=sub)
     return out
 
 
-def _subset_entities(df: pd.DataFrame, start=None, end=None, node=None) -> pd.DataFrame:
+def _subset_entities(df: pd.DataFrame, start=None, end=None, node=None, variable=None) -> pd.DataFrame:
     """Entities: start/end select on status_date (rows without one are dropped when either
-    is given); node selects entity_id values (or names, as the source writes them)."""
+    is given); node selects entity_id values (or names, as the source writes them); session 1001: variable selects
+    entity_type values."""
     attrs = df.attrs
     keep = pd.Series(True, index=df.index)
+    variables = _as_list(variable)
+    if variables:
+        keep &= df["entity_type"].isin(variables)
     d = df["status_date"].dt.tz_localize("UTC") if "status_date" in df else None
     if start is not None:
         keep &= d.notna() & (d >= _utc(start)) if d is not None else False
@@ -243,15 +496,19 @@ def _subset_entities(df: pd.DataFrame, start=None, end=None, node=None) -> pd.Da
         keep &= df["entity_id"].isin(nodes) | df["name"].isin(nodes)
     out = df[keep].reset_index(drop=True)
     out.attrs = attrs
-    if start is not None or end is not None or nodes:
-        out.attrs["erw"] = dict(attrs["erw"], subset={"start": start, "end": end, "node": nodes})
+    if start is not None or end is not None or nodes or variables:
+        sub = {"start": start, "end": end, "node": nodes}
+        if variables:
+            sub["variable"] = variables
+        out.attrs["erw"] = dict(attrs["erw"], subset=sub)
     return out
 
 
 def fetch(name: Union[str, Iterable[str]], start=None, end=None,
           node: Union[str, Iterable[str], None] = None, market: Optional[str] = None,
-          ba: Optional[str] = None, year: Union[str, int, None] = None
-          ) -> Union[pd.DataFrame, Dict[str, pd.DataFrame]]:
+          ba: Optional[str] = None, year: Union[str, int, None] = None, *,
+          entity: Union[str, Iterable[str], None] = None, variable: Union[str, Iterable[str], None] = None,
+          backend: Optional[str] = None) -> Union[pd.DataFrame, Dict[str, pd.DataFrame]]:
     """Fetch one table as a DataFrame, or several as a dict of name -> DataFrame.
 
     Series tables: `value` is float and `ts_utc` a timezone-aware UTC timestamp
@@ -284,14 +541,119 @@ def fetch(name: Union[str, Iterable[str]], start=None, end=None,
                  A local table is then read in chunks, never whole.
     An old table name (``eia930_ciso_demand``) still works, with a DeprecationWarning, until the
     first monthly release: it returns the old table's rows, columns and header.
+
+    Session 1001 (docs/methods/packages.md):
+    entity     : the same as node (the specification's name); both may be given.
+    variable   : keep these variables (series), entity types (entities) or event types (events).
+    backend    : "auto", "local", "live" or "redivis" for this call; None, the session's (ERW_BACKEND or set_backend;
+                 auto when no local tables are found). A table whose ERW verdict is not public is refused on the live
+                 set and the Stanford dataset (ERWLicenseHeld, the license's words) and read with an ERWLicenseWarning
+                 from local files. ``df.attrs["erw"]["version_line"]`` says what was read: the backend and version, the
+                 ERW commit, the fetch time and the rows.
     """
     where = {k: str(v) for k, v in (("market", market), ("ba", ba), ("year", year)) if v is not None}
+    nodes = (_as_list(node) or []) + (_as_list(entity) or [])
+    nodes = nodes or None
     if isinstance(name, str):
-        df = _subset(_read(name, where or None), start, end, node)
-        if where:
-            df.attrs["erw"] = dict(df.attrs["erw"], partition=where)
-        return df
-    return {n: _subset(_read(n, where or None), start, end, node) for n in list(name)}
+        return _fetch_one(name, start, end, nodes, variable, where, backend)
+    return {n: _fetch_one(n, start, end, nodes, variable, where, backend) for n in list(name)}
+
+
+def _fetch_one(name, start, end, nodes, variable, where, backend):
+    b = _route(name, backend, start)
+    lic = _license_check(name, b)
+    filters = None
+    from .live import LiveBackend, series_filters
+    if isinstance(b, LiveBackend) and name not in migrations():
+        shape = _live_shape(b, name)
+        filters = series_filters(nodes, variable, start, end, shape)
+    df = _subset(_read(name, where or None, b, filters), start, end, nodes, variable)
+    meta = dict(df.attrs["erw"])
+    if where:
+        meta["partition"] = where
+    fetched = pd.Timestamp.now(tz="UTC").strftime(TS_FMT)
+    meta["fetched"] = fetched
+    meta["license"] = lic
+    meta["version_line"] = _version_line(name, b, fetched, len(df))
+    df.attrs["erw"] = meta
+    return df
+
+
+def _live_shape(b, name: str) -> str:
+    interval = b._catalogue().set_index("table_name").loc[_current(name), "interval"] if _current(name) in set(
+        b._catalogue()["table_name"]) else ""
+    return "entities" if interval == "snapshot" else ("events" if interval == "event" else "series")
+
+
+def _serves_publicly(b: Backend) -> bool:
+    """The backends where the ERW itself serves a table to the public: the live set, and the Stanford dataset."""
+    name = getattr(b, "name", "")
+    if name == "live":
+        return True
+    if name == "redivis":
+        from .remote import STANFORD
+        return (getattr(b, "owner", None), getattr(b, "dataset_name", None)) == STANFORD[:2]
+    if name == "supabase":
+        return getattr(b, "role", "") == "anon"
+    return False
+
+
+def refusal(name: str) -> str:
+    """Session 1001: the words a held table is refused with (docs/methods/packages.md, "What a held table does")."""
+    lic = license(name)
+    return (f"{name} is not public: {lic['verdict']}. {lic['words']} The ERW's license record: "
+            f"{licenses.LICENSES_URL}")
+
+
+def _license_check(name: str, b: Backend) -> Dict:
+    row = licenses.rows().get(_current(name))
+    if row is None:
+        return {}
+    lic = license(name)
+    if lic["verdict"] != "public":
+        if _serves_publicly(b):
+            raise ERWLicenseHeld(refusal(name))
+        warnings.warn(ERWLicenseWarning(f"{name} is not public ({lic['verdict']}): {lic['words']} Read from "
+                                        f"{b.describe()}, the reader's own copy under its own license."), stacklevel=4)
+    return lic
+
+
+_VERSIONS: Dict[int, Tuple[float, Dict]] = {}
+
+
+def _version_of(b: Backend) -> Dict:
+    """The backend's version record, kept a minute (a local one asks git each time)."""
+    hit = _VERSIONS.get(id(b))
+    if hit and time.monotonic() - hit[0] < 60:
+        return hit[1]
+    try:
+        v = dict(b.version())
+    except Exception as e:  # noqa: BLE001 - the version line says it is unknown
+        v = {"note": f"version unknown: {e}"}
+    _VERSIONS[id(b)] = (time.monotonic(), v)
+    return v
+
+
+def _redivis_ref(b: Backend) -> str:
+    """'datapages.erw:b9wm': the owner, the dataset, as Redivis names them."""
+    return f"{getattr(b, 'owner', '')}.{getattr(b, 'dataset_name', '')}"
+
+
+def _version_line(name: str, b: Backend, fetched: str, n: int) -> str:
+    """ERW <table>: <backend> <version>; ERW commit <12 or unknown>; fetched <time>; <n> rows."""
+    v = _version_of(b)
+    kind = getattr(b, "name", "")
+    if kind == "local":
+        where = "local files"
+    elif kind == "live":
+        where = "the live set"
+    elif kind == "redivis":
+        where = (f"Redivis {_redivis_ref(b)} {v.get('version')}" if v.get("released")
+                 else f"Redivis {_redivis_ref(b)} draft (not citable)")
+    else:
+        where = b.describe()
+    commit = (v.get("data_commit") or "")[:12] or "unknown"
+    return f"ERW {name}: {where}; ERW commit {commit}; fetched {fetched}; {n} rows"
 
 
 def _local_columns(name: str) -> Optional[pd.DataFrame]:
@@ -523,42 +885,53 @@ def tier(name: str) -> Optional[str]:
     return t if isinstance(t, str) and t else None
 
 
-def cite(name: str) -> str:
-    """A citation for the ISO report(s) a table was built from, plus the ERW table.
+def cite(name: str, backend: Optional[str] = None) -> str:
+    """The citation line of docs/methods/packages.md, in warehouse/redivis/release_v1.py's words:
 
-    The data belong to the ISO that published them; cite the ISO report, and the
-    ERW table and data commit as the route by which you obtained it.
+        <publishers>. <reports>. Via the Energy Research Warehouse (ERW), table `<table>`, Redivis dataset
+        `datapages.erw`, version <tag> (released <date>).
+
+    The publishers and reports are the source registry's entries that name the table (sources.csv, its `tables`
+    column; an old name's entries too). The last clause is where the rows were read: a released Redivis version, the
+    live set with its fetch time, or local files with the ERW commit. Session 1001; until then the citation was
+    "Retrieved <date> via the Energy Research Warehouse (ERW), table <table>, data commit <12>." with the provenance
+    tier (now in coverage() and tier()).
     """
-    src = sources(name)
-    ver = version()
-    cov = coverage().set_index("table")
-    parts = []
-    outlets = []
-    for r in src["reports"]:
-        if ":" not in r["source"]:
-            # a news outlet (events tables): cited by name, listed once below
-            outlets.append(r.get("publisher") or r["source"])
-            continue
-        org = r["source"].split(":", 1)[0]
-        report_id = r["source"].split(":", 1)[1]
-        publisher = r.get("publisher") or PUBLISHERS.get(org, org.upper())
-        title = f"{report_id}{': ' + r['report'] if r.get('report') else ''}"
-        url = f" {r['report_url']}." if r.get("report_url") else ""
-        parts.append(f"{publisher}. {title}.{url}")
-    if outlets:
-        parts.append(f"News stories from {len(outlets)} outlets: {', '.join(sorted(set(outlets)))}; "
-                     "each row links its story.")
-    retrieved = ""
-    row = name if name in cov.index else _current(name)  # session 29: an old name
-    if row in cov.index and pd.notna(cov.loc[row, "last_run"]):
-        retrieved = f" Retrieved {cov.loc[row, 'last_run']:%Y-%m-%d}"
-    commit = ver.get("data_commit")
-    table = name if row == name else f"{row} (formerly {name})"
-    via = (f"{retrieved} via the Energy Research Warehouse (ERW), table {table}"
-           f"{', data commit ' + commit[:12] if commit else ''}.")
-    t = tier(name)
-    tier_text = f" Provenance tier: {t} ({TIER_NOTE.get(t, t)})." if t else ""
-    return " ".join(parts) + via + tier_text
+    cur = _current(name)
+    b = _route(name, backend) if backend not in (None,) else get_backend()
+    if _auto and backend is None:
+        try:
+            b = _route(name, "auto")
+        except Exception:  # noqa: BLE001 - the session's backend below
+            b = get_backend()
+    reg = b.source_registry()
+    wanted = {cur, name}
+    reps = [r for r in reg.to_dict("records")
+            if wanted & {x.strip() for x in re.split(r"[;,]", str(r.get("tables", ""))) if x.strip()}]
+    fallback = licenses.rows().get(cur, {}).get("publishers", "")
+    names = sorted({r["publisher"] for r in reps if r.get("publisher")}) or ([fallback] if fallback else [])
+    reports = sorted({r["report"] for r in reps if r.get("report")})
+    head = "; ".join(names) if names else "Energy Research Warehouse (ERW)"
+    rep_ = (" " + "; ".join(reports) + ".") if reports else ""
+    table = f"`{cur}`" + (f" (formerly {name})" if cur != name else "")
+    return f"{head}.{rep_} Via the Energy Research Warehouse (ERW), table {table}, {_cite_clause(b)}."
+
+
+def _cite_clause(b: Backend) -> str:
+    kind = getattr(b, "name", "")
+    v = _version_of(b)
+    if kind == "redivis":
+        ref = _redivis_ref(b).split(":")[0]
+        if not v.get("released"):
+            return f"Redivis dataset `{ref}`, an unreleased draft (not citable; cite a released version)"
+        when = f" (released {v['released_on']})" if v.get("released_on") else ""
+        return f"Redivis dataset `{ref}`, version {v.get('version')}{when}"
+    if kind == "live":
+        return f"the live set, fetched {pd.Timestamp.now(tz='UTC').strftime(TS_FMT)}"
+    commit = v.get("data_commit")
+    if kind == "local":
+        return f"ERW commit {commit[:12]}" if commit else "local files (no ERW commit identifies them)"
+    return f"{b.describe()}" + (f", ERW commit {commit[:12]}" if commit else "")
 
 
 def version() -> Dict[str, Optional[str]]:
