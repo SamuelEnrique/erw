@@ -392,3 +392,24 @@ The table `policy_action_tags` is not in the live set and the page does not need
 - **Checks.** `site/scripts/test-policy-week.mjs`, section 12: a paused regulator's mark and hover, the other bodies
   unchanged, the refresh mark standing when there is no record, the line's words, and that the committed
   `paused.json` is the CSV's rows as the build writes them.
+
+## 13. What is keyed, and what the page counts itself (sessions 2400 to 2404, 23 October 2026)
+
+- **Two counts carry a check key** (`site/components/Num.tsx`; `check-values` reads each again from the live set): the
+  first view's total beside the filters, "N of **M** actions" (`event_count|policy_actions|all`, every row of
+  `policy_actions`), and the week view's foot, "**R** actions and D dockets held for thirty days"
+  (`event_count|policy_actions|since|<first day>`, every row dated the window's first day or later, before the page's own
+  drop). The checker gained the kind in session 2400 and reads `/policy?view=week` since then. The significance score
+  of every action is keyed since session 332 (section 10).
+- **Every other count is the page's own and says so on hover**: the filtered count beside the total, the week view's
+  "N actions" and "of M", the chart's cells and totals, the count beside each agency's heading. Each is counted in the
+  browser from the rows the server read and changes with every click, so the checker, which reads the server's page,
+  cannot recompute it; its hover names the window, the filters and the table it was counted from.
+- **The read's "Figures" line carries no key** (section 11): the figures are the read's own words. The dockets' count
+  and build day are the site's file's, not the live set's.
+- **The paused sources** are section 12. **At 390 px** every table of both views is in its own scroll container, and the
+  table of every action has a caption for a screen reader (session 2403). The pass of 23 October counted the hovers a
+  keyboard cannot reach (a `title` on a span): 17 on the first view and about 150 on the week view; each hover's
+  sentence also stands in this note (session 164's rule), and whether the spans should take focus is left to the owner
+  (session 2403's report).
+- `docs/reviews/policy-figures-2026-10-23.md` has one row a figure, with its key or why none, and its hover before and after.

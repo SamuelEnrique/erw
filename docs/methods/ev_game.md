@@ -44,3 +44,17 @@ Insurance, repairs, charging away from home (dearer), a home charger, state ince
 ## What is stored
 
 Nothing. The page reads its prices when it is built; what the family types stays in the browser (the page carries `data-no-usage`).
+
+## Where each figure says it comes from (session 2402, 23 October 2026)
+
+- **No figure of this page carries a check key**, and that is by design. The two prices are `data/ev_prices.json`, a
+  file built from the warehouse's two EIA tables (above), not the live set; and the page shows no price until a state is
+  chosen, so the server's page, which `check-values` reads, carries no figure. Every other figure is the game's own
+  arithmetic (`site/lib/ev.ts`) on what the family typed.
+- **Every figure says its source in words beside it**, not on hover: the page is for a child of about 12 to show their
+  parents (session 294's rule for this page). Each price card prints the table, the entity and the month or week; the
+  gasoline card says whether it is the state's own series or its region's, and why; every default prints its source and
+  "changed by you" when moved; the verdict's sentences say what each figure is; "Show your parents" lists every number
+  with where it comes from, and the credit line cites the IRS's page.
+- **At 390 px** (session 2403): the five screens draw inside the window; nothing is wider than the page and no control
+  is without its name. The review of every game figure is `docs/reviews/games-figures-2026-10-23.md`.
