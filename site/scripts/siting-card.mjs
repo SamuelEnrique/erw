@@ -140,7 +140,7 @@ const card3 = {
   subtitle: `ERCOT's ${store.length} storage nodes by their day-ahead intraday swing, the four dearest hours less the four cheapest, ${nf.pct_from} to ${nf.pct_to}`,
   params: { class: "storage", min_days: Math.ceil(0.9 * heldMax) }, inputs_words: { class: "storage nodes (ERCOT's disclosures, node_basis_daily x_class)", min_days: `at least 90 percent of the ${heldMax} days the table holds, of ${due}` },
   chart: {
-    kind: "bars_free", x: bins.map((b) => `${b.lo} to ${b.hi}`), x_label: "Mean intraday swing, USD per MWh",
+    kind: "bars_free", x: bins.map((b) => `${b.lo}`), x_label: "Mean intraday swing, USD per MWh: each bar from its label to 10 more",   // session 970: labels that fit at 390
     series: [{ name: "Storage nodes", type: "bar", unit: "nodes", values: counts }],
     y_left_label: "Storage nodes", decimals: 0,
   },

@@ -1,6 +1,16 @@
 # Where can a large load go: the All grids tab of "What a datacenter pays"
 
-Version 4, session 784, 22 October 2026 (chain 064, `queue/done/064-night-22-october-code-allgrids-4.md`); version 3 was session 762's (chain 063), version 2 session 740's (chain 062), version 1 session 712's (chain 050), version 0 session 700's. Internal: the tab is in review, like every page.
+Version 5, session 973, 23 October 2026 (chain 065, `queue/done/065-late-22-october-code-allgrids-5.md`); version 4 was session 784's (chain 064), version 3 session 762's (chain 063), version 2 session 740's (chain 062), version 1 session 712's (chain 050), version 0 session 700's. Internal: the tab is in review, like every page.
+
+## What version 5 changed (chain 065, sessions 788 to 799 and 970 to 977)
+
+- **The hub table's download** (793): the rows shown, with the page's own figures, made in the browser, as the node list's (724).
+- **Two ERCOT nodes as A and B** (794): each month's mean daily day-ahead basis to the hub on one chart and in a table, each month keyed (`allgrids|nodemonth`), and B less A for the basis spread and the intraday swing (`allgrids|nodediff`) (decision 26).
+- **Nodes that settle alike** (795): a node's panel names the other nodes whose day-ahead basis is the same on every day the table holds, with the same days (decision 27).
+- **The replication** computes 794's figures from `node_basis_daily` (799): 123 figures, 111 beside the page, 0 differ.
+- **The battery card's labels** fit at 390 (970): each bar is labelled by its lower bound (decision 28).
+- **Read again, no change**: the brand (798: the shared month chart's label placement listed, not this tab's), 390 and accessibility (971: 8 scans, 0 findings), the reads (972: none of the database; the hub table 1.60 MB), the three paths (797: 0 figure lines differ).
+- **Nothing ruled, nothing landed** (789 to 792).
 
 ## What version 4 changed (chain 064, sessions 766 to 784)
 
@@ -87,8 +97,9 @@ A profile sets three inputs (the load factor, the curtailment rule, whether the 
 
 - **Sort by any column**, largest or smallest first. A row with no figure, or one whose figure is held under a license, sorts last: a held figure is never sorted by its value, which the order would give away.
 - **Filters**: by grid, by kind (load zones or hubs), by an energy band, and to rows whose every cost part is held.
-- **A and B**: two rows side by side, every column's figure and B less A, the load's year all-in in USD and the MWh it uses. The MWh are its draw while running (its size times the load factor; its size for a load that runs below a strike) times the hours it runs a year. A sets one headline line.
+- **A and B**: two rows side by side, every column's figure and B less A, the load's year all-in in USD and the MWh it uses. The MWh are its draw while running (its size times the load factor; its size for a load that runs below a strike) times the hours it runs a year. A sets one headline line. Two ERCOT nodes as A and B add their months side by side and B less A for the spread and the swing (794).
 - **Every input is in the address**: a reader can send the screen. The node list sorts in place and keeps its sort in the address (`nsort`, `ndir`), and a node's name opens its panel (`node`).
+- **Downloads**: the hub table (793) and the node list (724), each the rows shown with the page's figures, made in the browser.
 
 ## The replication
 
@@ -96,7 +107,7 @@ A profile sets three inputs (the load factor, the curtailment rule, whether the 
 
 - **What it reads**: the live set with the anon key only for the tables the live set holds (the four peaks, Berkeley Lab's queue, the hourly intensity), and the tab's own files for those it does not (the price history, the node basis, eGRID, EIA-861, the Commission's rate). It ports `lib/datacenter.ts`'s hours, months and twelve-month window to Python.
 - **How to run it**: `python warehouse/replication/siting.py --repo . --page <a build>`. Exit 0 when every figure set beside the page equals it.
-- **With the warehouse's tables** (session 735, chain 062): `--tables <a folder of the warehouse's CSVs>` adds the node list's basis spread for the three nodes (from `node_basis_daily`'s daily rows) and three zones' demand growth (from `eia930_subba_demand_hourly_<year>`), and the second card's HB_HUBAVG figures are set beside the replication's own. On 22 October 2026 against a build of `wip/735-allgrids`: 89 figures, 77 beside the page, 0 differ.
+- **With the warehouse's tables** (session 735, chain 062): `--tables <a folder of the warehouse's CSVs>` adds the node list's basis spread for the three nodes (from `node_basis_daily`'s daily rows) and three zones' demand growth (from `eia930_subba_demand_hourly_<year>`), and the second card's HB_HUBAVG figures are set beside the replication's own. On 22 October 2026 against a build of `wip/735-allgrids`: 89 figures, 77 beside the page, 0 differ. Session 799 (chain 065) adds a fourth page, two nodes as A and B, and computes its months and its B less A spread from the daily rows: against a build of `wip/799-allgrids`, 123 figures, 111 beside the page, 0 differ.
 
 ## Decisions (each dated, and reversible unless said)
 
@@ -125,6 +136,9 @@ A profile sets three inputs (the load factor, the curtailment rule, whether the 
 23. 2026-10-22, 737 (chain 062): the tab's tip box is styled once in `tokens.css` (keyed `data-tp`), not by a class list on each tip; the words and the look are the same.
 24. 2026-10-22, 746 (chain 063): a node's day-ahead intraday swing is `node_basis_daily`'s `dam_spread_4h` (each day's four dearest hours' mean less its four cheapest) over the days the node holds in the node file's twelve months: its mean in the node list (a sortable column, in the download too) and its mean, 10th and 90th percentile in the node's panel. A node with few days held has a swing over those days alone; the panel says how many.
 25. 2026-10-22, 777 (chain 064): the node list's rows reach the browser column by column (`nodeColumns`, `nodeRowsOf`), the id rebuilt from the node's name; every value is the same, held by a test.
+26. 2026-10-22, 794 (chain 065): two ERCOT nodes as A and B draw each month's mean daily day-ahead basis to the hub from the node file's months (the figure the node list's panel holds), a month a node lacks drawn as "not held"; B less A is the basis spread (90th less 10th percentile) and the intraday swing's mean, each node's own.
+27. 2026-10-22, 795 (chain 065): nodes "settle alike" when `node_basis_daily` holds the same days for them with the same day-ahead basis on each (exact equality of the table's values, over everything it holds for them). The panel names the others and says the table does not say why; no reason is inferred.
+28. 2026-10-23, 970 (chain 065): the battery card's bars are labelled by their lower bound, the axis name saying each runs to 10 more, so the labels fit at 390. The shared card renderer (`lib/findingchart.ts`) is unchanged; two other cards' region names touch there, listed for the owner.
 
 ## The limits
 

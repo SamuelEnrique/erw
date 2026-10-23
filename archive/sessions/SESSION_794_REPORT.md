@@ -32,7 +32,7 @@
 
 ## The landing
 
-With 794 to 799, in session 799.
+Sessions 794 to 799 landed in one push: see `SESSION_799_REPORT.md`, "The landing".
 
 ## Decisions made without you
 

@@ -16,16 +16,16 @@
  "chart": {
   "kind": "bars_free",
   "x": [
-   "30 to 40",
-   "40 to 50",
-   "50 to 60",
-   "60 to 70",
-   "70 to 80",
-   "80 to 90",
-   "90 to 100",
-   "100 to 110"
+   "30",
+   "40",
+   "50",
+   "60",
+   "70",
+   "80",
+   "90",
+   "100"
   ],
-  "x_label": "Mean intraday swing, USD per MWh",
+  "x_label": "Mean intraday swing, USD per MWh: each bar from its label to 10 more",
   "series": [
    {
     "name": "Storage nodes",
@@ -100,7 +100,7 @@
  "tables": [
   "node_basis_daily"
  ],
- "computed_at": "2026-10-22T20:38:49Z",
+ "computed_at": "2026-10-23T00:05:36Z",
  "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/siting.md",
  "downloads": {
   "csv": "siting_battery_swing.csv",

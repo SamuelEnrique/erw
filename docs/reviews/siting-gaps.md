@@ -61,3 +61,7 @@ Read again by sessions 751 to 756 at 18:35 UTC: **no row changed state.** Large-
 ## State on 22 October 2026, late (chain 064)
 
 Read again by session 771 at 20:27 UTC: **no row changed state.** The tables chain 064 waited on have not landed.
+
+## State on 23 October 2026, after midnight (chain 065)
+
+Read again by session 792 at 22:28 UTC on 22 October and by session 973 at 00:12 UTC on 23 October: **no row changed state.** Coverage on main lists none of the tables the open rows wait on (`utility_large_load_tariffs`, reserve margins, substations and lines, a 2026 sub-region demand table, ERCOT's settlement point mapping or resource registration). Large-load tariffs, reserve margins, a load's own wait, a node's place, substations and lines stay open; capacity prices wait on a ruling; utility territories stay filled and a zone's demand growth filled in part. Chain 065 drew more of what is held (794's months of two nodes, 795's nodes that settle alike), which fills no gap row. The data machine's queue holds chain 046 (sessions 850 to 864, "sources and gaps"), written at 00:07 UTC: its sessions 850 and 851 are to land ERCOT's settlement point mapping (a node's load zone and hub) and ERCOT's reserve margins. What it lands is read by the next code chain.
