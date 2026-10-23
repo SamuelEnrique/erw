@@ -50,6 +50,8 @@ rewritten `eia861m_utility_sales_monthly` (1,051,488 rows, EIA's aggregates out)
 run has grown since their upload and `erw_coverage` (296 rows here, 294 in the draft) and `erw_sources` (407 against 398),
 which a plain upload refreshes. 100 requests in all (`runs/c046/s863/`).
 
+**Session 878 (23 October 2026, 03:46 UTC)** uploaded chain 047's ten public tables (EIA-861's utility data, demand response, dynamic pricing, advanced meters, net metering and short form; ERCOT's CDR units; EIA-860's plants; EIA's coal receipts) and `eia861_delivery_only` again, each proved; `erw_headers` holds 2,946 lines, all but the coal receipts' (the ceiling came first). Reconcile: 169 of 214 match; the 45 that differ are, as before, the tables a daily run has grown and the two metadata tables.
+
 **The daily run the draft holds:** the data machine's tables as of 21 and 22 October 2026 (111 tables last run on 21
 October, 19 on 22 October); 30 were last run here before 15 October (below).
 
