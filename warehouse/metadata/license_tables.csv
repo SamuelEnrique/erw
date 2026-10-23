@@ -342,6 +342,7 @@ nlr_atb_electricity_costs,"National Laboratory of the Rockies (NLR, formerly NRE
 nlr_jedi_multipliers,"National Laboratory of the Rockies (NLR, formerly NREL)",the source registry
 noaa_climdiv_state_monthly,NOAA NCEI,the source registry
 noaa_cpc_degree_days_daily,NWS,the source registry
+noaa_cpc_oni_monthly,NWS,the source registry
 noaa_grid_weather_daily,NOAA NCEI,the source registry
 noaa_grid_weather_hourly,NOAA NCEI,the source registry
 noaa_grid_weather_stations,NOAA NCEI,the source registry
