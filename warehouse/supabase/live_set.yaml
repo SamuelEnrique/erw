@@ -364,6 +364,7 @@ catalogue_hold:
   - ieso_ontario_demand_hourly
   - aeso_alberta_load_hourly
   - epa_ghgrp_facility_emissions
+  - noaa_ncei_billion_disasters
   - lbnl_hybrid_ppa_prices
   - lbnl_solar_projects
   - ornl_npd_potential

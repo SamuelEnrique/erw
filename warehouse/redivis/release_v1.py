@@ -176,6 +176,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "ieso_ontario_demand_hourly",
            "aeso_alberta_load_hourly",
            "epa_ghgrp_facility_emissions",
+           "noaa_ncei_billion_disasters",
            "interconnection_durations", "interconnection_durations_summary",
            "grid_peak_vs_capacity"):  # 510 to 672 the same way
     STORAGE_HELD[_t] = ("held: not yet on Redivis (written 21 October 2026, session 489; the account's free 10 GB is full, "
