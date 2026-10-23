@@ -356,6 +356,7 @@ catalogue_hold:
   - noaa_cpc_degree_days_daily
   - boem_offshore_platforms
   - noaa_ncei_storm_events
+  - nrc_event_notifications
   - lbnl_hybrid_ppa_prices
   - lbnl_solar_projects
   - ornl_npd_potential
