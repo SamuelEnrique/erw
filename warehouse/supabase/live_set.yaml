@@ -308,6 +308,7 @@ catalogue_hold:
   - eia930_subba_demand_hourly_2022
   - eia930_subba_demand_hourly_2021
   - eia930_subba_demand_hourly_2020
+  - eia930_subba_demand_hourly_2019
   - eia_coal_production_annual
   - eia_coal_mine_production_annual
   - eia861_utility_reliability
