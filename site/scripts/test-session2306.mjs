@@ -24,13 +24,25 @@ check(!/—/.test(peakWords(3, 2026, note)), "no em dash");
 
 // 2. the carbon column names its measure by profile (fix 2)
 {
-  const { columnHead, COLUMNS } = await import("../lib/siting.ts");
+  const { columnHead, COLUMNS, foreseen, foreseenWords } = await import("../lib/siting.ts");
+  const dc = { profile: "datacenter", strike: null }, flex = { profile: "flexible", strike: 150 }, ely = { profile: "electrolyzer", strike: null }, elyTyped = { profile: "electrolyzer", strike: 40 }, ind = { profile: "industry", strike: null };
   const carbon = COLUMNS.find((c) => c.id === "carbon");
-  check(columnHead(carbon, "datacenter") === "Carbon (eGRID 2023, generated)", "datacenter: eGRID's generation-based annual rate");
-  check(columnHead(carbon, "flexible") === "Carbon (EIA-930 hourly, consumed, where held)" && columnHead(carbon, "electrolyzer") === "Carbon (EIA-930 hourly, consumed, where held)", "flexible and electrolyzer: EIA-930's hourly consumption-based intensity");
+  check(columnHead(carbon, dc) === "Carbon (eGRID 2023, generated)", "datacenter: eGRID's generation-based annual rate");
+  check(columnHead(carbon, flex) === "Carbon (EIA-930 hourly, consumed, where held)" && columnHead(carbon, ely) === "Carbon (EIA-930 hourly, consumed, where held)", "flexible and electrolyzer: EIA-930's hourly consumption-based intensity");
   check(/eGRID 2023/.test(carbon.tip) && /intensity_demand/.test(carbon.tip) && /16 December 2025/.test(carbon.tip) && /eia930_caiso_break/.test(carbon.tip), "the head's tip states both measures and names the CAISO reporting break");
   const other = COLUMNS.find((c) => c.id === "capacity");
-  check(columnHead(other, "flexible") === other.head, "another column's head is unchanged");
+  check(columnHead(other, flex) === other.head, "another column's head is unchanged");
+
+  // 3. the hindsight figures are labelled "if perfectly foreseen" (fix 3)
+  const energy = COLUMNS.find((c) => c.id === "energy"), tx = COLUMNS.find((c) => c.id === "transmission");
+  check(foreseen(flex) && foreseen(ely) && !foreseen(elyTyped) && !foreseen(dc) && !foreseen(ind), "foreseen: the flexible profile and the electrolyzer at its own percentile; not a typed strike, the flat load or industry");
+  check(columnHead(energy, flex) === "Energy (if perfectly foreseen)" && columnHead(energy, ely) === "Energy (if perfectly foreseen)", "the energy head is labelled for the two hindsight profiles");
+  check(columnHead(energy, dc) === "Energy" && columnHead(energy, elyTyped) === "Energy" && columnHead(energy, ind) === "Energy", "the energy head is plain for the others");
+  check(columnHead(tx, flex) === "Transmission and 4CP (own and off: if perfectly foreseen)" && columnHead(tx, dc) === "Transmission and 4CP", "the transmission head is labelled for the flexible profile alone");
+  check(foreseenWords("its strike").startsWith("If perfectly foreseen: its strike is chosen knowing the whole year's prices") && /Your load/.test(foreseenWords("x")), "the tip's words, in the single-region tab's own phrase");
+  const view = (await import("node:fs")).readFileSync(new URL("../app/cost-of-power/AllGridsView.tsx", import.meta.url), "utf-8");
+  check(/foreseen\(x\) \? "" : ` \$\{foreseenWords\(/.test(view) && /curtTip = `Curtailing:[^\n]*\$\{hind\}/.test(view) && /columnHead\(c, x\)/.test(view), "the tab draws the words in the profile's tip, the four-peak tips and the heads");
+  check(!/—/.test(view) && !/—/.test(foreseenWords("x")), "no em dash");
 }
 
 console.log(`${n - bad} of ${n} passed`);

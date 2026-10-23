@@ -378,12 +378,25 @@ function profileTwelveOnce(dc: DC, f: Files, grid: string, region: string, x: Pi
 /** Session 2306: a column's head for the profile shown. The carbon column names its measure: eGRID's generation-based
  * annual rate for the datacenter profile (a flat load); EIA-930's hourly consumption-based intensity, where held, for
  * the flexible and electrolyzer profiles (the two are not the same quantity). */
-export function columnHead(c: Pick<Column, "id" | "head">, profile: ProfileId): string {
-  const curtail = PROFILES[profile].curtail;
+export function columnHead(c: Pick<Column, "id" | "head">, x: Pick<SitingInputs, "profile" | "strike">): string {
+  const curtail = PROFILES[x.profile].curtail;
   const hourly = curtail === "peaks_strike" || curtail === "below_strike";
   if (c.id === "carbon") return hourly ? "Carbon (EIA-930 hourly, consumed, where held)" : "Carbon (eGRID 2023, generated)";
+  // fix 3: a figure chosen knowing the year is labelled as "Your load" labels its own hindsight figure
+  if (c.id === "energy" && foreseen(x)) return `${c.head} (if perfectly foreseen)`;
+  if (c.id === "transmission" && curtail === "peaks_strike") return `${c.head} (own and off: if perfectly foreseen)`;
   return c.head;
 }
+/** Session 2306 (fix 3): whether a profile's energy figure is a hindsight one. The flexible profile is off in ERCOT's
+ * four summer peak intervals, which are known only after the summer; the electrolyzer's strike at the row's own
+ * percentile (no strike typed) is the price at its load factor of the year's own hours. A strike the reader types, and
+ * the flat and industry profiles, decide on the day-ahead price alone. */
+export function foreseen(x: Pick<SitingInputs, "profile" | "strike">): boolean {
+  const curtail = PROFILES[x.profile].curtail;
+  return curtail === "peaks_strike" || (curtail === "below_strike" && x.strike === null);
+}
+/** Session 2306 (fix 3): the words a hindsight figure carries in its tip. `what` names the choice made knowing the year. */
+export const foreseenWords = (what: string) => `If perfectly foreseen: ${what} is chosen knowing the whole year's prices, as "Your load" labels its own hindsight figure; a load deciding day by day would do no better and usually worse.`;
 /** Session 2306: the words for ERCOT's four summer peak intervals in a flexible profile's rule, from the count the model
  * made (ProfileTwelve.peaks: the intervals' hours with a price inside the twelve months), never a fixed sentence. */
 export function peakWords(peaks: number, lastYear: number | string | undefined, note: string): string {

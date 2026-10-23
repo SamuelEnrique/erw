@@ -4,7 +4,7 @@ import { InlineSpark } from "@/components/InlineSpark";
 import { LineChart } from "@/components/LineChart";
 import { InputPanel } from "@/components/tool/ToolPage";
 import type { ReactNode } from "react";
-import { columnWords, nodeColumns, zoneGrowth, SERVICE_WORDS, UTILITY_KINDS_LINE, utilityKind, nodeShortMonths, shortMonthsWords, CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, reserveMargin, columnHead, columnValue, nodeTable, peakWords, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
+import { columnWords, nodeColumns, zoneGrowth, SERVICE_WORDS, UTILITY_KINDS_LINE, utilityKind, nodeShortMonths, shortMonthsWords, CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, reserveMargin, columnHead, columnValue, foreseen, foreseenWords, nodeTable, peakWords, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
 import { CP, NODES, SITING_DC, SITING_FILES } from "@/lib/sitingdata";
 import { AllGridsForm } from "./AllGridsForm";
 import { AllGridsNodes } from "./AllGridsNodes";
@@ -114,7 +114,10 @@ function ProfileTd({ r, x }: { r: Row; x: SitingInputs }) {
     : p.curtail === "below_strike"
       ? `Runs in an hour whose day-ahead price is ${x.strike === null ? `at or below USD ${two(t.strike ?? 0)} per MWh, this row's own price at the load factor ${x.lf.toFixed(2)} (the cheapest ${Math.round(x.lf * 100)} percent of its hours)` : `below USD ${two(t.strike ?? 0)} per MWh`}.`
       : p.curtail === "interruptible" ? "Runs every hour: no table the warehouse holds names the hours a grid interrupts a heavy load." : "Runs every hour.";
-  const tip = `${p.label}, day-ahead, ${monthWords(t.from)} to ${monthWords(t.to)}: USD ${two(c.per)} per MWh over the ${t.run.toLocaleString("en-US")} hours it ran, off in ${t.lost.toLocaleString("en-US")} of the ${t.held.toLocaleString("en-US")} hours held. ${rule}${flatPer !== undefined ? ` A flat load: USD ${two(flatPer)}.` : ""}${c.daily ? ` A node: ${NODE_HUB}'s figure under the same rule plus the node's mean daily basis, USD ${two(c.basis ?? 0)} (node_basis_daily, daily: the rule reads the hub's hours).` : ""}`;
+  // session 2306 (fix 3): the flexible profile's hours off in ERCOT's four intervals, and the electrolyzer's strike at the
+  // row's own percentile, are chosen knowing the year: the tip says so, as "Your load" says of its hindsight figure
+  const hind = !foreseen(x) ? "" : ` ${foreseenWords(p.curtail === "peaks_strike" ? "the set of hours it is off in (the four intervals are known only after the summer)" : `its strike, USD ${two(t.strike ?? 0)} per MWh, the price at the load factor ${x.lf.toFixed(2)} of the year's own hours`)}`;
+  const tip = `${p.label}, day-ahead, ${monthWords(t.from)} to ${monthWords(t.to)}: USD ${two(c.per)} per MWh over the ${t.run.toLocaleString("en-US")} hours it ran, off in ${t.lost.toLocaleString("en-US")} of the ${t.held.toLocaleString("en-US")} hours held. ${rule}${hind}${flatPer !== undefined ? ` A flat load: USD ${two(flatPer)}.` : ""}${c.daily ? ` A node: ${NODE_HUB}'s figure under the same rule plus the node's mean daily basis, USD ${two(c.basis ?? 0)} (node_basis_daily, daily: the rule reads the hub's hours).` : ""}`;
   return (
     <span className="whitespace-nowrap">
       <Fig check={`allgrids|energy|${r.id}|da|${k}`} v={c.per} tip={tip} />
@@ -132,11 +135,14 @@ function TxTd({ r, x }: { r: Row; x: SitingInputs }) {
   const ivs = c.intervals.map((iv) => `${iv.local} (${iv.w === null ? "price not held" : iv.w ? "on" : "off"})`).join("; ");
   const base = `ERCOT's four summer peak intervals of ${c.year} (ercot_4cp_intervals) at the Commission's ${c.rate.year} rate, USD ${c.rate.value.toFixed(6)} per kW of four-peak demand a year (texas_transmission_matrix), over the ${Math.round(c.hours).toLocaleString("en-US")} hours a year the load runs${r.kind === "node" ? ` (${NODE_HUB}'s hours: the node table is daily)` : ""}. The charge is paid the year after the summer.`;
   const firmTip = `Firm: the load's full demand in all four intervals. ${base}`;
-  const curtTip = `Curtailing: a load off in the four intervals' hours, computed from its weights in those hours, not assumed. ${base}`;
+  // session 2306 (fix 3): a load off in the intervals knows them only after the summer: the curtailing figure, and the
+  // flexible profile's own, are hindsight figures and say so
+  const hind = foreseenWords("the set of hours it is off in (ERCOT's four intervals are known only after the summer)");
+  const curtTip = `Curtailing: a load off in the four intervals' hours, computed from its weights in those hours, not assumed. ${hind} ${base}`;
   return (
     <span className="whitespace-nowrap">
       {c.own === null ? <Words words="not held" why={`The price of an interval's hour is not held, so the load's share in it cannot be computed. ${base}`} />
-        : <Fig check={`allgrids|tx|${r.id}|${k}`} v={c.own} tip={`${p.label}: it ran in ${Math.round((c.share ?? 0) * 4)} of the four intervals of ${c.year} (${ivs}). ${base}`} />}
+        : <Fig check={`allgrids|tx|${r.id}|${k}`} v={c.own} tip={`${p.label}: it ran in ${Math.round((c.share ?? 0) * 4)} of the four intervals of ${c.year} (${ivs}).${p.curtail === "peaks_strike" ? ` ${hind}` : ""} ${base}`} />}
       <span className="ml-2 text-xs" data-tx-firm="1">firm <Fig check={`allgrids|tx|${r.id}|firm|${k}`} v={c.firm} tip={firmTip} /></span>
       {c.curtailing !== null ? <span className="ml-2 text-xs" data-tx-curtailing="1">off <Fig check={`allgrids|tx|${r.id}|curtailing|${k}`} v={c.curtailing} tip={curtTip} /></span> : null}
     </span>
@@ -351,7 +357,7 @@ function AbPanel({ x }: { x: SitingInputs }) {
           <thead><tr className="bg-accent text-white"><th scope="col" className="px-3 py-1.5 text-left font-normal">USD per MWh unless said</th><th scope="col" className={th}>A: {name(ra)}</th><th scope="col" className={th}>B: {name(rb)}</th><th scope="col" className={th}>B less A</th></tr></thead>
           <tbody>
             {COLUMNS.map((c) => (
-              <tr key={c.id} className="border-b border-rule"><th scope="row" className="px-3 py-1.5 text-left font-normal">{columnHead(c, x.profile)} <span className="text-xs text-muted">{c.unit === "USD per MWh" ? "" : c.unit}</span></th>
+              <tr key={c.id} className="border-b border-rule"><th scope="row" className="px-3 py-1.5 text-left font-normal">{columnHead(c, x)} <span className="text-xs text-muted">{c.unit === "USD per MWh" ? "" : c.unit}</span></th>
                 <td className="px-3 py-1.5 text-right">{cell(ra, c)}</td><td className="px-3 py-1.5 text-right">{cell(rb, c)}</td><td className="px-3 py-1.5 text-right">{diff(c)}</td></tr>
             ))}
             <tr className="border-b border-rule bg-paper"><th scope="row" className="px-3 py-1.5 text-left font-normal">A year all-in, USD, {x.mw.toLocaleString("en-US")} MW</th><td className="px-3 py-1.5 text-right">{yr(ra, ya)}</td><td className="px-3 py-1.5 text-right">{yr(rb, yb)}</td><td className="px-3 py-1.5 text-right">{ya && yb && ra && rb ? <>{yb.usd - ya.usd > 0 ? "+" : ""}<Num check={`allgrids|yeardiff|${ra.id}|${rb.id}|${yk}`} raw={yb.usd - ya.usd}>{usdWhole(yb.usd - ya.usd)}</Num></> : ""}</td></tr>
@@ -537,7 +543,7 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
                 <th scope="col" className="px-3 py-1.5 font-normal">Grid and region</th>
                 {cols.map((c) => (
                   <th key={c.id} scope="col" className="px-3 py-1.5 text-right font-normal" data-col={c.id}>
-                    <Tp tip={`${c.tip} ${c.unit}.`} className="border-white/70">{columnHead(c, x.profile)}</Tp>
+                    <Tp tip={`${c.tip} ${c.unit}.`} className="border-white/70">{columnHead(c, x)}</Tp>
                   </th>
                 ))}
               </tr>
