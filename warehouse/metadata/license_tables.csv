@@ -377,6 +377,7 @@ ornl_hydropower_pipeline,"Oak Ridge National Laboratory (ORNL), HydroSource",the
 ornl_hydropower_relicensing,"Oak Ridge National Laboratory (ORNL), HydroSource",the source registry
 ornl_npd_potential,"Oak Ridge National Laboratory (ORNL), HydroSource",the source registry
 ornl_tedb_transportation_annual,"Oak Ridge National Laboratory (ORNL), Transportation Energy Data Book",the source registry
+owid_ember_electricity_annual,Ember; Our World in Data,the source registry
 pjm_rpm_capacity_prices,PJM,the source registry
 policy_action_tags,California Public Utilities Commission; NRC; Office of the Federal Register (NARA); Public Utility Commission of Texas; U.S. Department of Energy (DOE),the source registry and the tables its header derives it from: policy_actions
 policy_actions,California Public Utilities Commission; NRC; Office of the Federal Register (NARA); Public Utility Commission of Texas; U.S. Department of Energy (DOE),the source registry

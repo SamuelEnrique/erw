@@ -6222,6 +6222,8 @@ ornl_npd_potential,flow_cfs,column,
 ornl_npd_potential,potential_mwh_year,column,
 ornl_npd_potential,capacity_factor_pct,column,
 ornl_npd_potential,coordinates_from,column,
+owid_ember_electricity_annual,electricity_demand,series variable,MWh
+owid_ember_electricity_annual,electricity_emissions,series variable,tCO2e
 policy_action_tags,event_id,column,
 policy_action_tags,event_date,column,
 policy_action_tags,event_type,column,

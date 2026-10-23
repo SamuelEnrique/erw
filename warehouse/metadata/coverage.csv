@@ -377,6 +377,7 @@ ornl_hydropower_pipeline,ornl,,196,snapshot,2026-10-23T08:33:21Z,2026-10-23T08:3
 ornl_hydropower_relicensing,none,,1,event,2001-08-30T00:00:00Z,2025-12-23T00:00:00Z,559,1 outlets,2026-10-23T10:16:07Z,pass,public,power,no,source
 ornl_npd_potential,ornl,,597,snapshot,2026-10-23T11:05:59Z,2026-10-23T11:05:59Z,597,ornl:npd_potential,2026-10-23T11:31:10Z,pass,public,power,no,source
 ornl_tedb_transportation_annual,ornl,,46,P1Y,1950-01-01T00:00:00Z,2024-01-01T00:00:00Z,674,ornl:tedb,2026-10-23T19:05:39Z,pass,internal,oil;products;power,no,source
+owid_ember_electricity_annual,owid,,239,P1Y,1990-01-01T00:00:00Z,2025-01-01T00:00:00Z,12406,owid:energy,2026-10-23T23:08:15Z,pass,public,power;carbon,no,source
 pjm_rpm_capacity_prices,PJM,bra,18,P1Y,2007-06-01T00:00:00Z,2028-06-01T00:00:00Z,234,pjm:rpm-clearing-price-summary,2026-10-23T14:45:16Z,pass,internal,capacity,no,source
 policy_action_tags,none,,1,event,2026-01-26T00:00:00Z,2026-09-04T00:00:00Z,38,1 outlets,2026-10-08T10:18:10Z,pass,public,news,no,model_extracted
 policy_actions,none,,5,event,2025-10-01T00:00:00Z,2026-10-23T00:00:00Z,1951,5 outlets,2026-10-23T14:59:15Z,pass,public,news,no,model_extracted
