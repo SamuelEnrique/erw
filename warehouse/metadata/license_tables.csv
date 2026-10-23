@@ -92,6 +92,7 @@ eia_drilling_monthly,EIA,the source registry
 eia_energy_efficiency_state_annual,EIA,the source registry
 eia_fuel_spot_prices,EIA,the source registry
 eia_gas_balance_annual,EIA,the source registry
+eia_gas_consumers_state_annual,EIA,the source registry
 eia_gas_consumption_state_monthly,EIA,the source registry
 eia_gas_interstate_annual,EIA,the source registry
 eia_gas_prices_state_monthly,EIA,the source registry
