@@ -8,7 +8,7 @@
 // Differences from the Python tools are named where they occur.
 import "server-only";
 import { DataError, HOURLY, rest, restCount } from "@/lib/supabase";
-import { LICENSE_NEEDED, licenseByGrid, licenseNeeded, licenseTitle } from "@/lib/license";  // session 215
+import { LICENSE_NEEDED, gridName, gridOfEntity, gridPrefix, licenseByGrid, licenseGridTitle, licenseHeldRow, licenseNeeded, licenseTitle } from "@/lib/license";  // session 215; 1112
 import spec from "./spec.json";
 import { DOCS, type GridConfig } from "@/lib/markdown";
 import { LIFE_MS, keep, within, type Summary } from "./summaries";
@@ -448,10 +448,47 @@ const shiftDay = (day: string, n: number) => new Date(Date.parse(`${day}T00:00:0
 // EIA's figures for the MISO balancing authority (eia930:MISO, iso:miso) are EIA's own, and are kept.
 export const MISO_PAUSED = "MISO is paused while its terms are reviewed (since 4 October 2026): this site shows no figure of MISO's own data. State no MISO figure: answer with not_in_warehouse true and say that MISO is 'paused while terms are reviewed'";
 export const misoOwn = (v: unknown): boolean => typeof v === "string" && /^miso[:_]/i.test(v);
+/** Session 1112: the grid whose held rows a query asks for, by its entity or, with none, by the chat's own grid; "" when
+ *  the query asks for no held grid's rows (a table not held, a table held whole, a public grid). */
+export function heldGridOf(a: { table: string; entity?: string }, scope: Scope = null): string {
+  if (!licenseNeeded(a.table) || !licenseByGrid(a.table)) return "";
+  const g = gridOfEntity(a.entity) || (a.entity ? "" : scope ? (scope.market_prefix ? gridOfEntity(`${scope.market_prefix}:x`) : gridPrefix(scope.iso)) : "");
+  return g && licenseHeldRow(a.table, `${g}:x`) ? g : "";
+}
+
+/** Session 1112: the answer to a question about a held grid's rows. The grid is named, its rows are said to be held for
+ *  a license, and the same query is run over the table's public grids (one read, by entity; the held grids' rows never
+ *  leave lib/supabase.ts), so the answer can give their figures in the same sentence structure. A grouped query (by
+ *  month, year, ...) gets the words only. The hold itself is Samuel's ruling of 12 October 2026 and is not changed. */
+async function heldAnswer(a: QueryArgs, grid: string): Promise<Json> {
+  const name = gridName(grid);
+  const out: Json = {
+    held: true, grid: name, grid_license: LICENSE_NEEDED, title: licenseGridTitle(grid),
+    words: `${name}'s rows of ${a.table} are held for a license: ${LICENSE_NEEDED}`,
+    note: `State no figure of ${name}. Answer with not_in_warehouse false: say first that ${name}'s rows are held for a license ("${LICENSE_NEEDED}"), then give the same figure for each grid under public_grids, in the same sentence structure, with this table cited`,
+  };
+  if (!a.group_by) {
+    const pub = await query({ ...a, entity: undefined, group_by: "entity" }, null);
+    const rows = ((pub.result as Json[] | undefined) ?? []).filter((r) => {
+      const g = gridOfEntity(r.entity as string);
+      return !!g && !misoOwn(r.entity) && !licenseHeldRow(a.table, r.entity as string);
+    });
+    out.public_grids = rows.map((r) => ({ grid: gridName(gridOfEntity(r.entity as string)), ...r }));
+    out.public_query = { aggregation: a.aggregation, filters: pub.filters, units: pub.units, variables: pub.variables, rows_matched: pub.rows_matched };
+    if (!rows.length) out.public_grids_note = "no public grid holds a row for these filters";
+  } else {
+    out.public_grids_note = `a grouped query names no public grid's figure: ask again with entity set to a public grid's hub (group_by ${a.group_by})`;
+  }
+  Object.assign(out, await provenance(a.table));
+  return out;
+}
+
 async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
   if (!AGGREGATIONS.includes(a.aggregation)) throw new ToolError(`aggregation must be one of ${AGGREGATIONS.join(", ")}`);
   if (misoOwn(a.table) || misoOwn(a.entity) || Object.values(a.where ?? {}).flat().some(misoOwn)) throw new ToolError(MISO_PAUSED);
   const { c, columns, shape } = await tableInfo(a.table, scope);
+  const held = heldGridOf(a, scope);
+  if (held) return heldAnswer(a, held);
   const tcol = TIME_COL[shape];
   const vcol = a.value_column ?? DEFAULT_VALUE[shape];
   if (a.aggregation !== "count" && !columns.includes(vcol)) throw new ToolError(`no column ${JSON.stringify(vcol)} in ${a.table}`);

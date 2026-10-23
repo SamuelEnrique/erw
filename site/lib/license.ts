@@ -61,6 +61,11 @@ export const isLicenseReason = (reason: string) => reason.startsWith(LICENSE_REA
 const GRID_PREFIX: Record<string, string> = { "ISO-NE": "isone", MISO: "miso", NYISO: "nyiso", PJM: "pjm", SPP: "spp", CAISO: "caiso", ERCOT: "ercot" };
 const GRID_NAME: Record<string, string> = Object.fromEntries(Object.entries(GRID_PREFIX).map(([k, v]) => [v, k]));
 
+/** Session 1112: a grid's name from its prefix ("nyiso" to "NYISO"), and its prefix from its name; the input itself when
+ *  it is neither. */
+export const gridName = (prefix: string): string => GRID_NAME[prefix.toLowerCase()] ?? prefix;
+export const gridPrefix = (name: string): string => GRID_PREFIX[name] ?? (name.toLowerCase() in GRID_NAME ? name.toLowerCase() : "");
+
 /** True when every publisher deciding the table is a grid operator: the hold is by grid, not whole. A table held by
  *  row (session 499) is never also held by grid. */
 export function licenseByGrid(table: string): boolean {
