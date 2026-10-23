@@ -8,7 +8,7 @@ Energy Research Warehouse (ERW), session 977, written on the old laptop (samuelo
    - None of the rulings file's items is answered (789, 974).
    - None of the tables the tab waits on is in coverage on main (792, 973, and this session at 00:18 UTC).
    - So, as chain 065's file ordered, **this session wrote no `queue/next` file**. The tab's open work waits on you or the data machine; a chain of "not ruled" and "none there" sessions would cost deployments for nothing.
-   - The queue step then exits 3: `queue/next` holds only the data machine's 046.
+   - **Your own file waits behind it**: `queue/next/070-evening-22-october-code-packages.md` (sessions 1000 to 1019, the ERW for researchers: the Python, Stata and R packages), uploaded at 00:25 UTC and named for this machine. So the queue step after this landing takes 070, and the run goes on with it; it does not exit 3.
 2. **What would start the next code chain**:
    - an "Answer: ..." under any item of `docs/reviews/siting-rulings-2026-10-23.md`;
    - or a table landing. The data machine's chains 045 and 046, queued this evening, are to land three of the tab's six table lines:
@@ -82,9 +82,10 @@ Energy Research Warehouse (ERW), session 977, written on the old laptop (samuelo
 - The 22 items of the rulings file (19, the 20th in the answered file, and 21 and 22).
 - The OpenEI key (rulings item 18).
 - The 21 October Digest's WTI (line 33 of the open items).
-- A code chain file for this machine when a ruling is answered or a table lands.
+- A code chain file for the All grids tab when a ruling is answered or a table lands (070's session 1000 writes 071 from these open items).
 
 ## The queue
 
 - `python scripts/chain_queue.py list` at 00:18 UTC on 23 October, on a pulled main (`19025484`): 1 waiting, `046-night-22-october-data-sources-gaps.md`, `machine: data`, left for another machine; 0 for this machine.
-- No file was written. After this note lands, the queue step is run on a pulled main; with nothing for this machine it exits 3, and the run ends.
+- No file was written, under chain 065's stop condition.
+- At 00:44 UTC, as the landing was about to push, main held a new file of yours (`cfaa7914`): `070-evening-22-october-code-packages.md`, `machine: samueloldlaptop`. The push waited for main to be merged and the gate to run again. After this note lands, the queue step on a pulled main takes 070.

@@ -7,7 +7,7 @@
 - **`docs/state/review_2026-10-28_code.md`**: the note for Samuel, with one line per session, every decision made without you, every item waiting for you, and the queue's state.
 - **No next file.** Nothing is ruled, and none of the awaited tables has landed (coverage on main at 00:18 UTC). So, under chain 065's stop condition, no `queue/next` file was written.
   - `chain_queue.py list` on a pulled main: 1 waiting, the data machine's 046, 0 for this machine.
-  - The queue step after the landing is to exit 3, and the run ends.
+  - At 00:44 UTC, before the push, your file `queue/next/070-evening-22-october-code-packages.md` reached main (`cfaa7914`, this machine by name). So the queue step after the landing takes 070, not exit 3. The note says so.
 - **This branch also carries 794 to 799's landing record** (`SESSION_799_REPORT.md`) and each of 794 to 798's pointer to it.
 - **The start times of 974 to 976 were corrected** (their reports and the files they wrote gave 00:16 to 00:24 UTC; they began at about 00:13 to 00:16).
 
@@ -28,7 +28,8 @@ Sessions 970 to 977 land together from this branch (below, once done).
 
 ## Decisions made without you
 
-1. **No next file**, under the chain file's own condition (neither an answer nor a table).
+1. **No next file**, under the chain file's own condition (neither an answer nor a table). Your 070 makes one unnecessary.
+2. **The gate run again** after merging main with 070, because the first gate's commit no longer held main.
 
 ## For Samuel's ruling
 
