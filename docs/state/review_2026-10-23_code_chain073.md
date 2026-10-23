@@ -31,3 +31,7 @@ Written by session 1085 of `queue/done/073-evening-23-october-code-allgrids-pack
 ## `queue/next` for this machine
 
 None: 074 withdrawn by session 1085 (a commit alone, pushed to main, with snapshots). 052 waits for the data machine.
+
+## Added by session 1086 (chain 074), 23 October about 10:55 UTC
+
+The withdrawal above was not made before chain 073's session stopped: 074 stayed in `queue/next/` and this machine's queue step took it at 10:46 UTC. Session 1086 read again that nothing has moved and withdrew it after taking it (`archive/sessions/SESSION_1086_REPORT.md`): no session of 074 ran beyond that one, and no 075 was written. Chain 073's landing (`c2113da8`) met Vercel's "Deployment rate limited" status; its after snapshot is in session 1086's report. `queue/next` for this machine: none.
