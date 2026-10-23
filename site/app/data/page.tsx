@@ -13,7 +13,7 @@ import site from "@/data/site.json";
 import { PAGES } from "@/lib/pages";
 import { TIER_LABEL, TIER_TITLE, isModelExtracted } from "@/lib/tiers";
 import { LICENSE_NEEDED, licenseNeeded, licensePublishers } from "@/lib/license";  // session 207: "license needed" from 20 October 2026
-import { PACKAGES_CITATION, PACKAGES_HELD, PACKAGES_LEAD, PANELS, oneLineCalls, refusal, shapeOf } from "@/lib/packages";  // sessions 1007, 1008
+import { PACKAGES_CITATION, PACKAGES_HELD, PACKAGES_LEAD, PANELS, oneLineCalls, refusal, shapeOf, verdictOf } from "@/lib/packages";  // sessions 1007, 1008
 
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "Data" };
@@ -84,7 +84,8 @@ export default async function Data() {
                         {count(r.n_rows)}
                       </Num>
                     </td>
-                    <td className="py-1 pr-3 font-mono text-xs break-all">{r.source_report}</td>
+                    {/* session 1008: a floor to the column's width, so the column added after it does not squeeze it to a few letters */}
+                    <td className="min-w-[9rem] py-1 pr-3 font-mono text-xs break-all">{r.source_report}</td>
                     <td className="py-1 pr-3 text-xs">
                       {licenseNeeded(r.table_name) ? (
                         <span title={`${licensePublishers(r.table_name).join("; ")}: the publisher's own page asks for permission; none is recorded yet`}>{LICENSE_NEEDED}</span>
@@ -107,11 +108,11 @@ export default async function Data() {
                       )}
                     </td>
                     {/* session 1008: the three one-line calls (lib/packages.ts), or the packages' refusal of a table not public */}
-                    <td className="py-1 pr-3 text-xs" data-tool-lines={r.table_name}>
+                    <td className="py-1 pr-3 text-xs whitespace-nowrap" data-tool-lines={r.table_name}>
                       {refusal(r.table_name) ? (
                         <details>
-                          <summary className="cursor-pointer text-muted">Not public</summary>
-                          <p className="mt-1 max-w-xs">{refusal(r.table_name)}</p>
+                          <summary className="cursor-pointer text-muted">Not public ({verdictOf(r.table_name)})</summary>
+                          <p className="mt-1 w-64 whitespace-normal break-words">{refusal(r.table_name)}</p>
                         </details>
                       ) : (
                         <details>
@@ -223,7 +224,7 @@ export default async function Data() {
           ))}
         </div>
         <p className="mt-3 max-w-3xl text-xs text-muted">
-          The citation each package writes: <code className="font-mono">{PACKAGES_CITATION}</code> {PACKAGES_HELD}
+          The citation each package writes: <code className="font-mono">{PACKAGES_CITATION}</code> {PACKAGES_HELD.replace(/`/g, "")}
         </p>
         <p className="mt-2 max-w-3xl text-xs text-muted">
           The site&apos;s own download (Download CSV, above) opens with the table&apos;s provenance header, each line beginning with{" "}
