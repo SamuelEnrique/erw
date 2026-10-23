@@ -147,6 +147,7 @@ ercot_as_prices,ERCOT,the source registry
 ercot_as_prices_daily,ERCOT,the source registry and the tables its header derives it from: ercot_as_prices
 ercot_as_prices_monthly,ERCOT,the source registry and the tables its header derives it from: ercot_as_prices
 ercot_as_quantities,ERCOT,the source registry
+ercot_cdr_reserve_margins,ERCOT,the source registry
 ercot_dam_cleared_energy,ERCOT,the source registry
 ercot_dam_esr_awards,ERCOT,the source registry
 ercot_grid_notices,ERCOT,the source registry
