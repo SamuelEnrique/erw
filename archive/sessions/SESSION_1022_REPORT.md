@@ -12,7 +12,7 @@ Session 1021 read no answer under any item of `docs/reviews/siting-rulings-2026-
 
 ## The landing
 
-Lands with the next landing of this chain.
+Sessions 1020 to 1039 landed in one push: see `SESSION_1039_REPORT.md`, "The landing".
 
 ## Decisions made without you
 
