@@ -1,6 +1,6 @@
 # Session 1004 report: the Stata package, the help and the examples
 
-23 October 2026, from 03:10 UTC, on samueloldlaptop, unattended, in the worktree `C:\Users\lossa\Documents\erw-1004` on `wip/1004-packages` (cut from `wip/1003-packages`). Chain `queue/done/070-evening-22-october-code-packages.md`, session 1004. Model spend USD 0. No warehouse data written. Requests: none.
+23 October 2026, from about 03:04 UTC, on samueloldlaptop, unattended, in the worktree `C:\Users\lossa\Documents\erw-1004` on `wip/1004-packages` (cut from `wip/1003-packages`). Chain `queue/done/070-evening-22-october-code-packages.md`, session 1004. Model spend USD 0. No warehouse data written. Requests: none.
 
 ## Read these first
 

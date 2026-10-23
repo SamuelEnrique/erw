@@ -153,6 +153,25 @@ What `package/src/erw/` did on 23 October 2026 before session 1001, call by call
 
 The fetch of `eia930_all_demand` for 18 October 2026 is in the live set's 35 days until about 22 November 2026; after that the live set no longer holds it, and the file is made again (`python packages/conformance/make.py`, then `write_runners.py`).
 
+## The package reads what the pages read (session 1012)
+
+Ten figures of the site, each with the check key the page writes (the key check-values reads), recomputed by the Python package's `fetch` from the same table, entity, variable and window (`package/tests/test_page_figures.py`, remote; the figures in `page_figures.json`, recorded from a build of `wip/1011-packages` in the internal view on 23 October 2026). A key `series|...` is the value at a time; `series_max|...` and `series_sum|...` the largest value and the sum over a window.
+
+| Page | Key | Shown | Backend | Result |
+|---|---|---|---|---|
+| `/grid/ercot` | `series|eia930_all_demand|eia930:ERCO|demand_mw|2026-10-21T23:00:00+00:00` | 61145 | live | reproduced |
+| `/grid/ercot` | `series_max|eia930_all_demand|demand_mw|2026-10-21T00:00:00Z|2026-10-22T00:00:00Z|eia930:ERCO` | 63026 | live | reproduced |
+| `/grid/ercot` | `series_sum|eia930_all_generation|net_generation_mw|2026-10-21T00:00:00Z|2026-10-22T00:00:00Z|eia930:ERCO` | 1263288 | live | reproduced |
+| `/grid/ercot` | `series|carbon_intensity_hourly|eia930:ERCO|intensity_demand|2026-10-19T23:00:00+00:00` | 327.4974 | live | reproduced |
+| `/grid/ercot` | `series|storage_daily_cycle|eia930:ERCO|mwh_discharged|2026-10-20T00:00:00+00:00` | 31650 | live | reproduced |
+| `/grid/ercot` | `series|price_board_latest|ercot:HB_HUBAVG|da_avg_30d|2026-10-22T00:00:00+00:00` | 38.8049 | local | skipped: held whole by the record, so refused on the live set; this machine's copy predates the day |
+| `/grid/ercot` | `series|price_board_peak_offpeak|ercot:HB_HUBAVG|da_peak_mean|2026-10-22T00:00:00+00:00` | 35.3575 | local | skipped: held whole by the record, so refused on the live set; this machine's copy predates the day |
+| `/grid/ercot` | `series|state_generation_mix_monthly|eia:US|net_generation_solar_mwh|2026-07-01T00:00:00+00:00` | 41411776.3 | live | reproduced |
+| `/cost-of-power/battery` | `series|node_basis_summary|ercot:HB_HUBAVG|dam_storage_hub_spread_4h|2026-09-01T00:00:00+00:00` | 52.3975 | local | reproduced |
+| `/cost-of-power/battery` | `series|price_years_by_window|ercot:HB_HUBAVG|battery_foresight_4h_year_2025|2025-01-01T00:00:00+00:00` | 87.439609 | local | reproduced |
+
+Eight of ten are reproduced exactly; no fault was found in the package or in the pages' library. The two others are the price board's tables (`price_board_latest`, `price_board_peak_offpeak`), whose license verdict is `unsettled` (held whole for their ISO-NE, MISO and NYISO rows). The package refuses them on the live set, as this note says it must, while the Grid tool shows their ERCOT figures. Whether a held table's public rows may be shown is the owner's ruling (`docs/licenses.md`, "Held figures that still show").
+
 ## Decisions (each dated, and reversible unless said)
 
 1. 2026-10-23, session 1000: six calls, the same names in the three packages (R with an `erw_` prefix, Stata as subcommands). `list_tables`, `filter`, `sources`, `info` and `version` stay in Python as they are.

@@ -1,6 +1,6 @@
 # Session 1006 report: one test, three packages
 
-23 October 2026, from 03:28 UTC, on samueloldlaptop, unattended, in the worktree `C:\Users\lossa\Documents\erw-1006` on `wip/1006-packages` (cut from `wip/1005-packages`). Chain `queue/done/070-evening-22-october-code-packages.md`, session 1006. Model spend USD 0. No warehouse data written. Requests: **the live set 68, over this session's ceiling of 50** (26 to make the file, 21 for the Python runner, and 21 more when a failed patch left the runner to make all twenty calls again: see "Read these first"); Redivis none.
+23 October 2026, from about 03:10 UTC, on samueloldlaptop, unattended, in the worktree `C:\Users\lossa\Documents\erw-1006` on `wip/1006-packages` (cut from `wip/1005-packages`). Chain `queue/done/070-evening-22-october-code-packages.md`, session 1006. Model spend USD 0. No warehouse data written. Requests: **the live set 68, over this session's ceiling of 50** (26 to make the file, 21 for the Python runner, and 21 more when a failed patch left the runner to make all twenty calls again: see "Read these first"); Redivis none.
 
 ## Read these first
 
