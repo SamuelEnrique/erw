@@ -383,6 +383,7 @@ catalogue_hold:
   - blm_oil_gas_statistics_annual
   - noaa_uscrn_solar_monthly
   - eia_seds_residential_annual
+  - cec_total_system_generation_annual
   - lbnl_hybrid_ppa_prices
   - lbnl_solar_projects
   - ornl_npd_potential

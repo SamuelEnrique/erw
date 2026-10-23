@@ -519,6 +519,9 @@ carbon_intensity_hourly,intensity_demand,series variable,kgCO2/MWh
 carbon_intensity_hourly,intensity_generation,series variable,kgCO2/MWh
 carbon_intensity_monthly,intensity_demand,series variable,kgCO2/MWh
 carbon_intensity_monthly,intensity_generation,series variable,kgCO2/MWh
+cec_total_system_generation_annual,imports,series variable,MWh
+cec_total_system_generation_annual,in_state_generation,series variable,MWh
+cec_total_system_generation_annual,total_system_power,series variable,MWh
 census_metro_population,population_2025,series variable,count
 census_metro_population,population_base_2020,series variable,count
 cer_electricity_trade,exports,series variable,MWh

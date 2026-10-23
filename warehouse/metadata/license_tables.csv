@@ -31,6 +31,7 @@ carb_lcfs_credit_prices,CARB,the source registry
 carbon_intensity_daily,EIA,the source registry and the tables its header derives it from: eia930_all_emissions
 carbon_intensity_hourly,EIA,the source registry and the tables its header derives it from: eia930_all_emissions
 carbon_intensity_monthly,EIA,the source registry and the tables its header derives it from: eia930_all_emissions
+cec_total_system_generation_annual,California Energy Commission (CEC),the source registry
 census_metro_population,Census Bureau,the source registry
 cer_electricity_trade,Canada Energy Regulator (CER),the source registry
 cer_gas_trade,Canada Energy Regulator (CER),the source registry
