@@ -2995,6 +2995,8 @@ eia_power_costs_annual,maintenance_expense,series variable,USD/MWh
 eia_power_costs_annual,operation_expense,series variable,USD/MWh
 eia_power_costs_annual,tested_heat_rate,series variable,MMBtu/MWh
 eia_power_costs_annual,total_expense,series variable,USD/MWh
+eia_power_fuel_stocks_monthly,stocks,series variable,kbbl
+eia_power_fuel_stocks_monthly,stocks,series variable,short_ton
 eia_power_plant_fuel_costs,cost_per_mcf,series variable,USD/Mcf
 eia_power_plant_fuel_costs,cost_per_mmbtu,series variable,USD/MMBtu
 eia_power_plant_fuel_costs,cost_per_short_ton,series variable,USD/short_ton
@@ -3096,6 +3098,19 @@ eia_world_electricity_annual,exports,series variable,MWh
 eia_world_electricity_annual,generation,series variable,MWh
 eia_world_electricity_annual,imports,series variable,MWh
 eia_world_electricity_annual,net_imports,series variable,MWh
+eia_world_oil_gas_annual,bunker_consumption,series variable,kbbl/d
+eia_world_oil_gas_annual,consumption,series variable,bcf
+eia_world_oil_gas_annual,consumption,series variable,kbbl/d
+eia_world_oil_gas_annual,exports,series variable,bcf
+eia_world_oil_gas_annual,exports,series variable,kbbl/d
+eia_world_oil_gas_annual,imports,series variable,bcf
+eia_world_oil_gas_annual,imports,series variable,kbbl/d
+eia_world_oil_gas_annual,production,series variable,bcf
+eia_world_oil_gas_annual,production,series variable,kbbl/d
+eia_world_oil_gas_annual,stocks,series variable,kbbl
+eia_world_oil_monthly,consumption,series variable,kbbl/d
+eia_world_oil_monthly,production,series variable,kbbl/d
+eia_world_oil_monthly,stocks,series variable,kbbl
 energy_companies,entity_id,column,
 energy_companies,entity_type,column,
 energy_companies,name,column,
@@ -3306,6 +3321,42 @@ ercot_node_places,x_class,column,
 ercot_node_places,x_resource_type,column,
 ercot_node_places,x_cdr_units,column,
 ercot_node_places,x_cdr_units_n,column,
+ercot_node_planned_generation,entity_id,column,
+ercot_node_planned_generation,entity_type,column,
+ercot_node_planned_generation,name,column,
+ercot_node_planned_generation,geo,column,
+ercot_node_planned_generation,lat,column,
+ercot_node_planned_generation,lon,column,
+ercot_node_planned_generation,capacity_mw,column,
+ercot_node_planned_generation,status,column,
+ercot_node_planned_generation,status_date,column,
+ercot_node_planned_generation,operator,column,
+ercot_node_planned_generation,source,column,
+ercot_node_planned_generation,source_url,column,
+ercot_node_planned_generation,retrieved_at,column,
+ercot_node_planned_generation,vintage,column,
+ercot_node_planned_generation,x_county,column,
+ercot_node_planned_generation,x_zone,column,
+ercot_node_planned_generation,x_queue_projects,column,
+ercot_node_planned_generation,x_queue_mw,column,
+ercot_node_planned_generation,x_queue_solar_mw,column,
+ercot_node_planned_generation,x_queue_wind_mw,column,
+ercot_node_planned_generation,x_queue_storage_mw,column,
+ercot_node_planned_generation,x_queue_gas_mw,column,
+ercot_node_planned_generation,x_queue_other_mw,column,
+ercot_node_planned_generation,x_queue_next_in_service,column,
+ercot_node_planned_generation,x_eia_planned_generators,column,
+ercot_node_planned_generation,x_eia_planned_mw,column,
+ercot_node_planned_generation,x_eia_solar_mw,column,
+ercot_node_planned_generation,x_eia_wind_mw,column,
+ercot_node_planned_generation,x_eia_storage_mw,column,
+ercot_node_planned_generation,x_eia_natural_gas_mw,column,
+ercot_node_planned_generation,x_eia_nuclear_mw,column,
+ercot_node_planned_generation,x_eia_petroleum_mw,column,
+ercot_node_planned_generation,x_eia_hydro_mw,column,
+ercot_node_planned_generation,x_eia_biomass_mw,column,
+ercot_node_planned_generation,x_eia_geothermal_mw,column,
+ercot_node_planned_generation,x_eia_other_mw,column,
 ercot_node_transmission,entity_id,column,
 ercot_node_transmission,entity_type,column,
 ercot_node_transmission,name,column,
@@ -5198,6 +5249,45 @@ node_basis_summary,rtm_zone_spread_4h_p25,series variable,USD/MWh
 node_basis_summary,rtm_zone_spread_4h_p50,series variable,USD/MWh
 node_basis_summary,rtm_zone_spread_4h_p75,series variable,USD/MWh
 node_basis_summary,rtm_zone_spread_4h_p90,series variable,USD/MWh
+nrc_power_reactors,entity_id,column,
+nrc_power_reactors,entity_type,column,
+nrc_power_reactors,name,column,
+nrc_power_reactors,geo,column,
+nrc_power_reactors,lat,column,
+nrc_power_reactors,lon,column,
+nrc_power_reactors,capacity_mw,column,
+nrc_power_reactors,status,column,
+nrc_power_reactors,status_date,column,
+nrc_power_reactors,operator,column,
+nrc_power_reactors,source,column,
+nrc_power_reactors,source_url,column,
+nrc_power_reactors,retrieved_at,column,
+nrc_power_reactors,vintage,column,
+nrc_power_reactors,x_docket,column,
+nrc_power_reactors,x_license_number,column,
+nrc_power_reactors,x_reactor_type,column,
+nrc_power_reactors,x_location,column,
+nrc_power_reactors,x_nrc_region,column,
+nrc_power_reactors,x_dataset_year,column,
+nrc_power_reactors,x_architect_engineer,column,
+nrc_power_reactors,x_closure_estimate,column,
+nrc_power_reactors,x_commercial_operation,column,
+nrc_power_reactors,x_construction_permit,column,
+nrc_power_reactors,x_constructor,column,
+nrc_power_reactors,x_containment_type,column,
+nrc_power_reactors,x_dataset_name,column,
+nrc_power_reactors,x_decommissioning_alternative,column,
+nrc_power_reactors,x_license_expires,column,
+nrc_power_reactors,x_license_status,column,
+nrc_power_reactors,x_license_terminated,column,
+nrc_power_reactors,x_licensed_mwt,column,
+nrc_power_reactors,x_licensee,column,
+nrc_power_reactors,x_nsss,column,
+nrc_power_reactors,x_operating_license,column,
+nrc_power_reactors,x_parent_company,column,
+nrc_power_reactors,x_renewed_license,column,
+nrc_power_reactors,x_shut_down,column,
+nrc_power_reactors,x_subsequent_renewal,column,
 nrc_reactor_status,power_pct,series variable,pct
 ornl_eha_hydropower_plants,entity_id,column,
 ornl_eha_hydropower_plants,entity_type,column,
@@ -5270,6 +5360,42 @@ ornl_hydropower_pipeline,waterway,column,
 ornl_hydropower_pipeline,psh_configuration,column,
 ornl_hydropower_pipeline,nerc_region,column,
 ornl_hydropower_pipeline,huc,column,
+ornl_hydropower_relicensing,event_id,column,
+ornl_hydropower_relicensing,event_date,column,
+ornl_hydropower_relicensing,event_type,column,
+ornl_hydropower_relicensing,parties,column,
+ornl_hydropower_relicensing,entity_ids,column,
+ornl_hydropower_relicensing,mw,column,
+ornl_hydropower_relicensing,price,column,
+ornl_hydropower_relicensing,currency,column,
+ornl_hydropower_relicensing,status,column,
+ornl_hydropower_relicensing,source,column,
+ornl_hydropower_relicensing,source_url,column,
+ornl_hydropower_relicensing,retrieved_at,column,
+ornl_hydropower_relicensing,x_record,column,
+ornl_hydropower_relicensing,x_date_kind,column,
+ornl_hydropower_relicensing,x_ferc_docket,column,
+ornl_hydropower_relicensing,x_eha_plant_id,column,
+ornl_hydropower_relicensing,x_project_name,column,
+ornl_hydropower_relicensing,x_licensee_type,column,
+ornl_hydropower_relicensing,x_waterway,column,
+ornl_hydropower_relicensing,x_project_type,column,
+ornl_hydropower_relicensing,x_lat,column,
+ornl_hydropower_relicensing,x_lon,column,
+ornl_hydropower_relicensing,x_state,column,
+ornl_hydropower_relicensing,x_noi_date,column,
+ornl_hydropower_relicensing,x_application_date,column,
+ornl_hydropower_relicensing,x_process,column,
+ornl_hydropower_relicensing,x_ferc_issued,column,
+ornl_hydropower_relicensing,x_ferc_expires,column,
+ornl_hydropower_relicensing,x_mode_new,column,
+ornl_hydropower_relicensing,x_settlement,column,
+ornl_hydropower_relicensing,x_construction,column,
+ornl_hydropower_relicensing,x_turbine_generator_investment,column,
+ornl_hydropower_relicensing,x_capacity_new_mw,column,
+ornl_hydropower_relicensing,x_capacity_old_mw,column,
+ornl_hydropower_relicensing,x_dam_removal,column,
+ornl_hydropower_relicensing,x_reason,column,
 policy_action_tags,event_id,column,
 policy_action_tags,event_date,column,
 policy_action_tags,event_type,column,
@@ -6350,6 +6476,9 @@ utility_service_territories,x_county,column,
 utility_service_territories,x_short_form,column,
 utility_service_territories,x_data_year,column,
 utility_service_territories,x_sheet,column,
+wb_commodity_prices_monthly,price,series variable,USD/MMBtu
+wb_commodity_prices_monthly,price,series variable,USD/bbl
+wb_commodity_prices_monthly,price,series variable,USD/t
 weather_forecast_hourly,temperature_f,series variable,degF
 weather_forecast_hourly,wind_speed_mph,series variable,mph
 weather_obs_hourly,temperature_f,series variable,degF
