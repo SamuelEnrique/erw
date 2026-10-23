@@ -857,6 +857,22 @@ async function boardRank(a: { measure?: string; order?: string }, scope: Scope =
     note: "each hub's newest value of the measure, with its own date; a hub whose rows are held is not in the table read", ...(await provenance(table)) };
 }
 
+/** Session 1132: what each table a refused question read holds, from the catalogue, for the line under a refusal (as Ask
+ *  ERCOT's refusal names the nearest tables, session 121): its sector, its grids, its step and its span, never a figure of
+ *  its rows. A table the catalogue does not hold is left out. At most three. */
+export function holdsLine(c: Pick<Cat, "sector" | "iso" | "interval" | "ts_min" | "ts_max" | "source_report">): string {
+  const span = c.ts_min && c.ts_max ? `${c.ts_min.slice(0, 10)} to ${c.ts_max.slice(0, 10)}` : "";
+  return [c.sector ? `${c.sector} data` : "", c.iso && c.iso !== "none" ? c.iso.split(";").join(", ") : "", c.interval ? `step ${c.interval}` : "", span, c.source_report ? `from ${c.source_report}` : ""]
+    .filter(Boolean).join("; ");
+}
+export async function nearestFor(tables: string[]): Promise<{ table: string; holds: string }[]> {
+  if (!tables.length) return [];
+  let rows: Cat[];
+  try { rows = await catalogue(); } catch { return []; }
+  const by = new Map(rows.map((r) => [r.table_name, r]));
+  return Array.from(new Set(tables)).filter((t) => by.has(t)).slice(0, 3).map((t) => ({ table: t, holds: holdsLine(by.get(t)!) }));
+}
+
 /** Session 35: a grid page's written layer, as warehouse/chat/tools.py grid_notes. */
 function gridNotes(a: { grid?: string }, scope: Scope): Json {
   const g = scopeOf(a.grid);

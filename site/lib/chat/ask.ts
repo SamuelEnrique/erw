@@ -10,7 +10,7 @@
 import "server-only";
 import Anthropic from "@anthropic-ai/sdk";
 import spec from "./spec.json";
-import { runTool as runWarehouseTool, scopeOf, type Scope } from "./tools";
+import { nearestFor, runTool as runWarehouseTool, scopeOf, type Scope } from "./tools";
 import { recordCall } from "./ledger";
 import { callKey, partialDraft, stageClock, type StageMs, type Step } from "./stages";
 import { readerEffort, rulePlanOn } from "./switches";
@@ -408,6 +408,8 @@ export async function ask(question: string, today = new Date().toISOString().sli
   const tracing = process.env.ASK_RECORD_TOOLS === "1" || opts.record === true;
   // session 1115: what each query read, shown under the answer (readsOf); every answer carries it when there is one
   const readsLog: Read[] = [];
+  // session 1132: the tables a question queried or described, the nearest a refusal of the general chat names
+  const looked = new Set<string>();
   const base = () => ({ model: writer, ...(planner ? { planner } : {}), tool_calls: calls, retried, usage, cost_usd: spent, ...(tracing ? { trace: traced } : {}), ...(readsLog.length ? { reads: readsLog } : {}) });
   const textOf = (resp: Anthropic.Message) => resp.content.map((b) => (b.type === "text" ? b.text : "")).join("");
   // The check of a whole draft, as it always was: every number in a tool result, every cited table read, an answer and
@@ -436,6 +438,9 @@ export async function ask(question: string, today = new Date().toISOString().sli
     const drawn: Record<string, unknown> = profile ? profile.finish(status, { ...draft, citations }, records) : {};
     if (typeof drawn.premise === "string") drawn.premise = plain(drawn.premise);
     clock.add("drawing", "series", Date.now() - tDraw);
+    // session 1132: the general chat's "not in the warehouse" names what it did look at, as Ask ERCOT's does
+    if (!profile && status === "not_in_warehouse" && looked.size)
+      return nearestFor([...looked]).then((nearest) => done({ ...draft, answer, citations, status, ...base(), ...drawn, ...(nearest.length ? { nearest } : {}) }));
     return done({ ...draft, answer, citations, status, ...base(), ...drawn });
   };
 
@@ -463,6 +468,8 @@ export async function ask(question: string, today = new Date().toISOString().sli
     if (profile?.zone) words(out);
     if (tracing) traced.push({ tool: name, input, out, isError });
     if (!isError && !out.held) for (const r of readsOf(name, input)) if (!readsLog.some((x) => JSON.stringify(x) === JSON.stringify(r))) readsLog.push(r);
+    if (!isError && name === "describe_table" && typeof input.table === "string") looked.add(input.table);
+    for (const r of readsOf(name, input)) looked.add(r.table);
     if (profile) {
       out = profile.tag(name, input, out, n);
       records.push({ tool: name, input, out, isError });
@@ -631,7 +638,8 @@ export async function ask(question: string, today = new Date().toISOString().sli
       continue;
     }
     const why = whyRefused(c);  // session 1111: the refusal says why in one sentence, with no figure in it
-    return done({ answer: `${spec.refusal} ${why}`.trim(), why, citations: [], not_in_warehouse: false, status: "refused_unverified" as const, ...base(), retried: true,
+    const nearest = profile ? [] : await nearestFor([...looked]);   // session 1132
+    return done({ answer: `${spec.refusal} ${why}`.trim(), why, ...(nearest.length ? { nearest } : {}), citations: [], not_in_warehouse: false, status: "refused_unverified" as const, ...base(), retried: true,
       ...(profile ? profile.finish("refused_unverified", null, records) : {}) });
   }
 }
