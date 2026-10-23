@@ -147,6 +147,9 @@ def main(argv=None):
     ip.RAW.open(CONNECTOR, run_id)
     rc = 0
     try:
+        # session 2066: the pause list first (CLAUDE.md), as boem_ogor.py asks it
+        if ip.paused(CONNECTOR) or ip.paused_host("oedi-data-lake.s3.amazonaws.com"):
+            raise RuntimeError("oedi-data-lake.s3.amazonaws.com is paused (warehouse/metadata/paused_sources.csv): no request made")
         files, _ = listing(args.edition, log, args.offline)
         if args.fetch_only:
             want = set(args.states or [])

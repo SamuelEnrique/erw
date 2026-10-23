@@ -15,14 +15,14 @@ states in each request, a few years a request:
 
 The answer must be CSV with the columns read below, every state asked must answer, and each figure must lie between 0
 and 100, with none plus d0 equal to 100 within 0.02 and d0 >= d1 >= ... >= d4 (the traditional form), or the run
-stops; a week two spans both give (a span's start date returns the week before it) is kept once if the two agree, and
-stops the run if they differ. Nothing is filled.
+stops; a week two spans both give (the 2023 span's start returned the map of 27 December 2022) is kept once if the two
+agree, and stops the run if they differ. Nothing is filled.
 
     python warehouse/connectors/usdm_drought.py [--offline] [--out-dir DIR] [--start 2015]
 
 Ceiling: one request a span of up to four years (three for 2015 to 2026). droughtmonitor.unl.edu's robots file disallows
 /data/, /nadmdata/, /webfiles/ and /DmData/DataArchive.aspx, none of which is asked; usdmdataservices.unl.edu has no
-robots file (HTTP 404). License: public, with credit as the Monitor asks: "The U.S. Drought Monitor is jointly produced
+robots file (HTTP 404). License: not settled until the Monitor's Permission page is read (session 2061); it asks credit: "The U.S. Drought Monitor is jointly produced
 by the National Drought Mitigation Center at the University of Nebraska-Lincoln, the United States Department of
 Agriculture, and the National Oceanic and Atmospheric Administration. Map courtesy of NDMC." (the credit is the Monitor's;
 its terms are read in session 2061's round).
@@ -116,6 +116,9 @@ def main(argv=None):
     ip.RAW.open(CONNECTOR, run_id)
     results = []
     try:
+        # session 2066: the pause list first (CLAUDE.md), as boem_ogor.py asks it
+        if ip.paused(CONNECTOR) or ip.paused_host("usdmdataservices.unl.edu"):
+            raise RuntimeError("usdmdataservices.unl.edu is paused (warehouse/metadata/paused_sources.csv): no request made")
         rows, urls, latest = [], [], ""
         for y0, y1 in spans(args.start, now.year):
             url = url_for(y0, y1, now.date())
@@ -129,8 +132,8 @@ def main(argv=None):
             urls.append(url)
             latest = max(latest, base["retrieved_at"])
         s = pd.DataFrame(rows)
-        # a span's start date returns the week before it too (1/1/2019 gives the map of 31 December 2018): a week two
-        # spans give is kept once if the two agree, and stops the run if they differ
+        # a span's start date can return the week before it (1/1/2023 gave the map of 27 December 2022; 1/1/2019 gave
+        # 1 January 2019's): a week two spans give is kept once if the two agree, and stops the run if they differ
         key = ["entity", "variable", "ts_utc"]
         dup = s.duplicated(key, keep=False)
         if dup.any():
@@ -154,7 +157,7 @@ def main(argv=None):
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
             f"Source: {SOURCE} the U.S. Drought Monitor's data services (National Drought Mitigation Center, USDA, NOAA), {PAGE}",
             f"  access: {API}?aoi=<the 48 states' FIPS>&startdate=...&enddate=...&statisticsType=1 ({len(urls)} spans)",
-            f"License: public, with the Monitor's credit: {CREDIT}",
+            f"License: not settled (the Monitor's Permission page not yet read, session 2061); the Monitor asks credit: {CREDIT}",
         ]
         ip.write_snapshot(s, TABLE, head, log, cols)
         results.append(dict(table=TABLE, market="all", status="ok", detail=f"{len(s)} rows"))

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""The National Hurricane Center's best tracks (HURDAT2): every tropical and subtropical cyclone's six-hourly fixes in the
+"""The National Hurricane Center's best tracks (HURDAT2): every tropical and subtropical cyclone's fixes (six-hourly, with landfalls and peaks between) in the
 Atlantic and the Northeast and North Central Pacific, with the landfalls the files mark, from 2000 (session 2059, chain
 066: the hurricanes that cross the Gulf's refineries and terminals and the coasts' grids).
 
@@ -14,10 +14,11 @@ Energy Research Warehouse (ERW) connector. One events table from the two text fi
                                disturbance, wave); parties NHC; x_storm_id; x_storm_name; x_basin (atlantic or
                                pacific); x_time_utc (HHMM); x_record (the file's record identifier: L a landfall, I an
                                intensity peak, P a minimum pressure, ... or empty); x_landfall (1 where x_record is L);
-                               x_lat, x_lon (decimal degrees, north and east positive); x_max_wind_kt (knots);
+                               x_lat, x_lon (decimal degrees, north and east positive); x_max_wind_kt (knots, empty where the file writes a negative wind);
                                x_min_pressure_mb (millibars, empty where the file writes -999)
 
-Each storm's header line must give its id, name and number of fix lines, and that many lines must follow; a status not
+Each storm's header line must give its id and number of fix lines (its name is kept as written), and that many lines
+must follow; a status not
 in the map, a position or wind that does not read, or an event_id given twice stops the run. A storm whose season is
 before 2000 is left out. The wind radii columns are not taken. Nothing is filled.
 
@@ -111,6 +112,9 @@ def main(argv=None):
     ip.RAW.open(CONNECTOR, run_id)
     results = []
     try:
+        # session 2066: the pause list first (CLAUDE.md), as boem_ogor.py asks it
+        if ip.paused(CONNECTOR) or ip.paused_host("www.nhc.noaa.gov"):
+            raise RuntimeError("www.nhc.noaa.gov is paused (warehouse/metadata/paused_sources.csv): no request made")
         rows, urls, latest = [], [], ""
         for basin, name in FILES.items():
             url = BASE + name
@@ -130,7 +134,7 @@ def main(argv=None):
         n_storms = t.x_storm_id.nunique()
         n_land = int((t.x_landfall == "1").sum())
         head = [
-            "Energy Research Warehouse (ERW): NOAA National Hurricane Center, HURDAT2 best tracks: the six-hourly fixes of every cyclone in the "
+            "Energy Research Warehouse (ERW): NOAA National Hurricane Center, HURDAT2 best tracks: the fixes (six-hourly, landfalls and peaks between) of every cyclone in the "
             f"Atlantic and the Northeast and North Central Pacific from {args.since}, with the landfalls the files mark (session 2059)",
             "Shape: events (docs/datastandard.md v0). event_id nhc:<storm id>:<YYYYMMDDHHMM>; event_date the fix's UTC day; event_type the "
             "system's status; parties NHC; x_storm_id, x_storm_name, x_basin, x_time_utc, x_record (L a landfall), x_landfall, x_lat and x_lon "

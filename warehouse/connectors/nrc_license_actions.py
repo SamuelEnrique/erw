@@ -18,10 +18,12 @@ Energy Research Warehouse (ERW) connector. One events table from two pages of ww
 
 The renewal page's planned, received and under-review tables are not taken (their dates are a quarter, not a day). The
 uprate table's two total rows are not rows of the table; the page's "Total MWt" (24,089 when read) is not its rows'
-sum (24,146.2), and the header says both. Footnote marks (*, **, ..., +++) are split from the cells and each row's
+sum (24,146.2), and the header says both. The renewal page's footnote marks (*, **, ..., +++) are split from its cells and each row's
 notes kept in x_note; a row with no issue date must have a note saying the application was withdrawn (status
-withdrawn, event_date the date received), or the run stops. A date that does not read, a plant twice with the same received date, or a column not found stops
-the run. Nothing is filled.
+withdrawn, event_date the date received), or the run stops. The renewal table's columns are read by position, the table found by its "Renewed License Issued" column; the uprate
+table's by name. An uprate's accession number keeps its mark (8 end in *). A date that does not read, a plant twice with
+the same received date, or a table not found stops the run. Both addresses now redirect on www.nrc.gov; source_url
+keeps the address asked. Nothing is filled.
 
     python warehouse/connectors/nrc_license_actions.py [--offline] [--out-dir DIR]
 
@@ -164,6 +166,9 @@ def main(argv=None):
     ip.RAW.open(CONNECTOR, run_id)
     results = []
     try:
+        # session 2066: the pause list first (CLAUDE.md), as boem_ogor.py asks it
+        if ip.paused(CONNECTOR) or ip.paused_host("www.nrc.gov"):
+            raise RuntimeError("www.nrc.gov is paused (warehouse/metadata/paused_sources.csv): no request made")
         c1, r1 = ip.fetch_raw(CONNECTOR, RENEWALS, log, offline=args.offline, fresh=not args.offline, headers=UA, timeout=120, pause=2)
         c2, r2 = ip.fetch_raw(CONNECTOR, UPRATES, log, offline=args.offline, fresh=not args.offline, headers=UA, timeout=120, pause=2)
         b1 = dict(source=SOURCE, source_url=RENEWALS, retrieved_at=r1.get("retrieved_at") or "", vintage=ip.vintage_of(r1))
@@ -181,7 +186,7 @@ def main(argv=None):
             "Energy Research Warehouse (ERW): U.S. Nuclear Regulatory Commission, renewed reactor licenses and approved power uprates (session 2064)",
             "Shape: events (docs/datastandard.md v0). event_id nrc:renewal:<plant>:<received> or nrc:uprate:<NRC's number>; event_date the "
             "renewed license's issue date or the uprate's approval date; event_type license_renewal (initial renewals) or power_uprate; "
-            "parties NRC; status issued or approved; x_plant as the NRC writes it; x_uprate_mwt in MW thermal (mw empty); x_uprate_type MU, S, E.",
+            "parties NRC; status issued, withdrawn or approved; x_plant as the NRC writes it; x_uprate_mwt in MW thermal (mw empty); x_uprate_type MU, S, E or E(1).",
             f"{len(t)} rows: {', '.join(f'{k} {v}' for k, v in sorted(by.items()))}; the uprates' rows add to {mwt:,.1f} MWt; the page prints a total of "
             f"{printed:,.1f} MWt. Crystal River 3's withdrawn application is a row, status withdrawn, dated its receipt. The "
             "planned and pending renewals are not taken. Nothing is filled.",

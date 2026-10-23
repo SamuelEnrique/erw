@@ -10,8 +10,8 @@ whole data set as one CSV:
     fema_disaster_declarations   event_id fema:<declaration>:<state FIPS><county FIPS>:<place code> (FEMA's
                                  femaDeclarationString, e.g. DR-4834-FL, and the designated area's codes); event_date
                                  the declaration date (UTC day); event_type major_disaster (DR), emergency (EM) or
-                                 fire_management (FM); parties FEMA; entity_ids the designated area as US-<state> and its
-                                 county FIPS; status open, or closed where FEMA gives a closeout date; x_incident_type
+                                 fire_management (FM); parties FEMA; entity_ids the designated area as US-<state>, and its
+                                 county FIPS where FEMA names a county (its code is not 000); status open, or closed where FEMA gives a closeout date; x_incident_type
                                  FEMA's incident type (Hurricane, Severe Storm, Fire, ...); x_title the declaration's
                                  title; x_state; x_designated_area; x_incident_begin, x_incident_end (UTC days, empty
                                  where FEMA gives none); x_programs the programs declared (IH, IA, PA, HM); x_disaster_number;
@@ -118,6 +118,9 @@ def main(argv=None):
     ip.RAW.open(CONNECTOR, run_id)
     results = []
     try:
+        # session 2066: the pause list first (CLAUDE.md), as boem_ogor.py asks it
+        if ip.paused(CONNECTOR) or ip.paused_host("www.fema.gov"):
+            raise RuntimeError("www.fema.gov is paused (warehouse/metadata/paused_sources.csv): no request made")
         content, rec = ip.fetch_raw(CONNECTOR, URL, log, offline=args.offline, fresh=not args.offline, headers=UA, timeout=300, pause=15)
         base = dict(source=SOURCE, source_url=URL, retrieved_at=rec.get("retrieved_at") or "", vintage=ip.vintage_of(rec))
         rows, n_all = parse(content, base, args.since)
@@ -132,7 +135,7 @@ def main(argv=None):
             "Energy Research Warehouse (ERW): FEMA, OpenFEMA Disaster Declarations Summaries (v2): each declaration and designated area, "
             f"declared on or after {args.since} (session 2056)",
             "Shape: events (docs/datastandard.md v0). event_id fema:<declaration>:<state and county FIPS>:<place code>; event_date the declaration "
-            "date; event_type major_disaster, emergency or fire_management; parties FEMA; entity_ids US-<state> and fips:<state><county>; status "
+            "date; event_type major_disaster, emergency or fire_management; parties FEMA; entity_ids US-<state>, and fips:<state><county> where FEMA names a county; status "
             "open or closed (a closeout date); x_ columns FEMA's incident type, title, area, incident dates, programs, disaster number, region.",
             f"{len(t)} rows of FEMA's {n_all} ({t.x_disaster_number.nunique()} declarations; {', '.join(f'{k} {v}' for k, v in sorted(by.items()))}); "
             "rows declared before the start date are left out. Nothing is filled.",
