@@ -309,6 +309,7 @@ catalogue_hold:
   - eia930_subba_demand_hourly_2021
   - eia_coal_production_annual
   - eia_coal_mine_production_annual
+  - eia861_utility_reliability
   - eia_crude_imports_detail_monthly
   - eia_padd_rail_barge_movements_monthly
   - eia_gas_trade_country_monthly

@@ -151,6 +151,7 @@ SECTOR_RULES = [
     (r"^eia_coal_prices_annual$", "coal"),  # session 519: EIA's coal market sales price by state or region, a year
     (r"^eia_coal_production_annual$", "coal"),  # session 685: EIA's coal production by state, rank and mine type, a year
     (r"^eia_coal_mine_production_annual$", "coal"),  # session 694: EIA's coal production and employees by mine, a year
+    (r"^eia861_utility_reliability$", "power"),  # session 695: EIA-861's distribution reliability (SAIDI, SAIFI, CAIDI) by utility
     (r"^eia_gas_storage_state_monthly$", "gas"),  # session 525: EIA's natural gas in underground storage by state, a month
     (r"^eia_state_capacity_annual$", "power"),  # session 526: EIA's state electricity profiles, net summer capacity
     (r"^eia_crude_production_state_monthly$", "oil"),  # session 527: EIA's crude oil field production by state, a month
