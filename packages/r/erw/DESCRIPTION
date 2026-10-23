@@ -11,7 +11,7 @@ License: file LICENSE
 URL: https://github.com/SamuelEnrique/erw
 BugReports: https://github.com/SamuelEnrique/erw/issues
 Depends: R (>= 3.6.0)
-Imports: utils
+Imports: utils, stats
 Suggests: testthat (>= 3.0.0), knitr, rmarkdown
 VignetteBuilder: knitr
 Config/testthat/edition: 3

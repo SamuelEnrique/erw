@@ -22,7 +22,9 @@ remotes::install_github("SamuelEnrique/erw", subdir = "packages/r/erw")
 | `local` | the CSV files of a folder | `ERW_DATA_DIR` |
 
 `backend = "auto"` reads local files when the table's CSV is there, else the live set when it holds the window asked
-for, else Redivis. The record files come from `ERW_REPO` (a clone) or else from GitHub.
+for, else Redivis. When Redivis refuses a table's rows because the account has streamed 100 GB in 30 days, the table is
+read through Redivis's export instead (curl makes those calls, since base R cannot POST). `erw_cite()` names the
+released version Redivis shows (one request). The record files come from `ERW_REPO` (a clone) or else from GitHub.
 
 ## Example
 

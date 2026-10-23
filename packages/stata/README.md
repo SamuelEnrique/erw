@@ -21,7 +21,9 @@ Or, from a clone of the repository, `adopath + "<the clone>/packages/stata"`. `h
 | `local` | the CSV files of a folder | `global ERW_DATA_DIR` |
 
 `backend(auto)`, the default, reads local files when the table's CSV is there, else the live set when it holds the
-window asked for, else Redivis. The live set and Redivis are read with `curl` (Windows 10 and later, macOS and Linux
+window asked for, else Redivis. When Redivis refuses a table's rows because the account has streamed 100 GB in 30 days,
+the table is read through Redivis's export instead, as the Python package does. `erw cite` names the released version
+Redivis shows (one request). The live set and Redivis are read with `curl` (Windows 10 and later, macOS and Linux
 carry it), since Stata's `copy` cannot send the headers they ask for. The coverage table, the source registry and the
 license record come from `global ERW_REPO` (a clone) or else from GitHub.
 

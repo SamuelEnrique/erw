@@ -182,6 +182,21 @@ Ten figures of the site, each with the check key the page writes (the key check-
 
 Eight of ten are reproduced exactly; no fault was found in the package or in the pages' library. The two others are the price board's tables (`price_board_latest`, `price_board_peak_offpeak`), whose license verdict is `unsettled` (held whole for their ISO-NE, MISO and NYISO rows). The package refuses them on the live set, as this note says it must, while the Grid tool shows their ERCOT figures. Whether a held table's public rows may be shown is the owner's ruling (`docs/licenses.md`, "Held figures that still show").
 
+## Where the three still differ (session 1014)
+
+Session 1014 read the Stata command and the R package line by line against this note and the conformance file (no result of the owner's run in Stata or R was there yet: `docs/reviews/packages-owner-run.md` does not exist). Three divergences were fixed:
+
+- **Redivis's streaming cap**: the Stata and R packages now read a table through Redivis's export when its rows are refused (`POST /tables/<reference>/exports`, the export's status until `completed`, then each file part), as the Python package does. Unproven: the owner's token is over the cap, and no session has a Redivis request to spend on an export of the Stata or R form.
+- **The citation's version**: `erw cite` and `erw_cite()` name the released version's tag as Redivis shows it (one request), as Python does, in place of `<the version you read>`.
+- **The table list's titles**: Stata and R read them from the release package's table list (`docs/redivis/release-v1-stanford/tables.csv`, its `description`, the header's title line), so `tables()` has a title in all three.
+
+What still differs, by design or by what each language can do:
+
+- **The fetch time** in Stata is the computer's clock, which Stata cannot set against UTC; Python and R write UTC.
+- **A table's own extra columns** from the live set are one JSON text column, `extra`, in Stata and R; the Python package spreads them into columns.
+- **`standard()` on the live set** names the live set's columns for the shape (with `extra`) in Stata and R, and the table's own columns in Python (the live set's catalogue).
+- **The not-found sentence** names the tables of a close name in Python only; Stata and R end it after "lists every table".
+
 ## Decisions (each dated, and reversible unless said)
 
 1. 2026-10-23, session 1000: six calls, the same names in the three packages (R with an `erw_` prefix, Stata as subcommands). `list_tables`, `filter`, `sources`, `info` and `version` stay in Python as they are.

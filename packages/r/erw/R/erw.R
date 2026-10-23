@@ -9,7 +9,8 @@
 .erw_paths <- c(coverage = "warehouse/metadata/coverage.csv",
                 sources = "warehouse/metadata/sources.csv",
                 licenses = "package/src/erw/data/tables.csv",
-                migrations = "warehouse/metadata/table_migrations.csv")
+                migrations = "warehouse/metadata/table_migrations.csv",
+                release = "docs/redivis/release-v1-stanford/tables.csv")   # session 1014: each table's title line
 
 .erw_state <- new.env(parent = emptyenv())
 
@@ -174,7 +175,71 @@
   }
   url <- paste0("https://redivis.com/api/v1/tables/datapages.erw:b9wm.", table, "/rows?format=csv")
   if (limit > 0) url <- paste0(url, "&maxResults=", as.integer(limit))
-  .erw_read_csv(.erw_get(url, c(Authorization = paste("Bearer", token)), "redivis"))
+  got <- tryCatch(.erw_read_csv(.erw_get(url, c(Authorization = paste("Bearer", token)), "redivis")), error = function(e) NULL)
+  if (!is.null(got)) return(got)
+  # session 1014 (chain 070): Redivis refuses the rows of a stream once a user has streamed 100 GB in 30 days; the table
+  # is then read through its export, as the Python package does (session 665): POST .../exports, wait for it to be
+  # completed, then each file part. Base R cannot POST, so curl (Windows 10 and later, macOS and Linux) makes the calls.
+  out <- .erw_redivis_export(table, token)
+  if (limit > 0 && nrow(out) > limit) out <- out[seq_len(limit), , drop = FALSE]
+  out
+}
+
+.erw_json_field <- function(path, field) {
+  txt <- paste(readLines(path, warn = FALSE, encoding = "UTF-8"), collapse = "\n")
+  m <- regmatches(txt, regexpr(sprintf('"%s"\\s*:\\s*("[^"]*"|[0-9]+)', field), txt))
+  if (!length(m)) return(NA_character_)
+  gsub('"', "", sub(sprintf('"%s"\\s*:\\s*', field), "", m))
+}
+
+.erw_curl <- function(args, kind = "redivis") {
+  .erw_count(kind)
+  status <- suppressWarnings(system2("curl", args, stdout = FALSE, stderr = FALSE))
+  if (!identical(as.integer(status), 0L)) {
+    stop("The ERW's Redivis could not be reached (curl failed). Check the network connection, then try again.", call. = FALSE)
+  }
+}
+
+.erw_redivis_export <- function(table, token) {
+  api <- "https://redivis.com/api/v1"
+  auth <- c("-H", shQuote(paste("Authorization: Bearer", token)))
+  body <- tempfile(fileext = ".json")
+  writeLines('{"format":"csv"}', body)
+  made <- tempfile(fileext = ".json")
+  .erw_curl(c("-sS", "-f", "-X", "POST", auth, "-H", shQuote("Content-Type: application/json"),
+              "--data-binary", shQuote(paste0("@", body)), "-o", shQuote(made),
+              shQuote(paste0(api, "/tables/datapages.erw:b9wm.", table, "/exports"))))
+  id <- .erw_json_field(made, "id")
+  if (is.na(id)) stop("Redivis did not start an export of ", table, ".", call. = FALSE)
+  state <- tempfile(fileext = ".json")
+  for (i in seq_len(240)) {
+    .erw_curl(c("-sS", "-f", auth, "-o", shQuote(state), shQuote(paste0(api, "/exports/", id))))
+    status <- .erw_json_field(state, "status")
+    if (identical(status, "completed")) break
+    if (status %in% c("failed", "cancelled")) stop("Redivis's export of ", table, " ", status, ".", call. = FALSE)
+    Sys.sleep(min(i * 0.5, 2))
+  }
+  if (!identical(status, "completed")) stop("Redivis's export of ", table, " did not complete in time.", call. = FALSE)
+  n <- as.integer(.erw_json_field(state, "fileCount"))
+  parts <- lapply(seq_len(max(n, 1L)) - 1L, function(k) {
+    part <- tempfile(fileext = ".csv")
+    .erw_curl(c("-sS", "-f", "-L", auth, "-o", shQuote(part), shQuote(paste0(api, "/exports/", id, "/download?filePart=", k))))
+    .erw_read_csv(part)
+  })
+  do.call(rbind, parts)
+}
+
+.erw_redivis_version <- function() {
+  token <- Sys.getenv("REDIVIS_API_TOKEN")
+  if (!nzchar(token)) return(NA_character_)
+  path <- tempfile(fileext = ".json")
+  ok <- tryCatch({
+    .erw_curl(c("-sS", "-f", "-H", shQuote(paste("Authorization: Bearer", token)), "-o", shQuote(path),
+                shQuote("https://redivis.com/api/v1/datasets/datapages.erw:b9wm")))
+    TRUE
+  }, error = function(e) FALSE)
+  if (!ok) return(NA_character_)
+  .erw_json_field(path, "tag")
 }
 
 .erw_time <- function(x) {
@@ -266,12 +331,14 @@ erw_tables <- function() {
   cov <- .erw_record("coverage")
   lic <- .erw_record("licenses")
   out <- merge(cov, lic[, c("table", "verdict", "live_window")], by = "table", all.x = TRUE, sort = TRUE)
+  rel <- tryCatch(.erw_record("release"), error = function(e) data.frame(table = character(0), description = character(0)))
+  titles <- stats::setNames(rel$description, rel$table)
   data.frame(table = out$table,
              shape = ifelse(out$interval == "snapshot", "entities", ifelse(out$interval == "event", "events", "series")),
              interval = out$interval, ts_min = .erw_time(out$ts_min), ts_max = .erw_time(out$ts_max),
              n_rows = .erw_number(out$n_rows), verdict = ifelse(is.na(out$verdict), "", out$verdict),
              in_live = ifelse(is.na(out$live_window) | out$live_window %in% c("", "none"), "no", "yes"),
-             title = "", stringsAsFactors = FALSE)
+             title = ifelse(is.na(titles[out$table]), "", titles[out$table]), stringsAsFactors = FALSE, row.names = NULL)
 }
 
 #' The coverage row of a table, or every row.
@@ -370,7 +437,9 @@ erw_cite <- function(table, data = NULL) {
   } else if (identical(backend, "local")) {
     "local files (no ERW commit identifies them)"
   } else {
-    "Redivis dataset `datapages.erw`, version <the version you read>"
+    # session 1014: the released version's tag, as Redivis names it (one request), as the Python package cites it
+    tag <- .erw_redivis_version()
+    paste0("Redivis dataset `datapages.erw`, version ", if (is.na(tag)) "<the version you read>" else tag)
   }
   paste0(head, ".", rep, " Via the Energy Research Warehouse (ERW), table `", table, "`, ", clause, ".")
 }

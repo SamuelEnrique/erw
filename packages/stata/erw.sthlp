@@ -62,7 +62,8 @@ Three places hold the tables:
 
 {pstd}
 The live set and Redivis are read with {cmd:curl}, which Windows 10 and later, macOS and Linux carry, since Stata's
-own {cmd:copy} cannot send the headers they ask for. The record files (the coverage table, the source registry, the
+own {cmd:copy} cannot send the headers they ask for. When Redivis refuses a table's rows because your account has
+streamed 100 GB in 30 days, the table is read through Redivis's export instead (it can take a minute). The record files (the coverage table, the source registry, the
 license record) are read from {cmd:global ERW_REPO}, a clone of the repository, or else from GitHub.
 
 

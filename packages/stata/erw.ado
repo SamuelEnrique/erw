@@ -47,6 +47,9 @@ program define _erw_record
     else if "`which'" == "licenses" {
         local rel "package/src/erw/data/tables.csv"
     }
+    else if "`which'" == "release" {
+        local rel "docs/redivis/release-v1-stanford/tables.csv"
+    }
     else {
         local rel "warehouse/metadata/table_migrations.csv"
     }
@@ -291,11 +294,148 @@ program define _erw_redivis_read
     capture confirm file `"`page'"'
 
     if _rc {
+        _erw_redivis_export `table'
+    }
+    else {
+        quietly _erw_import using `"`page'"'
+    }
+end
+
+* session 1014: Redivis refuses the rows of a stream once a user has streamed 100 GB in 30 days; the table is then read
+* through its export, as the Python package does: POST .../exports, wait for it to be completed, then each file part
+program define _erw_redivis_export
+    syntax anything(name=table)
+
+    local api "https://redivis.com/api/v1"
+
+    tempfile body made state all
+
+    tempname fh
+
+    file open `fh' using `"`body'"', write text replace
+
+    file write `fh' `"{"format":"csv"}"'
+
+    file close `fh'
+
+    shell curl -sS -f -X POST -H "Authorization: Bearer $REDIVIS_API_TOKEN" -H "Content-Type: application/json" --data-binary "@`body'" -o "`made'" "`api'/tables/datapages.erw:b9wm.`table'/exports"
+
+    capture confirm file `"`made'"'
+
+    if _rc {
         display as error "The ERW's Redivis could not be reached (curl wrote no file). Check the network connection, then try again."
         exit 631
     }
 
-    quietly _erw_import using `"`page'"'
+    _erw_json_field using `"`made'"', field(id)
+
+    local id "`r(value)'"
+
+    if "`id'" == "" {
+        display as error "Redivis did not start an export of `table'."
+        exit 459
+    }
+
+    local status ""
+
+    local i 0
+
+    while "`status'" != "completed" & `i' < 240 {
+        local i = `i' + 1
+        capture erase `"`state'"'
+        shell curl -sS -f -H "Authorization: Bearer $REDIVIS_API_TOKEN" -o "`state'" "`api'/exports/`id'"
+        capture confirm file `"`state'"'
+        if _rc == 0 {
+            _erw_json_field using `"`state'"', field(status)
+            local status "`r(value)'"
+        }
+        if inlist("`status'", "failed", "cancelled") {
+            display as error "Redivis's export of `table' `status'."
+            exit 459
+        }
+        if "`status'" != "completed" {
+            sleep 2000
+        }
+    }
+
+    if "`status'" != "completed" {
+        display as error "Redivis's export of `table' did not complete in time."
+        exit 459
+    }
+
+    _erw_json_field using `"`state'"', field(fileCount)
+
+    local n = real("`r(value)'")
+
+    if missing(`n') | `n' < 1 {
+        local n 1
+    }
+
+    forvalues k = 0/`=`n' - 1' {
+        tempfile part
+        shell curl -sS -f -L -H "Authorization: Bearer $REDIVIS_API_TOKEN" -o "`part'" "`api'/exports/`id'/download?filePart=`k'"
+        quietly _erw_import using `"`part'"'
+        if `k' > 0 {
+            tempfile p
+            quietly save `"`p'"'
+            quietly use `"`all'"', clear
+            quietly append using `"`p'"'
+        }
+        quietly save `"`all'"', replace
+    }
+
+    quietly use `"`all'"', clear
+end
+
+* session 1014: one field of a JSON answer of Redivis's, by its name, from the file curl wrote (a string or a number)
+program define _erw_json_field, rclass
+    syntax using/, FIELD(string)
+
+    local q = char(34)
+
+    local pat `"`q'`field'`q': *`q'?([^`q',}]*)`q'?"'
+
+    local value ""
+
+    tempname fh
+
+    file open `fh' using `"`using'"', read text
+
+    file read `fh' line
+
+    while r(eof) == 0 {
+        if `"`value'"' == "" & regexm(`"`macval(line)'"', `"`pat'"') {
+            local value = regexs(1)
+        }
+        file read `fh' line
+    }
+
+    file close `fh'
+
+    return local value `"`value'"'
+end
+
+* session 1014: the Stanford dataset's released version, as Redivis names it (one request), for the citation
+program define _erw_redivis_version, rclass
+    tempfile ds
+
+    if `"$REDIVIS_API_TOKEN"' == "" {
+        return local tag ""
+        exit
+    }
+
+    shell curl -sS -f -H "Authorization: Bearer $REDIVIS_API_TOKEN" -o "`ds'" "https://redivis.com/api/v1/datasets/datapages.erw:b9wm"
+
+    capture confirm file `"`ds'"'
+
+    if _rc {
+        return local tag ""
+        exit
+    }
+
+    _erw_json_field using `"`ds'"', field(tag)
+
+    return local tag "`r(value)'"
 end
 
 program define _erw_time
@@ -557,11 +697,21 @@ program define _erw_tables
         exit 4
     }
 
-    tempfile lic cov l
+    tempfile lic cov l rel t
 
     _erw_record licenses, saving(`"`lic'"')
 
     _erw_record coverage, saving(`"`cov'"')
+
+    _erw_record release, saving(`"`rel'"')
+
+    quietly _erw_import using `"`rel'"'
+
+    quietly keep table description
+
+    quietly rename description title
+
+    quietly save `"`t'"'
 
     quietly _erw_import using `"`lic'"'
 
@@ -573,15 +723,19 @@ program define _erw_tables
 
     quietly merge 1:1 table using `"`l'"', keep(master match) nogenerate
 
+    quietly merge 1:1 table using `"`t'"', keep(master match) nogenerate
+
+    quietly replace title = "" if missing(title)
+
     quietly gen shape = cond(interval == "snapshot", "entities", cond(interval == "event", "events", "series"))
 
     quietly gen in_live = cond(inlist(live_window, "", "none"), "no", "yes")
 
     quietly destring n_rows, replace force
 
-    keep table shape interval ts_min ts_max n_rows verdict in_live
+    keep table shape interval ts_min ts_max n_rows verdict in_live title
 
-    order table shape interval ts_min ts_max n_rows verdict in_live
+    order table shape interval ts_min ts_max n_rows verdict in_live title
 
     display as text "`=_N' ERW tables (erw license <table> says why one is not public)"
 end
@@ -721,7 +875,9 @@ program define _erw_cite, rclass
         local clause "local files (no ERW commit identifies them)"
     }
     else {
-        local clause "Redivis dataset `bt'datapages.erw`bt', version <the version you read>"
+        _erw_redivis_version
+        local tag = cond("`r(tag)'" == "", "<the version you read>", "`r(tag)'")
+        local clause "Redivis dataset `bt'datapages.erw`bt', version `tag'"
     }
 
     local cite `"`macval(head)'.`macval(reports)' Via the Energy Research Warehouse (ERW), table `bt'`table'`bt', `clause'."'

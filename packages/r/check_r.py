@@ -88,8 +88,8 @@ def check_description():
         if not re.search(rf"^{re.escape(field)}:", d, re.M):
             problems.append(f"DESCRIPTION: no {field}")
     imports = re.search(r"^Imports: (.*)$", d, re.M)
-    if imports and imports.group(1).strip() != "utils":
-        problems.append(f"DESCRIPTION: imports {imports.group(1)}, not utils alone")
+    if imports and imports.group(1).strip() not in ("utils", "utils, stats"):   # session 1014: stats (setNames), base R too
+        problems.append(f"DESCRIPTION: imports {imports.group(1)}, not base R's utils and stats")
     if "testthat" not in d:
         problems.append("DESCRIPTION: testthat is not suggested")
     return problems
