@@ -5,8 +5,9 @@ Energy Research Warehouse (ERW) connector. One series table, warehouse/output/ca
 workbook the California Air Resources Board (CARB) publishes every Tuesday with its Weekly LCFS Credit Transfer
 Activity Report (https://ww2.arb.ca.gov/resources/documents/weekly-lcfs-credit-transfer-activity-reports), sheet
 "Weekly Average Credit Price", from the week of 2019-01-07. The workbook's address changes each week (its name carries
-the date), so the connector reads the page and follows the one .xlsx link on it. Entity carb:lcfs_credit; a week sits at
-00:00:00Z of the day CARB dates it, a Monday, except the week CARB dates Tuesday 7 September 2021 (after Labor Day). Variables:
+the date), so the connector reads the page and follows the one .xlsx link on it. Entity carb:lcfs_credit; a week is
+Monday to Sunday and sits at 00:00:00Z of its Monday, as CARB dates it (one week, 2021-09-07, the day after Labor Day,
+CARB dates by its Tuesday, and it is kept so). Variables:
 
     credit_price_weekly_avg         CARB's volume-weighted average price of all non-zero transfers, USD per credit
                                     (one credit is one metric ton of CO2 equivalent)
@@ -20,8 +21,8 @@ only if its newest week is within 28 days.
 
 License: public. California's Conditions of Use (https://www.ca.gov/use/): "In general, information presented on this
 website, unless otherwise indicated, is considered in the public domain. It may be distributed or copied as permitted
-by law." The workbook carries no other notice. Credit: California Air Resources Board. A pull reads about 550
-rows (the workbook's weekly sheet; its transaction log is not read); no row ceiling is counted in the code.
+by law." The workbook carries no other notice. Credit: California Air Resources Board. Ceiling: session 132's
+1,500,000 rows in all; this pull reads about 550 (the workbook's weekly sheet; its transaction log is not read).
 """
 
 import argparse
@@ -99,7 +100,7 @@ def build(run_id, log):
         raise RuntimeError(f"the newest week CARB holds is {table['ts_utc'].max()[:10]}, {age} days old (limit {STALE_DAYS})")
     header = [
         "Energy Research Warehouse (ERW): California's Low Carbon Fuel Standard credit price, weekly from 2019, as the Air Resources Board publishes it (session 132)",
-        "Shape: series (docs/datastandard.md v0). credit_price_weekly_avg and credit_price_type1_weekly_avg: CARB's volume-weighted average price of the week's non-zero credit transfers (all, and Type 1), USD per credit, one credit being one metric ton of CO2 equivalent; credit_volume: the credits transferred. ts_utc is the day CARB dates the week (a Monday; one Tuesday, 2021-09-07) at 00:00:00Z; freq P1W.",
+        "Shape: series (docs/datastandard.md v0). credit_price_weekly_avg and credit_price_type1_weekly_avg: CARB's volume-weighted average price of the week's non-zero credit transfers (all, and Type 1), USD per credit, one credit being one metric ton of CO2 equivalent; credit_volume: the credits transferred. A week is Monday to Sunday; ts_utc is its Monday at 00:00:00Z; freq P1W.",
         f"Retrieved: {run_id} (UTC) by warehouse/connectors/carb_lcfs.py",
         f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
         f"Source: {SOURCE_ENTRY['source']} California Air Resources Board, {SOURCE_ENTRY['report']}, {PAGE}",

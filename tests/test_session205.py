@@ -142,9 +142,10 @@ class TheFiles(unittest.TestCase):
         # chain 048's sessions 887 and 888 add 12 and chain 049's session 902 adds 8, each session under its own ceiling of 20
         # (session 888 raised the bound); chain 051's sessions 911 and 914 add 3 and 14, each under its own ceiling (session
         # 914 raised the bound again); chain 052's session 928 adds 12 and chain 053's session 942 adds 5 (session 942 raised it
-        # once more); chain 056's sessions 2000 to 2005 add 7 (168 to 174) and chain 058's sessions 2028 to 2030 add 10 (175 to
-        # 184), each under its own ceiling (session 2030 raised it again, with room for chain 057's reads at the merge)
-        self.assertLessEqual(len(reads) - 41, 2 + 60 + 20 + 20 + 20 + 20 + 20)
+        # once more); chain 059's session 2047 adds 13 with chain 059's robots reads (session 2047 raised it again);
+        # chain 056's sessions 2000 to 2005 add 7 (168 to 174) and chain 058's sessions 2028 to 2036 add 20, renumbered 192 to 211
+        # at its merge after chain 059's (session 2041 raised it once more)
+        self.assertLessEqual(len(reads) - 41, 2 + 60 + 20 + 20 + 20 + 20 + 20 + 20)
         self.assertEqual(len({r["publisher"] for r in reads}), len(reads))          # one page a publisher
         miso = [r for r in reads if "MISO" in r["publisher"]]
         self.assertEqual(len(miso), 1)

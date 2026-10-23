@@ -10,11 +10,11 @@
 - **The source:** the "Historical Monthly Data" CSV files of EPA's Public Data for the Renewable Fuel Standard page (from the EPA Moderated Transaction System). EPA re-issues each file every month with the whole history (`rindata_sep2026.csv` and `fuelproduction_sep2026.csv`, last modified 14 October 2026); the connector takes the newest link from each listing page, so the next run takes October's. The RIN generation page itself shows only an interactive dashboard (`edap.epa.gov`), which was not asked. EPA's bulk file API was not asked (no key).
 - **A new unit, `gal`** (Decision 59), added to `docs/datastandard.md` and the validator together; until this chain lands, a write, a Method-cell run or an upload of these tables runs with the branch's validator copied in.
 - **The cross-check** against `eia_oxygenate_production_monthly`'s U.S. fuel ethanol plant production (thousand barrels at 42 gallons): EPA's D6 volume a year is 0.92 to 1.00 of EIA's from 2011 to 2024 (2011 0.977, 2015 0.991, 2020 0.928, 2024 0.918) and 0.888 in 2025. D6 counts the renewable fuel that generated a RIN; ethanol produced and exported generates none, and the gap widens in the years exports grew. That reason was not tested here.
-- **`test_session205`'s bound on the license record raised by 20** (chain 056's reads 168 to 174 and this chain's 175 to 184 passed it by one), with room for chain 057's reads at the merge.
+- **`test_session205`'s bound on the license record raised by 20** (chain 056's reads 168 to 174 and this chain's 192 to 201 passed it by one), with room for chain 057's reads at the merge.
 
 ## The pulls
 
-1. `www.epa.gov/robots.txt` (read 184): disallows only site machinery, admin, user and search paths. 2. The RINs Generated Transactions page. 3. Public Data for the Renewable Fuel Standard. 4 and 5. The two listing pages (by fuel type, by month). 6 and 7. The two September 2026 files. 8 and 9. The connector's trial: the two listing pages again (the connector reads them fresh), the files reused.
+1. `www.epa.gov/robots.txt` (read 201): disallows only site machinery, admin, user and search paths. 2. The RINs Generated Transactions page. 3. Public Data for the Renewable Fuel Standard. 4 and 5. The two listing pages (by fuel type, by month). 6 and 7. The two September 2026 files. 8 and 9. The connector's trial: the two listing pages again (the connector reads them fresh), the files reused.
 
 The terms are EPA's (read 55, public).
 
@@ -32,5 +32,5 @@ The terms are EPA's (read 55, public).
 ## Files
 
 - New: `warehouse/connectors/epa_rfs_rins.py`, `tests/test_session2030.py` (4 tests), this report.
-- Changed: `docs/datastandard.md` (Decision 59), `warehouse/validate/erw_validate.py`, `build_coverage.py`, `release_v1.py`, `live_set.yaml`, `tests/test_session205.py` (the bound), `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_reads.csv` (184), `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
+- Changed: `docs/datastandard.md` (Decision 59), `warehouse/validate/erw_validate.py`, `build_coverage.py`, `release_v1.py`, `live_set.yaml`, `tests/test_session205.py` (the bound), `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_reads.csv` (201), `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
 - On the data machine only: `runs/c058/s2030/`, `runs/c058/coverage_rows.sh`, `runs/license_reads/s2030/`, `runs/s2030*`, `warehouse/raw/epa_rfs_rins/`.

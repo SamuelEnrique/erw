@@ -54,7 +54,7 @@ Both tables: `rins_generated` unit `count` (RINs); `batch_volume` unit `gal`, th
 
 Public. `sources.csv` has `public` for `epa:rfs_emts`, naming both tables; the headers: "License: public (EPA: the agency's information is in the public domain unless noted; cite "U.S. EPA, Renewable Fuel Standard, EMTS data")." `license_verdicts.csv`, EPA, read 55 (EPA's disclaimers page, `https://www.epa.gov/web-policies-and-procedures/epa-disclaimers`, read 19 October 2026): "Unless otherwise specified, geospatial data produced by the EPA is by default in the public domain and is not subject to domestic copyright protection under 17 U.S.C." Its note: "The same page: EPA's documents may be freely distributed and used for non-commercial, scientific and educational purposes." Verdict: may be public, and may be public for commercial use.
 
-Robots: read 184 (session 2030), `www.epa.gov`'s file, which disallows only site machinery, admin, user and search paths.
+Robots: read 201 (session 2030), `www.epa.gov`'s file, which disallows only site machinery, admin, user and search paths.
 
 ## Cross-checks (session 2038)
 

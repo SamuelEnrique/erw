@@ -8,7 +8,7 @@ Tables: `doe_oe417_events`
 
 U.S. Department of Energy (DOE), Office of Cybersecurity, Energy Security, and Emergency Response (CESER), Electric Emergency Incident and Disturbance Reports (Form DOE-417, formerly OE-417), the Annual Summaries, read from the form's site built by Pacific Northwest National Laboratory (`https://doe417.pnnl.gov/`, `HOST`). One workbook a year (`url_of`): `https://doe417.pnnl.gov/summaries/<year>_Annual_Summary.xls` to 2023 and `.xlsx` from 2024, as the site's own script names them. The default years are 2016 to 2025 (`YEARS`, `--years`). One request a year, a pause of 1 second after each, timeout 120 seconds, with the ERW's user agent (`UA`). Source id `doe:oe417`. Connector: `warehouse/connectors/doe_oe417.py` (session 2028).
 
-The old host of the summaries, `www.oe.netl.doe.gov`, no longer resolves (session 2028, read 175 of `license_reads.csv`).
+The old host of the summaries, `www.oe.netl.doe.gov`, no longer resolves (session 2028, read 192 of `license_reads.csv`).
 
 ## Vintage and revision
 
@@ -49,7 +49,7 @@ A row is a report: DOE's summaries can list one event under several reports, and
 
 Public. `sources.csv` has `public` for `doe:oe417`; the header: "License: public (DOE: "Government information at DOE websites is in the public domain"; cite "U.S. Department of Energy, Form DOE-417")." `license_verdicts.csv`, U.S. Department of Energy (DOE), read 54 (DOE's web policies, `https://www.energy.gov/about-us/web-policies`, read 19 October 2026): "Government information at DOE websites is in the public domain. [...] Public domain information may be freely distributed and copied, but it is requested that in any subsequent use the Department of Energy be given appropriate acknowledgement." Verdict: may be public, and may be public for commercial use.
 
-Robots: reads 175 to 177 (session 2028). `www.oe.netl.doe.gov` does not resolve; `www.energy.gov`'s file disallows only site machinery, admin and search paths; `doe417.pnnl.gov` has no robots file (its address answers with the site's page).
+Robots: reads 192 to 194 (session 2028). `www.oe.netl.doe.gov` does not resolve; `www.energy.gov`'s file disallows only site machinery, admin and search paths; `doe417.pnnl.gov` has no robots file (its address answers with the site's page).
 
 ## Cross-checks (session 2038)
 

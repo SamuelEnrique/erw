@@ -21,7 +21,7 @@
 5. to 14. The connector's trial: the ten yearly summaries, 2016 to 2025, saved in `warehouse/raw/doe_oe417/` and reused by the write (`--offline`).
 15. The 2023 PDF summary, for the cross-check.
 
-The three robots requests are reads 175 to 177 of `license_reads.csv`. The terms are DOE's (read 54: "Government information at DOE websites is in the public domain").
+The three robots requests are reads 192 to 194 of `license_reads.csv`. The terms are DOE's (read 54: "Government information at DOE websites is in the public domain").
 
 ## Decisions made without you
 
@@ -41,5 +41,5 @@ The three robots requests are reads 175 to 177 of `license_reads.csv`. The terms
 ## Files
 
 - New: `warehouse/connectors/doe_oe417.py`, `tests/test_session2028.py` (4 tests), this report; on main, `queue/next/059-night-24-october-data-storms-reactor-events-lng-climate.md`.
-- Changed: `build_coverage.py` (the sector rule), `release_v1.py`, `live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_reads.csv` (175 to 177), `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
+- Changed: `build_coverage.py` (the sector rule), `release_v1.py`, `live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_reads.csv` (192 to 194), `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
 - On the data machine only: `runs/c058/` (the write script, the register and reads helpers, `s2028/`: the probe, the trial, the cross-check), `runs/license_reads/s2028/`, `runs/s2028*`, `warehouse/raw/doe_oe417/`.

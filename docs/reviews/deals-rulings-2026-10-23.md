@@ -20,3 +20,22 @@ Energy Research Warehouse (ERW), session 832 (chain `queue/done/080-night-23-oct
 8. **The worker and the next file** (session 823). The chain's rule writes the next file first; the worker took it the moment it was pushed and ran sessions 834 to 841 and then 842 onward beside this chain, against the rule of one session a machine, with nothing of this chain landed to read. Recommendation: the worker's registration starts it at night only (`scripts/register_*.ps1`), or the chain writes the next file at its end (session 833) and not at its start.
 9. **The probe's limit against a slow database** (session 820). The gate's probe failed at 3.5 to 4.6 seconds four times tonight; a retry loop passed it. Recommendation: the gate tries the probe three times a minute apart before it fails.
 10. **`test_session705` on a machine without `interconnection_durations`** (session 822). The test falls back to Berkeley Lab's file and fails where the committed `connect.json` was built from the data machine's table. Recommendation: the test skips when the table is not on the machine (the old laptop's test; its session 718).
+
+## State after session 2104 (23 October 2026, about 19:20 UTC)
+
+Session 2104 of chain 084 (`queue/done/084-day-23-october-portable-deals-4.md`), read from the owner's answers wherever he wrote them (no `docs/state/rulings_*.md` newer than 11 October; no reply in a report; `license_status.csv`, `license_verdicts.csv` and `docs/licenses.md` unchanged for these publishers since 10:00 UTC) and from this chain's work. No item is decided by the session.
+
+| Item | State | Note |
+|---|---|---|
+| 1, the rule for a shown deal | open | the chain's rule stands on `wip/833-deals`; 16 shown of 514 after session 2101 |
+| 2, Energy-Storage.news and Electrek | open | 4 unsettled deals now (session 2101: SECI and ACME Solar, 23 October, joined the three) |
+| 3, who writes the two files | open; done by hand once | session 2101 regenerated both from the 23 October extraction on `wip/833-deals` (16 shown, 494 held, 4 unsettled; 154 projects); the daily run still does not write them |
+| 4, an operator's own site list | open | nothing changed |
+| 5, the EQR tables' flag | open | nothing changed |
+| 6, a press-release feed | open | nothing changed |
+| 7, a past issue's revised figure | open | the two issues still print 101.91; the checks still fail on `/digest/2026-10-21`; every landing from this machine waits on it (sessions 1200, 2100) |
+| 8, the worker and the next file | answered in practice | chains 083 and 084 write the next file at the end, not the start; the worker's registration is unchanged |
+| 9, the probe's limit | open | `scripts/` is not this chain's; not changed |
+| 10, `test_session705` without the table | done before this chain | session 718's test, on main, looks for `interconnection_durations.csv` in `runs/archive_restore` and `warehouse/output` of this checkout and the main one, falls back to Berkeley Lab's file and skips when neither is on the machine; it passes on this machine as it stands (5 passed, session 2104), so no branch was cut |
+
+New since session 832, needing no ruling and listed for the desktop's data chain: `docs/reviews/datacenters-power-side-2026-10-23.md` (session 2102), two 1,400 MW ERCOT queue rows owned by data-center LLCs that the derived table's pattern misses because it reads the name and fuel fields only.

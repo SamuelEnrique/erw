@@ -11,7 +11,7 @@
 
 ## The pulls
 
-1. `www.eia.gov/robots.txt` (read 185): disallows `/archive/` and site machinery. 2. The fuel ethanol capacity page. 3. The biodiesel capacity page. 4. The combined biofuels capacity page. 5. The renewable diesel capacity page. 6 to 9. The four workbooks, saved in `warehouse/raw/eia_biofuels_capacity/` and reused by the write (`--offline`).
+1. `www.eia.gov/robots.txt` (read 202): disallows `/archive/` and site machinery. 2. The fuel ethanol capacity page. 3. The biodiesel capacity page. 4. The combined biofuels capacity page. 5. The renewable diesel capacity page. 6 to 9. The four workbooks, saved in `warehouse/raw/eia_biofuels_capacity/` and reused by the write (`--offline`).
 
 The terms are EIA's (read 1, public).
 
@@ -28,5 +28,5 @@ The terms are EIA's (read 1, public).
 ## Files
 
 - New: `warehouse/connectors/eia_biofuels_capacity.py`, `tests/test_session2031.py` (4 tests), this report.
-- Changed: `build_coverage.py`, `release_v1.py`, `live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_reads.csv` (185), `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
+- Changed: `build_coverage.py`, `release_v1.py`, `live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_reads.csv` (202), `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
 - On the data machine only: `runs/c058/s2031/`, `runs/license_reads/s2031/`, `runs/s2031*`, `warehouse/raw/eia_biofuels_capacity/`.

@@ -45,7 +45,7 @@ Electric vehicles in the United States: 2016 280,300, 2017 377,100, 2018 572,600
 
 Public. `sources.csv` has `public` for `doe:afdc_vehicle_registrations`; the header: "License: public (DOE; cite "U.S. Department of Energy, Alternative Fuels Data Center, with data from Experian Information Solutions")." `license_tables.csv` gives the table's publisher as U.S. Department of Energy (DOE), by the source registry. `license_verdicts.csv`, U.S. Department of Energy (DOE), read 54 (DOE's web policies, `https://www.energy.gov/about-us/web-policies`, read 19 October 2026): "Government information at DOE websites is in the public domain. [...] Public domain information may be freely distributed and copied, but it is requested that in any subsequent use the Department of Energy be given appropriate acknowledgement." Verdict: may be public, and may be public for commercial use. `license_verdicts.csv` has no row of AFDC's own.
 
-Robots: read 194 (session 2036), `afdc.energy.gov`'s file, a comment and no rule.
+Robots: read 211 (session 2036), `afdc.energy.gov`'s file, a comment and no rule.
 
 Open for Samuel's ruling (session 2036): the counts come from Experian's commercial data, which DOE publishes openly; if a ruling holds that the vendor's terms are needed, the table is held internal by changing its line in `sources.csv`.
 

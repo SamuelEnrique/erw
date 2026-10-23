@@ -235,6 +235,12 @@ SECTOR_RULES = [
     (r"^msha_coal_production_quarterly$", "coal"),  # session 2034: MSHA's coal production, hours and employees a quarter
     (r"^fhwa_motor_fuel_monthly$", "products"),  # session 2035: FHWA's monthly motor fuel by state
     (r"^afdc_vehicle_registrations_annual$", "power;products"),  # session 2036: AFDC's vehicle registrations by state and fuel
+    (r"^noaa_ncei_storm_events$", "power"),  # session 2042: NOAA's storm events
+    (r"^nrc_event_notifications$", "power;uranium"),  # session 2043: the NRC's event reports
+    (r"^doe_lng_export_applications$", "gas;lng"),  # session 2044: DOE's LNG export applications
+    (r"^noaa_climdiv_state_monthly$", "power;gas"),  # session 2045: NOAA's statewide climate
+    (r"^ornl_tedb_transportation_annual$", "oil;products;power"),  # session 2048: ORNL's Transportation Energy Data Book
+    (r"^doe_grip_selections$", "power"),  # session 2050: DOE's GRIP selections
     (r"^eia861_short_form$", "power"),  # session 876: EIA-861S, the small utilities' sales  # session 869: EIA-861's meters and net metering by utility  # session 868: EIA-861's programs by utility  # session 867: EIA-861's utility data: NERC region, RTOs, activities  # session 853: EIA-861's delivery-only companies (Texas's wires utilities)  # session 695: EIA-861's distribution reliability (SAIDI, SAIFI, CAIDI) by utility
     (r"^eia_gas_storage_state_monthly$", "gas"),  # session 525: EIA's natural gas in underground storage by state, a month
     (r"^eia_state_capacity_annual$", "power"),  # session 526: EIA's state electricity profiles, net summer capacity
