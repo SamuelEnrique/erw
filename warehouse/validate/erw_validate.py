@@ -67,7 +67,10 @@ UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "mph", "
          "Btu/lb",
          # session 889: an index number on its source's base period, as the Federal Reserve's G.17 gives industrial
          # production (2017 = 100) (frb_utility_output_monthly; Decision 53)
-         "index"}
+         "index",
+         # session 904: a quantity in pounds (EIA's uranium in pounds of U3O8 equivalent, named in the header), enrichment
+         # in separative work units and its price per unit (eia_uranium_marketing_annual; Decision 55)
+         "lb", "SWU", "USD/SWU"}
 NAME_RE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+){2,}$")
 NAME_MAX = 40
 TS_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
@@ -154,7 +157,8 @@ ENTITIES_COLS = ["entity_id", "entity_type", "name", "geo", "lat", "lon", "capac
                  "status_date", "operator", "source"]
 ENTITIES_REQUIRED = ["entity_id", "entity_type", "name", "source"]
 ENTITY_TYPES = {"plant", "generator", "project", "datacenter", "substation", "utility", "company",
-                "counterparty"}
+                "counterparty",
+                "equipment"}  # session 896: a plant's boiler, cooling system or emissions control (EIA-860; Decision 54)
 # docs/datastandard.md shape (b) and Decision 20: the source's own status stays in its own column
 ENTITY_STATUS = {"operating", "planned", "under_construction", "retired", "withdrawn", "active",
                  "completed", "suspended"}
