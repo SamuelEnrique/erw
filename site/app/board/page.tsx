@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { BoardView } from "@/components/board/BoardView";
 import { Brand } from "@/components/Brand";
 import { SiteLink } from "@/components/SiteLink";
+import { AskForm } from "@/app/ask/AskForm";
+import boardQuestions from "@/data/board_questions.json";
 import { TableDownloads } from "@/components/tool/TableDownloads";
 import { TableLicenses } from "@/components/tool/TableLicenses";
 import fileJson from "@/data/board.json";
@@ -30,9 +32,12 @@ const TABLES = ["ercot_all_hub_prices_history", "iso_hub_prices_history", "caiso
   // session 1117: three public price tables the board did not draw
   "wb_commodity_prices_monthly", "eia_gas_prices_state_monthly", "eia_heating_fuel_prices_weekly"];
 
+// session 1145: the five board questions of warehouse/chat/eval/questions_s1122.yaml, as examples a reader can click
+const BOARD_QUESTIONS = (boardQuestions as { questions: { question: string }[] }).questions.map((q) => q.question);
+
 export default function Board() {
   const file = holdRows(raw, licenseHeldGrids().map(gridName));
   // session 502: the same list, with each table's license, under the title
   // session 1137: the rows drawn here, as one CSV (app/board/rows/route.ts), beside each table's own download
-  return <Brand><BoardView file={file} under={<TableLicenses tables={TABLES} />} footer={<><p className="mb-2 text-sm" data-board-rows="1"><SiteLink href="/board/rows">The rows drawn here, as one CSV</SiteLink> (every figure of this page, each with its source; a held row with none)</p><TableDownloads tables={TABLES} /></>} /></Brand>;
+  return <Brand><BoardView file={file} under={<TableLicenses tables={TABLES} />} footer={<><p className="mb-2 text-sm" data-board-rows="1"><SiteLink href="/board/rows">The rows drawn here, as one CSV</SiteLink> (every figure of this page, each with its source; a held row with none)</p><section className="mb-6" aria-label="Ask the board" data-board-ask="1"><h2 className="mb-1 text-lg">Ask the board</h2><p className="mb-2 max-w-3xl text-sm">Questions of the board's own derived tables, answered by the general chat: every number from a query, each hub's value with its own date.</p><AskForm examples={BOARD_QUESTIONS} placeholder="For example: which hub is highest today?" /></section><TableDownloads tables={TABLES} /></>} /></Brand>;
 }
