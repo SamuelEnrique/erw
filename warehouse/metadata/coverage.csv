@@ -171,7 +171,9 @@ eia_state_source_disposition_annual,none,,52,P1Y,1990-01-01T00:00:00Z,2024-01-01
 eia_steo_forecasts,none,,53,P1M,2020-01-01T00:00:00Z,2027-12-01T00:00:00Z,5088,eia:steo,2026-10-21T18:32:37Z,pass,public,power;gas,no,source
 eia_uranium_marketing_annual,none,,31,P1Y,2003-01-01T00:00:00Z,2025-01-01T00:00:00Z,763,eia:uranium_marketing_annual,2026-10-23T07:01:36Z,pass,public,power;uranium,no,source
 eia_wood_pellets_monthly,none,,9,P1M,2016-01-01T00:00:00Z,2026-05-01T00:00:00Z,2090,eia:densified-biomass,2026-10-21T23:57:46Z,pass,public,power,no,source
+eia_world_coal_annual,none,,1798,P1Y,1980-01-01T00:00:00Z,2024-01-01T00:00:00Z,317307,eia:international_bulk,2026-10-23T11:02:08Z,pass,public,coal,no,source
 eia_world_electricity_annual,none,,4285,P1Y,1980-01-01T00:00:00Z,2024-01-01T00:00:00Z,332254,eia:international_bulk,2026-10-23T07:57:52Z,pass,public,power,no,source
+eia_world_energy_co2_annual,none,,3589,P1Y,1949-01-01T00:00:00Z,2025-01-01T00:00:00Z,246988,eia:international_bulk,2026-10-23T11:02:32Z,pass,public,carbon,no,source
 eia_world_oil_gas_annual,none,,6992,P1Y,1973-01-01T00:00:00Z,2025-01-01T00:00:00Z,448267,eia:international_bulk,2026-10-23T09:47:04Z,pass,public,oil;gas,no,source
 eia_world_oil_monthly,none,,1507,P1M,1973-01-01T00:00:00Z,2026-07-01T00:00:00Z,541215,eia:international_bulk,2026-10-23T10:10:51Z,pass,public,oil,no,source
 energy_companies,none,,480,snapshot,2026-09-28T17:04:21Z,2026-10-22T15:02:48Z,480,erw:energy_deals;erw:thesis_builder,2026-10-22T15:02:47Z,pass,public,deals,no,model_extracted
@@ -197,6 +199,7 @@ ercot_node_places,ERCOT,,569,snapshot,2026-10-23T06:46:36Z,2026-10-23T06:46:36Z,
 ercot_node_planned_generation,ERCOT,,569,snapshot,2026-10-23T10:20:32Z,2026-10-23T10:20:32Z,569,erw:ercot_node_planned_generation,2026-10-23T10:20:32Z,pass,public,power,no,source
 ercot_node_prices_hourly,ERCOT,ercot_dam;ercot_rtm,236,PT1H,2026-07-18T05:00:00Z,2026-10-22T04:00:00Z,499512,erw:node_basis_hourly,2026-10-22T17:25:22Z,pass,internal,power,no,derived
 ercot_node_transmission,ERCOT,,569,snapshot,2026-10-23T08:41:17Z,2026-10-23T08:41:17Z,569,erw:ercot_node_transmission,2026-10-23T08:41:17Z,pass,public,power,no,source
+ercot_node_wires_utilities,ERCOT,,569,snapshot,2026-10-23T11:28:45Z,2026-10-23T11:28:45Z,569,erw:ercot_node_wires_utilities,2026-10-23T11:28:45Z,pass,public,power,no,source
 ercot_peak_premium_annual,ERCOT,ercot_rtm,6,P1Y,2015-01-01T00:00:00Z,2026-01-01T00:00:00Z,2016,erw:ercot_peak_premium,2026-10-21T08:42:56Z,pass,public,power,yes,derived
 ercot_peak_premium_monthly,ERCOT,ercot_rtm,6,P1M,2015-01-01T00:00:00Z,2026-10-01T00:00:00Z,23856,erw:ercot_peak_premium,2026-10-21T08:42:56Z,pass,public,power,yes,derived
 ercot_rtm_node_prices,ERCOT,ercot_rtm,312,PT15M,2026-09-28T04:45:00Z,2026-10-22T17:00:00Z,734448,ercot:NP6-905-CD,2026-10-22T17:20:29Z,pass,public,power,no,source
@@ -290,8 +293,11 @@ large_load_rules,none,,5,event,2024-01-25T00:00:00Z,2026-09-22T00:00:00Z,43,5 ou
 large_load_rules_internal,none,,6,event,2024-05-13T00:00:00Z,2026-10-15T00:00:00Z,74,6 outlets,2026-10-08T05:09:36Z,pass,internal,power;datacenters,no,model_extracted
 large_load_statements,none,,1,event,2024-05-01T00:00:00Z,2026-10-08T00:00:00Z,798,1 outlets,2026-10-19T09:42:07Z,pass,internal,power,no,model_extracted
 large_load_waits,none,,4,event,2010-05-27T00:00:00Z,2026-10-08T00:00:00Z,2622,4 outlets,2026-10-09T01:14:33Z,pass,internal,power;datacenters,no,derived
+lbnl_hybrid_ppa_prices,none,,1,event,2015-09-09T00:00:00Z,2025-06-13T00:00:00Z,113,1 outlets,2026-10-23T11:14:25Z,pass,public,power,no,source
 lbnl_interconnection_queue,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,38201,snapshot,2026-10-02T09:16:25Z,2026-10-02T09:16:25Z,38201,lbnl:queued_up,,pass,public,power,no,source
 lbnl_ppa_prices,none,,1,event,1996-09-06T00:00:00Z,2025-06-13T00:00:00Z,1133,1 outlets,2026-10-23T08:31:18Z,pass,public,power,no,source
+lbnl_solar_projects,lbnl,,1775,snapshot,2026-10-23T08:30:21Z,2026-10-23T08:30:21Z,1775,lbnl:solar_projects,2026-10-23T11:11:04Z,pass,public,power,no,source
+lbnl_wind_capacity_factors,lbnl,,1210,P1Y,2025-01-01T00:00:00Z,2025-01-01T00:00:00Z,1210,lbnl:wind_capacity_factors,2026-10-23T11:24:31Z,pass,public,power,no,source
 merchant_revenue_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_rtm;ercot_rtm;isone_rtm;miso_rtm;nyiso_rtm;spp_rtm,6,P1M,2018-06-01T00:00:00Z,2026-10-01T00:00:00Z,8853,erw:merchant_revenue,2026-10-19T22:20:44Z,pass,public,power;gas,yes,derived
 miso_as_prices,MISO,miso_dam,1,PT1H,2024-09-01T05:00:00Z,2026-10-04T04:00:00Z,54936,miso:asm_expost_damcp,2026-10-04T04:19:52Z,pass,internal,power,no,source
 miso_interconnection_queue,MISO,,3881,snapshot,2026-09-30T23:33:22Z,2026-09-30T23:33:22Z,3881,miso:interconnection_queue,2026-09-26T00:06:45Z,pass,public,power,no,source
@@ -317,8 +323,10 @@ nyiso_load_queue,NYISO,,74,snapshot,2026-10-07T09:09:14Z,2026-10-07T09:09:14Z,74
 nyiso_rtm_zone_prices,NYISO,nyiso_rtm,11,PT15M,2026-08-26T04:00:00Z,2026-10-22T03:45:00Z,59136,nyiso:realtime,2026-10-22T14:14:46Z,pass,public,power,no,source
 nyiso_zone_load_hourly,NYISO,nyiso_load,11,PT1H,2019-01-01T05:00:00Z,2026-10-10T13:00:00Z,749595,nyiso:palIntegrated,2026-10-10T15:02:25Z,pass,public,power,no,source
 ornl_eha_hydropower_plants,ornl,,2257,snapshot,2026-10-23T08:09:05Z,2026-10-23T08:09:05Z,2257,ornl:eha_plant,2026-10-23T08:11:07Z,pass,public,power,no,source
+ornl_eha_hydropower_units,ornl,,5362,snapshot,2026-10-23T11:18:37Z,2026-10-23T11:18:37Z,5362,ornl:eha_unit,2026-10-23T11:19:46Z,pass,public,power,no,source
 ornl_hydropower_pipeline,ornl,,196,snapshot,2026-10-23T08:33:21Z,2026-10-23T08:33:21Z,196,ornl:hydro_pipeline,2026-10-23T08:35:11Z,pass,public,power,no,source
 ornl_hydropower_relicensing,none,,1,event,2001-08-30T00:00:00Z,2025-12-23T00:00:00Z,559,1 outlets,2026-10-23T10:16:07Z,pass,public,power,no,source
+ornl_npd_potential,ornl,,597,snapshot,2026-10-23T11:05:59Z,2026-10-23T11:05:59Z,597,ornl:npd_potential,2026-10-23T11:31:10Z,pass,public,power,no,source
 pjm_rpm_capacity_prices,PJM,bra,18,P1Y,2007-06-01T00:00:00Z,2028-06-01T00:00:00Z,234,pjm:rpm-clearing-price-summary,2026-10-22T14:48:57Z,pass,internal,capacity,no,source
 policy_action_tags,none,,1,event,2026-01-26T00:00:00Z,2026-09-04T00:00:00Z,38,1 outlets,2026-10-08T10:18:10Z,pass,public,news,no,model_extracted
 policy_actions,none,,5,event,2025-10-01T00:00:00Z,2026-10-22T00:00:00Z,1946,5 outlets,2026-10-22T15:00:35Z,pass,public,news,no,model_extracted
