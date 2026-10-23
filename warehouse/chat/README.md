@@ -5,7 +5,7 @@ A question-answering layer over the Energy Research Warehouse (ERW) that never s
 | File | Role |
 |---|---|
 | `tools.py` | The four tools the model may call: `list_tables`, `describe_table`, `query`, `compare`. Built on the `erw` package: local files by default, Supabase or Redivis with `ERW_BACKEND`. No free-form SQL. |
-| `ask.py` | The loop: model choice, system prompt, at most 8 tool calls, the number post-check, one retry, refusal. CLI: `python warehouse/chat/ask.py "question"`. |
+| `ask.py` | The loop: model choice, system prompt, at most 12 tool calls (8 until session 1111), the number post-check (and, since session 1110, the unit of a money figure), one retry, refusal (which says why, session 1111). CLI: `python warehouse/chat/ask.py "question"`. |
 | `eval/expected.py` | Builds `eval/questions.yaml`: 30 questions whose answers are computed with pandas straight from the CSVs, independently of `tools.py`. |
 | `eval/expected_s20.py` | Builds `eval/questions_s20.yaml` (session 20): the 30 recomputed, and 15 on curtailment, the energy mix, retail sales, the trader view, deals and datacenters. |
 | `eval/eval.py` | Runs every question through `ask.py` and scores it; writes `eval/results/<run>.jsonl` and `.md`. |
@@ -22,6 +22,7 @@ A question-answering layer over the Energy Research Warehouse (ERW) that never s
   - **`group_by` (optional):** `year`, `month`, `day` or `hour` of the row time in a time zone `tz`; `entity`; or one of the table's text columns.
   - **Result:** at most 60 rows. `min` and `max` also say when, and for which entity.
 - **`compare(a, b)`:** two queries side by side, with the difference and the ratio when both are single values.
+- **`board_rank(measure, order)`** (session 1122): the price board's questions ("which hub is highest", "what moved most", "where is the spark spread widest"): every hub's newest value of one of the board's measures in `price_board_latest` or `price_board_spreads`, ranked highest, lowest or by the size of the move, each with its own date. Built on `query` (latest by entity), so it agrees with the board's tables; on the site the held grids' rows are left out as every read leaves them. Five questions with their keys: `eval/questions_s1122.yaml` (`eval/expected_s1122.py`).
 
 Every result carries `table`, `data_version` (backend, data commit, the table's last run), `source_report`, `license` and the `erw` citation.
 

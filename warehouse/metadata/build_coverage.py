@@ -226,12 +226,27 @@ SECTOR_RULES = [
     (r"^usbr_hydropower_monthly$", "power"),  # session 2003: Reclamation's plants
     (r"^noaa_cpc_degree_days_daily$", "power;gas"),  # session 2006: CPC's degree days
     (r"^boem_offshore_platforms$", "oil;gas"),  # session 2007: BOEM's platforms
+    (r"^doe_oe417_events$", "power"),  # session 2028: DOE-417's disturbance events
+    (r"^eaglei_county_outages_daily$", "power"),  # session 2029: EAGLE-I's county outages, a day's peak
+    (r"^epa_rfs_rins_monthly$", "products;carbon"),  # session 2030: EPA's RFS, RINs and volumes a month by D code
+    (r"^epa_rfs_fuel_annual$", "products;carbon"),  # session 2030: EPA's RFS, a year by D code and fuel
+    (r"^eia_biofuel_plants$", "products"),  # session 2031: EIA's biofuels plant capacity, a plant and year a row
+    (r"^msha_coal_mines$", "coal"),  # session 2034: MSHA's coal mines
+    (r"^msha_coal_production_quarterly$", "coal"),  # session 2034: MSHA's coal production, hours and employees a quarter
+    (r"^fhwa_motor_fuel_monthly$", "products"),  # session 2035: FHWA's monthly motor fuel by state
+    (r"^afdc_vehicle_registrations_annual$", "power;products"),  # session 2036: AFDC's vehicle registrations by state and fuel
     (r"^noaa_ncei_storm_events$", "power"),  # session 2042: NOAA's storm events
     (r"^nrc_event_notifications$", "power;uranium"),  # session 2043: the NRC's event reports
     (r"^doe_lng_export_applications$", "gas;lng"),  # session 2044: DOE's LNG export applications
     (r"^noaa_climdiv_state_monthly$", "power;gas"),  # session 2045: NOAA's statewide climate
     (r"^ornl_tedb_transportation_annual$", "oil;products;power"),  # session 2048: ORNL's Transportation Energy Data Book
     (r"^doe_grip_selections$", "power"),  # session 2050: DOE's GRIP selections
+    (r"^eia_ice_electricity_daily$", "power"),  # session 2014: ICE's hub indices as EIA republishes them (internal)
+    (r"^eia_mecs_manufacturing$", "power;gas;oil;coal"),  # session 2016: EIA's manufacturing survey (MECS)
+    (r"^eia_cbecs_commercial_buildings$", "power;gas;oil"),  # session 2017: EIA's commercial buildings survey (CBECS 2018)
+    (r"^eia_recs_households$", "power;gas;oil"),  # session 2017: EIA's residential survey (RECS 2020)
+    (r"^lbnl_tracking_the_sun$", "power"),  # session 2015: Berkeley Lab's Tracking the Sun, summarised (written in session 2020)
+    (r"^eia_lng_liquefaction_projects$", "gas"),  # session 2021: EIA's U.S. liquefaction capacity (LNG export projects)
     (r"^eia861_short_form$", "power"),  # session 876: EIA-861S, the small utilities' sales  # session 869: EIA-861's meters and net metering by utility  # session 868: EIA-861's programs by utility  # session 867: EIA-861's utility data: NERC region, RTOs, activities  # session 853: EIA-861's delivery-only companies (Texas's wires utilities)  # session 695: EIA-861's distribution reliability (SAIDI, SAIFI, CAIDI) by utility
     (r"^eia_gas_storage_state_monthly$", "gas"),  # session 525: EIA's natural gas in underground storage by state, a month
     (r"^eia_state_capacity_annual$", "power"),  # session 526: EIA's state electricity profiles, net summer capacity

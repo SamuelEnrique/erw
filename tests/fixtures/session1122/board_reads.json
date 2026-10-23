@@ -1,0 +1,1536 @@
+{
+ "_about": "Session 1122: the rows of price_board_latest and price_board_spreads from 18 October 2026, six measures, read from the live set with the anon key (no write), for site/scripts/test-ask-1122.mjs; every hub of the tables, the held grids' included, so the test proves they are left out.",
+ "recorded_at": "2026-10-23T19:01:47Z",
+ "catalogue": [
+  {
+   "table_name": "price_board_latest",
+   "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP",
+   "market": "caiso_dam;caiso_rtm;ercot_dam;ercot_rtm;isone_dam;isone_rtm;miso_dam;miso_rtm;nyiso_dam;nyiso_rtm;spp_dam;spp_rtm",
+   "n_nodes": 39,
+   "interval": "P1D;PT15M;PT1H",
+   "ts_min": "2026-09-03T00:00:00+00:00",
+   "ts_max": "2026-10-25T03:00:00+00:00",
+   "n_rows": 3233,
+   "source_report": "erw:price_board",
+   "last_run": "2026-10-23T15:02:39+00:00",
+   "validator_status": "pass",
+   "license": "public",
+   "sector": "power",
+   "derived": "yes",
+   "in_live_set": "yes",
+   "columns": "[\"entity\", \"variable\", \"ts_utc\", \"value\", \"unit\", \"freq\", \"geo\", \"market\", \"node\", \"source\", \"source_url\", \"retrieved_at\", \"vintage\"]",
+   "rows_sha256": "bb1a4a41e005560e208aa214fe9f5c391bd565a2f0cf25040cd453bb39844fb8",
+   "tier": "derived"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP",
+   "market": "caiso_dam;ercot_dam;isone_dam;miso_dam;nyiso_dam;spp_dam",
+   "n_nodes": 6,
+   "interval": "P1D",
+   "ts_min": "2025-09-29T00:00:00+00:00",
+   "ts_max": "2026-10-24T00:00:00+00:00",
+   "n_rows": 2488,
+   "source_report": "erw:price_board",
+   "last_run": "2026-10-23T15:02:39+00:00",
+   "validator_status": "pass",
+   "license": "public",
+   "sector": "power;gas;oil",
+   "derived": "yes",
+   "in_live_set": "yes",
+   "columns": "[\"entity\", \"variable\", \"ts_utc\", \"value\", \"unit\", \"freq\", \"geo\", \"market\", \"node\", \"source\", \"source_url\", \"retrieved_at\", \"vintage\", \"x_gas_date\"]",
+   "rows_sha256": "2f39e0ef95e5684fce8d018dc180ea25cd2fa0d80b25a0f2d5e987c31496c1a4",
+   "tier": "derived"
+  }
+ ],
+ "rows": [
+  {
+   "table_name": "price_board_latest",
+   "entity": "caiso:TH_NP15_GEN-APND",
+   "variable": "da_latest_day_mean",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": 44.9349,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "da_latest_day_mean",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": 39.8182,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "caiso:TH_ZP26_GEN-APND",
+   "variable": "da_latest_day_mean",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": 42.7908,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "ercot:HB_BUSAVG",
+   "variable": "da_latest_day_mean",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": 21.05,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "ercot:HB_HOUSTON",
+   "variable": "da_latest_day_mean",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": 25.8229,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "da_latest_day_mean",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": 21.7758,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "ercot:HB_NORTH",
+   "variable": "da_latest_day_mean",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": 18.5163,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "ercot:HB_SOUTH",
+   "variable": "da_latest_day_mean",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": 27.0321,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "ercot:HB_WEST",
+   "variable": "da_latest_day_mean",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": 15.7271,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.H.INTERNAL_HUB",
+   "variable": "da_latest_day_mean",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": 38.7779,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.Z.CONNECTICUT",
+   "variable": "da_latest_day_mean",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": 38.0663,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.Z.MAINE",
+   "variable": "da_latest_day_mean",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": 36.0504,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.Z.NEMASSBOST",
+   "variable": "da_latest_day_mean",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": 38.9658,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.Z.NEWHAMPSHIRE",
+   "variable": "da_latest_day_mean",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": 38.6913,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.Z.RHODEISLAND",
+   "variable": "da_latest_day_mean",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": 38.3121,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.Z.SEMASS",
+   "variable": "da_latest_day_mean",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": 37.4717,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.Z.VERMONT",
+   "variable": "da_latest_day_mean",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": 39.3313,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.Z.WCMASS",
+   "variable": "da_latest_day_mean",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": 38.8388,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "spp:SPPNORTH_HUB",
+   "variable": "da_latest_day_mean",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": 17.3486,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "spp:SPPSOUTH_HUB",
+   "variable": "da_latest_day_mean",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": 0.7918,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:CAPITL",
+   "variable": "da_latest_day_mean",
+   "ts_utc": "2026-10-24T00:00:00+00:00",
+   "value": 40.6908,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:CENTRL",
+   "variable": "da_latest_day_mean",
+   "ts_utc": "2026-10-24T00:00:00+00:00",
+   "value": 38.8954,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:DUNWOD",
+   "variable": "da_latest_day_mean",
+   "ts_utc": "2026-10-24T00:00:00+00:00",
+   "value": 41.6046,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:GENESE",
+   "variable": "da_latest_day_mean",
+   "ts_utc": "2026-10-24T00:00:00+00:00",
+   "value": 37.8696,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:HUD VL",
+   "variable": "da_latest_day_mean",
+   "ts_utc": "2026-10-24T00:00:00+00:00",
+   "value": 41.2238,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:LONGIL",
+   "variable": "da_latest_day_mean",
+   "ts_utc": "2026-10-24T00:00:00+00:00",
+   "value": 42.8058,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:MHK VL",
+   "variable": "da_latest_day_mean",
+   "ts_utc": "2026-10-24T00:00:00+00:00",
+   "value": 39.8725,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:MILLWD",
+   "variable": "da_latest_day_mean",
+   "ts_utc": "2026-10-24T00:00:00+00:00",
+   "value": 41.3921,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:N.Y.C.",
+   "variable": "da_latest_day_mean",
+   "ts_utc": "2026-10-24T00:00:00+00:00",
+   "value": 41.9413,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:NORTH",
+   "variable": "da_latest_day_mean",
+   "ts_utc": "2026-10-24T00:00:00+00:00",
+   "value": 38.4775,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:WEST",
+   "variable": "da_latest_day_mean",
+   "ts_utc": "2026-10-24T00:00:00+00:00",
+   "value": 37.4883,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "spp:SPPSOUTH_HUB",
+   "variable": "rt_latest_day_mean",
+   "ts_utc": "2026-10-20T00:00:00+00:00",
+   "value": 16.021,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "spp:SPPNORTH_HUB",
+   "variable": "rt_latest_day_mean",
+   "ts_utc": "2026-10-20T00:00:00+00:00",
+   "value": 32.8175,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "caiso:TH_NP15_GEN-APND",
+   "variable": "rt_latest_day_mean",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 58.518,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "rt_latest_day_mean",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 50.0927,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "caiso:TH_ZP26_GEN-APND",
+   "variable": "rt_latest_day_mean",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 57.2093,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "ercot:HB_BUSAVG",
+   "variable": "rt_latest_day_mean",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 29.018,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "ercot:HB_HOUSTON",
+   "variable": "rt_latest_day_mean",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 25.8906,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "rt_latest_day_mean",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 29.8642,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "ercot:HB_NORTH",
+   "variable": "rt_latest_day_mean",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 26.3842,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "ercot:HB_SOUTH",
+   "variable": "rt_latest_day_mean",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 37.3025,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "ercot:HB_WEST",
+   "variable": "rt_latest_day_mean",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 29.8781,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.H.INTERNAL_HUB",
+   "variable": "rt_latest_day_mean",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 42.3087,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.Z.CONNECTICUT",
+   "variable": "rt_latest_day_mean",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 41.7896,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.Z.MAINE",
+   "variable": "rt_latest_day_mean",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 39.7321,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.Z.NEMASSBOST",
+   "variable": "rt_latest_day_mean",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 42.5271,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.Z.NEWHAMPSHIRE",
+   "variable": "rt_latest_day_mean",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 42.1267,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.Z.RHODEISLAND",
+   "variable": "rt_latest_day_mean",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 41.5367,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.Z.SEMASS",
+   "variable": "rt_latest_day_mean",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 42.0638,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.Z.VERMONT",
+   "variable": "rt_latest_day_mean",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 42.9125,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.Z.WCMASS",
+   "variable": "rt_latest_day_mean",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 42.4146,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:CAPITL",
+   "variable": "rt_latest_day_mean",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 39.8002,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:CENTRL",
+   "variable": "rt_latest_day_mean",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 39.5023,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:DUNWOD",
+   "variable": "rt_latest_day_mean",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 40.4705,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:GENESE",
+   "variable": "rt_latest_day_mean",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 35.127,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:HUD VL",
+   "variable": "rt_latest_day_mean",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 40.1122,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:LONGIL",
+   "variable": "rt_latest_day_mean",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 47.6461,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:MHK VL",
+   "variable": "rt_latest_day_mean",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 37.8837,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:MILLWD",
+   "variable": "rt_latest_day_mean",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 40.2725,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:N.Y.C.",
+   "variable": "rt_latest_day_mean",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 46.2978,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:NORTH",
+   "variable": "rt_latest_day_mean",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 31.22,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:WEST",
+   "variable": "rt_latest_day_mean",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 32.1219,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "caiso:TH_NP15_GEN-APND",
+   "variable": "da_day_change_pct",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": -9.2511,
+   "unit": "pct"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "da_day_change_pct",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": -7.44,
+   "unit": "pct"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "caiso:TH_ZP26_GEN-APND",
+   "variable": "da_day_change_pct",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": -4.8013,
+   "unit": "pct"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "ercot:HB_BUSAVG",
+   "variable": "da_day_change_pct",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": -36.6067,
+   "unit": "pct"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "ercot:HB_HOUSTON",
+   "variable": "da_day_change_pct",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": -23.5292,
+   "unit": "pct"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "da_day_change_pct",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": -36.764,
+   "unit": "pct"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "ercot:HB_NORTH",
+   "variable": "da_day_change_pct",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": -39.257,
+   "unit": "pct"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "ercot:HB_SOUTH",
+   "variable": "da_day_change_pct",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": -29.5313,
+   "unit": "pct"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "ercot:HB_WEST",
+   "variable": "da_day_change_pct",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": -55.2365,
+   "unit": "pct"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.H.INTERNAL_HUB",
+   "variable": "da_day_change_pct",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": -5.2281,
+   "unit": "pct"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.Z.CONNECTICUT",
+   "variable": "da_day_change_pct",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": -5.0934,
+   "unit": "pct"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.Z.MAINE",
+   "variable": "da_day_change_pct",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": -4.6422,
+   "unit": "pct"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.Z.NEMASSBOST",
+   "variable": "da_day_change_pct",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": -5.1407,
+   "unit": "pct"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.Z.NEWHAMPSHIRE",
+   "variable": "da_day_change_pct",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": -4.6789,
+   "unit": "pct"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.Z.RHODEISLAND",
+   "variable": "da_day_change_pct",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": -5.032,
+   "unit": "pct"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.Z.SEMASS",
+   "variable": "da_day_change_pct",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": -6.0497,
+   "unit": "pct"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.Z.VERMONT",
+   "variable": "da_day_change_pct",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": -5.1602,
+   "unit": "pct"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.Z.WCMASS",
+   "variable": "da_day_change_pct",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": -5.2039,
+   "unit": "pct"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "spp:SPPNORTH_HUB",
+   "variable": "da_day_change_pct",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": -43.8286,
+   "unit": "pct"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "spp:SPPSOUTH_HUB",
+   "variable": "da_day_change_pct",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": -96.6103,
+   "unit": "pct"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:CAPITL",
+   "variable": "da_day_change_pct",
+   "ts_utc": "2026-10-24T00:00:00+00:00",
+   "value": -9.7673,
+   "unit": "pct"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:CENTRL",
+   "variable": "da_day_change_pct",
+   "ts_utc": "2026-10-24T00:00:00+00:00",
+   "value": -10.5527,
+   "unit": "pct"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:DUNWOD",
+   "variable": "da_day_change_pct",
+   "ts_utc": "2026-10-24T00:00:00+00:00",
+   "value": -9.8427,
+   "unit": "pct"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:GENESE",
+   "variable": "da_day_change_pct",
+   "ts_utc": "2026-10-24T00:00:00+00:00",
+   "value": -10.1303,
+   "unit": "pct"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:HUD VL",
+   "variable": "da_day_change_pct",
+   "ts_utc": "2026-10-24T00:00:00+00:00",
+   "value": -9.7751,
+   "unit": "pct"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:LONGIL",
+   "variable": "da_day_change_pct",
+   "ts_utc": "2026-10-24T00:00:00+00:00",
+   "value": -13.2907,
+   "unit": "pct"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:MHK VL",
+   "variable": "da_day_change_pct",
+   "ts_utc": "2026-10-24T00:00:00+00:00",
+   "value": -10.2527,
+   "unit": "pct"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:MILLWD",
+   "variable": "da_day_change_pct",
+   "ts_utc": "2026-10-24T00:00:00+00:00",
+   "value": -9.8424,
+   "unit": "pct"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:N.Y.C.",
+   "variable": "da_day_change_pct",
+   "ts_utc": "2026-10-24T00:00:00+00:00",
+   "value": -13.1756,
+   "unit": "pct"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:NORTH",
+   "variable": "da_day_change_pct",
+   "ts_utc": "2026-10-24T00:00:00+00:00",
+   "value": -10.0494,
+   "unit": "pct"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:WEST",
+   "variable": "da_day_change_pct",
+   "ts_utc": "2026-10-24T00:00:00+00:00",
+   "value": -10.3766,
+   "unit": "pct"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "spp:SPPSOUTH_HUB",
+   "variable": "da_minus_rt",
+   "ts_utc": "2026-10-20T00:00:00+00:00",
+   "value": 7.3104,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "spp:SPPNORTH_HUB",
+   "variable": "da_minus_rt",
+   "ts_utc": "2026-10-20T00:00:00+00:00",
+   "value": -8.0555,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "caiso:TH_NP15_GEN-APND",
+   "variable": "da_minus_rt",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": -9.0023,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "da_minus_rt",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": -7.0739,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "caiso:TH_ZP26_GEN-APND",
+   "variable": "da_minus_rt",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": -12.2604,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "ercot:HB_BUSAVG",
+   "variable": "da_minus_rt",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 4.1874,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "ercot:HB_HOUSTON",
+   "variable": "da_minus_rt",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 7.8777,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "da_minus_rt",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 4.5716,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "ercot:HB_NORTH",
+   "variable": "da_minus_rt",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 4.0987,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "ercot:HB_SOUTH",
+   "variable": "da_minus_rt",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 1.0579,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "ercot:HB_WEST",
+   "variable": "da_minus_rt",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 5.2557,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.H.INTERNAL_HUB",
+   "variable": "da_minus_rt",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": -1.3916,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.Z.CONNECTICUT",
+   "variable": "da_minus_rt",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": -1.6804,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.Z.MAINE",
+   "variable": "da_minus_rt",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": -1.9267,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.Z.NEMASSBOST",
+   "variable": "da_minus_rt",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": -1.4496,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.Z.NEWHAMPSHIRE",
+   "variable": "da_minus_rt",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": -1.5363,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.Z.RHODEISLAND",
+   "variable": "da_minus_rt",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": -1.1946,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.Z.SEMASS",
+   "variable": "da_minus_rt",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": -2.1792,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.Z.VERMONT",
+   "variable": "da_minus_rt",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": -1.4412,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "isone:.Z.WCMASS",
+   "variable": "da_minus_rt",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": -1.4438,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:CAPITL",
+   "variable": "da_minus_rt",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 6.361,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:CENTRL",
+   "variable": "da_minus_rt",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 5.006,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:DUNWOD",
+   "variable": "da_minus_rt",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 7.2433,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:GENESE",
+   "variable": "da_minus_rt",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 8.2759,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:HUD VL",
+   "variable": "da_minus_rt",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 7.0657,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:LONGIL",
+   "variable": "da_minus_rt",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 2.4435,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:MHK VL",
+   "variable": "da_minus_rt",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 7.4292,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:MILLWD",
+   "variable": "da_minus_rt",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 7.2067,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:N.Y.C.",
+   "variable": "da_minus_rt",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 6.2997,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:NORTH",
+   "variable": "da_minus_rt",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 12.3038,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_latest",
+   "entity": "nyiso:WEST",
+   "variable": "da_minus_rt",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 10.906,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "spark_spread_7",
+   "ts_utc": "2026-10-18T00:00:00+00:00",
+   "value": 4.5692,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "nyiso:N.Y.C.",
+   "variable": "spark_spread_7",
+   "ts_utc": "2026-10-18T00:00:00+00:00",
+   "value": 20.3996,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "spp:SPPNORTH_HUB",
+   "variable": "spark_spread_7",
+   "ts_utc": "2026-10-18T00:00:00+00:00",
+   "value": -11.9492,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "isone:.H.INTERNAL_HUB",
+   "variable": "spark_spread_7",
+   "ts_utc": "2026-10-18T00:00:00+00:00",
+   "value": 22.2254,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "spark_spread_7",
+   "ts_utc": "2026-10-18T00:00:00+00:00",
+   "value": 17.0095,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "nyiso:N.Y.C.",
+   "variable": "spark_spread_7",
+   "ts_utc": "2026-10-19T00:00:00+00:00",
+   "value": 29.5658,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "spp:SPPNORTH_HUB",
+   "variable": "spark_spread_7",
+   "ts_utc": "2026-10-19T00:00:00+00:00",
+   "value": 9.8651,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "isone:.H.INTERNAL_HUB",
+   "variable": "spark_spread_7",
+   "ts_utc": "2026-10-19T00:00:00+00:00",
+   "value": 19.5421,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "spark_spread_7",
+   "ts_utc": "2026-10-19T00:00:00+00:00",
+   "value": 21.8155,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "spark_spread_7",
+   "ts_utc": "2026-10-19T00:00:00+00:00",
+   "value": 3.1563,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "spark_spread_7",
+   "ts_utc": "2026-10-20T00:00:00+00:00",
+   "value": 23.3144,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "nyiso:N.Y.C.",
+   "variable": "spark_spread_7",
+   "ts_utc": "2026-10-20T00:00:00+00:00",
+   "value": 27.5508,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "spp:SPPNORTH_HUB",
+   "variable": "spark_spread_7",
+   "ts_utc": "2026-10-20T00:00:00+00:00",
+   "value": 3.062,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "isone:.H.INTERNAL_HUB",
+   "variable": "spark_spread_7",
+   "ts_utc": "2026-10-20T00:00:00+00:00",
+   "value": 18.9438,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "spark_spread_7",
+   "ts_utc": "2026-10-20T00:00:00+00:00",
+   "value": 9.2846,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "spark_spread_7",
+   "ts_utc": "2026-10-21T00:00:00+00:00",
+   "value": 29.9184,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "spp:SPPNORTH_HUB",
+   "variable": "spark_spread_7",
+   "ts_utc": "2026-10-21T00:00:00+00:00",
+   "value": 30.6681,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "isone:.H.INTERNAL_HUB",
+   "variable": "spark_spread_7",
+   "ts_utc": "2026-10-21T00:00:00+00:00",
+   "value": 22.0392,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "spark_spread_7",
+   "ts_utc": "2026-10-21T00:00:00+00:00",
+   "value": 20.5142,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "nyiso:N.Y.C.",
+   "variable": "spark_spread_7",
+   "ts_utc": "2026-10-21T00:00:00+00:00",
+   "value": 28.6067,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "spark_spread_7",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 21.3188,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "spp:SPPNORTH_HUB",
+   "variable": "spark_spread_7",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 9.1851,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "isone:.H.INTERNAL_HUB",
+   "variable": "spark_spread_7",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 19.2171,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "spark_spread_7",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 12.7358,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "nyiso:N.Y.C.",
+   "variable": "spark_spread_7",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 30.8975,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "nyiso:N.Y.C.",
+   "variable": "spark_spread_7",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": 26.6058,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "isone:.H.INTERNAL_HUB",
+   "variable": "spark_spread_7",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": 17.0779,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "spark_spread_7",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": 18.1182,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "spark_spread_7",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": 0.0758,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "spp:SPPNORTH_HUB",
+   "variable": "spark_spread_7",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": -4.3514,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "nyiso:N.Y.C.",
+   "variable": "spark_spread_7",
+   "ts_utc": "2026-10-24T00:00:00+00:00",
+   "value": 20.2413,
+   "unit": "USD/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "implied_heat_rate",
+   "ts_utc": "2026-10-18T00:00:00+00:00",
+   "value": 12.2824,
+   "unit": "MMBtu/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "isone:.H.INTERNAL_HUB",
+   "variable": "implied_heat_rate",
+   "ts_utc": "2026-10-18T00:00:00+00:00",
+   "value": 13.9023,
+   "unit": "MMBtu/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "spp:SPPNORTH_HUB",
+   "variable": "implied_heat_rate",
+   "ts_utc": "2026-10-18T00:00:00+00:00",
+   "value": 3.2891,
+   "unit": "MMBtu/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "implied_heat_rate",
+   "ts_utc": "2026-10-18T00:00:00+00:00",
+   "value": 8.419,
+   "unit": "MMBtu/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "nyiso:N.Y.C.",
+   "variable": "implied_heat_rate",
+   "ts_utc": "2026-10-18T00:00:00+00:00",
+   "value": 13.3353,
+   "unit": "MMBtu/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "implied_heat_rate",
+   "ts_utc": "2026-10-19T00:00:00+00:00",
+   "value": 13.6511,
+   "unit": "MMBtu/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "isone:.H.INTERNAL_HUB",
+   "variable": "implied_heat_rate",
+   "ts_utc": "2026-10-19T00:00:00+00:00",
+   "value": 12.958,
+   "unit": "MMBtu/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "nyiso:N.Y.C.",
+   "variable": "implied_heat_rate",
+   "ts_utc": "2026-10-19T00:00:00+00:00",
+   "value": 16.014,
+   "unit": "MMBtu/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "spp:SPPNORTH_HUB",
+   "variable": "implied_heat_rate",
+   "ts_utc": "2026-10-19T00:00:00+00:00",
+   "value": 10.0076,
+   "unit": "MMBtu/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "implied_heat_rate",
+   "ts_utc": "2026-10-19T00:00:00+00:00",
+   "value": 7.9623,
+   "unit": "MMBtu/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "implied_heat_rate",
+   "ts_utc": "2026-10-20T00:00:00+00:00",
+   "value": 14.5208,
+   "unit": "MMBtu/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "isone:.H.INTERNAL_HUB",
+   "variable": "implied_heat_rate",
+   "ts_utc": "2026-10-20T00:00:00+00:00",
+   "value": 13.1109,
+   "unit": "MMBtu/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "nyiso:N.Y.C.",
+   "variable": "implied_heat_rate",
+   "ts_utc": "2026-10-20T00:00:00+00:00",
+   "value": 15.8874,
+   "unit": "MMBtu/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "spp:SPPNORTH_HUB",
+   "variable": "implied_heat_rate",
+   "ts_utc": "2026-10-20T00:00:00+00:00",
+   "value": 7.9877,
+   "unit": "MMBtu/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "implied_heat_rate",
+   "ts_utc": "2026-10-20T00:00:00+00:00",
+   "value": 9.995,
+   "unit": "MMBtu/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "implied_heat_rate",
+   "ts_utc": "2026-10-21T00:00:00+00:00",
+   "value": 16.6511,
+   "unit": "MMBtu/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "isone:.H.INTERNAL_HUB",
+   "variable": "implied_heat_rate",
+   "ts_utc": "2026-10-21T00:00:00+00:00",
+   "value": 14.1094,
+   "unit": "MMBtu/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "nyiso:N.Y.C.",
+   "variable": "implied_heat_rate",
+   "ts_utc": "2026-10-21T00:00:00+00:00",
+   "value": 16.228,
+   "unit": "MMBtu/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "spp:SPPNORTH_HUB",
+   "variable": "implied_heat_rate",
+   "ts_utc": "2026-10-21T00:00:00+00:00",
+   "value": 16.893,
+   "unit": "MMBtu/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "implied_heat_rate",
+   "ts_utc": "2026-10-21T00:00:00+00:00",
+   "value": 13.6175,
+   "unit": "MMBtu/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "implied_heat_rate",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 13.877,
+   "unit": "MMBtu/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "isone:.H.INTERNAL_HUB",
+   "variable": "implied_heat_rate",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 13.1991,
+   "unit": "MMBtu/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "nyiso:N.Y.C.",
+   "variable": "implied_heat_rate",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 16.9669,
+   "unit": "MMBtu/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "spp:SPPNORTH_HUB",
+   "variable": "implied_heat_rate",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 9.9629,
+   "unit": "MMBtu/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "implied_heat_rate",
+   "ts_utc": "2026-10-22T00:00:00+00:00",
+   "value": 11.1083,
+   "unit": "MMBtu/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "nyiso:N.Y.C.",
+   "variable": "implied_heat_rate",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": 15.5825,
+   "unit": "MMBtu/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "variable": "implied_heat_rate",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": 12.8446,
+   "unit": "MMBtu/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "ercot:HB_HUBAVG",
+   "variable": "implied_heat_rate",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": 7.0245,
+   "unit": "MMBtu/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "isone:.H.INTERNAL_HUB",
+   "variable": "implied_heat_rate",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": 12.509,
+   "unit": "MMBtu/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "spp:SPPNORTH_HUB",
+   "variable": "implied_heat_rate",
+   "ts_utc": "2026-10-23T00:00:00+00:00",
+   "value": 5.5963,
+   "unit": "MMBtu/MWh"
+  },
+  {
+   "table_name": "price_board_spreads",
+   "entity": "nyiso:N.Y.C.",
+   "variable": "implied_heat_rate",
+   "ts_utc": "2026-10-24T00:00:00+00:00",
+   "value": 13.5294,
+   "unit": "MMBtu/MWh"
+  }
+ ]
+}
