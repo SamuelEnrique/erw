@@ -751,6 +751,7 @@ async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
   // "4 pm Central, 3 October 2026"; a day's label as a date), so an answer can say the time in words that are in a tool
   // result (lib/chat/plaintime.ts). The zone is the query's own, else the grid of the entity read; none, no words
   if (shape === "series") addLocalTimes(out, dated, tz !== "UTC" ? tz : zoneOfEntity(a.entity ?? all.find((r) => r.entity)?.entity));
+  perKw(out, a.table);
   Object.assign(out, await provenance(a.table));
   return out;
 }
@@ -769,6 +770,25 @@ async function compare(a: { a: QueryArgs; b: QueryArgs }, scope: Scope = null): 
     out.difference_b_minus_a = round(vb - va);
     out.ratio_b_over_a = va ? round(vb / va) : null;
   }
+  return out;
+}
+
+/** Session 1109: USD per kW beside USD per MW, prepared for session 320's open ruling 1 and off until it is ruled.
+ * With ASK_PER_KW=on, a query of a table whose method names the conversion, all of whose rows are in USD/MW, carries
+ * each value, sum and summary figure divided by 1,000 as value_usd_per_kw, so the number check can trace a per-kW
+ * figure the battery page shows. Off (the default), the result is what it was, key for key. */
+export const PER_KW_TABLES: Record<string, string> = {
+  battery_stack_monthly: "docs/methods/battery_stack.md: USD per kW of rated power is the USD/MW value divided by 1,000",
+};
+export function perKw(out: Json, table: string, env: Record<string, string | undefined> = process.env): Json {
+  if (env.ASK_PER_KW !== "on" || !PER_KW_TABLES[table]) return out;
+  const units = out.units as string[] | undefined;
+  if (!units || units.length !== 1 || units[0] !== "USD/MW") return out;
+  const kw = (x: unknown) => (typeof x === "number" ? round(x / 1000) : null);
+  for (const r of (out.result as Json[] | undefined) ?? []) if (kw(r.value) !== null) r.value_usd_per_kw = kw(r.value);
+  const sm = out.summary as Json | undefined;
+  if (sm) for (const k of ["sum_of_rows", "mean_of_rows", "median_of_rows", "change_first_to_last"]) if (kw(sm[k]) !== null) sm[`${k}_usd_per_kw`] = kw(sm[k]);
+  out.per_kw = { unit: "USD/kW", rule: PER_KW_TABLES[table] };
   return out;
 }
 

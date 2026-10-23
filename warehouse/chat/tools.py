@@ -551,7 +551,27 @@ def query(table, aggregation, entity=None, variable=None, start=None, end=None, 
             if len(res) > cap:
                 out["result_note"] = f"{len(res)} groups; the first {cap} (sorted by {group_by}) are shown"
             out["result"] = res[:cap]
+    per_kw(out, table)
     out.update(provenance(table))
+    return out
+
+
+# Session 1109: USD per kW beside USD per MW, prepared for session 320's open ruling 1 and off until it is ruled (as
+# site/lib/chat/tools.ts perKw). With ASK_PER_KW=on, a query of a table whose method names the conversion, all of whose
+# rows are in USD/MW, carries each value divided by 1,000 as value_usd_per_kw. Off, the result is what it was.
+PER_KW_TABLES = {
+    "battery_stack_monthly": "docs/methods/battery_stack.md: USD per kW of rated power is the USD/MW value divided by 1,000",
+}
+
+
+def per_kw(out, table, env=None):
+    env = os.environ if env is None else env
+    if env.get("ASK_PER_KW") != "on" or table not in PER_KW_TABLES or out.get("units") != ["USD/MW"]:
+        return out
+    for r in out.get("result") or []:
+        if isinstance(r.get("value"), (int, float)) and not isinstance(r.get("value"), bool):
+            r["value_usd_per_kw"] = round(r["value"] / 1000, DIGITS)
+    out["per_kw"] = {"unit": "USD/kW", "rule": PER_KW_TABLES[table]}
     return out
 
 
