@@ -322,6 +322,9 @@ nyiso_interconnection_queue,NYISO,,1814,snapshot,2026-09-26T00:06:50Z,2026-09-26
 nyiso_load_queue,NYISO,,74,snapshot,2026-10-07T09:09:14Z,2026-10-07T09:09:14Z,74,nyiso:load_queue,,pass,public,power;datacenters,no,source
 nyiso_rtm_zone_prices,NYISO,nyiso_rtm,11,PT15M,2026-08-26T04:00:00Z,2026-10-22T03:45:00Z,59136,nyiso:realtime,2026-10-22T14:14:46Z,pass,public,power,no,source
 nyiso_zone_load_hourly,NYISO,nyiso_load,11,PT1H,2019-01-01T05:00:00Z,2026-10-10T13:00:00Z,749595,nyiso:palIntegrated,2026-10-10T15:02:25Z,pass,public,power,no,source
+onrr_production_annual,onrr,,735,P1Y,2003-01-01T00:00:00Z,2025-01-01T00:00:00Z,15068,onrr:revenue_data,2026-10-23T12:16:08Z,pass,public,oil;gas;coal,no,source
+onrr_production_monthly,onrr,,8,P1M,2003-01-01T00:00:00Z,2026-07-01T00:00:00Z,2264,onrr:revenue_data,2026-10-23T12:15:59Z,pass,public,oil;gas;coal,no,source
+onrr_revenue_monthly,onrr,,5030,P1M,2003-01-01T00:00:00Z,2026-08-01T00:00:00Z,413554,onrr:revenue_data,2026-10-23T12:16:18Z,pass,public,oil;gas;coal,no,source
 ornl_eha_hydropower_plants,ornl,,2257,snapshot,2026-10-23T08:09:05Z,2026-10-23T08:09:05Z,2257,ornl:eha_plant,2026-10-23T08:11:07Z,pass,public,power,no,source
 ornl_eha_hydropower_units,ornl,,5362,snapshot,2026-10-23T11:18:37Z,2026-10-23T11:18:37Z,5362,ornl:eha_unit,2026-10-23T11:19:46Z,pass,public,power,no,source
 ornl_hydropower_pipeline,ornl,,196,snapshot,2026-10-23T08:33:21Z,2026-10-23T08:33:21Z,196,ornl:hydro_pipeline,2026-10-23T08:35:11Z,pass,public,power,no,source

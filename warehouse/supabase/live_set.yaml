@@ -331,6 +331,9 @@ catalogue_hold:
   - ornl_eha_hydropower_units
   - lbnl_wind_capacity_factors
   - ercot_node_wires_utilities
+  - onrr_production_monthly
+  - onrr_production_annual
+  - onrr_revenue_monthly
   - lbnl_hybrid_ppa_prices
   - lbnl_solar_projects
   - ornl_npd_potential

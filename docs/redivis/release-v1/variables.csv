@@ -5411,6 +5411,14 @@ nrc_power_reactors,x_renewed_license,column,
 nrc_power_reactors,x_shut_down,column,
 nrc_power_reactors,x_subsequent_renewal,column,
 nrc_reactor_status,power_pct,series variable,pct
+onrr_production_annual,production,series variable,MWh
+onrr_production_annual,production,series variable,Mcf
+onrr_production_annual,production,series variable,bbl
+onrr_production_annual,production,series variable,short_ton
+onrr_production_monthly,production,series variable,Mcf
+onrr_production_monthly,production,series variable,bbl
+onrr_production_monthly,production,series variable,short_ton
+onrr_revenue_monthly,revenue,series variable,USD
 ornl_eha_hydropower_plants,entity_id,column,
 ornl_eha_hydropower_plants,entity_type,column,
 ornl_eha_hydropower_plants,name,column,

@@ -322,6 +322,9 @@ nyiso_interconnection_queue,NYISO,the source registry
 nyiso_load_queue,NYISO,the source registry
 nyiso_rtm_zone_prices,NYISO,the source registry
 nyiso_zone_load_hourly,NYISO,the source registry
+onrr_production_annual,"U.S. Department of the Interior, Office of Natural Resources Revenue (ONRR)",the source registry
+onrr_production_monthly,"U.S. Department of the Interior, Office of Natural Resources Revenue (ONRR)",the source registry
+onrr_revenue_monthly,"U.S. Department of the Interior, Office of Natural Resources Revenue (ONRR)",the source registry
 ornl_eha_hydropower_plants,"Oak Ridge National Laboratory (ORNL), HydroSource",the source registry
 ornl_eha_hydropower_units,"Oak Ridge National Laboratory (ORNL), HydroSource",the source registry
 ornl_hydropower_pipeline,"Oak Ridge National Laboratory (ORNL), HydroSource",the source registry
