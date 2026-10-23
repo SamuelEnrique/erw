@@ -931,6 +931,10 @@
   "unsettled",
   "ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21)."
  ],
+ "fema_disaster_declarations": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
  "flex_alert_effects": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
@@ -1115,6 +1119,10 @@
   "unsettled",
   "ANS Nuclear Newswire; Bloomberg; Canary Media; CivicPlus; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; Hart Energy; Heatmap News; Hydrogen Insight; ISO-NE; JPT; LNG Prime; Latitude Media; MISO; NYISO; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; Rigzone; Utility Dive; WSJ; pv magazine USA's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21)."
  ],
+ "nhc_hurdat2_track_points": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
  "nlr_atb_electricity_costs": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
@@ -1168,6 +1176,10 @@
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
  "nrc_event_notifications": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
+ "nrc_license_actions": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
@@ -1330,6 +1342,10 @@
  "usbr_hydropower_monthly": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
+ "usdm_drought_state_weekly": [
+  "unsettled",
+  "The terms of U.S. Drought Monitor (National Drought Mitigation Center, USDA, NOAA) have not been read or settled, so the ERW does not redistribute it until they are."
  ],
  "usgs_mcs_critical_minerals": [
   "public",
