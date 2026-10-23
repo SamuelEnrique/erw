@@ -352,6 +352,7 @@ catalogue_hold:
   - doe_useer_employment
   - nrc_new_reactor_applications
   - nrc_advanced_reactor_preapplicants
+  - usbr_hydropower_monthly
   - lbnl_hybrid_ppa_prices
   - lbnl_solar_projects
   - ornl_npd_potential

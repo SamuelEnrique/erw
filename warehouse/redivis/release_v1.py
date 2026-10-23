@@ -164,6 +164,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "egrid_subregions_annual",
            "doe_useer_employment",
            "nrc_new_reactor_applications", "nrc_advanced_reactor_preapplicants",
+           "usbr_hydropower_monthly",
            "interconnection_durations", "interconnection_durations_summary",
            "grid_peak_vs_capacity"):  # 510 to 672 the same way
     STORAGE_HELD[_t] = ("held: not yet on Redivis (written 21 October 2026, session 489; the account's free 10 GB is full, "
