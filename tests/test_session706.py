@@ -104,7 +104,7 @@ class Headroom(unittest.TestCase):
         if not (os.path.exists(p) and os.path.exists(c)):
             raise unittest.SkipTest("the planned generators or the state capacity table is not on this machine")
         again = sp.headroom_file(p, c)
-        own = ("built", "peak_capacity", "peak_capacity_table", "zones")   # session 718 adds the data machine's table to the file; 728 the zones
+        own = ("built", "peak_capacity", "peak_capacity_table", "zones", "reserve")   # session 718 adds the data machine's table to the file; 728 the zones; 1027 the reserve margin
         self.assertEqual({k: v for k, v in again.items() if k not in own}, {k: v for k, v in self.h.items() if k not in own})
         self.assertEqual(self.o["ercot"]["planned"], self.h["planned"]["ercot"]["construction_mw"])
 

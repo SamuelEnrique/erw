@@ -33,3 +33,35 @@ Energy Research Warehouse (ERW), session 812, 22 October 2026. Every item of the
 ## Not waiting for a ruling, done by this chain
 
 The why line's rule (801), one topic one item (802), the sources' names and the email's text (803), the numbers section that says what moved (804), the chart that follows the day (805), the Roundup's five numbers, its chart's sentence and the real-time interval (806), the dry runs (807, 808), the regression suite (809), the emails at 390 (810), the method on the page (811).
+
+## State after session 836 (23 October 2026, about 07:55 UTC)
+
+Session 836 of chain 081 (`queue/done/081-night-24-october-portable-deals-2.md`), doing session 835's reading after 835 was stopped by its precheck. Each item's state is open, answered or done; no item is decided by the session. Where an answer was looked for: this file (unchanged since session 812 wrote it); `docs/state/` (no `rulings_*.md` since 11 October, no note of the owner's since); every commit on main since 00:00 UTC on 22 October (each a session's, a workflow's, or one of the owner's uploads and renames of queue files on 22 October, all before this file existed); `warehouse/metadata/license_status.csv` (last changed on 20 October by session 348; NYISO's, ISO-NE's and the news index's rows still "license needed"); `queue/` (no file of the owner's since the morning of 22 October). Chain 080's session 822 was running the landing of `wip/818-periodicals` when this was written, so the items say "as landed" of a branch not yet on main.
+
+| # | Item | State |
+|---|---|---|
+| 1 | Held grid prices in the Digest | open |
+| 2 | The email while the news index is held | open |
+| 3 | The window opens at the previous issue's end | open |
+| 4 | The AI tie-break | open |
+| 5 | The two-minute form | open |
+| 6 | The chart of the day's caveat, floor and the three ruled drafts | open |
+| 7 | A pun that states a fact | open |
+| 8 | Whether the 14 October issue is corrected in place | open |
+| 9 | The coverage charts' division | open |
+| 10 | A missed week said | open |
+| 11 | Deals and datacenters: a floor and US first | open |
+| 12 | The no-model headlines' adjectives | open |
+| 13 | The topic key | open |
+| 14 | The "also" lines and the two-minute form | open |
+| 15 | The held outlets' links | open |
+| 16 | The why line's fallback | open |
+| 17 | The chart of the week re-drawn for the measure the stories point to | open |
+| 18 | US48 demand a year before | open |
+| 19 | The ten floors under the license holds | open |
+
+Nineteen open, none answered, none done. `docs/reviews/deals-rulings-2026-10-23.md` did not exist yet (chain 080's session 832 writes it); its state section is for the session that next reads the rulings (839 of this chain, or 843 of the next file).
+
+## State after session 843 (23 October 2026, about 08:15 UTC)
+
+Session 843 of chain 082 (`queue/done/082-night-25-october-portable-deals-3.md`). The same places were looked in as at 07:55 UTC (above) and main has moved only by chain 081's own documents since: every one of the 19 items is open, none answered, none done. `docs/reviews/deals-rulings-2026-10-23.md` still does not exist (chain 080's session 832).

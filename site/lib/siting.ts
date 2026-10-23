@@ -76,8 +76,8 @@ export const COLUMNS: Column[] = [
     tip: "The latest cleared capacity price for the zone, over the load's energy (iso_all_capacity_prices, pjm_rpm_capacity_prices). ERCOT, CAISO and SPP have no capacity market." },
   { id: "connect", head: "Time to connect", unit: "months", tables: ["interconnection_durations", "lbnl_interconnection_queue", "large_load_rules", "large_load_waits", "ercot_large_load_status", "nyiso_load_queue"],
     tip: "The median months from queue entry to operation for projects finished in the last three years (interconnection_durations, from Berkeley Lab's queue file), and the grid's large-load rule (large_load_rules)." },
-  { id: "headroom", head: "Headroom", unit: "percent; MW", tables: ["eia930_demand_growth", "eia860m_planned_generators", "grid_peak_vs_capacity", "eia_state_capacity_annual"],
-    tip: "Demand growth over the last twelve months (EIA-930), generation under construction due in the next twelve months (eia860m_planned_generators), and capacity above the grid's peak (grid_peak_vs_capacity)." },
+  { id: "headroom", head: "Headroom", unit: "percent; MW", tables: ["eia930_demand_growth", "eia860m_planned_generators", "grid_peak_vs_capacity", "eia_state_capacity_annual", "ercot_cdr_reserve_margins"],
+    tip: "Demand growth over the last twelve months (EIA-930), generation under construction due in the next twelve months (eia860m_planned_generators), capacity above the grid's peak (grid_peak_vs_capacity), and ERCOT's planning reserve margin for the coming summer (ercot_cdr_reserve_margins)." },
   { id: "carbon", head: "Carbon", unit: "kg CO2 per MWh", tables: ["egrid_power_plants", "carbon_intensity_hourly"],
     tip: "The generation-weighted CO2 rate of the row's eGRID subregion (egrid_power_plants); hourly where the profile runs in some hours and the grid's hourly intensity is held." },
   { id: "utility", head: "Utility", unit: "USD per MWh", tables: ["utility_service_territories", "eia861_utility_sales"],
@@ -566,7 +566,12 @@ export type HeadroomFile = {
    * held against the year before (eia930_subba_demand_hourly_<year>), for the rows whose zone EIA-930 names */
   zones?: { table: string; year: number; prior: number; rows: Record<string, { subba: string; name: string; year: number; prior: number; mean_mw: number; prior_mean_mw: number; hours: number; prior_hours: number; pct: number }> };
   peak_capacity?: Record<string, { year: number; peak_mw: number; capacity_mw: number; over_peak_pct: number; solar_mw: number; wind_mw: number; storage_mw: number; list: string; states: string; split_states: string }>;
+  /** session 1027 (chain 071): ERCOT's planning reserve margin, its CDR report's first summer after the build's day at the
+   * peak load and peak net load hours, and the report's first season below zero (ercot_cdr_reserve_margins) */
+  reserve?: { table: string; as_of: string; report: string; vintage: string; retrieved: string; first: string; last: string;
+    grids: Record<string, { start: string; peak: ReserveAt; net: ReserveAt | null; first_below_zero: (ReserveAt & { start: string }) | null }> };
 };
+export type ReserveAt = { label: string; x_hour: number; pct: number; capacity_mw: number; firm_peak_mw: number };
 export const BA_OF: Record<string, string> = { ercot: "ERCO", caiso: "CISO", nyiso: "NYIS", isone: "ISNE", spp: "SWPP", miso: "MISO", pjm: "PJM" };
 /** The calendar hours of a month label. */
 const hoursOfMonth = (m: string) => daysIn(m) * 24;
@@ -606,6 +611,13 @@ export function capacityOverPeak(d: DemandYears | undefined, h: HeadroomFile | u
   const peak = a?.years[String(d!.last_year)]?.peak_demand_mw;
   if (!peak) return { why: `${GRID_NAMES[grid]}'s peak demand of ${d?.last_year} is not held.` };
   return { pct: (100 * c.mw) / peak - 100, mw: c.mw, peak, year: c.year, peakYear: d!.last_year, states: c.states, table: "eia_state_capacity_annual" };
+}
+
+/** Session 1027: the grid's planning reserve margin where a report of the grid's own is held (ERCOT's CDR); else why. */
+export function reserveMargin(h: HeadroomFile | undefined, grid: string) {
+  const r = h?.reserve, g = r?.grids[grid];
+  if (!r || !g) return { why: `No planning reserve margin of ${GRID_NAMES[grid]}'s own is held: the ERW holds ERCOT's (its Capacity, Demand and Reserves report) alone.` };
+  return { ...g, report: r.report, vintage: r.vintage.slice(0, 10), table: r.table };
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -1078,6 +1090,7 @@ export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
   if (p[1] === "demand") { const g = demandGrowth(f.demand, row.grid); return "pct" in g ? g.pct : undefined; }
   if (p[1] === "planned") return f.headroom?.planned[row.grid]?.construction_mw;
   if (p[1] === "capratio") { const c = capacityOverPeak(f.demand, f.headroom, row.grid); return "pct" in c ? c.pct : undefined; }
+  if (p[1] === "reservemargin") { const m = reserveMargin(f.headroom, row.grid); return "peak" in m ? m.peak.pct : undefined; }
   if (p[1] === "connect" || p[1] === "llapproved") {
     const c = connectCell(f, row);
     return p[1] === "connect" ? ("median" in c.gen ? c.gen.median ?? undefined : undefined) : c.status?.approved;

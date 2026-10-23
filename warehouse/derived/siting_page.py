@@ -33,6 +33,9 @@ Files:
                   status: under construction or complete (U, V, TS), approvals received (T), and the rest (P, L); and
                   from eia_state_capacity_annual (public) the newest year's installed net summer capacity of the grids
                   that are whole states (NYISO: New York; ISO-NE: the six New England states).
+                  Session 1027: "reserve", ERCOT's planning reserve margin from ercot_cdr_reserve_margins (public): the
+                  first summer after the build's day at the report's peak load and peak net load hours, and the
+                  report's first season below zero at the peak load hour. No other grid's margin is held.
     carbon.json   (session 707) from egrid_power_plants (public): each eGRID subregion's CO2 (tons, CHP-adjusted as eGRID
                   gives it) and net generation (MWh) summed over its plants, and PJM's over the plants eGRID places in PJM
                   (ISORTO); and from carbon_intensity_hourly (public), intensity_demand in kg CO2 per MWh, each priced
@@ -276,6 +279,43 @@ def peak_capacity(path):
                                     "storage_mw": v.get("capacity_storage_mw"), "list": str(first.get("x_vintage", "")), "states": str(first.get("x_states", "")),
                                     "split_states": "" if pd.isna(first.get("x_split_states")) else str(first.get("x_split_states"))}
     return out
+
+
+RESERVE_TABLE = "ercot_cdr_reserve_margins"
+
+
+def reserve_margins(path, today=None):
+    """headroom.json's `reserve` (session 1027, chain 071): ERCOT's planning reserve margin from its Capacity, Demand and
+    Reserves report (ercot_cdr_reserve_margins, public): the first summer that begins after `today` (the build's day),
+    at the report's peak load hour and at its peak net load hour, with the total capacity and firm peak load behind it;
+    and the first season of the report whose margin at the peak load hour is below zero, if any. ERCOT's figures as
+    printed; no other grid's margin is held."""
+    today = today or dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d")
+    r = pd.read_csv(path, skiprows=header_rows(path), dtype=str)
+    r["season"] = r["entity"].str.split(":").str[1]
+    r["hour"] = r["entity"].str.split(":").str[2]
+    v = r[r["variable"].isin(["reserve_margin", "total_capacity", "firm_peak_load"])].copy()
+    v["value"] = pd.to_numeric(v["value"])
+
+    def at(ts, hour):
+        x = v[(v["ts_utc"] == ts) & (v["hour"] == hour)]
+        if x.empty:
+            return None
+        d = dict(zip(x["variable"], x["value"]))
+        return {"label": str(x.iloc[0]["node"]).split(",")[0], "x_hour": int(x.iloc[0]["x_hour"]), "pct": round(d["reserve_margin"], 6),
+                "capacity_mw": round(d["total_capacity"], 1), "firm_peak_mw": round(d["firm_peak_load"], 1)}
+    summers = sorted(t for t in v.loc[v["season"] == "summer", "ts_utc"].unique() if t[:10] > today)
+    if not summers:
+        raise ValueError(f"{RESERVE_TABLE}: no summer after {today}")
+    first_low = None
+    for ts in sorted(v["ts_utc"].unique()):
+        a = at(ts, "peak_load")
+        if a and a["pct"] < 0:
+            first_low = {"start": ts[:10], **a}
+            break
+    return {"table": RESERVE_TABLE, "as_of": today, "report": str(r.iloc[0]["x_report"]), "vintage": str(r.iloc[0]["vintage"]),
+            "retrieved": str(r.iloc[0]["retrieved_at"]), "first": r["ts_utc"].min()[:10], "last": r["ts_utc"].max()[:10],
+            "grids": {"ercot": {"start": summers[0][:10], "peak": at(summers[0], "peak_load"), "net": at(summers[0], "peak_net_load"), "first_below_zero": first_low}}}
 
 
 SUBBA_TABLE = "eia930_subba_demand_hourly"
@@ -637,6 +677,14 @@ def main(argv=None):
             print(f"{SUBBA_TABLE}: {len(hr['zones']['rows'])} zones, {hr['zones']['year']} over {hr['zones']['prior']}")
         except FileNotFoundError as e:
             print(f"{e}: every row keeps its grid's demand growth")
+        try:   # session 1027: ERCOT's planning reserve margin (its CDR report)
+            rpath = find(RESERVE_TABLE, a.in_dir, a.in_dir_first)
+            print(f"reading {rpath}")
+            hr["reserve"] = reserve_margins(rpath)
+            e = hr["reserve"]["grids"]["ercot"]
+            print(f"{RESERVE_TABLE}: ERCOT {e['peak']['label']} {e['peak']['pct']:.2f} % at the peak load hour")
+        except FileNotFoundError:
+            print(f"{RESERVE_TABLE} is not on this machine: no grid's reserve margin is drawn")
     except Exception as e:
         print(f"FAILED: {e}", file=sys.stderr)
         return 1
