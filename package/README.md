@@ -10,10 +10,10 @@ deals and derived tables, every row traceable to the report it came from. The sa
 
 ```bash
 pip install "git+https://github.com/SamuelEnrique/erw.git#subdirectory=package"
-pip install "erw[redivis] @ git+https://github.com/SamuelEnrique/erw.git#subdirectory=package"   # to read Redivis
+pip install "erw-energy[redivis] @ git+https://github.com/SamuelEnrique/erw.git#subdirectory=package"   # to read Redivis
 ```
 
-pandas is the only dependency. The package is not on PyPI yet.
+pandas is the only dependency. The distribution is named `erw-energy` and imported as `erw`; it is not on PyPI yet.
 
 ## Where the tables come from
 

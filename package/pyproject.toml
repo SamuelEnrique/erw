@@ -4,24 +4,40 @@ requires = ["setuptools>=77", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "erw"
+# session 1002 (chain 070): the distribution is erw-energy (the name erw says nothing on an index); the import stays erw.
+# Nothing is uploaded: publishing to PyPI is the owner's.
+name = "erw-energy"
 version = "0.1.0"
-description = "Python client for the Energy Research Warehouse (ERW)"
+description = "The Energy Research Warehouse (ERW) in Python: US power prices, demand, generation, fuel and project tables, each row traceable to its source"
 readme = "README.md"
 requires-python = ">=3.9"
-# pandas is the only hard dependency. The local backend needs nothing else;
-# git is used, if present, only to report which commit the data came from.
-dependencies = ["pandas>=1.5"]
+# session 1002: the repository holds no license for its code; the owner chooses one before any upload
+# (archive/sessions/SESSION_1002_REPORT.md, "For Samuel's ruling")
+license = "LicenseRef-Not-Yet-Chosen"
+authors = [{ name = "Energy Research Warehouse (ERW)" }]
+keywords = ["energy", "electricity", "power prices", "ERCOT", "EIA", "data", "Redivis"]
+# pandas is the only hard dependency, pinned as the repository's requirements.txt pins it. The local backend and the
+# live set (erw.live, the standard library) need nothing else; git is used, if present, only to say which commit the
+# data came from; PyYAML, if present in a clone, reads the live set's rules.
+dependencies = ["pandas>=2.2,<3"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
     "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Information Analysis",
 ]
 
+[project.urls]
+Homepage = "https://github.com/SamuelEnrique/erw"
+Documentation = "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/packages.md"
+Source = "https://github.com/SamuelEnrique/erw/tree/main/package"
+
 [project.optional-dependencies]
-test = ["pytest>=7"]
-# session 10: remote backends (ERW_BACKEND=redivis or supabase)
+test = ["pytest>=8.0"]
+# session 10: remote backends (ERW_BACKEND=redivis or supabase); session 1002: pinned as requirements.txt pins them
 redivis = ["redivis>=0.20", "python-dotenv>=1.0"]
 supabase = ["supabase>=2.31", "python-dotenv>=1.0"]
 

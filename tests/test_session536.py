@@ -95,7 +95,7 @@ class CleanInstall(unittest.TestCase):
         p = subprocess.run([sys.executable, "-m", "pip", "wheel", "-q", "--no-deps", "--no-index",
                             "--no-build-isolation", "-w", str(wheels), str(src)],
                            capture_output=True, text=True, timeout=600, cwd=str(cls.tmp))
-        built = sorted(wheels.glob("erw-*.whl")) if wheels.is_dir() else []
+        built = sorted(wheels.glob("erw_energy-*.whl")) if wheels.is_dir() else []  # session 1002: the distribution is erw-energy
         if p.returncode != 0 or not built:
             raise unittest.SkipTest("cannot build the wheel offline here: "
                                     + (p.stderr.strip().splitlines() or ["no wheel written"])[-1])
