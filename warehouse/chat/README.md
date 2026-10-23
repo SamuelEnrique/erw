@@ -5,7 +5,7 @@ A question-answering layer over the Energy Research Warehouse (ERW) that never s
 | File | Role |
 |---|---|
 | `tools.py` | The four tools the model may call: `list_tables`, `describe_table`, `query`, `compare`. Built on the `erw` package: local files by default, Supabase or Redivis with `ERW_BACKEND`. No free-form SQL. |
-| `ask.py` | The loop: model choice, system prompt, at most 8 tool calls, the number post-check, one retry, refusal. CLI: `python warehouse/chat/ask.py "question"`. |
+| `ask.py` | The loop: model choice, system prompt, at most 12 tool calls (8 until session 1111), the number post-check (and, since session 1110, the unit of a money figure), one retry, refusal (which says why, session 1111). CLI: `python warehouse/chat/ask.py "question"`. |
 | `eval/expected.py` | Builds `eval/questions.yaml`: 30 questions whose answers are computed with pandas straight from the CSVs, independently of `tools.py`. |
 | `eval/expected_s20.py` | Builds `eval/questions_s20.yaml` (session 20): the 30 recomputed, and 15 on curtailment, the energy mix, retail sales, the trader view, deals and datacenters. |
 | `eval/eval.py` | Runs every question through `ask.py` and scores it; writes `eval/results/<run>.jsonl` and `.md`. |

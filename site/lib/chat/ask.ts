@@ -35,6 +35,8 @@ export type AskResult = {
   stages_ms?: StageMs;
   steps?: Step[];
   seconds_words?: number | null;
+  /** session 1111: why a refused_unverified answer was refused, one sentence with no figure in it */
+  why?: string;
 };
 /** Session 121: what a reader can be shown before the answer: the table a tool call has gone to read. */
 export type AskEvent = { type: "reading"; tool: string; table: string | null }
@@ -48,7 +50,9 @@ export type AskOptions = { history?: unknown; onEvent?: (e: AskEvent) => void; /
   thinking?: (text: string) => void;
   /** session 314: the ledger step the calls are written under (an evaluation's own, site_ask_eval) and whether a refused
    * write fails the question (an evaluation never spends unrecorded) */
-  step?: string; strictLedger?: boolean };
+  step?: string; strictLedger?: boolean;
+  /** session 1111: record every tool call and its result in the answer (an evaluation only; the route sets it) */
+  record?: boolean };
 
 const PRICES = spec.prices as unknown as Record<string, [number, number]>;
 const TOOLS = spec.tools as unknown as Anthropic.Tool[];
@@ -223,6 +227,19 @@ export function unitMismatches(answer: string, sources: string[]): string[] {
   return bad;
 }
 
+/** Session 1111, as ask.py why_refused: why a draft was refused, in one sentence with no figure in it. */
+export function whyRefused(c: { bad: string[]; units: string[]; uncited: string[]; noCite: boolean; more: string[] }): string {
+  const parts: string[] = [];
+  if (c.bad.length) parts.push(c.bad.length === 1 ? "a figure in it was in no tool result" : "figures in it were in no tool result");
+  if (c.units.length) parts.push(c.units.length === 1 ? "a figure was stated in a unit no tool gave it in" : "figures were stated in a unit no tool gave them in");
+  if (c.uncited.length) parts.push("it cited a table no tool read");
+  if (c.noCite) parts.push("it was empty or cited nothing");
+  if (c.more.length && !parts.length) parts.push("it failed this chat's own checks");
+  if (!parts.length) return "";
+  const body = parts.length === 1 ? parts[0] : `${parts.slice(0, -1).join(", ")} and ${parts[parts.length - 1]}`;
+  return `Why: the draft was checked twice and ${body}.`;
+}
+
 // ------------------------------------------------------------------ the loop
 
 let modelCache: string | null = null;
@@ -368,7 +385,8 @@ export async function ask(question: string, today = new Date().toISOString().sli
   // session 267: the evaluation's record of every tool call and its result (ASK_RECORD_TOOLS=1 on a local server only;
   // off by default, so a visitor's answer never carries it). The offline fixtures of warehouse/chat/eval are made from it.
   const traced: { tool: string; input: unknown; out: unknown; isError: boolean }[] = [];
-  const tracing = process.env.ASK_RECORD_TOOLS === "1";
+  // session 1111: an evaluation admitted by its own token records them too (opts.record, set by the route); a visitor never
+  const tracing = process.env.ASK_RECORD_TOOLS === "1" || opts.record === true;
   const base = () => ({ model: writer, ...(planner ? { planner } : {}), tool_calls: calls, retried, usage, cost_usd: spent, ...(tracing ? { trace: traced } : {}) });
   const textOf = (resp: Anthropic.Message) => resp.content.map((b) => (b.type === "text" ? b.text : "")).join("");
   // The check of a whole draft, as it always was: every number in a tool result, every cited table read, an answer and
@@ -590,7 +608,8 @@ export async function ask(question: string, today = new Date().toISOString().sli
       forceWrite = false; // the retry may read again
       continue;
     }
-    return done({ answer: spec.refusal, citations: [], not_in_warehouse: false, status: "refused_unverified" as const, ...base(), retried: true,
+    const why = whyRefused(c);  // session 1111: the refusal says why in one sentence, with no figure in it
+    return done({ answer: `${spec.refusal} ${why}`.trim(), why, citations: [], not_in_warehouse: false, status: "refused_unverified" as const, ...base(), retried: true,
       ...(profile ? profile.finish("refused_unverified", null, records) : {}) });
   }
 }

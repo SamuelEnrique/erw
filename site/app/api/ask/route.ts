@@ -103,7 +103,8 @@ export async function POST(req: Request) {
     console.log(JSON.stringify({ erw_ask: { at: new Date(now).toISOString(), status: "refused", reason: admitted.reason, why: admitted.why, ...(evaluation ? { step: EVAL_STEP } : {}) } }));
     return NextResponse.json({ error: evaluation ? `${admitted.message} (${admitted.why})` : admitted.message, refused: admitted.reason }, { status: admitted.status, headers: { "Cache-Control": "no-store" } });
   }
-  const ledgerOpts = evaluation ? { step: EVAL_STEP, strictLedger: true } : {};
+  // session 1111: an evaluation's answer carries every tool call and its result (its record), a visitor's never
+  const ledgerOpts = evaluation ? { step: EVAL_STEP, strictLedger: true, record: true } : {};
   const qid = questionId();
   // session 168: a question pasted with a quote mark at its end (or a pair around it) is asked, logged and shown without it
   const asked = cleanQuestion(question);

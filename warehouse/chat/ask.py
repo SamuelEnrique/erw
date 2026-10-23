@@ -7,7 +7,7 @@ number it did not fetch:
 1. The model (the newest Sonnet-class model in the API's models list, chosen at run
    time, never hardcoded) gets a system prompt built from package/llms.txt and the
    rules below, and the four tools of warehouse/chat/tools.py. No SQL, no code.
-2. It may call tools at most MAX_TOOL_CALLS (8) times, then must answer.
+2. It may call tools at most MAX_TOOL_CALLS (12) times, then must answer.
 3. Its answer is JSON: the answer text, a citation per table used (table, source
    report, data version), and whether the answer is "not in the warehouse".
 4. Post-check: every number in the answer must appear in some tool result (or in
@@ -44,7 +44,7 @@ import tools  # noqa: E402
 sys.path.insert(0, os.path.join(ROOT, "warehouse"))
 import llm  # noqa: E402  session 30: every Anthropic call goes through the cost ledger
 
-MAX_TOOL_CALLS = 8
+MAX_TOOL_CALLS = 12      # session 1111: 8 until 23 October 2026; 11 of session 320's thirty used all 8
 MAX_TOKENS = 16000
 EFFORT = "high"
 # USD per million tokens (input, output), from the claude-api skill model table, cached 2026-06-24
@@ -63,7 +63,7 @@ Rules:
 3. If the warehouse does not hold what the question asks (a market, node, period, variable or kind of data it does not have), answer "not in the warehouse", say in one sentence what is missing, set not_in_warehouse to true, and state no numbers. Never use outside knowledge, never estimate.
 4. Prefer public tables. If you use a table whose license is internal, say in the answer that it is internal (licensed for internal use only).
 5. Times: series times are interval starts in UTC. Say which time zone you report. For an ISO's operating day, group or filter in its local time zone (tz), as the briefing says.
-6. You have at most 8 tool calls. Call list_tables (with a filter) to find the table, describe_table only when you need entity, variable or column names, then query or compare.
+6. You have at most 12 tool calls. Call list_tables (with a filter) to find the table, describe_table only when you need entity, variable or column names, then query or compare.
 7. Keep the answer short: the number or numbers with units, the time or period, and the table. Say what the number is (for example "mean of 96 fifteen-minute intervals").
 8. Provenance tier: every tool result gives the table's tier: source (as the publisher published it), derived (computed by the ERW from other tables) or model_extracted (at least one field written by a model reading news, filings or the web, not published by a source). When a number comes from a model_extracted table, say so next to it in the answer, for example "USD 1.2 billion (energy_deals, model-extracted from news)".
 
@@ -233,6 +233,26 @@ def unit_mismatches(answer, sources):
 
 # ------------------------------------------------------------------ the loop
 
+def why_refused(bad=(), units=(), uncited=(), no_cite=False, more=()):
+    """Session 1111: why a draft was refused, in one sentence with no figure in it (the reader is told what failed,
+    never the untraced number). The same words as site/lib/chat/ask.ts whyRefused."""
+    parts = []
+    if bad:
+        parts.append("a figure in it was in no tool result" if len(bad) == 1 else "figures in it were in no tool result")
+    if units:
+        parts.append("a figure was stated in a unit no tool gave it in" if len(units) == 1 else "figures were stated in a unit no tool gave them in")
+    if uncited:
+        parts.append("it cited a table no tool read")
+    if no_cite:
+        parts.append("it was empty or cited nothing")
+    if more and not parts:
+        parts.append("it failed this chat's own checks")
+    if not parts:
+        return ""
+    body = parts[0] if len(parts) == 1 else ", ".join(parts[:-1]) + " and " + parts[-1]
+    return f"Why: the draft was checked twice and {body}."
+
+
 def nodash(text):
     return text.replace(chr(0x2014), " - ").replace("  -  ", " - ")
 
@@ -299,7 +319,8 @@ class Asker:
         """Further texts of one tool call whose numbers count as fetched (a profile spells out the names it asked by)."""
         return []
 
-    def __init__(self, model=None, client=None, grid=None):
+    def __init__(self, model=None, client=None, grid=None, record_tools=False):
+        self.record_tools = record_tools   # session 1111: an evaluation's record holds every tool call and its result
         self.client = client or llm.client(os.environ.get("ERW_STEP") or ("chat_grid" if grid else "chat"), api_key=api_key())
         self.model = model or pick_model(self.client)
         self.grid = grid
@@ -423,8 +444,10 @@ class Asker:
                 problems += more
                 messages.append({"role": "user", "content": self.retry.format(problems="; ".join(problems))})
                 continue
-            final = {"answer": REFUSAL, "citations": [], "not_in_warehouse": False}
+            why = why_refused(bad, units, uncited_tables, no_cite, more)
+            final = {"answer": (REFUSAL + " " + why).strip(), "citations": [], "not_in_warehouse": False}
             record["status"] = "refused_unverified"
+            record["why"] = why
             record["second_violations"] = bad + [f"unit: {u}" for u in units] + [f"cited table not read: {t}" for t in uncited_tables] + more
             record["second_answer"] = draft["answer"]
             break
@@ -437,6 +460,8 @@ class Asker:
         for k in ("answer", "first_answer", "second_answer"):
             if isinstance(record.get(k), str):
                 record[k] = nodash(record[k])
+        if self.record_tools:
+            record["trace"] = results
         record.update({"tool_calls": len(calls), "calls": calls, "usage": usage,
                        "cost_usd": cost_usd(self.model, usage), "seconds": round(time.time() - t0, 1), "seconds_first": seconds_first})
         self.finish(record, results)
