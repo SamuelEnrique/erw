@@ -139,7 +139,8 @@ class TheFiles(unittest.TestCase):
         # later reads are each a later session's, under that session's own ceiling: 42 (session 307, Berkeley Lab) and
         # 43 (session 308, EEX), one read each
         # session 311's sweep may add up to 60; the licenses' later rounds (sessions 484 to 874) fitted within it, and
-        # chain 048's sessions 887 and 888 add 12, each session under its own ceiling of 20 (session 888 raised the bound)
+        # chain 048's sessions 887 and 888 add 12 and chain 049's session 902 adds 8, each session under its own ceiling of 20
+        # (session 888 raised the bound)
         self.assertLessEqual(len(reads) - 41, 2 + 60 + 20)
         self.assertEqual(len({r["publisher"] for r in reads}), len(reads))          # one page a publisher
         miso = [r for r in reads if "MISO" in r["publisher"]]

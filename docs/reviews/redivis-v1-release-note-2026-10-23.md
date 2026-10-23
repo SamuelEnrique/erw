@@ -56,6 +56,8 @@ which a plain upload refreshes. 100 requests in all (`runs/c046/s863/`).
 
 **Session 892 (23 October 2026, 05:22 to 05:27 UTC):** `ercot_wind_solar_hsl_hourly` uploaded again and proved (8,760 rows); the draft no longer holds an empty table. A second request cap fell inside `erw_headers`' true replace (its estimate of 12, then 30, requests for one table and the header merge was too low), which left it empty for four minutes; it was rebuilt in full from this machine's 212 public tables (2,958 lines, proved; every table in the draft is on this machine, so no line was lost). Reconcile: 176 of 214 match; the 38 that differ are tables a daily run has grown since their upload. Chain 048's thirteen new or changed public tables were not uploaded (63 of the session's 100 requests spent): chain 049's session 906 uploads them. Nothing released.
 
+**Session 906 (23 October 2026, 07:04 to 07:11 UTC):** chain 048's thirteen tables and five of chain 049's (`eia411_capacity_margins_annual`, `eia_power_costs_annual`, `eia_uranium_marketing_annual`, `ercot_node_places`, `eia_gas_pipeline_projects`) uploaded with the true replace, each proved by the draft's count; `erw_headers` holds 3,127 lines. 149 of 150 requests. Reconcile: 192 of 238 match; 39 differ (tables a daily run has grown since their upload, and `erw_sources`, 416 in the draft against 428 here, which a plain upload refreshes); 7 are not yet in the draft (among them chain 049's EIA-860 environmental and multifuel tables and EIA-923's monthly and receipts tables, for chain 051's session 919). Nothing released.
+
 **The daily run the draft holds:** the data machine's tables as of 21 and 22 October 2026 (111 tables last run on 21
 October, 19 on 22 October); 30 were last run here before 15 October (below).
 
