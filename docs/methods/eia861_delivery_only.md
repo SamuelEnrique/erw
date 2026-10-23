@@ -26,8 +26,9 @@ years it is given as a snapshot. Ceiling two requests a year (the page and the z
 Series. `entity` `eia861:<utility number>:TX:C:ERCO`, the same form as `eia861_utility_sales`; `ts_utc` the data year's
 1 January; `freq` `P1Y`; `geo` `US-TX`; `node` the company's name. Extra columns, as the sales table: `x_utility_number`,
 `x_state` (TX), `x_part` (C), `x_service_type` (Delivery), `x_ownership` (Investor Owned, Cooperative, Municipal),
-`x_ba_code` (ERCO), `x_data_type` (O, observed). The rows' `source` is `eia:eia861`, the sales reader's; the header and
-`sources.csv` name `eia:eia861:delivery_companies`.
+`x_ba_code` (ERCO), `x_data_type` (O, observed). The rows' `source` is `eia:eia861:delivery_companies`, as the header and
+`sources.csv` name it (session 865; the first write's rows said `eia:eia861`, the sales reader's, and the Stanford draft's
+copy, uploaded by session 863, still does until its next upload).
 
 | Variable | Unit | What it is |
 |---|---|---|

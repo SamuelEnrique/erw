@@ -182,7 +182,7 @@ def main(argv=None):
         cols = list(s.columns)
         header = [
             "Energy Research Warehouse (ERW): Texas Railroad Commission monthly oil and gas production by lease, "
-            f"{county.title()} County, {months[0][:4]}-{months[0][4:]} to {months[-1][:4]}-{months[-1][4:]} (session 49, internal)",
+            f"{county.title()} County, {months[0][:4]}-{months[0][4:]} to {months[-1][:4]}-{months[-1][4:]} (session 49; its license on the License line below)",
             "Shape: series (docs/datastandard.md v0). entity rrc:<oil or gas code>-<district no>-<lease no> (the RRC's lease id; a "
             "gas lease is one gas well). Oil leases (O): oil_bbl and casinghead_gas_mcf; gas leases (G): gas_mcf and condensate_bbl. "
             "The lease's production in this county (OG_COUNTY_LEASE_CYCLE). ts_utc is the production month's first day. x_wells: the "

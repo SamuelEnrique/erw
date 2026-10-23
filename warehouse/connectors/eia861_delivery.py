@@ -82,6 +82,7 @@ def main(argv=None):
             frames.append(t)
             urls.append(url)
         s = pd.concat([f for f in frames if len(f)], ignore_index=True)
+        s["source"] = SOURCE   # session 865: the sales reader names the form; this table names its file, as its header does
         if s.duplicated(["entity", "variable", "ts_utc"]).any():
             raise RuntimeError("a key given twice")
         if args.check_sales:
