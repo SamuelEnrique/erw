@@ -31,7 +31,7 @@
 
 ## The landing
 
-With 970 to 977, in session 977.
+Sessions 970 to 977 landed in one push: see `SESSION_977_REPORT.md`, "The landing".
 
 ## Decisions made without you
 
