@@ -8,7 +8,7 @@
 // action is hidden by it; the count beside the filters says how many are listed.
 import { Fragment, useMemo, useState } from "react";
 import type { PolicyAction, PolicyRead } from "@/lib/data";
-import { ANY_TAG, LOAD_GROUP, LOAD_GROUP_LABEL, LOAD_GROUP_TAGS, hasTag, tagHref, type TagChip } from "@/lib/policyweek";
+import { ANY_TAG, LOAD_GROUP, LOAD_GROUP_LABEL, LOAD_GROUP_TAGS, actionsCountKey, hasTag, tagHref, type TagChip } from "@/lib/policyweek";
 import { CITE_WORDS, type ReadCite } from "@/lib/policyreads";
 import { Num } from "@/components/Num";
 
@@ -76,8 +76,11 @@ export function PolicyTable({ rows, tags = [], tag: tagAtOpen = "", missing = []
           From
           <input type="date" value={from} onChange={(e) => setFrom(e.target.value)} className="mt-1 border border-rule bg-panel px-2 py-1 text-sm text-ink" />
         </label>
+        {/* session 2400: the total is the live table's count and carries its check key (event_count|policy_actions|all); the
+            filtered count is this page's own and changes with every filter, so it carries a hover and no key */}
         <span className="text-xs text-muted" data-policy-shown={shown.length}>
-          {shown.length} of {rows.length} actions
+          <span className="cursor-help border-b border-dotted border-muted" title="The actions the filters above leave, counted on this page.">{shown.length}</span> of{" "}
+          <span className="cursor-help border-b border-dotted border-muted" title="Every action of the live table policy_actions, as this page read it (the count is checked against the table)."><Num check={actionsCountKey(null)} raw={rows.length}>{rows.length}</Num></span> actions
         </span>
         {/* session 282: every filter back to the page's default: all agencies, types, sectors, states and tags, from any
             date, significance 5 or more (the actions read are those of 5 or more) */}

@@ -16,7 +16,7 @@ import path from "node:path";
 import { HOURLY, attempt, rest } from "./supabase";
 import {
   actionRow, bodiesOf, chipsOf, dayOf, docketRow, droppedTip, gridsOfAction, inWindow, sinceDay, tagAction, topicsOf, uniteTags,
-  type Action, type ActionRead, type ActionTagsFile, type Body, type Dropped, type GridsFile, type RefreshFile, type StateFile, type TagChip, type TagRules, type Topic, type WeekRow,
+  type Action, type ActionRead, type ActionTagsFile, type Body, type Dropped, type GridsFile, type Held, type RefreshFile, type StateFile, type TagChip, type TagRules, type Topic, type WeekRow,
 } from "./policyweek";
 
 /** The longest window the view offers, in days: the rows read. */
@@ -59,7 +59,8 @@ export type WeekData = {
   droppedWhy: string;
   /** a read or a file that is not there: what, and the reason for its hover */
   missing: { what: string; why: string }[];
-  held: { actions: number; dockets: number; ruleVersion: string; docketsBuilt: string | null; docketsInFile: number };
+  /** session 2400: `read` is every action read from the live set for the window, `since` the window's first day */
+  held: Held;
 };
 
 /** Everything the view shows, for the render at `now`. */
@@ -110,7 +111,7 @@ export async function weekData(now: number): Promise<WeekData> {
     .map((g) => ({ key: g.key, name: g.name, why: `Actions and dockets that name ${g.name}, and those that name no grid operator.` }));
   return {
     today, rows, bodies, topics, grids, dropped, droppedWhy: dropped.length ? droppedTip(dropped, rules) : "", missing,
-    held: { actions: nActions, dockets: nDockets, ruleVersion: rules.version, docketsBuilt: (stateAt.file?.built_at_utc ?? "").slice(0, 10) || null, docketsInFile: stateAt.file?.rows?.length ?? 0 },
+    held: { read: actions.length, since, actions: nActions, dockets: nDockets, ruleVersion: rules.version, docketsBuilt: (stateAt.file?.built_at_utc ?? "").slice(0, 10) || null, docketsInFile: stateAt.file?.rows?.length ?? 0 },
   };
 }
 

@@ -392,6 +392,16 @@ export function sinceDay(today: string, days: number): string {
   const [y, m, d] = today.split("-").map(Number);
   return dayOf(Date.UTC(y, m - 1, d) - days * 86_400_000);
 }
+/** Session 2400: the check key of a count of policy_actions rows, every row (`since` null) or those dated `since` or
+ * later; scripts/check-values.mjs reads the count again from the live set (event_count|<table>|all, or |since|<day>). */
+export const actionsCountKey = (since: string | null): string => (since ? `event_count|policy_actions|since|${since}` : "event_count|policy_actions|all");
+/** What the week view's foot holds (session 2400): the rows read and what became of them. */
+export type Held = { read: number; since: string; actions: number; dockets: number; ruleVersion: string; docketsBuilt: string | null; docketsInFile: number };
+/** Session 2400: the hover of the foot's counts: what was read, from where, for which days, and what of it is shown. */
+export function heldTip(held: Held, today: string): string {
+  const notShown = held.read - held.actions;
+  return `Read for this page: ${held.read} ${held.read === 1 ? "action" : "actions"} of the live table policy_actions dated ${dayWords(held.since) ?? held.since} or later (the count is checked against the table), of which ${held.actions} ${held.actions === 1 ? "is" : "are"} shown and ${notShown} ${notShown === 1 ? "is" : "are"} not, and ${held.dockets} proceedings and orders of the site's file of dockets, all dated in the thirty days to ${dayWords(today) ?? today}.`;
+}
 /** A row is of the last `days` days when its day is on or after the window's first. A document the Federal Register
  * has dated a day or two ahead is of the window too. */
 export function inWindow(date: string, today: string, days: number): boolean {

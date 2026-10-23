@@ -11,10 +11,11 @@
 // (docs/methods/policy_monitor.md).
 import { useState, type ReactNode } from "react";
 import { Hover } from "@/components/demand/Hover";
+import { Num } from "@/components/Num";
 import { dayWords } from "@/lib/rules";
 import {
-  NONE_WORDS, NO_READ, PAUSED_WORDS, PAUSE_WHY, WINDOWS, cellTip, countsOf, emptyWhy, groupsOf, paused, shownRows, weekHref, windowWhy,
-  type Body, type Chosen, type Topic, type WeekRow,
+  NONE_WORDS, NO_READ, PAUSED_WORDS, PAUSE_WHY, WINDOWS, actionsCountKey, cellTip, countsOf, emptyWhy, groupsOf, heldTip, paused, shownRows, weekHref, windowWhy,
+  type Body, type Chosen, type Held, type Topic, type WeekRow,
 } from "@/lib/policyweek";
 
 /** Rows of a group shown before its fold. */
@@ -86,7 +87,7 @@ function Rows({ rows, topics, caption }: { rows: WeekRow[]; topics: Map<string, 
 export type WeekProps = {
   today: string; rows: WeekRow[]; bodies: Body[]; topics: Topic[]; grids: { key: string; name: string; why: string }[];
   dropped: number; droppedWhy: string; missing: { what: string; why: string }[];
-  held: { actions: number; dockets: number; ruleVersion: string; docketsBuilt: string | null; docketsInFile: number };
+  held: Held;
   chosen: Chosen;
 };
 
@@ -111,7 +112,8 @@ export function WeekView({ today, rows, bodies, topics, grids, dropped, droppedW
           {WINDOWS.map((d) => <Chip key={d} on={c.days === d} onClick={() => set({ days: d })} title={windowWhy(today, d)} data-week-window-choice={String(d)}>Last {d} days</Chip>)}
         </div>
         <span className="text-sm" data-week-count={shown.length}>
-          {off ? null : <><span className={dotted} title={windowWhy(today, c.days)}>{shown.length} {shown.length === 1 ? "action" : "actions"}</span>{c.agency || c.topic ? <> of {counts.total}</> : null}</>}
+          {/* session 2400: both counts are the page's own, counted here from the rows the server read (no key: the checker reads the server's page, and these change with every click); each says so on hover */}
+          {off ? null : <><span className={dotted} title={`${windowWhy(today, c.days)} Counted on this page from the rows read: the actions the window and the filters leave.`}>{shown.length} {shown.length === 1 ? "action" : "actions"}</span>{c.agency || c.topic ? <> of <span className={dotted} title={`The ${counts.total} actions of the window, the grid and the large-load choice, before the agency and the topic are chosen. Counted on this page from the rows read.`} data-week-total-of={counts.total}>{counts.total}</span></> : null}</>}
         </span>
         {any ? <button type="button" className="cursor-pointer text-xs text-accent underline" onClick={() => choose({ ...c, agency: "", topic: "", grid: "", large: false })} data-week-clear="1">clear the filters</button> : null}
       </div>
@@ -202,7 +204,7 @@ export function WeekView({ today, rows, bodies, topics, grids, dropped, droppedW
 
           {groups.length ? groups.map((g) => (
             <div key={g.body.key} className="mb-6" data-week-group={g.body.key} data-week-group-count={g.rows.length}>
-              <h3 className="mb-1 font-serif text-lg text-accent"><span title={g.body.why} className="cursor-help">{g.body.name}</span> <span className="font-sans text-xs text-muted">{g.rows.length}</span></h3>
+              <h3 className="mb-1 font-serif text-lg text-accent"><span title={g.body.why} className="cursor-help">{g.body.name}</span> <span className={`font-sans text-xs text-muted ${dotted}`} title={`${g.rows.length} ${g.rows.length === 1 ? "action" : "actions"} of ${g.body.name} in the last ${c.days} days that the filters leave; counted on this page from the rows read.`} data-week-group-n={g.rows.length}>{g.rows.length}</span></h3>
               <Rows rows={g.rows.slice(0, SHOWN)} topics={byKey} caption={`${g.body.name}: actions of the last ${c.days} days`} />
               {g.rows.length > SHOWN ? (
                 <details className="border-b border-rule py-1.5" data-week-fold={g.body.key}>
@@ -216,7 +218,8 @@ export function WeekView({ today, rows, bodies, topics, grids, dropped, droppedW
       )}
 
       <p className="mt-4 text-xs text-muted" data-week-foot="1">
-        <span className={dotted} title={`Read for this page: ${held.actions} actions of the live table policy_actions and ${held.dockets} proceedings and orders of the site's file of dockets, all dated in the thirty days to ${dayWords(today) ?? today}.`}>{held.actions + held.dockets} held for thirty days</span>
+        {/* session 2400: the actions read carry the check key of their count (event_count|policy_actions|since|<day>); the dockets are the site's file's and carry none */}
+        <span className={dotted} title={heldTip(held, today)} data-week-held-read={held.read} data-week-held-dockets={held.dockets}><Num check={actionsCountKey(held.since)} raw={held.read}>{held.read}</Num> {held.read === 1 ? "action" : "actions"} and {held.dockets} {held.dockets === 1 ? "docket" : "dockets"} held for thirty days</span>
         {held.docketsBuilt ? <>; <span className={dotted} title={`The file of proceedings and orders of FERC and the state commissions was built on ${dayWords(held.docketsBuilt) ?? held.docketsBuilt}; it holds ${held.docketsInFile} rows of every date.`}>dockets held {dayWords(held.docketsBuilt) ?? held.docketsBuilt}</span></> : null}
         {held.ruleVersion ? <>; <span className={dotted} title="The topics of an action are tags given by a written rule that code applies to its title, its summary and the first paragraph of its printed text. No model tags a row.">tag rule version {held.ruleVersion}</span></> : null}
         {dropped ? <>; <span data-week-dropped={dropped}><Missing words={`${dropped} held, not shown`} why={droppedWhy} /></span></> : null}

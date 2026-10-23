@@ -267,5 +267,12 @@ const ROWS = [
   }
 }
 
+// 11. session 2400: the count key of the actions read, and the foot's hover
+{
+  ok(W.actionsCountKey(null) === "event_count|policy_actions|all" && W.actionsCountKey("2026-09-08") === "event_count|policy_actions|since|2026-09-08", "the count key names the table, and the window's first day when there is one");
+  const tip = W.heldTip({ read: 12, since: W.sinceDay(TODAY, 30), actions: 10, dockets: 3, ruleVersion: "1", docketsBuilt: null, docketsInFile: 3 }, TODAY);
+  ok(tip.includes("12 actions of the live table policy_actions dated 8 Sep 2026 or later") && tip.includes("10 are shown and 2 are not") && tip.includes("3 proceedings and orders") && tip.includes("thirty days to 8 Oct 2026"), "the foot's hover: the rows read, the window's first day, what is shown and not, the dockets, today");
+}
+
 console.log(failed ? `${failed} of ${n} FAILED` : `all ${n} passed`);
 process.exit(failed ? 1 : 0);
