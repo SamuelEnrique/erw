@@ -8,7 +8,7 @@
 // Differences from the Python tools are named where they occur.
 import "server-only";
 import { DataError, HOURLY, rest, restCount } from "@/lib/supabase";
-import { LICENSE_NEEDED, licenseByGrid, licenseNeeded, licenseTitle } from "@/lib/license";  // session 215
+import { LICENSE_NEEDED, gridName, gridOfEntity, gridPrefix, licenseByGrid, licenseGridTitle, licenseHeldRow, licenseNeeded, licenseTitle } from "@/lib/license";  // session 215; 1112
 import spec from "./spec.json";
 import { DOCS, type GridConfig } from "@/lib/markdown";
 import { LIFE_MS, keep, within, type Summary } from "./summaries";
@@ -448,10 +448,50 @@ const shiftDay = (day: string, n: number) => new Date(Date.parse(`${day}T00:00:0
 // EIA's figures for the MISO balancing authority (eia930:MISO, iso:miso) are EIA's own, and are kept.
 export const MISO_PAUSED = "MISO is paused while its terms are reviewed (since 4 October 2026): this site shows no figure of MISO's own data. State no MISO figure: answer with not_in_warehouse true and say that MISO is 'paused while terms are reviewed'";
 export const misoOwn = (v: unknown): boolean => typeof v === "string" && /^miso[:_]/i.test(v);
+/** Session 1112: the grid whose held rows a query asks for, by its entity or, with none, by the chat's own grid; "" when
+ *  the query asks for no held grid's rows (a table not held, a table held whole, a public grid). */
+export function heldGridOf(a: { table: string; entity?: string }, scope: Scope = null): string {
+  if (!licenseNeeded(a.table) || !licenseByGrid(a.table)) return "";
+  const g = gridOfEntity(a.entity) || (a.entity ? "" : scope ? (scope.market_prefix ? gridOfEntity(`${scope.market_prefix}:x`) : gridPrefix(scope.iso)) : "");
+  // session 1126: MISO's pause says more than its license: a question of MISO's rows is refused with the pause's words
+  // (session 1113's run: MISO's scoped chat answered the held grid's way where its key is a refusal)
+  if (g === "miso") throw new ToolError(MISO_PAUSED);
+  return g && licenseHeldRow(a.table, `${g}:x`) ? g : "";
+}
+
+/** Session 1112: the answer to a question about a held grid's rows. The grid is named, its rows are said to be held for
+ *  a license, and the same query is run over the table's public grids (one read, by entity; the held grids' rows never
+ *  leave lib/supabase.ts), so the answer can give their figures in the same sentence structure. A grouped query (by
+ *  month, year, ...) gets the words only. The hold itself is Samuel's ruling of 12 October 2026 and is not changed. */
+async function heldAnswer(a: QueryArgs, grid: string): Promise<Json> {
+  const name = gridName(grid);
+  const out: Json = {
+    held: true, grid: name, grid_license: LICENSE_NEEDED, title: licenseGridTitle(grid),
+    words: `${name}'s rows of ${a.table} are held for a license: ${LICENSE_NEEDED}`,
+    note: `State no figure of ${name}. Answer with not_in_warehouse false: say first that ${name}'s rows are held for a license ("${LICENSE_NEEDED}"), then give the same figure for each grid under public_grids, in the same sentence structure, with this table cited`,
+  };
+  if (!a.group_by) {
+    const pub = await query({ ...a, entity: undefined, group_by: "entity" }, null);
+    const rows = ((pub.result as Json[] | undefined) ?? []).filter((r) => {
+      const g = gridOfEntity(r.entity as string);
+      return !!g && !misoOwn(r.entity) && !licenseHeldRow(a.table, r.entity as string);
+    });
+    out.public_grids = rows.map((r) => ({ grid: gridName(gridOfEntity(r.entity as string)), ...r }));
+    out.public_query = { aggregation: a.aggregation, filters: pub.filters, units: pub.units, variables: pub.variables, rows_matched: pub.rows_matched };
+    if (!rows.length) out.public_grids_note = "no public grid holds a row for these filters";
+  } else {
+    out.public_grids_note = `a grouped query names no public grid's figure: ask again with entity set to a public grid's hub (group_by ${a.group_by})`;
+  }
+  Object.assign(out, await provenance(a.table));
+  return out;
+}
+
 async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
   if (!AGGREGATIONS.includes(a.aggregation)) throw new ToolError(`aggregation must be one of ${AGGREGATIONS.join(", ")}`);
   if (misoOwn(a.table) || misoOwn(a.entity) || Object.values(a.where ?? {}).flat().some(misoOwn)) throw new ToolError(MISO_PAUSED);
   const { c, columns, shape } = await tableInfo(a.table, scope);
+  const held = heldGridOf(a, scope);
+  if (held) return heldAnswer(a, held);
   const tcol = TIME_COL[shape];
   const vcol = a.value_column ?? DEFAULT_VALUE[shape];
   if (a.aggregation !== "count" && !columns.includes(vcol)) throw new ToolError(`no column ${JSON.stringify(vcol)} in ${a.table}`);
@@ -751,6 +791,7 @@ async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
   // "4 pm Central, 3 October 2026"; a day's label as a date), so an answer can say the time in words that are in a tool
   // result (lib/chat/plaintime.ts). The zone is the query's own, else the grid of the entity read; none, no words
   if (shape === "series") addLocalTimes(out, dated, tz !== "UTC" ? tz : zoneOfEntity(a.entity ?? all.find((r) => r.entity)?.entity));
+  perKw(out, a.table);
   Object.assign(out, await provenance(a.table));
   return out;
 }
@@ -758,8 +799,9 @@ async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
 async function compare(a: { a: QueryArgs; b: QueryArgs }, scope: Scope = null): Promise<Json> {
   const [ra, rb] = await Promise.all([query(a.a, scope), query(a.b, scope)]);
   const single = (r: Json) => {
-    const res = r.result as Json[];
-    if (res.length !== 1) return null;
+    // session 1126: a held grid's side (session 1112's heldAnswer) has no result: no difference is made with it
+    const res = r.result as Json[] | undefined;
+    if (!res || res.length !== 1) return null;
     const v = res[0].value ?? res[0].count;
     return typeof v === "number" ? v : null;
   };
@@ -770,6 +812,65 @@ async function compare(a: { a: QueryArgs; b: QueryArgs }, scope: Scope = null): 
     out.ratio_b_over_a = va ? round(vb / va) : null;
   }
   return out;
+}
+
+/** Session 1109: USD per kW beside USD per MW, prepared for session 320's open ruling 1 and off until it is ruled.
+ * With ASK_PER_KW=on, a query of a table whose method names the conversion, all of whose rows are in USD/MW, carries
+ * each value, sum and summary figure divided by 1,000 as value_usd_per_kw, so the number check can trace a per-kW
+ * figure the battery page shows. Off (the default), the result is what it was, key for key. */
+export const PER_KW_TABLES: Record<string, string> = {
+  battery_stack_monthly: "docs/methods/battery_stack.md: USD per kW of rated power is the USD/MW value divided by 1,000",
+};
+export function perKw(out: Json, table: string, env: Record<string, string | undefined> = process.env): Json {
+  if (env.ASK_PER_KW !== "on" || !PER_KW_TABLES[table]) return out;
+  const units = out.units as string[] | undefined;
+  if (!units || units.length !== 1 || units[0] !== "USD/MW") return out;
+  const kw = (x: unknown) => (typeof x === "number" ? round(x / 1000) : null);
+  for (const r of (out.result as Json[] | undefined) ?? []) if (kw(r.value) !== null) r.value_usd_per_kw = kw(r.value);
+  const sm = out.summary as Json | undefined;
+  if (sm) for (const k of ["sum_of_rows", "mean_of_rows", "median_of_rows", "change_first_to_last"]) if (kw(sm[k]) !== null) sm[`${k}_usd_per_kw`] = kw(sm[k]);
+  out.per_kw = { unit: "USD/kW", rule: PER_KW_TABLES[table] };
+  return out;
+}
+
+/** Session 1122, as warehouse/chat/tools.py board_rank: every hub's newest value of one of the board's measures, ranked.
+ *  Built on query (latest by entity), so its rows are the board's derived tables as query reads them, the held grids'
+ *  rows left out by lib/supabase.ts. */
+export const BOARD_MEASURES: Record<string, string> = {
+  da_latest_day_mean: "price_board_latest", rt_latest_day_mean: "price_board_latest", da_day_change: "price_board_latest", rt_day_change: "price_board_latest",
+  da_day_change_pct: "price_board_latest", rt_day_change_pct: "price_board_latest", da_minus_rt: "price_board_latest",
+  spark_spread_7: "price_board_spreads", implied_heat_rate: "price_board_spreads",
+};
+export function rankRows(rows: Json[], order: string): Json[] {
+  const vs = rows.filter((r) => typeof r.value === "number");
+  const key = order === "largest_move" ? (r: Json) => -Math.abs(r.value as number) : order === "lowest" ? (r: Json) => r.value as number : (r: Json) => -(r.value as number);
+  return vs.slice().sort((a, b) => key(a) - key(b)).map((r, i) => ({ rank: i + 1, entity: r.entity, value: r.value, at: r.at }));
+}
+async function boardRank(a: { measure?: string; order?: string }, scope: Scope = null): Promise<Json> {
+  const measure = a.measure ?? "", order = a.order ?? "highest";
+  if (!BOARD_MEASURES[measure]) throw new ToolError(`measure must be one of ${Object.keys(BOARD_MEASURES).sort().join(", ")}`);
+  if (!["highest", "lowest", "largest_move"].includes(order)) throw new ToolError("order must be highest, lowest or largest_move");
+  const table = BOARD_MEASURES[measure];
+  const q = await query({ table, aggregation: "latest", variable: measure, group_by: "entity" } as QueryArgs, scope);
+  const ranked = rankRows((q.result as Json[] | undefined) ?? [], order);
+  return { table, measure, order, units: q.units, n: ranked.length, ranked,
+    note: "each hub's newest value of the measure, with its own date; a hub whose rows are held is not in the table read", ...(await provenance(table)) };
+}
+
+/** Session 1132: what each table a refused question read holds, from the catalogue, for the line under a refusal (as Ask
+ *  ERCOT's refusal names the nearest tables, session 121): its sector, its grids, its step and its span, never a figure of
+ *  its rows. A table the catalogue does not hold is left out. At most three. */
+export function holdsLine(c: Pick<Cat, "sector" | "iso" | "interval" | "ts_min" | "ts_max" | "source_report">): string {
+  const span = c.ts_min && c.ts_max ? `${c.ts_min.slice(0, 10)} to ${c.ts_max.slice(0, 10)}` : "";
+  return [c.sector ? `${c.sector} data` : "", c.iso && c.iso !== "none" ? c.iso.split(";").join(", ") : "", c.interval ? `step ${c.interval}` : "", span, c.source_report ? `from ${c.source_report}` : ""]
+    .filter(Boolean).join("; ");
+}
+export async function nearestFor(tables: string[]): Promise<{ table: string; holds: string }[]> {
+  if (!tables.length) return [];
+  let rows: Cat[];
+  try { rows = await catalogue(); } catch { return []; }
+  const by = new Map(rows.map((r) => [r.table_name, r]));
+  return Array.from(new Set(tables)).filter((t) => by.has(t)).slice(0, 3).map((t) => ({ table: t, holds: holdsLine(by.get(t)!) }));
 }
 
 /** Session 35: a grid page's written layer, as warehouse/chat/tools.py grid_notes. */
@@ -791,6 +892,7 @@ export async function runTool(name: string, input: unknown, scope: Scope = null)
     if (name === "query") return { out: await query(a as unknown as QueryArgs, scope), isError: false };
     if (name === "compare") return { out: await compare(a as unknown as { a: QueryArgs; b: QueryArgs }, scope), isError: false };
     if (name === "grid_notes") return { out: gridNotes(a as { grid?: string }, scope), isError: false };
+    if (name === "board_rank") return { out: await boardRank(a as { measure?: string; order?: string }, scope), isError: false };  // session 1122
     return { out: { error: `unknown tool ${JSON.stringify(name)}` }, isError: true };
   } catch (e) {
     if (e instanceof ToolError || e instanceof DataError) return { out: { error: e.message }, isError: true };

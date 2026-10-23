@@ -103,7 +103,8 @@ export async function POST(req: Request) {
     console.log(JSON.stringify({ erw_ask: { at: new Date(now).toISOString(), status: "refused", reason: admitted.reason, why: admitted.why, ...(evaluation ? { step: EVAL_STEP } : {}) } }));
     return NextResponse.json({ error: evaluation ? `${admitted.message} (${admitted.why})` : admitted.message, refused: admitted.reason }, { status: admitted.status, headers: { "Cache-Control": "no-store" } });
   }
-  const ledgerOpts = evaluation ? { step: EVAL_STEP, strictLedger: true } : {};
+  // session 1111: an evaluation's answer carries every tool call and its result (its record), a visitor's never
+  const ledgerOpts = evaluation ? { step: EVAL_STEP, strictLedger: true, record: true } : {};
   const qid = questionId();
   // session 168: a question pasted with a quote mark at its end (or a pair around it) is asked, logged and shown without it
   const asked = cleanQuestion(question);
@@ -143,7 +144,7 @@ export async function POST(req: Request) {
   try {
     const r = profile === "ercot"
       ? await ask(asked, undefined, null, ercotProfile(), cleanContext(context), { history: cleanHistory(history), questionId: qid, ...timing, ...ledgerOpts })
-      : await ask(question.trim(), undefined, typeof grid === "string" && grid ? grid : null, null, null, { questionId: qid, ...ledgerOpts });
+      : await ask(question.trim(), undefined, typeof grid === "string" && grid ? grid : null, null, null, { questionId: qid, history, ...ledgerOpts });   // session 1129: the general chat's turns
     // session 21 (/terms): each question is logged without identity: the time, the question and the
     // outcome, never the IP address (which lives only in memory, for the hourly limit) or any other identifier
     console.log(JSON.stringify({ erw_ask: { at: new Date(now).toISOString(), grid: grid || (profile === "ercot" ? "ercot (reference)" : null), question: question.trim(), status: (r as { status?: string }).status ?? "answered", question_id: qid, ...(evaluation ? { step: EVAL_STEP } : {}), cost_usd: (r as { cost_usd?: number | null }).cost_usd ?? null } }));

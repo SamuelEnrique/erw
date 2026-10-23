@@ -7,15 +7,18 @@
 // filled: a figure that is not held is null and the page shows a short placeholder. Method: docs/methods/price_board.md.
 
 export type Move = { t: string; v: number; ch: number; pct: number | null };
-export type Status = "ok" | "paused" | "licensed" | "not_held" | "working";
+// session 1116: "license" is a row of a grid whose own prices are held for a license on the day (holdRows, below)
+export type Status = "ok" | "paused" | "licensed" | "license" | "not_held" | "working";
 export type Row = {
-  id: string; group: string; label: string; at: string; code: string; unit: string; freq: "D" | "W" | "M" | "";
+  id: string; group: string; label: string; at: string; code: string; unit: string; freq: "D" | "W" | "M" | "Q" | "";
   tags: Record<string, string>; status: Status; note?: string; source?: number; formula?: string; also?: string[];
   curve?: { status: Status; note: string }; hourly?: string; hub?: string;
   last?: { t: string; v: number }; moves?: Record<"d" | "w" | "m" | "y", Move | null>;
   range?: { lo: number; hi: number; n: number; pos: number | null } | null;
   avg7?: { v: number; n: number }; avg30?: { v: number; n: number }; lo30?: number; hi30?: number;
   spark?: { t0: string; d: number[]; v: number[] };
+  /** session 1118: what a spread's newest value was made of (the builder's spark_inputs, dark_inputs, crack_inputs) */
+  inputs?: { t: string; hub?: number; gas?: number; gas_t?: string; coal?: number; coal_t?: string; heat_rate?: number; gasoline?: number; diesel?: number; crude?: number };
 };
 export type Filter = { key: string; label: string; options: [string, string][]; default: string };
 export type Group = { id: string; title: string; filters: Filter[]; curve?: boolean; extra?: string };
@@ -28,8 +31,12 @@ export type Spike = { hub: string; grid: string; label: string; code: string; t:
 export type BoardFile = {
   built: string; sources: string[]; heat_rate: number; coal_heat_rate: number; gas_back_days: number; slack_days: number;
   groups: Group[]; rows: Row[]; week: WeekRow[]; spikes: Spike[];
+  /** session 1116: the grids held for a license on the day, by name, set by holdRows; their week rows and spikes are left out */
+  held?: string[];
 };
-export type SeriesFile = { id: string; label: string; at: string; unit: string; freq: "D" | "W" | "M"; t0: string; d: number[]; v: number[] };
+export type SeriesFile = { id: string; label: string; at: string; unit: string; freq: "D" | "W" | "M" | "Q"; t0: string; d: number[]; v: number[] };
+/** Session 1135: the workbench's charts draw a quarterly series on the months' axis, each point at its own month. */
+export const chartFreq = (f: "D" | "W" | "M" | "Q"): "D" | "W" | "M" => (f === "Q" ? "M" : f);
 export type HourlyFile = { id: string; tz: string; t0: number; n: number; pk: string; da?: (number | null)[]; rt?: (number | null)[] };
 export type Point = { t: number; v: number };
 
@@ -37,11 +44,11 @@ export const DAY = 86_400_000;
 export const HOUR = 3_600_000;
 export const MOVES = [["d", "Day"], ["w", "Week"], ["m", "Month"], ["y", "Year"]] as const;
 export const PLACEHOLDER: Record<Exclude<Status, "ok">, string> = {
-  paused: "paused while terms are reviewed", licensed: "licensed source needed", not_held: "not held yet", working: "working on it",
+  paused: "paused while terms are reviewed", licensed: "licensed source needed", license: "license needed", not_held: "not held yet", working: "working on it",
 };
-export const FREQ_WORDS: Record<string, string> = { D: "daily", W: "weekly", M: "monthly", "": "" };
+export const FREQ_WORDS: Record<string, string> = { D: "daily", W: "weekly", M: "monthly", Q: "quarterly", "": "" };
 /** Why a move is blank on a series that is not daily: a weekly series has no daily move, a monthly one no daily or weekly move. */
-export const noMove = (freq: string, k: string) => (freq === "W" && k === "d") || (freq === "M" && (k === "d" || k === "w"));
+export const noMove = (freq: string, k: string) => (freq === "W" && k === "d") || (freq === "M" && (k === "d" || k === "w")) || (freq === "Q" && k !== "y");
 
 /** Decimals a unit is written with: gallons to a tenth of a cent, large prices whole, everything else to the cent. */
 export function places(unit: string, v = 0): number {
@@ -56,14 +63,86 @@ const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct
 /** "29 Sep 2026" from a day; a monthly value is written "Sep 2026". */
 export function dateWords(t: string, freq = "D"): string {
   const [y, m, d] = t.slice(0, 10).split("-").map(Number);
-  return freq === "M" ? `${MON[m - 1]} ${y}` : `${d} ${MON[m - 1]} ${y}`;
+  return freq === "M" || freq === "Q" ? `${MON[m - 1]} ${y}` : `${d} ${MON[m - 1]} ${y}`;
 }
-export const shortDate = (t: string, freq = "D") => (freq === "M" ? dateWords(t, "M") : dateWords(t).replace(/ \d{4}$/, ""));
+export const shortDate = (t: string, freq = "D") => (freq === "M" || freq === "Q" ? dateWords(t, "M") : dateWords(t).replace(/ \d{4}$/, ""));
 export const isoDay = (ms: number) => new Date(ms).toISOString().slice(0, 10);
 export const isoHour = (ms: number) => new Date(ms).toISOString().slice(0, 13).replace("T", " ") + ":00 UTC";
 /** A UTC hour in a grid's local time, "03 Oct 14:00". */
 export function localHour(ms: number, tz: string): string {
   return new Intl.DateTimeFormat("en-GB", { timeZone: tz, day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).format(new Date(ms));
+}
+
+// Session 1116: the hold of 21 October 2026 on the board. The builder (warehouse/derived/board_page.py) holds ISO-NE's and
+// NYISO's hub rows, but their peak and off-peak rows, spreads, day-ahead less real time, battery spreads, ancillary
+// prices, week rows and spikes come from tables held for those grids too (price_board_peak_offpeak, price_board_spreads,
+// nyiso_as_prices, iso_hub_prices_history: site/data/license_status.json) and were drawn. holdRows makes every row of a
+// held grid "license needed" in place, its name kept and its figures dropped, and leaves the grid's week rows and spikes
+// out; the page calls it on the server, so no held figure reaches the browser. MISO's rows stay "paused" (its pause
+// says more than its license) and PJM's "licensed source needed". Pure: the held grids are given (lib/license.ts).
+const GRID_OF_ID: Record<string, string> = { isone: "ISO-NE", nyiso: "NYISO", miso: "MISO", pjm: "PJM", ercot: "ERCOT", caiso: "CAISO", spp: "SPP" };
+export const gridOfRow = (r: { id: string; tags?: Record<string, string> }): string => r.tags?.grid ?? GRID_OF_ID[r.id.split("-")[0]] ?? "";
+const FIGURES = ["last", "moves", "range", "avg7", "avg30", "lo30", "hi30", "spark", "hourly", "inputs"] as const;
+export function heldNote(grid: string): string {
+  return `${grid}'s own terms ask for permission to republish its prices, and none is recorded yet (docs/licenses.md, site/data/license_status.json): license needed. This row is held, not shown, until a permission is recorded.`;
+}
+export function holdRows(file: BoardFile, heldGrids: string[]): BoardFile {
+  const held = new Set(heldGrids.filter((g) => g !== "MISO" && g !== "PJM"));
+  if (!held.size) return { ...file, held: [] };
+  const rows = file.rows.map((r) => {
+    if (!held.has(gridOfRow(r)) || r.status === "not_held") return r;
+    const out: Row = { ...r, status: "license", note: heldNote(gridOfRow(r)) };
+    for (const k of FIGURES) delete (out as Record<string, unknown>)[k];
+    return out;
+  });
+  return { ...file, rows, week: file.week.filter((w) => !held.has(w.grid)), spikes: file.spikes.filter((x) => !held.has(x.grid)), held: [...held].sort() };
+}
+
+// Session 1116: how old a close is, and when it is stale. The age is counted as session 804 counts the Digest's fuel
+// closes ("EIA's newest close when this was written, 7 days before this issue"): whole UTC days from the value's date to
+// the day the board's file was built. A daily series is stale past 10 days (session 304, the owner's ruling of
+// 18 October 2026: EIA posts spot prices weekly and late), a weekly one past a week more, and a monthly one (dated the
+// first day of its month) past four months and the same 10 days: EIA's monthly series come about two months after
+// their month. The one function every row and tile reads.
+export const STALE_DAYS: Record<"D" | "W" | "M" | "Q", number> = { D: 10, W: 17, M: 132, Q: 135 };   // Q (session 1135): a quarter, a month, and the 10 days
+/** Session 1134: by the publisher's calendar. A power market posts every day, weekends and holidays included (its
+ *  day-ahead prices the day before), so a daily row of the power groups is stale past 3 days; EIA's daily fuel closes
+ *  are trading days, posted weekly and late, and keep the 10 days of session 304's ruling. */
+export const POWER_GROUPS = new Set(["power", "peak", "spark", "da_rt", "battery", "as"]);
+export const STALE_POWER_DAYS = 3;
+export const staleDays = (row: Pick<Row, "freq" | "group">): number => (row.freq === "D" && POWER_GROUPS.has(row.group) ? STALE_POWER_DAYS : STALE_DAYS[row.freq as "D" | "W" | "M" | "Q"]);
+export function ageDays(t: string, built: string): number {
+  return Math.round((Date.parse(`${built.slice(0, 10)}T00:00:00Z`) - Date.parse(`${t.slice(0, 10)}T00:00:00Z`)) / DAY);
+}
+export function closeAge(row: Row, built: string): { days: number; stale: boolean; words: string } | null {
+  if (!row.last || !row.freq) return null;
+  const days = ageDays(row.last.t, built);
+  const when = dateWords(built);
+  const words = days > 0 ? `${days} ${days === 1 ? "day" : "days"} before the board was built on ${when}`
+    : days === 0 ? `the day the board was built (${when})` : `${-days} ${days === -1 ? "day" : "days"} after the board was built on ${when}: a day-ahead price for a coming day`;
+  const limit = staleDays(row);
+  const stale = days > limit;
+  const what = row.freq === "D" && POWER_GROUPS.has(row.group) ? "a market's daily price" : `a ${FREQ_WORDS[row.freq]} series`;
+  return { days, stale, words: stale ? `${words}. Stale: ${what} is marked stale past ${limit} days (docs/methods/price_board.md)` : words };
+}
+
+/** Session 1118: the hover words of a spread's newest value, from its inputs: the hub's day-ahead mean and its day, the
+ *  gas or coal price and its own day or month, the stated heat rate; the crack's three prices. Null for any other row. */
+export function inputsWords(row: Row): string | null {
+  const i = row.inputs;
+  if (!i) return null;
+  const two = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 3 });
+  if (i.gas !== undefined && i.gas_t && i.hub !== undefined) {
+    const gas = `Henry Hub ${two(i.gas)} USD/MMBtu on ${dateWords(i.gas_t)}`;
+    return i.heat_rate !== undefined
+      ? `Made of: the hub's day-ahead mean ${two(i.hub)} USD/MWh on ${dateWords(i.t)}, less ${i.heat_rate} MMBtu/MWh (the stated heat rate) times ${gas}`
+      : `Made of: the hub's day-ahead mean ${two(i.hub)} USD/MWh on ${dateWords(i.t)}, over ${gas}`;
+  }
+  if (i.coal !== undefined && i.coal_t && i.hub !== undefined && i.heat_rate !== undefined)
+    return `Made of: the hub's day-ahead mean ${two(i.hub)} USD/MWh over ${dateWords(i.t, "M")}, less ${i.heat_rate} MMBtu/MWh (the stated heat rate) times US coal delivered to power plants, ${two(i.coal)} USD/MMBtu in ${dateWords(i.coal_t, "M")}`;
+  if (i.gasoline !== undefined && i.diesel !== undefined && i.crude !== undefined)
+    return `Made of, on ${dateWords(i.t)}: gasoline ${two(i.gasoline)} and diesel ${two(i.diesel)} USD/gal, crude ${two(i.crude)} USD/bbl`;
+  return null;
 }
 
 /** The rows of a group that the chosen filters let through, in the file's order. */
@@ -208,6 +287,26 @@ export function seasonal(p: Point[], freq: "D" | "W" | "M"): Seasonal {
 export function csv(head: string[], rows: (string | number | null)[][]): string {
   const cell = (c: string | number | null) => (c === null ? "" : /[",\n]/.test(String(c)) ? `"${String(c).replace(/"/g, '""')}"` : String(c));
   return [head, ...rows].map((r) => r.map(cell).join(",")).join("\n") + "\n";
+}
+
+// Session 1137: the rows the board draws, as a CSV, from the file the page draws (after holdRows, so a held row carries
+// no figure): a "#" header as the data standard writes one (what it is, where each row comes from, when it was built,
+// the license), then one line a row. Every figure is the file's, as the page shows it; nothing is read again.
+export const ROWS_HEAD = ["id", "group", "label", "at", "code", "unit", "freq", "status", "latest_date", "latest", "day_move", "week_move", "month_move", "year_move",
+  "avg_7d", "avg_30d", "low_365d", "high_365d", "source"];
+export function rowsCsv(file: BoardFile): string {
+  const header = [
+    "# Energy Research Warehouse (ERW): the price board's rows as /board draws them, one line a row (site/lib/board.ts rowsCsv)",
+    `# Built: ${file.built} (the board's file, site/data/board.json, written by warehouse/derived/board_page.py from the ERW's tables)`,
+    "# Source: each row's source column names the publisher and the ERW table; the method: docs/methods/price_board.md",
+    "# License: every row with a value is public; a row whose status is license, licensed, paused or not_held carries no figure",
+    ...(file.held?.length ? [`# Held for a license on the day the page was built: ${file.held.join(", ")} (license needed)`] : []),
+  ];
+  const n = (v: number | null | undefined) => (typeof v === "number" ? v : null);
+  const rows = file.rows.map((r) => [r.id, r.group, r.label, r.at, r.code, r.unit, r.freq, r.status, r.last?.t ?? null, n(r.last?.v),
+    n(r.moves?.d?.ch), n(r.moves?.w?.ch), n(r.moves?.m?.ch), n(r.moves?.y?.ch), n(r.avg7?.v), n(r.avg30?.v), n(r.range?.lo), n(r.range?.hi),
+    r.source !== undefined ? file.sources[r.source] ?? null : null]);
+  return `${header.join("\n")}\n${csv(ROWS_HEAD, rows)}`;
 }
 
 // The workbench's state, kept in the address so a view can be shared.
