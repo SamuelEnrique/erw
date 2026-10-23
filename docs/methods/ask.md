@@ -55,6 +55,8 @@ Under the answer and its sources, one line for each query or compare it read: th
 
 `python warehouse/chat/eval/eval_s1113.py --keys`, then `--ask --base <a local server> --cap <USD>` (with `--set s1114` for the second set), then `--grade`: the asking runs through the site's route as an evaluation, under its own ledger step, the spend checked before each question.
 
+All of it as one command (23 October 2026, session 1128): `python warehouse/chat/eval/run_eval.py --set s320 --cap 6` (or `--set s1114`, `--only t01,t02`), whose steps are, in order: the database probe, at least 3 GB of memory free, the build lock (waited for at most 20 minutes), a production build with the reads timed, the build served with the visitor salt and the evaluation's ceiling raised by the cap for that server only, the keys from the live set, the asking, the grading, the server stopped by its process id and the lock released whatever happened. `--dry-run` prints them and starts nothing.
+
 ## Decisions
 
 Each dated, with the session that made it; the reports in `archive/sessions/` carry the reasons.
