@@ -67,7 +67,7 @@ One row per physical or corporate thing: a plant, a project, a datacenter, a cou
 | Column | Required | Type | Rules |
 |---|---|---|---|
 | `entity_id` | yes | string | `namespace:native_id`, same rule as `series.entity`. Unique within the table |
-| `entity_type` | yes | string | `plant`, `generator`, `project`, `datacenter`, `substation`, `utility`, `company`, `counterparty`, and since session 896 (Decision 54) `equipment` |
+| `entity_type` | yes | string | `plant`, `generator`, `project`, `datacenter`, `substation`, `utility`, `company`, `counterparty`, and since session 896 (Decision 54) `equipment`, since session 982 (Decision 57) `dam`, since session 2007 (Decision 58) `platform` |
 | `name` | yes | string | Name as the source writes it |
 | `geo` | no | string | ISO 3166-2 code |
 | `lat` | no | float | WGS84 decimal degrees |
@@ -244,6 +244,7 @@ What was chosen, and why:
 55. **Session 904: lb, SWU and USD/SWU.** `lb` joins the unit vocabulary for a quantity in pounds (what is weighed is named in the table's header: EIA's uranium is in pounds of U3O8 equivalent, `eia_uranium_marketing_annual`), `SWU` for uranium enrichment in separative work units, and `USD/SWU` for its price. `USD/lb` was already in the vocabulary (Decision 17).
 56. **Session 954: t and USD/kg.** `t` joins the unit vocabulary for a quantity in metric tons (1,000 kg; what is weighed, a mineral's content or its gross weight, is named in the series' node and the table's header, as the U.S. Geological Survey's Mineral Commodity Summaries give it, `usgs_mcs_critical_minerals`), and `USD/kg` for a price per kilogram. A quantity in thousand metric tons is written as `t` times 1,000; a price in cents per pound as `USD/lb` over 100.
 57. **Session 982: dam.** `dam` joins the `entity_type` vocabulary for a dam, the structure and its reservoir, whatever it serves (the U.S. Army Corps of Engineers' National Inventory of Dams, `usace_nid_dams`); a hydropower plant at a dam stays a `plant`, joined by the dam's NID id.
+58. **Session 2007: platform.** `platform` joins the `entity_type` vocabulary for an offshore oil and gas structure on the Outer Continental Shelf, one row a structure of a complex, installed or removed (the Bureau of Ocean Energy Management's platform files, `boem_offshore_platforms`); a removed structure keeps its row with `status` retired.
 
 Deferred to a later version:
 
