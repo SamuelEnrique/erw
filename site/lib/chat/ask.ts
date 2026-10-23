@@ -15,6 +15,7 @@ import { recordCall } from "./ledger";
 import { callKey, partialDraft, stageClock, type StageMs, type Step } from "./stages";
 import { readerEffort, rulePlanOn } from "./switches";
 import { plainTimes } from "./plaintime";
+import { cleanTurns, generalOpening } from "./history";  // session 1129: the general chat's conversation
 
 export type Citation = { table: string; source_report: string; data_version: string; tier: string };
 export type AskResult = {
@@ -307,15 +308,18 @@ export async function ask(question: string, today = new Date().toISOString().sli
   // price would close the tool: lib/chat/limits.ts). ASK_PLANNER=off on the server leaves every call to the writer.
   const named = profile?.planner ? (process.env.ASK_PLANNER || profile.planner) : null;   // ASK_PLANNER names another model for a trial
   const planner = named === "writer" ? writer : named && named !== "off" && PRICES[named] ? named : null;
-  const opening = profile ? profile.opening(question, today, context, opts.history) : `Today is ${today} (UTC).\n\nQuestion: ${question}`;
+  // session 1129: the general chat holds the last turns too (lib/chat/history.ts); with none, its first message is as it was
+  const past = profile ? [] : cleanTurns(opts.history);
+  const opening = profile ? profile.opening(question, today, context, opts.history) : generalOpening(question, today, past);
   const messages: Anthropic.MessageParam[] = [{ role: "user", content: opening }];
   const usage = { input: 0, output: 0, cache_write: 0, cache_read: 0, requests: 0 };
   let spent: number | null = 0; // session 143: the calls of one answer may be two models': each is priced as its own
   // session 137: the date the opening line gives the model counts as given, as the question's own numbers do
-  const given: string[] = [question, `Today is ${today} (UTC).`, ...(profile ? profile.extraSources(context, opts.history) : []), ...(profile?.preSources ?? [])];
+  const given: string[] = [question, `Today is ${today} (UTC).`, ...(profile ? profile.extraSources(context, opts.history) : []), ...(profile?.preSources ?? []),
+    ...past.flatMap((t) => [t.answer, ...t.queries])];   // session 1129: an earlier answer's numbers were checked when it was written
   const sources: string[] = [...given];
   const records: ToolRecord[] = []; // session 92: every tool result, in order, for a profile's checks and its result
-  const tablesRead = new Set<string>([...(profile?.knownTables ? profile.knownTables(opts.history) : []), ...(profile?.preRead ?? [])]);
+  const tablesRead = new Set<string>([...(profile?.knownTables ? profile.knownTables(opts.history) : []), ...(profile?.preRead ?? []), ...past.flatMap((t) => t.tables)]);
   // session 137: a profile's own tool is run by the profile; every other name goes to the warehouse's tools as before
   // session 143: each tool call's own milliseconds are kept (they overlap within a turn, so the stage is the turn's wall
   // time). A call already made for this question, with the same arguments, is not made again: the model is told that

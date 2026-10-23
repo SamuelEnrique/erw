@@ -203,10 +203,11 @@ export function AskPanel({ grid, initial = "", context = null, showContext = tru
     setEarly(null);
     // the turns before this one: each question, its answer and the queries run for it
     const history = turns.filter((t) => t.res.status === "answered" || t.res.status === "not_in_warehouse").slice(-MAX_HISTORY)
-      .map((t) => ({ question: t.question, answer: t.res.answer, calls: t.res.calls ?? [], citations: t.res.citations.map((c) => ({ table: c.table })) }));
+      .map((t) => ({ question: t.question, answer: t.res.answer, calls: t.res.calls ?? [], citations: t.res.citations.map((c) => ({ table: c.table })), ...(own ? {} : { reads: t.res.reads ?? [] }) }));
     try {
       const r = await fetch("/api/ask", { method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(own ? { question, profile: grid, stream: true, ...(context ? { context } : {}), ...(history.length ? { history } : {}) } : { question, grid }) });
+        // session 1129: the general chat and a grid's scoped chat send their turns too (lib/chat/history.ts)
+        body: JSON.stringify(own ? { question, profile: grid, stream: true, ...(context ? { context } : {}), ...(history.length ? { history } : {}) } : { question, grid, ...(history.length ? { history } : {}) }) });
       if (!r.ok || !r.body) {
         const body = await r.json().catch(() => ({}));
         setErr((body as { error?: string }).error ?? `HTTP ${r.status}`);

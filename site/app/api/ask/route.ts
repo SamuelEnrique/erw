@@ -144,7 +144,7 @@ export async function POST(req: Request) {
   try {
     const r = profile === "ercot"
       ? await ask(asked, undefined, null, ercotProfile(), cleanContext(context), { history: cleanHistory(history), questionId: qid, ...timing, ...ledgerOpts })
-      : await ask(question.trim(), undefined, typeof grid === "string" && grid ? grid : null, null, null, { questionId: qid, ...ledgerOpts });
+      : await ask(question.trim(), undefined, typeof grid === "string" && grid ? grid : null, null, null, { questionId: qid, history, ...ledgerOpts });   // session 1129: the general chat's turns
     // session 21 (/terms): each question is logged without identity: the time, the question and the
     // outcome, never the IP address (which lives only in memory, for the hourly limit) or any other identifier
     console.log(JSON.stringify({ erw_ask: { at: new Date(now).toISOString(), grid: grid || (profile === "ercot" ? "ercot (reference)" : null), question: question.trim(), status: (r as { status?: string }).status ?? "answered", question_id: qid, ...(evaluation ? { step: EVAL_STEP } : {}), cost_usd: (r as { cost_usd?: number | null }).cost_usd ?? null } }));
