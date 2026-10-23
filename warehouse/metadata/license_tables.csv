@@ -348,6 +348,7 @@ noaa_grid_weather_stations,NOAA NCEI,the source registry
 noaa_isd_hourly,NOAA NCEI,the source registry
 noaa_ncei_storm_events,NOAA NCEI,the source registry
 noaa_station_weather_hourly,NOAA NCEI,the source registry
+noaa_uscrn_solar_monthly,NOAA NCEI,the source registry
 node_basis_daily,ERCOT,"the source registry and the tables its header derives it from: ercot_all_hub_prices_history, ercot_zone_prices_history"
 node_basis_summary,ERCOT,"the source registry and the tables its header derives it from: ercot_all_hub_prices_history, ercot_zone_prices_history"
 nrc_advanced_reactor_preapplicants,NRC,the source registry

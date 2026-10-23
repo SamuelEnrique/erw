@@ -381,6 +381,7 @@ catalogue_hold:
   - nhc_hurdat2_track_points
   - nrc_license_actions
   - blm_oil_gas_statistics_annual
+  - noaa_uscrn_solar_monthly
   - lbnl_hybrid_ppa_prices
   - lbnl_solar_projects
   - ornl_npd_potential
