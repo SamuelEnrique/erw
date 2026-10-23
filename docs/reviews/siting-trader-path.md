@@ -101,4 +101,5 @@ The same steps as session 778, on a local build of `wip/1028-allgrids` (chain 07
 
 - **17 steps; 7 differ, and only by lines added**: "reserve margin 11.4%, summer 2027" on each ERCOT hub and zone row the step shows (14 on each step that shows the hub table). No figure line is gone or changed.
 - **The CAISO, NYISO, ISO-NE, MISO, PJM and SPP rows read "reserve margin not held"**, a word cell (no digit, so outside the comparison).
+- **After the walk**: The landing gate's check-values (07:29 UTC) failed that line: it showed one decimal where every checked figure shows two. It now reads "reserve margin 11.43%, summer 2027", the same figure (11.428383).
 - **No step fails and no new fault was found.**

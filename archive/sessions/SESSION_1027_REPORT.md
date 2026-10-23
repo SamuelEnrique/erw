@@ -37,6 +37,9 @@ The full replication was not run (about 32 live set requests, and the live set d
 
 ## The landing
 
+The landing gate's check-values (07:29 UTC) failed that line: it showed one decimal where every checked figure shows two. It now reads "reserve margin 11.43%, summer 2027", the same figure (11.428383).
+
+
 Lands with the next landing of this chain.
 
 ## Decisions made without you

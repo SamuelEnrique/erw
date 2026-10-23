@@ -89,4 +89,5 @@ The same steps as session 780, on a local build of `wip/1028-allgrids` (chain 07
 - **11 steps; 8 differ, and only by lines added**: "reserve margin 11.4%, summer 2027" on each ERCOT hub and zone row the step shows (14 on each step that shows the hub table). No figure line is gone or changed.
 - **The CAISO, NYISO, ISO-NE, MISO, PJM and SPP rows read "reserve margin not held"**, a word cell (no digit, so outside the comparison).
 - **The three siting cards** in their render frames and at 390 (`runs/chain_062/frames970.mjs` on the build): 10 of 12 views pass; the two that do not are session 970's, unchanged (two region names touch on the gigawatt card at 390 by 2 px and on the flexible card at 1280 by 6 px, the shared renderer's x labels, rulings item 22).
+- **After the walk**: The landing gate's check-values (07:29 UTC) failed that line: it showed one decimal where every checked figure shows two. It now reads "reserve margin 11.43%, summer 2027", the same figure (11.428383).
 - **No step fails and no new fault was found.**

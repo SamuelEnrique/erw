@@ -79,6 +79,7 @@ class ThePage(unittest.TestCase):
         self.assertIn('data-headroom-reserve="1"', v)
         self.assertIn("allgrids|reservemargin|${r.id}", v)
         self.assertIn('words="reserve margin not held"', v)
+        self.assertIn("raw={m.peak.pct}>{two(m.peak.pct)}</Num>", v)  # two decimals, check-values' rule (the landing's fix)
         self.assertIn('p[1] === "reservemargin"', s)
         self.assertIn('"ercot_cdr_reserve_margins"]', s)                # the headroom column's tables
         self.assertNotIn("fetch(", v[v.index("function HeadroomTd"):v.index("function CarbonTd")])
