@@ -156,3 +156,22 @@ All 19 items above, and the 20th (`docs/reviews/siting-rulings-answered.md`), ar
 ## The state of each item (session 1039, chain 071, 23 October 2026, morning)
 
 All 21 items of this file (1 to 19, 21 and 22) and the 20th (`docs/reviews/siting-rulings-answered.md`) are **not ruled**: session 1021 read none answered at about 06:45 UTC, and main again at about 07:40 holds no "Answer:" line here or in the answered file. Chain 071 changed no item's subject: ERCOT's reserve margin (1027) is drawn as open items line 20 asked, not by a ruling. The packages' items are in `docs/reviews/packages-open.md`.
+
+## 23. EIA-411's reserve margins for the grids other than ERCOT (1047)
+
+- **What**: the data machine's `eia411_capacity_margins_annual` (public) is EIA-411's last release, of November 2016. Its margins for summer 2027 are projections made then: ERCOT's 38.07% against ERCOT's own CDR of December 2025, 11.43%; PJM's 58.56%. The tab names each grid's EIA-411 area and does not draw the figure (decision 30 of `docs/methods/siting.md`).
+- **Yes, draw**: each grid's Headroom cell gains "EIA-411 projection made in 2016: N%", computed the same way for every area ((capacity resources less net internal demand) over net internal demand), the area named, ERCOT's cell keeping its CDR figure first.
+- **No**: as now; the tip says why.
+- **Or a new source**: NERC's Long-Term Reliability Assessment, current margins by assessment area, for the data machine to read (its terms first).
+- **Recommendation: no, and the new source**: a figure ten years old misleads beside this year's capacity.
+
+## 24. A county map of the ERCOT nodes (1049)
+
+- **What**: `docs/reviews/siting-map-design.md` and its frame (`docs/brand/review-1049/`): Texas's counties shaded by the count of nodes `ercot_node_places` places in each, no node drawn as a point, above the node list and folded, a click setting the list's county filter.
+- **Yes**: wired as designed, with its test and screenshots; counties outside ERCOT greyed if `utility_service_territories` says so.
+- **No**: the county stays a column and a filter only.
+- **Recommendation: yes**, since the county is a fact of the table and the map says nothing more.
+
+## The state of each item (session 1060, chain 072, 23 October 2026, day)
+
+No item is ruled: main read again at about 08:10 UTC holds no "Answer:" line under 1 to 24 or in the answered file (20). Chain 072 adds two items, 23 and 24, neither answered. The Digest's revisions (open items line 33) are proposed in `docs/reviews/digest-revisions-proposal.md` for `/digest`'s owner, not here.

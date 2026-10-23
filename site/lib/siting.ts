@@ -107,8 +107,17 @@ export type NodeRow = { id: string; cls: string; types: string; dam_basis?: Reco
    * over pct_from to pct_to: its mean, its 10th and 90th percentile, and the days */
   swing?: [number, number, number, number];
   /** session 795: the other nodes whose day-ahead basis is the same on every day the table holds, and the same days */
-  same?: string[] };
-export type NodeFile = { table: string; built: string; first: string; last: string; points: number; hubs: number; zones: number; pct_from?: string; pct_to?: string; nodes: NodeRow[] };
+  same?: string[];
+  /** session 1048 (chain 072): the county and load zone ERCOT's CDR gives every unit at the node's station
+   * (ercot_node_places), as the table writes them; absent where the table places no node */
+  county?: string; zone?: string };
+/** Session 1048: the projects of a county (ercot_transmission_projects): the phases by ERCOT's status, and the earliest
+ * in-service date among the future and planned ones. */
+export type CountyProjects = { future: number; planned: number; completed: number; cancelled: number;
+  next: { date: string; title: string; kv: string; owner: string; id: string } | null };
+export type NodeFile = { table: string; built: string; first: string; last: string; points: number; hubs: number; zones: number; pct_from?: string; pct_to?: string; nodes: NodeRow[];
+  places?: { table: string; retrieved: string; placed: number; words: string; of: number; matched: number };
+  projects?: { table: string; workbook: string; counties: Record<string, CountyProjects> } };
 
 /** A region's kind as the index says it; a region of a grid whose index names no kind is a hub when its name says so. */
 function kindOf(grid: string, id: string, kind: string | null | undefined): RowKind {
@@ -613,10 +622,15 @@ export function capacityOverPeak(d: DemandYears | undefined, h: HeadroomFile | u
   return { pct: (100 * c.mw) / peak - 100, mw: c.mw, peak, year: c.year, peakYear: d!.last_year, states: c.states, table: "eia_state_capacity_annual" };
 }
 
-/** Session 1027: the grid's planning reserve margin where a report of the grid's own is held (ERCOT's CDR); else why. */
+/** Session 1047 (chain 072): the NERC assessment area EIA-411 reports each grid under, named so where it is not the grid
+ * alone (eia411_capacity_margins_annual's `node`). */
+export const EIA411_AREA: Record<string, string> = { ercot: "TRE (ERCOT)", caiso: "WECC, the whole Western Interconnection, of which CAISO is a part",
+  nyiso: "NPCC, New York and New England together", isone: "NPCC, New England and New York together", spp: "SPP", miso: "MISO", pjm: "PJM" };
+/** Session 1027: the grid's planning reserve margin where a report of the grid's own is held (ERCOT's CDR); else why.
+ * Session 1047: the why names EIA-411's area for the grid and why its figures are not drawn (docs/methods/siting.md). */
 export function reserveMargin(h: HeadroomFile | undefined, grid: string) {
   const r = h?.reserve, g = r?.grids[grid];
-  if (!r || !g) return { why: `No planning reserve margin of ${GRID_NAMES[grid]}'s own is held: the ERW holds ERCOT's (its Capacity, Demand and Reserves report) alone.` };
+  if (!r || !g) return { why: `No current planning reserve margin of ${GRID_NAMES[grid]}'s is held: the ERW holds ERCOT's own (its Capacity, Demand and Reserves report) alone. EIA-411 (eia411_capacity_margins_annual) gives margins by NERC assessment area, ${GRID_NAMES[grid]}'s under ${EIA411_AREA[grid] ?? "no area"}, but its last release is of November 2016: its figures for the coming summer are projections made then, so they are not drawn as the grid's.` };
   return { ...g, report: r.report, vintage: r.vintage.slice(0, 10), table: r.table };
 }
 
@@ -749,7 +763,7 @@ export function utilityCell(f: Files, r: Row): UtilityCell {
 /** A node's row of the node table: its own figures only. What every ERCOT node shares (the four-peak charge, which a
  * node pays on its hub's hours; capacity, none; the grid's time to connect, headroom and carbon) is drawn once, above
  * the table, so that no figure is drawn twice. */
-export type NodeTableRow = { id: string; node: string; cls: string; types: string; per: number | null; basis: number | null; days: number; due: number; allin: number | null; why: string;
+export type NodeTableRow = { id: string; node: string; cls: string; types: string; county: string; zone: string; per: number | null; basis: number | null; days: number; due: number; allin: number | null; why: string;
   /** session 724: the daily basis's spread, its 90th percentile less its 10th over the file's twelve months (the panel's
    * own percentiles), USD per MWh: how far the node moves from day to day; null where the file holds no percentiles */
   spread: number | null;
@@ -762,7 +776,7 @@ export function nodeTable(dc: DC, f: Files, x: Pick<SitingInputs, "profile" | "l
     const pc = x.profile === "datacenter" ? null : profileCell(dc, f, r, x, f.cp);
     const per = pc ? ("why" in pc ? null : pc.per) : e.node?.per ?? null;
     const a = allInCell(dc, f, r, x);
-    return { id: r.id, node: r.region, cls: n.cls, types: n.types, per, basis: e.node?.basis ?? null, days: e.node?.days ?? Object.values(n.dam_basis ?? {}).reduce((s, v) => s + v[1], 0),
+    return { id: r.id, node: r.region, cls: n.cls, types: n.types, county: n.county ?? "", zone: n.zone ?? "", per, basis: e.node?.basis ?? null, days: e.node?.days ?? Object.values(n.dam_basis ?? {}).reduce((s, v) => s + v[1], 0),
       due: e.node?.due ?? 0, allin: "v" in a ? a.v : null, why: e.node ? (pc && "why" in pc ? pc.why : "") : e.why ?? "not held",
       spread: n.pct ? n.pct[2] - n.pct[0] : null, swing: n.swing ? n.swing[0] : null };
   });
@@ -823,22 +837,24 @@ export function tariffParts(r: TariffRate, mw: number, lf: number): { energy: nu
 }
 /** Session 777 (chain 064): the node table handed to the browser column by column, not row by row: the same values,
  * without each field's name repeated on 873 rows, and without the id, which is the node's name after "ercot:". */
-export type NodeColumns = { node: string[]; cls: string[]; types: string[]; per: (number | null)[]; basis: (number | null)[]; days: number[]; due: number[];
+export type NodeColumns = { node: string[]; cls: string[]; types: string[]; county: string[]; zone: string[]; per: (number | null)[]; basis: (number | null)[]; days: number[]; due: number[];
   allin: (number | null)[]; why: string[]; spread: (number | null)[]; swing: (number | null)[] };
 export function nodeColumns(rows: NodeTableRow[]): NodeColumns {
-  return { node: rows.map((r) => r.node), cls: rows.map((r) => r.cls), types: rows.map((r) => r.types), per: rows.map((r) => r.per), basis: rows.map((r) => r.basis),
+  return { node: rows.map((r) => r.node), cls: rows.map((r) => r.cls), types: rows.map((r) => r.types), county: rows.map((r) => r.county), zone: rows.map((r) => r.zone), per: rows.map((r) => r.per), basis: rows.map((r) => r.basis),
     days: rows.map((r) => r.days), due: rows.map((r) => r.due), allin: rows.map((r) => r.allin), why: rows.map((r) => r.why), spread: rows.map((r) => r.spread), swing: rows.map((r) => r.swing) };
 }
 export function nodeRowsOf(c: NodeColumns): NodeTableRow[] {
-  return c.node.map((node, i) => ({ id: `ercot:${node}`, node, cls: c.cls[i], types: c.types[i], per: c.per[i], basis: c.basis[i], days: c.days[i], due: c.due[i],
+  return c.node.map((node, i) => ({ id: `ercot:${node}`, node, cls: c.cls[i], types: c.types[i], county: c.county[i], zone: c.zone[i], per: c.per[i], basis: c.basis[i], days: c.days[i], due: c.due[i],
     allin: c.allin[i], why: c.why[i], spread: c.spread[i], swing: c.swing[i] }));
 }
 /** The columns a node table sorts by, and the default: by name. */
-export const NODE_SORTS = ["node", "cls", "energy", "basis", "spread", "swing", "allin", "days"] as const;
+// session 1048: county and zone last, so that the figures stay in view at 1280 and the place scrolls into it
+export const NODE_SORTS = ["node", "cls", "energy", "basis", "spread", "swing", "allin", "days", "county", "zone"] as const;
 export type NodeSort = (typeof NODE_SORTS)[number];
 export function sortNodes(rows: NodeTableRow[], by: NodeSort, dir: "asc" | "desc"): NodeTableRow[] {
   const k = dir === "asc" ? 1 : -1;
-  const val = (r: NodeTableRow): number | string | null => (by === "node" ? r.node : by === "cls" ? r.cls : by === "energy" ? r.per : by === "basis" ? r.basis : by === "spread" ? r.spread : by === "swing" ? r.swing : by === "allin" ? r.allin : r.days);
+  // session 1048: a node the table does not place has no county or zone and sorts last, as a row with no figure
+  const val = (r: NodeTableRow): number | string | null => (by === "node" ? r.node : by === "cls" ? r.cls : by === "county" ? r.county || null : by === "zone" ? r.zone || null : by === "energy" ? r.per : by === "basis" ? r.basis : by === "spread" ? r.spread : by === "swing" ? r.swing : by === "allin" ? r.allin : r.days);
   // a row with no figure sorts last either way; ties by name
   return [...rows].sort((a, b) => {
     const va = val(a), vb = val(b);
@@ -974,7 +990,7 @@ export function allIn(parts: Record<"energy" | "transmission" | "capacity", Part
 // the check keys: allgrids|<column>|<row>[|<inputs>]
 // ---------------------------------------------------------------------------------------------------------------------
 
-export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFile, "nodes">; years: (grid: string) => YearFile[]; cp?: CpFile;
+export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFile, "nodes" | "projects">; years: (grid: string) => YearFile[]; cp?: CpFile;
   /** session 703: the Commission's newest approved postage stamp rate (newestRate over texas_delivery.json's matrix) */
   rate?: Rate | null;
   /** session 704: the capacity tables' newest periods and zones, no price (data/siting/capacity.json) */
@@ -1056,6 +1072,11 @@ export function sitingStat(f: Files, key: string, dc?: DC): number | undefined {
   if (p[1] === "basis") return energyCell(dc, f, row).node?.basis;
   if (p[1] === "zonegrowth") { const z = zoneGrowth(f.headroom, row); return z ? z.pct : undefined; }
   if (p[1] === "nodemonth") { const n = f.nodes.nodes.find((k) => `ercot:${k.id}` === row.id); return n?.dam_basis?.[p[3]]?.[0]; }
+  // session 1048 (chain 072): the transmission project phases of a placed node's county, by ERCOT's status
+  if (p[1] === "nodeprojects") {
+    const n = f.nodes.nodes.find((k) => `ercot:${k.id}` === row.id), c = n?.county ? f.nodes.projects?.counties[n.county] : undefined;
+    return c && (p[3] === "future" || p[3] === "planned" || p[3] === "completed") ? c[p[3]] : undefined;
+  }
   if (p[1] === "nodediff") {
     const na = f.nodes.nodes.find((k) => `ercot:${k.id}` === row.id), nb = f.nodes.nodes.find((k) => `ercot:${k.id}` === p[3]);
     if (p[4] === "spread") return na?.pct && nb?.pct ? (nb.pct[2] - nb.pct[0]) - (na.pct[2] - na.pct[0]) : undefined;

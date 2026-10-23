@@ -51,3 +51,7 @@ No item is answered, the 20th included. Two items are added to the rulings file 
 ## Read again (session 1021, chain 071, 23 October 2026 at about 06:45 UTC)
 
 No item is answered: 1 to 19, 21 and 22 in `docs/reviews/siting-rulings-2026-10-23.md` (no "Answer:" under any), and the 20th here. Read: both files; every note in `docs/state/` (the three that hold "Answer:" only say how to answer); the owner's commits on main since chain 065 began (three queue files uploaded, 045, 070 and 080, and 080's rename, none a ruling); `queue/next/` (051 for the data machine, 072 for this machine, 080 for the personal laptop). The packages' items (the license, the R package's maintainer, the downloads, `/llms.txt`, the PyPI upload, the Redivis click) are not answered either, and `docs/reviews/packages-owner-run.md` does not exist. So sessions 1022 to 1024 change nothing.
+
+## Read again (session 1043, chain 072, 23 October 2026 at about 07:50 UTC)
+
+No item is answered: 1 to 19, 21 and 22 in `docs/reviews/siting-rulings-2026-10-23.md` and the 20th here (no "Answer:" under any; chain 071's session 1039 added only the state section). Read: both files; `docs/state/` (no note of the owner's since 1021); the owner's commits on main since 1021 (none a ruling: the queue moves of 072, 073, 051 and 081, and a merge); `queue/next/` (073 for this machine, 052 for the data machine). The packages' items (`docs/reviews/packages-open.md`, items 1 to 9) are not answered either, and `docs/reviews/packages-owner-run.md` does not exist. So sessions 1044 and 1045 change nothing.

@@ -2,7 +2,7 @@
 
 machine: data
 
-Written by session 909, the first session of `queue/done/051-day-23-october-data-world-gas-hydro.md`, under chain 045's rule ("the next file is written and pushed to `queue/next` at the START of the chain"), at the owner's instruction for chain 045 ("at least twelve sessions, machine: data, ... the sources and gaps ... in chain 040's form"). The next free number in `queue/next` and `queue/done` was 052. Sessions 923 to 936 were free in every queue file and branch when this was written (the code machine holds 700 to 749, the laptop 800 to 849, the old laptop 1000 on). Session 922 of chain 051 updates it at chain 051's end. Model: Opus 5.5, high effort.
+Written by session 909, the first session of `queue/done/051-day-23-october-data-world-gas-hydro.md`, under chain 045's rule ("the next file is written and pushed to `queue/next` at the START of the chain"), at the owner's instruction for chain 045 ("at least twelve sessions, machine: data, ... the sources and gaps ... in chain 040's form"). The next free number in `queue/next` and `queue/done` was 052. Sessions 923 to 936 were free in every queue file and branch when this was written (the code machine holds 700 to 749, the laptop 800 to 849, the old laptop 1000 on). Session 922 of chain 051 updated it at chain 051's end (23 October, about 09:00 UTC): session 923 reads the bulk file chain 051 saved, session 928 begins with the Texas Comptroller's policies, session 933 refreshes the draft's two metadata tables, and the rules name the keys and the reader fault chain 051 found. Model: Opus 5.5, high effort.
 
 Each source session follows chain 040's form:
 
@@ -22,14 +22,17 @@ The rules of `queue/done/051-day-23-october-data-world-gas-hydro.md` hold, word 
 - **Hosts that refused the ERW's reader are not asked again without a ruling:** api.census.gov, www.phmsa.dot.gov, FERC's policy page (chain 048), and EPA's bulk file API without a key (session 898: `EPA_CAMD_API_KEY` is not set).
 - **A new read of a publisher already in `license_reads.csv` gets a label of its own**; a session checks `license_verdicts.csv` before reading a publisher's terms.
 - **A table that a page reads is never rewritten to add rows from another file.**
+- **No cross-check reads an ERW table with pandas' `comment="#"`:** it cuts a row at a '#' inside a value (session 917). Skip the header lines instead (`runs/c051/readt.py` on the data machine).
+- **Keys not held:** `EPA_CAMD_API_KEY` (session 898) and `NREL_API_KEY` or `DATA_GOV_API_KEY` (session 912); a session that needs one stops and says so, without signing up.
+- **HydroSource's download form is not filled** (sessions 911 and 916): ORNL's files are taken by their public links, pending the owner's word.
 - **A request cap on the Redivis uploader stops between tables, never inside one**, budgeted by session 892's measure (about 28 a run and 6 a table); an empty `erw_headers` is rebuilt in full from disk, never merged.
 - **Session 923 begins by writing `queue/next/<next free number>-<slug>.md`** for this machine (at least twelve sessions, machine: data, numbered from 937), commits it alone and pushes it to main before any other work; session 936 updates it.
 
-Read first: chain 051's note (written by session 922), sessions 909 to 922's reports, `docs/state/note_2026-10-29_data.md`, `docs/reviews/siting-gaps.md`.
+Read first: chain 051's note (`docs/state/note_2026-10-30_data.md`, written by session 922), sessions 909 to 922's reports, `docs/state/note_2026-10-29_data.md`, `docs/reviews/siting-gaps.md`.
 
 ## Session 923: the world's oil and natural gas (EIA's International Energy Statistics)
 
-Long end 1:30. Pulls: EIA's API v2, at most 20 requests. Session 909 takes every country's electricity; this takes every country's petroleum and natural gas production, consumption, reserves and trade, annual, as a table of its own (a sibling of `eia_international_electricity.py`); cross-check: the U.S. rows against `eia_crude_reserves_annual` and `eia_gas_balance_annual`, and the world total against the countries summed.
+Long end 1:30. Pulls: none if the bulk file session 909 saved is used (`warehouse/raw/eia_intl_bulk/`, `INTL.zip`, last modified 19 October 2026), at most 20 otherwise. Session 909 took every country's electricity from it (`eia_world_electricity_annual`, `warehouse/connectors/eia_intl_bulk.py`); this takes every country's petroleum and natural gas production, consumption, reserves and trade, annual, from the same file, as a table of its own (a second table of `eia_intl_bulk.py`; the units are EIA's thousand barrels a day, billion cubic feet and the rest, mapped to the standard's or left out and named); cross-check: the U.S. rows against `eia_crude_reserves_annual` and `eia_gas_balance_annual`, and the world total against the countries summed.
 
 ## Session 924: Ember's yearly electricity data
 
@@ -49,7 +52,7 @@ Long end 1:30. Pulls: EIA's API v2, at most 20 requests. Coal and petroleum stoc
 
 ## Session 928: the licenses' sixth round
 
-Long end 1:30. Pulls: at most 20 requests, two a host. The publishers chains 046 to 051 did not reach, those of sessions 923 to 927 first; `license_verdicts.csv` read first.
+Long end 1:30. Pulls: at most 20 requests, two a host. The publishers chains 046 to 051 did not reach, those of sessions 923 to 927 first; `license_verdicts.csv` read first. Then the Texas Comptroller's site policies (`https://comptroller.texas.gov/about/policies/`, linked from its home page, read 125; its robots file allows `/about/`).
 
 ## Sessions 929 and 930: two more sources
 
@@ -65,7 +68,7 @@ Long end 1:00. Pulls: none. As session 891: each note's checks against the code 
 
 ## Session 933: the Stanford draft
 
-Long end 1:30. Pulls: Redivis's API only, at most 150 requests, in whole runs under the cap (session 892's measure). First any table of chain 051 not yet in the draft or stale there (session 919's report names them); then this chain's public tables; `--reconcile`; the release note extended. Nothing released.
+Long end 1:30. Pulls: Redivis's API only, at most 150 requests, in whole runs under the cap (session 892's measure). Session 919 put every public table of chains 048, 049 and 051 in the draft; first a plain upload of `erw_coverage` and `erw_sources` (346 and 439 rows here, 316 and 416 in the draft), then this chain's public tables; `--reconcile`; the release note extended. Nothing released.
 
 ## Session 934: seven days of the data jobs
 

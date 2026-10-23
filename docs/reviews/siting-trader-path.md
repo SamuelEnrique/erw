@@ -103,3 +103,12 @@ The same steps as session 778, on a local build of `wip/1028-allgrids` (chain 07
 - **The CAISO, NYISO, ISO-NE, MISO, PJM and SPP rows read "reserve margin not held"**, a word cell (no digit, so outside the comparison).
 - **After the walk**: The landing gate's check-values (07:29 UTC) failed that line: it showed one decimal where every checked figure shows two. It now reads "reserve margin 11.43%, summer 2027", the same figure (11.428383).
 - **No step fails and no new fault was found.**
+
+## Walked again (session 1050, chain 072)
+
+Walked again on a local build of `wip/1042-allgrids` (chain 072's 1042 to 1049: a node's county and zone with its county's ERCOT transmission projects, session 1048; EIA-411 named and not drawn in the reserve margin's tip, session 1047), 23 October 2026 at about 08:35 UTC, with `runs/chain_062/walk.mjs` and the steps of session 778; each step's figure lines against session 1029's walk (`runs/walkcmp.py`).
+
+- **17 steps; 8 differ, and every difference is expected**: each ERCOT row's "reserve margin 11.4%" of 1029's walk reads "11.43%" (chain 071's landing fix, two decimals as every checked figure); and w16 (BBREEZE_1_2's panel) now reads "Its county and load zone: WILLACY County, COASTAL zone ..." and "ERCOT's transmission projects in WILLACY County: none in ercot_transmission_projects"; its old line, the county "not held", is gone.
+- **No figure line is gone or changed otherwise.** The tips of the other grids' "reserve margin not held" now name EIA-411 (no digit in the cell, so outside the comparison).
+- **A fault seen, not new**: when the hub table is scrolled sideways (a tip focused at the far right), a right-aligned cell's second line spills left under the row's name (session 1027's screenshot shows the same); not this chain's change, listed for a session of its own.
+- **No step fails and no new fault was found.**
