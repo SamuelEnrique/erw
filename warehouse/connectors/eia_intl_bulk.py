@@ -32,6 +32,11 @@ stocks, as kbbl times 1,000), with the activities production, consumption, impor
 (13) and the products in OIL_GAS_PRODUCTS. EIA's copies of the same quantities in cubic metres, tonnes, Btu, terajoules and
 oil equivalent are not taken. The file holds no reserves.
 
+A third table, warehouse/output/eia_world_oil_monthly.csv (--table eia_world_oil_monthly), from the same file: the monthly
+series (.M) of petroleum production (crude oil, NGPL, other liquids, refinery gain and their totals), refined products'
+consumption (thousand barrels a day, as kbbl/d) and stocks (million barrels, as kbbl times 1,000); ts_utc the month's
+first day. The OECD's imports by source and the tonne copies are not taken.
+
     python warehouse/connectors/eia_intl_bulk.py [--offline | --fresh] [--out-dir DIR] [--table NAME]
 
 Ceiling: one request (the file, saved in warehouse/raw/eia_intl_bulk/ and reused unless --fresh; --offline asks
@@ -81,7 +86,13 @@ OIL_GAS_PRODUCTS = {"3": "Gross natural gas", "26": "Dry natural gas", "43": "Ve
                     "6798": "LPG and ethane, refinery", "6799": "LPG, non-refinery", "6899": "LPG", "8399": "Ethane, non-refinery",
                     "8499": "Ethane"}
 OIL_GAS = "eia_world_oil_gas_annual"
-SPECS = {NAME: (ACTIVITIES, UNITS, PRODUCTS), OIL_GAS: (OIL_GAS_ACTIVITIES, OIL_GAS_UNITS, OIL_GAS_PRODUCTS)}
+OIL_MONTHLY = "eia_world_oil_monthly"
+IMPORTS_BY_SOURCE = {"78", "781", "782", "783", "784", "785", "786", "787", "788", "789"}  # the OECD's and seven importers' gross imports, by source: not taken
+MONTHLY_PRODUCTS = {k: OIL_GAS_PRODUCTS[k] for k in ("5", "53", "54", "55", "56", "57", "58", "59")}
+# (activities, units, products, the series' frequency letter)
+SPECS = {NAME: (ACTIVITIES, UNITS, PRODUCTS, "A"), OIL_GAS: (OIL_GAS_ACTIVITIES, OIL_GAS_UNITS, OIL_GAS_PRODUCTS, "A"),
+         OIL_MONTHLY: ({"1": "production", "2": "consumption", "5": "stocks"}, {"TBPD": ("kbbl/d", 1.0), "MBBL": ("kbbl", 1e3)},
+                       MONTHLY_PRODUCTS, "M")}
 # EIA's codes of four letters are its regions and groups, but for these former countries and parts of one
 FORMER = {"CSK", "DDR", "DEUW", "SCG", "SUN", "YUG", "NLDA"}
 PARTS = {"DEUO", "GBRO", "NLDO", "HITZ", "USIQ"}
@@ -124,7 +135,7 @@ def read_series(content):
 
 
 def rows(series, url, retrieved, vintage, table=NAME):
-    activities, units, products = SPECS[table]
+    activities, units, products, want = SPECS[table]
     names, keep = defaultdict(set), []
     for d in series:
         sid = d["series_id"]
@@ -134,7 +145,9 @@ def rows(series, url, retrieved, vintage, table=NAME):
             raise RuntimeError(f"a series id not of four parts: {sid}")
         product, act, area, u = parts
         names[area].add(d["name"].rsplit(", ", 1)[0])
-        if u not in units or freq != "A":
+        if u not in units or freq != want:
+            continue
+        if table == OIL_MONTHLY and product in IMPORTS_BY_SOURCE:
             continue
         if act not in activities:
             raise RuntimeError(f"an activity not in the map: {sid} {d['name']}")
@@ -149,8 +162,14 @@ def rows(series, url, retrieved, vintage, table=NAME):
             v = pd.to_numeric(v, errors="coerce")
             if pd.isna(v):
                 continue
-            out.append(dict(entity=f"eia_intl:{area}:{product}", variable=activities[act], ts_utc=f"{period}-01-01T00:00:00Z",
-                            value=float(v) * scale, unit=unit, freq="P1Y", geo="", market="",
+            if want == "M":
+                if len(period) != 6:
+                    raise RuntimeError(f"a monthly period not of the form 202606: {period!r} in {d['series_id']}")
+                ts, fq = f"{period[:4]}-{period[4:]}-01T00:00:00Z", "P1M"
+            else:
+                ts, fq = f"{period}-01-01T00:00:00Z", "P1Y"
+            out.append(dict(entity=f"eia_intl:{area}:{product}", variable=activities[act], ts_utc=ts,
+                            value=float(v) * scale, unit=unit, freq=fq, geo="", market="",
                             node=f"{area_name[area]}, {products[product]}", source=SOURCE, source_url=url,
                             retrieved_at=retrieved, vintage=vintage, x_area=area_kind(area)))
     t = pd.DataFrame(out)
@@ -206,6 +225,20 @@ def main(argv=None):
             f"  access: {URL}",
             'License: public (a work of the U.S. government; cite "U.S. Energy Information Administration, International Energy Statistics").',
         ]
+        if name == OIL_MONTHLY:
+            kinds_text = f"{s['entity'].str.split(':').str[1].nunique()} areas ({', '.join(f'{v} {k}' for k, v in kinds.items())})"
+            span = f"{s['ts_utc'].min()[:7]} to {s['ts_utc'].max()[:7]}"
+            header[:3] = [
+                "Energy Research Warehouse (ERW): EIA, International Energy Statistics, petroleum production, consumption and stocks of every country and region, a month, from EIA's bulk file (session 929)",
+                "Shape: series (docs/datastandard.md v0). entity eia_intl:<EIA country or region code>:<EIA product id: 57 crude oil including lease "
+                "condensate, 58 NGPL, 59 other liquids, 55 crude oil, NGPL and other liquids, 56 refinery processing gain, 53 total petroleum and other "
+                "liquids, 54 refined petroleum products (consumption), 5 petroleum and other liquids (stocks)>; variables production and consumption "
+                "(kbbl/d, EIA's thousand barrels a day) and stocks (kbbl, EIA's million barrels times 1,000); a product's parts overlap (55 holds 57, 58 "
+                "and 59; 53 holds 55 and 56): a sum takes one level; ts_utc the month's first day; freq P1M; geo empty; x_area as in "
+                "eia_world_electricity_annual: a sum over countries takes country and former only.",
+                f"Months {span}; {n_series:,} series of EIA's, {len(s):,} rows; {kinds_text}. Only monthly series in thousand barrels a day and million "
+                "barrels are taken (the OECD's imports by source and the tonne copies are not). A value EIA leaves empty or marks has no row; nothing is filled.",
+            ]
         if name == OIL_GAS:
             kinds_text = f"{s['entity'].str.split(':').str[1].nunique()} areas ({', '.join(f'{v} {k}' for k, v in kinds.items())})"
             header[:3] = [

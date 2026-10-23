@@ -3108,6 +3108,9 @@ eia_world_oil_gas_annual,imports,series variable,kbbl/d
 eia_world_oil_gas_annual,production,series variable,bcf
 eia_world_oil_gas_annual,production,series variable,kbbl/d
 eia_world_oil_gas_annual,stocks,series variable,kbbl
+eia_world_oil_monthly,consumption,series variable,kbbl/d
+eia_world_oil_monthly,production,series variable,kbbl/d
+eia_world_oil_monthly,stocks,series variable,kbbl
 energy_companies,entity_id,column,
 energy_companies,entity_type,column,
 energy_companies,name,column,
