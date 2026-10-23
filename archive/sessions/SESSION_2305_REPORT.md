@@ -6,7 +6,7 @@
 
 - **The two method notes** are on `wip/2305-map-tracker` (the site builds them into `/data/methods/`): `docs/methods/energy_projects.md` gains "The figures computed from the page's copy, and their sources" (the three rules, the tables and vintages, the Queues and Resources tabs' frames and counts) and "The hover"; `docs/methods/datacenter_facilities.md` gains "Named by the operator alone" under the power side (the two ERCOT positions, the three fields, what the derived table still does) and "The hover, and the sources beside the figures" (the bars, the large-load chart, the power side, the view by grid). `check-methods.mjs` without a site: 553 of 553 figures named, 57 pages.
 - **No build and no gate in this chain.** The build lock was held by chain 088's session 2403 from 20:43 UTC through a nine-minute wait that ended at 20:59, and the probe read 5.01 and 5.38 s; the chain stops a wait over 20 minutes and leaves the step. The commands, from the build to the gate, are in the note's "To finish".
-- **The note:** `docs/state/review_2026-10-29_portable_map.md` (chain 086.s note of this machine took `review_2026-10-29_portable.md` minutes earlier; this one is named for the chain).
+- **The note:** `docs/state/review_2026-10-29_portable_map.md` (chain 086's note of this machine took `review_2026-10-29_portable.md` minutes earlier; this one is named for the chain).
 - **No next file.** What waits is one build and one gate, which need the machine's conditions rather than work, and a file for this machine would be taken the moment the queue step ran (chain 084's finding) beside the two chains that hold the lock.
 
 ## What to review
