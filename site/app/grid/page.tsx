@@ -93,7 +93,7 @@ export default async function GridTool({ searchParams }: { searchParams: Promise
           <ToolTabs label="Views" items={GRID_VIEWS.map(([k, label]) => ({ key: k, label, href: gridHref(grid.slug, k), on: k === view }))} />
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
             <div className="min-w-0">
-              {view === "network" ? <NetworkView keep={keep} node={p.node} /> : null}
+              {view === "network" ? <NetworkView keep={keep} node={p.node} grid={grid} /> : null}
               {view === "mix" ? (
                 <div data-grid-view="mix">
                   {/* session 299: the Now view's blocks, the grid's latest hour, open the tab */}
@@ -107,14 +107,14 @@ export default async function GridTool({ searchParams }: { searchParams: Promise
               {view === "clean" ? (
                 <div data-grid-view="clean">
                   {cfg && data ? <GridCleanParts g={cfg} d={data} /> : null}
-                  <EmissionsParts focus={`eia930:${grid.ba}`} />
+                  <EmissionsParts focus={`eia930:${grid.ba}`} grid={grid.slug} />
                   <div className="mt-10"><MixClean c={mix} /></div>
                 </div>
               ) : null}
               {view === "gravity" ? (
                 <div data-grid-view="gravity">
                   {/* session 299: the network component in its gravity shape (the address carries shape=gravity), the Exchange view's blocks under it */}
-                  <NetworkView keep={keep} node={p.node} shape="gravity" />
+                  <NetworkView keep={keep} node={p.node} shape="gravity" grid={grid} />
                   <div className="mt-10"><ExchangeView grid={grid} /></div>
                 </div>
               ) : null}
