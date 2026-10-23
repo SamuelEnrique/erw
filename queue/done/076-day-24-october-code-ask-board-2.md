@@ -12,11 +12,11 @@ Read first: chain 075's note (`docs/state/review_2026-10-24_code_ask_board.md`),
 
 ## Rules for every session
 
-As chain 075's, section "Rules for every session", word for word, with this chain's numbers: precheck first; one worktree and one `wip/<N>-ask` or `wip/<N>-board` branch a session, cut from origin/main; `python scripts/db_probe.py` as its own command before a build; the build lock (`scripts/buildlock.py`), taken before every build and waited for, since another chain may build on this machine; the full gate and `land_check.py` before a landing; the snapshots before and after, compared, every difference marked; no landing between 14:00 and 16:15 UTC; model spend USD 0 except session 1133 (cap USD 4, through the evaluation's own ledger step `site_ask_eval`, the spend checked before each call); no warehouse data written; no web request; screenshots at 1280 and 390 under `docs/brand/review-<N>/`; no default figure moves (check-values); no em dashes; reports in `archive/sessions/SESSION_<N>_REPORT.md` with "Decisions made without you" and "For Samuel's ruling", one item a line.
+As chain 075's, section "Rules for every session", word for word, with this chain's numbers: precheck first; one worktree and one `wip/<N>-ask` or `wip/<N>-board` branch a session, cut from origin/main; `python scripts/db_probe.py` as its own command before a build; the build lock (`scripts/buildlock.py`), taken before every build and waited for, since another chain may build on this machine; the full gate and `land_check.py` before a landing; the snapshots before and after, compared, every difference marked; no landing between 14:00 and 16:15 UTC; model spend USD 0 except session 1126 (cap USD 12, chain 075's two askings) and session 1133 (cap USD 4, through the evaluation's own ledger step `site_ask_eval`, the spend checked before each call); no warehouse data written; no web request; screenshots at 1280 and 390 under `docs/brand/review-<N>/`; no default figure moves (check-values); no em dashes; reports in `archive/sessions/SESSION_<N>_REPORT.md` with "Decisions made without you" and "For Samuel's ruling", one item a line.
 
 ## Session 1126: the next file, then what chain 075 left
 
-Long end 1:30. First the next file (above). Then every item chain 075's sessions left under "To finish" (a landing, a build, a snapshot comparison, a run of check-values), done in order, each said in the report.
+Long end 3:00. Spend cap USD 12 (chain 075's two askings, USD 6 each, through the evaluation's own ledger step, the spend checked before each question). First the next file (above). Then chain 075's "To finish", in the order of its note (`docs/state/review_2026-10-24_code_ask_board.md`, "To finish", six steps): nothing of chain 075 is on main. One build of `wip/1123-ask` (everything of sessions 1108 to 1124) when the build lock is free and the machine has room (chain 075 was stopped by low memory at 19:17 on 23 October while chain 077 built); on it, sessions 1113 and 1114's askings and their two review documents, the `/deals` check-values page read again, `check-board.mjs`, the screenshots of sessions 1115, 1116 and 1119, the trader's path (1120) and the reads' timings (1121); then the landing with `land_check.py`, check-values' failures read against production's (ten of chain 075's eleven are production's own), the snapshots before and after. Each step said in the report; a step that cannot run is left again under "To finish" with its reason.
 
 ## Session 1127: the second set's wrong answers, at their causes
 
@@ -50,13 +50,13 @@ Long end 2:00. Spend cap USD 4. The thirty of session 320 and the thirty of sess
 
 Long end 1:30. Spend USD 0. Roadmap v4 item 6: each board row's last close against its publisher's calendar (a weekend, a holiday, a market that posts the next morning), the stale mark of session 1116 drawn only when a close is late by that calendar; the ERCOT day-ahead tiles' gap of 15 October checked again and said; keys. Land.
 
-## Session 1135: peak and off-peak on the board
+## Session 1135: CARB's allowance auctions, a quarterly row
 
-Long end 2:00. Spend USD 0. `price_board_peak_offpeak` drawn on the board for every public hub (peak, off-peak, their ratio, the day's block definitions in the tip, the held grids as "license needed" in place), in the board's row shape; keys; check-values. Land.
+Long end 2:00. Spend USD 0. (Chain 075 found the on-peak and off-peak rows already drawn, so this session's first plan is dropped.) `carb_auction_allowance_prices` is public (`docs/licenses.md`) and the board's row for it still says "not shown": a fourth frequency, quarterly, in the builder (`stats`, the range's minimum), the page (`FREQ_WORDS`, `noMove`, `STALE_DAYS`, the dates written as a quarter) and the workbench, then the current and advance auctions' settlement prices drawn in the carbon group. Tests on the table's real rows. Land.
 
-## Session 1136: each row to its year
+## Session 1136: the board's new rows, on the data machine's build
 
-Long end 2:00. Spend USD 0. Every board row a link to its history on `/prices` (the twelve months the 12-month range bar of session 1118 rests on, drawn as the brand's line chart with its source line and its window); the link keyboard-reachable and named; at 390 and 1280. Keys. Land.
+Long end 1:30. Spend USD 0. After chain 075's landing and the data machine's next `dm_board_page`: the three groups of session 1117 (World energy benchmarks, Natural gas by sector and state, Heating oil and propane) and session 1118's inputs on hover read on `/board` with `check-board.mjs`, each group's filters tried, a heating row's stale mark out of season said in its tip, screenshots at 390 and 1280. A row the builder did not write is a finding for the data machine's chain, not filled here. Land (the report and screenshots).
 
 ## Session 1137: what the board draws, downloadable
 
