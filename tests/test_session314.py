@@ -143,7 +143,8 @@ class TheEvaluationsOwnLedgerStep(unittest.TestCase):
         r = src("site", "app", "api", "ask", "route.ts")
         self.assertIn('const evaluation = evalToken !== null && sameSecret(req.headers.get("x-erw-ask-eval") ?? "", evalToken);', r)
         self.assertIn('? await admitEvaluation(now, readEvalCap(), () => rpc("internal_ask_spend", { p_token: process.env.INTERNAL_COSTS_TOKEN ?? "" }, { privileged: true }))', r)
-        self.assertIn("const ledgerOpts = evaluation ? { step: EVAL_STEP, strictLedger: true } : {};", r)
+        # session 1111: an evaluation also records its tool calls (record: true); a visitor's request gets none of these
+        self.assertIn("const ledgerOpts = evaluation ? { step: EVAL_STEP, strictLedger: true, record: true } : {};", r)
         self.assertEqual(r.count("...ledgerOpts"), 3)          # the stream, Ask ERCOT and the general chat
         self.assertIn("if (gate.ok && !evaluation) {", r)       # the hourly limit is the visitor's, not the runner's
         lim = src("site", "lib", "chat", "limits.ts")

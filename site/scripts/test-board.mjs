@@ -115,7 +115,9 @@ test("numbers as written, and a CSV of rows", () => {
 });
 test("the headline: lowest and highest grid on the day every priced main hub holds", () => {
   const ex = b.gridExtremes(file, "da");
-  assert.ok(ex && ex.grids === 5 && ex.low.v <= ex.high.v);
+  // session 1116: the grids with a priced main hub (five until the hold of 21 October 2026; ERCOT, CAISO and SPP since)
+  const priced = new Set(file.rows.filter((r) => r.group === "power" && r.status === "ok" && r.tags.scope === "main" && r.tags.market === "da").map((r) => r.tags.grid));
+  assert.ok(ex && ex.grids === priced.size && ex.grids >= 3 && ex.low.v <= ex.high.v);
   const rx = b.rangeExtremes(file);
   assert.ok(rx.top.range.pos >= rx.bottom.range.pos);
   assert.ok(!["plantfuel", "as", "retailpower"].includes(rx.top.group) && !["plantfuel", "as", "retailpower"].includes(rx.bottom.group));

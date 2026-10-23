@@ -1,0 +1,113 @@
+{
+ "_about": "Session 1122: the keys of questions_s1122.yaml, from tests/fixtures/session1122/board_reads.json by expected_s1122.py.",
+ "recorded_at": "2026-10-23T19:01:47Z",
+ "questions": [
+  {
+   "id": "k01",
+   "measure": "da_latest_day_mean",
+   "order": "highest",
+   "question": "On the price board's newest day for each hub, which hub had the highest day-ahead daily mean, and what was it in USD per MWh?",
+   "table": "price_board_latest",
+   "entity": "caiso:TH_NP15_GEN-APND",
+   "value": 44.9349,
+   "at": "2026-10-23T00:00:00+00:00",
+   "ranking": [
+    "caiso:TH_NP15_GEN-APND",
+    "caiso:TH_ZP26_GEN-APND",
+    "caiso:TH_SP15_GEN-APND",
+    "ercot:HB_SOUTH",
+    "ercot:HB_HOUSTON",
+    "ercot:HB_HUBAVG",
+    "ercot:HB_BUSAVG",
+    "ercot:HB_NORTH",
+    "spp:SPPNORTH_HUB",
+    "ercot:HB_WEST",
+    "spp:SPPSOUTH_HUB"
+   ]
+  },
+  {
+   "id": "k02",
+   "measure": "da_day_change_pct",
+   "order": "largest_move",
+   "question": "What moved most on the price board: which hub's day-ahead daily mean changed most, in percent, on its newest day against the day before, and by how much?",
+   "table": "price_board_latest",
+   "entity": "spp:SPPSOUTH_HUB",
+   "value": -96.6103,
+   "at": "2026-10-23T00:00:00+00:00",
+   "ranking": [
+    "spp:SPPSOUTH_HUB",
+    "ercot:HB_WEST",
+    "spp:SPPNORTH_HUB",
+    "ercot:HB_NORTH",
+    "ercot:HB_HUBAVG",
+    "ercot:HB_BUSAVG",
+    "ercot:HB_SOUTH",
+    "ercot:HB_HOUSTON",
+    "caiso:TH_NP15_GEN-APND",
+    "caiso:TH_SP15_GEN-APND",
+    "caiso:TH_ZP26_GEN-APND"
+   ]
+  },
+  {
+   "id": "k03",
+   "measure": "spark_spread_7",
+   "order": "highest",
+   "question": "Where is the spark spread widest on the price board (each hub's newest day, at the board's stated heat rate), and what is it in USD per MWh?",
+   "table": "price_board_spreads",
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "value": 18.1182,
+   "at": "2026-10-23T00:00:00+00:00",
+   "ranking": [
+    "caiso:TH_SP15_GEN-APND",
+    "ercot:HB_HUBAVG",
+    "spp:SPPNORTH_HUB"
+   ]
+  },
+  {
+   "id": "k04",
+   "measure": "rt_latest_day_mean",
+   "order": "lowest",
+   "question": "Which hub on the price board had the lowest real-time daily mean on its newest day, and what was it in USD per MWh?",
+   "table": "price_board_latest",
+   "entity": "spp:SPPSOUTH_HUB",
+   "value": 16.021,
+   "at": "2026-10-20T00:00:00+00:00",
+   "ranking": [
+    "spp:SPPSOUTH_HUB",
+    "ercot:HB_HOUSTON",
+    "ercot:HB_NORTH",
+    "ercot:HB_BUSAVG",
+    "ercot:HB_HUBAVG",
+    "ercot:HB_WEST",
+    "spp:SPPNORTH_HUB",
+    "ercot:HB_SOUTH",
+    "caiso:TH_SP15_GEN-APND",
+    "caiso:TH_ZP26_GEN-APND",
+    "caiso:TH_NP15_GEN-APND"
+   ]
+  },
+  {
+   "id": "k05",
+   "measure": "da_minus_rt",
+   "order": "largest_move",
+   "question": "On the price board, which hub's day-ahead price ran furthest from real time (day-ahead minus real time, either sign) on its newest day, and by how much in USD per MWh?",
+   "table": "price_board_latest",
+   "entity": "caiso:TH_ZP26_GEN-APND",
+   "value": -12.2604,
+   "at": "2026-10-22T00:00:00+00:00",
+   "ranking": [
+    "caiso:TH_ZP26_GEN-APND",
+    "caiso:TH_NP15_GEN-APND",
+    "spp:SPPNORTH_HUB",
+    "ercot:HB_HOUSTON",
+    "spp:SPPSOUTH_HUB",
+    "caiso:TH_SP15_GEN-APND",
+    "ercot:HB_WEST",
+    "ercot:HB_HUBAVG",
+    "ercot:HB_BUSAVG",
+    "ercot:HB_NORTH",
+    "ercot:HB_SOUTH"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,11 @@
+{
+ "_about": "Session 1110: six answers to session 320's b01, three clean and three with a figure no tool returned in the unit stated, checked against the two tool results of sources.json by both number checks (warehouse/chat/ask.py unverified and unit_mismatches; site/lib/chat/ask.ts the same). untraced and units are what each check must return.",
+ "answers": [
+  {"id": "clean-exact", "answer": "The total is 81,402.19 USD/MW (battery_stack_monthly), over 12 months from 1 October 2025.", "untraced": [], "units": []},
+  {"id": "clean-rounded-and-form", "answer": "About USD 81,402 per MW (battery_stack_monthly), the sum of 12 months; the hub's prices are not from EIA-930 or EIA-860M.", "untraced": [], "units": []},
+  {"id": "clean-month", "answer": "Over 2025-10 to 2026-09 the battery earned 81402.2 USD per MW of rated power (battery_stack_monthly).", "untraced": [], "units": []},
+  {"id": "invented-conversion", "answer": "The total is 81.40 USD per kW (battery_stack_monthly).", "untraced": ["81.40"], "units": []},
+  {"id": "invented-unit", "answer": "The total is 81,402.19 USD per kW (battery_stack_monthly).", "untraced": [], "units": ["81402.19 USD/kW (the tools gave it in USD/MW)"]},
+  {"id": "invented-share", "answer": "The total is 81,402.19 USD/MW (battery_stack_monthly), 12.5 percent more than the year before.", "untraced": ["12.5"], "units": []}
+ ]
+}
