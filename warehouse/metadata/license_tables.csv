@@ -185,6 +185,7 @@ eia_retail_electricity_prices,EIA,the source registry
 eia_retail_fuel_prices,EIA,the source registry
 eia_retail_sales_monthly,EIA,the source registry
 eia_sector_energy_consumption_monthly,EIA,the source registry
+eia_seds_residential_annual,EIA,the source registry
 eia_seds_state_energy,EIA,the source registry
 eia_state_capacity_annual,EIA,the source registry
 eia_state_generation_monthly,EIA,the source registry

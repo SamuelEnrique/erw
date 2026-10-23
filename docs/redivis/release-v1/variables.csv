@@ -3356,6 +3356,10 @@ eia_retail_fuel_prices,retail_price,series variable,USD/gal
 eia_retail_sales_monthly,customers,series variable,count
 eia_retail_sales_monthly,retail_sales,series variable,MWh
 eia_sector_energy_consumption_monthly,energy_consumption,series variable,TBtu
+eia_seds_residential_annual,consumption,series variable,TBtu
+eia_seds_residential_annual,expenditures,series variable,USD
+eia_seds_residential_annual,population,series variable,count
+eia_seds_residential_annual,price,series variable,USD/MMBtu
 eia_seds_state_energy,value,series variable,TBtu
 eia_seds_state_energy,value,series variable,USD
 eia_seds_state_energy,value,series variable,USD/MMBtu
