@@ -38,7 +38,7 @@ Events, 403 rows, one a disaster: `event_id` `noaa_billion:<begin date>:<12 hex 
 - The file's lines before its header must say the costs are "in millions of dollars"; the header must be `Name,Disaster,Begin Date,End Date,CPI-Adjusted Cost,Unadjusted Cost,Deaths`.
 - A date not `YYYYMMDD`, a cost that is not a number, deaths not a whole number, or an event id given twice stops the run. A blank cost stays blank; nothing is filled. Values as published, whitespace collapsed.
 - The file names no state an event touched; the product's maps did, and are not taken.
-- Ceiling: one request. NCEI's robots file disallows `/data*`, `/orders*` and parts of `/access/crn/`; `/access/billions/` is not among them (read 198).
+- Ceiling: one request. NCEI's robots file disallows `/data*`, `/orders*` and parts of `/access/crn/`; `/access/billions/` is not among them (read 222).
 
 ## License
 

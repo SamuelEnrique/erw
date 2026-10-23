@@ -30,5 +30,5 @@ Each tropical cyclone of 2015 to 2024 against the hurricane, tropical storm and 
 ## Files
 
 - New: `warehouse/connectors/noaa_billion_disasters.py`, `tests/test_session2073.py` (3 tests), this report.
-- Changed: `build_coverage.py`, `release_v1.py`, `live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_reads.csv` (202), `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
+- Changed: `build_coverage.py`, `release_v1.py`, `live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_reads.csv` (222), `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
 - On the data machine only: `runs/c067/s2073/`, `runs/license_reads/s2073/`, `runs/s2073*`, `warehouse/raw/noaa_billion_disasters/`.

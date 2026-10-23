@@ -355,6 +355,15 @@ catalogue_hold:
   - usbr_hydropower_monthly
   - noaa_cpc_degree_days_daily
   - boem_offshore_platforms
+  - doe_oe417_events
+  - eaglei_county_outages_daily
+  - epa_rfs_rins_monthly
+  - epa_rfs_fuel_annual
+  - eia_biofuel_plants
+  - msha_coal_mines
+  - msha_coal_production_quarterly
+  - fhwa_motor_fuel_monthly
+  - afdc_vehicle_registrations_annual
   - noaa_ncei_storm_events
   - nrc_event_notifications
   - doe_lng_export_applications

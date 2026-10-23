@@ -226,6 +226,15 @@ SECTOR_RULES = [
     (r"^usbr_hydropower_monthly$", "power"),  # session 2003: Reclamation's plants
     (r"^noaa_cpc_degree_days_daily$", "power;gas"),  # session 2006: CPC's degree days
     (r"^boem_offshore_platforms$", "oil;gas"),  # session 2007: BOEM's platforms
+    (r"^doe_oe417_events$", "power"),  # session 2028: DOE-417's disturbance events
+    (r"^eaglei_county_outages_daily$", "power"),  # session 2029: EAGLE-I's county outages, a day's peak
+    (r"^epa_rfs_rins_monthly$", "products;carbon"),  # session 2030: EPA's RFS, RINs and volumes a month by D code
+    (r"^epa_rfs_fuel_annual$", "products;carbon"),  # session 2030: EPA's RFS, a year by D code and fuel
+    (r"^eia_biofuel_plants$", "products"),  # session 2031: EIA's biofuels plant capacity, a plant and year a row
+    (r"^msha_coal_mines$", "coal"),  # session 2034: MSHA's coal mines
+    (r"^msha_coal_production_quarterly$", "coal"),  # session 2034: MSHA's coal production, hours and employees a quarter
+    (r"^fhwa_motor_fuel_monthly$", "products"),  # session 2035: FHWA's monthly motor fuel by state
+    (r"^afdc_vehicle_registrations_annual$", "power;products"),  # session 2036: AFDC's vehicle registrations by state and fuel
     (r"^noaa_ncei_storm_events$", "power"),  # session 2042: NOAA's storm events
     (r"^nrc_event_notifications$", "power;uranium"),  # session 2043: the NRC's event reports
     (r"^doe_lng_export_applications$", "gas;lng"),  # session 2044: DOE's LNG export applications

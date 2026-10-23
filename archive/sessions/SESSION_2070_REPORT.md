@@ -10,7 +10,7 @@
 - **The prices were not taken:**
   - The Hourly Ontario Energy Price ends with April 2025: the market renewal of 1 May 2025 replaced it with the Ontario zonal price, which the IESO publishes only as daily and hourly files (about three months of them, 187 day-ahead files and 12,707 real-time ones), far beyond a ceiling of 15.
   - The ERW has no Canadian dollar unit, a standing question for the owner since the CER's tables. The HOEP files of 2024 and 2025 are saved on this machine (`runs/license_reads/s2070/`), not written.
-- **A new verdict, the IESO: may be public** (read 198, its Terms of Use): "you are granted a limited, non-exclusive, non-sublicensable, non-transferrable licence to use and reproduce the Content", provided each reproduction carries the IESO's copyright notice, which the table's header does, word for word.
+- **A new verdict, the IESO: may be public** (read 218, its Terms of Use): "you are granted a limited, non-exclusive, non-sublicensable, non-transferrable licence to use and reproduce the Content", provided each reproduction carries the IESO's copyright notice, which the table's header does, word for word.
 
 ## The cross-check
 
@@ -33,5 +33,5 @@ Ontario's exports by the IESO's own figures (market demand less Ontario demand) 
 ## Files
 
 - New: `warehouse/connectors/ieso_demand.py`, `tests/test_session2070.py` (3 tests), `queue/next/068-day-26-october-data-mexico-renewables-loans-credits-pipelines.md` (on main), this report.
-- Changed: `build_coverage.py`, `release_v1.py`, `live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_reads.csv` (196 to 198), `license_verdicts.csv`, `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
+- Changed: `build_coverage.py`, `release_v1.py`, `live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `archive_manifest.csv`, `sources.csv`, `license_reads.csv` (216 to 218), `license_verdicts.csv`, `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
 - On the data machine only: `runs/c067/`, `runs/license_reads/s2070/`, `runs/s2070*`, `warehouse/raw/ieso_demand/`.

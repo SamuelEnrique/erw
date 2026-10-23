@@ -39,7 +39,7 @@ Series, 70,338 rows, one a facility, segment and year; unit `tCO2e` (metric tons
 - Six sheets of the workbook are taken; "Suppliers" (gases supplied, not emitted), "CO2 Injection" and "Geologic Sequestration of CO2" (quantities injected and stored), the industry type key and the FAQs are not.
 - A column whose heading begins with four digits must read `<year> Total reported (direct) emissions`; a sheet missing, a sheet without its "Facility Id" header, a value that is not a number, a state name not in the connector's map, or a facility given twice in a year and segment stops the run.
 - A blank cell has no row; nothing is filled. Values as EPA publishes them, whitespace collapsed.
-- Ceiling: two requests (the page, the zip when not saved). www.epa.gov's robots file disallows only Drupal's own paths and search pages (read 197).
+- Ceiling: two requests (the page, the zip when not saved). www.epa.gov's robots file disallows only Drupal's own paths and search pages (read 221).
 
 ## License
 

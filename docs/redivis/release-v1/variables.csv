@@ -1,5 +1,17 @@
 table,name,kind,unit
 aeso_alberta_load_hourly,ail_demand,series variable,MW
+afdc_vehicle_registrations_annual,registrations_biodiesel,series variable,count
+afdc_vehicle_registrations_annual,registrations_cng,series variable,count
+afdc_vehicle_registrations_annual,registrations_diesel,series variable,count
+afdc_vehicle_registrations_annual,registrations_e85,series variable,count
+afdc_vehicle_registrations_annual,registrations_ev,series variable,count
+afdc_vehicle_registrations_annual,registrations_gasoline,series variable,count
+afdc_vehicle_registrations_annual,registrations_hev,series variable,count
+afdc_vehicle_registrations_annual,registrations_hydrogen,series variable,count
+afdc_vehicle_registrations_annual,registrations_methanol,series variable,count
+afdc_vehicle_registrations_annual,registrations_phev,series variable,count
+afdc_vehicle_registrations_annual,registrations_propane,series variable,count
+afdc_vehicle_registrations_annual,registrations_unknown_fuel,series variable,count
 ba_supply_monthly,balance_all_days_mwh,series variable,MWh
 ba_supply_monthly,balance_days,series variable,count
 ba_supply_monthly,days_held,series variable,count
@@ -556,6 +568,33 @@ doe_lng_export_applications,x_as_of,column,
 doe_lng_export_applications,x_page,column,
 doe_lng_export_applications,source_url,column,
 doe_lng_export_applications,retrieved_at,column,
+doe_oe417_events,event_id,column,
+doe_oe417_events,event_date,column,
+doe_oe417_events,event_type,column,
+doe_oe417_events,parties,column,
+doe_oe417_events,entity_ids,column,
+doe_oe417_events,mw,column,
+doe_oe417_events,price,column,
+doe_oe417_events,currency,column,
+doe_oe417_events,status,column,
+doe_oe417_events,source,column,
+doe_oe417_events,source_url,column,
+doe_oe417_events,x_year,column,
+doe_oe417_events,x_row,column,
+doe_oe417_events,x_begin_date,column,
+doe_oe417_events,x_begin_time,column,
+doe_oe417_events,x_restoration_date,column,
+doe_oe417_events,x_restoration_time,column,
+doe_oe417_events,x_area_affected,column,
+doe_oe417_events,x_nerc_region,column,
+doe_oe417_events,x_alert_criteria,column,
+doe_oe417_events,x_event_types,column,
+doe_oe417_events,x_event_type_as_published,column,
+doe_oe417_events,x_demand_loss_mw_as_published,column,
+doe_oe417_events,x_customers_affected_as_published,column,
+doe_oe417_events,x_customers_affected,column,
+doe_oe417_events,retrieved_at,column,
+doe_oe417_events,vintage,column,
 doe_useer_employment,employment,series variable,count
 egrid_power_plants,entity_id,column,
 egrid_power_plants,entity_type,column,
@@ -2910,6 +2949,28 @@ eia_annual_generation_ba,plants,series variable,count
 eia_annual_generation_ba,storage_net_generation_mwh,series variable,MWh
 eia_basin_production_monthly,crude_production,series variable,kbbl/d
 eia_basin_production_monthly,gas_marketed_production,series variable,bcf/d
+eia_biofuel_plants,entity_id,column,
+eia_biofuel_plants,entity_type,column,
+eia_biofuel_plants,name,column,
+eia_biofuel_plants,geo,column,
+eia_biofuel_plants,lat,column,
+eia_biofuel_plants,lon,column,
+eia_biofuel_plants,capacity_mw,column,
+eia_biofuel_plants,status,column,
+eia_biofuel_plants,status_date,column,
+eia_biofuel_plants,operator,column,
+eia_biofuel_plants,source,column,
+eia_biofuel_plants,source_url,column,
+eia_biofuel_plants,retrieved_at,column,
+eia_biofuel_plants,vintage,column,
+eia_biofuel_plants,x_year,column,
+eia_biofuel_plants,x_fuel,column,
+eia_biofuel_plants,x_facility_type,column,
+eia_biofuel_plants,x_padd,column,
+eia_biofuel_plants,x_city,column,
+eia_biofuel_plants,x_capacity_mmgal_per_year,column,
+eia_biofuel_plants,x_capacity_kbbl_per_day,column,
+eia_biofuel_plants,x_coprocessing,column,
 eia_capacity_factors_annual,capacity_factor,series variable,ratio
 eia_capacity_factors_annual,time_adjusted_capacity,series variable,MW
 eia_capacity_factors_monthly,capacity_factor,series variable,ratio
@@ -3444,6 +3505,10 @@ epa_ghgrp_facility_emissions,emissions_sf6_equipment,series variable,tCO2e
 epa_ghgrp_facility_emissions,emissions_transmission_pipelines,series variable,tCO2e
 epa_ghgrp_power_co2,co2_biogenic,series variable,tCO2
 epa_ghgrp_power_co2,co2_non_biogenic,series variable,tCO2
+epa_rfs_fuel_annual,batch_volume,series variable,gal
+epa_rfs_fuel_annual,rins_generated,series variable,count
+epa_rfs_rins_monthly,batch_volume,series variable,gal
+epa_rfs_rins_monthly,rins_generated,series variable,count
 ercot_4cp_intervals,cp4_load_mw,series variable,MW
 ercot_all_hub_prices_history,spp_dam,series variable,USD/MWh
 ercot_all_hub_prices_history,spp_rtm,series variable,USD/MWh
@@ -4091,6 +4156,8 @@ ercot_wind_solar_output_hourly,wind_generation_mw,series variable,MW
 ercot_zone_load_hourly,load,series variable,MW
 ercot_zone_prices_history,spp_dam,series variable,USD/MWh
 ercot_zone_prices_history,spp_rtm,series variable,USD/MWh
+fhwa_motor_fuel_monthly,gasoline_volume,series variable,gal
+fhwa_motor_fuel_monthly,special_fuel_volume,series variable,gal
 flex_alert_effects,actual_mw,series variable,MW
 flex_alert_effects,actual_mwh,series variable,MWh
 flex_alert_effects,alert_first_hour,series variable,hour
@@ -5482,6 +5549,32 @@ lbnl_wind_turbine_orders,source_url,column,
 lbnl_wind_turbine_orders,retrieved_at,column,
 lbnl_wind_turbine_orders,x_price_unit,column,
 lbnl_wind_turbine_orders,x_dollar_year,column,
+msha_coal_mines,entity_id,column,
+msha_coal_mines,entity_type,column,
+msha_coal_mines,name,column,
+msha_coal_mines,geo,column,
+msha_coal_mines,lat,column,
+msha_coal_mines,lon,column,
+msha_coal_mines,capacity_mw,column,
+msha_coal_mines,status,column,
+msha_coal_mines,status_date,column,
+msha_coal_mines,operator,column,
+msha_coal_mines,source,column,
+msha_coal_mines,source_url,column,
+msha_coal_mines,retrieved_at,column,
+msha_coal_mines,vintage,column,
+msha_coal_mines,x_mine_status,column,
+msha_coal_mines,x_mine_type,column,
+msha_coal_mines,x_controller,column,
+msha_coal_mines,x_county_fips,column,
+msha_coal_mines,x_county,column,
+msha_coal_mines,x_district,column,
+msha_coal_mines,x_primary_sic,column,
+msha_coal_mines,x_employees,column,
+msha_coal_mines,x_nearest_town,column,
+msha_coal_production_quarterly,average_employees,series variable,count
+msha_coal_production_quarterly,coal_production,series variable,short_ton
+msha_coal_production_quarterly,employee_hours,series variable,count
 nlr_atb_electricity_costs,capacity_factor,series variable,ratio
 nlr_atb_electricity_costs,capex,series variable,USD/kW
 nlr_atb_electricity_costs,fixed_om,series variable,USD/kW-year
