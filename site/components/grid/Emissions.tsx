@@ -18,6 +18,7 @@ import { CaisoBreakNote } from "@/components/CaisoBreakNote";  // session 73
 // Session 237: this file was app/emissions/page.tsx. /emissions redirects to the Clean view of the Grid tool (/grid,
 // next.config.ts), which draws these three blocks as they were, the grid in view marked in the ranking.
 import { lastDayFigures, type Fig } from "@/lib/gridKeys";  // session 1151
+import { scrollRegion } from "@/lib/cells";  // session 1159: the last 24 hours' table scrolls in a frame a keyboard reaches, as ToolTable's
 import { carbonLeftOut, carbonLeftOutMonths, monthRuns, CARBON_HYDRO_GAP } from "@/lib/carbonLeftOut";  // session 118
 
 const T = "carbon_intensity_hourly";
@@ -172,7 +173,9 @@ export async function EmissionsParts({ focus = null, grid }: { focus?: string | 
           <>
             <LineChart lines={lines} unit="kg CO2/MWh" height={260} ariaLabel="Carbon intensity of generation per ISO, the last 24 hours" />
             {/* session 1151: the chart's headline figures, each a key of carbon_intensity_hourly with its source in the tip */}
-            <div className="mt-3 overflow-x-auto" data-grid-panel={`grid_clean24_${grid ?? "all"}`}>
+            {/* session 1159 (the brand pass): the table alone scrolls, in a frame a keyboard reaches; its note stays in place; each ISO is its row's header, so it stays in view as the figures scroll */}
+            <div className="mt-3" data-grid-panel={`grid_clean24_${grid ?? "all"}`}>
+              <div className="overflow-x-auto" {...scrollRegion("Latest, lowest and highest intensity of generation per ISO in the 24 hours drawn")}>
               <table className="w-full min-w-[520px] text-sm tabular-nums">
                 <caption className="sr-only">Latest, lowest and highest intensity of generation per ISO in the 24 hours drawn</caption>
                 <thead>
@@ -186,7 +189,7 @@ export async function EmissionsParts({ focus = null, grid }: { focus?: string | 
                 <tbody>
                   {lastDayFigures(rows, ISOS.map((i) => i.entity), newest).map((d) => (
                     <tr key={d.entity} className={`border-b border-rule ${d.entity === focus ? "bg-paper font-semibold" : ""}`} data-focus={d.entity === focus ? "1" : undefined}>
-                      <td className="py-0.5 pr-2">{ISOS.find((i) => i.entity === d.entity)!.label}</td>
+                      <th scope="row" className="py-0.5 pr-2 text-left font-normal">{ISOS.find((i) => i.entity === d.entity)!.label}</th>
                       <td className="pr-2 text-right"><F f={d.latest} /> <span className="text-xs text-muted">{d.latest.ts.slice(11, 16)}</span></td>
                       <td className="pr-2 text-right"><F f={d.low} /> <span className="text-xs text-muted">{d.low.ts.slice(11, 16)}</span></td>
                       <td className="pr-2 text-right"><F f={d.high} /> <span className="text-xs text-muted">{d.high.ts.slice(11, 16)}</span></td>
@@ -194,6 +197,7 @@ export async function EmissionsParts({ focus = null, grid }: { focus?: string | 
                   ))}
                 </tbody>
               </table>
+              </div>
               <p className="mt-1 text-xs text-muted">The hour beside each figure is its hour start, UTC. Hover a figure for its table, entity and hour.</p>
             </div>
           </>

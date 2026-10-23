@@ -32,7 +32,7 @@ export function NetworkFigures({ snap, hour, grid, live }: { snap: Snapshot; hou
   if (grid.slug === "us48") {
     const rows = lower48Panel(snap, ISO_GRIDS.map((g) => g.ba), hour);
     return (
-      <div data-grid-panel={panel} className="mt-8">
+      <div data-grid-panel={panel} className="mt-10">
         <ToolSection title={`The seven grids, the hour shown (${hourName(hour)})`}
           note="Net export, MW: the sum of a grid's reporting ties in the hour the network opens on, signed from its side; a negative number is a net import. Hover a figure for its table, filter, hour and the snapshot's refresh.">
           <ToolTable caption="Net exchange of the seven grids in the hour the network shows" minWidth={380} head={["Grid", "Net export, MW", "Ties reporting"]}
@@ -47,7 +47,7 @@ export function NetworkFigures({ snap, hour, grid, live }: { snap: Snapshot; hou
   }
   const p = networkPanel(snap, grid.ba, hour, live.demand[grid.ba]);
   return (
-    <div data-grid-panel={panel} className="mt-8">
+    <div data-grid-panel={panel} className="mt-10">
       <ToolSection title={`${grid.label}, the hour shown (${hourName(hour)})`}
         note={`The figures the network draws for ${grid.label} in the hour it opens on, from the same snapshot. A tie's flow is signed from ${grid.label}'s side: positive, power left the grid. Hover a figure for its table, filter, hour and the snapshot's refresh.`}>
         {p.ties.length ? (
@@ -72,7 +72,7 @@ export function NetworkFigures({ snap, hour, grid, live }: { snap: Snapshot; hou
 export function GravityFigures({ snap, hour, grid, live }: { snap: Snapshot; hour: string; grid: GridChoice; live: LiveExtras }) {
   const g = gravityPanel(snap, GRAVITY_GRIDS.map((x) => x.id), GRAVITY_CENTER, hour, live.generation);
   return (
-    <div data-grid-panel={`grid_gravity_${grid.slug}`} className="mt-8">
+    <div data-grid-panel={`grid_gravity_${grid.slug}`} className="mt-10">
       <ToolSection title={`What the gravity shape draws, the hour shown (${hourName(hour)})`}
         note={<>Each circle&apos;s area follows the grid&apos;s net generation; its pull toward the center, its net import over its reporting ties as a percent of that generation (a negative number: a net export, pushed out). The Lower 48&apos;s generation sets the scale{g.center ? <>: <F f={g.center} /> MW</> : <>; it is not held for the hour</>}. Hover a figure for its table, filter, hour and the snapshot&apos;s refresh.
           {" "}<span data-gravity-window="live">These are the figures of the hour the shape opens on, in the live week. A day picked in the replay stays in the address, but neither the shape nor this table draws it: net generation is held by hour for the live week only, not by day, so no figure here is that day&apos;s.</span>

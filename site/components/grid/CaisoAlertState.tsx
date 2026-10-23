@@ -19,7 +19,7 @@ import { attempt } from "@/lib/supabase";
 /** A figure with its key and its one-line source as the hover tip: a day as written (YYYY-MM-DD), a count whole. */
 function F({ f }: { f: Fig }) {
   return (
-    <span title={f.tip} className="cursor-help border-b border-dotted border-muted font-mono">
+    <span title={f.tip} className="cursor-help border-b border-dotted border-muted">
       <Num check={f.check} raw={f.raw}>{typeof f.raw === "number" ? count(f.raw) : f.raw}</Num>
     </span>
   );

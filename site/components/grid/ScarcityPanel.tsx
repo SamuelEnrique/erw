@@ -14,8 +14,8 @@
 import { HeatChart } from "@/components/svgchart";
 import { Missing } from "@/components/mix/Now";
 import { Num } from "@/components/Num";
-import { Section } from "@/components/Section";
 import { SiteLink } from "@/components/SiteLink";
+import { ToolSection } from "@/components/tool/ToolPage";  // session 1159: the section title every panel of the chain draws
 import { newest, renderTime } from "@/lib/data";
 import { shown } from "@/lib/format";
 import { ALERT_TABLE, alertDays, shortName, type AlertDays } from "@/lib/caisoAlerts";
@@ -131,14 +131,14 @@ async function Strip({ g }: { g: ScarcityGrid }) {
 export async function ScarcityPanel({ grid, label }: { grid: string; label: string }) {
   return (
     <div data-grid-panel={`grid_scarcity_${grid}`}>
-      <Section title={grid === "us48" ? "The scarcity hours, by grid" : `${label}: the scarcity hours, last 30 days held`} id="scarcity">
+      <ToolSection title={grid === "us48" ? "The scarcity hours, by grid" : `${label}: the scarcity hours, last 30 days held`} id="scarcity">
         {isScarcityGrid(grid) ? <Strip g={SCARCITY_GRIDS[grid]} />
           : grid === "us48" ? (
             <p className="max-w-3xl text-sm" data-scarcity-us48="1">
               {SCARCITY_TABLE} is by grid, and it holds two: <SiteLink href={`${gridHref("ercot", "mix")}#scarcity`}>ERCOT&apos;s scarcity hours</SiteLink> and <SiteLink href={`${gridHref("caiso", "mix")}#scarcity`}>CAISO&apos;s</SiteLink>.
             </p>
           ) : (() => { const n = notHeld(grid, label); return <p className="max-w-3xl text-sm" data-scarcity-held={n.words}>{label}: <Missing why={n.why} words={n.words} /> <span className="text-xs text-muted">{n.why}</span></p>; })()}
-      </Section>
+      </ToolSection>
     </div>
   );
 }

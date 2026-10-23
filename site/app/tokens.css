@@ -1193,3 +1193,41 @@ body:has(.brand-a) > footer :focus-visible {
 .brand-a [data-allgrids-table] table th:first-child {
   z-index: 1;
 }
+
+/* ---- session 1159 (chain 077, the brand pass of the Grid tool: /grid's four tabs and the panels of sessions 1151 to
+   1157, docs/brand.md). Styles only: nothing here moves a number, a key or a word, and no panel moves. */
+/* the tables a panel draws by hand (the energy mix's two, session 1152; the last 24 hours', session 1151) take the shared
+   table's rows (components/tool/ToolPage.tsx, ToolTable: 6 px above and below a cell, a row of about 33 px; docs/brand.md,
+   section 5: rows 32 to 36 px tall) and its full rule between rows, where they drew 2 to 4 px and a rule at 60 percent.
+   A panel drawn by ToolTable or by the shared charts' table already has both, so it does not move */
+.brand-a [data-grid-panel] table :is(thead, tbody) :is(th, td) {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.brand-a [data-grid-panel] tbody tr {
+  border-bottom-color: var(--color-rule);
+}
+/* an hour written small beside a figure in a cell (the last 24 hours' "05:00") keeps the caption size the panel gave it,
+   which the rule for a figure cell's spans above had set at 14 */
+.brand-a [data-grid-panel] tbody td.text-right span.text-xs {
+  font-size: 12px;
+}
+/* "license needed" and "not held yet" in one look across the tool: captions grey, upright, a dotted rule under the words
+   that give the reason on hover. components/mix/Now.tsx (Missing) drew them in italics; components/Num.tsx and
+   components/NoData.tsx with no mark that a hover holds the publishers. A keyed figure's own dotted rule (the panels' F)
+   is not drawn twice */
+.brand-a [data-grid-tool] span[data-missing],
+.brand-a [data-grid-tool] span[data-license-held][title] {
+  font-style: normal;
+  color: var(--color-muted);
+  border-bottom: 1px dotted var(--color-muted);
+  cursor: help;
+}
+.brand-a [data-grid-tool] span.cursor-help[title] > span[data-license-held] {
+  border-bottom: 0;
+}
+/* in a figure's cell, the words the warehouse writes where it holds no figure ("license needed", "not held", "no tie
+   reported", "none") are text, so sans, as the All grids tab draws them (session 715); a figure stays mono */
+.brand-a [data-grid-tool] tbody td.text-right :is(span[data-license-held], span[data-missing], span.text-muted:not(.text-xs):not([data-check])) {
+  font-family: var(--font-sans);
+}
