@@ -25,3 +25,8 @@
 - Changed: `docs/reviews/siting-gaps.md` (the merge), `archive/sessions/SESSION_923_REPORT.md` (the correction); on main, `queue/next/053-day-23-october-data-world-energy-dams-solar-projects.md`.
 
 ## Addendum: the landing
+
+- `scripts/freeze.py status`: no freeze. Before snapshot `c052-land-before`, then `task/923-936-data` pushed at 10:40:03 UTC, after a second merge of origin/main (no conflict).
+- The code branch's checks (run 39940707655) passed and merged it as `b927ba45` at about 10:54 UTC.
+- Vercel: the deploy of `b927ba45` was rate limited, as chains 046 to 051's were, so the live pages are the last deployed build. After snapshot `c052-land-after`: compare says 0 differences in all (expected: every page is in review).
+- Then `scripts/chain_queue.py next`.
