@@ -23,3 +23,7 @@
 ## To finish
 
 1. Session 1190 (089): the after snapshot if not taken here, the board's new rows, the board at a keyboard, the second set's rest, the history's rows (089, session 1190's list).
+
+## Addendum: the after snapshot
+
+Vercel refused this session's deploy too (`55a75fda`, "Deployment rate limited, retry in 24 hours"), so production still served the build before chain 085's landing. `take s1149-after` (23:13:55, 25 pages, 0 failed); `compare s1142-land-before s1149-after`: 0 differences; `compare s1149-before s1149-after`: 0 differences; both expected (nothing deployed, every page in review). The snapshot once production carries `1ccf3c5e` or a later commit is item 1 of 089's session 1190.
