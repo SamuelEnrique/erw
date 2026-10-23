@@ -67,7 +67,7 @@ One row per physical or corporate thing: a plant, a project, a datacenter, a cou
 | Column | Required | Type | Rules |
 |---|---|---|---|
 | `entity_id` | yes | string | `namespace:native_id`, same rule as `series.entity`. Unique within the table |
-| `entity_type` | yes | string | `plant`, `generator`, `project`, `datacenter`, `substation`, `utility`, `company`, `counterparty` |
+| `entity_type` | yes | string | `plant`, `generator`, `project`, `datacenter`, `substation`, `utility`, `company`, `counterparty`, and since session 896 (Decision 54) `equipment` |
 | `name` | yes | string | Name as the source writes it |
 | `geo` | no | string | ISO 3166-2 code |
 | `lat` | no | float | WGS84 decimal degrees |
@@ -240,6 +240,7 @@ What was chosen, and why:
 51. **Session 695: reliability indices.** `minute/customer` (SAIDI: minutes of sustained interruption per customer served), `interruption/customer` (SAIFI: sustained interruptions per customer served) and `minute/interruption` (CAIDI: minutes per interruption) join the unit vocabulary, as Form EIA-861's reliability file publishes them (`eia861_utility_reliability`). Each is over the row's period (`freq` `P1Y`: a year). `hour` stays an hour of the day and `month` a duration; a count of customers stays `count`.
 52. **Session 870: Btu/lb.** `Btu/lb` joins the unit vocabulary for a fuel's heat content in British thermal units per pound, as Form EIA-923's coal receipts give it (`eia_coal_shipments_annual`). It is a property of the fuel, not an amount of energy (`MMBtu`, `TBtu`) or a heat rate (`MMBtu/MWh`).
 53. **Session 889: index.** `index` joins the unit vocabulary for an index number on its source's base period, as the Federal Reserve's G.17 gives industrial production and its utilities' output (2017 = 100, `frb_utility_output_monthly`). The base is named in the table's header; an index is never summed, and two indexes compare only on one base.
+54. **Session 896: equipment.** `equipment` joins the `entity_type` vocabulary for a part of a plant that is neither a generator nor the plant: a boiler, a cooling system, an emissions control, as Form EIA-860's environmental schedules give them (`eia860_boilers`, `eia860_cooling_systems`, `eia860_emission_controls`). Its `entity_id` names the plant and the part; `capacity_mw` stays empty unless the source states a capacity in MW.
 
 Deferred to a later version:
 

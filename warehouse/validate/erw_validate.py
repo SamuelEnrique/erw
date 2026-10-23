@@ -154,7 +154,8 @@ ENTITIES_COLS = ["entity_id", "entity_type", "name", "geo", "lat", "lon", "capac
                  "status_date", "operator", "source"]
 ENTITIES_REQUIRED = ["entity_id", "entity_type", "name", "source"]
 ENTITY_TYPES = {"plant", "generator", "project", "datacenter", "substation", "utility", "company",
-                "counterparty"}
+                "counterparty",
+                "equipment"}  # session 896: a plant's boiler, cooling system or emissions control (EIA-860; Decision 54)
 # docs/datastandard.md shape (b) and Decision 20: the source's own status stays in its own column
 ENTITY_STATUS = {"operating", "planned", "under_construction", "retired", "withdrawn", "active",
                  "completed", "suspended"}
