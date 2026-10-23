@@ -2,7 +2,6 @@ import { SiteLink as Link } from "@/components/SiteLink";
 import { Num } from "@/components/Num";
 import { abKey, abPair, usdPerMw } from "@/lib/dealspublic";
 import type { Deal } from "./DealsTable";
-import { usd } from "./DealsTable";
 
 // Session 826: two deals of the table compared side by side, in the battery page's A and B form (components/decisions/
 // ScenarioBlock.tsx: the same rows, two columns, a "What differs" row), no verdict. The pair is in the address
@@ -12,6 +11,14 @@ import { usd } from "./DealsTable";
 // USD per MW, the one figure computed here (dealpub|ab|<id>|usd_per_mw), only where the deal states both.
 
 const n = (v: number) => v.toLocaleString("en-US", { maximumFractionDigits: 2 });
+// US dollars, short, as DealsTable.tsx writes them (data-format usd); its own copy here, since that file is a client
+// module and a server component may not call its functions (session 829 found the page failing on it)
+function usd(v: number): string {
+  const t = (x: number) => x.toLocaleString("en-US", { maximumFractionDigits: 2 });
+  if (Math.abs(v) >= 1e9) return `${t(v / 1e9)} billion`;
+  if (Math.abs(v) >= 1e6) return `${t(v / 1e6)} million`;
+  return v.toLocaleString("en-US");
+}
 const TYPE: Record<string, string> = {
   ppa: "PPA", offtake: "Offtake", m_and_a: "M&A", project_finance: "Project finance", tax_equity: "Tax equity", debt: "Debt",
   equity_raise: "Equity raise", joint_venture: "Joint venture", lease: "Lease", behind_the_meter: "Behind the meter",
