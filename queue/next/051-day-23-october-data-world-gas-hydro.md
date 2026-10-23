@@ -2,7 +2,7 @@
 
 machine: data
 
-Written by session 895, the first session of `queue/done/049-day-23-october-data-margins-schedules-emissions.md`, under chain 045's rule ("the next file is written and pushed to `queue/next` at the START of the chain"), at the owner's instruction for chain 045 ("at least twelve sessions, machine: data, ... the sources and gaps ... in chain 040's form"). Chain 049's file asked for `050-<slug>.md`; the code machine's chain already holds 050, so this file is 051. Sessions 909 to 922 were free in every queue file and branch when this was written (the code machine holds 700 to 749, the laptop 800 to 849, the old laptop 1000 on). Session 908 of chain 049 updates this file if its results change what it should hold. Model: Opus 5.5, high effort.
+Written by session 895, the first session of `queue/done/049-day-23-october-data-margins-schedules-emissions.md`, under chain 045's rule ("the next file is written and pushed to `queue/next` at the START of the chain"), at the owner's instruction for chain 045 ("at least twelve sessions, machine: data, ... the sources and gaps ... in chain 040's form"). Chain 049's file asked for `050-<slug>.md`; the code machine's chain already holds 050, so this file is 051. Sessions 909 to 922 were free in every queue file and branch when this was written (the code machine holds 700 to 749, the laptop 800 to 849, the old laptop 1000 on). Session 908 of chain 049 updated it at chain 049's end (23 October, about 07:30 UTC): session 919's first tables are named, and the hosts and keys chain 049 found missing. Model: Opus 5.5, high effort.
 
 Each source session follows chain 040's form:
 
@@ -19,7 +19,7 @@ Default-neutral: no page's default figure moves, no ruling is made, nothing is r
 The rules of `queue/done/049-day-23-october-data-margins-schedules-emissions.md` hold, word for word, among them:
 
 - **ERCOT's robots file disallows `/misapp` and `/misdownload`**, and **EIA's disallows `/archive/`**: neither is asked.
-- **Hosts that refused the ERW's reader are not asked again without a ruling:** api.census.gov, www.phmsa.dot.gov, FERC's policy page (chain 048), and any a session of chain 049 names.
+- **Hosts that refused the ERW's reader are not asked again without a ruling:** api.census.gov, www.phmsa.dot.gov, FERC's policy page (chain 048), and from chain 049 EPA's bulk file API without a key (session 898: `EPA_CAMD_API_KEY` is not set).
 - **A new read of a publisher already in `license_reads.csv` gets a label of its own**; a session checks `license_verdicts.csv` before reading a publisher's terms (chain 048 read two publishers again that already had a verdict).
 - **A table that a page reads is never rewritten to add rows from another file.**
 - **A request cap on the Redivis uploader stops between tables, never inside one**, budgeted by session 892's measure (about 28 a run and 6 a table); an empty `erw_headers` is rebuilt in full from disk, never merged.
@@ -65,7 +65,7 @@ Long end 1:00. Pulls: none. As session 891: each note's checks against the code 
 
 ## Session 919: the Stanford draft
 
-Long end 1:30. Pulls: Redivis's API only, at most 150 requests, in whole runs under the cap (session 892's measure). Any table chains 048 and 049 left out first, then this chain's public tables; `--reconcile`; the release note extended. Nothing released.
+Long end 1:30. Pulls: Redivis's API only, at most 150 requests, in whole runs under the cap (session 892's measure). First the eight of chain 049 not yet in the draft or stale there: `eia860_boilers`, `eia860_cooling_systems`, `eia860_emission_controls`, `eia860_multifuel_generators`, `eia923_plant_fuel_monthly` (660,531 rows), `eia923_fuel_receipts`, and `eia411_capacity_margins_annual` and `eia_gas_pipeline_projects` again (session 905 fixed them after session 906 uploaded them); then this chain's public tables; `--reconcile`; the release note extended. Nothing released.
 
 ## Session 920: seven days of the data jobs
 
