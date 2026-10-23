@@ -7,7 +7,7 @@ number it did not fetch:
 1. The model (the newest Sonnet-class model in the API's models list, chosen at run
    time, never hardcoded) gets a system prompt built from package/llms.txt and the
    rules below, and the four tools of warehouse/chat/tools.py. No SQL, no code.
-2. It may call tools at most MAX_TOOL_CALLS (8) times, then must answer.
+2. It may call tools at most MAX_TOOL_CALLS (12) times, then must answer.
 3. Its answer is JSON: the answer text, a citation per table used (table, source
    report, data version), and whether the answer is "not in the warehouse".
 4. Post-check: every number in the answer must appear in some tool result (or in
@@ -44,12 +44,13 @@ import tools  # noqa: E402
 sys.path.insert(0, os.path.join(ROOT, "warehouse"))
 import llm  # noqa: E402  session 30: every Anthropic call goes through the cost ledger
 
-MAX_TOOL_CALLS = 8
+MAX_TOOL_CALLS = 12      # session 1111: 8 until 23 October 2026; 11 of session 320's thirty used all 8
 MAX_TOKENS = 16000
 EFFORT = "high"
 # USD per million tokens (input, output), from the claude-api skill model table, cached 2026-06-24
 PRICES = {m: (p["input"], p["output"]) for m, p in llm.prices()["models"].items()}  # session 30: warehouse/config/model_prices.yaml
-REFUSAL = ("I cannot give an answer I can verify: the numbers in my draft could not all be traced "
+# session 1110: the refusal begins with the words the chain of 23 October names
+REFUSAL = ("The warehouse does not hold that figure: the numbers in my draft could not all be traced "
            "to a warehouse query. Try asking for one value, one table and one period at a time.")
 
 BRIEFING = open(os.path.join(ROOT, "package", "llms.txt"), encoding="utf-8").read().strip()
@@ -62,7 +63,7 @@ Rules:
 3. If the warehouse does not hold what the question asks (a market, node, period, variable or kind of data it does not have), answer "not in the warehouse", say in one sentence what is missing, set not_in_warehouse to true, and state no numbers. Never use outside knowledge, never estimate.
 4. Prefer public tables. If you use a table whose license is internal, say in the answer that it is internal (licensed for internal use only).
 5. Times: series times are interval starts in UTC. Say which time zone you report. For an ISO's operating day, group or filter in its local time zone (tz), as the briefing says.
-6. You have at most 8 tool calls. Call list_tables (with a filter) to find the table, describe_table only when you need entity, variable or column names, then query or compare.
+6. You have at most 12 tool calls. Call list_tables (with a filter) to find the table, describe_table only when you need entity, variable or column names, then query or compare.
 7. Keep the answer short: the number or numbers with units, the time or period, and the table. Say what the number is (for example "mean of 96 fifteen-minute intervals").
 8. Provenance tier: every tool result gives the table's tier: source (as the publisher published it), derived (computed by the ERW from other tables) or model_extracted (at least one field written by a model reading news, filings or the web, not published by a source). When a number comes from a model_extracted table, say so next to it in the answer, for example "USD 1.2 billion (energy_deals, model-extracted from news)".
 
@@ -113,12 +114,20 @@ def numbers(text):
     out = []
     for m in NUM.finditer(text):
         sign, whole, frac = m.group(1), m.group(2), m.group(3) or ""
+        if is_name(text, m.start(2)):
+            continue
         if sign:
             before = text[m.start() - 1] if m.start() > 0 else " "
             if not (before.isspace() or before in "([:,=" or m.start() == 0):
                 sign = ""
         out.append((float(sign + whole.replace(",", "") + frac), len(frac) - 1 if frac else 0))
     return out
+
+
+def is_name(text, at):
+    """Session 1110: digits after a letter and a hyphen are a name, not a figure (EIA-930, EIA-860M, COVID-19).
+    Session 320's run sent four right first drafts back for an untraced 930, the form EIA-930."""
+    return at >= 2 and text[at - 1] == "-" and text[at - 2].isalpha()
 
 
 def list_markers(text):
@@ -145,7 +154,104 @@ def unverified(answer, sources):
     return bad
 
 
+# Session 1110: a figure stated in a money unit (USD per MWh, per MW, per kW, per kWh) must be one a tool returned in
+# that unit. A tool result's number takes its unit from its own key (..._usd_per_mw, value_usd_per_kw), else from the
+# nearest unit or single units above it; a number no result places in a unit is not judged (the question's text, a
+# count). A draft is sent back only when every returned number it matches is in another unit: 81,402.19 written as
+# USD per kW when the tool gave it in USD/MW.
+UNIT_AFTER = re.compile(r"^\s*(USD|US dollars|dollars)?\s*(?:/|per\s+)(kWh|kW|MWh|MW)(?![\w-])", re.I)
+MONEY_BEFORE = re.compile(r"(?:\$|USD\s)\s*$")   # "$81.40/kW", "USD 81.40 per kW": the money is written before the figure
+UNIT_NAMES = {"kwh": "kWh", "kw": "kW", "mwh": "MWh", "mw": "MW"}
+
+
+def norm_unit(u):
+    """USD/kW, USD/MW, USD/MWh or USD/kWh for a money unit however written; other:<it> for any other unit."""
+    if not isinstance(u, str):
+        return None
+    t = u.strip().lower().replace(" per ", "/").replace(" ", "").replace("$", "usd")
+    m = re.fullmatch(r"usd/(kwh|kw|mwh|mw)", t)
+    return f"USD/{UNIT_NAMES[m.group(1)]}" if m else f"other:{t}"
+
+
+def key_unit(key):
+    m = re.search(r"_usd_per_(kwh|kw|mwh|mw)$", key or "", re.I)
+    return f"USD/{UNIT_NAMES[m.group(1).lower()]}" if m else None
+
+
+def placed_numbers(sources):
+    """(value, unit or None, or "mixed") for every number of every source that parses as JSON."""
+    out = []
+
+    def walk(x, unit, key):
+        if isinstance(x, bool) or x is None:
+            return
+        if isinstance(x, (int, float)):
+            out.append((float(x), key_unit(key) or unit))
+        elif isinstance(x, dict):
+            own = None
+            if isinstance(x.get("unit"), str):
+                own = norm_unit(x["unit"])
+            elif isinstance(x.get("units"), list) and x["units"]:
+                own = norm_unit(x["units"][0]) if len(x["units"]) == 1 else "mixed"
+            for k, v in x.items():
+                walk(v, own or unit, k)
+        elif isinstance(x, list):
+            for v in x:
+                walk(v, unit, key)
+
+    for s in sources:
+        try:
+            walk(json.loads(s), None, None)
+        except (ValueError, TypeError):
+            continue
+    return out
+
+
+def unit_mismatches(answer, sources):
+    """Figures stated in a money unit that every matching tool number gives in another unit."""
+    text = answer.replace("−", "-")
+    placed = placed_numbers(sources)
+    bad = []
+    for m in NUM.finditer(text):
+        if is_name(text, m.start(2)):
+            continue
+        u = UNIT_AFTER.match(text[m.end():m.end() + 40])
+        if not u or not (u.group(1) or MONEY_BEFORE.search(text[max(0, m.start() - 5):m.start()])):
+            continue   # a unit with no money in it (MWh per MW, USD per MW-month) is not judged here
+        whole, frac = m.group(2), m.group(3) or ""
+        v, d = float(whole.replace(",", "") + frac), (len(frac) - 1 if frac else 0)
+        said = f"USD/{UNIT_NAMES[u.group(2).lower()]}"
+        tol = 0.5 * 10 ** (-d) + 1e-9
+        hits = [unit for p, unit in placed if abs(abs(p) - abs(v)) <= tol]
+        if hits and all(h not in (None, "mixed") for h in hits) and said not in hits:
+            gave = ", ".join(sorted({h.replace("other:", "") for h in hits}))
+            s = f"{v:.{d}f} {said} (the tools gave it in {gave})"
+            if s not in bad:
+                bad.append(s)
+    return bad
+
+
 # ------------------------------------------------------------------ the loop
+
+def why_refused(bad=(), units=(), uncited=(), no_cite=False, more=()):
+    """Session 1111: why a draft was refused, in one sentence with no figure in it (the reader is told what failed,
+    never the untraced number). The same words as site/lib/chat/ask.ts whyRefused."""
+    parts = []
+    if bad:
+        parts.append("a figure in it was in no tool result" if len(bad) == 1 else "figures in it were in no tool result")
+    if units:
+        parts.append("a figure was stated in a unit no tool gave it in" if len(units) == 1 else "figures were stated in a unit no tool gave them in")
+    if uncited:
+        parts.append("it cited a table no tool read")
+    if no_cite:
+        parts.append("it was empty or cited nothing")
+    if more and not parts:
+        parts.append("it failed this chat's own checks")
+    if not parts:
+        return ""
+    body = parts[0] if len(parts) == 1 else ", ".join(parts[:-1]) + " and " + parts[-1]
+    return f"Why: the draft was checked twice and {body}."
+
 
 def nodash(text):
     return text.replace(chr(0x2014), " - ").replace("  -  ", " - ")
@@ -213,7 +319,8 @@ class Asker:
         """Further texts of one tool call whose numbers count as fetched (a profile spells out the names it asked by)."""
         return []
 
-    def __init__(self, model=None, client=None, grid=None):
+    def __init__(self, model=None, client=None, grid=None, record_tools=False):
+        self.record_tools = record_tools   # session 1111: an evaluation's record holds every tool call and its result
         self.client = client or llm.client(os.environ.get("ERW_STEP") or ("chat_grid" if grid else "chat"), api_key=api_key())
         self.model = model or pick_model(self.client)
         self.grid = grid
@@ -308,25 +415,28 @@ class Asker:
             except json.JSONDecodeError:
                 raise RuntimeError(f"final message is not JSON: {text[:200]}")
             bad = unverified(draft["answer"], sources)
+            units = unit_mismatches(draft["answer"], sources)   # session 1110
             cited = [c["table"] for c in draft.get("citations", [])]
             uncited_tables = [t for t in cited if t not in tables_read]
             # session 35: an answer that is empty, or cites nothing, is not an answer (the grid check's CAISO question
             # came back empty and uncited after eight tool calls, and passed); "not in the warehouse" needs no citation
             no_cite = not draft.get("not_in_warehouse") and (not cited or not draft["answer"].strip())
             more = self.extra_problems(draft, results)
-            if not bad and not uncited_tables and not no_cite and not more:
+            if not bad and not units and not uncited_tables and not no_cite and not more:
                 final = draft
                 record["status"] = "not_in_warehouse" if draft.get("not_in_warehouse") else "answered"
                 break
             attempts += 1
             if attempts == 1:
                 record["retried"] = True
-                record["first_violations"] = bad + [f"cited table not read: {t}" for t in uncited_tables] \
+                record["first_violations"] = bad + [f"unit: {u}" for u in units] + [f"cited table not read: {t}" for t in uncited_tables] \
                     + (["empty or uncited answer"] if no_cite else []) + more
                 record["first_answer"] = draft["answer"]
                 problems = []
                 if bad:
                     problems.append("numbers in no tool result: " + ", ".join(bad))
+                if units:
+                    problems.append("numbers stated in a unit no tool result gives them in: " + ", ".join(units))
                 if uncited_tables:
                     problems.append("cited tables no tool read: " + ", ".join(uncited_tables))
                 if no_cite:
@@ -334,9 +444,11 @@ class Asker:
                 problems += more
                 messages.append({"role": "user", "content": self.retry.format(problems="; ".join(problems))})
                 continue
-            final = {"answer": REFUSAL, "citations": [], "not_in_warehouse": False}
+            why = why_refused(bad, units, uncited_tables, no_cite, more)
+            final = {"answer": (REFUSAL + " " + why).strip(), "citations": [], "not_in_warehouse": False}
             record["status"] = "refused_unverified"
-            record["second_violations"] = bad + [f"cited table not read: {t}" for t in uncited_tables] + more
+            record["why"] = why
+            record["second_violations"] = bad + [f"unit: {u}" for u in units] + [f"cited table not read: {t}" for t in uncited_tables] + more
             record["second_answer"] = draft["answer"]
             break
         # session 28: each citation's tier is the warehouse's, whatever the model copied
@@ -348,6 +460,8 @@ class Asker:
         for k in ("answer", "first_answer", "second_answer"):
             if isinstance(record.get(k), str):
                 record[k] = nodash(record[k])
+        if self.record_tools:
+            record["trace"] = results
         record.update({"tool_calls": len(calls), "calls": calls, "usage": usage,
                        "cost_usd": cost_usd(self.model, usage), "seconds": round(time.time() - t0, 1), "seconds_first": seconds_first})
         self.finish(record, results)

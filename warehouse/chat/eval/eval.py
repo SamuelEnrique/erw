@@ -87,7 +87,7 @@ def main(argv=None):
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     os.makedirs(os.path.join(HERE, "results"), exist_ok=True)
     jl = os.path.join(HERE, "results", f"{run_id}.jsonl")
-    asker = ask.Asker()
+    asker = ask.Asker(record_tools=True)   # session 1111: an evaluation records every tool call and its result
     rows = []
     with open(jl, "w", encoding="utf-8", newline="\n") as f:
         for q in qs:
