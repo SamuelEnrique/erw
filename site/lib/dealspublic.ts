@@ -91,6 +91,22 @@ export function eqrWords(e: EqrDealRow, quartersHeld: string[]): string {
   return `Looked for ${looked}: ${inQ}; ${any}.`;
 }
 
+// Session 826: two deals compared side by side (app/deals/Compare.tsx). The pair is read from the address (?a=, ?b=),
+// each an id of a shown row; anything else is no pair, with the reason. USD per MW is the one figure computed there.
+export const abKey = (id: string, stat: "usd_per_mw"): string => `dealpub|ab|${id}|${stat}`;
+export function abPair(sp: Record<string, string | undefined>, ids: string[]): { a: string | null; b: string | null; why: string } {
+  const a = sp.a && ids.includes(sp.a) ? sp.a : null;
+  const b = sp.b && ids.includes(sp.b) ? sp.b : null;
+  if (a && b && a !== b) return { a, b, why: "" };
+  if (a && b) return { a, b: null, why: "A and B are the same deal: choose two." };
+  if ((sp.a && !a) || (sp.b && !b)) return { a, b, why: "A deal in the address is not one of the shown rows, so it is not drawn." };
+  return { a, b, why: "Choose two of the shown deals above." };
+}
+/** The value over the size, only where the deal states both; null otherwise (nothing is estimated). */
+export function usdPerMw(d: { mw: number | null; dollars: number | null }): number | null {
+  return d.mw !== null && d.mw > 0 && d.dollars !== null ? d.dollars / d.mw : null;
+}
+
 export const SORTS = ["shown", "held", "unsettled"] as const;
 export type Sort = (typeof SORTS)[number];
 

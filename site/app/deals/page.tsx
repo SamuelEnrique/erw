@@ -20,6 +20,7 @@ import { TrackerView } from "./v2/view";
 import { ComparablesView } from "./comparables/view";
 import { DealsDecisions } from "./Decisions";
 import { DealsHeld } from "./Held";
+import { DealsCompare } from "./Compare";
 import { fileIsSound, type PublicDealRow, type PublicDealsFile } from "@/lib/dealspublic";
 import publicFile from "@/data/deals_public.json";
 import eqrFile from "@/data/deals_eqr.json";
@@ -51,7 +52,7 @@ export default async function DealsPage({ searchParams }: { searchParams: Promis
       <ToolPage>
         <div data-deals-tab={tab}>
           <Tabs page="/deals" active={tab} />
-          {comparablesView ? <ComparablesView sp={sp} /> : tab === "tracker" ? <TrackerView sp={sp} /> : tab === "companies" ? <CompaniesView /> : <DealsView />}
+          {comparablesView ? <ComparablesView sp={sp} /> : tab === "tracker" ? <TrackerView sp={sp} /> : tab === "companies" ? <CompaniesView /> : <DealsView sp={sp} />}
           {/* session 465: the decisions block, under every tab and under the hold */}
           <DealsDecisions />
           {/* session 329: each tab's public tables, as CSV with a Python and a Stata reader (session 328's shared line) */}
@@ -64,7 +65,7 @@ export default async function DealsPage({ searchParams }: { searchParams: Promis
 }
 
 /** The first tab: every deal in a sortable table, with the counts of this month (what /deals drew before session 239). */
-async function DealsView() {
+async function DealsView({ sp }: { sp: Record<string, string | undefined> }) {
   const res = await attempt(deals);
   const cos = await attempt(companies); // session 26: party names that match a company link to /companies
   const month = new Date(renderTime()).toISOString().slice(0, 7);
@@ -87,6 +88,8 @@ async function DealsView() {
             {/* session 822: the table is held whole; the rows a public source stands behind are drawn from the public rows' file,
                 the held and the unsettled counted in the line above them */}
             <DealsHeld file={PUBLIC} />
+            {/* session 826: two of the shown deals side by side, the pair in the address */}
+            <DealsCompare rows={PUBLIC.shown.map(toPublicDeal)} sp={sp} />
             <DealsTable rows={PUBLIC.shown.map(toPublicDeal)} companies={cos.ok ? cos.data.map((c) => c.name) : []} />
             <Cite
               tables={["energy_deals"]}

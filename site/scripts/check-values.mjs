@@ -77,7 +77,9 @@ const FLOOR = fs.existsSync(FLOOR_FILE) ? JSON.parse(fs.readFileSync(FLOOR_FILE,
 // gate of a landing is the full run, with the variable unset.
 const ONLY = (process.env.CHECK_VALUES_PAGES ?? "").split(",").map((v) => v.trim()).filter(Boolean);
 const wanted = (page) => !ONLY.length || ONLY.some((pre) => page.startsWith(pre));
-const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/ercot%3AHB_HUBAVG", "/data", "/prices?tab=ercot", "/deals", "/deals?tab=tracker", "/deals?view=comparables", "/deals?tab=companies", "/grid", "/map", "/datacenters", "/datacenters?view=grids", "/roundup",
+const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/ercot%3AHB_HUBAVG", "/data", "/prices?tab=ercot", "/deals", "/deals?tab=tracker", "/deals?view=comparables", "/deals?tab=companies",
+  // session 826: two shown deals side by side (Vistra's loan, which states MW and dollars, beside Amazon and AEP's 960 MW)
+  "/deals?a=deal%3A70bf30d372e1d674&b=deal%3Ad6eda0ffd6db76cd", "/grid", "/map", "/datacenters", "/datacenters?view=grids", "/roundup",
   // session 18
   "/mix", "/mix?ba=erco&state=TX", "/curtailment", "/demand?view=consumption",
   // session 404: the demand growth explorer (the default, ERCOT's whole-year average; the peak with the Lower 48's missing
@@ -545,6 +547,15 @@ async function truth(check) {
       if (p[2] === "held") return file.counts.held;
       if (p[2] === "unsettled") return file.counts.unsettled;
       return undefined;
+    }
+    // session 826: USD per MW of a shown deal on the A and B comparison, dealpub|ab|<deal>|usd_per_mw: the live set's
+    // row's dollars over its mw, only where it states both (the page's lib/dealspublic.ts usdPerMw)
+    if (p[1] === "ab") {
+      const [, , id, stat] = p;
+      if (stat !== "usd_per_mw" || !file.shown.some((r) => r.event_id === id)) return undefined;
+      const r = (await q("events", { select: "mw,dollars:extra->>dollars", table_name: "eq.energy_deals", event_id: `eq.${id}` }))[0];
+      if (!r || r.mw === null || r.dollars === null || r.dollars === "" || !(Number(r.mw) > 0)) return undefined;
+      return Number(r.dollars) / Number(r.mw);
     }
     // session 825: the FERC EQR counts beside a shown deal, dealpub|eqr|<deal>|in_quarter and |any_quarter, from
     // site/data/deals_eqr.json (warehouse/deals/eqr_join.py): read only when the live set's internal summary says the

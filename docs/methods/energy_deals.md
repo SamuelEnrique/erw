@@ -197,4 +197,8 @@ deals tab draws the shown rows with every column; the line above it counts the h
   the counts in `site/data/deals_eqr.json`. The EQR table is internal by the ERW's own record, so the panel draws the
   filed terms as "license needed"; the counts are read against the live set's summary row count.
 
+- `dealpub|ab|<deal>|usd_per_mw` (session 826): on the A and B comparison of the deals tab (`/deals?a=<deal>&b=<deal>`,
+  two shown deals on the same rows), the deal's dollars over its MW, only where the story states both; the other rows
+  of the comparison carry the table's own keys.
+
 Session 828 writes "What is shown and what is held" in full.
