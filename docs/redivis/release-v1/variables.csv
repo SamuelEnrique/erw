@@ -2995,6 +2995,8 @@ eia_power_costs_annual,maintenance_expense,series variable,USD/MWh
 eia_power_costs_annual,operation_expense,series variable,USD/MWh
 eia_power_costs_annual,tested_heat_rate,series variable,MMBtu/MWh
 eia_power_costs_annual,total_expense,series variable,USD/MWh
+eia_power_fuel_stocks_monthly,stocks,series variable,kbbl
+eia_power_fuel_stocks_monthly,stocks,series variable,short_ton
 eia_power_plant_fuel_costs,cost_per_mcf,series variable,USD/Mcf
 eia_power_plant_fuel_costs,cost_per_mmbtu,series variable,USD/MMBtu
 eia_power_plant_fuel_costs,cost_per_short_ton,series variable,USD/short_ton

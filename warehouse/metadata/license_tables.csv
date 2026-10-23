@@ -151,6 +151,7 @@ eia_petroleum_supply_weekly,EIA,the source registry
 eia_petroleum_trade_weekly,EIA,the source registry
 eia_power_co2_state_annual,EIA,the source registry
 eia_power_costs_annual,EIA,the source registry
+eia_power_fuel_stocks_monthly,EIA,the source registry
 eia_power_plant_fuel_costs,EIA,the source registry
 eia_product_spot_prices,EIA,the source registry
 eia_product_supplied_monthly,EIA,the source registry
