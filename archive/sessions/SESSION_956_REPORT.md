@@ -6,7 +6,7 @@
 
 - **This chain's publishers first:** EIA, Berkeley Lab and the USGS already had verdicts; the two new ones are Interior's bureaus, the Office of Natural Resources Revenue (session 951) and the Bureau of Land Management (session 955).
 - **Two new verdicts** (80 publishers with one): **ONRR: may be public** and **BLM: may be public**, both on the Department's notice (read 159), the same text BOEM's verdict rests on: "Generally, materials produced by federal agencies are in the public domain and may be reproduced without permission. However, not all materials appearing on this web site are in the public domain. Some materials have been donated or obtained from individuals or organizations and may be subject to restrictions on use." ONRR's production and revenue records and BLM's rights-of-way are the bureaus' own. BLM California's service adds its own notice (read 156): data as is, BLM cited as the source, modifications described, nothing represented as approved by BLM; the table's header says so.
-- **The four ONRR tables and BLM's are now settled public,** agreeing with their flags (`docs/licenses.md`).
+- **The three ONRR tables and BLM's are now settled public,** agreeing with their flags (`docs/licenses.md`).
 - **Recorded from this chain's sessions:** revenuedata.doi.gov's and revenuedata.onrr.gov's robots files (951), api.eia.gov's answer (953: no robots file, HTTP 403 "API key missing"), ScienceBase's robots file with its content signals (954), gis.blm.gov (no robots file), www.arcgis.com and services1.arcgis.com (no robots file) and BLM California's service notice (955).
 - **The record's bound not raised:** the record holds 159 reads, 118 after session 205's 41, within `tests/test_session205.py`'s 122.
 
