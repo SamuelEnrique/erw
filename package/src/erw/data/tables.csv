@@ -9,6 +9,7 @@ battery_stack_monthly,public,,,,CAISO; ERCOT,"Public: every publisher's terms th
 battery_stack_review_monthly,unsettled,license needed,2026-10-21,NYISO,NYISO; SPP,"NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
 battery_stack_stress_daily,public,,,,CAISO; ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 blm_ca_renewable_rows,public,,,,"U.S. Department of the Interior, Bureau of Land Management (BLM)","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+blm_oil_gas_statistics_annual,public,,,,"U.S. Department of the Interior, Bureau of Land Management (BLM)","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 boem_offshore_platforms,public,,,,Bureau of Ocean Energy Management (BOEM),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 boem_ogor_lease_production_monthly,public,,,,Bureau of Ocean Energy Management (BOEM),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 boem_renewable_leases,public,,,,Bureau of Ocean Energy Management (BOEM),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -31,6 +32,7 @@ carb_lcfs_credit_prices,public,,,,CARB,"Public: every publisher's terms the ERW 
 carbon_intensity_daily,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",100 days
 carbon_intensity_hourly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",430 days
 carbon_intensity_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
+cec_total_system_generation_annual,public,,,,California Energy Commission (CEC),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 census_metro_population,public,,,,Census Bureau,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 cer_electricity_trade,public,,,,Canada Energy Regulator (CER),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 cer_gas_trade,public,,,,Canada Energy Regulator (CER),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -185,6 +187,7 @@ eia_retail_electricity_prices,public,,,,EIA,"Public: every publisher's terms the
 eia_retail_fuel_prices,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_retail_sales_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",850 days
 eia_sector_energy_consumption_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",850 days
+eia_seds_residential_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_seds_state_energy,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_state_capacity_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_state_generation_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -351,6 +354,7 @@ noaa_isd_hourly,public,,,,NOAA NCEI,"Public: every publisher's terms the ERW rea
 noaa_ncei_billion_disasters,public,,,,NOAA NCEI,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 noaa_ncei_storm_events,public,,,,NOAA NCEI,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 noaa_station_weather_hourly,public,,,,NOAA NCEI,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+noaa_uscrn_solar_monthly,public,,,,NOAA NCEI,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 node_basis_daily,public,,,,ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 node_basis_summary,public,,,,ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 nrc_advanced_reactor_preapplicants,public,,,,NRC,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -402,10 +406,12 @@ storage_daily_cycle,public,,,,CAISO; EIA,"Public: every publisher's terms the ER
 storage_owners_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 texas_delivery_charges,internal,,,"AEP Texas Inc.; CenterPoint Energy Houston Electric, LLC; Oncor Electric Delivery Company LLC","AEP Texas Inc.; CenterPoint Energy Houston Electric, LLC; Oncor Electric Delivery Company LLC; Public Utility Commission of Texas; Texas-New Mexico Power Company",The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 texas_transmission_matrix,internal,,,,Public Utility Commission of Texas,The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
+treasury_1603_awards,internal,,,,U.S. Department of the Treasury,The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 usace_nid_dams,unsettled,,,,U.S. Army Corps of Engineers (USACE),"The terms of U.S. Army Corps of Engineers (USACE) have not been read or settled, so the ERW does not redistribute it until they are.",none
 usbr_hydropower_monthly,public,,,,U.S. Bureau of Reclamation (USBR),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 usdm_drought_state_weekly,unsettled,,,,"U.S. Drought Monitor (National Drought Mitigation Center, USDA, NOAA)","The terms of U.S. Drought Monitor (National Drought Mitigation Center, USDA, NOAA) have not been read or settled, so the ERW does not redistribute it until they are.",none
 usgs_mcs_critical_minerals,public,,,,U.S. Geological Survey (USGS),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+usgs_streamflow_daily,public,,,,U.S. Geological Survey (USGS),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 uspvdb_solar_facilities,public,,,,U.S. Geological Survey (USGS),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 uswtdb_wind_turbines,public,,,,U.S. Geological Survey (USGS),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 utility_service_territories,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
