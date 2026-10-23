@@ -384,6 +384,7 @@ catalogue_hold:
   - noaa_ncei_billion_disasters
   - nrc_license_actions
   - usdm_drought_state_weekly
+  - usgs_comcat_earthquakes_south_central
   - lbnl_hybrid_ppa_prices
   - lbnl_solar_projects
   - ornl_npd_potential
