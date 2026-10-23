@@ -152,7 +152,8 @@ SECTOR_RULES = [
     (r"^eia_gas_consumption_state_monthly$", "gas"),  # session 518: EIA's natural gas consumption by state, a month
     (r"^eia_coal_prices_annual$", "coal"),  # session 519: EIA's coal market sales price by state or region, a year
     (r"^eia_coal_production_annual$", "coal"),  # session 685: EIA's coal production by state, rank and mine type, a year
-    (r"^eia_coal_mine_production_annual$", "coal"),  # session 694: EIA's coal production and employees by mine, a year
+    (r"^eia_coal_mine_production_annual$", "coal"),
+    (r"^eia_coal_receipts_annual$", "coal;power"),  # session 875: coal receipts at power plants, mine to plant  # session 694: EIA's coal production and employees by mine, a year
     (r"^ercot_cdr_reserve_margins$", "power"),  # session 851: ERCOT's CDR, load, capacity and reserve margin by season
     (r"^ercot_transmission_projects$", "power"),
     (r"^ercot_cdr_units$", "power"),

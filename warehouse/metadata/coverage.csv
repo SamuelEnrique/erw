@@ -87,6 +87,7 @@ eia_coal_mine_production_annual,none,,5529,P1Y,2001-01-01T00:00:00Z,2024-01-01T0
 eia_coal_price_rank_annual,none,,128,P1Y,2001-01-01T00:00:00Z,2024-01-01T00:00:00Z,2843,eia:coal/price-by-rank,2026-10-21T23:48:37Z,pass,public,coal,no,source
 eia_coal_prices_annual,none,,145,P1Y,2001-01-01T00:00:00Z,2024-01-01T00:00:00Z,2781,eia:coal/market-sales-price,2026-10-21T20:21:08Z,pass,public,coal,no,source
 eia_coal_production_annual,none,,422,P1Y,2001-01-01T00:00:00Z,2024-01-01T00:00:00Z,22630,eia:coal/aggregate-production,2026-10-22T10:51:47Z,pass,public,coal,no,source
+eia_coal_receipts_annual,none,,11468,P1Y,2008-01-01T00:00:00Z,2025-01-01T00:00:00Z,270547,eia:coal/shipments/receipts,2026-10-23T03:39:59Z,pass,public,coal;power,no,source
 eia_coal_trade_price_annual,none,,3460,P1Y,2000-01-01T00:00:00Z,2025-01-01T00:00:00Z,24623,eia:coal/exports-imports-quantity-price,2026-10-21T23:48:44Z,pass,public,coal,no,source
 eia_crude_first_purchase_prices,none,,2,P1M,1977-07-01T00:00:00Z,2026-07-01T00:00:00Z,860,eia:petroleum/pri/dfp1;eia:petroleum/pri/dfp2,2026-10-10T14:33:59Z,pass,public,oil,no,source
 eia_crude_imports_by_country,none,,82,P1M,1920-01-01T00:00:00Z,2026-07-01T00:00:00Z,22633,eia:petroleum/move/impcus,2026-10-22T14:35:37Z,pass,public,oil,no,source

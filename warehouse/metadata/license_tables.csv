@@ -87,6 +87,7 @@ eia_coal_mine_production_annual,EIA,the source registry
 eia_coal_price_rank_annual,EIA,the source registry
 eia_coal_prices_annual,EIA,the source registry
 eia_coal_production_annual,EIA,the source registry
+eia_coal_receipts_annual,EIA,the source registry
 eia_coal_trade_price_annual,EIA,the source registry
 eia_crude_first_purchase_prices,EIA,the source registry
 eia_crude_imports_by_country,EIA,the source registry

@@ -2155,6 +2155,11 @@ eia_coal_prices_annual,price,series variable,USD/short_ton
 eia_coal_production_annual,employees,series variable,count
 eia_coal_production_annual,mines,series variable,count
 eia_coal_production_annual,production,series variable,short_ton
+eia_coal_receipts_annual,ash_content,series variable,pct
+eia_coal_receipts_annual,heat_content,series variable,Btu/lb
+eia_coal_receipts_annual,price,series variable,USD/short_ton
+eia_coal_receipts_annual,quantity,series variable,short_ton
+eia_coal_receipts_annual,sulfur_content,series variable,pct
 eia_coal_trade_price_annual,price,series variable,USD/short_ton
 eia_crude_first_purchase_prices,first_purchase_price,series variable,USD/bbl
 eia_crude_imports_by_country,imports,series variable,kbbl/d
