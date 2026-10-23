@@ -38,7 +38,7 @@ The conformance runners (session 1006): `do packages/conformance/run_stata.do` i
 
 ## The landing
 
-Lands with the next landing of this chain.
+Sessions 1020 to 1039 landed in one push: see `SESSION_1039_REPORT.md`, "The landing".
 
 ## Decisions made without you
 
