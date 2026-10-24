@@ -354,6 +354,8 @@ isone_rtm_zone_prices_hourly,ISO-NE,the source registry
 isone_zone_load_hourly,ISO-NE,the source registry
 isone_zone_prices_history,ISO-NE,the source registry
 known_data_faults,ERW,by hand: its header: the ERW's own account of its sources' data
+kpx_korea_demand_monthly,Korea Power Exchange,the source registry
+kpx_korea_generation_annual,Korea Power Exchange,the source registry
 large_load_document_verdicts,"Alberta Electric System Operator (AESO), Canada; Bonneville Power Administration (BPA); NYISO; Public Utility District No. 2 of Grant County, Washington (Grant PUD); utilities and operators, each row's own document (not listed one by one)","the source registry and the tables its header derives it from: large_load_statements, large_load_waits"
 large_load_public,"utilities and operators, each row's own document (not listed one by one)",the source registry and the tables its header derives it from: large_load_statements
 large_load_rule_reads,Arizona Corporation Commission; California Public Utilities Commission; Illinois Commerce Commission; Office of the Federal Register (NARA); Oregon Public Utility Commission; Pennsylvania Public Utility Commission,by hand: its header: a model's reads of the rows of large_load_rules and of policy_actions
