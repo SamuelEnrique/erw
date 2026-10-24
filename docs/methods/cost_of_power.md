@@ -1,6 +1,6 @@
 # Cost of power: method
 
-Tables: `merchant_revenue_monthly`
+Tables: `merchant_revenue_monthly`, `cost_of_power_hourly_profile`, `cost_of_power_carbon`
 
 > **MISO is paused (4 October 2026).** MISO's terms forbid automated access to its site, so every pull of MISO's own servers is paused pending a review; MISO's hub prices stop at the last day pulled, and so do the months built on them. What is held stays as it is. [`miso_pause.md`](miso_pause.md)
 
@@ -46,6 +46,7 @@ For one hub, one market (real-time or day-ahead) and one local month, over the h
 - For the last 12 local months each hub holds with demand: the mean real-time price of each local hour of day (`rt_mean_h00` to `rt_mean_h23`).
 - The number of hours averaged (`rt_days_h00` to `rt_days_h23`).
 - Every complete price hour of those months counts, whether or not its demand is held.
+- Session 2536: a month the rolling price tables no longer reach is carried over from the previous file, and the header says how many rows were (336 on 24 October 2026, the month 2025-10 from the run of 2 October). So the table can hold more than 12 months: 13 that day, 2025-10 to 2026-10.
 
 **`cost_of_power_carbon`:** over the same real-time hours as the monthly table:
 
