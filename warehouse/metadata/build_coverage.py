@@ -275,6 +275,7 @@ SECTOR_RULES = [
     (r"^noaa_ncei_billion_disasters$", "power"),  # session 2073: NOAA's billion-dollar disasters
     (r"^nrc_license_actions$", "power;uranium"),  # session 2064: the NRC's renewed licenses and power uprates
     (r"^owid_ember_electricity_annual$", "power;carbon"),  # session 2126: Ember's electricity demand and emissions through Our World in Data
+    (r"^eia_shale_gas_reserves_annual$", "gas"),  # session 2250: EIA's shale gas proved reserves and their changes, 2007 to 2021
     (r"^eia_gas_heat_content_monthly$", "gas"),  # session 2245: EIA's heat content of gas delivered to consumers by state, a month
     (r"^eia_crude_quality_monthly$", "oil"),  # session 2244: EIA's crude oil input qualities (API gravity, sulfur), a month
     (r"^ons_brazil_balance_hourly$", "power"),  # session 2240: ONS's open data, Brazil's balance an hour by subsystem
