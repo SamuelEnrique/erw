@@ -12,7 +12,7 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 - **555 tables.** The flag and the verdict agree on 447; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 63 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
 - **The ERW's verdict (session 378): 412 public, 93 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
-- **1018 publishers in the record: 1016 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 238 pages read, 778 that could not be read, 2 not asked (paused).**
+- **1022 publishers in the record: 1020 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 238 pages read, 782 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **0 tables are flagged internal where the sentence read allows them.**
 - **15 tables that may be public today would need permission if the ERW sells anything** (SPP 7; Canada Energy Regulator (CER) 2; Alberta Electric System Operator (AESO), Canada 1; California Energy Commission (CEC) 1; IMF 1; IMF PortWatch 1; Red Electrica (REE) 1; RRC 1).
@@ -1041,6 +1041,10 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | 1016 | Regulator for Energy and Water Services, Malta (REWS), www.rews.org.mt's robots file (session 2546) | https://www.rews.org.mt/robots.txt | 22:52:50 | 200 | 189 | read: every path allowed; crawl delay 10 seconds; names no AI agent |
 | 1017 | Enemalta plc, the home page (session 2546) | https://enemalta.com.mt/ | 22:53:25 | 200 | 346377 | read: no reports or statistics linked |
 | 1018 | Enemalta plc, its fuel mix disclosure for 2025 (session 2546) | https://enemalta.com.mt/?p=18305 (answered at https://enemalta.com.mt/2016/02/25/fuel_mix_for_energy_distribution/) | 22:53:47 | 200 | 169062 | read: shares of energy distributed and an emission factor only; All rights reserved |
+| 1019 | Agency for Statistics of Bosnia and Herzegovina (BHAS), bhas.gov.ba's robots file (session 2547) | https://bhas.gov.ba/robots.txt | 22:54:36 | 404 | 1245 | HTTP 404: no robots file |
+| 1020 | Independent System Operator in Bosnia and Herzegovina (NOS BiH), www.nosbih.ba's robots file (session 2547) | https://www.nosbih.ba/robots.txt | 22:54:37 | 200 | 114 | read: /wp-admin/ closed; names no AI agent |
+| 1021 | State Electricity Regulatory Commission of Bosnia and Herzegovina (DERK), www.derk.ba's robots file (session 2547) | https://www.derk.ba/robots.txt | 22:54:38 | 200 | 304 | read: Joomla's own folders closed; names no AI agent |
+| 1022 | State Electricity Regulatory Commission of Bosnia and Herzegovina (DERK), the English home page (session 2547) | https://www.derk.ba/en/ | 22:55:39 | 200 | 123883 | read: DERK 2004-2026. All Rights Reserved; no terms of reuse |
 
 ## The publishers: the sentence and the verdict
 
