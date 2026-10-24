@@ -39,7 +39,7 @@ Reads recorded: 483 to 489.
 
 ## Decisions made without you
 
-- **SingStat's Table Builder in place of EMA,** whose site refuses the reader. SingStat republishes EMA's figures in these two tables.
+- **SingStat's Table Builder in place of EMA,** whose site refuses the reader. SingStat republishes EMA's figures in these two tables (each answer's "datasource" is "ENERGY MARKET AUTHORITY").
 - **"Gigawatt Hours" accepted as GWh;** any other unit still stops the run.
 - **`internal` until the terms are read.**
 
