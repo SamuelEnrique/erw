@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """The Census Bureau's Building Permits Survey by state: new housing units, buildings and their value authorized by
-building permits, by structure type (1 unit, 2 units, 3 and 4 units, 5 or more), a year (session 2149's chain 092,
-session 2154: the new homes that add load to the grid).
+building permits, by structure type (1 unit, 2 units, 3 and 4 units, 5 or more), a year (session 2154, chain 092:
+the new homes that add load to the grid).
 
 Energy Research Warehouse (ERW) connector. One series table from the survey's annual state files (plain text, comma
 separated):
@@ -11,22 +11,24 @@ separated):
     census_bps_state_annual   entity census_bps:<state postal code>; variables units_<type>, buildings_<type> (count) and
                value_<type> (USD: the Bureau's thousands of dollars times 1,000), type 1_unit, 2_units, 3_4_units or
                5_plus_units; ts_utc 1 January of the year; freq P1Y; geo US-<state>; node the state as the Bureau names
-               it; x_fips the state's FIPS code; x_code the code the year's file gives it (Puerto Rico 43 and the Virgin
-               Islands 52 in the 2015 file, 72 and 78 later): areas are matched by the Bureau's names
+               it; x_fips the state's FIPS code; x_code the code the year's file gives it: areas are matched by the
+               Bureau's names, since its codes changed (Puerto Rico 43 and the Virgin Islands 52 until 2021's file)
 
 The figures are the Bureau's estimates (its columns before the "rep" columns, which hold the reported permits only; the
 estimates add imputation for permit offices that did not report). Each file must hold the two header rows read below,
-the states, DC, Puerto Rico, the Virgin Islands (and American Samoa from 2025), the regions, divisions and the United States; the states and DC
+the states, DC, the territories the Bureau lists that year, the regions, divisions and the United States; the states and DC
 must sum to the United States row in every count, and in value within 10 thousand dollars (the Bureau rounds
-each area's value), or the run stops. The regions, divisions and the United States are
-checked and not kept. A row of another year, an area name not in the map or a figure that is not a whole number stops
+each area's value), or the run stops. The regions and divisions are skipped and the United States checked; none is
+kept. The territories are not kept either (session 2157): the Bureau's Puerto Rico lines repeat one line in 2016, 2018
+and 2019, are missing in 2017 and 2020, are all zero in 2021, and in 2022 hold values a thousand times the other years',
+and no national total checks them. A row of another year, an area name not in the map or a figure that is not a whole number stops
 the run. Nothing is filled. Months are not taken: the monthly files are one a month (about 140 from 2015), past a
 session's ceiling; the current year's year-to-date file is not mixed into a yearly series.
 
     python warehouse/connectors/census_bps.py [--offline] [--out-dir DIR] [--first YEAR] [--last YEAR]
 
-Ceiling: one request a year (2015 to 2025 by default), two seconds apart, saved in warehouse/raw/census_bps/ and reused
-(a past year's file does not change). www2.census.gov's robots file names only some crawlers, none of them every
+Ceiling: one request a year (2015 to 2025 by default), two seconds apart, saved in warehouse/raw/census_bps/; asked
+again unless --offline (some past years' files were modified long after their year). www2.census.gov's robots file names only some crawlers, none of them every
 reader. License: may be public (the Census Bureau, read 17); cite the U.S. Census Bureau, Building Permits Survey.
 """
 
@@ -109,8 +111,9 @@ def parse(text, year, base, rounding):
         if fips in seen:
             raise RuntimeError(f"{year}: {name} given twice")
         seen.add(fips)
-        if fips not in TERRITORIES:
-            sums = [a + b for a, b in zip(sums, nums)]
+        if fips in TERRITORIES:
+            continue  # the territories are not kept (session 2157): their lines are not reliable year to year
+        sums = [a + b for a, b in zip(sums, nums)]
         st = FIPS[fips]
         for i, t in enumerate(TYPES):
             for j, (var, unit, factor) in enumerate((("buildings", "count", 1), ("units", "count", 1), ("value", "USD", 1000))):
@@ -119,7 +122,7 @@ def parse(text, year, base, rounding):
                                 x_fips=fips, x_code=code))
     if total is None:
         raise RuntimeError(f"{year}: no United States row")
-    missing = sorted(set(FIPS) - TERRITORIES - seen)
+    missing = sorted(set(FIPS) - TERRITORIES - (seen - TERRITORIES))
     if missing:
         raise RuntimeError(f"{year}: states missing: {missing}")
     # the counts must match exactly; the values (thousands of dollars) are rounded by area, so within ROUNDING
@@ -152,7 +155,7 @@ def main(argv=None):
         rows, latest, rounding = [], "", {}
         for year in range(args.first, args.last + 1):
             url = f"{BASE}st{year}a.txt"
-            content, rec = ip.fetch_raw(CONNECTOR, url, log, offline=args.offline, headers=UA, timeout=120, pause=2)
+            content, rec = ip.fetch_raw(CONNECTOR, url, log, offline=args.offline, fresh=not args.offline, headers=UA, timeout=120, pause=2)
             base = dict(source=SOURCE, source_url=url, retrieved_at=rec.get("retrieved_at") or "", vintage=ip.vintage_of(rec))
             got = parse(content.decode("latin-1"), year, base, rounding)
             log(f"  {year}: {len(got):,} rows")
@@ -170,7 +173,8 @@ def main(argv=None):
             "(USD, the Bureau's thousands times 1,000), type 1_unit, 2_units, 3_4_units, 5_plus_units; freq P1Y; ts_utc 1 January; geo "
             "US-<state>; node the state; x_fips the state's FIPS code; x_code the code the year's file gives it.",
             f"The Bureau's estimates (with imputation for offices that did not report), not its reported-only columns. {s.entity.nunique()} areas: "
-            "the states, DC, Puerto Rico, the Virgin Islands and, from 2025, American Samoa; the states and DC sum to the United States row in every count and year, and in "
+            "the states and DC; the territories are not kept (their lines repeat, are missing or zero in some years, and in 2022 Puerto "
+            "Rico's values are a thousand times the other years'); the states and DC sum to the United States row in every count and year, and in "
             f"value within the Bureau's rounding (at most {max(rounding.values())} thousand dollars a year, checked); "
             "the regions, divisions and the nation are not kept. Years, not months. Nothing is filled.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/census_bps.py; the latest file retrieved {latest}",

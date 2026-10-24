@@ -36,3 +36,7 @@
 - New: `warehouse/connectors/nrcs_snotel.py`, `tests/test_session2149.py`, this report.
 - Changed: `warehouse/metadata/build_coverage.py`, `warehouse/supabase/live_set.yaml`, `docs/coverage.md`, `coverage.csv`, `sources.csv`, `archive_manifest.csv`, `license_tables.csv`, `docs/licenses.md`.
 - On the data machine only: `runs/c092/s2149/`, `runs/c092/trial.sh`.
+
+## Addendum (session 2157)
+
+- **Corrected:** the rows end on 22 October 2026, not the 23rd, and 19 station-days have no row: Blue Lakes (356:CA:SNTL) from 8 to 25 October 2015 and Green Lake (502:WA:SNTL) on 8 September 2021, days the service returns no entry for. The connector now counts them and the header names them; the table was written again offline. Found by session 2157's method note.

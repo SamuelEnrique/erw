@@ -37,10 +37,12 @@ def answer(basin, unit="in", values=None, drop=None):
 
 class Parse(unittest.TestCase):
     def test_answer(self):
-        missing = {}
-        rows = N.parse(answer("california"), "california", META, BASE, missing)
-        self.assertEqual(len(rows), 4)
+        missing, absent = {}, {}
+        rows = N.parse(answer("california", values=[{"date": "2024-04-01", "value": 20.5}, {"date": "2024-04-02"},
+                                                   {"date": "2024-04-04", "value": 19.0}]), "california", META, BASE, missing, absent)
+        self.assertEqual(len(rows), 8)
         self.assertEqual(sum(missing.values()), 4)
+        self.assertEqual(sum(absent.values()), 4)  # 3 April has no entry at any of the four stations (session 2157)
         r = rows[0]
         self.assertEqual((r["entity"], r["ts_utc"], r["value"], r["unit"], r["geo"], r["x_basin"], r["x_elevation_ft"]),
                          ("snotel:1067:ca", "2024-04-01T00:00:00Z", 20.5, "in", "US-CA", "california", 11000.0))
@@ -49,7 +51,7 @@ class Parse(unittest.TestCase):
         for kw, words in [(dict(drop="356:CA:SNTL"), "not the stations asked"), (dict(unit="mm"), "not inches"),
                           (dict(values=[{"date": "2024-04-01", "value": 1}, {"date": "2024-04-01", "value": 2}]), "given twice")]:
             with self.assertRaises(RuntimeError) as c:
-                N.parse(answer("california", **kw), "california", META, BASE, {})
+                N.parse(answer("california", **kw), "california", META, BASE, {}, {})
             self.assertIn(words, str(c.exception))
         with self.assertRaises(RuntimeError):
             N.parse_meta(list(META.values())[:-1])

@@ -2,7 +2,8 @@
 
 Energy Research Warehouse (ERW). Tests warehouse/connectors/census_bps.py on files built here in the Bureau's form
 (figures made up for the test, not the Bureau's): the estimates taken and the reported-only columns not, the value in
-dollars, a territory under an older code matched by its name, the regions, divisions and nation not kept; a sum that
+dollars, a territory under an older code matched by its name and not kept (session 2157), the regions, divisions and
+nation not kept; a sum that
 differs in a count, a value past the rounding, an area not in the map and a header not as read each stopping the run;
 the sector rule and the holds. No network.
 
@@ -52,9 +53,10 @@ class Parse(unittest.TestCase):
         rows = C.parse(text(us_delta=(0, 0, 3) + (0,) * 9), 2015, BASE, rounding)
         self.assertEqual(rounding[2015], 3)
         geos = {r["geo"] for r in rows}
-        self.assertEqual(len(geos), 52)  # 50 states, DC and Puerto Rico; the region and the nation not kept
-        pr = [r for r in rows if r["geo"] == "US-PR" and r["variable"] == "units_1_unit"][0]
-        self.assertEqual((pr["x_fips"], pr["x_code"], pr["value"]), ("72", "43", 5.0))
+        self.assertEqual(len(geos), 51)  # 50 states and DC; the territories, the region and the nation not kept (session 2157)
+        self.assertNotIn("US-PR", geos)
+        al = [r for r in rows if r["geo"] == "US-AL" and r["variable"] == "units_1_unit"][0]
+        self.assertEqual((al["x_fips"], al["x_code"]), ("01", "01"))
         al = {r["variable"]: r for r in rows if r["geo"] == "US-AL"}
         self.assertEqual((al["value_1_unit"]["value"], al["value_1_unit"]["unit"]), (2000 * 1000.0, "USD"))
         self.assertEqual((al["units_5_plus_units"]["value"], al["units_5_plus_units"]["unit"]), (20.0, "count"))

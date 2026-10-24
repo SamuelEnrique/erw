@@ -17,7 +17,8 @@ The twenty stations are the highest of each basin's SNOTEL stations with a recor
 2149 chose them from NRCS's station list): above Lake Powell, nine in the Colorado headwaters, the White and Yampa, the
 Green and the lower Green; on the Columbia, seven in the Kootenai and Pend Oreille, the upper Columbia and the Yakima; in
 California, four in the Sacramento and San Joaquin basins. An answer that does not hold every station asked, a station
-without WTEQ, a unit other than inches or a day given twice stops the run. A day with no value has no row and is counted.
+without WTEQ, a unit other than inches or a day given twice stops the run. A day returned without a value, and a day with
+no entry at all inside a station's span, have no row and are counted.
 Nothing is filled.
 
     python warehouse/connectors/nrcs_snotel.py [--offline] [--out-dir DIR]
@@ -72,7 +73,7 @@ def parse_meta(d):
     return m
 
 
-def parse(d, basin, meta, base, missing):
+def parse(d, basin, meta, base, missing, absent):
     got = {x["stationTriplet"]: x for x in d}
     asked = BASINS[basin]
     if sorted(got) != sorted(asked):
@@ -102,6 +103,8 @@ def parse(d, basin, meta, base, missing):
                             x_huc=str(m.get("huc", "")), x_elevation_ft=m.get("elevation"), x_lat=m.get("latitude"), x_lon=m.get("longitude")))
         if not seen:
             raise RuntimeError(f"{trip}: no day")
+        span = pd.date_range(min(seen), max(seen), freq="D").strftime("%Y-%m-%d")
+        absent[trip] = absent.get(trip, 0) + len(set(span) - seen)  # days with no entry at all inside the station's span
     return out
 
 
@@ -126,12 +129,12 @@ def main(argv=None):
             raise RuntimeError(f"{HOST} is paused (warehouse/metadata/paused_sources.csv): no request made")
         mc, _ = ip.fetch_raw(CONNECTOR, meta_url(), log, offline=args.offline, fresh=not args.offline, headers=UA, timeout=120, pause=1)
         meta = parse_meta(json.loads(mc))
-        rows, missing, latest = [], {}, ""
+        rows, missing, absent, latest = [], {}, {}, ""
         for basin, trips in BASINS.items():
             url = data_url(trips, end)
             content, rec = ip.fetch_raw(CONNECTOR, url, log, offline=args.offline, fresh=not args.offline, headers=UA, timeout=180, pause=2)
             base = dict(source=SOURCE, source_url=url, retrieved_at=rec.get("retrieved_at") or "", vintage=ip.vintage_of(rec))
-            got = parse(json.loads(content), basin, meta, base, missing)
+            got = parse(json.loads(content), basin, meta, base, missing, absent)
             log(f"  {basin}: {len(got):,} station-days from {len(trips)} stations")
             rows += got
             latest = max(latest, base["retrieved_at"])
@@ -141,14 +144,15 @@ def main(argv=None):
         cols = ip.SERIES_COLS + X_COLS
         s = s[cols].sort_values(["entity", "variable", "ts_utc"]).reset_index(drop=True)
         gaps = sum(missing.values())
+        holes = ", ".join(f"{k} {v}" for k, v in absent.items() if v)
         head = [
             "Energy Research Warehouse (ERW): NRCS SNOTEL, the daily snow water equivalent at twenty high stations above the Colorado's, the "
             f"Columbia's and California's reservoirs, {s.ts_utc.min()[:10]} to {s.ts_utc.max()[:10]} (session 2149)",
             "Shape: series (docs/datastandard.md v0). entity snotel:<station id>:<state>; variable snow_water_equivalent (in, inches of water, "
             "NRCS's WTEQ); freq P1D; ts_utc the station's day written as 00:00 UTC; geo US-<state>; node the station's name; x_basin colorado, "
             "columbia or california; x_huc; x_elevation_ft; x_lat; x_lon.",
-            f"The stations: the highest of each basin's with a record from before October 2014 (session 2149). Days with no value have no row: "
-            f"{gaps:,}. NRCS's values are provisional for the current water year and revised by its quality control. Nothing is filled.",
+            f"The stations: the highest of each basin's with a record from before October 2014 (session 2149). Days NRCS returns empty have no "
+            f"row: {gaps:,}; days with no entry at all inside a station's span: {holes or 'none'}. NRCS's values are provisional for the current water year and revised by its quality control. Nothing is filled.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/nrcs_snotel.py; the latest answer retrieved {latest}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",

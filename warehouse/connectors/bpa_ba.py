@@ -25,7 +25,7 @@ stops the run. The forecasts (base schedule and basepoint) are not taken. Nothin
     python warehouse/connectors/bpa_ba.py [--offline] [--out-dir DIR] [--first YEAR]
 
 Ceiling: one request for the page and one a year (2020 to this year by default), saved in warehouse/raw/bpa_ba/; the
-page and this year's file are asked again unless --offline (they change), an earlier year's file is reused.
+page and every year's file are asked again unless --offline (BPA rewrites past years' workbooks too, session 2157).
 transmission.bpa.gov has no robots file (its /robots.txt is sent on to www.bpa.gov's site, whose robots file disallows
 only /customerportal/). License: may be public (BPA, a power marketing administration of the Department of Energy,
 whose notice is read 54); see license_verdicts.csv.
@@ -187,11 +187,10 @@ def main(argv=None):
             raise RuntimeError(f"{HOST} is paused (warehouse/metadata/paused_sources.csv): no request made")
         page, _ = ip.fetch_raw(CONNECTOR, PAGE, log, offline=args.offline, fresh=not args.offline, headers=UA, timeout=120, pause=1)
         links = year_links(page.decode("utf-8", errors="replace"))
-        this_year = max(links)
         frames, fmts, latest, urls = [], {}, "", []
         for year in sorted(y for y in links if y >= args.first):
             url = links[year]
-            content, rec = ip.fetch_raw(CONNECTOR, url, log, offline=args.offline, fresh=(year == this_year and not args.offline),
+            content, rec = ip.fetch_raw(CONNECTOR, url, log, offline=args.offline, fresh=not args.offline,
                                         headers=UA, timeout=300, pause=2)
             base = dict(source=SOURCE, source_url=url, retrieved_at=rec.get("retrieved_at") or "", vintage=ip.vintage_of(rec))
             t, fmt = read_year(content, url, year)
@@ -219,7 +218,7 @@ def main(argv=None):
             "before, put into UTC by order across the clock changes).",
             f"BPA's notes: the balancing authority's loads and resources, including some that are not BPA's; not BPA loads served by "
             f"transfer, scheduled out of region, or served in other BAs such as Seattle's and Tacoma's; five-minute interpolated snapshots. "
-            f"{short:,} hourly rows hold fewer than 12 five-minute values (empty values, or the year's last hours). Forecasts not taken. "
+            f"{short:,} hourly rows hold fewer than 12 five-minute values (empty values in BPA's files). Forecasts not taken. "
             "Nothing is filled.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/bpa_ba.py; the latest file retrieved {latest}; formats "
             + ", ".join(f"{y} {f}" for y, f in fmts.items()),

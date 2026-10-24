@@ -36,3 +36,8 @@
 - New: `warehouse/connectors/census_bps.py`, `tests/test_session2154.py`, this report.
 - Changed: `warehouse/metadata/build_coverage.py`, `warehouse/supabase/live_set.yaml`, `warehouse/redivis/release_v1.py`, `docs/coverage.md`, `coverage.csv`, `sources.csv`, `archive_manifest.csv`, `license_tables.csv`, `docs/licenses.md`, `docs/redivis/release-v1/`.
 - On the data machine only: `runs/c092/s2154/`.
+
+## Addendum (session 2157)
+
+- **The territories are no longer kept.** Puerto Rico's lines in the Bureau's files repeat one line in 2016, 2018 and 2019, are missing in 2017 and 2020, are all zero in 2021, and in 2022 hold values a thousand times the other years' (USD 506 billion for 3,754 single-family units). The national total does not check the territories, so the table now holds the states and DC: 6,732 rows, 51 areas. Found by session 2157's method note.
+- **Corrected:** the nation's 2021 peak is 1,736,982 units for the states and DC (1,737,150 with the territories). The old codes (Puerto Rico 43, the Virgin Islands 52) run until 2021's file, not only 2015's.
