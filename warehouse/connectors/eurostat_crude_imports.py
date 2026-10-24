@@ -12,7 +12,7 @@ answer asks to try again later, so the connector asks the same address again, a 
     https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nrg_ti_oilm?format=JSON&lang=EN&siec=O4100_TOT&sinceTimePeriod=2016-01
 
     entity      eurostat_crude_imp:<Eurostat geo code>:<partner code> (the importing country, then the country of origin or
-                Eurostat's partner aggregate: TOTAL, the EU, extra-EU and the like, as Eurostat codes them); node "Crude oil
+                Eurostat's partner aggregate as Eurostat codes it: TOTAL, NSP (not specified), the EU and regional groups; the header lists them); node "Crude oil
                 imports from <partner's English name>"
     variable    imports
     unit        t (metric tons: Eurostat's thousand tonnes, THS_T, times 1,000, Decision 56); ts_utc the month's first day;
@@ -152,7 +152,7 @@ def main(argv=None):
             "ts_utc the month's first day; freq P1M; geo the importing country's ISO alpha-2 (Eurostat's EL is GR), blank for EU27_2020 and EA21; node the partner's name; "
             "x_partner and x_partner_name Eurostat's partner code and name; x_flag the observation's status.",
             f"{len(t)} rows, {t.x_partner.nunique()} partners. Importing countries left out by Eurostat's terms: {' '.join(left) or 'none'}. Every partner is kept, Eurostat's "
-            "aggregates among them (TOTAL, the EU, extra-EU and the like): a sum over partners double counts. The partner code NA is Namibia: a reader that turns "
+            f"aggregates among them ({', '.join(sorted(p for p in t.x_partner.unique() if len(p) > 2))}): TOTAL is every partner and NSP not specified; TOTAL and every group whose code does not end in _OTH overlap the named countries, so a sum over partners double counts unless they are left out. The partner code NA is Namibia: a reader that turns "
             "\"NA\" into a missing value (pandas by default) loses it. Values as published, zeros kept; nothing is filled.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/eurostat_crude_imports.py; the answer retrieved {retrieved}; Eurostat's update {js.get('updated', '')}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",

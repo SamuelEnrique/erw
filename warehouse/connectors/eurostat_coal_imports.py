@@ -12,7 +12,7 @@ Eurostat's statistics API (no key), filtered to hard coal, as JSON-stat 2.0, one
     https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nrg_ti_sff?format=JSON&lang=EN&siec=C0100&sinceTimePeriod=2010
 
     entity      eurostat_coal_imp:<Eurostat geo code>:<partner code> (the importing country, then the country of origin or
-                Eurostat's partner aggregate: TOTAL, the EU, extra-EU and the like, as Eurostat codes them); node "Hard
+                Eurostat's partner aggregate as Eurostat codes it: TOTAL, NSP (not specified) and six regional "other" groups; the header lists them); node "Hard
                 coal imports from <partner's English name>"
     variable    imports
     unit        t (metric tons: Eurostat's thousand tonnes, THS_T, times 1,000, Decision 56); ts_utc the year's 1 January;
@@ -152,7 +152,7 @@ def main(argv=None):
             "ts_utc the year's 1 January; freq P1Y; geo the importing country's ISO alpha-2 (Eurostat's EL is GR), blank for EU27_2020 and EA21; node the partner's name; "
             "x_partner and x_partner_name Eurostat's partner code and name; x_flag the observation's status. Hard coal is Eurostat's SIEC C0100 (anthracite, coking coal, other bituminous and sub-bituminous coal).",
             f"{len(t)} rows, {t.x_partner.nunique()} partners. Importing countries left out by Eurostat's terms: {' '.join(left) or 'none'}. Every partner is kept, Eurostat's "
-            "aggregates among them (TOTAL, the EU, extra-EU and the like): a sum over partners double counts. The partner code NA is Namibia: a reader that turns "
+            f"aggregates among them ({', '.join(sorted(p for p in t.x_partner.unique() if len(p) > 2))}): TOTAL is every partner and NSP not specified; TOTAL and every group whose code does not end in _OTH overlap the named countries, so a sum over partners double counts unless they are left out. The partner code NA is Namibia: a reader that turns "
             "\"NA\" into a missing value (pandas by default) loses it. Values as published, zeros kept; nothing is filled. Eurostat publishes these imports a year only.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/eurostat_coal_imports.py; the answer retrieved {retrieved}; Eurostat's update {js.get('updated', '')}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",

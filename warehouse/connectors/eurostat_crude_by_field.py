@@ -148,11 +148,21 @@ def main(argv=None):
             log(f"  answer saved: {path} ({len(content):,} bytes)")
         js = json.loads(content.decode("utf-8"))
         t, zeros = build(js, retrieved)
+        streams_from = t[t.x_crudeoil != "TOTAL"].ts_utc.min()[:7]
+        months = pd.period_range(t.ts_utc.min()[:7], t.ts_utc.max()[:7], freq="M").strftime("%Y-%m")
+        empty = sorted(set(months) - set(t.ts_utc.str[:7]))
+        vol_last = t[t.variable == "volume"].ts_utc.max()[:7]
+        api = t[t.variable == "api_gravity"].value
+        high, top = int((api > 70).sum()), float(api.max())
         header = [
             f"Energy Research Warehouse (ERW): Eurostat, crude oil imports by field of production - monthly data (nrg_ti_coifpm), the EU, {t.ts_utc.min()[:7]} to {t.ts_utc.max()[:7]}: volume, value, price, API gravity and sulphur by crude stream (session 2427)",
             "Shape: series (docs/datastandard.md v0). entity eurostat_crude_field:EU:<Eurostat crude oil code> (TOTAL every stream together); variable volume (kbbl), value (USD, Eurostat's thousand USD times 1,000), price (USD/bbl), api_gravity (degAPI), sulphur (pct by weight); "
             "ts_utc the month's first day; freq P1M; geo blank (the EU, Eurostat's EU_V: the member states of the month); node the stream's name as Eurostat gives it; x_crudeoil, x_indic_nrg, x_flag Eurostat's codes and the observation's status.",
-            f"{len(t)} rows, {t.x_crudeoil.nunique()} streams. Confidential cells have no row. A volume or value of 0 is kept; a price, API gravity or sulphur of 0 is not taken (Eurostat writes 0 there for a stream with no import or a confidential volume): "
+            f"{len(t)} rows, {t.x_crudeoil.nunique() - 1} streams and their total (TOTAL). The streams begin in {streams_from}: before, only TOTAL's volume, value and price are given. "
+            + (f"Months with no row at all: {', '.join(empty)}. " if empty else "")
+            + f"Volume, value and price end in {vol_last}; API gravity and sulphur in {t.ts_utc.max()[:7]}. "
+            + f"API gravity as published: {high} values above 70 degrees (the highest {top:,.1f}), beyond any crude oil's; they are kept, not corrected. "
+            + "Confidential cells have no row. A volume or value of 0 is kept; a price, API gravity or sulphur of 0 is not taken (Eurostat writes 0 there for a stream with no import or a confidential volume): "
             + ", ".join(f"{n} {k}" for k, n in sorted(zeros.items())) + " left out. Nothing is filled.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/eurostat_crude_by_field.py; the answer retrieved {retrieved}; Eurostat's update {js.get('updated', '')}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",

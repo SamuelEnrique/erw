@@ -12,7 +12,7 @@ session 2432; an asynchronous answer is asked again, as the crude oil connector 
     https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nrg_te_eh?format=JSON&lang=EN&siec=E7000&sinceTimePeriod=2010
 
     entity      eurostat_elec_trade:<Eurostat geo code>:<partner code> (the reporting country, then its trading partner or
-                Eurostat's partner aggregate: TOTAL, the EU, extra-EU and the like); node "Electricity trade with
+                Eurostat's partner aggregate as Eurostat codes it: TOTAL, NSP (not specified) and six regional "other" groups; the header lists them); node "Electricity trade with
                 <partner's English name>"
     variable    imports (nrg_ti_eh), exports (nrg_te_eh)
     unit        MWh (Eurostat's GWh times 1,000; the same figures in TJ are not taken); ts_utc the year's 1 January; freq P1Y
@@ -163,7 +163,7 @@ def main(argv=None):
             "ts_utc the year's 1 January; freq P1Y; geo the reporting country's ISO alpha-2 (Eurostat's EL is GR), blank for EU27_2020 and EA21; node the partner's name; "
             "x_partner and x_partner_name Eurostat's partner code and name; x_flag the observation's status. Each country's figures are as it reports them: one country's imports from a partner need not equal the partner's exports to it.",
             f"{len(t)} rows, {t.x_partner.nunique()} partners. Reporting countries left out by Eurostat's terms: {' '.join(sorted(left)) or 'none'}. Every partner is kept, Eurostat's "
-            "aggregates among them (TOTAL, the EU, extra-EU and the like): a sum over partners double counts. The partner code NA is Namibia: a reader that turns "
+            f"aggregates among them ({', '.join(sorted(p for p in t.x_partner.unique() if len(p) > 2))}): TOTAL is every partner and NSP not specified; TOTAL and every group whose code does not end in _OTH overlap the named countries, so a sum over partners double counts unless they are left out. The partner code NA is Namibia: a reader that turns "
             "\"NA\" into a missing value (pandas by default) loses it. Values as published, zeros kept; nothing is filled. Eurostat publishes this trade a year only.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/eurostat_electricity_trade.py; the answers retrieved " + ", ".join(f"{k} {v}" for k, v in got.items())
             + "; Eurostat's update " + ", ".join(f"{k} {v}" for k, v in updated.items()),
