@@ -78,7 +78,8 @@ class TheRulings(unittest.TestCase):
         self.assertEqual(len(old), 18)
         for l in items:
             self.assertIn("Recommendation:", l)
-            self.assertRegex(l, r"\(Sessions? (11(5[5-9]|6\d|7[0-5]|7[89]|8[0-7])|140[2-6]|141[2-6])[^)]*\)$")
+            # Session 1425: chain 111's items (sessions 1420 to 1422) joined them too; tests/test_session1176.py counts them.
+            self.assertRegex(l, r"\(Sessions? (11(5[5-9]|6\d|7[0-5]|7[89]|8[0-7])|140[2-6]|141[2-6]|142[0-2])[^)]*\)$")
 
 
 @unittest.skipUnless(NODE, "node is not installed")

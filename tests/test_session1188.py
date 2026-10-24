@@ -227,5 +227,67 @@ class TheNotesChain107(unittest.TestCase):
                 self.assertNotIn(EM, src(*p), p)
 
 
+# Session 1425 (chain 111): each note's first chain 111 section, and the sessions its index line names.
+NOTES_111 = {
+    "grid_network": ("1420", "1421", "1422", "1423", "1424", "1419", "1425"),
+}
+
+
+def chain_111_sections(text):
+    """Every section of the note headed with chain 111, each up to the next second-level heading."""
+    return re.findall(r"^## [^\n]*chain 111[^\n]*\n(.*?)(?=^## |\Z)", text, re.M | re.S)
+
+
+class TheNotesChain111(unittest.TestCase):
+    def test_each_note_opens_its_chain_111_sections_with_one_index_line(self):
+        for n, sessions in NOTES_111.items():
+            secs = chain_111_sections(src("docs", "methods", f"{n}.md"))
+            self.assertTrue(secs, n)
+            first = secs[0].strip().split("\n\n")[0]
+            self.assertTrue(first.startswith("Chain 111 in this note (sessions 1419 to 1426): "), (n, first[:80]))
+            for s in sessions:
+                self.assertIn(s, first, (n, s))
+            self.assertEqual(sum(s.count("Chain 111 in this note (sessions 1419 to 1426)") for s in secs), 1, n)
+
+    def test_no_other_note_holds_a_chain_111_section(self):
+        d = os.path.join(ROOT, "docs", "methods")
+        found = sorted(f[:-3] for f in os.listdir(d) if f.endswith(".md") and chain_111_sections(src("docs", "methods", f)))
+        self.assertEqual(found, sorted(NOTES_111))
+
+    def test_each_chain_111_session_has_its_decisions(self):
+        sec = chain_111_sections(src("docs", "methods", "grid_network.md"))[0]
+        for s in ("1420", "1421", "1422", "1423", "1424"):
+            self.assertIn(f"\nDecisions (chain 111, session {s}):", sec, s)
+        for s in ("1420", "1422", "1423", "1424"):
+            self.assertEqual(sec.count(f"\nDecisions (chain 111, session {s}, the rest of its report, written by session 1425):"), 1, s)
+
+    def test_what_was_missing_is_there(self):
+        sec = chain_111_sections(src("docs", "methods", "grid_network.md"))[0]
+        for w in ("**the figures are drawn once and filed**", "the 18 `check=` that session 473 counts",
+                  "**the check scripts' default list also asks for sessions 1415's and 1416's files**",
+                  "ERCOT's \"What is being built\" file is not in `GRID_FILE_PAGES`",
+                  "**no pin is retired**", "**moves its case to the panel's name**", "**a case's words hold no clock**",
+                  "**the comparison is tied to one build**", "`snapshot_built`", "equals `shownHour`",
+                  "**a fixed width is read as a phone at 390 px meets it**", "a rem counts as 16 px",
+                  "**session 1158's keyboard items stand open**"):
+            self.assertIn(w, sec)
+
+    def test_the_linked_headings_stand(self):
+        # session 1421's METHOD_RIGHT_NOW and METHOD_NOW_MIX open this heading; the index line and blocks must not rename it
+        g = src("docs", "methods", "grid_network.md")
+        for h in ("## The older blocks' files, anchors, method links and render cases (chain 111, 24 October 2026)",
+                  "### \"Right now\" and the mix in that hour, what each figure is (session 1421)"):
+            self.assertEqual(g.count("\n" + h + "\n"), 1, h)
+        self.assertLess(g.index("Decisions (chain 111, session 1424, the rest"), g.index("### \"Right now\" and the mix in that hour"))
+
+    def test_no_em_dash(self):
+        for n in NOTES_111:
+            self.assertNotIn(EM, src("docs", "methods", f"{n}.md"), n)
+        for p in (("archive", "sessions", "SESSION_1425_REPORT.md"), ("tests", "test_session1176.py"), ("tests", "test_session1162.py"),
+                  ("tests", "test_session1188.py"), ("docs", "reviews", "grid-rulings-2026-10-23.md")):
+            if os.path.exists(os.path.join(ROOT, *p)):
+                self.assertNotIn(EM, src(*p), p)
+
+
 if __name__ == "__main__":
     unittest.main()
