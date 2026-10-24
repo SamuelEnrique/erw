@@ -20,13 +20,15 @@ Energy Research Warehouse (ERW) connector. One events table from the NRC's publi
 
 The sheet must hold the 23 columns the NRC's data dictionary lists, or the run stops; so does a row whose key is given
 twice or whose issue date does not read. An issue date the file holds as an Excel serial number is read as one and
-counted in the header. The report links point to /docs/, which the NRC's robots file disallows; they are kept as the
-NRC prints them and never asked. Nothing is filled.
+counted in the header. The report links point to /docs/ (ADAMS documents), which the NRC's robots file disallows to two
+named crawlers (Akamai-SiteSnapshot and Amazonbot), not to every reader; they are kept as the NRC prints them and never
+asked. Nothing is filled.
 
     python warehouse/connectors/nrc_rop_findings.py [--offline] [--out-dir DIR]
 
 Ceiling: one request (the workbook, asked again unless --offline, since the NRC updates it at the same address).
-www.nrc.gov's robots file disallows /docs/ and its search, not /sites/ or /documents-reports/. License: the NRC's, as
+www.nrc.gov's robots file disallows its search pages, ads.txt and autodiscover to every reader (and /docs/ to two named
+crawlers), not /sites/ or /documents-reports/. License: the NRC's, as
 license_verdicts.csv records it (the ERW's other NRC tables, nrc_power_reactors and nrc_event_notifications).
 """
 
@@ -133,7 +135,7 @@ def main(argv=None):
             "columns the NRC's procedure, report, cornerstone, title, site code, cross-cutting aspect and area, identified by, region, accession, "
             "traditional enforcement, severity, cornerstone attribute, year, quarter and link.",
             f"The NRC's data dictionary's 23 columns, as read; no key given twice. Issue dates held as Excel serial numbers, read as such: "
-            f"{len(serials)}. The links point to /docs/, which the NRC's robots file disallows: kept as printed, never asked. Nothing is filled.",
+            f"{len(serials)}. The links point to /docs/ (ADAMS documents): kept as printed, never asked. Nothing is filled.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/nrc_rop_findings.py; the workbook retrieved {base['retrieved_at']}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
