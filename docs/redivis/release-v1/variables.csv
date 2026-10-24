@@ -587,6 +587,27 @@ cftc_cot_positions,managed_money_short,series variable,count
 cftc_cot_positions,open_interest,series variable,count
 desnz_uk_electricity_quarterly,generated,series variable,MWh
 desnz_uk_electricity_quarterly,supplied,series variable,MWh
+desnz_uk_gas_quarterly,domestic,series variable,MWh
+desnz_uk_gas_quarterly,electricity_generation,series variable,MWh
+desnz_uk_gas_quarterly,energy_industry_use,series variable,MWh
+desnz_uk_gas_quarterly,exports,series variable,MWh
+desnz_uk_gas_quarterly,final_consumption,series variable,MWh
+desnz_uk_gas_quarterly,heat_generation,series variable,MWh
+desnz_uk_gas_quarterly,imports,series variable,MWh
+desnz_uk_gas_quarterly,imports_of_liquefied_natural_gas,series variable,MWh
+desnz_uk_gas_quarterly,indigenous_production,series variable,MWh
+desnz_uk_gas_quarterly,iron_steel,series variable,MWh
+desnz_uk_gas_quarterly,losses,series variable,MWh
+desnz_uk_gas_quarterly,non_energy_use,series variable,MWh
+desnz_uk_gas_quarterly,other_final_users,series variable,MWh
+desnz_uk_gas_quarterly,other_industries,series variable,MWh
+desnz_uk_gas_quarterly,statistical_difference,series variable,MWh
+desnz_uk_gas_quarterly,stock_change,series variable,MWh
+desnz_uk_gas_quarterly,total_demand,series variable,MWh
+desnz_uk_gas_quarterly,total_supply,series variable,MWh
+desnz_uk_gas_quarterly,transfers,series variable,MWh
+desnz_uk_gas_quarterly,transformation,series variable,MWh
+desnz_uk_gas_quarterly,transport,series variable,MWh
 desnz_uk_renewables_quarterly,capacity,series variable,MW
 desnz_uk_renewables_quarterly,generated,series variable,MWh
 doe_grip_selections,event_id,column,

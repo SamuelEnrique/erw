@@ -54,6 +54,7 @@ datacenter_projects,Bloomberg; Census Bureau; Data Center Dynamics; Data Center 
 datacenter_projects_evidence,Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Financial Times; Hart Energy; Heatmap News; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; WSJ,the source registry
 datacenter_queue_positions,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,by hand: its header: rows of the six operators' queue tables
 desnz_uk_electricity_quarterly,UK Department for Energy Security and Net Zero (DESNZ),the source registry
+desnz_uk_gas_quarterly,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 desnz_uk_renewables_quarterly,UK Department for Energy Security and Net Zero (DESNZ),the source registry
 doe_grip_selections,U.S. Department of Energy (DOE),the source registry
 doe_lead_energy_burden,U.S. Department of Energy (DOE),the source registry
