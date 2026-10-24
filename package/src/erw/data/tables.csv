@@ -37,6 +37,7 @@ carbon_intensity_daily,public,,,,EIA,"Public: every publisher's terms the ERW re
 carbon_intensity_hourly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",430 days
 carbon_intensity_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 cbs_netherlands_electricity_monthly,public,,,,Statistics Netherlands (CBS),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+cea_india_psp_annual,internal,,,Central Electricity Authority (India),Central Electricity Authority (India),The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 cec_total_system_generation_annual,public,,,,California Energy Commission (CEC),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 census_bps_state_annual,public,,,,Census Bureau,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 census_c30_construction_monthly,public,,,,Census Bureau,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -360,6 +361,8 @@ isone_rtm_zone_prices_hourly,unsettled,license needed,2026-10-21,ISO-NE,ISO-NE,"
 isone_zone_load_hourly,internal,,,ISO-NE,ISO-NE,The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 isone_zone_prices_history,internal,,,ISO-NE,ISO-NE,The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 known_data_faults,public,,,,ERW,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+kpx_korea_demand_monthly,internal,,,Korea Power Exchange,Korea Power Exchange,The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
+kpx_korea_generation_annual,internal,,,Korea Power Exchange,Korea Power Exchange,The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 large_load_document_verdicts,internal,,,NYISO,"Alberta Electric System Operator (AESO), Canada; Bonneville Power Administration (BPA); NYISO; Public Utility District No. 2 of Grant County, Washington (Grant PUD); utilities and operators, each row's own document (not listed one by one)",The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 large_load_public,unsettled,,,,"utilities and operators, each row's own document (not listed one by one)","The terms of utilities and operators, each row's own document (not listed one by one) have not been read or settled, so the ERW does not redistribute it until they are.",whole
 large_load_rule_reads,unsettled,,,,Arizona Corporation Commission; California Public Utilities Commission; Illinois Commerce Commission; Office of the Federal Register (NARA); Oregon Public Utility Commission; Pennsylvania Public Utility Commission,"The terms of Arizona Corporation Commission; Illinois Commerce Commission; Oregon Public Utility Commission and others have not been read or settled, so the ERW does not redistribute it until they are.",none
@@ -460,10 +463,12 @@ statcan_oil_gas_supply_monthly,public,,,,Statistics Canada,"Public: every publis
 state_generation_mix_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 statee_estonia_electricity_monthly,public,,,,Statistics Estonia,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statfi_finland_electricity_monthly,public,,,,Statistics Finland,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+statnett_norway_daily,internal,,,,Statnett SF,The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 storage_buildout_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 storage_capacity,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 storage_daily_cycle,public,,,,CAISO; EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 storage_owners_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+svk_sweden_production_hourly,internal,,,,Svenska kraftnat,The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 texas_delivery_charges,internal,,,"AEP Texas Inc.; CenterPoint Energy Houston Electric, LLC; Oncor Electric Delivery Company LLC","AEP Texas Inc.; CenterPoint Energy Houston Electric, LLC; Oncor Electric Delivery Company LLC; Public Utility Commission of Texas; Texas-New Mexico Power Company",The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 texas_transmission_matrix,internal,,,,Public Utility Commission of Texas,The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 treasury_1603_awards,internal,,,,U.S. Department of the Treasury,The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
