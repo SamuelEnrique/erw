@@ -25,7 +25,7 @@ EIA's key is read from `.env` and never saved: the probe's copies replace it wit
 ## Errors
 
 - **The cross-check's first filter took "crude oil and petroleum products" with "crude oil",** doubling every PADD. It was narrowed to crude oil alone and run again.
-- **A page address the connector's template guessed** was replaced by the API route itself before any run.
+- **A page address the connector's template guessed** (an EIA data browser page never read) was meant to be replaced by the API route before any run, but the replacing command failed unseen, so the first write carried it in its header and `sources.csv`. Session 2245 found it, set the route in its place and wrote the table again offline (the same 15,968 rows).
 
 ## Decisions made without you
 

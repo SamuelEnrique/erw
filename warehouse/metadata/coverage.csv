@@ -137,7 +137,7 @@ eia_crude_first_purchase_prices,none,,2,P1M,1977-07-01T00:00:00Z,2026-07-01T00:0
 eia_crude_imports_by_country,none,,82,P1M,1920-01-01T00:00:00Z,2026-07-01T00:00:00Z,22633,eia:petroleum/move/impcus,2026-10-23T14:37:50Z,pass,public,oil,no,source
 eia_crude_imports_detail_monthly,none,,8536,P1M,2009-01-01T00:00:00Z,2026-07-01T00:00:00Z,183393,eia:crude-oil-imports,2026-10-22T06:54:47Z,pass,public,oil,no,source
 eia_crude_production_state_monthly,none,,84,P1M,2001-01-01T00:00:00Z,2026-07-01T00:00:00Z,25644,eia:petroleum/crd/crpdn,2026-10-21T21:14:11Z,pass,public,oil,no,source
-eia_crude_quality_monthly,none,,32,P1M,1985-01-01T00:00:00Z,2026-07-01T00:00:00Z,15968,eia:petroleum/pnp/crq,2026-10-24T03:40:01Z,pass,public,oil,no,source
+eia_crude_quality_monthly,none,,32,P1M,1985-01-01T00:00:00Z,2026-07-01T00:00:00Z,15968,eia:petroleum/pnp/crq,2026-10-24T03:43:53Z,pass,public,oil,no,source
 eia_crude_reserves_annual,none,,416,P1Y,1977-01-01T00:00:00Z,2021-01-01T00:00:00Z,13931,eia:petroleum/crd/pres,2026-10-21T22:16:51Z,pass,public,oil,no,source
 eia_crude_stream_prices,none,,38,P1M,2019-01-01T00:00:00Z,2026-08-01T00:00:00Z,2982,eia:petroleum/pri/dfp2:streams;eia:petroleum/pri/imc2;eia:petroleum/pri/land2;eia:petroleum/pri/rac2,2026-10-23T15:05:34Z,pass,public,oil,no,source
 eia_drilling_monthly,none,,6,P1M,1973-01-01T00:00:00Z,2026-02-01T00:00:00Z,3431,eia:petroleum/crd/drill,2026-10-22T00:37:00Z,pass,public,oil;gas,no,source
