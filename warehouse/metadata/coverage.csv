@@ -318,6 +318,8 @@ eurostat_renewable_capacity_annual,eurostat,,34,P1Y,1990-01-01T00:00:00Z,2024-01
 eurostat_solid_fuels_monthly,eurostat,,49,P1M,2016-01-01T00:00:00Z,2026-09-01T00:00:00Z,209040,eurostat:nrg_cb_sffm,2026-10-24T09:23:56Z,pass,public,coal,no,source
 event_study_estimates,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,13,P1D;PT1H,2020-03-01T00:00:00Z,2026-02-02T00:00:00Z,3040,erw:event_study,2026-10-19T09:46:06Z,pass,public,power,yes,derived
 event_window_daily,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,ercot_dam;ercot_rtm;isone_dam;isone_rtm;miso_dam;miso_rtm;nyiso_dam;nyiso_rtm;spp_dam;spp_rtm,10,P1D;P1W,2018-03-04T00:00:00Z,2026-02-02T00:00:00Z,29953,erw:event_window,2026-10-19T09:43:29Z,pass,public,power;carbon,yes,derived
+ewa_bahrain_electricity_annual,ewa,,28,P1Y,2020-01-01T00:00:00Z,2024-01-01T00:00:00Z,135,ewa:statistical_book,2026-10-24T16:27:44Z,pass,internal,power,no,source
+fbos_fiji_electricity_annual,fbos,,6,P1Y,2011-01-01T00:00:00Z,2024-01-01T00:00:00Z,83,fbos:electricity,2026-10-24T16:29:15Z,pass,public,power,no,source
 fema_disaster_declarations,none,,1,event,2015-01-07T00:00:00Z,2026-10-17T00:00:00Z,26199,1 outlets,2026-10-23T20:53:46Z,pass,public,power;gas;oil,no,source
 ferc714_area_demand_2006,ferc714,,175,PT1H,2006-01-01T04:00:00Z,2006-12-31T23:00:00Z,1532108,pudl:core_ferc714__hourly_planning_area_demand,2026-10-21T18:39:11Z,pass,internal,power,no,source
 ferc714_area_demand_2007,ferc714,,177,PT1H,2007-01-01T00:00:00Z,2007-12-31T23:00:00Z,1375404,pudl:core_ferc714__hourly_planning_area_demand,2026-10-21T18:39:11Z,pass,internal,power,no,source
@@ -356,12 +358,14 @@ frb_utility_output_monthly,frb,,19,P1M,1919-01-01T00:00:00Z,2026-09-01T00:00:00Z
 generation_mix_hourly_profile,generation,,7,P1M,2019-01-01T00:00:00Z,2026-09-01T00:00:00Z,165760,erw:generation_mix_hourly;erw:generation_mix_hourly_caiso,2026-10-19T17:43:12Z,pass,public,power;carbon,yes,derived
 generation_mix_records,generation,,7,PT1H,2019-01-14T05:00:00Z,2026-10-18T15:00:00Z,306,erw:generation_mix_hourly;erw:generation_mix_hourly_caiso,2026-10-19T17:43:12Z,pass,public,power;carbon,yes,derived
 gfz_kp_index_3h,gfz,,1,PT3H,1932-01-01T00:00:00Z,2026-10-22T21:00:00Z,277032,gfz:kp_ap_since_1932,2026-10-23T23:18:55Z,pass,public,power,no,source
+grenada_cso_electricity_annual,grenada,,6,P1Y,2000-01-01T00:00:00Z,2023-01-01T00:00:00Z,144,grenada_cso:electricity_by_category,2026-10-24T16:29:52Z,pass,internal,power,no,source
 grid_network_links,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,157,PT1H,2026-10-16T00:00:00Z,2026-10-22T23:00:00Z,26376,erw:grid_network,2026-10-24T14:39:23Z,pass,public,power,yes,derived
 grid_network_nodes,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,70,PT168H;PT1H,2026-10-16T00:00:00Z,2026-10-22T23:00:00Z,84,erw:grid_network,2026-10-24T14:39:23Z,pass,public,power,yes,derived
 grid_peak_vs_capacity,grid,,7,P1Y,2025-01-01T00:00:00Z,2025-01-01T00:00:00Z,56,erw:grid_peak_vs_capacity,2026-10-22T09:46:59Z,pass,public,power;capacity,yes,derived
 grid_stress_days,grid,caiso_rtm;ercot_rtm;isone_rtm;miso_rtm;nyiso_rtm;spp_rtm,6,P1D,2015-07-30T00:00:00Z,2026-10-08T00:00:00Z,282,caiso:PRC_INTVL_LMP;erw:ercot_hub_prices_daily;isone:rt_lmp_5min;miso:rt_lmp_final;nyiso:realtime;spp:RTBM-LMP-SL,2026-10-19T22:57:38Z,pass,public,power,yes,derived
 grid_stress_yearly,grid,,7,P1Y,2019-01-01T00:00:00Z,2026-01-01T00:00:00Z,2394,erw:grid_stress,2026-10-06T09:50:58Z,pass,public,power,yes,derived
 hagstofa_iceland_power_annual,hagstofa,,2,P1Y,1976-01-01T00:00:00Z,2019-01-01T00:00:00Z,88,hagstofa:IDN02101,2026-10-24T10:21:27Z,pass,public,power,no,source
+hagstova_faroe_electricity_annual,hagstova,,16,P1Y,1990-01-01T00:00:00Z,2025-01-01T00:00:00Z,421,hagstova:UO03,2026-10-24T16:30:10Z,pass,public,power,no,source
 hub_price_comparison,hub,,31,P1M;P1Y,2025-10-01T00:00:00Z,2026-09-01T00:00:00Z,575,erw:hub_price_comparison,2026-10-05T02:07:01Z,pass,public,power;carbon,yes,derived
 ieso_generation_fuel_hourly,ieso,,8,PT1H,2020-01-01T05:00:00Z,2026-10-23T04:00:00Z,371781,ieso:gen_output_by_fuel_hourly,2026-10-24T02:01:32Z,pass,public,power,no,source
 ieso_ontario_demand_hourly,ieso,,1,PT1H,2025-01-01T05:00:00Z,2026-10-23T05:00:00Z,31680,ieso:demand,2026-10-23T20:06:39Z,pass,public,power,no,source
@@ -445,6 +449,7 @@ nrc_power_reactors,nrc,,130,snapshot,2026-10-23T09:52:20Z,2026-10-23T09:53:52Z,1
 nrc_reactor_status,nrc,,99,P1D,2020-01-01T00:00:00Z,2026-10-22T00:00:00Z,234910,nrc:power_reactor_status,2026-10-22T17:33:58Z,pass,public,power;uranium,no,source
 nrc_rop_findings,none,,1,event,1999-07-29T00:00:00Z,2025-05-12T00:00:00Z,18240,1 outlets,2026-10-24T02:38:13Z,pass,public,power;uranium,no,source
 nrcs_snotel_swe_daily,nrcs,,20,P1D,2015-01-01T00:00:00Z,2026-10-22T00:00:00Z,86241,nrcs:awdb_snotel,2026-10-24T00:20:08Z,pass,internal,power,no,source
+nso_malawi_electricity_sales_annual,nso,,5,P1Y,1992-01-01T00:00:00Z,2019-01-01T00:00:00Z,140,nso_malawi:statistical_yearbook,2026-10-24T16:29:27Z,pass,internal,power,no,source
 ntd_transit_energy_annual,ntd,,1751,P1Y,2022-01-01T00:00:00Z,2025-01-01T00:00:00Z,10161,fta:ntd_fuel_energy,2026-10-24T02:38:28Z,pass,public,power;products,no,source
 nyiso_as_prices,NYISO,nyiso_dam,6,PT1H,2024-09-01T04:00:00Z,2026-10-05T03:00:00Z,293376,nyiso:damasp,2026-10-04T04:09:15Z,pass,public,power,no,source
 nyiso_dam_cleared_energy,NYISO,nyiso_dam,1,PT1H,2025-09-01T04:00:00Z,2026-10-26T03:00:00Z,10080,nyiso:damenergy,2026-10-24T15:04:13Z,pass,public,power,no,source
@@ -486,6 +491,7 @@ scb_sweden_electricity_monthly,scb,,11,P1M,1974-01-01T00:00:00Z,2026-08-01T00:00
 scripps_co2_mlo_monthly,scripps,,1,P1M,1958-03-01T00:00:00Z,2026-09-01T00:00:00Z,1636,scripps:co2_mlo_monthly,2026-10-23T23:42:11Z,pass,public,carbon,no,source
 shoulder_hours_monthly,CAISO;ERCOT,,3,P1D;P1M;P1Y,2019-01-01T00:00:00Z,2026-10-06T00:00:00Z,27197,erw:shoulder_hours,2026-10-19T11:43:46Z,pass,public,power,yes,derived
 singstat_singapore_electricity,singstat,,18,P1M;P1Y,1975-01-01T00:00:00Z,2026-06-01T00:00:00Z,1009,singstat:M890831_M890841,2026-10-24T06:07:53Z,pass,internal,power,no,source
+slu_cso_electricity_annual,slu,,11,P1Y,2010-01-01T00:00:00Z,2023-01-01T00:00:00Z,139,slu_cso:electricity_output_consumption,2026-10-24T16:30:01Z,pass,internal,power,no,source
 smard_germany_monthly,smard,,13,P1M,2015-01-01T00:00:00Z,2026-09-01T00:00:00Z,1800,smard:market_data_month,2026-10-24T02:46:34Z,pass,public,power,no,source
 sne_panama_electricity_annual,sne,,1,P1Y,1970-01-01T00:00:00Z,2021-01-01T00:00:00Z,569,sne:estadisticas_electricidad,2026-10-24T11:48:45Z,pass,public,power,no,source
 sne_panama_generation_monthly,sne,,1,P1M,1980-01-01T00:00:00Z,2021-12-01T00:00:00Z,504,sne:estadisticas_electricidad,2026-10-24T11:48:45Z,pass,public,power,no,source
@@ -536,3 +542,4 @@ wb_iea_electricity_annual,wb,,209,P1Y,2000-01-01T00:00:00Z,2025-01-01T00:00:00Z,
 weather_forecast_hourly,weather,,7,PT1H,2026-09-28T09:00:00Z,2026-10-31T01:00:00Z,10950,nws:forecast_hourly,2026-10-24T14:39:30Z,pass,public,power,no,source
 weather_obs_hourly,weather,,7,PT1H,2026-09-21T09:00:00Z,2026-10-24T13:00:00Z,10963,nws:observations,2026-10-24T14:39:30Z,pass,public,power,no,source
 wfigs_wildfires,none,,1,event,2015-01-18T00:00:00Z,2026-10-21T00:00:00Z,6222,1 outlets,2026-10-23T23:13:01Z,pass,public,power,no,source
+zimstat_zimbabwe_generation_monthly,zimstat,,85,P1M,2019-01-01T00:00:00Z,2026-03-01T00:00:00Z,85,zimstat:index_of_electricity_generation,2026-10-24T16:28:31Z,pass,internal,power,no,source

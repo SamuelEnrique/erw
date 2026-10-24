@@ -4936,6 +4936,8 @@ eurostat_solid_fuels_monthly,flow:STKOP_NAT,series variable,t
 eurostat_solid_fuels_monthly,flow:STK_CHG,series variable,t
 eurostat_solid_fuels_monthly,flow:TI_CO,series variable,t
 eurostat_solid_fuels_monthly,flow:TI_EHG_MAP,series variable,t
+fbos_fiji_electricity_annual,generation,series variable,MWh
+fbos_fiji_electricity_annual,sales,series variable,MWh
 fema_disaster_declarations,event_id,column,
 fema_disaster_declarations,event_date,column,
 fema_disaster_declarations,event_type,column,
@@ -5918,6 +5920,8 @@ grid_stress_yearly,wind_solar_capacity_mw,series variable,MW
 grid_stress_yearly,wind_solar_mean_mw,series variable,MW
 hagstofa_iceland_power_annual,capacity,series variable,MW
 hagstofa_iceland_power_annual,generation,series variable,MWh
+hagstova_faroe_electricity_annual,generation,series variable,MWh
+hagstova_faroe_electricity_annual,sales,series variable,MWh
 ieso_generation_fuel_hourly,control_actions,series variable,MWh
 ieso_generation_fuel_hourly,generation_biofuel,series variable,MWh
 ieso_generation_fuel_hourly,generation_gas,series variable,MWh

@@ -289,6 +289,13 @@ SECTOR_RULES = [
     (r"^eia_gas_other_uses_state_annual$", "gas"),  # session 2164: EIA's gas vehicle, lease and plant, pipeline fuel and deliveries by state
     (r"^elexon_gb_demand_daily$", "power"),  # session 2162: Elexon's BMRS, Great Britain's daily demand outturn
     (r"^energinet_dk_production_hourly$", "power"),  # session 2217: Energinet, Denmark's production, consumption and exchanges an hour
+    (r"^hagstova_faroe_electricity_annual$", "power"),  # session 2502: Statistics Faroe Islands UO03020 and UO03030, SEV's production by source and sales
+    (r"^slu_cso_electricity_annual$", "power"),  # session 2497: CSO Saint Lucia, LUCELEC's electricity output and consumption
+    (r"^grenada_cso_electricity_annual$", "power"),  # session 2496: CSO Grenada, electricity produced and consumed by category
+    (r"^nso_malawi_electricity_sales_annual$", "power"),  # session 2493: NSO Malawi's Statistical Year Book 2023, table 10.1, ESCOM's units sold by type of user
+    (r"^fbos_fiji_electricity_annual$", "power"),  # session 2492: FBoS table 3.7[A] and Electricity 2024 Appendix III, Energy Fiji Ltd's production and sales
+    (r"^zimstat_zimbabwe_generation_monthly$", "power"),  # session 2491: ZIMSTAT's Index of Electricity Generation, Appendix A, Zimbabwe's generation a month
+    (r"^ewa_bahrain_electricity_annual$", "power"),  # session 2490: EWA's Statistical Book 2024, Bahrain's electricity sent out, capacity, load and consumption
     (r"^epa_ghgrp_facility_emissions$", "carbon;power;oil;gas"),  # session 2072: EPA's GHGRP, every sector
     (r"^epa_lmop_landfill_projects$", "power;gas"),  # session 2127: EPA's LMOP, landfills and landfill gas energy projects
     (r"^epa_tri_energy_releases_annual$", "power;oil;gas;coal"),  # session 2121: EPA's Toxics Release Inventory, the energy industries

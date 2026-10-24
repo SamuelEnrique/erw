@@ -318,6 +318,8 @@ eurostat_renewable_capacity_annual,Eurostat (Statistical Office of the European 
 eurostat_solid_fuels_monthly,Eurostat (Statistical Office of the European Union),the source registry
 event_study_estimates,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,the source registry and the tables its header derives it from: event_window_daily
 event_window_daily,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"the source registry and the tables its header derives it from: eia930_all_emissions, eia930_all_history, ercot_all_hub_prices_history, iso_hub_prices_history, noaa_isd_hourly"
+ewa_bahrain_electricity_annual,"Electricity and Water Authority, Kingdom of Bahrain (EWA)",the source registry
+fbos_fiji_electricity_annual,Fiji Bureau of Statistics (FBoS),the source registry
 fema_disaster_declarations,Federal Emergency Management Agency (FEMA),the source registry
 ferc714_area_demand_2006,"Catalyst Cooperative (PUDL), from FERC Form 714",the source registry
 ferc714_area_demand_2007,"Catalyst Cooperative (PUDL), from FERC Form 714",the source registry
@@ -356,12 +358,14 @@ frb_utility_output_monthly,FRB,the source registry
 generation_mix_hourly_profile,CAISO; EIA,"the source registry and the tables its header derives it from: caiso_fuel_supply, caiso_fuel_supply_history, carbon_intensity_hourly"
 generation_mix_records,CAISO; EIA,"the source registry and the tables its header derives it from: caiso_fuel_supply, caiso_fuel_supply_history, carbon_intensity_hourly"
 gfz_kp_index_3h,GFZ Helmholtz Centre for Geosciences (Potsdam),the source registry
+grenada_cso_electricity_annual,Central Statistical Office of Grenada (CSO),the source registry
 grid_network_links,EIA,"the source registry and the tables its header derives it from: carbon_intensity_hourly, eia930_all_demand, eia930_all_interchange"
 grid_network_nodes,EIA,"the source registry and the tables its header derives it from: carbon_intensity_hourly, eia930_all_demand, eia930_all_interchange"
 grid_peak_vs_capacity,EIA,"the source registry and the tables its header derives it from: eia860m_operating_generators, eia930_demand_growth"
 grid_stress_days,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"by hand: its header: the main hubs' real-time prices of six grids, CAISO's notices and ERCOT's (session 322)"
 grid_stress_yearly,CAISO; EIA,"the source registry and the tables its header derives it from: caiso_fuel_supply, eia860m_operating_generators, eia860m_retired_generators_all, storage_buildout_monthly"
 hagstofa_iceland_power_annual,Statistics Iceland (Hagstofa Islands),the source registry
+hagstova_faroe_electricity_annual,Statistics Faroe Islands (Hagstova Foroya),the source registry
 hub_price_comparison,CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: carbon_intensity_daily, ercot_all_hub_prices_history, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices, isone_dam_zone_prices, isone_rtm_zone_prices, isone_rtm_zone_prices_hourly, nyiso_dam_zone_prices, nyiso_rtm_zone_prices"
 ieso_generation_fuel_hourly,"Independent Electricity System Operator (IESO), Ontario",the source registry
 ieso_ontario_demand_hourly,"Independent Electricity System Operator (IESO), Ontario",the source registry
@@ -418,9 +422,9 @@ miso_as_prices,MISO,the source registry
 miso_interconnection_queue,MISO,the source registry
 msha_coal_mines,"U.S. Department of Labor, Mine Safety and Health Administration (MSHA)",the source registry
 msha_coal_production_quarterly,"U.S. Department of Labor, Mine Safety and Health Administration (MSHA)",the source registry
-news_index,ANS Nuclear Newswire; Bloomberg; CAISO; CTVC; California Public Utilities Commission; California State Portal | CA.gov; Canary Media; CivicPlus; DOE newsroom; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; EIA; EPA; ERCOT; Electrek; Energy-Storage.news; FERC; Financial Times; Hart Energy; Heatmap News; Hydrogen Insight; IEA; ISO-NE; JPT; LNG Prime; Latitude Media; MISO; NYISO; Natural Gas Intelligence; OPEC: Publications; OilPrice.com; Organization of the Petroleum Exporting Countries; PJM (its news releases); POWER Magazine; Public Utility Commission of Texas; Reuters; Rigzone; SPP; T&D World; Texas.gov; Utility Dive; WSJ; World Nuclear News; pv magazine USA,the source registry
+news_index,ANS Nuclear Newswire; Africa Sustainable Futures Awards; Bloomberg; CAISO; CTVC; California Public Utilities Commission; California State Portal | CA.gov; Canary Media; CivicPlus; DOE newsroom; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; EIA; EPA; ERCOT; Electrek; Energy-Storage.news; FERC; Financial Times; Hart Energy; Heatmap News; Hydrogen Insight; IEA; ISO-NE; JPT; LNG Prime; Latitude Media; MISO; NYISO; Natural Gas Intelligence; OPEC: Publications; OilPrice.com; Organization of the Petroleum Exporting Countries; PJM (its news releases); POWER Magazine; Public Utility Commission of Texas; Reuters; Rigzone; SPP; T&D World; Texas.gov; Utility Dive; WSJ; World Nuclear News; pv magazine USA,the source registry
 news_scores_shadow,the outlets of news_stories,by hand: its header: scores of the stories of news_stories
-news_stories,ANS Nuclear Newswire; Bloomberg; CAISO; CTVC; California Public Advocates Office (.gov); California Public Utilities Commission; California State Portal | CA.gov; Canary Media; CivicPlus; DOE newsroom; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; EIA; EPA; ERCOT; Electrek; Energy-Storage.news; FERC; Financial Times; Hart Energy; Heatmap News; Hydrogen Insight; IEA; ISO-NE; JPT; LNG Prime; Latitude Media; MISO; NYISO; Natural Gas Intelligence; OPEC: Publications; OilPrice.com; Organization of the Petroleum Exporting Countries; PJM (its news releases); POWER Magazine; Public Utility Commission of Texas; Reuters; Rigzone; SPP; T&D World; Texas.gov; Utility Dive; WSJ; World Nuclear News; pv magazine USA,the source registry
+news_stories,ANS Nuclear Newswire; Africa Sustainable Futures Awards; Bloomberg; CAISO; CTVC; California Public Advocates Office (.gov); California Public Utilities Commission; California State Portal | CA.gov; Canary Media; CivicPlus; DOE newsroom; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; EIA; EPA; ERCOT; Electrek; Energy-Storage.news; FERC; Financial Times; Hart Energy; Heatmap News; Hydrogen Insight; IEA; ISO-NE; JPT; LNG Prime; Latitude Media; MISO; NYISO; Natural Gas Intelligence; OPEC: Publications; OilPrice.com; Organization of the Petroleum Exporting Countries; PJM (its news releases); POWER Magazine; Public Utility Commission of Texas; Reuters; Rigzone; SPP; T&D World; Texas.gov; Utility Dive; WSJ; World Nuclear News; pv magazine USA,the source registry
 nhc_hurdat2_track_points,NWS,the source registry
 nlr_atb_electricity_costs,"National Laboratory of the Rockies (NLR, formerly NREL)",the source registry
 nlr_jedi_multipliers,"National Laboratory of the Rockies (NLR, formerly NREL)",the source registry
@@ -445,6 +449,7 @@ nrc_power_reactors,NRC,the source registry
 nrc_reactor_status,NRC,the source registry
 nrc_rop_findings,NRC,the source registry
 nrcs_snotel_swe_daily,USDA Natural Resources Conservation Service (NRCS),the source registry
+nso_malawi_electricity_sales_annual,National Statistical Office of Malawi (NSO),the source registry
 ntd_transit_energy_annual,"U.S. Department of Transportation, Federal Transit Administration (FTA)",the source registry
 nyiso_as_prices,NYISO,the source registry
 nyiso_dam_cleared_energy,NYISO,the source registry
@@ -486,6 +491,7 @@ scb_sweden_electricity_monthly,Statistics Sweden (SCB),the source registry
 scripps_co2_mlo_monthly,"Scripps CO2 Program (Scripps Institution of Oceanography, UC San Diego)",the source registry
 shoulder_hours_monthly,CAISO; EIA,"the source registry and the tables its header derives it from: caiso_battery_storage, caiso_curtailment_daily, caiso_fuel_supply, storage_buildout_monthly"
 singstat_singapore_electricity,Singapore Department of Statistics (SingStat),the source registry
+slu_cso_electricity_annual,Central Statistical Office of Saint Lucia (CSO); St. Lucia Electricity Services Limited (LUCELEC),the source registry
 smard_germany_monthly,Bundesnetzagentur (SMARD),the source registry
 sne_panama_electricity_annual,"Secretaria Nacional de Energia, Panama",the source registry
 sne_panama_generation_monthly,"Secretaria Nacional de Energia, Panama",the source registry
@@ -536,3 +542,4 @@ wb_iea_electricity_annual,IEA (standalone datasets),the source registry
 weather_forecast_hourly,NWS,the source registry
 weather_obs_hourly,NWS,the source registry
 wfigs_wildfires,National Interagency Fire Center (NIFC),the source registry
+zimstat_zimbabwe_generation_monthly,Zimbabwe National Statistics Agency (ZIMSTAT),the source registry
