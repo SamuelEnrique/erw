@@ -1,6 +1,6 @@
 # Session 2313 report: the licenses' thirtieth round (IEMOP and Noga need consent; ADME left unsettled)
 
-24 October 2026, from 06:27 UTC to 06:31 UTC, on lab-desktop (the data machine), chain 106, unattended. Model spend USD 0. Pulls: 2 requests of 20.
+24 October 2026, from 06:27 UTC to 06:29 UTC, on lab-desktop (the data machine), chain 106, unattended. Model spend USD 0. Pulls: 2 requests of 20.
 
 ## Read these first
 

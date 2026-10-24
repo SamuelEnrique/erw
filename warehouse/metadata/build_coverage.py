@@ -271,6 +271,7 @@ SECTOR_RULES = [
     (r"^energy_charts_central_europe$", "power"),  # session 2272: Energy-Charts, Austria's, Switzerland's and Czechia's public net production and load, hourly
     (r"^statee_estonia_electricity_monthly$", "power"),  # session 2278: Statistics Estonia table KE21, Estonia's electricity production, imports and exports, monthly
     (r"^singstat_singapore_electricity$", "power"),  # session 2308: SingStat Table Builder M890831 and M890841, Singapore's electricity generation and consumption
+    (r"^csp_latvia_electricity_monthly$", "power"),  # session 2314: CSP table ENB010m, Latvia's electricity production, imports and exports, monthly
     (r"^eia_gas_other_uses_state_annual$", "gas"),  # session 2164: EIA's gas vehicle, lease and plant, pipeline fuel and deliveries by state
     (r"^elexon_gb_demand_daily$", "power"),  # session 2162: Elexon's BMRS, Great Britain's daily demand outturn
     (r"^energinet_dk_production_hourly$", "power"),  # session 2217: Energinet, Denmark's production, consumption and exchanges an hour
