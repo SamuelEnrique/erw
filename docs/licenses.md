@@ -10,9 +10,9 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 ## Read these first
 
-- **451 tables.** The flag and the verdict agree on 359; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 47 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
-- **The ERW's verdict (session 378): 338 public, 61 internal, 52 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
-- **353 publishers in the record: 351 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 117 pages read, 234 that could not be read, 2 not asked (paused).**
+- **452 tables.** The flag and the verdict agree on 359; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 48 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
+- **The ERW's verdict (session 378): 338 public, 61 internal, 53 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
+- **361 publishers in the record: 359 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 119 pages read, 240 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **0 tables are flagged internal where the sentence read allows them.**
 - **14 tables that may be public today would need permission if the ERW sells anything** (SPP 7; Canada Energy Regulator (CER) 2; Alberta Electric System Operator (AESO), Canada 1; California Energy Commission (CEC) 1; IMF 1; IMF PortWatch 1; RRC 1).
@@ -376,6 +376,14 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | 351 | Statistics Norway (SSB), www.ssb.no's robots file (session 2227) | https://www.ssb.no/robots.txt | 02:23:20 | 200 | 39 | read: disallows /a/kostra/stt only |
 | 352 | Bundesnetzagentur (SMARD), www.smard.de's robots file (session 2230) | https://www.smard.de/robots.txt | 02:43:34 | 404 | 5748 | answered HTTP 404: no robots file |
 | 353 | Bundesnetzagentur (SMARD), its Data use page (session 2230) | https://www.smard.de/en/datennutzung | 02:43:56 | 200 | 22677 | read |
+| 354 | Ministry of Business, Innovation and Employment (MBIE), New Zealand, www.mbie.govt.nz's robots file (session 2231) | https://www.mbie.govt.nz/robots.txt | 02:49:33 | 200 | 182 | read: disallows generated PDFs and admin paths only |
+| 355 | Ministry of Business, Innovation and Employment (MBIE), New Zealand, its electricity statistics page (session 2231) | https://www.mbie.govt.nz/building-and-energy/energy-and-natural-resources/energy-statistics-and-modelling/energy-statistics/electricity-statistics | 02:49:44 | 200 | 212 | refused the reader: an Incapsula bot challenge, not the page |
+| 356 | Hydro-Quebec, donnees.hydroquebec.com's robots file (session 2231) | https://donnees.hydroquebec.com/robots.txt | 02:50:13 | 200 | 568 | read: disallows /api/ and every download path for every reader but Googlebot; not asked further |
+| 357 | EirGrid, www.eirgrid.ie's robots file (session 2231) | https://www.eirgrid.ie/robots.txt | 02:50:35 | 200 | 258 | read: disallows /api/ and utility pages only |
+| 358 | EirGrid, its website disclaimer (session 2231) | https://www.eirgrid.ie/disclaimer | 02:50:57 | 200 | 53476 | read |
+| 359 | Statistics Netherlands (CBS), opendata.cbs.nl's robots file (session 2231) | https://opendata.cbs.nl/robots.txt | 02:51:13 | 200 | 197 | read: disallows its OData API, feed and catalog paths |
+| 360 | Statistics Netherlands (CBS), datasets.cbs.nl's robots file (session 2231) | https://datasets.cbs.nl/robots.txt | 02:51:23 | 404 | 0 | answered HTTP 404: no robots file |
+| 361 | Statistics Netherlands (CBS), table 84575NED's properties, which state its license (session 2231) | https://datasets.cbs.nl/odata/v1/CBS/84575NED/Properties | 02:51:34 | 200 | 10563 | read |
 
 ## The publishers: the sentence and the verdict
 
@@ -488,7 +496,7 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | Scripps CO2 Program (Scripps Institution of Oceanography, UC San Diego) | #338: read | "Scripps CO2 program data and graphics on scrippsco2.ucsd.edu are licensed under a CC BY license, Creative Commons Attribution 4.0 International License (creativecommons.org/licenses/by/4.0/), which clarifies appropriate uses and requirements, including that credit be given to the Scripps Institution of Oceanography at UC San Diego." | may be public | may be public | rkeeling@ucsd.edu | none stated | Session 2139. The page renders CO2 with a subscript ("CO 2" in its text). The monthly file is served from keelinglabsites.ucsd.edu and linked from the site's Primary Mauna Loa CO2 Record page (read 339). The page also asks that intentions be disclosed early and that coauthorship be considered for publications that depend on the data; neither binds a redistribution. |
 | International Renewable Energy Agency (IRENA) | #342: read | "IRENA - International Renewable Energy Agency. All Rights Reserved." | needs written permission | needs written permission | not named | none stated | Session 2139. IRENASTAT's own page (pxweb.irena.org), which prints the copyright sign before the sentence. www.irena.org, where IRENA's terms of use are, refused the reader in session 2085, so any license IRENA grants there was not read. irena_capacity_annual stays internal. |
 
-**Publishers no read of this sweep covers (31):** Arizona Corporation Commission; Bundesnetzagentur (SMARD); CME Group (NYMEX), whose prices EIA republished; CTVC; Catalyst Cooperative (PUDL), from FERC Form 714; Electrek; Energy-Storage.news; FERC; Georgia Public Service Commission; Illinois Commerce Commission; Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department; OPEC: Publications; Oak Ridge National Laboratory (ORNL), Transportation Energy Data Book; Oregon Public Utility Commission; Organization of the Petroleum Exporting Countries; PJM (its news releases); Pennsylvania Public Utility Commission; Public Utilities Commission of Ohio; Public Utility Commission of Texas; Public Utility District No. 2 of Grant County, Washington (Grant PUD); Statistics Norway (SSB); Texas-New Mexico Power Company; Texas.gov; U.S. Army Corps of Engineers (USACE); U.S. Department of the Treasury; USDA Natural Resources Conservation Service (NRCS); Virginia State Corporation Commission; the outlets of news_stories; utilities and operators, each row's own document (not listed one by one).
+**Publishers no read of this sweep covers (32):** Arizona Corporation Commission; Bundesnetzagentur (SMARD); CME Group (NYMEX), whose prices EIA republished; CTVC; Catalyst Cooperative (PUDL), from FERC Form 714; Electrek; Energy-Storage.news; FERC; Georgia Public Service Commission; Illinois Commerce Commission; Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department; OPEC: Publications; Oak Ridge National Laboratory (ORNL), Transportation Energy Data Book; Oregon Public Utility Commission; Organization of the Petroleum Exporting Countries; PJM (its news releases); Pennsylvania Public Utility Commission; Public Utilities Commission of Ohio; Public Utility Commission of Texas; Public Utility District No. 2 of Grant County, Washington (Grant PUD); Statistics Netherlands (CBS); Statistics Norway (SSB); Texas-New Mexico Power Company; Texas.gov; U.S. Army Corps of Engineers (USACE); U.S. Department of the Treasury; USDA Natural Resources Conservation Service (NRCS); Virginia State Corporation Commission; the outlets of news_stories; utilities and operators, each row's own document (not listed one by one).
 
 ## Every table
 
@@ -534,6 +542,7 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | `carbon_intensity_daily` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `carbon_intensity_hourly` | EIA | may be public |  |  | public | agrees | may be public | public |
 | `carbon_intensity_monthly` | EIA | may be public |  |  | public | agrees | may be public | public |
+| `cbs_netherlands_electricity_monthly` | Statistics Netherlands (CBS) | not settled (needs written permission by default) |  | Statistics Netherlands (CBS) | public | not settled | may be public | unsettled |
 | `cec_total_system_generation_annual` | California Energy Commission (CEC) | may be public |  |  | public | agrees | needs written permission | public |
 | `census_bps_state_annual` | Census Bureau | may be public |  |  | public | agrees | may be public | public |
 | `census_cbp_hosting_annual` | Census Bureau | may be public |  |  | public | agrees | may be public | public |
@@ -1011,6 +1020,7 @@ None of these was changed. Each is a ruling.
 
 ### Not settled: a publisher was not read
 
+- `cbs_netherlands_electricity_monthly` (flag public): not read: Statistics Netherlands (CBS).
 - `eia_all_futures_prices` (flag internal): not read: CME Group (NYMEX), whose prices EIA republished.
 - `ferc714_area_demand_2006` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
 - `ferc714_area_demand_2007` (flag internal): not read: Catalyst Cooperative (PUDL), from FERC Form 714.
