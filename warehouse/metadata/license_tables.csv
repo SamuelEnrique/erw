@@ -502,6 +502,7 @@ statcan_electricity_trade_monthly,Statistics Canada,the source registry
 statcan_energy_balance_annual,Statistics Canada,the source registry
 statcan_generating_capacity_annual,Statistics Canada,the source registry
 statcan_generation_class_annual,Statistics Canada,the source registry
+statcan_manufacturing_energy_annual,Statistics Canada,the source registry
 statcan_oil_gas_supply_monthly,Statistics Canada,the source registry
 statcan_petroleum_products_monthly,Statistics Canada,the source registry
 statcan_power_disposition_annual,Statistics Canada,the source registry
