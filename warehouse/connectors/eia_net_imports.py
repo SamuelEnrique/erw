@@ -14,16 +14,19 @@ Monthly), three of its 43 products:
               is a net export to that partner
     ts_utc    the month's first day at 00:00:00Z; freq P1M; geo US (the importer); node EIA's series description
     x_partner EIA's area: the partner's ISO 3166 alpha-3 code as EIA gives it, or EIA's area code (NUS-Z00 the world,
-              NUS-ME0 OPEC, NUS-MN0 non-OPEC, NUS-MP0 the Persian Gulf) where EIA gives none
+              NUS-ME0 OPEC, NUS-MN0 non-OPEC, NUS-MP0 the Persian Gulf, and 23 countries and
+              territories EIA gives no three-letter code, such as Curacao, Sint Maarten and Serbia) where EIA gives
+              none. Puerto Rico and the U.S. Virgin Islands are partners, so the importer is the U.S. without them.
 
 The partners are EIA's own: each country, the world total and three groups, which overlap (a sum takes one level). EIA
-gives no record where it has none (crude oil has 45 partners in May 2025, the products 142); nothing is filled. A product,
+gives no crude oil record where a partner has none (45 partners in May 2025), but a 0 for products and the total
+(11,553 and 10,390 zeros from 2010; the products have 142 partners in May 2025); zeros are kept, nothing is filled. A product,
 process, unit or month that does not read stops the run; so does a key given twice. Where a partner and month have all
 three products, crude oil plus products is compared with the total: EIA rounds each to whole thousands, and a few
 partner months differ by more than 1 kbbl/d as EIA publishes them (24 from 2010 to 2026: the first Egypt in January
 2010, 16 kbbl/d; the largest the Bahamas in October 2017, 46 kbbl/d); they are kept as published, counted in the header and listed in the run log.
 
-    python warehouse/connectors/eia_net_imports.py [--from 2010-01] [--offline | --fresh]
+    python warehouse/connectors/eia_net_imports.py [--from 2010-01] [--offline | --fresh] [--out-dir DIR]
 
 Ceiling: 20 requests a run (pages of 5,000, 3 seconds apart; a page an earlier run saved in warehouse/raw is reused
 unless --fresh; --offline asks nothing). License: public (EIA, record 1 of license_reads.csv; cite "U.S. Energy
@@ -166,8 +169,9 @@ def main(argv=None):
         header = [
             "Energy Research Warehouse (ERW): EIA, U.S. net imports of crude oil and petroleum products by country, a month (session 2412)",
             "Shape: series (docs/datastandard.md v0). entity eia_net_imports:<series>; variable net_imports_crude_and_products, net_imports_crude, net_imports_products (kbbl/d, imports less exports: a negative value is a net export to that partner); "
-            "ts_utc the month's first day; freq P1M; geo US; node EIA's series description; x_partner the partner's ISO 3166 alpha-3 code as EIA gives it, or EIA's area code for the world (NUS-Z00) and the groups (NUS-ME0 OPEC, NUS-MN0 non-OPEC, NUS-MP0 Persian Gulf), which overlap the countries.",
-            f"EIA gives no record where it has none; nothing is filled. Crude oil plus products equals the total within {TOL:g} kbbl/d in {checked - len(bad):,} of the {checked:,} partner months that have the three; "
+            "ts_utc the month's first day; freq P1M; geo US; node EIA's series description; x_partner the partner's ISO 3166 alpha-3 code as EIA gives it, or EIA's area code for the world (NUS-Z00), the groups (NUS-ME0 OPEC, NUS-MN0 non-OPEC, NUS-MP0 Persian Gulf), which overlap the countries, "
+            "and 23 countries and territories EIA gives no three-letter code. Puerto Rico and the U.S. Virgin Islands are partners, so the importer is the U.S. without them.",
+            f"EIA gives no crude oil record where a partner has none, and a 0 (kept) for products and the total; nothing is filled. Crude oil plus products equals the total within {TOL:g} kbbl/d in {checked - len(bad):,} of the {checked:,} partner months that have the three; "
             f"the other {len(bad)} are kept as EIA publishes them and listed in the run log{worst}. Months {span}; {total:,} records of EIA's, {len(s):,} rows.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/eia_net_imports.py; {asked[0]} requests of {CEILING}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",

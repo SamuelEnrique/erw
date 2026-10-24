@@ -13,11 +13,11 @@
     - so the file was not fetched.
 - **The choice:** Eurostat's `nrg_bal_peh`, production of electricity and derived heat by type of fuel. The ERW holds Eurostat's monthly net production (`eurostat_electricity_monthly`, from 2016) and its capacity tables, but not the annual production by fuel back to 1990. No chain has taken it.
 - **One public table:** `eurostat_electricity_production_annual`, 73,988 rows, 1990 to 2024. It is written, validated, archived, in coverage (sector power), held from the live set, and listed in the release's held tables:
-  - gross electricity production (GEP, all producers) for 75 SIEC products and 39 areas (the EU's members, EFTA's and the candidates, with EU27_2020; the United Kingdom and Kosovo left out by Eurostat's terms, as `eurostat_gas_balance_monthly` does);
+  - gross electricity production (GEP, all producers, the plants' own use included) for the 58 of the file's 75 SIEC products that have a value (this line first said 75; corrected in session 2415) and 39 areas (the EU's members, EFTA's and the candidates, with EU27_2020; the United Kingdom and Kosovo left out by Eurostat's terms, as `eurostat_gas_balance_monthly` does);
   - in MWh (Eurostat's GWh times 1,000);
   - the products' names from Eurostat's SIEC codelist (read 759);
   - the products are a hierarchy whose levels overlap, which the header says.
-- **Eurostat's TOTAL is its top groups plus pumped hydro (RA130)**, which renewables leave out. That holds within 1 GWh in 1,230 of 1,279 country years. The other 49 are kept as published, counted in the header and listed in the run log; the largest is the EU in 2024 (1,040 GWh).
+- **Eurostat's TOTAL is its top groups plus pumped hydro (RA130)**, which renewables leave out, **and batteries (BA100)**. With batteries, it holds within 1 GWh in all 1,279 country years (the largest gap 0.634 GWh). This line first left batteries out and counted 49 country years, all 2020 to 2024, the largest the EU in 2024 (1,040 GWh); session 2415's note found them, and the check now adds batteries.
 - **Zeros and blanks:** 47,987 zeros are kept as Eurostat prints them. 21,179 blanks (flag m, missing) have no row.
 - **License: public** (Eurostat's copyright notice, the record's verdict since session 2123). `ec.europa.eu`'s robots file does not disallow `/eurostat/api/dissemination/` and names no AI agent (read 756).
 - **Test 205's bound raised by 40** for this chain's reads, which reach 692 on this branch.
@@ -26,7 +26,7 @@
 
 - **Annual gross production against the year's sum of `eurostat_electricity_monthly`'s net production** (332 country years with all twelve months):
   - Gross is above net by a median 6.1 per cent, and by 0.1 to 16.8 per cent between the 5th and 95th percentiles: the plants' own use (EU 2023: 2,760.9 against 2,572.0 TWh; Germany 1.147; Norway 1.006).
-  - Gross is below net in a few country years: Albania from 2018 to 2024 (0.969 to 0.996), Luxembourg in 2021 (0.974) and Moldova in 2020 (0.920). These come from Eurostat's two data sets, and this report does not explain them.
+  - Gross is below net in a few country years: Albania from 2018 to 2024 (0.969 to 0.996), Iceland in 2020 (1.000 to three places), Luxembourg in 2021 (0.974) and Moldova in 2020 (0.920) (Iceland added in session 2415). These come from Eurostat's two data sets, and this report does not explain them.
 
 ## Pulls against their ceilings
 

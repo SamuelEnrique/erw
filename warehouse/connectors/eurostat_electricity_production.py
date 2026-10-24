@@ -19,13 +19,18 @@ one unit) and the SIEC codelist (the products' names):
     node        "<geo code> gross electricity production, <the SIEC name>"
     x_*         Eurostat's geo and SIEC codes, the observation's flag and confidentiality status
 
-The 75 products are Eurostat's SIEC codes, a hierarchy whose levels overlap (TOTAL; solid fossil fuels C0000X0350-0370 and
-its coals; natural gas G3000; renewables RA000 and its hydro RA100, wind RA300, solar RA400s and biofuels; nuclear N900H;
-and so on): a sum takes one level. Eurostat's TOTAL is the sum of its top groups (solid fossil fuels, manufactured gases,
-peat, oil shale, natural gas, oil, renewables, non-renewable waste, nuclear, heat from other sources, other fuels) plus
-pumped hydro (RA130), which renewables leave out; the header counts the country years where that does not hold within 1
-GWh, kept as Eurostat publishes them. Countries kept: the EU's members, EFTA's and the official candidates, with
-EU27_2020, as eurostat_gas_balance_monthly keeps them (the United Kingdom and Kosovo left out). A blank (Eurostat's flag
+The file lists 75 SIEC products; 58 have a value somewhere and so rows. They are a hierarchy whose levels overlap (TOTAL;
+fossil energy FE and bioenergy BIOE, two more totals, whose parts disagree by equal and opposite amounts in 133 country
+years; solid fossil fuels C0000X0350-0370 and its coals; natural gas G3000; renewables RA000 and its hydro RA100, wind
+RA300, solar RA400s and biofuels; nuclear N900H; and so on): a sum takes one level. Hydro (RA100) leaves out pumped
+hydro (RA130), which is larger than it in 104 country years. Heat (H8000) is Eurostat's "Heat"; the files read do not
+define it, and heat pumps are a product of their own with no value. GEP is gross production: the plants' own use
+included. x_flag and x_conf_status are blank in every row of October 2026's file (session 2415's note). Eurostat's TOTAL is the sum of its top groups (solid fossil fuels, manufactured gases,
+peat, oil shale, natural gas, oil, renewables, non-renewable waste, nuclear, heat, other fuels) plus pumped hydro (RA130),
+which renewables leave out, and batteries (BA100, from 2020); the header counts the country years where that does not
+hold within 1 GWh, kept as Eurostat publishes them. Countries kept: the EU's members, EFTA's and the official candidates, with
+EU27_2020, as eurostat_gas_balance_monthly keeps them (the United Kingdom and Kosovo left out); Switzerland and
+Liechtenstein are not in the file, Ukraine ends in 2020, and four candidates start between 2005 and 2014. A blank (Eurostat's flag
 m, missing) has no row; zeros are kept; nothing is filled. A header not Eurostat's, a balance item, unit, frequency or
 product not expected, a value that is not a number or a key given twice stops the run.
 
@@ -60,7 +65,7 @@ UA = {"User-Agent": "Mozilla/5.0 (compatible; ERW-connector/0.1; +https://github
 HEADER = ["DATAFLOW", "LAST UPDATE", "freq", "nrg_bal", "siec", "unit", "geo", "TIME_PERIOD", "OBS_VALUE", "OBS_FLAG",
           "CONF_STATUS"]
 TOP = ["C0000X0350-0370", "C0350-0370", "P1000", "S2000", "G3000", "O4000XBIO", "RA000", "W6100_6220", "N900H",
-       "H8000", "X9900", "RA130"]
+       "H8000", "X9900", "RA130", "BA100"]
 TOL = 1.0   # GWh
 EU = {"AT", "BE", "BG", "CY", "CZ", "DE", "DK", "EE", "EL", "ES", "FI", "FR", "HR", "HU", "IE", "IT", "LT", "LU", "LV",
       "MT", "NL", "PL", "PT", "RO", "SE", "SI", "SK"}
@@ -155,9 +160,10 @@ def main(argv=None):
         header = [
             f"Energy Research Warehouse (ERW): Eurostat, gross electricity production by fuel, all producers, annual (nrg_bal_peh, GEP), {t.ts_utc.min()[:4]} to {t.ts_utc.max()[:4]} (session 2413)",
             "Shape: series (docs/datastandard.md v0). entity eurostat_electricity_production:<geo>:<SIEC>; variable gross_electricity_production; unit MWh (Eurostat's GWh times 1,000); ts_utc the year's 1 January; freq P1Y; "
-            "geo ISO alpha-2 (EL is GR), blank for EU27_2020; node the SIEC product's name; x_siec Eurostat's product code. The products are a hierarchy whose levels overlap: a sum takes one level.",
+            "geo ISO alpha-2 (EL is GR), blank for EU27_2020; node the SIEC product's name; x_siec Eurostat's product code. The products are a hierarchy whose levels overlap: a sum takes one level "
+            "(TOTAL, FE fossil energy, BIOE bioenergy and RA000 renewables are totals; RA100 hydro leaves out RA130 pumped hydro). GEP is gross: the plants' own use included. H8000 is Eurostat's undefined \"Heat\".",
             f"{len(t)} rows, {t.x_geo_code.nunique()} areas, {t.x_siec.nunique()} products. Zeros are kept as Eurostat prints them ({counts['zero']:,}); {counts['blank']:,} blanks (flag m, missing) have no row; nothing is filled. "
-            f"TOTAL equals its top groups plus pumped hydro (RA130) within {TOL:g} GWh in {compared - len(off):,} of {compared:,} country years; the other {len(off)} are kept as Eurostat publishes them and listed in the run log{worst}. "
+            f"TOTAL equals its top groups plus pumped hydro (RA130) and batteries (BA100) within {TOL:g} GWh in {compared - len(off):,} of {compared:,} country years; the other {len(off)} are kept as Eurostat publishes them and listed in the run log{worst}. "
             f"Areas left out by Eurostat's terms: {' '.join(counts['left_out_geo']) or 'none'}. Eurostat's last update, as its file gives it (no time zone): {counts['last_update']}.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/eurostat_electricity_production.py; the file retrieved {rec.get('retrieved_at') or ''}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",

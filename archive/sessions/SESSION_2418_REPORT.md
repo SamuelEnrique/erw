@@ -6,7 +6,7 @@
 
 - **Hydro-Québec's open data not taken:** `donnees.hydroquebec.com`'s robots file disallows `/api/` and every download path for every agent but Googlebot (read 760). Its demand and production data, which bear on New England's and New York's imports, are therefore closed to the reader.
 - **The choice:** Statistics Canada's table 25-10-0022-01, installed plants and annual generating capacity by type of electricity generation. The ERW holds StatCan's generation (`statcan_electricity_generation_monthly`), trade and energy balance, but not its capacity. No chain has taken it.
-- **One public table:** `statcan_generating_capacity_annual`, 5,952 rows, 55 series, 2006 to 2025. It is written, validated, archived, in coverage (sector power), held from the live set, and listed in the release's held tables:
+- **One public table:** `statcan_generating_capacity_annual`, 5,952 rows, 55 series, 2006 to 2025, with no figure for 2012 (all 322 marked .. in StatCan's file; added in session 2415). It is written, validated, archived, in coverage (sector power), held from the live set, and listed in the release's held tables:
   - by area (Canada, the provinces and territories), class of producer (all, public utilities, private utilities, industries) and type (total, hydro, wind, tidal, solar, geothermal, other non-combustibles, total thermal and its four kinds);
   - in MW (StatCan's kilowatts divided by 1,000);
   - each class's types add to its total, and the thermal kinds to total thermal, in all 1,915 cells compared;
@@ -25,7 +25,7 @@
 | Solar | 0.198 | 0.114 | 0.113 (5,288 MW, 5.2 TWh) |
 | Total | 0.502 (145,538 MW, 640.4 TWh) | 0.482 | 0.445 (155,749 MW, 609.5 TWh) |
 
-- The factors fall within the usual ranges for each type. Solar's 0.198 in 2019 is above its later values; this report does not explain it.
+- The factors fall within the usual ranges for each type. Solar's 0.198 in 2019 is above its later values. Session 2415's note found that Ontario's solar capacity falls from 2,295.9 MW (2017) to 1,409.9 MW (2019) while its generation rises, which no StatCan note explains; solar below 100 kW counts only from 2024 (note 7).
 - 2024's hydro is the lowest of the three years (341.8 TWh).
 
 ## Pulls against their ceilings
@@ -33,7 +33,7 @@
 | Host | Requests | What |
 |---|---|---|
 | donnees.hydroquebec.com | 1 | robots |
-| www150.statcan.gc.ca | 2 | robots, the table's zip (93,501 bytes); 2 s apart |
+| www150.statcan.gc.ca | 2 | robots, the table's zip (93,501 bytes); 11 s apart (this line first said 2 s; corrected in session 2415) |
 | total | 3 of 20 | |
 
 ## Errors

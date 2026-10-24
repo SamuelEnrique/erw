@@ -189,7 +189,7 @@ eia_lng_liquefaction_projects,none,,48,snapshot,2026-10-23T18:59:44Z,2026-10-23T
 eia_lng_storage_annual,none,,81,P1Y,1969-01-01T00:00:00Z,2024-01-01T00:00:00Z,3074,eia:natural-gas/stor/lng,2026-10-24T05:54:29Z,pass,public,gas;lng,no,source
 eia_mecs_manufacturing,none,,82,P1Y,2022-01-01T00:00:00Z,2022-01-01T00:00:00Z,5363,eia:mecs,2026-10-23T18:33:31Z,pass,public,power;gas;oil;coal,no,source
 eia_meters_state_annual,none,,1040,P1Y,2013-01-01T00:00:00Z,2024-01-01T00:00:00Z,8578,eia:electricity/state-electricity-profiles/meters,2026-10-21T23:48:23Z,pass,public,power,no,source
-eia_net_imports_monthly,none,,530,P1M,2010-01-01T00:00:00Z,2026-07-01T00:00:00Z,65501,eia:petroleum/move/neti,2026-10-24T10:44:44Z,pass,public,oil;products,no,source
+eia_net_imports_monthly,none,,530,P1M,2010-01-01T00:00:00Z,2026-07-01T00:00:00Z,65501,eia:petroleum/move/neti,2026-10-24T11:22:31Z,pass,public,oil;products,no,source
 eia_net_metering_state_annual,none,,1031,P1Y,2013-01-01T00:00:00Z,2024-01-01T00:00:00Z,16226,eia:electricity/state-electricity-profiles/net-metering,2026-10-21T21:48:23Z,pass,public,power,no,source
 eia_ngl_production_monthly,none,,283,P1M,1973-01-01T00:00:00Z,2026-07-01T00:00:00Z,110896,eia:petroleum/pnp/gp,2026-10-22T06:55:02Z,pass,public,products,no,source
 eia_nuclear_outages_daily,none,,1,P1D,2007-01-01T00:00:00Z,2026-10-21T00:00:00Z,21702,eia:nuclear-outages/us-nuclear-outages,2026-10-21T19:39:31Z,pass,public,power;uranium,no,source
@@ -302,7 +302,7 @@ ercot_zone_prices_history,ERCOT,ercot_dam;ercot_rtm,8,PT15M;PT1H,2015-01-01T06:0
 eurostat_crude_imports_monthly,eurostat,,173,P1M,2016-01-01T00:00:00Z,2026-09-01T00:00:00Z,565941,eurostat:nrg_ti_oilm_crude,2026-10-24T09:53:01Z,pass,public,oil,no,source
 eurostat_electricity_capacity_annual,eurostat,,27,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,159060,eurostat:nrg_inf_epc,2026-10-24T09:24:14Z,pass,public,power,no,source
 eurostat_electricity_monthly,eurostat,,30,P1M,2016-01-01T00:00:00Z,2026-08-01T00:00:00Z,130025,eurostat:nrg_cb_pem_nrg_cb_em,2026-10-24T02:13:36Z,pass,public,power,no,source
-eurostat_electricity_production_annual,eurostat,,2256,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,73988,eurostat:nrg_bal_peh,2026-10-24T10:53:08Z,pass,public,power,no,source
+eurostat_electricity_production_annual,eurostat,,2256,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,73988,eurostat:nrg_bal_peh,2026-10-24T11:22:45Z,pass,public,power,no,source
 eurostat_gas_balance_monthly,eurostat,,580,P1M,2015-01-01T00:00:00Z,2026-09-01T00:00:00Z,53214,eurostat:nrg_cb_gasm,2026-10-24T07:46:42Z,pass,public,gas,no,source
 eurostat_gas_imports_monthly,eurostat,,865,P1M,2015-01-01T00:00:00Z,2026-09-01T00:00:00Z,34905,eurostat:nrg_ti_gasm,2026-10-24T01:46:31Z,pass,public,gas;lng,no,source
 eurostat_oil_monthly,eurostat,,143,P1M,2016-01-01T00:00:00Z,2026-09-01T00:00:00Z,457009,eurostat:nrg_cb_oilm,2026-10-24T09:23:23Z,pass,public,oil,no,source
@@ -491,7 +491,7 @@ statbank_moldova_electricity_monthly,statbank,,7,P1M,2015-01-01T00:00:00Z,2026-0
 statcan_electricity_generation_monthly,statcan,,458,P1M,2008-01-01T00:00:00Z,2026-07-01T00:00:00Z,58361,statcan:25-10-0015-01,2026-10-24T02:32:56Z,pass,public,power,no,source
 statcan_electricity_trade_monthly,statcan,,170,P1M,2008-01-01T00:00:00Z,2026-07-01T00:00:00Z,25215,statcan:25-10-0016-01,2026-10-24T07:46:32Z,pass,public,power,no,source
 statcan_energy_balance_annual,statcan,,6437,P1Y,1995-01-01T00:00:00Z,2024-01-01T00:00:00Z,128420,statcan:25-10-0029-01,2026-10-24T09:30:33Z,pass,public,power;gas;oil;coal,no,source
-statcan_generating_capacity_annual,statcan,,392,P1Y,2006-01-01T00:00:00Z,2025-01-01T00:00:00Z,5952,statcan:25-10-0022-01,2026-10-24T11:02:53Z,pass,public,power,no,source
+statcan_generating_capacity_annual,statcan,,392,P1Y,2006-01-01T00:00:00Z,2025-01-01T00:00:00Z,5952,statcan:25-10-0022-01,2026-10-24T11:22:58Z,pass,public,power,no,source
 statcan_oil_gas_supply_monthly,statcan,,383,P1M,2016-01-01T00:00:00Z,2026-08-01T00:00:00Z,56007,statcan:25-10-0063-01;statcan:25-10-0086-01,2026-10-24T02:33:08Z,pass,public,oil;gas,no,source
 statcan_petroleum_products_monthly,statcan,,1331,P1M,2019-01-01T00:00:00Z,2026-07-01T00:00:00Z,112385,statcan:25-10-0081-01,2026-10-24T09:30:19Z,pass,public,oil;products,no,source
 state_generation_mix_monthly,state,,53,P1M,2001-01-01T00:00:00Z,2026-08-01T00:00:00Z,108125,erw:generation_mix,2026-10-23T14:45:09Z,pass,public,power,yes,derived

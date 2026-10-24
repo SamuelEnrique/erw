@@ -20,8 +20,8 @@
 ## The cross-check (`runs/c114/s2412/cross.py`, `cross.out`; tables read past their header lines)
 
 - **The world's crude oil net imports against `eia_petroleum_snd_monthly`'s U.S. crude imports less exports:** within 1 kbbl/d in all 139 months both hold (June 2025: 2,403 against 6,165 less 3,761 = 2,404).
-- **The countries' sum against the world, crude oil and products:** the median gap is 6 kbbl/d and the largest 120 kbbl/d (July 2026: the world -3,608, the countries -3,488). EIA's world total is kept; the table does not say what the gap holds.
-- The U.S. is a net exporter of crude oil and products together in December 2019 (-171 kbbl/d) and in July 2026 (-3,608 kbbl/d).
+- **Every partner but the world and the three groups, summed, against the world, crude oil and products:** the median gap is 1 kbbl/d and the largest 109 kbbl/d (July 2026: the world -3,608, the partners -3,499). EIA's world total is kept; the table does not say what the gap holds. (This line first summed only the partners with a three-letter code, leaving out 23 that EIA gives none, and gave 6 and 120; corrected in session 2415.)
+- The U.S. is a net exporter of crude oil and products together in 75 of the 199 months, the first October 2019 and every month from October 2021 (December 2019: -171 kbbl/d; July 2026: -3,608). (This line first named two months only; corrected in session 2415.)
 
 ## Pulls against their ceilings
 
