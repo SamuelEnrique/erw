@@ -12,7 +12,7 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 - **549 tables.** The flag and the verdict agree on 441; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 63 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
 - **The ERW's verdict (session 378): 410 public, 89 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
-- **967 publishers in the record: 965 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 228 pages read, 737 that could not be read, 2 not asked (paused).**
+- **970 publishers in the record: 968 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 228 pages read, 740 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **0 tables are flagged internal where the sentence read allows them.**
 - **15 tables that may be public today would need permission if the ERW sells anything** (SPP 7; Canada Energy Regulator (CER) 2; Alberta Electric System Operator (AESO), Canada 1; California Energy Commission (CEC) 1; IMF 1; IMF PortWatch 1; Red Electrica (REE) 1; RRC 1).
@@ -990,6 +990,9 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | 965 | Statistical Office of the Republic of Serbia (SORS), data.stat.gov.rs's robots file (session 2525) | https://data.stat.gov.rs/robots.txt | 19:20:10 | 404 | 1245 | HTTP 404: no robots file |
 | 966 | Statistical Office of the Republic of Serbia (SORS), the copyright page (session 2525) | https://www.stat.gov.rs/en-us/copyright/ | 19:20:17 | 200 | 32260 | read |
 | 967 | Statistical Office of the Republic of Serbia (SORS), publikacije.stat.gov.rs's robots file (session 2525) | https://publikacije.stat.gov.rs/robots.txt | 19:20:35 | 404 | 1245 | HTTP 404: no robots file |
+| 968 | Statistical Office of Montenegro (MONSTAT), www.monstat.org's robots file (session 2530) | https://www.monstat.org/robots.txt | 19:27:45 | 404 | 355 | HTTP 404: no robots file |
+| 969 | Statistical Office of Montenegro (MONSTAT), the release Balance of electricity 2024 (session 2530) | https://www.monstat.org/eng/novosti.php?id=4185 | 19:27:58 | 200 | 43667 | read: the figures in prose only |
+| 970 | Statistical Office of Montenegro (MONSTAT), the balance of electricity page (session 2530) | https://www.monstat.org/eng/page.php?id=40&page_id=40 | 19:28:22 | 200 | 44751 | read: a methodology file only; no table served in the page |
 
 ## The publishers: the sentence and the verdict
 
