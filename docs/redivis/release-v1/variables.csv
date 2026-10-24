@@ -3597,6 +3597,27 @@ eia_world_oil_monthly,consumption,series variable,kbbl/d
 eia_world_oil_monthly,production,series variable,kbbl/d
 eia_world_oil_monthly,stocks,series variable,kbbl
 elexon_gb_demand_daily,indo_daily,series variable,MWh
+energinet_dk_production_hourly,central_power,series variable,MWh
+energinet_dk_production_hourly,commercial_power,series variable,MWh
+energinet_dk_production_hourly,commercial_power_self_con,series variable,MWh
+energinet_dk_production_hourly,exchange_gb,series variable,MWh
+energinet_dk_production_hourly,exchange_ge,series variable,MWh
+energinet_dk_production_hourly,exchange_great_belt,series variable,MWh
+energinet_dk_production_hourly,exchange_nl,series variable,MWh
+energinet_dk_production_hourly,exchange_no,series variable,MWh
+energinet_dk_production_hourly,exchange_se,series variable,MWh
+energinet_dk_production_hourly,gross_consumption,series variable,MWh
+energinet_dk_production_hourly,hydro_power,series variable,MWh
+energinet_dk_production_hourly,local_power,series variable,MWh
+energinet_dk_production_hourly,offshore_wind_ge100mw,series variable,MWh
+energinet_dk_production_hourly,offshore_wind_lt100mw,series variable,MWh
+energinet_dk_production_hourly,onshore_wind_ge50kw,series variable,MWh
+energinet_dk_production_hourly,onshore_wind_lt50kw,series variable,MWh
+energinet_dk_production_hourly,solar_power_ge10lt40kw,series variable,MWh
+energinet_dk_production_hourly,solar_power_ge40kw,series variable,MWh
+energinet_dk_production_hourly,solar_power_lt10kw,series variable,MWh
+energinet_dk_production_hourly,solar_power_self_con,series variable,MWh
+energinet_dk_production_hourly,unknown_prod,series variable,MWh
 energy_companies,entity_id,column,
 energy_companies,entity_type,column,
 energy_companies,name,column,
@@ -4452,6 +4473,7 @@ ercot_wind_solar_output_hourly,wind_generation_mw,series variable,MW
 ercot_zone_load_hourly,load,series variable,MW
 ercot_zone_prices_history,spp_dam,series variable,USD/MWh
 ercot_zone_prices_history,spp_rtm,series variable,USD/MWh
+eurostat_gas_imports_monthly,imports,series variable,MWh
 eurostat_renewable_capacity_annual,net_capacity,series variable,MW
 eurostat_renewable_capacity_annual,net_capacity_ac,series variable,MW
 eurostat_renewable_capacity_annual,net_capacity_dc,series variable,MW
@@ -7542,10 +7564,18 @@ usace_nid_dams,locks_n,column,
 usace_nid_dams,source_agency,column,
 usace_nid_dams,record_updated,column,
 usace_nid_dams,coordinate_given,column,
+usbr_crsp_reservoirs_daily,pool_elevation,series variable,ft
+usbr_crsp_reservoirs_daily,power_release,series variable,ft3/s
+usbr_crsp_reservoirs_daily,storage,series variable,acre-ft
+usbr_crsp_reservoirs_daily,total_release,series variable,ft3/s
 usbr_hydropower_monthly,auxiliary_use,series variable,MWh
 usbr_hydropower_monthly,gross_generation,series variable,MWh
 usbr_hydropower_monthly,installed_capacity,series variable,MW
 usbr_hydropower_monthly,net_generation,series variable,MWh
+usbr_mead_powell_daily,inflow,series variable,ft3/s
+usbr_mead_powell_daily,pool_elevation,series variable,ft
+usbr_mead_powell_daily,storage,series variable,acre-ft
+usbr_mead_powell_daily,total_release,series variable,ft3/s
 usdm_drought_state_weekly,d0,series variable,pct
 usdm_drought_state_weekly,d1,series variable,pct
 usdm_drought_state_weekly,d2,series variable,pct

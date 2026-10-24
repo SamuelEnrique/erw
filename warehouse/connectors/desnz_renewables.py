@@ -21,7 +21,9 @@ The load factors and the shares are DESNZ's ratios of these and are not taken.
     entity      desnz_et61:<technology>, in snake case as the sheet names it, its note markers left out (onshore_wind,
                 offshore_wind_seabed, solar_photovoltaics, plant_biomass, total ...); node DESNZ's words. TOTAL and the
                 rows DESNZ prints beside it (co-firing, non-biodegradable wastes) are DESNZ's own: a sum over the
-                technologies must leave TOTAL out
+                technologies must leave all three out (session 2214). The two blocks name some technologies
+                differently (offshore wind seabed and floating, large and small scale hydro, co-firing in capacity;
+                offshore wind, hydro, co-firing with fossil fuels in generation): a join by entity misses them
     ts_utc      the quarter's first day at 00:00:00Z; freq P3M; geo GB (the United Kingdom); x_provisional yes for a
                 quarter DESNZ marks provisional
 
@@ -158,8 +160,9 @@ def main(argv=None):
         header = [
             f"Energy Research Warehouse (ERW): UK Department for Energy Security and Net Zero (DESNZ), Energy Trends table 6.1, renewable electricity capacity and generation by technology, a quarter, {t.ts_utc.min()[:7]} to {t.ts_utc.max()[:7]} (session 2174)",
             "Shape: series (docs/datastandard.md v0). entity desnz_et61:<technology>; variable capacity (MW, cumulative at the quarter's end) or generated (MWh, DESNZ's GWh times 1,000, estimated where no actual figure exists); "
-            "ts_utc the quarter's first day; freq P3M; geo GB. TOTAL and the rows beside it are DESNZ's own: a sum over the technologies must leave TOTAL out.",
-            f"{len(t)} rows, {t.entity.nunique()} technology rows; renewable capacity at the end of {cap.ts_utc.max()[:7]}: {cap.value.iloc[-1]:,.0f} MW. "
+            "ts_utc the quarter's first day; freq P3M; geo GB. TOTAL and the rows beside it are DESNZ's own: a sum over the technologies must leave out TOTAL, co_firing (capacity) and non_biodegradable_wastes (generation). "
+            "Capacity and generation name offshore wind, hydro and co-firing differently: a join by entity misses them.",
+            f"{len(t)} rows, {t.entity.nunique()} technology rows over both blocks (capacity {t[t.variable == 'capacity'].entity.nunique()}, generated {t[t.variable == 'generated'].entity.nunique()}); renewable capacity at the end of {cap.ts_utc.max()[:7]}: {cap.value.iloc[-1]:,.0f} MW. "
             f"{(t.x_provisional == 'yes').sum()} rows of quarters DESNZ marks provisional. '[x]' (no figure) has no row; nothing is filled. Load factors and shares are not taken.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/desnz_renewables.py; the workbook retrieved {rec.get('retrieved_at') or ''}"
             + (f", last modified {ip.vintage_of(rec)}" if ip.vintage_of(rec) else ""),
