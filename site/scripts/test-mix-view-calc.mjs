@@ -30,6 +30,7 @@ import * as CM from "./check-methods.mjs";
 import * as mix from "../lib/mix2.ts";
 import * as calc from "../lib/mixViewCalc.ts";
 import * as clean from "../lib/clean.ts";   // session 1414: the clean files' days, as the view read them
+import * as LEFT_OUT from "../lib/carbonLeftOut.ts";   // session 1415: the months the carbon chart leaves out, as the page lists them
 import { choiceOf } from "../lib/mixpage.ts";
 import { METHOD_MIX_VIEWS, MIX_VIEW_ANCHOR, mixViewAnchor } from "../lib/gridAnchors.ts";
 import { render } from "../lib/markdown.ts";
@@ -103,8 +104,11 @@ test("a filecalc| key is its function, file and arguments; a key that does not f
     "filecalc|duck_ramp|mix/ercot.json|04", "filecalc|avail_mean|mixplus/ercot.json|2025|monsoon|wind", "filecalc|hist_mwh|mix_history.json|Texas|2024|wind",
     "filecalc|day_peak|mix/ercot.json|2026-09|coal", "filecalc|toString|mix/ercot.json|04|2025", "file|mix/ercot.json|months.2026-09.days_held", "filecalc",
     // session 1414: the clean files' cleanest and dirtiest hour, a month of a year on clean/<grid>.json only
-    "filecalc|clean_day_max|clean/ercot.json|2025", "filecalc|clean_day_max|clean/ercot.json|2025-13", "filecalc|clean_day_min|mix/ercot.json|2025-07", "filecalc|clean_day_min|clean/ercot.json|2025-07|x"]) assert.equal(FC.filecalcParts(bad), null, bad);
+    "filecalc|clean_day_max|clean/ercot.json|2025", "filecalc|clean_day_max|clean/ercot.json|2025-13", "filecalc|clean_day_min|mix/ercot.json|2025-07", "filecalc|clean_day_min|clean/ercot.json|2025-07|x",
+    // session 1415: the months the carbon chart leaves out, a variable of carbon_left_out.json only
+    "filecalc|carbon_left_out_n|clean/ercot.json|intensity_generation", "filecalc|carbon_left_out_n|carbon_left_out.json|co2", "filecalc|carbon_left_out_n|carbon_left_out.json"]) assert.equal(FC.filecalcParts(bad), null, bad);
   assert.deepEqual(FC.filecalcParts("filecalc|clean_day_max|clean/ercot.json|2025-07"), { fn: "clean_day_max", file: "clean/ercot.json", args: ["2025-07"] });
+  assert.deepEqual(FC.filecalcParts("filecalc|carbon_left_out_n|carbon_left_out.json|intensity_demand"), { fn: "carbon_left_out_n", file: "carbon_left_out.json", args: ["intensity_demand"] });
   // the functions check-filecalc.mjs knows are the ones lib/mixViewCalc.ts names (its words, the tip)
   assert.deepEqual(Object.keys(FC.SPEC).sort(), Object.keys(calc.FILECALC).sort());
   assert.equal(calc.filecalcKey("duck_low", "mix/pjm.json", ["07", "2024"]), "filecalc|duck_low|mix/pjm.json|07|2024");
@@ -151,6 +155,12 @@ test("a key's value is the page's figure, by the page's function, on every case 
       assert.equal(value(`filecalc|clean_day_min|clean/${g}.json|${m}`), d.length ? Math.min(...d) : undefined, `${g} ${m} min`);
       n += 2;
     }
+  }
+  // session 1415: the months the Clean tab's "Monthly since 2018" leaves out, for both variables, against the list the page
+  // writes after it (lib/carbonLeftOut.ts carbonLeftOutMonths, on the same committed file)
+  for (const v of ["intensity_generation", "intensity_demand"]) {
+    assert.equal(value(`filecalc|carbon_left_out_n|carbon_left_out.json|${v}`), LEFT_OUT.carbonLeftOutMonths(v).length, v);
+    n++;
   }
   assert.ok(n > 3000, `${n} keys`);
   // a case the file does not hold has no value (the page draws its placeholder and writes no key)

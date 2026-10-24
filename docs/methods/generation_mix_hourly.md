@@ -627,6 +627,10 @@ Decisions (chain 107, session 1414):
 - **A method line of its own** ("Method: the Clean tab's tables, keyed", `METHOD_CLEAN_TABLES`), beside session 1413's: the computed views' line is counted by `tests/test_session1413.py`, and the Clean tab's tables are mostly values of the file, not computed figures.
 - **The node tests were extended in place** (the held clean test of `test-grid-file-keys.mjs`, two tests of `test-mix-view-calc.mjs`): `tests/test_session1168.py` and `tests/test_session1413.py` count their tests.
 
+### One function more, for the Clean tab's carbon chart (session 1415)
+
+- `carbon_left_out_n` on `carbon_left_out.json` with `<variable>` (`intensity_generation` or `intensity_demand`): the months of `carbon_intensity_monthly` that the Clean tab's "Monthly since 2018" leaves out of its chart (session 118's rule, `warehouse/derived/carbon_left_out.py`), a count written whole (`n0`): `site/lib/mixViewCalc.ts` `leftOutCount`, the length of `lib/carbonLeftOut.ts` `carbonLeftOutMonths`, the list the chart's note writes after it. Checked against the committed file alone. The block, its keys and their Decisions are in `emissions.md`, section "On the Grid tool's Clean tab, keyed (chain 107, session 1415)"; the function is named here because every function of this kind is named in this note (`site/scripts/test-mix-view-calc.mjs`).
+
 ## The figures on the page and their keys
 
 Each number `/grid` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The keys the sections above do not name:

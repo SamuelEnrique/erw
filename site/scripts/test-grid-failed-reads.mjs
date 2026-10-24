@@ -270,6 +270,8 @@ async function check(name, f) {
 const NAMED = /^(grid_(network|gravity|clean24|mix|scarcity|caisoalert|ercotnotice|ask|hubprice)_|balance_|replay_|gravityday|preliminary|held_|queue_unread|mixview_)/;
 // session 1403: the cleanest hours, live, is a named panel too (beside NAMED, whose words test_session1402 pins)
 const NAMED_1403 = /^grid_cleanweek_/;
+// session 1415: and the Clean tab's carbon blocks, the ranked table and the monthly since 2018
+const NAMED_1415 = /^grid_carbon(rank|month)_/;
 const SAYS = /could not be read|no data for|working on it/;
 const baselines = new Map();
 async function base(sp) {
@@ -289,7 +291,7 @@ async function failing(sp, panel, table, kind, { emptySays, wholeTable, snapshot
   const got = await draw(sp, { table, kind });
   const errs = Object.entries(got.rec).flatMap(([b, r]) => r.errors.map((e) => `${b}: ${e}`));
   if (errs.length) return `a component threw: ${errs[0]}`;
-  const lost = Object.keys(ok.rec).filter((b) => (NAMED.test(b) || NAMED_1403.test(b)) && !got.rec[b] && b !== "queue_unread");
+  const lost = Object.keys(ok.rec).filter((b) => (NAMED.test(b) || NAMED_1403.test(b) || NAMED_1415.test(b)) && !got.rec[b] && b !== "queue_unread");
   if (lost.length) return `panels no longer drawn: ${lost.join(", ")}`;
   const y = got.rec[panel];
   const before = new Map(x.nums.map((n) => [n.check, n.raw]));
@@ -396,6 +398,20 @@ for (const kind of KINDS) {
     if (new Set(x.nums.map((n) => n.check.split("|")[0])).size !== 4) return `with every read answered: ${x.nums.map((n) => n.check).join("; ")}`;
     return JSON.stringify(ok.rec.mixview_clean.nums) === JSON.stringify(got.rec.mixview_clean.nums) ? "" : "the committed view's figures moved";
   });
+  // session 1415: the Clean tab's carbon blocks, named panels since this session: the ranked table on a failed
+  // carbon_intensity_hourly read, the monthly since 2018 on a failed carbon_intensity_monthly read (and the note's two
+  // figures of the committed file go with the chart they describe): no figure, the panel's place says why, its method kept
+  for (const [panel, table, emptySays] of [["grid_carbonrank_ercot", "carbon_intensity_hourly", /has no row in the last 7 days/], ["grid_carbonmonth_ercot", "carbon_intensity_monthly", /returned no rows/]]) {
+    await check(`${panel} (1415), ${table}, ${kind}: the panel's place says why, no figure, its method line`, async () => {
+      const sp = { grid: "ercot", view: "clean" };
+      const why = await failing(sp, panel, table, kind, { emptySays });
+      if (why) return why;
+      const x = (await base(sp)).rec[panel], y = (await draw(sp, { table, kind })).rec[panel];
+      if (!x.nums.length) return "no figure with every read answered";
+      if (y.nums.length) return `${y.nums.length} figures drawn`;
+      return /Method: the Clean tab's carbon blocks, keyed/.test(y.text) ? "" : "the method line is lost";
+    });
+  }
 }
 
 // 4. the Mix tab: the energy mix panel (1152)

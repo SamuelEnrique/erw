@@ -20,6 +20,9 @@
 //   clean_day_max|clean/<grid>.json|<month>         session 1414: the carbon-free share in the cleanest hour of the month's
 //                                                   average day, percent (cleanDayMax)
 //   clean_day_min|clean/<grid>.json|<month>         session 1414: the share in its dirtiest hour, percent (cleanDayMin)
+//   carbon_left_out_n|carbon_left_out.json|<variable>  session 1415: the months of carbon_intensity_monthly the Clean tab's
+//                                                   "Monthly since 2018" leaves out for the variable (session 118's rule,
+//                                                   warehouse/derived/carbon_left_out.py), a count (leftOutCount)
 // <cal> is a calendar month "01" to "12"; <period> is "YYYY-MM" or "YYYY"; <season> is winter, spring, summer, autumn or all;
 // <month> is "YYYY-MM".
 
@@ -37,6 +40,7 @@ export const FILECALC = {
   avail_max: { rule: "lib/mixViewCalc.ts availMax", what: "output as a share of installed capacity, the day's highest hour, percent" },
   clean_day_max: { rule: "lib/mixViewCalc.ts cleanDayMax", what: "the carbon-free share of generation in the cleanest hour of the month's average day, percent" },
   clean_day_min: { rule: "lib/mixViewCalc.ts cleanDayMin", what: "the carbon-free share of generation in the dirtiest hour of the month's average day, percent" },
+  carbon_left_out_n: { rule: "lib/mixViewCalc.ts leftOutCount", what: "the months of carbon_intensity_monthly the chart leaves out for the variable (session 118's rule), a count" },   // session 1415
 } as const;
 export type FilecalcFn = keyof typeof FILECALC;
 
@@ -50,6 +54,7 @@ export function sourceOf(file: string): string {
   if (file === "mix_history.json") return "state_generation_mix_monthly by year (warehouse/derived/mix_views.py)";
   const c = /^clean\/([a-z]+)\.json$/.exec(file);   // session 1414: the clean files, the site's copy of clean_energy_summary
   if (c) return `clean_energy_summary, iso:${c[1]}`;
+  if (file === "carbon_left_out.json") return "warehouse/derived/carbon_left_out.py";   // session 1415: the months the carbon chart leaves out
   return "warehouse/derived/mix_views.py";
 }
 
@@ -101,3 +106,12 @@ export function cleanDayHeld(f: CleanLike, m: string): number[] {
 export const cleanDayMax = (f: CleanLike, m: string): number | null => { const d = cleanDayHeld(f, m); return d.length ? Math.max(...d) : null; };
 /** The share in the month's dirtiest hour, or null when no hour is held. */
 export const cleanDayMin = (f: CleanLike, m: string): number | null => { const d = cleanDayHeld(f, m); return d.length ? Math.min(...d) : null; };
+
+// ---- session 1415: the months the Clean tab's "Monthly since 2018" leaves out, the file site/data/carbon_left_out.json
+
+/** The shape of carbon_left_out.json the count reads: the months left out, each with its variable. */
+export type LeftOutLike = { months: { variable: string }[] };
+
+/** The months left out for one variable: lib/carbonLeftOut.ts carbonLeftOutMonths(variable).length, the figure the
+ *  chart's note writes ("Left out of this chart: <n> months the table still holds"). */
+export const leftOutCount = (f: LeftOutLike, variable: string): number => f.months.filter((m) => m.variable === variable).length;

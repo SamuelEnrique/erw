@@ -149,6 +149,15 @@ export const CLEAN_TABLE_ANCHOR = {
 export type CleanTableAnchorKey = keyof typeof CLEAN_TABLE_ANCHOR;
 export const cleanTableAnchor = (key: CleanTableAnchorKey, i: number, grid: string): string => (i ? `${CLEAN_TABLE_ANCHOR[key]}-${grid}` : CLEAN_TABLE_ANCHOR[key]);
 export const METHOD_CLEAN_TABLES = "/data/methods/generation_mix_hourly#the-clean-tabs-tables-keyed-whole-session-1414";
+// Session 1415 (chain 107): the Clean tab's emissions blocks (components/grid/Emissions.tsx), "Carbon intensity now,
+// ranked" (grid_carbonrank_<grid>) and "Monthly since 2018" (grid_carbonmonth_<grid>): their anchors and their one method,
+// a section of docs/methods/emissions.md, outside GRID_ANCHOR and GRID_METHOD as session 1414's are. Each block is drawn
+// once a page (it shows the seven ISOs whatever the grid in view), so neither anchor takes a grid.
+export const EMISSIONS_ANCHOR = {
+  rank: "carbon-now",
+  monthly: "carbon-monthly",
+} as const;
+export const METHOD_EMISSIONS_BLOCKS = "/data/methods/emissions#on-the-grid-tools-clean-tab-keyed-chain-107-session-1415";
 export const GRID_METHOD: Record<GridAnchorKey, string> = {
   network: METHOD_NETWORK,
   replay: METHOD_REPLAY,

@@ -18,6 +18,10 @@ const F = file as unknown as File;
 
 export const CARBON_HYDRO_GAP = F.hydro_gap;
 export const CARBON_LEFT_OUT_BUILT = F.built;
+/** Session 1415 (chain 107): the committed file whole and its name as a file| or filecalc| key names it (site/data/), so
+ *  the Clean tab's "Monthly since 2018" keys the figures of its note on this file (lib/mixViewCalc.ts leftOutCount). */
+export const CARBON_LEFT_OUT_FILE = F;
+export const CARBON_LEFT_OUT_NAME = "carbon_left_out.json";
 
 const KEYS = new Set(F.months.map((m) => `${m.entity}|${m.variable}|${m.month}`));
 

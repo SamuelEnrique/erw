@@ -13,6 +13,9 @@
 // hour of a month's average day (clean_day_max, clean_day_min on clean/<grid>.json, lib/mixViewCalc.ts cleanDayMax and
 // cleanDayMin): the file is a build of clean_energy_summary, but the highest and lowest of the 24 hours is no row of it,
 // so these too are checked against the file alone.
+// Session 1415 (chain 107): and the Clean tab's "Monthly since 2018", the months its chart leaves out for a variable
+// (carbon_left_out_n on carbon_left_out.json, lib/mixViewCalc.ts leftOutCount; the file is written by
+// warehouse/derived/carbon_left_out.py, a build of no live-set row): checked against the file alone.
 
 const MIX = /^mix\/[a-z]+\.json$/, PLUS = /^mixplus\/[a-z]+\.json$/, HISTORY = /^mix_history\.json$/;
 const CLEAN = /^clean\/[a-z]+\.json$/, MONTH = /^\d{4}-(0[1-9]|1[0-2])$/;   // session 1414: the clean files, a month of a year
@@ -33,6 +36,7 @@ export const SPEC = {
   avail_max: { file: PLUS, args: [YEAR, { test: (x) => SEASONS.has(x) }, NAME] },
   clean_day_max: { file: CLEAN, args: [MONTH] },   // session 1414: the cleanest hours by month, on the Clean tab
   clean_day_min: { file: CLEAN, args: [MONTH] },
+  carbon_left_out_n: { file: /^carbon_left_out\.json$/, args: [/^intensity_(generation|demand)$/] },   // session 1415: the months the carbon chart leaves out
 };
 
 /** The function, file and arguments of a filecalc| key, or null for another key or one whose parts do not fit. */
@@ -75,6 +79,8 @@ export function filecalcValueWith({ mix, calc }, parts, json) {
     v = fn === "hist_share" ? c.share : c.mwh;
   } else if (fn === "clean_day_max" || fn === "clean_day_min") {
     v = fn === "clean_day_max" ? calc.cleanDayMax(json, args[0]) : calc.cleanDayMin(json, args[0]);   // session 1414
+  } else if (fn === "carbon_left_out_n") {
+    v = calc.leftOutCount(json, args[0]);   // session 1415
   } else {
     const [year, season, fuel] = args;
     const hours = calc.availOf(json, year, season, fuel);

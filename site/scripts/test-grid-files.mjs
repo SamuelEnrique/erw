@@ -92,6 +92,11 @@ for (const [k, rs] of Object.entries(hubFx.rows)) { const [e, v] = k.split("|");
 const weekFx = fx("clean_week.json");
 const haveC = new Set(T.get("carbon_intensity_hourly").map((r) => `${r.entity}|${r.variable}|${Date.parse(r.ts_utc)}`));
 for (const [k, rs] of Object.entries(weekFx.week.rows)) { const [e, v] = k.split("|"); add("carbon_intensity_hourly", rs.filter(([ts]) => !haveC.has(`${k}|${Date.parse(ts)}`)).map(([ts, x]) => asSeries(e, v, tsOf(ts), x, "kg/MWh"))); }
+// session 1415: carbon_intensity_monthly's intensity_generation, every row the live set holds (fixtures/carbon_monthly.json,
+// read once with the anon key on 24 October 2026), so the Clean tab's "Monthly since 2018" (grid_carbonmonth_<grid>) draws
+// its figures and its file
+const monthlyC = fx("carbon_monthly.json");
+add("carbon_intensity_monthly", monthlyC.rows.map(([e, ts, x]) => ({ ...asSeries(e, monthlyC.variable, ts, x, monthlyC.unit), freq: monthlyC.freq })));
 
 const cmp = (a, b) => (a === b ? 0 : a === undefined || a === null ? -1 : b === undefined || b === null ? 1 : a < b ? -1 : 1);
 const val = (r, col) => (col.startsWith("extra->>") ? r.extra?.[col.slice(8)] ?? null : r[col]);
@@ -290,9 +295,11 @@ const PAGES = [
   [{ grid: "ercot", view: "gravity" }, ["grid_gravity_ercot", "view_exchange"]],
   [{ grid: "ercot", view: "gravity", net: "day", t: "2020-08-14" }, ["grid_gravity_ercot"]],
   [{ grid: "us48", view: "gravity" }, ["grid_gravity_us48", "view_exchange"]],
-  [{ grid: "ercot", view: "clean" }, ["grid_clean24_ercot", "grid_cleanweek_ercot", "mixview_clean"]],   // session 1403: the cleanest hours, live; session 1414: the Clean tab's tables
+  [{ grid: "ercot", view: "clean" }, ["grid_clean24_ercot", "grid_cleanweek_ercot", "mixview_clean", "grid_carbonrank_ercot", "grid_carbonmonth_ercot"]],   // session 1403: the cleanest hours, live; session 1414: the Clean tab's tables; session 1415: its carbon blocks
   [{ grid: "caiso", view: "clean" }, ["mixview_clean"]],   // session 1414: the Clean tab's tables keyed whole, each with its file
   [{ grid: "isone", view: "clean" }, ["mixview_clean"]],   // session 1414: a held grid: its cells license needed, the seven grids' others keyed and filed
+  // session 1415: the Clean tab's carbon blocks, the ranked table and the monthly since 2018, each with its file, on the Lower 48
+  [{ grid: "us48", view: "clean" }, ["grid_carbonrank_us48", "grid_carbonmonth_us48", "grid_clean24_us48"]],
   [{ grid: "ercot", view: "mix" }, ["grid_mix_ercot", "grid_scarcity_ercot", "grid_ercotnotice_ercot", "grid_hubprice_ercot"]],   // session 1402: the hub's price
   [{ grid: "ercot", view: "mix", mixp: "month" }, ["grid_mix_ercot"]],
   [{ grid: "caiso", view: "mix" }, ["grid_scarcity_caiso", "grid_caisoalert_caiso", "grid_hubprice_caiso"]],   // session 1402: CAISO's price, drawn alone
@@ -594,6 +601,35 @@ await check("the Clean tab's tables: each carries its anchor, links METHOD_CLEAN
     const ids2 = rec[IDS] ?? [];
     const twice = [...new Set(ids2.filter((x, i) => ids2.indexOf(x) !== i))];
     if (twice.length) return `${sp.grids}: drawn twice: ${twice.join(", ")}`;
+  }
+  return "";
+});
+
+// session 1415 (chain 107): the Clean tab's carbon blocks, "Carbon intensity now, ranked" (grid_carbonrank_<grid>) and
+// "Monthly since 2018" (grid_carbonmonth_<grid>): each carries its anchor (lib/gridAnchors.ts EMISSIONS_ANCHOR, the same
+// on every grid), links METHOD_EMISSIONS_BLOCKS once and offers its one file; the monthly block's file carries the two
+// figures of the chart's note in its header (the months left out, the hours without hydro); no id is drawn twice
+await check("the Clean tab's carbon blocks: each carries its anchor, links METHOD_EMISSIONS_BLOCKS and offers its file, the note's two figures in the monthly file", async () => {
+  for (const grid of ["ercot", "caiso", "us48", "isone"]) {
+    const rec = await draw({ grid, view: "clean" });
+    for (const [part, anchor] of [["carbonrank", GA.EMISSIONS_ANCHOR.rank], ["carbonmonth", GA.EMISSIONS_ANCHOR.monthly]]) {
+      const name = `grid_${part}_${grid}`, b = rec[name];
+      if (!b) return `${grid}: no block ${name}`;
+      const why = blockHolds(b, name);
+      if (why) return `${grid}: ${why}`;
+      if (!b.ids.includes(anchor)) return `${name} lacks #${anchor} (ids: ${b.ids.join(", ") || "none"})`;
+      if (b.methods.filter((m) => m === GA.METHOD_EMISSIONS_BLOCKS).length !== 1) return `${name}: ${b.methods.filter((m) => m === GA.METHOD_EMISSIONS_BLOCKS).length} links to METHOD_EMISSIONS_BLOCKS`;
+      if (b.files.map((f) => f.id).join(",") !== name) return `${name}: files ${b.files.map((f) => f.id).join(",")}`;
+    }
+    const m = rec[`grid_carbonmonth_${grid}`];
+    const csv = decodeURIComponent(m.files[0].href.slice("data:text/csv;charset=utf-8,".length));
+    for (const k of ["fmt|n0|filecalc|carbon_left_out_n|carbon_left_out.json|intensity_generation", "fmt|n0|file|carbon_left_out.json|hydro_gap.hours"]) {
+      if (!m.nums.some((n) => n.startsWith(`${k}=`))) return `${grid}: the monthly block lacks ${k}`;
+      if (!csv.includes(`(key ${k})`)) return `${grid}: the monthly file's header lacks ${k}`;
+    }
+    const ids = rec[IDS] ?? [];
+    const twice = [...new Set(ids.filter((x, i) => ids.indexOf(x) !== i))];
+    if (twice.length) return `${grid}: drawn twice: ${twice.join(", ")}`;
   }
   return "";
 });

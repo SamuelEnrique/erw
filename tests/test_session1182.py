@@ -68,7 +68,7 @@ class TheFile(unittest.TestCase):
         self.assertNotIn('"use client"', p)
 
     def test_every_panel_offers_its_table(self):
-        for parts, n in ((("components", "grid", "NetworkFigures.tsx"), 4), (("components", "grid", "ReplayDay.tsx"), 1), (("components", "grid", "Emissions.tsx"), 1),
+        for parts, n in ((("components", "grid", "NetworkFigures.tsx"), 4), (("components", "grid", "ReplayDay.tsx"), 1), (("components", "grid", "Emissions.tsx"), 3),  # session 1415: and the ranked table's and the monthly's
                          (("components", "grid", "MixFigures.tsx"), 2), (("components", "grid", "ScarcityPanel.tsx"), 1), (("components", "grid", "CaisoAlertState.tsx"), 1),
                          (("components", "grid", "ErcotNoticeState.tsx"), 1), (("components", "grid", "ExchangeView.tsx"), 3)):
             s = src("site", *parts)

@@ -257,6 +257,50 @@ export function lastDayFigures(rows: IntensityRow[], entities: string[], newest:
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
+// Session 1415 (chain 107): the Clean tab's other two emissions blocks (components/grid/Emissions.tsx), "Carbon intensity
+// now, ranked" (grid_carbonrank_<grid>) and "Monthly since 2018" (grid_carbonmonth_<grid>). The rows each block draws,
+// chosen as the component chose them before this session (moved here as they stood): the latest hour of
+// intensity_generation and the same hour's intensity_demand, lowest first, a tie in the order the entities are given; the
+// first and the latest month kept. An entity held for a license (`heldOf`: lib/gridHeld.ts heldCarbonRow) is set apart
+// in the order given, never ranked, none of its rows returned. Each figure keeps its key (series|<table>|<entity>|
+// <variable>|<ts_utc>, the key the block wrote before) and gains its one-line source, the hover tip.
+
+/** A figure's one-line source on hover: the table, the entity, the variable and the hour (hourly) or the month (monthly). */
+export function carbonTip(table: string, r: IntensityRow, what: string): string {
+  const at = table === "carbon_intensity_monthly" ? `month ${r.ts_utc.slice(0, 7)} (UTC)` : `hour ${hourName(r.ts_utc)}`;
+  return `${table}, entity ${r.entity}, ${r.variable}, ${what}: ${at}`;
+}
+
+export type RankedCarbon<R extends IntensityRow> = { entity: string; g: R; d: R | undefined };
+
+/** "Carbon intensity now, ranked": each entity's latest hour of intensity_generation and the same hour's
+ *  intensity_demand, lowest generation intensity first (a tie in the order given); an entity with no row is left out, a
+ *  held one is listed apart in `held`. */
+export function carbonRanked<R extends IntensityRow>(rows: R[], entities: string[], heldOf: (entity: string) => boolean = () => false): { ranked: RankedCarbon<R>[]; held: string[] } {
+  const of = (e: string, v: string) => rows.filter((r) => r.entity === e && r.variable === v).sort((a, b) => a.ts_utc.localeCompare(b.ts_utc));
+  const ranked = entities.filter((e) => !heldOf(e)).map((entity) => {
+    const g = of(entity, "intensity_generation").at(-1);
+    const d = g ? of(entity, "intensity_demand").find((r) => r.ts_utc === g.ts_utc) : undefined;
+    return { entity, g, d };
+  })
+    .filter((x): x is RankedCarbon<R> => !!x.g)
+    .sort((a, b) => a.g.value - b.g.value);
+  return { ranked, held: entities.filter(heldOf) };
+}
+
+export type MonthEnds<R extends IntensityRow> = { entity: string; held: boolean; rows: R[]; first?: R; last?: R };
+
+/** "Monthly since 2018": each entity's months of intensity_generation that `keep` keeps (session 118: the months left
+ *  out are not), oldest first, with the first and the latest; a held entity has no rows. In the order given. */
+export function carbonMonthEnds<R extends IntensityRow>(rows: R[], entities: string[], keep: (r: R) => boolean, heldOf: (entity: string) => boolean = () => false): MonthEnds<R>[] {
+  return entities.map((entity) => {
+    if (heldOf(entity)) return { entity, held: true, rows: [] };
+    const own = rows.filter((r) => r.entity === entity && r.variable === "intensity_generation" && keep(r)).sort((a, b) => a.ts_utc.localeCompare(b.ts_utc));
+    return { entity, held: false, rows: own, first: own[0], last: own.at(-1) };
+  });
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
 // Session 1167 (chain 078): the Exchange blocks under the gravity shape (components/grid/ExchangeView.tsx). Each
 // neighbour's flow in the hour shown keeps its key (net|tie|<BA>|<other>|<hour>); beside it, the same tie over the
 // snapshot's week, keyed by a new kind, nettie|<stat>|<BA>|<other>|<from>|<to> with stat mean, min, max or hours: the

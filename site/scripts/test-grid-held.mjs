@@ -10,6 +10,10 @@
 // 2. The average day and year after year with the price beside the mix: a held grid's hub price reads "license
 //    needed"; ERCOT's, CAISO's and SPP's are drawn; MISO keeps its paused words.
 // 3. lib/gridHeld.ts: the network's hub prices by code, the queue's positions of energy_projects, on fixed days.
+// 4. Session 1415 (chain 107): the Clean tab's carbon blocks (components/grid/Emissions.tsx): no ISO's carbon rows are
+//    held on either day (both tables public); heldCarbonRow is licenseHeldRow's rule by entity; and lib/gridKeys.ts
+//    carbonRanked and carbonMonthEnds set a held ISO apart (none of its rows returned, the others' ranking as without
+//    it), on committed real rows (fixtures/grid_failed_reads.json's hours, fixtures/carbon_monthly.json's months).
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
@@ -19,6 +23,7 @@ import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import * as clean from "../lib/clean.ts";
 import * as H from "../lib/gridHeld.ts";
+import * as K from "../lib/gridKeys.ts";   // session 1415: the carbon blocks' rows
 import { LICENSE_NEEDED, licenseHeldRow } from "../lib/license.ts";
 import { n1, choiceOf } from "../lib/mixpage.ts";
 import * as V from "../components/mix/views.tsx";
@@ -117,4 +122,34 @@ test("lib/gridHeld.ts: the queue's positions of energy_projects, ISO-NE's left o
   assert.equal(H.heldQueue("isone_interconnection_queue", BEFORE), null);
   for (const t of ["ercot_interconnection_queue", "caiso_interconnection_queue", "nyiso_interconnection_queue", "miso_interconnection_queue", "spp_interconnection_queue", null])
     assert.equal(H.heldQueue(t, AFTER), null, String(t));
+  // session 1415 (chain 107), part 4 of the header, in this test so that the count tests/test_session1167.py reads stands:
+  // the Clean tab's carbon blocks: no ISO held today; a held ISO is set apart, never ranked, none of its rows returned
+  const ENT = Object.keys(H.BA_GRID).map((ba) => `eia930:${ba}`);
+  for (const e of ENT) for (const t of [H.CARBON_HOURLY_TABLE, H.CARBON_MONTHLY_TABLE]) for (const d of [BEFORE, AFTER]) assert.equal(H.heldCarbonRow(t, e, d), null, `${t} ${e}`);
+  assert.equal(H.CARBON_MONTHLY_TABLE, "carbon_intensity_monthly");
+  // the rule is licenseHeldRow's, by entity: on a table held by grid (clean_energy_summary after the hold) a held grid's
+  // entity reads license needed with the publishers on hover, another grid's is not held
+  assert.equal(H.heldCarbonRow("clean_energy_summary", "iso:isone", AFTER)?.words, LICENSE_NEEDED);
+  assert.ok(H.heldCarbonRow("clean_energy_summary", "iso:isone", AFTER).why.startsWith("ISO-NE; MISO; NYISO: "));
+  assert.equal(H.heldCarbonRow("clean_energy_summary", "iso:ercot", AFTER), null);
+  assert.equal(H.heldCarbonRow("clean_energy_summary", "iso:isone", BEFORE), null);
+  // the ranking on real hours, with and without ISO-NE held
+  const fx = (f) => JSON.parse(fs.readFileSync(path.join(here, "fixtures", f), "utf-8"));
+  const hours = fx("grid_failed_reads.json").rows.carbon_intensity_hourly.map(([entity, variable, ts_utc, value]) => ({ entity, variable, ts_utc, value }));
+  const all = K.carbonRanked(hours, ENT), held = K.carbonRanked(hours, ENT, (e) => e === "eia930:ISNE");
+  assert.equal(all.ranked.length, 7);
+  assert.deepEqual(all.held, []);
+  for (let i = 1; i < 7; i++) assert.ok(all.ranked[i - 1].g.value <= all.ranked[i].g.value, "lowest first");
+  for (const x of all.ranked) assert.equal(x.d?.ts_utc, x.g.ts_utc, `${x.entity}: demand of the same hour`);
+  assert.deepEqual(held.held, ["eia930:ISNE"]);
+  assert.deepEqual(held.ranked.map((x) => x.entity), all.ranked.map((x) => x.entity).filter((e) => e !== "eia930:ISNE"));
+  // the months on real rows, ISO-NE held: no row of it, the others' first and latest as without the hold
+  const months = fx("carbon_monthly.json").rows.map(([entity, ts_utc, value]) => ({ entity, variable: "intensity_generation", ts_utc, value }));
+  const open = K.carbonMonthEnds(months, ENT, () => true), shut = K.carbonMonthEnds(months, ENT, () => true, (e) => e === "eia930:ISNE");
+  for (const [i, e] of ENT.entries()) {
+    if (e === "eia930:ISNE") { assert.ok(shut[i].held && !shut[i].rows.length && !shut[i].first, e); continue; }
+    assert.deepEqual([shut[i].first, shut[i].last], [open[i].first, open[i].last], e);
+    assert.ok(open[i].first.ts_utc.startsWith("2018-"), `${e}: the first month in 2018`);
+  }
+  assert.match(K.carbonTip(H.CARBON_MONTHLY_TABLE, open[0].first, "the first complete month"), /^carbon_intensity_monthly, entity eia930:\w+, intensity_generation, the first complete month: month 2018-\d\d \(UTC\)$/);
 });

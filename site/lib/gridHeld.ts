@@ -46,6 +46,17 @@ export function heldCarbon(slug: string, now: Date = new Date()): Held | null {
   return licenseHeldRow(CARBON_HOURLY_TABLE, ba ? `eia930:${ba}` : undefined, now) ? held(CARBON_HOURLY_TABLE) : null;
 }
 
+/** Session 1415 (chain 107): the monthly table the Clean tab's "Monthly since 2018" reads (components/grid/Emissions.tsx). */
+export const CARBON_MONTHLY_TABLE = "carbon_intensity_monthly";
+
+/** Session 1415: a balancing authority's rows of a carbon table (CARBON_HOURLY_TABLE or CARBON_MONTHLY_TABLE) held for a
+ *  license on the day, by its entity ("eia930:ISNE"), or null: heldCarbon's rule, by the entity the Clean tab's emissions
+ *  blocks read (the ranked table, the last 24 hours, the monthly since 2018). Both tables are public in every status file
+ *  today, so no row is held; a held one's place reads "license needed" and none of its rows is drawn. */
+export function heldCarbonRow(table: string, entity: string, now: Date = new Date()): Held | null {
+  return licenseHeldRow(table, entity, now) ? held(table) : null;
+}
+
 /** The queue's positions of energy_projects a page may draw: a held grid's are left out ("isone_queue:137" is ISO-NE's). */
 export function shownQueue<T extends { entity_id: string }>(rows: T[], now: Date = new Date()): T[] {
   return rows.filter((r) => !licenseHeldRow(QUEUE_TABLE, r.entity_id, now));

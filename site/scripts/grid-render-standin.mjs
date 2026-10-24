@@ -78,6 +78,10 @@ for (const [k, rs] of Object.entries(hubFx.rows)) { const [e, v] = k.split("|");
 const weekFx = fx("clean_week.json");
 const haveC = new Set(T.get("carbon_intensity_hourly").map((r) => `${r.entity}|${r.variable}|${Date.parse(r.ts_utc)}`));
 for (const [k, rs] of Object.entries(weekFx.week.rows)) { const [e, v] = k.split("|"); add("carbon_intensity_hourly", rs.filter(([ts]) => !haveC.has(`${k}|${Date.parse(ts)}`)).map(([ts, x]) => asSeries(e, v, tsOf(ts), x, "kg/MWh"))); }
+// session 1415: carbon_intensity_monthly's intensity_generation, every row the live set holds (fixtures/carbon_monthly.json,
+// read once with the anon key), so the Clean tab's "Monthly since 2018" (grid_carbonmonth_<grid>) draws its figures
+const monthlyC = fx("carbon_monthly.json");
+add("carbon_intensity_monthly", monthlyC.rows.map(([e, ts, x]) => ({ ...asSeries(e, monthlyC.variable, ts, x, monthlyC.unit), freq: monthlyC.freq })));
 // two more committed fixtures, for the grid's own older blocks the pinned tests read: the battery units of storage_capacity
 // (fixtures/grid_units.json, session 1180: PJM, SPP and MISO whole, every tenth other unit) for the Batteries block, and
 // ERCOT's UTC day of 21 October 2026 (fixtures/grid_yesterday.json, session 1166: demand, the day-ahead forecast, the
