@@ -217,6 +217,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "statcan_electricity_generation_monthly",
            "statcan_oil_gas_supply_monthly",
            "ntd_transit_energy_annual",
+           "epa_needs_units",
            "bsee_offshore_incidents",
            "nrc_rop_findings",
            "interconnection_durations", "interconnection_durations_summary",

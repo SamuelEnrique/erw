@@ -408,6 +408,7 @@ catalogue_hold:
   - statcan_electricity_generation_monthly
   - statcan_oil_gas_supply_monthly
   - ntd_transit_energy_annual
+  - epa_needs_units
   - bsee_offshore_incidents
   - nrc_rop_findings
   - wb_iea_electricity_annual

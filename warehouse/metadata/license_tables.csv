@@ -215,6 +215,7 @@ energy_projects,CAISO; Census Bureau; EIA; ERCOT; ISO-NE; SPP,"the source regist
 epa_ghgrp_facility_emissions,EPA,the source registry
 epa_ghgrp_power_co2,EPA,the source registry
 epa_lmop_landfill_projects,EPA,the source registry
+epa_needs_units,EPA,the source registry
 epa_rfs_fuel_annual,EPA,the source registry
 epa_rfs_rins_monthly,EPA,the source registry
 epa_tri_energy_releases_annual,EPA,the source registry
