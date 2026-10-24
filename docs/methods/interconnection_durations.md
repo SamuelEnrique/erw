@@ -5,6 +5,8 @@ Two derived tables, `interconnection_durations` (one row a completed project) an
 source of the time-to-connect column of the code machine's All grids tab. No request is made: the builder reads
 `lbnl_interconnection_queue`, which the warehouse already holds.
 
+Tables: `interconnection_durations`, `interconnection_durations_summary`
+
 ## Input and license
 
 `lbnl_interconnection_queue`: Lawrence Berkeley National Laboratory and GridTracker, *Queued Up: 2026 Edition* data

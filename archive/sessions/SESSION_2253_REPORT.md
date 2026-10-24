@@ -48,4 +48,4 @@ The trial and the write ran offline. Also Supabase, for the locks and the archiv
 
 ## Changed by session 2257
 
-- **The table is public:** the licenses' round recorded Energy-Charts' verdict (CC BY 4.0, read 392 on this branch), the connector's license and header now say public, the table was written again (the same rows) and it is in the release package.
+- **The table is public:** the licenses' round recorded Energy-Charts' verdict (CC BY 4.0, read 442 on this branch), the connector's license and header now say public, the table was written again (the same rows) and it is in the release package.

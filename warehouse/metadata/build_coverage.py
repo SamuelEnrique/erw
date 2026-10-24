@@ -260,6 +260,13 @@ SECTOR_RULES = [
     (r"^cer_pipeline_throughput$", "oil;gas"),  # session 2169: the CER's pipeline throughput and capacity, the cross-border lines
     (r"^desnz_uk_electricity_quarterly$", "power"),  # session 2168: DESNZ's Energy Trends 5.1, UK electricity by fuel
     (r"^desnz_uk_renewables_quarterly$", "power"),  # session 2174: DESNZ's Energy Trends 6.1, UK renewable capacity and generation
+    (r"^ieso_generation_fuel_hourly$", "power"),  # session 2224: the IESO's Ontario generation by fuel, an hour, from 2020
+    (r"^eurostat_electricity_monthly$", "power"),  # session 2225: Eurostat's monthly electricity, net production by fuel and the flows, from 2016
+    (r"^desnz_uk_gas_quarterly$", "gas"),  # session 2226: DESNZ's Energy Trends 4.1, the UK's natural gas supply and consumption
+    (r"^ssb_norway_electricity_monthly$", "power"),  # session 2227: Statistics Norway's table 14091, Norway's electricity balance, a month from 1993
+    (r"^smard_germany_monthly$", "power"),  # session 2230: SMARD's Germany generation by source and grid load, a month from 2015
+    (r"^cbs_netherlands_electricity_monthly$", "power"),  # session 2231: CBS's table 84575NED, the Netherlands' electricity balance, a month from 1976
+    (r"^scb_sweden_electricity_monthly$", "power"),  # session 2236: SCB's table TAB1011, Sweden's electricity supply by type of production, a month from 1974
     (r"^eia_gas_other_uses_state_annual$", "gas"),  # session 2164: EIA's gas vehicle, lease and plant, pipeline fuel and deliveries by state
     (r"^elexon_gb_demand_daily$", "power"),  # session 2162: Elexon's BMRS, Great Britain's daily demand outturn
     (r"^energinet_dk_production_hourly$", "power"),  # session 2217: Energinet, Denmark's production, consumption and exchanges an hour
@@ -275,6 +282,12 @@ SECTOR_RULES = [
     (r"^noaa_ncei_billion_disasters$", "power"),  # session 2073: NOAA's billion-dollar disasters
     (r"^nrc_license_actions$", "power;uranium"),  # session 2064: the NRC's renewed licenses and power uprates
     (r"^owid_ember_electricity_annual$", "power;carbon"),  # session 2126: Ember's electricity demand and emissions through Our World in Data
+    (r"^eia_shale_gas_reserves_annual$", "gas"),  # session 2250: EIA's shale gas proved reserves and their changes, 2007 to 2021
+    (r"^eia_gas_heat_content_monthly$", "gas"),  # session 2245: EIA's heat content of gas delivered to consumers by state, a month
+    (r"^eia_crude_quality_monthly$", "oil"),  # session 2244: EIA's crude oil input qualities (API gravity, sulfur), a month
+    (r"^ons_brazil_balance_hourly$", "power"),  # session 2240: ONS's open data, Brazil's balance an hour by subsystem
+    (r"^ree_spain_balance_monthly$", "power"),  # session 2239: REE's REData, Spain's electrical energy balance a month
+    (r"^rte_eco2mix_france_halfhourly$", "power"),  # session 2238: RTE's eco2mix, France every half hour
     (r"^pse_poland_balance_15min$", "power"),  # session 2252: PSE's power balance of Poland, a quarter hour
     (r"^energy_charts_belgium_hourly$", "power"),  # session 2253: Energy-Charts' Belgian public net production by type and load, an hour
     (r"^usbr_crsp_reservoirs_daily$", "power"),  # session 2221: Reclamation's CRSP power reservoirs above Lake Powell, a day
