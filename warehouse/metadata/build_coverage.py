@@ -262,6 +262,7 @@ SECTOR_RULES = [
     (r"^desnz_uk_renewables_quarterly$", "power"),  # session 2174: DESNZ's Energy Trends 6.1, UK renewable capacity and generation
     (r"^ieso_generation_fuel_hourly$", "power"),  # session 2224: the IESO's Ontario generation by fuel, an hour, from 2020
     (r"^eurostat_electricity_monthly$", "power"),  # session 2225: Eurostat's monthly electricity, net production by fuel and the flows, from 2016
+    (r"^desnz_uk_gas_quarterly$", "gas"),  # session 2226: DESNZ's Energy Trends 4.1, the UK's natural gas supply and consumption
     (r"^eia_gas_other_uses_state_annual$", "gas"),  # session 2164: EIA's gas vehicle, lease and plant, pipeline fuel and deliveries by state
     (r"^elexon_gb_demand_daily$", "power"),  # session 2162: Elexon's BMRS, Great Britain's daily demand outturn
     (r"^epa_ghgrp_facility_emissions$", "carbon;power;oil;gas"),  # session 2072: EPA's GHGRP, every sector
