@@ -196,6 +196,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "desnz_uk_renewables_quarterly",
            "eia_gas_other_uses_state_annual",
            "elexon_gb_demand_daily",
+           "energinet_dk_production_hourly",
            "epa_ghgrp_facility_emissions",
            "epa_lmop_landfill_projects",
            "epa_tri_energy_releases_annual",
