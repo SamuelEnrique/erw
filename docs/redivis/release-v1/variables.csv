@@ -4883,6 +4883,22 @@ eurostat_oil_monthly,flow:TO_RPI_RO,series variable,t
 eurostat_renewable_capacity_annual,net_capacity,series variable,MW
 eurostat_renewable_capacity_annual,net_capacity_ac,series variable,MW
 eurostat_renewable_capacity_annual,net_capacity_dc,series variable,MW
+eurostat_solid_fuels_monthly,flow:EXP,series variable,t
+eurostat_solid_fuels_monthly,flow:FC_IND,series variable,t
+eurostat_solid_fuels_monthly,flow:FC_IND_IS,series variable,t
+eurostat_solid_fuels_monthly,flow:FC_OTH,series variable,t
+eurostat_solid_fuels_monthly,flow:GID_CAL,series variable,t
+eurostat_solid_fuels_monthly,flow:GID_OBS,series variable,t
+eurostat_solid_fuels_monthly,flow:IMP,series variable,t
+eurostat_solid_fuels_monthly,flow:IMP_FROM_NEU,series variable,t
+eurostat_solid_fuels_monthly,flow:IPRD,series variable,t
+eurostat_solid_fuels_monthly,flow:RCV_RCY,series variable,t
+eurostat_solid_fuels_monthly,flow:STATDIFF,series variable,t
+eurostat_solid_fuels_monthly,flow:STKCL_NAT,series variable,t
+eurostat_solid_fuels_monthly,flow:STKOP_NAT,series variable,t
+eurostat_solid_fuels_monthly,flow:STK_CHG,series variable,t
+eurostat_solid_fuels_monthly,flow:TI_CO,series variable,t
+eurostat_solid_fuels_monthly,flow:TI_EHG_MAP,series variable,t
 fema_disaster_declarations,event_id,column,
 fema_disaster_declarations,event_date,column,
 fema_disaster_declarations,event_type,column,
