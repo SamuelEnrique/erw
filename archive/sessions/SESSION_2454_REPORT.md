@@ -17,7 +17,7 @@
   - net production plus imports less exports differs from inland demand in 970 of the file's 1,419 country years.
   - The first trial checked final consumption against industry, transport and other and failed in 1,309 of 1,326 country years; that check was dropped.
   - The run now stops only if net production is ever above gross by more than 1 GWh. It never is, in all 1,328 country years.
-- **License: public** (Eurostat's copyright notice, the record's verdict). `ec.europa.eu`'s robots file is the same as session 2413's (read 799).
+- **License: public** (Eurostat's copyright notice, the record's verdict). `ec.europa.eu`'s robots file is the same as session 2413's (read 820).
 
 ## The cross-check (`runs/c118/s2454/cross.py`, `cross.out`; tables read past their header lines)
 
@@ -51,6 +51,6 @@
   - this report
 - Changed:
   - `warehouse/metadata/build_coverage.py`, `warehouse/supabase/live_set.yaml`, `warehouse/redivis/release_v1.py`
-  - `warehouse/metadata/license_reads.csv` (799 to 801), `license_tables.csv`, `docs/licenses.md`
+  - `warehouse/metadata/license_reads.csv` (820 to 822), `license_tables.csv`, `docs/licenses.md`
   - the coverage, sources and archive manifest files, and the release lists
 - On the data machine only: `runs/c118/s2454/` (the EIA route listing writes the key as `<key>`), `runs/license_reads/s2454/`.

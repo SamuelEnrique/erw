@@ -4,15 +4,15 @@
 
 ## Read these first
 
-- **Sessions 2448 to 2451 and 2454's publishers were read in their own sessions** (reads 763 to 801 on this branch's numbering):
-  - **REG, Rwanda:** its robots file did not answer (read 763).
-  - **RURA, Rwanda:** a copyright line and no terms stated, so its table is internal and has no verdict (reads 764 to 771).
-  - **Senelec and CRSE, Senegal:** footers reserving all rights; two new verdicts, needs written permission (reads 773 and 775).
-  - **ANSD, Senegal:** its certificate does not verify (read 776).
-  - **Statistics Slovenia's PxWeb:** its robots file names ClaudeBot (read 777).
-  - **TSO Cyprus:** a copyright line and no terms (reads 778 to 780).
-  - **Azerbaijan's State Statistical Committee:** "It is necessary to refer to the information on the site"; a new verdict, may be public (read 783). Its table is public.
-  - **Uzbekistan's statistics committee (SIAT):** CC BY 4.0; a new verdict, may be public (read 789). Its table is public.
+- **Sessions 2448 to 2451 and 2454's publishers were read in their own sessions** (reads 784 to 822 on this branch's numbering):
+  - **REG, Rwanda:** its robots file did not answer (read 784).
+  - **RURA, Rwanda:** a copyright line and no terms stated, so its table is internal and has no verdict (reads 785 to 792).
+  - **Senelec and CRSE, Senegal:** footers reserving all rights; two new verdicts, needs written permission (reads 794 and 796).
+  - **ANSD, Senegal:** its certificate does not verify (read 797).
+  - **Statistics Slovenia's PxWeb:** its robots file names ClaudeBot (read 798).
+  - **TSO Cyprus:** a copyright line and no terms (reads 799 to 801).
+  - **Azerbaijan's State Statistical Committee:** "It is necessary to refer to the information on the site"; a new verdict, may be public (read 804). Its table is public.
+  - **Uzbekistan's statistics committee (SIAT):** CC BY 4.0; a new verdict, may be public (read 810). Its table is public.
   - **Eurostat:** the record's verdict since session 2123.
 - **Session 2455's publishers** are read in that session, before its pulls.
 - **The other publishers without a verdict** were not asked again (session 2125's reasons).

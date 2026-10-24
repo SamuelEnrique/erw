@@ -15,7 +15,7 @@
   - the four sales sectors add to total sales within 1 MWh in all 294 area years (the run stops otherwise);
   - supply (generation, imports, exports, receipts, deliveries) does not equal the electricity available in 6 of 294 area years;
   - use (producers', sales, unallocated) does not equal it in 107. Both are counted in the header and kept as published.
-- **License: public** (the Statistics Canada Open Licence). The robots file is unchanged since session 2418 (read 804).
+- **License: public** (the Statistics Canada Open Licence). The robots file is unchanged since session 2418 (read 825).
 - **Test 205's bound raised by 40 again,** for this chain's reads, which reach 805 on this branch.
 
 ## The cross-check (`runs/c118/s2460/cross.py`, `cross.out`; tables read past their header lines)

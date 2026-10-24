@@ -5,13 +5,13 @@
 ## Read these first
 
 - **Senegal not taken:**
-  - **Senelec:** no robots file (HTTP 404, read 772). The home page's footer reads "© 2026 - Tous droits réservés par la SENELEC", and no terms of use or grant of reuse were found (read 773). New verdict: needs written permission.
-  - **CRSE, the regulator:** its robots file allows the reader (read 774). Its footer reads "© Copyright 2025, CRSE. Tous droits réservés.", and its legal notice link leads nowhere (read 775). New verdict: needs written permission.
-  - **ANSD, the statistics agency:** its certificate does not verify (read 776). TLS was not bypassed.
+  - **Senelec:** no robots file (HTTP 404, read 793). The home page's footer reads "© 2026 - Tous droits réservés par la SENELEC", and no terms of use or grant of reuse were found (read 794). New verdict: needs written permission.
+  - **CRSE, the regulator:** its robots file allows the reader (read 795). Its footer reads "© Copyright 2025, CRSE. Tous droits réservés.", and its legal notice link leads nowhere (read 796). New verdict: needs written permission.
+  - **ANSD, the statistics agency:** its certificate does not verify (read 797). TLS was not bypassed.
   - These follow the rule chains 114 and 115 agreed on, NamPower's and ERB Zambia's: a footer reserving all rights with no grant means needs written permission.
 - **Two replacements tried and closed:**
-  - **Slovenia's statistics office:** pxweb.stat.si's robots file disallows `/sistatdata/` for every reader, and every path for ClaudeBot, GPTBot and others by name (read 777). It is honoured and not asked again.
-  - **TSO Cyprus:** no robots file (read 778) and no terms stated (read 779). Its generation records are load-duration curves in PDFs (read 780), and its other data pages would not fit the six requests left.
+  - **Slovenia's statistics office:** pxweb.stat.si's robots file disallows `/sistatdata/` for every reader, and every path for ClaudeBot, GPTBot and others by name (read 798). It is honoured and not asked again.
+  - **TSO Cyprus:** no robots file (read 799) and no terms stated (read 800). Its generation records are load-duration curves in PDFs (read 801), and its other data pages would not fit the six requests left.
 - **No table this session.** The chain's own-choice sessions follow.
 
 ## Pulls against their ceilings
@@ -40,5 +40,5 @@
 ## Files
 
 - New: this report.
-- Changed: `warehouse/metadata/license_reads.csv` (772 to 780), `license_verdicts.csv` (Senelec, CRSE), `license_tables.csv`, `docs/licenses.md`.
+- Changed: `warehouse/metadata/license_reads.csv` (793 to 801), `license_verdicts.csv` (Senelec, CRSE), `license_tables.csv`, `docs/licenses.md`.
 - On the data machine only: `runs/c118/s2449/`, `runs/license_reads/s2449/`.

@@ -10,8 +10,8 @@
   - Its sources are Kyrgyzstan (the National Statistical Committee), Côte d'Ivoire (CI-ENERGIES or ANARE-CI), Jamaica (the Office of Utilities Regulation or STATIN) and Laos (the Ministry of Energy and Mines or EDL). None is held, and chains 057 to 118 did not plan them.
   - It carries 118's rules, the hosts chains 114 and 117 closed, and test 378's rule on internal tables.
   - Chain 117's agent later reported that its session 2436 read stat.gov.kg: there is no robots file, and its open data for electricity covers 2015 to 2019 under CC BY-NC-SA 4.0. Chain 118's session 2461 will add this to file 119.
-- **REG not taken:** its robots file did not answer within 60 seconds (read 763).
-- **One internal table:** `rura_rwanda_electricity_quarterly`, 690 rows, 45 entities, July 2021 to June 2024. It is written, validated, archived, in coverage (sector power), and held from the live set. It comes from three of the Rwanda Utilities Regulatory Authority's quarterly Electricity Statistics Reports, each covering five quarters (reads 769 to 771 on this branch's numbering):
+- **REG not taken:** its robots file did not answer within 60 seconds (read 784).
+- **One internal table:** `rura_rwanda_electricity_quarterly`, 690 rows, 45 entities, July 2021 to June 2024. It is written, validated, archived, in coverage (sector power), and held from the live set. It comes from three of the Rwanda Utilities Regulatory Authority's quarterly Electricity Statistics Reports, each covering five quarters (reads 790 to 792 on this branch's numbering):
   - Table 1: each plant's generation, domestic generation, the regionally shared plants' share, imports and the total;
   - Table 3: electricity sold by customer category (exports and Nasho's own use among them) and the total sold;
   - in MWh (the reports' kWh divided by 1,000), a quarter.
@@ -22,7 +22,7 @@
 - **The September 2022 report's sales table has ten categories and no total,** nor street lights, Nasho's own use or exports. So Q3 and Q4 2021 have no `sales_total` and lack those three categories; the header says so.
 - **Read with pdfplumber's tables, not the text layer,** whose cells shift between rows. Shema Power's 87 GWh in a quarter, from a 56 MW methane plant, and peat's 3.03% share agree with pdfplumber's rows and not with the text's.
 - **Not taken:** the system peak demand, given only in a figure and the prose (233.74 MW in Q2 2024); the generation mix, given in percentages.
-- **License: internal.** RURA's footer reads "© 2026 Rwanda Utilities Regulatory Authority", and its pages state no terms of reuse, so no verdict is recorded. `www.rura.rw`'s robots file disallows CMS paths and a long list of named crawlers, none of them this reader or an AI agent (read 764).
+- **License: internal.** RURA's footer reads "© 2026 Rwanda Utilities Regulatory Authority", and its pages state no terms of reuse, so no verdict is recorded. `www.rura.rw`'s robots file disallows CMS paths and a long list of named crawlers, none of them this reader or an AI agent (read 785).
 - **Test 205's bound raised by 40** for this chain's reads, which start at 763 on this branch.
 
 ## The cross-check (`runs/c118/s2448/cross.py`, `cross.out`; tables read past their header lines)
@@ -60,7 +60,7 @@
   - this report
 - Changed:
   - `warehouse/metadata/build_coverage.py`, `warehouse/supabase/live_set.yaml`
-  - `warehouse/metadata/license_reads.csv` (763 to 771), `license_tables.csv`, `docs/licenses.md`
+  - `warehouse/metadata/license_reads.csv` (784 to 792), `license_tables.csv`, `docs/licenses.md`
   - `tests/test_session205.py` (the bound)
   - the coverage, sources and archive manifest files
 - On the data machine only: `runs/c118/`, `runs/license_reads/s2448/`.

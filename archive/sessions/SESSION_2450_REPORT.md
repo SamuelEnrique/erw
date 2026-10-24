@@ -4,7 +4,7 @@
 
 ## Read these first
 
-- **One public table:** `statsaz_azerbaijan_electricity_annual`, 1,067 rows, 56 variables. It is written, validated, archived, in coverage (sector power), held from the live set, and listed in the release's held tables. It comes from three workbooks of the State Statistical Committee's Energy section (reads 784 to 786 on this branch's numbering):
+- **One public table:** `statsaz_azerbaijan_electricity_annual`, 1,067 rows, 56 variables. It is written, validated, archived, in coverage (sector power), held from the live set, and listed in the release's held tables. It comes from three workbooks of the State Statistical Committee's Energy section (reads 805 to 807 on this branch's numbering):
   - table 3.1.18, the electricity balance, 2007 to 2025: production by kind of plant, import, export (negative, as printed), total supply, the statistical difference, energy industries' own use, losses in transmission and distribution, and final consumption with its sectors;
   - table 5.4, production of electricity by kind of plant, 1913 to 2025;
   - table 5.3, plant capacity at the end of the year by kind of plant;
@@ -14,8 +14,8 @@
   - production is electricity plants plus CHP plants, and electricity plants are their kinds;
   - production and capacity are their kinds from 2000, within 1 GWh or 1 MW;
   - the balance's production equals table 5.4's within 1.0 GWh in every year both give.
-- **License: public with the source cited.** The site's footer reads "It is necessary to refer to the information on the site..!" (read 783), and the Azerbaijani page says the same ("istinad etmək zəruridir"). New verdict: may be public. Under test 378's rule (chain 114's landing), the table is public with the citation in its header.
-- **The host:** www.stat.gov.az reset the connection at its robots file (read 781). stat.gov.az answers robots.txt with its home page, so it has no robots file (read 782).
+- **License: public with the source cited.** The site's footer reads "It is necessary to refer to the information on the site..!" (read 804), and the Azerbaijani page says the same ("istinad etmək zəruridir"). New verdict: may be public. Under test 378's rule (chain 114's landing), the table is public with the citation in its header.
+- **The host:** www.stat.gov.az reset the connection at its robots file (read 802). stat.gov.az answers robots.txt with its home page, so it has no robots file (read 803).
 
 ## The cross-check (`runs/c118/s2450/cross.py`, `cross.out`; tables read past their header lines)
 
@@ -51,6 +51,6 @@
   - this report
 - Changed:
   - `warehouse/metadata/build_coverage.py`, `warehouse/supabase/live_set.yaml`, `warehouse/redivis/release_v1.py`
-  - `warehouse/metadata/license_reads.csv` (781 to 786), `license_verdicts.csv` (the Committee), `license_tables.csv`, `docs/licenses.md`
+  - `warehouse/metadata/license_reads.csv` (802 to 807), `license_verdicts.csv` (the Committee), `license_tables.csv`, `docs/licenses.md`
   - the coverage, sources and archive manifest files, and the release lists
 - On the data machine only: `runs/c118/s2450/`, `runs/license_reads/s2450/`.

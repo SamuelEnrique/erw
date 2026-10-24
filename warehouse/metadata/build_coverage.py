@@ -263,6 +263,7 @@ SECTOR_RULES = [
     (r"^desnz_uk_renewables_quarterly$", "power"),  # session 2174: DESNZ's Energy Trends 6.1, UK renewable capacity and generation
     (r"^ieso_generation_fuel_hourly$", "power"),  # session 2224: the IESO's Ontario generation by fuel, an hour, from 2020
     (r"^eurostat_electricity_monthly$", "power"),  # session 2225: Eurostat's monthly electricity, net production by fuel and the flows, from 2016
+    (r"^eurostat_electricity_trade_annual$", "power"),  # session 2432: Eurostat's annual electricity imports and exports by partner, European countries
     (r"^desnz_uk_gas_quarterly$", "gas"),  # session 2226: DESNZ's Energy Trends 4.1, the UK's natural gas supply and consumption
     (r"^ssb_norway_electricity_monthly$", "power"),  # session 2227: Statistics Norway's table 14091, Norway's electricity balance, a month from 1993
     (r"^smard_germany_monthly$", "power"),  # session 2230: SMARD's Germany generation by source and grid load, a month from 2015
@@ -291,7 +292,9 @@ SECTOR_RULES = [
     (r"^eurostat_renewable_capacity_annual$", "power"),  # session 2123: Eurostat's renewable and waste capacity by European country
     (r"^eurostat_oil_monthly$", "oil"),  # session 2363: Eurostat's monthly oil supply, seven products by European country
     (r"^eurostat_crude_imports_monthly$", "oil"),  # session 2369: Eurostat's monthly crude oil imports by partner, European countries
+    (r"^eurostat_crude_imports_by_field_monthly$", "oil"),  # session 2427: Eurostat's monthly crude oil imports by field of production, the EU
     (r"^eurostat_solid_fuels_monthly$", "coal"),  # session 2364: Eurostat's monthly solid fuels supply by European country
+    (r"^eurostat_hard_coal_imports_annual$", "coal"),  # session 2426: Eurostat's annual hard coal imports by partner, European countries
     (r"^makstat_macedonia_electricity_monthly$", "power"),  # session 2357: MakStat's electricity in MWh by months, North Macedonia
     (r"^statbank_moldova_electricity_monthly$", "power"),  # session 2358: StatBank's electricity by months, Moldova
     (r"^eurostat_electricity_capacity_annual$", "power"),  # session 2356: Eurostat's electricity capacity by fuel group and operator by European country
@@ -320,6 +323,10 @@ SECTOR_RULES = [
     (r"^eurostat_gas_balance_monthly$", "gas"),  # session 2329: Eurostat's supply, transformation and consumption of natural gas, a month (nrg_cb_gasm)
     (r"^eia_refinery_utilization_monthly$", "oil;products"),  # session 2334: EIA's refinery utilization and capacity by PADD and refining district, a month (petroleum/pnp/unc)
     (r"^ceb_srilanka_electricity_annual$", "power"),  # session 2371: CEB's Statistical Digest, Sri Lanka's stations, capacity, generation and maximum demand (internal)
+    (r"^erb_zambia_electricity_annual$", "power"),  # session 2420: ERB's Statistical Bulletin 2025, Zambia's generation by station, consumption, trade and capacity
+    (r"^statsbots_botswana_electricity_monthly$", "power"),  # session 2421: Statistics Botswana's electricity stats brief, generation, imports and distribution a month
+    (r"^erc_mongolia_electricity_annual$", "power"),  # session 2422: ERC Mongolia's Statistics on Energy Performance 2020, generation, imports, capacity and sales by grid
+    (r"^esco_georgia_electricity_monthly$", "power"),  # session 2423: ESCO's actual electricity balance of Georgia a month (in place of Cambodia)
     (r"^energycom_ghana_electricity_annual$", "power"),  # session 2373: Ghana's Energy Commission bulletin, generation by source, imports and exports, peak load, a year (internal)
     (r"^eia_gas_for_others_annual$", "gas"),  # session 2377: EIA's natural gas delivered for the account of others by state and sector, a year (natural-gas/cons/acct)
     (r"^statcan_petroleum_products_monthly$", "oil;products"),  # session 2378: Statistics Canada 25-10-0081-01, petroleum products by supply and disposition, a month
