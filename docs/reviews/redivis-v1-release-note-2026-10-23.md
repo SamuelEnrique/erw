@@ -225,3 +225,21 @@ What session 1010 found on the way (23 October 2026, 11 of its 100 Redivis reque
 - **Requests:** 113 Redivis requests of 150 (7, 99 and 7), and 1 to Supabase. Nothing released.
 
 **Session 2345 (24 October 2026, 08:11 to 08:15 UTC):** three public tables, each proved by the draft's count: chain 109's `eia_petroleum_stocks_state_monthly` (73,997 rows) and `bfe_switzerland_electricity_monthly` (4,000), and chain 106's `cso_ireland_electricity_monthly` (644, written after session 2317's upload). A plain upload under the data lock from chain 109's branch merged with chain 105's landing. The metadata refresh read main's coverage and sources, not this branch's: chain 108's agent, believing it still held the lock, put main's files back in the main checkout ten seconds into this run. So `erw_coverage` (495 rows) and `erw_sources` (583) lack this chain's two new rows until the next refresh; `erw_headers` holds 4,656 lines. 82 of 150 Redivis requests (7, 68 and 7) and 1 to Supabase. Reconcile: before, 328 of 374 match; after, 331 of 376 match and 44 differ, tables daily runs have grown since their upload; none is missing from the draft. Nothing released.
+
+## Chain 110's upload (session 2366, 24 October 2026, 09:25 to 09:51 UTC)
+
+- **Four public tables uploaded, each proved by the draft's count:**
+  - this chain's `statbank_moldova_electricity_monthly` (980), `eurostat_solid_fuels_monthly` (209,040) and `eurostat_oil_monthly` (457,009);
+  - chain 105's `eurostat_electricity_capacity_annual` (159,060), which chain 112's session 2380 also uploaded minutes later.
+- **Three runs, so no cap falls inside a large table:** a reconcile; the three medium tables (run A); the oil table alone (run B); a reconcile.
+- **Both runs ended at their caps inside the metadata tables:** run A while replacing `erw_coverage` and `erw_sources`, run B inside `erw_sources`. Chain 112's session 2380 refreshed all the metadata tables between the two runs.
+  - The closing reconcile finds every metadata table matching: `erw_coverage` 509, `erw_sources` 597, `erw_headers` 4,736.
+  - **The lesson for the next draft session:** leave about 40 requests for the metadata refresh after the last table.
+- **Run A's shell was killed for low memory** while its uploader ran on. The uploader was left to finish (all three tables proved), then main's files were put back and the lock released by hand. Run A wrote no upload record (it writes one only when every table succeeds); run B's record holds the oil table.
+- **Two reconciles:**
+  - before: 388 tables, 338 match, 46 differ, 4 not yet uploaded;
+  - after: 344 match, 44 differ (tables daily runs have grown since their upload), none missing.
+- **Left for the next draft session:** session 2369's `eurostat_crude_imports_monthly`, public, written after this upload.
+- **Requests:** 142 Redivis requests of 150 (7, 69, 59 and 7), and 2 to Supabase. Nothing released.
+
+**Session 2394 (24 October 2026, 10:09 to 10:21 UTC):** one public table, chain 113's `ilr_luxembourg_electricity` (668 rows, Luxembourg's regulator ILR, CC BY 4.0), proved by the draft's count. A plain upload under the data lock from chain 113's branch merged with chain 112's landing; this run checked that it still held the lock before the upload and before putting main's files back. The metadata refresh read this branch's files: `erw_coverage` 513 rows, `erw_sources` 601, `erw_headers` 4,747 lines, so the lag left by session 2345 (chain 109's two tables) is closed. Chain 113's later public table, `hagstofa_iceland_power_annual` (session 2397), was written after this upload and waits for the next one. 77 of 150 Redivis requests (7, 63 and 7) and 1 to Supabase. Reconcile: before, 342 of 389 match, 46 differ (`erw_sources` 597 against 601 among them), 1 not yet uploaded; after, 345 match and 44 differ, tables daily runs have grown since their upload; none is missing from the draft. Nothing released.

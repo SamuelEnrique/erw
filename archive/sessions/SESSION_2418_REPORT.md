@@ -4,14 +4,14 @@
 
 ## Read these first
 
-- **Hydro-Québec's open data not taken:** `donnees.hydroquebec.com`'s robots file disallows `/api/` and every download path for every agent but Googlebot (read 693). Its demand and production data, which bear on New England's and New York's imports, are therefore closed to the reader.
+- **Hydro-Québec's open data not taken:** `donnees.hydroquebec.com`'s robots file disallows `/api/` and every download path for every agent but Googlebot (read 760). Its demand and production data, which bear on New England's and New York's imports, are therefore closed to the reader.
 - **The choice:** Statistics Canada's table 25-10-0022-01, installed plants and annual generating capacity by type of electricity generation. The ERW holds StatCan's generation (`statcan_electricity_generation_monthly`), trade and energy balance, but not its capacity. No chain has taken it.
 - **One public table:** `statcan_generating_capacity_annual`, 5,952 rows, 55 series, 2006 to 2025. It is written, validated, archived, in coverage (sector power), held from the live set, and listed in the release's held tables:
   - by area (Canada, the provinces and territories), class of producer (all, public utilities, private utilities, industries) and type (total, hydro, wind, tidal, solar, geothermal, other non-combustibles, total thermal and its four kinds);
   - in MW (StatCan's kilowatts divided by 1,000);
   - each class's types add to its total, and the thermal kinds to total thermal, in all 1,915 cells compared;
   - 703 figures marked .. (not available) have no row.
-- **License: public** (the Statistics Canada Open Licence, the record's verdict). The robots file asks a crawl delay of 2 seconds, kept, and disallows paths ending `.csv`, not the `/n1/tbl/csv/` zip (read 694).
+- **License: public** (the Statistics Canada Open Licence, the record's verdict). The robots file asks a crawl delay of 2 seconds, kept, and disallows paths ending `.csv`, not the `/n1/tbl/csv/` zip (read 761).
 
 ## The cross-check (`runs/c114/s2418/cross.py`, `cross.out`; tables read past their header lines)
 
@@ -57,6 +57,6 @@
   - this report
 - Changed:
   - `warehouse/metadata/build_coverage.py`, `warehouse/supabase/live_set.yaml`, `warehouse/redivis/release_v1.py`
-  - `warehouse/metadata/license_reads.csv` (693 to 695), `license_tables.csv`, `docs/licenses.md`
+  - `warehouse/metadata/license_reads.csv` (760 to 762), `license_tables.csv`, `docs/licenses.md`
   - the coverage, sources and archive manifest files, and the release README's held line and lists
 - On the data machine only: `runs/c114/s2418/`, `runs/license_reads/s2418/`.

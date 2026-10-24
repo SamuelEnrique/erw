@@ -4,6 +4,8 @@ Three derived tables from `ferc_eqr_contracts` (FERC's Electric Quarterly Report
 one quarter), built by `warehouse/derived/eqr_buyers.py`, and a view on `/contracts`: "The largest buyers and
 sellers", for energy, capacity and tolling.
 
+Tables: `ferc_eqr_buyer_names`, `ferc_eqr_buyer_doubtful`, `ferc_eqr_party_totals`
+
 **All three are internal,** as their input is (session 83's ruling: FERC's license statement could not be read by the
 data machine, so the table is held for internal use). They are in `warehouse/output` and in no file of this
 repository. No name of them and no party's figures are written here, in a test, or in a session report: only counts
@@ -101,3 +103,7 @@ doubtful pair, and a project's I and II not listed; the totals on rows made for 
 largest; that no name of the real tables is in any file of the repository; and, where the tables are on the machine,
 their counts. `site/scripts/check-contracts-largest.mjs`: the view on the built site against a stand-in for the
 database that serves the summary from a file kept out of git (`warehouse/supabase/eqr_fixture.py`).
+
+## Checks (session 2361)
+
+Counted from `warehouse/output` by `runs/c110/s2361/check_eqr.py` (counts only): `ferc_eqr_buyer_names` 17,955 rows, `ferc_eqr_buyer_doubtful` 1,281 pairs (near spelling 687, an extra clause 349, a different legal form 245), `ferc_eqr_party_totals` 12,290 rows (buyers 7,833, sellers 4,457; energy 7,341, capacity 4,719, tolling 230); every row of quarter 2026 Q2, the quarter of `ferc_eqr_contracts` (186,873 rows). The shapes are the table above's. The Tables line was added so that the finder of held tables with no note sees them.

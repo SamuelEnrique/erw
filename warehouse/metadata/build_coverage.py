@@ -277,6 +277,10 @@ SECTOR_RULES = [
     (r"^eia_petroleum_stocks_state_monthly$", "products"),  # session 2342: EIA petroleum/stoc/st, product stocks at refineries, bulk terminals and gas plants by state, monthly
     (r"^bfe_switzerland_electricity_monthly$", "power"),  # session 2343: SFOE ENSTAT electricity balance of Switzerland, monthly
     (r"^ens_denmark_electricity_monthly$", "power"),  # session 2348: the Danish Energy Agency's monthly electricity supply statistics, Denmark and its two areas
+    (r"^cence_costarica_generation_monthly$", "power"),  # session 2387: CENCE EnergiaMensualOficial, Costa Rica's official monthly generation by plant
+    (r"^econtrol_austria_electricity_monthly$", "power"),  # session 2391: E-Control's monthly electricity statistics (el_dataset_mn), Austria
+    (r"^ilr_luxembourg_electricity$", "power"),  # session 2392: ILR's electricity sector statistics, Luxembourg
+    (r"^hagstofa_iceland_power_annual$", "power"),  # session 2397: Statistics Iceland's public power plants, capacity and generation
     (r"^eia_gas_other_uses_state_annual$", "gas"),  # session 2164: EIA's gas vehicle, lease and plant, pipeline fuel and deliveries by state
     (r"^elexon_gb_demand_daily$", "power"),  # session 2162: Elexon's BMRS, Great Britain's daily demand outturn
     (r"^energinet_dk_production_hourly$", "power"),  # session 2217: Energinet, Denmark's production, consumption and exchanges an hour
@@ -285,6 +289,11 @@ SECTOR_RULES = [
     (r"^epa_tri_energy_releases_annual$", "power;oil;gas;coal"),  # session 2121: EPA's Toxics Release Inventory, the energy industries
     (r"^eurostat_gas_imports_monthly$", "gas;lng"),  # session 2213: Eurostat's gas and LNG imports by partner, a month
     (r"^eurostat_renewable_capacity_annual$", "power"),  # session 2123: Eurostat's renewable and waste capacity by European country
+    (r"^eurostat_oil_monthly$", "oil"),  # session 2363: Eurostat's monthly oil supply, seven products by European country
+    (r"^eurostat_crude_imports_monthly$", "oil"),  # session 2369: Eurostat's monthly crude oil imports by partner, European countries
+    (r"^eurostat_solid_fuels_monthly$", "coal"),  # session 2364: Eurostat's monthly solid fuels supply by European country
+    (r"^makstat_macedonia_electricity_monthly$", "power"),  # session 2357: MakStat's electricity in MWh by months, North Macedonia
+    (r"^statbank_moldova_electricity_monthly$", "power"),  # session 2358: StatBank's electricity by months, Moldova
     (r"^eurostat_electricity_capacity_annual$", "power"),  # session 2356: Eurostat's electricity capacity by fuel group and operator by European country
     (r"^fema_disaster_declarations$", "power;gas;oil"),  # session 2056: FEMA's disaster declarations (OpenFEMA)
     (r"^ieso_ontario_demand_hourly$", "power"),  # session 2070: the IESO's Ontario demand

@@ -5,21 +5,21 @@
 ## Read these first
 
 - **Two candidates closed before the choice:**
-  - **Taiwan (Taipower's daily supply and demand, data.gov.tw dataset 19995):** data.gov.tw's robots file answers HTTP 500, read as disallowing every path (read 680). Taipower's own host has no robots file (read 681), but the page a web search named is its error page (read 682), and no data file was found without more guessing.
+  - **Taiwan (Taipower's daily supply and demand, data.gov.tw dataset 19995):** data.gov.tw's robots file answers HTTP 500, read as disallowing every path (read 747). Taipower's own host has no robots file (read 748), but the page a web search named is its error page (read 749), and no data file was found without more guessing.
   - **Chile (the CNE's Energia Abierta, "Balance Energía Regional"):**
-    - the portal's robots file allows the reader (read 683);
-    - its downloads are links on a link shortener (read 685), which allows every path (read 686);
-    - a HEAD request shows the regional balance's link leads to a SharePoint share (read 687), and `comisionenergia-my.sharepoint.com`'s robots file disallows every path (read 688);
+    - the portal's robots file allows the reader (read 750);
+    - its downloads are links on a link shortener (read 752), which allows every path (read 753);
+    - a HEAD request shows the regional balance's link leads to a SharePoint share (read 754), and `comisionenergia-my.sharepoint.com`'s robots file disallows every path (read 755);
     - so the file was not fetched.
 - **The choice:** Eurostat's `nrg_bal_peh`, production of electricity and derived heat by type of fuel. The ERW holds Eurostat's monthly net production (`eurostat_electricity_monthly`, from 2016) and its capacity tables, but not the annual production by fuel back to 1990. No chain has taken it.
 - **One public table:** `eurostat_electricity_production_annual`, 73,988 rows, 1990 to 2024. It is written, validated, archived, in coverage (sector power), held from the live set, and listed in the release's held tables:
   - gross electricity production (GEP, all producers) for 75 SIEC products and 39 areas (the EU's members, EFTA's and the candidates, with EU27_2020; the United Kingdom and Kosovo left out by Eurostat's terms, as `eurostat_gas_balance_monthly` does);
   - in MWh (Eurostat's GWh times 1,000);
-  - the products' names from Eurostat's SIEC codelist (read 692);
+  - the products' names from Eurostat's SIEC codelist (read 759);
   - the products are a hierarchy whose levels overlap, which the header says.
 - **Eurostat's TOTAL is its top groups plus pumped hydro (RA130)**, which renewables leave out. That holds within 1 GWh in 1,230 of 1,279 country years. The other 49 are kept as published, counted in the header and listed in the run log; the largest is the EU in 2024 (1,040 GWh).
 - **Zeros and blanks:** 47,987 zeros are kept as Eurostat prints them. 21,179 blanks (flag m, missing) have no row.
-- **License: public** (Eurostat's copyright notice, the record's verdict since session 2123). `ec.europa.eu`'s robots file does not disallow `/eurostat/api/dissemination/` and names no AI agent (read 689).
+- **License: public** (Eurostat's copyright notice, the record's verdict since session 2123). `ec.europa.eu`'s robots file does not disallow `/eurostat/api/dissemination/` and names no AI agent (read 756).
 - **Test 205's bound raised by 40** for this chain's reads, which reach 692 on this branch.
 
 ## The cross-check (`runs/c114/s2413/cross.py`, `cross.out`; tables read past their header lines)
@@ -62,7 +62,7 @@
   - this report
 - Changed:
   - `warehouse/metadata/build_coverage.py`, `warehouse/supabase/live_set.yaml`, `warehouse/redivis/release_v1.py`
-  - `warehouse/metadata/license_reads.csv` (680 to 692), `license_tables.csv`, `docs/licenses.md`
+  - `warehouse/metadata/license_reads.csv` (747 to 759), `license_tables.csv`, `docs/licenses.md`
   - `tests/test_session205.py` (the bound)
   - the coverage, sources and archive manifest files, and the release README's held line and lists
 - On the data machine only: `runs/c114/s2413/`, `runs/license_reads/s2413/`.

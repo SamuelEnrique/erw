@@ -10,8 +10,8 @@
   - Its sources: Zambia (ERB or ZESCO), Botswana (BPC or Statistics Botswana), Mongolia (the Energy Regulatory Commission or the statistics office) and Cambodia (EAC). None is held, and chains 057 to 114 did not plan them.
   - It carries 114's rules and the publishers chain 113 found needing written permission.
 - **No table this session:**
-  - ANDE's robots file allows every path (read 636 on this branch's numbering), but its pages answer with a "Verifying your browser" challenge (read 637). It is not answered, and ANDE is not asked again.
-  - Paraguay's open data portal (www.datos.gov.py) has no robots file (read 638) and no catalogue API at the usual path (read 639), and its home page reads "Mantenimiento" (read 640).
+  - ANDE's robots file allows every path (read 703 on this branch's numbering), but its pages answer with a "Verifying your browser" challenge (read 704). It is not answered, and ANDE is not asked again.
+  - Paraguay's open data portal (www.datos.gov.py) has no robots file (read 705) and no catalogue API at the usual path (read 706), and its home page reads "Mantenimiento" (read 707).
   - No replacement was sought within the ceiling, since the chain's own-choice sessions follow.
 
 ## Pulls against their ceilings
@@ -36,5 +36,5 @@
 ## Files
 
 - New: this report.
-- Changed: `warehouse/metadata/license_reads.csv` (636 to 640), `docs/licenses.md`.
+- Changed: `warehouse/metadata/license_reads.csv` (703 to 707), `docs/licenses.md`.
 - On the data machine only: `runs/c114/`, `runs/license_reads/s2406/`.

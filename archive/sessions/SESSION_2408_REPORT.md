@@ -4,7 +4,7 @@
 
 ## Read these first
 
-- **One internal table:** `amm_guatemala_generation_monthly`, 1,739 rows, January 2017 to December 2025. It is written, validated, archived, in coverage (sector power), and held from the live set. It comes from the Administrador del Mercado Mayorista's yearly workbooks "Generacion Mensual por Planta (XLS)", one a year (reads 657 to 665 on this branch's numbering):
+- **One internal table:** `amm_guatemala_generation_monthly`, 1,739 rows, January 2017 to December 2025. It is written, validated, archived, in coverage (sector power), and held from the live set. It comes from the Administrador del Mercado Mayorista's yearly workbooks "Generacion Mensual por Planta (XLS)", one a year (reads 724 to 732 on this branch's numbering):
   - generation by fuel: geothermal, wind, solar, hydro, biogas, biomass, syngas (from 2021), natural gas (from 2019), coal, petroleum coke (from 2018), bunker and diesel;
   - the total, imports, exports, international transactions (`net_exports`, TRANSACCIONES INTERNACIONALES (NETO), exports less imports; this line first said "regional"), and the national interconnected system's demand (`demand_sni`, generation plus imports less exports, its losses included);
   - generation is the system's executed dispatch, distributed renewable generation included (session 2410's note);
@@ -15,12 +15,12 @@
   - each row's months add to its own total column;
   - all within 0.01 GWh.
   - A fuel a year's workbook does not list has no row, and neither does a blank month (petroleum coke's first months of 2018, natural gas's of 2019). Zeros are written as published.
-- **How the files were found:** AMM's annual reports frame chooses a report by script. Its script `js/informes.js` (read 656) builds the address `pdfs2/pub_gen_mensual_x_planta/GM<year>0101.xls` (`.xlsx` from 2021), with no key or login. The same address is what the page's own button opens.
+- **How the files were found:** AMM's annual reports frame chooses a report by script. Its script `js/informes.js` (read 723) builds the address `pdfs2/pub_gen_mensual_x_planta/GM<year>0101.xls` (`.xlsx` from 2021), with no key or login. The same address is what the page's own button opens.
 - **Not taken:**
   - the peak demand (MW), which is not in these workbooks;
   - AMM's two statistics tools (Knowage and Reportes Dinamicos), which are interactive BI applications;
   - years before 2017 and 2026, which the ceiling did not allow.
-- **License: internal.** AMM's pages state no terms of reuse (read 653), so no verdict is recorded. `www.amm.org.gt` has no robots file (HTTP 404, read 652).
+- **License: internal.** AMM's pages state no terms of reuse (read 720), so no verdict is recorded. `www.amm.org.gt` has no robots file (HTTP 404, read 719).
 
 ## The cross-check (`runs/c114/s2408/cross.py`, `cross.out`; tables read past their header lines)
 
@@ -56,6 +56,6 @@
   - this report
 - Changed:
   - `warehouse/metadata/build_coverage.py`, `warehouse/supabase/live_set.yaml`
-  - `warehouse/metadata/license_reads.csv` (652 to 665), `license_tables.csv`, `docs/licenses.md`
+  - `warehouse/metadata/license_reads.csv` (719 to 732), `license_tables.csv`, `docs/licenses.md`
   - the coverage, sources and archive manifest files
 - On the data machine only: `runs/c114/s2408/`, `runs/license_reads/s2408/`.
