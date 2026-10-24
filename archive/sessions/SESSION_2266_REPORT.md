@@ -28,7 +28,7 @@ Reads recorded: 404 to 407.
 
 ## Decisions made without you
 
-- **No African source taken;** each refusal is recorded. The chain file allowed another public African grid source, and none of the two tried served.
+- **No African source taken;** each refusal is recorded. The chain file allowed another public African grid source, and neither of the two tried served.
 
 ## For Samuel's ruling
 
