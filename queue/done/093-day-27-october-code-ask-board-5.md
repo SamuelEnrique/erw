@@ -14,7 +14,11 @@ As chain 085's, section "Rules for every session", word for word, with this chai
 
 ## Session 1300: the next file, then what chain 089 left
 
-Long end 2:00. First the next file. Then every item chain 089's sessions left under "To finish", in order, each said in the report.
+Long end 2:00. First the next file. Then every item chain 089's sessions left under "To finish", in order, each said in the report. Updated by session 1196 (`docs/state/review_2026-10-27_code_ask_board.md`), they are:
+1. **Land `wip/1190-ask`** (sessions 1190 to 1195: the history's rows, the Python tools' hold, the board's held lines, an answer's sources, the method notes; not landed for memory under the 3 GB line): merged with main, `python scripts/land_check.py --ref wip/1190-ask --task 1190-1195-ask-board --port 3708`, check-values' failures read against production's; on the same build `check-board.mjs` (its new check of the held lines), `check-links.mjs` with `CHECK_LINKS_PAGES=/board,/ask`, the board's screenshots at 390 and 1280 with a held line closed and opened (`docs/brand/review-1300/`), and the keyboard walk of the board (the filters, a held line's toggle, a row into the workbench); snapshots before and after.
+2. **Chain 085's after snapshot**, if production still had not carried `1ccf3c5e` at 23:34 on 23 October (Vercel: "rate limited" from 21:03): `take <name>`, `compare s1142-land-before <name>`.
+3. **The board's new rows** (blocked twice): after a daily run's `board` step has built `site/data/board.json` with sessions 1117, 1118 and 1135's code, `check-board.mjs` on a build, each new group's filters, the workbench on a monthly, a weekly-in-season and a quarterly row (089's session 1192), screenshots at 390 and 1280.
+4. **The turn-by-turn test of both loops** (session 1191's "To finish"): the same scripted model turns through `ask.py` and `ask.ts` on one fixture backend, what they return compared.
 
 ## Session 1301: the stored answers replayed through today's checks
 

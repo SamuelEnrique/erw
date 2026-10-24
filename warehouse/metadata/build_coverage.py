@@ -252,18 +252,23 @@ SECTOR_RULES = [
     (r"^eia_mecs_manufacturing$", "power;gas;oil;coal"),  # session 2016: EIA's manufacturing survey (MECS)
     (r"^eia_recs_households$", "power;gas;oil"),  # session 2017: EIA's residential survey (RECS 2020)
     (r"^epa_ghgrp_facility_emissions$", "carbon;power;oil;gas"),  # session 2072: EPA's GHGRP, every sector
+    (r"^epa_lmop_landfill_projects$", "power;gas"),  # session 2127: EPA's LMOP, landfills and landfill gas energy projects
+    (r"^epa_tri_energy_releases_annual$", "power;oil;gas;coal"),  # session 2121: EPA's Toxics Release Inventory, the energy industries
+    (r"^eurostat_renewable_capacity_annual$", "power"),  # session 2123: Eurostat's renewable and waste capacity by European country
     (r"^fema_disaster_declarations$", "power;gas;oil"),  # session 2056: FEMA's disaster declarations (OpenFEMA)
     (r"^ieso_ontario_demand_hourly$", "power"),  # session 2070: the IESO's Ontario demand
     (r"^lbnl_tracking_the_sun$", "power"),  # session 2015: Berkeley Lab's Tracking the Sun, summarised (written in session 2020)
     (r"^nhc_hurdat2_track_points$", "power;oil;gas"),  # session 2059: NHC's HURDAT2 best tracks
     (r"^noaa_ncei_billion_disasters$", "power"),  # session 2073: NOAA's billion-dollar disasters
     (r"^nrc_license_actions$", "power;uranium"),  # session 2064: the NRC's renewed licenses and power uprates
+    (r"^owid_ember_electricity_annual$", "power;carbon"),  # session 2126: Ember's electricity demand and emissions through Our World in Data
     (r"^usdm_drought_state_weekly$", "power"),  # session 2058: the U.S. Drought Monitor by state
     (r"^blm_oil_gas_statistics_annual$", "oil;gas"),  # session 2106: BLM's federal onshore leases, permits and wells by state and fiscal year
-    (r"^noaa_uscrn_solar_monthly$", "power"),  # session 2107: NOAA USCRN's monthly solar radiation near CAISO's and ERCOT's solar
-    (r"^eia_seds_residential_annual$", "power;gas;oil"),  # session 2108: SEDS's residential expenditures by source and state
     (r"^cec_total_system_generation_annual$", "power"),  # session 2109: the Energy Commission's in-state generation, imports and total system power
+    (r"^eia_seds_residential_annual$", "power;gas;oil"),  # session 2108: SEDS's residential expenditures by source and state
+    (r"^noaa_uscrn_solar_monthly$", "power"),  # session 2107: NOAA USCRN's monthly solar radiation near CAISO's and ERCOT's solar
     (r"^treasury_1603_awards$", "power;deals"),  # session 2112: the Treasury's Section 1603 awards
+    (r"^usgs_comcat_earthquakes_south_central$", "oil;gas"),  # session 2120: the USGS earthquake catalog, OK, KS, TX and NM
     (r"^usgs_streamflow_daily$", "power"),  # session 2113: the USGS's daily mean discharge below large hydropower plants
     (r"^bpa_ba_hourly$", "power"),  # session 2148: BPA's balancing authority load and generation, five-minute values to the hour
     (r"^nrcs_snotel_swe_daily$", "power"),  # session 2149: NRCS SNOTEL's daily snow water equivalent above the West's reservoirs

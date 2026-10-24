@@ -10,7 +10,7 @@
   - **The IEA** (`wb_iea_electricity_annual`): its verdict (read 60) licenses the IEA's text, reports and graphs under CC BY 4.0 and excepts standalone datasets. So the two IEA indicators the World Bank republishes stay internal, as session 2150 held them.
   - **The Census Bureau** (session 2154's building permits): its verdict (read 17, may be public).
   - **NRCS** (`nrcs_snotel_swe_daily`): **not settled.** NRCS's own site links its policies on www.usda.gov, and **www.usda.gov refused the ERW's reader at its robots file** (HTTP 403, Access Denied). NRCS's policies address answered 404 in session 2149. NRCS joins the Treasury (session 2111) as a federal body whose terms the ERW cannot read; the table stays internal. **www.usda.gov joins the hosts not asked again without a ruling.**
-- **Reads 273 to 284** on this branch, after main's 272. They are this chain's robots files (BPA's two hosts, NRCS's two, the World Bank's, CPC's), NRCS's policies address, the World Bank's three indicator metadata pages and this round's two. Chain 079's branch also holds reads from 273; whichever chain lands second renumbers.
+- **Reads 290 to 301** after chain 079's 289 (273 to 284 when written, renumbered at session 2161's merge). They are this chain's robots files (BPA's two hosts, NRCS's two, the World Bank's, CPC's), NRCS's policies address, the World Bank's three indicator metadata pages and this round's two. Chain 079's branch also holds reads from 273; whichever chain lands second renumbers.
 - **The record:** 427 tables, 95 publishers with a verdict, 282 requests; `licenses.py check` 0 problems. `tests/test_session205.py`'s bound raised by one round (`+ 20`, with its comment); its tests pass.
 
 ## Errors

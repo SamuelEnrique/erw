@@ -95,6 +95,9 @@ UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "mph", "
          # session 2113: a river's discharge in cubic feet a second, as the USGS gives a gauge's daily mean
          # (usgs_streamflow_daily; Decision 65)
          "ft3/s",
+         # session 2121: a mass in grams, as EPA's Toxics Release Inventory reports dioxins (epa_tri_energy_releases_annual;
+         # Decision 66)
+         "g",
          # session 2150: electricity used a person in a year, in kWh, as the World Bank republishes the IEA's figure
          # (wb_iea_electricity_annual; Decision 68)
          "kWh/person"}

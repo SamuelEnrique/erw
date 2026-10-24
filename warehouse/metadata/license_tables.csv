@@ -213,8 +213,10 @@ energy_deals_evidence,ANS Nuclear Newswire; Bloomberg; Canary Media; DOE newsroo
 energy_projects,CAISO; Census Bureau; EIA; ERCOT; ISO-NE; SPP,"the source registry and the tables its header derives it from: caiso_interconnection_queue, eia860m_operating_generators, eia860m_planned_generators, ercot_interconnection_queue, isone_interconnection_queue, spp_interconnection_queue"
 epa_ghgrp_facility_emissions,EPA,the source registry
 epa_ghgrp_power_co2,EPA,the source registry
+epa_lmop_landfill_projects,EPA,the source registry
 epa_rfs_fuel_annual,EPA,the source registry
 epa_rfs_rins_monthly,EPA,the source registry
+epa_tri_energy_releases_annual,EPA,the source registry
 ercot_4cp_intervals,ERCOT,the source registry
 ercot_all_hub_prices_history,ERCOT,by hand: ERCOT's hub price reports
 ercot_as_prices,ERCOT,the source registry
@@ -251,6 +253,7 @@ ercot_wind_solar_hsl_hourly,ERCOT,the source registry
 ercot_wind_solar_output_hourly,ERCOT,the source registry
 ercot_zone_load_hourly,ERCOT,the source registry
 ercot_zone_prices_history,ERCOT,the source registry
+eurostat_renewable_capacity_annual,Eurostat (Statistical Office of the European Union),the source registry
 event_study_estimates,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,the source registry and the tables its header derives it from: event_window_daily
 event_window_daily,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"the source registry and the tables its header derives it from: eia930_all_emissions, eia930_all_history, ercot_all_hub_prices_history, iso_hub_prices_history, noaa_isd_hourly"
 fema_disaster_declarations,Federal Emergency Management Agency (FEMA),the source registry
@@ -388,6 +391,7 @@ ornl_hydropower_pipeline,"Oak Ridge National Laboratory (ORNL), HydroSource",the
 ornl_hydropower_relicensing,"Oak Ridge National Laboratory (ORNL), HydroSource",the source registry
 ornl_npd_potential,"Oak Ridge National Laboratory (ORNL), HydroSource",the source registry
 ornl_tedb_transportation_annual,"Oak Ridge National Laboratory (ORNL), Transportation Energy Data Book",the source registry
+owid_ember_electricity_annual,Ember; Our World in Data,the source registry
 pjm_rpm_capacity_prices,PJM,the source registry
 policy_action_tags,California Public Utilities Commission; NRC; Office of the Federal Register (NARA); Public Utility Commission of Texas; U.S. Department of Energy (DOE),the source registry and the tables its header derives it from: policy_actions
 policy_actions,California Public Utilities Commission; NRC; Office of the Federal Register (NARA); Public Utility Commission of Texas; U.S. Department of Energy (DOE),the source registry
@@ -419,6 +423,7 @@ treasury_1603_awards,U.S. Department of the Treasury,the source registry
 usace_nid_dams,U.S. Army Corps of Engineers (USACE),the source registry
 usbr_hydropower_monthly,U.S. Bureau of Reclamation (USBR),the source registry
 usdm_drought_state_weekly,"U.S. Drought Monitor (National Drought Mitigation Center, USDA, NOAA)",the source registry
+usgs_comcat_earthquakes_south_central,U.S. Geological Survey (USGS),the source registry
 usgs_mcs_critical_minerals,U.S. Geological Survey (USGS),the source registry
 usgs_streamflow_daily,U.S. Geological Survey (USGS),the source registry
 uspvdb_solar_facilities,U.S. Geological Survey (USGS),the source registry

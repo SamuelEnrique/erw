@@ -381,18 +381,23 @@ catalogue_hold:
   - eia_mecs_manufacturing
   - eia_recs_households
   - epa_ghgrp_facility_emissions
+  - epa_lmop_landfill_projects
+  - epa_tri_energy_releases_annual
+  - eurostat_renewable_capacity_annual
   - fema_disaster_declarations
   - ieso_ontario_demand_hourly
   - lbnl_tracking_the_sun
   - nhc_hurdat2_track_points
   - noaa_ncei_billion_disasters
   - nrc_license_actions
+  - owid_ember_electricity_annual
   - usdm_drought_state_weekly
   - blm_oil_gas_statistics_annual
-  - noaa_uscrn_solar_monthly
-  - eia_seds_residential_annual
   - cec_total_system_generation_annual
+  - eia_seds_residential_annual
+  - noaa_uscrn_solar_monthly
   - treasury_1603_awards
+  - usgs_comcat_earthquakes_south_central
   - usgs_streamflow_daily
   - bpa_ba_hourly
   - nrcs_snotel_swe_daily
