@@ -4,6 +4,7 @@ afdc_ev_charging_state_annual,U.S. Department of Energy (DOE),the source registr
 afdc_station_counts_annual,U.S. Department of Energy (DOE),the source registry
 afdc_vehicle_registrations_annual,U.S. Department of Energy (DOE),the source registry
 ai_power_regions,Berkeley Lab; CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"the source registry and the tables its header derives it from: caiso_grid_emergencies, caiso_interconnection_queue, carbon_intensity_daily, cost_of_power_monthly, eia930_all_demand, eia930_daily_interchange, ercot_all_hub_prices_history, ercot_interconnection_queue, event_study_estimates, iso_hub_prices_history, isone_interconnection_queue, lbnl_interconnection_queue, miso_interconnection_queue, nyiso_interconnection_queue, spp_interconnection_queue"
+aneel_siga_plants,Agencia Nacional de Energia Eletrica (ANEEL),the source registry
 api_cost_ledger,Anthropic,the source registry
 ba_supply_monthly,EIA,"the source registry and the tables its header derives it from: eia930_daily_interchange, eia930_daily_total_interchange"
 battery_sourced_ranges,"National Laboratory of the Rockies (NLR, formerly NREL)",the source registry
@@ -39,6 +40,7 @@ carbon_intensity_monthly,EIA,the source registry and the tables its header deriv
 cbs_netherlands_electricity_monthly,Statistics Netherlands (CBS),the source registry
 cea_india_psp_annual,Central Electricity Authority (India),the source registry
 cec_total_system_generation_annual,California Energy Commission (CEC),the source registry
+censtatd_hk_electricity,"Census and Statistics Department, Hong Kong (C&SD)",the source registry
 census_bps_state_annual,Census Bureau,the source registry
 census_c30_construction_monthly,Census Bureau,the source registry
 census_cbp_hosting_annual,Census Bureau,the source registry
@@ -68,6 +70,7 @@ doe_lead_energy_burden,U.S. Department of Energy (DOE),the source registry
 doe_lng_export_applications,U.S. Department of Energy (DOE),the source registry
 doe_oe417_events,U.S. Department of Energy (DOE),the source registry
 doe_useer_employment,U.S. Department of Energy (DOE),the source registry
+dosm_malaysia_electricity_monthly,Department of Statistics Malaysia (DOSM),the source registry
 egrid_power_plants,EPA,the source registry
 egrid_subregions_annual,EPA,the source registry
 eia411_capacity_margins_annual,EIA,the source registry
@@ -205,6 +208,7 @@ eia_recs_households,EIA,the source registry
 eia_refinery_capacity_annual,EIA,the source registry
 eia_refinery_inputs_monthly,EIA,the source registry
 eia_refinery_production_monthly,EIA,the source registry
+eia_refinery_utilization_monthly,EIA,the source registry
 eia_refinery_weekly,EIA,the source registry
 eia_regional_retail_fuel_prices,EIA,the source registry
 eia_retail_electricity_prices,EIA,the source registry
@@ -248,6 +252,7 @@ epa_needs_units,EPA,the source registry
 epa_rfs_fuel_annual,EPA,the source registry
 epa_rfs_rins_monthly,EPA,the source registry
 epa_tri_energy_releases_annual,EPA,the source registry
+epra_kenya_electricity_annual,"Energy and Petroleum Regulatory Authority, Kenya (EPRA)",the source registry
 ercot_4cp_intervals,ERCOT,the source registry
 ercot_all_hub_prices_history,ERCOT,by hand: ERCOT's hub price reports
 ercot_as_prices,ERCOT,the source registry
@@ -286,6 +291,7 @@ ercot_zone_load_hourly,ERCOT,the source registry
 ercot_zone_prices_history,ERCOT,the source registry
 eurostat_electricity_capacity_annual,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_electricity_monthly,Eurostat (Statistical Office of the European Union),the source registry
+eurostat_gas_balance_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_gas_imports_monthly,Eurostat (Statistical Office of the European Union),the source registry
 eurostat_renewable_capacity_annual,Eurostat (Statistical Office of the European Union),the source registry
 event_study_estimates,CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,the source registry and the tables its header derives it from: event_window_daily
@@ -465,6 +471,7 @@ spp_interconnection_queue,SPP,the source registry
 ssb_norway_electricity_monthly,Statistics Norway (SSB),the source registry
 statbank_moldova_electricity_monthly,National Bureau of Statistics of the Republic of Moldova (StatBank),the source registry
 statcan_electricity_generation_monthly,Statistics Canada,the source registry
+statcan_electricity_trade_monthly,Statistics Canada,the source registry
 statcan_oil_gas_supply_monthly,Statistics Canada,the source registry
 state_generation_mix_monthly,EIA,the source registry and the tables its header derives it from: eia_state_generation_monthly
 statee_estonia_electricity_monthly,Statistics Estonia,the source registry

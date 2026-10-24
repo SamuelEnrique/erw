@@ -430,6 +430,13 @@ catalogue_hold:
   - eia_crude_quality_monthly
   - ons_brazil_balance_hourly
   - ree_spain_balance_monthly
+  - dosm_malaysia_electricity_monthly
+  - censtatd_hk_electricity
+  - aneel_siga_plants
+  - epra_kenya_electricity_annual
+  - statcan_electricity_trade_monthly
+  - eurostat_gas_balance_monthly
+  - eia_refinery_utilization_monthly
   - eia_lng_storage_annual
   - eia_gas_plant_processing_annual
   - eia_crude_tank_farm_stocks_monthly
