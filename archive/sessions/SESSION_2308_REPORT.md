@@ -5,14 +5,14 @@
 ## Read these first
 
 - **The next file first:** `queue/next/108-day-10-november-data-malaysia-thailand-ecuador-kenya.md` (sessions 2322 to 2335) was written, committed alone and pushed to main before any other work. The number 107 is the code machine's (`queue/next/107-day-27-october-code-grid-tool-5.md`), so 108 was the next free one. Its hosts list adds chains 103's and 105's closed hosts, and its sources were told to both agents beside this chain.
-- **The Energy Market Authority's own site is closed to the reader.** www.ema.gov.sg has no robots file, but its Singapore Energy Statistics page answered an Incapsula bot challenge (read 484). It is not asked again.
+- **The Energy Market Authority's own site is closed to the reader.** www.ema.gov.sg has no robots file, but its Singapore Energy Statistics page answered an Incapsula bot challenge (read 501). It is not asked again.
 - **data.gov.sg could not be searched within the ceiling.** Its robots file allows all, but its API lists collections and datasets only page by page (137 and 467 pages); a query parameter is ignored.
 - **A new table, `singstat_singapore_electricity`** (series, 1,009 rows, `power`), from the Singapore Department of Statistics' Table Builder, whose search found two tables:
   - M890831, Singapore's electricity generation a month, January 1975 to June 2026 (618 months);
   - M890841, generation a year from 1975 to 2025, and consumption by sector a year from 2005 to 2024 (17 lines: industrial-related and its four parts, commerce and service-related and its seven, transport, households, others).
 
   The values are in MWh (the tables' GWh, which SingStat writes "Gigawatt Hours", times 1,000). The vintage is each table's "dataLastUpdated" (14 October and 23 June 2026). Written, validated (0 errors, 0 warnings), archived, held from the Redivis storage and the live set.
-- **The license is not read.** SingStat's terms of use page draws its text with scripts, so its HTML holds no sentence (read 489). The table is `internal` until a read settles it.
+- **The license is not read.** SingStat's terms of use page draws its text with scripts, so its HTML holds no sentence (read 506). The table is `internal` until a read settles it.
 - **Cross-checks:**
   - the twelve months of M890831 sum to M890841's annual generation (1.0000) in every year 2015 to 2025;
   - annual generation over `owid_ember_electricity_annual`'s demand for Singapore: 0.999 to 1.000, 2015 to 2025;
@@ -35,7 +35,7 @@
 | 11 | SingStat's terms of use | 200: no text in the HTML |
 | 12 to 15 | the two tables, twice (the first trial stopped at the unit's name) | 200 |
 
-Reads recorded: 483 to 489.
+Reads recorded: 500 to 506.
 
 ## Decisions made without you
 
@@ -50,5 +50,5 @@ Reads recorded: 483 to 489.
 ## Files
 
 - New: `queue/next/108-day-10-november-data-malaysia-thailand-ecuador-kenya.md` (on main), `warehouse/connectors/singstat_electricity.py`, `tests/test_session2308.py`, this report.
-- Changed: `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`, `docs/coverage.md`, `warehouse/metadata/coverage.csv`, `warehouse/metadata/sources.csv`, `warehouse/metadata/archive_manifest.csv`, the license record (reads 483 to 489).
+- Changed: `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`, `docs/coverage.md`, `warehouse/metadata/coverage.csv`, `warehouse/metadata/sources.csv`, `warehouse/metadata/archive_manifest.csv`, the license record (reads 500 to 506).
 - On the data machine only: `runs/c106/`, `warehouse/raw/singstat_electricity/`, `warehouse/output/singstat_singapore_electricity.csv`.

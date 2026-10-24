@@ -5,7 +5,7 @@
 ## Read these first
 
 - **No table this session.**
-- **ADME's data is open.** adme.com.uy and pronos.adme.com.uy have no robots file (both 404). ADME's open data page (read 498) says that, under Article 82 of Law 19355 and Decree 54/2017, "ADME ha implementado el acceso abierto a las bases de datos de la operación del Sistema Interconectado Nacional" (ADME has opened access to the operating databases of the national system). It names the hourly generation by source, from the SCADA, as a spreadsheet (sheets GPF, Eólica, Solar, Térmica, Biomasa, Intercambios). The licenses round (session 2313) reads the licence Decree 54/2017 points to before any verdict.
+- **ADME's data is open.** adme.com.uy and pronos.adme.com.uy have no robots file (both 404). ADME's open data page (read 515) says that, under Article 82 of Law 19355 and Decree 54/2017, "ADME ha implementado el acceso abierto a las bases de datos de la operación del Sistema Interconectado Nacional" (ADME has opened access to the operating databases of the national system). It names the hourly generation by source, from the SCADA, as a spreadsheet (sheets GPF, Eólica, Solar, Térmica, Biomasa, Intercambios). The licenses round (session 2313) reads the licence Decree 54/2017 points to before any verdict.
 - **The spreadsheet could not be had for a usable span.**
   - The page `gpf.php` builds the file on request from a start and an end date (its default is 48 hours).
   - Asked for 1 January 2020 to 22 October 2026, it answered a PHP fatal error.
@@ -25,7 +25,7 @@
 | 6 | gpf.php, 2020 to 2026 | 200: a PHP fatal error |
 | 7 to 9 | gpf.php, 2025 | timed out at 300 s, three times; stopped |
 
-Reads recorded: 497 to 499.
+Reads recorded: 514 to 516.
 
 ## Decisions made without you
 
@@ -38,5 +38,5 @@ Reads recorded: 497 to 499.
 
 ## Files
 
-- New: this report. Changed: the license record (reads 497 to 499).
+- New: this report. Changed: the license record (reads 514 to 516).
 - On the data machine only: `runs/c106/s2311/`, `warehouse/raw/adme_generation/` (the error page).

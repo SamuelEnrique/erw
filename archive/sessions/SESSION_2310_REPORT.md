@@ -5,7 +5,7 @@
 ## Read these first
 
 - **No table this session.**
-- **Noga, the system operator:** its robots file allows the site but its CMS, install, search and test paths, and names no AI agent. Its sitemap lists statistics pages (annual consumption, annual hourly consumption, the demand curve, generation by source). But its terms of use (read 495) bar, "unless expressly authorized in writing by the Company", these uses:
+- **Noga, the system operator:** its robots file allows the site but its CMS, install, search and test paths, and names no AI agent. Its sitemap lists statistics pages (annual consumption, annual hourly consumption, the demand curve, generation by source). But its terms of use (read 512) bar, "unless expressly authorized in writing by the Company", these uses:
   - "use the Website and/or the Content for commercial or non-personal purposes";
   - "use the Content on any other website or computer network for any purpose without the Company's prior written consent";
   - collecting information "by using any robot, spider, crawler".
@@ -22,7 +22,7 @@
 | 3 | Noga's terms of use | 200: written consent for any non-personal use |
 | 4 | apis.cbs.gov.il/robots.txt | 200: an error page with an incident number |
 
-Reads recorded: 494 to 496.
+Reads recorded: 511 to 513.
 
 ## Decisions made without you
 
@@ -34,5 +34,5 @@ Reads recorded: 494 to 496.
 
 ## Files
 
-- New: this report. Changed: the license record (reads 494 to 496).
+- New: this report. Changed: the license record (reads 511 to 513).
 - On the data machine only: `runs/c106/s2310/`.

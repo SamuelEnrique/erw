@@ -12,7 +12,7 @@
   - imports, exports, and the electricity available for the internal market.
 
   The values are in MWh (the table's million kWh times 1,000). The vintage is the answer's "updated", 2026-09-25. Written, validated (0 errors, 0 warnings), archived, held from the Redivis storage and the live set.
-- **The license is not read.** data.stat.gov.lv has no robots file, and its portal page carries no licence or terms text (read 504). CSP's own site, stat.gov.lv, answered HTTP 403 to its robots file (read 503) and was not asked again. The table is `internal` until a read settles it.
+- **The license is not read.** data.stat.gov.lv has no robots file, and its portal page carries no licence or terms text (read 521). CSP's own site, stat.gov.lv, answered HTTP 403 to its robots file (read 520) and was not asked again. The table is `internal` until a read settles it.
 - **Cross-checks, full years 2016 to 2025, against `eurostat_electricity_monthly` (Latvia):**
   - net production 0.999 to 1.000 of Eurostat's;
   - imports and exports 1.000 in every year;
@@ -35,7 +35,7 @@
 | 5 | the portal's database page | 200: no licence text |
 | 6, 7 | the metadata and the query (the trial) | 200 |
 
-Reads recorded: 502 to 504. `tests/test_session205.py`'s bound raised by 40 (463 later reads against 462 allowed before it).
+Reads recorded: 519 to 521. `tests/test_session205.py`'s bound raised by 40 (463 later reads against 462 allowed before it).
 
 ## Decisions made without you
 
@@ -49,5 +49,5 @@ Reads recorded: 502 to 504. `tests/test_session205.py`'s bound raised by 40 (463
 ## Files
 
 - New: `warehouse/connectors/csp_latvia_electricity.py`, `tests/test_session2314.py`, this report.
-- Changed: `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`, `tests/test_session205.py`, `docs/coverage.md`, `warehouse/metadata/coverage.csv`, `warehouse/metadata/sources.csv`, `warehouse/metadata/archive_manifest.csv`, the license record (reads 502 to 504).
+- Changed: `warehouse/metadata/build_coverage.py`, `warehouse/redivis/release_v1.py`, `warehouse/supabase/live_set.yaml`, `tests/test_session205.py`, `docs/coverage.md`, `warehouse/metadata/coverage.csv`, `warehouse/metadata/sources.csv`, `warehouse/metadata/archive_manifest.csv`, the license record (reads 519 to 521).
 - On the data machine only: `runs/c106/s2314/`, `warehouse/raw/csp_latvia_electricity/`, `warehouse/output/csp_latvia_electricity_monthly.csv`.

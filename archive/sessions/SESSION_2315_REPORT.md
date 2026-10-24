@@ -6,8 +6,8 @@
 
 - **No table this session.**
 - **Lithuania, the planned choice, is closed to this chain:**
-  - Statistics Lithuania's portal (osp.stat.gov.lt) answered its robots address with a Cloudflare challenge (HTTP 403, read 505).
-  - Litgrid, the grid operator, allows all readers in its robots file but disallows every path to Anthropic's agents (ClaudeBot, anthropic-ai, Claude-Web) and other AI agents by name, with `Content-Signal: ai-train=no` (read 506). It is the same rule as OpenSTAT's (session 2309), so it was honoured and nothing more was asked.
+  - Statistics Lithuania's portal (osp.stat.gov.lt) answered its robots address with a Cloudflare challenge (HTTP 403, read 522).
+  - Litgrid, the grid operator, allows all readers in its robots file but disallows every path to Anthropic's agents (ClaudeBot, anthropic-ai, Claude-Web) and other AI agents by name, with `Content-Signal: ai-train=no` (read 523). It is the same rule as OpenSTAT's (session 2309), so it was honoured and nothing more was asked.
 - **Iceland in its place, not taken.** Statistics Iceland's PxWeb (px.hagstofa.is, no robots file) holds its energy tables under Environment, Energy, Production and consumption. Every one is a closed series:
   - installed capacity and generation in public power plants, 1976 to 2019;
   - gross energy consumption by source, 1940 to 2020;
@@ -31,7 +31,7 @@
 | 7 | the Environment database | 200: Energy |
 | 8, 9 | the energy folders | 200: closed series to 2018 to 2020 |
 
-Reads recorded: 505 to 507.
+Reads recorded: 522 to 524.
 
 ## Decisions made without you
 
@@ -44,5 +44,5 @@ Reads recorded: 505 to 507.
 
 ## Files
 
-- New: this report. Changed: the license record (reads 505 to 507).
+- New: this report. Changed: the license record (reads 522 to 524).
 - On the data machine only: `runs/c106/s2315/`.
