@@ -17,7 +17,7 @@
   - The license document, the package's records and the site's files rebuilt. The license, release and record checks agree after.
 - **The Stanford draft's `erw_coverage` repaired** (session 2130 had refreshed it from a branch older than main): a plain upload of `owid_ember_electricity_annual` from the merged branch, detached, under the data lock from 23:38 to 23:40 UTC. The cap of 50 struck in the proof after `erw_coverage`'s replace, which had finished: a count of the draft table (5 requests) shows 428 rows, every landed chain's tables. **`erw_sources` was not refreshed** and lags main by 10 rows until the next full upload. The release note says so.
 - **The whole suite on the merge, in two halves:** 6,598 tests, 1 failure, `test_session705` (the known artifact of a run from a worktree).
-- The landing's result and the after snapshot: below.
+- **The landing:** origin's main merged once more (the code machine's session 1196 and queues 093 and 095, clean); `scripts/freeze.py status`: no freeze; snapshot before `c079-land-before`; pushed to `task/2120-2133-data` at 23:48 UTC (`482cfab0`). Check run 40041744437 passed and merged the branch: `10e82b94` on main. Vercel did not deploy (rate limited, its commit status says), so the live pages are unchanged; snapshot after `c079-land-after`, compared with the before: **0 differences in all** (expected).
 
 ## Errors
 
