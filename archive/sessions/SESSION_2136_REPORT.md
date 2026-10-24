@@ -39,7 +39,7 @@
 | 3 | the 1990-2022 Inventory's page | 200: the chapters and their table zips |
 | 4 | the Trends tables zip | 200, 53,063 bytes |
 
-Reads recorded: 312 to 314 (renumbered at session 2147's merge, after chains 069 and 079's). Chain 069 landed with reads 256 to 272 while this session ran.
+Reads recorded: 333 to 335 (renumbered at session 2147's merge, after chains 069 and 079's). Chain 069 landed with reads 256 to 272 while this session ran.
 
 ## Decisions made without you
 

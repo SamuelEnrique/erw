@@ -38,7 +38,7 @@
 9. **The LEAD docstring's "read 261"** is main's read of the submission page (session 2108). It was GFZ's robots file on the branch before the merge; since the merge it is right as written.
 10. **`runs/c090/s2134/cross.py`'s docstring** said the plants of the latest year; it reads every year (the data machine's file, not in git).
 
-Read numbers in the notes are the merged record's (302 on, after chain 092's landing).
+Read numbers in the notes are the merged record's (323 on, after chains 092 and 094's landings).
 
 ## Decisions made without you
 

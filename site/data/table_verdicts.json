@@ -163,6 +163,10 @@
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
+ "cer_pipeline_throughput": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
  "cftc_cot_positions": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
@@ -202,6 +206,14 @@
  "datacenter_queue_positions": [
   "unsettled",
   "ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21)."
+ ],
+ "desnz_uk_electricity_quarterly": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
+ "desnz_uk_renewables_quarterly": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
  "doe_grip_selections": [
   "public",
@@ -563,6 +575,10 @@
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
+ "eia_gas_other_uses_state_annual": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
  "eia_gas_pipeline_projects": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
@@ -820,6 +836,10 @@
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
  "eia_world_oil_monthly": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
+ "elexon_gb_demand_daily": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],

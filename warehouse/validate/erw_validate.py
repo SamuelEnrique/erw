@@ -103,7 +103,10 @@ UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "mph", "
          "ppm",
          # session 2150: electricity used a person in a year, in kWh, as the World Bank republishes the IEA's figure
          # (wb_iea_electricity_annual; Decision 68)
-         "kWh/person"}
+         "kWh/person",
+         # session 2169: a volume a day in cubic metres, as the CER gives a pipeline's throughput and capacity
+         # (cer_pipeline_throughput; Decision 69)
+         "m3/d"}
 NAME_RE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+){2,}$")
 NAME_MAX = 40
 TS_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")

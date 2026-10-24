@@ -41,6 +41,7 @@ census_cbp_hosting_annual,census,,51,P1Y,2012-01-01T00:00:00Z,2023-01-01T00:00:0
 census_metro_population,none,,387,,2020-04-01T00:00:00Z,2025-07-01T00:00:00Z,1650,census:popest_cbsa,2026-10-06T00:40:24Z,"pass, 1 warnings",public,power,no,source
 cer_electricity_trade,cer,,94,P1M;P1Y,2010-01-01T00:00:00Z,2026-07-01T00:00:00Z,1136,cer:electricity_trade_summary,2026-10-23T05:04:05Z,pass,public,power,no,source
 cer_gas_trade,cer,,8,P1M,2010-01-01T00:00:00Z,2025-12-01T00:00:00Z,1427,cer:natural_gas_trade_summary,2026-10-23T08:04:30Z,pass,public,gas,no,source
+cer_pipeline_throughput,cer,,44,P1D;P1M,2006-01-01T00:00:00Z,2026-06-30T00:00:00Z,408073,cer:throughput_capacity,2026-10-24T01:01:05Z,blocked (1 errors),public,oil;gas,no,source
 cftc_cot_positions,cftc,nymex,9,P1W,2015-01-06T00:00:00Z,2026-10-06T00:00:00Z,9824,cftc:disaggregated_cot_futures,2026-10-10T14:58:53Z,pass,public,oil;gas;products,no,source
 clean_energy_hourly,clean,,7,PT1H,2019-01-01T05:00:00Z,2026-10-19T04:00:00Z,473781,erw:clean_energy,2026-10-19T17:27:23Z,pass,public,power;carbon,yes,derived
 clean_energy_summary,clean,,7,P1M;P1Y,2019-01-01T00:00:00Z,2026-09-01T00:00:00Z,27531,erw:clean_energy,2026-10-19T17:27:23Z,pass,public,power;carbon,yes,derived
@@ -52,6 +53,8 @@ datacenter_operator_sites,none,,275,snapshot,2026-10-12T14:52:31Z,2026-10-12T14:
 datacenter_projects,none,,154,snapshot,2026-09-27T04:31:06Z,2026-10-23T15:01:58Z,154,Bloomberg;Bloomberg.com;Data Center Dynamics;Data Center Frontier;Data Center Knowledge;Financial Times;Hart Energy;Heatmap News;Latitude Media;Natural Gas Intelligence;OilPrice.com;POWER Magazine;Reuters;WSJ,2026-10-23T15:01:56Z,pass,public,power;datacenters,no,model_extracted
 datacenter_projects_evidence,none,,13,event,2025-01-07T08:00:00Z,2026-10-23T14:40:32Z,172,13 outlets,2026-10-23T15:01:56Z,pass,internal,power;datacenters,no,model_extracted
 datacenter_queue_positions,none,,3,snapshot,2026-09-26T00:06:50Z,2026-10-12T14:47:44Z,3,ercot:interconnection_queue;nyiso:interconnection_queue,,pass,public,power;datacenters,no,derived
+desnz_uk_electricity_quarterly,desnz,,45,P3M,1998-01-01T00:00:00Z,2026-04-01T00:00:00Z,7862,desnz:energy_trends_5_1,2026-10-24T00:37:27Z,pass,public,power,no,source
+desnz_uk_renewables_quarterly,desnz,,20,P3M,2010-01-01T00:00:00Z,2026-04-01T00:00:00Z,1982,desnz:energy_trends_6_1,2026-10-24T00:57:02Z,pass,public,power,no,source
 doe_grip_selections,none,,1,event,2023-10-18T00:00:00Z,2024-10-18T00:00:00Z,105,1 outlets,2026-10-23T19:24:55Z,pass,public,power,no,source
 doe_lead_energy_burden,doe,,2012,P1Y,2022-01-01T00:00:00Z,2022-01-01T00:00:00Z,160419,doe:lead_2022,2026-10-24T00:22:03Z,pass,public,power;gas,no,source
 doe_lng_export_applications,doe,,135,snapshot,2026-10-23T18:41:41Z,2026-10-23T18:41:41Z,135,doe:lng_export_applications,2026-10-23T18:46:48Z,pass,public,gas;lng,no,source
@@ -143,6 +146,7 @@ eia_gas_balance_annual,none,,460,P1Y,1997-01-01T00:00:00Z,2025-01-01T00:00:00Z,1
 eia_gas_consumers_state_annual,none,,444,P1Y,1986-01-01T00:00:00Z,2024-01-01T00:00:00Z,12864,eia:natural-gas/cons/num,2026-10-23T02:20:47Z,pass,public,gas,no,source
 eia_gas_consumption_state_monthly,none,,208,P1M,2001-01-01T00:00:00Z,2026-07-01T00:00:00Z,63420,eia:natural-gas/cons/sum,2026-10-21T20:22:19Z,pass,public,gas,no,source
 eia_gas_interstate_annual,none,,1888,P1Y,1997-01-01T00:00:00Z,2024-01-01T00:00:00Z,29470,eia:natural-gas/move/ist,2026-10-21T22:16:43Z,pass,public,gas,no,source
+eia_gas_other_uses_state_annual,none,,157,P1Y,2001-01-01T00:00:00Z,2025-01-01T00:00:00Z,3838,eia:natural-gas/cons/sum:annual,2026-10-24T01:00:33Z,pass,public,gas,no,source
 eia_gas_pipeline_projects,none,,1,event,1903-11-05T00:00:00Z,2031-01-01T00:00:00Z,1334,1 outlets,2026-10-23T07:13:04Z,pass,public,gas,no,source
 eia_gas_prices_state_monthly,none,,257,P1M,2001-01-01T00:00:00Z,2026-07-01T00:00:00Z,72550,eia:natural-gas/pri/sum,2026-10-21T20:17:23Z,pass,public,gas,no,source
 eia_gas_production_state_monthly,none,,184,P1M,2001-01-01T00:00:00Z,2026-07-01T00:00:00Z,47805,eia:natural-gas/prod/sum,2026-10-21T21:14:19Z,pass,public,gas,no,source
@@ -209,6 +213,7 @@ eia_world_electricity_annual,none,,4285,P1Y,1980-01-01T00:00:00Z,2024-01-01T00:0
 eia_world_energy_co2_annual,none,,3589,P1Y,1949-01-01T00:00:00Z,2025-01-01T00:00:00Z,246988,eia:international_bulk,2026-10-23T11:02:32Z,pass,public,carbon,no,source
 eia_world_oil_gas_annual,none,,6992,P1Y,1973-01-01T00:00:00Z,2025-01-01T00:00:00Z,448267,eia:international_bulk,2026-10-23T09:47:04Z,pass,public,oil;gas,no,source
 eia_world_oil_monthly,none,,1507,P1M,1973-01-01T00:00:00Z,2026-07-01T00:00:00Z,541215,eia:international_bulk,2026-10-23T10:10:51Z,pass,public,oil,no,source
+elexon_gb_demand_daily,elexon,,1,P1D,2021-04-27T00:00:00Z,2026-10-23T00:00:00Z,1932,elexon:indod,2026-10-24T00:21:05Z,pass,public,power,no,source
 energy_companies,none,,488,snapshot,2026-09-28T17:04:21Z,2026-10-23T15:01:53Z,488,erw:energy_deals;erw:thesis_builder,2026-10-23T15:01:53Z,pass,public,deals,no,model_extracted
 energy_deals,none,,24,event,2025-01-05T08:00:00Z,2026-10-23T13:10:41Z,514,24 outlets,2026-10-23T15:01:15Z,pass,public,deals,no,model_extracted
 energy_deals_evidence,none,,26,event,2025-01-05T08:00:00Z,2026-10-23T13:10:41Z,568,26 outlets,2026-10-23T15:01:15Z,pass,internal,deals,no,model_extracted

@@ -42,7 +42,7 @@ A day is a UTC day; Kp 8- (7.667) or more is NOAA's G4 or above, as session 2135
 
 ## License
 
-Public. `license_verdicts.csv` records GFZ Helmholtz Centre for Geosciences (Potsdam), read 311 (the header of `Kp_ap_since_1932.txt`, 23 October 2026): "may be public", for public and for commercial use. The sentence: "LICENSE: CC BY 4.0". The file asks two citations, both in the table's header: Matzka, Stolle, Yamazaki, Bronkalla and Morschhauser (2021), Space Weather, doi:10.1029/2020SW002641, and the data publication, GFZ Data Services, doi:10.5880/Kp.0001. The registry's word for an open license is `public`, which `sources.csv` gives `gfz:kp_ap_since_1932` since session 2136; `license_tables.csv` lists the table under GFZ. GFZ's Data page states no license (read 308). The read numbers are the branch's; the session reports say they are renumbered when the chain lands.
+Public. `license_verdicts.csv` records GFZ Helmholtz Centre for Geosciences (Potsdam), read 332 (the header of `Kp_ap_since_1932.txt`, 23 October 2026): "may be public", for public and for commercial use. The sentence: "LICENSE: CC BY 4.0". The file asks two citations, both in the table's header: Matzka, Stolle, Yamazaki, Bronkalla and Morschhauser (2021), Space Weather, doi:10.1029/2020SW002641, and the data publication, GFZ Data Services, doi:10.5880/Kp.0001. The registry's word for an open license is `public`, which `sources.csv` gives `gfz:kp_ap_since_1932` since session 2136; `license_tables.csv` lists the table under GFZ. GFZ's Data page states no license (read 329). The read numbers are the branch's; the session reports say they are renumbered when the chain lands.
 
 ## Cross-checks (session 2143)
 
