@@ -16,7 +16,8 @@ see is not in it. The endpoint's daily series begins on 27 April 2021 (the first
 answers from then), and in October 2026 it gave no figure for 74 days between that day and the end of 2022, most of
 May and June 2021 among them; the header counts the days without a figure.
 
-    entity      elexon:GB; variable indo_daily; unit MWh; freq P1D; geo GB
+    entity      elexon:GB; variable indo_daily; unit MWh; freq P1D; geo GB (ISO 3166's code for the United Kingdom, the
+                nearest the standard has: the figure covers Great Britain, without Northern Ireland)
     ts_utc      the settlement day at 00:00:00Z (Decision 11, as EIA-930's daily tables write a day); the settlement day
                 is Great Britain's own day (Europe/London), which begins at 23:00Z the day before in summer time
     x_*         the settlement date as Elexon gives it, and the time Elexon published the day's figure

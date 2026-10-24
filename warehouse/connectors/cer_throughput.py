@@ -21,12 +21,14 @@ www.cer-rec.gc.ca/open/energy/throughput-capacity/), nine of its pipelines:
                 for gas capacity
     unit        m3/d (Decision 69: the CER's thousand cubic metres a day times 1,000)
     ts_utc      the CER's Date at 00:00:00Z (an oil month's first day, freq P1M; a gas day, freq P1D); geo CA
-    x_*         the company, the direction of flow, the trade type (export, import, intracanada, domestic), the key
+    x_*         the company, the direction of flow, the trade type (export, import, intracanada, and as the CER writes it "intracanada / export" or blank), the key
                 point's latitude and longitude, the CER's reason for variance (oil)
 
 The gas files' throughput in GJ/d is not taken (the volume is). Values as published; a blank has no row; nothing is
-filled. Enbridge's Mainline file gives no committed or uncommitted volumes (the CER's shorter oil header), so its lines
-have throughput and capacity only. A file whose header is not one of the CER's oil or gas headers, a value that is not a number, a key point whose capacity
+filled. Only Keystone's file gives committed and uncommitted volumes, and only Enbridge's Mainline gives a nameplate
+capacity (its file has the CER's shorter oil header); Cochin and Southern Lights give throughput and available capacity.
+A blank trade type leaves the entity without that part. A key point's capacity row carries the direction and trade type
+of the first product row met that month (session 2171). A file whose header is not one of the CER's oil or gas headers, a value that is not a number, a key point whose capacity
 differs between its products in one month, or a key given twice stops the run.
 
     python warehouse/connectors/cer_throughput.py [--offline] [--out-dir DIR]
@@ -110,7 +112,8 @@ def file_rows(content, kind, url, retrieved, vintage):
                 "x_reason": text(r.get("Reason For Variance", ""))}
         where = f"{url} {day} {text(r['Key Point'])}"
         if kind == "oil":
-            entity = f"{point}:{slug(r['Product'])}:{slug(r['Trade Type'])}"
+            trade = slug(r["Trade Type"])
+            entity = f"{point}:{slug(r['Product'])}" + (f":{trade}" if trade else "")
             node = f"{text(r['Pipeline'])}, {text(r['Key Point'])}, {text(r['Product'])}"
             for col, var in OIL_PRODUCT_VARS.items():
                 if col not in r:

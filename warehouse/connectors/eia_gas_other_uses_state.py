@@ -11,10 +11,10 @@ by end use and state), the same route as session 518's monthly table, asked for 
 
     entity    eia_gas_other_uses:<process>:<area>, EIA's process code and area code (S<state>, or NUS for the U.S.)
     variable  consumption_vehicle_fuel (VDV), consumption_lease_and_plant_fuel (VGL, one figure: EIA does not part lease
-              from plant fuel here), consumption_pipeline_fuel (VGP, pipeline and distribution use), and
+              from plant fuel here, and gives it for the nation only, not by state), consumption_pipeline_fuel (VGP, pipeline and distribution use), and
               delivered_to_consumers (VGT: residential, commercial, industrial, electric power and vehicle fuel together;
               a sum over the variables must leave it out). Total consumption is delivered_to_consumers plus lease and plant
-              fuel plus pipeline fuel (eia_gas_balance_annual's total_consumption, session 2164's cross-check)
+              fuel plus pipeline fuel (EIA's VC0, eia_gas_consumption_state_monthly's consumption_total, session 2164's cross-check)
     value     MMcf (EIA's million cubic feet, kept)
     ts_utc    the year's 1 January at 00:00:00Z; freq P1Y; geo US-<state> or US; node EIA's series name
 
@@ -155,7 +155,7 @@ def main(argv=None):
             "Energy Research Warehouse (ERW): EIA, natural gas consumption by state: vehicle fuel, lease and plant fuel, pipeline fuel and the volume delivered to consumers, a year (session 2164)",
             "Shape: series (docs/datastandard.md v0). entity eia_gas_other_uses:<process>:<area>; variable consumption_vehicle_fuel, consumption_lease_and_plant_fuel, consumption_pipeline_fuel "
             "or delivered_to_consumers (which holds residential, commercial, industrial, electric power and vehicle fuel: leave it out of a sum); unit MMcf; ts_utc the year's 1 January; freq P1Y; node EIA's series name.",
-            f"A figure EIA withholds has no row; nothing is filled. Years {span}; {total:,} records of EIA's, {len(s):,} with a value. Residential, commercial, industrial and electric power are eia_gas_consumption_state_monthly's.",
+            f"A figure EIA withholds has no row; nothing is filled. Years {span}; {total:,} records of EIA's, {len(s):,} with a value. Lease and plant fuel is the nation's only. The latest year may be partial (rows a year: " + "; ".join(f"{y} {n}" for y, n in s.groupby(s.ts_utc.str[:4]).size().tail(2).items()) + "). Residential, commercial, industrial and electric power are eia_gas_consumption_state_monthly's.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/eia_gas_other_uses_state.py; {asked[0]} requests of {CEILING}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",

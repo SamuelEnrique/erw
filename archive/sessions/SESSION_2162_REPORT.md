@@ -13,7 +13,7 @@
   - The day is written at 00:00:00Z (Decision 11, as EIA-930's daily tables), Great Britain's own settlement day kept in `x_settlement_date`.
 - **The cross-check** (`runs/c094/s2162/cross.py`):
   - INDO a year is 227.9 to 230.6 TWh in 2023 to 2025, 0.712 to 0.727 of Ember's UK demand (`owid_ember_electricity_annual`): INDO leaves out the embedded generation the transmission system does not see and Northern Ireland, which Ember counts.
-  - The shape of the year: Great Britain's January days run 1.21 of the year's mean and its June days 0.85; its largest day falls in November to January every year from 2021 to 2025. ERCOT's August days run 1.24 and PJM's July 1.18 (`eia930_daily_demand`): Britain peaks in winter, the two U.S. grids in summer (ERCOT's largest day fell in a winter month in three of the five years, in the cold snaps).
+  - The shape of the year: Great Britain's January days run 1.21 of the year's mean and its June days 0.85; its largest day falls in November to January every year from 2021 to 2025. ERCOT's August days run 1.24 and PJM's July 1.18 (`eia930_daily_demand`): Britain peaks in winter, the two U.S. grids in summer (ERCOT's largest day fell in a winter month in four of the five years, in the cold snaps; corrected in session 2171, this line said three).
 
 ## The pulls
 
