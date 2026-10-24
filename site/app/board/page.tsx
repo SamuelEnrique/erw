@@ -30,7 +30,9 @@ const TABLES = ["ercot_all_hub_prices_history", "iso_hub_prices_history", "caiso
   "eia_fuel_spot_prices", "eia_product_spot_prices", "eia_crude_stream_prices", "eia_power_plant_fuel_costs", "eia_regional_retail_fuel_prices",
   "eia_retail_electricity_prices", "carb_lcfs_credit_prices", "frb_treasury_yields", "imf_commodity_prices",
   // session 1117: three public price tables the board did not draw
-  "wb_commodity_prices_monthly", "eia_gas_prices_state_monthly", "eia_heating_fuel_prices_weekly"];
+  "wb_commodity_prices_monthly", "eia_gas_prices_state_monthly", "eia_heating_fuel_prices_weekly",
+  // session 2503: CARB's auction settlement prices, drawn since session 1135, named on the license line and the downloads too
+  "carb_auction_allowance_prices"];
 
 // session 1145: the five board questions of warehouse/chat/eval/questions_s1122.yaml, as examples a reader can click
 const BOARD_QUESTIONS = (boardQuestions as { questions: { question: string }[] }).questions.map((q) => q.question);

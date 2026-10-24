@@ -1,6 +1,6 @@
 # Session 2500 report: seven days of the data jobs, nothing new to fix
 
-24 October 2026, about 15:20 UTC, on lab-desktop (the data machine), chain 121, unattended. Precheck passed (`runs/c121/pre2500.out`). Model spend USD 0. Pulls: GitHub's API 2 of 30; Supabase's `erw_health` 7 reads.
+24 October 2026, about 15:18 UTC, on lab-desktop (the data machine), chain 121, unattended. Precheck passed (`runs/c121/pre2500.out`). Model spend USD 0. Pulls: GitHub's API 2 of 30; Supabase's `erw_health` 7 reads.
 
 ## Read these first
 
@@ -14,7 +14,7 @@
   | 21 October | 632 | 0 |
   | 22 October | 731 | 1 |
   | 23 October | 740 | 1 |
-  | 24 October (to 15:20 UTC) | 475 | 0 |
+  | 24 October (to 15:18 UTC) | 475 | 0 |
 
 - **No failed step is new** since session 2486's look (13:47 UTC, 399 steps on 24 October). The newest is still 23 October's package test (`test_coverage_has_one_row_per_table_and_the_documented_columns`), traced by sessions 2039, 2095 and 2145.
 - **GitHub's record** (`runs/c121/s2500/gh.py`, this machine's token, reads only):
