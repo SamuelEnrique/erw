@@ -34,6 +34,36 @@ afdc_vehicle_registrations_annual,registrations_methanol,series variable,count
 afdc_vehicle_registrations_annual,registrations_phev,series variable,count
 afdc_vehicle_registrations_annual,registrations_propane,series variable,count
 afdc_vehicle_registrations_annual,registrations_unknown_fuel,series variable,count
+aneel_siga_plants,entity_id,column,
+aneel_siga_plants,entity_type,column,
+aneel_siga_plants,name,column,
+aneel_siga_plants,geo,column,
+aneel_siga_plants,lat,column,
+aneel_siga_plants,lon,column,
+aneel_siga_plants,capacity_mw,column,
+aneel_siga_plants,status,column,
+aneel_siga_plants,status_date,column,
+aneel_siga_plants,operator,column,
+aneel_siga_plants,source,column,
+aneel_siga_plants,source_url,column,
+aneel_siga_plants,retrieved_at,column,
+aneel_siga_plants,vintage,column,
+aneel_siga_plants,x_ceg,column,
+aneel_siga_plants,x_generation_type,column,
+aneel_siga_plants,x_phase,column,
+aneel_siga_plants,x_fuel_origin,column,
+aneel_siga_plants,x_fuel_source,column,
+aneel_siga_plants,x_fuel_name,column,
+aneel_siga_plants,x_grant_type,column,
+aneel_siga_plants,x_capacity_operating_mw,column,
+aneel_siga_plants,x_physical_guarantee_mw,column,
+aneel_siga_plants,x_qualified_generation,column,
+aneel_siga_plants,x_grant_start,column,
+aneel_siga_plants,x_grant_end,column,
+aneel_siga_plants,x_ownership,column,
+aneel_siga_plants,x_sub_basin,column,
+aneel_siga_plants,x_municipalities,column,
+aneel_siga_plants,x_dataset_date,column,
 ba_supply_monthly,balance_all_days_mwh,series variable,MWh
 ba_supply_monthly,balance_days,series variable,count
 ba_supply_monthly,days_held,series variable,count
