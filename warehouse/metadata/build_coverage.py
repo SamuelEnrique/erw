@@ -281,6 +281,7 @@ SECTOR_RULES = [
     (r"^econtrol_austria_electricity_monthly$", "power"),  # session 2391: E-Control's monthly electricity statistics (el_dataset_mn), Austria
     (r"^ilr_luxembourg_electricity$", "power"),  # session 2392: ILR's electricity sector statistics, Luxembourg
     (r"^hagstofa_iceland_power_annual$", "power"),  # session 2397: Statistics Iceland's public power plants, capacity and generation
+    (r"^eehc_egypt_electricity_annual$", "power"),  # session 2435: EEHC's annual reports, Egypt's capacity, peak load and generation by fiscal year
     (r"^eia_gas_other_uses_state_annual$", "gas"),  # session 2164: EIA's gas vehicle, lease and plant, pipeline fuel and deliveries by state
     (r"^elexon_gb_demand_daily$", "power"),  # session 2162: Elexon's BMRS, Great Britain's daily demand outturn
     (r"^energinet_dk_production_hourly$", "power"),  # session 2217: Energinet, Denmark's production, consumption and exchanges an hour
