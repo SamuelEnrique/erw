@@ -5,6 +5,23 @@ afdc_ev_charging_state_annual,ev_level1_ports,series variable,count
 afdc_ev_charging_state_annual,ev_level2_ports,series variable,count
 afdc_ev_charging_state_annual,ev_ports,series variable,count
 afdc_ev_charging_state_annual,ev_stations,series variable,count
+afdc_station_counts_annual,ev_locations,series variable,count
+afdc_station_counts_annual,ev_ports,series variable,count
+afdc_station_counts_annual,ev_ports_dc_fast,series variable,count
+afdc_station_counts_annual,ev_ports_level1,series variable,count
+afdc_station_counts_annual,ev_ports_level2,series variable,count
+afdc_station_counts_annual,stations_biodiesel,series variable,count
+afdc_station_counts_annual,stations_cng,series variable,count
+afdc_station_counts_annual,stations_e85,series variable,count
+afdc_station_counts_annual,stations_hydrogen,series variable,count
+afdc_station_counts_annual,stations_hydrogen_non_retail,series variable,count
+afdc_station_counts_annual,stations_hydrogen_retail,series variable,count
+afdc_station_counts_annual,stations_lng,series variable,count
+afdc_station_counts_annual,stations_propane,series variable,count
+afdc_station_counts_annual,stations_propane_primary,series variable,count
+afdc_station_counts_annual,stations_propane_secondary,series variable,count
+afdc_station_counts_annual,stations_renewable_diesel,series variable,count
+afdc_station_counts_annual,stations_total,series variable,count
 afdc_vehicle_registrations_annual,registrations_biodiesel,series variable,count
 afdc_vehicle_registrations_annual,registrations_cng,series variable,count
 afdc_vehicle_registrations_annual,registrations_diesel,series variable,count
@@ -593,6 +610,55 @@ doe_grip_selections,x_states,column,
 doe_grip_selections,x_state_names,column,
 doe_grip_selections,x_announced_on,column,
 doe_grip_selections,x_dates_from,column,
+doe_lead_energy_burden,electricity_cost_avg:ami_0_30,series variable,USD
+doe_lead_energy_burden,electricity_cost_avg:ami_100_150,series variable,USD
+doe_lead_energy_burden,electricity_cost_avg:ami_150_up,series variable,USD
+doe_lead_energy_burden,electricity_cost_avg:ami_30_60,series variable,USD
+doe_lead_energy_burden,electricity_cost_avg:ami_60_80,series variable,USD
+doe_lead_energy_burden,electricity_cost_avg:ami_80_100,series variable,USD
+doe_lead_energy_burden,electricity_cost_avg:ami_all,series variable,USD
+doe_lead_energy_burden,energy_burden:ami_0_30,series variable,pct
+doe_lead_energy_burden,energy_burden:ami_100_150,series variable,pct
+doe_lead_energy_burden,energy_burden:ami_150_up,series variable,pct
+doe_lead_energy_burden,energy_burden:ami_30_60,series variable,pct
+doe_lead_energy_burden,energy_burden:ami_60_80,series variable,pct
+doe_lead_energy_burden,energy_burden:ami_80_100,series variable,pct
+doe_lead_energy_burden,energy_burden:ami_all,series variable,pct
+doe_lead_energy_burden,energy_cost_avg:ami_0_30,series variable,USD
+doe_lead_energy_burden,energy_cost_avg:ami_100_150,series variable,USD
+doe_lead_energy_burden,energy_cost_avg:ami_150_up,series variable,USD
+doe_lead_energy_burden,energy_cost_avg:ami_30_60,series variable,USD
+doe_lead_energy_burden,energy_cost_avg:ami_60_80,series variable,USD
+doe_lead_energy_burden,energy_cost_avg:ami_80_100,series variable,USD
+doe_lead_energy_burden,energy_cost_avg:ami_all,series variable,USD
+doe_lead_energy_burden,gas_cost_avg:ami_0_30,series variable,USD
+doe_lead_energy_burden,gas_cost_avg:ami_100_150,series variable,USD
+doe_lead_energy_burden,gas_cost_avg:ami_150_up,series variable,USD
+doe_lead_energy_burden,gas_cost_avg:ami_30_60,series variable,USD
+doe_lead_energy_burden,gas_cost_avg:ami_60_80,series variable,USD
+doe_lead_energy_burden,gas_cost_avg:ami_80_100,series variable,USD
+doe_lead_energy_burden,gas_cost_avg:ami_all,series variable,USD
+doe_lead_energy_burden,households:ami_0_30,series variable,count
+doe_lead_energy_burden,households:ami_100_150,series variable,count
+doe_lead_energy_burden,households:ami_150_up,series variable,count
+doe_lead_energy_burden,households:ami_30_60,series variable,count
+doe_lead_energy_burden,households:ami_60_80,series variable,count
+doe_lead_energy_burden,households:ami_80_100,series variable,count
+doe_lead_energy_burden,households:ami_all,series variable,count
+doe_lead_energy_burden,income_avg:ami_0_30,series variable,USD
+doe_lead_energy_burden,income_avg:ami_100_150,series variable,USD
+doe_lead_energy_burden,income_avg:ami_150_up,series variable,USD
+doe_lead_energy_burden,income_avg:ami_30_60,series variable,USD
+doe_lead_energy_burden,income_avg:ami_60_80,series variable,USD
+doe_lead_energy_burden,income_avg:ami_80_100,series variable,USD
+doe_lead_energy_burden,income_avg:ami_all,series variable,USD
+doe_lead_energy_burden,other_fuel_cost_avg:ami_0_30,series variable,USD
+doe_lead_energy_burden,other_fuel_cost_avg:ami_100_150,series variable,USD
+doe_lead_energy_burden,other_fuel_cost_avg:ami_150_up,series variable,USD
+doe_lead_energy_burden,other_fuel_cost_avg:ami_30_60,series variable,USD
+doe_lead_energy_burden,other_fuel_cost_avg:ami_60_80,series variable,USD
+doe_lead_energy_burden,other_fuel_cost_avg:ami_80_100,series variable,USD
+doe_lead_energy_burden,other_fuel_cost_avg:ami_all,series variable,USD
 doe_lng_export_applications,entity_id,column,
 doe_lng_export_applications,entity_type,column,
 doe_lng_export_applications,name,column,
@@ -3557,6 +3623,91 @@ energy_companies,sources,column,
 energy_companies,confidence,column,
 energy_companies,confidence_note,column,
 energy_companies,first_seen,column,
+epa_ghg_inventory_annual,direct:abandoned_oil_and_gas_wells,series variable,tCO2e
+epa_ghg_inventory_annual,direct:abandoned_underground_coal_mines,series variable,tCO2e
+epa_ghg_inventory_annual,direct:adipic_acid_production,series variable,tCO2e
+epa_ghg_inventory_annual,direct:aluminum_production,series variable,tCO2e
+epa_ghg_inventory_annual,direct:ammonia_production,series variable,tCO2e
+epa_ghg_inventory_annual,direct:anaerobic_digestion_at_biogas_facilities,series variable,tCO2e
+epa_ghg_inventory_annual,direct:caprolactam_glyoxal_and_glyoxylic_acid_production,series variable,tCO2e
+epa_ghg_inventory_annual,direct:carbide_production_and_consumption,series variable,tCO2e
+epa_ghg_inventory_annual,direct:carbon_dioxide_consumption,series variable,tCO2e
+epa_ghg_inventory_annual,direct:cement_production,series variable,tCO2e
+epa_ghg_inventory_annual,direct:co2_from_fossil_fuel_combustion,series variable,tCO2e
+epa_ghg_inventory_annual,direct:coal_mining,series variable,tCO2e
+epa_ghg_inventory_annual,direct:composting,series variable,tCO2e
+epa_ghg_inventory_annual,direct:electrical_equipment,series variable,tCO2e
+epa_ghg_inventory_annual,direct:electronics_industry,series variable,tCO2e
+epa_ghg_inventory_annual,direct:enteric_fermentation,series variable,tCO2e
+epa_ghg_inventory_annual,direct:ferroalloy_production,series variable,tCO2e
+epa_ghg_inventory_annual,direct:field_burning_of_agricultural_residues,series variable,tCO2e
+epa_ghg_inventory_annual,direct:fluorochemical_production,series variable,tCO2e
+epa_ghg_inventory_annual,direct:glass_production,series variable,tCO2e
+epa_ghg_inventory_annual,direct:incineration_of_waste,series variable,tCO2e
+epa_ghg_inventory_annual,direct:iron_and_steel_production,series variable,tCO2e
+epa_ghg_inventory_annual,direct:landfills_industrial,series variable,tCO2e
+epa_ghg_inventory_annual,direct:landfills_municipal,series variable,tCO2e
+epa_ghg_inventory_annual,direct:lead_production,series variable,tCO2e
+epa_ghg_inventory_annual,direct:lime_production,series variable,tCO2e
+epa_ghg_inventory_annual,direct:liming,series variable,tCO2e
+epa_ghg_inventory_annual,direct:magnesium_production_and_processing,series variable,tCO2e
+epa_ghg_inventory_annual,direct:manure_management,series variable,tCO2e
+epa_ghg_inventory_annual,direct:mobile_combustion,series variable,tCO2e
+epa_ghg_inventory_annual,direct:n2o_from_agricultural_soil_management,series variable,tCO2e
+epa_ghg_inventory_annual,direct:n2o_from_product_uses,series variable,tCO2e
+epa_ghg_inventory_annual,direct:natural_gas_systems,series variable,tCO2e
+epa_ghg_inventory_annual,direct:nitric_acid_production,series variable,tCO2e
+epa_ghg_inventory_annual,direct:non_energy_use_of_fuels,series variable,tCO2e
+epa_ghg_inventory_annual,direct:other_process_uses_of_carbonates,series variable,tCO2e
+epa_ghg_inventory_annual,direct:petrochemical_production,series variable,tCO2e
+epa_ghg_inventory_annual,direct:petroleum_systems,series variable,tCO2e
+epa_ghg_inventory_annual,direct:phosphoric_acid_production,series variable,tCO2e
+epa_ghg_inventory_annual,direct:rice_cultivation,series variable,tCO2e
+epa_ghg_inventory_annual,direct:sf6_and_pfcs_from_other_product_use,series variable,tCO2e
+epa_ghg_inventory_annual,direct:soda_ash_production,series variable,tCO2e
+epa_ghg_inventory_annual,direct:stationary_combustion,series variable,tCO2e
+epa_ghg_inventory_annual,direct:substitution_of_ozone_depleting_substances,series variable,tCO2e
+epa_ghg_inventory_annual,direct:titanium_dioxide_production,series variable,tCO2e
+epa_ghg_inventory_annual,direct:total,series variable,tCO2e
+epa_ghg_inventory_annual,direct:urea_consumption_for_non_agricultural_purposes,series variable,tCO2e
+epa_ghg_inventory_annual,direct:urea_fertilization,series variable,tCO2e
+epa_ghg_inventory_annual,direct:wastewater_treatment,series variable,tCO2e
+epa_ghg_inventory_annual,direct:zinc_production,series variable,tCO2e
+epa_ghg_inventory_annual,distributed:direct,series variable,tCO2e
+epa_ghg_inventory_annual,distributed:direct:ch4,series variable,tCO2e
+epa_ghg_inventory_annual,distributed:direct:co2,series variable,tCO2e
+epa_ghg_inventory_annual,distributed:direct:hfcs,series variable,tCO2e
+epa_ghg_inventory_annual,distributed:direct:hfcs_pfcs_sf6_and_nf3,series variable,tCO2e
+epa_ghg_inventory_annual,distributed:direct:n2o,series variable,tCO2e
+epa_ghg_inventory_annual,distributed:direct:sf6,series variable,tCO2e
+epa_ghg_inventory_annual,distributed:electricity_related,series variable,tCO2e
+epa_ghg_inventory_annual,distributed:electricity_related:ch4,series variable,tCO2e
+epa_ghg_inventory_annual,distributed:electricity_related:co2,series variable,tCO2e
+epa_ghg_inventory_annual,distributed:electricity_related:n2o,series variable,tCO2e
+epa_ghg_inventory_annual,distributed:electricity_related:sf6,series variable,tCO2e
+epa_ghg_inventory_annual,distributed:total,series variable,tCO2e
+epa_ghg_inventory_annual,lulucf_sector_net_total,series variable,tCO2e
+epa_ghg_inventory_annual,net_emissions_sources_and_sinks,series variable,tCO2e
+epa_ghg_inventory_annual,power:cf4,series variable,tCO2e
+epa_ghg_inventory_annual,power:cf4:electrical_equipment,series variable,tCO2e
+epa_ghg_inventory_annual,power:ch4,series variable,tCO2e
+epa_ghg_inventory_annual,power:ch4:incineration_of_waste,series variable,tCO2e
+epa_ghg_inventory_annual,power:ch4:stationary_sourcesa,series variable,tCO2e
+epa_ghg_inventory_annual,power:co2,series variable,tCO2e
+epa_ghg_inventory_annual,power:co2:coal,series variable,tCO2e
+epa_ghg_inventory_annual,power:co2:fossil_fuel_combustion,series variable,tCO2e
+epa_ghg_inventory_annual,power:co2:geothermal,series variable,tCO2e
+epa_ghg_inventory_annual,power:co2:incineration_of_waste,series variable,tCO2e
+epa_ghg_inventory_annual,power:co2:natural_gas,series variable,tCO2e
+epa_ghg_inventory_annual,power:co2:other_process_uses_of_carbonates,series variable,tCO2e
+epa_ghg_inventory_annual,power:co2:petroleum,series variable,tCO2e
+epa_ghg_inventory_annual,power:n2o,series variable,tCO2e
+epa_ghg_inventory_annual,power:n2o:incineration_of_waste,series variable,tCO2e
+epa_ghg_inventory_annual,power:n2o:stationary_sourcesa,series variable,tCO2e
+epa_ghg_inventory_annual,power:sf6,series variable,tCO2e
+epa_ghg_inventory_annual,power:sf6:electrical_equipment,series variable,tCO2e
+epa_ghg_inventory_annual,power:total,series variable,tCO2e
+epa_ghg_inventory_annual,total_gross_emissions_sources,series variable,tCO2e
 epa_ghgrp_facility_emissions,emissions_direct,series variable,tCO2e
 epa_ghgrp_facility_emissions,emissions_gathering_boosting,series variable,tCO2e
 epa_ghgrp_facility_emissions,emissions_ldc,series variable,tCO2e
@@ -5225,6 +5376,7 @@ generation_mix_records,year_dirtiest_hour_kgco2_per_mwh,series variable,kgCO2/MW
 generation_mix_records,year_solar_share_max_pct,series variable,pct
 generation_mix_records,year_wind_share_max_pct,series variable,pct
 generation_mix_records,year_wind_solar_share_max_pct,series variable,pct
+gfz_kp_index_3h,kp,series variable,index
 grid_network_links,flow_mw,series variable,MW
 grid_network_nodes,demand_mw,series variable,MW
 grid_network_nodes,intensity_generation,series variable,kgCO2/MWh
@@ -6936,6 +7088,8 @@ rrc_lease_production_monthly,casinghead_gas_mcf,series variable,Mcf
 rrc_lease_production_monthly,condensate_bbl,series variable,bbl
 rrc_lease_production_monthly,gas_mcf,series variable,Mcf
 rrc_lease_production_monthly,oil_bbl,series variable,bbl
+scripps_co2_mlo_monthly,co2,series variable,ppm
+scripps_co2_mlo_monthly,co2_seasonally_adjusted,series variable,ppm
 shoulder_hours_monthly,avg_battery_mw_h00,series variable,MW
 shoulder_hours_monthly,avg_battery_mw_h01,series variable,MW
 shoulder_hours_monthly,avg_battery_mw_h02,series variable,MW
@@ -7547,3 +7701,29 @@ weather_forecast_hourly,temperature_f,series variable,degF
 weather_forecast_hourly,wind_speed_mph,series variable,mph
 weather_obs_hourly,temperature_f,series variable,degF
 weather_obs_hourly,wind_speed_mph,series variable,mph
+wfigs_wildfires,event_id,column,
+wfigs_wildfires,event_date,column,
+wfigs_wildfires,event_type,column,
+wfigs_wildfires,parties,column,
+wfigs_wildfires,entity_ids,column,
+wfigs_wildfires,mw,column,
+wfigs_wildfires,price,column,
+wfigs_wildfires,currency,column,
+wfigs_wildfires,status,column,
+wfigs_wildfires,source,column,
+wfigs_wildfires,source_url,column,
+wfigs_wildfires,x_name,column,
+wfigs_wildfires,x_state,column,
+wfigs_wildfires,x_county,column,
+wfigs_wildfires,x_latitude,column,
+wfigs_wildfires,x_longitude,column,
+wfigs_wildfires,x_final_acres,column,
+wfigs_wildfires,x_incident_size_acres,column,
+wfigs_wildfires,x_cause_general,column,
+wfigs_wildfires,x_cause,column,
+wfigs_wildfires,x_discovered_utc,column,
+wfigs_wildfires,x_contained_utc,column,
+wfigs_wildfires,x_out_utc,column,
+wfigs_wildfires,x_unique_fire_id,column,
+wfigs_wildfires,retrieved_at,column,
+wfigs_wildfires,vintage,column,
