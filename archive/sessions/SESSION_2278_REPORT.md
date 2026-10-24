@@ -15,7 +15,7 @@
 - **The answer's "updated" is 9999-12-31T21:59:59Z,** a placeholder, so the connector writes no vintage and the header says why. The table listing gives KE21's last update as 2026-09-29.
 - **The license:** CC BY-SA 4.0. Statistics Estonia's principles for disseminating official statistics (read 451): "Statistics Estonia's open data can be shared under Creative Common (CC) licence BY-SA 4.0." This session wrote the verdict, **may be public**, sold or not (commercial use is allowed). Any copy or adaptation must carry the same license, and the header says so.
 - **Cross-checks, full years 2016 to 2025:**
-  - against `eurostat_electricity_monthly` (Estonia): imports and exports equal Eurostat's (1.000) in every year but 2017's imports (1.051) and 2024's (0.997); wind is within 2 percent;
+  - against `eurostat_electricity_monthly` (Estonia): imports and exports equal Eurostat's (1.000) in every year but 2017 (imports 1.051, exports 1.004) and 2024 (imports 0.997); wind is within 2 percent;
   - total production is 1.115 to 1.176 times Eurostat's net production. The table does not say whether its production is gross or net;
   - production plus imports less exports is 0.954 to 1.010 of Ember's demand (`owid_ember_electricity_annual`).
 
