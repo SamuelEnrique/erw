@@ -12,7 +12,7 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 - **537 tables.** The flag and the verdict agree on 432; a ruling settles 44 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling); disagree on 0; 60 are not settled (a publisher not read); 1 is internal by the ERW's own choice.
 - **The ERW's verdict (session 378): 405 public, 82 internal, 50 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
-- **831 publishers in the record: 829 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 178 pages read, 651 that could not be read, 2 not asked (paused).**
+- **837 publishers in the record: 835 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 178 pages read, 657 that could not be read, 2 not asked (paused).**
 - **42 tables are flagged public where a publisher's sentence asks for permission or a license** (42 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 31; ISO-NE 27; MISO 24; Bloomberg 4; Data Center Dynamics 4; Data Center Frontier 4; Financial Times 4; Hart Energy 4; Heatmap News 4; Latitude Media 4; Natural Gas Intelligence 4; OilPrice.com 4; POWER Magazine 4; Reuters 4; WSJ 4; Data Center Knowledge 3; Amazon Web Services 2; Digital Realty 2; Equinix 2; Google 2; Meta 2; Microsoft 2; Oracle 2; Switch 2; Vantage Data Centers 2; ANS Nuclear Newswire 2; Canary Media 2; JPT 2; LNG Prime 2; Rigzone 2; Utility Dive 2; pv magazine USA 2; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **0 tables are flagged internal where the sentence read allows them.**
 - **15 tables that may be public today would need permission if the ERW sells anything** (SPP 7; Canada Energy Regulator (CER) 2; Alberta Electric System Operator (AESO), Canada 1; California Energy Commission (CEC) 1; IMF 1; IMF PortWatch 1; Red Electrica (REE) 1; RRC 1).
@@ -854,6 +854,12 @@ One request a publisher, no second try. Times are UTC, 12 October 2026.
 | 829 | Fiji Bureau of Statistics (FBoS), Electricity 2024's file page (session 2492) | https://www.statsfiji.gov.fj/wpfd_file/2024-electricity/ | 15:00:29 | 200 | 164026 | read |
 | 830 | Fiji Bureau of Statistics (FBoS), table 3.7B's file page (session 2492) | https://www.statsfiji.gov.fj/wpfd_file/3-7b-breakdown-of-sales-of-electricity-by-type-of-consumers/ | 15:00:31 | 200 | 164244 | read |
 | 831 | Fiji Bureau of Statistics (FBoS), Electricity 2024 (economic survey, February 2026), its page ii on the reproduction of material (session 2492) | https://www.statsfiji.gov.fj/download/271/electricity/5954/2024-electricity.pdf | 15:00:42 | 200 | 678086 | read |
+| 832 | Electricity Generation Company (Malawi) (EGENCO), www.egenco.mw's robots file (session 2493) | https://www.egenco.mw/robots.txt | 15:02:51 | no request |  | not read: the certificate fails verification |
+| 833 | National Statistical Office of Malawi (NSO), www.nsomalawi.mw's robots file (session 2493) | https://www.nsomalawi.mw/robots.txt | 15:03:13 | 404 | 0 | HTTP 404: no robots file |
+| 834 | Malawi Energy Regulatory Authority (MERA), mera.mw's robots file (session 2493) | https://www.mera.mw/robots.txt (answered at https://mera.mw/robots.txt) | 15:03:14 | 200 | 1389 | read: admin paths and */disclaimer/* closed to every agent; names no AI agent |
+| 835 | National Statistical Office of Malawi (NSO), cms.nsomalawi.mw's robots file (session 2493) | https://cms.nsomalawi.mw/robots.txt | 15:03:39 | 404 | 0 | HTTP 404: no robots file |
+| 836 | Malawi Energy Regulatory Authority (MERA), the site's search for electricity statistics (session 2493) | https://mera.mw/wp-json/wp/v2/search?search=electricity+statistics&per_page=50 | 15:04:49 | 200 | 2 | read: no result |
+| 837 | Malawi Energy Regulatory Authority (MERA), the site's search for statistics (session 2493) | https://mera.mw/wp-json/wp/v2/search?search=statistics&per_page=50 | 15:04:59 | 200 | 2 | read: no result |
 
 ## The publishers: the sentence and the verdict
 
