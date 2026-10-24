@@ -27,7 +27,7 @@
 | Host | Requests | What |
 |---|---|---|
 | www.stat.gov.az | 1 | robots (connection reset) |
-| stat.gov.az | 5 | robots (the home page), the Energy section, three workbooks; 2 s or more apart |
+| stat.gov.az | 5 | robots (the home page), the Energy section, three workbooks, a second apart (no robots file, so no crawl delay is asked); the connector waits 2 s between them |
 | total | 6 of 15 | |
 
 ## Errors
