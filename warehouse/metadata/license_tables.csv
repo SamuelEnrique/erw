@@ -248,6 +248,7 @@ epa_needs_units,EPA,the source registry
 epa_rfs_fuel_annual,EPA,the source registry
 epa_rfs_rins_monthly,EPA,the source registry
 epa_tri_energy_releases_annual,EPA,the source registry
+epra_kenya_electricity_annual,"Energy and Petroleum Regulatory Authority, Kenya (EPRA)",the source registry
 ercot_4cp_intervals,ERCOT,the source registry
 ercot_all_hub_prices_history,ERCOT,by hand: ERCOT's hub price reports
 ercot_as_prices,ERCOT,the source registry

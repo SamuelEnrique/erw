@@ -233,6 +233,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "dosm_malaysia_electricity_monthly",
            "censtatd_hk_electricity",
            "aneel_siga_plants",
+           "epra_kenya_electricity_annual",
            "eia_lng_storage_annual",
            "eia_gas_plant_processing_annual",
            "eia_crude_tank_farm_stocks_monthly",
